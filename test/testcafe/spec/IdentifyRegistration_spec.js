@@ -21,7 +21,7 @@ const enrollProfileErrorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/enroll/new')
   .respond(enrollProfileError, 403);
 
-  const enrollProfileFinishMock = RequestMock()
+const enrollProfileFinishMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identify)
   .onRequestTo('http://localhost:3000/idp/idx/enroll')
@@ -41,7 +41,7 @@ async function verifyRegistrationPageEvent(t) {
   await t.expect(log.length).eql(5);
   await t.expect(log[0]).eql('===== playground widget ready event received =====');
   await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[2])).eql({
+  await t.expect(JSON.parse(log[2])).eql({
     controller: 'primary-auth',
     formName: 'identify',
   });
@@ -125,17 +125,43 @@ test.requestHooks(enrollProfileErrorMock)('should show email field validation er
   await t.expect(registrationPage.hasEmailError()).eql(true);
   await t.expect(registrationPage.hasEmailErrorMessage()).eql(true);
   await t.expect(registrationPage.getEmailErrorMessage()).contains('\'Email\' must be in the form of an email address');
+
+  const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log.length).eql(8);
+  await t.expect(log[5]).eql('===== playground widget afterError event received =====');
+  await t.expect(JSON.parse(log[6])).eql({
+    controller: 'registration',
+    formName: 'enroll-profile',
+  });
+  await t.expect(JSON.parse(log[7])).eql({
+    'errorSummary': '',
+    'xhr': {
+      'responseJSON': {
+        'errorSummary': '',
+        'errorCauses': [
+          {
+            'errorSummary': [
+              '\'Email\' must be in the form of an email address',
+              'Provided value for property \'Email\' does not match required pattern'
+            ],
+            'property': 'userProfile.email'
+          }
+        ]
+      }
+    }
+  });
+
 });
 
 
 test.requestHooks(enrollProfileFinishMock)('should show terminal screen after registration', async t => {
   const registrationPage = await setup(t);
 
-    const { log } = await t.getBrowserConsoleMessages();
+  const { log } = await t.getBrowserConsoleMessages();
   await t.expect(log.length).eql(5);
   await t.expect(log[0]).eql('===== playground widget ready event received =====');
   await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[2])).eql({
+  await t.expect(JSON.parse(log[2])).eql({
     controller: 'primary-auth',
     formName: 'identify',
   });

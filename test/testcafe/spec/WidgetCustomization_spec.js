@@ -13,23 +13,23 @@ const identifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentifyWithPassword);
 
-  const xhrSelectAuthenticatorMock = RequestMock()
+const xhrSelectAuthenticatorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticator);
 
-  const mockEnrollAuthenticator = RequestMock()
+const mockEnrollAuthenticator = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorEnroll);
 
-  const mockAuthenticatorResetPassword =  RequestMock()
+const mockAuthenticatorResetPassword =  RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorResetPassword);
 
-  const mockAuthenticatorPasswordExpired =  RequestMock()
+const mockAuthenticatorPasswordExpired =  RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorExpiredPassword);
 
-  const mockAuthenticatorPasswordExpiryWarning =  RequestMock()
+const mockAuthenticatorPasswordExpiryWarning =  RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorExpiryWarningPassword);
 
@@ -64,7 +64,7 @@ async function setupPasswordExpired(t) {
 }
 
 
-test.requestHooks(identifyMock)(`should show custom footer links`, async t => {
+test.requestHooks(identifyMock)('should show custom footer links', async t => {
   const identityPage = await setup(t);
   await rerenderWidget({
     'helpLinks': {
@@ -143,37 +143,37 @@ test.requestHooks(identifyMock)('should show custom buttons links', async t => {
     .eql('http://www.example.com/');
 });
 
-test.requestHooks(mockEnrollAuthenticator)(`should show custom brandName title on select authenticator enroll page`, async t => {
+test.requestHooks(mockEnrollAuthenticator)('should show custom brandName title on select authenticator enroll page', async t => {
   const selectAuthenticatorPageObject = await setupSelectAuthenticator(t);
   await rerenderWidget({
-    "brandName": "Spaghetti Inc",
+    'brandName': 'Spaghetti Inc',
   });
   await t.expect(selectAuthenticatorPageObject.getFormSubtitle()).eql(
     'Set up authenticators for Spaghetti Inc to ensure that only you have access to your account.');
 });
 
-test.requestHooks(mockAuthenticatorResetPassword)(`should show custom brandName title on reset password page`, async t => {
+test.requestHooks(mockAuthenticatorResetPassword)('should show custom brandName title on reset password page', async t => {
   const resetPasswordPage = await setupResetPassword(t);
 
   await rerenderWidget({
-    "brandName": "Spaghetti Inc",
+    'brandName': 'Spaghetti Inc',
   });
   await t.expect(resetPasswordPage.getFormTitle()).eql('Reset your Spaghetti Inc password');
 });
 
-test.requestHooks(mockAuthenticatorPasswordExpired)(`should show custom brandName title on password expired page`, async t => {
+test.requestHooks(mockAuthenticatorPasswordExpired)('should show custom brandName title on password expired page', async t => {
   const passwordExpiredPage = await setupPasswordExpired(t);
   await rerenderWidget({
-    "brandName": "Spaghetti Inc",
+    'brandName': 'Spaghetti Inc',
   });
   await t.expect(passwordExpiredPage.getFormTitle()).eql(
     'Your Spaghetti Inc password has expired');
 });
 
-test.requestHooks(mockAuthenticatorPasswordExpiryWarning)(`should show custom brandName title on password expiring soon page`, async t => {
+test.requestHooks(mockAuthenticatorPasswordExpiryWarning)('should show custom brandName title on password expiring soon page', async t => {
   const passwordExpiryWarningPage = await setupPasswordExpired(t);
   await rerenderWidget({
-    "brandName": "Spaghetti Inc",
+    'brandName': 'Spaghetti Inc',
   });
   await t.expect(passwordExpiryWarningPage.getFormSubtitle()).eql('When password expires you will be locked out of your Spaghetti Inc account.');
 });

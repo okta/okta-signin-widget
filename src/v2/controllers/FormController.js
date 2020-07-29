@@ -24,6 +24,7 @@ export default Controller.extend({
     this.listenTo(this.options.appState, 'invokeAction', this.invokeAction);
     this.listenTo(this.options.appState, 'switchForm', this.switchForm);
     this.listenTo(this.options.appState, 'saveForm', this.handleFormSave);
+    this.listenTo(this.options.appState, 'afterError', this.triggerAfterErrorEvent);
   },
 
   preRender () {
@@ -57,6 +58,22 @@ export default Controller.extend({
   },
 
   triggerAfterRenderEvent () {
+    const contextData = this.createAfterEventContext();
+    this.trigger('afterRender', contextData);
+  },
+
+  triggerAfterErrorEvent (error = {}) {
+    const contextData = this.createAfterEventContext();
+    const errorContextData = {
+      xhr: error,
+      errorSummary: error.responseJSON && error.responseJSON.errorSummary,
+    };
+    // TODO: need some enhancement after https://github.com/okta/okta-idx-js/pull/27
+    // OKTA-318062
+    this.trigger('afterError', contextData, errorContextData);
+  },
+
+  createAfterEventContext () {
     const formName = this.options.appState.get('currentFormName');
     const authenticatorType = this.options.appState.get('authenticatorType');
     const methodType = this.options.appState.get('authenticatorMethodType');
@@ -81,7 +98,7 @@ export default Controller.extend({
       eventData.methodType = methodType;
     }
 
-    this.trigger('afterRender', eventData);
+    return eventData;
   },
 
   switchForm (formName) {

@@ -40,7 +40,7 @@ async function setup(t) {
   const enrollSecurityQuestionPage = new EnrollSecurityQuestionPageObject(t);
   await enrollSecurityQuestionPage.navigateToPage();
 
-      const { log } = await t.getBrowserConsoleMessages();
+  const { log } = await t.getBrowserConsoleMessages();
   await t.expect(log.length).eql(3);
   await t.expect(log[0]).eql('===== playground widget ready event received =====');
   await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
@@ -135,6 +135,7 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionErrorM
 
   await t.expect(enrollSecurityQuestionPage.getAnswerInlineError()).eql('The security answer must be at least 4 characters');
 
+  // assert that request has been made
   await t.expect(answerRequestLogger.count(() => true)).eql(1);
   const req = answerRequestLogger.requests[0].request;
   const reqBody = JSON.parse(req.body);
@@ -147,6 +148,33 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionErrorM
   });
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/challenge/answer');
+
+  // asser that afterError event has been triggered
+  const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log.length).eql(6);
+  await t.expect(log[3]).eql('===== playground widget afterError event received =====');
+  await t.expect(JSON.parse(log[4])).eql({
+    controller: 'enroll-question',
+    formName: 'enroll-authenticator',
+    authenticatorType: 'security_question',
+  });
+  await t.expect(JSON.parse(log[5])).eql({
+    'errorSummary': '',
+    'xhr': {
+      'responseJSON': {
+        'errorSummary': '',
+        'errorCauses': [
+          {
+            'errorSummary': [
+              'The security answer must be at least 4 characters'
+            ],
+            'property': 'credentials.answer'
+          }
+        ]
+      }
+    }
+  });
+
 });
 
 test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionCreateQuestionErrorMock)('enroll custom security question error', async t => {

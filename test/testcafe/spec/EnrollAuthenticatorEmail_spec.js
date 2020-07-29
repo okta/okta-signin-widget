@@ -81,10 +81,10 @@ test
 
     await t.expect(logger.count(() => true)).eql(1);
     const { request: {
-        body: answerRequestBodyString,
-        method: answerRequestMethod,
-        url: answerRequestUrl,
-      }
+      body: answerRequestBodyString,
+      method: answerRequestMethod,
+      url: answerRequestUrl,
+    }
     } = logger.requests[0];
     const answerRequestBody = JSON.parse(answerRequestBodyString);
     await t.expect(answerRequestBody).eql({
@@ -120,16 +120,16 @@ test
     )).eql(1);
 
     const { request: {
-        body: firstRequestBody,
-        method: firstRequestMethod,
-        url: firstRequestUrl,
-      }
+      body: firstRequestBody,
+      method: firstRequestMethod,
+      url: firstRequestUrl,
+    }
     } = logger.requests[0];
     const { request: {
-        body: lastRequestBody,
-        method: lastRequestMethod,
-        url: lastRequestUrl,
-      }
+      body: lastRequestBody,
+      method: lastRequestMethod,
+      url: lastRequestUrl,
+    }
     } = logger.requests[logger.requests.length - 1];
     let jsonBody = JSON.parse(firstRequestBody);
     await t.expect(jsonBody).eql({'stateHandle':'eyJ6aXAiOiJER'});

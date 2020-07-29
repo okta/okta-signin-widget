@@ -74,16 +74,16 @@ test('should succeed when fill same value', async t => {
 });
 
 test('should have the correct reqiurements', async t => {
-    const enrollPasswordPage = await setup(t);
-    await t.expect(enrollPasswordPage.getRequirements()).contains('Password requirements:');
-    await t.expect(enrollPasswordPage.getRequirements()).contains('At least 8 characters');
-    await t.expect(enrollPasswordPage.getRequirements()).contains('An uppercase letter');
-    await t.expect(enrollPasswordPage.getRequirements()).contains('A number');
-    await t.expect(enrollPasswordPage.getRequirements()).contains('A symbol');
-    await t.expect(enrollPasswordPage.getRequirements()).contains('Does not include your first name');
-    await t.expect(enrollPasswordPage.getRequirements()).contains('Does not include your last name');
-    await t.expect(enrollPasswordPage.getRequirements()).contains('At least 2 hour(s) must have elapsed since you last changed your password');
-    await t.expect(enrollPasswordPage.getRequirements()).contains('No parts of your username');
-    await t.expect(enrollPasswordPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
-    await t.expect(enrollPasswordPage.getRequirements()).contains('A lowercase letter');
-  });
+  const enrollPasswordPage = await setup(t);
+  await t.expect(enrollPasswordPage.getRequirements()).contains('Password requirements:');
+  await t.expect(enrollPasswordPage.getRequirements()).contains('At least 8 characters');
+  await t.expect(enrollPasswordPage.getRequirements()).contains('An uppercase letter');
+  await t.expect(enrollPasswordPage.getRequirements()).contains('A number');
+  await t.expect(enrollPasswordPage.getRequirements()).contains('A symbol');
+  await t.expect(enrollPasswordPage.getRequirements()).contains('Does not include your first name');
+  await t.expect(enrollPasswordPage.getRequirements()).contains('Does not include your last name');
+  await t.expect(enrollPasswordPage.getRequirements()).contains('At least 2 hour(s) must have elapsed since you last changed your password');
+  await t.expect(enrollPasswordPage.getRequirements()).contains('No parts of your username');
+  await t.expect(enrollPasswordPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
+  await t.expect(enrollPasswordPage.getRequirements()).contains('A lowercase letter');
+});

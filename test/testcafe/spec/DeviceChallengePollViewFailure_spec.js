@@ -38,19 +38,19 @@ async function setup(t) {
 }
 
 test('probing and polling APIs are sent and responded', async t => {
-    const deviceChallengePollPageObject = await setup(t);
-    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Signing in using Okta FastPass');
-    await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('block');
-    await t.expect(logger.count(
-      record => record.response.statusCode === 200 &&
+  const deviceChallengePollPageObject = await setup(t);
+  await t.expect(deviceChallengePollPageObject.getHeader()).eql('Signing in using Okta FastPass');
+  await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('block');
+  await t.expect(logger.count(
+    record => record.response.statusCode === 200 &&
       record.request.url.match(/introspect|2000/)
-    )).eql(3);
-    await t.expect(logger.count(
-      record => record.response.statusCode === 200 &&
+  )).eql(3);
+  await t.expect(logger.count(
+    record => record.response.statusCode === 200 &&
       record.request.url.match(/challenge/) &&
       record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
-    )).eql(1);
-    await t.expect(logger.contains(record => record.request.url.match(/6511|6512|6513/))).eql(false);
-    await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).eql('Authentication failed');
-    await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('none');
-  });
+  )).eql(1);
+  await t.expect(logger.contains(record => record.request.url.match(/6511|6512|6513/))).eql(false);
+  await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).eql('Authentication failed');
+  await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('none');
+});

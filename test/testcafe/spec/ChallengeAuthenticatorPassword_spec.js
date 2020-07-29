@@ -1,6 +1,6 @@
 import { RequestLogger, RequestMock } from 'testcafe';
 import xhrAuthenticatorRequiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
-import xhrAnvalidPassword from '../../../playground/mocks/data/idp/idx/error-answer-passcode-invalid';
+import xhrInvalidPassword from '../../../playground/mocks/data/idp/idx/error-answer-passcode-invalid';
 import xhrForgotPasswordError from '../../../playground/mocks/data/idp/idx/error-forgot-password';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import ChallengePasswordPageObject from '../framework/page-objects/ChallengePasswordPageObject';
@@ -16,7 +16,7 @@ const mockInvalidPassword = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorRequiredPassword)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(xhrAnvalidPassword, 403);
+  .respond(xhrInvalidPassword, 403);
 
 const mockCannotForgotPassword = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -80,6 +80,32 @@ test.requestHooks(mockInvalidPassword)('challege password authenticator with inv
   await challengePasswordPage.clickNextButton();
 
   await t.expect(challengePasswordPage.getPasswordFieldErrorMessage()).contains('The passcode is absent or invalid');
+
+  const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log.length).eql(6);
+  await t.expect(log[3]).eql('===== playground widget afterError event received =====');
+  await t.expect(JSON.parse(log[4])).eql({
+    controller: 'mfa-verify-password',
+    formName: 'challenge-authenticator',
+    authenticatorType: 'password',
+  });
+  await t.expect(JSON.parse(log[5])).eql({
+    'errorSummary': '',
+    'xhr': {
+      'responseJSON': {
+        'errorSummary': '',
+        'errorCauses': [
+          {
+            'errorSummary': [
+              'The passcode is absent or invalid.'
+            ],
+            'property': 'credentials.passcode'
+          }
+        ]
+      }
+    }
+  });
+
 });
 
 test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not recover password', async t => {

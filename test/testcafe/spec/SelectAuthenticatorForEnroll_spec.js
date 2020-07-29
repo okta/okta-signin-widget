@@ -23,12 +23,12 @@ const mockOptionalAuthenticatorEnrollment = RequestMock()
   .respond(success);
 
 const requestLogger = RequestLogger(
-    /idx\/introspect|\/credential\/enroll/,
-    {
-      logRequestBody: true,
-      stringifyRequestBody: true,
-    }
-  );
+  /idx\/introspect|\/credential\/enroll/,
+  {
+    logRequestBody: true,
+    stringifyRequestBody: true,
+  }
+);
 
 fixture('Select Authenticator for enrollment Form');
 
