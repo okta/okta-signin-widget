@@ -121,7 +121,7 @@ test.requestHooks(mockChallengePassword)('should navigate to password challenge 
 
   selectFactorPage.selectFactorByIndex(0);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
-  await t.expect(challengeFactorPage.getPageTitle()).eql('Sign in using your password');
+  await t.expect(challengeFactorPage.getPageTitle()).eql('Verify with your password');
 });
 
 test.requestHooks(requestLogger, mockChallengePassword)('select password challenge page and hit switch authenticator and re-select password', async t => {
@@ -130,12 +130,12 @@ test.requestHooks(requestLogger, mockChallengePassword)('select password challen
 
   selectFactorPage.selectFactorByIndex(0);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
-  await t.expect(challengeFactorPage.getPageTitle()).eql('Sign in using your password');
+  await t.expect(challengeFactorPage.getPageTitle()).eql('Verify with your password');
   await challengeFactorPage.clickSwitchAuthenticatorButton();
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
   // re-select password
   selectFactorPage.selectFactorByIndex(0);
-  await t.expect(challengeFactorPage.getPageTitle()).eql('Sign in using your password');
+  await t.expect(challengeFactorPage.getPageTitle()).eql('Verify with your password');
 
   await t.expect(requestLogger.count(() => true)).eql(3);
   const req1 = requestLogger.requests[0].request;
