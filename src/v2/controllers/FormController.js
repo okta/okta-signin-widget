@@ -17,14 +17,12 @@ import { getV1ClassName } from '../ion/ViewClassNamesFactory';
 export default Controller.extend({
   className: 'form-controller',
 
-  initialize: function () {
-    Controller.prototype.initialize.call(this);
-
-    this.listenTo(this.options.appState, 'change:currentFormName', this.render);
-    this.listenTo(this.options.appState, 'invokeAction', this.invokeAction);
-    this.listenTo(this.options.appState, 'switchForm', this.switchForm);
-    this.listenTo(this.options.appState, 'saveForm', this.handleFormSave);
-    this.listenTo(this.options.appState, 'afterError', this.triggerAfterErrorEvent);
+  appStateEvents: {
+    'change:currentFormName': 'handleFormNameChange',
+    'afterError': 'handleAfterError',
+    'invokeAction': 'handleInvokeAction',
+    'saveForm': 'handleSaveForm',
+    'switchForm': 'handleSwitchForm',
   },
 
   preRender () {
@@ -62,7 +60,11 @@ export default Controller.extend({
     this.trigger('afterRender', contextData);
   },
 
-  triggerAfterErrorEvent (error = {}) {
+  handleFormNameChange () {
+    this.render();
+  },
+
+  handleAfterError (error = {}) {
     const contextData = this.createAfterEventContext();
     const errorContextData = {
       xhr: error,
@@ -101,12 +103,12 @@ export default Controller.extend({
     return eventData;
   },
 
-  switchForm (formName) {
+  handleSwitchForm (formName) {
     // trigger formname change to change view
     this.options.appState.set('currentFormName', formName);
   },
 
-  invokeAction (actionPath = '') {
+  handleInvokeAction (actionPath = '') {
     const idx = this.options.appState.get('idx');
     if (idx['neededToProceed'].find(item => item.name === actionPath)) {
       idx.proceed(actionPath, {})
@@ -133,7 +135,7 @@ export default Controller.extend({
     }
   },
 
-  handleFormSave (model) {
+  handleSaveForm (model) {
     const formName = model.get('formName');
 
     const idx = this.options.appState.get('idx');
