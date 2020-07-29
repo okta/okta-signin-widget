@@ -12,7 +12,8 @@ module.exports = {
     'ecmaVersion': 2017
   },
   'plugins': [
-    'eslint-plugin-local-rules'
+    'eslint-plugin-local-rules',
+    'eslint-plugin-no-only-tests'
   ],
   'globals': {
     'spyOnEvent': false,
@@ -45,6 +46,7 @@ module.exports = {
     'no-new': 2,
     'no-unused-expressions': [2, { 'allowShortCircuit': true, 'allowTernary': true }],
     'no-use-before-define': [2, 'nofunc'],
+    'no-only-tests/no-only-tests': 'error',
     'quotes': [2, 'single'],
     'semi': 2,
     'space-before-function-paren': 2,
