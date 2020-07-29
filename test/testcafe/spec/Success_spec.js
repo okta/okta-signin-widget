@@ -10,7 +10,7 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(success);
 
-fixture(`Success Form`)
+fixture('Success Form')
   .requestHooks(mock);
 
 async function setup(t) {
@@ -19,7 +19,7 @@ async function setup(t) {
   return identityPage;
 }
 
-test(`should navigate to redirect link google.com after success`, async t => {
+test('should navigate to redirect link google.com after success', async t => {
   const identityPage = await setup(t);
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();

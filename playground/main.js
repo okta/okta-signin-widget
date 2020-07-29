@@ -60,6 +60,21 @@ const renderPlaygroundWidget = (options = {}) => {
     }
   );
 
+  signIn.on('ready', () => {
+    // handle `ready` event.
+    // use `console.log` in particular so that those logs can be retrived
+    // in testcafe for assertion
+    console.log('===== playground widget ready event received =====');
+  });
+
+  signIn.on('afterRender', (opt) => {
+    // handle `afterRender` event.
+    // use `console.log` in particular so that those logs can be retrived
+    // in testcafe for assertion
+    console.log('===== playground widget afterRender event received =====');
+    console.log(JSON.stringify(opt));
+  });
+
 };
 
 window.renderPlaygroundWidget = renderPlaygroundWidget;

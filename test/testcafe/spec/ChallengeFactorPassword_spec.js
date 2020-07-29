@@ -10,14 +10,14 @@ const factorRequiredPasswordMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
-fixture(`Challenge Factor Password`);
+fixture('Challenge Factor Password');
 
 async function setup(t) {
   const challengePasswordPage = new ChallengePasswordPageObject(t);
   await challengePasswordPage.navigateToPage();
   return challengePasswordPage;
 }
-test.requestHooks(factorRequiredPasswordMock)(`challenge password factor`, async t => {
+test.requestHooks(factorRequiredPasswordMock)('challenge password factor', async t => {
   const challengeFactorPageObject = await setup(t);
   await challengeFactorPageObject.switchFactorExists();
   await challengeFactorPageObject.forgotPasswordLink.exists();

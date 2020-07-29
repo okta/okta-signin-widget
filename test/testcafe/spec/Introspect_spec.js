@@ -15,7 +15,7 @@ const introspectRequestLogger = RequestLogger(
   }
 );
 
-fixture(`Introspect`);
+fixture('Introspect');
 
 async function setup(t) {
   const terminalPageObject = new TerminalPageObject(t);
@@ -23,7 +23,7 @@ async function setup(t) {
   return terminalPageObject;
 }
 
-test.requestHooks(introspectRequestLogger, introspectMock)(`should have password field and forgot password link`, async t => {
+test.requestHooks(introspectRequestLogger, introspectMock)('should have password field and forgot password link', async t => {
   const terminalPageObject = await setup(t);
 
   const errors = terminalPageObject.getErrorMessages();

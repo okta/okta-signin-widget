@@ -17,15 +17,26 @@ const voiceOnlyOptionMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrSuccess);
 
-fixture(`Authenticator Enroll Data Phone`);
+fixture('Authenticator Enroll Data Phone');
 
 async function setup(t) {
   const enrollPhonePage = new EnrollPhonePageObject(t);
   await enrollPhonePage.navigateToPage();
+
+  const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log.length).eql(3);
+  await t.expect(log[0]).eql('===== playground widget ready event received =====');
+  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
+  await t.expect(JSON.parse(log[2])).eql({
+    controller: null,
+    formName: 'authenticator-enrollment-data',
+    authenticatorType: 'phone',
+  });
+
   return enrollPhonePage;
 }
 
-test.requestHooks(mock)(`default sms mode`, async t => {
+test.requestHooks(mock)('default sms mode', async t => {
   const enrollPhonePage = await setup(t);
 
   // Check title
@@ -44,7 +55,7 @@ test.requestHooks(mock)(`default sms mode`, async t => {
   await t.expect(enrollPhonePage.getSwitchAuthenticatorLinkText()).eql('Sign in using something else');
 });
 
-test.requestHooks(mock)(`voice mode click and extension will get shown`, async t => {
+test.requestHooks(mock)('voice mode click and extension will get shown', async t => {
   const enrollPhonePage = await setup(t);
 
   // Switch to Voice
@@ -64,7 +75,7 @@ test.requestHooks(mock)(`voice mode click and extension will get shown`, async t
   await t.expect(enrollPhonePage.phoneNumberFieldIsSmall()).eql(true);
 });
 
-test.requestHooks(mock)(`phone number is required`, async t => {
+test.requestHooks(mock)('phone number is required', async t => {
   const enrollPhonePage = await setup(t);
   // fields are required
   await t.expect(enrollPhonePage.hasPhoneNumberError()).eql(false);
@@ -73,25 +84,25 @@ test.requestHooks(mock)(`phone number is required`, async t => {
   await t.expect(enrollPhonePage.hasPhoneNumberError()).eql(true);
 });
 
-test.requestHooks(mock)(`should succeed when values are filled in sms mode`, async t => {
+test.requestHooks(mock)('should succeed when values are filled in sms mode', async t => {
   const enrollPhonePage = await setup(t);
-  const successPage = new SuccessPageObject(t);
 
   await enrollPhonePage.fillPhoneNumber('4156669999');
   await enrollPhonePage.clickSaveButton();
 
+  const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
 
-test.requestHooks(mock)(`should succeed when values are filled in voice mode`, async t => {
+test.requestHooks(mock)('should succeed when values are filled in voice mode', async t => {
   const enrollPhonePage = await setup(t);
-  const successPage = new SuccessPageObject(t);
   await enrollPhonePage.clickRadio();
   await enrollPhonePage.fillPhoneNumber('4156669999');
   await enrollPhonePage.clickSaveButton();
 
+  const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
@@ -99,7 +110,7 @@ test.requestHooks(mock)(`should succeed when values are filled in voice mode`, a
 
 
 /* Voice only option mocks */
-test.requestHooks(voiceOnlyOptionMock)(`default is voice mode`, async t => {
+test.requestHooks(voiceOnlyOptionMock)('default is voice mode', async t => {
   const enrollPhonePage = await setup(t);
 
   // Check title
@@ -114,12 +125,12 @@ test.requestHooks(voiceOnlyOptionMock)(`default is voice mode`, async t => {
   await t.expect(enrollPhonePage.phoneNumberFieldIsSmall()).eql(true);
 });
 
-test.requestHooks(voiceOnlyOptionMock)(`should succeed when values are filled when in voice only mode`, async t => {
+test.requestHooks(voiceOnlyOptionMock)('should succeed when values are filled when in voice only mode', async t => {
   const enrollPhonePage = await setup(t);
-  const successPage = new SuccessPageObject(t);
   await enrollPhonePage.fillPhoneNumber('4156669999');
   await enrollPhonePage.clickSaveButton();
 
+  const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');

@@ -34,15 +34,26 @@ const answerRequestLogger = RequestLogger(
   }
 );
 
-fixture(`Enroll Security Question Form`);
+fixture('Enroll Security Question Form');
 
 async function setup(t) {
   const enrollSecurityQuestionPage = new EnrollSecurityQuestionPageObject(t);
   await enrollSecurityQuestionPage.navigateToPage();
+
+      const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log.length).eql(3);
+  await t.expect(log[0]).eql('===== playground widget ready event received =====');
+  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
+  await t.expect(JSON.parse(log[2])).eql({
+    controller: 'enroll-question',
+    formName: 'enroll-authenticator',
+    authenticatorType: 'security_question',
+  });
+
   return enrollSecurityQuestionPage;
 }
 
-test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)(`enroll security question`, async t => {
+test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)('enroll security question', async t => {
   const enrollSecurityQuestionPage = await setup(t);
 
   const radioOptionLabel = await enrollSecurityQuestionPage.clickChooseSecurityQuestion();
@@ -80,7 +91,7 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)(
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/challenge/answer');
 });
 
-test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)(`enroll custom security question`, async t => {
+test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)('enroll custom security question', async t => {
   const enrollSecurityQuestionPage = await setup(t);
 
   const radioOptionLabel = await enrollSecurityQuestionPage.clickCreateYouOwnQuestion();
@@ -110,7 +121,7 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)(
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/challenge/answer');
 });
 
-test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionErrorMock)(`enroll security question error`, async t => {
+test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionErrorMock)('enroll security question error', async t => {
   const enrollSecurityQuestionPage = await setup(t);
 
   const radioOptionLabel = await enrollSecurityQuestionPage.clickChooseSecurityQuestion();
@@ -138,7 +149,7 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionErrorM
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/challenge/answer');
 });
 
-test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionCreateQuestionErrorMock)(`enroll custom security question error`, async t => {
+test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionCreateQuestionErrorMock)('enroll custom security question error', async t => {
   const enrollSecurityQuestionPage = await setup(t);
 
   const radioOptionLabel = await enrollSecurityQuestionPage.clickCreateYouOwnQuestion();

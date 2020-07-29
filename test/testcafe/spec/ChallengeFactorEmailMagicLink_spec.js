@@ -30,7 +30,7 @@ const magicLinkEmailSentMock = RequestMock()
 
 const logger = RequestLogger(/poll|resend/);
 
-fixture(`Challenge Email Magic Link Form Content`);
+fixture('Challenge Email Magic Link Form Content');
 
 async function setup(t) {
   const challengeFactorPageObject = new ChallengeFactorPageObject(t);
@@ -39,28 +39,28 @@ async function setup(t) {
 }
 
 test
-  .requestHooks(magicLinkReturnTabMock)(`challenge email factor with magic link`, async t => {
+  .requestHooks(magicLinkReturnTabMock)('challenge email factor with magic link', async t => {
     await setup(t);
     const terminalPageObject = await new TerminalPageObject(t);
     await t.expect(terminalPageObject.getMessages()).eql('Please return to the original tab.');
   });
 
 test
-  .requestHooks(magicLinkTransfer)(`show the correct content when transferred email`, async t => {
+  .requestHooks(magicLinkTransfer)('show the correct content when transferred email', async t => {
     await setup(t);
     const terminalPageObject = await new TerminalPageObject(t);
     await t.expect(terminalPageObject.getMessages()).eql('Flow continued in a new tab.');
   });
 
 test
-  .requestHooks(magicLinkExpiredMock)(`challenge email factor with expired magic link`, async t => {
+  .requestHooks(magicLinkExpiredMock)('challenge email factor with expired magic link', async t => {
     await setup(t);
     const terminalPageObject = await new TerminalPageObject(t);
     await t.expect(terminalPageObject.getMessages()).eql('This email link has expired. To resend it, return to the screen where you requested it.');
   });
 
 test
-  .requestHooks(logger, magicLinkEmailSentMock)(`challenge email factor with magic link sent renders and has resend link`, async t => {
+  .requestHooks(logger, magicLinkEmailSentMock)('challenge email factor with magic link sent renders and has resend link', async t => {
     const challengeFactorPageObject = await setup(t);
     await t.expect(challengeFactorPageObject.resendEmailView().hasClass('hide')).ok();
 

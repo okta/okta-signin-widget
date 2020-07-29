@@ -38,7 +38,7 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-fixture(`Custom widget attributes`);
+fixture('Custom widget attributes');
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
@@ -67,22 +67,22 @@ async function setupPasswordExpired(t) {
 test.requestHooks(identifyMock)(`should show custom footer links`, async t => {
   const identityPage = await setup(t);
   await rerenderWidget({
-    "helpLinks": {
-      "help": "https://google.com",
-      "forgotPassword": "https://okta.okta.com/signin/forgot-password",
-      "custom": [
+    'helpLinks': {
+      'help': 'https://google.com',
+      'forgotPassword': 'https://okta.okta.com/signin/forgot-password',
+      'custom': [
         {
-          "text": "What is Okta?",
-          "href": "https://acme.com/what-is-okta"
+          'text': 'What is Okta?',
+          'href': 'https://acme.com/what-is-okta'
         },
         {
-          "text": "Acme Portal",
-          "href": "https://acme.com",
-          "target": "_blank"
+          'text': 'Acme Portal',
+          'href': 'https://acme.com',
+          'target': '_blank'
         }
       ]
     },
-    "signOutLink": "https://okta.okta.com/",
+    'signOutLink': 'https://okta.okta.com/',
   });
   await t.expect(identityPage.getCustomForgotPasswordLink()).eql('https://okta.okta.com/signin/forgot-password');
   await t.expect(identityPage.getCustomHelpLink()).eql('https://google.com');
@@ -92,34 +92,34 @@ test.requestHooks(identifyMock)(`should show custom footer links`, async t => {
   await t.expect(identityPage.getCustomHelpLinksLabel(1)).eql('Acme Portal');
 });
 
-test.requestHooks(xhrSelectAuthenticatorMock)(`should show custom signout link`, async t => {
+test.requestHooks(xhrSelectAuthenticatorMock)('should show custom signout link', async t => {
   // setup selectAuthenticatorPageObject to see the signout link
   const selectAuthenticatorPageObject = await setupSelectAuthenticator(t);
   await rerenderWidget({
-    "helpLinks": {
-      "help": "https://google.com",
-      "forgotPassword": "https://okta.okta.com/signin/forgot-password",
-      "custom": [
+    'helpLinks': {
+      'help': 'https://google.com',
+      'forgotPassword': 'https://okta.okta.com/signin/forgot-password',
+      'custom': [
         {
-          "text": "What is Okta?",
-          "href": "https://acme.com/what-is-okta"
+          'text': 'What is Okta?',
+          'href': 'https://acme.com/what-is-okta'
         },
         {
-          "text": "Acme Portal",
-          "href": "https://acme.com",
-          "target": "_blank"
+          'text': 'Acme Portal',
+          'href': 'https://acme.com',
+          'target': '_blank'
         }
       ]
     },
-    "signOutLink": "https://okta.okta.com/",
+    'signOutLink': 'https://okta.okta.com/',
   });
   await t.expect(selectAuthenticatorPageObject.getCustomSignOutLink()).eql('https://okta.okta.com/');
 });
 
-test.requestHooks(identifyMock)(`should show custom buttons links`, async t => {
+test.requestHooks(identifyMock)('should show custom buttons links', async t => {
   const identityPage = await setup(t);
   await rerenderWidget({
-    "customButtons" : [{
+    'customButtons' : [{
       'title': 'Custom Button 1',
       'className': 'btn-customAuth-1',
       'click': function () {

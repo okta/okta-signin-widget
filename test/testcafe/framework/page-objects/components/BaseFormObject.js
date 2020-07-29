@@ -60,6 +60,9 @@ export default class BaseFormObject {
     return this.el.find(selector).innerText;
   }
 
+  // =====================================
+  // Checkbox
+  // =====================================
   getTextBoxValue(name) {
     return this.el.find(`input[name="${name}"]`).value;
   }
@@ -148,10 +151,26 @@ export default class BaseFormObject {
     await this.t.click(option);
   }
 
+
+  // =====================================
+  // radio button
+  // =====================================
+
   async selectRadioButtonOption(fieldName, index) {
     const radioOption = await this.findFormFieldInput(fieldName)
       .find('.radio-label')
       .nth(index);
+    const radioTextContent = await radioOption.textContent;
+    const radioOptionLabel = radioTextContent.trim();
+    await this.t.click(radioOption);
+
+    return radioOptionLabel;
+  }
+
+  async selectRadioButtonOptionByValue(fieldName, value) {
+    const radioOption = await this.findFormFieldInput(fieldName)
+      .find(`input[value="${value}"] + .radio-label`);
+
     const radioTextContent = await radioOption.textContent;
     const radioOptionLabel = radioTextContent.trim();
     await this.t.click(radioOption);

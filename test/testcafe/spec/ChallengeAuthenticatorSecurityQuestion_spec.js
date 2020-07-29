@@ -20,15 +20,26 @@ const answerRequestLogger = RequestLogger(
   }
 );
 
-fixture(`Challenge Security Question Form`);
+fixture('Challenge Security Question Form');
 
 async function setup(t) {
   const challengeFactorPage = new ChallengeSecurityQuestionPageObject(t);
   await challengeFactorPage.navigateToPage();
+
+  const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log.length).eql(3);
+  await t.expect(log[0]).eql('===== playground widget ready event received =====');
+  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
+  await t.expect(JSON.parse(log[2])).eql({
+    controller: 'mfa-verify-question',
+    formName: 'challenge-authenticator',
+    authenticatorType: 'security_question',
+  });
+
   return challengeFactorPage;
 }
 
-test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock)(`verify security question`, async t => {
+test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock)('verify security question', async t => {
   const challengeFactorPageObject = await setup(t);
 
   await t.expect(await challengeFactorPageObject.getAnswerLabel()).eql('Where did you go for your favorite vacation?');

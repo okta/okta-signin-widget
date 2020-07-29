@@ -10,11 +10,11 @@ export default class EnrollSecurityQuestionPageObject extends BasePageObject {
   }
 
   clickChooseSecurityQuestion() {
-    return this.form.selectRadioButtonOption("sub_schema_local_credentials", 0);
+    return this.form.selectRadioButtonOption('sub_schema_local_credentials', 0);
   }
 
   clickCreateYouOwnQuestion() {
-    return this.form.selectRadioButtonOption("sub_schema_local_credentials", 1);
+    return this.form.selectRadioButtonOption('sub_schema_local_credentials', 1);
   }
 
   selectSecurityQuestion(index) {

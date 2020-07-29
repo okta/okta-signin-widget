@@ -5,7 +5,7 @@ const factorLabelSelector = `${factorListRowSelector} .enroll-factor-label`;
 const factorDescriptionSelector = '.factor-description';
 const factorIconSelector = `${factorListRowSelector} .enroll-factor-icon-container .factor-icon`;
 const factorSelectButtonSelector = `${factorListRowSelector} .enroll-factor-button .button`;
-const skipOptionalEnrollmentSelector = `.enroll-factor-list .skip-all`;
+const skipOptionalEnrollmentSelector = '.enroll-factor-list .skip-all';
 
 export default class SelectFactorPageObject extends BasePageObject {
   constructor(t) {

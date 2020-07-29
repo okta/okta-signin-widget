@@ -13,7 +13,7 @@ const selectFactorsMock = RequestMock()
   .respond(xhrFactorRequiredEmail);
 
 
-fixture(`Select Factor for verification Form`);
+fixture('Select Factor for verification Form');
 
 async function setup(t) {
   const selectFactorPageObject = new SelectFactorPageObject(t);
@@ -21,7 +21,7 @@ async function setup(t) {
   return selectFactorPageObject;
 }
 
-test.requestHooks(selectFactorsMock)(`should load select factor list`, async t => {
+test.requestHooks(selectFactorsMock)('should load select factor list', async t => {
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Select an authentication factor');
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Verify with one of the following factors.');

@@ -31,11 +31,22 @@ const mockExpireSoon = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorExpiryWarningPasswordExpireSoon);
 
-fixture(`Password Authenticator Expiry Warning`);
+fixture('Password Authenticator Expiry Warning');
 
 async function setup(t) {
   const passwordExpiryWarningPage = new FactorEnrollPasswordPageObject(t);
   await passwordExpiryWarningPage.navigateToPage();
+
+  const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log.length).eql(3);
+  await t.expect(log[0]).eql('===== playground widget ready event received =====');
+  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
+    await t.expect(JSON.parse(log[2])).eql({
+      controller: null,
+      formName: 'reenroll-authenticator-warning',
+      authenticatorType: 'password'
+  });
+
   return passwordExpiryWarningPage;
 }
 
@@ -45,7 +56,7 @@ async function setup(t) {
   [ 'Your password is expiring soon', mockExpireSoon ],
 ].forEach(([ formTitle, mock ]) => {
   test
-    .requestHooks(logger, mock)(`Should have the correct labels - expire in days`, async t => {
+    .requestHooks(logger, mock)('Should have the correct labels - expire in days', async t => {
       const passwordExpiryWarningPage = await setup(t);
       await t.expect(passwordExpiryWarningPage.getFormTitle()).eql(formTitle);
       await t.expect(passwordExpiryWarningPage.getSaveButtonLabel()).eql('Change Password');
@@ -63,7 +74,7 @@ async function setup(t) {
 });
 
 test
-  .requestHooks(logger, mockExpireInDays)(`should have both password and confirmPassword fields and both are required`, async t => {
+  .requestHooks(logger, mockExpireInDays)('should have both password and confirmPassword fields and both are required', async t => {
     const passwordExpiryWarningPage = await setup(t);
     await t.expect(passwordExpiryWarningPage.passwordFieldExists()).eql(true);
     await t.expect(passwordExpiryWarningPage.confirmPasswordFieldExists()).eql(true);
@@ -87,7 +98,7 @@ test
   });
 
 test
-  .requestHooks(logger, mockExpireInDays)(`should succeed when passwords match and should send password in payload`, async t => {
+  .requestHooks(logger, mockExpireInDays)('should succeed when passwords match and should send password in payload', async t => {
     const passwordExpiryWarningPage = await setup(t);
     const successPage = new SuccessPageObject(t);
 

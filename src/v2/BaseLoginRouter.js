@@ -170,6 +170,10 @@ export default Router.extend({
       appState: this.appState
     }, options);
     this.controller = new Controller(controllerOptions);
+
+    // Bubble up all controller events
+    this.listenTo(this.controller, 'all', this.trigger);
+
     this.controller.render();
   },
 
