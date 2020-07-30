@@ -52,55 +52,55 @@ fixture('App SSO Extension View');
 const getPageUrl = ClientFunction(() => window.location.href);
 test
   .requestHooks(logger, redirectSSOExtensionMock)('with redirect SSO Extension approach, opens the verify URL', async t => {
-  const ssoExtensionPage = new BasePageObject(t);
-  await ssoExtensionPage.navigateToPage();
-  await t.expect(logger.count(
-    record => record.response.statusCode === 200 &&
+    const ssoExtensionPage = new BasePageObject(t);
+    await ssoExtensionPage.navigateToPage();
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
     record.request.url.match(/introspect/)
-  )).eql(1);
-  await t.expect(getPageUrl()).eql(verifyUrl);
-  await t.expect(Selector('h1').innerText).eql('Sign in verified');
-});
+    )).eql(1);
+    await t.expect(getPageUrl()).eql(verifyUrl);
+    await t.expect(Selector('h1').innerText).eql('Sign in verified');
+  });
 
 test
-.requestHooks(logger, credentialSSOExtensionMock)('with credential SSO Extension approach, opens the verify URL', async t => {
-  const ssoExtensionPage = new BasePageObject(t);
-  await ssoExtensionPage.navigateToPage();
-  await t.expect(logger.count(
-    record => record.response.statusCode === 200 &&
+  .requestHooks(logger, credentialSSOExtensionMock)('with credential SSO Extension approach, opens the verify URL', async t => {
+    const ssoExtensionPage = new BasePageObject(t);
+    await ssoExtensionPage.navigateToPage();
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
     record.request.url.match(/introspect/)
-  )).eql(1);
-  const identityPage = new IdentityPageObject(t);
-  await identityPage.fillIdentifierField('Test Identifier');
-  await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
-});
+    )).eql(1);
+    const identityPage = new IdentityPageObject(t);
+    await identityPage.fillIdentifierField('Test Identifier');
+    await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
+  });
 
 test
-.requestHooks(logger, uvCredentialSSOExtensionMock)('with credential SSO Extension approach during user verification, opens the verify URL', async t => {
-  const ssoExtensionPage = new BasePageObject(t);
-  await ssoExtensionPage.navigateToPage();
-  await t.expect(logger.count(
-    record => record.response.statusCode === 200 &&
+  .requestHooks(logger, uvCredentialSSOExtensionMock)('with credential SSO Extension approach during user verification, opens the verify URL', async t => {
+    const ssoExtensionPage = new BasePageObject(t);
+    await ssoExtensionPage.navigateToPage();
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
     record.request.url.match(/introspect/)
-  )).eql(1);
-  const identityPage = new IdentityPageObject(t);
-  await identityPage.fillIdentifierField('Test Identifier');
-  await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
-});
+    )).eql(1);
+    const identityPage = new IdentityPageObject(t);
+    await identityPage.fillIdentifierField('Test Identifier');
+    await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
+  });
 
 test
-.requestHooks(credentialSSONotExistLogger, credentialSSONotExistMock)('cancels transaction when the authenticator does not exist', async t => {
-  const ssoExtensionPage = new BasePageObject(t);
-  await ssoExtensionPage.navigateToPage();
-  await t.expect(credentialSSONotExistLogger.count(
-    record => record.response.statusCode === 200 &&
+  .requestHooks(credentialSSONotExistLogger, credentialSSONotExistMock)('cancels transaction when the authenticator does not exist', async t => {
+    const ssoExtensionPage = new BasePageObject(t);
+    await ssoExtensionPage.navigateToPage();
+    await t.expect(credentialSSONotExistLogger.count(
+      record => record.response.statusCode === 200 &&
     record.request.url.match(/introspect/)
-  )).eql(1);
-  await t.expect(credentialSSONotExistLogger.count(
-    record => record.response.statusCode === 200 &&
+    )).eql(1);
+    await t.expect(credentialSSONotExistLogger.count(
+      record => record.response.statusCode === 200 &&
     record.request.url.match(/verify\/cancel/)
-  )).eql(1);
-  const identityPage = new IdentityPageObject(t);
-  await identityPage.fillIdentifierField('Test Identifier');
-  await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
-});
+    )).eql(1);
+    const identityPage = new IdentityPageObject(t);
+    await identityPage.fillIdentifierField('Test Identifier');
+    await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
+  });

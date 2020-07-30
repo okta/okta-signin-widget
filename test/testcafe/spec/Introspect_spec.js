@@ -20,10 +20,20 @@ fixture('Introspect');
 async function setup(t) {
   const terminalPageObject = new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
+
+  const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log.length).eql(3);
+  await t.expect(log[0]).eql('===== playground widget ready event received =====');
+  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
+  await t.expect(JSON.parse(log[2])).eql({
+    controller: null,
+    formName: 'terminal',
+  });
+
   return terminalPageObject;
 }
 
-test.requestHooks(introspectRequestLogger, introspectMock)('should have password field and forgot password link', async t => {
+test.requestHooks(introspectRequestLogger, introspectMock)('shall display error in terminal page', async t => {
   const terminalPageObject = await setup(t);
 
   const errors = terminalPageObject.getErrorMessages();
