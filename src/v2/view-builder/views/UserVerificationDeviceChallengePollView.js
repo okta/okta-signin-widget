@@ -147,7 +147,7 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     doCustomURI () {
-      this.ulDom?.remove();
+      this.ulDom && this.ulDom.remove();
       this.ulDom = this.add(`
         <iframe src="${this.customURI}" id="custom-uri-container" style="display:none;"></iframe>
       `).last();
