@@ -67,13 +67,23 @@ const renderPlaygroundWidget = (options = {}) => {
     console.log('===== playground widget ready event received =====');
   });
 
-  signIn.on('afterRender', (opt) => {
+  signIn.on('afterRender', (context) => {
     // handle `afterRender` event.
     // use `console.log` in particular so that those logs can be retrived
     // in testcafe for assertion
     console.log('===== playground widget afterRender event received =====');
-    console.log(JSON.stringify(opt));
+    console.log(JSON.stringify(context));
   });
+
+  signIn.on('afterError', (context, error) => {
+    // handle `afterError` event.
+    // use `console.log` in particular so that those logs can be retrived
+    // in testcafe for assertion
+    console.log('===== playground widget afterError event received =====');
+    console.log(JSON.stringify(context));
+    console.log(JSON.stringify(error));
+  });
+
 
 };
 

@@ -23,7 +23,7 @@ async function setup(t) {
   await t.expect(log.length).eql(3);
   await t.expect(log[0]).eql('===== playground widget ready event received =====');
   await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[2])).eql({
+  await t.expect(JSON.parse(log[2])).eql({
     controller: 'primary-auth',
     formName: 'identify',
   });

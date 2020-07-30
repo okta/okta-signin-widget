@@ -17,13 +17,12 @@ import { getV1ClassName } from '../ion/ViewClassNamesFactory';
 export default Controller.extend({
   className: 'form-controller',
 
-  initialize: function () {
-    Controller.prototype.initialize.call(this);
-
-    this.listenTo(this.options.appState, 'change:currentFormName', this.render);
-    this.listenTo(this.options.appState, 'invokeAction', this.invokeAction);
-    this.listenTo(this.options.appState, 'switchForm', this.switchForm);
-    this.listenTo(this.options.appState, 'saveForm', this.handleFormSave);
+  appStateEvents: {
+    'change:currentFormName': 'handleFormNameChange',
+    'afterError': 'handleAfterError',
+    'invokeAction': 'handleInvokeAction',
+    'saveForm': 'handleSaveForm',
+    'switchForm': 'handleSwitchForm',
   },
 
   preRender () {
@@ -57,6 +56,26 @@ export default Controller.extend({
   },
 
   triggerAfterRenderEvent () {
+    const contextData = this.createAfterEventContext();
+    this.trigger('afterRender', contextData);
+  },
+
+  handleFormNameChange () {
+    this.render();
+  },
+
+  handleAfterError (error = {}) {
+    const contextData = this.createAfterEventContext();
+    const errorContextData = {
+      xhr: error,
+      errorSummary: error.responseJSON && error.responseJSON.errorSummary,
+    };
+    // TODO: need some enhancement after https://github.com/okta/okta-idx-js/pull/27
+    // OKTA-318062
+    this.trigger('afterError', contextData, errorContextData);
+  },
+
+  createAfterEventContext () {
     const formName = this.options.appState.get('currentFormName');
     const authenticatorType = this.options.appState.get('authenticatorType');
     const methodType = this.options.appState.get('authenticatorMethodType');
@@ -81,15 +100,15 @@ export default Controller.extend({
       eventData.methodType = methodType;
     }
 
-    this.trigger('afterRender', eventData);
+    return eventData;
   },
 
-  switchForm (formName) {
+  handleSwitchForm (formName) {
     // trigger formname change to change view
     this.options.appState.set('currentFormName', formName);
   },
 
-  invokeAction (actionPath = '') {
+  handleInvokeAction (actionPath = '') {
     const idx = this.options.appState.get('idx');
     if (idx['neededToProceed'].find(item => item.name === actionPath)) {
       idx.proceed(actionPath, {})
@@ -116,7 +135,7 @@ export default Controller.extend({
     }
   },
 
-  handleFormSave (model) {
+  handleSaveForm (model) {
     const formName = model.get('formName');
 
     const idx = this.options.appState.get('idx');

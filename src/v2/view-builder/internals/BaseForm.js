@@ -17,6 +17,7 @@ export default Form.extend({
 
   modelEvents: {
     'clearFormError': 'handleClearFormError',
+    'error': 'triggerAfterError',
   },
 
   initialize () {
@@ -37,6 +38,10 @@ export default Form.extend({
     if (this.$('.o-form-error-container').hasClass('o-form-has-errors')) {
       this.clearErrors();
     }
+  },
+
+  triggerAfterError (model, error) {
+    this.options.appState.trigger('afterError', error);
   },
 
   saveForm (model) {
