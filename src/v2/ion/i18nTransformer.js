@@ -120,7 +120,7 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
   Logger.info('\t remediationName: ', remediation.name);
   Logger.info('\t uiSchema: ', JSON.stringify(uiSchema));
 
-  const authenticatorType = remediation.relatesTo?.value.type
+  const authenticatorType = remediation.relatesTo?.value?.type
     ? `.${remediation.relatesTo.value.type}`
     : '';
   const i18nPrefix = `${remediation.name}${authenticatorType}.`;
