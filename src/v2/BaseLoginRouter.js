@@ -93,7 +93,7 @@ export default Router.extend({
   },
 
   handleIdxResponseFailure (error = {}) {
-    if (error && error.details && error.details.stateHandle) {
+    if (error?.details?.stateHandle) {
       // 1. loosely check whether is IDX error response
       // see idx for details: https://github.com/okta/okta-idx-js/blob/master/src/index.js
 

@@ -56,7 +56,7 @@ const Body = BaseForm.extend({
     this.$el.find('.o-form-error-container').empty();
     this._startEnrollment();
     const relatesToObject = this.options.currentViewState.relatesTo;
-    const activationData = relatesToObject && relatesToObject.value.contextualData.activationData;
+    const activationData = relatesToObject?.value.contextualData.activationData;
     if (webauthn.isNewApiAvailable()) {
       var options = _.extend({}, activationData, {
         challenge: CryptoUtil.strToBin(activationData.challenge),

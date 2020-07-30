@@ -51,7 +51,7 @@ const Body = BaseForm.extend({
     // - password reset (`ReEnrollAuthenticatorPasswordView.js`)
     //
     const relatesToObject = this.options.currentViewState.relatesTo;
-    return relatesToObject && relatesToObject.value && relatesToObject.value.settings;
+    return relatesToObject?.value?.settings;
   },
 
   getUISchema () {

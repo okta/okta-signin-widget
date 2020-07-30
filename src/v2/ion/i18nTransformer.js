@@ -120,7 +120,7 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
   Logger.info('\t remediationName: ', remediation.name);
   Logger.info('\t uiSchema: ', JSON.stringify(uiSchema));
 
-  const authenticatorType = remediation.relatesTo && remediation.relatesTo.value.type
+  const authenticatorType = remediation.relatesTo?.value.type
     ? `.${remediation.relatesTo.value.type}`
     : '';
   const i18nPrefix = `${remediation.name}${authenticatorType}.`;
@@ -180,7 +180,7 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
  * @param {Message} message
  */
 const getMessage = (message) => {
-  if (message.i18n && message.i18n.key) {
+  if (message.i18n?.key) {
     const i18nKey = message.i18n.key;
     if (Bundles.login[i18nKey]) {
       Logger.info(`Override messages using i18n key ${i18nKey}`);
@@ -207,7 +207,7 @@ const uiSchemaLabelTransformer = (transformedResp) => {
   // 2. See `IonResponseHelper.js` where handle `messages` object when none 200 response.
   // 3. Handling `messages` in remediation forms on 200 response is not considered yet.
   //    Is that possible?
-  if (transformedResp.messages && Array.isArray(transformedResp.messages.value)) {
+  if (Array.isArray(transformedResp.messages?.value)) {
     transformedResp.messages.value.forEach(message => {
       message.message = getMessage(message);
     });

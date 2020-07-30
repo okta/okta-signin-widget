@@ -2,7 +2,7 @@ import { _ } from 'okta';
 import i18nTransformer from 'v2/ion/i18nTransformer';
 import Bundles from 'util/Bundles';
 
-describe('v2/ion/i18nTransformer', function () {
+describe.only('v2/ion/i18nTransformer', function () {
   let originalLoginBundle;
 
   beforeAll(() => {

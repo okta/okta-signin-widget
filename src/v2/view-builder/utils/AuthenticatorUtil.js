@@ -39,7 +39,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
   case 'phone':
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
-        ? authenticator.relatesTo && authenticator.relatesTo.profile && authenticator.relatesTo.profile.phoneNumber
+        ? authenticator.relatesTo?.profile?.phoneNumber
         : loc('oie.phone.authenticator.description', 'login'),
       iconClassName: 'mfa-okta-phone',
     });

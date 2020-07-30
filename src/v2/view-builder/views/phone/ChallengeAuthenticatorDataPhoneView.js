@@ -70,7 +70,7 @@ export default BaseAuthenticatorView.extend({
     // It is important to get methods from here to maintain single source of truth.
     const { options: methods } = _.find(uiSchema, schema => schema.name === 'authenticator.methodType');
     const relatesToObject = this.options.currentViewState.relatesTo;
-    const { profile } = relatesToObject && relatesToObject.value || {};
+    const { profile } = relatesToObject?.value || {};
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     const local = Object.assign({
       primaryMode: {

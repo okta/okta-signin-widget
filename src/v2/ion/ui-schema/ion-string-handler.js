@@ -72,13 +72,13 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp)
       // when factor has not been enrolled we get back factorProfileId, and once its enrolled
       // we get back factorId
       // e.g. { name: 'factorId' | 'factorProfileId', type: 'string', options: [ {label: 'xxx', value: 'yyy'} ]}
-      const factors = transformedResp.factors && transformedResp.factors.value || [];
+      const factors = transformedResp.factors?.value || [];
       Object.assign(uiSchema, getFactorsUiSchema(ionFormField, factors));
     } else if (ionFormField.name.indexOf('methodType') >= 0) {
       // e.g. { name: 'methodType', options: [ {label: 'sms'} ], type: 'string' | null }
       uiSchema.type = 'radio';
       // set the default value to the first value..
-      if (ionFormField.options[0] && ionFormField.options[0].value) {
+      if (ionFormField.options[0]?.value) {
         ionFormField.value = ionFormField.options[0].value;
       }
     } else {

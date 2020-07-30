@@ -41,7 +41,7 @@ const createUISchema = (transformedResp, remediationForm) => {
       let nestedForm;
       if (v.form) {
         nestedForm = v.form;
-      } else if (v.value && v.value.form) {
+      } else if (v.value?.form) {
         nestedForm = v.value.form;
       }
 

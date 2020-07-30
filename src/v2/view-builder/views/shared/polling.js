@@ -16,7 +16,7 @@ export default {
       if (this.options.appState.has(responseKey)) {
         const authenticator = this.options.appState.get(responseKey);
         const authenticatorPollAction = `${responseKey}-poll`;
-        const pollInterval = authenticator && authenticator.poll && authenticator.poll.refresh;
+        const pollInterval = authenticator?.poll?.refresh;
         if (_.isNumber(pollInterval)) {
           this.polling = setInterval(()=>{
             this.options.appState.trigger('invokeAction', authenticatorPollAction);

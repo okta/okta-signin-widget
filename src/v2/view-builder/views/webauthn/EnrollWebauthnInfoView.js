@@ -7,7 +7,7 @@ export default View.extend({
   template: hbs`<p class="idx-webauthn-enroll-text">{{i18n code="oie.enroll.webauthn.instructions" bundle="login"}}</p>`,
   initialize () {
     const relatesToObject = this.options.currentViewState.relatesTo;
-    const activationData = relatesToObject && relatesToObject.value.contextualData.activationData;
+    const activationData = relatesToObject?.value.contextualData.activationData;
     if (BrowserFeatures.isEdge()) {
       this.add(View.extend({
         tagName: 'p',

@@ -160,8 +160,7 @@ export default BaseAuthenticatorView.extend({
         let formattedPhoneNumber = `+${phoneCode}${modelJSON.authenticator.phoneNumber}`;
 
         // Add extension if present..
-        if (modelJSON.authenticator.methodType === 'voice'
-          && extension && extension.trim().length) {
+        if (modelJSON.authenticator.methodType === 'voice' && extension?.trim().length) {
           formattedPhoneNumber = `${formattedPhoneNumber}x${extension}`;
         }
         // Override phone with formatted number..
