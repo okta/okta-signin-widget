@@ -33,7 +33,7 @@ const Body = BaseForm.extend(Object.assign(
     initialize () {
       BaseForm.prototype.initialize.apply(this, arguments);
       this.listenTo(this.model, 'error', this.stopPolling);
-      this.startOVPolling();
+      this.startPolling();
     },
     getUISchema () {
       const schema = [];
