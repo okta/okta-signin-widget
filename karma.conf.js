@@ -26,7 +26,7 @@ module.exports = (config) => {
       'karma-*',
       karmaOverrides,
     ],
-    reporters: ['progress', 'junit'],
+    reporters: ['junit', 'mocha'],
     junitReporter: {
       outputDir: `${rootDir}/build2/reports/unit`,
       outputFile: 'okta-sign-in-widget-junit-result.xml',
