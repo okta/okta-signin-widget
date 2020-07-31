@@ -12,6 +12,13 @@
 import { loc, _ } from 'okta';
 export { getPasswordComplexityDescriptionForHtmlList } from '../../../util/FactorUtil';
 
+function getOVLabel(method) {
+  switch(method) {
+    case 'signed_nonce': return 'Use fastpass';
+    case 'push': return 'Use OV Push';
+    case 'totp': return 'Use OV Totp';
+  }
+}
 /* eslint complexity: [2, 19] */
 const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
   const authenticatorType = authenticator.authenticatorType || authenticator.factorType;
@@ -45,7 +52,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
     });
     break;
 
-  case 'security_question': 
+  case 'security_question':
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? ''
@@ -75,6 +82,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
 
   case 'app':
     Object.assign(authenticatorData, {
+      label: getOVLabel(authenticator.value.methodType),
       description: isVerifyAuthenticator
         ? ''
         : loc('oie.okta_verify.authenticator.description', 'login'),

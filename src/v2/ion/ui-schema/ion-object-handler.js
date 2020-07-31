@@ -16,6 +16,22 @@
  * @param {( AuthenticatorEnrollment[] || Authenticator[] )} authenticators
  */
 const createAuthenticatorOptions = (options = []) => {
+  // Split OV into individual entries (one for each method).
+  const ovItem = options.find((option) => option.relatesTo.type && option.relatesTo.type === 'app');
+  const ovItems = [];
+  if (ovItem) {
+    const option = ovItem;
+    const value = option.value && option.value.form && option.value.form.value || [];
+    value[1].options.forEach((item) => {
+      const ovCopy = JSON.parse(JSON.stringify(option));
+      delete ovCopy.value.form.value[1].options;
+      ovCopy.value.form.value[1].value = item.value;
+      ovCopy.value.form.value[1].mutable = false;
+      ovItems.push(ovCopy);
+    });
+  }
+  options = options.filter((option) => option.relatesTo.type && option.relatesTo.type !== 'app');
+  options = [...options, ...ovItems];
   return options.map(option => {
     const value = option.value && option.value.form && option.value.form.value || [];
 

@@ -218,10 +218,22 @@
                       },
                       {
                         "name": "methodType",
-                        "value": "signed_nonce",
                         "required": true,
-                        "mutable": false,
-                        "visible": false
+                        "type": "string",
+                        "options": [
+                          {
+                            "value": "signed_nonce",
+                            "label": "OV Fastpass"
+                          },
+                          {
+                            "value": "push",
+                            "label": "OV Push"
+                          },
+                          {
+                            "value": "totp",
+                            "label": "OV Totp"
+                          }
+                        ]
                       }
                     ]
                   }
