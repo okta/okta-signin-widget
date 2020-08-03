@@ -55,16 +55,12 @@
                     "visible": true,
                     "options": [
                       {
-                        "value": "local",
-                        "label": "Local"
-                      },
-                      {
                         "value": "sms",
                         "label": "SMS"
                       },
                       {
                         "value": "email",
-                        "label": "EMAIL"
+                        "label": "Email"
                       }
                     ]
                   }

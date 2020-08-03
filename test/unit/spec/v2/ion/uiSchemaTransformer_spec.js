@@ -548,6 +548,57 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       'authenticatorId': 'aid568g3mXgtID0X1GGG',
                       'id': 'security-question-enroll-id-123'
                     }
+                  },
+                  {
+                    'label': 'Okta Verify',
+                    'value': {
+                      'form': {
+                        'value': [
+                          {
+                            'name': 'id',
+                            'value': 'aut1erh5wK1M8wA3g0g4',
+                            'required': true,
+                            'mutable': false,
+                            'visible': false
+                          },
+                          {
+                            'name': 'channel',
+                            'required': false,
+                            'type': 'string',
+                            'options': [{
+                              'value': 'qrcode',
+                              'label': 'QRCODE'
+                            }, {
+                              'value': 'local',
+                              'label': 'THIS DEVICE'
+                            }, {
+                              'value': 'sms',
+                              'label': 'SMS'
+                            }, {
+                              'value': 'email',
+                              'label': 'EMAIL'
+                            }]
+                          }
+                        ]
+                      }
+                    },
+                    'relatesTo': {
+                      'displayName': 'Okta Verify',
+                      'type': 'app',
+                      'authenticatorId': 'aut1erh5wK1M8wA3g0g4',
+                      'id': 'okta-verify-enroll-id-123',
+                      'methods': [
+                        {
+                          'methodType': 'signed_nonce'
+                        },
+                        {
+                          'methodType': 'push'
+                        },
+                        {
+                          'methodType': 'totp'
+                        }
+                      ]
+                    }
                   }
                 ]
               },
@@ -591,6 +642,14 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     },
                     'authenticatorType': 'security_question',
                     'relatesTo': XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[3]
+                  },
+                  {
+                    'label': 'Okta Verify',
+                    'value': {
+                      'id': 'aut1erh5wK1M8wA3g0g4'
+                    },
+                    'authenticatorType': 'app',
+                    'relatesTo': XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[4]
                   },
                 ]
               }

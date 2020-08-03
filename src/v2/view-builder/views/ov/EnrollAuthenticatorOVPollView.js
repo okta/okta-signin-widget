@@ -1,14 +1,12 @@
 import { View, loc } from 'okta';
 import BaseForm from '../../internals/BaseForm';
+import { isMobileDevice } from '../../../../util/BrowserFeatures';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
 import Link from '../../components/Link';
 import { getSwitchOVEnrollChannelLink } from '../../utils/LinksUtil';
 import polling from '../shared/polling';
-
-const FastpassEnroll = View.extend({
-  template: `Download app and follow instructions for setup`
-});
+import hbs from 'handlebars-inline-precompile';
 
 const Body = BaseForm.extend(Object.assign(
   polling,
@@ -32,6 +30,10 @@ const Body = BaseForm.extend(Object.assign(
     noButtonBar: true,
     initialize () {
       BaseForm.prototype.initialize.apply(this, arguments);
+      if (isMobileDevice() &&
+        this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'qrcode') {
+        this.options.appState.trigger('switchForm', 'enroll-with-another-channel');
+      }
       this.listenTo(this.model, 'error', this.stopPolling);
       this.startPolling();
     },
@@ -39,42 +41,59 @@ const Body = BaseForm.extend(Object.assign(
       const schema = [];
       const contextualData = this.options.appState.get('currentAuthenticator').contextualData;
       const selectedChannel = contextualData.selectedChannel;
-      if (selectedChannel === 'local') {
+      if (selectedChannel === 'qrcode') {
         schema.push({
-          View: FastpassEnroll,
-        });
-      } else if (selectedChannel === 'qrcode') {
-        schema.push({
-          View: `
-          <ol>
-            <li>{{i18n code="oie.enroll.okta_verify.qrcode.step1" bundle="login"}}</li>
-            <li>{{i18n code="oie.enroll.okta_verify.qrcode.step2" bundle="login"}}</li>
-            <li>{{i18n code="oie.enroll.okta_verify.qrcode.step3" bundle="login"}}</li>
-          </ol>
-          <div class="qrcode-container">
-            <img class="qrcode" src=${contextualData.qrcode.href} alt="qr code"></img>
-          </div>
-        `,
+          View: View.extend({
+            template: hbs`
+              <ol>
+                <li>{{i18n code="oie.enroll.okta_verify.qrcode.step1" bundle="login"}}</li>
+                <li>{{i18n code="oie.enroll.okta_verify.qrcode.step2" bundle="login"}}</li>
+                <li>{{i18n code="oie.enroll.okta_verify.qrcode.step3" bundle="login"}}</li>
+              </ol>
+              <div class="qrcode-container">
+                <img class="qrcode" src={{href}} alt="qr code"></img>
+              </div>
+            `,
+            getTemplateData () {
+              return {
+                href: contextualData.qrcode.href,
+              };
+            },
+          }),
         });
       } else if (selectedChannel === 'email') {
         schema.push({
-          View: `
-          <ol>
-            <li>{{i18n code="oie.enroll.okta_verify.email.step1" bundle="login"}}</li>
-            <li>{{i18n code="oie.enroll.okta_verify.email.step2" bundle="login"}}</li>
-            <li>{{i18n code="oie.enroll.okta_verify.email.step3" bundle="login"}}</li>
-          </ol>
-        `,
+          View: View.extend({
+            template: hbs`
+              <ol class="email-info">
+                <li>{{i18n code="oie.enroll.okta_verify.email.step1" bundle="login" arguments="email"}}</li>
+                <li>{{i18n code="oie.enroll.okta_verify.email.step2" bundle="login"}}</li>
+                <li>{{i18n code="oie.enroll.okta_verify.email.step3" bundle="login"}}</li>
+              </ol>
+            `,
+            getTemplateData () {
+              return {
+                email: contextualData.email,
+              };
+            },
+          }),
         });
       }  else if (selectedChannel === 'sms') {
         schema.push({
-          View: `
-          <ol>
-            <li>{{i18n code="oie.enroll.okta_verify.sms.step1" bundle="login"}}</li>
-            <li>{{i18n code="oie.enroll.okta_verify.sms.step2" bundle="login"}}</li>
-            <li>{{i18n code="oie.enroll.okta_verify.sms.step3" bundle="login"}}</li>
-          </ol>
-        `,
+          View: View.extend({
+            template: hbs`
+              <ol class="sms-info">
+                <li>{{i18n code="oie.enroll.okta_verify.sms.step1" bundle="login" arguments="phoneNumber"}}</li>
+                <li>{{i18n code="oie.enroll.okta_verify.sms.step2" bundle="login"}}</li>
+                <li>{{i18n code="oie.enroll.okta_verify.sms.step3" bundle="login"}}</li>
+              </ol>
+            `,
+            getTemplateData () {
+              return {
+                phoneNumber: contextualData.phoneNumber,
+              };
+            },
+          }),
         });
       }
       if (this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'qrcode') {

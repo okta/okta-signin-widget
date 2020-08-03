@@ -95,7 +95,7 @@
       "type": "app",
       "authenticatorInstanceId": "aidL86XHm5Xtg3SD0I1g",
       "contextualData": {
-        "selectedChannel": "qrcode"
+        "selectedChannel": "email"
       }
     }
   },
@@ -145,25 +145,7 @@
       "create-form"
     ],
     "name": "cancel",
-    "href": "http://idx.okta1.com:1802/idp/idx/cancel",
-    "method": "POST",
-    "accepts": "application/vnd.okta.v1+json",
-    "value": [
-      {
-        "name": "stateHandle",
-        "required": true,
-        "value": "022afk9OLqrN2DipVIuIxC0wqzuxMaFIbpOf6pcBh8",
-        "visible": false,
-        "mutable": false
-      }
-    ]
-  },
-  "context": {
-    "rel": [
-      "create-form"
-    ],
-    "name": "context",
-    "href": "http://idx.okta1.com:1802/idp/idx/context",
+    "href": "http://localhost:3000/idp/idx/cancel",
     "method": "POST",
     "accepts": "application/vnd.okta.v1+json",
     "value": [

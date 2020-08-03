@@ -108,10 +108,10 @@ export default Controller.extend({
     this.options.appState.set('currentFormName', formName);
   },
 
-  handleInvokeAction (actionPath = '', data) {
+  handleInvokeAction (actionPath = '') {
     const idx = this.options.appState.get('idx');
     if (idx['neededToProceed'].find(item => item.name === actionPath)) {
-      idx.proceed(actionPath, data)
+      idx.proceed(actionPath, {})
         .then(this.handleIdxSuccess.bind(this))
         .catch(error => {
           this.showFormErrors(this.formView.model, error);

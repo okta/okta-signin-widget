@@ -50,7 +50,7 @@ import EnrollAuthenticatorEmailView from './views/email/EnrollAuthenticatorEmail
 import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
 import ChallengeAuthenticatorEmailView from './views/email/ChallengeAuthenticatorEmailView';
 
-//app/ov
+// app(okta verify)
 import EnrollAuthenticatorOVPollView from './views/ov/EnrollAuthenticatorOVPollView';
 import EnrollOVSwitchChannelView from './views/ov/EnrollOVSwitchChannelView';
 import EnrollOVWithEmailChannelView from './views/ov/EnrollOVWithEmailChannelView';
@@ -103,16 +103,16 @@ const VIEWS_MAPPING = {
     'security_question': EnrollAuthenticatorSecurityQuestion,
     email: EnrollAuthenticatorEmailView
   },
-  'enroll-poll': {
+  [RemediationForms.ENROLL_POLL]: {
     app: EnrollAuthenticatorOVPollView,
   },
-  'enroll-with-another-channel': {
+  [RemediationForms.ENROLL_SELECT_CHANNEL]: {
     app: EnrollOVSwitchChannelView,
   },
-  'enroll-with-email': {
+  [RemediationForms.ENROLL_WITH_EMAIL]: {
     app: EnrollOVWithEmailChannelView,
   },
-  'enroll-with-sms': {
+  [RemediationForms.ENROLL_WITH_SMS]: {
     app: EnrollOVWithSmsChannelView,
   },
   // Expired scenarios for authenticators..

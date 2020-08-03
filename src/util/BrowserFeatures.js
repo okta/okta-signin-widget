@@ -68,6 +68,10 @@ define(function () {
     return navigator.platform.toUpperCase().indexOf('MAC')>=0;
   };
 
+  fn.isMobileDevice = function () {
+    return (typeof window.orientation !== 'undefined') || (navigator.userAgent.indexOf('IEMobile') !== -1);
+  };
+
   // Returns a list of languages the user has configured for their browser, in
   // order of preference.
   fn.getUserLanguages = function () {

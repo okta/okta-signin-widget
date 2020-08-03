@@ -655,7 +655,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           ]
         },
         'authenticatorType':'app',
-        'description':'Verify with a code or receive a push notification from the Okta Verify app',
+        'description':'Okta Verify is an authenticator app, installed on your phone or computer, used to prove your identity',
         'iconClassName':'mfa-okta-verify'
       }
     ]);
