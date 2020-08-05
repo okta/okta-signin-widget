@@ -6,7 +6,7 @@ import { isMobileDevice } from '../../../../util/BrowserFeatures';
 
 const Body = BaseForm.extend({
   title () {
-    isMobileDevice() ? loc('oie.enroll.okta_verify.select.channel.mobile.title', 'login'):
+    return isMobileDevice() ? loc('oie.enroll.okta_verify.select.channel.mobile.title', 'login'):
       loc('oie.enroll.okta_verify.select.channel.title', 'login');
   },
   getUISchema () {

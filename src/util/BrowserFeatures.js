@@ -69,6 +69,8 @@ define(function () {
   };
 
   fn.isMobileDevice = function () {
+    // relying on UA requires very extensive checks.
+    // Using this based on https://developer.mozilla.org/en-US/docs/Web/API/Window/orientation.
     return (typeof window.orientation !== 'undefined') || (navigator.userAgent.indexOf('IEMobile') !== -1);
   };
 

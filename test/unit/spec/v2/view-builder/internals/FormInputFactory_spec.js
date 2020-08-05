@@ -357,7 +357,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           ]
         },
         'authenticatorType':'app',
-        'description':'',
+        'description': '',
         'iconClassName':'mfa-okta-verify'
       }
     ]);

@@ -98,7 +98,7 @@ const idx = {
   ],
   '/idp/idx/challenge/poll': [
     'authenticator-enroll-ov-qr',
-    'success',
+    //'success',
     //'enroll-profile-new'
     // 'authenticator-enroll-email',
   ],

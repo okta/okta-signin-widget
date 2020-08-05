@@ -45,7 +45,7 @@ const Body = BaseForm.extend(Object.assign(
         schema.push({
           View: View.extend({
             template: hbs`
-              <ol>
+              <ol class="qrcode-info">
                 <li>{{i18n code="oie.enroll.okta_verify.qrcode.step1" bundle="login"}}</li>
                 <li>{{i18n code="oie.enroll.okta_verify.qrcode.step2" bundle="login"}}</li>
                 <li>{{i18n code="oie.enroll.okta_verify.qrcode.step3" bundle="login"}}</li>

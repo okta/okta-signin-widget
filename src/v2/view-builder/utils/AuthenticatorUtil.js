@@ -76,8 +76,8 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
   case 'app':
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
-        ? loc('oie.okta_verify.authenticator.description', 'login')
-        : loc('oie.okta_verify.authenticator.enroll.description', 'login'),
+        ? ''
+        : loc('oie.okta_verify.authenticator.description', 'login'),
       iconClassName: 'mfa-okta-verify',
     });
     break;
