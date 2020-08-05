@@ -32,9 +32,7 @@ const Body = BaseAuthenticatorEmailForm.extend(Object.assign({
   initialize () {
     BaseAuthenticatorEmailForm.prototype.initialize.apply(this, arguments);
 
-    const { email } = this.options.currentViewState.relatesTo &&
-      this.options.currentViewState.relatesTo.value &&
-      this.options.currentViewState.relatesTo.value.profile;
+    const { email } = this.options.currentViewState.relatesTo?.value?.profile;
 
     this.add(CheckYourEmailTitle, {
       prepend: true,

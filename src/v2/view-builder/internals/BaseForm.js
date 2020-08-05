@@ -82,7 +82,7 @@ export default Form.extend({
   showMessages () {
     // render messages as text
     const messagesObjs = this.options.appState.get('messages');
-    if (messagesObjs && messagesObjs.value.length) {
+    if (messagesObjs?.value.length) {
       const content = messagesObjs.value.map((messagesObj) => {
         return messagesObj.message;
       });

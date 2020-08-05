@@ -17,7 +17,7 @@ const Body = BaseForm.extend({
       messagesObjs.value
         .forEach(messagesObj => {
           const msg = messagesObj.message;
-          if (messagesObj.class && messagesObj.class === 'ERROR') {
+          if (messagesObj.class === 'ERROR') {
             this.add(createCallout({
               content: msg,
               type: 'error',

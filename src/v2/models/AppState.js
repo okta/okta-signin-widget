@@ -64,7 +64,7 @@ export default Model.extend({
     isPasswordRecovery: {
       deps: ['recoveryAuthenticator'],
       fn: function (recoveryAuthenticator = {}) {
-        return recoveryAuthenticator && recoveryAuthenticator.type === 'password';
+        return recoveryAuthenticator?.type === 'password';
       }
     }
   },
@@ -148,8 +148,7 @@ export default Model.extend({
       && FORMS_FOR_VERIFICATION.includes(currentFormName);
 
     return !hideSignOutConfigOverride
-      && idxActions
-      && _.isFunction(idxActions.cancel)
+      && _.isFunction(idxActions?.cancel)
       && !FORMS_WITHOUT_SIGNOUT.includes(currentFormName);
   },
 

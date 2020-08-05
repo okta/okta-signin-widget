@@ -62,7 +62,7 @@ const Body = BaseForm.extend({
      * we would render it as a warning callout
      * */
     const messagesObj = this.options.appState.get('messages');
-    if (messagesObj && messagesObj.value.length
+    if (messagesObj?.value.length
         && this.options.appState.get('currentFormName') === 'identify') {
       const content = messagesObj.value[0].message;
       const messageCallout = createCallout({

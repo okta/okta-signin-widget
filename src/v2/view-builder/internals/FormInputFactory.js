@@ -98,12 +98,12 @@ const createIdpButtons = (remediations) => {
 
   //add buttons from idp object
   return redirectIdpRemediations.map(idpObject => {
-    let type = idpObject.type && idpObject.type.toLowerCase();
+    let type = idpObject.type?.toLowerCase();
     let displayName;
 
     if (!_.contains(IDP.SUPPORTED_SOCIAL_IDPS, type)) {
       type = 'general-idp';
-      displayName = idpObject.idp && idpObject.idp.name || '{ Please provide a text value }';
+      displayName = idpObject.idp?.name || '{ Please provide a text value }';
     } else {
       displayName = loc(`socialauth.${type}.label`, 'login');
     }

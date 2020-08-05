@@ -6,7 +6,7 @@ export default View.extend({
   template: hbs`<p class="idx-webauthn-verify-text">{{i18n code="oie.verify.webauthn.instructions" bundle="login"}}</p>`,
   initialize () {
     const relatesToObject = this.options.currentViewState.relatesTo;
-    const challengeData = relatesToObject && relatesToObject.value.contextualData.challengeData;
+    const challengeData = relatesToObject?.value.contextualData.challengeData;
     if (challengeData.userVerification === 'required') {
       this.add(createCallout({
         className: 'uv-required-callout',

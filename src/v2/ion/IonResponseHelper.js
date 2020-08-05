@@ -16,9 +16,7 @@ import { getMessage } from './i18nTransformer';
 const convertErrorMessageToErrorSummary = (formName, remediationValues = []) => {
   return _.chain(remediationValues)
     .filter(field => {
-      return field.messages
-        && Array.isArray(field.messages.value)
-        && field.messages.value.length;
+      return Array.isArray(field.messages?.value) && field.messages.value.length;
     })
     .map(field => {
       return {
@@ -88,14 +86,14 @@ const getRemediationErrors = (res) => {
     const formName = remediationForm.name;
 
     // error at form.value
-    if (remediationForm.form && Array.isArray(remediationForm.form.value)) {
+    if (Array.isArray(remediationForm.form?.value)) {
       errors.push(convertErrorMessageToErrorSummary(formName, remediationForm.form.value));
     }
 
     // error at option.value.form.value
     if (Array.isArray(remediationForm.options)) {
       _.each(remediationForm.options, (option) => {
-        if (option.value && option.value.form && Array.isArray(option.value.form.value)) {
+        if (Array.isArray(option.value?.form?.value)) {
           errors.push(convertErrorMessageToErrorSummary(formName, option.value.form.value));
         }
       });
@@ -115,7 +113,7 @@ const getRemediationErrors = (res) => {
 const getGlobalErrors = (res) => {
   let allErrors = [];
 
-  if (res.messages && Array.isArray(res.messages.value)) {
+  if (Array.isArray(res.messages?.value)) {
     allErrors = res.messages.value.map(getMessage);
   }
 

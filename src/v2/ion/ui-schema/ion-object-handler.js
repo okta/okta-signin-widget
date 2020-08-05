@@ -17,7 +17,7 @@
  */
 const createAuthenticatorOptions = (options = []) => {
   return options.map(option => {
-    const value = option.value && option.value.form && option.value.form.value || [];
+    const value = option.value?.form?.value || [];
 
     // Each authenticator option has list of ION field.
     // Currently we only support merely selecting one of options
@@ -36,7 +36,7 @@ const createAuthenticatorOptions = (options = []) => {
       label: option.label,
       value: valueObject,
       relatesTo: option.relatesTo,
-      authenticatorType: option.relatesTo && option.relatesTo.type,
+      authenticatorType: option.relatesTo?.type,
     };
   });
 };

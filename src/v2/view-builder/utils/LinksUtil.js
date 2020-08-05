@@ -93,7 +93,7 @@ const goBackLink = (appState) => {
 };
 
 const getSignOutLink = (settings) => {
-  if (settings && settings.get('signOutLink')) {
+  if (settings?.get('signOutLink')) {
     return [
       {
         'label': loc('signout', 'login'),
