@@ -559,7 +559,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                             'value': 'aut1erh5wK1M8wA3g0g4',
                             'required': true,
                             'mutable': false,
-                            'visible': false
                           },
                           {
                             'name': 'channel',
@@ -568,9 +567,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                             'options': [{
                               'value': 'qrcode',
                               'label': 'QRCODE'
-                            }, {
-                              'value': 'local',
-                              'label': 'THIS DEVICE'
                             }, {
                               'value': 'sms',
                               'label': 'SMS'
@@ -589,13 +585,13 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       'id': 'okta-verify-enroll-id-123',
                       'methods': [
                         {
-                          'methodType': 'signed_nonce'
+                          'type': 'signed_nonce'
                         },
                         {
-                          'methodType': 'push'
+                          'type': 'push'
                         },
                         {
-                          'methodType': 'totp'
+                          'type': 'totp'
                         }
                       ]
                     }

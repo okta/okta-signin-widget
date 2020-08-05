@@ -127,8 +127,7 @@
                         "name": "id",
                         "value": "aut1erh5wK1M8wA3g0g4",
                         "required": true,
-                        "mutable": false,
-                        "visible": false
+                        "mutable": false
                       },
                       {
                         "name": "channel",
@@ -138,10 +137,6 @@
                           {
                             "value": "qrcode",
                             "label": "QRCODE"
-                          },
-                          {
-                            "value": "local",
-                            "label": "THIS DEVICE"
                           },
                           {
                             "value": "sms",
@@ -205,13 +200,13 @@
         "id": "okta-verify-enroll-id-123",
         "methods": [
           {
-            "methodType": "signed_nonce"
+            "type": "signed_nonce"
           },
           {
-            "methodType": "push"
+            "type": "push"
           },
           {
-            "methodType": "totp"
+            "type": "totp"
           }
         ]
       }

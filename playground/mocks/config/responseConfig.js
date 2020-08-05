@@ -4,7 +4,7 @@ const idx = {
   // ===== IDX
 
   '/idp/idx/introspect': [
-    'identify',
+    'authenticator-enroll-ov-sms',
     // 'authenticator-enroll-email',
     // 'error-internal-server-error',
     // 'authenticator-enroll-password',
@@ -69,7 +69,7 @@ const idx = {
   ],
   '/idp/idx/credential/enroll': [
     'authenticator-enroll-ov-qr',
-    'authenticator-enroll-ov-via-sms',
+    //'authenticator-enroll-ov-via-sms',
     'authenticator-enroll-ov-via-email',
     //'authenticator-enroll-security-question',
   ],
@@ -88,7 +88,7 @@ const idx = {
   ],
   '/idp/idx/challenge/send': [
     //'factor-verification-email',
-    'authenticator-enroll-ov-sms',
+    //'authenticator-enroll-ov-sms',
     'authenticator-enroll-ov-email',
   ],
   '/idp/idx/challenge/resend': [
@@ -98,7 +98,7 @@ const idx = {
   ],
   '/idp/idx/challenge/poll': [
     'authenticator-enroll-ov-qr',
-    //'success',
+    'success',
     //'enroll-profile-new'
     // 'authenticator-enroll-email',
   ],
