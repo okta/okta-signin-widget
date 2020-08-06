@@ -10,7 +10,6 @@ import hbs from 'handlebars-inline-precompile';
 import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
 
 const Body = BaseForm.extend(Object.assign(
-  polling,
   {
     title () {
       const selectedChannel = this.options.appState.get('currentAuthenticator').contextualData.selectedChannel;
@@ -111,6 +110,8 @@ const Body = BaseForm.extend(Object.assign(
       this.stopPolling();
     },
   },
+
+  polling,
 ));
 
 export default BaseAuthenticatorView.extend({
