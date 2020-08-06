@@ -39,7 +39,8 @@ export default View.extend({
     <div class="siw-main-footer"></div>
   `,
 
-  initialize () {
+  preRender () {
+    View.prototype.preRender.apply(this, arguments);
     // Add Views
     this.add(this.Header, {
       selector: '.siw-main-header',
