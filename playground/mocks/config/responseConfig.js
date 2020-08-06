@@ -4,7 +4,7 @@ const idx = {
   // ===== IDX
 
   '/idp/idx/introspect': [
-    'authenticator-enroll-ov-sms',
+    'identify',
     // 'authenticator-enroll-email',
     // 'error-internal-server-error',
     // 'authenticator-enroll-password',

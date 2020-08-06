@@ -2,11 +2,11 @@ import { loc } from 'okta';
 import BaseForm from '../../internals/BaseForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
-import { isMobileDevice } from '../../../../util/BrowserFeatures';
+import { isAndroid, isIOS } from '../../../../util/BrowserFeatures';
 
 const Body = BaseForm.extend({
   title () {
-    return isMobileDevice() ? loc('oie.enroll.okta_verify.setup.title', 'login'):
+    return (isAndroid() || isIOS()) ? loc('oie.enroll.okta_verify.setup.title', 'login'):
       loc('oie.enroll.okta_verify.select.channel.title', 'login');
   },
   getUISchema () {

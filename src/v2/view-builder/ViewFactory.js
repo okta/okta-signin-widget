@@ -52,7 +52,7 @@ import ChallengeAuthenticatorEmailView from './views/email/ChallengeAuthenticato
 
 // app(okta verify)
 import EnrollAuthenticatorOVPollView from './views/ov/EnrollAuthenticatorOVPollView';
-import EnrollOVSwitchChannelView from './views/ov/EnrollOVSwitchChannelView';
+import EnrollOktaVerifySelectChannelView from './views/ov/EnrollOktaVerifySelectChannelView';
 import EnrollOVWithEmailChannelView from './views/ov/EnrollOVWithEmailChannelView';
 import EnrollOVWithSmsChannelView from './views/ov/EnrollOVWithSmsChannelView';
 
@@ -107,7 +107,7 @@ const VIEWS_MAPPING = {
     app: EnrollAuthenticatorOVPollView,
   },
   [RemediationForms.ENROLL_SELECT_CHANNEL]: {
-    app: EnrollOVSwitchChannelView,
+    app: EnrollOktaVerifySelectChannelView,
   },
   [RemediationForms.ENROLL_WITH_EMAIL]: {
     app: EnrollOVWithEmailChannelView,

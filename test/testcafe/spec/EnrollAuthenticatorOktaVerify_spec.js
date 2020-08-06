@@ -66,8 +66,11 @@ test.requestHooks(logger, enrollViaQRcodeMocks)('should be able to enroll via qr
   const enrollOktaVerifyPage = await setup(t);
   await t.expect(enrollOktaVerifyPage.getFormTitle()).eql('Set up Okta Verify');
   await t.expect(enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(true);
+  await t.expect(enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
+  await t.expect(enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(false);
   await t.expect(enrollOktaVerifyPage.hasQRcode()).eql(true);
   await t.expect(enrollOktaVerifyPage.hasSwitchChannelLink()).eql(true);
+  await t.expect(enrollOktaVerifyPage.getQRInstruction()).eql('On your mobile device, download the Okta Verify app from the App Store (iPhone and iPad) or Google Play (Android devices).\nOpen the app and follow the instructions to add your account\nWhen prompted, tap Scan a QR code, then scan the QR code below:');
   await t.wait(4000);
   await t.expect(logger.count(
     record => record.response.statusCode === 200 &&
@@ -102,6 +105,10 @@ test.requestHooks(enrollViaEmailMocks)('should be able enroll via email', async 
   await t.expect(enrollViaEmailPageObject.getFormTitle()).eql('Set up Okta Verify via email link');
   await enrollViaEmailPageObject.fillEmailField('test@gmail.com');
   await enrollViaEmailPageObject.clickNextButton();
+  await t.expect(enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(false);
+  await t.expect(enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(true);
+  await t.expect(enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(false);
+  await t.expect(enrollOktaVerifyPage.getEmailInstruction()).eql('We sent an email to joy@okta.com with an Okta Verify setup link.\nTo continue, open the link on your (iPhone or iPad, Android device).\nDidn’t get the link yet? It may take up to a few minutes to arrive, or try sending the link again.');
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
@@ -119,6 +126,10 @@ test.requestHooks(enrollViaSmsMocks)('should be able enroll via sms', async t =>
   await t.expect(enrollViaSMSPageObject.getFormTitle()).eql('Set up Okta Verify via SMS');
   await enrollViaSMSPageObject.fillPhoneField('8887227871');
   await enrollViaSMSPageObject.clickNextButton();
+  await t.expect(enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(false);
+  await t.expect(enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
+  await t.expect(enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(true);
+  await t.expect(enrollOktaVerifyPage.getSmsInstruction()).eql('We sent an SMS to +18008885555 with an Okta Verify setup link.\nTo continue, open the link on your (iPhone or iPad, Android device).\nDidn’t get the link yet? It may take up to a few minutes to arrive, or try sending the link again.');
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)

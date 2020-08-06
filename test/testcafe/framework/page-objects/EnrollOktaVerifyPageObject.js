@@ -21,6 +21,18 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
     return this.form.elementExist('.sms-info');
   }
 
+  getQRInstruction() {
+    return this.getTextContent('.qrcode-info');
+  }
+
+  getEmailInstruction() {
+    return this.getTextContent('.email-info');
+  }
+
+  getSmsInstruction() {
+    return this.getTextContent('.sms-info');
+  }
+
   hasSwitchChannelLink () {
     return this.form.elementExist('.js-switch-channel');
   }
