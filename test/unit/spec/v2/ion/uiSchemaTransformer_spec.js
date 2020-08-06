@@ -1245,7 +1245,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
     });
   });
 
-  it('converts seclect channel response for Okta verify', (done) => {
+  it('converts select channel response for Okta verify', (done) => {
     MockUtil.mockIntrospect(done, XHRAuthenticatorEnrollOktaVerifyQr, idxResp => {
       const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
       expect(result.remediations[1].uiSchema).toEqual([{

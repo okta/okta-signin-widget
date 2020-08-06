@@ -45,7 +45,7 @@ const Body = BaseForm.extend(Object.assign(
         schema.push({
           View: View.extend({
             template: hbs`
-              <ol class="qrcode-info">
+              <ol class="qrcode-info ov-info">
                 <li>{{i18n code="oie.enroll.okta_verify.qrcode.step1" bundle="login"}}</li>
                 <li>{{i18n code="oie.enroll.okta_verify.qrcode.step2" bundle="login"}}</li>
                 <li>{{i18n code="oie.enroll.okta_verify.qrcode.step3" bundle="login"}}</li>
@@ -65,11 +65,11 @@ const Body = BaseForm.extend(Object.assign(
         schema.push({
           View: View.extend({
             template: hbs`
-              <ol class="email-info">
+              <ul class="email-info ov-info">
                 <li>{{i18n code="oie.enroll.okta_verify.email.step1" bundle="login" arguments="email"}}</li>
                 <li>{{i18n code="oie.enroll.okta_verify.email.step2" bundle="login"}}</li>
                 <li>{{i18n code="oie.enroll.okta_verify.email.step3" bundle="login"}}</li>
-              </ol>
+              </ul>
             `,
             getTemplateData () {
               return {
@@ -82,11 +82,11 @@ const Body = BaseForm.extend(Object.assign(
         schema.push({
           View: View.extend({
             template: hbs`
-              <ol class="sms-info">
+              <ul class="sms-info ov-info">
                 <li>{{i18n code="oie.enroll.okta_verify.sms.step1" bundle="login" arguments="phoneNumber"}}</li>
                 <li>{{i18n code="oie.enroll.okta_verify.sms.step2" bundle="login"}}</li>
                 <li>{{i18n code="oie.enroll.okta_verify.sms.step3" bundle="login"}}</li>
-              </ol>
+              </ul>
             `,
             getTemplateData () {
               return {

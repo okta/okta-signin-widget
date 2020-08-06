@@ -1,7 +1,8 @@
 .oie-enroll-ov-poll {
-  ol {
-    list-style: decimal;
-    list-style-position: inside;
+  .ov-info {
+    li:not(:last-child) {
+      margin-bottom: 15px;
+    }
   }
   .qrcode-container {
     text-align: center;
@@ -13,5 +14,9 @@
   .sms-info,
   .email-info {
     margin-bottom: 15px;
+  }
+  .qrcode-info {
+    list-style: decimal;
+    list-style-position: inside;
   }
 }
