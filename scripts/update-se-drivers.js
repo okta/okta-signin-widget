@@ -1,6 +1,11 @@
 const axios = require('axios');
 const { execSync } = require('child_process');
 
+// If tests are running on saucelabs, we don't need to update chromedriver locally
+if (process.env.SAUCE_PLATFORM_NAME) {
+  return;
+}
+
 function getOS() {
   let os = process.platform;
   if (os === 'darwin') {

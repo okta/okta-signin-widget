@@ -4,28 +4,15 @@ export SAUCE_ACCESS_KEY="$(aws s3 --quiet --region us-east-1 cp s3://ci-secret-s
 export TRAVIS=true # work-around to run tests on saucelabs instead of chrome
 export TRAVIS_JOB_NUMBER=${TEST_SUITE_ID}
 export TRAVIS_BUILD_NUMBER=${TEST_SUITE_RESULT_ID}
-export SAUCE_CONNECT_VERSION=sc-4.5.3-linux
-export SAUCE_CONNECT_BINARY=${SAUCE_CONNECT_VERSION}.tar.gz
 
 cd ${OKTA_HOME}/${REPO}
-
-# Download and start sauce connect
-curl -o ${OKTA_HOME}/${REPO}/${SAUCE_CONNECT_BINARY} https://saucelabs.com/downloads/${SAUCE_CONNECT_BINARY}
-tar -xzf ${OKTA_HOME}/${REPO}/${SAUCE_CONNECT_BINARY}
-${OKTA_HOME}/${REPO}/${SAUCE_CONNECT_VERSION}/bin/sc -u ${SAUCE_USERNAME} -k ${SAUCE_ACCESS_KEY} -i ${TRAVIS_JOB_NUMBER} &
-
-aws s3 --quiet --region us-east-1 cp s3://ci-secret-stash/prod/signinwidget/test_credentials ./test_credentials.yaml
-
-pip install yq
-
-WIDGET_ENV_VARS=(WIDGET_TEST_SERVER WIDGET_BASIC_USER WIDGET_BASIC_PASSWORD WIDGET_BASIC_USER_2 WIDGET_BASIC_PASSWORD_2 WIDGET_BASIC_USER_3 WIDGET_BASIC_PASSWORD_3 WIDGET_BASIC_USER_4 WIDGET_BASIC_PASSWORD_4 WIDGET_BASIC_USER_5 WIDGET_BASIC_PASSWORD_5)
-
-for WIDGET_ENV_VAR in "${WIDGET_ENV_VARS[@]}"
-do
-   export $WIDGET_ENV_VAR=$(cat ./test_credentials.yaml | yq .${WIDGET_ENV_VAR} | tr -d '"')
-done
-
 source $OKTA_HOME/$REPO/scripts/setup.sh
+
+sh ./scripts/start-sauce-connect.sh
+
+# This file contains all the env vars we need for e2e tests
+aws s3 --quiet --region us-east-1 cp s3://ci-secret-stash/prod/signinwidget/export-test-credentials.sh $OKTA_HOME/$REPO/scripts/export-test-credentials.sh
+source $OKTA_HOME/$REPO/scripts/export-test-credentials.sh
 
 function update_yarn_locks() {
     git checkout -- test/e2e/react-app/yarn.lock

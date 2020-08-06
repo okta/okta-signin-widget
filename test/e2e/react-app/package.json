@@ -17,7 +17,9 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "customize-cra": "^1.0.0",
     "dotenv": "^8.0.0",
-    "react-app-rewired": "1.6.2"
+    "react-app-rewired": "1.6.2",
+    "source-map-loader": "^1.0.1"
   }
 }
