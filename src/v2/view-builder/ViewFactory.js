@@ -9,7 +9,6 @@ import SuccessView from './views/SuccessView';
 
 // Device (Okta Mobile)
 import DeviceChallengePollView from './views/DeviceChallengePollView';
-import UserVerificationDeviceChallengePollView from './views/UserVerificationDeviceChallengePollView';
 import SSOExtensionView from './views/SSOExtensionView';
 
 // registration
@@ -46,9 +45,13 @@ import EnrollWebauthnView from './views/webauthn/EnrollWebauthnView';
 import ChallengeWebauthnView from './views/webauthn/ChallengeWebauthnView';
 
 // email
-import EnrollAuthenticatorEmailView from './views/email/EnrollAuthenticatorEmailView';
+// import EnrollFactorEmailView from './views/email/EnrollFactorEmailView';
 import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
 import ChallengeAuthenticatorEmailView from './views/email/ChallengeAuthenticatorEmailView';
+
+// okta verify
+import ChallengeOktaVerifyTOTPView from './views/okta-verify/ChallengeOktaVerifyTOTPView';
+import ChallengeOktaVerifyPushView from './views/okta-verify/ChallengeOktaVerifyPushView';
 
 const DEFAULT = '_';
 
@@ -95,7 +98,6 @@ const VIEWS_MAPPING = {
     'security_key': EnrollWebauthnView,
     phone: EnrollAuthenticatorPhoneView,
     'security_question': EnrollAuthenticatorSecurityQuestion,
-    email: EnrollAuthenticatorEmailView
   },
   // Expired scenarios for authenticators..
   [RemediationForms.REENROLL_AUTHENTICATOR]: {
@@ -122,7 +124,10 @@ const VIEWS_MAPPING = {
     'security_key': ChallengeWebauthnView,
     'security_question': ChallengeAuthenticatorSecurityQuestion,
     phone: ChallengeAuthenticatorPhoneView,
-    app: UserVerificationDeviceChallengePollView,
+    app: ChallengeOktaVerifyTOTPView,
+  },
+  [RemediationForms.OKTA_VERIFY_POLL]: {
+    'app': ChallengeOktaVerifyPushView,
   },
   [RemediationForms.AUTHENTICATOR_VERIFICATION_DATA]: {
     phone: ChallengeAuthenticatorDataPhoneView,

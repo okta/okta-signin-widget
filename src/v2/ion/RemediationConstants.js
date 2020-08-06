@@ -19,6 +19,7 @@ const FORMS = {
   SELECT_AUTHENTICATOR_AUTHENTICATE: 'select-authenticator-authenticate',
   AUTHENTICATOR_VERIFICATION_DATA: 'authenticator-verification-data',
   CHALLENGE_AUTHENTICATOR: 'challenge-authenticator',
+  OKTA_VERIFY_POLL: 'okta-verify-poll',
 
   SELECT_AUTHENTICATOR_ENROLL: 'select-authenticator-enroll',
   SELECT_AUTHENTICATOR_ENROLL_DATA: 'select-authenticator-enroll-data',

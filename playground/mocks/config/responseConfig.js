@@ -92,10 +92,13 @@ const idx = {
   ],
   '/idp/idx/challenge/poll': [
     'authenticator-enroll-email',
+    // 'authenticator-verification-okta-verify-push',
   ],
   '/idp/idx/challenge': [
     'authenticator-verification-webauthn',
     // 'authenticator-verification-password',
+    // 'authenticator-verification-okta-verify-totp',
+    // 'authenticator-verification-okta-verify-push',
     // 'factor-verification-password',
     // 'factor-verification-email',
   ],

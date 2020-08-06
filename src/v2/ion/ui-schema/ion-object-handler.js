@@ -10,12 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { _ } from 'okta';
+
 /**
  * Example of the option like
  * @param {AuthenticatorOption[]} options
  * @param {( AuthenticatorEnrollment[] || Authenticator[] )} authenticators
  */
 const createAuthenticatorOptions = (options = []) => {
+  createOVOptions(options);
   return options.map(option => {
     const value = option.value && option.value.form && option.value.form.value || [];
 
@@ -39,6 +42,32 @@ const createAuthenticatorOptions = (options = []) => {
       authenticatorType: option.relatesTo && option.relatesTo.type,
     };
   });
+};
+
+const createOVOptions = (options = []) => {
+  // Split OV into individual entries for verification (one for each method).
+  const ovItem = options.find((option) => option.relatesTo.type === 'app');
+  const methodTypeObj = ovItem?.value?.form?.value?.find(v => v.name === 'methodType');
+  const methodOptions = methodTypeObj?.options;
+  if (methodOptions) {
+    const ovOptions = [];
+    methodOptions.map((method) => {
+      const value = [...ovItem.value.form.value];
+      const methodTypeIndex = ovItem.value.form.value.findIndex((v) => v.name === 'methodType')
+      const newMethodTypeObj = Object.assign(_.omit(methodTypeObj, 'options'), method);
+      value.splice(methodTypeIndex, 1, newMethodTypeObj);
+      ovOptions.push(Object.assign({}, ovItem, {
+        label: method.label,
+        value: {
+          form: {
+            value,
+          }
+        }
+      }));
+    });
+    const ovIndex = options.findIndex((option) => option.relatesTo.type === 'app');
+    options.splice(ovIndex, 1, ...ovOptions);
+  }
 };
 
 const getAuthenticatorsEnrollUiSchema = ({ options }) => {
