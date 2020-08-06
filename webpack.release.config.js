@@ -23,10 +23,17 @@ var usePolyfill = require('./buildtools/webpack/polyfill');
 var entryConfig = config('okta-sign-in.entry.js');
 entryConfig.output.filename = 'okta-sign-in.entry.js';
 entryConfig.externals = {
+  // TODO: remove handlebars external OKTA-320626
+  'handlebars/runtime': {
+    'commonjs': 'handlebars/dist/handlebars.runtime',
+    'commonjs2': 'handlebars/dist/handlebars.runtime',
+    'amd': 'handlebars.runtime',
+    'root': 'handlebars'
+  },
   'handlebars': {
-    'commonjs': 'handlebars/dist/handlebars',
-    'commonjs2': 'handlebars/dist/handlebars',
-    'amd': 'handlebars',
+    'commonjs': 'handlebars/dist/handlebars.runtime',
+    'commonjs2': 'handlebars/dist/handlebars.runtime',
+    'amd': 'handlebars.runtime',
     'root': 'handlebars'
   },
   'q': true,
