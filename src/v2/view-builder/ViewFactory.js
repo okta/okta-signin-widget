@@ -9,7 +9,6 @@ import SuccessView from './views/SuccessView';
 
 // Device (Okta Mobile)
 import DeviceChallengePollView from './views/DeviceChallengePollView';
-import UserVerificationDeviceChallengePollView from './views/UserVerificationDeviceChallengePollView';
 import SSOExtensionView from './views/SSOExtensionView';
 
 // registration
@@ -54,6 +53,8 @@ import ChallengeAuthenticatorEmailView from './views/email/ChallengeAuthenticato
 import EnrollPollOktaVerifyView from './views/ov/EnrollPollOktaVerifyView';
 import SelectEnrollmentChannelOktaVerifyView from './views/ov/SelectEnrollmentChannelOktaVerifyView';
 import EnrollementChannelDataOktaVerifyView from './views/ov/EnrollementChannelDataOktaVerifyView';
+import ChallengeOktaVerifyView from './views/ov/ChallengeOktaVerifyView';
+import ChallengeOktaVerifyPushView from './views/ov/ChallengeOktaVerifyPushView';
 
 const DEFAULT = '_';
 
@@ -136,7 +137,10 @@ const VIEWS_MAPPING = {
     'security_key': ChallengeWebauthnView,
     'security_question': ChallengeAuthenticatorSecurityQuestion,
     phone: ChallengeAuthenticatorPhoneView,
-    app: UserVerificationDeviceChallengePollView,
+    app: ChallengeOktaVerifyView,
+  },
+  [RemediationForms.CHALLENGE_POLL]: {
+    app: ChallengeOktaVerifyPushView,
   },
   [RemediationForms.AUTHENTICATOR_VERIFICATION_DATA]: {
     phone: ChallengeAuthenticatorDataPhoneView,
