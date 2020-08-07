@@ -1,8 +1,20 @@
-import { loc, createButton, View } from 'okta';
+import { _, loc, createButton, View } from 'okta';
+import hbs from 'handlebars-inline-precompile';
 import BaseForm from '../../internals/BaseForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
 import polling from '../shared/polling';
+import Util from '../../../../util/Util';
+
+const WARNING_TIMEOUT = 30000;
+const warningTemplate = View.extend({
+  className: 'okta-form-infobox-warning infobox infobox-warning',
+  template: hbs`
+    <span class="icon warning-16"></span>
+    <p>{{warning}}</p>
+  `
+});
+let warningTimeout;
 
 const Body = BaseForm.extend(Object.assign(
   {
@@ -16,24 +28,35 @@ const Body = BaseForm.extend(Object.assign(
 
     initialize () {
       BaseForm.prototype.initialize.apply(this, arguments);
-      this.listenTo(this.model, 'error', this.onPollingFail);
+      this.listenTo(this.model, 'error', this.stopPush);
+      this.addView();
+    },
+
+    addView () {
       this.add(createButton({
         className: 'ul-button button button-wide button-primary send-push',
         title: loc('oie.okta_verify.push.sent', 'login'),
         click: () => {
-          this.disablePush();
-          this.startDevicePolling();
+          this.startPush();
         }
       }));
     },
 
     postRender () {
-      this.disablePush();
-      this.startDevicePolling();
+      this.startPush();
     },
 
-    onPollingFail () {
+    startPush () {
+      this.disablePush();
+      this.startDevicePolling();
+      warningTimeout = Util.callAfterTimeout(_.bind(function () {
+        this.showWarning(loc('oktaverify.warning', 'login'));
+      }, this), WARNING_TIMEOUT);
+    },
+
+    stopPush () {
       this.stopPolling();
+      this.clearWarning();
       this.enablePush();
     },
 
@@ -49,6 +72,16 @@ const Body = BaseForm.extend(Object.assign(
       button.removeClass('link-button-disabled');
       button.prop('value', loc('oktaverify.send', 'login'));
       button.prop('disabled', false);
+    },
+
+    showWarning (msg) {
+      this.clearWarning();
+      this.add(warningTemplate, '.o-form-error-container', {options: {warning: msg}});
+    },
+
+    clearWarning () {
+      this.$('.okta-form-infobox-warning').remove();
+      clearTimeout(warningTimeout);
     },
   },
 
