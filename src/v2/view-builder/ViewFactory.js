@@ -51,9 +51,9 @@ import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
 import ChallengeAuthenticatorEmailView from './views/email/ChallengeAuthenticatorEmailView';
 
 // app(okta verify)
-import EnrollAuthenticatorOVPollView from './views/ov/EnrollAuthenticatorOVPollView';
-import SelectOVEnrollmentChannelView from './views/ov/SelectOVEnrollmentChannelView';
-import OVEnrollementChannelInfoView from './views/ov/OVEnrollementChannelInfoView';
+import EnrollPollOktaVerifyView from './views/ov/EnrollPollOktaVerifyView';
+import SelectEnrollmentChannelOktaVerifyView from './views/ov/SelectEnrollmentChannelOktaVerifyView';
+import EnrollementChannelDataOktaVerifyView from './views/ov/EnrollementChannelDataOktaVerifyView';
 
 const DEFAULT = '_';
 
@@ -103,13 +103,13 @@ const VIEWS_MAPPING = {
     email: EnrollAuthenticatorEmailView
   },
   [RemediationForms.ENROLL_POLL]: {
-    app: EnrollAuthenticatorOVPollView,
+    app: EnrollPollOktaVerifyView,
   },
   [RemediationForms.SELECT_ENROLLMENT_CHANNEL]: {
-    app: SelectOVEnrollmentChannelView,
+    app: SelectEnrollmentChannelOktaVerifyView,
   },
   [RemediationForms.ENROLLMENT_CHANNEL_DATA]: {
-    app: OVEnrollementChannelInfoView,
+    app: EnrollementChannelDataOktaVerifyView,
   },
   // Expired scenarios for authenticators..
   [RemediationForms.REENROLL_AUTHENTICATOR]: {
@@ -160,7 +160,6 @@ module.exports = {
       Logger.warn(`Cannot find customized View for ${formName}.`);
       return BaseView;
     }
-
     const View = config[authenticatorType] || config[DEFAULT];
     if (!View) {
       Logger.warn(`Cannot find customized View for ${formName} + ${authenticatorType}.`);
