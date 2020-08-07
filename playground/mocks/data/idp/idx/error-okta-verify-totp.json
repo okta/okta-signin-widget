@@ -3,6 +3,15 @@
   "version": "1.0.0",
   "expiresAt": "2020-01-13T21:14:37.000Z",
   "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Authentication failed",
+        "class": "ERROR"
+      }
+    ]
+  },
   "remediation": {
     "type":"array",
     "value":[
@@ -153,10 +162,10 @@
             "value": "signed_nonce"
           },
           {
-            "value": "push"
+            "value": "push" 
           },
           {
-            "value": "totp"
+            "value": "totp" 
           }
         ]
       },

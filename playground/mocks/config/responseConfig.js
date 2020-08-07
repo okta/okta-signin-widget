@@ -301,6 +301,77 @@ const userVerificationUniversalLink = {
   ],
 };
 
+// ov m2 totp - success
+const ovTotpSuccess = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-ov-m2'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-totp'
+  ],
+  '/idp/idx/challenge/answer': [
+    'success'
+  ],
+};
+
+// ov m2 totp - error
+const ovTotpError = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-ov-m2'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-totp'
+  ],
+  '/idp/idx/challenge/answer': [
+    'error-okta-verify-totp'
+  ],
+};
+
+// ov m2 push - success
+const ovPushSuccess = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-ov-m2'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-push'
+  ],
+  '/idp/idx/challenge/poll': [
+    'authenticator-verification-okta-verify-push',
+    'authenticator-verification-okta-verify-push',
+    'authenticator-verification-okta-verify-push',
+    'success',
+  ],
+};
+
+// ov m2 push - wait
+const ovPushWait = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-ov-m2'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-push'
+  ],
+  '/idp/idx/challenge/poll': [
+    'authenticator-verification-okta-verify-push',
+  ],
+};
+
+// ov m2 push - error
+const ovPushError = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-ov-m2'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-push'
+  ],
+  '/idp/idx/challenge/poll': [
+    'authenticator-verification-okta-verify-push',
+    'authenticator-verification-okta-verify-push',
+    'authenticator-verification-okta-verify-push',
+    'error-okta-verify-push',
+  ],
+};
+
 module.exports = {
-  mocks: idx,
+  mocks: ovPushError,
 };

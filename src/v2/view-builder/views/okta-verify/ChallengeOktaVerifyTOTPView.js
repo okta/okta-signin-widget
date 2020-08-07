@@ -5,8 +5,6 @@ import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFoote
 
 const Body = BaseForm.extend(Object.assign(
   {
-    noButtonBar: true,
-
     className: 'okta-verify-totp-challenge',
 
     title () {

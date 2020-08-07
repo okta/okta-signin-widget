@@ -63,14 +63,14 @@ const Body = BaseForm.extend(Object.assign(
     disablePush () {
       const button = this.$el.find('.send-push');
       button.addClass('link-button-disabled');
-      button.prop('value', loc('oktaverify.sent', 'login'));
+      button.html(loc('oie.okta_verify.push.sent', 'login'));
       button.prop('disabled', true);
     },
 
     enablePush () {
       const button = this.$el.find('.send-push');
       button.removeClass('link-button-disabled');
-      button.prop('value', loc('oktaverify.send', 'login'));
+      button.html(loc('oie.okta_verify.push.send', 'login'));
       button.prop('disabled', false);
     },
 
@@ -80,7 +80,9 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     clearWarning () {
-      this.$('.okta-form-infobox-warning').remove();
+      if (this.$('.o-form-error-container').hasClass('okta-form-infobox-warning')) {
+        this.$('.okta-form-infobox-warning').remove();
+      }
       clearTimeout(warningTimeout);
     },
   },

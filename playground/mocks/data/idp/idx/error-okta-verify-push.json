@@ -3,6 +3,15 @@
   "version": "1.0.0",
   "expiresAt": "2020-01-13T21:14:37.000Z",
   "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "You have chosen to reject this login.",
+        "class": "ERROR"
+      }
+    ]
+  },
   "remediation": {
     "type":"array",
     "value":[
@@ -10,27 +19,15 @@
         "rel":[
           "create-form"
         ],
-        "name":"challenge-authenticator",
+        "name":"okta-verify-poll",
         "relatesTo":[
           "$.currentAuthenticator"
         ],
-        "href":"http://localhost:3000/idp/idx/challenge/answer",
+        "href":"http://localhost:3000/idp/idx/challenge/poll",
         "method":"POST",
         "accepts":"application/vnd.okta.v1+json",
+        "refresh": 4000,
         "value":[
-          {
-            "name":"credentials",
-            "form":{
-              "value":[
-                {
-                 "name": "totp",
-                 "label": "Enter code from Okta Verify app",
-                 "visible": true,
-                 "required": true
-               }
-              ]
-            }
-          },
           {
             "name": "stateHandle",
             "required": true,
@@ -128,7 +125,7 @@
   },
   "currentAuthenticator":{
     "type":"object",
-    "value":{
+    "value": {
       "profile": {
         "name": "Okta Verify"
       },
@@ -153,10 +150,10 @@
             "value": "signed_nonce"
           },
           {
-            "value": "push"
+            "value": "push" 
           },
           {
-            "value": "totp"
+            "value": "totp" 
           }
         ]
       },
