@@ -11,7 +11,7 @@
            "rel":[
               "create-form"
            ],
-           "name":"enroll-with-sms",
+           "name":"enrollment-channel-data",
            "href":"http://localhost:3000/idp/idx/challenge/send",
            "method":"POST",
            "accepts":"application/vnd.okta.v1+json",
@@ -35,7 +35,7 @@
            "rel":[
               "create-form"
            ],
-           "name":"enroll-with-another-channel",
+           "name": "select-enrollment-channel",
            "href":"http://localhost:3000/idp/idx/credential/enroll",
            "method":"POST",
            "accepts":"application/vnd.okta.v1+json",
@@ -60,10 +60,6 @@
                              "visible":false,
                              "mutable":false,
                              "options":[
-                                {
-                                   "value":"local",
-                                   "label":"THIS DEVICE"
-                                },
                                 {
                                    "value":"qrcode",
                                    "label":"QRCODE"

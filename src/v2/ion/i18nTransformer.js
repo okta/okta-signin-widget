@@ -68,8 +68,8 @@ const I18N_OVERRIDE_MAPPINGS = {
   'enroll-authenticator.security_question.credentials.question': 'oie.security.question.createQuestion.label',
   'enroll-authenticator.security_question.credentials.questionKey': 'oie.security.question.questionKey.label',
 
-  'enroll-with-another-channel.authenticator.channel.email': 'oie.enroll.okta_verify.select.channel.email.label',
-  'enroll-with-another-channel.authenticator.channel.sms': 'oie.enroll.okta_verify.select.channel.sms.label',
+  'select-enrollment-channel.authenticator.channel.email': 'oie.enroll.okta_verify.select.channel.email.label',
+  'select-enrollment-channel.authenticator.channel.sms': 'oie.enroll.okta_verify.select.channel.sms.label',
 
   'challenge-authenticator.email.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'challenge-authenticator.password.credentials.passcode': 'mfa.challenge.password.placeholder',

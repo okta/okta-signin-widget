@@ -7,6 +7,7 @@ import Link from '../../components/Link';
 import { getSwitchOVEnrollChannelLink } from '../../utils/LinksUtil';
 import polling from '../shared/polling';
 import hbs from 'handlebars-inline-precompile';
+import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
 
 const Body = BaseForm.extend(Object.assign(
   polling,
@@ -32,7 +33,7 @@ const Body = BaseForm.extend(Object.assign(
       BaseForm.prototype.initialize.apply(this, arguments);
       if ((isAndroid() || isIOS()) &
         this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'qrcode') {
-        this.options.appState.trigger('switchForm', 'enroll-with-another-channel');
+        this.options.appState.trigger('switchForm', RemediationForms.SELECT_ENROLLMENT_CHANNEL);
       }
       this.listenTo(this.model, 'error', this.stopPolling);
       this.startPolling();

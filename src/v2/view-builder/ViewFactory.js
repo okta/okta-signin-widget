@@ -52,9 +52,8 @@ import ChallengeAuthenticatorEmailView from './views/email/ChallengeAuthenticato
 
 // app(okta verify)
 import EnrollAuthenticatorOVPollView from './views/ov/EnrollAuthenticatorOVPollView';
-import EnrollOktaVerifySelectChannelView from './views/ov/EnrollOktaVerifySelectChannelView';
-import EnrollOVWithEmailChannelView from './views/ov/EnrollOVWithEmailChannelView';
-import EnrollOVWithSmsChannelView from './views/ov/EnrollOVWithSmsChannelView';
+import SelectOVEnrollmentChannelView from './views/ov/SelectOVEnrollmentChannelView';
+import OVEnrollementChannelInfoView from './views/ov/OVEnrollementChannelInfoView';
 
 const DEFAULT = '_';
 
@@ -106,14 +105,11 @@ const VIEWS_MAPPING = {
   [RemediationForms.ENROLL_POLL]: {
     app: EnrollAuthenticatorOVPollView,
   },
-  [RemediationForms.ENROLL_SELECT_CHANNEL]: {
-    app: EnrollOktaVerifySelectChannelView,
+  [RemediationForms.SELECT_ENROLLMENT_CHANNEL]: {
+    app: SelectOVEnrollmentChannelView,
   },
-  [RemediationForms.ENROLL_WITH_EMAIL]: {
-    app: EnrollOVWithEmailChannelView,
-  },
-  [RemediationForms.ENROLL_WITH_SMS]: {
-    app: EnrollOVWithSmsChannelView,
+  [RemediationForms.ENROLLMENT_CHANNEL_DATA]: {
+    app: OVEnrollementChannelInfoView,
   },
   // Expired scenarios for authenticators..
   [RemediationForms.REENROLL_AUTHENTICATOR]: {

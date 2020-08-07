@@ -30,7 +30,7 @@
         "rel": [
           "create-form"
         ],
-        "name": "enroll-with-another-channel",
+        "name": "select-enrollment-channel",
         "href": "http://localhost:3000/idp/idx/credential/enroll",
         "method": "POST",
         "accepts": "application/vnd.okta.v1+json",
