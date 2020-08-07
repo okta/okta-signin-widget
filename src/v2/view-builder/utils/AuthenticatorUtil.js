@@ -45,7 +45,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
     });
     break;
 
-  case 'security_question': 
+  case 'security_question':
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? ''

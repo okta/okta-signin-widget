@@ -2,8 +2,14 @@ import { _ } from 'okta';
 
 export default {
   startPolling () {
-    // Factor and Authenticator won't co-exists hence it's safe to trigger both.
-    this._startAuthenticatorPolling();
+    // Poll is present in remediation form
+    if (this.options.currentViewState.refresh) {
+      this._startRemediationPolling();
+    } else {
+      // Poll is present in authenticator/ authenticator Enrollment obj.
+      // Factor and Authenticator won't co-exists hence it's safe to trigger both.
+      this._startAuthenticatorPolling();
+    }
   },
 
   _startAuthenticatorPolling () {
@@ -29,9 +35,7 @@ export default {
     });
   },
 
-  // currently only device remediation gets polling info from remediation
-  // TODO: OKTA-278849 combine startDevicePolling and startPolling
-  startDevicePolling () {
+  _startRemediationPolling () {
     const pollingInterval = this.options.currentViewState.refresh;
     if (_.isNumber(pollingInterval)) {
       this.polling = setInterval(() => {
