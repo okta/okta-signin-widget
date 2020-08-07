@@ -12,6 +12,7 @@ const idx = {
     // 'authenticator-enroll-phone-voice',
     // 'authenticator-enroll-data-phone',
     // 'authenticator-enroll-data-phone-voice',
+    // 'authenticator-enroll-ov-local',
     // 'error-internal-server-error',
     // 'authenticator-enroll-security-question',
     // 'authenticator-enroll-select-authenticator',
@@ -50,7 +51,7 @@ const idx = {
     // 'identify-with-third-party-idps',
     // 'identify-with-only-third-party-idps',
     // 'identify-with-only-one-third-party-idp',
-    // 'identify-with-password',
+    //'identify-with-password',
     // 'identify-with-universal-link',
     // 'select-factor-authenticate',
     // 'select-factor-for-password-recovery',
@@ -67,11 +68,14 @@ const idx = {
     'enroll-profile-new'
   ],
   '/idp/idx/credential/enroll': [
-    'authenticator-enroll-security-question',
+    'authenticator-enroll-ov-qr',
+    //'authenticator-enroll-ov-via-sms',
+    'authenticator-enroll-ov-via-email',
+    //'authenticator-enroll-security-question',
   ],
   '/idp/idx/identify': [
-    // 'identify-with-only-one-third-party-idp',
-    'error-forgot-password',
+    'authenticator-enroll-select-authenticator',
+    //'identify-with-only-one-third-party-idp',
     // 'error-identify-access-denied',
     // 'error-identify-user-locked-unable-challenge'
   ],
@@ -83,7 +87,9 @@ const idx = {
     'error-authenticator-enroll-security-question'
   ],
   '/idp/idx/challenge/send': [
-    'factor-verification-email',
+    //'factor-verification-email',
+    //'authenticator-enroll-ov-sms',
+    'authenticator-enroll-ov-email',
   ],
   '/idp/idx/challenge/resend': [
     // 'factor-verification-email',
@@ -91,7 +97,10 @@ const idx = {
     // 'authenticator-verification-phone-voice'
   ],
   '/idp/idx/challenge/poll': [
-    'authenticator-enroll-email',
+    'authenticator-enroll-ov-qr',
+    'success',
+    //'enroll-profile-new'
+    // 'authenticator-enroll-email',
   ],
   '/idp/idx/challenge': [
     'authenticator-verification-webauthn',

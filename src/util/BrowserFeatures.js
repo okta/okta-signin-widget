@@ -68,6 +68,17 @@ define(function () {
     return navigator.platform.toUpperCase().indexOf('MAC')>=0;
   };
 
+  fn.isAndroid = function () {
+    // Windows Phone also contains "Android"
+    return /android/i.test(navigator.userAgent) &&
+      !/windows phone/i.test(navigator.userAgent);
+  };
+
+  fn.isIOS = function () {
+    // iOS detection from: http://stackoverflow.com/a/9039885/177710
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  };
+
   // Returns a list of languages the user has configured for their browser, in
   // order of preference.
   fn.getUserLanguages = function () {

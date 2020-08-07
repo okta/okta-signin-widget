@@ -1,0 +1,22 @@
+.oie-enroll-ov-poll {
+  .ov-info {
+    li:not(:last-child) {
+      margin-bottom: 15px;
+    }
+  }
+  .qrcode-container {
+    text-align: center;
+    .qrcode {
+      display: block;
+      margin: 0 auto;
+    }
+  }
+  .sms-info,
+  .email-info {
+    margin-bottom: 15px;
+  }
+  .qrcode-info {
+    list-style: decimal;
+    list-style-position: inside;
+  }
+}

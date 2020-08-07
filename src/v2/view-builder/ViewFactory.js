@@ -50,6 +50,11 @@ import EnrollAuthenticatorEmailView from './views/email/EnrollAuthenticatorEmail
 import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
 import ChallengeAuthenticatorEmailView from './views/email/ChallengeAuthenticatorEmailView';
 
+// app(okta verify)
+import EnrollPollOktaVerifyView from './views/ov/EnrollPollOktaVerifyView';
+import SelectEnrollmentChannelOktaVerifyView from './views/ov/SelectEnrollmentChannelOktaVerifyView';
+import EnrollementChannelDataOktaVerifyView from './views/ov/EnrollementChannelDataOktaVerifyView';
+
 const DEFAULT = '_';
 
 const VIEWS_MAPPING = {
@@ -96,6 +101,15 @@ const VIEWS_MAPPING = {
     phone: EnrollAuthenticatorPhoneView,
     'security_question': EnrollAuthenticatorSecurityQuestion,
     email: EnrollAuthenticatorEmailView
+  },
+  [RemediationForms.ENROLL_POLL]: {
+    app: EnrollPollOktaVerifyView,
+  },
+  [RemediationForms.SELECT_ENROLLMENT_CHANNEL]: {
+    app: SelectEnrollmentChannelOktaVerifyView,
+  },
+  [RemediationForms.ENROLLMENT_CHANNEL_DATA]: {
+    app: EnrollementChannelDataOktaVerifyView,
   },
   // Expired scenarios for authenticators..
   [RemediationForms.REENROLL_AUTHENTICATOR]: {
@@ -147,7 +161,6 @@ module.exports = {
       return BaseView;
     }
     const View = config[authenticatorType] || config[DEFAULT];
-
     if (!View) {
       Logger.warn(`Cannot find customized View for ${formName} + ${authenticatorType}.`);
       return BaseView;
