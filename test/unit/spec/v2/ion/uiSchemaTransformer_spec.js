@@ -11,6 +11,7 @@ import XHRAuthenticatorRequiredEmail  from '../../../../../playground/mocks/data
 import XHRAuthenticatorEnrollSelectAuthenticators  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator.json';
 import XHRAuthenticatorEnrollDataPhone  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone.json';
 import XHRAuthenticatorEnrollSecurityQuestion  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-security-question.json';
+import XHRAuthenticatorEnrollOktaVerifyQr from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr';
 import XHRIdentifyResponse from '../../../../../playground/mocks/data/idp/idx/identify.json';
 
 describe('v2/ion/uiSchemaTransformer', function () {
@@ -548,6 +549,53 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       'authenticatorId': 'aid568g3mXgtID0X1GGG',
                       'id': 'security-question-enroll-id-123'
                     }
+                  },
+                  {
+                    'label': 'Okta Verify',
+                    'value': {
+                      'form': {
+                        'value': [
+                          {
+                            'name': 'id',
+                            'value': 'aut1erh5wK1M8wA3g0g4',
+                            'required': true,
+                            'mutable': false,
+                          },
+                          {
+                            'name': 'channel',
+                            'required': false,
+                            'type': 'string',
+                            'options': [{
+                              'value': 'qrcode',
+                              'label': 'QRCODE'
+                            }, {
+                              'value': 'sms',
+                              'label': 'SMS'
+                            }, {
+                              'value': 'email',
+                              'label': 'EMAIL'
+                            }]
+                          }
+                        ]
+                      }
+                    },
+                    'relatesTo': {
+                      'displayName': 'Okta Verify',
+                      'type': 'app',
+                      'authenticatorId': 'aut1erh5wK1M8wA3g0g4',
+                      'id': 'okta-verify-enroll-id-123',
+                      'methods': [
+                        {
+                          'type': 'signed_nonce'
+                        },
+                        {
+                          'type': 'push'
+                        },
+                        {
+                          'type': 'totp'
+                        }
+                      ]
+                    }
                   }
                 ]
               },
@@ -591,6 +639,14 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     },
                     'authenticatorType': 'security_question',
                     'relatesTo': XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[3]
+                  },
+                  {
+                    'label': 'Okta Verify',
+                    'value': {
+                      'id': 'aut1erh5wK1M8wA3g0g4'
+                    },
+                    'authenticatorType': 'app',
+                    'relatesTo': XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[4]
                   },
                 ]
               }
@@ -1186,6 +1242,35 @@ describe('v2/ion/uiSchemaTransformer', function () {
         ],
         'idx': idxResp
       });
+    });
+  });
+
+  it('converts select channel response for Okta verify', (done) => {
+    MockUtil.mockIntrospect(done, XHRAuthenticatorEnrollOktaVerifyQr, idxResp => {
+      const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
+      expect(result.remediations[1].uiSchema).toEqual([{
+        name: 'authenticator.id',
+        value: 'aidtheidkwh282hv8g3',
+        required: true,
+        mutable: false,
+        visible: false,
+        'label-top': true,
+        type: 'text'
+      }, {
+        name: 'authenticator.channel',
+        required: true,
+        visible: true,
+        options: [{
+          value: 'sms',
+          label: 'SMS'
+        }, {
+          value: 'email',
+          label: 'Email'
+        }],
+        value: 'sms',
+        'label-top': true,
+        type: 'radio'
+      }]);
     });
   });
 });
