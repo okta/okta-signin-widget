@@ -42,44 +42,6 @@
                 "relatesTo": "$.authenticatorEnrollments.value[0]"
               },
               {
-                "label": "Okta Verify",
-                "value": {
-                  "form": {
-                    "value": [
-                      {
-                        "name": "id",
-                        "value": "auttheidkwh282hv8g3",
-                        "required": true,
-                        "mutable": false,
-                        "visible": false
-                      },
-                      {
-                        "name": "methodType",
-                        "required": true,
-                        "mutable": false,
-                        "visible": false,
-                        "type": "string",
-                        "options": [
-                          {
-                            "value": "signed_nonce",
-                            "label": "Use Okta FastPass"
-                          },
-                          {
-                            "value": "push",
-                            "label": "Get a push notification"
-                          },
-                          {
-                            "value": "totp",
-                            "label": "Enter a code"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                },
-                "relatesTo": "$.authenticatorEnrollments.value[7]"
-              },
-              {
 
                 "label": "FIDO2 (WebAuthn)",
                 "value": {
@@ -241,6 +203,30 @@
                   }
                 },
                 "relatesTo": "$.authenticatorEnrollments.value[6]"
+              },
+              {
+                "label": "Okta Verify",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "auttheidkwh282hv8g3",
+                        "required": true,
+                        "mutable": false,
+                        "visible": false
+                      },
+                      {
+                        "name": "methodType",
+                        "value": "signed_nonce",
+                        "required": true,
+                        "mutable": false,
+                        "visible": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[7]"
               }
             ]
           },

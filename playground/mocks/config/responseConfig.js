@@ -26,6 +26,7 @@ const idx = {
     // 'authenticator-verification-phone-voice',
     // 'authenticator-verification-security-question',
     // 'authenticator-verification-select-authenticator',
+    // 'authenticator-verification-select-authenticator-ov-m2',
     // 'authenticator-verification-webauthn',
     // 'authenticator-reset-password',
     // 'authenticator-expired-password',
