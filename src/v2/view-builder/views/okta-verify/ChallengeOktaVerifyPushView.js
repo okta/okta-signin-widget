@@ -1,5 +1,6 @@
 import { _, loc, createButton, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
+import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
@@ -29,13 +30,14 @@ const Body = BaseForm.extend(Object.assign(
     initialize () {
       BaseForm.prototype.initialize.apply(this, arguments);
       this.listenTo(this.model, 'error', this.stopPush);
+      this.listenTo(this.model, 'change:isPushSent', this.setButtonState.bind(this));
+      this.listenTo(this.options.appState, 'switchForm', this.stopPolling.bind(this));
       this.addView();
     },
 
     addView () {
       this.add(createButton({
         className: 'ul-button button button-wide button-primary send-push',
-        title: loc('oie.okta_verify.push.sent', 'login'),
         click: () => {
           this.startPush();
         }
@@ -47,7 +49,8 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     startPush () {
-      this.disablePush();
+      this.clearErrors();
+      this.model.set('isPushSent', true);
       this.startDevicePolling();
       warningTimeout = Util.callAfterTimeout(_.bind(function () {
         this.showWarning(loc('oktaverify.warning', 'login'));
@@ -57,21 +60,20 @@ const Body = BaseForm.extend(Object.assign(
     stopPush () {
       this.stopPolling();
       this.clearWarning();
-      this.enablePush();
+      this.model.set('isPushSent', false);
     },
 
-    disablePush () {
+    setButtonState () {
       const button = this.$el.find('.send-push');
-      button.addClass('link-button-disabled');
-      button.html(loc('oie.okta_verify.push.sent', 'login'));
-      button.prop('disabled', true);
-    },
-
-    enablePush () {
-      const button = this.$el.find('.send-push');
-      button.removeClass('link-button-disabled');
-      button.html(loc('oie.okta_verify.push.send', 'login'));
-      button.prop('disabled', false);
+      if (this.model.get('isPushSent')) {
+        button.addClass('link-button-disabled');
+        button.html(loc('oie.okta_verify.push.sent', 'login'));
+        button.prop('disabled', true);
+      } else {
+        button.removeClass('link-button-disabled');
+        button.html(loc('oie.okta_verify.push.send', 'login'));
+        button.prop('disabled', false);
+      }
     },
 
     showWarning (msg) {
@@ -93,4 +95,20 @@ const Body = BaseForm.extend(Object.assign(
 export default BaseAuthenticatorView.extend({
   Body,
   Footer: AuthenticatorVerifyFooter,
+
+  createModelClass () {
+    const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
+    const local = Object.assign(
+      {
+        isPushSent: {
+          'value': false,
+          'type': 'boolean',
+        },
+      },
+      ModelClass.prototype.local,
+    );
+    return ModelClass.extend({
+      local,
+    });
+  },
 });

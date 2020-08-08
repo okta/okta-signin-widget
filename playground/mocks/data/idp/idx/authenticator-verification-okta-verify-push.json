@@ -204,7 +204,7 @@
       "create-form"
     ],
     "name": "cancel",
-    "href": "https://idx.okta1.com/idp/idx/cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
     "method": "POST",
     "accepts": "application/vnd.okta.v1+json",
     "value": [

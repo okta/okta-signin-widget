@@ -373,5 +373,5 @@ const ovPushError = {
 };
 
 module.exports = {
-  mocks: ovPushError,
+  mocks: idx,
 };
