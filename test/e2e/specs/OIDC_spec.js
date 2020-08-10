@@ -77,7 +77,7 @@ describe('OIDC flows', function () {
         }
       });
       primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_5}}}', '{{{WIDGET_BASIC_PASSWORD_5}}}');
-      expect(primaryAuth.getErrorMessage()).toBe('User is not assigned to the client application.');
+      expect(primaryAuth.getErrorMessage()).toBe('Users is not assigned to the client application.');
     });
 
     it('can login and get a token and id_token', function () {

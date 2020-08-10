@@ -65,7 +65,7 @@ test
     await t.expect(JSON.parse(log[2])).eql({
       controller: 'mfa-verify-passcode',
       formName: 'challenge-authenticator',
-      authenticatorType: 'email',
+      authenticatorType: 'phone',
     });
 
     const pageTitle = challengeEmailPageObject.getPageTitle();

@@ -29,7 +29,7 @@ describe('Angular flows', function () {
     primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
 
     // expect to see protected
-    var protectedText = element(by.xpath('//app-secure[text()="Protected endpoint!"]'));
+    var protectedText = element(by.xpath('//app-secure[text()="Protected endpoints!"]'));
     browser.wait(until.presenceOf(protectedText), 10000, 'Not able to detect protected route');
 
     // log out of Okta session

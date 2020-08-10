@@ -12023,6 +12023,11 @@ testcafe-reporter-json@^2.1.0:
   resolved "https://registry.yarnpkg.com/testcafe-reporter-json/-/testcafe-reporter-json-2.2.0.tgz#bb061e054489abdb62add745dd979896b618ea91"
   integrity sha512-wfpNaZgGP2WoqdmnIXOyxcpwSzdH1HvzXSN397lJkXOrQrwhuGUThPDvyzPnZqxZSzXdDUvIPJm55tCMWbfymQ==
 
+testcafe-reporter-junit@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/testcafe-reporter-junit/-/testcafe-reporter-junit-3.0.2.tgz#108a713d4b59233ed597a6f0b380a26c39095cd7"
+  integrity sha512-6s9Mk+64FBVv86xBURg9QvFMGgNHJlTRJ8QdizUiN4V+bxPIl20/2F3pLVQU5wolL4QnmJgbeK+cT0tnewOnWw==
+
 testcafe-reporter-list@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/testcafe-reporter-list/-/testcafe-reporter-list-2.1.0.tgz#9fa89f71b97d3dfe64b4302d5e227dee69aec6b9"

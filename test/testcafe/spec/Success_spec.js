@@ -28,4 +28,3 @@ test('should navigate to redirect link google.com after success', async t => {
   await t.expect(pageUrl)
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
-
