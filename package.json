@@ -53,7 +53,7 @@
     "test:e2e": "yarn build:release && yarn start:react && yarn start:angular && grunt test-e2e",
     "test:e2e:windows": "export SAUCE_PLATFORM_NAME=windows && yarn test:e2e",
     "test:testcafe-setup": "mkdir -p test-reports/testcafe && yarn start --no-open",
-    "test:testcafe-run": "wait-on http-get://localhost:3000 && testcafe -c 2 chrome:headless test/testcafe/spec/",
+    "test:testcafe-run": "wait-on http-get://localhost:3000 && testcafe -c 2 chrome:headless test/testcafe/spec/ --reporter xunit:build2/reports/junit/testcafe-results.xml",
     "test:testcafe-ci": "run-p -r test:testcafe-setup \"test:testcafe-run\" -- 2>/dev/null",
     "protractor": "node ./scripts/update-se-drivers.js && protractor target/e2e/conf.js",
     "build:dev": "grunt build:dev",
@@ -149,6 +149,7 @@
     "cross-fetch": "^3.0.4",
     "eslint-plugin-jasmine": "^4.1.0",
     "handlebars": "^4.5.3",
+    "jasmine-reporters": "^2.3.2",
     "q": "1.4.1",
     "u2f-api-polyfill": "0.4.3",
     "underscore": "1.8.3"

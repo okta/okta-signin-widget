@@ -32,22 +32,22 @@ Run all similar tests that matches the pattern
 ### To run testcafe without building playground each time you run test
 
 Start playground at one terminal and run the test in another terminal.
-Useful at development time in order to get quicker feedback.
+Useful during development in order to get quicker feedback.
 
 - `yarn test:testcafe-setup`
 
 - `yarn testcafe chrome test/testcafe/spec`
 - `yarn testcafe chrome test/testcafe/spec -T "should.*`
 
-Note: Above command directly runs testcafe which is different then test:testcafe
+Note: Above command directly runs testcafe which is different than test:testcafe
 
 Live reload test for faster development
 
 - `yarn testcafe chrome test/testcafe/spec -f "Unknown user form" --live`
 
-## Guideline for writting test
+## Guideline for writing test
 
-Currently there are two patterns for writting test
+Currently there are two patterns for writing test
 
 ### Page level unit test
 
@@ -56,6 +56,6 @@ The mindset is to
   - verify the page elements
   - and any interactions
 
-### Mulit-pages flow
+### Multi-pages flow
 
 This is useful when you want to test sort of real world user flow.
