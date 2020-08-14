@@ -22,7 +22,7 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
 
   Expect.describe('EnrollPassword', function () {
 
-    function setup (startRouter, restrictRedirectToForeground) {
+    function setup (startRouter) {
       var setNextResponse = Util.mockAjax();
       var baseUrl = 'https://foo.com';
       var authClient = new OktaAuth({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
@@ -33,7 +33,6 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
         baseUrl: baseUrl,
         authClient: authClient,
         'features.router': startRouter,
-        'features.restrictRedirectToForeground': restrictRedirectToForeground,
         globalSuccessFn: successSpy,
       });
       router.on('afterError', afterErrorHandler);
@@ -103,37 +102,9 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Log
           Util.stopRouter();
         });
     });
-    itp('calls enroll with the right arguments when save is clicked', function () {
-      return setup().then(function (test) {
-        Util.resetAjaxRequests();
-        test.form.setPassword('somepassword');
-        test.form.setConfirmPassword('somepassword');
-        test.setNextResponse(resSuccess);
-        spyOn(RouterUtil, 'isHostBackgroundChromeTab').and.callThrough();
-        test.form.submit();
-        return Expect.waitForSpyCall(test.successSpy, test);
-      })
-        .then(function () {
-          // restrictRedirectToForeground Flag is not enabled
-          expect(RouterUtil.isHostBackgroundChromeTab).not.toHaveBeenCalled();
-          expect(Util.numAjaxRequests()).toBe(1);
-          Expect.isJsonPost(Util.getAjaxRequest(0), {
-            url: 'https://foo.com/api/v1/authn/factors',
-            data: {
-              factorType: 'password',
-              provider: 'OKTA',
-              profile: {
-                password: 'somepassword'
-              },
-              stateToken: '01testStateToken'
-            }
-          });
-        });
-    });
 
-    itp(`calls enroll with the right arguments when save is clicked in android chrome
-      in restrictRedirectToForeground flow`, function () {
-      return setup(false, true).then(function (test) {
+    itp('calls enroll with the right arguments when save is clicked', function () {
+      return setup(false).then(function (test) {
         Util.resetAjaxRequests();
         test.form.setPassword('somepassword');
         test.form.setConfirmPassword('somepassword');
