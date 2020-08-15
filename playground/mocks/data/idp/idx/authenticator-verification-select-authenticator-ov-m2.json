@@ -20,7 +20,7 @@
             "type": "object",
             "options": [
               {
-                "label": "Okta Verify",
+                "label": "",
                 "value": {
                   "form": {
                     "value": [
@@ -32,6 +32,9 @@
                       },
                       {
                         "name": "methodType",
+                        "type": "string",
+                        "required": false,
+                        "mutable": false,
                         "options": [
                           {
                             "value": "signed_nonce",
@@ -45,9 +48,7 @@
                             "value": "totp",
                             "label" :  "Enter a code"
                           }
-                        ],
-                        "required": true,
-                        "mutable": false
+                        ]
                       }
                     ]
                   }
@@ -95,16 +96,16 @@
       {
         "type": "app",
         "id": "auteq0lLiL9o1cYoN0g4",
-        "displayName": "Okta Verify",
+        "displayName": "",
         "methods": [
           {
-            "value": "signed_nonce"
+            "type": "signed_nonce"
           },
           {
-            "value": "push" 
+            "type": "push"
           },
           {
-            "value": "totp" 
+            "type": "totp"
           }
         ]
       },
@@ -114,7 +115,7 @@
         "displayName": "Okta Password",
         "methods": [
           {
-            "value": "password"
+            "type": "password"
           }
         ]
       }
@@ -124,22 +125,22 @@
     "type": "array",
     "value": [
       {
-        "type": "okta_verify",
+        "type": "app",
         "id": "aentheidkwh282hv8g3",
-        "displayName": "Okta Verify",
+        "displayName": "",
         "methods": [ 
-          { "methodType": "signed_nonce" },
-          { "methodType": "push" },
-          { "methodType": "totp" }
+          { "type": "signed_nonce" },
+          { "type": "push" },
+          { "type": "totp" }
          ]
       },
      {
-        "type": "okta_verify",
+        "type": "app",
         "id": "aentheidkwh2823",
-        "displayName": "Okta Verify",
+        "displayName": "",
         "methods": [ 
-           { "methodType": "push" },
-           { "methodType": "totp" } 
+           { "type": "push" },
+           { "type": "totp" }
          ]
       },
       {
@@ -147,7 +148,7 @@
         "id": "auttmbseAWnMPtLe20g3",
         "displayName": "Okta Password",
         "methods": [ 
-          { "methodType": "password" }
+          { "type": "password" }
         ]
       }
     ]
