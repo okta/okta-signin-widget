@@ -4,7 +4,7 @@ import ChallengeOktaVerifyPushPageObject from '../framework/page-objects/Challen
 
 import pushPoll from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push';
 import success from '../../../playground/mocks/data/idp/idx/success';
-import pushReject from '../../../playground/mocks/data/idp/idx/error-okta-verify-push';
+import pushReject from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-reject-push';
 
 const logger = RequestLogger(/challenge|challenge\/poll/,
   {
@@ -23,7 +23,7 @@ const pushRejectMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(pushPoll)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(pushReject, 403);
+  .respond(pushReject);
 
 const pushWaitMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -51,6 +51,7 @@ test
       controller: 'mfa-verify',
       formName: 'challenge-poll',
       authenticatorType: 'app',
+      methodType: 'push',
     });
 
     const pageTitle = challengeOktaVerifyPushPageObject.getPageTitle();
@@ -64,10 +65,13 @@ test
   .requestHooks(pushRejectMock)('challenge okta verify with rejected push', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await challengeOktaVerifyPushPageObject.waitForErrorBox();
-    await t.expect(challengeOktaVerifyPushPageObject.getError()).contains('You have chosen to reject this login.');
-    const pushBtn = challengeOktaVerifyPushPageObject.getPushButton();
-    await t.expect(pushBtn.textContent).contains('Send push notification');
-    await t.expect(pushBtn.hasClass('link-button-disabled')).notOk();
+    const pageTitle = challengeOktaVerifyPushPageObject.getPageTitle();
+    await t.expect(pageTitle).contains('Get a push notification');
+    const errorBox = challengeOktaVerifyPushPageObject.getErrorBox();
+    await t.expect(errorBox.innerText).contains('You have chosen to reject this login.');
+    const resendPushBtn = challengeOktaVerifyPushPageObject.getResendPushButton();
+    await t.expect(resendPushBtn.value).contains('Send push notification');
+    await t.expect(resendPushBtn.hasClass('link-button-disabled')).notOk();
   });
 
 test
@@ -91,6 +95,31 @@ test
     });
     await t.expect(answerRequestMethod).eql('post');
     await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/challenge/poll');
+  });
+
+test
+  .requestHooks(logger, pushRejectMock)('challenge okta verify resend push request', async t => {
+    const challengeOktaVerifyPushPageObject = await setup(t);
+    await challengeOktaVerifyPushPageObject.waitForErrorBox();
+    await challengeOktaVerifyPushPageObject.clickResendPushButton();
+
+    await t.expect(logger.count(() => true)).eql(2);
+    const { request: {
+      body: answerRequestBodyString,
+      method: answerRequestMethod,
+      url: answerRequestUrl,
+    }
+    } = logger.requests[1];
+    const answerRequestBody = JSON.parse(answerRequestBodyString);
+    await t.expect(answerRequestBody).eql({
+      authenticator: {
+        id: 'auteq0lLiL9o1cYoN0g4',
+        methodType: 'push',
+      },
+      stateHandle: '022P5Fd8jBy3b77XEdFCqnjz__5wQxksRfrAS4z6wP'
+    });
+    await t.expect(answerRequestMethod).eql('post');
+    await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/challenge');
   });
 
 test
