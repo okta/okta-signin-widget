@@ -21,6 +21,9 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
   [FORMS.CHALLENGE_POLL]: {
     app: 'mfa-verify',
   },
+  [FORMS.RESEND_PUSH]: {
+    app: 'mfa-verify',
+  },
   [FORMS.ENROLL_AUTHENTICATOR]: {
     email: 'enroll-email',
     password: 'enroll-password',

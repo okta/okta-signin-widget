@@ -377,7 +377,7 @@ const ovPushError = {
     'authenticator-verification-okta-verify-push',
     'authenticator-verification-okta-verify-push',
     'authenticator-verification-okta-verify-push',
-    'error-okta-verify-push',
+    'authenticator-verification-okta-verify-reject-push',
   ],
 };
 
