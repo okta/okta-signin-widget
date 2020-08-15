@@ -46,6 +46,7 @@ test
       controller: 'mfa-verify',
       formName: 'challenge-authenticator',
       authenticatorType: 'app',
+      methodType: 'totp',
     });
 
     const pageTitle = challengeOktaVerifyTOTPPageObject.getPageTitle();

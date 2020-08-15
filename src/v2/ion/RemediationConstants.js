@@ -20,6 +20,7 @@ const FORMS = {
   AUTHENTICATOR_VERIFICATION_DATA: 'authenticator-verification-data',
   CHALLENGE_AUTHENTICATOR: 'challenge-authenticator',
   CHALLENGE_POLL: 'challenge-poll',
+  RESEND_PUSH: 'resend-push',
 
   SELECT_AUTHENTICATOR_ENROLL: 'select-authenticator-enroll',
   SELECT_AUTHENTICATOR_ENROLL_DATA: 'select-authenticator-enroll-data',
@@ -67,7 +68,9 @@ const FORMS_WITH_STATIC_BACK_LINK = [
 
 const FORMS_FOR_VERIFICATION = [
   FORMS.SELECT_AUTHENTICATOR_AUTHENTICATE,
-  FORMS.CHALLENGE_AUTHENTICATOR
+  FORMS.CHALLENGE_AUTHENTICATOR,
+  FORMS.CHALLENGE_POLL,
+  FORMS.RESEND_PUSH
 ];
 
 export {

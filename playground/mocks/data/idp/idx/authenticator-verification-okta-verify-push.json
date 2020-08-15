@@ -42,7 +42,7 @@
             "type": "object",
             "options": [
               {
-                "label": "Okta Verify",
+                "label": "",
                 "value": {
                   "form": {
                     "value": [
@@ -55,7 +55,7 @@
                       },
                       {
                         "name": "methodType",
-                        "required": true,
+                        "required": false,
                         "mutable": false,
                         "visible": false,
                         "type": "string",
@@ -117,13 +117,11 @@
   "currentAuthenticator":{
     "type":"object",
     "value": {
-      "profile": {
-        "name": "Okta Verify"
-      },
       "type": "app", 
       "id": "auttheidkwh282hv8g3",
+      "displayName": "",
       "methods": [
-        { "methodType": "push" }
+        { "type": "push" }
       ]
     }
   },
@@ -133,16 +131,16 @@
       {
         "type": "app",
         "id": "auteq0lLiL9o1cYoN0g4",
-        "displayName": "Okta Verify",
+        "displayName": "",
         "methods": [
           {
-            "value": "signed_nonce"
+            "type": "signed_nonce"
           },
           {
-            "value": "push"
+            "type": "push"
           },
           {
-            "value": "totp"
+            "type": "totp"
           }
         ]
       },
@@ -152,7 +150,7 @@
         "displayName": "Okta Password",
         "methods": [
           {
-            "value": "password"
+            "type": "password"
           }
         ]
       }
@@ -162,32 +160,37 @@
     "type": "array",
     "value": [
       {
-        "displayName": "Okta Verify",
+        "displayName": "",
         "type": "app",
         "id": "aen1mz5J4cuNoaR3l0g4",
         "authenticatorId": "auttheidkwh282hv8g3",
         "methods": [ 
-          { "methodType": "signed_nonce" },
-          { "methodType": "push" },
-          { "methodType": "totp" } 
+          { "type": "signed_nonce" },
+          { "type": "push" },
+          { "type": "totp" }
         ]
       },
       {
-        "displayName": "Okta Verify",
+        "displayName": "",
         "type": "app",
         "id": "aen1mz5J4cuNoaR3l0g3",
         "authenticatorId": "auttheidkwh282hv8g3",
         "methods": [ 
-          { "methodType": "signed_nonce" },
-          { "methodType": "push" },
-          { "methodType": "totp" } 
+          { "type": "signed_nonce" },
+          { "type": "push" },
+          { "type": "totp" }
         ]
       },
       {
         "displayName": "Okta Password",
         "type": "password",
         "id": "autwa6eD9o02iBbtv0g1",
-        "authenticatorId": "aidwboITrg4b4yAYd0g3"
+        "authenticatorId": "aidwboITrg4b4yAYd0g3",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ]
       }
     ]
   },

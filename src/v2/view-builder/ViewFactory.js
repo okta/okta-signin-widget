@@ -55,6 +55,7 @@ import SelectEnrollmentChannelOktaVerifyView from './views/ov/SelectEnrollmentCh
 import EnrollementChannelDataOktaVerifyView from './views/ov/EnrollementChannelDataOktaVerifyView';
 import ChallengeOktaVerifyView from './views/ov/ChallengeOktaVerifyView';
 import ChallengeOktaVerifyPushView from './views/ov/ChallengeOktaVerifyPushView';
+import ChallengeOktaVerifyResendPushView from './views/ov/ChallengeOktaVerifyResendPushView';
 
 const DEFAULT = '_';
 
@@ -141,6 +142,9 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.CHALLENGE_POLL]: {
     app: ChallengeOktaVerifyPushView,
+  },
+  [RemediationForms.RESEND_PUSH]: {
+    [DEFAULT]: ChallengeOktaVerifyResendPushView,
   },
   [RemediationForms.AUTHENTICATOR_VERIFICATION_DATA]: {
     phone: ChallengeAuthenticatorDataPhoneView,
