@@ -8,6 +8,10 @@
     "value": [
       {
         "message": "You have chosen to reject this login.",
+        "i18n": {
+          "key": "api.authn.poll.error.push_rejected",
+          "params": []
+        },
         "class": "ERROR"
       }
     ]
@@ -19,15 +23,38 @@
         "rel":[
           "create-form"
         ],
-        "name":"challenge-poll",
+        "name":"resend-push",
         "relatesTo":[
           "$.currentAuthenticator"
         ],
-        "href":"http://localhost:3000/idp/idx/challenge/poll",
+        "href":"http://localhost:3000/idp/idx/challenge",
         "method":"POST",
         "accepts":"application/vnd.okta.v1+json",
-        "refresh": 4000,
-        "value":[
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "label": "Okta Verify",
+            "value": {
+              "form": {
+                "value": [
+                  {
+                    "name": "id",
+                    "value": "auteq0lLiL9o1cYoN0g4",
+                    "required": true,
+                    "mutable": false
+                  },
+                  {
+                    "name": "methodType",
+                    "value" : "push",
+                    "label" :  "PUSH",
+                    "required": true,
+                    "mutable": false
+                  }
+                ]
+              }
+            }
+          },
           {
             "name": "stateHandle",
             "required": true,
