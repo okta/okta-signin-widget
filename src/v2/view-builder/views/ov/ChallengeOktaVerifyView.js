@@ -1,6 +1,6 @@
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
-import ChallengeOktaVerifyTotpView from './ChallengeOktaVerifyTotpView';
+import ChallengeOktaVerifyPushView from './ChallengeOktaVerifyPushView';
 import ChallengeOktaVerifyFastPassView from './ChallengeOktaVerifyFastPassView';
 
 export default BaseAuthenticatorView.extend({
@@ -9,8 +9,8 @@ export default BaseAuthenticatorView.extend({
 
     const currentAuthenticator = this.options?.appState?.get('currentAuthenticator');
     const selectedMethod = currentAuthenticator?.methods[0];
-    if (selectedMethod?.type === 'totp') {
-      this.Body = ChallengeOktaVerifyTotpView;
+    if (selectedMethod?.type === 'push') {
+      this.Body = ChallengeOktaVerifyPushView;
       this.Footer = AuthenticatorVerifyFooter;
     } else {
       this.Body = ChallengeOktaVerifyFastPassView;
