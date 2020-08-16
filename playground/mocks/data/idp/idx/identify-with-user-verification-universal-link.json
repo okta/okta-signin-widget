@@ -13,7 +13,7 @@
         "relatesTo": [
           "$.currentAuthenticatorEnrollment"
         ],
-        "name": "challenge-authenticator", 
+        "name": "challenge-poll",
         "href": "http://localhost:3000/idp/idx/authenticators/poll",  
         "method": "POST",
         "accepts": "application/vnd.okta.v1+json",

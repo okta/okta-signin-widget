@@ -1,8 +1,6 @@
 import { _, loc, createButton, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import BaseForm from '../../internals/BaseForm';
-import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
 import polling from '../shared/polling';
 import { WARNING_TIMEOUT } from '../../utils/Constants';
 
@@ -77,7 +75,4 @@ const Body = BaseForm.extend(Object.assign(
   polling,
 ));
 
-export default BaseAuthenticatorView.extend({
-  Body,
-  Footer: AuthenticatorVerifyFooter,
-});
+export default Body;
