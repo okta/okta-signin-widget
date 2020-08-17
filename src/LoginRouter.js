@@ -61,6 +61,7 @@ define([
   'RegistrationController',
   'RegistrationCompleteController',
   'ConsentRequiredController',
+  'AdminConsentRequiredController',
   'EnrollUserController',
   'views/shared/SecurityBeacon',
   'views/shared/FactorBeacon',
@@ -116,6 +117,7 @@ function (BaseLoginRouter,
   RegistrationController,
   RegistrationCompleteController,
   ConsentRequiredController,
+  AdminConsentRequiredController,
   EnrollUserController,
   SecurityBeacon,
   FactorBeacon,
@@ -184,6 +186,7 @@ function (BaseLoginRouter,
       'signin/register': 'register',
       'signin/register-complete': 'registerComplete',
       'signin/consent': 'consentRequired',
+      'signin/admin-consent': 'adminConsentRequired',
       'signin/enroll-user': 'enrollUser',
       '*wildcard': 'defaultAuth'
     },
@@ -576,6 +579,10 @@ function (BaseLoginRouter,
 
     consentRequired: function () {
       this.render(ConsentRequiredController);
+    },
+
+    adminConsentRequired: function () {
+      this.render(AdminConsentRequiredController);
     },
 
     enrollUser: function () {

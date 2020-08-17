@@ -306,6 +306,7 @@ define([
     BarcodePush: 'barcode-push',
     BarcodeTotp: 'barcode-totp',
     ConsentRequired: 'consent-required',
+    AdminConsentRequired: 'admin-consent-required',
     EnrollCall: 'enroll-call',
     EnrollChoices: 'enroll-choices',
     EnrollDuo: 'enroll-duo',

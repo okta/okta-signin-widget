@@ -210,7 +210,7 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       }
       return;
     case 'ADMIN_CONSENT_REQUIRED':
-      router.navigate('signin/consent', {trigger: true});
+      router.navigate('signin/admin-consent', {trigger: true});
       return;
     case 'CONSENT_REQUIRED':
       if (router.settings.get('features.consent')) {

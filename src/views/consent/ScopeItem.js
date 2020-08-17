@@ -33,7 +33,7 @@ define([
         content: {
           text: this.options.description
         },
-        style: { classes: 'okta-sign-in-tooltip qtip-custom qtip-shadow' },
+        style: { classes: 'okta-tooltip qtip-custom qtip-shadow' },
         position: {
           my: 'bottom right',
           target: 'mouse'
