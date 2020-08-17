@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2017, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -13,29 +13,26 @@
 import { View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import 'qtip';
+
 export default View.extend({
   className: 'scope-item',
-  template: hbs(
-    '\
-      <div class="scope-item-text">\
-        <p>{{name}}</p>\
-      </div>\
-      {{#if description}}\
-        <span class="scope-item-tooltip icon form-help-16"></span>\
-      {{/if}}\
-    '
-  ),
+  template: hbs`
+    <p class="scope-item-text">{{name}}</p>
+    {{#if description}}
+    <span class="scope-item-tooltip icon form-help-16" />
+    {{/if}}`,
 
   postRender: function () {
     this.$('.scope-item-tooltip').qtip({
       content: {
-        text: this.options.description,
+        text: this.options.description
       },
       style: { classes: 'okta-tooltip qtip-custom qtip-shadow' },
       position: {
-        my: 'bottom right',
-        target: 'mouse',
-      },
+        my: 'bottom left',
+        target: 'mouse'
+      }
     });
-  },
+  }
 });
+
