@@ -11,7 +11,6 @@ module.exports = (config) => {
     browsers: ['ChromeHeadlessNoSandbox'],
     frameworks: ['karma-overrides', 'jasmine-jquery', 'jasmine'],
     files: [
-      './node_modules/babel-polyfill/dist/polyfill.js',
       { pattern: './test/unit/main.js', watched: false },
       { pattern: './test/unit/assets/*', watched: false, included: false, served: true, nocache: false },
       { pattern: './target/css/*.css', watched: true, included: true, served: true },
@@ -27,7 +26,7 @@ module.exports = (config) => {
       'karma-*',
       karmaOverrides,
     ],
-    reporters: ['progress', 'junit'],
+    reporters: ['junit', 'mocha'],
     junitReporter: {
       outputDir: `${rootDir}/build2/reports/unit`,
       outputFile: 'okta-sign-in-widget-junit-result.xml',
@@ -62,16 +61,19 @@ module.exports = (config) => {
         base: 'ChromeHeadless',
         flags: ['--no-sandbox']
       }
-
     },
-
+    customHeaders: [{
+      match: '.*.html',
+      name: 'Content-Security-Policy',
+      value: 'script-src http: \'unsafe-inline\''
+    }]
   };
 
   // instrument code for coverage report
   if (config.reporters.includes('coverage')) {
     const rules = options.webpack.module.rules;
     const babelRule = rules.find(rule => rule.loader === 'babel-loader');
-    babelRule.query.plugins = babelRule.query.plugins.concat(['babel-plugin-istanbul']);
+    babelRule.options.plugins = babelRule.options.plugins.concat(['babel-plugin-istanbul']);
   }
 
   config.set(options);

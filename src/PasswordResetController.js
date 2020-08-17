@@ -18,9 +18,11 @@ define([
   'util/FactorUtil',
   'util/Util',
   'views/shared/FooterSignout',
-  'views/shared/TextBox'
+  'views/shared/TextBox',
+  'views/shared/PasswordRequirements'
 ],
-function (Okta, FormController, FormType, ValidationUtil, FactorUtil, Util, FooterSignout, TextBox) {
+function (Okta, FormController, FormType, ValidationUtil, FactorUtil, Util, FooterSignout, TextBox,
+  PasswordRequirements) {
 
   var _ = Okta._;
 
@@ -54,14 +56,37 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, Util, Foot
       },
       subtitle: function () {
         var policy = this.options.appState.get('policy');
-        if (!policy) {
+        if (!policy || this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
           return;
         }
 
         return FactorUtil.getPasswordComplexityDescription(policy);
       },
+      parseErrorMessage: function (responseJSON) {
+        var policy = this.options.appState.get('policy');
+        if (!!policy && this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
+          /*
+            - This is a specific case where don't want to repeat the requirements again in the error message, since this
+              is already shown in the description. The description as bullet-points itself should give an indication
+              of the requirements.
+            - We cannot check for error code this in this case, as the error code is shared between
+              requirements not met message, common password message, etc. So error summary is the only differentiating
+              factor. Replace the password requirements string with empty string in this case.
+          */
+          responseJSON = FactorUtil.removeRequirementsFromError(responseJSON, policy);
+        }
+        return responseJSON;
+      },
       formChildren: function () {
-        return [
+        var children = [];
+
+        if (this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
+          children.push(FormType.View({
+            View: new PasswordRequirements({ policy: this.options.appState.get('policy') }),
+          }));
+        }
+
+        children = children.concat([
           FormType.Input({
             className: 'margin-btm-5',
             label: Okta.loc('password.newPassword.placeholder', 'login'),
@@ -87,7 +112,8 @@ function (Okta, FormController, FormType, ValidationUtil, FactorUtil, Util, Foot
             input: TextBox,
             type: 'password'
           })
-        ];
+        ]);
+        return children;
       }
     },
 

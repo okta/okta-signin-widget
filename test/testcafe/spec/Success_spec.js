@@ -1,16 +1,16 @@
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { RequestMock } from 'testcafe';
-import success from '../../../playground/mocks/idp/idx/data/success';
-import identify from '../../../playground/mocks/idp/idx/data/identify';
+import success from '../../../playground/mocks/data/idp/idx/success';
+import identify from '../../../playground/mocks/data/idp/idx/identify';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identify)
-  .onRequestTo('http://localhost:3000/idp/idx')
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(success);
 
-fixture(`Success Form`)
+fixture('Success Form')
   .requestHooks(mock);
 
 async function setup(t) {
@@ -19,7 +19,7 @@ async function setup(t) {
   return identityPage;
 }
 
-test(`should navigate to redirect link google.com after success`, async t => {
+test('should navigate to redirect link google.com after success', async t => {
   const identityPage = await setup(t);
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();

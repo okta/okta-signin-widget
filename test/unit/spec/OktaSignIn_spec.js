@@ -1,23 +1,25 @@
 /* eslint max-params:[0, 2] */
 define([
+  'okta',
+  'q',
   'widget/OktaSignIn',
   'helpers/util/Expect',
   'util/Logger',
-  'util/Util',
   'sandbox',
-  'helpers/xhr/v2/IDX_RESPONSE',
+  'helpers/xhr/v2/IDX_IDENTIFY',
   'helpers/xhr/UNAUTHENTICATED',
   'helpers/xhr/ERROR_invalid_token',
-  'okta',
-  'q',
-  'idx',
   'helpers/dom/v2/IdentifierForm',
   'helpers/dom/PrimaryAuthForm',
+  'helpers/mocks/Util',
   'jasmine-ajax',
 ],
-function (Widget, Expect, Logger, Util, $sandbox, idxResponse, introspectResponse, errorResponse, Okta, Q, idx, IdentifierForm, PrimaryAuthForm) {
-  var url = 'https://foo.com';
+function (Okta, Q, Widget, Expect, Logger, $sandbox, idxResponse, introspectResponse, errorResponse, IdentifierForm, PrimaryAuthForm, MockUtil) {
+
   const { $ } = Okta;
+  var url = 'https://foo.com';
+  var itp = Expect.itp;
+
   Expect.describe('OktaSignIn initialization', function () {
     var signIn;
     beforeEach(function () {
@@ -35,6 +37,7 @@ function (Widget, Expect, Logger, Util, $sandbox, idxResponse, introspectRespons
     });
     afterEach(function () {
       jasmine.Ajax.uninstall();
+      $sandbox.empty();
     });
 
     Expect.describe('Debug Mode', function () {
@@ -77,7 +80,7 @@ function (Widget, Expect, Logger, Util, $sandbox, idxResponse, introspectRespons
         it('has an options object', function () {
           expect(signIn.authClient.options).toBeDefined();
         });
-        
+
         it('SIW passes all config within authParams to OktaAuth', function () {
           const authParams = {
             // known params
@@ -192,7 +195,7 @@ function (Widget, Expect, Logger, Util, $sandbox, idxResponse, introspectRespons
           done();
         });
       });
-      
+
       it('triggers a ready event when the Widget is loaded with a recoveryToken', function (done) {
         signIn = new Widget({
           baseUrl: url,
@@ -312,39 +315,75 @@ function (Widget, Expect, Logger, Util, $sandbox, idxResponse, introspectRespons
 
   Expect.describe('OktaSignIn v2 bootstrap', function () {
     let signIn;
-    const form  = new IdentifierForm($sandbox);
+
     beforeEach(function () {
-      spyOn(Logger, 'warn');
-      signIn = new Widget({
-        baseUrl: url,
-        stateToken: '02stateToken',
-        features: {
-          router: true
-        }
-      });
+      spyOn(Logger, 'error');
     });
 
     afterEach(function () {
       signIn.remove();
     });
 
-    function setupIntrospect () {
-      spyOn(Util, 'introspectToken').and.callFake(function () {
-        return Q(idxResponse.response);
+    function setupIntrospect (options) {
+      signIn = new Widget(Object.assign({
+        baseUrl: url,
+        stateToken: '02stateToken',
+        apiVersion: '1.0.0',
+        features: {
+          router: true
+        }
+      }, options || {}));
+      MockUtil.mockAjax(idxResponse);
+
+      // Add customize parser for ION request
+      jasmine.Ajax.addCustomParamParser({
+        test: function (xhr) {
+          return xhr.contentType().indexOf('application/ion+json;') >= 0;
+        },
+        parse: function jsonParser (paramString) {
+          return JSON.parse(paramString);
+        }
       });
       signIn.renderEl({ el: $sandbox });
-      return Expect.wait(() => {
-        return ($('.siw-main-body').length === 1);
-      });
     }
+
     Expect.describe('Introspects token and loads Identifier view for new pipeline', function () {
-      it('calls introspect API on page load using idx-js as client', function () {
-        return setupIntrospect().then(function () {
-          expect(form.getTitle()).toBe('Sign In');
-          expect(form.getIdentifierInput().length).toBe(1);
-          expect(form.getIdentifierInput().attr('name')).toBe('identifier');
-          expect(form.getFormSaveButton().attr('value')).toBe('Next');
+
+      itp('calls introspect API on page load using idx-js as client', function () {
+        const form = new IdentifierForm($sandbox);
+        setupIntrospect();
+
+        return Expect.wait(() => {
+          return ($('.siw-main-body').length === 1);
+        })
+          .then(function () {
+            expect(form.getTitle()).toBe('Sign In');
+            expect(form.getIdentifierInput().length).toBe(1);
+            expect(form.getIdentifierInput().attr('name')).toBe('identifier');
+            expect(form.getFormSaveButton().attr('value')).toBe('Next');
+
+            expect(jasmine.Ajax.requests.count()).toBe(1);
+            const firstReq = jasmine.Ajax.requests.first();
+
+            expect(firstReq.data()).toEqual({ stateToken: '02stateToken' });
+            expect(firstReq.method).toBe('POST');
+            expect(firstReq.url).toBe('https://foo.com/idp/idx/introspect');
+          });
+      });
+
+      itp('throws an error if invalid version is passed to idx-js', function () {
+        setupIntrospect({
+          apiVersion: '2.0.0',
         });
+
+        return Expect.waitForSpyCall(Logger.error)
+          .then(() => {
+            expect(Logger.error.calls.count()).toBe(1);
+            var err = Logger.error.calls.mostRecent().args[0];
+            expect(err.name).toBe('CONFIG_ERROR');
+            expect(err.message.toString()).toEqual('Error: Unknown api version: 2.0.0.  Use an exact semver version.');
+          });
+
       });
     });
   });

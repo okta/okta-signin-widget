@@ -1225,6 +1225,51 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expect(ajaxArgs.requestHeaders['x-typing-pattern']).toBe(typingPattern);
           });
       });
+      itp('does not load deviceFingerprint when username field looses focus if username is empty', function () {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function () {
+          var deferred = Q.defer();
+          deferred.resolve('thisIsTheDeviceFingerprint');
+          return deferred.promise;
+        });
+        return setup({ features: { securityImage: true, deviceFingerprinting: true }})
+          .then(function (test) {
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('');
+            test.form.usernameField().focusout();
+            expect(DeviceFingerprint.generateDeviceFingerprint).not.toHaveBeenCalled();
+          });
+      });
+      itp('disables the "sign in" button while fetching fingerprint before model.save', function () {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function () {
+          var deferred = Q.defer();
+          deferred.resolve('thisIsTheDeviceFingerprint');
+          return deferred.promise;
+        });
+        return setup({ features: { securityImage: true, deviceFingerprinting: true, useDeviceFingerprintForSecurityImage: false }})
+          .then(function (test) {
+            test.securityBeacon = test.router.header.currentBeacon.$el;
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            test.form.setPassword('pass');
+            test.setNextResponse(resSuccess);
+            spyOn(PrimaryAuthController.prototype, 'toggleButtonState').and.callThrough();
+            test.form.submit();
+            return Expect.waitForSpyCall(test.successSpy);
+          })
+          .then(function () {
+            var spyCalls = PrimaryAuthController.prototype.toggleButtonState.calls;
+            expect(spyCalls.count()).toBe(3);
+            // get device fingerprint
+            expect(spyCalls.argsFor(0)).toEqual([true]);
+            // fingerprint ready
+            expect(spyCalls.argsFor(1)).toEqual([false]);
+            // submit creds to authn
+            expect(spyCalls.argsFor(2)).toEqual([true]);
+          });
+      });
     });
 
     Expect.describe('events', function () {
@@ -1249,6 +1294,32 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
               var spyCalls = test.securityBeacon.toggleClass.calls;
               expect(spyCalls.count()).toBe(2);
               expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+              expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
+            });
+        });
+        itp('shows beacon-loading animation when primaryAuth is submitted (with deviceFingerprint)', function () {
+          return setup({ features: { securityImage: true, deviceFingerprinting: true, useDeviceFingerprintForSecurityImage: false }})
+            .then(function (test) {
+              test.securityBeacon = test.router.header.currentBeacon.$el;
+              test.setNextResponse(resSecurityImage);
+              test.form.setUsername('testuser');
+              return waitForBeaconChange(test);
+            })
+            .then(function (test) {
+              spyOn(test.securityBeacon, 'toggleClass');
+              test.setNextResponse(resSuccess);
+              test.form.setPassword('pass');
+              test.form.submit();
+              return Expect.waitForSpyCall(test.successSpy, test);
+            })
+            .then(function (test) {
+              var spyCalls = test.securityBeacon.toggleClass.calls;
+              expect(spyCalls.count()).toBe(4);
+              // First 2 to get fingerprint
+              expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+              expect(spyCalls.argsFor(1)).toEqual([BEACON_LOADING_CLS, false]);
+              // Last 2 for model.save
+              expect(spyCalls.argsFor(2)).toEqual([BEACON_LOADING_CLS, true]);
               expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
             });
         });
@@ -1394,6 +1465,22 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             expect(test.form.securityBeacon().css('background-image')).toMatch(/\/base\/target\/img\/security\/default.*\.png/);
           });
       });
+      itp('shows beacon-loading animation while loading security image (with deviceFingerprint)', function () {
+        return setup({ features: { securityImage: true, deviceFingerprinting: true }})
+          .then(function (test) {
+            test.securityBeacon = test.router.header.currentBeacon.$el;
+            spyOn(test.securityBeacon, 'toggleClass');
+            test.setNextResponse(resSecurityImage);
+            test.form.setUsername('testuser');
+            return waitForBeaconChange(test);
+          })
+          .then(function (test) {
+            var spyCalls = test.securityBeacon.toggleClass.calls;
+            expect(spyCalls.count()).toBe(2);
+            expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
+            expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
+          });
+      });
       itp('updates security beacon when user enters correct username', function () {
         return setup({ features: { securityImage: true }})
           .then(function (test) {
@@ -1447,7 +1534,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           });
       });
       itp('does not show anti-phishing message if security image is hidden', function () {
-        
+
         return setup({ features: { securityImage: true }})
           .then(function (test) {
             test.setNextResponse(resSecurityImageFail);
@@ -2247,9 +2334,13 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
               id: '0oaidiw9udOSceD5678'
             },
             {
+              type: 'APPLE',
+              id: '0oaz2emOZGUKjuZwX0g3'
+            },
+            {
               type: 'MICROSOFT',
               id: '0oaidiw9udOSceD3333'
-            }
+            },
           ]
         };
         return setup(settings).then(function (test) {
@@ -2257,7 +2348,8 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(buttons.eq(0)).toHaveClass('social-auth-linkedin-button');
           expect(buttons.eq(1)).toHaveClass('social-auth-facebook-button');
           expect(buttons.eq(2)).toHaveClass('social-auth-google-button');
-          expect(buttons.eq(3)).toHaveClass('social-auth-microsoft-button');
+          expect(buttons.eq(3)).toHaveClass('social-auth-apple-button');
+          expect(buttons.eq(4)).toHaveClass('social-auth-microsoft-button');
         });
       });
       itp('optionally adds a class for idp buttons', function () {
@@ -2313,6 +2405,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(buttons.eq(0)).not.toHaveClass('social-auth-linkedin-button');
           expect(buttons.eq(0)).not.toHaveClass('social-auth-facebook-button');
           expect(buttons.eq(0)).not.toHaveClass('social-auth-google-button');
+          expect(buttons.eq(0)).not.toHaveClass('social-auth-apple-button');
           expect(buttons.eq(0)).not.toHaveClass('social-auth-microsoft-button');
           expect(buttons.eq(0)).toHaveClass('social-auth-general-idp-button');
         });
@@ -2331,6 +2424,7 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
           expect(buttons.eq(0)).not.toHaveClass('social-auth-linkedin-button');
           expect(buttons.eq(0)).not.toHaveClass('social-auth-facebook-button');
           expect(buttons.eq(0)).not.toHaveClass('social-auth-google-button');
+          expect(buttons.eq(0)).not.toHaveClass('social-auth-apple-button');
           expect(buttons.eq(0)).not.toHaveClass('social-auth-microsoft-button');
           expect(buttons.eq(0)).toHaveClass('social-auth-general-idp-button');
         });
@@ -2378,6 +2472,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
               id: '0oaidiw9udOSceD5678'
             },
             {
+              type: 'APPLE',
+              id: '0oaz2emOZGUKjuZwX0g3'
+            },
+            {
               type: 'MICROSOFT',
               id: '0oaidiw9udOSceD3333'
             }
@@ -2386,9 +2484,10 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
         return setup(settings).then(function (test) {
           expect(test.form.primaryAuthForm().index()).toBe(0);
           expect(test.form.primaryAuthContainer().index()).toBe(1);
-          expect(test.form.socialAuthButtons().length).toBe(4);
+          expect(test.form.socialAuthButtons().length).toBe(5);
           expect(test.form.facebookButton().length).toBe(1);
           expect(test.form.googleButton().length).toBe(1);
+          expect(test.form.appleButton().length).toBe(1);
           expect(test.form.linkedInButton().length).toBe(1);
           expect(test.form.microsoftButton().length).toBe(1);
         });
@@ -2404,15 +2503,20 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             {
               type: 'GOOGLE',
               id: '0oaidiw9udOSceD5678'
-            }
+            },
+            {
+              type: 'APPLE',
+              id: '0oaz2emOZGUKjuZwX0g3'
+            },
           ]
         };
         return setup(settings).then(function (test) {
           expect(test.form.primaryAuthContainer().index()).toBe(0);
           expect(test.form.primaryAuthForm().index()).toBe(1);
-          expect(test.form.socialAuthButtons().length).toBe(2);
+          expect(test.form.socialAuthButtons().length).toBe(3);
           expect(test.form.linkedInButton().length).toBe(1);
           expect(test.form.googleButton().length).toBe(1);
+          expect(test.form.appleButton().length).toBe(1);
         });
       });
       itp('shows the buttons below the primary auth form when "idpDisplay" is passed as "SECONDARY"', function () {
@@ -2426,15 +2530,20 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
             {
               type: 'GOOGLE',
               id: '0oaidiw9udOSceD5678'
-            }
+            },
+            {
+              type: 'APPLE',
+              id: '0oaz2emOZGUKjuZwX0g3'
+            },
           ]
         };
         return setup(settings).then(function (test) {
           expect(test.form.primaryAuthForm().index()).toBe(0);
           expect(test.form.primaryAuthContainer().index()).toBe(1);
-          expect(test.form.socialAuthButtons().length).toBe(2);
+          expect(test.form.socialAuthButtons().length).toBe(3);
           expect(test.form.facebookButton().length).toBe(1);
           expect(test.form.googleButton().length).toBe(1);
+          expect(test.form.appleButton().length).toBe(1);
         });
       });
       itp('opens a popup with the correct url when an idp button is clicked', function () {

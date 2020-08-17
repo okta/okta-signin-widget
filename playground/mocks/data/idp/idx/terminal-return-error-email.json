@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Could not process this email link.",
+        "i18n": {
+          "key": "idx.session.expired",
+          "params": []
+        }
+      }
+    ]
+  }
+}

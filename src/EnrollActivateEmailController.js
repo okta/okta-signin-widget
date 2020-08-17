@@ -9,6 +9,8 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'util/FormController',
@@ -46,7 +48,7 @@ define([
       title: _.partial(Okta.loc, 'email.enroll.title', 'login'),
       noButtonBar: false,
       autoSave: true,
-      save: _.partial(Okta.loc, 'oform.verify', 'login'),
+      save: _.partial(Okta.loc, 'oform.verify', 'login'), // TODO: deprecated by mfa.challenge.verify
       formChildren: [
         // message
         FormType.View({
@@ -59,12 +61,12 @@ define([
             // Why use `{{{` for the description?
             // - factorEmail is actually an HTML fragment which
             //   is created via another handlebar template and used for bold the email address.
-            template: '{{{i18n code="email.mfa.email.sent.description" bundle="login" arguments="factorEmail"}}}',
+            template: hbs('{{{i18n code="email.mfa.email.sent.description" bundle="login" arguments="factorEmail"}}}'),
 
             getTemplateData: function () {
               const factor = this.options.appState.get('factor');
               const factorEmailVal = factor && factor.profile ? factor.profile.email : '';
-              const factorEmail = Okta.tpl('<span class="mask-email">{{email}}</span>')({email: factorEmailVal });
+              const factorEmail = hbs('<span class="mask-email">{{email}}</span>')({email: factorEmailVal });
               return {
                 factorEmail,
               };

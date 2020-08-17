@@ -1,7 +1,7 @@
 import { RequestLogger, RequestMock } from 'testcafe';
 import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChallengePollPageObject';
-import identifyWithDeviceProbingLoopback from '../../../playground/mocks/idp/idx/data/identify-with-device-probing-loopback';
-import error from '../../../playground/mocks/idp/idx/data/error-email-verify';
+import identifyWithDeviceProbingLoopback from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback';
+import error from '../../../playground/mocks/data/idp/idx/error-email-verify';
 
 const logger = RequestLogger(/introspect|probe|challenge/, { logRequestBody: true, stringifyRequestBody: true });
 
@@ -28,7 +28,7 @@ const mock = RequestMock()
     'access-control-allow-methods': 'POST, OPTIONS'
   });
 
-fixture(`Device Challenge Polling View with Polling Failure`)
+fixture('Device Challenge Polling View with Polling Failure')
   .requestHooks(logger, mock);
 
 async function setup(t) {
@@ -37,20 +37,20 @@ async function setup(t) {
   return deviceChallengePollPage;
 }
 
-test(`probing and polling APIs are sent and responded`, async t => {
-    const deviceChallengePollPageObject = await setup(t);
-    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Signing in using Okta FastPass');
-    await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('block');
-    await t.expect(logger.count(
-      record => record.response.statusCode === 200 &&
+test('probing and polling APIs are sent and responded', async t => {
+  const deviceChallengePollPageObject = await setup(t);
+  await t.expect(deviceChallengePollPageObject.getHeader()).eql('Signing in using Okta FastPass');
+  await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('block');
+  await t.expect(logger.count(
+    record => record.response.statusCode === 200 &&
       record.request.url.match(/introspect|2000/)
-    )).eql(3);
-    await t.expect(logger.count(
-      record => record.response.statusCode === 200 &&
+  )).eql(3);
+  await t.expect(logger.count(
+    record => record.response.statusCode === 200 &&
       record.request.url.match(/challenge/) &&
       record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
-    )).eql(1);
-    await t.expect(logger.contains(record => record.request.url.match(/6511|6512|6513/))).eql(false);
-    await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).eql('Authentication failed');
-    await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('none');
-  });
+  )).eql(1);
+  await t.expect(logger.contains(record => record.request.url.match(/6511|6512|6513/))).eql(false);
+  await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).eql('Authentication failed');
+  await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('none');
+});

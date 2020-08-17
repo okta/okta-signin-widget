@@ -5,6 +5,17 @@ define(['./Form'], function (Form) {
   var CONFIRM_PASS_FIELD = 'confirmPassword';
 
   return Form.extend({
+    passwordRequirementsHtmlList: function () {
+      return this.el('password-requirements-html');
+    },
+
+    passwordRequirementsHtmlHeader: function () {
+      return this.passwordRequirementsHtmlList().find('.password-requirements--header');
+    },
+
+    passwordRequirementsHtmlListItems: function () {
+      return this.passwordRequirementsHtmlList().find('.password-requirements--list-item');
+    },
 
     oldPassField: function () {
       return this.input(OLD_PASS_FIELD);

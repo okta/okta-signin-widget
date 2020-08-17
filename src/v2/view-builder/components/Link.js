@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2019, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -11,10 +11,11 @@
  */
 
 import { View } from 'okta';
+import hbs from 'handlebars-inline-precompile';
 
 const Link = View.extend({
 
-  template: '{{label}}',
+  template: hbs('{{label}}'),
 
   tagName: 'a',
 
@@ -27,13 +28,16 @@ const Link = View.extend({
   },
 
   className () {
-    const nameToClass = this.options.name.replace(/[ ]/g, '-');
-
-    return `link js-${nameToClass}`;
+    const names = ['link'];
+    if (this.options.name) {
+      const nameToClass = this.options.name.replace(/[ ]/g, '-');
+      names.push(`js-${nameToClass}`);
+    }
+    return names.join(' ');
   },
 
   postRender () {
-    //TODO OKTA-245224
+    // TODO OKTA-245224
     if (!this.options.href) {
       this.$el.click((event) => {
         const appState = this.options.appState;

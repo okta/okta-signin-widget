@@ -24,11 +24,12 @@ module.exports = function (outputFilename) {
         'okta': `${LOCAL_PACKAGES}/@okta/courage-dist/okta.js`,
         'okta-i18n-bundles': 'util/Bundles',
         'jquery': `${LOCAL_PACKAGES}/@okta/courage-dist/jquery.js`,
-        'idx': `${LOCAL_PACKAGES}/@okta/idx-js/idx.js`,
+        'idx': `${LOCAL_PACKAGES}/@okta/idx-dist/idx.js`,
 
         // Vendor files from courage that are remapped in OSW to point to an npm
         // module in our package.json dependencies
-        'handlebars': 'handlebars/dist/handlebars',
+        'handlebars/runtime': 'handlebars/dist/cjs/handlebars.runtime',
+        'handlebars$': 'handlebars/dist/cjs/handlebars.runtime',
         'qtip': '@okta/qtip2/dist/jquery.qtip.min.js',
 
         'duo': 'duo_web_sdk/index.js',
@@ -57,9 +58,12 @@ module.exports = function (outputFilename) {
 
           },
           loader: 'babel-loader',
-          query: {
-            presets: ['env'],
-            plugins: ['transform-runtime']
+          options: {
+            presets: ['@babel/preset-env'],
+            plugins: [
+              './packages/@okta/babel-plugin-handlebars-inline-precompile',
+              '@babel/plugin-transform-modules-commonjs'
+            ]
           }
         },
         {

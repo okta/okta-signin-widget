@@ -40,6 +40,7 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
   - [Registration](#registration)
   - [IdP Discovery](#idp-discovery)
   - [OpenID Connect](#openid-connect)
+  - [Smart Card IdP](#smart-card-idp)
   - [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
   - [Feature flags](#feature-flags)
 - [Events](#events)
@@ -72,16 +73,16 @@ To use the CDN, include links to the JS and CSS files in your HTML:
 
 ```html
 <!-- Latest CDN production Javascript and CSS -->
-<script src="https://global.oktacdn.com/okta-signin-widget/3.8.2/js/okta-sign-in.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/4.1.1/js/okta-sign-in.min.js" type="text/javascript"></script>
 
-<link href="https://global.oktacdn.com/okta-signin-widget/3.8.2/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
+<link href="https://global.oktacdn.com/okta-signin-widget/4.1.1/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
 ```
 
 The standard JS asset served from our CDN includes polyfills via [`babel-polyfill`](https://babeljs.io/docs/en/babel-polyfill/) to ensure compatibility with older browsers. This may cause conflicts if your app already includes polyfills. For this case, we provide an alternate JS asset which does not include any polyfills.
 
 ```html
 <!-- Latest CDN production Javascript without polyfills -->
-<script src="https://global.oktacdn.com/okta-signin-widget/3.8.2/js/okta-sign-in.no-polyfill.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/4.1.1/js/okta-sign-in.no-polyfill.min.js" type="text/javascript"></script>
 ```
 
 ### Using the npm module
@@ -981,13 +982,15 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
     redirectUri: 'https://acme.com/oauth2/callback/home'
     ```
 
-- **idps:** External Identity Providers to use in OIDC authentication. Supported IDPs ( `GOOGLE`, `FACEBOOK`, and `LINKEDIN` ) are declared with a `type` and will get distinct styling and default i18n text, while any other entry will receive a general styling and require text to be provided.  Each IDP can have additional CSS classes added via an optional `className` property.
+- **idps:** External Identity Providers to use in OIDC authentication. Supported IDPs ( `GOOGLE`, `FACEBOOK`, `APPLE`, `MICROSOFT` and `LINKEDIN` ) are declared with a `type` and will get distinct styling and default i18n text, while any other entry will receive a general styling and require text to be provided.  Each IDP can have additional CSS classes added via an optional `className` property.
 
     ```javascript
     idps: [
-      {type: 'GOOGLE', id: '0oaaix1twko0jyKik0g4'},
-      {type: 'FACEBOOK', id: '0oar25ZnMM5LrpY1O0g3'},
-      {type: 'LINKEDIN', id: '0oaaix1twko0jyKik0g4'},
+      {type: 'GOOGLE', id: '0oaaix1twko0jyKik0g1'},
+      {type: 'FACEBOOK', id: '0oar25ZnMM5LrpY1O0g2'},
+      {type: 'APPLE', id: '0oaaix1twko0jyKik0g3'},
+      {type: 'MICROSOFT', id: '0oaaix1twko0jyKik0g4'},
+      {type: 'LINKEDIN', id: '0oaaix1twko0jyKik0g5'},
       {id: '0oabds23xM3ssMjosl0g5', text: 'Login with Joe', className: 'with-joe' }
     ]
     ```
@@ -1016,7 +1019,7 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
     - `popup` - Opens a popup to the authorization server when an External Identity Provider button is clicked. `responseMode` will be set to `okta_post_message` and cannot be overridden.
 
     - `page` - Redirect to the authorization server when an External Identity Provider button is clicked.
-  
+
     ```javascript
     // Redirects to authorization server when the IDP button is clicked, and
     // returns an access_token in the url hash (Implicit flow)
@@ -1117,6 +1120,29 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
     ```javascript
     authParams: {
       authScheme: 'OAUTH2'
+    }
+    ```
+
+### Smart Card IdP
+
+**:information_source: EA feature:** The Smart Card IdP feature is currently an [EA feature](https://developer.okta.com/docs/api/getting_started/releases-at-okta#early-access-ea).
+
+Settings for authentication with a Smart Card `X509` type IdP.
+
+- `certAuthUrl` *(required)* - The `url` property of the [MTLS SSO Endpoint Object](https://developer.okta.com/docs/reference/api/idps/#mtls-single-sign-on-sso-endpoint-object). The browser prompts the user to select a client certificate when this url is accessed.
+
+- `text` *(optional)* - Label for the Smart Card IdP button. By default, this value will be "Sign in with PIV / CAC card".
+
+- `className` *(optional)* - Class that can be added to the Smart Card IdP button.
+
+- `isCustomDomain` *(optional)* - Boolean that indicates if the request is coming from a [custom domain](https://developer.okta.com/docs/guides/custom-url-domain/overview). If omitted, it will indicate that the request is not coming from a custom domain.
+
+    ```javascript
+    piv: {
+      certAuthUrl: '/your/cert/validation/endpoint',
+      text: 'Authenticate with a Smart Card',
+      className: 'custom-style',
+      isCustomDomain: true,
     }
     ```
 
@@ -1246,6 +1272,8 @@ signIn.on('pageRendered', function (data) {
 ```
 
 ### passwordRevealed
+
+:warning: This event has been *deprecated*, do not use.
 
 Triggered when the show password button is clicked.
 

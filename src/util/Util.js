@@ -12,12 +12,10 @@
  */
 
 /* eslint complexity: [2, 13], max-depth: [2, 3] */
-define(['q', 'okta', './Logger', './Enums', 'idx'], function (Q, Okta, Logger, Enums, idx) {
+define(['okta', './Logger', './Enums'], function (Okta, Logger, Enums) {
 
   var Util = {};
   var _ = Okta._;
-  var { start } = idx.default;
-
 
   var buildInputForParameter = function (name, value) {
     var input = document.createElement('input');
@@ -214,30 +212,6 @@ define(['q', 'okta', './Logger', './Enums', 'idx'], function (Q, Okta, Logger, E
 
   Util.isV1StateToken = function (token) {
     return !!(token && _.isString(token) && token.startsWith('00'));
-  };
-
-  Util.introspectToken = function (authClient, widgetOptions) {
-    const domain = widgetOptions.baseUrl;
-    const stateHandle = widgetOptions.stateToken;
-    var trans;
-    if (this.isV1StateToken(stateHandle)) {
-      // V1 pipeline uses authjs.introspect
-      trans = authClient.tx.introspect({
-        stateToken: widgetOptions.stateToken
-      });
-    } else {
-      // V2 pipeline uses idxjs.start
-      trans = start({ domain, stateHandle });
-    }
-    var deferred = Q.defer();
-    if (Q.isPromiseAlike(trans)) {
-      trans.then(function (trans) {
-        deferred.resolve(trans);
-      }).catch(function (err) {
-        deferred.reject(err);
-      });
-    }
-    return deferred.promise;
   };
 
   return Util;

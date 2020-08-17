@@ -53,6 +53,9 @@ function (Okta, BrowserFeatures, Settings,
     return true;
   }
 
+  /**
+   * TODO: deprecated by `util/LanguageUtil.loadLanguage`
+   */
   function loadLanguage (appState, i18n, assetBaseUrl, assetRewrite) {
     var timeout = setTimeout(function () {
       // Trigger a spinner if we're waiting on a request for a new language.
@@ -86,6 +89,7 @@ function (Okta, BrowserFeatures, Settings,
           Logger.error(err);
         };
       }
+
       this.settings = new Settings(_.omit(options, 'el', 'authClient'), { parse: true });
       this.settings.setAuthClient(options.authClient);
 

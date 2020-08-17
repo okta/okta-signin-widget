@@ -1,12 +1,14 @@
 import { RequestLogger, RequestMock, ClientFunction, Selector } from 'testcafe';
 import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChallengePollPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
-import identify from '../../../playground/mocks/idp/idx/data/identify';
-import identifyWithDeviceProbingLoopback from '../../../playground/mocks/idp/idx/data/identify-with-device-probing-loopback';
-import loopbackChallengeNotReceived from '../../../playground/mocks/idp/idx/data/identify-with-device-probing-loopback-challenge-not-received';
-import identifyWithLaunchAuthenticator from '../../../playground/mocks/idp/idx/data/identify-with-device-launch-authenticator';
-import identifyWithSSOExtensionFallback from '../../../playground/mocks/idp/idx/data/identify-with-apple-sso-extension-fallback';
-import identifyWithLaunchUniversalLink from '../../../playground/mocks/idp/idx/data/identify-with-universal-link';
+import identify from '../../../playground/mocks/data/idp/idx/identify';
+import identifyWithDeviceProbingLoopback from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback';
+import loopbackChallengeNotReceived from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-challenge-not-received';
+import identifyWithLaunchAuthenticator from '../../../playground/mocks/data/idp/idx/identify-with-device-launch-authenticator';
+import identifyWithSSOExtensionFallback from '../../../playground/mocks/data/idp/idx/identify-with-apple-sso-extension-fallback';
+import identifyWithLaunchUniversalLink from '../../../playground/mocks/data/idp/idx/identify-with-universal-link';
+
+const BEACON_CLASS = 'mfa-okta-verify';
 
 let failureCount = 0;
 const loopbackSuccessLogger = RequestLogger(/introspect|probe|challenge/, { logRequestBody: true, stringifyRequestBody: true });
@@ -72,7 +74,7 @@ const universalLinkMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithLaunchUniversalLink);
 
-fixture(`Device Challenge Polling View with the Loopback Server, Custom URI and Universal Link approaches`);
+fixture('Device Challenge Polling View with the Loopback Server, Custom URI and Universal Link approaches');
 
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
@@ -87,8 +89,9 @@ async function setupLoopbackFallback(t) {
 }
 
 test
-  .requestHooks(loopbackSuccessLogger, loopbackSuccesskMock)(`in loopback server approach, probing and polling requests are sent and responded`, async t => {
+  .requestHooks(loopbackSuccessLogger, loopbackSuccesskMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
+    await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Signing in using Okta FastPass');
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 200 &&
@@ -112,7 +115,7 @@ test
   });
 
 test
-  .requestHooks(loopbackFallbackLogger, loopbackFallbackMock)(`loopback fails and falls back to custom uri`, async t => {
+  .requestHooks(loopbackFallbackLogger, loopbackFallbackMock)('loopback fails and falls back to custom uri', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
     await t.expect(deviceChallengeFalllbackPage.getPageTitle()).eql('Sign In');
@@ -130,6 +133,7 @@ test
     )).eql(1);
     deviceChallengeFalllbackPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
+    await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verify account access');
     await t.expect(deviceChallengePollPageObject.getFormSubtitle()).eql('Launching Okta Verify...');
     await t.expect(deviceChallengePollPageObject.getContent())
@@ -140,7 +144,7 @@ test
 
 const getPageUrl = ClientFunction(() => window.location.href);
 test
-  .requestHooks(customURILogger, customURIMock)(`in custom URI approach, Okta Verify is launched`, async t => {
+  .requestHooks(customURILogger, customURIMock)('in custom URI approach, Okta Verify is launched', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(customURILogger.count(
       record => record.request.url.match(/launch-okta-verify/)
@@ -152,7 +156,7 @@ test
   });
 
 test
-  .requestHooks(loopbackFallbackLogger, universalLinkMock)(`SSO Extension fails and falls back to universal link`, async t => {
+  .requestHooks(loopbackFallbackLogger, universalLinkMock)('SSO Extension fails and falls back to universal link', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
     await t.expect(deviceChallengeFalllbackPage.getPageTitle()).eql('Sign In');
@@ -162,6 +166,7 @@ test
     )).eql(1);
     deviceChallengeFalllbackPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
+    await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verify your sign in');
     await t.expect(deviceChallengePollPageObject.getContent()).eql('To continue, you\'ll need to use the Okta Verify app to confirm your sign in.\nSign in with Okta Verify');
     deviceChallengePollPageObject.clickUniversalLink();

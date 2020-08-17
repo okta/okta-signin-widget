@@ -1,19 +1,24 @@
 import { loc } from 'okta';
 import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
-import BaseFactorView from '../shared/BaseFactorView';
+import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 
 const Body = BaseForm.extend({
-  title: loc('enroll.password.setup', 'login'),
-  save: loc('save.password', 'login'),
+  title: function () {
+    return loc('enroll.password.setup', 'login');
+  },
+  save: function () {
+    return loc('save.password', 'login');
+  },
 
   getUISchema () {
     const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
     return uiSchemas.concat([
       {
         name: 'confirmPassword',
-        label: 'Repeat Password',
+        label: loc('password.confirmPassword.placeholder','login'),
         type: 'password',
+        'label-top': true,
         params: {
           showPasswordToggle: true
         }
@@ -22,7 +27,7 @@ const Body = BaseForm.extend({
   }
 });
 
-export default BaseFactorView.extend({
+export default BaseAuthenticatorView.extend({
 
   Body,
 
@@ -42,7 +47,7 @@ export default BaseFactorView.extend({
       validate: function () {
         if (this.get('credentials.passcode') !== this.get('confirmPassword') &&
           this.get('credential.value') !== this.get('confirmPassword')) {
-          
+
           var ret = {};
           ret['confirmPassword'] = loc('password.error.match', 'login');
           return ret;

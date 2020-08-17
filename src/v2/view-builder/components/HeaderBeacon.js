@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2019, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -10,10 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { View } from 'okta';
+import hbs from 'handlebars-inline-precompile';
 
 const BeaconView = View.extend({
 
-  template: '\
+  template: hbs('\
     <div data-type="beacon-container" class="beacon-container">\
       <div class="beacon-blank auth-beacon">\
         <div class="beacon-blank js-blank-beacon-border auth-beacon-border"></div>\
@@ -21,9 +22,8 @@ const BeaconView = View.extend({
       <div class="bg-helper auth-beacon auth-beacon-factor {{className}}" data-se="factor-beacon">\
         <div class="okta-sign-in-beacon-border auth-beacon-border"></div>\
       </div>\
-      <div data-type="factor-types-dropdown" class="factors-dropdown-wrap"></div>\
     </div >\
-    ',
+    '),
 
   getTemplateData: function () {
     return { className: this.getBeaconClassName() || '' };

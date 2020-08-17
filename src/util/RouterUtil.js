@@ -10,7 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 46], max-statements: [2, 40] */
+/* eslint complexity: [2, 47], max-statements: [2, 40] */
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   './OAuth2Util',
@@ -23,18 +25,18 @@ define([
 function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
   var fn = {};
 
-  var verifyUrlTpl = Okta.tpl('signin/verify/{{provider}}/{{factorType}}');
-  var verifyUrlMultipleTpl = Okta.tpl('signin/verify/{{provider}}/{{factorType}}/{{factorIndex}}');
-  var verifyUrlNoProviderTpl = Okta.tpl('signin/verify/{{factorType}}');
-  var enrollFactorUrlTpl = Okta.tpl('signin/enroll/{{provider}}/{{factorType}}');
-  var activateFactorUrlTpl = Okta.tpl(
+  var verifyUrlTpl = hbs('signin/verify/{{provider}}/{{factorType}}');
+  var verifyUrlMultipleTpl = hbs('signin/verify/{{provider}}/{{factorType}}/{{factorIndex}}');
+  var verifyUrlNoProviderTpl = hbs('signin/verify/{{factorType}}');
+  var enrollFactorUrlTpl = hbs('signin/enroll/{{provider}}/{{factorType}}');
+  var activateFactorUrlTpl = hbs(
     'signin/enroll-activate/{{provider}}/{{factorType}}{{#if step}}/{{step}}{{/if}}'
   );
-  var recoveryUrlTpl = Okta.tpl('signin/recovery/{{recoveryToken}}');
-  var refreshUrlTpl = Okta.tpl('signin/refresh-auth-state{{#if token}}/{{token}}{{/if}}');
-  var sessionCookieRedirectTpl = Okta.tpl(
-    '{{baseUrl}}/login/sessionCookieRedirect?checkAccountSetupComplete=true' +
-    '&token={{{token}}}&redirectUrl={{{redirectUrl}}}'
+  var recoveryUrlTpl = hbs('signin/recovery/{{recoveryToken}}');
+  var refreshUrlTpl = hbs('signin/refresh-auth-state{{#if token}}/{{token}}{{/if}}');
+  var sessionCookieRedirectTpl = hbs(
+    // eslint-disable-next-line max-len
+    '{{baseUrl}}/login/sessionCookieRedirect?checkAccountSetupComplete=true&token={{{token}}}&redirectUrl={{{redirectUrl}}}'
   );
 
   fn.isHostBackgroundChromeTab = function () {
@@ -207,6 +209,9 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       } else {
         router.settings.callGlobalSuccess(Enums.SUCCESS, successData);
       }
+      return;
+    case 'ADMIN_CONSENT_REQUIRED':
+      router.navigate('signin/consent', {trigger: true});
       return;
     case 'CONSENT_REQUIRED':
       if (router.settings.get('features.consent')) {

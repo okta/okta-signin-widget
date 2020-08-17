@@ -17,7 +17,7 @@ const Body = BaseForm.extend({
   },
   isPasswordRecoveryFlow () {
     const recoveryFactor = this.options.appState.get('recoveryFactor');
-    return recoveryFactor && recoveryFactor.factorType === 'password';
+    return recoveryFactor?.factorType === 'password';
   },
   noButtonBar: true,
 });

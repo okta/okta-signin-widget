@@ -1,0 +1,18 @@
+{
+  "messages": {
+    "value": [
+      {
+        "class": "ERROR",
+        "i18n": {
+          "key": "E0000009"
+        },
+        "message": "Internal Server Error"
+      }
+    ],
+    "type": "array"
+  },
+  "intent": "LOGIN",
+  "expiresAt": "2020-07-10T15:51:13.000Z",
+  "version": "1.0.0",
+  "stateHandle": "eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvMTloajh3Z0J5S2tHaXEwZzQiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..GV_zbOmZY0lcgovx.tj-RNuQ10s-iY37xp6xSXK-f-HpTNM6vd6QhV6dOSPe7jv4nfviVIYPxe9vwRHGc2MyFVL_oyZQcfMdbvFdGCrgg0kRThO2Uzz3WlojTrHzCSlnMNmXeM_bHqlH9iPrn-rUdAxIaWZmaSApPKjyy1piLMLlj9RBFzFICpzqPO5GMGo9RwVD7nF60VY-0h6LrJA8xVG0HZpDp3nIYRT-PN4eL9xXm-YVBmP5j6YAEAKjmreOhPWpR4hQK-q7TNIJR510xTw8LZMBy30Offi6rWCLxG0gOCDlc4WvrpsO2XoPBzYx7MddrjaGhCK6YADnVaLynpy9FY2etkIn7X67Q9nvrMSSroqZzG8TP0M0-6cx-GgnUEjyAIyFOWFtkNtp0oUOqkj5sqtNiHUTo3rMom2O-MkuyZDZGfb40PLNCRhM1msmlXClfTscFRV9XtrwKrhitucrpTZ7uBxGmjd8ASDLx-k-FN5B4hzSdPp-uPM0gSL6_aO2I6Ebr_Vy82cLu9zAiQX7TKBA6LWZksgCoUn6qsgvT4pLvT--7NWwh8JgeaywjEnTWksHdrVMrklBnru77xaRU6tyWDc6NAL4uIb9HRd4QqhKijaJn-p1ZnPnnRSa8bE-4fssOCxg53E3nrKCLqWWHfwx9nGmHkKWxStU4hEHaHsDynWbPgf2PSOP3N2Gvx5XUjWGPZ9yh5j0mzN7eOjkbfbb-K1JQ3nz3p1qnECf1f15WVR96JB7uMwhb-iV9eluoCFuJZ5C9WOKBkWWEiEMRV2sMNDNsItUDz3nVj-z5YDpjutqEF_ZstxIZ9tq4LyQchryiVfvo9mos40vUwG-qhpnLdjTDTxHV7jRoxzL3zrq6-1FB7gfxFe6BbLCON83ueLlshW3EVdFy8Qtqe_rArmo24uTyV7geXYLx2WYptkI6y5E_qdjDS1vmb-96sjW92GySSzoORkRsBxgWSjBiLAoOmkSgkifNll8SSNiGjkQ8TE-sqqwXTK-uLMJO4LFgrH1hRyaIWxwS78iIqhDE1z7PRWVMhewpRJxCr8wQBw5gao7a_QK1CMhXWiCiDDTN4sRgSn4neKkZnvaYb4p73Uw78TqGzT9qMQKZbAXW4kWqIfhZlZRbDZX9jwLfcVClxvcbB2TJFPdXdaYIpcdvZRZZ4o47YTVpH3CfOBl73ipYNZuzIdoGV6OW-kCyU3Shnv-H4ZVxqu10k-Dj63zwCqmS3JdnJiAyAhGyJWfpSJzd-KQ_ZsxsbgUW9cNDJwOeRlKTXRra-S7xV8E3jEIPk03w8Xmb5CFFosJ69LYBXKWkUasATsoEttfbu6jx7pjL2RtKnPcp6ZS5WOn5ooRK2ByhYTN4quZu0HKx_On_3T5shQvMIU5W4an13uxvdFTuGsWgo5iyFUz8TxEHaEyQYeB4lz79GYOrJyKnvM-eWcKhrXtjxuOVL3CN-AbiXDhGOU7bc89OEDET9CVKHK4Vf6Y8HY-fUK_5l34QZuUbvGbbgE4VdBMWv-ppCjGiIVhtlVWVG6CRu9s16WoHxznxKP8ePVJb1wUdLmqD1nkxG13TBRCLcTbEwXXSE2jPus2mYZHy2Ir13wEHgnbF0bePrwwuuDQEJZk-L3QxJoUlt4aWPc8RuJvP1x3OxFaL7oRqAm4qvaXjhRPgTosf99usKHVdqMl6EI54andYwY301PGF9qyEeCtFbCiSgV-J0q25HCEbLSbzvkAo5K07OgqcXXB_g24NIgFy1nlVnrapbmiO6wJ193ludb6OTwkv3Ai_EnvNiHKmUC0uRf7bSQeOdtQE4NBNVqn_-WfV6uitmNwE1KqRmvPibPB4nsCRQES35MXwiiY1fCYLPQ.rZjRHxsViiybjM8H_lCqaA"
+}

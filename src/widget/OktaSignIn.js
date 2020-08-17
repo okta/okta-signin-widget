@@ -2,13 +2,16 @@
 
 var OktaSignIn = (function () {
 
-  var _        = require('underscore'),
-      config   = require('config/config.json'),
-      OAuth2Util = require('util/OAuth2Util'),
-      router;
-  var V1LoginRouter = require('LoginRouter');
+  var _        = require('underscore');
+  var config   = require('config/config.json');
+  var OAuth2Util = require('util/OAuth2Util');
+  var Util = require('util/Util');
+  var OktaAuth = require('@okta/okta-auth-js');
+  var V1Router = require('LoginRouter');
+  var V2Router = require('v2/WidgetRouter');
+  var router;
 
-  function getProperties (authClient, Util, widgetOptions = {}) {
+  function getProperties (authClient, Router, widgetOptions = {}) {
 
     function render (renderOptions, successFn, errorFn) {
       if (router) {
@@ -28,39 +31,13 @@ var OktaSignIn = (function () {
           `
         );
       }
-      var isNewPipeline = !Util.isV1StateToken(widgetOptions.stateToken);
-      var Router = V1LoginRouter;
-      if (widgetOptions.stateToken && isNewPipeline) {
-        /* add check for stateToken here because we dont want to end up on
-        new pipeline if there is no stateToken */
-        Router = require('v2/WidgetRouter');
-      }
-      if (widgetOptions.stateToken) {
-        Util.introspectToken(authClient, widgetOptions)
-          .then(_.bind(function (data) {
-            var response = data;
-            router = bootstrapRouter.call(this, Router, authClient, widgetOptions, renderOptions, successFn, errorFn);
-            if (isNewPipeline) {
-              response = data.rawIdxState;
-              router.appState.set('idx', data);
-            }
-            router.appState.set('introspectSuccess', response);
-            router.start();
-          }, this)).catch(_.bind(function (err) {
-          // Introspect API error.
-          // Incase of an error we want to just load the LoginRouter
-            router = bootstrapRouter.call(this, Router, authClient, widgetOptions, renderOptions, successFn, errorFn);
-            var introspectError = isNewPipeline ? err.details: err;
-            /* idx-js sends an error object with the error response inside details
-            https://github.com/okta/okta-idx-js/blob/master/src/index.js#L14*/
-            router.appState.set('introspectError', introspectError);
-            router.start();
-          }, this));
-      } else {
-        // If no stateToken bootstrap with LoginRouter
-        router = bootstrapRouter.call(this, Router, authClient, widgetOptions, renderOptions, successFn, errorFn);
-        router.start();
-      }
+
+      router = new Router(_.extend({}, widgetOptions, renderOptions, {
+        authClient: authClient,
+        globalSuccessFn: successFn,
+        globalErrorFn: errorFn
+      }));
+      router.start();
     }
 
     function hide () {
@@ -90,7 +67,7 @@ var OktaSignIn = (function () {
       var authParams = this.authClient.options;
       if (authParams.pkce || authParams.responseType === 'code' || authParams.responseMode === 'query') {
         // Look for code
-        return authParams.responseMode === 'fragment' ? 
+        return authParams.responseMode === 'fragment' ?
           Util.hasCodeInUrl(window.location.hash) :
           Util.hasCodeInUrl(window.location.search);
       }
@@ -120,37 +97,7 @@ var OktaSignIn = (function () {
     };
   }
 
-  function bootstrapRouter (Router, authClient, widgetOptions, renderOptions, successFn, errorFn) {
-    var widgetRouter = new Router(_.extend({}, widgetOptions, renderOptions, {
-      authClient: authClient,
-      globalSuccessFn: successFn,
-      globalErrorFn: errorFn
-    }));
-
-    _.extend(this, Router.prototype.Events);
-
-    // Triggers the event up the chain so it is available to the consumers of the widget.
-    this.listenTo(Router.prototype, 'all', this.trigger);
-
-    // On the first afterRender event (usually when the Widget is ready) - emit a 'ready' event
-    this.once('afterRender', function (context) {
-      this.trigger('ready', context);
-    });
-    return widgetRouter;
-  }
-
-  function OktaSignIn (options) {
-    require('okta');
-    var Util = require('util/Util');
-    /**
-     * Render the sign in widget to an element.
-     * @param options - options for the signin widget.
-     *        Must have an el or $el property to render the widget to.
-     * @param success - success callback function
-     * @param error - error callback function
-     */
-    var OktaAuth = require('@okta/okta-auth-js');
-
+  function createAuthClient (options) {
     var authParams = _.extend({
       transformErrorXHR: Util.transformErrorXHR,
       headers: {
@@ -164,7 +111,17 @@ var OktaSignIn = (function () {
       authParams.issuer = options.baseUrl + '/oauth2/default';
     }
 
-    var authClient = new OktaAuth(authParams);
+    return new OktaAuth(authParams);
+  }
+
+  /**
+   * Render the sign in widget to an element.
+   * @param options - options for the signin widget.
+   *        Must have an el or $el property to render the widget to.
+   * @param success - success callback function
+   * @param error - error callback function
+   */
+  function OktaSignIn (options) {
 
     Util.debugMessage(
       `
@@ -174,7 +131,25 @@ var OktaSignIn = (function () {
       `
     );
 
-    _.extend(this, V1LoginRouter.prototype.Events, getProperties(authClient, Util, options));
+    var authClient = createAuthClient(options);
+
+    var Router;
+    if (options.stateToken && !Util.isV1StateToken(options.stateToken)) {
+      Router = V2Router;
+    } else {
+      Router = V1Router;
+    }
+
+    _.extend(this, Router.prototype.Events);
+    _.extend(this, getProperties(authClient, Router, options));
+
+    // Triggers the event up the chain so it is available to the consumers of the widget.
+    this.listenTo(Router.prototype, 'all', this.trigger);
+
+    // On the first afterRender event (usually when the Widget is ready) - emit a 'ready' event
+    this.once('afterRender', function (context) {
+      this.trigger('ready', context);
+    });
   }
 
   return OktaSignIn;

@@ -103,7 +103,7 @@ module.exports = function (grunt) {
           {
             expand: true,
             cwd: 'target/css',
-            src: ['*.css'],
+            src: ['*.css', '*.css.map'],
             dest: DIST + '/css',
             rename: function (dest, src) {
               if (src === 'okta-sign-in.css') {
@@ -317,8 +317,8 @@ module.exports = function (grunt) {
       sass: {
         files: ['assets/sass/**/*'],
         tasks: [
-          'copy:app-to-target', 
-          'sass:build', 
+          'copy:app-to-target',
+          'sass:build',
           'postcss:build'
         ]
       }
@@ -388,9 +388,9 @@ module.exports = function (grunt) {
     }
     grunt.task.run([
       'exec:clean',
-      'exec:retirejs',
       `assets:${target}`,
       ...buildTasks,
+      'exec:retirejs',
       ...postBuildTasks,
     ]);
   });

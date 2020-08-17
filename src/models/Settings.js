@@ -12,6 +12,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'q',
@@ -19,29 +21,22 @@ define([
   'util/BrowserFeatures',
   'util/Util',
   'util/Logger',
+  'util/IDP',
   'config/config.json'
-],
-function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
+], function (Okta, Q, Errors, BrowserFeatures, Util, Logger, IDP, config) {
 
   var SharedUtil = Okta.internal.util.Util;
-
+  var _ = Okta._;
   var DEFAULT_LANGUAGE = 'en';
-
-  var supportedIdps = ['facebook', 'google', 'linkedin', 'microsoft'],
-      supportedResponseTypes = ['token', 'id_token', 'code'],
-      oauthRedirectTpl = Okta.tpl('{{origin}}');
-
-  var _ = Okta._,
-      ConfigError = Errors.ConfigError,
-      UnsupportedBrowserError = Errors.UnsupportedBrowserError;
-
-  var assetBaseUrlTpl = Okta.tpl(
-    'https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/{{version}}'
+  var supportedResponseTypes = ['token', 'id_token', 'code'];
+  var ConfigError = Errors.ConfigError;
+  var UnsupportedBrowserError = Errors.UnsupportedBrowserError;
+  var assetBaseUrlTpl = hbs(
+    'https://global.oktacdn.com/okta-signin-widget/{{version}}'
   );
 
   return Okta.Model.extend({
 
-    flat: true,
     authClient: undefined,
 
     local: {
@@ -65,6 +60,9 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       'logo': 'string',
       'logoText' : ['string', false],
       'helpSupportNumber': 'string',
+
+      // IDX API VERSION
+      'apiVersion': ['string', true, '1.0.0'],
 
       // FEATURES
       'features.router': ['boolean', true, false],
@@ -92,6 +90,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       'features.useDeviceFingerprintForSecurityImage': ['boolean', false, true],
       'features.restrictRedirectToForeground': ['boolean', true, false],
       'features.hideDefaultTip': ['boolean', false, true],
+      'features.showPasswordRequirementsAsHtmlList': ['boolean', false, false],
 
       // I18N
       'language': ['any', false], // Can be a string or a function
@@ -105,12 +104,15 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       },
 
       // OAUTH2
+      'clientId': 'string',
+      'redirectUri': 'string',
+      'oAuthTimeout': ['number', false],
+
       'authScheme': ['string', false, 'OAUTH2'],
       'authParams.display': {
         type: 'string',
         values: ['none', 'popup', 'page']
       },
-
       // Note: It shouldn't be necessary to override/pass in this property -
       // it will be set correctly depending on what the value of display is
       // and whether we are using Okta or a social IDP.
@@ -118,28 +120,23 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
         type: 'string',
         values: ['query', 'fragment', 'form_post', 'okta_post_message']
       },
-
       // Can either be a string or an array, i.e.
       // - Single value: 'id_token', 'token', or 'code'
       // - Multiple values: ['id_token', 'token']
       'authParams.responseType': ['any', false, 'id_token'],
       'authParams.scopes': ['array', false],
-
       'authParams.issuer': ['string', false],
       'authParams.authorizeUrl': ['string', false],
       'authParams.state': ['string', false],
       'authParams.nonce': ['string', false],
 
-      'policyId': 'string',
-      'clientId': 'string',
-      'redirectUri': 'string',
+      // External IdPs
       'idps': ['array', false, []],
       'idpDisplay': {
         type: 'string',
         values: ['PRIMARY', 'SECONDARY'],
         value: 'SECONDARY'
       },
-      'oAuthTimeout': ['number', false],
 
       // HELP LINKS
       'helpLinks.help': 'string',
@@ -151,6 +148,7 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
       'customButtons': ['array', false, []],
 
       //Registration
+      'policyId': 'string',
       'registration.click': 'function',
       'registration.parseSchema': 'function',
       'registration.preSubmit': 'function',
@@ -258,18 +256,17 @@ function (Okta, Q, Errors, BrowserFeatures, Util, Logger, config) {
             }
           }
 
-          return oauthRedirectTpl({
-            origin: origin
-          });
+          return encodeURI(origin);
         }
       },
       // Adjusts the idps passed into the widget based on if they get explicit support
       configuredSocialIdps: {
         deps: ['idps'],
         fn: function (idps) {
-          return _.map(idps, function (idp) { 
+          return _.map(idps, function (idpConfig) {
+            var idp = _.clone(idpConfig);
             var type = idp.type && idp.type.toLowerCase();
-            if ( !( type && _.contains(supportedIdps, type) ) ) {
+            if ( !( type && _.contains(IDP.SUPPORTED_SOCIAL_IDPS, type) ) ) {
               type = 'general-idp';
               idp.text = idp.text || '{ Please provide a text value }';
             }

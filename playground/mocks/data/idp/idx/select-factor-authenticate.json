@@ -1,0 +1,99 @@
+{
+  "stateHandle": "02h50hMLvmuZUuoKCShHKZytlDeFRnn8KG-rcd8Ay5",
+  "version": "1.0.0",
+  "expiresAt": "2019-09-25T23:55:18.000Z",
+
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-factor-authenticate",
+        "href": "http://localhost:3000/idp/idx/challenge",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "factorId",
+            "type": "string",
+            "options": [
+              {
+                "label": "Password Label",
+                "value": "00u2j17ObFUsbGfLg0g4"
+              },
+              {
+                "label": "Email Label",
+                "value": "emf2j1ccd6CF4IWFY0g3"
+              }
+            ]
+          },
+          {
+              "name": "stateHandle",
+              "required": true,
+              "value": "02h50hMLvmuZUuoKCShHKZytlDeFRnn8KG-rcd8Ay5",
+              "visible": false,
+              "mutable": false
+          }
+        ]
+      }
+    ]
+  },
+  "factors": {
+    "type": "array",
+    "value": [
+      {
+        "factorType": "password",
+        "factorId": "00u2j17ObFUsbGfLg0g4"
+      },
+      {
+        "factorType": "email",
+        "factorId": "emf2j1ccd6CF4IWFY0g3"
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u2j17ObFUsbGfLg0g4"
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02h50hMLvmuZUuoKCShHKZytlDeFRnn8KG-rcd8Ay5",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  },
+  "context": {
+      "rel": [
+        "create-form"
+      ],
+      "name": "context",
+      "href": "http://localhost:3000/idp/idx/context",
+      "method": "POST",
+      "accepts": "application/vnd.okta.v1+json",
+      "value": [
+        {
+          "name": "stateHandle",
+          "required": true,
+          "value": "02h50hMLvmuZUuoKCShHKZytlDeFRnn8KG-rcd8Ay5",
+          "visible": false,
+          "mutable": false
+        }
+      ]
+  }
+}

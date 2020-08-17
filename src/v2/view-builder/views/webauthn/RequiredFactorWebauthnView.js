@@ -1,13 +1,16 @@
-import { loc, _, createButton } from 'okta';
+import { loc, _, createButton, View } from 'okta';
 import BaseForm from '../../internals/BaseForm';
 import BaseFooter from '../../internals/BaseFooter';
-import BaseFactorView from '../shared/BaseFactorView';
+import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import CryptoUtil from '../../../../util/CryptoUtil';
 import webauthn from '../../../../util/webauthn';
+import hbs from 'handlebars-inline-precompile';
 
 const Body = BaseForm.extend({
 
-  title: loc('factor.webauthn.biometric', 'login'),
+  title () {
+    return loc('factor.webauthn.biometric', 'login');
+  },
 
   getUISchema () {
     const schema = [];
@@ -22,11 +25,13 @@ const Body = BaseForm.extend({
       });
 
       schema.push({
-        View:
-            '<div class="webauthn-verify-text idx-webauthn-verify-text">\
-              <p>{{i18n code="verify.webauthn.biometric.instructions" bundle="login"}}</p>\
-              <div data-se="webauthn-waiting" class="okta-waiting-spinner"></div>\
-            </div>'
+        View: View.extend({
+          className: 'webauthn-verify-text idx-webauthn-verify-text',
+          template: hbs`
+            <p>{{i18n code="verify.webauthn.biometric.instructions" bundle="login"}}</p>
+            <div data-se="webauthn-waiting" class="okta-waiting-spinner"></div>
+          `
+        })
       }, {
         View: retryButton,
       });
@@ -118,10 +123,10 @@ const Footer = BaseFooter.extend({
     const links = [];
 
     // check if we have a select-factor form in remediation, if so add a link
-    if (this.options.appState.hasRemediationForm('select-factor')) {
+    if (this.options.appState.hasRemediationObject('select-factor')) {
       links.push({
         'type': 'link',
-        'label': 'Switch Factor',
+        'label': loc('mfa.switch', 'login'),
         'name': 'switchFactor',
         'formName': 'select-factor',
       });
@@ -130,7 +135,7 @@ const Footer = BaseFooter.extend({
   }
 });
 
-export default BaseFactorView.extend({
+export default BaseAuthenticatorView.extend({
   Body,
   Footer,
 });

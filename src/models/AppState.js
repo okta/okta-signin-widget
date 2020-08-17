@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'q',
@@ -35,7 +37,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
   var UNDEFINED_USER_IMAGE_DESCRIPTION = '';
   var UNKNOWN_IMAGE_DESCRIPTION = '';
 
-  var securityImageUrlTpl = Okta.tpl('{{baseUrl}}/login/getimage?username={{username}}');
+  var securityImageUrlTpl = hbs('{{baseUrl}}/login/getimage?username={{username}}');
 
   function getSecurityImage (baseUrl, username, deviceFingerprint) {
     // When the username is empty, we want to show the default image.
@@ -45,7 +47,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
         'securityImageDescription': UNDEFINED_USER_IMAGE_DESCRIPTION
       });
     }
-    
+
     // Reserved characters in the username must be escaped before the query can be safely executed
     username = encodeURIComponent(username);
     var url = securityImageUrlTpl({ baseUrl: baseUrl, username: username });
@@ -171,6 +173,7 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
       // and AppState. Settings is the *configured* language, and is static.
       // AppState is the dynamic language state - it can be changed via a
       // language picker, etc.
+      // Note: this is conceptial feasible but not yet being implemented.
       languageCode: ['string', true],
       disableUsername: ['boolean', false, false],
       trapMfaRequiredResponse: ['boolean', false, false],

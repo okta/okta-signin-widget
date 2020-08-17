@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'util/Errors',
@@ -138,7 +140,7 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
           children.push(FormType.View({
             View: Okta.View.extend({
               className: 'webauthn-enroll-text',
-              template: '\
+              template: hbs('\
                 <div class="webauthn-enroll-instructions">\
                   <p>{{i18n code="enroll.webauthn.biometric.instructions" bundle="login"}}</p>\
                 </div>\
@@ -153,7 +155,7 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
                   </div>\
                 {{/if}}\
                 <div data-se="webauthn-waiting" class="okta-waiting-spinner hide"></div>\
-              ',
+              '),
               getTemplateData: function () {
                 return {
                   isEdge: BrowserFeatures.isEdge(),

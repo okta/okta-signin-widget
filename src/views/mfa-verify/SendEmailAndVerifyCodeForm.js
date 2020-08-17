@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   'views/shared/TextBox',
@@ -19,7 +21,7 @@ define([
   const _ = Okta._;
   const createEmailMaskElement = function () {
     const email = this.model.get('email');
-    const emailTpl = Okta.tpl('<span class="mask-email">{{email}}</span>');
+    const emailTpl = hbs('<span class="mask-email">{{email}}</span>');
     return {factorEmail: emailTpl({email})};
   };
 
@@ -42,23 +44,29 @@ define([
     events: Object.assign({}, Okta.Form.prototype.events, {
       submit: function (e) {
         e.preventDefault();
-        this.clearErrors();
-
-        if (this.options.appState.get('isMfaChallenge')) {
-          if (this.isValid()) {
-            this.model.save();
-          }
-        } else {
-          // Send email and switch to verification view
-          this.model.set('answer', '');
-          this.model.save()
-            .then(this.renderChallengView.bind(this));
-        }
+        this.handleSubmit();
       }
     }),
+    
+    handleSubmit () {
+      this.clearErrors();
+      if (this.options.appState.get('isMfaChallenge')) {
+        if (this.isValid()) {
+          this.model.save();
+        }
+      } else {
+        // Send email and switch to verification view
+        this.model.set('answer', '');
+        this.model.save()
+          .then(this.renderChallengView.bind(this));
+      }
+    },
 
     initialize: function () {
       Okta.Form.prototype.initialize.apply(this, arguments);
+
+      //Added thorttle to prevent keyboard enter trigger multipele API calls
+      this.handleSubmit = _.throttle(this.handleSubmit, 100, { leading: false });
 
       // render 'Send Email' page at first place
       this.add(Okta.View.extend({
@@ -66,7 +74,7 @@ define([
           'data-se': 'mfa-send-email-content'
         },
         className: 'mfa-send-email-content',
-        template: '{{{i18n code="email.mfa.description" bundle="login" arguments="factorEmail"}}}',
+        template: hbs('{{{i18n code="email.mfa.description" bundle="login" arguments="factorEmail"}}}'),
         getTemplateData: createEmailMaskElement,
       }));
     },
@@ -81,7 +89,7 @@ define([
         // Why use `{{{` for the description?
         // - factorEmail is actually an HTML fragment which
         //   is created via another handlebar template and used for bold the email address.
-        template: '{{{i18n code="email.mfa.email.sent.description" bundle="login" arguments="factorEmail"}}}',
+        template: hbs('{{{i18n code="email.mfa.email.sent.description" bundle="login" arguments="factorEmail"}}}'),
         getTemplateData: createEmailMaskElement,
       }));
 

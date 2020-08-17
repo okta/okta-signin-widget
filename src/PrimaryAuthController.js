@@ -18,10 +18,11 @@ define([
   'models/PrimaryAuth',
   'views/shared/Footer',
   'util/BaseLoginController',
+  'util/Logger',
   'util/DeviceFingerprint',
 ],
 function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthModel,
-  Footer, BaseLoginController, DeviceFingerprint) {
+  Footer, BaseLoginController, Logger, DeviceFingerprint) {
 
   var $ = Okta.$;
 
@@ -82,16 +83,20 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
 
     events: {
       'focusout input[name=username]': function () {
-        if (this.shouldComputeDeviceFingerprint()) {
+        if (this.shouldComputeDeviceFingerprint() && this.model.get('username')) {
           var self = this;
+          this.options.appState.trigger('loading', true);
           DeviceFingerprint.generateDeviceFingerprint(this.settings.get('baseUrl'), this.$el)
             .then(function (fingerprint) {
               self.options.appState.set('deviceFingerprint', fingerprint);
               self.options.appState.set('username', self.model.get('username'));
             })
             .catch(function () {
-            // Keep going even if device fingerprint fails
+              // Keep going even if device fingerprint fails
               self.options.appState.set('username', self.model.get('username'));
+            })
+            .finally(function () {
+              self.options.appState.trigger('loading', false);
             });
         } else {
           this.options.appState.set('username', this.model.get('username'));
@@ -103,7 +108,14 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
       'focusout input': function (e) {
         $(e.target.parentElement).removeClass('focused-input');
       },
+
+      /**
+       * @deprecated
+       * This event was originally added for capturing specific usage metrics
+       * and is now obsolete.
+       */
       'click .button-show': function () {
+        Logger.deprecate('use "passwordRevealed" event is deprecated');
         this.trigger('passwordRevealed');
       }
     },
@@ -124,6 +136,9 @@ function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthM
       });
       this.listenTo(this.model, 'error', function () {
         this.state.set('enabled', true);
+      });
+      this.listenTo(this.state, 'togglePrimaryAuthButton', function (buttonState) {
+        this.toggleButtonState(buttonState);
       });
     },
 

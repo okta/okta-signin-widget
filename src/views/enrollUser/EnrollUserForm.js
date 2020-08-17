@@ -9,6 +9,9 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
+
+import hbs from 'handlebars-inline-precompile';
+
 /* eslint max-len: [2, 130] */
 define([
   'okta',
@@ -28,7 +31,7 @@ define([
         var inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
         this.addInput(inputOptions);
       });
-      var requiredFieldsLabel = Okta.tpl('<span class="required-fields-label">{{label}}</span>')({
+      var requiredFieldsLabel = hbs('<span class="required-fields-label">{{label}}</span>')({
         label: Okta.loc('registration.required.fields.label', 'login')
       });
       this.add(requiredFieldsLabel); 

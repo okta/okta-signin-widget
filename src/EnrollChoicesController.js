@@ -11,6 +11,9 @@
  */
 
 /* eslint complexity: [2, 13] */
+
+import hbs from 'handlebars-inline-precompile';
+
 define([
   'okta',
   './util/FormController',
@@ -25,7 +28,7 @@ function (Okta, FormController, Enums, RouterUtil, FactorList,
 
   var _ = Okta._,
       $ = Okta.$,
-      subtitleTpl = Okta.tpl('<span>{{{subtitle}}}</span>');
+      subtitleTpl = hbs('<span>{{{subtitle}}}</span>');
 
   return FormController.extend({
     className: 'enroll-choices',

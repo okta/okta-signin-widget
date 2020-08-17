@@ -1,44 +1,41 @@
 import { loc } from 'okta';
 import BaseForm from '../../internals/BaseForm';
-import BaseFooter from '../../internals/BaseFooter';
-import BaseFactorView from '../shared/BaseFactorView';
+import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
+import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 
 const recoveryLinkAction = 'factor-recover';
 
 const Body = BaseForm.extend({
 
-  title: loc('factor.password', 'login'),
+  title: function () {
+    return loc('factor.password', 'login');
+  },
 
-  save: loc('mfa.challenge.verify', 'login'),
+  save: function () {
+    return loc('mfa.challenge.verify', 'login');
+  },
 });
 
-const Footer = BaseFooter.extend({
+const Footer = AuthenticatorVerifyFooter.extend({
   links: function () {
-    // recovery link
-    var links = [];
+    let links = AuthenticatorVerifyFooter.prototype.links.apply(this, arguments);
 
     if (this.options.appState.getActionByPath(recoveryLinkAction)) {
-      links.push({
-        'type': 'link',
-        'label': 'Forgot Password',
-        'name': 'forgot-password',
-        'actionPath': recoveryLinkAction,
-      });
+      links = [
+        {
+          'type': 'link',
+          'label': loc('forgotpassword', 'login'),
+          'name': 'forgot-password',
+          'actionPath': recoveryLinkAction,
+        }
+      ].concat(links);
     }
-    // check if we have a select-factor form in remediation, if so add a link
-    if (this.options.appState.hasRemediationForm('select-factor-authenticate')) {
-      links.push({
-        'type': 'link',
-        'label': 'Switch Factor',
-        'name': 'switchFactor',
-        'formName': 'select-factor-authenticate',
-      });
-    }
+
     return links;
   }
 });
 
-export default BaseFactorView.extend({
+export default BaseAuthenticatorView.extend({
   Body,
   Footer,
 });

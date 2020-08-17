@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2019, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -9,34 +9,77 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { _, Model} from 'okta';
+import { _, Model } from 'okta';
 
-const covertIonFieldToProp = (ionField) => {
+const convertUiSchemaFieldToProp = (uiSchemaField) => {
   const config = Object.assign(
     {},
-    _.chain(ionField)
-      .pick('minLength', 'maxLength', 'required')
+    _.chain(uiSchemaField)
+      .pick('minLength', 'maxLength', 'required', 'value')
       .defaults({ type: 'string', required: true })
       .value()
   );
-  return { [ionField.name]: config };
+
+  if (uiSchemaField.modelType) {
+    config.type = uiSchemaField.modelType;
+  }
+
+  return { [uiSchemaField.name]: config };
 };
 
-const create = function (remediation = {}) {
-  const value = remediation.uiSchema;
-  const props = _.chain(value)
-    .map(covertIonFieldToProp)
-    .reduce((init, field) => {
-      return Object.assign({}, init, field);
-    })
-    .value();
+const createPropsAndLocals = function (
+  remediation = {},
+  optionUiSchemaConfig = {},
+  props = {},
+  local = {}) {
+
+  const uiSchemas = remediation.uiSchema || [];
+
+  uiSchemas.forEach(schema => {
+    if (Array.isArray(schema.optionsUiSchemas)) {
+      let optionUiSchemaIndex;
+      let optionUiSchemaValue = {};
+
+      if (Number(schema.value) >= 0) {
+        optionUiSchemaIndex = schema.value;
+      }
+      if (optionUiSchemaConfig[schema.name]) {
+        optionUiSchemaValue = {value: optionUiSchemaConfig[schema.name]};
+        optionUiSchemaIndex = Number(optionUiSchemaValue.value);
+      }
+
+      Object.assign(
+        local,
+        convertUiSchemaFieldToProp(Object.assign({}, schema, optionUiSchemaValue)));
+
+      if (optionUiSchemaIndex) {
+        createPropsAndLocals(
+          { uiSchema: schema.optionsUiSchemas[optionUiSchemaIndex] },
+          optionUiSchemaConfig,
+          props,
+          local,
+        );
+      }
+    } else {
+      Object.assign(props, convertUiSchemaFieldToProp(schema));
+    }
+  });
+};
+
+const create = function (remediation = {}, optionUiSchemaConfig = {}) {
+  const props = {};
+  const local = {
+    formName: 'string',
+  };
+  createPropsAndLocals(
+    remediation,
+    optionUiSchemaConfig,
+    props,
+    local);
 
   const BaseModel = Model.extend({
     props,
-
-    local: {
-      formName: 'string',
-    },
+    local,
   });
 
   return BaseModel;

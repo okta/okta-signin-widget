@@ -262,8 +262,13 @@ function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
     });
   };
 
-  function isNative (fn) {
-    return fn.toString().indexOf('[native code]') > 0;
+  function isMock (fn) {
+    return fn._isMock;
+  }
+
+  function createMock (fn) {
+    fn._isMock = true;
+    return fn;
   }
 
   /*
@@ -276,9 +281,13 @@ function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
   var originalSetTimeout;
 
   fn.mockSetTimeout = function () {
-    if (isNative(setTimeout)) {
-      originalSetTimeout = setTimeout;
-      setTimeout = function (fn, delay) {
+    if (setTimeout !== window.setTimeout) {
+      // eslint-disable-next-line no-console
+      console.error('setTimeout !== window.setTimeout. Tests will probably fail. This may be caused by babel polyfill.');
+    }
+    if (!isMock(window.setTimeout)) {
+      originalSetTimeout = window.setTimeout;
+      window.setTimeout = createMock(function (fn, delay) {
         const entry = {
           fn,
           delay
@@ -289,7 +298,7 @@ function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
         }, delay);
         timeouts.push(entry);
         return entry.id;
-      };
+      });
     }
   };
 
@@ -311,13 +320,13 @@ function (Okta, Q, Duo, keys, wellKnown, wellKnownSharedResource) {
   var originalSetInterval;
 
   fn.mockSetInterval = function () {
-    if (isNative(setInterval)) {
-      originalSetInterval = setInterval;
-      setInterval = function () {
+    if (!isMock(window.setInterval)) {
+      originalSetInterval = window.setInterval;
+      window.setInterval = createMock(function () {
         var id = originalSetInterval.apply(this, arguments);
         timeouts.push(id);
         return id;
-      };
+      });
     }
   };
 

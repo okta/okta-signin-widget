@@ -5,8 +5,13 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   constructor(t) {
     super(t);
     this.t = t;
+    this.beacon = new Selector('.beacon-container');
     this.body = new Selector('.device-challenge-poll');
     this.footer = new Selector('.auth-footer');
+  }
+
+  getBeaconClass() {
+    return this.beacon.find('[data-se="factor-beacon"]').getAttribute('class');
   }
 
   getHeader() {

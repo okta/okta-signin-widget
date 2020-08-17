@@ -8,4 +8,18 @@
     margin: 25px 0 10px;
     text-align: left;
   }
+
+  .siw-main-body {
+    .ion-messages-container {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+  }
+
+  // Fixing OKTA-303139 here, making sure V1 stays the same.
+  .custom-checkbox {
+    label {
+      line-height: inherit;
+    }
+  }
 }

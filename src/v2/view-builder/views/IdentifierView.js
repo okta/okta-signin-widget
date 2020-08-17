@@ -1,64 +1,139 @@
-import { View, loc, createButton } from 'okta';
+import { loc, createCallout } from 'okta';
+import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals/BaseFooter';
+import signInWithIdps from './signin/SignInWithIdps';
+import customButtonsView from './signin/CustomButtons';
+import signInWithDeviceOption from './signin/SignInWithDeviceOption';
+import { createIdpButtons, createCustomButtons } from '../internals/FormInputFactory';
+import { getForgotPasswordLink } from '../utils/LinksUtil';
 
 const Body = BaseForm.extend({
 
-  title: loc('primaryauth.title'),
+  title () {
+    return loc('primaryauth.title', 'login');
+  },
   save: loc('oform.next', 'login'),
-  initialize () {
-    BaseForm.prototype.initialize.apply(this, arguments);
-    if (this.options.appState.hasRemediationForm('launch-authenticator')) {
-      this.add(View.extend({
-        className: 'sign-in-with-device-option',
-        template: `
-          <div class="okta-verify-container"></div>
-          <div class="separation-line"><span>OR</span></div>
-        `,
-        initialize () {
-          const appState = this.options.appState;
-          this.add(createButton({
-            className: 'button-secondary',
-            title: 'Sign in using Okta Verify',
-            click () { 
-              appState.trigger('invokeAction', 'launch-authenticator');
-            }
-          }), '.okta-verify-container');
-        }
-      }), '.o-form-fieldset-container', false, true);
+
+  render () {
+    BaseForm.prototype.render.apply(this, arguments);
+
+    // Launch Device Authenticator
+    if (this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_AUTHENTICATOR)) {
+      this.add(signInWithDeviceOption, '.o-form-fieldset-container', false, true);
     }
-  }
+
+    // This IdentifierView has been reused for the case when there is no `identify` remediation form
+    // but only `redirect-idp` forms. At that case, no UI Schema.
+    const hasUISchemas = this.getUISchema().length > 0;
+
+    // add external idps buttons
+    const idpButtons = createIdpButtons(this.options.appState.get('remediations'));
+    if (Array.isArray(idpButtons) && idpButtons.length) {
+      this.add(signInWithIdps, {
+        selector: '.o-form-button-bar',
+        options: {
+          idpButtons,
+          addSeparateLine: hasUISchemas,
+        }
+      });
+    }
+
+    const customButtons = createCustomButtons(this.options.settings);
+    if (Array.isArray(customButtons) && customButtons.length) {
+      this.add(customButtonsView, {
+        selector: '.o-form-button-bar',
+        options: {
+          customButtons,
+          addSeparateLine: true,
+        }
+      });
+    }
+
+    if (!hasUISchemas) {
+      this.$el.find('.button-primary').hide();
+    }
+  },
+  showMessages () {
+    /**
+     * Renders a warning callout for unknown user flow
+     * Note: Anytime we get back `messages` object along with identify view
+     * we would render it as a warning callout
+     * */
+    const messagesObj = this.options.appState.get('messages');
+    if (messagesObj?.value.length
+        && this.options.appState.get('currentFormName') === 'identify') {
+      const content = messagesObj.value[0].message;
+      const messageCallout = createCallout({
+        content: content,
+        type: 'warning',
+      });
+      this.add(messageCallout, '.o-form-error-container');
+    }
+  },
 });
 
 const Footer = BaseFooter.extend({
   links () {
-    const baseUrl = this.options.settings.get('baseUrl');
-    let href = baseUrl + '/help/login';
-    if (this.options.settings.get('helpLinks.help') ) {
-      href = this.options.settings.get('helpLinks.help');
+    let helpLinkHref;
+    if (this.options.settings.get('helpLinks.help')) {
+      helpLinkHref = this.options.settings.get('helpLinks.help');
+    } else {
+      const baseUrl = this.options.settings.get('baseUrl');
+      helpLinkHref = baseUrl + '/help/login';
     }
-    const signupLinkObj = {
-      'type': 'link',
-      'label': 'Sign up',
-      'name': 'enroll',
-      'actionPath': 'select-enroll-profile',
-    };
-    const links = [
+
+    const helpLink = [
       {
         'name': 'help',
-        'label': 'Need help signing in?',
-        'href': href,
+        'label': loc('help', 'login'),
+        'href': helpLinkHref,
       },
     ];
-    if (this.options.appState.hasRemediationForm('select-enroll-profile')) {
-      links.push(signupLinkObj);
+
+    const signupLink = [];
+    if (this.options.appState.hasRemediationObject(RemediationForms.SELECT_ENROLL_PROFILE)) {
+      signupLink.push({
+        'type': 'link',
+        'label': loc('signup', 'login'),
+        'name': 'enroll',
+        'actionPath': RemediationForms.SELECT_ENROLL_PROFILE,
+      });
     }
-    return links;
+
+    const forgotPasswordLink = getForgotPasswordLink(this.options.appState, this.options.settings);
+
+    const customHelpLinks = [];
+    if (this.options.settings.get('helpLinks.custom')) {
+      //add custom helpLinks
+      this.options.settings.get('helpLinks.custom').forEach(customHelpLink => {
+        customHelpLink.name = 'custom';
+        customHelpLink.label = customHelpLink.text;
+        customHelpLinks.push(customHelpLink);
+      });
+    }
+
+    return forgotPasswordLink
+      .concat(signupLink)
+      .concat(helpLink)
+      .concat(customHelpLinks);
   }
 });
 
 export default BaseView.extend({
   Body,
   Footer,
+
+  postRender () {
+    BaseView.prototype.postRender.apply(this, arguments);
+
+    // If user enterted identifier is not found, API sends back a message with a link to sign up
+    // This is the click handler for that link
+    const appState = this.options.appState;
+    this.$el.find('.js-sign-up').click(function () {
+      appState.trigger('invokeAction', RemediationForms.SELECT_ENROLL_PROFILE);
+      return false;
+    });
+  },
 });

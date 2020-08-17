@@ -54,6 +54,7 @@ define(function () {
   };
 
   fn.isEdge = function () {
+    // This is to just check for windows edge. Mac edge - chromium based's UA is 'edg'.
     return navigator.userAgent.toLowerCase().indexOf('edge') > -1;
   };
 

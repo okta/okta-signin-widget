@@ -83,7 +83,7 @@ function (Q, Okta, OktaAuth, Util, Beacon, FormView, Expect,
         .then(function () {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
-            url: 'https://foo.com/api/v1/authn',
+            url: 'https://foo.com/api/v1/authn/introspect',
             data: {
               stateToken: 'dummy-token',
             }

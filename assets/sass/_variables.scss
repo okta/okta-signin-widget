@@ -1,30 +1,30 @@
 // Page Properties
-$fonts: 'montserrat', Arial, Helvetica, sans-serif;
+$fonts: 'proxima nova', 'montserrat', Arial, Helvetica, sans-serif;
 $default-border-radius: 3px;
 $container-width: 400px;
 $container-min-width: 300px;
 $num-tabs: 5;
 
 // Font Size
-$font-size: 13px;
-$font-size-small: 12px;
-$font-size-header: 14px;
-$font-size-footer: 11px;
-$font-size-default: 14px;
+$font-size: 14px;
+$font-size-small: 13px;
+$font-size-header: 15px;
+$font-size-footer: 12px;
+$font-size-default: 15px;
 
 // Font Weight
 $font-weight-body: normal;
 $font-weight-labels: 600;
-$font-weight-header: bold;
+$font-weight-header: 600;
 
 // Theme Color
 $primary-bg-color: #fff;
 $secondary-bg-color: #f9f9f9;
 
 // Text Color
-$header-text-color: #2f3f4a; // gray 900
-$dark-text-color: #2f3f4a; // gray 900
-$medium-text-color: #5c6971; // gray 700
+$header-text-color: #5e5e5e;
+$dark-text-color: #5e5e5e;
+$medium-text-color: #777;
 $light-text-color: #a7a7a7;
 $link-text-color: #0074b3;
 $placeholder-text-color: #aaa;
@@ -34,7 +34,7 @@ $error-text-color: #e34843;
 $icon-button-bg-color: #fff;
 $button-bg-color: #fbfbfb;
 $dark-button-bg-color: #929292;
-$primary-button-bg-color: #1662dd; // Action base
+$primary-button-bg-color: #007dc1;
 $success-button-bg-color: #4cbf9c;
 $negative-button-bg-color: #c35151;
 $disabled-button-text-color: #aaa;
@@ -53,6 +53,9 @@ $facebook-border-color: #375685;
 $google-icon-bg-color: #fff;
 $google-label-bg-color: $button-bg-color;
 $google-border-color: darken($button-bg-color, 22%);
+$apple-icon-bg-color: #fff;
+$apple-label-bg-color: $button-bg-color;
+$apple-border-color: darken($button-bg-color, 22%);
 $linkedin-icon-bg-color: #04659a; // linkedin brand color - #0077B5
 $linkedin-label-bg-color: #0077b5;
 $linkedin-border-color: #0f608f;
@@ -64,7 +67,7 @@ $microsoft-border-color: #447199;
 $default-custom-button-background-color: #ff5f73;
 $default-custom-button-border-color: #d6001a;
 
-// PIV Button Colors
+// IDP PIV Button Colors
 $piv-button-background-color: #fff;
 $piv-button-border-text-color: #1662dd;
 $piv-action-button-background-color: #e5edfb;

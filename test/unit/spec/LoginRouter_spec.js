@@ -258,7 +258,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
         });
       });
     });
-  
+
     it('logs a ConfigError error if unknown option is passed as a widget param', function () {
       spyOn(CourageLogger, 'warn');
       var fn = function () { setup({ foo: 'bla' }); };
@@ -709,7 +709,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
         .then(function () {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
-            url: 'https://foo.com/api/v1/authn',
+            url: 'https://foo.com/api/v1/authn/introspect',
             data: {
               stateToken: 'dummy-token'
             }
@@ -786,7 +786,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
         .then(function (test) {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
-            url: 'https://foo.com/api/v1/authn',
+            url: 'https://foo.com/api/v1/authn/introspect',
             data: {
               stateToken: 'dummy-token'
             }
@@ -807,7 +807,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
         .then(function (test) {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
-            url: 'https://foo.com/api/v1/authn',
+            url: 'https://foo.com/api/v1/authn/introspect',
             data: {
               stateToken: 'dummy-token'
             }
@@ -1102,7 +1102,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
 
       itp('redirects instead of using an iframe if the responseType is "code"', function () {
         return setupOAuth2({
-          'authParams.responseType': 'code', 
+          'authParams.responseType': 'code',
         })
           .then(expectCodeRedirect({responseType:'code'}));
       });
@@ -1622,7 +1622,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
 
       var expectDefaultCdn = _.partial(
         expectBundles,
-        'https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/9.9.99'
+        'https://global.oktacdn.com/okta-signin-widget/9.9.99'
       );
 
       itp('loads properties from the cdn if no baseUrl and path overrides are supplied', function () {
@@ -1633,7 +1633,7 @@ function (Okta, Q, Logger, Errors, BrowserFeatures, WidgetUtil, Bundles, config,
           }
         })
           .then(function () {
-            expectDefaultPaths('https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/9.9.99');
+            expectDefaultPaths('https://global.oktacdn.com/okta-signin-widget/9.9.99');
           });
       });
       itp('loads properties from the given baseUrl', function () {

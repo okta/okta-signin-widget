@@ -171,8 +171,12 @@ define(['okta', './Dom'], function (Okta, Dom) {
       this.submitButton().click();
     },
 
+    getErrors: function () {
+      return this.$('.okta-form-infobox-error');
+    },
+
     hasErrors: function () {
-      return this.$('.okta-form-infobox-error').length > 0;
+      return this.getErrors().length > 0;
     },
 
     errorBox: function () {

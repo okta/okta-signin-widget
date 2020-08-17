@@ -57,7 +57,7 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          presets: ['env'],
+          presets: ['@babel/preset-env']
         }
       },
       {
@@ -69,8 +69,8 @@ module.exports = {
 
   devServer: {
     contentBase: [
-      PLAYGROUND, 
-      TARGET, 
+      PLAYGROUND,
+      TARGET,
       // webpack-dev-server v2 only watch contentbase on root level
       // explicitly list folders to watch for browser auto reload
       // sub-folders can be removed when upgrade to webpack-dev-server v3
@@ -82,19 +82,18 @@ module.exports = {
     open: true,
     watchContentBase: true,
     before (app) {
-      app.get('/app/UserHome', (req, res) => {
-        const respHtml = `
-          <h1>Mock User Dashboard</h1>
-          <pre id="preview-query">${JSON.stringify(req.query, null, 2)}</pre>
-          <a href="/">Back to Login</a>`;
-        res.status(200).send(respHtml);
+      // Enforce CSP
+      app.use('/*', function (req, res, next){
+        res.header('Content-Security-Policy', 'script-src http://localhost:3000');
+        next();
       });
 
       // ================================= dyson mock setup
       const mockOptions = {
         multiRequest: false,
         proxy: false,
-        configDir: `${PLAYGROUND}/mocks`,
+        quiet: false,
+        configDir: `${PLAYGROUND}/mocks/spec-okta-api`,
       };
       dyson.registerServices(
         app,

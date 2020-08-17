@@ -1,6 +1,8 @@
 /* global __dirname */
 require('../env').config();
-
+const {
+  getBabelLoader
+} = require('customize-cra');
 const webpack = require('webpack');
 const path = require('path');
 const ROOT_DIR = path.resolve(__dirname, '..', '..', '..');
@@ -37,6 +39,14 @@ module.exports = {
     config.plugins = config.plugins.concat([
       new webpack.DefinePlugin(env)
     ]);
+
+    getBabelLoader(config, false).options.sourceMaps = true;
+    config.module.rules.push({
+      test: /\.js$/,
+      enforce: 'pre',
+      use: ['source-map-loader'],
+    });
+
     return config;
   }
 };

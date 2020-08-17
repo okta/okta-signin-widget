@@ -2,10 +2,28 @@ import BasePageObject from './BasePageObject';
 
 const passwordFieldName = 'credentials\\.passcode';
 const confirmPasswordFieldName = 'confirmPassword';
+const requirementsSelector = '[data-se="password-authenticator--rules"]';
 
+/**
+ * This page object will be used by 
+ * password enrollment
+ * password expiry
+ * password will expire soon 
+ * admin initiated password reset scenarios.
+ * 
+ * TODO: Rename this to have AuthenticatorPasswordPageObject when Factor is cleaned up.
+ */
 export default class EnrollPasswordPageObject extends BasePageObject {
   constructor (t) {
     super(t);
+  }
+
+  passwordFieldExists() {
+    return this.form.elementExist(`input[name="${passwordFieldName}"]`);
+  }
+
+  confirmPasswordFieldExists() {
+    return this.form.elementExist(`input[name="${confirmPasswordFieldName}"]`);
   }
 
   fillPassword(value) {
@@ -39,4 +57,10 @@ export default class EnrollPasswordPageObject extends BasePageObject {
   getConfirmPasswordError() {
     return this.form.getTextBoxErrorMessage(confirmPasswordFieldName);
   }
+
+  // This will be used by any password page that has requirements on it.
+  getRequirements () {
+    return this.form.getElement(requirementsSelector).innerText;
+  }
+
 }

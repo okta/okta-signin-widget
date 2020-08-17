@@ -11,7 +11,7 @@
  */
 
 /* global u2f */
-
+import hbs from 'handlebars-inline-precompile';
 define([
   'okta',
   'util/Errors',
@@ -119,23 +119,29 @@ function (Okta, Errors, FormType, FormController, FidoUtil, Footer, Q, HtmlError
         else {
           //There is html in enroll.u2f.general2 in our properties file, reason why is unescaped
           result.push(FormType.View({
-            View: '<div class="u2f-instructions"><ol>\
-          <li>{{{i18n code="enroll.u2f.general2" bundle="login"}}}</li>\
-          <li>{{i18n code="enroll.u2f.general3" bundle="login"}}</li>\
-          </ol></div>'
+            View: Okta.View.extend({
+              template: hbs('<div class="u2f-instructions"><ol>\
+                <li>{{{i18n code="enroll.u2f.general2" bundle="login"}}}</li>\
+                <li>{{i18n code="enroll.u2f.general3" bundle="login"}}</li>\
+                </ol></div>'
+              )
+            })
           }));
 
           result.push(FormType.View({
-            View: '\
-          <div class="u2f-enroll-text hide">\
-            <p>{{i18n code="enroll.u2f.instructions" bundle="login"}}</p>\
-            <p>{{i18n code="enroll.u2f.instructionsBluetooth" bundle="login"}}</p>\
-            <div data-se="u2f-devices" class="u2f-devices-images">\
-              <div class="u2f-usb"></div>\
-              <div class="u2f-bluetooth"></div>\
-            </div>\
-            <div data-se="u2f-waiting" class="okta-waiting-spinner"></div>\
-          </div>'
+            View: Okta.View.extend({
+              template: hbs('\
+                <div class="u2f-enroll-text hide">\
+                  <p>{{i18n code="enroll.u2f.instructions" bundle="login"}}</p>\
+                  <p>{{i18n code="enroll.u2f.instructionsBluetooth" bundle="login"}}</p>\
+                  <div data-se="u2f-devices" class="u2f-devices-images">\
+                    <div class="u2f-usb"></div>\
+                    <div class="u2f-bluetooth"></div>\
+                  </div>\
+                  <div data-se="u2f-waiting" class="okta-waiting-spinner"></div>\
+                </div>'
+              )
+            })
           }));
         }
 

@@ -16,15 +16,24 @@
 /* global module */
 var config  = require('./webpack.common.config');
 var plugins = require('./buildtools/webpack/plugins');
+var useRuntime = require('./buildtools/webpack/runtime');
+var usePolyfill = require('./buildtools/webpack/polyfill');
 
 // 1. entryConfig (node module main entry. minified, no polyfill, external dependencies)
 var entryConfig = config('okta-sign-in.entry.js');
 entryConfig.output.filename = 'okta-sign-in.entry.js';
 entryConfig.externals = {
+  // TODO: remove handlebars external OKTA-320626
+  'handlebars/runtime': {
+    'commonjs': 'handlebars/dist/handlebars.runtime',
+    'commonjs2': 'handlebars/dist/handlebars.runtime',
+    'amd': 'handlebars.runtime',
+    'root': 'handlebars'
+  },
   'handlebars': {
-    'commonjs': 'handlebars/dist/handlebars',
-    'commonjs2': 'handlebars/dist/handlebars',
-    'amd': 'handlebars',
+    'commonjs': 'handlebars/dist/handlebars.runtime',
+    'commonjs2': 'handlebars/dist/handlebars.runtime',
+    'amd': 'handlebars.runtime',
     'root': 'handlebars'
   },
   'q': true,
@@ -32,15 +41,17 @@ entryConfig.externals = {
   'underscore': true
 };
 entryConfig.plugins = plugins({ isProduction: true, analyzerFile: 'okta-sign-in.entry.analyzer' });
+useRuntime(entryConfig);
 
 // 2. noPolyfillConfig
 var noPolyfillConfig = config('okta-sign-in.no-polyfill.min.js');
 noPolyfillConfig.plugins = plugins({ isProduction: true, analyzerFile: 'okta-sign-in.no-polyfill.min.analyzer' });
+useRuntime(noPolyfillConfig);
 
 // 3. cdnConfig (with polyfill)
 var cdnConfig = config('okta-sign-in.min.js');
-cdnConfig.entry.unshift('babel-polyfill');
 cdnConfig.plugins = plugins({ isProduction: true, analyzerFile: 'okta-sign-in.min.analyzer' });
+usePolyfill(cdnConfig);
 
 // 4. noJqueryConfig
 var noJqueryConfig = config('okta-sign-in-no-jquery.js');
@@ -54,10 +65,11 @@ noJqueryConfig.externals = {
     'root': 'jQuery'
   }
 };
+useRuntime(noJqueryConfig);
 
 // 5. devConfig (with polyfill, unminified)
 var devConfig = config('okta-sign-in.js');
-devConfig.entry.unshift('babel-polyfill');
 devConfig.plugins = plugins({ isProduction: false, analyzerFile: 'okta-sign-in.analyzer' });
+usePolyfill(devConfig);
 
 module.exports = [entryConfig, noPolyfillConfig, cdnConfig, noJqueryConfig, devConfig];

@@ -1,5 +1,25 @@
 .siw-main-view {
-  .idx-webauthn-verify-text {
-    margin-bottom: 20px;
+  .oie-enroll-webauthn,
+  .oie-verify-webauthn {
+    .uv-required-callout {
+      margin: 20px 0;
+      // TODO - clean up after OKTA-303528
+      /* stylelint-disable declaration-no-important */
+      padding: 7px 9px 7px 20px !important;
+      /* stylelint-enable declaration-no-important */
+      border: none;
+      &:before {
+        width: 10px;
+      }
+    }
+
+    .okta-waiting-spinner {
+      display: none;
+    }
+
+    .idx-webauthn-verify-text,
+    .idx-webauthn-enroll-text {
+      margin-bottom: 20px;
+    }
   }
 }

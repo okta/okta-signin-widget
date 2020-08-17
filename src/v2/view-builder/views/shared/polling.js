@@ -2,19 +2,37 @@ import { _ } from 'okta';
 
 export default {
   startPolling () {
-    const factor = this.options.appState.get('factor');
-    const factorPollingInterval = factor && factor.poll && factor.poll.refresh;
-    if (_.isNumber(factorPollingInterval)) {
-      this.polling = setInterval(()=>{
-        this.options.appState.trigger('invokeAction', 'factor-poll');
-      }, factorPollingInterval);
-    }
+    // Factor and Authenticator won't co-exists hence it's safe to trigger both.
+    this._startAuthenticatorPolling();
+  },
+
+  _startAuthenticatorPolling () {
+    // Factor and Authenticator won't co-exists hence it's safe to trigger both.
+    [
+      'currentAuthenticator',
+      'currentAuthenticatorEnrollment',
+      'factor',
+    ].some(responseKey => {
+      if (this.options.appState.has(responseKey)) {
+        const authenticator = this.options.appState.get(responseKey);
+        const authenticatorPollAction = `${responseKey}-poll`;
+        const pollInterval = authenticator?.poll?.refresh;
+        if (_.isNumber(pollInterval)) {
+          this.polling = setInterval(()=>{
+            this.options.appState.trigger('invokeAction', authenticatorPollAction);
+          }, pollInterval);
+        }
+        return true;
+      } else {
+        return false;
+      }
+    });
   },
 
   // currently only device remediation gets polling info from remediation
   // TODO: OKTA-278849 combine startDevicePolling and startPolling
   startDevicePolling () {
-    const pollingInterval = this.options.appState.getCurrentViewState().refresh;
+    const pollingInterval = this.options.currentViewState.refresh;
     if (_.isNumber(pollingInterval)) {
       this.polling = setInterval(() => {
         this.options.appState.trigger('saveForm', this.model);

@@ -6,10 +6,12 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const PACKAGE_JSON = require('./package.json');
 
 const EMPTY = resolve(__dirname, 'src/empty');
-const SHARED_JS = resolve(__dirname, 'node_modules/@okta/courage/src');
-const COURAGE_DIST = resolve(__dirname, 'node_modules/@okta/courage/dist');
-const PUBLISH_DIR = resolve(__dirname, '../courage-dist');
-const I18N_DIR = resolve(__dirname, '../i18n');
+const NODE_MODULES_SRC = resolve(__dirname, 'node_modules/@okta');
+const NODE_MODULES_DEST = resolve(__dirname, '..');
+const SHARED_JS = resolve(NODE_MODULES_SRC, 'courage/src');
+const COURAGE_DIST = resolve(NODE_MODULES_SRC, 'courage/dist');
+const PUBLISH_DIR = resolve(NODE_MODULES_DEST, 'courage-dist');
+const I18N_DIR = resolve(NODE_MODULES_DEST, 'i18n');
 const DIST_FILE_NAME = 'okta';
 
 const EXTERNAL_PATHS = [
@@ -18,6 +20,7 @@ const EXTERNAL_PATHS = [
   'backbone',
   'underscore',
   'handlebars',
+  'handlebars/runtime',
   'okta-i18n-bundles'
 ];
 
@@ -61,10 +64,23 @@ const webpackConfig = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: function (filePath) {
+          const filePathContains = (f) => filePath.indexOf(f) > 0;
+          const npmRequiresTransform = [
+            '/node_modules/@okta/courage',
+          ].some(filePathContains);
+          const shallBeExcluded = [
+            '/node_modules/',
+          ].some(filePathContains);
+          return shallBeExcluded && !npmRequiresTransform;
+        },
         loader: 'babel-loader',
         query: {
-          presets: ['env'],
+          presets: [['@babel/preset-env', { modules: 'commonjs' }]],
+          plugins: [
+            '@okta/babel-plugin-handlebars-inline-precompile',
+            'add-module-exports'
+          ]
         }
       },
     ]
@@ -78,6 +94,14 @@ const webpackConfig = {
       analyzerMode: 'static',
     }),
     new CopyWebpackPlugin([
+      {
+        from: `${NODE_MODULES_SRC}/babel-plugin-handlebars-inline-precompile`,
+        to: `${NODE_MODULES_DEST}/babel-plugin-handlebars-inline-precompile`
+      },
+      {
+        from: `${NODE_MODULES_SRC}/eslint-plugin-okta-ui/lib/rules/no-bare-templates.js`,
+        to: `${NODE_MODULES_DEST}/eslint-plugin-okta-ui/lib/rules/no-bare-templates.js`,
+      },
       {
         from: `${SHARED_JS}/vendor/lib/jquery-1.12.4.js`,
         to: `${PUBLISH_DIR}/jquery.js`,

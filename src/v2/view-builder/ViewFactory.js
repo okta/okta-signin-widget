@@ -1,47 +1,69 @@
 import Logger from 'util/Logger';
+import { FORMS as RemediationForms } from '../ion/RemediationConstants';
 import BaseView from './internals/BaseView';
 
 // factor ignostic views
 import IdentifierView from './views/IdentifierView';
-import DeviceChallengePollView from './views/DeviceChallengePollView';
-import SSOExtensionView from './views/SSOExtensionView';
-import SelectFactorEnrollView from './views/SelectFactorEnrollView';
-import SelectFactorAuthenticateView from './views/SelectFactorAuthenticateView';
-import EnrollProfileView from './views/EnrollProfileView';
 import TerminalView from './views/TerminalView';
 import SuccessView from './views/SuccessView';
+
+// Device (Okta Mobile)
+import DeviceChallengePollView from './views/DeviceChallengePollView';
+import UserVerificationDeviceChallengePollView from './views/UserVerificationDeviceChallengePollView';
+import SSOExtensionView from './views/SSOExtensionView';
+
+// registration
+import EnrollProfileView from './views/EnrollProfileView';
+
+// authenticator list
+import SelectFactorEnrollView from './views/SelectFactorEnrollView';
+import SelectFactorAuthenticateView from './views/SelectFactorAuthenticateView';
+import SelectAuthenticatorEnrollView from './views/SelectAuthenticatorEnrollView';
+import SelectAuthenticatorVerifyView from './views/SelectAuthenticatorVerifyView';
+
 // password
 import EnrollFactorPasswordView from './views/password/EnrollFactorPasswordView';
 import RequiredFactorPasswordView from './views/password/RequiredFactorPasswordView';
+import EnrollAuthenticatorPasswordView from './views/password/EnrollAuthenticatorPasswordView';
+import ChallengeAuthenticatorPasswordView from './views/password/ChallengeAuthenticatorPasswordView';
+import ReEnrollAuthenticatorPasswordView from './views/password/ReEnrollAuthenticatorPasswordView';
+import ReEnrollAuthenticatorWarningPasswordView from './views/password/ReEnrollAuthenticatorWarningPasswordView';
+import ResetAuthenticatorPasswordView from './views/password/ResetAuthenticatorPasswordView';
+
+// phone
+import EnrollAuthenticatorPhoneView from './views/phone/EnrollAuthenticatorPhoneView';
+import EnrollAuthenticatorDataPhoneView from './views/phone/EnrollAuthenticatorDataPhoneView';
+import ChallengeAuthenticatorPhoneView from './views/phone/ChallengeAuthenticatorPhoneView';
+import ChallengeAuthenticatorDataPhoneView from './views/phone/ChallengeAuthenticatorDataPhoneView';
+
+// security question
+import EnrollAuthenticatorSecurityQuestion from './views/security-question/EnrollAuthenticatorSecurityQuestionView';
+import ChallengeAuthenticatorSecurityQuestion from './views/security-question/ChallengeAuthenticatorSecurityQuestion';
 
 //webauthn
 import RequiredFactorWebauthnView from './views/webauthn/RequiredFactorWebauthnView';
+import EnrollWebauthnView from './views/webauthn/EnrollWebauthnView';
+import ChallengeWebauthnView from './views/webauthn/ChallengeWebauthnView';
 
 // email
-// import EnrollFactorEmailView from './views/email/EnrollFactorEmailView';
+import EnrollAuthenticatorEmailView from './views/email/EnrollAuthenticatorEmailView';
 import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
-import TerminalReturnEmailView from './views/email/TerminalReturnEmailView';
-import TerminalTransferedEmailView from './views/email/TerminalTransferedEmailView';
-
+import ChallengeAuthenticatorEmailView from './views/email/ChallengeAuthenticatorEmailView';
 
 const DEFAULT = '_';
 
 const VIEWS_MAPPING = {
-  'identify': {
+  [RemediationForms.IDENTIFY]: {
     [DEFAULT]: IdentifierView,
   },
-  'device-challenge-poll': {
+  [RemediationForms.DEVICE_CHALLENGE_POLL]: {
     [DEFAULT]: DeviceChallengePollView,
   },
-  'device-apple-sso-extension': {
+  [RemediationForms.DEVICE_APPLE_SSO_EXTENSION]: {
     [DEFAULT]: SSOExtensionView,
   },
-  'cancel-transaction': {
+  [RemediationForms.CANCEL_TRANSACTION]: {
     [DEFAULT]: SSOExtensionView,
-  },
-  'select-factor': { //DEPRECATED: temporary backwards compatibility
-    authenticate: SelectFactorAuthenticateView,
-    enroll: SelectFactorEnrollView
   },
   'select-factor-authenticate': {
     [DEFAULT]: SelectFactorAuthenticateView,
@@ -49,7 +71,7 @@ const VIEWS_MAPPING = {
   'select-factor-enroll': {
     [DEFAULT]: SelectFactorEnrollView,
   },
-  'enroll-profile': {
+  [RemediationForms.ENROLL_PROFILE]: {
     [DEFAULT]: EnrollProfileView,
   },
   'enroll-factor': {
@@ -61,35 +83,73 @@ const VIEWS_MAPPING = {
     password: RequiredFactorPasswordView,
     webauthn: RequiredFactorWebauthnView,
   },
-  'terminal-transferred': {
-    [DEFAULT]: TerminalView,
-    'email': TerminalTransferedEmailView,
+
+  [RemediationForms.SELECT_AUTHENTICATOR_ENROLL]: {
+    [DEFAULT]: SelectAuthenticatorEnrollView,
   },
-  'terminal-return': {
-    [DEFAULT]: TerminalView,
-    'email': TerminalReturnEmailView,
+  [RemediationForms.AUTHENTICATOR_ENROLLMENT_DATA]: {
+    phone: EnrollAuthenticatorDataPhoneView,
   },
-  'success-redirect': {
+  [RemediationForms.ENROLL_AUTHENTICATOR]: {
+    password: EnrollAuthenticatorPasswordView,
+    'security_key': EnrollWebauthnView,
+    phone: EnrollAuthenticatorPhoneView,
+    'security_question': EnrollAuthenticatorSecurityQuestion,
+    email: EnrollAuthenticatorEmailView
+  },
+  // Expired scenarios for authenticators..
+  [RemediationForms.REENROLL_AUTHENTICATOR]: {
+    // Password expired scenario..
+    password: ReEnrollAuthenticatorPasswordView,
+  },
+  // Will expire soon warnings for authenticators..
+  [RemediationForms.REENROLL_AUTHENTICATOR_WARNING]: {
+    // Password will expire soon scenario..
+    password: ReEnrollAuthenticatorWarningPasswordView,
+  },
+  // Reset forms for authenticators..
+  [RemediationForms.RESET_AUTHENTICATOR]: {
+    // Admin driven password reset..
+    password: ResetAuthenticatorPasswordView,
+  },
+  [RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE]: {
+    [DEFAULT]: SelectAuthenticatorVerifyView,
+  },
+  [RemediationForms.CHALLENGE_AUTHENTICATOR]: {
+    email: ChallengeAuthenticatorEmailView,
+    password: ChallengeAuthenticatorPasswordView,
+    webauthn: RequiredFactorWebauthnView,
+    'security_key': ChallengeWebauthnView,
+    'security_question': ChallengeAuthenticatorSecurityQuestion,
+    phone: ChallengeAuthenticatorPhoneView,
+    app: UserVerificationDeviceChallengePollView,
+  },
+  [RemediationForms.AUTHENTICATOR_VERIFICATION_DATA]: {
+    phone: ChallengeAuthenticatorDataPhoneView,
+  },
+  [RemediationForms.SUCCESS_REDIRECT]: {
     [DEFAULT]: SuccessView,
+  },
+  // redirect-idp remediation object looks similar to identifier view
+  [RemediationForms.REDIRECT_IDP]: {
+    [DEFAULT]: IdentifierView,
+  },
+  [RemediationForms.TERMINAL]: {
+    [DEFAULT]: TerminalView,
   },
 };
 
 module.exports = {
-  create (formName, factorType = DEFAULT, step) {
+  create (formName, authenticatorType = DEFAULT) {
     const config = VIEWS_MAPPING[formName];
     if (!config) {
-      Logger.warn(`Cannot find customized View (form: ${formName}). Fallback to default configuration.`);
-      if (formName.indexOf('terminal') === 0) {
-        return TerminalView;
-      } else {
-        return BaseView;
-      }
+      Logger.warn(`Cannot find customized View for ${formName}.`);
+      return BaseView;
     }
-    // look for customized view by step, then by factor, if not found then use DEFAULT
-    const View = config[step] || config[factorType] || config[DEFAULT];
+    const View = config[authenticatorType] || config[DEFAULT];
 
     if (!View) {
-      Logger.warn(`Cannot find customized View (form: ${formName}, factor: ${factorType}). Fallback to BaseView.`);
+      Logger.warn(`Cannot find customized View for ${formName} + ${authenticatorType}.`);
       return BaseView;
     }
 
