@@ -626,6 +626,12 @@ function (Okta, Q, Factor, BrowserFeatures, Errors) {
           return res._embedded.scopes;
         }
       },
+      'issuer': {
+        deps: ['lastAuthResponse'],
+        fn: function (res) {
+          return res?._embedded?.authentication?.issuer?.uri;
+        }
+      },
       'hasExistingPhones': {
         deps: ['lastAuthResponse'],
         fn: function (res) {

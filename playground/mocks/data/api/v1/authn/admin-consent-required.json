@@ -1,0 +1,130 @@
+{
+  "stateToken": "00eL1hS274lCJnfPCifGwB-jNgwNeKlviamZhdloF1",
+  "type": "SESSION_STEP_UP",
+  "expiresAt": "2020-08-17T17:46:25.000Z",
+  "status": "ADMIN_CONSENT_REQUIRED",
+  "_embedded": {
+    "user": {
+      "id": "00uv6i7KjMkCgwFj10g3",
+      "passwordChanged": "2020-04-30T16:43:08.000Z",
+      "profile": {
+        "login": "administrator1@clouditude.net",
+        "firstName": "Add-Min",
+        "lastName": "O'Cloudy Tud",
+        "locale": "en",
+        "timeZone": "America/Los_Angeles"
+      }
+    },
+    "scopes": [
+      {
+        "name": "okta.users.manage",
+        "displayName": null,
+        "description": "Allows the app to create new users and to manage all users' profile and credentials information.",
+        "consent": "REQUIRED",
+        "_links": {
+        }
+      },
+      {
+        "name": "okta.groups.read",
+        "displayName": null,
+        "description": "Allows the app to read information about groups and their members in your Okta organization.",
+        "consent": "REQUIRED",
+        "_links": {
+        }
+      },
+      {
+        "name": "okta.inlineHooks.read",
+        "displayName": null,
+        "description": "Allows the app to read information about Inline Hooks in your Okta organization.",
+        "consent": "REQUIRED",
+        "_links": {
+        }
+      },
+      {
+        "name": "okta.eventHooks.read",
+        "displayName": null,
+        "description": "Allows the app to read information about Event Hooks in your Okta organization.",
+        "consent": "REQUIRED",
+        "_links": {
+        }
+      },
+      {
+        "name": "okta.idps.read",
+        "displayName": null,
+        "description": "Allows the app to read information about Identity Providers in your Okta organization.",
+        "consent": "REQUIRED",
+        "_links": {
+        }
+      },
+      {
+        "name": "okta.logs.read",
+        "displayName": null,
+        "description": "Allows the app to read information about System Log entries in your Okta organization.",
+        "consent": "REQUIRED",
+        "_links": {
+        }
+      },
+      {
+        "name": "okta.clients.read",
+        "displayName": null,
+        "description": "Allows the app to read information about clients in your Okta organization.",
+        "consent": "REQUIRED",
+        "_links": {
+        }
+      },
+      {
+        "name": "okta.foo.read",
+        "displayName": null,
+        "description": "Allows app to manage Foo App",
+        "consent": "REQUIRED",
+        "_links": {
+        }
+      }
+    ],
+    "target": {
+      "type": "APP",
+      "name": "oidc_client",
+      "label": "OAuth Service - Foo App 1",
+      "clientId": "0oa1wpnrhDeu3YXLP0g4",
+      "_links": {
+      }
+    },
+    "authentication": {
+      "protocol": "OAUTH2.0",
+      "request": {
+        "scope": "okta.clients.read okta.apps.read okta.idps.read okta.logs.read",
+        "state": "okta-hosted-login-state-xyz",
+        "redirect_uri": "http://localhost:9191"
+      },
+      "issuer": {
+        "name": "Rain-Cloud59",
+        "uri": "http://localhost:3000"
+      },
+      "client": {
+        "id": "0oa1wpnrhDeu3YXLP0g4",
+        "name": "OAuth Service - Foo App 1",
+        "_links": {
+        }
+      }
+    }
+  },
+  "_links": {
+    "next": {
+      "name": "consent",
+      "href": "http://localhost:3000/api/v1/authn/consent",
+      "hints": {
+        "allow": [
+          "POST"
+        ]
+      }
+    },
+    "cancel": {
+      "href": "http://localhost:3000/api/v1/authn/cancel",
+      "hints": {
+        "allow": [
+          "POST"
+        ]
+      }
+    }
+  }
+}
