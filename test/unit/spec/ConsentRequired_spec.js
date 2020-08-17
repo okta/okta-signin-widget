@@ -128,7 +128,7 @@ Expect.describe('ConsentRequired', function () {
     });
     itp('has the correct app name in the title', function () {
       return setup().then(function (test) {
-        expect(test.form.consentTitle().text().trim()).toBe('Janky App would like to:');
+        expect(test.form.consentTitle().text().trim()).toBe('Janky App would like to access:');
       });
     });
     itp('has the correct consent description', function () {

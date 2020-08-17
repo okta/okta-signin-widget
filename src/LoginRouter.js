@@ -13,6 +13,7 @@
 /* eslint max-params: 0 */
 import AccountUnlockedController from 'AccountUnlockedController';
 import ActivateTotpController from 'ActivateTotpController';
+import AdminConsentRequiredController from 'AdminConsentRequiredController';
 import BarcodePushController from 'BarcodePushController';
 import BarcodeTotpController from 'BarcodeTotpController';
 import ConsentRequiredController from 'ConsentRequiredController';
@@ -129,6 +130,7 @@ export default BaseLoginRouter.extend({
     'signin/register-complete': 'registerComplete',
     'signin/error': 'errorState',
     'signin/consent': 'consentRequired',
+    'signin/admin-consent': 'adminConsentRequired',
     'signin/enroll-user': 'enrollUser',
     '*wildcard': 'defaultAuth',
   },
@@ -533,6 +535,10 @@ export default BaseLoginRouter.extend({
 
   consentRequired: function () {
     this.render(ConsentRequiredController);
+  },
+
+  adminConsentRequired: function () {
+    this.render(AdminConsentRequiredController);
   },
 
   enrollUser: function () {
