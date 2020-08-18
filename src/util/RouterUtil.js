@@ -198,8 +198,7 @@ function (Okta, OAuth2Util, Util, Enums, BrowserFeatures, Errors, ErrorCodes) {
       }
       
       // Check if we need to wait for redirect based on host.
-      if (router.settings.get('features.restrictRedirectToForeground') &&
-          fn.isHostBackgroundChromeTab()) {
+      if (fn.isHostBackgroundChromeTab()) {
         document.addEventListener('visibilitychange', function checkVisibilityAndCallSuccess () {
           if (fn.isDocumentVisible()) {
             document.removeEventListener('visibilitychange', checkVisibilityAndCallSuccess);

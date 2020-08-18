@@ -186,42 +186,11 @@ function (Q, Okta, OktaAuth, Util, Form, Beacon, Expect, Router, RouterUtil, Bro
     });
     itp('calls enroll with the right arguments when save is clicked', function () {
       return setup(allFactors).then(function (test) {
-        Util.resetAjaxRequests();
-        test.form.selectQuestion('favorite_security_question');
-        test.form.setAnswer('No question! Hah!');
-        test.setNextResponse(resSuccess);
-        spyOn(RouterUtil, 'isHostBackgroundChromeTab').and.callThrough();
-        test.form.submit();
-        return Expect.waitForAjaxRequest();
-      })
-        .then(function () {
-          // restrictRedirectToForeground Flag is not enabled
-          expect(RouterUtil.isHostBackgroundChromeTab).not.toHaveBeenCalled();
-          expect(Util.numAjaxRequests()).toBe(1);
-          Expect.isJsonPost(Util.getAjaxRequest(0), {
-            url: 'https://foo.com/api/v1/authn/factors',
-            data: {
-              factorType: 'question',
-              provider: 'OKTA',
-              profile: {
-                question: 'favorite_security_question',
-                answer: 'No question! Hah!'
-              },
-              stateToken: expectedStateToken
-            }
-          });
-        });
-    });
-
-    itp('calls enroll with the right arguments when save is clicked in restrictRedirectToForeground flow', function () {
-      return setup(allFactors).then(function (test) {
         test.successSpy.calls.reset();
         Util.resetAjaxRequests();
         test.form.selectQuestion('favorite_security_question');
         test.form.setAnswer('No question! Hah!');
         test.setNextResponse(resSuccess);
-        // Set flag
-        test.router.settings.set('features.restrictRedirectToForeground', true);
         spyOn(RouterUtil, 'isHostBackgroundChromeTab').and.callFake(function () {
           return true;
         });
