@@ -7,7 +7,13 @@ describe('v2/ion/i18nTransformer', function () {
 
   beforeAll(() => {
     originalLoginBundle = Bundles.login;
-    Bundles.login = _.mapObject({
+    Bundles.login = _.mapObject(
+      {
+        'oie.authenticator.email.label': 'email authenticator',
+        'oie.authenticator.password.label': 'password authenticator',
+        'oie.authenticator.phone.label': 'phone authenticator',
+        'oie.webauthn': 'webauthn authenticator',
+        'oie.authenticator.security.question.label': 'security question authenticator',
 
       'oie.authenticator.email.label': 'email authenticator',
       'oie.authenticator.password.label': 'password authenticator',
@@ -18,9 +24,10 @@ describe('v2/ion/i18nTransformer', function () {
       'oie.okta_verify.push.title': 'okta verify push',
       'oie.okta_verify.totp.title': 'okta verify totp',
 
-      'oie.password.passwordLabel': 'enter password',
-      'oie.security.question.questionKey.label': 'choose a question',
-      'oie.security.question.createQuestion.label': 'create a question',
+        'mfa.phoneNumber.placeholder': 'phone number',
+        'mfa.challenge.answer.placeholder': 'answer',
+        'mfa.challenge.enterCode.placeholder': 'enter code',
+        'mfa.challenge.password.placeholder': 'password',
 
       'mfa.phoneNumber.placeholder': 'phone number',
       'mfa.challenge.answer.placeholder': 'answer',
@@ -28,17 +35,11 @@ describe('v2/ion/i18nTransformer', function () {
       'mfa.challenge.password.placeholder': 'password',
       'oie.okta_verify.totp.enterCodeText': 'enter totp code',
 
-      'primaryauth.password.placeholder': 'password',
-      'primaryauth.username.placeholder': 'username',
-      'remember': 'remember me',
-      'security.disliked_food': 'dislike food answer',
-      'security.name_of_first_plush_toy': 'first plush toy answer',
-      'security.favorite_vacation_location': 'vacation location answer',
-
-      'idx.email.verification.required': 'An email has been sent. Check your inbox.',
-      'idx.foo': 'hello the {0} authenticator',
-
-    }, (value) => `unit test - ${value}`);
+        'idx.email.verification.required': 'An email has been sent. Check your inbox.',
+        'idx.foo': 'hello the {0} authenticator',
+      },
+      value => `unit test - ${value}`
+    );
   });
   afterAll(() => {
     Bundles.login = originalLoginBundle;
@@ -47,10 +48,10 @@ describe('v2/ion/i18nTransformer', function () {
 
   it('no remediations', () => {
     const resp = {
-      stateHandle: 'xxx'
+      stateHandle: 'xxx',
     };
     expect(i18nTransformer(resp)).toEqual({
-      stateHandle: 'xxx'
+      stateHandle: 'xxx',
     });
   });
 
@@ -59,17 +60,17 @@ describe('v2/ion/i18nTransformer', function () {
       remediations: [
         {
           name: 'test',
-          value: []
-        }
-      ]
+          value: [],
+        },
+      ],
     };
     expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           name: 'test',
-          value: []
-        }
-      ]
+          value: [],
+        },
+      ],
     });
   });
 
@@ -101,10 +102,10 @@ describe('v2/ion/i18nTransformer', function () {
               placeholder: 'Remember Me',
               required: false,
               type: 'checkbox',
-            }
-          ]
-        }
-      ]
+            },
+          ],
+        },
+      ],
     };
     expect(i18nTransformer(resp)).toEqual({
       remediations: [
@@ -133,10 +134,10 @@ describe('v2/ion/i18nTransformer', function () {
               placeholder: 'unit test - remember me',
               required: false,
               type: 'checkbox',
-            }
-          ]
-        }
-      ]
+            },
+          ],
+        },
+      ],
     });
   });
 
@@ -147,48 +148,48 @@ describe('v2/ion/i18nTransformer', function () {
           name: 'select-authenticator-authenticate',
           uiSchema: [
             {
-              'name': 'authenticator',
-              'type': 'authenticatorVerifySelect',
-              'options': [
+              name: 'authenticator',
+              type: 'authenticatorVerifySelect',
+              options: [
                 {
-                  'label': 'Okta Password',
-                  'value': {
-                    'id': 'aidwboITrg4b4yAYd0g3'
+                  label: 'Okta Password',
+                  value: {
+                    id: 'aidwboITrg4b4yAYd0g3',
                   },
-                  'authenticatorType': 'password'
+                  authenticatorType: 'password',
                 },
                 {
-                  'label': 'FIDO2 (WebAuthn)',
-                  'value': {
-                    'id': 'fwftheidkwh282hv8g3'
+                  label: 'FIDO2 (WebAuthn)',
+                  value: {
+                    id: 'fwftheidkwh282hv8g3',
                   },
-                  'authenticatorType': 'security_key'
+                  authenticatorType: 'security_key',
                 },
                 {
-                  'label': 'FIDO2 (WebAuthn)',
-                  'value': {
-                    'id': 'aidtheidkwh282hv8g3'
+                  label: 'FIDO2 (WebAuthn)',
+                  value: {
+                    id: 'aidtheidkwh282hv8g3',
                   },
-                  'authenticatorType': 'security_key'
+                  authenticatorType: 'security_key',
                 },
                 {
-                  'label': 'Okta Email',
-                  'value': {
-                    'id': 'aidtm56L8gXXHI1SD0g3'
+                  label: 'Okta Email',
+                  value: {
+                    id: 'aidtm56L8gXXHI1SD0g3',
                   },
-                  'authenticatorType': 'email'
+                  authenticatorType: 'email',
                 },
                 {
-                  'label': 'Okta Phone',
-                  'value': {
-                    'id': 'aid568g3mXgtID0X1SLH'
+                  label: 'Okta Phone',
+                  value: {
+                    id: 'aid568g3mXgtID0X1SLH',
                   },
-                  'authenticatorType': 'phone'
+                  authenticatorType: 'phone',
                 },
                 {
-                  'label': 'Okta Security Question',
-                  'value': {
-                    'id': 'aid568g3mXgtID0HHSLH'
+                  label: 'Okta Security Question',
+                  value: {
+                    id: 'aid568g3mXgtID0HHSLH',
                   },
                   'authenticatorType': 'security_question'
                 },
@@ -217,11 +218,11 @@ describe('v2/ion/i18nTransformer', function () {
                   'authenticatorType': 'app'
                 }
               ],
-              'label-top': true
-            }
-          ]
-        }
-      ]
+              'label-top': true,
+            },
+          ],
+        },
+      ],
     };
     expect(i18nTransformer(resp)).toEqual({
       remediations: [
@@ -229,48 +230,48 @@ describe('v2/ion/i18nTransformer', function () {
           name: 'select-authenticator-authenticate',
           uiSchema: [
             {
-              'name': 'authenticator',
-              'type': 'authenticatorVerifySelect',
-              'options': [
+              name: 'authenticator',
+              type: 'authenticatorVerifySelect',
+              options: [
                 {
-                  'label': 'unit test - password authenticator',
-                  'value': {
-                    'id': 'aidwboITrg4b4yAYd0g3'
+                  label: 'unit test - password authenticator',
+                  value: {
+                    id: 'aidwboITrg4b4yAYd0g3',
                   },
-                  'authenticatorType': 'password'
+                  authenticatorType: 'password',
                 },
                 {
-                  'label': 'FIDO2 (WebAuthn)',
-                  'value': {
-                    'id': 'fwftheidkwh282hv8g3'
+                  label: 'FIDO2 (WebAuthn)',
+                  value: {
+                    id: 'fwftheidkwh282hv8g3',
                   },
-                  'authenticatorType': 'security_key'
+                  authenticatorType: 'security_key',
                 },
                 {
-                  'label': 'FIDO2 (WebAuthn)',
-                  'value': {
-                    'id': 'aidtheidkwh282hv8g3'
+                  label: 'FIDO2 (WebAuthn)',
+                  value: {
+                    id: 'aidtheidkwh282hv8g3',
                   },
-                  'authenticatorType': 'security_key'
+                  authenticatorType: 'security_key',
                 },
                 {
-                  'label': 'unit test - email authenticator',
-                  'value': {
-                    'id': 'aidtm56L8gXXHI1SD0g3'
+                  label: 'unit test - email authenticator',
+                  value: {
+                    id: 'aidtm56L8gXXHI1SD0g3',
                   },
-                  'authenticatorType': 'email'
+                  authenticatorType: 'email',
                 },
                 {
-                  'label': 'unit test - phone authenticator',
-                  'value': {
-                    'id': 'aid568g3mXgtID0X1SLH'
+                  label: 'unit test - phone authenticator',
+                  value: {
+                    id: 'aid568g3mXgtID0X1SLH',
                   },
-                  'authenticatorType': 'phone'
+                  authenticatorType: 'phone',
                 },
                 {
-                  'label': 'unit test - security question authenticator',
-                  'value': {
-                    'id': 'aid568g3mXgtID0HHSLH'
+                  label: 'unit test - security question authenticator',
+                  value: {
+                    id: 'aid568g3mXgtID0HHSLH',
                   },
                   'authenticatorType': 'security_question'
                 },
@@ -299,11 +300,11 @@ describe('v2/ion/i18nTransformer', function () {
                   'authenticatorType': 'app'
                 }
               ],
-              'label-top': true
-            }
-          ]
-        }
-      ]
+              'label-top': true,
+            },
+          ],
+        },
+      ],
     });
   });
 
@@ -313,8 +314,8 @@ describe('v2/ion/i18nTransformer', function () {
         {
           relatesTo: {
             value: {
-              type: 'email'
-            }
+              type: 'email',
+            },
           },
           name: 'challenge-authenticator',
           uiSchema: [
@@ -323,10 +324,10 @@ describe('v2/ion/i18nTransformer', function () {
               'label-top': true,
               name: 'credentials.passcode',
               type: 'text',
-            }
-          ]
-        }
-      ]
+            },
+          ],
+        },
+      ],
     };
     expect(i18nTransformer(resp)).toEqual({
       remediations: [
@@ -334,8 +335,8 @@ describe('v2/ion/i18nTransformer', function () {
           name: 'challenge-authenticator',
           relatesTo: {
             value: {
-              type: 'email'
-            }
+              type: 'email',
+            },
           },
           uiSchema: [
             {
@@ -343,10 +344,10 @@ describe('v2/ion/i18nTransformer', function () {
               'label-top': true,
               name: 'credentials.passcode',
               type: 'text',
-            }
-          ]
-        }
-      ]
+            },
+          ],
+        },
+      ],
     });
   });
 
@@ -356,8 +357,8 @@ describe('v2/ion/i18nTransformer', function () {
         {
           relatesTo: {
             value: {
-              type: 'phone'
-            }
+              type: 'phone',
+            },
           },
           name: 'challenge-authenticator',
           uiSchema: [
@@ -366,18 +367,18 @@ describe('v2/ion/i18nTransformer', function () {
               'label-top': true,
               name: 'credentials.passcode',
               type: 'text',
-            }
-          ]
-        }
-      ]
+            },
+          ],
+        },
+      ],
     };
     expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           relatesTo: {
             value: {
-              type: 'phone'
-            }
+              type: 'phone',
+            },
           },
           name: 'challenge-authenticator',
           uiSchema: [
@@ -386,10 +387,10 @@ describe('v2/ion/i18nTransformer', function () {
               'label-top': true,
               name: 'credentials.passcode',
               type: 'text',
-            }
-          ]
-        }
-      ]
+            },
+          ],
+        },
+      ],
     });
   });
 
@@ -399,44 +400,44 @@ describe('v2/ion/i18nTransformer', function () {
         {
           relatesTo: {
             value: {
-              type: 'password'
-            }
+              type: 'password',
+            },
           },
           name: 'challenge-authenticator',
           uiSchema: [
             {
-              'name': 'credentials.passcode',
-              'label': 'Password',
-              'secret': true,
+              name: 'credentials.passcode',
+              label: 'Password',
+              secret: true,
               'label-top': true,
-              'type': 'password',
-              'params': { 'showPasswordToggle': true }
-            }
-          ]
-        }
-      ]
+              type: 'password',
+              params: { showPasswordToggle: true },
+            },
+          ],
+        },
+      ],
     };
     expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           relatesTo: {
             value: {
-              type: 'password'
-            }
+              type: 'password',
+            },
           },
           name: 'challenge-authenticator',
           uiSchema: [
             {
-              'name': 'credentials.passcode',
-              'label': 'unit test - password',
-              'secret': true,
+              name: 'credentials.passcode',
+              label: 'unit test - password',
+              secret: true,
               'label-top': true,
-              'type': 'password',
-              'params': { 'showPasswordToggle': true }
-            }
-          ]
-        }
-      ]
+              type: 'password',
+              params: { showPasswordToggle: true },
+            },
+          ],
+        },
+      ],
     });
   });
 
@@ -447,29 +448,29 @@ describe('v2/ion/i18nTransformer', function () {
           name: 'challenge-authenticator',
           relatesTo: {
             value: {
-              type: 'security_question'
-            }
+              type: 'security_question',
+            },
           },
           uiSchema: [
             {
-              'name': 'credentials.questionKey',
-              'label': 'Where did you go for your favorite vacation?',
-              'required': true,
-              'value': 'favorite_vacation_location',
-              'visible': false,
+              name: 'credentials.questionKey',
+              label: 'Where did you go for your favorite vacation?',
+              required: true,
+              value: 'favorite_vacation_location',
+              visible: false,
               'label-top': true,
-              'type': 'text'
+              type: 'text',
             },
             {
-              'name': 'credentials.answer',
-              'label': 'answer',
-              'required': true,
+              name: 'credentials.answer',
+              label: 'answer',
+              required: true,
               'label-top': true,
-              'type': 'text'
-            }
-          ]
-        }
-      ]
+              type: 'text',
+            },
+          ],
+        },
+      ],
     };
     expect(i18nTransformer(resp)).toEqual({
       remediations: [
@@ -477,29 +478,29 @@ describe('v2/ion/i18nTransformer', function () {
           name: 'challenge-authenticator',
           relatesTo: {
             value: {
-              type: 'security_question'
-            }
+              type: 'security_question',
+            },
           },
           uiSchema: [
             {
-              'name': 'credentials.questionKey',
-              'label': 'Where did you go for your favorite vacation?',
-              'required': true,
-              'value': 'favorite_vacation_location',
-              'visible': false,
+              name: 'credentials.questionKey',
+              label: 'Where did you go for your favorite vacation?',
+              required: true,
+              value: 'favorite_vacation_location',
+              visible: false,
               'label-top': true,
-              'type': 'text'
+              type: 'text',
             },
             {
-              'name': 'credentials.answer',
-              'label': 'unit test - answer',
-              'required': true,
+              name: 'credentials.answer',
+              label: 'unit test - answer',
+              required: true,
               'label-top': true,
-              'type': 'text'
-            }
-          ]
-        }
-      ]
+              type: 'text',
+            },
+          ],
+        },
+      ],
     });
   });
 
@@ -561,28 +562,28 @@ describe('v2/ion/i18nTransformer', function () {
                 {
                   label: 'Okta Password',
                   value: { id: 'autwa6eD9o02iBbtv0g3' },
-                  authenticatorType: 'password'
+                  authenticatorType: 'password',
                 },
                 {
                   label: 'Okta Phone',
                   value: { id: 'aid568g3mXgtID0X1SLH' },
-                  authenticatorType: 'phone'
+                  authenticatorType: 'phone',
                 },
                 {
                   label: 'Security Key or Biometric Authenticator (FIDO2)',
                   value: { id: 'aidtheidkwh282hv8g3' },
-                  authenticatorType: 'security_key'
+                  authenticatorType: 'security_key',
                 },
                 {
                   label: 'Okta Security Question',
                   value: { id: 'aid568g3mXgtID0X1GGG' },
-                  authenticatorType: 'security_question'
+                  authenticatorType: 'security_question',
                 },
-              ]
-            }
-          ]
-        }
-      ]
+              ],
+            },
+          ],
+        },
+      ],
     };
     expect(i18nTransformer(resp)).toEqual({
       remediations: [
@@ -598,28 +599,28 @@ describe('v2/ion/i18nTransformer', function () {
                 {
                   label: 'unit test - password authenticator',
                   value: { id: 'autwa6eD9o02iBbtv0g3' },
-                  authenticatorType: 'password'
+                  authenticatorType: 'password',
                 },
                 {
                   label: 'unit test - phone authenticator',
                   value: { id: 'aid568g3mXgtID0X1SLH' },
-                  authenticatorType: 'phone'
+                  authenticatorType: 'phone',
                 },
                 {
                   label: 'Security Key or Biometric Authenticator (FIDO2)',
                   value: { id: 'aidtheidkwh282hv8g3' },
-                  authenticatorType: 'security_key'
+                  authenticatorType: 'security_key',
                 },
                 {
                   label: 'unit test - security question authenticator',
                   value: { id: 'aid568g3mXgtID0X1GGG' },
-                  authenticatorType: 'security_question'
+                  authenticatorType: 'security_question',
                 },
-              ]
-            }
-          ]
-        }
-      ]
+              ],
+            },
+          ],
+        },
+      ],
     });
   });
 
@@ -630,33 +631,33 @@ describe('v2/ion/i18nTransformer', function () {
           name: 'authenticator-enrollment-data',
           relatesTo: {
             value: {
-              type: 'phone'
-            }
+              type: 'phone',
+            },
           },
           uiSchema: [
             {
-              'name': 'authenticator.methodType',
-              'required': true,
-              'options': [
+              name: 'authenticator.methodType',
+              required: true,
+              options: [
                 {
-                  'label': 'Voice call',
-                  'value': 'voice'
-                }
+                  label: 'Voice call',
+                  value: 'voice',
+                },
               ],
-              'value': 'voice',
+              value: 'voice',
               'label-top': true,
-              'type': 'radio'
+              type: 'radio',
             },
             {
-              'name': 'authenticator.phoneNumber',
-              'required': true,
-              'type': 'text',
-              'label': 'Phone number',
-              'label-top': true
-            }
-          ]
-        }
-      ]
+              name: 'authenticator.phoneNumber',
+              required: true,
+              type: 'text',
+              label: 'Phone number',
+              'label-top': true,
+            },
+          ],
+        },
+      ],
     };
     expect(i18nTransformer(resp)).toEqual({
       remediations: [
@@ -664,33 +665,33 @@ describe('v2/ion/i18nTransformer', function () {
           name: 'authenticator-enrollment-data',
           relatesTo: {
             value: {
-              type: 'phone'
-            }
+              type: 'phone',
+            },
           },
           uiSchema: [
             {
-              'name': 'authenticator.methodType',
-              'required': true,
-              'options': [
+              name: 'authenticator.methodType',
+              required: true,
+              options: [
                 {
-                  'label': 'Voice call',
-                  'value': 'voice'
-                }
+                  label: 'Voice call',
+                  value: 'voice',
+                },
               ],
-              'value': 'voice',
+              value: 'voice',
               'label-top': true,
-              'type': 'radio'
+              type: 'radio',
             },
             {
-              'name': 'authenticator.phoneNumber',
-              'required': true,
-              'type': 'text',
-              'label': 'unit test - phone number',
-              'label-top': true
-            }
-          ]
-        }
-      ]
+              name: 'authenticator.phoneNumber',
+              required: true,
+              type: 'text',
+              label: 'unit test - phone number',
+              'label-top': true,
+            },
+          ],
+        },
+      ],
     });
   });
 
@@ -701,23 +702,23 @@ describe('v2/ion/i18nTransformer', function () {
           name: 'enroll-authenticator',
           relatesTo: {
             value: {
-              type: 'password'
-            }
+              type: 'password',
+            },
           },
           uiSchema: [
             {
-              'name': 'credentials.passcode',
-              'label': 'Enter password',
-              'secret': true,
+              name: 'credentials.passcode',
+              label: 'Enter password',
+              secret: true,
               'label-top': true,
-              'type': 'password',
-              'params': {
-                'showPasswordToggle': true
-              }
-            }
-          ]
-        }
-      ]
+              type: 'password',
+              params: {
+                showPasswordToggle: true,
+              },
+            },
+          ],
+        },
+      ],
     };
     expect(i18nTransformer(resp)).toEqual({
       remediations: [
@@ -725,23 +726,23 @@ describe('v2/ion/i18nTransformer', function () {
           name: 'enroll-authenticator',
           relatesTo: {
             value: {
-              type: 'password'
-            }
+              type: 'password',
+            },
           },
           uiSchema: [
             {
-              'name': 'credentials.passcode',
-              'label': 'unit test - enter password',
-              'secret': true,
+              name: 'credentials.passcode',
+              label: 'unit test - enter password',
+              secret: true,
               'label-top': true,
-              'type': 'password',
-              'params': {
-                'showPasswordToggle': true
-              }
-            }
-          ]
-        }
-      ]
+              type: 'password',
+              params: {
+                showPasswordToggle: true,
+              },
+            },
+          ],
+        },
+      ],
     });
   });
 
@@ -752,86 +753,86 @@ describe('v2/ion/i18nTransformer', function () {
           name: 'enroll-authenticator',
           relatesTo: {
             value: {
-              type: 'security_question'
-            }
+              type: 'security_question',
+            },
           },
           uiSchema: [
             {
-              'name': 'sub_schema_local_credentials',
-              'type': 'radio',
-              'required': true,
-              'value': '0',
-              'options': [
+              name: 'sub_schema_local_credentials',
+              type: 'radio',
+              required: true,
+              value: '0',
+              options: [
                 {
-                  'label': 'Choose a security question',
-                  'value': 0
+                  label: 'Choose a security question',
+                  value: 0,
                 },
                 {
-                  'label': 'Create my own security question',
-                  'value': 1
-                }
+                  label: 'Create my own security question',
+                  value: 1,
+                },
               ],
               'label-top': true,
-              'optionsUiSchemas': [
+              optionsUiSchemas: [
                 [
                   {
-                    'name': 'credentials.questionKey',
-                    'type': 'select',
-                    'required': true,
-                    'label': 'Choose a security question',
-                    'options': {
+                    name: 'credentials.questionKey',
+                    type: 'select',
+                    required: true,
+                    label: 'Choose a security question',
+                    options: {
                       'disliked_food': 'What is the food you least liked as a child?',
                       'name_of_first_plush_toy': 'What is the name of your first stuffed animal?',
-                      'favorite_vacation_location': 'Where did you go for your favorite vacation?'
+                      'favorite_vacation_location': 'Where did you go for your favorite vacation?',
                     },
                     'label-top': true,
-                    'wide': true
+                    wide: true,
                   },
                   {
-                    'name': 'credentials.answer',
-                    'label': 'Answer',
-                    'required': true,
-                    'secret': true,
+                    name: 'credentials.answer',
+                    label: 'Answer',
+                    required: true,
+                    secret: true,
                     'label-top': true,
-                    'type': 'password',
-                    'params': {
-                      'showPasswordToggle': true
-                    }
-                  }
+                    type: 'password',
+                    params: {
+                      showPasswordToggle: true,
+                    },
+                  },
                 ],
                 [
                   {
-                    'name': 'credentials.questionKey',
-                    'required': true,
-                    'value': 'custom',
-                    'mutable': false,
+                    name: 'credentials.questionKey',
+                    required: true,
+                    value: 'custom',
+                    mutable: false,
                     'label-top': true,
-                    'type': 'text'
+                    type: 'text',
                   },
                   {
-                    'name': 'credentials.question',
-                    'label': 'Create a security question',
-                    'required': true,
+                    name: 'credentials.question',
+                    label: 'Create a security question',
+                    required: true,
                     'label-top': true,
-                    'type': 'text'
+                    type: 'text',
                   },
                   {
-                    'name': 'credentials.answer',
-                    'label': 'Answer',
-                    'required': true,
-                    'secret': true,
+                    name: 'credentials.answer',
+                    label: 'Answer',
+                    required: true,
+                    secret: true,
                     'label-top': true,
-                    'type': 'password',
-                    'params': {
-                      'showPasswordToggle': true
-                    }
-                  }
-                ]
-              ]
-            }
-          ]
-        }
-      ]
+                    type: 'password',
+                    params: {
+                      showPasswordToggle: true,
+                    },
+                  },
+                ],
+              ],
+            },
+          ],
+        },
+      ],
     };
     expect(i18nTransformer(resp)).toEqual({
       remediations: [
@@ -839,87 +840,86 @@ describe('v2/ion/i18nTransformer', function () {
           name: 'enroll-authenticator',
           relatesTo: {
             value: {
-              type: 'security_question'
-            }
+              type: 'security_question',
+            },
           },
           uiSchema: [
             {
-              'name': 'sub_schema_local_credentials',
-              'type': 'radio',
-              'required': true,
-              'value': '0',
-              'options': [
+              name: 'sub_schema_local_credentials',
+              type: 'radio',
+              required: true,
+              value: '0',
+              options: [
                 {
-                  'label': 'unit test - choose a question',
-                  'value': 0
+                  label: 'unit test - choose a question',
+                  value: 0,
                 },
                 {
-                  'label': 'unit test - create a question',
-                  'value': 1
-                }
+                  label: 'unit test - create a question',
+                  value: 1,
+                },
               ],
               'label-top': true,
-              'optionsUiSchemas': [
+              optionsUiSchemas: [
                 [
                   {
-                    'name': 'credentials.questionKey',
-                    'type': 'select',
-                    'required': true,
-                    'label': 'unit test - choose a question',
-                    'options': {
+                    name: 'credentials.questionKey',
+                    type: 'select',
+                    required: true,
+                    label: 'unit test - choose a question',
+                    options: {
                       'disliked_food': 'unit test - dislike food answer',
                       'name_of_first_plush_toy': 'unit test - first plush toy answer',
                       'favorite_vacation_location': 'unit test - vacation location answer',
                     },
                     'label-top': true,
-                    'wide': true
+                    wide: true,
                   },
                   {
-                    'name': 'credentials.answer',
-                    'label': 'unit test - answer',
-                    'required': true,
-                    'secret': true,
+                    name: 'credentials.answer',
+                    label: 'unit test - answer',
+                    required: true,
+                    secret: true,
                     'label-top': true,
-                    'type': 'password',
-                    'params': {
-                      'showPasswordToggle': true
-                    }
-                  }
+                    type: 'password',
+                    params: {
+                      showPasswordToggle: true,
+                    },
+                  },
                 ],
                 [
                   {
-                    'name': 'credentials.questionKey',
-                    'required': true,
-                    'value': 'custom',
-                    'mutable': false,
+                    name: 'credentials.questionKey',
+                    required: true,
+                    value: 'custom',
+                    mutable: false,
                     'label-top': true,
-                    'type': 'text'
+                    type: 'text',
                   },
                   {
-                    'name': 'credentials.question',
-                    'label': 'unit test - create a question',
-                    'required': true,
+                    name: 'credentials.question',
+                    label: 'unit test - create a question',
+                    required: true,
                     'label-top': true,
-                    'type': 'text'
+                    type: 'text',
                   },
                   {
-                    'name': 'credentials.answer',
-                    'label': 'unit test - answer',
-                    'required': true,
-                    'secret': true,
+                    name: 'credentials.answer',
+                    label: 'unit test - answer',
+                    required: true,
+                    secret: true,
                     'label-top': true,
-                    'type': 'password',
-                    'params': {
-                      'showPasswordToggle': true
-                    }
-                  }
-                ]
-              ]
-            }
-          ]
-        }
-
-      ]
+                    type: 'password',
+                    params: {
+                      showPasswordToggle: true,
+                    },
+                  },
+                ],
+              ],
+            },
+          ],
+        },
+      ],
     });
   });
 
@@ -928,47 +928,43 @@ describe('v2/ion/i18nTransformer', function () {
       messages: {
         value: [
           {
-            'message': 'An activation email has been sent to john@gmail.com.',
-            'i18n': {
-              'key': 'idx.email.verification.required'
+            message: 'An activation email has been sent to john@gmail.com.',
+            i18n: {
+              key: 'idx.email.verification.required',
             },
-            'class': 'INFO'
+            class: 'INFO',
           },
           {
-            'message': 'another {0} message',
-            'i18n': {
-              'key': 'idx.foo',
-              'params': [
-                'Email'
-              ]
+            message: 'another {0} message',
+            i18n: {
+              key: 'idx.foo',
+              params: ['Email'],
             },
-            'class': 'INFO'
-          }
-        ]
-      }
+            class: 'INFO',
+          },
+        ],
+      },
     };
     expect(i18nTransformer(resp)).toEqual({
       messages: {
         value: [
           {
-            'message': 'unit test - An email has been sent. Check your inbox.',
-            'i18n': {
-              'key': 'idx.email.verification.required'
+            message: 'unit test - An email has been sent. Check your inbox.',
+            i18n: {
+              key: 'idx.email.verification.required',
             },
-            'class': 'INFO'
+            class: 'INFO',
           },
           {
-            'message': 'unit test - hello the Email authenticator',
-            'i18n': {
-              'key': 'idx.foo',
-              'params': [
-                'Email'
-              ]
+            message: 'unit test - hello the Email authenticator',
+            i18n: {
+              key: 'idx.foo',
+              params: ['Email'],
             },
-            'class': 'INFO'
-          }
-        ]
-      }
+            class: 'INFO',
+          },
+        ],
+      },
     });
   });
 
@@ -978,44 +974,44 @@ describe('v2/ion/i18nTransformer', function () {
         {
           relatesTo: {
             value: {
-              type: 'password'
-            }
+              type: 'password',
+            },
           },
           name: 'challenge-authenticator',
           uiSchema: [
             {
-              'name': 'non.existent.key',
-              'label': 'Type Passcode',
-              'secret': true,
+              name: 'non.existent.key',
+              label: 'Type Passcode',
+              secret: true,
               'label-top': true,
-              'type': 'password',
-              'params': { 'showPasswordToggle': true }
-            }
-          ]
-        }
-      ]
+              type: 'password',
+              params: { showPasswordToggle: true },
+            },
+          ],
+        },
+      ],
     };
     expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
           relatesTo: {
             value: {
-              type: 'password'
-            }
+              type: 'password',
+            },
           },
           name: 'challenge-authenticator',
           uiSchema: [
             {
-              'name': 'non.existent.key',
-              'label': 'Type Passcode',
-              'secret': true,
+              name: 'non.existent.key',
+              label: 'Type Passcode',
+              secret: true,
               'label-top': true,
-              'type': 'password',
-              'params': { 'showPasswordToggle': true }
-            }
-          ]
-        }
-      ]
+              type: 'password',
+              params: { showPasswordToggle: true },
+            },
+          ],
+        },
+      ],
     });
   });
 });

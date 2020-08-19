@@ -1,123 +1,128 @@
-define(['./Form', 'helpers/util/Expect'], function (Form, Expect) {
+import Expect from 'helpers/util/Expect';
+import Form from './Form';
+const SHARED_SECRET_FIELD = 'sharedSecret';
+const SCAN_BARCODE_LINK = 'goto-link';
+const MANUAL_SETUP_FORM = 'step-manual-setup';
+const DROPDOWN = 'activationType';
+const SMS_OPTION = 'SMS';
+const EMAIL_OPTION = 'EMAIL';
+const MANUAL_OPTION = 'MANUAL';
+const COUNTRY_CODE_SELECTOR = 'countryCode';
+const PHONE_INPUT = 'phoneNumber';
+const NEXT_BUTTON = 'next-button';
+export default Form.extend({
+  form: function () {
+    return this.el(MANUAL_SETUP_FORM);
+  },
 
-  var SHARED_SECRET_FIELD = 'sharedSecret';
-  var SCAN_BARCODE_LINK = 'goto-link';
-  var MANUAL_SETUP_FORM = 'step-manual-setup';
-  var DROPDOWN = 'activationType';
-  var SMS_OPTION = 'SMS';
-  var EMAIL_OPTION = 'EMAIL';
-  var MANUAL_OPTION = 'MANUAL';
-  var COUNTRY_CODE_SELECTOR = 'countryCode';
-  var PHONE_INPUT = 'phoneNumber';
-  var NEXT_BUTTON = 'next-button';
+  sharedSecretField: function () {
+    return this.input(SHARED_SECRET_FIELD);
+  },
 
-  return Form.extend({
+  sharedSecretFieldValue: function () {
+    return this.sharedSecretField().val();
+  },
 
-    form: function () {
-      return this.el(MANUAL_SETUP_FORM);
-    },
+  hasSharedSecret: function () {
+    return this.sharedSecretFieldValue() !== '';
+  },
 
-    sharedSecretField: function () {
-      return this.input(SHARED_SECRET_FIELD);
-    },
+  countryCodeSelect: function () {
+    return this.inputWrap(COUNTRY_CODE_SELECTOR).find('.chzn-container');
+  },
 
-    sharedSecretFieldValue: function () {
-      return this.sharedSecretField().val();
-    },
-
-    hasSharedSecret: function () {
-      return this.sharedSecretFieldValue() !== '';
-    },
-
-    countryCodeSelect: function () {
-      return this.inputWrap(COUNTRY_CODE_SELECTOR).find('.chzn-container');
-    },
-
-    waitForCountryCodeSelect: function (resolveValue) {
-      return Expect.wait(function () {
+  waitForCountryCodeSelect: function (resolveValue) {
+    return Expect.wait(
+      function () {
         return this.countryCodeSelect().length > 0;
-      }.bind(this), resolveValue);
-    },
+      }.bind(this),
+      resolveValue
+    );
+  },
 
-    phoneNumberField: function () {
-      return this.input(PHONE_INPUT);
-    },
+  phoneNumberField: function () {
+    return this.input(PHONE_INPUT);
+  },
 
-    setPhoneNumber: function (val) {
-      var field = this.phoneNumberField();
-      field.val(val);
-      field.trigger('change');
-    },
+  setPhoneNumber: function (val) {
+    const field = this.phoneNumberField();
 
-    dropdownElement: function () {
-      return this.inputWrap(DROPDOWN).find('.chzn-container');
-    },
+    field.val(val);
+    field.trigger('change');
+  },
 
-    waitForDropdownElement: function (resolveValue) {
-      return Expect.wait(function () {
+  dropdownElement: function () {
+    return this.inputWrap(DROPDOWN).find('.chzn-container');
+  },
+
+  waitForDropdownElement: function (resolveValue) {
+    return Expect.wait(
+      function () {
         return this.dropdownElement().length > 0;
-      }.bind(this), resolveValue);
-    },
+      }.bind(this),
+      resolveValue
+    );
+  },
 
-    dropdownOptions: function () {
-      this.selectOptions(DROPDOWN);
-    },
+  dropdownOptions: function () {
+    this.selectOptions(DROPDOWN);
+  },
 
-    selectDropdownOption: function (val) {
-      this.selectOption(DROPDOWN, val);
-    },
+  selectDropdownOption: function (val) {
+    this.selectOption(DROPDOWN, val);
+  },
 
-    selectSmsOption: function () {
-      this.selectDropdownOption(SMS_OPTION);
-    },
+  selectSmsOption: function () {
+    this.selectDropdownOption(SMS_OPTION);
+  },
 
-    selectEmailOption: function () {
-      this.selectDropdownOption(EMAIL_OPTION);
-    },
+  selectEmailOption: function () {
+    this.selectDropdownOption(EMAIL_OPTION);
+  },
 
-    selectManualOption: function () {
-      this.selectDropdownOption(MANUAL_OPTION);
-    },
+  selectManualOption: function () {
+    this.selectDropdownOption(MANUAL_OPTION);
+  },
 
-    nextButton: function () {
-      return this.el(NEXT_BUTTON);
-    },
+  nextButton: function () {
+    return this.el(NEXT_BUTTON);
+  },
 
-    nextButtonClick: function () {
-      return this.nextButton().click();
-    },
+  nextButtonClick: function () {
+    return this.nextButton().click();
+  },
 
-    gotoScanBarcodeLink: function () {
-      return this.el(SCAN_BARCODE_LINK);
-    },
+  gotoScanBarcodeLink: function () {
+    return this.el(SCAN_BARCODE_LINK);
+  },
 
-    gotoScanBarcode: function () {
-      this.gotoScanBarcodeLink().click();
-    },
+  gotoScanBarcode: function () {
+    this.gotoScanBarcodeLink().click();
+  },
 
-    backLink: function () {
-      return this.el('back-link');
-    },
+  backLink: function () {
+    return this.el('back-link');
+  },
 
-    waitForManual: function (resolveValue) {
-      return Expect.wait(this.hasSharedSecret.bind(this), resolveValue);
-    },
+  waitForManual: function (resolveValue) {
+    return Expect.wait(this.hasSharedSecret.bind(this), resolveValue);
+  },
 
-    waitForSms: function (resolveValue) {
-      var condition = function () {
-        var field = this.phoneNumberField();
-        return !this.hasSharedSecret() && field.length === 1 && field.is(':visible');
-      }.bind(this);
-      return Expect.wait(condition, resolveValue);
-    },
+  waitForSms: function (resolveValue) {
+    const condition = function () {
+      const field = this.phoneNumberField();
 
-    waitForEmail: function (resolveValue) {
-      var condition = function () {
-        return !this.hasSharedSecret() && this.phoneNumberField().is(':not(:visible)');
-      }.bind(this);
-      return Expect.wait(condition, resolveValue);
-    }
+      return !this.hasSharedSecret() && field.length === 1 && field.is(':visible');
+    }.bind(this);
 
-  });
+    return Expect.wait(condition, resolveValue);
+  },
 
+  waitForEmail: function (resolveValue) {
+    const condition = function () {
+      return !this.hasSharedSecret() && this.phoneNumberField().is(':not(:visible)');
+    }.bind(this);
+
+    return Expect.wait(condition, resolveValue);
+  },
 });

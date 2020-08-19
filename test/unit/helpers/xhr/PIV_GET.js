@@ -1,5 +1,5 @@
-define({
-  "status": 200,
-  "responseType": "json",
-  "response": {}
-});
+export default {
+  status: 200,
+  responseType: 'json',
+  response: {},
+};

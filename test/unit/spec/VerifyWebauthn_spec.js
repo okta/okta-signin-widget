@@ -1,201 +1,87 @@
 /* eslint max-params: [2, 19] */
 
-define([
-  'okta',
-  'q',
-  '@okta/okta-auth-js',
-  'util/Util',
-  'util/CryptoUtil',
-  'helpers/mocks/Util',
-  'helpers/dom/MfaVerifyForm',
-  'helpers/dom/Beacon',
-  'helpers/util/Expect',
-  'LoginRouter',
-  'sandbox',
-  'util/webauthn',
-  'helpers/xhr/MFA_REQUIRED_allFactors',
-  'helpers/xhr/MFA_REQUIRED_multipleWebauthn_question',
-  'helpers/xhr/MFA_REQUIRED_multipleWebauthn',
-  'helpers/xhr/MFA_CHALLENGE_webauthn',
-  'helpers/xhr/MFA_CHALLENGE_multipleWebauthn',
-  'helpers/xhr/SUCCESS',
-  'helpers/xhr/CANCEL'
-],
-function (Okta,
-  Q,
-  OktaAuth,
-  LoginUtil,
-  CryptoUtil,
-  Util,
-  MfaVerifyForm,
-  Beacon,
-  Expect,
-  Router,
-  $sandbox,
-  webauthn,
-  resAllFactors,
-  resMultipleWebauthnWithQuestion,
-  resMultipleWebauthn,
-  resChallengeWebauthn,
-  resChallengeMultipleWebauthn,
-  resSuccess,
-  resCancel) {
+import { _, $ } from 'okta';
+import OktaAuth from '@okta/okta-auth-js';
+import Router from 'LoginRouter';
+import Beacon from 'helpers/dom/Beacon';
+import MfaVerifyForm from 'helpers/dom/MfaVerifyForm';
+import Util from 'helpers/mocks/Util';
+import Expect from 'helpers/util/Expect';
+import resCancel from 'helpers/xhr/CANCEL';
+import resChallengeMultipleWebauthn from 'helpers/xhr/MFA_CHALLENGE_multipleWebauthn';
+import resChallengeWebauthn from 'helpers/xhr/MFA_CHALLENGE_webauthn';
+import resAllFactors from 'helpers/xhr/MFA_REQUIRED_allFactors';
+import resMultipleWebauthn from 'helpers/xhr/MFA_REQUIRED_multipleWebauthn';
+import resMultipleWebauthnWithQuestion from 'helpers/xhr/MFA_REQUIRED_multipleWebauthn_question';
+import resSuccess from 'helpers/xhr/SUCCESS';
+import Q from 'q';
+import $sandbox from 'sandbox';
+import CryptoUtil from 'util/CryptoUtil';
+import LoginUtil from 'util/Util';
+import webauthn from 'util/webauthn';
+const itp = Expect.itp;
 
-  var { _, $ } = Okta;
-  var itp = Expect.itp;
+function createRouter (baseUrl, authClient, successSpy, settings) {
+  const router = new Router(
+    _.extend(
+      {
+        el: $sandbox,
+        baseUrl: baseUrl,
+        authClient: authClient,
+        globalSuccessFn: successSpy,
+      },
+      settings
+    )
+  );
 
-  function createRouter (baseUrl, authClient, successSpy, settings) {
-    var router = new Router(_.extend({
-      el: $sandbox,
-      baseUrl: baseUrl,
-      authClient: authClient,
-      globalSuccessFn: successSpy
-    }, settings));
-    Util.registerRouter(router);
-    Util.mockRouterNavigate(router);
-    return router;
-  }
-  
-  var Factors = {
-    'WEBAUTHN' : 0,
-    'QUESTION' : 1,
-  };
+  Util.registerRouter(router);
+  Util.mockRouterNavigate(router);
+  return router;
+}
 
-  function clickFactorInDropdown (test, factorName) {
-    test.beacon.getOptionsLinks().eq(Factors[factorName]).click();
-  }
+const Factors = {
+  WEBAUTHN: 0,
+  QUESTION: 1,
+};
 
-  function setup (options) {
-    var setNextResponse = Util.mockAjax();
-    var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
-    var successSpy = jasmine.createSpy('success');
-    var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
-    var router = createRouter(baseUrl, authClient, successSpy, { 'features.webauthn': true });
-    router.on('afterError', afterErrorHandler);
-    setNextResponse(options.multipleWebauthn ? [resMultipleWebauthnWithQuestion] : [resAllFactors]);
-    router.refreshAuthState('dummy-token');
-    return Expect.waitForMfaVerify()
-      .then(function () {
-        var responses = options.multipleWebauthn ? [resChallengeMultipleWebauthn] : [resChallengeWebauthn];
-        if (options.signStatus === 'success') {
-          responses.push(resSuccess);
-        }
-        setNextResponse(responses);
-        router.verifyWebauthn();
-        return Expect.waitForVerifyWebauthn();
-      })
-      .then(function () {
-        var $forms = $sandbox.find('.o-form');
-        var forms = _.map($forms, function (form) {
-          return new MfaVerifyForm($(form));
-        });
-        if (forms.length === 1) {
-          forms = forms[0];
-        }
-        var beacon = new Beacon($sandbox);
-        return {
-          router: router,
-          form: forms,
-          beacon: beacon,
-          ac: authClient,
-          setNextResponse: setNextResponse,
-          successSpy: successSpy,
-          afterErrorHandler: afterErrorHandler
-        };
-      });
-  }
+function clickFactorInDropdown (test, factorName) {
+  test.beacon.getOptionsLinks().eq(Factors[factorName]).click();
+}
 
-  var testAuthData = 'c29tZS1yYW5kb20tYXR0ZXN0YXRpb24tb2JqZWN0';
-  var testClientData = 'c29tZS1yYW5kb20tY2xpZW50LWRhdGE=';
-  var testSignature = 'YWJjZGVmYXNkZmV3YWZrbm1hc2xqZWY=';
-  var testCredentialId = 'vdCxImCygaKmXS3S_2WwgqF1LLZ4i_2MKYfAbrNByJOOmSyRD_STj6VfhLQsLdLrIdgvdP5EmO1n9Tuw5BawZw';
-  var testChallenge = 'kygOUtSWURMv_t_Gj71Y';
+function setup (options) {
+  const setNextResponse = Util.mockAjax();
+  const baseUrl = 'https://foo.com';
+  const authClient = new OktaAuth({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+  const successSpy = jasmine.createSpy('success');
+  const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+  const router = createRouter(baseUrl, authClient, successSpy, { 'features.webauthn': true });
 
-  function mockWebauthn (options) {
-    if (options.webauthnSupported) {
-      navigator.credentials = {
-        get: jasmine.createSpy('webauthn-spy')
-      };
-      if (options.signStatus === 'fail') {
-        mockWebauthnSignFailure();
-      } else if (options.signStatus === 'success') {
-        mockWebauthnSignSuccess(options.rememberDevice);
-      } else {
-        mockWebauthnSignPending();
+  router.on('afterError', afterErrorHandler);
+  setNextResponse(options.multipleWebauthn ? [resMultipleWebauthnWithQuestion] : [resAllFactors]);
+  router.refreshAuthState('dummy-token');
+  return Expect.waitForMfaVerify()
+    .then(function () {
+      const responses = options.multipleWebauthn ? [resChallengeMultipleWebauthn] : [resChallengeWebauthn];
+
+      if (options.signStatus === 'success') {
+        responses.push(resSuccess);
       }
-    }
-    else {
-      delete navigator.credentials;
-    }
-  }
+      setNextResponse(responses);
+      router.verifyWebauthn();
+      return Expect.waitForVerifyWebauthn();
+    })
+    .then(function () {
+      const $forms = $sandbox.find('.o-form');
 
-  function mockWebauthnSignFailure () {
-    spyOn(navigator.credentials, 'get').and.callFake(function () {
-      var deferred = Q.defer();
-      deferred.reject({ message: 'something went wrong' });
-      return deferred.promise;
-    });
-  }
-
-  function mockWebauthnSignSuccess (rememberDevice) {
-    spyOn(navigator.credentials, 'get').and.callFake(function () {
-      if(rememberDevice) {
-        $('[name=rememberDevice]').prop('checked', true);
-        $('[name=rememberDevice]').trigger('change');
-      }
-      var deferred = Q.defer();
-      deferred.resolve({
-        response: {
-          signature: CryptoUtil.strToBin(testSignature),
-          clientDataJSON: CryptoUtil.strToBin(testClientData),
-          authenticatorData: CryptoUtil.strToBin(testAuthData)
-        }
-      });
-      return deferred.promise;
-    });
-  }
-
-  function mockWebauthnSignPending () {
-    spyOn(navigator.credentials, 'get').and.returnValue(Q.defer().promise);
-  }
-
-  function setupWebauthnFactor (options) {
-    options || (options = {});
-    spyOn(webauthn, 'isNewApiAvailable').and.returnValue(options.webauthnSupported === true);
-
-    mockWebauthn(options);
-    return setup(options);
-  }
-
-  function setupMultipleWebauthnOnly (options) {
-    options || (options = {});
-    options.multipleWebauthn = true;
-    spyOn(webauthn, 'isNewApiAvailable').and.returnValue(options.webauthnSupported === true);
-
-    mockWebauthn(options);
-    var setNextResponse = Util.mockAjax();
-    var baseUrl = 'https://foo.com';
-    var authClient = new OktaAuth({issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR});
-    var successSpy = jasmine.createSpy('success');
-    var afterErrorHandler = jasmine.createSpy('afterErrorHandler');
-    var router = createRouter(baseUrl, authClient, successSpy, { 'features.webauthn': true });
-    router.on('afterError', afterErrorHandler);
-    var responses = [resMultipleWebauthn, resChallengeMultipleWebauthn];
-    if (options.signStatus === 'success') {
-      responses.push(resSuccess);
-    }
-    setNextResponse(responses);
-    router.refreshAuthState('dummy-token');
-    return Expect.waitForVerifyWebauthn().then(function () {
-      var $forms = $sandbox.find('.o-form');
-      var forms = _.map($forms, function (form) {
+      let forms = _.map($forms, function (form) {
         return new MfaVerifyForm($(form));
       });
+
       if (forms.length === 1) {
         forms = forms[0];
       }
-      var beacon = new Beacon($sandbox);
+      const beacon = new Beacon($sandbox);
+
       return {
         router: router,
         form: forms,
@@ -203,94 +89,206 @@ function (Okta,
         ac: authClient,
         setNextResponse: setNextResponse,
         successSpy: successSpy,
-        afterErrorHandler: afterErrorHandler
+        afterErrorHandler: afterErrorHandler,
       };
     });
-  }
+}
 
-  function setupMultipleWebauthn (options) {
-    options || (options = {});
-    options.multipleWebauthn = true;
-    return setupWebauthnFactor(options);
-  }
+const testAuthData = 'c29tZS1yYW5kb20tYXR0ZXN0YXRpb24tb2JqZWN0';
+const testClientData = 'c29tZS1yYW5kb20tY2xpZW50LWRhdGE=';
+const testSignature = 'YWJjZGVmYXNkZmV3YWZrbm1hc2xqZWY=';
+const testCredentialId = 'vdCxImCygaKmXS3S_2WwgqF1LLZ4i_2MKYfAbrNByJOOmSyRD_STj6VfhLQsLdLrIdgvdP5EmO1n9Tuw5BawZw';
+const testChallenge = 'kygOUtSWURMv_t_Gj71Y';
 
-  function expectHasRightBeaconImage (test, desiredClassName) {
-    expect(test.beacon.isFactorBeacon()).toBe(true);
-    expect(test.beacon.hasClass(desiredClassName)).toBe(true);
+function mockWebauthn (options) {
+  if (options.webauthnSupported) {
+    navigator.credentials = {
+      get: jasmine.createSpy('webauthn-spy'),
+    };
+    if (options.signStatus === 'fail') {
+      mockWebauthnSignFailure();
+    } else if (options.signStatus === 'success') {
+      mockWebauthnSignSuccess(options.rememberDevice);
+    } else {
+      mockWebauthnSignPending();
+    }
+  } else {
+    delete navigator.credentials;
   }
+}
 
-  function expectTitleToBe (test, desiredTitle) {
-    expect(test.form.titleText()).toBe(desiredTitle);
+function mockWebauthnSignFailure () {
+  spyOn(navigator.credentials, 'get').and.callFake(function () {
+    const deferred = Q.defer();
+
+    deferred.reject({ message: 'something went wrong' });
+    return deferred.promise;
+  });
+}
+
+function mockWebauthnSignSuccess (rememberDevice) {
+  spyOn(navigator.credentials, 'get').and.callFake(function () {
+    if (rememberDevice) {
+      $('[name=rememberDevice]').prop('checked', true);
+      $('[name=rememberDevice]').trigger('change');
+    }
+    const deferred = Q.defer();
+
+    deferred.resolve({
+      response: {
+        signature: CryptoUtil.strToBin(testSignature),
+        clientDataJSON: CryptoUtil.strToBin(testClientData),
+        authenticatorData: CryptoUtil.strToBin(testAuthData),
+      },
+    });
+    return deferred.promise;
+  });
+}
+
+function mockWebauthnSignPending () {
+  spyOn(navigator.credentials, 'get').and.returnValue(Q.defer().promise);
+}
+
+function setupWebauthnFactor (options) {
+  options || (options = {});
+  spyOn(webauthn, 'isNewApiAvailable').and.returnValue(options.webauthnSupported === true);
+
+  mockWebauthn(options);
+  return setup(options);
+}
+
+function setupMultipleWebauthnOnly (options) {
+  options || (options = {});
+  options.multipleWebauthn = true;
+  spyOn(webauthn, 'isNewApiAvailable').and.returnValue(options.webauthnSupported === true);
+
+  mockWebauthn(options);
+  const setNextResponse = Util.mockAjax();
+  const baseUrl = 'https://foo.com';
+  const authClient = new OktaAuth({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+  const successSpy = jasmine.createSpy('success');
+  const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+  const router = createRouter(baseUrl, authClient, successSpy, { 'features.webauthn': true });
+
+  router.on('afterError', afterErrorHandler);
+  const responses = [resMultipleWebauthn, resChallengeMultipleWebauthn];
+
+  if (options.signStatus === 'success') {
+    responses.push(resSuccess);
   }
+  setNextResponse(responses);
+  router.refreshAuthState('dummy-token');
+  return Expect.waitForVerifyWebauthn().then(function () {
+    const $forms = $sandbox.find('.o-form');
 
-  function testWebauthnFactor (setupFn, webauthnOnly) {
-    itp('shows the right beacon and title for webauthn', function () {
-      return setupFn({webauthnSupported: true}).then(function (test) {
-        expectHasRightBeaconImage(test, 'mfa-webauthn');
-        expectTitleToBe(test, 'Security Key or Biometric Authenticator');
-      });
+    let forms = _.map($forms, function (form) {
+      return new MfaVerifyForm($(form));
     });
 
-    itp('shows error if browser does not support webauthn', function () {
-      return setupFn({webauthnSupported: false}).then(function (test) {
-        expect(test.form.el('o-form-error-html')).toHaveLength(1);
-        var errorMessage = webauthnOnly ?
-          'Security key or biometric authenticator is not supported on this browser. ' +
-          'Contact your admin for assistance.' :
-          'Security key or biometric authenticator is not supported on this browser. ' +
-          'Select another factor or contact your admin for assistance.';
-        expect(test.form.el('o-form-error-html').find('strong').html())
-          .toEqual(errorMessage);
-      });
-    });
+    if (forms.length === 1) {
+      forms = forms[0];
+    }
+    const beacon = new Beacon($sandbox);
 
-    itp('does not show error if browser supports webauthn', function () {
-      return setupFn({webauthnSupported: true}).then(function (test) {
-        expect(test.form.el('o-form-error-html')).toHaveLength(0);
-      });
-    });
+    return {
+      router: router,
+      form: forms,
+      beacon: beacon,
+      ac: authClient,
+      setNextResponse: setNextResponse,
+      successSpy: successSpy,
+      afterErrorHandler: afterErrorHandler,
+    };
+  });
+}
 
-    itp('shows a spinner while waiting for webauthn challenge', function () {
-      return setupFn({webauthnSupported: true}).then(function (test) {
-        expect(test.form.el('webauthn-waiting').length).toBe(1);
-      });
-    });
+function setupMultipleWebauthn (options) {
+  options || (options = {});
+  options.multipleWebauthn = true;
+  return setupWebauthnFactor(options);
+}
 
-    itp('has remember device checkbox', function () {
-      return setupFn({webauthnSupported: true}).then(function (test) {
-        Expect.isVisible(test.form.rememberDeviceCheckbox());
-      });
-    });
-  }
+function expectHasRightBeaconImage (test, desiredClassName) {
+  expect(test.beacon.isFactorBeacon()).toBe(true);
+  expect(test.beacon.hasClass(desiredClassName)).toBe(true);
+}
 
-  function testMultipleWebauthnFactor (setupFn) {
-    itp('calls navigator.credentials.get and verifies factor', function () {
-      return setupFn({
-        webauthnSupported: true,
-        signStatus: 'success'
-      }).then(function (test) {
+function expectTitleToBe (test, desiredTitle) {
+  expect(test.form.titleText()).toBe(desiredTitle);
+}
+
+function testWebauthnFactor (setupFn, webauthnOnly) {
+  itp('shows the right beacon and title for webauthn', function () {
+    return setupFn({ webauthnSupported: true }).then(function (test) {
+      expectHasRightBeaconImage(test, 'mfa-webauthn');
+      expectTitleToBe(test, 'Security Key or Biometric Authenticator');
+    });
+  });
+
+  itp('shows error if browser does not support webauthn', function () {
+    return setupFn({ webauthnSupported: false }).then(function (test) {
+      expect(test.form.el('o-form-error-html')).toHaveLength(1);
+      const errorMessage = webauthnOnly
+        ? 'Security key or biometric authenticator is not supported on this browser. ' +
+            'Contact your admin for assistance.'
+        : 'Security key or biometric authenticator is not supported on this browser. ' +
+            'Select another factor or contact your admin for assistance.';
+
+      expect(test.form.el('o-form-error-html').find('strong').html()).toEqual(errorMessage);
+    });
+  });
+
+  itp('does not show error if browser supports webauthn', function () {
+    return setupFn({ webauthnSupported: true }).then(function (test) {
+      expect(test.form.el('o-form-error-html')).toHaveLength(0);
+    });
+  });
+
+  itp('shows a spinner while waiting for webauthn challenge', function () {
+    return setupFn({ webauthnSupported: true }).then(function (test) {
+      expect(test.form.el('webauthn-waiting').length).toBe(1);
+    });
+  });
+
+  itp('has remember device checkbox', function () {
+    return setupFn({ webauthnSupported: true }).then(function (test) {
+      Expect.isVisible(test.form.rememberDeviceCheckbox());
+    });
+  });
+}
+
+function testMultipleWebauthnFactor (setupFn) {
+  itp('calls navigator.credentials.get and verifies factor', function () {
+    return setupFn({
+      webauthnSupported: true,
+      signStatus: 'success',
+    })
+      .then(function (test) {
         return Expect.waitForSpyCall(test.successSpy);
-      }).then(function () {
+      })
+      .then(function () {
         expect(navigator.credentials.get).toHaveBeenCalledWith({
           publicKey: {
-            allowCredentials: [{
-              type: 'public-key',
-              id: CryptoUtil.strToBin(testCredentialId)
-            },
-            {
-              type: 'public-key',
-              id: CryptoUtil.strToBin(testCredentialId)
-            },
-            {
-              type: 'public-key',
-              id: CryptoUtil.strToBin(testCredentialId)
-            }],
+            allowCredentials: [
+              {
+                type: 'public-key',
+                id: CryptoUtil.strToBin(testCredentialId),
+              },
+              {
+                type: 'public-key',
+                id: CryptoUtil.strToBin(testCredentialId),
+              },
+              {
+                type: 'public-key',
+                id: CryptoUtil.strToBin(testCredentialId),
+              },
+            ],
             challenge: CryptoUtil.strToBin(testChallenge),
             extensions: {
-              appid: 'https://foo.com'
-            }
+              appid: 'https://foo.com',
+            },
           },
-          signal: jasmine.any(Object)
+          signal: jasmine.any(Object),
         });
         expect(Util.numAjaxRequests()).toBe(3);
         Expect.isJsonPost(Util.getAjaxRequest(2), {
@@ -299,40 +297,44 @@ function (Okta,
             clientData: testClientData,
             signatureData: testSignature,
             authenticatorData: testAuthData,
-            stateToken: 'testStateToken'
-          }
+            stateToken: 'testStateToken',
+          },
         });
       });
-    });
+  });
 
-    itp('calls navigator.credentials.get and verifies factor when rememberDevice set to true', function () {
-      return setupFn({
-        webauthnSupported: true,
-        signStatus: 'success',
-        rememberDevice: true
-      }).then(function (test) {
+  itp('calls navigator.credentials.get and verifies factor when rememberDevice set to true', function () {
+    return setupFn({
+      webauthnSupported: true,
+      signStatus: 'success',
+      rememberDevice: true,
+    })
+      .then(function (test) {
         return Expect.waitForSpyCall(test.successSpy);
-      }).then(function () {
+      })
+      .then(function () {
         expect(navigator.credentials.get).toHaveBeenCalledWith({
           publicKey: {
-            allowCredentials: [{
-              type: 'public-key',
-              id: CryptoUtil.strToBin(testCredentialId)
-            },
-            {
-              type: 'public-key',
-              id: CryptoUtil.strToBin(testCredentialId)
-            },
-            {
-              type: 'public-key',
-              id: CryptoUtil.strToBin(testCredentialId)
-            }],
+            allowCredentials: [
+              {
+                type: 'public-key',
+                id: CryptoUtil.strToBin(testCredentialId),
+              },
+              {
+                type: 'public-key',
+                id: CryptoUtil.strToBin(testCredentialId),
+              },
+              {
+                type: 'public-key',
+                id: CryptoUtil.strToBin(testCredentialId),
+              },
+            ],
             challenge: CryptoUtil.strToBin(testChallenge),
             extensions: {
-              appid: 'https://foo.com'
-            }
+              appid: 'https://foo.com',
+            },
           },
-          signal: jasmine.any(Object)
+          signal: jasmine.any(Object),
         });
         expect(Util.numAjaxRequests()).toBe(3);
         Expect.isJsonPost(Util.getAjaxRequest(2), {
@@ -341,20 +343,22 @@ function (Okta,
             clientData: testClientData,
             signatureData: testSignature,
             authenticatorData: testAuthData,
-            stateToken: 'testStateToken'
-          }
+            stateToken: 'testStateToken',
+          },
         });
       });
-    });
+  });
 
-    itp('shows an error if navigator.credentials.get fails', function () {
-      Expect.allowUnhandledPromiseRejection();
-      return setupFn({
-        webauthnSupported: true,
-        signStatus: 'fail'
-      }).then(function (test) {
+  itp('shows an error if navigator.credentials.get fails', function () {
+    Expect.allowUnhandledPromiseRejection();
+    return setupFn({
+      webauthnSupported: true,
+      signStatus: 'fail',
+    })
+      .then(function (test) {
         return Expect.waitForFormError(test.form, test);
-      }).then(function (test) {
+      })
+      .then(function (test) {
         expect(navigator.credentials.get).toHaveBeenCalled();
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorBox()).toHaveLength(1);
@@ -362,44 +366,48 @@ function (Okta,
         expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
         expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
           {
-            controller: 'mfa-verify verify-webauthn'
+            controller: 'mfa-verify verify-webauthn',
           },
           {
             name: 'WEB_AUTHN_ERROR',
             message: 'something went wrong',
             xhr: {
               responseJSON: {
-                errorSummary: 'something went wrong'
-              }
-            }
-          }
+                errorSummary: 'something went wrong',
+              },
+            },
+          },
         ]);
       });
-    });
-  }
+  });
+}
 
-  Expect.describe('Webauthn Factor', function () {
-    testWebauthnFactor(setupWebauthnFactor);
+Expect.describe('Webauthn Factor', function () {
+  testWebauthnFactor(setupWebauthnFactor);
 
-    itp('calls navigator.credentials.get and verifies factor', function () {
-      return setupWebauthnFactor({
-        webauthnSupported: true,
-        signStatus: 'success'
-      }).then(function (test) {
+  itp('calls navigator.credentials.get and verifies factor', function () {
+    return setupWebauthnFactor({
+      webauthnSupported: true,
+      signStatus: 'success',
+    })
+      .then(function (test) {
         return Expect.waitForSpyCall(test.successSpy, test);
-      }).then(function (test) {
+      })
+      .then(function (test) {
         expect(navigator.credentials.get).toHaveBeenCalledWith({
           publicKey: {
-            allowCredentials: [{
-              type: 'public-key',
-              id: CryptoUtil.strToBin(testCredentialId)
-            }],
+            allowCredentials: [
+              {
+                type: 'public-key',
+                id: CryptoUtil.strToBin(testCredentialId),
+              },
+            ],
             challenge: CryptoUtil.strToBin(testChallenge),
             extensions: {
-              appid: 'https://foo.com'
-            }
+              appid: 'https://foo.com',
+            },
           },
-          signal: jasmine.any(Object)
+          signal: jasmine.any(Object),
         });
         expect(Util.numAjaxRequests()).toBe(3);
         Expect.isJsonPost(Util.getAjaxRequest(2), {
@@ -408,33 +416,37 @@ function (Okta,
             clientData: testClientData,
             signatureData: testSignature,
             authenticatorData: testAuthData,
-            stateToken: 'testStateToken'
-          }
+            stateToken: 'testStateToken',
+          },
         });
         expect(test.router.controller.model.webauthnAbortController).toBe(null);
       });
-    });
+  });
 
-    itp('calls navigator.credentials.get and verifies factor when rememberDevice set to true', function () {
-      return setupWebauthnFactor({
-        webauthnSupported: true,
-        signStatus: 'success',
-        rememberDevice: true
-      }).then(function (test) {
+  itp('calls navigator.credentials.get and verifies factor when rememberDevice set to true', function () {
+    return setupWebauthnFactor({
+      webauthnSupported: true,
+      signStatus: 'success',
+      rememberDevice: true,
+    })
+      .then(function (test) {
         return Expect.waitForSpyCall(test.successSpy);
-      }).then(function () {
+      })
+      .then(function () {
         expect(navigator.credentials.get).toHaveBeenCalledWith({
           publicKey: {
-            allowCredentials: [{
-              type: 'public-key',
-              id: CryptoUtil.strToBin(testCredentialId)
-            }],
+            allowCredentials: [
+              {
+                type: 'public-key',
+                id: CryptoUtil.strToBin(testCredentialId),
+              },
+            ],
             challenge: CryptoUtil.strToBin(testChallenge),
             extensions: {
-              appid: 'https://foo.com'
-            }
+              appid: 'https://foo.com',
+            },
           },
-          signal: jasmine.any(Object)
+          signal: jasmine.any(Object),
         });
         expect(Util.numAjaxRequests()).toBe(3);
         Expect.isJsonPost(Util.getAjaxRequest(2), {
@@ -443,20 +455,22 @@ function (Okta,
             clientData: testClientData,
             signatureData: testSignature,
             authenticatorData: testAuthData,
-            stateToken: 'testStateToken'
-          }
+            stateToken: 'testStateToken',
+          },
         });
       });
-    });
+  });
 
-    itp('shows an error if navigator.credentials.get fails', function () {
-      Expect.allowUnhandledPromiseRejection();
-      return setupWebauthnFactor({
-        webauthnSupported: true,
-        signStatus: 'fail'
-      }).then(function (test) {
+  itp('shows an error if navigator.credentials.get fails', function () {
+    Expect.allowUnhandledPromiseRejection();
+    return setupWebauthnFactor({
+      webauthnSupported: true,
+      signStatus: 'fail',
+    })
+      .then(function (test) {
         return Expect.waitForFormError(test.form, test);
-      }).then(function (test) {
+      })
+      .then(function (test) {
         expect(navigator.credentials.get).toHaveBeenCalled();
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorBox()).toHaveLength(1);
@@ -465,37 +479,40 @@ function (Okta,
         expect(test.router.controller.model.webauthnAbortController).toBe(null);
         expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
           {
-            controller: 'mfa-verify verify-webauthn'
+            controller: 'mfa-verify verify-webauthn',
           },
           {
             name: 'WEB_AUTHN_ERROR',
             message: 'something went wrong',
             xhr: {
               responseJSON: {
-                errorSummary: 'something went wrong'
-              }
-            }
-          }
+                errorSummary: 'something went wrong',
+              },
+            },
+          },
         ]);
       });
-    });
   });
+});
 
-  Expect.describe('Only multiple Webauthn is setup', function () {
-    testWebauthnFactor(setupMultipleWebauthnOnly, true);
-    testMultipleWebauthnFactor(setupMultipleWebauthnOnly);
-  });
+Expect.describe('Only multiple Webauthn is setup', function () {
+  testWebauthnFactor(setupMultipleWebauthnOnly, true);
+  testMultipleWebauthnFactor(setupMultipleWebauthnOnly);
+});
 
-  Expect.describe('Multiple Webauthn and one or more factors are setup', function () {
-    testWebauthnFactor(setupMultipleWebauthn);
-    testMultipleWebauthnFactor(setupMultipleWebauthn);
+Expect.describe('Multiple Webauthn and one or more factors are setup', function () {
+  testWebauthnFactor(setupMultipleWebauthn);
+  testMultipleWebauthnFactor(setupMultipleWebauthn);
 
-    itp('switching to another factor after initiating webauthn verify calls abort', function () {
-      return setupMultipleWebauthn({webauthnSupported: true}).then(function (test) {
+  itp('switching to another factor after initiating webauthn verify calls abort', function () {
+    return setupMultipleWebauthn({ webauthnSupported: true })
+      .then(function (test) {
         return Expect.waitForSpyCall(navigator.credentials.get, test);
-      }).then(function (test) {
+      })
+      .then(function (test) {
         expect(test.form.el('webauthn-waiting').length).toBe(1);
-        var webauthnAbortController = test.router.controller.model.webauthnAbortController;
+        const webauthnAbortController = test.router.controller.model.webauthnAbortController;
+
         expect(webauthnAbortController).toBeDefined();
         spyOn(webauthnAbortController, 'abort').and.callThrough();
         clickFactorInDropdown(test, 'QUESTION');
@@ -503,12 +520,14 @@ function (Okta,
         expect(test.router.controller.model.webauthnAbortController).not.toBeDefined();
         expect(webauthnAbortController.abort).toHaveBeenCalled();
       });
-    });
+  });
 
-    itp('SignOut after initiating webauthn verify calls abort', function () {
-      return setupMultipleWebauthn({webauthnSupported: true}).then(function (test) {
+  itp('SignOut after initiating webauthn verify calls abort', function () {
+    return setupMultipleWebauthn({ webauthnSupported: true })
+      .then(function (test) {
         return Expect.waitForSpyCall(navigator.credentials.get, test);
-      }).then(function (test) {
+      })
+      .then(function (test) {
         expect(test.form.el('webauthn-waiting').length).toBe(1);
         test.webauthnAbortController = test.router.controller.model.webauthnAbortController;
         expect(test.webauthnAbortController).toBeDefined();
@@ -516,10 +535,10 @@ function (Okta,
         test.setNextResponse([resCancel]);
         test.form.signoutLink(test.router.el).click();
         return Expect.waitForPrimaryAuth(test);
-      }).then(function (test) {
+      })
+      .then(function (test) {
         expect(test.router.controller.model.webauthnAbortController).not.toBeDefined();
         expect(test.webauthnAbortController.abort).toHaveBeenCalled();
       });
-    });
   });
 });
