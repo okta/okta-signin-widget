@@ -10,44 +10,40 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta'], function (Okta) {
+import { _, Form, loc } from 'okta';
+export default Form.extend({
+  className: 'mfa-verify-question',
+  autoSave: true,
+  noCancelButton: true,
+  save: _.partial(loc, 'mfa.challenge.verify', 'login'),
+  scrollOnError: false,
+  layout: 'o-form-theme',
+  attributes: { 'data-se': 'factor-question' },
 
-  var _ = Okta._;
+  initialize: function () {
+    this.title = this.model.get('factorLabel');
 
-  return Okta.Form.extend({
-    className: 'mfa-verify-question',
-    autoSave: true,
-    noCancelButton: true,
-    save: _.partial(Okta.loc, 'mfa.challenge.verify', 'login'),
-    scrollOnError: false,
-    layout: 'o-form-theme',
-    attributes: { 'data-se': 'factor-question' },
+    this.addInput({
+      label: this.model.get('securityQuestion'),
+      'label-top': true,
+      placeholder: loc('mfa.challenge.answer.placeholder', 'login'),
+      className: 'auth-passcode',
+      name: 'answer',
+      type: 'password',
+      params: {
+        showPasswordToggle: true,
+      },
+    });
 
-    initialize: function () {
-      this.title = this.model.get('factorLabel');
-
+    if (this.options.appState.get('allowRememberDevice')) {
       this.addInput({
-        label: this.model.get('securityQuestion'),
+        label: false,
         'label-top': true,
-        placeholder: Okta.loc('mfa.challenge.answer.placeholder', 'login'),
-        className: 'auth-passcode',
-        name: 'answer',
-        type: 'password',
-        params: {
-          showPasswordToggle: true
-        }
+        placeholder: this.options.appState.get('rememberDeviceLabel'),
+        className: 'margin-btm-0',
+        name: 'rememberDevice',
+        type: 'checkbox',
       });
-
-      if (this.options.appState.get('allowRememberDevice')) {
-        this.addInput({
-          label: false,
-          'label-top': true,
-          placeholder: this.options.appState.get('rememberDeviceLabel'),
-          className: 'margin-btm-0',
-          name: 'rememberDevice',
-          type: 'checkbox'
-        });
-      }
     }
-  });
+  },
 });

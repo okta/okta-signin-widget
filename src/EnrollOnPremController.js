@@ -10,118 +10,114 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'util/FormType',
-  'util/FormController',
-  'util/Util',
-  'views/enroll-factors/Footer',
-  'views/shared/TextBox'
-],
-function (Okta, FormType, FormController, Util, Footer, TextBox) {
+import { _, loc } from 'okta';
+import FormController from 'util/FormController';
+import FormType from 'util/FormType';
+import Util from 'util/Util';
+import Footer from 'views/enroll-factors/Footer';
+import TextBox from 'views/shared/TextBox';
 
-  var _ = Okta._;
+function isRSA (provider) {
+  return provider === 'RSA';
+}
 
-  function isRSA (provider) {
-    return provider === 'RSA';
-  }
+function getClassName (provider) {
+  return isRSA(provider) ? 'enroll-rsa' : 'enroll-onprem';
+}
 
-  function getClassName (provider) {
-    return isRSA(provider) ? 'enroll-rsa' : 'enroll-onprem';
-  }
+export default FormController.extend({
+  className: function () {
+    return getClassName(this.options.provider);
+  },
+  Model: function () {
+    const provider = this.options.provider;
+    const factors = this.options.appState.get('factors');
+    const factor = factors.findWhere(_.pick(this.options, 'provider', 'factorType'));
+    const profile = factor.get('profile');
+    const credentialId = profile && profile.credentialId ? profile.credentialId : '';
 
-  return FormController.extend({
-    className: function () {
-      return getClassName(this.options.provider);
-    },
-    Model: function () {
-      var provider = this.options.provider;
-      var factors = this.options.appState.get('factors');
-      var factor = factors.findWhere(_.pick(this.options, 'provider', 'factorType'));
-      var profile = factor.get('profile');
-      var credentialId = (profile && profile.credentialId) ?  profile.credentialId : '';
-      return {
-        props: {
-          credentialId: ['string', true, credentialId],
-          passCode: ['string', true],
-          factorId: 'string'
-        },
-        save: function () {
-          return this.doTransaction(function (transaction) {
-            var factor = _.findWhere(transaction.factors, {
-              factorType: 'token',
-              provider: provider
-            });
-            return factor.enroll({
-              passCode: this.get('passCode'),
-              profile: {credentialId: this.get('credentialId')}
-            });
+    return {
+      props: {
+        credentialId: ['string', true, credentialId],
+        passCode: ['string', true],
+        factorId: 'string',
+      },
+      save: function () {
+        return this.doTransaction(function (transaction) {
+          const factor = _.findWhere(transaction.factors, {
+            factorType: 'token',
+            provider: provider,
           });
-        }
-      };
-    },
 
-    Form: function () {
-      var provider = this.options.provider;
-      var factors = this.options.appState.get('factors');
-      var factor = factors.findWhere(_.pick(this.options, 'provider', 'factorType'));
-      var vendorName = factor.get('vendorName');
-      var title = isRSA(provider) ? Okta.loc('factor.totpHard.rsaSecurId', 'login') : vendorName;
+          return factor.enroll({
+            passCode: this.get('passCode'),
+            profile: { credentialId: this.get('credentialId') },
+          });
+        });
+      },
+    };
+  },
 
-      return {
-        title: title,
-        noButtonBar: true,
-        autoSave: true,
-        className: getClassName(provider),
-        initialize: function () {
-          this.listenTo(this.model, 'error', _.bind(function (source, error) {
-            if (error && error.status === 409) {
-              // 409 means we are in change pin, so we should clear out answer input
-              this.$('.o-form-input-name-passCode input').val('');
-              this.$('.o-form-input-name-passCode input').trigger('change');
-              this.$('.o-form-input-name-passCode input').focus();
-            }
-          }, this));
-        },
-        formChildren: [
-          FormType.Input({
-            label: Okta.loc('enroll.onprem.username.placeholder', 'login', [vendorName]),
-            'label-top': true,
-            explain: Util.createInputExplain(
-              'enroll.onprem.username.tooltip',
-              'enroll.onprem.username.placeholder',
-              'login',
-              [vendorName],
-              [vendorName]),
-            'explain-top': true,
-            name: 'credentialId',
-            input: TextBox,
-            type: 'text'
-          }),
-          FormType.Input({
-            label: Okta.loc('enroll.onprem.passcode.placeholder', 'login', [vendorName]),
-            'label-top': true,
-            explain: Util.createInputExplain(
-              'enroll.onprem.passcode.tooltip',
-              'enroll.onprem.passcode.placeholder',
-              'login',
-              [vendorName],
-              [vendorName]),
-            'explain-top': true,
-            name: 'passCode',
-            input: TextBox,
-            type: 'password'
-          }),
-          FormType.Toolbar({
-            noCancelButton: true,
-            save: Okta.loc('mfa.challenge.verify', 'login')
-          })
-        ]
-      };
-    },
+  Form: function () {
+    const provider = this.options.provider;
+    const factors = this.options.appState.get('factors');
+    const factor = factors.findWhere(_.pick(this.options, 'provider', 'factorType'));
+    const vendorName = factor.get('vendorName');
+    const title = isRSA(provider) ? loc('factor.totpHard.rsaSecurId', 'login') : vendorName;
 
-    Footer: Footer
+    return {
+      title: title,
+      noButtonBar: true,
+      autoSave: true,
+      className: getClassName(provider),
+      initialize: function () {
+        this.listenTo(this.model, 'error', (source, error) => {
+          if (error && error.status === 409) {
+            // 409 means we are in change pin, so we should clear out answer input
+            this.$('.o-form-input-name-passCode input').val('');
+            this.$('.o-form-input-name-passCode input').trigger('change');
+            this.$('.o-form-input-name-passCode input').focus();
+          }
+        });
+      },
+      formChildren: [
+        FormType.Input({
+          label: loc('enroll.onprem.username.placeholder', 'login', [vendorName]),
+          'label-top': true,
+          explain: Util.createInputExplain(
+            'enroll.onprem.username.tooltip',
+            'enroll.onprem.username.placeholder',
+            'login',
+            [vendorName],
+            [vendorName]
+          ),
+          'explain-top': true,
+          name: 'credentialId',
+          input: TextBox,
+          type: 'text',
+        }),
+        FormType.Input({
+          label: loc('enroll.onprem.passcode.placeholder', 'login', [vendorName]),
+          'label-top': true,
+          explain: Util.createInputExplain(
+            'enroll.onprem.passcode.tooltip',
+            'enroll.onprem.passcode.placeholder',
+            'login',
+            [vendorName],
+            [vendorName]
+          ),
+          'explain-top': true,
+          name: 'passCode',
+          input: TextBox,
+          type: 'password',
+        }),
+        FormType.Toolbar({
+          noCancelButton: true,
+          save: loc('mfa.challenge.verify', 'login'),
+        }),
+      ],
+    };
+  },
 
-  });
-
+  Footer: Footer,
 });

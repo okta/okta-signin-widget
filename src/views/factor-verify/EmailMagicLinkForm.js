@@ -10,41 +10,46 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 /* eslint complexity: [2, 7] */
-define(['okta', 'q', 'util/Enums'], function (Okta, Q, Enums) {
-  var _ = Okta._;
+import { Form, createButton, loc } from 'okta';
+import Q from 'q';
+import Enums from 'util/Enums';
+export default Form.extend({
+  layout: 'o-form-theme',
+  className: 'factor-verify-magiclink',
+  autoSave: true,
+  noCancelButton: true,
+  initialize: function () {
+    const form = this;
+    // for FACTOR_REQUIRED with email magic link we dont need to show otp code input field and verify button
 
-  return Okta.Form.extend({
-    layout: 'o-form-theme',
-    className: 'factor-verify-magiclink',
-    autoSave: true,
-    noCancelButton: true,
-    initialize: function () {
-      // for FACTOR_REQUIRED with email magic link we dont need to show otp code input field and verify button
-      var form = this;
-      this.title = this.model.get('factorLabel');
-      //TODO: OKTA-211618 Temp fix for demo. FACTOR_REQUIRED after sign up is missing the profile object in API response
-      var email = this.model.get('email') || this.options.appState.get('lastAuthResponse')._embedded.user.profile.login;
-      this.subtitle = '('+email+')';
-      this.add(Okta.createButton({
+    this.title = this.model.get('factorLabel');
+    //TODO: OKTA-211618 Temp fix for demo. FACTOR_REQUIRED after sign up is missing the profile object in API response
+
+    const email = this.model.get('email') || this.options.appState.get('lastAuthResponse')._embedded.user.profile.login;
+
+    this.subtitle = '(' + email + ')';
+    this.add(
+      createButton({
         attributes: { 'data-se': 'email-send-code' },
         className: 'button email-request-button',
-        title: Okta.loc('mfa.sendEmail', 'login'),
+        title: loc('mfa.sendEmail', 'login'),
         click: function () {
           form.clearErrors();
           this.disable();
-          this.options.title = Okta.loc('mfa.sent', 'login');
+          this.options.title = loc('mfa.sent', 'login');
           this.render();
-          this.model.save()
-            .then(_.bind(function () {
+          this.model
+            .save()
+            .then(() => {
               return Q.delay(Enums.API_RATE_LIMIT);
-            }, this))
-            .then(_.bind(function () {
-              this.options.title = Okta.loc('mfa.resendEmail', 'login');
+            })
+            .then(() => {
+              this.options.title = loc('mfa.resendEmail', 'login');
               this.enable();
               this.render();
-            }, this));
-        }
-      }));
-    }
-  });
+            });
+        },
+      })
+    );
+  },
 });

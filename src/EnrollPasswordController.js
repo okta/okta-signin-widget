@@ -10,67 +10,65 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'util/FormController',
-  'util/ValidationUtil',
-  'views/enroll-factors/Footer',
-  'views/shared/TextBox'
-],
-function (Okta, FormController, ValidationUtil, Footer, TextBox) {
-
-  var _ = Okta._;
-
-  return FormController.extend({
-    className: 'enroll-password',
-    Model: {
-      props: {
-        password: ['string', true],
-        confirmPassword: ['string', true]
-      },
-      validate: function () {
-        return ValidationUtil.validateFieldsMatch(this, 'password', 'confirmPassword',
-          Okta.loc('password.enroll.error.match', 'login'));
-      },
-      save: function () {
-        return this.doTransaction(function (transaction) {
-          var factor = _.findWhere(transaction.factors, {
-            factorType: 'password',
-            provider: 'OKTA'
-          });
-          return factor.enroll({
-            profile: {
-              password: this.get('password')
-            }
-          });
+import { _, loc } from 'okta';
+import FormController from 'util/FormController';
+import ValidationUtil from 'util/ValidationUtil';
+import Footer from 'views/enroll-factors/Footer';
+import TextBox from 'views/shared/TextBox';
+export default FormController.extend({
+  className: 'enroll-password',
+  Model: {
+    props: {
+      password: ['string', true],
+      confirmPassword: ['string', true],
+    },
+    validate: function () {
+      return ValidationUtil.validateFieldsMatch(
+        this,
+        'password',
+        'confirmPassword',
+        loc('password.enroll.error.match', 'login')
+      );
+    },
+    save: function () {
+      return this.doTransaction(function (transaction) {
+        const factor = _.findWhere(transaction.factors, {
+          factorType: 'password',
+          provider: 'OKTA',
         });
-      }
-    },
 
-    Form: {
-      autoSave: true,
-      title: _.partial(Okta.loc, 'enroll.password.setup', 'login'),
-      inputs: function () {
-        return [
-          {
-            label: Okta.loc('mfa.challenge.password.placeholder', 'login'),
-            'label-top': true,
-            className: 'o-form-fieldset o-form-label-top auth-passcode',
-            name: 'password',
-            input: TextBox,
-            type: 'password'
+        return factor.enroll({
+          profile: {
+            password: this.get('password'),
           },
-          {
-            label: Okta.loc('password.confirmPassword.placeholder', 'login'),
-            'label-top': true,
-            className: 'o-form-fieldset o-form-label-top auth-passcode',
-            name: 'confirmPassword',
-            input: TextBox,
-            type: 'password'
-          }
-        ];
-      }
+        });
+      });
     },
-    Footer: Footer
-  });
+  },
+
+  Form: {
+    autoSave: true,
+    title: _.partial(loc, 'enroll.password.setup', 'login'),
+    inputs: function () {
+      return [
+        {
+          label: loc('mfa.challenge.password.placeholder', 'login'),
+          'label-top': true,
+          className: 'o-form-fieldset o-form-label-top auth-passcode',
+          name: 'password',
+          input: TextBox,
+          type: 'password',
+        },
+        {
+          label: loc('password.confirmPassword.placeholder', 'login'),
+          'label-top': true,
+          className: 'o-form-fieldset o-form-label-top auth-passcode',
+          name: 'confirmPassword',
+          input: TextBox,
+          type: 'password',
+        },
+      ];
+    },
+  },
+  Footer: Footer,
 });

@@ -10,40 +10,37 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  './Bundles',
-  './countryCallingCodes'
-],
-function (Okta, bundles, countryCallingCodes) {
-  var _ = Okta._;
-  var fn = {};
+import { _ } from 'okta';
+import bundles from './Bundles';
+import countryCallingCodes from './countryCallingCodes';
+const fn = {};
 
-  // () => [{ countryCode: countryName }], sorted by countryName
-  fn.getCountries = function () {
-    // HM, BV, and TF do not have phone prefixes, so don't give the
-    // user the option to choose these countries. FYI it appears that these
-    // countries do not have calling codes because they are ~~uninhabited~~
-    var countries = _.omit(bundles.country, 'HM', 'BV', 'TF');
+// () => [{ countryCode: countryName }], sorted by countryName
+fn.getCountries = function () {
+  const countries = _.omit(bundles.country, 'HM', 'BV', 'TF');
+  // HM, BV, and TF do not have phone prefixes, so don't give the
+  // user the option to choose these countries. FYI it appears that these
+  // countries do not have calling codes because they are ~~uninhabited~~
 
-    // Sort it; figure out if there is a better way to do this (best would
-    // be to sort it in the properties file!!)
-    var collection = _.map(countries, function (name, code) {
-      return { name: name, code: code };
-    });
-    collection = _.sortBy(collection, 'name');
-    var sorted = {};
-    _.each(collection, function (country) {
-      sorted[country.code] = country.name;
-    });
+  let collection = _.map(countries, function (name, code) {
+    return { name: name, code: code };
+  });
 
-    return sorted;
-  };
+  // Sort it; figure out if there is a better way to do this (best would
+  // be to sort it in the properties file!!)
 
-  fn.getCallingCodeForCountry = function (countryCode) {
-    return countryCallingCodes[countryCode];
-  };
+  collection = _.sortBy(collection, 'name');
+  const sorted = {};
 
-  return fn;
+  _.each(collection, function (country) {
+    sorted[country.code] = country.name;
+  });
 
-});
+  return sorted;
+};
+
+fn.getCallingCodeForCountry = function (countryCode) {
+  return countryCallingCodes[countryCode];
+};
+
+export default fn;

@@ -10,39 +10,37 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-
-define(['okta', 'util/Enums'], function (Okta, Enums) {
-
-  return Okta.View.extend({
-    template: hbs('\
+import Enums from 'util/Enums';
+export default View.extend({
+  template: hbs(
+    '\
       <a href="#" class="link help js-back" data-se="back-link">\
         {{i18n code="mfa.backToFactors" bundle="login"}}\
       </a>\
-    '),
-    className: 'auth-footer',
-    events: {
-      'click .js-back' : function (e) {
-        e.preventDefault();
-        this.options.appState.trigger('backToFactors');
-        this.back();
-      }
+    '
+  ),
+  className: 'auth-footer',
+  events: {
+    'click .js-back': function (e) {
+      e.preventDefault();
+      this.options.appState.trigger('backToFactors');
+      this.back();
     },
+  },
 
-    back: function () {
-      this.state.set('navigateDir', Enums.DIRECTION_BACK);
-      if (this.options.appState.get('prevLink')) {
-        // Once we are in the MFA_ENROLL_ACTIVATE, we need to reset to the
-        // correct state. Fortunately, this means that the router will
-        // handle navigation once the request is finished.
-        this.model.doTransaction(function (transaction) {
-          return transaction.prev();
-        });
-      }
-      else {
-        this.options.appState.trigger('navigate', 'signin/enroll');
-      }
+  back: function () {
+    this.state.set('navigateDir', Enums.DIRECTION_BACK);
+    if (this.options.appState.get('prevLink')) {
+      // Once we are in the MFA_ENROLL_ACTIVATE, we need to reset to the
+      // correct state. Fortunately, this means that the router will
+      // handle navigation once the request is finished.
+      this.model.doTransaction(function (transaction) {
+        return transaction.prev();
+      });
+    } else {
+      this.options.appState.trigger('navigate', 'signin/enroll');
     }
-  });
-
+  },
 });

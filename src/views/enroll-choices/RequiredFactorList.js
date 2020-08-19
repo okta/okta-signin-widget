@@ -10,28 +10,24 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', './FactorList'], function (Okta, FactorList) {
+import { _, loc } from 'okta';
+import FactorList from './FactorList';
+export default FactorList.extend({
+  listTitle: _.partial(loc, 'enroll.choices.list.setup', 'login'),
 
-  var _ = Okta._;
+  className: function () {
+    return FactorList.prototype.className + ' enroll-required-factor-list';
+  },
 
-  return FactorList.extend({
+  postRender: function () {
+    let currentModel;
+    let currentRow;
 
-    listTitle: _.partial(Okta.loc, 'enroll.choices.list.setup', 'login'),
-
-    className: function () {
-      return FactorList.prototype.className + ' enroll-required-factor-list';
-    },
-
-    postRender: function () {
-      var currentModel, currentRow;
-      FactorList.prototype.postRender.apply(this, arguments);
-      currentModel = this.options.appState.get('factors').getFirstUnenrolledRequiredFactor();
-      currentRow = this.find(function (view) {
-        return view.model === currentModel;
-      });
-      currentRow.maximize();
-    }
-
-  });
-
+    FactorList.prototype.postRender.apply(this, arguments);
+    currentModel = this.options.appState.get('factors').getFirstUnenrolledRequiredFactor();
+    currentRow = this.find(function (view) {
+      return view.model === currentModel;
+    });
+    currentRow.maximize();
+  },
 });

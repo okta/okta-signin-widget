@@ -10,45 +10,45 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-
-define(['okta'], function (Okta) {
-  var SubSchema =  Okta.View.extend({
-    index: '',
-    message: '',
-    class: function () {
-      return ;
-    },
-    className: function () {
-      return 'subschema-unsatisfied subschema-' + this.index;
-    },
-    template: hbs('\
+const SubSchemaSubSchema = View.extend({
+  index: '',
+  message: '',
+  class: function () {
+    return;
+  },
+  className: function () {
+    return 'subschema-unsatisfied subschema-' + this.index;
+  },
+  template: hbs(
+    '\
       <p class="default-schema">\
         <span class="icon icon-16"/>\
         {{message}}\
       </p>\
-    '),
-    getTemplateData: function () {
-      return {
-        message: this.message
-      };
-    }
-  });
+    '
+  ),
+  getTemplateData: function () {
+    return {
+      message: this.message,
+    };
+  },
+});
+export default View.extend({
+  className: 'subschema',
 
-  return Okta.View.extend({
-    className: 'subschema',
+  children: function () {
+    return this.subSchemas.map(function (subSchema, index) {
+      const description = subSchema.get('description');
+      const message = description;
+      // TODO API should send translated strings instead of i18n code inside description
+      // or send param with i18n code
 
-    children: function () {
-      return this.subSchemas.map(function (subSchema, index) {
-        var description = subSchema.get('description');
-        // TODO API should send translated strings instead of i18n code inside description
-        // or send param with i18n code
-        var message = description;
-        return SubSchema.extend({
-          index: index, 
-          message: message
-        });
+      return SubSchemaSubSchema.extend({
+        index: index,
+        message: message,
       });
-    }
-  });
+    });
+  },
 });

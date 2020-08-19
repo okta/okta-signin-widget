@@ -10,33 +10,34 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  './FormType',
-  './BaseLoginController',
-  'models/BaseLoginModel'
-],
-function (Okta, FormType, BaseLoginController, BaseLoginModel) {
-
-  var { Toolbar } = Okta.internal.views.forms.components;
-  var { FormUtil } = Okta.internal.views.forms.helpers;
-  var _ = Okta._;
-
-  var SimpleForm = Okta.Form.extend({
-    layout: 'o-form-theme',
-    noCancelButton: true,
-    constructor: function (options) {
-      Okta.Form.call(this, options);
-      _.each(_.result(this, 'formChildren') || [], function (child) {
+import { _, internal, Form, createButton } from 'okta';
+import BaseLoginModel from 'models/BaseLoginModel';
+import BaseLoginController from './BaseLoginController';
+import FormType from './FormType';
+let { Toolbar } = internal.views.forms.components;
+let { FormUtil } = internal.views.forms.helpers;
+const FormControllerSimpleForm = Form.extend({
+  layout: 'o-form-theme',
+  noCancelButton: true,
+  constructor: function (options) {
+    Form.call(this, options);
+    _.each(
+      _.result(this, 'formChildren') || [],
+      function (child) {
         switch (child.type) {
         case FormType.INPUT:
-          this.addInput(_.extend({
-            label: false,
-            'label-top': true
-          }, child.viewOptions));
+          this.addInput(
+            _.extend(
+              {
+                label: false,
+                'label-top': true,
+              },
+              child.viewOptions
+            )
+          );
           break;
         case FormType.BUTTON:
-          this.add(Okta.createButton(_.extend({ model: this.model }, child.viewOptions)), child.addOptions);
+          this.add(createButton(_.extend({ model: this.model }, child.viewOptions)), child.addOptions);
           FormUtil.applyShowWhen(this.last(), child.viewOptions && child.viewOptions.showWhen);
           break;
         case FormType.DIVIDER:
@@ -53,57 +54,68 @@ function (Okta, FormType, BaseLoginController, BaseLoginModel) {
         default:
           throw new Error('Unrecognized child type: ' + child.type);
         }
-      }, this);
-    }
-  });
+      },
+      this
+    );
+  },
+});
+export default BaseLoginController.extend({
+  constructor: function () {
+    const initialize = this.initialize;
 
-  return BaseLoginController.extend({
+    this.initialize = function () {};
 
-    constructor: function () {
-      var initialize = this.initialize;
-      this.initialize = function () {};
+    BaseLoginController.apply(this, arguments);
 
-      BaseLoginController.apply(this, arguments);
+    if (this.Model && this.Form) {
+      const Model = BaseLoginModel.extend(
+        _.extend(
+          {
+            parse: function (attributes) {
+              this.settings = attributes.settings;
+              this.appState = attributes.appState;
+              return _.omit(attributes, ['settings', 'appState']);
+            },
+          },
+          _.result(this, 'Model')
+        )
+      );
 
-      if (this.Model && this.Form) {
-        var Model = BaseLoginModel.extend(_.extend({
-          parse: function (attributes) {
-            this.settings = attributes.settings;
-            this.appState = attributes.appState;
-            return _.omit(attributes, ['settings', 'appState']);
-          }
-        }, _.result(this, 'Model')));
-        this.model = new Model({
+      this.model = new Model(
+        {
           settings: this.settings,
-          appState: this.options.appState
-        }, { parse: true });
-        var Form = SimpleForm.extend(_.result(this, 'Form', this));
-        this.form = new Form(this.toJSON());
-        this.add(this.form);
-      }
+          appState: this.options.appState,
+        },
+        { parse: true }
+      );
+      const Form = FormControllerSimpleForm.extend(_.result(this, 'Form', this));
 
-      if (this.Footer) {
-        this.addFooter(this.Footer);
-      }
-
-      this.addListeners();
-      initialize.apply(this, arguments);
-    },
-
-    addFooter: function (Footer, args) {
-      this.footer = new Footer(_.extend(this.toJSON(), args || {}));
-      this.add(this.footer);
-    },
-
-    toJSON: function () {
-      var data = BaseLoginController.prototype.toJSON.apply(this, arguments);
-      return _.extend(_.pick(this.options, 'appState'), data);
-    },
-
-    back: function () {
-      if (this.footer && this.footer.back) {
-        this.footer.back();
-      }
+      this.form = new Form(this.toJSON());
+      this.add(this.form);
     }
-  });
+
+    if (this.Footer) {
+      this.addFooter(this.Footer);
+    }
+
+    this.addListeners();
+    initialize.apply(this, arguments);
+  },
+
+  addFooter: function (Footer, args) {
+    this.footer = new Footer(_.extend(this.toJSON(), args || {}));
+    this.add(this.footer);
+  },
+
+  toJSON: function () {
+    const data = BaseLoginController.prototype.toJSON.apply(this, arguments);
+
+    return _.extend(_.pick(this.options, 'appState'), data);
+  },
+
+  back: function () {
+    if (this.footer && this.footer.back) {
+      this.footer.back();
+    }
+  },
 });

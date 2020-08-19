@@ -10,70 +10,66 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import hbs from 'handlebars-inline-precompile';
-
 /* eslint max-len: [2, 160] */
-define([
-  'okta',
-  'util/FormController',
-  'util/FormType',
-  'views/consent/ScopeList'
-],
-function (Okta, FormController, FormType, ScopeList) {
+import { _, loc, View } from 'okta';
+import hbs from 'handlebars-inline-precompile';
+import FormController from 'util/FormController';
+import FormType from 'util/FormType';
+import ScopeList from 'views/consent/ScopeList';
+export default FormController.extend({
+  className: 'consent-required',
+  initialize: function () {
+    this.model.set('expiresAt', this.options.appState.get('expiresAt'));
+    this.model.set('scopes', this.options.appState.get('scopes'));
+    this.listenTo(this.form, 'cancel', _.bind(this.model.cancel, this.model));
+  },
+  postRender: function () {
+    FormController.prototype.postRender.apply(this, arguments);
 
-  var _ = Okta._;
-
-  return FormController.extend({
-    className: 'consent-required',
-    initialize: function () {
-      this.model.set('expiresAt', this.options.appState.get('expiresAt'));
-      this.model.set('scopes', this.options.appState.get('scopes'));
-      this.listenTo(this.form, 'cancel', _.bind(this.model.cancel, this.model));
+    // Update the "don't allow" and "allow access" buttons to be neutral by changing "allow button" to be gray.
+    this.$('.o-form-button-bar .button-primary').removeClass('button-primary');
+  },
+  Model: {
+    props: {
+      expiresAt: ['string', true],
+      scopes: ['array', true],
     },
-    postRender: function () {
-      FormController.prototype.postRender.apply(this, arguments);
-
-      // Update the "don't allow" and "allow access" buttons to be neutral by changing "allow button" to be gray.
-      this.$('.o-form-button-bar .button-primary').removeClass('button-primary');
-    },
-    Model: {
-      props: {
-        expiresAt: ['string', true],
-        scopes: ['array', true]
-      },
-      save: function () {
-        return this.doTransaction(function (transaction) {
-          return transaction.consent({
-            consent: {
-              expiresAt: this.get('expiresAt'),
-              scopes: _.pluck(this.get('scopes'), 'name')
-            }
-          });
+    save: function () {
+      return this.doTransaction(function (transaction) {
+        return transaction.consent({
+          consent: {
+            expiresAt: this.get('expiresAt'),
+            scopes: _.pluck(this.get('scopes'), 'name'),
+          },
         });
-      },
-      cancel: function () {
-        var self = this;
-        return this.doTransaction(function (transaction) {
-          return transaction.cancel();
-        }).then(function () {
-          var consentCancelFn = self.settings.get('consent.cancel');
-          if (_.isFunction(consentCancelFn)) {
-            consentCancelFn();
-          }
-        });
-      }
+      });
     },
-    Form: {
-      noCancelButton: false,
-      autoSave: true,
-      save: _.partial(Okta.loc, 'consent.required.consentButton', 'login'),
-      cancel: _.partial(Okta.loc, 'consent.required.cancelButton', 'login'),
-      formChildren: function () {
-        return [
-          FormType.View({
-            View: Okta.View.extend({
-              className: 'consent-title detail-row',
-              template: hbs('\
+    cancel: function () {
+      const self = this;
+
+      return this.doTransaction(function (transaction) {
+        return transaction.cancel();
+      }).then(function () {
+        const consentCancelFn = self.settings.get('consent.cancel');
+
+        if (_.isFunction(consentCancelFn)) {
+          consentCancelFn();
+        }
+      });
+    },
+  },
+  Form: {
+    noCancelButton: false,
+    autoSave: true,
+    save: _.partial(loc, 'consent.required.consentButton', 'login'),
+    cancel: _.partial(loc, 'consent.required.cancelButton', 'login'),
+    formChildren: function () {
+      return [
+        FormType.View({
+          View: View.extend({
+            className: 'consent-title detail-row',
+            template: hbs(
+              '\
                 {{#if clientURI}}\
                   <a href="{{clientURI}}" class="client-logo-link" target="_blank">\
                 {{/if}}\
@@ -86,35 +82,40 @@ function (Okta, FormController, FormType, ScopeList) {
                   </a>\
                 {{/if}}\
                 <span>{{{i18n code="consent.required.text" bundle="login" arguments="appName"}}}</span>\
-              '),
-              getTemplateData: function () {
-                var appState = this.options.appState;
-                return {
-                  appName: appState.escape('targetLabel'),
-                  customLogo: appState.get('targetLogo') && appState.get('targetLogo').href,
-                  defaultLogo: appState.get('defaultAppLogo'),
-                  clientURI: appState.get('targetClientURI') && appState.get('targetClientURI').href
-                };
-              }
-            })
+              '
+            ),
+            getTemplateData: function () {
+              const appState = this.options.appState;
+
+              return {
+                appName: appState.escape('targetLabel'),
+                customLogo: appState.get('targetLogo') && appState.get('targetLogo').href,
+                defaultLogo: appState.get('defaultAppLogo'),
+                clientURI: appState.get('targetClientURI') && appState.get('targetClientURI').href,
+              };
+            },
           }),
-          FormType.View({
-            View: new ScopeList({ model: this.model })
-          }),
-          FormType.View({
-            View: Okta.View.extend({
-              className: 'consent-description detail-row',
-              template: hbs('\
+        }),
+        FormType.View({
+          View: new ScopeList({ model: this.model }),
+        }),
+        FormType.View({
+          View: View.extend({
+            className: 'consent-description detail-row',
+            template: hbs(
+              '\
                 <p>{{i18n code="consent.required.description" bundle="login"}}</p>\
-              '),
-            })
-          })
-        ];
-      },
+              '
+            ),
+          }),
+        }),
+      ];
     },
-    Footer: Okta.View.extend({
-      className: 'consent-footer',
-      template: hbs('\
+  },
+  Footer: View.extend({
+    className: 'consent-footer',
+    template: hbs(
+      '\
         {{#if termsOfService}}\
           <a class="terms-of-service" href="{{termsOfService}}" target="_blank">{{i18n code="consent.required.termsOfService" bundle="login"}}</a>\
           {{#if privacyPolicy}}\
@@ -124,15 +125,15 @@ function (Okta, FormController, FormType, ScopeList) {
         {{#if privacyPolicy}}\
           <a class="privacy-policy" href="{{privacyPolicy}}" target="_blank">{{i18n code="consent.required.privacyPolicy" bundle="login"}}</a>\
         {{/if}}\
-      '),
-      getTemplateData: function () {
-        var appState = this.options.appState;
-        return {
-          termsOfService: appState.get('targetTermsOfService') && appState.get('targetTermsOfService').href,
-          privacyPolicy: appState.get('targetPrivacyPolicy') && appState.get('targetPrivacyPolicy').href
-        };
-      }
-    }),
-  });
+      '
+    ),
+    getTemplateData: function () {
+      const appState = this.options.appState;
 
+      return {
+        termsOfService: appState.get('targetTermsOfService') && appState.get('targetTermsOfService').href,
+        privacyPolicy: appState.get('targetPrivacyPolicy') && appState.get('targetPrivacyPolicy').href,
+      };
+    },
+  }),
 });

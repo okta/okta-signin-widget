@@ -10,143 +10,143 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'views/primary-auth/PrimaryAuthForm',
-  'views/primary-auth/CustomButtons',
-  'views/shared/FooterRegistration',
-  'models/PrimaryAuth',
-  'views/shared/Footer',
-  'util/BaseLoginController',
-  'util/Logger',
-  'util/DeviceFingerprint',
-],
-function (Okta, PrimaryAuthForm, CustomButtons, FooterRegistration, PrimaryAuthModel,
-  Footer, BaseLoginController, Logger, DeviceFingerprint) {
+import { $ } from 'okta';
+import PrimaryAuthModel from 'models/PrimaryAuth';
+import BaseLoginController from 'util/BaseLoginController';
+import DeviceFingerprint from 'util/DeviceFingerprint';
+import Logger from 'util/Logger';
+import CustomButtons from 'views/primary-auth/CustomButtons';
+import PrimaryAuthForm from 'views/primary-auth/PrimaryAuthForm';
+import Footer from 'views/shared/Footer';
+import FooterRegistration from 'views/shared/FooterRegistration';
+export default BaseLoginController.extend({
+  className: 'primary-auth',
 
-  var $ = Okta.$;
+  state: { enabled: true },
 
-  return BaseLoginController.extend({
-    className: 'primary-auth',
+  View: PrimaryAuthForm,
 
-    state: { enabled: true },
+  constructor: function (options) {
+    options.appState.unset('username');
 
-    View: PrimaryAuthForm,
-
-    constructor: function (options) {
-      options.appState.unset('username');
-
-      this.model = new PrimaryAuthModel({
+    this.model = new PrimaryAuthModel(
+      {
         multiOptionalFactorEnroll: options.settings.get('features.multiOptionalFactorEnroll'),
         settings: options.settings,
-        appState: options.appState
-      }, { parse: true });
-
-      BaseLoginController.apply(this, arguments);
-
-      this.addListeners();
-
-      // If social auth is configured, 'socialAuthPositionTop' will determine
-      // the order in which the social auth and primary auth are shown on the screen.
-      if (options.settings.get('hasConfiguredButtons')) {
-        this.add(CustomButtons, {
-          prepend: options.settings.get('socialAuthPositionTop'),
-          options: {
-            // To trigger an afterError event, we require the current controller
-            currentController: this
-          }
-        });
-      }
-
-      this.addFooter(options);
-
-      this.setUsername();
-    },
-
-    addFooter: function (options) {
-      this.add(new Footer(this.toJSON({appState: options.appState})));
-
-      if (options.settings.get('features.registration') || options.appState.get('isIdxStateToken')) {
-        this.add(new FooterRegistration({
-          settings: this.settings,
-          appState: options.appState
-        }));
-      }
-    },
-
-    setUsername: function () {
-      var username = this.model.get('username');
-      if (username) {
-        this.options.appState.set('username', username);
-      }
-    },
-
-    events: {
-      'focusout input[name=username]': function () {
-        if (this.shouldComputeDeviceFingerprint() && this.model.get('username')) {
-          var self = this;
-          this.options.appState.trigger('loading', true);
-          DeviceFingerprint.generateDeviceFingerprint(this.settings.get('baseUrl'), this.$el)
-            .then(function (fingerprint) {
-              self.options.appState.set('deviceFingerprint', fingerprint);
-              self.options.appState.set('username', self.model.get('username'));
-            })
-            .catch(function () {
-              // Keep going even if device fingerprint fails
-              self.options.appState.set('username', self.model.get('username'));
-            })
-            .finally(function () {
-              self.options.appState.trigger('loading', false);
-            });
-        } else {
-          this.options.appState.set('username', this.model.get('username'));
-        }
+        appState: options.appState,
       },
-      'focusin input': function (e) {
-        $(e.target.parentElement).addClass('focused-input');
-      },
-      'focusout input': function (e) {
-        $(e.target.parentElement).removeClass('focused-input');
-      },
+      { parse: true }
+    );
 
-      /**
-       * @deprecated
-       * This event was originally added for capturing specific usage metrics
-       * and is now obsolete.
-       */
-      'click .button-show': function () {
-        Logger.deprecate('use "passwordRevealed" event is deprecated');
-        this.trigger('passwordRevealed');
-      }
-    },
+    BaseLoginController.apply(this, arguments);
 
-    // This model and the AppState both have a username property.
-    // The controller updates the AppState's username when the user is
-    // done editing (on blur) or deletes the username (see below).
-    initialize: function () {
-      this.options.appState.unset('deviceFingerprint');
-      this.listenTo(this.model, 'change:username', function (model, value) {
-        if (!value) {
-          // reset AppState to an undefined user.
-          this.options.appState.set('username', '');
-        }
-      });
-      this.listenTo(this.model, 'save', function () {
-        this.state.set('enabled', false);
-      });
-      this.listenTo(this.model, 'error', function () {
-        this.state.set('enabled', true);
-      });
-      this.listenTo(this.state, 'togglePrimaryAuthButton', function (buttonState) {
-        this.toggleButtonState(buttonState);
-      });
-    },
+    this.addListeners();
 
-    shouldComputeDeviceFingerprint: function () {
-      return this.settings.get('features.securityImage') &&
-          this.settings.get('features.deviceFingerprinting') &&
-          this.settings.get('features.useDeviceFingerprintForSecurityImage');
+    // If social auth is configured, 'socialAuthPositionTop' will determine
+    // the order in which the social auth and primary auth are shown on the screen.
+    if (options.settings.get('hasConfiguredButtons')) {
+      this.add(CustomButtons, {
+        prepend: options.settings.get('socialAuthPositionTop'),
+        options: {
+          // To trigger an afterError event, we require the current controller
+          currentController: this,
+        },
+      });
     }
-  });
 
+    this.addFooter(options);
+
+    this.setUsername();
+  },
+
+  addFooter: function (options) {
+    this.add(new Footer(this.toJSON({ appState: options.appState })));
+
+    if (options.settings.get('features.registration') || options.appState.get('isIdxStateToken')) {
+      this.add(
+        new FooterRegistration({
+          settings: this.settings,
+          appState: options.appState,
+        })
+      );
+    }
+  },
+
+  setUsername: function () {
+    const username = this.model.get('username');
+
+    if (username) {
+      this.options.appState.set('username', username);
+    }
+  },
+
+  events: {
+    'focusout input[name=username]': function () {
+      if (this.shouldComputeDeviceFingerprint() && this.model.get('username')) {
+        const self = this;
+
+        this.options.appState.trigger('loading', true);
+        DeviceFingerprint.generateDeviceFingerprint(this.settings.get('baseUrl'), this.$el)
+          .then(function (fingerprint) {
+            self.options.appState.set('deviceFingerprint', fingerprint);
+            self.options.appState.set('username', self.model.get('username'));
+          })
+          .catch(function () {
+            // Keep going even if device fingerprint fails
+            self.options.appState.set('username', self.model.get('username'));
+          })
+          .finally(function () {
+            self.options.appState.trigger('loading', false);
+          });
+      } else {
+        this.options.appState.set('username', this.model.get('username'));
+      }
+    },
+    'focusin input': function (e) {
+      $(e.target.parentElement).addClass('focused-input');
+    },
+    'focusout input': function (e) {
+      $(e.target.parentElement).removeClass('focused-input');
+    },
+
+    /**
+     * @deprecated
+     * This event was originally added for capturing specific usage metrics
+     * and is now obsolete.
+     */
+    'click .button-show': function () {
+      Logger.deprecate('use "passwordRevealed" event is deprecated');
+      this.trigger('passwordRevealed');
+    },
+  },
+
+  // This model and the AppState both have a username property.
+  // The controller updates the AppState's username when the user is
+  // done editing (on blur) or deletes the username (see below).
+  initialize: function () {
+    this.options.appState.unset('deviceFingerprint');
+    this.listenTo(this.model, 'change:username', function (model, value) {
+      if (!value) {
+        // reset AppState to an undefined user.
+        this.options.appState.set('username', '');
+      }
+    });
+    this.listenTo(this.model, 'save', function () {
+      this.state.set('enabled', false);
+    });
+    this.listenTo(this.model, 'error', function () {
+      this.state.set('enabled', true);
+    });
+    this.listenTo(this.state, 'togglePrimaryAuthButton', function (buttonState) {
+      this.toggleButtonState(buttonState);
+    });
+  },
+
+  shouldComputeDeviceFingerprint: function () {
+    return (
+      this.settings.get('features.securityImage') &&
+      this.settings.get('features.deviceFingerprinting') &&
+      this.settings.get('features.useDeviceFingerprintForSecurityImage')
+    );
+  },
 });

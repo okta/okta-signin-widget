@@ -10,27 +10,25 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta'], function (Okta) {
-  var Cookie = Okta.internal.util.Cookie;
-  var LAST_USERNAME_COOKIE_NAME = 'ln';
-  var DAYS_SAVE_REMEMBER = 365;
+import { internal } from 'okta';
+const Cookie = internal.util.Cookie;
+const LAST_USERNAME_COOKIE_NAME = 'ln';
+const DAYS_SAVE_REMEMBER = 365;
+const fn = {};
 
-  var fn = {};
+fn.getCookieUsername = function () {
+  return Cookie.getCookie(LAST_USERNAME_COOKIE_NAME);
+};
 
-  fn.getCookieUsername = function () {
-    return Cookie.getCookie(LAST_USERNAME_COOKIE_NAME);
-  };
+fn.setUsernameCookie = function (username) {
+  Cookie.setCookie(LAST_USERNAME_COOKIE_NAME, username, {
+    expires: DAYS_SAVE_REMEMBER,
+    path: '/',
+  });
+};
 
-  fn.setUsernameCookie = function (username) {
-    Cookie.setCookie(LAST_USERNAME_COOKIE_NAME, username, {
-      expires: DAYS_SAVE_REMEMBER,
-      path: '/'
-    });
-  };
+fn.removeUsernameCookie = function () {
+  Cookie.removeCookie(LAST_USERNAME_COOKIE_NAME, { path: '/' });
+};
 
-  fn.removeUsernameCookie = function () {
-    Cookie.removeCookie(LAST_USERNAME_COOKIE_NAME, { path: '/' });
-  };
-
-  return fn;
-});
+export default fn;
