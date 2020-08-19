@@ -10,53 +10,47 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
+import Enums from 'util/Enums';
 
-define([
-  'okta',
-  'util/RouterUtil',
-  'util/Enums'
-],
-function (Okta, RouterUtil, Enums) {
-
-  return Okta.View.extend({
-    template: hbs('\
+export default View.extend({
+  template: hbs(
+    '\
       <a href="#" class="link help js-back" data-se="back-link">\
         {{i18n code="mfa.backToFactors" bundle="login"}}\
       </a>\
       <a href="#" class="link help goto js-goto" data-se="goto-link">\
         {{i18n code="mfa.scanBarcode" bundle="login"}}\
       </a>\
-    '),
-    className: 'auth-footer',
-    events: {
-      'click .js-back' : function (e) {
-        e.preventDefault();
-        this.back();
-      },
-      'click .js-goto' : function (e) {
-        e.preventDefault();
-        // go to a different screen with current auth status:
-        // refresh the latest response
-        this.model.startTransaction(function (authClient) {
-          return authClient.tx.resume();
-        });
-      }
+    '
+  ),
+  className: 'auth-footer',
+  events: {
+    'click .js-back': function (e) {
+      e.preventDefault();
+      this.back();
     },
-    back: function () {
-      this.state.set('navigateDir', Enums.DIRECTION_BACK);
-      if (this.options.appState.get('prevLink')) {
-        // Once we are in the MFA_ENROLL_ACTIVATE, we need to reset to the
-        // correct state. Fortunately, this means that the router will
-        // handle navigation once the request is finished.
-        this.model.doTransaction(function (transaction) {
-          return transaction.prev();
-        });
-      }
-      else {
-        this.options.appState.trigger('navigate', 'signin/enroll');
-      }
+    'click .js-goto': function (e) {
+      e.preventDefault();
+      // go to a different screen with current auth status:
+      // refresh the latest response
+      this.model.startTransaction(function (authClient) {
+        return authClient.tx.resume();
+      });
+    },
+  },
+  back: function () {
+    this.state.set('navigateDir', Enums.DIRECTION_BACK);
+    if (this.options.appState.get('prevLink')) {
+      // Once we are in the MFA_ENROLL_ACTIVATE, we need to reset to the
+      // correct state. Fortunately, this means that the router will
+      // handle navigation once the request is finished.
+      this.model.doTransaction(function (transaction) {
+        return transaction.prev();
+      });
+    } else {
+      this.options.appState.trigger('navigate', 'signin/enroll');
     }
-  });
-
+  },
 });

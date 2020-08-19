@@ -10,82 +10,76 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'util/FormController',
-  'util/FormType',
-  'views/shared/FooterSignout',
-  'views/shared/TextBox'
-],
-function (Okta, FormController, FormType, FooterSignout, TextBox) {
+import { loc } from 'okta';
+import FormController from 'util/FormController';
+import FormType from 'util/FormType';
+import FooterSignout from 'views/shared/FooterSignout';
+import TextBox from 'views/shared/TextBox';
+export default FormController.extend({
+  className: 'recovery-question',
+  Model: {
+    props: {
+      answer: ['string', true],
+      showAnswer: 'boolean',
+    },
+    save: function () {
+      return this.doTransaction(function (transaction) {
+        return transaction.answer({ answer: this.get('answer') });
+      });
+    },
+  },
+  Form: {
+    autoSave: true,
+    save: function () {
+      switch (this.options.appState.get('recoveryType')) {
+      case 'PASSWORD':
+        return loc('password.forgot.question.submit', 'login');
+      case 'UNLOCK':
+        return loc('account.unlock.question.submit', 'login');
+      default:
+        return loc('mfa.challenge.verify', 'login');
+      }
+    },
+    title: function () {
+      switch (this.options.appState.get('recoveryType')) {
+      case 'PASSWORD':
+        return loc('password.forgot.question.title', 'login');
+      case 'UNLOCK':
+        return loc('account.unlock.question.title', 'login');
+      default:
+        return '';
+      }
+    },
+    formChildren: function () {
+      return [
+        FormType.Input({
+          label: this.options.appState.get('recoveryQuestion'),
+          placeholder: loc('mfa.challenge.answer.placeholder', 'login'),
+          name: 'answer',
+          input: TextBox,
+          type: 'password',
+          initialize: function () {
+            this.listenTo(this.model, 'change:showAnswer', function () {
+              const type = this.model.get('showAnswer') ? 'text' : 'password';
 
-  return FormController.extend({
-    className: 'recovery-question',
-    Model: {
-      props: {
-        answer: ['string', true],
-        showAnswer: 'boolean'
-      },
-      save: function () {
-        return this.doTransaction(function (transaction) {
-          return transaction.answer({ answer: this.get('answer') });
-        });
-      }
+              this.getInputs()[0].changeType(type);
+            });
+          },
+        }),
+        FormType.Input({
+          label: false,
+          'label-top': true,
+          placeholder: loc('mfa.challenge.answer.showAnswer', 'login'),
+          className: 'recovery-question-show margin-btm-0',
+          name: 'showAnswer',
+          type: 'checkbox',
+        }),
+      ];
     },
-    Form: {
-      autoSave: true,
-      save: function () {
-        switch (this.options.appState.get('recoveryType')) {
-        case 'PASSWORD':
-          return Okta.loc('password.forgot.question.submit', 'login');
-        case 'UNLOCK':
-          return Okta.loc('account.unlock.question.submit', 'login');
-        default:
-          return Okta.loc('mfa.challenge.verify', 'login');
-        }
-      },
-      title: function () {
-        switch (this.options.appState.get('recoveryType')) {
-        case 'PASSWORD':
-          return Okta.loc('password.forgot.question.title', 'login');
-        case 'UNLOCK':
-          return Okta.loc('account.unlock.question.title', 'login');
-        default:
-          return '';
-        }
-      },
-      formChildren: function () {
-        return [
-          FormType.Input({
-            label: this.options.appState.get('recoveryQuestion'),
-            placeholder: Okta.loc('mfa.challenge.answer.placeholder', 'login'),
-            name: 'answer',
-            input: TextBox,
-            type: 'password',
-            initialize: function () {
-              this.listenTo(this.model, 'change:showAnswer', function () {
-                var type = this.model.get('showAnswer') ? 'text' : 'password';
-                this.getInputs()[0].changeType(type);
-              });
-            }
-          }),
-          FormType.Input({
-            label: false,
-            'label-top': true,
-            placeholder: Okta.loc('mfa.challenge.answer.showAnswer', 'login'),
-            className: 'recovery-question-show margin-btm-0',
-            name: 'showAnswer',
-            type: 'checkbox'
-          })
-        ];
-      }
-    },
-    initialize: function () {
-      if (!this.settings.get('features.hideBackToSignInForReset')) {
-        this.addFooter(FooterSignout, {linkText: Okta.loc('goback', 'login'), linkClassName: ''});
-      }
+  },
+  initialize: function () {
+    if (!this.settings.get('features.hideBackToSignInForReset')) {
+      this.addFooter(FooterSignout, { linkText: loc('goback', 'login'), linkClassName: '' });
     }
-
-  });
-
+  },
 });

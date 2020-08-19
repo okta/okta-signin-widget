@@ -10,44 +10,35 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { _, internal } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-
-define([
-  'okta'
-],
-function (Okta, ) {
-
-  var _ = Okta._;
-  var { TextBox } = Okta.internal.views.forms.inputs;
-
-  return TextBox.extend({
-
-    template: hbs('\
+let { TextBox } = internal.views.forms.inputs;
+export default TextBox.extend({
+  template: hbs(
+    '\
       <span class="okta-form-label-inline o-form-label-inline">{{countryCallingCode}}</span>\
       <span class="okta-form-input-field input-fix o-form-control">\
         <input type="{{type}}" placeholder="{{placeholder}}" name="{{name}}" \
           id="{{inputId}}" value="{{value}}" autocomplete="off"/>\
       </span>\
-    '),
+    '
+  ),
 
-    initialize: function () {
-      this.listenTo(this.model, 'change:countryCallingCode', function () {
-        this.$('.o-form-label-inline').text(this.model.get('countryCallingCode'));
-      });
-    },
+  initialize: function () {
+    this.listenTo(this.model, 'change:countryCallingCode', function () {
+      this.$('.o-form-label-inline').text(this.model.get('countryCallingCode'));
+    });
+  },
 
-    preRender: function () {
-      this.options.countryCallingCode = this.model.get('countryCallingCode');
-    },
+  preRender: function () {
+    this.options.countryCallingCode = this.model.get('countryCallingCode');
+  },
 
-    postRender: function () {
-      // This is a hack - once inputGroups are done, get rid of it!!
-      this.$el.removeClass('input-fix o-form-control');
-      _.defer(_.bind(function () {
-        this.$el.parent().addClass('o-form-input-group');
-      }, this));
-    }
-
-  });
-
+  postRender: function () {
+    // This is a hack - once inputGroups are done, get rid of it!!
+    this.$el.removeClass('input-fix o-form-control');
+    _.defer(() => {
+      this.$el.parent().addClass('o-form-input-group');
+    });
+  },
 });

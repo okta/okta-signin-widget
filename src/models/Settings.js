@@ -12,487 +12,495 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { _, Model, loc, internal } from 'okta';
+import config from 'config/config.json';
 import hbs from 'handlebars-inline-precompile';
+import Q from 'q';
+import BrowserFeatures from 'util/BrowserFeatures';
+import Errors from 'util/Errors';
+import IDP from 'util/IDP';
+import Logger from 'util/Logger';
+import Util from 'util/Util';
+const SharedUtil = internal.util.Util;
+const DEFAULT_LANGUAGE = 'en';
+const supportedResponseTypes = ['token', 'id_token', 'code'];
+const ConfigError = Errors.ConfigError;
+const UnsupportedBrowserError = Errors.UnsupportedBrowserError;
+const assetBaseUrlTpl = hbs('https://global.oktacdn.com/okta-signin-widget/{{version}}');
+export default Model.extend({
+  authClient: undefined,
 
-define([
-  'okta',
-  'q',
-  'util/Errors',
-  'util/BrowserFeatures',
-  'util/Util',
-  'util/Logger',
-  'util/IDP',
-  'config/config.json'
-], function (Okta, Q, Errors, BrowserFeatures, Util, Logger, IDP, config) {
+  local: {
+    baseUrl: ['string', true],
+    recoveryToken: ['string', false, undefined],
+    stateToken: ['string', false, undefined],
+    username: ['string', false],
+    signOutLink: ['string', false],
+    relayState: ['string', false],
 
-  var SharedUtil = Okta.internal.util.Util;
-  var _ = Okta._;
-  var DEFAULT_LANGUAGE = 'en';
-  var supportedResponseTypes = ['token', 'id_token', 'code'];
-  var ConfigError = Errors.ConfigError;
-  var UnsupportedBrowserError = Errors.UnsupportedBrowserError;
-  var assetBaseUrlTpl = hbs(
-    'https://global.oktacdn.com/okta-signin-widget/{{version}}'
-  );
+    // Function to transform the username before passing it to the API
+    // for Primary Auth, Forgot Password and Unlock Account.
+    transformUsername: ['function', false],
 
-  return Okta.Model.extend({
+    // CALLBACKS
+    globalSuccessFn: 'function',
+    globalErrorFn: 'function',
+    processCreds: 'function',
 
-    authClient: undefined,
+    // IMAGES
+    logo: 'string',
+    logoText: ['string', false],
+    helpSupportNumber: 'string',
 
-    local: {
-      'baseUrl': ['string', true],
-      'recoveryToken': ['string', false, undefined],
-      'stateToken': ['string', false, undefined],
-      'username' : ['string', false],
-      'signOutLink': ['string', false],
-      'relayState': ['string', false],
+    // IDX API VERSION
+    apiVersion: ['string', true, '1.0.0'],
 
-      // Function to transform the username before passing it to the API
-      // for Primary Auth, Forgot Password and Unlock Account.
-      'transformUsername' : ['function', false],
+    // FEATURES
+    'features.router': ['boolean', true, false],
+    'features.securityImage': ['boolean', true, false],
+    'features.rememberMe': ['boolean', true, true],
+    'features.autoPush': ['boolean', true, false],
+    'features.smsRecovery': ['boolean', true, false],
+    'features.callRecovery': ['boolean', true, false],
+    'features.emailRecovery': ['boolean', false, true],
+    'features.webauthn': ['boolean', true, false],
+    'features.selfServiceUnlock': ['boolean', true, false],
+    'features.multiOptionalFactorEnroll': ['boolean', true, false],
+    'features.preventBrowserFromSavingOktaPassword': ['boolean', true, true],
+    'features.deviceFingerprinting': ['boolean', false, false],
+    'features.hideSignOutLinkInMFA': ['boolean', false, false],
+    'features.hideBackToSignInForReset': ['boolean', false, false],
+    'features.customExpiredPassword': ['boolean', true, false],
+    'features.registration': ['boolean', false, false],
+    'features.consent': ['boolean', false, false],
+    'features.idpDiscovery': ['boolean', false, false],
+    'features.passwordlessAuth': ['boolean', false, false],
+    'features.showPasswordToggleOnSignInPage': ['boolean', false, false],
+    'features.trackTypingPattern': ['boolean', false, false],
+    'features.redirectByFormSubmit': ['boolean', false, false],
+    'features.useDeviceFingerprintForSecurityImage': ['boolean', false, true],
+    'features.hideDefaultTip': ['boolean', false, true],
+    'features.showPasswordRequirementsAsHtmlList': ['boolean', false, false],
 
-      // CALLBACKS
-      'globalSuccessFn': 'function',
-      'globalErrorFn': 'function',
-      'processCreds': 'function',
+    // I18N
+    language: ['any', false], // Can be a string or a function
+    i18n: ['object', false],
 
-      // IMAGES
-      'logo': 'string',
-      'logoText' : ['string', false],
-      'helpSupportNumber': 'string',
-
-      // IDX API VERSION
-      'apiVersion': ['string', true, '1.0.0'],
-
-      // FEATURES
-      'features.router': ['boolean', true, false],
-      'features.securityImage': ['boolean', true, false],
-      'features.rememberMe': ['boolean', true, true],
-      'features.autoPush': ['boolean', true, false],
-      'features.smsRecovery': ['boolean', true, false],
-      'features.callRecovery': ['boolean', true, false],
-      'features.emailRecovery': ['boolean', false, true],
-      'features.webauthn': ['boolean', true, false],
-      'features.selfServiceUnlock': ['boolean', true, false],
-      'features.multiOptionalFactorEnroll': ['boolean', true, false],
-      'features.preventBrowserFromSavingOktaPassword': ['boolean', true, true],
-      'features.deviceFingerprinting': ['boolean', false, false],
-      'features.hideSignOutLinkInMFA' : ['boolean', false, false],
-      'features.hideBackToSignInForReset' : ['boolean', false, false],
-      'features.customExpiredPassword': ['boolean', true, false],
-      'features.registration': ['boolean', false, false],
-      'features.consent': ['boolean', false, false],
-      'features.idpDiscovery': ['boolean', false, false],
-      'features.passwordlessAuth': ['boolean', false, false],
-      'features.showPasswordToggleOnSignInPage': ['boolean', false, false],
-      'features.trackTypingPattern': ['boolean', false, false],
-      'features.redirectByFormSubmit': ['boolean', false, false],
-      'features.useDeviceFingerprintForSecurityImage': ['boolean', false, true],
-      'features.hideDefaultTip': ['boolean', false, true],
-      'features.showPasswordRequirementsAsHtmlList': ['boolean', false, false],
-
-      // I18N
-      'language': ['any', false], // Can be a string or a function
-      'i18n': ['object', false],
-
-      // ASSETS
-      'assets.baseUrl': ['string', false],
-      'assets.rewrite': {
-        type: 'function',
-        value: _.identity
-      },
-
-      // OAUTH2
-      'clientId': 'string',
-      'redirectUri': 'string',
-      'oAuthTimeout': ['number', false],
-
-      'authScheme': ['string', false, 'OAUTH2'],
-      'authParams.display': {
-        type: 'string',
-        values: ['none', 'popup', 'page']
-      },
-      // Note: It shouldn't be necessary to override/pass in this property -
-      // it will be set correctly depending on what the value of display is
-      // and whether we are using Okta or a social IDP.
-      'authParams.responseMode': {
-        type: 'string',
-        values: ['query', 'fragment', 'form_post', 'okta_post_message']
-      },
-      // Can either be a string or an array, i.e.
-      // - Single value: 'id_token', 'token', or 'code'
-      // - Multiple values: ['id_token', 'token']
-      'authParams.responseType': ['any', false, 'id_token'],
-      'authParams.scopes': ['array', false],
-      'authParams.issuer': ['string', false],
-      'authParams.authorizeUrl': ['string', false],
-      'authParams.state': ['string', false],
-      'authParams.nonce': ['string', false],
-
-      // External IdPs
-      'idps': ['array', false, []],
-      'idpDisplay': {
-        type: 'string',
-        values: ['PRIMARY', 'SECONDARY'],
-        value: 'SECONDARY'
-      },
-
-      // HELP LINKS
-      'helpLinks.help': 'string',
-      'helpLinks.forgotPassword': 'string',
-      'helpLinks.unlock': 'string',
-      'helpLinks.custom': 'array',
-
-      //Custom Buttons
-      'customButtons': ['array', false, []],
-
-      //Registration
-      'policyId': 'string',
-      'registration.click': 'function',
-      'registration.parseSchema': 'function',
-      'registration.preSubmit': 'function',
-      'registration.postSubmit': 'function',
-
-      //Consent
-      'consent.cancel': 'function',
-
-      //IDP Discovery
-      'idpDiscovery.requestContext': 'string',
-
-      //Colors
-      'colors.brand': 'string',
-
-      //Descriptions
-      'brandName': 'string',
-
-      //PIV
-      'piv': ['object', false, {}]
+    // ASSETS
+    'assets.baseUrl': ['string', false],
+    'assets.rewrite': {
+      type: 'function',
+      value: _.identity,
     },
 
-    derived: {
-      redirectUtilFn: {
-        deps: ['features.redirectByFormSubmit'],
-        fn: function (redirectByFormSubmit) {
-          return redirectByFormSubmit
-            ? Util.redirectWithFormGet.bind(Util)
-            : SharedUtil.redirect.bind(SharedUtil);
-        },
-        cache: true
-      },
-      supportedLanguages: {
-        deps: ['i18n'],
-        fn: function (i18n) {
-          // Developers can pass in their own languages
-          return _.union(config.supportedLanguages, _.keys(i18n));
-        },
-        cache: true
-      },
-      languageCode: {
-        deps: ['language', 'supportedLanguages'],
-        fn: function (language, supportedLanguages) {
-          var userLanguages = BrowserFeatures.getUserLanguages(),
-              preferred = _.clone(userLanguages),
-              supportedLowerCase = Util.toLower(supportedLanguages),
-              expanded;
+    // OAUTH2
+    clientId: 'string',
+    redirectUri: 'string',
+    oAuthTimeout: ['number', false],
 
-          // Any developer defined "language" takes highest priority:
-          // As a string, i.e. 'en', 'ja', 'zh-CN'
-          if (_.isString(language)) {
-            preferred.unshift(language);
-          }
+    authScheme: ['string', false, 'OAUTH2'],
+    'authParams.display': {
+      type: 'string',
+      values: ['none', 'popup', 'page'],
+    },
+    // Note: It shouldn't be necessary to override/pass in this property -
+    // it will be set correctly depending on what the value of display is
+    // and whether we are using Okta or a social IDP.
+    'authParams.responseMode': {
+      type: 'string',
+      values: ['query', 'fragment', 'form_post', 'okta_post_message'],
+    },
+    // Can either be a string or an array, i.e.
+    // - Single value: 'id_token', 'token', or 'code'
+    // - Multiple values: ['id_token', 'token']
+    'authParams.responseType': ['any', false, 'id_token'],
+    'authParams.scopes': ['array', false],
+    'authParams.issuer': ['string', false],
+    'authParams.authorizeUrl': ['string', false],
+    'authParams.state': ['string', false],
+    'authParams.nonce': ['string', false],
+
+    // External IdPs
+    idps: ['array', false, []],
+    idpDisplay: {
+      type: 'string',
+      values: ['PRIMARY', 'SECONDARY'],
+      value: 'SECONDARY',
+    },
+
+    // HELP LINKS
+    'helpLinks.help': 'string',
+    'helpLinks.forgotPassword': 'string',
+    'helpLinks.unlock': 'string',
+    'helpLinks.custom': 'array',
+
+    //Custom Buttons
+    customButtons: ['array', false, []],
+
+    //Registration
+    policyId: 'string',
+    'registration.click': 'function',
+    'registration.parseSchema': 'function',
+    'registration.preSubmit': 'function',
+    'registration.postSubmit': 'function',
+
+    //Consent
+    'consent.cancel': 'function',
+
+    //IDP Discovery
+    'idpDiscovery.requestContext': 'string',
+
+    //Colors
+    'colors.brand': 'string',
+
+    //Descriptions
+    brandName: 'string',
+
+    //PIV
+    piv: ['object', false, {}],
+  },
+
+  derived: {
+    redirectUtilFn: {
+      deps: ['features.redirectByFormSubmit'],
+      fn: function (redirectByFormSubmit) {
+        return redirectByFormSubmit ? Util.redirectWithFormGet.bind(Util) : SharedUtil.redirect.bind(SharedUtil);
+      },
+      cache: true,
+    },
+    supportedLanguages: {
+      deps: ['i18n'],
+      fn: function (i18n) {
+        // Developers can pass in their own languages
+        return _.union(config.supportedLanguages, _.keys(i18n));
+      },
+      cache: true,
+    },
+    languageCode: {
+      deps: ['language', 'supportedLanguages'],
+      fn: function (language, supportedLanguages) {
+        const userLanguages = BrowserFeatures.getUserLanguages();
+
+        const preferred = _.clone(userLanguages);
+
+        const supportedLowerCase = Util.toLower(supportedLanguages);
+        let expanded;
+
+        // Any developer defined "language" takes highest priority:
+        // As a string, i.e. 'en', 'ja', 'zh-CN'
+        if (_.isString(language)) {
+          preferred.unshift(language);
+        } else if (_.isFunction(language)) {
           // As a callback function, which is passed the list of supported
           // languages and detected user languages. This function must return
           // a languageCode, i.e. 'en', 'ja', 'zh-CN'
-          else if (_.isFunction(language)) {
-            preferred.unshift(language(supportedLanguages, userLanguages));
-          }
+          preferred.unshift(language(supportedLanguages, userLanguages));
+        }
 
-          // Add english as the default, and expand to include any language
-          // codes that do not include region, dialect, etc.
-          preferred.push(DEFAULT_LANGUAGE);
-          expanded = Util.toLower(Util.expandLanguages(preferred));
+        // Add english as the default, and expand to include any language
+        // codes that do not include region, dialect, etc.
+        preferred.push(DEFAULT_LANGUAGE);
+        expanded = Util.toLower(Util.expandLanguages(preferred));
 
-          // Perform a case insensitive search - this is necessary in the case
-          // of browsers like Safari
-          var i, supportedPos;
-          for (i = 0; i < expanded.length; i++) {
-            supportedPos = supportedLowerCase.indexOf(expanded[i]);
-            if (supportedPos > -1) {
-              return supportedLanguages[supportedPos];
-            }
+        // Perform a case insensitive search - this is necessary in the case
+        // of browsers like Safari
+        let i;
+        let supportedPos;
+
+        for (i = 0; i < expanded.length; i++) {
+          supportedPos = supportedLowerCase.indexOf(expanded[i]);
+          if (supportedPos > -1) {
+            return supportedLanguages[supportedPos];
           }
         }
       },
-      oauth2Enabled: {
-        deps: ['clientId', 'authScheme', 'authParams.responseType'],
-        fn: function (clientId, authScheme, responseType) {
-          if (!clientId) {
-            return false;
-          }
-          if (authScheme.toLowerCase() !== 'oauth2') {
-            return false;
-          }
-          var responseTypes = _.isArray(responseType) ? responseType : [responseType];
-          return _.intersection(responseTypes, supportedResponseTypes).length > 0;
-        },
-        cache: true
-      },
-      // Redirect Uri to provide in the oauth API
-      oauthRedirectUri: {
-        deps: ['redirectUri'],
-        fn: function (redirectUri) {
-          if (redirectUri) {
-            return redirectUri;
-          }
-
-          var origin = window.location.origin;
-          // IE8
-          if (!origin) {
-            var href = window.location.href;
-            var path = window.location.pathname;
-            if (path !== '') {
-              origin = href.substring(0, href.lastIndexOf(path));
-            }
-          }
-
-          return encodeURI(origin);
+    },
+    oauth2Enabled: {
+      deps: ['clientId', 'authScheme', 'authParams.responseType'],
+      fn: function (clientId, authScheme, responseType) {
+        if (!clientId) {
+          return false;
         }
-      },
-      // Adjusts the idps passed into the widget based on if they get explicit support
-      configuredSocialIdps: {
-        deps: ['idps'],
-        fn: function (idps) {
-          return _.map(idps, function (idpConfig) {
-            var idp = _.clone(idpConfig);
-            var type = idp.type && idp.type.toLowerCase();
-            if ( !( type && _.contains(IDP.SUPPORTED_SOCIAL_IDPS, type) ) ) {
-              type = 'general-idp';
-              idp.text = idp.text || '{ Please provide a text value }';
-            }
-
-            idp.className = [
-              'social-auth-button',
-              'social-auth-' + type + '-button ',
-              idp.className ? idp.className : ''
-            ].join(' ');
-            idp.dataAttr = 'social-auth-' + type + '-button';
-            idp.i18nKey = 'socialauth.' + type + '.label';
-            return idp;
-          });
-        },
-        cache: true
-      },
-      // Can support piv authentication
-      hasPivCard: {
-        deps: ['piv'],
-        fn: function (piv) {
-          return piv && piv.certAuthUrl;
-        },
-        cache: true
-      },
-      // social auth buttons order - 'above'/'below' the primary auth form (boolean)
-      socialAuthPositionTop: {
-        deps: ['configuredSocialIdps', 'hasPivCard', 'idpDisplay'],
-        fn: function (configuredSocialIdps, hasPivCard, idpDisplay) {
-          return (!_.isEmpty(configuredSocialIdps) || hasPivCard)
-            && idpDisplay.toUpperCase() === 'PRIMARY';
-        },
-        cache: true
-      },
-      hasConfiguredButtons: {
-        deps: ['configuredSocialIdps', 'customButtons', 'hasPivCard'],
-        fn: function (configuredSocialIdps, customButtons, hasPivCard) {
-          return !_.isEmpty(configuredSocialIdps) || !_.isEmpty(customButtons) || hasPivCard;
-        },
-        cache: true
-      }
-    },
-
-    initialize: function (options) {
-      if (!options.baseUrl) {
-        this.callGlobalError(new ConfigError(Okta.loc('error.required.baseUrl')));
-      }
-      else if (options.colors && _.isString(options.colors.brand) && !options.colors.brand.match(/^#[0-9A-Fa-f]{6}$/)) {
-        this.callGlobalError(new ConfigError(Okta.loc('error.invalid.colors.brand')));
-      }
-      else if (BrowserFeatures.corsIsNotSupported()) {
-        this.callGlobalError(new UnsupportedBrowserError(Okta.loc('error.unsupported.cors')));
-      }
-    },
-
-    setAcceptLanguageHeader: function (authClient) {
-      if (authClient && authClient.options && authClient.options.headers) {
-        authClient.options.headers['Accept-Language'] = this.get('languageCode');
-      }
-    },
-
-    setAuthClient: function (authClient) {
-      this.setAcceptLanguageHeader(authClient);
-      this.authClient = authClient;
-    },
-
-    getAuthClient: function () {
-      return this.authClient;
-    },
-
-    set: function () {
-      try {
-        return Okta.Model.prototype.set.apply(this, arguments);
-      }
-      catch (e) {
-        var message = e.message ? e.message : e;
-        this.callGlobalError(new ConfigError(message));
-      }
-    },
-
-    // Invokes the global success function. This should only be called on a
-    // terminal part of the code (i.e. authStatus SUCCESS or after sending
-    // a recovery email)
-    callGlobalSuccess: function (status, data) {
-      // Defer this to ensure that our functions have rendered completely
-      // before invoking their function
-      var res = _.extend(data, { status: status });
-      _.defer(_.partial(this.get('globalSuccessFn'), res));
-    },
-
-    // Invokes the global error function. This should only be called on non
-    // recoverable errors (i.e. configuration errors, browser unsupported
-    // errors, etc)
-    callGlobalError: function (err) {
-      // Note: Must use "this.options.globalErrorFn" when they've passed invalid
-      // arguments - globalErrorFn will not have been set yet
-      var globalErrorFn = this.get('globalErrorFn') || this.options.globalErrorFn;
-      if (globalErrorFn) {
-        globalErrorFn(err);
-      }
-      else {
-        // Only throw the error if they have not registered a globalErrorFn
-        throw err;
-      }
-    },
-
-    // Get the username by applying the transform function if it exists.
-    transformUsername: function (username, operation) {
-      var transformFn = this.get('transformUsername');
-      if (transformFn && _.isFunction(transformFn)) {
-        return transformFn(username, operation);
-      }
-      return username;
-    },
-
-    processCreds: function (creds) {
-      var processCreds = this.get('processCreds');
-      return Q.Promise(function (resolve) {
-        if (!_.isFunction(processCreds)) {
-          resolve();
+        if (authScheme.toLowerCase() !== 'oauth2') {
+          return false;
         }
-        else if (processCreds.length === 2) {
-          processCreds(creds, resolve);
-        }
-        else {
-          processCreds(creds);
-          resolve();
-        }
-      });
-    },
+        const responseTypes = _.isArray(responseType) ? responseType : [responseType];
 
-    parseSchema: function (schema, onSuccess, onFailure) {
-      var parseSchema = this.get('registration.parseSchema');
-      //check for parseSchema callback
-      if (_.isFunction(parseSchema)) {
-        parseSchema(schema, function (schema) {
+        return _.intersection(responseTypes, supportedResponseTypes).length > 0;
+      },
+      cache: true,
+    },
+    // Redirect Uri to provide in the oauth API
+    oauthRedirectUri: {
+      deps: ['redirectUri'],
+      fn: function (redirectUri) {
+        if (redirectUri) {
+          return redirectUri;
+        }
+
+        let origin = window.location.origin;
+
+        // IE8
+        if (!origin) {
+          const href = window.location.href;
+          const path = window.location.pathname;
+
+          if (path !== '') {
+            origin = href.substring(0, href.lastIndexOf(path));
+          }
+        }
+
+        return encodeURI(origin);
+      },
+    },
+    // Adjusts the idps passed into the widget based on if they get explicit support
+    configuredSocialIdps: {
+      deps: ['idps'],
+      fn: function (idps) {
+        return _.map(idps, function (idpConfig) {
+          const idp = _.clone(idpConfig);
+
+          let type = idp.type && idp.type.toLowerCase();
+
+          if (!(type && _.contains(IDP.SUPPORTED_SOCIAL_IDPS, type))) {
+            type = 'general-idp';
+            idp.text = idp.text || '{ Please provide a text value }';
+          }
+
+          idp.className = [
+            'social-auth-button',
+            'social-auth-' + type + '-button ',
+            idp.className ? idp.className : '',
+          ].join(' ');
+          idp.dataAttr = 'social-auth-' + type + '-button';
+          idp.i18nKey = 'socialauth.' + type + '.label';
+          return idp;
+        });
+      },
+      cache: true,
+    },
+    // Can support piv authentication
+    hasPivCard: {
+      deps: ['piv'],
+      fn: function (piv) {
+        return piv && piv.certAuthUrl;
+      },
+      cache: true,
+    },
+    // social auth buttons order - 'above'/'below' the primary auth form (boolean)
+    socialAuthPositionTop: {
+      deps: ['configuredSocialIdps', 'hasPivCard', 'idpDisplay'],
+      fn: function (configuredSocialIdps, hasPivCard, idpDisplay) {
+        return (!_.isEmpty(configuredSocialIdps) || hasPivCard) && idpDisplay.toUpperCase() === 'PRIMARY';
+      },
+      cache: true,
+    },
+    hasConfiguredButtons: {
+      deps: ['configuredSocialIdps', 'customButtons', 'hasPivCard'],
+      fn: function (configuredSocialIdps, customButtons, hasPivCard) {
+        return !_.isEmpty(configuredSocialIdps) || !_.isEmpty(customButtons) || hasPivCard;
+      },
+      cache: true,
+    },
+  },
+
+  initialize: function (options) {
+    if (!options.baseUrl) {
+      this.callGlobalError(new ConfigError(loc('error.required.baseUrl')));
+    } else if (options.colors && _.isString(options.colors.brand) && !options.colors.brand.match(/^#[0-9A-Fa-f]{6}$/)) {
+      this.callGlobalError(new ConfigError(loc('error.invalid.colors.brand')));
+    } else if (BrowserFeatures.corsIsNotSupported()) {
+      this.callGlobalError(new UnsupportedBrowserError(loc('error.unsupported.cors')));
+    }
+  },
+
+  setAcceptLanguageHeader: function (authClient) {
+    if (authClient && authClient.options && authClient.options.headers) {
+      authClient.options.headers['Accept-Language'] = this.get('languageCode');
+    }
+  },
+
+  setAuthClient: function (authClient) {
+    this.setAcceptLanguageHeader(authClient);
+    this.authClient = authClient;
+  },
+
+  getAuthClient: function () {
+    return this.authClient;
+  },
+
+  set: function () {
+    try {
+      return Model.prototype.set.apply(this, arguments);
+    } catch (e) {
+      const message = e.message ? e.message : e;
+
+      this.callGlobalError(new ConfigError(message));
+    }
+  },
+
+  // Invokes the global success function. This should only be called on a
+  // terminal part of the code (i.e. authStatus SUCCESS or after sending
+  // a recovery email)
+  callGlobalSuccess: function (status, data) {
+    const res = _.extend(data, { status: status });
+    // Defer this to ensure that our functions have rendered completely
+    // before invoking their function
+
+    _.defer(_.partial(this.get('globalSuccessFn'), res));
+  },
+
+  // Invokes the global error function. This should only be called on non
+  // recoverable errors (i.e. configuration errors, browser unsupported
+  // errors, etc)
+  callGlobalError: function (err) {
+    const globalErrorFn = this.get('globalErrorFn') || this.options.globalErrorFn;
+    // Note: Must use "this.options.globalErrorFn" when they've passed invalid
+    // arguments - globalErrorFn will not have been set yet
+
+    if (globalErrorFn) {
+      globalErrorFn(err);
+    } else {
+      // Only throw the error if they have not registered a globalErrorFn
+      throw err;
+    }
+  },
+
+  // Get the username by applying the transform function if it exists.
+  transformUsername: function (username, operation) {
+    const transformFn = this.get('transformUsername');
+
+    if (transformFn && _.isFunction(transformFn)) {
+      return transformFn(username, operation);
+    }
+    return username;
+  },
+
+  processCreds: function (creds) {
+    const processCreds = this.get('processCreds');
+
+    return Q.Promise(function (resolve) {
+      if (!_.isFunction(processCreds)) {
+        resolve();
+      } else if (processCreds.length === 2) {
+        processCreds(creds, resolve);
+      } else {
+        processCreds(creds);
+        resolve();
+      }
+    });
+  },
+
+  parseSchema: function (schema, onSuccess, onFailure) {
+    const parseSchema = this.get('registration.parseSchema');
+
+    //check for parseSchema callback
+    if (_.isFunction(parseSchema)) {
+      parseSchema(
+        schema,
+        function (schema) {
           onSuccess(schema);
-        }, function (error) {
-          error = error || {'errorSummary': Okta.loc('registration.default.callbackhook.error')};
+        },
+        function (error) {
+          error = error || { errorSummary: loc('registration.default.callbackhook.error') };
           error['callback'] = 'parseSchema';
           onFailure(error);
-        });
-      } else {
-        //no callback
-        onSuccess(schema);
-      }
-    },
+        }
+      );
+    } else {
+      //no callback
+      onSuccess(schema);
+    }
+  },
 
-    preSubmit: function (postData, onSuccess, onFailure) {
-      var preSubmit = this.get('registration.preSubmit');
-      //check for preSubmit callback
-      if (_.isFunction(preSubmit)) {
-        preSubmit(postData, function (postData) {
+  preSubmit: function (postData, onSuccess, onFailure) {
+    const preSubmit = this.get('registration.preSubmit');
+
+    //check for preSubmit callback
+    if (_.isFunction(preSubmit)) {
+      preSubmit(
+        postData,
+        function (postData) {
           onSuccess(postData);
-        }, function (error) {
-          error = error || {'errorSummary': Okta.loc('registration.default.callbackhook.error')};
+        },
+        function (error) {
+          error = error || { errorSummary: loc('registration.default.callbackhook.error') };
           error['callback'] = 'preSubmit';
           onFailure(error);
-        });
-      } else {
-        //no callback
-        onSuccess(postData);
-      }
-    },
+        }
+      );
+    } else {
+      //no callback
+      onSuccess(postData);
+    }
+  },
 
-    postSubmit: function (response, onSuccess, onFailure) {
-      var postSubmit = this.get('registration.postSubmit');
-      //check for postSubmit callback
-      if (_.isFunction(postSubmit)) {
-        postSubmit(response, function (response) {
+  postSubmit: function (response, onSuccess, onFailure) {
+    const postSubmit = this.get('registration.postSubmit');
+
+    //check for postSubmit callback
+    if (_.isFunction(postSubmit)) {
+      postSubmit(
+        response,
+        function (response) {
           onSuccess(response);
-        }, function (error) {
-          error = error || {'errorSummary': Okta.loc('registration.default.callbackhook.error')};
+        },
+        function (error) {
+          error = error || { errorSummary: loc('registration.default.callbackhook.error') };
           error['callback'] = 'postSubmit';
           onFailure(error);
-        });
-      } else {
-        //no callback
-        onSuccess(response);
-      }
-    },
+        }
+      );
+    } else {
+      //no callback
+      onSuccess(response);
+    }
+  },
 
-    // Use the parse function to transform config options to the standard
-    // settings we currently support. This is a good place to deprecate old
-    // option formats.
-    parse: function (options) {
-      // PKCE flow: automatically set responseType to 'code'
-      if (options.authParams && options.authParams.pkce) {
-        options.authParams.responseType = 'code';
-      }
-
-      if (options.authParams && options.authParams.scope) {
-        Logger.deprecate('Use "scopes" instead of "scope"');
-        options.authParams.scopes = options.authParams.scope;
-        delete options.authParams.scope;
-      }
-
-      if (options.labels || options.country) {
-        Logger.deprecate('Use "i18n" instead of "labels" and "country"');
-        var overrides = options.labels || {};
-        _.each(options.country, function (val, key) {
-          overrides['country.' + key] = val;
-        });
-        // Old behavior is to treat the override as a global override, so we
-        // need to add these overrides to each language
-        options.i18n = {};
-        _.each(config.supportedLanguages, function (language) {
-          options.i18n[language] = overrides;
-        });
-        delete options.labels;
-        delete options.country;
-      }
-
-      // Default the assets.baseUrl to the cdn, or remove any trailing slashes
-      if (!options.assets) {
-        options.assets = {};
-      }
-      var abu = options.assets.baseUrl;
-      if (!abu) {
-        options.assets.baseUrl = assetBaseUrlTpl({ version: config.version });
-      }
-      else if (abu[abu.length - 1] === '/') {
-        options.assets.baseUrl = abu.substring(0, abu.length - 1);
-      }
-
-      return options;
+  // Use the parse function to transform config options to the standard
+  // settings we currently support. This is a good place to deprecate old
+  // option formats.
+  parse: function (options) {
+    // PKCE flow: automatically set responseType to 'code'
+    if (options.authParams && options.authParams.pkce) {
+      options.authParams.responseType = 'code';
     }
 
-  });
+    if (options.authParams && options.authParams.scope) {
+      Logger.deprecate('Use "scopes" instead of "scope"');
+      options.authParams.scopes = options.authParams.scope;
+      delete options.authParams.scope;
+    }
 
+    if (options.labels || options.country) {
+      Logger.deprecate('Use "i18n" instead of "labels" and "country"');
+      const overrides = options.labels || {};
+
+      _.each(options.country, function (val, key) {
+        overrides['country.' + key] = val;
+      });
+      // Old behavior is to treat the override as a global override, so we
+      // need to add these overrides to each language
+      options.i18n = {};
+      _.each(config.supportedLanguages, function (language) {
+        options.i18n[language] = overrides;
+      });
+      delete options.labels;
+      delete options.country;
+    }
+
+    // Default the assets.baseUrl to the cdn, or remove any trailing slashes
+    if (!options.assets) {
+      options.assets = {};
+    }
+    const abu = options.assets.baseUrl;
+
+    if (!abu) {
+      options.assets.baseUrl = assetBaseUrlTpl({ version: config.version });
+    } else if (abu[abu.length - 1] === '/') {
+      options.assets.baseUrl = abu.substring(0, abu.length - 1);
+    }
+
+    return options;
+  },
 });

@@ -10,20 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'util/Enums'
-],
-function (Okta, Enums) {
-  var CAN_REMOVE_BEACON_CLS = 'can-remove-beacon';
-  return Okta.View.extend({
-    className: 'auth-container main-container',
-    id: Enums.WIDGET_CONTAINER_ID,
-    attributes: { 'data-se': 'auth-container' },
-    initialize: function (options) {
-      this.listenTo(options.appState, 'change:beaconType', function (model, type) {
-        this.$el.toggleClass(CAN_REMOVE_BEACON_CLS, type === 'security');
-      });
-    }
-  });
+import { View } from 'okta';
+import Enums from 'util/Enums';
+const CAN_REMOVE_BEACON_CLS = 'can-remove-beacon';
+export default View.extend({
+  className: 'auth-container main-container',
+  id: Enums.WIDGET_CONTAINER_ID,
+  attributes: { 'data-se': 'auth-container' },
+  initialize: function (options) {
+    this.listenTo(options.appState, 'change:beaconType', function (model, type) {
+      this.$el.toggleClass(CAN_REMOVE_BEACON_CLS, type === 'security');
+    });
+  },
 });

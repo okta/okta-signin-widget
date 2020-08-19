@@ -10,164 +10,155 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { _, loc, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-define([
-  'okta',
-  'util/FormController',
-  'util/FormType',
-  'util/Enums',
-  'views/shared/FooterSignout',
-  'views/shared/TextBox'
-],
-function (Okta, FormController, FormType, Enums, FooterSignout, TextBox) {
-
-  var _ = Okta._;
-
-  return FormController.extend({
+import Enums from 'util/Enums';
+import FormController from 'util/FormController';
+import FormType from 'util/FormType';
+import FooterSignout from 'views/shared/FooterSignout';
+import TextBox from 'views/shared/TextBox';
+export default FormController.extend({
+  className: 'recovery-challenge',
+  Model: {
+    props: {
+      passCode: ['string', true],
+    },
+    local: {
+      ableToResend: 'boolean',
+    },
+    resendCode: function () {
+      // Note: This does not require a trapAuthResponse because Backbone's
+      // router will not navigate if the url path is the same
+      this.limitResending();
+      return this.doTransaction(function (transaction) {
+        return transaction.resend();
+      });
+    },
+    limitResending: function () {
+      this.set({ ableToResend: false });
+      _.delay(_.bind(this.set, this), Enums.API_RATE_LIMIT, { ableToResend: true });
+    },
+    save: function () {
+      return this.doTransaction(function (transaction) {
+        return transaction.verify({
+          passCode: this.get('passCode'),
+        });
+      });
+    },
+  },
+  Form: {
+    autoSave: true,
+    save: _.partial(loc, 'mfa.challenge.verify', 'login'),
+    title: function () {
+      if (this.options.appState.get('factorType') === Enums.RECOVERY_FACTOR_TYPE_CALL) {
+        return loc('recoveryChallenge.call.title', 'login');
+      } else {
+        return loc('recoveryChallenge.sms.title', 'login');
+      }
+    },
     className: 'recovery-challenge',
-    Model: {
-      props: {
-        passCode: ['string', true]
-      },
-      local: {
-        ableToResend: 'boolean'
-      },
-      resendCode: function () {
-        // Note: This does not require a trapAuthResponse because Backbone's
-        // router will not navigate if the url path is the same
-        this.limitResending();
-        return this.doTransaction(function (transaction) {
-          return transaction.resend();
-        });
-      },
-      limitResending: function () {
-        this.set({ableToResend: false});
-        _.delay(_.bind(this.set, this), Enums.API_RATE_LIMIT, {ableToResend: true});
-      },
-      save: function () {
-        return this.doTransaction(function (transaction) {
-          return transaction.verify({
-            passCode: this.get('passCode')
-          });
-        });
-      }
-    },
-    Form: {
-      autoSave: true,
-      save: _.partial(Okta.loc, 'mfa.challenge.verify', 'login'),
-      title: function () {
-        if (this.options.appState.get('factorType') === Enums.RECOVERY_FACTOR_TYPE_CALL) {
-          return Okta.loc('recoveryChallenge.call.title', 'login');
-        } else {
-          return Okta.loc('recoveryChallenge.sms.title', 'login');
-        }
-      },
-      className: 'recovery-challenge',
-      initialize: function () {
-        this.listenTo(this.model, 'error', function () {
-          this.clearErrors();
-        });
-      },
-      formChildren: function () {
-        return [
-          FormType.Button({
-            title: Okta.loc('mfa.resendCode', 'login'),
-            attributes: { 'data-se': 'resend-button' },
-            className: 'button sms-request-button margin-top-30',
-            click: function () {
-              this.model.resendCode();
-            },
-            initialize: function () {
-              this.listenTo(this.model, 'change:ableToResend', function (model, ableToResend) {
-                if (ableToResend) {
-                  this.options.title = Okta.loc('mfa.resendCode', 'login');
-                  this.enable();
-                  this.render();
-                } else {
-                  this.options.title = Okta.loc('mfa.sent', 'login');
-                  this.disable();
-                  this.render();
-                }
-              });
-            }
-          }),
-          FormType.Input({
-            label: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
-            'label-top': true,
-            className: 'enroll-sms-phone',
-            name: 'passCode',
-            input: TextBox,
-            type: 'text'
-          })
-        ];
-      }
-    },
-
-    events: {
-      'click .send-email-link': function (e) {
-        e.preventDefault();
-        var settings = this.model.settings,
-            username = this.options.appState.get('username'),
-            recoveryType = this.options.appState.get('recoveryType');
-
-        this.model.startTransaction(function (authClient) {
-          // The user could have landed here via the Forgot Password/Unlock Account flow
-          switch (recoveryType) {
-          case Enums.RECOVERY_TYPE_PASSWORD:
-            return authClient.forgotPassword({
-              username: settings.transformUsername(username, Enums.FORGOT_PASSWORD),
-              factorType: Enums.RECOVERY_FACTOR_TYPE_EMAIL
-            });
-          case Enums.RECOVERY_TYPE_UNLOCK:
-            return authClient.unlockAccount({
-              username: settings.transformUsername(username, Enums.UNLOCK_ACCOUNT),
-              factorType: Enums.RECOVERY_FACTOR_TYPE_EMAIL
-            });
-          default:
-            return;
-          }
-        });
-      }
-    },
-
     initialize: function () {
-      var recoveryType = this.options.appState.get('recoveryType'),
-          sendEmailLink;
+      this.listenTo(this.model, 'error', function () {
+        this.clearErrors();
+      });
+    },
+    formChildren: function () {
+      return [
+        FormType.Button({
+          title: loc('mfa.resendCode', 'login'),
+          attributes: { 'data-se': 'resend-button' },
+          className: 'button sms-request-button margin-top-30',
+          click: function () {
+            this.model.resendCode();
+          },
+          initialize: function () {
+            this.listenTo(this.model, 'change:ableToResend', function (model, ableToResend) {
+              if (ableToResend) {
+                this.options.title = loc('mfa.resendCode', 'login');
+                this.enable();
+                this.render();
+              } else {
+                this.options.title = loc('mfa.sent', 'login');
+                this.disable();
+                this.render();
+              }
+            });
+          },
+        }),
+        FormType.Input({
+          label: loc('mfa.challenge.enterCode.placeholder', 'login'),
+          'label-top': true,
+          className: 'enroll-sms-phone',
+          name: 'passCode',
+          input: TextBox,
+          type: 'text',
+        }),
+      ];
+    },
+  },
 
-      switch (recoveryType) {
-      case Enums.RECOVERY_TYPE_PASSWORD:
-        sendEmailLink = hbs`{{i18n code="password.forgot.code.notReceived" bundle="login"}}`;
-        break;
-      case Enums.RECOVERY_TYPE_UNLOCK:
-        sendEmailLink = hbs`{{i18n code="account.unlock.code.notReceived" bundle="login"}}`;
-        break;
-      default:
-        break;
-      }
+  events: {
+    'click .send-email-link': function (e) {
+      e.preventDefault();
+      const settings = this.model.settings;
+      const username = this.options.appState.get('username');
+      const recoveryType = this.options.appState.get('recoveryType');
 
-      if (sendEmailLink && this.settings.get('features.emailRecovery')) {
-        this.add(Okta.View.extend({
+      this.model.startTransaction(function (authClient) {
+        // The user could have landed here via the Forgot Password/Unlock Account flow
+        switch (recoveryType) {
+        case Enums.RECOVERY_TYPE_PASSWORD:
+          return authClient.forgotPassword({
+            username: settings.transformUsername(username, Enums.FORGOT_PASSWORD),
+            factorType: Enums.RECOVERY_FACTOR_TYPE_EMAIL,
+          });
+        case Enums.RECOVERY_TYPE_UNLOCK:
+          return authClient.unlockAccount({
+            username: settings.transformUsername(username, Enums.UNLOCK_ACCOUNT),
+            factorType: Enums.RECOVERY_FACTOR_TYPE_EMAIL,
+          });
+        default:
+          return;
+        }
+      });
+    },
+  },
+
+  initialize: function () {
+    const recoveryType = this.options.appState.get('recoveryType');
+    let sendEmailLink;
+
+    switch (recoveryType) {
+    case Enums.RECOVERY_TYPE_PASSWORD:
+      sendEmailLink = hbs`{{i18n code="password.forgot.code.notReceived" bundle="login"}}`;
+      break;
+    case Enums.RECOVERY_TYPE_UNLOCK:
+      sendEmailLink = hbs`{{i18n code="account.unlock.code.notReceived" bundle="login"}}`;
+      break;
+    default:
+      break;
+    }
+
+    if (sendEmailLink && this.settings.get('features.emailRecovery')) {
+      this.add(
+        View.extend({
           className: 'link send-email-link',
           tagName: 'a',
           attributes: {
             href: '#',
-            'data-se': 'send-email-link'
+            'data-se': 'send-email-link',
           },
-          template: sendEmailLink
-        }));
-      }
-
-      if (!this.settings.get('features.hideBackToSignInForReset')) {
-        this.add(
-          new FooterSignout(_.extend(this.toJSON(), {linkText: Okta.loc('goback', 'login'), linkClassName: ''}))
-        );
-      }
-    },
-
-    postRender: function () {
-      this.model.limitResending();
+          template: sendEmailLink,
+        })
+      );
     }
 
-  });
+    if (!this.settings.get('features.hideBackToSignInForReset')) {
+      this.add(new FooterSignout(_.extend(this.toJSON(), { linkText: loc('goback', 'login'), linkClassName: '' })));
+    }
+  },
 
+  postRender: function () {
+    this.model.limitResending();
+  },
 });

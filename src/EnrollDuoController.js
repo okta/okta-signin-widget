@@ -11,118 +11,113 @@
  */
 
 /* eslint camelcase: 0*/
-define([
-  'okta',
-  'duo',
-  'q',
-  'util/FormController',
-  'views/enroll-factors/Footer'
-],
-function (Okta, Duo, Q, FormController, Footer) {
+import { $, _, loc } from 'okta';
+import Duo from 'duo';
+import Q from 'q';
+import FormController from 'util/FormController';
+import Footer from 'views/enroll-factors/Footer';
+export default FormController.extend({
+  className: 'enroll-duo duo-form',
 
-  var $ = Okta.$,
-      _ = Okta._;
-
-  return FormController.extend({
-
-    className: 'enroll-duo duo-form',
-
-    Model: {
-      props: {
-        host: 'string',
-        signature: 'string',
-        postAction: 'string',
-        factorId: 'string',
-        stateToken: 'string'
-      },
-
-      getInitOptions: function () {
-        return this.doTransaction(function (transaction) {
-          var factor = _.findWhere(transaction.factors, {
-            factorType: 'web',
-            provider: 'DUO'
-          });
-          return factor.enroll();
-        });
-      },
-
-      activate: function (signedResponse) {
-        // Note: We should be doing this in OktaAuth! Fix when it's updated.
-        var url = this.get('postAction'),
-            factorId = this.get('factorId'),
-            self = this,
-            data = {
-              id: factorId,
-              stateToken: this.get('stateToken'),
-              sig_response: signedResponse
-            };
-        // We don't actually use authClient.post() here (unlike all the other cases in the
-        // sign-in widget) since the endpoint is wired to accept serialized form post instead
-        // of a JSON post ($.post() is different from authClient.post() in that in $.post(),
-        // jquery decides the Content-Type instead of it being a JSON type). Enroll/Verify DUO
-        // are the only two places where we actually do this.
-        // NOTE - If we ever decide to change this, we should test this very carefully.
-        return Q($.post(url, data))
-          .then(function () {
-            return self.doTransaction(function (transaction) {
-              return transaction.poll();
-            });
-          })
-          .catch(function (err) {
-            self.trigger('error', self, err.xhr);
-          });
-      }
+  Model: {
+    props: {
+      host: 'string',
+      signature: 'string',
+      postAction: 'string',
+      factorId: 'string',
+      stateToken: 'string',
     },
 
-    Form: {
-      autoSave: true,
-      noButtonBar: true,
-      title: _.partial(Okta.loc, 'enroll.duo.title', 'login'),
-
-      postRender: function () {
-        this.add('<iframe frameborder="0" title="' + this.title() + '"></iframe>');
-        Duo.init({
-          'host': this.model.get('host'),
-          'sig_request': this.model.get('signature'),
-          'iframe': this.$('iframe').get(0),
-          'post_action': _.bind(this.model.activate, this.model)
+    getInitOptions: function () {
+      return this.doTransaction(function (transaction) {
+        const factor = _.findWhere(transaction.factors, {
+          factorType: 'web',
+          provider: 'DUO',
         });
-      }
+
+        return factor.enroll();
+      });
     },
 
-    Footer: Footer,
+    activate: function (signedResponse) {
+      const url = this.get('postAction');
+      const factorId = this.get('factorId');
+      const self = this;
+      const data = {
+        id: factorId,
+        stateToken: this.get('stateToken'),
+        sig_response: signedResponse,
+      };
+      // Note: We should be doing this in OktaAuth! Fix when it's updated.
 
-    fetchInitialData: function () {
-      var self = this;
-      return this.model.getInitOptions(this.options.appState)
-        .then(function (trans) {
-          var res = trans.data;
-          if (!res ||
-            !res._embedded ||
-            !res._embedded.factor ||
-            !res._embedded.factor._embedded ||
-            !res._embedded.factor._embedded.activation) {
-            throw new Error('Response does not have duo activation options');
-          }
-
-          var factor = res._embedded.factor;
-          var activation = factor._embedded.activation;
-          self.model.set({
-            host: activation.host,
-            signature: activation.signature,
-            postAction: activation._links.complete.href,
-            factorId: factor.id,
-            stateToken: res.stateToken
+      // We don't actually use authClient.post() here (unlike all the other cases in the
+      // sign-in widget) since the endpoint is wired to accept serialized form post instead
+      // of a JSON post ($.post() is different from authClient.post() in that in $.post(),
+      // jquery decides the Content-Type instead of it being a JSON type). Enroll/Verify DUO
+      // are the only two places where we actually do this.
+      // NOTE - If we ever decide to change this, we should test this very carefully.
+      return Q($.post(url, data))
+        .then(function () {
+          return self.doTransaction(function (transaction) {
+            return transaction.poll();
           });
+        })
+        .catch(function (err) {
+          self.trigger('error', self, err.xhr);
         });
     },
+  },
 
-    trapAuthResponse: function () {
-      if (this.options.appState.get('isMfaEnrollActivate')) {
-        return true;
+  Form: {
+    autoSave: true,
+    noButtonBar: true,
+    title: _.partial(loc, 'enroll.duo.title', 'login'),
+
+    postRender: function () {
+      this.add('<iframe frameborder="0" title="' + this.title() + '"></iframe>');
+      Duo.init({
+        host: this.model.get('host'),
+        sig_request: this.model.get('signature'),
+        iframe: this.$('iframe').get(0),
+        post_action: _.bind(this.model.activate, this.model),
+      });
+    },
+  },
+
+  Footer: Footer,
+
+  fetchInitialData: function () {
+    const self = this;
+
+    return this.model.getInitOptions(this.options.appState).then(function (trans) {
+      const res = trans.data;
+
+      if (
+        !res ||
+        !res._embedded ||
+        !res._embedded.factor ||
+        !res._embedded.factor._embedded ||
+        !res._embedded.factor._embedded.activation
+      ) {
+        throw new Error('Response does not have duo activation options');
       }
+
+      const factor = res._embedded.factor;
+      const activation = factor._embedded.activation;
+
+      self.model.set({
+        host: activation.host,
+        signature: activation.signature,
+        postAction: activation._links.complete.href,
+        factorId: factor.id,
+        stateToken: res.stateToken,
+      });
+    });
+  },
+
+  trapAuthResponse: function () {
+    if (this.options.appState.get('isMfaEnrollActivate')) {
+      return true;
     }
-
-  });
-
+  },
 });

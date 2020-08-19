@@ -10,67 +10,66 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', './Enums'], function (Okta, Enums) {
+import { loc } from 'okta';
+import Enums from './Enums';
 
-  function ConfigError (message) {
-    this.name = Enums.CONFIG_ERROR;
-    this.message = message || Okta.loc('error.config');
-  }
-  ConfigError.prototype = new Error();
+function ConfigError (message) {
+  this.name = Enums.CONFIG_ERROR;
+  this.message = message || loc('error.config');
+}
+ConfigError.prototype = new Error();
 
-  function UnsupportedBrowserError (message) {
-    this.name = Enums.UNSUPPORTED_BROWSER_ERROR;
-    this.message = message || Okta.loc('error.unsupported.browser');
-  }
-  UnsupportedBrowserError.prototype = new Error();
+function UnsupportedBrowserError (message) {
+  this.name = Enums.UNSUPPORTED_BROWSER_ERROR;
+  this.message = message || loc('error.unsupported.browser');
+}
+UnsupportedBrowserError.prototype = new Error();
 
-  function OAuthError (message) {
-    this.name = Enums.OAUTH_ERROR;
-    this.message = message;
-  }
-  OAuthError.prototype = new Error();
+function OAuthError (message) {
+  this.name = Enums.OAUTH_ERROR;
+  this.message = message;
+}
+OAuthError.prototype = new Error();
 
-  function RegistrationError (message) {
-    this.name = Enums.REGISTRATION_FAILED;
-    this.message = message;
-  }
-  RegistrationError.prototype = new Error();
+function RegistrationError (message) {
+  this.name = Enums.REGISTRATION_FAILED;
+  this.message = message;
+}
+RegistrationError.prototype = new Error();
 
-  // Thrown when initiation of poll was cancelled.
-  function AuthStopPollInitiationError () {
-    this.name = Enums.AUTH_STOP_POLL_INITIATION_ERROR;
-  }
-  AuthStopPollInitiationError.prototype = new Error();
+// Thrown when initiation of poll was cancelled.
+function AuthStopPollInitiationError () {
+  this.name = Enums.AUTH_STOP_POLL_INITIATION_ERROR;
+}
+AuthStopPollInitiationError.prototype = new Error();
 
-  function U2FError (err) {
-    this.name = Enums.U2F_ERROR;
-    this.message = err.xhr.responseJSON.errorSummary;
-    this.xhr = err.xhr;
-  }
-  U2FError.prototype = new Error();
+function U2FError (err) {
+  this.name = Enums.U2F_ERROR;
+  this.message = err.xhr.responseJSON.errorSummary;
+  this.xhr = err.xhr;
+}
+U2FError.prototype = new Error();
 
-  function WebAuthnError (err) {
-    this.name = Enums.WEB_AUTHN_ERROR;
-    this.message = err.xhr.responseJSON.errorSummary;
-    this.xhr = err.xhr;
-  }
-  WebAuthnError.prototype = new Error();
+function WebAuthnError (err) {
+  this.name = Enums.WEB_AUTHN_ERROR;
+  this.message = err.xhr.responseJSON.errorSummary;
+  this.xhr = err.xhr;
+}
+WebAuthnError.prototype = new Error();
 
-  // This is triggered only when code aborts webauthn browser prompt.
-  function WebauthnAbortError () {
-    this.name = Enums.WEBAUTHN_ABORT_ERROR;
-  }
-  WebauthnAbortError.prototype = new Error();
+// This is triggered only when code aborts webauthn browser prompt.
+function WebauthnAbortError () {
+  this.name = Enums.WEBAUTHN_ABORT_ERROR;
+}
+WebauthnAbortError.prototype = new Error();
 
-  return {
-    ConfigError: ConfigError,
-    UnsupportedBrowserError: UnsupportedBrowserError,
-    OAuthError: OAuthError,
-    RegistrationError: RegistrationError,
-    AuthStopPollInitiationError: AuthStopPollInitiationError,
-    U2FError: U2FError,
-    WebAuthnError: WebAuthnError,
-    WebauthnAbortError: WebauthnAbortError
-  };
-
-});
+export default {
+  ConfigError: ConfigError,
+  UnsupportedBrowserError: UnsupportedBrowserError,
+  OAuthError: OAuthError,
+  RegistrationError: RegistrationError,
+  AuthStopPollInitiationError: AuthStopPollInitiationError,
+  U2FError: U2FError,
+  WebAuthnError: WebAuthnError,
+  WebauthnAbortError: WebauthnAbortError,
+};

@@ -10,11 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['util/Enums'], function (Enums) {
-  var fn = {};
+import Enums from 'util/Enums';
+const fn = {};
 
-  var template = function (colors) {
-    return `
+const template = function (colors) {
+  return `
 #okta-sign-in.auth-container .button-primary,
 #okta-sign-in.auth-container .button-primary:active,
 #okta-sign-in.auth-container .button-primary:focus { background: ${colors.brand}; }
@@ -24,36 +24,37 @@ define(['util/Enums'], function (Enums) {
   opacity: 0.5;
 }
     `;
-  };
+};
 
-  // visible for testing
-  fn.lighten = function (hex, lum) {
-    lum = lum || 0;
-    hex = hex.substr(1);
-    var newHex = '#';
-    for (var i = 0; i < 3; i++) {
-      var c = parseInt(hex.substr(i * 2, 2), 16);
-      c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
-      newHex += ('00' + c).substr(c.length);
-    }
-    return newHex;
-  };
+// visible for testing
+fn.lighten = function (hex, lum) {
+  lum = lum || 0;
+  hex = hex.substr(1);
+  let newHex = '#';
 
-  fn.addStyle = function (colors) {
-    var css = template(colors);
-    var main = document.getElementById(Enums.WIDGET_CONTAINER_ID);
-    var style = document.createElement('style');
+  for (var i = 0; i < 3; i++) {
+    let c = parseInt(hex.substr(i * 2, 2), 16);
 
-    style.id = Enums.WIDGET_CONFIG_COLORS_ID;
-    style.type = 'text/css';
-    style.appendChild(document.createTextNode(css));
+    c = Math.round(Math.min(Math.max(0, c + c * lum), 255)).toString(16);
+    newHex += ('00' + c).substr(c.length);
+  }
+  return newHex;
+};
 
-    main.appendChild(style);
-  };
+fn.addStyle = function (colors) {
+  const css = template(colors);
+  const main = document.getElementById(Enums.WIDGET_CONTAINER_ID);
+  const style = document.createElement('style');
 
-  fn.isLoaded = function () {
-    return !!document.getElementById(Enums.WIDGET_CONFIG_COLORS_ID);
-  };
+  style.id = Enums.WIDGET_CONFIG_COLORS_ID;
+  style.type = 'text/css';
+  style.appendChild(document.createTextNode(css));
 
-  return fn;
-});
+  main.appendChild(style);
+};
+
+fn.isLoaded = function () {
+  return !!document.getElementById(Enums.WIDGET_CONFIG_COLORS_ID);
+};
+
+export default fn;

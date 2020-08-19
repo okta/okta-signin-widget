@@ -10,32 +10,26 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { _, loc, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-
-define([
-  'okta',
-  'util/FormController',
-  'util/Enums',
-  'util/FormType',
-  'util/Util',
-  'util/ValidationUtil',
-  'views/shared/ContactSupport',
-  'views/shared/TextBox'
-],
-function (Okta, FormController, Enums, FormType, Util, ValidationUtil, ContactSupport, TextBox) {
-
-  var _ = Okta._;
-  var noFactorsError = Okta.View.extend({
-    template: hbs`
+import Enums from 'util/Enums';
+import FormController from 'util/FormController';
+import FormType from 'util/FormType';
+import Util from 'util/Util';
+import ValidationUtil from 'util/ValidationUtil';
+import ContactSupport from 'views/shared/ContactSupport';
+import TextBox from 'views/shared/TextBox';
+const UnlockAccountControllernoFactorsError = View.extend({
+  template: hbs`
       <div class="okta-form-infobox-error infobox infobox-error" role="alert">
         <span class="icon error-16"></span>
         <p>{{i18n code="account.unlock.noFactorsEnabled" bundle="login"}}</p>
       </div>
-    `
-  });
-
-  var Footer = Okta.View.extend({
-    template: hbs('\
+    `,
+});
+const UnlockAccountControllerFooter = View.extend({
+  template: hbs(
+    '\
       <a href="#" class="link help js-back" data-se="back-link">\
         {{i18n code="goback" bundle="login"}}\
       </a>\
@@ -44,160 +38,181 @@ function (Okta, FormController, Enums, FormType, Util, ValidationUtil, ContactSu
         {{i18n code="mfa.noAccessToEmail" bundle="login"}}\
       </a>\
       {{/if}}\
-    '),
-    className: 'auth-footer',
-    events: {
-      'click .js-back' : function (e) {
-        e.preventDefault();
-        this.back();
-      },
-      'click .js-contact-support': function (e) {
-        e.preventDefault();
-        this.state.trigger('contactSupport');
-        this.$('.js-contact-support').hide();
-      }
+    '
+  ),
+  className: 'auth-footer',
+  events: {
+    'click .js-back': function (e) {
+      e.preventDefault();
+      this.back();
     },
-    getTemplateData: function () {
-      return this.settings.pick('helpSupportNumber');
+    'click .js-contact-support': function (e) {
+      e.preventDefault();
+      this.state.trigger('contactSupport');
+      this.$('.js-contact-support').hide();
     },
-    back: function () {
-      this.state.set('navigateDir', Enums.DIRECTION_BACK);
-      this.options.appState.trigger('navigate', '');
-    }
-  });
+  },
+  getTemplateData: function () {
+    return this.settings.pick('helpSupportNumber');
+  },
+  back: function () {
+    this.state.set('navigateDir', Enums.DIRECTION_BACK);
+    this.options.appState.trigger('navigate', '');
+  },
+});
+export default FormController.extend({
+  className: 'account-unlock',
+  Model: {
+    props: {
+      username: ['string', true],
+      factorType: ['string', true],
+    },
+    validate: function () {
+      return ValidationUtil.validateUsername(this);
+    },
+    save: function () {
+      const self = this;
 
-  return FormController.extend({
-    className: 'account-unlock',
-    Model: {
-      props: {
-        username: ['string', true],
-        factorType: ['string', true]
-      },
-      validate: function () {
-        return ValidationUtil.validateUsername(this);
-      },
-      save: function () {
-        var self = this;
-        return this.startTransaction(function (authClient) {
-          return authClient.unlockAccount({
-            username: self.settings.transformUsername(self.get('username'), Enums.UNLOCK_ACCOUNT),
-            factorType: self.get('factorType')
-          });
-        })
-          .catch(function () {
-          //need empty fail handler on model to display errors on form
-          });
-      }
+      return this.startTransaction(function (authClient) {
+        return authClient.unlockAccount({
+          username: self.settings.transformUsername(self.get('username'), Enums.UNLOCK_ACCOUNT),
+          factorType: self.get('factorType'),
+        });
+      }).catch(function () {
+        //need empty fail handler on model to display errors on form
+      });
     },
-    Form: {
-      noButtonBar: true,
-      title: _.partial(Okta.loc, 'account.unlock.title', 'login'),
-      formChildren: function () {
-        /*eslint complexity: [2, 9] max-statements: [2, 24] */
-        var smsEnabled = this.settings.get('features.smsRecovery');
-        var callEnabled = this.settings.get('features.callRecovery');
-        var emailEnabled = this.settings.get('features.emailRecovery');
-        var noFactorsEnabled = !(smsEnabled || callEnabled || emailEnabled);
-        var formChildren = [];
-        var form = this;
+  },
+  Form: {
+    noButtonBar: true,
+    title: _.partial(loc, 'account.unlock.title', 'login'),
+    formChildren: function () {
+      const smsEnabled = this.settings.get('features.smsRecovery');
+      /*eslint complexity: [2, 9] max-statements: [2, 24] */
 
-        if (noFactorsEnabled) {
-          this.add(noFactorsError, '.o-form-error-container');
-        }
-        else {
-          formChildren.push(FormType.Input({
-            label: Okta.loc('account.unlock.email.or.username.placeholder', 'login'),
+      const callEnabled = this.settings.get('features.callRecovery');
+      const emailEnabled = this.settings.get('features.emailRecovery');
+      const noFactorsEnabled = !(smsEnabled || callEnabled || emailEnabled);
+      const formChildren = [];
+      const form = this;
+
+      if (noFactorsEnabled) {
+        this.add(UnlockAccountControllernoFactorsError, '.o-form-error-container');
+      } else {
+        formChildren.push(
+          FormType.Input({
+            label: loc('account.unlock.email.or.username.placeholder', 'login'),
             'label-top': true,
             explain: Util.createInputExplain(
               'account.unlock.email.or.username.tooltip',
               'account.unlock.email.or.username.placeholder',
-              'login'),
+              'login'
+            ),
             'explain-top': true,
             name: 'username',
             input: TextBox,
             inputId: 'account-recovery-username',
             type: 'text',
-            inlineValidation: false
-          }));
+            inlineValidation: false,
+          })
+        );
 
-          if (smsEnabled || callEnabled) {
-            formChildren.push(FormType.View({
-              View: Okta.View.extend({
-                template: hbs('\
+        if (smsEnabled || callEnabled) {
+          formChildren.push(
+            FormType.View({
+              View: View.extend({
+                template: hbs(
+                  '\
                   <p class="mobile-recovery-hint">\
                     {{i18n code="recovery.mobile.hint" bundle="login" arguments="mobileFactors"}}\
-                  </p>'),
+                  </p>'
+                ),
                 getTemplateData: function () {
-                  var mobileFactors;
+                  let mobileFactors;
+
                   if (smsEnabled && callEnabled) {
-                    mobileFactors = Okta.loc('recovery.smsOrCall');
+                    mobileFactors = loc('recovery.smsOrCall');
+                  } else if (callEnabled) {
+                    mobileFactors = loc('recovery.call');
+                  } else {
+                    mobileFactors = loc('recovery.sms');
                   }
-                  else if (callEnabled) {
-                    mobileFactors = Okta.loc('recovery.call');
-                  }
-                  else {
-                    mobileFactors = Okta.loc('recovery.sms');
-                  }
-                  return { mobileFactors : mobileFactors };
-                }
-              })
-            }));
-          }
-
-          if (smsEnabled) {
-            this.$el.addClass('forgot-password-sms-enabled');
-            formChildren.push(this.createRecoveryFactorButton('sms-button', 'account.unlock.sendText',
-              Enums.RECOVERY_FACTOR_TYPE_SMS, form));
-            this.setDefaultFactorType(Enums.RECOVERY_FACTOR_TYPE_SMS);
-          }
-          if (callEnabled) {
-            this.$el.addClass('forgot-password-call-enabled');
-            formChildren.push(this.createRecoveryFactorButton('call-button', 'account.unlock.voiceCall',
-              Enums.RECOVERY_FACTOR_TYPE_CALL, form));
-            this.setDefaultFactorType(Enums.RECOVERY_FACTOR_TYPE_CALL);
-          }
-          if (emailEnabled) {
-            this.$el.addClass('forgot-password-email-enabled');
-            formChildren.push(this.createRecoveryFactorButton('email-button', 'account.unlock.sendEmail',
-              Enums.RECOVERY_FACTOR_TYPE_EMAIL, form));
-            this.setDefaultFactorType(Enums.RECOVERY_FACTOR_TYPE_EMAIL);
-          }
+                  return { mobileFactors: mobileFactors };
+                },
+              }),
+            })
+          );
         }
 
-        return formChildren;
-      },
-      initialize: function () {
-
-        this.listenTo(this, 'save', function () {
-          this.options.appState.set('username', this.model.get('username'));
-          this.model.save();
-        });
-
-        this.listenTo(this.state, 'contactSupport', function () {
-          this.add(ContactSupport, '.o-form-error-container');
-        });
-      },
-      setDefaultFactorType: function (factorType) {
-        if (_.isEmpty(this.model.get('factorType'))) {
-          this.model.set('factorType', factorType);
+        if (smsEnabled) {
+          this.$el.addClass('forgot-password-sms-enabled');
+          formChildren.push(
+            this.createRecoveryFactorButton(
+              'sms-button',
+              'account.unlock.sendText',
+              Enums.RECOVERY_FACTOR_TYPE_SMS,
+              form
+            )
+          );
+          this.setDefaultFactorType(Enums.RECOVERY_FACTOR_TYPE_SMS);
         }
-      },
-      createRecoveryFactorButton: function (className, labelCode, factorType, form) {
-        return FormType.Button({
-          attributes: { 'data-se': className},
-          className: 'button button-primary button-wide ' + className,
-          title: Okta.loc(labelCode, 'login'),
-          click: function () {
-            form.clearErrors();
-            if (this.model.isValid()) {
-              this.model.set('factorType', factorType);
-              form.trigger('save', this.model);
-            }
-          }
-        });
+        if (callEnabled) {
+          this.$el.addClass('forgot-password-call-enabled');
+          formChildren.push(
+            this.createRecoveryFactorButton(
+              'call-button',
+              'account.unlock.voiceCall',
+              Enums.RECOVERY_FACTOR_TYPE_CALL,
+              form
+            )
+          );
+          this.setDefaultFactorType(Enums.RECOVERY_FACTOR_TYPE_CALL);
+        }
+        if (emailEnabled) {
+          this.$el.addClass('forgot-password-email-enabled');
+          formChildren.push(
+            this.createRecoveryFactorButton(
+              'email-button',
+              'account.unlock.sendEmail',
+              Enums.RECOVERY_FACTOR_TYPE_EMAIL,
+              form
+            )
+          );
+          this.setDefaultFactorType(Enums.RECOVERY_FACTOR_TYPE_EMAIL);
+        }
+      }
+
+      return formChildren;
+    },
+    initialize: function () {
+      this.listenTo(this, 'save', function () {
+        this.options.appState.set('username', this.model.get('username'));
+        this.model.save();
+      });
+
+      this.listenTo(this.state, 'contactSupport', function () {
+        this.add(ContactSupport, '.o-form-error-container');
+      });
+    },
+    setDefaultFactorType: function (factorType) {
+      if (_.isEmpty(this.model.get('factorType'))) {
+        this.model.set('factorType', factorType);
       }
     },
-    Footer: Footer
-  });
-
+    createRecoveryFactorButton: function (className, labelCode, factorType, form) {
+      return FormType.Button({
+        attributes: { 'data-se': className },
+        className: 'button button-primary button-wide ' + className,
+        title: loc(labelCode, 'login'),
+        click: function () {
+          form.clearErrors();
+          if (this.model.isValid()) {
+            this.model.set('factorType', factorType);
+            form.trigger('save', this.model);
+          }
+        },
+      });
+    },
+  },
+  Footer: UnlockAccountControllerFooter,
 });

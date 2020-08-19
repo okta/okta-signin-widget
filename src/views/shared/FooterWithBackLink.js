@@ -10,26 +10,26 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-
-define(['okta', 'util/Enums'], function (Okta, Enums) {
-  return Okta.View.extend({
-    template: hbs('\
+import Enums from 'util/Enums';
+export default View.extend({
+  template: hbs(
+    '\
       <a href="#" class="link help" data-se="back-link">\
         {{i18n code="goback" bundle="login"}}\
       </a>\
-    '),
-    className: 'auth-footer',
-    events: {
-      'click .help': function (e) {
-        e.preventDefault();
-        this.back();
-      }
+    '
+  ),
+  className: 'auth-footer',
+  events: {
+    'click .help': function (e) {
+      e.preventDefault();
+      this.back();
     },
-    back: function () {
-      this.state.set('navigateDir', Enums.DIRECTION_BACK);
-      this.options.appState.trigger('navigate', '');
-    }
-  });
-
+  },
+  back: function () {
+    this.state.set('navigateDir', Enums.DIRECTION_BACK);
+    this.options.appState.trigger('navigate', '');
+  },
 });

@@ -10,34 +10,33 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta'], function (Okta) {
+import { loc } from 'okta';
+const fn = {};
 
-  var fn = {};
+// Validate the 'username' field on the model.
+fn.validateUsername = function (model) {
+  const username = model.get('username');
 
-  // Validate the 'username' field on the model.
-  fn.validateUsername = function (model) {
-    var username = model.get('username');
-    if (username && username.length > 256) {
-      return {
-        username: Okta.loc('model.validation.field.username', 'login')
-      };
-    }
-  };
+  if (username && username.length > 256) {
+    return {
+      username: loc('model.validation.field.username', 'login'),
+    };
+  }
+};
 
-  // Validate that the field1 and field2 fields on the model are a match.
-  fn.validateFieldsMatch = function (model, field1, field2, message) {
-    if (model.get(field1) !== model.get(field2)) {
-      var ret = {};
-      ret[field2] = message;
-      return ret;
-    }
-  };
+// Validate that the field1 and field2 fields on the model are a match.
+fn.validateFieldsMatch = function (model, field1, field2, message) {
+  if (model.get(field1) !== model.get(field2)) {
+    const ret = {};
 
-  // Validate that the 'newPassword' and 'confirmPassword' fields on the model are a match.
-  fn.validatePasswordMatch = function (model) {
-    return fn.validateFieldsMatch(model, 'newPassword', 'confirmPassword', Okta.loc('password.error.match', 'login'));
-  };
+    ret[field2] = message;
+    return ret;
+  }
+};
 
-  return fn;
+// Validate that the 'newPassword' and 'confirmPassword' fields on the model are a match.
+fn.validatePasswordMatch = function (model) {
+  return fn.validateFieldsMatch(model, 'newPassword', 'confirmPassword', loc('password.error.match', 'login'));
+};
 
-});
+export default fn;

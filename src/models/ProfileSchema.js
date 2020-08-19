@@ -10,34 +10,31 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta'
-],
-function (Okta) {
-  var _ = Okta._;
-  var { BaseSchema } = Okta.internal.models;
+import { _, internal } from 'okta';
+let { BaseSchema } = internal.models;
+export default BaseSchema.Model.extend({
+  expand: ['schema'],
+  setFieldPlaceholder: function (formFields) {
+    _.each(formFields, function (formField) {
+      formField.title = formField.label;
+    });
+    return formFields;
+  },
+  initialize: function (options) {
+    let profileAttributes = options.profileSchemaAttributes;
 
-  return BaseSchema.Model.extend({
-    expand: ['schema'],
-    setFieldPlaceholder: function (formFields) {
-      _.each(formFields, function (formField) {
-        formField.title = formField.label;
-      });
-      return formFields;
-    },
-    initialize: function (options) {
-      var profileAttributes = options.profileSchemaAttributes;
-      profileAttributes = this.setFieldPlaceholder(profileAttributes);
-      if (profileAttributes) {
-        var userProfileSchema = {
-          'properties': {}
-        };
-        for (var i = 0; i < profileAttributes.length; i++) {
-          var profileAttributeObject = profileAttributes[i];
-          userProfileSchema.properties[profileAttributeObject.name] = profileAttributeObject;
-        }
-        this.parse.apply(this, [{ 'schema': userProfileSchema }]);
+    profileAttributes = this.setFieldPlaceholder(profileAttributes);
+    if (profileAttributes) {
+      const userProfileSchema = {
+        properties: {},
+      };
+
+      for (var i = 0; i < profileAttributes.length; i++) {
+        const profileAttributeObject = profileAttributes[i];
+
+        userProfileSchema.properties[profileAttributeObject.name] = profileAttributeObject;
       }
+      this.parse.apply(this, [{ schema: userProfileSchema }]);
     }
-  });
+  },
 });

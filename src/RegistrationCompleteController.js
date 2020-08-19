@@ -10,42 +10,37 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { View, loc } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-
-define([
-  'okta',
-  'util/Enums',
-  'util/FormController',
-  'util/FormType'
-],
-function (Okta, Enums, FormController, FormType) {
-
-  return FormController.extend({
-    events: {
-      'click .back-btn' : function (e) {
-        e.preventDefault();
-        this.back();
-      }
+import Enums from 'util/Enums';
+import FormController from 'util/FormController';
+import FormType from 'util/FormType';
+export default FormController.extend({
+  events: {
+    'click .back-btn': function (e) {
+      e.preventDefault();
+      this.back();
     },
-    back: function () {
-      this.state.set('navigateDir', Enums.DIRECTION_BACK);
-      this.options.appState.trigger('navigate', '');
-    },
-    className: 'registration-complete',
-    Model: function () {
-    },
-    initialize: function () {
-      this.settings.callGlobalSuccess(Enums.ACTIVATION_EMAIL_SENT, {
-        username: this.options.appState.get('username')
-      });
-    },
-    Form: {
-      noButtonBar: true,
-      formChildren: function () {
-        return [
-          FormType.View({
-            View: Okta.View.extend({
-              template: hbs('\
+  },
+  back: function () {
+    this.state.set('navigateDir', Enums.DIRECTION_BACK);
+    this.options.appState.trigger('navigate', '');
+  },
+  className: 'registration-complete',
+  Model: function () {},
+  initialize: function () {
+    this.settings.callGlobalSuccess(Enums.ACTIVATION_EMAIL_SENT, {
+      username: this.options.appState.get('username'),
+    });
+  },
+  Form: {
+    noButtonBar: true,
+    formChildren: function () {
+      return [
+        FormType.View({
+          View: View.extend({
+            template: hbs(
+              '\
               <div class="container">\
               <span class="title-icon icon icon-16 confirm-16-green"></span>\
               <h2 class="title">{{title}}</h2>\
@@ -54,18 +49,17 @@ function (Okta, Enums, FormController, FormType) {
               <a href="#" class="back-btn" data-se="back-link">\
                 {{i18n code="goback" bundle="login"}}\
               </a>\
-              '),
-              getTemplateData: function () {
-                return { 
-                  'desc': Okta.loc('registration.complete.confirm.text', 'login'),
-                  'title': Okta.loc('registration.complete.title', 'login')
-                };
-              }
-            })
-          })
-        ];
-      }
-    }
-  });
-
+              '
+            ),
+            getTemplateData: function () {
+              return {
+                desc: loc('registration.complete.confirm.text', 'login'),
+                title: loc('registration.complete.title', 'login'),
+              };
+            },
+          }),
+        }),
+      ];
+    },
+  },
 });

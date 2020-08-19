@@ -10,35 +10,32 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(function () {
+const INPUT = 'INPUT';
 
-  // Syntactic sugar to provide some structure to SimpleForm inputs - Just
-  // wraps options with { type: type, viewOptions: viewOptions, addOptions: addOptions }
+// Syntactic sugar to provide some structure to SimpleForm inputs - Just
+// wraps options with { type: type, viewOptions: viewOptions, addOptions: addOptions }
 
-  var INPUT = 'INPUT';
-  var BUTTON = 'BUTTON';
-  var DIVIDER = 'DIVIDER';
-  var TOOLBAR = 'TOOLBAR';
-  var VIEW = 'VIEW';
+const BUTTON = 'BUTTON';
+const DIVIDER = 'DIVIDER';
+const TOOLBAR = 'TOOLBAR';
+const VIEW = 'VIEW';
 
-  function wrap (type) {
-    return function (viewOptions, addOptions) {
-      return { type: type, viewOptions: viewOptions, addOptions: addOptions };
-    };
-  }
-
-  return {
-    Input: wrap(INPUT),
-    Button: wrap(BUTTON),
-    Divider: wrap(DIVIDER),
-    Toolbar: wrap(TOOLBAR),
-    View: wrap(VIEW),
-
-    INPUT: INPUT,
-    BUTTON: BUTTON,
-    DIVIDER: DIVIDER,
-    TOOLBAR: TOOLBAR,
-    VIEW: VIEW
+function wrap (type) {
+  return function (viewOptions, addOptions) {
+    return { type: type, viewOptions: viewOptions, addOptions: addOptions };
   };
+}
 
-});
+export default {
+  Input: wrap(INPUT),
+  Button: wrap(BUTTON),
+  Divider: wrap(DIVIDER),
+  Toolbar: wrap(TOOLBAR),
+  View: wrap(VIEW),
+
+  INPUT: INPUT,
+  BUTTON: BUTTON,
+  DIVIDER: DIVIDER,
+  TOOLBAR: TOOLBAR,
+  VIEW: VIEW,
+};

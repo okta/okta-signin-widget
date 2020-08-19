@@ -12,55 +12,56 @@
 
 /* eslint complexity:[2, 9] */
 
-define([
-  'okta'
-], function (Okta) {
-  var fn = {};
+import { loc } from 'okta';
+const fn = {};
 
-  fn.getU2fEnrollErrorMessageKeyByCode = function (errorCode) {
-    switch (errorCode) {
-    default:
-    case 1:
-      return 'u2f.error.other';
-    case 2:
-    case 3:
-      return 'u2f.error.badRequest';
-    case 4:
-      return 'u2f.error.unsupported';
-    case 5:
-      return 'u2f.error.timeout';
-    }
-  };
+fn.getU2fEnrollErrorMessageKeyByCode = function (errorCode) {
+  switch (errorCode) {
+  default:
+  case 1:
+    return 'u2f.error.other';
+  case 2:
+  case 3:
+    return 'u2f.error.badRequest';
+  case 4:
+    return 'u2f.error.unsupported';
+  case 5:
+    return 'u2f.error.timeout';
+  }
+};
 
-  fn.getU2fVerifyErrorMessageKeyByCode = function (errorCode, isOneFactor) {
-    switch (errorCode){
-    case 1: // OTHER_ERROR
-      return isOneFactor ? 'u2f.error.other.oneFactor' : 'u2f.error.other';
-    case 2: // BAD_REQUEST
-    case 3: // CONFIGURATION_UNSUPPORTED
-      return isOneFactor ? 'u2f.error.badRequest.oneFactor' : 'u2f.error.badRequest';
-    case 4: // DEVICE_INELIGIBLE
-      return isOneFactor ? 'u2f.error.unsupported.oneFactor' : 'u2f.error.unsupported';
-    case 5: // TIMEOUT
-      return 'u2f.error.timeout';
-    }
-  };
+fn.getU2fVerifyErrorMessageKeyByCode = function (errorCode, isOneFactor) {
+  switch (errorCode) {
+  case 1:
+    // OTHER_ERROR
+    return isOneFactor ? 'u2f.error.other.oneFactor' : 'u2f.error.other';
+  case 2: // BAD_REQUEST
+  case 3:
+    // CONFIGURATION_UNSUPPORTED
+    return isOneFactor ? 'u2f.error.badRequest.oneFactor' : 'u2f.error.badRequest';
+  case 4:
+    // DEVICE_INELIGIBLE
+    return isOneFactor ? 'u2f.error.unsupported.oneFactor' : 'u2f.error.unsupported';
+  case 5:
+    // TIMEOUT
+    return 'u2f.error.timeout';
+  }
+};
 
-  fn.getU2fEnrollErrorMessageByCode = function (errorCode) {
-    return Okta.loc(fn.getU2fEnrollErrorMessageKeyByCode(errorCode), 'login');
-  };
+fn.getU2fEnrollErrorMessageByCode = function (errorCode) {
+  return loc(fn.getU2fEnrollErrorMessageKeyByCode(errorCode), 'login');
+};
 
-  fn.getU2fVerifyErrorMessageByCode = function (errorCode, isOneFactor) {
-    return Okta.loc(fn.getU2fVerifyErrorMessageKeyByCode(errorCode, isOneFactor), 'login');
-  };
+fn.getU2fVerifyErrorMessageByCode = function (errorCode, isOneFactor) {
+  return loc(fn.getU2fVerifyErrorMessageKeyByCode(errorCode, isOneFactor), 'login');
+};
 
-  fn.getU2fVersion = function () {
-    return 'U2F_V2';
-  };
+fn.getU2fVersion = function () {
+  return 'U2F_V2';
+};
 
-  fn.isU2fAvailable = function () {
-    return window.hasOwnProperty('u2f');
-  };
+fn.isU2fAvailable = function () {
+  return window.hasOwnProperty('u2f');
+};
 
-  return fn;
-});
+export default fn;
