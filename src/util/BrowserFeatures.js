@@ -14,11 +14,11 @@ const fn = {};
 const hasFullCorsSupport = 'withCredentials' in new window.XMLHttpRequest();
 const hasXDomainRequest = typeof XDomainRequest !== 'undefined';
 
-fn.corsIsNotSupported = function() {
+fn.corsIsNotSupported = function () {
   return !(hasFullCorsSupport || hasXDomainRequest);
 };
 
-fn.corsIsNotEnabled = function(jqXhr) {
+fn.corsIsNotEnabled = function (jqXhr) {
   // Not a definitive check, but it's the best we've got.
   // Note: This will change when OktaAuth is updated
   return jqXhr.status === 0;
@@ -27,7 +27,7 @@ fn.corsIsNotEnabled = function(jqXhr) {
 // This is currently not being used, but we'll keep it around for when we
 // want a fallback mechanism - i.e. use localStorage if it exists, else fall
 // back to cookies.
-fn.localStorageIsNotSupported = function() {
+fn.localStorageIsNotSupported = function () {
   const test = 'test';
 
   try {
@@ -39,25 +39,25 @@ fn.localStorageIsNotSupported = function() {
   }
 };
 
-fn.supportsPushState = function(win) {
+fn.supportsPushState = function (win) {
   win = win || window;
   return !!(win.history && win.history.pushState);
 };
 
-fn.isIE = function() {
+fn.isIE = function () {
   return /(msie|trident)/i.test(navigator.userAgent);
 };
 
-fn.isFirefox = function() {
+fn.isFirefox = function () {
   return navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 };
 
-fn.isEdge = function() {
+fn.isEdge = function () {
   // This is to just check for windows edge. Mac edge - chromium based's UA is 'edg'.
   return navigator.userAgent.toLowerCase().indexOf('edge') > -1;
 };
 
-fn.isSafari = function() {
+fn.isSafari = function () {
   // Chrome has safari in its useragent string so adding this extra check.
   return (
     navigator.userAgent.toLowerCase().indexOf('safari') > -1 &&
@@ -65,25 +65,25 @@ fn.isSafari = function() {
   );
 };
 
-fn.isMac = function() {
+fn.isMac = function () {
   return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
 };
 
 
-fn.isAndroid = function() {
+fn.isAndroid = function () {
   // Windows Phone also contains "Android"
   return /android/i.test(navigator.userAgent) &&
     !/windows phone/i.test(navigator.userAgent);
 };
 
-fn.isIOS = function() {
+fn.isIOS = function () {
   // iOS detection from: http://stackoverflow.com/a/9039885/177710
   return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 };
 
 // Returns a list of languages the user has configured for their browser, in
 // order of preference.
-fn.getUserLanguages = function() {
+fn.getUserLanguages = function () {
   var languages, properties;
 
   // Chrome, Firefox
@@ -99,7 +99,7 @@ fn.getUserLanguages = function() {
     'systemLanguage'    // IE
   ];
 
-  properties.forEach(function(property) {
+  properties.forEach(function (property) {
     if (navigator[property]) {
       languages.push(navigator[property]);
     }

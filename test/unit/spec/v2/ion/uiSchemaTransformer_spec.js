@@ -551,12 +551,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       authenticatorId: 'aid568g3mXgtID0X1GGG',
                       id: 'security-question-enroll-id-123',
                     },
-                    'relatesTo': {
-                      'displayName': 'Okta Security Question',
-                      'type': 'security_question',
-                      'authenticatorId': 'aid568g3mXgtID0X1GGG',
-                      'id': 'security-question-enroll-id-123'
-                    }
                   },
                   {
                     'label': 'Okta Verify',
