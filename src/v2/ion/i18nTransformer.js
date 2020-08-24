@@ -57,7 +57,9 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-authenticate.authenticator.phone': 'oie.authenticator.phone.label',
   'select-authenticator-authenticate.authenticator.security_key': 'oie.authenticator.webauthn.label',
   'select-authenticator-authenticate.authenticator.security_question': 'oie.authenticator.security.question.label',
-  'select-authenticator-authenticate.authenticator.app': 'oie.authenticator.okta_verify.label',
+  'select-authenticator-authenticate.authenticator.app.signed_nonce': 'oie.okta_verify.signed_nonce.title',
+  'select-authenticator-authenticate.authenticator.app.push': 'oie.okta_verify.push.title',
+  'select-authenticator-authenticate.authenticator.app.totp': 'oie.okta_verify.totp.title',
 
   'authenticator-enrollment-data.phone.authenticator.phoneNumber': 'mfa.phoneNumber.placeholder',
 
@@ -75,6 +77,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.password.credentials.passcode': 'mfa.challenge.password.placeholder',
   'challenge-authenticator.phone.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'challenge-authenticator.security_question.credentials.answer': 'mfa.challenge.answer.placeholder',
+  'challenge-authenticator.app.credentials.totp': 'oie.okta_verify.totp.enterCodeText',
 };
 
 const getI18nKey = (i18nPath) => {
@@ -153,6 +156,11 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
       let i18nPathOption;
       if (o.authenticatorType) {
         i18nPathOption = `${i18nPath}.${o.authenticatorType}`;
+
+        const methodType = o.value?.methodType;
+        if (o.authenticatorType === 'app' && methodType) {
+          i18nPathOption = `${i18nPathOption}.${methodType}`;
+        }
       } else if (o.value !== undefined) { // value could be string or number or undefined.
         i18nPathOption = `${i18nPath}.${o.value}`;
       }
