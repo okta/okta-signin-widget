@@ -31,9 +31,10 @@ const createOVOptions = (options = []) => {
       // create a new methodType object that removes the options array and
       // has a value of the current method
       const newMethodTypeObj = Object.assign(_.omit(methodTypeObj, 'options'), method);
-      // set the methodType field to be required in our UI,
+      // set the methodType field to be required and immutable in our UI,
       // so it is always sent to the backend.
       newMethodTypeObj.required = true;
+      newMethodTypeObj.mutable = false;
       // replace old methodType object with the new one
       value.splice(methodTypeIndex, 1, newMethodTypeObj);
       // return a new ov item for a specific method
