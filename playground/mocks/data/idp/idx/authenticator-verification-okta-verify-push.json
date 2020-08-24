@@ -56,7 +56,7 @@
                       {
                         "name": "methodType",
                         "required": false,
-                        "mutable": false,
+                        "mutable": true,
                         "visible": false,
                         "type": "string",
                         "options": [

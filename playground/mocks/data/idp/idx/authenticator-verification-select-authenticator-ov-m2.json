@@ -34,7 +34,7 @@
                         "name": "methodType",
                         "type": "string",
                         "required": false,
-                        "mutable": false,
+                        "mutable": true,
                         "options": [
                           {
                             "value": "signed_nonce",
