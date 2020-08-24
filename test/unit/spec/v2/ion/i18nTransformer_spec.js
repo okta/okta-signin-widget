@@ -14,6 +14,9 @@ describe('v2/ion/i18nTransformer', function () {
       'oie.authenticator.phone.label': 'phone authenticator',
       'oie.webauthn': 'webauthn authenticator',
       'oie.authenticator.security.question.label': 'security question authenticator',
+      'oie.okta_verify.signed_nonce.title': 'okta verify fastpass',
+      'oie.okta_verify.push.title': 'okta verify push',
+      'oie.okta_verify.totp.title': 'okta verify totp',
 
       'oie.password.passwordLabel': 'enter password',
       'oie.security.question.questionKey.label': 'choose a question',
@@ -23,6 +26,7 @@ describe('v2/ion/i18nTransformer', function () {
       'mfa.challenge.answer.placeholder': 'answer',
       'mfa.challenge.enterCode.placeholder': 'enter code',
       'mfa.challenge.password.placeholder': 'password',
+      'oie.okta_verify.totp.enterCodeText': 'enter totp code',
 
       'primaryauth.password.placeholder': 'password',
       'primaryauth.username.placeholder': 'username',
@@ -187,6 +191,30 @@ describe('v2/ion/i18nTransformer', function () {
                     'id': 'aid568g3mXgtID0HHSLH'
                   },
                   'authenticatorType': 'security_question'
+                },
+                {
+                  'label': 'Use Okta FastPass',
+                  'value': {
+                    'id': 'aid568g3mXgtID0HHSLH',
+                    'methodType': 'signed_nonce'
+                  },
+                  'authenticatorType': 'app'
+                },
+                {
+                  'label': 'Get a push notification',
+                  'value': {
+                    'id': 'aid568g3mXgtID0HHSLH',
+                    'methodType': 'push'
+                  },
+                  'authenticatorType': 'app'
+                },
+                {
+                  'label': 'Enter a code',
+                  'value': {
+                    'id': 'aid568g3mXgtID0HHSLH',
+                    'methodType': 'totp'
+                  },
+                  'authenticatorType': 'app'
                 }
               ],
               'label-top': true
@@ -245,6 +273,30 @@ describe('v2/ion/i18nTransformer', function () {
                     'id': 'aid568g3mXgtID0HHSLH'
                   },
                   'authenticatorType': 'security_question'
+                },
+                {
+                  'label': 'unit test - okta verify fastpass',
+                  'value': {
+                    'id': 'aid568g3mXgtID0HHSLH',
+                    'methodType': 'signed_nonce'
+                  },
+                  'authenticatorType': 'app'
+                },
+                {
+                  'label': 'unit test - okta verify push',
+                  'value': {
+                    'id': 'aid568g3mXgtID0HHSLH',
+                    'methodType': 'push'
+                  },
+                  'authenticatorType': 'app'
+                },
+                {
+                  'label': 'unit test - okta verify totp',
+                  'value': {
+                    'id': 'aid568g3mXgtID0HHSLH',
+                    'methodType': 'totp'
+                  },
+                  'authenticatorType': 'app'
                 }
               ],
               'label-top': true
@@ -444,6 +496,49 @@ describe('v2/ion/i18nTransformer', function () {
               'required': true,
               'label-top': true,
               'type': 'text'
+            }
+          ]
+        }
+      ]
+    });
+  });
+
+  it('converts label for challenge-authenticator - okta verify totp', () => {
+    const resp = {
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'app'
+            }
+          },
+          name: 'challenge-authenticator',
+          uiSchema: [
+            {
+              label: 'Enter code from Okta Verify app',
+              'label-top': true,
+              name: 'credentials.totp',
+              type: 'text',
+            }
+          ]
+        }
+      ]
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'app'
+            }
+          },
+          name: 'challenge-authenticator',
+          uiSchema: [
+            {
+              label: 'unit test - enter totp code',
+              'label-top': true,
+              name: 'credentials.totp',
+              type: 'text',
             }
           ]
         }

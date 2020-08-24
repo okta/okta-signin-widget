@@ -107,7 +107,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getFactorIconClassByIndex(5)).contains('mfa-okta-security-question');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(5)).eql('Select');
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(6)).eql('Okta Verify');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(6)).eql('Use Okta FastPass');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(6)).eql(false);
   await t.expect(selectFactorPage.getFactorIconClassByIndex(6)).contains('mfa-okta-verify');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(6)).eql('Select');
