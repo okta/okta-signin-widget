@@ -1,7 +1,7 @@
 /* eslint max-params: [2, 19] */
 /*global JSON */
 import { _ } from 'okta';
-import OktaAuth from '@okta/okta-auth-js';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import EnrollChoicesForm from 'helpers/dom/EnrollChoicesForm';
@@ -100,8 +100,8 @@ Expect.describe('EnrollChoices', function () {
     }
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
-    const authClient = new OktaAuth({
-      issuer: baseUrl,
+    const authClient = createAuthClient({
+      issuer: baseUrl
     });
     const router = new Router(
       _.extend(

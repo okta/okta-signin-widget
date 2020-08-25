@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { _ } from 'okta';
-import OktaAuth from '@okta/okta-auth-js';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import MfaVerifyForm from 'helpers/dom/MfaVerifyForm';
@@ -36,7 +36,7 @@ function createRouter (baseUrl, authClient, successSpy, settings) {
 function setupEmail () {
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
-  const authClient = new OktaAuth({
+  const authClient = createAuthClient({
     issuer: baseUrl,
     transformErrorXHR: LoginUtil.transformErrorXHR,
   });

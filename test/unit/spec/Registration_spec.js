@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 17], max-statements:[2, 70] */
 import { _, $, Backbone } from 'okta';
-import OktaAuth from '@okta/okta-auth-js';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import RegForm from 'helpers/dom/RegistrationForm';
@@ -111,7 +111,7 @@ function setup (settings) {
   settings || (settings = {});
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
-  const authClient = new OktaAuth({ issuer: baseUrl });
+  const authClient = createAuthClient({ issuer: baseUrl });
   const successSpy = jasmine.createSpy('success');
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
   const router = new Router(

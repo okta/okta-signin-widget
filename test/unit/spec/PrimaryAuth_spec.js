@@ -1,6 +1,6 @@
 /* eslint max-params:[2, 32], max-statements:[2, 45], camelcase:0, max-len:[2, 180] */
 import { _, $, internal } from 'okta';
-import OktaAuth from '@okta/okta-auth-js';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import PrimaryAuthController from 'PrimaryAuthController';
 import AuthContainer from 'helpers/dom/AuthContainer';
@@ -73,7 +73,7 @@ function setup (settings, requests, refreshState) {
 
   const setNextResponse = Util.mockAjax(requests);
   const baseUrl = 'https://foo.com';
-  const authClient = new OktaAuth({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR, headers: {} });
+  const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR, headers: {} });
   const successSpy = jasmine.createSpy('success');
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
   const router = new Router(

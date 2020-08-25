@@ -9,7 +9,7 @@ var rootDir       = path.resolve(__dirname);
 var RemoveStrictPlugin = require( 'remove-strict-webpack-plugin' );
 var plugins = createPlugins({ isProduction: false });
 var webpack = require('webpack');
-var SDK_VERSION = require('@okta/okta-auth-js').SDK_VERSION;
+var SDK_VERSION = require('@okta/okta-auth-js').SDK_VERSION; // Maintain CommonJS require for Node.js
 
 plugins.unshift(new RemoveStrictPlugin());
 

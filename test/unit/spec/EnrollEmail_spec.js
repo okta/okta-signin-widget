@@ -1,5 +1,5 @@
 /* eslint max-params: 0 */
-import OktaAuth from '@okta/okta-auth-js';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import AuthContainer from 'helpers/dom/AuthContainer';
 import Beacon from 'helpers/dom/Beacon';
@@ -19,7 +19,7 @@ Expect.describe('EnrollEmail', function () {
   function setup (resp) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'http://localhost:3000';
-    const authClient = new OktaAuth({
+    const authClient = createAuthClient({
       issuer: baseUrl,
       transformErrorXHR: LoginUtil.transformErrorXHR,
     });

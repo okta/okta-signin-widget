@@ -14,6 +14,8 @@ import { _, loc, Model } from 'okta';
 import CookieUtil from 'util/CookieUtil';
 import Enums from 'util/Enums';
 import BaseLoginModel from './BaseLoginModel';
+import Util from 'util/Util';
+
 export default BaseLoginModel.extend({
   props: function () {
     const cookieUsername = CookieUtil.getCookieUsername();
@@ -171,12 +173,15 @@ export default BaseLoginModel.extend({
 
     // Add the custom header for fingerprint, typing pattern if needed, and then remove it afterwards
     // Since we only need to send it for primary auth
-    if (deviceFingerprintEnabled) {
+    if (deviceFingerprintEnabled && this.appState.get('deviceFingerprint')) { // OKTA-325445
       authClient.options.headers['X-Device-Fingerprint'] = this.appState.get('deviceFingerprint');
     }
-    if (typingPatternEnabled) {
+    if (typingPatternEnabled && this.appState.get('typingPattern')) { // OKTA-325445
       authClient.options.headers['X-Typing-Pattern'] = this.appState.get('typingPattern');
     }
+    // TODO: remove when auth-js is updated: OKTA-325445
+    authClient.options.headers = Util.removeNils(authClient.options.headers);
+
     const self = this;
 
     return func(signInArgs).finally(function () {
