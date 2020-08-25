@@ -1,15 +1,10 @@
-define(['./Form'], function (Form) {
+import Form from './Form';
+export default Form.extend({
+  backLink: function () {
+    return this.el('back-link');
+  },
 
-  return Form.extend({
-
-    backLink: function () {
-      return this.el('back-link');
-    },
-
-    iframe: function () {
-      return this.$('iframe');
-    }
-
-  });
-
+  iframe: function () {
+    return this.$('iframe');
+  },
 });

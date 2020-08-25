@@ -10,21 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  './BaseLoginModel'
-],
-function (Okta, BaseLoginModel) {
-
-  return BaseLoginModel.extend({
-    constructor: function (options) {
-      this.settings = options && options.settings;
-      Okta.Model.apply(this, arguments);
-    },
-    loginWithActivationToken: function (activationToken) {
-      return this.startTransaction(function (authClient) {
-        return authClient.signIn({ token: activationToken });
-      });
-    }
-  });
+import { Model } from 'okta';
+import BaseLoginModel from './BaseLoginModel';
+export default BaseLoginModel.extend({
+  constructor: function (options) {
+    this.settings = options && options.settings;
+    Model.apply(this, arguments);
+  },
+  loginWithActivationToken: function (activationToken) {
+    return this.startTransaction(function (authClient) {
+      return authClient.signIn({ token: activationToken });
+    });
+  },
 });

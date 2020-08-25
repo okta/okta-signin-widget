@@ -1,138 +1,133 @@
-define(['./Form'], function (Form) {
+import Form from './Form';
+const USERNAME_FIELD = 'username';
+const USERNAME_LABEL = 'label[for="account-recovery-username"]';
+const SMS_BUTTON_SELECTOR = '.sms-button';
+const SMS_HINT_SELECTOR = '.sms-hint';
+const CALL_BUTTON_SELECTOR = '.call-button';
+const MOBILE_RECOVERY_HINT_SELECTOR = '.mobile-recovery-hint';
+const CANT_ACCESS_EMAIL_SELECTOR = '.js-contact-support';
+const EMAIL_SENT_BACK_BTN = 'back-button';
+const SEND_EMAIL_LINK_SELECTOR = '.send-email-link';
+const EMAIL_BUTTON_SELECTOR = '.email-button';
+export default Form.extend({
+  usernameField: function () {
+    return this.input(USERNAME_FIELD);
+  },
 
-  var USERNAME_FIELD = 'username';
-  var USERNAME_LABEL = 'label[for="account-recovery-username"]';
-  var SMS_BUTTON_SELECTOR = '.sms-button';
-  var SMS_HINT_SELECTOR = '.sms-hint';
-  var CALL_BUTTON_SELECTOR = '.call-button';
-  var MOBILE_RECOVERY_HINT_SELECTOR = '.mobile-recovery-hint';
-  var CANT_ACCESS_EMAIL_SELECTOR = '.js-contact-support';
-  var EMAIL_SENT_BACK_BTN = 'back-button';
-  var SEND_EMAIL_LINK_SELECTOR = '.send-email-link';
-  var EMAIL_BUTTON_SELECTOR = '.email-button';
+  usernameLabel: function () {
+    return this.$(USERNAME_LABEL);
+  },
 
-  return Form.extend({
+  usernameExplain: function () {
+    return this.explain(USERNAME_FIELD);
+  },
 
-    usernameField: function () {
-      return this.input(USERNAME_FIELD);
-    },
+  getUsernameAutocomplete: function () {
+    return this.autocomplete(USERNAME_FIELD);
+  },
 
-    usernameLabel: function () {
-      return this.$(USERNAME_LABEL);
-    },
+  usernameErrorField: function () {
+    return this.error(USERNAME_FIELD);
+  },
 
-    usernameExplain: function () {
-      return this.explain(USERNAME_FIELD);
-    },
+  usernameTooltipText: function () {
+    return this.tooltipText(USERNAME_FIELD);
+  },
 
-    getUsernameAutocomplete: function () {
-      return this.autocomplete(USERNAME_FIELD);
-    },
+  setUsername: function (val) {
+    const field = this.usernameField();
 
-    usernameErrorField: function () {
-      return this.error(USERNAME_FIELD);
-    },
+    field.val(val);
+    field.trigger('change');
+  },
 
-    usernameTooltipText: function () {
-      return this.tooltipText(USERNAME_FIELD);
-    },
+  hasSmsButton: function () {
+    return this.button(SMS_BUTTON_SELECTOR).length > 0;
+  },
 
-    setUsername: function (val) {
-      var field = this.usernameField();
-      field.val(val);
-      field.trigger('change');
-    },
+  smsHintText: function () {
+    return this.$(SMS_HINT_SELECTOR).trimmedText();
+  },
 
-    hasSmsButton: function () {
-      return this.button(SMS_BUTTON_SELECTOR).length > 0;
-    },
+  hasSmsHint: function () {
+    return this.$(SMS_HINT_SELECTOR).is(':visible');
+  },
 
-    smsHintText: function () {
-      return this.$(SMS_HINT_SELECTOR).trimmedText();
-    },
+  sendSms: function () {
+    this.button(SMS_BUTTON_SELECTOR).click();
+  },
 
-    hasSmsHint: function () {
-      return this.$(SMS_HINT_SELECTOR).is(':visible');
-    },
+  mobileRecoveryHintText: function () {
+    return this.$(MOBILE_RECOVERY_HINT_SELECTOR).trimmedText();
+  },
 
-    sendSms: function () {
-      this.button(SMS_BUTTON_SELECTOR).click();
-    },
+  hasMobileRecoveryHint: function () {
+    return this.$(MOBILE_RECOVERY_HINT_SELECTOR).is(':visible');
+  },
 
-    mobileRecoveryHintText: function () {
-      return this.$(MOBILE_RECOVERY_HINT_SELECTOR).trimmedText();
-    },
+  hasCallButton: function () {
+    return this.button(CALL_BUTTON_SELECTOR).length > 0;
+  },
 
-    hasMobileRecoveryHint: function () {
-      return this.$(MOBILE_RECOVERY_HINT_SELECTOR).is(':visible');
-    },
+  makeCall: function () {
+    this.button(CALL_BUTTON_SELECTOR).click();
+  },
 
-    hasCallButton: function () {
-      return this.button(CALL_BUTTON_SELECTOR).length > 0;
-    },
+  hasEmailButton: function () {
+    return this.button(EMAIL_BUTTON_SELECTOR).length > 0;
+  },
 
-    makeCall: function () {
-      this.button(CALL_BUTTON_SELECTOR).click();
-    },
+  sendEmail: function () {
+    return this.button(EMAIL_BUTTON_SELECTOR).click();
+  },
 
-    hasEmailButton: function () {
-      return this.button(EMAIL_BUTTON_SELECTOR).length > 0;
-    },
+  goBack: function () {
+    this.$('.js-back').click();
+  },
 
-    sendEmail: function () {
-      return this.button(EMAIL_BUTTON_SELECTOR).click();
-    },
+  // Email Send Confirmation view
 
-    goBack: function () {
-      this.$('.js-back').click();
-    },
+  getEmailSentConfirmationText: function () {
+    return this.$('p').text();
+  },
 
-    // Email Send Confirmation view
+  backToLoginButton: function () {
+    return this.el(EMAIL_SENT_BACK_BTN);
+  },
 
-    getEmailSentConfirmationText: function () {
-      return this.$('p').text();
-    },
+  goBackToLogin: function () {
+    this.backToLoginButton().click();
+  },
 
-    backToLoginButton: function () {
-      return this.el(EMAIL_SENT_BACK_BTN);
-    },
+  hasCantAccessEmailLink: function () {
+    return this.$(CANT_ACCESS_EMAIL_SELECTOR).is(':visible');
+  },
 
-    goBackToLogin: function () {
-      this.backToLoginButton().click();
-    },
+  clickCantAccessEmail: function () {
+    this.$(CANT_ACCESS_EMAIL_SELECTOR).click();
+  },
 
-    hasCantAccessEmailLink: function () {
-      return this.$(CANT_ACCESS_EMAIL_SELECTOR).is(':visible');
-    },
+  contactSupport: function () {
+    return this.$('.contact-support');
+  },
 
-    clickCantAccessEmail: function () {
-      this.$(CANT_ACCESS_EMAIL_SELECTOR).click();
-    },
+  contactSupportText: function () {
+    return this.contactSupport().trimmedText();
+  },
 
-    contactSupport: function () {
-      return this.$('.contact-support');
-    },
+  sendEmailLink: function () {
+    return this.$(SEND_EMAIL_LINK_SELECTOR);
+  },
 
-    contactSupportText: function () {
-      return this.contactSupport().trimmedText();
-    },
+  hasSendEmailLink: function () {
+    return this.sendEmailLink().is(':visible');
+  },
 
-    sendEmailLink: function () {
-      return this.$(SEND_EMAIL_LINK_SELECTOR);
-    },
+  clickSendEmailLink: function () {
+    this.sendEmailLink().click();
+  },
 
-    hasSendEmailLink: function () {
-      return this.sendEmailLink().is(':visible');
-    },
-
-    clickSendEmailLink: function () {
-      this.sendEmailLink().click();
-    },
-
-    pressEnter: function () {
-      this.$('form.o-form').submit();
-    }
-
-  });
-
+  pressEnter: function () {
+    this.$('form.o-form').submit();
+  },
 });

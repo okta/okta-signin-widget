@@ -1,62 +1,60 @@
-define(['./Form'], function (Form) {
+import Form from './Form';
+const CRED_ID_FIELD = 'credentialId';
+const CODE_FIELD = 'passCode';
+const SECOND_CODE_FIELD = 'nextPassCode';
+export default Form.extend({
+  credentialIdField: function () {
+    return this.input(CRED_ID_FIELD);
+  },
 
-  var CRED_ID_FIELD = 'credentialId';
-  var CODE_FIELD = 'passCode';
-  var SECOND_CODE_FIELD = 'nextPassCode';
+  codeField: function () {
+    return this.input(CODE_FIELD);
+  },
 
-  return Form.extend({
+  getCodeFieldAutocomplete: function () {
+    return this.autocomplete(CODE_FIELD);
+  },
 
-    credentialIdField: function () {
-      return this.input(CRED_ID_FIELD);
-    },
+  secondCodeField: function () {
+    return this.input(SECOND_CODE_FIELD);
+  },
 
-    codeField: function () {
-      return this.input(CODE_FIELD);
-    },
+  setCredentialId: function (val) {
+    const field = this.credentialIdField();
 
-    getCodeFieldAutocomplete: function () {
-      return this.autocomplete(CODE_FIELD);
-    },
+    field.val(val);
+    field.trigger('change');
+  },
 
-    secondCodeField: function () {
-      return this.input(SECOND_CODE_FIELD);
-    },
+  getCredentialId: function () {
+    const field = this.credentialIdField();
 
-    setCredentialId: function (val) {
-      var field = this.credentialIdField();
-      field.val(val);
-      field.trigger('change');
-    },
+    return field.val();
+  },
 
-    getCredentialId: function () {
-      var field = this.credentialIdField();
-      return field.val();
-    },
+  setCode: function (val) {
+    const field = this.codeField();
 
-    setCode: function (val) {
-      var field = this.codeField();
-      field.val(val);
-      field.trigger('change');
-    },
+    field.val(val);
+    field.trigger('change');
+  },
 
-    setSecondCode: function (val) {
-      var field = this.secondCodeField();
-      field.val(val);
-      field.trigger('change');
-    },
+  setSecondCode: function (val) {
+    const field = this.secondCodeField();
 
-    backLink: function () {
-      return this.el('back-link');
-    },
+    field.val(val);
+    field.trigger('change');
+  },
 
-    credIdExplain: function () {
-      return this.explain(CRED_ID_FIELD);
-    },
+  backLink: function () {
+    return this.el('back-link');
+  },
 
-    codeExplain: function () {
-      return this.explain(CODE_FIELD);
-    },
+  credIdExplain: function () {
+    return this.explain(CRED_ID_FIELD);
+  },
 
-  });
-
+  codeExplain: function () {
+    return this.explain(CODE_FIELD);
+  },
 });

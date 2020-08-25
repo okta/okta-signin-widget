@@ -10,57 +10,50 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'util/FormType',
-  'util/FormController',
-  'views/enroll-factors/Footer',
-  'views/shared/TextBox'
-],
-function (Okta, FormType, FormController, Footer, TextBox) {
-
-  var _ = Okta._;
-
-  return FormController.extend({
-    className: 'enroll-yubikey',
-    Model: {
-      props: {
-        passCode: ['string', true],
-        factorId: 'string'
-      },
-      save: function () {
-        return this.doTransaction(function (transaction) {
-          var factor = _.findWhere(transaction.factors, {
-            factorType: 'token:hardware',
-            provider: 'YUBICO'
-          });
-          return factor.enroll({
-            passCode: this.get('passCode')
-          });
+import { _, loc } from 'okta';
+import FormController from 'util/FormController';
+import FormType from 'util/FormType';
+import Footer from 'views/enroll-factors/Footer';
+import TextBox from 'views/shared/TextBox';
+export default FormController.extend({
+  className: 'enroll-yubikey',
+  Model: {
+    props: {
+      passCode: ['string', true],
+      factorId: 'string',
+    },
+    save: function () {
+      return this.doTransaction(function (transaction) {
+        const factor = _.findWhere(transaction.factors, {
+          factorType: 'token:hardware',
+          provider: 'YUBICO',
         });
-      }
+
+        return factor.enroll({
+          passCode: this.get('passCode'),
+        });
+      });
     },
+  },
 
-    Form: {
-      title: _.partial(Okta.loc, 'enroll.yubikey.title', 'login'),
-      subtitle: _.partial(Okta.loc, 'enroll.yubikey.subtitle', 'login'),
-      noCancelButton: true,
-      save: _.partial(Okta.loc, 'mfa.challenge.verify', 'login'),
-      autoSave: true,
-      className: 'enroll-yubikey',
-      formChildren: [
-        FormType.View({
-          View: '<div class="yubikey-demo" data-type="yubikey-example"></div>'
-        }),
-        FormType.Input({
-          name: 'passCode',
-          input: TextBox,
-          type: 'password'
-        })
-      ]
-    },
+  Form: {
+    title: _.partial(loc, 'enroll.yubikey.title', 'login'),
+    subtitle: _.partial(loc, 'enroll.yubikey.subtitle', 'login'),
+    noCancelButton: true,
+    save: _.partial(loc, 'mfa.challenge.verify', 'login'),
+    autoSave: true,
+    className: 'enroll-yubikey',
+    formChildren: [
+      FormType.View({
+        View: '<div class="yubikey-demo" data-type="yubikey-example"></div>',
+      }),
+      FormType.Input({
+        name: 'passCode',
+        input: TextBox,
+        type: 'password',
+      }),
+    ],
+  },
 
-    Footer: Footer
-  });
-
+  Footer: Footer,
 });

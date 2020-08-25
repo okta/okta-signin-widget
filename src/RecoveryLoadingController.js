@@ -10,37 +10,36 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'util/FormController'], function (Okta, FormController) {
+import FormController from 'util/FormController';
+export default FormController.extend({
+  className: 'recovery-loading',
 
-  return FormController.extend({
-    className: 'recovery-loading',
+  Model: {},
+  Form: {
+    noButtonBar: true,
+  },
 
-    Model: {},
-    Form: {
-      noButtonBar: true
-    },
+  initialize: function (options) {
+    const self = this;
 
-    initialize: function (options) {
-      var self = this;
-      return this.model.startTransaction(function (authClient) {
+    return this.model
+      .startTransaction(function (authClient) {
         return authClient.verifyRecoveryToken({
-          recoveryToken: options.token
+          recoveryToken: options.token,
         });
       })
-        .catch(function () {
-          self.options.appState.trigger('loading', false);
-          self.options.appState.trigger('removeLoading');
-        });
-    },
+      .catch(function () {
+        self.options.appState.trigger('loading', false);
+        self.options.appState.trigger('removeLoading');
+      });
+  },
 
-    preRender: function () {
-      this.options.appState.trigger('loading', true);
-    },
+  preRender: function () {
+    this.options.appState.trigger('loading', true);
+  },
 
-    trapAuthResponse: function () {
-      this.options.appState.trigger('loading', false);
-      return false;
-    }
-
-  });
+  trapAuthResponse: function () {
+    this.options.appState.trigger('loading', false);
+    return false;
+  },
 });

@@ -10,31 +10,28 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta'], function (Okta) {
+import { View } from 'okta';
+export default View.extend({
+  className: 'okta-waiting-spinner',
+  attributes: {
+    'data-se': 'o-form-okta-waiting-spinner',
+  },
+  modelEvents: {
+    'spinner:show': 'show',
+    'spinner:hide': 'hide',
+  },
 
-  return Okta.View.extend({
-    className: 'okta-waiting-spinner',
-    attributes: {
-      'data-se': 'o-form-okta-waiting-spinner'
-    },
-    modelEvents: {
-      'spinner:show': 'show',
-      'spinner:hide': 'hide'
-    },
-
-    initialize: function (options) {
-      if(options && options.visible === false){
-        this.hide();
-      }
-    },
-
-    show: function () {
-      this.$el.removeClass('hide');
-    },
-
-    hide: function () {
-      this.$el.addClass('hide');
+  initialize: function (options) {
+    if (options && options.visible === false) {
+      this.hide();
     }
-  });
+  },
 
+  show: function () {
+    this.$el.removeClass('hide');
+  },
+
+  hide: function () {
+    this.$el.addClass('hide');
+  },
 });

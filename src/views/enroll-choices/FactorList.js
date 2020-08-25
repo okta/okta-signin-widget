@@ -10,21 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { _, ListView, View, createButton, loc } from 'okta';
 import hbs from 'handlebars-inline-precompile';
+import FactorUtil from 'util/FactorUtil';
+import RouterUtil from 'util/RouterUtil';
+const cardinalityTextTpl = hbs('<span class="factor-cardinality">{{cardinalityText}}</span>');
+const FactorListFactorRow = View.extend({
+  className: 'enroll-factor-row clearfix',
 
-define([
-  'okta',
-  'util/RouterUtil',
-  'util/FactorUtil'
-], function (Okta, RouterUtil, FactorUtil) {
-
-  var _ = Okta._,
-      cardinalityTextTpl = hbs('<span class="factor-cardinality">{{cardinalityText}}</span>');
-
-  var FactorRow = Okta.View.extend({
-    className: 'enroll-factor-row clearfix',
-
-    template: hbs('\
+  template: hbs(
+    '\
       <div class="enroll-factor-icon-container">\
         <div class="factor-icon enroll-factor-icon {{iconClassName}}">\
         </div>\
@@ -36,85 +31,89 @@ define([
         {{/if}}\
         <div class="enroll-factor-button"></div>\
       </div>\
-    '),
+    '
+  ),
 
-    attributes: function () {
-      return { 'data-se': this.model.get('factorName') };
-    },
+  attributes: function () {
+    return { 'data-se': this.model.get('factorName') };
+  },
 
-    children: function () {
-      var children = [],
-          enrolled = this.model.get('enrolled'),
-          required = this.model.get('required'),
-          cardinality = this.model.get('cardinality');
+  children: function () {
+    const children = [];
+    const enrolled = this.model.get('enrolled');
+    const required = this.model.get('required');
+    const cardinality = this.model.get('cardinality');
 
-      if (this.options.showInlineSetupButton) {
-        return [[Okta.createButton({
-          className: 'button',
-          title: this.getSetupButtonText(),
-          click: function () {
-            this.options.appState.trigger('navigate', RouterUtil.createEnrollFactorUrl(
-              this.model.get('provider'),
-              this.model.get('factorType')
-            ));
-          }
-        }), '.enroll-factor-button']];
-      }
-      else if (enrolled) {
-        children.push(['<span class="icon success-16-green"></span>', '.enroll-factor-label']);
-      }
-      else if (required) {
-        children.push(['<span class="icon success-16-gray"></span>', '.enroll-factor-label']);
-      }
-
-      var cardinalityText = FactorUtil.getCardinalityText(enrolled, required, cardinality);
-      if (cardinalityText) {
-        children.push([cardinalityTextTpl({cardinalityText: cardinalityText}), '.enroll-factor-description']);
-      }
-      return children;
-    },
-
-    minimize: function () {
-      this.$el.addClass('enroll-factor-row-min');
-    },
-
-    maximize: function () {
-      this.$el.removeClass('enroll-factor-row-min');
-    },
-
-    getSetupButtonText: function () {
-      return this.model.get('additionalEnrollment') ? Okta.loc('enroll.choices.setup.another', 'login')
-        : Okta.loc('enroll.choices.setup', 'login');
+    if (this.options.showInlineSetupButton) {
+      return [
+        [
+          createButton({
+            className: 'button',
+            title: this.getSetupButtonText(),
+            click: function () {
+              this.options.appState.trigger(
+                'navigate',
+                RouterUtil.createEnrollFactorUrl(this.model.get('provider'), this.model.get('factorType'))
+              );
+            },
+          }),
+          '.enroll-factor-button',
+        ],
+      ];
+    } else if (enrolled) {
+      children.push(['<span class="icon success-16-green"></span>', '.enroll-factor-label']);
+    } else if (required) {
+      children.push(['<span class="icon success-16-gray"></span>', '.enroll-factor-label']);
     }
-  });
 
-  return Okta.ListView.extend({
+    const cardinalityText = FactorUtil.getCardinalityText(enrolled, required, cardinality);
 
-    className: 'enroll-factor-list',
+    if (cardinalityText) {
+      children.push([cardinalityTextTpl({ cardinalityText: cardinalityText }), '.enroll-factor-description']);
+    }
+    return children;
+  },
 
-    item: FactorRow,
+  minimize: function () {
+    this.$el.addClass('enroll-factor-row-min');
+  },
 
-    itemSelector: '.list-content',
+  maximize: function () {
+    this.$el.removeClass('enroll-factor-row-min');
+  },
 
-    template: hbs('\
+  getSetupButtonText: function () {
+    return this.model.get('additionalEnrollment')
+      ? loc('enroll.choices.setup.another', 'login')
+      : loc('enroll.choices.setup', 'login');
+  },
+});
+export default ListView.extend({
+  className: 'enroll-factor-list',
+
+  item: FactorListFactorRow,
+
+  itemSelector: '.list-content',
+
+  template: hbs(
+    '\
       {{#if listTitle}}\
         <div class="list-title">{{listTitle}}</div>\
       {{/if}}\
       <div class="list-content"></div>\
-    '),
+    '
+  ),
 
-    getTemplateData: function () {
-      var json = Okta.ListView.prototype.getTemplateData.call(this);
-      _.extend(json, this);
-      return json;
-    },
+  getTemplateData: function () {
+    const json = ListView.prototype.getTemplateData.call(this);
 
-    postRender: function () {
-      if (this.options.minimize) {
-        this.invoke('minimize');
-      }
+    _.extend(json, this);
+    return json;
+  },
+
+  postRender: function () {
+    if (this.options.minimize) {
+      this.invoke('minimize');
     }
-
-  });
-
+  },
 });

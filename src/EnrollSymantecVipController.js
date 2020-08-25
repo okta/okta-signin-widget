@@ -10,96 +10,91 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'util/FormType',
-  'util/FormController',
-  'util/Util',
-  'views/enroll-factors/Footer',
-  'views/shared/TextBox'],
-function (Okta, FormType, FormController, Util, Footer, TextBox) {
-
-  var _ = Okta._;
-
-  return FormController.extend({
-    className: 'enroll-symantec',
-    Model: {
-      props: {
-        credentialId: ['string', true],
-        passCode: ['string', true],
-        nextPassCode: ['string', true],
-        factorId: 'string'
-      },
-      save: function () {
-        return this.doTransaction(function (transaction) {
-
-          var factor = _.findWhere(transaction.factors, {
-            factorType: 'token',
-            provider: 'SYMANTEC'
-          });
-          return factor.enroll({
-            passCode: this.get('passCode'),
-            nextPassCode: this.get('nextPassCode'),
-            profile: {credentialId: this.get('credentialId')}
-          });
+import { _, loc } from 'okta';
+import FormController from 'util/FormController';
+import FormType from 'util/FormType';
+import Util from 'util/Util';
+import Footer from 'views/enroll-factors/Footer';
+import TextBox from 'views/shared/TextBox';
+export default FormController.extend({
+  className: 'enroll-symantec',
+  Model: {
+    props: {
+      credentialId: ['string', true],
+      passCode: ['string', true],
+      nextPassCode: ['string', true],
+      factorId: 'string',
+    },
+    save: function () {
+      return this.doTransaction(function (transaction) {
+        const factor = _.findWhere(transaction.factors, {
+          factorType: 'token',
+          provider: 'SYMANTEC',
         });
-      }
+
+        return factor.enroll({
+          passCode: this.get('passCode'),
+          nextPassCode: this.get('nextPassCode'),
+          profile: { credentialId: this.get('credentialId') },
+        });
+      });
     },
+  },
 
-    Form: {
-      title: _.partial(Okta.loc, 'factor.totpHard.symantecVip', 'login'),
-      subtitle: _.partial(Okta.loc, 'enroll.symantecVip.subtitle', 'login'),
-      noButtonBar: true,
-      autoSave: true,
-      className: 'enroll-symantec',
-      formChildren: function () {
-        return [
-          FormType.Input({
-            label: Okta.loc('enroll.symantecVip.credentialId.placeholder', 'login'),
-            'label-top': true,
-            explain: Util.createInputExplain(
-              'enroll.symantecVip.credentialId.tooltip',
-              'enroll.symantecVip.credentialId.placeholder',
-              'login'),
-            'explain-top': true,
-            name: 'credentialId',
-            input: TextBox,
-            type: 'text'
-          }),
-          FormType.Input({
-            label: Okta.loc('enroll.symantecVip.passcode1.placeholder', 'login'),
-            'label-top': true,
-            explain: Util.createInputExplain(
-              'enroll.symantecVip.passcode1.tooltip',
-              'enroll.symantecVip.passcode1.placeholder',
-              'login'),
-            'explain-top': true,
-            name: 'passCode',
-            input: TextBox,
-            type: 'text'
-          }),
-          FormType.Input({
-            label: Okta.loc('enroll.symantecVip.passcode2.placeholder', 'login'),
-            'label-top': true,
-            explain: Util.createInputExplain(
-              'enroll.symantecVip.passcode2.tooltip',
-              'enroll.symantecVip.passcode2.placeholder',
-              'login'),
-            'explain-top': true,
-            name: 'nextPassCode',
-            input: TextBox,
-            type: 'text'
-          }),
-          FormType.Toolbar({
-            noCancelButton: true,
-            save: Okta.loc('mfa.challenge.verify', 'login')
-          })
-        ];
-      }
+  Form: {
+    title: _.partial(loc, 'factor.totpHard.symantecVip', 'login'),
+    subtitle: _.partial(loc, 'enroll.symantecVip.subtitle', 'login'),
+    noButtonBar: true,
+    autoSave: true,
+    className: 'enroll-symantec',
+    formChildren: function () {
+      return [
+        FormType.Input({
+          label: loc('enroll.symantecVip.credentialId.placeholder', 'login'),
+          'label-top': true,
+          explain: Util.createInputExplain(
+            'enroll.symantecVip.credentialId.tooltip',
+            'enroll.symantecVip.credentialId.placeholder',
+            'login'
+          ),
+          'explain-top': true,
+          name: 'credentialId',
+          input: TextBox,
+          type: 'text',
+        }),
+        FormType.Input({
+          label: loc('enroll.symantecVip.passcode1.placeholder', 'login'),
+          'label-top': true,
+          explain: Util.createInputExplain(
+            'enroll.symantecVip.passcode1.tooltip',
+            'enroll.symantecVip.passcode1.placeholder',
+            'login'
+          ),
+          'explain-top': true,
+          name: 'passCode',
+          input: TextBox,
+          type: 'text',
+        }),
+        FormType.Input({
+          label: loc('enroll.symantecVip.passcode2.placeholder', 'login'),
+          'label-top': true,
+          explain: Util.createInputExplain(
+            'enroll.symantecVip.passcode2.tooltip',
+            'enroll.symantecVip.passcode2.placeholder',
+            'login'
+          ),
+          'explain-top': true,
+          name: 'nextPassCode',
+          input: TextBox,
+          type: 'text',
+        }),
+        FormType.Toolbar({
+          noCancelButton: true,
+          save: loc('mfa.challenge.verify', 'login'),
+        }),
+      ];
     },
+  },
 
-    Footer: Footer
-
-  });
-
+  Footer: Footer,
 });

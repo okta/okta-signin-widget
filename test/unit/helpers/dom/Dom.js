@@ -1,29 +1,21 @@
-define([
-  'okta',
-  'helpers/util/jquery.okta'
-],
-function (Okta) {
+import { internal } from 'okta';
+import 'helpers/util/jquery.okta';
+let { Class } = internal.util;
+export default Class.extend({
+  initialize: function ($root) {
+    this.$root = $root;
+  },
 
-  var { Class } = Okta.internal.util;
+  el: function (dataSe) {
+    const sel = '[data-se="' + dataSe + '"]';
 
-  return Class.extend({
-
-    initialize: function ($root) {
-      this.$root = $root;
-    },
-
-    el: function (dataSe) {
-      var sel = '[data-se="' + dataSe + '"]';
-      if (this.$root.is(sel)) {
-        return this.$root;
-      }
-      return this.$root.find(sel);
-    },
-
-    $: function (selector) {
-      return this.$root.find(selector);
+    if (this.$root.is(sel)) {
+      return this.$root;
     }
+    return this.$root.find(sel);
+  },
 
-  });
-
+  $: function (selector) {
+    return this.$root.find(selector);
+  },
 });

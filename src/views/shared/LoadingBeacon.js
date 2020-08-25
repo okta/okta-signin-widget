@@ -10,22 +10,19 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-
-define(['okta'], function (Okta) {
-
-  return Okta.View.extend({
-
-    template: hbs('\
+export default View.extend({
+  template: hbs(
+    '\
       <div class="beacon-blank"/>\
       <div class="bg-helper auth-beacon auth-beacon-security" data-se="loading-beacon">\
       <div class="okta-sign-in-beacon-border auth-beacon-border js-auth-beacon-border"/>\
       </div>\
-    '),
+    '
+  ),
 
-    equals: function (Beacon) {
-      return Beacon && this instanceof Beacon;
-    }
-
-  });
+  equals: function (Beacon) {
+    return Beacon && this instanceof Beacon;
+  },
 });

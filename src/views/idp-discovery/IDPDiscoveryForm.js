@@ -10,56 +10,45 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'util/Util',
-  'views/primary-auth/PrimaryAuthForm'
-], function (Okta, Util, PrimaryAuthForm) {
+import { _, loc } from 'okta';
+import Util from 'util/Util';
+import PrimaryAuthForm from 'views/primary-auth/PrimaryAuthForm';
+export default PrimaryAuthForm.extend({
+  className: 'idp-discovery-form',
+  save: function () {
+    return loc('oform.next', 'login');
+  },
+  saveId: 'idp-discovery-submit',
 
-  var _ = Okta._;
+  initialize: function () {
+    this.listenTo(this, 'save', _.bind(this.model.save, this.model));
+    this.stateEnableChange();
+  },
 
-  return PrimaryAuthForm.extend({
-    className: 'idp-discovery-form',
-    save: function () {
-      return Okta.loc('oform.next', 'login');
-    },
-    saveId: 'idp-discovery-submit',
+  inputs: function () {
+    const inputs = [];
+    const usernameProps = {
+      className: 'margin-btm-30',
+      label: loc('primaryauth.username.placeholder', 'login'),
+      'label-top': true,
+      explain: Util.createInputExplain('primaryauth.username.tooltip', 'primaryauth.username.placeholder', 'login'),
+      'explain-top': true,
+      inputId: 'idp-discovery-username',
+      disabled: false,
+    };
 
-    initialize: function () {
-      this.listenTo(this, 'save', _.bind(this.model.save, this.model));
-      this.stateEnableChange();
-    },
-
-    inputs: function () {
-      var inputs = [];
-      var usernameProps = {
-        className: 'margin-btm-30',
-        label: Okta.loc('primaryauth.username.placeholder', 'login'),
-        'label-top': true,
-        explain: Util.createInputExplain(
-          'primaryauth.username.tooltip',
-          'primaryauth.username.placeholder',
-          'login'),
-        'explain-top': true,
-        inputId: 'idp-discovery-username',
-        disabled: false
-      };
-      inputs.push(_.extend(this.getUsernameField(), usernameProps));
-      if (this.settings.get('features.rememberMe')) {
-        inputs.push(this.getRemeberMeCheckbox());
-      }
-      return inputs;
-    },
-
-    focus: function () {
-      if (!this.model.get('username')) {
-        this.getInputs().first().focus();
-      }
-      else if(this.getInputs().toArray()[1]) {
-        this.getInputs().toArray()[1].focus();
-      }
+    inputs.push(_.extend(this.getUsernameField(), usernameProps));
+    if (this.settings.get('features.rememberMe')) {
+      inputs.push(this.getRemeberMeCheckbox());
     }
+    return inputs;
+  },
 
-  });
-
+  focus: function () {
+    if (!this.model.get('username')) {
+      this.getInputs().first().focus();
+    } else if (this.getInputs().toArray()[1]) {
+      this.getInputs().toArray()[1].focus();
+    }
+  },
 });

@@ -10,40 +10,32 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'util/FormController',
-  'views/enroll-factors/EnterPasscodeForm',
-  'views/enroll-factors/Footer'
-],
-function (Okta, FormController, EnterPasscodeForm, Footer) {
-
-  return FormController.extend({
-    className: 'activate-totp',
-    Model: function () {
-      return {
-        props: {
-          factorId: ['string', true, this.options.appState.get('activatedFactorId')],
-          passCode: ['string', true]
-        },
-        local: {
-          '__factorType__': ['string', false, this.options.factorType],
-          '__provider__': ['string', false, this.options.provider]
-        },
-        save: function () {
-          return this.doTransaction(function (transaction) {
-            return transaction.activate({
-              passCode: this.get('passCode')
-            });
+import FormController from 'util/FormController';
+import EnterPasscodeForm from 'views/enroll-factors/EnterPasscodeForm';
+import Footer from 'views/enroll-factors/Footer';
+export default FormController.extend({
+  className: 'activate-totp',
+  Model: function () {
+    return {
+      props: {
+        factorId: ['string', true, this.options.appState.get('activatedFactorId')],
+        passCode: ['string', true],
+      },
+      local: {
+        __factorType__: ['string', false, this.options.factorType],
+        __provider__: ['string', false, this.options.provider],
+      },
+      save: function () {
+        return this.doTransaction(function (transaction) {
+          return transaction.activate({
+            passCode: this.get('passCode'),
           });
-        }
-      };
-    },
+        });
+      },
+    };
+  },
 
-    Form: EnterPasscodeForm,
+  Form: EnterPasscodeForm,
 
-    Footer: Footer
-
-  });
-
+  Footer: Footer,
 });

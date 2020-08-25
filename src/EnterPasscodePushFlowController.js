@@ -10,62 +10,59 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-
-define([
-  'okta',
-  'util/FormController',
-  'util/RouterUtil',
-  'views/enroll-factors/EnterPasscodeForm'
-],
-function (Okta, FormController, RouterUtil, EnterPasscodeForm) {
-
-  var Footer = Okta.View.extend({
-    template: hbs('\
+import FormController from 'util/FormController';
+import RouterUtil from 'util/RouterUtil';
+import EnterPasscodeForm from 'views/enroll-factors/EnterPasscodeForm';
+const EnterPasscodePushFlowControllerFooter = View.extend({
+  template: hbs(
+    '\
       <a href="#" class="link help js-back" data-se="back-link">\
         {{i18n code="oform.back" bundle="login"}}\
       </a>\
-    '),
-    className: 'auth-footer',
-    events: {
-      'click .js-back' : function (e) {
-        e.preventDefault();
-        this.back();
-      }
+    '
+  ),
+  className: 'auth-footer',
+  events: {
+    'click .js-back': function (e) {
+      e.preventDefault();
+      this.back();
     },
-    back: function () {
-      var url = RouterUtil.createActivateFactorUrl(this.options.appState.get('activatedFactorProvider'),
-        'push', 'manual');
-      this.options.appState.trigger('navigate', url);
-    }
-  });
+  },
+  back: function () {
+    const url = RouterUtil.createActivateFactorUrl(
+      this.options.appState.get('activatedFactorProvider'),
+      'push',
+      'manual'
+    );
 
-  return FormController.extend({
-    className: 'activate-push',
-    Model: function () {
-      return {
-        props: {
-          factorId: ['string', true, this.options.appState.get('activatedFactorId')],
-          passCode: ['string', true]
-        },
-        local: {
-          '__factorType__': ['string', false, this.options.factorType],
-          '__provider__': ['string', false, this.options.provider]
-        },
-        save: function () {
-          return this.doTransaction(function (transaction) {
-            return transaction.activate({
-              passCode: this.get('passCode')
-            });
+    this.options.appState.trigger('navigate', url);
+  },
+});
+export default FormController.extend({
+  className: 'activate-push',
+  Model: function () {
+    return {
+      props: {
+        factorId: ['string', true, this.options.appState.get('activatedFactorId')],
+        passCode: ['string', true],
+      },
+      local: {
+        __factorType__: ['string', false, this.options.factorType],
+        __provider__: ['string', false, this.options.provider],
+      },
+      save: function () {
+        return this.doTransaction(function (transaction) {
+          return transaction.activate({
+            passCode: this.get('passCode'),
           });
-        }
-      };
-    },
+        });
+      },
+    };
+  },
 
-    Form: EnterPasscodeForm,
+  Form: EnterPasscodeForm,
 
-    Footer: Footer
-
-  });
-
+  Footer: EnterPasscodePushFlowControllerFooter,
 });

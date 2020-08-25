@@ -1,67 +1,63 @@
-define(['./Form'], function (Form) {
+import Form from './Form';
+const PHONE_FIELD = 'phoneNumber';
+const CODE_FIELD = 'passCode';
+const COUNTRIES_FIELD = 'countryCode';
+export default Form.extend({
+  countriesList: function () {
+    return this.selectOptions(COUNTRIES_FIELD);
+  },
 
-  var PHONE_FIELD = 'phoneNumber';
-  var CODE_FIELD = 'passCode';
-  var COUNTRIES_FIELD = 'countryCode';
+  selectedCountry: function () {
+    return this.selectedOption(COUNTRIES_FIELD);
+  },
 
-  return Form.extend({
+  selectCountry: function (countryCode) {
+    return this.selectOption(COUNTRIES_FIELD, countryCode);
+  },
 
-    countriesList: function () {
-      return this.selectOptions(COUNTRIES_FIELD);
-    },
+  hasCountriesList: function () {
+    return this.inputWrap(COUNTRIES_FIELD).find('.chzn-container').length > 0;
+  },
 
-    selectedCountry: function () {
-      return this.selectedOption(COUNTRIES_FIELD);
-    },
+  phoneNumberField: function () {
+    return this.input(PHONE_FIELD);
+  },
 
-    selectCountry: function (countryCode) {
-      return this.selectOption(COUNTRIES_FIELD, countryCode);
-    },
+  phonePrefixText: function () {
+    return this.inlineLabel(PHONE_FIELD).trimmedText();
+  },
 
-    hasCountriesList: function () {
-      return this.inputWrap(COUNTRIES_FIELD).find('.chzn-container').length > 0;
-    },
+  sendCodeButton: function () {
+    return this.el('sms-request-button').filter(':visible');
+  },
 
-    phoneNumberField: function () {
-      return this.input(PHONE_FIELD);
-    },
+  divider: function () {
+    return this.$('.form-divider');
+  },
 
-    phonePrefixText: function () {
-      return this.inlineLabel(PHONE_FIELD).trimmedText();
-    },
+  codeField: function () {
+    return this.input(CODE_FIELD);
+  },
 
-    sendCodeButton: function () {
-      return this.el('sms-request-button').filter(':visible');
-    },
+  getCodeFieldAutocomplete: function () {
+    return this.autocomplete(CODE_FIELD);
+  },
 
-    divider: function () {
-      return this.$('.form-divider');
-    },
+  backLink: function () {
+    return this.el('back-link');
+  },
 
-    codeField: function () {
-      return this.input(CODE_FIELD);
-    },
+  setPhoneNumber: function (val) {
+    const field = this.phoneNumberField();
 
-    getCodeFieldAutocomplete: function () {
-      return this.autocomplete(CODE_FIELD);
-    },
+    field.val(val);
+    field.trigger('change');
+  },
 
-    backLink: function () {
-      return this.el('back-link');
-    },
+  setCode: function (val) {
+    const field = this.codeField();
 
-    setPhoneNumber: function (val) {
-      var field = this.phoneNumberField();
-      field.val(val);
-      field.trigger('change');
-    },
-
-    setCode: function (val) {
-      var field = this.codeField();
-      field.val(val);
-      field.trigger('change');
-    }
-
-  });
-
+    field.val(val);
+    field.trigger('change');
+  },
 });

@@ -1,4 +1,4 @@
-define({
+export default {
   status: 403,
   responseType: 'json',
   response: {
@@ -6,6 +6,6 @@ define({
     errorSummary: 'User Locked',
     errorLink: 'E0000069',
     errorId: 'oaeGLSGT-QCT_ijvM0RT6SV0A',
-    errorCauses: []
-  }
-});
+    errorCauses: [],
+  },
+};
