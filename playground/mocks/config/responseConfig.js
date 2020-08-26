@@ -69,9 +69,7 @@ const idx = {
     'enroll-profile-new'
   ],
   '/idp/idx/credential/enroll': [
-    'authenticator-enroll-ov-qr',
     //'authenticator-enroll-ov-via-sms',
-    'authenticator-enroll-ov-via-email',
     //'authenticator-enroll-security-question',
   ],
   '/idp/idx/identify': [
@@ -94,11 +92,10 @@ const idx = {
   ],
   '/idp/idx/challenge/resend': [
     // 'factor-verification-email',
-    'authenticator-verification-phone',
+    'authenticator-enroll-ov-sms',
     // 'authenticator-verification-phone-voice'
   ],
   '/idp/idx/challenge/poll': [
-    'authenticator-enroll-ov-qr',
     'success',
     //'enroll-profile-new'
     // 'authenticator-enroll-email',
@@ -310,7 +307,27 @@ const userVerificationUniversalLink = {
   ],
 };
 
-// ov m2 totp - success
+// ov enroll
+const ovEnroll = {
+  '/idp/idx/introspect': [
+    'authenticator-enroll-ov-qr',
+  ],
+  '/idp/idx/credential/enroll': [
+    'authenticator-enroll-ov-via-email',
+  ],
+  '/idp/idx/challenge/send': [
+    'authenticator-enroll-ov-email',
+  ],
+  '/idp/idx/challenge/resend': [
+    'authenticator-enroll-ov-email'
+  ],
+  '/idp/idx/challenge/poll': [
+    'authenticator-enroll-ov-email',
+    'success'
+  ],
+};
+
+// ov challenge m2 totp - success
 const ovTotpSuccess = {
   '/idp/idx/introspect': [
     'authenticator-verification-select-authenticator-ov-m2'
@@ -323,7 +340,7 @@ const ovTotpSuccess = {
   ],
 };
 
-// ov m2 totp - error
+// ov challenge m2 totp - error
 const ovTotpError = {
   '/idp/idx/introspect': [
     'authenticator-verification-select-authenticator-ov-m2'
@@ -336,7 +353,7 @@ const ovTotpError = {
   ],
 };
 
-// ov m2 push - success
+// ov challenge m2 push - success
 const ovPushSuccess = {
   '/idp/idx/introspect': [
     'authenticator-verification-select-authenticator-ov-m2'
@@ -352,7 +369,7 @@ const ovPushSuccess = {
   ],
 };
 
-// ov m2 push - wait
+// ov challenge m2 push - wait
 const ovPushWait = {
   '/idp/idx/introspect': [
     'authenticator-verification-select-authenticator-ov-m2'
@@ -365,7 +382,7 @@ const ovPushWait = {
   ],
 };
 
-// ov m2 push - error
+// ov challenge m2 push - error
 const ovPushError = {
   '/idp/idx/introspect': [
     'authenticator-verification-select-authenticator-ov-m2'

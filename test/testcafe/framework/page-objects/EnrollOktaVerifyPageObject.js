@@ -33,11 +33,19 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
     return this.getTextContent('.sms-info');
   }
 
-  hasSwitchChannelLink () {
-    return this.form.elementExist('.js-switch-channel');
+  getSwitchChannelText () {
+    return this.getTextContent('.switch-channel-link');
   }
 
   async clickSwitchChannel () {
-    await this.form.clickElement('.js-switch-channel');
+    await this.form.clickElement('.switch-channel-link');
+  }
+
+  resendView() {
+    return this.form.getElement('.resend-ov-link-view');
+  }
+
+  async clickSendAgainLink() {
+    await this.form.clickElement('.resend-ov-link-view a.resend-link');
   }
 }

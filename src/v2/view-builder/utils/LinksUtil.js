@@ -113,21 +113,9 @@ const getSignOutLink = (settings) => {
   }
 };
 
-const getSwitchOVEnrollChannelLink = (appState) => {
-  if (appState.hasRemediationObject(RemediationForms.SELECT_ENROLLMENT_CHANNEL)) {
-    return {
-      'type': 'link',
-      'label': loc('oie.enroll.okta_verify.qrcode.cannotScan', 'login'),
-      'name': 'switch-channel',
-      'formName': RemediationForms.SELECT_ENROLLMENT_CHANNEL,
-    };
-  }
-};
-
 export {
   getSwitchAuthenticatorLink,
   getForgotPasswordLink,
   goBackLink,
-  getSignOutLink,
-  getSwitchOVEnrollChannelLink
+  getSignOutLink
 };

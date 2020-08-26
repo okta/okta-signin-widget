@@ -1261,13 +1261,16 @@ describe('v2/ion/uiSchemaTransformer', function () {
         required: true,
         visible: true,
         options: [{
+          value: 'qrcode',
+          label: 'QRCODE',
+        }, {
           value: 'sms',
           label: 'SMS'
         }, {
           value: 'email',
           label: 'Email'
         }],
-        value: 'sms',
+        value: 'qrcode',
         'label-top': true,
         type: 'radio'
       }]);

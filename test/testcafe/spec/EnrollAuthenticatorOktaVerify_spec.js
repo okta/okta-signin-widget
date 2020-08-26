@@ -33,6 +33,14 @@ const enrollViaEmailMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(xhrSuccess);
 
+const resendEmailMocks = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollOktaVerifyEmail)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(xhrAuthenticatorEnrollOktaVerifyEmail)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
+  .respond(xhrAuthenticatorEnrollOktaVerifyEmail);
+
 const enrollViaSmsMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollOktaVerifyQr)
@@ -42,6 +50,17 @@ const enrollViaSmsMocks = RequestMock()
   .respond(xhrAuthenticatorEnrollOktaVerifySMS)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(xhrSuccess);
+
+const resendSmsMocks = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollOktaVerifySMS)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(xhrAuthenticatorEnrollOktaVerifySMS)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
+  .respond(xhrAuthenticatorEnrollOktaVerifySMS);
+
+const smsInstruction = 'We sent an SMS to +18008885555 with an Okta Verify setup link. To continue, open the link on your mobile device.\nOr try a different way to set up Okta Verify.';
+const emailInstruction = 'We sent an email to joy@okta.com with an Okta Verify setup link. To continue, open the link on your mobile device.\nOr try a different way to set up Okta Verify.';
 
 fixture('Enroll Okta Verify Authenticator');
 
@@ -69,7 +88,6 @@ test.requestHooks(logger, enrollViaQRcodeMocks)('should be able to enroll via qr
   await t.expect(enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
   await t.expect(enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(false);
   await t.expect(enrollOktaVerifyPage.hasQRcode()).eql(true);
-  await t.expect(enrollOktaVerifyPage.hasSwitchChannelLink()).eql(true);
   await t.expect(enrollOktaVerifyPage.getQRInstruction()).eql('On your mobile device, download the Okta Verify app from the App Store (iPhone and iPad) or Google Play (Android devices).\nOpen the app and follow the instructions to add your account\nWhen prompted, tap Scan a QR code, then scan the QR code below:');
   await t.wait(4000);
   await t.expect(logger.count(
@@ -82,14 +100,40 @@ test.requestHooks(logger, enrollViaQRcodeMocks)('should be able to enroll via qr
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
 
-test.requestHooks(mock)('should render switch channel view when Can\'t scan is clicked', async t => {
+test.requestHooks(mock)('should render switch channel view when Can\'t scan is clicked in qr code flow', async t => {
   const enrollOktaVerifyPage = await setup(t);
+  await t.expect(enrollOktaVerifyPage.getSwitchChannelText()).eql('Can\'t scan?');
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
   await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
   await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
   await t.expect(switchChannelPageObject.getOptionLabel(0))
     .eql('Text me a setup link');
+  await t.expect(switchChannelPageObject.getOptionLabel(1))
+    .eql('Email me a setup link');
+});
+
+test.requestHooks(resendEmailMocks)('should render switch channel view when "try different way" is clicked when in email flow', async t => {
+  const enrollOktaVerifyPage = await setup(t);
+  await t.expect(enrollOktaVerifyPage.getSwitchChannelText()).eql('try a different way');
+  await enrollOktaVerifyPage.clickSwitchChannel();
+  const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
+  await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
+  await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
+  await t.expect(switchChannelPageObject.getOptionLabel(0))
+    .eql('Scan a QR code');
+  await t.expect(switchChannelPageObject.getOptionLabel(1))
+    .eql('Text me a setup link');
+});
+
+test.requestHooks(resendSmsMocks)('should render switch channel view when "try different way" is clicked when in sms flow', async t => {
+  const enrollOktaVerifyPage = await setup(t);
+  await enrollOktaVerifyPage.clickSwitchChannel();
+  const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
+  await t.expect(switchChannelPageObject.getFormTitle()).eql('More options');
+  await t.expect(switchChannelPageObject.getOptionCount()).eql(2);
+  await t.expect(switchChannelPageObject.getOptionLabel(0))
+    .eql('Scan a QR code');
   await t.expect(switchChannelPageObject.getOptionLabel(1))
     .eql('Email me a setup link');
 });
@@ -108,11 +152,24 @@ test.requestHooks(enrollViaEmailMocks)('should be able enroll via email', async 
   await t.expect(enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(false);
   await t.expect(enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(true);
   await t.expect(enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(false);
-  await t.expect(enrollOktaVerifyPage.getEmailInstruction()).eql('We sent an email to joy@okta.com with an Okta Verify setup link.\nTo continue, open the link on your (iPhone or iPad, Android device).\nDidn’t get the link yet? It may take up to a few minutes to arrive, or try sending the link again.');
+  await t.expect(enrollOktaVerifyPage.getEmailInstruction()).eql(emailInstruction);
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
+});
+
+test.requestHooks(resendEmailMocks)('after timeout should be able see and click send again link when enrolling via email', async t => {
+  const enrollOktaVerifyPage = await setup(t);
+  await t.expect(enrollOktaVerifyPage.getEmailInstruction()).eql(emailInstruction);
+  await t.expect(enrollOktaVerifyPage.resendView().visible).notOk();
+  await t.wait(30000);
+  await t.expect(enrollOktaVerifyPage.resendView().visible).ok();
+  const resendView = enrollOktaVerifyPage.resendView();
+  await t.expect(resendView.innerText).eql('Haven’t received an email? Check your spam folder or send again');
+  await enrollOktaVerifyPage.clickSendAgainLink();
+  await t.expect(enrollOktaVerifyPage.resendView().visible).notOk();
+  await t.expect(enrollOktaVerifyPage.getEmailInstruction()).eql(emailInstruction);
 });
 
 test.requestHooks(enrollViaSmsMocks)('should be able enroll via sms', async t => {
@@ -129,9 +186,22 @@ test.requestHooks(enrollViaSmsMocks)('should be able enroll via sms', async t =>
   await t.expect(enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(false);
   await t.expect(enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
   await t.expect(enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(true);
-  await t.expect(enrollOktaVerifyPage.getSmsInstruction()).eql('We sent an SMS to +18008885555 with an Okta Verify setup link.\nTo continue, open the link on your (iPhone or iPad, Android device).\nDidn’t get the link yet? It may take up to a few minutes to arrive, or try sending the link again.');
+  await t.expect(enrollOktaVerifyPage.getSmsInstruction()).eql(smsInstruction);
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
+});
+
+test.requestHooks(resendSmsMocks)('after timeout should be able see and click send again link when enrolling via sms', async t => {
+  const enrollOktaVerifyPage = await setup(t);
+  await t.expect(enrollOktaVerifyPage.getSmsInstruction()).eql(smsInstruction);
+  await t.expect(enrollOktaVerifyPage.resendView().visible).notOk();
+  await t.wait(30000);
+  await t.expect(enrollOktaVerifyPage.resendView().visible).ok();
+  const resendView = enrollOktaVerifyPage.resendView();
+  await t.expect(resendView.innerText).eql('Haven’t received an SMS? Send again');
+  await enrollOktaVerifyPage.clickSendAgainLink();
+  await t.expect(enrollOktaVerifyPage.resendView().visible).notOk();
+  await t.expect(enrollOktaVerifyPage.getSmsInstruction()).eql(smsInstruction);
 });
