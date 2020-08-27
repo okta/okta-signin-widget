@@ -201,7 +201,7 @@ function (
         } else {
           // add fields
           updatedSchema.properties.each(function (schemaProperty) {
-            var inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
+            var inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty, self.settings);
             var subSchemas = schemaProperty.get('subSchemas');
             var name = schemaProperty.get('name');
             form.addInput(inputOptions);
@@ -219,5 +219,10 @@ function (
       return Q(this.state.get('schema').fetch());
     },
     Footer: Footer,
+    events: {
+      'click .button-show': function () {
+        this.trigger('passwordRevealed');
+      }
+    }
   });
 });

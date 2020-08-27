@@ -48,8 +48,8 @@ function (Okta, Enums, FormController, FormType) {
               template: hbs('\
               <div class="container">\
               <span class="title-icon icon icon-16 confirm-16-green"></span>\
-              <h2 class="title">{{title}}</h2>\
-              <div class="desc">{{desc}}</div>\
+              <h2 class="title">{{{title}}}</h2>\
+              <div class="desc">{{{desc}}}</div>\
               </div>\
               <a href="#" class="back-btn" data-se="back-link">\
                 {{i18n code="goback" bundle="login"}}\
@@ -57,7 +57,7 @@ function (Okta, Enums, FormController, FormType) {
               '),
               getTemplateData: function () {
                 return { 
-                  'desc': Okta.loc('registration.complete.confirm.text', 'login'),
+                  'desc': Okta.loc('registration.complete.confirm.text', 'login', [this.options.appState.get('username')]),
                   'title': Okta.loc('registration.complete.title', 'login')
                 };
               }

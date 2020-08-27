@@ -127,23 +127,24 @@ define([
     });
   };
 
-  var fnCreateInputOptions = function (schemaProperty) {
+  var fnCreateInputOptions = function (schemaProperty, settings) {
     var inputOptions = SchemaFormFactory.createInputOptions(schemaProperty);
-    if (inputOptions.type === 'select') {
-      inputOptions = _.extend(inputOptions, {
-        label: schemaProperty.get('title')
-      });
-    } else {
-      var placeholder = schemaProperty.get('title');
-      if (schemaProperty.get('required')) {
-        placeholder += ' *';
-      }
-      inputOptions = _.extend(inputOptions, {
-        label: false,
-        'label-top': true,
-        placeholder: placeholder
-      });
-    }
+		if (inputOptions.type === 'select') {
+			inputOptions = _.extend(inputOptions, {
+				label: schemaProperty.get('title'),
+				'label-top': true,
+			});
+		} else {
+			var placeholder = schemaProperty.get('title');
+			if (schemaProperty.get('required')) {
+				placeholder += ' *';
+			}
+			inputOptions = _.extend(inputOptions, {
+				label: placeholder,
+				'label-top': true,
+				// placeholder: placeholder
+			});
+		}
 
     var fieldName = schemaProperty.get('name');
     switch (fieldName) {
@@ -155,12 +156,13 @@ define([
       break;
     case 'password':
       inputOptions.type = 'password';
-      inputOptions.input = TextBox;
-      inputOptions.params = {
-        'icon': 'remote-lock-16'
-      };
+      if (
+        settings.get("features.showPasswordToggleOnSignInPage")
+      ) {
+        inputOptions.params = {};
+        inputOptions.params.showPasswordToggle = true;
+      }
     }
-
     var subSchemas = schemaProperty.get('subSchemas');
     if (subSchemas) {
       inputOptions.events = {
