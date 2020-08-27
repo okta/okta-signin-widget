@@ -14,7 +14,6 @@ import { $ } from 'okta';
 import PrimaryAuthModel from 'models/PrimaryAuth';
 import BaseLoginController from 'util/BaseLoginController';
 import DeviceFingerprint from 'util/DeviceFingerprint';
-import Logger from 'util/Logger';
 import CustomButtons from 'views/primary-auth/CustomButtons';
 import PrimaryAuthForm from 'views/primary-auth/PrimaryAuthForm';
 import Footer from 'views/shared/Footer';
@@ -107,16 +106,6 @@ export default BaseLoginController.extend({
     },
     'focusout input': function (e) {
       $(e.target.parentElement).removeClass('focused-input');
-    },
-
-    /**
-     * @deprecated
-     * This event was originally added for capturing specific usage metrics
-     * and is now obsolete.
-     */
-    'click .button-show': function () {
-      Logger.deprecate('use "passwordRevealed" event is deprecated');
-      this.trigger('passwordRevealed');
     },
   },
 
