@@ -18,6 +18,11 @@ exports.handler = () => {
   // 1. Add current widget version number
   config.version = packageJson.version;
   console.log('config.version: ' + config.version);
+  const versionParts = config.version.split('-');
+  if (versionParts.length > 1) {
+    console.log('version contains hash. language assets will be served based on version without hash');
+    config.version = versionParts[0];
+  }
 
   // 2. Add list of supported languages
   const re = new RegExp('/[a-z]+_([^.]+).json');
