@@ -1221,7 +1221,8 @@ function (Q, OktaAuth, WidgetUtil, Okta, Util, AuthContainer, IDPDiscoveryForm, 
           .then(function () {
             expect(cookieSpy).toHaveBeenCalledWith('ln', 'testuser@clouditude.net', {
               expires: 365,
-              path: '/'
+              path: '/',
+              samesite: 'none'
             });
           });
       });

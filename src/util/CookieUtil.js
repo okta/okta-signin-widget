@@ -24,7 +24,8 @@ define(['okta'], function (Okta) {
   fn.setUsernameCookie = function (username) {
     Cookie.setCookie(LAST_USERNAME_COOKIE_NAME, username, {
       expires: DAYS_SAVE_REMEMBER,
-      path: '/'
+      path: '/',
+      samesite: 'none'
     });
   };
 
