@@ -48,7 +48,6 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
   - [afterError](#aftererror)
   - [afterRender](#afterrender)
   - [pageRendered](#pagerendered)
-  - [passwordRevealed](#passwordrevealed)
 - [Building the Widget](#building-the-widget)
   - [The `.widgetrc.js` config file](#the-widgetrc-config-file)
   - [Build and test commands](#build-and-test-commands)
@@ -1267,18 +1266,6 @@ signIn.on('pageRendered', function (data) {
   console.log(data);
   // { page: 'forgot-password' }
 });
-```
-
-### passwordRevealed
-
-:warning: This event has been *deprecated*, do not use.
-
-Triggered when the show password button is clicked.
-
-```javascript
-signIn.on('passwordRevealed', function () {
-  // Handle the event
-})
 ```
 
 ## Building the Widget
