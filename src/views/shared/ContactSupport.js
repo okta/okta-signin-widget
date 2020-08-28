@@ -10,24 +10,19 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-
-define([
-  'okta'
-],
-function (Okta) {
-
-  return Okta.View.extend({
-    template: hbs('\
+export default View.extend({
+  template: hbs(
+    '\
       <div class="infobox">\
         <span class="icon info-16"></span>\
         <p>{{i18n code="contact.support" bundle="login" arguments="helpSupportNumber"}}</p>\
-      </div>'),
-    className: 'contact-support',
+      </div>'
+  ),
+  className: 'contact-support',
 
-    getTemplateData: function () {
-      return this.settings.pick('helpSupportNumber');
-    }
-  });
-
+  getTemplateData: function () {
+    return this.settings.pick('helpSupportNumber');
+  },
 });

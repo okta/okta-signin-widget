@@ -9,45 +9,35 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-define([
-  'okta',
-  'models/EnrollUser',
-  'util/BaseLoginController',
-  'views/enrollUser/EnrollUserForm',
-  'views/shared/FooterWithBackLink'
-],
-function (
-  Okta,
-  EnrollUser,
-  BaseLoginController,
-  EnrollUserForm,
-  FooterWithBackLink
-) {
-  return BaseLoginController.extend({
-    className: 'enroll-user',
-    initialize: function (options) {
-      this.options = options || {};
-      // create model
-      this.model = new EnrollUser(this.options);
-    },
-    fetchInitialData: function () {
-      // If user is unauthenticated and starts enroll flow make a post call to transition state to PROFILE_REQUIRED
-      if (this.options.appState.get('isUnauthenticated')) {
-        return this.model.getEnrollFormData();
-      } else {
-        return BaseLoginController.prototype.fetchInitialData.call();
-      }
-    },
-    trapAuthResponse: function () {
-      if (this.options.appState.get('isProfileRequired')) {
-        return true;
-      }
-    },
-    postRender: function () {
-      var form = new EnrollUserForm(this.toJSON());
-      this.add(form);
-      this.add(new FooterWithBackLink(this.toJSON()));
-      this.addListeners();
+import EnrollUser from 'models/EnrollUser';
+import BaseLoginController from 'util/BaseLoginController';
+import EnrollUserForm from 'views/enrollUser/EnrollUserForm';
+import FooterWithBackLink from 'views/shared/FooterWithBackLink';
+export default BaseLoginController.extend({
+  className: 'enroll-user',
+  initialize: function (options) {
+    this.options = options || {};
+    // create model
+    this.model = new EnrollUser(this.options);
+  },
+  fetchInitialData: function () {
+    // If user is unauthenticated and starts enroll flow make a post call to transition state to PROFILE_REQUIRED
+    if (this.options.appState.get('isUnauthenticated')) {
+      return this.model.getEnrollFormData();
+    } else {
+      return BaseLoginController.prototype.fetchInitialData.call();
     }
-  });
+  },
+  trapAuthResponse: function () {
+    if (this.options.appState.get('isProfileRequired')) {
+      return true;
+    }
+  },
+  postRender: function () {
+    const form = new EnrollUserForm(this.toJSON());
+
+    this.add(form);
+    this.add(new FooterWithBackLink(this.toJSON()));
+    this.addListeners();
+  },
 });

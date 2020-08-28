@@ -1,6 +1,6 @@
-define({
+export default {
   status: 403,
-  responseType: "json",
+  responseType: 'json',
   response: {
     errorCode: 'E0000079',
     errorSummary: 'This operation is not allowed in the current authentication state.',
@@ -8,8 +8,8 @@ define({
     errorId: 'oaeAAjMfwlZS0C1N65KG8dG-g',
     errorCause: [
       {
-        errorSummary: 'This operation is not allowed in the current authentication state.'
-      }
-    ]
-  }
-});
+        errorSummary: 'This operation is not allowed in the current authentication state.',
+      },
+    ],
+  },
+};

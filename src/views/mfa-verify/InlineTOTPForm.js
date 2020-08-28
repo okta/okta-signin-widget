@@ -10,22 +10,24 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
+import { loc, createButton, Form } from 'okta';
+import TextBox from 'views/shared/TextBox';
 
-  function addInlineTotp (form) {
-    form.addDivider();
-    form.addInput({
-      label: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
-      'label-top': true,
-      className: 'o-form-fieldset o-form-label-top inline-input auth-passcode',
-      name: 'answer',
-      input: TextBox,
-      type: 'tel'
-    });
-    form.add(Okta.createButton({
+function addInlineTotp (form) {
+  form.addDivider();
+  form.addInput({
+    label: loc('mfa.challenge.enterCode.placeholder', 'login'),
+    'label-top': true,
+    className: 'o-form-fieldset o-form-label-top inline-input auth-passcode',
+    name: 'answer',
+    input: TextBox,
+    type: 'tel',
+  });
+  form.add(
+    createButton({
       attributes: { 'data-se': 'inline-totp-verify' },
       className: 'button inline-totp-verify margin-top-30',
-      title: Okta.loc('mfa.challenge.verify', 'login'),
+      title: loc('mfa.challenge.verify', 'login'),
       click: function () {
         form.clearErrors();
         if (!form.isValid()) {
@@ -47,36 +49,38 @@ define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
             form.model.save();
           }
         });
-      }
-    }));
-    form.at(1).focus();
-  }
+      },
+    })
+  );
+  form.at(1).focus();
+}
 
-  return Okta.Form.extend({
-    autoSave: true,
-    noButtonBar: true,
-    scrollOnError: false,
-    layout: 'o-form-theme',
+export default Form.extend({
+  autoSave: true,
+  noButtonBar: true,
+  scrollOnError: false,
+  layout: 'o-form-theme',
 
-    className: 'mfa-verify-totp-inline',
+  className: 'mfa-verify-totp-inline',
 
-    attributes: { 'data-se': 'factor-inline-totp' },
+  attributes: { 'data-se': 'factor-inline-totp' },
 
-    initialize: function () {
-      var form = this;
-      this.listenTo(this.model, 'error', function () {
-        this.clearErrors();
-      });
-      this.add(Okta.createButton({
+  initialize: function () {
+    const form = this;
+
+    this.listenTo(this.model, 'error', function () {
+      this.clearErrors();
+    });
+    this.add(
+      createButton({
         className: 'link',
         attributes: { 'data-se': 'inline-totp-add' },
-        title: Okta.loc('mfa.challenge.orEnterCode', 'login'),
+        title: loc('mfa.challenge.orEnterCode', 'login'),
         click: function () {
           this.remove();
           addInlineTotp(form);
-        }
-      }));
-    }
-  });
-
+        },
+      })
+    );
+  },
 });

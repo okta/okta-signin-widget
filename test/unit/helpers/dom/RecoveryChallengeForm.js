@@ -1,31 +1,26 @@
-define(['./Form'], function (Form) {
+import Form from './Form';
+const CODE_FIELD = 'passCode';
+export default Form.extend({
+  codeField: function () {
+    return this.input(CODE_FIELD);
+  },
 
-  var CODE_FIELD = 'passCode';
+  getAutocompleteCodeField: function () {
+    return this.autocomplete(CODE_FIELD);
+  },
 
-  return Form.extend({
+  setCode: function (val) {
+    const field = this.codeField();
 
-    codeField: function () {
-      return this.input(CODE_FIELD);
-    },
+    field.val(val);
+    field.trigger('change');
+  },
 
-    getAutocompleteCodeField: function () {
-      return this.autocomplete(CODE_FIELD);
-    },
+  resendButton: function () {
+    return this.el('resend-button');
+  },
 
-    setCode: function (val) {
-      var field = this.codeField();
-      field.val(val);
-      field.trigger('change');
-    },
-
-    resendButton: function () {
-      return this.el('resend-button');
-    },
-
-    signoutLink: function () {
-      return this.el('signout-link');
-    }
-
-  });
-
+  signoutLink: function () {
+    return this.el('signout-link');
+  },
 });

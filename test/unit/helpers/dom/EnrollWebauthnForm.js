@@ -1,30 +1,26 @@
-define(['./Form'], function (Form) {
+import Form from './Form';
+export default Form.extend({
+  enrollInstructions: function () {
+    return this.$('.webauthn-enroll-instructions p');
+  },
 
-  return Form.extend({
+  enrollEdgeInstructions: function () {
+    return this.$('.webauthn-edge-text p');
+  },
 
-    enrollInstructions: function () {
-      return this.$('.webauthn-enroll-instructions p');
-    },
+  enrollRestrictions: function () {
+    return this.$('.webauthn-restrictions-text p');
+  },
 
-    enrollEdgeInstructions: function () {
-      return this.$('.webauthn-edge-text p');
-    },
+  enrollSpinningIcon: function () {
+    return this.el('webauthn-waiting');
+  },
 
-    enrollRestrictions: function () {
-      return this.$('.webauthn-restrictions-text p');
-    },
+  backLink: function () {
+    return this.el('back-link');
+  },
 
-    enrollSpinningIcon: function () {
-      return this.el('webauthn-waiting');
-    },
-
-    backLink: function () {
-      return this.el('back-link');
-    },
-
-    errorHtml: function () {
-      return this.el('o-form-error-html').find('strong');
-    }
-  });
-
+  errorHtml: function () {
+    return this.el('o-form-error-html').find('strong');
+  },
 });

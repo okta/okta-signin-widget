@@ -10,15 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-
-define([
-  'okta',
-], function (Okta) {
-
-  return Okta.View.extend({
-    className: 'number-challenge-view',
-    template: hbs`
+export default View.extend({
+  className: 'number-challenge-view',
+  template: hbs`
       <p data-se="number-challenge-instruction">
         {{{i18n code="oktaverify.numberchallenge.instruction" bundle="login" arguments="number"}}}
       </p>
@@ -32,24 +28,22 @@ define([
       </div>
       <p>{{i18n code="oktaverify.numberchallenge.explain"  bundle="login"}}</p>
     `,
-    initialize () {
-      this.listenTo(this.options.appState, 'change:isWaitingForNumberChallenge', () => {
-        if (this.options.appState.get('lastAuthResponse').status !== 'SUCCESS') {
-          this.render();
-        }
-      });
-    },
-    getTemplateData () {
-      const lastAuthResponse = this.options.appState.get('lastAuthResponse');
-      if (!this.options.appState.get('isWaitingForNumberChallenge')) {
-        return {
-          number: null
-        };
+  initialize () {
+    this.listenTo(this.options.appState, 'change:isWaitingForNumberChallenge', () => {
+      if (this.options.appState.get('lastAuthResponse').status !== 'SUCCESS') {
+        this.render();
       }
+    });
+  },
+  getTemplateData () {
+    const lastAuthResponse = this.options.appState.get('lastAuthResponse');
+    if (!this.options.appState.get('isWaitingForNumberChallenge')) {
       return {
-        number: lastAuthResponse._embedded.factor._embedded.challenge.correctAnswer,
+        number: null,
       };
     }
-  });
-
+    return {
+      number: lastAuthResponse._embedded.factor._embedded.challenge.correctAnswer,
+    };
+  },
 });

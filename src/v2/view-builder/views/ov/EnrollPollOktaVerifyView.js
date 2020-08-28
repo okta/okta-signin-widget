@@ -1,6 +1,6 @@
 import { loc } from 'okta';
 import BaseForm from '../../internals/BaseForm';
-import { isAndroid, isIOS } from '../../../../util/BrowserFeatures';
+import BrowserFeatures from '../../../../util/BrowserFeatures';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
 import polling from '../shared/polling';
@@ -30,7 +30,7 @@ const Body = BaseForm.extend(Object.assign(
     noButtonBar: true,
     initialize () {
       BaseForm.prototype.initialize.apply(this, arguments);
-      if ((isAndroid() || isIOS()) &
+      if ((BrowserFeatures.isAndroid() || BrowserFeatures.isIOS()) &
         this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'qrcode') {
         this.options.appState.trigger('switchForm', RemediationForms.SELECT_ENROLLMENT_CHANNEL);
       }

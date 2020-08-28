@@ -10,44 +10,43 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { _, View, loc, internal } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-
-define(['okta', 'util/Enums'], function (Okta, Enums) {
-
-  var { Util } = Okta.internal.util;
-  var _ = Okta._;
-
-  return Okta.View.extend({
-    template: hbs('\
+import Enums from 'util/Enums';
+const { Util } = internal.util;
+export default View.extend({
+  template: hbs(
+    '\
       <a href="#" class="link {{linkClassName}}" data-se="signout-link">\
         {{linkText}}\
       </a>\
-    '),
-    className: 'auth-footer clearfix',
-    events: {
-      'click a' : function (e) {
-        e.preventDefault();
-        this.options.appState.trigger('signOut');
-        var self = this;
-        this.model.doTransaction(function (transaction) {
+    '
+  ),
+  className: 'auth-footer clearfix',
+  events: {
+    'click a': function (e) {
+      e.preventDefault();
+      this.options.appState.trigger('signOut');
+      const self = this;
+
+      this.model
+        .doTransaction(function (transaction) {
           return transaction.cancel();
         })
-          .then(function () {
-            if (self.settings.get('signOutLink')) {
-              Util.redirect(self.settings.get('signOutLink'));
-            } else {
-              self.state.set('navigateDir', Enums.DIRECTION_BACK);
-              self.options.appState.trigger('navigate', '');
-            }
-          });
-      }
+        .then(function () {
+          if (self.settings.get('signOutLink')) {
+            Util.redirect(self.settings.get('signOutLink'));
+          } else {
+            self.state.set('navigateDir', Enums.DIRECTION_BACK);
+            self.options.appState.trigger('navigate', '');
+          }
+        });
     },
-    getTemplateData: function () {
-      return {
-        linkClassName: _.isUndefined(this.options.linkClassName) ? 'goto' : this.options.linkClassName,
-        linkText: this.options.linkText || Okta.loc('signout', 'login')
-      };
-    }
-  });
-
+  },
+  getTemplateData: function () {
+    return {
+      linkClassName: _.isUndefined(this.options.linkClassName) ? 'goto' : this.options.linkClassName,
+      linkText: this.options.linkText || loc('signout', 'login'),
+    };
+  },
 });

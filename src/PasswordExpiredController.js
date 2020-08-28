@@ -10,158 +10,146 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'util/FormController',
-  'util/Enums',
-  'util/FormType',
-  'util/ValidationUtil',
-  'util/FactorUtil',
-  'util/Util',
-  'views/expired-password/Footer',
-  'views/shared/TextBox',
-  'views/shared/PasswordRequirements'
-],
-function (Okta, FormController, Enums, FormType, ValidationUtil, FactorUtil, Util, Footer, TextBox,
-  PasswordRequirements) {
+import { _, loc } from 'okta';
+import FactorUtil from 'util/FactorUtil';
+import FormController from 'util/FormController';
+import FormType from 'util/FormType';
+import Util from 'util/Util';
+import ValidationUtil from 'util/ValidationUtil';
+import Footer from 'views/expired-password/Footer';
+import PasswordRequirements from 'views/shared/PasswordRequirements';
+import TextBox from 'views/shared/TextBox';
 
-  var _ = Okta._;
-
-  return FormController.extend({
-    className: 'password-expired',
-    Model: {
-      props: {
-        oldPassword: ['string', true],
-        newPassword: ['string', true],
-        confirmPassword: ['string', true]
-      },
-      validate: function () {
-        return ValidationUtil.validatePasswordMatch(this);
-      },
-      save: function () {
-        this.trigger('save');
-        return this.doTransaction(function (transaction) {
-          return transaction.changePassword({
-            oldPassword: this.get('oldPassword'),
-            newPassword: this.get('newPassword')
-          });
+export default FormController.extend({
+  className: 'password-expired',
+  Model: {
+    props: {
+      oldPassword: ['string', true],
+      newPassword: ['string', true],
+      confirmPassword: ['string', true],
+    },
+    validate: function () {
+      return ValidationUtil.validatePasswordMatch(this);
+    },
+    save: function () {
+      this.trigger('save');
+      return this.doTransaction(function (transaction) {
+        return transaction.changePassword({
+          oldPassword: this.get('oldPassword'),
+          newPassword: this.get('newPassword'),
         });
-      }
-    },
-    Form: {
-      save: _.partial(Okta.loc, 'password.expired.submit', 'login'),
-      title: function () {
-        var expiringSoon = this.options.appState.get('isPwdExpiringSoon'),
-            numDays = this.options.appState.get('passwordExpireDays');
-        if (expiringSoon && numDays > 0) {
-          return Okta.loc('password.expiring.title', 'login', [numDays]);
-        }
-        else if (expiringSoon && numDays === 0) {
-          return Okta.loc('password.expiring.today', 'login');
-        }
-        else if (expiringSoon) {
-          return Okta.loc('password.expiring.soon', 'login');
-        }
-        else {
-          return this.settings.get('brandName') ?
-            Okta.loc('password.expired.title.specific', 'login', [this.settings.get('brandName')]) :
-            Okta.loc('password.expired.title.generic', 'login');
-        }
-      },
-      subtitle: function () {
-        if (this.options.appState.get('isPwdExpiringSoon')) {
-          return this.settings.get('brandName') ?
-            Okta.loc('password.expiring.subtitle.specific', 'login', [this.settings.get('brandName')]) :
-            Okta.loc('password.expiring.subtitle.generic', 'login');
-        }
-
-        var policy = this.options.appState.get('policy');
-        if (!policy || this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
-          return;
-        }
-
-        return FactorUtil.getPasswordComplexityDescription(policy);
-      },
-      parseErrorMessage: function (responseJSON) {
-        var policy = this.options.appState.get('policy');
-        if (!!policy && this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
-          /*
-            - This is a specific case where don't want to repeat the requirements again in the error message, since this
-              is already shown in the description. The description as bullet-points itself should give an indication
-              of the requirements.
-            - We cannot check for error code this in this case, as the error code is shared between
-              requirements not met message, common password message, etc. So error summary is the only differentiating
-              factor. Replace the password requirements string with empty string in this case.
-          */
-          responseJSON = FactorUtil.removeRequirementsFromError(responseJSON, policy);
-        }
-        return responseJSON;
-      },
-      formChildren: function () {
-        var children = [];
-
-        if (this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
-          children.push(FormType.View({
-            View: new PasswordRequirements({ policy: this.options.appState.get('policy') }),
-          }));
-        }
-
-        children = children.concat([
-          FormType.Input({
-            'label-top': true,
-            label: Okta.loc('password.oldPassword.placeholder', 'login'),
-            explain: Util.createInputExplain(
-              'password.oldPassword.tooltip',
-              'password.oldPassword.placeholder',
-              'login'),
-            'explain-top': true,
-            name: 'oldPassword',
-            input: TextBox,
-            type: 'password'
-          }),
-          FormType.Divider(),
-          FormType.Input({
-            className: 'margin-btm-5',
-            'label-top': true,
-            label: Okta.loc('password.newPassword.placeholder', 'login'),
-            explain: Util.createInputExplain(
-              'password.newPassword.tooltip',
-              'password.newPassword.placeholder',
-              'login'),
-            'explain-top': true,
-            name: 'newPassword',
-            input: TextBox,
-            type: 'password'
-          }),
-          FormType.Input({
-            'label-top': true,
-            label: Okta.loc('password.confirmPassword.placeholder', 'login'),
-            explain: Util.createInputExplain(
-              'password.confirmPassword.tooltip',
-              'password.confirmPassword.placeholder',
-              'login'),
-            'explain-top': true,
-            name: 'confirmPassword',
-            input: TextBox,
-            type: 'password'
-          })
-        ]);
-
-        return children;
-      }
-    },
-    Footer: Footer,
-
-    initialize: function () {
-      this.listenTo(this.form, 'save', function () {
-        var creds = {
-          username: this.options.appState.get('userEmail'),
-          password: this.model.get('newPassword')
-        };
-        this.settings.processCreds(creds)
-          .then(_.bind(this.model.save, this.model));
       });
-    }
-  });
+    },
+  },
+  Form: {
+    save: _.partial(loc, 'password.expired.submit', 'login'),
+    title: function () {
+      const expiringSoon = this.options.appState.get('isPwdExpiringSoon');
+      const numDays = this.options.appState.get('passwordExpireDays');
 
+      if (expiringSoon && numDays > 0) {
+        return loc('password.expiring.title', 'login', [numDays]);
+      } else if (expiringSoon && numDays === 0) {
+        return loc('password.expiring.today', 'login');
+      } else if (expiringSoon) {
+        return loc('password.expiring.soon', 'login');
+      } else {
+        return this.settings.get('brandName')
+          ? loc('password.expired.title.specific', 'login', [this.settings.get('brandName')])
+          : loc('password.expired.title.generic', 'login');
+      }
+    },
+    subtitle: function () {
+      if (this.options.appState.get('isPwdExpiringSoon')) {
+        return this.settings.get('brandName')
+          ? loc('password.expiring.subtitle.specific', 'login', [this.settings.get('brandName')])
+          : loc('password.expiring.subtitle.generic', 'login');
+      }
+
+      const policy = this.options.appState.get('policy');
+
+      if (!policy || this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
+        return;
+      }
+
+      return FactorUtil.getPasswordComplexityDescription(policy);
+    },
+    parseErrorMessage: function (responseJSON) {
+      const policy = this.options.appState.get('policy');
+
+      if (!!policy && this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
+        /*
+          - This is a specific case where don't want to repeat the requirements again in the error message, since this
+            is already shown in the description. The description as bullet-points itself should give an indication
+            of the requirements.
+          - We cannot check for error code this in this case, as the error code is shared between
+            requirements not met message, common password message, etc. So error summary is the only differentiating
+            factor. Replace the password requirements string with empty string in this case.
+        */
+        responseJSON = FactorUtil.removeRequirementsFromError(responseJSON, policy);
+      }
+      return responseJSON;
+    },
+    formChildren: function () {
+      let children = [];
+
+      if (this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
+        children.push(
+          FormType.View({
+            View: new PasswordRequirements({ policy: this.options.appState.get('policy') }),
+          })
+        );
+      }
+
+      children = children.concat([
+        FormType.Input({
+          'label-top': true,
+          label: loc('password.oldPassword.placeholder', 'login'),
+          explain: Util.createInputExplain('password.oldPassword.tooltip', 'password.oldPassword.placeholder', 'login'),
+          'explain-top': true,
+          name: 'oldPassword',
+          input: TextBox,
+          type: 'password',
+        }),
+        FormType.Divider(),
+        FormType.Input({
+          className: 'margin-btm-5',
+          'label-top': true,
+          label: loc('password.newPassword.placeholder', 'login'),
+          explain: Util.createInputExplain('password.newPassword.tooltip', 'password.newPassword.placeholder', 'login'),
+          'explain-top': true,
+          name: 'newPassword',
+          input: TextBox,
+          type: 'password',
+        }),
+        FormType.Input({
+          'label-top': true,
+          label: loc('password.confirmPassword.placeholder', 'login'),
+          explain: Util.createInputExplain(
+            'password.confirmPassword.tooltip',
+            'password.confirmPassword.placeholder',
+            'login'
+          ),
+          'explain-top': true,
+          name: 'confirmPassword',
+          input: TextBox,
+          type: 'password',
+        }),
+      ]);
+
+      return children;
+    },
+  },
+  Footer: Footer,
+
+  initialize: function () {
+    this.listenTo(this.form, 'save', function () {
+      const creds = {
+        username: this.options.appState.get('userEmail'),
+        password: this.model.get('newPassword'),
+      };
+
+      this.settings.processCreds(creds).then(_.bind(this.model.save, this.model));
+    });
+  },
 });

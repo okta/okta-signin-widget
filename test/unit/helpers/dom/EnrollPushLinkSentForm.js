@@ -1,26 +1,20 @@
-define(['./Form'], function (Form) {
+import Form from './Form';
+const SMS_LINK_SENT_VIEW = 'sent-sms-activation-link';
+const EMAIL_LINK_SENT_VIEW = 'sent-email-activation-link';
+export default Form.extend({
+  smsSentMsg: function () {
+    return this.el(SMS_LINK_SENT_VIEW);
+  },
 
-  var SMS_LINK_SENT_VIEW = 'sent-sms-activation-link';
-  var EMAIL_LINK_SENT_VIEW = 'sent-email-activation-link';
+  emailSentMsg: function () {
+    return this.el(EMAIL_LINK_SENT_VIEW);
+  },
 
-  return Form.extend({
+  getMsgText: function () {
+    return this.$('p').text();
+  },
 
-    smsSentMsg: function () {
-      return this.el(SMS_LINK_SENT_VIEW);
-    },
-
-    emailSentMsg: function () {
-      return this.el(EMAIL_LINK_SENT_VIEW);
-    },
-
-    getMsgText: function () {
-      return this.$('p').text();
-    },
-
-    backLink: function () {
-      return this.el('back-link');
-    }
-
-  });
-
+  backLink: function () {
+    return this.el('back-link');
+  },
 });

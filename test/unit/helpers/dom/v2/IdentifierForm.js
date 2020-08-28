@@ -1,19 +1,14 @@
-define(['../Form'], function (Form) {
+import Form from '../Form';
+export default Form.extend({
+  getTitle: function () {
+    return this.$('.siw-main-body .okta-form-title').text();
+  },
 
-  return Form.extend({
+  getIdentifierInput: function () {
+    return this.$('.siw-main-body .o-form-fieldset-container input[type="text"]');
+  },
 
-    getTitle: function () {
-      return this.$('.siw-main-body .okta-form-title').text();
-    },
-
-    getIdentifierInput: function () {
-      return this.$('.siw-main-body .o-form-fieldset-container input[type="text"]');
-    },
-
-    getFormSaveButton: function () {
-      return this.$('.siw-main-body .o-form-button-bar .button-primary');
-    }
-
-  });
-
+  getFormSaveButton: function () {
+    return this.$('.siw-main-body .o-form-button-bar .button-primary');
+  },
 });

@@ -12,17 +12,19 @@
 
 /* eslint max-statements: [2, 15] */
 
-define(['q', './Enums'], function (Q, Enums) {
+import Q from 'q';
+import Enums from './Enums';
+const SWAP_PAGE_TIME = 200;
+const fn = {};
 
-  var SWAP_PAGE_TIME = 200;
+function zoom ($el, start, finish) {
+  const deferred = Q.defer();
 
-  var fn = {};
-
-  function zoom ($el, start, finish) {
-    var deferred = Q.defer();
-    $el.animate({
-      'text-indent': 1
-    }, {
+  $el.animate(
+    {
+      'text-indent': 1,
+    },
+    {
       duration: 200,
       easing: 'swing',
       step: function (now, fx) {
@@ -32,16 +34,20 @@ define(['q', './Enums'], function (Q, Enums) {
       },
       always: function () {
         deferred.resolve($el);
-      }
-    });
-    return deferred.promise;
-  }
+      },
+    }
+  );
+  return deferred.promise;
+}
 
-  function rotate ($el, start, finish) {
-    var deferred = Q.defer();
-    $el.animate({
-      'text-indent': 1
-    }, {
+function rotate ($el, start, finish) {
+  const deferred = Q.defer();
+
+  $el.animate(
+    {
+      'text-indent': 1,
+    },
+    {
       duration: 150,
       easing: 'swing',
       step: function (now, fx) {
@@ -51,96 +57,89 @@ define(['q', './Enums'], function (Q, Enums) {
       },
       always: function () {
         deferred.resolve($el);
-      }
-    });
-    return deferred.promise;
+      },
+    }
+  );
+  return deferred.promise;
+}
+
+// Note: It is necessary to pass in a success callback because we must
+// remove the old dom node (and controller) in the same tick of the event
+// loop. Waiting for "then" results in a glitchy animation.
+fn.swapPages = function (options) {
+  const deferred = Q.defer();
+  const $parent = options.$parent;
+  const $oldRoot = options.$oldRoot;
+  const $newRoot = options.$newRoot;
+  const success = options.success;
+  const ctx = options.ctx;
+  let directionClassName = 'transition-from-right';
+
+  if (options.dir && options.dir === Enums.DIRECTION_BACK) {
+    directionClassName = 'transition-from-left';
   }
 
-  // Note: It is necessary to pass in a success callback because we must
-  // remove the old dom node (and controller) in the same tick of the event
-  // loop. Waiting for "then" results in a glitchy animation.
-  fn.swapPages = function (options) {
-    var deferred = Q.defer();
-    var $parent = options.$parent;
-    var $oldRoot = options.$oldRoot;
-    var $newRoot = options.$newRoot;
-    var success = options.success;
-    var ctx = options.ctx;
-    var directionClassName = 'transition-from-right';
+  $newRoot.addClass(directionClassName);
+  $parent.append($newRoot);
 
-    if (options.dir && options.dir === Enums.DIRECTION_BACK) {
-      directionClassName = 'transition-from-left';
-    }
+  $parent.addClass('animation-container-overflow');
+  $newRoot.animate({ left: '0px', top: '0px', opacity: 1 }, SWAP_PAGE_TIME, function () {
+    $parent.removeClass('animation-container-overflow');
+    $newRoot.removeClass(directionClassName);
+    $newRoot.removeAttr('style');
+    success.call(ctx);
+    deferred.resolve();
+  });
 
-    $newRoot.addClass(directionClassName);
-    $parent.append($newRoot);
+  $oldRoot.animate({ height: $newRoot.height(), opacity: 0 }, SWAP_PAGE_TIME * 0.8);
 
-    $parent.addClass('animation-container-overflow');
-    $newRoot.animate(
-      { left: '0px', top: '0px', opacity: 1 },
-      SWAP_PAGE_TIME,
-      function () {
-        $parent.removeClass('animation-container-overflow');
-        $newRoot.removeClass(directionClassName);
-        $newRoot.removeAttr('style');
-        success.call(ctx);
-        deferred.resolve();
-      }
-    );
+  return deferred.promise;
+};
 
-    $oldRoot.animate(
-      { height: $newRoot.height(), opacity: 0 },
-      SWAP_PAGE_TIME * 0.8
-    );
+fn.swapBeacons = function (options) {
+  const $el = options.$el;
+  const swap = options.swap;
+  const ctx = options.ctx;
 
-    return deferred.promise;
-  };
+  return this.implode($el)
+    .then(function () {
+      swap.call(ctx);
+      return $el;
+    })
+    .then(this.explode);
+};
 
-  fn.swapBeacons = function (options) {
-    var $el = options.$el,
-        swap = options.swap,
-        ctx = options.ctx;
+fn.explode = function ($el) {
+  return zoom($el, 0, 1); //zoom in
+};
 
-    return this.implode($el)
-      .then(function () {
-        swap.call(ctx);
-        return $el;
-      })
-      .then(this.explode);
-  };
+fn.implode = function ($el) {
+  return zoom($el, 1, 0); //zoom out
+};
 
-  fn.explode = function ($el) {
-    return zoom($el, 0, 1); //zoom in
-  };
+fn.radialProgressBar = function (options) {
+  const radialProgressBar = options.$el;
+  const swap = options.swap;
+  const circles = radialProgressBar.children();
 
-  fn.implode = function ($el) {
-    return zoom($el, 1, 0); //zoom out
-  };
+  return rotate(circles, 0, 180)
+    .then(function () {
+      radialProgressBar.css({ clip: 'auto' });
+    })
+    .then(function () {
+      const leftHalf = circles.eq(0);
 
-  fn.radialProgressBar = function (options) {
-    var radialProgressBar = options.$el,
-        swap = options.swap,
-        circles = radialProgressBar.children();
-
-    return rotate(circles, 0, 180)
-      .then(function () {
-        radialProgressBar.css({'clip': 'auto'});
-      })
-      .then(function () {
-        var leftHalf = circles.eq(0);
-        swap();
-        return rotate(leftHalf, 180, 360);
-      })
-      .then(function () {
+      swap();
+      return rotate(leftHalf, 180, 360);
+    })
+    .then(function () {
       //reset values to initial state
-        radialProgressBar.css({'clip': 'rect(0px, 96px, 96px, 48px)'});
-        circles.css({
-          'transform': 'rotate(0deg)',
-          'text-indent': '1px'
-        });
+      radialProgressBar.css({ clip: 'rect(0px, 96px, 96px, 48px)' });
+      circles.css({
+        transform: 'rotate(0deg)',
+        'text-indent': '1px',
       });
-  };
+    });
+};
 
-  return fn;
-
-});
+export default fn;

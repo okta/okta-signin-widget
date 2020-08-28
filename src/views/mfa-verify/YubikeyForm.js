@@ -10,47 +10,42 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', 'views/shared/TextBox'], function (Okta, TextBox) {
+import { _, Form, loc } from 'okta';
+import TextBox from 'views/shared/TextBox';
+export default Form.extend({
+  className: 'mfa-verify-yubikey',
+  autoSave: true,
+  noCancelButton: true,
+  save: _.partial(loc, 'mfa.challenge.verify', 'login'),
+  scrollOnError: false,
+  layout: 'o-form-theme',
+  attributes: { 'data-se': 'factor-yubikey' },
 
-  var _ = Okta._;
+  initialize: function () {
+    const factorName = this.model.get('factorLabel');
 
-  return Okta.Form.extend({
-    className: 'mfa-verify-yubikey',
-    autoSave: true,
-    noCancelButton: true,
-    save: _.partial(Okta.loc, 'mfa.challenge.verify', 'login'),
-    scrollOnError: false,
-    layout: 'o-form-theme',
-    attributes: { 'data-se': 'factor-yubikey' },
+    this.title = factorName;
+    this.subtitle = loc('factor.totpHard.yubikey.description', 'login');
 
-    initialize: function () {
-      var factorName = this.model.get('factorLabel');
+    this.addInput({
+      label: loc('factor.totpHard.yubikey.placeholder', 'login'),
+      'label-top': true,
+      className: 'o-form-fieldset o-form-label-top auth-passcode',
+      name: 'answer',
+      input: TextBox,
+      inputId: 'mfa-answer',
+      type: 'password',
+    });
 
-      this.title = factorName;
-      this.subtitle = Okta.loc('factor.totpHard.yubikey.description', 'login');
-
+    if (this.options.appState.get('allowRememberDevice')) {
       this.addInput({
-        label: Okta.loc('factor.totpHard.yubikey.placeholder', 'login'),
+        label: false,
         'label-top': true,
-        className: 'o-form-fieldset o-form-label-top auth-passcode',
-        name: 'answer',
-        input: TextBox,
-        inputId: 'mfa-answer',
-        type: 'password'
+        className: 'margin-btm-0',
+        placeholder: this.options.appState.get('rememberDeviceLabel'),
+        name: 'rememberDevice',
+        type: 'checkbox',
       });
-
-      if (this.options.appState.get('allowRememberDevice')) {
-        this.addInput({
-          label: false,
-          'label-top': true,
-          className: 'margin-btm-0',
-          placeholder: this.options.appState.get('rememberDeviceLabel'),
-          name: 'rememberDevice',
-          type: 'checkbox'
-        });
-      }
     }
-
-  });
-
+  },
 });

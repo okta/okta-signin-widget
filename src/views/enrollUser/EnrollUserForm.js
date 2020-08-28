@@ -10,31 +10,31 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import hbs from 'handlebars-inline-precompile';
-
 /* eslint max-len: [2, 130] */
-define([
-  'okta',
-  'util/RegistrationFormFactory',
-  'models/ProfileSchema',
-], function (Okta, RegistrationFormFactory, ProfileSchema) {
-  return Okta.Form.extend({
-    layout: 'o-form-theme',
-    autoSave: true,
-    noCancelButton: true,
-    title: Okta.loc('registration.form.title', 'login'),
-    save: Okta.loc('registration.form.submit', 'login'),
-    initialize: function (options) {
-      this.options = options || {};
-      this.schema = new ProfileSchema({ profileSchemaAttributes: this.options.appState.get('policy').registration.profile });
-      this.schema.properties.each((schemaProperty) => {
-        var inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
-        this.addInput(inputOptions);
-      });
-      var requiredFieldsLabel = hbs('<span class="required-fields-label">{{label}}</span>')({
-        label: Okta.loc('registration.required.fields.label', 'login')
-      });
-      this.add(requiredFieldsLabel); 
-    }
-  });
+import { Form, loc } from 'okta';
+import hbs from 'handlebars-inline-precompile';
+import ProfileSchema from 'models/ProfileSchema';
+import RegistrationFormFactory from 'util/RegistrationFormFactory';
+export default Form.extend({
+  layout: 'o-form-theme',
+  autoSave: true,
+  noCancelButton: true,
+  title: loc('registration.form.title', 'login'),
+  save: loc('registration.form.submit', 'login'),
+  initialize: function (options) {
+    this.options = options || {};
+    this.schema = new ProfileSchema({
+      profileSchemaAttributes: this.options.appState.get('policy').registration.profile,
+    });
+    this.schema.properties.each(schemaProperty => {
+      const inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
+
+      this.addInput(inputOptions);
+    });
+    const requiredFieldsLabel = hbs('<span class="required-fields-label">{{label}}</span>')({
+      label: loc('registration.required.fields.label', 'login'),
+    });
+
+    this.add(requiredFieldsLabel);
+  },
 });

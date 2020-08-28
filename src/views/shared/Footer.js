@@ -10,18 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { _, View, internal } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-
-define([
-  'okta'
-],
-function (Okta) {
-
-  var { Util } = Okta.internal.util;
-  var _ = Okta._;
-
-  return Okta.View.extend({
-    template: hbs('\
+const { Util } = internal.util;
+export default View.extend({
+  template: hbs(
+    '\
       <a href="#" data-se="needhelp" aria-expanded="false" \
         aria-controls="help-links-container" class="link help js-help">\
       {{i18n code="needhelp" bundle="login"}}\
@@ -52,73 +46,73 @@ function (Okta) {
         </a>\
         </li>\
       </ul>\
-    '),
-    className: 'auth-footer',
+    '
+  ),
+  className: 'auth-footer',
 
-    initialize: function () {
-      this.listenTo(this.state, 'change:enabled', function (model, enable) {
-        this.$(':link').toggleClass('o-form-disabled', !enable);
-      });
-    },
+  initialize: function () {
+    this.listenTo(this.state, 'change:enabled', function (model, enable) {
+      this.$(':link').toggleClass('o-form-disabled', !enable);
+    });
+  },
 
-    getTemplateData: function () {
-      var helpLinkUrl;
-      var customHelpPage = this.settings.get('helpLinks.help');
-      if (customHelpPage) {
-        helpLinkUrl = customHelpPage;
-      } else {
-        helpLinkUrl = hbs('{{baseUrl}}/help/login')({baseUrl: this.settings.get('baseUrl')});
-      }
-      return _.extend(this.settings.toJSON({verbose: true}), {helpLinkUrl: helpLinkUrl});
-    },
-    postRender: function () {
-      this.$('.js-help-links').hide();
-    },
-    toggleLinks: function (e) {
-      e.preventDefault();
+  getTemplateData: function () {
+    let helpLinkUrl;
+    const customHelpPage = this.settings.get('helpLinks.help');
 
-      this.$('.js-help-links').slideToggle(200, _.bind(function () {
-        this.$('.js-help').attr('aria-expanded', this.$('.js-help-links').is(':visible'));
-      }, this));
-    },
-    events: {
-      'click .js-help': function (e) {
-        e.preventDefault();
-        if(!this.state.get('enabled')) {
-          return;
-        }
-
-        this.toggleLinks(e);
-      },
-      'click .js-forgot-password' : function (e) {
-        e.preventDefault();
-        if(!this.state.get('enabled')) {
-          return;
-        }
-
-        var customResetPasswordPage = this.settings.get('helpLinks.forgotPassword');
-        if (customResetPasswordPage) {
-          Util.redirect(customResetPasswordPage);
-        }
-        else {
-          this.options.appState.trigger('navigate', 'signin/forgot-password');
-        }
-      },
-      'click .js-unlock' : function (e) {
-        e.preventDefault();
-        if(!this.state.get('enabled')) {
-          return;
-        }
-
-        var customUnlockPage = this.settings.get('helpLinks.unlock');
-        if (customUnlockPage) {
-          Util.redirect(customUnlockPage);
-        }
-        else {
-          this.options.appState.trigger('navigate', 'signin/unlock');
-        }
-      }
+    if (customHelpPage) {
+      helpLinkUrl = customHelpPage;
+    } else {
+      helpLinkUrl = hbs('{{baseUrl}}/help/login')({ baseUrl: this.settings.get('baseUrl') });
     }
-  });
+    return _.extend(this.settings.toJSON({ verbose: true }), { helpLinkUrl: helpLinkUrl });
+  },
+  postRender: function () {
+    this.$('.js-help-links').hide();
+  },
+  toggleLinks: function (e) {
+    e.preventDefault();
 
+    this.$('.js-help-links').slideToggle(200, () => {
+      this.$('.js-help').attr('aria-expanded', this.$('.js-help-links').is(':visible'));
+    });
+  },
+  events: {
+    'click .js-help': function (e) {
+      e.preventDefault();
+      if (!this.state.get('enabled')) {
+        return;
+      }
+
+      this.toggleLinks(e);
+    },
+    'click .js-forgot-password': function (e) {
+      e.preventDefault();
+      if (!this.state.get('enabled')) {
+        return;
+      }
+
+      const customResetPasswordPage = this.settings.get('helpLinks.forgotPassword');
+
+      if (customResetPasswordPage) {
+        Util.redirect(customResetPasswordPage);
+      } else {
+        this.options.appState.trigger('navigate', 'signin/forgot-password');
+      }
+    },
+    'click .js-unlock': function (e) {
+      e.preventDefault();
+      if (!this.state.get('enabled')) {
+        return;
+      }
+
+      const customUnlockPage = this.settings.get('helpLinks.unlock');
+
+      if (customUnlockPage) {
+        Util.redirect(customUnlockPage);
+      } else {
+        this.options.appState.trigger('navigate', 'signin/unlock');
+      }
+    },
+  },
 });

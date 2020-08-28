@@ -10,195 +10,184 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  './BaseLoginModel',
-  'util/CookieUtil',
-  'util/Enums'
-],
-function (Okta, BaseLoginModel, CookieUtil, Enums) {
-
-  var _ = Okta._;
-
-  return BaseLoginModel.extend({
-
-    props: function () {
-      var cookieUsername = CookieUtil.getCookieUsername(),
-          properties = this.getUsernameAndRemember(cookieUsername);
-
-      var props = {
-        username: {
-          type: 'string',
-          validate: function (value) {
-            if(_.isEmpty(value)) {
-              return Okta.loc('error.username.required', 'login');
-            }
-          },
-          value: properties.username
-        },
-        lastUsername: ['string', false, cookieUsername],
-        context: ['object', false],
-        remember: ['boolean', true, properties.remember],
-        multiOptionalFactorEnroll: ['boolean', true]
-      };
-      if (!(this.settings && this.settings.get('features.passwordlessAuth'))) {
-        props.password = {
-          type: 'string',
-          validate: function (value) {
-            if(_.isEmpty(value)) {
-              return Okta.loc('error.password.required', 'login');
-            }
+import { _, loc, Model } from 'okta';
+import CookieUtil from 'util/CookieUtil';
+import Enums from 'util/Enums';
+import BaseLoginModel from './BaseLoginModel';
+export default BaseLoginModel.extend({
+  props: function () {
+    const cookieUsername = CookieUtil.getCookieUsername();
+    const properties = this.getUsernameAndRemember(cookieUsername);
+    const props = {
+      username: {
+        type: 'string',
+        validate: function (value) {
+          if (_.isEmpty(value)) {
+            return loc('error.username.required', 'login');
           }
-        };
-      }
-      return props;
-    },
+        },
+        value: properties.username,
+      },
+      lastUsername: ['string', false, cookieUsername],
+      context: ['object', false],
+      remember: ['boolean', true, properties.remember],
+      multiOptionalFactorEnroll: ['boolean', true],
+    };
 
-    getUsernameAndRemember: function (cookieUsername) {
-      var settingsUsername = this.settings && this.settings.get('username'),
-          rememberMeEnabled = this.settings && this.settings.get('features.rememberMe'),
-          remember = false,
-          username;
-
-      if (settingsUsername) {
-        username = settingsUsername;
-        remember = rememberMeEnabled && username === cookieUsername;
-      }
-      else if (rememberMeEnabled && cookieUsername) {
-        // Only respect the cookie if the feature is enabled.
-        // Allows us to force prompting when necessary, e.g. SAML ForceAuthn
-        username = cookieUsername;
-        remember = true;
-      }
-
-      return {
-        username: username,
-        remember:remember
+    if (!(this.settings && this.settings.get('features.passwordlessAuth'))) {
+      props.password = {
+        type: 'string',
+        validate: function (value) {
+          if (_.isEmpty(value)) {
+            return loc('error.password.required', 'login');
+          }
+        },
       };
-    },
+    }
+    return props;
+  },
 
-    constructor: function (options) {
-      this.settings = options && options.settings;
-      this.appState = options && options.appState;
-      Okta.Model.apply(this, arguments);
-      this.listenTo(this, 'change:username', function (model, username) {
-        this.set({remember: username === this.get('lastUsername')});
-      });
-    },
-    parse: function (options) {
-      return _.omit(options, ['settings', 'appState']);
-    },
+  getUsernameAndRemember: function (cookieUsername) {
+    const settingsUsername = this.settings && this.settings.get('username');
+    const rememberMeEnabled = this.settings && this.settings.get('features.rememberMe');
+    let remember = false;
+    let username;
 
-    save: function () {
-      var username = this.settings.transformUsername(this.get('username'), Enums.PRIMARY_AUTH),
-          remember = this.get('remember'),
-          lastUsername = this.get('lastUsername');
+    if (settingsUsername) {
+      username = settingsUsername;
+      remember = rememberMeEnabled && username === cookieUsername;
+    } else if (rememberMeEnabled && cookieUsername) {
+      // Only respect the cookie if the feature is enabled.
+      // Allows us to force prompting when necessary, e.g. SAML ForceAuthn
+      username = cookieUsername;
+      remember = true;
+    }
 
-      this.setUsernameCookie(username, remember, lastUsername);
+    return {
+      username: username,
+      remember: remember,
+    };
+  },
 
-      //the 'save' event here is triggered and used in the BaseLoginController
-      //to disable the primary button on the primary auth form
-      this.trigger('save');
+  constructor: function (options) {
+    this.settings = options && options.settings;
+    this.appState = options && options.appState;
+    Model.apply(this, arguments);
+    this.listenTo(this, 'change:username', function (model, username) {
+      this.set({ remember: username === this.get('lastUsername') });
+    });
+  },
+  parse: function (options) {
+    return _.omit(options, ['settings', 'appState']);
+  },
 
-      this.appState.trigger('loading', true);
+  save: function () {
+    const username = this.settings.transformUsername(this.get('username'), Enums.PRIMARY_AUTH);
+    const remember = this.get('remember');
+    const lastUsername = this.get('lastUsername');
 
-      var signInArgs = this.getSignInArgs(username);
+    this.setUsernameCookie(username, remember, lastUsername);
 
-      var primaryAuthPromise;
+    //the 'save' event here is triggered and used in the BaseLoginController
+    //to disable the primary button on the primary auth form
+    this.trigger('save');
 
-      if (this.appState.get('isUnauthenticated')) {
-        var authClient = this.appState.settings.authClient;
-        // bootstrapped with stateToken
-        if (this.appState.get('isIdxStateToken')) {
-          // if its an idx stateToken, we send the parameter as identifier to login API
-          primaryAuthPromise = this.doTransaction(function (transaction) {
-            return this.doPrimaryAuth(authClient, signInArgs, transaction.login);
-          });
-        } else {
-          primaryAuthPromise = this.doTransaction(function (transaction) {
-            return this.doPrimaryAuth(authClient, signInArgs, transaction.authenticate);
-          });
-        }
+    this.appState.trigger('loading', true);
+
+    const signInArgs = this.getSignInArgs(username);
+    let primaryAuthPromise;
+
+    if (this.appState.get('isUnauthenticated')) {
+      const authClient = this.appState.settings.authClient;
+
+      // bootstrapped with stateToken
+      if (this.appState.get('isIdxStateToken')) {
+        // if its an idx stateToken, we send the parameter as identifier to login API
+        primaryAuthPromise = this.doTransaction(function (transaction) {
+          return this.doPrimaryAuth(authClient, signInArgs, transaction.login);
+        });
       } else {
-        //normal username/password flow without stateToken
-        primaryAuthPromise = this.startTransaction(function (authClient) {
-          return this.doPrimaryAuth(authClient, signInArgs, _.bind(authClient.signIn, authClient));
+        primaryAuthPromise = this.doTransaction(function (transaction) {
+          return this.doPrimaryAuth(authClient, signInArgs, transaction.authenticate);
         });
       }
+    } else {
+      //normal username/password flow without stateToken
+      primaryAuthPromise = this.startTransaction(function (authClient) {
+        return this.doPrimaryAuth(authClient, signInArgs, _.bind(authClient.signIn, authClient));
+      });
+    }
 
-      return primaryAuthPromise
-        .catch(_.bind(function () {
-          // Specific event handled by the Header for the case where the security image is not
-          // enabled and we want to show a spinner. (Triggered only here and handled only by Header).
-          this.appState.trigger('removeLoading');
-          CookieUtil.removeUsernameCookie();
-        }, this))
-        .finally(_.bind(function () {
-          this.appState.trigger('loading', false);
-        }, this));
-    },
+    return primaryAuthPromise
+      .catch(() => {
+        // Specific event handled by the Header for the case where the security image is not
+        // enabled and we want to show a spinner. (Triggered only here and handled only by Header).
+        this.appState.trigger('removeLoading');
+        CookieUtil.removeUsernameCookie();
+      })
+      .finally(() => {
+        this.appState.trigger('loading', false);
+      });
+  },
 
-    getSignInArgs: function (username) {
-      var multiOptionalFactorEnroll = this.get('multiOptionalFactorEnroll');
-      var signInArgs = {};
+  getSignInArgs: function (username) {
+    const multiOptionalFactorEnroll = this.get('multiOptionalFactorEnroll');
+    const signInArgs = {};
 
-      if (!this.settings.get('features.passwordlessAuth')) {
-        signInArgs.password = this.get('password');
+    if (!this.settings.get('features.passwordlessAuth')) {
+      signInArgs.password = this.get('password');
+    }
+
+    // if its an idx stateToken, we send the parameter as identifier to login API
+    if (this.appState.get('isIdxStateToken')) {
+      signInArgs.identifier = username;
+    } else {
+      //only post options param for non-idx flows
+      signInArgs.username = username;
+      signInArgs.options = {
+        warnBeforePasswordExpired: true,
+        multiOptionalFactorEnroll: multiOptionalFactorEnroll,
+      };
+    }
+    return signInArgs;
+  },
+
+  setUsernameCookie: function (username, remember, lastUsername) {
+    // Do not modify the cookie when feature is disabled, relevant for SAML ForceAuthn prompts
+    if (this.settings.get('features.rememberMe')) {
+      // Only delete the cookie if its owner says so. This allows other
+      // users to log in on a one-off basis.
+      if (!remember && lastUsername === username) {
+        CookieUtil.removeUsernameCookie();
+      } else if (remember) {
+        CookieUtil.setUsernameCookie(username);
       }
+    }
+  },
 
-      // if its an idx stateToken, we send the parameter as identifier to login API
-      if (this.appState.get('isIdxStateToken')) {
-        signInArgs.identifier = username;
-      } else {
-        //only post options param for non-idx flows
-        signInArgs.username  = username;
-        signInArgs.options = {
-          warnBeforePasswordExpired: true,
-          multiOptionalFactorEnroll: multiOptionalFactorEnroll
-        };
-      }
-      return signInArgs;
-    },
+  doPrimaryAuth: function (authClient, signInArgs, func) {
+    const deviceFingerprintEnabled = this.settings.get('features.deviceFingerprinting');
+    const typingPatternEnabled = this.settings.get('features.trackTypingPattern');
 
-    setUsernameCookie: function (username, remember, lastUsername) {
-      // Do not modify the cookie when feature is disabled, relevant for SAML ForceAuthn prompts
-      if (this.settings.get('features.rememberMe')) {
-        // Only delete the cookie if its owner says so. This allows other
-        // users to log in on a one-off basis.
-        if (!remember && lastUsername === username) {
-          CookieUtil.removeUsernameCookie();
-        }
-        else if (remember) {
-          CookieUtil.setUsernameCookie(username);
-        }
-      }
-    },
+    // Add the custom header for fingerprint, typing pattern if needed, and then remove it afterwards
+    // Since we only need to send it for primary auth
+    if (deviceFingerprintEnabled) {
+      authClient.options.headers['X-Device-Fingerprint'] = this.appState.get('deviceFingerprint');
+    }
+    if (typingPatternEnabled) {
+      authClient.options.headers['X-Typing-Pattern'] = this.appState.get('typingPattern');
+    }
+    const self = this;
 
-    doPrimaryAuth: function (authClient, signInArgs, func) {
-      var deviceFingerprintEnabled = this.settings.get('features.deviceFingerprinting'),
-          typingPatternEnabled = this.settings.get('features.trackTypingPattern');
-
-      // Add the custom header for fingerprint, typing pattern if needed, and then remove it afterwards
-      // Since we only need to send it for primary auth
+    return func(signInArgs).finally(function () {
       if (deviceFingerprintEnabled) {
-        authClient.options.headers['X-Device-Fingerprint'] = this.appState.get('deviceFingerprint');
+        delete authClient.options.headers['X-Device-Fingerprint'];
+        self.appState.unset('deviceFingerprint'); //Fingerprint can only be used once
       }
       if (typingPatternEnabled) {
-        authClient.options.headers['X-Typing-Pattern'] = this.appState.get('typingPattern');
+        delete authClient.options.headers['X-Typing-Pattern'];
+        self.appState.unset('typingPattern');
       }
-      var self = this;
-      return func(signInArgs)
-        .finally(function () {
-          if (deviceFingerprintEnabled) {
-            delete authClient.options.headers['X-Device-Fingerprint'];
-            self.appState.unset('deviceFingerprint'); //Fingerprint can only be used once
-          }
-          if (typingPatternEnabled) {
-            delete authClient.options.headers['X-Typing-Pattern'];
-            self.appState.unset('typingPattern');
-          }
-        });
-    }
-  });
-
+    });
+  },
 });

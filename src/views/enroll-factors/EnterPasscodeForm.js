@@ -10,48 +10,42 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'util/FactorUtil',
-  'util/FormType',
-  'util/Util',
-  'views/shared/TextBox'
-], function (Okta, FactorUtil, FormType, Util, TextBox) {
+import { _, loc } from 'okta';
+import FactorUtil from 'util/FactorUtil';
+import FormType from 'util/FormType';
+import Util from 'util/Util';
+import TextBox from 'views/shared/TextBox';
+const form = {
+  title: function () {
+    const factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
 
-  var _ = Okta._;
+    return loc('enroll.totp.title', 'login', [factorName]);
+  },
+  subtitle: _.partial(loc, 'enroll.totp.enterCode', 'login'),
+  autoSave: true,
+  noButtonBar: true,
+  attributes: { 'data-se': 'step-sendcode' },
 
-  var form = {
-    title: function () {
-      var factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
-      return Okta.loc('enroll.totp.title', 'login', [factorName]);
-    },
-    subtitle: _.partial(Okta.loc, 'enroll.totp.enterCode', 'login'),
-    autoSave: true,
-    noButtonBar: true,
-    attributes: { 'data-se': 'step-sendcode' },
-
-    formChildren: function () {
-      return [
-        FormType.Input({
-          label: Okta.loc('mfa.challenge.enterCode.placeholder', 'login'),
-          'label-top': true,
-          explain: Util.createInputExplain(
-            'mfa.challenge.enterCode.tooltip',
-            'mfa.challenge.enterCode.placeholder',
-            'login'),
-          'explain-top': true,
-          name: 'passCode',
-          input: TextBox,
-          type: 'tel'
-        }),
-
-        FormType.Toolbar({
-          noCancelButton: true,
-          save: Okta.loc('oform.verify', 'login') // TODO: deprecated by mfa.challenge.verify
-        })
-      ];
-    }
-  };
-
-  return form;
-});
+  formChildren: function () {
+    return [
+      FormType.Input({
+        label: loc('mfa.challenge.enterCode.placeholder', 'login'),
+        'label-top': true,
+        explain: Util.createInputExplain(
+          'mfa.challenge.enterCode.tooltip',
+          'mfa.challenge.enterCode.placeholder',
+          'login'
+        ),
+        'explain-top': true,
+        name: 'passCode',
+        input: TextBox,
+        type: 'tel',
+      }),
+      FormType.Toolbar({
+        noCancelButton: true,
+        save: loc('oform.verify', 'login'), // TODO: deprecated by mfa.challenge.verify
+      }),
+    ];
+  },
+};
+export default form;

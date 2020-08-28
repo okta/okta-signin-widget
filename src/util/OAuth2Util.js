@@ -10,151 +10,134 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(['okta', './Enums', './Errors', './Util'], function (Okta, Enums, Errors, Util) {
+import { _, loc } from 'okta';
+import Enums from './Enums';
+import Errors from './Errors';
+import Util from './Util';
+const util = {};
 
-  var util = {};
-  var _ = Okta._;
+function hasResponseType (params, type) {
+  if (_.isArray(params.responseType)) {
+    return _.contains(params.responseType, type);
+  } else {
+    return type === params.responseType;
+  }
+}
 
-  function hasResponseType (params, type) {
-    if (_.isArray(params.responseType)) {
-      return _.contains(params.responseType, type);
-    }
-    else {
-      return type === params.responseType;
-    }
+/**
+ * Get the tokens in the OIDC/OAUTH flows
+ *
+ * @param settings - settings model object
+ * @param params - {idp: 'xxx'} for social auth
+ *                 {sessionToken: 'xxx'} for okta idp
+ */
+util.getTokens = function (settings, params, controller) {
+  function success (result) {
+    settings.callGlobalSuccess(Enums.SUCCESS, result);
   }
 
-  /**
-   * Get the tokens in the OIDC/OAUTH flows
-   *
-   * @param settings - settings model object
-   * @param params - {idp: 'xxx'} for social auth
-   *                 {sessionToken: 'xxx'} for okta idp
-   */
-  util.getTokens = function (settings, params, controller) {
-
-    function success (result) {
-      settings.callGlobalSuccess(Enums.SUCCESS, result);
+  function error (error) {
+    // OKTA-104330- Handle error case where user is not assigned to OIDC client
+    if (error.errorCode === 'access_denied') {
+      controller.model.trigger('error', controller.model, { responseJSON: error });
+      controller.model.appState.trigger('removeLoading');
     }
+    Util.triggerAfterError(controller, new Errors.OAuthError(error.message), settings);
+  }
 
-    function error (error) {
-      // OKTA-104330- Handle error case where user is not assigned to OIDC client
-      if (error.errorCode === 'access_denied') {
-        controller.model.trigger('error', controller.model, {'responseJSON': error});
-        controller.model.appState.trigger('removeLoading');
-      }
-      Util.triggerAfterError(controller, new Errors.OAuthError(error.message), settings);
-    }
+  const authClient = settings.getAuthClient();
+  const options = settings.toJSON({ verbose: true });
+  const getTokenOptions = {};
 
-    var authClient = settings.getAuthClient(),
-        options = settings.toJSON({ verbose: true }),
-        getTokenOptions = {};
+  _.extend(
+    getTokenOptions,
+    _.pick(options, 'clientId', 'redirectUri'),
+    _.pick(options.authParams, 'pkce', 'responseType', 'responseMode', 'display', 'scopes', 'state', 'nonce'),
+    params
+  );
 
-    _.extend(
-      getTokenOptions,
-      _.pick(options, 'clientId', 'redirectUri'),
-      _.pick(options.authParams,
-        'pkce',
-        'responseType', 'responseMode',
-        'display', 'scopes', 'state', 'nonce'),
-      params
-    );
+  // Extra Options for Social Idp popup window title and id_token response timeout
+  getTokenOptions.popupTitle = loc('socialauth.popup.title', 'login');
+  getTokenOptions.timeout = options.oAuthTimeout;
 
-    // Extra Options for Social Idp popup window title and id_token response timeout
-    getTokenOptions.popupTitle = Okta.loc('socialauth.popup.title', 'login');
-    getTokenOptions.timeout = options.oAuthTimeout;
+  _.extend(getTokenOptions, _.pick(options.authParams, 'issuer', 'authorizeUrl'));
 
-    _.extend(
-      getTokenOptions,
-      _.pick(options.authParams, 'issuer', 'authorizeUrl')
-    );
-
-    // Redirect flow - this can be used when logging into an external IDP, or
-    // converting the Okta sessionToken to an access_token, id_token, and/or
-    // authorization code. Note: The authorization code flow will always redirect.
-    if (getTokenOptions.display === 'page' || hasResponseType(getTokenOptions, 'code')) {
-      authClient.token.getWithRedirect(getTokenOptions)
-        .catch(error);
-    }
-
+  // Redirect flow - this can be used when logging into an external IDP, or
+  // converting the Okta sessionToken to an access_token, id_token, and/or
+  // authorization code. Note: The authorization code flow will always redirect.
+  if (getTokenOptions.display === 'page' || hasResponseType(getTokenOptions, 'code')) {
+    authClient.token.getWithRedirect(getTokenOptions).catch(error);
+  } else if (getTokenOptions.sessionToken) {
     // Default flow if logging in with Okta as the IDP - convert sessionToken to
     // tokens in a hidden iframe. Used in Single Page Apps where the app does
     // not want to redirect away from the page to convert the token.
-    else if (getTokenOptions.sessionToken) {
-      authClient.token.getWithoutPrompt(getTokenOptions)
-        .then(success)
-        .catch(error);
-    }
-
+    authClient.token.getWithoutPrompt(getTokenOptions).then(success).catch(error);
+  } else {
     // Default flow if logging in with an external IDP - opens a popup and
     // gets the token from a postMessage response.
-    else {
-      authClient.token.getWithPopup(getTokenOptions)
-        .then(success)
-        .catch(error);
-    }
+    authClient.token.getWithPopup(getTokenOptions).then(success).catch(error);
+  }
+};
+
+// Parse through the OAuth 'authParams' object to ensure the 'openid' scope is
+// included (if required)
+util.addOrRemoveOpenIdScope = function (authParams) {
+  if (!authParams.responseType) {
+    return;
+  }
+
+  //  Convert scope into an Array
+  const scope = Array.isArray(authParams.scopes) ? authParams.scopes : authParams.scopes.split(' ');
+
+  // Remove the 'openid' scope, as it is only required if an 'id_token' is requested
+  if (scope.includes('openid')) {
+    scope.splice(scope.indexOf('openid'), 1);
+  }
+
+  // Add the 'openid' scope
+  if (authParams.responseType.includes('id_token')) {
+    scope.push('openid');
+  }
+
+  return scope;
+};
+
+// Utility handlers for mapping convenience keys to OAuth params
+util.getResponseType = function (options) {
+  const responseType = [];
+
+  if (options.getIdToken !== false) {
+    responseType.push('id_token');
+  }
+
+  if (options.getAccessToken !== false) {
+    responseType.push('token');
+  }
+
+  return responseType;
+};
+
+util.transformShowSignInToGetTokensOptions = function (options, config = {}) {
+  // Override specific OAuth/OIDC values
+  if (!options.clientId && !config.clientId) {
+    throw new Errors.ConfigError('showSignInToGetTokens() requires a "clientId" property.');
+  }
+
+  const renderOptions = {
+    clientId: options.clientId,
+    redirectUri: options.redirectUri,
+    authParams: {
+      display: 'page',
+      responseType: util.getResponseType(options),
+      scopes: options.scope || (config.authParams && config.authParams.scopes) || ['openid', 'email'],
+    },
   };
 
-  // Parse through the OAuth 'authParams' object to ensure the 'openid' scope is
-  // included (if required)
-  util.addOrRemoveOpenIdScope = function (authParams) {
-    if (!authParams.responseType) {
-      return;
-    }
+  // Ensure the 'openid' scope is provided when an 'id_token' is requested.
+  // If the 'openid' scope is present and isn't needed, remove it.
+  renderOptions.authParams.scopes = util.addOrRemoveOpenIdScope(renderOptions.authParams);
 
-    //  Convert scope into an Array
-    var scope = Array.isArray(authParams.scopes) ? authParams.scopes : authParams.scopes.split(' ');
+  return renderOptions;
+};
 
-    // Remove the 'openid' scope, as it is only required if an 'id_token' is requested
-    if (scope.includes('openid')) {
-      scope.splice(scope.indexOf('openid'), 1);
-    }
-
-    // Add the 'openid' scope
-    if (authParams.responseType.includes('id_token')) {
-      scope.push('openid');
-    }
-
-    return scope;
-  };
-
-  // Utility handlers for mapping convenience keys to OAuth params
-  util.getResponseType = function (options) {
-    var responseType = [];
-    if (options.getIdToken !== false) {
-      responseType.push('id_token');
-    }
-
-    if (options.getAccessToken !== false) {
-      responseType.push('token');
-    }
-
-    return responseType;
-  };
-
-  util.transformShowSignInToGetTokensOptions = function (options, config = {}) {
-    // Override specific OAuth/OIDC values
-    if (!options.clientId && !config.clientId) {
-      throw new Errors.ConfigError('showSignInToGetTokens() requires a "clientId" property.');
-    }
-
-    var renderOptions = {
-      clientId: options.clientId,
-      redirectUri: options.redirectUri,
-      authParams: {
-        display: 'page',
-        responseType: util.getResponseType(options),
-        scopes: options.scope || (config.authParams && config.authParams.scopes) || ['openid', 'email']
-      }
-    };
-
-    // Ensure the 'openid' scope is provided when an 'id_token' is requested.
-    // If the 'openid' scope is present and isn't needed, remove it.
-    renderOptions.authParams.scopes = util.addOrRemoveOpenIdScope(renderOptions.authParams);
-
-    return renderOptions;
-  };
-
-  return util;
-
-});
+export default util;

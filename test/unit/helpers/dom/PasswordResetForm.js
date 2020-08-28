@@ -1,53 +1,50 @@
-define(['./Form'], function (Form) {
+import Form from './Form';
+const NEW_PASSWORD_FIELD = 'newPassword';
+const CONFIRM_PASSWORD_FIELD = 'confirmPassword';
+export default Form.extend({
+  passwordRequirementsHtmlList: function () {
+    return this.el('password-requirements-html');
+  },
 
-  var NEW_PASSWORD_FIELD = 'newPassword';
-  var CONFIRM_PASSWORD_FIELD = 'confirmPassword';
+  passwordRequirementsHtmlHeader: function () {
+    return this.passwordRequirementsHtmlList().find('.password-requirements--header');
+  },
 
-  return Form.extend({
-    passwordRequirementsHtmlList: function () {
-      return this.el('password-requirements-html');
-    },
+  passwordRequirementsHtmlListItems: function () {
+    return this.passwordRequirementsHtmlList().find('.password-requirements--list-item');
+  },
 
-    passwordRequirementsHtmlHeader: function () {
-      return this.passwordRequirementsHtmlList().find('.password-requirements--header');
-    },
+  newPasswordField: function () {
+    return this.input(NEW_PASSWORD_FIELD);
+  },
 
-    passwordRequirementsHtmlListItems: function () {
-      return this.passwordRequirementsHtmlList().find('.password-requirements--list-item');
-    },
+  confirmPasswordField: function () {
+    return this.input(CONFIRM_PASSWORD_FIELD);
+  },
 
-    newPasswordField: function () {
-      return this.input(NEW_PASSWORD_FIELD);
-    },
+  setNewPassword: function (val) {
+    const field = this.newPasswordField();
 
-    confirmPasswordField: function () {
-      return this.input(CONFIRM_PASSWORD_FIELD);
-    },
+    field.val(val);
+    field.trigger('change');
+  },
 
-    setNewPassword: function (val) {
-      var field = this.newPasswordField();
-      field.val(val);
-      field.trigger('change');
-    },
+  setConfirmPassword: function (val) {
+    const field = this.confirmPasswordField();
 
-    setConfirmPassword: function (val) {
-      var field = this.confirmPasswordField();
-      field.val(val);
-      field.trigger('change');
-    },
+    field.val(val);
+    field.trigger('change');
+  },
 
-    newPassFieldError: function () {
-      return this.error(NEW_PASSWORD_FIELD);
-    },
+  newPassFieldError: function () {
+    return this.error(NEW_PASSWORD_FIELD);
+  },
 
-    confirmPassFieldError: function () {
-      return this.error(CONFIRM_PASSWORD_FIELD);
-    },
+  confirmPassFieldError: function () {
+    return this.error(CONFIRM_PASSWORD_FIELD);
+  },
 
-    signoutLink: function () {
-      return this.el('signout-link');
-    }
-
-  });
-
+  signoutLink: function () {
+    return this.el('signout-link');
+  },
 });

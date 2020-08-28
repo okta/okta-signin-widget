@@ -10,65 +10,57 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'util/FormController',
-  'util/FormType',
-  'views/expired-password/Footer'
-],
-function (Okta, FormController, FormType, Footer) {
+import { _, loc, internal } from 'okta';
+import FormController from 'util/FormController';
+import FormType from 'util/FormType';
+import Footer from 'views/expired-password/Footer';
+const { Util } = internal.util;
+export default FormController.extend({
+  className: 'custom-password-expired',
+  Model: {},
+  Form: {
+    noButtonBar: true,
+    title: function () {
+      const expiringSoon = this.options.appState.get('isPwdExpiringSoon');
+      const numDays = this.options.appState.get('passwordExpireDays');
 
-  var _ = Okta._;
-  var { Util } = Okta.internal.util;
-
-  return FormController.extend({
-    className: 'custom-password-expired',
-    Model: {},
-    Form: {
-      noButtonBar: true,
-      title: function () {
-        var expiringSoon = this.options.appState.get('isPwdExpiringSoon'),
-            numDays = this.options.appState.get('passwordExpireDays');
-        if (expiringSoon && numDays > 0) {
-          return Okta.loc('password.expiring.title', 'login', [numDays]);
-        }
-        else if (expiringSoon && numDays === 0) {
-          return Okta.loc('password.expiring.today', 'login');
-        }
-        else if (expiringSoon) {
-          return Okta.loc('password.expiring.soon', 'login');
-        }
-        else {
-          return this.settings.get('brandName') ?
-            Okta.loc('password.expired.title.specific', 'login', [this.settings.get('brandName')]) :
-            Okta.loc('password.expired.title.generic', 'login');
-        }
-      },
-      subtitle: function () {
-        if (this.options.appState.get('isPwdExpiringSoon')) {
-          var subtitle = this.settings.get('brandName') ?
-            Okta.loc('password.expiring.subtitle.specific', 'login', [this.settings.get('brandName')]) :
-            Okta.loc('password.expiring.subtitle.generic', 'login');
-          return subtitle + ' ' + Okta.loc('password.expired.custom.subtitle', 'login');
-        }
-
-        return Okta.loc('password.expired.custom.subtitle', 'login');
-      },
-      formChildren: function () {
-        return [
-          FormType.Button({
-            title: _.partial(Okta.loc, 'password.expired.custom.submit', 'login',
-              [this.options.appState.get('passwordExpiredWebsiteName')]),
-            className: 'button button-primary button-wide',
-            attributes: {'data-se': 'custom-button'},
-            click: function () {
-              Util.redirect(this.options.appState.get('passwordExpiredLinkUrl'));
-            }
-          })
-        ];
+      if (expiringSoon && numDays > 0) {
+        return loc('password.expiring.title', 'login', [numDays]);
+      } else if (expiringSoon && numDays === 0) {
+        return loc('password.expiring.today', 'login');
+      } else if (expiringSoon) {
+        return loc('password.expiring.soon', 'login');
+      } else {
+        return this.settings.get('brandName')
+          ? loc('password.expired.title.specific', 'login', [this.settings.get('brandName')])
+          : loc('password.expired.title.generic', 'login');
       }
     },
-    Footer: Footer
-  });
+    subtitle: function () {
+      if (this.options.appState.get('isPwdExpiringSoon')) {
+        const subtitle = this.settings.get('brandName')
+          ? loc('password.expiring.subtitle.specific', 'login', [this.settings.get('brandName')])
+          : loc('password.expiring.subtitle.generic', 'login');
 
+        return subtitle + ' ' + loc('password.expired.custom.subtitle', 'login');
+      }
+
+      return loc('password.expired.custom.subtitle', 'login');
+    },
+    formChildren: function () {
+      return [
+        FormType.Button({
+          title: _.partial(loc, 'password.expired.custom.submit', 'login', [
+            this.options.appState.get('passwordExpiredWebsiteName'),
+          ]),
+          className: 'button button-primary button-wide',
+          attributes: { 'data-se': 'custom-button' },
+          click: function () {
+            Util.redirect(this.options.appState.get('passwordExpiredLinkUrl'));
+          },
+        }),
+      ];
+    },
+  },
+  Footer: Footer,
 });

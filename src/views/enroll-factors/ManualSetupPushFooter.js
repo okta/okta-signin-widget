@@ -10,66 +10,71 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { _, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
+import RouterUtil from 'util/RouterUtil';
 
-define(['okta', 'util/RouterUtil'], function (Okta, RouterUtil) {
+function goToFactorActivation (appState) {
+  const url = RouterUtil.createActivateFactorUrl(
+    appState.get('activatedFactorProvider'),
+    appState.get('activatedFactorType')
+  );
 
-  var _ = Okta._;
+  appState.trigger('navigate', url);
+}
 
-  function goToFactorActivation (appState) {
-    var url = RouterUtil.createActivateFactorUrl(appState.get('activatedFactorProvider'),
-      appState.get('activatedFactorType'));
-    appState.trigger('navigate', url);
-  }
-
-  return Okta.View.extend({
-    template: hbs('\
+export default View.extend({
+  template: hbs(
+    '\
       <a href="#" class="link help js-back" data-se="back-link">\
         {{i18n code="mfa.backToFactors" bundle="login"}}\
       </a>\
       <a href="#" class="link help goto js-goto" data-se="goto-link">\
         {{i18n code="mfa.scanBarcode" bundle="login"}}\
       </a>\
-    '),
-    className: 'auth-footer',
-    events: {
-      'click .js-back' : function (e) {
-        e.preventDefault();
-        this.back();
-      },
-      'click .js-goto' : function (e) {
-        e.preventDefault();
-        var goToFactor = _.partial(goToFactorActivation, this.options.appState);
-        this.options.appState.unset('factorActivationType');
-        this.model.doTransaction(function (transaction) {
-          return transaction.prev()
-            .then(function (trans) {
-              var factor = _.findWhere(trans.factors, {
-                factorType: 'push',
-                provider: 'OKTA'
-              });
-              return factor.enroll();
-            });
-        })
-          .then(goToFactor);
-      }
+    '
+  ),
+  className: 'auth-footer',
+  events: {
+    'click .js-back': function (e) {
+      e.preventDefault();
+      this.back();
     },
-    back: function () {
-      var self = this;
-      self.options.appState.unset('factorActivationType');
-      if (self.options.appState.get('prevLink')) {
-        this.model.doTransaction(function (transaction) {
+    'click .js-goto': function (e) {
+      e.preventDefault();
+
+      const goToFactor = _.partial(goToFactorActivation, this.options.appState);
+
+      this.options.appState.unset('factorActivationType');
+      this.model
+        .doTransaction(function (transaction) {
+          return transaction.prev().then(function (trans) {
+            const factor = _.findWhere(trans.factors, {
+              factorType: 'push',
+              provider: 'OKTA',
+            });
+
+            return factor.enroll();
+          });
+        })
+        .then(goToFactor);
+    },
+  },
+  back: function () {
+    const self = this;
+
+    self.options.appState.unset('factorActivationType');
+    if (self.options.appState.get('prevLink')) {
+      this.model
+        .doTransaction(function (transaction) {
           return transaction.prev();
         })
-          .then(function () {
+        .then(function () {
           // we trap 'MFA_ENROLL' response that's why we need to trigger navigation from here
-            self.options.appState.trigger('navigate', 'signin/enroll');
-          });
-      }
-      else {
-        self.options.appState.trigger('navigate', 'signin/enroll');
-      }
+          self.options.appState.trigger('navigate', 'signin/enroll');
+        });
+    } else {
+      self.options.appState.trigger('navigate', 'signin/enroll');
     }
-  });
-
+  },
 });

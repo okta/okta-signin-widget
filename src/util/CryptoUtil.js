@@ -12,54 +12,51 @@
 
 /* global Uint8Array */
 
-define(function () {
-  var fn = {};
+const fn = {};
 
-  /**
-   * Light weight hashing algorithm that hashes string into an integer between 0 and 4294967295
-   * Not recommended for data set of size greater than 10000
-   * https://www.npmjs.com/package/string-hash
-   *
-   * @param str the string to be hashed
-   * @returns string hash of integer type
-   */
-  fn.getStringHash = function (str) {
-    var hash = 5381,
-        i = str.length;
-    while(i) {
-      hash = (hash * 33) ^ str.charCodeAt(--i);
-    }
-    return hash >>> 0;
-  };
+/**
+ * Light weight hashing algorithm that hashes string into an integer between 0 and 4294967295
+ * Not recommended for data set of size greater than 10000
+ * https://www.npmjs.com/package/string-hash
+ *
+ * @param str the string to be hashed
+ * @returns string hash of integer type
+ */
+fn.getStringHash = function (str) {
+  let hash = 5381;
+  let i = str.length;
 
-  /**
-   * Converts any url safe characters in a base64 string to regular base64 characters
-   * @param str base64 string that might contain url safe characters
-   * @returns base64 formatted string
-   */
-  fn.base64UrlSafeToBase64 = function (str) {
-    return str.replace(new RegExp('_', 'g'), '/').replace(new RegExp('-', 'g'), '+');
-  };
+  while (i) {
+    hash = (hash * 33) ^ str.charCodeAt(--i);
+  }
+  return hash >>> 0;
+};
 
-  /**
-   * Converts an ArrayBuffer object that contains binary data to base64 encoded string
-   * @param bin ArrayBuffer object
-   * @returns base64 encoded string
-   */
-  fn.binToStr = function (bin) {
-    return btoa(new Uint8Array(bin).reduce(
-      (s, byte) => s + String.fromCharCode(byte), ''
-    ));
-  };
+/**
+ * Converts any url safe characters in a base64 string to regular base64 characters
+ * @param str base64 string that might contain url safe characters
+ * @returns base64 formatted string
+ */
+fn.base64UrlSafeToBase64 = function (str) {
+  return str.replace(new RegExp('_', 'g'), '/').replace(new RegExp('-', 'g'), '+');
+};
 
-  /**
-   * Converts base64 string to binary data view
-   * @param str in base64 or base64UrlSafe format
-   * @returns converted Uint8Array view of binary data
-   */
-  fn.strToBin = function (str) {
-    return Uint8Array.from(atob(this.base64UrlSafeToBase64(str)), c => c.charCodeAt(0));
-  };
+/**
+ * Converts an ArrayBuffer object that contains binary data to base64 encoded string
+ * @param bin ArrayBuffer object
+ * @returns base64 encoded string
+ */
+fn.binToStr = function (bin) {
+  return btoa(new Uint8Array(bin).reduce((s, byte) => s + String.fromCharCode(byte), ''));
+};
 
-  return fn;
-});
+/**
+ * Converts base64 string to binary data view
+ * @param str in base64 or base64UrlSafe format
+ * @returns converted Uint8Array view of binary data
+ */
+fn.strToBin = function (str) {
+  return Uint8Array.from(atob(this.base64UrlSafeToBase64(str)), c => c.charCodeAt(0));
+};
+
+export default fn;
