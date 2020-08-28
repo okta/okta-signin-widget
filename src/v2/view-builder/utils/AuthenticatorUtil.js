@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { loc, _ } from 'okta';
-export { getPasswordComplexityDescriptionForHtmlList } from '../../../util/FactorUtil';
+export { getPasswordComplexityDescriptionForHtmlList, removeRequirementsFromError } from '../../../util/FactorUtil';
 
 /* eslint complexity: [2, 19] */
 const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {

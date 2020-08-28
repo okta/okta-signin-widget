@@ -347,12 +347,18 @@ function (Okta, TimeUtil) {
   };
 
   fn.removeRequirementsFromError = function (responseJSON, policy) {
-    var passwordRequirementsAsString = this.getPasswordComplexityDescription(policy);
+    var passwordRequirementsAsString = fn.getPasswordComplexityDescription(policy);
     if (responseJSON.errorCauses
-        && responseJSON.errorCauses.length > 0
-        && _.isString(responseJSON.errorCauses[0].errorSummary)) {
-      responseJSON.errorCauses[0].errorSummary = responseJSON.errorCauses[0].errorSummary
+        && responseJSON.errorCauses.length > 0) {
+      if (_.isString(responseJSON.errorCauses[0].errorSummary)) {
+        responseJSON.errorCauses[0].errorSummary = responseJSON.errorCauses[0].errorSummary
         .replace(passwordRequirementsAsString, '').trim();
+      }
+      // OIE type response
+      if (Array.isArray(responseJSON.errorCauses[0].errorSummary) && responseJSON.errorCauses[0].errorSummary.length) {
+        responseJSON.errorCauses[0].errorSummary = responseJSON.errorCauses[0].errorSummary[0]
+          .replace(`[${passwordRequirementsAsString}]`, '').trim();
+      }
     }
     return responseJSON;
   };
