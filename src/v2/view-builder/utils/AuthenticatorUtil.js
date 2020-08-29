@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { loc, _ } from 'okta';
-export { getPasswordComplexityDescriptionForHtmlList, removeRequirementsFromError } from '../../../util/FactorUtil';
+export { getPasswordComplexityDescriptionForHtmlList } from '../../../util/FactorUtil';
+import { getPasswordComplexityDescription } from '../../../util/FactorUtil';
 
 /* eslint complexity: [2, 19] */
 const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
@@ -96,4 +97,15 @@ export function getAuthenticatorDataForVerification (authenticator) {
 
 export function getIconClassNameForBeacon (authenticatorType) {
   return getAuthenticatorData({ authenticatorType }).iconClassName;
+}
+
+export function removeRequirementsFromError (responseJSON, policy) {
+  const passwordRequirementsAsString = getPasswordComplexityDescription(policy);
+  if (responseJSON.errorCauses?.length > 0
+    && Array.isArray(responseJSON.errorCauses[0].errorSummary)
+    && responseJSON.errorCauses[0].errorSummary.length > 0) {
+    responseJSON.errorCauses[0].errorSummary = responseJSON.errorCauses[0].errorSummary[0]
+      .replace(`[${passwordRequirementsAsString}]`, '').trim();
+  }
+  return responseJSON;
 }
