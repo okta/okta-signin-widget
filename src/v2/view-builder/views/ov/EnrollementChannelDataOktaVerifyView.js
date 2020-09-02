@@ -4,6 +4,7 @@ import BaseView from '../../internals/BaseView';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
 import CountryUtil from '../../../../util/CountryUtil';
+import SwitchEnrollChannelLinkView from './SwitchEnrollChannelLinkView';
 
 const Body = BaseForm.extend({
   className: 'oie-enroll-ov-data',
@@ -53,8 +54,8 @@ const Body = BaseForm.extend({
 
     const description = {
       View: this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'email' ?
-        loc('oie.enroll.okta_verify.select.channel.email.description', 'login'):
-        loc('oie.enroll.okta_verify.select.channel.sms.description', 'login'),
+        loc('oie.enroll.okta_verify.channel.email.description', 'login'):
+        loc('oie.enroll.okta_verify.channel.sms.description', 'login'),
       selector: '.o-form-fieldset-container',
     };
 
@@ -119,5 +120,8 @@ export default BaseAuthenticatorView.extend({
         return modelJSON;
       },
     });
+  },
+  postRender () {
+    this.add(SwitchEnrollChannelLinkView, 'form');
   },
 });

@@ -150,6 +150,9 @@ test.requestHooks(enrollViaEmailMocks)('should be able enroll via email', async 
   await switchChannelPageObject.clickNextButton();
   const enrollViaEmailPageObject = new EnrollOVViaEmailPageObject(t);
   await t.expect(enrollViaEmailPageObject.getFormTitle()).eql('Set up Okta Verify via email link');
+  const enrollViaSMSPageObject = new EnrollOVViaSMSPageObject(t);
+  await t.expect(enrollViaSMSPageObject.hasCountryField()).notOk();
+  await t.expect(enrollViaEmailPageObject.hasSwitchChannelText).ok();
   await enrollViaEmailPageObject.fillEmailField('test@gmail.com');
   await enrollViaEmailPageObject.clickNextButton();
   await t.expect(enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(false);
@@ -184,6 +187,7 @@ test.requestHooks(logger, enrollViaSmsMocks)('should be able enroll via sms', as
   await switchChannelPageObject.clickNextButton();
   const enrollViaSMSPageObject = new EnrollOVViaSMSPageObject(t);
   await t.expect(enrollViaSMSPageObject.getFormTitle()).eql('Set up Okta Verify via SMS');
+  await t.expect(enrollViaSMSPageObject.hasSwitchChannelText).ok();
   await t.expect(enrollViaSMSPageObject.hasCountryField()).ok();
   await t.expect(enrollViaSMSPageObject.getCountryLabel()).eql('+1');
   await enrollViaSMSPageObject.fillPhoneField('8887227871');

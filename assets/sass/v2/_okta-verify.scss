@@ -34,4 +34,11 @@
     // Padding top to align with phone number input text
     padding: 0.125rem 0 0;
   }
+  .switch-channel-text {
+    margin: -15px 0 20px;
+  }
+
+  .switch-channel-link {
+    color: $link-text-color;
+  }
 }

@@ -48,27 +48,30 @@
                   "form":{
                       "value":[
                         {
-                            "name":"id",
-                            "value":"aidtheidkwh282hv8g3",
-                            "required":true,
-                            "mutable":false,
-                            "visible":false
+                          "name":"id",
+                          "value":"aidtheidkwh282hv8g3",
+                          "required":true,
+                          "mutable":false,
+                          "visible":false
                         },
                         {
-                            "name":"channel",
-                            "required":true,
-                            "visible":false,
-                            "mutable":false,
-                            "options":[
-                              {
-                                  "value":"qrcode",
-                                  "label":"QRCODE"
-                              },
-                              {
-                                  "value":"sms",
-                                  "label":"SMS"
-                              }
-                            ]
+                          "name":"channel",
+                          "required":true,
+                          "visible": true,
+                          "options":[
+                            {
+                              "value":"qrcode",
+                              "label":"QRCODE"
+                            },
+                            {
+                              "value":"sms",
+                              "label":"SMS"
+                            },
+                            {
+                              "value":"email",
+                              "label":"Email"
+                            }
+                          ]
                         }
                       ]
                   }

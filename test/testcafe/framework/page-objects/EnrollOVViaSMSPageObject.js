@@ -3,6 +3,7 @@ import BasePageObject from './BasePageObject';
 const PHONE_FIELD = 'phoneNumber';
 const COUNTRY_FIELD = 'country';
 const COUNTRY_CODE_LABEL = '.country-code-label';
+const SWITCH_CHANNEL_TEXT = '.switch-channel-text';
 
 export default class EnrollOVViaEmailPageObject extends BasePageObject {
   constructor (t) {
@@ -23,5 +24,9 @@ export default class EnrollOVViaEmailPageObject extends BasePageObject {
 
   clickNextButton() {
     return this.form.clickSaveButton();
+  }
+
+  hasSwitchChannelText () {
+    return this.form.getElement(SWITCH_CHANNEL_TEXT).visible;
   }
 }
