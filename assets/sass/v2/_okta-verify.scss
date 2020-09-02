@@ -25,3 +25,13 @@
     color: $link-text-color;
   }
 }
+
+.oie-enroll-ov-data {
+  .country-code-label {
+    min-width: 3rem;
+    text-align: center;
+    vertical-align: middle;
+    // Padding top to align with phone number input text
+    padding: 0.125rem 0 0;
+  }
+}

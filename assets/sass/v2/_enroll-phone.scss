@@ -2,11 +2,6 @@
   .okta-form-subtitle {
     text-align: center;
   }
-  .chzn-container {
-    // TODO: Find a way around important
-    /* stylelint-disable declaration-no-important */
-    width: 100% !important;
-  }
   &__phone {
     &--small {
       display: inline-block;

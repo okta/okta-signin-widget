@@ -18,7 +18,7 @@
            "value":[
               {
                 "label": "Phone number",
-                "name": "phone",
+                "name": "phoneNumber",
                 "required":true,
                 "visible":true
               },

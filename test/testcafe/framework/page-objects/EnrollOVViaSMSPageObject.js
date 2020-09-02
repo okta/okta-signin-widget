@@ -1,14 +1,24 @@
 import BasePageObject from './BasePageObject';
 
-const PHONE_FIELD = 'phone';
+const PHONE_FIELD = 'phoneNumber';
+const COUNTRY_FIELD = 'country';
+const COUNTRY_CODE_LABEL = '.country-code-label';
 
 export default class EnrollOVViaEmailPageObject extends BasePageObject {
   constructor (t) {
     super(t);
   }
 
+  hasCountryField() {
+    return this.form.findFormFieldInput(COUNTRY_FIELD).visible;
+  }
+
   fillPhoneField(value) {
     return this.form.setTextBoxValue(PHONE_FIELD, value);
+  }
+
+  getCountryLabel() {
+    return this.form.getElement(COUNTRY_CODE_LABEL).innerText;
   }
 
   clickNextButton() {

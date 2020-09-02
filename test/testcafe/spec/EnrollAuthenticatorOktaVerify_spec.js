@@ -11,7 +11,10 @@ import xhrAuthenticatorEnrollOktaVerifyViaSMS from '../../../playground/mocks/da
 import xhrAuthenticatorEnrollOktaVerifySMS from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-sms';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
-const logger = RequestLogger(/poll/);
+const logger = RequestLogger(/introspect|poll|send|enroll/, {
+  logRequestBody: true,
+  stringifyRequestBody: true,
+});
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -172,7 +175,7 @@ test.requestHooks(resendEmailMocks)('after timeout should be able see and click 
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).eql(emailInstruction);
 });
 
-test.requestHooks(enrollViaSmsMocks)('should be able enroll via sms', async t => {
+test.requestHooks(logger, enrollViaSmsMocks)('should be able enroll via sms', async t => {
   const enrollOktaVerifyPage = await setup(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
@@ -181,8 +184,14 @@ test.requestHooks(enrollViaSmsMocks)('should be able enroll via sms', async t =>
   await switchChannelPageObject.clickNextButton();
   const enrollViaSMSPageObject = new EnrollOVViaSMSPageObject(t);
   await t.expect(enrollViaSMSPageObject.getFormTitle()).eql('Set up Okta Verify via SMS');
+  await t.expect(enrollViaSMSPageObject.hasCountryField()).ok();
+  await t.expect(enrollViaSMSPageObject.getCountryLabel()).eql('+1');
   await enrollViaSMSPageObject.fillPhoneField('8887227871');
   await enrollViaSMSPageObject.clickNextButton();
+  await t.expect(logger.count(() => true)).eql(3);
+  const { request: { body: answerRequestBodyString }} = logger.requests[2];
+  const answerRequestBody = JSON.parse(answerRequestBodyString);
+  await t.expect(answerRequestBody.phoneNumber).eql('+18887227871');
   await t.expect(enrollOktaVerifyPage.hasEnrollViaQRInstruction()).eql(false);
   await t.expect(enrollOktaVerifyPage.hasEnrollViaEmailInstruction()).eql(false);
   await t.expect(enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(true);
