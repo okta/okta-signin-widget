@@ -97,7 +97,32 @@ describe('Basic flows', function () {
     expect(primaryButton.getCssValue('background')).toContain(('rgb(0, 128, 0)')); // #008000 in rgb
   });
 
-  it('redircts to successful page when features.redirectByFormSubmit is on', function () {
+  it('has options.language and i18n.options set correctly', function () {
+    var el = element(by.css('#okta-sign-in'));
+    var signInTitle = element(by.css('[data-se="o-form-head"]'));
+
+    // Create a new widget and ensure language and i18n settings can be changed
+    browser.executeScript('oktaSignIn.remove()');
+    function createWidget () {
+      options.language = 'fr';
+      options.i18n = {
+        fr: {
+          'primaryauth.title': 'Connectez-vous à Acme',
+        }
+      };
+      // eslint-disable-next-line no-global-assign
+      oktaSignIn = new OktaSignIn(options);
+      oktaSignIn.renderEl({
+        el: '#okta-login-container'
+      }, function () {});
+    }
+    browser.executeScript(createWidget);
+
+    expect(el.isDisplayed()).toBe(true);
+    expect(signInTitle.getText()).toBe('Connectez-vous à Acme');
+  });
+
+  it('redirects to successful page when features.redirectByFormSubmit is on', function () {
     browser.executeScript('oktaSignIn.remove()');
     function createWidget () {
       options.features = {
