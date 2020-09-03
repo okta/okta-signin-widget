@@ -13,7 +13,7 @@ export default View.extend({
     {{/if}}`,
   getTemplateData () {
     return {
-      isQRcodeChannel: this.options.selectedChannel === 'qrcode',
+      isQRcodeChannel: this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'qrcode',
     };
   },
   postRender () {

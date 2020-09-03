@@ -156,7 +156,8 @@
                       },
                       {
                         "name": "channel",
-                        "required": false,
+                        "required": true,
+                        "visible": true,
                         "type": "string",
                         "options": [
                           {
