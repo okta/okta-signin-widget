@@ -1,4 +1,4 @@
-import { View } from 'okta';
+import { View, _ } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 
 export default View.extend({
@@ -15,13 +15,13 @@ export default View.extend({
       {{/if}}
       {{#if email}}
         <ul class="email-info ov-info">
-          <li>{{i18n code="oie.enroll.okta_verify.email" bundle="login" arguments="email"}}</li>
+          <li>{{{i18n code="oie.enroll.okta_verify.email.info" bundle="login" arguments="email"}}}</li>
           <li class="switch-channel-content"></li>
         </ul>
       {{/if}}
       {{#if phoneNumber}}
         <ul class="sms-info ov-info">
-          <li>{{i18n code="oie.enroll.okta_verify.sms" bundle="login" arguments="phoneNumber"}}</li>
+          <li>{{{i18n code="oie.enroll.okta_verify.sms.info" bundle="login" arguments="phoneNumber"}}}</li>
           <li class="switch-channel-content"></li>
         </ul>
       {{/if}}
@@ -30,8 +30,8 @@ export default View.extend({
     const contextualData = this.options.appState.get('currentAuthenticator').contextualData;
     return {
       href: contextualData.qrcode?.href,
-      email: contextualData?.email,
-      phoneNumber: contextualData?.phoneNumber,
+      email: _.escape(contextualData?.email),
+      phoneNumber:  _.escape(contextualData?.phoneNumber),
     };
   }
 });
