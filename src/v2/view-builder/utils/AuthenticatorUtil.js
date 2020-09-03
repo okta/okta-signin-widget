@@ -12,6 +12,8 @@
 import { loc, _ } from 'okta';
 import FactorUtil from '../../../util/FactorUtil';
 
+const { getPasswordComplexityDescription, getPasswordComplexityDescriptionForHtmlList } = FactorUtil;
+
 /* eslint complexity: [2, 19] */
 const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
   const authenticatorType = authenticator.authenticatorType || authenticator.factorType;
@@ -98,6 +100,20 @@ export function getIconClassNameForBeacon (authenticatorType) {
   return getAuthenticatorData({ authenticatorType }).iconClassName;
 }
 
-export function getPasswordComplexityDescriptionForHtmlList (policy) {
-  return FactorUtil.getPasswordComplexityDescriptionForHtmlList(policy);
+export function removeRequirementsFromError (errorJSON, policy) {
+  const passwordRequirementsAsString = getPasswordComplexityDescription(policy);
+  if (errorJSON.errorCauses?.length > 0
+    && Array.isArray(errorJSON.errorCauses[0].errorSummary)
+    && errorJSON.errorCauses[0].errorSummary.length > 0) {
+
+    // Remove the [ and ] if they are present followed by requirements string if it is present.
+    errorJSON.errorCauses[0].errorSummary = errorJSON.errorCauses[0].errorSummary[0]
+      .replace(`${passwordRequirementsAsString}`, '')
+      .replace('[]', '')
+      .trim();
+  }
+  return errorJSON;
 }
+
+// Re-export function from FactorUtil
+export { getPasswordComplexityDescriptionForHtmlList };
