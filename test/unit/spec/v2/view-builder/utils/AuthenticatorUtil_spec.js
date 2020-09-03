@@ -1,6 +1,6 @@
 import { removeRequirementsFromError } from 'v2/view-builder/utils/AuthenticatorUtil';
 
-fdescribe('v2/utils/AuthenticatorUtil', function () {
+describe('v2/utils/AuthenticatorUtil', function () {
   it('filters requirements from password error', function () {
     const policy = {
       'complexity': {

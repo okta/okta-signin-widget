@@ -104,8 +104,11 @@ export function removeRequirementsFromError (errorJSON, policy) {
   if (errorJSON.errorCauses?.length > 0
     && Array.isArray(errorJSON.errorCauses[0].errorSummary)
     && errorJSON.errorCauses[0].errorSummary.length > 0) {
+
+    // Remove the [ and ] if they are present followed by requirements string if it is present.
     errorJSON.errorCauses[0].errorSummary = errorJSON.errorCauses[0].errorSummary[0]
-      .replace(`[${passwordRequirementsAsString}]`, '').trim();
+      .replace(/[[\]]/g, '')
+      .replace(`${passwordRequirementsAsString}`, '').trim();
   }
   return errorJSON;
 }
