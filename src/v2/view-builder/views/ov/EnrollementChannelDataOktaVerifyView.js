@@ -46,10 +46,8 @@ const Body = BaseForm.extend({
     };
 
     if (phoneNumberUISchemaIndex !== -1) {
-      // Replace phoneNumberUISchema..
-      uiSchemas.splice(phoneNumberUISchemaIndex, 1, phoneNumberWithCodeUISchema);
-      // Add countryUISchema before phone.
-      uiSchemas.splice(phoneNumberUISchemaIndex, 0, countryUISchema);
+      // Replace phoneNumberUISchema and add countryUISchema before phone.
+      uiSchemas.splice(phoneNumberUISchemaIndex, 1, countryUISchema, phoneNumberWithCodeUISchema);
     }
 
     const description = {
