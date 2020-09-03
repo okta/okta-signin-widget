@@ -24,7 +24,7 @@ define([
         <p>{{name}}</p>\
       </div>\
       {{#if description}}\
-        <span class="scope-item-tooltip icon form-help-16" />\
+        <span class="scope-item-tooltip icon form-help-16"></span>\
       {{/if}}\
     '),
 

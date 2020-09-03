@@ -26,7 +26,7 @@ function (Okta, ) {
       <span class="okta-form-label-inline o-form-label-inline">{{countryCallingCode}}</span>\
       <span class="okta-form-input-field input-fix o-form-control">\
         <input type="{{type}}" placeholder="{{placeholder}}" name="{{name}}" \
-          id="{{inputId}}" value="{{value}}" autocomplete="off"/>\
+          id="{{inputId}}" value="{{value}}" autocomplete="off">\
       </span>\
     '),
 
