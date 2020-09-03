@@ -94,6 +94,11 @@ Expect.describe('ConsentRequired', function () {
     itp('scope item has a tooltip if description is available', function () {
       return setup().then(function (test) {
         expect(test.form.scopeList().children()[0]).toContainElement('span.scope-item-tooltip');
+        expect(test.form.scopeList().html()).toMatch(new RegExp(
+          '<div class="scope-item"><div class="scope-item-text"><p>Ability to read protected data</p></div>' + 
+          '<span class="scope-item-tooltip icon form-help-16" data-hasqtip="\\d+"></span></div>' + 
+          '<div class="scope-item"><div class="scope-item-text"><p>api:write</p></div></div>'
+        ));
       });
     });
     itp('scope item does not have a tooltip if description is not available', function () {
