@@ -99,13 +99,13 @@ export function getIconClassNameForBeacon (authenticatorType) {
   return getAuthenticatorData({ authenticatorType }).iconClassName;
 }
 
-export function removeRequirementsFromError (responseJSON, policy) {
+export function removeRequirementsFromError (errorJSON, policy) {
   const passwordRequirementsAsString = getPasswordComplexityDescription(policy);
-  if (responseJSON.errorCauses?.length > 0
-    && Array.isArray(responseJSON.errorCauses[0].errorSummary)
-    && responseJSON.errorCauses[0].errorSummary.length > 0) {
-    responseJSON.errorCauses[0].errorSummary = responseJSON.errorCauses[0].errorSummary[0]
+  if (errorJSON.errorCauses?.length > 0
+    && Array.isArray(errorJSON.errorCauses[0].errorSummary)
+    && errorJSON.errorCauses[0].errorSummary.length > 0) {
+    errorJSON.errorCauses[0].errorSummary = errorJSON.errorCauses[0].errorSummary[0]
       .replace(`[${passwordRequirementsAsString}]`, '').trim();
   }
-  return responseJSON;
+  return errorJSON;
 }
