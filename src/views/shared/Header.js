@@ -81,7 +81,7 @@ function (Okta, Animations, LoadingBeacon) {
     template: hbs('\
       <div class="okta-sign-in-header auth-header">\
         {{#if logo}}\
-        <img src="{{logo}}" class="auth-org-logo" alt="{{logoText}}"/>\
+        <img src="{{logo}}" class="auth-org-logo" alt="{{logoText}}">\
         {{/if}}\
         <div data-type="beacon-container" class="beacon-container"></div>\
       </div>\

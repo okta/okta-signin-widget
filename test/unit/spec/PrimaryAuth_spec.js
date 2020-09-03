@@ -1295,6 +1295,18 @@ function (Q, OktaAuth, LoginUtil, Okta, Util, AuthContainer, PrimaryAuthForm, Be
               expect(spyCalls.count()).toBe(2);
               expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
               expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
+              expect(test.securityBeacon.html()).toBe(
+                '<div class="beacon-blank">' +
+                '<div class="radial-progress-bar" style="clip: rect(0px, 96px, 96px, 48px);">' +
+                '<div class="circle left" style="transform: rotate(0deg); text-indent: 1px;"></div>' + 
+                '<div class="circle right" style="transform: rotate(0deg); text-indent: 1px;"></div>' + 
+                '</div>' + // beacon-blank
+                '</div>' + // radial-progress-bar
+                '<div aria-live="polite" role="img" class="bg-helper auth-beacon auth-beacon-security" data-se="security-beacon" ' + 
+                'style="display: block; background-image: url(&quot;/base/test/unit/assets/1x1.gif&quot;);">' + 
+                '<span class="accessibility-text">a single pixel</span><div class="okta-sign-in-beacon-border js-auth-beacon-border auth-beacon-border"></div>' + 
+                '</div>' // bg-helper
+              );
             });
         });
         itp('shows beacon-loading animation when primaryAuth is submitted (with deviceFingerprint)', function () {
