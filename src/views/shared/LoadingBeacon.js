@@ -17,9 +17,9 @@ define(['okta'], function (Okta) {
   return Okta.View.extend({
 
     template: hbs('\
-      <div class="beacon-blank"/>\
+      <div class="beacon-blank"></div>\
       <div class="bg-helper auth-beacon auth-beacon-security" data-se="loading-beacon">\
-      <div class="okta-sign-in-beacon-border auth-beacon-border js-auth-beacon-border"/>\
+      <div class="okta-sign-in-beacon-border auth-beacon-border js-auth-beacon-border"></div>\
       </div>\
     '),
 
