@@ -11,6 +11,7 @@
  */
 import { loc, _ } from 'okta';
 export { getPasswordComplexityDescriptionForHtmlList } from '../../../util/FactorUtil';
+import { getPasswordComplexityDescription } from '../../../util/FactorUtil';
 
 /* eslint complexity: [2, 19] */
 const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
@@ -96,4 +97,19 @@ export function getAuthenticatorDataForVerification (authenticator) {
 
 export function getIconClassNameForBeacon (authenticatorType) {
   return getAuthenticatorData({ authenticatorType }).iconClassName;
+}
+
+export function removeRequirementsFromError (errorJSON, policy) {
+  const passwordRequirementsAsString = getPasswordComplexityDescription(policy);
+  if (errorJSON.errorCauses?.length > 0
+    && Array.isArray(errorJSON.errorCauses[0].errorSummary)
+    && errorJSON.errorCauses[0].errorSummary.length > 0) {
+
+    // Remove the [ and ] if they are present followed by requirements string if it is present.
+    errorJSON.errorCauses[0].errorSummary = errorJSON.errorCauses[0].errorSummary[0]
+      .replace(`${passwordRequirementsAsString}`, '')
+      .replace('[]', '')
+      .trim();
+  }
+  return errorJSON;
 }
