@@ -24,7 +24,7 @@ define(['okta'], function (Okta) {
     },
     template: hbs('\
       <p class="default-schema">\
-        <span class="icon icon-16"/>\
+        <span class="icon icon-16"></span>\
         {{message}}\
       </p>\
     '),
