@@ -16,6 +16,13 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
     voice: 'mfa-verify-passcode',
     'security_question': 'mfa-verify-question',
     'security_key': 'mfa-verify-webauthn',
+    app: 'mfa-verify',
+  },
+  [FORMS.CHALLENGE_POLL]: {
+    app: 'mfa-verify',
+  },
+  [FORMS.RESEND_PUSH]: {
+    app: 'mfa-verify',
   },
   [FORMS.ENROLL_AUTHENTICATOR]: {
     email: 'enroll-email',

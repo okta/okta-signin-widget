@@ -10,99 +10,92 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'util/FormController',
-  'util/FactorUtil',
-  'util/Util',
-  'views/enroll-factors/Footer',
-  'views/shared/TextBox'
-],
-function (Okta, FormController, FactorUtil, Util, Footer, TextBox) {
-
-  var _ = Okta._;
-
-  return FormController.extend({
-    className: 'enroll-question',
-    Model: {
-      props: {
-        question: 'string',
-        answer: ['string', true]
-      },
-      local: {
-        securityQuestions: 'object'
-      },
-      save: function () {
-        return this.doTransaction(function (transaction) {
-          var factor = _.findWhere(transaction.factors, {
-            factorType: 'question',
-            provider: 'OKTA'
-          });
-          return factor.enroll({
-            profile: {
-              question: this.get('question'),
-              answer: this.get('answer')
-            }
-          });
-        });
-      }
+import { _, loc } from 'okta';
+import FactorUtil from 'util/FactorUtil';
+import FormController from 'util/FormController';
+import Util from 'util/Util';
+import Footer from 'views/enroll-factors/Footer';
+import TextBox from 'views/shared/TextBox';
+export default FormController.extend({
+  className: 'enroll-question',
+  Model: {
+    props: {
+      question: 'string',
+      answer: ['string', true],
     },
-
-    Form: {
-      autoSave: true,
-      title: _.partial(Okta.loc, 'enroll.securityQuestion.setup', 'login'),
-      inputs: function () {
-        return [
-          {
-            label: false,
-            'label-top': true,
-            name: 'question',
-            type: 'select',
-            wide: true,
-            options: function () {
-              return this.model.get('securityQuestions');
-            },
-            params: {
-              searchThreshold: 25
-            }
-          },
-          {
-            label: Okta.loc('mfa.challenge.answer.placeholder', 'login'),
-            'label-top': true,
-            explain: Util.createInputExplain(
-              'mfa.challenge.answer.tooltip',
-              'mfa.challenge.answer.placeholder',
-              'login'),
-            'explain-top': true,
-            className: 'o-form-fieldset o-form-label-top auth-passcode',
-            name: 'answer',
-            input: TextBox,
-            type: 'text'
-          }
-        ];
-      }
+    local: {
+      securityQuestions: 'object',
     },
-
-    Footer: Footer,
-
-    fetchInitialData: function () {
-      var self = this;
-      return this.model.manageTransaction(function (transaction) {
-        var factor = _.findWhere(transaction.factors, {
+    save: function () {
+      return this.doTransaction(function (transaction) {
+        const factor = _.findWhere(transaction.factors, {
           factorType: 'question',
-          provider: 'OKTA'
+          provider: 'OKTA',
         });
+
+        return factor.enroll({
+          profile: {
+            question: this.get('question'),
+            answer: this.get('answer'),
+          },
+        });
+      });
+    },
+  },
+
+  Form: {
+    autoSave: true,
+    title: _.partial(loc, 'enroll.securityQuestion.setup', 'login'),
+    inputs: function () {
+      return [
+        {
+          label: false,
+          'label-top': true,
+          name: 'question',
+          type: 'select',
+          wide: true,
+          options: function () {
+            return this.model.get('securityQuestions');
+          },
+          params: {
+            searchThreshold: 25,
+          },
+        },
+        {
+          label: loc('mfa.challenge.answer.placeholder', 'login'),
+          'label-top': true,
+          explain: Util.createInputExplain('mfa.challenge.answer.tooltip', 'mfa.challenge.answer.placeholder', 'login'),
+          'explain-top': true,
+          className: 'o-form-fieldset o-form-label-top auth-passcode',
+          name: 'answer',
+          input: TextBox,
+          type: 'text',
+        },
+      ];
+    },
+  },
+
+  Footer: Footer,
+
+  fetchInitialData: function () {
+    const self = this;
+
+    return this.model
+      .manageTransaction(function (transaction) {
+        const factor = _.findWhere(transaction.factors, {
+          factorType: 'question',
+          provider: 'OKTA',
+        });
+
         return factor.questions();
       })
-        .then(function (questionsRes) {
-          var questions = {};
-          _.each(questionsRes, function (question) {
-            questions[question.question] = FactorUtil.getSecurityQuestionLabel(question);
-          });
-          self.model.set('securityQuestions', questions);
+      .then(function (questionsRes) {
+        const questions = {};
+
+        _.each(questionsRes, function (question) {
+          questions[question.question] = FactorUtil.getSecurityQuestionLabel(question);
         });
-    }
-
-  });
-
+        self.model.set('securityQuestions', questions);
+      });
+  },
 });

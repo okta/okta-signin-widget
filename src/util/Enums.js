@@ -10,8 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define({
-
+export default {
   API_RATE_LIMIT: 30000, //milliseconds
 
   WIDGET_CONTAINER_ID: 'okta-sign-in',
@@ -61,5 +60,5 @@ define({
   REGISTRATION_FAILED: 'REGISTRATION_FAILED',
 
   //IDP Discovery
-  IDP_DISCOVERY: 'IDP_DISCOVERY'
-});
+  IDP_DISCOVERY: 'IDP_DISCOVERY',
+};

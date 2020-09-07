@@ -10,67 +10,63 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(function () {
-
-  function log (level, args) {
-    // Only log statements in development mode or if
-    // throwing an error through console.error
-    if (DEBUG || level === 'error') {
-      window.console[level].apply(window.console, args);
-    }
+function log (level, args) {
+  // Only log statements in development mode or if
+  // throwing an error through console.error
+  if (DEBUG || level === 'error') {
+    window.console[level].apply(window.console, args);
   }
+}
 
-  /**
-   * Utility library of logging functions.
-   */
-  return {
+/**
+ * Utility library of logging functions.
+ */
+export default {
+  trace: function () {
+    return log('trace', arguments);
+  },
 
-    trace: function () {
-      return log('trace', arguments);
-    },
+  dir: function () {
+    return log('dir', arguments);
+  },
 
-    dir: function () {
-      return log('dir', arguments);
-    },
+  time: function () {
+    return log('time', arguments);
+  },
 
-    time: function () {
-      return log('time', arguments);
-    },
+  timeEnd: function () {
+    return log('timeEnd', arguments);
+  },
 
-    timeEnd: function () {
-      return log('timeEnd', arguments);
-    },
+  group: function () {
+    return log('group', arguments);
+  },
 
-    group: function () {
-      return log('group', arguments);
-    },
+  groupEnd: function () {
+    return log('groupEnd', arguments);
+  },
 
-    groupEnd: function () {
-      return log('groupEnd', arguments);
-    },
+  assert: function () {
+    return log('assert', arguments);
+  },
 
-    assert: function () {
-      return log('assert', arguments);
-    },
+  log: function () {
+    return log('log', arguments);
+  },
 
-    log: function () {
-      return log('log', arguments);
-    },
+  info: function () {
+    return log('info', arguments);
+  },
 
-    info: function () {
-      return log('info', arguments);
-    },
+  warn: function () {
+    return log('warn', arguments);
+  },
 
-    warn: function () {
-      return log('warn', arguments);
-    },
+  error: function () {
+    return log('error', arguments);
+  },
 
-    error: function () {
-      return log('error', arguments);
-    },
-
-    deprecate: function (msg) {
-      return log('warn', ['[okta-signin-widget] DEPRECATED:', msg]);
-    }
-  };
-});
+  deprecate: function (msg) {
+    return log('warn', ['[okta-signin-widget] DEPRECATED:', msg]);
+  },
+};

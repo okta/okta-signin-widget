@@ -11,125 +11,117 @@
  */
 
 /* eslint complexity:[2, 10], max-params: [2, 11] */
+import { _, $, loc, View, internal } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-define([
-  'okta',
-  'util/FormController',
-  'util/FormType',
-  'views/shared/FooterWithBackLink'
-],
-function (Okta, FormController, FormType, FooterWithBackLink) {
+import FormController from 'util/FormController';
+import FormType from 'util/FormType';
+import FooterWithBackLink from 'views/shared/FooterWithBackLink';
+let { Util } = internal.util;
+export default FormController.extend({
+  className: 'piv-cac-card',
+  Model: {
+    save: async function () {
+      this.trigger('request');
+      const self = this;
+      const pivConfig = this.settings.get('piv');
+      const data = {
+        fromURI: this.settings.get('relayState'),
+        isCustomDomain: pivConfig.isCustomDomain,
+      };
 
-  var _ = Okta._,
-      $ = Okta.$;
-  var { Util } = Okta.internal.util;
-
-  return FormController.extend({
-    className: 'piv-cac-card',
-    Model: {
-
-      save: async function () {
-        this.trigger('request');
-        var self = this,
-            pivConfig = this.settings.get('piv'),
-            data = {
-              fromURI: this.settings.get('relayState'),
-              isCustomDomain: pivConfig.isCustomDomain
-            };
-
-        try {
-          await this.getCert(pivConfig.certAuthUrl);
-          const res = await this.postCert(pivConfig.certAuthUrl, data);
-          Util.redirect(res.redirectUrl);
-        } catch (err) {
-          if (_.isEmpty(err.responseJSON) && !err.responseText) {
-            err.responseJSON = {
-              errorSummary: Okta.loc('piv.cac.error', 'login')
-            };
-          }
-          self.trigger('error', self, err);
+      try {
+        await this.getCert(pivConfig.certAuthUrl);
+        const res = await this.postCert(pivConfig.certAuthUrl, data);
+        Util.redirect(res.redirectUrl);
+      } catch (err) {
+        if (_.isEmpty(err.responseJSON) && !err.responseText) {
+          err.responseJSON = {
+            errorSummary: loc('piv.cac.error', 'login'),
+          };
         }
-      },
-
-      getCert: function (certAuthUrl) {
-        return $.get({
-          url: certAuthUrl,
-          xhrFields: {
-            withCredentials: true
-          },
-          beforeSend: function () {
-            // overriding this function to prevent our jquery-wrapper from
-            // setting headers. Need to keep this a simple request in order for
-            // PIV / CAC to work in IE.
-          },
-        });
-      },
-
-      postCert: function (certAuthUrl, data) {
-        return $.post({
-          url: certAuthUrl,
-          xhrFields: {
-            withCredentials: true
-          },
-          data: JSON.stringify(data),
-          contentType: 'text/plain',
-          beforeSend: function () {
-            // overriding this function to prevent our jquery-wrapper from
-            // setting headers. Need to keep this a simple request in order for
-            // PIV / CAC to work in IE.
-          },
-        });
+        self.trigger('error', self, err);
       }
     },
 
-    Form: {
-      autoSave: true,
-      hasSavingState: false,
-      title: _.partial(Okta.loc, 'piv.cac.title', 'login'),
-      className: 'piv-cac-card',
-      noCancelButton: true,
-      save: _.partial(Okta.loc, 'retry', 'login'),
-      modelEvents: {
-        'request': '_startEnrollment',
-        'error': '_stopEnrollment'
-      },
+    getCert: function (certAuthUrl) {
+      return $.get({
+        url: certAuthUrl,
+        xhrFields: {
+          withCredentials: true,
+        },
+        beforeSend: function () {
+          // overriding this function to prevent our jquery-wrapper from
+          // setting headers. Need to keep this a simple request in order for
+          // PIV / CAC to work in IE.
+        },
+      });
+    },
 
-      formChildren: [
-        FormType.View({
-          View: Okta.View.extend({
-            template: hbs('<div class="piv-verify-text">\
+    postCert: function (certAuthUrl, data) {
+      return $.post({
+        url: certAuthUrl,
+        xhrFields: {
+          withCredentials: true,
+        },
+        data: JSON.stringify(data),
+        contentType: 'text/plain',
+        beforeSend: function () {
+          // overriding this function to prevent our jquery-wrapper from
+          // setting headers. Need to keep this a simple request in order for
+          // PIV / CAC to work in IE.
+        },
+      });
+    },
+  },
+
+  Form: {
+    autoSave: true,
+    hasSavingState: false,
+    title: _.partial(loc, 'piv.cac.title', 'login'),
+    className: 'piv-cac-card',
+    noCancelButton: true,
+    save: _.partial(loc, 'retry', 'login'),
+    modelEvents: {
+      request: '_startEnrollment',
+      error: '_stopEnrollment',
+    },
+
+    formChildren: [
+      FormType.View({
+        View: View.extend({
+          template: hbs(
+            '<div class="piv-verify-text">\
                <p>{{i18n code="piv.cac.card.insert" bundle="login"}}</p>\
                <div data-se="piv-waiting" class="okta-waiting-spinner"></div>\
-             </div>')
-          })
-        })
-      ],
+             </div>'
+          ),
+        }),
+      }),
+    ],
 
-      _startEnrollment: function () {
-        this.$('.okta-waiting-spinner').show();
-        this.$('.o-form-button-bar').hide();
-      },
-      
-      _stopEnrollment: function () {
-        this.$('.okta-waiting-spinner').hide();
-        this.$('.o-form-button-bar').show();
-      },
-
-      postRender: function () {
-        _.defer(() => {
-          this.model.save();
-        });
-      },
+    _startEnrollment: function () {
+      this.$('.okta-waiting-spinner').show();
+      this.$('.o-form-button-bar').hide();
     },
 
-    back: function () {
-      // Empty function on verify controllers to prevent users
-      // from navigating back during 'verify' using the browser's
-      // back button. The URL will still change, but the view will not
-      // More details in OKTA-135060.
+    _stopEnrollment: function () {
+      this.$('.okta-waiting-spinner').hide();
+      this.$('.o-form-button-bar').show();
     },
 
-    Footer: FooterWithBackLink
-  });
+    postRender: function () {
+      _.defer(() => {
+        this.model.save();
+      });
+    },
+  },
 
+  back: function () {
+    // Empty function on verify controllers to prevent users
+    // from navigating back during 'verify' using the browser's
+    // back button. The URL will still change, but the view will not
+    // More details in OKTA-135060.
+  },
+
+  Footer: FooterWithBackLink,
 });

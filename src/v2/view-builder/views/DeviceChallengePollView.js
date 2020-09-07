@@ -37,7 +37,7 @@ const Body = BaseForm.extend(Object.assign(
       this.listenTo(this.model, 'error', this.onPollingFail);
       this.deviceChallengePollRemediation = this.options.currentViewState;
       this.doChallenge();
-      this.startDevicePolling();
+      this.startPolling();
     },
 
     onPollingFail () {

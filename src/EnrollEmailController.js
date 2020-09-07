@@ -9,66 +9,58 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
+
+import { _, loc, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
+import FormController from 'util/FormController';
+import FormType from 'util/FormType';
+import Footer from 'views/enroll-factors/Footer';
 
-define([
-  'okta',
-  'util/FormController',
-  'views/enroll-factors/Footer',
-  'util/FormType',
-],
-function (Okta, FormController, Footer, FormType) {
+const Model = {
+  local: {
+    factorType: 'string',
+    provider: 'string',
+  },
+  save: function () {
+    this.trigger('save');
+    const factorOpt = this.pick('factorType', 'provider');
+    return this.doTransaction(function (transaction) {
+      const factor = _.findWhere(transaction.factors, factorOpt);
 
-  var _ = Okta._;
+      return factor.enroll();
+    });
+  },
+};
 
-  const Model = {
-    local: {
-      factorType: 'string',
-      provider: 'string',
-    },
-    save: function () {
-      this.trigger('save');
-      const factorOpt = this.pick('factorType', 'provider');
-      return this.doTransaction(function (transaction) {
-        var factor = _.findWhere(transaction.factors, factorOpt);
-        return factor.enroll();
-      });
-    }
-  };
-
-  const Form = function () {
-    return {
-      title: _.partial(Okta.loc, 'email.enroll.title', 'login'),
-      noButtonBar: false,
-      autoSave: true,
-      save: _.partial(Okta.loc, 'email.button.send', 'login'),
-      formChildren: [
-        FormType.View({
-          View: Okta.View.extend({
-            attributes: {
-              'data-se': 'enroll-email-content'
-            },
-            template: hbs('{{i18n code="email.enroll.description" bundle="login"}}')
-          })
+const Form = function () {
+  return {
+    title: _.partial(loc, 'email.enroll.title', 'login'),
+    noButtonBar: false,
+    autoSave: true,
+    save: _.partial(loc, 'email.button.send', 'login'),
+    formChildren: [
+      FormType.View({
+        View: View.extend({
+          attributes: {
+            'data-se': 'enroll-email-content',
+          },
+          template: hbs('{{i18n code="email.enroll.description" bundle="login"}}'),
         }),
-      ]
-    };
+      }),
+    ],
   };
+};
 
-  return FormController.extend({
+export default FormController.extend({
+  className: 'enroll-email',
 
-    className: 'enroll-email',
+  Model: Model,
 
-    Model: Model,
+  Form: Form,
 
-    Form: Form,
+  Footer: Footer,
 
-    Footer: Footer,
-
-    initialize: function () {
-      this.model.set(_.pick(this.options, 'factorType', 'provider'));
-    }
-
-  });
-
+  initialize: function () {
+    this.model.set(_.pick(this.options, 'factorType', 'provider'));
+  },
 });

@@ -10,25 +10,21 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-
-define(['okta'], function (Okta) {
-
-  return Okta.View.extend({
-    template: hbs`
+export default View.extend({
+  template: hbs`
       <a href="#" class="link goto js-skip" data-se="skip-link">
         {{i18n code="enroll.choices.setup.skip" bundle="login"}}
       </a>
     `,
-    className: 'auth-footer clearfix',
-    events: {
-      'click .js-skip' : function (e) {
-        e.preventDefault();
-        this.model.doTransaction(function (transaction) {
-          return transaction.skip();
-        });
-      }
-    }
-  });
-
+  className: 'auth-footer clearfix',
+  events: {
+    'click .js-skip': function (e) {
+      e.preventDefault();
+      this.model.doTransaction(function (transaction) {
+        return transaction.skip();
+      });
+    },
+  },
 });

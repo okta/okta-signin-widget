@@ -7,11 +7,13 @@ describe('v2/ion/IonResponseHelper', function () {
 
   beforeAll(() => {
     originalLoginBundle = Bundles.login;
-    Bundles.login = _.mapObject({
-      'answer.too.short': 'answer must be 4+ chars',
-      'bar.error': 'hello bar error',
-
-    }, (value) => `ut override - ${value}`);
+    Bundles.login = _.mapObject(
+      {
+        'answer.too.short': 'answer must be 4+ chars',
+        'bar.error': 'hello bar error',
+      },
+      value => `ut override - ${value}`
+    );
   });
   afterAll(() => {
     Bundles.login = originalLoginBundle;
@@ -20,13 +22,12 @@ describe('v2/ion/IonResponseHelper', function () {
 
   describe('converts top level messages to global error', () => {
     it('no messages', () => {
-      const resp = {
-      };
+      const resp = {};
       expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
         responseJSON: {
           errorCauses: [],
           errorSummary: '',
-        }
+        },
       });
     });
 
@@ -35,21 +36,21 @@ describe('v2/ion/IonResponseHelper', function () {
         messages: {
           value: [
             {
-              'class': 'ERROR',
-              'i18n': {
-                'key': 'foo.error',
-                'params': []
+              class: 'ERROR',
+              i18n: {
+                key: 'foo.error',
+                params: [],
               },
-              'message': 'Internal error foo'
-            }
-          ]
-        }
+              message: 'Internal error foo',
+            },
+          ],
+        },
       };
       expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
         responseJSON: {
           errorCauses: [],
           errorSummary: 'Internal error foo',
-        }
+        },
       });
     });
 
@@ -58,29 +59,29 @@ describe('v2/ion/IonResponseHelper', function () {
         messages: {
           value: [
             {
-              'class': 'ERROR',
-              'i18n': {
-                'key': 'foo.error',
-                'params': []
+              class: 'ERROR',
+              i18n: {
+                key: 'foo.error',
+                params: [],
               },
-              'message': 'Internal error foo'
+              message: 'Internal error foo',
             },
             {
-              'class': 'ERROR',
-              'i18n': {
-                'key': 'bar.error',
-                'params': []
+              class: 'ERROR',
+              i18n: {
+                key: 'bar.error',
+                params: [],
               },
-              'message': 'bar error'
-            }
-          ]
-        }
+              message: 'bar error',
+            },
+          ],
+        },
       };
       expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
         responseJSON: {
           errorCauses: [],
           errorSummary: 'Internal error foo. ut override - hello bar error',
-        }
+        },
       });
     });
   });
@@ -89,15 +90,14 @@ describe('v2/ion/IonResponseHelper', function () {
     it('no remediation', () => {
       const resp = {
         remediation: {
-          value: [
-          ]
-        }
+          value: [],
+        },
       };
       expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
         responseJSON: {
           errorCauses: [],
           errorSummary: '',
-        }
+        },
       });
     });
 
@@ -111,17 +111,17 @@ describe('v2/ion/IonResponseHelper', function () {
                 {
                   label: 'Login Name',
                   name: 'userName',
-                }
-              ]
-            }
-          ]
-        }
+                },
+              ],
+            },
+          ],
+        },
       };
       expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
         responseJSON: {
           errorCauses: [],
           errorSummary: '',
-        }
+        },
       });
     });
 
@@ -138,15 +138,15 @@ describe('v2/ion/IonResponseHelper', function () {
                   messages: {
                     value: [
                       {
-                        'class': 'ERROR',
-                        'i18n': {
-                          'key': 'bar.error',
-                          'params': []
+                        class: 'ERROR',
+                        i18n: {
+                          key: 'bar.error',
+                          params: [],
                         },
-                        'message': 'bar error'
-                      }
-                    ]
-                  }
+                        message: 'bar error',
+                      },
+                    ],
+                  },
                 },
                 {
                   label: 'Password',
@@ -154,41 +154,43 @@ describe('v2/ion/IonResponseHelper', function () {
                   messages: {
                     value: [
                       {
-                        'class': 'ERROR',
-                        'i18n': {
-                          'key': 'foo1.error',
-                          'params': []
+                        class: 'ERROR',
+                        i18n: {
+                          key: 'foo1.error',
+                          params: [],
                         },
-                        'message': 'foo1 error'
+                        message: 'foo1 error',
                       },
                       {
-                        'class': 'ERROR',
-                        'i18n': {
-                          'key': 'foo2.error',
-                          'params': []
+                        class: 'ERROR',
+                        i18n: {
+                          key: 'foo2.error',
+                          params: [],
                         },
-                        'message': 'foo2 error'
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          ]
-        }
+                        message: 'foo2 error',
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          ],
+        },
       };
       expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
         responseJSON: {
           errorCauses: [
             {
-              property: 'userName', errorSummary: ['ut override - hello bar error'],
+              property: 'userName',
+              errorSummary: ['ut override - hello bar error'],
             },
             {
-              property: 'password', errorSummary: ['foo1 error', 'foo2 error'],
-            }
+              property: 'password',
+              errorSummary: ['foo1 error', 'foo2 error'],
+            },
           ],
           errorSummary: '',
-        }
+        },
       });
     });
 
@@ -209,15 +211,15 @@ describe('v2/ion/IonResponseHelper', function () {
                         messages: {
                           value: [
                             {
-                              'class': 'ERROR',
-                              'i18n': {
-                                'key': 'bar.error',
-                                'params': []
+                              class: 'ERROR',
+                              i18n: {
+                                key: 'bar.error',
+                                params: [],
                               },
-                              'message': 'bar error'
-                            }
-                          ]
-                        }
+                              message: 'bar error',
+                            },
+                          ],
+                        },
                       },
                       {
                         label: 'Password',
@@ -225,36 +227,38 @@ describe('v2/ion/IonResponseHelper', function () {
                         messages: {
                           value: [
                             {
-                              'class': 'ERROR',
-                              'i18n': {
-                                'key': 'foo.error',
-                                'params': []
+                              class: 'ERROR',
+                              i18n: {
+                                key: 'foo.error',
+                                params: [],
                               },
-                              'message': 'foo error'
-                            }
-                          ]
-                        }
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          ]
-        }
+                              message: 'foo error',
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          ],
+        },
       };
       expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
         responseJSON: {
           errorCauses: [
             {
-              property: 'credentials.userName', errorSummary: ['ut override - hello bar error'],
+              property: 'credentials.userName',
+              errorSummary: ['ut override - hello bar error'],
             },
             {
-              property: 'credentials.password', errorSummary: ['foo error'],
-            }
+              property: 'credentials.password',
+              errorSummary: ['foo error'],
+            },
           ],
           errorSummary: '',
-        }
+        },
       });
     });
     it('has `options` fields messages', () => {
@@ -277,8 +281,8 @@ describe('v2/ion/IonResponseHelper', function () {
                               name: 'questionKey',
                               options: {
                                 foo: 'Foo',
-                                bar: 'Bar'
-                              }
+                                bar: 'Bar',
+                              },
                             },
                             {
                               label: 'Answer',
@@ -286,19 +290,19 @@ describe('v2/ion/IonResponseHelper', function () {
                               messages: {
                                 value: [
                                   {
-                                    'class': 'ERROR',
-                                    'i18n': {
-                                      'key': 'answer.is.short',
-                                      'params': []
+                                    class: 'ERROR',
+                                    i18n: {
+                                      key: 'answer.is.short',
+                                      params: [],
                                     },
-                                    'message': 'security question answer is too short'
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        }
-                      }
+                                    message: 'security question answer is too short',
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
                     },
                     {
                       label: 'create your own question',
@@ -319,27 +323,26 @@ describe('v2/ion/IonResponseHelper', function () {
                               messages: {
                                 value: [
                                   {
-                                    'class': 'ERROR',
-                                    'i18n': {
-                                      'key': 'answer.is.short',
-                                      'params': []
+                                    class: 'ERROR',
+                                    i18n: {
+                                      key: 'answer.is.short',
+                                      params: [],
                                     },
-                                    'message': 'security question answer is too short'
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  ]
-
-                }
-              ]
-            }
-          ]
-        }
+                                    message: 'security question answer is too short',
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
       };
       expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
         responseJSON: {
@@ -347,10 +350,10 @@ describe('v2/ion/IonResponseHelper', function () {
             {
               property: 'authenticator.answer',
               errorSummary: ['security question answer is too short'],
-            }
+            },
           ],
           errorSummary: '',
-        }
+        },
       });
     });
 
@@ -374,8 +377,8 @@ describe('v2/ion/IonResponseHelper', function () {
                               name: 'questionKey',
                               options: {
                                 foo: 'Foo',
-                                bar: 'Bar'
-                              }
+                                bar: 'Bar',
+                              },
                             },
                             {
                               label: 'Answer',
@@ -383,19 +386,19 @@ describe('v2/ion/IonResponseHelper', function () {
                               messages: {
                                 value: [
                                   {
-                                    'class': 'ERROR',
-                                    'i18n': {
-                                      'key': 'answer.too.short',
-                                      'params': []
+                                    class: 'ERROR',
+                                    i18n: {
+                                      key: 'answer.too.short',
+                                      params: [],
                                     },
-                                    'message': 'security question answer is too short'
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        }
-                      }
+                                    message: 'security question answer is too short',
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
                     },
                     {
                       label: 'create your own question',
@@ -416,27 +419,26 @@ describe('v2/ion/IonResponseHelper', function () {
                               messages: {
                                 value: [
                                   {
-                                    'class': 'ERROR',
-                                    'i18n': {
-                                      'key': 'answer.too.short',
-                                      'params': []
+                                    class: 'ERROR',
+                                    i18n: {
+                                      key: 'answer.too.short',
+                                      params: [],
                                     },
-                                    'message': 'security question answer is too short'
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  ]
-
-                }
-              ]
-            }
-          ]
-        }
+                                    message: 'security question answer is too short',
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                        },
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
       };
       expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
         responseJSON: {
@@ -444,10 +446,10 @@ describe('v2/ion/IonResponseHelper', function () {
             {
               property: 'authenticator.answer',
               errorSummary: ['ut override - answer must be 4+ chars'],
-            }
+            },
           ],
           errorSummary: '',
-        }
+        },
       });
     });
   });

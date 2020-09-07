@@ -9,7 +9,6 @@ import SuccessView from './views/SuccessView';
 
 // Device (Okta Mobile)
 import DeviceChallengePollView from './views/DeviceChallengePollView';
-import UserVerificationDeviceChallengePollView from './views/UserVerificationDeviceChallengePollView';
 import SSOExtensionView from './views/SSOExtensionView';
 
 // registration
@@ -49,6 +48,14 @@ import ChallengeWebauthnView from './views/webauthn/ChallengeWebauthnView';
 import EnrollAuthenticatorEmailView from './views/email/EnrollAuthenticatorEmailView';
 import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
 import ChallengeAuthenticatorEmailView from './views/email/ChallengeAuthenticatorEmailView';
+
+// app(okta verify)
+import EnrollPollOktaVerifyView from './views/ov/EnrollPollOktaVerifyView';
+import SelectEnrollmentChannelOktaVerifyView from './views/ov/SelectEnrollmentChannelOktaVerifyView';
+import EnrollementChannelDataOktaVerifyView from './views/ov/EnrollementChannelDataOktaVerifyView';
+import ChallengeOktaVerifyView from './views/ov/ChallengeOktaVerifyView';
+import ChallengeOktaVerifyPushView from './views/ov/ChallengeOktaVerifyPushView';
+import ChallengeOktaVerifyResendPushView from './views/ov/ChallengeOktaVerifyResendPushView';
 
 const DEFAULT = '_';
 
@@ -97,6 +104,15 @@ const VIEWS_MAPPING = {
     'security_question': EnrollAuthenticatorSecurityQuestion,
     email: EnrollAuthenticatorEmailView
   },
+  [RemediationForms.ENROLL_POLL]: {
+    app: EnrollPollOktaVerifyView,
+  },
+  [RemediationForms.SELECT_ENROLLMENT_CHANNEL]: {
+    app: SelectEnrollmentChannelOktaVerifyView,
+  },
+  [RemediationForms.ENROLLMENT_CHANNEL_DATA]: {
+    app: EnrollementChannelDataOktaVerifyView,
+  },
   // Expired scenarios for authenticators..
   [RemediationForms.REENROLL_AUTHENTICATOR]: {
     // Password expired scenario..
@@ -122,7 +138,13 @@ const VIEWS_MAPPING = {
     'security_key': ChallengeWebauthnView,
     'security_question': ChallengeAuthenticatorSecurityQuestion,
     phone: ChallengeAuthenticatorPhoneView,
-    app: UserVerificationDeviceChallengePollView,
+    app: ChallengeOktaVerifyView,
+  },
+  [RemediationForms.CHALLENGE_POLL]: {
+    app: ChallengeOktaVerifyPushView,
+  },
+  [RemediationForms.RESEND_PUSH]: {
+    [DEFAULT]: ChallengeOktaVerifyResendPushView,
   },
   [RemediationForms.AUTHENTICATOR_VERIFICATION_DATA]: {
     phone: ChallengeAuthenticatorDataPhoneView,
@@ -147,7 +169,6 @@ module.exports = {
       return BaseView;
     }
     const View = config[authenticatorType] || config[DEFAULT];
-
     if (!View) {
       Logger.warn(`Cannot find customized View for ${formName} + ${authenticatorType}.`);
       return BaseView;

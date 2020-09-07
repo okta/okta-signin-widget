@@ -10,58 +10,53 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'models/Factor',
-  'util/FormType',
-  'EnrollCustomFactorController',
-  'views/mfa-verify/HtmlErrorMessageView',
-],
-function (Okta, Factor, FormType, EnrollCustomFactorController, HtmlErrorMessageView) {
-
-  var { Util } = Okta.internal.util;
-
-  return EnrollCustomFactorController.extend({
-    Model: {
-      local: {
-        provider: 'string',
-        factorType: 'string'
-      },
-      save: function () {
-        return this.manageTransaction(() => {
-          var url = this.appState.get('enrollCustomFactorRedirectUrl');
-          if(url !== null) {
-            Util.redirect(url);
-          }
-        });
-      }
+import { loc, internal } from 'okta';
+import EnrollCustomFactorController from 'EnrollCustomFactorController';
+import Factor from 'models/Factor';
+import FormType from 'util/FormType';
+import HtmlErrorMessageView from 'views/mfa-verify/HtmlErrorMessageView';
+const { Util } = internal.util;
+export default EnrollCustomFactorController.extend({
+  Model: {
+    local: {
+      provider: 'string',
+      factorType: 'string',
     },
+    save: function () {
+      return this.manageTransaction(() => {
+        const url = this.appState.get('enrollCustomFactorRedirectUrl');
 
-    Form: function () {
-      var factor = new Factor.Model(this.options.appState.get('factor'), this.toJSON());
-      var vendorName = factor.get('vendorName');
-      var subtitle = Okta.loc('enroll.customFactor.subtitle', 'login', [vendorName]);
-      var saveText = Okta.loc('enroll.customFactor.save', 'login');
-      return {
-        autoSave: true,
-        title: vendorName,
-        subtitle: subtitle,
-        save: saveText,
-        formChildren: function () {
-          var result = [];
-          if (this.options.appState.get('isFactorResultFailed')) {
-            result.push(
-              FormType.View(
-                { View: new HtmlErrorMessageView(
-                  { message: this.options.appState.get('factorResultErrorMessage') }) },
-                { selector: '.o-form-error-container'}
-              )
-            );
-          }
-          return result;
+        if (url !== null) {
+          Util.redirect(url);
         }
-      };
+      });
     },
-  });
+  },
 
+  Form: function () {
+    const factor = new Factor.Model(this.options.appState.get('factor'), this.toJSON());
+    const vendorName = factor.get('vendorName');
+    const subtitle = loc('enroll.customFactor.subtitle', 'login', [vendorName]);
+    const saveText = loc('enroll.customFactor.save', 'login');
+
+    return {
+      autoSave: true,
+      title: vendorName,
+      subtitle: subtitle,
+      save: saveText,
+      formChildren: function () {
+        const result = [];
+
+        if (this.options.appState.get('isFactorResultFailed')) {
+          result.push(
+            FormType.View(
+              { View: new HtmlErrorMessageView({ message: this.options.appState.get('factorResultErrorMessage') }) },
+              { selector: '.o-form-error-container' }
+            )
+          );
+        }
+        return result;
+      },
+    };
+  },
 });

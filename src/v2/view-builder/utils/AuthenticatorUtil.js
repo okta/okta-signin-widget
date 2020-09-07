@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { loc, _ } from 'okta';
-export { getPasswordComplexityDescriptionForHtmlList } from '../../../util/FactorUtil';
+import FactorUtil from '../../../util/FactorUtil';
 
 /* eslint complexity: [2, 19] */
 const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
@@ -45,7 +45,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
     });
     break;
 
-  case 'security_question': 
+  case 'security_question':
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? ''
@@ -96,4 +96,8 @@ export function getAuthenticatorDataForVerification (authenticator) {
 
 export function getIconClassNameForBeacon (authenticatorType) {
   return getAuthenticatorData({ authenticatorType }).iconClassName;
+}
+
+export function getPasswordComplexityDescriptionForHtmlList (policy) {
+  return FactorUtil.getPasswordComplexityDescriptionForHtmlList(policy);
 }

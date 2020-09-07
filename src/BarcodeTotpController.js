@@ -10,55 +10,50 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'util/FactorUtil',
-  'util/FormController',
-  'util/FormType',
-  'util/RouterUtil',
-  'views/enroll-factors/BarcodeView',
-  'views/enroll-factors/Footer'
-],
-function (Okta, FactorUtil, FormController, FormType, RouterUtil, BarcodeView, Footer) {
-
-  var _ = Okta._;
-
-  return FormController.extend({
-    className: 'barcode-totp',
-    Model: function () {
-      return {
-        local: {
-          '__factorType__': ['string', false, this.options.factorType],
-          '__provider__': ['string', false, this.options.provider]
-        }
-      };
-    },
-
-    Form: {
-      title: function () {
-        var factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
-        return Okta.loc('enroll.totp.title', 'login', [factorName]);
+import { _, loc } from 'okta';
+import FactorUtil from 'util/FactorUtil';
+import FormController from 'util/FormController';
+import FormType from 'util/FormType';
+import RouterUtil from 'util/RouterUtil';
+import BarcodeView from 'views/enroll-factors/BarcodeView';
+import Footer from 'views/enroll-factors/Footer';
+export default FormController.extend({
+  className: 'barcode-totp',
+  Model: function () {
+    return {
+      local: {
+        __factorType__: ['string', false, this.options.factorType],
+        __provider__: ['string', false, this.options.provider],
       },
-      subtitle: _.partial(Okta.loc, 'mfa.scanBarcode', 'login'),
-      save: _.partial(Okta.loc, 'oform.next', 'login'),
-      noCancelButton: true,
-      attributes: { 'data-se': 'step-scan' },
-      className: 'barcode-scan',
+    };
+  },
 
-      formChildren: [
-        FormType.View({View: BarcodeView})
-      ]
+  Form: {
+    title: function () {
+      const factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
+
+      return loc('enroll.totp.title', 'login', [factorName]);
     },
+    subtitle: _.partial(loc, 'mfa.scanBarcode', 'login'),
+    save: _.partial(loc, 'oform.next', 'login'),
+    noCancelButton: true,
+    attributes: { 'data-se': 'step-scan' },
+    className: 'barcode-scan',
 
-    Footer: Footer,
+    formChildren: [FormType.View({ View: BarcodeView })],
+  },
 
-    initialize: function () {
-      this.listenTo(this.form, 'save', function () {
-        var url = RouterUtil.createActivateFactorUrl(this.model.get('__provider__'),
-          this.model.get('__factorType__'), 'activate');
-        this.options.appState.trigger('navigate', url);
-      });
-    }
-  });
+  Footer: Footer,
 
+  initialize: function () {
+    this.listenTo(this.form, 'save', function () {
+      const url = RouterUtil.createActivateFactorUrl(
+        this.model.get('__provider__'),
+        this.model.get('__factorType__'),
+        'activate'
+      );
+
+      this.options.appState.trigger('navigate', url);
+    });
+  },
 });

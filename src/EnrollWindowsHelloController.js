@@ -10,194 +10,187 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'util/FormController',
-  'util/FormType',
-  'util/webauthn',
-  'views/shared/Spinner',
-  'views/enroll-factors/Footer',
-  'views/mfa-verify/HtmlErrorMessageView'
-],
-function (Okta, FormController, FormType, webauthn, Spinner, Footer, HtmlErrorMessageView) {
-
-  var _ = Okta._;
-
-  return FormController.extend({
-    className: 'enroll-windows-hello',
-    Model: {
-      local: {
-        __isEnrolled__: 'boolean'
-      },
-
-      save: function () {
-        if (!webauthn.isAvailable()) {
-          return;
-        }
-
-        this.trigger('request');
-
-        if (this.get('__isEnrolled__')) {
-          return this.activate();
-        }
-
-        return this.doTransaction(function (transaction) {
-          return this._enroll(transaction);
-        });
-      },
-
-      _enroll: function (transaction) {
-        var factor = _.findWhere(transaction.factors, {
-          factorType: 'webauthn',
-          provider: 'FIDO'
-        });
-
-        return factor.enroll();
-      },
-
-      activate: function () {
-        this.set('__isEnrolled__', true);
-
-        return this.doTransaction(function (transaction) {
-          var activation = transaction.factor.activation;
-          var user = transaction.user;
-          var model = this;
-
-          var accountInfo = {
-            rpDisplayName: activation.rpDisplayName,
-            userDisplayName: user.profile.displayName,
-            accountName: user.profile.login,
-            userId: user.id
-          };
-          var cryptoParams = [{
-            algorithm: activation.algorithm
-          }];
-          var challenge = activation.nonce;
-
-          return webauthn.makeCredential(accountInfo, cryptoParams, challenge)
-            .then(function (creds) {
-              return transaction.activate({
-                credentialId: creds.credential.id,
-                publicKey: creds.publicKey,
-                attestation: null
-              });
-            })
-            .catch(function (error) {
-              switch (error.message) {
-              case 'AbortError':
-              case 'NotFoundError':
-              case 'NotSupportedError':
-                model.trigger('abort', error.message);
-                return transaction;
-              }
-
-              throw error;
-            });
-        });
-      }
+import { _, loc } from 'okta';
+import FormController from 'util/FormController';
+import FormType from 'util/FormType';
+import webauthn from 'util/webauthn';
+import Footer from 'views/enroll-factors/Footer';
+import HtmlErrorMessageView from 'views/mfa-verify/HtmlErrorMessageView';
+import Spinner from 'views/shared/Spinner';
+export default FormController.extend({
+  className: 'enroll-windows-hello',
+  Model: {
+    local: {
+      __isEnrolled__: 'boolean',
     },
 
-    Form: {
-      autoSave: true,
-      hasSavingState: false,
-      title: _.partial(Okta.loc, 'enroll.windowsHello.title', 'login'),
-      subtitle: function () {
-        return webauthn.isAvailable() ? Okta.loc('enroll.windowsHello.subtitle', 'login') : '';
-      },
-      save: _.partial(Okta.loc, 'enroll.windowsHello.save', 'login'),
+    save: function () {
+      if (!webauthn.isAvailable()) {
+        return;
+      }
 
-      customSavingState: {
-        stop: 'abort'
-      },
+      this.trigger('request');
 
-      modelEvents: function () {
-        if (!webauthn.isAvailable()) {
-          return {};
-        }
+      if (this.get('__isEnrolled__')) {
+        return this.activate();
+      }
 
-        return {
-          'request': '_startEnrollment',
-          'error': '_stopEnrollment',
-          'abort': '_stopEnrollment'
+      return this.doTransaction(function (transaction) {
+        return this._enroll(transaction);
+      });
+    },
+
+    _enroll: function (transaction) {
+      const factor = _.findWhere(transaction.factors, {
+        factorType: 'webauthn',
+        provider: 'FIDO',
+      });
+
+      return factor.enroll();
+    },
+
+    activate: function () {
+      this.set('__isEnrolled__', true);
+
+      return this.doTransaction(function (transaction) {
+        const activation = transaction.factor.activation;
+        const user = transaction.user;
+        const model = this;
+        const accountInfo = {
+          rpDisplayName: activation.rpDisplayName,
+          userDisplayName: user.profile.displayName,
+          accountName: user.profile.login,
+          userId: user.id,
         };
-      },
+        const cryptoParams = [
+          {
+            algorithm: activation.algorithm,
+          },
+        ];
+        const challenge = activation.nonce;
 
-      noButtonBar: function () {
-        return !webauthn.isAvailable();
-      },
+        return webauthn
+          .makeCredential(accountInfo, cryptoParams, challenge)
+          .then(function (creds) {
+            return transaction.activate({
+              credentialId: creds.credential.id,
+              publicKey: creds.publicKey,
+              attestation: null,
+            });
+          })
+          .catch(function (error) {
+            switch (error.message) {
+            case 'AbortError':
+            case 'NotFoundError':
+            case 'NotSupportedError':
+              model.trigger('abort', error.message);
+              return transaction;
+            }
 
-      formChildren: function () {
-        var result = [];
-
-        if (!webauthn.isAvailable()) {
-          result.push(
-            FormType.View(
-              { View: new HtmlErrorMessageView(
-                { message: Okta.loc('enroll.windowsHello.error.notWindows', 'login') }) },
-              { selector: '.o-form-error-container'}
-            )
-          );
-        }
-
-        result.push(FormType.View({ View: new Spinner({ model: this.model, visible: false }) }));
-
-        return result;
-      },
-
-      _startEnrollment: function () {
-        this.subtitle = Okta.loc('enroll.windowsHello.subtitle.loading', 'login');
-
-        this.model.trigger('spinner:show');
-        this._resetErrorMessage();
-
-        this.render();
-        this.$('.o-form-button-bar').addClass('hide');
-      },
-
-      _stopEnrollment: function (errorMessage) {
-        this.subtitle = Okta.loc('enroll.windowsHello.subtitle', 'login');
-
-        this.model.trigger('spinner:hide');
-
-        var message;
-        switch (errorMessage){
-        case 'NotSupportedError':
-          message = Okta.loc('enroll.windowsHello.error.notConfiguredHtml', 'login');
-          break;
-        }
-
-        this._resetErrorMessage();
-
-        if (message){
-          var messageView = new HtmlErrorMessageView({
-            message: message
+            throw error;
           });
+      });
+    },
+  },
 
-          this.$('.o-form-error-container').addClass('o-form-has-errors');
-          this.add(messageView, { selector: '.o-form-error-container' });
-          this._errorMessageView = this.last();
-        }
+  Form: {
+    autoSave: true,
+    hasSavingState: false,
+    title: _.partial(loc, 'enroll.windowsHello.title', 'login'),
+    subtitle: function () {
+      return webauthn.isAvailable() ? loc('enroll.windowsHello.subtitle', 'login') : '';
+    },
+    save: _.partial(loc, 'enroll.windowsHello.save', 'login'),
 
-        this.render();
-        this.$('.o-form-button-bar').removeClass('hide');
-      },
-
-
-      _resetErrorMessage: function () {
-        this._errorMessageView && this._errorMessageView.remove();
-        this._errorMessageView = undefined;
-        this.clearErrors();
-      }
+    customSavingState: {
+      stop: 'abort',
     },
 
-    Footer: Footer,
-
-    trapAuthResponse: function () {
-      if (this.options.appState.get('isMfaEnrollActivate')) {
-        this.model.activate();
-        return true;
+    modelEvents: function () {
+      if (!webauthn.isAvailable()) {
+        return {};
       }
-    }
-  });
 
+      return {
+        request: '_startEnrollment',
+        error: '_stopEnrollment',
+        abort: '_stopEnrollment',
+      };
+    },
+
+    noButtonBar: function () {
+      return !webauthn.isAvailable();
+    },
+
+    formChildren: function () {
+      const result = [];
+
+      if (!webauthn.isAvailable()) {
+        result.push(
+          FormType.View(
+            { View: new HtmlErrorMessageView({ message: loc('enroll.windowsHello.error.notWindows', 'login') }) },
+            { selector: '.o-form-error-container' }
+          )
+        );
+      }
+
+      result.push(FormType.View({ View: new Spinner({ model: this.model, visible: false }) }));
+
+      return result;
+    },
+
+    _startEnrollment: function () {
+      this.subtitle = loc('enroll.windowsHello.subtitle.loading', 'login');
+
+      this.model.trigger('spinner:show');
+      this._resetErrorMessage();
+
+      this.render();
+      this.$('.o-form-button-bar').addClass('hide');
+    },
+
+    _stopEnrollment: function (errorMessage) {
+      this.subtitle = loc('enroll.windowsHello.subtitle', 'login');
+
+      this.model.trigger('spinner:hide');
+
+      let message;
+
+      switch (errorMessage) {
+      case 'NotSupportedError':
+        message = loc('enroll.windowsHello.error.notConfiguredHtml', 'login');
+        break;
+      }
+
+      this._resetErrorMessage();
+
+      if (message) {
+        const messageView = new HtmlErrorMessageView({
+          message: message,
+        });
+
+        this.$('.o-form-error-container').addClass('o-form-has-errors');
+        this.add(messageView, { selector: '.o-form-error-container' });
+        this._errorMessageView = this.last();
+      }
+
+      this.render();
+      this.$('.o-form-button-bar').removeClass('hide');
+    },
+
+    _resetErrorMessage: function () {
+      this._errorMessageView && this._errorMessageView.remove();
+      this._errorMessageView = undefined;
+      this.clearErrors();
+    },
+  },
+
+  Footer: Footer,
+
+  trapAuthResponse: function () {
+    if (this.options.appState.get('isMfaEnrollActivate')) {
+      this.model.activate();
+      return true;
+    }
+  },
 });

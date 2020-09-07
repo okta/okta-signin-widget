@@ -10,71 +10,84 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta'
-],
-function (Okta) {
+import { _, BaseModel, internal } from 'okta';
+let { BaseSchema, SchemaProperty } = internal.models;
+const RegistrationSchemaRegistrationSchemaPropertyCollection = SchemaProperty.Collection.extend({
+  createModelProperties: function () {
+    const modelProperties = SchemaProperty.Collection.prototype.createModelProperties.apply(this);
 
-  var _ = Okta._;
-  var { BaseSchema, SchemaProperty } = Okta.internal.models;
-
-  var RegistrationSchemaPropertyCollection = SchemaProperty.Collection.extend({
-    createModelProperties: function () {
-      var modelProperties = SchemaProperty.Collection.prototype.createModelProperties.apply(this);
-      _.each(modelProperties, function (modelProperty, name) {
+    _.each(
+      modelProperties,
+      function (modelProperty, name) {
         modelProperty.required = !!this.get(name).get('required');
-      }, this);
-      return modelProperties;
-    }
-  });
+      },
+      this
+    );
+    return modelProperties;
+  },
+});
+export default BaseSchema.Model.extend({
+  expand: ['schema'],
 
-  return BaseSchema.Model.extend({
-    expand: ['schema'],
+  constructor: function () {
+    this.properties = new RegistrationSchemaRegistrationSchemaPropertyCollection();
+    BaseModel.apply(this, arguments);
+  },
 
-    constructor: function () {
-      this.properties = new RegistrationSchemaPropertyCollection();
-      Okta.BaseModel.apply(this, arguments);
-    },
+  parse: function (resp) {
+    const parseResponseData = resp => {
+      const requireFields = resp.schema.required;
 
-    parse: function (resp) {
+      if (_.isArray(requireFields)) {
+        _.each(
+          requireFields,
+          function (requireField) {
+            const field = this.properties.get(requireField);
 
-      var parseResponseData = _.bind(function (resp) {
-        var requireFields = resp.schema.required;
-        if (_.isArray(requireFields)) {
-          _.each(requireFields, function (requireField) {
-            var field = this.properties.get(requireField);
             if (field) {
               field.set('required', true);
             }
-          }, this);
-        }
+          },
+          this
+        );
+      }
 
-        var fieldOrderIds = resp.schema.fieldOrder;
-        if (_.isArray(fieldOrderIds)) {
-          _.each(fieldOrderIds, function (fieldOrderId, sortOrder) {
-            var field = this.properties.get(fieldOrderId);
+      const fieldOrderIds = resp.schema.fieldOrder;
+
+      if (_.isArray(fieldOrderIds)) {
+        _.each(
+          fieldOrderIds,
+          function (fieldOrderId, sortOrder) {
+            const field = this.properties.get(fieldOrderId);
+
             if (field) {
               field.set('sortOrder', sortOrder);
             }
-          }, this);
-          this.properties.comparator = 'sortOrder';
-          this.properties.sort();
-        }
-        this.properties.defaultPolicyId = resp.policyId;
-        return resp;
-      }, this);
+          },
+          this
+        );
+        this.properties.comparator = 'sortOrder';
+        this.properties.sort();
+      }
+      this.properties.defaultPolicyId = resp.policyId;
+      return resp;
+    };
 
-      var self = this;
-      this.settings.parseSchema(resp, function (resp) {
+    const self = this;
+
+    this.settings.parseSchema(
+      resp,
+      function (resp) {
         if (resp.profileSchema) {
           resp.schema = resp.profileSchema;
           BaseSchema.Model.prototype.parse.apply(self, [resp]);
           resp = parseResponseData(resp);
         }
-        self.trigger('parseComplete', {properties: self.properties});
-      }, function (error) {
-        self.trigger('parseComplete', {properties: self.properties, error: error});
-      });
-    }
-  });
+        self.trigger('parseComplete', { properties: self.properties });
+      },
+      function (error) {
+        self.trigger('parseComplete', { properties: self.properties, error: error });
+      }
+    );
+  },
 });

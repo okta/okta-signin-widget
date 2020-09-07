@@ -1,92 +1,90 @@
-define(['./Form'], function (Form) {
+import Form from './Form';
+const OLD_PASS_FIELD = 'oldPassword';
+const NEW_PASS_FIELD = 'newPassword';
+const CONFIRM_PASS_FIELD = 'confirmPassword';
+export default Form.extend({
+  passwordRequirementsHtmlList: function () {
+    return this.el('password-requirements-html');
+  },
 
-  var OLD_PASS_FIELD = 'oldPassword';
-  var NEW_PASS_FIELD = 'newPassword';
-  var CONFIRM_PASS_FIELD = 'confirmPassword';
+  passwordRequirementsHtmlHeader: function () {
+    return this.passwordRequirementsHtmlList().find('.password-requirements--header');
+  },
 
-  return Form.extend({
-    passwordRequirementsHtmlList: function () {
-      return this.el('password-requirements-html');
-    },
+  passwordRequirementsHtmlListItems: function () {
+    return this.passwordRequirementsHtmlList().find('.password-requirements--list-item');
+  },
 
-    passwordRequirementsHtmlHeader: function () {
-      return this.passwordRequirementsHtmlList().find('.password-requirements--header');
-    },
+  oldPassField: function () {
+    return this.input(OLD_PASS_FIELD);
+  },
 
-    passwordRequirementsHtmlListItems: function () {
-      return this.passwordRequirementsHtmlList().find('.password-requirements--list-item');
-    },
+  oldPassFieldError: function () {
+    return this.error(OLD_PASS_FIELD);
+  },
 
-    oldPassField: function () {
-      return this.input(OLD_PASS_FIELD);
-    },
+  setOldPass: function (val) {
+    const field = this.oldPassField();
 
-    oldPassFieldError: function () {
-      return this.error(OLD_PASS_FIELD);
-    },
+    field.val(val);
+    field.trigger('change');
+  },
 
-    setOldPass: function (val) {
-      var field = this.oldPassField();
-      field.val(val);
-      field.trigger('change');
-    },
+  newPassField: function () {
+    return this.input(NEW_PASS_FIELD);
+  },
 
-    newPassField: function () {
-      return this.input(NEW_PASS_FIELD);
-    },
+  newPassFieldError: function () {
+    return this.error(NEW_PASS_FIELD);
+  },
 
-    newPassFieldError: function () {
-      return this.error(NEW_PASS_FIELD);
-    },
+  setNewPass: function (val) {
+    const field = this.newPassField();
 
-    setNewPass: function (val) {
-      var field = this.newPassField();
-      field.val(val);
-      field.trigger('change');
-    },
+    field.val(val);
+    field.trigger('change');
+  },
 
-    confirmPassField: function () {
-      return this.input(CONFIRM_PASS_FIELD);
-    },
+  confirmPassField: function () {
+    return this.input(CONFIRM_PASS_FIELD);
+  },
 
-    confirmPassFieldError: function () {
-      return this.error(CONFIRM_PASS_FIELD);
-    },
+  confirmPassFieldError: function () {
+    return this.error(CONFIRM_PASS_FIELD);
+  },
 
-    setConfirmPass: function (val) {
-      var field = this.confirmPassField();
-      field.val(val);
-      field.trigger('change');
-    },
+  setConfirmPass: function (val) {
+    const field = this.confirmPassField();
 
-    skipLink: function () {
-      return this.el('skip-link');
-    },
+    field.val(val);
+    field.trigger('change');
+  },
 
-    skip: function () {
-      return this.skipLink().click();
-    },
+  skipLink: function () {
+    return this.el('skip-link');
+  },
 
-    signoutLink: function () {
-      return this.el('signout-link');
-    },
+  skip: function () {
+    return this.skipLink().click();
+  },
 
-    signout: function () {
-      return this.signoutLink().click();
-    },
+  signoutLink: function () {
+    return this.el('signout-link');
+  },
 
-    customButton: function () {
-      return this.el('custom-button');
-    },
+  signout: function () {
+    return this.signoutLink().click();
+  },
 
-    customButtonText: function () {
-      return this.el('custom-button').trimmedText();
-    },
+  customButton: function () {
+    return this.el('custom-button');
+  },
 
-    clickCustomButton: function () {
-      this.el('custom-button').click();
-    }
+  customButtonText: function () {
+    return this.el('custom-button').trimmedText();
+  },
 
-  });
-
+  clickCustomButton: function () {
+    this.el('custom-button').click();
+  },
 });

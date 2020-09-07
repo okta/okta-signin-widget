@@ -4,10 +4,14 @@ import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticato
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
 
 import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
+import xhrSelectAuthenticatorsOktaVerify from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-ov-m2';
 import xhrSelectAuthenticatorsRecovery from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-for-recovery';
 import xhrAuthenticatorRequiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
 import xhrAuthenticatorRequiredEmail from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
 import xhrAuthenticatorRequiredWebauthn from '../../../playground/mocks/data/idp/idx/authenticator-verification-webauthn';
+import xhrAuthenticatorOVTotp from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp';
+import xhrAuthenticatorOVPush from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push';
+import xhrAuthenticatorOVFastPass from '../../../playground/mocks/data/idp/idx/identify-with-user-verification-loopback';
 
 const requestLogger = RequestLogger(
   /idx\/introspect|\/challenge/,
@@ -38,6 +42,24 @@ const mockChallengeWebauthn = RequestMock()
 const mockSelectAuthenticatorForRecovery = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorsRecovery);
+
+const mockChallengeOVTotp = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticatorsOktaVerify)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrAuthenticatorOVTotp);
+
+const mockChallengeOVPush = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticatorsOktaVerify)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrAuthenticatorOVPush);
+
+const mockChallengeOVFastPass = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticatorsOktaVerify)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrAuthenticatorOVFastPass);
 
 fixture('Select Authenticator for verification Form');
 
@@ -85,7 +107,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getFactorIconClassByIndex(5)).contains('mfa-okta-security-question');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(5)).eql('Select');
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(6)).eql('Okta Verify');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(6)).eql('Use Okta FastPass');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(6)).eql(false);
   await t.expect(selectFactorPage.getFactorIconClassByIndex(6)).contains('mfa-okta-verify');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(6)).eql('Select');
@@ -169,4 +191,111 @@ test.requestHooks(mockChallengeEmail)('should navigate to email challenge page',
   selectFactorPage.selectFactorByIndex(2);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
   await t.expect(challengeFactorPage.getPageTitle()).eql('Verify with your email');
+});
+
+test.requestHooks(mockChallengeOVTotp)('should load select authenticator list with okta verify options', async t => {
+  const selectFactorPage = await setup(t);
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
+  await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
+  await t.expect(selectFactorPage.getFactorsCount()).eql(4);
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Use Okta FastPass');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(0)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-verify');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Select');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Get a push notification');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(1)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(1)).contains('mfa-okta-verify');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Enter a code');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(2)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(2)).contains('mfa-okta-verify');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Okta Password');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(3)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(3)).contains('mfa-okta-password');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(3)).eql('Select');
+
+  // signout link at enroll page
+  await t.expect(await selectFactorPage.signoutLinkExists()).ok();
+  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Sign Out');
+
+});
+
+test.requestHooks(requestLogger, mockChallengeOVTotp)('should navigate to okta verify totp page', async t => {
+  const selectFactorPage = await setup(t);
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
+
+  selectFactorPage.selectFactorByIndex(2);
+  const challengeFactorPage = new ChallengeFactorPageObject(t);
+  await t.expect(challengeFactorPage.getPageTitle()).eql('Enter a code');
+
+  await t.expect(requestLogger.count(() => true)).eql(2);
+  const req1 = requestLogger.requests[0].request;
+  await t.expect(req1.url).eql('http://localhost:3000/idp/idx/introspect');
+
+  const req2 = requestLogger.requests[1].request;
+  await t.expect(req2.url).eql('http://localhost:3000/idp/idx/challenge');
+  await t.expect(req2.method).eql('post');
+  await t.expect(JSON.parse(req2.body)).eql({
+    'authenticator':
+    {
+      'id': 'auteq0lLiL9o1cYoN0g4',
+      'methodType': 'totp'
+    },
+    'stateHandle': '02im-3M2f6UXHgNfS7Ns7C85EKHzGaKw0u1CC4p9_r'
+  });
+});
+
+test.requestHooks(requestLogger, mockChallengeOVPush)('should navigate to okta verify push page', async t => {
+  const selectFactorPage = await setup(t);
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
+
+  selectFactorPage.selectFactorByIndex(1);
+  const challengeFactorPage = new ChallengeFactorPageObject(t);
+  await t.expect(challengeFactorPage.getPageTitle()).eql('Get a push notification');
+
+  await t.expect(requestLogger.count(() => true)).eql(2);
+  const req1 = requestLogger.requests[0].request;
+  await t.expect(req1.url).eql('http://localhost:3000/idp/idx/introspect');
+
+  const req2 = requestLogger.requests[1].request;
+  await t.expect(req2.url).eql('http://localhost:3000/idp/idx/challenge');
+  await t.expect(req2.method).eql('post');
+  await t.expect(JSON.parse(req2.body)).eql({
+    'authenticator':
+    {
+      'id': 'auteq0lLiL9o1cYoN0g4',
+      'methodType': 'push'
+    },
+    'stateHandle': '02im-3M2f6UXHgNfS7Ns7C85EKHzGaKw0u1CC4p9_r'
+  });
+});
+
+test.requestHooks(requestLogger, mockChallengeOVFastPass)('should navigate to okta verify fast pass page', async t => {
+  const selectFactorPage = await setup(t);
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
+
+  selectFactorPage.selectFactorByIndex(0);
+  const challengeFactorPage = new ChallengeFactorPageObject(t);
+  await t.expect(challengeFactorPage.getPageTitle()).eql('Signing in using Okta FastPass');
+
+  await t.expect(requestLogger.count(() => true)).eql(2);
+  const req1 = requestLogger.requests[0].request;
+  await t.expect(req1.url).eql('http://localhost:3000/idp/idx/introspect');
+
+  const req2 = requestLogger.requests[1].request;
+  await t.expect(req2.url).eql('http://localhost:3000/idp/idx/challenge');
+  await t.expect(req2.method).eql('post');
+  await t.expect(JSON.parse(req2.body)).eql({
+    'authenticator':
+    {
+      'id': 'auteq0lLiL9o1cYoN0g4',
+      'methodType': 'signed_nonce'
+    },
+    'stateHandle': '02im-3M2f6UXHgNfS7Ns7C85EKHzGaKw0u1CC4p9_r'
+  });
 });

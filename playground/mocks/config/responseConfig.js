@@ -12,6 +12,7 @@ const idx = {
     // 'authenticator-enroll-phone-voice',
     // 'authenticator-enroll-data-phone',
     // 'authenticator-enroll-data-phone-voice',
+    // 'authenticator-enroll-ov-local',
     // 'error-internal-server-error',
     // 'authenticator-enroll-security-question',
     // 'authenticator-enroll-select-authenticator',
@@ -26,6 +27,7 @@ const idx = {
     // 'authenticator-verification-phone-voice',
     // 'authenticator-verification-security-question',
     // 'authenticator-verification-select-authenticator',
+    // 'authenticator-verification-select-authenticator-ov-m2',
     // 'authenticator-verification-webauthn',
     // 'authenticator-reset-password',
     // 'authenticator-expired-password',
@@ -50,7 +52,7 @@ const idx = {
     // 'identify-with-third-party-idps',
     // 'identify-with-only-third-party-idps',
     // 'identify-with-only-one-third-party-idp',
-    // 'identify-with-password',
+    //'identify-with-password',
     // 'identify-with-universal-link',
     // 'select-factor-authenticate',
     // 'select-factor-for-password-recovery',
@@ -67,11 +69,12 @@ const idx = {
     'enroll-profile-new'
   ],
   '/idp/idx/credential/enroll': [
-    'authenticator-enroll-security-question',
+    //'authenticator-enroll-ov-via-sms',
+    //'authenticator-enroll-security-question',
   ],
   '/idp/idx/identify': [
-    // 'identify-with-only-one-third-party-idp',
-    'error-forgot-password',
+    'authenticator-enroll-select-authenticator',
+    //'identify-with-only-one-third-party-idp',
     // 'error-identify-access-denied',
     // 'error-identify-user-locked-unable-challenge'
   ],
@@ -83,19 +86,26 @@ const idx = {
     'error-authenticator-enroll-security-question'
   ],
   '/idp/idx/challenge/send': [
-    'factor-verification-email',
+    //'factor-verification-email',
+    //'authenticator-enroll-ov-sms',
+    'authenticator-enroll-ov-email',
   ],
   '/idp/idx/challenge/resend': [
     // 'factor-verification-email',
-    'authenticator-verification-phone',
+    'authenticator-enroll-ov-sms',
     // 'authenticator-verification-phone-voice'
   ],
   '/idp/idx/challenge/poll': [
-    'authenticator-enroll-email',
+    'success',
+    //'enroll-profile-new'
+    // 'authenticator-enroll-email',
+    // 'authenticator-verification-okta-verify-push',
   ],
   '/idp/idx/challenge': [
     'authenticator-verification-webauthn',
     // 'authenticator-verification-password',
+    // 'authenticator-verification-okta-verify-totp',
+    // 'authenticator-verification-okta-verify-push',
     // 'factor-verification-password',
     // 'factor-verification-email',
   ],
@@ -294,6 +304,97 @@ const userVerificationUniversalLink = {
     'identify-with-user-verification-universal-link',
     'identify-with-user-verification-universal-link',
     'success',
+  ],
+};
+
+// ov enroll
+const ovEnroll = {
+  '/idp/idx/introspect': [
+    'authenticator-enroll-ov-qr',
+  ],
+  '/idp/idx/credential/enroll': [
+    'authenticator-enroll-ov-via-email',
+  ],
+  '/idp/idx/challenge/send': [
+    'authenticator-enroll-ov-email',
+  ],
+  '/idp/idx/challenge/resend': [
+    'authenticator-enroll-ov-email'
+  ],
+  '/idp/idx/challenge/poll': [
+    'authenticator-enroll-ov-email',
+    'success'
+  ],
+};
+
+// ov challenge m2 totp - success
+const ovTotpSuccess = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-ov-m2'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-totp'
+  ],
+  '/idp/idx/challenge/answer': [
+    'success'
+  ],
+};
+
+// ov challenge m2 totp - error
+const ovTotpError = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-ov-m2'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-totp'
+  ],
+  '/idp/idx/challenge/answer': [
+    'error-okta-verify-totp'
+  ],
+};
+
+// ov challenge m2 push - success
+const ovPushSuccess = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-ov-m2'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-push'
+  ],
+  '/idp/idx/challenge/poll': [
+    'authenticator-verification-okta-verify-push',
+    'authenticator-verification-okta-verify-push',
+    'authenticator-verification-okta-verify-push',
+    'success',
+  ],
+};
+
+// ov challenge m2 push - wait
+const ovPushWait = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-ov-m2'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-push'
+  ],
+  '/idp/idx/challenge/poll': [
+    'authenticator-verification-okta-verify-push',
+  ],
+};
+
+// ov challenge m2 push - error
+const ovPushError = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-ov-m2'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-push'
+  ],
+  '/idp/idx/challenge/poll': [
+    'authenticator-verification-okta-verify-push',
+    'authenticator-verification-okta-verify-push',
+    'authenticator-verification-okta-verify-push',
+    'authenticator-verification-okta-verify-reject-push',
   ],
 };
 
