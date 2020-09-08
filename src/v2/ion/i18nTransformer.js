@@ -60,6 +60,9 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-authenticate.authenticator.app.signed_nonce': 'oie.okta_verify.signed_nonce.title',
   'select-authenticator-authenticate.authenticator.app.push': 'oie.okta_verify.push.title',
   'select-authenticator-authenticate.authenticator.app.totp': 'oie.okta_verify.totp.title',
+  'authenticator-verification-data.authenticator.app.signed_nonce': 'oie.okta_verify.signed_nonce.title',
+  'authenticator-verification-data.authenticator.app.push': 'oie.okta_verify.push.title',
+  'authenticator-verification-data.authenticator.app.totp': 'oie.okta_verify.totp.title',
 
   'authenticator-enrollment-data.phone.authenticator.phoneNumber': 'mfa.phoneNumber.placeholder',
 
