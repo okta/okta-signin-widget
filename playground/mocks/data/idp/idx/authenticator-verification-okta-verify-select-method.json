@@ -34,15 +34,15 @@
                   "required": true,
                   "options": [
                     {
-                      "label": "Use Okta FastPass",
+                      "label": "FastPass",
                       "value": "signed_nonce"
                     },
                     {
-                      "label": "Get a push notification",
+                      "label": "push notification",
                       "value": "push"
                     },
                     {
-                      "label": "Enter a code",
+                      "label": "totp",
                       "value": "totp"
                     }
                   ]
