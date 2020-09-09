@@ -2,7 +2,7 @@ import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import { loc } from 'okta';
 
-const Body = BaseForm.extend({
+export const Body = BaseForm.extend({
   title: function () {
     if (this.isPasswordRecoveryFlow())  {
       return loc('password.reset.title.generic', 'login');
