@@ -66,7 +66,6 @@ export default Model.extend({
     'features.webauthn': ['boolean', true, false],
     'features.selfServiceUnlock': ['boolean', true, false],
     'features.multiOptionalFactorEnroll': ['boolean', true, false],
-    'features.preventBrowserFromSavingOktaPassword': ['boolean', true, true],
     'features.deviceFingerprinting': ['boolean', false, false],
     'features.hideSignOutLinkInMFA': ['boolean', false, false],
     'features.hideBackToSignInForReset': ['boolean', false, false],
