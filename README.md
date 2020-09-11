@@ -808,8 +808,6 @@ registration: {
 
 ### Registration
 
-> **:warning: Beta feature:** The registration feature is currently a [Beta feature](https://developer.okta.com/docs/api/getting_started/releases-at-okta#beta). This widget functionality won't work unless your Okta organization is part of the Beta program. For help, contact support@okta.com.
-
 To add registration into your application, configure your Okta admin settings to allow users to self register into your app. Then, set `features.registration` in the widget. You can add additional configs under the registration key on the [`OktaSignIn`](#new-oktasigninconfig) object.
 
 ```javascript
