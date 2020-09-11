@@ -50,7 +50,7 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
   - [pageRendered](#pagerendered)
   - [passwordRevealed](#passwordrevealed)
 - [Building the Widget](#building-the-widget)
-  - [The `.widgetrc` config file](#the-widgetrc-config-file)
+  - [The `.widgetrc.js` config file](#the-widgetrc-config-file)
   - [Build and test commands](#build-and-test-commands)
 - [Browser support](#browser-support)
 - [Contributing](#contributing)
@@ -1300,13 +1300,15 @@ We use Yarn as our node package manager. To install Yarn, check out their [insta
     yarn install
     ```
 
-3. Create a `.widgetrc` file in the `okta-signin-widget` directory with an entry for `baseUrl`.
+3. Create a `.widgetrc.js` file in the `okta-signin-widget` directory with an entry for `baseUrl`.
 
     ```javascript
-    {
-      "widgetOptions": {
-        "baseUrl": "https://{yourOktaDomain}"
-      }
+    module.exports = {
+      baseUrl: 'https://{yourOktaDomain}',
+      logoText: 'Windico',
+      features: {
+        rememberMe: true,
+      },
     }
     ```
 
@@ -1322,14 +1324,6 @@ We use Yarn as our node package manager. To install Yarn, check out their [insta
 
 5. Finally, enable CORS support for our new server by [following these instructions](http://developer.okta.com/docs/guides/okta_sign-in_widget.html#configuring-cors-support-on-your-okta-organization). You can now authenticate to Okta using your very own, customizable widget!
 
-### The `.widgetrc` config file
-
-The `.widgetrc` file is a configuration file that saves your local widget settings.
-
-| Property          | Description                                                     |
-|-------------------|-----------------------------------------------------------------|
-| **widgetOptions** | Config options that are passed to the widget on initialization. |
-| **serverPort**    | The port the local server runs on. Defaults to `3000`           |
 
 ### Build and test commands
 

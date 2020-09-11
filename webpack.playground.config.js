@@ -7,37 +7,12 @@ const dyson = require('dyson');
 const TARGET = path.resolve(__dirname, 'target');
 const PLAYGROUND = path.resolve(__dirname, 'playground');
 const DEFAULT_SERVER_PORT = 3000;
-const WIDGET_RC = '.widgetrc';
+const WIDGET_RC_FILE = '.widgetrc.js';
 
-let widgetRc = {
-  widgetOptions: {
-    baseUrl: 'http://localhost:3000',
-    logo: '/img/logo_widgico.png',
-    logoText: 'Windico',
-    features: {
-      router: true,
-      rememberMe: true,
-      multiOptionalFactorEnroll: true
-    },
-    stateToken: 'dummy-state-token-wrc',
-    authParams: {
-      pkce: false // PKCE is enabled by default in okta-auth-js@3.0
-    },
-    // Host the assets (i.e. json files) locally
-    assets: {
-      baseUrl: '/'
-    }
-  }
-};
-
-if (!fs.existsSync(WIDGET_RC)) {
+if (!fs.existsSync(WIDGET_RC_FILE)) {
   // create default WIDGET_RC if it doesn't exist to simplifed the build process
-  fs.writeFileSync(WIDGET_RC, JSON.stringify(widgetRc, null, 2));
-} else {
-  widgetRc = JSON.parse(fs.readFileSync(WIDGET_RC));
+  fs.copyFileSync('.widgetrc.sample.js', WIDGET_RC_FILE);
 }
-
-const PORT = widgetRc.serverPort || DEFAULT_SERVER_PORT;
 
 module.exports = {
   target: 'web',
@@ -60,10 +35,6 @@ module.exports = {
           presets: ['@babel/preset-env']
         }
       },
-      {
-        test: /\.json$|\.widgetrc/,
-        loader: 'json-loader'
-      },
     ]
   },
 
@@ -78,13 +49,13 @@ module.exports = {
       `${TARGET}/css`,
     ],
     compress: true,
-    port: PORT,
+    port: DEFAULT_SERVER_PORT,
     open: true,
     watchContentBase: true,
     before (app) {
       // Enforce CSP
       app.use('/*', function (req, res, next){
-        res.header('Content-Security-Policy', 'script-src http://localhost:3000');
+        res.header('Content-Security-Policy', `script-src http://localhost:${DEFAULT_SERVER_PORT}`);
         next();
       });
 
