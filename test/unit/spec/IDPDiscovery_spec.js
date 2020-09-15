@@ -29,6 +29,7 @@ const OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
 
 function setup (settings, requests) {
   settings || (settings = {});
+  settings['language'] = 'en';
   settings['features.idpDiscovery'] = true;
 
   // To speed up the test suite, calls to debounce are
@@ -405,7 +406,7 @@ Expect.describe('IDPDiscovery', function () {
         expect(explain.length).toBe(0);
       });
     });
-    itp('username field does have explain when is customized', function () {
+    itp('username field does have explain when it is customized', function () {
       const options = {
         i18n: {
           en: {
@@ -416,7 +417,6 @@ Expect.describe('IDPDiscovery', function () {
 
       return setup(options).then(function (test) {
         const explain = test.form.usernameExplain();
-
         expect(explain.text()).toEqual('Custom Username Explain');
       });
     });
