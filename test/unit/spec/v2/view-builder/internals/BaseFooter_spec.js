@@ -19,6 +19,7 @@ describe('v2/view-builder/internals/BaseFooter', function () {
     });
     fooFooter.render();
     expect(testContext.settings.get).toHaveBeenCalledWith('features.hideSignOutLinkInMFA');
+    expect(testContext.settings.get).toHaveBeenCalledWith('features.mfaOnlyFlow');
     return fooFooter;
   };
 

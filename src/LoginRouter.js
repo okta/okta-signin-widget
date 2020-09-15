@@ -61,6 +61,7 @@ import VerifyPIVController from 'VerifyPIVController';
 import VerifyU2FController from 'VerifyU2FController';
 import VerifyWebauthnController from 'VerifyWebauthnController';
 import VerifyWindowsHelloController from 'VerifyWindowsHelloController';
+import ErrorStateController from 'ErrorStateController';
 import BaseLoginRouter from 'util/BaseLoginRouter';
 import FactorBeacon from 'views/shared/FactorBeacon';
 import PIVBeacon from 'views/shared/PIVBeacon';
@@ -126,6 +127,7 @@ export default BaseLoginRouter.extend({
     'signin/refresh-auth-state(/:token)': 'refreshAuthState',
     'signin/register': 'register',
     'signin/register-complete': 'registerComplete',
+    'signin/error': 'errorState',
     'signin/consent': 'consentRequired',
     'signin/enroll-user': 'enrollUser',
     '*wildcard': 'defaultAuth',
@@ -143,6 +145,7 @@ export default BaseLoginRouter.extend({
     'refreshAuthState',
     'register',
     'registerComplete',
+    'errorState',
     'verifyPIV',
   ],
 
@@ -522,6 +525,10 @@ export default BaseLoginRouter.extend({
 
   registerComplete: function () {
     this.render(RegistrationCompleteController);
+  },
+
+  errorState: function () {
+    this.render(ErrorStateController, { Beacon: SecurityBeacon });
   },
 
   consentRequired: function () {
