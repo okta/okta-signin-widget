@@ -7,6 +7,7 @@ import EnrollCallForm from 'helpers/dom/EnrollCallForm';
 import IDPDiscoveryForm from 'helpers/dom/IDPDiscoveryForm';
 import MfaVerifyForm from 'helpers/dom/MfaVerifyForm';
 import PrimaryAuthForm from 'helpers/dom/PrimaryAuthForm';
+import ErrorStateForm from 'helpers/dom/ErrorStateForm';
 import RecoveryForm from 'helpers/dom/RecoveryQuestionForm';
 import Util from 'helpers/mocks/Util';
 import Expect from 'helpers/util/Expect';
@@ -861,7 +862,7 @@ Expect.describe('LoginRouter', function () {
 
         expect(form.isPrimaryAuth()).toBe(true);
         expect(form.hasErrors()).toBe(true);
-        expect(form.errorMessage()).toBe('Your session has expired. Please try to log in again.');
+        expect(form.errorMessage()).toBe('Your session has expired. Please try to sign in again.');
 
         // Submit the form and verify that we no longer have the flash error message
         test.setNextResponse(resMfa);
@@ -875,6 +876,52 @@ Expect.describe('LoginRouter', function () {
 
         expect(form.isSecurityQuestion()).toBe(true);
         expect(form.hasErrors()).toBe(false);
+      });
+  });
+  itp('navigates to ErrorState page and shows a flash error if the stateToken expires', function () {
+    return setup({'features.mfaOnlyFlow': true }, resRecovery)
+      .then(function (test) {
+        Util.mockRouterNavigate(test.router);
+        test.setNextResponse(resRecovery);
+        test.router.refreshAuthState('dummy-token');
+        return Expect.waitForRecoveryQuestion(test);
+      })
+      .then(function (test) {
+        test.setNextResponse(errorInvalidToken);
+        const form = new RecoveryForm($sandbox);
+
+        form.setAnswer('4444');
+        form.submit();
+        return Expect.waitForErrorState(test);
+      })
+      .then(function (test) {
+        expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+        expect(test.afterErrorHandler.calls.allArgs()).toEqual([
+          [
+            { controller: 'error-state' },
+            {
+              name: 'AuthApiError',
+              message: 'Invalid token provided',
+              statusCode: 401,
+              xhr: {
+                status: 401,
+                responseType: 'json',
+                responseText: '{"errorCode":"E0000011","errorSummary":"Invalid token provided","errorLink":"E0000011","errorId":"oaeuiUWCPr6TUSkOclgVGlWqw","errorCauses":[]}',
+                responseJSON: {
+                  errorCode: 'E0000011',
+                  errorSummary: 'Invalid token provided',
+                  errorLink: 'E0000011',
+                  errorId: 'oaeuiUWCPr6TUSkOclgVGlWqw',
+                  errorCauses: [],
+                },
+              },
+            },
+          ],
+        ]);
+        const form = new ErrorStateForm($sandbox);
+        expect(form.isErrorStateView()).toBe(true);
+        expect(form.hasErrors()).toBe(true);
+        expect(form.errorMessage()).toBe('Unable to authenticate at this time.');
       });
   });
   itp('navigates to PrimaryAuth if status is UNAUTHENTICATED, and IDP_DISCOVERY is disabled', function () {

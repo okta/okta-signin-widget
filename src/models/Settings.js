@@ -80,6 +80,7 @@ export default Model.extend({
     'features.useDeviceFingerprintForSecurityImage': ['boolean', false, true],
     'features.hideDefaultTip': ['boolean', false, true],
     'features.showPasswordRequirementsAsHtmlList': ['boolean', false, false],
+    'features.mfaOnlyFlow': ['boolean', false, false],
 
     // I18N
     language: ['any', false], // Can be a string or a function

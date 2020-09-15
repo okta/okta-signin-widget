@@ -108,7 +108,11 @@ fn.routeAfterAuthStatusChangeError = function (router, err) {
   if (err.errorCode === ErrorCodes.INVALID_TOKEN_EXCEPTION) {
     router.appState.set('flashError', err);
     router.controller.state.set('navigateDir', Enums.DIRECTION_BACK);
-    router.navigate('', { trigger: true });
+    if (router.settings.get('features.mfaOnlyFlow')) {
+      router.navigate('signin/error', { trigger: true });
+    } else {
+      router.navigate('', { trigger: true });
+    }
     return;
   }
 
