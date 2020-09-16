@@ -12,9 +12,8 @@
 
 define([
   'okta',
-  'util/Util',
   'views/primary-auth/PrimaryAuthForm'
-], function (Okta, Util, PrimaryAuthForm) {
+], function (Okta, PrimaryAuthForm) {
 
   var _ = Okta._;
 
@@ -35,12 +34,6 @@ define([
       var usernameProps = {
         className: 'margin-btm-30',
         label: Okta.loc('primaryauth.username.placeholder', 'login'),
-        'label-top': true,
-        explain: Util.createInputExplain(
-          'primaryauth.username.tooltip',
-          'primaryauth.username.placeholder',
-          'login'),
-        'explain-top': true,
         inputId: 'idp-discovery-username',
         disabled: false
       };
