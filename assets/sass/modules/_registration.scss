@@ -15,8 +15,11 @@
     display: inline-block;
   }
 
+  .registration-label {
+    margin-right: 10px;
+  }
+
   .registration-link {
-    margin-left: 10px;
     color: $primary-button-bg-color;
   }
 
