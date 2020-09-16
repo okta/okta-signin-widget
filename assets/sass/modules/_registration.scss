@@ -11,6 +11,11 @@
     margin-top: 5px;
   }
 
+  .registration-label,
+  .registration-link {
+    display: inline-block;
+  }
+
   .registration-link {
     margin-left: 10px;
     color: $primary-button-bg-color;
