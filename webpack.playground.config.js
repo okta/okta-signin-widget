@@ -1,4 +1,5 @@
 /* global module __dirname */
+/* eslint no-console:0 */
 
 const path = require('path');
 const fs = require('fs');
@@ -8,6 +9,14 @@ const TARGET = path.resolve(__dirname, 'target');
 const PLAYGROUND = path.resolve(__dirname, 'playground');
 const DEFAULT_SERVER_PORT = 3000;
 const WIDGET_RC_FILE = '.widgetrc.js';
+
+if (!fs.existsSync(WIDGET_RC_FILE) && fs.existsSync('.widgetrc')) {
+  console.log('============================================');
+  console.log('Please migrate the .widgetrc to .widgetrc.js.');
+  console.log('Check details at https://github.com/okta/okta-signin-widget/blob/master/MIGRATING.md');
+  console.log('============================================');
+  process.exit(1);
+}
 
 if (!fs.existsSync(WIDGET_RC_FILE)) {
   // create default WIDGET_RC if it doesn't exist to simplifed the build process
