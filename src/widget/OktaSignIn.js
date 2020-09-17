@@ -132,6 +132,30 @@ var OktaSignIn = (function () {
 
     var authClient = createAuthClient(options);
 
+    // reload if state token is expired, but only when tab is active
+    var hidden, visibilityChange; 
+    if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
+      hidden = "hidden";
+      visibilityChange = "visibilitychange";
+    } else if (typeof document.msHidden !== "undefined") {
+      hidden = "msHidden";
+      visibilityChange = "msvisibilitychange";
+    } else if (typeof document.webkitHidden !== "undefined") {
+      hidden = "webkitHidden";
+      visibilityChange = "webkitvisibilitychange";
+    }
+
+    var handlePageVisibilityChange = () => {
+      var expireAt = new Date(sessionStorage.getItem('expiresAt'));
+      if (!document[hidden] && expireAt) {       
+        var nowDate = new Date();
+        if(nowDate > expireAt) {
+          //Discusse we can warn user to reload the page by themseleves ?? instead of auto reload
+          location.reload();
+        }
+      }
+    }
+
     var Router;
     if (options.stateToken && !Util.isV1StateToken(options.stateToken)) {
       Router = V2Router;
@@ -139,11 +163,16 @@ var OktaSignIn = (function () {
       Router = V1Router;
     }
 
+    sessionStorage.setItem('stateToken', options.stateToken);
+    sessionStorage.setItem('expiresAt', options.expiresAt);
+
     _.extend(this, Router.prototype.Events);
     _.extend(this, getProperties(authClient, Router, options));
 
     // Triggers the event up the chain so it is available to the consumers of the widget.
     this.listenTo(Router.prototype, 'all', this.trigger);
+
+    document.addEventListener(visibilityChange, handlePageVisibilityChange, false);
 
     // On the first afterRender event (usually when the Widget is ready) - emit a 'ready' event
     this.once('afterRender', function (context) {
