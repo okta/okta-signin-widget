@@ -11,7 +11,7 @@ The configuration consists of
 
 ## Mock server
 
-While starting the playground application, the `baseUrl` in `..widgetrc.js` can be used to point to any Okta tenant. Similarly it can also be set to point to the mock server, which runs at <http://localhost:3000>
+While starting the playground application, the `baseUrl` in `.widgetrc.js` can be used to point to any Okta tenant. Similarly it can also be set to point to the mock server, which runs at <http://localhost:3000>
 
 Here is the directory structure of `mocks` folder
 

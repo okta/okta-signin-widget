@@ -4,32 +4,13 @@ This library uses semantic versioning and follows Okta's [library version policy
 
 ## Migrating `.widgetrc` to `.widgtrc.js`
 
-The rule of thumb is to create a javascript file that `module.exports` the `widgetOptions` in your `.widgetrc` file.
+The existing `.widgetrc` file used to configure the Widget has been **removed**. Simply rename the existing file to `.widgetrc.js` export the contents:
 
-For example, a `.wigetrc` looks like
 
-```json
-{
-  widgetOptions: {
-    baseUrl: 'http://localhost:3000',
-    logo: '/img/logo_widgico.png',
-    logoText: 'Windico',
-    features: {
-      router: true,
-      rememberMe: true,
-    },
-    // Host the assets (i.e. json files) locally
-    assets: {
-      baseUrl: '/'
-    }
-  }
-}
-```
-
-shall be migrated to a `.widgtrc.js` like
-
-```
-module.exports = {
+```diff
+- {
+-  widgetOptions: {
++ module.exports = {
     baseUrl: 'http://localhost:3000',
     logo: '/img/logo_widgico.png',
     logoText: 'Windico',
@@ -42,6 +23,7 @@ module.exports = {
       baseUrl: '/'
     }
   };
+- }
 ```
 
 ## Migrating from 3.x to 4.x
