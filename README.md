@@ -73,16 +73,16 @@ To use the CDN, include links to the JS and CSS files in your HTML:
 
 ```html
 <!-- Latest CDN production Javascript and CSS -->
-<script src="https://global.oktacdn.com/okta-signin-widget/4.1.1/js/okta-sign-in.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/4.4.3/js/okta-sign-in.min.js" type="text/javascript"></script>
 
-<link href="https://global.oktacdn.com/okta-signin-widget/4.1.1/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
+<link href="https://global.oktacdn.com/okta-signin-widget/4.4.3/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
 ```
 
 The standard JS asset served from our CDN includes polyfills via [`babel-polyfill`](https://babeljs.io/docs/en/babel-polyfill/) to ensure compatibility with older browsers. This may cause conflicts if your app already includes polyfills. For this case, we provide an alternate JS asset which does not include any polyfills.
 
 ```html
 <!-- Latest CDN production Javascript without polyfills -->
-<script src="https://global.oktacdn.com/okta-signin-widget/4.1.1/js/okta-sign-in.no-polyfill.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/4.4.3/js/okta-sign-in.no-polyfill.min.js" type="text/javascript"></script>
 ```
 
 ### Using the npm module

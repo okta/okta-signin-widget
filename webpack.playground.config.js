@@ -1,4 +1,5 @@
 /* global module __dirname */
+/* eslint no-console:0 */
 
 const path = require('path');
 const fs = require('fs');
@@ -7,11 +8,20 @@ const dyson = require('dyson');
 const TARGET = path.resolve(__dirname, 'target');
 const PLAYGROUND = path.resolve(__dirname, 'playground');
 const DEFAULT_SERVER_PORT = 3000;
-const WIDGET_RC_FILE = '.widgetrc.js';
+const WIDGET_RC_JS = '.widgetrc.js';
+const WIDGET_RC = '.widgetrc';
 
-if (!fs.existsSync(WIDGET_RC_FILE)) {
+if (!fs.existsSync(WIDGET_RC_JS) && fs.existsSync(WIDGET_RC)) {
+  console.error('============================================');
+  console.error(`Please migrate the ${WIDGET_RC} to ${WIDGET_RC_JS}.`);
+  console.error('For more information, please see https://github.com/okta/okta-signin-widget/blob/master/MIGRATING.md');
+  console.error('============================================');
+  process.exit(1);
+}
+
+if (!fs.existsSync(WIDGET_RC_JS)) {
   // create default WIDGET_RC if it doesn't exist to simplifed the build process
-  fs.copyFileSync('.widgetrc.sample.js', WIDGET_RC_FILE);
+  fs.copyFileSync('.widgetrc.sample.js', WIDGET_RC_JS);
 }
 
 module.exports = {
