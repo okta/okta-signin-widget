@@ -66,7 +66,6 @@ export default Model.extend({
     'features.webauthn': ['boolean', true, false],
     'features.selfServiceUnlock': ['boolean', true, false],
     'features.multiOptionalFactorEnroll': ['boolean', true, false],
-    'features.preventBrowserFromSavingOktaPassword': ['boolean', true, true],
     'features.deviceFingerprinting': ['boolean', false, false],
     'features.hideSignOutLinkInMFA': ['boolean', false, false],
     'features.hideBackToSignInForReset': ['boolean', false, false],
@@ -81,6 +80,7 @@ export default Model.extend({
     'features.useDeviceFingerprintForSecurityImage': ['boolean', false, true],
     'features.hideDefaultTip': ['boolean', false, true],
     'features.showPasswordRequirementsAsHtmlList': ['boolean', false, false],
+    'features.mfaOnlyFlow': ['boolean', false, false],
 
     // I18N
     language: ['any', false], // Can be a string or a function

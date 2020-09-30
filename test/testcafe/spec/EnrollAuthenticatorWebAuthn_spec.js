@@ -42,5 +42,5 @@ test('should have webauthn not supported error if browser doesnt support', async
 
   // assert switch authenticator link shows up
   await t.expect(await enrollWebauthnPage.switchAuthenticatorLinkExists()).ok();
-  await t.expect(enrollWebauthnPage.getSwitchAuthenticatorLinkText()).eql('Sign in using something else');
+  await t.expect(enrollWebauthnPage.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');
 });

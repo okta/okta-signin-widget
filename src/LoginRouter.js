@@ -13,6 +13,7 @@
 /* eslint max-params: 0 */
 import AccountUnlockedController from 'AccountUnlockedController';
 import ActivateTotpController from 'ActivateTotpController';
+import AdminConsentRequiredController from 'AdminConsentRequiredController';
 import BarcodePushController from 'BarcodePushController';
 import BarcodeTotpController from 'BarcodeTotpController';
 import ConsentRequiredController from 'ConsentRequiredController';
@@ -61,6 +62,7 @@ import VerifyPIVController from 'VerifyPIVController';
 import VerifyU2FController from 'VerifyU2FController';
 import VerifyWebauthnController from 'VerifyWebauthnController';
 import VerifyWindowsHelloController from 'VerifyWindowsHelloController';
+import ErrorStateController from 'ErrorStateController';
 import BaseLoginRouter from 'util/BaseLoginRouter';
 import FactorBeacon from 'views/shared/FactorBeacon';
 import PIVBeacon from 'views/shared/PIVBeacon';
@@ -126,7 +128,9 @@ export default BaseLoginRouter.extend({
     'signin/refresh-auth-state(/:token)': 'refreshAuthState',
     'signin/register': 'register',
     'signin/register-complete': 'registerComplete',
+    'signin/error': 'errorState',
     'signin/consent': 'consentRequired',
+    'signin/admin-consent': 'adminConsentRequired',
     'signin/enroll-user': 'enrollUser',
     '*wildcard': 'defaultAuth',
   },
@@ -143,6 +147,7 @@ export default BaseLoginRouter.extend({
     'refreshAuthState',
     'register',
     'registerComplete',
+    'errorState',
     'verifyPIV',
   ],
 
@@ -524,8 +529,16 @@ export default BaseLoginRouter.extend({
     this.render(RegistrationCompleteController);
   },
 
+  errorState: function () {
+    this.render(ErrorStateController, { Beacon: SecurityBeacon });
+  },
+
   consentRequired: function () {
     this.render(ConsentRequiredController);
+  },
+
+  adminConsentRequired: function () {
+    this.render(AdminConsentRequiredController);
   },
 
   enrollUser: function () {

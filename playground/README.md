@@ -7,11 +7,11 @@ In a nutshell, the playground application demonstrates a customer hosted sign-in
 The configuration consists of
 
 - [widgetrc](https://github.com/okta/okta-signin-widget#the-widgetrc-config-file)
-- `./main.js`: initializes the sign-in widget using settings from widgetrc along with a simple success handler.
+- `./main.js`: initializes the sign-in widget using settings from `.widgetrc.js` along with a simple success handler.
 
 ## Mock server
 
-While starting the playground application, the `baseUrl` in `.widgetrc` can be used to point to any Okta tenant. Similarly it can also be set to point to the mock server, which runs at <http://localhost:3000>
+While starting the playground application, the `baseUrl` in `.widgetrc.js` can be used to point to any Okta tenant. Similarly it can also be set to point to the mock server, which runs at <http://localhost:3000>
 
 Here is the directory structure of `mocks` folder
 

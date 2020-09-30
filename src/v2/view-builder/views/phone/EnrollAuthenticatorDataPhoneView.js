@@ -65,6 +65,7 @@ const Body = BaseForm.extend({
       type: 'select',
       options: CountryUtil.getCountries(),
       name: 'country',
+      wide: true,
     };
 
     // Create an input group - serves as a display wrapper

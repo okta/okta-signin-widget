@@ -52,7 +52,7 @@ test.requestHooks(mock)('default sms mode', async t => {
 
   // assert switch authenticator link shows up
   await t.expect(await enrollPhonePage.switchAuthenticatorLinkExists()).ok();
-  await t.expect(enrollPhonePage.getSwitchAuthenticatorLinkText()).eql('Sign in using something else');
+  await t.expect(enrollPhonePage.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');
 });
 
 test.requestHooks(mock)('voice mode click and extension will get shown', async t => {

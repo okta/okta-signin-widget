@@ -2294,6 +2294,11 @@ Expect.describe('MFA Verify', function () {
           expect(test.form.signoutLink($sandbox).length).toBe(0);
         });
       });
+      itp('is not present if features.mfaOnlyFlow is true', function () {
+        return setupSecurityQuestion({ 'features.mfaOnlyFlow': true }).then(function (test) {
+          expect(test.form.signoutLink($sandbox).length).toBe(0);
+        });
+      });
 
       itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function () {
         return setupSecurityQuestion()
@@ -4251,6 +4256,11 @@ Expect.describe('MFA Verify', function () {
           expect(test.form.signoutLink($sandbox).length).toBe(0);
         });
       });
+      itp('does not have sign out link if features.mfaOnlyFlow is true', function () {
+        return setupClaimsProviderFactorWithIntrospect({ 'features.mfaOnlyFlow': true }).then(function (test) {
+          expect(test.form.signoutLink($sandbox).length).toBe(0);
+        });
+      });
       itp('redirects to third party when Verify button is clicked', function () {
         spyOn(SharedUtil, 'redirect');
         return setupClaimsProviderFactorWithIntrospect()
@@ -4353,6 +4363,12 @@ Expect.describe('MFA Verify', function () {
         });
         itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function () {
           this.options.settings = { 'features.hideSignOutLinkInMFA': true };
+          return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+            expect(test.form.signoutLink($sandbox).length).toBe(0);
+          });
+        });
+        itp('does not have sign out link if features.mfaOnlyFlow is true', function () {
+          this.options.settings = { 'features.mfaOnlyFlow': true };
           return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
             expect(test.form.signoutLink($sandbox).length).toBe(0);
           });

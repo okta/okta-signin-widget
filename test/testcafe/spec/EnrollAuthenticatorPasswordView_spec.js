@@ -41,7 +41,7 @@ test('should have both password and confirmPassword fields and both are required
 
   // assert switch authenticator link shows up
   await t.expect(await enrollPasswordPage.switchAuthenticatorLinkExists()).ok();
-  await t.expect(enrollPasswordPage.getSwitchAuthenticatorLinkText()).eql('Sign in using something else');
+  await t.expect(enrollPasswordPage.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');
 
   // fields are required
   await enrollPasswordPage.clickNextButton();
