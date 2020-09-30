@@ -2,7 +2,9 @@ import { loc, View } from 'okta';
 import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import { getPasswordComplexityDescriptionForHtmlList } from '../../utils/AuthenticatorUtil';
+import {
+  getPasswordComplexityDescriptionForHtmlList,
+  removeRequirementsFromError } from '../../utils/AuthenticatorUtil';
 import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
 import hbs from 'handlebars-inline-precompile';
 
@@ -44,6 +46,12 @@ const Body = BaseForm.extend({
         }
       );
     }
+  },
+
+  triggerAfterError (model, error) {
+    const policy = this.getPasswordPolicySettings();
+    error.responseJSON = removeRequirementsFromError(error.responseJSON, policy);
+    this.options.appState.trigger('afterError', error);
   },
 
   getPasswordPolicySettings () {

@@ -314,6 +314,7 @@ const controllerClasses = {
   BarcodePush: 'barcode-push',
   BarcodeTotp: 'barcode-totp',
   ConsentRequired: 'consent-required',
+  AdminConsentRequired: 'admin-consent-required',
   EnrollCall: 'enroll-call',
   EnrollChoices: 'enroll-choices',
   EnrollDuo: 'enroll-duo',
@@ -360,6 +361,7 @@ const controllerClasses = {
   EnrollUser: 'enroll-user',
   VerifyPIV: 'piv-cac-card',
   Poll: 'poll',
+  ErrorState: 'error-state',
 };
 
 _.each(controllerClasses, function (className, controller) {

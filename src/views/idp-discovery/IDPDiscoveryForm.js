@@ -11,7 +11,6 @@
  */
 
 import { _, loc } from 'okta';
-import Util from 'util/Util';
 import PrimaryAuthForm from 'views/primary-auth/PrimaryAuthForm';
 export default PrimaryAuthForm.extend({
   className: 'idp-discovery-form',
@@ -30,9 +29,6 @@ export default PrimaryAuthForm.extend({
     const usernameProps = {
       className: 'margin-btm-30',
       label: loc('primaryauth.username.placeholder', 'login'),
-      'label-top': true,
-      explain: Util.createInputExplain('primaryauth.username.tooltip', 'primaryauth.username.placeholder', 'login'),
-      'explain-top': true,
       inputId: 'idp-discovery-username',
       disabled: false,
     };

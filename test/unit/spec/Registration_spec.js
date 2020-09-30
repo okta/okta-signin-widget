@@ -372,6 +372,13 @@ Expect.describe('Registration', function () {
         expect(test.form.hasPasswordComplexityUnsatisfied('2')).toBe(true);
         expect(test.form.hasPasswordComplexityUnsatisfied('3')).toBe(true);
         expect(test.form.hasPasswordComplexitySatisfied('4')).toBe(true);
+        expect(test.form.$('#subschemas-password').html()).toBe(
+          '<div class="subschema-0 subschema-satisfied"><p class=""><span class="icon icon-16 confirm-16"></span>registration.passwordComplexity.minLength</p></div>' +
+          '<div class="subschema-1 subschema-satisfied"><p class=""><span class="icon icon-16 confirm-16"></span>registration.passwordComplexity.minNumber</p></div>' + 
+          '<div class="subschema-2 subschema-error subschema-unsatisfied"><p class=""><span class="icon icon-16 error error-16-small"></span>registration.passwordComplexity.minLower</p></div>' + 
+          '<div class="subschema-3 subschema-error subschema-unsatisfied"><p class=""><span class="icon icon-16 error error-16-small"></span>registration.passwordComplexity.minUpper</p></div>' + 
+          '<div class="subschema-4 subschema-satisfied"><p class=""><span class="icon icon-16 confirm-16"></span>registration.passwordComplexity.excludeUsername</p></div>'
+        );
       });
     });
     itp('shows no password complexity error if focus out and satisfied all conditions', function () {

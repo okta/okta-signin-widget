@@ -20,16 +20,8 @@ module.exports = function (grunt) {
       SASS                  = 'target/sass',
       I18N_SRC              = 'packages/@okta/i18n/src',
       SEARCH_OUT_FILE       = 'build2/OSW-search-checkstyle-result.xml',
-      WIDGET_RC             = '.widgetrc',
       // Note: 3000 is necessary to test against certain browsers in SauceLabs
       DEFAULT_SERVER_PORT   = 3000;
-
-  // .widgetrc is a json file that can be used by a dev to override
-  // things like the widget options in the test server, the server port, etc
-  var widgetRc = {};
-  if (grunt.file.isFile(WIDGET_RC)) {
-    widgetRc = grunt.file.readJSON(WIDGET_RC);
-  }
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -282,9 +274,7 @@ module.exports = function (grunt) {
 
     connect: {
       options: {
-        port: (function () {
-          return widgetRc.serverPort || DEFAULT_SERVER_PORT;
-        }()),
+        port: DEFAULT_SERVER_PORT,
         base: {
           path: 'target',
           options: {

@@ -23,7 +23,7 @@
         "rel":[
           "create-form"
         ],
-        "name":"resend-push",
+        "name":"resend",
         "relatesTo":[
           "$.currentAuthenticator"
         ],

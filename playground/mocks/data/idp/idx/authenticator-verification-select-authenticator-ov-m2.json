@@ -44,7 +44,7 @@
                             "value": "push",
                             "label":  "Get a push notification"
                           },
-                          { 
+                          {
                             "value": "totp",
                             "label" :  "Enter a code"
                           }
@@ -128,7 +128,7 @@
         "type": "app",
         "id": "aentheidkwh282hv8g3",
         "displayName": "",
-        "methods": [ 
+        "methods": [
           { "type": "signed_nonce" },
           { "type": "push" },
           { "type": "totp" }
@@ -138,7 +138,7 @@
         "type": "app",
         "id": "aentheidkwh2823",
         "displayName": "",
-        "methods": [ 
+        "methods": [
            { "type": "push" },
            { "type": "totp" }
          ]
@@ -147,7 +147,7 @@
         "type": "password",
         "id": "auttmbseAWnMPtLe20g3",
         "displayName": "Okta Password",
-        "methods": [ 
+        "methods": [
           { "type": "password" }
         ]
       }

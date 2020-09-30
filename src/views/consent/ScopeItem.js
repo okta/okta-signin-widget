@@ -21,7 +21,7 @@ export default View.extend({
         <p>{{name}}</p>\
       </div>\
       {{#if description}}\
-        <span class="scope-item-tooltip icon form-help-16" />\
+        <span class="scope-item-tooltip icon form-help-16"></span>\
       {{/if}}\
     '
   ),
@@ -31,7 +31,7 @@ export default View.extend({
       content: {
         text: this.options.description,
       },
-      style: { classes: 'okta-sign-in-tooltip qtip-custom qtip-shadow' },
+      style: { classes: 'okta-tooltip qtip-custom qtip-shadow' },
       position: {
         my: 'bottom right',
         target: 'mouse',
