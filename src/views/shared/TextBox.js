@@ -38,4 +38,11 @@ export default TextBox.extend({
     }
     return TextBox.prototype.focus.apply(this, arguments);
   },
+  // Override the events to remove the 'keyup input' event. This is to prevent a double form submit
+  // when we press enter. We also do not need to trigger form:cancel on esc key.
+  events: {
+    'input input': 'update',
+    'change input': 'update',
+    'keydown input': 'update'
+  },
 });
