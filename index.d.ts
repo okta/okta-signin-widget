@@ -1,10 +1,8 @@
 declare module '@okta/okta-signin-widget'
 
-declare class OktaSignIn {
+export declare class OktaSignIn implements OktaSignIn {
     constructor(configuration: OktaSignInConfig);
-}
 
-interface OktaSignIn {
     renderEl(configuration: { el: string }): void;
     remove(): void;
 
@@ -13,19 +11,24 @@ interface OktaSignIn {
     };
 }
 
-interface OktaSignInConfigAuthParams {
-    issuer: string;
-    display: 'page';
-    scopes: string[];
-    responseType: string[];
+export type OktaSignInConfigAuthParamsResponseMode = 'okta_post_message' | 'fragment' | 'query' | 'form_post';
+
+export interface OktaSignInConfigAuthParams {
+    pkce?: boolean,
+    responseMode?: OktaSignInConfigAuthParamsResponseMode,
+    issuer?: string;
+    display?: 'page';
+    scopes?: string[];
+    responseType?: string[];
 }
 
 interface OktaSignInConfigi18n {
-    en: {
-        'primaryauth.username.placeholder': string;
-        'primaryauth.username.tooltip': string;
-        'error.username.required': string;
-        'error.password.required': string;
+    en?: {
+        'primaryauth.username.placeholder'?: string;
+        'primaryauth.username.tooltip'?: string;
+        'primaryauth.title'?: string;
+        'error.username.required'?: string;
+        'error.password.required'?: string;
     };
 }
 

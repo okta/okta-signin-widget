@@ -13,7 +13,8 @@
   },
   "files": [
     "dist",
-    "index.d.ts"
+    "index.d.ts",
+    "index.js"
   ],
   "browserslist": [
     "> 0.1%",
@@ -24,7 +25,7 @@
       "pre-push": "commitlint --from=master 1>&2"
     }
   },
-  "main": "./dist/js/okta-sign-in.entry.js",
+  "main": "./index.js",
   "types": "./index.d.ts",
   "scripts": {
     "clean": "rimraf target && rimraf dist && rimraf build2",
