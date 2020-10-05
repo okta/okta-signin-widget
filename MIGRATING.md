@@ -2,7 +2,7 @@
 
 This library uses semantic versioning and follows Okta's [library version policy](https://developer.okta.com/code/library-versions/). In short, we don't make breaking changes unless the major version changes!
 
-## Migrating `.widgetrc` to `.widgtrc.js`
+## Migrating `.widgetrc` to `.widgetrc.js`
 
 The existing `.widgetrc` file used to configure the Widget has been **removed**. Simply rename the existing file to `.widgetrc.js` export the contents:
 
