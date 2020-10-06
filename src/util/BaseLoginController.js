@@ -40,10 +40,13 @@ export default Controller.extend({
       if (disableSubmitButton && !form.disableSubmitButton()) {
         return;
       }
+      form.disable();
       this.toggleButtonState(true);
     });
 
     this.listenTo(this.model, 'error', function () {
+      const form = getForm(this);
+      form.enable();
       this.toggleButtonState(false);
     });
 
