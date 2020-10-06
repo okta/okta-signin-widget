@@ -11,6 +11,7 @@
  */
 
 import { _, Form, loc } from 'okta';
+import PasswordBox from 'views/shared/PasswordBox';
 export default Form.extend({
   className: 'mfa-verify-question',
   autoSave: true,
@@ -29,6 +30,7 @@ export default Form.extend({
       placeholder: loc('mfa.challenge.answer.placeholder', 'login'),
       className: 'auth-passcode',
       name: 'answer',
+      input: PasswordBox,
       type: 'password',
       params: {
         showPasswordToggle: true,
