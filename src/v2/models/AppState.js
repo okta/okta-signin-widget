@@ -13,7 +13,7 @@
 import { _, Model } from 'okta';
 import Logger from 'util/Logger';
 import { FORMS_WITHOUT_SIGNOUT, FORMS_WITH_STATIC_BACK_LINK,
-  FORMS_FOR_VERIFICATION } from '../ion/RemediationConstants';
+  FORMS_FOR_VERIFICATION, FORMS } from '../ion/RemediationConstants';
 
 /**
  * Keep track of stateMachine with this special model. Similar to `src/models/AppState.js`
@@ -151,6 +151,12 @@ export default Model.extend({
     return !hideSignOutConfigOverride
       && _.isFunction(idxActions?.cancel)
       && !FORMS_WITHOUT_SIGNOUT.includes(currentFormName);
+  },
+
+  containsMessageWithI18nKey (key) {
+    const messagesObjs = this.get('messages');
+    return messagesObjs && Array.isArray(messagesObjs.value)
+      && messagesObjs.value.some(messagesObj => messagesObj.i18n?.key === key);
   },
 
   setIonResponse (transformedResponse) {
