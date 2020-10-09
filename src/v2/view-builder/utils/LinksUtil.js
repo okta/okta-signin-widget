@@ -113,9 +113,22 @@ const getSignOutLink = (settings) => {
   }
 };
 
+const getBackToSignInLink = (settings) => {
+  let baseUrl = settings?.get('baseUrl') ? settings.get('baseUrl') : window.location.hostname;
+  return [
+    {
+      'type': 'link',
+      'label': loc('backToSignin', 'login'),
+      'name': 'go-back',
+      'href': baseUrl + '/login/login.htm'
+    },
+  ];
+};
+
 export {
   getSwitchAuthenticatorLink,
   getForgotPasswordLink,
   goBackLink,
-  getSignOutLink
+  getSignOutLink,
+  getBackToSignInLink
 };

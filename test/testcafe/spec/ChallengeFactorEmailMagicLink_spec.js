@@ -43,6 +43,8 @@ test
     await setup(t);
     const terminalPageObject = await new TerminalPageObject(t);
     await t.expect(terminalPageObject.getMessages()).eql('Please return to the original tab.');
+    await t.expect(await terminalPageObject.goBackLinkExists()).notOk();
+    await t.expect(terminalPageObject.getFormTitle()).eql('Authenticate');
   });
 
 test
@@ -50,13 +52,18 @@ test
     await setup(t);
     const terminalPageObject = await new TerminalPageObject(t);
     await t.expect(terminalPageObject.getMessages()).eql('Flow continued in a new tab.');
+    await t.expect(await terminalPageObject.goBackLinkExists()).notOk();
+    await t.expect(terminalPageObject.getFormTitle()).eql('Authenticate');
   });
 
 test
   .requestHooks(magicLinkExpiredMock)('challenge email factor with expired magic link', async t => {
     await setup(t);
     const terminalPageObject = await new TerminalPageObject(t);
-    await t.expect(terminalPageObject.getMessages()).eql('This email link has expired. To resend it, return to the screen where you requested it.');
+    await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
+    await t.expect(terminalPageObject.getErrorMessages().getTextContent()).eql('This email link has expired. To resend it, return to the screen where you requested it.');
+    await t.expect(await terminalPageObject.goBackLinkExists()).ok();
+    await t.expect(terminalPageObject.getFormTitle()).eql('Verify with your email');
   });
 
 test
