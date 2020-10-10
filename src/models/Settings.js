@@ -78,7 +78,6 @@ export default Model.extend({
     'features.trackTypingPattern': ['boolean', false, false],
     'features.redirectByFormSubmit': ['boolean', false, false],
     'features.useDeviceFingerprintForSecurityImage': ['boolean', false, true],
-    'features.hideDefaultTip': ['boolean', false, true],
     'features.showPasswordRequirementsAsHtmlList': ['boolean', false, false],
     'features.mfaOnlyFlow': ['boolean', false, false],
 

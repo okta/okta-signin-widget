@@ -111,7 +111,7 @@ export default Form.extend({
       label: loc('primaryauth.username.placeholder', 'login'),
       'label-top': true,
       explain: () => {
-        if (this.settings.get('features.hideDefaultTip') && !this.isCustomized('primaryauth.username.tooltip')) {
+        if (!this.isCustomized('primaryauth.username.tooltip')) {
           return false;
         }
 
@@ -138,7 +138,7 @@ export default Form.extend({
       label: loc('primaryauth.password.placeholder', 'login'),
       'label-top': true,
       explain: () => {
-        if (this.settings.get('features.hideDefaultTip') && !this.isCustomized('primaryauth.password.tooltip')) {
+        if (!this.isCustomized('primaryauth.password.tooltip')) {
           return false;
         }
 

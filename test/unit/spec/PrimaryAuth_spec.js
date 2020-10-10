@@ -360,25 +360,6 @@ Expect.describe('PrimaryAuth', function () {
         expect(explain.length).toBe(0);
       });
     });
-    itp('username field does have explain when label is customized and features.hideDefaultTip is false', function () {
-      const options = {
-        language: 'en',
-        i18n: {
-          en: {
-            'primaryauth.username.placeholder': 'Custom Username Label',
-          },
-        },
-        features: {
-          hideDefaultTip: false,
-        },
-      };
-
-      return setup(options).then(function (test) {
-        const explain = test.form.usernameExplain();
-
-        expect(explain.text()).toEqual('Username');
-      });
-    });
     itp('username field does have explain when is customized', function () {
       const options = {
         language: 'en',
@@ -416,25 +397,6 @@ Expect.describe('PrimaryAuth', function () {
         const explain = test.form.passwordExplain();
 
         expect(explain.length).toBe(0);
-      });
-    });
-    itp('password field does have explain when label is customized and features.hideDefaultTip is false', function () {
-      const options = {
-        language: 'en',
-        i18n: {
-          en: {
-            'primaryauth.password.placeholder': 'Custom Password Explain',
-          },
-        },
-        features: {
-          hideDefaultTip: false,
-        },
-      };
-
-      return setup(options).then(function (test) {
-        const explain = test.form.passwordExplain();
-
-        expect(explain.text()).toEqual('Password');
       });
     });
     itp('password field does have explain when is customized', function () {
@@ -767,33 +729,6 @@ Expect.describe('PrimaryAuth', function () {
         test.form.setPassword('testpass');
         test.form.setUsername('testuser');
         expect(test.form.passwordToggleContainer().length).toBe(1);
-      });
-    });
-    itp('Triggers a passwordRevealed event when show password button is clicked', function () {
-      return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function (test) {
-        const eventSpy = jasmine.createSpy('eventSpy');
-
-        test.router.on('passwordRevealed', eventSpy);
-        test.form.setPassword('testpass');
-        test.form.setUsername('testuser');
-        expect(test.form.passwordToggleContainer().length).toBe(1);
-        test.form.passwordToggleShowContainer().click();
-        expect(eventSpy).toHaveBeenCalled();
-      });
-    });
-    itp('Does not trigger a passwordRevealed event when hide password button is clicked', function () {
-      return setup({ 'features.showPasswordToggleOnSignInPage': true }).then(function (test) {
-        const eventSpy = jasmine.createSpy('eventSpy');
-
-        test.router.on('passwordRevealed', eventSpy);
-        test.form.setPassword('testpass');
-        test.form.setUsername('testuser');
-        expect(test.form.passwordToggleContainer().length).toBe(1);
-        test.form.passwordToggleShowContainer().click();
-        expect(eventSpy).toHaveBeenCalledTimes(1);
-        test.form.passwordToggleHideContainer().click();
-        // Hide password should not have triggered passwordRevealed event, so called times should still be 1
-        expect(eventSpy).toHaveBeenCalledTimes(1);
       });
     });
     itp(
