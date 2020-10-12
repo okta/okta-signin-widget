@@ -6128,15 +6128,8 @@ function remove( elem, selector, keepData ) {
 }
 
 jQuery.extend( {
-	htmlPrefilter: function (html) {
-		try {
-			if (window.top && window.top.__OKTA_JQUERY_LEGACY_HTML_PREFILTER__) {
-				return html.replace(rxhtmlTag, "<$1></$2>");
-			}
-		} catch (e) {
-			return html.replace(rxhtmlTag, "<$1></$2>");
-		}
-		return html;
+	htmlPrefilter: function( html ) {
+		return html.replace( rxhtmlTag, "<$1></$2>" );
 	},
 
 	clone: function( elem, dataAndEvents, deepDataAndEvents ) {
@@ -6475,7 +6468,7 @@ function defaultDisplay( nodeName ) {
 		if ( display === "none" || !display ) {
 
 			// Use the already-created iframe if possible
-			iframe = ( iframe || jQuery( "<iframe frameborder='0' width='0' height='0'></iframe>" ) )
+			iframe = ( iframe || jQuery( "<iframe frameborder='0' width='0' height='0'/>" ) )
 				.appendTo( doc.documentElement );
 
 			// Always write a new HTML skeleton so Webkit and Firefox don't choke on reuse
