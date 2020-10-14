@@ -22,8 +22,10 @@ const createOVOptions = (options = []) => {
   const ovItem = options.find((option) => option.relatesTo.type === 'app');
   const methodTypeObj = ovItem?.value?.form?.value?.find(v => v.name === 'methodType');
   const methodOptions = methodTypeObj?.options;
+  let signedNonceOption;
   if (methodOptions) {
-    const ovOptions = methodOptions.map((method) => {
+    const ovOptions = [];
+    methodOptions.forEach((method) => {
       // get value object from the ov item
       const value = [...ovItem.value.form.value];
       // get index of the methodType object within the value object
@@ -38,7 +40,7 @@ const createOVOptions = (options = []) => {
       // replace old methodType object with the new one
       value.splice(methodTypeIndex, 1, newMethodTypeObj);
       // return a new ov item for a specific method
-      return Object.assign({}, ovItem, {
+      const newItem = Object.assign({}, ovItem, {
         label: method.label,
         value: {
           form: {
@@ -46,9 +48,19 @@ const createOVOptions = (options = []) => {
           }
         }
       });
+      if (method.value === 'signed_nonce') {
+        signedNonceOption = newItem;
+      } else {
+        ovOptions.push(newItem);
+      }
     });
     const ovIndex = options.findIndex((option) => option.relatesTo.type === 'app');
     options.splice(ovIndex, 1, ...ovOptions);
+
+    // ReArrange fastpass in options based on deviceKnown
+    if (signedNonceOption) {
+      ovItem.relatesTo.deviceKnown ? options.unshift(signedNonceOption) : options.push(signedNonceOption);
+    }
   }
 };
 
