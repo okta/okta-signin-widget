@@ -12,6 +12,7 @@ import xhrAuthenticatorRequiredWebauthn from '../../../playground/mocks/data/idp
 import xhrAuthenticatorOVTotp from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp';
 import xhrAuthenticatorOVPush from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push';
 import xhrAuthenticatorOVFastPass from '../../../playground/mocks/data/idp/idx/identify-with-user-verification-loopback';
+import xhrSelectAuthenticatorsOktaVerifyWithoutSignedNonce from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-without-signed-nonce';
 
 const requestLogger = RequestLogger(
   /idx\/introspect|\/challenge/,
@@ -48,6 +49,16 @@ const mockChallengeOVTotp = RequestMock()
   .respond(xhrSelectAuthenticatorsOktaVerify)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrAuthenticatorOVTotp);
+
+const xhrSelectAuthenticatorsOktaVerifyKnownDevice = JSON.parse(JSON.stringify(xhrSelectAuthenticatorsOktaVerify));
+xhrSelectAuthenticatorsOktaVerifyKnownDevice.authenticators.value[0].deviceKnown = true;
+const mockSelectAuthenticatorKnownDevice = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticatorsOktaVerifyKnownDevice);
+
+const mockSelectAuthenticatorNoSignedNonce = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticatorsOktaVerifyWithoutSignedNonce);
 
 const mockChallengeOVPush = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -193,7 +204,39 @@ test.requestHooks(mockChallengeEmail)('should navigate to email challenge page',
   await t.expect(challengeFactorPage.getPageTitle()).eql('Verify with your email');
 });
 
-test.requestHooks(mockChallengeOVTotp)('should load select authenticator list with okta verify options', async t => {
+test.requestHooks(mockChallengeOVTotp)(`should load signed_nonce at bottom when device is unknown and backend returns
+  signed_nonce since there is an enrollmnent with the same os user is loging in from`, async t => {
+  const selectFactorPage = await setup(t);
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
+  await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
+  await t.expect(selectFactorPage.getFactorsCount()).eql(4);
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Get a push notification');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(0)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-verify');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Enter a code');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(1)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(1)).contains('mfa-okta-verify');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Okta Password');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(2)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(2)).contains('mfa-okta-password');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Use Okta FastPass');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(3)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(3)).contains('mfa-okta-verify');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(3)).eql('Select');
+
+  // signout link at enroll page
+  await t.expect(await selectFactorPage.signoutLinkExists()).ok();
+  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Sign Out');
+});
+
+test.requestHooks(mockSelectAuthenticatorKnownDevice)('should load signed_nonce at top when device is known', async t => {
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
@@ -222,7 +265,36 @@ test.requestHooks(mockChallengeOVTotp)('should load select authenticator list wi
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();
   await t.expect(selectFactorPage.getSignoutLinkText()).eql('Sign Out');
+});
 
+test.requestHooks(mockSelectAuthenticatorNoSignedNonce)('should not display signed_nonce when signed_nonce method is not in OV remediation', async t => {
+  const selectFactorPage = await setup(t);
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
+  await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
+  await t.expect(selectFactorPage.getFactorsCount()).eql(3);
+
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
+  await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
+  await t.expect(selectFactorPage.getFactorsCount()).eql(3);
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Get a push notification');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(0)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-verify');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Enter a code');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(1)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(1)).contains('mfa-okta-verify');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Okta Password');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(2)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(2)).contains('mfa-okta-password');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');
+
+  // signout link at enroll page
+  await t.expect(await selectFactorPage.signoutLinkExists()).ok();
+  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Sign Out');
 });
 
 test.requestHooks(requestLogger, mockChallengeOVTotp)('should navigate to okta verify totp page', async t => {
