@@ -63,7 +63,10 @@ const idx = {
     // 'terminal-return-stale-email',
     // 'terminal-transfered-email',
     // 'unknown-user',
-    // 'terminal-registration'
+    // 'terminal-registration',
+    // 'oda-enrollment-ios',
+    // 'oda-enrollment-android',
+    // 'mdm-enrollment',
   ],
   '/idp/idx/enroll': [
     'enroll-profile-new'
