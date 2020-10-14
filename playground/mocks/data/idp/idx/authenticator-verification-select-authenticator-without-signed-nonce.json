@@ -37,10 +37,6 @@
                         "mutable": true,
                         "options": [
                           {
-                            "value": "signed_nonce",
-                            "label":  "Use Okta FastPass"
-                          },
-                          {
                             "value": "push",
                             "label":  "Get a push notification"
                           },
