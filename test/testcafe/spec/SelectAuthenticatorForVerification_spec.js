@@ -301,7 +301,7 @@ test.requestHooks(requestLogger, mockChallengeOVTotp)('should navigate to okta v
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
 
-  selectFactorPage.selectFactorByIndex(2);
+  selectFactorPage.selectFactorByIndex(1);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
   await t.expect(challengeFactorPage.getPageTitle()).eql('Enter a code');
 
@@ -326,7 +326,7 @@ test.requestHooks(requestLogger, mockChallengeOVPush)('should navigate to okta v
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
 
-  selectFactorPage.selectFactorByIndex(1);
+  selectFactorPage.selectFactorByIndex(0);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
   await t.expect(challengeFactorPage.getPageTitle()).eql('Get a push notification');
 
@@ -350,8 +350,7 @@ test.requestHooks(requestLogger, mockChallengeOVPush)('should navigate to okta v
 test.requestHooks(requestLogger, mockChallengeOVFastPass)('should navigate to okta verify fast pass page', async t => {
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
-
-  selectFactorPage.selectFactorByIndex(0);
+  selectFactorPage.selectFactorByIndex(3);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
   await t.expect(challengeFactorPage.getPageTitle()).eql('Signing in using Okta FastPass');
 
