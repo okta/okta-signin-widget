@@ -1,4 +1,4 @@
-/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-alpha.3586.gd86894f */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.4200.gf3d0a27 */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -83,7 +83,7 @@ var _underscore = _interopRequireDefault(__webpack_require__(35));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* eslint @okta/okta/enforce-requirejs-names: 0, @okta/okta/no-specific-methods: 0, @okta/okta/no-specific-modules: 0 */
+/* eslint @okta/okta-ui/no-specific-methods: 0, @okta/okta-ui/no-specific-modules: 0 */
 var _ = _underscore.default.noConflict();
 
 _.mixin({
@@ -349,7 +349,7 @@ var _jquery = _interopRequireDefault(__webpack_require__(12));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* eslint-disable @okta/okta/enforce-requirejs-names, @okta/okta/no-specific-modules */
+/* eslint-disable @okta/okta-ui/enforce-requirejs-names, @okta/okta-ui/no-specific-modules */
 _jquery.default.ajaxSetup({
   beforeSend: function beforeSend(xhr) {
     xhr.setRequestHeader('X-Okta-XsrfToken', (0, _jquery.default)('#_xsrfToken').text());
@@ -404,6 +404,23 @@ var entityMap = {
 };
 var emailValidator = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(?!-)((\[?[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\]?)|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 /* eslint max-len: 0*/
+
+/**
+ * Returns the language bundle based on the current locale.
+ * - If a locale is not provided, default to English ('en')
+ * - Legacy Support: If the named language bundle does not exist, fall back to the default named bundle.
+ *
+ * @param {*} bundleName
+ */
+
+function getBundle(bundleName) {
+  if (!bundleName) {
+    return _oktaI18nBundles.default[_underscoreWrapper.default.keys(_oktaI18nBundles.default)[0]];
+  }
+
+  var locale = window && window.okta && window.okta.locale || 'en';
+  return _oktaI18nBundles.default["".concat(bundleName, "_").concat(locale)] || _oktaI18nBundles.default[bundleName];
+}
 
 var StringUtil =
 /** @lends module:Okta.internal.util.StringUtil */
@@ -485,7 +502,7 @@ var StringUtil =
    * @param {String} bundle="messages"] The name of the i18n bundle. Defaults to the first bundle in the list.
    */
   getTemplate: function getTemplate(key, bundleName) {
-    var bundle = bundleName ? _oktaI18nBundles.default[bundleName] : _oktaI18nBundles.default[_underscoreWrapper.default.keys(_oktaI18nBundles.default)[0]];
+    var bundle = getBundle(bundleName);
 
     if (!bundle) {
       return 'L10N_ERROR[' + bundleName + ']';
@@ -503,8 +520,8 @@ var StringUtil =
    * @return {String} The localized value
    */
   localize: function localize(key, bundleName, params) {
-    var bundle = bundleName ? _oktaI18nBundles.default[bundleName] : _oktaI18nBundles.default[_underscoreWrapper.default.keys(_oktaI18nBundles.default)[0]];
-    /* eslint complexity: [2, 7] */
+    var bundle = getBundle(bundleName);
+    /* eslint complexity: [2, 6] */
 
     if (!bundle) {
       return 'L10N_ERROR[' + bundleName + ']';
@@ -1232,6 +1249,10 @@ var _default = _BaseView.default.extend({
       value = this.options.options[value];
     }
 
+    if (Number.isInteger(value) || typeof value === 'boolean') {
+      value = String(value);
+    }
+
     return value || this.defaultValue();
   },
 
@@ -1612,6 +1633,7 @@ var _default = {
 
       case 'cancel':
         _underscoreWrapper.default.defaults(options, {
+          className: 'button-clear',
           text: _StringUtil.default.localize('oform.cancel', 'courage'),
           action: function action() {
             this.model.trigger('form:cancel');
@@ -2762,7 +2784,7 @@ var View = _backbone.default.View.extend(
      */
   // TODO: This will be deprecated at some point. Views should use precompiled templates
   compileTemplate: function compileTemplate(template) {
-    /* eslint  @okta/okta/no-specific-methods: 0*/
+    /* eslint  @okta/okta-ui/no-specific-methods: 0*/
     return _underscoreWrapper.default.template(template);
   },
 
@@ -4469,6 +4491,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var _default = _Model.default.extend({
   local: function local() {
     var settings = window.okta && window.okta.settings || {};
+    var theme = window.okta && window.okta.theme || '';
     return {
       orgId: ['string', false, settings.orgId],
       orgName: ['string', false, settings.orgName],
@@ -4476,7 +4499,8 @@ var _default = _Model.default.extend({
       persona: ['string', false, settings.persona],
       isDeveloperConsole: ['boolean', false, settings.isDeveloperConsole],
       isPreview: ['boolean', false, settings.isPreview],
-      permissions: ['array', true, settings.permissions || []]
+      permissions: ['array', true, settings.permissions || []],
+      theme: ['string', false, theme]
     };
   },
   extraProperties: true,
@@ -4492,10 +4516,6 @@ var _default = _Model.default.extend({
    * @return {Boolean}
    */
   hasFeature: function hasFeature(feature) {
-    if (window._possibleFeatures && !_underscoreWrapper.default.contains(window._possibleFeatures, feature) && window.okta && window.okta.logHasFeatureError) {
-      window.okta.logHasFeatureError(feature);
-    }
-
     return _underscoreWrapper.default.contains(this.features, feature);
   },
 
@@ -4515,6 +4535,14 @@ var _default = _Model.default.extend({
    */
   hasPermission: function hasPermission(permission) {
     return _underscoreWrapper.default.contains(this.get('permissions'), permission);
+  },
+
+  /**
+   * Checks if the org has ds theme set
+   * @return {Boolean}
+   */
+  isDsTheme: function isDsTheme() {
+    return this.get('theme') === 'dstheme';
   }
 });
 
@@ -5192,7 +5220,32 @@ var events = {
 
 var template = _runtime.default.template({
   "1": function _(container, depth0, helpers, partials, data) {
-    return "<a data-se=\"dismiss-link\" class=\"infobox-dismiss-link\" title=\"Dismiss\" href=\"#\"><span data-se=\"icon\" class=\"dismiss-icon\"></span></a>";
+    var lookupProperty = container.lookupProperty || function (parent, propertyName) {
+      if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+        return parent[propertyName];
+      }
+
+      return undefined;
+    };
+
+    return "<a data-se=\"dismiss-link\" class=\"infobox-dismiss-link\" title=\"" + container.escapeExpression((lookupProperty(helpers, "i18n") || depth0 && lookupProperty(depth0, "i18n") || container.hooks.helperMissing).call(depth0 != null ? depth0 : container.nullContext || {}, {
+      "name": "i18n",
+      "hash": {
+        "bundle": "courage",
+        "code": "component.dismiss"
+      },
+      "data": data,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 81
+        },
+        "end": {
+          "line": 1,
+          "column": 131
+        }
+      }
+    })) + "\" href=\"#\"><span data-se=\"icon\" class=\"dismiss-icon\"></span></a>";
   },
   "3": function _(container, depth0, helpers, partials, data) {
     var helper,
@@ -5211,11 +5264,11 @@ var template = _runtime.default.template({
       "loc": {
         "start": {
           "line": 1,
-          "column": 243
+          "column": 286
         },
         "end": {
           "line": 1,
-          "column": 252
+          "column": 295
         }
       }
     }) : helper)) + "</h3>";
@@ -5237,11 +5290,11 @@ var template = _runtime.default.template({
       "loc": {
         "start": {
           "line": 1,
-          "column": 304
+          "column": 347
         },
         "end": {
           "line": 1,
-          "column": 316
+          "column": 359
         }
       }
     }) : helper)) + "</p>";
@@ -5265,11 +5318,11 @@ var template = _runtime.default.template({
       "loc": {
         "start": {
           "line": 1,
-          "column": 377
+          "column": 420
         },
         "end": {
           "line": 1,
-          "column": 440
+          "column": 483
         }
       }
     })) != null ? stack1 : "") + "</ul>";
@@ -5303,7 +5356,7 @@ var template = _runtime.default.template({
         },
         "end": {
           "line": 1,
-          "column": 159
+          "column": 202
         }
       }
     })) != null ? stack1 : "") + "<span data-se=\"icon\" class=\"icon " + container.escapeExpression((helper = (helper = lookupProperty(helpers, "icon") || (depth0 != null ? lookupProperty(depth0, "icon") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(alias1, {
@@ -5313,11 +5366,11 @@ var template = _runtime.default.template({
       "loc": {
         "start": {
           "line": 1,
-          "column": 192
+          "column": 235
         },
         "end": {
           "line": 1,
-          "column": 200
+          "column": 243
         }
       }
     }) : helper)) + "\"></span>" + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "title") : depth0, {
@@ -5329,11 +5382,11 @@ var template = _runtime.default.template({
       "loc": {
         "start": {
           "line": 1,
-          "column": 209
+          "column": 252
         },
         "end": {
           "line": 1,
-          "column": 264
+          "column": 307
         }
       }
     })) != null ? stack1 : "") + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "subtitle") : depth0, {
@@ -5345,11 +5398,11 @@ var template = _runtime.default.template({
       "loc": {
         "start": {
           "line": 1,
-          "column": 264
+          "column": 307
         },
         "end": {
           "line": 1,
-          "column": 327
+          "column": 370
         }
       }
     })) != null ? stack1 : "") + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "bullets") : depth0, {
@@ -5361,11 +5414,11 @@ var template = _runtime.default.template({
       "loc": {
         "start": {
           "line": 1,
-          "column": 327
+          "column": 370
         },
         "end": {
           "line": 1,
-          "column": 452
+          "column": 495
         }
       }
     })) != null ? stack1 : "");
@@ -6013,6 +6066,38 @@ _View.default.prototype.compileTemplate = function (str) {
   };
 };
 
+var TextBoxForSigninWidget = _TextBox.default.extend({
+  /**
+   * @Override
+   */
+  events: {
+    'input input': 'update',
+    'change input': 'update',
+    'keydown input': 'update',
+    'keyup input': function keyupInput(e) {
+      if (_Keys.default.isEsc(e)) {
+        this.model.trigger('form:cancel');
+      }
+    }
+  }
+});
+
+var PasswordBoxForSigninWidget = _PasswordBox.default.extend({
+  /**
+   * @Override
+   */
+  events: {
+    'input input': 'update',
+    'change input': 'update',
+    'keydown input': 'update',
+    'keyup input': function keyupInput(e) {
+      if (_Keys.default.isEsc(e)) {
+        this.model.trigger('form:cancel');
+      }
+    }
+  }
+});
+
 var Okta = {
   Backbone: _backbone.default,
   $: _jqueryWrapper.default,
@@ -6023,6 +6108,8 @@ var Okta = {
   createCallout: _Callout.default.create,
   registerInput: _InputRegistry.default.register,
   Model: _Model.default,
+  // TODO: BaseModel has been deprecated and shall not be public
+  // remove this once clean up usage in widget.
   BaseModel: _BaseModel.default,
   Collection: _BaseCollection.default,
   FrameworkView: _View.default,
@@ -6052,8 +6139,8 @@ var Okta = {
           Toolbar: _Toolbar.default
         },
         inputs: {
-          TextBox: _TextBox.default,
-          PasswordBox: _PasswordBox.default,
+          TextBox: TextBoxForSigninWidget,
+          PasswordBox: PasswordBoxForSigninWidget,
           CheckBox: _CheckBox.default,
           Radio: _Radio.default,
           Select: _Select.default,
@@ -6067,8 +6154,8 @@ var Okta = {
     }
   }
 };
-Okta.registerInput('text', _TextBox.default);
-Okta.registerInput('password', _PasswordBox.default);
+Okta.registerInput('text', TextBoxForSigninWidget);
+Okta.registerInput('password', PasswordBoxForSigninWidget);
 Okta.registerInput('checkbox', _CheckBox.default);
 Okta.registerInput('radio', _Radio.default);
 Okta.registerInput('select', _Select.default);
@@ -6636,6 +6723,7 @@ function _validateField(field, value) {
 
       foundError = foundError || !_result;
       output.push({
+        // eslint-disable-next-line no-prototype-builtins
         message: item.hasOwnProperty('message') ? item.message : '',
         passed: _result
       });
@@ -7393,8 +7481,6 @@ exports.default = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(2));
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(3));
-
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
 var _BaseView = _interopRequireDefault(__webpack_require__(1));
@@ -7423,7 +7509,32 @@ var _default = _BaseView.default.extend({
   },
   template: _runtime.default.template({
     "1": function _(container, depth0, helpers, partials, data) {
-      return "<a class=\"infobox-dismiss-link\" title=\"Dismiss\" href=\"#\"><span class=\"dismiss-icon\"></span></a>";
+      var lookupProperty = container.lookupProperty || function (parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+
+        return undefined;
+      };
+
+      return "<a class=\"infobox-dismiss-link\" title=\"" + container.escapeExpression((lookupProperty(helpers, "i18n") || depth0 && lookupProperty(depth0, "i18n") || container.hooks.helperMissing).call(depth0 != null ? depth0 : container.nullContext || {}, {
+        "name": "i18n",
+        "hash": {
+          "bundle": "courage",
+          "code": "component.dismiss"
+        },
+        "data": data,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 58
+          },
+          "end": {
+            "line": 1,
+            "column": 108
+          }
+        }
+      })) + "\" href=\"#\"><span class=\"dismiss-icon\"></span></a>";
     },
     "3": function _(container, depth0, helpers, partials, data) {
       var helper,
@@ -7442,11 +7553,11 @@ var _default = _BaseView.default.extend({
         "loc": {
           "start": {
             "line": 1,
-            "column": 177
+            "column": 220
           },
           "end": {
             "line": 1,
-            "column": 186
+            "column": 229
           }
         }
       }) : helper)) + "</h3>";
@@ -7480,7 +7591,7 @@ var _default = _BaseView.default.extend({
           },
           "end": {
             "line": 1,
-            "column": 121
+            "column": 164
           }
         }
       })) != null ? stack1 : "") + "<span class=\"icon " + alias4((helper = (helper = lookupProperty(helpers, "level") || (depth0 != null ? lookupProperty(depth0, "level") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
@@ -7490,11 +7601,11 @@ var _default = _BaseView.default.extend({
         "loc": {
           "start": {
             "line": 1,
-            "column": 139
+            "column": 182
           },
           "end": {
             "line": 1,
-            "column": 148
+            "column": 191
           }
         }
       }) : helper)) + "-16\"></span>" + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "title") : depth0, {
@@ -7506,11 +7617,11 @@ var _default = _BaseView.default.extend({
         "loc": {
           "start": {
             "line": 1,
-            "column": 160
+            "column": 203
           },
           "end": {
             "line": 1,
-            "column": 198
+            "column": 241
           }
         }
       })) != null ? stack1 : "") + "<p>" + alias4((helper = (helper = lookupProperty(helpers, "message") || (depth0 != null ? lookupProperty(depth0, "message") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
@@ -7520,11 +7631,11 @@ var _default = _BaseView.default.extend({
         "loc": {
           "start": {
             "line": 1,
-            "column": 201
+            "column": 244
           },
           "end": {
             "line": 1,
-            "column": 212
+            "column": 255
           }
         }
       }) : helper)) + "</p>";
@@ -7536,10 +7647,7 @@ var _default = _BaseView.default.extend({
     this.$el.addClass('infobox-' + this.options.level);
 
     if (this.options.width) {
-      this.$el.width(this.options.width).css({
-        'margin-left': '0px',
-        left: Math.round(((0, _jqueryWrapper.default)(window).width() - this.options.width) / 2)
-      });
+      this.$el.width(this.options.width);
     }
   },
   getTemplateData: function getTemplateData() {
@@ -7578,7 +7686,7 @@ var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* eslint @okta/okta/no-specific-methods: 0 */
+/* eslint @okta/okta-ui/no-specific-methods: 0 */
 
 /**
  * @class module:Okta.internal.util.TemplateUtil
@@ -7594,7 +7702,7 @@ var _default =
    */
   // TODO: This will be deprecated at some point. Views should use precompiled templates
   tpl: _underscoreWrapper.default.memoize(function (tpl) {
-    /* eslint okta/no-specific-methods: 0 */
+    /* eslint @okta/okta-ui/no-specific-methods: 0 */
     // Handlebars 4.6.x introduced a breaking change with prototype/own values. If a kill-switch
     // is enabled - fallback to prior implementation logic. OKTA-297682
     var runtimeOptions = {};
@@ -8211,7 +8319,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // This runs in a browser / webpacked environment
 // TODO: Once all templates are precompiled, this file should use handlebars/runtime
 
-/* eslint @okta/okta/no-specific-modules: 0 */
+/* eslint @okta/okta-ui/no-specific-modules: 0 */
 // from vendor/lib
 var _default = _handlebars.default;
 exports.default = _default;
@@ -8263,7 +8371,7 @@ var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* eslint @okta/okta/enforce-requirejs-names: 0, @okta/okta/no-specific-modules: 0, max-params: 0, max-statements: 0 */
+/* eslint @okta/okta-ui/no-specific-modules: 0, max-params: 0, max-statements: 0 */
 function formatDate(format, dateInISOString) {
   return _moment.default.utc(dateInISOString).utcOffset('-07:00').format(format);
 }
@@ -8296,20 +8404,65 @@ var _handlebars = _interopRequireDefault(__webpack_require__(5));
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
+var _Logger = _interopRequireDefault(__webpack_require__(7));
+
 var _StringUtil = _interopRequireDefault(__webpack_require__(4));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* eslint @okta/okta/no-specific-modules: 0 */
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var hbsEscape = _handlebars.default.Utils.escapeExpression;
+
 function trim(str) {
   return str && str.replace(/^\s+|\s+$/g, '');
 }
+
+function replaceTagsWithPlaceholders(source, tag, tagValue) {
+  var escapedBeginningTag = hbsEscape("<".concat(tag, ">"));
+  var escapedEndTag = hbsEscape("</".concat(tag, ">"));
+
+  var _tagValue$split = tagValue.split(tag),
+      _tagValue$split2 = _slicedToArray(_tagValue$split, 2),
+      beginningTag = _tagValue$split2[0],
+      endTag = _tagValue$split2[1];
+
+  if (!source.includes(escapedBeginningTag) && !source.includes(escapedEndTag)) {
+    throw Error("Parsed tag \"".concat(tag, "\" is not present in \"").concat(source, "\""));
+  } else if (!tagValue.includes(tag)) {
+    throw Error("Parsed tag \"".concat(tag, "\" is not present in \"").concat(tagValue, "\""));
+  } else if (!beginningTag || !endTag) {
+    throw Error("Template value \"".concat(tagValue, "\" must contain beginning and closing tags"));
+  }
+
+  return source.replace(escapedBeginningTag, beginningTag).replace(escapedEndTag, endTag);
+}
+/* eslint max-statements: [2, 18] */
+
 
 _handlebars.default.registerHelper('i18n', function (options) {
   var params;
   var key = trim(options.hash.code);
   var bundle = trim(options.hash.bundle);
   var args = trim(options.hash['arguments']);
+  var tags = Object.keys(options.hash).filter(function (prop) {
+    return prop.match(/^\$\d+/);
+  }).map(function (prop) {
+    return {
+      tag: prop,
+      value: options.hash[prop]
+    };
+  });
 
   if (args) {
     params = _underscoreWrapper.default.map(trim(args).split(';'), function (param) {
@@ -8317,10 +8470,10 @@ _handlebars.default.registerHelper('i18n', function (options) {
       var val;
       var data = this;
       /*
-      * the context(data) may be a deep object, ex {user: {name: 'John', gender: 'M'}}
-      * arguments may be 'user.name'
-      * return data['user']['name']
-      */
+       * the context(data) may be a deep object, ex {user: {name: 'John', gender: 'M'}}
+       * arguments may be 'user.name'
+       * return data['user']['name']
+       */
 
       _underscoreWrapper.default.each(param.split('.'), function (p) {
         val = val ? val[p] : data[p];
@@ -8330,7 +8483,25 @@ _handlebars.default.registerHelper('i18n', function (options) {
     }, this);
   }
 
-  return _StringUtil.default.localize(key, bundle, params);
+  var localizedValue = _StringUtil.default.localize(key, bundle, params);
+
+  if (tags.length < 1) {
+    // No HTML tags provided - return the localized and escaped string
+    return localizedValue;
+  }
+
+  var escapedString = hbsEscape(localizedValue);
+
+  try {
+    tags.forEach(function (tag) {
+      escapedString = replaceTagsWithPlaceholders(escapedString, tag.tag, tag.value);
+    });
+    return new _handlebars.default.SafeString(escapedString);
+  } catch (err) {
+    _Logger.default.error(err.toString());
+
+    return localizedValue;
+  }
 });
 
 var _default = _handlebars.default;
@@ -8355,7 +8526,7 @@ var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* eslint @okta/okta/no-specific-modules: 0 */
+/* eslint @okta/okta-ui/no-specific-modules: 0 */
 var CACHE_BUST_URL_PREFIX = '/assets';
 
 function prependCachebustPrefix(path) {
@@ -8403,7 +8574,7 @@ var _markdownToHtml = _interopRequireDefault(__webpack_require__(54));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* eslint @okta/okta/no-specific-modules: 0 */
+/* eslint @okta/okta-ui/no-specific-modules: 0 */
 _handlebars.default.registerHelper('markdown', function (mdText) {
   return (0, _markdownToHtml.default)(_handlebars.default, mdText);
 });
@@ -8445,7 +8616,7 @@ function mdToHtml(Handlebars, markdownText) {
   // TODO: use precompiled templates OKTA-309852
   // eslint-disable-next-line @okta/okta-ui/no-bare-templates
   var linkTemplate = Handlebars.compile('<a href="{{href}}">{{text}}</a>');
-  /* eslint  @okta/okta/no-specific-methods: 0*/
+  /* eslint  @okta/okta-ui/no-specific-methods: 0*/
 
   var res;
 
@@ -8483,7 +8654,7 @@ var _jqueryWrapper = _interopRequireDefault(__webpack_require__(3));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* eslint @okta/okta/no-specific-modules: 0 */
+/* eslint @okta/okta-ui/no-specific-modules: 0 */
 _handlebars.default.registerHelper('xsrfTokenInput', function () {
   return new _handlebars.default.SafeString('<input type="hidden" class="hide" name="_xsrfToken" ' + 'value="' + (0, _jqueryWrapper.default)('#_xsrfToken').text() + '">');
 });
@@ -10783,7 +10954,7 @@ var _default = _BaseView.default.extend({
         },
         "useData": true
       });
-      this.add(explain, '.o-form-explain');
+      this.add(explain, ' > .o-form-explain');
     } else {
       this.template = _runtime.default.template({
         "compiler": [8, ">= 4.3.0"],
@@ -11328,7 +11499,7 @@ var _default = _BaseView.default.extend({
           classes: 'qtip-custom qtip-shadow'
         },
         position: {
-          my: 'bottom left',
+          my: window.okta && window.okta.theme === 'dstheme' ? 'bottom center' : 'bottom left',
           at: 'top center'
         },
         hide: {
@@ -12323,6 +12494,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
           'title': this.form_field.title
         };
         this.container = $("<div></div>", container_props);
+
         if (this.is_multiple) {
           this.container.html('<ul class="chzn-choices"><li class="search-field"><input type="text" value="' + this.default_text + '" class="default" autocomplete="off" style="width:25px;" /></li></ul><div class="chzn-drop"><ul class="chzn-results"></ul></div>');
         } else {
@@ -13080,6 +13252,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
             style = styles[_i];
             style_block += style + ":" + this.search_field.css(style) + ";";
           }
+
           div = $('<div></div>', {
             'style': style_block
           });
@@ -13150,7 +13323,32 @@ var _default = _BaseInput.default.extend({
   template: _runtime.default.template({
     "compiler": [8, ">= 4.3.0"],
     "main": function main(container, depth0, helpers, partials, data) {
-      return "<a href=\"#\" class=\"array-inputs-button link-button\">Add Another</a>";
+      var lookupProperty = container.lookupProperty || function (parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+
+        return undefined;
+      };
+
+      return "<a href=\"#\" class=\"array-inputs-button link-button\">" + container.escapeExpression((lookupProperty(helpers, "i18n") || depth0 && lookupProperty(depth0, "i18n") || container.hooks.helperMissing).call(depth0 != null ? depth0 : container.nullContext || {}, {
+        "name": "i18n",
+        "hash": {
+          "bundle": "courage",
+          "code": "oform.add.another"
+        },
+        "data": data,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 52
+          },
+          "end": {
+            "line": 1,
+            "column": 102
+          }
+        }
+      })) + "</a>";
     },
     "useData": true
   }),
@@ -13612,6 +13810,8 @@ var _default = _BaseInput.default.extend({
   events: {
     'change :checkbox': 'update',
     keyup: function keyup(e) {
+      e.preventDefault();
+
       if (_Keys.default.isSpaceBar(e)) {
         this.$(':checkbox').click();
       } else if (_Keys.default.isEnter(e)) {
@@ -13948,127 +14148,125 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 var isABaseView = _Util.default.isABaseView;
 
-var myTmp = _runtime.default.template({
-  "compiler": [8, ">= 4.3.0"],
-  "main": function main(container, depth0, helpers, partials, data) {
-    var helper,
-        alias1 = depth0 != null ? depth0 : container.nullContext || {},
-        alias2 = container.hooks.helperMissing,
-        alias3 = "function",
-        alias4 = container.escapeExpression,
-        lookupProperty = container.lookupProperty || function (parent, propertyName) {
-      if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-        return parent[propertyName];
-      }
-
-      return undefined;
-    };
-
-    return "<input type=\"radio\" name=\"" + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
-      "name": "name",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 1,
-          "column": 26
-        },
-        "end": {
-          "line": 1,
-          "column": 34
-        }
-      }
-    }) : helper)) + "\" data-se-name=\"" + alias4((helper = (helper = lookupProperty(helpers, "realName") || (depth0 != null ? lookupProperty(depth0, "realName") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
-      "name": "realName",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 1,
-          "column": 50
-        },
-        "end": {
-          "line": 1,
-          "column": 62
-        }
-      }
-    }) : helper)) + "\" value=\"" + alias4((helper = (helper = lookupProperty(helpers, "value") || (depth0 != null ? lookupProperty(depth0, "value") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
-      "name": "value",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 1,
-          "column": 71
-        },
-        "end": {
-          "line": 1,
-          "column": 80
-        }
-      }
-    }) : helper)) + "\" id=\"" + alias4((helper = (helper = lookupProperty(helpers, "optionId") || (depth0 != null ? lookupProperty(depth0, "optionId") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
-      "name": "optionId",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 1,
-          "column": 86
-        },
-        "end": {
-          "line": 1,
-          "column": 98
-        }
-      }
-    }) : helper)) + "\"><label for=\"" + alias4((helper = (helper = lookupProperty(helpers, "optionId") || (depth0 != null ? lookupProperty(depth0, "optionId") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
-      "name": "optionId",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 1,
-          "column": 112
-        },
-        "end": {
-          "line": 1,
-          "column": 124
-        }
-      }
-    }) : helper)) + "\" data-se-for-name=\"" + alias4((helper = (helper = lookupProperty(helpers, "realName") || (depth0 != null ? lookupProperty(depth0, "realName") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
-      "name": "realName",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 1,
-          "column": 144
-        },
-        "end": {
-          "line": 1,
-          "column": 156
-        }
-      }
-    }) : helper)) + "\" class=\"radio-label\">" + alias4((helper = (helper = lookupProperty(helpers, "label") || (depth0 != null ? lookupProperty(depth0, "label") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
-      "name": "label",
-      "hash": {},
-      "data": data,
-      "loc": {
-        "start": {
-          "line": 1,
-          "column": 178
-        },
-        "end": {
-          "line": 1,
-          "column": 187
-        }
-      }
-    }) : helper)) + "</label>";
-  },
-  "useData": true
-});
-
 var RadioRadioOption = _BaseView.default.extend({
-  template: myTmp,
+  template: _runtime.default.template({
+    "compiler": [8, ">= 4.3.0"],
+    "main": function main(container, depth0, helpers, partials, data) {
+      var helper,
+          alias1 = depth0 != null ? depth0 : container.nullContext || {},
+          alias2 = container.hooks.helperMissing,
+          alias3 = "function",
+          alias4 = container.escapeExpression,
+          lookupProperty = container.lookupProperty || function (parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+
+        return undefined;
+      };
+
+      return "<input type=\"radio\" name=\"" + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "name",
+        "hash": {},
+        "data": data,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 26
+          },
+          "end": {
+            "line": 1,
+            "column": 34
+          }
+        }
+      }) : helper)) + "\" data-se-name=\"" + alias4((helper = (helper = lookupProperty(helpers, "realName") || (depth0 != null ? lookupProperty(depth0, "realName") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "realName",
+        "hash": {},
+        "data": data,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 50
+          },
+          "end": {
+            "line": 1,
+            "column": 62
+          }
+        }
+      }) : helper)) + "\" value=\"" + alias4((helper = (helper = lookupProperty(helpers, "value") || (depth0 != null ? lookupProperty(depth0, "value") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "value",
+        "hash": {},
+        "data": data,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 71
+          },
+          "end": {
+            "line": 1,
+            "column": 80
+          }
+        }
+      }) : helper)) + "\" id=\"" + alias4((helper = (helper = lookupProperty(helpers, "optionId") || (depth0 != null ? lookupProperty(depth0, "optionId") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "optionId",
+        "hash": {},
+        "data": data,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 86
+          },
+          "end": {
+            "line": 1,
+            "column": 98
+          }
+        }
+      }) : helper)) + "\"><label for=\"" + alias4((helper = (helper = lookupProperty(helpers, "optionId") || (depth0 != null ? lookupProperty(depth0, "optionId") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "optionId",
+        "hash": {},
+        "data": data,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 112
+          },
+          "end": {
+            "line": 1,
+            "column": 124
+          }
+        }
+      }) : helper)) + "\" data-se-for-name=\"" + alias4((helper = (helper = lookupProperty(helpers, "realName") || (depth0 != null ? lookupProperty(depth0, "realName") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "realName",
+        "hash": {},
+        "data": data,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 144
+          },
+          "end": {
+            "line": 1,
+            "column": 156
+          }
+        }
+      }) : helper)) + "\" class=\"radio-label\">" + alias4((helper = (helper = lookupProperty(helpers, "label") || (depth0 != null ? lookupProperty(depth0, "label") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "label",
+        "hash": {},
+        "data": data,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 178
+          },
+          "end": {
+            "line": 1,
+            "column": 187
+          }
+        }
+      }) : helper)) + "</label>";
+    },
+    "useData": true
+  }),
   initialize: function initialize(options) {
     var explain;
     explain = options.explain;
