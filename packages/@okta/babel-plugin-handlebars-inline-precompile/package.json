@@ -1,7 +1,7 @@
 {
   "name": "@okta/babel-plugin-handlebars-inline-precompile",
   "description": "Original source: https://github.com/RoundingWellOS/babel-plugin-handlebars-inline-precompile",
-  "version": "3.1.0-alpha.3586.gd86894f",
+  "version": "3.1.0-beta.4200.gf3d0a27",
   "license": "MIT",
   "main": "hbs.js",
   "dependencies": {
@@ -10,5 +10,5 @@
   "peerDependencies": {
     "handlebars": "^4.7.6"
   },
-  "gitHead": "d86894fbac300c213bf1415ed186e6fd26aae95d"
+  "gitHead": "f3d0a274345d9230406eabcf7c217524d1f928f8"
 }

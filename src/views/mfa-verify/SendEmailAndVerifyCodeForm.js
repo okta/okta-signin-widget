@@ -60,9 +60,6 @@ const SendEmailAndVerifyCodeFormVerifyEmailCodeForm = Form.extend({
   initialize: function () {
     Form.prototype.initialize.apply(this, arguments);
 
-    //Added thorttle to prevent keyboard enter trigger multipele API calls
-    this.handleSubmit = _.throttle(this.handleSubmit, 100, { leading: false });
-
     // render 'Send Email' page at first place
     this.add(
       View.extend({
