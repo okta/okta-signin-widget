@@ -110,7 +110,9 @@ export default View.extend({
         'data-se': options.dataAttr,
       },
       className: options.className + ' default-custom-button',
-      title: options.title,
+      title: function () {
+        return options.title || loc(options.i18nKey);
+      },
       click: options.click,
     });
   },

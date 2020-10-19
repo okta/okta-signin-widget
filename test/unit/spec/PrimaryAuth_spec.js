@@ -3018,6 +3018,43 @@ Expect.describe('Additional Auth Button', function () {
       expect(test.form.additionalAuthButton().hasClass('new-class')).toBe(true);
     });
   });
+  itp('displays custom button translation', function () {
+    const settings = {
+      i18n: {
+        en: {
+          'customButton.title': 'Custom Translated Title',
+        },
+      },
+      customButtons: [
+        {
+          i18nKey: 'customButton.title',
+        },
+      ],
+    };
+
+    return setup(settings).then(function (test) {
+      expect(test.form.additionalAuthButton().text()).toEqual('Custom Translated Title');
+    });
+  });
+  itp('ignores custom button translation if title is passed', function () {
+    const settings = {
+      i18n: {
+        en: {
+          'customButton.title': 'Custom Translated Title',
+        },
+      },
+      customButtons: [
+        {
+          i18nKey: 'customButton.title',
+          title: 'Title Overrides i18n'
+        },
+      ],
+    };
+
+    return setup(settings).then(function (test) {
+      expect(test.form.additionalAuthButton().text()).toEqual('Title Overrides i18n');
+    });
+  });
   itp('displays social auth and custom buttons', function () {
     const settings = {
       customButtons: [
