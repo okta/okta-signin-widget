@@ -41,6 +41,20 @@ FrameworkView.prototype.compileTemplate = function(str) {
   };
 };
 
+// Override events to not support `Enter` submitting the form twice - OKTA-321999 and OKTA-317629
+const events = {
+  'input input': 'update',
+  'change input': 'update',
+  'keydown input': 'update',
+  'keyup input': function (e) {
+    if (Keys.isEsc(e)) {
+      this.model.trigger('form:cancel');
+    }
+  }
+};
+const TextBoxForSigninWidget = TextBox.extend({ events });
+const PasswordBoxForSigninWidget = PasswordBox.extend({ events });
+
 const Okta = {
   Backbone: Backbone,
 
@@ -103,8 +117,8 @@ const Okta = {
         },
 
         inputs: {
-          TextBox,
-          PasswordBox,
+          TextBox: TextBoxForSigninWidget,
+          PasswordBox: PasswordBoxForSigninWidget,
           CheckBox,
           Radio,
           Select,
@@ -120,8 +134,8 @@ const Okta = {
   },
 };
 
-Okta.registerInput('text', TextBox);
-Okta.registerInput('password', PasswordBox);
+Okta.registerInput('text', TextBoxForSigninWidget);
+Okta.registerInput('password', PasswordBoxForSigninWidget);
 Okta.registerInput('checkbox', CheckBox);
 Okta.registerInput('radio', Radio);
 Okta.registerInput('select', Select);

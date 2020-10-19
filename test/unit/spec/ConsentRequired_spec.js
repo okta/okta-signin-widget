@@ -181,7 +181,7 @@ Expect.describe('ConsentRequired', function () {
       return setup().then(function (test) {
         expect(test.form.cancelButton()).toExist();
         expect(test.form.cancelButton().attr('value')).toBe('Don\'t Allow');
-        expect(test.form.cancelButton().attr('class')).toBe('button');
+        expect(test.form.cancelButton().attr('class')).toBe('button button-clear');
       });
     });
     itp('cancel button click cancels the current stateToken and calls the cancel function', function () {
