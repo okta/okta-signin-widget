@@ -783,9 +783,26 @@ customButtons: [{
     window.location.href = 'http://www.example.com';
   }
 }]
+
+// An example that adds a custom button with a localized title underneath the login form on the primary auth page
+i18n: {
+  en: {
+    'customButton.title': 'Custom Button Title',
+  },
+},
+customButtons: [{
+  i18nKey: 'customButton.title',
+  className: 'btn-customAuth',
+  click: function() {
+    // clicking on the button navigates to another page
+    window.location.href = 'http://www.example.com';
+  }
+}]
 ```
 
-- **customButtons.title** - String that is set as the button text
+- **customButtons.title** - String that is set as the button text (set only one of `title` OR `i18nKey`)
+
+- **customButtons.i18nKey** - Custom translation key for button text specified in `i18n` config option (set only one of `title` OR `i18nKey`)
 
 - **customButtons.className** - Optional class that can be added to the button
 
