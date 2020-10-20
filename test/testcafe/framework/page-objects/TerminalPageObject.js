@@ -15,4 +15,8 @@ export default class TerminalPageObject extends BasePageObject {
     return this.form.getTerminalContent();
   }
 
+  waitForErrorBox() {
+    return this.form.waitForErrorBox();
+  }
+
 }
