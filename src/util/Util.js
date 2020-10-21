@@ -55,14 +55,6 @@ const buildDynamicForm = function (url = '', method) {
   return form;
 };
 
-Util.hasTokensInHash = function (hash) {
-  return /((id|access)_token=)/i.test(hash);
-};
-
-Util.hasCodeInUrl = function (hashOrSearch) {
-  return /(code=)/i.test(hashOrSearch);
-};
-
 Util.transformErrorXHR = function (xhr) {
   // Handle network connection error
   if (xhr.status === 0 && _.isEmpty(xhr.responseJSON)) {

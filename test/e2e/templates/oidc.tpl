@@ -14,7 +14,7 @@ var CONFIG = {
     pkce: false,
     issuer: '{{WIDGET_TEST_SERVER}}/oauth2/{{WIDGET_AUTH_SERVER_ID}}',
     responseType: 'id_token',
-    scope: ['openid', 'email', 'profile', 'address', 'phone']
+    scopes: ['openid', 'email', 'profile', 'address', 'phone']
   },
   idps: [
     {

@@ -21,15 +21,15 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
 - [Usage guide](#usage-guide)
 - [API Reference](#api-reference)
   - [OktaSignIn](#oktasignin)
-  - [renderEl](#renderel)
   - [showSignInToGetTokens](#showsignintogettokens)
+  - [showSignInAndRedirect](#showsigninandredirect)
+  - [renderEl](#renderel)
   - [hide](#hide)
   - [show](#show)
   - [remove](#remove)
   - [on](#on)
   - [off](#off)
   - [authClient](#authclient)
-  - [hasTokensInUrl](#hastokensinurl)
 - [Configuration](#configuration)
   - [Basic config options](#basic-config-options)
   - [Username and password](#username-and-password)
@@ -189,7 +189,6 @@ You can also browse the full [API reference documentation](#api-reference).
 
 - PKCE is enabled by default for new SPA (Single-page) applications
 - You can configure your existing Single-page application to use `PKCE` under the `General Settings` for your application in the Okta Admin UI.
-- To complete the flow, your client application should handle the code passed to `redirectUri` and use it to obtain tokens. You can test for a code in the URL using [hasTokensInUrl()](#hastokensinurl). The [okta-auth-js](https://github.com/okta/okta-auth-js#pkce-oauth-20-flow) library is used to retreive the code from the URL and exchange it for tokens. An instance of `okta-auth-js` is used by the Signin Widget and exposed as `authClient`.
 - We also provide higher-level [Javascript OIDC SDKs](https://github.com/okta/okta-oidc-js) for several frameworks, including [React](https://github.com/okta/okta-oidc-js/tree/master/packages/okta-react), [Angular](https://github.com/okta/okta-oidc-js/tree/master/packages/okta-angular) and [Vue](https://github.com/okta/okta-oidc-js/tree/master/packages/okta-vue). These SDKs are built on `okta-auth-js` and are fully compatible with the Signin Widget.
 - Complete samples are available for:
   - [React](https://github.com/okta/samples-js-react/tree/master/custom-login)
@@ -200,26 +199,19 @@ You can also browse the full [API reference documentation](#api-reference).
 var signIn = new OktaSignIn(
   {
     baseUrl: 'https://{yourOktaDomain}',
-    redirectUri: '{{redirectUri configured in OIDC app}}',
-    authParams: {
-      display: 'page'
-    }
+    clientId: '{{clientId of your OIDC app}}'
+    redirectUri: '{{redirectUri configured in OIDC app}}'
   }
 );
 
-if (signIn.hasTokensInUrl()) {
-  // The user has just successfully completed a redirect
-  // Retrieve tokens from the URL and store them in the internal TokenManager
-  // https://github.com/okta/okta-auth-js#tokenparsefromurloptions
-  signIn.authClient.token.parseFromUrl()
-    .then(function (res) {
-      oktaSignIn.authClient.tokenManager.add('idToken', res.tokens.idToken);
-      oktaSignIn.authClient.tokenManager.add('accessToken', res.tokens.accessToken);
-    })
-}
-else {
-  // There are no tokens in the URL, render the Sign-In Widget.
-}
+signIn.showSignInToGetTokens({
+  // Assumes there is an empty element on the page with an id of 'osw-container'
+  el: '#osw-container'
+}).then(function(tokens) {
+  // Store tokens
+}).catch(function(error) {
+  // Handle error
+});
 ```
 
 ### OIDC login flow using Authorization Code
@@ -235,6 +227,31 @@ else {
   - [NodeJS/Express](https://github.com/okta/samples-nodejs-express-4/tree/master/custom-login)
   - [PHP](https://github.com/okta/samples-php/tree/develop/custom-login)
   - [Python/Flask](https://github.com/okta/samples-python-flask/tree/master/custom-login)
+
+```javascript
+var signIn = new OktaSignIn(
+  {
+    baseUrl: 'https://{yourOktaDomain}',
+    clientId: '{{clientId of your OIDC app}}'
+    redirectUri: '{{redirectUri configured in OIDC app}}',
+    authParams: {
+      pkce: false,
+      responseType: 'code'
+    }
+  }
+);
+
+// When the authorization flow is complete there will be a redirect to Okta.
+// Okta's servers will process the information and then redirect back to your application's `redirectUri`
+// If succesful, an authorization code will exist in the URL as the "code" query parameter
+// If unsuccesful, there will be an "error" query parameter in the URL
+signIn.showSignInAndRedirect({
+  // Assumes there is an empty element on the page with an id of 'osw-container'
+  el: '#osw-container'
+}).catch(function(error) {
+  // Handle error
+});
+```
 
 ## API Reference
 
@@ -252,120 +269,138 @@ var signIn = new OktaSignIn(
 );
 ```
 
-> **Note**: `https://{yourOktaDomain}` can be any Okta organization. See [Basic config options](#basic-config-options) for more information.
-
-### renderEl
-
-Renders the widget to the DOM, and passes control back to your app through success and error callback functions when the user has entered a success or error state.
-
-- `options`
-  - `el` - CSS selector which identifies the container element that the widget attaches to.
-- `success` *(optional)* - Function that is called when the user has completed an authentication flow. If an [OpenID Connect redirect flow](#openid-connect) is used, this function can be omitted.
-- `error` *(optional)* - Function that is called when the widget has been initialized with invalid config options, or has entered a state it cannot recover from. If omitted, a default function is used to output errors to the console.
+For OIDC flows, you will also want to provide the `clientId`, `redirectUri` as shown:
 
 ```javascript
-signIn.renderEl(
-  // Assumes there is an empty element on the page with an id of 'osw-container'
-  {el: '#osw-container'},
-
-  function success(res) {
-    // The properties in the response object depend on two factors:
-    // 1. The type of authentication flow that has just completed, determined by res.status
-    // 2. What type of token the widget is returning
-
-    // The user has started the password recovery flow, and is on the confirmation
-    // screen letting them know that an email is on the way.
-    if (res.status === 'FORGOT_PASSWORD_EMAIL_SENT') {
-      // Any followup action you want to take
-      return;
-    }
-
-    // The user has started the unlock account flow, and is on the confirmation
-    // screen letting them know that an email is on the way.
-    if (res.status === 'UNLOCK_ACCOUNT_EMAIL_SENT') {
-      // Any followup action you want to take
-      return;
-    }
-
-    // The user has successfully completed the authentication flow
-    if (res.status === 'SUCCESS') {
-
-      // Handle success when the widget is not configured for OIDC
-
-      if (res.type === 'SESSION_STEP_UP') {
-        // Session step up response
-        // If the widget is not configured for OIDC and the authentication type is SESSION_STEP_UP,
-        // the response will contain user metadata and a stepUp object with the url of the resource
-        // and a 'finish' function to navigate to that url
-        console.log(res.user);
-        console.log('Target resource url: ' + res.stepUp.url);
-        res.stepUp.finish();
-        return;
-      } else {
-        // If the widget is not configured for OIDC, the response will contain
-        // user metadata and a sessionToken that can be converted to an Okta
-        // session cookie:
-        console.log(res.user);
-        res.session.setCookieAndRedirect('https://acme.com/app');
-        return;
-      }
-
-
-      // OIDC response
-
-      // If the widget is configured for OIDC with a single responseType, the
-      // response will be the token.
-      // i.e. authParams.responseType = 'id_token':
-      console.log(res.claims);
-      signIn.tokenManager.add('my_id_token', res);
-
-      // If the widget is configured for OIDC with multiple responseTypes, the
-      // response will be an array of tokens:
-      // i.e. authParams.responseType = ['id_token', 'token']
-      signIn.tokenManager.add('my_id_token', res[0]);
-      signIn.tokenManager.add('my_access_token', res[1]);
-
-      return;
-    }
-
-  },
-
-  function error(err) {
-    // This function is invoked with errors the widget cannot recover from:
-    // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR
+var signIn = new OktaSignIn(
+  {
+    baseUrl: 'https://{yourOktaDomain}',
+    clientId: '{{clientId of your OIDC app}}'
+    redirectUri: '{{redirectUri configured in OIDC app}}'
   }
 );
 ```
 
+> **Note**: `https://{yourOktaDomain}` can be any Okta organization. See [Basic config options](#basic-config-options) for more information.
+
 ### showSignInToGetTokens
 
-Renders the widget to the DOM to prompt the user to sign in. On successful authentication, users are redirected back to the application via the `redirectUri` with an Okta SSO session in the browser, and access and/or identity tokens in the fragment identifier.
+Returns a Promise. Renders the widget to the DOM to prompt the user to sign in. On successful authentication, the Promise will be resolved to an object containing OAuth tokens.
 
 * `options`
+  * `el` *(optional) - CSS selector which identifies the container element that the widget attaches to. If omitted, defaults to the value passed in during the construction of the Widget.
   * `clientId` *(optional)* - Client Id pre-registered with Okta for the OIDC authentication flow. If omitted, defaults to the value passed in during the construction of the Widget.
   * `redirectUri` *(optional)* - The url that is redirected to after authentication. This must be pre-registered as part of client registration. Defaults to the current origin.
-  * `getAccessToken` *(optional)* - Return an access token from the authorization server. Defaults to `true`.
-  * `getIdToken` *(optional)* - Return an ID token from the authorization server. Defaults to `true`.
-  * `scope` *(optional)* - Specify what information to make available in the returned access or ID token. If omitted, defaults to the value passed in during construction of the Widget.
+  * `scopes` *(optional)* - Specify what information to make available in the returned access or ID token. If omitted, defaults to the value of `authParams.scopes` passed in during construction of the Widget. Defaults to `['openid', 'email']`
 
 ```javascript
 var signIn = new OktaSignIn({
-  baseUrl: 'https://{yourOktaDomain}',
   // Assumes there is an empty element on the page with an id of 'osw-container'
-  el: '#osw-container'
+  el: '#osw-container',
+  clientId: '{{myClientId}}',
+  redirectUri: '{{redirectUri configured in OIDC app}}',
+  baseUrl: 'https://{yourOktaDomain}'
 });
 
 signIn.showSignInToGetTokens({
-  clientId: '{{myClientId}}',
+  scopes: ['openid', 'profile'] // optional
+}).then(function(tokens) {
+  // Store tokens
+}).catch(function(error) {
+  // This function is invoked with errors the widget cannot recover from:
+  // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR
+});
+```
+
+### showSignInAndRedirect
+
+Returns a Promise. Renders the widget to the DOM to prompt the user to sign in. On successful authentication, the browser will be redirected to Okta with information to begin a new session. Okta's servers will process the information and then redirect back to your application's `redirectUri`. If succesful, an authorization code will exist in the URL as the "code" query parameter. If unsuccesful, there will be an "error" query parameter in the URL.
+
+* `options`
+  * `el` *(optional) - CSS selector which identifies the container element that the widget attaches to. If omitted, defaults to the value passed in during the construction of the Widget.
+  * `clientId` *(optional)* - Client Id pre-registered with Okta for the OIDC authentication flow. If omitted, defaults to the value passed in during the construction of the Widget.
+  * `redirectUri` *(optional)* - The url that is redirected to after authentication. This must be pre-registered as part of client registration. Defaults to the current origin.
+
+```javascript
+var signIn = new OktaSignIn({
+  // Assumes there is an empty element on the page with an id of 'osw-container'
+  el: '#osw-container'
+  baseUrl: 'https://{yourOktaDomain}',
+  clientId: '{{clientId of your OIDC app}}'
   redirectUri: '{{redirectUri configured in OIDC app}}',
+  authParams: {
+    pkce: false,
+    responseType: 'code'
+  }
+});
 
-  // Return an access token from the authorization server
-  getAccessToken: true,
+signIn.showSignInAndRedirect().catch(function(error) {
+  // This function is invoked with errors the widget cannot recover from:
+  // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR
+});
+```
 
-  // Return an ID token from the authorization server
-  getIdToken: true,
+### renderEl
 
-  scope: 'openid profile'
+Returns a Promise. Renders the widget to the DOM. On success, the promise will resolve. On error, the promise will reject. Also accepts a `success` or `error` callback function.
+
+> :warning: This method provides access to internal and/or undocumented features for non-OIDC flows. For OIDC flows, we recommend using [showSignInToGetTokens](#showsignintogettokens) or [showSignAndRedirect](#showsigninandredirect).
+
+- `options`
+  - `el` *(optional)* - CSS selector which identifies the container element that the widget attaches to. If omitted, defaults to the value passed in during the construction of the Widget.
+- `success` *(optional)* - Function that is called when the user has completed an authentication flow. If an [OpenID Connect redirect flow](#openid-connect) is used, this function can be omitted.
+- `error` *(optional)* - Function that is called when the widget has been initialized with invalid config options, or has entered a state it cannot recover from. If omitted, a default function is used to output errors to the console.
+
+```javascript
+signIn.renderEl({
+  // Assumes there is an empty element on the page with an id of 'osw-container'
+  el: '#osw-container'
+})
+.then(function success(res) {
+  // The properties in the response object depend on two factors:
+  // 1. The type of authentication flow that has just completed, determined by res.status
+  // 2. What type of token the widget is returning
+
+  // The user has started the password recovery flow, and is on the confirmation
+  // screen letting them know that an email is on the way.
+  if (res.status === 'FORGOT_PASSWORD_EMAIL_SENT') {
+    // Any followup action you want to take
+    return;
+  }
+
+  // The user has started the unlock account flow, and is on the confirmation
+  // screen letting them know that an email is on the way.
+  if (res.status === 'UNLOCK_ACCOUNT_EMAIL_SENT') {
+    // Any followup action you want to take
+    return;
+  }
+
+  // The user has successfully completed the authentication flow
+  if (res.status === 'SUCCESS') {
+
+    // Handle success when the widget is not configured for OIDC
+    if (res.type === 'SESSION_STEP_UP') {
+      // Session step up response
+      // If the widget is not configured for OIDC and the authentication type is SESSION_STEP_UP,
+      // the response will contain user metadata and a stepUp object with the url of the resource
+      // and a 'finish' function to navigate to that url
+      console.log(res.user);
+      console.log('Target resource url: ' + res.stepUp.url);
+      res.stepUp.finish();
+      return;
+    } else {
+      // If the widget is not configured for OIDC, the response will contain
+      // user metadata and a sessionToken that can be converted to an Okta
+      // session cookie:
+      console.log(res.user);
+      res.session.setCookieAndRedirect('https://acme.com/app');
+      return;
+    }
+  }
+})
+.catch(function error(err) {
+  // This function is invoked with errors the widget cannot recover from:
+  // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR
 });
 ```
 
@@ -437,26 +472,6 @@ if (exists) {
 };
 ```
 
-### hasTokensInUrl
-
-Synchronous method to check for access or ID Tokens in the url. This is used when `authParams.display = 'page'`. Returns `true` if there are tokens, and `false` if the redirect flow has not taken place yet.
-
-```javascript
-if (signIn.hasTokensInUrl()) {
-  // The user has just successfully completed a redirect
-  // Retrieve tokens from the URL and store them in the internal TokenManager
-  // https://github.com/okta/okta-auth-js#tokenparsefromurloptions
-  signIn.authClient.token.parseFromUrl()
-    .then(function (res) {
-      oktaSignIn.authClient.tokenManager.add('idToken', res.tokens.idToken);
-      oktaSignIn.authClient.tokenManager.add('accessToken', res.tokens.accessToken);
-    })
-}
-else {
-  // There are no tokens in the URL, render the Sign-In Widget.
-}
-```
-
 ## Configuration
 
 The only required configuration option is `baseUrl`. All others are optional.
@@ -478,7 +493,7 @@ var config = {
     help: 'https://acme.com/help'
   },
   authParams: {
-    // Configuration for authClient. See https://github.com/okta/okta-auth-js#configuration-options
+    // Configuration for the internal authClient. See https://github.com/okta/okta-auth-js#configuration-options
   }
 };
 
@@ -1024,7 +1039,7 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
     oAuthTimeout: 300000 // 5 minutes
     ```
 
-- **authParams:** An object containing configuration which is passed directly to the `authClient`. Selected options are described below. See the full set of [Configuration options](https://github.com/okta/okta-auth-js#configuration-options)
+- **authParams:** An object containing configuration which is passed directly to the internal `authClient`. Selected options are described below. See the full set of [Configuration options](https://github.com/okta/okta-auth-js#configuration-options)
 
 - **authParams.pkce:** Set to `false` to disable PKCE flow
 
@@ -1096,7 +1111,7 @@ Options for the [OpenID Connect](http://developer.okta.com/docs/api/resources/oi
     }
     ```
 
-- **authParams.state:** Specify a state that will be validated in an OAuth response. This is usually only provided during redirect flows to obtain an authorization code. Defaults to a random string. This value can be retrieved on the login callback. It will be returned along with tokens from [authClient.token.parseFromUrl()](https://github.com/okta/okta-auth-js#tokenparsefromurloptions)
+- **authParams.state:** Specify a state that will be validated in an OAuth response. This is usually only provided during redirect flows to obtain an authorization code. Defaults to a random string. This value can be retrieved from the URL on the login redirect callback. For more information on handling the redirect callback, see [authClient.token.parseFromUrl()](https://github.com/okta/okta-auth-js#tokenparsefromurloptions)
 
     ```javascript
     authParams: {

@@ -18,6 +18,7 @@ const itp = Expect.itp;
 Expect.describe('OktaSignIn initialization', function () {
   let signIn;
 
+  /* eslint jasmine/no-global-setup:0 */
   beforeEach(function () {
     jasmine.Ajax.install();
     jasmine.Ajax.stubRequest(/https:\/\/foo.com.*/).andReturn({
@@ -51,13 +52,13 @@ Expect.describe('OktaSignIn initialization', function () {
       expect(signIn.renderEl).toBeDefined();
     });
     it('has a authClient method', function () {
-      expect(signIn.authClient).toBeDefined();
+      expect(signIn.authClient).toBeDefined();	
     });
     it('has a showSignInToGetTokens method', function () {
       expect(signIn.showSignInToGetTokens).toBeDefined();
     });
-    it('has a hasTokensInUrl method', function () {
-      expect(signIn.hasTokensInUrl).toBeDefined();
+    it('has a showSignInAndRedirect method', function () {
+      expect(signIn.showSignInAndRedirect).toBeDefined();
     });
     it('has a hide method', function () {
       expect(signIn.hide).toBeDefined();
@@ -70,7 +71,7 @@ Expect.describe('OktaSignIn initialization', function () {
     });
   });
 
-  Expect.describe('Auth Client', function () {
+  describe('Auth Client', function () {
     Expect.describe('Config', function () {
       it('has an options object', function () {
         expect(signIn.authClient.options).toBeDefined();
@@ -351,7 +352,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         return JSON.parse(paramString);
       },
     });
-    signIn.renderEl({ el: $sandbox });
+    return signIn.renderEl({ el: $sandbox });
   }
 
   Expect.describe('Introspects token and loads Identifier view for new pipeline', function () {
@@ -377,14 +378,9 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
     });
 
     itp('throws an error if invalid version is passed to idx-js', function () {
-      setupIntrospect({
+      return setupIntrospect({
         apiVersion: '2.0.0',
-      });
-
-      return Expect.waitForSpyCall(Logger.error).then(() => {
-        expect(Logger.error.calls.count()).toBe(1);
-        const err = Logger.error.calls.mostRecent().args[0];
-
+      }).catch(err => {
         expect(err.name).toBe('CONFIG_ERROR');
         expect(err.message.toString()).toEqual('Error: Unknown api version: 2.0.0.  Use an exact semver version.');
       });

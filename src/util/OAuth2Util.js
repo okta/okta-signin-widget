@@ -16,13 +16,22 @@ import Errors from './Errors';
 import Util from './Util';
 const util = {};
 
-function hasResponseType (params, type) {
-  if (_.isArray(params.responseType)) {
-    return _.contains(params.responseType, type);
+function hasResponseType (responseType, type) {
+  if (_.isArray(responseType)) {
+    return _.contains(responseType, type);
   } else {
-    return type === params.responseType;
+    return type === responseType;
   }
 }
+
+// TODO: remove and use method from auth-js after 4.1 is released
+// https://github.com/okta/okta-auth-js/pull/525
+util.isAuthorizationCodeFlow = function (settings) {
+  const authClient = settings.getAuthClient();
+  const pkce = authClient.options.pkce;
+  const responseType = settings.get('authParams.responseType');
+  return hasResponseType(responseType, 'code') && !pkce;
+};
 
 /**
  * Get the tokens in the OIDC/OAUTH flows
@@ -52,7 +61,10 @@ util.getTokens = function (settings, params, controller) {
   _.extend(
     getTokenOptions,
     _.pick(options, 'clientId', 'redirectUri'),
-    _.pick(options.authParams, 'pkce', 'responseType', 'responseMode', 'display', 'scopes', 'state', 'nonce'),
+    _.pick(options.authParams,
+      // https://github.com/okta/okta-auth-js#authorize-options
+      'responseType', 'scopes', 'state', 'nonce', 'idp', 'idpScope', 'display', 'prompt', 'maxAge', 'loginHint'
+    ),
     params
   );
 
@@ -60,12 +72,10 @@ util.getTokens = function (settings, params, controller) {
   getTokenOptions.popupTitle = loc('socialauth.popup.title', 'login');
   getTokenOptions.timeout = options.oAuthTimeout;
 
-  _.extend(getTokenOptions, _.pick(options.authParams, 'issuer', 'authorizeUrl'));
-
   // Redirect flow - this can be used when logging into an external IDP, or
   // converting the Okta sessionToken to an access_token, id_token, and/or
   // authorization code. Note: The authorization code flow will always redirect.
-  if (getTokenOptions.display === 'page' || hasResponseType(getTokenOptions, 'code')) {
+  if (options.mode === 'remediation' || util.isAuthorizationCodeFlow(settings)) {
     authClient.token.getWithRedirect(getTokenOptions).catch(error);
   } else if (getTokenOptions.sessionToken) {
     // Default flow if logging in with Okta as the IDP - convert sessionToken to
@@ -77,67 +87,6 @@ util.getTokens = function (settings, params, controller) {
     // gets the token from a postMessage response.
     authClient.token.getWithPopup(getTokenOptions).then(success).catch(error);
   }
-};
-
-// Parse through the OAuth 'authParams' object to ensure the 'openid' scope is
-// included (if required)
-util.addOrRemoveOpenIdScope = function (authParams) {
-  if (!authParams.responseType) {
-    return;
-  }
-
-  //  Convert scope into an Array
-  const scope = Array.isArray(authParams.scopes) ? authParams.scopes : authParams.scopes.split(' ');
-
-  // Remove the 'openid' scope, as it is only required if an 'id_token' is requested
-  if (scope.includes('openid')) {
-    scope.splice(scope.indexOf('openid'), 1);
-  }
-
-  // Add the 'openid' scope
-  if (authParams.responseType.includes('id_token')) {
-    scope.push('openid');
-  }
-
-  return scope;
-};
-
-// Utility handlers for mapping convenience keys to OAuth params
-util.getResponseType = function (options) {
-  const responseType = [];
-
-  if (options.getIdToken !== false) {
-    responseType.push('id_token');
-  }
-
-  if (options.getAccessToken !== false) {
-    responseType.push('token');
-  }
-
-  return responseType;
-};
-
-util.transformShowSignInToGetTokensOptions = function (options, config = {}) {
-  // Override specific OAuth/OIDC values
-  if (!options.clientId && !config.clientId) {
-    throw new Errors.ConfigError('showSignInToGetTokens() requires a "clientId" property.');
-  }
-
-  const renderOptions = {
-    clientId: options.clientId,
-    redirectUri: options.redirectUri,
-    authParams: {
-      display: 'page',
-      responseType: util.getResponseType(options),
-      scopes: options.scope || (config.authParams && config.authParams.scopes) || ['openid', 'email'],
-    },
-  };
-
-  // Ensure the 'openid' scope is provided when an 'id_token' is requested.
-  // If the 'openid' scope is present and isn't needed, remove it.
-  renderOptions.authParams.scopes = util.addOrRemoveOpenIdScope(renderOptions.authParams);
-
-  return renderOptions;
 };
 
 export default util;

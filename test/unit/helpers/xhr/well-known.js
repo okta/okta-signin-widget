@@ -38,5 +38,6 @@ export default {
       'phone_number',
       'updated_at',
     ],
+    code_challenge_methods_supported: ['S256']
   },
 };
