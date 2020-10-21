@@ -1,6 +1,6 @@
-/*globals module */
+/*globals module, Promise */
 import _ from 'underscore';
-import config from 'config/config.json';
+import Errors from 'util/Errors';
 import OAuth2Util from 'util/OAuth2Util';
 import Util from 'util/Util';
 import createAuthClient from 'widget/createAuthClient';
@@ -12,31 +12,28 @@ var OktaSignIn = (function () {
   var router;
 
   function getProperties (authClient, Router, widgetOptions = {}) {
+    // Returns a promise that will resolve on success or reject on error
     function render (renderOptions, successFn, errorFn) {
       if (router) {
         throw new Error('An instance of the widget has already been rendered. Call remove() first.');
       }
 
-      /**
-       * -- Development Mode --
-       * When the page loads, provide a helpful message to remind the developer that
-       * tokens have not been removed from the hash fragment.
-       */
-      if (this.hasTokensInUrl()) {
-        Util.debugMessage(`
-            Looks like there are still tokens in the URL! Don't forget to parse and store them.
-            See: https://github.com/okta/okta-signin-widget/#hastokensinurl
-          `);
-      }
-
-      router = new Router(
-        _.extend({}, widgetOptions, renderOptions, {
-          authClient: authClient,
-          globalSuccessFn: successFn,
-          globalErrorFn: errorFn,
-        })
-      );
-      router.start();
+      return new Promise((resolve, reject) => {
+        router = new Router(
+          _.extend({}, widgetOptions, renderOptions, {
+            authClient: authClient,
+            globalSuccessFn: (res) => {
+              successFn && successFn(res); // call success function if provided
+              resolve(res);
+            },
+            globalErrorFn: (error) => {
+              errorFn && errorFn(error); // call error function if provided
+              reject(error);
+            }
+          })
+        );
+        router.start();
+      });
     }
 
     function hide () {
@@ -58,29 +55,63 @@ var OktaSignIn = (function () {
       }
     }
 
-    /**
-     * Check if tokens or a code have been passed back into the url, which happens in
-     * the social auth IDP redirect flow.
-     */
-    function hasTokensInUrl () {
-      var authParams = this.authClient.options;
-      if (authParams.pkce || authParams.responseType === 'code' || authParams.responseMode === 'query') {
-        // Look for code
-        return authParams.responseMode === 'fragment'
-          ? Util.hasCodeInUrl(window.location.hash)
-          : Util.hasCodeInUrl(window.location.search);
+    function buildRenderOptions (options = {}) {
+      const el = options.el || widgetOptions.el;
+      if (!el) {
+        throw new Errors.ConfigError('"el" is required');
       }
-      // Look for tokens (Implicit OIDC flow)
-      return Util.hasTokensInHash(window.location.hash);
+      const clientId = options.clientId || widgetOptions.clientId;
+      if (!clientId) {
+        throw new Errors.ConfigError('"clientId" is required');
+      }
+      const redirectUri = options.redirectUri || widgetOptions.redirectUri;
+      if (!redirectUri) {
+        throw new Errors.ConfigError('"redirectUri" is required');
+      }
+
+      const authParams = {};
+      if (options.responseType) {
+        authParams.responseType = options.responseType;
+      }
+      if (options.scopes) {
+        authParams.scopes = options.scopes;
+      }
+
+      const renderOptions = {
+        el,
+        clientId,
+        redirectUri,
+        authParams
+      };
+      return renderOptions;
     }
 
     /**
-     * Renders the Widget with opinionated defaults for the full-page
-     * redirect flow.
+     * Renders the Widget and returns a promise that resolvess to OAuth tokens
      * @param options - options for the signin widget
      */
-    function showSignInToGetTokens (options) {
-      var renderOptions = OAuth2Util.transformShowSignInToGetTokensOptions(options, config);
+    function showSignInToGetTokens (options = {}) {
+      const renderOptions = Object.assign(buildRenderOptions(options), {
+        mode: 'relying-party'
+      });
+      const promise = render.call(this, renderOptions).then(res => {
+        return res.tokens;
+      });
+      if (OAuth2Util.isAuthorizationCodeFlow(router.settings)) {
+        throw new Errors.ConfigError('"showSignInToGetTokens()" should not be used for authorization_code flow. ' + 
+          'Use "showSignInAndRedirect()" instead');
+      }
+      return promise;
+    }
+
+    /**
+     * Renders the widget and redirects to the OAuth callback
+     * @param options - options for the signin widget
+     */
+    function showSignInAndRedirect (options = {}) {
+      const renderOptions = Object.assign(buildRenderOptions(options), {
+        mode: 'remediation'
+      });
       return render.call(this, renderOptions);
     }
 
@@ -88,11 +119,11 @@ var OktaSignIn = (function () {
     return {
       renderEl: render,
       authClient: authClient,
-      showSignInToGetTokens: showSignInToGetTokens,
-      hasTokensInUrl: hasTokensInUrl,
-      hide: hide,
-      show: show,
-      remove: remove,
+      showSignInToGetTokens,
+      showSignInAndRedirect,
+      hide,
+      show,
+      remove,
     };
   }
 

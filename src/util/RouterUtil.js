@@ -181,12 +181,24 @@ fn.handleResponseStatus = function (router, res) {
       successData.type = Enums.SESSION_SSO;
       successData.session = {
         token: res.sessionToken,
-        setCookieAndRedirect: function (redirectUrl) {
+        setCookieAndRedirect: function (redirectUri) {
+          if (redirectUri) {
+            Util.debugMessage(`
+              Passing a "redirectUri" to "setCookieAndRedirect" is strongly discouraged.
+              It is recommended to set a "redirectUri" option in the config object passed to the widget constructor.
+            `);
+          }
+
+          redirectUri = redirectUri || router.settings.get('redirectUri');
+          if (!redirectUri) {
+            throw new Errors.ConfigError('"redirectUri" is required');
+          }
+
           redirectFn(
             sessionCookieRedirectTpl({
               baseUrl: router.settings.get('baseUrl'),
               token: encodeURIComponent(res.sessionToken),
-              redirectUrl: encodeURIComponent(redirectUrl),
+              redirectUrl: encodeURIComponent(redirectUri),
             })
           );
         },

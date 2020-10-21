@@ -177,6 +177,7 @@ module.exports = function (grunt) {
                 devLayout = grunt.file.read('./test/e2e/layouts/cdn-dev.tpl', {encoding: 'utf8'}),
                 indexLayout = grunt.file.read('./test/e2e/layouts/index.tpl', {encoding: 'utf8'}),
                 npmLayout = grunt.file.read('./test/e2e/layouts/npm.tpl', {encoding: 'utf8'}),
+                sharedFunctions = grunt.file.read('./test/e2e/partials/shared-functions.js', {encoding: 'utf8'}),
                 testTpl = Handlebars.compile(content),
                 tplVars = {};
 
@@ -186,7 +187,7 @@ module.exports = function (grunt) {
             Handlebars.registerPartial('devLayout', devLayout);
             Handlebars.registerPartial('indexLayout', indexLayout);
             Handlebars.registerPartial('npmLayout', npmLayout);
-
+            Handlebars.registerPartial('sharedFunctions', sharedFunctions);
             return testTpl(tplVars);
           }
         },
@@ -199,6 +200,13 @@ module.exports = function (grunt) {
             rename: function (dest, src) {
               return dest + path.basename(src, '.tpl') + '.html';
             }
+          },
+          // Copy okta-auth-js CDN bundle to target/js for use by oidc.tpl
+          {
+            expand: true,
+            cwd: 'node_modules/@okta/okta-auth-js/dist',
+            src: 'okta-auth-js.min.js*',
+            dest: 'target/js'
           }
         ]
       }

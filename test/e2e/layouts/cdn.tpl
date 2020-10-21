@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="css/okta-sign-in.css" type="text/css" rel="stylesheet"/>
   <script src="js/okta-sign-in.min.js"></script>
+  <script src="js/okta-auth-js.min.js"></script>
 </head>
 
 <body>

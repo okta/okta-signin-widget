@@ -1,4 +1,6 @@
 {{#> devLayout}}
+{{> sharedFunctions }}
+
 var options = {
   'baseUrl': '{{{WIDGET_TEST_SERVER}}}',
   'el': '#okta-login-container',

@@ -5,12 +5,7 @@
 // PKCE cannot be enabled because the test app is a "web" type. OKTA-246000 
 var pkce = false;
 
-function addMessageToPage(id, msg) {
-  var appNode = document.createElement('div');
-  appNode.setAttribute('id', id);
-  appNode.innerHTML = msg;
-  document.body.appendChild(appNode);
-}
+{{> sharedFunctions }}
 
 // auto-detect responseMode (when responseType is code)
 var responseMode;
@@ -30,18 +25,28 @@ var oktaSignIn = new OktaSignIn({
 });
 addMessageToPage('page', 'oidc_app');
 
-if (oktaSignIn.hasTokensInUrl()) {
+var authClient = new OktaAuth({
+  issuer: '{{{WIDGET_TEST_SERVER}}}/oauth2/default',
+  clientId: '{{{WIDGET_CLIENT_ID}}}',
+  redirectUri: 'http://localhost:3000/done',
+  pkce: pkce,
+  responseMode: responseMode
+});
+
+if (authClient.token.isLoginRedirect()) {
   addMessageToPage('location_hash', window.location.hash);
   addMessageToPage('location_search', window.location.search);
-  oktaSignIn.authClient.token.parseFromUrl()
-    .then(function (res) {
-      var idToken = res.tokens.idToken;
-      if (idToken) {
-        addMessageToPage('idtoken_user', idToken.claims.name);
-      }
-    })
-    .catch(function (err) {
-      addMessageToPage('oidc_error', JSON.stringify(err));
-    });
+
+  // We currently only process tokens with implicit flow.
+  // For PKCE or authorization_code flow, the code will be left in the URL
+  if (window.location.hash.indexOf('id_token') >= 0) {
+    authClient.token.parseFromUrl()
+      .then(function (res) {
+        addTokensToPage(res.tokens);
+      })
+      .catch(function (err) {
+        addMessageToPage('oidc_error', JSON.stringify(err));
+      });
+  }
 }
 {{/cdnLayout}}

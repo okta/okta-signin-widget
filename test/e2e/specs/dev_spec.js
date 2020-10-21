@@ -67,10 +67,10 @@ describe('Dev Mode flows', function () {
     var options = {
       clientId: '{{{WIDGET_CLIENT_ID}}}',
       redirectUri: 'http://localhost:3000/done',
-      scope: 'openid profile'
+      scopes: ['openid', 'profile']
     };
 
-    browser.executeScript(`oktaSignIn.showSignInToGetTokens(${JSON.stringify(options)})`);
+    browser.executeScript(`oktaSignIn.showSignInToGetTokens(${JSON.stringify(options)}).then(addTokensToPage);`);
 
     // Ensure the widget exists
     var el = element(by.css('#okta-sign-in'));
@@ -83,37 +83,24 @@ describe('Dev Mode flows', function () {
     expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_BASIC_NAME}}}');
   });
 
-  it('log a console message when tokens are not parsed from the URL after the Widget is rendered', function () {
-    // Browsers on iOS & Android emulators don't support device logs
-    if (process.env.SAUCE_PLATFORM_NAME === 'iOS') {
-      return;
-    }
+  it('can login and receive tokens on a callback using the showSignInAndRedirect method', function () {
+    var options = {
+      clientId: '{{{WIDGET_CLIENT_ID}}}',
+      redirectUri: 'http://localhost:3000/done',
+      scopes: ['openid', 'profile']
+    };
 
-    renderWidget();
+    browser.executeScript(`oktaSignIn.showSignInAndRedirect(${JSON.stringify(options)})`);
+
     // Ensure the widget exists
     var el = element(by.css('#okta-sign-in'));
     expect(el.isDisplayed()).toBe(true);
 
-    // Reload the page with tokens in the URL
-    browser.executeScript('window.location = window.location + "#id_token=abc"');
-    browser.refresh(true);
+    var primaryAuth = new PrimaryAuthPage(),
+        oidcApp = new OIDCAppPage();
 
-    renderWidget();
-
-    expectToFindLogMessage('Looks like there are still tokens in the URL!');
+    primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
+    expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_BASIC_NAME}}}');
   });
 
-  function expectToFindLogMessage (text) {
-    browser.manage().logs().get('browser')
-      .then(function (logs) {
-        var log = logs.find(function (entry) {
-          var message = text;
-          return entry.message.includes(message) === true;
-        });
-        expect(log).toBeDefined();
-      })
-      .catch(function (err) {
-        expect(err).toBeUndefined();
-      });
-  }
 });
