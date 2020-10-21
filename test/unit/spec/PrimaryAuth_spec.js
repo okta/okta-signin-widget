@@ -73,7 +73,10 @@ function setup (settings, requests, refreshState) {
 
   const setNextResponse = Util.mockAjax(requests);
   const baseUrl = 'https://foo.com';
-  const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR, headers: {} });
+  const authClient = createAuthClient(Object.assign({
+    issuer: baseUrl,
+    transformErrorXHR: LoginUtil.transformErrorXHR, headers: {}
+  }, settings.authParams));
   const successSpy = jasmine.createSpy('success');
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
   const router = new Router(

@@ -65,8 +65,14 @@ Expect.describe('LoginRouter', function () {
     settings = settings || {};
     const setNextResponse = settings.mockAjax === false ? function () {} : Util.mockAjax();
     const baseUrl = 'https://foo.com';
-    const usePKCE = settings['authParams.pkce'] || false;
-    const authClient = createAuthClient({ issuer: baseUrl, pkce: usePKCE, headers: {} });
+    const authParams = { issuer: baseUrl, headers: {} };
+    Object.keys(settings).forEach(key => {
+      const parts = key.split('.');
+      if (parts[0] === 'authParams') {
+        authParams[parts[1]] = settings[key];
+      }
+    });
+    const authClient = createAuthClient(authParams);
     const eventSpy = jasmine.createSpy('eventSpy');
     const afterRenderHandler = jasmine.createSpy('afterRenderHandler');
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
@@ -99,7 +105,7 @@ Expect.describe('LoginRouter', function () {
     });
   }
 
-  function setupOAuth2 (settings) {
+  function setupOAuth2 (settings, options = {}) {
     spyOn(window, 'addEventListener');
     Util.mockOIDCStateGenerator();
     return setup(
@@ -141,15 +147,14 @@ Expect.describe('LoginRouter', function () {
         const next = [resSuccess];
 
         // mock .well-known for PKCE flow
-        if (settings && settings['authParams.pkce'] === true) {
+        if (options.mockWellKnown) {
           next.push(resWellKnownSR);
         }
         test.setNextResponse(next);
         form.setAnswer('wrong');
         form.submit();
-        const redirectFlow =
-          settings && (settings['authParams.responseType'] !== undefined || settings['authParams.display'] === 'page');
-        const spy = redirectFlow ? test.ac.token.getWithRedirect._setLocation : test.ac.token.getWithoutPrompt;
+
+        const spy = options.expectRedirect ? test.ac.token.getWithRedirect._setLocation : test.ac.token.getWithoutPrompt;
 
         return Expect.waitForSpyCall(spy, test);
       });
@@ -1218,27 +1223,35 @@ Expect.describe('LoginRouter', function () {
       };
     }
 
-    itp('accepts the deprecated "authParams.scope" option, but converts it to "scopes"', function () {
-      const options = {
-        authParams: {
-          scope: ['openid', 'testscope'],
-        },
-      };
-
-      return setupOAuth2(options).then(function (test) {
-        const spy = test.ac.token.getWithoutPrompt;
-
-        expect(spy.calls.count()).toBe(1);
-        expect(spy.calls.argsFor(0)[0].scopes).toEqual(['openid', 'testscope']);
-        Expect.deprecated('Use "scopes" instead of "scope"');
+    itp('uses PKCE by default', function () {
+      return setupOAuth2({}, { mockWellKnown: true }).then(test => {
+        expectAuthorizeUrl(test.iframeElem.src, {
+          responseType: 'code',
+          code_challenge_method: 'S256',
+          responseMode: 'okta_post_message',
+          prompt: 'none',
+        });
+        Expect.isNotVisible($(test.iframeElem));
       });
     });
 
-    itp('PKCE: redirects, sets a code_challenge', function () {
+    itp('can use implicit flow', function () {
       return setupOAuth2({
-        'authParams.pkce': true,
-        'authParams.responseType': 'code',
-      }).then(
+        'authParams.pkce': false
+      }).then(test => {
+        expectAuthorizeUrl(test.iframeElem.src, {
+          responseType: 'token id_token',
+          responseMode: 'okta_post_message',
+          prompt: 'none',
+        });
+        Expect.isNotVisible($(test.iframeElem));
+      });
+    });
+
+    itp('can redirect with PKCE flow', function () {
+      return setupOAuth2({
+        'mode': 'remediation'
+      }, { mockWellKnown: true, expectRedirect: true }).then(
         expectCodeRedirect({
           responseType: 'code',
           code_challenge_method: 'S256',
@@ -1246,12 +1259,11 @@ Expect.describe('LoginRouter', function () {
       );
     });
 
-    itp('PKCE: redirects, can set the responseMode to "fragment"', function () {
+    itp('can redirect with PKCE flow and responseMode "fragment"', function () {
       return setupOAuth2({
-        'authParams.pkce': true,
-        'authParams.responseType': 'code',
+        'mode': 'remediation',
         'authParams.responseMode': 'fragment',
-      }).then(
+      }, { mockWellKnown: true, expectRedirect: true }).then(
         expectCodeRedirect({
           responseType: 'code',
           responseMode: 'fragment',
@@ -1260,41 +1272,55 @@ Expect.describe('LoginRouter', function () {
       );
     });
 
-    itp('redirects instead of using an iframe if the responseType is "code"', function () {
+    itp('can redirect with implicit flow', function () {
       return setupOAuth2({
-        'authParams.responseType': 'code',
-      }).then(expectCodeRedirect({ responseType: 'code' }));
+        'mode': 'remediation',
+        'authParams.pkce': false,
+      }, { expectRedirect: true }).then(
+        expectCodeRedirect({
+          responseType: 'token id_token'
+        })
+      );
     });
-    itp('redirects to alternate authorizeUrl if the responseType is "code"', function () {
+
+    itp('authorization_code flow: redirects instead of using an iframe', function () {
       return setupOAuth2({
         'authParams.responseType': 'code',
+        'authParams.pkce': false
+      }, { expectRedirect: true }).then(expectCodeRedirect({ responseType: 'code' }));
+    });
+    itp('authorization_code flow: redirects to alternate authorizeUrl', function () {
+      return setupOAuth2({
+        'authParams.responseType': 'code',
+        'authParams.pkce': false,
         'authParams.authorizeUrl': 'https://altfoo.com/oauth2/v1/authorize',
-      }).then(
+      }, { expectRedirect: true }).then(
         expectCodeRedirect({
           authorizeUrl: 'https://altfoo.com/oauth2/v1/authorize',
           responseType: 'code',
         })
       );
     });
-    itp('redirects to alternate authorizeUrl if an alternate issuer is provided', function () {
+    itp('authorization_code flow: redirects to alternate authorizeUrl if an alternate issuer is provided', function () {
       return setupOAuth2({
         'authParams.responseType': 'code',
+        'authParams.pkce': false,
         'authParams.issuer': 'https://altfoo.com',
-      }).then(
+      }, { expectRedirect: true }).then(
         expectCodeRedirect({
           authorizeUrl: 'https://altfoo.com/oauth2/v1/authorize',
           responseType: 'code',
         })
       );
     });
-    itp(
-      'redirects to alternate authorizeUrl if an alternate issuer and alternate authorizeUrl is provided',
+    itp('authorization_code flow: redirects to alternate authorizeUrl if an alternate issuer and alternate authorizeUrl is provided',
       function () {
         return setupOAuth2({
           'authParams.responseType': 'code',
+          'authParams.pkce': false,
           'authParams.issuer': 'https://altfoo.com',
           'authParams.authorizeUrl': 'https://reallyaltfoo.com/oauth2/v1/authorize',
-        }).then(
+        }, { expectRedirect: true }).then(
           expectCodeRedirect({
             authorizeUrl: 'https://reallyaltfoo.com/oauth2/v1/authorize',
             responseType: 'code',
@@ -1302,62 +1328,46 @@ Expect.describe('LoginRouter', function () {
         );
       }
     );
-    itp('redirects with alternate state provided', function () {
+    itp('authorization_code flow: redirects with alternate state provided', function () {
       return setupOAuth2({
         'authParams.responseType': 'code',
+        'authParams.pkce': false,
         'authParams.state': 'myalternatestate',
-      }).then(
+      }, { expectRedirect: true }).then(
         expectCodeRedirect({
           state: 'myalternatestate',
           responseType: 'code',
         })
       );
     });
-    itp('redirects with alternate nonce provided', function () {
+    itp('authorization_code flow: redirects with alternate nonce provided', function () {
       return setupOAuth2({
         'authParams.responseType': 'code',
+        'authParams.pkce': false,
         'authParams.nonce': 'myalternatenonce',
-      }).then(
+      }, { expectRedirect: true }).then(
         expectCodeRedirect({
           nonce: 'myalternatenonce',
           responseType: 'code',
         })
       );
     });
-    itp('redirects with alternate state and nonce provided', function () {
+    itp('authorization_code flow: redirects with alternate state and nonce provided', function () {
       return setupOAuth2({
         'authParams.responseType': 'code',
+        'authParams.pkce': false,
         'authParams.state': 'myalternatestate',
         'authParams.nonce': 'myalternatenonce',
-      }).then(
+      }, { expectRedirect: true }).then(
         expectCodeRedirect({
           state: 'myalternatestate',
           nonce: 'myalternatenonce',
           responseType: 'code',
         })
       );
-    });
-
-    itp('redirects instead of using an iframe if display is "page"', function () {
-      return setupOAuth2({ 'authParams.display': 'page' }).then(
-        expectCodeRedirect({
-          responseType: 'id_token',
-          display: 'page',
-        })
-      );
-    });
-    itp('creates an iframe with the correct url when authStatus is SUCCESS', function () {
-      return setupOAuth2().then(function (test) {
-        expectAuthorizeUrl(test.iframeElem.src, {
-          responseType: 'id_token',
-          responseMode: 'okta_post_message',
-          prompt: 'none',
-        });
-        Expect.isNotVisible($(test.iframeElem));
-      });
     });
     itp('removes the iframe when it returns with the redirect data', function () {
-      return setupOAuth2().then(function () {
+      return setupOAuth2({}, { mockWellKnown: true }).then(function () {
         expect(window.addEventListener).toHaveBeenCalled();
         const args = window.addEventListener.calls.argsFor(0);
         const type = args[0];
@@ -1382,7 +1392,10 @@ Expect.describe('LoginRouter', function () {
       Util.loadWellKnownAndKeysCache();
       const successSpy = jasmine.createSpy('successSpy');
 
-      return setupOAuth2({ globalSuccessFn: successSpy })
+      return setupOAuth2({ globalSuccessFn: successSpy }, { mockWellKnown: true })
+        .then(function (test) {
+          return Expect.waitForSpyCall(window.addEventListener, test);
+        })
         .then(function () {
           expect(window.addEventListener).toHaveBeenCalled();
           const args = window.addEventListener.calls.argsFor(0);
@@ -1430,7 +1443,7 @@ Expect.describe('LoginRouter', function () {
         });
     });
     itp('triggers the afterError event if an idToken is not returned', function () {
-      return setupOAuth2()
+      return setupOAuth2({}, { mockWellKnown: true })
         .then(function (test) {
           const args = window.addEventListener.calls.argsFor(0);
           const callback = args[1];

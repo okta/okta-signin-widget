@@ -23,7 +23,6 @@ import Logger from 'util/Logger';
 import Util from 'util/Util';
 const SharedUtil = internal.util.Util;
 const DEFAULT_LANGUAGE = 'en';
-const supportedResponseTypes = ['token', 'id_token', 'code'];
 const ConfigError = Errors.ConfigError;
 const UnsupportedBrowserError = Errors.UnsupportedBrowserError;
 const assetBaseUrlTpl = hbs('https://global.oktacdn.com/okta-signin-widget/{{version}}');
@@ -97,26 +96,6 @@ export default Model.extend({
     oAuthTimeout: ['number', false],
 
     authScheme: ['string', false, 'OAUTH2'],
-    'authParams.display': {
-      type: 'string',
-      values: ['none', 'popup', 'page'],
-    },
-    // Note: It shouldn't be necessary to override/pass in this property -
-    // it will be set correctly depending on what the value of display is
-    // and whether we are using Okta or a social IDP.
-    'authParams.responseMode': {
-      type: 'string',
-      values: ['query', 'fragment', 'form_post', 'okta_post_message'],
-    },
-    // Can either be a string or an array, i.e.
-    // - Single value: 'id_token', 'token', or 'code'
-    // - Multiple values: ['id_token', 'token']
-    'authParams.responseType': ['any', false, 'id_token'],
-    'authParams.scopes': ['array', false],
-    'authParams.issuer': ['string', false],
-    'authParams.authorizeUrl': ['string', false],
-    'authParams.state': ['string', false],
-    'authParams.nonce': ['string', false],
 
     // External IdPs
     idps: ['array', false, []],
@@ -214,17 +193,9 @@ export default Model.extend({
       },
     },
     oauth2Enabled: {
-      deps: ['clientId', 'authScheme', 'authParams.responseType'],
-      fn: function (clientId, authScheme, responseType) {
-        if (!clientId) {
-          return false;
-        }
-        if (authScheme.toLowerCase() !== 'oauth2') {
-          return false;
-        }
-        const responseTypes = _.isArray(responseType) ? responseType : [responseType];
-
-        return _.intersection(responseTypes, supportedResponseTypes).length > 0;
+      deps: ['clientId', 'authScheme'],
+      fn: function (clientId, authScheme) {
+        return (!!clientId) && authScheme.toLowerCase() === 'oauth2';
       },
       cache: true,
     },
@@ -459,17 +430,6 @@ export default Model.extend({
   // settings we currently support. This is a good place to deprecate old
   // option formats.
   parse: function (options) {
-    // PKCE flow: automatically set responseType to 'code'
-    if (options.authParams && options.authParams.pkce) {
-      options.authParams.responseType = 'code';
-    }
-
-    if (options.authParams && options.authParams.scope) {
-      Logger.deprecate('Use "scopes" instead of "scope"');
-      options.authParams.scopes = options.authParams.scope;
-      delete options.authParams.scope;
-    }
-
     if (options.labels || options.country) {
       Logger.deprecate('Use "i18n" instead of "labels" and "country"');
       const overrides = options.labels || {};

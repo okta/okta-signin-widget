@@ -51,7 +51,7 @@ describe('OIDC flows', function () {
         authParams: {
           pkce: false,
           responseType: 'id_token',
-          scope: ['openid', 'email', 'profile', 'address', 'phone']
+          scopes: ['openid', 'email', 'profile', 'address', 'phone']
         },
         idps: [
           {
@@ -73,7 +73,7 @@ describe('OIDC flows', function () {
         authParams: {
           pkce: false,
           responseType: 'id_token',
-          scope: ['openid', 'email', 'profile', 'address', 'phone']
+          scopes: ['openid', 'email', 'profile', 'address', 'phone']
         }
       });
       primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_5}}}', '{{{WIDGET_BASIC_PASSWORD_5}}}');
@@ -88,7 +88,7 @@ describe('OIDC flows', function () {
         authParams: {
           pkce: false,
           responseType: ['id_token', 'token'],
-          scope: ['openid', 'email', 'profile', 'address', 'phone']
+          scopes: ['openid', 'email', 'profile', 'address', 'phone']
         },
         idps: [
           {
@@ -103,8 +103,7 @@ describe('OIDC flows', function () {
       expect(oidcApp.getAccessTokenType()).toBe('Bearer');
     });
 
-    // https://oktainc.atlassian.net/browse/OKTA-283816
-    xit('logs in and uses the redirect flow for responseType "code"', function () {
+    it('logs in and uses the redirect flow for responseType "code"', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
         clientId: '{{{WIDGET_CLIENT_ID}}}',
@@ -112,7 +111,7 @@ describe('OIDC flows', function () {
         authParams: {
           pkce: false,
           responseType: 'code',
-          scope: ['openid', 'email', 'profile', 'address', 'phone']
+          scopes: ['openid', 'email', 'profile', 'address', 'phone']
         }
       });
       Expect.toBeA11yCompliant();
@@ -128,7 +127,7 @@ describe('OIDC flows', function () {
         redirectUri: 'http://localhost:3000/done',
         authParams: {
           display: 'page',
-          scope: ['openid', 'email', 'profile', 'address', 'phone']
+          scopes: ['openid', 'email', 'profile', 'address', 'phone']
         }
       });
       Expect.toBeA11yCompliant();
@@ -145,7 +144,7 @@ describe('OIDC flows', function () {
         authParams: {
           display: 'page',
           responseMode: 'fragment',
-          scope: ['openid', 'email', 'profile', 'address', 'phone']
+          scopes: ['openid', 'email', 'profile', 'address', 'phone']
         }
       });
       Expect.toBeA11yCompliant();
@@ -169,7 +168,7 @@ describe('OIDC flows', function () {
         redirectUri: 'http://localhost:3000/done',
         authParams: {
           responseType: 'id_token',
-          scope: ['openid', 'email', 'profile', 'address', 'phone']
+          scopes: ['openid', 'email', 'profile', 'address', 'phone']
         },
         idps: [
           {
@@ -189,7 +188,7 @@ describe('OIDC flows', function () {
         redirectUri: 'http://localhost:3000/done',
         authParams: {
           responseType: 'id_token',
-          scope: ['openid', 'email', 'profile', 'address', 'phone'],
+          scopes: ['openid', 'email', 'profile', 'address', 'phone'],
           display: 'page'
         },
         idps: [
@@ -210,7 +209,7 @@ describe('OIDC flows', function () {
         redirectUri: 'http://localhost:3000/done',
         authParams: {
           responseType: 'code',
-          scope: ['openid', 'email', 'profile', 'address', 'phone'],
+          scopes: ['openid', 'email', 'profile', 'address', 'phone'],
           display: 'page'
         },
         idps: [
