@@ -1,0 +1,44 @@
+.oie-enroll-ov-poll {
+  .ov-info {
+    li:not(:last-child) {
+      margin-bottom: 15px;
+    }
+  }
+  .qrcode-container {
+    text-align: center;
+    .qrcode {
+      display: block;
+      margin: 0 auto;
+    }
+    margin-bottom: 15px;
+  }
+  .sms-info,
+  .email-info {
+    margin-bottom: 15px;
+  }
+  .qrcode-info {
+    list-style: decimal;
+    list-style-position: inside;
+  }
+
+  .switch-channel-link {
+    color: $link-text-color;
+  }
+}
+
+.oie-enroll-ov-data {
+  .country-code-label {
+    min-width: 3rem;
+    text-align: center;
+    vertical-align: middle;
+    // Padding top to align with phone number input text
+    padding: 0.125rem 0 0;
+  }
+  .switch-channel-text {
+    margin: -15px 0 20px;
+  }
+
+  .switch-channel-link {
+    color: $link-text-color;
+  }
+}

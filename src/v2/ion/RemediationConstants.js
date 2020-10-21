@@ -19,11 +19,16 @@ const FORMS = {
   SELECT_AUTHENTICATOR_AUTHENTICATE: 'select-authenticator-authenticate',
   AUTHENTICATOR_VERIFICATION_DATA: 'authenticator-verification-data',
   CHALLENGE_AUTHENTICATOR: 'challenge-authenticator',
+  CHALLENGE_POLL: 'challenge-poll',
+  RESEND: 'resend',
 
   SELECT_AUTHENTICATOR_ENROLL: 'select-authenticator-enroll',
   SELECT_AUTHENTICATOR_ENROLL_DATA: 'select-authenticator-enroll-data',
   AUTHENTICATOR_ENROLLMENT_DATA: 'authenticator-enrollment-data',
   ENROLL_AUTHENTICATOR: 'enroll-authenticator',
+  SELECT_ENROLLMENT_CHANNEL: 'select-enrollment-channel',
+  ENROLLMENT_CHANNEL_DATA: 'enrollment-channel-data',
+  ENROLL_POLL: 'enroll-poll',
   REENROLL_AUTHENTICATOR: 'reenroll-authenticator',
   REENROLL_AUTHENTICATOR_WARNING: 'reenroll-authenticator-warning',
   RESET_AUTHENTICATOR: 'reset-authenticator',
@@ -63,7 +68,9 @@ const FORMS_WITH_STATIC_BACK_LINK = [
 
 const FORMS_FOR_VERIFICATION = [
   FORMS.SELECT_AUTHENTICATOR_AUTHENTICATE,
-  FORMS.CHALLENGE_AUTHENTICATOR
+  FORMS.CHALLENGE_AUTHENTICATOR,
+  FORMS.CHALLENGE_POLL,
+  FORMS.RESEND
 ];
 
 export {

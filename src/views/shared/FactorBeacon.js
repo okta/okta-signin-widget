@@ -10,21 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import hbs from 'handlebars-inline-precompile';
-
 /* eslint complexity: [2, 8] */
-define([
-  'okta',
-  'q',
-  'util/FactorUtil',
-  'views/mfa-verify/dropdown/FactorsDropDown',
-  'models/Factor'
-],
-function (Okta, Q, FactorUtil, FactorsDropDown, Factor) {
-
-  return Okta.View.extend({
-
-    template: hbs('\
+import { View } from 'okta';
+import hbs from 'handlebars-inline-precompile';
+import Factor from 'models/Factor';
+import Q from 'q';
+import FactorUtil from 'util/FactorUtil';
+import FactorsDropDown from 'views/mfa-verify/dropdown/FactorsDropDown';
+export default View.extend({
+  template: hbs(
+    '\
       <div class="beacon-blank auth-beacon">\
         <div class="beacon-blank js-blank-beacon-border auth-beacon-border"></div>\
       </div>\
@@ -32,64 +27,68 @@ function (Okta, Q, FactorUtil, FactorsDropDown, Factor) {
         <div class="okta-sign-in-beacon-border auth-beacon-border"></div>\
       </div>\
       <div data-type="factor-types-dropdown" class="factors-dropdown-wrap"></div>\
-    '),
+    '
+  ),
 
-    events: {
-      'click .auth-beacon-factor': function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        var expanded = this.$('.dropdown .options').toggle().is(':visible');
-        this.$('a.option-selected').attr('aria-expanded', expanded);
-        if (expanded) {
-          this.$('#okta-dropdown-options').find('li.factor-option:first a').focus();
-        }
+  events: {
+    'click .auth-beacon-factor': function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const expanded = this.$('.dropdown .options').toggle().is(':visible');
+
+      this.$('a.option-selected').attr('aria-expanded', expanded);
+      if (expanded) {
+        this.$('#okta-dropdown-options').find('li.factor-option:first a').focus();
       }
     },
+  },
 
-    initialize: function () {
-      this.options.appState.set('beaconType', 'factor');
-    },
+  initialize: function () {
+    this.options.appState.set('beaconType', 'factor');
+  },
 
-    getTemplateData: function () {
-      var factors = this.options.appState.get('factors'),
-          factor, className;
-      if (factors) {
-        factor = FactorUtil.findFactorInFactorsArray(factors, this.options.provider,
-          this.options.factorType);
-      } else  {
-        factor = new Factor.Model(this.options.appState.get('factor'));
-      }
-      className = factor.get('iconClassName');
-      return { className: className || '' };
-    },
+  getTemplateData: function () {
+    const factors = this.options.appState.get('factors');
+    let factor;
+    let className;
 
-    postRender: function () {
-      if (this.options.animate) {
-        this.$('.auth-beacon-factor').fadeIn(200);
-      }
-      var appState = this.options.appState;
-      if (appState.get('hasMultipleFactorsAvailable')) {
-        this.add(FactorsDropDown, '[data-type="factor-types-dropdown"]');
-      }
-    },
-
-    fadeOut: function () {
-      var deferred = Q.defer();
-      this.$('.auth-beacon-factor').fadeOut(200, function () {
-        deferred.resolve();
-      });
-      return deferred.promise;
-    },
-
-    equals: function (Beacon, options) {
-      return Beacon &&
-        this instanceof Beacon &&
-        options.provider === this.options.provider &&
-        (options.factorType === this.options.factorType ||
-          (FactorUtil.isOktaVerify(options.provider, options.factorType) &&
-          FactorUtil.isOktaVerify(this.options.provider, this.options.factorType)));
+    if (factors) {
+      factor = FactorUtil.findFactorInFactorsArray(factors, this.options.provider, this.options.factorType);
+    } else {
+      factor = new Factor.Model(this.options.appState.get('factor'));
     }
+    className = factor.get('iconClassName');
+    return { className: className || '' };
+  },
 
-  });
+  postRender: function () {
+    if (this.options.animate) {
+      this.$('.auth-beacon-factor').fadeIn(200);
+    }
+    const appState = this.options.appState;
 
+    if (appState.get('hasMultipleFactorsAvailable')) {
+      this.add(FactorsDropDown, '[data-type="factor-types-dropdown"]');
+    }
+  },
+
+  fadeOut: function () {
+    const deferred = Q.defer();
+
+    this.$('.auth-beacon-factor').fadeOut(200, function () {
+      deferred.resolve();
+    });
+    return deferred.promise;
+  },
+
+  equals: function (Beacon, options) {
+    return (
+      Beacon &&
+      this instanceof Beacon &&
+      options.provider === this.options.provider &&
+      (options.factorType === this.options.factorType ||
+        (FactorUtil.isOktaVerify(options.provider, options.factorType) &&
+          FactorUtil.isOktaVerify(this.options.provider, this.options.factorType)))
+    );
+  },
 });

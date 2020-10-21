@@ -10,36 +10,32 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-
-define([
-  'okta',
-  'qtip'
-], function (Okta) {
-
-  return Okta.View.extend({
-    className: 'scope-item',
-    template: hbs('\
+import 'qtip';
+export default View.extend({
+  className: 'scope-item',
+  template: hbs(
+    '\
       <div class="scope-item-text">\
         <p>{{name}}</p>\
       </div>\
       {{#if description}}\
-        <span class="scope-item-tooltip icon form-help-16" />\
+        <span class="scope-item-tooltip icon form-help-16"></span>\
       {{/if}}\
-    '),
+    '
+  ),
 
-    postRender: function () {
-      this.$('.scope-item-tooltip').qtip({
-        content: {
-          text: this.options.description
-        },
-        style: { classes: 'okta-sign-in-tooltip qtip-custom qtip-shadow' },
-        position: {
-          my: 'bottom right',
-          target: 'mouse'
-        }
-      });
-    }
-  });
-
+  postRender: function () {
+    this.$('.scope-item-tooltip').qtip({
+      content: {
+        text: this.options.description,
+      },
+      style: { classes: 'okta-tooltip qtip-custom qtip-shadow' },
+      position: {
+        my: 'bottom right',
+        target: 'mouse',
+      },
+    });
+  },
 });

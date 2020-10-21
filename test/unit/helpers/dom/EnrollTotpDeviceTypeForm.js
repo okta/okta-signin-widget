@@ -1,39 +1,34 @@
-define(['./Form'], function (Form) {
+import Form from './Form';
+const DEVICE_TYPE = '__deviceType__';
+const APP_DOWNLOAD_INSTRUCTIONS = 'app-download-instructions';
+export default Form.extend({
+  deviceTypeOptions: function () {
+    return this.input(DEVICE_TYPE);
+  },
 
-  var DEVICE_TYPE = '__deviceType__';
-  var APP_DOWNLOAD_INSTRUCTIONS = 'app-download-instructions';
+  deviceTypeOptionLabel: function (val) {
+    return this.$('[data-se-name="' + DEVICE_TYPE + '"][value="' + val + '"] + label');
+  },
 
-  return Form.extend({
+  appDownloadInstructions: function () {
+    return this.el(APP_DOWNLOAD_INSTRUCTIONS);
+  },
 
-    deviceTypeOptions: function () {
-      return this.input(DEVICE_TYPE);
-    },
+  appDownloadInstructionsAppLogo: function (selector) {
+    return this.appDownloadInstructions().find(selector);
+  },
 
-    deviceTypeOptionLabel: function (val) {
-      return this.$('[data-se-name="' + DEVICE_TYPE + '"][value="' + val + '"] + label');
-    },
+  appDownloadInstructionsLinkText: function () {
+    return this.appDownloadInstructions().find('a').text().trim();
+  },
 
-    appDownloadInstructions: function () {
-      return this.el(APP_DOWNLOAD_INSTRUCTIONS);
-    },
+  selectDeviceType: function (val) {
+    const options = this.deviceTypeOptions();
 
-    appDownloadInstructionsAppLogo: function (selector) {
-      return this.appDownloadInstructions().find(selector);
-    },
+    options.filter('[value="' + val + '"]').click();
+  },
 
-    appDownloadInstructionsLinkText: function () {
-      return this.appDownloadInstructions().find('a').text().trim();
-    },
-
-    selectDeviceType: function (val) {
-      var options = this.deviceTypeOptions();
-      options.filter('[value="' + val + '"]').click();
-    },
-
-    backLink: function () {
-      return this.el('back-link');
-    }
-
-  });
-
+  backLink: function () {
+    return this.el('back-link');
+  },
 });

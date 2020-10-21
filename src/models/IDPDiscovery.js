@@ -10,80 +10,72 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'models/PrimaryAuth',
-  'util/CookieUtil',
-  'util/Enums',
-  'util/Util',
-],
-function (Okta, PrimaryAuthModel, CookieUtil, Enums, Util) {
+import PrimaryAuthModel from 'models/PrimaryAuth';
+import CookieUtil from 'util/CookieUtil';
+import Enums from 'util/Enums';
+import Util from 'util/Util';
+export default PrimaryAuthModel.extend({
+  props: function () {
+    const cookieUsername = CookieUtil.getCookieUsername();
+    const properties = this.getUsernameAndRemember(cookieUsername);
 
-  var _ = Okta._;
+    return {
+      username: ['string', true, properties.username],
+      lastUsername: ['string', false, cookieUsername],
+      context: ['object', false],
+      remember: ['boolean', true, properties.remember],
+    };
+  },
 
-  return PrimaryAuthModel.extend({
+  local: {},
 
-    props: function () {
-      var cookieUsername = CookieUtil.getCookieUsername(),
-          properties = this.getUsernameAndRemember(cookieUsername);
+  save: function () {
+    const username = this.settings.transformUsername(this.get('username'), Enums.IDP_DISCOVERY);
+    const remember = this.get('remember');
+    const lastUsername = this.get('lastUsername');
+    const resource = 'okta:acct:' + username;
+    const requestContext = this.get('requestContext');
 
-      return {
-        username: ['string', true, properties.username],
-        lastUsername: ['string', false, cookieUsername],
-        context: ['object', false],
-        remember: ['boolean', true, properties.remember]
-      };
-    },
+    this.setUsernameCookie(username, remember, lastUsername);
 
-    local: {},
+    //the 'save' event here is triggered and used in the BaseLoginController
+    //to disable the primary button
+    this.trigger('save');
 
-    save: function () {
-      var username = this.settings.transformUsername(this.get('username'), Enums.IDP_DISCOVERY),
-          remember = this.get('remember'),
-          lastUsername = this.get('lastUsername'),
-          resource = 'okta:acct:' + username,
-          requestContext = this.get('requestContext');
+    this.appState.trigger('loading', true);
 
-      this.setUsernameCookie(username, remember, lastUsername);
+    const webfingerArgs = {
+      resource: resource,
+      requestContext: requestContext,
+    };
+    const authClient = this.appState.settings.authClient;
 
-      //the 'save' event here is triggered and used in the BaseLoginController
-      //to disable the primary button
-      this.trigger('save');
+    authClient
+      .webfinger(webfingerArgs)
+      .then(res => {
+        if (res && res.links && res.links[0]) {
+          if (res.links[0].properties['okta:idp:type'] === 'OKTA') {
+            this.trigger('goToPrimaryAuth');
+          } else if (res.links[0].href) {
+            const redirectFn = res.links[0].href.includes('OKTA_INVALID_SESSION_REPOST%3Dtrue')
+              ? Util.redirectWithFormGet.bind(Util)
+              : this.settings.get('redirectUtilFn');
+            //override redirectFn to only use Util.redirectWithFormGet if OKTA_INVALID_SESSION_REPOST is included
+            //it will be encoded since it will be included in the encoded fromURI
 
-      this.appState.trigger('loading', true);
-
-      var webfingerArgs = {
-        resource: resource,
-        requestContext: requestContext
-      };
-
-      var authClient = this.appState.settings.authClient;
-
-      authClient.webfinger(webfingerArgs)
-        .then(_.bind(function (res) {
-          if(res && res.links && res.links[0]) {
-            if(res.links[0].properties['okta:idp:type'] === 'OKTA') {
-              this.trigger('goToPrimaryAuth');
-            } else if (res.links[0].href) {
-              //override redirectFn to only use Util.redirectWithFormGet if OKTA_INVALID_SESSION_REPOST is included
-              //it will be encoded since it will be included in the encoded fromURI
-              var redirectFn = res.links[0].href.includes('OKTA_INVALID_SESSION_REPOST%3Dtrue') ? 
-                Util.redirectWithFormGet.bind(Util) : this.settings.get('redirectUtilFn');
-              redirectFn(res.links[0].href);
-            }
+            redirectFn(res.links[0].href);
           }
-        }, this))
-        .catch(_.bind(function () {
-          this.trigger('error');
-          // Specific event handled by the Header for the case where the security image is not
-          // enabled and we want to show a spinner. (Triggered only here and handled only by Header).
-          this.appState.trigger('removeLoading');
-          CookieUtil.removeUsernameCookie();
-        }, this))
-        .finally(_.bind(function () {
-          this.appState.trigger('loading', false);
-        }, this));
-    }
-  });
-
+        }
+      })
+      .catch(() => {
+        this.trigger('error');
+        // Specific event handled by the Header for the case where the security image is not
+        // enabled and we want to show a spinner. (Triggered only here and handled only by Header).
+        this.appState.trigger('removeLoading');
+        CookieUtil.removeUsernameCookie();
+      })
+      .finally(() => {
+        this.appState.trigger('loading', false);
+      });
+  },
 });

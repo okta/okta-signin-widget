@@ -11,65 +11,58 @@
  */
 
 /* globals JSON */
-define([
-  'okta',
-  'q',
-  'util/FidoUtil'
-],
-function (Okta, Q, FidoUtil) {
+import Q from 'q';
+import FidoUtil from 'util/FidoUtil';
 
-  function adaptToOkta (promise) {
-    return new Q(promise);
-  }
+function adaptToOkta (promise) {
+  return new Q(promise);
+}
 
-  function makeCredential (accountInfo, cryptoParams, challenge) {
-    cryptoParams = cryptoParams.map(function (param) {
-      return {type: 'FIDO_2_0', algorithm: param.algorithm};
+function makeCredential (accountInfo, cryptoParams, challenge) {
+  cryptoParams = cryptoParams.map(function (param) {
+    return { type: 'FIDO_2_0', algorithm: param.algorithm };
+  });
+
+  const promise = window.msCredentials.makeCredential(accountInfo, cryptoParams, challenge).then(function (cred) {
+    return Object.freeze({
+      credential: { id: cred.id },
+      publicKey: JSON.parse(cred.publicKey),
+      attestation: cred.attestation,
     });
+  });
 
-    var promise = window.msCredentials.makeCredential(accountInfo, cryptoParams, challenge)
-      .then(function (cred) {
-        return Object.freeze({
-          credential: {id: cred.id},
-          publicKey: JSON.parse(cred.publicKey),
-          attestation: cred.attestation
-        });
-      });
+  return adaptToOkta(promise);
+}
 
-    return adaptToOkta(promise);
-  }
+function getAssertion (challenge, allowList) {
+  const accept = allowList.map(function (item) {
+    return { type: 'FIDO_2_0', id: item.id };
+  });
+  const filters = { accept: accept };
+  const promise = window.msCredentials.getAssertion(challenge, filters).then(function (attestation) {
+    const signature = attestation.signature;
 
-  function getAssertion (challenge, allowList) {
-    var accept = allowList.map(function (item) {
-      return {type: 'FIDO_2_0', id: item.id};
+    return Object.freeze({
+      credential: { id: attestation.id },
+      clientData: signature.clientData,
+      authenticatorData: signature.authnrData,
+      signature: signature.signature,
     });
-    var filters = {accept: accept};
+  });
 
-    var promise = window.msCredentials.getAssertion(challenge, filters)
-      .then(function (attestation) {
-        var signature = attestation.signature;
-        return Object.freeze({
-          credential: {id: attestation.id},
-          clientData: signature.clientData,
-          authenticatorData: signature.authnrData,
-          signature: signature.signature
-        });
-      });
+  return adaptToOkta(promise);
+}
 
-    return adaptToOkta(promise);
-  }
-
-  return {
-    makeCredential: makeCredential,
-    getAssertion: getAssertion,
-    isAvailable: function () {
-      return window.hasOwnProperty('msCredentials');
-    },
-    isNewApiAvailable: function () {
-      return navigator && navigator.credentials && navigator.credentials.create;
-    },
-    isWebauthnOrU2fAvailable: function () {
-      return this.isNewApiAvailable() || FidoUtil.isU2fAvailable();
-    }
-  };
-});
+export default {
+  makeCredential: makeCredential,
+  getAssertion: getAssertion,
+  isAvailable: function () {
+    return window.hasOwnProperty('msCredentials');
+  },
+  isNewApiAvailable: function () {
+    return navigator && navigator.credentials && navigator.credentials.create;
+  },
+  isWebauthnOrU2fAvailable: function () {
+    return this.isNewApiAvailable() || FidoUtil.isU2fAvailable();
+  },
+};

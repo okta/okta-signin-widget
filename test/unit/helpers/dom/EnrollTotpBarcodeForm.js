@@ -1,79 +1,75 @@
-define(['./Form', 'helpers/util/Expect'], function (Form, Expect) {
+import Expect from 'helpers/util/Expect';
+import Form from './Form';
+const CLASS_SELECTOR = '.barcode-push';
+const QRCODE = 'qrcode';
+const MANUAL_SETUP_LINK = 'manual-setup';
+const REFRESH_QRCODE_LINK = 'refresh-qrcode';
+const SCAN_FORM = 'step-scan';
+const REFRESH_LINK = 'refresh-qrcode';
+export default Form.extend({
+  isEnrollTotpBarcodeForm: function () {
+    return this.container().length === 1;
+  },
 
-  var CLASS_SELECTOR = '.barcode-push';
-  var QRCODE = 'qrcode';
-  var MANUAL_SETUP_LINK = 'manual-setup';
-  var REFRESH_QRCODE_LINK = 'refresh-qrcode';
-  var SCAN_FORM = 'step-scan';
-  var REFRESH_LINK = 'refresh-qrcode';
+  form: function () {
+    return this.el(SCAN_FORM);
+  },
 
-  return Form.extend({
+  container: function () {
+    return this.$(CLASS_SELECTOR);
+  },
 
-    isEnrollTotpBarcodeForm: function () {
-      return this.container().length === 1;
-    },
+  qrcodeImg: function () {
+    return this.el(QRCODE);
+  },
 
-    form: function () {
-      return this.el(SCAN_FORM);
-    },
+  manualSetupLink: function () {
+    return this.el(MANUAL_SETUP_LINK);
+  },
 
-    container: function () {
-      return this.$(CLASS_SELECTOR);
-    },
+  clickManualSetupLink: function () {
+    this.manualSetupLink().click();
+  },
 
-    qrcodeImg: function () {
-      return this.el(QRCODE);
-    },
+  refreshQrcodeLink: function () {
+    return this.el(REFRESH_QRCODE_LINK);
+  },
 
-    manualSetupLink: function () {
-      return this.el(MANUAL_SETUP_LINK);
-    },
+  scanInstructions: function () {
+    return this.$('.scan-instructions');
+  },
 
-    clickManualSetupLink: function () {
-      this.manualSetupLink().click();
-    },
+  hasRefreshQrcodeLink: function () {
+    return this.scanInstructions().hasClass('qrcode-expired');
+  },
 
-    refreshQrcodeLink: function () {
-      return this.el(REFRESH_QRCODE_LINK);
-    },
+  hasManualSetupLink: function () {
+    const instructions = this.scanInstructions();
 
-    scanInstructions: function () {
-      return this.$('.scan-instructions');
-    },
+    return !instructions.hasClass('qrcode-expired') && !instructions.hasClass('qrcode-success');
+  },
 
-    hasRefreshQrcodeLink: function () {
-      return this.scanInstructions().hasClass('qrcode-expired');
-    },
+  clickrefreshQrcodeLink: function () {
+    this.refreshQrcodeLink().click();
+  },
 
-    hasManualSetupLink: function () {
-      var instructions = this.scanInstructions();
-      return !instructions.hasClass('qrcode-expired') && !instructions.hasClass('qrcode-success');
-    },
+  backLink: function () {
+    return this.el('back-link');
+  },
 
-    clickrefreshQrcodeLink: function () {
-      this.refreshQrcodeLink().click();
-    },
+  clickBackLink: function () {
+    this.backLink().click();
+  },
 
-    backLink: function () {
-      return this.el('back-link');
-    },
+  refreshLink: function () {
+    return this.el(REFRESH_LINK);
+  },
 
-    clickBackLink: function () {
-      this.backLink().click();
-    },
+  clickRefreshLink: function () {
+    return this.refreshLink().click();
+  },
 
-    refreshLink: function () {
-      return this.el(REFRESH_LINK);
-    },
-
-    clickRefreshLink: function () {
-      return this.refreshLink().click();
-    },
-
-    waitForRefreshQrcodeLink: function (resolveValue) {
-      return Expect.wait(this.hasRefreshQrcodeLink.bind(this), resolveValue);
-    }
-
-  });
-
+  waitForRefreshQrcodeLink: function (resolveValue) {
+    return Expect.wait(this.hasRefreshQrcodeLink.bind(this), resolveValue);
+  },
 });

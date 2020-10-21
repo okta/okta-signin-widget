@@ -10,125 +10,123 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'util/FormController',
-  'util/FormType',
-  'views/shared/FooterSignout',
-  'util/FactorUtil',
-  'views/mfa-verify/HtmlErrorMessageView',
-],
-function (Okta, FormController, FormType, FooterSignout, FactorUtil, HtmlErrorMessageView) {
+import { _, loc, internal } from 'okta';
+import FactorUtil from 'util/FactorUtil';
+import FormController from 'util/FormController';
+import FormType from 'util/FormType';
+import HtmlErrorMessageView from 'views/mfa-verify/HtmlErrorMessageView';
+import FooterSignout from 'views/shared/FooterSignout';
+const { Util } = internal.util;
+export default FormController.extend({
+  className: 'verify-custom-factor custom-factor-form',
 
-  var _ = Okta._;
-  var { Util } = Okta.internal.util;
-
-  return FormController.extend({
-
-    className: 'verify-custom-factor custom-factor-form',
-
-    Model: {
-      props: {
-        rememberDevice: 'boolean'
-      },
-
-      initialize: function () {
-        var rememberDevice = FactorUtil.getRememberDeviceValue(this.appState);
-        // set the initial value for remember device (Cannot do this while defining the
-        // local property because this.settings would not be initialized there yet).
-        this.set('rememberDevice', rememberDevice);
-      },
-
-      save: function () {
-        var rememberDevice = !!this.get('rememberDevice');
-        return this.manageTransaction((transaction, setTransaction) => {
-          var data = {
-            rememberDevice: rememberDevice
-          };
-          var factor = _.findWhere(transaction.factors, {
-            provider: this.get('provider'),
-            factorType: this.get('factorType')
-          });
-          return factor.verify(data)
-            .then((trans) => {
-              setTransaction(trans);
-              var url = this.appState.get('verifyCustomFactorRedirectUrl');
-              if(url !== null) {
-                Util.redirect(url);
-              }
-            })
-            .catch(function (err) {
-              throw err;
-            });
-        });
-      }
-    },
-
-    Form: function () {
-      var factors = this.options.appState.get('factors');
-      var factor = factors.findWhere({
-        provider: this.options.provider,
-        factorType: this.options.factorType
-      });
-      var vendorName = factor.get('vendorName');
-      var saveText = Okta.loc('mfa.challenge.verify', 'login');
-      var subtitle = Okta.loc('verify.customFactor.subtitle', 'login', [vendorName]);
-      return {
-        autoSave: true,
-        title: vendorName,
-        save: saveText,
-        subtitle: subtitle,
-        attributes: { 'data-se': 'factor-custom' },
-        initialize: function () {
-          if (this.options.appState.get('allowRememberDevice')) {
-            this.addInput({
-              label: false,
-              'label-top': true,
-              placeholder: this.options.appState.get('rememberDeviceLabel'),
-              className: 'margin-btm-0',
-              name: 'rememberDevice',
-              type: 'checkbox'
-            });
-          }
-        },
-        formChildren: function () {
-          var result = [],
-              lastFailedChallengeFactorData = this.options.appState.get('lastFailedChallengeFactorData');
-          if (lastFailedChallengeFactorData) {
-            result.push(
-              FormType.View(
-                { View: new HtmlErrorMessageView(
-                  { message: lastFailedChallengeFactorData.errorMessage }) },
-                { selector: '.o-form-error-container'}
-              )
-            );
-          }
-          return result;
-        },
-      };
-    },
-
-    trapAuthResponse: function () {
-      if (this.options.appState.get('isMfaChallenge')) {
-        return true;
-      }
-    },
-
-    back: function () {
-      // Empty function on verify controllers to prevent users
-      // from navigating back during 'verify' using the browser's
-      // back button. The URL will still change, but the view will not
-      // More details in OKTA-135060.
+  Model: {
+    props: {
+      rememberDevice: 'boolean',
     },
 
     initialize: function () {
-      this.model.set('provider', this.options.provider);
-      this.model.set('factorType', this.options.factorType);
-      if (!this.settings.get('features.hideSignOutLinkInMFA')) {
-        this.addFooter(FooterSignout);
-      }
+      const rememberDevice = FactorUtil.getRememberDeviceValue(this.appState);
+
+      // set the initial value for remember device (Cannot do this while defining the
+      // local property because this.settings would not be initialized there yet).
+      this.set('rememberDevice', rememberDevice);
+    },
+
+    save: function () {
+      const rememberDevice = !!this.get('rememberDevice');
+
+      return this.manageTransaction((transaction, setTransaction) => {
+        const data = {
+          rememberDevice: rememberDevice,
+        };
+
+        const factor = _.findWhere(transaction.factors, {
+          provider: this.get('provider'),
+          factorType: this.get('factorType'),
+        });
+
+        return factor
+          .verify(data)
+          .then(trans => {
+            setTransaction(trans);
+            const url = this.appState.get('verifyCustomFactorRedirectUrl');
+
+            if (url !== null) {
+              Util.redirect(url);
+            }
+          })
+          .catch(function (err) {
+            throw err;
+          });
+      });
+    },
+  },
+
+  Form: function () {
+    const factors = this.options.appState.get('factors');
+    const factor = factors.findWhere({
+      provider: this.options.provider,
+      factorType: this.options.factorType,
+    });
+    const vendorName = factor.get('vendorName');
+    const saveText = loc('mfa.challenge.verify', 'login');
+    const subtitle = loc('verify.customFactor.subtitle', 'login', [vendorName]);
+
+    return {
+      autoSave: true,
+      title: vendorName,
+      save: saveText,
+      subtitle: subtitle,
+      attributes: { 'data-se': 'factor-custom' },
+      initialize: function () {
+        if (this.options.appState.get('allowRememberDevice')) {
+          this.addInput({
+            label: false,
+            'label-top': true,
+            placeholder: this.options.appState.get('rememberDeviceLabel'),
+            className: 'margin-btm-0',
+            name: 'rememberDevice',
+            type: 'checkbox',
+          });
+        }
+      },
+      formChildren: function () {
+        const result = [];
+        const lastFailedChallengeFactorData = this.options.appState.get('lastFailedChallengeFactorData');
+
+        if (lastFailedChallengeFactorData) {
+          result.push(
+            FormType.View(
+              { View: new HtmlErrorMessageView({ message: lastFailedChallengeFactorData.errorMessage }) },
+              { selector: '.o-form-error-container' }
+            )
+          );
+        }
+        return result;
+      },
+    };
+  },
+
+  trapAuthResponse: function () {
+    if (this.options.appState.get('isMfaChallenge')) {
+      return true;
     }
+  },
 
-  });
+  back: function () {
+    // Empty function on verify controllers to prevent users
+    // from navigating back during 'verify' using the browser's
+    // back button. The URL will still change, but the view will not
+    // More details in OKTA-135060.
+  },
 
+  initialize: function () {
+    this.model.set('provider', this.options.provider);
+    this.model.set('factorType', this.options.factorType);
+    if (!this.settings.get('features.hideSignOutLinkInMFA') &&
+        !this.settings.get('features.mfaOnlyFlow')) {
+      this.addFooter(FooterSignout);
+    }
+  },
 });

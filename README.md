@@ -48,9 +48,8 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
   - [afterError](#aftererror)
   - [afterRender](#afterrender)
   - [pageRendered](#pagerendered)
-  - [passwordRevealed](#passwordrevealed)
 - [Building the Widget](#building-the-widget)
-  - [The `.widgetrc` config file](#the-widgetrc-config-file)
+  - [The `.widgetrc.js` config file](#the-widgetrc-config-file)
   - [Build and test commands](#build-and-test-commands)
 - [Browser support](#browser-support)
 - [Contributing](#contributing)
@@ -73,16 +72,16 @@ To use the CDN, include links to the JS and CSS files in your HTML:
 
 ```html
 <!-- Latest CDN production Javascript and CSS -->
-<script src="https://global.oktacdn.com/okta-signin-widget/4.1.1/js/okta-sign-in.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/4.4.4/js/okta-sign-in.min.js" type="text/javascript"></script>
 
-<link href="https://global.oktacdn.com/okta-signin-widget/4.1.1/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
+<link href="https://global.oktacdn.com/okta-signin-widget/4.4.4/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
 ```
 
 The standard JS asset served from our CDN includes polyfills via [`babel-polyfill`](https://babeljs.io/docs/en/babel-polyfill/) to ensure compatibility with older browsers. This may cause conflicts if your app already includes polyfills. For this case, we provide an alternate JS asset which does not include any polyfills.
 
 ```html
 <!-- Latest CDN production Javascript without polyfills -->
-<script src="https://global.oktacdn.com/okta-signin-widget/4.1.1/js/okta-sign-in.no-polyfill.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/4.4.4/js/okta-sign-in.no-polyfill.min.js" type="text/javascript"></script>
 ```
 
 ### Using the npm module
@@ -808,8 +807,6 @@ registration: {
 
 ### Registration
 
-> **:warning: Beta feature:** The registration feature is currently a [Beta feature](https://developer.okta.com/docs/api/getting_started/releases-at-okta#beta). This widget functionality won't work unless your Okta organization is part of the Beta program. For help, contact support@okta.com.
-
 To add registration into your application, configure your Okta admin settings to allow users to self register into your app. Then, set `features.registration` in the widget. You can add additional configs under the registration key on the [`OktaSignIn`](#new-oktasigninconfig) object.
 
 ```javascript
@@ -1271,18 +1268,6 @@ signIn.on('pageRendered', function (data) {
 });
 ```
 
-### passwordRevealed
-
-:warning: This event has been *deprecated*, do not use.
-
-Triggered when the show password button is clicked.
-
-```javascript
-signIn.on('passwordRevealed', function () {
-  // Handle the event
-})
-```
-
 ## Building the Widget
 
 We use Yarn as our node package manager. To install Yarn, check out their [install documentation](https://yarnpkg.com/en/docs/install).
@@ -1300,13 +1285,15 @@ We use Yarn as our node package manager. To install Yarn, check out their [insta
     yarn install
     ```
 
-3. Create a `.widgetrc` file in the `okta-signin-widget` directory with an entry for `baseUrl`.
+3. Create a `.widgetrc.js` file in the `okta-signin-widget` directory with an entry for `baseUrl`.
 
     ```javascript
-    {
-      "widgetOptions": {
-        "baseUrl": "https://{yourOktaDomain}"
-      }
+    module.exports = {
+      baseUrl: 'https://{yourOktaDomain}',
+      logoText: 'Windico',
+      features: {
+        rememberMe: true,
+      },
     }
     ```
 
@@ -1322,14 +1309,6 @@ We use Yarn as our node package manager. To install Yarn, check out their [insta
 
 5. Finally, enable CORS support for our new server by [following these instructions](http://developer.okta.com/docs/guides/okta_sign-in_widget.html#configuring-cors-support-on-your-okta-organization). You can now authenticate to Okta using your very own, customizable widget!
 
-### The `.widgetrc` config file
-
-The `.widgetrc` file is a configuration file that saves your local widget settings.
-
-| Property          | Description                                                     |
-|-------------------|-----------------------------------------------------------------|
-| **widgetOptions** | Config options that are passed to the widget on initialization. |
-| **serverPort**    | The port the local server runs on. Defaults to `3000`           |
 
 ### Build and test commands
 

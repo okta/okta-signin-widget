@@ -2,6 +2,30 @@
 
 This library uses semantic versioning and follows Okta's [library version policy](https://developer.okta.com/code/library-versions/). In short, we don't make breaking changes unless the major version changes!
 
+## Migrating `.widgetrc` to `.widgetrc.js`
+
+The existing `.widgetrc` file used to configure the Widget has been **removed**. Simply rename the existing file to `.widgetrc.js` export the contents:
+
+
+```diff
+- {
+-  widgetOptions: {
++ module.exports = {
+    baseUrl: 'http://localhost:3000',
+    logo: '/img/logo_widgico.png',
+    logoText: 'Windico',
+    features: {
+      router: true,
+      rememberMe: true,
+    },
+    // Host the assets (i.e. json files) locally
+    assets: {
+      baseUrl: '/'
+    }
+  };
+- }
+```
+
 ## Migrating from 3.x to 4.x
 
 ### HTTPS is enforced by default

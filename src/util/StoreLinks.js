@@ -10,17 +10,17 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define({
+export default {
   OKTA: {
     APPLE: 'https://itunes.apple.com/us/app/okta-verify/id490179405',
-    ANDROID: 'https://play.google.com/store/apps/details?id=com.okta.android.auth'
+    ANDROID: 'https://play.google.com/store/apps/details?id=com.okta.android.auth',
   },
   GOOGLE: {
     APPLE: 'https://itunes.apple.com/us/app/google-authenticator/id388497605',
-    ANDROID: 'https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2'
+    ANDROID: 'https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2',
   },
   STORE: {
     APPLE: 'App Store',
-    ANDROID: 'Google Play Store'
-  }
-});
+    ANDROID: 'Google Play Store',
+  },
+};

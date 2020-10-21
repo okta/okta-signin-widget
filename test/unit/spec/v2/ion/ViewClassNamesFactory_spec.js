@@ -1,9 +1,7 @@
 import { getClassNameMapping, getV1ClassName } from 'v2/ion/ViewClassNamesFactory';
 
 describe('v1/ion/ViewClassNamesFactory', function () {
-
   describe('getClassNameMapping for v2 flow plus getV1ClassName', function () {
-
     it('for identify form with password', function () {
       const v2Class = getClassNameMapping('identify', 'password', null, false);
       expect(v2Class).toEqual(['identify--password', 'primary-auth']);
@@ -147,7 +145,5 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       const v1Class = getV1ClassName('authenticator-verification-data', null, null);
       expect(v1Class).toEqual(null);
     });
-
   });
-
 });

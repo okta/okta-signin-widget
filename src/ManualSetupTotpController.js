@@ -10,86 +10,83 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { _, loc, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-
-define([
-  'okta',
-  'util/FactorUtil',
-  'util/FormController',
-  'util/FormType',
-  'util/RouterUtil',
-  'views/enroll-factors/ManualSetupFooter',
-  'views/shared/TextBox'
-],
-function (Okta, FactorUtil, FormController, FormType, RouterUtil, ManualSetupFooter, TextBox) {
-
-  var _ = Okta._;
-
-  return FormController.extend({
-    className: 'enroll-manual-totp',
-    Model: function () {
-      return {
-        local: {
-          'sharedSecret': ['string', false, this.options.appState.get('sharedSecret')],
-          '__factorType__': ['string', false, this.options.factorType],
-          '__provider__': ['string', false, this.options.provider]
-        }
-      };
-    },
-
-    Form: {
-      title: function () {
-        var factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
-        return Okta.loc('enroll.totp.title', 'login', [factorName]);
+import FactorUtil from 'util/FactorUtil';
+import FormController from 'util/FormController';
+import FormType from 'util/FormType';
+import RouterUtil from 'util/RouterUtil';
+import ManualSetupFooter from 'views/enroll-factors/ManualSetupFooter';
+import TextBox from 'views/shared/TextBox';
+export default FormController.extend({
+  className: 'enroll-manual-totp',
+  Model: function () {
+    return {
+      local: {
+        sharedSecret: ['string', false, this.options.appState.get('sharedSecret')],
+        __factorType__: ['string', false, this.options.factorType],
+        __provider__: ['string', false, this.options.provider],
       },
-      subtitle: _.partial(Okta.loc, 'enroll.totp.cannotScanBarcode', 'login'),
-      noButtonBar: true,
-      attributes: { 'data-se': 'step-manual-setup' },
+    };
+  },
 
-      formChildren: function () {
-        var instructions = this.settings.get('brandName') ?
-          Okta.loc('enroll.totp.manualSetupInstructions.specific', 'login', [this.settings.get('brandName')]) :
-          Okta.loc('enroll.totp.manualSetupInstructions.generic', 'login');
-        return [
-          FormType.View({
-            View: Okta.View.extend({
-              template: hbs('\
+  Form: {
+    title: function () {
+      const factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
+
+      return loc('enroll.totp.title', 'login', [factorName]);
+    },
+    subtitle: _.partial(loc, 'enroll.totp.cannotScanBarcode', 'login'),
+    noButtonBar: true,
+    attributes: { 'data-se': 'step-manual-setup' },
+
+    formChildren: function () {
+      const instructions = this.settings.get('brandName')
+        ? loc('enroll.totp.manualSetupInstructions.specific', 'login', [this.settings.get('brandName')])
+        : loc('enroll.totp.manualSetupInstructions.generic', 'login');
+
+      return [
+        FormType.View({
+          View: View.extend({
+            template: hbs(
+              '\
                 <p class="okta-form-subtitle o-form-explain text-align-c">\
                   {{instructions}}\
                 </p>\
-              '),
-              getTemplateData: function () {
-                return {
-                  instructions: instructions
-                };
-              }
-            })
+              '
+            ),
+            getTemplateData: function () {
+              return {
+                instructions: instructions,
+              };
+            },
           }),
-
-          FormType.Input({
-            name: 'sharedSecret',
-            input: TextBox,
-            type: 'text',
-            disabled: true
-          }),
-
-          FormType.Toolbar({
-            noCancelButton: true,
-            save: Okta.loc('oform.next', 'login')
-          })
-        ];
-      }
+        }),
+        FormType.Input({
+          name: 'sharedSecret',
+          input: TextBox,
+          type: 'text',
+          disabled: true,
+        }),
+        FormType.Toolbar({
+          noCancelButton: true,
+          save: loc('oform.next', 'login'),
+        }),
+      ];
     },
+  },
 
-    Footer: ManualSetupFooter,
+  Footer: ManualSetupFooter,
 
-    initialize: function () {
-      this.listenTo(this.form, 'save', function () {
-        var url = RouterUtil.createActivateFactorUrl(this.model.get('__provider__'),
-          this.model.get('__factorType__'), 'activate');
-        this.options.appState.trigger('navigate', url);
-      });
-    }
-  });
+  initialize: function () {
+    this.listenTo(this.form, 'save', function () {
+      const url = RouterUtil.createActivateFactorUrl(
+        this.model.get('__provider__'),
+        this.model.get('__factorType__'),
+        'activate'
+      );
 
+      this.options.appState.trigger('navigate', url);
+    });
+  },
 });

@@ -4,9 +4,7 @@ const BASE_URL = 'http://localhost:3000';
 
 const mockIntrospect = (done, mockData, assertionFn) => {
   jasmine.Ajax.install();
-  jasmine.Ajax.stubRequest(
-    `${BASE_URL}/idp/idx/introspect`
-  ).andReturn({
+  jasmine.Ajax.stubRequest(`${BASE_URL}/idp/idx/introspect`).andReturn({
     status: 200,
     responseJSON: mockData,
   });
@@ -14,12 +12,13 @@ const mockIntrospect = (done, mockData, assertionFn) => {
   const idxStartOpt = {
     domain: BASE_URL,
     stateHandle: '01test-state-token',
-    version: '1.0.0'
+    version: '1.0.0',
   };
 
-  idx.start(idxStartOpt)
+  idx
+    .start(idxStartOpt)
     .then(assertionFn)
-    .catch((error)=>{
+    .catch(error => {
       fail(error);
     })
     .finally(() => {

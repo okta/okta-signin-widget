@@ -1,33 +1,31 @@
-define(['./Form'], function (Form) {
+import Form from './Form';
+export default Form.extend({
+  enrollEmailActivateContent: function () {
+    return this.el('enroll-activate-email-content').trimmedText();
+  },
 
-  return Form.extend({
+  setVerificationCode: function (val) {
+    const field = this.input('passCode');
 
-    enrollEmailActivateContent: function () {
-      return this.el('enroll-activate-email-content').trimmedText();
-    },
+    field.val(val);
+    field.trigger('change');
+  },
 
-    setVerificationCode: function (val) {
-      var field = this.input('passCode');
-      field.val(val);
-      field.trigger('change');
-    },
+  getResendEmailView: function () {
+    return this.$('.resend-email-infobox');
+  },
 
-    getResendEmailView: function () {
-      return this.$('.resend-email-infobox');
-    },
+  getResendEmailMessage: function () {
+    return this.$('.resend-email-infobox:not(.hide) .infobox p');
+  },
 
-    getResendEmailMessage: function () {
-      return this.$('.resend-email-infobox:not(.hide) .infobox p');
-    },
+  getResendButton: function () {
+    return this.$('.resend-email-infobox:not(.hide) a.resend-email-btn');
+  },
 
-    getResendButton: function () {
-      return this.$('.resend-email-infobox:not(.hide) a.resend-email-btn');
-    },
+  clickResend: function () {
+    const resendLinkBtn = this.getResendButton();
 
-    clickResend: function () {
-      var resendLinkBtn = this.getResendButton();
-      resendLinkBtn.click();
-    },
-
-  });
+    resendLinkBtn.click();
+  },
 });

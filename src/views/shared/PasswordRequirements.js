@@ -10,15 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-
-define([
-  'okta',
-  'util/FactorUtil',
-],
-function (Okta, FactorUtil) {
-  return Okta.View.extend({
-    template: hbs`{{#if requirements}}
+import FactorUtil from 'util/FactorUtil';
+export default View.extend({
+  template: hbs`{{#if requirements}}
       <div class="password-requirements--header">
         {{i18n code="password.complexity.requirements.header" bundle="login"}}
       </div>
@@ -27,25 +23,25 @@ function (Okta, FactorUtil) {
       </ul>
     {{/if}}`,
 
-    attributes: {
-      'data-se': 'password-requirements-html'
-    },
+  attributes: {
+    'data-se': 'password-requirements-html',
+  },
 
-    allRequirements: [],
+  allRequirements: [],
 
-    initialize: function (options) {
-      var policy = options.policy;
-      if (!policy) {
-        return;
-      }
+  initialize: function (options) {
+    const policy = options.policy;
 
-      this.allRequirements = FactorUtil.getPasswordComplexityDescriptionForHtmlList(policy);
-    },
-
-    getTemplateData: function () {
-      return {
-        requirements: this.allRequirements
-      };
+    if (!policy) {
+      return;
     }
-  });
+
+    this.allRequirements = FactorUtil.getPasswordComplexityDescriptionForHtmlList(policy);
+  },
+
+  getTemplateData: function () {
+    return {
+      requirements: this.allRequirements,
+    };
+  },
 });

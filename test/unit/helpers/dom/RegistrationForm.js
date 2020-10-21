@@ -1,136 +1,141 @@
-define(['./Form'], function (Form) {
+import Form from './Form';
+const FIRSTNAME_FIELD = 'firstName';
+const LASTNAME_FIELD = 'lastName';
+const USERNAME_FIELD = 'userName';
+const EMAIL_FIELD = 'email';
+const PASSWORD_FIELD = 'password';
+const REFERRER_FIELD = 'referrer';
+export default Form.extend({
+  firstnameField: function () {
+    return this.input(FIRSTNAME_FIELD);
+  },
 
-  var FIRSTNAME_FIELD = 'firstName';
-  var LASTNAME_FIELD = 'lastName';
-  var USERNAME_FIELD = 'userName';
-  var EMAIL_FIELD = 'email';
-  var PASSWORD_FIELD = 'password';
-  var REFERRER_FIELD = 'referrer';
+  firstnameErrorField: function () {
+    return this.error(FIRSTNAME_FIELD);
+  },
 
-  return Form.extend({
+  setFirstname: function (val) {
+    const field = this.firstnameField();
 
-    firstnameField: function () {
-      return this.input(FIRSTNAME_FIELD);
-    },
+    field.val(val);
+    field.trigger('change');
+  },
 
-    firstnameErrorField: function () {
-      return this.error(FIRSTNAME_FIELD);
-    },
+  lastnameField: function () {
+    return this.input(LASTNAME_FIELD);
+  },
 
-    setFirstname: function (val) {
-      var field = this.firstnameField();
-      field.val(val);
-      field.trigger('change');
-    },
+  lastnameErrorField: function () {
+    return this.error(LASTNAME_FIELD);
+  },
 
-    lastnameField: function () {
-      return this.input(LASTNAME_FIELD);
-    },
-    
-    lastnameErrorField: function () {
-      return this.error(LASTNAME_FIELD);
-    },
+  setLastname: function (val) {
+    const field = this.lastnameField();
 
-    setLastname: function (val) {
-      var field = this.lastnameField();
-      field.val(val);
-      field.trigger('change');
-    },
+    field.val(val);
+    field.trigger('change');
+  },
 
-    referrerField: function () {
-      return this.input(REFERRER_FIELD);
-    },
+  referrerField: function () {
+    return this.input(REFERRER_FIELD);
+  },
 
-    referrerErrorField: function () {
-      return this.error(REFERRER_FIELD);
-    },
+  referrerErrorField: function () {
+    return this.error(REFERRER_FIELD);
+  },
 
-    setReferrer: function (val) {
-      var field = this.referrerField();
-      field.val(val);
-      field.trigger('change');
-    },
+  setReferrer: function (val) {
+    const field = this.referrerField();
 
-    userNameField: function () {
-      return this.input(USERNAME_FIELD);
-    },
+    field.val(val);
+    field.trigger('change');
+  },
 
-    userNameErrorField: function () {
-      return this.error(USERNAME_FIELD);
-    },
+  userNameField: function () {
+    return this.input(USERNAME_FIELD);
+  },
 
-    emailField: function () {
-      return this.input(EMAIL_FIELD);
-    },
+  userNameErrorField: function () {
+    return this.error(USERNAME_FIELD);
+  },
 
-    emailErrorField: function () {
-      return this.error(EMAIL_FIELD);
-    },
+  emailField: function () {
+    return this.input(EMAIL_FIELD);
+  },
 
-    setUserName: function (val) {
-      var field = this.userNameField();
-      field.val(val);
-      field.trigger('change');
-    },
+  emailErrorField: function () {
+    return this.error(EMAIL_FIELD);
+  },
 
-    setEmail: function (val) {
-      var field = this.emailField();
-      field.val(val);
-      field.trigger('change');
-    },
+  setUserName: function (val) {
+    const field = this.userNameField();
 
-    passwordField: function () {
-      return this.input(PASSWORD_FIELD);
-    },
+    field.val(val);
+    field.trigger('change');
+  },
 
-    passwordErrorField: function () {
-      return this.error(PASSWORD_FIELD);
-    },
+  setEmail: function (val) {
+    const field = this.emailField();
 
-    requiredFieldLabel: function () {
-      return this.$('.required-fields-label').text();
-    },
+    field.val(val);
+    field.trigger('change');
+  },
 
-    fieldPlaceholder: function (fieldName) {
-      return this.$('.okta-form-input-field input[name="'+fieldName+'"]').attr('placeholder');
-    },
+  passwordField: function () {
+    return this.input(PASSWORD_FIELD);
+  },
 
-    getFieldByName: function (fieldName) {
-      return this.$('.okta-form-input-field input[name="'+fieldName+'"]');
-    },
+  passwordErrorField: function () {
+    return this.error(PASSWORD_FIELD);
+  },
 
-    setPassword: function (val) {
-      var field = this.passwordField();
-      field.val(val);
-      field.trigger('change');
-      field.trigger('input');
-    },
+  requiredFieldLabel: function () {
+    return this.$('.required-fields-label').text();
+  },
 
-    focusOutPassword: function () {
-      var field = this.passwordField();
-      field.trigger('focusout');
-    },
+  fieldPlaceholder: function (fieldName) {
+    return this.$('.okta-form-input-field input[name="' + fieldName + '"]').attr('placeholder');
+  },
 
-    hasPasswordComplexityUnsatisfied: function (index) {
-      return this.$('.subschema-' + index).hasClass('subschema-unsatisfied') &&
-             !this.$('.subschema-' + index).hasClass('subschema-satisfied') &&
-             this.$('.subschema-' + index).hasClass('subschema-error');
-    },
+  getFieldByName: function (fieldName) {
+    return this.$('.okta-form-input-field input[name="' + fieldName + '"]');
+  },
 
-    hasPasswordComplexitySatisfied: function (index) {
-      return this.$('.subschema-' + index).hasClass('subschema-satisfied') &&
-             !this.$('.subschema-' + index).hasClass('subschema-unsatisfied') &&
-             !this.$('.subschema-' + index).hasClass('subschema-error');
-    },
+  setPassword: function (val) {
+    const field = this.passwordField();
 
-    isPasswordComplexitySectionHidden: function (index) {
-      return this.$('.subschema-'+index+'>p').hasClass('default-schema');
-    },
+    field.val(val);
+    field.trigger('change');
+    field.trigger('input');
+  },
 
-    passwordContainsUsernameError: function () {
-      return this.$('.subschema-4').hasClass('subschema-error');
-    }
+  focusOutPassword: function () {
+    const field = this.passwordField();
 
-  });
+    field.trigger('focusout');
+  },
 
+  hasPasswordComplexityUnsatisfied: function (index) {
+    return (
+      this.$('.subschema-' + index).hasClass('subschema-unsatisfied') &&
+      !this.$('.subschema-' + index).hasClass('subschema-satisfied') &&
+      this.$('.subschema-' + index).hasClass('subschema-error')
+    );
+  },
+
+  hasPasswordComplexitySatisfied: function (index) {
+    return (
+      this.$('.subschema-' + index).hasClass('subschema-satisfied') &&
+      !this.$('.subschema-' + index).hasClass('subschema-unsatisfied') &&
+      !this.$('.subschema-' + index).hasClass('subschema-error')
+    );
+  },
+
+  isPasswordComplexitySectionHidden: function (index) {
+    return this.$('.subschema-' + index + '>p').hasClass('default-schema');
+  },
+
+  passwordContainsUsernameError: function () {
+    return this.$('.subschema-4').hasClass('subschema-error');
+  },
 });

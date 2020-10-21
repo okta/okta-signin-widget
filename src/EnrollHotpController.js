@@ -10,51 +10,43 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'util/FormController',
-  'util/FormType',
-  'views/enroll-factors/Footer',
-  'views/mfa-verify/HtmlErrorMessageView'
-],
-function (Okta, FormController, FormType,
-  Footer, HtmlErrorMessageView) {
-
-  return FormController.extend({
-    className: 'enroll-hotp',
-    Model: function () {
-      return {
-        local: {
-          '__factorType__': ['string', false, this.options.factorType],
-          '__provider__': ['string', false, this.options.provider]
-        }
-      };
-    },
-    Form: {
-      title: function () {
-        const factors = this.options.appState.get('factors');
-        const hotpFactor = factors.findWhere({
-          provider: this.model.get('__provider__'),
-          factorType: this.model.get('__factorType__')
-        });
-        return Okta.loc('enroll.totp.title', 'login', [hotpFactor.get('factorLabel')]);
+import { loc } from 'okta';
+import FormController from 'util/FormController';
+import FormType from 'util/FormType';
+import Footer from 'views/enroll-factors/Footer';
+import HtmlErrorMessageView from 'views/mfa-verify/HtmlErrorMessageView';
+export default FormController.extend({
+  className: 'enroll-hotp',
+  Model: function () {
+    return {
+      local: {
+        __factorType__: ['string', false, this.options.factorType],
+        __provider__: ['string', false, this.options.provider],
       },
-      noButtonBar: true,
-      attributes: { 'data-se': 'restrict-enroll' },
-
-      formChildren: function () {
-        const children = [
-          FormType.View({
-            View: new HtmlErrorMessageView({ message: Okta.loc('enroll.hotp.restricted', 'login') }),
-          }),
-        ];
-
-        return children;
-      }
+    };
+  },
+  Form: {
+    title: function () {
+      const factors = this.options.appState.get('factors');
+      const hotpFactor = factors.findWhere({
+        provider: this.model.get('__provider__'),
+        factorType: this.model.get('__factorType__'),
+      });
+      return loc('enroll.totp.title', 'login', [hotpFactor.get('factorLabel')]);
     },
+    noButtonBar: true,
+    attributes: { 'data-se': 'restrict-enroll' },
 
-    Footer: Footer
+    formChildren: function () {
+      const children = [
+        FormType.View({
+          View: new HtmlErrorMessageView({ message: loc('enroll.hotp.restricted', 'login') }),
+        }),
+      ];
 
-  });
+      return children;
+    },
+  },
 
+  Footer: Footer,
 });

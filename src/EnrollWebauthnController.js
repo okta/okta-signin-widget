@@ -10,137 +10,140 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { _, loc, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
+import Q from 'q';
+import BrowserFeatures from 'util/BrowserFeatures';
+import CryptoUtil from 'util/CryptoUtil';
+import Errors from 'util/Errors';
+import FormController from 'util/FormController';
+import FormType from 'util/FormType';
+import webauthn from 'util/webauthn';
+import Footer from 'views/enroll-factors/Footer';
+import HtmlErrorMessageView from 'views/mfa-verify/HtmlErrorMessageView';
 
-define([
-  'okta',
-  'util/Errors',
-  'util/FormType',
-  'util/FormController',
-  'util/CryptoUtil',
-  'util/webauthn',
-  'views/enroll-factors/Footer',
-  'q',
-  'views/mfa-verify/HtmlErrorMessageView',
-  'util/BrowserFeatures'
-],
-function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, Q,
-  HtmlErrorMessageView, BrowserFeatures) {
+function getExcludeCredentials (credentials) {
+  const excludeCredentials = [];
 
-  var _ = Okta._;
-
-  function getExcludeCredentials (credentials) {
-    var excludeCredentials = [];
-    _.each(credentials, function (credential) {
-      excludeCredentials.push({
-        type: 'public-key',
-        id: CryptoUtil.strToBin(credential.id)
-      });
+  _.each(credentials, function (credential) {
+    excludeCredentials.push({
+      type: 'public-key',
+      id: CryptoUtil.strToBin(credential.id),
     });
-    return excludeCredentials;
-  }  
+  });
+  return excludeCredentials;
+}
 
-  return FormController.extend({
-    className: 'enroll-webauthn',
-    Model: {
-      local: {
-        '__enrolled__': 'boolean'
-      },
-
-      save: function () {
-        this.trigger('request');
-
-        if (this.get('__enrolled__')) {
-          return this.activate();
-        }
-
-        return this.doTransaction(function (transaction) {
-          var factor = _.findWhere(transaction.factors, {
-            factorType: 'webauthn',
-            provider: 'FIDO'
-          });
-          return factor.enroll();
-        });
-      },
-
-      activate: function () {
-        this.set('__enrolled__', true);
-        this.trigger('errors:clear');
-        this.appState.on('backToFactors', () => {
-          if (this.webauthnAbortController) {
-            this.webauthnAbortController.abort();
-            this.webauthnAbortController = null;
-          }
-        });
-
-        return this.doTransaction(function (transaction) {
-          // enroll via browser webauthn js
-          var activation = transaction.factor.activation;
-          var self = this;
-          if (webauthn.isNewApiAvailable()) {
-            var options = _.extend({}, activation, {
-              challenge: CryptoUtil.strToBin(activation.challenge),
-              user: {
-                id: CryptoUtil.strToBin(activation.user.id),
-                name: activation.user.name,
-                displayName: activation.user.displayName
-              },
-              excludeCredentials: getExcludeCredentials(activation.excludeCredentials)
-            });
-            self.webauthnAbortController = new AbortController();
-            return new Q(navigator.credentials.create({
-              publicKey: options,
-              signal: self.webauthnAbortController.signal
-            }))
-              .then(function (newCredential) {
-                return transaction.activate({
-                  attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
-                  clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON)
-                });
-              })
-              .catch(function (error) {
-                self.trigger('errors:clear');
-                // Do not display if it is abort error triggered by code when switching.
-                // self.webauthnAbortController would be null if abort was triggered by code. 
-                if (!self.webauthnAbortController) {
-                  throw new Errors.WebauthnAbortError();
-                } else {
-                  throw new Errors.WebAuthnError({
-                    xhr: {responseJSON: {errorSummary: error.message}}
-                  });
-                }
-              }).finally(function () {
-                // unset webauthnAbortController on successful authentication or error
-                self.webauthnAbortController = null;
-              });
-          }
-        });
-      }
+export default FormController.extend({
+  className: 'enroll-webauthn',
+  Model: {
+    local: {
+      __enrolled__: 'boolean',
     },
 
-    Form: {
-      title: _.partial(Okta.loc, 'enroll.webauthn.biometric.title', 'login'),
-      save: _.partial(Okta.loc, 'enroll.webauthn.save', 'login'),
-      noCancelButton: true,
-      hasSavingState: false,
-      autoSave: true,
-      className: 'enroll-webauthn-form',
-      noButtonBar: function () {
-        return !webauthn.isNewApiAvailable();
-      },
-      modelEvents: {
-        'request': '_startEnrollment',
-        'error': '_stopEnrollment'
-      },
-      formChildren: function () {
-        var children = [];
+    save: function () {
+      this.trigger('request');
+
+      if (this.get('__enrolled__')) {
+        return this.activate();
+      }
+
+      return this.doTransaction(function (transaction) {
+        const factor = _.findWhere(transaction.factors, {
+          factorType: 'webauthn',
+          provider: 'FIDO',
+        });
+
+        return factor.enroll();
+      });
+    },
+
+    activate: function () {
+      this.set('__enrolled__', true);
+      this.trigger('errors:clear');
+      this.appState.on('backToFactors', () => {
+        if (this.webauthnAbortController) {
+          this.webauthnAbortController.abort();
+          this.webauthnAbortController = null;
+        }
+      });
+
+      return this.doTransaction(function (transaction) {
+        const activation = transaction.factor.activation;
+        // enroll via browser webauthn js
+
+        const self = this;
 
         if (webauthn.isNewApiAvailable()) {
-          //enroll.webauthn.biometric.instructions.edge is unescaped because it contains html
-          children.push(FormType.View({
-            View: Okta.View.extend({
+          const options = _.extend({}, activation, {
+            challenge: CryptoUtil.strToBin(activation.challenge),
+            user: {
+              id: CryptoUtil.strToBin(activation.user.id),
+              name: activation.user.name,
+              displayName: activation.user.displayName,
+            },
+            excludeCredentials: getExcludeCredentials(activation.excludeCredentials),
+          });
+
+          self.webauthnAbortController = new AbortController();
+          return new Q(
+            navigator.credentials.create({
+              publicKey: options,
+              signal: self.webauthnAbortController.signal,
+            })
+          )
+            .then(function (newCredential) {
+              return transaction.activate({
+                attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
+                clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),
+              });
+            })
+            .catch(function (error) {
+              self.trigger('errors:clear');
+              // Do not display if it is abort error triggered by code when switching.
+              // self.webauthnAbortController would be null if abort was triggered by code.
+              if (!self.webauthnAbortController) {
+                throw new Errors.WebauthnAbortError();
+              } else {
+                throw new Errors.WebAuthnError({
+                  xhr: { responseJSON: { errorSummary: error.message } },
+                });
+              }
+            })
+            .finally(function () {
+              // unset webauthnAbortController on successful authentication or error
+              self.webauthnAbortController = null;
+            });
+        }
+      });
+    },
+  },
+
+  Form: {
+    title: _.partial(loc, 'enroll.webauthn.biometric.title', 'login'),
+    save: _.partial(loc, 'enroll.webauthn.save', 'login'),
+    noCancelButton: true,
+    hasSavingState: false,
+    autoSave: true,
+    className: 'enroll-webauthn-form',
+    noButtonBar: function () {
+      return !webauthn.isNewApiAvailable();
+    },
+    modelEvents: {
+      request: '_startEnrollment',
+      error: '_stopEnrollment',
+    },
+    formChildren: function () {
+      const children = [];
+
+      if (webauthn.isNewApiAvailable()) {
+        //enroll.webauthn.biometric.instructions.edge is unescaped because it contains html
+        children.push(
+          FormType.View({
+            View: View.extend({
               className: 'webauthn-enroll-text',
-              template: hbs('\
+              template: hbs(
+                '\
                 <div class="webauthn-enroll-instructions">\
                   <p>{{i18n code="enroll.webauthn.biometric.instructions" bundle="login"}}</p>\
                 </div>\
@@ -155,49 +158,52 @@ function (Okta, Errors, FormType, FormController, CryptoUtil, webauthn, Footer, 
                   </div>\
                 {{/if}}\
                 <div data-se="webauthn-waiting" class="okta-waiting-spinner hide"></div>\
-              '),
+              '
+              ),
               getTemplateData: function () {
                 return {
                   isEdge: BrowserFeatures.isEdge(),
-                  onlySupportsSecurityKey: (BrowserFeatures.isFirefox() || BrowserFeatures.isSafari())
-                    && (BrowserFeatures.isMac())
+                  onlySupportsSecurityKey: (BrowserFeatures.isFirefox() || BrowserFeatures.isSafari()) &&
+                    BrowserFeatures.isMac(),
                 };
-              }
-            })
-          }));
-        } else {
-          var errorMessageKey = 'webauthn.biometric.error.factorNotSupported';
-          if (this.options.appState.get('factors').length === 1) {
-            errorMessageKey = 'webauthn.biometric.error.factorNotSupported.oneFactor';
-          }
-          children.push(FormType.View(
-            {View: new HtmlErrorMessageView({message: Okta.loc(errorMessageKey, 'login')})},
-            {selector: '.o-form-error-container'}
-          ));
+              },
+            }),
+          })
+        );
+      } else {
+        let errorMessageKey = 'webauthn.biometric.error.factorNotSupported';
+
+        if (this.options.appState.get('factors').length === 1) {
+          errorMessageKey = 'webauthn.biometric.error.factorNotSupported.oneFactor';
         }
-
-        return children;
-      },
-
-      _startEnrollment: function () {
-        this.$('.okta-waiting-spinner').show();
-        this.$('.o-form-button-bar').hide();
-      },
-
-      _stopEnrollment: function () {
-        this.$('.okta-waiting-spinner').hide();
-        this.$('.o-form-button-bar').show();
+        children.push(
+          FormType.View(
+            { View: new HtmlErrorMessageView({ message: loc(errorMessageKey, 'login') }) },
+            { selector: '.o-form-error-container' }
+          )
+        );
       }
+
+      return children;
     },
 
-    Footer: Footer,
+    _startEnrollment: function () {
+      this.$('.okta-waiting-spinner').show();
+      this.$('.o-form-button-bar').hide();
+    },
 
-    trapAuthResponse: function () {
-      if (this.options.appState.get('isMfaEnrollActivate')) {
-        this.model.activate();
-        return true;
-      }
+    _stopEnrollment: function () {
+      this.$('.okta-waiting-spinner').hide();
+      this.$('.o-form-button-bar').show();
+    },
+  },
+
+  Footer: Footer,
+
+  trapAuthResponse: function () {
+    if (this.options.appState.get('isMfaEnrollActivate')) {
+      this.model.activate();
+      return true;
     }
-  });
-
+  },
 });

@@ -18,7 +18,7 @@ fi
 ### publish alpha version.
 ### Didn't figure out root cause but keep using npm.
 npm config set @okta:registry ${REGISTRY}
-if ! npm publish --registry ${REGISTRY}; then
+if ! npm publish --unsafe-perm; then
   echo "npm publish failed! Exiting..."
   exit $PUBLISH_ARTIFACTORY_FAILURE
 fi

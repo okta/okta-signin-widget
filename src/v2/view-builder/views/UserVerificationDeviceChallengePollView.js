@@ -34,7 +34,7 @@ const Body = BaseForm.extend(Object.assign(
       this.listenTo(this.model, 'error', this.onPollingFail);
       this.deviceChallengePollRemediation = this.options.currentViewState;
       this.doChallenge();
-      this.startDevicePolling();
+      this.startPolling();
     },
 
     onPollingFail () {
@@ -98,10 +98,10 @@ const Body = BaseForm.extend(Object.assign(
       const checkPort = () => {
         return request({
           url: getAuthenticatorUrl('probe'),
-          // in loopback server, SSL handshake sometimes takes more than 1000 ms and thus needs additional timeout
+          // in loopback server, SSL handshake sometimes takes more than 100ms and thus needs additional timeout
           // however, increasing timeout is a temporary solution since user will need to wait much longer in worst case
           // TODO: OKTA-278573 Android timeout is temporarily set to 3000ms and needs optimization post-Beta
-          timeout: DeviceFingerprint.isAndroid() ? 3000 : 1000
+          timeout: DeviceFingerprint.isAndroid() ? 3000 : 100
         });
       };
 

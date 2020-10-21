@@ -10,7 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { loc, _ } from 'okta';
-export { getPasswordComplexityDescriptionForHtmlList } from '../../../util/FactorUtil';
+import FactorUtil from '../../../util/FactorUtil';
+
+const { getPasswordComplexityDescription, getPasswordComplexityDescriptionForHtmlList } = FactorUtil;
 
 /* eslint complexity: [2, 19] */
 const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
@@ -45,7 +47,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
     });
     break;
 
-  case 'security_question': 
+  case 'security_question':
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? ''
@@ -97,3 +99,21 @@ export function getAuthenticatorDataForVerification (authenticator) {
 export function getIconClassNameForBeacon (authenticatorType) {
   return getAuthenticatorData({ authenticatorType }).iconClassName;
 }
+
+export function removeRequirementsFromError (errorJSON, policy) {
+  const passwordRequirementsAsString = getPasswordComplexityDescription(policy);
+  if (errorJSON.errorCauses?.length > 0
+    && Array.isArray(errorJSON.errorCauses[0].errorSummary)
+    && errorJSON.errorCauses[0].errorSummary.length > 0) {
+
+    // Remove the [ and ] if they are present followed by requirements string if it is present.
+    errorJSON.errorCauses[0].errorSummary = errorJSON.errorCauses[0].errorSummary[0]
+      .replace(`${passwordRequirementsAsString}`, '')
+      .replace('[]', '')
+      .trim();
+  }
+  return errorJSON;
+}
+
+// Re-export function from FactorUtil
+export { getPasswordComplexityDescriptionForHtmlList };

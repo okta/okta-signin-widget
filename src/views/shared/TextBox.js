@@ -14,35 +14,28 @@
 //because we want to be explicit about which TextBox we are extending here
 //and want to avoid the cirucular dependency that occurs if we
 //include Okta
-define([
-  'okta',
-  'util/BrowserFeatures',
-  'qtip'
-],
-function (Okta, BrowserFeatures) {
+import { internal } from 'okta';
+import 'qtip';
+import BrowserFeatures from 'util/BrowserFeatures';
+const { TextBox } = internal.views.forms.inputs;
+export default TextBox.extend({
+  postRender: function () {
+    if (this.options.type === 'number') {
+      const input = this.$('input');
 
-  var { TextBox } = Okta.internal.views.forms.inputs;
-
-  return TextBox.extend({
-    postRender: function () {
-      if (this.options.type === 'number') {
-        var input = this.$('input');
-        input.attr({
-          pattern: '[0-9]*',
-          inputmode: 'numeric'
-        });
-      }
-      TextBox.prototype.postRender.apply(this, arguments);
-    },
-    // Override the focus() to ignore focus in IE. IE (8-11) has a known bug where
-    // the placeholder text disappears when the input field is focused.
-    focus: function () {
-      if (BrowserFeatures.isIE()) {
-        return;
-      }
-      return TextBox.prototype.focus.apply(this, arguments);
+      input.attr({
+        pattern: '[0-9]*',
+        inputmode: 'numeric',
+      });
     }
-
-  });
-
+    TextBox.prototype.postRender.apply(this, arguments);
+  },
+  // Override the focus() to ignore focus in IE. IE (8-11) has a known bug where
+  // the placeholder text disappears when the input field is focused.
+  focus: function () {
+    if (BrowserFeatures.isIE()) {
+      return;
+    }
+    return TextBox.prototype.focus.apply(this, arguments);
+  },
 });

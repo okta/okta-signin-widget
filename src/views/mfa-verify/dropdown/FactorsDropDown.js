@@ -10,72 +10,70 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'util/FactorUtil',
-  '../../../models/Factor',
-  './FactorsDropDownOptions'
-],
-function (Okta, FactorUtil, Factor, FactorsDropDownOptions) {
-  var { _, $ } = Okta;
-  var { BaseDropDown } = Okta.internal.views.components;
+import { _, $, loc, internal } from 'okta';
+import FactorUtil from 'util/FactorUtil';
+import Factor from '../../../models/Factor';
+import FactorsDropDownOptions from './FactorsDropDownOptions';
+const { BaseDropDown } = internal.views.components;
 
-  $(document).click(function (e) {
-    var $target = $(e.target);
-    var isDropdown = $target.closest('.option-selected').length > 0 && $target.closest('.dropdown').length > 0;
-    if (!isDropdown) {
-      $('.dropdown .options').hide();
-      $('.dropdown a.option-selected').attr('aria-expanded', false);
+$(document).click(function (e) {
+  const $target = $(e.target);
+  const isDropdown = $target.closest('.option-selected').length > 0 && $target.closest('.dropdown').length > 0;
+
+  if (!isDropdown) {
+    $('.dropdown .options').hide();
+    $('.dropdown a.option-selected').attr('aria-expanded', false);
+  }
+});
+
+export default BaseDropDown.extend({
+  className: 'bg-helper icon-button',
+  screenReaderText: function () {
+    const factors = this.options.appState.get('factors');
+    let factor;
+    let factorLabel;
+
+    if (factors) {
+      factor = FactorUtil.findFactorInFactorsArray(factors, this.options.provider, this.options.factorType);
+    } else {
+      factor = new Factor.Model(this.options.appState.get('factor'), this.toJSON());
     }
-  });
-
-  return BaseDropDown.extend({
-    className: 'bg-helper icon-button',
-    screenReaderText: function () {
-      var factors = this.options.appState.get('factors'),
-          factor, factorLabel;
-      if (factors) {
-        factor = FactorUtil.findFactorInFactorsArray(factors, this.options.provider,
-          this.options.factorType);
-      } else  {
-        factor = new Factor.Model(this.options.appState.get('factor'), this.toJSON());
-      }
-      factorLabel = factor.get('factorLabel');
-      return Okta.loc('mfa.factors.dropdown.sr.text', 'login', [factorLabel]);
-    },
-    events: {
-      'click a.option-selected': function (e) {
-        e.preventDefault();
-        if (_.result(this, 'disabled')) {
-          e.stopPropagation();
-        } else {
-          var expanded = this.$('.options').toggle().is(':visible');
-          this.$('a.option-selected').attr('aria-expanded', expanded);
-          if (expanded) {
-            this.$('#okta-dropdown-options').find('li.factor-option:first a').focus();
-          }
-        }
-      },
-      'click .dropdown-disabled': function (e) {
-        e.preventDefault();
+    factorLabel = factor.get('factorLabel');
+    return loc('mfa.factors.dropdown.sr.text', 'login', [factorLabel]);
+  },
+  events: {
+    'click a.option-selected': function (e) {
+      e.preventDefault();
+      if (_.result(this, 'disabled')) {
         e.stopPropagation();
+      } else {
+        const expanded = this.$('.options').toggle().is(':visible');
+
+        this.$('a.option-selected').attr('aria-expanded', expanded);
+        if (expanded) {
+          this.$('#okta-dropdown-options').find('li.factor-option:first a').focus();
+        }
       }
     },
-    initialize: function () {
-      this.addOption(FactorsDropDownOptions.getDropdownOption('TITLE'));
-      var factorsList = this.options.appState.get('factors');
-      var multiplePushFactors = factorsList.hasMultipleFactorsOfSameType('push');
-      factorsList.each(function (factor) {
-        // Do not add okta totp if there are multiple okta push (each push will have an inline totp)
-        if (!(factor.get('factorType') === 'token:software:totp' && multiplePushFactors)) {
-          this.addOption(FactorsDropDownOptions.getDropdownOption(factor.get('factorName')), {model: factor});
-          this.listenTo(this.last(), 'options:toggle', function () {
-            this.$('.options').hide();
-            this.$('a.option-selected').attr('aria-expanded', false);
-          });
-        }
-      }, this);
-    }
-  });
+    'click .dropdown-disabled': function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    },
+  },
+  initialize: function () {
+    this.addOption(FactorsDropDownOptions.getDropdownOption('TITLE'));
+    const factorsList = this.options.appState.get('factors');
+    const multiplePushFactors = factorsList.hasMultipleFactorsOfSameType('push');
 
+    factorsList.each(function (factor) {
+      // Do not add okta totp if there are multiple okta push (each push will have an inline totp)
+      if (!(factor.get('factorType') === 'token:software:totp' && multiplePushFactors)) {
+        this.addOption(FactorsDropDownOptions.getDropdownOption(factor.get('factorName')), { model: factor });
+        this.listenTo(this.last(), 'options:toggle', function () {
+          this.$('.options').hide();
+          this.$('a.option-selected').attr('aria-expanded', false);
+        });
+      }
+    }, this);
+  },
 });

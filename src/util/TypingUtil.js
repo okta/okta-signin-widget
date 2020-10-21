@@ -9,26 +9,25 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-define(['typingdna'], function (TypingDNA) {
-  var tdna;
-  return {
-    track: function (selectorId) {
-      try {
-        tdna = new TypingDNA();
-        tdna.addTarget(selectorId);
-        tdna.start();
-      } catch (e) {
-        // Issues in typing should not stop Primary auth.
-      }
-    },
-    getTypingPattern: function () {
-      try {
-        return tdna.getTypingPattern({
-          type: 1
-        });
-      } catch(e) {
-        return null;
-      }
+import TypingDNA from 'typingdna';
+let tdna;
+export default {
+  track: function (selectorId) {
+    try {
+      tdna = new TypingDNA();
+      tdna.addTarget(selectorId);
+      tdna.start();
+    } catch (e) {
+      // Issues in typing should not stop Primary auth.
     }
-  };
-});
+  },
+  getTypingPattern: function () {
+    try {
+      return tdna.getTypingPattern({
+        type: 1,
+      });
+    } catch (e) {
+      return null;
+    }
+  },
+};

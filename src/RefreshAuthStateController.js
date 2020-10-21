@@ -11,44 +11,40 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'util/FormController'
-], function (FormController) {
+import FormController from 'util/FormController';
+export default FormController.extend({
+  className: 'refresh-auth-state',
 
-  return FormController.extend({
-    className: 'refresh-auth-state',
+  Model: {},
 
-    Model: {},
+  Form: {
+    noButtonBar: true,
+  },
 
-    Form: {
-      noButtonBar: true
-    },
+  preRender: function () {
+    const appState = this.options.appState;
+    const token = this.options.token;
 
-    preRender: function () {
-      var appState = this.options.appState;
-      var token = this.options.token;
-      this.model.startTransaction(function (authClient) {
-        appState.trigger('loading', true);
-        if (token) {
-          return authClient.tx.introspect({
-            stateToken: token
-          });
-        }
+    this.model.startTransaction(function (authClient) {
+      appState.trigger('loading', true);
+      if (token) {
+        return authClient.tx.introspect({
+          stateToken: token,
+        });
+      }
 
-        // get stateToken from cookie
-        // currently only applies to old pipeline
-        if (authClient.tx.exists()) {
-          return authClient.tx.resume();
-        }
+      // get stateToken from cookie
+      // currently only applies to old pipeline
+      if (authClient.tx.exists()) {
+        return authClient.tx.resume();
+      }
 
-        appState.trigger('navigate', '');
-      });
-    },
+      appState.trigger('navigate', '');
+    });
+  },
 
-    remove: function () {
-      this.options.appState.trigger('loading', false);
-      return FormController.prototype.remove.apply(this, arguments);
-    }
-
-  });
+  remove: function () {
+    this.options.appState.trigger('loading', false);
+    return FormController.prototype.remove.apply(this, arguments);
+  },
 });

@@ -1,30 +1,26 @@
-define(['./Form'], function (Form) {
+import Form from './Form';
+export default Form.extend({
+  enrollInstructions: function () {
+    return this.$('.u2f-instructions ol');
+  },
 
-  return Form.extend({
+  enrollWaitingText: function () {
+    return this.$('.u2f-enroll-text');
+  },
 
-    enrollInstructions: function () {
-      return this.$('.u2f-instructions ol');
-    },
+  enrollDeviceImages: function () {
+    return this.el('u2f-devices');
+  },
 
-    enrollWaitingText: function () {
-      return this.$('.u2f-enroll-text');
-    },
+  enrollSpinningIcon: function () {
+    return this.el('u2f-waiting');
+  },
 
-    enrollDeviceImages: function () {
-      return this.el('u2f-devices');
-    },
+  backLink: function () {
+    return this.el('back-link');
+  },
 
-    enrollSpinningIcon: function () {
-      return this.el('u2f-waiting');
-    },
-
-    backLink: function () {
-      return this.el('back-link');
-    },
-
-    errorHtml: function () {
-      return this.el('o-form-error-html').find('strong');
-    }
-  });
-
+  errorHtml: function () {
+    return this.el('o-form-error-html').find('strong');
+  },
 });

@@ -10,54 +10,51 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  './BaseLoginModel'
-],
-function (Okta, BaseLoginModel) {
-  var {_} = Okta;
+import { _, loc } from 'okta';
+import BaseLoginModel from './BaseLoginModel';
+export default BaseLoginModel.extend({
+  initialize: function (options) {
+    this.options = options || {};
+    this.appState = this.options.appState;
+  },
+  constructPostData: function (profileAttributes) {
+    const postData = {
+      registration: {
+        profile: profileAttributes,
+      },
+    };
 
-  return BaseLoginModel.extend({
-    initialize: function (options) {
-      this.options = options || {};
-      this.appState = this.options.appState;
-    },
-    constructPostData: function (profileAttributes) {
-      var postData = {
-        'registration': {
-          'profile': profileAttributes
-        }
+    // send createNewAccount flag for new user creation
+    if (this.appState.get('policy').registration.createNewAccount) {
+      postData.registration['createNewAccount'] = true;
+    }
+    return postData;
+  },
+  getEnrollFormData: function () {
+    return this.manageTransaction(function (transaction, setTransaction) {
+      return transaction.enroll().then(function (trans) {
+        setTransaction(trans);
+      });
+    });
+  },
+  save: function () {
+    let data = BaseLoginModel.prototype.toJSON.apply(this, arguments);
+
+    data = _.omit(data, ['appState', 'settings', 'createNewAccount']);
+    if (_.isEmpty(data)) {
+      const error = {
+        errorSummary: loc('oform.errorbanner.title', 'login'),
       };
-      // send createNewAccount flag for new user creation
-      if (this.appState.get('policy').registration.createNewAccount) {
-        postData.registration['createNewAccount'] = true;
-      }
-      return postData;
-    },
-    getEnrollFormData: function () {
+
+      this.trigger('error', this, {
+        responseJSON: error,
+      });
+    } else {
       return this.manageTransaction(function (transaction, setTransaction) {
-        return transaction.enroll().then(function (trans) {
+        transaction.enroll(this.constructPostData(data)).then(function (trans) {
           setTransaction(trans);
         });
       });
-    },
-    save: function () {
-      var data = BaseLoginModel.prototype.toJSON.apply(this, arguments);
-      data = _.omit(data, ['appState', 'settings', 'createNewAccount']);
-      if (_.isEmpty(data)) {
-        var error = {
-          'errorSummary': Okta.loc('oform.errorbanner.title', 'login')
-        };
-        this.trigger('error', this, {
-          responseJSON: error
-        });
-      } else {
-        return this.manageTransaction(function (transaction, setTransaction) {
-          transaction.enroll(this.constructPostData(data)).then(function (trans) {
-            setTransaction(trans);
-          });
-        });
-      }
     }
-  });
+  },
 });

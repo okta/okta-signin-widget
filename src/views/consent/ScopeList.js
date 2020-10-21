@@ -10,24 +10,19 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  './ScopeItem'
-], function (Okta, ScopeItem) {
+import { View } from 'okta';
+import ScopeItem from './ScopeItem';
+export default View.extend({
+  className: 'scope-list detail-row',
 
-  return Okta.View.extend({
-    className: 'scope-list detail-row',
-
-    postRender: function () {
-      this.model.get('scopes').forEach(scope => {
-        this.add(ScopeItem, {
-          options: {
-            name: scope.displayName || scope.name,
-            description: scope.description
-          },
-        });
+  postRender: function () {
+    this.model.get('scopes').forEach(scope => {
+      this.add(ScopeItem, {
+        options: {
+          name: scope.displayName || scope.name,
+          description: scope.description,
+        },
       });
-    }
-  });
-
+    });
+  },
 });

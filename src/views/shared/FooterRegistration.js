@@ -10,45 +10,42 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { View, loc } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-
-define([
-  'okta'
-], function (Okta) {
-
-  return Okta.View.extend({
-    template: hbs('\
+export default View.extend({
+  template: hbs(
+    '\
         <div class="content-container">\
           <span class="registration-label">{{label}}</span>\
           <a title="{{text}}" aria-label="{{text}}" class="registration-link" href="#">{{text}}</a>\
         </div>\
-        '),
-    className: 'registration-container',
+        '
+  ),
+  className: 'registration-container',
 
-    events: {
-      'click a.registration-link': 'handleClickEvent'
-    },
+  events: {
+    'click a.registration-link': 'handleClickEvent',
+  },
 
-    handleClickEvent: function (e) {
-      e.preventDefault();
-      var clickHandler = this.settings.get('registration.click');
-      if (clickHandler) {
-        clickHandler();
-      }
-      else if (this.options.appState.get('isIdxStateToken')) {
-        this.options.appState.trigger('navigate', 'signin/enroll-user');
-      } else {
-        this.options.appState.trigger('navigate', 'signin/register');
-      }
-    },
+  handleClickEvent: function (e) {
+    e.preventDefault();
+    const clickHandler = this.settings.get('registration.click');
 
-    getTemplateData: function () {
-      var templateData = {  
-        label: Okta.loc('registration.signup.label', 'login'),
-        text: Okta.loc('registration.signup.text', 'login')
-      };
-      return templateData; 
+    if (clickHandler) {
+      clickHandler();
+    } else if (this.options.appState.get('isIdxStateToken')) {
+      this.options.appState.trigger('navigate', 'signin/enroll-user');
+    } else {
+      this.options.appState.trigger('navigate', 'signin/register');
     }
-  });
+  },
 
+  getTemplateData: function () {
+    const templateData = {
+      label: loc('registration.signup.label', 'login'),
+      text: loc('registration.signup.text', 'login'),
+    };
+
+    return templateData;
+  },
 });

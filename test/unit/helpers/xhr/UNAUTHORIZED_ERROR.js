@@ -1,4 +1,4 @@
-define({
+export default {
   status: 401,
   responseType: 'json',
   response: {
@@ -6,6 +6,6 @@ define({
     errorSummary: 'Authentication failed',
     errorLink: 'E0000004',
     errorId: 'oaehvpQ1VF-ScqAvqVqwI7Qaw',
-    errorCauses: []
-  }
-});
+    errorCauses: [],
+  },
+};

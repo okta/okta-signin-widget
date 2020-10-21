@@ -1,27 +1,26 @@
-define(['util/Bundles'], function (Bundles) {
+import Bundles from 'util/Bundles';
 
-  function loadLanguage (appState, settings) {
-    const languageCode = settings.get('languageCode');
-    const i18n = settings.get('i18n');
-    const assetBaseUrl = settings.get('assets.baseUrl');
-    const assetRewrite = settings.get('assets.rewrite');
+function loadLanguage (appState, settings) {
+  const languageCode = settings.get('languageCode');
+  const i18n = settings.get('i18n');
+  const assetBaseUrl = settings.get('assets.baseUrl');
+  const assetRewrite = settings.get('assets.rewrite');
 
-    const timeout = setTimeout(function () {
+  const timeout = setTimeout(function () {
     // Trigger a spinner if we're waiting on a request for a new language.
-      appState.trigger('loading', true);
-    }, 200);
+    appState.trigger('loading', true);
+  }, 200);
 
-    return Bundles.loadLanguage(languageCode, i18n, {
-      baseUrl: assetBaseUrl,
-      rewrite: assetRewrite,
-    }).then(function () {
-      clearTimeout(timeout);
-      appState.trigger('loading', false);
-    });
-    // TODO: what if load language error?
-  }
+  return Bundles.loadLanguage(languageCode, i18n, {
+    baseUrl: assetBaseUrl,
+    rewrite: assetRewrite,
+  }).then(function () {
+    clearTimeout(timeout);
+    appState.trigger('loading', false);
+  });
+  // TODO: what if load language error?
+}
 
-  return {
-    loadLanguage,
-  };
-});
+export default {
+  loadLanguage,
+};

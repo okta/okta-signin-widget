@@ -55,6 +55,8 @@ const getPasswordUiSchema = () => ({
   },
 });
 
+const shouldRenderAsRadio = (name) => name.indexOf('methodType') >= 0 || name.indexOf('channel') >= 0;
+
 const createUiSchemaForString = (ionFormField, remediationForm, transformedResp) => {
   const uiSchema = {
     type: 'text'
@@ -74,7 +76,7 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp)
       // e.g. { name: 'factorId' | 'factorProfileId', type: 'string', options: [ {label: 'xxx', value: 'yyy'} ]}
       const factors = transformedResp.factors?.value || [];
       Object.assign(uiSchema, getFactorsUiSchema(ionFormField, factors));
-    } else if (ionFormField.name.indexOf('methodType') >= 0) {
+    } else if (shouldRenderAsRadio(ionFormField.name)) {
       // e.g. { name: 'methodType', options: [ {label: 'sms'} ], type: 'string' | null }
       uiSchema.type = 'radio';
       // set the default value to the first value..

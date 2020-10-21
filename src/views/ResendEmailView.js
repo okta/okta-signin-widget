@@ -10,15 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { _, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-
-define(['okta', 'util/Enums'], function (Okta, Enums) {
-
-  const _ = Okta._;
-
-  return Okta.View.extend({
-    className: 'hide resend-email-infobox',
-    template: hbs`
+import Enums from 'util/Enums';
+export default View.extend({
+  className: 'hide resend-email-infobox',
+  template: hbs`
       <div class="infobox infobox-warning">
         <span class="icon warning-16"></span>
         <p>
@@ -30,29 +27,27 @@ define(['okta', 'util/Enums'], function (Okta, Enums) {
       </div>
     `,
 
-    events: {
-      'click .resend-email-btn': 'resendEmail',
-    },
+  events: {
+    'click .resend-email-btn': 'resendEmail',
+  },
 
-    postRender: function () {
-      this.showResendCallout();
-    },
+  postRender: function () {
+    this.showResendCallout();
+  },
 
-    showResendCallout: function () {
-      _.delay(() => {
-        this.$el.removeClass('hide');
-      }, Enums.API_RATE_LIMIT);
-    },
+  showResendCallout: function () {
+    _.delay(() => {
+      this.$el.removeClass('hide');
+    }, Enums.API_RATE_LIMIT);
+  },
 
-    hideResendCallout: function () {
-      this.$el.addClass('hide');
-    },
+  hideResendCallout: function () {
+    this.$el.addClass('hide');
+  },
 
-    resendEmail: function (e) {
-      e.preventDefault();
-      this.hideResendCallout();
-      this.model.resend()
-        .finally(this.showResendCallout.bind(this));
-    },
-  });
+  resendEmail: function (e) {
+    e.preventDefault();
+    this.hideResendCallout();
+    this.model.resend().finally(this.showResendCallout.bind(this));
+  },
 });

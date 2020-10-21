@@ -65,7 +65,7 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)(
   await t.expect(await enrollSecurityQuestionPage.signoutLinkExists()).notOk();
   // assert switch authenticator link shows up
   await t.expect(await enrollSecurityQuestionPage.switchAuthenticatorLinkExists()).ok();
-  await t.expect(enrollSecurityQuestionPage.getSwitchAuthenticatorLinkText()).eql('Sign in using something else');
+  await t.expect(enrollSecurityQuestionPage.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');
 
   // select security question and type answer
   await enrollSecurityQuestionPage.selectSecurityQuestion(1);

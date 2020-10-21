@@ -10,91 +10,103 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define(function () {
+const fn = {};
+const hasFullCorsSupport = 'withCredentials' in new window.XMLHttpRequest();
+const hasXDomainRequest = typeof XDomainRequest !== 'undefined';
 
-  var fn = {},
-      hasFullCorsSupport = 'withCredentials' in new window.XMLHttpRequest(),
-      hasXDomainRequest = typeof XDomainRequest !== 'undefined';
+fn.corsIsNotSupported = function () {
+  return !(hasFullCorsSupport || hasXDomainRequest);
+};
 
-  fn.corsIsNotSupported = function () {
-    return !(hasFullCorsSupport || hasXDomainRequest);
-  };
+fn.corsIsNotEnabled = function (jqXhr) {
+  // Not a definitive check, but it's the best we've got.
+  // Note: This will change when OktaAuth is updated
+  return jqXhr.status === 0;
+};
 
-  fn.corsIsNotEnabled = function (jqXhr) {
-    // Not a definitive check, but it's the best we've got.
-    // Note: This will change when OktaAuth is updated
-    return jqXhr.status === 0;
-  };
+// This is currently not being used, but we'll keep it around for when we
+// want a fallback mechanism - i.e. use localStorage if it exists, else fall
+// back to cookies.
+fn.localStorageIsNotSupported = function () {
+  const test = 'test';
 
-  // This is currently not being used, but we'll keep it around for when we
-  // want a fallback mechanism - i.e. use localStorage if it exists, else fall
-  // back to cookies.
-  fn.localStorageIsNotSupported = function () {
-    var test = 'test';
-    try {
-      localStorage.setItem(test, test);
-      localStorage.removeItem(test);
-      return false;
-    } catch(e) {
-      return true;
+  try {
+    localStorage.setItem(test, test);
+    localStorage.removeItem(test);
+    return false;
+  } catch (e) {
+    return true;
+  }
+};
+
+fn.supportsPushState = function (win) {
+  win = win || window;
+  return !!(win.history && win.history.pushState);
+};
+
+fn.isIE = function () {
+  return /(msie|trident)/i.test(navigator.userAgent);
+};
+
+fn.isFirefox = function () {
+  return navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+};
+
+fn.isEdge = function () {
+  // This is to just check for windows edge. Mac edge - chromium based's UA is 'edg'.
+  return navigator.userAgent.toLowerCase().indexOf('edge') > -1;
+};
+
+fn.isSafari = function () {
+  // Chrome has safari in its useragent string so adding this extra check.
+  return (
+    navigator.userAgent.toLowerCase().indexOf('safari') > -1 &&
+    navigator.userAgent.toLowerCase().indexOf('chrome') === -1
+  );
+};
+
+fn.isMac = function () {
+  return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+};
+
+
+fn.isAndroid = function () {
+  // Windows Phone also contains "Android"
+  return /android/i.test(navigator.userAgent) &&
+    !/windows phone/i.test(navigator.userAgent);
+};
+
+fn.isIOS = function () {
+  // iOS detection from: http://stackoverflow.com/a/9039885/177710
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+};
+
+// Returns a list of languages the user has configured for their browser, in
+// order of preference.
+fn.getUserLanguages = function () {
+  var languages, properties;
+
+  // Chrome, Firefox
+  if (navigator.languages) {
+    return navigator.languages;
+  }
+
+  languages = [];
+  properties = [
+    'language',         // Safari, IE11
+    'userLanguage',     // IE
+    'browserLanguage',  // IE
+    'systemLanguage'    // IE
+  ];
+
+  properties.forEach(function (property) {
+    if (navigator[property]) {
+      languages.push(navigator[property]);
     }
-  };
+  });
 
-  fn.supportsPushState = function (win) {
-    win = win || window;
-    return !!(win.history && win.history.pushState);
-  };
+  return languages;
+};
 
-  fn.isIE = function () {
-    return /(msie|trident)/i.test(navigator.userAgent);
-  };
 
-  fn.isFirefox = function () {
-    return navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-  };
-
-  fn.isEdge = function () {
-    // This is to just check for windows edge. Mac edge - chromium based's UA is 'edg'.
-    return navigator.userAgent.toLowerCase().indexOf('edge') > -1;
-  };
-
-  fn.isSafari = function () {
-    // Chrome has safari in its useragent string so adding this extra check.
-    return navigator.userAgent.toLowerCase().indexOf('safari') > -1 &&
-      navigator.userAgent.toLowerCase().indexOf('chrome') === -1;
-  };
-
-  fn.isMac = function () {
-    return navigator.platform.toUpperCase().indexOf('MAC')>=0;
-  };
-
-  // Returns a list of languages the user has configured for their browser, in
-  // order of preference.
-  fn.getUserLanguages = function () {
-    var languages, properties;
-
-    // Chrome, Firefox
-    if (navigator.languages) {
-      return navigator.languages;
-    }
-
-    languages = [];
-    properties = [
-      'language',         // Safari, IE11
-      'userLanguage',     // IE
-      'browserLanguage',  // IE
-      'systemLanguage'    // IE
-    ];
-
-    properties.forEach(function (property) {
-      if (navigator[property]) {
-        languages.push(navigator[property]);
-      }
-    });
-
-    return languages;
-  };
-
-  return fn;
-
-});
+export default fn;

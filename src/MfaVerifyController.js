@@ -11,170 +11,163 @@
  */
 
 /* eslint complexity: [2, 21] max-statements: [2, 25] max-params: 0 */
-define([
-  'okta',
-  'util/BaseLoginController',
-  'views/mfa-verify/TOTPForm',
-  'views/mfa-verify/YubikeyForm',
-  'views/mfa-verify/SecurityQuestionForm',
-  'views/mfa-verify/PassCodeForm',
-  'views/factor-verify/EmailMagicLinkForm',
-  'views/mfa-verify/PushForm',
-  'views/mfa-verify/PasswordForm',
-  'views/mfa-verify/InlineTOTPForm',
-  'views/mfa-verify/SendEmailAndVerifyCodeForm',
-  'views/shared/FooterSignout'
-], function (
-  Okta, BaseLoginController, TOTPForm, YubikeyForm,
-  SecurityQuestionForm, PassCodeForm, EmailMagicLinkForm,
-  PushForm, PasswordForm, InlineTOTPForm, SendEmailAndVerifyCodeForm,
-  FooterSignout) {
+import { loc, internal } from 'okta';
+import BaseLoginController from 'util/BaseLoginController';
+import EmailMagicLinkForm from 'views/factor-verify/EmailMagicLinkForm';
+import InlineTOTPForm from 'views/mfa-verify/InlineTOTPForm';
+import PassCodeForm from 'views/mfa-verify/PassCodeForm';
+import PasswordForm from 'views/mfa-verify/PasswordForm';
+import PushForm from 'views/mfa-verify/PushForm';
+import SecurityQuestionForm from 'views/mfa-verify/SecurityQuestionForm';
+import SendEmailAndVerifyCodeForm from 'views/mfa-verify/SendEmailAndVerifyCodeForm';
+import TOTPForm from 'views/mfa-verify/TOTPForm';
+import YubikeyForm from 'views/mfa-verify/YubikeyForm';
+import FooterSignout from 'views/shared/FooterSignout';
+let { CheckBox } = internal.views.forms.inputs;
+export default BaseLoginController.extend({
+  className: 'mfa-verify',
 
-  var { CheckBox } = Okta.internal.views.forms.inputs;
+  initialize: function (options) {
+    const factorType = options.factorType;
+    let View;
 
-  return BaseLoginController.extend({
-    className: 'mfa-verify',
-
-    initialize: function (options) {
-      var factorType = options.factorType;
-
-      var View;
-      switch (factorType) {
-      case 'question':
-        View = SecurityQuestionForm;
-        break;
-      case 'email':
-        if (this.options.appState.get('isIdxStateToken')){
-          View = EmailMagicLinkForm;
-        } else {
-          View = SendEmailAndVerifyCodeForm;
-        }
-        break;
-      case 'sms':
-      case 'call':
-        View = PassCodeForm;
-        break;
-      case 'token':
-      case 'token:software:totp':
-      case 'token:hotp':
-        View = TOTPForm;
-        break;
-      case 'token:hardware':
-        View = YubikeyForm;
-        break;
-      case 'push':
-        View = PushForm;
-        break;
-      case 'password':
-        View = PasswordForm;
-        break;
-      default:
-        throw new Error('Unrecognized factor type');
-      }
-
-      this.model = this.findModel(factorType, options);
-      if (!this.model) {
-        // TODO: recover from this more gracefully - probably to redirect
-        // to default factor
-        throw new Error('Unrecognized factor/provider');
-      }
-
-      this.addListeners();
-      this.add(new View(this.toJSON()));
-
-      // If Okta Verify Push and Okta Verify totp are both enabled,
-      // then we show Push first, and totp is the "backup" factor,
-      // which is rendered in an additional InlineTOTPForm
-      if (factorType === 'push' && this.model.get('isOktaFactor')) {
-        if (this.model.get('backupFactor')) {
-          this.inlineTotpForm = this.add(InlineTOTPForm, {
-            options: { model: this.model.get('backupFactor') }
-          }).last();
-        }
-
-        if (this.settings.get('features.autoPush')) {
-          this.autoPushCheckBox = this.add(CheckBox, {
-            options: {
-              model: this.model,
-              name: 'autoPush',
-              placeholder: Okta.loc('autoPush', 'login'),
-              label: false,
-              'label-top': false,
-              className: 'margin-btm-0'
-            }
-          }).last();
-        }
-
-        // Remember Device checkbox resides outside of the Push and TOTP forms.
-        if (this.options.appState.get('allowRememberDevice')) {
-          this.rememberDeviceCheckbox = this.add(CheckBox, {
-            options: {
-              model: this.model,
-              name: 'rememberDevice',
-              placeholder: this.options.appState.get('rememberDeviceLabel'),
-              label: false,
-              'label-top': true,
-              className: 'margin-btm-0'
-            }
-          }).last();
-        }
-        // Set rememberDevice on the backup factor (totp) if available
-        if (this.model.get('backupFactor')) {
-          this.listenTo(this.model, 'change:rememberDevice', function (model, rememberDevice) {
-            model.get('backupFactor').set('rememberDevice', rememberDevice);
-          });
-        }
-      }
-
-      this.listenTo(this.options.appState, 'change:isWaitingForNumberChallenge',
-        function (state, isWaitingForNumberChallenge) {
-          if (isWaitingForNumberChallenge || this.options.appState.get('lastAuthResponse').status === 'SUCCESS') {
-            this.autoPushCheckBox && this.autoPushCheckBox.$el.hide();
-            this.rememberDeviceCheckbox && this.rememberDeviceCheckbox.$el.hide();
-            this.inlineTotpForm && this.inlineTotpForm.$el.hide();
-          } else {
-            this.autoPushCheckBox && this.autoPushCheckBox.$el.show();
-            this.rememberDeviceCheckbox && this.rememberDeviceCheckbox.$el.show();
-            this.inlineTotpForm && this.inlineTotpForm.$el.show();
-          }
-        }
-      );
-
-      if (!this.settings.get('features.hideSignOutLinkInMFA')) {
-        this.add(new FooterSignout(this.toJSON()));
-      }
-    },
-
-    findModel: function (factorType, options) {
-      var factors = options.appState.get('factors');
-      var provider = options.provider;
-      var factorIndex = options.factorIndex;
-
-      if (!provider) {
-        return factors.findWhere({ factorType: factorType, isFactorTypeVerification: true });
-      } else if (factors.hasMultipleFactorsOfSameType(factorType) && factorIndex) {
-        return factors.getFactorByTypeAndIndex(factorType, factorIndex);
+    switch (factorType) {
+    case 'question':
+      View = SecurityQuestionForm;
+      break;
+    case 'email':
+      if (this.options.appState.get('isIdxStateToken')) {
+        View = EmailMagicLinkForm;
       } else {
-        return factors.findWhere({ provider: provider, factorType: factorType });
+        View = SendEmailAndVerifyCodeForm;
       }
-    },
-
-    trapAuthResponse: function () {
-      if((this.options.appState.get('isMfaRequired') &&
-          this.options.appState.get('trapMfaRequiredResponse')) ||
-          this.options.appState.get('isMfaChallenge')) {
-        this.options.appState.set('trapMfaRequiredResponse', false);
-        return true;
-      }
-      return false;
-    },
-
-    back: function () {
-      // Empty function on verify controllers to prevent users
-      // from navigating back during 'verify' using the browser's
-      // back button. The URL will still change, but the view will not
-      // More details in OKTA-135060.
+      break;
+    case 'sms':
+    case 'call':
+      View = PassCodeForm;
+      break;
+    case 'token':
+    case 'token:software:totp':
+    case 'token:hotp':
+      View = TOTPForm;
+      break;
+    case 'token:hardware':
+      View = YubikeyForm;
+      break;
+    case 'push':
+      View = PushForm;
+      break;
+    case 'password':
+      View = PasswordForm;
+      break;
+    default:
+      throw new Error('Unrecognized factor type');
     }
-  });
 
+    this.model = this.findModel(factorType, options);
+    if (!this.model) {
+      // TODO: recover from this more gracefully - probably to redirect
+      // to default factor
+      throw new Error('Unrecognized factor/provider');
+    }
+
+    this.addListeners();
+    this.add(new View(this.toJSON()));
+
+    // If Okta Verify Push and Okta Verify totp are both enabled,
+    // then we show Push first, and totp is the "backup" factor,
+    // which is rendered in an additional InlineTOTPForm
+    if (factorType === 'push' && this.model.get('isOktaFactor')) {
+      if (this.model.get('backupFactor')) {
+        this.inlineTotpForm = this.add(InlineTOTPForm, {
+          options: { model: this.model.get('backupFactor') },
+        }).last();
+      }
+
+      if (this.settings.get('features.autoPush')) {
+        this.autoPushCheckBox = this.add(CheckBox, {
+          options: {
+            model: this.model,
+            name: 'autoPush',
+            placeholder: loc('autoPush', 'login'),
+            label: false,
+            'label-top': false,
+            className: 'margin-btm-0',
+          },
+        }).last();
+      }
+
+      // Remember Device checkbox resides outside of the Push and TOTP forms.
+      if (this.options.appState.get('allowRememberDevice')) {
+        this.rememberDeviceCheckbox = this.add(CheckBox, {
+          options: {
+            model: this.model,
+            name: 'rememberDevice',
+            placeholder: this.options.appState.get('rememberDeviceLabel'),
+            label: false,
+            'label-top': true,
+            className: 'margin-btm-0',
+          },
+        }).last();
+      }
+      // Set rememberDevice on the backup factor (totp) if available
+      if (this.model.get('backupFactor')) {
+        this.listenTo(this.model, 'change:rememberDevice', function (model, rememberDevice) {
+          model.get('backupFactor').set('rememberDevice', rememberDevice);
+        });
+      }
+    }
+
+    this.listenTo(this.options.appState, 'change:isWaitingForNumberChallenge', function (
+      state,
+      isWaitingForNumberChallenge
+    ) {
+      if (isWaitingForNumberChallenge || this.options.appState.get('lastAuthResponse').status === 'SUCCESS') {
+        this.autoPushCheckBox && this.autoPushCheckBox.$el.hide();
+        this.rememberDeviceCheckbox && this.rememberDeviceCheckbox.$el.hide();
+        this.inlineTotpForm && this.inlineTotpForm.$el.hide();
+      } else {
+        this.autoPushCheckBox && this.autoPushCheckBox.$el.show();
+        this.rememberDeviceCheckbox && this.rememberDeviceCheckbox.$el.show();
+        this.inlineTotpForm && this.inlineTotpForm.$el.show();
+      }
+    });
+
+    if (!this.settings.get('features.hideSignOutLinkInMFA') &&
+        !this.settings.get('features.mfaOnlyFlow')) {
+      this.add(new FooterSignout(this.toJSON()));
+    }
+  },
+
+  findModel: function (factorType, options) {
+    const factors = options.appState.get('factors');
+    const provider = options.provider;
+    const factorIndex = options.factorIndex;
+
+    if (!provider) {
+      return factors.findWhere({ factorType: factorType, isFactorTypeVerification: true });
+    } else if (factors.hasMultipleFactorsOfSameType(factorType) && factorIndex) {
+      return factors.getFactorByTypeAndIndex(factorType, factorIndex);
+    } else {
+      return factors.findWhere({ provider: provider, factorType: factorType });
+    }
+  },
+
+  trapAuthResponse: function () {
+    if (
+      (this.options.appState.get('isMfaRequired') && this.options.appState.get('trapMfaRequiredResponse')) ||
+      this.options.appState.get('isMfaChallenge')
+    ) {
+      this.options.appState.set('trapMfaRequiredResponse', false);
+      return true;
+    }
+    return false;
+  },
+
+  back: function () {
+    // Empty function on verify controllers to prevent users
+    // from navigating back during 'verify' using the browser's
+    // back button. The URL will still change, but the view will not
+    // More details in OKTA-135060.
+  },
 });

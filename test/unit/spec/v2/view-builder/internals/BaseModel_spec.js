@@ -1,33 +1,30 @@
 import BaseModel from 'v2/view-builder/internals/BaseModel';
 
 describe('v2/view-builder/internals/BaseModel', function () {
-  const createModelAndVerifyPropsAndLocal = ({uiSchema, optionUiSchemaConfig}, props, local = {}) => {
-    const result = BaseModel.create({uiSchema}, optionUiSchemaConfig);
+  const createModelAndVerifyPropsAndLocal = ({ uiSchema, optionUiSchemaConfig }, props, local = {}) => {
+    const result = BaseModel.create({ uiSchema }, optionUiSchemaConfig);
     expect(result.prototype.props).toEqual(props);
-    expect(result.prototype.local).toEqual(Object.assign(
-      {formName: 'string'},
-      local
-    ));
+    expect(result.prototype.local).toEqual(Object.assign({ formName: 'string' }, local));
   };
 
   it('shall create Model - passcode', function () {
     const uiSchema = [
       {
-        'name': 'credentials.passcode',
-        'label': 'One-time verification code',
-        'secret': true,
+        name: 'credentials.passcode',
+        label: 'One-time verification code',
+        secret: true,
         'label-top': true,
-        'type': 'password',
-        'params': {
-          'showPasswordToggle': true
-        }
-      }
+        type: 'password',
+        params: {
+          showPasswordToggle: true,
+        },
+      },
     ];
 
     createModelAndVerifyPropsAndLocal(
-      {uiSchema},
+      { uiSchema },
       {
-        'credentials.passcode': { type: 'string', required: true }
+        'credentials.passcode': { type: 'string', required: true },
       }
     );
   });
@@ -35,34 +32,34 @@ describe('v2/view-builder/internals/BaseModel', function () {
   it('shall create Model - profile enroll', function () {
     const uiSchema = [
       {
-        'name':'userProfile.lastName',
-        'label':'Last name',
-        'required':true,
+        name: 'userProfile.lastName',
+        label: 'Last name',
+        required: true,
         'label-top': true,
-        'type':'text'
+        type: 'text',
       },
       {
-        'name':'userProfile.firstName',
-        'label':'First name',
+        name: 'userProfile.firstName',
+        label: 'First name',
         'label-top': true,
-        'required':true,
-        'type':'text'
+        required: true,
+        type: 'text',
       },
       {
-        'name':'userProfile.email',
-        'label':'Primary email',
+        name: 'userProfile.email',
+        label: 'Primary email',
         'label-top': true,
-        'required':true,
-        'type':'text'
-      }
+        required: true,
+        type: 'text',
+      },
     ];
 
     createModelAndVerifyPropsAndLocal(
-      {uiSchema},
+      { uiSchema },
       {
         'userProfile.lastName': { type: 'string', required: true },
         'userProfile.firstName': { type: 'string', required: true },
-        'userProfile.email': { type: 'string', required: true }
+        'userProfile.email': { type: 'string', required: true },
       }
     );
   });
@@ -70,27 +67,27 @@ describe('v2/view-builder/internals/BaseModel', function () {
   it('shall create Model - identify', function () {
     const uiSchema = [
       {
-        'name':'identifier',
-        'label':'Username',
-        'type':'text',
+        name: 'identifier',
+        label: 'Username',
+        type: 'text',
         'label-top': true,
       },
       {
-        'name':'rememberMe',
-        'label':false,
-        'type':'checkbox',
-        'placeholder':'Remember Me',
-        'modelType':'boolean',
-        'required':false,
+        name: 'rememberMe',
+        label: false,
+        type: 'checkbox',
+        placeholder: 'Remember Me',
+        modelType: 'boolean',
+        required: false,
         'label-top': true,
-      }
+      },
     ];
 
     createModelAndVerifyPropsAndLocal(
-      {uiSchema},
+      { uiSchema },
       {
-        'identifier': { type: 'string', required: true },
-        'rememberMe': { type: 'boolean', required: false },
+        identifier: { type: 'string', required: true },
+        rememberMe: { type: 'boolean', required: false },
       }
     );
   });
@@ -98,40 +95,40 @@ describe('v2/view-builder/internals/BaseModel', function () {
   it('shall create Model - enroll phone', function () {
     const uiSchema = [
       {
-        'name': 'authenticator.id',
-        'value': 'aid568g3mXgtID0X1SLH',
-        'mutable': false,
-        'visible': false,
-        'required': true,
+        name: 'authenticator.id',
+        value: 'aid568g3mXgtID0X1SLH',
+        mutable: false,
+        visible: false,
+        required: true,
         'label-top': true,
-        'type': 'text'
+        type: 'text',
       },
       {
-        'name': 'authenticator.methodType',
-        'required': true,
-        'options': [
+        name: 'authenticator.methodType',
+        required: true,
+        options: [
           {
-            'label': 'SMS',
-            'value': 'sms'
+            label: 'SMS',
+            value: 'sms',
           },
           {
-            'label': 'VOICE',
-            'value': 'voice'
-          }
+            label: 'VOICE',
+            value: 'voice',
+          },
         ],
         'label-top': true,
-        'type': 'radio'
+        type: 'radio',
       },
       {
-        'name': 'authenticator.phoneNumber',
-        'required': true,
-        'type': 'text',
-        'label-top': true
-      }
+        name: 'authenticator.phoneNumber',
+        required: true,
+        type: 'text',
+        'label-top': true,
+      },
     ];
 
     createModelAndVerifyPropsAndLocal(
-      {uiSchema},
+      { uiSchema },
       {
         'authenticator.id': { type: 'string', required: true, value: 'aid568g3mXgtID0X1SLH' },
         'authenticator.methodType': { type: 'string', required: true },
@@ -143,89 +140,89 @@ describe('v2/view-builder/internals/BaseModel', function () {
   it('shall create Model - enroll security question', function () {
     const uiSchema = [
       {
-        'name': 'sub_schema_local_credentials',
-        'type': 'radio',
-        'required': true,
-        'options': [
+        name: 'sub_schema_local_credentials',
+        type: 'radio',
+        required: true,
+        options: [
           {
-            'label': 'Choose a security question',
-            'value': 0
+            label: 'Choose a security question',
+            value: 0,
           },
           {
-            'label': 'Create my own security question',
-            'value': 1
-          }
+            label: 'Create my own security question',
+            value: 1,
+          },
         ],
         'label-top': true,
-        'optionsUiSchemas': [
+        optionsUiSchemas: [
           [
             {
-              'name': 'credentials.questionKey',
-              'type': 'select',
-              'required': true,
-              'label': 'Choose a security question',
-              'options': {
+              name: 'credentials.questionKey',
+              type: 'select',
+              required: true,
+              label: 'Choose a security question',
+              options: {
                 'disliked_food': 'What is the food you least liked as a child?',
                 'name_of_first_plush_toy': 'What is the name of your first stuffed animal?',
-                'favorite_vacation_location': 'Where did you go for your favorite vacation?'
+                'favorite_vacation_location': 'Where did you go for your favorite vacation?',
               },
               'label-top': true,
-              'wide': true
+              wide: true,
             },
             {
-              'name': 'credentials.answer',
-              'label': 'Answer',
-              'required': true,
-              'secret': true,
+              name: 'credentials.answer',
+              label: 'Answer',
+              required: true,
+              secret: true,
               'label-top': true,
-              'type': 'password',
-              'params': {
-                'showPasswordToggle': true
-              }
-            }
+              type: 'password',
+              params: {
+                showPasswordToggle: true,
+              },
+            },
           ],
           [
             {
-              'name': 'credentials.questionKey',
-              'required': true,
-              'value': 'custom',
-              'mutable': false,
+              name: 'credentials.questionKey',
+              required: true,
+              value: 'custom',
+              mutable: false,
               'label-top': true,
-              'type': 'text'
+              type: 'text',
             },
             {
-              'name': 'credentials.question',
-              'label': 'Create a security question',
-              'required': true,
+              name: 'credentials.question',
+              label: 'Create a security question',
+              required: true,
               'label-top': true,
-              'type': 'text'
+              type: 'text',
             },
             {
-              'name': 'credentials.answer',
-              'label': 'Answer',
-              'required': true,
-              'secret': true,
+              name: 'credentials.answer',
+              label: 'Answer',
+              required: true,
+              secret: true,
               'label-top': true,
-              'type': 'password',
-              'params': {
-                'showPasswordToggle': true
-              }
-            }
-          ]
+              type: 'password',
+              params: {
+                showPasswordToggle: true,
+              },
+            },
+          ],
         ],
-        'value': '0'
-      }
+        value: '0',
+      },
     ];
 
     // model for option 1
     createModelAndVerifyPropsAndLocal(
-      {uiSchema},
+      { uiSchema },
       {
         'credentials.questionKey': { type: 'string', required: true },
         'credentials.answer': { type: 'string', required: true },
       },
       {
-        'sub_schema_local_credentials': { type: 'string', 'value': '0', required: true },
+        'sub_schema_local_credentials': { type: 'string', value: '0', required: true },
       }
     );
 
@@ -235,7 +232,7 @@ describe('v2/view-builder/internals/BaseModel', function () {
         uiSchema,
         optionUiSchemaConfig: {
           'sub_schema_local_credentials': '1',
-        }
+        },
       },
       {
         'credentials.questionKey': { type: 'string', required: true, value: 'custom' },
@@ -243,59 +240,57 @@ describe('v2/view-builder/internals/BaseModel', function () {
         'credentials.answer': { type: 'string', required: true },
       },
       {
-        'sub_schema_local_credentials': { type: 'string', 'value': '1', required: true },
-      },
-
+        'sub_schema_local_credentials': { type: 'string', value: '1', required: true },
+      }
     );
   });
 
   it('shall create Model - authenticator list', function () {
     const uiSchema = [
       {
-        'name': 'authenticator',
-        'type': 'authenticatorSelect',
-        'required': true,
+        name: 'authenticator',
+        type: 'authenticatorSelect',
+        required: true,
         'label-top': true,
-        'modelType': 'object',
-        'options': [
+        modelType: 'object',
+        options: [
           {
-            'label': 'Okta Password',
-            'value': {
-              'id': 'autwa6eD9o02iBbtv0g3'
+            label: 'Okta Password',
+            value: {
+              id: 'autwa6eD9o02iBbtv0g3',
             },
-            'authenticatorType': 'password'
+            authenticatorType: 'password',
           },
           {
-            'label': 'Okta Phone',
-            'value': {
-              'id': 'aid568g3mXgtID0X1SLH'
+            label: 'Okta Phone',
+            value: {
+              id: 'aid568g3mXgtID0X1SLH',
             },
-            'authenticatorType': 'phone'
+            authenticatorType: 'phone',
           },
           {
-            'label': 'Security Key or Biometric Authenticator (FIDO2)',
-            'value': {
-              'id': 'aidtheidkwh282hv8g3'
+            label: 'Security Key or Biometric Authenticator (FIDO2)',
+            value: {
+              id: 'aidtheidkwh282hv8g3',
             },
-            'authenticatorType': 'security_key'
+            authenticatorType: 'security_key',
           },
           {
-            'label': 'Okta Security Question',
-            'value': {
-              'id': 'aid568g3mXgtID0X1GGG'
+            label: 'Okta Security Question',
+            value: {
+              id: 'aid568g3mXgtID0X1GGG',
             },
-            'authenticatorType': 'security_question'
+            authenticatorType: 'security_question',
           },
-        ]
-      }
+        ],
+      },
     ];
 
     createModelAndVerifyPropsAndLocal(
-      {uiSchema},
+      { uiSchema },
       {
-        'authenticator': { type: 'object', required: true, },
+        authenticator: { type: 'object', required: true },
       }
     );
   });
-
 });

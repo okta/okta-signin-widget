@@ -1,18 +1,14 @@
-define(['./Form'], function (Form) {
+import Form from './Form';
+export default Form.extend({
+  instructions: function () {
+    return this.$('.piv-verify-text p').trimmedText();
+  },
 
-  return Form.extend({
+  spinningIcon: function () {
+    return this.el('piv-waiting');
+  },
 
-    instructions: function () {
-      return this.$('.piv-verify-text p').trimmedText();
-    },
-
-    spinningIcon: function () {
-      return this.el('piv-waiting');
-    },
-
-    backLink: function () {
-      return this.el('back-link');
-    }
-  });
-
+  backLink: function () {
+    return this.el('back-link');
+  },
 });

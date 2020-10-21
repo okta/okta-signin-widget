@@ -10,77 +10,75 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-define([
-  'okta',
-  'PrimaryAuthController',
-  'models/PrimaryAuth',
-  'views/idp-discovery/IDPDiscoveryForm',
-  'models/IDPDiscovery',
-  'views/shared/Footer',
-  'util/BaseLoginController',
-  'views/primary-auth/CustomButtons'
-],
-function (Okta, PrimaryAuthController, PrimaryAuthModel, IDPDiscoveryForm, IDPDiscoveryModel,
-  Footer, BaseLoginController, CustomButtons) {
+import PrimaryAuthController from 'PrimaryAuthController';
+import IDPDiscoveryModel from 'models/IDPDiscovery';
+import PrimaryAuthModel from 'models/PrimaryAuth';
+import BaseLoginController from 'util/BaseLoginController';
+import IDPDiscoveryForm from 'views/idp-discovery/IDPDiscoveryForm';
+import CustomButtons from 'views/primary-auth/CustomButtons';
 
-  return PrimaryAuthController.extend({
-    className: 'idp-discovery',
+export default PrimaryAuthController.extend({
+  className: 'idp-discovery',
 
-    View: IDPDiscoveryForm,
+  View: IDPDiscoveryForm,
 
-    constructor: function (options) {
-      options.appState.unset('username');
+  constructor: function (options) {
+    options.appState.unset('username');
 
-      this.model = new IDPDiscoveryModel({
+    this.model = new IDPDiscoveryModel(
+      {
         requestContext: options.settings.get('idpDiscovery.requestContext'),
         settings: options.settings,
-        appState: options.appState
-      }, { parse: true });
+        appState: options.appState,
+      },
+      { parse: true }
+    );
 
-      BaseLoginController.apply(this, arguments);
+    BaseLoginController.apply(this, arguments);
 
-      this.addListeners();
+    this.addListeners();
 
-      // If social auth is configured, 'socialAuthPositionTop' will determine
-      // the order in which the social auth and primary auth are shown on the screen.
-      if (options.settings.get('hasConfiguredButtons')) {
-        this.add(CustomButtons, {
-          prepend: options.settings.get('socialAuthPositionTop'),
-          options: {
-            // To trigger an afterError event, we require the current controller
-            currentController: this
-          }
-        });
-      }
-
-      this.addFooter(options);
-
-      this.setUsername();
-    },
-
-    initialize: function () {
-      PrimaryAuthController.prototype.initialize.apply(this);
-
-      this.listenTo(this.model, 'goToPrimaryAuth', function () {
-        this.settings.set('username', this.model.get('username'));
-        if (this.settings.get('features.passwordlessAuth')) {
-          var primaryAuthModel = new PrimaryAuthModel({
-            username: this.model.get('username'),
-            multiOptionalFactorEnroll: this.options.settings.get('features.multiOptionalFactorEnroll'),
-            settings: this.options.settings,
-            appState: this.options.appState
-          }, { parse: true });
-          // Events to set the transaction attributes on the app state.
-          this.addModelListeners(primaryAuthModel);
-          // Make the primary auth request
-          primaryAuthModel.save();
-        } else {
-          this.options.appState.set('disableUsername', true);
-          this.options.appState.trigger('navigate', 'signin');
-        }
+    // If social auth is configured, 'socialAuthPositionTop' will determine
+    // the order in which the social auth and primary auth are shown on the screen.
+    if (options.settings.get('hasConfiguredButtons')) {
+      this.add(CustomButtons, {
+        prepend: options.settings.get('socialAuthPositionTop'),
+        options: {
+          // To trigger an afterError event, we require the current controller
+          currentController: this,
+        },
       });
     }
 
-  });
+    this.addFooter(options);
 
+    this.setUsername();
+  },
+
+  initialize: function () {
+    PrimaryAuthController.prototype.initialize.apply(this);
+
+    this.listenTo(this.model, 'goToPrimaryAuth', function () {
+      this.settings.set('username', this.model.get('username'));
+      if (this.settings.get('features.passwordlessAuth')) {
+        const primaryAuthModel = new PrimaryAuthModel(
+          {
+            username: this.model.get('username'),
+            multiOptionalFactorEnroll: this.options.settings.get('features.multiOptionalFactorEnroll'),
+            settings: this.options.settings,
+            appState: this.options.appState,
+          },
+          { parse: true }
+        );
+
+        // Events to set the transaction attributes on the app state.
+        this.addModelListeners(primaryAuthModel);
+        // Make the primary auth request
+        primaryAuthModel.save();
+      } else {
+        this.options.appState.set('disableUsername', true);
+        this.options.appState.trigger('navigate', 'signin');
+      }
+    });
+  },
 });

@@ -1,15 +1,10 @@
-define(['./Dom'], function (Dom) {
+import Dom from './Dom';
+export default Dom.extend({
+  authContainer: function () {
+    return this.el('auth-container');
+  },
 
-  return Dom.extend({
-
-    authContainer: function () {
-      return this.el('auth-container');
-    },
-
-    canBeMinimized: function () {
-      return this.authContainer().hasClass('can-remove-beacon');
-    }
-
-  });
-
+  canBeMinimized: function () {
+    return this.authContainer().hasClass('can-remove-beacon');
+  },
 });
