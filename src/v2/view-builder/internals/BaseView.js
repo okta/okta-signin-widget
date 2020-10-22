@@ -42,10 +42,12 @@ export default View.extend({
   preRender () {
     View.prototype.preRender.apply(this, arguments);
     // Add Views
-    this.add(this.Header, {
-      selector: '.siw-main-header',
-      options: this.options,
-    });
+    if (this.Header !== null) {
+      this.add(this.Header, {
+        selector: '.siw-main-header',
+        options: this.options,
+      });
+    }
     this.renderForm();
     this.add(this.Footer, {
       selector : '.siw-main-footer',

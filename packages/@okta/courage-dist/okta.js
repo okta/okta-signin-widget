@@ -62,7 +62,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 33);
+/******/ 	return __webpack_require__(__webpack_require__.s = 35);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -79,7 +79,7 @@ exports.default = void 0;
 
 var _handlebars = _interopRequireDefault(__webpack_require__(5));
 
-var _underscore = _interopRequireDefault(__webpack_require__(35));
+var _underscore = _interopRequireDefault(__webpack_require__(37));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -134,9 +134,9 @@ var _backbone = _interopRequireDefault(__webpack_require__(6));
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
-var _View = _interopRequireDefault(__webpack_require__(16));
+var _View = _interopRequireDefault(__webpack_require__(14));
 
-var _TemplateUtil = _interopRequireDefault(__webpack_require__(42));
+var _TemplateUtil = _interopRequireDefault(__webpack_require__(43));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -389,7 +389,7 @@ var _jqueryWrapper = _interopRequireDefault(__webpack_require__(3));
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
-var _oktaI18nBundles = _interopRequireDefault(__webpack_require__(39));
+var _oktaI18nBundles = _interopRequireDefault(__webpack_require__(41));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -851,7 +851,7 @@ var _StringUtil = _interopRequireDefault(__webpack_require__(4));
 
 var _BaseView = _interopRequireDefault(__webpack_require__(1));
 
-var _Callout = _interopRequireDefault(__webpack_require__(29));
+var _Callout = _interopRequireDefault(__webpack_require__(31));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1356,7 +1356,7 @@ var _Logger = _interopRequireDefault(__webpack_require__(7));
 
 var _StringUtil = _interopRequireDefault(__webpack_require__(4));
 
-var _ViewUtil = _interopRequireDefault(__webpack_require__(24));
+var _ViewUtil = _interopRequireDefault(__webpack_require__(25));
 
 var _BaseView = _interopRequireDefault(__webpack_require__(1));
 
@@ -1711,7 +1711,7 @@ exports.default = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
-var _Model = _interopRequireDefault(__webpack_require__(37));
+var _Model = _interopRequireDefault(__webpack_require__(39));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2045,292 +2045,6 @@ module.exports = exports.default;
 
 /***/ }),
 /* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
-
-var _Collection = _interopRequireDefault(__webpack_require__(36));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Wrapper around the more generic {@link src/framework/Collection} that
- * contains Okta-specific logic.
- * @class module:Okta.Collection
- * @extends src/framework/Collection
- */
-var _default = _Collection.default.extend(
-/** @lends module:Okta.Collection.prototype */
-{
-  /**
-   * Is the end point using the legacy "secureJSON" format
-   * @type {Function|Boolean}
-   */
-  secureJSON: false,
-  constructor: function constructor() {
-    if (_underscoreWrapper.default.result(this, 'secureJSON')) {
-      this.sync = _underscoreWrapper.default.wrap(this.sync, function (sync, method, collection, options) {
-        return sync.call(this, method, collection, _underscoreWrapper.default.extend({
-          dataType: 'secureJSON'
-        }, options));
-      });
-    }
-
-    _Collection.default.apply(this, arguments);
-  }
-});
-
-exports.default = _default;
-module.exports = exports.default;
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
-
-var _Model = _interopRequireDefault(__webpack_require__(11));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-var hasProps = function hasProps(model) {
-  var local = _underscoreWrapper.default.omit(model.local, _underscoreWrapper.default.keys(model._builtInLocalProps));
-
-  return _underscoreWrapper.default.size(model.props) + _underscoreWrapper.default.size(local) > 0;
-};
-/**
- * @class module:Okta.BaseModel
- * @extends module:Okta.Model
- * @deprecated Use {@link module:Okta.Model|Okta.Model} instead
- * @example
- * var Model = BaseModel.extend({
- *   defaults: {
- *     name: BaseModel.ComputedProperty(['fname', 'lname'], function (fname, lname) {
- *       return fname + ' ' + lname;
- *     })
- *   }
- * });
- * var model = new Model({fname: 'Joe', lname: 'Doe'});
- * model.get('name'); //=> "Joe Doe"
- * model.toJSON(); //=> {fname: 'Joe', lname: 'Doe'}
- *
- * model.set('__private__', 'private property');
- * model.get('__private__'); //=> "private property"
- * model.toJSON(); //=> {fname: 'Joe', lname: 'Doe'}
- */
-
-
-var BaseModelBaseModel = _Model.default.extend(
-/** @lends module:Okta.BaseModel.prototype */
-{
-  /**
-   * @type {Boolean}
-   */
-  flat: false,
-  constructor: function constructor() {
-    _Model.default.apply(this, arguments);
-
-    this.on('sync', this._setSynced);
-  },
-  allows: function allows() {
-    if (hasProps(this)) {
-      return _Model.default.prototype.allows.apply(this, arguments);
-    } else {
-      return true;
-    }
-  },
-  // bw compatibility support for old computed properties
-  set: function set(key, val) {
-    var attrs;
-
-    if (_typeof(key) === 'object') {
-      attrs = key;
-    } else {
-      (attrs = {})[key] = val;
-    } // computed properties
-
-
-    (0, _underscoreWrapper.default)(attrs).each(function (fn, attr) {
-      if (!fn || !_underscoreWrapper.default.isArray(fn.__attributes)) {
-        return;
-      }
-
-      this.on('change:' + fn.__attributes.join(' change:'), function () {
-        var val = this.get(attr);
-
-        if (val !== this['__schema__'].computedProperties[attr]) {
-          this['__schema__'].computedProperties[attr] = val;
-          this.trigger('change:' + attr, val);
-        }
-      }, this);
-    }, this);
-    return _Model.default.prototype.set.apply(this, arguments);
-  },
-
-  /**
-   * Get the current value of an attribute from the model. For example: `note.get("title")`
-   *
-   * See [Model.get](http://backbonejs.org/#Model-get)
-   * @param {String} attribute
-   * @return {Mixed} The value of the model attribute
-   */
-  get: function get() {
-    var value = _Model.default.prototype.get.apply(this, arguments);
-
-    if (_underscoreWrapper.default.isFunction(value)) {
-      return value.apply(this, _underscoreWrapper.default.map(value.__attributes || [], this.get, this));
-    }
-
-    return value;
-  },
-
-  /**
-   * Return a shallow copy of the model's attributes for JSON stringification.
-   * This can be used for persistence, serialization, or for augmentation before being sent to the server.
-   * The name of this method is a bit confusing, as it doesn't actually return a JSON string —
-   *  but I'm afraid that it's the way that the JavaScript API for JSON.stringify works.
-   *
-   * ```javascript
-   * var artist = new Model({
-   *   firstName: "Wassily",
-   *   lastName: "Kandinsky"
-   * });
-   *
-   * artist.set({birthday: "December 16, 1866"});
-   * alert(JSON.stringify(artist)); // {"firstName":"Wassily","lastName":"Kandinsky","birthday":"December 16, 1866"}
-   * ```
-   * See [Model.toJSON](http://backbonejs.org/#Model-toJSON)
-   * @param  {Object} options
-   * @return {Object}
-   */
-  toJSON: function toJSON(options) {
-    options || (options = {});
-
-    var res = _Model.default.prototype.toJSON.apply(this, arguments); // cleanup computed properties
-
-
-    (0, _underscoreWrapper.default)(res).each(function (value, key) {
-      if (typeof value === 'function') {
-        if (options.verbose) {
-          res[key] = this.get(key);
-        } else {
-          delete res[key];
-        }
-      }
-    }, this); // cleanup private properties
-
-    if (!options.verbose) {
-      (0, _underscoreWrapper.default)(res).each(function (value, key) {
-        if (/^__\w+__$/.test(key)) {
-          delete res[key];
-        }
-      });
-    }
-
-    return res;
-  },
-  sanitizeAttributes: function sanitizeAttributes(attributes) {
-    var attrs = {};
-
-    _underscoreWrapper.default.each(attributes, function (value, key) {
-      if (!_underscoreWrapper.default.isFunction(value)) {
-        attrs[key] = value;
-      }
-    });
-
-    return attrs;
-  },
-  reset: function reset(options) {
-    this.clear(options);
-    this.set(this.sanitizeAttributes(this.defaults), options);
-  },
-  clear: function clear(options) {
-    var attrs = {};
-
-    _underscoreWrapper.default.each(this.sanitizeAttributes(this.attributes), function (value, key) {
-      attrs[key] = void 0;
-    });
-
-    return this.set(attrs, _underscoreWrapper.default.extend({}, options, {
-      unset: true
-    }));
-  },
-
-  /**
-   * @private
-   */
-  _setSynced: function _setSynced(newModel) {
-    this._syncedData = newModel && _underscoreWrapper.default.isFunction(newModel.toJSON) ? newModel.toJSON() : {};
-  },
-
-  /**
-   * @private
-   */
-  _getSynced: function _getSynced() {
-    return this._syncedData;
-  },
-  isSynced: function isSynced() {
-    return _underscoreWrapper.default.isEqual(this._getSynced(), this.toJSON());
-  }
-},
-/** @lends module:Okta.BaseModel.prototype */
-{
-  /**
-   * @static
-   *
-   * Example:
-   *
-   * ```javascript
-   * var Model = BaseModel.extend({
-   *   defaults: {
-   *     name: BaseModel.ComputedProperty(['fname', 'lname'], function (fname, lname) {
-   *       return fname + ' ' + lname;
-   *     })
-   *   }
-   * });
-   * var model = new Model({fname: 'Joe', lname: 'Doe'});
-   * model.get('name'); // Joe Doe
-   * model.toJSON(); // {fname: 'Joe', lname: 'Doe'}
-   * ```
-   *
-   * @param {Array} attributes - an array of the attribute names this method depends on
-   * @param {Function} callback the function that computes the value of the property
-   *
-   * @deprecated Use {@link #derived} instead
-   */
-  ComputedProperty: function ComputedProperty() {
-    var args = _underscoreWrapper.default.toArray(arguments);
-
-    var fn = args.pop();
-    fn.__attributes = args.pop();
-    return fn;
-  }
-});
-
-var _default = BaseModelBaseModel;
-exports.default = _default;
-module.exports = exports.default;
-
-/***/ }),
-/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3138,6 +2852,292 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
+
+var _Collection = _interopRequireDefault(__webpack_require__(38));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Wrapper around the more generic {@link src/framework/Collection} that
+ * contains Okta-specific logic.
+ * @class module:Okta.Collection
+ * @extends src/framework/Collection
+ */
+var _default = _Collection.default.extend(
+/** @lends module:Okta.Collection.prototype */
+{
+  /**
+   * Is the end point using the legacy "secureJSON" format
+   * @type {Function|Boolean}
+   */
+  secureJSON: false,
+  constructor: function constructor() {
+    if (_underscoreWrapper.default.result(this, 'secureJSON')) {
+      this.sync = _underscoreWrapper.default.wrap(this.sync, function (sync, method, collection, options) {
+        return sync.call(this, method, collection, _underscoreWrapper.default.extend({
+          dataType: 'secureJSON'
+        }, options));
+      });
+    }
+
+    _Collection.default.apply(this, arguments);
+  }
+});
+
+exports.default = _default;
+module.exports = exports.default;
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
+
+var _Model = _interopRequireDefault(__webpack_require__(11));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var hasProps = function hasProps(model) {
+  var local = _underscoreWrapper.default.omit(model.local, _underscoreWrapper.default.keys(model._builtInLocalProps));
+
+  return _underscoreWrapper.default.size(model.props) + _underscoreWrapper.default.size(local) > 0;
+};
+/**
+ * @class module:Okta.BaseModel
+ * @extends module:Okta.Model
+ * @deprecated Use {@link module:Okta.Model|Okta.Model} instead
+ * @example
+ * var Model = BaseModel.extend({
+ *   defaults: {
+ *     name: BaseModel.ComputedProperty(['fname', 'lname'], function (fname, lname) {
+ *       return fname + ' ' + lname;
+ *     })
+ *   }
+ * });
+ * var model = new Model({fname: 'Joe', lname: 'Doe'});
+ * model.get('name'); //=> "Joe Doe"
+ * model.toJSON(); //=> {fname: 'Joe', lname: 'Doe'}
+ *
+ * model.set('__private__', 'private property');
+ * model.get('__private__'); //=> "private property"
+ * model.toJSON(); //=> {fname: 'Joe', lname: 'Doe'}
+ */
+
+
+var BaseModelBaseModel = _Model.default.extend(
+/** @lends module:Okta.BaseModel.prototype */
+{
+  /**
+   * @type {Boolean}
+   */
+  flat: false,
+  constructor: function constructor() {
+    _Model.default.apply(this, arguments);
+
+    this.on('sync', this._setSynced);
+  },
+  allows: function allows() {
+    if (hasProps(this)) {
+      return _Model.default.prototype.allows.apply(this, arguments);
+    } else {
+      return true;
+    }
+  },
+  // bw compatibility support for old computed properties
+  set: function set(key, val) {
+    var attrs;
+
+    if (_typeof(key) === 'object') {
+      attrs = key;
+    } else {
+      (attrs = {})[key] = val;
+    } // computed properties
+
+
+    (0, _underscoreWrapper.default)(attrs).each(function (fn, attr) {
+      if (!fn || !_underscoreWrapper.default.isArray(fn.__attributes)) {
+        return;
+      }
+
+      this.on('change:' + fn.__attributes.join(' change:'), function () {
+        var val = this.get(attr);
+
+        if (val !== this['__schema__'].computedProperties[attr]) {
+          this['__schema__'].computedProperties[attr] = val;
+          this.trigger('change:' + attr, val);
+        }
+      }, this);
+    }, this);
+    return _Model.default.prototype.set.apply(this, arguments);
+  },
+
+  /**
+   * Get the current value of an attribute from the model. For example: `note.get("title")`
+   *
+   * See [Model.get](http://backbonejs.org/#Model-get)
+   * @param {String} attribute
+   * @return {Mixed} The value of the model attribute
+   */
+  get: function get() {
+    var value = _Model.default.prototype.get.apply(this, arguments);
+
+    if (_underscoreWrapper.default.isFunction(value)) {
+      return value.apply(this, _underscoreWrapper.default.map(value.__attributes || [], this.get, this));
+    }
+
+    return value;
+  },
+
+  /**
+   * Return a shallow copy of the model's attributes for JSON stringification.
+   * This can be used for persistence, serialization, or for augmentation before being sent to the server.
+   * The name of this method is a bit confusing, as it doesn't actually return a JSON string —
+   *  but I'm afraid that it's the way that the JavaScript API for JSON.stringify works.
+   *
+   * ```javascript
+   * var artist = new Model({
+   *   firstName: "Wassily",
+   *   lastName: "Kandinsky"
+   * });
+   *
+   * artist.set({birthday: "December 16, 1866"});
+   * alert(JSON.stringify(artist)); // {"firstName":"Wassily","lastName":"Kandinsky","birthday":"December 16, 1866"}
+   * ```
+   * See [Model.toJSON](http://backbonejs.org/#Model-toJSON)
+   * @param  {Object} options
+   * @return {Object}
+   */
+  toJSON: function toJSON(options) {
+    options || (options = {});
+
+    var res = _Model.default.prototype.toJSON.apply(this, arguments); // cleanup computed properties
+
+
+    (0, _underscoreWrapper.default)(res).each(function (value, key) {
+      if (typeof value === 'function') {
+        if (options.verbose) {
+          res[key] = this.get(key);
+        } else {
+          delete res[key];
+        }
+      }
+    }, this); // cleanup private properties
+
+    if (!options.verbose) {
+      (0, _underscoreWrapper.default)(res).each(function (value, key) {
+        if (/^__\w+__$/.test(key)) {
+          delete res[key];
+        }
+      });
+    }
+
+    return res;
+  },
+  sanitizeAttributes: function sanitizeAttributes(attributes) {
+    var attrs = {};
+
+    _underscoreWrapper.default.each(attributes, function (value, key) {
+      if (!_underscoreWrapper.default.isFunction(value)) {
+        attrs[key] = value;
+      }
+    });
+
+    return attrs;
+  },
+  reset: function reset(options) {
+    this.clear(options);
+    this.set(this.sanitizeAttributes(this.defaults), options);
+  },
+  clear: function clear(options) {
+    var attrs = {};
+
+    _underscoreWrapper.default.each(this.sanitizeAttributes(this.attributes), function (value, key) {
+      attrs[key] = void 0;
+    });
+
+    return this.set(attrs, _underscoreWrapper.default.extend({}, options, {
+      unset: true
+    }));
+  },
+
+  /**
+   * @private
+   */
+  _setSynced: function _setSynced(newModel) {
+    this._syncedData = newModel && _underscoreWrapper.default.isFunction(newModel.toJSON) ? newModel.toJSON() : {};
+  },
+
+  /**
+   * @private
+   */
+  _getSynced: function _getSynced() {
+    return this._syncedData;
+  },
+  isSynced: function isSynced() {
+    return _underscoreWrapper.default.isEqual(this._getSynced(), this.toJSON());
+  }
+},
+/** @lends module:Okta.BaseModel.prototype */
+{
+  /**
+   * @static
+   *
+   * Example:
+   *
+   * ```javascript
+   * var Model = BaseModel.extend({
+   *   defaults: {
+   *     name: BaseModel.ComputedProperty(['fname', 'lname'], function (fname, lname) {
+   *       return fname + ' ' + lname;
+   *     })
+   *   }
+   * });
+   * var model = new Model({fname: 'Joe', lname: 'Doe'});
+   * model.get('name'); // Joe Doe
+   * model.toJSON(); // {fname: 'Joe', lname: 'Doe'}
+   * ```
+   *
+   * @param {Array} attributes - an array of the attribute names this method depends on
+   * @param {Function} callback the function that computes the value of the property
+   *
+   * @deprecated Use {@link #derived} instead
+   */
+  ComputedProperty: function ComputedProperty() {
+    var args = _underscoreWrapper.default.toArray(arguments);
+
+    var fn = args.pop();
+    fn.__attributes = args.pop();
+    return fn;
+  }
+});
+
+var _default = BaseModelBaseModel;
+exports.default = _default;
+module.exports = exports.default;
+
+/***/ }),
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3151,7 +3151,7 @@ exports.default = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
-var _BaseButtonLink = _interopRequireDefault(__webpack_require__(44));
+var _BaseButtonLink = _interopRequireDefault(__webpack_require__(45));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3280,9 +3280,9 @@ var _jqueryWrapper = _interopRequireDefault(__webpack_require__(3));
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
-var _BaseCollection = _interopRequireDefault(__webpack_require__(14));
+var _BaseCollection = _interopRequireDefault(__webpack_require__(15));
 
-var _BaseModel = _interopRequireDefault(__webpack_require__(15));
+var _BaseModel = _interopRequireDefault(__webpack_require__(16));
 
 var _Logger = _interopRequireDefault(__webpack_require__(7));
 
@@ -4312,7 +4312,7 @@ var _SettingsModel = _interopRequireDefault(__webpack_require__(22));
 
 var _ConfirmationDialog = _interopRequireDefault(__webpack_require__(23));
 
-var _Notification = _interopRequireDefault(__webpack_require__(41));
+var _Notification = _interopRequireDefault(__webpack_require__(24));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4574,6 +4574,207 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _runtime = _interopRequireDefault(__webpack_require__(2));
+
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
+
+var _BaseView = _interopRequireDefault(__webpack_require__(1));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var defaults = {
+  level: 'success',
+  message: 'Great Success!',
+  hide: true,
+  fade: 400,
+  delay: 3000,
+  width: 0,
+  dismissable: false
+};
+
+var _default = _BaseView.default.extend({
+  className: 'infobox infobox-confirm infobox-confirm-fixed',
+  events: {
+    'click .infobox-dismiss-link': function clickInfoboxDismissLink(e) {
+      e.preventDefault();
+      this.fadeOut();
+    }
+  },
+  template: _runtime.default.template({
+    "1": function _(container, depth0, helpers, partials, data) {
+      var lookupProperty = container.lookupProperty || function (parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+
+        return undefined;
+      };
+
+      return "<a class=\"infobox-dismiss-link\" title=\"" + container.escapeExpression((lookupProperty(helpers, "i18n") || depth0 && lookupProperty(depth0, "i18n") || container.hooks.helperMissing).call(depth0 != null ? depth0 : container.nullContext || {}, {
+        "name": "i18n",
+        "hash": {
+          "bundle": "courage",
+          "code": "component.dismiss"
+        },
+        "data": data,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 58
+          },
+          "end": {
+            "line": 1,
+            "column": 108
+          }
+        }
+      })) + "\" href=\"#\"><span class=\"dismiss-icon\"></span></a>";
+    },
+    "3": function _(container, depth0, helpers, partials, data) {
+      var helper,
+          lookupProperty = container.lookupProperty || function (parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+
+        return undefined;
+      };
+
+      return "<h3>" + container.escapeExpression((helper = (helper = lookupProperty(helpers, "title") || (depth0 != null ? lookupProperty(depth0, "title") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, {
+        "name": "title",
+        "hash": {},
+        "data": data,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 220
+          },
+          "end": {
+            "line": 1,
+            "column": 229
+          }
+        }
+      }) : helper)) + "</h3>";
+    },
+    "compiler": [8, ">= 4.3.0"],
+    "main": function main(container, depth0, helpers, partials, data) {
+      var stack1,
+          helper,
+          alias1 = depth0 != null ? depth0 : container.nullContext || {},
+          alias2 = container.hooks.helperMissing,
+          alias3 = "function",
+          alias4 = container.escapeExpression,
+          lookupProperty = container.lookupProperty || function (parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+
+        return undefined;
+      };
+
+      return ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "dismissable") : depth0, {
+        "name": "if",
+        "hash": {},
+        "fn": container.program(1, data, 0),
+        "inverse": container.noop,
+        "data": data,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 164
+          }
+        }
+      })) != null ? stack1 : "") + "<span class=\"icon " + alias4((helper = (helper = lookupProperty(helpers, "level") || (depth0 != null ? lookupProperty(depth0, "level") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "level",
+        "hash": {},
+        "data": data,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 182
+          },
+          "end": {
+            "line": 1,
+            "column": 191
+          }
+        }
+      }) : helper)) + "-16\"></span>" + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "title") : depth0, {
+        "name": "if",
+        "hash": {},
+        "fn": container.program(3, data, 0),
+        "inverse": container.noop,
+        "data": data,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 203
+          },
+          "end": {
+            "line": 1,
+            "column": 241
+          }
+        }
+      })) != null ? stack1 : "") + "<p>" + alias4((helper = (helper = lookupProperty(helpers, "message") || (depth0 != null ? lookupProperty(depth0, "message") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        "name": "message",
+        "hash": {},
+        "data": data,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 244
+          },
+          "end": {
+            "line": 1,
+            "column": 255
+          }
+        }
+      }) : helper)) + "</p>";
+    },
+    "useData": true
+  }),
+  initialize: function initialize() {
+    this.options = _underscoreWrapper.default.defaults({}, this.options, defaults);
+    this.$el.addClass('infobox-' + this.options.level);
+
+    if (this.options.width) {
+      this.$el.width(this.options.width);
+    }
+  },
+  getTemplateData: function getTemplateData() {
+    return _underscoreWrapper.default.extend(_underscoreWrapper.default.pick(this.options, 'level', 'message', 'title'), {
+      dismissable: this.options.hide === false || this.options.dismissable === true
+    });
+  },
+  postRender: function postRender() {
+    if (this.options.hide) {
+      _underscoreWrapper.default.delay(_underscoreWrapper.default.bind(this.fadeOut, this), this.options.delay);
+    }
+  },
+  fadeOut: function fadeOut() {
+    this.$el.fadeOut(this.options.fade, _underscoreWrapper.default.bind(this.remove, this));
+  }
+});
+
+exports.default = _default;
+module.exports = exports.default;
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -4626,7 +4827,40 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 25 */
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _backbone = _interopRequireDefault(__webpack_require__(6));
+
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function Class(options) {
+  this.options = _underscoreWrapper.default.clone(options || {});
+  this.cid = _underscoreWrapper.default.uniqueId('class');
+  this.initialize.apply(this, arguments);
+}
+
+_underscoreWrapper.default.extend(Class.prototype, _backbone.default.Events, {
+  initialize: function initialize() {}
+});
+
+Class.extend = _backbone.default.Model.extend;
+var _default = Class;
+exports.default = _default;
+module.exports = exports.default;
+
+/***/ }),
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4687,7 +4921,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4753,13 +4987,13 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, exports) {
 
 module.exports = require("qtip");
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4778,7 +5012,7 @@ var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
 var _Keys = _interopRequireDefault(__webpack_require__(8));
 
-__webpack_require__(69);
+__webpack_require__(78);
 
 var _BaseInput = _interopRequireDefault(__webpack_require__(9));
 
@@ -5152,7 +5386,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5167,7 +5401,7 @@ var _runtime = _interopRequireDefault(__webpack_require__(2));
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
-var _Time = _interopRequireDefault(__webpack_require__(30));
+var _Time = _interopRequireDefault(__webpack_require__(32));
 
 var _BaseView = _interopRequireDefault(__webpack_require__(1));
 
@@ -5559,7 +5793,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5580,7 +5814,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 31 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5643,7 +5877,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 32 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5658,11 +5892,11 @@ var _runtime = _interopRequireDefault(__webpack_require__(2));
 
 var _jqueryWrapper = _interopRequireDefault(__webpack_require__(3));
 
-__webpack_require__(27);
+__webpack_require__(29);
 
 var _Keys = _interopRequireDefault(__webpack_require__(8));
 
-__webpack_require__(74);
+__webpack_require__(83);
 
 var _BaseInput = _interopRequireDefault(__webpack_require__(9));
 
@@ -5971,14 +6205,14 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 33 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(34);
+module.exports = __webpack_require__(36);
 
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5989,25 +6223,27 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _BaseCollection = _interopRequireDefault(__webpack_require__(14));
+var _BaseCollection = _interopRequireDefault(__webpack_require__(15));
 
-var _BaseModel = _interopRequireDefault(__webpack_require__(15));
+var _BaseModel = _interopRequireDefault(__webpack_require__(16));
 
-var _BaseSchema = _interopRequireDefault(__webpack_require__(38));
+var _BaseSchema = _interopRequireDefault(__webpack_require__(40));
 
 var _Model = _interopRequireDefault(__webpack_require__(11));
 
 var _SchemaProperty = _interopRequireDefault(__webpack_require__(19));
 
-var _BaseController = _interopRequireDefault(__webpack_require__(40));
+var _BaseController = _interopRequireDefault(__webpack_require__(42));
 
 var _BaseRouter = _interopRequireDefault(__webpack_require__(21));
 
 var _ButtonFactory = _interopRequireDefault(__webpack_require__(17));
 
-var _Class = _interopRequireDefault(__webpack_require__(45));
+var _Class = _interopRequireDefault(__webpack_require__(26));
 
 var _Cookie = _interopRequireDefault(__webpack_require__(46));
+
+var _Clipboard = _interopRequireDefault(__webpack_require__(48));
 
 var _Keys = _interopRequireDefault(__webpack_require__(8));
 
@@ -6017,45 +6253,47 @@ var _StringUtil = _interopRequireDefault(__webpack_require__(4));
 
 var _Util = _interopRequireDefault(__webpack_require__(18));
 
-var _handlebarsWrapper = _interopRequireDefault(__webpack_require__(48));
+var _handlebarsWrapper = _interopRequireDefault(__webpack_require__(57));
 
 var _jqueryWrapper = _interopRequireDefault(__webpack_require__(3));
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
-var _Backbone = _interopRequireDefault(__webpack_require__(56));
+var _Backbone = _interopRequireDefault(__webpack_require__(65));
 
 var _BaseView = _interopRequireDefault(__webpack_require__(1));
 
-var _BaseDropDown = _interopRequireDefault(__webpack_require__(58));
+var _BaseDropDown = _interopRequireDefault(__webpack_require__(67));
 
-var _BaseForm = _interopRequireDefault(__webpack_require__(59));
+var _Notification = _interopRequireDefault(__webpack_require__(24));
 
-var _Toolbar = _interopRequireDefault(__webpack_require__(25));
+var _BaseForm = _interopRequireDefault(__webpack_require__(68));
+
+var _Toolbar = _interopRequireDefault(__webpack_require__(27));
 
 var _FormUtil = _interopRequireDefault(__webpack_require__(10));
 
-var _InputRegistry = _interopRequireDefault(__webpack_require__(26));
+var _InputRegistry = _interopRequireDefault(__webpack_require__(28));
 
-var _SchemaFormFactory = _interopRequireDefault(__webpack_require__(67));
+var _SchemaFormFactory = _interopRequireDefault(__webpack_require__(76));
 
-var _CheckBox = _interopRequireDefault(__webpack_require__(72));
+var _CheckBox = _interopRequireDefault(__webpack_require__(81));
 
-var _PasswordBox = _interopRequireDefault(__webpack_require__(73));
+var _PasswordBox = _interopRequireDefault(__webpack_require__(82));
 
-var _Radio = _interopRequireDefault(__webpack_require__(75));
+var _Radio = _interopRequireDefault(__webpack_require__(84));
 
-var _Select = _interopRequireDefault(__webpack_require__(28));
+var _Select = _interopRequireDefault(__webpack_require__(30));
 
-var _InputGroup = _interopRequireDefault(__webpack_require__(76));
+var _InputGroup = _interopRequireDefault(__webpack_require__(85));
 
-var _TextBox = _interopRequireDefault(__webpack_require__(32));
+var _TextBox = _interopRequireDefault(__webpack_require__(34));
 
-var _Callout = _interopRequireDefault(__webpack_require__(29));
+var _Callout = _interopRequireDefault(__webpack_require__(31));
 
 var _backbone = _interopRequireDefault(__webpack_require__(6));
 
-var _View = _interopRequireDefault(__webpack_require__(16));
+var _View = _interopRequireDefault(__webpack_require__(14));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6064,38 +6302,26 @@ _View.default.prototype.compileTemplate = function (str) {
   return function fakeTemplate() {
     return str;
   };
+}; // Override events to not support `Enter` submitting the form twice - OKTA-321999 and OKTA-317629
+
+
+var events = {
+  'input input': 'update',
+  'change input': 'update',
+  'keydown input': 'update',
+  'keyup input': function keyupInput(e) {
+    if (_Keys.default.isEsc(e)) {
+      this.model.trigger('form:cancel');
+    }
+  }
 };
 
 var TextBoxForSigninWidget = _TextBox.default.extend({
-  /**
-   * @Override
-   */
-  events: {
-    'input input': 'update',
-    'change input': 'update',
-    'keydown input': 'update',
-    'keyup input': function keyupInput(e) {
-      if (_Keys.default.isEsc(e)) {
-        this.model.trigger('form:cancel');
-      }
-    }
-  }
+  events: events
 });
 
 var PasswordBoxForSigninWidget = _PasswordBox.default.extend({
-  /**
-   * @Override
-   */
-  events: {
-    'input input': 'update',
-    'change input': 'update',
-    'keydown input': 'update',
-    'keyup input': function keyupInput(e) {
-      if (_Keys.default.isEsc(e)) {
-        this.model.trigger('form:cancel');
-      }
-    }
-  }
+  events: events
 });
 
 var Okta = {
@@ -6122,13 +6348,15 @@ var Okta = {
     util: {
       Util: _Util.default,
       Cookie: _Cookie.default,
+      Clipboard: _Clipboard.default,
       Logger: _Logger.default,
       Class: _Class.default,
       Keys: _Keys.default
     },
     views: {
       components: {
-        BaseDropDown: _BaseDropDown.default
+        BaseDropDown: _BaseDropDown.default,
+        Notification: _Notification.default
       },
       forms: {
         helpers: {
@@ -6165,13 +6393,13 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, exports) {
 
 module.exports = require("underscore");
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6492,7 +6720,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7199,7 +7427,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 38 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7212,9 +7440,9 @@ exports.default = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
-var _BaseCollection = _interopRequireDefault(__webpack_require__(14));
+var _BaseCollection = _interopRequireDefault(__webpack_require__(15));
 
-var _BaseModel = _interopRequireDefault(__webpack_require__(15));
+var _BaseModel = _interopRequireDefault(__webpack_require__(16));
 
 var _SchemaProperty = _interopRequireDefault(__webpack_require__(19));
 
@@ -7306,13 +7534,13 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, exports) {
 
 module.exports = require("okta-i18n-bundles");
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7331,7 +7559,7 @@ var _BaseRouter = _interopRequireDefault(__webpack_require__(21));
 
 var _SettingsModel = _interopRequireDefault(__webpack_require__(22));
 
-var _StateMachine = _interopRequireDefault(__webpack_require__(43));
+var _StateMachine = _interopRequireDefault(__webpack_require__(44));
 
 var _BaseView = _interopRequireDefault(__webpack_require__(1));
 
@@ -7468,208 +7696,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 41 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _runtime = _interopRequireDefault(__webpack_require__(2));
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
-
-var _BaseView = _interopRequireDefault(__webpack_require__(1));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-var defaults = {
-  level: 'success',
-  message: 'Great Success!',
-  hide: true,
-  fade: 400,
-  delay: 3000,
-  width: 0,
-  dismissable: false
-};
-
-var _default = _BaseView.default.extend({
-  className: 'infobox infobox-confirm infobox-confirm-fixed',
-  events: {
-    'click .infobox-dismiss-link': function clickInfoboxDismissLink(e) {
-      e.preventDefault();
-      this.fadeOut();
-    }
-  },
-  template: _runtime.default.template({
-    "1": function _(container, depth0, helpers, partials, data) {
-      var lookupProperty = container.lookupProperty || function (parent, propertyName) {
-        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-          return parent[propertyName];
-        }
-
-        return undefined;
-      };
-
-      return "<a class=\"infobox-dismiss-link\" title=\"" + container.escapeExpression((lookupProperty(helpers, "i18n") || depth0 && lookupProperty(depth0, "i18n") || container.hooks.helperMissing).call(depth0 != null ? depth0 : container.nullContext || {}, {
-        "name": "i18n",
-        "hash": {
-          "bundle": "courage",
-          "code": "component.dismiss"
-        },
-        "data": data,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 58
-          },
-          "end": {
-            "line": 1,
-            "column": 108
-          }
-        }
-      })) + "\" href=\"#\"><span class=\"dismiss-icon\"></span></a>";
-    },
-    "3": function _(container, depth0, helpers, partials, data) {
-      var helper,
-          lookupProperty = container.lookupProperty || function (parent, propertyName) {
-        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-          return parent[propertyName];
-        }
-
-        return undefined;
-      };
-
-      return "<h3>" + container.escapeExpression((helper = (helper = lookupProperty(helpers, "title") || (depth0 != null ? lookupProperty(depth0, "title") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, {
-        "name": "title",
-        "hash": {},
-        "data": data,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 220
-          },
-          "end": {
-            "line": 1,
-            "column": 229
-          }
-        }
-      }) : helper)) + "</h3>";
-    },
-    "compiler": [8, ">= 4.3.0"],
-    "main": function main(container, depth0, helpers, partials, data) {
-      var stack1,
-          helper,
-          alias1 = depth0 != null ? depth0 : container.nullContext || {},
-          alias2 = container.hooks.helperMissing,
-          alias3 = "function",
-          alias4 = container.escapeExpression,
-          lookupProperty = container.lookupProperty || function (parent, propertyName) {
-        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
-          return parent[propertyName];
-        }
-
-        return undefined;
-      };
-
-      return ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "dismissable") : depth0, {
-        "name": "if",
-        "hash": {},
-        "fn": container.program(1, data, 0),
-        "inverse": container.noop,
-        "data": data,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 1,
-            "column": 164
-          }
-        }
-      })) != null ? stack1 : "") + "<span class=\"icon " + alias4((helper = (helper = lookupProperty(helpers, "level") || (depth0 != null ? lookupProperty(depth0, "level") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
-        "name": "level",
-        "hash": {},
-        "data": data,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 182
-          },
-          "end": {
-            "line": 1,
-            "column": 191
-          }
-        }
-      }) : helper)) + "-16\"></span>" + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "title") : depth0, {
-        "name": "if",
-        "hash": {},
-        "fn": container.program(3, data, 0),
-        "inverse": container.noop,
-        "data": data,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 203
-          },
-          "end": {
-            "line": 1,
-            "column": 241
-          }
-        }
-      })) != null ? stack1 : "") + "<p>" + alias4((helper = (helper = lookupProperty(helpers, "message") || (depth0 != null ? lookupProperty(depth0, "message") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
-        "name": "message",
-        "hash": {},
-        "data": data,
-        "loc": {
-          "start": {
-            "line": 1,
-            "column": 244
-          },
-          "end": {
-            "line": 1,
-            "column": 255
-          }
-        }
-      }) : helper)) + "</p>";
-    },
-    "useData": true
-  }),
-  initialize: function initialize() {
-    this.options = _underscoreWrapper.default.defaults({}, this.options, defaults);
-    this.$el.addClass('infobox-' + this.options.level);
-
-    if (this.options.width) {
-      this.$el.width(this.options.width);
-    }
-  },
-  getTemplateData: function getTemplateData() {
-    return _underscoreWrapper.default.extend(_underscoreWrapper.default.pick(this.options, 'level', 'message', 'title'), {
-      dismissable: this.options.hide === false || this.options.dismissable === true
-    });
-  },
-  postRender: function postRender() {
-    if (this.options.hide) {
-      _underscoreWrapper.default.delay(_underscoreWrapper.default.bind(this.fadeOut, this), this.options.delay);
-    }
-  },
-  fadeOut: function fadeOut() {
-    this.$el.fadeOut(this.options.fade, _underscoreWrapper.default.bind(this.remove, this));
-  }
-});
-
-exports.default = _default;
-module.exports = exports.default;
-
-/***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7720,7 +7747,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7769,7 +7796,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7784,7 +7811,7 @@ var _runtime = _interopRequireDefault(__webpack_require__(2));
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
-var _ViewUtil = _interopRequireDefault(__webpack_require__(24));
+var _ViewUtil = _interopRequireDefault(__webpack_require__(25));
 
 var _BaseView = _interopRequireDefault(__webpack_require__(1));
 
@@ -8066,39 +8093,6 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _backbone = _interopRequireDefault(__webpack_require__(6));
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function Class(options) {
-  this.options = _underscoreWrapper.default.clone(options || {});
-  this.cid = _underscoreWrapper.default.uniqueId('class');
-  this.initialize.apply(this, arguments);
-}
-
-_underscoreWrapper.default.extend(Class.prototype, _backbone.default.Events, {
-  initialize: function initialize() {}
-});
-
-Class.extend = _backbone.default.Model.extend;
-var _default = Class;
-exports.default = _default;
-module.exports = exports.default;
-
-/***/ }),
 /* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8299,19 +8293,1017 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var _clipboard = _interopRequireDefault(__webpack_require__(49));
+
+var _jqueryWrapper = _interopRequireDefault(__webpack_require__(3));
+
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
+
+var _View = _interopRequireDefault(__webpack_require__(14));
+
+var _Class = _interopRequireDefault(__webpack_require__(26));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Clipboard = _clipboard.default;
+var OPTIONS = ['success', 'error', 'target', 'text'];
+
+var ClipboardClipboardWrapper = _Class.default.extend({
+  initialize: function initialize(el, options) {
+    /* eslint complexity:0, max-statements: [2, 24] */
+    options = _underscoreWrapper.default.pick(options || {}, OPTIONS);
+    var trigger;
+    var target;
+    var text;
+
+    if (_underscoreWrapper.default.isString(el)) {
+      trigger = el;
+    }
+
+    if (_underscoreWrapper.default.isElement(el)) {
+      trigger = el;
+    }
+
+    if (el instanceof _jqueryWrapper.default) {
+      trigger = el.selector;
+    }
+
+    if (el instanceof _View.default) {
+      trigger = el.el;
+    }
+
+    if (_underscoreWrapper.default.isFunction(options.target)) {
+      target = options.target;
+    }
+
+    if (_underscoreWrapper.default.isElement(options.target)) {
+      target = _underscoreWrapper.default.constant(options.target);
+    }
+
+    if (_underscoreWrapper.default.isString(options.text)) {
+      text = _underscoreWrapper.default.constant(options.text);
+    } else if (_underscoreWrapper.default.isFunction(options.text)) {
+      text = options.text;
+    }
+
+    this.__instance = new Clipboard(trigger, {
+      target: target,
+      text: text
+    });
+    this.done = _underscoreWrapper.default.partial(this.__setCallback, 'success');
+    this.error = _underscoreWrapper.default.partial(this.__setCallback, 'error');
+    this.done(options.success);
+    this.error(options.error);
+  },
+  __setCallback: function __setCallback(event, callback) {
+    if (!_underscoreWrapper.default.isFunction(callback)) {
+      return;
+    }
+
+    this.__instance.on(event, callback);
+
+    return this.__instance;
+  }
+});
+/**
+ * @class Clipboard
+ * @abstract
+ *
+ * Abstract class that initializes a Clipboard
+ *   https://clipboardjs.com/
+ *
+ * ### Example:
+ *
+ *  ```javascript
+ *  //attach a selector
+ *  Clipboard.attach('.copy-button');
+ *
+ *  //attach a node, and set a constant string
+ *  Clipboard.attach(buttonView.el, {
+ *    text: 'this is the content'
+ *  });
+ *
+ *  //attach a view, set text dynamically, and set callback
+ *  Clipboard.attach(buttonView, {
+ *    text: function (triggerNode) {
+ *      return $(triggerNode).attr('foo') + model.get('userName');
+ *    }
+ *  }).done(function (targetNode) {
+ *    var msg = ['"', targetNode.text, '" is copied'].join('');
+ *    view.notify('success', msg);
+ *  });
+ *
+ *  //attach a jquery object, set the target node, and set callback
+ *  Clipboard.attach($('.customizeTarget'), {
+ *    target: function (triggerNode) {
+ *      return triggerNode;
+ *    },
+ *    success: function (targetNode) {
+ *      view.notify('success', 'copied!');
+ *    }
+ *  });
+ *
+ * ```
+ */
+
+
+var _default = {
+  /**
+   * @param {String|Node|View|jQuery} [el] el could be a selector (recommended),
+   *           a dom node, a view or a jquery object
+   * @param {Object} [options] Options hash
+   * @param  {Node|Function} [options.target] a static dom node
+   *           or a function that takes trigger node and returns a target node
+   * @param {String|Function} [options.text] a static string or a function that returns a string dynamically
+   * @param {Function} [options.success] success callback
+   * @param {Function} [options.error] error callback
+   * @return {Object} The clipboard object
+   */
+  attach: function attach(el, options) {
+    return new ClipboardClipboardWrapper(el, options);
+  }
+};
+exports.default = _default;
+module.exports = exports.default;
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, __webpack_require__(50), __webpack_require__(52), __webpack_require__(53)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof exports !== "undefined") {
+        factory(module, require('./clipboard-action'), require('tiny-emitter'), require('good-listener'));
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(mod, global.clipboardAction, global.tinyEmitter, global.goodListener);
+        global.clipboard = mod.exports;
+    }
+})(this, function (module, _clipboardAction, _tinyEmitter, _goodListener) {
+    'use strict';
+
+    var _clipboardAction2 = _interopRequireDefault(_clipboardAction);
+
+    var _tinyEmitter2 = _interopRequireDefault(_tinyEmitter);
+
+    var _goodListener2 = _interopRequireDefault(_goodListener);
+
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
+    }
+
+    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+        return typeof obj;
+    } : function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _createClass = function () {
+        function defineProperties(target, props) {
+            for (var i = 0; i < props.length; i++) {
+                var descriptor = props[i];
+                descriptor.enumerable = descriptor.enumerable || false;
+                descriptor.configurable = true;
+                if ("value" in descriptor) descriptor.writable = true;
+                Object.defineProperty(target, descriptor.key, descriptor);
+            }
+        }
+
+        return function (Constructor, protoProps, staticProps) {
+            if (protoProps) defineProperties(Constructor.prototype, protoProps);
+            if (staticProps) defineProperties(Constructor, staticProps);
+            return Constructor;
+        };
+    }();
+
+    function _possibleConstructorReturn(self, call) {
+        if (!self) {
+            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+        }
+
+        return call && (typeof call === "object" || typeof call === "function") ? call : self;
+    }
+
+    function _inherits(subClass, superClass) {
+        if (typeof superClass !== "function" && superClass !== null) {
+            throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+        }
+
+        subClass.prototype = Object.create(superClass && superClass.prototype, {
+            constructor: {
+                value: subClass,
+                enumerable: false,
+                writable: true,
+                configurable: true
+            }
+        });
+        if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+    }
+
+    var Clipboard = function (_Emitter) {
+        _inherits(Clipboard, _Emitter);
+
+        /**
+         * @param {String|HTMLElement|HTMLCollection|NodeList} trigger
+         * @param {Object} options
+         */
+        function Clipboard(trigger, options) {
+            _classCallCheck(this, Clipboard);
+
+            var _this = _possibleConstructorReturn(this, (Clipboard.__proto__ || Object.getPrototypeOf(Clipboard)).call(this));
+
+            _this.resolveOptions(options);
+            _this.listenClick(trigger);
+            return _this;
+        }
+
+        /**
+         * Defines if attributes would be resolved using internal setter functions
+         * or custom functions that were passed in the constructor.
+         * @param {Object} options
+         */
+
+
+        _createClass(Clipboard, [{
+            key: 'resolveOptions',
+            value: function resolveOptions() {
+                var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+                this.action = typeof options.action === 'function' ? options.action : this.defaultAction;
+                this.target = typeof options.target === 'function' ? options.target : this.defaultTarget;
+                this.text = typeof options.text === 'function' ? options.text : this.defaultText;
+                this.container = _typeof(options.container) === 'object' ? options.container : document.body;
+            }
+        }, {
+            key: 'listenClick',
+            value: function listenClick(trigger) {
+                var _this2 = this;
+
+                this.listener = (0, _goodListener2.default)(trigger, 'click', function (e) {
+                    return _this2.onClick(e);
+                });
+            }
+        }, {
+            key: 'onClick',
+            value: function onClick(e) {
+                var trigger = e.delegateTarget || e.currentTarget;
+
+                if (this.clipboardAction) {
+                    this.clipboardAction = null;
+                }
+
+                this.clipboardAction = new _clipboardAction2.default({
+                    action: this.action(trigger),
+                    target: this.target(trigger),
+                    text: this.text(trigger),
+                    container: this.container,
+                    trigger: trigger,
+                    emitter: this
+                });
+            }
+        }, {
+            key: 'defaultAction',
+            value: function defaultAction(trigger) {
+                return getAttributeValue('action', trigger);
+            }
+        }, {
+            key: 'defaultTarget',
+            value: function defaultTarget(trigger) {
+                var selector = getAttributeValue('target', trigger);
+
+                if (selector) {
+                    return document.querySelector(selector);
+                }
+            }
+        }, {
+            key: 'defaultText',
+            value: function defaultText(trigger) {
+                return getAttributeValue('text', trigger);
+            }
+        }, {
+            key: 'destroy',
+            value: function destroy() {
+                this.listener.destroy();
+
+                if (this.clipboardAction) {
+                    this.clipboardAction.destroy();
+                    this.clipboardAction = null;
+                }
+            }
+        }], [{
+            key: 'isSupported',
+            value: function isSupported() {
+                var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ['copy', 'cut'];
+
+                var actions = typeof action === 'string' ? [action] : action;
+                var support = !!document.queryCommandSupported;
+
+                actions.forEach(function (action) {
+                    support = support && !!document.queryCommandSupported(action);
+                });
+
+                return support;
+            }
+        }]);
+
+        return Clipboard;
+    }(_tinyEmitter2.default);
+
+    /**
+     * Helper function to retrieve attribute value.
+     * @param {String} suffix
+     * @param {Element} element
+     */
+    function getAttributeValue(suffix, element) {
+        var attribute = 'data-clipboard-' + suffix;
+
+        if (!element.hasAttribute(attribute)) {
+            return;
+        }
+
+        return element.getAttribute(attribute);
+    }
+
+    module.exports = Clipboard;
+});
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, __webpack_require__(51)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof exports !== "undefined") {
+        factory(module, require('select'));
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(mod, global.select);
+        global.clipboardAction = mod.exports;
+    }
+})(this, function (module, _select) {
+    'use strict';
+
+    var _select2 = _interopRequireDefault(_select);
+
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
+    }
+
+    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+        return typeof obj;
+    } : function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _createClass = function () {
+        function defineProperties(target, props) {
+            for (var i = 0; i < props.length; i++) {
+                var descriptor = props[i];
+                descriptor.enumerable = descriptor.enumerable || false;
+                descriptor.configurable = true;
+                if ("value" in descriptor) descriptor.writable = true;
+                Object.defineProperty(target, descriptor.key, descriptor);
+            }
+        }
+
+        return function (Constructor, protoProps, staticProps) {
+            if (protoProps) defineProperties(Constructor.prototype, protoProps);
+            if (staticProps) defineProperties(Constructor, staticProps);
+            return Constructor;
+        };
+    }();
+
+    var ClipboardAction = function () {
+        /**
+         * @param {Object} options
+         */
+        function ClipboardAction(options) {
+            _classCallCheck(this, ClipboardAction);
+
+            this.resolveOptions(options);
+            this.initSelection();
+        }
+
+        /**
+         * Defines base properties passed from constructor.
+         * @param {Object} options
+         */
+
+
+        _createClass(ClipboardAction, [{
+            key: 'resolveOptions',
+            value: function resolveOptions() {
+                var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+                this.action = options.action;
+                this.container = options.container;
+                this.emitter = options.emitter;
+                this.target = options.target;
+                this.text = options.text;
+                this.trigger = options.trigger;
+
+                this.selectedText = '';
+            }
+        }, {
+            key: 'initSelection',
+            value: function initSelection() {
+                if (this.text) {
+                    this.selectFake();
+                } else if (this.target) {
+                    this.selectTarget();
+                }
+            }
+        }, {
+            key: 'selectFake',
+            value: function selectFake() {
+                var _this = this;
+
+                var isRTL = document.documentElement.getAttribute('dir') == 'rtl';
+
+                this.removeFake();
+
+                this.fakeHandlerCallback = function () {
+                    return _this.removeFake();
+                };
+                this.fakeHandler = this.container.addEventListener('click', this.fakeHandlerCallback) || true;
+
+                this.fakeElem = document.createElement('textarea');
+                // Prevent zooming on iOS
+                this.fakeElem.style.fontSize = '12pt';
+                // Reset box model
+                this.fakeElem.style.border = '0';
+                this.fakeElem.style.padding = '0';
+                this.fakeElem.style.margin = '0';
+                // Move element out of screen horizontally
+                this.fakeElem.style.position = 'absolute';
+                this.fakeElem.style[isRTL ? 'right' : 'left'] = '-9999px';
+                // Move element to the same position vertically
+                var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+                this.fakeElem.style.top = yPosition + 'px';
+
+                this.fakeElem.setAttribute('readonly', '');
+                this.fakeElem.value = this.text;
+
+                this.container.appendChild(this.fakeElem);
+
+                this.selectedText = (0, _select2.default)(this.fakeElem);
+                this.copyText();
+            }
+        }, {
+            key: 'removeFake',
+            value: function removeFake() {
+                if (this.fakeHandler) {
+                    this.container.removeEventListener('click', this.fakeHandlerCallback);
+                    this.fakeHandler = null;
+                    this.fakeHandlerCallback = null;
+                }
+
+                if (this.fakeElem) {
+                    this.container.removeChild(this.fakeElem);
+                    this.fakeElem = null;
+                }
+            }
+        }, {
+            key: 'selectTarget',
+            value: function selectTarget() {
+                this.selectedText = (0, _select2.default)(this.target);
+                this.copyText();
+            }
+        }, {
+            key: 'copyText',
+            value: function copyText() {
+                var succeeded = void 0;
+
+                try {
+                    succeeded = document.execCommand(this.action);
+                } catch (err) {
+                    succeeded = false;
+                }
+
+                this.handleResult(succeeded);
+            }
+        }, {
+            key: 'handleResult',
+            value: function handleResult(succeeded) {
+                this.emitter.emit(succeeded ? 'success' : 'error', {
+                    action: this.action,
+                    text: this.selectedText,
+                    trigger: this.trigger,
+                    clearSelection: this.clearSelection.bind(this)
+                });
+            }
+        }, {
+            key: 'clearSelection',
+            value: function clearSelection() {
+                if (this.trigger) {
+                    this.trigger.focus();
+                }
+
+                window.getSelection().removeAllRanges();
+            }
+        }, {
+            key: 'destroy',
+            value: function destroy() {
+                this.removeFake();
+            }
+        }, {
+            key: 'action',
+            set: function set() {
+                var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'copy';
+
+                this._action = action;
+
+                if (this._action !== 'copy' && this._action !== 'cut') {
+                    throw new Error('Invalid "action" value, use either "copy" or "cut"');
+                }
+            },
+            get: function get() {
+                return this._action;
+            }
+        }, {
+            key: 'target',
+            set: function set(target) {
+                if (target !== undefined) {
+                    if (target && (typeof target === 'undefined' ? 'undefined' : _typeof(target)) === 'object' && target.nodeType === 1) {
+                        if (this.action === 'copy' && target.hasAttribute('disabled')) {
+                            throw new Error('Invalid "target" attribute. Please use "readonly" instead of "disabled" attribute');
+                        }
+
+                        if (this.action === 'cut' && (target.hasAttribute('readonly') || target.hasAttribute('disabled'))) {
+                            throw new Error('Invalid "target" attribute. You can\'t cut text from elements with "readonly" or "disabled" attributes');
+                        }
+
+                        this._target = target;
+                    } else {
+                        throw new Error('Invalid "target" value, use a valid Element');
+                    }
+                }
+            },
+            get: function get() {
+                return this._target;
+            }
+        }]);
+
+        return ClipboardAction;
+    }();
+
+    module.exports = ClipboardAction;
+});
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports) {
+
+function select(element) {
+    var selectedText;
+
+    if (element.nodeName === 'SELECT') {
+        element.focus();
+
+        selectedText = element.value;
+    }
+    else if (element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA') {
+        var isReadOnly = element.hasAttribute('readonly');
+
+        if (!isReadOnly) {
+            element.setAttribute('readonly', '');
+        }
+
+        element.select();
+        element.setSelectionRange(0, element.value.length);
+
+        if (!isReadOnly) {
+            element.removeAttribute('readonly');
+        }
+
+        selectedText = element.value;
+    }
+    else {
+        if (element.hasAttribute('contenteditable')) {
+            element.focus();
+        }
+
+        var selection = window.getSelection();
+        var range = document.createRange();
+
+        range.selectNodeContents(element);
+        selection.removeAllRanges();
+        selection.addRange(range);
+
+        selectedText = selection.toString();
+    }
+
+    return selectedText;
+}
+
+module.exports = select;
+
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports) {
+
+function E () {
+  // Keep this empty so it's easier to inherit from
+  // (via https://github.com/lipsmack from https://github.com/scottcorgan/tiny-emitter/issues/3)
+}
+
+E.prototype = {
+  on: function (name, callback, ctx) {
+    var e = this.e || (this.e = {});
+
+    (e[name] || (e[name] = [])).push({
+      fn: callback,
+      ctx: ctx
+    });
+
+    return this;
+  },
+
+  once: function (name, callback, ctx) {
+    var self = this;
+    function listener () {
+      self.off(name, listener);
+      callback.apply(ctx, arguments);
+    };
+
+    listener._ = callback
+    return this.on(name, listener, ctx);
+  },
+
+  emit: function (name) {
+    var data = [].slice.call(arguments, 1);
+    var evtArr = ((this.e || (this.e = {}))[name] || []).slice();
+    var i = 0;
+    var len = evtArr.length;
+
+    for (i; i < len; i++) {
+      evtArr[i].fn.apply(evtArr[i].ctx, data);
+    }
+
+    return this;
+  },
+
+  off: function (name, callback) {
+    var e = this.e || (this.e = {});
+    var evts = e[name];
+    var liveEvents = [];
+
+    if (evts && callback) {
+      for (var i = 0, len = evts.length; i < len; i++) {
+        if (evts[i].fn !== callback && evts[i].fn._ !== callback)
+          liveEvents.push(evts[i]);
+      }
+    }
+
+    // Remove event from queue to prevent memory leak
+    // Suggested by https://github.com/lazd
+    // Ref: https://github.com/scottcorgan/tiny-emitter/commit/c6ebfaa9bc973b33d110a84a307742b7cf94c953#commitcomment-5024910
+
+    (liveEvents.length)
+      ? e[name] = liveEvents
+      : delete e[name];
+
+    return this;
+  }
+};
+
+module.exports = E;
+module.exports.TinyEmitter = E;
+
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var is = __webpack_require__(54);
+var delegate = __webpack_require__(55);
+
+/**
+ * Validates all params and calls the right
+ * listener function based on its target type.
+ *
+ * @param {String|HTMLElement|HTMLCollection|NodeList} target
+ * @param {String} type
+ * @param {Function} callback
+ * @return {Object}
+ */
+function listen(target, type, callback) {
+    if (!target && !type && !callback) {
+        throw new Error('Missing required arguments');
+    }
+
+    if (!is.string(type)) {
+        throw new TypeError('Second argument must be a String');
+    }
+
+    if (!is.fn(callback)) {
+        throw new TypeError('Third argument must be a Function');
+    }
+
+    if (is.node(target)) {
+        return listenNode(target, type, callback);
+    }
+    else if (is.nodeList(target)) {
+        return listenNodeList(target, type, callback);
+    }
+    else if (is.string(target)) {
+        return listenSelector(target, type, callback);
+    }
+    else {
+        throw new TypeError('First argument must be a String, HTMLElement, HTMLCollection, or NodeList');
+    }
+}
+
+/**
+ * Adds an event listener to a HTML element
+ * and returns a remove listener function.
+ *
+ * @param {HTMLElement} node
+ * @param {String} type
+ * @param {Function} callback
+ * @return {Object}
+ */
+function listenNode(node, type, callback) {
+    node.addEventListener(type, callback);
+
+    return {
+        destroy: function() {
+            node.removeEventListener(type, callback);
+        }
+    }
+}
+
+/**
+ * Add an event listener to a list of HTML elements
+ * and returns a remove listener function.
+ *
+ * @param {NodeList|HTMLCollection} nodeList
+ * @param {String} type
+ * @param {Function} callback
+ * @return {Object}
+ */
+function listenNodeList(nodeList, type, callback) {
+    Array.prototype.forEach.call(nodeList, function(node) {
+        node.addEventListener(type, callback);
+    });
+
+    return {
+        destroy: function() {
+            Array.prototype.forEach.call(nodeList, function(node) {
+                node.removeEventListener(type, callback);
+            });
+        }
+    }
+}
+
+/**
+ * Add an event listener to a selector
+ * and returns a remove listener function.
+ *
+ * @param {String} selector
+ * @param {String} type
+ * @param {Function} callback
+ * @return {Object}
+ */
+function listenSelector(selector, type, callback) {
+    return delegate(document.body, selector, type, callback);
+}
+
+module.exports = listen;
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports) {
+
+/**
+ * Check if argument is a HTML element.
+ *
+ * @param {Object} value
+ * @return {Boolean}
+ */
+exports.node = function(value) {
+    return value !== undefined
+        && value instanceof HTMLElement
+        && value.nodeType === 1;
+};
+
+/**
+ * Check if argument is a list of HTML elements.
+ *
+ * @param {Object} value
+ * @return {Boolean}
+ */
+exports.nodeList = function(value) {
+    var type = Object.prototype.toString.call(value);
+
+    return value !== undefined
+        && (type === '[object NodeList]' || type === '[object HTMLCollection]')
+        && ('length' in value)
+        && (value.length === 0 || exports.node(value[0]));
+};
+
+/**
+ * Check if argument is a string.
+ *
+ * @param {Object} value
+ * @return {Boolean}
+ */
+exports.string = function(value) {
+    return typeof value === 'string'
+        || value instanceof String;
+};
+
+/**
+ * Check if argument is a function.
+ *
+ * @param {Object} value
+ * @return {Boolean}
+ */
+exports.fn = function(value) {
+    var type = Object.prototype.toString.call(value);
+
+    return type === '[object Function]';
+};
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var closest = __webpack_require__(56);
+
+/**
+ * Delegates event to a selector.
+ *
+ * @param {Element} element
+ * @param {String} selector
+ * @param {String} type
+ * @param {Function} callback
+ * @param {Boolean} useCapture
+ * @return {Object}
+ */
+function _delegate(element, selector, type, callback, useCapture) {
+    var listenerFn = listener.apply(this, arguments);
+
+    element.addEventListener(type, listenerFn, useCapture);
+
+    return {
+        destroy: function() {
+            element.removeEventListener(type, listenerFn, useCapture);
+        }
+    }
+}
+
+/**
+ * Delegates event to a selector.
+ *
+ * @param {Element|String|Array} [elements]
+ * @param {String} selector
+ * @param {String} type
+ * @param {Function} callback
+ * @param {Boolean} useCapture
+ * @return {Object}
+ */
+function delegate(elements, selector, type, callback, useCapture) {
+    // Handle the regular Element usage
+    if (typeof elements.addEventListener === 'function') {
+        return _delegate.apply(null, arguments);
+    }
+
+    // Handle Element-less usage, it defaults to global delegation
+    if (typeof type === 'function') {
+        // Use `document` as the first parameter, then apply arguments
+        // This is a short way to .unshift `arguments` without running into deoptimizations
+        return _delegate.bind(null, document).apply(null, arguments);
+    }
+
+    // Handle Selector-based usage
+    if (typeof elements === 'string') {
+        elements = document.querySelectorAll(elements);
+    }
+
+    // Handle Array-like based usage
+    return Array.prototype.map.call(elements, function (element) {
+        return _delegate(element, selector, type, callback, useCapture);
+    });
+}
+
+/**
+ * Finds closest match and invokes callback.
+ *
+ * @param {Element} element
+ * @param {String} selector
+ * @param {String} type
+ * @param {Function} callback
+ * @return {Function}
+ */
+function listener(element, selector, type, callback) {
+    return function(e) {
+        e.delegateTarget = closest(e.target, selector);
+
+        if (e.delegateTarget) {
+            callback.call(element, e);
+        }
+    }
+}
+
+module.exports = delegate;
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports) {
+
+var DOCUMENT_NODE_TYPE = 9;
+
+/**
+ * A polyfill for Element.matches()
+ */
+if (typeof Element !== 'undefined' && !Element.prototype.matches) {
+    var proto = Element.prototype;
+
+    proto.matches = proto.matchesSelector ||
+                    proto.mozMatchesSelector ||
+                    proto.msMatchesSelector ||
+                    proto.oMatchesSelector ||
+                    proto.webkitMatchesSelector;
+}
+
+/**
+ * Finds the closest parent that matches a selector.
+ *
+ * @param {Element} element
+ * @param {String} selector
+ * @return {Function}
+ */
+function closest (element, selector) {
+    while (element && element.nodeType !== DOCUMENT_NODE_TYPE) {
+        if (typeof element.matches === 'function' &&
+            element.matches(selector)) {
+          return element;
+        }
+        element = element.parentNode;
+    }
+}
+
+module.exports = closest;
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
 var _handlebars = _interopRequireDefault(__webpack_require__(5));
 
-__webpack_require__(49);
+__webpack_require__(58);
 
-__webpack_require__(50);
+__webpack_require__(59);
 
-__webpack_require__(51);
+__webpack_require__(60);
 
-__webpack_require__(52);
+__webpack_require__(61);
 
-__webpack_require__(53);
+__webpack_require__(62);
 
-__webpack_require__(55);
+__webpack_require__(64);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8326,7 +9318,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 49 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8352,7 +9344,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 50 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8389,7 +9381,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 51 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8509,7 +9501,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 52 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8557,7 +9549,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 53 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8570,7 +9562,7 @@ exports.default = void 0;
 
 var _handlebars = _interopRequireDefault(__webpack_require__(5));
 
-var _markdownToHtml = _interopRequireDefault(__webpack_require__(54));
+var _markdownToHtml = _interopRequireDefault(__webpack_require__(63));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8584,7 +9576,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 54 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8637,7 +9629,7 @@ function mdToHtml(Handlebars, markdownText) {
 module.exports = exports.default;
 
 /***/ }),
-/* 55 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8664,7 +9656,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 56 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8675,7 +9667,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _ListView = _interopRequireDefault(__webpack_require__(57));
+var _ListView = _interopRequireDefault(__webpack_require__(66));
 
 var _BaseView = _interopRequireDefault(__webpack_require__(1));
 
@@ -8693,7 +9685,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 57 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8704,7 +9696,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _View = _interopRequireDefault(__webpack_require__(16));
+var _View = _interopRequireDefault(__webpack_require__(14));
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
@@ -8822,7 +9814,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 58 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9239,7 +10231,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 59 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9260,23 +10252,23 @@ var _StringUtil = _interopRequireDefault(__webpack_require__(4));
 
 var _BaseView = _interopRequireDefault(__webpack_require__(1));
 
-var _ReadModeBar = _interopRequireDefault(__webpack_require__(60));
+var _ReadModeBar = _interopRequireDefault(__webpack_require__(69));
 
-var _Toolbar = _interopRequireDefault(__webpack_require__(25));
+var _Toolbar = _interopRequireDefault(__webpack_require__(27));
 
-var _ErrorBanner = _interopRequireDefault(__webpack_require__(61));
+var _ErrorBanner = _interopRequireDefault(__webpack_require__(70));
 
-var _ErrorParser = _interopRequireDefault(__webpack_require__(62));
+var _ErrorParser = _interopRequireDefault(__webpack_require__(71));
 
 var _FormUtil = _interopRequireDefault(__webpack_require__(10));
 
-var _InputContainer = _interopRequireDefault(__webpack_require__(63));
+var _InputContainer = _interopRequireDefault(__webpack_require__(72));
 
-var _InputFactory = _interopRequireDefault(__webpack_require__(64));
+var _InputFactory = _interopRequireDefault(__webpack_require__(73));
 
-var _InputLabel = _interopRequireDefault(__webpack_require__(65));
+var _InputLabel = _interopRequireDefault(__webpack_require__(74));
 
-var _InputWrapper = _interopRequireDefault(__webpack_require__(66));
+var _InputWrapper = _interopRequireDefault(__webpack_require__(75));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10509,7 +11501,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 60 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10557,7 +11549,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 61 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10670,7 +11662,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 62 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10788,7 +11780,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 63 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11114,7 +12106,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 64 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11127,7 +12119,7 @@ exports.default = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
-var _InputRegistry = _interopRequireDefault(__webpack_require__(26));
+var _InputRegistry = _interopRequireDefault(__webpack_require__(28));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11168,7 +12160,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 65 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11183,7 +12175,7 @@ var _runtime = _interopRequireDefault(__webpack_require__(2));
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
-__webpack_require__(27);
+__webpack_require__(29);
 
 var _BaseView = _interopRequireDefault(__webpack_require__(1));
 
@@ -11517,7 +12509,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 66 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11652,7 +12644,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 67 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11667,9 +12659,9 @@ var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
 var _StringUtil = _interopRequireDefault(__webpack_require__(4));
 
-var _BooleanSelect = _interopRequireDefault(__webpack_require__(68));
+var _BooleanSelect = _interopRequireDefault(__webpack_require__(77));
 
-var _TextBoxSet = _interopRequireDefault(__webpack_require__(70));
+var _TextBoxSet = _interopRequireDefault(__webpack_require__(79));
 
 var _EnumTypeHelper = _interopRequireDefault(__webpack_require__(20));
 
@@ -11979,7 +12971,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 68 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11990,7 +12982,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _Select = _interopRequireDefault(__webpack_require__(28));
+var _Select = _interopRequireDefault(__webpack_require__(30));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12040,7 +13032,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 69 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13295,7 +14287,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 70 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13314,7 +14306,7 @@ var _SchemaUtil = _interopRequireDefault(__webpack_require__(13));
 
 var _BaseInput = _interopRequireDefault(__webpack_require__(9));
 
-var _DeletableBox = _interopRequireDefault(__webpack_require__(71));
+var _DeletableBox = _interopRequireDefault(__webpack_require__(80));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13459,7 +14451,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 71 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13478,7 +14470,7 @@ var _SchemaUtil = _interopRequireDefault(__webpack_require__(13));
 
 var _StringUtil = _interopRequireDefault(__webpack_require__(4));
 
-var _Time = _interopRequireDefault(__webpack_require__(30));
+var _Time = _interopRequireDefault(__webpack_require__(32));
 
 var _BaseView = _interopRequireDefault(__webpack_require__(1));
 
@@ -13687,7 +14679,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 72 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13704,7 +14696,7 @@ var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
 var _Keys = _interopRequireDefault(__webpack_require__(8));
 
-__webpack_require__(31);
+__webpack_require__(33);
 
 var _BaseInput = _interopRequireDefault(__webpack_require__(9));
 
@@ -13870,7 +14862,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 73 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13885,7 +14877,7 @@ var _runtime = _interopRequireDefault(__webpack_require__(2));
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
-var _TextBox = _interopRequireDefault(__webpack_require__(32));
+var _TextBox = _interopRequireDefault(__webpack_require__(34));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13957,7 +14949,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 74 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14115,7 +15107,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 75 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14138,7 +15130,7 @@ var _Util = _interopRequireDefault(__webpack_require__(18));
 
 var _BaseView = _interopRequireDefault(__webpack_require__(1));
 
-__webpack_require__(31);
+__webpack_require__(33);
 
 var _BaseInput = _interopRequireDefault(__webpack_require__(9));
 
@@ -14407,7 +15399,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 76 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
