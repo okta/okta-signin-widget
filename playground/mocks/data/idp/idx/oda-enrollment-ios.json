@@ -1,0 +1,40 @@
+{
+  "stateHandle": "eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvMTgzcDRKUU9VcmsydkwwZzQiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..YpDq57xO4bBSv3jl.w3VVhTW7O6chSQkfps9eG7Vsd-VH7-Y8j_pPhiZCxQCVzVNVzj-D8iWRMsxYySZ6uike3nVj7hSFaAq_-BGMktseWOqy3gMvl6I7HLunOf8T2qHHzcnHl_N4nKs8pyyqIXyfEICpfV36U7FkIY-QZQ18oEofPb6TmXFNbstI33cW8S_Wg0SOCdVe24Jm4G71JN6G59zPFJA_2M3IDUsl4w57hO9ZbJRJ3DrRIgyQkUuS38YSUdWw7d0mh4sQIVomTG12u8fs86mWcEeyJnGEv_53h32NTN2cJXGcZq7TvOX1lLxAtY8GwCfUzW2IoFX8ERCGkhnYu_0NCEH9Jjl-1BcApLKA2hrjzlB7ogTQAtlUwBzo9TS-N-ygG6_uGssbgWQEywVXwTgnazqFq1vSZr2W17f-8yhaNp568jHPbFlDCl_GWC6nP2KHx5t4OznTji6-s1REigaPTG5V7ovxx2_JJaeyiQa6Vg6mJWfXCh9tu8zxkln9xL5R8jjVfozYyfKI_A3uhxb825q2nMbNA7yavkQxOBK1MFGrzhe1WyiPgrTxFt0DcO83OwbF8R34L00bH4I1OUK6-vUwV9Q0c6N3JzBJlFVGPsZxhUrVgGq7u1CNj-xrLH5Vqzo_TVDgEqSPeAsj_0Fy1ZiaFuM1Y2B8S4WAWLLO2RGQZLbsIm7TS15hPd13pC5e7X1HXzrxRQLuCjnzz7qHnEfnltPzcjJ_xxNF61mZoz_Xnx9Illks9CL7ty8h1M-4FxzkzoIrZm1G2KOL1b3SGK5OxUlmNJbcLfyqC7G93c33qDPPqtdi2Ev9WdB3R2kWBW6g6Qczilyo4uNa3gmQgwUDjnGhJROzX61EkYa2Ozg0SJmW4ru7ao0jBSNsrBfAjR4CIXFsLhPsO65G1UzfhB4wLE7ObtwvMoUegp2X6DgAmjhB4-NeChsxcPbJTX9A5vdkKY0NpQBcbKyeB1TkkVt-RbYL-e1J6Il7KrffTpRzGFQeQBEM9yLo2z7zUqK6yTr4-FAencdarp8NAgeQ6SAlXiFyBD5VEK3cVX8ILnxr3CSotwbZ6h9ie-tiRInBSQ_7zU3wp3NfEfumOmTVS7Sjvi2qo1F_Gbcq-CXbngof4nKUIvxablSThMdsixfS4nMECS2InGgIOjkwn6fSbG9czkj9liIMxDCiLU4VaT3pOx-QmjRR-_ntQhWAanUIkCh_DVhJAtVrsN64B54CF9xOP9UUrPATTx3dxdHEOgWVB5SwZPs7vbxyQ8YfRXluT-FUJXRNh4-N5uzc5cM2Tzc8uEzMsnIRyCadT8QUDqsJHeZ_mkvIjavCzy1E4Mo1q99Vv4ovpkagoa1-cb1Sn-iH-unoIYa-nHf5n5aqFFyIwHvsi9PTAUCQRg3Nwd8RvFtgembFJMmRxUrfSyQjyX6IVCntEQq0hK2Mq6kaMOzkT-pdZo6u-xotrsCkQnBqqdOIY74Fyr22e5r31FUFZGBgeH9ztiOmDz_NIHGVb6tMmar-jUXoMIK8rfn0G537HeV9dLbjOGnBNodYGdHJ2r5uMQdQv1kuNAecw-uuVEu7k8z398_yMQGtM4WccuvNxWyTX5g5kzv8suyd5Eor9aKJAiKjJaflwNIb8AldOID4eS4a8y7lf9o2bpV-xGxGGya2cUGa3Q8jOHlok4Vw4wBlkAU6QWGJ_WVqavG4733uFzEKKfxJpfMd98Y88gSu.UI6b0mlQalzOjwlF8nqGWA",
+  "version": "1.0.0",
+  "expiresAt": "2020-06-14T22:15:50.000Z",
+  "intent": "LOGIN",
+  "deviceEnrollment": {
+    "type": "object",
+    "value": {
+      "name": "oda",
+      "signInUrl": "https://idx.okta1.com",
+      "platform": "IOS"
+    }
+  },
+  "cancel": {
+      "rel": [
+          "create-form"
+      ],
+      "name": "cancel",
+      "href": "https://idx.okta1.com/idp/idx/cancel",
+      "method": "POST",
+      "accepts": "application/vnd.okta.v1+json",
+      "value": [
+          {
+              "name": "stateHandle",
+              "required": true,
+              "value": "eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvMTgzcDRKUU9VcmsydkwwZzQiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..YpDq57xO4bBSv3jl.w3VVhTW7O6chSQkfps9eG7Vsd-VH7-Y8j_pPhiZCxQCVzVNVzj-D8iWRMsxYySZ6uike3nVj7hSFaAq_-BGMktseWOqy3gMvl6I7HLunOf8T2qHHzcnHl_N4nKs8pyyqIXyfEICpfV36U7FkIY-QZQ18oEofPb6TmXFNbstI33cW8S_Wg0SOCdVe24Jm4G71JN6G59zPFJA_2M3IDUsl4w57hO9ZbJRJ3DrRIgyQkUuS38YSUdWw7d0mh4sQIVomTG12u8fs86mWcEeyJnGEv_53h32NTN2cJXGcZq7TvOX1lLxAtY8GwCfUzW2IoFX8ERCGkhnYu_0NCEH9Jjl-1BcApLKA2hrjzlB7ogTQAtlUwBzo9TS-N-ygG6_uGssbgWQEywVXwTgnazqFq1vSZr2W17f-8yhaNp568jHPbFlDCl_GWC6nP2KHx5t4OznTji6-s1REigaPTG5V7ovxx2_JJaeyiQa6Vg6mJWfXCh9tu8zxkln9xL5R8jjVfozYyfKI_A3uhxb825q2nMbNA7yavkQxOBK1MFGrzhe1WyiPgrTxFt0DcO83OwbF8R34L00bH4I1OUK6-vUwV9Q0c6N3JzBJlFVGPsZxhUrVgGq7u1CNj-xrLH5Vqzo_TVDgEqSPeAsj_0Fy1ZiaFuM1Y2B8S4WAWLLO2RGQZLbsIm7TS15hPd13pC5e7X1HXzrxRQLuCjnzz7qHnEfnltPzcjJ_xxNF61mZoz_Xnx9Illks9CL7ty8h1M-4FxzkzoIrZm1G2KOL1b3SGK5OxUlmNJbcLfyqC7G93c33qDPPqtdi2Ev9WdB3R2kWBW6g6Qczilyo4uNa3gmQgwUDjnGhJROzX61EkYa2Ozg0SJmW4ru7ao0jBSNsrBfAjR4CIXFsLhPsO65G1UzfhB4wLE7ObtwvMoUegp2X6DgAmjhB4-NeChsxcPbJTX9A5vdkKY0NpQBcbKyeB1TkkVt-RbYL-e1J6Il7KrffTpRzGFQeQBEM9yLo2z7zUqK6yTr4-FAencdarp8NAgeQ6SAlXiFyBD5VEK3cVX8ILnxr3CSotwbZ6h9ie-tiRInBSQ_7zU3wp3NfEfumOmTVS7Sjvi2qo1F_Gbcq-CXbngof4nKUIvxablSThMdsixfS4nMECS2InGgIOjkwn6fSbG9czkj9liIMxDCiLU4VaT3pOx-QmjRR-_ntQhWAanUIkCh_DVhJAtVrsN64B54CF9xOP9UUrPATTx3dxdHEOgWVB5SwZPs7vbxyQ8YfRXluT-FUJXRNh4-N5uzc5cM2Tzc8uEzMsnIRyCadT8QUDqsJHeZ_mkvIjavCzy1E4Mo1q99Vv4ovpkagoa1-cb1Sn-iH-unoIYa-nHf5n5aqFFyIwHvsi9PTAUCQRg3Nwd8RvFtgembFJMmRxUrfSyQjyX6IVCntEQq0hK2Mq6kaMOzkT-pdZo6u-xotrsCkQnBqqdOIY74Fyr22e5r31FUFZGBgeH9ztiOmDz_NIHGVb6tMmar-jUXoMIK8rfn0G537HeV9dLbjOGnBNodYGdHJ2r5uMQdQv1kuNAecw-uuVEu7k8z398_yMQGtM4WccuvNxWyTX5g5kzv8suyd5Eor9aKJAiKjJaflwNIb8AldOID4eS4a8y7lf9o2bpV-xGxGGya2cUGa3Q8jOHlok4Vw4wBlkAU6QWGJ_WVqavG4733uFzEKKfxJpfMd98Y88gSu.UI6b0mlQalzOjwlF8nqGWA",
+              "visible": false,
+              "mutable": false
+          }
+      ]
+  },
+  "app": {
+      "type": "object",
+      "value": {
+          "name": "oidc_client",
+          "label": "Native client",
+          "id": "0oa2lpzzzJHJy0E6q0g4"
+      }
+  }
+}
