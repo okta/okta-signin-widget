@@ -134,11 +134,19 @@ test
     deviceChallengeFalllbackPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
-    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verify account access');
-    await t.expect(deviceChallengePollPageObject.getFormSubtitle()).eql('Launching Okta Verify...');
-    await t.expect(deviceChallengePollPageObject.getContent())
-      .eql('If nothing prompts from the browser, click here to launch Okta Verify, or make sure Okta Verify is installed.');
-    await t.expect(deviceChallengePollPageObject.getFooterLink().innerText).eql('Back to Sign In');
+    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Sign in using Okta Verify on this device');
+    const content = deviceChallengePollPageObject.getContent();
+    await t.expect(content).contains('Please click');
+    await t.expect(content).contains('Open oktaverify.app');
+    await t.expect(content).contains('if you see the system dialog.');
+    await t.expect(content).contains('If nothing prompts from the browser,');
+    await t.expect(content).contains('click here to launch Okta Verify, or download & run Okta Verify.');
+    await t.expect(content).contains('If nothing prompts from the browser,');
+    await t.expect(content).contains('click here');
+    await t.expect(content).contains('to launch Okta Verify, or');
+    await t.expect(content).contains('download & run Okta Verify.');
+    await t.expect(deviceChallengePollPageObject.getDownloadOktaVerifyLink()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
+    await t.expect(deviceChallengePollPageObject.getFooterLink().innerText).eql('Go back');
     await t.expect(deviceChallengePollPageObject.getFooterLink().getAttribute('href')).eql('http://localhost:3000');
   });
 
@@ -168,7 +176,7 @@ test
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verify your sign in');
-    await t.expect(deviceChallengePollPageObject.getContent()).eql('To continue, you\'ll need to use the Okta Verify app to confirm your sign in.\nSign in with Okta Verify');
+    await t.expect(deviceChallengePollPageObject.getContent()).eql('To continue, you\'ll need to use the Okta Verify app to confirm your sign in.\nSign in using Okta Verify on this device');
     deviceChallengePollPageObject.clickUniversalLink();
     await t.expect(getPageUrl()).contains(mockHttpCustomUri);
     await t.expect(Selector('h1').innerText).eql('open universal link');

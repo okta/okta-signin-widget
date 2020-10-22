@@ -1,0 +1,73 @@
+{
+  "stateHandle": "02MmwXJegtQ1FxZnnbHFdnzSaD-_r2Ae3Nz6M1m91C",
+  "version": "1.0.0",
+  "expiresAt": "2020-10-19T07:13:01.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+      "type": "array",
+      "value": [
+          {
+              "rel": [
+                  "create-form"
+              ],
+              "name": "launch-authenticator",
+              "href": "http://localhost:3000/idp/idx/authenticators/okta-verify/launch",
+              "method": "POST",
+              "value": [
+                  {
+                      "name": "stateHandle",
+                      "required": true,
+                      "value": "02MmwXJegtQ1FxZnnbHFdnzSaD-_r2Ae3Nz6M1m91C",
+                      "visible": false,
+                      "mutable": false
+                  }
+              ],
+              "accepts": "application/ion+json; okta-version=1.0.0"
+          },
+          {
+              "rel": [
+                  "create-form"
+              ],
+              "name": "select-enroll-profile",
+              "href": "http://localhost:3000/idp/idx/enroll",
+              "method": "POST",
+              "value": [
+                  {
+                      "name": "stateHandle",
+                      "required": true,
+                      "value": "02MmwXJegtQ1FxZnnbHFdnzSaD-_r2Ae3Nz6M1m91C",
+                      "visible": false,
+                      "mutable": false
+                  }
+              ],
+              "accepts": "application/ion+json; okta-version=1.0.0"
+          }
+      ]
+  },
+  "cancel": {
+      "rel": [
+          "create-form"
+      ],
+      "name": "cancel",
+      "href": "http://localhost:3000/idp/idx/cancel",
+      "method": "POST",
+      "value": [
+          {
+              "name": "stateHandle",
+              "required": true,
+              "value": "02MmwXJegtQ1FxZnnbHFdnzSaD-_r2Ae3Nz6M1m91C",
+              "visible": false,
+              "mutable": false
+          }
+      ],
+      "accepts": "application/ion+json; okta-version=1.0.0"
+  },
+  "app": {
+      "type": "object",
+      "value": {
+          "name": "office365",
+          "label": "Microsoft Office 365",
+          "id": "0oabq3knA2YMLrgvK0g4"
+      }
+  }
+}

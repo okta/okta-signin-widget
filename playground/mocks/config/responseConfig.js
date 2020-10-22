@@ -210,7 +210,26 @@ const windowAuthnLoopbackFailfast = {
   ],
 };
 
-// device probe: Windows/Android authenticator with custom URI
+// device probe: silent probe failed, but probing is still required
+const desktopSmartProbe = {
+  '/idp/idx/introspect': [
+    'identify-with-device-probing-loopback',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'identify',
+  ],
+  '/idp/idx/authenticators/okta-verify/launch': [
+    'identify-with-device-launch-authenticator',
+  ],
+  '/idp/idx/authenticators/poll/cancel': [
+    'smart-probing-required',
+  ],
+  '/idp/idx/enroll': [
+    'enroll-profile-new'
+  ],
+};
+
+// device probe: Windows/Android authenticator with custom URI, probing is not required
 const windowAuthnCustomUri = {
   '/idp/idx/introspect': [
     'identify-with-device-probing-loopback-challenge-not-received',

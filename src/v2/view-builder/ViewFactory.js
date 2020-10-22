@@ -10,6 +10,7 @@ import SuccessView from './views/SuccessView';
 // Device (Okta Mobile)
 import DeviceChallengePollView from './views/DeviceChallengePollView';
 import SSOExtensionView from './views/SSOExtensionView';
+import SignInDeviceView from './views/SignInDeviceView';
 
 // registration
 import EnrollProfileView from './views/EnrollProfileView';
@@ -67,6 +68,9 @@ const VIEWS_MAPPING = {
   [RemediationForms.DEVICE_CHALLENGE_POLL]: {
     [DEFAULT]: DeviceChallengePollView,
   },
+  [RemediationForms.LAUNCH_AUTHENTICATOR]: {
+    [DEFAULT]: SignInDeviceView,
+  } ,
   [RemediationForms.DEVICE_APPLE_SSO_EXTENSION]: {
     [DEFAULT]: SSOExtensionView,
   },
