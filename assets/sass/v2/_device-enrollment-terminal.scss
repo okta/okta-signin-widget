@@ -1,0 +1,44 @@
+.device-enrollment-terminal {
+  ol {
+    counter-reset: decimal;
+  }
+  li {
+    margin: 24px 0;
+    padding-left: 24px;
+    &::before {
+      content: counter(decimal) ". ";
+      counter-increment: decimal;
+      display: inline-block;
+      position: absolute;
+      left: 0;
+      width: 20px;;
+    }
+  }
+  .copy-clipboard-button {
+    margin-top: 8px;
+    height: 44px;
+    line-height: 44px;
+  }
+  .o-form-fieldset-container {
+    .explanation {
+      margin: 24px 0;
+    }
+    .semi-strong {
+      word-break: break-word;
+      font-weight: $font-weight-labels;
+    }
+    .app-store-logo {
+      display: block;
+      margin: auto;
+      height: 40px;
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
+    .android-app-store-logo {
+      background-image: url('../img/appstore/google-play-store.svg');
+    }
+    .ios-app-store-logo {
+      background-image: url('../img/appstore/apple-app-store.svg');
+    }
+  }
+}

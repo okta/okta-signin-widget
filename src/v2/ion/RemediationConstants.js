@@ -41,6 +41,7 @@ const FORMS = {
   DEVICE_APPLE_SSO_EXTENSION: 'device-apple-sso-extension',
   CANCEL_TRANSACTION: 'cancel-transaction',
   LAUNCH_AUTHENTICATOR: 'launch-authenticator',
+  DEVICE_ENROLLMENT_TERMINAL: 'device-enrollment-terminal',
 
   // 'terminal` is not ION Form name but only coined in widget
   // for rendering a page that user has nothing to remediate.
@@ -56,6 +57,7 @@ const FORMS_WITHOUT_SIGNOUT = [
   FORMS.ENROLL_AUTHENTICATOR,
   FORMS.REDIRECT_IDP,
   FORMS.RESET_AUTHENTICATOR,
+  FORMS.DEVICE_ENROLLMENT_TERMINAL,
   // TODO: remove following when deprecating `factor`
   'select-factor-enroll',
   'enroll-factor'

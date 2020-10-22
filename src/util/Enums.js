@@ -24,6 +24,12 @@ export default {
   RECOVERY_FACTOR_TYPE_EMAIL: 'EMAIL',
   RECOVERY_FACTOR_TYPE_CALL: 'CALL',
 
+  IOS: 'ios',
+  ANDROID: 'android',
+
+  ODA: 'oda',
+  MDM: 'mdm',
+
   // Global success messages
   SUCCESS: 'SUCCESS',
   FORGOT_PASSWORD_EMAIL_SENT: 'FORGOT_PASSWORD_EMAIL_SENT',
@@ -61,4 +67,8 @@ export default {
 
   //IDP Discovery
   IDP_DISCOVERY: 'IDP_DISCOVERY',
+
+  //App Store Links
+  OKTA_VERIFY_APPLE_APP_STORE_URL: 'https://apps.apple.com/us/app/okta-verify/id490179405',
+  OKTA_VERIFY_GOOGLE_PLAY_STORE_URL: 'https://play.google.com/store/apps/details?id=com.okta.android.auth',
 };

@@ -10,6 +10,7 @@ import Logger from '../../../util/Logger';
 import DeviceFingerprint from '../../../util/DeviceFingerprint';
 import polling from './shared/polling';
 import Util from '../../../util/Util';
+import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
 
 const request = (opts) => {
   const ajaxOptions = Object.assign({
@@ -191,7 +192,7 @@ const Footer = BaseFooter.extend({
 export default BaseView.extend({
   Header: BaseHeader.extend({
     HeaderBeacon: HeaderBeacon.extend({
-      getBeaconClassName: () => 'mfa-okta-verify'
+      getBeaconClassName: () => getIconClassNameForBeacon('app'),
     }),
   }),
   Body,
