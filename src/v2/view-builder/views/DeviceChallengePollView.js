@@ -61,10 +61,22 @@ const Body = BaseForm.extend(Object.assign(
         this.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest);
         break;
       case 'CUSTOM_URI':
-        this.title = loc('customUri.title', 'login');
-        this.subtitle = loc('customUri.subtitle', 'login');
+        this.title = loc('oktaVerify.button', 'login');
         this.add(View.extend({
-          template: hbs`{{{i18n code="customUri.content" bundle="login"}}}`
+          className: 'skinny-content',
+          template: hbs`
+            <p>
+              {{{i18n code="customUri.required.content.p1" bundle="login"}}}
+            </p>
+            <p>
+              {{{i18n code="customUri.required.content.p2" bundle="login" arguments="downloadOVLink"}}}
+            </p>
+          `,
+          getTemplateData () {
+            return {
+              downloadOVLink: deviceChallenge.downloadHref
+            };
+          },
         }));
         this.customURI = deviceChallenge.href;
         this.doCustomURI();
@@ -167,7 +179,7 @@ const Footer = BaseFooter.extend({
         {
           name: 'sign-in-options',
           type: 'link',
-          label: loc('goback', 'login'),
+          label: loc('oie.go.back', 'login'),
           href: this.settings.get('baseUrl')
         }
       ];

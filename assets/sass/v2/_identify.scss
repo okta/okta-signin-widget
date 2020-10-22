@@ -2,6 +2,9 @@
 .sign-in-with-idp,
 .custom-buttons {
   .okta-verify-container {
+    .signin-with-ov-description {
+      margin-bottom: 0.83em;
+    }
     .button {
       display: block;
       position: relative;
