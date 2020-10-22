@@ -2,12 +2,12 @@ import { loc, createCallout } from 'okta';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
-import BaseFooter from '../internals/BaseFooter';
+import IdentifierFooter from '../components/IdentifierFooter';
 import signInWithIdps from './signin/SignInWithIdps';
 import customButtonsView from './signin/CustomButtons';
 import signInWithDeviceOption from './signin/SignInWithDeviceOption';
 import { createIdpButtons, createCustomButtons } from '../internals/FormInputFactory';
-import { getForgotPasswordLink } from '../utils/LinksUtil';
+
 
 const Body = BaseForm.extend({
 
@@ -21,7 +21,7 @@ const Body = BaseForm.extend({
 
     // Launch Device Authenticator
     if (this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_AUTHENTICATOR)) {
-      this.add(signInWithDeviceOption, '.o-form-fieldset-container', false, true);
+      this.add(signInWithDeviceOption, '.o-form-fieldset-container', false, true, { isRequired: false });
     }
 
     // This IdentifierView has been reused for the case when there is no `identify` remediation form
@@ -74,56 +74,9 @@ const Body = BaseForm.extend({
   },
 });
 
-const Footer = BaseFooter.extend({
-  links () {
-    let helpLinkHref;
-    if (this.options.settings.get('helpLinks.help')) {
-      helpLinkHref = this.options.settings.get('helpLinks.help');
-    } else {
-      const baseUrl = this.options.settings.get('baseUrl');
-      helpLinkHref = baseUrl + '/help/login';
-    }
-
-    const helpLink = [
-      {
-        'name': 'help',
-        'label': loc('help', 'login'),
-        'href': helpLinkHref,
-      },
-    ];
-
-    const signupLink = [];
-    if (this.options.appState.hasRemediationObject(RemediationForms.SELECT_ENROLL_PROFILE)) {
-      signupLink.push({
-        'type': 'link',
-        'label': loc('signup', 'login'),
-        'name': 'enroll',
-        'actionPath': RemediationForms.SELECT_ENROLL_PROFILE,
-      });
-    }
-
-    const forgotPasswordLink = getForgotPasswordLink(this.options.appState, this.options.settings);
-
-    const customHelpLinks = [];
-    if (this.options.settings.get('helpLinks.custom')) {
-      //add custom helpLinks
-      this.options.settings.get('helpLinks.custom').forEach(customHelpLink => {
-        customHelpLink.name = 'custom';
-        customHelpLink.label = customHelpLink.text;
-        customHelpLinks.push(customHelpLink);
-      });
-    }
-
-    return forgotPasswordLink
-      .concat(signupLink)
-      .concat(helpLink)
-      .concat(customHelpLinks);
-  }
-});
-
 export default BaseView.extend({
   Body,
-  Footer,
+  Footer: IdentifierFooter,
 
   postRender () {
     BaseView.prototype.postRender.apply(this, arguments);

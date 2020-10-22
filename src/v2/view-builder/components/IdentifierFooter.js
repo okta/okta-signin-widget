@@ -1,0 +1,51 @@
+import { loc } from 'okta';
+import BaseFooter from '../internals/BaseFooter';
+import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
+import { getForgotPasswordLink } from '../utils/LinksUtil';
+
+export default BaseFooter.extend({
+  links () {
+    let helpLinkHref;
+    if (this.options.settings.get('helpLinks.help')) {
+      helpLinkHref = this.options.settings.get('helpLinks.help');
+    } else {
+      const baseUrl = this.options.settings.get('baseUrl');
+      helpLinkHref = baseUrl + '/help/login';
+    }
+
+    const helpLink = [
+      {
+        'name': 'help',
+        'label': loc('help', 'login'),
+        'href': helpLinkHref,
+      },
+    ];
+
+    const signupLink = [];
+    if (this.options.appState.hasRemediationObject(RemediationForms.SELECT_ENROLL_PROFILE)) {
+      signupLink.push({
+        'type': 'link',
+        'label': loc('signup', 'login'),
+        'name': 'enroll',
+        'actionPath': RemediationForms.SELECT_ENROLL_PROFILE,
+      });
+    }
+
+    const forgotPasswordLink = getForgotPasswordLink(this.options.appState, this.options.settings);
+
+    const customHelpLinks = [];
+    if (this.options.settings.get('helpLinks.custom')) {
+      //add custom helpLinks
+      this.options.settings.get('helpLinks.custom').forEach(customHelpLink => {
+        customHelpLink.name = 'custom';
+        customHelpLink.label = customHelpLink.text;
+        customHelpLinks.push(customHelpLink);
+      });
+    }
+
+    return forgotPasswordLink
+      .concat(signupLink)
+      .concat(helpLink)
+      .concat(customHelpLinks);
+  }
+});
