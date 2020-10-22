@@ -77,6 +77,13 @@ const getRemediationValues = (idx) => {
         // messages generically.
         value: [],
       });
+    } else if (idx.context.deviceEnrollment) {
+      // no remediation or messages for device enrollment state
+      // and the state is meant to be terminal state with different UI than the regular terminal view
+      remediationValues.push({
+        name: RemediationForms.DEVICE_ENROLLMENT_TERMINAL,
+        value: [],
+      });
     }
 
   }
@@ -167,6 +174,7 @@ const convertRedirectIdPToSuccessRedirectIffOneIdp = (result) => {
  *  factors: {},
  *  factor: {},
  *  messages: {},
+ *  deviceEnrollment: {},
  * }
  */
 const convert = (settings, idx = {}) => {
