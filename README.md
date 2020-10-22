@@ -1323,6 +1323,26 @@ We use Yarn as our node package manager. To install Yarn, check out their [insta
 | `yarn test:testcafe <browser>`  | Run testcafe tests on selected browser (example: `yarn test:testcafe chrome`)                                                               |
 | `yarn lint`          | Run eslint and scss linting tests                                                                                                                      |
 
+### Local development workflow using `yarn link`
+
+When developing locally, you may want to test local changes to the widget in another project, which is also local. To use `yarn link` locally, follow these steps:
+
+In `okta-signin-widget` directory:
+
+```bash
+yarn build:release
+yarn link
+yarn build:webpack-dev --output-path ./dist/js --output-filename okta-sign-in.entry.js --watch
+```
+
+This will watch for changes in signin widget source code and automatically rebuild to the dist directory.
+
+In your other local project directory:
+
+```bash
+yarn link @okta/okta-signin-widget
+```
+
 ## Browser support
 
 Need to know if the Sign-In Widget supports your browser requirements?  Please see [Platforms, Browser, and OS Support](https://help.okta.com/en/prod/Content/Topics/Miscellaneous/Platforms_Browser_OS_Support.htm).

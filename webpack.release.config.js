@@ -19,27 +19,9 @@ var plugins = require('./buildtools/webpack/plugins');
 var useRuntime = require('./buildtools/webpack/runtime');
 var usePolyfill = require('./buildtools/webpack/polyfill');
 
-// 1. entryConfig (node module main entry. minified, no polyfill, external dependencies)
+// 1. entryConfig (node module main entry. minified, no polyfill)
 var entryConfig = config('okta-sign-in.entry.js');
 entryConfig.output.filename = 'okta-sign-in.entry.js';
-entryConfig.externals = {
-  // TODO: remove handlebars external OKTA-320626
-  'handlebars/runtime': {
-    'commonjs': 'handlebars/dist/handlebars.runtime',
-    'commonjs2': 'handlebars/dist/handlebars.runtime',
-    'amd': 'handlebars.runtime',
-    'root': 'handlebars'
-  },
-  'handlebars': {
-    'commonjs': 'handlebars/dist/handlebars.runtime',
-    'commonjs2': 'handlebars/dist/handlebars.runtime',
-    'amd': 'handlebars.runtime',
-    'root': 'handlebars'
-  },
-  'q': true,
-  'u2f-api-polyfill': true,
-  'underscore': true
-};
 entryConfig.plugins = plugins({ isProduction: true, analyzerFile: 'okta-sign-in.entry.analyzer' });
 useRuntime(entryConfig);
 
