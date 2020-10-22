@@ -15,45 +15,55 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
 
 <!-- TOC depthFrom:2 depthTo:3 -->
 
-- [Getting started](#getting-started)
-  - [Using the Okta CDN](#using-the-okta-cdn)
-  - [Using the npm module](#using-the-npm-module)
-- [Usage guide](#usage-guide)
-- [API Reference](#api-reference)
-  - [OktaSignIn](#oktasignin)
-  - [renderEl](#renderel)
-  - [showSignInToGetTokens](#showsignintogettokens)
-  - [hide](#hide)
-  - [show](#show)
-  - [remove](#remove)
-  - [on](#on)
-  - [off](#off)
-  - [authClient](#authclient)
-  - [hasTokensInUrl](#hastokensinurl)
-- [Configuration](#configuration)
-  - [Basic config options](#basic-config-options)
-  - [Username and password](#username-and-password)
-  - [Language and text](#language-and-text)
-  - [Colors](#colors)
-  - [Links](#links)
-  - [Buttons](#buttons)
-  - [Registration](#registration)
-  - [IdP Discovery](#idp-discovery)
-  - [OpenID Connect](#openid-connect)
-  - [Smart Card IdP](#smart-card-idp)
-  - [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
-  - [Feature flags](#feature-flags)
-- [Events](#events)
-  - [ready](#ready)
-  - [afterError](#aftererror)
-  - [afterRender](#afterrender)
-  - [pageRendered](#pagerendered)
-  - [passwordRevealed](#passwordrevealed)
-- [Building the Widget](#building-the-widget)
-  - [The `.widgetrc.js` config file](#the-widgetrc-config-file)
-  - [Build and test commands](#build-and-test-commands)
-- [Browser support](#browser-support)
-- [Contributing](#contributing)
+- [Okta Sign-In Widget](#okta-sign-in-widget)
+  - [Getting started](#getting-started)
+    - [Using the Okta CDN](#using-the-okta-cdn)
+    - [Using the npm module](#using-the-npm-module)
+  - [Usage guide](#usage-guide)
+  - [Usage examples](#usage-examples)
+    - [OIDC login flow using PKCE (Proof Key for Code Exchange)](#oidc-login-flow-using-pkce-proof-key-for-code-exchange)
+    - [OIDC login flow using Authorization Code](#oidc-login-flow-using-authorization-code)
+  - [API Reference](#api-reference)
+    - [OktaSignIn](#oktasignin)
+    - [renderEl](#renderel)
+      - [success](#success)
+      - [error](#error)
+    - [showSignInToGetTokens](#showsignintogettokens)
+    - [hide](#hide)
+    - [show](#show)
+    - [remove](#remove)
+    - [on](#on)
+    - [off](#off)
+    - [authClient](#authclient)
+    - [hasTokensInUrl](#hastokensinurl)
+  - [Configuration](#configuration)
+    - [Basic config options](#basic-config-options)
+    - [Username and password](#username-and-password)
+    - [Language and text](#language-and-text)
+    - [Colors](#colors)
+    - [Links](#links)
+      - [Help Links](#help-links)
+      - [Sign Out Link](#sign-out-link)
+    - [Buttons](#buttons)
+      - [Custom Buttons](#custom-buttons)
+      - [Registration Button](#registration-button)
+    - [Registration](#registration)
+    - [IdP Discovery](#idp-discovery)
+      - [Additional configuration](#additional-configuration)
+    - [OpenID Connect](#openid-connect)
+    - [Smart Card IdP](#smart-card-idp)
+    - [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
+    - [Feature flags](#feature-flags)
+  - [Events](#events)
+    - [ready](#ready)
+    - [afterError](#aftererror)
+    - [afterRender](#afterrender)
+    - [pageRendered](#pagerendered)
+    - [passwordRevealed](#passwordrevealed)
+  - [Building the Widget](#building-the-widget)
+    - [Build and test commands](#build-and-test-commands)
+  - [Browser support](#browser-support)
+  - [Contributing](#contributing)
 
 <!-- /TOC -->
 
@@ -261,82 +271,56 @@ Renders the widget to the DOM, and passes control back to your app through succe
 
 - `options`
   - `el` - CSS selector which identifies the container element that the widget attaches to.
-- `success` *(optional)* - Function that is called when the user has completed an authentication flow. If an [OpenID Connect redirect flow](#openid-connect) is used, this function can be omitted.
+- `success` *(optional)* - Function that is called when the user has completed an authentication flow. If an [OpenID Connect redirect flow](#openid-connect) is used, this function can be omitted. See below for more details.
 - `error` *(optional)* - Function that is called when the widget has been initialized with invalid config options, or has entered a state it cannot recover from. If omitted, a default function is used to output errors to the console.
 
+#### success
+
+Function that handles non-error events, including the completion of a successful authentication flow by a user. Also handles other flows such as reset password and self-registration flows.
+
+_OIDC vs Non-OIDC Configurations:_
+
+New integrations are recommended to use OIDC as it uses a more lightweight REST-based protocol and has more widespread usage. Less common is the need for non-OIDC integrations in self-hosted applications, however one example of this usage is when using the Okta-hosted sign-in widget to redirect a user to the Okta Dashboard after authentication.
+
+*`res` parameter:*
+
+This `success` function will be called with an object, that can have various properties, depending on how the widget is configured:
+
 ```javascript
-signIn.renderEl(
-  // Assumes there is an empty element on the page with an id of 'osw-container'
-  {el: '#osw-container'},
-
-  function success(res) {
-    // The properties in the response object depend on two factors:
-    // 1. The type of authentication flow that has just completed, determined by res.status
-    // 2. What type of token the widget is returning
-
-    // The user has started the password recovery flow, and is on the confirmation
-    // screen letting them know that an email is on the way.
-    if (res.status === 'FORGOT_PASSWORD_EMAIL_SENT') {
-      // Any followup action you want to take
-      return;
-    }
-
-    // The user has started the unlock account flow, and is on the confirmation
-    // screen letting them know that an email is on the way.
-    if (res.status === 'UNLOCK_ACCOUNT_EMAIL_SENT') {
-      // Any followup action you want to take
-      return;
-    }
-
-    // The user has successfully completed the authentication flow
-    if (res.status === 'SUCCESS') {
-
-      // Handle success when the widget is not configured for OIDC
-
-      if (res.type === 'SESSION_STEP_UP') {
-        // Session step up response
-        // If the widget is not configured for OIDC and the authentication type is SESSION_STEP_UP,
-        // the response will contain user metadata and a stepUp object with the url of the resource
-        // and a 'finish' function to navigate to that url
-        console.log(res.user);
-        console.log('Target resource url: ' + res.stepUp.url);
-        res.stepUp.finish();
-        return;
-      } else {
-        // If the widget is not configured for OIDC, the response will contain
-        // user metadata and a sessionToken that can be converted to an Okta
-        // session cookie:
-        console.log(res.user);
-        res.session.setCookieAndRedirect('https://acme.com/app');
-        return;
-      }
-
-
-      // OIDC response
-
-      // If the widget is configured for OIDC with a single responseType, the
-      // response will be the token.
-      // i.e. authParams.responseType = 'id_token':
-      console.log(res.claims);
-      signIn.tokenManager.add('my_id_token', res);
-
-      // If the widget is configured for OIDC with multiple responseTypes, the
-      // response will be an array of tokens:
-      // i.e. authParams.responseType = ['id_token', 'token']
-      signIn.tokenManager.add('my_id_token', res[0]);
-      signIn.tokenManager.add('my_access_token', res[1]);
-
-      return;
-    }
-
-  },
-
-  function error(err) {
-    // This function is invoked with errors the widget cannot recover from:
-    // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR
-  }
-);
+success({
+  status: String,
+  username: optional<string>,
+  activationToken: optional<object>,
+  tokens: optional<object>,
+  type: optional<string>,
+  user: optional<object>,
+  stepUp: optional<function>,
+  session: optional<object>,
+  next: optional<function>,
+})
 ```
+
+- `status` *(string)* - Always present. One of: `FORGOT_PASSWORD_EMAIL_SENT`, `UNLOCK_ACCOUNT_EMAIL_SENT`, `ACTIVATION_EMAIL_SENT`, `REGISTRATION_COMPLETE`, or `SUCCESS`
+
+- `username` *(optional\<string\>)* - Only present when `status` is one of `FORGOT_PASSWORD_EMAIL_SENT`, `UNLOCK_ACCOUNT_EMAIL_SENT`, `ACTIVATION_EMAIL_SENT`, or `REGISTRATION_COMPLETE`.
+
+- `activationToken` *(optional\<object\>)* - Only present when `status` is `REGISTRATION_COMPLETE`.
+
+- `tokens` *(optional\<object\>)* - Only present when widget is in an OIDC configuration, and `status` is `SUCCESS`. Depending on the widget `responseType` configuration, this will contain an `accessToken` only or both `accessToken` and `idToken`.
+
+- `type` *(optional\<string\>)* - Only present when widget is in a non-OIDC configuration and `status` is `SUCCESS`. One of `SESSION_STEP_UP`, or `SESSION_SSO`.
+
+- `user` *(optional\<object\>)* - Only present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and `type` is `SESSION_STEP_UP`.
+
+- `stepUp` *(optional\<function\>)* - Only present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and `type` is `SESSION_STEP_UP`. `res.stepUp.finish()` call redirect the user to the URL at `res.stepUp.url`.
+
+- `next` *(optional\<function\>)* - May be present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and the response contains a redirect URL. Calling this function will redirect the user.
+
+- `session` *(optional\<object\>)* - Only present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and `type` is `SESSION_SSO`. `res.session.setCookieAndRedirect(url)` will redirect the user to the passed URL.
+
+#### error
+
+Function that handles errors that the widget cannot recover from. This function is called with a string parameter, `err`, which can be one of `CONFIG_ERROR` or `UNSUPPORTED_BROWSER_ERROR`.
 
 ### showSignInToGetTokens
 
