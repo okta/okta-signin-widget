@@ -30,6 +30,10 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     return this.body.find('.spinner');
   }
 
+  getDownloadOktaVerifyLink() {
+    return this.body.find('#download-ov').getAttribute('href');
+  }
+
   async clickUniversalLink() {
     await this.t.click(Selector('.ul-button'));
   }
