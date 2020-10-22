@@ -8,6 +8,7 @@ import BaseRouter from '@okta/courage/src/util/BaseRouter';
 import ButtonFactory from '@okta/courage/src/util/ButtonFactory';
 import Class from '@okta/courage/src/util/Class';
 import Cookie from '@okta/courage/src/util/Cookie';
+import Clipboard from '@okta/courage/src/util/Clipboard';
 import Keys from '@okta/courage/src/util/Keys';
 import Logger from '@okta/courage/src/util/Logger';
 import StringUtil from '@okta/courage/src/util/StringUtil';
@@ -18,6 +19,7 @@ import _ from '@okta/courage/src/util/underscore-wrapper';
 import ListView from '@okta/courage/src/views/Backbone.ListView';
 import BaseView from '@okta/courage/src/views/BaseView';
 import BaseDropDown from '@okta/courage/src/views/components/BaseDropDown';
+import Notification from '@okta/courage/src/views/components/Notification';
 import BaseForm from '@okta/courage/src/views/forms/BaseForm';
 import Toolbar from '@okta/courage/src/views/forms/components/Toolbar';
 import FormUtil from '@okta/courage/src/views/forms/helpers/FormUtil';
@@ -96,6 +98,7 @@ const Okta = {
     util: {
       Util,
       Cookie,
+      Clipboard,
       Logger,
       Class,
       Keys,
@@ -104,6 +107,7 @@ const Okta = {
     views: {
       components: {
         BaseDropDown,
+        Notification,
       },
 
       forms: {
