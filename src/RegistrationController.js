@@ -198,6 +198,19 @@ export default BaseLoginController.extend({
         noCancelButton: true,
         title: loc('registration.form.title', 'login'),
         save: loc('registration.form.submit', 'login'),
+        parseErrorMessage: function (resp) {
+          const hasErrorCauses = resp.errorCauses && resp.errorCauses.length;
+
+          if (hasErrorCauses) {
+            const isDuplicateEmailCause = resp.errorCode === 'E0000001'
+              && resp.errorCauses[0].reason === 'UNIQUE_CONSTRAINT';
+
+            if (isDuplicateEmailCause) {
+              resp.errorCauses[0].errorSummary = loc('registration.error.userName.notUniqueWithinOrg', 'login');
+            }
+          }
+          return resp;
+        },
       });
       const form = new RegistrationControllerForm(self.toJSON());
 

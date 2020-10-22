@@ -7,6 +7,7 @@ import RegForm from 'helpers/dom/RegistrationForm';
 import Util from 'helpers/mocks/Util';
 import Expect from 'helpers/util/Expect';
 import resSuccess from 'helpers/xhr/SUCCESS';
+import resErrorNotUnique from 'helpers/xhr/ERROR_notUnique';
 import RegSchema from 'models/RegistrationSchema';
 import $sandbox from 'sandbox';
 
@@ -240,6 +241,29 @@ Expect.describe('Registration', function () {
         const postData = model.toJSON();
 
         expect(postData.relayState).toBeUndefined();
+      });
+    });
+    itp('duplicate email address in org error message is localized by widget', function () {
+      return setup({
+        i18n: {
+          en: {
+            'registration.error.userName.notUniqueWithinOrg': 'Custom duplicate account error message',
+          }
+        }
+      }).then(function (test) {
+        Util.resetAjaxRequests();
+        test.form.setUserName('test@example.com');
+        test.form.setPassword('Abcd1234');
+        test.form.setFirstname('firstName');
+        test.form.setLastname('lastName');
+        test.form.setReferrer('referrer');
+        test.setNextResponse(resErrorNotUnique);
+        test.form.submit();
+
+        return Expect.waitForFormErrorBox(test.form, test);
+      }).then(function (test) {
+        expect(test.form.errorBox().length).toBe(1);
+        expect(test.form.errorBox().text().trim()).toBe('Custom duplicate account error message');
       });
     });
   });
