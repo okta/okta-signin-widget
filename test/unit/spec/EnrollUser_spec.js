@@ -28,7 +28,6 @@ function setup (isUnauthenticated) {
       {
         el: $sandbox,
         baseUrl: baseUrl,
-        features: { consent: true },
         logo: logoUrl,
         authClient: authClient,
         globalSuccessFn: successSpy,
