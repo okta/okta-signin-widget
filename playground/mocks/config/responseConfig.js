@@ -5,6 +5,7 @@ const idx = {
 
   '/idp/idx/introspect': [
     'identify',
+    // 'error-403-security-access-denied',
     // 'authenticator-enroll-email',
     // 'error-internal-server-error',
     // 'authenticator-enroll-password',
