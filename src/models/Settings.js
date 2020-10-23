@@ -71,7 +71,6 @@ export default Model.extend({
     'features.hideBackToSignInForReset': ['boolean', false, false],
     'features.customExpiredPassword': ['boolean', true, false],
     'features.registration': ['boolean', false, false],
-    'features.consent': ['boolean', false, false],
     'features.idpDiscovery': ['boolean', false, false],
     'features.passwordlessAuth': ['boolean', false, false],
     'features.showPasswordToggleOnSignInPage': ['boolean', false, false],

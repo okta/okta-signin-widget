@@ -210,9 +210,7 @@ fn.handleResponseStatus = function (router, res) {
     router.navigate('signin/admin-consent', { trigger: true });
     return;
   case 'CONSENT_REQUIRED':
-    if (router.settings.get('features.consent')) {
-      router.navigate('signin/consent', { trigger: true });
-    }
+    router.navigate('signin/consent', { trigger: true });
     return;
     // We want the same view for FACTOR_REQUIRED & FACTOR_CHALLENGE
     // In the new idx pipeline FACTOR_CHALLENGE API response does not contain a prev link
