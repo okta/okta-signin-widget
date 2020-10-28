@@ -1,5 +1,5 @@
 import { _, internal } from 'okta';
-import OktaAuth from '@okta/okta-auth-js';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import PasswordResetForm from 'helpers/dom/PasswordResetForm';
@@ -79,7 +79,7 @@ function setup (settings) {
 
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
-  const authClient = new OktaAuth({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+  const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
   const router = new Router(
     _.extend(
       {

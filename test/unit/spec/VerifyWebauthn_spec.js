@@ -1,7 +1,7 @@
 /* eslint max-params: [2, 19] */
 
 import { _, $ } from 'okta';
-import OktaAuth from '@okta/okta-auth-js';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import MfaVerifyForm from 'helpers/dom/MfaVerifyForm';
@@ -51,7 +51,7 @@ function clickFactorInDropdown (test, factorName) {
 function setup (options) {
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
-  const authClient = new OktaAuth({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+  const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
   const successSpy = jasmine.createSpy('success');
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
   const router = createRouter(baseUrl, authClient, successSpy, { 'features.webauthn': true });
@@ -165,7 +165,7 @@ function setupMultipleWebauthnOnly (options) {
   mockWebauthn(options);
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
-  const authClient = new OktaAuth({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+  const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
   const successSpy = jasmine.createSpy('success');
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
   const router = createRouter(baseUrl, authClient, successSpy, { 'features.webauthn': true });

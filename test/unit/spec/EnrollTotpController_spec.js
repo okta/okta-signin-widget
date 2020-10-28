@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 24] */
 import { _, loc } from 'okta';
-import OktaAuth from '@okta/okta-auth-js';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import LinkSentConfirmation from 'helpers/dom/EnrollPushLinkSentForm';
@@ -30,7 +30,7 @@ Expect.describe('EnrollTotp', function () {
   function setup (res, selectedFactor, settings, startRouter) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
-    const authClient = new OktaAuth({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+    const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     const router = new Router(
       _.extend(
@@ -683,6 +683,7 @@ Expect.describe('EnrollTotp', function () {
         });
     });
     itp('removes the sms activation form on successful activation response', function () {
+      Expect.allowUnhandledPromiseRejection(); // OKTA-324849
       return enrollOktaPushGoCannotScanFn()
         .then(function (test) {
           Util.resetAjaxRequests();

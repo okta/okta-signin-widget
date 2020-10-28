@@ -3,7 +3,7 @@ import _ from 'underscore';
 import config from 'config/config.json';
 import OAuth2Util from 'util/OAuth2Util';
 import Util from 'util/Util';
-import OktaAuth from '@okta/okta-auth-js';
+import createAuthClient from 'widget/createAuthClient';
 import V1Router from 'LoginRouter';
 import V2Router from 'v2/WidgetRouter';
 
@@ -96,26 +96,6 @@ var OktaSignIn = (function () {
     };
   }
 
-  function createAuthClient (options) {
-    var authParams = _.extend(
-      {
-        transformErrorXHR: Util.transformErrorXHR,
-        headers: {
-          'X-Okta-User-Agent-Extended': 'okta-signin-widget-' + config.version,
-        },
-        clientId: options.clientId,
-        redirectUri: options.redirectUri,
-      },
-      options.authParams
-    );
-
-    if (!authParams.issuer) {
-      authParams.issuer = options.baseUrl + '/oauth2/default';
-    }
-
-    return new OktaAuth(authParams);
-  }
-
   /**
    * Render the sign in widget to an element.
    * @param options - options for the signin widget.
@@ -130,7 +110,16 @@ var OktaSignIn = (function () {
         See: https://developer.okta.com/code/javascript/okta_sign-in_widget#cdn
       `);
 
-    var authClient = createAuthClient(options);
+    var authParams = _.extend({
+      clientId: options.clientId,
+      redirectUri: options.redirectUri
+    }, options.authParams);
+
+    if (!authParams.issuer) {
+      authParams.issuer = options.baseUrl + '/oauth2/default';
+    }
+
+    var authClient = createAuthClient(authParams);
 
     var Router;
     if (options.stateToken && !Util.isV1StateToken(options.stateToken)) {

@@ -1,5 +1,5 @@
 /* eslint max-params: [2, 18] */
-import OktaAuth from '@okta/okta-auth-js';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import Form from 'helpers/dom/EnrollPasswordForm';
@@ -18,7 +18,7 @@ Expect.describe('EnrollPassword', function () {
   function setup (startRouter) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
-    const authClient = new OktaAuth({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+    const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     const successSpy = jasmine.createSpy('success');
     const router = new Router({

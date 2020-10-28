@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 13], max-len: [2, 160] */
 import { _ } from 'okta';
-import OktaAuth from '@okta/okta-auth-js';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import ConsentRequiredForm from 'helpers/dom/ConsentRequiredForm';
 import Util from 'helpers/mocks/Util';
@@ -22,7 +22,7 @@ function setup (settings, res) {
   const setNextResponse = Util.mockAjax();
   const baseUrl = window.location.origin;
   const logoUrl = '/img/logos/default.png';
-  const authClient = new OktaAuth({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+  const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
   const router = new Router(
     _.extend(
       {

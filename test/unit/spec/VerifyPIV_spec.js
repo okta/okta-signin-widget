@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 18], max-statements: 0 */
 import { _, internal } from 'okta';
-import OktaAuth from '@okta/okta-auth-js';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import PivForm from 'helpers/dom/PivForm';
@@ -17,7 +17,7 @@ const itp = Expect.itp;
 function setup (errorResponse, pivConfig) {
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
-  const authClient = new OktaAuth({ issuer: baseUrl });
+  const authClient = createAuthClient({ issuer: baseUrl });
   const successSpy = jasmine.createSpy('success');
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
   const defaultConfig = {
