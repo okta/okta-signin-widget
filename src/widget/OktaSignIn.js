@@ -118,7 +118,6 @@ var OktaSignIn = (function () {
     // Properties exposed on OktaSignIn object.
     return {
       renderEl: render,
-      authClient: authClient,
       showSignInToGetTokens,
       showSignInAndRedirect,
       hide,

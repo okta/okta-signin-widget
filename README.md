@@ -29,7 +29,6 @@ You can learn more on the [Okta + JavaScript][lang-landing] page in our document
   - [remove](#remove)
   - [on](#on)
   - [off](#off)
-  - [authClient](#authclient)
 - [Configuration](#configuration)
   - [Basic config options](#basic-config-options)
   - [Username and password](#username-and-password)
@@ -456,20 +455,6 @@ signIn.off('ready');
 
 // Unsubscribe the onReady listener from the 'ready' event
 signIn.off('ready', onReady);
-```
-
-### authClient
-
-Returns the underlying [`@okta/okta-auth-js`](https://github.com/okta/okta-auth-js) object used by the Sign-in Widget. All methods are documented in the [AuthJS](https://github.com/okta/okta-auth-js#api-reference) base library.
-
-```javascript
-// Check for an existing authClient transaction
-signIn.authClient.tx.exists();
-if (exists) {
-  console.log('A session exists!');
-} else {
-  console.log('A session does not exist.');
-};
 ```
 
 ## Configuration

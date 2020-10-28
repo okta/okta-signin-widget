@@ -56,6 +56,43 @@ This option has been deprecated with a warning since version 3 and has now been 
 
 If a redirect is needed, use [showSignInAndRedirect](https://github.com/okta/okta-signin-widget#showsigninandredirect), otherwise use [showSignInToGetTokens](https://github.com/okta/okta-signin-widget#showsignintogettokens) to obtain tokens without a redirect.
 
+## `authParams` are deprecated
+
+TODO
+
+## `authClient` has been removed
+
+The internal instance of [@okta/okta-auth-js](https://github.com/okta/okta-auth-js) is no longer being exposed. If you need to work with the `okta-auth-js` library, you should add a dependency to [@okta/okta-auth-js](https://github.com/okta/okta-auth-js) and create an instance in your application. For example:
+
+```javascript
+import { OktaAuth } from '@okta/okta-auth-js';
+
+var clientConfig = {
+  clientId: '{{clientId of your OIDC app}}'
+  redirectUri: '{{redirectUri configured in OIDC app}}'
+};
+
+var authParams = {
+  issuer: 'https://{yourOktaDomain}/oauth2/default'
+};
+
+var oktaAuthConfig = Object.assign({}, clientConfig, authParams);
+var oktAuth = new OktaAuth(oktaAuthConfig);
+
+var signInConfig = Object.assign({
+  // Assumes there is an empty element on the page with an id of 'osw-container'
+  el: '#osw-container'
+  baseUrl: 'https://{yourOktaDomain}',
+  authParams
+}, clientConfig);
+var signIn = new OktaSignIn(signInConfig);
+
+signIn.showSignInToGetTokens().then(function(tokens) {
+  // Store tokens
+  oktaAuth.tokenManager.setTokens(tokens);
+});
+```
+
 ## Migrating from 3.x to 4.x
 
 ### HTTPS is enforced by default

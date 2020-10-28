@@ -61,7 +61,7 @@ util.getTokens = function (settings, params, controller) {
   _.extend(
     getTokenOptions,
     _.pick(options, 'clientId', 'redirectUri'),
-    _.pick(options.authParams,
+    _.pick(options,
       // https://github.com/okta/okta-auth-js#authorize-options
       'responseType', 'scopes', 'state', 'nonce', 'idp', 'idpScope', 'display', 'prompt', 'maxAge', 'loginHint'
     ),

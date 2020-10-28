@@ -51,9 +51,6 @@ Expect.describe('OktaSignIn initialization', function () {
     it('has a renderEl method', function () {
       expect(signIn.renderEl).toBeDefined();
     });
-    it('has a authClient method', function () {
-      expect(signIn.authClient).toBeDefined();	
-    });
     it('has a showSignInToGetTokens method', function () {
       expect(signIn.showSignInToGetTokens).toBeDefined();
     });
