@@ -148,6 +148,14 @@ export default Model.extend({
     //IDP Discovery
     'idpDiscovery.requestContext': 'string',
 
+    // Device Enrollment Remediation
+    'deviceEnrollment.name': 'string',
+    'deviceEnrollment.platform': 'string',
+    'deviceEnrollment.vendor': 'string',
+    'deviceEnrollment.enrollmentLink': 'string',
+    'deviceEnrollment.signInUrl': 'string',
+
+
     //Colors
     'colors.brand': 'string',
 

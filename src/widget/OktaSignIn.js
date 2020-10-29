@@ -6,6 +6,7 @@ import Util from 'util/Util';
 import createAuthClient from 'widget/createAuthClient';
 import V1Router from 'LoginRouter';
 import V2Router from 'v2/WidgetRouter';
+import V3Router from 'v2/DeviceEnrollmentRouter.js';
 
 var OktaSignIn = (function () {
 
@@ -122,7 +123,9 @@ var OktaSignIn = (function () {
     var authClient = createAuthClient(authParams);
 
     var Router;
-    if (options.stateToken && !Util.isV1StateToken(options.stateToken)) {
+    if (options.deviceEnrollment && options.deviceEnrollment.name) {
+      Router = V3Router;
+    } else if (options.stateToken && !Util.isV1StateToken(options.stateToken)) {
       Router = V2Router;
     } else {
       Router = V1Router;
