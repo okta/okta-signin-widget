@@ -54,85 +54,85 @@ export default FormController.extend({
           this.webauthnAbortController = null;
         }
       });
+      const transaction = this.appState.get('transaction');
+      let factor;
+      if (transaction.factorTypes) {
+        factor = _.findWhere(transaction.factorTypes, {
+          factorType: 'webauthn',
+        });
+      } else {
+        factor = _.findWhere(transaction.factors, {
+          factorType: 'webauthn',
+          provider: 'FIDO',
+        });
+      }
+      factor.verify().then((trans) => {
+        this.appState.set('transaction', trans);
+      });
     },
 
     save: function () {
       this.trigger('request');
 
-      return this.doTransaction(function (transaction) {
-        let factor;
-
-        if (transaction.factorTypes) {
-          factor = _.findWhere(transaction.factorTypes, {
-            factorType: 'webauthn',
-          });
-        } else {
-          factor = _.findWhere(transaction.factors, {
-            factorType: 'webauthn',
-            provider: 'FIDO',
-          });
-        }
-
+      const transaction = this.appState.get('transaction');
+        
         const self = this;
 
-        return factor.verify().then(function (transaction) {
-          let allowCredentials;
-          let challenge;
+        let allowCredentials;
+        let challenge;
 
-          if (transaction.factors) {
-            const factors = transaction.factors;
+        if (transaction.factors) {
+          const factors = transaction.factors;
 
-            challenge = transaction.challenge;
-            allowCredentials = getAllowCredentials(factors);
-          } else {
-            const factorData = transaction.factor;
+          challenge = transaction.challenge;
+          allowCredentials = getAllowCredentials(factors);
+        } else {
+          const factorData = transaction.factor;
 
-            challenge = factorData.challenge;
-            allowCredentials = getAllowCredentials([factorData]);
-          }
-          self.trigger('request');
-          // verify via browser webauthn js
+          challenge = factorData.challenge;
+          allowCredentials = getAllowCredentials([factorData]);
+        }
+        self.trigger('request');
+        // verify via browser webauthn js
 
-          const options = _.extend({}, challenge, {
-            allowCredentials: allowCredentials,
-            challenge: CryptoUtil.strToBin(challenge.challenge),
-          });
-
-          self.webauthnAbortController = new AbortController();
-          return new Q(
-            navigator.credentials.get({
-              publicKey: options,
-              signal: self.webauthnAbortController.signal,
-            })
-          )
-            .then(function (assertion) {
-              const rememberDevice = !!self.get('rememberDevice');
-
-              return factor.verify({
-                clientData: CryptoUtil.binToStr(assertion.response.clientDataJSON),
-                authenticatorData: CryptoUtil.binToStr(assertion.response.authenticatorData),
-                signatureData: CryptoUtil.binToStr(assertion.response.signature),
-                rememberDevice: rememberDevice,
-              });
-            })
-            .catch(function (error) {
-              self.trigger('errors:clear');
-              // Do not display if it is abort error triggered by code when switching.
-              // self.webauthnAbortController would be null if abort was triggered by code.
-              if (!self.webauthnAbortController) {
-                throw new Errors.WebauthnAbortError();
-              } else {
-                throw new Errors.WebAuthnError({
-                  xhr: { responseJSON: { errorSummary: error.message } },
-                });
-              }
-            })
-            .finally(function () {
-              // unset webauthnAbortController on successful authentication or error
-              self.webauthnAbortController = null;
-            });
+        const options = _.extend({}, challenge, {
+          allowCredentials: allowCredentials,
+          challenge: CryptoUtil.strToBin(challenge.challenge),
         });
-      });
+
+        self.webauthnAbortController = new AbortController();
+        return new Q(
+          navigator.credentials.get({
+            publicKey: options,
+            signal: self.webauthnAbortController.signal,
+          })
+        )
+          .then(function (assertion) {
+            const rememberDevice = !!self.get('rememberDevice');
+
+            return factor.verify({
+              clientData: CryptoUtil.binToStr(assertion.response.clientDataJSON),
+              authenticatorData: CryptoUtil.binToStr(assertion.response.authenticatorData),
+              signatureData: CryptoUtil.binToStr(assertion.response.signature),
+              rememberDevice: rememberDevice,
+            });
+          })
+          .catch(function (error) {
+            self.trigger('errors:clear');
+            // Do not display if it is abort error triggered by code when switching.
+            // self.webauthnAbortController would be null if abort was triggered by code.
+            if (!self.webauthnAbortController) {
+              throw new Errors.WebauthnAbortError();
+            } else {
+              throw new Errors.WebAuthnError({
+                xhr: { responseJSON: { errorSummary: error.message } },
+              });
+            }
+          })
+          .finally(function () {
+            // unset webauthnAbortController on successful authentication or error
+            self.webauthnAbortController = null;
+          });
     },
   },
 
@@ -200,7 +200,8 @@ export default FormController.extend({
     postRender: function () {
       _.defer(() => {
         if (webauthn.isNewApiAvailable()) {
-          this.model.save();
+          //this.$el.
+          //this.model.save();
         } else {
           this.$('[data-se="webauthn-waiting"]').hide();
         }

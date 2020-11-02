@@ -119,7 +119,8 @@ export default BaseAuthenticatorView.extend({
   postRender () {
     BaseAuthenticatorView.prototype.postRender.apply(this, arguments);
     if (webauthn.isNewApiAvailable()) {
-      this.form.getCredentialsAndSave();
+      this.$('.retry-webauthn').show();
+      //this.form.getCredentialsAndSave();
     }
   },
 });
