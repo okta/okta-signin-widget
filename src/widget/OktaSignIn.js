@@ -153,7 +153,7 @@ var OktaSignIn = (function () {
     var authClient = createAuthClient(authParams);
 
     var Router;
-    if (options.stateToken && !Util.isV1StateToken(options.stateToken)) {
+    if ((options.stateToken || options.proxyIdxResponse) && !Util.isV1StateToken(options.stateToken)) {
       Router = V2Router;
     } else {
       Router = V1Router;
