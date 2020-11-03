@@ -13,6 +13,7 @@
 // BaseLoginRouter contains the more complicated router logic - rendering/
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
+/* global Promise */
 import { _, $, Backbone, Router, loc } from 'okta';
 import Settings from 'models/Settings';
 import Bundles from 'util/Bundles';
@@ -34,6 +35,14 @@ const introspectStateToken = (settings) => {
   const stateHandle = settings.get('stateToken');
   const version = settings.get('apiVersion');
   return idx.start({ domain, stateHandle, version });
+};
+
+const handleProxyIdxResponse = (settings) => {
+  return Promise.resolve({
+    rawIdxState: settings.get('proxyIdxResponse'),
+    context: settings.get('proxyIdxResponse'),
+    neededToProceed: [],
+  });
 };
 
 export default Router.extend({
@@ -150,10 +159,13 @@ export default Router.extend({
     // introspect stateToken when widget is bootstrap with state token
     // and remove it from `settings` afterwards as IDX response always has
     // state token (which will be set into AppState)
-    if (this.settings.get('stateToken')) {
-      return introspectStateToken(this.settings)
+    if (this.settings.get('stateToken') || this.settings.get('proxyIdxResponse')) {
+      const idxRespPromise = this.settings.get('proxyIdxResponse') ?
+        handleProxyIdxResponse(this.settings) : introspectStateToken(this.settings);
+      return idxRespPromise
         .then(idxResp => {
           this.settings.unset('stateToken');
+          this.settings.unset('proxyIdxResponse');
           this.appState.trigger('remediationSuccess', idxResp);
           this.render(Controller, options);
         })

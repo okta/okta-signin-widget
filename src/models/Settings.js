@@ -54,6 +54,10 @@ export default Model.extend({
     // IDX API VERSION
     apiVersion: ['string', true, '1.0.0'],
 
+    // attribute to hold proxy (fake) idx response
+    // to render static pages without initiating idx pipeline
+    proxyIdxResponse: ['object', false],
+
     // FEATURES
     'features.router': ['boolean', true, false],
     'features.securityImage': ['boolean', true, false],
