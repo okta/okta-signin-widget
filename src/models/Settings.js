@@ -105,6 +105,13 @@ export default Model.extend({
       value: 'SECONDARY',
     },
 
+    // Device Enrollment Remediation
+    'deviceEnrollment.name': 'string',
+    'deviceEnrollment.platform': 'string',
+    'deviceEnrollment.vendor': 'string',
+    'deviceEnrollment.enrollmentLink': 'string',
+    'deviceEnrollment.signInUrl': 'string',
+
     // HELP LINKS
     'helpLinks.help': 'string',
     'helpLinks.forgotPassword': 'string',

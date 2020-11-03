@@ -130,6 +130,26 @@ export default Router.extend({
     }
   },
 
+  handleDeviceEnrollmentFlow () {
+    const deviceEnrollmentValue = this.settings.options.deviceEnrollment;
+    const rawIdxStateForDeviceEnrollment = {
+      stateHandle: this.settings.get('stateToken'),
+      version: '1.0.0',
+      expiresAt: '2020-06-14T22:15:50.000Z',
+      intent: 'LOGIN',
+      deviceEnrollment: {
+        type: 'object',
+        value: deviceEnrollmentValue
+      }
+    };
+
+    this.handleIdxResponseSuccess({
+      rawIdxState: rawIdxStateForDeviceEnrollment,
+      context: rawIdxStateForDeviceEnrollment,
+      neededToProceed: [],
+    });
+  },
+
   render: function (Controller, options = {}) {
     // Since we have a wrapper view, render our wrapper and use its content
     // element as our new el.
@@ -151,17 +171,21 @@ export default Router.extend({
     // and remove it from `settings` afterwards as IDX response always has
     // state token (which will be set into AppState)
     if (this.settings.get('stateToken')) {
-      return introspectStateToken(this.settings)
-        .then(idxResp => {
-          this.settings.unset('stateToken');
-          this.appState.trigger('remediationSuccess', idxResp);
-          this.render(Controller, options);
-        })
-        .catch(errorResp => {
-          this.settings.unset('stateToken');
-          this.appState.trigger('remediationError', errorResp.error);
-          this.render(Controller, options);
-        });
+      if (this.settings.options.deviceEnrollment && this.settings.options.deviceEnrollment.name) {
+        this.handleDeviceEnrollmentFlow();
+      } else {
+        return introspectStateToken(this.settings)
+          .then(idxResp => {
+            this.settings.unset('stateToken');
+            this.appState.trigger('remediationSuccess', idxResp);
+            this.render(Controller, options);
+          })
+          .catch(errorResp => {
+            this.settings.unset('stateToken');
+            this.appState.trigger('remediationError', errorResp.error);
+            this.render(Controller, options);
+          });
+      }
     }
 
     // Load the custom colors only on the first render

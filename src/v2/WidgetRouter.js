@@ -12,15 +12,21 @@
 
 import FormController from './controllers/FormController';
 import BaseLoginRouter from './BaseLoginRouter';
+import DeviceEnrollmentTerminalViewController from './controllers/DeviceEnrollmentTerminalViewController';
 
 module.exports = BaseLoginRouter.extend({
   routes: {
     '': 'defaultAuth',
     '*wildcard': 'defaultAuth',
+    'authenticators/ov-not-installed': 'deviceEnrollmentTerminalView'
   },
 
   defaultAuth: function () {
     this.render(FormController);
+  },
+
+  deviceEnrollmentTerminalView: function () {
+    this.render(DeviceEnrollmentTerminalViewController);
   },
 
 });
