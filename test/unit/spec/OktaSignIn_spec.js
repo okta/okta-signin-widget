@@ -355,6 +355,30 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
     return signIn.renderEl({ el: $sandbox });
   }
 
+  function setupProxyIdxResponse (options) {
+    signIn = new Widget(
+      Object.assign(
+        {
+          baseUrl: url,
+          proxyIdxResponse: {
+            deviceEnrollment: {
+              type: 'object',
+              value: {
+                name: options.enrollmentType,
+                platform: 'IOS',
+                enrollmentLink: 'https://sampleEnrollmentlink.com',
+                vendor: 'Airwatch',
+                signInUrl: 'https://idx.okta1.com'
+              }
+            }
+          }
+        },
+        options || {}
+      )
+    );
+    return signIn.renderEl({ el: $sandbox });
+  }
+
   Expect.describe('Introspects token and loads Identifier view for new pipeline', function () {
     itp('calls introspect API on page load using idx-js as client', function () {
       const form = new IdentifierForm($sandbox);
@@ -384,6 +408,14 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         expect(err.name).toBe('CONFIG_ERROR');
         expect(err.message.toString()).toEqual('Error: Unknown api version: 2.0.0.  Use an exact semver version.');
       });
+    });
+  });
+
+  itp('Gets proxyIdxResponse and render terminal view', function () {
+    setupProxyIdxResponse({ enrollmentType : 'mdm'});
+
+    return Expect.wait(() => {
+      return $('.siw-main-body').length === 1;
     });
   });
 });
