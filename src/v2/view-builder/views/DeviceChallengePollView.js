@@ -10,6 +10,7 @@ import Logger from '../../../util/Logger';
 import DeviceFingerprint from '../../../util/DeviceFingerprint';
 import polling from './shared/polling';
 import Util from '../../../util/Util';
+import Enums from '../../../util/Enums';
 import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
 
 const request = (opts) => {
@@ -54,14 +55,14 @@ const Body = BaseForm.extend(Object.assign(
     doChallenge () {
       const deviceChallenge = this.deviceChallengePollRemediation.relatesTo.value;
       switch (deviceChallenge.challengeMethod) {
-      case 'LOOPBACK':
+      case Enums.LOOPBACK_CHALLENGE:
         this.title = loc('signin.with.fastpass', 'login');
         this.add(View.extend({
           template: hbs`<div class="spinner"></div>`
         }));
         this.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest);
         break;
-      case 'CUSTOM_URI':
+      case Enums.CUSTOM_URI_CHALLENGE:
         this.title = loc('oktaVerify.button', 'login');
         this.add(View.extend({
           className: 'skinny-content',
@@ -82,7 +83,7 @@ const Body = BaseForm.extend(Object.assign(
         this.customURI = deviceChallenge.href;
         this.doCustomURI();
         break;
-      case 'UNIVERSAL_LINK':
+      case Enums.UNIVERSAL_LINK_CHALLENGE:
         this.title = loc('universalLink.title', 'login');
         this.add(View.extend({
           template: hbs`{{{i18n code="universalLink.content" bundle="login"}}}`
