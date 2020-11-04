@@ -62,17 +62,29 @@ const customURIMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithLaunchAuthenticatorHttpCustomUri);
 
+const identifyWithSSOExtensionFallbackWithoutLink = JSON.parse(JSON.stringify(identifyWithSSOExtensionFallback));
+// remove the universal link so that Util.redirect does not open a link and the rest of the flow can be verified
+delete identifyWithSSOExtensionFallbackWithoutLink.authenticatorChallenge.value.href;
 // replace universal link with http URL so that we can mock and verify
 identifyWithLaunchUniversalLink.authenticatorChallenge.value.href = mockHttpCustomUri;
-const universalLinkMock = RequestMock()
+const universalLinkWithoutLaunchMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
-  .respond(identifyWithSSOExtensionFallback)
+  .respond(identifyWithSSOExtensionFallbackWithoutLink)
   .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
   .respond(identifyWithLaunchUniversalLink)
   .onRequestTo(mockHttpCustomUri)
   .respond('<html><h1>open universal link</h1></html>')
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithLaunchUniversalLink);
+
+const identifyWithSSOExtensionFallbackTarget = JSON.parse(JSON.stringify(identifyWithSSOExtensionFallback));
+// replace universal link with http URL so that we can mock and verify
+identifyWithSSOExtensionFallbackTarget.authenticatorChallenge.value.href = mockHttpCustomUri;
+const universalLinkMock = RequestMock()
+  .onRequestTo(/idp\/idx\/introspect/)
+  .respond(identifyWithSSOExtensionFallbackTarget)
+  .onRequestTo(mockHttpCustomUri)
+  .respond('<html><h1>open universal link</h1></html>');
 
 fixture('Device Challenge Polling View with the Loopback Server, Custom URI and Universal Link approaches');
 
@@ -150,7 +162,6 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterLink().getAttribute('href')).eql('http://localhost:3000');
   });
 
-const getPageUrl = ClientFunction(() => window.location.href);
 test
   .requestHooks(customURILogger, customURIMock)('in custom URI approach, Okta Verify is launched', async t => {
     const deviceChallengePollPageObject = await setup(t);
@@ -163,8 +174,9 @@ test
     )).eql(2);
   });
 
+const getPageUrl = ClientFunction(() => window.location.href);
 test
-  .requestHooks(loopbackFallbackLogger, universalLinkMock)('SSO Extension fails and falls back to universal link', async t => {
+  .requestHooks(loopbackFallbackLogger, universalLinkWithoutLaunchMock)('SSO Extension fails and falls back to universal link', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
     await t.expect(deviceChallengeFalllbackPage.getPageTitle()).eql('Sign In');
@@ -178,6 +190,20 @@ test
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verify your sign in');
     await t.expect(deviceChallengePollPageObject.getContent()).eql('To continue, you\'ll need to use the Okta Verify app to confirm your sign in.\nSign in using Okta Verify on this device');
     deviceChallengePollPageObject.clickUniversalLink();
+    await t.expect(getPageUrl()).contains(mockHttpCustomUri);
+    await t.expect(Selector('h1').innerText).eql('open universal link');
+  });
+
+test
+  .requestHooks(loopbackFallbackLogger, universalLinkMock)('clicking the launch Okta Verify button opens the universal link', async t => {
+    loopbackFallbackLogger.clear();
+    const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
+    await t.expect(deviceChallengeFalllbackPage.getPageTitle()).eql('Sign In');
+    await t.expect(loopbackFallbackLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/introspect/)
+    )).eql(1);
+    deviceChallengeFalllbackPage.clickOktaVerifyButton();
     await t.expect(getPageUrl()).contains(mockHttpCustomUri);
     await t.expect(Selector('h1').innerText).eql('open universal link');
   });
