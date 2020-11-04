@@ -71,4 +71,11 @@ export default {
   //App Store Links
   OKTA_VERIFY_APPLE_APP_STORE_URL: 'https://apps.apple.com/us/app/okta-verify/id490179405',
   OKTA_VERIFY_GOOGLE_PLAY_STORE_URL: 'https://play.google.com/store/apps/details?id=com.okta.android.auth',
+
+  // Device Challenge Method
+  LOOPBACK_CHALLENGE: 'LOOPBACK',
+  CUSTOM_URI_CHALLENGE: 'CUSTOM_URI',
+  UNIVERSAL_LINK_CHALLENGE: 'UNIVERSAL_LINK',
+
+  LAUNCH_AUTHENTICATOR_REMEDIATION_NAME: 'launch-authenticator',
 };
