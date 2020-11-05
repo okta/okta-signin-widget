@@ -17,8 +17,8 @@ import DeviceEnrollmentTerminalViewController from './controllers/DeviceEnrollme
 module.exports = BaseLoginRouter.extend({
   routes: {
     '': 'defaultAuth',
+    'authenticators/ov-not-installed': 'deviceEnrollmentTerminalView',
     '*wildcard': 'defaultAuth',
-    'authenticators/ov-not-installed': 'deviceEnrollmentTerminalView'
   },
 
   defaultAuth: function () {
@@ -26,7 +26,7 @@ module.exports = BaseLoginRouter.extend({
   },
 
   deviceEnrollmentTerminalView: function () {
-    this.render(DeviceEnrollmentTerminalViewController);
+    this.render(DeviceEnrollmentTerminalViewController, { terminalStateWithNoRemediation : true });
   },
 
 });

@@ -39,6 +39,17 @@ const introspectStateToken = (settings) => {
 export default Router.extend({
   Events: Backbone.Events,
 
+  start: function () {
+    $(function () {
+      if (Backbone.History.started) {
+        Logger.error('History has already been started');
+        return;
+      }
+      // Backbone.history.start({pushState: true});
+      Backbone.history.start.apply(Backbone.history, [{pushState: true}]);
+    });
+  },
+
   initialize: function (options) {
     // Create a default success and/or error handler if
     // one is not provided.
@@ -80,6 +91,7 @@ export default Router.extend({
 
     this.listenTo(this.appState, 'remediationSuccess', this.handleIdxResponseSuccess);
     this.listenTo(this.appState, 'remediationError', this.handleIdxResponseFailure);
+    this.listenTo(this.appState, 'terminalStateWithNoRemediation', this.handleTerminalStateWithNoRemediation);
   },
 
   handleIdxResponseSuccess (idxResponse) {
@@ -130,22 +142,46 @@ export default Router.extend({
     }
   },
 
-  handleDeviceEnrollmentFlow () {
-    const deviceEnrollmentValue = this.settings.options.deviceEnrollment;
-    const rawIdxStateForDeviceEnrollment = {
-      stateHandle: this.settings.get('stateToken'),
-      version: '1.0.0',
-      expiresAt: '2020-06-14T22:15:50.000Z',
-      intent: 'LOGIN',
-      deviceEnrollment: {
-        type: 'object',
-        value: deviceEnrollmentValue
-      }
-    };
+  handleTerminalStateWithNoRemediation () {
+    const deviceEnrollmentType = this.settings.get('deviceEnrollment.name');
+    let deviceEnrollmentResponse;
+
+    if (deviceEnrollmentType === 'oda') {
+      deviceEnrollmentResponse = {
+        stateHandle: this.settings.get('stateToken'),
+        version: this.settings.get('apiVersion'),
+        expiresAt: '2020-06-14T22:15:50.000Z',
+        intent: 'LOGIN',
+        deviceEnrollment: {
+          type: 'object',
+          value: {
+            name: deviceEnrollmentType,
+            platform: this.settings.get('deviceEnrollment.platform'),
+            signInUrl: this.settings.get('deviceEnrollment.signInUrl')
+          }
+        }
+      };
+    } else {
+      deviceEnrollmentResponse = {
+        stateHandle: this.settings.get('stateToken'),
+        version: this.settings.get('apiVersion'),
+        expiresAt: '2020-06-14T22:15:50.000Z',
+        intent: 'LOGIN',
+        deviceEnrollment: {
+          type: 'object',
+          value: {
+            name: deviceEnrollmentType,
+            platform: this.settings.get('deviceEnrollment.platform'),
+            vendor: this.settings.get('deviceEnrollment.vendor'),
+            enrollmentLink: this.settings.get('deviceEnrollment.enrollmentLink')
+          }
+        }
+      };
+    }
 
     this.handleIdxResponseSuccess({
-      rawIdxState: rawIdxStateForDeviceEnrollment,
-      context: rawIdxStateForDeviceEnrollment,
+      rawIdxState: deviceEnrollmentResponse,
+      context: deviceEnrollmentResponse,
       neededToProceed: [],
     });
   },
@@ -170,22 +206,22 @@ export default Router.extend({
     // introspect stateToken when widget is bootstrap with state token
     // and remove it from `settings` afterwards as IDX response always has
     // state token (which will be set into AppState)
-    if (this.settings.get('stateToken')) {
-      if (this.settings.options.deviceEnrollment && this.settings.options.deviceEnrollment.name) {
-        this.handleDeviceEnrollmentFlow();
-      } else {
-        return introspectStateToken(this.settings)
-          .then(idxResp => {
-            this.settings.unset('stateToken');
-            this.appState.trigger('remediationSuccess', idxResp);
-            this.render(Controller, options);
-          })
-          .catch(errorResp => {
-            this.settings.unset('stateToken');
-            this.appState.trigger('remediationError', errorResp.error);
-            this.render(Controller, options);
-          });
-      }
+    if (this.settings.get('stateToken') && !options.terminalStateWithNoRemediation) {
+      return introspectStateToken(this.settings)
+        .then(idxResp => {
+          this.settings.unset('stateToken');
+          this.appState.trigger('remediationSuccess', idxResp);
+          this.render(Controller, options);
+        })
+        .catch(errorResp => {
+          this.settings.unset('stateToken');
+          this.appState.trigger('remediationError', errorResp.error);
+          this.render(Controller, options);
+        });
+    } else if (options.terminalStateWithNoRemediation) {
+      // Need to explicitly check terminalStateWithNoRemediation as we will call this.render again
+      // After we have introspect the state token
+      this.appState.trigger('terminalStateWithNoRemediation', options);
     }
 
     // Load the custom colors only on the first render
