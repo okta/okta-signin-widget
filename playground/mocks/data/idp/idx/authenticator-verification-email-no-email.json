@@ -134,9 +134,7 @@
           "type":"email"
         }
       ],
-      "profile":{
-        "email":"i**a@h***o.net"
-      }
+      "profile":{}
     }
   },
   "authenticatorEnrollments":{

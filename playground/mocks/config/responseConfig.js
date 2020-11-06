@@ -422,6 +422,32 @@ const ovPushError = {
   ],
 };
 
+// no phone number available for verification
+const phoneVerificationNoPhoneNumber = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-no-number'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-data-phone-sms-then-voice-no-number',
+    'authenticator-verification-phone-sms-no-number',
+    'authenticator-verification-data-phone-voice-then-sms-no-number',
+    'authenticator-verification-phone-voice-no-number',
+  ],
+};
+
+// no email available for verification
+const emailVerificationNoEmail = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-no-number',
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-email-no-email',
+  ],
+  '/idp/idx/challenge/poll': [
+    'authenticator-verification-email-no-email',
+  ],
+};
+
 module.exports = {
   mocks: idx,
 };

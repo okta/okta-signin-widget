@@ -4,6 +4,7 @@ import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPa
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
+import emailVerificationNoEmail from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-no-email';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidOTP from '../../../playground/mocks/data/idp/idx/error-email-verify';
 import magicLinkReturnTab from '../../../playground/mocks/data/idp/idx/terminal-return-email';
@@ -24,6 +25,16 @@ const validOTPmock = RequestMock()
   .respond(emailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
   .respond(emailVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(success);
+
+const validOTPmockNoEmail = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerificationNoEmail)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(emailVerificationNoEmail)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
+  .respond(emailVerificationNoEmail)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
@@ -73,11 +84,19 @@ test
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with your email');
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .contains('An email was sent to');
+      .contains('Check i**a@h***o.net for a verification message. Click the verification button in your email or enter the code below to continue.');
+  });
+
+test
+  .requestHooks(validOTPmockNoEmail)('challenge email authenticator screen has right labels when email is not in profile', async t => {
+    const challengeEmailPageObject = await setup(t);
+
+    const pageTitle = challengeEmailPageObject.getPageTitle();
+    const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
+    await t.expect(saveBtnText).contains('Verify');
+    await t.expect(pageTitle).contains('Verify with your email');
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .contains('inca@hello.net.');
-    await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .contains('Check your email and enter the code below.');
+      .contains('Check your email for a verification message. Click the verification button in your email or enter the code below to continue.');
   });
 
 test

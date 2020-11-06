@@ -4,6 +4,7 @@ import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticato
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
 
 import xhrSelectAuthenticators from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
+import xhrSelectAuthenticatorsNoNumber from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-no-number';
 import xhrSelectAuthenticatorsOktaVerify from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-ov-m2';
 import xhrSelectAuthenticatorsRecovery from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-for-recovery';
 import xhrAuthenticatorRequiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
@@ -27,6 +28,10 @@ const mockChallengePassword = RequestMock()
   .respond(xhrSelectAuthenticators)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrAuthenticatorRequiredPassword);
+
+const mockAuthenticatorListNoNumber = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticatorsNoNumber);
 
 const mockChallengeEmail = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -127,6 +132,17 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();
   await t.expect(selectFactorPage.getSignoutLinkText()).eql('Sign Out');
 
+});
+
+test.requestHooks(mockAuthenticatorListNoNumber)('should not display phone number in description if not available', async t => {
+  const selectFactorPage = await setup(t);
+  await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Phone');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(3)).eql(false);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(3)).eql('Select');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(4)).eql('Phone');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(4)).eql(false);
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(4)).eql('Select');
 });
 
 test.requestHooks(mockSelectAuthenticatorForRecovery)('should load select authenticator list for recovery password', async t => {
