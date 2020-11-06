@@ -6,6 +6,10 @@ import phoneVerificationVoiceThenSMS from '../../../playground/mocks/data/idp/id
 import phoneVerificationVoiceOnly from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-only';
 import smsVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-sms';
 import voiceVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice';
+import phoneVerificationSMSThenVoiceNoNumber from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-sms-then-voice-no-number';
+import phoneVerificationVoiceThenSMSNoNumber from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-then-sms-no-number';
+import smsVerificationNoNumber from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-sms-no-number';
+import voiceVerificationNoNumber from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice-no-number';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidCode from '../../../playground/mocks/data/idp/idx/error-email-verify';
 
@@ -31,6 +35,24 @@ const voicePrimaryMock = RequestMock()
   .respond(phoneVerificationVoiceThenSMS)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(voiceVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(success);
+
+const smsPrimaryMockNoNumber = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(phoneVerificationSMSThenVoiceNoNumber)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(smsVerificationNoNumber)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
+  .respond(smsVerificationNoNumber)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(success);
+
+const voicePrimaryMockNoNumber = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(phoneVerificationVoiceThenSMSNoNumber)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(voiceVerificationNoNumber)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
@@ -211,6 +233,60 @@ test
     const pageSubtitle = challengePhonePageObject.getFormSubtitle();
     await t.expect(challengePhonePageObject.getSaveButtonLabel()).eql('Verify');
     await t.expect(pageSubtitle).contains('Calling');
+    await t.expect(pageSubtitle).contains('Enter the code below to verify.');
+  });
+
+test
+  .requestHooks(smsPrimaryMockNoNumber)('SMS views have the right labels when phone number is not available', async t => {
+    const challengePhonePageObject = await setup(t);
+
+    const pageTitle = challengePhonePageObject.getPageTitle();
+    let pageSubtitle = challengePhonePageObject.getFormSubtitle();
+    const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
+    const secondaryButtonText = challengePhonePageObject.getSecondaryLinkText();
+    await t.expect(pageTitle).contains('Verify with your phone');
+    await t.expect(pageSubtitle).contains('Send a code via SMS to');
+    await t.expect(pageSubtitle).contains('your phone');
+    await t.expect(primaryButtonText).contains('Send a code via SMS');
+    await t.expect(secondaryButtonText).contains('Receive a voice call instead');
+
+    await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
+    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Sign Out');
+
+    // enter code screen
+    await challengePhonePageObject.clickNextButton();
+
+    pageSubtitle = challengePhonePageObject.getFormSubtitle();
+    await t.expect(challengePhonePageObject.getSaveButtonLabel()).eql('Verify');
+    await t.expect(pageSubtitle).contains('A code was sent to');
+    await t.expect(pageSubtitle).contains('your phone');
+    await t.expect(pageSubtitle).contains('Enter the code below to verify.');
+  });
+
+test
+  .requestHooks(voicePrimaryMockNoNumber)('Voice call views have the right labels when phone number is not available', async t => {
+    const challengePhonePageObject = await setup(t);
+
+    const pageTitle = challengePhonePageObject.getPageTitle();
+    let pageSubtitle = challengePhonePageObject.getFormSubtitle();
+    const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
+    const secondaryButtonText = challengePhonePageObject.getSecondaryLinkText();
+    await t.expect(pageTitle).contains('Verify with your phone');
+    await t.expect(pageSubtitle).contains('Send a code via voice call to');
+    await t.expect(pageSubtitle).contains('your phone');
+    await t.expect(primaryButtonText).contains('Send a code via voice call');
+    await t.expect(secondaryButtonText).contains('Receive an SMS instead');
+
+    await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
+    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Sign Out');
+
+    // enter code screen
+    await challengePhonePageObject.clickNextButton();
+
+    pageSubtitle = challengePhonePageObject.getFormSubtitle();
+    await t.expect(challengePhonePageObject.getSaveButtonLabel()).eql('Verify');
+    await t.expect(pageSubtitle).contains('Calling');
+    await t.expect(pageSubtitle).contains('your phone');
     await t.expect(pageSubtitle).contains('Enter the code below to verify.');
   });
 

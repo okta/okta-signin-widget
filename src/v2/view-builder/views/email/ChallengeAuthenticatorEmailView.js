@@ -12,9 +12,11 @@ const CheckYourEmailTitle = View.extend({
     'data-se': 'o-form-explain',
   },
   template: hbs`
-    {{i18n code="oie.email.verify.sentText" bundle="login"}}&nbsp;
-    <span class="strong">{{email}}.</span>
-    &nbsp;{{i18n code="email.mfa.email.sent.description.emailCodeText" bundle="login"}}
+    {{#if email}}
+      {{i18n code="oie.email.verify.sentText" bundle="login" arguments="email" $1="<span class='strong'>$1</span>"}}
+    {{else}}
+      {{i18n code="oie.email.verify.alternate.sentText" bundle="login"}}
+    {{/if}}
   `,
 
   getTemplateData () {
