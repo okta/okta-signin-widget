@@ -11,6 +11,8 @@ import { loc } from 'okta';
 const Body = BaseForm.extend({
   noButtonBar: true,
 
+  className: 'ion-form device-challenge-poll',
+
   title () {
     return loc('deviceTrust.sso.redirectText', 'login');
   },
@@ -33,4 +35,5 @@ const Body = BaseForm.extend({
 
 export default BaseAuthenticatorView.extend({
   Body,
+  Header: null,
 });
