@@ -45,7 +45,7 @@ export default Router.extend({
         Logger.error('History has already been started');
         return;
       }
-      // Backbone.history.start({pushState: true});
+      // pushState is set as true to allow routes to match uri without hashtag
       Backbone.history.start.apply(Backbone.history, [{pushState: true}]);
     });
   },
@@ -142,46 +142,10 @@ export default Router.extend({
     }
   },
 
-  handleTerminalStateWithNoRemediation () {
-    const deviceEnrollmentType = this.settings.get('deviceEnrollment.name');
-    let deviceEnrollmentResponse;
-
-    if (deviceEnrollmentType === 'oda') {
-      deviceEnrollmentResponse = {
-        stateHandle: this.settings.get('stateToken'),
-        version: this.settings.get('apiVersion'),
-        expiresAt: '2020-06-14T22:15:50.000Z',
-        intent: 'LOGIN',
-        deviceEnrollment: {
-          type: 'object',
-          value: {
-            name: deviceEnrollmentType,
-            platform: this.settings.get('deviceEnrollment.platform'),
-            signInUrl: this.settings.get('deviceEnrollment.signInUrl')
-          }
-        }
-      };
-    } else {
-      deviceEnrollmentResponse = {
-        stateHandle: this.settings.get('stateToken'),
-        version: this.settings.get('apiVersion'),
-        expiresAt: '2020-06-14T22:15:50.000Z',
-        intent: 'LOGIN',
-        deviceEnrollment: {
-          type: 'object',
-          value: {
-            name: deviceEnrollmentType,
-            platform: this.settings.get('deviceEnrollment.platform'),
-            vendor: this.settings.get('deviceEnrollment.vendor'),
-            enrollmentLink: this.settings.get('deviceEnrollment.enrollmentLink')
-          }
-        }
-      };
-    }
-
+  handleTerminalStateWithNoRemediation (deviceEnrollmentTerminalResponse) {
     this.handleIdxResponseSuccess({
-      rawIdxState: deviceEnrollmentResponse,
-      context: deviceEnrollmentResponse,
+      rawIdxState: deviceEnrollmentTerminalResponse,
+      context: deviceEnrollmentTerminalResponse,
       neededToProceed: [],
     });
   },
@@ -220,8 +184,8 @@ export default Router.extend({
         });
     } else if (options.terminalStateWithNoRemediation) {
       // Need to explicitly check terminalStateWithNoRemediation as we will call this.render again
-      // After we have introspect the state token
-      this.appState.trigger('terminalStateWithNoRemediation', options);
+      // after we have introspect the state token
+      this.appState.trigger('terminalStateWithNoRemediation', options.deviceEnrollmentTerminalResponse);
     }
 
     // Load the custom colors only on the first render

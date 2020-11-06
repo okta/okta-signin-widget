@@ -1,4 +1,4 @@
-import { _, Controller } from 'okta';
+import { Controller } from 'okta';
 import ViewFactory from '../view-builder/ViewFactory';
 import {FORMS as RemediationForms} from '../ion/RemediationConstants';
 

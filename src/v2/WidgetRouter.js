@@ -26,7 +26,23 @@ module.exports = BaseLoginRouter.extend({
   },
 
   deviceEnrollmentTerminalView: function () {
-    this.render(DeviceEnrollmentTerminalViewController, { terminalStateWithNoRemediation : true });
+    this.render(DeviceEnrollmentTerminalViewController, {
+      terminalStateWithNoRemediation : true,
+      deviceEnrollmentTerminalResponse: {
+        stateHandle: this.settings.get('stateToken'),
+        version: this.settings.get('apiVersion'),
+        deviceEnrollment: {
+          type: 'object',
+          value: {
+            name: this.settings.get('deviceEnrollment.name'),
+            platform: this.settings.get('deviceEnrollment.platform'),
+            signInUrl: this.settings.get('deviceEnrollment.signInUrl'),
+            vendor: this.settings.get('deviceEnrollment.vendor'),
+            enrollmentLink: this.settings.get('deviceEnrollment.enrollmentLink')
+          }
+        }
+      }
+    });
   },
 
 });
