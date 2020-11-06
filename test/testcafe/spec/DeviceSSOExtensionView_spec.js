@@ -47,6 +47,13 @@ const uvCredentialSSOExtensionMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/ft2FCeXuk7ov8iehMivYavZFhPxZUpBvB0/verify')
   .respond(identify);
 
+const identifyWithSSOExtensionkWithoutMethod = JSON.parse(JSON.stringify(identifyWithAppleCredentialSSOExtension));
+// remove the sso extension method so that the rest of the flow can be verified
+delete identifyWithSSOExtensionkWithoutMethod.remediation.value[0].method;
+const ssoExtensionWithoutMethodMock = RequestMock()
+  .onRequestTo(/idp\/idx\/introspect/)
+  .respond(identifyWithSSOExtensionkWithoutMethod);
+
 fixture('App SSO Extension View');
 
 const getPageUrl = ClientFunction(() => window.location.href);
@@ -73,6 +80,16 @@ test
     const identityPage = new IdentityPageObject(t);
     await identityPage.fillIdentifierField('Test Identifier');
     await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
+  });
+
+test
+  .requestHooks(logger, ssoExtensionWithoutMethodMock)('the UI shows the correct content', async t => {
+    const ssoExtensionPage = new BasePageObject(t);
+    await ssoExtensionPage.navigateToPage();
+    const ssoExtensionHeader = new Selector('.device-apple-sso-extension .siw-main-header');
+    await t.expect(ssoExtensionHeader.find('.beacon-container').exists).eql(false);
+    await t.expect(ssoExtensionPage.getFormTitle()).eql('Verifying your identity');
+    await t.expect(ssoExtensionPage.form.el.hasClass('device-challenge-poll')).ok();
   });
 
 test
