@@ -3,7 +3,7 @@ import ViewFactory from '../view-builder/ViewFactory';
 import {FORMS as RemediationForms} from '../ion/RemediationConstants';
 
 export default Controller.extend({
-  className: 'deviceEnrollment-controller',
+  className: 'device-enrollment-terminal',
 
   preRender () {
     this.removeChildren();
