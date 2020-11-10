@@ -12,37 +12,15 @@
 
 import FormController from './controllers/FormController';
 import BaseLoginRouter from './BaseLoginRouter';
-import DeviceEnrollmentTerminalViewController from './controllers/DeviceEnrollmentTerminalViewController';
 
 module.exports = BaseLoginRouter.extend({
   routes: {
     '': 'defaultAuth',
-    'authenticators/ov-not-installed': 'deviceEnrollmentTerminalView',
     '*wildcard': 'defaultAuth',
   },
 
   defaultAuth: function () {
     this.render(FormController);
-  },
-
-  deviceEnrollmentTerminalView: function () {
-    this.render(DeviceEnrollmentTerminalViewController, {
-      terminalStateWithNoRemediation : true,
-      deviceEnrollmentTerminalResponse: {
-        stateHandle: this.settings.get('stateToken'),
-        version: this.settings.get('apiVersion'),
-        deviceEnrollment: {
-          type: 'object',
-          value: {
-            name: this.settings.get('deviceEnrollment.name'),
-            platform: this.settings.get('deviceEnrollment.platform'),
-            signInUrl: this.settings.get('deviceEnrollment.signInUrl'),
-            vendor: this.settings.get('deviceEnrollment.vendor'),
-            enrollmentLink: this.settings.get('deviceEnrollment.enrollmentLink')
-          }
-        }
-      }
-    });
   },
 
 });

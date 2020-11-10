@@ -41,7 +41,12 @@ const ssoExtension = [
     },
     // TODO: find a way to improve this, now the mock config is not always on responseConfig
     template: cancelTransaction,
-  })
+  }),
+  templateHelper({
+    path: '/authenticators/ov-not-installed',
+    method: 'GET',
+    template: '<html>Verifying the device...the login flow will be resumed afterwards</html>'
+  }),
 ];
 
 module.exports = idx.concat(ssoExtension);

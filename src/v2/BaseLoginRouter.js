@@ -28,6 +28,7 @@ import uiSchemaTransformer from './ion/uiSchemaTransformer';
 import i18nTransformer from './ion/i18nTransformer';
 import AppState from './models/AppState';
 import idx from 'idx';
+import Q from 'q';
 
 const introspectStateToken = (settings) => {
   const domain = settings.get('baseUrl');
@@ -38,17 +39,6 @@ const introspectStateToken = (settings) => {
 
 export default Router.extend({
   Events: Backbone.Events,
-
-  start: function () {
-    $(function () {
-      if (Backbone.History.started) {
-        Logger.error('History has already been started');
-        return;
-      }
-      // pushState is set as true to allow routes to match uri without hashtag
-      Backbone.history.start.apply(Backbone.history, [{pushState: true}]);
-    });
-  },
 
   initialize: function (options) {
     // Create a default success and/or error handler if
@@ -142,11 +132,21 @@ export default Router.extend({
     }
   },
 
-  handleTerminalStateWithNoRemediation (deviceEnrollmentTerminalResponse) {
+  handleTerminalStateWithNoRemediation (idxResponseWithNoRemediation) {
     this.handleIdxResponseSuccess({
-      rawIdxState: deviceEnrollmentTerminalResponse,
-      context: deviceEnrollmentTerminalResponse,
+      rawIdxState: idxResponseWithNoRemediation,
+      context: idxResponseWithNoRemediation,
       neededToProceed: [],
+    });
+  },
+
+  handleProxyIdxResponse (proxyIdxResponse) {
+    return new Q.Promise(function (resolve, reject) {
+      if (proxyIdxResponse.stateToken) {
+        resolve(proxyIdxResponse);
+      } else {
+        reject();
+      }
     });
   },
 
@@ -170,11 +170,18 @@ export default Router.extend({
     // introspect stateToken when widget is bootstrap with state token
     // and remove it from `settings` afterwards as IDX response always has
     // state token (which will be set into AppState)
-    if (this.settings.get('stateToken') && !options.terminalStateWithNoRemediation) {
-      return introspectStateToken(this.settings)
+    if (this.settings.get('stateToken')) {
+      const proxyIdxResponse = this.settings.options.proxyIdxResponse;
+      const idxRespPromise = proxyIdxResponse ?
+        this.handleProxyIdxResponse(proxyIdxResponse) : introspectStateToken(this.settings);
+      return idxRespPromise
         .then(idxResp => {
           this.settings.unset('stateToken');
-          this.appState.trigger('remediationSuccess', idxResp);
+          if (proxyIdxResponse && !proxyIdxResponse.remediation) {
+            this.appState.trigger('terminalStateWithNoRemediation', idxResp);
+          } else {
+            this.appState.trigger('remediationSuccess', idxResp);
+          }
           this.render(Controller, options);
         })
         .catch(errorResp => {
@@ -182,10 +189,6 @@ export default Router.extend({
           this.appState.trigger('remediationError', errorResp.error);
           this.render(Controller, options);
         });
-    } else if (options.terminalStateWithNoRemediation) {
-      // Need to explicitly check terminalStateWithNoRemediation as we will call this.render again
-      // after we have introspect the state token
-      this.appState.trigger('terminalStateWithNoRemediation', options.deviceEnrollmentTerminalResponse);
     }
 
     // Load the custom colors only on the first render

@@ -3,6 +3,7 @@ import DeviceEnrollmentTerminalPageObject from '../framework/page-objects/Device
 import IOSOdaEnrollment from '../../../playground/mocks/data/idp/idx/oda-enrollment-ios';
 import AndroidOdaEnrollment from '../../../playground/mocks/data/idp/idx/oda-enrollment-android';
 import MdmEnrollment from '../../../playground/mocks/data/idp/idx/mdm-enrollment';
+import loginConfig from  '../../../playground/mocks/data/idp/idx/mdm-enrollment-in-login-config';
 
 const logger = RequestLogger(/introspect/);
 
@@ -14,7 +15,10 @@ const androidOdaMock = RequestMock()
   .respond(AndroidOdaEnrollment);
 const mdmMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(MdmEnrollment);
+  .respond(loginConfig);
+const mdmMockConfig = RequestMock()
+  .onRequestTo('http://localhost:3000/authenticators/ov-not-installed')
+  .respond(loginConfig);
 
 fixture('Device enrollment terminal view for ODA and MDM');
 
