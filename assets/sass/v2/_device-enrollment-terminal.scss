@@ -11,7 +11,7 @@
       display: inline-block;
       position: absolute;
       left: 0;
-      width: 20px;;
+      width: 20px;
     }
   }
   .copy-clipboard-button {
@@ -40,5 +40,11 @@
     .ios-app-store-logo {
       background-image: url('../img/appstore/apple-app-store.svg');
     }
+  }
+  .copy {
+    font-size: 10px;
+    font-style: italic;
+    color: #6e6e78; // odyssey cv('gray', '600');
+    margin-top: 16px;
   }
 }
