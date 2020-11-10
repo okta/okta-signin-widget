@@ -35,6 +35,7 @@ test
     await t.expect(content).contains('In the app, follow the instructions to add an organizational account.');
     await t.expect(content).contains('When prompted, choose Sign In, then enter the sign-in URL:');
     await t.expect(content).contains('https://idx.okta1.com');
+    await t.expect(content).contains('Apple®, App Store, and the Apple logo are trademarks of Apple Inc.');
     await t.expect(deviceEnrollmentTerminalPage.getAppStoreLink()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
     await t.expect(deviceEnrollmentTerminalPage.getAppStoreLogo()).contains('ios-app-store-logo');
   });
@@ -50,6 +51,7 @@ test
     await t.expect(content).contains('In the app, follow the instructions to add an organizational account.');
     await t.expect(content).contains('When prompted, choose Sign In, then enter the sign-in URL:');
     await t.expect(content).contains('https://idx.okta1.com');
+    await t.expect(content).contains('Google Play and the Google Play logo are trademarks of Google LLC.');
     await t.expect(deviceEnrollmentTerminalPage.getAppStoreLink()).eql('https://play.google.com/store/apps/details?id=com.okta.android.auth');
     await t.expect(deviceEnrollmentTerminalPage.getAppStoreLogo()).contains('android-app-store-logo');
   });
