@@ -17,6 +17,9 @@ export default View.extend({
         <div class="app-store-logo {{appStoreLogoClass}}"></div>
       </a>
     </div>
+    <div class="copy">
+      {{copy}}
+    </div>
   `,
 
   getTemplateData () {
@@ -25,6 +28,7 @@ export default View.extend({
     const templateData = {
       signInUrl: deviceEnrollment.signInUrl,
       appStoreLogoClass: `${platform}-app-store-logo`,
+      copy: loc(`enroll.copy.${platform}`, 'login'),
     };
     if (platform === Enums.IOS) {
       templateData.appStoreName = loc('enroll.appleStore', 'login');
