@@ -140,7 +140,6 @@ export default Router.extend({
     }
   },
 
-
   render: function (Controller, options = {}) {
     // Since we have a wrapper view, render our wrapper and use its content
     // element as our new el.

@@ -12,10 +12,6 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
     this.footer = new Selector('.auth-footer');
   }
 
-  async navigateToPage() {
-    await this.t.navigateTo('http://localhost:3000/authenticators/ov-not-installed');
-  }
-
   getBeaconClass() {
     return this.beacon.find('[data-se="factor-beacon"]').getAttribute('class');
   }
