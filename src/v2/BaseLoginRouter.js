@@ -37,6 +37,14 @@ const introspectStateToken = (settings) => {
   return idx.start({ domain, stateHandle, version });
 };
 
+const handleProxyIdxResponse = (settings) => {
+  return new Q.Promise.resolve({
+    rawIdxState: settings.get('proxyIdxResponse'),
+    context: settings.get('proxyIdxResponse'),
+    neededToProceed: [],
+  });
+};
+
 export default Router.extend({
   Events: Backbone.Events,
 
@@ -54,6 +62,7 @@ export default Router.extend({
 
     this.settings = new Settings(_.omit(options, 'el', 'authClient'), { parse: true });
     this.settings.setAuthClient(options.authClient);
+    this.settings.set('proxyIdxResponse', options.proxyIdxResponse);
 
     if (!options.el) {
       this.settings.callGlobalError(new Errors.ConfigError(loc('error.required.el')));
@@ -81,7 +90,6 @@ export default Router.extend({
 
     this.listenTo(this.appState, 'remediationSuccess', this.handleIdxResponseSuccess);
     this.listenTo(this.appState, 'remediationError', this.handleIdxResponseFailure);
-    this.listenTo(this.appState, 'terminalStateWithNoRemediation', this.handleTerminalStateWithNoRemediation);
   },
 
   handleIdxResponseSuccess (idxResponse) {
@@ -132,23 +140,6 @@ export default Router.extend({
     }
   },
 
-  handleTerminalStateWithNoRemediation (idxResponseWithNoRemediation) {
-    this.handleIdxResponseSuccess({
-      rawIdxState: idxResponseWithNoRemediation,
-      context: idxResponseWithNoRemediation,
-      neededToProceed: [],
-    });
-  },
-
-  handleProxyIdxResponse (proxyIdxResponse) {
-    return new Q.Promise(function (resolve, reject) {
-      if (proxyIdxResponse.stateToken) {
-        resolve(proxyIdxResponse);
-      } else {
-        reject();
-      }
-    });
-  },
 
   render: function (Controller, options = {}) {
     // Since we have a wrapper view, render our wrapper and use its content
@@ -170,18 +161,14 @@ export default Router.extend({
     // introspect stateToken when widget is bootstrap with state token
     // and remove it from `settings` afterwards as IDX response always has
     // state token (which will be set into AppState)
-    if (this.settings.get('stateToken')) {
-      const proxyIdxResponse = this.settings.options.proxyIdxResponse;
-      const idxRespPromise = proxyIdxResponse ?
-        this.handleProxyIdxResponse(proxyIdxResponse) : introspectStateToken(this.settings);
+    if (this.settings.get('stateToken') || this.settings.get('proxyIdxResponse')) {
+      const idxRespPromise = this.settings.get('proxyIdxResponse') ?
+        handleProxyIdxResponse(this.settings) : introspectStateToken(this.settings);
       return idxRespPromise
         .then(idxResp => {
           this.settings.unset('stateToken');
-          if (proxyIdxResponse && !proxyIdxResponse.remediation) {
-            this.appState.trigger('terminalStateWithNoRemediation', idxResp);
-          } else {
-            this.appState.trigger('remediationSuccess', idxResp);
-          }
+          this.settings.unset('proxyIdxResponse');
+          this.appState.trigger('remediationSuccess', idxResp);
           this.render(Controller, options);
         })
         .catch(errorResp => {

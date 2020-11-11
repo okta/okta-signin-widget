@@ -1,4 +1,4 @@
-import { RequestLogger, RequestMock } from 'testcafe';
+import {ClientFunction, RequestLogger, RequestMock} from 'testcafe';
 import DeviceEnrollmentTerminalPageObject from '../framework/page-objects/DeviceEnrollmentTerminalPageObject';
 import IOSOdaEnrollment from '../../../playground/mocks/data/idp/idx/oda-enrollment-ios';
 import AndroidOdaEnrollment from '../../../playground/mocks/data/idp/idx/oda-enrollment-android';
@@ -19,6 +19,11 @@ const mdmMock = RequestMock()
 const mdmMockConfig = RequestMock()
   .onRequestTo('http://localhost:3000/authenticators/ov-not-installed')
   .respond(loginConfig);
+
+const rerenderWidget = ClientFunction((settings) => {
+  // function `renderPlaygroundWidget` is defined in playground/main.js
+  window.renderPlaygroundWidget(settings);
+});
 
 fixture('Device enrollment terminal view for ODA and MDM');
 
@@ -70,4 +75,27 @@ test
     await t.expect(content).contains('Follow the instructions in your browser to set up Airwatch, then try accessing this app again');
     await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
     await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://sampleEnrollmentlink.com');
+  });
+
+test
+  .requestHooks(logger, mdmMock)('shows the correct content in MDM terminal view', async t => {
+    const deviceEnrollmentTerminalPage = await setup(t);
+    await rerenderWidget({
+      'helpLinks': {
+        'help': 'https://google.com',
+        'forgotPassword': 'https://okta.okta.com/signin/forgot-password',
+        'custom': [
+          {
+            'text': 'What is Okta?',
+            'href': 'https://acme.com/what-is-okta'
+          },
+          {
+            'text': 'Acme Portal',
+            'href': 'https://acme.com',
+            'target': '_blank'
+          }
+        ]
+      },
+      'signOutLink': 'https://okta.okta.com/',
+    });
   });
