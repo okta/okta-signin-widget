@@ -22,6 +22,7 @@ import Logger from 'util/Logger';
 import AuthContainer from 'views/shared/AuthContainer';
 import Header from 'views/shared/Header';
 import SecurityBeacon from 'views/shared/SecurityBeacon';
+import SkipLink from 'views/shared/SkipLink';
 import Animations from './Animations';
 import BrowserFeatures from './BrowserFeatures';
 import ColorsUtil from './ColorsUtil';
@@ -103,8 +104,9 @@ export default Router.extend({
     );
 
     const wrapper = new AuthContainer({ appState: this.appState });
+    const skipLink = new SkipLink();
 
-    $(options.el).append(wrapper.render().$el);
+    $(options.el).append([skipLink.render().$el, wrapper.render().$el]);
     this.el = `#${Enums.WIDGET_CONTAINER_ID}`;
 
     this.header = new Header({

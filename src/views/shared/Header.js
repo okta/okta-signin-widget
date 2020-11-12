@@ -76,7 +76,7 @@ export default View.extend({
     '\
       <div class="okta-sign-in-header auth-header">\
         {{#if logo}}\
-        <img src="{{logo}}" class="auth-org-logo" alt="{{logoText}}">\
+        <img src="{{logo}}" class="auth-org-logo" alt="{{logoText}} logo" aria-label="{{logoText}} logo">\
         {{/if}}\
         <div data-type="beacon-container" class="beacon-container"></div>\
       </div>\

@@ -24,11 +24,13 @@ import Logger from 'util/Logger';
 import LanguageUtil from 'util/LanguageUtil';
 import AuthContainer from 'views/shared/AuthContainer';
 import Header from 'views/shared/Header';
+import SkipLink from 'views/shared/SkipLink';
 import responseTransformer from './ion/responseTransformer';
 import uiSchemaTransformer from './ion/uiSchemaTransformer';
 import i18nTransformer from './ion/i18nTransformer';
 import AppState from './models/AppState';
 import idx from 'idx';
+
 
 const introspectStateToken = (settings) => {
   const domain = settings.get('baseUrl');
@@ -78,8 +80,9 @@ export default Router.extend({
     this.appState = new AppState();
 
     const wrapper = new AuthContainer({ appState: this.appState });
+    const skipLink = new SkipLink();
 
-    $(options.el).append(wrapper.render().$el);
+    $(options.el).append([skipLink.render().$el, wrapper.render().$el]);
     this.el = `#${Enums.WIDGET_CONTAINER_ID}`;
     this.header = new Header({
       el: this.el,

@@ -17,6 +17,9 @@ $image-size: 30px;
   .consent-title {
     text-align: center;
     word-wrap: break-word;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     span {
       padding-left: 10px;

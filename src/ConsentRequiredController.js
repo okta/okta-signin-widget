@@ -16,6 +16,8 @@ import hbs from 'handlebars-inline-precompile';
 import FormController from 'util/FormController';
 import FormType from 'util/FormType';
 import ScopeList from 'views/consent/ScopeList';
+import consentLogoHeaderTemplate from 'views/shared/templates/consentLogoHeaderTemplate';
+
 export default FormController.extend({
   className: 'consent-required',
   initialize: function () {
@@ -25,6 +27,10 @@ export default FormController.extend({
   },
   postRender: function () {
     FormController.prototype.postRender.apply(this, arguments);
+
+    // Move buttons in DOM to match visual hierarchy to fix tab order.
+    const buttonContainer = this.form.$el.find('.o-form-button-bar');
+    this.form.$el.find('.button-primary').appendTo(buttonContainer);
 
     // Update the "don't allow" and "allow access" buttons to be neutral by changing "allow button" to be gray.
     this.$('.o-form-button-bar .button-primary').removeClass('button-primary');
@@ -68,22 +74,7 @@ export default FormController.extend({
         FormType.View({
           View: View.extend({
             className: 'consent-title detail-row',
-            template: hbs(
-              '\
-                {{#if clientURI}}\
-                  <a href="{{clientURI}}" class="client-logo-link" target="_blank">\
-                {{/if}}\
-                {{#if customLogo}}\
-                  <img class="client-logo custom-logo" src="{{customLogo}}" />\
-                {{else}}\
-                  <img class="client-logo default-logo" src="{{defaultLogo}}" />\
-                {{/if}}\
-                {{#if clientURI}}\
-                  </a>\
-                {{/if}}\
-                <span>{{{i18n code="consent.required.text" bundle="login" arguments="appName"}}}</span>\
-              '
-            ),
+            template: consentLogoHeaderTemplate,
             getTemplateData: function () {
               const appState = this.options.appState;
 
