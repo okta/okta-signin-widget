@@ -10,11 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import hbs from 'handlebars-inline-precompile';
 import { _, View, loc } from 'okta';
 import FormController from 'util/FormController';
 import FormType from 'util/FormType';
 import ScopeList from 'views/admin-consent/ScopeList';
+import consentLogoHeaderTemplate from 'views/shared/templates/consentLogoHeaderTemplate';
 
 const ConsentModel = {
   props: {
@@ -44,21 +44,7 @@ const ConsentModel = {
 
 const ConsentHeader = View.extend({
   className: 'consent-title detail-row',
-  template: hbs`
-    {{#if clientURI}}
-     <a href="{{clientURI}}" class="client-logo-link" target="_blank">
-    {{/if}}
-    {{#if customLogo}}
-      <img class="client-logo custom-logo" src="{{customLogo}}" />
-    {{else}}
-      <img class="client-logo default-logo" src="{{defaultLogo}}" />
-    {{/if}}
-    {{#if clientURI}}
-      </a>
-    {{/if}}
-    <span class="title-text">{{{i18n code="consent.required.text" bundle="login" arguments="appName"}}}</span>
-    <div class="issuer"><span>{{issuer}}</span></div>
-   `,
+  template: consentLogoHeaderTemplate,
   getTemplateData: function () {
     var appState = this.options.appState;
     return {
@@ -99,6 +85,12 @@ const AdminConsentRequiredController = FormController.extend({
       this.model.cancel();
     });
   },
+
+  postRender: function () {
+    // Move buttons in DOM to match visual hierarchy to fix tab order.
+    const buttonContainer = this.form.$el.find('.o-form-button-bar');
+    this.form.$el.find('.button-primary').appendTo(buttonContainer);
+  }
 });
 
 module.exports = AdminConsentRequiredController;

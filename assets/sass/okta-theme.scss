@@ -54,6 +54,32 @@
   }
 }
 
+.skip-to-content-link {
+  font-family: "proxima nova", "montserrat", Arial, Helvetica, sans-serif;
+  text-decoration: none;
+  position: absolute;
+  top: 0;
+  left: 10px;
+  padding: 10px;
+  margin-top: 10px;
+  transform: translateY(-100%);
+  transition: transform 0.3s;
+  color: $primary-color;
+
+  &:visited,
+  &:hover,
+  &:active {
+    color: $primary-color;
+  }
+  &:hover {
+    text-decoration: underline;
+  }
+  &:focus {
+    // show only on focus (happens via tab key)
+    transform: translateY(0%);
+  }
+}
+
 #okta-sign-in.auth-container {
 
   &.main-container {
@@ -123,6 +149,11 @@
   input[type="button"] {
     /* -- Submit Buttons' Fonts -- */
     font-family: $fonts;
+
+    &:focus {
+      box-shadow: 0 0 8px $input-shadow-color-focus;
+      border-color: $input-border-color-focus;
+    }
   }
 
 
