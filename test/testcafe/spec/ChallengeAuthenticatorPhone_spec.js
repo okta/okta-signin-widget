@@ -6,12 +6,28 @@ import phoneVerificationVoiceThenSMS from '../../../playground/mocks/data/idp/id
 import phoneVerificationVoiceOnly from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-only';
 import smsVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-sms';
 import voiceVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice';
-import phoneVerificationSMSThenVoiceNoNumber from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-sms-then-voice-no-number';
-import phoneVerificationVoiceThenSMSNoNumber from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-then-sms-no-number';
-import smsVerificationNoNumber from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-sms-no-number';
-import voiceVerificationNoNumber from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice-no-number';
+import phoneVerificationSMSThenVoiceNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-sms-then-voice-no-profile';
+import phoneVerificationVoiceThenSMSNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-then-sms-no-profile';
+import smsVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-sms-no-profile';
+import voiceVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice-no-profile';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidCode from '../../../playground/mocks/data/idp/idx/error-email-verify';
+
+const phoneVerificationSMSThenVoiceEmptyProfile = JSON.parse(JSON.stringify(phoneVerificationSMSThenVoiceNoProfile));
+// add empty profile to test
+phoneVerificationSMSThenVoiceEmptyProfile.remediation.value[0].profile = {};
+
+const phoneVerificationVoiceThenSMSEmptyProfile= JSON.parse(JSON.stringify(phoneVerificationVoiceThenSMSNoProfile));
+// add empty profile to test
+phoneVerificationVoiceThenSMSEmptyProfile.remediation.value[0].profile = {};
+
+const smsVerificationEmptyProfile = JSON.parse(JSON.stringify(smsVerificationNoProfile));
+// add empty profile to test
+smsVerificationEmptyProfile.remediation.value[0].profile = {};
+
+const voiceVerificationEmptyProfile = JSON.parse(JSON.stringify(voiceVerificationNoProfile));
+// add empty profile to test
+voiceVerificationEmptyProfile.remediation.value[0].profile = {};
 
 const logger = RequestLogger(/challenge|challenge\/resend|challenge\/answer/,
   {
@@ -38,21 +54,39 @@ const voicePrimaryMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
-const smsPrimaryMockNoNumber = RequestMock()
+const smsPrimaryMockNoProfile = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(phoneVerificationSMSThenVoiceNoNumber)
+  .respond(phoneVerificationSMSThenVoiceNoProfile )
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
-  .respond(smsVerificationNoNumber)
+  .respond(smsVerificationNoProfile )
   .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
-  .respond(smsVerificationNoNumber)
+  .respond(smsVerificationNoProfile )
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
-const voicePrimaryMockNoNumber = RequestMock()
+const voicePrimaryMockNoProfile  = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(phoneVerificationVoiceThenSMSNoNumber)
+  .respond(phoneVerificationVoiceThenSMSNoProfile )
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
-  .respond(voiceVerificationNoNumber)
+  .respond(voiceVerificationNoProfile )
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(success);
+
+const smsPrimaryMockEmptyProfile = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(phoneVerificationSMSThenVoiceEmptyProfile)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(smsVerificationEmptyProfile)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
+  .respond(smsVerificationEmptyProfile)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(success);
+
+const voicePrimaryMockEmptyProfile = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(phoneVerificationVoiceThenSMSEmptyProfile)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(voiceVerificationEmptyProfile)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
@@ -237,7 +271,7 @@ test
   });
 
 test
-  .requestHooks(smsPrimaryMockNoNumber)('SMS views have the right labels when phone number is not available', async t => {
+  .requestHooks(smsPrimaryMockNoProfile)('SMS views have the right labels when profile is null', async t => {
     const challengePhonePageObject = await setup(t);
 
     const pageTitle = challengePhonePageObject.getPageTitle();
@@ -264,7 +298,61 @@ test
   });
 
 test
-  .requestHooks(voicePrimaryMockNoNumber)('Voice call views have the right labels when phone number is not available', async t => {
+  .requestHooks(voicePrimaryMockNoProfile)('Voice call views have the right labels when profile is null', async t => {
+    const challengePhonePageObject = await setup(t);
+
+    const pageTitle = challengePhonePageObject.getPageTitle();
+    let pageSubtitle = challengePhonePageObject.getFormSubtitle();
+    const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
+    const secondaryButtonText = challengePhonePageObject.getSecondaryLinkText();
+    await t.expect(pageTitle).contains('Verify with your phone');
+    await t.expect(pageSubtitle).contains('Send a code via voice call to');
+    await t.expect(pageSubtitle).contains('your phone');
+    await t.expect(primaryButtonText).contains('Send a code via voice call');
+    await t.expect(secondaryButtonText).contains('Receive an SMS instead');
+
+    await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
+    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Sign Out');
+
+    // enter code screen
+    await challengePhonePageObject.clickNextButton();
+
+    pageSubtitle = challengePhonePageObject.getFormSubtitle();
+    await t.expect(challengePhonePageObject.getSaveButtonLabel()).eql('Verify');
+    await t.expect(pageSubtitle).contains('Calling');
+    await t.expect(pageSubtitle).contains('your phone');
+    await t.expect(pageSubtitle).contains('Enter the code below to verify.');
+  });
+
+test
+  .requestHooks(smsPrimaryMockEmptyProfile)('SMS views have the right labels when profile is empty', async t => {
+    const challengePhonePageObject = await setup(t);
+
+    const pageTitle = challengePhonePageObject.getPageTitle();
+    let pageSubtitle = challengePhonePageObject.getFormSubtitle();
+    const primaryButtonText = challengePhonePageObject.getSaveButtonLabel();
+    const secondaryButtonText = challengePhonePageObject.getSecondaryLinkText();
+    await t.expect(pageTitle).contains('Verify with your phone');
+    await t.expect(pageSubtitle).contains('Send a code via SMS to');
+    await t.expect(pageSubtitle).contains('your phone');
+    await t.expect(primaryButtonText).contains('Send a code via SMS');
+    await t.expect(secondaryButtonText).contains('Receive a voice call instead');
+
+    await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
+    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Sign Out');
+
+    // enter code screen
+    await challengePhonePageObject.clickNextButton();
+
+    pageSubtitle = challengePhonePageObject.getFormSubtitle();
+    await t.expect(challengePhonePageObject.getSaveButtonLabel()).eql('Verify');
+    await t.expect(pageSubtitle).contains('A code was sent to');
+    await t.expect(pageSubtitle).contains('your phone');
+    await t.expect(pageSubtitle).contains('Enter the code below to verify.');
+  });
+
+test
+  .requestHooks(voicePrimaryMockEmptyProfile)('Voice call views have the right labels when profile is empty', async t => {
     const challengePhonePageObject = await setup(t);
 
     const pageTitle = challengePhonePageObject.getPageTitle();
