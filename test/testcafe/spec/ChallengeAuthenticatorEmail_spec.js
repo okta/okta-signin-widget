@@ -4,12 +4,16 @@ import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPa
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
-import emailVerificationNoEmail from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-no-email';
+import emailVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-no-profile';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidOTP from '../../../playground/mocks/data/idp/idx/error-email-verify';
 import magicLinkReturnTab from '../../../playground/mocks/data/idp/idx/terminal-return-email';
 import magicLinkExpired from '../../../playground/mocks/data/idp/idx/terminal-return-expired-email';
 import terminalTransferedEmail from '../../../playground/mocks/data/idp/idx/terminal-transfered-email';
+
+const emailVerificationEmptyProfile = JSON.parse(JSON.stringify(emailVerificationNoProfile));
+// add empty profile to test
+emailVerificationEmptyProfile.remediation.value[0].profile = {};
 
 const logger = RequestLogger(/challenge|challenge\/poll|challenge\/answer/,
   {
@@ -28,13 +32,23 @@ const validOTPmock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
-const validOTPmockNoEmail = RequestMock()
+const validOTPmockNoProfile = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(emailVerificationNoEmail)
+  .respond(emailVerificationNoProfile)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(emailVerificationNoEmail)
+  .respond(emailVerificationNoProfile)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
-  .respond(emailVerificationNoEmail)
+  .respond(emailVerificationNoProfile)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(success);
+
+const validOTPmockEmptyProfile = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerificationEmptyProfile)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(emailVerificationEmptyProfile)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
+  .respond(emailVerificationEmptyProfile)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
@@ -88,7 +102,19 @@ test
   });
 
 test
-  .requestHooks(validOTPmockNoEmail)('challenge email authenticator screen has right labels when email is not in profile', async t => {
+  .requestHooks(validOTPmockNoProfile)('challenge email authenticator screen has right labels when profile is null', async t => {
+    const challengeEmailPageObject = await setup(t);
+
+    const pageTitle = challengeEmailPageObject.getPageTitle();
+    const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
+    await t.expect(saveBtnText).contains('Verify');
+    await t.expect(pageTitle).contains('Verify with your email');
+    await t.expect(challengeEmailPageObject.getFormSubtitle())
+      .contains('Check your email for a verification message. Click the verification button in your email or enter the code below to continue.');
+  });
+
+test
+  .requestHooks(validOTPmockEmptyProfile)('challenge email authenticator screen has right labels when profile is empty', async t => {
     const challengeEmailPageObject = await setup(t);
 
     const pageTitle = challengeEmailPageObject.getPageTitle();
