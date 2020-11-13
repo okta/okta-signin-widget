@@ -32,12 +32,12 @@
                   "required":true,
                   "options":[
                     {
-                      "label":"VOICE",
-                      "value":"voice"
-                    },
-                    {
                       "label":"SMS",
                       "value":"sms"
+                    },
+                    {
+                      "label":"VOICE",
+                      "value":"voice"
                     }
                   ]
                 }
@@ -229,16 +229,15 @@
           }
         ]
       },
-      "profile": {},
       "type":"phone",
       "id":"pae133clYVnptmCwD0g4",
       "displayName":"autxl8PPhwHUpOpW60g3",
       "methods":[
         {
-          "type":"voice"
+          "type":"sms"
         },
         {
-          "type":"sms"
+          "type":"voice"
         }
       ]
     }

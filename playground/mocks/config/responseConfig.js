@@ -422,29 +422,29 @@ const ovPushError = {
   ],
 };
 
-// no phone number available for verification
+// no profile available for verification
 const phoneVerificationNoPhoneNumber = {
   '/idp/idx/introspect': [
-    'authenticator-verification-select-authenticator-no-number'
+    'authenticator-verification-select-authenticator-no-profile'
   ],
   '/idp/idx/challenge': [
-    'authenticator-verification-data-phone-sms-then-voice-no-number',
-    'authenticator-verification-phone-sms-no-number',
-    'authenticator-verification-data-phone-voice-then-sms-no-number',
-    'authenticator-verification-phone-voice-no-number',
+    'authenticator-verification-data-phone-sms-then-voice-no-profile',
+    'authenticator-verification-phone-sms-no-profile',
+    'authenticator-verification-data-phone-voice-then-sms-no-profile',
+    'authenticator-verification-phone-voice-no-profile',
   ],
 };
 
-// no email available for verification
+// no profile available for verification
 const emailVerificationNoEmail = {
   '/idp/idx/introspect': [
-    'authenticator-verification-select-authenticator-no-number',
+    'authenticator-verification-select-authenticator-no-profile',
   ],
   '/idp/idx/challenge': [
-    'authenticator-verification-email-no-email',
+    'authenticator-verification-email-no-profile',
   ],
   '/idp/idx/challenge/poll': [
-    'authenticator-verification-email-no-email',
+    'authenticator-verification-email-no-profile',
   ],
 };
 
