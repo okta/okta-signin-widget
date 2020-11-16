@@ -31,7 +31,7 @@ test.requestHooks(mockChallengeOVSelectMethod)('should load select method list w
   await t.expect(selectAuthenticatorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
   await t.expect(selectAuthenticatorPage.getFormSubtitle()).eql('Select from the following options');
   //await t.expect(selectAuthenticatorPage.getFactorsCount()).eql(3);
-  await t.expect(selectAuthenticatorPage.getFactorLabelByIndex(0)).eql('Use Okta FastPass');
+  await t.expect(selectAuthenticatorPage.getFactorLabelByIndex(0)).eql('Use Okta Verify on this device');
   await t.expect(await selectAuthenticatorPage.factorDescriptionExistsByIndex(0)).eql(false);
   await t.expect(selectAuthenticatorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-verify');
   await t.expect(selectAuthenticatorPage.getFactorSelectButtonByIndex(0)).eql('Select');

@@ -14,7 +14,7 @@ describe('v2/ion/i18nTransformer', function () {
       'oie.authenticator.phone.label': 'phone authenticator',
       'oie.webauthn': 'webauthn authenticator',
       'oie.authenticator.security.question.label': 'security question authenticator',
-      'oie.okta_verify.signed_nonce.title': 'okta verify fastpass',
+      'oie.okta_verify.signed_nonce.label': 'okta verify fastpass',
       'oie.okta_verify.push.title': 'okta verify push',
       'oie.okta_verify.totp.title': 'okta verify totp',
 
