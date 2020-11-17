@@ -1,0 +1,156 @@
+{
+  "stateHandle": "02KQsdhK9UTUcRdNUzBUYaMnolQGgqfP1QQnLHyiiR",
+  "version": "1.0.0",
+  "expiresAt": "2020-11-17T20:42:26.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "Phone",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "autxosWKBYUHczEiS0g3",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "type": "string",
+                        "required": false,
+                        "options": [
+                          {
+                            "label": "SMS",
+                            "value": "sms"
+                          },
+                          {
+                            "label": "Voice call",
+                            "value": "voice"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "phoneNumber",
+                        "label": "Phone number",
+                        "required": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02KQsdhK9UTUcRdNUzBUYaMnolQGgqfP1QQnLHyiiR",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/ion+json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "phone",
+        "id": "autxosWKBYUHczEiS0g3",
+        "displayName": "Phone",
+        "methods": [
+          {
+            "type": "sms"
+          },
+          {
+            "type": "voice"
+          }
+        ]
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "type": "email",
+        "id": "eaexw4R5DrngFLTqB0g3",
+        "displayName": "Email",
+        "methods": [
+          {
+            "type": "email"
+          }
+        ]
+      },
+      {
+        "type": "password",
+        "id": "lae4c21H2mE9uPhr20g3",
+        "displayName": "Password",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ]
+      },
+      {
+        "type": "security_question",
+        "id": "qae16iflwHOtiLji60g4",
+        "displayName": "Security Question",
+        "methods": [
+          {
+            "type": "security_question"
+          }
+        ]
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00uxw3ut0DLF7DXcA0g3"
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02KQsdhK9UTUcRdNUzBUYaMnolQGgqfP1QQnLHyiiR",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/ion+json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "New Okta End User Dashboard",
+      "id": "DEFAULT_APP"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "stateHandle": "02O83-AbGHW5GMaR1_BMCXvRzPfRpCZ57VXPDobSzP",
+  "version": "1.0.0",
+  "expiresAt": "2020-11-17T00:08:34.000Z",
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Service is in read only mode",
+        "i18n": {
+          "key": "E0000010"
+        },
+        "class": "ERROR"
+      }
+    ]
+  }
+}

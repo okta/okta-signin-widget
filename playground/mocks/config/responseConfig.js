@@ -9,13 +9,13 @@ const idx = {
     // 'authenticator-enroll-email',
     // 'error-internal-server-error',
     // 'authenticator-enroll-password',
-    // 'authenticator-enroll-phone',
+     //'authenticator-enroll-phone',
     // 'authenticator-enroll-phone-voice',
     // 'authenticator-enroll-data-phone',
     // 'authenticator-enroll-data-phone-voice',
     // 'authenticator-enroll-ov-local',
     // 'error-internal-server-error',
-    // 'authenticator-enroll-security-question',
+     'authenticator-enroll-security-question',
     // 'authenticator-enroll-select-authenticator',
     // 'authenticator-enroll-select-authenticator-with-skip',
     // 'authenticator-enroll-webauthn',
@@ -74,10 +74,10 @@ const idx = {
   ],
   '/idp/idx/credential/enroll': [
     //'authenticator-enroll-ov-via-sms',
-    //'authenticator-enroll-security-question',
+    'authenticator-enroll-security-question',
   ],
   '/idp/idx/identify': [
-    'authenticator-enroll-select-authenticator',
+    //'authenticator-enroll-select-authenticator',
     //'identify-with-only-one-third-party-idp',
     // 'error-identify-access-denied',
     // 'error-identify-user-locked-unable-challenge'
@@ -154,6 +154,38 @@ const emailEnrollMocks = {
   ],
   '/api/v1/authn/factors/:factorid/lifecycle/activate': [
     'success-001'
+  ],
+};
+
+// security question enroll
+const securityQuestionEnrollMocks = {
+  '/idp/idx/introspect': [
+    'identify'],
+
+  '/idp/idx/identify': [
+    'authenticator-identify-enroll-security-q',
+  ],
+  '/idp/idx/credential/enroll': [
+    'authenticator-enroll-security-q',
+  ],
+  '/idp/idx/challenge/answer': [
+    'authenticator-enroll-answer-security-q'
+  ],
+};
+
+// security question enroll
+const securityQuestionEnrollServerInROModeMocks = {
+  '/idp/idx/introspect': [
+    'identify'],
+
+  '/idp/idx/identify': [
+    'authenticator-identify-enroll-security-q',
+  ],
+  '/idp/idx/credential/enroll': [
+    'authenticator-enroll-security-q',
+  ],
+  '/idp/idx/challenge/answer': [
+    'authenticator-enroll-ro-error'
   ],
 };
 
@@ -423,5 +455,5 @@ const ovPushError = {
 };
 
 module.exports = {
-  mocks: idx,
+  mocks: securityQuestionEnrollServerInROModeMocks,
 };
