@@ -26,7 +26,7 @@ const AuthenticatorRow = View.extend({
               <p class="authenticator-description--text">{{description}}</p>\
             {{/if}}\
           </div>\
-          <div class="authenticator-button"></div>\
+          <div class="authenticator-button" {{#if buttonDataSeAttr}}data-se="{{buttonDataSeAttr}}"{{/if}}></div>\
         </div>\
       '),
   children: function (){
