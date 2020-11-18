@@ -5,6 +5,7 @@ const factorListRowSelector = '.authenticator-list .authenticator-row';
 const factorLabelSelector = `${factorListRowSelector} .authenticator-label`;
 const factorDescriptionSelector = `${factorListRowSelector} .authenticator-description .authenticator-description--text`;
 const factorIconSelector = `${factorListRowSelector} .authenticator-icon-container .authenticator-icon`;
+const factorSelectButtonDiv = `${factorListRowSelector} .authenticator-button`;
 const factorSelectButtonSelector = `${factorListRowSelector} .authenticator-button .button`;
 const skipOptionalEnrollmentSelector = '.authenticator-list .skip-all';
 const CUSTOM_SIGN_OUT_LINK_SELECTOR = '.auth-footer .js-cancel';
@@ -37,6 +38,10 @@ export default class SelectFactorPageObject extends BasePageObject {
 
   getFactorSelectButtonByIndex(index) {
     return this.form.getElement(factorSelectButtonSelector).nth(index).textContent;
+  }
+
+  getFactorSelectButtonDataSeByIndex(index) {
+    return this.form.getElement(factorSelectButtonDiv).nth(index).getAttribute('data-se');
   }
 
   async selectFactorByIndex(index) {
