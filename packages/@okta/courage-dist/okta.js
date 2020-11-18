@@ -6911,13 +6911,16 @@ function validateString(field, value) {
     return createMessageWith(invalidFormat);
   }
 
-  if (value && field.minLength && value.length < field.minLength) {
-    return createMessageWith(Model.ERROR_STRING_STRING_MIN_LENGTH, value.length);
-  }
-
-  if (value && field.maxLength && value.length > field.maxLength) {
-    return createMessageWith(Model.ERROR_STRING_STRING_MAX_LENGTH, value.length);
-  }
+  // commented to disable string validation on registration form; for customer to see
+  // backend validation error messages (in OKTA-327855) before OKTA-347240 is done.
+  // might be risky and affecting other areas
+  // if (value && field.minLength && value.length < field.minLength) {
+  //   return createMessageWith(Model.ERROR_STRING_STRING_MIN_LENGTH, value.length);
+  // }
+  //
+  // if (value && field.maxLength && value.length > field.maxLength) {
+  //   return createMessageWith(Model.ERROR_STRING_STRING_MAX_LENGTH, value.length);
+  // }
 }
 
 function _validateField(field, value) {
