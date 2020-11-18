@@ -14,6 +14,15 @@ import FactorUtil from '../../../util/FactorUtil';
 
 const { getPasswordComplexityDescription, getPasswordComplexityDescriptionForHtmlList } = FactorUtil;
 
+const getButtonDataSeAttr = function (authenticator) {
+  if (authenticator.authenticatorType) {
+    const method = authenticator.value?.methodType ?
+      '-' + authenticator.value?.methodType : '';
+    return authenticator.authenticatorType + method;
+  }
+  return '';
+};
+
 /* eslint complexity: [2, 19] */
 const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
   const authenticatorType = authenticator.authenticatorType || authenticator.factorType;
@@ -26,6 +35,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
         ? ''
         : loc('oie.email.authenticator.description', 'login'),
       iconClassName: 'mfa-okta-email',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
     });
     break;
 
@@ -35,6 +45,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
         ? ''
         : loc('oie.password.authenticator.description', 'login'),
       iconClassName: 'mfa-okta-password',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
     });
     break;
 
@@ -44,6 +55,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
         ? authenticator.relatesTo?.profile?.phoneNumber
         : loc('oie.phone.authenticator.description', 'login'),
       iconClassName: 'mfa-okta-phone',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
     });
     break;
 
@@ -53,6 +65,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
         ? ''
         : loc('oie.security.question.authenticator.description', 'login'),
       iconClassName: 'mfa-okta-security-question',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
     });
     break;
 
@@ -63,6 +76,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
         ? ''
         : loc('oie.webauthn.description', 'login'),
       iconClassName: 'mfa-webauthn',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
     });
     break;
 
@@ -72,6 +86,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
         ? ''
         : loc('oie.webauthn.description', 'login'),
       iconClassName: 'mfa-webauthn',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
     });
     break;
 
@@ -81,6 +96,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
         ? ''
         : loc('oie.okta_verify.authenticator.description', 'login'),
       iconClassName: 'mfa-okta-verify',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
     });
     break;
   }
