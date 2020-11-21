@@ -1,8 +1,31 @@
 {
+  "stateHandle": "eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZ",
   "version": "1.0.0",
-  "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
-  "expiresAt": "2020-07-15T17:01:57.000Z",
+  "expiresAt": "2020-07-09T15:51:47.000Z",
   "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "terminal",
+        "relatesTo":[
+          "$.currentAuthenticator"
+        ],
+        "href": "http://localhost:3000/idp/idx/challenge/answer",
+        "method": "POST",
+        "accepts": "application/ion+json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "currentAuthenticator":{
+    "type":"object",
+    "value":{
+      "type":"email"
+    }
+  },
   "messages": {
     "type": "array",
     "value": [

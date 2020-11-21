@@ -1,5 +1,5 @@
 import { createCallout, loc } from 'okta';
-import BaseView from '../internals/BaseView';
+import BaseAuthenticatorView from '../components/BaseAuthenticatorView';
 import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals/BaseFooter';
 import {getBackToSignInLink} from '../utils/LinksUtil';
@@ -52,7 +52,7 @@ const Footer = BaseFooter.extend({
   }
 });
 
-export default BaseView.extend({
+export default BaseAuthenticatorView.extend({
   Body,
   Footer
 });
