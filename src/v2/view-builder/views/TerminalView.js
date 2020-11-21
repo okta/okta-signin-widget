@@ -4,10 +4,11 @@ import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals/BaseFooter';
 import BaseHeader from '../internals/BaseHeader';
 import HeaderBeacon from '../components/HeaderBeacon';
-import { getBackToSignInLink } from '../utils/LinksUtil';
+import { getBackToSignInLink, getSkipSetupLink } from '../utils/LinksUtil';
 import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
 
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
+const SAFE_MODE_KEY_PREFIX = 'idx.error.server.safe.mode';
 
 const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
   'idx.transferred.to.new.tab',
@@ -40,6 +41,9 @@ const Body = BaseForm.extend({
     if (this.options.appState.containsMessageWithI18nKey(RETURN_LINK_EXPIRED_KEY)) {
       return loc('oie.email.return.link.expired.title', 'login');
     }
+    if (this.options.appState.containsMessageStartingWithI18nKey(SAFE_MODE_KEY_PREFIX)) {
+      return loc('oie.safe.mode.title', 'login');
+    }
     return BaseForm.prototype.title.apply(this, arguments);
   },
 
@@ -70,6 +74,9 @@ const Footer = BaseFooter.extend({
   links: function () {
     if (this.options.appState.containsMessageWithI18nKey(RETURN_LINK_EXPIRED_KEY)) {
       return getBackToSignInLink(this.options.settings);
+    }
+    if (this.options.appState.containsMessageStartingWithI18nKey(SAFE_MODE_KEY_PREFIX)) {
+      return getSkipSetupLink(this.options.appState);
     }
   }
 });

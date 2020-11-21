@@ -448,6 +448,18 @@ const emailVerificationNoEmail = {
   ],
 };
 
+// phone enroll safe mode
+const phoneEnroll = {
+  '/idp/idx/introspect': [
+    'authenticator-enroll-phone',
+  ],
+  '/idp/idx/challenge/answer': [
+    'safe-mode-optional-enrollment',
+    'safe-mode-required-enrollment',
+    'safe-mode-credential-enrollment-intent',
+  ],
+};
+
 module.exports = {
   mocks: idx,
 };
