@@ -1,5 +1,6 @@
 import { RequestMock } from 'testcafe';
 import terminalReturnEmail from '../../../playground/mocks/data/idp/idx/terminal-return-email';
+import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 
 const emailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -15,6 +16,6 @@ async function setup (t) {
 
 test
   .requestHooks(emailMock)('shows the correct beacon', async t => {
-  const terminalViewPage = await setup(t);
-  await t.expect(terminalViewPage.getBeaconClass()).contains('mfa-okta-email');
-});
+    const terminalViewPage = await setup(t);
+    await t.expect(terminalViewPage.getBeaconClass()).contains('mfa-okta-email');
+  });
