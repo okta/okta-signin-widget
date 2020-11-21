@@ -1,0 +1,41 @@
+{
+  "stateHandle": "02-20rHvS_j-Wq-odoJpMO33YcBwaL50217Nm9hysZ",
+  "version": "1.0.0",
+  "expiresAt": "2020-11-23T01:37:08.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "skip",
+        "href": "http://orgw5iedi28k0g3.okta1.com:1802/idp/idx/skip",
+        "method": "POST",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02-20rHvS_j-Wq-odoJpMO33YcBwaL50217Nm9hysZ",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/ion+json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Set up is temporarily unavailable due to server maintenance. Click 'Skip set up' to continue.",
+        "i18n": {
+          "key": "idx.error.server.safe.mode.assurance.satisfied"
+        },
+        "class": "ERROR"
+      }
+    ]
+  }
+}

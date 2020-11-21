@@ -92,6 +92,21 @@ const goBackLink = (appState) => {
   return [];
 };
 
+const getSkipSetupLink = (appState) => {
+  if (appState.hasRemediationObject(RemediationForms.SKIP)) {
+    return [
+      {
+        'type': 'link',
+        'label': loc('oie.enroll.skip.setup', 'login'),
+        'name': 'skip-setup',
+        'formName': RemediationForms.SKIP,
+      }
+    ];
+  }
+
+  return [];
+};
+
 const getSignOutLink = (settings) => {
   if (settings?.get('signOutLink')) {
     return [
@@ -130,5 +145,6 @@ export {
   getForgotPasswordLink,
   goBackLink,
   getSignOutLink,
-  getBackToSignInLink
+  getBackToSignInLink,
+  getSkipSetupLink
 };

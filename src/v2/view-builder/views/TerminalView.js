@@ -2,9 +2,10 @@ import { createCallout, loc } from 'okta';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import BaseFooter from '../internals/BaseFooter';
-import {getBackToSignInLink} from '../utils/LinksUtil';
+import { getBackToSignInLink, getSkipSetupLink } from '../utils/LinksUtil';
 
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
+const SAFE_MODE_KEY = 'idx.error.server.safe.mode';
 
 const Body = BaseForm.extend({
   noButtonBar: true,
@@ -17,6 +18,9 @@ const Body = BaseForm.extend({
   title () {
     if (this.options.appState.containsMessageWithI18nKey(RETURN_LINK_EXPIRED_KEY)) {
       return loc('oie.email.return.link.expired.title', 'login');
+    }
+    if (this.options.appState.containsMessageStartingWithI18nKey(SAFE_MODE_KEY)) {
+      return loc('oie.safe.mode.title', 'login');
     }
     return BaseForm.prototype.title.apply(this, arguments);
   },
@@ -48,6 +52,9 @@ const Footer = BaseFooter.extend({
   links: function () {
     if (this.options.appState.containsMessageWithI18nKey(RETURN_LINK_EXPIRED_KEY)) {
       return getBackToSignInLink(this.options.settings);
+    }
+    if (this.options.appState.containsMessageStartingWithI18nKey(SAFE_MODE_KEY)) {
+      return getSkipSetupLink(this.options.appState);
     }
   }
 });

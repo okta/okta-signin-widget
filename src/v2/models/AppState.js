@@ -159,6 +159,12 @@ export default Model.extend({
       && messagesObjs.value.some(messagesObj => messagesObj.i18n?.key === key);
   },
 
+  containsMessageStartingWithI18nKey (keySubStr) {
+    const messagesObjs = this.get('messages');
+    return messagesObjs && Array.isArray(messagesObjs.value)
+      && messagesObjs.value.some(messagesObj => messagesObj.i18n?.key.startsWith(keySubStr));
+  },
+
   setIonResponse (transformedResponse) {
     if (!this.shouldReRenderView(transformedResponse)){
       return;

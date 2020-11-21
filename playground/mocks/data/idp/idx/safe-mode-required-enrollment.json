@@ -1,0 +1,40 @@
+{
+  "stateHandle": "02oeUl7eeJipfM4YLHxuwwbYJeI3zMEbyLSLF1KGCk",
+  "version": "1.0.0",
+  "expiresAt": "2020-11-23T01:48:05.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": []
+  },
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Set up is temporarily unavailable due to server maintenance. Try again later.",
+        "i18n": {
+          "key": "idx.error.server.safe.mode.assurance.not.satisfied"
+        },
+        "class": "ERROR"
+      }
+    ]
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://orgw5iedi28k0g3.okta1.com:1802/idp/idx/cancel",
+    "method": "POST",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02oeUl7eeJipfM4YLHxuwwbYJeI3zMEbyLSLF1KGCk",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/ion+json; okta-version=1.0.0"
+  }
+}

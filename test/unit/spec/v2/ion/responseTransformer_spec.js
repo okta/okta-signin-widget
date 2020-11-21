@@ -7,6 +7,8 @@ import XHRAuthenticatorRequiredEmail
   from '../../../../../playground/mocks/data/idp/idx/authenticator-verification-email.json';
 import XHRErrorIdentifyAccessDenied
   from '../../../../../playground/mocks/data/idp/idx/error-identify-access-denied.json';
+import XHRServerSafeMode
+  from '../../../../../playground/mocks/data/idp/idx/safe-mode-optional-enrollment.json';
 import XHRSuccess from '../../../../../playground/mocks/data/idp/idx/success.json';
 import XHRIdentify from '../../../../../playground/mocks/data/idp/idx/identify.json';
 import XHRIdentifyWithThirdPartyIdps
@@ -233,6 +235,49 @@ describe('v2/ion/responseTransformer', function () {
               message: 'You do not have permission to perform the requested action.',
               i18n: {
                 key: 'security.access_denied',
+              },
+              class: 'ERROR',
+            },
+          ],
+        },
+        idx: idxResp,
+      });
+    });
+  });
+
+  it('converts ion response that only has skip remediation form', done => {
+    MockUtil.mockIntrospect(done, XHRServerSafeMode, idxResp => {
+      const result = transformResponse(testContext.settings, idxResp);
+      expect(result).toEqual({
+        remediations: [
+          {
+            name: 'terminal',
+            value: [],
+          },
+          {
+            action: jasmine.any(Function),
+            rel: ['create-form'],
+            name: 'skip',
+            href: 'http://orgw5iedi28k0g3.okta1.com:1802/idp/idx/skip',
+            method: 'POST',
+            value: [
+              {
+                name: 'stateHandle',
+                required: true,
+                value: '02-20rHvS_j-Wq-odoJpMO33YcBwaL50217Nm9hysZ',
+                visible: false,
+                mutable: false
+              }
+            ],
+            accepts:'application/ion+json; okta-version=1.0.0'
+          }
+        ],
+        messages: {
+          value: [
+            {
+              message: 'Set up is temporarily unavailable due to server maintenance. Click \'Skip set up\' to continue.',
+              i18n: {
+                key: 'idx.error.server.safe.mode.assurance.satisfied',
               },
               class: 'ERROR',
             },
