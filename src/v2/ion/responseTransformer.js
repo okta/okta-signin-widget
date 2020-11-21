@@ -59,8 +59,10 @@ const getFirstLevelObjects = (resp) => {
 
 const getRemediationValues = (idx) => {
   const remediationValues = [];
-  if (_.isEmpty(idx.neededToProceed)) {
-    // no remediation but only success
+  const hasSkipRemediationOnly =
+    idx.neededToProceed.length === 1 && idx.neededToProceed[0].name === 'skip';
+  if (_.isEmpty(idx.neededToProceed) || hasSkipRemediationOnly) {
+    // no remediation or only skip remediation with success
     if (idx.context.success) {
       remediationValues.push({
         name: idx.context.success.name,
@@ -68,7 +70,7 @@ const getRemediationValues = (idx) => {
         value: []
       });
     } else if (idx.context.messages) {
-      // no remediation but only messages
+      // no remediation or only skip remediation with messages
       remediationValues.push({
         name: RemediationForms.TERMINAL,
         // Using `value` is unnecessary as `messages` will be display via `TerminalView.showMessages`,
@@ -78,7 +80,7 @@ const getRemediationValues = (idx) => {
         value: [],
       });
     } else if (idx.context.deviceEnrollment) {
-      // no remediation or messages for device enrollment state
+      // no remediation or only skip remediation with messages for device enrollment state
       // and the state is meant to be terminal state with different UI than the regular terminal view
       remediationValues.push({
         name: RemediationForms.DEVICE_ENROLLMENT_TERMINAL,
