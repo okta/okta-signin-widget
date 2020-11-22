@@ -1,10 +1,21 @@
 import { createCallout, loc } from 'okta';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
+import BaseHeader from '../internals/BaseHeader';
 import BaseFooter from '../internals/BaseFooter';
-import {getBackToSignInLink} from '../utils/LinksUtil';
+import HeaderBeacon from '../components/HeaderBeacon';
+import { getBackToSignInLink } from '../utils/LinksUtil';
+import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
 
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
+const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
+  'idx.transferred.to.new.tab',
+  'idx.return.to.original.tab',
+  RETURN_LINK_EXPIRED_KEY,
+  'idx.return.stale',
+  'idx.return.error'
+];
+const EMAIL_AUTHENTICATOR_TYPE = 'email';
 
 const Body = BaseForm.extend({
   noButtonBar: true,
@@ -44,6 +55,16 @@ const Body = BaseForm.extend({
 
 });
 
+const HeaderBeaconTerminal = HeaderBeacon.extend({
+  getBeaconClassName: function () {
+    if (this.options.appState.containsMessageWithI18nKey(EMAIL_AUTHENTICATOR_TERMINAL_KEYS)) {
+      return getIconClassNameForBeacon(EMAIL_AUTHENTICATOR_TYPE);
+    } else {
+      return HeaderBeacon.prototype.getBeaconClassName.apply(this, arguments);
+    }
+  }
+});
+
 const Footer = BaseFooter.extend({
   links: function () {
     if (this.options.appState.containsMessageWithI18nKey(RETURN_LINK_EXPIRED_KEY)) {
@@ -53,6 +74,9 @@ const Footer = BaseFooter.extend({
 });
 
 export default BaseView.extend({
+  Header: BaseHeader.extend({
+    HeaderBeacon: HeaderBeaconTerminal,
+  }),
   Body,
   Footer
 });

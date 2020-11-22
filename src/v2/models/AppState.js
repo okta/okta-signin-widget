@@ -153,10 +153,11 @@ export default Model.extend({
       && !FORMS_WITHOUT_SIGNOUT.includes(currentFormName);
   },
 
-  containsMessageWithI18nKey (key) {
+  containsMessageWithI18nKey (keyOrKeys) {
+    const keys = [].concat(keyOrKeys);
     const messagesObjs = this.get('messages');
     return messagesObjs && Array.isArray(messagesObjs.value)
-      && messagesObjs.value.some(messagesObj => messagesObj.i18n?.key === key);
+      && messagesObjs.value.some(messagesObj => _.contains(keys, messagesObj.i18n?.key));
   },
 
   setIonResponse (transformedResponse) {
