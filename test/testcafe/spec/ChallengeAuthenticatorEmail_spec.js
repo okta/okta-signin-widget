@@ -213,6 +213,7 @@ test
     await setup(t);
     const terminalPageObject = new TerminalPageObject(t);
     await t.expect(terminalPageObject.getMessages()).eql('Please return to the original tab.');
+    await t.expect(terminalPageObject.getBeaconClass()).contains('mfa-okta-email');
 
     const { log } = await t.getBrowserConsoleMessages();
     await t.expect(log.length).eql(3);
@@ -230,6 +231,7 @@ test
     await setup(t);
     const terminalPageObject = new TerminalPageObject(t);
     await t.expect(terminalPageObject.getMessages()).eql('Flow continued in a new tab.');
+    await t.expect(terminalPageObject.getBeaconClass()).contains('mfa-okta-email');
   });
 
 test
@@ -238,6 +240,7 @@ test
     const terminalPageObject = new TerminalPageObject(t);
     await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
     await t.expect(terminalPageObject.getErrorMessages().getTextContent()).eql('This email link has expired. To resend it, return to the screen where you requested it.');
+    await t.expect(terminalPageObject.getBeaconClass()).contains('mfa-okta-email');
     await t.expect(await terminalPageObject.goBackLinkExists()).ok();
     await t.expect(terminalPageObject.getFormTitle()).eql('Verify with your email');
   });
