@@ -715,7 +715,7 @@ only screen and (min-resolution: 2dppx) {
   padding-left: 18px;
   position: relative;
   display: none;
-  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 .o-form-has-errors .o-form-explain.o-form-input-error {
