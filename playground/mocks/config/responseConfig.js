@@ -53,7 +53,7 @@ const idx = {
     // 'identify-with-third-party-idps',
     // 'identify-with-only-third-party-idps',
     // 'identify-with-only-one-third-party-idp',
-    //'identify-with-password',
+    // 'identify-with-password',
     // 'identify-with-universal-link',
     // 'select-factor-authenticate',
     // 'select-factor-for-password-recovery',
