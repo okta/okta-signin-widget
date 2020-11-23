@@ -14,7 +14,8 @@ const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
   'idx.return.to.original.tab',
   RETURN_LINK_EXPIRED_KEY,
   'idx.return.stale',
-  'idx.return.error'
+  'idx.return.error',
+  'idx.email.verification.required'
 ];
 
 const EMAIL_AUTHENTICATOR_TYPE = 'email';
