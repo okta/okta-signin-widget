@@ -22,6 +22,10 @@ export default class SignInDeviceViewPageObject extends BasePageObject {
     return this.getTextContent('[data-se="o-form-fieldset-container"] .signin-with-ov-description');
   }
 
+  getOVButtonIcon() {
+    return this.body.find('.okta-verify-container [data-se="button"] span').getAttribute('class');
+  }
+
   getOVButtonLabel() {
     return this.getTextContent('.okta-verify-container [data-se="button"]');
   }
