@@ -27,6 +27,7 @@ export default View.extend({
     const deviceChallenge = deviceChallengeRelatesTo.value || {};
     this.add(createButton({
       className: 'button',
+      icon: 'okta-verify-authenticator',
       title: loc('oktaVerify.button', 'login'),
       click () {
         if (deviceChallenge.challengeMethod && deviceChallenge.challengeMethod === Enums.UNIVERSAL_LINK_CHALLENGE) {

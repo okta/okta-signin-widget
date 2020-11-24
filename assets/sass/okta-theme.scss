@@ -225,6 +225,18 @@
     border-bottom-color: $form-divider-color;
   }
 
+  .okta-verify-authenticator {
+    /* -- Okta Verify Authenticator (small) -- */
+    background-image: url('../img/icons/mfa/oktaVerify_authenticator.png');
+
+    @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
+      /* -- Okta Verify Authenticator Icons (high DPI) -- */
+      background-image: url('../img/icons/mfa/oktaVerify_authenticator@2x.png');
+    }
+  }
+
   .factor-icon,
   .qrcode-image {
     /* -- Main Background and Border Colors -- */
