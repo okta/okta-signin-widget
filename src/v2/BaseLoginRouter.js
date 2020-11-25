@@ -30,12 +30,37 @@ import i18nTransformer from './ion/i18nTransformer';
 import AppState from './models/AppState';
 import idx from 'idx';
 
-
-const introspectStateToken = (settings) => {
+const startLoginFlow = (settings) => {
+  const clientId = settings.get('clientId');
   const domain = settings.get('baseUrl');
+  const scopes = settings.get('scopes');
   const stateHandle = settings.get('stateToken');
+  const redirectUri = settings.get('redirectUri');
   const version = settings.get('apiVersion');
-  return idx.start({ domain, stateHandle, version });
+
+  const interact = () => {
+    return idx.start({ 
+      clientId, 
+      issuer: domain + '/oauth2/default', 
+      scopes, 
+      stateHandle, 
+      redirectUri, 
+      version 
+    });
+  };
+
+  const introspect = () => {
+    return idx.start({ domain, stateHandle, version });
+  };
+  
+  if (stateHandle) {
+    return introspect();
+  } else if (settings.get('useInteractionCodeFlow')) {
+    return interact();
+  } else {
+    throw new Errors.ConfigError('Set "useInteractionCodeFlow" to true in configuration to enable the '+ 
+    'interaction_code" flow for self-hosted widget.');
+  }
 };
 
 const handleProxyIdxResponse = (settings) => {
@@ -93,6 +118,17 @@ export default Router.extend({
   },
 
   handleIdxResponseSuccess (idxResponse) {
+    if (typeof idxResponse.hasInteractionCode === 'function' && idxResponse.hasInteractionCode()) {
+      return idxResponse.exchangeCode()
+        .then(tokens => {
+          this.remove();
+          this.settings.callGlobalSuccess(Enums.SUCCESS, { tokens });
+        })
+        .catch(err => {
+          this.settings.callGlobalError(err);
+        });
+    }
+
     // transform response
     const ionResponse = _.compose(
       i18nTransformer,
@@ -160,18 +196,22 @@ export default Router.extend({
     // introspect stateToken when widget is bootstrap with state token
     // and remove it from `settings` afterwards as IDX response always has
     // state token (which will be set into AppState)
-    if (this.settings.get('stateToken') || this.settings.get('proxyIdxResponse')) {
+    if (this.settings.get('stateToken') 
+        || this.settings.get('proxyIdxResponse')
+        || this.settings.get('useInteractionCodeFlow')) {
       const idxRespPromise = this.settings.get('proxyIdxResponse') ?
-        handleProxyIdxResponse(this.settings) : introspectStateToken(this.settings);
+        handleProxyIdxResponse(this.settings) : startLoginFlow(this.settings);
       return idxRespPromise
         .then(idxResp => {
           this.settings.unset('stateToken');
           this.settings.unset('proxyIdxResponse');
+          this.settings.unset('useInteractionCodeFlow');
           this.appState.trigger('remediationSuccess', idxResp);
           this.render(Controller, options);
         })
         .catch(errorResp => {
           this.settings.unset('stateToken');
+          this.settings.unset('useInteractionCodeFlow');
           this.appState.trigger('remediationError', errorResp.error);
           this.render(Controller, options);
         });

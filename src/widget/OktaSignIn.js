@@ -153,7 +153,10 @@ var OktaSignIn = (function () {
     var authClient = createAuthClient(authParams);
 
     var Router;
-    if ((options.stateToken && !Util.isV1StateToken(options.stateToken)) || options.proxyIdxResponse) {
+    if ((options.stateToken && !Util.isV1StateToken(options.stateToken)) 
+        // Self hosted widget can use this flag to use V2Router
+        || options.useInteractionCodeFlow 
+        || options.proxyIdxResponse) {
       Router = V2Router;
     } else {
       Router = V1Router;
