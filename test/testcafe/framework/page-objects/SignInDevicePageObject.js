@@ -26,8 +26,16 @@ export default class SignInDeviceViewPageObject extends BasePageObject {
     return this.getTextContent('.okta-verify-container [data-se="button"]');
   }
 
-  getEnrollFooterLinkText() {
-    return this.footer.find('[data-se="enroll"]').innerText;
+  getEnrollFooterLink() {
+    return this.footer.find('[data-se="enroll"]');
+  }
+
+  getHelpFooterLink() {
+    return this.footer.find('[data-se="help"]');
+  }
+
+  getSignOutFooterLink() {
+    return this.footer.find('[data-se="cancel"]');
   }
 
   async clickLaunchOktaVerifyButton() {

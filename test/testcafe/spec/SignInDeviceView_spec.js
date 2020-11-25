@@ -26,7 +26,6 @@ test('shows the correct content', async t => {
   await t.expect(signInDevicePage.getBeaconClass()).contains('undefined-user');
   await t.expect(signInDevicePage.getContentText()).eql('To access this resource, your organization requires you to sign in using your device.');
   await t.expect(signInDevicePage.getOVButtonLabel()).eql('Sign in using Okta Verify on this device');
-  await t.expect(signInDevicePage.getEnrollFooterLinkText()).eql('Sign Up');
 });
 
 test('clicking the launch Okta Verify button takes user to the right UI', async t => {
@@ -34,4 +33,11 @@ test('clicking the launch Okta Verify button takes user to the right UI', async 
   await signInDevicePage.clickLaunchOktaVerifyButton();
   const header = new Selector('h2[data-se="o-form-head"]');
   await t.expect(header.textContent).eql('Sign in using Okta Verify on this device');
+});
+
+test('shows the correct footer links', async t => {
+  const signInDevicePage = await setup(t);
+  await t.expect(signInDevicePage.getEnrollFooterLink().innerText).eql('Sign Up');
+  await t.expect(signInDevicePage.getHelpFooterLink().innerText).eql('Help');
+  await t.expect(signInDevicePage.getSignOutFooterLink().exists).eql(false);
 });
