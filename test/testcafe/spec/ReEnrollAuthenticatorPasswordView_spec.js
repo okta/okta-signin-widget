@@ -2,6 +2,8 @@ import { RequestMock, RequestLogger } from 'testcafe';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import xhrAuthenticatorExpiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-expired-password';
+import xhrAuthenticatorExpiredPasswordNoComplexity from '../../../playground/mocks/data/idp/idx/authenticator-expired-password-no-complexity';
+import xhrAuthenticatorExpiredPasswordWithEnrollment from '../../../playground/mocks/data/idp/idx/authenticator-expired-password-with-enrollment-authenticator';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
 const logger = RequestLogger(/challenge\/answer/,
@@ -14,6 +16,18 @@ const logger = RequestLogger(/challenge\/answer/,
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorExpiredPassword)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(xhrSuccess);
+
+const noComplexityMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorExpiredPasswordNoComplexity)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(xhrSuccess);
+
+const complexityInEnrollmentAuthenticatorMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorExpiredPasswordWithEnrollment)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSuccess);
 
@@ -49,6 +63,27 @@ test
     await t.expect(expiredPasswordPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
     await t.expect(expiredPasswordPage.getRequirements()).contains('A lowercase letter');
     await t.expect(expiredPasswordPage.getRequirements()).contains('At least 10 minute(s) must have elapsed since you last changed your password');
+  });
+
+test
+  .requestHooks(logger, noComplexityMock)('Should not show any password requirements', async t => {
+    const expiredPasswordPage = await setup(t);
+    await t.expect(expiredPasswordPage.getFormTitle()).eql('Your password has expired');
+    await t.expect(expiredPasswordPage.getSaveButtonLabel()).eql('Change Password');
+    await t.expect(expiredPasswordPage.requirementsExist()).eql(false);
+  });
+
+test
+  .requestHooks(logger, complexityInEnrollmentAuthenticatorMock)('Should show password requirements as per enrollmentAuthenticator object', async t => {
+    const expiredPasswordPage = await setup(t);
+    await t.expect(expiredPasswordPage.getFormTitle()).eql('Your password has expired');
+    await t.expect(expiredPasswordPage.getSaveButtonLabel()).eql('Change Password');
+    await t.expect(expiredPasswordPage.getRequirements()).contains('Password requirements:');
+    await t.expect(expiredPasswordPage.getRequirements()).contains('At least 8 characters');
+    await t.expect(expiredPasswordPage.getRequirements()).contains('An uppercase letter');
+    await t.expect(expiredPasswordPage.getRequirements()).contains('A number');
+    await t.expect(expiredPasswordPage.getRequirements()).contains('No parts of your username');
+    await t.expect(expiredPasswordPage.getRequirements()).contains('A lowercase letter');
   });
 
 test

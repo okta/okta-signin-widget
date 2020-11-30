@@ -32,6 +32,8 @@ const idx = {
     // 'authenticator-verification-webauthn',
     // 'authenticator-reset-password',
     // 'authenticator-expired-password',
+    // 'authenticator-expired-password-no-complexity',
+    // 'authenticator-expired-password-with-enrollment-authenticator',
     // 'authenticator-expiry-warning-password',
     // 'enroll-profile',
     // 'enroll-profile-new',
