@@ -12,7 +12,8 @@
     "url": "https://github.com/okta/okta-signin-widget/issues"
   },
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "browserslist": [
     "> 0.1%",
