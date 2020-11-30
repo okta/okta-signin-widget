@@ -4,7 +4,7 @@ const idx = {
   // ===== IDX
 
   '/idp/idx/introspect': [
-    // 'identify',
+    'identify',
     // 'error-403-security-access-denied',
     // 'authenticator-enroll-email',
     // 'error-internal-server-error',
@@ -31,8 +31,9 @@ const idx = {
     // 'authenticator-verification-select-authenticator-ov-m2',
     // 'authenticator-verification-webauthn',
     // 'authenticator-reset-password',
-    'authenticator-expired-password',
+    // 'authenticator-expired-password',
     // 'authenticator-expired-password-no-complexity',
+    // 'authenticator-expired-password-with-enrollment-authenticator',
     // 'authenticator-expiry-warning-password',
     // 'enroll-profile',
     // 'enroll-profile-new',
