@@ -51,7 +51,7 @@ const loopbackFallbackMock = RequestMock()
 const identifyWithLaunchAuthenticatorHttpCustomUri = JSON.parse(JSON.stringify(identifyWithUserVerificationCustomURI));
 const mockHttpCustomUri = 'http://localhost:3000/launch-okta-verify';
 // replace custom URI with http URL so that we can mock and verify
-identifyWithLaunchAuthenticatorHttpCustomUri.currentAuthenticatorEnrollment.value.contextualData.challenge.value.href = mockHttpCustomUri;
+identifyWithLaunchAuthenticatorHttpCustomUri.currentAuthenticator.value.contextualData.challenge.value.href = mockHttpCustomUri;
 
 const customURILogger = RequestLogger(/launch-okta-verify/);
 const customURIMock = RequestMock()
@@ -66,7 +66,7 @@ const identifyWithSSOExtensionFallbackWithoutLink = JSON.parse(JSON.stringify(id
 // remove the universal link so that Util.redirect does not open a link and the rest of the flow can be verified
 delete identifyWithSSOExtensionFallbackWithoutLink.authenticatorChallenge.value.href;
 // replace universal link with http URL so that we can mock and verify
-identifyWithUserVerificationLaunchUniversalLink.currentAuthenticatorEnrollment.value.contextualData.challenge.value.href = mockHttpCustomUri;
+identifyWithUserVerificationLaunchUniversalLink.currentAuthenticator.value.contextualData.challenge.value.href = mockHttpCustomUri;
 const universalLinkWithoutLaunchMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithSSOExtensionFallbackWithoutLink)

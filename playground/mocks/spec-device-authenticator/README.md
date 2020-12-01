@@ -1,4 +1,4 @@
 # Authenticator
 
 ## Using the mock server
-```yarn mock:authenticator```
+```yarn mock:device-authenticator```

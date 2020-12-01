@@ -11,7 +11,7 @@
           "create-form"
         ],
         "relatesTo": [
-          "$.currentAuthenticatorEnrollment"
+          "$.currentAuthenticator"
         ],
         "name": "challenge-poll",
         "href": "http://localhost:3000/idp/idx/authenticators/poll",  
@@ -98,14 +98,17 @@
       }
     ]
   },
-   "currentAuthenticatorEnrollment": {
+  "currentAuthenticator": {
       "type": "object",
       "value": {
-          "profile": {
-            "name": "Okta Verify"
-          },
+          "displayName":"Okta Verify",
           "type": "app", 
           "id": "aen1mz5J4cuNoaR3l0g4",
+          "methods":[
+              {
+                "type":"signed_nonce"
+              }
+          ],
           "cancel": {
               "rel": [
                   "create-form"
@@ -141,6 +144,59 @@
               }
           }
       }
+  },
+  "authenticators":{
+    "type":"array",
+    "value":[
+      {
+        "type":"app",
+        "id":"autmho3zRhIfiSzOy0g4",
+        "displayName":"Okta Verify",
+        "methods":[
+          {
+            "type":"signed_nonce"
+          }
+        ]
+      },
+      {
+        "type":"password",
+        "id":"autmhm5s2gQhWbPfu0g4",
+        "displayName":"Password",
+        "methods":[
+          {
+            "type":"password"
+          }
+        ]
+      }
+    ]
+  },
+  "authenticatorEnrollments":{
+    "type":"array",
+    "value":[
+      {
+        "profile":{
+          "deviceName":"DESKTOP-9AD225Q"
+        },
+        "type":"app",
+        "id":"pfdtxkyRQrmwfWdIE0g4",
+        "displayName":"Okta Verify",
+        "methods":[
+          {
+            "type":"signed_nonce"
+          }
+        ]
+      },
+      {
+        "type":"password",
+        "id":"lae3obwhjXZOu3dfz0g4",
+        "displayName":"Password",
+        "methods":[
+          {
+            "type":"password"
+          }
+        ]
+      }
+    ]
   },
   "user": {
     "type": "object",

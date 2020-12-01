@@ -6,6 +6,7 @@ import Logger from '../../../../util/Logger';
 import DeviceFingerprint from '../../../../util/DeviceFingerprint';
 import polling from '../shared/polling';
 import Util from '../../../../util/Util';
+import Enums from '../../../../util/Enums';
 
 const request = (opts) => {
   const ajaxOptions = Object.assign({
@@ -49,14 +50,14 @@ const Body = BaseForm.extend(Object.assign(
     doChallenge () {
       const deviceChallenge = this.deviceChallengePollRemediation.relatesTo.value.contextualData.challenge.value;
       switch (deviceChallenge.challengeMethod) {
-      case 'LOOPBACK':
+      case Enums.LOOPBACK_CHALLENGE:
         this.title = loc('signin.with.fastpass', 'login');
         this.add(View.extend({
           template: hbs`<div class="spinner"></div>`
         }));
         this.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest);
         break;
-      case 'CUSTOM_URI':
+      case Enums.CUSTOM_URI_CHALLENGE:
         this.title = loc('customUri.title', 'login');
         this.subtitle = loc('customUri.subtitle', 'login');
         this.add(View.extend({
@@ -65,7 +66,7 @@ const Body = BaseForm.extend(Object.assign(
         this.customURI = deviceChallenge.href;
         this.doCustomURI();
         break;
-      case 'UNIVERSAL_LINK':
+      case Enums.UNIVERSAL_LINK_CHALLENGE:
         this.title = loc('universalLink.userVerification.title', 'login');
         this.add(View.extend({
           template: hbs`{{i18n code="universalLink.userVerification.content.p1" bundle="login"}}`
@@ -97,10 +98,10 @@ const Body = BaseForm.extend(Object.assign(
       const checkPort = () => {
         return request({
           url: getAuthenticatorUrl('probe'),
-          // in loopback server, SSL handshake sometimes takes more than 1000 ms and thus needs additional timeout
+          // in loopback server, SSL handshake sometimes takes more than 100ms and thus needs additional timeout
           // however, increasing timeout is a temporary solution since user will need to wait much longer in worst case
           // TODO: OKTA-278573 Android timeout is temporarily set to 3000ms and needs optimization post-Beta
-          timeout: DeviceFingerprint.isAndroid() ? 3000 : 1000
+          timeout: DeviceFingerprint.isAndroid() ? 3000 : 100
         });
       };
 
@@ -139,7 +140,7 @@ const Body = BaseForm.extend(Object.assign(
             Logger.error(`Authenticator is not listening on port ${currentPort}.`);
             if (countFailedPorts === ports.length) {
               Logger.error('No available ports. Loopback server failed and polling is cancelled.');
-              this.options.appState.trigger('invokeAction', 'currentAuthenticatorEnrollment-cancel');
+              this.options.appState.trigger('invokeAction', 'currentAuthenticator-cancel');
             }
           });
       });
