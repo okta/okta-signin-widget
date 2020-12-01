@@ -86,11 +86,15 @@ const Body = BaseForm.extend(Object.assign(
       case Enums.UNIVERSAL_LINK_CHALLENGE:
         this.title = loc('universalLink.title', 'login');
         this.add(View.extend({
-          template: hbs`{{{i18n code="universalLink.content" bundle="login"}}}`
+          className: 'universal-link-content',
+          template: hbs`
+            <div class="spinner"></div>
+            {{{i18n code="universalLink.content" bundle="login"}}}
+          `
         }));
         this.add(createButton({
           className: 'ul-button button button-wide button-primary',
-          title: loc('oktaVerify.button', 'login'),
+          title: loc('oktaVerify.reopen.button', 'login'),
           click: () => {
             // only window.location.href can open universal link in iOS/MacOS
             // other methods won't do, ex, AJAX get or form get (Util.redirectWithFormGet)
