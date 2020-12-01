@@ -11,7 +11,7 @@
           "create-form"
         ],
         "relatesTo": [
-          "$.currentAuthenticatorEnrollment"
+          "$.currentAuthenticator"
         ],
         "name": "challenge-poll",
         "href": "http://localhost:3000/idp/idx/authenticators/poll",  
@@ -98,14 +98,17 @@
       }
     ]
   },
-   "currentAuthenticatorEnrollment": {
+   "currentAuthenticator": {
       "type": "object",
       "value": {
-          "profile": {
-            "name": "Okta Verify"
-          },
+          "displayName":"Okta Verify",
           "type": "app", 
           "id": "aen1mz5J4cuNoaR3l0g4",
+          "methods":[
+            {
+              "type":"signed_nonce"
+            }
+          ],
           "cancel": {
               "rel": [
                   "create-form"

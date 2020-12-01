@@ -281,7 +281,7 @@ const appleUniversalLink = {
   ],
 };
 
-// user verification: Windows authenticator with loopback server
+// user verification: Windows/Android authenticator with loopback server
 const userVerificationLoopback = {
   '/idp/idx/introspect': [
     'identify-with-user-verification-loopback'
@@ -294,7 +294,7 @@ const userVerificationLoopback = {
   ],
 };
 
-// user verification: Windows/Android authenticator with custom URI
+// user verification: Windows authenticator with custom URI
 const userVerificationCustomUri = {
   '/idp/idx/introspect': [
     'identify-with-device-probing-loopback-challenge-not-received',
@@ -421,6 +421,20 @@ const ovPushError = {
     'authenticator-verification-okta-verify-push',
     'authenticator-verification-okta-verify-push',
     'authenticator-verification-okta-verify-reject-push',
+  ],
+};
+
+// ov challenge m2 signed nonce - loopback server
+const ovSignedNonceLoopback = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-ov-m2'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-signed-nonce-loopback'
+  ],
+  '/idp/idx/authenticators/poll': [
+    'authenticator-verification-okta-verify-signed-nonce-loopback',
+    'success',
   ],
 };
 
