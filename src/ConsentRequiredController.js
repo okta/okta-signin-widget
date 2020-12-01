@@ -11,11 +11,13 @@
  */
 
 /* eslint max-len: [2, 160] */
-import { _, loc, View } from 'okta';
+import { _, $, loc, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
+import Enums from 'util/Enums';
 import FormController from 'util/FormController';
 import FormType from 'util/FormType';
 import ScopeList from 'views/consent/ScopeList';
+import SkipLink from 'views/shared/SkipLink';
 import consentLogoHeaderTemplate from 'views/shared/templates/consentLogoHeaderTemplate';
 
 export default FormController.extend({
@@ -24,6 +26,10 @@ export default FormController.extend({
     this.model.set('expiresAt', this.options.appState.get('expiresAt'));
     this.model.set('scopes', this.options.appState.get('scopes'));
     this.listenTo(this.form, 'cancel', _.bind(this.model.cancel, this.model));
+
+    // add Skip to main content link
+    const skipLink = new SkipLink();
+    $(`#${Enums.WIDGET_LOGIN_CONTAINER_ID}`).prepend(skipLink.render().$el);
   },
   postRender: function () {
     FormController.prototype.postRender.apply(this, arguments);
