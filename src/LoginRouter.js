@@ -67,9 +67,6 @@ import BaseLoginRouter from 'util/BaseLoginRouter';
 import FactorBeacon from 'views/shared/FactorBeacon';
 import PIVBeacon from 'views/shared/PIVBeacon';
 import SecurityBeacon from 'views/shared/SecurityBeacon';
-
-import Enums from 'util/Enums';
-
 export default BaseLoginRouter.extend({
   routes: {
     '': 'defaultAuth',
@@ -155,10 +152,6 @@ export default BaseLoginRouter.extend({
   ],
 
   defaultAuth: function () {
-    if (location.hash === `#${Enums.WIDGET_CONTAINER_ID}`) {
-      document.getElementById(Enums.WIDGET_CONTAINER_ID).focus();
-      return;
-    }
     if (this.settings.get('features.idpDiscovery')) {
       this.idpDiscovery();
     } else {
