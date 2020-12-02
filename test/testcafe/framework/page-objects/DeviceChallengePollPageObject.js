@@ -26,6 +26,14 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     return this.footer.find('[data-se="sign-in-options"]');
   }
 
+  getFooterCancelPollingLink() {
+    return this.footer.find('[data-se="cancel-authenticator-challenge"]');
+  }
+
+  async clickCancelPollingButton() {
+    await this.footer.click('[data-se="cancel-authenticator-challenge"]');
+  }
+
   getSpinner() {
     return this.body.find('.spinner');
   }

@@ -104,7 +104,9 @@ test
   .requestHooks(loopbackSuccessLogger, loopbackSuccesskMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
-    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Signing in using Okta FastPass');
+    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
+    await t.expect(deviceChallengePollPageObject.getFooterLink().exists).eql(false);
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().innerText).eql('Cancel and take me to sign in');
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/introspect|6512/)
@@ -160,6 +162,7 @@ test
     await t.expect(deviceChallengePollPageObject.getDownloadOktaVerifyLink()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
     await t.expect(deviceChallengePollPageObject.getFooterLink().innerText).eql('Go back');
     await t.expect(deviceChallengePollPageObject.getFooterLink().getAttribute('href')).eql('http://localhost:3000');
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
   });
 
 test
@@ -191,6 +194,7 @@ test
     await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('block');
     await t.expect(deviceChallengePollPageObject.getPrimiaryButtonText()).eql('Reopen Okta Verify');
     await t.expect(deviceChallengePollPageObject.getFooterLink().innerText).eql('Go back');
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     deviceChallengePollPageObject.clickUniversalLink();
     await t.expect(getPageUrl()).contains(mockHttpCustomUri);
     await t.expect(Selector('h1').innerText).eql('open universal link');
