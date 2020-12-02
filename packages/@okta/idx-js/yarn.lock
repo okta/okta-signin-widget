@@ -2,12 +2,34 @@
 # yarn lockfile v1
 
 
-"@okta/okta-idx-js@0.7.0-gf7f29f6":
-  version "0.7.0-gf7f29f6"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/@okta/okta-idx-js/-/@okta/okta-idx-js-0.7.0-gf7f29f6.tgz#10aed1bd44a9102d0eb9446a96dcb8aa92080500"
-  integrity sha1-EK7RvUSpEC0OuURqlty4qpIIBQA=
+"@babel/runtime-corejs3@^7.12.5":
+  version "7.12.5"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/@babel/runtime-corejs3/-/runtime-corejs3-7.12.5.tgz#ffee91da0eb4c6dae080774e94ba606368e414f4"
+  integrity sha1-/+6R2g60xtrggHdOlLpgY2jkFPQ=
   dependencies:
+    core-js-pure "^3.0.0"
+    regenerator-runtime "^0.13.4"
+
+"@babel/runtime@^7.12.5":
+  version "7.12.5"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/@babel/runtime/-/runtime-7.12.5.tgz#410e7e487441e1b360c29be715d870d9b985882e"
+  integrity sha1-QQ5+SHRB4bNgwpvnFdhw2bmFiC4=
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
+"@okta/okta-idx-js@0.8.0-g87229cf":
+  version "0.8.0-g87229cf"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/okta-idx-js/-/@okta/okta-idx-js-0.8.0-g87229cf.tgz#a1874842adb2799c474c4e107ba41fa38721115d"
+  integrity sha1-oYdIQq2yeZxHTE4Qe6Qfo4chEV0=
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    "@babel/runtime-corejs3" "^7.12.5"
     jsonpath "^1.0.2"
+
+core-js-pure@^3.0.0:
+  version "3.8.0"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/core-js-pure/-/core-js-pure-3.8.0.tgz#4cdd2eca37d49cda206b66e26204818dba77884a"
+  integrity sha1-TN0uyjfUnNoga2biYgSBjbp3iEo=
 
 deep-is@~0.1.3:
   version "0.1.3"
@@ -84,6 +106,11 @@ prelude-ls@~1.1.2:
   version "1.1.2"
   resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
   integrity sha1-IZMqVJ9eUv/ZqCf1cOBL5iqX2lQ=
+
+regenerator-runtime@^0.13.4:
+  version "0.13.7"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/regenerator-runtime/-/regenerator-runtime-0.13.7.tgz#cac2dacc8a1ea675feaabaeb8ae833898ae46f55"
+  integrity sha1-ysLazIoepnX+qrrriugziYrkb1U=
 
 source-map@~0.6.1:
   version "0.6.1"
