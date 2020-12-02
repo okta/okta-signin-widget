@@ -11,6 +11,7 @@ import DeviceFingerprint from '../../../util/DeviceFingerprint';
 import polling from './shared/polling';
 import Util from '../../../util/Util';
 import Enums from '../../../util/Enums';
+import Link from '../components/Link';
 import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
 
 const request = (opts) => {
@@ -56,8 +57,9 @@ const Body = BaseForm.extend(Object.assign(
       const deviceChallenge = this.deviceChallengePollRemediation.relatesTo.value;
       switch (deviceChallenge.challengeMethod) {
       case Enums.LOOPBACK_CHALLENGE:
-        this.title = loc('signin.with.fastpass', 'login');
+        this.title = loc('deviceTrust.sso.redirectText', 'login');
         this.add(View.extend({
+          className: 'loopback-content',
           template: hbs`<div class="spinner"></div>`
         }));
         this.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest);
@@ -176,12 +178,13 @@ const Body = BaseForm.extend(Object.assign(
 ));
 
 const Footer = BaseFooter.extend({
-  links () {
-    let links = [];
-
-    const deviceChallenge = this.options.currentViewState.relatesTo.value;
-    if ([Enums.CUSTOM_URI_CHALLENGE, Enums.UNIVERSAL_LINK_CHALLENGE].includes(deviceChallenge.challengeMethod)) {
-      links = [
+  initialize () {
+    const isFallbackApproach = [
+      Enums.CUSTOM_URI_CHALLENGE,
+      Enums.UNIVERSAL_LINK_CHALLENGE
+    ].includes(this.options.currentViewState.relatesTo.value.challengeMethod);
+    if (isFallbackApproach) {
+      this.links = [
         {
           name: 'sign-in-options',
           type: 'link',
@@ -189,8 +192,14 @@ const Footer = BaseFooter.extend({
           href: this.settings.get('baseUrl')
         }
       ];
+      BaseFooter.prototype.initialize.apply(this, arguments);
+    } else {
+      this.add(Link, { options: {
+        name: 'cancel-authenticator-challenge',
+        label: loc('loopback.polling.cancel.link', 'login'),
+        actionPath: 'authenticatorChallenge-cancel',
+      }});
     }
-    return links;
   }
 });
 

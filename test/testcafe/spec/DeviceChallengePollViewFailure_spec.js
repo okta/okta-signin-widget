@@ -6,22 +6,18 @@ import error from '../../../playground/mocks/data/idp/idx/error-email-verify';
 const logger = RequestLogger(/introspect|probe|challenge/, { logRequestBody: true, stringifyRequestBody: true });
 
 const mock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithDeviceProbingLoopback)
-  .onRequestTo('http://localhost:3000/idp/idx/authenticators/poll')
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
     res.statusCode = '403';
     res.setBody(error);
   })
-  .onRequestTo('http://localhost:2000/probe')
+  .onRequestTo(/2000\/probe/)
   .respond(null, 200, { 'access-control-allow-origin': '*' })
-  .onRequestTo('http://localhost:6511/probe')
+  .onRequestTo(/6511|6512|6513\/probe/)
   .respond(null, 500, { 'access-control-allow-origin': '*' })
-  .onRequestTo('http://localhost:6512/probe')
-  .respond(null, 500, { 'access-control-allow-origin': '*' })
-  .onRequestTo('http://localhost:6513/probe')
-  .respond(null, 500, { 'access-control-allow-origin': '*' })
-  .onRequestTo('http://localhost:2000/challenge')
+  .onRequestTo(/2000\/challenge/)
   .respond(null, 200, {
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept',
@@ -39,7 +35,7 @@ async function setup(t) {
 
 test('probing and polling APIs are sent and responded', async t => {
   const deviceChallengePollPageObject = await setup(t);
-  await t.expect(deviceChallengePollPageObject.getHeader()).eql('Signing in using Okta FastPass');
+  await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
   await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('block');
   await t.expect(logger.count(
     record => record.response.statusCode === 200 &&
