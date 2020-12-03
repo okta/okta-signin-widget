@@ -580,12 +580,14 @@ Returns the underlying [`@okta/okta-auth-js`](https://github.com/okta/okta-auth-
 
 ```javascript
 // Check for an existing authClient transaction
-signIn.authClient.tx.exists();
-if (exists) {
-  console.log('A session exists!');
-} else {
-  console.log('A session does not exist.');
-};
+signIn.authClient.session.exists()
+.then(function(exists) {
+  if (exists){
+    console.log('A session exists!');
+  } else {
+    console.log('A session does not exist.');
+  };
+});
 ```
 
 ## Configuration
