@@ -191,6 +191,25 @@ fn.waitForFormErrorBox = function (form, resolveValue) {
   return fn.wait(condition, resolveValue);
 };
 
+/**
+ * Wait for a window event handler to be added
+ */
+fn.waitForWindowListener = function (eventName, resolveValue) {
+  const condition = function () {
+    const calls = window.addEventListener.calls;
+    const count = calls.count();
+    if (count) {
+      const args = calls.argsFor(count - 1);
+      if (args[0] === eventName) {
+        return true;
+      }
+    }
+  };
+
+  return fn.wait(condition, resolveValue);
+};
+
+
 fn.wait = function (condition, resolveValue, timeout) {
   function check (success, fail, triesLeft) {
     if (condition()) {
