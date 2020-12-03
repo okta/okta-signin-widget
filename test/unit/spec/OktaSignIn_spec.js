@@ -324,6 +324,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
   });
 
   afterEach(function () {
+    sessionStorage.clear();
     signIn.remove();
   });
 

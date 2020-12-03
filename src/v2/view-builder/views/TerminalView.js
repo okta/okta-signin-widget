@@ -6,6 +6,7 @@ import BaseHeader from '../internals/BaseHeader';
 import HeaderBeacon from '../components/HeaderBeacon';
 import { getBackToSignInLink, getSkipSetupLink } from '../utils/LinksUtil';
 import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
+import { OKTA_STATE_TOKEN_KEY } from '../../view-builder/utils/Constants';
 
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
 const SAFE_MODE_KEY_PREFIX = 'idx.error.server.safe.mode';
@@ -51,7 +52,6 @@ const Body = BaseForm.extend({
     const messagesObjs = this.options.appState.get('messages');
     if (messagesObjs && Array.isArray(messagesObjs.value)) {
       this.add('<div class="ion-messages-container"></div>', '.o-form-error-container');
-
       messagesObjs.value
         .forEach(messagesObj => {
           const msg = messagesObj.message;
@@ -64,7 +64,6 @@ const Body = BaseForm.extend({
             this.add(`<p>${msg}</p>`, '.ion-messages-container');
           }
         });
-
     }
   },
 
@@ -86,5 +85,9 @@ export default BaseView.extend({
     HeaderBeacon: HeaderBeaconTerminal,
   }),
   Body,
-  Footer
+  Footer,
+  postRender () {
+    BaseForm.prototype.postRender.apply(this, arguments);
+    sessionStorage.removeItem(OKTA_STATE_TOKEN_KEY);
+  }
 });
