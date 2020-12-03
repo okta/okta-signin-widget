@@ -29,12 +29,19 @@ import uiSchemaTransformer from './ion/uiSchemaTransformer';
 import i18nTransformer from './ion/i18nTransformer';
 import AppState from './models/AppState';
 import idx from 'idx';
+import { OKTA_STATE_TOKEN_KEY } from './view-builder/utils/Constants';
+
+const setStateHandleInStorage = (stateToken) => {
+  if(!sessionStorage.getItem(OKTA_STATE_TOKEN_KEY) && stateToken) {
+    sessionStorage.setItem(OKTA_STATE_TOKEN_KEY, stateToken);
+  }
+};
 
 const startLoginFlow = (settings) => {
+  let stateHandle = sessionStorage.getItem(OKTA_STATE_TOKEN_KEY);
   const clientId = settings.get('clientId');
   const domain = settings.get('baseUrl');
   const scopes = settings.get('scopes');
-  const stateHandle = settings.get('stateToken');
   const redirectUri = settings.get('redirectUri');
   const version = settings.get('apiVersion');
 
@@ -67,10 +74,13 @@ const startLoginFlow = (settings) => {
   if (stateHandle) {
     return introspect();
   } else if (settings.get('useInteractionCodeFlow')) {
-    return interact();
+    return interact().then(idxResp => {
+      setStateHandleInStorage(idxResp.rawIdxState.stateHandle);
+      return idxResp;
+    });
   } else {
-    throw new Errors.ConfigError('Set "useInteractionCodeFlow" to true in configuration to enable the '+ 
-    'interaction_code" flow for self-hosted widget.');
+    return Promise.reject(new Errors.ConfigError('Set "useInteractionCodeFlow" to true in configuration' + 
+    'to enable the interaction_code" flow for self-hosted widget.'));
   }
 };
 
@@ -86,6 +96,7 @@ export default Router.extend({
   Events: Backbone.Events,
 
   initialize: function (options) {
+    setStateHandleInStorage(options.stateToken);
     // Create a default success and/or error handler if
     // one is not provided.
     if (!options.globalSuccessFn) {
@@ -149,6 +160,7 @@ export default Router.extend({
       uiSchemaTransformer,
       responseTransformer.bind({}, this.settings),
     )(idxResponse);
+
     this.appState.setIonResponse(ionResponse);
   },
 
@@ -207,25 +219,34 @@ export default Router.extend({
         });
     }
 
-    // introspect stateToken when widget is bootstrap with state token
-    // and remove it from `settings` afterwards as IDX response always has
-    // state token (which will be set into AppState)
+    // IDX response always has stateToken, that will be set to AppState
+    const renderCallbackSuccess = (idxResp) => {
+      this.unsetAttributes();
+      this.appState.trigger('remediationSuccess', idxResp);
+      this.render(Controller, options);
+    };
+
+    const renderCallbackError = (idxError) => {
+      this.unsetAttributes();
+      this.appState.trigger('remediationError', idxError.error);
+      this.render(Controller, options);
+    };
+
+    // Start loginflow
     if (this.settings.get('oieEnabled')) {
       const idxRespPromise = this.settings.get('proxyIdxResponse') ?
         handleProxyIdxResponse(this.settings) : startLoginFlow(this.settings);
       return idxRespPromise
-        .then(idxResp => {
-          this.settings.unset('stateToken');
-          this.settings.unset('proxyIdxResponse');
-          this.settings.unset('useInteractionCodeFlow');
-          this.appState.trigger('remediationSuccess', idxResp);
-          this.render(Controller, options);
-        })
+        .then(renderCallbackSuccess)
         .catch(errorResp => {
-          this.settings.unset('stateToken');
-          this.settings.unset('useInteractionCodeFlow');
-          this.appState.trigger('remediationError', errorResp.error);
-          this.render(Controller, options);
+          // Try again with new stateToken if it's not a config error
+          if(sessionStorage.getItem(OKTA_STATE_TOKEN_KEY) !== this.settings.get('stateToken')
+              && errorResp.name !== 'CONFIG_ERROR') {
+            setStateHandleInStorage(this.settings.get('stateToken'));
+            startLoginFlow(this.settings).then(renderCallbackSuccess).catch(renderCallbackError);
+          } else {
+            renderCallbackError(errorResp);
+          }
         });
     }
 
@@ -251,6 +272,12 @@ export default Router.extend({
     this.listenTo(this.controller, 'all', this.trigger);
 
     this.controller.render();
+  },
+
+  unsetAttributes () {
+    this.settings.unset('stateToken');
+    this.settings.unset('useInteractionCodeFlow');
+    this.settings.unset('proxyIdxResponse');
   },
 
   hide: function () {

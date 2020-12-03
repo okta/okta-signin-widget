@@ -61,6 +61,10 @@ export default class BasePageObject {
     await this.t.click(Selector(GO_BACK_LINK));
   }
 
+  async clickSignOutLink() {
+    await this.t.click(Selector(SIGNOUT_LINK));
+  }
+
   async skipLinkExists() {
     const elCount = await Selector(SKIP_LINK).count;
     return elCount === 1;

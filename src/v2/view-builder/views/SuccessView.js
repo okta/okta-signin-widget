@@ -3,6 +3,8 @@ import { _, loc } from 'okta';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import Util from '../../../util/Util';
+import { OKTA_STATE_TOKEN_KEY } from '../../view-builder/utils/Constants';
+
 
 const Body = BaseForm.extend({
   title () {
@@ -44,5 +46,9 @@ const Body = BaseForm.extend({
 });
 
 export default BaseView.extend({
-  Body
+  Body,
+  postRender () {
+    BaseForm.prototype.postRender.apply(this, arguments);
+    sessionStorage.removeItem(OKTA_STATE_TOKEN_KEY);
+  }
 });
