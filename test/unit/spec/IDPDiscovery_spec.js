@@ -1705,10 +1705,10 @@ Expect.describe('IDPDiscovery', function () {
         .then(function (test) {
           test.form.facebookButton().click();
           // Wait for "popup" to be created (is async with okta-auth-js 2.6)
-          return Expect.waitForSpyCall(window.addEventListener, test);
+          return Expect.waitForWindowListener('message', test);
         })
         .then(function (test) {
-          const args = window.addEventListener.calls.argsFor(0);
+          const args = window.addEventListener.calls.mostRecent().args;
 
           expect(args[0]).toBe('message');
           const callback = args[1];

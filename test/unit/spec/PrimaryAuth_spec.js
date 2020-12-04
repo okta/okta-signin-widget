@@ -55,7 +55,23 @@ const VALID_ID_TOKEN =
   'DhhUF6G2bPm9zRLPeZBh1zUiVccvV-0UzJERuWoL07hFt7QGGoxR' +
   'lXvxoMVtFk-fcdCkn1DnTtIzsFPOjysBl2vjwVBJXg9h1Nymd91l' +
   'dI5eorOMrbamRfxOFkEUC9P9mgO6DcVfR5oxY0pjfMA';
-const VALID_ACCESS_TOKEN = 'anythingbecauseitsopaque';
+
+const VALID_ACCESS_TOKEN =
+  'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2ZXIiOj' +
+  'EsImp0aSI6IkFULnJ2Ym5TNGlXdTJhRE5jYTNid1RmMEg5Z' +
+  'VdjV2xsS1FlaU5ZX1ZlSW1NWkEiLCJpc3MiOiJodHRwczov' +
+  'L2xib3lldHRlLnRyZXhjbG91ZC5jb20vYXMvb3JzMXJnM3p' +
+  '5YzhtdlZUSk8wZzciLCJhdWQiOiJodHRwczovL2xib3lldH' +
+  'RlLnRyZXhjbG91ZC5jb20vYXMvb3JzMXJnM3p5YzhtdlZUS' +
+  'k8wZzciLCJzdWIiOiIwMHUxcGNsYTVxWUlSRURMV0NRViIs' +
+  'ImlhdCI6MTQ2ODQ2NzY0NywiZXhwIjoxNDY4NDcxMjQ3LCJ' +
+  'jaWQiOiJQZjBhaWZyaFladTF2MFAxYkZGeiIsInVpZCI6Ij' +
+  'AwdTFwY2xhNXFZSVJFRExXQ1FWIiwic2NwIjpbIm9wZW5pZ' +
+  'CIsImVtYWlsIl19.ziKfS8IjSdOdTHCZllTDnLFdE96U9bS' +
+  'IsJzI0MQ0zlnM2QiiA7nvS54k6Xy78ebnkJvmeMCctjXVKk' +
+  'JOEhR6vs11qVmIgbwZ4--MqUIRU3WoFEsr0muLl039QrUa1' +
+  'EQ9-Ua9rPOMaO0pFC6h2lfB_HfzGifXATKsN-wLdxk6cgA';
+
 const typingPattern =
   '0,2.15,0,0,6,3210950388,1,95,-1,0,-1,-1,\
           0,-1,-1,9,86,44,0,-1,-1|4403,86|143,143|240,62|15,127|176,39|712,87';
@@ -2795,15 +2811,11 @@ Expect.describe('PrimaryAuth', function () {
         return setupSocial()
           .then(function (test) {
             test.form.facebookButton().click();
-            return Expect.waitForSpyCall(window.addEventListener, test);
+            return Expect.waitForWindowListener('message', test);
           })
           .then(function (test) {
-            expect(window.addEventListener.calls.count()).toBe(1);
-            const args = window.addEventListener.calls.argsFor(0);
-            const type = args[0];
+            const args = window.addEventListener.calls.mostRecent().args;
             const callback = args[1];
-
-            expect(type).toBe('message');
             callback.call(null, {
               origin: 'https://foo.com',
               data: {
@@ -2849,14 +2861,11 @@ Expect.describe('PrimaryAuth', function () {
       return setupSocial({ 'authParams.responseType': ['id_token', 'token'] })
         .then(function (test) {
           test.form.facebookButton().click();
-          return Expect.waitForSpyCall(window.addEventListener, test);
+          return Expect.waitForWindowListener('message', test);
         })
         .then(function (test) {
-          const args = window.addEventListener.calls.argsFor(0);
-          const type = args[0];
+          const args = window.addEventListener.calls.mostRecent().args;
           const callback = args[1];
-
-          expect(type).toBe('message');
           callback.call(null, {
             origin: 'https://foo.com',
             data: {
@@ -2887,12 +2896,11 @@ Expect.describe('PrimaryAuth', function () {
       return setupSocial()
         .then(function (test) {
           test.form.facebookButton().click();
-          return Expect.waitForSpyCall(window.addEventListener, test);
+          return Expect.waitForWindowListener('message', test);
         })
         .then(function (test) {
-          const args = window.addEventListener.calls.argsFor(0);
+          const args = window.addEventListener.calls.mostRecent().args;
           const callback = args[1];
-
           callback.call(null, {
             origin: 'https://foo.com',
             data: {
@@ -2927,12 +2935,11 @@ Expect.describe('PrimaryAuth', function () {
       return setupSocial({ globalErrorFn: errorSpy, globalSuccessFn: successSpy })
         .then(function (test) {
           test.form.facebookButton().click();
-          return Expect.waitForSpyCall(window.addEventListener, test);
+          return Expect.waitForWindowListener('message', test);
         })
         .then(function (test) {
-          const args = window.addEventListener.calls.argsFor(0);
+          const args = window.addEventListener.calls.mostRecent().args;
           const callback = args[1];
-
           callback.call(null, {
             origin: 'https://evil.com',
             data: {
@@ -2963,12 +2970,11 @@ Expect.describe('PrimaryAuth', function () {
       return setupSocial({ globalSuccessFn: successSpy })
         .then(function (test) {
           test.form.facebookButton().click();
-          return Expect.waitForSpyCall(window.addEventListener, test);
+          return Expect.waitForWindowListener('message', test);
         })
         .then(function (test) {
-          const args = window.addEventListener.calls.argsFor(0);
+          const args = window.addEventListener.calls.mostRecent().args;
           const callback = args[1];
-
           callback.call(null, {
             origin: 'https://foo.com',
             data: {

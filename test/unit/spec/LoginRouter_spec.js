@@ -1368,12 +1368,10 @@ Expect.describe('LoginRouter', function () {
     });
     itp('removes the iframe when it returns with the redirect data', function () {
       return setupOAuth2({}, { mockWellKnown: true }).then(function () {
-        expect(window.addEventListener).toHaveBeenCalled();
-        const args = window.addEventListener.calls.argsFor(0);
-        const type = args[0];
+        return Expect.waitForWindowListener('message');
+      }).then(function () {
+        const args = window.addEventListener.calls.mostRecent().args;
         const callback = args[1];
-
-        expect(type).toBe('message');
         expect($sandbox.find('#' + OIDC_IFRAME_ID).length).toBe(1);
         Util.loadWellKnownAndKeysCache();
         callback.call(null, {
@@ -1394,16 +1392,12 @@ Expect.describe('LoginRouter', function () {
 
       return setupOAuth2({ globalSuccessFn: successSpy }, { mockWellKnown: true })
         .then(function (test) {
-          return Expect.waitForSpyCall(window.addEventListener, test);
+          return Expect.waitForWindowListener('message', test);
         })
         .then(function () {
-          expect(window.addEventListener).toHaveBeenCalled();
-          const args = window.addEventListener.calls.argsFor(0);
-
-          expect(args[0]).toBe('message');
+          const args = window.addEventListener.calls.mostRecent().args;
           // Simulate callback from an iframe
           const callback = args[1];
-
           callback.call(null, {
             origin: 'https://foo.com',
             data: {
@@ -1445,9 +1439,10 @@ Expect.describe('LoginRouter', function () {
     itp('triggers the afterError event if an idToken is not returned', function () {
       return setupOAuth2({}, { mockWellKnown: true })
         .then(function (test) {
-          const args = window.addEventListener.calls.argsFor(0);
+          return Expect.waitForWindowListener('message', test);
+        }).then(function (test) {
+          const args = window.addEventListener.calls.mostRecent().args;
           const callback = args[1];
-
           callback.call(null, {
             origin: 'https://foo.com',
             data: {

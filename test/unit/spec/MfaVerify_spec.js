@@ -4844,7 +4844,7 @@ Expect.describe('MFA Verify', function () {
         })
         .then(function (test) {
           expectHasRightBeaconImage(test, 'mfa-u2f');
-          return Expect.waitForSpyCall(window.addEventListener, test);
+          return Expect.waitForWindowListener('popstate', test);
         })
         .then(function (test) {
           Util.triggerBrowserBackButton();
