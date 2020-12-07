@@ -22,4 +22,9 @@
       line-height: inherit;
     }
   }
+
+  .o-form-explain.o-form-input-error {
+    word-break: normal; // Change word-break for M1 to default value OKTA-345397
+  }
+
 }
