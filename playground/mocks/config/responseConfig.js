@@ -438,6 +438,65 @@ const ovSignedNonceLoopback = {
   ],
 };
 
+// ov challenge m2 signed nonce - loopback server fallsback to custom uri
+const ovSignedNonceLoopbackFallback = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-ov-m2'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-signed-nonce-loopback'
+  ],
+  '/idp/idx/authenticators/poll/cancel': [
+    'authenticator-verification-okta-verify-signed-nonce-custom-uri',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'authenticator-verification-okta-verify-signed-nonce-custom-uri',
+    'success'
+  ],
+};
+
+// ov challenge m2 signed nonce - credential sso extension fallback to universal link
+const ovSignedNonceCredentialSsoExtensionFallback = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-ov-m2'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-signed-nonce-credential-extension'
+  ],
+  '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify/cancel': [
+    'authenticator-verification-okta-verify-signed-nonce-custom-uri',
+    'success',
+  ],
+};
+
+// ov challenge m2 signed nonce - custom uri
+const ovSignedNonceCustomUri = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-ov-m2'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-signed-nonce-custom-uri'
+  ],
+  '/idp/idx/authenticators/poll': [
+    'authenticator-verification-okta-verify-signed-nonce-custom-uri',
+    'success',
+  ],
+};
+
+// ov challenge m2 signed nonce - universal link
+const ovSignedNonceUniversalLink = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-ov-m2'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-signed-nonce-universal-link'
+  ],
+  '/idp/idx/authenticators/poll': [
+    'authenticator-verification-okta-verify-signed-nonce-universal-link',
+    'success',
+  ],
+};
+
 // no profile available for verification
 const phoneVerificationNoPhoneNumber = {
   '/idp/idx/introspect': [

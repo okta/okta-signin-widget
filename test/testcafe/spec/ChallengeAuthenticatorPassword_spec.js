@@ -73,7 +73,7 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('challenge password authen
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
 
-test.requestHooks(mockInvalidPassword)('challege password authenticator with invalid password', async t => {
+test.requestHooks(mockInvalidPassword)('challenge password authenticator with invalid password', async t => {
   const challengePasswordPage = await setup(t);
   await challengePasswordPage.switchAuthenticatorExists();
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');

@@ -53,4 +53,12 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   async clickLaunchOktaVerifyLink() {
     await this.t.click(this.body.find('#launch-ov'));
   }
+
+  getSwitchAuthenticatorButtonText() {
+    return this.footer.find('.js-switchAuthenticator').textContent;
+  }
+
+  async clickSwitchAuthenticatorButton () {
+    await this.t.click(this.footer.find('.js-switchAuthenticator'));
+  }
 }
