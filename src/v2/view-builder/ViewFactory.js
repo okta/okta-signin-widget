@@ -59,6 +59,7 @@ import ChallengeOktaVerifyView from './views/ov/ChallengeOktaVerifyView';
 import ChallengeOktaVerifyTotpView from './views/ov/ChallengeOktaVerifyTotpView';
 import ChallengeOktaVerifyResendPushView from './views/ov/ChallengeOktaVerifyResendPushView';
 import ChallengeAuthenticatorDataOktaVerifyView from './views/ov/ChallengeAuthenticatorDataOktaVerifyView';
+import ChallengeOktaVerifySSOExtensionView from './views/ov/ChallengeOktaVerifySSOExtensionView';
 
 const DEFAULT = '_';
 
@@ -74,6 +75,7 @@ const VIEWS_MAPPING = {
   } ,
   [RemediationForms.DEVICE_APPLE_SSO_EXTENSION]: {
     [DEFAULT]: SSOExtensionView,
+    app: ChallengeOktaVerifySSOExtensionView,
   },
   [RemediationForms.CANCEL_TRANSACTION]: {
     [DEFAULT]: SSOExtensionView,
