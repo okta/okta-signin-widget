@@ -14,6 +14,9 @@ export default BaseAuthenticatorView.extend({
       this.Footer = AuthenticatorVerifyFooter;
     } else {
       this.Body = ChallengeOktaVerifyFastPassView;
+      if (ChallengeOktaVerifyFastPassView.isSwitchAuthenticatorRequired(this.options)) {
+        this.Footer = AuthenticatorVerifyFooter;
+      }
     }
   },
 });

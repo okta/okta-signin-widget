@@ -1,7 +1,7 @@
 {
-  "stateHandle":"02HGzwyCSw51EOFBYfs4nOZW4QX25PJrzrpXoM-sRB",
+  "stateHandle":"0264BffulsV-frOIiTSYIejXy3o89Jh0lydYkCWYlq",
   "version":"1.0.0",
-  "expiresAt":"2020-12-08T06:57:17.000Z",
+  "expiresAt":"2020-12-08T06:54:05.000Z",
   "intent":"LOGIN",
   "remediation":{
     "type":"array",
@@ -21,7 +21,7 @@
           {
             "name":"stateHandle",
             "required":true,
-            "value":"02HGzwyCSw51EOFBYfs4nOZW4QX25PJrzrpXoM-sRB",
+            "value":"0264BffulsV-frOIiTSYIejXy3o89Jh0lydYkCWYlq",
             "visible":false,
             "mutable":false
           }
@@ -61,6 +61,10 @@
                             "value":"totp"
                           },
                           {
+                            "label":"Get a push notification",
+                            "value":"push"
+                          },
+                          {
                             "label":"Use Okta FastPass",
                             "value":"signed_nonce"
                           }
@@ -91,14 +95,14 @@
                     ]
                   }
                 },
-                "relatesTo":"$.authenticatorEnrollments.value[2]"
+                "relatesTo":"$.authenticatorEnrollments.value[1]"
               }
             ]
           },
           {
             "name":"stateHandle",
             "required":true,
-            "value":"02HGzwyCSw51EOFBYfs4nOZW4QX25PJrzrpXoM-sRB",
+            "value":"0264BffulsV-frOIiTSYIejXy3o89Jh0lydYkCWYlq",
             "visible":false,
             "mutable":false
           }
@@ -121,7 +125,7 @@
           {
             "name":"stateHandle",
             "required":true,
-            "value":"02HGzwyCSw51EOFBYfs4nOZW4QX25PJrzrpXoM-sRB",
+            "value":"0264BffulsV-frOIiTSYIejXy3o89Jh0lydYkCWYlq",
             "visible":false,
             "mutable":false
           }
@@ -132,15 +136,8 @@
         "challenge":{
           "type":"object",
           "value":{
-            "challengeMethod":"LOOPBACK",
-            "challengeRequest":"eyJraWQiOiJW",
-            "domain":"http://localhost",
-            "ports":[
-              "2000",
-              "6511",
-              "6512",
-              "6513"
-            ]
+            "challengeMethod":"UNIVERSAL_LINK",
+            "href":"https://login.trexcloud.com/auth/okta-verify/?challengeRequest=eyJraWQiOiJYaGZCUk1haWRja0NKa2JOalFTVGlkYThINURRbTIxdkhjSlkydTFhaVR3IiwidHlwIjoib2t0YS1kZXZpY2ViaW5kK2p3dCIsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJodHRwczovL2lkeG0xLm9rdGExLmNvbSIsImF1ZCI6Im9rdGEuNjNjMDgxZGItMWYxMy01MDg0LTg4MmYtZTc5ZTFlNWUyZGE3IiwiZXhwIjoxNjA3NDEwNDQ1LCJpYXQiOjE2MDc0MTAxNDUsImp0aSI6ImZ0SEpfcDBIaWROWXFaQUxKZWJGV2ZLRGJDaEpEQzhLb0QiLCJub25jZSI6Ild6RWZ4TTZvTnRHOGxpR2ZCWFRrIiwidHJhbnNhY3Rpb25JZCI6ImZ0SEpfcDBIaWROWXFaQUxKZWJGV2ZLRGJDaEpEQzhLb0QiLCJzaWduYWxzIjpbImlkIiwiZGlzcGxheU5hbWUiLCJwbGF0Zm9ybSIsIm1hbnVmYWN0dXJlciIsIm1vZGVsIiwib3NWZXJzaW9uIiwic2VyaWFsTnVtYmVyIiwidWRpZCIsInNpZCIsImltZWkiLCJtZWlkIiwidHBtUHVibGljS2V5SGFzaCIsInNlY3VyZUhhcmR3YXJlUHJlc2VudCIsImRldmljZUF0dGVzdGF0aW9uIiwiZGV2aWNlSW50ZWdyaXR5Il0sInZlcmlmaWNhdGlvblVyaSI6Imh0dHBzOi8vaWR4bTEub2t0YTEuY29tL2lkcC9hdXRoZW50aWNhdG9ycy9hdXRtaG8zelJoSWZpU3pPeTBnNC90cmFuc2FjdGlvbnMvZnRISl9wMEhpZE5ZcVpBTEplYkZXZktEYkNoSkRDOEtvRC92ZXJpZnkiLCJrZXlUeXBlIjoidXNlclZlcmlmaWNhdGlvbiIsImtleVR5cGVzIjpbInVzZXJWZXJpZmljYXRpb24iXSwiZmFjdG9yVHlwZSI6InNpZ25lZF9ub25jZSIsIm9yZ0lkIjoiMDBvbWhndnBRUjlMVVpiQUwwZzQiLCJhcHBJbnN0YW5jZU5hbWUiOiJTYW1wbGUgT0lEQyIsIm1ldGhvZCI6InNpZ25lZF9ub25jZSIsInZlciI6MH0.QR-EQZMkf0B1PuTkKenTaJfWbUoyzzT0MZjz1AJ36JiZ2a8MVES6gamJvhYuPCYPbrb-h1WCKtmCaSgOiL0vhhuq0LTdGiHcaToEXz6RQeV9rbZOAU9bRqZ-8HkmnoGEd9heLGQhgfNcncrTVef2unQXC-rA4mGk_6Y_oX-Ke2N0wesliK5fmqc-M1MGiyLFB8lFHRiNCpy4y39UxfEwvWr8utmlFxh2rIns9ifudw7_sHHzZEf45-O2YIQgFxIrHfYp-hlDMjOLZUEKZ9nKswH-m1U6exDJ2EAeMsgQnrRTQyulKlaNnARpVzvwMk_jPv3ZcDq0ZRlurNDi4cX2Jg&redirectUrl=https%3A%2F%2Flocalhost:3000%2Fauthenticators%2Fov-not-installed%3FdeviceEnrollment%3Doda"
           }
         }
       },
@@ -162,6 +159,9 @@
         "id":"autmho3zRhIfiSzOy0g4",
         "displayName":"Okta Verify",
         "methods":[
+          {
+            "type":"push"
+          },
           {
             "type":"signed_nonce"
           },
@@ -187,25 +187,18 @@
     "value":[
       {
         "profile":{
-          "deviceName":"DESKTOP-9AD225Q"
+          "deviceName":"iPhone"
         },
         "type":"app",
-        "id":"pfdtxkyRQrmwfWdIE0g4",
+        "id":"pfdtxl6TyTsah6luW0g4",
         "displayName":"Okta Verify",
         "methods":[
           {
+            "type":"push"
+          },
+          {
             "type":"signed_nonce"
-          }
-        ]
-      },
-      {
-        "profile":{
-          "deviceName":"Display Name"
-        },
-        "type":"app",
-        "id":"pfdty6xBgVN8y7hWG0g4",
-        "displayName":"Okta Verify",
-        "methods":[
+          },
           {
             "type":"totp"
           }
@@ -213,7 +206,7 @@
       },
       {
         "type":"password",
-        "id":"lae3obwhjXZOu3dfz0g4",
+        "id":"lae4b6h8K3ACquiMv0g4",
         "displayName":"Password",
         "methods":[
           {
@@ -226,7 +219,7 @@
   "user":{
     "type":"object",
     "value":{
-      "id":"00umhs3GeoyNPfD360g4"
+      "id":"00uq3zsIIc2d7fBdx0g4"
     }
   },
   "cancel":{
@@ -240,7 +233,7 @@
       {
         "name":"stateHandle",
         "required":true,
-        "value":"02HGzwyCSw51EOFBYfs4nOZW4QX25PJrzrpXoM-sRB",
+        "value":"0264BffulsV-frOIiTSYIejXy3o89Jh0lydYkCWYlq",
         "visible":false,
         "mutable":false
       }

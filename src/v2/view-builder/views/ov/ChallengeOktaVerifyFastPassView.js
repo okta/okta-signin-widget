@@ -157,4 +157,10 @@ const Body = BaseForm.extend(Object.assign(
   polling,
 ));
 
+Body.isSwitchAuthenticatorRequired = function isSwitchAuthenticatorRequired (options) {
+  const deviceChallengeMethod = options.currentViewState.relatesTo.value.contextualData.challenge.value.challengeMethod;
+  return Enums.CUSTOM_URI_CHALLENGE === deviceChallengeMethod
+    || Enums.UNIVERSAL_LINK_CHALLENGE === deviceChallengeMethod;
+};
+
 export default Body;

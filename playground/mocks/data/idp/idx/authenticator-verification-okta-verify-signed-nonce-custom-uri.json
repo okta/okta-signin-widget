@@ -1,7 +1,7 @@
 {
   "stateHandle":"02HGzwyCSw51EOFBYfs4nOZW4QX25PJrzrpXoM-sRB",
   "version":"1.0.0",
-  "expiresAt":"2020-12-08T06:57:17.000Z",
+  "expiresAt":"2020-12-08T06:57:18.000Z",
   "intent":"LOGIN",
   "remediation":{
     "type":"array",
@@ -132,15 +132,9 @@
         "challenge":{
           "type":"object",
           "value":{
-            "challengeMethod":"LOOPBACK",
-            "challengeRequest":"eyJraWQiOiJW",
-            "domain":"http://localhost",
-            "ports":[
-              "2000",
-              "6511",
-              "6512",
-              "6513"
-            ]
+            "challengeMethod":"CUSTOM_URI",
+            "href":"com-okta-authenticator:/deviceChallenge?challengeRequest=eyJraWQiOiJYaGZCUk1haWRja0NKa2JOalFTVGlkYThINURRbTIxdkhjSlkydTFhaVR3IiwidHlwIjoib2t0YS1kZXZpY2ViaW5kK2p3dCIsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJodHRwczovL2lkeG0xLm9rdGExLmNvbSIsImF1ZCI6Im9rdGEuNjNjMDgxZGItMWYxMy01MDg0LTg4MmYtZTc5ZTFlNWUyZGE3IiwiZXhwIjoxNjA3NDEwNjM4LCJpYXQiOjE2MDc0MTAzMzgsImp0aSI6ImZ0MllTRE1TYjFKMHg3c1BFejk5SFl2M3lfTWdNVEp6dDQiLCJub25jZSI6Im5xRXZWOG9kZ3JXamRnekw4UGp3IiwidHJhbnNhY3Rpb25JZCI6ImZ0MllTRE1TYjFKMHg3c1BFejk5SFl2M3lfTWdNVEp6dDQiLCJzaWduYWxzIjpbImlkIiwiZGlzcGxheU5hbWUiLCJwbGF0Zm9ybSIsIm1hbnVmYWN0dXJlciIsIm1vZGVsIiwib3NWZXJzaW9uIiwic2VyaWFsTnVtYmVyIiwidWRpZCIsInNpZCIsImltZWkiLCJtZWlkIiwidHBtUHVibGljS2V5SGFzaCIsInNlY3VyZUhhcmR3YXJlUHJlc2VudCIsImRldmljZUF0dGVzdGF0aW9uIiwiZGV2aWNlSW50ZWdyaXR5Il0sInZlcmlmaWNhdGlvblVyaSI6Imh0dHBzOi8vaWR4bTEub2t0YTEuY29tL2lkcC9hdXRoZW50aWNhdG9ycy9hdXRtaG8zelJoSWZpU3pPeTBnNC90cmFuc2FjdGlvbnMvZnQyWVNETVNiMUoweDdzUEV6OTlIWXYzeV9NZ01USnp0NC92ZXJpZnkiLCJjYVN1YmplY3ROYW1lcyI6WyJNSUdQTVJNd0VRWUtDWkltaVpQeUxHUUJHUllEWTI5dE1SUXdFZ1lLQ1pJbWlaUHlMR1FCR1JZRWIydDBZVEVWTUJNR0NnbVNKb21UOGl4a0FSa1dCV2xrZUcweE1SMHdHd1lEVlFRTERCUXdNRzl0YUdkMmNGRlNPVXhWV21KQlREQm5OREVzTUNvR0ExVUVBd3dqVDNKbllXNXBlbUYwYVc5dUlFbHVkR1Z5YldWa2FXRjBaU0JCZFhSb2IzSnBkSGs9Il0sIm1kbUF0dGVzdGF0aW9uSXNzdWVycyI6W3siaXNzdWVyRE4iOiJNSUdQTVJNd0VRWUtDWkltaVpQeUxHUUJHUllEWTI5dE1SUXdFZ1lLQ1pJbWlaUHlMR1FCR1JZRWIydDBZVEVWTUJNR0NnbVNKb21UOGl4a0FSa1dCV2xrZUcweE1SMHdHd1lEVlFRTERCUXdNRzl0YUdkMmNGRlNPVXhWV21KQlREQm5OREVzTUNvR0ExVUVBd3dqVDNKbllXNXBlbUYwYVc5dUlFbHVkR1Z5YldWa2FXRjBaU0JCZFhSb2IzSnBkSGs9IiwiYWtpIjoibTdCVy9CQVdCS0ZlZkNwdDlTeWdKVjdtdVFBPSJ9XSwia2V5VHlwZSI6InVzZXJWZXJpZmljYXRpb24iLCJrZXlUeXBlcyI6WyJ1c2VyVmVyaWZpY2F0aW9uIl0sImZhY3RvclR5cGUiOiJzaWduZWRfbm9uY2UiLCJvcmdJZCI6IjAwb21oZ3ZwUVI5TFVaYkFMMGc0IiwiYXBwSW5zdGFuY2VOYW1lIjoiU2FtcGxlIE9JREMiLCJtZXRob2QiOiJzaWduZWRfbm9uY2UiLCJ2ZXIiOjB9.CUJiYLwgBCy8_0VDamN6lhf5Egr7MeofqqCSEIlwT3zWVCRXXx4y7R23ba_XsagJSvL3Y2jhCFE3egyUTvMwjACdF_g5BWF7yAns2tGYtf64xStkAMHzno1JB2b6aTjd3Zv7y1dZfE_bkkhXLeM-GtJzFWXo3q8YuixzOlhBxins4wv7WN0aU8_uPlTn5V6HYzxYunruYRM2PD4J-YrOM6lpSpapWfzUwcjwYjPmwwn4pxnPCKbOWMyr7dKVn5wtJjvZ7HIwxpie4iqJr02AWYpWljTsw8k2B2xVYix8pS6PRmdDs4pmu8PZ9ikgmVsNKRRB-SiS4seVJozWmJfP0g",
+            "downloadHref":"http://localhost:3000/static/WindowsOktaVerify/OktaVerifySetup-1.1.7.0.exe"
           }
         }
       },
