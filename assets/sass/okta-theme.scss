@@ -80,6 +80,11 @@
   }
 }
 
+main {
+  // for IE 11 to render main tag's width
+  display: block;
+}
+
 #okta-sign-in.auth-container {
 
   &.main-container {
