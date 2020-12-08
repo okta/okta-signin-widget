@@ -81,6 +81,8 @@
 }
 
 #okta-sign-in.auth-container {
+  // for IE to support main tag's width
+  display: block;
 
   &.main-container {
     /* -- Fonts and Text Colors -- */
