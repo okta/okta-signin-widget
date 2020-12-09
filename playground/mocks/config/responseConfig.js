@@ -476,6 +476,25 @@ const phoneEnroll = {
   ],
 };
 
+const safeModePoll = {
+  '/idp/idx/introspect': [
+    'identify-with-password',
+  ],
+  '/idp/idx/identify': [
+    'authenticator-enroll-select-authenticator',
+  ],
+  '/idp/idx/credential/enroll': [
+    'safe-mode-polling',
+  ],
+  '/idp/idx/poll': [
+    'safe-mode-polling',
+    'safe-mode-polling',
+    'safe-mode-polling',
+    'authenticator-enroll-ov-via-sms',
+    // 'terminal-polling-window-expired'
+  ],
+};
+
 module.exports = {
   mocks: idx,
 };

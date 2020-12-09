@@ -1,9 +1,12 @@
 import { _ } from 'okta';
+import { MS_PER_SEC } from '../../utils/Constants';
 
 export default {
   startPolling () {
+    this.pollingInterval = this.options.currentViewState.refresh;
+    this.countDownCounterValue = Math.ceil(this.pollingInterval / MS_PER_SEC);
     // Poll is present in remediation form
-    if (this.options.currentViewState.refresh) {
+    if (this.pollingInterval) {
       this._startRemediationPolling();
     } else {
       // Poll is present in authenticator/ authenticator Enrollment obj.
@@ -35,17 +38,39 @@ export default {
     });
   },
 
+  startCountDown (selector , interval) {
+    if(this.countDown) {
+      clearInterval(this.countDown);
+    }
+    this.counterEl = this.$el.find(selector);
+    this.countDown = setInterval(() => {
+      if(this.counterEl.text() !== '1') {
+        this.counterEl.text(this.counterEl.text() - 1);
+      } else {
+        // reset the countdown counter visible to enduser, if still polling
+        this.counterEl.text(this.countDownCounterValue);
+        this.startCountDown(selector, interval);
+      }
+    }, interval, this);
+  },
+
+  _stopCountDown () {
+    if(this.countDown) {
+      clearInterval(this.countDown);
+    }
+  },
+
   _startRemediationPolling () {
-    const pollingInterval = this.options.currentViewState.refresh;
-    if (_.isNumber(pollingInterval)) {
+    if (_.isNumber(this.pollingInterval)) {
       this.polling = setInterval(() => {
         this.options.appState.trigger('saveForm', this.model);
-      }, pollingInterval);
+      }, this.pollingInterval);
     }
   },
 
   stopPolling () {
     if (this.polling) {
+      this._stopCountDown();
       clearInterval(this.polling);
     }
   }
