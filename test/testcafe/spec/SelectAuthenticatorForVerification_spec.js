@@ -12,7 +12,7 @@ import xhrAuthenticatorRequiredEmail from '../../../playground/mocks/data/idp/id
 import xhrAuthenticatorRequiredWebauthn from '../../../playground/mocks/data/idp/idx/authenticator-verification-webauthn';
 import xhrAuthenticatorOVTotp from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp';
 import xhrAuthenticatorOVPush from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push';
-import xhrAuthenticatorOVFastPass from '../../../playground/mocks/data/idp/idx/identify-with-user-verification-loopback';
+import xhrAuthenticatorOVFastPass from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-loopback';
 import xhrSelectAuthenticatorsOktaVerifyWithoutSignedNonce from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-without-signed-nonce';
 
 const requestLogger = RequestLogger(
@@ -386,7 +386,7 @@ test.requestHooks(requestLogger, mockChallengeOVFastPass)('should navigate to ok
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
   selectFactorPage.selectFactorByIndex(3);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
-  await t.expect(challengeFactorPage.getPageTitle()).eql('Signing in using Okta FastPass');
+  await t.expect(challengeFactorPage.getPageTitle()).eql('Verifying your identity');
 
   await t.expect(requestLogger.count(() => true)).eql(2);
   const req1 = requestLogger.requests[0].request;
