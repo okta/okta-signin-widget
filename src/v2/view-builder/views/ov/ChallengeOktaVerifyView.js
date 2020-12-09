@@ -11,9 +11,9 @@ export default BaseAuthenticatorView.extend({
     const selectedMethod = currentAuthenticator?.methods[0];
     if (selectedMethod?.type === 'push') {
       this.Body = ChallengeOktaVerifyPushView;
-      this.Footer = AuthenticatorVerifyFooter;
     } else {
       this.Body = ChallengeOktaVerifyFastPassView;
     }
+    this.Footer = AuthenticatorVerifyFooter;
   },
 });

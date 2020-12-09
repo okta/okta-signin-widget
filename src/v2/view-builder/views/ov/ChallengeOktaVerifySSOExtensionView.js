@@ -1,13 +1,14 @@
-import BaseAuthenticatorView from '../components/BaseAuthenticatorView';
-import BaseForm from '../internals/BaseForm';
-import Util from '../../../util/Util';
+import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
+import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
+import BaseForm from '../../internals/BaseForm';
+import Util from '../../../../util/Util';
 import { loc } from 'okta';
 
-// for BETA,
+// for EA,
 // redirect is needed for Apple SSO Extension to intercept the request, because
 // - XHR request is not interceptable
 // - form post is interceptable, but some app (Outlook) closes the app after
-// We may have a different approach/UX for EA
+// We may have a different approach/UX for GA
 const Body = BaseForm.extend({
   noButtonBar: true,
 
@@ -30,7 +31,7 @@ const Body = BaseForm.extend({
       this.listenTo(this.model, 'error', () => {
         this.$('.spinner').hide();
       });
-      this.add('<div class="spinner"></div>');
+      this.add('<div class="credential-sso-extension"><div class="spinner"></div></div>');
       this.options.appState.trigger('saveForm', this.model);
     }
   }
@@ -39,4 +40,5 @@ const Body = BaseForm.extend({
 export default BaseAuthenticatorView.extend({
   Body,
   Header: null,
+  Footer: AuthenticatorVerifyFooter,
 });

@@ -30,8 +30,20 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     return this.footer.find('[data-se="cancel-authenticator-challenge"]');
   }
 
+  getFooterSwitchAuthenticatorLink() {
+    return this.footer.find('[data-se="switchAuthenticator"]');
+  }
+
+  getFooterSignOutLink() {
+    return this.footer.find('[data-se="cancel"]');
+  }
+
   async clickCancelPollingButton() {
     await this.footer.click('[data-se="cancel-authenticator-challenge"]');
+  }
+
+  async clickSwitchAuthenticatorButton () {
+    await this.t.click(this.getFooterSwitchAuthenticatorLink());
   }
 
   getSpinner() {

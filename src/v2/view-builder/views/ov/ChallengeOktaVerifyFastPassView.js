@@ -51,32 +51,46 @@ const Body = BaseForm.extend(Object.assign(
       const deviceChallenge = this.deviceChallengePollRemediation.relatesTo.value.contextualData.challenge.value;
       switch (deviceChallenge.challengeMethod) {
       case Enums.LOOPBACK_CHALLENGE:
-        this.title = loc('signin.with.fastpass', 'login');
+        this.title = loc('deviceTrust.sso.redirectText', 'login');
         this.add(View.extend({
+          className: 'loopback-content',
           template: hbs`<div class="spinner"></div>`
         }));
         this.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest);
         break;
       case Enums.CUSTOM_URI_CHALLENGE:
-        this.title = loc('customUri.title', 'login');
-        this.subtitle = loc('customUri.subtitle', 'login');
+        this.title = loc('oktaVerify.button', 'login');
         this.add(View.extend({
-          template: hbs`{{{i18n code="customUri.content" bundle="login"}}}`
+          className: 'skinny-content',
+          template: hbs`
+            <p>
+              {{{i18n code="customUri.required.content.p1" bundle="login"}}}
+            </p>
+            <p>
+              {{{i18n code="customUri.required.content.p2" bundle="login" arguments="downloadOVLink"}}}
+            </p>
+          `,
+          getTemplateData () {
+            return {
+              downloadOVLink: deviceChallenge.downloadHref
+            };
+          },
         }));
         this.customURI = deviceChallenge.href;
         this.doCustomURI();
         break;
       case Enums.UNIVERSAL_LINK_CHALLENGE:
-        this.title = loc('universalLink.userVerification.title', 'login');
+        this.title = loc('universalLink.title', 'login');
         this.add(View.extend({
-          template: hbs`{{i18n code="universalLink.userVerification.content.p1" bundle="login"}}`
-        }));
-        this.add(View.extend({
-          template: hbs`{{i18n code="universalLink.userVerification.content.p2" bundle="login"}}`
+          className: 'universal-link-content',
+          template: hbs`
+            <div class="spinner"></div>
+            {{{i18n code="universalLink.content" bundle="login"}}}
+          `
         }));
         this.add(createButton({
           className: 'ul-button button button-wide button-primary',
-          title: loc('universalLink.userVerification.button', 'login'),
+          title: loc('oktaVerify.reopen.button', 'login'),
           click: () => {
             // only window.location.href can open universal link in iOS/MacOS
             // other methods won't do, ex, AJAX get or form get (Util.redirectWithFormGet)

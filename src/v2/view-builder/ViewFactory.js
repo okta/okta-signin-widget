@@ -59,6 +59,7 @@ import ChallengeOktaVerifyView from './views/ov/ChallengeOktaVerifyView';
 import ChallengeOktaVerifyTotpView from './views/ov/ChallengeOktaVerifyTotpView';
 import ChallengeOktaVerifyResendPushView from './views/ov/ChallengeOktaVerifyResendPushView';
 import ChallengeAuthenticatorDataOktaVerifyView from './views/ov/ChallengeAuthenticatorDataOktaVerifyView';
+import ChallengeOktaVerifySSOExtensionView from './views/ov/ChallengeOktaVerifySSOExtensionView';
 
 // safe mode poll view
 import PollView from './views/PollView';
@@ -77,6 +78,7 @@ const VIEWS_MAPPING = {
   } ,
   [RemediationForms.DEVICE_APPLE_SSO_EXTENSION]: {
     [DEFAULT]: SSOExtensionView,
+    app: ChallengeOktaVerifySSOExtensionView,
   },
   [RemediationForms.CANCEL_TRANSACTION]: {
     [DEFAULT]: SSOExtensionView,
