@@ -249,9 +249,9 @@ const windowAuthnCustomUri = {
 };
 
 // device probe: Apple authenticator with Redirect SSO extension
-const appleSsoExtension = {
+const appleRedirectSsoExtension = {
   '/idp/idx/introspect': [
-    'identify-with-apple-sso-extension',
+    'identify-with-apple-redirect-sso-extension',
   ],
 };
 
@@ -284,12 +284,12 @@ const appleUniversalLink = {
 // user verification: Windows/Android authenticator with loopback server
 const userVerificationLoopback = {
   '/idp/idx/introspect': [
-    'identify-with-user-verification-loopback'
+    'authenticator-verification-okta-verify-signed-nonce-loopback'
   ],
   '/idp/idx/authenticators/poll': [
-    'identify-with-user-verification-loopback',
-    'identify-with-user-verification-loopback',
-    'identify-with-user-verification-loopback',
+    'authenticator-verification-okta-verify-signed-nonce-loopback',
+    'authenticator-verification-okta-verify-signed-nonce-loopback',
+    'authenticator-verification-okta-verify-signed-nonce-loopback',
     'success',
   ],
 };
@@ -300,17 +300,17 @@ const userVerificationCustomUri = {
     'identify-with-device-probing-loopback-challenge-not-received',
   ],
   '/idp/idx/authenticators/poll': [
-    'identify-with-user-verification-custom-uri',
+    'authenticator-verification-okta-verify-signed-nonce-custom-uri',
   ],
   '/idp/idx/authenticators/okta-verify/launch': [
-    'identify-with-user-verification-custom-uri',
+    'authenticator-verification-okta-verify-signed-nonce-custom-uri',
   ]
 };
 
 // user verification: Apple authenticator with Credential SSO extension
 const userVerificationCredentialSSOExtension = {
   '/idp/idx/introspect': [
-    'identify-with-user-verification-credential-sso-extension'
+    'authenticator-verification-okta-verify-signed-nonce-credential-sso-extension'
   ],
   '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify/cancel': [
     'identify'
@@ -320,15 +320,15 @@ const userVerificationCredentialSSOExtension = {
 // user verification: Apple authenticator with universal link
 const userVerificationUniversalLink = {
   '/idp/idx/introspect': [
-    'identify-with-user-verification-universal-link'
+    'authenticator-verification-okta-verify-signed-nonce-universal-link'
   ],
   '/idp/idx/authenticators/okta-verify/launch': [
-    'identify-with-user-verification-universal-link',
+    'authenticator-verification-okta-verify-signed-nonce-universal-link',
   ],
   '/idp/idx/authenticators/poll': [
-    'identify-with-user-verification-universal-link',
-    'identify-with-user-verification-universal-link',
-    'identify-with-user-verification-universal-link',
+    'authenticator-verification-okta-verify-signed-nonce-universal-link',
+    'authenticator-verification-okta-verify-signed-nonce-universal-link',
+    'authenticator-verification-okta-verify-signed-nonce-universal-link',
     'success',
   ],
 };
@@ -424,7 +424,7 @@ const ovPushError = {
   ],
 };
 
-// ov challenge m2 signed nonce - loopback server
+// Okta Verify challenge signed nonce - loopback server
 const ovSignedNonceLoopback = {
   '/idp/idx/introspect': [
     'authenticator-verification-select-authenticator-ov-m2'
@@ -435,6 +435,42 @@ const ovSignedNonceLoopback = {
   '/idp/idx/authenticators/poll': [
     'authenticator-verification-okta-verify-signed-nonce-loopback',
     'success',
+  ],
+};
+
+// Okta Verify challenge signed nonce - custom uri
+const ovSignedNonceCustomUri = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-ov-m2'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-signed-nonce-custom-uri'
+  ],
+  '/idp/idx/authenticators/poll/cancel': [
+    'identify',
+  ],
+};
+
+// Okta Verify challenge signed nonce - SSO Extension
+const ovSignedNonceSsoExtension = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-ov-m2'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-signed-nonce-credential-sso-extension'
+  ],
+  '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify/cancel': [
+    'authenticator-verification-okta-verify-signed-nonce-universal-link'
+  ],
+};
+
+// Okta Verify challenge signed nonce - universal link
+const ovSignedNonceUniversalLink = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator-ov-m2'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-signed-nonce-universal-link'
   ],
 };
 
