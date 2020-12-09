@@ -1,0 +1,30 @@
+{
+  "stateHandle": "02im-3M2f6UXHgNfS7Ns7C85EKHzGaKw0u1CC4p9_r",
+  "version": "1.0.0",
+  "expiresAt": "2020-01-13T21:14:37.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type":"array",
+    "value":[
+      {
+        "rel":[
+          "create-form"
+        ],
+        "name": "poll",
+        "href": "http://localhost:3000/idp/idx/poll",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "refresh": 100,
+        "value":[
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "022P5Fd8jBy3b77XEdFCqnjz__5wQxksRfrAS4z6wP",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    ]
+  }
+}

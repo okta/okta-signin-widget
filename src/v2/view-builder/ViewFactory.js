@@ -60,6 +60,9 @@ import ChallengeOktaVerifyTotpView from './views/ov/ChallengeOktaVerifyTotpView'
 import ChallengeOktaVerifyResendPushView from './views/ov/ChallengeOktaVerifyResendPushView';
 import ChallengeAuthenticatorDataOktaVerifyView from './views/ov/ChallengeAuthenticatorDataOktaVerifyView';
 
+// safe mode poll view
+import PollView from './views/PollView';
+
 const DEFAULT = '_';
 
 const VIEWS_MAPPING = {
@@ -96,7 +99,9 @@ const VIEWS_MAPPING = {
     password: RequiredFactorPasswordView,
     webauthn: RequiredFactorWebauthnView,
   },
-
+  [RemediationForms.POLL] : {
+    [DEFAULT] : PollView
+  },
   [RemediationForms.SELECT_AUTHENTICATOR_ENROLL]: {
     [DEFAULT]: SelectAuthenticatorEnrollView,
   },

@@ -33,6 +33,7 @@ const FORMS = {
   REENROLL_AUTHENTICATOR_WARNING: 'reenroll-authenticator-warning',
   RESET_AUTHENTICATOR: 'reset-authenticator',
   SKIP: 'skip',
+  POLL: 'poll',
 
   SUCCESS_REDIRECT: 'success-redirect',
   REDIRECT_IDP: 'redirect-idp',
