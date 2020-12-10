@@ -1,8 +1,15 @@
 $space-between-container: 25px;
 $space-of-last-container: $space-between-container - 14px; // 14px is margin between form body and form toolbar
 $image-size: 30px;
+// Consent theme colors, special case for accessibility
+$consent-text-color: #1d1d21; // Gray 900 in Odyssey
+$consent-light-text-color: #6e6e78; // Gray 600 in Odyssey
 
 .consent-required {
+  .title-text,
+  .scope-list {
+    color: $consent-text-color;
+  }
 
   .default-logo,
   .custom-logo {
@@ -55,7 +62,7 @@ $image-size: 30px;
 
   .consent-description {
     p {
-      color: $light-text-color;
+      color: $consent-light-text-color;
     }
   }
 
