@@ -1,11 +1,32 @@
+import { _, loc } from 'okta';
+
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import Util from '../../../util/Util';
-import { loc } from 'okta';
 
 const Body = BaseForm.extend({
   title () {
-    return  loc('oie.success.redirect', 'login');
+    let titleString = loc('oie.success.text.signingIn', 'login');
+    // For more info on the API response available in appState, see IdxResponseBuilder.java
+    const app = this.options.appState.get('app');
+    const user = this.options.appState.get('user');
+
+    if (_.isEmpty(app)) {
+      return titleString;
+    }
+
+    const {label: appInstanceName, name: appDisplayName} = app;
+    const {identifier: userEmail} = user;
+
+    const appName = appInstanceName ? appInstanceName : appDisplayName;
+
+    if (appName && userEmail) {
+      titleString = loc('oie.success.text.signingIn.with.appName.and.identifier', 'login', [appName, userEmail]);
+    } else if (appName) {
+      titleString = loc('oie.success.text.signingIn.with.appName', 'login', [appName]);
+    }
+
+    return titleString;
   },
   noButtonBar: true,
   initialize () {

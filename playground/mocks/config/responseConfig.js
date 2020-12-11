@@ -60,6 +60,7 @@ const idx = {
     // 'select-factor-authenticate',
     // 'select-factor-for-password-recovery',
     // 'success',
+    // 'success-with-app-user',
     // 'terminal-return-email',
     // 'terminal-return-error-email',
     // 'terminal-return-expired-email',
