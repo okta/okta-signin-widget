@@ -1,8 +1,16 @@
-import { RequestMock, Selector, ClientFunction } from 'testcafe';
+import { RequestMock, RequestLogger, Selector, ClientFunction } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identifyWithIdpsIdentify from '../../../playground/mocks/data/idp/idx/identify-with-third-party-idps';
 import identifyWithIdpsNoIdentify from '../../../playground/mocks/data/idp/idx/identify-with-only-third-party-idps';
 import identifyOnlyOneIdp from '../../../playground/mocks/data/idp/idx/identify-with-only-one-third-party-idp';
+import identifyOnlyOneIdpAppUser from '../../../playground/mocks/data/idp/idx/identify-with-only-one-third-party-idp-app-user';
+
+const logger = RequestLogger(/introspect/,
+  {
+    logRequestBody: true,
+    stringifyRequestBody: true,
+  }
+);
 
 const mockWithIdentify = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -16,11 +24,14 @@ const mockOnlyOneIdp = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identifyOnlyOneIdp)
   .onRequestTo('http://localhost:3000/sso/idps/facebook-idp-id-123?stateToken=inRUXNhsc6Evt7GAb8DPAA')
-  .respond(async (req, res) => {
-    // Delay response for 2 seconds so that we can verify the `success redirect` screen
-    await new Promise((r) => setTimeout(r, 2000));
-    res.setBody('<html><h1>A external IdP login page for testcafe testing</h1></html>');
-  });
+  .respond('<html><h1>A external IdP login page for testcafe testing</h1></html>');
+
+const mockOnlyOneIdpAppUser = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(identifyOnlyOneIdpAppUser)
+  .onRequestTo('http://localhost:3000/sso/idps/facebook-idp-id-123?stateToken=inRUXNhsc6Evt7GAb8DPAA')
+  .respond('<html><h1>A external IdP login page for testcafe testing</h1></html>');
+
 
 fixture('Identify + IDPs');
 
@@ -87,13 +98,8 @@ test.requestHooks(mockWithoutIdentify)('should only render idp buttons with iden
   await t.expect(await identityPage.signoutLinkExists()).notOk();
 });
 
-test.requestHooks(mockOnlyOneIdp)('should auto redirect to 3rd party IdP login page', async t => {
+test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP login page with basic Signing in message', async t => {
   await setup(t);
-
-  // FIXME: assert landing on success redirect page
-  // import BasePageObject from '../framework/page-objects/BasePageObject';
-  // const successRedirectPage = new BasePageObject(t);
-  // await t.expect(successRedirectPage.getFormTitle()).eql('You are being redirected');
 
   const { log } = await t.getBrowserConsoleMessages();
   await t.expect(log.length).eql(3);
@@ -105,8 +111,30 @@ test.requestHooks(mockOnlyOneIdp)('should auto redirect to 3rd party IdP login p
   });
 
   // assert redirect to IdP login page eventually
-  await t.expect(await Selector('h1').innerText).eql('A external IdP login page for testcafe testing');
+  await t.expect(Selector('h1').innerText).eql('A external IdP login page for testcafe testing');
   const pageUrl = await ClientFunction(() => window.location.href)();
   await t.expect(pageUrl).eql('http://localhost:3000/sso/idps/facebook-idp-id-123?stateToken=inRUXNhsc6Evt7GAb8DPAA');
 
+  await t.expect(logger.contains(record => record.response.statusCode === 200)).ok();
+
+});
+
+test.requestHooks(logger, mockOnlyOneIdpAppUser)('should auto redirect to 3rd party IdP login page with Signing in longer message', async t => {
+  await setup(t);
+
+  const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log.length).eql(3);
+  await t.expect(log[0]).eql('===== playground widget ready event received =====');
+  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
+  await t.expect(JSON.parse(log[2])).eql({
+    controller: null,
+    formName: 'success-redirect',
+  });
+
+  // assert redirect to IdP login page eventually
+  await t.expect(Selector('h1').innerText).eql('A external IdP login page for testcafe testing');
+  const pageUrl = await ClientFunction(() => window.location.href)();
+  await t.expect(pageUrl).eql('http://localhost:3000/sso/idps/facebook-idp-id-123?stateToken=inRUXNhsc6Evt7GAb8DPAA');
+
+  await t.expect(logger.contains(record => record.response.statusCode === 200)).ok();
 });
