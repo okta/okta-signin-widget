@@ -11,6 +11,7 @@ import DeviceFingerprint from '../../../util/DeviceFingerprint';
 import polling from './shared/polling';
 import Util from '../../../util/Util';
 import Enums from '../../../util/Enums';
+import { CANCEL_POLLING_ACTION } from '../utils/Constants';
 import Link from '../components/Link';
 import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
 
@@ -50,6 +51,7 @@ const Body = BaseForm.extend(Object.assign(
 
     remove () {
       BaseForm.prototype.remove.apply(this, arguments);
+      this.stopProbing();
       this.stopPolling();
     },
 
@@ -140,9 +142,13 @@ const Body = BaseForm.extend(Object.assign(
       };
 
       const doProbing = () => {
-        return checkPort()
+        this.checkPortXhr = checkPort();
+        return this.checkPortXhr
           // TODO: can we use standard ES6 promise methods, then/catch?
-          .done(onPortFound)
+          .done(() => {
+            this.probingXhr = onPortFound();
+            return this.probingXhr;
+          })
           .fail(onFailure);
       };
 
@@ -160,7 +166,7 @@ const Body = BaseForm.extend(Object.assign(
             Logger.error(`Authenticator is not listening on port ${currentPort}.`);
             if (countFailedPorts === ports.length) {
               Logger.error('No available ports. Loopback server failed and polling is cancelled.');
-              this.options.appState.trigger('invokeAction', 'authenticatorChallenge-cancel');
+              this.options.appState.trigger('invokeAction', CANCEL_POLLING_ACTION);
             }
           });
       });
@@ -171,6 +177,11 @@ const Body = BaseForm.extend(Object.assign(
       this.ulDom = this.add(`
         <iframe src="${this.customURI}" id="custom-uri-container" style="display:none;"></iframe>
       `).last();
+    },
+
+    stopProbing () {
+      this.checkPortXhr && this.checkPortXhr.abort();
+      this.probingXhr && this.probingXhr.abort();
     },
   },
 
@@ -197,7 +208,7 @@ const Footer = BaseFooter.extend({
       this.add(Link, { options: {
         name: 'cancel-authenticator-challenge',
         label: loc('loopback.polling.cancel.link', 'login'),
-        actionPath: 'authenticatorChallenge-cancel',
+        actionPath: CANCEL_POLLING_ACTION,
       }});
     }
   }
