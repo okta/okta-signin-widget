@@ -39,14 +39,25 @@ const startLoginFlow = (settings) => {
   const version = settings.get('apiVersion');
 
   const interact = () => {
-    return idx.start({ 
-      clientId, 
-      issuer: domain + '/oauth2/default', 
-      scopes, 
-      stateHandle, 
-      redirectUri, 
-      version 
-    });
+    const authClient = settings.getAuthClient();
+    return authClient.token
+      .prepareTokenParams()
+      .then(({ codeVerifier, codeChallenge, codeChallengeMethod }) => {
+        // set "codeVerifier" in settings for future access when interaction code is available
+        settings.set('codeVerifier', codeVerifier);
+
+        return idx.start({ 
+          clientId, 
+          issuer: domain + '/oauth2/default', 
+          scopes, 
+          stateHandle, 
+          redirectUri, 
+          version,
+          codeVerifier,
+          codeChallenge,
+          codeChallengeMethod
+        });
+      });
   };
 
   const introspect = () => {
@@ -118,9 +129,13 @@ export default Router.extend({
   },
 
   handleIdxResponseSuccess (idxResponse) {
-    if (typeof idxResponse.hasInteractionCode === 'function' && idxResponse.hasInteractionCode()) {
-      return idxResponse.exchangeCode()
-        .then(tokens => {
+    const { interactionCode } = idxResponse;
+    if (interactionCode) {
+      const authClient = this.settings.getAuthClient();
+      const codeVerifier = this.settings.get('codeVerifier');
+      this.settings.set('codeVerifier', '');
+      return authClient.token.exchangeCodeForToken({ codeVerifier, interactionCode })
+        .then(({ tokens }) => {
           this.remove();
           this.settings.callGlobalSuccess(Enums.SUCCESS, { tokens });
         })

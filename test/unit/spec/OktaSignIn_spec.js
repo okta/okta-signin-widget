@@ -340,6 +340,11 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         widgetOptions || {}
       )
     );
+    spyOn(signIn.authClient.token, 'prepareTokenParams').and.returnValue(Promise.resolve({
+      codeVerifier: 'fakecodeVerifier',
+      codeChallenge: 'fakecodeChallenge',
+      codeChallengeMethod: 'fakecodeChallengeMethod'
+    }));
     MockUtil.mockAjax(responses);
 
     // Add customize parser for ION request
