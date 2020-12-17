@@ -10,7 +10,6 @@ import XHRErrorIdentifyAccessDenied
 import XHRServerSafeMode
   from '../../../../../playground/mocks/data/idp/idx/safe-mode-optional-enrollment.json';
 import XHRSuccess from '../../../../../playground/mocks/data/idp/idx/success.json';
-import XHRSuccessWithAppUser from '../../../../../playground/mocks/data/idp/idx/success-with-app-user.json';
 import XHRIdentify from '../../../../../playground/mocks/data/idp/idx/identify.json';
 import XHRIdentifyWithThirdPartyIdps
   from '../../../../../playground/mocks/data/idp/idx/identify-with-third-party-idps.json';
@@ -302,27 +301,6 @@ describe('v2/ion/responseTransformer', function () {
         ],
         user: {
           id: '00ub0ttoyz062NeVa0g4',
-        },
-        idx: idxResp,
-      });
-    });
-  });
-
-  it('converts success ion response with app and user', done => {
-    MockUtil.mockIntrospect(done, XHRSuccessWithAppUser, idxResp => {
-      const result = transformResponse(testContext.settings, idxResp);
-      expect(result).toEqual({
-        app: { name: 'saasure', label: 'Okta Administration', id: '0oa1heimi0IDMJoo90g4' },
-        remediations: [
-          {
-            name: 'success-redirect',
-            href: 'http://localhost:3000/app/UserHome?stateToken=mockedStateToken123',
-            value: [],
-          },
-        ],
-        user: {
-          id: '00ub0ttoyz062NeVa0g4',
-          identifier: 'admin@idx.com',
         },
         idx: idxResp,
       });
