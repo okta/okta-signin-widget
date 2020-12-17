@@ -133,10 +133,9 @@ export default Router.extend({
     if (interactionCode) {
       const authClient = this.settings.getAuthClient();
       const codeVerifier = this.settings.get('codeVerifier');
-      this.settings.set('codeVerifier', '');
-      return authClient.token.exchangeCodeForToken({ codeVerifier, interactionCode })
+      this.settings.unset('codeVerifier');
+      return authClient.token.exchangeCodeForTokens({ codeVerifier, interactionCode })
         .then(({ tokens }) => {
-          this.remove();
           this.settings.callGlobalSuccess(Enums.SUCCESS, { tokens });
         })
         .catch(err => {
@@ -211,9 +210,7 @@ export default Router.extend({
     // introspect stateToken when widget is bootstrap with state token
     // and remove it from `settings` afterwards as IDX response always has
     // state token (which will be set into AppState)
-    if (this.settings.get('stateToken') 
-        || this.settings.get('proxyIdxResponse')
-        || this.settings.get('useInteractionCodeFlow')) {
+    if (this.settings.get('oieEnabled')) {
       const idxRespPromise = this.settings.get('proxyIdxResponse') ?
         handleProxyIdxResponse(this.settings) : startLoginFlow(this.settings);
       return idxRespPromise
