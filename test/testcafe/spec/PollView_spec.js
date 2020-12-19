@@ -18,12 +18,17 @@ const identifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/poll')
   .respond(xhrSuccess);
 
-const requestLogger = RequestLogger(/poll/, {
-  logRequestBody: true,
-  stringifyRequestBody: true,
-});
+// const identifyPollErrorMock = RequestMock()
+//   .onRequestTo('http://localhost:3000/idp/idx/introspect')
+//   .respond(xhrIdentifyWithPassword)
+//   .onRequestTo('http://localhost:3000/idp/idx/identify')
+//   .respond(xhrSelectAuthenticatorEnroll)
+//   .onRequestTo('http://localhost:3000/idp/idx/poll')
+//   .respond(xhrError);
 
-fixture('Polling');
+const requestLogger = RequestLogger(/poll/);
+
+fixture('Safemode Polling');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -47,3 +52,14 @@ test.requestHooks(requestLogger, identifyMock)('should poll', async t => {
   const enrollViaSMSPageObject = new EnrollOVViaSMSPageObject(t);
   await t.expect(enrollViaSMSPageObject.getFormTitle()).eql('Set up Okta Verify via SMS');
 });
+
+// Test being flaky on bacon
+// test.requestHooks(requestLogger, identifyPollErrorMock)('poll should end on error', async t => {
+//   let [identityPage, selectFactorPage]  = await setup(t);
+//   await identityPage.fillIdentifierField('username');
+//   await identityPage.fillPasswordField('password');
+//   await identityPage.clickNextButton();
+//   selectFactorPage.selectFactorByIndex(0);
+//   const terminalPageObject = new TerminalPageObject(t);
+//   await t.expect(terminalPageObject.getErrorMessages().getTextContent()).eql('Something went wrong, Try again later.');
+// });

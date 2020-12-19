@@ -8,10 +8,11 @@ import { MS_PER_SEC } from '../utils/Constants';
 const PollMessageView = View.extend({
   template: hbs`
     <div class="ion-messages-container">
-      {{i18n code="poll.form.message" 
-        bundle="login" arguments="countDownCounterValue" $1="<span class='strong'>$1</span>"}}
+      <p>{{i18n code="poll.form.message" 
+        bundle="login" arguments="countDownCounterValue" $1="<span class='strong'>$1</span>"}} </p>
     </div>
-    <div class="okta-waiting-spinner"></div>`
+    <div class="okta-waiting-spinner"></div>
+    `
   ,
   getTemplateData () {
     const countDownCounterValue = this.options;
@@ -44,7 +45,13 @@ const Body = BaseForm.extend(Object.assign(
     remove () {
       BaseForm.prototype.remove.apply(this, arguments);
       this.stopPolling();
-    }
+    },
+
+    triggerAfterError () {
+      BaseForm.prototype.triggerAfterError.apply(this, arguments);
+      this.stopPolling();
+      this.$el.find('.o-form-fieldset-container').empty();
+    },
   },
 
   polling,
