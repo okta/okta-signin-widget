@@ -203,6 +203,13 @@ export default Model.extend({
       },
       cache: true,
     },
+    oieEnabled: {
+      deps: ['stateToken', 'proxyIdxResponse', 'useInteractionCodeFlow'],
+      fn: function (stateToken, proxyIdxResponse, useInteractionCodeFlow) {
+        return stateToken || proxyIdxResponse || useInteractionCodeFlow;
+      },
+      cache: true,
+    },
     // Redirect Uri to provide in the oauth API
     oauthRedirectUri: {
       deps: ['redirectUri'],

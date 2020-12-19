@@ -327,21 +327,25 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
     signIn.remove();
   });
 
-  function setupIntrospect (options) {
+  function setupLoginFlow (widgetOptions, responses) {
     signIn = new Widget(
       Object.assign(
         {
           baseUrl: url,
-          stateToken: '02stateToken',
           apiVersion: '1.0.0',
           features: {
             router: true,
           },
         },
-        options || {}
+        widgetOptions || {}
       )
     );
-    MockUtil.mockAjax(idxResponse);
+    spyOn(signIn.authClient.token, 'prepareTokenParams').and.returnValue(Promise.resolve({
+      codeVerifier: 'fakecodeVerifier',
+      codeChallenge: 'fakecodeChallenge',
+      codeChallengeMethod: 'fakecodeChallengeMethod'
+    }));
+    MockUtil.mockAjax(responses);
 
     // Add customize parser for ION request
     jasmine.Ajax.addCustomParamParser({
@@ -382,7 +386,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
   Expect.describe('Introspects token and loads Identifier view for new pipeline', function () {
     itp('calls introspect API on page load using idx-js as client', function () {
       const form = new IdentifierForm($sandbox);
-      setupIntrospect();
+      setupLoginFlow({ stateToken: '02stateToken' }, idxResponse);
 
       return Expect.wait(() => {
         return $('.siw-main-body').length === 1;
@@ -402,9 +406,65 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
     });
 
     itp('throws an error if invalid version is passed to idx-js', function () {
-      return setupIntrospect({
+      return setupLoginFlow({
+        stateToken: '02stateToken',
+        apiVersion: '2.0.0'
+      }, idxResponse).catch(err => {
+        expect(err.name).toBe('CONFIG_ERROR');
+        expect(err.message.toString()).toEqual('Error: Unknown api version: 2.0.0.  Use an exact semver version.');
+      });
+    });
+  });
+
+  Expect.describe('Interaction code flow', function () {
+    let responses;
+    beforeEach(function () {
+      responses = [
+        {
+          state: 200,
+          responseType: 'json',
+          response: {
+            'interaction_handle': 'fake_interaction_handle'
+          },
+        },
+        idxResponse
+      ];
+    });
+
+    itp('calls interact API on page load using idx-js as client in custom hosted widget', function () {
+      const form = new IdentifierForm($sandbox);
+      setupLoginFlow({ 
+        clientId: 'someClientId',
+        redirectUri: 'http://0.0.0.0:9999',
+        useInteractionCodeFlow: true
+      }, responses);
+
+      return Expect.wait(() => {
+        return $('.siw-main-body').length === 1;
+      }).then(function () {
+        expect(form.getTitle()).toBe('Sign In');
+        expect(form.getIdentifierInput().length).toBe(1);
+        expect(form.getIdentifierInput().attr('name')).toBe('identifier');
+        expect(form.getFormSaveButton().attr('value')).toBe('Next');
+
+        expect(jasmine.Ajax.requests.count()).toBe(2);
+        const firstReq = jasmine.Ajax.requests.at(0);
+        const secondReq = jasmine.Ajax.requests.at(1);
+
+        expect(firstReq.method).toBe('POST');
+        expect(firstReq.url).toBe('https://foo.com/oauth2/default/v1/interact');
+        expect(secondReq.method).toBe('POST');
+        expect(secondReq.url).toBe('https://foo.com/idp/idx/introspect');
+      });
+    });
+
+    itp('throws an error if invalid version is passed to idx-js', function () {
+      return setupLoginFlow({
         apiVersion: '2.0.0',
-      }).catch(err => {
+        clientId: 'someClientId',
+        redirectUri: 'http://0.0.0.0:9999',
+        useInteractionCodeFlow: true
+      }, responses).catch(err => {
         expect(err.name).toBe('CONFIG_ERROR');
         expect(err.message.toString()).toEqual('Error: Unknown api version: 2.0.0.  Use an exact semver version.');
       });

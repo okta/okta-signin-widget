@@ -17,10 +17,10 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@okta/okta-idx-js@0.8.0-g87229cf":
-  version "0.8.0-g87229cf"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/okta-idx-js/-/@okta/okta-idx-js-0.8.0-g87229cf.tgz#a1874842adb2799c474c4e107ba41fa38721115d"
-  integrity sha1-oYdIQq2yeZxHTE4Qe6Qfo4chEV0=
+"@okta/okta-idx-js@0.8.1-gc307eb3":
+  version "0.8.1-gc307eb3"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/okta-idx-js/-/@okta/okta-idx-js-0.8.1-gc307eb3.tgz#70d076b9af10e037353a20fdd476a14b494db065"
+  integrity sha1-cNB2ua8Q4Dc1OiD91HahS0lNsGU=
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@babel/runtime-corejs3" "^7.12.5"
