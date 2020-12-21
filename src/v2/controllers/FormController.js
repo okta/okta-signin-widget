@@ -108,11 +108,20 @@ export default Controller.extend({
     this.options.appState.set('currentFormName', formName);
   },
 
+  handleIdxResponse (response) {
+    const hasError = () => response?.rawIdxState?.messages?.value?.some(val => val.class === 'ERROR');
+    if (!hasError()) {
+      this.handleIdxSuccess(response);
+    } else {
+      throw response.rawIdxState;
+    }
+  },
+
   handleInvokeAction (actionPath = '') {
     const idx = this.options.appState.get('idx');
     if (idx['neededToProceed'].find(item => item.name === actionPath)) {
       idx.proceed(actionPath, {})
-        .then(this.handleIdxSuccess.bind(this))
+        .then(this.handleIdxResponse.bind(this))
         .catch(error => {
           this.showFormErrors(this.formView.model, error);
         });
@@ -125,7 +134,7 @@ export default Controller.extend({
       // TODO: OKTA-243167
       // 1. what's the approach to show spinner indicating API in fligh?
       actionFn()
-        .then(this.handleIdxSuccess.bind(this))
+        .then(this.handleIdxResponse.bind(this))
         .catch(error => {
           this.showFormErrors(this.formView.model, error);
         });
@@ -148,7 +157,7 @@ export default Controller.extend({
     this.toggleFormButtonState(true);
     model.trigger('request');
     idx.proceed(formName, model.toJSON())
-      .then(this.handleIdxSuccess.bind(this))
+      .then(this.handleIdxResponse.bind(this))
       .catch(error => {
         if (error.proceed && error.rawIdxState) {
           // Okta server responds 401 status code with WWW-Authenticate header and new remediation
