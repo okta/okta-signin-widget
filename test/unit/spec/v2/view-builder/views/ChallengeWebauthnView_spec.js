@@ -6,6 +6,7 @@ import webauthn from 'util/webauthn';
 import CryptoUtil from 'util/CryptoUtil';
 import $sandbox from 'sandbox';
 import Expect from 'helpers/util/Expect';
+import BrowserFeatures from '../../../../../../src/util/BrowserFeatures';
 import ChallengeWebauthnResponse
   from '../../../../../../playground/mocks/data/idp/idx/authenticator-verification-webauthn.json';
 
@@ -46,6 +47,7 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function () {
 
   it('shows verify instructions and spinner when browser supports webauthn', function () {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    spyOn(BrowserFeatures, 'isSafari').and.callFake(() => false);
     this.init();
     expect(this.view.$('.idx-webauthn-verify-text').text()).toBe(
       'You will be prompted to use a security key or biometric verification (Windows Hello, Touch ID, etc.). Follow the instructions to complete verification.'
@@ -54,6 +56,32 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function () {
     expect(this.view.$('.retry-webauthn').text()).toBe('Retry');
     expect(this.view.$('.webauthn-not-supported').length).toBe(0);
     expect(this.view.$('.okta-waiting-spinner').css('display')).toBe('block');
+  });
+
+  it('shows verify instructions and button when browser supports webauthn and is safari', function () {
+    spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    spyOn(BrowserFeatures, 'isSafari').and.callFake(() => true);
+    this.init();
+    expect(this.view.$('.idx-webauthn-verify-text').text()).toBe(
+      'You will be prompted to use a security key or biometric verification (Windows Hello, Touch ID, etc.). Follow the instructions to complete verification.'
+    );
+    expect(this.view.$('.retry-webauthn').css('display')).toBe('inline');
+    expect(this.view.$('.retry-webauthn').text()).toBe('Verify');
+    expect(this.view.$('.webauthn-not-supported').length).toBe(0);
+  });
+
+  it('updated button text to "Retry" on click in safari', function () {
+    spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    spyOn(BrowserFeatures, 'isSafari').and.callFake(() => true);
+    this.init();
+    expect(this.view.$('.idx-webauthn-verify-text').text()).toBe(
+      'You will be prompted to use a security key or biometric verification (Windows Hello, Touch ID, etc.). Follow the instructions to complete verification.'
+    );
+    expect(this.view.$('.retry-webauthn').css('display')).toBe('inline');
+    expect(this.view.$('.retry-webauthn').text()).toBe('Verify');
+    this.view.$('.retry-webauthn').click();
+    expect(this.view.$('.retry-webauthn').css('display')).toBe('none');
+    expect(this.view.$('.retry-webauthn').text()).toBe('Retry');
   });
 
   it('shows verify instructions and spinner if there are existing enrollments', function () {
