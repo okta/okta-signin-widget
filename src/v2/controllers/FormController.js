@@ -109,11 +109,11 @@ export default Controller.extend({
   },
 
   handleIdxResponse (response) {
-    const hasError = () => response?.rawIdxState?.messages?.value?.some(val => val.class === 'ERROR');
-    if (!hasError()) {
+    const { rawIdxState } = response;
+    if (!IonResponseHelper.hasFormErrors(rawIdxState)) {
       this.handleIdxSuccess(response);
     } else {
-      throw response.rawIdxState;
+      throw rawIdxState;
     }
   },
 
