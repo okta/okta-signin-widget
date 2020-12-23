@@ -17,6 +17,7 @@ import resSuccess from 'helpers/xhr/SUCCESS';
 import Q from 'q';
 import $sandbox from 'sandbox';
 import CryptoUtil from 'util/CryptoUtil';
+import BrowserFeatures from 'util/BrowserFeatures';
 import LoginUtil from 'util/Util';
 import webauthn from 'util/webauthn';
 const itp = Expect.itp;
@@ -152,7 +153,8 @@ function mockWebauthnSignPending () {
 function setupWebauthnFactor (options) {
   options || (options = {});
   spyOn(webauthn, 'isNewApiAvailable').and.returnValue(options.webauthnSupported === true);
-
+  const isSafari = options.isSafari ? true : false;
+  spyOn(BrowserFeatures, 'isSafari').and.returnValue(isSafari === true);
   mockWebauthn(options);
   return setup(options);
 }
@@ -244,9 +246,18 @@ function testWebauthnFactor (setupFn, webauthnOnly) {
     });
   });
 
-  itp('shows verify button when webauthn challenge page is loaded', function () {
-    return setupFn({ webauthnSupported: true }).then(function (test) {
+  itp('shows verify button when webauthn challenge page is loaded when on safari', function () {
+    return setupFn({ webauthnSupported: true, isSafari: true }).then(function (test) {
       expect(test.form.submitButton().css('display')).toBe('block');
+      expect(test.form.submitButtonText()).toBe('Verify');
+    });
+  });
+
+  itp('does not show verify button when not on safari', function () {
+    return setupFn({ webauthnSupported: true }).then(function (test) {
+      return Expect.waitForSpyCall(navigator.credentials.get, test);
+    }).then(function (test) {
+      Expect.isNotVisible(test.form.submitButton());
       expect(test.form.submitButtonText()).toBe('Verify');
     });
   });
@@ -281,7 +292,6 @@ function testMultipleWebauthnFactor (setupFn) {
       signStatus: 'success',
     })
       .then(function (test) {
-        test.form.submit();
         return Expect.waitForSpyCall(test.successSpy);
       })
       .then(function () {
@@ -328,7 +338,6 @@ function testMultipleWebauthnFactor (setupFn) {
       rememberDevice: true,
     })
       .then(function (test) {
-        test.form.submit();
         return Expect.waitForSpyCall(test.successSpy);
       })
       .then(function () {
@@ -375,7 +384,6 @@ function testMultipleWebauthnFactor (setupFn) {
       signStatus: 'fail',
     })
       .then(function (test) {
-        test.form.submit();
         return Expect.waitForFormError(test.form, test);
       })
       .then(function (test) {
@@ -413,7 +421,6 @@ Expect.describe('Webauthn Factor', function () {
       signStatus: 'success',
     })
       .then(function (test) {
-        test.form.submit();
         return Expect.waitForSpyCall(test.successSpy, test);
       })
       .then(function (test) {
@@ -453,7 +460,6 @@ Expect.describe('Webauthn Factor', function () {
       rememberDevice: true,
     })
       .then(function (test) {
-        test.form.submit();
         return Expect.waitForSpyCall(test.successSpy);
       })
       .then(function () {
@@ -492,7 +498,6 @@ Expect.describe('Webauthn Factor', function () {
       signStatus: 'fail',
     })
       .then(function (test) {
-        test.form.submit();
         return Expect.waitForFormError(test.form, test);
       })
       .then(function (test) {
@@ -532,7 +537,6 @@ Expect.describe('Multiple Webauthn and one or more factors are setup', function 
   itp('switching to another factor after initiating webauthn verify calls abort', function () {
     return setupMultipleWebauthn({ webauthnSupported: true })
       .then(function (test) {
-        test.form.submit();
         return Expect.waitForSpyCall(navigator.credentials.get, test);
       })
       .then(function (test) {
@@ -551,7 +555,6 @@ Expect.describe('Multiple Webauthn and one or more factors are setup', function 
   itp('SignOut after initiating webauthn verify calls abort', function () {
     return setupMultipleWebauthn({ webauthnSupported: true })
       .then(function (test) {
-        test.form.submit();
         return Expect.waitForSpyCall(navigator.credentials.get, test);
       })
       .then(function (test) {
