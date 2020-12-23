@@ -5,7 +5,6 @@ import CryptoUtil from '../../../../util/CryptoUtil';
 import webauthn from '../../../../util/webauthn';
 import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
 import ChallengeWebauthnInfoView from './ChallengeWebauthnInfoView';
-import BrowserFeatures from '../../../../util/BrowserFeatures';
 
 const Body = BaseForm.extend({
 
@@ -19,16 +18,12 @@ const Body = BaseForm.extend({
     const schema = [];
     // Returning custom array so no input fields are displayed for webauthn
     if (webauthn.isNewApiAvailable()) {
-      const title = BrowserFeatures.isSafari() ? loc('mfa.challenge.verify', 'login') : loc('retry', 'login');
       const retryButton = createButton({
         className: 'retry-webauthn button-primary default-custom-button',
-        title,
+        title: loc('mfa.challenge.verify', 'login'),
         click: () => {
           this.getCredentialsAndSave();
-          // Update button text only when using safari.
-          if (BrowserFeatures.isSafari()) {
-            this.$('.retry-webauthn')[0].innerText = loc('retry', 'login');
-          }
+          this.$('.retry-webauthn')[0].innerText = loc('retry', 'login');
         }
       });
 
@@ -124,8 +119,5 @@ export default BaseAuthenticatorView.extend({
   Footer: AuthenticatorVerifyFooter,
   postRender () {
     BaseAuthenticatorView.prototype.postRender.apply(this, arguments);
-    if (webauthn.isNewApiAvailable() && !BrowserFeatures.isSafari()) {
-      this.form.getCredentialsAndSave();
-    }
   },
 });
