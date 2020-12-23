@@ -20,9 +20,10 @@ const Body = BaseForm.extend({
     if (webauthn.isNewApiAvailable()) {
       const retryButton = createButton({
         className: 'retry-webauthn button-primary default-custom-button',
-        title: loc('retry', 'login'),
+        title: loc('mfa.challenge.verify', 'login'),
         click: () => {
           this.getCredentialsAndSave();
+          this.$('.retry-webauthn')[0].innerText = loc('retry', 'login');
         }
       });
 
@@ -118,8 +119,5 @@ export default BaseAuthenticatorView.extend({
   Footer: AuthenticatorVerifyFooter,
   postRender () {
     BaseAuthenticatorView.prototype.postRender.apply(this, arguments);
-    if (webauthn.isNewApiAvailable()) {
-      this.form.getCredentialsAndSave();
-    }
   },
 });
