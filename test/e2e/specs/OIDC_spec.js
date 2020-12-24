@@ -124,7 +124,6 @@ describe('OIDC flows', function () {
       expect(oidcApp.getCodeFromQuery()).not.toBeNull();
     });
 
-    // https://oktainc.atlassian.net/browse/OKTA-246000
     it('PKCE login flow', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
@@ -141,7 +140,6 @@ describe('OIDC flows', function () {
       expect(oidcApp.getAccessTokenType()).toBe('Bearer');
     });
 
-    // https://oktainc.atlassian.net/browse/OKTA-246000
     it('PKCE login flow (fragment)', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
