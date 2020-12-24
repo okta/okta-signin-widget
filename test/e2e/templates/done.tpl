@@ -17,7 +17,8 @@ if (window.location.search.indexOf('code') >= 0) {
 
 var oktaSignIn = new OktaSignIn({
   'baseUrl': '{{{WIDGET_TEST_SERVER}}}',
-  'clientId': '{{{WIDGET_CLIENT_ID}}}',
+  // SPA clientId
+  'clientId': '{{{WIDGET_SPA_CLIENT_ID}}}',
   authParams: {
     pkce: pkce,
     responseMode: responseMode
@@ -27,7 +28,6 @@ addMessageToPage('page', 'oidc_app');
 
 var authClient = new OktaAuth({
   issuer: '{{{WIDGET_TEST_SERVER}}}/oauth2/default',
-  clientId: '{{{WIDGET_CLIENT_ID}}}',
   redirectUri: 'http://localhost:3000/done',
   pkce: pkce,
   responseMode: responseMode

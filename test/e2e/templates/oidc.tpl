@@ -8,7 +8,8 @@ function _initialize(event) {
 
 var CONFIG = {
   baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-  clientId: '{{{WIDGET_CLIENT_ID}}}',
+  // SPA clientId
+  clientId: '{{{WIDGET_SPA_CLIENT_ID}}}',
   redirectUri: 'http://localhost:3000/done',
   authParams: {
     pkce: false,

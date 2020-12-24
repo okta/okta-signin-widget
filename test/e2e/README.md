@@ -15,7 +15,7 @@ yarn install angular
 
 ## Define environment variables
 
-See `test/e2e/env.defaults.js` for a list of all environment variables used by E2E tests. You can define variables in the shell (using `export VAR=value` in `~/.bash_profile` or similar) or place values in a `.env` file at the root of this project. [dotenv docs](https://github.com/motdotla/dotenv#dotenv)
+See `test/e2e/env.defaults.js` for a list of all environment variables used by E2E tests. You can define variables in the shell (using `export VAR=value` in `~/.bash_profile` or similar) or place values in a `testenv` file at the root of this project. [dotenv docs](https://github.com/motdotla/dotenv#dotenv)
 
 For all E2E tests to pass locally, you will need to define these values. You will need a test org and a FB user.
 
