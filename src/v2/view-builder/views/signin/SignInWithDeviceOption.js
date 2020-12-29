@@ -37,21 +37,21 @@ export default View.extend({
           // launch the Okta Verify app
           Util.redirect(deviceChallenge.href);
         }
-        if (this.options.isRequired) {
-          appState.trigger('saveForm', this.model);
-        } else {
-          // OKTA-350084
-          // For the universal link (iOS) approach,
-          // we need to 1. launch the Okta Verify app
-          // and 2. take the enduser to the next step right away
-          // In Safari, when Okta Verify app is not installed, step 1 responds with error immediately,
-          // then step 2 will respond with error.
-          // To avoid showing the error right before switching to the next UI,
-          // wait for 500 milliseconds before invoking step 2
-          Util.callAfterTimeout(() => {
+        // OKTA-350084
+        // For the universal link (iOS) approach,
+        // we need to 1. launch the Okta Verify app
+        // and 2. take the enduser to the next step right away
+        // In Safari, when Okta Verify app is not installed, step 1 responds with error immediately,
+        // then step 2 will respond with error.
+        // To avoid showing the error right before switching to the next UI,
+        // wait for 500 milliseconds before invoking step 2
+        Util.callAfterTimeout(() => {
+          if (this.options.isRequired) {
+            appState.trigger('saveForm', this.model);
+          } else {
             appState.trigger('invokeAction', Enums.LAUNCH_AUTHENTICATOR_REMEDIATION_NAME);
-          }, isUVapproach ? UNIVERSAL_LINK_POST_DELAY : 0);
-        }
+          }
+        }, isUVapproach ? UNIVERSAL_LINK_POST_DELAY : 0);
       }
     }), '.okta-verify-container');
   },
