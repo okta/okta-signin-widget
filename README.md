@@ -25,6 +25,8 @@
 [PKCE]: https://developer.okta.com/docs/concepts/oauth-openid/#authorization-code-flow-with-pkce
 [implicit flow]: https://developer.okta.com/docs/concepts/oauth-openid/#implicit-flow
 [OAuth]: https://developer.okta.com/docs/concepts/oauth-openid/
+[Custom Authorization Server]: https://developer.okta.com/docs/guides/customize-authz-server/overview/
+[Authorization Server]: https://developer.okta.com/docs/concepts/auth-servers/#which-authorization-server-should-you-use
 <!-- end links -->
 
 <!-- omit in toc -->
@@ -34,23 +36,24 @@ The Okta Sign-In Widget is a Javascript widget that provides a fully featured an
 
 The widget is used on Okta's default signin page to start an Okta SSO session and set the Okta [session cookie][] in the web browser. The widget can also perform a complete [OIDC][] flow and/or integrate with external [identity providers][].
 
-See the [Usage guide](#usage-guide) for more information on how to use the widget in your applications.
+See the [Usage Guide](#usage-guide) for more information on how to get started using the Sign-in Widget.
 
 <!-- TOC is generated using Markdown All in One -->
-- [Usage guide](#usage-guide)
+- [Related SDKs](#related-sdks)
+  - [Javascript](#javascript)
+  - [Java](#java)
+  - [.Net](#net)
+- [Sample applications](#sample-applications)
+- [Usage Guide](#usage-guide)
   - [Okta-hosted signin page (default)](#okta-hosted-signin-page-default)
   - [Okta-hosted signin page (customizable)](#okta-hosted-signin-page-customizable)
   - [Embedded (self-hosted)](#embedded-self-hosted)
     - [Using the Okta CDN](#using-the-okta-cdn)
     - [Using the npm module](#using-the-npm-module)
-  - [Usage examples](#usage-examples)
-    - [OIDC login flow using PKCE (Proof Key for Code Exchange)](#oidc-login-flow-using-pkce-proof-key-for-code-exchange)
-    - [OIDC login flow using Authorization Code](#oidc-login-flow-using-authorization-code)
-  - [Sample applications](#sample-applications)
-- [SDKs](#sdks)
-  - [Javascript](#javascript)
-  - [Java](#java)
-  - [.Net](#net)
+    - [Examples](#examples)
+      - [SPA Application](#spa-application)
+      - [Web Application](#web-application)
+      - [Without OIDC](#without-oidc)
 - [API Reference](#api-reference)
   - [OktaSignIn](#oktasignin)
   - [showSignInToGetTokens](#showsignintogettokens)
@@ -64,6 +67,7 @@ See the [Usage guide](#usage-guide) for more information on how to use the widge
   - [off](#off)
   - [authClient](#authclient)
 - [Configuration](#configuration)
+  - [OIDC Applications](#oidc-applications)
   - [Basic config options](#basic-config-options)
   - [Username and password](#username-and-password)
   - [Language and text](#language-and-text)
@@ -92,54 +96,101 @@ See the [Usage guide](#usage-guide) for more information on how to use the widge
 - [Browser support](#browser-support)
 - [Contributing](#contributing)
 
-## Usage guide
+## Related SDKs
 
-This guide contains a few [usage examples](#usage-examples) and links to [sample applications](#sample-applications) which demonstrate how to use the Okta Sign-In Widget in various scenarios.
+The Sign-in Widget is self-contained and requires no other frameworks at runtime. However, there may be certain features your app needs such as token storage, renewal, or validation, which the widget does not provide.
 
-Based upon your needs, you may want to use the [default Okta-hosted signin page](#okta-hosted-signin-page-default) or a [custom domain][] with a [customizable Okta-hosted signin page](#okta-hosted-signin-page-customizable). For maximum customization and a seamless experience, you can [embed the widget](#embedded-self-hosted) directly into your application.
+These SDKs are fully compatible with the Okta Sign-in Widget and provide utilities to help integrate Okta [authentication][] end-to-end in your own application.
 
-Okta also provides several higher-level [SDKs](#sdks) which can help integrate Okta features into your application.
+### Javascript
+
+- [okta-auth-js](https://github.com/okta/okta-auth-js)
+- [okta-react](https://github.com/okta/okta-react)
+- [okta-angular](https://github.com/okta/okta-angular)
+- [okta-vue](https://github.com/okta/okta-vue)
+- [oidc-middleware](https://github.com/okta/okta-oidc-js/tree/master/packages/oidc-middleware) (Express / NodeJS)
+  
+### Java
+
+- [okta-auth-java](https://github.com/okta/okta-auth-java)
+- [okta-spring-boot](https://github.com/okta/okta-spring-boot)
+
+### .Net
+
+- [okta-auth-dotnet](https://github.com/okta/okta-auth-dotnet)
+
+## Sample applications
+
+Complete sample applications demonstrate usage of the Okta Sign-In Widget in both [Okta-hosted](#okta-hosted-signin-page-default) and [embedded](#embedded-self-hosted) scenarios.
+
+- [Javascript](https://github.com/okta/okta-auth-js/tree/master/samples)
+- [React](https://github.com/okta/samples-js-react)
+- [Angular](https://github.com/okta/samples-js-angular)
+- [Vue](https://github.com/okta/samples-js-vue)
+- [Asp.Net Core 2.x](https://github.com/okta/samples-aspnetcore)
+- [ASP.Net Core 3.x](https://github.com/okta/samples-aspnetcore)
+- [ASP.Net 4.x](https://github.com/okta/samples-aspnet)
+- [ASP.Net Webforms](https://github.com/okta/samples-aspnet-webforms)
+- [Golang](https://github.com/okta/samples-golang)
+- [Java/Spring Boot](https://github.com/okta/samples-java-spring)
+- [NodeJS/Express](https://github.com/okta/samples-nodejs-express-4)
+- [PHP](https://github.com/okta/samples-php)
+- [Python/Flask](https://github.com/okta/samples-python-flask)
+
+## Usage Guide
+
+There are several ways to use the Okta Sign-in Widget:
+
+- Okta provides a [default signin page](#okta-hosted-signin-page-default) for your organization, hosted at your organization's Okta URL.
+
+- Okta supports an option to create a [custom domain][] with a highly [customizable Okta-hosted signin page](#okta-hosted-signin-page-customizable).
+
+- You can [embed the widget](#embedded-self-hosted) directly into your application.
 
 ### Okta-hosted signin page (default)
 
-Okta provides a signin page, available at your [organization][]'s URL which allows the user to complete the entire authorization flow, start a SSO (Single Sign-On) session, and set the Okta [session cookie][] in the web browser. By default, signing in on this page will redirect the user to the Okta user dashboard.
+Okta provides a signin page, available at your [organization][]'s URL which allows the user to complete the entire authorization flow, start a SSO (Single Sign-On) session, and set the Okta [session cookie][] in the web browser. This page can be customized with a background image and logo. By default, signing in on this page will redirect the user to the Okta user dashboard.
 
-The default Okta-hosted signin page can also be used to authenticate a user in a web or mobile app. Your app can [redirect to a sigin-in page][] to perform the [authentication][] flow after which Okta will redirect back to an app [callback][] which either contains [OAuth][] tokens (in the case of the [implicit flow][]) or a code which can be used to obtain [OAuth][] tokens (in the case of [PKCE][] and the [authorization code flow][]). Okta provides [SDKs](#sdks) in many languages to help construct the redirect URL and handle the login [callback][] as part of the [hosted flow][].
+The default Okta-hosted signin page can also be used to authenticate a user in an OIDC application. Your app can [redirect to a sigin-in page][] to perform the [authentication][] flow after which Okta will redirect back to the app [callback][]. Okta provides [SDKs](#sdks) in many languages to help construct the redirect URL and handle the login [callback][] as part of the [hosted flow][].
 
 Okta provides several complete [sample applications](#sample-applications) which demonstrate how to use the Okta [hosted flow][].
 
 ### Okta-hosted signin page (customizable)
 
-The default Okta hosted signin page can be customized so that it is available under a [custom domain][] which is a subdomain of your company's top-level domain. Although the page is hosted by Okta, you are able to [customize the template][] of this page in many powerful ways. See the [gallery][] for some examples of customized widgets.
+Okta also provides a hosted signin page which can be customized so that it is available under a [custom domain][] which is a subdomain of your company's top-level domain. Although the page is hosted by Okta, you are able to [customize the template][] of this page in many powerful ways. See the [gallery][] for some examples of customized widgets.
 
 As far as your app is concerned, the customized widget behaves the same as the default Okta-hosted widget and you can use the same [hosted flow][].
 
 ### Embedded (self-hosted)
 
-For a completely seamless experience, the Sign-In Widget can be embedded directly into your web application. This allows for the highest level of customization. Using an embedded widget, client-side web and native apps using [PKCE][] or [implicit flow][] can avoid the round-trip redirect of the [hosted flow][]. An embedded widget can perform the complete [OIDC][] flow and return [OAuth][] tokens directly to the application. See [showSignInToGetTokens](#showsignintogettokens).
+For a completely seamless experience, which also allows for the highest level of customization, the Sign-In Widget can be embedded directly into your application. This allows full use of the widget's [configuration](#configuration) and [api](#api-reference).
 
-> **Note**: Server-side web applications using the [authorization code flow][] **must redirect** in order to receive tokens on the server. These apps should use [showSignInAndRedirect](#showsigninandredirect).
+Using an embedded widget, client-side web and native apps can avoid the round-trip redirect of the [hosted flow][]. An embedded widget is able to perform the [OIDC][] flow and return [OAuth][] tokens directly within the application. See [showSignInToGetTokens](#showsignintogettokens).
+
+Server-side web applications using the [authorization code flow][] will complete the [OIDC][] flow and receive [OAuth][] tokens on the server, so they **must use a redirect flow**. These apps should use [showSignInAndRedirect](#showsigninandredirect).
 
 You can embed the Sign-In Widget in your app either by including a script from the Okta CDN or by bundling the npm module [@okta/okta-signin-widget](https://www.npmjs.com/package/@okta/okta-signin-widget) with your app.
 
 #### Using the Okta CDN
 
-Loading our assets directly from the CDN is a good choice if you want an easy way to get started with the widget, and don't already have an existing build process that leverages [npm](https://www.npmjs.com/) for external dependencies.
+Loading our assets directly from the CDN is a good choice if you want an easy way to get started with the widget or don't already have an existing build process that leverages [npm](https://www.npmjs.com/) for external dependencies.
 
-To use the CDN, include links to the JS and CSS files in your HTML:
+To embed the Sign-in Widget via CDN, include links to the JS and CSS files in your HTML:
 
 ```html
 <!-- Latest CDN production Javascript and CSS -->
-<script src="https://global.oktacdn.com/okta-signin-widget/5.0.1/js/okta-sign-in.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/5.2.0/js/okta-sign-in.min.js" type="text/javascript"></script>
 
-<link href="https://global.oktacdn.com/okta-signin-widget/5.0.1/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
+<link href="https://global.oktacdn.com/okta-signin-widget/5.2.0/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
 ```
+
+The CDN URLs contain a version number. This number should be the same for both the Javascript and the CSS file and match a version on the [releases page](/releases).
 
 The standard JS asset served from our CDN includes polyfills via [`@babel/polyfill`](https://babeljs.io/docs/en/babel-polyfill/) to ensure compatibility with older browsers. This may cause conflicts if your app already includes polyfills. For this case, we provide an alternate JS asset which does not include any polyfills.
 
 ```html
 <!-- Latest CDN production Javascript without polyfills -->
-<script src="https://global.oktacdn.com/okta-signin-widget/5.0.1/js/okta-sign-in.no-polyfill.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/5.2.0/js/okta-sign-in.no-polyfill.min.js" type="text/javascript"></script>
 ```
 
 #### Using the npm module
@@ -160,6 +211,8 @@ yarn add @okta/okta-signin-widget
 # npm
 npm install @okta/okta-signin-widget --save
 ```
+
+This will install the latest version of the Sign-in Widget to your project's `node_modules` directory.
 
 The widget source files and assets will be installed to `node_modules/@okta/okta-signin-widget/dist`, and will have this directory structure:
 
@@ -230,12 +283,11 @@ After installing:
 
 3. Make sure you include ES6 polyfills with your bundler if you need the broadest browser support. We recommend [`@babel/polyfill`](https://babeljs.io/docs/en/babel-polyfill/).
 
-### Usage examples
+#### Examples
 
-#### OIDC login flow using PKCE (Proof Key for Code Exchange)
+##### SPA Application
 
-- [PKCE][] is enabled by default for new SPA (Single-page) applications
-- You can configure your existing Single-page application to use `PKCE` under the `General Settings` for your application in the Okta Admin UI.
+Although a `redirectUri` is required in the configuration, no redirection will occur using this flow. The Sign-in Widget will communicate with Okta and receive tokens directly.
 
 ```javascript
 var signIn = new OktaSignIn(
@@ -256,9 +308,24 @@ signIn.showSignInToGetTokens({
 });
 ```
 
-#### OIDC login flow using Authorization Code
+[PKCE][] is enabled by default for new SPA applications. (SPA applications can enable or disable `PKCE` in the Okta Admin UI under the `General Settings` for the application.) Although [PKCE][] is recommended for SPA applications, the [implicit flow][] is supported. To use [implicit flow][] in a SPA Application, set `authParams.pkce` to `false`, as shown:
 
-- Available for Native and server-side Web applications using the [authorization code flow][]
+```javascript
+var signIn = new OktaSignIn(
+  {
+    baseUrl: 'https://{yourOktaDomain}',
+    clientId: '{{clientId of your OIDC app}}'
+    redirectUri: '{{redirectUri configured in OIDC app}}',
+    authParams: {
+      pkce: false,
+    }
+  }
+);
+```
+
+##### Web Application
+
+This example uses the [authorization code flow][]
 
 ```javascript
 var signIn = new OktaSignIn(
@@ -285,44 +352,31 @@ signIn.showSignInAndRedirect({
 });
 ```
 
-### Sample applications
+##### Without OIDC
 
-Complete sample applications demonstrate usage of the Okta Sign-In Widget in both [Okta-hosted](#okta-hosted-signin-page-default) and [embedded](#embedded-self-hosted) scenarios.
+To use OIDC, a `clientId` and `redirectUri` must be set on the configuration object passed to the `OktaSignIn` constructor.
 
-- [Javascript](https://github.com/okta/okta-auth-js/tree/master/samples)
-- [React](https://github.com/okta/samples-js-react)
-- [Angular](https://github.com/okta/samples-js-angular)
-- [Vue](https://github.com/okta/samples-js-vue)
-- [Asp.Net Core 2.x](https://github.com/okta/samples-aspnetcore)
-- [ASP.Net Core 3.x](https://github.com/okta/samples-aspnetcore)
-- [ASP.Net 4.x](https://github.com/okta/samples-aspnet)
-- [ASP.Net Webforms](https://github.com/okta/samples-aspnet-webforms)
-- [Golang](https://github.com/okta/samples-golang)
-- [Java/Spring Boot](https://github.com/okta/samples-java-spring)
-- [NodeJS/Express](https://github.com/okta/samples-nodejs-express-4)
-- [PHP](https://github.com/okta/samples-php)
-- [Python/Flask](https://github.com/okta/samples-python-flask)
-  
-## SDKs
+The Sign-in widget can also be used to authenticate a user outside of any OIDC application. To enable "non-OIDC" mode, simply exclude `clientId` and `redirectUri` from your configuration.
 
-These SDKs are fully compatible with the Okta Sign-in Widget and can be used to integrate Okta [authentication][] in your own application.
+[renderEl](#renderel) returns information about the user after a successful authentication.
 
-### Javascript
+> **Note**: [API](#api-reference) methods used to obtain tokens, such as [showSignInToGetTokens](#showsignintogettokens) or [showSignInAndRedirect](#showsigninandredirect) will not be available in non-OIDC mode.
 
-- [okta-auth-js](https://github.com/okta/okta-auth-js)
-- [okta-react](https://github.com/okta/okta-react)
-- [okta-angular](https://github.com/okta/okta-angular)
-- [okta-vue](https://github.com/okta/okta-vue)
-- [oidc-middleware](https://github.com/okta/okta-oidc-js/tree/master/packages/oidc-middleware) (Express / NodeJS)
-  
-### Java
+```javascript
+var signIn = new OktaSignIn({
+  baseUrl: 'https://{yourOktaDomain}',
+})
 
-- [okta-auth-java](https://github.com/okta/okta-auth-java)
-- [okta-spring-boot](https://github.com/okta/okta-spring-boot)
-
-### .Net
-
-- [okta-auth-dotnet](https://github.com/okta/okta-auth-dotnet)
+signIn.renderEl({
+    // Assumes there is an empty element on the page with an id of 'osw-container'
+    el: '#osw-container'
+}).then(function(res) {
+  if (res.status === 'SUCCESS') {
+    // user is authenticated
+    console.log('user is authenticated', res.user);
+  }
+})
+```
 
 ## API Reference
 
@@ -561,6 +615,51 @@ var config = {
 };
 
 var signIn = new OktaSignIn(config);
+```
+
+### OIDC Applications
+
+For OIDC applications, you need to set the `clientId` and `redirectUri` (in addition to `baseUrl`).
+
+```javascript
+var config = {
+  baseUrl: 'https://{yourOktaDomain}',
+  clientId: '{{clientId of your OIDC app}}'
+  redirectUri: '{{redirectUri configured in OIDC app}}'
+}
+```
+
+By default, the issuer ([Authorization Server][]) will be set to the default [Custom Authorization Server][]: 
+
+```javascript
+// default issuer
+config.baseUrl + '/oauth2/default'
+```
+
+A different [Custom Authorization Server][] can be specified by setting the `issuer` in the `authParams` section:
+
+```javascript
+var config = {
+  baseUrl: 'https://{yourOktaDomain}',
+  clientId: '{{clientId of your OIDC app}}'
+  redirectUri: '{{redirectUri configured in OIDC app}}',
+  authParams: {
+    issuer: 'https://{yourOktaDomain}/oauth2/{authServerID}'
+  }
+}
+```
+
+Some applications, such as those that require access to the Okta User API, will want to use the Okta Organization [Authorization Server][] as the issuer. In this case the `issuer` should match the `baseUrl`:
+
+```javascript
+var config = {
+  baseUrl: 'https://{yourOktaDomain}',
+  clientId: '{{clientId of your OIDC app}}'
+  redirectUri: '{{redirectUri configured in OIDC app}}',
+  authParams: {
+    issuer: 'https://{yourOktaDomain}'
+  }
+}
 ```
 
 ### Basic config options
@@ -1190,7 +1289,7 @@ Options for the [OAuth][] [OpenID Connect](http://developer.okta.com/docs/api/re
     }
     ```
 
-- **authParams.issuer:** Specify a custom issuer to perform the [OIDC][] flow. Defaults to the baseUrl plus "/oauth2/default". See the guide on setting up an [Authourization Server](https://developer.okta.com/docs/guides/customize-authz-server/overview/) for more information.
+- **authParams.issuer:** Specify a custom issuer to perform the [OIDC][] flow. Defaults to the baseUrl plus "/oauth2/default". See the guide on setting up a [Custom Authorization Server][] for more information.
 
     ```javascript
     authParams: {
