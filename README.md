@@ -27,6 +27,7 @@
 [OAuth]: https://developer.okta.com/docs/concepts/oauth-openid/
 [Custom Authorization Server]: https://developer.okta.com/docs/guides/customize-authz-server/overview/
 [Authorization Server]: https://developer.okta.com/docs/concepts/auth-servers/#which-authorization-server-should-you-use
+[Social Login]: https://developer.okta.com/docs/concepts/social-login/
 <!-- end links -->
 
 <!-- omit in toc -->
@@ -53,7 +54,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
     - [Examples](#examples)
       - [SPA Application](#spa-application)
       - [Web Application](#web-application)
-      - [Without OIDC](#without-oidc)
+  - [non-OIDC Applications](#non-oidc-applications)
 - [API Reference](#api-reference)
   - [OktaSignIn](#oktasignin)
   - [showSignInToGetTokens](#showsignintogettokens)
@@ -352,15 +353,14 @@ signIn.showSignInAndRedirect({
 });
 ```
 
-##### Without OIDC
+### non-OIDC Applications
 
-To use OIDC, a `clientId` and `redirectUri` must be set on the configuration object passed to the `OktaSignIn` constructor.
+In most cases, the widget will be used to authenticate users into an [OIDC][] application. However, the Sign-in widget can also be used to authenticate a user outside of an OIDC application.
 
-The Sign-in widget can also be used to authenticate a user outside of any OIDC application. To enable "non-OIDC" mode, simply exclude `clientId` and `redirectUri` from your configuration.
+To disable OIDC, do not set an [OIDC configuration](#openid-connect). The [renderEl](#renderel) method can be used to perform the authentication flow.
 
-[renderEl](#renderel) returns information about the user after a successful authentication.
-
-> **Note**: [API](#api-reference) methods used to obtain tokens, such as [showSignInToGetTokens](#showsignintogettokens) or [showSignInAndRedirect](#showsigninandredirect) will not be available in non-OIDC mode.
+> **Note**:
+ [API](#api-reference) methods used to obtain tokens, such as [showSignInToGetTokens](#showsignintogettokens) or [showSignInAndRedirect](#showsigninandredirect) require an [OIDC configuration](#openid-connect)
 
 ```javascript
 var signIn = new OktaSignIn({
@@ -394,7 +394,9 @@ var signIn = new OktaSignIn(
 );
 ```
 
-For OIDC flows, you will also want to provide the `clientId`, `redirectUri` as shown:
+> **Note**: `https://{yourOktaDomain}` can be any Okta organization. See [Basic config options](#basic-config-options) for more information.
+
+For [OIDC][] applications, including [Social Login][], you will want to provide the [OIDC configuration](#openid-connect):
 
 ```javascript
 var signIn = new OktaSignIn(
@@ -405,8 +407,6 @@ var signIn = new OktaSignIn(
   }
 );
 ```
-
-> **Note**: `https://{yourOktaDomain}` can be any Okta organization. See [Basic config options](#basic-config-options) for more information.
 
 ### showSignInToGetTokens
 
@@ -470,7 +470,6 @@ signIn.showSignInAndRedirect().catch(function(error) {
 Returns a Promise. Renders the widget to the DOM. On success, the promise will resolve. On error, the promise will reject. Also accepts a `success` or `error` callback function.
 
 > :warning: This method provides access to internal and/or undocumented features for non-OIDC flows. For OIDC flows, we recommend using [showSignInToGetTokens](#showsignintogettokens) or [showSignAndRedirect](#showsigninandredirect).
-
 
 - `options`
   - `el` *(optional)* - CSS selector which identifies the container element that the widget attaches to. If omitted, defaults to the value passed in during the construction of the Widget.
@@ -1159,21 +1158,27 @@ For the identifier first flow,
 
 ### OpenID Connect
 
-Options for the [OAuth][] [OpenID Connect](http://developer.okta.com/docs/api/resources/oidc.html) authentication flow. This flow is required for social authentication, and requires OAuth 2.0 client registration with Okta. For instructions, see [Social Authentication](http://developer.okta.com/docs/api/resources/social_authentication.html).
+Options for the [OAuth][] Open ID Connect ([OIDC][]) authentication flow.
 
-- **clientId:** Client Id pre-registered with Okta for the OIDC authentication flow
+OIDC flow is required for [Social Login][].
+
+| **Note**: Configuration values can be found in the Okta Admin UI under the application's "General Settings"
+
+- **clientId:** Client Id of the application. Required for OIDC flow. If this option is not set, all other options in [this section](#openid-connect) are ignored.
 
     ```javascript
     clientId: 'GHtf9iJdr60A9IYrR0jw'
     ```
 
-- **redirectUri:** The [callback][] url that is redirected to when using `authParams.display:page`. This must be pre-registered as part of client registration. If no `redirectUri` is provided, defaults to the current origin.
+- **redirectUri:** For redirect flows, this URI will be used as the [callback][] url. If no `redirectUri` is provided, defaults to the current origin. (In this example, `https://acme.com`)
 
     ```javascript
     redirectUri: 'https://acme.com/oauth2/callback/home'
     ```
 
-- **idps:** External Identity Providers to use in OIDC authentication. Supported IDPs ( `GOOGLE`, `FACEBOOK`, `APPLE`, `MICROSOFT` and `LINKEDIN` ) are declared with a `type` and will get distinct styling and default i18n text, while any other entry will receive a general styling and require text to be provided.  Each IDP can have additional CSS classes added via an optional `className` property.
+| **Note**: The value for `redirectUri` (or current origin) **must be listed** in the set of "Login Redirect URIs" shown on the application's "General Settings" in the Okta Admin UI
+
+- **idps:** External Identity Providers to use in OIDC authentication, also known as [Social Login][]. Supported IDPs ( `GOOGLE`, `FACEBOOK`, `APPLE`, `MICROSOFT` and `LINKEDIN` ) are declared with a `type` and will get distinct styling and default i18n text, while any other entry will receive a general styling and require text to be provided.  Each IDP can have additional CSS classes added via an optional `className` property.
 
     ```javascript
     idps: [
