@@ -130,6 +130,7 @@ describe('OIDC flows', function () {
         clientId: '{{{WIDGET_SPA_CLIENT_ID}}}',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
+          pkce: true,
           display: 'page',
           scopes: ['openid', 'email', 'profile', 'address', 'phone']
         }
@@ -146,6 +147,7 @@ describe('OIDC flows', function () {
         clientId: '{{{WIDGET_SPA_CLIENT_ID}}}',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
+          pkce: true,
           display: 'page',
           responseMode: 'fragment',
           scopes: ['openid', 'email', 'profile', 'address', 'phone']
