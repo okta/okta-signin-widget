@@ -41,25 +41,30 @@ export default FormController.extend({
       __enrolled__: 'boolean',
     },
 
+    initialize() {
+      if (webauthn.isNewApiAvailable()) {
+        this.doTransaction(function (transaction) {
+          const factor = _.findWhere(transaction.factors, {
+            factorType: 'webauthn',
+            provider: 'FIDO',
+          });
+
+          return factor.enroll();
+        }).then(() => {
+          this.set('__enrolled__', true);
+        });
+      }
+    },
+
     save: function () {
       this.trigger('request');
 
       if (this.get('__enrolled__')) {
         return this.activate();
-      }
-
-      return this.doTransaction(function (transaction) {
-        const factor = _.findWhere(transaction.factors, {
-          factorType: 'webauthn',
-          provider: 'FIDO',
-        });
-
-        return factor.enroll();
-      });
+      } 
     },
 
     activate: function () {
-      this.set('__enrolled__', true);
       this.trigger('errors:clear');
       this.appState.on('backToFactors', () => {
         if (this.webauthnAbortController) {
@@ -202,7 +207,7 @@ export default FormController.extend({
 
   trapAuthResponse: function () {
     if (this.options.appState.get('isMfaEnrollActivate')) {
-      this.model.activate();
+      //this.model.activate();
       return true;
     }
   },
