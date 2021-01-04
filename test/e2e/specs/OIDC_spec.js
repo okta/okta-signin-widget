@@ -20,6 +20,8 @@ function setup (options) {
   browser.executeScript('initialize(' + JSON.stringify(options) + ')');
 }
 
+const clientIds = ['{{{WIDGET_WEB_CLIENT_ID}}}', '{{{WIDGET_SPA_CLIENT_ID}}}'];
+
 describe('OIDC flows', function () {
   // TODO: Enable after fixing OKTA-244878
   if (process.env.SAUCE_PLATFORM_NAME === 'android') {
@@ -43,70 +45,73 @@ describe('OIDC flows', function () {
 
   describe('Okta as IDP', function () {
 
-    it('can login and exchange a sessionToken for an id_token', function () {
-      setup({
-        baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: '{{{WIDGET_CLIENT_ID}}}',
-        redirectUri: 'http://localhost:3000/done',
-        authParams: {
-          pkce: false,
-          responseType: 'id_token',
-          scopes: ['openid', 'email', 'profile', 'address', 'phone']
-        },
-        idps: [
-          {
-            'type': 'FACEBOOK',
-            'id': '0oa85bk5q6KOPeHCT0h7'
-          }
-        ]
+    clientIds.forEach(clientId => {
+      it('can login and exchange a sessionToken for an id_token', function () {
+        setup({
+          baseUrl: '{{{WIDGET_TEST_SERVER}}}',
+          clientId,
+          redirectUri: 'http://localhost:3000/done',
+          authParams: {
+            pkce: false,
+            responseType: 'id_token',
+            scopes: ['openid', 'email', 'profile', 'address', 'phone']
+          },
+          idps: [
+            {
+              'type': 'FACEBOOK',
+              'id': '0oa85bk5q6KOPeHCT0h7'
+            }
+          ]
+        });
+        Expect.toBeA11yCompliant();
+        primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
+        expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_BASIC_NAME}}}');
       });
-      Expect.toBeA11yCompliant();
-      primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
-      expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_BASIC_NAME}}}');
-    });
 
-    it('throws form error if auth client returns with OAuth error', function () {
-      setup({
-        baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: '{{{WIDGET_CLIENT_ID}}}',
-        redirectUri: 'http://localhost:3000/done',
-        authParams: {
-          pkce: false,
-          responseType: 'id_token',
-          scopes: ['openid', 'email', 'profile', 'address', 'phone']
-        }
-      });
-      primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_5}}}', '{{{WIDGET_BASIC_PASSWORD_5}}}');
-      expect(primaryAuth.getErrorMessage()).toBe('User is not assigned to the client application.');
-    });
-
-    it('can login and get a token and id_token', function () {
-      setup({
-        baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: '{{{WIDGET_CLIENT_ID}}}',
-        redirectUri: 'http://localhost:3000/done',
-        authParams: {
-          pkce: false,
-          responseType: ['id_token', 'token'],
-          scopes: ['openid', 'email', 'profile', 'address', 'phone']
-        },
-        idps: [
-          {
-            'type': 'FACEBOOK',
-            'id': '0oa85bk5q6KOPeHCT0h7'
+      it('throws form error if auth client returns with OAuth error', function () {
+        setup({
+          baseUrl: '{{{WIDGET_TEST_SERVER}}}',
+          clientId,
+          redirectUri: 'http://localhost:3000/done',
+          authParams: {
+            pkce: false,
+            responseType: 'id_token',
+            scopes: ['openid', 'email', 'profile', 'address', 'phone']
           }
-        ]
+        });
+        primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_5}}}', '{{{WIDGET_BASIC_PASSWORD_5}}}');
+        expect(primaryAuth.getErrorMessage()).toBe('User is not assigned to the client application.');
       });
-      Expect.toBeA11yCompliant();
-      primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_2}}}', '{{{WIDGET_BASIC_PASSWORD_2}}}');
-      expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_BASIC_NAME_2}}}');
-      expect(oidcApp.getAccessTokenType()).toBe('Bearer');
+
+      it('can login and get a token and id_token', function () {
+        setup({
+          baseUrl: '{{{WIDGET_TEST_SERVER}}}',
+          clientId,
+          redirectUri: 'http://localhost:3000/done',
+          authParams: {
+            pkce: false,
+            responseType: ['id_token', 'token'],
+            scopes: ['openid', 'email', 'profile', 'address', 'phone']
+          },
+          idps: [
+            {
+              'type': 'FACEBOOK',
+              'id': '0oa85bk5q6KOPeHCT0h7'
+            }
+          ]
+        });
+        Expect.toBeA11yCompliant();
+        primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_2}}}', '{{{WIDGET_BASIC_PASSWORD_2}}}');
+        expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_BASIC_NAME_2}}}');
+        expect(oidcApp.getAccessTokenType()).toBe('Bearer');
+      });
+  
     });
 
     it('logs in and uses the redirect flow for responseType "code"', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: '{{{WIDGET_CLIENT_ID}}}',
+        clientId: '{{{WIDGET_WEB_CLIENT_ID}}}',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
           pkce: false,
@@ -119,37 +124,39 @@ describe('OIDC flows', function () {
       expect(oidcApp.getCodeFromQuery()).not.toBeNull();
     });
 
-    // https://oktainc.atlassian.net/browse/OKTA-246000
-    xit('PKCE login flow', function () {
+    it('PKCE login flow', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: '{{{WIDGET_CLIENT_ID}}}',
+        clientId: '{{{WIDGET_SPA_CLIENT_ID}}}',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
+          pkce: true,
           display: 'page',
           scopes: ['openid', 'email', 'profile', 'address', 'phone']
         }
       });
       Expect.toBeA11yCompliant();
-      primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_4}}}', '{{{WIDGET_BASIC_PASSWORD_4}}}');
-      expect(oidcApp.getCodeFromQuery()).not.toBeNull();
+      primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_2}}}', '{{{WIDGET_BASIC_PASSWORD_2}}}');
+      expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_BASIC_NAME_2}}}');
+      expect(oidcApp.getAccessTokenType()).toBe('Bearer');
     });
 
-    // https://oktainc.atlassian.net/browse/OKTA-246000
-    xit('PKCE login flow (fragment)', function () {
+    it('PKCE login flow (fragment)', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: '{{{WIDGET_CLIENT_ID}}}',
+        clientId: '{{{WIDGET_SPA_CLIENT_ID}}}',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
+          pkce: true,
           display: 'page',
           responseMode: 'fragment',
           scopes: ['openid', 'email', 'profile', 'address', 'phone']
         }
       });
       Expect.toBeA11yCompliant();
-      primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_4}}}', '{{{WIDGET_BASIC_PASSWORD_4}}}');
-      expect(oidcApp.getCodeFromHash()).not.toBeNull();
+      primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_2}}}', '{{{WIDGET_BASIC_PASSWORD_2}}}');
+      expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_BASIC_NAME_2}}}');
+      expect(oidcApp.getAccessTokenType()).toBe('Bearer');
     });
 
   });
@@ -164,7 +171,7 @@ describe('OIDC flows', function () {
     it('can login and get an idToken in the popup flow', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: '{{{WIDGET_CLIENT_ID}}}',
+        clientId: '{{{WIDGET_WEB_CLIENT_ID}}}',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
           responseType: 'id_token',
@@ -184,7 +191,7 @@ describe('OIDC flows', function () {
     it('can login and get an idToken in the redirect flow', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: '{{{WIDGET_CLIENT_ID}}}',
+        clientId: '{{{WIDGET_WEB_CLIENT_ID}}}',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
           responseType: 'id_token',
@@ -205,7 +212,7 @@ describe('OIDC flows', function () {
     it('can login and get a "code" using the redirect flow', function () {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
-        clientId: '{{{WIDGET_CLIENT_ID}}}',
+        clientId: '{{{WIDGET_WEB_CLIENT_ID}}}',
         redirectUri: 'http://localhost:3000/done',
         authParams: {
           responseType: 'code',

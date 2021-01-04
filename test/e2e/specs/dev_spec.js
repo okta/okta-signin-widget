@@ -15,6 +15,8 @@ var PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
     OIDCAppPage     = require('../page-objects/OIDCAppPage'),
     util            = require('../util/util');
 
+const clientIds = ['{{{WIDGET_WEB_CLIENT_ID}}}', '{{{WIDGET_SPA_CLIENT_ID}}}'];
+
 describe('Dev Mode flows', function () {
 
   function renderWidget () {
@@ -63,44 +65,47 @@ describe('Dev Mode flows', function () {
     expect(el.isDisplayed()).toBe(true);
   });
 
-  it('can login and return tokens using the showSignInToGetTokens method', function () {
-    var options = {
-      clientId: '{{{WIDGET_CLIENT_ID}}}',
-      redirectUri: 'http://localhost:3000/done',
-      scopes: ['openid', 'profile']
-    };
-
-    browser.executeScript(`oktaSignIn.showSignInToGetTokens(${JSON.stringify(options)}).then(addTokensToPage);`);
-
-    // Ensure the widget exists
-    var el = element(by.css('#okta-sign-in'));
-    expect(el.isDisplayed()).toBe(true);
-
-    var primaryAuth = new PrimaryAuthPage(),
-        oidcApp = new OIDCAppPage();
-
-    primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
-    expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_BASIC_NAME}}}');
-  });
-
-  it('can login and receive tokens on a callback using the showSignInAndRedirect method', function () {
-    var options = {
-      clientId: '{{{WIDGET_CLIENT_ID}}}',
-      redirectUri: 'http://localhost:3000/done',
-      scopes: ['openid', 'profile']
-    };
-
-    browser.executeScript(`oktaSignIn.showSignInAndRedirect(${JSON.stringify(options)})`);
-
-    // Ensure the widget exists
-    var el = element(by.css('#okta-sign-in'));
-    expect(el.isDisplayed()).toBe(true);
-
-    var primaryAuth = new PrimaryAuthPage(),
-        oidcApp = new OIDCAppPage();
-
-    primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
-    expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_BASIC_NAME}}}');
+  clientIds.forEach(clientId => {
+    it('can login and return tokens using the showSignInToGetTokens method', function () {
+      var options = {
+        clientId,
+        redirectUri: 'http://localhost:3000/done',
+        scopes: ['openid', 'profile']
+      };
+  
+      browser.executeScript(`oktaSignIn.showSignInToGetTokens(${JSON.stringify(options)}).then(addTokensToPage);`);
+  
+      // Ensure the widget exists
+      var el = element(by.css('#okta-sign-in'));
+      expect(el.isDisplayed()).toBe(true);
+  
+      var primaryAuth = new PrimaryAuthPage(),
+          oidcApp = new OIDCAppPage();
+  
+      primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
+      expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_BASIC_NAME}}}');
+    });
+  
+    it('can login and receive tokens on a callback using the showSignInAndRedirect method', function () {
+      var options = {
+        clientId,
+        redirectUri: 'http://localhost:3000/done',
+        scopes: ['openid', 'profile']
+      };
+  
+      browser.executeScript(`oktaSignIn.showSignInAndRedirect(${JSON.stringify(options)})`);
+  
+      // Ensure the widget exists
+      var el = element(by.css('#okta-sign-in'));
+      expect(el.isDisplayed()).toBe(true);
+  
+      var primaryAuth = new PrimaryAuthPage(),
+          oidcApp = new OIDCAppPage();
+  
+      primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
+      expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_BASIC_NAME}}}');
+    });
+  
   });
 
 });
