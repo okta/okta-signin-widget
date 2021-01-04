@@ -35,6 +35,7 @@ const itp = Expect.itp;
 const BEACON_LOADING_CLS = 'beacon-loading';
 const OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
 const OIDC_NONCE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
+const AUTH_TIME = (1451606400) * 1000;
 const VALID_ID_TOKEN =
   'eyJhbGciOiJSUzI1NiIsImtpZCI6IlU1UjhjSGJHdzQ0NVFicTh6' +
   'Vk8xUGNDcFhMOHlHNkljb3ZWYTNsYUNveE0iLCJ0eXAiOiJKV1Qi' +
@@ -2814,6 +2815,7 @@ Expect.describe('PrimaryAuth', function () {
             return Expect.waitForWindowListener('message', test);
           })
           .then(function (test) {
+            jasmine.clock().mockDate(new Date(AUTH_TIME + 10000));
             const args = window.addEventListener.calls.mostRecent().args;
             const callback = args[1];
             callback.call(null, {
