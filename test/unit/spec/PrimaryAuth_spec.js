@@ -35,7 +35,7 @@ const itp = Expect.itp;
 const BEACON_LOADING_CLS = 'beacon-loading';
 const OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
 const OIDC_NONCE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
-const AUTH_TIME = (1451606400) * 1000;
+const AUTH_TIME = (1451606400) * 1000; // The time the "VALID_ID_TOKEN" was issued
 const VALID_ID_TOKEN =
   'eyJhbGciOiJSUzI1NiIsImtpZCI6IlU1UjhjSGJHdzQ0NVFicTh6' +
   'Vk8xUGNDcFhMOHlHNkljb3ZWYTNsYUNveE0iLCJ0eXAiOiJKV1Qi' +
@@ -2809,6 +2809,10 @@ Expect.describe('PrimaryAuth', function () {
       function () {
         Util.loadWellKnownAndKeysCache();
         spyOn(window, 'addEventListener');
+
+        // In this test the id token will be returned succesfully. It must pass all validation.
+        // Mock the date to 10 seconds after token was issued.
+        jasmine.clock().mockDate(new Date(AUTH_TIME + 10000));
         return setupSocial()
           .then(function (test) {
             test.form.facebookButton().click();
@@ -2854,12 +2858,19 @@ Expect.describe('PrimaryAuth', function () {
               updated_at: 1451606400,
               ver: 1,
             });
+          })
+          .finally(function () {
+            jasmine.clock().uninstall();
           });
       }
     );
     itp('calls the global success function with the idToken and accessToken', function () {
       Util.loadWellKnownAndKeysCache();
       spyOn(window, 'addEventListener');
+
+      // In this test the id token will be returned succesfully. It must pass all validation.
+      // Mock the date to 10 seconds after token was issued.
+      jasmine.clock().mockDate(new Date(AUTH_TIME + 10000));
       return setupSocial({ 'authParams.responseType': ['id_token', 'token'] })
         .then(function (test) {
           test.form.facebookButton().click();
@@ -2891,6 +2902,9 @@ Expect.describe('PrimaryAuth', function () {
           expect(data.tokens.accessToken.value).toBe(VALID_ACCESS_TOKEN);
           expect(data.tokens.accessToken.scopes).toEqual(['openid', 'email', 'profile']);
           expect(data.tokens.accessToken.tokenType).toBe('Bearer');
+        })
+        .finally(function () {
+          jasmine.clock().uninstall();
         });
     });
     itp('triggers the afterError event if there is no valid id token returned', function () {
