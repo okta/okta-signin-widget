@@ -16,6 +16,7 @@ import BrowserFeatures from 'util/BrowserFeatures';
 import CryptoUtil from 'util/CryptoUtil';
 import webauthn from 'util/webauthn';
 const itp = Expect.itp;
+const fitp = Expect.fitp;
 const testAttestationObject = 'c29tZS1yYW5kb20tYXR0ZXN0YXRpb24tb2JqZWN0';
 const testClientData = 'c29tZS1yYW5kb20tY2xpZW50LWRhdGE=';
 
@@ -30,6 +31,7 @@ Expect.describe('EnrollWebauthn', function () {
     const authClient = createAuthClient({ issuer: baseUrl });
     const successSpy = jasmine.createSpy('success');
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+    setNextResponse(onlyWebauthn ? resWebauthn : resAllFactors);
     const router = new Router(
       _.extend(
         {
@@ -60,8 +62,9 @@ Expect.describe('EnrollWebauthn', function () {
       setNextResponse(onlyWebauthn ? resWebauthn : resAllFactors);
       router.refreshAuthState('dummy-token');
       return Expect.waitForEnrollChoices(test).then(function (test) {
+        test.setNextResponse([resEnrollActivateWebauthn]);
         router.enrollWebauthn();
-        return Expect.waitForEnrollWebauthn(test);
+        return Expect.wait(() => test.router.controller.model.get('__enrolled__'), test);
       });
     };
     if (startRouter) {
@@ -106,12 +109,14 @@ Expect.describe('EnrollWebauthn', function () {
 
   Expect.describe('Header & Footer', function () {
     itp('displays the correct factorBeacon', function () {
+      spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
       return setup().then(function (test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
         expect(test.beacon.hasClass('mfa-webauthn')).toBe(true);
       });
     });
     itp('has a "back" link in the footer', function () {
+      spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
       return setup().then(function (test) {
         Expect.isVisible(test.form.backLink());
       });
@@ -122,7 +127,7 @@ Expect.describe('EnrollWebauthn', function () {
     itp('shows error if browser does not support webauthn', function () {
       spyOn(webauthn, 'isNewApiAvailable').and.returnValue(false);
 
-      return setup().then(function (test) {
+      return setup(false).then(function (test) {
         expect(test.form.errorHtml()).toHaveLength(1);
         expect(test.form.errorHtml().html()).toEqual(
           'Security key or biometric authenticator is not supported on this browser.' +
@@ -237,7 +242,7 @@ Expect.describe('EnrollWebauthn', function () {
       mockWebauthnSuccessRegistration(true);
       return setup()
         .then(function (test) {
-          test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
+          test.setNextResponse([resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(navigator.credentials.create, test);
         })
@@ -248,18 +253,12 @@ Expect.describe('EnrollWebauthn', function () {
         });
     });
 
-    itp('sends enroll request after submitting the form', function () {
+    itp('sends enroll request on initialize', function () {
       mockWebauthnSuccessRegistration(true);
       return setup()
-        .then(function (test) {
-          Util.resetAjaxRequests();
-          test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
-          test.form.submit();
-          return Expect.waitForSpyCall(test.successSpy);
-        })
         .then(function () {
           expect(Util.numAjaxRequests()).toBe(2);
-          Expect.isJsonPost(Util.getAjaxRequest(0), {
+          Expect.isJsonPost(Util.getAjaxRequest(1), {
             url: 'https://foo.com/api/v1/authn/factors',
             data: {
               stateToken: 'testStateToken',
@@ -275,7 +274,7 @@ Expect.describe('EnrollWebauthn', function () {
       return setup()
         .then(function (test) {
           Util.resetAjaxRequests();
-          test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
+          test.setNextResponse([resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
@@ -316,8 +315,8 @@ Expect.describe('EnrollWebauthn', function () {
             },
             signal: jasmine.any(Object),
           });
-          expect(Util.numAjaxRequests()).toBe(2);
-          Expect.isJsonPost(Util.getAjaxRequest(1), {
+          expect(Util.numAjaxRequests()).toBe(1);
+          Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://test.okta.com/api/v1/authn/factors/fuf52dhWPdJAbqiUU0g4/lifecycle/activate',
             data: {
               attestation: testAttestationObject,
@@ -336,9 +335,9 @@ Expect.describe('EnrollWebauthn', function () {
       return setup()
         .then(function (test) {
           Util.resetAjaxRequests();
-          test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
+          test.setNextResponse([resSuccess]);
           test.form.submit();
-          return Expect.waitForSpyCall(navigator.credentials.create, test);
+          return Expect.waitForFormError(test.form, test);
         })
         .then(function (test) {
           expect(navigator.credentials.create).toHaveBeenCalled();

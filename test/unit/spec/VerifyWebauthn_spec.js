@@ -225,6 +225,12 @@ function testWebauthnFactor (setupFn, webauthnOnly) {
     });
   });
 
+  itp('doesnt make http request to factors api if webauthn is not supported by browser', function () {
+    return setupFn({ webauthnSupported: false }).then(function (test) {
+      expect(Util.numAjaxRequests()).toBe(1);
+    });
+  });
+
   itp('shows error if browser does not support webauthn', function () {
     return setupFn({ webauthnSupported: false }).then(function (test) {
       expect(test.form.el('o-form-error-html')).toHaveLength(1);
@@ -244,9 +250,17 @@ function testWebauthnFactor (setupFn, webauthnOnly) {
     });
   });
 
+  itp('shows verify button and has spinner hidden when webauthn challenge page is loaded', function () {
+    return setupFn({ webauthnSupported: true }).then(function (test) {
+      expect(test.form.submitButton().css('display')).
+      expect(test.form.el('webauthn-waiting').css('display')).toBe('none');
+    });
+  });
+
   itp('shows a spinner while waiting for webauthn challenge', function () {
     return setupFn({ webauthnSupported: true }).then(function (test) {
-      expect(test.form.el('webauthn-waiting').length).toBe(1);
+      test.form.submit();
+      expect(test.form.el('webauthn-waiting').css('display')).toBe('block');
     });
   });
 
@@ -264,6 +278,7 @@ function testMultipleWebauthnFactor (setupFn) {
       signStatus: 'success',
     })
       .then(function (test) {
+        test.form.submit();
         return Expect.waitForSpyCall(test.successSpy);
       })
       .then(function () {
@@ -310,6 +325,7 @@ function testMultipleWebauthnFactor (setupFn) {
       rememberDevice: true,
     })
       .then(function (test) {
+        test.form.submit();
         return Expect.waitForSpyCall(test.successSpy);
       })
       .then(function () {
@@ -356,6 +372,7 @@ function testMultipleWebauthnFactor (setupFn) {
       signStatus: 'fail',
     })
       .then(function (test) {
+        test.form.submit();
         return Expect.waitForFormError(test.form, test);
       })
       .then(function (test) {
@@ -391,6 +408,7 @@ Expect.describe('Webauthn Factor', function () {
       signStatus: 'success',
     })
       .then(function (test) {
+        test.form.submit();
         return Expect.waitForSpyCall(test.successSpy, test);
       })
       .then(function (test) {
@@ -430,6 +448,7 @@ Expect.describe('Webauthn Factor', function () {
       rememberDevice: true,
     })
       .then(function (test) {
+        test.form.submit();
         return Expect.waitForSpyCall(test.successSpy);
       })
       .then(function () {
@@ -468,6 +487,7 @@ Expect.describe('Webauthn Factor', function () {
       signStatus: 'fail',
     })
       .then(function (test) {
+        test.form.submit();
         return Expect.waitForFormError(test.form, test);
       })
       .then(function (test) {
@@ -507,6 +527,7 @@ Expect.describe('Multiple Webauthn and one or more factors are setup', function 
   itp('switching to another factor after initiating webauthn verify calls abort', function () {
     return setupMultipleWebauthn({ webauthnSupported: true })
       .then(function (test) {
+        test.form.submit();
         return Expect.waitForSpyCall(navigator.credentials.get, test);
       })
       .then(function (test) {
@@ -525,6 +546,7 @@ Expect.describe('Multiple Webauthn and one or more factors are setup', function 
   itp('SignOut after initiating webauthn verify calls abort', function () {
     return setupMultipleWebauthn({ webauthnSupported: true })
       .then(function (test) {
+        test.form.submit();
         return Expect.waitForSpyCall(navigator.credentials.get, test);
       })
       .then(function (test) {
