@@ -101,7 +101,6 @@ Expect.describe('EnrollWebauthn', function () {
     mockWebauthn();
     spyOn(navigator.credentials, 'create').and.callFake(function () {
       const deferred = Q.defer();
-
       deferred.reject({ message: 'something went wrong' });
       return deferred.promise;
     });

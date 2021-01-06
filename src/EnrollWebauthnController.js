@@ -91,13 +91,10 @@ export default FormController.extend({
           });
 
           self.webauthnAbortController = new AbortController();
-          return new Q(
-            navigator.credentials.create({
+          return navigator.credentials.create({
               publicKey: options,
               signal: self.webauthnAbortController.signal,
-            })
-          )
-            .then(function (newCredential) {
+            }).then(function (newCredential) {
               return transaction.activate({
                 attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
                 clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),
