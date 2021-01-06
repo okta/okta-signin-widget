@@ -204,7 +204,6 @@ export default FormController.extend({
 
   trapAuthResponse: function () {
     if (this.options.appState.get('isMfaEnrollActivate')) {
-      //this.model.activate();
       return true;
     }
   },

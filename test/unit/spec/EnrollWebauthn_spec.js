@@ -16,7 +16,6 @@ import BrowserFeatures from 'util/BrowserFeatures';
 import CryptoUtil from 'util/CryptoUtil';
 import webauthn from 'util/webauthn';
 const itp = Expect.itp;
-const fitp = Expect.fitp;
 const testAttestationObject = 'c29tZS1yYW5kb20tYXR0ZXN0YXRpb24tb2JqZWN0';
 const testClientData = 'c29tZS1yYW5kb20tY2xpZW50LWRhdGE=';
 
@@ -46,7 +45,7 @@ Expect.describe('EnrollWebauthn', function () {
 
     router.on('afterError', afterErrorHandler);
     Util.registerRouter(router);
-    Util.mockRouterNavigate(router, false);
+    Util.mockRouterNavigate(router);
 
     const test = {
       router: router,
@@ -316,14 +315,14 @@ Expect.describe('EnrollWebauthn', function () {
         });
     });
 
-    fitp('shows error when navigator.credentials.create failed', function () {
+    itp('shows error when navigator.credentials.create failed', function () {
       mockWebauthnFailureRegistration();
       return setup(true)
         .then(function (test) {
           Util.resetAjaxRequests();
           test.setNextResponse([resSuccess]);
           test.form.submit();
-          return Expect.wait(() =>  test.form.errorBox().length === 1, test);
+          return Expect.waitForCss('.infobox-error', test);
         })
         .then(function (test) {
           expect(navigator.credentials.create).toHaveBeenCalled();

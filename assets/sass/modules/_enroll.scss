@@ -412,6 +412,11 @@ $enroll-content-spacing: 15px;
     margin-top: 15px;
   }
 }
+.verify-webauthn-form {
+  .okta-waiting-spinner {
+    display: none;
+  }
+}
 
 .verify-u2f-form,
 .enroll-u2f-form,
@@ -430,7 +435,6 @@ $enroll-content-spacing: 15px;
   .okta-waiting-spinner {
     margin-top: 20px;
     margin-bottom: 20px;
-    display: none;
   }
 
   .u2f-devices-images {

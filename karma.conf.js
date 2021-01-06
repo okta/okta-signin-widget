@@ -8,7 +8,7 @@ const rootDir = path.resolve(__dirname);
 module.exports = (config) => {
   const options = {
     basePath: './',
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadlessNoSandbox'],
     frameworks: ['karma-overrides', 'jasmine-jquery', 'jasmine'],
     files: [
       { pattern: './test/unit/main.js', watched: false },
