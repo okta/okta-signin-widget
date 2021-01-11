@@ -311,9 +311,9 @@ Expect.describe('IDPDiscovery', function () {
         expect($usernameLabel.text().trim()).toEqual('Username');
       });
     });
-    itp('prevents autocomplete on username', function () {
+    itp('sets autocomplete on username', function () {
       return setup().then(function (test) {
-        expect(test.form.getUsernameFieldAutocomplete()).toBe('off');
+        expect(test.form.getUsernameFieldAutocomplete()).toBe('username');
       });
     });
     itp('overrides rememberMe from settings and uses default text', function () {
