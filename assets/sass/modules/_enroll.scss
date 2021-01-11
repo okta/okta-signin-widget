@@ -137,7 +137,7 @@ $enroll-content-spacing: 15px;
 .enroll-sms {
 
   .enroll-sms-phone {
-    width: 171px;
+    width: 170px;
     float: left;
 
     @include device-mq(x-small) {
@@ -152,7 +152,7 @@ $enroll-content-spacing: 15px;
 
   .sms-request-button {
     float: right;
-    width: 136px;
+    width: 140px;
     margin-top: 0;
     padding: 0;
 

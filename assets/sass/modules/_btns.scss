@@ -53,7 +53,13 @@ $od-secondary-button-action-text-color: #124a94;
 .call-request-button,
 .email-request-button {
   text-align: center;
-  @include max-width-text(130px);
+  width: 140px;
+
+  // This css will break the text into two lines if it's too long.
+  white-space: normal;
+  overflow: visible;
+  line-height: 1;
+  padding-top: 12px;
 
   @include max-width-mq($container-width) {
     width: 100%;
