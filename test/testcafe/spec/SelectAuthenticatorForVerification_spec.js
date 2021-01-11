@@ -89,7 +89,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
-  await t.expect(selectFactorPage.getFactorsCount()).eql(7);
+  await t.expect(selectFactorPage.getFactorsCount()).eql(8);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(0)).eql(false);
@@ -134,6 +134,12 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getFactorIconClassByIndex(6)).contains('mfa-okta-verify');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(6)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(6)).eql('okta_verify-signed_nonce');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(7)).eql('Google Authenticator');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(7)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(7)).contains('mfa-google-auth');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(7)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(7)).eql('google_authenticator');
 
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();

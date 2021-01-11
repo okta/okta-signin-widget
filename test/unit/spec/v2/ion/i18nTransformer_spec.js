@@ -29,6 +29,7 @@ describe('v2/ion/i18nTransformer', function () {
       'mfa.challenge.enterCode.placeholder': 'enter code',
       'mfa.challenge.password.placeholder': 'password',
       'oie.okta_verify.totp.enterCodeText': 'enter totp code',
+      'oie.google_authenticator.otp.enterCodeText': 'enter otp code',
 
       'primaryauth.password.placeholder': 'password',
       'primaryauth.username.placeholder': 'username',
@@ -587,6 +588,51 @@ describe('v2/ion/i18nTransformer', function () {
               label: 'unit test - enter totp code',
               'label-top': true,
               name: 'credentials.totp',
+              type: 'text',
+            }
+          ]
+        }
+      ]
+    });
+  });
+
+  it('converts label for challenge-authenticator - google authenticator otp', () => {
+    const resp = {
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'app',
+              key: 'google_authenticator'
+            }
+          },
+          name: 'challenge-authenticator',
+          uiSchema: [
+            {
+              label: 'Enter your Google Authenticator passcode',
+              'label-top': true,
+              name: 'credentials.otp',
+              type: 'text',
+            }
+          ]
+        }
+      ]
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'app',
+              key: 'google_authenticator'
+            }
+          },
+          name: 'challenge-authenticator',
+          uiSchema: [
+            {
+              label: 'unit test - enter otp code',
+              'label-top': true,
+              name: 'credentials.otp',
               type: 'text',
             }
           ]

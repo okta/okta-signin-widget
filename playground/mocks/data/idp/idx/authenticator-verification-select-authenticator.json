@@ -227,6 +227,22 @@
                   }
                 },
                 "relatesTo": "$.authenticatorEnrollments.value[7]"
+              },
+              {
+                "label": "Google Authenticator",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut11ceMaP0B0EzMI0g4",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[8]"
               }
             ]
           },
@@ -328,6 +344,18 @@
            {
             "type":  "signed_nonce"
            }
+        ]
+      },
+      {
+        "displayName": "Google Authenticator",
+        "key": "google_authenticator",
+        "type": "app",
+        "id": "aen1mz5J4cuNoaR3l0g3",
+        "authenticatorId": "aut11ceMaP0B0EzMI0g4",
+        "methods": [
+          {
+            "type": "otp"
+          }
         ]
       }
     ]
