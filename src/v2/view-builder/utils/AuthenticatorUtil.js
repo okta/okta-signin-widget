@@ -99,6 +99,14 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
     });
     break;
+
+  case 'app2':
+    Object.assign(authenticatorData, {
+      description: '',
+      iconClassName: 'mfa-google-auth',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+    });
+    break;
   }
 
   return authenticatorData;

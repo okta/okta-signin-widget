@@ -4,19 +4,19 @@ const idx = {
   // ===== IDX
 
   '/idp/idx/introspect': [
-    'identify',
+    // 'identify',
     // 'error-403-security-access-denied',
     // 'authenticator-enroll-email',
     // 'error-internal-server-error',
     // 'authenticator-enroll-password',
-    // 'authenticator-enroll-phone',
+    'authenticator-enroll-phone',
     // 'authenticator-enroll-phone-voice',
     // 'authenticator-enroll-data-phone',
     // 'authenticator-enroll-data-phone-voice',
     // 'authenticator-enroll-ov-local',
     // 'error-internal-server-error',
     // 'authenticator-enroll-security-question',
-    // 'authenticator-enroll-select-authenticator',
+    'authenticator-enroll-select-authenticator',
     // 'authenticator-enroll-select-authenticator-with-skip',
     // 'authenticator-enroll-webauthn',
     // 'authenticator-verification-data-phone-sms-then-voice',
@@ -76,8 +76,9 @@ const idx = {
     'enroll-profile-new'
   ],
   '/idp/idx/credential/enroll': [
-    //'authenticator-enroll-ov-via-sms',
+    // 'authenticator-enroll-ov-via-sms',
     //'authenticator-enroll-security-question',
+    'authenticator-enroll-google-authenticator',
   ],
   '/idp/idx/identify': [
     'authenticator-enroll-select-authenticator',

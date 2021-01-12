@@ -44,6 +44,8 @@ const FORMS = {
   LAUNCH_AUTHENTICATOR: 'launch-authenticator',
   DEVICE_ENROLLMENT_TERMINAL: 'device-enrollment-terminal',
 
+  MANUAL_SETTUP: 'MANUAL_SETUP',
+
   // 'terminal` is not ION Form name but only coined in widget
   // for rendering a page that user has nothing to remediate.
   TERMINAL: 'terminal',
