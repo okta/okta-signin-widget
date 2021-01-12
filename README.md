@@ -1126,11 +1126,9 @@ Optional configuration:
 
 ### IdP Discovery
 
-**:information_source: EA feature:** The Identity Provider (IdP) Discovery feature is currently an [EA feature](https://developer.okta.com/docs/api/getting_started/releases-at-okta#early-access-ea).
-
 IdP Discovery enables you to route users to different 3rd Party IdPs that are connected to your Okta Org. Users can federate back into the primary org after authenticating at the IdP.
 
-To use IdP Discovery in your application, first ensure that the `IDP_DISCOVERY` feature flag is enabled for your Org and configure an identity provider routing policy in the Okta admin panel.
+To use IdP Discovery in your application, first ensure that the `IDP_DISCOVERY` feature flag is enabled for your Org and configure an [identity provider routing rule](https://help.okta.com/en/prod/Content/Topics/Security/configure-routing-rules.htm) in the Okta admin panel.
 Then, in the widget configuration, set `features.idpDiscovery` to `true`.
 
 ```javascript
