@@ -1,0 +1,40 @@
+.oie-enroll-google-authenticator {
+  .qrcode-info-title {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .qrcode-info-container {
+    display: flex;
+  }
+
+  .qrcode-info {
+    margin-right: 1rem;
+  }
+
+  .qrcode-container {
+    margin-bottom: 15px;
+    .qrcode {
+      display: block;
+      border: $border-default;
+      border-radius: $border-radius-default;
+      max-width: 150px;
+    }
+  }
+
+  .google-authenticator-next {
+    &.default-custom-button {
+      margin-bottom: 0;
+    }
+  }
+
+  .shared-secret {
+    .o-form-input {
+      width: 100%;
+
+      input {
+        text-align: center;
+      }
+    }
+  }
+}
