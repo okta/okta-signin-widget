@@ -49,17 +49,27 @@ $od-secondary-button-action-text-color: #124a94;
   }
 }
 
-.sms-request-button,
-.call-request-button,
-.email-request-button {
+.sms-request-button.link-button,
+.call-request-button.link-button {
   text-align: center;
   width: 140px;
-
+  padding-left: 6px;
+  padding-right: 6px;
   // This css will break the text into two lines if it's too long.
   white-space: normal;
   overflow: visible;
   line-height: 1;
   padding-top: 12px;
+
+  @include max-width-mq($container-width) {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+}
+
+.email-request-button {
+  text-align: center;
+  @include max-width-text(130px);
 
   @include max-width-mq($container-width) {
     width: 100%;
