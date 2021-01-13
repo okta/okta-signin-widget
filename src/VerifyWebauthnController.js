@@ -139,10 +139,10 @@ export default FormController.extend({
   Form: {
     autoSave: true,
     hasSavingState: false,
-    title: loc('factor.webauthn.biometric', 'login'),
+    title: _.partial(loc, 'factor.webauthn.biometric', 'login'),
     className: 'verify-webauthn-form',
     noCancelButton: true,
-    save: loc('mfa.challenge.verify', 'login'),
+    save: _.partial(loc, 'mfa.challenge.verify', 'login'),
     noButtonBar: function () {
       return !webauthn.isNewApiAvailable();
     },
