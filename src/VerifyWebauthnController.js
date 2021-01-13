@@ -204,7 +204,7 @@ export default FormController.extend({
 
     _stopEnrollment: function () {
       this.$('.okta-waiting-spinner').hide();
-      this.$('.o-form-button-bar [type="submit"]')[0].value = loc('retry', 'login');
+      this.$('.o-form-button-bar [type="submit"]')[0].value = loc('verify.u2f.retry', 'login');
       this.$('.o-form-button-bar').show();
     },
   },
