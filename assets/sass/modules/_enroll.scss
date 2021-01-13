@@ -413,6 +413,12 @@ $enroll-content-spacing: 15px;
   }
 }
 
+.verify-webauthn-form {
+  .okta-waiting-spinner {
+    display: none;
+  }
+}
+
 .verify-u2f-form,
 .enroll-u2f-form,
 .verify-webauthn-form,
