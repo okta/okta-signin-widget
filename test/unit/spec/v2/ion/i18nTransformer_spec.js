@@ -15,12 +15,14 @@ describe('v2/ion/i18nTransformer', function () {
       'oie.webauthn': 'webauthn authenticator',
       'oie.security.question.label': 'security question authenticator',
       'oie.okta_verify.signed_nonce.label': 'okta verify fastpass',
+      'oie.google_authenticator.label': 'google authenticator',
       'oie.okta_verify.push.title': 'okta verify push',
       'oie.okta_verify.totp.title': 'okta verify totp',
 
       'oie.password.passwordLabel': 'enter password',
       'oie.security.question.questionKey.label': 'choose a question',
       'oie.security.question.createQuestion.label': 'create a question',
+      'oie.google_authenticator.otp.title': 'enter otp code',
 
       'mfa.phoneNumber.placeholder': 'phone number',
       'mfa.challenge.answer.placeholder': 'answer',
@@ -225,6 +227,15 @@ describe('v2/ion/i18nTransformer', function () {
                   },
                   'authenticatorType': 'app',
                   'authenticatorKey': 'okta_verify'
+                },
+                {
+                  'label': 'Enter a code',
+                  'value': {
+                    'id': 'aid568g3mCgtID0HHSLH',
+                    'methodType': 'otp'
+                  },
+                  'authenticatorType': 'app',
+                  'authenticatorKey': 'google_authenticator'
                 }
               ],
               'label-top': true
@@ -316,6 +327,15 @@ describe('v2/ion/i18nTransformer', function () {
                   },
                   'authenticatorType': 'app',
                   'authenticatorKey': 'okta_verify'
+                },
+                {
+                  'label': 'unit test - google authenticator',
+                  'value': {
+                    'id': 'aid568g3mCgtID0HHSLH',
+                    'methodType': 'otp'
+                  },
+                  'authenticatorType': 'app',
+                  'authenticatorKey': 'google_authenticator'
                 }
               ],
               'label-top': true
@@ -611,6 +631,12 @@ describe('v2/ion/i18nTransformer', function () {
                   authenticatorType: 'security_question',
                   authenticatorKey: 'security_question'
                 },
+                {
+                  label: 'Google Authenticator',
+                  value: { id: 'autwa6eD9o02iCbtv0g3' },
+                  authenticatorType: 'app',
+                  authenticatorKey: 'google_authenticator'
+                },
               ]
             }
           ]
@@ -651,6 +677,11 @@ describe('v2/ion/i18nTransformer', function () {
                   value: { id: 'aid568g3mXgtID0X1GGG' },
                   authenticatorType: 'security_question',
                   authenticatorKey: 'security_question'
+                }, {
+                  label: 'unit test - google authenticator',
+                  value: { id: 'autwa6eD9o02iCbtv0g3' },
+                  authenticatorType: 'app',
+                  authenticatorKey: 'google_authenticator'
                 },
               ]
             }
@@ -1120,6 +1151,73 @@ describe('v2/ion/i18nTransformer', function () {
               'required': true,
               'label-top': true,
               'type': 'text'
+            }
+          ]
+        }
+      ]
+    });
+  });
+
+  it('converts label for enroll-authenticator - google authenticator', () => {
+    const resp = {
+      remediations: [
+        {
+          name: 'enroll-authenticator',
+          relatesTo: {
+            value: {
+              type: 'app',
+              key: 'google_authenticator'
+            }
+          },
+          uiSchema: [
+            {
+              'name': 'sub_schema_local_credentials',
+              'type': 'radio',
+              'required': true,
+              'value': '0',
+              'label-top': true,
+              'optionsUiSchemas': [
+                [
+                  {
+                    name: 'credentials.otp',
+                    label: 'Enter code',
+                    required: true,
+                    visible: true
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          name: 'enroll-authenticator',
+          relatesTo: {
+            value: {
+              type: 'app',
+              key: 'google_authenticator'
+            }
+          },
+          uiSchema: [
+            {
+              'name': 'sub_schema_local_credentials',
+              'type': 'radio',
+              'required': true,
+              'value': '0',
+              'label-top': true,
+              'optionsUiSchemas': [
+                [
+                  {
+                    'name': 'credentials.otp',
+                    'label': 'unit test - enter otp code',
+                    'required': true,
+                    'visible': true,
+                  }
+                ]
+              ]
             }
           ]
         }

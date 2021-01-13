@@ -435,6 +435,33 @@ describe('v2/ion/uiSchemaTransformer', function () {
                         }
                       ]
                     }
+                  },
+                  {
+                    'label': 'Google Authenticator',
+                    'value': {
+                      'form': {
+                        'value': [
+                          {
+                            'name': 'id',
+                            'value': 'aut11ceMaP0B0EzMI0g4',
+                            'required': true,
+                            'mutable': false,
+                          },
+                        ]
+                      }
+                    },
+                    'relatesTo': {
+                      'displayName': 'Google Authenticator',
+                      'type': 'app',
+                      'key': 'google_authenticator',
+                      'authenticatorId': 'aut1erh5wK1M8wA3g0g3',
+                      'id': 'okta-verify-enroll-id-124',
+                      'methods': [
+                        {
+                          'type': 'otp'
+                        }
+                      ]
+                    }
                   }
                 ]
               },
@@ -491,6 +518,15 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     authenticatorType: 'app',
                     authenticatorKey: 'okta_verify',
                     'relatesTo': XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[4]
+                  },
+                  {
+                    label: 'Google Authenticator',
+                    value: {
+                      id: 'aut11ceMaP0B0EzMI0g4'
+                    },
+                    authenticatorType: 'app',
+                    authenticatorKey: 'google_authenticator',
+                    relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[5]
                   },
                 ]
               }

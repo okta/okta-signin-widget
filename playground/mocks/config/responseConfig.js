@@ -68,8 +68,9 @@ const idx = {
     'enroll-profile-new'
   ],
   '/idp/idx/credential/enroll': [
-    //'authenticator-enroll-ov-via-sms',
-    'authenticator-enroll-security-question',
+    // 'authenticator-enroll-ov-via-sms',
+    // 'authenticator-enroll-security-question',
+    // 'authenticator-enroll-google-authenticator',
   ],
   '/idp/idx/identify': [
     'authenticator-enroll-select-authenticator',
