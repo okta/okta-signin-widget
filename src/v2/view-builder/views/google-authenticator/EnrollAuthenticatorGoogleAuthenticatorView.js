@@ -3,7 +3,7 @@ import BaseForm from '../../internals/BaseForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
 import EnrollGoogleAuthenticatorBarcodeView from './EnrollGoogleAuthenticatorBarcodeView';
-import EnrollAuthenticatorMannuallySetupView from './EnrollAuthenticatorMannuallySetupView';
+import EnrollAuthenticatorManualSetupView from './EnrollAuthenticatorManualSetupView';
 
 const Body = BaseForm.extend({
   title () {
@@ -26,36 +26,36 @@ const Body = BaseForm.extend({
 
   _triggerBarcodeView () {
     this.$('.oie-enroll-google-authenticator-barcode').hide();
-    this._showManuallySetupView();
+    this._showmanualSetupView();
   },
 
   _showVerifyCodePage () {
     this.$('.oie-enroll-google-authenticator-barcode').hide();
     this.$('.google-authenticator-next').hide();
-    this._hideManuallySetupView();
+    this._hidemanualSetupView();
     this.$('.o-form-label-top').show();
-    this.$('.o-form-button-bar').show();
+    this.$('.o-form-button-bar [type="submit"]').show();
   },
 
   _hideVerifyCodePage () {
     this.$('.o-form-label-top').hide();
-    this.$('.o-form-button-bar').hide();
+    this.$('.o-form-button-bar [type="submit"]').hide();
     this.$('.okta-form-subtitle').hide();
   },
 
-  _showManuallySetupView () {
+  _showmanualSetupView () {
     this.$('.shared-secret').show();
-    this.$('.oie-enroll-google-authenticator-manually-setup').show();
+    this.$('.oie-enroll-google-authenticator-manual-setup').show();
   },
 
-  _hideManuallySetupView () {
+  _hidemanualSetupView () {
     this.$('.shared-secret').hide();
-    this.$('.oie-enroll-google-authenticator-manually-setup').hide();
+    this.$('.oie-enroll-google-authenticator-manual-setup').hide();
   },
 
   render () {
     BaseForm.prototype.render.apply(this, arguments);
-    this.$('.oie-enroll-google-authenticator-manually-setup').hide();
+    this.$('.oie-enroll-google-authenticator-manual-setup').hide();
     this.$('.shared-secret').hide();
     this._hideVerifyCodePage();
   },
@@ -66,6 +66,7 @@ const Body = BaseForm.extend({
     const nextButton = createButton({
       className: 'google-authenticator-next button-primary default-custom-button',
       title: loc('oform.next', 'login'),
+      selector: '.o-form-button-bar',
       click: () => {
         this._showVerifyCodePage();
       }
@@ -75,7 +76,7 @@ const Body = BaseForm.extend({
       View: EnrollGoogleAuthenticatorBarcodeView,
       selector: '.o-form-fieldset-container',
     }, {
-      View: EnrollAuthenticatorMannuallySetupView,
+      View: EnrollAuthenticatorManualSetupView,
       selector: '.o-form-fieldset-container',
     }, {
       label: false,

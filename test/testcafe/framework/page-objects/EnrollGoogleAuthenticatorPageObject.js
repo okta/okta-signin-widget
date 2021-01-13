@@ -14,8 +14,8 @@ export default class EnrollGoogleAuthenticatorPageObject extends BasePageObject 
     return this.getTextContent('.barcode-setup-title');
   }
 
-  getManuallySetupSubtitle () {
-    return this.getTextContent('.manually-setup-title');
+  getmanualSetupSubtitle () {
+    return this.getTextContent('.manual-setup-title');
   }
 
   getSetUpDescription () {
@@ -30,7 +30,7 @@ export default class EnrollGoogleAuthenticatorPageObject extends BasePageObject 
     return this.form.getElement('.shared-secret input').getAttribute('placeholder');
   }
 
-  async goToManuallySetup() {
+  async goTomanualSetup() {
     await this.form.clickElement('.cannot-scan-link');
   }
 

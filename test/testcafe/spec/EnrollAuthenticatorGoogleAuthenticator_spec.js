@@ -67,12 +67,12 @@ test
   });
 
 test
-  .requestHooks(invalidOTPMock)('enroll with manually setup with invalid OTP', async t => {
+  .requestHooks(invalidOTPMock)('enroll with manual setup with invalid OTP', async t => {
     const enrollGoogleAuthenticatorPageObject = await setup(t);
 
-    await enrollGoogleAuthenticatorPageObject.goToManuallySetup();
+    await enrollGoogleAuthenticatorPageObject.goTomanualSetup();
     await t.expect(enrollGoogleAuthenticatorPageObject.form.getTitle()).eql('Set up Google Authenticator');
-    await t.expect(enrollGoogleAuthenticatorPageObject.getManuallySetupSubtitle()).eql('Can\'t scan barcode?');
+    await t.expect(enrollGoogleAuthenticatorPageObject.getmanualSetupSubtitle()).eql('Can\'t scan barcode?');
     await t.expect(enrollGoogleAuthenticatorPageObject.getSharedSecret()).eql('ZR74DHZTG43NBULV');
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
 
@@ -101,12 +101,12 @@ test
   });
 
 test
-  .requestHooks(logger, validOTPmock)('enroll with manually setup with valid OTP', async t => {
+  .requestHooks(logger, validOTPmock)('enroll with manual setup with valid OTP', async t => {
     const enrollGoogleAuthenticatorPageObject = await setup(t);
 
-    await enrollGoogleAuthenticatorPageObject.goToManuallySetup();
+    await enrollGoogleAuthenticatorPageObject.goTomanualSetup();
     await t.expect(enrollGoogleAuthenticatorPageObject.form.getTitle()).eql('Set up Google Authenticator');
-    await t.expect(enrollGoogleAuthenticatorPageObject.getManuallySetupSubtitle()).eql('Can\'t scan barcode?');
+    await t.expect(enrollGoogleAuthenticatorPageObject.getmanualSetupSubtitle()).eql('Can\'t scan barcode?');
     await t.expect(enrollGoogleAuthenticatorPageObject.getSharedSecret()).eql('ZR74DHZTG43NBULV');
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
 

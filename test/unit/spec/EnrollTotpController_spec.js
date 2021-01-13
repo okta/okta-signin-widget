@@ -276,7 +276,7 @@ Expect.describe('EnrollTotp', function () {
         expect(test.scanCodeForm.qrcodeImg().attr('src')).toEqual('/base/test/unit/assets/1x1.gif');
       });
     });
-    itp('has a link to setup app manually', function () {
+    itp('has a link to setup app manual', function () {
       return setupAndEnrollOktaPushFn().then(function (test) {
         Expect.isVisible(test.scanCodeForm.manualSetupLink());
       });
@@ -839,7 +839,7 @@ Expect.describe('EnrollTotp', function () {
         expect(test.scanCodeForm.qrcodeImg().attr('src')).toEqual('/base/test/unit/assets/1x1.gif');
       });
     });
-    itp('has a link to setup app manually', function () {
+    itp('has a link to setup app manual', function () {
       return setupAndEnrollOktaTotpFn().then(function (test) {
         Expect.isVisible(test.scanCodeForm.manualSetupLink());
       });
