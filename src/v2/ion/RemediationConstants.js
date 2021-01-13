@@ -80,6 +80,7 @@ const AUTHENTICATOR_KEY = {
   WEBAUTHN: 'webauthn',
   SECURITY_QUESTION: 'security_question',
   OV: 'okta_verify',
+  GOOGLE_AUTHENTICATOR: 'google_authenticator'
 };
 
 export {
