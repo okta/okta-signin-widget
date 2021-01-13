@@ -226,7 +226,7 @@
         ]
       }, {
         "displayName": "Google Authenticator",
-        "type": "app2",
+        "type": "app",
         "authenticatorId": "aut1erh5wK1M8wA3g0g3",
         "id": "okta-verify-enroll-id-124",
         "methods": [

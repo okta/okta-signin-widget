@@ -74,7 +74,6 @@ const Body = BaseForm.extend({
     schema.push({
       View: EnrollGoogleAuthenticatorBarcodeView,
       selector: '.o-form-fieldset-container',
-      options: {model: this.model}
     }, {
       View: EnrollAuthenticatorMannuallySetupView,
       selector: '.o-form-fieldset-container',
