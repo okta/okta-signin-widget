@@ -43,11 +43,7 @@
 
   .auth-passcode {
     float: left;
-    width: 180px;
-    @include device-mq(x-small) {
-      width: 170px;
-    }
-
+    width: 170px;
     @include max-width-mq($container-width) {
       width: 100%;
     }
