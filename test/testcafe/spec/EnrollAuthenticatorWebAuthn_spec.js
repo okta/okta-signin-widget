@@ -23,7 +23,7 @@ async function setup(t) {
   await t.expect(JSON.parse(log[2])).eql({
     controller: 'enroll-webauthn',
     formName: 'enroll-authenticator',
-    authenticatorType: 'security_key',
+    authenticatorKey: 'webauthn',
   });
 
   return enrollWebauthnPage;

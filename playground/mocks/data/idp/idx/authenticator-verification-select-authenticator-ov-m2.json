@@ -95,6 +95,7 @@
     "value": [
       {
         "type": "app",
+        "key": "okta_verify",
         "id": "auteq0lLiL9o1cYoN0g4",
         "methods": [
           {
@@ -110,6 +111,7 @@
       },
       {
         "type": "password",
+        "key": "okta_password",
         "id": "autepwdJFCg0J7vK60g4",
         "displayName": "Okta Password",
         "methods": [
@@ -125,6 +127,7 @@
     "value": [
       {
         "type": "app",
+        "key": "okta_verify",
         "id": "aentheidkwh282hv8g3",
         "displayName": "",
         "methods": [
@@ -135,6 +138,7 @@
       },
      {
         "type": "app",
+        "key": "okta_verify",
         "id": "aentheidkwh2823",
         "displayName": "",
         "methods": [
@@ -144,6 +148,7 @@
       },
       {
         "type": "password",
+        "key": "okta_password",
         "id": "auttmbseAWnMPtLe20g3",
         "displayName": "Okta Password",
         "methods": [

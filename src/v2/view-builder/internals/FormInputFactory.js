@@ -2,7 +2,7 @@ import { Collection, _, loc } from 'okta';
 import AuthenticatorEnrollOptions from '../components/AuthenticatorEnrollOptions';
 import AuthenticatorVerifyOptions from '../components/AuthenticatorVerifyOptions';
 import { getAuthenticatorDataForEnroll, getAuthenticatorDataForVerification} from '../utils/AuthenticatorUtil';
-import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
+import { AUTHENTICATOR_KEY, FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import IDP from '../../../util/IDP';
 
 const createAuthenticatorEnrollSelectView = (opt) => {
@@ -26,7 +26,7 @@ const createAuthenticatorVerifySelectView = (opt) => {
   // do this at least  until users can give authenticator enrollments custom names.
   let hasSecurityKey = false;
   optionItems = optionItems.filter(opt => {
-    if (opt.authenticatorType === 'security_key') {
+    if (opt.authenticatorKey === AUTHENTICATOR_KEY.WEBAUTHN) {
       if (!hasSecurityKey) {
         hasSecurityKey = true;
         return true;

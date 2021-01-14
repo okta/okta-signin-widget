@@ -45,7 +45,7 @@ async function setup(t) {
   await t.expect(JSON.parse(log[2])).eql({
     controller: 'mfa-verify-password',
     formName: 'challenge-authenticator',
-    authenticatorType: 'password',
+    authenticatorKey: 'okta_password',
   });
 
   return challengePasswordPage;
@@ -87,7 +87,7 @@ test.requestHooks(mockInvalidPassword)('challege password authenticator with inv
   await t.expect(JSON.parse(log[4])).eql({
     controller: 'mfa-verify-password',
     formName: 'challenge-authenticator',
-    authenticatorType: 'password',
+    authenticatorKey: 'okta_password',
   });
   await t.expect(JSON.parse(log[5])).eql({
     'errorSummary': 'Password is incorrect',

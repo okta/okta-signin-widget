@@ -33,7 +33,7 @@ async function setup(t) {
   await t.expect(JSON.parse(log[2])).eql({
     controller: 'mfa-verify-question',
     formName: 'challenge-authenticator',
-    authenticatorType: 'security_question',
+    authenticatorKey: 'security_question',
   });
 
   return challengeFactorPage;

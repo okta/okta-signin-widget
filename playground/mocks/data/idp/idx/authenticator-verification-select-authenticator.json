@@ -247,24 +247,28 @@
       {
         "displayName": "Okta Password",
         "type": "password",
+        "key": "okta_password",
         "id": "autwa6eD9o02iBbtv0g1",
         "authenticatorId": "aidwboITrg4b4yAYd0g3"
       },
       {
         "displayName": "FIDO2 (WebAuthn)",
         "type": "security_key",
+        "key": "webauthn",
         "id": "autwa6eD9o02iBbtv0g2",
         "authenticatorId": "aidtheidkwh282hv8g3"
       },
       {
         "displayName": "FIDO2 (WebAuthn)",
         "type": "security_key",
+        "key": "webauthn",
         "id": "autwa6eD9o02iBbtv0g2",
         "authenticatorId": "fwftheidkwh282hv8g3"
       },
       {
         "displayName": "Okta Email",
         "type": "email",
+        "key": "okta_email",
         "authenticatorId": "aidtm56L8gXXHI1SD0g3",
         "id": "autwa6eD9o02iBbtv0g3",
         "methods": [
@@ -278,6 +282,7 @@
           "phoneNumber":"+1 XXX-XXX-5309"
         },
         "type":"phone",
+        "key": "phone_number",
         "id":"pae5ykx4eIvfslkO90g4",
         "displayName":"Phone Number",
         "methods":[
@@ -294,6 +299,7 @@
           "phoneNumber":"+1 XXX-XXX-5310"
         },
         "type":"phone",
+        "key": "phone_number",
         "id":"pae5ykzcnhmdfSMuQ0g4",
         "displayName":"Phone Number",
         "methods":[
@@ -308,12 +314,14 @@
       {
         "displayName": "Okta Security Question",
         "type": "security_question",
+        "key": "security_question",
         "authenticatorId": "aid568g3mXgtID0HHSLH",
         "id": "autwa6eD9o02iBbaaa82"
       },
       {
         "displayName": "Okta Verify Device 1",
         "type": "app",
+        "key": "okta_verify",
         "id": "aen1mz5J4cuNoaR3l0g4",
         "authenticatorId": "auttheidkwh282hv8g3",
         "methods": [

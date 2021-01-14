@@ -29,7 +29,7 @@ async function setup(t) {
   await t.expect(JSON.parse(log[2])).eql({
     controller: 'primary-auth',
     formName: 'identify',
-    authenticatorType: 'password',
+    authenticatorKey: 'okta_password',
   });
 
   return identityPage;

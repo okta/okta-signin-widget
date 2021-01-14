@@ -117,7 +117,8 @@
   "currentAuthenticator":{
     "type":"object",
     "value": {
-      "type": "app", 
+      "type": "app",
+      "key": "okta_verify",
       "id": "auttheidkwh282hv8g3",
       "displayName": "",
       "methods": [
@@ -130,6 +131,7 @@
     "value": [
       {
         "type": "app",
+        "key": "okta_verify",
         "id": "auteq0lLiL9o1cYoN0g4",
         "displayName": "",
         "methods": [
@@ -146,6 +148,7 @@
       },
       {
         "type": "password",
+        "key": "okta_password",
         "id": "autepwdJFCg0J7vK60g4",
         "displayName": "Okta Password",
         "methods": [
@@ -162,6 +165,7 @@
       {
         "displayName": "",
         "type": "app",
+        "key": "okta_verify",
         "id": "aen1mz5J4cuNoaR3l0g4",
         "authenticatorId": "auttheidkwh282hv8g3",
         "methods": [ 
@@ -173,6 +177,7 @@
       {
         "displayName": "",
         "type": "app",
+        "key": "okta_verify",
         "id": "aen1mz5J4cuNoaR3l0g3",
         "authenticatorId": "auttheidkwh282hv8g3",
         "methods": [ 
@@ -184,6 +189,7 @@
       {
         "displayName": "Okta Password",
         "type": "password",
+        "key": "okta_password",
         "id": "autwa6eD9o02iBbtv0g1",
         "authenticatorId": "aidwboITrg4b4yAYd0g3",
         "methods": [

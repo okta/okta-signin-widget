@@ -73,9 +73,19 @@ const FORMS_FOR_VERIFICATION = [
   FORMS.RESEND
 ];
 
+const AUTHENTICATOR_KEY = {
+  EMAIL: 'okta_email',
+  PASSWORD: 'okta_password',
+  PHONE: 'phone_number',
+  WEBAUTHN: 'webauthn',
+  SECURITY_QUESTION: 'security_question',
+  OV: 'okta_verify',
+};
+
 export {
   FORMS,
   FORMS_WITHOUT_SIGNOUT,
   FORMS_WITH_STATIC_BACK_LINK,
   FORMS_FOR_VERIFICATION,
+  AUTHENTICATOR_KEY
 };

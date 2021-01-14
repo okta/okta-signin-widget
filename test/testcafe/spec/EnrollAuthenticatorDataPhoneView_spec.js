@@ -30,7 +30,7 @@ async function setup(t) {
   await t.expect(JSON.parse(log[2])).eql({
     controller: null,
     formName: 'authenticator-enrollment-data',
-    authenticatorType: 'phone',
+    authenticatorKey: 'phone_number',
   });
 
   return enrollPhonePage;

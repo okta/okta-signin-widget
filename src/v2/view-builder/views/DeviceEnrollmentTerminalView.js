@@ -7,10 +7,11 @@ import OdaOktaVerifyTerminalView from '../components/OdaOktaVerifyTerminalView';
 import MdmOktaVerifyTerminalView from '../components/MdmOktaVerifyTerminalView';
 import Enums from 'util/Enums';
 import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
+import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
 
 const ODAHeader = BaseHeader.extend({
   HeaderBeacon: HeaderBeacon.extend({
-    getBeaconClassName: () => getIconClassNameForBeacon('app'),
+    getBeaconClassName: () => getIconClassNameForBeacon(AUTHENTICATOR_KEY.OV),
   }),
 });
 

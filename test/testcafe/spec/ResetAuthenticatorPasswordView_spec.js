@@ -30,7 +30,7 @@ async function setup(t) {
   await t.expect(JSON.parse(log[2])).eql({
     controller: 'forgot-password',
     formName: 'reset-authenticator',
-    authenticatorType: 'password'
+    authenticatorKey: 'okta_password',
   });
 
   return resetPasswordPage;

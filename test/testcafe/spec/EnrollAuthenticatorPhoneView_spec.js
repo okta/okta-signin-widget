@@ -54,7 +54,7 @@ test
     await t.expect(JSON.parse(log[2])).eql({
       controller: 'enroll-sms',
       formName: 'enroll-authenticator',
-      authenticatorType: 'phone',
+      authenticatorKey: 'phone_number',
       methodType: 'sms',
     });
 
@@ -79,7 +79,7 @@ test
     await t.expect(JSON.parse(log[2])).eql({
       controller: 'enroll-call',
       formName: 'enroll-authenticator',
-      authenticatorType: 'phone',
+      authenticatorKey: 'phone_number',
       methodType: 'voice',
     });
 

@@ -43,7 +43,7 @@ async function setup(t) {
   await t.expect(JSON.parse(log[2])).eql({
     controller: 'enroll-email',
     formName: 'enroll-authenticator',
-    authenticatorType: 'email',
+    authenticatorKey: 'okta_email',
   });
 
   return enrollEmailPageObject;

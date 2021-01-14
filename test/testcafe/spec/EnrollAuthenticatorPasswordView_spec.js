@@ -24,7 +24,7 @@ async function setup(t) {
   await t.expect(JSON.parse(log[2])).eql({
     controller: 'enroll-password',
     formName: 'enroll-authenticator',
-    authenticatorType: 'password',
+    authenticatorKey: 'okta_password',
   });
 
   return enrollPasswordPage;

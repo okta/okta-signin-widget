@@ -17,10 +17,12 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           relatesTo: {
             displayName: 'Okta Password',
             type: 'password',
+            key: 'okta_password',
             id: 'autwa6eD9o02iBbtv0g1',
             authenticatorId: 'aidwboITrg4b4yAYd0g3',
           },
           authenticatorType: 'password',
+          authenticatorKey: 'okta_password',
         },
         {
           label: 'Security Key or Biometric Authenticator',
@@ -30,10 +32,12 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           relatesTo: {
             displayName: 'FIDO2 (WebAuthn)',
             type: 'security_key',
+            key: 'webauthn',
             id: 'autwa6eD9o02iBbtv0g2',
             authenticatorId: 'aidtheidkwh282hv8g3',
           },
           authenticatorType: 'security_key',
+          authenticatorKey: 'webauthn',
         },
         {
           label: 'Security Key or Biometric Authenticator',
@@ -43,10 +47,12 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           relatesTo: {
             displayName: 'FIDO2 (WebAuthn)',
             type: 'security_key',
+            key: 'webauthn',
             id: 'autwa6eD9o02iBbtv0g2',
             authenticatorId: 'fwftheidkwh282hv8g3',
           },
           authenticatorType: 'security_key',
+          authenticatorKey: 'webauthn'
         },
         {
           label: 'Okta Email',
@@ -56,6 +62,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           relatesTo: {
             displayName: 'Okta Email',
             type: 'email',
+            key: 'okta_email',
             authenticatorId: 'aidtm56L8gXXHI1SD0g3',
             id: 'autwa6eD9o02iBbtv0g3',
             methods: [
@@ -65,6 +72,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
             ],
           },
           authenticatorType: 'email',
+          authenticatorKey: 'okta_email',
         },
         {
           label: 'Phone',
@@ -77,6 +85,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
               phoneNumber: '+1 XXX-XXX-5309',
             },
             type: 'phone',
+            key: 'phone_number',
             id: 'pae5ykx4eIvfslkO90g4',
             displayName: 'Phone Number',
             methods: [
@@ -89,6 +98,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
             ],
           },
           authenticatorType: 'phone',
+          authenticatorKey: 'phone_number',
         },
         {
           label: 'Phone',
@@ -101,6 +111,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
               phoneNumber: '+1 XXX-XXX-5310',
             },
             type: 'phone',
+            key: 'phone_number',
             id: 'pae5ykzcnhmdfSMuQ0g4',
             displayName: 'Phone Number',
             methods: [
@@ -113,6 +124,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
             ],
           },
           authenticatorType: 'phone',
+          authenticatorKey: 'phone_number',
         },
         {
           label: 'Okta Security Question',
@@ -122,10 +134,12 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           relatesTo: {
             displayName: 'Okta Security Question',
             type: 'security_question',
+            key: 'security_question',
             authenticatorId: 'aid568g3mXgtID0HHSLH',
             id: 'autwa6eD9o02iBbaaa82',
           },
           authenticatorType: 'security_question',
+          authenticatorKey: 'security_question',
         },
         {
           label: 'Okta Verify',
@@ -136,6 +150,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           relatesTo: {
             displayName: 'Okta Verify Device 1',
             type: 'app',
+            key: 'okta_verify',
             id: 'aen1mz5J4cuNoaR3l0g4',
             authenticatorId: 'auttheidkwh282hv8g3',
             methods: [
@@ -145,6 +160,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
             ],
           },
           authenticatorType: 'app',
+          authenticatorKey: 'okta_verify',
         },
       ],
     };
@@ -168,13 +184,15 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         relatesTo: {
           displayName: 'Okta Password',
           type: 'password',
+          key: 'okta_password',
           id: 'autwa6eD9o02iBbtv0g1',
           authenticatorId: 'aidwboITrg4b4yAYd0g3',
         },
         authenticatorType: 'password',
+        authenticatorKey: 'okta_password',
         description: '',
         iconClassName: 'mfa-okta-password',
-        buttonDataSeAttr: 'password',
+        buttonDataSeAttr: 'okta_password',
       },
       {
         label: 'Security Key or Biometric Authenticator',
@@ -184,13 +202,15 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         relatesTo: {
           displayName: 'FIDO2 (WebAuthn)',
           type: 'security_key',
+          key: 'webauthn',
           id: 'autwa6eD9o02iBbtv0g2',
           authenticatorId: 'aidtheidkwh282hv8g3',
         },
         authenticatorType: 'security_key',
+        authenticatorKey: 'webauthn',
         description: '',
         iconClassName: 'mfa-webauthn',
-        buttonDataSeAttr: 'security_key',
+        buttonDataSeAttr: 'webauthn',
       },
       {
         label: 'Okta Email',
@@ -200,6 +220,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         relatesTo: {
           displayName: 'Okta Email',
           type: 'email',
+          key: 'okta_email',
           authenticatorId: 'aidtm56L8gXXHI1SD0g3',
           id: 'autwa6eD9o02iBbtv0g3',
           methods: [
@@ -209,9 +230,10 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           ],
         },
         authenticatorType: 'email',
+        authenticatorKey: 'okta_email',
         description: '',
         iconClassName: 'mfa-okta-email',
-        buttonDataSeAttr: 'email',
+        buttonDataSeAttr: 'okta_email',
       },
       {
         label: 'Phone',
@@ -224,6 +246,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
             phoneNumber: '+1 XXX-XXX-5309',
           },
           type: 'phone',
+          key: 'phone_number',
           id: 'pae5ykx4eIvfslkO90g4',
           displayName: 'Phone Number',
           methods: [
@@ -236,9 +259,10 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           ],
         },
         authenticatorType: 'phone',
+        authenticatorKey: 'phone_number',
         description: '+1 XXX-XXX-5309',
         iconClassName: 'mfa-okta-phone',
-        buttonDataSeAttr: 'phone',
+        buttonDataSeAttr: 'phone_number',
       },
       {
         label: 'Phone',
@@ -251,6 +275,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
             phoneNumber: '+1 XXX-XXX-5310',
           },
           type: 'phone',
+          key: 'phone_number',
           id: 'pae5ykzcnhmdfSMuQ0g4',
           displayName: 'Phone Number',
           methods: [
@@ -263,9 +288,10 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           ],
         },
         authenticatorType: 'phone',
+        authenticatorKey: 'phone_number',
         description: '+1 XXX-XXX-5310',
         iconClassName: 'mfa-okta-phone',
-        buttonDataSeAttr: 'phone',
+        buttonDataSeAttr: 'phone_number',
       },
       {
         label: 'Okta Security Question',
@@ -275,10 +301,12 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         relatesTo: {
           displayName: 'Okta Security Question',
           type: 'security_question',
+          key: 'security_question',
           authenticatorId: 'aid568g3mXgtID0HHSLH',
           id: 'autwa6eD9o02iBbaaa82',
         },
         authenticatorType: 'security_question',
+        authenticatorKey: 'security_question',
         description: '',
         iconClassName: 'mfa-okta-security-question',
         buttonDataSeAttr: 'security_question',
@@ -292,6 +320,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         relatesTo: {
           displayName: 'Okta Verify Device 1',
           type: 'app',
+          key: 'okta_verify',
           id: 'aen1mz5J4cuNoaR3l0g4',
           authenticatorId: 'auttheidkwh282hv8g3',
           methods: [
@@ -301,9 +330,10 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           ]
         },
         'authenticatorType':'app',
+        'authenticatorKey':'okta_verify',
         'description': '',
         'iconClassName':'mfa-okta-verify',
-        buttonDataSeAttr: 'app-signed_nonce',
+        buttonDataSeAttr: 'okta_verify-signed_nonce',
       }
     ]);
     // make sure input parameter is not mutated.
@@ -317,6 +347,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         {
           label: 'Security Key or Biometric Authenticator',
           authenticatorType: 'security_key',
+          authenticatorKey: 'webauthn',
           value: {
             id: 'autwa6eDxxx2iBbtv0g3',
           },
@@ -324,6 +355,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         {
           label: 'Security Key or Biometric Authenticator',
           authenticatorType: 'security_key',
+          authenticatorKey: 'webauthn',
           value: {
             id: 'fwftheidkwh282hv8g3',
           },
@@ -331,6 +363,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         {
           label: 'Okta Password',
           authenticatorType: 'password',
+          authenticatorKey: 'okta_password',
           value: {
             id: 'autwa6eD9o02iBbtv0g3',
           },
@@ -351,22 +384,24 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
       {
         label: 'Security Key or Biometric Authenticator',
         authenticatorType: 'security_key',
+        authenticatorKey: 'webauthn',
         value: {
           id: 'autwa6eDxxx2iBbtv0g3',
         },
         iconClassName: 'mfa-webauthn',
         description: '',
-        buttonDataSeAttr: 'security_key',
+        buttonDataSeAttr: 'webauthn',
       },
       {
         label: 'Okta Password',
         authenticatorType: 'password',
+        authenticatorKey: 'okta_password',
         value: {
           id: 'autwa6eD9o02iBbtv0g3',
         },
         iconClassName: 'mfa-okta-password',
         description: '',
-        buttonDataSeAttr: 'password',
+        buttonDataSeAttr: 'okta_password',
       },
     ]);
     // make sure input parameter is not mutated.
@@ -376,6 +411,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         {
           label: 'Security Key or Biometric Authenticator',
           authenticatorType: 'security_key',
+          authenticatorKey: 'webauthn',
           value: {
             id: 'autwa6eDxxx2iBbtv0g3',
           },
@@ -383,6 +419,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         {
           label: 'Security Key or Biometric Authenticator',
           authenticatorType: 'security_key',
+          authenticatorKey: 'webauthn',
           value: {
             id: 'fwftheidkwh282hv8g3',
           },
@@ -390,6 +427,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         {
           label: 'Okta Password',
           authenticatorType: 'password',
+          authenticatorKey: 'okta_password',
           value: {
             id: 'autwa6eD9o02iBbtv0g3',
           },
@@ -414,10 +452,12 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           relatesTo: {
             displayName: 'Okta Password',
             type: 'password',
+            key: 'okta_password',
             authenticatorId: 'autwa6eD9o02iBbtv0g3',
             id: 'password-enroll-id-123',
           },
           authenticatorType: 'password',
+          authenticatorKey: 'okta_password',
         },
         {
           label: 'Okta Phone',
@@ -427,10 +467,12 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           relatesTo: {
             displayName: 'Okta Phone',
             type: 'phone',
+            key: 'phone_number',
             authenticatorId: 'aid568g3mXgtID0X1SLH',
             id: 'phone-enroll-id-123',
           },
           authenticatorType: 'phone',
+          authenticatorKey: 'phone_number',
         },
         {
           label: 'Okta Email',
@@ -440,6 +482,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           relatesTo: {
             displayName: 'Okta Email',
             type: 'email',
+            key: 'okta_email',
             authenticatorId: 'aidtm56L8gXXHI1SD0g3',
             id: 'autwa6eD9o02iBbtv0g3',
             methods: [
@@ -449,6 +492,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
             ],
           },
           authenticatorType: 'email',
+          authenticatorKey: 'okta_email',
         },
         {
           label: 'Security Key or Biometric Authenticator',
@@ -458,10 +502,12 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           relatesTo: {
             displayName: 'Security Key or Biometric Authenticator (FIDO2)',
             type: 'security_key',
+            key: 'webauthn',
             authenticatorid: 'aidtheidkwh282hv8g3',
             id: 'webauthn-enroll-id-123',
           },
           authenticatorType: 'security_key',
+          authenticatorKey: 'webauthn',
         },
         {
           label: 'Okta Security Question',
@@ -471,10 +517,12 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           relatesTo: {
             displayName: 'Okta Security Question',
             type: 'security_question',
+            key: 'security_question',
             authenticatorId: 'aid568g3mXgtID0X1GGG',
             id: 'security-question-enroll-id-123',
           },
           authenticatorType: 'security_question',
+          authenticatorKey: 'security_question',
         },
         {
           label: 'Okta Verify',
@@ -485,6 +533,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           relatesTo: {
             displayName: 'Okta Verify Device 1',
             type: 'app',
+            key: 'okta_verify',
             id: 'aen1mz5J4cuNoaR3l0g4',
             authenticatorId: 'auttheidkwh282hv8g3',
             methods: [
@@ -494,6 +543,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
             ],
           },
           authenticatorType: 'app',
+          authenticatorKey: 'okta_verify'
         },
       ],
       'label-top': true,
@@ -517,13 +567,15 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         relatesTo: {
           displayName: 'Okta Password',
           type: 'password',
+          key: 'okta_password',
           authenticatorId: 'autwa6eD9o02iBbtv0g3',
           id: 'password-enroll-id-123',
         },
         authenticatorType: 'password',
+        authenticatorKey: 'okta_password',
         description: 'Choose a password for your account',
         iconClassName: 'mfa-okta-password',
-        buttonDataSeAttr: 'password',
+        buttonDataSeAttr: 'okta_password',
       },
       {
         label: 'Okta Phone',
@@ -533,13 +585,15 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         relatesTo: {
           displayName: 'Okta Phone',
           type: 'phone',
+          key: 'phone_number',
           authenticatorId: 'aid568g3mXgtID0X1SLH',
           id: 'phone-enroll-id-123',
         },
         authenticatorType: 'phone',
+        authenticatorKey: 'phone_number',
         description: 'Verify with a code sent to your phone',
         iconClassName: 'mfa-okta-phone',
-        buttonDataSeAttr: 'phone',
+        buttonDataSeAttr: 'phone_number',
       },
       {
         label: 'Okta Email',
@@ -549,6 +603,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         relatesTo: {
           displayName: 'Okta Email',
           type: 'email',
+          key: 'okta_email',
           authenticatorId: 'aidtm56L8gXXHI1SD0g3',
           id: 'autwa6eD9o02iBbtv0g3',
           methods: [
@@ -558,9 +613,10 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           ],
         },
         authenticatorType: 'email',
+        authenticatorKey: 'okta_email',
         description: 'Verify with a link or code sent to your email',
         iconClassName: 'mfa-okta-email',
-        buttonDataSeAttr: 'email',
+        buttonDataSeAttr: 'okta_email',
       },
       {
         label: 'Security Key or Biometric Authenticator',
@@ -570,13 +626,15 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         relatesTo: {
           displayName: 'Security Key or Biometric Authenticator (FIDO2)',
           type: 'security_key',
+          key: 'webauthn',
           authenticatorid: 'aidtheidkwh282hv8g3',
           id: 'webauthn-enroll-id-123',
         },
         authenticatorType: 'security_key',
+        authenticatorKey: 'webauthn',
         description: 'Use a security key or a biometric authenticator to sign in',
         iconClassName: 'mfa-webauthn',
-        buttonDataSeAttr: 'security_key',
+        buttonDataSeAttr: 'webauthn',
       },
       {
         label: 'Okta Security Question',
@@ -586,10 +644,12 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         relatesTo: {
           displayName: 'Okta Security Question',
           type: 'security_question',
+          key: 'security_question',
           authenticatorId: 'aid568g3mXgtID0X1GGG',
           id: 'security-question-enroll-id-123',
         },
         authenticatorType: 'security_question',
+        authenticatorKey: 'security_question',
         description: 'Choose a security question and answer that will be used for signing in',
         iconClassName: 'mfa-okta-security-question',
         buttonDataSeAttr: 'security_question',
@@ -603,6 +663,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         relatesTo: {
           displayName: 'Okta Verify Device 1',
           type: 'app',
+          key: 'okta_verify',
           id: 'aen1mz5J4cuNoaR3l0g4',
           authenticatorId: 'auttheidkwh282hv8g3',
           methods: [
@@ -612,9 +673,10 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
           ]
         },
         'authenticatorType':'app',
+        'authenticatorKey':'okta_verify',
         'description':'Okta Verify is an authenticator app, installed on your phone or computer, used to prove your identity',
         'iconClassName':'mfa-okta-verify',
-        buttonDataSeAttr: 'app-signed_nonce',
+        buttonDataSeAttr: 'okta_verify-signed_nonce',
       }
     ]);
     // make sure input parameter is not mutated.
