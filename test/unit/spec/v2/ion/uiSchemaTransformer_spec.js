@@ -231,6 +231,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       id: 'aut1bospdDFs7q3vc0g4',
                     },
                     authenticatorType: 'email',
+                    authenticatorKey: 'okta_email',
                     relatesTo: XHRAuthenticatorRequiredEmail.authenticatorEnrollments.value[0],
                   },
                 ],
@@ -288,6 +289,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     relatesTo: {
                       displayName: 'Okta Password',
                       type: 'password',
+                      key: 'okta_password',
                       authenticatorId: 'autwa6eD9o02iBbtv0g3',
                       id: 'password-enroll-id-123',
                     },
@@ -328,6 +330,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     relatesTo: {
                       displayName: 'Okta Phone',
                       type: 'phone',
+                      key: 'phone_number',
                       authenticatorId: 'aid568g3mXgtID0X1SLH',
                       id: 'phone-enroll-id-123',
                     },
@@ -357,6 +360,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     relatesTo: {
                       displayName: 'Security Key or Biometric Authenticator (FIDO2)',
                       type: 'security_key',
+                      key: 'webauthn',
                       authenticatorid: 'aidtheidkwh282hv8g3',
                       id: 'webauthn-enroll-id-123',
                     },
@@ -379,6 +383,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     relatesTo: {
                       displayName: 'Okta Security Question',
                       type: 'security_question',
+                      key: 'security_question',
                       authenticatorId: 'aid568g3mXgtID0X1GGG',
                       id: 'security-question-enroll-id-123',
                     },
@@ -415,6 +420,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     'relatesTo': {
                       'displayName': 'Okta Verify',
                       'type': 'app',
+                      'key': 'okta_verify',
                       'authenticatorId': 'aut1erh5wK1M8wA3g0g4',
                       'id': 'okta-verify-enroll-id-123',
                       'methods': [
@@ -447,6 +453,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       id: 'autwa6eD9o02iBbtv0g3',
                     },
                     authenticatorType: 'password',
+                    authenticatorKey: 'okta_password',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[0],
                   },
                   {
@@ -455,6 +462,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       id: 'aid568g3mXgtID0X1SLH',
                     },
                     authenticatorType: 'phone',
+                    authenticatorKey: 'phone_number',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[2],
                   },
                   {
@@ -463,6 +471,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       id: 'aidtheidkwh282hv8g3',
                     },
                     authenticatorType: 'security_key',
+                    authenticatorKey: 'webauthn',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[1],
                   },
                   {
@@ -471,6 +480,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       id: 'aid568g3mXgtID0X1GGG',
                     },
                     authenticatorType: 'security_question',
+                    authenticatorKey: 'security_question',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[3],
                   },
                   {
@@ -478,7 +488,8 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     'value': {
                       'id': 'aut1erh5wK1M8wA3g0g4'
                     },
-                    'authenticatorType': 'app',
+                    authenticatorType: 'app',
+                    authenticatorKey: 'okta_verify',
                     'relatesTo': XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[4]
                   },
                 ]
@@ -560,6 +571,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       id: 'autwa6eD9o02iBbtv0g3',
                     },
                     authenticatorType: 'password',
+                    authenticatorKey: 'okta_password',
                     relatesTo: XHRAuthenticatorEnrollDataPhone.authenticators.value[0],
                   },
                   {
@@ -568,6 +580,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       id: 'aid568g3mXgtID0X1SLH',
                     },
                     authenticatorType: 'phone',
+                    authenticatorKey: 'phone_number',
                     relatesTo: XHRAuthenticatorEnrollDataPhone.authenticators.value[2],
                   },
                   {
@@ -576,6 +589,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       id: 'aidtheidkwh282hv8g3',
                     },
                     authenticatorType: 'security_key',
+                    authenticatorKey: 'webauthn',
                     relatesTo: XHRAuthenticatorEnrollDataPhone.authenticators.value[1],
                   },
                   {
@@ -584,6 +598,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       id: 'aid568g3mXgtID0X1GGG',
                     },
                     authenticatorType: 'security_question',
+                    authenticatorKey: 'security_question',
                     relatesTo: XHRAuthenticatorEnrollDataPhone.authenticators.value[3],
                   },
                 ],
@@ -618,6 +633,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     relatesTo: {
                       displayName: 'Okta Password',
                       type: 'password',
+                      key: 'okta_password',
                       authenticatorId: 'autwa6eD9o02iBbtv0g3',
                       id: 'password-enroll-id-123',
                     },
@@ -658,6 +674,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     relatesTo: {
                       displayName: 'Okta Phone',
                       type: 'phone',
+                      key: 'phone_number',
                       authenticatorId: 'aid568g3mXgtID0X1SLH',
                       id: 'phone-enroll-id-123',
                     },
@@ -687,6 +704,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     relatesTo: {
                       displayName: 'Security Key or Biometric Authenticator (FIDO2)',
                       type: 'security_key',
+                      key: 'webauthn',
                       authenticatorid: 'aidtheidkwh282hv8g3',
                       id: 'webauthn-enroll-id-123',
                     },
@@ -709,6 +727,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     relatesTo: {
                       displayName: 'Okta Security Question',
                       type: 'security_question',
+                      key: 'security_question',
                       authenticatorId: 'aid568g3mXgtID0X1GGG',
                       id: 'security-question-enroll-id-123',
                     },
@@ -825,6 +844,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       id: 'autwa6eD9o02iBbtv0g3',
                     },
                     authenticatorType: 'password',
+                    authenticatorKey: 'okta_password',
                     relatesTo: XHRAuthenticatorEnrollSecurityQuestion.authenticators.value[0],
                   },
                   {
@@ -833,6 +853,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       id: 'aid568g3mXgtID0X1SLH',
                     },
                     authenticatorType: 'phone',
+                    authenticatorKey: 'phone_number',
                     relatesTo: XHRAuthenticatorEnrollSecurityQuestion.authenticators.value[2],
                   },
                   {
@@ -841,6 +862,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       id: 'aidtheidkwh282hv8g3',
                     },
                     authenticatorType: 'security_key',
+                    authenticatorKey: 'webauthn',
                     relatesTo: XHRAuthenticatorEnrollSecurityQuestion.authenticators.value[1],
                   },
                   {
@@ -849,6 +871,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       id: 'aid568g3mXgtID0X1GGG',
                     },
                     authenticatorType: 'security_question',
+                    authenticatorKey: 'security_question',
                     relatesTo: XHRAuthenticatorEnrollSecurityQuestion.authenticators.value[3],
                   },
                 ],
@@ -883,6 +906,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     relatesTo: {
                       displayName: 'Okta Password',
                       type: 'password',
+                      key: 'okta_password',
                       authenticatorId: 'autwa6eD9o02iBbtv0g3',
                       id: 'password-enroll-id-123',
                     },
@@ -923,6 +947,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     relatesTo: {
                       displayName: 'Okta Phone',
                       type: 'phone',
+                      key: 'phone_number',
                       authenticatorId: 'aid568g3mXgtID0X1SLH',
                       id: 'phone-enroll-id-123',
                     },
@@ -952,6 +977,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     relatesTo: {
                       displayName: 'Security Key or Biometric Authenticator (FIDO2)',
                       type: 'security_key',
+                      key: 'webauthn',
                       authenticatorid: 'aidtheidkwh282hv8g3',
                       id: 'webauthn-enroll-id-123',
                     },
@@ -974,6 +1000,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     relatesTo: {
                       displayName: 'Okta Security Question',
                       type: 'security_question',
+                      key: 'security_question',
                       authenticatorId: 'aid568g3mXgtID0X1GGG',
                       id: 'security-question-enroll-id-123',
                     },

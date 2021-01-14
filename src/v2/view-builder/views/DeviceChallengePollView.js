@@ -217,7 +217,7 @@ const Footer = BaseFooter.extend({
 export default BaseView.extend({
   Header: BaseHeader.extend({
     HeaderBeacon: HeaderBeacon.extend({
-      getBeaconClassName: () => getIconClassNameForBeacon('app'),
+      getBeaconClassName: () => getIconClassNameForBeacon('okta_verify'),
     }),
   }),
   Body,

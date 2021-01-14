@@ -10,7 +10,7 @@ import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
 
 const ODAHeader = BaseHeader.extend({
   HeaderBeacon: HeaderBeacon.extend({
-    getBeaconClassName: () => getIconClassNameForBeacon('app'),
+    getBeaconClassName: () => getIconClassNameForBeacon('okta_verify'),
   }),
 });
 

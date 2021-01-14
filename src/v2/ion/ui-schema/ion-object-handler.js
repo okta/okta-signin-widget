@@ -19,7 +19,7 @@ import { _ } from 'okta';
  */
 const createOVOptions = (options = []) => {
   // Split OV into individual entries for verification (one for each method).
-  const ovItem = options.find((option) => option.relatesTo.type === 'app');
+  const ovItem = options.find((option) => option.relatesTo.key === 'okta_verify');
   const methodTypeObj = ovItem?.value?.form?.value?.find(v => v.name === 'methodType');
   const methodOptions = methodTypeObj?.options;
   let signedNonceOption;
@@ -54,7 +54,7 @@ const createOVOptions = (options = []) => {
         ovOptions.push(newItem);
       }
     });
-    const ovIndex = options.findIndex((option) => option.relatesTo.type === 'app');
+    const ovIndex = options.findIndex((option) => option.relatesTo.key === 'okta_verify');
     options.splice(ovIndex, 1, ...ovOptions);
 
     // ReArrange fastpass in options based on deviceKnown
@@ -87,6 +87,7 @@ const createAuthenticatorOptions = (options = []) => {
       value: valueObject,
       relatesTo: option.relatesTo,
       authenticatorType: option.relatesTo?.type,
+      authenticatorKey: option.relatesTo?.key,
     };
   });
 };

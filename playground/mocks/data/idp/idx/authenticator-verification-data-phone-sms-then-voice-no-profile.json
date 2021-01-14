@@ -230,6 +230,7 @@
         ]
       },
       "type":"phone",
+      "key": "phone_number",
       "id":"pae133clYVnptmCwD0g4",
       "displayName":"autxl8PPhwHUpOpW60g3",
       "methods":[
@@ -248,24 +249,28 @@
       {
         "displayName": "Okta Password",
         "type": "password",
+        "key": "okta_password",
         "id": "autwa6eD9o02iBbtv0g1",
         "authenticatorId": "aidwboITrg4b4yAYd0g3"
       },
       {
         "displayName": "FIDO2 (WebAuthn)",
         "type": "security_key",
+        "key": "webauthn",
         "id": "autwa6eD9o02iBbtv0g2",
         "authenticatorId": "aidtheidkwh282hv8g3"
       },
       {
         "displayName": "FIDO2 (WebAuthn)",
         "type": "security_key",
+        "key": "webauthn",
         "id": "autwa6eD9o02iBbtv0g2",
         "authenticatorId": "fwftheidkwh282hv8g3"
       },
       {
         "displayName": "Okta Email",
         "type": "email",
+        "key": "okta_email",
         "authenticatorId": "aidtm56L8gXXHI1SD0g3",
         "id": "autwa6eD9o02iBbtv0g3",
         "methods": [
@@ -277,12 +282,14 @@
       {
         "displayName": "Okta Phone",
         "type": "phone",
+        "key": "phone_number",
         "authenticatorId": "aid568g3mXgtID0X1SLH",
         "id": "autwa6eD9o02iBbsta82"
       },
       {
         "displayName": "Okta Security Question",
         "type": "security_question",
+        "key": "security_question",
         "authenticatorId": "aid568g3mXgtID0HHSLH",
         "id": "autwa6eD9o02iBbaaa82"
       }

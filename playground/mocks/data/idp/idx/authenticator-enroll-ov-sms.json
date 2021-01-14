@@ -193,6 +193,7 @@
     "type": "object",
     "value": {
       "type": "app",
+      "key": "okta_verify",
       "authenticatorInstanceId": "aidL86XHm5Xtg3SD0I1g",
       "contextualData": {
         "selectedChannel": "sms",

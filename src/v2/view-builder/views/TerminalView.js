@@ -19,12 +19,12 @@ const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
   'idx.email.verification.required'
 ];
 
-const EMAIL_AUTHENTICATOR_TYPE = 'email';
+const EMAIL_AUTHENTICATOR_KEY = 'okta_email';
 
 const HeaderBeaconTerminal = HeaderBeacon.extend({
   getBeaconClassName: function () {
     return this.options.appState.containsMessageWithI18nKey(EMAIL_AUTHENTICATOR_TERMINAL_KEYS)
-      ? getIconClassNameForBeacon(EMAIL_AUTHENTICATOR_TYPE)
+      ? getIconClassNameForBeacon(EMAIL_AUTHENTICATOR_KEY)
       : HeaderBeacon.prototype.getBeaconClassName.apply(this, arguments);
   }
 });

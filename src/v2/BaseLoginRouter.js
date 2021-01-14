@@ -113,7 +113,6 @@ export default Router.extend({
     });
 
     this.appState = new AppState();
-
     const wrapper = new AuthContainer({ appState: this.appState });
 
     $(options.el).append(wrapper.render().$el);

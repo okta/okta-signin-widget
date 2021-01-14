@@ -127,6 +127,7 @@
         ]
       },
       "type":"email",
+      "key": "okta_email",
       "id":"eae1d4u7aVB3VBbI70g4",
       "displayName":"Primary Email Address",
       "methods":[
@@ -144,6 +145,7 @@
     "value":[
       {
         "type":"email",
+        "key": "okta_email",
         "id":"eae1d4u7aVB3VBbI70g4",
         "displayName":"Primary Email Address",
         "methods":[
