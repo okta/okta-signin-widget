@@ -4,7 +4,8 @@ const idx = {
   // ===== IDX
 
   '/idp/idx/introspect': [
-    'identify',
+    // 'identify',
+    'authenticator-enroll-google-authenticator',
     // 'error-403-security-access-denied',
     // 'authenticator-enroll-email',
     // 'error-internal-server-error',
@@ -78,7 +79,7 @@ const idx = {
   '/idp/idx/credential/enroll': [
     // 'authenticator-enroll-ov-via-sms',
     // 'authenticator-enroll-security-question',
-    // 'authenticator-enroll-google-authenticator',
+    'authenticator-enroll-google-authenticator',
   ],
   '/idp/idx/identify': [
     'authenticator-enroll-select-authenticator',

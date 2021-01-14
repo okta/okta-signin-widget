@@ -27,12 +27,6 @@
     }
   }
 
-  .google-authenticator-next {
-    &.default-custom-button {
-      margin-bottom: 0;
-    }
-  }
-
   .shared-secret {
     .o-form-input {
       width: 100%;
@@ -42,4 +36,12 @@
       }
     }
   }
+
+  //.google-authenticator-next {
+  //  display: block !important;
+  //}
+  //
+  //.google-authenticator-verify {
+  //  display: block !important;
+  //}
 }

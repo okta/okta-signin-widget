@@ -25,10 +25,10 @@ export default View.extend({
     return { href: contextualData.qrcode?.href };
   },
 
-  postRender () {
-    this.$el.find('.cannot-scan-link').on('click', (event) => {
-      event.preventDefault();
-      this.options.model.trigger('triggerBarcodeView');
-    });
+  events: {
+    'click .cannot-scan-link': function (e) {
+      e.preventDefault();
+      this.options.model.set('viewToDisplay', 'manual');
+    }
   },
 });

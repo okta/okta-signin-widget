@@ -1,5 +1,7 @@
-import { _, Form, loc } from 'okta';
+import { _, Form, loc, internal } from 'okta';
 import FormInputFactory from './FormInputFactory';
+
+const { FormUtil } = internal.views.forms.helpers;
 
 export default Form.extend({
 
@@ -63,7 +65,10 @@ export default Form.extend({
       return;
     }
     if (input.View) {
-      this.add(input.View, _.omit(input, 'View'));
+      this.add(input.View, _.omit(input, 'View', 'showWhen'));
+      if (input.showWhen) {
+        FormUtil.applyShowWhen(this.last(), input.showWhen);
+      }
     } else {
       this.addInput(input);
     }
