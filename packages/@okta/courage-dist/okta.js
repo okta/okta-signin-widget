@@ -1,4 +1,4 @@
-/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.6.0-beta.4200.gf3d0a27 */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.5.0-4555-g7cdd3ec */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -403,6 +403,22 @@ var entityMap = {
   '&#x2F;': '/'
 };
 var emailValidator = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(?!-)((\[?[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\]?)|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+/**
+* Converts the locale code identifier from "${languageCode}-${countryCode}" to "${languageCode}_${countryCode}"
+* Follows the ISO-639-1 language code and 2-letter ISO-3166-1-alpha-2 country code structure.
+* @param {String} locale code identifier
+* @return {String} converted locale code identifier
+*/
+
+var parseLocale = function parseLocale(locale) {
+  if (/-/.test(locale)) {
+    var parts = locale.split('-');
+    parts[1] = parts[1].toUpperCase();
+    return parts.join('_');
+  }
+
+  return locale;
+};
 /* eslint max-len: 0*/
 
 /**
@@ -413,12 +429,13 @@ var emailValidator = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+")
  * @param {*} bundleName
  */
 
+
 function getBundle(bundleName) {
   if (!bundleName) {
     return _oktaI18nBundles.default[_underscoreWrapper.default.keys(_oktaI18nBundles.default)[0]];
   }
 
-  var locale = window && window.okta && window.okta.locale || 'en';
+  var locale = parseLocale(window && window.okta && window.okta.locale) || 'en';
   return _oktaI18nBundles.default["".concat(bundleName, "_").concat(locale)] || _oktaI18nBundles.default[bundleName];
 }
 
@@ -845,7 +862,7 @@ var _jqueryWrapper = _interopRequireDefault(__webpack_require__(3));
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
-var _ButtonFactory = _interopRequireDefault(__webpack_require__(17));
+var _ButtonFactory = _interopRequireDefault(__webpack_require__(18));
 
 var _StringUtil = _interopRequireDefault(__webpack_require__(4));
 
@@ -1377,7 +1394,8 @@ var INPUT_OPTIONS = ['model', 'name', 'inputId', 'type', // base options
 'inlineValidation', // control inline validating against the model on focus lost
 'validateOnlyIfDirty', // check if field has been interacted with and then validate
 'ariaLabel', // 508 compliance for inputs that do not have label associated with them
-'params'];
+'params', 'autoComplete' // autocomplete attribute
+];
 var // widgets params - for input specific widgets
 OTHER_OPTIONS = ['errorField'];
 
@@ -3151,6 +3169,90 @@ exports.default = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
+var _Model = _interopRequireDefault(__webpack_require__(11));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * @class SettingsModel
+ * @extends {Okta.Model}
+ * @private
+ */
+var _default = _Model.default.extend({
+  local: function local() {
+    var settings = window.okta && window.okta.settings || {};
+    var theme = window.okta && window.okta.theme || '';
+    return {
+      orgId: ['string', false, settings.orgId],
+      orgName: ['string', false, settings.orgName],
+      serverStatus: ['string', false, settings.serverStatus],
+      persona: ['string', false, settings.persona],
+      isDeveloperConsole: ['boolean', false, settings.isDeveloperConsole],
+      isPreview: ['boolean', false, settings.isPreview],
+      permissions: ['array', true, settings.permissions || []],
+      theme: ['string', false, theme]
+    };
+  },
+  extraProperties: true,
+  constructor: function constructor() {
+    this.features = window._features || [];
+
+    _Model.default.apply(this, arguments);
+  },
+
+  /**
+   * Checks if the user have a feature flag enabled (Based of the org level feature flag)
+   * @param  {String}  feature Feature name
+   * @return {Boolean}
+   */
+  hasFeature: function hasFeature(feature) {
+    return _underscoreWrapper.default.contains(this.features, feature);
+  },
+
+  /**
+   * Checks if any of the given feature flags are enabled (Based of the org level feature flags)
+   * @param  {Array}  featureArray Features names
+   * @return {Boolean} true if any of the give features are enabled. False otherwise
+   */
+  hasAnyFeature: function hasAnyFeature(featureArray) {
+    return _underscoreWrapper.default.some(featureArray, this.hasFeature, this);
+  },
+
+  /**
+   * Checks if the user have a specific permission (based on data passed from JSP)
+   * @param  {String}  permission Permission name
+   * @return {Boolean}
+   */
+  hasPermission: function hasPermission(permission) {
+    return _underscoreWrapper.default.contains(this.get('permissions'), permission);
+  },
+
+  /**
+   * Checks if the org has ds theme set
+   * @return {Boolean}
+   */
+  isDsTheme: function isDsTheme() {
+    return this.get('theme') === 'dstheme';
+  }
+});
+
+exports.default = _default;
+module.exports = exports.default;
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
+
 var _BaseButtonLink = _interopRequireDefault(__webpack_require__(45));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -3209,7 +3311,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3265,7 +3367,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3290,7 +3392,7 @@ var _SchemaUtil = _interopRequireDefault(__webpack_require__(13));
 
 var _StringUtil = _interopRequireDefault(__webpack_require__(4));
 
-var _EnumTypeHelper = _interopRequireDefault(__webpack_require__(20));
+var _EnumTypeHelper = _interopRequireDefault(__webpack_require__(21));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4071,7 +4173,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4289,7 +4391,7 @@ exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4308,7 +4410,7 @@ var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
 var _Logger = _interopRequireDefault(__webpack_require__(7));
 
-var _SettingsModel = _interopRequireDefault(__webpack_require__(22));
+var _SettingsModel = _interopRequireDefault(__webpack_require__(17));
 
 var _ConfirmationDialog = _interopRequireDefault(__webpack_require__(23));
 
@@ -4459,90 +4561,6 @@ var _default = _backbone.default.Router.extend(
   },
   navigate: function navigate(fragment, options) {
     return _backbone.default.Router.prototype.navigate.call(this, getRoute(this, fragment), options);
-  }
-});
-
-exports.default = _default;
-module.exports = exports.default;
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
-
-var _Model = _interopRequireDefault(__webpack_require__(11));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * @class SettingsModel
- * @extends {Okta.Model}
- * @private
- */
-var _default = _Model.default.extend({
-  local: function local() {
-    var settings = window.okta && window.okta.settings || {};
-    var theme = window.okta && window.okta.theme || '';
-    return {
-      orgId: ['string', false, settings.orgId],
-      orgName: ['string', false, settings.orgName],
-      serverStatus: ['string', false, settings.serverStatus],
-      persona: ['string', false, settings.persona],
-      isDeveloperConsole: ['boolean', false, settings.isDeveloperConsole],
-      isPreview: ['boolean', false, settings.isPreview],
-      permissions: ['array', true, settings.permissions || []],
-      theme: ['string', false, theme]
-    };
-  },
-  extraProperties: true,
-  constructor: function constructor() {
-    this.features = window._features || [];
-
-    _Model.default.apply(this, arguments);
-  },
-
-  /**
-   * Checks if the user have a feature flag enabled (Based of the org level feature flag)
-   * @param  {String}  feature Feature name
-   * @return {Boolean}
-   */
-  hasFeature: function hasFeature(feature) {
-    return _underscoreWrapper.default.contains(this.features, feature);
-  },
-
-  /**
-   * Checks if any of the given feature flags are enabled (Based of the org level feature flags)
-   * @param  {Array}  featureArray Features names
-   * @return {Boolean} true if any of the give features are enabled. False otherwise
-   */
-  hasAnyFeature: function hasAnyFeature(featureArray) {
-    return _underscoreWrapper.default.some(featureArray, this.hasFeature, this);
-  },
-
-  /**
-   * Checks if the user have a specific permission (based on data passed from JSP)
-   * @param  {String}  permission Permission name
-   * @return {Boolean}
-   */
-  hasPermission: function hasPermission(permission) {
-    return _underscoreWrapper.default.contains(this.get('permissions'), permission);
-  },
-
-  /**
-   * Checks if the org has ds theme set
-   * @return {Boolean}
-   */
-  isDsTheme: function isDsTheme() {
-    return this.get('theme') === 'dstheme';
   }
 });
 
@@ -5941,6 +5959,35 @@ var _default = _BaseInput.default.extend({
       return "<span class=\"icon input-icon " + container.escapeExpression(container.lambda((stack1 = depth0 != null ? lookupProperty(depth0, "params") : depth0) != null ? lookupProperty(stack1, "icon") : stack1, depth0)) + "\"></span>";
     },
     "5": function _(container, depth0, helpers, partials, data) {
+      var helper,
+          lookupProperty = container.lookupProperty || function (parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+
+        return undefined;
+      };
+
+      return container.escapeExpression((helper = (helper = lookupProperty(helpers, "autoComplete") || (depth0 != null ? lookupProperty(depth0, "autoComplete") : depth0)) != null ? helper : container.hooks.helperMissing, typeof helper === "function" ? helper.call(depth0 != null ? depth0 : container.nullContext || {}, {
+        "name": "autoComplete",
+        "hash": {},
+        "data": data,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 333
+          },
+          "end": {
+            "line": 1,
+            "column": 349
+          }
+        }
+      }) : helper));
+    },
+    "7": function _(container, depth0, helpers, partials, data) {
+      return "off";
+    },
+    "9": function _(container, depth0, helpers, partials, data) {
       return "<span class=\"input-icon-divider\"></span>";
     },
     "compiler": [8, ">= 4.3.0"],
@@ -6075,20 +6122,36 @@ var _default = _BaseInput.default.extend({
             "column": 297
           }
         }
-      }) : helper)) + "\" autocomplete=\"off\"/>" + ((stack1 = lookupProperty(helpers, "if").call(alias1, (stack1 = depth0 != null ? lookupProperty(depth0, "params") : depth0) != null ? lookupProperty(stack1, "iconDivider") : stack1, {
+      }) : helper)) + "\" autocomplete=\"" + ((stack1 = lookupProperty(helpers, "if").call(alias1, depth0 != null ? lookupProperty(depth0, "autoComplete") : depth0, {
         "name": "if",
         "hash": {},
         "fn": container.program(5, data, 0),
+        "inverse": container.program(7, data, 0),
+        "data": data,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 313
+          },
+          "end": {
+            "line": 1,
+            "column": 367
+          }
+        }
+      })) != null ? stack1 : "") + "\" />" + ((stack1 = lookupProperty(helpers, "if").call(alias1, (stack1 = depth0 != null ? lookupProperty(depth0, "params") : depth0) != null ? lookupProperty(stack1, "iconDivider") : stack1, {
+        "name": "if",
+        "hash": {},
+        "fn": container.program(9, data, 0),
         "inverse": container.noop,
         "data": data,
         "loc": {
           "start": {
             "line": 1,
-            "column": 319
+            "column": 371
           },
           "end": {
             "line": 1,
-            "column": 392
+            "column": 444
           }
         }
       })) != null ? stack1 : "");
@@ -6162,10 +6225,9 @@ var _default = _BaseInput.default.extend({
   },
   postRender: function postRender() {
     var params = this.options.params;
-    var content;
 
     if (params && params.innerTooltip) {
-      content = createQtipContent(params.innerTooltip);
+      var content = createQtipContent(params.innerTooltip);
       this.$('.input-tooltip').qtip({
         content: content,
         style: {
@@ -6231,13 +6293,13 @@ var _BaseSchema = _interopRequireDefault(__webpack_require__(40));
 
 var _Model = _interopRequireDefault(__webpack_require__(11));
 
-var _SchemaProperty = _interopRequireDefault(__webpack_require__(19));
+var _SchemaProperty = _interopRequireDefault(__webpack_require__(20));
 
 var _BaseController = _interopRequireDefault(__webpack_require__(42));
 
-var _BaseRouter = _interopRequireDefault(__webpack_require__(21));
+var _BaseRouter = _interopRequireDefault(__webpack_require__(22));
 
-var _ButtonFactory = _interopRequireDefault(__webpack_require__(17));
+var _ButtonFactory = _interopRequireDefault(__webpack_require__(18));
 
 var _Class = _interopRequireDefault(__webpack_require__(26));
 
@@ -6251,7 +6313,7 @@ var _Logger = _interopRequireDefault(__webpack_require__(7));
 
 var _StringUtil = _interopRequireDefault(__webpack_require__(4));
 
-var _Util = _interopRequireDefault(__webpack_require__(18));
+var _Util = _interopRequireDefault(__webpack_require__(19));
 
 var _handlebarsWrapper = _interopRequireDefault(__webpack_require__(57));
 
@@ -7444,7 +7506,7 @@ var _BaseCollection = _interopRequireDefault(__webpack_require__(15));
 
 var _BaseModel = _interopRequireDefault(__webpack_require__(16));
 
-var _SchemaProperty = _interopRequireDefault(__webpack_require__(19));
+var _SchemaProperty = _interopRequireDefault(__webpack_require__(20));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7555,9 +7617,9 @@ var _jqueryWrapper = _interopRequireDefault(__webpack_require__(3));
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
-var _BaseRouter = _interopRequireDefault(__webpack_require__(21));
+var _BaseRouter = _interopRequireDefault(__webpack_require__(22));
 
-var _SettingsModel = _interopRequireDefault(__webpack_require__(22));
+var _SettingsModel = _interopRequireDefault(__webpack_require__(17));
 
 var _StateMachine = _interopRequireDefault(__webpack_require__(44));
 
@@ -10270,6 +10332,8 @@ var _InputLabel = _interopRequireDefault(__webpack_require__(74));
 
 var _InputWrapper = _interopRequireDefault(__webpack_require__(75));
 
+var _SettingsModel = _interopRequireDefault(__webpack_require__(17));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* eslint max-statements: [2, 11] */
@@ -10622,6 +10686,13 @@ var _default = _BaseView.default.extend(
     /* eslint max-statements: 0, complexity: 0 */
     options || (options = {});
     this.options = options;
+
+    if (options.settings) {
+      this.settings = options.settings;
+    } else {
+      this.settings = options.settings = new _SettingsModel.default();
+    }
+
     this.id = _underscoreWrapper.default.uniqueId('form');
     this.tagName = 'form';
 
@@ -11145,45 +11216,58 @@ var _default = _BaseView.default.extend(
     this.trigger('error', model);
     /* eslint max-statements: 0 */
 
-    if (this.getAttribute('showErrors')) {
-      var errorSummary;
+    if (!this.getAttribute('showErrors')) {
+      return;
+    }
 
-      var responseJSON = _ErrorParser.default.getResponseJSON(resp);
+    var errorSummary;
 
-      var validationErrors = _ErrorParser.default.parseFieldErrors(resp); // trigger events for field validation errors
+    var responseJSON = _ErrorParser.default.getResponseJSON(resp);
 
-
-      if (_underscoreWrapper.default.size(validationErrors)) {
-        _underscoreWrapper.default.each(validationErrors, function (errors, field) {
-          this.model.trigger('form:field-error', this.__errorFields[field] || field, _underscoreWrapper.default.map(errors, function (error) {
-            return /^model\.validation/.test(error) ? _StringUtil.default.localize(error, 'courage') : error;
-          }));
-        }, this);
-      } else {
-        responseJSON = this.parseErrorMessage(responseJSON);
-        errorSummary = getErrorSummary(responseJSON);
-      } // show the error message
+    var validationErrors = _ErrorParser.default.parseFieldErrors(resp); // trigger events for field validation errors
 
 
-      if (showBanner) {
-        this.$('.o-form-error-container').addClass('o-form-has-errors');
-        this.add(_ErrorBanner.default, '.o-form-error-container', {
-          options: {
-            errorSummary: errorSummary
-          }
-        });
-      } // slide to and focus on the error message
+    if (_underscoreWrapper.default.size(validationErrors)) {
+      _underscoreWrapper.default.each(validationErrors, function (errors, field) {
+        this.model.trigger('form:field-error', this.__errorFields[field] || field, _underscoreWrapper.default.map(errors, function (error) {
+          return /^model\.validation/.test(error) ? _StringUtil.default.localize(error, 'courage') : error;
+        }));
+      }, this);
+    } else {
+      responseJSON = this.parseErrorMessage(responseJSON);
+      errorSummary = getErrorSummary(responseJSON);
+    } // show the error message
 
 
-      if (this.getAttribute('scrollOnError')) {
-        var $el = (0, _jqueryWrapper.default)('#' + this.id + ' .o-form-error-container');
-        $el.length && (0, _jqueryWrapper.default)('html, body').animate({
-          scrollTop: $el.offset().top
-        }, 400);
+    if (showBanner) {
+      this.$('.o-form-error-container').addClass('o-form-has-errors');
+      this.add(_ErrorBanner.default, '.o-form-error-container', {
+        options: {
+          errorSummary: errorSummary
+        }
+      });
+    } // slide to and focus on the error message
+
+
+    if (this.getAttribute('scrollOnError')) {
+      var $el = (0, _jqueryWrapper.default)('#' + this.id + ' .o-form-error-container');
+      var rootElement = 'html, body';
+      var modalEl;
+
+      if (this.settings.isDsTheme() && $el.length) {
+        modalEl = $el.closest('#simplemodal-container');
       }
 
-      this.model.trigger('form:resize');
+      if (modalEl && modalEl.length) {
+        rootElement = modalEl;
+      }
+
+      $el.length && (0, _jqueryWrapper.default)(rootElement).animate({
+        scrollTop: $el.offset().top
+      }, 400);
     }
+
+    this.model.trigger('form:resize');
   },
 
   /**
@@ -11797,7 +11881,7 @@ var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
 var _Logger = _interopRequireDefault(__webpack_require__(7));
 
-var _Util = _interopRequireDefault(__webpack_require__(18));
+var _Util = _interopRequireDefault(__webpack_require__(19));
 
 var _StringUtil = _interopRequireDefault(__webpack_require__(4));
 
@@ -12663,7 +12747,7 @@ var _BooleanSelect = _interopRequireDefault(__webpack_require__(77));
 
 var _TextBoxSet = _interopRequireDefault(__webpack_require__(79));
 
-var _EnumTypeHelper = _interopRequireDefault(__webpack_require__(20));
+var _EnumTypeHelper = _interopRequireDefault(__webpack_require__(21));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15126,7 +15210,7 @@ var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
 var _Keys = _interopRequireDefault(__webpack_require__(8));
 
-var _Util = _interopRequireDefault(__webpack_require__(18));
+var _Util = _interopRequireDefault(__webpack_require__(19));
 
 var _BaseView = _interopRequireDefault(__webpack_require__(1));
 
@@ -15412,7 +15496,7 @@ exports.default = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(0));
 
-var _ButtonFactory = _interopRequireDefault(__webpack_require__(17));
+var _ButtonFactory = _interopRequireDefault(__webpack_require__(18));
 
 var _BaseView = _interopRequireDefault(__webpack_require__(1));
 

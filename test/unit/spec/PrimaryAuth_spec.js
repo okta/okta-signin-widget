@@ -317,14 +317,14 @@ Expect.describe('PrimaryAuth', function () {
         expect($usernameLabel.text().trim()).toEqual('Username');
       });
     });
-    itp('prevents autocomplete on username', function () {
+    itp('sets autocomplete on username', function () {
       return setup().then(function (test) {
-        expect(test.form.getUsernameFieldAutocomplete()).toBe('off');
+        expect(test.form.getUsernameFieldAutocomplete()).toBe('username');
       });
     });
-    itp('prevents autocomplete on password', function () {
+    itp('sets autocomplete on password', function () {
       return setup().then(function (test) {
-        expect(test.form.getPasswordFieldAutocomplete()).toBe('off');
+        expect(test.form.getPasswordFieldAutocomplete()).toBe('current-password');
       });
     });
     itp('uses default for password label', function () {

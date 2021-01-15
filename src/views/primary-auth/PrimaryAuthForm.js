@@ -123,6 +123,7 @@ export default Form.extend({
       inputId: 'okta-signin-username',
       type: 'text',
       disabled: this.options.appState.get('disableUsername'),
+      autoComplete: 'username',
       // TODO: support a11y attrs in Courage - OKTA-279025
       render: function () {
         this.$(`input[name=${this.options.name}]`).prop('required', true);
@@ -149,6 +150,7 @@ export default Form.extend({
       inputId: 'okta-signin-password',
       validateOnlyIfDirty: true,
       type: 'password',
+      autoComplete: 'current-password',
       // TODO: support a11y attrs in Courage - OKTA-279025
       render: function () {
         this.$(`input[name=${this.options.name}]`).prop('required', true);

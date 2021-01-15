@@ -472,4 +472,8 @@ export default Model.extend({
 
     return options;
   },
+
+  isDsTheme: function () {
+    return false;
+  },
 });
