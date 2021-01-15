@@ -23,8 +23,6 @@ export default Model.extend({
   local: {
     introspectSuccess: 'object', // only set during introspection
     introspectError: 'object', // only set during introspection
-
-    factor: 'object',      // optional
     user: 'object',        // optional
     currentFormName: 'string',
     idx: 'object',
@@ -33,23 +31,18 @@ export default Model.extend({
 
   derived: {
     authenticatorProfile: {
-      // While we're moving toward `authenticator` platform, but still
-      // need to support `factor` for certain period.
-      // Could remove `factor` after it's deprecated completely.
-      deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment', 'factor'],
-      fn (currentAuthenticator = {}, currentAuthenticatorEnrollment = {}, factor = {}) {
+      deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment'],
+      fn (currentAuthenticator = {}, currentAuthenticatorEnrollment = {}) {
         return currentAuthenticator.profile
           || currentAuthenticatorEnrollment.profile
-          || factor.profile
           || {};
       },
     },
     authenticatorType: {
-      deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment', 'factor'],
-      fn (currentAuthenticator = {}, currentAuthenticatorEnrollment = {}, factor = {}) {
+      deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment'],
+      fn (currentAuthenticator = {}, currentAuthenticatorEnrollment = {}) {
         return currentAuthenticator.type
           || currentAuthenticatorEnrollment.type
-          || factor.factorType
           || '';
       },
     },

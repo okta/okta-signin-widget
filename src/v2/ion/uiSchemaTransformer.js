@@ -91,16 +91,6 @@ const insertUISchema = (transformedResp) => {
 export default insertUISchema;
 
 /**
- * @typedef {Object} FactorOption
- * @property {string} label Factor label
- * @property {string} value Factor ID
- */
-/**
- * @typedef {Object} Factor
- * @property {string} factorType
- * @property {string} factorId
- */
-/**
  * @typedef {Object} Authenticator
  * @property {string} label
  * @property {AuthenticatorValue} value

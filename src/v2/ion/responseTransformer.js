@@ -25,7 +25,7 @@ import { FORMS as RemediationForms } from './RemediationConstants';
 /**
  * @typedef {Object} AuthnResult
  * @property {Object=} user
- * @property {Object=} factor
+ * @property {Object=} authenticator
  */
 
 const isObject = x => _.isObject(x);
@@ -42,7 +42,7 @@ const getFirstLevelObjects = (resp) => {
     }
 
     // for arrays we just want it as a top level object
-    // Example factors array in select-factor form
+    // Example authenticators array in select-authenticator form
     if (val.type === 'array') {
       result[key] = {
         value: val.value
@@ -173,8 +173,8 @@ const convertRedirectIdPToSuccessRedirectIffOneIdp = (result) => {
  *    context: {},
  *  },
  *  remediations: [],
- *  factors: {},
- *  factor: {},
+ *  authenticators: {},
+ *  authenticator: {},
  *  messages: {},
  *  deviceEnrollment: {},
  * }

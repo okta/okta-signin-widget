@@ -10,17 +10,16 @@ export default {
       this._startRemediationPolling();
     } else {
       // Poll is present in authenticator/ authenticator Enrollment obj.
-      // Factor and Authenticator won't co-exists hence it's safe to trigger both.
+      // Authenticator won't co-exists hence it's safe to trigger both.
       this._startAuthenticatorPolling();
     }
   },
 
   _startAuthenticatorPolling () {
-    // Factor and Authenticator won't co-exists hence it's safe to trigger both.
+    // Authenticator won't co-exists hence it's safe to trigger both.
     [
       'currentAuthenticator',
       'currentAuthenticatorEnrollment',
-      'factor',
     ].some(responseKey => {
       if (this.options.appState.has(responseKey)) {
         const authenticator = this.options.appState.get(responseKey);
