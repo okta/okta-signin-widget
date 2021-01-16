@@ -12,7 +12,9 @@
     "url": "https://github.com/okta/okta-signin-widget/issues"
   },
   "files": [
-    "dist"
+    "dist",
+    "index.d.ts",
+    "index.js"
   ],
   "browserslist": [
     "> 0.1%",
@@ -23,7 +25,8 @@
       "pre-push": "commitlint --from=master 1>&2"
     }
   },
-  "main": "./dist/js/okta-sign-in.entry.js",
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "scripts": {
     "clean": "rimraf target && rimraf dist && rimraf build2",
     "generate-phone-codes": "node buildtools generate-phone-codes",
