@@ -72,6 +72,17 @@ Expect.describe('OktaSignIn initialization', function () {
   });
 
   describe('Auth Client', function () {
+    Expect.describe('authClient option', function () {
+      it('accepts an authClient option', function () {
+        const authClient = { foo: 'bar' };
+        signIn = new Widget({
+          baseUrl: url,
+          authClient,
+        });
+        expect(signIn.authClient).toBe(authClient);
+      });
+    });
+
     Expect.describe('Config', function () {
       it('has an options object', function () {
         expect(signIn.authClient.options).toBeDefined();
