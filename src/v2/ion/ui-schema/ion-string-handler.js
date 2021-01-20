@@ -12,8 +12,6 @@
 
 /* eslint max-depth: [2, 3] */
 
-import { _ } from 'okta';
-
 const ionOptionsToUiOptions = (options) => {
   const result = {};
   options.forEach(({ value, label }) => {
@@ -21,32 +19,6 @@ const ionOptionsToUiOptions = (options) => {
   });
   return result;
 };
-
-/**
- * Adds `factorType` metadata to each select-factor option item using factors array
- * @param {FactorOption[]} options
- * @param {Factor[]} factors
- * @returns {Object} option
- * @returns {string} option.label
- * @returns {string} option.value
- * @returns {string} option.factorType
- */
-const createFactorTypeOptions = (options, factors) => {
-  _.each(options, function (optionItem) {
-    const factorValue = optionItem.value;
-    const factor = factors.find(function (item) {
-      return (item.factorProfileId === factorValue
-        || item.factorId === factorValue);
-    }) || {};
-    optionItem.factorType = factor.factorType;
-  });
-  return options;
-};
-
-const getFactorsUiSchema = ({ options }, factors) => ({
-  type: 'factorSelect',
-  options: createFactorTypeOptions(options, factors),
-});
 
 const getPasswordUiSchema = () => ({
   type: 'password',
@@ -57,7 +29,7 @@ const getPasswordUiSchema = () => ({
 
 const shouldRenderAsRadio = (name) => name.indexOf('methodType') >= 0 || name.indexOf('channel') >= 0;
 
-const createUiSchemaForString = (ionFormField, remediationForm, transformedResp) => {
+const createUiSchemaForString = (ionFormField) => {
   const uiSchema = {
     type: 'text'
   };
@@ -68,15 +40,7 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp)
   }
 
   if (Array.isArray(ionFormField.options)) {
-    if (ionFormField.name === 'factorId'
-      || ionFormField.name === 'factorProfileId') {
-      // select factor form for multiple factor enroll and multiple factor verify
-      // when factor has not been enrolled we get back factorProfileId, and once its enrolled
-      // we get back factorId
-      // e.g. { name: 'factorId' | 'factorProfileId', type: 'string', options: [ {label: 'xxx', value: 'yyy'} ]}
-      const factors = transformedResp.factors?.value || [];
-      Object.assign(uiSchema, getFactorsUiSchema(ionFormField, factors));
-    } else if (shouldRenderAsRadio(ionFormField.name)) {
+    if (shouldRenderAsRadio(ionFormField.name)) {
       // e.g. { name: 'methodType', options: [ {label: 'sms'} ], type: 'string' | null }
       uiSchema.type = 'radio';
       // set the default value to the first value..

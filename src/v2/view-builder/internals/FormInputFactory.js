@@ -1,24 +1,9 @@
 import { Collection, _, loc } from 'okta';
-import FactorOptions from '../components/FactorOptions';
 import AuthenticatorEnrollOptions from '../components/AuthenticatorEnrollOptions';
 import AuthenticatorVerifyOptions from '../components/AuthenticatorVerifyOptions';
 import { getAuthenticatorDataForEnroll, getAuthenticatorDataForVerification} from '../utils/AuthenticatorUtil';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import IDP from '../../../util/IDP';
-
-const createFactorSelectView = (opt) => {
-  var optionItems = (opt.options || [])
-    .map(opt => {
-      return Object.assign({}, getAuthenticatorDataForEnroll(opt), opt);
-    });
-  return {
-    View: FactorOptions,
-    options: {
-      name: opt.name,
-      collection: new Collection(optionItems),
-    }
-  };
-};
 
 const createAuthenticatorEnrollSelectView = (opt) => {
   var optionItems = (opt.options || [])
@@ -64,7 +49,6 @@ const createAuthenticatorVerifySelectView = (opt) => {
 };
 
 const inputCreationStrategy = {
-  factorSelect: createFactorSelectView,
   authenticatorEnrollSelect: createAuthenticatorEnrollSelectView,
   authenticatorVerifySelect: createAuthenticatorVerifySelectView
 };

@@ -59,9 +59,6 @@ const FORMS_WITHOUT_SIGNOUT = [
   FORMS.REDIRECT_IDP,
   FORMS.RESET_AUTHENTICATOR,
   FORMS.DEVICE_ENROLLMENT_TERMINAL,
-  // TODO: remove following when deprecating `factor`
-  'select-factor-enroll',
-  'enroll-factor'
 ];
 
 const FORMS_WITH_STATIC_BACK_LINK = [
@@ -80,5 +77,5 @@ export {
   FORMS,
   FORMS_WITHOUT_SIGNOUT,
   FORMS_WITH_STATIC_BACK_LINK,
-  FORMS_FOR_VERIFICATION
+  FORMS_FOR_VERIFICATION,
 };

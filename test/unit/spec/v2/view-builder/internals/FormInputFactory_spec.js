@@ -1,72 +1,9 @@
 import { Collection } from 'okta';
 import FormInputFactory from 'v2/view-builder/internals/FormInputFactory';
-import FactorEnrollOptions from 'v2/view-builder/components/FactorOptions';
 import AuthenticatorVerifyOptions from 'v2/view-builder/components/AuthenticatorVerifyOptions';
 import AuthenticatorEnrollOptions from 'v2/view-builder/components/AuthenticatorEnrollOptions';
 
 describe('v2/view-builder/internals/FormInputFactory', function () {
-  it('handles factorType type', function () {
-    const opt = {
-      type: 'factorSelect',
-      options: [
-        {
-          label: 'Okta Password',
-          value: 'password-id-123',
-          factorType: 'password',
-        },
-        {
-          label: 'Okta E-mail',
-          value: 'email-id-123',
-          factorType: 'email',
-        },
-      ],
-      name: 'factorType',
-    };
-    const result = FormInputFactory.create(opt);
-    expect(result).toEqual({
-      View: FactorEnrollOptions,
-      options: {
-        collection: jasmine.anything(),
-        name: 'factorType',
-      },
-    });
-    expect(result.options.collection instanceof Collection).toBe(true);
-    expect(result.options.collection.toJSON()).toEqual([
-      {
-        label: 'Okta Password',
-        value: 'password-id-123',
-        factorType: 'password',
-        iconClassName: 'mfa-okta-password',
-        description: 'Choose a password for your account',
-        buttonDataSeAttr: '',
-      },
-      {
-        label: 'Okta E-mail',
-        value: 'email-id-123',
-        factorType: 'email',
-        iconClassName: 'mfa-okta-email',
-        description: 'Verify with a link or code sent to your email',
-        buttonDataSeAttr: '',
-      },
-    ]);
-    expect(opt).toEqual({
-      type: 'factorSelect',
-      options: [
-        {
-          label: 'Okta Password',
-          value: 'password-id-123',
-          factorType: 'password',
-        },
-        {
-          label: 'Okta E-mail',
-          value: 'email-id-123',
-          factorType: 'email',
-        },
-      ],
-      name: 'factorType',
-    });
-  });
-
   it('handles authenticatorVerify Select type', function () {
     const input = {
       name: 'authenticator',

@@ -37,12 +37,6 @@ const idx = {
     // 'authenticator-expiry-warning-password',
     // 'enroll-profile',
     // 'enroll-profile-new',
-    // 'factor-enroll-email',
-    // 'factor-enroll-options',
-    // 'factor-enroll-password',
-    // 'factor-verification-email',
-    // 'factor-verification-password',
-    // 'factor-verification-webauthn',
     // 'identify-with-apple-credential-sso-extension',
     // 'identify-with-apple-redirect-sso-extension',
     // 'identify-with-apple-sso-extension-fallback',
@@ -57,8 +51,6 @@ const idx = {
     // 'identify-with-only-one-third-party-idp',
     //'identify-with-password',
     // 'identify-with-universal-link',
-    // 'select-factor-authenticate',
-    // 'select-factor-for-password-recovery',
     // 'success',
     // 'success-with-app-user',
     // 'terminal-return-email',
@@ -88,17 +80,14 @@ const idx = {
   '/idp/idx/challenge/answer': [
     // 'error-email-verify',
     // 'terminal-return-expired-email',
-    // 'factor-verification-email',
     // 'error-answer-passcode-invalid'
     'error-authenticator-enroll-security-question'
   ],
   '/idp/idx/challenge/send': [
-    //'factor-verification-email',
     //'authenticator-enroll-ov-sms',
     'authenticator-enroll-ov-email',
   ],
   '/idp/idx/challenge/resend': [
-    // 'factor-verification-email',
     'authenticator-enroll-ov-sms',
     // 'authenticator-verification-phone-voice'
   ],
@@ -113,8 +102,6 @@ const idx = {
     // 'authenticator-verification-password',
     // 'authenticator-verification-okta-verify-totp',
     // 'authenticator-verification-okta-verify-push',
-    // 'factor-verification-password',
-    // 'factor-verification-email',
   ],
   '/idp/idx/enroll/new': [
     'error-new-signup-email',

@@ -1,6 +1,6 @@
 import { RequestLogger, RequestMock } from 'testcafe';
 import xhrAuthenticatorRequiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
-import xhrInvalidPassword from '../../../playground/mocks/data/idp/idx/error-answer-passcode-invalid';
+import xhrInvalidPassword from '../../../playground/mocks/data/idp/idx/error-authenticator-verify-password';
 import xhrForgotPasswordError from '../../../playground/mocks/data/idp/idx/error-forgot-password';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import ChallengePasswordPageObject from '../framework/page-objects/ChallengePasswordPageObject';
@@ -79,7 +79,7 @@ test.requestHooks(mockInvalidPassword)('challege password authenticator with inv
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
   await challengePasswordPage.clickNextButton();
 
-  await t.expect(challengePasswordPage.getPasswordFieldErrorMessage()).contains('The passcode is absent or invalid');
+  await t.expect(challengePasswordPage.getInvalidOTPError()).contains('Password is incorrect');
 
   const { log } = await t.getBrowserConsoleMessages();
   await t.expect(log.length).eql(6);
@@ -90,18 +90,11 @@ test.requestHooks(mockInvalidPassword)('challege password authenticator with inv
     authenticatorType: 'password',
   });
   await t.expect(JSON.parse(log[5])).eql({
-    'errorSummary': '',
+    'errorSummary': 'Password is incorrect',
     'xhr': {
       'responseJSON': {
-        'errorSummary': '',
-        'errorCauses': [
-          {
-            'errorSummary': [
-              'The passcode is absent or invalid.'
-            ],
-            'property': 'credentials.passcode'
-          }
-        ]
+        'errorCauses': [],
+        'errorSummary': 'Password is incorrect',
       }
     }
   });

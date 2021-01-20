@@ -2,7 +2,7 @@ import Logger from 'util/Logger';
 import { FORMS as RemediationForms } from '../ion/RemediationConstants';
 import BaseView from './internals/BaseView';
 
-// factor ignostic views
+// authenticator ignostic views
 import IdentifierView from './views/IdentifierView';
 import TerminalView from './views/TerminalView';
 import SuccessView from './views/SuccessView';
@@ -17,14 +17,10 @@ import DeviceEnrollmentTerminalView from './views/DeviceEnrollmentTerminalView';
 import EnrollProfileView from './views/EnrollProfileView';
 
 // authenticator list
-import SelectFactorEnrollView from './views/SelectFactorEnrollView';
-import SelectFactorAuthenticateView from './views/SelectFactorAuthenticateView';
 import SelectAuthenticatorEnrollView from './views/SelectAuthenticatorEnrollView';
 import SelectAuthenticatorVerifyView from './views/SelectAuthenticatorVerifyView';
 
 // password
-import EnrollFactorPasswordView from './views/password/EnrollFactorPasswordView';
-import RequiredFactorPasswordView from './views/password/RequiredFactorPasswordView';
 import EnrollAuthenticatorPasswordView from './views/password/EnrollAuthenticatorPasswordView';
 import ChallengeAuthenticatorPasswordView from './views/password/ChallengeAuthenticatorPasswordView';
 import ReEnrollAuthenticatorPasswordView from './views/password/ReEnrollAuthenticatorPasswordView';
@@ -42,13 +38,11 @@ import EnrollAuthenticatorSecurityQuestion from './views/security-question/Enrol
 import ChallengeAuthenticatorSecurityQuestion from './views/security-question/ChallengeAuthenticatorSecurityQuestion';
 
 //webauthn
-import RequiredFactorWebauthnView from './views/webauthn/RequiredFactorWebauthnView';
 import EnrollWebauthnView from './views/webauthn/EnrollWebauthnView';
 import ChallengeWebauthnView from './views/webauthn/ChallengeWebauthnView';
 
 // email
 import EnrollAuthenticatorEmailView from './views/email/EnrollAuthenticatorEmailView';
-import RequiredFactorEmailView from './views/email/RequiredFactorEmailView';
 import ChallengeAuthenticatorEmailView from './views/email/ChallengeAuthenticatorEmailView';
 
 // app(okta verify)
@@ -83,23 +77,8 @@ const VIEWS_MAPPING = {
   [RemediationForms.CANCEL_TRANSACTION]: {
     [DEFAULT]: SSOExtensionView,
   },
-  'select-factor-authenticate': {
-    [DEFAULT]: SelectFactorAuthenticateView,
-  },
-  'select-factor-enroll': {
-    [DEFAULT]: SelectFactorEnrollView,
-  },
   [RemediationForms.ENROLL_PROFILE]: {
     [DEFAULT]: EnrollProfileView,
-  },
-  'enroll-factor': {
-    email: RequiredFactorEmailView, // TODO EnrollFactorEmailView is unimplemented
-    password: EnrollFactorPasswordView,
-  },
-  'challenge-factor': {
-    email: RequiredFactorEmailView,
-    password: RequiredFactorPasswordView,
-    webauthn: RequiredFactorWebauthnView,
   },
   [RemediationForms.POLL] : {
     [DEFAULT] : PollView
@@ -147,7 +126,6 @@ const VIEWS_MAPPING = {
   [RemediationForms.CHALLENGE_AUTHENTICATOR]: {
     email: ChallengeAuthenticatorEmailView,
     password: ChallengeAuthenticatorPasswordView,
-    webauthn: RequiredFactorWebauthnView,
     'security_key': ChallengeWebauthnView,
     'security_question': ChallengeAuthenticatorSecurityQuestion,
     phone: ChallengeAuthenticatorPhoneView,

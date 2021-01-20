@@ -5,17 +5,6 @@ const ENROLLED_PASSWORD_RECOVERY_LINK = 'currentAuthenticatorEnrollment-recover'
 const ORG_PASSWORD_RECOVERY_LINK = 'currentAuthenticator-recover';
 
 const getSwitchAuthenticatorLink = (appState) => {
-  if (appState.hasRemediationObject('select-factor-authenticate')) {
-    return [
-      {
-        'type': 'link',
-        'label': loc('mfa.switch', 'login'),
-        'name': 'switchFactor',
-        'formName': 'select-factor-authenticate',
-      }
-    ];
-  }
-
   if (appState.hasRemediationObject(RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE)) {
     return [
       {

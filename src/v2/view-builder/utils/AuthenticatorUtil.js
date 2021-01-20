@@ -25,7 +25,7 @@ const getButtonDataSeAttr = function (authenticator) {
 
 /* eslint complexity: [2, 19] */
 const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
-  const authenticatorType = authenticator.authenticatorType || authenticator.factorType;
+  const authenticatorType = authenticator.authenticatorType;
   const key = _.isString(authenticatorType) ? authenticatorType.toLowerCase() : '';
   let authenticatorData = {};
   switch (key) {

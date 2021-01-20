@@ -1,6 +1,6 @@
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import unknownUser from '../../../playground/mocks/data/idp/idx/identify-unknown-user';
-import registeredUser from '../../../playground/mocks/data/idp/idx/select-factor-authenticate';
+import registeredUser from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator.json';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 import { RequestMock } from 'testcafe';
 
