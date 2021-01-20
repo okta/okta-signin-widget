@@ -364,6 +364,15 @@ Expect.describe('PrimaryAuth', function () {
         expect(explain.length).toBe(0);
       });
     });
+    itp('has css display:block', () => {
+      return setup().then(() => {
+        return Expect.waitForCss('.auth-container')
+          .then(() => {
+            const mainElement = $('.auth-container')[0];
+            expect(window.getComputedStyle(mainElement).display).toBe('block');
+          });
+      });
+    });
     itp('username field does not have explain when only label is customized', function () {
       const options = {
         language: 'en',
