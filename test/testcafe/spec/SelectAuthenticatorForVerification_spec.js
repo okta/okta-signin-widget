@@ -244,7 +244,7 @@ test.requestHooks(mockChallengeOVTotp)(`should load signed_nonce at bottom when 
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(1)).eql(false);
   await t.expect(selectFactorPage.getFactorIconClassByIndex(1)).contains('mfa-okta-verify');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
-  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1)).eql('okta_verify-push-totp');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1)).eql('okta_verify-totp');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Okta Password');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(2)).eql(false);
@@ -256,7 +256,7 @@ test.requestHooks(mockChallengeOVTotp)(`should load signed_nonce at bottom when 
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(3)).eql(false);
   await t.expect(selectFactorPage.getFactorIconClassByIndex(3)).contains('mfa-okta-verify');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(3)).eql('Select');
-  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(3)).eql('okta_verify-push-signed_nonce');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(3)).eql('okta_verify-signed_nonce');
 
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();

@@ -70,7 +70,6 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
     });
     break;
 
-  // Will get rid of this after fully implementing verify. OKTA-301557
   case AUTHENTICATOR_KEY.WEBAUTHN:
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator

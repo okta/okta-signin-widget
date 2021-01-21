@@ -62,8 +62,8 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-authenticate.authenticator.okta_verify.push': 'oie.okta_verify.push.title',
   'select-authenticator-authenticate.authenticator.okta_verify.totp': 'oie.okta_verify.totp.title',
 
-  // eslint-disable-next-line max-len
-  'authenticator-verification-data.okta_verify.authenticator.methodType.signed_nonce': 'oie.okta_verify.signed_nonce.label',
+  'authenticator-verification-data.okta_verify.authenticator.methodType.signed_nonce':
+    'oie.okta_verify.signed_nonce.label',
   'authenticator-verification-data.okta_verify.authenticator.methodType.push': 'oie.okta_verify.push.title',
   'authenticator-verification-data.okta_verify.authenticator.methodType.totp': 'oie.okta_verify.totp.title',
 

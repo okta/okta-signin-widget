@@ -44,7 +44,7 @@ async function setup(t) {
   await t.expect(JSON.parse(log[2])).eql({
     controller: 'password-expired',
     formName: 'reenroll-authenticator',
-    authenticatorType: 'password'
+    authenticatorKey: 'okta_password',
   });
 
   return expiredPasswordPage;

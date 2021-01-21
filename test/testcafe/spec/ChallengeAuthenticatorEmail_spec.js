@@ -90,7 +90,7 @@ test
     await t.expect(JSON.parse(log[2])).eql({
       controller: 'mfa-verify-passcode',
       formName: 'challenge-authenticator',
-      authenticatorType: 'email',
+      authenticatorKey: 'okta_email',
     });
 
     const pageTitle = challengeEmailPageObject.getPageTitle();

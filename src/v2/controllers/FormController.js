@@ -37,7 +37,7 @@ export default Controller.extend({
 
     const TheView = ViewFactory.create(
       currentViewState.name,
-      this.options.appState.get('authenticatorType'),
+      this.options.appState.get('authenticatorKey'),
     );
     try {
       this.formView = this.add(TheView, {
@@ -78,6 +78,7 @@ export default Controller.extend({
   createAfterEventContext () {
     const formName = this.options.appState.get('currentFormName');
     const authenticatorType = this.options.appState.get('authenticatorType');
+    const authenticatorKey = this.options.appState.get('authenticatorKey');
     const methodType = this.options.appState.get('authenticatorMethodType');
     const isPasswordRecoveryFlow = this.options.appState.get('isPasswordRecoveryFlow');
 
@@ -93,8 +94,8 @@ export default Controller.extend({
       formName,
     };
 
-    if (authenticatorType) {
-      eventData.authenticatorType = authenticatorType;
+    if (authenticatorKey) {
+      eventData.authenticatorKey = authenticatorKey;
     }
     if (methodType && authenticatorType !== methodType) {
       eventData.methodType = methodType;

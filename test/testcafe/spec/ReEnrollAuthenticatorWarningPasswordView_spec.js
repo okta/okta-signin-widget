@@ -44,7 +44,7 @@ async function setup(t) {
   await t.expect(JSON.parse(log[2])).eql({
     controller: null,
     formName: 'reenroll-authenticator-warning',
-    authenticatorType: 'password'
+    authenticatorKey: 'okta_password',
   });
 
   return passwordExpiryWarningPage;

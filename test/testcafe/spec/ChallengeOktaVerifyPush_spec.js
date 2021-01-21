@@ -50,7 +50,7 @@ test
     await t.expect(JSON.parse(log[2])).eql({
       controller: 'mfa-verify',
       formName: 'challenge-poll',
-      authenticatorType: 'app',
+      authenticatorKey: 'okta_verify',
       methodType: 'push',
     });
 
