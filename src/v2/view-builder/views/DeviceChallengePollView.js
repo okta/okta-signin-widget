@@ -14,6 +14,7 @@ import Enums from '../../../util/Enums';
 import { CANCEL_POLLING_ACTION } from '../utils/Constants';
 import Link from '../components/Link';
 import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
+import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
 
 const request = (opts) => {
   const ajaxOptions = Object.assign({
@@ -217,7 +218,7 @@ const Footer = BaseFooter.extend({
 export default BaseView.extend({
   Header: BaseHeader.extend({
     HeaderBeacon: HeaderBeacon.extend({
-      getBeaconClassName: () => getIconClassNameForBeacon('okta_verify'),
+      getBeaconClassName: () => getIconClassNameForBeacon(AUTHENTICATOR_KEY.OV),
     }),
   }),
   Body,

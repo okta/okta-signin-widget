@@ -11,6 +11,7 @@
  */
 import { loc, _ } from 'okta';
 import FactorUtil from '../../../util/FactorUtil';
+import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
 
 const { getPasswordComplexityDescription, getPasswordComplexityDescriptionForHtmlList } = FactorUtil;
 
@@ -30,7 +31,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
   let authenticatorData = {};
   switch (key) {
-  case 'okta_email':
+  case AUTHENTICATOR_KEY.EMAIL:
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? ''
@@ -40,7 +41,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
     });
     break;
 
-  case 'okta_password':
+  case AUTHENTICATOR_KEY.PASSWORD:
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? ''
@@ -50,7 +51,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
     });
     break;
 
-  case 'phone_number':
+  case AUTHENTICATOR_KEY.PHONE:
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? authenticator.relatesTo?.profile?.phoneNumber
@@ -60,7 +61,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
     });
     break;
 
-  case 'security_question':
+  case AUTHENTICATOR_KEY.SECURITY_QUESTION:
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? ''
@@ -71,7 +72,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
     break;
 
   // Will get rid of this after fully implementing verify. OKTA-301557
-  case 'webauthn':
+  case AUTHENTICATOR_KEY.WEBAUTHN:
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? ''
@@ -81,7 +82,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
     });
     break;
 
-  case 'okta_verify':
+  case AUTHENTICATOR_KEY.OV:
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? ''
