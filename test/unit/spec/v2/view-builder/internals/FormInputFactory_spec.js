@@ -192,7 +192,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         authenticatorKey: 'okta_password',
         description: '',
         iconClassName: 'mfa-okta-password',
-        buttonDataSeAttr: 'password',
+        buttonDataSeAttr: 'okta_password',
       },
       {
         label: 'Security Key or Biometric Authenticator',
@@ -210,7 +210,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         authenticatorKey: 'webauthn',
         description: '',
         iconClassName: 'mfa-webauthn',
-        buttonDataSeAttr: 'security_key',
+        buttonDataSeAttr: 'webauthn',
       },
       {
         label: 'Okta Email',
@@ -233,7 +233,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         authenticatorKey: 'okta_email',
         description: '',
         iconClassName: 'mfa-okta-email',
-        buttonDataSeAttr: 'email',
+        buttonDataSeAttr: 'okta_email',
       },
       {
         label: 'Phone',
@@ -262,7 +262,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         authenticatorKey: 'phone_number',
         description: '+1 XXX-XXX-5309',
         iconClassName: 'mfa-okta-phone',
-        buttonDataSeAttr: 'phone',
+        buttonDataSeAttr: 'phone_number',
       },
       {
         label: 'Phone',
@@ -291,7 +291,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         authenticatorKey: 'phone_number',
         description: '+1 XXX-XXX-5310',
         iconClassName: 'mfa-okta-phone',
-        buttonDataSeAttr: 'phone',
+        buttonDataSeAttr: 'phone_number',
       },
       {
         label: 'Okta Security Question',
@@ -333,7 +333,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         'authenticatorKey':'okta_verify',
         'description': '',
         'iconClassName':'mfa-okta-verify',
-        buttonDataSeAttr: 'app-signed_nonce',
+        buttonDataSeAttr: 'okta_verify-signed_nonce',
       }
     ]);
     // make sure input parameter is not mutated.
@@ -390,7 +390,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         },
         iconClassName: 'mfa-webauthn',
         description: '',
-        buttonDataSeAttr: 'security_key',
+        buttonDataSeAttr: 'webauthn',
       },
       {
         label: 'Okta Password',
@@ -401,7 +401,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         },
         iconClassName: 'mfa-okta-password',
         description: '',
-        buttonDataSeAttr: 'password',
+        buttonDataSeAttr: 'okta_password',
       },
     ]);
     // make sure input parameter is not mutated.
@@ -575,7 +575,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         authenticatorKey: 'okta_password',
         description: 'Choose a password for your account',
         iconClassName: 'mfa-okta-password',
-        buttonDataSeAttr: 'password',
+        buttonDataSeAttr: 'okta_password',
       },
       {
         label: 'Okta Phone',
@@ -593,7 +593,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         authenticatorKey: 'phone_number',
         description: 'Verify with a code sent to your phone',
         iconClassName: 'mfa-okta-phone',
-        buttonDataSeAttr: 'phone',
+        buttonDataSeAttr: 'phone_number',
       },
       {
         label: 'Okta Email',
@@ -616,7 +616,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         authenticatorKey: 'okta_email',
         description: 'Verify with a link or code sent to your email',
         iconClassName: 'mfa-okta-email',
-        buttonDataSeAttr: 'email',
+        buttonDataSeAttr: 'okta_email',
       },
       {
         label: 'Security Key or Biometric Authenticator',
@@ -634,7 +634,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         authenticatorKey: 'webauthn',
         description: 'Use a security key or a biometric authenticator to sign in',
         iconClassName: 'mfa-webauthn',
-        buttonDataSeAttr: 'security_key',
+        buttonDataSeAttr: 'webauthn',
       },
       {
         label: 'Okta Security Question',
@@ -676,7 +676,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
         'authenticatorKey':'okta_verify',
         'description':'Okta Verify is an authenticator app, installed on your phone or computer, used to prove your identity',
         'iconClassName':'mfa-okta-verify',
-        buttonDataSeAttr: 'app-signed_nonce',
+        buttonDataSeAttr: 'okta_verify-signed_nonce',
       }
     ]);
     // make sure input parameter is not mutated.

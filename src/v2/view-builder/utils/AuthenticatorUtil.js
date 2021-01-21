@@ -16,17 +16,16 @@ import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
 const { getPasswordComplexityDescription, getPasswordComplexityDescriptionForHtmlList } = FactorUtil;
 
 const getButtonDataSeAttr = function (authenticator) {
-  if (authenticator.authenticatorType) {
+  if (authenticator.authenticatorKey) {
     const method = authenticator.value?.methodType ?
       '-' + authenticator.value?.methodType : '';
-    return authenticator.authenticatorType + method;
+    return authenticator.authenticatorKey + method;
   }
   return '';
 };
 
 /* eslint complexity: [2, 19] */
 const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
-  // `factorType` metadata added by oin is not in appState, map them to authenticatorKey.
   const authenticatorKey = authenticator.authenticatorKey;
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
   let authenticatorData = {};
