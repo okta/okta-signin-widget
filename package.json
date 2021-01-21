@@ -18,11 +18,6 @@
     "> 0.1%",
     "not ie <= 9"
   ],
-  "husky": {
-    "hooks": {
-      "pre-push": "commitlint --from=master 1>&2"
-    }
-  },
   "main": "./dist/js/okta-sign-in.entry.js",
   "scripts": {
     "clean": "rimraf target && rimraf dist && rimraf build2",

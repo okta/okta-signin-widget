@@ -96,7 +96,7 @@ export default Router.extend({
   Events: Backbone.Events,
 
   initialize: function (options) {
-    setStateHandleInStorage(options.stateToken);
+    setStateHandleInStorage(this.settings.get('stateToken'));
     // Create a default success and/or error handler if
     // one is not provided.
     if (!options.globalSuccessFn) {
