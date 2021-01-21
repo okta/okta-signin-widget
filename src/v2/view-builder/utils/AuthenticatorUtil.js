@@ -97,6 +97,19 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
     });
     break;
+
+  case AUTHENTICATOR_KEY.ON_PREM: {
+    const vendorName =  authenticator.relatesTo?.displayName ||
+      loc('oie.on_prem.authenticator.default.vendorName', 'login');
+    Object.assign(authenticatorData, {
+      description: isVerifyAuthenticator
+        ? ''
+        : loc('oie.on_prem.authenticator.description', 'login', [vendorName]),
+      iconClassName: 'mfa-onprem',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+    });
+    break;
+  }
   }
 
   return authenticatorData;

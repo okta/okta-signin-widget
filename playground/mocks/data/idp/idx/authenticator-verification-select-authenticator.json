@@ -243,6 +243,28 @@
                   }
                 },
                 "relatesTo": "$.authenticatorEnrollments.value[8]"
+              },
+              {
+                "label": "Atko Custom On-prem",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "autx7fdyRt87txnAs0g3",
+                        "mutable": false
+                      },
+                      {
+                        "name": "enrollmentId",
+                        "required": true,
+                        "value": "paexaoLGpTBjbyhBF0g3",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[9]"
               }
             ]
           },
@@ -352,6 +374,17 @@
         "type": "app",
         "id": "aen1mz5J4cuNoaR3l0g3",
         "authenticatorId": "aut11ceMaP0B0EzMI0g4",
+        "methods": [
+          {
+            "type": "otp"
+          }
+        ]
+      },
+      {
+        "type": "security_key",
+        "key": "del_oath",
+        "id": "paexaoLGpTBjbyhBF0g3",
+        "displayName": "Atko Custom On-prem",
         "methods": [
           {
             "type": "otp"
