@@ -1,0 +1,171 @@
+{
+  "stateHandle": "02PynGLTh-s-KsG_QASp54JGH3ux3U1dDZRR6KWEQa",
+  "version": "1.0.0",
+  "expiresAt": "2021-01-07T01:54:21.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "enroll-authenticator",
+        "href": "http://localhost:3000/idp/idx/challenge/answer",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "credentials",
+            "form": {
+              "value": [
+                {
+                  "name": "id",
+                  "required": true,
+                  "value": "autx7fdyRt87txnAs0g3",
+                  "mutable": false
+                },
+                {
+                  "name": "methodType",
+                  "required": true,
+                  "value": "otp",
+                  "mutable": false
+                },
+                {
+                  "name": "userName",
+                  "label": "User Name",
+                  "value": "rsa_username",
+                  "required": true
+                },
+                {
+                  "name": "passcode",
+                  "label": "Passcode",
+                  "required": true
+                }
+              ]
+            }
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02PynGLTh-s-KsG_QASp54JGH3ux3U1dDZRR6KWEQa",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "relatesTo": ["$.currentAuthenticator"]
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "authenticator",
+            "required": true,
+            "type": "object",
+            "options": [
+              {
+                "label": "RSA/Custom Name",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "autx7fdyRt87txnAs0g3",
+                        "mutable": false,
+                        "visible": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "otp",
+                        "mutable": false,
+                        "visible": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02PynGLTh-s-KsG_QASp54JGH3ux3U1dDZRR6KWEQa",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "displayName": "Atko Custom On-prem",
+      "type": "security_key",
+      "key": "del_oath",
+      "id": "autx7fdyRt87txnAs0g3",
+      "methods":[
+        {
+          "type":"otp"
+        }
+      ]
+    }
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": []
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "displayName": "Atko Custom On-prem",
+        "type": "security_key",
+        "key": "del_oath",
+        "authenticatorid": "autx7fdyRt87txnAs0g3",
+        "id": "on-prem-enroll-id-123"
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00ux9wonp6bLZVk3P0g3"
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02PynGLTh-s-KsG_QASp54JGH3ux3U1dDZRR6KWEQa",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "DEFAULT_APP"
+    }
+  }
+}
