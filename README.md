@@ -590,6 +590,37 @@ signIn.authClient.session.exists()
 });
 ```
 
+The `authClient` can be set directly in the configuration:
+
+```javascript
+var authClient = new OktaAuth({
+  issuer: 'https://{yourOktaDomain}/oauth2/default',
+  clientId: '{yourClientId}'
+});
+var config = {
+  baseUrl: 'https://{yourOktaDomain}',
+  authClient: authClient
+};
+
+var signIn = new OktaSignIn(config);
+// signIn.authClient === authClient
+```
+
+If no `authClient` option is set, an instance will be created using `authParams`:
+
+```javascript
+var config = {
+  baseUrl: 'https://{yourOktaDomain}',
+  authParams: {
+    issuer: 'https://{yourOktaDomain}/oauth2/default',
+    clientId: '{yourClientId}'  
+  }
+};
+
+var signIn = new OktaSignIn(config);
+// signIn.authClient.options.clientId === '{yourClientId}'
+```
+
 ## Configuration
 
 The only required configuration option is `baseUrl`. All others are optional.
@@ -1206,7 +1237,10 @@ OIDC flow is required for [Social Login][].
     oAuthTimeout: 300000 // 5 minutes
     ```
 
-- **authParams:** An object containing configuration which is passed directly to the internal `authClient`. Selected options are described below. See the full set of [Configuration options](https://github.com/okta/okta-auth-js#configuration-options)
+- **authClient:** An [AuthJS](https://github.com/okta/okta-auth-js) instance. This will be available on the widget instance as the [authClient](#authclient) property. 
+ **Note:** If the `authClient` option is used, `authParams` will be ignored.
+
+- **authParams:** An object containing configuration which is used to create the internal [authClient`](#authclient). Selected options are described below. See the full set of [Configuration options](https://github.com/okta/okta-auth-js#configuration-options)
 
 - **authParams.pkce:** Set to `false` to disable [PKCE][] flow
 

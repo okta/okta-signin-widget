@@ -16,23 +16,6 @@ import Errors from './Errors';
 import Util from './Util';
 const util = {};
 
-function hasResponseType (responseType, type) {
-  if (_.isArray(responseType)) {
-    return _.contains(responseType, type);
-  } else {
-    return type === responseType;
-  }
-}
-
-// TODO: remove and use method from auth-js after 4.1 is released
-// https://github.com/okta/okta-auth-js/pull/525
-util.isAuthorizationCodeFlow = function (settings) {
-  const authClient = settings.getAuthClient();
-  const pkce = authClient.options.pkce;
-  const responseType = settings.get('authParams.responseType');
-  return hasResponseType(responseType, 'code') && !pkce;
-};
-
 /**
  * Get the tokens in the OIDC/OAUTH flows
  *
@@ -55,6 +38,7 @@ util.getTokens = function (settings, params, controller) {
   }
 
   const authClient = settings.getAuthClient();
+  const isAuthorizationCodeFlow = authClient.isAuthorizationCodeFlow() && !authClient.isPKCE();
   const options = settings.toJSON({ verbose: true });
   const getTokenOptions = {};
 
@@ -75,7 +59,7 @@ util.getTokens = function (settings, params, controller) {
   // Redirect flow - this can be used when logging into an external IDP, or
   // converting the Okta sessionToken to an access_token, id_token, and/or
   // authorization code. Note: The authorization code flow will always redirect.
-  if (options.mode === 'remediation' || util.isAuthorizationCodeFlow(settings)) {
+  if (options.mode === 'remediation' || isAuthorizationCodeFlow) {
     authClient.token.getWithRedirect(getTokenOptions).catch(error);
   } else if (getTokenOptions.sessionToken) {
     // Default flow if logging in with Okta as the IDP - convert sessionToken to
