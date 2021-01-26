@@ -26,7 +26,7 @@ const idx = {
     // 'authenticator-verification-password',
     // 'authenticator-verification-phone-sms',
     // 'authenticator-verification-phone-voice',
-    // 'authenticator-verification-security-question',
+    'authenticator-verification-security-question',
     // 'authenticator-verification-select-authenticator',
     // 'authenticator-verification-select-authenticator-ov-m2',
     // 'authenticator-verification-webauthn',
@@ -69,7 +69,7 @@ const idx = {
   ],
   '/idp/idx/credential/enroll': [
     //'authenticator-enroll-ov-via-sms',
-    //'authenticator-enroll-security-question',
+    'authenticator-enroll-security-question',
   ],
   '/idp/idx/identify': [
     'authenticator-enroll-select-authenticator',

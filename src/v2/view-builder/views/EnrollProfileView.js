@@ -9,7 +9,9 @@ const Body = BaseForm.extend({
     return loc('registration.form.title', 'login');
   },
 
-  save: loc('registration.form.submit', 'login'),
+  save () {
+    return loc('registration.form.submit', 'login');
+  }
 });
 
 const Footer = BaseFooter.extend({

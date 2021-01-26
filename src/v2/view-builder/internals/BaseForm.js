@@ -13,7 +13,9 @@ export default Form.extend({
     return loc('oform.title.authenticate', 'login');
   },
 
-  save: loc('oform.next', 'login'),
+  save () {
+    return loc('oform.next', 'login');
+  },
 
   modelEvents: {
     'clearFormError': 'handleClearFormError',
