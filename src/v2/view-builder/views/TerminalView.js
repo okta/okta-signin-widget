@@ -6,6 +6,7 @@ import BaseHeader from '../internals/BaseHeader';
 import HeaderBeacon from '../components/HeaderBeacon';
 import { getBackToSignInLink, getSkipSetupLink } from '../utils/LinksUtil';
 import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
+import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
 
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
 const SAFE_MODE_KEY_PREFIX = 'idx.error.server.safe.mode';
@@ -19,12 +20,10 @@ const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
   'idx.email.verification.required'
 ];
 
-const EMAIL_AUTHENTICATOR_TYPE = 'email';
-
 const HeaderBeaconTerminal = HeaderBeacon.extend({
   getBeaconClassName: function () {
     return this.options.appState.containsMessageWithI18nKey(EMAIL_AUTHENTICATOR_TERMINAL_KEYS)
-      ? getIconClassNameForBeacon(EMAIL_AUTHENTICATOR_TYPE)
+      ? getIconClassNameForBeacon(AUTHENTICATOR_KEY.EMAIL)
       : HeaderBeacon.prototype.getBeaconClassName.apply(this, arguments);
   }
 });

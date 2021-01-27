@@ -181,6 +181,7 @@
     "value": {
       "displayName": "Okta Phone",
       "type": "phone",
+      "key": "phone_number",
       "id": "aid568g3mXgtID0X1SLH"
     }
   },
@@ -190,24 +191,28 @@
       {
         "displayName": "Okta Password",
         "type": "password",
+        "key": "okta_password",
         "authenticatorId": "autwa6eD9o02iBbtv0g3",
         "id": "password-enroll-id-123"
       },
       {
         "displayName": "Security Key or Biometric Authenticator (FIDO2)",
         "type": "security_key",
+        "key": "webauthn",
         "authenticatorid": "aidtheidkwh282hv8g3",
         "id": "webauthn-enroll-id-123"
       },
       {
         "displayName": "Okta Phone",
         "type": "phone",
+        "key": "phone_number",
         "authenticatorId": "aid568g3mXgtID0X1SLH",
         "id": "phone-enroll-id-123"
       },
       {
         "displayName": "Okta Security Question",
         "type": "security_question",
+        "key": "security_question",
         "authenticatorId": "aid568g3mXgtID0X1GGG",
         "id": "security-question-enroll-id-123"
       }

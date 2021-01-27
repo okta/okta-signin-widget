@@ -47,7 +47,7 @@ async function setup(t) {
   await t.expect(JSON.parse(log[2])).eql({
     controller: 'enroll-question',
     formName: 'enroll-authenticator',
-    authenticatorType: 'security_question',
+    authenticatorKey: 'security_question',
   });
 
   return enrollSecurityQuestionPage;
@@ -156,7 +156,7 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionErrorM
   await t.expect(JSON.parse(log[4])).eql({
     controller: 'enroll-question',
     formName: 'enroll-authenticator',
-    authenticatorType: 'security_question',
+    authenticatorKey: 'security_question',
   });
   await t.expect(JSON.parse(log[5])).eql({
     'errorSummary': '',

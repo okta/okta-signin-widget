@@ -48,20 +48,20 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Okta Password');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-password');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Set up');
-  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(0)).eql('password');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(0)).eql('okta_password');
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(0)).eql('Choose a password for your account');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Okta Phone');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(1)).contains('mfa-okta-phone');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Set up');
-  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1)).eql('phone');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1)).eql('phone_number');
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(1)).eql('Verify with a code sent to your phone');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Security Key or Biometric Authenticator');
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(2)).eql('Use a security key or a biometric authenticator to sign in');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(2)).contains('mfa-webauthn');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Set up');
-  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2)).eql('security_key');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2)).eql('webauthn');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Okta Security Question');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(3)).contains('mfa-okta-security-question');
@@ -72,7 +72,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(selectFactorPage.getFactorLabelByIndex(4)).eql('Okta Verify');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(4)).contains('mfa-okta-verify');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(4)).eql('Set up');
-  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(4)).eql('app');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(4)).eql('okta_verify');
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(4))
     .eql('Okta Verify is an authenticator app, installed on your phone or computer, used to prove your identity');
 

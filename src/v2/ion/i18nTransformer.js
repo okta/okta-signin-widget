@@ -37,6 +37,7 @@
 import { _, loc, $ } from 'okta';
 import Bundles from 'util/Bundles';
 import Logger from 'util/Logger';
+import { AUTHENTICATOR_KEY } from './RemediationConstants';
 
 const SECURITY_QUESTION_PREFIX = 'enroll-authenticator.security_question.credentials.questionKey.';
 
@@ -45,29 +46,30 @@ const I18N_OVERRIDE_MAPPINGS = {
   'identify.credentials.passcode': 'primaryauth.password.placeholder',
   'identify.rememberMe': 'remember',
 
-  'select-authenticator-enroll.authenticator.email': 'oie.authenticator.email.label',
-  'select-authenticator-enroll.authenticator.password': 'oie.authenticator.password.label',
-  'select-authenticator-enroll.authenticator.phone': 'oie.authenticator.phone.label',
-  'select-authenticator-enroll.authenticator.security_key': 'oie.authenticator.webauthn.label',
+  'select-authenticator-enroll.authenticator.okta_email': 'oie.authenticator.email.label',
+  'select-authenticator-enroll.authenticator.okta_password': 'oie.authenticator.password.label',
+  'select-authenticator-enroll.authenticator.phone_number': 'oie.authenticator.phone.label',
+  'select-authenticator-enroll.authenticator.webauthn': 'oie.authenticator.webauthn.label',
   'select-authenticator-enroll.authenticator.security_question': 'oie.authenticator.security.question.label',
-  'select-authenticator-enroll.authenticator.app': 'oie.authenticator.okta_verify.label',
+  'select-authenticator-enroll.authenticator.okta_verify': 'oie.authenticator.okta_verify.label',
 
-  'select-authenticator-authenticate.authenticator.email': 'oie.authenticator.email.label',
-  'select-authenticator-authenticate.authenticator.password': 'oie.authenticator.password.label',
-  'select-authenticator-authenticate.authenticator.phone': 'oie.authenticator.phone.label',
-  'select-authenticator-authenticate.authenticator.security_key': 'oie.authenticator.webauthn.label',
+  'select-authenticator-authenticate.authenticator.okta_email': 'oie.authenticator.email.label',
+  'select-authenticator-authenticate.authenticator.okta_password': 'oie.authenticator.password.label',
+  'select-authenticator-authenticate.authenticator.phone_number': 'oie.authenticator.phone.label',
+  'select-authenticator-authenticate.authenticator.webauthn': 'oie.authenticator.webauthn.label',
   'select-authenticator-authenticate.authenticator.security_question': 'oie.authenticator.security.question.label',
-  'select-authenticator-authenticate.authenticator.app.signed_nonce': 'oie.okta_verify.signed_nonce.label',
-  'select-authenticator-authenticate.authenticator.app.push': 'oie.okta_verify.push.title',
-  'select-authenticator-authenticate.authenticator.app.totp': 'oie.okta_verify.totp.title',
+  'select-authenticator-authenticate.authenticator.okta_verify.signed_nonce': 'oie.okta_verify.signed_nonce.label',
+  'select-authenticator-authenticate.authenticator.okta_verify.push': 'oie.okta_verify.push.title',
+  'select-authenticator-authenticate.authenticator.okta_verify.totp': 'oie.okta_verify.totp.title',
 
-  'authenticator-verification-data.app.authenticator.methodType.signed_nonce': 'oie.okta_verify.signed_nonce.label',
-  'authenticator-verification-data.app.authenticator.methodType.push': 'oie.okta_verify.push.title',
-  'authenticator-verification-data.app.authenticator.methodType.totp': 'oie.okta_verify.totp.title',
+  'authenticator-verification-data.okta_verify.authenticator.methodType.signed_nonce':
+    'oie.okta_verify.signed_nonce.label',
+  'authenticator-verification-data.okta_verify.authenticator.methodType.push': 'oie.okta_verify.push.title',
+  'authenticator-verification-data.okta_verify.authenticator.methodType.totp': 'oie.okta_verify.totp.title',
 
-  'authenticator-enrollment-data.phone.authenticator.phoneNumber': 'mfa.phoneNumber.placeholder',
+  'authenticator-enrollment-data.phone_number.authenticator.phoneNumber': 'mfa.phoneNumber.placeholder',
 
-  'enroll-authenticator.password.credentials.passcode': 'oie.password.passwordLabel',
+  'enroll-authenticator.okta_password.credentials.passcode': 'oie.password.passwordLabel',
   'enroll-authenticator.security_question.sub_schema_local_credentials.0': 'oie.security.question.questionKey.label',
   'enroll-authenticator.security_question.sub_schema_local_credentials.1': 'oie.security.question.createQuestion.label',
   'enroll-authenticator.security_question.credentials.answer': 'mfa.challenge.answer.placeholder',
@@ -78,11 +80,11 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-enrollment-channel.authenticator.channel.email': 'oie.enroll.okta_verify.select.channel.email.label',
   'select-enrollment-channel.authenticator.channel.sms': 'oie.enroll.okta_verify.select.channel.sms.label',
 
-  'challenge-authenticator.email.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
-  'challenge-authenticator.password.credentials.passcode': 'mfa.challenge.password.placeholder',
-  'challenge-authenticator.phone.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
+  'challenge-authenticator.okta_email.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
+  'challenge-authenticator.okta_password.credentials.passcode': 'mfa.challenge.password.placeholder',
+  'challenge-authenticator.phone_number.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'challenge-authenticator.security_question.credentials.answer': 'mfa.challenge.answer.placeholder',
-  'challenge-authenticator.app.credentials.totp': 'oie.okta_verify.totp.enterCodeText',
+  'challenge-authenticator.okta_verify.credentials.totp': 'oie.okta_verify.totp.enterCodeText',
 };
 
 const getI18nKey = (i18nPath) => {
@@ -131,10 +133,10 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
   Logger.info('\t remediationName: ', remediation.name);
   Logger.info('\t uiSchema: ', JSON.stringify(uiSchema));
 
-  const authenticatorType = remediation.relatesTo?.value?.type
-    ? `.${remediation.relatesTo.value.type}`
+  const authenticatorKey = remediation.relatesTo?.value?.key
+    ? `.${remediation.relatesTo.value.key}`
     : '';
-  const i18nPrefix = `${remediation.name}${authenticatorType}.`;
+  const i18nPrefix = `${remediation.name}${authenticatorKey}.`;
   const i18nPath = `${i18nPrefix}${uiSchema.name}`;
 
   if (uiSchema.type === 'checkbox' && uiSchema.placeholder) {
@@ -159,11 +161,11 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
         return;
       }
       let i18nPathOption;
-      if (o.authenticatorType) {
-        i18nPathOption = `${i18nPath}.${o.authenticatorType}`;
+      if (o.authenticatorKey) {
+        i18nPathOption = `${i18nPath}.${o.authenticatorKey}`;
 
         const methodType = o.value?.methodType;
-        if (o.authenticatorType === 'app' && methodType) {
+        if (o.authenticatorKey === AUTHENTICATOR_KEY.OV && methodType) {
           i18nPathOption = `${i18nPathOption}.${methodType}`;
         }
       } else if (o.value !== undefined) { // value could be string or number or undefined.

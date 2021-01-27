@@ -1,5 +1,5 @@
 import Logger from 'util/Logger';
-import { FORMS as RemediationForms } from '../ion/RemediationConstants';
+import { AUTHENTICATOR_KEY, FORMS as RemediationForms } from '../ion/RemediationConstants';
 import BaseView from './internals/BaseView';
 
 // authenticator ignostic views
@@ -72,7 +72,7 @@ const VIEWS_MAPPING = {
   } ,
   [RemediationForms.DEVICE_APPLE_SSO_EXTENSION]: {
     [DEFAULT]: SSOExtensionView,
-    app: ChallengeOktaVerifySSOExtensionView,
+    [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifySSOExtensionView,
   },
   [RemediationForms.CANCEL_TRANSACTION]: {
     [DEFAULT]: SSOExtensionView,
@@ -87,59 +87,59 @@ const VIEWS_MAPPING = {
     [DEFAULT]: SelectAuthenticatorEnrollView,
   },
   [RemediationForms.AUTHENTICATOR_ENROLLMENT_DATA]: {
-    phone: EnrollAuthenticatorDataPhoneView,
+    [AUTHENTICATOR_KEY.PHONE]: EnrollAuthenticatorDataPhoneView,
   },
   [RemediationForms.ENROLL_AUTHENTICATOR]: {
-    password: EnrollAuthenticatorPasswordView,
-    'security_key': EnrollWebauthnView,
-    phone: EnrollAuthenticatorPhoneView,
-    'security_question': EnrollAuthenticatorSecurityQuestion,
-    email: EnrollAuthenticatorEmailView
+    [AUTHENTICATOR_KEY.PASSWORD]: EnrollAuthenticatorPasswordView,
+    [AUTHENTICATOR_KEY.WEBAUTHN]: EnrollWebauthnView,
+    [AUTHENTICATOR_KEY.PHONE]: EnrollAuthenticatorPhoneView,
+    [AUTHENTICATOR_KEY.SECURITY_QUESTION]: EnrollAuthenticatorSecurityQuestion,
+    [AUTHENTICATOR_KEY.EMAIL]: EnrollAuthenticatorEmailView
   },
   [RemediationForms.ENROLL_POLL]: {
-    app: EnrollPollOktaVerifyView,
+    [AUTHENTICATOR_KEY.OV]: EnrollPollOktaVerifyView,
   },
   [RemediationForms.SELECT_ENROLLMENT_CHANNEL]: {
-    app: SelectEnrollmentChannelOktaVerifyView,
+    [AUTHENTICATOR_KEY.OV]: SelectEnrollmentChannelOktaVerifyView,
   },
   [RemediationForms.ENROLLMENT_CHANNEL_DATA]: {
-    app: EnrollementChannelDataOktaVerifyView,
+    [AUTHENTICATOR_KEY.OV]: EnrollementChannelDataOktaVerifyView,
   },
   // Expired scenarios for authenticators..
   [RemediationForms.REENROLL_AUTHENTICATOR]: {
     // Password expired scenario..
-    password: ReEnrollAuthenticatorPasswordView,
+    [AUTHENTICATOR_KEY.PASSWORD]: ReEnrollAuthenticatorPasswordView,
   },
   // Will expire soon warnings for authenticators..
   [RemediationForms.REENROLL_AUTHENTICATOR_WARNING]: {
     // Password will expire soon scenario..
-    password: ReEnrollAuthenticatorWarningPasswordView,
+    [AUTHENTICATOR_KEY.PASSWORD]: ReEnrollAuthenticatorWarningPasswordView,
   },
   // Reset forms for authenticators..
   [RemediationForms.RESET_AUTHENTICATOR]: {
     // Admin driven password reset..
-    password: ResetAuthenticatorPasswordView,
+    [AUTHENTICATOR_KEY.PASSWORD]: ResetAuthenticatorPasswordView,
   },
   [RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE]: {
     [DEFAULT]: SelectAuthenticatorVerifyView,
   },
   [RemediationForms.CHALLENGE_AUTHENTICATOR]: {
-    email: ChallengeAuthenticatorEmailView,
-    password: ChallengeAuthenticatorPasswordView,
-    'security_key': ChallengeWebauthnView,
-    'security_question': ChallengeAuthenticatorSecurityQuestion,
-    phone: ChallengeAuthenticatorPhoneView,
-    app: ChallengeOktaVerifyTotpView,
+    [AUTHENTICATOR_KEY.EMAIL]: ChallengeAuthenticatorEmailView,
+    [AUTHENTICATOR_KEY.PASSWORD]: ChallengeAuthenticatorPasswordView,
+    [AUTHENTICATOR_KEY.WEBAUTHN]: ChallengeWebauthnView,
+    [AUTHENTICATOR_KEY.SECURITY_QUESTION]: ChallengeAuthenticatorSecurityQuestion,
+    [AUTHENTICATOR_KEY.PHONE]: ChallengeAuthenticatorPhoneView,
+    [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifyTotpView,
   },
   [RemediationForms.CHALLENGE_POLL]: {
-    app: ChallengeOktaVerifyView,
+    [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifyView,
   },
   [RemediationForms.RESEND]: {
-    app: ChallengeOktaVerifyResendPushView,
+    [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifyResendPushView,
   },
   [RemediationForms.AUTHENTICATOR_VERIFICATION_DATA]: {
-    phone: ChallengeAuthenticatorDataPhoneView,
-    app: ChallengeAuthenticatorDataOktaVerifyView
+    [AUTHENTICATOR_KEY.PHONE]: ChallengeAuthenticatorDataPhoneView,
+    [AUTHENTICATOR_KEY.OV]: ChallengeAuthenticatorDataOktaVerifyView
   },
   [RemediationForms.SUCCESS_REDIRECT]: {
     [DEFAULT]: SuccessView,
@@ -157,15 +157,15 @@ const VIEWS_MAPPING = {
 };
 
 module.exports = {
-  create (formName, authenticatorType = DEFAULT) {
+  create (formName, authenticatorKey = DEFAULT) {
     const config = VIEWS_MAPPING[formName];
     if (!config) {
       Logger.warn(`Cannot find customized View for ${formName}.`);
       return BaseView;
     }
-    const View = config[authenticatorType] || config[DEFAULT];
+    const View = config[authenticatorKey] || config[DEFAULT];
     if (!View) {
-      Logger.warn(`Cannot find customized View for ${formName} + ${authenticatorType}.`);
+      Logger.warn(`Cannot find customized View for ${formName} + ${authenticatorKey}.`);
       return BaseView;
     }
 

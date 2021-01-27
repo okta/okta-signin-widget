@@ -78,7 +78,7 @@ async function setup(t) {
   await t.expect(JSON.parse(log[2])).eql({
     controller: null,
     formName: 'enroll-poll',
-    authenticatorType: 'app',
+    authenticatorKey: 'okta_verify',
   });
 
   return enrollOktaVerifyPage;

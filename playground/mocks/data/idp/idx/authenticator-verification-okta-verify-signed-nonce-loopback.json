@@ -103,6 +103,7 @@
     "value": {
       "displayName":"Okta Verify",
       "type": "app",
+      "key": "okta_verify",
       "id": "aen1mz5J4cuNoaR3l0g4",
       "methods":[
         {
@@ -150,6 +151,7 @@
     "value":[
       {
         "type":"app",
+        "key": "okta_verify",
         "id":"autmho3zRhIfiSzOy0g4",
         "displayName":"Okta Verify",
         "methods":[
@@ -160,6 +162,7 @@
       },
       {
         "type":"password",
+        "key": "okta_password",
         "id":"autmhm5s2gQhWbPfu0g4",
         "displayName":"Password",
         "methods":[
@@ -178,6 +181,7 @@
           "deviceName":"DESKTOP-9AD225Q"
         },
         "type":"app",
+        "key": "okta_verify",
         "id":"pfdtxkyRQrmwfWdIE0g4",
         "displayName":"Okta Verify",
         "methods":[
@@ -188,6 +192,7 @@
       },
       {
         "type":"password",
+        "key": "okta_password",
         "id":"lae3obwhjXZOu3dfz0g4",
         "displayName":"Password",
         "methods":[

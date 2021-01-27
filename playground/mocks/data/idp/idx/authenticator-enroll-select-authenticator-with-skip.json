@@ -138,12 +138,14 @@
       {
         "displayName": "Okta Password",
         "type": "password",
+        "key": "okta_password",
         "id": "password-enroll-id-123",
         "authenticatorsId": "autwa6eD9o02iBbtv0g3"
       },
       {
         "displayName": "Security Key or Biometric Authenticator (FIDO2)",
-        "type": "webauthn",
+        "type": "security_key",
+        "key": "webauthn",
         "id": "webauthn-enroll-id-123",
         "authenticatorId": "aidtheidkwh282hv8g3"
       },
@@ -151,6 +153,7 @@
         "label": "Okta Phone",
         "id": "phone-enroll-id-123",
         "type": "phone",
+        "key": "phone_number",
         "authenticatorId": "aid568g3mXgtID0X1SLH"
       }
     ]

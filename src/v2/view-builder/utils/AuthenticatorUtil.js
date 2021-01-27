@@ -11,25 +11,26 @@
  */
 import { loc, _ } from 'okta';
 import FactorUtil from '../../../util/FactorUtil';
+import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
 
 const { getPasswordComplexityDescription, getPasswordComplexityDescriptionForHtmlList } = FactorUtil;
 
 const getButtonDataSeAttr = function (authenticator) {
-  if (authenticator.authenticatorType) {
+  if (authenticator.authenticatorKey) {
     const method = authenticator.value?.methodType ?
       '-' + authenticator.value?.methodType : '';
-    return authenticator.authenticatorType + method;
+    return authenticator.authenticatorKey + method;
   }
   return '';
 };
 
 /* eslint complexity: [2, 19] */
 const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
-  const authenticatorType = authenticator.authenticatorType;
-  const key = _.isString(authenticatorType) ? authenticatorType.toLowerCase() : '';
+  const authenticatorKey = authenticator.authenticatorKey;
+  const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
   let authenticatorData = {};
   switch (key) {
-  case 'email':
+  case AUTHENTICATOR_KEY.EMAIL:
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? ''
@@ -39,7 +40,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
     });
     break;
 
-  case 'password':
+  case AUTHENTICATOR_KEY.PASSWORD:
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? ''
@@ -49,7 +50,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
     });
     break;
 
-  case 'phone':
+  case AUTHENTICATOR_KEY.PHONE:
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? authenticator.relatesTo?.profile?.phoneNumber
@@ -59,7 +60,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
     });
     break;
 
-  case 'security_question':
+  case AUTHENTICATOR_KEY.SECURITY_QUESTION:
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? ''
@@ -69,8 +70,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
     });
     break;
 
-  // Will get rid of this after fully implementing verify. OKTA-301557
-  case 'webauthn':
+  case AUTHENTICATOR_KEY.WEBAUTHN:
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? ''
@@ -80,17 +80,7 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
     });
     break;
 
-  case 'security_key':
-    Object.assign(authenticatorData, {
-      description: isVerifyAuthenticator
-        ? ''
-        : loc('oie.webauthn.description', 'login'),
-      iconClassName: 'mfa-webauthn',
-      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
-    });
-    break;
-
-  case 'app':
+  case AUTHENTICATOR_KEY.OV:
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? ''
@@ -112,8 +102,8 @@ export function getAuthenticatorDataForVerification (authenticator) {
   return getAuthenticatorData(authenticator, true);
 }
 
-export function getIconClassNameForBeacon (authenticatorType) {
-  return getAuthenticatorData({ authenticatorType }).iconClassName;
+export function getIconClassNameForBeacon (authenticatorKey) {
+  return getAuthenticatorData({ authenticatorKey }).iconClassName;
 }
 
 export function removeRequirementsFromError (errorJSON, policy) {

@@ -143,6 +143,7 @@
         "accepts": "application/ion+json; okta-version=1.0.0"
       },
       "type": "app",
+      "key": "okta_verify",
       "id": "aut13qrZReYpIib7R0g4",
       "displayName": "",
       "methods": [
@@ -163,6 +164,7 @@
     "value": [
       {
         "type": "app",
+        "key": "okta_verify",
         "id": "aut13qrZReYpIib7R0g4",
         "displayName": "",
         "methods": [
@@ -184,6 +186,7 @@
     "value": [
       {
         "type": "app",
+        "key": "okta_verify",
         "id": "pfd3a9cMcr0ZYWJ8t0g4",
         "displayName": "",
         "methods": [

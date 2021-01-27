@@ -119,7 +119,7 @@ test
     await t.expect(JSON.parse(log[2])).eql({
       controller: null,
       formName: 'authenticator-verification-data',
-      authenticatorType: 'phone',
+      authenticatorKey: 'phone_number',
       methodType: 'sms',
     });
 
@@ -166,7 +166,7 @@ test
     await t.expect(JSON.parse(log[2])).eql({
       controller: null,
       formName: 'authenticator-verification-data',
-      authenticatorType: 'phone',
+      authenticatorKey: 'phone_number',
       methodType: 'voice',
     });
 
@@ -224,14 +224,14 @@ test
     await t.expect(JSON.parse(log[2])).eql({
       controller: null,
       formName: 'authenticator-verification-data',
-      authenticatorType: 'phone',
+      authenticatorKey: 'phone_number',
       methodType: 'sms',
     });
     await t.expect(log[3]).eql('===== playground widget afterRender event received =====');
     await t.expect(JSON.parse(log[4])).eql({
       controller: 'mfa-verify-passcode',
       formName: 'challenge-authenticator',
-      authenticatorType: 'phone',
+      authenticatorKey: 'phone_number',
       methodType: 'sms',
     });
 
@@ -253,14 +253,14 @@ test
     await t.expect(JSON.parse(log[2])).eql({
       controller: null,
       formName: 'authenticator-verification-data',
-      authenticatorType: 'phone',
+      authenticatorKey: 'phone_number',
       methodType: 'voice',
     });
     await t.expect(log[3]).eql('===== playground widget afterRender event received =====');
     await t.expect(JSON.parse(log[4])).eql({
       controller: 'mfa-verify-passcode',
       formName: 'challenge-authenticator',
-      authenticatorType: 'phone',
+      authenticatorKey: 'phone_number',
       methodType: 'voice',
     });
 

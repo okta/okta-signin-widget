@@ -206,24 +206,28 @@
       {
         "displayName": "Okta Password",
         "type": "password",
+        "key": "okta_password",
         "id": "autwa6eD9o02iBbtv0g1",
         "authenticatorId": "aidwboITrg4b4yAYd0g3"
       },
       {
         "displayName": "FIDO2 (WebAuthn)",
         "type": "security_key",
+        "key": "webauthn",
         "id": "autwa6eD9o02iBbtv0g2",
         "authenticatorId": "aidtheidkwh282hv8g3"
       },
       {
         "displayName": "FIDO2 (WebAuthn)",
         "type": "security_key",
+        "key": "webauthn",
         "id": "autwa6eD9o02iBbtv0g2",
         "authenticatorId": "fwftheidkwh282hv8g3"
       },
       {
         "displayName": "Okta Email",
         "type": "email",
+        "key": "okta_email",
         "authenticatorId": "aidtm56L8gXXHI1SD0g3",
         "id": "autwa6eD9o02iBbtv0g3",
         "methods": [
@@ -235,6 +239,7 @@
       {
         "profile":{},
         "type":"phone",
+        "key": "phone_number",
         "id":"pae5ykx4eIvfslkO90g4",
         "displayName":"Phone Number",
         "methods":[
@@ -250,6 +255,7 @@
         "profile":{
         },
         "type":"phone",
+        "key": "phone_number",
         "id":"pae5ykzcnhmdfSMuQ0g4",
         "displayName":"Phone Number",
         "methods":[
