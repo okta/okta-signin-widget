@@ -198,14 +198,18 @@ export default BaseLoginController.extend({
         noCancelButton: true,
         title: loc('registration.form.title', 'login'),
         save: loc('registration.form.submit', 'login'),
-        initialize() {
-          this.listenTo(this.model, 'invalid error', (model, errorResp) => {
+        initialize () {
+          this.listenTo(this.model, 'invalid error', function (model, errorResp) {
             // overwrite courage errorResp object to show custom error message
             for (let formFieldName in errorResp) {
               if (errorResp[formFieldName] === 'model.validation.field.string.minLength') {
-                errorResp[formFieldName] = loc('registration.model.validation.field.string.tooShort', 'login', [formFieldName, model.props[formFieldName].minLength]);
+                errorResp[formFieldName] = loc('registration.model.validation.field.string.too.short', 'login', 
+                  [model.props[formFieldName].minLength]
+                );
               } else if (errorResp[formFieldName] === 'model.validation.field.string.maxLength') {
-                errorResp[formFieldName] = loc('registration.model.validation.field.string.tooLong', 'login', [formFieldName, model.props[formFieldName].maxLength]);
+                errorResp[formFieldName] = loc('registration.model.validation.field.string.too.long', 'login', 
+                  [model.props[formFieldName].maxLength + 1]
+                );
               }
             }
           });
