@@ -11,7 +11,7 @@
  */
 
 /* eslint complexity: [2, 21] max-statements: [2, 25] max-params: 0 */
-import { loc, internal } from 'okta';
+import { _, loc, internal } from 'okta';
 import BaseLoginController from 'util/BaseLoginController';
 import EmailMagicLinkForm from 'views/factor-verify/EmailMagicLinkForm';
 import InlineTOTPForm from 'views/mfa-verify/InlineTOTPForm';
@@ -22,7 +22,7 @@ import SecurityQuestionForm from 'views/mfa-verify/SecurityQuestionForm';
 import SendEmailAndVerifyCodeForm from 'views/mfa-verify/SendEmailAndVerifyCodeForm';
 import TOTPForm from 'views/mfa-verify/TOTPForm';
 import YubikeyForm from 'views/mfa-verify/YubikeyForm';
-import FooterSignout from 'views/shared/FooterSignout';
+import FooterMFA from 'views/shared/FooterMFA';
 let { CheckBox } = internal.views.forms.inputs;
 export default BaseLoginController.extend({
   className: 'mfa-verify',
@@ -133,10 +133,10 @@ export default BaseLoginController.extend({
       }
     });
 
-    if (!this.settings.get('features.hideSignOutLinkInMFA') &&
-        !this.settings.get('features.mfaOnlyFlow')) {
-      this.add(new FooterSignout(this.toJSON()));
-    }
+    this.add(new FooterMFA(_.extend(this.toJSON(), {
+      showLink: !this.settings.get('features.hideSignOutLinkInMFA') &&
+        !this.settings.get('features.mfaOnlyFlow')
+    })));
   },
 
   findModel: function (factorType, options) {

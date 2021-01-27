@@ -22,7 +22,7 @@ import FormType from 'util/FormType';
 import webauthn from 'util/webauthn';
 import BrowserFeatures from 'util/BrowserFeatures';
 import HtmlErrorMessageView from 'views/mfa-verify/HtmlErrorMessageView';
-import FooterSignout from 'views/shared/FooterSignout';
+import FooterMFA from 'views/shared/FooterMFA';
 
 function getAllowCredentials (factors) {
   const allowCredentials = [];
@@ -233,4 +233,6 @@ export default FormController.extend({
       this.addFooter(FooterSignout);
     }
   },
+  
+  Footer: FooterMFA,
 });

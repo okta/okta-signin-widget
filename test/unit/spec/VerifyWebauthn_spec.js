@@ -45,6 +45,31 @@ const Factors = {
   QUESTION: 1,
 };
 
+const configWithCustomLink = {
+  helpLinks: {
+    factorPageCustomLink: {
+      text: 'Need help with MFA?',
+      href: 'https://acme.com/mfa-help',
+    }
+  }
+};
+
+const configWithCustomLinkNoText = {
+  helpLinks: {
+    factorPageCustomLink: {
+      href: 'https://acme.com/mfa-help',
+    }
+  }
+};
+
+const configWithCustomLinkNoHref = {
+  helpLinks: {
+    factorPageCustomLink: {
+      text: 'Need help with MFA?',
+    }
+  }
+};
+
 function clickFactorInDropdown (test, factorName) {
   test.beacon.getOptionsLinks().eq(Factors[factorName]).click();
 }
@@ -570,5 +595,38 @@ Expect.describe('Multiple Webauthn and one or more factors are setup', function 
         expect(test.router.controller.model.webauthnAbortController).not.toBeDefined();
         expect(test.webauthnAbortController.abort).toHaveBeenCalled();
       });
+  });
+});
+
+Expect.describe('Factor page custom link', function () {
+  itp('is visible if configured', function () {
+    return setupWebauthnFactor({ webauthnSupported: true, settings: configWithCustomLink }).then(function (test) {
+      Expect.isVisible(test.form.factorPageCustomLink($sandbox));
+    });
+  });
+  itp('has the correct text', function () {
+    return setupWebauthnFactor({ webauthnSupported: true, settings: configWithCustomLink }).then(function (test) {
+      expect(test.form.factorPageCustomLinkLabel($sandbox).trim()).toBe('Need help with MFA?');
+    });
+  });
+  itp('has the correct url', function () {
+    return setupWebauthnFactor({ webauthnSupported: true, settings: configWithCustomLink }).then(function (test) {
+      expect(test.form.factorPageCustomLinkHref($sandbox).trim()).toBe('https://acme.com/mfa-help');
+    });
+  });
+  itp('is not visible if not configured', function () {
+    return setupWebauthnFactor({ webauthnSupported: true }).then(function (test) {
+      expect(test.form.factorPageCustomLink($sandbox).length).toBe(0);
+    });
+  });
+  itp('is not visible if configured without text', function () {
+    return setupWebauthnFactor({ webauthnSupported: true, settings: configWithCustomLinkNoText }).then(function (test) {
+      expect(test.form.factorPageCustomLink($sandbox).length).toBe(0);
+    });
+  });
+  itp('is not visible if configured without url', function () {
+    return setupWebauthnFactor({ webauthnSupported: true, settings: configWithCustomLinkNoHref }).then(function (test) {
+      expect(test.form.factorPageCustomLink($sandbox).length).toBe(0);
+    });
   });
 });

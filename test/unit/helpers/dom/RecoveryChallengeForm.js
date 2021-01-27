@@ -23,4 +23,16 @@ export default Form.extend({
   signoutLink: function () {
     return this.el('signout-link');
   },
+
+  factorPageCustomLink: function ($sandbox) {
+    return $sandbox.find('.js-factor-page-custom-link');
+  },
+
+  factorPageCustomLinkLabel: function ($sandbox) {
+    return this.factorPageCustomLink($sandbox).text();
+  },
+
+  factorPageCustomLinkHref: function ($sandbox) {
+    return this.factorPageCustomLink($sandbox).attr('href');
+  },
 });

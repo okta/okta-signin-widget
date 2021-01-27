@@ -16,7 +16,7 @@ import Duo from 'duo';
 import Q from 'q';
 import FactorUtil from 'util/FactorUtil';
 import FormController from 'util/FormController';
-import FooterSignout from 'views/shared/FooterSignout';
+import FooterMFA from 'views/shared/FooterMFA';
 
 export default FormController.extend({
   className: 'mfa-verify-duo duo-form',
@@ -121,6 +121,8 @@ export default FormController.extend({
       });
     },
   },
+
+  Footer: FooterMFA,
 
   fetchInitialData: function () {
     const self = this;

@@ -15,7 +15,7 @@ import hbs from 'handlebars-inline-precompile';
 import Enums from 'util/Enums';
 import FormController from 'util/FormController';
 import FormType from 'util/FormType';
-import FooterSignout from 'views/shared/FooterSignout';
+import FooterMFA from 'views/shared/FooterMFA';
 import TextBox from 'views/shared/TextBox';
 export default FormController.extend({
   className: 'recovery-challenge',
@@ -153,9 +153,12 @@ export default FormController.extend({
       );
     }
 
-    if (!this.settings.get('features.hideBackToSignInForReset')) {
-      this.add(new FooterSignout(_.extend(this.toJSON(), { linkText: loc('goback', 'login'), linkClassName: '' })));
-    }
+    this.add(new FooterMFA(_.extend(this.toJSON(), {
+      linkText: loc('goback', 'login'),
+      linkClassName: 'back',
+      factorPageCustomLinkClassName: this.settings.get('features.hideBackToSignInForReset') ? '' : 'goto',
+      showLink: !this.settings.get('features.hideBackToSignInForReset')
+    })));
   },
 
   postRender: function () {

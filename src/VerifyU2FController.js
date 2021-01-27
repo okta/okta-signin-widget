@@ -21,7 +21,7 @@ import FidoUtil from 'util/FidoUtil';
 import FormController from 'util/FormController';
 import FormType from 'util/FormType';
 import HtmlErrorMessageView from 'views/mfa-verify/HtmlErrorMessageView';
-import FooterSignout from 'views/shared/FooterSignout';
+import FooterMFA from 'views/shared/FooterMFA';
 
 function getRegisteredKeysSequence (factors) {
   const keys = [];
@@ -220,4 +220,6 @@ export default FormController.extend({
       this.addFooter(FooterSignout);
     }
   },
+  
+  Footer: FooterMFA,
 });
