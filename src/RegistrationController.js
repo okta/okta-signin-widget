@@ -199,7 +199,7 @@ export default BaseLoginController.extend({
         title: loc('registration.form.title', 'login'),
         save: loc('registration.form.submit', 'login'),
         initialize () {
-          this.listenTo(this.model, 'invalid error', function (model, errorResp) {
+          this.listenTo(this.model, 'invalid', function (model, errorResp) {
             // overwrite courage errorResp object to show custom error message
             for (let formFieldName in errorResp) {
               if (errorResp[formFieldName] === 'model.validation.field.string.minLength') {
