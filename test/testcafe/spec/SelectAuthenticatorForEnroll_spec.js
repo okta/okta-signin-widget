@@ -43,7 +43,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up Authenticators');
   await t.expect(selectFactorPage.getFormSubtitle()).eql(
     'Set up authenticators to ensure that only you have access to your account.');
-  await t.expect(selectFactorPage.getFactorsCount()).eql(5);
+  await t.expect(selectFactorPage.getFactorsCount()).eql(6);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-password');

@@ -152,6 +152,21 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[4]"
+              }, {
+                "label": "Google Authenticator",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut11ceMaP0B0EzMI0g4",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[5]"
               }
             ]
           },
@@ -212,6 +227,17 @@
           },
           {
             "type": "totp"
+          }
+        ]
+      }, {
+        "displayName": "Google Authenticator",
+        "type": "app",
+        "key": "google_authenticator",
+        "authenticatorId": "aut1erh5wK1M8wA3g0g3",
+        "id": "okta-verify-enroll-id-124",
+        "methods": [
+          {
+            "type": "otp"
           }
         ]
       }

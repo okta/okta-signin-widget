@@ -55,6 +55,10 @@ import ChallengeOktaVerifyResendPushView from './views/ov/ChallengeOktaVerifyRes
 import ChallengeAuthenticatorDataOktaVerifyView from './views/ov/ChallengeAuthenticatorDataOktaVerifyView';
 import ChallengeOktaVerifySSOExtensionView from './views/ov/ChallengeOktaVerifySSOExtensionView';
 
+// google authenticator
+import EnrollAuthenticatorGoogleAuthenticatorView
+  from './views/google-authenticator/EnrollAuthenticatorGoogleAuthenticatorView';
+
 // safe mode poll view
 import PollView from './views/PollView';
 
@@ -90,11 +94,13 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.PHONE]: EnrollAuthenticatorDataPhoneView,
   },
   [RemediationForms.ENROLL_AUTHENTICATOR]: {
+
     [AUTHENTICATOR_KEY.PASSWORD]: EnrollAuthenticatorPasswordView,
     [AUTHENTICATOR_KEY.WEBAUTHN]: EnrollWebauthnView,
     [AUTHENTICATOR_KEY.PHONE]: EnrollAuthenticatorPhoneView,
     [AUTHENTICATOR_KEY.SECURITY_QUESTION]: EnrollAuthenticatorSecurityQuestion,
-    [AUTHENTICATOR_KEY.EMAIL]: EnrollAuthenticatorEmailView
+    [AUTHENTICATOR_KEY.EMAIL]: EnrollAuthenticatorEmailView,
+    [AUTHENTICATOR_KEY.GOOGLE_AUTHENTICATOR]: EnrollAuthenticatorGoogleAuthenticatorView,
   },
   [RemediationForms.ENROLL_POLL]: {
     [AUTHENTICATOR_KEY.OV]: EnrollPollOktaVerifyView,
