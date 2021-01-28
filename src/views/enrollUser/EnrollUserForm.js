@@ -19,8 +19,12 @@ export default Form.extend({
   layout: 'o-form-theme',
   autoSave: true,
   noCancelButton: true,
-  title: loc('registration.form.title', 'login'),
-  save: loc('registration.form.submit', 'login'),
+  title () {
+    return loc('registration.form.title', 'login');
+  },
+  save () {
+    return loc('registration.form.submit', 'login');
+  },
   initialize: function (options) {
     this.options = options || {};
     this.schema = new ProfileSchema({

@@ -91,7 +91,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
   await t.expect(selectFactorPage.getFactorsCount()).eql(7);
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Okta Password');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(0)).eql(false);
   await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-password');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Select');
@@ -103,7 +103,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1)).eql('webauthn');
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Okta Email');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Email');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(2)).eql(false);
   await t.expect(selectFactorPage.getFactorIconClassByIndex(2)).contains('mfa-okta-email');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');
@@ -123,7 +123,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(4)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(4)).eql('phone_number');
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(5)).eql('Okta Security Question');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(5)).eql('Security Question');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(5)).eql(false);
   await t.expect(selectFactorPage.getFactorIconClassByIndex(5)).contains('mfa-okta-security-question');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(5)).eql('Select');
@@ -162,7 +162,7 @@ test.requestHooks(mockSelectAuthenticatorForRecovery)('should load select authen
   await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-webauthn');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Select');
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Okta Email');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Email');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(1)).contains('mfa-okta-email');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
 
@@ -246,7 +246,7 @@ test.requestHooks(mockChallengeOVTotp)(`should load signed_nonce at bottom when 
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1)).eql('okta_verify-totp');
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Okta Password');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Password');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(2)).eql(false);
   await t.expect(selectFactorPage.getFactorIconClassByIndex(2)).contains('mfa-okta-password');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');
@@ -287,7 +287,7 @@ test.requestHooks(mockSelectAuthenticatorKnownDevice)('should load signed_nonce 
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2)).eql('okta_verify-totp');
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Okta Password');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Password');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(3)).eql(false);
   await t.expect(selectFactorPage.getFactorIconClassByIndex(3)).contains('mfa-okta-password');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(3)).eql('Select');
@@ -320,7 +320,7 @@ test.requestHooks(mockSelectAuthenticatorNoSignedNonce)('should not display sign
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1)).eql('okta_verify-totp');
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Okta Password');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Password');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(2)).eql(false);
   await t.expect(selectFactorPage.getFactorIconClassByIndex(2)).contains('mfa-okta-password');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');

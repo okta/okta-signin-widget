@@ -14,7 +14,10 @@ const Body = BaseForm.extend({
   title () {
     return loc('primaryauth.title', 'login');
   },
-  save: loc('oform.next', 'login'),
+
+  save () {
+    return loc('oform.next', 'login');
+  },
 
   render () {
     BaseForm.prototype.render.apply(this, arguments);

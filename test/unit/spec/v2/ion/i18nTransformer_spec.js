@@ -9,11 +9,11 @@ describe('v2/ion/i18nTransformer', function () {
     originalLoginBundle = Bundles.login;
     Bundles.login = _.mapObject({
 
-      'oie.authenticator.email.label': 'email authenticator',
-      'oie.authenticator.password.label': 'password authenticator',
-      'oie.authenticator.phone.label': 'phone authenticator',
+      'oie.email.label': 'email authenticator',
+      'oie.password.label': 'password authenticator',
+      'oie.phone.label': 'phone authenticator',
       'oie.webauthn': 'webauthn authenticator',
-      'oie.authenticator.security.question.label': 'security question authenticator',
+      'oie.security.question.label': 'security question authenticator',
       'oie.okta_verify.signed_nonce.label': 'okta verify fastpass',
       'oie.okta_verify.push.title': 'okta verify push',
       'oie.okta_verify.totp.title': 'okta verify totp',
@@ -510,7 +510,7 @@ describe('v2/ion/i18nTransformer', function () {
           uiSchema: [
             {
               'name': 'credentials.questionKey',
-              'label': 'Where did you go for your favorite vacation?',
+              'label': 'unit test - vacation location answer',
               'required': true,
               'value': 'favorite_vacation_location',
               'visible': false,
@@ -1057,6 +1057,69 @@ describe('v2/ion/i18nTransformer', function () {
               'label-top': true,
               'type': 'password',
               'params': { 'showPasswordToggle': true }
+            }
+          ]
+        }
+      ]
+    });
+  });
+
+  it('should not converts label for challenge-authenticator - security question for customized question', () => {
+    const resp = {
+      remediations: [
+        {
+          name: 'challenge-authenticator',
+          relatesTo: {
+            value: {
+              type: 'security_question'
+            }
+          },
+          uiSchema: [
+            {
+              'name': 'credentials.questionKey',
+              'label': 'Which is your favourite stock',
+              'required': true,
+              'value': 'custom',
+              'visible': false,
+              'label-top': true,
+              'type': 'text'
+            },
+            {
+              'name': 'credentials.answer',
+              'label': 'answer',
+              'required': true,
+              'label-top': true,
+              'type': 'text'
+            }
+          ]
+        }
+      ]
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          name: 'challenge-authenticator',
+          relatesTo: {
+            value: {
+              type: 'security_question'
+            }
+          },
+          uiSchema: [
+            {
+              'name': 'credentials.questionKey',
+              'label': 'Which is your favourite stock',
+              'required': true,
+              'value': 'custom',
+              'visible': false,
+              'label-top': true,
+              'type': 'text'
+            },
+            {
+              'name': 'credentials.answer',
+              'label': 'answer',
+              'required': true,
+              'label-top': true,
+              'type': 'text'
             }
           ]
         }

@@ -1,3 +1,5 @@
+/* eslint max-statements: [2, 25], complexity: [2, 15] */
+
 /*!
  * Copyright (c) 2020, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
@@ -19,10 +21,6 @@
 //   - `select-authenticator-enroll.authenticator.email`,
 //      this is for label for email authenticator at `select-authenticator-enroll` page
 // 2. Define a mapping between the path and i18n key. see `I18N_OVERRIDE_MAPPINGS`
-//   - Not all path needs i18n override. e.g.
-//     `challenge-authenticator.security_question.credentials.questionKey`,
-//     which is security question during verify step and apparently it does not
-//     need overwrite.
 //   - This mapping is subject to change when API starts sending i18n key along with label.
 //     It probably becomes a mapping between API's i18n key and key in login.properties
 //     in order to be backward compatible.
@@ -32,6 +30,14 @@
 // ## For top level messages
 // 1. Overwrite `message.message` if `message.i18n.key` exists in `login.properties`
 //
+// ## How to override mappings in I18N_OVERRIDE_MAPPINGS for localization?
+// Step 1. First search the string in login.properties and see if already exists or not
+// Step 2. Find idx response path, for eg. select-authenticator-enroll.authenticator.email
+// Step 3. Make that path a key and add it to I18N_OVERRIDE_MAPPINGS if doesn't exist already
+// Step 4. If you find a key in Step 1 that already exists, use it as value of key created in Step 3, 
+//          else create a new lable `oie.your.new.label` and add it.
+// Step 5. If you create a new label then add that to login.properties file with proper string
+//         oie.your.new.label = Your new string
 ///////////////////////////////////////////////////////////////////////////////
 
 import { _, loc, $ } from 'okta';
@@ -39,25 +45,28 @@ import Bundles from 'util/Bundles';
 import Logger from 'util/Logger';
 import { AUTHENTICATOR_KEY } from './RemediationConstants';
 
-const SECURITY_QUESTION_PREFIX = 'enroll-authenticator.security_question.credentials.questionKey.';
+const SECURITY_QUESTION_PREFIXES = [
+  'enroll-authenticator.security_question.credentials.questionKey.',
+  'challenge-authenticator.security_question.credentials.questionKey.',
+];
 
 const I18N_OVERRIDE_MAPPINGS = {
   'identify.identifier': 'primaryauth.username.placeholder',
   'identify.credentials.passcode': 'primaryauth.password.placeholder',
   'identify.rememberMe': 'remember',
 
-  'select-authenticator-enroll.authenticator.okta_email': 'oie.authenticator.email.label',
-  'select-authenticator-enroll.authenticator.okta_password': 'oie.authenticator.password.label',
-  'select-authenticator-enroll.authenticator.phone_number': 'oie.authenticator.phone.label',
-  'select-authenticator-enroll.authenticator.webauthn': 'oie.authenticator.webauthn.label',
-  'select-authenticator-enroll.authenticator.security_question': 'oie.authenticator.security.question.label',
-  'select-authenticator-enroll.authenticator.okta_verify': 'oie.authenticator.okta_verify.label',
+  'select-authenticator-enroll.authenticator.okta_email': 'oie.email.label',
+  'select-authenticator-enroll.authenticator.okta_password': 'oie.password.label',
+  'select-authenticator-enroll.authenticator.phone_number': 'oie.phone.label',
+  'select-authenticator-enroll.authenticator.webauthn': 'oie.webauthn.label',
+  'select-authenticator-enroll.authenticator.security_question': 'oie.security.question.label',
+  'select-authenticator-enroll.authenticator.okta_verify': 'oie.okta_verify.label',
 
-  'select-authenticator-authenticate.authenticator.okta_email': 'oie.authenticator.email.label',
-  'select-authenticator-authenticate.authenticator.okta_password': 'oie.authenticator.password.label',
-  'select-authenticator-authenticate.authenticator.phone_number': 'oie.authenticator.phone.label',
-  'select-authenticator-authenticate.authenticator.webauthn': 'oie.authenticator.webauthn.label',
-  'select-authenticator-authenticate.authenticator.security_question': 'oie.authenticator.security.question.label',
+  'select-authenticator-authenticate.authenticator.okta_email': 'oie.email.label',
+  'select-authenticator-authenticate.authenticator.okta_password': 'oie.password.label',
+  'select-authenticator-authenticate.authenticator.phone_number': 'oie.phone.label',
+  'select-authenticator-authenticate.authenticator.webauthn': 'oie.webauthn.label',
+  'select-authenticator-authenticate.authenticator.security_question': 'oie.security.question.label',
   'select-authenticator-authenticate.authenticator.okta_verify.signed_nonce': 'oie.okta_verify.signed_nonce.label',
   'select-authenticator-authenticate.authenticator.okta_verify.push': 'oie.okta_verify.push.title',
   'select-authenticator-authenticate.authenticator.okta_verify.totp': 'oie.okta_verify.totp.title',
@@ -70,6 +79,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'authenticator-enrollment-data.phone_number.authenticator.phoneNumber': 'mfa.phoneNumber.placeholder',
 
   'enroll-authenticator.okta_password.credentials.passcode': 'oie.password.passwordLabel',
+  'enroll-authenticator.phone.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'enroll-authenticator.security_question.sub_schema_local_credentials.0': 'oie.security.question.questionKey.label',
   'enroll-authenticator.security_question.sub_schema_local_credentials.1': 'oie.security.question.createQuestion.label',
   'enroll-authenticator.security_question.credentials.answer': 'mfa.challenge.answer.placeholder',
@@ -85,17 +95,24 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.phone_number.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'challenge-authenticator.security_question.credentials.answer': 'mfa.challenge.answer.placeholder',
   'challenge-authenticator.okta_verify.credentials.totp': 'oie.okta_verify.totp.enterCodeText',
+  'enroll-profile.userProfile.lastName': 'oie.user.profile.lastname',
+  'enroll-profile.userProfile.firstName': 'oie.user.profile.firstname',
+  'enroll-profile.userProfile.email': 'oie.user.profile.primary.email',
+
+  'oie.session.expired' : 'oie.idx.session.expired',
+
 };
 
 const getI18nKey = (i18nPath) => {
   let i18nKey;
 
-  // we can add mapping to `I18N_OVERRIDE_MAPPINGS` for all
-  // security question. It's just a bit tedious hence use following shortcut.
-  if (i18nPath.indexOf(SECURITY_QUESTION_PREFIX) === 0) {
-    const securityQuestionValue = i18nPath.replace(SECURITY_QUESTION_PREFIX, '');
-    i18nKey = `security.${securityQuestionValue}`;
-  }
+  // Extract security question value from i18nPath
+  SECURITY_QUESTION_PREFIXES.forEach(prefix => {
+    if (i18nPath.indexOf(prefix) === 0 ) {
+      const securityQuestionValue = i18nPath.replace(prefix, '');
+      i18nKey = `security.${securityQuestionValue}`;
+    }
+  });
 
   if (I18N_OVERRIDE_MAPPINGS[i18nPath]) {
     i18nKey = I18N_OVERRIDE_MAPPINGS[i18nPath];
@@ -126,7 +143,7 @@ const getI18NValue = (i18nPath, defaultValue) => {
 };
 
 const updateLabelForUiSchema = (remediation, uiSchema) => {
-  if (uiSchema.mutable === false) {
+  if (uiSchema.mutable === false && uiSchema.name.indexOf('questionKey') < 0) {
     return;
   }
   Logger.info('i18n label transformer');
@@ -136,8 +153,13 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
   const authenticatorKey = remediation.relatesTo?.value?.key
     ? `.${remediation.relatesTo.value.key}`
     : '';
+
   const i18nPrefix = `${remediation.name}${authenticatorKey}.`;
-  const i18nPath = `${i18nPrefix}${uiSchema.name}`;
+  let i18nPath = `${i18nPrefix}${uiSchema.name}`;
+
+  if (uiSchema.type === 'text' && uiSchema.name.indexOf('questionKey') >= 0 && uiSchema.value !== 'custom') {
+    i18nPath = `${i18nPath}.${uiSchema.value}`;
+  }
 
   if (uiSchema.type === 'checkbox' && uiSchema.placeholder) {
     Logger.info('\t 1: ', i18nPath);
