@@ -103,6 +103,7 @@ const idx = {
     // 'authenticator-verification-password',
     // 'authenticator-verification-okta-verify-totp',
     // 'authenticator-verification-okta-verify-push',
+    // 'authenticator-verification-google-authenticator',
   ],
   '/idp/idx/enroll/new': [
     'error-new-signup-email',

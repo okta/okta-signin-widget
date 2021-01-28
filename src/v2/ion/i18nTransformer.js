@@ -99,6 +99,8 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.phone_number.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'challenge-authenticator.security_question.credentials.answer': 'mfa.challenge.answer.placeholder',
   'challenge-authenticator.okta_verify.credentials.totp': 'oie.okta_verify.totp.enterCodeText',
+  'challenge-authenticator.google_authenticator.credentials.otp': 'oie.google_authenticator.otp.enterCodeText',
+
   'enroll-profile.userProfile.lastName': 'oie.user.profile.lastname',
   'enroll-profile.userProfile.firstName': 'oie.user.profile.firstname',
   'enroll-profile.userProfile.email': 'oie.user.profile.primary.email',
