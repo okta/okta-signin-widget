@@ -170,7 +170,8 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionErrorM
             ],
             'property': 'credentials.answer'
           }
-        ]
+        ],
+        'errorSummaryKeys': []
       }
     }
   });
