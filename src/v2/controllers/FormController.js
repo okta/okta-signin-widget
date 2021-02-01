@@ -77,14 +77,13 @@ export default Controller.extend({
 
   createAfterEventContext () {
     const formName = this.options.appState.get('currentFormName');
-    const authenticatorType = this.options.appState.get('authenticatorType');
     const authenticatorKey = this.options.appState.get('authenticatorKey');
     const methodType = this.options.appState.get('authenticatorMethodType');
     const isPasswordRecoveryFlow = this.options.appState.get('isPasswordRecoveryFlow');
 
     const v1ControllerClassName = getV1ClassName(
       formName,
-      authenticatorType,
+      authenticatorKey,
       methodType,
       isPasswordRecoveryFlow,
     );
@@ -97,7 +96,7 @@ export default Controller.extend({
     if (authenticatorKey) {
       eventData.authenticatorKey = authenticatorKey;
     }
-    if (methodType && authenticatorType !== methodType) {
+    if (methodType) {
       eventData.methodType = methodType;
     }
 
