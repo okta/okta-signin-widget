@@ -167,6 +167,29 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[5]"
+              }, {
+                "label": "Atko Custom On-prem",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "autx7fdyRt87txnAs0g3",
+                        "mutable": false,
+                        "visible": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": true,
+                        "value": "otp",
+                        "mutable": false,
+                        "visible": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[6]"
               }
             ]
           },
@@ -235,6 +258,16 @@
         "key": "google_authenticator",
         "authenticatorId": "aut1erh5wK1M8wA3g0g3",
         "id": "okta-verify-enroll-id-124",
+        "methods": [
+          {
+            "type": "otp"
+          }
+        ]
+      }, {
+        "type": "security_key",
+        "key": "del_oath",
+        "id": "autx7fdyRt87txnAs0g3",
+        "displayName": "Atko Custom On-prem",
         "methods": [
           {
             "type": "otp"

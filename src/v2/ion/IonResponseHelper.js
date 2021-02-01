@@ -11,7 +11,7 @@
  */
 
 import { _ } from 'okta';
-import { getMessage } from './i18nTransformer';
+import { getMessage, getMessageKey } from './i18nTransformer';
 
 const convertErrorMessageToErrorSummary = (formName, remediationValues = []) => {
   return _.chain(remediationValues)
@@ -120,10 +120,24 @@ const getGlobalErrors = (res) => {
   return allErrors.join('. ');
 };
 
+/**
+ * return array of error keys
+ */
+const getGlobalErrorKeys = (res) => {
+  let allKeys = [];
+
+  if (Array.isArray(res.messages?.value)) {
+    allKeys = res.messages.value.map(getMessageKey);
+  }
+
+  return allKeys;
+};
+
 const convertFormErrors = (response) => {
   let errors = {
     errorCauses: getRemediationErrors(response),
-    errorSummary: getGlobalErrors(response)
+    errorSummary: getGlobalErrors(response),
+    errorSummaryKeys: getGlobalErrorKeys(response),
   };
 
   return {

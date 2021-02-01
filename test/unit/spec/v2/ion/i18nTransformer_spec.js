@@ -1,5 +1,6 @@
 import { _ } from 'okta';
 import i18nTransformer from 'v2/ion/i18nTransformer';
+import { getMessageKey } from 'v2/ion/i18nTransformer';
 import Bundles from 'util/Bundles';
 
 describe('v2/ion/i18nTransformer', function () {
@@ -23,6 +24,10 @@ describe('v2/ion/i18nTransformer', function () {
       'oie.security.question.questionKey.label': 'choose a question',
       'oie.security.question.createQuestion.label': 'create a question',
       'oie.google_authenticator.otp.title': 'enter otp code',
+
+      'oie.on_prem.enroll.username.label': 'enter username',
+      'oie.on_prem.enroll.passcode.label': 'enter passcode',
+      'oie.on_prem.verify.passcode.label': 'enter passcode',
 
       'mfa.phoneNumber.placeholder': 'phone number',
       'mfa.challenge.answer.placeholder': 'answer',
@@ -1269,5 +1274,137 @@ describe('v2/ion/i18nTransformer', function () {
         }
       ]
     });
+  });
+
+  it('converts label for enroll-authenticator - on prem authenticator', () => {
+    const resp = {
+      remediations: [
+        {
+          name: 'enroll-authenticator',
+          relatesTo: {
+            value: {
+              type: 'security_key',
+              key: 'del_oath'
+            }
+          },
+          uiSchema: [
+            {
+              'optionsUiSchemas': [
+                [
+                  {
+                    'label': 'User Name',
+                    'label-top': true,
+                    'name': 'credentials.userName',
+                    'required': true,
+                    'type': 'text',
+                    'value': 'rsa_username'
+                  },
+                  {
+                    'label': 'Passcode',
+                    'label-top': true,
+                    'name': 'credentials.passcode',
+                    'required': true,
+                    'type': 'text'
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          name: 'enroll-authenticator',
+          relatesTo: {
+            value: {
+              type: 'security_key',
+              key: 'del_oath'
+            }
+          },
+          uiSchema: [
+            {
+              'optionsUiSchemas': [
+                [
+                  {
+                    'label': 'unit test - enter username',
+                    'label-top': true,
+                    'name': 'credentials.userName',
+                    'required': true,
+                    'type': 'text',
+                    'value': 'rsa_username'
+                  },
+                  {
+                    'label': 'unit test - enter passcode',
+                    'label-top': true,
+                    'name': 'credentials.passcode',
+                    'required': true,
+                    'type': 'text'
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    });
+  });
+
+  it('converts label for challenge-authenticator - on prem authenticator', () => {
+    const resp = {
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'security_key',
+              key: 'del_oath'
+            }
+          },
+          name: 'challenge-authenticator',
+          uiSchema: [
+            {
+              'label': 'Enter code',
+              'label-top': true,
+              'name': 'credentials.passcode',
+              'type': 'text'
+            }
+          ]
+        }
+      ]
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'security_key',
+              key: 'del_oath'
+            }
+          },
+          name: 'challenge-authenticator',
+          uiSchema: [
+            {
+              'label': 'unit test - enter passcode',
+              'label-top': true,
+              'name': 'credentials.passcode',
+              'type': 'text'
+            }
+          ]
+        }
+      ]
+    });
+  });
+
+  it('gets message key', () => {
+    const message =
+    {
+      'message': 'An activation email has been sent to john@gmail.com.',
+      'i18n': {
+        'key': 'idx.email.verification.required'
+      },
+      'class': 'INFO'
+    };
+    expect(getMessageKey(message)).toEqual('idx.email.verification.required');
   });
 });
