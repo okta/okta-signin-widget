@@ -462,6 +462,40 @@ describe('v2/ion/uiSchemaTransformer', function () {
                         }
                       ]
                     }
+                  },
+                  {
+                    'label': 'Atko Custom On-prem',
+                    'value': {
+                      'form': {
+                        'value': [
+                          {
+                            'name': 'id',
+                            'required': true,
+                            'value': 'autx7fdyRt87txnAs0g3',
+                            'mutable': false,
+                            'visible': false
+                          },
+                          {
+                            'name': 'methodType',
+                            'required': true,
+                            'value': 'otp',
+                            'mutable': false,
+                            'visible': false
+                          }
+                        ]
+                      }
+                    },
+                    'relatesTo': {
+                      'type': 'security_key',
+                      'key': 'del_oath',
+                      'id': 'autx7fdyRt87txnAs0g3',
+                      'displayName': 'Atko Custom On-prem',
+                      'methods': [
+                        {
+                          'type': 'otp'
+                        }
+                      ]
+                    }
                   }
                 ]
               },
@@ -527,6 +561,16 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     authenticatorType: 'app',
                     authenticatorKey: 'google_authenticator',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[5]
+                  },
+                  {
+                    label: 'Atko Custom On-prem',
+                    value: {
+                      id: 'autx7fdyRt87txnAs0g3',
+                      methodType: 'otp'
+                    },
+                    authenticatorType: 'security_key',
+                    authenticatorKey: 'del_oath',
+                    relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[6]
                   },
                 ]
               }

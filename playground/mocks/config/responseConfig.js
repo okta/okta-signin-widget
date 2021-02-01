@@ -523,6 +523,33 @@ const safeModePoll = {
   ],
 };
 
+const onPremMFAEnroll = {
+  '/idp/idx/introspect': [
+    'authenticator-enroll-select-authenticator',
+  ],
+  '/idp/idx/credential/enroll': [
+    'authenticator-enroll-on-prem',
+  ],
+  '/idp/idx/challenge/answer': [
+    'success',
+    //'error-authenticator-verification-passcode-change-on-prem',
+  ],
+};
+
+const onPremMFAVerify = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator',
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-on-prem',
+  ],
+  '/idp/idx/challenge/answer': [
+    'success',
+    //'error-authenticator-verification-on-prem',
+    //'error-authenticator-verification-passcode-change-on-prem',
+  ],
+};
+
 module.exports = {
   mocks: idx,
 };

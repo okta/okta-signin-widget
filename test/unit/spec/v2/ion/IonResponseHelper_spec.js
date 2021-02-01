@@ -27,6 +27,7 @@ describe('v2/ion/IonResponseHelper', function () {
         responseJSON: {
           errorCauses: [],
           errorSummary: '',
+          errorSummaryKeys: [],
         },
       });
     });
@@ -50,6 +51,7 @@ describe('v2/ion/IonResponseHelper', function () {
         responseJSON: {
           errorCauses: [],
           errorSummary: 'Internal error foo',
+          errorSummaryKeys: ['foo.error'],
         },
       });
     });
@@ -81,6 +83,7 @@ describe('v2/ion/IonResponseHelper', function () {
         responseJSON: {
           errorCauses: [],
           errorSummary: 'Internal error foo. ut override - hello bar error',
+          errorSummaryKeys: ['foo.error', 'bar.error'],
         },
       });
     });
@@ -97,6 +100,7 @@ describe('v2/ion/IonResponseHelper', function () {
         responseJSON: {
           errorCauses: [],
           errorSummary: '',
+          errorSummaryKeys: [],
         },
       });
     });
@@ -121,6 +125,7 @@ describe('v2/ion/IonResponseHelper', function () {
         responseJSON: {
           errorCauses: [],
           errorSummary: '',
+          errorSummaryKeys: [],
         },
       });
     });
@@ -190,6 +195,7 @@ describe('v2/ion/IonResponseHelper', function () {
             },
           ],
           errorSummary: '',
+          errorSummaryKeys: [],
         },
       });
     });
@@ -258,6 +264,7 @@ describe('v2/ion/IonResponseHelper', function () {
             },
           ],
           errorSummary: '',
+          errorSummaryKeys: [],
         },
       });
     });
@@ -353,6 +360,7 @@ describe('v2/ion/IonResponseHelper', function () {
             },
           ],
           errorSummary: '',
+          errorSummaryKeys: [],
         },
       });
     });
@@ -449,6 +457,7 @@ describe('v2/ion/IonResponseHelper', function () {
             },
           ],
           errorSummary: '',
+          errorSummaryKeys: [],
         },
       });
     });

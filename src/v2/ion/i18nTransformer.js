@@ -89,6 +89,8 @@ const I18N_OVERRIDE_MAPPINGS = {
   'enroll-authenticator.security_question.credentials.question': 'oie.security.question.createQuestion.label',
   'enroll-authenticator.security_question.credentials.questionKey': 'oie.security.question.questionKey.label',
   'enroll-authenticator.google_authenticator.credentials.otp': 'oie.google_authenticator.otp.title',
+  'enroll-authenticator.del_oath.credentials.userName': 'oie.on_prem.enroll.username.label',
+  'enroll-authenticator.del_oath.credentials.passcode': 'oie.on_prem.enroll.passcode.label',
 
   'select-enrollment-channel.authenticator.channel.qrcode': 'oie.enroll.okta_verify.select.channel.qrcode.label',
   'select-enrollment-channel.authenticator.channel.email': 'oie.enroll.okta_verify.select.channel.email.label',
@@ -100,13 +102,13 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.security_question.credentials.answer': 'mfa.challenge.answer.placeholder',
   'challenge-authenticator.okta_verify.credentials.totp': 'oie.okta_verify.totp.enterCodeText',
   'challenge-authenticator.google_authenticator.credentials.otp': 'oie.google_authenticator.otp.enterCodeText',
+  'challenge-authenticator.del_oath.credentials.passcode': 'oie.on_prem.verify.passcode.label',
 
   'enroll-profile.userProfile.lastName': 'oie.user.profile.lastname',
   'enroll-profile.userProfile.firstName': 'oie.user.profile.firstname',
   'enroll-profile.userProfile.email': 'oie.user.profile.primary.email',
 
   'oie.session.expired' : 'oie.idx.session.expired',
-
 };
 
 const getI18nKey = (i18nPath) => {
@@ -238,6 +240,15 @@ const getMessage = (message) => {
   return message.message;
 };
 
+/**
+ * - iff `message.i18n.key` exists return the key.
+ *
+ * @param {Message} message
+ */
+const getMessageKey = (message) => {
+  return message?.i18n?.key || '';
+};
+
 const uiSchemaLabelTransformer = (transformedResp) => {
   // Try to override label using i18n value
   if (Array.isArray(transformedResp.remediations)) {
@@ -261,4 +272,4 @@ const uiSchemaLabelTransformer = (transformedResp) => {
   return transformedResp;
 };
 
-export { uiSchemaLabelTransformer as default, getMessage };
+export { uiSchemaLabelTransformer as default, getMessage, getMessageKey };

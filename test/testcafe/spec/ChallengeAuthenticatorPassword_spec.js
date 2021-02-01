@@ -95,6 +95,7 @@ test.requestHooks(mockInvalidPassword)('challege password authenticator with inv
       'responseJSON': {
         'errorCauses': [],
         'errorSummary': 'Password is incorrect',
+        'errorSummaryKeys': ['incorrectPassword'],
       }
     }
   });
