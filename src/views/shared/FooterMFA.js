@@ -25,7 +25,7 @@ export default FooterSignout.extend({
         </a>\
       {{/if}}\
       {{#if showLink}}\
-        <a href="#" class="link signout {{linkClassName}}" data-se="signout-link">\
+        <a href="#" class="link {{linkClassName}}" data-se="signout-link">\
           {{linkText}}\
         </a>\
       {{/if}}\

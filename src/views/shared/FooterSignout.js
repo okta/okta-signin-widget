@@ -17,14 +17,14 @@ const { Util } = internal.util;
 export default View.extend({
   template: hbs(
     '\
-      <a href="#" class="link signout {{linkClassName}}" data-se="signout-link">\
+      <a href="#" class="link {{linkClassName}}" data-se="signout-link">\
         {{linkText}}\
       </a>\
     '
   ),
   className: 'auth-footer clearfix',
   events: {
-    'click a.signout': 'handleSignout',
+    'click a[data-se="signout-link"]': 'handleSignout',
   },
   handleSignout: function (e) {
     e.preventDefault();
