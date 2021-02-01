@@ -15,31 +15,6 @@ import $sandbox from 'sandbox';
 const SharedUtil = internal.util.Util;
 const itp = Expect.itp;
 
-const configWithCustomLink = {
-  helpLinks: {
-    factorPageCustomLink: {
-      text: 'Need help with MFA?',
-      href: 'https://acme.com/mfa-help',
-    }
-  }
-};
-
-const configWithCustomLinkNoText = {
-  helpLinks: {
-    factorPageCustomLink: {
-      href: 'https://acme.com/mfa-help',
-    }
-  }
-};
-
-const configWithCustomLinkNoHref = {
-  helpLinks: {
-    factorPageCustomLink: {
-      text: 'Need help with MFA?',
-    }
-  }
-};
-
 function setup (settings) {
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
@@ -77,45 +52,6 @@ function setup (settings) {
   router.refreshAuthState('dummy-token');
   return Expect.waitForRecoveryChallenge(testData);
 }
-
-Expect.describe('Custom verification link', function () {
-  itp('is visible if configured', function () {
-    return setup(configWithCustomLink).then(function (test) {
-      Expect.isVisible(test.form.factorPageCustomLink(test.router.el));
-    });
-  });
-  itp('has the correct text', function () {
-    return setup(configWithCustomLink).then(function (test) {
-      expect(test.form.factorPageCustomLinkLabel($sandbox).trim()).toBe('Need help with MFA?');
-    });
-  });
-  itp('has the correct url', function () {
-    return setup(configWithCustomLink).then(function (test) {
-      expect(test.form.factorPageCustomLinkHref($sandbox).trim()).toBe('https://acme.com/mfa-help');
-    });
-  });
-  itp('is not visible if not configured', function () {
-    return setup().then(function (test) {
-      expect(test.form.factorPageCustomLink(test.router.el).length).toBe(0);
-    });
-  });
-  itp('is not visible if configured without text', function () {
-    return setup(configWithCustomLinkNoText).then(function (test) {
-      expect(test.form.factorPageCustomLink($sandbox).length).toBe(0);
-    });
-  });
-  itp('is not visible if configured without url', function () {
-    return setup(configWithCustomLinkNoHref).then(function (test) {
-      expect(test.form.factorPageCustomLink($sandbox).length).toBe(0);
-    });
-  });
-  itp('is visible if configured with features.hideBackToSignInForReset is true', function () {
-    return setup({ ...configWithCustomLink, 'features.hideBackToSignInForReset': true }).then(function (test) {
-      Expect.isVisible(test.form.factorPageCustomLink($sandbox));
-      expect(test.form.signoutLink($sandbox).length).toBe(0);
-    });
-  });
-});
 
 Expect.describe('RecoveryChallenge', function () {
   beforeEach(function () {

@@ -19,7 +19,7 @@ export default FooterSignout.extend({
     '\
       {{#if hasFactorPageCustomLink}}\
         <a href="{{factorPageCustomLinkHref}}" data-se="factor-page-custom-link" \
-          class="link js-factor-page-custom-link {{factorPageCustomLinkClassName}}" \
+          class="link js-factor-page-custom-link" \
           rel="noopener noreferrer" target="_blank">\
           {{factorPageCustomLinkText}}\
         </a>\
@@ -36,12 +36,10 @@ export default FooterSignout.extend({
     const signoutTemplateData = FooterSignout.prototype.getTemplateData.apply(this, arguments);
     const factorPageCustomLinkHref = this.settings.get('helpLinks.factorPageCustomLink.href');
     const factorPageCustomLinkText = this.settings.get('helpLinks.factorPageCustomLink.text');
-    const factorPageCustomLinkClassName = this.options.factorPageCustomLinkClassName;
     return Object.assign({}, signoutTemplateData, {
       hasFactorPageCustomLink: factorPageCustomLinkText && factorPageCustomLinkHref,
       factorPageCustomLinkHref,
       factorPageCustomLinkText,
-      factorPageCustomLinkClassName,
       showLink: _.isUndefined(this.options.showLink) ? true : this.options.showLink,
     });
   },
