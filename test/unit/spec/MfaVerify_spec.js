@@ -2311,18 +2311,10 @@ Expect.describe('MFA Verify', function () {
       });
     });
     Expect.describe('Factor page custom link', function () {
-      itp('is visible if configured', function () {
+      itp('is visible if configured and has correct text and url', function () {
         return setupWithFirstFactor({ factorType: 'question' }, configWithCustomLink).then(function (test) {
           Expect.isVisible(test.form.factorPageCustomLink($sandbox));
-        });
-      });
-      itp('has the correct text', function () {
-        return setupWithFirstFactor({ factorType: 'question' }, configWithCustomLink).then(function (test) {
           expect(test.form.factorPageCustomLinkLabel($sandbox).trim()).toBe('Need help with MFA?');
-        });
-      });
-      itp('has the correct url', function () {
-        return setupWithFirstFactor({ factorType: 'question' }, configWithCustomLink).then(function (test) {
           expect(test.form.factorPageCustomLinkHref($sandbox).trim()).toBe('https://acme.com/mfa-help');
         });
       });

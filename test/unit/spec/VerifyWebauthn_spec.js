@@ -599,18 +599,10 @@ Expect.describe('Multiple Webauthn and one or more factors are setup', function 
 });
 
 Expect.describe('Factor page custom link', function () {
-  itp('is visible if configured', function () {
+  itp('is visible if configured and has correct text and url', function () {
     return setupWebauthnFactor({ webauthnSupported: true, settings: configWithCustomLink }).then(function (test) {
       Expect.isVisible(test.form.factorPageCustomLink($sandbox));
-    });
-  });
-  itp('has the correct text', function () {
-    return setupWebauthnFactor({ webauthnSupported: true, settings: configWithCustomLink }).then(function (test) {
       expect(test.form.factorPageCustomLinkLabel($sandbox).trim()).toBe('Need help with MFA?');
-    });
-  });
-  itp('has the correct url', function () {
-    return setupWebauthnFactor({ webauthnSupported: true, settings: configWithCustomLink }).then(function (test) {
       expect(test.form.factorPageCustomLinkHref($sandbox).trim()).toBe('https://acme.com/mfa-help');
     });
   });
