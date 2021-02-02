@@ -68,7 +68,8 @@ module.exports = {
         '/idp/idx/',
         '/login/getimage/',
         '/sso/idps/',
-        '/app/UserHome'
+        '/app/UserHome',
+        '/oauth2/v1/authorize',
       ],
       target: `http://localhost:${MOCK_SERVER_PORT}`
     }],

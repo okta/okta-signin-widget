@@ -561,7 +561,33 @@ describe('v2/ion/uiSchemaTransformer', function () {
                         }
                       ]
                     }
-                  }
+                  },
+                  {
+                    label: 'IDP Authenticator',
+                    value: {
+                      form: {
+                        value: [
+                          {
+                            name: 'id',
+                            required: true,
+                            value: '0oa69chx4bZyx8O7l0g4',
+                            mutable: false
+                          }
+                        ]
+                      }
+                    },
+                    relatesTo: {
+                      type: 'federated',
+                      id: 'aut4mhtS1b84AR0iQ0g4',
+                      key: 'external_idp',
+                      displayName: 'IDP Authenticator',
+                      methods: [
+                        {
+                          type: 'idp'
+                        }
+                      ]
+                    }
+                  },
                 ]
               },
               XHRAuthenticatorEnrollSelectAuthenticators.remediation.value[0].value[1],
@@ -647,6 +673,14 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     authenticatorKey: 'duo_native',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[8]
                   },
+                  {
+                    label: 'IDP Authenticator',
+                    value: {
+                      id: '0oa69chx4bZyx8O7l0g4'
+                    },
+                    authenticatorKey: 'external_idp',
+                    relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[9]
+                  }
                 ]
               }
             ]
@@ -1166,7 +1200,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
     });
   });
 
-  it('converts identify remidiation response', done => {
+  it('converts identify remediation response', done => {
     MockUtil.mockIntrospect(done, XHRIdentifyResponse, idxResp => {
       const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
       expect(result).toEqual({
