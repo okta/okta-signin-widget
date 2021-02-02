@@ -4,6 +4,7 @@ import BaseView from './internals/BaseView';
 
 // authenticator ignostic views
 import IdentifierView from './views/IdentifierView';
+import IdentifyRecoveryView from './views/IdentifyRecoveryView';
 import TerminalView from './views/TerminalView';
 import SuccessView from './views/SuccessView';
 
@@ -72,6 +73,9 @@ const DEFAULT = '_';
 const VIEWS_MAPPING = {
   [RemediationForms.IDENTIFY]: {
     [DEFAULT]: IdentifierView,
+  },
+  [RemediationForms.IDENTIFY_RECOVERY]: {
+    [DEFAULT]: IdentifyRecoveryView,
   },
   [RemediationForms.DEVICE_CHALLENGE_POLL]: {
     [DEFAULT]: DeviceChallengePollView,
