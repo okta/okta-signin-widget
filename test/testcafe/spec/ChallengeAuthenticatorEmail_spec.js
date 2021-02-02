@@ -4,12 +4,14 @@ import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPa
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
+import emailVerificationPolling from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling';
 import emailVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-no-profile';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidOTP from '../../../playground/mocks/data/idp/idx/error-email-verify';
 import magicLinkReturnTab from '../../../playground/mocks/data/idp/idx/terminal-return-email';
 import magicLinkExpired from '../../../playground/mocks/data/idp/idx/terminal-return-expired-email';
 import terminalTransferedEmail from '../../../playground/mocks/data/idp/idx/terminal-transfered-email';
+import sessionExpired from '../../../playground/mocks/data/idp/idx/error-session-expired';
 
 const emailVerificationEmptyProfile = JSON.parse(JSON.stringify(emailVerificationNoProfile));
 // add empty profile to test
@@ -57,6 +59,20 @@ const invalidOTPMock = RequestMock()
   .respond(emailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidOTP, 403);
+
+const invalidOTPMockContinuePoll = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(emailVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(invalidOTP, 403);
+
+const stopPollMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerificationPolling)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(sessionExpired, 403);
 
 const magicLinkReturnTabMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -161,6 +177,33 @@ test
     await t.expect(answerRequestMethod).eql('post');
     await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/challenge/answer');
   });
+
+test
+  .requestHooks(logger, stopPollMock)('no polling if session has expired', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
+    await t.wait(5000);
+    await t.expect(challengeEmailPageObject.getErrorFromErrorBox()).eql('The session has expired');
+    // Check no poll requests were made further. There seems to be no way to interrupt a poll with mock response.
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+      record.request.url.match(/poll/)
+    )).eql(0);
+  });
+
+test
+  .requestHooks(logger, invalidOTPMockContinuePoll)('continue polling on form error', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
+    await challengeEmailPageObject.clickNextButton();
+    await challengeEmailPageObject.waitForErrorBox();
+    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('Authentication failed');
+    await t.wait(5000);
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+      record.request.url.match(/poll/)
+    )).eql(2);
+  }); 
 
 test
   .requestHooks(logger, validOTPmock)('resend after 30 seconds', async t => {
