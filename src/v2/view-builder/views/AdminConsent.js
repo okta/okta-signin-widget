@@ -35,8 +35,9 @@ const Body = BaseForm.extend(
      */
     initialize () {
       BaseForm.prototype.initialize.apply(this, arguments);
+      this.uiSchema = this.getUISchema();
 
-      const scopes = this.getUISchema().map(({label, desc}) => {
+      const scopes = this.uiSchema.map(({label, desc}) => {
         return {name: label, displayName: label, description: desc};
       });
       const model = new Model({ scopes });
@@ -49,8 +50,8 @@ const Body = BaseForm.extend(
           "scopes": [ {{value}} ]
         }
      */
-    saveForm() {
-      const scopes = this.getUISchema().map(({value}) => {
+    saveForm () {
+      const scopes = this.uiSchema.map(({value}) => {
         return value;
       });
       this.model.set('scopes', scopes);
@@ -58,7 +59,7 @@ const Body = BaseForm.extend(
       BaseForm.prototype.saveForm.apply(this, arguments);
     },
 
-    postRender() {
+    postRender () {
       this.$el.find('.o-form-content').remove();
       // Move buttons in DOM to match visual hierarchy to fix tab order.
       const buttonContainer = this.$el.find('.o-form-button-bar');

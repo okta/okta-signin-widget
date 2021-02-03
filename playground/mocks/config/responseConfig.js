@@ -139,7 +139,7 @@ const consent = {
   '/idp/idx/cancel': [
     'identify',
   ],
-}
+};
 
 // ===== AUTHN
 const authn = {
