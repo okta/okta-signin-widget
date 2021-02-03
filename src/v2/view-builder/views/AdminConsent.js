@@ -61,9 +61,6 @@ const Body = BaseForm.extend(
 
     postRender () {
       this.$el.find('.o-form-content').remove();
-      // Move buttons in DOM to match visual hierarchy to fix tab order.
-      const buttonContainer = this.$el.find('.o-form-button-bar');
-      buttonContainer.find('.button-primary').appendTo(buttonContainer);
     }
   },
 );
@@ -71,5 +68,11 @@ const Body = BaseForm.extend(
 export default BaseView.extend({
   className: 'admin-consent-required',
   Header,
-  Body
+  Body,
+  postRender () {
+    // Move buttons in DOM to match visual hierarchy to fix tab order.
+    // TODO https://oktainc.atlassian.net/browse/OKTA-350521
+    const buttonContainer = this.$el.find('.o-form-button-bar');
+    buttonContainer.find('.button-primary').appendTo(buttonContainer);
+  }
 });
