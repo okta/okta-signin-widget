@@ -18,6 +18,8 @@ const FORMS = {
   ENROLL_PROFILE: 'enroll-profile',
   UNLOCK_ACCOUNT: 'unlock-account',
 
+  ADMIN_CONSENT: 'admin-consent',
+
   SELECT_AUTHENTICATOR_AUTHENTICATE: 'select-authenticator-authenticate',
   SELECT_AUTHENTICATOR_UNLOCK: 'select-authenticator-unlock-account',
 
@@ -63,6 +65,7 @@ const FORMS_WITHOUT_SIGNOUT = [
   FORMS.REDIRECT_IDP,
   FORMS.RESET_AUTHENTICATOR,
   FORMS.DEVICE_ENROLLMENT_TERMINAL,
+  FORMS.ADMIN_CONSENT,
 ];
 
 const FORMS_WITH_STATIC_BACK_LINK = [

@@ -1,0 +1,88 @@
+{
+  "stateHandle": "02OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+  "expiresAt": "2018-09-17T23:08:56.000Z",
+  "version": "1.0.0",
+  "intent": "login",
+  "remediation": {
+    "type": "array",
+    "value": [{
+        "rel": [
+          "create-form"
+        ],
+        "name": "admin-consent",
+        "href": "http://localhost:3000/idp/idx/consent",
+        "method": "POST",
+        "accepts": "application/ion+json; okta-version=1.0.0",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "relatesTo": ["$.termsOfService", "$.privacyPolicy", "$.logo"],
+        "value": [
+          {
+            "name": "scopes",
+            "required": true,
+            "form": {
+              "value": [
+                {
+                  "name": "okta.clients.manage",
+                  "label": "okta.clients.manage",
+                  "value": "okta.clients.manage",
+                  "desc": "Allows the app to manage clients in your Okta organization."
+                },
+                {
+                  "name": "okta.authenticators.manage",
+                  "label": "okta.authenticators.manage",
+                  "value": "okta.authenticators.manage",
+                  "desc": "Allows the app to manage all authenticators (e.g. enrollments, reset)."
+                }
+              ]
+            }
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02tZJpxD03j1a3qaPcSsi16yDtqMZgfetf8OvWOepP",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }]
+  },
+  "cancel": {
+    "rel": ["create-form"],
+    "name": "cancel",
+    "href": "http://localhost:3000/api/v1/idx/cancel",
+    "method": "POST",
+    "accepts": "application/ion+json; okta-version=1.0.0",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [{
+      "name": "stateHandle",
+      "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+      "visible": false
+    }]
+  },
+  "app": {
+    "type": "object",
+    "value": {
+        "name": "oidc_client",
+        "label": "Native client",
+        "id": "0oa4mwdegX1GLIJy00g4",
+        "termsOfService": {
+          "href": "https://example.com/tos",
+          "rel": "terms-of-service"
+        },
+        "privacyPolicy": {
+              "href": "https://example.com/privacypolicy",
+              "rel": "privacy-policy"
+        },
+        "logo": {
+              "href": "https://example.com/logo",
+              "rel": "icon"
+        }
+    }
+  },
+  "user": {
+    "type": "object",
+    "value": {
+        "id": "00u4mufzdKWDb8hbC0g4"
+    }
+  }
+}

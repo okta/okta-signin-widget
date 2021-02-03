@@ -17,6 +17,7 @@ const idx = {
     'identify',
     // 'error-feature-not-enabled',
     // 'error-403-security-access-denied',
+    // 'admin-consent',
     // 'authenticator-enroll-email',
     // 'error-internal-server-error',
     // 'authenticator-enroll-password',
@@ -127,6 +128,18 @@ const idx = {
     'error-forgot-password',
   ],
 };
+
+const consent = {
+  '/idp/idx/introspect': [
+    'admin-consent',
+  ],
+  '/idp/idx/consent': [
+    'success',
+  ],
+  '/idp/idx/cancel': [
+    'identify',
+  ],
+}
 
 // ===== AUTHN
 const authn = {
