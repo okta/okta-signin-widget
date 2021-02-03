@@ -60,7 +60,8 @@ const Body = BaseForm.extend(
     },
 
     postRender () {
-      this.$el.find('.o-form-content').remove();
+      this.$el.find('.o-form-head').remove();
+      this.$el.find('.o-form-fieldset-container').remove();
     }
   },
 );
