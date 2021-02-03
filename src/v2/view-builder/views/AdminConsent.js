@@ -1,4 +1,4 @@
-import { loc, View } from 'okta';
+import { loc, View, Model } from 'okta';
 import BaseView from '../internals/BaseView';
 import BaseForm from '../internals/BaseForm';
 import ScopeList from '../../../views/admin-consent/ScopeList';
@@ -30,25 +30,32 @@ const Body = BaseForm.extend(
     save: () => loc('consent.required.consentButton', 'login'),
     cancel: () => loc('consent.required.cancelButton', 'login'),
 
-    events: {
-      'click .button-primary': 'changeScopes'
-    },
-
+    /**
+     * Format scopes for ScopeList and render ScopeList
+     */
     initialize () {
       BaseForm.prototype.initialize.apply(this, arguments);
 
       const scopes = this.getUISchema().map(({label, desc}) => {
         return {name: label, displayName: label, description: desc};
       });
-      this.model.set('scopes', scopes);
-      this.add(ScopeList, {options: {model: this.model}});
+      const model = new Model({ scopes });
+      this.add(ScopeList, {options: { model }});
     },
-
-    changeScopes() {
+    /**
+     * Format scopes to match the schema required by the server
+     * POST /idp/idx/consent
+        {
+          "scopes": [ {{value}} ]
+        }
+     */
+    saveForm() {
       const scopes = this.getUISchema().map(({value}) => {
         return value;
       });
       this.model.set('scopes', scopes);
+
+      BaseForm.prototype.saveForm.apply(this, arguments);
     },
 
     postRender() {
