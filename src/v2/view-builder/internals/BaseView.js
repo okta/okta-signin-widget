@@ -18,13 +18,13 @@ export default View.extend({
     const appState = this.options.appState;
 
     const formName = appState.get('currentFormName');
-    const authenticatorType = appState.get('authenticatorType');
+    const authenticatorKey = appState.get('authenticatorKey');
     const methodType = appState.get('authenticatorMethodType');
     const isPasswordRecoveryFlow = appState.get('isPasswordRecoveryFlow');
 
     const additionalClassNames = getClassNameMapping(
       formName,
-      authenticatorType,
+      authenticatorKey,
       methodType,
       isPasswordRecoveryFlow,
     );

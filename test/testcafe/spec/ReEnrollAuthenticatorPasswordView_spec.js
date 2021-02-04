@@ -45,6 +45,7 @@ async function setup(t) {
     controller: 'password-expired',
     formName: 'reenroll-authenticator',
     authenticatorKey: 'okta_password',
+    methodType:'password',
   });
 
   return expiredPasswordPage;

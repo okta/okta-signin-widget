@@ -44,6 +44,7 @@ async function setup(t) {
     controller: 'enroll-email',
     formName: 'enroll-authenticator',
     authenticatorKey: 'okta_email',
+    methodType: 'email',
   });
 
   return enrollEmailPageObject;

@@ -38,14 +38,6 @@ export default Model.extend({
           || {};
       },
     },
-    authenticatorType: {
-      deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment'],
-      fn (currentAuthenticator = {}, currentAuthenticatorEnrollment = {}) {
-        return currentAuthenticator.type
-          || currentAuthenticatorEnrollment.type
-          || '';
-      },
-    },
     authenticatorKey: {
       deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment'],
       fn (currentAuthenticator = {}, currentAuthenticatorEnrollment = {}) {

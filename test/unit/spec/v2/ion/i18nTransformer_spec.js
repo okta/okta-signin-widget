@@ -198,7 +198,6 @@ describe('v2/ion/i18nTransformer', function () {
                   'value': {
                     'id': 'aidwboITrg4b4yAYd0g3'
                   },
-                  'authenticatorType': 'password',
                   'authenticatorKey': 'okta_password'
                 },
                 {
@@ -206,7 +205,6 @@ describe('v2/ion/i18nTransformer', function () {
                   'value': {
                     'id': 'fwftheidkwh282hv8g3'
                   },
-                  'authenticatorType': 'security_key',
                   'authenticatorKey': 'webauthn'
                 },
                 {
@@ -214,7 +212,6 @@ describe('v2/ion/i18nTransformer', function () {
                   'value': {
                     'id': 'aidtheidkwh282hv8g3'
                   },
-                  'authenticatorType': 'security_key',
                   'authenticatorKey': 'webauthn'
                 },
                 {
@@ -222,7 +219,6 @@ describe('v2/ion/i18nTransformer', function () {
                   'value': {
                     'id': 'aidtm56L8gXXHI1SD0g3'
                   },
-                  'authenticatorType': 'email',
                   'authenticatorKey': 'okta_email'
 
                 },
@@ -231,7 +227,6 @@ describe('v2/ion/i18nTransformer', function () {
                   'value': {
                     'id': 'aid568g3mXgtID0X1SLH'
                   },
-                  'authenticatorType': 'phone',
                   'authenticatorKey': 'phone_number',
                 },
                 {
@@ -239,7 +234,6 @@ describe('v2/ion/i18nTransformer', function () {
                   'value': {
                     'id': 'aid568g3mXgtID0HHSLH'
                   },
-                  'authenticatorType': 'security_question',
                   'authenticatorKey': 'security_question'
                 },
                 {
@@ -248,7 +242,6 @@ describe('v2/ion/i18nTransformer', function () {
                     'id': 'aid568g3mXgtID0HHSLH',
                     'methodType': 'signed_nonce'
                   },
-                  'authenticatorType': 'app',
                   'authenticatorKey': 'okta_verify'
                 },
                 {
@@ -257,7 +250,6 @@ describe('v2/ion/i18nTransformer', function () {
                     'id': 'aid568g3mXgtID0HHSLH',
                     'methodType': 'push'
                   },
-                  'authenticatorType': 'app',
                   'authenticatorKey': 'okta_verify'
                 },
                 {
@@ -266,7 +258,6 @@ describe('v2/ion/i18nTransformer', function () {
                     'id': 'aid568g3mXgtID0HHSLH',
                     'methodType': 'totp'
                   },
-                  'authenticatorType': 'app',
                   'authenticatorKey': 'okta_verify'
                 },
                 {
@@ -275,7 +266,6 @@ describe('v2/ion/i18nTransformer', function () {
                     'id': 'aid568g3mCgtID0HHSLH',
                     'methodType': 'otp'
                   },
-                  'authenticatorType': 'app',
                   'authenticatorKey': 'google_authenticator'
                 }
               ],
@@ -299,7 +289,6 @@ describe('v2/ion/i18nTransformer', function () {
                   'value': {
                     'id': 'aidwboITrg4b4yAYd0g3'
                   },
-                  'authenticatorType': 'password',
                   'authenticatorKey': 'okta_password'
                 },
                 {
@@ -307,7 +296,6 @@ describe('v2/ion/i18nTransformer', function () {
                   'value': {
                     'id': 'fwftheidkwh282hv8g3'
                   },
-                  'authenticatorType': 'security_key',
                   'authenticatorKey': 'webauthn'
                 },
                 {
@@ -315,7 +303,6 @@ describe('v2/ion/i18nTransformer', function () {
                   'value': {
                     'id': 'aidtheidkwh282hv8g3'
                   },
-                  'authenticatorType': 'security_key',
                   'authenticatorKey': 'webauthn'
                 },
                 {
@@ -323,7 +310,6 @@ describe('v2/ion/i18nTransformer', function () {
                   'value': {
                     'id': 'aidtm56L8gXXHI1SD0g3'
                   },
-                  'authenticatorType': 'email',
                   'authenticatorKey': 'okta_email'
                 },
                 {
@@ -331,7 +317,6 @@ describe('v2/ion/i18nTransformer', function () {
                   'value': {
                     'id': 'aid568g3mXgtID0X1SLH'
                   },
-                  'authenticatorType': 'phone',
                   'authenticatorKey': 'phone_number',
                 },
                 {
@@ -339,7 +324,6 @@ describe('v2/ion/i18nTransformer', function () {
                   'value': {
                     'id': 'aid568g3mXgtID0HHSLH'
                   },
-                  'authenticatorType': 'security_question',
                   'authenticatorKey': 'security_question'
                 },
                 {
@@ -348,7 +332,6 @@ describe('v2/ion/i18nTransformer', function () {
                     'id': 'aid568g3mXgtID0HHSLH',
                     'methodType': 'signed_nonce'
                   },
-                  'authenticatorType': 'app',
                   'authenticatorKey': 'okta_verify'
                 },
                 {
@@ -357,7 +340,6 @@ describe('v2/ion/i18nTransformer', function () {
                     'id': 'aid568g3mXgtID0HHSLH',
                     'methodType': 'push'
                   },
-                  'authenticatorType': 'app',
                   'authenticatorKey': 'okta_verify'
                 },
                 {
@@ -366,7 +348,6 @@ describe('v2/ion/i18nTransformer', function () {
                     'id': 'aid568g3mXgtID0HHSLH',
                     'methodType': 'totp'
                   },
-                  'authenticatorType': 'app',
                   'authenticatorKey': 'okta_verify'
                 },
                 {
@@ -375,7 +356,6 @@ describe('v2/ion/i18nTransformer', function () {
                     'id': 'aid568g3mCgtID0HHSLH',
                     'methodType': 'otp'
                   },
-                  'authenticatorType': 'app',
                   'authenticatorKey': 'google_authenticator'
                 }
               ],
@@ -696,31 +676,26 @@ describe('v2/ion/i18nTransformer', function () {
                 {
                   label: 'Okta Password',
                   value: { id: 'autwa6eD9o02iBbtv0g3' },
-                  authenticatorType: 'password',
                   authenticatorKey: 'okta_password'
                 },
                 {
                   label: 'Okta Phone',
                   value: { id: 'aid568g3mXgtID0X1SLH' },
-                  authenticatorType: 'phone',
                   authenticatorKey: 'phone_number'
                 },
                 {
                   label: 'Security Key or Biometric Authenticator (FIDO2)',
                   value: { id: 'aidtheidkwh282hv8g3' },
-                  authenticatorType: 'security_key',
                   authenticatorKey: 'webauthn'
                 },
                 {
                   label: 'Okta Security Question',
                   value: { id: 'aid568g3mXgtID0X1GGG' },
-                  authenticatorType: 'security_question',
                   authenticatorKey: 'security_question'
                 },
                 {
                   label: 'Google Authenticator',
                   value: { id: 'autwa6eD9o02iCbtv0g3' },
-                  authenticatorType: 'app',
                   authenticatorKey: 'google_authenticator'
                 },
               ]
@@ -743,30 +718,25 @@ describe('v2/ion/i18nTransformer', function () {
                 {
                   label: 'unit test - password authenticator',
                   value: { id: 'autwa6eD9o02iBbtv0g3' },
-                  authenticatorType: 'password',
                   authenticatorKey: 'okta_password'
                 },
                 {
                   label: 'unit test - phone authenticator',
                   value: { id: 'aid568g3mXgtID0X1SLH' },
-                  authenticatorType: 'phone',
                   authenticatorKey: 'phone_number',
                 },
                 {
                   label: 'Security Key or Biometric Authenticator (FIDO2)',
                   value: { id: 'aidtheidkwh282hv8g3' },
-                  authenticatorType: 'security_key',
                   authenticatorKey: 'webauthn'
                 },
                 {
                   label: 'unit test - security question authenticator',
                   value: { id: 'aid568g3mXgtID0X1GGG' },
-                  authenticatorType: 'security_question',
                   authenticatorKey: 'security_question'
                 }, {
                   label: 'unit test - google authenticator',
                   value: { id: 'autwa6eD9o02iCbtv0g3' },
-                  authenticatorType: 'app',
                   authenticatorKey: 'google_authenticator'
                 },
               ]

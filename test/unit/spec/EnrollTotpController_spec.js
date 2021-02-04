@@ -276,7 +276,7 @@ Expect.describe('EnrollTotp', function () {
         expect(test.scanCodeForm.qrcodeImg().attr('src')).toEqual('/base/test/unit/assets/1x1.gif');
       });
     });
-    itp('has a link to setup app manual', function () {
+    itp('has a link to setup app manually', function () {
       return setupAndEnrollOktaPushFn().then(function (test) {
         Expect.isVisible(test.scanCodeForm.manualSetupLink());
       });
@@ -596,7 +596,7 @@ Expect.describe('EnrollTotp', function () {
           Util.stopRouter();
         });
     });
-    itp('goes to previous link and then enrolls in totp when choosing manual', function () {
+    itp('goes to previous link and then enrolls in totp when choosing manually', function () {
       return enrollOktaPushUseManualTotpFn().then(function () {
         expect(Util.numAjaxRequests()).toBe(6);
         Expect.isJsonPost(Util.getAjaxRequest(4), {
@@ -839,7 +839,7 @@ Expect.describe('EnrollTotp', function () {
         expect(test.scanCodeForm.qrcodeImg().attr('src')).toEqual('/base/test/unit/assets/1x1.gif');
       });
     });
-    itp('has a link to setup app manual', function () {
+    itp('has a link to setup app manually', function () {
       return setupAndEnrollOktaTotpFn().then(function (test) {
         Expect.isVisible(test.scanCodeForm.manualSetupLink());
       });

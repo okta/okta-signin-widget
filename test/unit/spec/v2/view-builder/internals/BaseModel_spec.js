@@ -259,28 +259,28 @@ describe('v2/view-builder/internals/BaseModel', function () {
             value: {
               id: 'autwa6eD9o02iBbtv0g3',
             },
-            authenticatorType: 'password',
+            authenticatorKey: 'okta_password',
           },
           {
             label: 'Okta Phone',
             value: {
               id: 'aid568g3mXgtID0X1SLH',
             },
-            authenticatorType: 'phone',
+            authenticatorKey: 'phone_number',
           },
           {
             label: 'Security Key or Biometric Authenticator (FIDO2)',
             value: {
               id: 'aidtheidkwh282hv8g3',
             },
-            authenticatorType: 'security_key',
+            authenticatorKey: 'webauthn',
           },
           {
             label: 'Okta Security Question',
             value: {
               id: 'aid568g3mXgtID0X1GGG',
             },
-            authenticatorType: 'security_question',
+            authenticatorKey: 'security_question',
           },
         ],
       },
