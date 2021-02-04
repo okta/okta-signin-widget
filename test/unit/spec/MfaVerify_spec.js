@@ -305,12 +305,13 @@ Expect.describe('MFA Verify', function () {
 
   const setupOktaPushWithRefreshAuth = _.partial(setup, resVerifyPushOnly, { factorType: 'push' });
 
-  const setupWindowsHello = _.partial(
-    setup,
-    resAllFactors,
-    { factorType: 'webauthn', provider: 'FIDO' },
-    { 'features.webauthn': false }
-  );
+  const setupWindowsHello = function (settings) {
+    return setup(
+      resAllFactors,
+      { factorType: 'webauthn', provider: 'FIDO' },
+      { ...settings, 'features.webauthn': false }
+    );
+  };
 
   const setupWindowsHelloWithBrandName = _.partial(
     setup,
@@ -389,7 +390,7 @@ Expect.describe('MFA Verify', function () {
       delete window.u2f;
     }
 
-    return setup(options.nextResponse ? options.nextResponse : resAllFactors, null, null, null, true)
+    return setup(options.nextResponse ? options.nextResponse : resAllFactors, null, options.settings, null, true)
       .then(function (test) {
         const responses = options.multipleU2F ? [resChallengeMultipleU2F] : [resChallengeU2F];
 
@@ -3652,6 +3653,21 @@ Expect.describe('MFA Verify', function () {
           });
         });
       });
+      itp('has a sign out link', function () {
+        return setupDuo().then(function (test) {
+          Expect.isVisible(test.form.signoutLink($sandbox));
+        });
+      });
+      itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function () {
+        return setupDuo({ 'features.hideSignOutLinkInMFA': true }).then(function (test) {
+          expect(test.form.signoutLink($sandbox).length).toBe(0);
+        });
+      });
+      itp('does not have sign out link if features.mfaOnlyFlow is true', function () {
+        return setupDuo({ 'features.mfaOnlyFlow': true }).then(function (test) {
+          expect(test.form.signoutLink($sandbox).length).toBe(0);
+        });
+      });
       itp('makes the correct request when rememberDevice is checked', function () {
         return setupDuo()
           .then(function (test) {
@@ -3743,6 +3759,22 @@ Expect.describe('MFA Verify', function () {
         return emulateWindows().then(setupWindowsHello).then(function (test) {
           expect(test.form.el('o-form-error-html').length).toBe(0);
           expect(test.form.submitButton().length).toBe(1);
+        });
+      });
+
+      itp('has a sign out link', function () {
+        return setupWindowsHello().then(function (test) {
+          Expect.isVisible(test.form.signoutLink($sandbox));
+        });
+      });
+      itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function () {
+        return setupWindowsHello({ 'features.hideSignOutLinkInMFA': true }).then(function (test) {
+          expect(test.form.signoutLink($sandbox).length).toBe(0);
+        });
+      });
+      itp('does not have sign out link if features.mfaOnlyFlow is true', function () {
+        return setupWindowsHello({ 'features.mfaOnlyFlow': true }).then(function (test) {
+          expect(test.form.signoutLink($sandbox).length).toBe(0);
         });
       });
 
@@ -3937,6 +3969,22 @@ Expect.describe('MFA Verify', function () {
       itp('has remember device checkbox', function () {
         return setupU2F({ u2f: true }).then(function (test) {
           Expect.isVisible(test.form.rememberDeviceCheckbox());
+        });
+      });
+
+      itp('has a sign out link', function () {
+        return setupU2F({ u2f: true }).then(function (test) {
+          Expect.isVisible(test.form.signoutLink($sandbox));
+        });
+      });
+      itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function () {
+        return setupU2F({ u2f: true, settings: {'features.hideSignOutLinkInMFA': true} }).then(function (test) {
+          expect(test.form.signoutLink($sandbox).length).toBe(0);
+        });
+      });
+      itp('does not have sign out link if features.mfaOnlyFlow is true', function () {
+        return setupU2F({ u2f: true, settings: {'features.mfaOnlyFlow': true} }).then(function (test) {
+          expect(test.form.signoutLink($sandbox).length).toBe(0);
         });
       });
 
