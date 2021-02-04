@@ -50,6 +50,7 @@ describe('v2/ion/IonResponseHelper', function () {
         responseJSON: {
           errorCauses: [],
           errorSummary: 'Internal error foo',
+          errorMessageKey: 'foo.error'
         },
       });
     });
@@ -81,6 +82,7 @@ describe('v2/ion/IonResponseHelper', function () {
         responseJSON: {
           errorCauses: [],
           errorSummary: 'Internal error foo. ut override - hello bar error',
+          errorMessageKey: 'foo.error'
         },
       });
     });

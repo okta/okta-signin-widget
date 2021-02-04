@@ -61,9 +61,6 @@ const Body = BaseForm.extend(Object.assign(
         }
       });
       this.startPolling();
-
-      // polling has been killed when click save to avoid race conditions hence resume if save failed.
-      this.listenTo(this.options.model, 'error', this.startPolling.bind(this));
     },
 
     saveForm () {
@@ -74,6 +71,16 @@ const Body = BaseForm.extend(Object.assign(
     remove () {
       BaseForm.prototype.remove.apply(this, arguments);
       this.stopPolling();
+    },
+
+    triggerAfterError (model, error) {
+      BaseForm.prototype.triggerAfterError.apply(this, arguments);
+      this.stopPolling();
+
+      // Polling needs to be resumed if it's a form error and session is still valid
+      if(error.responseJSON.errorMessageKey !== 'idx.session.expired') {
+        this.startPolling();
+      }
     }
   },
 

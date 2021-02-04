@@ -123,8 +123,13 @@ const getGlobalErrors = (res) => {
 const convertFormErrors = (response) => {
   let errors = {
     errorCauses: getRemediationErrors(response),
-    errorSummary: getGlobalErrors(response)
+    errorSummary: getGlobalErrors(response),
   };
+
+  // This would be replaced by the change in getGlobalErrorKeys from OKTA-362282 which is merged to 5.3.1
+  if (response.messages?.value[0]?.i18n?.key) {
+    errors.errorMessageKey = response.messages?.value[0]?.i18n?.key || '';
+  }
 
   return {
     responseJSON: errors
