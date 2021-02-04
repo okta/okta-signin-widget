@@ -122,8 +122,6 @@ export default FormController.extend({
     },
   },
 
-  Footer: FooterSignout,
-
   fetchInitialData: function () {
     const self = this;
 
@@ -161,5 +159,13 @@ export default FormController.extend({
     // from navigating back during 'verify' using the browser's
     // back button. The URL will still change, but the view will not
     // More details in OKTA-135060.
+  },
+
+  initialize: function () {
+    FormController.prototype.initialize.apply(this, arguments);
+    if (!this.settings.get('features.hideSignOutLinkInMFA') &&
+        !this.settings.get('features.mfaOnlyFlow')) {
+      this.addFooter(FooterSignout);
+    }
   },
 });

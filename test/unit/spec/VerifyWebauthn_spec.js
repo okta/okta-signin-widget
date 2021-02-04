@@ -54,7 +54,7 @@ function setup (options) {
   const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
   const successSpy = jasmine.createSpy('success');
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
-  const router = createRouter(baseUrl, authClient, successSpy, { 'features.webauthn': true });
+  const router = createRouter(baseUrl, authClient, successSpy, { ...options.settings, 'features.webauthn': true });
 
   router.on('afterError', afterErrorHandler);
   setNextResponse(options.multipleWebauthn ? [resMultipleWebauthnWithQuestion] : [resAllFactors]);
@@ -168,7 +168,7 @@ function setupMultipleWebauthnOnly (options) {
   const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
   const successSpy = jasmine.createSpy('success');
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
-  const router = createRouter(baseUrl, authClient, successSpy, { 'features.webauthn': true });
+  const router = createRouter(baseUrl, authClient, successSpy, { ...options.settings, 'features.webauthn': true });
 
   router.on('afterError', afterErrorHandler);
   const responses = [resMultipleWebauthn, resChallengeMultipleWebauthn];
@@ -254,6 +254,22 @@ function testWebauthnFactor (setupFn, webauthnOnly) {
   itp('has remember device checkbox', function () {
     return setupFn({ webauthnSupported: true }).then(function (test) {
       Expect.isVisible(test.form.rememberDeviceCheckbox());
+    });
+  });
+
+  itp('has a sign out link', function () {
+    return setupFn({ webauthnSupported: true }).then(function (test) {
+      Expect.isVisible(test.form.signoutLink($sandbox));
+    });
+  });
+  itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function () {
+    return setupFn({ webauthnSupported: true, settings: {'features.hideSignOutLinkInMFA': true} }).then(function (test) {
+      expect(test.form.signoutLink($sandbox).length).toBe(0);
+    });
+  });
+  itp('does not have sign out link if features.mfaOnlyFlow is true', function () {
+    return setupFn({ webauthnSupported: true, settings: {'features.mfaOnlyFlow': true} }).then(function (test) {
+      expect(test.form.signoutLink($sandbox).length).toBe(0);
     });
   });
 }
