@@ -230,7 +230,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     value: {
                       id: 'aut1bospdDFs7q3vc0g4',
                     },
-                    authenticatorType: 'email',
                     authenticatorKey: 'okta_email',
                     relatesTo: XHRAuthenticatorRequiredEmail.authenticatorEnrollments.value[0],
                   },
@@ -513,7 +512,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     value: {
                       id: 'autwa6eD9o02iBbtv0g3',
                     },
-                    authenticatorType: 'password',
                     authenticatorKey: 'okta_password',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[0],
                   },
@@ -522,7 +520,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     value: {
                       id: 'aid568g3mXgtID0X1SLH',
                     },
-                    authenticatorType: 'phone',
                     authenticatorKey: 'phone_number',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[2],
                   },
@@ -531,7 +528,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     value: {
                       id: 'aidtheidkwh282hv8g3',
                     },
-                    authenticatorType: 'security_key',
                     authenticatorKey: 'webauthn',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[1],
                   },
@@ -540,7 +536,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     value: {
                       id: 'aid568g3mXgtID0X1GGG',
                     },
-                    authenticatorType: 'security_question',
                     authenticatorKey: 'security_question',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[3],
                   },
@@ -549,7 +544,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     'value': {
                       'id': 'aut1erh5wK1M8wA3g0g4'
                     },
-                    authenticatorType: 'app',
                     authenticatorKey: 'okta_verify',
                     'relatesTo': XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[4]
                   },
@@ -558,7 +552,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     value: {
                       id: 'aut11ceMaP0B0EzMI0g4'
                     },
-                    authenticatorType: 'app',
                     authenticatorKey: 'google_authenticator',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[5]
                   },
@@ -568,7 +561,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       id: 'autx7fdyRt87txnAs0g3',
                       methodType: 'otp'
                     },
-                    authenticatorType: 'security_key',
                     authenticatorKey: 'del_oath',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[6]
                   },
@@ -650,7 +642,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     value: {
                       id: 'autwa6eD9o02iBbtv0g3',
                     },
-                    authenticatorType: 'password',
                     authenticatorKey: 'okta_password',
                     relatesTo: XHRAuthenticatorEnrollDataPhone.authenticators.value[0],
                   },
@@ -659,7 +650,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     value: {
                       id: 'aid568g3mXgtID0X1SLH',
                     },
-                    authenticatorType: 'phone',
                     authenticatorKey: 'phone_number',
                     relatesTo: XHRAuthenticatorEnrollDataPhone.authenticators.value[2],
                   },
@@ -668,7 +658,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     value: {
                       id: 'aidtheidkwh282hv8g3',
                     },
-                    authenticatorType: 'security_key',
                     authenticatorKey: 'webauthn',
                     relatesTo: XHRAuthenticatorEnrollDataPhone.authenticators.value[1],
                   },
@@ -677,7 +666,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     value: {
                       id: 'aid568g3mXgtID0X1GGG',
                     },
-                    authenticatorType: 'security_question',
                     authenticatorKey: 'security_question',
                     relatesTo: XHRAuthenticatorEnrollDataPhone.authenticators.value[3],
                   },
@@ -923,7 +911,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     value: {
                       id: 'autwa6eD9o02iBbtv0g3',
                     },
-                    authenticatorType: 'password',
                     authenticatorKey: 'okta_password',
                     relatesTo: XHRAuthenticatorEnrollSecurityQuestion.authenticators.value[0],
                   },
@@ -932,7 +919,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     value: {
                       id: 'aid568g3mXgtID0X1SLH',
                     },
-                    authenticatorType: 'phone',
                     authenticatorKey: 'phone_number',
                     relatesTo: XHRAuthenticatorEnrollSecurityQuestion.authenticators.value[2],
                   },
@@ -941,7 +927,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     value: {
                       id: 'aidtheidkwh282hv8g3',
                     },
-                    authenticatorType: 'security_key',
                     authenticatorKey: 'webauthn',
                     relatesTo: XHRAuthenticatorEnrollSecurityQuestion.authenticators.value[1],
                   },
@@ -950,7 +935,6 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     value: {
                       id: 'aid568g3mXgtID0X1GGG',
                     },
-                    authenticatorType: 'security_question',
                     authenticatorKey: 'security_question',
                     relatesTo: XHRAuthenticatorEnrollSecurityQuestion.authenticators.value[3],
                   },

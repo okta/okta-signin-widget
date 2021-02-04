@@ -31,6 +31,7 @@ async function setup(t) {
     controller: 'forgot-password',
     formName: 'reset-authenticator',
     authenticatorKey: 'okta_password',
+    methodType:'password',
   });
 
   return resetPasswordPage;
