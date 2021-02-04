@@ -1,7 +1,7 @@
 {
   "name": "@okta/okta-signin-widget",
   "description": "The Okta Sign-In Widget",
-  "version": "5.2.0",
+  "version": "5.2.2",
   "homepage": "https://github.com/okta/okta-signin-widget",
   "license": "Apache-2.0",
   "repository": {
@@ -18,11 +18,6 @@
     "> 0.1%",
     "not ie <= 9"
   ],
-  "husky": {
-    "hooks": {
-      "pre-push": "commitlint --from=master 1>&2"
-    }
-  },
   "main": "./dist/js/okta-sign-in.entry.js",
   "scripts": {
     "clean": "rimraf target && rimraf dist && rimraf build2",
@@ -76,7 +71,7 @@
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.1.0",
     "@commitlint/travis-cli": "^8.1.0",
-    "@okta/okta-auth-js": "~4.5.0",
+    "@okta/okta-auth-js": "4.6.0",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "autoprefixer": "^9.6.1",
     "axe-core": "^3.3.1",

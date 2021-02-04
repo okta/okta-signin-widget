@@ -142,7 +142,7 @@ export default FormController.extend({
     title: _.partial(loc, 'factor.webauthn.biometric', 'login'),
     className: 'verify-webauthn-form',
     noCancelButton: true,
-    save: _.partial(loc, 'verify.u2f.retry', 'login'),
+    save: _.partial(loc, 'mfa.challenge.verify', 'login'),
     noButtonBar: function () {
       return !webauthn.isNewApiAvailable();
     },
@@ -197,16 +197,6 @@ export default FormController.extend({
       return children;
     },
 
-    postRender: function () {
-      _.defer(() => {
-        if (webauthn.isNewApiAvailable()) {
-          this.model.save();
-        } else {
-          this.$('[data-se="webauthn-waiting"]').hide();
-        }
-      });
-    },
-
     _startEnrollment: function () {
       this.$('.okta-waiting-spinner').show();
       this.$('.o-form-button-bar').hide();
@@ -214,6 +204,7 @@ export default FormController.extend({
 
     _stopEnrollment: function () {
       this.$('.okta-waiting-spinner').hide();
+      this.$('.o-form-button-bar [type="submit"]')[0].value = loc('verify.u2f.retry', 'login');
       this.$('.o-form-button-bar').show();
     },
   },

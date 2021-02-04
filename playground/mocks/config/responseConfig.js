@@ -269,7 +269,8 @@ const appleCredentialSsoExtension = {
 // device probe: Apple authenticator with universal link
 const appleUniversalLink = {
   '/idp/idx/introspect': [
-    'identify-with-apple-sso-extension-fallback'
+    'identify-with-apple-sso-extension-fallback',
+    // 'identify-with-universal-link-w-session',
   ],
   '/idp/idx/authenticators/okta-verify/launch': [
     'identify-with-universal-link',
