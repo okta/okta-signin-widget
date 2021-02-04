@@ -122,8 +122,6 @@ export default FormController.extend({
     },
   },
 
-  Footer: FooterMFA,
-
   fetchInitialData: function () {
     const self = this;
 
@@ -167,7 +165,7 @@ export default FormController.extend({
     FormController.prototype.initialize.apply(this, arguments);
     if (!this.settings.get('features.hideSignOutLinkInMFA') &&
         !this.settings.get('features.mfaOnlyFlow')) {
-      this.addFooter(FooterSignout);
+      this.addFooter(FooterMFA);
     }
   },
 });

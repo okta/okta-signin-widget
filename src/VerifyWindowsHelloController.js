@@ -196,9 +196,7 @@ export default FormController.extend({
     FormController.prototype.initialize.apply(this, arguments);
     if (!this.settings.get('features.hideSignOutLinkInMFA') &&
         !this.settings.get('features.mfaOnlyFlow')) {
-      this.addFooter(FooterSignout);
+      this.addFooter(FooterMFA);
     }
   },
-  
-  Footer: FooterMFA,
 });
