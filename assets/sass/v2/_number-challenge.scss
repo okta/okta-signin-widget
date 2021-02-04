@@ -1,0 +1,36 @@
+.siw-main-view {
+  .number-challenge-section {
+    text-align: center;
+    .phone {
+      margin: 20px 0;
+      .phone--body {
+        display: inline-block;
+        border-radius: 6px;
+        padding: 14px 3px 0;
+        margin: 0 auto;
+        background: #666;
+      }
+      .phone--screen {
+        min-width: 50px;
+        padding: 20px 0;
+        background: #e5edfb;
+      }
+      .phone--number {
+        padding: 10px;
+        font-size: 25px;
+        color: #1662dd;
+      }
+      .phone--home-button {
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        margin: 3px auto;
+        background: $white;
+      }
+    }
+    .challenge-number {
+      font-weight: bold;
+    }
+  }
+}
+
