@@ -20,6 +20,7 @@ import FactorUtil from 'util/FactorUtil';
 import FormController from 'util/FormController';
 import FormType from 'util/FormType';
 import webauthn from 'util/webauthn';
+import BrowserFeatures from 'util/BrowserFeatures';
 import HtmlErrorMessageView from 'views/mfa-verify/HtmlErrorMessageView';
 import FooterSignout from 'views/shared/FooterSignout';
 
@@ -207,6 +208,15 @@ export default FormController.extend({
       this.$('.o-form-button-bar [type="submit"]')[0].value = loc('verify.u2f.retry', 'login');
       this.$('.o-form-button-bar').show();
     },
+  },
+
+  postRender: function () {
+    _.defer(() => {
+      // Trigger browser prompt automatically for other browsers for better UX.
+      if (webauthn.isNewApiAvailable() && !BrowserFeatures.isSafari()) {
+        this.model.save();
+      }
+    });
   },
 
   back: function () {
