@@ -62,15 +62,39 @@
   "app": {
     "type": "object",
     "value": {
-        "name": "oidc_client",
-        "label": "Native client",
-        "id": "0oa4mwdegX1GLIJy00g4"
+      "name": "oidc_client",
+      "label": "Native client",
+      "id": "0oa4mwdegX1GLIJy00g4",
+      "termsOfService": {
+          "href": "https://example.com/tos",
+          "rel": "terms-of-service"
+      },
+      "privacyPolicy": {
+          "href": "https://example.com/privacypolicy",
+          "rel": "privacy-policy"
+      },
+      "logo": {
+          "href": "https://example.com/logo",
+          "rel": "icon"
+      },
+      "clientUri" : {
+          "href" : "http://client._funky-ch4rs.com"
+      }
     }
   },
   "user": {
     "type": "object",
     "value": {
         "id": "00u4mufzdKWDb8hbC0g4"
+    }
+  },
+  "authentication": {
+    "type": "object",
+    "value": {
+      "protocol":"OAUTH2.0",
+      "issuer":{
+        "uri":"https://rain.okta1.com"
+      }
     }
   }
 }

@@ -9,10 +9,13 @@ const Header = View.extend({
   className: 'consent-title detail-row',
   template: consentLogoHeaderTemplate,
   getTemplateData: function () {
-    const {label: appName, clientURI } =  this.options.appState.get('app');
-    const customLogo = (this.settings.get('logo') || {}).href;
-    const defaultLogo = this.settings.get('baseUrl') + '/img/logos/default.png';
-    const issuer = this.settings.get('baseUrl') + '/oauth2/default';
+    const {label: appName, clientUri = {} } =  this.options.appState.get('app');
+    const customLogo = this.settings.get('logo');
+    const defaultLogo = '/img/logos/default.png';
+    const clientURI = clientUri.href;
+    const { issuer: issuerObj = {} } = this.options.appState.get('authentication');
+    const issuer = issuerObj.uri;
+
     return {
       appName, // escape?
       customLogo,
