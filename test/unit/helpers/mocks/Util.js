@@ -9,7 +9,6 @@ import wellKnown from '../xhr/well-known';
 import wellKnownSharedResource from '../xhr/well-known-shared-resource';
 let { Cookie } = internal.util;
 const fn = {};
-let globalFetch;
 let isAjaxMocked = false;
 
 afterEach(() => {
@@ -65,8 +64,6 @@ fn.mockDuo = function () {
 };
 
 fn.mockAjax = function (responses) {
-  globalFetch = window.fetch;
-  window.fetch = null;
   jasmine.Ajax.install();
   isAjaxMocked = true;
 
@@ -130,7 +127,6 @@ fn.getAjaxRequest = function (index) {
 };
 
 fn.unmockAjax = function () {
-  window.fetch = globalFetch;
   jasmine.Ajax.uninstall();
 };
 
