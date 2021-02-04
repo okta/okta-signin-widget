@@ -24,7 +24,6 @@ const Body = BaseForm.extend({
         title: loc('mfa.challenge.verify', 'login'),
         click: () => {
           this.getCredentialsAndSave();
-          this.$('.retry-webauthn')[0].innerText = loc('retry', 'login');
         }
       });
 
@@ -107,6 +106,7 @@ const Body = BaseForm.extend({
   _startVerification: function () {
     this.$('.okta-waiting-spinner').show();
     this.$('.retry-webauthn').hide();
+    this.$('.retry-webauthn')[0].innerText = loc('retry', 'login');
   },
 
   _stopVerification: function () {
