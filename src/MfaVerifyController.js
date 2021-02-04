@@ -11,7 +11,7 @@
  */
 
 /* eslint complexity: [2, 21] max-statements: [2, 25] max-params: 0 */
-import { _, loc, internal } from 'okta';
+import { loc, internal } from 'okta';
 import BaseLoginController from 'util/BaseLoginController';
 import EmailMagicLinkForm from 'views/factor-verify/EmailMagicLinkForm';
 import InlineTOTPForm from 'views/mfa-verify/InlineTOTPForm';
@@ -133,10 +133,7 @@ export default BaseLoginController.extend({
       }
     });
 
-    this.add(new FooterMFA(_.extend(this.toJSON(), {
-      showLink: !this.settings.get('features.hideSignOutLinkInMFA') &&
-        !this.settings.get('features.mfaOnlyFlow')
-    })));
+    this.add(new FooterMFA(this.toJSON()));
   },
 
   findModel: function (factorType, options) {

@@ -226,11 +226,5 @@ export default FormController.extend({
     // More details in OKTA-135060.
   },
 
-  initialize: function () {
-    FormController.prototype.initialize.apply(this, arguments);
-    if (!this.settings.get('features.hideSignOutLinkInMFA') &&
-        !this.settings.get('features.mfaOnlyFlow')) {
-      this.addFooter(FooterMFA);
-    }
-  },
+  Footer: FooterMFA,
 });

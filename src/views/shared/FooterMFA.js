@@ -36,11 +36,13 @@ export default FooterSignout.extend({
     const signoutTemplateData = FooterSignout.prototype.getTemplateData.apply(this, arguments);
     const factorPageCustomLinkHref = this.settings.get('helpLinks.factorPageCustomLink.href');
     const factorPageCustomLinkText = this.settings.get('helpLinks.factorPageCustomLink.text');
+    const showLink = !this.settings.get('features.hideSignOutLinkInMFA') &&
+      !this.settings.get('features.mfaOnlyFlow');
     return Object.assign({}, signoutTemplateData, {
       hasFactorPageCustomLink: factorPageCustomLinkText && factorPageCustomLinkHref,
       factorPageCustomLinkHref,
       factorPageCustomLinkText,
-      showLink: _.isUndefined(this.options.showLink) ? true : this.options.showLink,
+      showLink,
     });
   },
 });
