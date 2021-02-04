@@ -46,6 +46,8 @@ describe('v2/ion/i18nTransformer', function () {
       'idx.email.verification.required': 'An email has been sent. Check your inbox.',
       'idx.foo': 'hello the {0} authenticator',
 
+      'password.forgot.email.or.username.placeholder': 'email or username',
+
     }, (value) => `unit test - ${value}`);
   });
   afterAll(() => {
@@ -141,6 +143,39 @@ describe('v2/ion/i18nTransformer', function () {
               placeholder: 'unit test - remember me',
               required: false,
               type: 'checkbox',
+            }
+          ]
+        }
+      ]
+    });
+  });
+
+  it('converts label for identify-recovery', () => {
+    const resp = {
+      remediations: [
+        {
+          name: 'identify-recovery',
+          uiSchema: [
+            {
+              label: 'Username',
+              'label-top': true,
+              name: 'identifier',
+              type: 'text',
+            }
+          ]
+        }
+      ]
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          name: 'identify-recovery',
+          uiSchema: [
+            {
+              label: 'unit test - email or username',
+              'label-top': true,
+              name: 'identifier',
+              type: 'text',
             }
           ]
         }

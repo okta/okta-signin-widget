@@ -18,6 +18,14 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       expect(v1Class).toEqual('primary-auth');
     });
 
+    it('for identify-recovery form', function () {
+      const v2Class = getClassNameMapping('identify-recovery', null, null);
+      expect(v2Class).toEqual(['identify-recovery', 'forgot-password']);
+
+      const v1Class = getV1ClassName('identify-recovery', null, null);
+      expect(v1Class).toEqual('forgot-password');
+    });
+
     it('for select-authenticator-authenticate form', function () {
       const v2Class = getClassNameMapping('select-authenticator-authenticate', null, null);
       expect(v2Class).toEqual(['select-authenticator-authenticate']);
