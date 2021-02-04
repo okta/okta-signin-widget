@@ -55,6 +55,8 @@ const I18N_OVERRIDE_MAPPINGS = {
   'identify.credentials.passcode': 'primaryauth.password.placeholder',
   'identify.rememberMe': 'remember',
 
+  'identify-recovery.identifier': 'password.forgot.email.or.username.placeholder',
+
   'select-authenticator-enroll.authenticator.okta_email': 'oie.email.label',
   'select-authenticator-enroll.authenticator.okta_password': 'oie.password.label',
   'select-authenticator-enroll.authenticator.phone_number': 'oie.phone.label',

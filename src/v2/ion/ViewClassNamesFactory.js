@@ -6,6 +6,9 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
     [FORMS.IDENTIFY]: 'primary-auth',
     'password': 'primary-auth'
   },
+  [FORMS.IDENTIFY_RECOVERY]: {
+    [FORMS.IDENTIFY_RECOVERY]: 'forgot-password',
+  },
   [FORMS.ENROLL_PROFILE]: {
     [FORMS.ENROLL_PROFILE]: 'registration',
   },

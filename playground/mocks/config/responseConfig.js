@@ -550,6 +550,16 @@ const onPremMFAVerify = {
   ],
 };
 
+const passwordRecovery = {
+  '/idp/idx/introspect': [
+    'identify-recovery',
+  ],
+  '/idp/idx/identify': [
+    // 'error-identify-access-denied',
+    'authenticator-verification-select-authenticator',
+  ],
+};
+
 module.exports = {
   mocks: idx,
 };
