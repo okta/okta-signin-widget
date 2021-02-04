@@ -25,6 +25,7 @@ async function setup(t) {
     controller: 'enroll-password',
     formName: 'enroll-authenticator',
     authenticatorKey: 'okta_password',
+    methodType:'password',
   });
 
   return enrollPasswordPage;

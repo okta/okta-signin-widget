@@ -45,6 +45,7 @@ async function setup(t) {
     controller: null,
     formName: 'reenroll-authenticator-warning',
     authenticatorKey: 'okta_password',
+    methodType:'password',
   });
 
   return passwordExpiryWarningPage;

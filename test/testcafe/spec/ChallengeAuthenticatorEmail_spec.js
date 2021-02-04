@@ -91,6 +91,7 @@ test
       controller: 'mfa-verify-passcode',
       formName: 'challenge-authenticator',
       authenticatorKey: 'okta_email',
+      methodType: 'email',
     });
 
     const pageTitle = challengeEmailPageObject.getPageTitle();

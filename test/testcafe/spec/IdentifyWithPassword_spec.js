@@ -30,6 +30,7 @@ async function setup(t) {
     controller: 'primary-auth',
     formName: 'identify',
     authenticatorKey: 'okta_password',
+    methodType:'password',
   });
 
   return identityPage;

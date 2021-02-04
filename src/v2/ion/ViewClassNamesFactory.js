@@ -1,10 +1,10 @@
 /* eslint complexity: [2, 25] */
-import { FORMS } from './RemediationConstants';
+import { AUTHENTICATOR_KEY, FORMS } from './RemediationConstants';
 
 const FORMNAME_CLASSNAME_MAPPINGS = {
   [FORMS.IDENTIFY]: {
     [FORMS.IDENTIFY]: 'primary-auth',
-    'password': 'primary-auth'
+    [AUTHENTICATOR_KEY.PASSWORD]: 'primary-auth'
   },
   [FORMS.IDENTIFY_RECOVERY]: {
     [FORMS.IDENTIFY_RECOVERY]: 'forgot-password',
@@ -13,85 +13,84 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
     [FORMS.ENROLL_PROFILE]: 'registration',
   },
   [FORMS.CHALLENGE_AUTHENTICATOR]: {
-    email: 'mfa-verify-passcode',
-    password: 'mfa-verify-password',
+    [AUTHENTICATOR_KEY.EMAIL]: 'mfa-verify-passcode',
+    [AUTHENTICATOR_KEY.PASSWORD]: 'mfa-verify-password',
     sms: 'mfa-verify-passcode',
     voice: 'mfa-verify-passcode',
-    'security_question': 'mfa-verify-question',
-    'security_key': 'mfa-verify-webauthn',
-    app: 'mfa-verify',
+    [AUTHENTICATOR_KEY.SECURITY_QUESTION]: 'mfa-verify-question',
+    [AUTHENTICATOR_KEY.WEBAUTHN]: 'mfa-verify-webauthn',
+    [AUTHENTICATOR_KEY.ON_PREM]: 'mfa-verify-webauthn',
+    [AUTHENTICATOR_KEY.OV]: 'mfa-verify',
+    [AUTHENTICATOR_KEY.GOOGLE_AUTHENTICATOR]: 'mfa-verify',
   },
   [FORMS.CHALLENGE_POLL]: {
-    app: 'mfa-verify',
+    [AUTHENTICATOR_KEY.OV]: 'mfa-verify',
   },
   [FORMS.RESEND_PUSH]: {
-    app: 'mfa-verify',
+    [AUTHENTICATOR_KEY.OV]: 'mfa-verify',
   },
   [FORMS.ENROLL_AUTHENTICATOR]: {
-    email: 'enroll-email',
-    password: 'enroll-password',
+    [AUTHENTICATOR_KEY.EMAIL]: 'enroll-email',
+    [AUTHENTICATOR_KEY.PASSWORD]: 'enroll-password',
     sms: 'enroll-sms',
     voice: 'enroll-call',
-    'security_question': 'enroll-question',
-    'security_key': 'enroll-webauthn',
+    [AUTHENTICATOR_KEY.SECURITY_QUESTION]: 'enroll-question',
+    [AUTHENTICATOR_KEY.WEBAUTHN]: 'enroll-webauthn',
+    [AUTHENTICATOR_KEY.ON_PREM]: 'enroll-webauthn',
   },
 
   [FORMS.SELECT_AUTHENTICATOR_ENROLL]: {
     'select-authenticator-enroll': 'enroll-choices'
   },
   [FORMS.SELECT_AUTHENTICATOR_AUTHENTICATE]: {
-    'password': 'forgot-password'
+    [AUTHENTICATOR_KEY.PASSWORD]: 'forgot-password'
   },
   [FORMS.REENROLL_AUTHENTICATOR]: {
-    'password': 'password-expired'
+    [AUTHENTICATOR_KEY.PASSWORD]: 'password-expired'
   },
 
   [FORMS.RESET_AUTHENTICATOR]: {
-    'password': 'forgot-password'
+    [AUTHENTICATOR_KEY.PASSWORD]: 'forgot-password'
   },
 };
 
-const getV1ClassName = (formName, authenticatorType, methodType, isPasswordRecoveryFlow) => {
+const getV1ClassName = (formName, authenticatorKey, methodType, isPasswordRecoveryFlow) => {
   // if password reset flow from identifier page with recoveryAuthenticator add forgot-password class
   if (isPasswordRecoveryFlow && formName === FORMS.IDENTIFY) {
     return 'forgot-password';
   } else {
-    let type = formName;
-    if (authenticatorType === 'phone') {
+    let key = formName;
+    if (authenticatorKey === AUTHENTICATOR_KEY.PHONE) {
       // Both sms and call have same type phone
       // currentAuthenticatorEnrollment is during verify and currentAuthenticator during enroll flows
-      type = `${methodType}`;
+      key = `${methodType}`;
     }
-    else if (authenticatorType) {
-      type = `${authenticatorType}`;
+    else if (authenticatorKey) {
+      key = `${authenticatorKey}`;
     }
 
-    if (FORMNAME_CLASSNAME_MAPPINGS[formName] && FORMNAME_CLASSNAME_MAPPINGS[formName][type]) {
-      return FORMNAME_CLASSNAME_MAPPINGS[formName][type];
+    if (FORMNAME_CLASSNAME_MAPPINGS[formName] && FORMNAME_CLASSNAME_MAPPINGS[formName][key]) {
+      return FORMNAME_CLASSNAME_MAPPINGS[formName][key];
     } else {
       return null;
     }
   }
 };
 
-const getClassNameMapping = (formName, authenticatorType, methodType, isPasswordRecoveryFlow) => {
+const getClassNameMapping = (formName, authenticatorKey, methodType, isPasswordRecoveryFlow) => {
 
   // 1. Generates V2 class name
   // If we have a type which is authenticatorType/methodType use that to generate a V2 className
   // Otherwise just use formName
   let v2ClassName = formName;
-  if (authenticatorType) {
-    v2ClassName = v2ClassName + '--' + authenticatorType;
+  if (authenticatorKey) {
+    v2ClassName = v2ClassName + '--' + authenticatorKey;
   }
-  if (methodType && methodType !== authenticatorType) {
-    v2ClassName = v2ClassName + '--' + methodType;
-  }
-
 
   // 2. do a lookup for any V1 classNames and concat
   let v1ClassName = getV1ClassName(
     formName,
-    authenticatorType,
+    authenticatorKey,
     methodType,
     isPasswordRecoveryFlow,
   );
