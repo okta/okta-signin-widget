@@ -13,6 +13,7 @@
 const FORMS = {
   IDENTIFY: 'identify',
   SELECT_IDENTIFY: 'select-identify',
+  IDENTIFY_RECOVERY: 'identify-recovery',
   SELECT_ENROLL_PROFILE: 'select-enroll-profile',
   ENROLL_PROFILE: 'enroll-profile',
 
