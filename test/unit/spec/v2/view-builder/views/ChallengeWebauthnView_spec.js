@@ -3,6 +3,7 @@ import BaseForm from 'v2/view-builder/internals/BaseForm';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
 import webauthn from 'util/webauthn';
+import BrowserFeatures from 'util/BrowserFeatures';
 import CryptoUtil from 'util/CryptoUtil';
 import $sandbox from 'sandbox';
 import Expect from 'helpers/util/Expect';
@@ -44,20 +45,48 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function () {
     $sandbox.empty();
   });
 
-  it('shows verify instructions and spinner when browser supports webauthn', function () {
+  it('shows verify instructions and spinner when webauthn is supported and browser is not safari', function () {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    spyOn(BrowserFeatures, 'isSafari').and.callFake(() => false);
     this.init();
     expect(this.view.$('.idx-webauthn-verify-text').text()).toBe(
       'You will be prompted to use a security key or biometric verification (Windows Hello, Touch ID, etc.). Follow the instructions to complete verification.'
     );
     expect(this.view.$('.retry-webauthn').css('display')).toBe('none');
-    expect(this.view.$('.retry-webauthn').text()).toBe('Retry');
-    expect(this.view.$('.webauthn-not-supported').length).toBe(0);
     expect(this.view.$('.okta-waiting-spinner').css('display')).toBe('block');
+    expect(this.view.$('.webauthn-not-supported').length).toBe(0);
+
   });
 
-  it('shows verify instructions and spinner if there are existing enrollments', function () {
+  it('shows verify instructions and button when browser supports webauthn on safari', function () {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    spyOn(BrowserFeatures, 'isSafari').and.callFake(() => true);
+    this.init();
+    expect(this.view.$('.idx-webauthn-verify-text').text()).toBe(
+      'You will be prompted to use a security key or biometric verification (Windows Hello, Touch ID, etc.). Follow the instructions to complete verification.'
+    );
+    expect(this.view.$('.retry-webauthn').css('display')).toBe('inline');
+    expect(this.view.$('.retry-webauthn').text()).toBe('Verify');
+    expect(this.view.$('.webauthn-not-supported').length).toBe(0);
+  });
+
+  it('updated button text to "Retry" on click on safari', function () {
+    spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    spyOn(BrowserFeatures, 'isSafari').and.callFake(() => true);
+    this.init();
+    expect(this.view.$('.idx-webauthn-verify-text').text()).toBe(
+      'You will be prompted to use a security key or biometric verification (Windows Hello, Touch ID, etc.). Follow the instructions to complete verification.'
+    );
+    expect(this.view.$('.retry-webauthn').css('display')).toBe('inline');
+    expect(this.view.$('.retry-webauthn').text()).toBe('Verify');
+    this.view.$('.retry-webauthn').click();
+    expect(this.view.$('.retry-webauthn').css('display')).toBe('none');
+    expect(this.view.$('.retry-webauthn').text()).toBe('Retry');
+  });
+
+  it('shows verify instructions if there are existing enrollments', function () {
+    spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    spyOn(BrowserFeatures, 'isSafari').and.callFake(() => true);
     this.init(
       ChallengeWebauthnResponse.currentAuthenticatorEnrollment.value,
       ChallengeWebauthnResponse.authenticatorEnrollments
@@ -65,10 +94,9 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function () {
     expect(this.view.$('.idx-webauthn-verify-text').text()).toBe(
       'You will be prompted to use a security key or biometric verification (Windows Hello, Touch ID, etc.). Follow the instructions to complete verification.'
     );
-    expect(this.view.$('.retry-webauthn').css('display')).toBe('none');
-    expect(this.view.$('.retry-webauthn').text()).toBe('Retry');
+    expect(this.view.$('.retry-webauthn').css('display')).toBe('inline');
+    expect(this.view.$('.retry-webauthn').text()).toBe('Verify');
     expect(this.view.$('.webauthn-not-supported').length).toBe(0);
-    expect(this.view.$('.okta-waiting-spinner').css('display')).toBe('block');
   });
 
   it('shows error when browser does not support webauthn', function () {
@@ -125,7 +153,6 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function () {
       ChallengeWebauthnResponse.currentAuthenticatorEnrollment.value,
       ChallengeWebauthnResponse.authenticatorEnrollments
     );
-
     Expect.waitForSpyCall(this.view.form.saveForm)
       .then(() => {
         expect(navigator.credentials.get).toHaveBeenCalledWith({
@@ -169,9 +196,7 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function () {
       get: jasmine.createSpy('webauthn-spy'),
     };
     spyOn(navigator.credentials, 'get').and.returnValue(Promise.reject({ message: 'error from browser' }));
-
     this.init();
-
     Expect.waitForCss('.infobox-error')
       .then(() => {
         expect(this.view.$el.find('.infobox-error')[0].textContent.trim()).toBe('error from browser');
