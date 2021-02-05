@@ -2,19 +2,27 @@ import { RequestMock, RequestLogger } from 'testcafe';
 
 import ConsentPageObject from '../framework/page-objects/ConsentPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
+import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 
 import xhrConsent from '../../../playground/mocks/data/idp/idx/admin-consent';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
+import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
 
 
-const consentMock = RequestMock()
+const consentAllowMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrConsent)
   .onRequestTo('http://localhost:3000/idp/idx/consent')
   .respond(xhrSuccess);
 
+const consentDenyMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrConsent)
+  .onRequestTo('http://localhost:3000/idp/idx/cancel')
+  .respond(xhrIdentify);
 
-const requestLogger = RequestLogger(/consent/,
+
+const requestLogger = RequestLogger(/consent|cancel/,
   {
     logRequestBody: true,
     stringifyRequestBody: true,
@@ -29,7 +37,7 @@ async function setup(t) {
   return consentPage;
 }
 
-test.requestHooks(requestLogger, consentMock)('should render scopes', async t => {
+test.requestHooks(requestLogger, consentAllowMock)('should render scopes', async t => {
   const consentPage  = await setup(t);
 
   await t.expect(consentPage.getScopeGroupName()).eql('Resource and policies');
@@ -39,7 +47,7 @@ test.requestHooks(requestLogger, consentMock)('should render scopes', async t =>
   ]);
 });
 
-test.requestHooks(requestLogger, consentMock)('should call /consent and send scopes on form submit', async t => {
+test.requestHooks(requestLogger, consentAllowMock)('should call /consent and send scopes on form submit', async t => {
   const consentPage  = await setup(t);
 
   await consentPage.clickAllowButton();
@@ -59,15 +67,18 @@ test.requestHooks(requestLogger, consentMock)('should call /consent and send sco
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
 
-// TODO: handle BaseForm cancel 
-// test.requestHooks(requestLogger, consentMock)('should call /cancel on form cancel', async t => {
-//   const consentPage  = await setup(t);
+test.requestHooks(requestLogger, consentDenyMock)('should call /cancel on form cancel', async t => {
+  const consentPage  = await setup(t);
 
-//   await consentPage.clickDontAllowButton();
-//   const { request: {body, method, url}} = requestLogger.requests[0];
-//   const jsonBody = JSON.parse(body);
+  await consentPage.clickDontAllowButton();
+  const { request: {body, method, url}} = requestLogger.requests[0];
+  const jsonBody = JSON.parse(body);
 
-//   await t.expect(jsonBody).eql({});
-//   await t.expect(method).eql('post');
-//   await t.expect(url).eql('http://localhost:3000/api/v1/idx/cancel');
-// });
+  await t.expect(jsonBody).eql({stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'});
+  await t.expect(method).eql('post');
+  await t.expect(url).eql('http://localhost:3000/idp/idx/cancel');
+
+  const identityPage = new IdentityPageObject(t);
+  const pageUrl = await identityPage.getPageUrl();
+  await t.expect(pageUrl).eql('http://localhost:3000/');
+});

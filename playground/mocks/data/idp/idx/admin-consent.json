@@ -49,7 +49,7 @@
   "cancel": {
     "rel": ["create-form"],
     "name": "cancel",
-    "href": "http://localhost:3000/api/v1/idx/cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
     "method": "POST",
     "accepts": "application/ion+json; okta-version=1.0.0",
     "produces": "application/ion+json; okta-version=1.0.0",
