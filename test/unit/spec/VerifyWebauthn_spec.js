@@ -47,7 +47,7 @@ const Factors = {
 
 const configWithCustomLink = {
   helpLinks: {
-    factorPageCustomLink: {
+    factorPage: {
       text: 'Need help with MFA?',
       href: 'https://acme.com/mfa-help',
     }
@@ -56,7 +56,7 @@ const configWithCustomLink = {
 
 const configWithCustomLinkNoText = {
   helpLinks: {
-    factorPageCustomLink: {
+    factorPage: {
       href: 'https://acme.com/mfa-help',
     }
   }
@@ -64,7 +64,7 @@ const configWithCustomLinkNoText = {
 
 const configWithCustomLinkNoHref = {
   helpLinks: {
-    factorPageCustomLink: {
+    factorPage: {
       text: 'Need help with MFA?',
     }
   }

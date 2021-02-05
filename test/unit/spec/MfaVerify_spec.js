@@ -89,7 +89,7 @@ Expect.describe('MFA Verify', function () {
 
   const configWithCustomLink = {
     helpLinks: {
-      factorPageCustomLink: {
+      factorPage: {
         text: 'Need help with MFA?',
         href: 'https://acme.com/mfa-help',
       }
@@ -98,7 +98,7 @@ Expect.describe('MFA Verify', function () {
 
   const configWithCustomLinkNoText = {
     helpLinks: {
-      factorPageCustomLink: {
+      factorPage: {
         href: 'https://acme.com/mfa-help',
       }
     }
@@ -106,7 +106,7 @@ Expect.describe('MFA Verify', function () {
 
   const configWithCustomLinkNoHref = {
     helpLinks: {
-      factorPageCustomLink: {
+      factorPage: {
         text: 'Need help with MFA?',
       }
     }

@@ -942,7 +942,7 @@ Set the following config options to override the help link URLs on the Primary A
 helpLinks: {
   help: 'https://acme.com/help',
   forgotPassword: 'https://acme.com/forgot-password',
-  factorPageCustomLink: {
+  factorPage: {
     text: 'Need help with MFA?',
     href: 'https://acme.com/mfa-help',
   },
@@ -967,7 +967,7 @@ helpLinks: {
 
 - **helpLinks.unlock** - Custom link href for the "Unlock Account" link. For this link to display, `features.selfServiceUnlock` must be set to `true`, and the self service unlock feature must be enabled in your admin settings.
 
-- **helpLinks.factorPageCustomLink** - Custom link object `{text, href}` that will be added to all MFA pages.
+- **helpLinks.factorPage** - Custom link object `{text, href}` that will be added to all MFA pages.
 
 - **helpLinks.custom** - Array of custom link objects `{text, href, target}` that will be added to the *"Need help signing in?"* section. The `target` of the link is optional.
 

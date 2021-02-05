@@ -33,8 +33,8 @@ export default FooterSignout.extend({
   className: 'auth-footer clearfix',
   getTemplateData: function () {
     const signoutTemplateData = FooterSignout.prototype.getTemplateData.apply(this, arguments);
-    const factorPageCustomLinkHref = this.settings.get('helpLinks.factorPageCustomLink.href');
-    const factorPageCustomLinkText = this.settings.get('helpLinks.factorPageCustomLink.text');
+    const factorPageCustomLinkHref = this.settings.get('helpLinks.factorPage.href');
+    const factorPageCustomLinkText = this.settings.get('helpLinks.factorPage.text');
     const showLink = !this.settings.get('features.hideSignOutLinkInMFA') &&
       !this.settings.get('features.mfaOnlyFlow');
     return Object.assign({}, signoutTemplateData, {
