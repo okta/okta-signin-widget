@@ -13,6 +13,7 @@ import { _, Controller } from 'okta';
 import ViewFactory from '../view-builder/ViewFactory';
 import IonResponseHelper from '../ion/IonResponseHelper';
 import { getV1ClassName } from '../ion/ViewClassNamesFactory';
+import { OKTA_STATE_TOKEN_KEY } from '../view-builder/utils/Constants';
 
 export default Controller.extend({
   className: 'form-controller',
@@ -109,6 +110,10 @@ export default Controller.extend({
   },
 
   handleInvokeAction (actionPath = '') {
+    if(actionPath === 'cancel') {
+      sessionStorage.removeItem(OKTA_STATE_TOKEN_KEY);
+    }
+
     const idx = this.options.appState.get('idx');
     if (idx['neededToProceed'].find(item => item.name === actionPath)) {
       idx.proceed(actionPath, {})
