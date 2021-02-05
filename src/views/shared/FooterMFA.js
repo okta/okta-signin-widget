@@ -23,25 +23,23 @@ export default FooterSignout.extend({
           {{factorPageCustomLinkText}}\
         </a>\
       {{/if}}\
-      {{#if showLink}}\
-        <a href="#" class="link {{linkClassName}}" data-se="signout-link">\
-          {{linkText}}\
-        </a>\
-      {{/if}}\
+      {{#if showLink}}{{{linkHtml}}}{{/if}}\
     '
   ),
   className: 'auth-footer clearfix',
   getTemplateData: function () {
     const signoutTemplateData = FooterSignout.prototype.getTemplateData.apply(this, arguments);
+    const signoutHtml = FooterSignout.prototype.template(signoutTemplateData);
     const factorPageCustomLinkHref = this.settings.get('helpLinks.factorPage.href');
     const factorPageCustomLinkText = this.settings.get('helpLinks.factorPage.text');
     const showLink = !this.settings.get('features.hideSignOutLinkInMFA') &&
       !this.settings.get('features.mfaOnlyFlow');
-    return Object.assign({}, signoutTemplateData, {
+    return {
       hasFactorPageCustomLink: factorPageCustomLinkText && factorPageCustomLinkHref,
       factorPageCustomLinkHref,
       factorPageCustomLinkText,
       showLink,
-    });
+      linkHtml: signoutHtml,
+    };
   },
 });
