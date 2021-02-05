@@ -207,4 +207,17 @@ export default class BaseFormObject {
     await this.t.click(this.el.find(selector));
   }
 
+  /**
+   * Queries for all elements matching the selector
+   * and returns a list of inner texts of the matching elements.
+   * @param {string} selector
+   * @returns {array}
+   */
+  getInnerTexts(selector) {
+    return ClientFunction((selector) => {
+      return Array.prototype.map.call(document.querySelectorAll(selector), (el) => {
+        return el.innerText;
+      });
+    })(selector);
+  }
 }
