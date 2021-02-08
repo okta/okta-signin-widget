@@ -44,6 +44,10 @@ export default class ChallengeFactorPageObject extends BasePageObject {
     return this.form.getErrorBoxText();
   }
 
+  getErrorFromErrorBox() {
+    return this.form.getErrorBoxText();
+  }
+
   /**
    * @deprecated {@see ChallengeEmailPageObject}
    */

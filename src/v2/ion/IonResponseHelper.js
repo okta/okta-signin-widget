@@ -123,8 +123,12 @@ const getGlobalErrors = (res) => {
 const convertFormErrors = (response) => {
   let errors = {
     errorCauses: getRemediationErrors(response),
-    errorSummary: getGlobalErrors(response)
+    errorSummary: getGlobalErrors(response),
   };
+
+  if (response.messages?.value[0]?.i18n.key) {
+    errors.errorMessageKey = response.messages?.value[0]?.i18n.key;
+  }
 
   return {
     responseJSON: errors
