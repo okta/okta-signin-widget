@@ -16,7 +16,7 @@ import Duo from 'duo';
 import Q from 'q';
 import FactorUtil from 'util/FactorUtil';
 import FormController from 'util/FormController';
-import FooterSignout from 'views/shared/FooterSignout';
+import FooterMFA from 'views/shared/FooterMFA';
 
 export default FormController.extend({
   className: 'mfa-verify-duo duo-form',
@@ -161,11 +161,5 @@ export default FormController.extend({
     // More details in OKTA-135060.
   },
 
-  initialize: function () {
-    FormController.prototype.initialize.apply(this, arguments);
-    if (!this.settings.get('features.hideSignOutLinkInMFA') &&
-        !this.settings.get('features.mfaOnlyFlow')) {
-      this.addFooter(FooterSignout);
-    }
-  },
+  Footer: FooterMFA,
 });

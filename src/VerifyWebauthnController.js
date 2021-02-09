@@ -22,7 +22,7 @@ import FormType from 'util/FormType';
 import webauthn from 'util/webauthn';
 import BrowserFeatures from 'util/BrowserFeatures';
 import HtmlErrorMessageView from 'views/mfa-verify/HtmlErrorMessageView';
-import FooterSignout from 'views/shared/FooterSignout';
+import FooterMFA from 'views/shared/FooterMFA';
 
 function getAllowCredentials (factors) {
   const allowCredentials = [];
@@ -226,11 +226,5 @@ export default FormController.extend({
     // More details in OKTA-135060.
   },
 
-  initialize: function () {
-    FormController.prototype.initialize.apply(this, arguments);
-    if (!this.settings.get('features.hideSignOutLinkInMFA') &&
-        !this.settings.get('features.mfaOnlyFlow')) {
-      this.addFooter(FooterSignout);
-    }
-  },
+  Footer: FooterMFA,
 });

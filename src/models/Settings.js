@@ -114,6 +114,8 @@ export default Model.extend({
     'helpLinks.forgotPassword': 'string',
     'helpLinks.unlock': 'string',
     'helpLinks.custom': 'array',
+    'helpLinks.factorPage.href': 'string',
+    'helpLinks.factorPage.text': 'string',
 
     //Custom Buttons
     customButtons: ['array', false, []],
