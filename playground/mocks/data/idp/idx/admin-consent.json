@@ -16,35 +16,34 @@
         "produces": "application/ion+json; okta-version=1.0.0",
         "relatesTo": ["$.termsOfService", "$.privacyPolicy", "$.logo"],
         "value": [
-          {
-            "name": "scopes",
-            "required": true,
-            "form": {
-              "value": [
-                {
-                  "name": "okta.clients.manage",
-                  "label": "okta.clients.manage",
-                  "value": "okta.clients.manage",
-                  "desc": "Allows the app to manage clients in your Okta organization."
-                },
-                {
-                  "name": "okta.authenticators.manage",
-                  "label": "okta.authenticators.manage",
-                  "value": "okta.authenticators.manage",
-                  "desc": "Allows the app to manage all authenticators (e.g. enrollments, reset)."
-                }
-              ]
+        {
+          "name": "scopes",
+          "type": "object",
+          "required": true,
+          "options":  [
+            {
+              "name": "okta.clients.manage",
+              "label": "okta.clients.manage",
+              "value": "okta.clients.manage",
+              "desc": "Allows the app to manage clients in your Okta organization."
+            },
+            {
+              "name": "okta.authenticators.manage",
+              "label": "okta.authenticators.manage",
+              "value": "okta.authenticators.manage",
+              "desc": "Allows the app to manage all authenticators (e.g. enrollments, reset)."
             }
-          },
-          {
-            "name": "stateHandle",
-            "required": true,
-            "value": "02tZJpxD03j1a3qaPcSsi16yDtqMZgfetf8OvWOepP",
-            "visible": false,
-            "mutable": false
-          }
-        ]
-      }]
+          ]
+        },
+        {
+          "name": "stateHandle",
+          "required": true,
+          "value": "02tZJpxD03j1a3qaPcSsi16yDtqMZgfetf8OvWOepP",
+          "visible": false,
+          "mutable": false
+        }
+      ]
+    }]
   },
   "cancel": {
     "rel": ["create-form"],

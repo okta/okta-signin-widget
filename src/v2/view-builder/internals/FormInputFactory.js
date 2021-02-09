@@ -4,6 +4,7 @@ import AuthenticatorVerifyOptions from '../components/AuthenticatorVerifyOptions
 import { getAuthenticatorDataForEnroll, getAuthenticatorDataForVerification} from '../utils/AuthenticatorUtil';
 import { AUTHENTICATOR_KEY, FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import IDP from '../../../util/IDP';
+import ScopeList from '../../../views/admin-consent/ScopeList';
 
 const createAuthenticatorEnrollSelectView = (opt) => {
   var optionItems = (opt.options || [])
@@ -48,9 +49,16 @@ const createAuthenticatorVerifySelectView = (opt) => {
   };
 };
 
+const createScopesView = () => {
+  return {
+    View: ScopeList,
+  };
+};
+
 const inputCreationStrategy = {
   authenticatorEnrollSelect: createAuthenticatorEnrollSelectView,
-  authenticatorVerifySelect: createAuthenticatorVerifySelectView
+  authenticatorVerifySelect: createAuthenticatorVerifySelectView,
+  scopes: createScopesView,
 };
 
 // TODO: move logic to uiSchemaTransformer
