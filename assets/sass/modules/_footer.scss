@@ -1,6 +1,10 @@
 .auth-footer {
   font-size: $font-size-small;
 
+  .js-factor-page-custom-link {
+    display: block;
+  }
+
   .goto {
     float: right;
   }
