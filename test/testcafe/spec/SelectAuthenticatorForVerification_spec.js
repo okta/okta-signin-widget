@@ -11,6 +11,7 @@ import xhrAuthenticatorRequiredPassword from '../../../playground/mocks/data/idp
 import xhrAuthenticatorRequiredEmail from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
 import xhrAuthenticatorRequiredWebauthn from '../../../playground/mocks/data/idp/idx/authenticator-verification-webauthn';
 import xhrAuthenticatorRequiredOnPremMfa from '../../../playground/mocks/data/idp/idx/authenticator-verification-on-prem';
+import xhrAuthenticatorRequiredRsa from '../../../playground/mocks/data/idp/idx/authenticator-verification-rsa';
 import xhrAuthenticatorDuo from '../../../playground/mocks/data/idp/idx/authenticator-verification-duo';
 import xhrAuthenticatorOVTotp from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp';
 import xhrAuthenticatorOVPush from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push';
@@ -91,6 +92,12 @@ const mockChallengeOnPremMFA = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrAuthenticatorRequiredOnPremMfa);
 
+const mockChallengeRsa = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticators)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrAuthenticatorRequiredRsa);
+
 fixture('Select Authenticator for verification Form');
 
 async function setup(t) {
@@ -103,7 +110,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
-  await t.expect(selectFactorPage.getFactorsCount()).eql(10);
+  await t.expect(selectFactorPage.getFactorsCount()).eql(11);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(0)).eql(false);
@@ -159,13 +166,19 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(8)).eql(false);
   await t.expect(selectFactorPage.getFactorIconClassByIndex(8)).contains('mfa-onprem');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(8)).eql('Select');
-  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(8)).eql('del_oath');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(8)).eql('onprem_mfa');
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(9)).eql('Duo Security');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(9)).eql('RSA SecurID');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(9)).eql(false);
-  await t.expect(selectFactorPage.getFactorIconClassByIndex(9)).contains('mfa-duo');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(9)).contains('mfa-rsa');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(9)).eql('Select');
-  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(9)).eql('duo_native');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(9)).eql('rsa_token');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(10)).eql('Duo Security');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(10)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(10)).contains('mfa-duo');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(10)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(10)).eql('duo_native');
 
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();
@@ -444,6 +457,15 @@ test.requestHooks(mockChallengeOnPremMFA)('should navigate to on prem mfa challe
   selectFactorPage.selectFactorByIndex(7);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
   await t.expect(challengeFactorPage.getPageTitle()).eql('Verify with Atko Custom On-prem');
+});
+
+test.requestHooks(mockChallengeRsa)('should navigate to RSA challenge page', async t => {
+  const selectFactorPage = await setup(t);
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
+
+  selectFactorPage.selectFactorByIndex(8);
+  const challengeFactorPage = new ChallengeFactorPageObject(t);
+  await t.expect(challengeFactorPage.getPageTitle()).eql('Verify with RSA SecurID');
 });
 
 test.requestHooks(mockChallengeDuo)('should navigate to Duo challenge page', async t => {

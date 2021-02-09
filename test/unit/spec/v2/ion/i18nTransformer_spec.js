@@ -28,6 +28,12 @@ describe('v2/ion/i18nTransformer', function () {
       'oie.on_prem.enroll.username.label': 'enter username',
       'oie.on_prem.enroll.passcode.label': 'enter passcode',
       'oie.on_prem.verify.passcode.label': 'enter passcode',
+      'oie.on_prem.error.token.change': 'token change mode',
+
+      'oie.rsa.label': 'rsa',
+      'oie.rsa.enroll.username.label': 'enter username',
+      'oie.rsa.enroll.passcode.label': 'enter passcode',
+      'oie.rsa.verify.passcode.label': 'enter passcode',
 
       'mfa.phoneNumber.placeholder': 'phone number',
       'mfa.challenge.answer.placeholder': 'answer',
@@ -267,6 +273,14 @@ describe('v2/ion/i18nTransformer', function () {
                     'methodType': 'otp'
                   },
                   'authenticatorKey': 'google_authenticator'
+                },
+                {
+                  'label': 'Enter a code',
+                  'value': {
+                    'id': 'aid568g3mCgtID0HHSLH',
+                    'methodType': 'otp'
+                  },
+                  'authenticatorKey': 'rsa_token'
                 }
               ],
               'label-top': true
@@ -357,6 +371,14 @@ describe('v2/ion/i18nTransformer', function () {
                     'methodType': 'otp'
                   },
                   'authenticatorKey': 'google_authenticator'
+                },
+                {
+                  'label': 'unit test - rsa',
+                  'value': {
+                    'id': 'aid568g3mCgtID0HHSLH',
+                    'methodType': 'otp'
+                  },
+                  'authenticatorKey': 'rsa_token'
                 }
               ],
               'label-top': true
@@ -698,6 +720,11 @@ describe('v2/ion/i18nTransformer', function () {
                   value: { id: 'autwa6eD9o02iCbtv0g3' },
                   authenticatorKey: 'google_authenticator'
                 },
+                {
+                  label: 'RSA SecurID',
+                  value: { id: 'autwa6eD9o02iCbtv0g3' },
+                  authenticatorKey: 'rsa_token'
+                },
               ]
             }
           ]
@@ -738,6 +765,10 @@ describe('v2/ion/i18nTransformer', function () {
                   label: 'unit test - google authenticator',
                   value: { id: 'autwa6eD9o02iCbtv0g3' },
                   authenticatorKey: 'google_authenticator'
+                }, {
+                  label: 'unit test - rsa',
+                  value: { id: 'autwa6eD9o02iCbtv0g3' },
+                  authenticatorKey: 'rsa_token'
                 },
               ]
             }
@@ -1102,6 +1133,55 @@ describe('v2/ion/i18nTransformer', function () {
     });
   });
 
+  it('converts oie.on_prem.error.token.change message', () => {
+    const resp = {
+      messages: {
+        value: [
+          {
+            'message': 'Wait for token to change, then enter the new tokencode',
+            'i18n': {
+              'key': 'oie.on_prem.error.token.change'
+            },
+            'class': 'INFO'
+          },
+          {
+            'message': 'another {0} message',
+            'i18n': {
+              'key': 'idx.foo',
+              'params': [
+                'Atko custom on-prem'
+              ]
+            },
+            'class': 'INFO'
+          }
+        ]
+      }
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      messages: {
+        value: [
+          {
+            'message': 'unit test - token change mode',
+            'i18n': {
+              'key': 'oie.on_prem.error.token.change'
+            },
+            'class': 'INFO'
+          },
+          {
+            'message': 'unit test - hello the Atko custom on-prem authenticator',
+            'i18n': {
+              'key': 'idx.foo',
+              'params': [
+                'Atko custom on-prem'
+              ]
+            },
+            'class': 'INFO'
+          }
+        ]
+      }
+    });
+  });
+
   it('does not convert a label if no such key exists', () => {
     const resp = {
       remediations: [
@@ -1289,7 +1369,7 @@ describe('v2/ion/i18nTransformer', function () {
           relatesTo: {
             value: {
               type: 'security_key',
-              key: 'del_oath'
+              key: 'onprem_mfa'
             }
           },
           uiSchema: [
@@ -1325,7 +1405,7 @@ describe('v2/ion/i18nTransformer', function () {
           relatesTo: {
             value: {
               type: 'security_key',
-              key: 'del_oath'
+              key: 'onprem_mfa'
             }
           },
           uiSchema: [
@@ -1363,7 +1443,7 @@ describe('v2/ion/i18nTransformer', function () {
           relatesTo: {
             value: {
               type: 'security_key',
-              key: 'del_oath'
+              key: 'onprem_mfa'
             }
           },
           name: 'challenge-authenticator',
@@ -1384,7 +1464,127 @@ describe('v2/ion/i18nTransformer', function () {
           relatesTo: {
             value: {
               type: 'security_key',
-              key: 'del_oath'
+              key: 'onprem_mfa'
+            }
+          },
+          name: 'challenge-authenticator',
+          uiSchema: [
+            {
+              'label': 'unit test - enter passcode',
+              'label-top': true,
+              'name': 'credentials.passcode',
+              'type': 'text'
+            }
+          ]
+        }
+      ]
+    });
+  });
+
+  it('converts label for enroll-authenticator - rsa authenticator', () => {
+    const resp = {
+      remediations: [
+        {
+          name: 'enroll-authenticator',
+          relatesTo: {
+            value: {
+              type: 'security_key',
+              key: 'rsa_token'
+            }
+          },
+          uiSchema: [
+            {
+              'optionsUiSchemas': [
+                [
+                  {
+                    'label': 'User Name',
+                    'label-top': true,
+                    'name': 'credentials.userName',
+                    'required': true,
+                    'type': 'text',
+                    'value': 'rsa_username'
+                  },
+                  {
+                    'label': 'Passcode',
+                    'label-top': true,
+                    'name': 'credentials.passcode',
+                    'required': true,
+                    'type': 'text'
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          name: 'enroll-authenticator',
+          relatesTo: {
+            value: {
+              type: 'security_key',
+              key: 'rsa_token'
+            }
+          },
+          uiSchema: [
+            {
+              'optionsUiSchemas': [
+                [
+                  {
+                    'label': 'unit test - enter username',
+                    'label-top': true,
+                    'name': 'credentials.userName',
+                    'required': true,
+                    'type': 'text',
+                    'value': 'rsa_username'
+                  },
+                  {
+                    'label': 'unit test - enter passcode',
+                    'label-top': true,
+                    'name': 'credentials.passcode',
+                    'required': true,
+                    'type': 'text'
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    });
+  });
+
+  it('converts label for challenge-authenticator - rsa authenticator', () => {
+    const resp = {
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'security_key',
+              key: 'rsa_token'
+            }
+          },
+          name: 'challenge-authenticator',
+          uiSchema: [
+            {
+              'label': 'Enter code',
+              'label-top': true,
+              'name': 'credentials.passcode',
+              'type': 'text'
+            }
+          ]
+        }
+      ]
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'security_key',
+              key: 'rsa_token'
             }
           },
           name: 'challenge-authenticator',

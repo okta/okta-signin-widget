@@ -109,9 +109,9 @@
   "currentAuthenticator": {
     "type": "object",
     "value": {
-      "displayName": "Atko Custom On-prem",
+      "displayName": "RSA SecurID",
       "type": "security_key",
-      "key": "onprem_mfa",
+      "key": "rsa_token",
       "id": "autx7fdyRt87txnAs0g3",
       "methods":[
         {
@@ -128,9 +128,9 @@
     "type": "array",
     "value": [
       {
-        "displayName": "Atko Custom On-prem",
+        "displayName": "RSA SecurID",
         "type": "security_key",
-        "key": "onprem_mfa",
+        "key": "rsa_token",
         "authenticatorid": "autx7fdyRt87txnAs0g3",
         "id": "on-prem-enroll-id-123"
       }
