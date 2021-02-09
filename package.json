@@ -47,7 +47,7 @@
     "pretest:e2e": "yarn install:react && yarn install:angular",
     "test:e2e": "yarn build:release && yarn start:react && yarn start:angular && grunt test-e2e",
     "test:e2e:windows": "export SAUCE_PLATFORM_NAME=windows && yarn test:e2e",
-    "test:testcafe-setup": "mkdir -p test-reports/testcafe && yarn start --no-open",
+    "test:testcafe-setup": "mkdir -p test-reports/testcafe && yarn start:mockDuo --no-open",
     "test:testcafe-run": "wait-on http-get://localhost:3000 && testcafe -c 2 chrome:headless test/testcafe/spec/ --reporter xunit:build2/reports/junit/testcafe-results.xml",
     "test:testcafe-ci": "run-p -r test:testcafe-setup \"test:testcafe-run\" -- 2>/dev/null",
     "protractor": "node ./scripts/update-se-drivers.js && protractor target/e2e/conf.js",
@@ -58,7 +58,9 @@
     "build:webpack-e2e-app": "webpack target/e2e/app/app-using-osw-entry.js target/js/app-bundle.js",
     "prepublishOnly": "yarn build:release",
     "start": "yarn build:dev && yarn start:dev-server",
+    "start:mockDuo": "yarn build:dev --env.mockDuo && yarn start:dev-server",
     "start:playground": "concurrently \"grunt build:dev:watch\" \"grunt watch:sass\" \"yarn start:dev-server\" --kill-others",
+    "start:playground:mockDuo": "concurrently \"grunt build:dev:watch --env.mockDuo\" \"grunt watch:sass\" \"yarn start:dev-server\" --kill-others",
     "start:dev-server": "webpack-dev-server --config webpack.playground.config.js",
     "mock:device-authenticator": "dyson playground/mocks/spec-device-authenticator/ 6512"
   },

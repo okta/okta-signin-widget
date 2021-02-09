@@ -3,10 +3,8 @@
 var common    = require('./webpack.common.config');
 var plugins   = require('./buildtools/webpack/plugins');
 var usePolyfill = require('./buildtools/webpack/polyfill');
-
-var path          = require('path');
-const PLAYGROUND = path.resolve(__dirname, 'playground');
-
+var path       = require('path');
+var PLAYGROUND = path.resolve(__dirname, 'playground');
 
 module.exports = (env = {}) => {
   const { isProduction, skipAnalyzer } = env;
@@ -19,8 +17,13 @@ module.exports = (env = {}) => {
     })
   };
   usePolyfill(webpackConfig);
-  Object.assign(webpackConfig.resolve.alias, {
-    'duo': `${PLAYGROUND}/mocks/thirdparty/duo-mock.js`,
-  });
+
+  if (env.mockDuo) {
+    console.log('======> Mocking Duo iFrame');  // eslint-disable-line no-console
+    Object.assign(webpackConfig.resolve.alias, {
+      'duo': `${PLAYGROUND}/mocks/spec-duo/duo-mock.js`,
+    });
+  }
+
   return webpackConfig;
 };
