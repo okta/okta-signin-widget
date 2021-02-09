@@ -1,29 +1,7 @@
-import { loc, View } from 'okta';
-import BaseView from '../internals/BaseView';
-import BaseForm from '../internals/BaseForm';
-import consentLogoHeaderTemplate from '../../../views/shared/templates/consentLogoHeaderTemplate';
-
-
-const Header = View.extend({
-  className: 'consent-title detail-row',
-  template: consentLogoHeaderTemplate,
-  getTemplateData: function () {
-    const {label: appName, clientUri = {} } =  this.options.appState.get('app');
-    const customLogo = this.settings.get('logo');
-    const defaultLogo = '/img/logos/default.png';
-    const clientURI = clientUri.href;
-    const { issuer: issuerObj = {} } = this.options.appState.get('authentication');
-    const issuer = issuerObj.uri;
-
-    return {
-      appName, // escape?
-      customLogo,
-      defaultLogo,
-      clientURI,
-      issuer,
-    };
-  }
-});
+import { loc } from 'okta';
+import BaseView from '../../internals/BaseView';
+import BaseForm from '../../internals/BaseForm';
+import ConsentViewHeader from './ConsentViewHeader';
 
 const Body = BaseForm.extend(
   {
@@ -37,7 +15,7 @@ const Body = BaseForm.extend(
 
 export default BaseView.extend({
   className: 'admin-consent-required',
-  Header,
+  Header: ConsentViewHeader,
   Body,
   postRender () {
     // Move buttons in DOM to match visual hierarchy to fix tab order.
