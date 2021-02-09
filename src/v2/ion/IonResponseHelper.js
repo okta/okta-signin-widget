@@ -12,6 +12,7 @@
 
 import { _ } from 'okta';
 import { getMessage, getMessageKey } from './i18nTransformer';
+import { FORMS } from './RemediationConstants';
 
 const convertErrorMessageToErrorSummary = (formName, remediationValues = []) => {
   return _.chain(remediationValues)
@@ -151,7 +152,16 @@ const isIonErrorResponse = (response = {}) => {
   return response.version;
 };
 
+const isTerminalError = (res = {}) => {
+  if (!res.remediations || !Array.isArray(res.remediations) || res.remediations.length !== 1) {
+    return false;
+  }
+
+  return res.remediations[0].name === FORMS.TERMINAL;
+};
+
 export default {
   convertFormErrors,
   isIonErrorResponse,
+  isTerminalError
 };

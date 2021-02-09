@@ -15,6 +15,7 @@ import IonResponseHelper from '../ion/IonResponseHelper';
 import { getV1ClassName } from '../ion/ViewClassNamesFactory';
 import { FORMS } from '../ion/RemediationConstants';
 import Util from '../../util/Util';
+import { clearTransactionMeta } from '../client/transactionMeta';
 
 export default Controller.extend({
   className: 'form-controller',
@@ -111,6 +112,10 @@ export default Controller.extend({
   },
 
   handleInvokeAction (actionPath = '') {
+    if(actionPath === 'cancel') {
+      clearTransactionMeta(this.options.settings);
+    }
+
     const idx = this.options.appState.get('idx');
     if (idx['neededToProceed'].find(item => item.name === actionPath)) {
       idx.proceed(actionPath, {})

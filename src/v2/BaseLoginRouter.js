@@ -13,7 +13,6 @@
 // BaseLoginRouter contains the more complicated router logic - rendering/
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
-/* global Promise */
 import { _, $, Backbone, Router, loc } from 'okta';
 import Settings from 'models/Settings';
 import Bundles from 'util/Bundles';
@@ -24,63 +23,16 @@ import Logger from 'util/Logger';
 import LanguageUtil from 'util/LanguageUtil';
 import AuthContainer from 'views/shared/AuthContainer';
 import Header from 'views/shared/Header';
-import responseTransformer from './ion/responseTransformer';
-import uiSchemaTransformer from './ion/uiSchemaTransformer';
-import i18nTransformer from './ion/i18nTransformer';
 import AppState from './models/AppState';
-import idx from 'idx';
 
-const startLoginFlow = (settings) => {
-  const clientId = settings.get('clientId');
-  const domain = settings.get('baseUrl');
-  const scopes = settings.get('scopes');
-  const stateHandle = settings.get('stateToken');
-  const redirectUri = settings.get('redirectUri');
-  const version = settings.get('apiVersion');
+import {
+  startLoginFlow,
+  completeLoginFlow,
+  clearTransactionMeta
+} from './client';
 
-  const interact = () => {
-    const authClient = settings.getAuthClient();
-    return authClient.token
-      .prepareTokenParams()
-      .then(({ codeVerifier, codeChallenge, codeChallengeMethod }) => {
-        // set "codeVerifier" in settings for future access when interaction code is available
-        settings.set('codeVerifier', codeVerifier);
-
-        return idx.start({ 
-          clientId, 
-          issuer: domain + '/oauth2/default', 
-          scopes, 
-          stateHandle, 
-          redirectUri, 
-          version,
-          codeVerifier,
-          codeChallenge,
-          codeChallengeMethod
-        });
-      });
-  };
-
-  const introspect = () => {
-    return idx.start({ domain, stateHandle, version });
-  };
-  
-  if (stateHandle) {
-    return introspect();
-  } else if (settings.get('useInteractionCodeFlow')) {
-    return interact();
-  } else {
-    throw new Errors.ConfigError('Set "useInteractionCodeFlow" to true in configuration to enable the '+ 
-    'interaction_code" flow for self-hosted widget.');
-  }
-};
-
-const handleProxyIdxResponse = (settings) => {
-  return Promise.resolve({
-    rawIdxState: settings.get('proxyIdxResponse'),
-    context: settings.get('proxyIdxResponse'),
-    neededToProceed: [],
-  });
-};
+import transformIdxResponse from './ion/transformIdxResponse';
+import IonResponseHelper from './ion/IonResponseHelper';
 
 export default Router.extend({
   Events: Backbone.Events,
@@ -129,26 +81,18 @@ export default Router.extend({
   },
 
   handleIdxResponseSuccess (idxResponse) {
-    const { interactionCode } = idxResponse;
-    if (interactionCode) {
-      const authClient = this.settings.getAuthClient();
-      const codeVerifier = this.settings.get('codeVerifier');
-      this.settings.unset('codeVerifier');
-      return authClient.token.exchangeCodeForTokens({ codeVerifier, interactionCode })
-        .then(({ tokens }) => {
-          this.settings.callGlobalSuccess(Enums.SUCCESS, { tokens });
-        })
-        .catch(err => {
-          this.settings.callGlobalError(err);
-        });
+    if (idxResponse.interactionCode) {
+      return completeLoginFlow(this.settings, idxResponse);
+    }
+  
+    // transform response
+    const ionResponse = transformIdxResponse(this.settings, idxResponse);
+
+    // if this is a terminal error, clear all transaction meta
+    if (IonResponseHelper.isTerminalError(ionResponse)) {
+      clearTransactionMeta(this.settings);
     }
 
-    // transform response
-    const ionResponse = _.compose(
-      i18nTransformer,
-      uiSchemaTransformer,
-      responseTransformer.bind({}, this.settings),
-    )(idxResponse);
     this.appState.setIonResponse(ionResponse);
   },
 
@@ -232,9 +176,7 @@ export default Router.extend({
     // and remove it from `settings` afterwards as IDX response always has
     // state token (which will be set into AppState)
     if (this.settings.get('oieEnabled')) {
-      const idxRespPromise = this.settings.get('proxyIdxResponse') ?
-        handleProxyIdxResponse(this.settings) : startLoginFlow(this.settings);
-      return idxRespPromise
+      return startLoginFlow(this.settings)
         .then(idxResp => {
           this.settings.unset('stateToken');
           this.settings.unset('proxyIdxResponse');
