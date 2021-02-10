@@ -12,7 +12,7 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     save () {
-      return loc('oie.okta_verify.push.send', 'login');
+      return loc('oie.okta_verify.push.resend', 'login');
     },
 
     showMessages () {

@@ -70,7 +70,7 @@ test
     const errorBox = challengeOktaVerifyPushPageObject.getErrorBox();
     await t.expect(errorBox.innerText).contains('You have chosen to reject this login.');
     const resendPushBtn = challengeOktaVerifyPushPageObject.getResendPushButton();
-    await t.expect(resendPushBtn.value).contains('Send push notification');
+    await t.expect(resendPushBtn.value).contains('Resend push notification');
     await t.expect(resendPushBtn.hasClass('link-button-disabled')).notOk();
   });
 
