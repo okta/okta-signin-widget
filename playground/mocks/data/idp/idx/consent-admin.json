@@ -73,7 +73,7 @@
           "rel": "privacy-policy"
       },
       "logo": {
-          "href": "https://example.com/logo",
+          "href": "/img/logos/default.png",
           "rel": "icon"
       },
       "clientUri" : {

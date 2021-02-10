@@ -17,7 +17,6 @@ const idx = {
     'identify',
     // 'error-feature-not-enabled',
     // 'error-403-security-access-denied',
-    // 'admin-consent',
     // 'authenticator-enroll-email',
     // 'error-internal-server-error',
     // 'authenticator-enroll-password',
