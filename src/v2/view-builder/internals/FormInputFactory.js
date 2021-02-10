@@ -1,9 +1,10 @@
-import { Collection, _, loc, createButton } from 'okta';
+import { Collection, _, loc, createButton, $ } from 'okta';
 import AuthenticatorEnrollOptions from '../components/AuthenticatorEnrollOptions';
 import AuthenticatorVerifyOptions from '../components/AuthenticatorVerifyOptions';
 import { getAuthenticatorDataForEnroll, getAuthenticatorDataForVerification} from '../utils/AuthenticatorUtil';
 import { AUTHENTICATOR_KEY, FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import IDP from '../../../util/IDP';
+import Util from '../../../util/Util';
 
 const createAuthenticatorEnrollSelectView = (opt) => {
   var optionItems = (opt.options || [])
@@ -135,9 +136,150 @@ const addCustomButton = (customButtonSettings) => {
   });
 };
 
+const createPIVButtons = (remediations) => {
+  const redirectIdpRemediations = remediations.filter(idp => idp.name === 'mtls_idp');
+
+  if (!Array.isArray(redirectIdpRemediations)) {
+    return [];
+  }
+
+  //add buttons from idp object
+  return redirectIdpRemediations.map(idpObject => {
+    let type = idpObject.type?.toLowerCase();
+    let displayName;
+
+    if (!_.contains(IDP.SUPPORTED_SOCIAL_IDPS, type)) {
+      type = 'general-idp';
+      displayName = idpObject.idp?.name || '{ Please provide a text value }';
+    } else {
+      displayName = loc(`socialauth.${type}.label`, 'login');
+    }
+
+    let classNames = [
+      'social-auth-button',
+      `social-auth-${type}-button`,
+    ];
+
+    if (idpObject.idp.className) {
+      classNames.push(idpObject.idp.className);
+    }
+
+    const button = {
+      attributes: {
+        'data-se': `social-auth-${type}-button`,
+      },
+      className: classNames.join(' '),
+      title: displayName,
+      //href: idpObject.href,
+      click: () => {
+        settings1 = this.settings;
+        settings2 = window.settings;
+        const promise = new Promise (() => {
+          // Make a network request
+          pivCallback(remediations);
+        });
+
+        promise.then(res => {
+          console.log('done');
+        }).catch(err => {
+          console.log('done with error');
+        });
+      },
+    };
+    return button;
+  });
+};
+
+async function pivCallback(remediations) {
+  Util.debugMessage('pivCallback() called');
+  const self = this;
+  //const pivConfig = this.settings.get('piv');
+  const data = {
+    fromURI: 'https://naopiv.okta1.com',
+    isCustomDomain: false,
+  };
+
+  try {
+    const url = 'https://naopiv.mtls.okta1.com/api/internal/v1/authn/cert';
+    //const urlChallengeAnser = 'https://naopiv.okta1.com/idp/idx/identify';
+    const resFromGet = await getCert(url);
+    const res = await postCert(url, data);
+    const res2 = await postChallengeAnswer('https://naopiv.okta1.com/idp/idx/identify', res.jws);
+  } catch (err) {
+    if (_.isEmpty(err.responseJSON) && !err.responseText) {
+      err.responseJSON = {
+        errorSummary: loc('piv.cac.error', 'login'),
+      };
+    }
+    //self.trigger('error', self, err);
+  }
+};
+
+const getCert = (certAuthUrl) => {
+  return $.get({
+    url: certAuthUrl,
+    xhrFields: {
+      withCredentials: true,
+    },
+    beforeSend: function () {
+      // overriding this function to prevent our jquery-wrapper from
+      // setting headers. Need to keep this a simple request in order for
+      // PIV / CAC to work in IE.
+    },
+  });
+};
+
+// Send POST to the MTLS endpoint
+const postCert = (certAuthUrl, data) => {
+  return $.post({
+    url: certAuthUrl,
+    xhrFields: {
+      withCredentials: true,
+    },
+    data: JSON.stringify(data),
+    contentType: 'text/plain',
+    beforeSend: function () {
+      // overriding this function to prevent our jquery-wrapper from
+      // setting headers. Need to keep this a simple request in order for
+      // PIV / CAC to work in IE.
+    },
+  });
+};
+
+// Send POST to pipeline to finish login process
+/*
+{
+	"stateHandle" : "{{stateHandle}}",
+	"identifier" : "{{currentUserIdentifier}}"
+}
+ */
+const postChallengeAnswer = (url, jws) => {
+  var stateToken = window.settings.local.stateToken;
+  const dataAnswer = {
+    stateHandle: stateToken,
+    identifier: '32011152472674@upn.example.com'
+  };
+  return $.post({
+    url: url,
+    xhrFields: {
+      withCredentials: true,
+    },
+    data: JSON.stringify(dataAnswer),
+    //contentType: 'text/plain',
+    contentType:'application/ion+json; okta-version=1.0.0',
+    accepts:'application/ion+json; okta-version=1.0.0',
+    beforeSend: function () {
+      // overriding this function to prevent our jquery-wrapper from
+      // setting headers. Need to keep this a simple request in order for
+      // PIV / CAC to work in IE.
+    }
+  });
+};
+
 module.exports = {
   create,
   createIdpButtons,
   createCustomButtons,
   addCustomButton,
+  createPIVButtons,
 };

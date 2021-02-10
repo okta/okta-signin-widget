@@ -6,7 +6,7 @@ import IdentifierFooter from '../components/IdentifierFooter';
 import signInWithIdps from './signin/SignInWithIdps';
 import customButtonsView from './signin/CustomButtons';
 import signInWithDeviceOption from './signin/SignInWithDeviceOption';
-import { createIdpButtons, createCustomButtons } from '../internals/FormInputFactory';
+import { createIdpButtons, createCustomButtons, createPIVButtons } from '../internals/FormInputFactory';
 
 
 const Body = BaseForm.extend({
@@ -31,8 +31,9 @@ const Body = BaseForm.extend({
     // but only `redirect-idp` forms. At that case, no UI Schema.
     const hasUISchemas = this.getUISchema().length > 0;
 
-    // add external idps buttons
-    const idpButtons = createIdpButtons(this.options.appState.get('remediations'));
+    // Nao testing - add PIV buttons
+    const stateHandle1 = this.options.appState.get('stateHandle');
+    const idpButtons = createPIVButtons(this.options.appState.get('remediations'));
     if (Array.isArray(idpButtons) && idpButtons.length) {
       this.add(signInWithIdps, {
         selector: '.o-form-button-bar',
@@ -42,6 +43,19 @@ const Body = BaseForm.extend({
         }
       });
     }
+
+    // add external idps buttons
+    /* Nao testing
+    const idpButtons = createIdpButtons(this.options.appState.get('remediations'));
+    if (Array.isArray(idpButtons) && idpButtons.length) {
+      this.add(signInWithIdps, {
+        selector: '.o-form-button-bar',
+        options: {
+          idpButtons,
+          addSeparateLine: hasUISchemas,
+        }
+      });
+    }*/
 
     const customButtons = createCustomButtons(this.options.settings);
     if (Array.isArray(customButtons) && customButtons.length) {
