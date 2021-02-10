@@ -190,6 +190,27 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[6]"
+              }, {
+                "label": "Duo Security",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut32kl92UF8kfE4E0g4",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "idp",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[7]"
               }
             ]
           },
@@ -271,6 +292,16 @@
         "methods": [
           {
             "type": "otp"
+          }
+        ]
+      }, {
+        "type": "federated",
+        "key": "duo_native",
+        "id": "aut32kl92UF8kfE4E0g4",
+        "displayName": "Duo Security",
+        "methods": [
+          {
+            "type": "idp"
           }
         ]
       }

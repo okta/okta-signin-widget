@@ -495,6 +495,38 @@ describe('v2/ion/uiSchemaTransformer', function () {
                         }
                       ]
                     }
+                  },
+                  {
+                    'label': 'Duo Security',
+                    'value': {
+                      'form': {
+                        'value': [
+                          {
+                            'name': 'id',
+                            'required': true,
+                            'value': 'aut32kl92UF8kfE4E0g4',
+                            'mutable': false
+                          },
+                          {
+                            'name': 'methodType',
+                            'required': false,
+                            'value': 'idp',
+                            'mutable': false
+                          }
+                        ]
+                      }
+                    },
+                    'relatesTo': {
+                      'displayName': 'Duo Security',
+                      'type': 'federated',
+                      'key': 'duo_native',
+                      'id': 'aut32kl92UF8kfE4E0g4',
+                      'methods': [
+                        {
+                          'type': 'idp'
+                        }
+                      ]
+                    }
                   }
                 ]
               },
@@ -563,6 +595,14 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     },
                     authenticatorKey: 'del_oath',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[6]
+                  },
+                  {
+                    label: 'Duo Security',
+                    value: {
+                      id: 'aut32kl92UF8kfE4E0g4'
+                    },
+                    authenticatorKey: 'duo_native',
+                    relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[7]
                   },
                 ]
               }

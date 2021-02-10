@@ -83,6 +83,7 @@ const AUTHENTICATOR_KEY = {
   OV: 'okta_verify',
   GOOGLE_AUTHENTICATOR: 'google_authenticator',
   ON_PREM: 'del_oath',
+  DUO: 'duo_native'
 };
 
 const AUTHENTICATOR_METHODS = {
