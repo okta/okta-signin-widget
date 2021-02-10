@@ -131,7 +131,8 @@ const idx = {
 
 const consent = {
   '/idp/idx/introspect': [
-    'admin-consent',
+    // 'consent-admin',
+    'consent-enduser',
   ],
   '/idp/idx/consent': [
     'success',

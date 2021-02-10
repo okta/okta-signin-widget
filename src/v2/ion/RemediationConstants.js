@@ -18,7 +18,9 @@ const FORMS = {
   ENROLL_PROFILE: 'enroll-profile',
   UNLOCK_ACCOUNT: 'unlock-account',
 
-  ADMIN_CONSENT: 'admin-consent',
+  // the value string comes from the response remediation value name
+  CONSENT_ADMIN: 'admin-consent',
+  CONSENT_ENDUSER: 'consent',
 
   SELECT_AUTHENTICATOR_AUTHENTICATE: 'select-authenticator-authenticate',
   SELECT_AUTHENTICATOR_UNLOCK: 'select-authenticator-unlock-account',
@@ -65,7 +67,8 @@ const FORMS_WITHOUT_SIGNOUT = [
   FORMS.REDIRECT_IDP,
   FORMS.RESET_AUTHENTICATOR,
   FORMS.DEVICE_ENROLLMENT_TERMINAL,
-  FORMS.ADMIN_CONSENT,
+  FORMS.CONSENT_ADMIN,
+  FORMS.CONSENT_ENDUSER,
 ];
 
 const FORMS_WITH_STATIC_BACK_LINK = [

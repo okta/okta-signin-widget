@@ -1,10 +1,13 @@
-import { Collection, _, loc, createButton } from 'okta';
+import { Collection, _, loc, createButton, View } from 'okta';
+
 import AuthenticatorEnrollOptions from '../components/AuthenticatorEnrollOptions';
 import AuthenticatorVerifyOptions from '../components/AuthenticatorVerifyOptions';
 import { getAuthenticatorDataForEnroll, getAuthenticatorDataForVerification} from '../utils/AuthenticatorUtil';
 import { AUTHENTICATOR_KEY, FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import IDP from '../../../util/IDP';
-import ScopeList from '../../../views/admin-consent/ScopeList';
+import AdminScopeList from '../../../views/admin-consent/ScopeList';
+import EnduserScopeList from '../../../views/consent/ScopeList';
+import ConsentAgreementText from '../views/consent/ConsentAgreementText';
 
 const createAuthenticatorEnrollSelectView = (opt) => {
   var optionItems = (opt.options || [])
@@ -49,16 +52,29 @@ const createAuthenticatorVerifySelectView = (opt) => {
   };
 };
 
-const createScopesView = () => {
+const createAdminScopesView = () => {
   return {
-    View: ScopeList,
+    View: AdminScopeList,
+  };
+};
+const createEnduserScopesView = () => {
+  return {
+    View: View.extend({
+      children () {
+        return [
+          EnduserScopeList,
+          ConsentAgreementText,
+        ];
+      }
+    })
   };
 };
 
 const inputCreationStrategy = {
   authenticatorEnrollSelect: createAuthenticatorEnrollSelectView,
   authenticatorVerifySelect: createAuthenticatorVerifySelectView,
-  scopes: createScopesView,
+  adminConsentScopes: createAdminScopesView,
+  enduserConsentScopes: createEnduserScopesView,
 };
 
 // TODO: move logic to uiSchemaTransformer

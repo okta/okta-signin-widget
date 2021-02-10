@@ -56,6 +56,14 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
   [FORMS.RESET_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.PASSWORD]: 'forgot-password'
   },
+
+  [FORMS.CONSENT_ADMIN]: {
+    [FORMS.CONSENT_ADMIN]: 'admin-consent-required',
+  },
+
+  [FORMS.CONSENT_ENDUSER]: {
+    [FORMS.CONSENT_ENDUSER]: 'consent-required',
+  }
 };
 
 const getV1ClassName = (formName, authenticatorKey, methodType, isPasswordRecoveryFlow) => {
