@@ -1,0 +1,194 @@
+{
+    "stateHandle": "02o1Im1DuPAqf5-TzR953e15dHuV619FapqRfTBzPv",
+    "version": "1.0.0",
+    "expiresAt": "2021-02-03T01:09:24.000Z",
+    "intent": "LOGIN",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "enroll-authenticator",
+                "relatesTo": [
+                    "$.currentAuthenticator"
+                ],
+                "href": "http://localhost:3000/idp/idx/challenge/answer",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "credentials",
+                        "type": "object",
+                        "form": {
+                            "value": [
+                                {
+                                    "name": "signatureData",
+                                    "label": "Assertion From Duo",
+                                    "required": true,
+                                    "visible": false
+                                }
+                            ]
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02o1Im1DuPAqf5-TzR953e15dHuV619FapqRfTBzPv",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            },
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "select-authenticator-enroll",
+                "href": "http://localhost:3000/idp/idx/credential/enroll",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "authenticator",
+                        "type": "object",
+                        "options": [
+                            {
+                                "label": "Duo Security",
+                                "value": {
+                                    "form": {
+                                        "value": [
+                                            {
+                                                "name": "id",
+                                                "required": true,
+                                                "value": "aut32kl92UF8kfE4E0g4",
+                                                "mutable": false
+                                            },
+                                            {
+                                                "name": "methodType",
+                                                "required": false,
+                                                "value": "idp",
+                                                "mutable": false
+                                            }
+                                        ]
+                                    }
+                                },
+                                "relatesTo": "$.authenticators.value[0]"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02o1Im1DuPAqf5-TzR953e15dHuV619FapqRfTBzPv",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            }
+        ]
+    },
+    "currentAuthenticator": {
+        "type": "object",
+        "value": {
+            "contextualData": {
+                "integrationType": "IFRAME",
+                "host": "api-123.duosecurity.com",
+                "signedToken": "sign_request(ikey, skey, akey, username)",
+                "script": "http://localhost:3000/js/sections/duo/Duo-Web-v2.6.js"
+            },
+            "type": "federated",
+            "key": "duo_native",
+            "id": "aut32kl92UF8kfE4E0g4",
+            "displayName": "Duo Security",
+            "methods": [
+                {
+                    "type": "idp"
+                }
+            ]
+        }
+    },
+    "authenticators": {
+        "type": "array",
+        "value": [
+            {
+                "type": "federated",
+                "key": "duo_native",
+                "id": "aut32kl92UF8kfE4E0g4",
+                "displayName": "Duo Security",
+                "methods": [
+                    {
+                        "type": "idp"
+                    }
+                ]
+            }
+        ]
+    },
+    "authenticatorEnrollments": {
+        "type": "array",
+        "value": [
+            {
+                "type": "password",
+                "key": "okta_password",
+                "id": "lae4cuSxQaOqxcslq0g3",
+                "displayName": "Password",
+                "methods": [
+                    {
+                        "type": "password"
+                    }
+                ]
+            }
+        ]
+    },
+    "enrollmentAuthenticator": {
+        "type": "object",
+        "value": {
+            "type": "federated",
+            "key": "duo_native",
+            "id": "aut32kl92UF8kfE4E0g4",
+            "displayName": "Duo Security",
+            "methods": [
+                {
+                    "type": "idp"
+                }
+            ]
+        }
+    },
+    "user": {
+        "type": "object",
+        "value": {
+            "id": "00ux1jX3hVYsIkk9O0g3"
+        }
+    },
+    "cancel": {
+        "rel": [
+            "create-form"
+        ],
+        "name": "cancel",
+        "href": "http://localhost:3000/idp/idx/cancel",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "02o1Im1DuPAqf5-TzR953e15dHuV619FapqRfTBzPv",
+                "visible": false,
+                "mutable": false
+            }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "okta_enduser",
+            "label": "Okta Dashboard",
+            "id": "DEFAULT_APP"
+        }
+    }
+}
