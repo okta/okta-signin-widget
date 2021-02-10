@@ -16,6 +16,21 @@ import Errors from './Errors';
 import Util from './Util';
 const util = {};
 
+// https://github.com/okta/okta-auth-js#authorize-options
+const AUTH_PARAMS = [
+  'responseType',
+  'scopes',
+  'state',
+  'nonce',
+  'idp',
+  'idpScope',
+  'display',
+  'prompt',
+  'maxAge',
+  'loginHint'
+];
+util.AUTH_PARAMS = AUTH_PARAMS;
+
 /**
  * Get the tokens in the OIDC/OAUTH flows
  *
@@ -45,10 +60,7 @@ util.getTokens = function (settings, params, controller) {
   _.extend(
     getTokenOptions,
     _.pick(options, 'clientId', 'redirectUri'),
-    _.pick(options.authParams,
-      // https://github.com/okta/okta-auth-js#authorize-options
-      'responseType', 'scopes', 'state', 'nonce', 'idp', 'idpScope', 'display', 'prompt', 'maxAge', 'loginHint'
-    ),
+    _.pick(options.authParams, AUTH_PARAMS),
     params
   );
 

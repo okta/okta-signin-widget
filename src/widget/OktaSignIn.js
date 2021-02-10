@@ -2,6 +2,7 @@
 import _ from 'underscore';
 import Errors from 'util/Errors';
 import Util from 'util/Util';
+import OAuth2Util from 'util/OAuth2Util';
 import createAuthClient from 'widget/createAuthClient';
 import V1Router from 'LoginRouter';
 import V2Router from 'v2/WidgetRouter';
@@ -55,33 +56,22 @@ var OktaSignIn = (function () {
     }
 
     function buildRenderOptions (options = {}) {
-      const el = options.el || widgetOptions.el;
-      if (!el) {
+      const authParams = _.pick(options, OAuth2Util.AUTH_PARAMS);
+      const { el, clientId, redirectUri } = Object.assign({}, widgetOptions, options);
+      const renderOptions = Object.assign({}, { el, clientId, redirectUri, authParams });
+
+      if (!renderOptions.el) {
         throw new Errors.ConfigError('"el" is required');
       }
-      const clientId = options.clientId || widgetOptions.clientId;
-      if (!clientId) {
+
+      if (!renderOptions.clientId) {
         throw new Errors.ConfigError('"clientId" is required');
       }
-      const redirectUri = options.redirectUri || widgetOptions.redirectUri;
-      if (!redirectUri) {
+
+      if (!renderOptions.redirectUri) {
         throw new Errors.ConfigError('"redirectUri" is required');
       }
 
-      const authParams = {};
-      if (options.responseType) {
-        authParams.responseType = options.responseType;
-      }
-      if (options.scopes) {
-        authParams.scopes = options.scopes;
-      }
-
-      const renderOptions = {
-        el,
-        clientId,
-        redirectUri,
-        authParams
-      };
       return renderOptions;
     }
 
@@ -93,7 +83,7 @@ var OktaSignIn = (function () {
       const renderOptions = Object.assign(buildRenderOptions(options), {
         mode: 'relying-party'
       });
-      const promise = render.call(this, renderOptions).then(res => {
+      const promise = this.renderEl(renderOptions).then(res => {
         return res.tokens;
       });
       const authClient = router.settings.getAuthClient();
@@ -112,7 +102,7 @@ var OktaSignIn = (function () {
       const renderOptions = Object.assign(buildRenderOptions(options), {
         mode: 'remediation'
       });
-      return render.call(this, renderOptions);
+      return this.renderEl(renderOptions);
     }
 
     // Properties exposed on OktaSignIn object.
