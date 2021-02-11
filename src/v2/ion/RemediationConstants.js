@@ -21,6 +21,7 @@ const FORMS = {
   // the value string comes from the response remediation value name
   CONSENT_ADMIN: 'admin-consent-grant',
   CONSENT_ENDUSER: 'consent-grant',
+  CONSENT_DENY: 'consent-deny',
 
   SELECT_AUTHENTICATOR_AUTHENTICATE: 'select-authenticator-authenticate',
   SELECT_AUTHENTICATOR_UNLOCK: 'select-authenticator-unlock-account',

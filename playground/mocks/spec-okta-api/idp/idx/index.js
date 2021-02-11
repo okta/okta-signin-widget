@@ -14,6 +14,7 @@ const idx = [
   '/idp/idx/challenge/send',
   '/idp/idx/challenge/resend',
   '/idp/idx/consent',
+  '/idp/idx/consent/deny',
   '/idp/idx/credential/enroll',
   '/idp/idx/enroll',
   '/idp/idx/enroll/new',

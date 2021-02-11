@@ -43,8 +43,27 @@
           "mutable": false
         }
       ]
-    }]
-  },
+    },
+    {
+      "rel": [
+        "create-form"
+      ],
+      "name": "consent-deny",
+      "href": "http://localhost:3000/idp/idx/consent/deny",
+      "method": "POST",
+      "accepts": "application/ion+json; okta-version=1.0.0",
+      "produces": "application/ion+json; okta-version=1.0.0",
+      "value": [
+        {
+          "name": "stateHandle",
+          "required": true,
+          "value": "02tZJpxD03j1a3qaPcSsi16yDtqMZgfetf8OvWOepP",
+          "visible": false,
+          "mutable": false
+        }
+      ]
+    }
+  ]},
   "cancel": {
     "rel": ["create-form"],
     "name": "cancel",

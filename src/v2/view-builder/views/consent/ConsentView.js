@@ -4,6 +4,7 @@ import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
 import ConsentViewHeader from './ConsentViewHeader';
 import ConsentViewFooter from './ConsentViewFooter';
+import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
 
 const Body = BaseForm.extend(
   {
@@ -12,6 +13,12 @@ const Body = BaseForm.extend(
     save: () => loc('consent.required.consentButton', 'login'),
     cancel: () => loc('consent.required.cancelButton', 'login'),
     title: false,
+    cancelForm () {
+      const { appState } = this.options;
+      if (appState.hasRemediationObject(RemediationForms.CONSENT_DENY)) {
+        appState.trigger('invokeAction', RemediationForms.CONSENT_DENY)
+      }
+    }
   },
 );
 

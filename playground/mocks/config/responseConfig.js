@@ -136,9 +136,9 @@ const consent = {
   '/idp/idx/consent': [
     'success',
   ],
-  '/idp/idx/cancel': [
-    'identify',
-  ],
+  '/idp/idx/consent/deny': [
+    'success',
+  ]
 };
 
 // ===== AUTHN
