@@ -9,7 +9,7 @@
         "rel": [
           "create-form"
         ],
-        "name": "consent",
+        "name": "consent-grant",
         "href": "http://localhost:3000/idp/idx/consent",
         "method": "POST",
         "accepts": "application/ion+json; okta-version=1.0.0",

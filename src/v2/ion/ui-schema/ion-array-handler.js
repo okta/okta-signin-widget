@@ -5,7 +5,7 @@ const createUiSchemaForArray = (ionFormField, remediationForm) => {
     });
 
     // setting 'type' here to add a specific View in FormInputFactory.create
-    const type = remediationForm.name === 'admin-consent' ? 'adminConsentScopes' : 'enduserConsentScopes';
+    const type = remediationForm.name === 'admin-consent-grant' ? 'adminConsentScopes' : 'enduserConsentScopes';
 
     return {
       options,

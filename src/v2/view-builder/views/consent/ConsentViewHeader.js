@@ -31,13 +31,15 @@ const ConsentViewHeader = View.extend({
     </h1>`,
   getTemplateData: function () {
     const { appState } = this.options;
-    const { currentFormName } = appState.get('currentFormName');
+    const currentFormName = appState.get('currentFormName');
     const { label, clientUri, logo } =  appState.get('app');
     const { issuer: issuerObj } = appState.get('authentication');
     const customLogo = logo?.href;
+
     const isAdminConsent = currentFormName === 'admin-consent';
 
     const appName = _.escape(label);
+
     const clientURI = clientUri?.href;
     const issuer = isAdminConsent ? issuerObj?.uri : null;
 
