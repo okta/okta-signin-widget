@@ -19,7 +19,7 @@ const consentAdminAllowMock = RequestMock()
 const consentAdminDenyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrConsentAdmin)
-  .onRequestTo('http://localhost:3000/idp/idx/cancel')
+  .onRequestTo('http://localhost:3000/idp/idx/consent/deny')
   .respond(xhrIdentify);
 
 const consentEnduserAllowMock = RequestMock()
@@ -31,11 +31,11 @@ const consentEnduserAllowMock = RequestMock()
 const consentEnduserDenyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrConsentEnduser)
-  .onRequestTo('http://localhost:3000/idp/idx/cancel')
+  .onRequestTo('http://localhost:3000/idp/idx/consent/deny')
   .respond(xhrIdentify);
 
 
-const requestLogger = RequestLogger(/consent|cancel/,
+const requestLogger = RequestLogger(/consent/,
   {
     logRequestBody: true,
     stringifyRequestBody: true,
@@ -87,9 +87,9 @@ test.requestHooks(requestLogger, consentAdminDenyMock)('should call /cancel on f
   const { request: {body, method, url}} = requestLogger.requests[requestLogger.requests.length - 1];
   const jsonBody = JSON.parse(body);
 
-  await t.expect(jsonBody).eql({stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'});
+  await t.expect(jsonBody).eql({stateHandle: '02tZJpxD03j1a3qaPcSsi16yDtqMZgfetf8OvWOepP'});
   await t.expect(method).eql('post');
-  await t.expect(url).eql('http://localhost:3000/idp/idx/cancel');
+  await t.expect(url).eql('http://localhost:3000/idp/idx/consent/deny');
 
   const identityPage = new IdentityPageObject(t);
   const pageUrl = await identityPage.getPageUrl();
@@ -134,9 +134,9 @@ test.requestHooks(requestLogger, consentEnduserDenyMock)('should call /cancel on
   const { request: {body, method, url}} = requestLogger.requests[requestLogger.requests.length - 1];
   const jsonBody = JSON.parse(body);
 
-  await t.expect(jsonBody).eql({stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82'});
+  await t.expect(jsonBody).eql({stateHandle: '02tZJpxD03j1a3qaPcSsi16yDtqMZgfetf8OvWOepP'});
   await t.expect(method).eql('post');
-  await t.expect(url).eql('http://localhost:3000/idp/idx/cancel');
+  await t.expect(url).eql('http://localhost:3000/idp/idx/consent/deny');
 
   const identityPage = new IdentityPageObject(t);
   const pageUrl = await identityPage.getPageUrl();

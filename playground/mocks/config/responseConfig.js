@@ -134,9 +134,11 @@ const consent = {
     'consent-enduser',
   ],
   '/idp/idx/consent': [
+    // note that the success 'href' is in reality a redirect (i.e. /login/token/redirect?stateToken={{stateToken}})
     'success',
   ],
   '/idp/idx/consent/deny': [
+    // note that the success 'href' is in reality a redirect (i.e. /login/token/redirect?stateToken={{stateToken}})
     'success',
   ]
 };
