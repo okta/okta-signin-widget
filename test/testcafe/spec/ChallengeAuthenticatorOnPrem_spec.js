@@ -5,6 +5,7 @@ import xhrPasscodeChange from '../../../playground/mocks/data/idp/idx/error-auth
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import ChallengeOnPremPageObject from '../framework/page-objects/ChallengeOnPremPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 
 const mockChallengeAuthenticatorOnPrem = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -35,11 +36,7 @@ async function setup(t) {
 test.requestHooks(mockChallengeAuthenticatorOnPrem)('challenge on prem authenticator', async t => {
   const challengeOnPremPage = await setup(t);
 
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'mfa-verify-totp',
     formName: 'challenge-authenticator',
     authenticatorKey: 'onprem_mfa',

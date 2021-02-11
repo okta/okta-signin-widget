@@ -2,6 +2,7 @@ import { RequestMock, RequestLogger } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
 import emailVerificationPolling from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling';
@@ -98,18 +99,12 @@ async function setup(t) {
 test
   .requestHooks(validOTPmock)('challenge email authenticator screen has right labels', async t => {
     const challengeEmailPageObject = await setup(t);
-
-    const { log } = await t.getBrowserConsoleMessages();
-    await t.expect(log.length).eql(3);
-    await t.expect(log[0]).eql('===== playground widget ready event received =====');
-    await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[2])).eql({
+    await checkConsoleMessages({
       controller: 'mfa-verify-passcode',
       formName: 'challenge-authenticator',
       authenticatorKey: 'okta_email',
       methodType: 'email',
     });
-
     const pageTitle = challengeEmailPageObject.getPageTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
     await t.expect(saveBtnText).contains('Verify');
@@ -257,16 +252,10 @@ test
     await setup(t);
     const terminalPageObject = new TerminalPageObject(t);
     await t.expect(terminalPageObject.getMessages()).eql('Please return to the original tab.');
-
-    const { log } = await t.getBrowserConsoleMessages();
-    await t.expect(log.length).eql(3);
-    await t.expect(log[0]).eql('===== playground widget ready event received =====');
-    await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[2])).eql({
+    await checkConsoleMessages({
       controller: null,
       formName: 'terminal',
     });
-
   });
 
 test

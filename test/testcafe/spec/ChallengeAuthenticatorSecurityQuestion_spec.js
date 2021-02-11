@@ -2,6 +2,7 @@ import { RequestMock, RequestLogger } from 'testcafe';
 
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeSecurityQuestionPageObject from '../framework/page-objects/ChallengeSecurityQuestionPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 
 import xhrAuthenticatorVerifySecurityQuestion from '../../../playground/mocks/data/idp/idx/authenticator-verification-security-question';
 import success from '../../../playground/mocks/data/idp/idx/success';
@@ -26,11 +27,7 @@ async function setup(t) {
   const challengeFactorPage = new ChallengeSecurityQuestionPageObject(t);
   await challengeFactorPage.navigateToPage();
 
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'mfa-verify-question',
     formName: 'challenge-authenticator',
     authenticatorKey: 'security_question',
@@ -43,7 +40,6 @@ test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock
   const challengeFactorPageObject = await setup(t);
 
   await t.expect(await challengeFactorPageObject.getAnswerLabel()).eql('Where did you go for your favorite vacation?');
-
   await t.expect(await challengeFactorPageObject.signoutLinkExists()).ok();
   await t.expect(challengeFactorPageObject.getSignoutLinkText()).eql('Sign Out');
 

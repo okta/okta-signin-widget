@@ -1,6 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorResetPassword from '../../../playground/mocks/data/idp/idx/authenticator-reset-password';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
@@ -22,12 +23,7 @@ fixture('Authenticator Reset Password');
 async function setup(t) {
   const resetPasswordPage = new FactorEnrollPasswordPageObject(t);
   await resetPasswordPage.navigateToPage();
-
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'forgot-password',
     formName: 'reset-authenticator',
     authenticatorKey: 'okta_password',

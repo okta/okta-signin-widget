@@ -994,7 +994,7 @@ customButtons: [{
   className: 'btn-customAuth',
   click: function() {
     // clicking on the button navigates to another page
-    window.location.href = 'http://www.example.com';
+    window.location.href = 'https://www.example.com';
   }
 }]
 
@@ -1009,7 +1009,7 @@ customButtons: [{
   className: 'btn-customAuth',
   click: function() {
     // clicking on the button navigates to another page
-    window.location.href = 'http://www.example.com';
+    window.location.href = 'https://www.example.com';
   }
 }]
 ```

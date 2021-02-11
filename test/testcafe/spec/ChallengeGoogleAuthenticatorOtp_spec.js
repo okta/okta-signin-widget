@@ -1,6 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeGoogleAuthenticatorPageObject from '../framework/page-objects/ChallengeGoogleAuthenticatorPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 
 import otpChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-google-authenticator';
 import success from '../../../playground/mocks/data/idp/idx/success';
@@ -38,11 +39,7 @@ test
   .requestHooks(logger, validOTPmock)('challenge google authenticator with valid OTP', async t => {
     const challengeGoogleAuthenticatorPageObject = await setup(t);
 
-    const { log } = await t.getBrowserConsoleMessages();
-    await t.expect(log.length).eql(3);
-    await t.expect(log[0]).eql('===== playground widget ready event received =====');
-    await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[2])).eql({
+    await checkConsoleMessages({
       controller: 'mfa-verify',
       formName: 'challenge-authenticator',
       authenticatorKey: 'google_authenticator',

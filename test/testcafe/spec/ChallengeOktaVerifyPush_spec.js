@@ -1,6 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeOktaVerifyPushPageObject from '../framework/page-objects/ChallengeOktaVerifyPushPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 
 import pushPoll from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push';
 import success from '../../../playground/mocks/data/idp/idx/success';
@@ -42,12 +43,7 @@ async function setup(t) {
 test
   .requestHooks(pushSuccessMock)('challenge ov push screen has right labels', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
-
-    const { log } = await t.getBrowserConsoleMessages();
-    await t.expect(log.length).eql(3);
-    await t.expect(log[0]).eql('===== playground widget ready event received =====');
-    await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[2])).eql({
+    await checkConsoleMessages({
       controller: 'mfa-verify',
       formName: 'challenge-poll',
       authenticatorKey: 'okta_verify',

@@ -1,6 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeOktaVerifyTotpPageObject from '../framework/page-objects/ChallengeOktaVerifyTotpPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 
 import totpChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp';
 import success from '../../../playground/mocks/data/idp/idx/success';
@@ -37,12 +38,7 @@ async function setup(t) {
 test
   .requestHooks(logger, validTOTPmock)('challenge okta verify with valid TOTP', async t => {
     const challengeOktaVerifyTOTPPageObject = await setup(t);
-
-    const { log } = await t.getBrowserConsoleMessages();
-    await t.expect(log.length).eql(3);
-    await t.expect(log[0]).eql('===== playground widget ready event received =====');
-    await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[2])).eql({
+    await checkConsoleMessages({
       controller: 'mfa-verify',
       formName: 'challenge-authenticator',
       authenticatorKey: 'okta_verify',
