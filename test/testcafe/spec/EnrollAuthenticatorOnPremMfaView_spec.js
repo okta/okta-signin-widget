@@ -1,6 +1,7 @@
 import { RequestMock } from 'testcafe';
 import EnrollOnPremPageObject from '../framework/page-objects/EnrollOnPremPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollOnPrem from '../../../playground/mocks/data/idp/idx/authenticator-enroll-on-prem';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import xhrPasscodeChange from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-passcode-change-on-prem';
@@ -22,12 +23,7 @@ fixture('Authenticator On Prem');
 async function setup(t) {
   const enrollOnPremPage = new EnrollOnPremPageObject(t);
   await enrollOnPremPage.navigateToPage();
-
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'enroll-webauthn', // We need to change ViewClassNamesFactory to use authenticatorKey
     formName: 'enroll-authenticator',
     authenticatorKey: 'del_oath',

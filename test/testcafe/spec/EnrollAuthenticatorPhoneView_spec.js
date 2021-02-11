@@ -1,6 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import EnrollPhonePageObject from '../framework/page-objects/EnrollPhonePageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-phone';
 import xhrAuthenticatorEnrollPhoneVoice from '../../../playground/mocks/data/idp/idx/authenticator-enroll-phone-voice';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
@@ -47,11 +48,7 @@ test
   .requestHooks(smsMock)('SMS mode - has the right labels', async t => {
     const enrollPhonePageObject = await setup(t);
 
-    const { log } = await t.getBrowserConsoleMessages();
-    await t.expect(log.length).eql(3);
-    await t.expect(log[0]).eql('===== playground widget ready event received =====');
-    await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[2])).eql({
+    await checkConsoleMessages({
       controller: 'enroll-sms',
       formName: 'enroll-authenticator',
       authenticatorKey: 'phone_number',
@@ -72,11 +69,7 @@ test
   .requestHooks(voiceMock)('Voice mode - has the right labels', async t => {
     const enrollPhonePageObject = await setup(t);
 
-    const { log } = await t.getBrowserConsoleMessages();
-    await t.expect(log.length).eql(3);
-    await t.expect(log[0]).eql('===== playground widget ready event received =====');
-    await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[2])).eql({
+    await checkConsoleMessages({
       controller: 'enroll-call',
       formName: 'enroll-authenticator',
       authenticatorKey: 'phone_number',

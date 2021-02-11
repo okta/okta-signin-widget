@@ -5,6 +5,7 @@ import xhrForgotPasswordError from '../../../playground/mocks/data/idp/idx/error
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import ChallengePasswordPageObject from '../framework/page-objects/ChallengePasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 
 const mockChallengeAuthenticatorPassword = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -37,12 +38,7 @@ fixture('Challenge Authenticator Password');
 async function setup(t) {
   const challengePasswordPage = new ChallengePasswordPageObject(t);
   await challengePasswordPage.navigateToPage();
-
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'mfa-verify-password',
     formName: 'challenge-authenticator',
     authenticatorKey: 'okta_password',

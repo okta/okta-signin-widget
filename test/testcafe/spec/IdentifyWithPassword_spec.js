@@ -1,5 +1,6 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
 import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
 
@@ -22,11 +23,7 @@ fixture('Identify + Password');
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',
     authenticatorKey: 'okta_password',
