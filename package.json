@@ -51,6 +51,7 @@
     "test:testcafe-run": "wait-on http-get://localhost:3000 && testcafe -c 2 chrome:headless test/testcafe/spec/ --reporter xunit:build2/reports/junit/testcafe-results.xml",
     "test:testcafe-ci": "run-p -r test:testcafe-setup \"test:testcafe-run\" -- 2>/dev/null",
     "protractor": "node ./scripts/update-se-drivers.js && protractor target/e2e/conf.js",
+    "pseudo-loc": "node ./scripts/pseudo-loc.js",
     "build:dev": "grunt build:dev",
     "build:release": "grunt build:release",
     "build:webpack-dev": "webpack --config webpack.dev.config.js",
@@ -59,7 +60,7 @@
     "prepublishOnly": "yarn build:release",
     "start": "yarn build:dev && yarn start:dev-server",
     "start:playground": "concurrently \"grunt build:dev:watch\" \"grunt watch:sass\" \"yarn start:dev-server\" --kill-others",
-    "start:dev-server": "webpack-dev-server --config webpack.playground.config.js",
+    "start:dev-server": "yarn pseudo-loc && webpack-dev-server --config webpack.playground.config.js",
     "mock:device-authenticator": "dyson playground/mocks/spec-device-authenticator/ 6512"
   },
   "devDependencies": {
