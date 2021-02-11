@@ -1,6 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import EnrollEmailPageObject from '../framework/page-objects/EnrollEmailPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 
 import xhrEnrollEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email';
 import success from '../../../playground/mocks/data/idp/idx/success';
@@ -36,11 +37,7 @@ async function setup(t) {
   const enrollEmailPageObject = new EnrollEmailPageObject(t);
   await enrollEmailPageObject.navigateToPage();
 
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'enroll-email',
     formName: 'enroll-authenticator',
     authenticatorKey: 'okta_email',

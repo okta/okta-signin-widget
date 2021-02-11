@@ -1,5 +1,6 @@
 import { RequestLogger, RequestMock, Selector } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 import loopbackChallengeNotReceived from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-challenge-not-received';
 import launchAuthenticatorOption from '../../../playground/mocks/data/idp/idx/identify-with-device-launch-authenticator';
 
@@ -17,12 +18,7 @@ fixture('Identify + Okta Verify')
 async function setup(t) {
   const deviceChallengePollPage = new IdentityPageObject(t);
   await deviceChallengePollPage.navigateToPage();
-
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',
   });

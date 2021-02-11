@@ -1,5 +1,6 @@
 import { RequestMock } from 'testcafe';
 import EnrollWebauthnPageObject from '../framework/page-objects/EnrollWebauthnPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollWebauthn from '../../../playground/mocks/data/idp/idx/authenticator-enroll-webauthn';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
@@ -15,12 +16,7 @@ fixture('Enroll Webauthn Authenticator')
 async function setup(t) {
   const enrollWebauthnPage = new EnrollWebauthnPageObject(t);
   await enrollWebauthnPage.navigateToPage();
-
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'enroll-webauthn',
     formName: 'enroll-authenticator',
     authenticatorKey: 'webauthn',

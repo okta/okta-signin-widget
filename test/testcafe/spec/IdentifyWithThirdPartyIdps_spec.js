@@ -1,5 +1,6 @@
 import { RequestMock, RequestLogger, Selector, ClientFunction } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 import identifyWithIdpsIdentify from '../../../playground/mocks/data/idp/idx/identify-with-third-party-idps';
 import identifyWithIdpsNoIdentify from '../../../playground/mocks/data/idp/idx/identify-with-only-third-party-idps';
 import identifyOnlyOneIdp from '../../../playground/mocks/data/idp/idx/identify-with-only-one-third-party-idp';
@@ -44,11 +45,7 @@ async function setup(t) {
 test.requestHooks(mockWithIdentify) ('should render idp buttons with identifier form ', async t => {
   const identityPage = await setup(t);
 
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',
   });
@@ -79,11 +76,7 @@ test
 test.requestHooks(mockWithoutIdentify)('should only render idp buttons with identifier form ', async t => {
   const identityPage = await setup(t);
 
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: null,
     formName: 'redirect-idp',
   });
@@ -101,11 +94,7 @@ test.requestHooks(mockWithoutIdentify)('should only render idp buttons with iden
 test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP login page with basic Signing in message', async t => {
   await setup(t);
 
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: null,
     formName: 'success-redirect',
   });
@@ -122,11 +111,7 @@ test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP
 test.requestHooks(logger, mockOnlyOneIdpAppUser)('should auto redirect to 3rd party IdP login page with Signing in longer message', async t => {
   await setup(t);
 
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: null,
     formName: 'success-redirect',
   });

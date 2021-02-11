@@ -5,6 +5,7 @@ import xhrPasscodeChange from '../../../playground/mocks/data/idp/idx/error-auth
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import ChallengeOnPremPageObject from '../framework/page-objects/ChallengeOnPremPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 
 const mockChallengeAuthenticatorOnPrem = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -29,23 +30,17 @@ fixture('Challenge Authenticator On Prem');
 async function setup(t) {
   const challengeOnPremPage = new ChallengeOnPremPageObject(t);
   await challengeOnPremPage.navigateToPage();
-  return challengeOnPremPage;
-}
-
-test.requestHooks(mockChallengeAuthenticatorOnPrem)('challenge on prem authenticator', async t => {
-  const challengeOnPremPage = await setup(t);
-
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'mfa-verify-webauthn', // We need to change ViewClassNamesFactory to use authenticatorKey
     formName: 'challenge-authenticator',
     authenticatorKey: 'del_oath',
     methodType: 'otp'
   });
+  return challengeOnPremPage;
+}
 
+test.requestHooks(mockChallengeAuthenticatorOnPrem)('challenge on prem authenticator', async t => {
+  const challengeOnPremPage = await setup(t);
   const pageTitle = challengeOnPremPage.getPageTitle();
   const saveBtnText = challengeOnPremPage.getSaveButtonLabel();
   await t.expect(saveBtnText).contains('Verify');

@@ -123,14 +123,14 @@ test.requestHooks(identifyMock)('should show custom buttons links', async t => {
       'title': 'Custom Button 1',
       'className': 'btn-customAuth-1',
       'click': function () {
-        window.location.href = 'http://www.example.com/';
+        window.location.href = 'https://www.example.com/';
       }
     },
     {
       'title': 'Custom Button 2',
       'className': 'btn-customAuth-1',
       'click': function () {
-        window.location.href = 'http://www.example2.com/';
+        window.location.href = 'https://www.example2.com/';
       }
     }]
   });
@@ -140,7 +140,7 @@ test.requestHooks(identifyMock)('should show custom buttons links', async t => {
   await identityPage.clickCustomButtonLink(0);
   const pageUrl = await identityPage.getPageUrl();
   await t.expect(pageUrl)
-    .eql('http://www.example.com/');
+    .eql('https://www.example.com/');
 });
 
 test.requestHooks(mockEnrollAuthenticator)('should show custom brandName title on select authenticator enroll page', async t => {

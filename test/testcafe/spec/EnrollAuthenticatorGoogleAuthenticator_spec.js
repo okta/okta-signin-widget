@@ -1,6 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import EnrollGoogleAuthenticatorPageObject from '../framework/page-objects/EnrollGoogleAuthenticatorPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 
 import xhrEnrollGoogleAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-enroll-google-authenticator.json';
 import success from '../../../playground/mocks/data/idp/idx/success';
@@ -35,13 +36,7 @@ fixture('Enroll Google Authenticator');
 async function setup(t) {
   const enrollGoogleAuthenticatorPageObject = new EnrollGoogleAuthenticatorPageObject(t);
   await enrollGoogleAuthenticatorPageObject.navigateToPage();
-
-  const { log } = await t.getBrowserConsoleMessages();
-
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller:null,
     formName:'enroll-authenticator',
     authenticatorKey:'google_authenticator',

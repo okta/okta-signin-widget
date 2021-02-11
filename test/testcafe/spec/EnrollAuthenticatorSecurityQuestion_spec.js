@@ -2,6 +2,7 @@ import { RequestMock, RequestLogger } from 'testcafe';
 
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import EnrollSecurityQuestionPageObject from '../framework/page-objects/EnrollSecurityQuestionPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 
 import xhrAuthenticatorEnrollSecurityQuestion from '../../../playground/mocks/data/idp/idx/authenticator-enroll-security-question';
 import xhrErrorAuthenticatorEnrollSecurityQuestion from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-security-question.json';
@@ -40,11 +41,7 @@ async function setup(t) {
   const enrollSecurityQuestionPage = new EnrollSecurityQuestionPageObject(t);
   await enrollSecurityQuestionPage.navigateToPage();
 
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'enroll-question',
     formName: 'enroll-authenticator',
     authenticatorKey: 'security_question',

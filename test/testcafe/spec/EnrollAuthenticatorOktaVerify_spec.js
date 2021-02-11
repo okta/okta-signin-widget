@@ -4,6 +4,7 @@ import SwitchOVEnrollChannelPageObject from '../framework/page-objects/SwitchOVE
 import EnrollOVViaEmailPageObject from '../framework/page-objects/EnrollOVViaEmailPageObject';
 import EnrollOVViaSMSPageObject from '../framework/page-objects/EnrollOVViaSMSPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollOktaVerifyQr from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr';
 import xhrAuthenticatorEnrollOktaVerifyViaEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-via-email';
 import xhrAuthenticatorEnrollOktaVerifyEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email';
@@ -70,12 +71,7 @@ fixture('Enroll Okta Verify Authenticator');
 async function setup(t) {
   const enrollOktaVerifyPage = new EnrollOktaVerifyPageObject(t);
   await enrollOktaVerifyPage.navigateToPage();
-
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: null,
     formName: 'enroll-poll',
     authenticatorKey: 'okta_verify',

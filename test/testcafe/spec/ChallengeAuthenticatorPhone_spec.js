@@ -1,5 +1,6 @@
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengePhonePageObject from '../framework/page-objects/ChallengePhonePageObject';
+import { checkConsoleMessages } from '../framework/shared';
 import { RequestMock, RequestLogger } from 'testcafe';
 import phoneVerificationSMSThenVoice from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-sms-then-voice';
 import phoneVerificationVoiceThenSMS from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-then-sms';
@@ -111,12 +112,7 @@ async function setup(t) {
 test
   .requestHooks(smsPrimaryMock)('SMS primary mode - has the right labels', async t => {
     const challengePhonePageObject = await setup(t);
-
-    const { log } = await t.getBrowserConsoleMessages();
-    await t.expect(log.length).eql(3);
-    await t.expect(log[0]).eql('===== playground widget ready event received =====');
-    await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[2])).eql({
+    await checkConsoleMessages({
       controller: null,
       formName: 'authenticator-verification-data',
       authenticatorKey: 'phone_number',
@@ -159,11 +155,7 @@ test
   .requestHooks(voicePrimaryMock)('Voice primary mode - has the right labels', async t => {
     const challengePhonePageObject = await setup(t);
 
-    const { log } = await t.getBrowserConsoleMessages();
-    await t.expect(log.length).eql(3);
-    await t.expect(log[0]).eql('===== playground widget ready event received =====');
-    await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[2])).eql({
+    await checkConsoleMessages({
       controller: null,
       formName: 'authenticator-verification-data',
       authenticatorKey: 'phone_number',

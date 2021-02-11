@@ -1,6 +1,7 @@
 import { RequestMock } from 'testcafe';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollPassword from '../../../playground/mocks/data/idp/idx/authenticator-enroll-password';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
@@ -16,12 +17,7 @@ fixture('Authenticator Enroll Password')
 async function setup(t) {
   const enrollPasswordPage = new FactorEnrollPasswordPageObject(t);
   await enrollPasswordPage.navigateToPage();
-
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'enroll-password',
     formName: 'enroll-authenticator',
     authenticatorKey: 'okta_password',

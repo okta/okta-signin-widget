@@ -1,5 +1,6 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 import xhrInternalServerError from '../../../playground/mocks/data/idp/idx/error-internal-server-error';
 
 const introspectMock = RequestMock()
@@ -20,12 +21,7 @@ fixture('Introspect');
 async function setup(t) {
   const terminalPageObject = new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
-
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: null,
     formName: 'terminal',
   });

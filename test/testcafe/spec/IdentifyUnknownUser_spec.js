@@ -1,4 +1,5 @@
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 import unknownUser from '../../../playground/mocks/data/idp/idx/identify-unknown-user';
 import registeredUser from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator.json';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
@@ -19,11 +20,7 @@ async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
 
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',
   });
