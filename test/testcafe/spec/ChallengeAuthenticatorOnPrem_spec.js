@@ -40,9 +40,9 @@ test.requestHooks(mockChallengeAuthenticatorOnPrem)('challenge on prem authentic
   await t.expect(log[0]).eql('===== playground widget ready event received =====');
   await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
   await t.expect(JSON.parse(log[2])).eql({
-    controller: 'mfa-verify-webauthn', // We need to change ViewClassNamesFactory to use authenticatorKey
+    controller: 'mfa-verify-totp',
     formName: 'challenge-authenticator',
-    authenticatorKey: 'del_oath',
+    authenticatorKey: 'onprem_mfa',
     methodType: 'otp'
   });
 

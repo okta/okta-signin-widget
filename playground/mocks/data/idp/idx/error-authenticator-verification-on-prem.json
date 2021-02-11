@@ -127,7 +127,7 @@
     "type": "object",
     "value": {
       "type": "security_key",
-      "key": "del_oath",
+      "key": "onprem_mfa",
       "id": "paexaoLGpTBjbyhBF0g3",
       "displayName": "Atko Custom On-prem",
       "methods": [
@@ -153,7 +153,7 @@
       },
       {
         "type": "security_key",
-        "key": "del_oath",
+        "key": "onprem_mfa",
         "id": "autx7fdyRt87txnAs0g3",
         "displayName": "Atko Custom On-prem",
         "methods": [
@@ -186,7 +186,7 @@
           "provider": "Atko Custom On-prem"
         },
         "type": "security_key",
-        "key": "del_oath",
+        "key": "onprem_mfa",
         "id": "paexaoLGpTBjbyhBF0g3",
         "displayName": "Atko Custom On-prem",
         "methods": [
