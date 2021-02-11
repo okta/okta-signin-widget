@@ -1,6 +1,7 @@
 import { RequestMock } from 'testcafe';
 import DuoPageObject from '../framework/page-objects/DuoPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollDuo from '../../../playground/mocks/data/idp/idx/authenticator-enroll-duo';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
@@ -17,11 +18,7 @@ async function setup(t) {
   const enrollDuoPage = new DuoPageObject(t);
   await enrollDuoPage.navigateToPage();
 
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'enroll-duo',
     formName: 'enroll-authenticator',
     authenticatorKey: 'duo_native',

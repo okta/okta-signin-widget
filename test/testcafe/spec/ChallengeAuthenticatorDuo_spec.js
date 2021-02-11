@@ -2,6 +2,7 @@ import { RequestMock, RequestLogger } from 'testcafe';
 
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import DuoPageObject from '../framework/page-objects/DuoPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorVerifyDuo from '../../../playground/mocks/data/idp/idx/authenticator-verification-duo';
 import success from '../../../playground/mocks/data/idp/idx/success';
 
@@ -25,11 +26,7 @@ async function setup(t) {
   const challengeDuoPage = new DuoPageObject(t);
   await challengeDuoPage.navigateToPage();
 
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'mfa-verify-duo',
     formName: 'challenge-authenticator',
     authenticatorKey: 'duo_native',
@@ -43,11 +40,7 @@ test
   .requestHooks(mock)('renders an iframe for Duo', async t => {
     const challengeDuoPage = await setup(t);
 
-    const { log } = await t.getBrowserConsoleMessages();
-    await t.expect(log.length).eql(3);
-    await t.expect(log[0]).eql('===== playground widget ready event received =====');
-    await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[2])).eql({
+    await checkConsoleMessages({
       controller: 'mfa-verify-duo',
       formName: 'challenge-authenticator',
       authenticatorKey: 'duo_native',

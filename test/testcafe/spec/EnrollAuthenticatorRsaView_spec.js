@@ -1,6 +1,7 @@
 import { RequestMock } from 'testcafe';
 import EnrollRsaPageObject from '../framework/page-objects/EnrollOnPremPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollRsa from '../../../playground/mocks/data/idp/idx/authenticator-enroll-rsa';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import xhrPasscodeChange from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-passcode-change-rsa';
@@ -22,12 +23,7 @@ fixture('Authenticator RSA');
 async function setup(t) {
   const enrollRsaPage = new EnrollRsaPageObject(t);
   await enrollRsaPage.navigateToPage();
-
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'enroll-rsa',
     formName: 'enroll-authenticator',
     authenticatorKey: 'rsa_token',
