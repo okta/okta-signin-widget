@@ -16,7 +16,7 @@ const Body = BaseForm.extend(
     cancelForm () {
       const { appState } = this.options;
       if (appState.hasRemediationObject(RemediationForms.CONSENT_DENY)) {
-        appState.trigger('invokeAction', RemediationForms.CONSENT_DENY)
+        appState.trigger('invokeAction', RemediationForms.CONSENT_DENY);
       }
     }
   },

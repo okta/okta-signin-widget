@@ -10,7 +10,7 @@ const createUiSchemaForArray = (ionFormField, remediationForm) => {
     return {
       options,
       type
-    }
+    };
   }
 };
 
