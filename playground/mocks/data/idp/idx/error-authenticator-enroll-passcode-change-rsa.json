@@ -3,6 +3,19 @@
   "version": "1.0.0",
   "expiresAt": "2021-01-07T01:54:21.000Z",
   "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Wait for token to change, then enter the new tokencode.",
+        "i18n": {
+          "key": "oie.on_prem.error.token.change",
+          "params": []
+        },
+        "class": "ERROR"
+      }
+    ]
+  },
   "remediation": {
     "type": "array",
     "value": [
@@ -109,9 +122,9 @@
   "currentAuthenticator": {
     "type": "object",
     "value": {
-      "displayName": "Atko Custom On-prem",
+      "displayName": "RSA SecurID",
       "type": "security_key",
-      "key": "onprem_mfa",
+      "key": "rsa_token",
       "id": "autx7fdyRt87txnAs0g3",
       "methods":[
         {
@@ -128,11 +141,11 @@
     "type": "array",
     "value": [
       {
-        "displayName": "Atko Custom On-prem",
+        "displayName": "RSA SecurID",
         "type": "security_key",
-        "key": "onprem_mfa",
+        "key": "rsa_token",
         "authenticatorid": "autx7fdyRt87txnAs0g3",
-        "id": "on-prem-enroll-id-123"
+        "id": "rsa-enroll-id-123"
       }
     ]
   },

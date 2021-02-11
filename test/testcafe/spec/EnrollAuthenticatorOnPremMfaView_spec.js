@@ -24,9 +24,9 @@ async function setup(t) {
   const enrollOnPremPage = new EnrollOnPremPageObject(t);
   await enrollOnPremPage.navigateToPage();
   await checkConsoleMessages({
-    controller: 'enroll-webauthn', // We need to change ViewClassNamesFactory to use authenticatorKey
+    controller: 'enroll-onprem',
     formName: 'enroll-authenticator',
-    authenticatorKey: 'del_oath',
+    authenticatorKey: 'onprem_mfa',
     methodType: 'otp'
   });
 

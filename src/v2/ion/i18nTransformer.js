@@ -64,6 +64,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-enroll.authenticator.security_question': 'oie.security.question.label',
   'select-authenticator-enroll.authenticator.okta_verify': 'oie.okta_verify.label',
   'select-authenticator-enroll.authenticator.google_authenticator': 'oie.google_authenticator.label',
+  'select-authenticator-enroll.authenticator.rsa_token': 'oie.rsa.label',
 
   'select-authenticator-authenticate.authenticator.okta_email': 'oie.email.label',
   'select-authenticator-authenticate.authenticator.okta_password': 'oie.password.label',
@@ -75,6 +76,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-authenticate.authenticator.okta_verify.totp': 'oie.okta_verify.totp.title',
   'select-authenticator-authenticate.authenticator.google_authenticator':
     'oie.google_authenticator.label',
+  'select-authenticator-authenticate.authenticator.rsa_token': 'oie.rsa.label',
 
   'authenticator-verification-data.okta_verify.authenticator.methodType.signed_nonce':
     'oie.okta_verify.signed_nonce.label',
@@ -91,8 +93,10 @@ const I18N_OVERRIDE_MAPPINGS = {
   'enroll-authenticator.security_question.credentials.question': 'oie.security.question.createQuestion.label',
   'enroll-authenticator.security_question.credentials.questionKey': 'oie.security.question.questionKey.label',
   'enroll-authenticator.google_authenticator.credentials.otp': 'oie.google_authenticator.otp.title',
-  'enroll-authenticator.del_oath.credentials.userName': 'oie.on_prem.enroll.username.label',
-  'enroll-authenticator.del_oath.credentials.passcode': 'oie.on_prem.enroll.passcode.label',
+  'enroll-authenticator.onprem_mfa.credentials.userName': 'oie.on_prem.enroll.username.label',
+  'enroll-authenticator.onprem_mfa.credentials.passcode': 'oie.on_prem.enroll.passcode.label',
+  'enroll-authenticator.rsa_token.credentials.userName': 'oie.rsa.enroll.username.label',
+  'enroll-authenticator.rsa_token.credentials.passcode': 'oie.rsa.enroll.passcode.label',
 
   'select-enrollment-channel.authenticator.channel.qrcode': 'oie.enroll.okta_verify.select.channel.qrcode.label',
   'select-enrollment-channel.authenticator.channel.email': 'oie.enroll.okta_verify.select.channel.email.label',
@@ -104,7 +108,8 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.security_question.credentials.answer': 'mfa.challenge.answer.placeholder',
   'challenge-authenticator.okta_verify.credentials.totp': 'oie.okta_verify.totp.enterCodeText',
   'challenge-authenticator.google_authenticator.credentials.otp': 'oie.google_authenticator.otp.enterCodeText',
-  'challenge-authenticator.del_oath.credentials.passcode': 'oie.on_prem.verify.passcode.label',
+  'challenge-authenticator.onprem_mfa.credentials.passcode': 'oie.on_prem.verify.passcode.label',
+  'challenge-authenticator.rsa_token.credentials.passcode': 'oie.rsa.verify.passcode.label',
 
   'enroll-profile.userProfile.lastName': 'oie.user.profile.lastname',
   'enroll-profile.userProfile.firstName': 'oie.user.profile.firstname',
