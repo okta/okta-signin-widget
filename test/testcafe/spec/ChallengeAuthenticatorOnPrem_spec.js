@@ -31,9 +31,9 @@ async function setup(t) {
   const challengeOnPremPage = new ChallengeOnPremPageObject(t);
   await challengeOnPremPage.navigateToPage();
   await checkConsoleMessages({
-    controller: 'mfa-verify-webauthn', // We need to change ViewClassNamesFactory to use authenticatorKey
+    controller: 'mfa-verify-totp',
     formName: 'challenge-authenticator',
-    authenticatorKey: 'del_oath',
+    authenticatorKey: 'onprem_mfa',
     methodType: 'otp'
   });
   return challengeOnPremPage;

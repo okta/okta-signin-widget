@@ -486,9 +486,43 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     },
                     'relatesTo': {
                       'type': 'security_key',
-                      'key': 'del_oath',
+                      'key': 'onprem_mfa',
                       'id': 'autx7fdyRt87txnAs0g3',
                       'displayName': 'Atko Custom On-prem',
+                      'methods': [
+                        {
+                          'type': 'otp'
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    'label': 'RSA SecurID',
+                    'value': {
+                      'form': {
+                        'value': [
+                          {
+                            'name': 'id',
+                            'required': true,
+                            'value': 'autx7fdyRt87txnAs0g3',
+                            'mutable': false,
+                            'visible': false
+                          },
+                          {
+                            'name': 'methodType',
+                            'required': true,
+                            'value': 'otp',
+                            'mutable': false,
+                            'visible': false
+                          }
+                        ]
+                      }
+                    },
+                    'relatesTo': {
+                      'type': 'security_key',
+                      'key': 'rsa_token',
+                      'id': 'autx7fdyRt87txnAs0g3',
+                      'displayName': 'RSA SecurID',
                       'methods': [
                         {
                           'type': 'otp'
@@ -593,8 +627,17 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       id: 'autx7fdyRt87txnAs0g3',
                       methodType: 'otp'
                     },
-                    authenticatorKey: 'del_oath',
+                    authenticatorKey: 'onprem_mfa',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[6]
+                  },
+                  {
+                    label: 'RSA SecurID',
+                    value: {
+                      id: 'autx7fdyRt87txnAs0g3',
+                      methodType: 'otp'
+                    },
+                    authenticatorKey: 'rsa_token',
+                    relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[7]
                   },
                   {
                     label: 'Duo Security',
@@ -602,7 +645,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       id: 'aut32kl92UF8kfE4E0g4'
                     },
                     authenticatorKey: 'duo_native',
-                    relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[7]
+                    relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[8]
                   },
                 ]
               }

@@ -7,9 +7,10 @@
     "type": "array",
     "value": [
       {
-        "message": "Wait for token to change, then enter the new tokencode.",
+        "message": "Invalid code. Try again.",
         "i18n": {
-          "key": "oie.on_prem.error.token.change"
+          "key": "api.authn.error.PASSCODE_INVALID",
+          "params": []
         },
         "class": "ERROR"
       }
@@ -87,7 +88,7 @@
                 "relatesTo": "$.authenticatorEnrollments.value[0]"
               },
               {
-                "label": "Atko Custom On-prem",
+                "label": "RSA SecurID",
                 "value": {
                   "form": {
                     "value": [
@@ -100,7 +101,7 @@
                       {
                         "name": "enrollmentId",
                         "required": true,
-                        "value": "paexaoLGpTBjbyhBF0g3",
+                        "value": "rsaxaoLGpTBjbyhBF0g3",
                         "mutable": false
                       }
                     ]
@@ -126,9 +127,9 @@
     "type": "object",
     "value": {
       "type": "security_key",
-      "key": "onprem_mfa",
-      "id": "paexaoLGpTBjbyhBF0g3",
-      "displayName": "Atko Custom On-prem",
+      "key": "rsa_token",
+      "id": "rsaxaoLGpTBjbyhBF0g3",
+      "displayName": "RSA SecurID",
       "methods": [
         {
           "type": "otp"
@@ -152,9 +153,9 @@
       },
       {
         "type": "security_key",
-        "key": "onprem_mfa",
+        "key": "rsa_token",
         "id": "autx7fdyRt87txnAs0g3",
-        "displayName": "Atko Custom On-prem",
+        "displayName": "RSA SecurID",
         "methods": [
           {
             "type": "otp"
@@ -182,12 +183,12 @@
       },
       {
         "profile": {
-          "provider": "Atko Custom On-prem"
+          "provider": "RSA SecurID"
         },
         "type": "security_key",
-        "key": "onprem_mfa",
-        "id": "paexaoLGpTBjbyhBF0g3",
-        "displayName": "Atko Custom On-prem",
+        "key": "rsa_token",
+        "id": "rsaxaoLGpTBjbyhBF0g3",
+        "displayName": "RSA SecurID",
         "methods": [
           {
             "type": "otp"

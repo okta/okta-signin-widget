@@ -82,7 +82,8 @@ const AUTHENTICATOR_KEY = {
   SECURITY_QUESTION: 'security_question',
   OV: 'okta_verify',
   GOOGLE_AUTHENTICATOR: 'google_authenticator',
-  ON_PREM: 'del_oath',
+  ON_PREM: 'onprem_mfa',
+  RSA: 'rsa_token',
   DUO: 'duo_native'
 };
 
