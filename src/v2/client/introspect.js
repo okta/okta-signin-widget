@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import idx from 'idx';
+import idx from '@okta/okta-idx-js';
 
 export async function introspect (settings) {
   const domain = settings.get('baseUrl');

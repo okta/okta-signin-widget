@@ -14,7 +14,7 @@
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
 
-import idx from 'idx';
+import idx from '@okta/okta-idx-js';
 
 import { getTransactionMeta, saveTransactionMeta } from './transactionMeta';
 
