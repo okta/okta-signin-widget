@@ -11,14 +11,31 @@
  */
 
 import Enums from 'util/Enums';
+import Errors from 'util/Errors';
+import { toQueryString } from '@okta/okta-auth-js';
 
 import { clearTransactionMeta } from './transactionMeta';
 
 export async function completeLoginFlow (settings, idxResponse) {
   const { interactionCode } = idxResponse;
   const authClient = settings.getAuthClient();
-  const { codeVerifier } = authClient.transactionManager.load();
+  const transactionMeta = authClient.transactionManager.load();
+  const shouldRedirect = settings.get('mode') === 'remediation';
+
+  // Should this transaction be completed at the `redirectUri` ?
+  if (shouldRedirect) {
+    const redirectUri = settings.get('redirectUri');
+    if (!redirectUri) {
+      throw new Errors.ConfigError('"redirectUri" is required');
+    }
+    const { state } = transactionMeta;
+    const qs = toQueryString({ 'interaction_code': interactionCode, state });
+    window.location.replace(redirectUri + qs);
+    return;
+  }
   
+  // Complete the transaction client-side and call success/resolve promise
+  const { codeVerifier } = transactionMeta;
   return authClient.token.exchangeCodeForTokens({ codeVerifier, interactionCode })
     .then(({ tokens }) => {
       settings.callGlobalSuccess(Enums.SUCCESS, { tokens });
