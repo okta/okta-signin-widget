@@ -122,14 +122,6 @@ const createUiSchemaForObject = (ionFormField, remediationForm, transformedResp,
     // 2. when `select-authenticator-enroll`,
     // create customize type so that display authenticator list as selectable list
     Object.assign(uiSchema, getAuthenticatorsEnrollUiSchema(ionFormField));
-  } else if (ionFormField.name === 'scopes')  {
-    const options = ionFormField.options.map(({name, label, desc}) => {
-      return {name, displayName: label, description: desc};
-    });
-
-    // setting 'type' here to add a specific View in FormInputFactory.create
-    const type = remediationForm.name === 'admin-consent' ? 'adminConsentScopes' : 'enduserConsentScopes';
-    Object.assign(uiSchema, {options, type});
   } else if (Array.isArray(ionFormField.options)) {
     // 3. For other cases, create ui schema for each `option` in order to render
     // different view for each option.

@@ -17,11 +17,13 @@ import { _ } from 'okta';
 import createUiSchemaForBoolean from './ui-schema/ion-boolean-handler';
 import createUiSchemaForObject from './ui-schema/ion-object-handler';
 import createUiSchemaForString from './ui-schema/ion-string-handler';
+import createUiSchemaForArray from './ui-schema/ion-array-handler';
 
 const UISchemaHandlers = {
   string: createUiSchemaForString,
   boolean: createUiSchemaForBoolean,
   object: createUiSchemaForObject,
+  array: createUiSchemaForArray,
 };
 
 /**

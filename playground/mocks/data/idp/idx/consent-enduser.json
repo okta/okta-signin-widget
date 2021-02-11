@@ -18,7 +18,7 @@
         "value": [
         {
           "name": "scopes",
-          "type": "object",
+          "type": "array",
           "required": true,
           "options":  [
             {
