@@ -17,6 +17,7 @@ import xhrAuthenticatorOVTotp from '../../../playground/mocks/data/idp/idx/authe
 import xhrAuthenticatorOVPush from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push';
 import xhrAuthenticatorOVFastPass from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-loopback';
 import xhrSelectAuthenticatorsOktaVerifyWithoutSignedNonce from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-without-signed-nonce';
+import xhrAuthenticatorCustomOTP from '../../../playground/mocks/data/idp/idx/authenticator-verification-custom-otp';
 
 const requestLogger = RequestLogger(
   /idx\/introspect|\/challenge/,
@@ -64,6 +65,12 @@ const mockChallengeDuo = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrAuthenticatorDuo);
 
+const mockChallengeCustomOTP = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticators)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrAuthenticatorCustomOTP);
+
 const xhrSelectAuthenticatorsOktaVerifyKnownDevice = JSON.parse(JSON.stringify(xhrSelectAuthenticatorsOktaVerify));
 xhrSelectAuthenticatorsOktaVerifyKnownDevice.authenticators.value[0].deviceKnown = true;
 const mockSelectAuthenticatorKnownDevice = RequestMock()
@@ -110,7 +117,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
-  await t.expect(selectFactorPage.getFactorsCount()).eql(12);
+  await t.expect(selectFactorPage.getFactorsCount()).eql(13);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(0)).eql(false);
@@ -185,6 +192,13 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getFactorIconClassByIndex(11)).contains('mfa-custom-factor');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(11)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(11)).eql('external_idp');
+
+  // Authenticator index(11) used in SelectAuthenticatorPageObject for CUSTOM_OTP_BUTTON_SELECTOR
+  await t.expect(selectFactorPage.getFactorLabelByIndex(12)).eql('Atko Custom OTP Authenticator');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(12)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(12)).contains('mfa-hotp');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(12)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(12)).eql('custom_otp');
 
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();
@@ -482,3 +496,13 @@ test.requestHooks(mockChallengeDuo)('should navigate to Duo challenge page', asy
   const challengeFactorPage = new ChallengeFactorPageObject(t);
   await t.expect(challengeFactorPage.getPageTitle()).eql('Verify with Duo Security');
 });
+
+test.requestHooks(mockChallengeCustomOTP)('should navigate to Custom OTP challenge page', async t => {
+  const selectFactorPage = await setup(t);
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
+
+  selectFactorPage.selectFactorByIndex(9);
+  const challengeFactorPage = new ChallengeFactorPageObject(t);
+  await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with Atko Custom OTP Authenticator');
+});
+

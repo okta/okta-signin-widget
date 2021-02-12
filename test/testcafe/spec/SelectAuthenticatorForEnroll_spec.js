@@ -10,6 +10,9 @@ import xhrAuthenticatorEnrollPassword from '../../../playground/mocks/data/idp/i
 import xhrSelectAuthenticatorsWithSkip from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator-with-skip';
 import success from '../../../playground/mocks/data/idp/idx/success';
 
+import xhrSelectAuthenticatorEnroll from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator';
+import xhrAuthenticatorEnrollCustomOTP from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-custom-otp';
+
 const mockEnrollAuthenticatorPassword = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticators)
@@ -21,6 +24,15 @@ const mockOptionalAuthenticatorEnrollment = RequestMock()
   .respond(xhrSelectAuthenticatorsWithSkip)
   .onRequestTo('http://localhost:3000/idp/idx/skip')
   .respond(success);
+
+const mockEnrollAuthenticatorCustomOTP = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticatorEnroll)
+  .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
+  .respond((req, res) => {
+    res.statusCode = '403';
+    res.setBody(xhrAuthenticatorEnrollCustomOTP);
+  });
 
 const requestLogger = RequestLogger(
   /idx\/introspect|\/credential\/enroll/,
@@ -43,7 +55,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up Authenticators');
   await t.expect(selectFactorPage.getFormSubtitle()).eql(
     'Set up authenticators to ensure that only you have access to your account.');
-  await t.expect(selectFactorPage.getFactorsCount()).eql(10);
+  await t.expect(selectFactorPage.getFactorsCount()).eql(11);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-password');
@@ -109,6 +121,12 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(9))
     .eql('Redirect to verify with IDP Authenticator');
 
+  await t.expect(selectFactorPage.getFactorLabelByIndex(10)).eql('Atko Custom OTP Authenticator');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(10)).contains('mfa-hotp');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(10)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(10)).eql('custom_otp');
+  await t.expect(selectFactorPage.getFactorDescriptionByIndex(10)).eql('Enter a temporary code generated from an authenticator device.');
+
   // no signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).notOk();
 
@@ -165,3 +183,10 @@ test.requestHooks(mockOptionalAuthenticatorEnrollment)('should skip optional enr
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
 
+test.requestHooks(mockEnrollAuthenticatorCustomOTP)('enroll custom OTP authenticator shows error on select authenticator enroll page', async t => {
+  const selectFactorPage = await setup(t);
+  await selectFactorPage.clickCustomOTP();
+  const error = await selectFactorPage.getErrorFromErrorBox();
+  // custom OTP is blocked for enduser. Can only be enrolled by admin
+  await t.expect(error).contains('Contact your administrator to continue enrollment.');
+});

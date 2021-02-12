@@ -72,6 +72,9 @@ import ChallengeDuoAuthenticatorView from './views/duo/ChallengeDuoAuthenticator
 // idp authenticator
 import AuthenticatorIdPView from './views/idp/AuthenticatorIdPView';
 
+// custom otp
+import ChallengeCustomOTPAuthenticatorView from './views/custom-otp/ChallengeCustomOTPAuthenticatorView';
+
 // safe mode poll view
 import PollView from './views/PollView';
 
@@ -158,6 +161,7 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.ON_PREM]: ChallengeAuthenticatorOnPremView,
     [AUTHENTICATOR_KEY.RSA]: ChallengeAuthenticatorOnPremView,
     [AUTHENTICATOR_KEY.DUO]: ChallengeDuoAuthenticatorView,
+    [AUTHENTICATOR_KEY.CUSTOM_OTP]: ChallengeCustomOTPAuthenticatorView,
   },
   [RemediationForms.CHALLENGE_POLL]: {
     [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifyView,
