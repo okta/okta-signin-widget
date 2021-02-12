@@ -1,6 +1,7 @@
 const path = require('path');
 const responseConfig = require('./responseConfig');
 const supportedApi = [
+  '/oauth2/',
   '/api/v1/authn',
   '/idp/idx'
 ];

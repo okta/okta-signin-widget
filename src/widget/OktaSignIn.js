@@ -142,6 +142,13 @@ var OktaSignIn = (function () {
 
     var authClient = options.authClient ? options.authClient : createAuthClient(authParams);
 
+    // validate authClient configuration against widget options
+    if (options.useInteractionCodeFlow && authClient.isPKCE() === false) {
+      throw new Errors.ConfigError(
+        'The "useInteractionCodeFlow" option requires PKCE to be enabled on the authClient.'
+      );
+    }
+
     var Router;
     if ((options.stateToken && !Util.isV1StateToken(options.stateToken)) 
         // Self hosted widget can use this flag to use V2Router

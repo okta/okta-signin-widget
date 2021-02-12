@@ -2,12 +2,14 @@
 import { $ } from 'okta';
 import PrimaryAuthForm from 'helpers/dom/PrimaryAuthForm';
 import IdentifierForm from 'helpers/dom/v2/IdentifierForm';
+import TerminalView from 'helpers/dom/v2/TerminalView';
 import MockUtil from 'helpers/mocks/Util';
 import Expect from 'helpers/util/Expect';
 import errorResponse from 'helpers/xhr/ERROR_invalid_token';
 import introspectResponse from 'helpers/xhr/UNAUTHENTICATED';
 import idxResponse from 'helpers/xhr/v2/IDX_IDENTIFY';
 import v1Success from 'helpers/xhr/SUCCESS';
+import errorFeatureNotEnabled from 'helpers/xhr/v2/ERROR_FEATURE_NOT_ENABLED';
 import 'jasmine-ajax';
 import Q from 'q';
 import $sandbox from 'sandbox';
@@ -105,6 +107,19 @@ Expect.describe('OktaSignIn initialization', function () {
         Object.keys(authParams).forEach(function (key) {
           expect(signIn.authClient.options[key]).toBe(authParams[key]);
         });
+      });
+
+      it('"useInteractionCodeFlow" without PKCE throws a config error', function () {
+        const fn = () => {
+          signIn = new Widget({
+            baseUrl: url,
+            useInteractionCodeFlow: true,
+            authParams: {
+              pkce: false
+            }
+          });
+        };
+        expect(fn).toThrowError('The "useInteractionCodeFlow" option requires PKCE to be enabled on the authClient.');
       });
     });
 
@@ -776,6 +791,52 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         expect(err.message.toString()).toEqual('Error: Unknown api version: 2.0.0.  Use an exact semver version.');
       });
     });
+
+    describe('shows error when IDENTITY_ENGINE feature is not enabled', () => {
+      itp('shows translated error when i18n is available', () => {
+        const view = new TerminalView($sandbox);
+        const testStr = 'This is a test string';
+        setupLoginFlow({
+          clientId: 'someClientId',
+          redirectUri: 'http://0.0.0.0:9999',
+          useInteractionCodeFlow: true,
+          language: 'en',
+          i18n: {
+            en: {
+              'oie.feature.disabled': testStr
+            }
+          }
+        }, [
+          errorFeatureNotEnabled
+        ]);
+  
+        return Expect.wait(() => {
+          return $('.siw-main-view.terminal').length === 1;
+        }).then(function () {
+          expect(view.getTitle()).toBe('Authenticate');
+          expect(view.getErrorMessages()).toBe(testStr);
+        });
+      });
+      itp('shows untranslated error when i18n is not available', () => {
+        const view = new TerminalView($sandbox);
+        const testStr = 'The requested feature is not enabled in this environment.';
+        setupLoginFlow({
+          clientId: 'someClientId',
+          redirectUri: 'http://0.0.0.0:9999',
+          useInteractionCodeFlow: true,
+        }, [
+          errorFeatureNotEnabled
+        ]);
+  
+        return Expect.wait(() => {
+          return $('.siw-main-view.terminal').length === 1;
+        }).then(function () {
+          expect(view.getTitle()).toBe('Authenticate');
+          expect(view.getErrorMessages()).toBe(testStr);
+        });
+      });
+    });
+
   });
 
   itp('Gets proxyIdxResponse and render terminal view', function () {

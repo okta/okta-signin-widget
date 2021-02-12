@@ -1,5 +1,6 @@
 /* eslint max-params:[2, 32], max-statements:[2, 45], camelcase:0, max-len:[2, 180] */
 import { _, $, internal } from 'okta';
+import { OAuthError } from '@okta/okta-auth-js';
 import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import PrimaryAuthController from 'PrimaryAuthController';
@@ -2024,7 +2025,6 @@ Expect.describe('PrimaryAuth', function () {
     });
     itp('calls async processCreds function before saving a model', function () {
       const processCredsSpy = jasmine.createSpy('processCreds');
-
       return setup({
         processCreds: function (creds, callback) {
           processCredsSpy(creds, callback);
@@ -2277,6 +2277,38 @@ Expect.describe('PrimaryAuth', function () {
           expect(err instanceof Errors.UnsupportedBrowserError).toBe(true);
           expect(err.name).toBe('UNSUPPORTED_BROWSER_ERROR');
           expect(err.message).toEqual('There was an error sending the request - have you enabled CORS?');
+        });
+    });
+
+    itp('shows an error if redirect is required for MFA', function () {
+      const serverMessage = 'The client specified not to prompt, but the client app requires re-authentication or MFA.';
+      const error = new OAuthError('login_required', serverMessage);
+      const clientMessage = 'MFA means need redirect';
+      return setup({
+        // Set OIDC config to attempt to fetch tokens with /authorize
+        clientId: 'fake',
+        redirectUri: 'http://fake',
+        authParams: {
+          pkce: false
+        },
+        language: 'en',
+        i18n: {
+          en: {
+            'error.mfa.required': clientMessage
+          }
+        }
+      })
+        .then(function (test) {
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          spyOn(test.ac.token, 'getWithoutPrompt').and.returnValue(Promise.reject(error));
+          test.form.submit();
+          return Expect.waitForFormError(test.form, test);
+        })
+        .then(function (test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage()).toBe(clientMessage);
         });
     });
   });

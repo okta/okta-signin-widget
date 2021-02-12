@@ -3,8 +3,19 @@
 const idx = {
   // ===== IDX
 
+  // PKCE must be enabled with "useInteractionCodeFlow" option
+  '/oauth2/default/.well-known/openid-configuration': [
+    'well-known-openid-configuration'
+  ],
+
+  '/oauth2/default/v1/interact': [
+    // 'interact'
+    'error-feature-not-enabled'
+  ],
+
   '/idp/idx/introspect': [
-    'identify',
+    // 'identify',
+    'error-feature-not-enabled',
     // 'error-403-security-access-denied',
     // 'authenticator-enroll-email',
     // 'error-internal-server-error',
@@ -26,7 +37,7 @@ const idx = {
     // 'authenticator-verification-password',
     // 'authenticator-verification-phone-sms',
     // 'authenticator-verification-phone-voice',
-    'authenticator-verification-security-question',
+    // 'authenticator-verification-security-question',
     // 'authenticator-verification-select-authenticator',
     // 'authenticator-verification-select-authenticator-ov-m2',
     // 'authenticator-verification-webauthn',
