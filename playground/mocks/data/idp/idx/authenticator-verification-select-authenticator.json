@@ -287,7 +287,8 @@
                   }
                 },
                 "relatesTo": "$.authenticatorEnrollments.value[10]"
-              }, {
+              },
+              {
                 "label": "Duo Security",
                 "value": {
                   "form": {
@@ -308,6 +309,28 @@
                   }
                 },
                 "relatesTo": "$.authenticatorEnrollments.value[11]"
+              },
+              {
+                "label": "Atko Custom OTP Authenticator",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut32kl92UF8kfE4E0g5",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "idp",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[12]"
               }
             ]
           },
@@ -454,6 +477,18 @@
         "methods": [
           {
             "type": "idp"
+          }
+        ]
+      },
+      {
+        "type": "security_key",
+        "key": "custom_otp",
+        "id": "dsf36lrPqdONw2Xjv0g5",
+        "displayName": "Atko Custom OTP Authenticator",
+        "credentialId": "",
+        "methods": [
+          {
+            "type": "otp"
           }
         ]
       }

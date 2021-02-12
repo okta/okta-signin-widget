@@ -69,6 +69,9 @@ import ChallengeAuthenticatorOnPremView from './views/on-prem/ChallengeAuthentic
 import EnrollDuoAuthenticatorView from './views/duo/EnrollDuoAuthenticatorView';
 import ChallengeDuoAuthenticatorView from './views/duo/ChallengeDuoAuthenticatorView';
 
+// custom otp
+import ChallengeCustomOTPAuthenticatorView from './views/custom-otp/ChallengeCustomOTPAuthenticatorView';
+
 // safe mode poll view
 import PollView from './views/PollView';
 
@@ -107,7 +110,6 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.PHONE]: EnrollAuthenticatorDataPhoneView,
   },
   [RemediationForms.ENROLL_AUTHENTICATOR]: {
-
     [AUTHENTICATOR_KEY.PASSWORD]: EnrollAuthenticatorPasswordView,
     [AUTHENTICATOR_KEY.WEBAUTHN]: EnrollWebauthnView,
     [AUTHENTICATOR_KEY.PHONE]: EnrollAuthenticatorPhoneView,
@@ -156,6 +158,7 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.ON_PREM]: ChallengeAuthenticatorOnPremView,
     [AUTHENTICATOR_KEY.RSA]: ChallengeAuthenticatorOnPremView,
     [AUTHENTICATOR_KEY.DUO]: ChallengeDuoAuthenticatorView,
+    [AUTHENTICATOR_KEY.CUSTOM_OTP]: ChallengeCustomOTPAuthenticatorView,
   },
   [RemediationForms.CHALLENGE_POLL]: {
     [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifyView,

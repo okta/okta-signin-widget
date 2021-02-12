@@ -3,6 +3,19 @@
   "version": "1.0.0",
   "expiresAt": "2020-01-13T21:05:31.000Z",
   "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Contact your administrator to continue enrollment",
+        "i18n": {
+          "key": "enroll.hotp.restricted",
+          "params": []
+        },
+        "class": "ERROR"
+      }
+    ]
+  },
   "remediation": {
     "type": "array",
     "value": [
@@ -152,7 +165,8 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[4]"
-              }, {
+              },
+              {
                 "label": "Google Authenticator",
                 "value": {
                   "form": {
@@ -167,7 +181,8 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[5]"
-              }, {
+              },
+              {
                 "label": "Atko Custom On-prem",
                 "value": {
                   "form": {
@@ -190,7 +205,8 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[6]"
-              }, {
+              },
+              {
                 "label": "RSA SecurID",
                 "value": {
                   "form": {
@@ -213,7 +229,7 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[7]"
-              }, 
+              },
               {
                 "label": "Duo Security",
                 "value": {

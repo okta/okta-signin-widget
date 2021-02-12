@@ -9,6 +9,7 @@ const factorSelectButtonDiv = `${factorListRowSelector} .authenticator-button`;
 const factorSelectButtonSelector = `${factorListRowSelector} .authenticator-button .button`;
 const skipOptionalEnrollmentSelector = '.authenticator-list .skip-all';
 const CUSTOM_SIGN_OUT_LINK_SELECTOR = '.auth-footer .js-cancel';
+const CUSTOM_OTP_BUTTON_SELECTOR = '.authenticator-list .authenticator-row:nth-child(11) .authenticator-button a';
 
 export default class SelectFactorPageObject extends BasePageObject {
   constructor(t) {
@@ -54,6 +55,14 @@ export default class SelectFactorPageObject extends BasePageObject {
 
   getCustomSignOutLink() {
     return Selector(CUSTOM_SIGN_OUT_LINK_SELECTOR).getAttribute('href');
+  }
+
+  async clickCustomOTP() {
+    await this.t.click(this.form.getElement(CUSTOM_OTP_BUTTON_SELECTOR));
+  }
+
+  async getErrorFromErrorBox() {
+    return this.form.getErrorBoxText();
   }
 
 }

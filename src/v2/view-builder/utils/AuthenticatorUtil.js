@@ -24,7 +24,7 @@ const getButtonDataSeAttr = function (authenticator) {
   return '';
 };
 
-/* eslint complexity: [2, 22] */
+/* eslint complexity: [2, 25] */
 const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
   const authenticatorKey = authenticator.authenticatorKey;
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
@@ -130,6 +130,17 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
     });
     break;
+
+  case AUTHENTICATOR_KEY.CUSTOM_OTP: {
+    Object.assign(authenticatorData, {
+      description: isVerifyAuthenticator
+        ? ''
+        : loc('oie.custom_otp.description', 'login'),
+      iconClassName: 'mfa-hotp',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+    });
+    break;
+  }
   }
 
   return authenticatorData;

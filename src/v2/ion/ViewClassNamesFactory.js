@@ -24,6 +24,7 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
     [AUTHENTICATOR_KEY.OV]: 'mfa-verify',
     [AUTHENTICATOR_KEY.GOOGLE_AUTHENTICATOR]: 'mfa-verify',
     [AUTHENTICATOR_KEY.DUO]: 'mfa-verify-duo',
+    [AUTHENTICATOR_KEY.CUSTOM_OTP]: 'mfa-verify-custom-otp',
   },
   [FORMS.CHALLENGE_POLL]: {
     [AUTHENTICATOR_KEY.OV]: 'mfa-verify',
