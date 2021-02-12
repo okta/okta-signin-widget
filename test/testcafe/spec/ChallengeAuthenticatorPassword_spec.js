@@ -6,6 +6,7 @@ import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import ChallengePasswordPageObject from '../framework/page-objects/ChallengePasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
+import sessionExpired from '../../../playground/mocks/data/idp/idx/error-pre-versioning-ff-session-expired';
 
 const mockChallengeAuthenticatorPassword = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -24,6 +25,12 @@ const mockCannotForgotPassword = RequestMock()
   .respond(xhrAuthenticatorRequiredPassword)
   .onRequestTo('http://localhost:3000/idp/idx/recover')
   .respond(xhrForgotPasswordError, 403);
+
+const sessionExpiresDuringPassword = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorRequiredPassword)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(sessionExpired, 401);
 
 const recoveryRequestLogger = RequestLogger(
   /idp\/idx\/recover/,
@@ -96,6 +103,15 @@ test.requestHooks(mockInvalidPassword)('challege password authenticator with inv
     }
   });
 
+});
+
+test.requestHooks(sessionExpiresDuringPassword)('challege password authenticator with expired session', async t => {
+  const challengePasswordPage = await setup(t);
+  await challengePasswordPage.switchAuthenticatorExists();
+  await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
+  await challengePasswordPage.clickNextButton();
+  await t.expect(challengePasswordPage.getErrorFromErrorBox()).eql('The session has expired.');
+  await t.expect(challengePasswordPage.getSignoutLinkText()).eql('Sign Out'); // confirm they can get out of terminal state
 });
 
 test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not recover password', async t => {
