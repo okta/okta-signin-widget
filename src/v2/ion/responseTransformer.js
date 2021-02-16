@@ -161,6 +161,21 @@ const convertRedirectIdPToSuccessRedirectIffOneIdp = (result) => {
   }
 };
 
+
+const convertRedirectToSuccessRedirectForMtls = (result) => {
+  if (Array.isArray(result.remediations)) {
+    const redirectRemediations = result.remediations.filter(r => r.name === RemediationForms.REDIRECT);
+    if (redirectRemediations.length === 1 && result.remediations.length === 1) {
+      const successRedirect = {
+        name: RemediationForms.SUCCESS_REDIRECT,
+        href: redirectRemediations[0].href,
+        value: [],
+      };
+      result.remediations = [ successRedirect ];
+    }
+  }
+};
+
 /**
  * @param {Models.Settings} user configuration
  * @param {idx} idx object
@@ -195,6 +210,7 @@ const convert = (settings, idx = {}) => {
 
   injectIdPConfigButtonToRemediation(settings, result);
   convertRedirectIdPToSuccessRedirectIffOneIdp(result);
+  convertRedirectToSuccessRedirectForMtls(result);
 
   return result;
 };
