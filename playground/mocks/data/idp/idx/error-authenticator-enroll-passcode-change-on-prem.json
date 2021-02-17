@@ -9,7 +9,7 @@
       {
         "message": "Wait for token to change, then enter the new tokencode.",
         "i18n": {
-          "key": "idx.error.on-prem.token.change",
+          "key": "oie.on_prem.error.token.change",
           "params": []
         },
         "class": "ERROR"
@@ -124,7 +124,7 @@
     "value": {
       "displayName": "Atko Custom On-prem",
       "type": "security_key",
-      "key": "del_oath",
+      "key": "onprem_mfa",
       "id": "autx7fdyRt87txnAs0g3",
       "methods":[
         {
@@ -143,7 +143,7 @@
       {
         "displayName": "Atko Custom On-prem",
         "type": "security_key",
-        "key": "del_oath",
+        "key": "onprem_mfa",
         "authenticatorid": "autx7fdyRt87txnAs0g3",
         "id": "on-prem-enroll-id-123"
       }

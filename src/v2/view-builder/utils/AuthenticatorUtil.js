@@ -24,7 +24,7 @@ const getButtonDataSeAttr = function (authenticator) {
   return '';
 };
 
-/* eslint complexity: [2, 19] */
+/* eslint complexity: [2, 22] */
 const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
   const authenticatorKey = authenticator.authenticatorKey;
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
@@ -110,6 +110,26 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
     });
     break;
   }
+
+  case AUTHENTICATOR_KEY.RSA:
+    Object.assign(authenticatorData, {
+      description: isVerifyAuthenticator
+        ? ''
+        : loc('oie.rsa.authenticator.description', 'login'),
+      iconClassName: 'mfa-rsa',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+    });
+    break;
+
+  case AUTHENTICATOR_KEY.DUO:
+    Object.assign(authenticatorData, {
+      description: isVerifyAuthenticator
+        ? ''
+        : loc('oie.duo.authenticator.description', 'login'),
+      iconClassName: 'mfa-duo',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+    });
+    break;
   }
 
   return authenticatorData;

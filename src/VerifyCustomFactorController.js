@@ -15,7 +15,7 @@ import FactorUtil from 'util/FactorUtil';
 import FormController from 'util/FormController';
 import FormType from 'util/FormType';
 import HtmlErrorMessageView from 'views/mfa-verify/HtmlErrorMessageView';
-import FooterSignout from 'views/shared/FooterSignout';
+import FooterMFA from 'views/shared/FooterMFA';
 const { Util } = internal.util;
 export default FormController.extend({
   className: 'verify-custom-factor custom-factor-form',
@@ -124,9 +124,6 @@ export default FormController.extend({
   initialize: function () {
     this.model.set('provider', this.options.provider);
     this.model.set('factorType', this.options.factorType);
-    if (!this.settings.get('features.hideSignOutLinkInMFA') &&
-        !this.settings.get('features.mfaOnlyFlow')) {
-      this.addFooter(FooterSignout);
-    }
+    this.addFooter(FooterMFA);
   },
 });

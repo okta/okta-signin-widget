@@ -3,7 +3,7 @@ import BaseForm from '../../internals/BaseForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
 
-const ON_PREM_TOKEN_CHANGE_KEY = 'idx.error.on-prem.token.change';
+const ON_PREM_TOKEN_CHANGE_KEY = 'oie.on_prem.error.token.change';
 
 const Body = BaseForm.extend({
 

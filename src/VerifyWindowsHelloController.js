@@ -15,7 +15,7 @@ import FormController from 'util/FormController';
 import FormType from 'util/FormType';
 import webauthn from 'util/webauthn';
 import HtmlErrorMessageView from 'views/mfa-verify/HtmlErrorMessageView';
-import FooterSignout from 'views/shared/FooterSignout';
+import FooterMFA from 'views/shared/FooterMFA';
 import Spinner from 'views/shared/Spinner';
 export default FormController.extend({
   className: 'mfa-verify verify-windows-hello',
@@ -192,11 +192,5 @@ export default FormController.extend({
     // More details in OKTA-135060.
   },
 
-  initialize: function () {
-    FormController.prototype.initialize.apply(this, arguments);
-    if (!this.settings.get('features.hideSignOutLinkInMFA') &&
-        !this.settings.get('features.mfaOnlyFlow')) {
-      this.addFooter(FooterSignout);
-    }
-  },
+  Footer: FooterMFA,
 });

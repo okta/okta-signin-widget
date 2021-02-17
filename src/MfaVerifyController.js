@@ -22,7 +22,7 @@ import SecurityQuestionForm from 'views/mfa-verify/SecurityQuestionForm';
 import SendEmailAndVerifyCodeForm from 'views/mfa-verify/SendEmailAndVerifyCodeForm';
 import TOTPForm from 'views/mfa-verify/TOTPForm';
 import YubikeyForm from 'views/mfa-verify/YubikeyForm';
-import FooterSignout from 'views/shared/FooterSignout';
+import FooterMFA from 'views/shared/FooterMFA';
 let { CheckBox } = internal.views.forms.inputs;
 export default BaseLoginController.extend({
   className: 'mfa-verify',
@@ -133,10 +133,7 @@ export default BaseLoginController.extend({
       }
     });
 
-    if (!this.settings.get('features.hideSignOutLinkInMFA') &&
-        !this.settings.get('features.mfaOnlyFlow')) {
-      this.add(new FooterSignout(this.toJSON()));
-    }
+    this.add(new FooterMFA(this.toJSON()));
   },
 
   findModel: function (factorType, options) {

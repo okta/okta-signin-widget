@@ -3,18 +3,6 @@
   "version": "1.0.0",
   "expiresAt": "2021-01-07T03:05:19.000Z",
   "intent": "LOGIN",
-  "messages": {
-    "type": "array",
-    "value": [
-      {
-        "message": "Wait for token to change, then enter the new tokencode.",
-        "i18n": {
-          "key": "oie.on_prem.error.token.change"
-        },
-        "class": "ERROR"
-      }
-    ]
-  },
   "remediation": {
     "type": "array",
     "value": [
@@ -87,7 +75,7 @@
                 "relatesTo": "$.authenticatorEnrollments.value[0]"
               },
               {
-                "label": "Atko Custom On-prem",
+                "label": "RSA SecurID",
                 "value": {
                   "form": {
                     "value": [
@@ -100,7 +88,7 @@
                       {
                         "name": "enrollmentId",
                         "required": true,
-                        "value": "paexaoLGpTBjbyhBF0g3",
+                        "value": "rsaxaoLGpTBjbyhBF0g3",
                         "mutable": false
                       }
                     ]
@@ -126,9 +114,9 @@
     "type": "object",
     "value": {
       "type": "security_key",
-      "key": "onprem_mfa",
-      "id": "paexaoLGpTBjbyhBF0g3",
-      "displayName": "Atko Custom On-prem",
+      "key": "rsa_token",
+      "id": "rsaxaoLGpTBjbyhBF0g3",
+      "displayName": "RSA SecurID",
       "methods": [
         {
           "type": "otp"
@@ -152,9 +140,9 @@
       },
       {
         "type": "security_key",
-        "key": "onprem_mfa",
+        "key": "rsa_token",
         "id": "autx7fdyRt87txnAs0g3",
-        "displayName": "Atko Custom On-prem",
+        "displayName": "RSA SecurID",
         "methods": [
           {
             "type": "otp"
@@ -182,12 +170,12 @@
       },
       {
         "profile": {
-          "provider": "Atko Custom On-prem"
+          "provider": "RSA SecurID"
         },
         "type": "security_key",
-        "key": "onprem_mfa",
-        "id": "paexaoLGpTBjbyhBF0g3",
-        "displayName": "Atko Custom On-prem",
+        "key": "rsa_token",
+        "id": "rsaxaoLGpTBjbyhBF0g3",
+        "displayName": "RSA SecurID",
         "methods": [
           {
             "type": "otp"

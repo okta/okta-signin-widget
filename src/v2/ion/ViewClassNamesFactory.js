@@ -19,9 +19,11 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
     voice: 'mfa-verify-passcode',
     [AUTHENTICATOR_KEY.SECURITY_QUESTION]: 'mfa-verify-question',
     [AUTHENTICATOR_KEY.WEBAUTHN]: 'mfa-verify-webauthn',
-    [AUTHENTICATOR_KEY.ON_PREM]: 'mfa-verify-webauthn',
+    [AUTHENTICATOR_KEY.ON_PREM]: 'mfa-verify-totp',
+    [AUTHENTICATOR_KEY.RSA]: 'mfa-verify-totp',
     [AUTHENTICATOR_KEY.OV]: 'mfa-verify',
     [AUTHENTICATOR_KEY.GOOGLE_AUTHENTICATOR]: 'mfa-verify',
+    [AUTHENTICATOR_KEY.DUO]: 'mfa-verify-duo',
   },
   [FORMS.CHALLENGE_POLL]: {
     [AUTHENTICATOR_KEY.OV]: 'mfa-verify',
@@ -36,7 +38,9 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
     voice: 'enroll-call',
     [AUTHENTICATOR_KEY.SECURITY_QUESTION]: 'enroll-question',
     [AUTHENTICATOR_KEY.WEBAUTHN]: 'enroll-webauthn',
-    [AUTHENTICATOR_KEY.ON_PREM]: 'enroll-webauthn',
+    [AUTHENTICATOR_KEY.ON_PREM]: 'enroll-onprem',
+    [AUTHENTICATOR_KEY.RSA]: 'enroll-rsa',
+    [AUTHENTICATOR_KEY.DUO]: 'enroll-duo',
   },
 
   [FORMS.SELECT_AUTHENTICATOR_ENROLL]: {

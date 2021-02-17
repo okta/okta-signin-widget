@@ -24,24 +24,25 @@ export default View.extend({
   ),
   className: 'auth-footer clearfix',
   events: {
-    'click a': function (e) {
-      e.preventDefault();
-      this.options.appState.trigger('signOut');
-      const self = this;
+    'click a[data-se="signout-link"]': 'handleSignout',
+  },
+  handleSignout: function (e) {
+    e.preventDefault();
+    this.options.appState.trigger('signOut');
+    const self = this;
 
-      this.model
-        .doTransaction(function (transaction) {
-          return transaction.cancel();
-        })
-        .then(function () {
-          if (self.settings.get('signOutLink')) {
-            Util.redirect(self.settings.get('signOutLink'));
-          } else {
-            self.state.set('navigateDir', Enums.DIRECTION_BACK);
-            self.options.appState.trigger('navigate', '');
-          }
-        });
-    },
+    this.model
+      .doTransaction(function (transaction) {
+        return transaction.cancel();
+      })
+      .then(function () {
+        if (self.settings.get('signOutLink')) {
+          Util.redirect(self.settings.get('signOutLink'));
+        } else {
+          self.state.set('navigateDir', Enums.DIRECTION_BACK);
+          self.options.appState.trigger('navigate', '');
+        }
+      });
   },
   getTemplateData: function () {
     return {

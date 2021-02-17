@@ -7,11 +7,13 @@ import Expect from 'helpers/util/Expect';
 import errorResponse from 'helpers/xhr/ERROR_invalid_token';
 import introspectResponse from 'helpers/xhr/UNAUTHENTICATED';
 import idxResponse from 'helpers/xhr/v2/IDX_IDENTIFY';
+import v1Success from 'helpers/xhr/SUCCESS';
 import 'jasmine-ajax';
 import Q from 'q';
 import $sandbox from 'sandbox';
 import Logger from 'util/Logger';
 import Widget from 'widget/OktaSignIn';
+import V1Router from 'LoginRouter';
 const url = 'https://foo.com';
 const itp = Expect.itp;
 
@@ -241,6 +243,300 @@ Expect.describe('OktaSignIn initialization', function () {
       });
     });
   });
+});
+
+describe('OktaSignIn object API', function () {
+  let signIn;
+  let router;
+  beforeEach(function () {
+    spyOn(Logger, 'warn');
+    signIn = null;
+    router = null;
+  });
+
+  afterEach(() => {
+    signIn && signIn.remove();
+    $sandbox.empty();
+  });
+
+  function createWidget (options = {}) {
+    signIn = new Widget(Object.assign({
+      baseUrl: url,
+      features: {
+        router: true,
+      },
+    }, options));
+  }
+
+  function submitPrimaryAuthForm () {
+    const form = new PrimaryAuthForm($sandbox);
+    form.setUsername('fake@fake.com');
+    form.setPassword('FakePassword1');
+    form.submit();
+  }
+
+  function mockRouter () {
+    spyOn(V1Router.prototype, 'start').and.callFake(function () {
+      router = this;
+      router.controller = {
+        remove: () => {}
+      };
+    });
+  }
+
+  describe('renderEl', () => {
+
+    describe('router', () => {
+      beforeEach(() => {
+        mockRouter();
+      });
+
+      it('creates a router', () => {
+        createWidget();
+        signIn.renderEl({ el: $sandbox });
+        return Expect.wait(() => {
+          return !!router;
+        });
+      });
+      it('throws if a router has already been created', () => {
+        createWidget();
+        signIn.renderEl({ el: $sandbox });
+        return Expect.wait(() => {
+          return !!router;
+        }).then(() => {
+          return signIn.renderEl();
+        }).catch(e => {
+          expect(e.message).toEqual('An instance of the widget has already been rendered. Call remove() first.');
+        });
+      });
+      it('starts the router', () => {
+        createWidget();
+        signIn.renderEl({ el: $sandbox });
+        expect(V1Router.prototype.start).toHaveBeenCalled();
+      });
+    });
+
+    it('returns a Promise', () => {
+      createWidget();
+      const res = signIn.renderEl({ el: $sandbox });
+      expect(typeof res.then).toBe('function');
+      expect(typeof res.catch).toBe('function');
+      expect(typeof res.finally).toBe('function');
+
+      return Expect.wait(() => {
+        return $('.primary-auth').length === 1;
+      });
+    });
+  
+    describe('success', () => {
+      itp('fires success callback', () => {
+        createWidget();
+        MockUtil.mockAjax(v1Success);
+        const successFn = jasmine.createSpy();
+        signIn.renderEl({ el: $sandbox }, successFn);
+        
+        return Expect.wait(() => {
+          return $('.primary-auth').length === 1;
+        }).then(function () {
+          submitPrimaryAuthForm();
+          return Expect.wait(() => {
+            return successFn.calls.count() > 0;
+          });
+        }).then(function () {
+          expect(successFn).toHaveBeenCalledWith({
+            user: v1Success.response._embedded.user,
+            type: 'SESSION_SSO',
+            status: 'SUCCESS',
+            session: {
+              token: v1Success.response.sessionToken,
+              setCookieAndRedirect: jasmine.any(Function)
+            }
+          });
+        });
+      });
+      itp('resolves Promise', () => {
+        createWidget();
+        MockUtil.mockAjax(v1Success);
+
+        Expect.wait(() => {
+          return $('.primary-auth').length === 1;
+        }).then(function () {
+          submitPrimaryAuthForm();
+        });
+        
+        return signIn.renderEl({ el: $sandbox })
+          .then(res => {
+            expect(res).toEqual({
+              user: v1Success.response._embedded.user,
+              type: 'SESSION_SSO',
+              status: 'SUCCESS',
+              session: {
+                token: v1Success.response.sessionToken,
+                setCookieAndRedirect: jasmine.any(Function)
+              }
+            });
+          });
+      });
+    });
+
+    describe('error', () => {
+      it('fires error callback', () => {
+        createWidget();
+        const errorFn = jasmine.createSpy();
+        signIn.renderEl({ el: undefined }, undefined, errorFn);
+        return Expect.wait(() => {
+          return errorFn.calls.count() > 0;
+        })
+          .then(function () {
+            const error = errorFn.calls.argsFor(0)[0];
+            expect(error.message).toEqual('"el" is a required widget parameter');
+          });
+      });
+      it('rejects Promise', () => {
+        mockRouter();
+        createWidget();
+        return signIn.renderEl({ el: undefined })
+          .catch(error => {
+            expect(error.message).toEqual('"el" is a required widget parameter');
+          });
+      });
+    });
+
+  });
+
+  describe('showSignInToGetTokens', () => {
+    it('calls renderEl', () => {
+      const el = $sandbox;
+      const clientId = 'fake';
+      const redirectUri = 'http://fake';
+      mockRouter();
+      createWidget({ clientId, redirectUri });
+      spyOn(signIn, 'renderEl').and.callThrough();
+      signIn.showSignInToGetTokens({ el });
+      expect(signIn.renderEl).toHaveBeenCalledWith({
+        el,
+        clientId,
+        redirectUri,
+        authParams: {},
+        mode: 'relying-party'
+      });
+    });
+    it('throws error for authorization_code flow', () => {
+      const el = $sandbox;
+      const clientId = 'fake';
+      const redirectUri = 'http://fake';
+      mockRouter();
+      createWidget({
+        el,
+        clientId,
+        redirectUri,
+        authParams: {
+          pkce: false,
+          responseType: 'code'
+        }
+      });
+
+      const fn = () => {
+        signIn.showSignInToGetTokens();
+      };
+      expect(fn).toThrowError('"showSignInToGetTokens()" should not be used for authorization_code flow. ' + 
+        'Use "showSignInAndRedirect()" instead');
+    });
+    it('Can override el, clientId, redirectUri', () => {
+      const el = $sandbox;
+      const clientId = 'fake';
+      const redirectUri = 'http://fake';
+      mockRouter();
+      createWidget({ el: 'orig', clientId: 'original', redirectUri: 'http://original' });
+      spyOn(signIn, 'renderEl').and.callThrough();
+      signIn.showSignInToGetTokens({ el, clientId, redirectUri });
+      expect(signIn.renderEl).toHaveBeenCalledWith({
+        el,
+        clientId,
+        redirectUri,
+        authParams: {},
+        mode: 'relying-party'
+      });
+    });
+    it('Can pass additional authParams', () => {
+      const el = $sandbox;
+      const clientId = 'fake';
+      const redirectUri = 'http://fake';
+      const authParams = {
+        state: 'fake-state',
+        nonce: 'fake-nonce',
+        scopes: ['a', 'b']
+      };
+      mockRouter();
+      createWidget({ el, clientId, redirectUri });
+      spyOn(signIn, 'renderEl').and.callThrough();
+      signIn.showSignInToGetTokens(authParams);
+      expect(signIn.renderEl).toHaveBeenCalledWith({
+        el,
+        clientId,
+        redirectUri,
+        authParams,
+        mode: 'relying-party'
+      });
+    });
+  });
+
+  describe('showSignInAndRedirect', () => {
+    it('calls renderEl', () => {
+      const el = $sandbox;
+      const clientId = 'fake';
+      const redirectUri = 'http://fake';
+      mockRouter();
+      createWidget({ el, clientId, redirectUri });
+      spyOn(signIn, 'renderEl').and.callThrough();
+      signIn.showSignInAndRedirect();
+      expect(signIn.renderEl).toHaveBeenCalledWith({
+        el,
+        clientId,
+        redirectUri,
+        authParams: {},
+        mode: 'remediation'
+      });
+    });
+    it('Can override el, clientId, redirectUri', () => {
+      const el = $sandbox;
+      const clientId = 'fake';
+      const redirectUri = 'http://fake';
+      mockRouter();
+      createWidget({ el: 'orig', clientId: 'original', redirectUri: 'http://original' });
+      spyOn(signIn, 'renderEl').and.callThrough();
+      signIn.showSignInAndRedirect({ el, clientId, redirectUri });
+      expect(signIn.renderEl).toHaveBeenCalledWith({
+        el,
+        clientId,
+        redirectUri,
+        authParams: {},
+        mode: 'remediation'
+      });
+    });
+    it('Can pass additional authParams', () => {
+      const el = $sandbox;
+      const clientId = 'fake';
+      const redirectUri = 'http://fake';
+      const authParams = {
+        state: 'fake-state',
+        nonce: 'fake-nonce',
+        scopes: ['a', 'b']
+      };
+      mockRouter();
+      createWidget({ el, clientId, redirectUri });
+      spyOn(signIn, 'renderEl').and.callThrough();
+      signIn.showSignInAndRedirect(authParams);
+      expect(signIn.renderEl).toHaveBeenCalledWith({
+        el,
+        clientId,
+        redirectUri,
+        authParams,
+        mode: 'remediation'
+      });
+    });
+  });
+
 });
 
 Expect.describe('OktaSignIn v1 pipeline bootstrap ', function () {

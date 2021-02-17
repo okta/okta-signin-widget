@@ -503,6 +503,32 @@ const phoneEnroll = {
   ],
 };
 
+const duoMFAEnroll = {
+  '/idp/idx/introspect': [
+    'authenticator-enroll-select-authenticator',
+  ],
+  '/idp/idx/credential/enroll': [
+    'authenticator-enroll-duo',
+  ],
+  '/idp/idx/challenge/answer': [
+    'success',
+    //'error-authenticator-verification-duo',
+  ],
+};
+
+const duoMFAVerify = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator',
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-duo',
+  ],
+  '/idp/idx/challenge/answer': [
+    'success',
+    //'error-authenticator-verification-duo',
+  ],
+};
+
 const safeModePoll = {
   '/idp/idx/introspect': [
     'identify-with-password',
@@ -529,10 +555,12 @@ const onPremMFAEnroll = {
   ],
   '/idp/idx/credential/enroll': [
     'authenticator-enroll-on-prem',
+    //'authenticator-enroll-rsa',
   ],
   '/idp/idx/challenge/answer': [
     'success',
-    //'error-authenticator-verification-passcode-change-on-prem',
+    //'error-authenticator-enroll-passcode-change-on-prem',
+    //'error-authenticator-enroll-passcode-change-rsa',
   ],
 };
 
@@ -542,11 +570,14 @@ const onPremMFAVerify = {
   ],
   '/idp/idx/challenge': [
     'authenticator-verification-on-prem',
+    //'authenticator-verification-rsa',
   ],
   '/idp/idx/challenge/answer': [
     'success',
     //'error-authenticator-verification-on-prem',
     //'error-authenticator-verification-passcode-change-on-prem',
+    //'error-authenticator-verification-rsa',
+    //'error-authenticator-verification-passcode-change-rsa'
   ],
 };
 

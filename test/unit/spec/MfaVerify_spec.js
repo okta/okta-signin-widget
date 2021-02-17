@@ -86,6 +86,32 @@ function deepClone (res) {
 }
 
 Expect.describe('MFA Verify', function () {
+
+  const configWithCustomLink = {
+    helpLinks: {
+      factorPage: {
+        text: 'Need help with MFA?',
+        href: 'https://acme.com/mfa-help',
+      }
+    }
+  };
+
+  const configWithCustomLinkNoText = {
+    helpLinks: {
+      factorPage: {
+        href: 'https://acme.com/mfa-help',
+      }
+    }
+  };
+
+  const configWithCustomLinkNoHref = {
+    helpLinks: {
+      factorPage: {
+        text: 'Need help with MFA?',
+      }
+    }
+  };
+
   function createRouter (baseUrl, authClient, successSpy, settings) {
     const router = new Router(
       _.extend(
@@ -628,7 +654,7 @@ Expect.describe('MFA Verify', function () {
     return setup(resAllFactors, { factorType: 'web', provider: 'DUO' }, settings);
   }
 
-  function setupWithFirstFactor (factorIdentifier) {
+  function setupWithFirstFactor (factorIdentifier, settings) {
     const res = JSON.parse(JSON.stringify(resAllFactors));
     const factors = res.response._embedded.factors;
 
@@ -637,7 +663,7 @@ Expect.describe('MFA Verify', function () {
     const factor = factors.splice(index, 1);
 
     factors.unshift(factor[0]);
-    return setup(res, null, null, null, true);
+    return setup(res, null, settings, null, true);
   }
 
   function setupPolling (test, finalResponse, firstPollResponse) {
@@ -2281,6 +2307,62 @@ Expect.describe('MFA Verify', function () {
       itp('Okta Email', function () {
         return setupWithFirstFactor({ factorType: 'email' }).then(function (test) {
           expect(test.form.isEmail()).toBe(true);
+        });
+      });
+    });
+    Expect.describe('Factor page custom link', function () {
+      itp('is visible if configured and has correct text and url', function () {
+        return setupWithFirstFactor({ factorType: 'question' }, configWithCustomLink).then(function (test) {
+          Expect.isVisible(test.form.factorPageCustomLink($sandbox));
+          expect(test.form.factorPageCustomLinkLabel($sandbox).trim()).toBe('Need help with MFA?');
+          expect(test.form.factorPageCustomLinkHref($sandbox).trim()).toBe('https://acme.com/mfa-help');
+        });
+      });
+      itp('is not visible if not configured', function () {
+        return setupWithFirstFactor({ factorType: 'question' }).then(function (test) {
+          expect(test.form.factorPageCustomLink($sandbox).length).toBe(0);
+        });
+      });
+      itp('is not visible if configured without text', function () {
+        return setupWithFirstFactor({ factorType: 'question' }, configWithCustomLinkNoText).then(function (test) {
+          expect(test.form.factorPageCustomLink($sandbox).length).toBe(0);
+        });
+      });
+      itp('is not visible if configured without url', function () {
+        return setupWithFirstFactor({ factorType: 'question' }, configWithCustomLinkNoHref).then(function (test) {
+          expect(test.form.factorPageCustomLink($sandbox).length).toBe(0);
+        });
+      });
+      itp('is visible if configured with features.hideSignOutLinkInMFA is true', function () {
+        return setupWithFirstFactor({ factorType: 'question' }, { ...configWithCustomLink, 'features.hideSignOutLinkInMFA': true }).then(function (test) {
+          Expect.isVisible(test.form.factorPageCustomLink($sandbox));
+          expect(test.form.signoutLink($sandbox).length).toBe(0);
+        });
+      });
+      itp('is visible if configured with features.mfaOnlyFlow is true', function () {
+        return setupWithFirstFactor({ factorType: 'question' }, { ...configWithCustomLink, 'features.mfaOnlyFlow': true }).then(function (test) {
+          Expect.isVisible(test.form.factorPageCustomLink($sandbox));
+          expect(test.form.signoutLink($sandbox).length).toBe(0);
+        });
+      });
+      itp('is visible if configured for U2F', function () {
+        return setupU2F({ u2f: true, settings: configWithCustomLink }).then(function (test) {
+          Expect.isVisible(test.form.factorPageCustomLink($sandbox));
+        });
+      });
+      itp('is visible if configured for custom factor', function () {
+        return setupClaimsProviderFactorWithIntrospect(configWithCustomLink).then(function (test) {
+          Expect.isVisible(test.form.factorPageCustomLink($sandbox));
+        });
+      });
+      itp('is visible if configured for Duo', function () {
+        return setupDuo(configWithCustomLink).then(function (test) {
+          Expect.isVisible(test.form.factorPageCustomLink($sandbox));
+        });
+      });
+      itp('is visible if configured for Windows Hello', function () {
+        return setupWindowsHello(configWithCustomLink).then(function (test) {
+          Expect.isVisible(test.form.factorPageCustomLink($sandbox));
         });
       });
     });
