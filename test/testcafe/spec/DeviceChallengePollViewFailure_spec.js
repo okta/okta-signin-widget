@@ -36,7 +36,6 @@ async function setup(t) {
 test('probing and polling APIs are sent and responded', async t => {
   const deviceChallengePollPageObject = await setup(t);
   await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
-  await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('block');
   await t.expect(logger.count(
     record => record.response.statusCode === 200 &&
       record.request.url.match(/introspect|2000/)
