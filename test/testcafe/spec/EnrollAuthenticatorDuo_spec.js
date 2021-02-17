@@ -24,7 +24,7 @@ async function setup(t) {
   await t.expect(JSON.parse(log[2])).eql({
     controller: 'enroll-duo',
     formName: 'enroll-authenticator',
-    authenticatorKey: 'duo_native',
+    authenticatorKey: 'duo',
     methodType: 'idp',
   });
 
