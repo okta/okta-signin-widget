@@ -462,8 +462,8 @@
         ]
       },
       {
-        "type": "federated",
-        "key": "duo_native",
+        "type": "app",
+        "key": "duo",
         "id": "dsf36lrPqdONw2Xjv0g4",
         "displayName": "Duo Security",
         "credentialId": "",
