@@ -43,7 +43,18 @@ export default BaseFooter.extend({
       });
     }
 
+    const unlockAccountLink = [];
+    if (this.options.appState.hasRemediationObject(RemediationForms.UNLOCK_ACCOUNT)) {
+      unlockAccountLink.push({
+        'type': 'link',
+        'label': loc('unlockaccount', 'login'),
+        'name' : 'unlock',
+        'actionPath': RemediationForms.UNLOCK_ACCOUNT,
+      });
+    }
+
     return forgotPasswordLink
+      .concat(unlockAccountLink)
       .concat(signupLink)
       .concat(helpLink)
       .concat(customHelpLinks);

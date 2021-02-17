@@ -16,8 +16,11 @@ const FORMS = {
   IDENTIFY_RECOVERY: 'identify-recovery',
   SELECT_ENROLL_PROFILE: 'select-enroll-profile',
   ENROLL_PROFILE: 'enroll-profile',
+  UNLOCK_ACCOUNT: 'unlock-account',
 
   SELECT_AUTHENTICATOR_AUTHENTICATE: 'select-authenticator-authenticate',
+  SELECT_AUTHENTICATOR_UNLOCK: 'select-authenticator-unlock-account',
+
   AUTHENTICATOR_VERIFICATION_DATA: 'authenticator-verification-data',
   CHALLENGE_AUTHENTICATOR: 'challenge-authenticator',
   CHALLENGE_POLL: 'challenge-poll',

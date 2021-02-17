@@ -813,7 +813,6 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         return Expect.wait(() => {
           return $('.siw-main-view.terminal').length === 1;
         }).then(function () {
-          expect(view.getTitle()).toBe('Authenticate');
           expect(view.getErrorMessages()).toBe(testStr);
         });
       });
@@ -831,7 +830,6 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         return Expect.wait(() => {
           return $('.siw-main-view.terminal').length === 1;
         }).then(function () {
-          expect(view.getTitle()).toBe('Authenticate');
           expect(view.getErrorMessages()).toBe(testStr);
         });
       });

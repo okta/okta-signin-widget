@@ -78,7 +78,7 @@ const Body = BaseForm.extend(Object.assign(
       this.stopPolling();
 
       // Polling needs to be resumed if it's a form error and session is still valid
-      if(!error.responseJSON.errorSummaryKeys.includes('idx.session.expired')) {
+      if(!error.responseJSON?.errorSummaryKeys?.includes('idx.session.expired')) {
         this.startPolling();
       }
     }

@@ -10,6 +10,7 @@ import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
 
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
 const SAFE_MODE_KEY_PREFIX = 'idx.error.server.safe.mode';
+const UNLOCK_ACCOUNT_TERMINAL_KEY = 'oie.selfservice.unlock_user.success.message';
 
 const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
   'idx.transferred.to.new.tab',
@@ -17,7 +18,12 @@ const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
   RETURN_LINK_EXPIRED_KEY,
   'idx.return.stale',
   'idx.return.error',
-  'idx.email.verification.required'
+  'idx.email.verification.required',
+];
+
+const GET_BACK_TO_SIGN_LINK_FLOWS = [
+  RETURN_LINK_EXPIRED_KEY,
+  UNLOCK_ACCOUNT_TERMINAL_KEY
 ];
 
 const HeaderBeaconTerminal = HeaderBeacon.extend({
@@ -43,7 +49,9 @@ const Body = BaseForm.extend({
     if (this.options.appState.containsMessageStartingWithI18nKey(SAFE_MODE_KEY_PREFIX)) {
       return loc('oie.safe.mode.title', 'login');
     }
-    return BaseForm.prototype.title.apply(this, arguments);
+    if (this.options.appState.containsMessageWithI18nKey(UNLOCK_ACCOUNT_TERMINAL_KEY)) {
+      return loc('account.unlock.unlocked.title', 'login');
+    }
   },
 
   showMessages () {
@@ -71,7 +79,7 @@ const Body = BaseForm.extend({
 
 const Footer = BaseFooter.extend({
   links: function () {
-    if (this.options.appState.containsMessageWithI18nKey(RETURN_LINK_EXPIRED_KEY)) {
+    if (this.options.appState.containsMessageWithI18nKey(GET_BACK_TO_SIGN_LINK_FLOWS)) {
       return getBackToSignInLink(this.options.settings);
     }
     if (this.options.appState.containsMessageStartingWithI18nKey(SAFE_MODE_KEY_PREFIX)) {

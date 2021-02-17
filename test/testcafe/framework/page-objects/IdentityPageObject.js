@@ -10,6 +10,7 @@ const REMEMBER_ME_FIELD_NAME = 'rememberMe';
 const CUSTOM_HELP_LINK_SELECTOR = '.auth-footer .js-help';
 const CUSTOM_HELP_LINKS_SELECTOR = '.auth-footer .js-custom';
 const CUSTOM_BUTTON = '.custom-buttons .okta-custom-buttons-container .default-custom-button';
+const UNLOCK_ACCOUNT = '.auth-footer .js-unlock';
 
 export default class IdentityPageObject extends BasePageObject {
   constructor (t) {
@@ -52,6 +53,10 @@ export default class IdentityPageObject extends BasePageObject {
 
   getForgotPasswordLinkText() {
     return Selector(FORGOT_PASSWORD_SELECTOR).textContent;
+  }
+
+  getUnlockAccountLinkText() {
+    return Selector(UNLOCK_ACCOUNT).textContent;
   }
 
   async hasForgotPasswordLinkText() {
@@ -149,5 +154,9 @@ export default class IdentityPageObject extends BasePageObject {
 
   async clickSignUpLink() {
     await this.t.click(Selector(ENROLL_SELECTOR));
+  }
+
+  async clickUnlockAccountLink() {
+    await this.t.click(Selector(UNLOCK_ACCOUNT));
   }
 }
