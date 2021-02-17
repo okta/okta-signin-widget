@@ -65,7 +65,6 @@
       "type": "federated",
       "id": "aut4mhtS1b84AR0iQ0g4",
       "displayName": "IDP Authenticator",
-      "contextualData": { "integrationType": "REDIRECT" },
       "methods": [
         { "type": "idp" }
       ]
@@ -78,7 +77,6 @@
       "type": "federated",
       "id": "aut4mhtS1b84AR0iQ0g4",
       "displayName": "IDP Authenticator",
-      "contextualData": { "integrationType": "REDIRECT" },
       "methods": [
         { "type": "idp" }
       ]
