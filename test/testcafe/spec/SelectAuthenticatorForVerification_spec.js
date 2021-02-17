@@ -178,7 +178,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(10)).eql(false);
   await t.expect(selectFactorPage.getFactorIconClassByIndex(10)).contains('mfa-duo');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(10)).eql('Select');
-  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(10)).eql('duo_native');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(10)).eql('duo');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(11)).eql('IDP Authenticator');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(11)).eql(false);

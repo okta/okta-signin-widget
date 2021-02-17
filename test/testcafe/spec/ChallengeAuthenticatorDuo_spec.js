@@ -32,7 +32,7 @@ async function setup(t) {
   await t.expect(JSON.parse(log[2])).eql({
     controller: 'mfa-verify-duo',
     formName: 'challenge-authenticator',
-    authenticatorKey: 'duo_native',
+    authenticatorKey: 'duo',
     methodType: 'idp'
   });
 
@@ -50,7 +50,7 @@ test
     await t.expect(JSON.parse(log[2])).eql({
       controller: 'mfa-verify-duo',
       formName: 'challenge-authenticator',
-      authenticatorKey: 'duo_native',
+      authenticatorKey: 'duo',
       methodType: 'idp',
     });
 

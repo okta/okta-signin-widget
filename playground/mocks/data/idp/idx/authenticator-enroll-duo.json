@@ -101,8 +101,8 @@
                 "signedToken": "sign_request(ikey, skey, akey, username)",
                 "script": "http://localhost:3000/js/sections/duo/Duo-Web-v2.6.js"
             },
-            "type": "federated",
-            "key": "duo_native",
+            "type": "app",
+            "key": "duo",
             "id": "aut32kl92UF8kfE4E0g4",
             "displayName": "Duo Security",
             "methods": [
@@ -116,8 +116,8 @@
         "type": "array",
         "value": [
             {
-                "type": "federated",
-                "key": "duo_native",
+                "type": "app",
+                "key": "duo",
                 "id": "aut32kl92UF8kfE4E0g4",
                 "displayName": "Duo Security",
                 "methods": [
@@ -147,8 +147,8 @@
     "enrollmentAuthenticator": {
         "type": "object",
         "value": {
-            "type": "federated",
-            "key": "duo_native",
+            "type": "app",
+            "key": "duo",
             "id": "aut32kl92UF8kfE4E0g4",
             "displayName": "Duo Security",
             "methods": [

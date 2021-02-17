@@ -552,8 +552,8 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     },
                     'relatesTo': {
                       'displayName': 'Duo Security',
-                      'type': 'federated',
-                      'key': 'duo_native',
+                      'type': 'app',
+                      'key': 'duo',
                       'id': 'aut32kl92UF8kfE4E0g4',
                       'methods': [
                         {
@@ -670,7 +670,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     value: {
                       id: 'aut32kl92UF8kfE4E0g4'
                     },
-                    authenticatorKey: 'duo_native',
+                    authenticatorKey: 'duo',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[8]
                   },
                   {
