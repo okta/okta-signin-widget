@@ -148,7 +148,10 @@ const Body = BaseForm.extend(Object.assign(
           // TODO: can we use standard ES6 promise methods, then/catch?
           .done(() => {
             this.probingXhr = onPortFound();
-            return this.probingXhr;
+            return this.probingXhr.done(() => {
+              // log in as soon as challenge request is finished
+              return this.trigger('save', this.model);
+            });
           })
           .fail(onFailure);
       };
