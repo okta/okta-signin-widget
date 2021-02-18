@@ -1,5 +1,7 @@
 import BaseFormObject from './components/BaseFormObject';
+// import { getCSPTrap } from '../shared/csp-trap';
 import { Selector } from 'testcafe';
+import { ClientFunction } from 'testcafe';
 
 const SIGNOUT_LINK = '.auth-footer .js-cancel';
 const GO_BACK_LINK = '.auth-footer .js-go-back';
@@ -7,6 +9,11 @@ const SKIP_LINK = '.auth-footer .js-skip';
 const SKIP_SET_UP_LINK = '.auth-footer .js-skip-setup';
 const SWITCH_AUTHENTICATOR_LINK = '.auth-footer .js-switchAuthenticator';
 const ionMessagesSelector = '.ion-messages-container';
+
+// TEMP: Keeping local to eliminate babel as source of problems https://devexpress.github.io/testcafe/documentation/guides/basic-guides/obtain-client-side-info.html#import-functions-to-be-used-as-client-function-dependencies
+const getCSPTrap = ClientFunction( () => { 
+  return window.globalCSPTrap;
+});
 
 export default class BasePageObject {
   constructor(t) {
@@ -17,6 +24,21 @@ export default class BasePageObject {
 
   async navigateToPage() {
     await this.t.navigateTo(`http://localhost:3000${this.url}`);
+    this.getFormTitle();
+    await this.checkCSPTrap();
+  }
+
+  async checkCSPTrap() { 
+    const cspTrap = await getCSPTrap();
+    this.t.debug();
+    if( !cspTrap ) { 
+      throw new Error('failed to find CSPTrap');
+    }
+    throw new Error(cspTrap.length); // TEMP just verifying we see anything
+    if( cspTrap.length ) { 
+      const cspSummary = cspTrap.map( event => `${event.blockedURI} blocked due to ${event.effectiveDirective}`).join('\n');
+      throw new Error(`${cspTrap.length} CSP Violation found: ${cspSummary}`);
+    }
   }
 
   getFormTitle() {
