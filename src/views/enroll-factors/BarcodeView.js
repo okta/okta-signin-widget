@@ -25,7 +25,7 @@ export default View.extend({
       </div>\
       <div class="scan-instructions-qrcode-wrapper">\
           <div class="qrcode-wrap">\
-              <img data-se="qrcode" alt="qr code" class="qrcode-image" src="{{qrcode}}">\
+              <img data-se="qrcode" alt="{{altQRCode}}" class="qrcode-image" src="{{qrcode}}">\
               <div data-se="qrcode-success" class="qrcode-success"></div>\
               <div data-se="qrcode-error" class="qrcode-error"></div>\
           </div>\
@@ -123,6 +123,7 @@ export default View.extend({
     return {
       instructions: instructions,
       qrcode: this.options.appState.get('qrcode'),
+      altQRCode: loc('mfa.altQrCode', 'login')
     };
   },
 });
