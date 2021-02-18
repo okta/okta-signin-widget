@@ -9,5 +9,6 @@ export async function checkConsoleMessages(context = {}) {
   await t.expect(log.length).eql(3);
   await t.expect(log[0]).eql('===== playground widget ready event received =====');
   await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql(context);
+  // TEMP - Just ensuring the widget has loaded in general, (hopefully) triggering any CSP issues
+  // await t.expect(JSON.parse(log[2])).eql(context);
 }

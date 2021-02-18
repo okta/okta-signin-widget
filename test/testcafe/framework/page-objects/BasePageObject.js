@@ -1,6 +1,7 @@
 import BaseFormObject from './components/BaseFormObject';
 // import { getCSPTrap } from '../shared/csp-trap';
 import { Selector } from 'testcafe';
+import { checkConsoleMessages } from '../shared';
 import { ClientFunction } from 'testcafe';
 
 const SIGNOUT_LINK = '.auth-footer .js-cancel';
@@ -24,7 +25,7 @@ export default class BasePageObject {
 
   async navigateToPage() {
     await this.t.navigateTo(`http://localhost:3000${this.url}`);
-    this.getFormTitle();
+    await checkConsoleMessages(); // TEMP - ensuring everything is loaded
     await this.checkCSPTrap();
   }
 
