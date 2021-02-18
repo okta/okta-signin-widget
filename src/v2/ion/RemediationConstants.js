@@ -84,7 +84,8 @@ const AUTHENTICATOR_KEY = {
   GOOGLE_AUTHENTICATOR: 'google_authenticator',
   ON_PREM: 'onprem_mfa',
   RSA: 'rsa_token',
-  DUO: 'duo_native'
+  DUO: 'duo_native',
+  IDP: 'external_idp',
 };
 
 export {

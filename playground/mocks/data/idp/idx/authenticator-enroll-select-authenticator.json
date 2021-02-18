@@ -234,6 +234,22 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[8]"
+              },
+              {
+                "label": "IDP Authenticator",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "0oa69chx4bZyx8O7l0g4",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[9]"
               }
             ]
           },
@@ -332,6 +348,16 @@
         "key": "duo_native",
         "id": "aut32kl92UF8kfE4E0g4",
         "displayName": "Duo Security",
+        "methods": [
+          {
+            "type": "idp"
+          }
+        ]
+      }, {
+        "type": "federated",
+        "id": "aut4mhtS1b84AR0iQ0g4",
+        "key": "external_idp",
+        "displayName": "IDP Authenticator",
         "methods": [
           {
             "type": "idp"

@@ -110,7 +110,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
-  await t.expect(selectFactorPage.getFactorsCount()).eql(11);
+  await t.expect(selectFactorPage.getFactorsCount()).eql(12);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(0)).eql(false);
@@ -179,6 +179,12 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getFactorIconClassByIndex(10)).contains('mfa-duo');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(10)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(10)).eql('duo_native');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(11)).eql('IDP Authenticator');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(11)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(11)).contains('mfa-custom-factor');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(11)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(11)).eql('external_idp');
 
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();

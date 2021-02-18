@@ -49,7 +49,7 @@ const idx = {
     // 'identify-with-third-party-idps',
     // 'identify-with-only-third-party-idps',
     // 'identify-with-only-one-third-party-idp',
-    //'identify-with-password',
+    // 'identify-with-password',
     // 'identify-with-universal-link',
     // 'success',
     // 'success-with-app-user',
@@ -74,7 +74,7 @@ const idx = {
   ],
   '/idp/idx/identify': [
     'authenticator-enroll-select-authenticator',
-    //'identify-with-only-one-third-party-idp',
+    // 'identify-with-only-one-third-party-idp',
     // 'error-identify-access-denied',
     // 'error-identify-user-locked-unable-challenge'
   ],
@@ -85,7 +85,7 @@ const idx = {
     'error-authenticator-enroll-security-question'
   ],
   '/idp/idx/challenge/send': [
-    //'authenticator-enroll-ov-sms',
+    // 'authenticator-enroll-ov-sms',
     'authenticator-enroll-ov-email',
   ],
   '/idp/idx/challenge/resend': [
@@ -94,7 +94,7 @@ const idx = {
   ],
   '/idp/idx/challenge/poll': [
     'success',
-    //'enroll-profile-new'
+    // 'enroll-profile-new'
     // 'authenticator-enroll-email',
     // 'authenticator-verification-okta-verify-push',
   ],
@@ -589,6 +589,20 @@ const passwordRecovery = {
     // 'error-identify-access-denied',
     'authenticator-verification-select-authenticator',
   ],
+};
+
+const idpAuthenticator = {
+  '/idp/idx/introspect': [
+    'authenticator-enroll-select-authenticator',
+    // 'authenticator-verification-select-authenticator',
+    'success',
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-idp',
+  ],
+  '/idp/idx/credential/enroll': [
+    'authenticator-enroll-idp',
+  ]
 };
 
 module.exports = {

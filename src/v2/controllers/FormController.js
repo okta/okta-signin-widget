@@ -13,6 +13,8 @@ import { _, Controller } from 'okta';
 import ViewFactory from '../view-builder/ViewFactory';
 import IonResponseHelper from '../ion/IonResponseHelper';
 import { getV1ClassName } from '../ion/ViewClassNamesFactory';
+import { FORMS } from '../ion/RemediationConstants';
+import Util from '../../util/Util';
 
 export default Controller.extend({
   className: 'form-controller',
@@ -104,7 +106,7 @@ export default Controller.extend({
   },
 
   handleSwitchForm (formName) {
-    // trigger formname change to change view
+    // trigger formName change to change view
     this.options.appState.set('currentFormName', formName);
   },
 
@@ -147,6 +149,17 @@ export default Controller.extend({
 
     this.toggleFormButtonState(true);
     model.trigger('request');
+
+    // NOTE: okta-idx-js does not know whether a remediation
+    // is required to redirect or perform a GET request.
+    // As a result, we handle this accordingly by checking the formName
+    const fullPageRedirectForms = [ FORMS.REDIRECT_IDP ];
+    if (fullPageRedirectForms.includes(formName)) {
+      const currentViewState = this.options.appState.getCurrentViewState();
+      Util.redirectWithFormGet(currentViewState.href);
+      return;
+    }
+
     idx.proceed(formName, model.toJSON())
       .then(this.handleIdxSuccess.bind(this))
       .catch(error => {
