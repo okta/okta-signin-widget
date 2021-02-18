@@ -25,13 +25,13 @@ const mockOnlyOneIdp = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identifyOnlyOneIdp)
   .onRequestTo('http://localhost:3000/sso/idps/facebook-idp-id-123?stateToken=inRUXNhsc6Evt7GAb8DPAA')
-  .respond('<html><h1>A external IdP login page for testcafe testing</h1></html>');
+  .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
 
 const mockOnlyOneIdpAppUser = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identifyOnlyOneIdpAppUser)
   .onRequestTo('http://localhost:3000/sso/idps/facebook-idp-id-123?stateToken=inRUXNhsc6Evt7GAb8DPAA')
-  .respond('<html><h1>A external IdP login page for testcafe testing</h1></html>');
+  .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
 
 
 fixture('Identify + IDPs');
@@ -100,7 +100,7 @@ test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP
   });
 
   // assert redirect to IdP login page eventually
-  await t.expect(Selector('h1').innerText).eql('A external IdP login page for testcafe testing');
+  await t.expect(Selector('h1').innerText).eql('An external IdP login page for testcafe testing');
   const pageUrl = await ClientFunction(() => window.location.href)();
   await t.expect(pageUrl).eql('http://localhost:3000/sso/idps/facebook-idp-id-123?stateToken=inRUXNhsc6Evt7GAb8DPAA');
 
@@ -117,7 +117,7 @@ test.requestHooks(logger, mockOnlyOneIdpAppUser)('should auto redirect to 3rd pa
   });
 
   // assert redirect to IdP login page eventually
-  await t.expect(Selector('h1').innerText).eql('A external IdP login page for testcafe testing');
+  await t.expect(Selector('h1').innerText).eql('An external IdP login page for testcafe testing');
   const pageUrl = await ClientFunction(() => window.location.href)();
   await t.expect(pageUrl).eql('http://localhost:3000/sso/idps/facebook-idp-id-123?stateToken=inRUXNhsc6Evt7GAb8DPAA');
 

@@ -24,7 +24,7 @@ const getButtonDataSeAttr = function (authenticator) {
   return '';
 };
 
-/* eslint complexity: [2, 22] */
+/* eslint complexity: [2, 25] */
 const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
   const authenticatorKey = authenticator.authenticatorKey;
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
@@ -130,6 +130,21 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
     });
     break;
+
+  case AUTHENTICATOR_KEY.IDP: {
+    const idpName =  authenticator.relatesTo?.displayName;
+    const factorDescription = idpName
+      ? loc('oie.idp.authenticator.description', 'login', [idpName])
+      : loc('oie.idp.authenticator.description.default', 'login');
+    Object.assign(authenticatorData, {
+      description: isVerifyAuthenticator
+        ? ''
+        : factorDescription,
+      iconClassName: 'mfa-custom-factor',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+    });
+    break;
+  }
   }
 
   return authenticatorData;
