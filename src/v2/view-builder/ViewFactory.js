@@ -2,7 +2,7 @@ import Logger from 'util/Logger';
 import { AUTHENTICATOR_KEY, FORMS as RemediationForms } from '../ion/RemediationConstants';
 import BaseView from './internals/BaseView';
 
-// authenticator ignostic views
+// authenticator agnostic views
 import IdentifierView from './views/IdentifierView';
 import IdentifyRecoveryView from './views/IdentifyRecoveryView';
 import TerminalView from './views/TerminalView';
@@ -69,6 +69,9 @@ import ChallengeAuthenticatorOnPremView from './views/on-prem/ChallengeAuthentic
 import EnrollDuoAuthenticatorView from './views/duo/EnrollDuoAuthenticatorView';
 import ChallengeDuoAuthenticatorView from './views/duo/ChallengeDuoAuthenticatorView';
 
+// idp authenticator
+import AuthenticatorIdPView from './views/idp/AuthenticatorIdPView';
+
 // safe mode poll view
 import PollView from './views/PollView';
 
@@ -107,7 +110,6 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.PHONE]: EnrollAuthenticatorDataPhoneView,
   },
   [RemediationForms.ENROLL_AUTHENTICATOR]: {
-
     [AUTHENTICATOR_KEY.PASSWORD]: EnrollAuthenticatorPasswordView,
     [AUTHENTICATOR_KEY.WEBAUTHN]: EnrollWebauthnView,
     [AUTHENTICATOR_KEY.PHONE]: EnrollAuthenticatorPhoneView,
@@ -173,6 +175,7 @@ const VIEWS_MAPPING = {
   // redirect-idp remediation object looks similar to identifier view
   [RemediationForms.REDIRECT_IDP]: {
     [DEFAULT]: IdentifierView,
+    [AUTHENTICATOR_KEY.IDP]: AuthenticatorIdPView,
   },
   [RemediationForms.DEVICE_ENROLLMENT_TERMINAL]: {
     [DEFAULT]: DeviceEnrollmentTerminalView,
