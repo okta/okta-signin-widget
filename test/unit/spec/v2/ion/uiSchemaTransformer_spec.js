@@ -588,6 +588,38 @@ describe('v2/ion/uiSchemaTransformer', function () {
                       ]
                     }
                   },
+                  {
+                    'label': 'Atko Custom OTP Authenticator',
+                    'value': {
+                      'form': {
+                        'value': [
+                          {
+                            'name': 'id',
+                            'required': true,
+                            'value': 'aut32kl92UF8kfE4E0g5',
+                            'mutable': false
+                          },
+                          {
+                            'name': 'methodType',
+                            'required': false,
+                            'value': 'otp',
+                            'mutable': false
+                          }
+                        ]
+                      }
+                    },
+                    'relatesTo': {
+                      'type': 'security_key',
+                      'key': 'custom_otp',
+                      'id': 'aut32kl92UF8kfE4E0g4',
+                      'displayName': 'Atko Custom OTP Authenticator',
+                      'methods': [
+                        {
+                          'type': 'otp'
+                        }
+                      ]
+                    }
+                  }
                 ]
               },
               XHRAuthenticatorEnrollSelectAuthenticators.remediation.value[0].value[1],
@@ -680,7 +712,15 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     },
                     authenticatorKey: 'external_idp',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[9]
-                  }
+                  },
+                  {
+                    label: 'Atko Custom OTP Authenticator',
+                    value: {
+                      id: 'aut32kl92UF8kfE4E0g5'
+                    },
+                    authenticatorKey: 'custom_otp',
+                    relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[10]
+                  },
                 ]
               }
             ]

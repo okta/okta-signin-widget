@@ -35,6 +35,8 @@ describe('v2/ion/i18nTransformer', function () {
       'oie.rsa.enroll.passcode.label': 'enter passcode',
       'oie.rsa.verify.passcode.label': 'enter passcode',
 
+      'oie.custom_otp.verify.passcode.label': 'enter passcode',
+
       'mfa.phoneNumber.placeholder': 'phone number',
       'mfa.challenge.answer.placeholder': 'answer',
       'mfa.challenge.enterCode.placeholder': 'enter code',
@@ -1611,5 +1613,50 @@ describe('v2/ion/i18nTransformer', function () {
       'class': 'INFO'
     };
     expect(getMessageKey(message)).toEqual('idx.email.verification.required');
+  });
+
+  it('converts label for challenge-authenticator - custom otp authenticator', () => {
+    const resp = {
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'security_key',
+              key: 'custom_otp'
+            }
+          },
+          name: 'challenge-authenticator',
+          uiSchema: [
+            {
+              'label': 'Enter code',
+              'label-top': true,
+              'name': 'credentials.passcode',
+              'type': 'text'
+            }
+          ]
+        }
+      ]
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'security_key',
+              key: 'custom_otp'
+            }
+          },
+          name: 'challenge-authenticator',
+          uiSchema: [
+            {
+              'label': 'unit test - enter passcode',
+              'label-top': true,
+              'name': 'credentials.passcode',
+              'type': 'text'
+            }
+          ]
+        }
+      ]
+    });
   });
 });

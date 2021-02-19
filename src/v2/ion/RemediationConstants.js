@@ -86,6 +86,7 @@ const AUTHENTICATOR_KEY = {
   RSA: 'rsa_token',
   DUO: 'duo',
   IDP: 'external_idp',
+  CUSTOM_OTP: 'custom_otp'
 };
 
 const AUTHENTICATOR_METHODS = {

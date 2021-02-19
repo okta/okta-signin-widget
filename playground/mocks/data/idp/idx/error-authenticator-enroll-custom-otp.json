@@ -3,6 +3,19 @@
   "version": "1.0.0",
   "expiresAt": "2020-01-13T21:05:31.000Z",
   "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Contact your administrator to continue enrollment",
+        "i18n": {
+          "key": "enroll.hotp.restricted",
+          "params": []
+        },
+        "class": "ERROR"
+      }
+    ]
+  },
   "remediation": {
     "type": "array",
     "value": [
@@ -152,7 +165,8 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[4]"
-              }, {
+              },
+              {
                 "label": "Google Authenticator",
                 "value": {
                   "form": {
@@ -167,7 +181,8 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[5]"
-              }, {
+              },
+              {
                 "label": "Atko Custom On-prem",
                 "value": {
                   "form": {
@@ -190,7 +205,8 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[6]"
-              }, {
+              },
+              {
                 "label": "RSA SecurID",
                 "value": {
                   "form": {
@@ -213,7 +229,7 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[7]"
-              }, 
+              },
               {
                 "label": "Duo Security",
                 "value": {
@@ -237,22 +253,6 @@
                 "relatesTo": "$.authenticators.value[8]"
               },
               {
-                "label": "IDP Authenticator",
-                "value": {
-                  "form": {
-                    "value": [
-                      {
-                        "name": "id",
-                        "required": true,
-                        "value": "0oa69chx4bZyx8O7l0g4",
-                        "mutable": false
-                      }
-                    ]
-                  }
-                },
-                "relatesTo": "$.authenticators.value[9]"
-              },
-              {
                 "label": "Atko Custom OTP Authenticator",
                 "value": {
                   "form": {
@@ -266,13 +266,13 @@
                       {
                         "name": "methodType",
                         "required": false,
-                        "value": "otp",
+                        "value": "idp",
                         "mutable": false
                       }
                     ]
                   }
                 },
-                "relatesTo": "$.authenticators.value[10]"
+                "relatesTo": "$.authenticators.value[9]"
               }
             ]
           },
@@ -369,23 +369,12 @@
             "type": "otp"
           }
         ]
-      }, 
-      {
-        "type": "app",
-        "key": "duo",
-        "id": "aut32kl92UF8kfE4E0g4",
-        "displayName": "Duo Security",
-        "methods": [
-          {
-            "type": "idp"
-          }
-        ]
-      }, 
+      },
       {
         "type": "federated",
-        "id": "aut4mhtS1b84AR0iQ0g4",
-        "key": "external_idp",
-        "displayName": "IDP Authenticator",
+        "key": "duo_native",
+        "id": "aut32kl92UF8kfE4E0g4",
+        "displayName": "Duo Security",
         "methods": [
           {
             "type": "idp"

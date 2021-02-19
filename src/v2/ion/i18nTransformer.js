@@ -110,6 +110,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.google_authenticator.credentials.otp': 'oie.google_authenticator.otp.enterCodeText',
   'challenge-authenticator.onprem_mfa.credentials.passcode': 'oie.on_prem.verify.passcode.label',
   'challenge-authenticator.rsa_token.credentials.passcode': 'oie.rsa.verify.passcode.label',
+  'challenge-authenticator.custom_otp.credentials.passcode': 'oie.custom_otp.verify.passcode.label',
 
   'enroll-profile.userProfile.lastName': 'oie.user.profile.lastname',
   'enroll-profile.userProfile.firstName': 'oie.user.profile.firstname',
