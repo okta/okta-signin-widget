@@ -44,11 +44,26 @@ util.getTokens = function (settings, params, controller) {
   }
 
   function error (error) {
-    // OKTA-104330- Handle error case where user is not assigned to OIDC client
+    let showError = false;
+    let responseJSON = error;
+  
+    // user is not assigned to OIDC client
     if (error.errorCode === 'access_denied') {
-      controller.model.trigger('error', controller.model, { responseJSON: error });
+      showError = true;
+    }
+
+    // MFA is required but prompt=none (authn V1)
+    const mfaRequiredMsg = 'The client specified not to prompt, but the client app requires re-authentication or MFA.';
+    if (error.errorCode === 'login_required' && error.errorSummary === mfaRequiredMsg) {
+      showError = true;
+      responseJSON = { errorSummary: loc('error.mfa.required', 'login') };
+    }
+
+    if (showError) {
+      controller.model.trigger('error', controller.model, { responseJSON });
       controller.model.appState.trigger('removeLoading');
     }
+
     Util.triggerAfterError(controller, new Errors.OAuthError(error.message), settings);
   }
 

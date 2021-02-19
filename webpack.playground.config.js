@@ -64,6 +64,7 @@ module.exports = {
     watchContentBase: true,
     proxy: [{
       context: [
+        '/oauth2/',
         '/api/v1/authn/',
         '/idp/idx/',
         '/login/getimage/',

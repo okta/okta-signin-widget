@@ -153,7 +153,28 @@ export default Router.extend({
   },
 
   handleIdxResponseFailure (error = {}) {
-    // 1. loosely check whether is IDX error response
+    // special case: `useInteractionCodeFlow` is true but the Org does not have OIE enabled
+    // The response is not in IDX format. See playground/mocks/data/oauth2/error-feature-not-enabled.json
+    if (error?.error === 'access_denied' && error.error_description) {
+      // simulate an IDX error response
+      error = Object.assign({
+        details: {
+          messages: {
+            type: 'array',
+            value: [{
+              message: error.error_description,
+              i18n: {
+                key: 'oie.feature.disabled'
+              },
+              class: 'ERROR'
+            }]
+          }
+        }
+      }, error);
+    }
+
+        
+    // loosely check whether is IDX error response
     // see idx for details: https://github.com/okta/okta-idx-js/blob/master/src/index.js
     if (error?.details) {
       // Populate generic error message if there isnt any.
@@ -169,25 +190,25 @@ export default Router.extend({
         };
       }
       // Need to mimic IdxRespones as idx returns raw response at error case
-      this.handleIdxResponseSuccess({
+      return this.handleIdxResponseSuccess({
         rawIdxState: error.details,
         context: _.pick(error.details, 'messages'),
         neededToProceed: [],
       });
-    } else {
-      // 2. otherwise, assume it's config error
-      this.settings.callGlobalError(new Errors.ConfigError(
-        error
-      ));
-
-      // -- TODO: OKTA-244631 How to suface up the CORS error in IDX?
-      // -- The `err` object from idx.js doesn't have XHR object
-      // Global error handling for CORS enabled errors
-      // if (err.xhr && BrowserFeatures.corsIsNotEnabled(err.xhr)) {
-      //   this.settings.callGlobalError(new Errors.UnsupportedBrowserError(loc('error.enabled.cors')));
-      //   return;
-      // }
     }
+
+    // assume it's a config error
+    this.settings.callGlobalError(new Errors.ConfigError(
+      error
+    ));
+
+    // -- TODO: OKTA-244631 How to suface up the CORS error in IDX?
+    // -- The `err` object from idx.js doesn't have XHR object
+    // Global error handling for CORS enabled errors
+    // if (err.xhr && BrowserFeatures.corsIsNotEnabled(err.xhr)) {
+    //   this.settings.callGlobalError(new Errors.UnsupportedBrowserError(loc('error.enabled.cors')));
+    //   return;
+    // }
   },
 
   render: function (Controller, options = {}) {
