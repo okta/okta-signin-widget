@@ -52,6 +52,8 @@ test
 
     await t.expect(enrollGoogleAuthenticatorPageObject.form.getTitle()).eql('Set up Google Authenticator');
     await t.expect(enrollGoogleAuthenticatorPageObject.getBarcodeSubtitle()).eql('Scan barcode');
+    await t.expect(enrollGoogleAuthenticatorPageObject.getSetUpDescription())
+      .eql('Launch Google Authenticator, tap the "+" icon, then select "Scan barcode".');
     await t.expect(enrollGoogleAuthenticatorPageObject.hasQRcode).ok();
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
 
