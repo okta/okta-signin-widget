@@ -274,7 +274,7 @@ describe('v2/ion/i18nTransformer', function () {
                     'id': 'aid568g3mCgtID0HHSLH',
                     'methodType': 'otp'
                   },
-                  'authenticatorKey': 'google_authenticator'
+                  'authenticatorKey': 'google_otp'
                 },
                 {
                   'label': 'Enter a code',
@@ -372,7 +372,7 @@ describe('v2/ion/i18nTransformer', function () {
                     'id': 'aid568g3mCgtID0HHSLH',
                     'methodType': 'otp'
                   },
-                  'authenticatorKey': 'google_authenticator'
+                  'authenticatorKey': 'google_otp'
                 },
                 {
                   'label': 'unit test - rsa',
@@ -647,7 +647,7 @@ describe('v2/ion/i18nTransformer', function () {
           relatesTo: {
             value: {
               type: 'app',
-              key: 'google_authenticator'
+              key: 'google_otp'
             }
           },
           name: 'challenge-authenticator',
@@ -668,7 +668,7 @@ describe('v2/ion/i18nTransformer', function () {
           relatesTo: {
             value: {
               type: 'app',
-              key: 'google_authenticator'
+              key: 'google_otp'
             }
           },
           name: 'challenge-authenticator',
@@ -720,7 +720,7 @@ describe('v2/ion/i18nTransformer', function () {
                 {
                   label: 'Google Authenticator',
                   value: { id: 'autwa6eD9o02iCbtv0g3' },
-                  authenticatorKey: 'google_authenticator'
+                  authenticatorKey: 'google_otp'
                 },
                 {
                   label: 'RSA SecurID',
@@ -766,7 +766,7 @@ describe('v2/ion/i18nTransformer', function () {
                 }, {
                   label: 'unit test - google authenticator',
                   value: { id: 'autwa6eD9o02iCbtv0g3' },
-                  authenticatorKey: 'google_authenticator'
+                  authenticatorKey: 'google_otp'
                 }, {
                   label: 'unit test - rsa',
                   value: { id: 'autwa6eD9o02iCbtv0g3' },
@@ -1304,7 +1304,7 @@ describe('v2/ion/i18nTransformer', function () {
           relatesTo: {
             value: {
               type: 'app',
-              key: 'google_authenticator'
+              key: 'google_otp'
             }
           },
           uiSchema: [
@@ -1336,7 +1336,7 @@ describe('v2/ion/i18nTransformer', function () {
           relatesTo: {
             value: {
               type: 'app',
-              key: 'google_authenticator'
+              key: 'google_otp'
             }
           },
           uiSchema: [

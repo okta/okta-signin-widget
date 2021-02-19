@@ -42,7 +42,7 @@ test
     await checkConsoleMessages({
       controller: 'mfa-verify',
       formName: 'challenge-authenticator',
-      authenticatorKey: 'google_authenticator',
+      authenticatorKey: 'google_otp',
       methodType: 'otp',
     });
 

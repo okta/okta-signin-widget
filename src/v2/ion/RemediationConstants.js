@@ -92,7 +92,7 @@ const AUTHENTICATOR_KEY = {
   WEBAUTHN: 'webauthn',
   SECURITY_QUESTION: 'security_question',
   OV: 'okta_verify',
-  GOOGLE_AUTHENTICATOR: 'google_authenticator',
+  GOOGLE_OTP: 'google_otp',
   ON_PREM: 'onprem_mfa',
   RSA: 'rsa_token',
   DUO: 'duo',
