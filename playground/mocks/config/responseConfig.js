@@ -14,8 +14,8 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    // 'identify',
-    'error-feature-not-enabled',
+    'identify',
+    // 'error-feature-not-enabled',
     // 'error-403-security-access-denied',
     // 'authenticator-enroll-email',
     // 'error-internal-server-error',
@@ -26,7 +26,7 @@ const idx = {
     // 'authenticator-enroll-data-phone-voice',
     // 'authenticator-enroll-ov-local',
     // 'error-internal-server-error',
-    // 'authenticator-enroll-security-question',
+    'authenticator-enroll-security-question',
     // 'authenticator-enroll-select-authenticator',
     // 'authenticator-enroll-select-authenticator-with-skip',
     // 'authenticator-enroll-webauthn',
