@@ -15,6 +15,7 @@ import { CANCEL_POLLING_ACTION } from '../utils/Constants';
 import Link from '../components/Link';
 import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
 import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
+import BaseFormWithPolling from '../internals/BaseFormWithPolling';
 
 const request = (opts) => {
   const ajaxOptions = Object.assign({
@@ -24,7 +25,7 @@ const request = (opts) => {
   return $.ajax(ajaxOptions);
 };
 
-const Body = BaseForm.extend(Object.assign(
+const Body = BaseFormWithPolling.extend(Object.assign(
   {
     noButtonBar: true,
 
@@ -38,7 +39,7 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     initialize () {
-      BaseForm.prototype.initialize.apply(this, arguments);
+      BaseFormWithPolling.prototype.initialize.apply(this, arguments);
       this.listenTo(this.model, 'error', this.onPollingFail);
       this.deviceChallengePollRemediation = this.options.currentViewState;
       this.doChallenge();

@@ -105,9 +105,33 @@ export default Model.extend({
   },
 
   shouldReRenderView (transformedResponse) {
+    _.mixin({
+      nestedOmit: function (obj, iteratee, context) {
+        var result = _.omit(obj, iteratee, context);
+
+        _.each(result, function (val, key) {
+          if (typeof(val) === 'object') {
+            result[key] = _.nestedOmit(val, iteratee, context);
+          }
+        });
+
+        return result;
+      }
+    });
+
     const previousRawState = this.has('idx') ? this.get('idx').rawIdxState : null;
-    const identicalResponse = _.isEqual(_.omit(transformedResponse.idx.rawIdxState, 'expiresAt'),
+    const identicalResponse = _.isEqual(_.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh']),
+      _.nestedOmit(previousRawState, ['expiresAt', 'refresh']));
+    const noPollRefreshNeeded = _.isEqual(_.omit(transformedResponse.idx.rawIdxState, 'expiresAt'),
       _.omit(previousRawState, 'expiresAt') );
+
+    if (identicalResponse && !noPollRefreshNeeded) {
+      const currentFormName = this.get('currentFormName');
+      const currentViewState = transformedResponse.remediations.filter(r => r.name === currentFormName)[0];
+
+      this.trigger('refreshUpdated', currentViewState);
+    }
+
     let reRender = true;
 
     if (identicalResponse) {
