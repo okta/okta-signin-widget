@@ -9,13 +9,13 @@ const idx = {
   ],
 
   '/oauth2/default/v1/interact': [
-    // 'interact'
-    'error-feature-not-enabled'
+    'interact'
+    // 'error-feature-not-enabled'
   ],
 
   '/idp/idx/introspect': [
-    // 'identify',
-    'error-feature-not-enabled',
+    'identify',
+    // 'error-feature-not-enabled',
     // 'error-403-security-access-denied',
     // 'authenticator-enroll-email',
     // 'error-internal-server-error',
@@ -613,6 +613,22 @@ const idpAuthenticator = {
   ],
   '/idp/idx/credential/enroll': [
     'authenticator-enroll-idp',
+  ]
+};
+
+const userUnlockAccount = {
+  '/idp/idx/introspect': [
+    'identify-with-unlock-account-link',
+  ],
+  '/idp/idx/unlock-account': [
+    'user-unlock-account',
+  ],
+  '/idp/idx/challenge': [
+    // 'authenticator-verification-data-phone-sms-then-voice',
+    'authenticator-verification-email'
+  ],
+  '/idp/idx/challenge/answer': [
+    'user-account-unlock-success'
   ]
 };
 

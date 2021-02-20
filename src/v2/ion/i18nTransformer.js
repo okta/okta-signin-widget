@@ -78,6 +78,9 @@ const I18N_OVERRIDE_MAPPINGS = {
     'oie.google_authenticator.label',
   'select-authenticator-authenticate.authenticator.rsa_token': 'oie.rsa.label',
 
+  'select-authenticator-unlock-account.authenticator.okta_email': 'oie.email.label',
+  'select-authenticator-unlock-account.authenticator.phone_number': 'oie.phone.label',
+
   'authenticator-verification-data.okta_verify.authenticator.methodType.signed_nonce':
     'oie.okta_verify.signed_nonce.label',
   'authenticator-verification-data.okta_verify.authenticator.methodType.push': 'oie.okta_verify.push.title',

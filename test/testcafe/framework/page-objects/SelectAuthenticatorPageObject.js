@@ -10,6 +10,7 @@ const factorSelectButtonSelector = `${factorListRowSelector} .authenticator-butt
 const skipOptionalEnrollmentSelector = '.authenticator-list .skip-all';
 const CUSTOM_SIGN_OUT_LINK_SELECTOR = '.auth-footer .js-cancel';
 const CUSTOM_OTP_BUTTON_SELECTOR = '.authenticator-list .authenticator-row:nth-child(12) .authenticator-button a';
+const IDENTIFIER_FIELD = 'identifier';
 
 export default class SelectFactorPageObject extends BasePageObject {
   constructor(t) {
@@ -63,6 +64,14 @@ export default class SelectFactorPageObject extends BasePageObject {
 
   async getErrorFromErrorBox() {
     return this.form.getErrorBoxText();
+  }
+  
+  fillIdentifierField(value) {
+    return this.form.setTextBoxValue(IDENTIFIER_FIELD, value);
+  }
+
+  getIndetifierError() {
+    return this.form.getTextBoxErrorMessage(IDENTIFIER_FIELD);
   }
 
 }

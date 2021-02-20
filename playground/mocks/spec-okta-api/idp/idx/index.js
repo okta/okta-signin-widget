@@ -21,7 +21,8 @@ const idx = [
   '/idp/idx/login/token/redirect',
   '/idp/idx/recover',
   '/idp/idx/skip',
-  '/idp/idx/poll'
+  '/idp/idx/poll',
+  '/idp/idx/unlock-account'
 ].map(path => {
   return templateHelper({path});
 });

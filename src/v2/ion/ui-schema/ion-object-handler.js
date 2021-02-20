@@ -112,7 +112,9 @@ const getAuthenticatorsVerifyUiSchema = ({ options }) => {
 const createUiSchemaForObject = (ionFormField, remediationForm, transformedResp, createUISchema) => {
   const uiSchema = {};
 
-  if (ionFormField.name === 'authenticator' && remediationForm.name === 'select-authenticator-authenticate') {
+  if (ionFormField.name === 'authenticator' &&
+    (remediationForm.name === 'select-authenticator-authenticate' ||
+    remediationForm.name === 'select-authenticator-unlock-account')) {
     // 1. when `select-authenticator-authenticator`,
     // create customize type so that display authenticator list as selectable list
     Object.assign(uiSchema, getAuthenticatorsVerifyUiSchema(ionFormField));

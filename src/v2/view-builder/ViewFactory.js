@@ -20,6 +20,7 @@ import EnrollProfileView from './views/EnrollProfileView';
 // authenticator list
 import SelectAuthenticatorEnrollView from './views/SelectAuthenticatorEnrollView';
 import SelectAuthenticatorVerifyView from './views/SelectAuthenticatorVerifyView';
+import SelectAuthenticatorUnlockAccountView from './views/authenticator/SelectAuthenticatorUnlockAccountView';
 
 // password
 import EnrollAuthenticatorPasswordView from './views/password/EnrollAuthenticatorPasswordView';
@@ -149,6 +150,9 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE]: {
     [DEFAULT]: SelectAuthenticatorVerifyView,
+  },
+  [RemediationForms.SELECT_AUTHENTICATOR_UNLOCK]: {
+    [DEFAULT]: SelectAuthenticatorUnlockAccountView,
   },
   [RemediationForms.CHALLENGE_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.EMAIL]: ChallengeAuthenticatorEmailView,

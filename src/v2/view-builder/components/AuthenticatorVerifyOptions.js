@@ -54,10 +54,19 @@ export default ListView.extend({
   itemSelector: '.list-content',
 
   initialize: function () {
-    this.listenTo(this.collection,'selectAutheticator', function (data) {
+    this.listenTo(this.collection,'selectAutheticator', this.handleSelect);
+  },
+
+  handleSelect (data) {
+    //If schema contains a required identifier to fill first then validate the form
+    const validationError = this.model.validateField('identifier');
+    this.model.trigger('clearFormError');
+    if(this.model.getPropertySchema('identifier')?.required && validationError) {
+      this.model.trigger('invalid', this.model, validationError);
+    } else {
       this.model.set(this.options.name, data);
-      this.options.appState.trigger('saveForm', this.model);
-    });
+      this.options.appState.trigger('saveForm', this.model); 
+    }
   },
 
   template: hbs`<div class="list-content"> </div>`,
