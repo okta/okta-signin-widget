@@ -36,6 +36,9 @@ const Body = BaseForm.extend(Object.assign(
           e.preventDefault();
         }
       }));
+      this.add(
+        `<span class='accessibility-text' role='alert'>${loc('oie.okta_verify.push.sent', 'login')}</span>`,
+      );
     },
 
     postRender () {
