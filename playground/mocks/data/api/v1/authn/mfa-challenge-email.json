@@ -1,60 +1,35 @@
 {
-  "stateToken": "00nRv2jyBoem8TLFWmvZkktQPRh0-XSESzzZZ62rXy",
-  "expiresAt": "2020-01-27T17:17:37.000Z",
+  "stateToken": "testStateToken",
+  "expiresAt": "2015-09-27T01:14:24.573Z",
   "status": "MFA_CHALLENGE",
-  "factorResult": "CHALLENGE",
   "_embedded": {
     "user": {
-      "id": "00u13hcTl4F7w6M7e0g4",
-      "passwordChanged": "2020-01-24T21:23:46.000Z",
+      "id": "00ui5n6MuauCZVNbX0g3",
+      "passwordChanged": "2015-09-26T22:29:11.000Z",
       "profile": {
-        "login": "foo4@okta.com",
-        "firstName": "foo4",
-        "lastName": "bar",
-        "locale": "en",
+        "login": "administrator1@clouditude.net",
+        "firstName": "Add-Min",
+        "lastName": "O'Cloudy Tud",
+        "locale": "en_US",
         "timeZone": "America/Los_Angeles"
       }
     },
     "factor": {
-      "id": "emf13hl9SsZijkPfn0g4",
+      "id": "emailhp9NXcoXu8z2wN0g3",
       "factorType": "email",
       "provider": "OKTA",
-      "vendorName": "OKTA",
       "profile": {
-        "email": "f...4@okta.com"
-      }
-    },
-    "policy": {
-      "allowRememberDevice": true,
-      "rememberDeviceLifetimeInMinutes": 0,
-      "rememberDeviceByDefault": false,
-      "factorsPolicyInfo": {
+        "email": "a...1@clouditude.net"
+      },
+      "_embedded": {
+        "verification": null
       }
     }
   },
   "_links": {
     "next": {
       "name": "verify",
-      "href": "http://localhost:3000/api/v1/authn/factors/emf13hl9SsZijkPfn0g4/verify",
-      "hints": {
-        "allow": [
-          "POST"
-        ]
-      }
-    },
-    "resend": [
-      {
-        "name": "email",
-        "href": "http://localhost:3000/api/v1/authn/factors/emf13hl9SsZijkPfn0g4/verify/resend",
-        "hints": {
-          "allow": [
-            "POST"
-          ]
-        }
-      }
-    ],
-    "prev": {
-      "href": "http://localhost:3000/api/v1/authn/previous",
+      "href": "http://localhost:3000/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify",
       "hints": {
         "allow": [
           "POST"
@@ -68,6 +43,25 @@
           "POST"
         ]
       }
-    }
+    },
+    "prev": {
+      "href": "http://localhost:3000/api/v1/authn/previous",
+      "hints": {
+        "allow": [
+          "POST"
+        ]
+      }
+    },
+    "resend": [
+      {
+        "name": "email",
+        "href": "http://localhost:3000/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify/resend",
+        "hints": {
+          "allow": [
+            "POST"
+          ]
+        }
+      }
+    ]
   }
 }

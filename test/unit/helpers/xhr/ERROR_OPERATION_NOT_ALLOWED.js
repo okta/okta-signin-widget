@@ -1,15 +1,6 @@
+import response from '../../../../playground/mocks/data/api/v1/authn/error-operation-not-allowed.json';
 export default {
   status: 403,
   responseType: 'json',
-  response: {
-    errorCode: 'E0000079',
-    errorSummary: 'This operation is not allowed in the current authentication state.',
-    errorLink: 'E0000079',
-    errorId: 'oaeAAjMfwlZS0C1N65KG8dG-g',
-    errorCause: [
-      {
-        errorSummary: 'This operation is not allowed in the current authentication state.',
-      },
-    ],
-  },
+  response,
 };

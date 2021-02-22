@@ -1,12 +1,11 @@
 {
   "stateToken": "aStateToken",
   "status": "UNAUTHENTICATED",
-  "_embedded": {
-  },
+  "_embedded": {},
   "_links": {
     "next": {
       "name": "authenticate",
-      "href": "http://localhost:3000/api/v1/authn",
+      "href": "https://foo.okta.com/api/v1/authn",
       "hints": {
         "allow": [
           "POST"

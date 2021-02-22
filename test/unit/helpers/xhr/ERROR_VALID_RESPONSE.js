@@ -1,11 +1,7 @@
+import response from '../../../../playground/mocks/data/api/v1/authn/error-valid-response.json';
+
 export default {
   status: 401,
   responseType: 'text',
-  response: {
-    errorCode: 'E0000004',
-    errorSummary: 'Authentication failed',
-    errorLink: 'E0000004',
-    errorId: 'oaeDtg9knyJR7agwMN-70SYgw',
-    errorCauses: [],
-  },
+  response,
 };

@@ -1,5 +1,5 @@
 {
-  "stateToken": "007ucIX7PATyn94hsHfOLVaXAmOBkKHWnOOLG43bsb",
+  "stateToken": "dummy-token",
   "expiresAt": "2015-11-03T10:15:57.000Z",
   "status": "MFA_ENROLL_ACTIVATE",
   "_embedded": {
