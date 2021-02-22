@@ -16,7 +16,7 @@ const Body = BaseForm.extend({
     }
 
     const {label: appInstanceName, name: appDisplayName} = app;
-    const {identifier: userEmail} = user;
+    const {identifier: userEmail} = user || {};
 
     const appName = appInstanceName ? appInstanceName : appDisplayName;
 

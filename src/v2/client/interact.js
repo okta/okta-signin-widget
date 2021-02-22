@@ -20,22 +20,36 @@ import { getTransactionMeta, saveTransactionMeta } from './transactionMeta';
 
 // Begin or resume a transaction using an interactionHandle
 export async function interact (settings) {
-  const clientId = settings.get('clientId');
-  const domain = settings.get('baseUrl');
-  const scopes = settings.get('scopes');
-  const redirectUri = settings.get('redirectUri');
+  let meta = await getTransactionMeta(settings);
+  const {
+    interactionHandle,
+    clientId,
+    redirectUri,
+    state,
+    scopes,
+    codeVerifier,
+    codeChallenge,
+    codeChallengeMethod
+  } = meta;
+
+  // TODO: put issuer, version into meta
+  const authClient = settings.getAuthClient();
+  const { issuer } = authClient.options;
   const version = settings.get('apiVersion');
 
-  let meta = await getTransactionMeta(settings);
-  const { interactionHandle, codeVerifier, codeChallenge, codeChallengeMethod } = meta;
-
-  return idx.start({ 
-    clientId, 
-    issuer: domain + '/oauth2/default', 
-    scopes, 
-    interactionHandle, // if interactionHandle is undefined, idx will bootstrap a new interactionHandle
-    redirectUri, 
+  return idx.start({
+    // if interactionHandle is undefined here, idx will bootstrap a new interactionHandle
+    interactionHandle,
     version,
+
+    // OAuth
+    clientId, 
+    issuer,
+    scopes,
+    state,
+    redirectUri,
+
+    // PKCE
     codeVerifier,
     codeChallenge,
     codeChallengeMethod
