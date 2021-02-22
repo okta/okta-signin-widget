@@ -10,9 +10,9 @@ const ConsentViewHeader = View.extend({
     <a href="{{clientURI}}" class="client-logo-link" target="_blank">
     {{/if}}
     {{#if customLogo}}
-      <img class="client-logo custom-logo" src="{{customLogo}}" alt="aria logo" aria-hidden="true" />
+      <img class="client-logo custom-logo" src="{{customLogo}}" alt="{{altText}}" aria-hidden="true" />
     {{else}}
-      <img class="client-logo default-logo" src="{{defaultLogo}}" alt="aria logo" aria-hidden="true" />
+      <img class="client-logo default-logo" src="{{defaultLogo}}" alt="{{altText}}" aria-hidden="true" />
     {{/if}}
     {{#if clientURI}}
       </a>
@@ -35,6 +35,7 @@ const ConsentViewHeader = View.extend({
     const { label, clientUri, logo } =  appState.get('app');
     const { issuer: issuerObj } = appState.get('authentication');
     const customLogo = logo?.href;
+    const altText = logo?.alt || 'aria logo';
 
     const isAdminConsent = currentFormName === 'admin-consent';
 
@@ -50,6 +51,7 @@ const ConsentViewHeader = View.extend({
       clientURI,
       issuer,
       isAdminConsent,
+      altText,
     };
   }
 });
