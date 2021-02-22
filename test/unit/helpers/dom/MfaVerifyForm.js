@@ -48,6 +48,10 @@ export default Form.extend({
     return this.el('factor-custom').length === 1;
   },
 
+  accessibilityText: function () {
+    return this.$('.accessibility-text').trimmedText();
+  },
+
   answerField: function () {
     return this.input(ANSWER_FIELD);
   },
@@ -145,7 +149,9 @@ export default Form.extend({
   },
 
   isPushSent: function () {
-    return this.button('.mfa-verify ').val() === 'Push sent!';
+    const buttonText = 'Push sent!';
+    return this.button('.mfa-verify ').val() === buttonText
+      && this.accessibilityText() === buttonText;
   },
 
   numberChallengeView: function () {

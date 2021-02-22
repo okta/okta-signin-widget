@@ -76,16 +76,22 @@ export default Form.extend({
   },
   setSubmitState: function (ableToSubmit) {
     const button = this.$el.find('.button');
-
+    const a11ySpan = this.$el.find('.accessibility-text');
     this.enabled = ableToSubmit;
     if (ableToSubmit) {
       button.removeClass('link-button-disabled');
       button.prop('value', loc('oktaverify.send', 'login'));
       button.prop('disabled', false);
+      if (a11ySpan) {
+        a11ySpan.remove();
+      }
     } else {
       button.addClass('link-button-disabled');
       button.prop('value', loc('oktaverify.sent', 'login'));
       button.prop('disabled', true);
+      this.add(
+        `<span class='accessibility-text' role='alert'>${loc('oktaverify.sent', 'login')}</span>`,
+      );
     }
   },
   submit: function (e) {
