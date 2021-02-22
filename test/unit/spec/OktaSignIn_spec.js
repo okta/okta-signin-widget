@@ -831,7 +831,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         }, [
           errorFeatureNotEnabled
         ]);
-  
+        render();
         return Expect.wait(() => {
           return $('.siw-main-view.terminal').length === 1;
         }).then(function () {
@@ -848,7 +848,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         }, [
           errorFeatureNotEnabled
         ]);
-  
+        render();
         return Expect.wait(() => {
           return $('.siw-main-view.terminal').length === 1;
         }).then(function () {
@@ -881,11 +881,13 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
     });
 
     itp('Loads a saved interaction handle', () => {
+      const clientId = 'someClientId';
+      const redirectUri = 'http://0.0.0.0:9999';
       setupLoginFlow({ 
-        clientId: 'someClientId',
-        redirectUri: 'http://0.0.0.0:9999',
+        clientId,
+        redirectUri,
         useInteractionCodeFlow: true
-      }, idxResponse);
+      }, [idxResponse]);
 
       const savedInteractionHandle = 'saved-interaction-handle';
       spyOn(signIn.authClient.transactionManager, 'exists').and.returnValue(true);
@@ -893,7 +895,11 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         interactionHandle: savedInteractionHandle,
         codeVerifier,
         codeChallenge,
-        codeChallengeMethod
+        codeChallengeMethod,
+
+        // Needed for isTransactionMetaValid
+        clientId,
+        redirectUri
       });
       render();
       
@@ -913,17 +919,35 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
           codeChallenge,
           codeVerifier,
           codeChallengeMethod,
-          interactionHandle: savedInteractionHandle
+          interactionHandle: savedInteractionHandle,
+          clientId,
+          redirectUri
         });
       });
     });
 
     describe('Clears saved transaction meta', () => {
+      let clientId;
+      let redirectUri;
+      let mockTransactionMeta;
+      beforeEach(() => {
+        clientId = 'someClientId';
+        redirectUri = 'http://0.0.0.0:9999';
+        mockTransactionMeta = {
+          interactionHandle,
+          codeVerifier,
+          codeChallenge,
+          codeChallengeMethod,
+          clientId,
+          redirectUri
+        };
+      });
 
       itp('clears after successful login', () => {
+
         setupLoginFlow({ 
-          clientId: 'someClientId',
-          redirectUri: 'http://0.0.0.0:9999',
+          clientId,
+          redirectUri,
           useInteractionCodeFlow: true
         }, [
           idxSuccessInteractionCode, {
@@ -936,12 +960,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         ]);
         spyOn(signIn.authClient.transactionManager, 'clear');
         spyOn(signIn.authClient.transactionManager, 'exists').and.returnValue(true);
-        spyOn(signIn.authClient.transactionManager, 'load').and.returnValue({
-          interactionHandle,
-          codeVerifier,
-          codeChallenge,
-          codeChallengeMethod
-        });
+        spyOn(signIn.authClient.transactionManager, 'load').and.returnValue(mockTransactionMeta);
         spyOn(signIn.authClient.token, 'exchangeCodeForTokens').and.returnValue(Promise.resolve({
           tokens: {}
         }));
@@ -953,20 +972,15 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
 
       itp('clears on permanent error', () => {
         setupLoginFlow({ 
-          clientId: 'someClientId',
-          redirectUri: 'http://0.0.0.0:9999',
+          clientId,
+          redirectUri,
           useInteractionCodeFlow: true
         }, [
           idxErrorSessionExpired
         ]);
         spyOn(signIn.authClient.transactionManager, 'clear');
         spyOn(signIn.authClient.transactionManager, 'exists').and.returnValue(true);
-        spyOn(signIn.authClient.transactionManager, 'load').and.returnValue({
-          interactionHandle,
-          codeVerifier,
-          codeChallenge,
-          codeChallengeMethod
-        });
+        spyOn(signIn.authClient.transactionManager, 'load').and.returnValue(mockTransactionMeta);
         render();
         return Expect.wait(() => {
           return $('.siw-main-body').length === 1;
@@ -977,20 +991,15 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
   
       itp('does NOT clear on recoverable error', () => {
         setupLoginFlow({ 
-          clientId: 'someClientId',
-          redirectUri: 'http://0.0.0.0:9999',
+          clientId,
+          redirectUri,
           useInteractionCodeFlow: true
         }, [
           idxErrorUserIsNotAssigned
         ]);
         spyOn(signIn.authClient.transactionManager, 'clear');
         spyOn(signIn.authClient.transactionManager, 'exists').and.returnValue(true);
-        spyOn(signIn.authClient.transactionManager, 'load').and.returnValue({
-          interactionHandle,
-          codeVerifier,
-          codeChallenge,
-          codeChallengeMethod
-        });
+        spyOn(signIn.authClient.transactionManager, 'load').and.returnValue(mockTransactionMeta);
         render();
         return Expect.wait(() => {
           return $('.siw-main-body').length === 1;
@@ -1001,8 +1010,8 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
 
       itp('Clears when user chooses "cancel" action', () => {
         setupLoginFlow({ 
-          clientId: 'someClientId',
-          redirectUri: 'http://0.0.0.0:9999',
+          clientId,
+          redirectUri,
           useInteractionCodeFlow: true
         }, [
           idxVerifyPassword,
@@ -1016,12 +1025,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         // simulate saved transaction
         spyOn(signIn.authClient.transactionManager, 'clear');
         spyOn(signIn.authClient.transactionManager, 'exists').and.returnValue(true);
-        spyOn(signIn.authClient.transactionManager, 'load').and.returnValue({
-          interactionHandle,
-          codeVerifier,
-          codeChallenge,
-          codeChallengeMethod
-        });
+        spyOn(signIn.authClient.transactionManager, 'load').and.returnValue(mockTransactionMeta);
         render();
         
         return Expect.wait(() => {

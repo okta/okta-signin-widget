@@ -43,7 +43,7 @@ export function clearTransactionMeta (settings) {
 }
 
 // returns true if values in meta match current authClient options
-// this logic could be moved to okta-auth-js
+// this logic can be moved to okta-auth-js OKTA-371584
 export function isTransactionMetaValid (settings, meta) {
   const keys = ['clientId', 'redirectUri'];
   const authClient = settings.getAuthClient();

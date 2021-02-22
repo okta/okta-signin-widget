@@ -23,18 +23,13 @@ export async function interact (settings) {
   let meta = await getTransactionMeta(settings);
   const {
     interactionHandle,
-    clientId,
-    redirectUri,
-    state,
-    scopes,
     codeVerifier,
     codeChallenge,
     codeChallengeMethod
   } = meta;
 
-  // TODO: put issuer, version into meta
   const authClient = settings.getAuthClient();
-  const { issuer } = authClient.options;
+  const { issuer, clientId, redirectUri, scopes, state } = authClient.options;
   const version = settings.get('apiVersion');
 
   return idx.start({
