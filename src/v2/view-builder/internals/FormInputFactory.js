@@ -73,8 +73,8 @@ const createEnduserScopesView = () => {
 const inputCreationStrategy = {
   authenticatorEnrollSelect: createAuthenticatorEnrollSelectView,
   authenticatorVerifySelect: createAuthenticatorVerifySelectView,
-  adminConsentScopes: createAdminScopesView,
-  enduserConsentScopes: createEnduserScopesView,
+  [RemediationForms.CONSENT_ADMIN]: createAdminScopesView,
+  [RemediationForms.CONSENT_ENDUSER]: createEnduserScopesView,
 };
 
 // TODO: move logic to uiSchemaTransformer

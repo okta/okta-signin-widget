@@ -9,61 +9,52 @@
         "rel": [
           "create-form"
         ],
-        "name": "admin-consent-grant",
+        "name": "admin-consent",
         "href": "http://localhost:3000/idp/idx/consent",
         "method": "POST",
         "accepts": "application/ion+json; okta-version=1.0.0",
         "produces": "application/ion+json; okta-version=1.0.0",
-        "relatesTo": ["$.termsOfService", "$.privacyPolicy", "$.logo"],
+        "scopes":  [
+          {
+            "name": "okta.clients.manage",
+            "label": "okta.clients.manage",
+            "value": "okta.clients.manage",
+            "desc": "Allows the app to manage clients in your Okta organization."
+          },
+          {
+            "name": "okta.authenticators.manage",
+            "label": "okta.authenticators.manage",
+            "value": "okta.authenticators.manage",
+            "desc": "Allows the app to manage all authenticators (e.g. enrollments, reset)."
+          }
+        ],
         "value": [
-        {
-          "name": "scopes",
-          "type": "array",
-          "required": true,
-          "options":  [
-            {
-              "name": "okta.clients.manage",
-              "label": "okta.clients.manage",
-              "value": "okta.clients.manage",
-              "desc": "Allows the app to manage clients in your Okta organization."
-            },
-            {
-              "name": "okta.authenticators.manage",
-              "label": "okta.authenticators.manage",
-              "value": "okta.authenticators.manage",
-              "desc": "Allows the app to manage all authenticators (e.g. enrollments, reset)."
-            }
-          ]
-        },
-        {
-          "name": "stateHandle",
-          "required": true,
-          "value": "02tZJpxD03j1a3qaPcSsi16yDtqMZgfetf8OvWOepP",
-          "visible": false,
-          "mutable": false
-        }
-      ]
-    },
-    {
-      "rel": [
-        "create-form"
-      ],
-      "name": "consent-deny",
-      "href": "http://localhost:3000/idp/idx/consent/deny",
-      "method": "POST",
-      "accepts": "application/ion+json; okta-version=1.0.0",
-      "produces": "application/ion+json; okta-version=1.0.0",
-      "value": [
-        {
-          "name": "stateHandle",
-          "required": true,
-          "value": "02tZJpxD03j1a3qaPcSsi16yDtqMZgfetf8OvWOepP",
-          "visible": false,
-          "mutable": false
-        }
-      ]
-    }
-  ]},
+          {
+              "name": "consent",
+              "type": "object",
+              "required": true,
+              "options": [
+                  {
+                    "label": "Allow Access",
+                    "value": true
+                  },
+                  {
+                    "label": "Don't Allow",
+                    "value": false
+                  }
+              ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02tZJpxD03j1a3qaPcSsi16yDtqMZgfetf8OvWOepP",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    ]
+  },
   "cancel": {
     "rel": ["create-form"],
     "name": "cancel",
@@ -78,41 +69,42 @@
     }]
   },
   "app": {
-    "type": "object",
-    "value": {
-      "name": "oidc_client",
-      "label": "Native client",
-      "id": "0oa4mwdegX1GLIJy00g4",
-      "termsOfService": {
-          "href": "https://example.com/tos",
-          "rel": "terms-of-service"
-      },
-      "privacyPolicy": {
-          "href": "https://example.com/privacypolicy",
-          "rel": "privacy-policy"
-      },
-      "logo": {
-          "href": "/img/logos/default.png",
-          "rel": "icon"
-      },
-      "clientUri" : {
-          "href" : "http://client._funky-ch4rs.com"
-      }
-    }
+        "type": "object",
+        "value": {
+            "name": "oidc_client",
+            "label": "Native client",
+            "id": "0oa4mwdegX1GLIJy00g4",
+            "termsOfService": {
+                "href": "https://example.com/tos",
+                "rel": ["terms-of-service"]
+            },
+            "privacyPolicy": {
+                "href": "https://example.com/privacypolicy",
+                "rel": ["privacy-policy"]
+            },
+            "logo": {
+                "href": "https://example.com/logo",
+                "rel": ["icon"],
+                "alt": "Logo for the app"
+            },
+            "clientUri" : {
+                "href" : "https://client._funky-ch4rs.com"
+            }
+        }
   },
   "user": {
-    "type": "object",
-    "value": {
-        "id": "00u4mufzdKWDb8hbC0g4"
-    }
+        "type": "object",
+        "value": {
+            "id": "00u4mufzdKWDb8hbC0g4"
+        }
   },
-  "authentication": {
-    "type": "object",
-    "value": {
-      "protocol":"OAUTH2.0",
-      "issuer":{
-        "uri":"https://rain.okta1.com"
-      }
-    }
+  "authentication":{
+        "type": "object",
+        "value" : {
+            "protocol":"OAUTH2.0",
+            "issuer":{
+               "uri":"http://localhost:3000"
+            }
+        }
   }
 }

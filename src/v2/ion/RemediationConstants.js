@@ -9,7 +9,10 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-
+/**
+ * Structure of FORMS object:
+ * { [CONSTANT]: remediationForm.name }
+ */
 const FORMS = {
   IDENTIFY: 'identify',
   SELECT_IDENTIFY: 'select-identify',
@@ -18,10 +21,8 @@ const FORMS = {
   ENROLL_PROFILE: 'enroll-profile',
   UNLOCK_ACCOUNT: 'unlock-account',
 
-  // the value string comes from the response remediation value name
-  CONSENT_ADMIN: 'admin-consent-grant',
-  CONSENT_ENDUSER: 'consent-grant',
-  CONSENT_DENY: 'consent-deny',
+  CONSENT_ADMIN: 'admin-consent',
+  CONSENT_ENDUSER: 'consent',
 
   SELECT_AUTHENTICATOR_AUTHENTICATE: 'select-authenticator-authenticate',
   SELECT_AUTHENTICATOR_UNLOCK: 'select-authenticator-unlock-account',
@@ -57,7 +58,7 @@ const FORMS = {
   // for rendering a page that user has nothing to remediate.
   TERMINAL: 'terminal',
 };
-
+// Add your FORM in FORMS to FORMS_WITHOUT_SIGNOUT if you don't want to display a 'Sign out' link
 const FORMS_WITHOUT_SIGNOUT = [
   FORMS.IDENTIFY,
   FORMS.SUCCESS_REDIRECT,
