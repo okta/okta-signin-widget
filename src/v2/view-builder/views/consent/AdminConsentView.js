@@ -2,8 +2,7 @@ import { loc } from 'okta';
 
 import BaseView from '../../internals/BaseView';
 import BaseForm from '../../internals/BaseForm';
-import ConsentViewHeader from './ConsentViewHeader';
-import ConsentViewFooter from './ConsentViewFooter';
+import AdminConsentViewHeader from './AdminConsentViewHeader';
 
 
 const Body = BaseForm.extend(
@@ -14,29 +13,24 @@ const Body = BaseForm.extend(
     cancel: () => loc('consent.required.cancelButton', 'login'),
     title: false,
     events: {
-      'click input[data-type="save"]': 'setConsent',
+      'click input[data-type="save"]': function () {
+        this.setConsent(true);
+      },
     },
-    setConsent () {
-      this.model.set('consent', true);
+    setConsent (bool) {
+      this.model.set('consent', bool);
     },
     cancelForm () {
       // override BaseForm.prototype.cancelForm which cancels auth flow
-      this.model.set('consent', false);
+      this.setConsent(false);
       this.options.appState.trigger('saveForm', this.model);
     },
   },
 );
 
 export default BaseView.extend({
-  Header: ConsentViewHeader,
+  Header: AdminConsentViewHeader,
   Body,
-  initialize () {
-    BaseView.prototype.initialize.apply(this, arguments);
-
-    if (this.options.appState.get('currentFormName') === 'consent') {
-      this.Footer = ConsentViewFooter;
-    }
-  },
   postRender () {
     // Move buttons in DOM to match visual hierarchy to fix tab order.
     // TODO https://oktainc.atlassian.net/browse/OKTA-350521

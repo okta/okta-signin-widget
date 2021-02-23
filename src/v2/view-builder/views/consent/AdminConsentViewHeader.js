@@ -1,10 +1,12 @@
-import { View, _ } from 'okta';
+import { View, _, loc } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 
 const defaultLogo = '/img/logos/default.png';
 
-const ConsentViewHeader = View.extend({
+const AdminConsentViewHeader = View.extend({
   className: 'consent-title detail-row',
+  titleText: () => loc('oie.consent.admin.title', 'login'),
+  hasIssuer: true,
   template: hbs`
     {{#if clientURI}}
     <a href="{{clientURI}}" class="client-logo-link" target="_blank">
@@ -19,11 +21,7 @@ const ConsentViewHeader = View.extend({
     {{/if}}
     <h1>
       <span class="title-text">
-        {{#if isAdminConsent}}
-          {{{i18n code="consent.required.text" bundle="login" arguments="appName"}}}
-        {{else}}
-          {{{i18n code="consent.required.header" bundle="login" arguments="appName"}}}
-        {{/if}}
+        <b>{{appName}}</b>&nbsp;{{titleText}}
       </span>
       {{#if issuer}}
         <div class="issuer"><span>{{issuer}}</span></div>
@@ -31,29 +29,27 @@ const ConsentViewHeader = View.extend({
     </h1>`,
   getTemplateData: function () {
     const { appState } = this.options;
-    const currentFormName = appState.get('currentFormName');
     const { label, clientUri, logo } =  appState.get('app');
     const { issuer: issuerObj } = appState.get('authentication');
+
     const customLogo = logo?.href;
     const altText = logo?.alt || 'aria logo';
-
-    const isAdminConsent = currentFormName === 'admin-consent';
-
     const appName = _.escape(label);
-
     const clientURI = clientUri?.href;
-    const issuer = isAdminConsent ? issuerObj?.uri : null;
+
+    const issuer = this.hasIssuer ? issuerObj?.uri : null;
+    const titleText = this.titleText();
 
     return {
-      appName,
       customLogo,
       defaultLogo,
       clientURI,
       issuer,
-      isAdminConsent,
       altText,
+      appName,
+      titleText,
     };
   }
 });
 
-export default ConsentViewHeader;
+export default AdminConsentViewHeader;

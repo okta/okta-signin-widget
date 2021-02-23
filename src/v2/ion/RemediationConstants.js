@@ -58,7 +58,7 @@ const FORMS = {
   // for rendering a page that user has nothing to remediate.
   TERMINAL: 'terminal',
 };
-// Add your FORM in FORMS to FORMS_WITHOUT_SIGNOUT if you don't want to display a 'Sign out' link
+// Forms added here do not show the Sign out link
 const FORMS_WITHOUT_SIGNOUT = [
   FORMS.IDENTIFY,
   FORMS.SUCCESS_REDIRECT,

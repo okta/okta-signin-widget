@@ -7,7 +7,7 @@ import { AUTHENTICATOR_KEY, FORMS as RemediationForms } from '../../ion/Remediat
 import IDP from '../../../util/IDP';
 import AdminScopeList from '../../../views/admin-consent/ScopeList';
 import EnduserScopeList from '../../../views/consent/ScopeList';
-import ConsentAgreementText from '../views/consent/ConsentAgreementText';
+
 
 const createAuthenticatorEnrollSelectView = (opt) => {
   var optionItems = (opt.options || [])
@@ -59,22 +59,15 @@ const createAdminScopesView = () => {
 };
 const createEnduserScopesView = () => {
   return {
-    View: View.extend({
-      children () {
-        return [
-          EnduserScopeList,
-          ConsentAgreementText,
-        ];
-      }
-    })
+    View: EnduserScopeList,
   };
 };
 
 const inputCreationStrategy = {
   authenticatorEnrollSelect: createAuthenticatorEnrollSelectView,
   authenticatorVerifySelect: createAuthenticatorVerifySelectView,
-  [RemediationForms.CONSENT_ADMIN]: createAdminScopesView,
-  [RemediationForms.CONSENT_ENDUSER]: createEnduserScopesView,
+  ['admin-consent']: createAdminScopesView,
+  ['consent']: createEnduserScopesView,
 };
 
 // TODO: move logic to uiSchemaTransformer

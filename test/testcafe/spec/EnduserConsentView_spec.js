@@ -3,16 +3,9 @@ import { RequestMock, RequestLogger } from 'testcafe';
 import ConsentPageObject from '../framework/page-objects/ConsentPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 
-import xhrConsentAdmin from '../../../playground/mocks/data/idp/idx/consent-admin';
 import xhrConsentEnduser from '../../../playground/mocks/data/idp/idx/consent-enduser';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
-
-const consentAdminMock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrConsentAdmin)
-  .onRequestTo('http://localhost:3000/idp/idx/consent')
-  .respond(xhrSuccess);
 
 const consentEnduserMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -27,8 +20,6 @@ const requestLogger = RequestLogger(/consent/,
   }
 );
 
-fixture('AdminConsent');
-
 async function setup(t) {
   const consentPage = new ConsentPageObject(t);
   await consentPage.navigateToPage();
@@ -42,44 +33,6 @@ async function testRedirect(t) {
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 }
 
-test.requestHooks(requestLogger, consentAdminMock)('should render scopes', async t => {
-  const consentPage  = await setup(t);
-
-  await t.expect(consentPage.getScopeGroupName()).eql('Resource and policies');
-  await t.expect(consentPage.getScopeItemTexts()).eql([
-    'okta.authenticators.manage',
-    'okta.clients.manage',
-  ]);
-});
-
-test.requestHooks(requestLogger, consentAdminMock)('should call /consent and send {consent: true} on form submit', async t => {
-  const consentPage  = await setup(t);
-
-  await consentPage.clickAllowButton();
-  const { request: {body, method, url}} = requestLogger.requests[requestLogger.requests.length - 1];
-  const jsonBody = JSON.parse(body);
-
-  await t.expect(jsonBody.consent).eql(true);
-  await t.expect(method).eql('post');
-  await t.expect(url).eql('http://localhost:3000/idp/idx/consent');
-
-  await testRedirect(t);
-});
-
-test.requestHooks(requestLogger, consentAdminMock)('should call /consent and send {consent: false} on form cancel', async t => {
-  const consentPage  = await setup(t);
-
-  await consentPage.clickDontAllowButton();
-  const { request: {body, method, url}} = requestLogger.requests[requestLogger.requests.length - 1];
-  const jsonBody = JSON.parse(body);
-
-  await t.expect(jsonBody.consent).eql(false);
-  await t.expect(method).eql('post');
-  await t.expect(url).eql('http://localhost:3000/idp/idx/consent');
-
-  await testRedirect(t);
-});
-
 fixture('EnduserConsent');
 
 test.requestHooks(requestLogger, consentEnduserMock)('should render scopes', async t => {
@@ -91,7 +44,7 @@ test.requestHooks(requestLogger, consentEnduserMock)('should render scopes', asy
   ]);
 });
 
-test.requestHooks(requestLogger, consentEnduserMock)('should call /consent and send {consent: true} on form submit', async t => {
+test.requestHooks(requestLogger, consentEnduserMock)('should call /consent and send {consent: true} on "Allow Access" click', async t => {
   const consentPage  = await setup(t);
 
   await consentPage.clickAllowButton();
@@ -105,7 +58,7 @@ test.requestHooks(requestLogger, consentEnduserMock)('should call /consent and s
   await testRedirect(t);
 });
 
-test.requestHooks(requestLogger, consentEnduserMock)('should call /consent and send {consent: false} on form cancel', async t => {
+test.requestHooks(requestLogger, consentEnduserMock)('should call /consent and send {consent: false} on "Don\'t Allow" click', async t => {
   const consentPage  = await setup(t);
 
   await consentPage.clickDontAllowButton();
