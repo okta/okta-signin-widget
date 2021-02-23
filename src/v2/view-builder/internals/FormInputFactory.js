@@ -1,4 +1,4 @@
-import { Collection, _, loc, createButton, View } from 'okta';
+import { Collection, _, loc, createButton } from 'okta';
 
 import AuthenticatorEnrollOptions from '../components/AuthenticatorEnrollOptions';
 import AuthenticatorVerifyOptions from '../components/AuthenticatorVerifyOptions';
