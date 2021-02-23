@@ -1,36 +1,11 @@
-import { loc } from 'okta';
-
 import BaseView from '../../internals/BaseView';
-import BaseForm from '../../internals/BaseForm';
 import AdminConsentViewHeader from './AdminConsentViewHeader';
+import ConsentViewForm from './ConsentViewForm';
 
-
-const Body = BaseForm.extend(
-  {
-    noButtonBar: false,
-    noCancelButton: false,
-    save: () => loc('consent.required.consentButton', 'login'),
-    cancel: () => loc('consent.required.cancelButton', 'login'),
-    title: false,
-    events: {
-      'click input[data-type="save"]': function () {
-        this.setConsent(true);
-      },
-    },
-    setConsent (bool) {
-      this.model.set('consent', bool);
-    },
-    cancelForm () {
-      // override BaseForm.prototype.cancelForm which cancels auth flow
-      this.setConsent(false);
-      this.options.appState.trigger('saveForm', this.model);
-    },
-  },
-);
 
 export default BaseView.extend({
   Header: AdminConsentViewHeader,
-  Body,
+  Body: ConsentViewForm,
   postRender () {
     // Move buttons in DOM to match visual hierarchy to fix tab order.
     // TODO https://oktainc.atlassian.net/browse/OKTA-350521
