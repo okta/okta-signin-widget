@@ -10,10 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, Model } from 'okta';
+import { Model } from 'okta';
 import Logger from 'util/Logger';
 import { FORMS_WITHOUT_SIGNOUT, FORMS_WITH_STATIC_BACK_LINK,
   FORMS_FOR_VERIFICATION } from '../ion/RemediationConstants';
+import { _ } from '../mixins/mixins';
 
 /**
  * Keep track of stateMachine with this special model. Similar to `src/models/AppState.js`
@@ -27,6 +28,7 @@ export default Model.extend({
     currentFormName: 'string',
     idx: 'object',
     remediations: 'array',
+    dynamicRefresh: 'object',
   },
 
   derived: {
@@ -105,31 +107,18 @@ export default Model.extend({
   },
 
   shouldReRenderView (transformedResponse) {
-    _.mixin({
-      nestedOmit: function (obj, iteratee, context) {
-        var result = _.omit(obj, iteratee, context);
-
-        _.each(result, function (val, key) {
-          if (typeof(val) === 'object') {
-            result[key] = _.nestedOmit(val, iteratee, context);
-          }
-        });
-
-        return result;
-      }
-    });
-
     const previousRawState = this.has('idx') ? this.get('idx').rawIdxState : null;
-    const identicalResponse = _.isEqual(_.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh']),
+    const identicalResponse = _.isEqual(
+      _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh']),
       _.nestedOmit(previousRawState, ['expiresAt', 'refresh']));
-    const noPollRefreshNeeded = _.isEqual(_.omit(transformedResponse.idx.rawIdxState, 'expiresAt'),
+    const isSameRefreshInterval = _.isEqual(_.omit(transformedResponse.idx.rawIdxState, 'expiresAt'),
       _.omit(previousRawState, 'expiresAt') );
 
-    if (identicalResponse && !noPollRefreshNeeded) {
+    if (identicalResponse && !isSameRefreshInterval) {
       const currentFormName = this.get('currentFormName');
       const currentViewState = transformedResponse.remediations.filter(r => r.name === currentFormName)[0];
 
-      this.trigger('refreshUpdated', currentViewState);
+      this.set('dynamicRefresh', currentViewState);
     }
 
     let reRender = true;

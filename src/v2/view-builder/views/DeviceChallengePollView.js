@@ -15,7 +15,6 @@ import { CANCEL_POLLING_ACTION } from '../utils/Constants';
 import Link from '../components/Link';
 import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
 import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
-import BaseFormWithPolling from '../internals/BaseFormWithPolling';
 
 const request = (opts) => {
   const ajaxOptions = Object.assign({
@@ -25,7 +24,7 @@ const request = (opts) => {
   return $.ajax(ajaxOptions);
 };
 
-const Body = BaseFormWithPolling.extend(Object.assign(
+const Body = BaseForm.extend(Object.assign(
   {
     noButtonBar: true,
 
@@ -39,16 +38,26 @@ const Body = BaseFormWithPolling.extend(Object.assign(
     },
 
     initialize () {
-      BaseFormWithPolling.prototype.initialize.apply(this, arguments);
+      BaseForm.prototype.initialize.apply(this, arguments);
       this.listenTo(this.model, 'error', this.onPollingFail);
       this.deviceChallengePollRemediation = this.options.currentViewState;
       this.doChallenge();
       this.startPolling();
+
+      this.listenTo(this.options.appState, 'change:dynamicRefresh', this.updateRefresh);
     },
 
     onPollingFail () {
       this.$('.spinner').hide();
       this.stopPolling();
+    },
+
+    updateRefresh () {
+      if (this.polling) {
+        this.options.currentViewState = this.options.appState.get('dynamicRefresh');
+        this.stopPolling();
+        this.startPolling();
+      }
     },
 
     remove () {
