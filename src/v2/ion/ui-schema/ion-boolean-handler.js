@@ -9,6 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
+import { FORMS } from '../RemediationConstants';
 
 const getCheckboxUiSchema = ({ label, type, required }) => ({
   // For Remember Me checkbox, we need the label only on the right side of it.
@@ -22,8 +23,19 @@ const getCheckboxUiSchema = ({ label, type, required }) => ({
   required: required || false,
 });
 
-const createUiSchemaForBoolean = (ionFormField) => {
-  return getCheckboxUiSchema(ionFormField);
+const createUiSchemaForBoolean = (ionFormField, remediationForm) => {
+  if ([FORMS.CONSENT_ENDUSER, FORMS.CONSENT_ADMIN].includes(remediationForm.name)) {
+    const scopes = remediationForm.scopes.map(({name, label, desc}) => {
+      return {name, displayName: label, description: desc};
+    });
+
+    // setting 'type' here to add a specific View in FormInputFactory.create
+    const type = remediationForm.name;
+
+    return {type, scopes, options: ionFormField.options};
+  } else {
+    return getCheckboxUiSchema(ionFormField);
+  }
 };
 
 export default createUiSchemaForBoolean;

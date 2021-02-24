@@ -11,7 +11,7 @@
  */
 
 import { _ } from 'okta';
-import { AUTHENTICATOR_KEY, FORMS } from '../RemediationConstants';
+import { AUTHENTICATOR_KEY } from '../RemediationConstants';
 
 /**
  * Example of the option like
@@ -122,15 +122,6 @@ const createUiSchemaForObject = (ionFormField, remediationForm, transformedResp,
     // 2. when `select-authenticator-enroll`,
     // create customize type so that display authenticator list as selectable list
     Object.assign(uiSchema, getAuthenticatorsEnrollUiSchema(ionFormField));
-  } else if ([FORMS.CONSENT_ENDUSER, FORMS.CONSENT_ADMIN].includes(remediationForm.name)) {
-    const scopes = remediationForm.scopes.map(({name, label, desc}) => {
-      return {name, displayName: label, description: desc};
-    });
-
-    // setting 'type' here to add a specific View in FormInputFactory.create
-    const type = remediationForm.name;
-
-    Object.assign(uiSchema, {type, scopes, options: ionFormField.options} );
   } else if (Array.isArray(ionFormField.options)) {
     // 3. For other cases, create ui schema for each `option` in order to render
     // different view for each option.

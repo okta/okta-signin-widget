@@ -31,7 +31,7 @@
         "value": [
           {
               "name": "consent",
-              "type": "object",
+              "type": "boolean",
               "required": true,
               "options": [
                   {
