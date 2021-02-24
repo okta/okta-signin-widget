@@ -2,8 +2,8 @@ import { _ } from 'okta';
 import { MS_PER_SEC } from '../../utils/Constants';
 
 export default {
-  startPolling () {
-    this.pollingInterval = this.options.currentViewState.refresh;
+  startPolling (newRefreshInterval) {
+    this.pollingInterval = newRefreshInterval || this.options.currentViewState.refresh;
     this.countDownCounterValue = Math.ceil(this.pollingInterval / MS_PER_SEC);
     // Poll is present in remediation form
     if (this.pollingInterval) {

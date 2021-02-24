@@ -28,7 +28,7 @@ export default Model.extend({
     currentFormName: 'string',
     idx: 'object',
     remediations: 'array',
-    dynamicRefresh: 'object',
+    dynamicRefreshInterval: 'number',
   },
 
   derived: {
@@ -115,10 +115,12 @@ export default Model.extend({
       _.omit(previousRawState, 'expiresAt') );
 
     if (identicalResponse && !isSameRefreshInterval) {
+      // Only polling refresh interval has changed in the response,
+      // make sure to update the correct poll view's refresh value
       const currentFormName = this.get('currentFormName');
       const currentViewState = transformedResponse.remediations.filter(r => r.name === currentFormName)[0];
 
-      this.set('dynamicRefresh', currentViewState);
+      this.set('dynamicRefreshInterval', currentViewState.refresh);
     }
 
     let reRender = true;
