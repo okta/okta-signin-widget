@@ -12,9 +12,8 @@ const renderPlaygroundWidget = (options = {}) => {
   if (signIn) {
     signIn.remove();
   }
-  // TODO: shall we use deep merge cause widget option has object value,
-  // which will be override when doing `Object.assign`.
-  signIn = new OktaSignIn(Object.assign(signinWidgetOptions, options));
+
+  signIn = new OktaSignIn(Object.assign({}, signinWidgetOptions, options));
 
   signIn.renderEl(
     { el: '#okta-login-container' },
@@ -85,6 +84,10 @@ const renderPlaygroundWidget = (options = {}) => {
   });
 
 
+};
+
+window.getWidgetInstance = function () {
+  return signIn;
 };
 
 window.renderPlaygroundWidget = renderPlaygroundWidget;
