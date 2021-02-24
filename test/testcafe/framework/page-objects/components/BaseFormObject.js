@@ -4,6 +4,8 @@ const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 const FORM_INFOBOX_ERROR = '.okta-form-infobox-error';
 
 const SUBMIT_BUTTON_SELECTOR = '.o-form-button-bar input[data-type="save"]';
+const CANCEL_BUTTON_SELECTOR = '.o-form-button-bar input[data-type="cancel"]';
+
 const focusOnSubmitButton = () => {
   // Client Function is not able to refer any variables defined outside this function.
   // Not sure why at the time of writing.
@@ -91,6 +93,11 @@ export default class BaseFormObject {
   async clickSaveButton() {
     await this.t.click(this.el.find(SUBMIT_BUTTON_SELECTOR));
   }
+
+  async clickCancelButton() {
+    await this.t.click(this.el.find(CANCEL_BUTTON_SELECTOR));
+  }
+
   getSaveButtonLabel() {
     return this.el.find(SUBMIT_BUTTON_SELECTOR).value;
   }
@@ -207,4 +214,17 @@ export default class BaseFormObject {
     await this.t.click(this.el.find(selector));
   }
 
+  /**
+   * Queries for all elements matching the selector
+   * and returns a list of inner texts of the matching elements.
+   * @param {string} selector
+   * @returns {array}
+   */
+  getInnerTexts(selector) {
+    return ClientFunction((selector) => {
+      return Array.prototype.map.call(document.querySelectorAll(selector), (el) => {
+        return el.innerText;
+      });
+    })(selector);
+  }
 }

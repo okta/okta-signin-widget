@@ -8,6 +8,10 @@ import IdentifyRecoveryView from './views/IdentifyRecoveryView';
 import TerminalView from './views/TerminalView';
 import SuccessView from './views/SuccessView';
 
+// consent
+import AdminConsentView from './views/consent/AdminConsentView';
+import EnduserConsentView from './views/consent/EnduserConsentView';
+
 // Device (Okta Verify)
 import DeviceChallengePollView from './views/DeviceChallengePollView';
 import SSOExtensionView from './views/SSOExtensionView';
@@ -112,6 +116,12 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.AUTHENTICATOR_ENROLLMENT_DATA]: {
     [AUTHENTICATOR_KEY.PHONE]: EnrollAuthenticatorDataPhoneView,
+  },
+  [RemediationForms.CONSENT_ADMIN]: {
+    [DEFAULT]: AdminConsentView
+  },
+  [RemediationForms.CONSENT_ENDUSER]: {
+    [DEFAULT]: EnduserConsentView
   },
   [RemediationForms.ENROLL_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.PASSWORD]: EnrollAuthenticatorPasswordView,

@@ -9,7 +9,10 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-
+/**
+ * Structure of FORMS object:
+ * { [CONSTANT]: remediationForm.name }
+ */
 const FORMS = {
   IDENTIFY: 'identify',
   SELECT_IDENTIFY: 'select-identify',
@@ -17,6 +20,9 @@ const FORMS = {
   SELECT_ENROLL_PROFILE: 'select-enroll-profile',
   ENROLL_PROFILE: 'enroll-profile',
   UNLOCK_ACCOUNT: 'unlock-account',
+
+  CONSENT_ADMIN: 'admin-consent',
+  CONSENT_ENDUSER: 'consent',
 
   SELECT_AUTHENTICATOR_AUTHENTICATE: 'select-authenticator-authenticate',
   SELECT_AUTHENTICATOR_UNLOCK: 'select-authenticator-unlock-account',
@@ -52,7 +58,7 @@ const FORMS = {
   // for rendering a page that user has nothing to remediate.
   TERMINAL: 'terminal',
 };
-
+// Forms added here do not show the Sign out link
 const FORMS_WITHOUT_SIGNOUT = [
   FORMS.IDENTIFY,
   FORMS.SUCCESS_REDIRECT,
@@ -63,6 +69,8 @@ const FORMS_WITHOUT_SIGNOUT = [
   FORMS.REDIRECT_IDP,
   FORMS.RESET_AUTHENTICATOR,
   FORMS.DEVICE_ENROLLMENT_TERMINAL,
+  FORMS.CONSENT_ADMIN,
+  FORMS.CONSENT_ENDUSER,
 ];
 
 const FORMS_WITH_STATIC_BACK_LINK = [

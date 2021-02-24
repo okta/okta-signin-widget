@@ -36,6 +36,7 @@ export default Form.extend({
     });
 
     this.listenTo(this, 'save', this.saveForm);
+    this.listenTo(this, 'cancel', this.cancelForm);
   },
 
   handleClearFormError () {
@@ -52,6 +53,10 @@ export default Form.extend({
     //remove any existing warnings or messages before saving form
     this.$el.find('.o-form-error-container').empty();
     this.options.appState.trigger('saveForm', model);
+  },
+
+  cancelForm () {
+    this.options.appState.trigger('invokeAction', 'cancel');
   },
 
   getUISchema () {

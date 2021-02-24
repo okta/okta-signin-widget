@@ -1,9 +1,13 @@
 import { Collection, _, loc, createButton } from 'okta';
+
 import AuthenticatorEnrollOptions from '../components/AuthenticatorEnrollOptions';
 import AuthenticatorVerifyOptions from '../components/AuthenticatorVerifyOptions';
 import { getAuthenticatorDataForEnroll, getAuthenticatorDataForVerification} from '../utils/AuthenticatorUtil';
 import { AUTHENTICATOR_KEY, FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import IDP from '../../../util/IDP';
+import AdminScopeList from '../../../views/admin-consent/ScopeList';
+import EnduserScopeList from '../../../views/consent/ScopeList';
+
 
 const createAuthenticatorEnrollSelectView = (opt) => {
   var optionItems = (opt.options || [])
@@ -48,9 +52,22 @@ const createAuthenticatorVerifySelectView = (opt) => {
   };
 };
 
+const createAdminScopesView = () => {
+  return {
+    View: AdminScopeList,
+  };
+};
+const createEnduserScopesView = () => {
+  return {
+    View: EnduserScopeList,
+  };
+};
+
 const inputCreationStrategy = {
   authenticatorEnrollSelect: createAuthenticatorEnrollSelectView,
-  authenticatorVerifySelect: createAuthenticatorVerifySelectView
+  authenticatorVerifySelect: createAuthenticatorVerifySelectView,
+  ['admin-consent']: createAdminScopesView,
+  ['consent']: createEnduserScopesView,
 };
 
 // TODO: move logic to uiSchemaTransformer
