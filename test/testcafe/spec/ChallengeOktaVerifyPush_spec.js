@@ -52,7 +52,9 @@ test
 
     const pageTitle = challengeOktaVerifyPushPageObject.getPageTitle();
     const pushBtn = challengeOktaVerifyPushPageObject.getPushButton();
+    const a11ySpan = challengeOktaVerifyPushPageObject.getA11ySpan();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
+    await t.expect(a11ySpan.textContent).contains('Push notification sent');
     await t.expect(pushBtn.hasClass('link-button-disabled')).ok();
     await t.expect(pageTitle).contains('Get a push notification');
   });

@@ -13,6 +13,10 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
     return this.form.getElement('.send-push');
   }
 
+  getA11ySpan () {
+    return this.form.getElement('.accessibility-text');
+  }
+
   getResendPushButton () {
     return this.form.getElement('.button-primary');
   }

@@ -3475,6 +3475,7 @@ Expect.describe('MFA Verify', function () {
                 .then(function (test) {
                   expect(test.form.submitButton().prop('disabled')).toBe(true);
                   expect(test.form.submitButtonText()).toBe('Push sent!');
+                  expect(test.form.$('.accessibility-text').text().trim()).toBe('Push sent!');
                   expect(test.form.warningMessage()).toBe(
                     'Haven\'t received a push notification yet? Try opening the Okta Verify App on your phone.'
                   );
