@@ -20,7 +20,11 @@ import { getTransactionMeta, saveTransactionMeta } from './transactionMeta';
 
 // Begin or resume a transaction using an interactionHandle
 export async function interact (settings) {
+
+  const authClient = settings.getAuthClient();
   let meta = await getTransactionMeta(settings);
+
+  // These properties are always loaded from meta (or calculated fresh)
   const {
     interactionHandle,
     codeVerifier,
@@ -28,9 +32,23 @@ export async function interact (settings) {
     codeChallengeMethod
   } = meta;
 
-  const authClient = settings.getAuthClient();
-  const { issuer, clientId, redirectUri, scopes, state } = authClient.options;
+  // These properties are defined by global configuration
+  const { issuer, clientId, redirectUri } = authClient.options;
   const version = settings.get('apiVersion');
+
+  // These properties can be set in configuration, but also have a default.
+  let state;
+  let scopes;
+  if (!interactionHandle) {
+    // new transaction: prefer configured values
+    // TODO: remove dependency on authParams. OKTA-373096
+    state = settings.get('authParams.state') || authClient.options.state || meta.state;
+    scopes = authClient.options.scopes || meta.scopes;
+  } else {
+    // saved transaction: use only saved values
+    state = meta.state;
+    scopes = meta.scopes;
+  }
 
   return idx.start({
     // if interactionHandle is undefined here, idx will bootstrap a new interactionHandle
