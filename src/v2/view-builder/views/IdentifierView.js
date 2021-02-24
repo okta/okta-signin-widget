@@ -32,8 +32,8 @@ const Body = BaseForm.extend({
     const hasUISchemas = this.getUISchema().length > 0;
 
     // Nao testing - add PIV buttons
-    const stateHandle1 = this.options.appState.get('stateHandle');
-    const idpButtons = createPIVButtons(this.options.appState.get('remediations'));
+    const idpButtons = createPIVButtons(this.options.appState.get('remediations'),
+        this.options.appState.get('idx'));
     if (Array.isArray(idpButtons) && idpButtons.length) {
       this.add(signInWithIdps, {
         selector: '.o-form-button-bar',

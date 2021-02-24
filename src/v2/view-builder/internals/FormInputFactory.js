@@ -136,7 +136,7 @@ const addCustomButton = (customButtonSettings) => {
   });
 };
 
-const createPIVButtons = (remediations) => {
+const createPIVButtons = (remediations, idx) => {
   const redirectIdpRemediations = remediations.filter(idp => idp.name === 'mtls_idp');
 
   if (!Array.isArray(redirectIdpRemediations)) {
@@ -172,11 +172,9 @@ const createPIVButtons = (remediations) => {
       title: displayName,
       //href: idpObject.href,
       click: () => {
-        settings1 = this.settings;
-        settings2 = window.settings;
         const promise = new Promise (() => {
           // Make a network request
-          pivCallback(remediations);
+          pivCallback(remediations, idx.context.stateHandle);
         });
 
         promise.then(res => {
@@ -190,10 +188,7 @@ const createPIVButtons = (remediations) => {
   });
 };
 
-async function pivCallback(remediations) {
-  Util.debugMessage('pivCallback() called');
-  const self = this;
-  //const pivConfig = this.settings.get('piv');
+async function pivCallback(remediations, stateHandle) {
   const data = {
     fromURI: 'https://naopiv.okta1.com',
     isCustomDomain: false,
@@ -201,10 +196,10 @@ async function pivCallback(remediations) {
 
   try {
     const url = 'https://naopiv.mtls.okta1.com/api/internal/v1/authn/cert';
-    //const urlChallengeAnser = 'https://naopiv.okta1.com/idp/idx/identify';
     const resFromGet = await getCert(url);
     const res = await postCert(url, data);
-    const res2 = await postChallengeAnswer('https://naopiv.okta1.com/idp/idx/identify', res.jws);
+    const res2 = await postIdentify('https://naopiv.okta1.com/idp/idx/identify', stateHandle, res.jws);
+    window.location.href = res2.success.href;
   } catch (err) {
     if (_.isEmpty(err.responseJSON) && !err.responseText) {
       err.responseJSON = {
@@ -253,11 +248,14 @@ const postCert = (certAuthUrl, data) => {
 	"identifier" : "{{currentUserIdentifier}}"
 }
  */
-const postChallengeAnswer = (url, jws) => {
-  var stateToken = window.settings.local.stateToken;
+const postIdentify = (url, stateHandle, jws) => {
+  //var stateToken = window.settings.local.stateToken;
   const dataAnswer = {
-    stateHandle: stateToken,
-    identifier: '32011152472674@upn.example.com'
+    stateHandle: stateHandle,
+    identifier: '32011152472674@upn.example.com',
+    credentials: {
+      jws: jws
+    }
   };
   return $.post({
     url: url,
