@@ -145,6 +145,11 @@ const convertFormErrors = (response) => {
   };
 };
 
+const hasFormErrors = (response) => {
+  const { responseJSON } = convertFormErrors(response);
+  return !!responseJSON.errorSummary || !!responseJSON.errorCauses.length;
+};
+
 const isIonErrorResponse = (response = {}) => {
   // check if error format is an ION response by looking for version attribute.
   // a little sloppy.
@@ -153,5 +158,6 @@ const isIonErrorResponse = (response = {}) => {
 
 export default {
   convertFormErrors,
+  hasFormErrors,
   isIonErrorResponse,
 };
