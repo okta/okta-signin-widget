@@ -56,6 +56,10 @@ function sendCode (e) {
   }
 }
 
+function isValidCountryCode(countryCode){
+  return CountryUtil.getCallingCodeForCountry(countryCode);
+}
+
 export default FormController.extend({
   className: function () {
     return getClassName(this.options.factorType);
@@ -337,5 +341,8 @@ export default FormController.extend({
       this.model.set('hasExistingPhones', this.options.appState.get('hasExistingPhones'));
     }
     this.model.set('factorType', this.options.factorType);
+    if(isValidCountryCode(this.settings.get('smsAndCallMFACountryCode'))) {
+      this.model.set('countryCode', this.settings.get('smsAndCallMFACountryCode'));
+    }
   },
 });
