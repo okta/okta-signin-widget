@@ -10,10 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, Model } from 'okta';
+import { Model } from 'okta';
 import Logger from 'util/Logger';
 import { FORMS_WITHOUT_SIGNOUT, FORMS_WITH_STATIC_BACK_LINK,
   FORMS_FOR_VERIFICATION } from '../ion/RemediationConstants';
+import { _ } from '../mixins/mixins';
 
 /**
  * Keep track of stateMachine with this special model. Similar to `src/models/AppState.js`
@@ -27,6 +28,7 @@ export default Model.extend({
     currentFormName: 'string',
     idx: 'object',
     remediations: 'array',
+    dynamicRefreshInterval: 'number',
   },
 
   derived: {
@@ -106,8 +108,21 @@ export default Model.extend({
 
   shouldReRenderView (transformedResponse) {
     const previousRawState = this.has('idx') ? this.get('idx').rawIdxState : null;
-    const identicalResponse = _.isEqual(_.omit(transformedResponse.idx.rawIdxState, 'expiresAt'),
+    const identicalResponse = _.isEqual(
+      _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh']),
+      _.nestedOmit(previousRawState, ['expiresAt', 'refresh']));
+    const isSameRefreshInterval = _.isEqual(_.omit(transformedResponse.idx.rawIdxState, 'expiresAt'),
       _.omit(previousRawState, 'expiresAt') );
+
+    if (identicalResponse && !isSameRefreshInterval) {
+      // Only polling refresh interval has changed in the response,
+      // make sure to update the correct poll view's refresh value
+      const currentFormName = this.get('currentFormName');
+      const currentViewState = transformedResponse.remediations.filter(r => r.name === currentFormName)[0];
+
+      this.set('dynamicRefreshInterval', currentViewState.refresh);
+    }
+
     let reRender = true;
 
     if (identicalResponse) {

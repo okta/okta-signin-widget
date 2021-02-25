@@ -8,13 +8,13 @@ import HeaderBeacon from '../components/HeaderBeacon';
 import BaseFooter from '../internals//BaseFooter';
 import Logger from '../../../util/Logger';
 import DeviceFingerprint from '../../../util/DeviceFingerprint';
-import polling from './shared/polling';
 import Util from '../../../util/Util';
 import Enums from '../../../util/Enums';
 import { CANCEL_POLLING_ACTION } from '../utils/Constants';
 import Link from '../components/Link';
 import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
 import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
+import BaseFormWithPolling from '../internals/BaseFormWithPolling';
 
 const request = (opts) => {
   const ajaxOptions = Object.assign({
@@ -24,7 +24,7 @@ const request = (opts) => {
   return $.ajax(ajaxOptions);
 };
 
-const Body = BaseForm.extend(Object.assign(
+const Body = BaseFormWithPolling.extend(
   {
     noButtonBar: true,
 
@@ -38,7 +38,7 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     initialize () {
-      BaseForm.prototype.initialize.apply(this, arguments);
+      BaseFormWithPolling.prototype.initialize.apply(this, arguments);
       this.listenTo(this.model, 'error', this.onPollingFail);
       this.deviceChallengePollRemediation = this.options.currentViewState;
       this.doChallenge();
@@ -188,9 +188,7 @@ const Body = BaseForm.extend(Object.assign(
       this.probingXhr && this.probingXhr.abort();
     },
   },
-
-  polling,
-));
+);
 
 const Footer = BaseFooter.extend({
   initialize () {
