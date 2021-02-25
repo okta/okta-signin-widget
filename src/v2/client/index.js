@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './completeLoginFlow';
+export * from './interactionCodeFlow';
 export * from './transactionMeta';
 export * from './interact';
 export * from './introspect';

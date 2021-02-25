@@ -16,13 +16,14 @@ import { toQueryString } from '@okta/okta-auth-js';
 
 import { clearTransactionMeta } from './transactionMeta';
 
-export async function completeLoginFlow (settings, idxResponse) {
+export async function interactionCodeFlow (settings, idxResponse) {
   const { interactionCode } = idxResponse;
   const authClient = settings.getAuthClient();
   const transactionMeta = authClient.transactionManager.load();
-  const shouldRedirect = settings.get('mode') === 'remediation';
 
-  // Should this transaction be completed at the `redirectUri` ?
+  // server-side applications will want to received interaction_code as a query parameter
+  // this option can also be used to force a redirect for client-side/SPA applications
+  const shouldRedirect = settings.get('mode') === 'remediation';
   if (shouldRedirect) {
     const redirectUri = settings.get('redirectUri');
     if (!redirectUri) {
@@ -30,7 +31,7 @@ export async function completeLoginFlow (settings, idxResponse) {
     }
     const { state } = transactionMeta;
     const qs = toQueryString({ 'interaction_code': interactionCode, state });
-    window.location.replace(redirectUri + qs);
+    window.location.assign(redirectUri + qs);
     return;
   }
   

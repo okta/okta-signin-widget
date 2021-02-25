@@ -27,7 +27,7 @@ import AppState from './models/AppState';
 
 import {
   startLoginFlow,
-  completeLoginFlow,
+  interactionCodeFlow,
   clearTransactionMeta
 } from './client';
 
@@ -82,7 +82,7 @@ export default Router.extend({
 
   handleIdxResponseSuccess (idxResponse) {
     if (idxResponse.interactionCode) {
-      return completeLoginFlow(this.settings, idxResponse);
+      return interactionCodeFlow(this.settings, idxResponse);
     }
   
     // transform response
