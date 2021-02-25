@@ -452,7 +452,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     'relatesTo': {
                       'displayName': 'Google Authenticator',
                       'type': 'app',
-                      'key': 'google_authenticator',
+                      'key': 'google_otp',
                       'authenticatorId': 'aut1erh5wK1M8wA3g0g3',
                       'id': 'okta-verify-enroll-id-124',
                       'methods': [
@@ -676,7 +676,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     value: {
                       id: 'aut11ceMaP0B0EzMI0g4'
                     },
-                    authenticatorKey: 'google_authenticator',
+                    authenticatorKey: 'google_otp',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[5]
                   },
                   {

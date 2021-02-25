@@ -167,7 +167,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(7)).eql(false);
   await t.expect(selectFactorPage.getFactorIconClassByIndex(7)).contains('mfa-google-auth');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(7)).eql('Select');
-  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(7)).eql('google_authenticator');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(7)).eql('google_otp');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(8)).eql('Atko Custom On-prem');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(8)).eql(false);

@@ -452,7 +452,7 @@
       },
       {
         "displayName": "Google Authenticator",
-        "key": "google_authenticator",
+        "key": "google_otp",
         "type": "app",
         "id": "aen1mz5J4cuNoaR3l0g3",
         "authenticatorId": "aut11ceMaP0B0EzMI0g4",

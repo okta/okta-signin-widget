@@ -22,7 +22,7 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
     [AUTHENTICATOR_KEY.ON_PREM]: 'mfa-verify-totp',
     [AUTHENTICATOR_KEY.RSA]: 'mfa-verify-totp',
     [AUTHENTICATOR_KEY.OV]: 'mfa-verify',
-    [AUTHENTICATOR_KEY.GOOGLE_AUTHENTICATOR]: 'mfa-verify',
+    [AUTHENTICATOR_KEY.GOOGLE_OTP]: 'mfa-verify',
     [AUTHENTICATOR_KEY.DUO]: 'mfa-verify-duo',
   },
   [FORMS.CHALLENGE_POLL]: {

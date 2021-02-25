@@ -339,7 +339,7 @@
       {
         "displayName": "Google Authenticator",
         "type": "app",
-        "key": "google_authenticator",
+        "key": "google_otp",
         "authenticatorId": "aut1erh5wK1M8wA3g0g3",
         "id": "okta-verify-enroll-id-124",
         "methods": [

@@ -39,7 +39,7 @@ async function setup(t) {
   await checkConsoleMessages({
     controller:null,
     formName:'enroll-authenticator',
-    authenticatorKey:'google_authenticator',
+    authenticatorKey:'google_otp',
     methodType: 'otp'
   });
   return enrollGoogleAuthenticatorPageObject;

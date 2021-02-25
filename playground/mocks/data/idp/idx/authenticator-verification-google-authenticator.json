@@ -95,7 +95,7 @@
     "type": "object",
     "value": {
       "displayName": "Google Authenticator",
-      "key": "google_authenticator",
+      "key": "google_otp",
       "type": "app",
       "id": "aut11ceMaP0B0EzMI0g4",
       "methods": [
@@ -110,7 +110,7 @@
     "value": [
       {
         "displayName": "Google Authenticator",
-        "key": "google_authenticator",
+        "key": "google_otp",
         "type": "app",
         "id": "aut11ceMaP0B0EzMI0g4",
         "methods": [
@@ -126,7 +126,7 @@
     "value": [
       {
         "displayName": "Google Authenticator",
-        "key": "google_authenticator",
+        "key": "google_otp",
         "type": "app",
         "id": "uft14qoSHV31dpdrO0g4",
         "methods": [
