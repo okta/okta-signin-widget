@@ -619,6 +619,32 @@ describe('v2/ion/uiSchemaTransformer', function () {
                         }
                       ]
                     }
+                  },
+                  {
+                    label: 'Symantec VIP',
+                    value: {
+                      form: {
+                        value: [
+                          {
+                            name: 'id',
+                            required: true,
+                            value: 'aut11ceMaP0B0EzMI0g4',
+                            mutable: false
+                          }
+                        ]
+                      }
+                    },
+                    relatesTo: {
+                      type: 'app',
+                      key: 'symantec_vip',
+                      id: 'aut11ceMaP0B0EzMI0g4',
+                      displayName: 'Symantec VIP',
+                      methods: [
+                        {
+                          type: 'otp'
+                        }
+                      ]
+                    }
                   }
                 ]
               },
@@ -720,6 +746,14 @@ describe('v2/ion/uiSchemaTransformer', function () {
                     },
                     authenticatorKey: 'custom_otp',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[10]
+                  },
+                  {
+                    label: 'Symantec VIP',
+                    value: {
+                      id: 'aut11ceMaP0B0EzMI0g4',
+                    },
+                    authenticatorKey: 'symantec_vip',
+                    relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[11]
                   },
                 ]
               }
