@@ -153,11 +153,13 @@ const isIonErrorResponse = (response = {}) => {
 };
 
 const isTerminalError = (res = {}) => {
-  if (!res.remediations || !Array.isArray(res.remediations) || res.remediations.length !== 1) {
+  if (!Array.isArray(res.remediations) || res.remediations.length !== 1) {
     return false;
   }
 
-  return res.remediations[0].name === FORMS.TERMINAL;
+  const name = res.remediations[0].name;
+  // TODO: use regex on name?
+  return name === FORMS.TERMINAL || name === FORMS.DEVICE_ENROLLMENT_TERMINAL;
 };
 
 export default {
