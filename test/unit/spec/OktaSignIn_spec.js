@@ -10,6 +10,10 @@ import introspectResponse from 'helpers/xhr/UNAUTHENTICATED';
 import idxResponse from 'helpers/xhr/v2/IDX_IDENTIFY';
 import v1Success from 'helpers/xhr/SUCCESS';
 import errorFeatureNotEnabled from 'helpers/xhr/v2/ERROR_FEATURE_NOT_ENABLED';
+import idxVerifyPassword from 'helpers/xhr/v2/IDX_VERIFY_PASSWORD';
+import idxSuccessInteractionCode from 'helpers/xhr/v2/IDX_SUCCESS_INTERACTION_CODE';
+import idxErrorUserIsNotAssigned from 'helpers/xhr/v2/IDX_ERROR_USER_IS_NOT_ASSIGNED';
+import idxErrorSessionExpired from 'helpers/xhr/v2/IDX_ERROR_SESSION_EXPIRED';
 import 'jasmine-ajax';
 import Q from 'q';
 import $sandbox from 'sandbox';
@@ -640,13 +644,20 @@ Expect.describe('OktaSignIn v1 pipeline bootstrap ', function () {
 
 Expect.describe('OktaSignIn v2 bootstrap', function () {
   let signIn;
+  let codeVerifier;
+  let codeChallenge;
+  let codeChallengeMethod;
 
   beforeEach(function () {
     spyOn(Logger, 'error');
+    signIn = null;
+    codeVerifier = 'fakecodeVerifier';
+    codeChallenge = 'fakecodeChallenge';
+    codeChallengeMethod = 'fakecodeChallengeMethod';
   });
 
   afterEach(function () {
-    signIn.remove();
+    signIn && signIn.remove();
   });
 
   function setupLoginFlow (widgetOptions, responses) {
@@ -663,10 +674,11 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
       )
     );
     spyOn(signIn.authClient.token, 'prepareTokenParams').and.returnValue(Promise.resolve({
-      codeVerifier: 'fakecodeVerifier',
-      codeChallenge: 'fakecodeChallenge',
-      codeChallengeMethod: 'fakecodeChallengeMethod'
+      codeVerifier,
+      codeChallenge,
+      codeChallengeMethod
     }));
+    spyOn(signIn.authClient.transactionManager, 'save');
     MockUtil.mockAjax(responses);
 
     // Add customize parser for ION request
@@ -678,6 +690,9 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         return JSON.parse(paramString);
       },
     });
+  }
+
+  function render () {
     return signIn.renderEl({ el: $sandbox });
   }
 
@@ -702,14 +717,13 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         options || {}
       )
     );
-    return signIn.renderEl({ el: $sandbox });
   }
 
   Expect.describe('Introspects token and loads Identifier view for new pipeline', function () {
     itp('calls introspect API on page load using idx-js as client', function () {
       const form = new IdentifierForm($sandbox);
       setupLoginFlow({ stateToken: '02stateToken' }, idxResponse);
-
+      render();
       return Expect.wait(() => {
         return $('.siw-main-body').length === 1;
       }).then(function () {
@@ -728,10 +742,12 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
     });
 
     itp('throws an error if invalid version is passed to idx-js', function () {
-      return setupLoginFlow({
+      setupLoginFlow({
         stateToken: '02stateToken',
         apiVersion: '2.0.0'
-      }, idxResponse).catch(err => {
+      }, idxResponse);
+      
+      return render().catch(err => {
         expect(err.name).toBe('CONFIG_ERROR');
         expect(err.message.toString()).toEqual('Error: Unknown api version: 2.0.0.  Use an exact semver version.');
       });
@@ -740,13 +756,16 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
 
   Expect.describe('Interaction code flow', function () {
     let responses;
+    let interactionHandle;
+
     beforeEach(function () {
+      interactionHandle = 'fake_interaction_handle';
       responses = [
         {
           state: 200,
           responseType: 'json',
           response: {
-            'interaction_handle': 'fake_interaction_handle'
+            'interaction_handle': interactionHandle
           },
         },
         idxResponse
@@ -760,7 +779,8 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         redirectUri: 'http://0.0.0.0:9999',
         useInteractionCodeFlow: true
       }, responses);
-
+      spyOn(signIn.authClient.transactionManager, 'exists').and.returnValue(false);
+      render();
       return Expect.wait(() => {
         return $('.siw-main-body').length === 1;
       }).then(function () {
@@ -781,12 +801,14 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
     });
 
     itp('throws an error if invalid version is passed to idx-js', function () {
-      return setupLoginFlow({
+      setupLoginFlow({
         apiVersion: '2.0.0',
         clientId: 'someClientId',
         redirectUri: 'http://0.0.0.0:9999',
         useInteractionCodeFlow: true
-      }, responses).catch(err => {
+      }, responses);
+      spyOn(signIn.authClient.transactionManager, 'exists').and.returnValue(false);
+      return render().catch(err => {
         expect(err.name).toBe('CONFIG_ERROR');
         expect(err.message.toString()).toEqual('Error: Unknown api version: 2.0.0.  Use an exact semver version.');
       });
@@ -809,7 +831,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         }, [
           errorFeatureNotEnabled
         ]);
-  
+        render();
         return Expect.wait(() => {
           return $('.siw-main-view.terminal').length === 1;
         }).then(function () {
@@ -826,7 +848,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         }, [
           errorFeatureNotEnabled
         ]);
-  
+        render();
         return Expect.wait(() => {
           return $('.siw-main-view.terminal').length === 1;
         }).then(function () {
@@ -835,11 +857,192 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
       });
     });
 
-  });
+    itp('Saves the interaction handle', () => {
+      setupLoginFlow({ 
+        clientId: 'someClientId',
+        redirectUri: 'http://0.0.0.0:9999',
+        useInteractionCodeFlow: true
+      }, responses);
+
+      spyOn(signIn.authClient.transactionManager, 'exists').and.returnValue(false);
+      spyOn(signIn.authClient.transactionManager, 'load').and.returnValue({});
+      render();
+      
+      return Expect.wait(() => {
+        return $('.siw-main-body').length === 1;
+      }).then(function () {
+        expect(signIn.authClient.transactionManager.save).toHaveBeenCalledWith({
+          codeChallenge,
+          codeVerifier,
+          codeChallengeMethod,
+          interactionHandle
+        });
+      });
+    });
+
+    itp('Loads a saved interaction handle', () => {
+      const clientId = 'someClientId';
+      const redirectUri = 'http://0.0.0.0:9999';
+      setupLoginFlow({ 
+        clientId,
+        redirectUri,
+        useInteractionCodeFlow: true
+      }, [idxResponse]);
+
+      const savedInteractionHandle = 'saved-interaction-handle';
+      spyOn(signIn.authClient.transactionManager, 'exists').and.returnValue(true);
+      spyOn(signIn.authClient.transactionManager, 'load').and.returnValue({
+        interactionHandle: savedInteractionHandle,
+        codeVerifier,
+        codeChallenge,
+        codeChallengeMethod,
+
+        // Needed for isTransactionMetaValid
+        clientId,
+        redirectUri
+      });
+      render();
+      
+      return Expect.wait(() => {
+        return $('.siw-main-body').length === 1;
+      }).then(function () {
+
+        expect(jasmine.Ajax.requests.count()).toBe(1);
+        const firstReq = jasmine.Ajax.requests.at(0);
+
+        expect(firstReq.method).toBe('POST');
+        expect(firstReq.url).toBe('https://foo.com/idp/idx/introspect');
+        expect(firstReq.data()).toEqual({ interactionHandle: savedInteractionHandle });
+
+        expect(signIn.authClient.transactionManager.load).toHaveBeenCalled();
+        expect(signIn.authClient.transactionManager.save).toHaveBeenCalledWith({
+          codeChallenge,
+          codeVerifier,
+          codeChallengeMethod,
+          interactionHandle: savedInteractionHandle,
+          clientId,
+          redirectUri
+        });
+      });
+    });
+
+    describe('Clears saved transaction meta', () => {
+      let clientId;
+      let redirectUri;
+      let mockTransactionMeta;
+      beforeEach(() => {
+        clientId = 'someClientId';
+        redirectUri = 'http://0.0.0.0:9999';
+        mockTransactionMeta = {
+          interactionHandle,
+          codeVerifier,
+          codeChallenge,
+          codeChallengeMethod,
+          clientId,
+          redirectUri
+        };
+      });
+
+      itp('clears after successful login', () => {
+
+        setupLoginFlow({ 
+          clientId,
+          redirectUri,
+          useInteractionCodeFlow: true
+        }, [
+          idxSuccessInteractionCode, {
+            state: 200,
+            responseType: 'json',
+            response: {
+              'access_token': 'fake_access_token'
+            }
+          }
+        ]);
+        spyOn(signIn.authClient.transactionManager, 'clear');
+        spyOn(signIn.authClient.transactionManager, 'exists').and.returnValue(true);
+        spyOn(signIn.authClient.transactionManager, 'load').and.returnValue(mockTransactionMeta);
+        spyOn(signIn.authClient.token, 'exchangeCodeForTokens').and.returnValue(Promise.resolve({
+          tokens: {}
+        }));
+
+        return render().then(function () {
+          expect(signIn.authClient.transactionManager.clear).toHaveBeenCalled();
+        });
+      });
+
+      itp('clears on permanent error', () => {
+        setupLoginFlow({ 
+          clientId,
+          redirectUri,
+          useInteractionCodeFlow: true
+        }, [
+          idxErrorSessionExpired
+        ]);
+        spyOn(signIn.authClient.transactionManager, 'clear');
+        spyOn(signIn.authClient.transactionManager, 'exists').and.returnValue(true);
+        spyOn(signIn.authClient.transactionManager, 'load').and.returnValue(mockTransactionMeta);
+        render();
+        return Expect.wait(() => {
+          return $('.siw-main-body').length === 1;
+        }).then(function () {
+          expect(signIn.authClient.transactionManager.clear).toHaveBeenCalled();
+        });
+      });
+  
+      itp('does NOT clear on recoverable error', () => {
+        setupLoginFlow({ 
+          clientId,
+          redirectUri,
+          useInteractionCodeFlow: true
+        }, [
+          idxErrorUserIsNotAssigned
+        ]);
+        spyOn(signIn.authClient.transactionManager, 'clear');
+        spyOn(signIn.authClient.transactionManager, 'exists').and.returnValue(true);
+        spyOn(signIn.authClient.transactionManager, 'load').and.returnValue(mockTransactionMeta);
+        render();
+        return Expect.wait(() => {
+          return $('.siw-main-body').length === 1;
+        }).then(function () {
+          expect(signIn.authClient.transactionManager.clear).not.toHaveBeenCalled();
+        });
+      });
+
+      itp('Clears when user chooses "cancel" action', () => {
+        setupLoginFlow({ 
+          clientId,
+          redirectUri,
+          useInteractionCodeFlow: true
+        }, [
+          idxVerifyPassword,
+          // cancel response
+          {
+            state: 200,
+            responseType: 'json',
+            response: {}
+          }
+        ]);
+        // simulate saved transaction
+        spyOn(signIn.authClient.transactionManager, 'clear');
+        spyOn(signIn.authClient.transactionManager, 'exists').and.returnValue(true);
+        spyOn(signIn.authClient.transactionManager, 'load').and.returnValue(mockTransactionMeta);
+        render();
+        
+        return Expect.wait(() => {
+          return $('.siw-main-body').length === 1;
+        }).then(function () {
+          expect(signIn.authClient.transactionManager.clear).not.toHaveBeenCalled();
+          const $signOut = $('a[data-se="cancel"]');
+          $signOut.click();
+          expect(signIn.authClient.transactionManager.clear).toHaveBeenCalled();
+        });
+      });
+    }); // Clear transaction
+  }); // interaction code
 
   itp('Gets proxyIdxResponse and render terminal view', function () {
     setupProxyIdxResponse({ enrollmentType : 'mdm'});
-
+    render();
     return Expect.wait(() => {
       return $('.siw-main-body').length === 1;
     });

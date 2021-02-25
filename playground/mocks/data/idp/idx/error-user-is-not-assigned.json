@@ -1,0 +1,113 @@
+{
+  "stateHandle": "02KM6muDspRZqws1_RYFqtIhBwFCHPUaVRX1Iu-Hnk",
+  "version": "1.0.0",
+  "expiresAt": "2021-02-10T03:52:17.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [{
+      "rel": ["create-form"],
+      "name": "identify",
+      "href": "http://localhost:3000/idp/idx/identify",
+      "method": "POST",
+      "produces": "application/ion+json; okta-version=1.0.0",
+      "value": [{
+        "name": "identifier",
+        "label": "Username"
+      }, {
+        "name": "credentials",
+        "type": "object",
+        "form": {
+          "value": [{
+            "name": "passcode",
+            "label": "Password",
+            "secret": true
+          }]
+        },
+        "required": true
+      }, {
+        "name": "rememberMe",
+        "type": "boolean",
+        "label": "Remember this device"
+      }, {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02KM6muDspRZqws1_RYFqtIhBwFCHPUaVRX1Iu-Hnk",
+        "visible": false,
+        "mutable": false
+      }],
+      "accepts": "application/json; okta-version=1.0.0"
+    }, {
+      "rel": ["create-form"],
+      "name": "select-enroll-profile",
+      "href": "http://localhost:3000/idp/idx/enroll",
+      "method": "POST",
+      "produces": "application/ion+json; okta-version=1.0.0",
+      "value": [{
+        "name": "stateHandle",
+        "required": true,
+        "value": "02KM6muDspRZqws1_RYFqtIhBwFCHPUaVRX1Iu-Hnk",
+        "visible": false,
+        "mutable": false
+      }],
+      "accepts": "application/json; okta-version=1.0.0"
+    }]
+  },
+  "messages": {
+    "type": "array",
+    "value": [{
+      "message": "User is not assigned to this application",
+      "class": "ERROR"
+    }]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "recover": {
+        "rel": ["create-form"],
+        "name": "recover",
+        "href": "http://localhost:3000/idp/idx/recover",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [{
+          "name": "stateHandle",
+          "required": true,
+          "value": "02KM6muDspRZqws1_RYFqtIhBwFCHPUaVRX1Iu-Hnk",
+          "visible": false,
+          "mutable": false
+        }],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      "type": "password",
+      "key": "okta_password",
+      "id": "aut1c6kBGTbNdSzrA0g4",
+      "displayName": "Password",
+      "methods": [{
+        "type": "password"
+      }]
+    }
+  },
+  "cancel": {
+    "rel": ["create-form"],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [{
+      "name": "stateHandle",
+      "required": true,
+      "value": "02KM6muDspRZqws1_RYFqtIhBwFCHPUaVRX1Iu-Hnk",
+      "visible": false,
+      "mutable": false
+    }],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "oidc_client",
+      "label": "My SPA",
+      "id": "0oa13d9PHfoDcGc7o0g4"
+    }
+  }
+}

@@ -16,6 +16,7 @@ module.exports = {
     'jasmine/new-line-before-expect': 0,
     'jasmine/new-line-between-declarations': 0,
     'jasmine/no-spec-dupes': [1, 'branch'],
+    'jasmine/no-suite-dupes': [1, 'branch'],
 
     // Consider enabling these
     'jasmine/no-unsafe-spy': 0,

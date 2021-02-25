@@ -1,4 +1,4 @@
-import idx from 'idx';
+import idx from '@okta/okta-idx-js';
 
 const BASE_URL = 'http://localhost:3000';
 

@@ -5,9 +5,22 @@ import { t } from 'testcafe';
 // 2. Widget transitions to a new page and animations have finished (afterRender)
 // 3. Context object from the 'afterReady' event 
 export async function checkConsoleMessages(context = {}) {
+  if (!Array.isArray(context)) {
+    context = ['ready', 'afterRender', context];
+  }
+
   const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql(context);
+  await t.expect(log.length).eql(context.length);
+  for (let i = 0; i < context.length; i++) {
+    switch (context[i]) {
+    case 'ready':
+      await t.expect(log[i]).eql('===== playground widget ready event received =====');
+      break;
+    case 'afterRender':
+      await t.expect(log[i]).eql('===== playground widget afterRender event received =====');
+      break;
+    default:
+      await t.expect(JSON.parse(log[i])).eql(context[i]);
+    }
+  }
 }
