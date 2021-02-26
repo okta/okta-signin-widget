@@ -16,7 +16,6 @@ function getPublishedWidgetVersion () {
 exports.command = 'update-readme';
 exports.describe = 'Updates CDN URLs in the README file';
 exports.handler = () => {
-  console.log('updating readme..');
   const version = getPublishedWidgetVersion();
   const options = {
     files: resolve(join(ROOT_DIR, 'README.md')),
