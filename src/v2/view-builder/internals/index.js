@@ -1,17 +1,7 @@
-import BaseHeader from './BaseHeader';
-import BaseFooter from './BaseFooter';
-import BaseForm from './BaseForm';
-import BaseFormWithPolling from './BaseFormWithPolling';
-import BaseModel from './BaseModel';
-import BaseView from './BaseView';
-import FormInputFactory from './FormInputFactory';
-
-export const { addCustomButton, createCustomButtons, createIdpButtons } = FormInputFactory;
-export {
-  BaseHeader,
-  BaseFooter,
-  BaseForm,
-  BaseFormWithPolling,
-  BaseModel,
-  BaseView,
-};
+export { default as BaseHeader } from './BaseHeader';
+export { default as BaseFooter } from './BaseFooter';
+export { default as BaseForm } from './BaseForm';
+export { default as BaseFormWithPolling } from './BaseFormWithPolling';
+export { default as BaseModel } from './BaseModel';
+export { default as BaseView } from './BaseView';
+export { addCustomButton, createCustomButtons, createIdpButtons } from './FormInputFactory';
