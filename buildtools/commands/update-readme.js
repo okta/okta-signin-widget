@@ -1,14 +1,13 @@
 const { resolve, join } = require('path');
-const shell = require('shelljs');
+const { execSync } = require('child_process');
 const replace = require('replace-in-file');
 
 const ROOT_DIR = resolve(__dirname, '../../');
 
 function getPublishedWidgetVersion () {
-  const stdout = shell.exec('yarn info @okta/okta-signin-widget versions', { silent: true });
-  const arrayStr = stdout.substring(stdout.indexOf('['), stdout.lastIndexOf(']') + 1).replace(/'/g, '"');
-  const versions = JSON.parse(arrayStr);
-  const version = versions[versions.length - 1];
+  const stdout = execSync('yarn info @okta/okta-signin-widget --json');
+  const meta = JSON.parse(stdout);
+  const version = meta.data['dist-tags'].latest;
   console.log('Last published okta-signin-widget version: ', version);
   return version;
 }
@@ -23,5 +22,5 @@ exports.handler = () => {
     to: `https://global.oktacdn.com/okta-signin-widget/${version}`
   };
   const results = replace.sync(options);
-  console.log('results', results);
+  console.log(results); // Results will say hasChanged: true|false. https://www.npmjs.com/package/replace-in-file
 };
