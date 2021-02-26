@@ -23,7 +23,7 @@ describe('v2/ion/i18nTransformer', function () {
       'oie.password.passwordLabel': 'enter password',
       'oie.security.question.questionKey.label': 'choose a question',
       'oie.security.question.createQuestion.label': 'create a question',
-      'oie.google_authenticator.otp.title': 'enter otp code',
+      'oie.google_authenticator.otp.title': 'enter passcode',
 
       'oie.on_prem.enroll.username.label': 'enter username',
       'oie.on_prem.enroll.passcode.label': 'enter passcode',
@@ -42,7 +42,7 @@ describe('v2/ion/i18nTransformer', function () {
       'mfa.challenge.enterCode.placeholder': 'enter code',
       'mfa.challenge.password.placeholder': 'password',
       'oie.okta_verify.totp.enterCodeText': 'enter totp code',
-      'oie.google_authenticator.otp.enterCodeText': 'enter otp code',
+      'oie.google_authenticator.otp.enterCodeText': 'enter passcode',
 
       'primaryauth.password.placeholder': 'password',
       'primaryauth.username.placeholder': 'username',
@@ -655,7 +655,7 @@ describe('v2/ion/i18nTransformer', function () {
             {
               label: 'Enter your Google Authenticator passcode',
               'label-top': true,
-              name: 'credentials.otp',
+              name: 'credentials.passcode',
               type: 'text',
             }
           ]
@@ -674,9 +674,9 @@ describe('v2/ion/i18nTransformer', function () {
           name: 'challenge-authenticator',
           uiSchema: [
             {
-              label: 'unit test - enter otp code',
+              label: 'unit test - enter passcode',
               'label-top': true,
-              name: 'credentials.otp',
+              name: 'credentials.passcode',
               type: 'text',
             }
           ]
@@ -1317,7 +1317,7 @@ describe('v2/ion/i18nTransformer', function () {
               'optionsUiSchemas': [
                 [
                   {
-                    name: 'credentials.otp',
+                    name: 'credentials.passcode',
                     label: 'Enter code',
                     required: true,
                     visible: true
@@ -1349,8 +1349,8 @@ describe('v2/ion/i18nTransformer', function () {
               'optionsUiSchemas': [
                 [
                   {
-                    'name': 'credentials.otp',
-                    'label': 'unit test - enter otp code',
+                    'name': 'credentials.passcode',
+                    'label': 'unit test - enter passcode',
                     'required': true,
                     'visible': true,
                   }
