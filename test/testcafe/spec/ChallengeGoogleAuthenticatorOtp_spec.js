@@ -53,7 +53,7 @@ test
     await t.expect(await challengeGoogleAuthenticatorPageObject.getOtpLabel())
       .contains('Enter code');
 
-    await challengeGoogleAuthenticatorPageObject.verifyFactor('credentials.otp', '1234');
+    await challengeGoogleAuthenticatorPageObject.verifyFactor('credentials.passcode', '1234');
     await challengeGoogleAuthenticatorPageObject.clickNextButton();
     const successPage = new SuccessPageObject(t);
     const pageUrl = await successPage.getPageUrl();
@@ -81,7 +81,7 @@ test
 test
   .requestHooks(invalidOTPMock)('challenge google authenticator with invalid TOTP', async t => {
     const challengeGoogleAuthenticatorPageObject = await setup(t);
-    await challengeGoogleAuthenticatorPageObject.verifyFactor('credentials.otp', '123');
+    await challengeGoogleAuthenticatorPageObject.verifyFactor('credentials.passcode', '123');
     await challengeGoogleAuthenticatorPageObject.clickNextButton();
     await challengeGoogleAuthenticatorPageObject.waitForErrorBox();
     await t.expect(challengeGoogleAuthenticatorPageObject.getInvalidOTPError()).contains('Authentication failed');
