@@ -1,5 +1,5 @@
 import { loc } from 'okta';
-import BaseForm from '../../internals/BaseForm';
+import { BaseForm } from '../../internals';
 
 export default BaseForm.extend(
   {

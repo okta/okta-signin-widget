@@ -1,5 +1,5 @@
 import { loc } from 'okta';
-import BaseFooter from '../internals/BaseFooter';
+import { BaseFooter } from '../internals';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { getForgotPasswordLink } from '../utils/LinksUtil';
 

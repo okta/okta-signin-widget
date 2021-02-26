@@ -1,5 +1,5 @@
 import { loc } from 'okta';
-import BaseForm from '../../internals/BaseForm';
+import { BaseForm } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
 

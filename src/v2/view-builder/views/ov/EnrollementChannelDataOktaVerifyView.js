@@ -1,6 +1,5 @@
 import { loc, _, Model } from 'okta';
-import BaseForm from '../../internals/BaseForm';
-import BaseView from '../../internals/BaseView';
+import { BaseForm, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
 import CountryUtil from '../../../../util/CountryUtil';

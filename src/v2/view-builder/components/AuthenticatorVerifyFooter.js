@@ -1,4 +1,4 @@
-import BaseFooter from '../internals/BaseFooter';
+import { BaseFooter } from '../internals';
 import { getSwitchAuthenticatorLink } from '../utils/LinksUtil';
 
 export default BaseFooter.extend({

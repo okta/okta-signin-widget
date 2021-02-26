@@ -1,11 +1,8 @@
 /* global Promise */
 import { $, loc, createButton, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-import BaseView from '../../internals/BaseView';
-import BaseForm from '../../internals/BaseForm';
-import BaseHeader from '../../internals/BaseHeader';
+import { BaseHeader, BaseForm, BaseFormWithPolling, BaseFooter, BaseView } from '../../internals';
 import HeaderBeacon from '../../components/HeaderBeacon';
-import BaseFooter from '../../internals/BaseFooter';
 import Logger from '../../../../util/Logger';
 import DeviceFingerprint from '../../../../util/DeviceFingerprint';
 import Util from '../../../../util/Util';
@@ -14,7 +11,6 @@ import { CANCEL_POLLING_ACTION } from '../../utils/Constants';
 import Link from '../../components/Link';
 import { getIconClassNameForBeacon } from '../../utils/AuthenticatorUtil';
 import { AUTHENTICATOR_KEY } from '../../../ion/RemediationConstants';
-import BaseFormWithPolling from '../../internals/BaseFormWithPolling';
 
 const request = (opts) => {
   const ajaxOptions = Object.assign({

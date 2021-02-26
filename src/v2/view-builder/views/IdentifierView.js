@@ -1,13 +1,10 @@
 import { loc, createCallout } from 'okta';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
-import BaseView from '../internals/BaseView';
-import BaseForm from '../internals/BaseForm';
+import { BaseForm, BaseView, createIdpButtons, createCustomButtons } from '../internals';
 import IdentifierFooter from '../components/IdentifierFooter';
 import signInWithIdps from './signin/SignInWithIdps';
 import customButtonsView from './signin/CustomButtons';
 import signInWithDeviceOption from './signin/SignInWithDeviceOption';
-import { createIdpButtons, createCustomButtons } from '../internals/FormInputFactory';
-
 
 const Body = BaseForm.extend({
 

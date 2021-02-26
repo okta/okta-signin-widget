@@ -1,8 +1,6 @@
 import { loc } from 'okta';
-import BaseHeader from '../../internals/BaseHeader';
+import { BaseHeader, BaseForm, BaseView } from '../../internals';
 import HeaderBeacon from '../../components/HeaderBeacon';
-import BaseView from '../../internals/BaseView';
-import BaseForm from '../../internals/BaseForm';
 import OdaOktaVerifyTerminalView from '../../components/OdaOktaVerifyTerminalView';
 import MdmOktaVerifyTerminalView from '../../components/MdmOktaVerifyTerminalView';
 import Enums from 'util/Enums';

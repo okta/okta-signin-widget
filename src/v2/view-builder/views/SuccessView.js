@@ -1,7 +1,5 @@
 import { _, loc } from 'okta';
-
-import BaseView from '../internals/BaseView';
-import BaseForm from '../internals/BaseForm';
+import { BaseForm, BaseView } from '../internals';
 import Util from '../../../util/Util';
 
 const Body = BaseForm.extend({

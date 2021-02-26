@@ -1,6 +1,6 @@
 import Logger from 'util/Logger';
 import { AUTHENTICATOR_KEY, FORMS as RemediationForms } from '../ion/RemediationConstants';
-import BaseView from './internals/BaseView';
+import { BaseView } from './internals';
 
 // authenticator agnostic views
 import IdentifierView from './views/IdentifierView';
