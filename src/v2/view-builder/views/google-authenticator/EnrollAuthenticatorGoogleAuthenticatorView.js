@@ -1,12 +1,10 @@
 import { loc, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-import BaseForm from '../../internals/BaseForm';
-import BaseView from '../../internals/BaseView';
+import { addCustomButton, BaseForm, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
 import EnrollGoogleAuthenticatorBarcodeView from './EnrollGoogleAuthenticatorBarcodeView';
 import EnrollAuthenticatorManualSetupView from './EnrollAuthenticatorManualSetupView';
-import { addCustomButton } from '../../internals/FormInputFactory';
 
 const VIEW_TO_DISPLAY = 'viewToDisplay';
 const viewToDisplayState = {

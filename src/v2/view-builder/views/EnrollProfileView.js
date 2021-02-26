@@ -1,7 +1,5 @@
 import { loc } from 'okta';
-import BaseView from '../internals/BaseView';
-import BaseForm from '../internals/BaseForm';
-import BaseFooter from '../internals/BaseFooter';
+import { BaseForm, BaseFooter, BaseView } from '../internals';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 
 const Body = BaseForm.extend({

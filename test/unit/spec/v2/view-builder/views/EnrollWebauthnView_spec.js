@@ -1,5 +1,5 @@
 import EnrollWebauthnView from 'v2/view-builder/views/webauthn/EnrollWebauthnView';
-import BaseForm from 'v2/view-builder/internals/BaseForm';
+import { BaseForm } from 'v2/view-builder/internals';
 import CryptoUtil from 'util/CryptoUtil';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';

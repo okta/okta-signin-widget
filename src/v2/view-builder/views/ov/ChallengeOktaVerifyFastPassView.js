@@ -1,7 +1,7 @@
 /* global Promise */
 import { $, loc, createButton, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-import BaseForm from '../../internals/BaseForm';
+import { BaseForm } from '../../internals';
 import Logger from '../../../../util/Logger';
 import DeviceFingerprint from '../../../../util/DeviceFingerprint';
 import polling from '../shared/polling';

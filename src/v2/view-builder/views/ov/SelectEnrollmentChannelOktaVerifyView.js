@@ -1,5 +1,5 @@
 import { loc, _ } from 'okta';
-import BaseForm from '../../internals/BaseForm';
+import { BaseForm } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
 import BrowserFeatures from '../../../../util/BrowserFeatures';

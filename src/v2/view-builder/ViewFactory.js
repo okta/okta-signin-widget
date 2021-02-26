@@ -1,6 +1,6 @@
 import Logger from 'util/Logger';
 import { AUTHENTICATOR_KEY, FORMS as RemediationForms } from '../ion/RemediationConstants';
-import BaseView from './internals/BaseView';
+import { BaseView } from './internals';
 
 // authenticator agnostic views
 import IdentifierView from './views/IdentifierView';
@@ -13,10 +13,10 @@ import AdminConsentView from './views/consent/AdminConsentView';
 import EnduserConsentView from './views/consent/EnduserConsentView';
 
 // Device (Okta Verify)
-import DeviceChallengePollView from './views/DeviceChallengePollView';
-import SSOExtensionView from './views/SSOExtensionView';
-import SignInDeviceView from './views/SignInDeviceView';
-import DeviceEnrollmentTerminalView from './views/DeviceEnrollmentTerminalView';
+import DeviceChallengePollView from './views/device/DeviceChallengePollView';
+import SSOExtensionView from './views/device/SSOExtensionView';
+import SignInDeviceView from './views/device/SignInDeviceView';
+import DeviceEnrollmentTerminalView from './views/device/DeviceEnrollmentTerminalView';
 
 // registration
 import EnrollProfileView from './views/EnrollProfileView';
@@ -51,7 +51,7 @@ import ChallengeWebauthnView from './views/webauthn/ChallengeWebauthnView';
 import EnrollAuthenticatorEmailView from './views/email/EnrollAuthenticatorEmailView';
 import ChallengeAuthenticatorEmailView from './views/email/ChallengeAuthenticatorEmailView';
 
-// app(okta verify)
+// app (okta verify)
 import EnrollPollOktaVerifyView from './views/ov/EnrollPollOktaVerifyView';
 import SelectEnrollmentChannelOktaVerifyView from './views/ov/SelectEnrollmentChannelOktaVerifyView';
 import EnrollementChannelDataOktaVerifyView from './views/ov/EnrollementChannelDataOktaVerifyView';
@@ -61,16 +61,16 @@ import ChallengeOktaVerifyResendPushView from './views/ov/ChallengeOktaVerifyRes
 import ChallengeAuthenticatorDataOktaVerifyView from './views/ov/ChallengeAuthenticatorDataOktaVerifyView';
 import ChallengeOktaVerifySSOExtensionView from './views/ov/ChallengeOktaVerifySSOExtensionView';
 
-// app(google authenticator)
+// app (google authenticator)
 import EnrollAuthenticatorGoogleAuthenticatorView
   from './views/google-authenticator/EnrollAuthenticatorGoogleAuthenticatorView';
 import ChallengeGoogleAuthenticatorView from './views/google-authenticator/ChallengeGoogleAuthenticatorView';
 
-//on-prem mfa
+// on-prem mfa
 import EnrollAuthenticatorOnPremView from './views/on-prem/EnrollAuthenticatorOnPremView';
 import ChallengeAuthenticatorOnPremView from './views/on-prem/ChallengeAuthenticatorOnPremView';
 
-//duo mfa
+// duo mfa
 import EnrollDuoAuthenticatorView from './views/duo/EnrollDuoAuthenticatorView';
 import ChallengeDuoAuthenticatorView from './views/duo/ChallengeDuoAuthenticatorView';
 
