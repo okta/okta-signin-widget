@@ -655,7 +655,7 @@ describe('v2/ion/i18nTransformer', function () {
             {
               label: 'Enter your Google Authenticator passcode',
               'label-top': true,
-              name: 'credentials.otp',
+              name: 'credentials.passcode',
               type: 'text',
             }
           ]
@@ -676,7 +676,7 @@ describe('v2/ion/i18nTransformer', function () {
             {
               label: 'unit test - enter otp code',
               'label-top': true,
-              name: 'credentials.otp',
+              name: 'credentials.passcode',
               type: 'text',
             }
           ]
@@ -1317,7 +1317,7 @@ describe('v2/ion/i18nTransformer', function () {
               'optionsUiSchemas': [
                 [
                   {
-                    name: 'credentials.otp',
+                    name: 'credentials.passcode',
                     label: 'Enter code',
                     required: true,
                     visible: true
@@ -1349,7 +1349,7 @@ describe('v2/ion/i18nTransformer', function () {
               'optionsUiSchemas': [
                 [
                   {
-                    'name': 'credentials.otp',
+                    'name': 'credentials.passcode',
                     'label': 'unit test - enter otp code',
                     'required': true,
                     'visible': true,

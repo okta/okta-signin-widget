@@ -1,7 +1,7 @@
 import BasePageObject from './BasePageObject';
 import ResendEmailObject from './components/ResendEmailObject';
 
-const CODE_FIELD_NAME = 'credentials.otp';
+const CODE_FIELD_NAME = 'credentials.passcode';
 
 export default class EnrollGoogleAuthenticatorPageObject extends BasePageObject {
 

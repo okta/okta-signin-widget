@@ -32,7 +32,7 @@
             "form":{
               "value":[
                 {
-                  "name": "otp",
+                  "name": "passscode",
                   "label": "Enter a code",
                   "visible": true,
                   "required": true
