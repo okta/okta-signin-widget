@@ -1,13 +1,13 @@
 import { loc } from 'okta';
-import BaseHeader from '../internals/BaseHeader';
-import HeaderBeacon from '../components/HeaderBeacon';
-import BaseView from '../internals/BaseView';
-import BaseForm from '../internals/BaseForm';
-import OdaOktaVerifyTerminalView from '../components/OdaOktaVerifyTerminalView';
-import MdmOktaVerifyTerminalView from '../components/MdmOktaVerifyTerminalView';
+import BaseHeader from '../../internals/BaseHeader';
+import HeaderBeacon from '../../components/HeaderBeacon';
+import BaseView from '../../internals/BaseView';
+import BaseForm from '../../internals/BaseForm';
+import OdaOktaVerifyTerminalView from '../../components/OdaOktaVerifyTerminalView';
+import MdmOktaVerifyTerminalView from '../../components/MdmOktaVerifyTerminalView';
 import Enums from 'util/Enums';
-import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
-import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
+import { getIconClassNameForBeacon } from '../../utils/AuthenticatorUtil';
+import { AUTHENTICATOR_KEY } from '../../../ion/RemediationConstants';
 
 const ODAHeader = BaseHeader.extend({
   HeaderBeacon: HeaderBeacon.extend({
