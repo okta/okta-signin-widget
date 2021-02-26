@@ -1,5 +1,5 @@
 import { loc, createButton, createCallout } from 'okta';
-import BaseForm from '../../internals/BaseForm';
+import { BaseForm } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import CryptoUtil from '../../../../util/CryptoUtil';
 import webauthn from '../../../../util/webauthn';

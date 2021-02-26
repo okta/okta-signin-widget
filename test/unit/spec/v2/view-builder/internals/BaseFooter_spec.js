@@ -1,4 +1,4 @@
-import BaseFooter from 'v2/view-builder/internals/BaseFooter';
+import { BaseFooter } from 'v2/view-builder/internals';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
 import Link from 'v2/view-builder/components/Link';

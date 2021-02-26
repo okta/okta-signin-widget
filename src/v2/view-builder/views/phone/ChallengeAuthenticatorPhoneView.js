@@ -1,6 +1,5 @@
 import { loc, View, createCallout } from 'okta';
-import BaseView from '../../internals/BaseView';
-import BaseForm from '../../internals/BaseForm';
+import { BaseForm, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
 import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';

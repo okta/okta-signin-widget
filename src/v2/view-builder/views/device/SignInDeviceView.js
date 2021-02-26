@@ -1,9 +1,8 @@
 import { $, _, loc } from 'okta';
-import BaseView from '../internals/BaseView';
-import BaseForm from '../internals/BaseForm';
-import IdentifierFooter from '../components/IdentifierFooter';
-import SignInWithDeviceOption from './signin/SignInWithDeviceOption';
-import Link from '../components/Link';
+import { BaseForm, BaseView } from '../../internals';
+import IdentifierFooter from '../../components/IdentifierFooter';
+import SignInWithDeviceOption from '../signin/SignInWithDeviceOption';
+import Link from '../../components/Link';
 
 const Body = BaseForm.extend({
 

@@ -1,4 +1,4 @@
-import BaseModel from 'v2/view-builder/internals/BaseModel';
+import { BaseModel } from 'v2/view-builder/internals';
 
 describe('v2/view-builder/internals/BaseModel', function () {
   const createModelAndVerifyPropsAndLocal = ({ uiSchema, optionUiSchemaConfig }, props, local = {}) => {

@@ -1,5 +1,5 @@
 import { loc } from 'okta';
-import BaseForm from '../../internals/BaseForm';
+import { BaseForm } from '../../internals';
 import polling from '../shared/polling';
 import ResendNumberChallengeView from './ResendNumberChallengeView';
 import NumberChallengePhoneView from './NumberChallengePhoneView';

@@ -1,5 +1,5 @@
 import ChallengeWebauthnView from 'v2/view-builder/views/webauthn/ChallengeWebauthnView';
-import BaseForm from 'v2/view-builder/internals/BaseForm';
+import { BaseForm } from 'v2/view-builder/internals';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
 import webauthn from 'util/webauthn';

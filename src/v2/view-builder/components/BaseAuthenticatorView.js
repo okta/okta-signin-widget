@@ -1,5 +1,4 @@
-import BaseView from '../internals/BaseView';
-import BaseHeader from '../internals/BaseHeader';
+import { BaseHeader, BaseView } from '../internals';
 import HeaderBeacon from './HeaderBeacon';
 import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
 

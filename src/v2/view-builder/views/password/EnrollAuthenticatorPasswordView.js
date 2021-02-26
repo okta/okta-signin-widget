@@ -1,6 +1,5 @@
 import { loc, View } from 'okta';
-import BaseView from '../../internals/BaseView';
-import BaseForm from '../../internals/BaseForm';
+import { BaseForm, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import {
   getPasswordComplexityDescriptionForHtmlList,
