@@ -1,4 +1,5 @@
 import idx from '@okta/okta-idx-js';
+import 'jasmine-ajax';
 
 const BASE_URL = 'http://localhost:3000';
 

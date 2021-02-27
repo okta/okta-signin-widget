@@ -6,8 +6,10 @@ import BrowserFeatures from 'util/BrowserFeatures';
 import xhrAuthenticatorEnrollOktaVerifyQr from '../../../../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr';
 
 describe('v2/view-builder/views/ov/EnrollPollOktaVerifyView', function () {
+  let test;
   beforeEach(function () {
-    this.init = (currentAuthenticator = xhrAuthenticatorEnrollOktaVerifyQr.currentAuthenticator.value) => {
+    test = {};
+    test.init = (currentAuthenticator = xhrAuthenticatorEnrollOktaVerifyQr.currentAuthenticator.value) => {
       const currentViewState = {
         name: 'enroll-poll',
         relatesTo: {
@@ -20,13 +22,13 @@ describe('v2/view-builder/views/ov/EnrollPollOktaVerifyView', function () {
       spyOn(appState, 'hasRemediationObject').and.callFake((formName) => formName === 'select-enrollment-channel');
       spyOn(appState, 'trigger');
       const settings = new Settings({ baseUrl: 'http://localhost:3000' });
-      this.view = new EnrollPollOktaVerifyView({
+      test.view = new EnrollPollOktaVerifyView({
         el: $sandbox,
         appState,
         settings,
         currentViewState,
       });
-      this.view.render();
+      test.view.render();
     };
   });
 
@@ -37,27 +39,27 @@ describe('v2/view-builder/views/ov/EnrollPollOktaVerifyView', function () {
   it('triggers switchForm on appState when on ios device to select channel', function () {
     spyOn(BrowserFeatures, 'isIOS').and.callFake(() => true);
     spyOn(BrowserFeatures, 'isAndroid').and.callFake(() => false);
-    this.init();
+    test.init();
     expect(BrowserFeatures.isAndroid).toHaveBeenCalled();
     expect(BrowserFeatures.isIOS).toHaveBeenCalled();
-    expect(this.view.options.appState.trigger).toHaveBeenCalledWith('switchForm', 'select-enrollment-channel');
+    expect(test.view.options.appState.trigger).toHaveBeenCalledWith('switchForm', 'select-enrollment-channel');
   });
 
   it('triggers switchForm on appState when on android device to select channel', function () {
     spyOn(BrowserFeatures, 'isIOS').and.callFake(() => false);
     spyOn(BrowserFeatures, 'isAndroid').and.callFake(() => true);
-    this.init();
+    test.init();
     expect(BrowserFeatures.isAndroid).toHaveBeenCalled();
-    expect(this.view.options.appState.trigger).toHaveBeenCalledWith('switchForm', 'select-enrollment-channel');
+    expect(test.view.options.appState.trigger).toHaveBeenCalledWith('switchForm', 'select-enrollment-channel');
   });
 
   it('renders QR code view when on desktop', function () {
     spyOn(BrowserFeatures, 'isIOS').and.callFake(() => false);
     spyOn(BrowserFeatures, 'isAndroid').and.callFake(() => false);
-    this.init();
+    test.init();
     expect(BrowserFeatures.isAndroid).toHaveBeenCalled();
     expect(BrowserFeatures.isIOS).toHaveBeenCalled();
-    expect(this.view.options.appState.trigger).not.toHaveBeenCalled();
-    expect(this.view.$('.qrcode').length).toBe(1);
+    expect(test.view.options.appState.trigger).not.toHaveBeenCalled();
+    expect(test.view.$('.qrcode').length).toBe(1);
   });
 });

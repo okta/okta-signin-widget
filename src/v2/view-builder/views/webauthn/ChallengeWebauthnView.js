@@ -106,7 +106,7 @@ const Body = BaseForm.extend({
   _startVerification: function () {
     this.$('.okta-waiting-spinner').show();
     this.$('.retry-webauthn').hide();
-    this.$('.retry-webauthn')[0].innerText = loc('retry', 'login');
+    this.$('.retry-webauthn')[0].textContent = loc('retry', 'login');
   },
 
   _stopVerification: function () {
