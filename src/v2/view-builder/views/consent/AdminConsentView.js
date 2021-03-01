@@ -1,7 +1,6 @@
-import BaseView from '../../internals/BaseView';
+import { BaseView } from '../../internals';
 import AdminConsentViewHeader from './AdminConsentViewHeader';
 import ConsentViewForm from './ConsentViewForm';
-
 
 export default BaseView.extend({
   Header: AdminConsentViewHeader,

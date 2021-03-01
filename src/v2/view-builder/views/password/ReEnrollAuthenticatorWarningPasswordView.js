@@ -1,5 +1,5 @@
 import { loc } from 'okta';
-import BaseFooter from '../../internals/BaseFooter';
+import { BaseFooter } from '../../internals';
 import EnrollAuthenticatorPasswordView from './EnrollAuthenticatorPasswordView';
 
 const Body = EnrollAuthenticatorPasswordView.prototype.Body.extend({

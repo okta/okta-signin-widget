@@ -3,7 +3,7 @@ import {
   default as ChallengeAuthenticatorPhoneView,
   ResendView
 } from './ChallengeAuthenticatorPhoneView';
-import BaseForm from '../../internals/BaseForm';
+import { BaseForm } from '../../internals';
 
 const EnrollResendView = ResendView.extend(
   {

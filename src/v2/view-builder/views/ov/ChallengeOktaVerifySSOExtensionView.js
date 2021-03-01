@@ -1,6 +1,6 @@
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
-import BaseForm from '../../internals/BaseForm';
+import { BaseForm } from '../../internals';
 import Util from '../../../../util/Util';
 import { loc } from 'okta';
 

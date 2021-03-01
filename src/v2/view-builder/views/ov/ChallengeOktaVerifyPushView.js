@@ -1,6 +1,6 @@
 import { _, loc, createButton, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-import BaseForm from '../../internals/BaseForm';
+import { BaseForm } from '../../internals';
 import polling from '../shared/polling';
 import { WARNING_TIMEOUT } from '../../utils/Constants';
 

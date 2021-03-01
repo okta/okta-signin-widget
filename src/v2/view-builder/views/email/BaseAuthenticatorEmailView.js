@@ -1,5 +1,5 @@
 import { loc, View, createCallout, _ } from 'okta';
-import BaseForm from '../../internals/BaseForm';
+import { BaseForm } from '../../internals';
 import email from '../shared/email';
 import polling from '../shared/polling';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';

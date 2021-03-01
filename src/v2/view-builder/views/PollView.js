@@ -1,7 +1,6 @@
 import { loc, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-import BaseView from '../internals/BaseView';
-import BaseForm from '../internals/BaseForm';
+import { BaseForm, BaseView } from '../internals';
 import polling from './shared/polling';
 import { MS_PER_SEC } from '../utils/Constants';
 
