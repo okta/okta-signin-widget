@@ -1,9 +1,9 @@
-var path = require('path');
-var ROOT = path.resolve(__dirname);
-var SRC = path.resolve(ROOT, 'src');
-var LOCAL_PACKAGES = path.resolve(ROOT, 'packages');
-var REPORT_DIR = '<rootDir>/build2/reports/unit/jest';
-var OktaSignin = '<rootDir>/src/widget/OktaSignIn';
+const path = require('path');
+const ROOT = path.resolve(__dirname);
+const SRC = path.resolve(ROOT, 'src');
+const LOCAL_PACKAGES = path.resolve(ROOT, 'packages');
+const REPORT_DIR = '<rootDir>/build2/reports/unit/jest';
+const OktaSignin = '<rootDir>/src/widget/OktaSignIn';
 
 module.exports = {
   coverageDirectory: REPORT_DIR,
@@ -43,9 +43,6 @@ module.exports = {
   ],
   roots: [
     'test/unit/spec'
-  ],
-  testPathIgnorePatterns: [
-
   ],
   reporters: [
     'default',
