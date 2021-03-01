@@ -35,5 +35,4 @@ test.requestHooks(securityAccessDeniedMock)('should be able display error when r
   const terminalPage = await setup(t);
   await terminalPage.waitForErrorBox();
   await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('You do not have permission to perform the requested action.');
-  await t.expect(terminalPage.getBeaconClass()).notContains('mfa-okta-email');
 });
