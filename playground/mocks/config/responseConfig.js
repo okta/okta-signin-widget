@@ -80,7 +80,7 @@ const idx = {
   ],
   '/idp/idx/credential/enroll': [
     // 'authenticator-enroll-ov-via-sms',
-    // 'authenticator-enroll-security-question',
+    'authenticator-enroll-security-question',
     // 'authenticator-enroll-google-authenticator',
   ],
   '/idp/idx/identify': [
