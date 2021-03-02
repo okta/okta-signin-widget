@@ -18,7 +18,8 @@ module.exports = {
   'globals': {
     'spyOnEvent': false,
     'JSON': true,
-    'DEBUG': true
+    'DEBUG': true,
+    'Promise': true
   },
   'overrides': [
     {

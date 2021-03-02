@@ -1,9 +1,10 @@
-/*globals module, Promise */
+/*globals module */
 import _ from 'underscore';
 import Errors from 'util/Errors';
 import Util from 'util/Util';
-import OAuth2Util from 'util/OAuth2Util';
 import createAuthClient from 'widget/createAuthClient';
+import buildRenderOptions from 'widget/buildRenderOptions';
+import createRouter from 'widget/createRouter';
 import V1Router from 'LoginRouter';
 import V2Router from 'v2/WidgetRouter';
 
@@ -18,22 +19,9 @@ var OktaSignIn = (function () {
         throw new Error('An instance of the widget has already been rendered. Call remove() first.');
       }
 
-      return new Promise((resolve, reject) => {
-        router = new Router(
-          _.extend({}, widgetOptions, renderOptions, {
-            authClient: authClient,
-            globalSuccessFn: (res) => {
-              successFn && successFn(res); // call success function if provided
-              resolve(res);
-            },
-            globalErrorFn: (error) => {
-              errorFn && errorFn(error); // call error function if provided
-              reject(error);
-            }
-          })
-        );
-        router.start();
-      });
+      const res = createRouter(Router, widgetOptions, renderOptions, authClient, successFn, errorFn);
+      router = res.router;
+      return res.promise;
     }
 
     function hide () {
@@ -55,32 +43,12 @@ var OktaSignIn = (function () {
       }
     }
 
-    function buildRenderOptions (options = {}) {
-      const authParams = _.pick(options, OAuth2Util.AUTH_PARAMS);
-      const { el, clientId, redirectUri } = Object.assign({}, widgetOptions, options);
-      const renderOptions = Object.assign({}, { el, clientId, redirectUri, authParams });
-
-      if (!renderOptions.el) {
-        throw new Errors.ConfigError('"el" is required');
-      }
-
-      if (!renderOptions.clientId) {
-        throw new Errors.ConfigError('"clientId" is required');
-      }
-
-      if (!renderOptions.redirectUri) {
-        throw new Errors.ConfigError('"redirectUri" is required');
-      }
-
-      return renderOptions;
-    }
-
     /**
      * Renders the Widget and returns a promise that resolvess to OAuth tokens
      * @param options - options for the signin widget
      */
     function showSignInToGetTokens (options = {}) {
-      const renderOptions = Object.assign(buildRenderOptions(options), {
+      const renderOptions = Object.assign(buildRenderOptions(widgetOptions, options), {
         mode: 'relying-party'
       });
       const promise = this.renderEl(renderOptions).then(res => {
@@ -99,7 +67,7 @@ var OktaSignIn = (function () {
      * @param options - options for the signin widget
      */
     function showSignInAndRedirect (options = {}) {
-      const renderOptions = Object.assign(buildRenderOptions(options), {
+      const renderOptions = Object.assign(buildRenderOptions(widgetOptions, options), {
         mode: 'remediation'
       });
       return this.renderEl(renderOptions);
