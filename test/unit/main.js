@@ -6,19 +6,19 @@ const testsContext = require.context('./spec/', true, /.*_spec\.js$/);
 // Tests which are run in Jest do not need to be run in Karma
 const jestTests = [
   /v2\/.*/,
+  /widget\/.*/,
   /OktaSignIn_spec/
 ];
 
-testsContext.keys().forEach(key => {
+testsContext.keys().filter(key => {
   // Filtered List
   if (karma.config.test && !key.includes(karma.config.test)) {
-    return;
+    return false;
   }
-
-  jestTests.forEach(regex => {
-    if (key.match(regex)) {
-      return;
-    }
-  });
+  if (jestTests.find(regex => key.match(regex))) {
+    return false;
+  }
+  return true;
+}).forEach(key => {
   testsContext(key);
 });

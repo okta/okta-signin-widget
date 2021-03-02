@@ -3,6 +3,9 @@ module.exports = {
   plugins: [
     'jasmine'
   ],
+  globals: {
+    jest: true
+  },
   env: {
     node: true,
     jasmine: true,

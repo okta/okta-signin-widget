@@ -39,6 +39,7 @@ module.exports = {
   ],
   testMatch: [
     '**/test/unit/spec/v2/**/*.{js,ts}',
+    '**/test/unit/spec/widget/**/*.{js,ts}',
     '**/test/unit/spec/OktaSignIn_spec.js'
   ],
   roots: [
