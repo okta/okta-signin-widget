@@ -52,7 +52,7 @@ export default View.extend({
 
   initialize: function () {
     this.listenTo(this.state, 'change:enabled', function (model, enable) {
-      this.$(':link').toggleClass('o-form-disabled', !enable);
+      this.$('.link').toggleClass('o-form-disabled', !enable);
     });
   },
 
