@@ -55,7 +55,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up Authenticators');
   await t.expect(selectFactorPage.getFormSubtitle()).eql(
     'Set up authenticators to ensure that only you have access to your account.');
-  await t.expect(selectFactorPage.getFactorsCount()).eql(11);
+  await t.expect(selectFactorPage.getFactorsCount()).eql(12);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-password');
@@ -119,13 +119,19 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(9)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(9)).eql('external_idp');
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(9))
-    .eql('Redirect to verify with IDP Authenticator');
+    .eql('Redirect to verify with IDP Authenticator.');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(10)).eql('Atko Custom OTP Authenticator');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(10)).contains('mfa-hotp');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(10)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(10)).eql('custom_otp');
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(10)).eql('Enter a temporary code generated from an authenticator device.');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(11)).eql('Symantec VIP');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(11)).contains('mfa-symantec');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(11)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(11)).eql('symantec_vip');
+  await t.expect(selectFactorPage.getFactorDescriptionByIndex(11)).eql('Verify by entering a temporary code from the Symantec VIP app.');
 
   // no signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).notOk();

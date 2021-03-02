@@ -133,13 +133,10 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
 
   case AUTHENTICATOR_KEY.IDP: {
     const idpName =  authenticator.relatesTo?.displayName;
-    const factorDescription = idpName
-      ? loc('oie.idp.authenticator.description', 'login', [idpName])
-      : loc('oie.idp.authenticator.description.default', 'login');
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? ''
-        : factorDescription,
+        : loc('oie.idp.authenticator.description', 'login', [idpName]),
       iconClassName: 'mfa-custom-factor',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
     });
@@ -151,6 +148,18 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
         ? ''
         : loc('oie.custom_otp.description', 'login'),
       iconClassName: 'mfa-hotp',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+    });
+    break;
+  }
+
+  case AUTHENTICATOR_KEY.SYMANTEC_VIP: {
+    const appName =  authenticator.relatesTo?.displayName;
+    Object.assign(authenticatorData, {
+      description: isVerifyAuthenticator
+        ? ''
+        : loc('oie.symantecVip.authenticator.description', 'login', [appName]),
+      iconClassName: 'mfa-symantec',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
     });
     break;

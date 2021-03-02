@@ -97,7 +97,8 @@ const AUTHENTICATOR_KEY = {
   RSA: 'rsa_token',
   DUO: 'duo',
   IDP: 'external_idp',
-  CUSTOM_OTP: 'custom_otp'
+  CUSTOM_OTP: 'custom_otp',
+  SYMANTEC_VIP: 'symantec_vip',
 };
 
 const AUTHENTICATOR_METHODS = {
