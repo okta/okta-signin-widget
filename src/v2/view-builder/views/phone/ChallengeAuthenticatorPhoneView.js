@@ -1,7 +1,6 @@
 import { loc, View, createCallout } from 'okta';
 import { BaseForm, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
 import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
 
 const ResendView = View.extend(
@@ -95,7 +94,6 @@ const Body = BaseForm.extend(Object.assign(
 
 export default BaseAuthenticatorView.extend({
   Body,
-  Footer: AuthenticatorVerifyFooter,
 
   createModelClass () {
     const relatesToObject = this.options.currentViewState.relatesTo;

@@ -1,6 +1,5 @@
 import { View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
 import BaseAuthenticatorEmailView from './BaseAuthenticatorEmailView';
 
 const BaseAuthenticatorEmailForm = BaseAuthenticatorEmailView.prototype.Body;
@@ -48,5 +47,4 @@ const Body = BaseAuthenticatorEmailForm.extend(Object.assign({
 
 export default BaseAuthenticatorEmailView.extend({
   Body,
-  Footer: AuthenticatorVerifyFooter,
 });

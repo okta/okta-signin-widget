@@ -4,7 +4,6 @@ import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import CryptoUtil from '../../../../util/CryptoUtil';
 import webauthn from '../../../../util/webauthn';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
-import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
 import ChallengeWebauthnInfoView from './ChallengeWebauthnInfoView';
 
 const Body = BaseForm.extend({
@@ -117,7 +116,6 @@ const Body = BaseForm.extend({
 
 export default BaseAuthenticatorView.extend({
   Body,
-  Footer: AuthenticatorVerifyFooter,
   postRender () {
     BaseAuthenticatorView.prototype.postRender.apply(this, arguments);
     // Trigger browser prompt automatically for other browsers for better UX.

@@ -1,7 +1,6 @@
 import { loc, _, Model } from 'okta';
 import { BaseForm, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
 import CountryUtil from '../../../../util/CountryUtil';
 import SwitchEnrollChannelLinkView from './SwitchEnrollChannelLinkView';
 
@@ -75,7 +74,6 @@ const Body = BaseForm.extend({
 
 export default BaseAuthenticatorView.extend({
   Body,
-  Footer: AuthenticatorEnrollFooter,
   createModelClass () {
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     if (this.options.appState.get('currentAuthenticator').contextualData.selectedChannel !== 'sms') {
