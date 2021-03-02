@@ -23,7 +23,7 @@ const BeaconView = View.extend({
         <div class="okta-sign-in-beacon-border auth-beacon-border"></div>\
       </div>\
     </div >\
-    '),
+  '),
 
   getTemplateData: function () {
     return { className: this.getBeaconClassName() || '' };
