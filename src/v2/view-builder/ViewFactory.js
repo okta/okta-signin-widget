@@ -80,6 +80,9 @@ import AuthenticatorIdPView from './views/idp/AuthenticatorIdPView';
 // custom otp
 import ChallengeCustomOTPAuthenticatorView from './views/custom-otp/ChallengeCustomOTPAuthenticatorView';
 
+// Symantec VIP authenticator
+import AuthenticatorSymantecView from './views/symantec/AuthenticatorSymantecView';
+
 // safe mode poll view
 import PollView from './views/PollView';
 
@@ -133,6 +136,7 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.ON_PREM]: EnrollAuthenticatorOnPremView,
     [AUTHENTICATOR_KEY.RSA]: EnrollAuthenticatorOnPremView,
     [AUTHENTICATOR_KEY.DUO]: EnrollDuoAuthenticatorView,
+    [AUTHENTICATOR_KEY.SYMANTEC_VIP]: AuthenticatorSymantecView,
   },
   [RemediationForms.ENROLL_POLL]: {
     [AUTHENTICATOR_KEY.OV]: EnrollPollOktaVerifyView,
@@ -176,6 +180,7 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.RSA]: ChallengeAuthenticatorOnPremView,
     [AUTHENTICATOR_KEY.DUO]: ChallengeDuoAuthenticatorView,
     [AUTHENTICATOR_KEY.CUSTOM_OTP]: ChallengeCustomOTPAuthenticatorView,
+    [AUTHENTICATOR_KEY.SYMANTEC_VIP]: AuthenticatorSymantecView,
   },
   [RemediationForms.CHALLENGE_POLL]: {
     [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifyView,
