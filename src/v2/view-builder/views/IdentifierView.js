@@ -75,6 +75,7 @@ const Body = BaseForm.extend({
 });
 
 export default BaseView.extend({
+  Header: null,
   Body,
   Footer: IdentifierFooter,
 
