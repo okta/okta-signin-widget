@@ -1,20 +1,22 @@
 import { View, $ } from 'okta';
-import HeaderBeacon from '../components/HeaderBeacon';
 import Animations from 'util/Animations';
 
 export default View.extend({
-  HeaderBeacon: HeaderBeacon,
+  HeaderBeacon: null,
 
   initialize () {
-    // add beacon
-    this.add(this.HeaderBeacon);
+    if (this.HeaderBeacon) {
+      this.add(this.HeaderBeacon);
+    }
   },
 
   postRender () {
-    $('#okta-sign-in').removeClass('no-beacon');
+    if (this.HeaderBeacon) {
+      $('#okta-sign-in').removeClass('no-beacon');
 
-    // animate beacon
-    var selector = '[data-type="beacon-container"]', container = this.$el.find(selector);
-    Animations.explode(container);
+      // animate beacon
+      var selector = '[data-type="beacon-container"]', container = this.$el.find(selector);
+      Animations.explode(container);
+    }
   },
 });
