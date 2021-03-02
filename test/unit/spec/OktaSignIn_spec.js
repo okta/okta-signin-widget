@@ -402,7 +402,7 @@ describe('OktaSignIn object API', function () {
       it('fires error callback', () => {
         createWidget();
         const errorFn = jasmine.createSpy();
-        signIn.renderEl({ el: undefined }, undefined, errorFn);
+        signIn.renderEl({ el: undefined }, undefined, errorFn).catch(() => {});
         return Expect.wait(() => {
           return errorFn.calls.count() > 0;
         })

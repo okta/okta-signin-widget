@@ -11,8 +11,10 @@ import ChallengeWebauthnResponse
   from '../../../../../../playground/mocks/data/idp/idx/authenticator-verification-webauthn.json';
 
 describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function () {
+  let testContext;
   beforeEach(function () {
-    this.init = (
+    testContext = {};
+    testContext.init = (
       currentAuthenticatorEnrollment = ChallengeWebauthnResponse.currentAuthenticatorEnrollment.value,
       authenticatorEnrollments = []
     ) => {
@@ -31,13 +33,13 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function () {
           value: currentAuthenticatorEnrollment,
         },
       };
-      this.view = new ChallengeWebauthnView({
+      testContext.view = new ChallengeWebauthnView({
         el: $sandbox,
         appState,
         settings,
         currentViewState,
       });
-      this.view.render();
+      testContext.view.render();
     };
   });
 
@@ -48,65 +50,65 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function () {
   it('shows verify instructions and spinner when webauthn is supported and browser is not safari', function () {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     spyOn(BrowserFeatures, 'isSafari').and.callFake(() => false);
-    this.init();
-    expect(this.view.$('.idx-webauthn-verify-text').text()).toBe(
+    testContext.init();
+    expect(testContext.view.$('.idx-webauthn-verify-text').text()).toBe(
       'You will be prompted to use a security key or biometric verification (Windows Hello, Touch ID, etc.). Follow the instructions to complete verification.'
     );
-    expect(this.view.$('.retry-webauthn').css('display')).toBe('none');
-    expect(this.view.$('.okta-waiting-spinner').css('display')).toBe('block');
-    expect(this.view.$('.webauthn-not-supported').length).toBe(0);
+    expect(testContext.view.$('.retry-webauthn').css('display')).toBe('none');
+    expect(testContext.view.$('.okta-waiting-spinner').css('display')).toBe('block');
+    expect(testContext.view.$('.webauthn-not-supported').length).toBe(0);
 
   });
 
   it('shows verify instructions and button when browser supports webauthn on safari', function () {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     spyOn(BrowserFeatures, 'isSafari').and.callFake(() => true);
-    this.init();
-    expect(this.view.$('.idx-webauthn-verify-text').text()).toBe(
+    testContext.init();
+    expect(testContext.view.$('.idx-webauthn-verify-text').text()).toBe(
       'You will be prompted to use a security key or biometric verification (Windows Hello, Touch ID, etc.). Follow the instructions to complete verification.'
     );
-    expect(this.view.$('.retry-webauthn').css('display')).toBe('inline');
-    expect(this.view.$('.retry-webauthn').text()).toBe('Verify');
-    expect(this.view.$('.webauthn-not-supported').length).toBe(0);
+    expect(testContext.view.$('.retry-webauthn').css('display')).not.toBe('none'); 
+    expect(testContext.view.$('.retry-webauthn').text()).toBe('Verify');
+    expect(testContext.view.$('.webauthn-not-supported').length).toBe(0);
   });
 
   it('updated button text to "Retry" on click on safari', function () {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     spyOn(BrowserFeatures, 'isSafari').and.callFake(() => true);
-    this.init();
-    expect(this.view.$('.idx-webauthn-verify-text').text()).toBe(
+    testContext.init();
+    expect(testContext.view.$('.idx-webauthn-verify-text').text()).toBe(
       'You will be prompted to use a security key or biometric verification (Windows Hello, Touch ID, etc.). Follow the instructions to complete verification.'
     );
-    expect(this.view.$('.retry-webauthn').css('display')).toBe('inline');
-    expect(this.view.$('.retry-webauthn').text()).toBe('Verify');
-    this.view.$('.retry-webauthn').click();
-    expect(this.view.$('.retry-webauthn').css('display')).toBe('none');
-    expect(this.view.$('.retry-webauthn').text()).toBe('Retry');
+    expect(testContext.view.$('.retry-webauthn').css('display')).not.toBe('none'); // default value: empty string in jest, 'inline' in browser
+    expect(testContext.view.$('.retry-webauthn').text()).toBe('Verify');
+    testContext.view.$('.retry-webauthn').click();
+    expect(testContext.view.$('.retry-webauthn').css('display')).toBe('none');
+    expect(testContext.view.$('.retry-webauthn').text()).toBe('Retry');
   });
 
   it('shows verify instructions if there are existing enrollments', function () {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     spyOn(BrowserFeatures, 'isSafari').and.callFake(() => true);
-    this.init(
+    testContext.init(
       ChallengeWebauthnResponse.currentAuthenticatorEnrollment.value,
       ChallengeWebauthnResponse.authenticatorEnrollments
     );
-    expect(this.view.$('.idx-webauthn-verify-text').text()).toBe(
+    expect(testContext.view.$('.idx-webauthn-verify-text').text()).toBe(
       'You will be prompted to use a security key or biometric verification (Windows Hello, Touch ID, etc.). Follow the instructions to complete verification.'
     );
-    expect(this.view.$('.retry-webauthn').css('display')).toBe('inline');
-    expect(this.view.$('.retry-webauthn').text()).toBe('Verify');
-    expect(this.view.$('.webauthn-not-supported').length).toBe(0);
+    expect(testContext.view.$('.retry-webauthn').css('display')).not.toBe('none'); // default value: empty string in jest, 'inline' in browser
+    expect(testContext.view.$('.retry-webauthn').text()).toBe('Verify');
+    expect(testContext.view.$('.webauthn-not-supported').length).toBe(0);
   });
 
   it('shows error when browser does not support webauthn', function () {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => false);
-    this.init();
-    expect(this.view.$('.idx-webauthn-verify-text').length).toBe(0);
-    expect(this.view.$('.retry-webauthn').length).toBe(0);
-    expect(this.view.$('.okta-waiting-spinner').length).toBe(0);
-    expect(this.view.$('.webauthn-not-supported').length).toBe(1);
-    expect(this.view.$('.webauthn-not-supported').text().trim()).toBe(
+    testContext.init();
+    expect(testContext.view.$('.idx-webauthn-verify-text').length).toBe(0);
+    expect(testContext.view.$('.retry-webauthn').length).toBe(0);
+    expect(testContext.view.$('.okta-waiting-spinner').length).toBe(0);
+    expect(testContext.view.$('.webauthn-not-supported').length).toBe(1);
+    expect(testContext.view.$('.webauthn-not-supported').text().trim()).toBe(
       'Security key or biometric authenticator is not supported on this browser. Contact your admin for assistance.'
     );
   });
@@ -117,9 +119,9 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function () {
       JSON.stringify(ChallengeWebauthnResponse.currentAuthenticatorEnrollment.value)
     );
     currentAuthenticatorEnrollment.contextualData.challengeData.userVerification = 'required';
-    this.init(currentAuthenticatorEnrollment);
-    expect(this.view.$('.uv-required-callout').length).toBe(1);
-    expect(this.view.$('.uv-required-callout').text().trim()).toBe(
+    testContext.init(currentAuthenticatorEnrollment);
+    expect(testContext.view.$('.uv-required-callout').length).toBe(1);
+    expect(testContext.view.$('.uv-required-callout').text().trim()).toBe(
       'Biometric verification or a PIN is required to sign in with this authenticator.'
     );
   });
@@ -130,8 +132,8 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function () {
       JSON.stringify(ChallengeWebauthnResponse.currentAuthenticatorEnrollment.value)
     );
     currentAuthenticatorEnrollment.contextualData.challengeData.userVerification = 'discouraged';
-    this.init(currentAuthenticatorEnrollment);
-    expect(this.view.$('.uv-required-callout').length).toBe(0);
+    testContext.init(currentAuthenticatorEnrollment);
+    expect(testContext.view.$('.uv-required-callout').length).toBe(0);
   });
 
   it('saveForm is called with model when credentials.get succeeds', function (done) {
@@ -143,17 +145,14 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function () {
         signature: 'magizh',
       },
     };
-    navigator.credentials = {
-      get: jasmine.createSpy('webauthn-spy'),
-    };
     spyOn(BaseForm.prototype, 'saveForm');
     spyOn(navigator.credentials, 'get').and.returnValue(Promise.resolve(assertion));
 
-    this.init(
+    testContext.init(
       ChallengeWebauthnResponse.currentAuthenticatorEnrollment.value,
       ChallengeWebauthnResponse.authenticatorEnrollments
     );
-    Expect.waitForSpyCall(this.view.form.saveForm)
+    Expect.waitForSpyCall(testContext.view.form.saveForm)
       .then(() => {
         expect(navigator.credentials.get).toHaveBeenCalledWith({
           publicKey: {
@@ -178,13 +177,13 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function () {
           },
           signal: jasmine.any(Object),
         });
-        expect(this.view.form.model.get('credentials')).toEqual({
+        expect(testContext.view.form.model.get('credentials')).toEqual({
           clientData: CryptoUtil.binToStr(assertion.response.clientDataJSON),
           authenticatorData: CryptoUtil.binToStr(assertion.response.authenticatorData),
           signatureData: CryptoUtil.binToStr(assertion.response.signature),
         });
-        expect(this.view.form.saveForm).toHaveBeenCalledWith(this.view.form.model);
-        expect(this.view.form.webauthnAbortController).toBe(null);
+        expect(testContext.view.form.saveForm).toHaveBeenCalledWith(testContext.view.form.model);
+        expect(testContext.view.form.webauthnAbortController).toBe(null);
         done();
       })
       .catch(done.fail);
@@ -192,15 +191,12 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function () {
 
   it('error is displayed when credentials.get fails', function (done) {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
-    navigator.credentials = {
-      get: jasmine.createSpy('webauthn-spy'),
-    };
     spyOn(navigator.credentials, 'get').and.returnValue(Promise.reject({ message: 'error from browser' }));
-    this.init();
+    testContext.init();
     Expect.waitForCss('.infobox-error')
       .then(() => {
-        expect(this.view.$el.find('.infobox-error')[0].textContent.trim()).toBe('error from browser');
-        expect(this.view.form.webauthnAbortController).toBe(null);
+        expect(testContext.view.$el.find('.infobox-error')[0].textContent.trim()).toBe('error from browser');
+        expect(testContext.view.form.webauthnAbortController).toBe(null);
         done();
       })
       .catch(done.fail);
