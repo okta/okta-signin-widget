@@ -10,10 +10,10 @@ import Expect from 'helpers/util/Expect';
 import EnrollWebauthnResponse from '../../../../../../playground/mocks/data/idp/idx/authenticator-enroll-webauthn.json';
 
 describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
-  let test;
+  let testContext;
   beforeEach(function () {
-    test = {};
-    test.init = (
+    testContext = {};
+    testContext.init = (
       currentAuthenticator = EnrollWebauthnResponse.currentAuthenticator.value,
       authenticatorEnrollments = []
     ) => {
@@ -30,13 +30,13 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
       spyOn(appState, 'hasRemediationObject').and.callFake(formName => formName === 'select-authenticator-enroll');
       spyOn(appState, 'shouldShowSignOutLinkInCurrentForm').and.returnValue(false);
       const settings = new Settings({ baseUrl: 'http://localhost:3000' });
-      test.view = new EnrollWebauthnView({
+      testContext.view = new EnrollWebauthnView({
         el: $sandbox,
         appState,
         settings,
         currentViewState,
       });
-      test.view.render();
+      testContext.view.render();
     };
   });
 
@@ -46,22 +46,22 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
 
   it('shows enroll instructions and setup button when browser supports webauthn', function () {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
-    test.init();
-    expect(test.view.$('.idx-webauthn-enroll-text').text()).toBe(
+    testContext.init();
+    expect(testContext.view.$('.idx-webauthn-enroll-text').text()).toBe(
       'Your browser will prompt to register a security key or biometric authenticator (Windows Hello, Touch ID, etc.). Follow the instructions to complete enrollment.'
     );
-    expect(test.view.$('.webauthn-setup').css('display')).not.toBe('none'); // default value: empty string in jest, 'inline' in browser
-    expect(test.view.$('.webauthn-setup').text()).toBe('Set up');
-    expect(test.view.$('.idx-webauthn-enroll-text-edge').length).toBe(0);
-    expect(test.view.$('.webauthn-not-supported').length).toBe(0);
+    expect(testContext.view.$('.webauthn-setup').css('display')).not.toBe('none'); // default value: empty string in jest, 'inline' in browser
+    expect(testContext.view.$('.webauthn-setup').text()).toBe('Set up');
+    expect(testContext.view.$('.idx-webauthn-enroll-text-edge').length).toBe(0);
+    expect(testContext.view.$('.webauthn-not-supported').length).toBe(0);
   });
 
   it('shows error when browser does not support webauthn', function () {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => false);
-    test.init();
-    expect(test.view.$('.idx-webauthn-enroll-text').length).toBe(0);
-    expect(test.view.$('.webauthn-not-supported').length).toBe(1);
-    expect(test.view.$('.webauthn-not-supported').text().trim()).toBe(
+    testContext.init();
+    expect(testContext.view.$('.idx-webauthn-enroll-text').length).toBe(0);
+    expect(testContext.view.$('.webauthn-not-supported').length).toBe(1);
+    expect(testContext.view.$('.webauthn-not-supported').text().trim()).toBe(
       'Security key or biometric authenticator is not supported on this browser. Contact your admin for assistance.'
     );
   });
@@ -69,21 +69,21 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
   it('shows additional enroll instructions for edge when browser is edge', function () {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     spyOn(BrowserFeatures, 'isEdge').and.callFake(() => true);
-    test.init();
-    expect(test.view.$('.idx-webauthn-enroll-text').length).toBe(1);
-    expect(test.view.$('.idx-webauthn-enroll-text-edge').text().trim()).toBe(
+    testContext.init();
+    expect(testContext.view.$('.idx-webauthn-enroll-text').length).toBe(1);
+    expect(testContext.view.$('.idx-webauthn-enroll-text-edge').text().trim()).toBe(
       'Note: If you are enrolling a security key and Windows Hello or PIN is enabled, you will need to select \'Cancel\' in the prompt before continuing.'
     );
-    expect(test.view.$('.webauthn-setup').length).toBe(1);
+    expect(testContext.view.$('.webauthn-setup').length).toBe(1);
   });
 
   it('shows UV required callout when userVerification is "required"', function () {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     const currentAuthenticator = JSON.parse(JSON.stringify(EnrollWebauthnResponse.currentAuthenticator.value));
     currentAuthenticator.contextualData.activationData.authenticatorSelection.userVerification = 'required';
-    test.init(currentAuthenticator);
-    expect(test.view.$('.uv-required-callout').length).toBe(1);
-    expect(test.view.$('.uv-required-callout').text().trim()).toBe(
+    testContext.init(currentAuthenticator);
+    expect(testContext.view.$('.uv-required-callout').length).toBe(1);
+    expect(testContext.view.$('.uv-required-callout').text().trim()).toBe(
       'Biometric verification or a PIN is required to setup this authenticator.'
     );
   });
@@ -92,16 +92,16 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     const currentAuthenticator = JSON.parse(JSON.stringify(EnrollWebauthnResponse.currentAuthenticator.value));
     currentAuthenticator.contextualData.activationData.authenticatorSelection.userVerification = 'discouraged';
-    test.init(currentAuthenticator);
-    expect(test.view.$('.uv-required-callout').length).toBe(0);
+    testContext.init(currentAuthenticator);
+    expect(testContext.view.$('.uv-required-callout').length).toBe(0);
   });
 
   it('click on setup hides the setup button and shows spinner', function () {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
-    test.init();
-    test.view.$('.webauthn-setup').click();
-    expect(test.view.$('.webauthn-setup').css('display')).toBe('none');
-    expect(test.view.$('.okta-waiting-spinner').css('display')).toBe('block');
+    testContext.init();
+    testContext.view.$('.webauthn-setup').click();
+    expect(testContext.view.$('.webauthn-setup').css('display')).toBe('none');
+    expect(testContext.view.$('.okta-waiting-spinner').css('display')).toBe('block');
   });
 
   it('saveForm is called when credentials.get succeeds', function (done) {
@@ -115,10 +115,10 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
     spyOn(navigator.credentials, 'create').and.returnValue(Promise.resolve(newCredential));
     spyOn(BaseForm.prototype, 'saveForm');
 
-    test.init(EnrollWebauthnResponse.currentAuthenticator.value, EnrollWebauthnResponse.authenticatorEnrollments);
-    test.view.$('.webauthn-setup').click();
+    testContext.init(EnrollWebauthnResponse.currentAuthenticator.value, EnrollWebauthnResponse.authenticatorEnrollments);
+    testContext.view.$('.webauthn-setup').click();
 
-    Expect.waitForSpyCall(test.view.form.saveForm)
+    Expect.waitForSpyCall(testContext.view.form.saveForm)
       .then(() => {
         expect(navigator.credentials.create).toHaveBeenCalledWith({
           publicKey: {
@@ -166,12 +166,12 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
           signal: jasmine.any(Object),
         });
 
-        expect(test.view.form.model.get('credentials')).toEqual({
+        expect(testContext.view.form.model.get('credentials')).toEqual({
           clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),
           attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
         });
-        expect(test.view.form.saveForm).toHaveBeenCalledWith(test.view.form.model);
-        expect(test.view.form.webauthnAbortController).toBe(null);
+        expect(testContext.view.form.saveForm).toHaveBeenCalledWith(testContext.view.form.model);
+        expect(testContext.view.form.webauthnAbortController).toBe(null);
         done();
       })
       .catch(done.fail);
@@ -181,13 +181,13 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     spyOn(navigator.credentials, 'create').and.returnValue(Promise.reject({ message: 'error from browser' }));
 
-    test.init();
-    test.view.$('.webauthn-setup').click();
+    testContext.init();
+    testContext.view.$('.webauthn-setup').click();
 
     Expect.waitForCss('.infobox-error')
       .then(() => {
-        expect(test.view.$('.infobox-error')[0].textContent.trim()).toBe('error from browser');
-        expect(test.view.form.webauthnAbortController).toBe(null);
+        expect(testContext.view.$('.infobox-error')[0].textContent.trim()).toBe('error from browser');
+        expect(testContext.view.form.webauthnAbortController).toBe(null);
         done();
       })
       .catch(done.fail);
