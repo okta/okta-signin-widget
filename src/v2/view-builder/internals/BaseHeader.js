@@ -1,5 +1,6 @@
 import { View, $ } from 'okta';
 import Animations from 'util/Animations';
+import Enums from 'util/Enums';
 
 export default View.extend({
   HeaderBeacon: null,
@@ -12,7 +13,7 @@ export default View.extend({
 
   postRender () {
     if (this.HeaderBeacon) {
-      $('#okta-sign-in').removeClass('no-beacon');
+      $(`#${Enums.WIDGET_CONTAINER_ID}`).removeClass('no-beacon');
 
       // animate beacon
       var selector = '[data-type="beacon-container"]', container = this.$el.find(selector);
