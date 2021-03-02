@@ -347,6 +347,22 @@
                   }
                 },
                 "relatesTo": "$.authenticatorEnrollments.value[13]"
+              },
+              {
+                "label": "Symantec VIP",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut11ceMaP0B0EzMI0g4",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[14]"
               }
             ]
           },
@@ -513,6 +529,17 @@
         "id": "dsf36lrPqdONw2Xjv0g5",
         "displayName": "Atko Custom OTP Authenticator",
         "credentialId": "",
+        "methods": [
+          {
+            "type": "otp"
+          }
+        ]
+      },
+      {
+        "type": "app",
+        "key": "symantec_vip",
+        "id": "aut11ceMaP0B0EzMI0g4",
+        "displayName": "Symantec VIP",
         "methods": [
           {
             "type": "otp"

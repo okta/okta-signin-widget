@@ -117,7 +117,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
-  await t.expect(selectFactorPage.getFactorsCount()).eql(13);
+  await t.expect(selectFactorPage.getFactorsCount()).eql(14);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(0)).eql(false);
@@ -199,6 +199,12 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getFactorIconClassByIndex(12)).contains('mfa-hotp');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(12)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(12)).eql('custom_otp');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(13)).eql('Symantec VIP');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(13)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(13)).contains('mfa-symantec');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(13)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(13)).eql('symantec_vip');
 
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();
