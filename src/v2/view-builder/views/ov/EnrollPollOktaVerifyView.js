@@ -2,7 +2,6 @@ import { loc } from 'okta';
 import { BaseForm } from '../../internals';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
 import polling from '../shared/polling';
 import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
 import ResendView from './ResendView';
@@ -70,5 +69,4 @@ const Body = BaseForm.extend(Object.assign(
 
 export default BaseAuthenticatorView.extend({
   Body,
-  Footer: AuthenticatorEnrollFooter,
 });

@@ -1,6 +1,6 @@
 import { loc } from 'okta';
 import { BaseForm } from '../../internals';
-import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
+import AuthenticatorFooter from '../../components/AuthenticatorFooter';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import { getForgotPasswordLink } from '../../utils/LinksUtil';
 
@@ -16,9 +16,9 @@ const Body = BaseForm.extend({
   },
 });
 
-const Footer = AuthenticatorVerifyFooter.extend({
+const Footer = AuthenticatorFooter.extend({
   links: function () {
-    let links = AuthenticatorVerifyFooter.prototype.links.apply(this, arguments);
+    let links = AuthenticatorFooter.prototype.links.apply(this, arguments);
 
     links = getForgotPasswordLink(this.options.appState, this.options.settings).concat(links);
 

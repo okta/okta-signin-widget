@@ -1,7 +1,6 @@
 import { _, loc } from 'okta';
 import { BaseForm, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
 
 const Body = BaseForm.extend(
   {
@@ -66,7 +65,6 @@ const Body = BaseForm.extend(
 
 export default BaseAuthenticatorView.extend({
   Body,
-  Footer: AuthenticatorVerifyFooter,
 
   createModelClass ({ uiSchema }) {
     // It is important to get methods from here to maintain single source of truth.

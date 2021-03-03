@@ -1,8 +1,6 @@
 import { _, loc } from 'okta';
 import BaseForm from '../../internals/BaseForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
-import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
 
 const Body = BaseForm.extend({
 
@@ -37,10 +35,6 @@ export default BaseAuthenticatorView.extend({
     // If the authenticator is already enrolled, we're in a challenge flow as opposed to enrollment
     this.options.isChallenge = existingAuthenticator || false;
     this.options.displayName = currentAuthenticator.displayName;
-
-    this.Footer = this.options.isChallenge
-      ? AuthenticatorVerifyFooter
-      : AuthenticatorEnrollFooter;
   },
   Body,
 });

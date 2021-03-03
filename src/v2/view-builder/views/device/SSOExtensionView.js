@@ -1,5 +1,4 @@
-import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import { BaseForm } from '../../internals';
+import { BaseForm, BaseView } from '../../internals';
 import Util from '../../../../util/Util';
 import { loc } from 'okta';
 
@@ -36,7 +35,7 @@ const Body = BaseForm.extend({
   }
 });
 
-export default BaseAuthenticatorView.extend({
+export default BaseView.extend({
   Body,
   Header: null,
 });

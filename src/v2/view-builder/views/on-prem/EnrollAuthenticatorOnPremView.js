@@ -1,7 +1,6 @@
 import { loc } from 'okta';
 import { BaseForm } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
 
 const ON_PREM_TOKEN_CHANGE_KEY = 'oie.on_prem.error.token.change';
 
@@ -36,5 +35,4 @@ const Body = BaseForm.extend({
 
 export default BaseAuthenticatorView.extend({
   Body,
-  Footer: AuthenticatorEnrollFooter,
 });

@@ -2,7 +2,6 @@ import { _, loc, Model } from 'okta';
 import { BaseForm, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import CountryUtil from '../../../../util/CountryUtil';
-import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
 
 const Body = BaseForm.extend({
 
@@ -120,7 +119,6 @@ const Body = BaseForm.extend({
 export default BaseAuthenticatorView.extend({
 
   Body,
-  Footer: AuthenticatorEnrollFooter,
 
   createModelClass () {
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);

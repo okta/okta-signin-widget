@@ -4,7 +4,6 @@ import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import webauthn from '../../../../util/webauthn';
 import CryptoUtil from '../../../../util/CryptoUtil';
 import EnrollWebauthnInfoView from './EnrollWebauthnInfoView';
-import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
 
 function getExcludeCredentials (authenticatorEnrollments = []) {
   const credentials = [];
@@ -100,7 +99,6 @@ const Body = BaseForm.extend({
 
 export default BaseAuthenticatorView.extend({
   Body,
-  Footer: AuthenticatorEnrollFooter,
   postRender () {
     BaseAuthenticatorView.prototype.postRender.apply(this, arguments);
     this.$el.find('.o-form-button-bar [type="submit"]').remove();

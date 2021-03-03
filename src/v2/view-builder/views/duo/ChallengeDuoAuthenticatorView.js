@@ -1,7 +1,6 @@
 import { loc } from 'okta';
 import BaseDuoAuthenticatorForm from './BaseDuoAuthenticatorForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
 
 const Body = BaseDuoAuthenticatorForm.extend({
   title () {
@@ -11,5 +10,4 @@ const Body = BaseDuoAuthenticatorForm.extend({
 
 export default BaseAuthenticatorView.extend({
   Body,
-  Footer: AuthenticatorVerifyFooter,
 });
