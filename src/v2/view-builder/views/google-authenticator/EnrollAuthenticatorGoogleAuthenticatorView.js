@@ -2,7 +2,6 @@ import { loc, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import { addCustomButton, BaseForm, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
 import EnrollGoogleAuthenticatorBarcodeView from './EnrollGoogleAuthenticatorBarcodeView';
 import EnrollAuthenticatorManualSetupView from './EnrollAuthenticatorManualSetupView';
 
@@ -104,7 +103,6 @@ const Body = BaseForm.extend({
 
 export default BaseAuthenticatorView.extend({
   Body,
-  Footer: AuthenticatorEnrollFooter,
   createModelClass () {
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     const local = Object.assign(

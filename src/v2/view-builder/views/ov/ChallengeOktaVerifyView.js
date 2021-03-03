@@ -1,5 +1,4 @@
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
 import ChallengeOktaVerifyPushView from './ChallengeOktaVerifyPushView';
 import ChallengeOktaVerifyFastPassView from './ChallengeOktaVerifyFastPassView';
 import NumberChallengePushView from './NumberChallengePushView';
@@ -18,6 +17,5 @@ export default BaseAuthenticatorView.extend({
     } else {
       this.Body = ChallengeOktaVerifyFastPassView;
     }
-    this.Footer = AuthenticatorVerifyFooter;
   },
 });

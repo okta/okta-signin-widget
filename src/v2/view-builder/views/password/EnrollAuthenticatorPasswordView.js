@@ -4,7 +4,6 @@ import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import {
   getPasswordComplexityDescriptionForHtmlList,
   removeRequirementsFromError } from '../../utils/AuthenticatorUtil';
-import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
 import hbs from 'handlebars-inline-precompile';
 
 const Body = BaseForm.extend({
@@ -80,7 +79,6 @@ const Body = BaseForm.extend({
 export default BaseAuthenticatorView.extend({
 
   Body,
-  Footer: AuthenticatorEnrollFooter,
 
   createModelClass () {
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
