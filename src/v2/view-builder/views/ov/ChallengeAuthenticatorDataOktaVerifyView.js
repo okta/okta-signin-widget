@@ -1,5 +1,5 @@
 import { Collection } from 'okta';
-import { BaseForm } from '../../internals';
+import { BaseForm, BaseFooter } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import AuthenticatorVerifyOptions from '../../components/AuthenticatorVerifyOptions';
 import { getAuthenticatorDataForVerification } from '../../utils/AuthenticatorUtil';
@@ -25,5 +25,6 @@ const Body = SelectAuthenticatorVerifyViewBody.extend({
 });
 
 export default BaseAuthenticatorView.extend({
-  Body
+  Body,
+  Footer: BaseFooter,
 });

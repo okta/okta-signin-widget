@@ -1,5 +1,4 @@
 import { loc } from 'okta';
-import AuthenticatorEnrollFooter from '../../components/AuthenticatorEnrollFooter';
 import BaseAuthenticatorEmailView from './BaseAuthenticatorEmailView';
 
 const BaseAuthenticatorEmailForm = BaseAuthenticatorEmailView.prototype.Body;
@@ -15,5 +14,4 @@ const Body = BaseAuthenticatorEmailForm.extend(Object.assign({
 
 export default BaseAuthenticatorEmailView.extend({
   Body,
-  Footer: AuthenticatorEnrollFooter,
 });

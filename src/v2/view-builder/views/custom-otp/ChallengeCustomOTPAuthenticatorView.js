@@ -1,7 +1,6 @@
 import { loc } from 'okta';
 import { BaseForm } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import AuthenticatorVerifyFooter from '../../components/AuthenticatorVerifyFooter';
 
 const Body = BaseForm.extend(Object.assign(
   {
@@ -26,5 +25,4 @@ const Body = BaseForm.extend(Object.assign(
 
 export default BaseAuthenticatorView.extend({
   Body,
-  Footer: AuthenticatorVerifyFooter,
 });
