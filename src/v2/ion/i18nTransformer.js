@@ -43,7 +43,8 @@
 import { _, loc, $ } from 'okta';
 import Bundles from 'util/Bundles';
 import Logger from 'util/Logger';
-import { AUTHENTICATOR_KEY } from './RemediationConstants';
+import { getAuthenticatorDisplayName } from '../view-builder/utils/AuthenticatorUtil';
+import { FORMS, AUTHENTICATOR_KEY } from './RemediationConstants';
 
 const SECURITY_QUESTION_PREFIXES = [
   'enroll-authenticator.security_question.credentials.questionKey.',
@@ -64,7 +65,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-enroll.authenticator.security_question': 'oie.security.question.label',
   'select-authenticator-enroll.authenticator.okta_verify': 'oie.okta_verify.label',
   'select-authenticator-enroll.authenticator.google_otp': 'oie.google_authenticator.label',
-  'select-authenticator-enroll.authenticator.rsa_token': 'oie.rsa.label',
+  'select-authenticator-enroll.authenticator.rsa_token': 'factor.totpHard.rsaSecurId',
 
   'select-authenticator-authenticate.authenticator.okta_email': 'oie.email.label',
   'select-authenticator-authenticate.authenticator.okta_password': 'oie.password.label',
@@ -76,7 +77,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-authenticate.authenticator.okta_verify.totp': 'oie.okta_verify.totp.title',
   'select-authenticator-authenticate.authenticator.google_otp':
     'oie.google_authenticator.label',
-  'select-authenticator-authenticate.authenticator.rsa_token': 'oie.rsa.label',
+  'select-authenticator-authenticate.authenticator.rsa_token': 'factor.totpHard.rsaSecurId',
 
   'select-authenticator-unlock-account.authenticator.okta_email': 'oie.email.label',
   'select-authenticator-unlock-account.authenticator.phone_number': 'oie.phone.label',
@@ -96,10 +97,10 @@ const I18N_OVERRIDE_MAPPINGS = {
   'enroll-authenticator.security_question.credentials.question': 'oie.security.question.createQuestion.label',
   'enroll-authenticator.security_question.credentials.questionKey': 'oie.security.question.questionKey.label',
   'enroll-authenticator.google_otp.credentials.passcode': 'oie.google_authenticator.otp.title',
-  'enroll-authenticator.onprem_mfa.credentials.userName': 'oie.on_prem.enroll.username.label',
-  'enroll-authenticator.onprem_mfa.credentials.passcode': 'oie.on_prem.enroll.passcode.label',
-  'enroll-authenticator.rsa_token.credentials.userName': 'oie.rsa.enroll.username.label',
-  'enroll-authenticator.rsa_token.credentials.passcode': 'oie.rsa.enroll.passcode.label',
+  'enroll-authenticator.onprem_mfa.credentials.userName': 'enroll.onprem.username.placeholder',
+  'enroll-authenticator.onprem_mfa.credentials.passcode': 'enroll.onprem.passcode.placeholder',
+  'enroll-authenticator.rsa_token.credentials.userName': 'enroll.onprem.username.placeholder',
+  'enroll-authenticator.rsa_token.credentials.passcode': 'enroll.onprem.passcode.placeholder',
 
   'select-enrollment-channel.authenticator.channel.qrcode': 'oie.enroll.okta_verify.select.channel.qrcode.label',
   'select-enrollment-channel.authenticator.channel.email': 'oie.enroll.okta_verify.select.channel.email.label',
@@ -111,8 +112,8 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.security_question.credentials.answer': 'mfa.challenge.answer.placeholder',
   'challenge-authenticator.okta_verify.credentials.totp': 'oie.okta_verify.totp.enterCodeText',
   'challenge-authenticator.google_otp.credentials.passcode': 'oie.google_authenticator.otp.enterCodeText',
-  'challenge-authenticator.onprem_mfa.credentials.passcode': 'oie.on_prem.verify.passcode.label',
-  'challenge-authenticator.rsa_token.credentials.passcode': 'oie.rsa.verify.passcode.label',
+  'challenge-authenticator.onprem_mfa.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
+  'challenge-authenticator.rsa_token.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'challenge-authenticator.custom_otp.credentials.passcode': 'oie.custom_otp.verify.passcode.label',
 
   'enroll-profile.userProfile.lastName': 'oie.user.profile.lastname',
@@ -120,6 +121,29 @@ const I18N_OVERRIDE_MAPPINGS = {
   'enroll-profile.userProfile.email': 'oie.user.profile.primary.email',
 
   'oie.session.expired' : 'oie.idx.session.expired',
+};
+
+const I18N_PARAMS_MAPPING = {
+  [FORMS.ENROLL_AUTHENTICATOR]: {
+    [AUTHENTICATOR_KEY.ON_PREM]: {
+      getParam: getAuthenticatorDisplayName,
+    },
+    [AUTHENTICATOR_KEY.RSA]: {
+      getParam: getAuthenticatorDisplayName,
+    },
+  },
+};
+
+const getI18NParams = (remediation, authenticatorKey) => {
+  const params = [];
+  const formName = remediation.name;
+  if (I18N_PARAMS_MAPPING[formName] &&
+    I18N_PARAMS_MAPPING[formName][authenticatorKey]) {
+    const config = I18N_PARAMS_MAPPING[formName][authenticatorKey];
+    const param = config.getParam(remediation);
+    params.push(param);
+  }
+  return params;
 };
 
 const getI18nKey = (i18nPath) => {
@@ -151,11 +175,12 @@ const getI18nKey = (i18nPath) => {
  *
  * @param {string} i18nPath
  * @param {string} defaultValue
+ * @param {string[]} params
  */
-const getI18NValue = (i18nPath, defaultValue) => {
+const getI18NValue = (i18nPath, defaultValue, params = []) => {
   const i18nKey = getI18nKey(i18nPath);
   if (i18nKey) {
-    return loc(i18nKey, 'login');
+    return loc(i18nKey, 'login', params);
   } else {
     return defaultValue;
   }
@@ -169,11 +194,12 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
   Logger.info('\t remediationName: ', remediation.name);
   Logger.info('\t uiSchema: ', JSON.stringify(uiSchema));
 
-  const authenticatorKey = remediation.relatesTo?.value?.key
+  const authenticatorKey = remediation.relatesTo?.value?.key;
+  const authenticatorKeyPath = authenticatorKey
     ? `.${remediation.relatesTo.value.key}`
     : '';
 
-  const i18nPrefix = `${remediation.name}${authenticatorKey}.`;
+  const i18nPrefix = `${remediation.name}${authenticatorKeyPath}.`;
   let i18nPath = `${i18nPrefix}${uiSchema.name}`;
 
   if (uiSchema.type === 'text' && uiSchema.name.indexOf('questionKey') >= 0 && uiSchema.value !== 'custom') {
@@ -187,7 +213,8 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
 
   if (uiSchema.label) {
     Logger.info('\t 2: ', i18nPath);
-    uiSchema.label = getI18NValue(i18nPath, uiSchema.label);
+    const params = getI18NParams(remediation, authenticatorKey);
+    uiSchema.label = getI18NValue(i18nPath, uiSchema.label, params);
   }
   if ($.isPlainObject(uiSchema.options)) {
     uiSchema.options = _.mapObject(uiSchema.options, (value, key) => {
@@ -283,4 +310,4 @@ const uiSchemaLabelTransformer = (transformedResp) => {
   return transformedResp;
 };
 
-export { uiSchemaLabelTransformer as default, getMessage, getMessageKey };
+export { uiSchemaLabelTransformer as default, getMessage, getMessageKey, getI18NParams };

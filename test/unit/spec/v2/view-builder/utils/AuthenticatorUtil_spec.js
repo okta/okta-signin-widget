@@ -1,4 +1,4 @@
-import { removeRequirementsFromError } from 'v2/view-builder/utils/AuthenticatorUtil';
+import { removeRequirementsFromError, getAuthenticatorDisplayName } from 'v2/view-builder/utils/AuthenticatorUtil';
 
 describe('v2/utils/AuthenticatorUtil', function () {
   it('filters requirements from password error', function () {
@@ -87,5 +87,16 @@ describe('v2/utils/AuthenticatorUtil', function () {
       ],
       'errorSummary': ''
     });
+  });
+
+  it('getAuthenticatorDisplayName returns displayName from remediation', function () {
+    const remediation = {
+      'relatesTo': {
+        'value': {
+          'displayName': 'authenticator name'
+        }
+      }
+    };
+    expect(getAuthenticatorDisplayName(remediation)).toEqual('authenticator name');
   });
 });
