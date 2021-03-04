@@ -144,6 +144,16 @@ export default Model.extend({
   },
 
   derived: {
+    showPasswordToggle: {
+      deps: ['features.showPasswordToggleOnSignInPage'],
+      fn: function () {
+        // showPasswordToggle is for OIE only.
+        // Used to default showPasswordToggleOnSignInPage to true.
+        return _.isUndefined(this.options.features?.showPasswordToggleOnSignInPage)
+          || this.get('features.showPasswordToggleOnSignInPage');
+      },
+      cache: true,
+    },
     redirectUtilFn: {
       deps: ['features.redirectByFormSubmit'],
       fn: function (redirectByFormSubmit) {

@@ -20,23 +20,23 @@ const ionOptionsToUiOptions = (options) => {
   return result;
 };
 
-const getPasswordUiSchema = () => ({
+const getPasswordUiSchema = (settings) => ({
   type: 'password',
   params: {
-    showPasswordToggle: true,
+    showPasswordToggle: settings.get('showPasswordToggle'),
   },
 });
 
 const shouldRenderAsRadio = (name) => name.indexOf('methodType') >= 0 || name.indexOf('channel') >= 0;
 
-const createUiSchemaForString = (ionFormField) => {
+const createUiSchemaForString = (ionFormField, remediationForm, transformedResp, createUISchema, settings) => {
   const uiSchema = {
     type: 'text'
   };
 
   // e.g. { name: 'password', secret: true }
   if (ionFormField.secret === true) {
-    Object.assign(uiSchema, getPasswordUiSchema());
+    Object.assign(uiSchema, getPasswordUiSchema(settings));
   }
 
   if (Array.isArray(ionFormField.options)) {

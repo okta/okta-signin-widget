@@ -19,7 +19,7 @@ import i18nTransformer from './i18nTransformer';
 export default function transformIdxResponse (settings, idxResponse) {
   const ionResponse = _.compose(
     i18nTransformer,
-    uiSchemaTransformer,
+    uiSchemaTransformer.bind({}, settings),
     responseTransformer.bind({}, settings),
   )(idxResponse);
   return ionResponse;

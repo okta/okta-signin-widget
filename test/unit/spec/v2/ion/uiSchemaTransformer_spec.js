@@ -25,7 +25,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
 
   it('converts response with fields as form for ENROLL_PROFILE', done => {
     MockUtil.mockIntrospect(done, XHREnrollProfile, idxResp => {
-      const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
+      const result = _.compose(uiSchemaTransformer.bind(null, testContext.settings), responseTransformer.bind(null, testContext.settings))(idxResp);
       expect(result).toEqual({
         remediations: [
           {
@@ -123,7 +123,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
 
   it('converts authenticator require - email', done => {
     MockUtil.mockIntrospect(done, XHRAuthenticatorRequiredEmail, idxResp => {
-      const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
+      const result = _.compose(uiSchemaTransformer.bind(null, testContext.settings), responseTransformer.bind(null, testContext.settings))(idxResp);
       expect(result).toEqual({
         app: {
           name: 'oidc_client',
@@ -245,7 +245,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
 
   it('converts authenticator enroll - authenticator list', done => {
     MockUtil.mockIntrospect(done, XHRAuthenticatorEnrollSelectAuthenticators, idxResp => {
-      const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
+      const result = _.compose(uiSchemaTransformer.bind(null, testContext.settings), responseTransformer.bind(null, testContext.settings))(idxResp);
       expect(result).toEqual({
         authenticators: _.pick(XHRAuthenticatorEnrollSelectAuthenticators.authenticators, 'value'),
         user: {
@@ -767,7 +767,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
 
   it('converts authenticator enroll - phone', done => {
     MockUtil.mockIntrospect(done, XHRAuthenticatorEnrollDataPhone, idxResp => {
-      const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
+      const result = _.compose(uiSchemaTransformer.bind(null, testContext.settings), responseTransformer.bind(null, testContext.settings))(idxResp);
 
       expect(result.authenticators).toEqual({
         value: XHRAuthenticatorEnrollDataPhone.authenticators.value,
@@ -1004,7 +1004,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
 
   it('converts authenticator enroll - security question', done => {
     MockUtil.mockIntrospect(done, XHRAuthenticatorEnrollSecurityQuestion, idxResp => {
-      const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
+      const result = _.compose(uiSchemaTransformer.bind(null, testContext.settings), responseTransformer.bind(null, testContext.settings))(idxResp);
       expect(result).toEqual({
         currentAuthenticator: XHRAuthenticatorEnrollSecurityQuestion.currentAuthenticator.value,
         user: XHRAuthenticatorEnrollSecurityQuestion.user.value,
@@ -1276,7 +1276,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
 
   it('converts identify remediation response', done => {
     MockUtil.mockIntrospect(done, XHRIdentifyResponse, idxResp => {
-      const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
+      const result = _.compose(uiSchemaTransformer.bind(null, testContext.settings), responseTransformer.bind(null, testContext.settings))(idxResp);
       expect(result).toEqual({
         remediations: [
           {
@@ -1348,7 +1348,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
 
   it('converts select channel response for Okta verify', (done) => {
     MockUtil.mockIntrospect(done, XHRAuthenticatorEnrollOktaVerifyQr, idxResp => {
-      const result = _.compose(uiSchemaTransformer, responseTransformer.bind(null, testContext.settings))(idxResp);
+      const result = _.compose(uiSchemaTransformer.bind(null, testContext.settings), responseTransformer.bind(null, testContext.settings))(idxResp);
       expect(result.remediations[1].uiSchema).toEqual([{
         name: 'authenticator.id',
         value: 'aidtheidkwh282hv8g3',
