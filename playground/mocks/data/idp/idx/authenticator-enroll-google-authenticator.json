@@ -24,7 +24,7 @@
             "form": {
               "value": [
                 {
-                  "name": "otp",
+                  "name": "passcode",
                   "label": "Enter code",
                   "required": true,
                   "visible": true
