@@ -1,4 +1,4 @@
-/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.5.0-4555-g7cdd3ec */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.5.0-4742-g13bfd03 */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -1969,9 +1969,9 @@ var SchemaUtils = {
     READ_WRITE: loc('universal-directory.profiles.attribute.enduser.permission.readwrite', 'courage')
   },
   ATTRIBUTE_LEVEL_MASTERING_OPTIONS: {
-    INHERIT: loc('universal-directory.profiles.attribute.master.inherit', 'courage'),
-    OKTA_MASTERED: loc('universal-directory.profiles.attribute.master.oktamastered', 'courage'),
-    OVERRIDE: loc('universal-directory.profiles.attribute.master.override', 'courage')
+    INHERIT: loc('universal-directory.profiles.attribute.source.inherit', 'courage'),
+    OKTA_MASTERED: loc('universal-directory.profiles.attribute.source.oktamastered', 'courage'),
+    OVERRIDE: loc('universal-directory.profiles.attribute.source.override', 'courage')
   },
   USERNAMETYPE: {
     NONE: 'non-username',
@@ -3277,7 +3277,9 @@ function normalizeEvents(options) {
         e.stopPropagation();
       }
 
-      fn.apply(this, arguments);
+      if (!(this.disabled && eventName === 'click')) {
+        fn.apply(this, arguments);
+      }
     };
   });
 
@@ -7789,19 +7791,11 @@ var _default =
    * @static
    * @method
    */
-  // TODO: This will be deprecated at some point. Views should use precompiled templates
+  // TODO: This will be deprecated at some point. Views should use pre-compiled templates
   tpl: _underscoreWrapper.default.memoize(function (tpl) {
     /* eslint @okta/okta-ui/no-specific-methods: 0 */
-    // Handlebars 4.6.x introduced a breaking change with prototype/own values. If a kill-switch
-    // is enabled - fallback to prior implementation logic. OKTA-297682
-    var runtimeOptions = {};
-
-    if (window && window.__OKTA_HANDLEBARS_FALLBACK__) {
-      runtimeOptions.allowProtoPropertiesByDefault = true;
-    }
-
     return function (context) {
-      return _handlebars.default.compile(tpl)(context, runtimeOptions);
+      return _handlebars.default.compile(tpl)(context);
     };
   })
 };
