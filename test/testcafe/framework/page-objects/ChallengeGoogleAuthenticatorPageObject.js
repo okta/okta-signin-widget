@@ -1,6 +1,6 @@
 import ChallengeFactorPageObject from './ChallengeFactorPageObject';
 
-const OTP_FIELD = 'credentials.otp';
+const OTP_FIELD = 'credentials.passcode';
 
 export default class ChallengeGoogleAuthenticatorPageObject extends ChallengeFactorPageObject {
   constructor(t) {
