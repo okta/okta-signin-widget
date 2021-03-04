@@ -65,7 +65,7 @@ module.exports = {
     proxy: [{
       context: [
         '/oauth2/',
-        '/api/v1/authn/',
+        '/api/v1/',
         '/idp/idx/',
         '/login/getimage/',
         '/sso/idps/',

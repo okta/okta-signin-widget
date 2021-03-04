@@ -16,6 +16,8 @@ import FactorUtil from 'util/FactorUtil';
 import RouterUtil from 'util/RouterUtil';
 const cardinalityTextTpl = hbs('<span class="factor-cardinality">{{cardinalityText}}</span>');
 const FactorListFactorRow = View.extend({
+  tagName: 'li',
+
   className: 'enroll-factor-row clearfix',
 
   template: hbs(
@@ -100,7 +102,7 @@ export default ListView.extend({
       {{#if listTitle}}\
         <div class="list-title">{{listTitle}}</div>\
       {{/if}}\
-      <div class="list-content"></div>\
+      <ul class="list-content"></ul>\
     '
   ),
 
