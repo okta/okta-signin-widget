@@ -112,7 +112,7 @@ export default Form.extend({
     const condition = function () {
       const field = this.phoneNumberField();
 
-      return !this.hasSharedSecret() && field.length === 1 && field.is(':visible');
+      return !this.hasSharedSecret() && field.length === 1 && Form.isVisible(field);
     }.bind(this);
 
     return Expect.wait(condition, resolveValue);

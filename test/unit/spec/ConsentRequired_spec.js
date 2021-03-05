@@ -81,18 +81,18 @@ Expect.describe('ConsentRequired', function () {
     });
     itp('scope item show displayName instead of name if the first is available', function () {
       return setup().then(function (test) {
-        expect(test.form.scopeList().children()[0]).toContainText('Ability to read protected data');
-        expect(test.form.scopeList().children()[0]).not.toContainText('api:read');
+        expect(test.form.scopeList().children()[0].textContent).toEqual(expect.stringContaining('Ability to read protected data'));
+        expect(test.form.scopeList().children()[0].textContent).toEqual(expect.not.stringContaining('api:read'));
       });
     });
     itp('scope item show name if displayName is not available', function () {
       return setup().then(function (test) {
-        expect(test.form.scopeList().children()[1]).toContainText('api:write');
+        expect(test.form.scopeList().children()[1].textContent).toEqual(expect.stringContaining('api:write'));
       });
     });
     itp('scope item has a tooltip if description is available', function () {
       return setup().then(function (test) {
-        expect(test.form.scopeList().children()[0]).toContainElement('span.scope-item-tooltip');
+        expect(test.form.scopeList().children().eq(0).find('span.scope-item-tooltip')).toHaveLength(1);
         expect(test.form.scopeList().html()).toMatch(new RegExp(
           '<div class="scope-item"><div class="scope-item-text"><p>Ability to read protected data</p></div>' + 
           '<span class="scope-item-tooltip icon form-help-16" data-hasqtip="\\d+"></span></div>' + 
@@ -102,7 +102,7 @@ Expect.describe('ConsentRequired', function () {
     });
     itp('scope item does not have a tooltip if description is not available', function () {
       return setup().then(function (test) {
-        expect(test.form.scopeList().children()[1]).not.toContainElement('span.scope-item-tooltip');
+        expect(test.form.scopeList().children().eq(1).find('span.scope-item-tooltip')).toHaveLength(0);
       });
     });
   });
@@ -111,18 +111,18 @@ Expect.describe('ConsentRequired', function () {
     itp('has the default logo if client logo is not provided', function () {
       return setup().then(function (test) {
         expect(test.form.clientLogoLink()).toHaveLength(0);
-        expect(test.form.clientLogo()).toHaveAttr('src', `${window.location.origin}/img/logos/default.png`);
+        expect(test.form.clientLogo().attr('src')).toBe(`${window.location.origin}/img/logos/default.png`);
       });
     });
     itp('has the client uri', function () {
       return setupClientUri().then(function (test) {
-        expect(test.form.clientLogoLink()).toHaveAttr('href', `${window.location.origin}/client-uri.html`);
-        expect(test.form.clientLogo()).toHaveAttr('src', `${window.location.origin}/img/logos/default.png`);
+        expect(test.form.clientLogoLink().attr('href')).toBe(`${window.location.origin}/client-uri.html`);
+        expect(test.form.clientLogo().attr('src')).toBe(`${window.location.origin}/img/logos/default.png`);
       });
     });
     itp('has the correct client logo', function () {
       return setupClientLogo().then(function (test) {
-        expect(test.form.clientLogo()).toHaveAttr('src', '/base/test/unit/assets/logo.svg');
+        expect(test.form.clientLogo().attr('src')).toBe('/base/test/unit/assets/logo.svg');
       });
     });
     itp('has the correct app name in the title', function () {
@@ -139,17 +139,17 @@ Expect.describe('ConsentRequired', function () {
     });
     itp('has the correct term of services link', function () {
       return setup().then(function (test) {
-        expect(test.form.termsOfService()).toHaveAttr('href', 'https://example.okta.com/tos.html');
+        expect(test.form.termsOfService().attr('href')).toBe('https://example.okta.com/tos.html');
       });
     });
     itp('has the correct privacy policy link', function () {
       return setup().then(function (test) {
-        expect(test.form.privacyPolicy()).toHaveAttr('href', 'https://example.okta.com/policy.html');
+        expect(test.form.privacyPolicy().attr('href')).toBe('https://example.okta.com/policy.html');
       });
     });
     itp('has the consent button', function () {
       return setup().then(function (test) {
-        expect(test.form.consentButton()).toExist();
+        expect(test.form.consentButton()).toHaveLength(1);
         expect(test.form.consentButton().attr('value')).toBe('Allow Access');
         expect(test.form.consentButton().attr('class')).toBe('button');
       });
@@ -178,7 +178,7 @@ Expect.describe('ConsentRequired', function () {
     });
     itp('has the cancel button', function () {
       return setup().then(function (test) {
-        expect(test.form.cancelButton()).toExist();
+        expect(test.form.cancelButton()).toHaveLength(1);
         expect(test.form.cancelButton().attr('value')).toBe('Don\'t Allow');
         expect(test.form.cancelButton().attr('class')).toBe('button button-clear');
       });

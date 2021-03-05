@@ -6,6 +6,8 @@ import Q from 'q';
 import $sandbox from 'sandbox';
 import Bundles from 'util/Bundles';
 import Logger from 'util/Logger';
+import Dom from '../dom/Dom';
+
 const fn = {};
 const WAIT_MAX_TIME = 2000;
 const WAIT_INTERVAL = 20;
@@ -249,12 +251,12 @@ fn.isEmptyFieldError = function ($errorField) {
 
 fn.isNotVisible = function ($input) {
   expect($input.length).toBe(1);
-  expect($input.is(':visible')).toBe(false);
+  expect(Dom.isVisible($input)).toBe(false);
 };
 
 fn.isVisible = function ($input) {
   expect($input.length).toBe(1);
-  expect($input.is(':visible')).toBe(true);
+  expect(Dom.isVisible($input)).toBe(true);
 };
 
 fn.isController = function (className, controller) {

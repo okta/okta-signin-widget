@@ -4,8 +4,10 @@ import RegistrationFormFactory from 'util/RegistrationFormFactory';
 let { SchemaProperty } = internal.models;
 
 describe('RegistrationFormFactory', function () {
+  let testContext;
   describe('string field', function () {
     beforeEach(function () {
+      testContext = {};
       const schemaProperty = new SchemaProperty.Model(
         {
           name: 'stringfield',
@@ -16,23 +18,23 @@ describe('RegistrationFormFactory', function () {
         { parse: true }
       );
 
-      this.inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
+      testContext.inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
     });
 
     it('type is text', function () {
-      expect(this.inputOptions['type']).toEqual('text');
+      expect(testContext.inputOptions['type']).toEqual('text');
     });
 
     it('no label', function () {
-      expect(this.inputOptions['label']).toBe(false);
+      expect(testContext.inputOptions['label']).toBe(false);
     });
 
     it('label-top is true', function () {
-      expect(this.inputOptions['label-top']).toBe(true);
+      expect(testContext.inputOptions['label-top']).toBe(true);
     });
 
     it('placeholder is the title', function () {
-      expect(this.inputOptions['placeholder']).toEqual('Test Property');
+      expect(testContext.inputOptions['placeholder']).toEqual('Test Property');
     });
   });
 
@@ -49,19 +51,19 @@ describe('RegistrationFormFactory', function () {
         { parse: true }
       );
 
-      this.inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
+      testContext.inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
     });
 
     it('label is the title', function () {
-      expect(this.inputOptions['label']).toEqual('Flavor Fruit');
+      expect(testContext.inputOptions['label']).toEqual('Flavor Fruit');
     });
 
     it('label-top is not set', function () {
-      expect(this.inputOptions['label-top']).toBeUndefined();
+      expect(testContext.inputOptions['label-top']).toBeUndefined();
     });
 
     it('placeholder is not set', function () {
-      expect(this.inputOptions['placeholder']).toBeUndefined();
+      expect(testContext.inputOptions['placeholder']).toBeUndefined();
     });
   });
 
@@ -75,11 +77,11 @@ describe('RegistrationFormFactory', function () {
         { parse: true }
       );
 
-      this.inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
+      testContext.inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
     });
 
     it('icon is person-16-gray', function () {
-      expect(this.inputOptions['params'].icon).toEqual('person-16-gray');
+      expect(testContext.inputOptions['params'].icon).toEqual('person-16-gray');
     });
   });
 
@@ -93,15 +95,15 @@ describe('RegistrationFormFactory', function () {
         { parse: true }
       );
 
-      this.inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
+      testContext.inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
     });
 
     it('type is password', function () {
-      expect(this.inputOptions['type']).toEqual('password');
+      expect(testContext.inputOptions['type']).toEqual('password');
     });
 
     it('icon is remote-lock-16', function () {
-      expect(this.inputOptions['params'].icon).toEqual('remote-lock-16');
+      expect(testContext.inputOptions['params'].icon).toEqual('remote-lock-16');
     });
   });
 
