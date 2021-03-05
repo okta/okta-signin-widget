@@ -11,6 +11,7 @@ import XHRAuthenticatorEnrollDataPhone  from '../../../../../playground/mocks/da
 import XHRAuthenticatorEnrollSecurityQuestion  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-security-question.json';
 import XHRAuthenticatorEnrollOktaVerifyQr from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr';
 import XHRIdentifyResponse from '../../../../../playground/mocks/data/idp/idx/identify.json';
+import XHRIdentifyWithPasswordResponse from '../../../../../playground/mocks/data/idp/idx/identify-with-password.json'
 
 describe('v2/ion/uiSchemaTransformer', function () {
   let testContext;
@@ -1375,6 +1376,172 @@ describe('v2/ion/uiSchemaTransformer', function () {
         'label-top': true,
         type: 'radio'
       }]);
+    });
+  });
+
+  it('sets showPasswordToggle to true if features.showPasswordToggleOnSignInPage is true', done => {
+    testContext.settings = new Settings({
+      baseUrl: 'http://localhost:3000',
+      features: {
+        showPasswordToggleOnSignInPage: true,
+      }
+    });
+
+    MockUtil.mockIntrospect(done, XHRIdentifyWithPasswordResponse, idxResp => {
+      const result = _.compose(uiSchemaTransformer.bind(null, testContext.settings), responseTransformer.bind(null, testContext.settings))(idxResp);
+      expect(result.remediations[0]).toEqual(
+          {
+            name: 'identify',
+            href: 'http://localhost:3000/idp/idx/identify',
+            rel: ['create-form'],
+            accepts: 'application/vnd.okta.v1+json',
+            method: 'POST',
+            action: jasmine.any(Function),
+            value: [
+              {
+                name: 'identifier',
+                label: 'Username',
+              },
+              {
+                "form":  {
+                  "value": [
+                      {
+                      "label": "Password",
+                      "name": "passcode",
+                      "secret": true,
+                    },
+                  ],
+                },
+                "name": "credentials",
+                "required": true,
+                "type": "object",
+              },
+
+              {
+                name: 'rememberMe',
+                label: 'Remember Me',
+                type: 'boolean',
+              },
+              {
+                name: 'stateHandle',
+                required: true,
+                value: jasmine.any(String),
+                visible: false,
+                mutable: false,
+              },
+            ],
+            uiSchema: [
+              {
+                name: 'identifier',
+                label: 'Username',
+                type: 'text',
+                'label-top': true,
+              },
+              {
+                "label": "Password",
+                "label-top": true,
+                "name": "credentials.passcode",
+                "params":  {
+                  "showPasswordToggle": true,
+                },
+                "secret": true,
+                "type": "password",
+              },
+              {
+                name: 'rememberMe',
+                label: false,
+                type: 'checkbox',
+                placeholder: 'Remember Me',
+                modelType: 'boolean',
+                required: false,
+                'label-top': true,
+              },
+            ],
+          },
+      );
+    });
+  });
+
+  it('sets showPasswordToggle to false if features.showPasswordToggleOnSignInPage is false', done => {
+    testContext.settings = new Settings({
+      baseUrl: 'http://localhost:3000',
+      features: {
+        showPasswordToggleOnSignInPage: false,
+      }
+    });
+
+    MockUtil.mockIntrospect(done, XHRIdentifyWithPasswordResponse, idxResp => {
+      const result = _.compose(uiSchemaTransformer.bind(null, testContext.settings), responseTransformer.bind(null, testContext.settings))(idxResp);
+      expect(result.remediations[0]).toEqual(
+          {
+            name: 'identify',
+            href: 'http://localhost:3000/idp/idx/identify',
+            rel: ['create-form'],
+            accepts: 'application/vnd.okta.v1+json',
+            method: 'POST',
+            action: jasmine.any(Function),
+            value: [
+              {
+                name: 'identifier',
+                label: 'Username',
+              },
+              {
+                "form":  {
+                  "value": [
+                      {
+                      "label": "Password",
+                      "name": "passcode",
+                      "secret": true,
+                    },
+                  ],
+                },
+                "name": "credentials",
+                "required": true,
+                "type": "object",
+              },
+
+              {
+                name: 'rememberMe',
+                label: 'Remember Me',
+                type: 'boolean',
+              },
+              {
+                name: 'stateHandle',
+                required: true,
+                value: jasmine.any(String),
+                visible: false,
+                mutable: false,
+              },
+            ],
+            uiSchema: [
+              {
+                name: 'identifier',
+                label: 'Username',
+                type: 'text',
+                'label-top': true,
+              },
+              {
+                "label": "Password",
+                "label-top": true,
+                "name": "credentials.passcode",
+                "params":  {
+                  "showPasswordToggle": false,
+                },
+                "secret": true,
+                "type": "password",
+              },
+              {
+                name: 'rememberMe',
+                label: false,
+                type: 'checkbox',
+                placeholder: 'Remember Me',
+                modelType: 'boolean',
+                required: false,
+                'label-top': true,
+              },
+            ],
+          },
+      );
     });
   });
 });
