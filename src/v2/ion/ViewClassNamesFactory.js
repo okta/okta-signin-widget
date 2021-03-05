@@ -24,7 +24,7 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
     [AUTHENTICATOR_KEY.OV]: 'mfa-verify',
     [AUTHENTICATOR_KEY.GOOGLE_OTP]: 'mfa-verify',
     [AUTHENTICATOR_KEY.DUO]: 'mfa-verify-duo',
-    [AUTHENTICATOR_KEY.SYMANTEC_VIP]: 'mfa-symantec',
+    [AUTHENTICATOR_KEY.SYMANTEC_VIP]: 'mfa-verify',
   },
   [FORMS.CHALLENGE_POLL]: {
     [AUTHENTICATOR_KEY.OV]: 'mfa-verify',

@@ -8,7 +8,7 @@ const Body = BaseForm.extend(Object.assign(
 
     title () {
       const vendorName =
-        this.options.appState.get('currentAuthenticatorEnrollment')?.displayName ||
+        this.options.appState.getAuthenticatorDisplayName() ||
         loc('oie.custom_otp.authenticator.default.vendorName', 'login');
       return loc('oie.verify.custom_otp.title', 'login', [vendorName]);
     },

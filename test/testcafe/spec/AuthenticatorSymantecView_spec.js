@@ -80,7 +80,7 @@ test
     const pageObject = await setup(t);
 
     await checkConsoleMessages({
-      controller: 'mfa-symantec',
+      controller: 'mfa-verify',
       formName: 'challenge-authenticator',
       authenticatorKey:'symantec_vip',
       methodType: 'otp'

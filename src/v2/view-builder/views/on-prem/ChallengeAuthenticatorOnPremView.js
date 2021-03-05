@@ -14,7 +14,7 @@ const Body = BaseForm.extend({
 
   title () {
     const vendorName =
-      this.options.appState.get('currentAuthenticatorEnrollment').displayName ||
+      this.options.appState.getAuthenticatorDisplayName() ||
       loc('oie.on_prem.authenticator.default.vendorName', 'login');
     return loc('oie.on_prem.verify.title', 'login', [vendorName]);
   },

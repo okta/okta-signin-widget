@@ -106,6 +106,28 @@ export default Model.extend({
     return currentViewState;
   },
 
+  /**
+   * Returns the displayName of the authenticator
+   * @returns {string}
+   */
+  getAuthenticatorDisplayName () {
+    const currentAuthenticator = this.get('currentAuthenticator') || {};
+    const currentAuthenticatorEnrollment = this.get('currentAuthenticatorEnrollment') || {};
+
+    // For enrollment and certain verification flows, the currentAuthenticator object will be present.
+    // If not, we're likely in a traditional verify/challenge flow.
+    return currentAuthenticator.displayName || currentAuthenticatorEnrollment.displayName;
+  },
+
+  /**
+   * Checks to see if we're in an authenticator challenge flow.
+   * @returns {boolean}
+   */
+  isAuthenticatorChallenge () {
+    const currentFormName = this.get('currentFormName');
+    return FORMS_FOR_VERIFICATION.includes(currentFormName);
+  },
+
   shouldReRenderView (transformedResponse) {
     const previousRawState = this.has('idx') ? this.get('idx').rawIdxState : null;
     const identicalResponse = _.isEqual(

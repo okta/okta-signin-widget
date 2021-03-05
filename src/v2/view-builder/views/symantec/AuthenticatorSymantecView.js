@@ -1,23 +1,25 @@
-import { _, loc } from 'okta';
+import { loc } from 'okta';
 import BaseForm from '../../internals/BaseForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 
 const Body = BaseForm.extend({
 
   title () {
-    return this.options.isChallenge
-      ? loc('oie.symantecVip.challenge.title', 'login', [this.options.displayName])
-      : loc('oie.symantecVip.enroll.title', 'login', [this.options.displayName]);
+    const displayName = this.options.appState.getAuthenticatorDisplayName();
+    return this.options.appState.isAuthenticatorChallenge()
+      ? loc('oie.symantecVip.challenge.title', 'login', [displayName])
+      : loc('oie.symantecVip.enroll.title', 'login', [displayName]);
   },
 
   subtitle () {
-    return this.options.isChallenge
-      ? loc('oie.symantecVip.challenge.description', 'login', [this.options.displayName])
-      : loc('oie.symantecVip.enroll.description', 'login', [this.options.displayName]);
+    const displayName = this.options.appState.getAuthenticatorDisplayName();
+    return this.options.appState.isAuthenticatorChallenge()
+      ? loc('oie.symantecVip.challenge.description', 'login', [displayName])
+      : loc('oie.symantecVip.enroll.description', 'login', [displayName]);
   },
 
   save () {
-    return this.options.isChallenge
+    return this.options.appState.isAuthenticatorChallenge()
       ? loc('mfa.challenge.verify', 'login')
       : loc('mfa.enroll', 'login');
   },
@@ -25,16 +27,5 @@ const Body = BaseForm.extend({
 });
 
 export default BaseAuthenticatorView.extend({
-  initialize () {
-    BaseAuthenticatorView.prototype.initialize.apply(this, arguments);
-
-    const currentAuthenticator = this.options.appState.get('currentAuthenticator');
-    const authenticatorEnrollments = this.options.appState.get('authenticatorEnrollments')?.value || [];
-    const existingAuthenticator = _.find(authenticatorEnrollments, { id: currentAuthenticator.id });
-
-    // If the authenticator is already enrolled, we're in a challenge flow as opposed to enrollment
-    this.options.isChallenge = existingAuthenticator || false;
-    this.options.displayName = currentAuthenticator.displayName;
-  },
   Body,
 });
