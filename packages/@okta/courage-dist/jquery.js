@@ -6129,13 +6129,7 @@ function remove( elem, selector, keepData ) {
 
 jQuery.extend( {
 	htmlPrefilter: function (html) {
-		try {
-			if (window.top && window.top.__OKTA_JQUERY_LEGACY_HTML_PREFILTER__) {
-				return html.replace(rxhtmlTag, "<$1></$2>");
-			}
-		} catch (e) {
-			return html.replace(rxhtmlTag, "<$1></$2>");
-		}
+		// OKTA-293330: Support patched jQuery prefilter to avoid possible XSS
 		return html;
 	},
 
