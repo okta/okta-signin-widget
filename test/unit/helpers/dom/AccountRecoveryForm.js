@@ -50,7 +50,7 @@ export default Form.extend({
   },
 
   hasSmsHint: function () {
-    return this.$(SMS_HINT_SELECTOR).is(':visible');
+    return Form.isVisible(this.$(SMS_HINT_SELECTOR));
   },
 
   sendSms: function () {
@@ -62,7 +62,7 @@ export default Form.extend({
   },
 
   hasMobileRecoveryHint: function () {
-    return this.$(MOBILE_RECOVERY_HINT_SELECTOR).is(':visible');
+    return Form.isVisible(this.$(MOBILE_RECOVERY_HINT_SELECTOR));
   },
 
   hasCallButton: function () {
@@ -100,7 +100,7 @@ export default Form.extend({
   },
 
   hasCantAccessEmailLink: function () {
-    return this.$(CANT_ACCESS_EMAIL_SELECTOR).is(':visible');
+    return Form.isVisible(this.$(CANT_ACCESS_EMAIL_SELECTOR));
   },
 
   clickCantAccessEmail: function () {
@@ -120,7 +120,7 @@ export default Form.extend({
   },
 
   hasSendEmailLink: function () {
-    return this.sendEmailLink().is(':visible');
+    return this.sendEmailLink().css('visibility') === 'visible';
   },
 
   clickSendEmailLink: function () {
