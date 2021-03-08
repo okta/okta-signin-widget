@@ -101,44 +101,49 @@ export default Router.extend({
     // The response is not in IDX format. See playground/mocks/data/oauth2/error-feature-not-enabled.json
     if (error?.error === 'access_denied' && error.error_description) {
       // simulate an IDX error response
+      const idxMessages = {
+        messages: {
+          type: 'array',
+          value: [{
+            message: error.error_description,
+            i18n: {
+              key: 'oie.feature.disabled'
+            },
+            class: 'ERROR'
+          }],
+        },
+      };
+
+      // Format the error to resemble an IdX error
       error = Object.assign({
         details: {
-          messages: {
-            type: 'array',
-            value: [{
-              message: error.error_description,
-              i18n: {
-                key: 'oie.feature.disabled'
-              },
-              class: 'ERROR'
-            }]
-          }
+          rawIdxState: idxMessages,
+          context: idxMessages,
+          neededToProceed: [],
         }
       }, error);
     }
 
-        
     // loosely check whether is IDX error response
     // see idx for details: https://github.com/okta/okta-idx-js/blob/master/src/index.js
-    if (error?.details) {
-      // Populate generic error message if there isnt any.
-      if (!error.details.messages ) {
-        error.details.messages = {
+    if (error?.details?.rawIdxState) {
+      // Populate generic error message if there isn't any.
+      if (!error.details.rawIdxState.messages) {
+        const idxMessage = {
           type: 'array',
-          'value': [
+          value: [
             {
               message: loc('oform.error.unexpected', 'login'),
               class: 'ERROR'
             }
           ]
         };
+        // Format the error to resemble an IdX error
+        error.details.rawIdxState.messages = idxMessage;
+        error.details.context = { messages: idxMessage };
       }
-      // Need to mimic IdxResponses as idx returns raw response at error case
-      return this.handleIdxResponseSuccess({
-        rawIdxState: error.details,
-        context: _.pick(error.details, 'messages'),
-        neededToProceed: [],
-      });
+
+      return this.handleIdxResponseSuccess(error.details);
     }
 
     // assume it's a config error
@@ -146,7 +151,7 @@ export default Router.extend({
       error
     ));
 
-    // -- TODO: OKTA-244631 How to suface up the CORS error in IDX?
+    // -- TODO: OKTA-244631 How to surface up the CORS error in IDX?
     // -- The `err` object from idx.js doesn't have XHR object
     // Global error handling for CORS enabled errors
     // if (err.xhr && BrowserFeatures.corsIsNotEnabled(err.xhr)) {
