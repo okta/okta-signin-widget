@@ -45,7 +45,7 @@ const getFirstLevelObjects = (resp) => {
     // Example authenticators array in select-authenticator form
     if (val.type === 'array') {
       result[key] = {
-        value: val.value
+        value: val.value,
       };
     }
 
@@ -67,14 +67,14 @@ const getRemediationValues = (idx) => {
       remediationValues.push({
         name: idx.context.success.name,
         href: idx.context.success.href,
-        value: []
+        value: [],
       });
     } else if (idx.context.messages) {
       // no remediation or only skip remediation with messages
       remediationValues.push({
         name: RemediationForms.TERMINAL,
         // Using `value` is unnecessary as `messages` will be display via `TerminalView.showMessages`,
-        // even though might sound a littre counterintuitive.
+        // even though might sound a little counterintuitive.
         // The reason being is there is `BaseForm.showMessages` that is intended to handle
         // messages generically.
         value: [],

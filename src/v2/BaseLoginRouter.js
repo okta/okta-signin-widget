@@ -133,7 +133,7 @@ export default Router.extend({
           ]
         };
       }
-      // Need to mimic IdxRespones as idx returns raw response at error case
+      // Need to mimic IdxResponses as idx returns raw response at error case
       return this.handleIdxResponseSuccess({
         rawIdxState: error.details,
         context: _.pick(error.details, 'messages'),
