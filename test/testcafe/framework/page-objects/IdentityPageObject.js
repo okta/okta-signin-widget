@@ -84,6 +84,10 @@ export default class IdentityPageObject extends BasePageObject {
     return this.form.setTextBoxValue('credentials.passcode', value);
   }
 
+  async hasShowTogglePasswordIcon() {
+    return await Selector('.password-toggle').count;
+  }
+
   clickNextButton() {
     return this.form.clickSaveButton();
   }

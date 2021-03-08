@@ -69,7 +69,7 @@ const Body = BaseForm.extend({
         type: 'password',
         'label-top': true,
         params: {
-          showPasswordToggle: true
+          showPasswordToggle: this.settings.get('showPasswordToggle'),
         }
       }
     ]);
