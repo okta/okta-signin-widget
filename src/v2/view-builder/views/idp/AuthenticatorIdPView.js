@@ -1,19 +1,21 @@
-import { _, loc } from 'okta';
+import { loc } from 'okta';
 import { BaseForm } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 
 const Body = BaseForm.extend({
 
   title () {
+    const displayName = this.options.appState.getAuthenticatorDisplayName();
     return this.options.isChallenge
-      ? loc('oie.idp.challenge.title', 'login', [this.options.displayName])
-      : loc('oie.idp.enroll.title', 'login', [this.options.displayName]);
+      ? loc('oie.idp.challenge.title', 'login', [displayName])
+      : loc('oie.idp.enroll.title', 'login', [displayName]);
   },
 
   subtitle () {
+    const displayName = this.options.appState.getAuthenticatorDisplayName();
     return this.options.isChallenge
-      ? loc('oie.idp.challenge.description', 'login', [this.options.displayName])
-      : loc('oie.idp.enroll.description', 'login', [this.options.displayName]);
+      ? loc('oie.idp.challenge.description', 'login', [displayName])
+      : loc('oie.idp.enroll.description', 'login', [displayName]);
   },
 
   save () {
@@ -28,13 +30,10 @@ export default BaseAuthenticatorView.extend({
   initialize () {
     BaseAuthenticatorView.prototype.initialize.apply(this, arguments);
 
-    const currentAuthenticator = this.options.appState.get('currentAuthenticator');
-    const authenticatorEnrollments = this.options.appState.get('authenticatorEnrollments')?.value || [];
-    const existingAuthenticator = _.find(authenticatorEnrollments, { id: currentAuthenticator.id });
-
-    // If the authenticator is already enrolled, we're in a challenge flow as opposed to enrollment
-    this.options.isChallenge = existingAuthenticator || false;
-    this.options.displayName = currentAuthenticator.displayName;
+    // The IdP Authenticator doesn't have a traditional enroll/challenge form.
+    // We need to infer it based on if currentAuthenticatorEnrollment is included in the response
+    const currentAuthenticatorEnrollment = this.options.appState.get('currentAuthenticatorEnrollment');
+    this.options.isChallenge = !!currentAuthenticatorEnrollment;
   },
   Body,
 });
