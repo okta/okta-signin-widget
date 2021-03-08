@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { ClientFunction, RequestMock, RequestLogger } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
@@ -18,6 +18,10 @@ const identifyRequestLogger = RequestLogger(
   }
 );
 
+const rerenderWidget = ClientFunction((settings) => {
+  window.renderPlaygroundWidget(settings);
+});
+
 fixture('Identify + Password');
 
 async function setup(t) {
@@ -33,13 +37,15 @@ async function setup(t) {
   return identityPage;
 }
 
-test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password field and forgot password link', async t => {
+test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password field, password toggle, and forgot password link', async t => {
   const identityPage = await setup(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('random password 123');
   await t.expect(await identityPage.hasForgotPasswordLinkText()).ok();
   await t.expect(await identityPage.getForgotPasswordLinkText()).eql('Forgot password?');
+
+  await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
 
   await identityPage.clickNextButton();
 
@@ -55,4 +61,20 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
   });
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
+});
+
+test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password toggle if features.showPasswordToggleOnSignIn is true', async t => {
+  const identityPage = await setup(t);
+  await rerenderWidget({
+    features: {showPasswordToggleOnSignInPage: true},
+  });
+  await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
+});
+
+test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if features.showPasswordToggleOnSignIn is false', async t => {
+  const identityPage = await setup(t);
+  await rerenderWidget({
+    features: {showPasswordToggleOnSignInPage: false},
+  });
+  await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
 });

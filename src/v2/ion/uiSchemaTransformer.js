@@ -29,7 +29,7 @@ const UISchemaHandlers = {
  * @param {AuthResult} transformedResp
  * @param {IONForm} remeditationForm
  */
-const createUISchema = (transformedResp, remediationForm) => {
+const createUISchema = (transformedResp, remediationForm, settings) => {
 
   // For cases where field itself is a form, it has a formname and we are appending the formname to each field.
   // Sort of flat the structure in order to align Courage flatten Model. The flatten structure will be converted
@@ -63,7 +63,7 @@ const createUISchema = (transformedResp, remediationForm) => {
     };
     const fieldType = ionFormField.type || 'string';
     const uiSchemaHandler = UISchemaHandlers[fieldType];
-    const uiSchemaResult = uiSchemaHandler(ionFormField, remediationForm, transformedResp, createUISchema);
+    const uiSchemaResult = uiSchemaHandler(ionFormField, remediationForm, transformedResp, createUISchema, settings);
 
     return Object.assign(
       {},
@@ -78,10 +78,10 @@ const createUISchema = (transformedResp, remediationForm) => {
  *
  * @param {AuthResult} transformedResp
  */
-const insertUISchema = (transformedResp) => {
+const insertUISchema = (settings, transformedResp) => {
   if (transformedResp) {
     transformedResp.remediations = transformedResp.remediations.map(obj => {
-      obj.uiSchema = createUISchema(transformedResp, obj);
+      obj.uiSchema = createUISchema(transformedResp, obj, settings);
       return obj;
     });
   }
