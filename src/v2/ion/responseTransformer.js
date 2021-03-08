@@ -57,6 +57,11 @@ const getFirstLevelObjects = (resp) => {
   return result;
 };
 
+const hasRedirectForm = (idxState) => {
+  const remediations = idxState?.remediation?.value || [];
+  return !!_.find(remediations, { name: RemediationForms.REDIRECT_IDP });
+};
+
 const getRemediationValues = (idx) => {
   const remediationValues = [];
   const hasSkipRemediationOnly =
@@ -71,8 +76,12 @@ const getRemediationValues = (idx) => {
       });
     } else if (idx.context.messages) {
       // no remediation or only skip remediation with messages
+
+      // If we're in an error state from a redirect form (redirect-idp),
+      // display the error message within the authenticator view instead of terminal.
+      const isRedirect = hasRedirectForm(idx.rawIdxState);
       remediationValues.push({
-        name: RemediationForms.TERMINAL,
+        name : isRedirect ? RemediationForms.REDIRECT_IDP : RemediationForms.TERMINAL,
         // Using `value` is unnecessary as `messages` will be display via `TerminalView.showMessages`,
         // even though might sound a little counterintuitive.
         // The reason being is there is `BaseForm.showMessages` that is intended to handle
@@ -87,7 +96,6 @@ const getRemediationValues = (idx) => {
         value: [],
       });
     }
-
   }
   return {
     remediations: [
@@ -194,7 +202,10 @@ const convert = (settings, idx = {}) => {
   );
 
   injectIdPConfigButtonToRemediation(settings, result);
-  convertRedirectIdPToSuccessRedirectIffOneIdp(result);
+  if (!result.messages) {
+    // Only redirect to the IdP if we are not in an error flow
+    convertRedirectIdPToSuccessRedirectIffOneIdp(result);
+  }
 
   return result;
 };
