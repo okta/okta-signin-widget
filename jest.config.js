@@ -4,6 +4,7 @@ const SRC = path.resolve(ROOT, 'src');
 const LOCAL_PACKAGES = path.resolve(ROOT, 'packages');
 const REPORT_DIR = '<rootDir>/build2/reports/unit/jest';
 const OktaSignin = '<rootDir>/src/widget/OktaSignIn';
+const LEGACY_TESTS = require('./test/unit/legacy-tests');
 
 module.exports = {
   coverageDirectory: REPORT_DIR,
@@ -38,10 +39,9 @@ module.exports = {
     '<rootDir>/test/unit/jest/jest-setup-global.js'
   ],
   testMatch: [
-    '**/test/unit/spec/v2/**/*.{js,ts}',
-    '**/test/unit/spec/widget/**/*.{js,ts}',
-    '**/test/unit/spec/OktaSignIn_spec.js'
+    '**/test/unit/spec/**/*.{js,ts}'
   ],
+  testPathIgnorePatterns: LEGACY_TESTS,
   roots: [
     'test/unit/spec'
   ],
