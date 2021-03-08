@@ -109,7 +109,7 @@ const getAuthenticatorsVerifyUiSchema = ({ options }) => {
 /**
   * Create ui schema for ION field that has type 'object'.
   */
-const createUiSchemaForObject = (ionFormField, remediationForm, transformedResp, createUISchema) => {
+const createUiSchemaForObject = (ionFormField, remediationForm, transformedResp, createUISchema, settings) => {
   const uiSchema = {};
 
   if (ionFormField.name === 'authenticator' &&
@@ -135,7 +135,7 @@ const createUiSchemaForObject = (ionFormField, remediationForm, transformedResp,
             value: opt.value,
           }
         ]
-      });
+      }, settings);
     });
     uiSchema.options = ionFormField.options.map((opt, index) => {
       return { label: opt.label, value: index };
