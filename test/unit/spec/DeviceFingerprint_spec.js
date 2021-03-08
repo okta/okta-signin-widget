@@ -11,6 +11,7 @@ Expect.describe('DeviceFingerprint', function () {
       }
       : errorMessage;
 
+    // TODO (jest): event is missing `origin` propety
     window.postMessage(JSON.stringify(message), '*');
   }
 
@@ -35,9 +36,9 @@ Expect.describe('DeviceFingerprint', function () {
     DeviceFingerprint.generateDeviceFingerprint('baseUrl', $sandbox);
     const $iFrame = $sandbox.find('iframe');
 
-    expect($iFrame).toExist();
+    expect($iFrame.length).toBe(1);
     expect($iFrame.attr('src')).toBe('baseUrl/auth/services/devicefingerprint');
-    expect($iFrame.is(':visible')).toBe(false);
+    expect($iFrame.css('display')).toBe('none');
     expect(window.addEventListener).toHaveBeenCalledWith('message', jasmine.any(Function), false);
   });
 
@@ -58,7 +59,7 @@ Expect.describe('DeviceFingerprint', function () {
         expect(reason).toBe('service not available');
         const $iFrame = $sandbox.find('iframe');
 
-        expect($iFrame).not.toExist();
+        expect($iFrame.length).toBe(0);
         done();
       });
   });
@@ -87,7 +88,7 @@ Expect.describe('DeviceFingerprint', function () {
         expect(reason).toBe('no data');
         const $iFrame = $sandbox.find('iframe');
 
-        expect($iFrame).not.toExist();
+        expect($iFrame.length).toBe(0);
         done();
       });
   });
@@ -103,7 +104,7 @@ Expect.describe('DeviceFingerprint', function () {
         expect(reason).toBe('no data');
         const $iFrame = $sandbox.find('iframe');
 
-        expect($iFrame).not.toExist();
+        expect($iFrame.length).toBe(0);
         done();
       });
   });
@@ -118,7 +119,7 @@ Expect.describe('DeviceFingerprint', function () {
       .catch(function (reason) {
         const $iFrame = $sandbox.find('iframe');
 
-        expect($iFrame).not.toExist();
+        expect($iFrame.length).toBe(0);
         expect(reason).toBe('user agent is not defined');
         done();
       });
@@ -135,7 +136,7 @@ Expect.describe('DeviceFingerprint', function () {
         expect(reason).toBe('device fingerprint is not supported on Windows phones');
         const $iFrame = $sandbox.find('iframe');
 
-        expect($iFrame).not.toExist();
+        expect($iFrame.length).toBe(0);
         done();
       });
   });
@@ -152,9 +153,9 @@ Expect.describe('DeviceFingerprint', function () {
       // Verify the exists of iframe implies promise is neither resolved nor rejected
       const $iFrame = $sandbox.find('iframe');
 
-      expect($iFrame).toExist();
+      expect($iFrame.length).toBe(1);
       expect($iFrame.attr('src')).toBe(baseUrl + '/auth/services/devicefingerprint');
-      expect($iFrame.is(':visible')).toBe(false);
+      expect($iFrame.css('display')).toBe('none');
 
       window.removeEventListener('message', messageHandler, false);
       done();
