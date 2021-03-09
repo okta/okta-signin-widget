@@ -23,6 +23,10 @@ export default Form.extend({
     return this.input(PHONE_FIELD);
   },
 
+  getPhoneNumberAutocomplete: function () {
+    return this.autocomplete(PHONE_FIELD);
+  },
+
   phonePrefixText: function () {
     return this.inlineLabel(PHONE_FIELD).trimmedText();
   },

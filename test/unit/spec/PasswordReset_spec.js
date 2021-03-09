@@ -627,9 +627,21 @@ Expect.describe('PasswordReset', function () {
     });
   });
 
+  itp('has autocomplete set to new-password for new password field', function () {
+    return setup().then(function (test) {
+      expect(test.form.getNewPasswordAutocomplete()).toBe('new-password');
+    });
+  });
+
   itp('has a password field to confirm the new password', function () {
     return setup().then(function (test) {
       Expect.isPasswordField(test.form.confirmPasswordField());
+    });
+  });
+
+  itp('has autocomplete set to new-password for confirm password field', function () {
+    return setup().then(function (test) {
+      expect(test.form.getConfirmPasswordAutocomplete()).toBe('new-password');
     });
   });
 

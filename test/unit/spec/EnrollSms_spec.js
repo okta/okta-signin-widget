@@ -236,6 +236,11 @@ Expect.describe('EnrollSms', function () {
         Expect.isTextField(test.form.phoneNumberField());
       });
     });
+    itp('allows autocomplete for phone number text field', function () {
+      return setup(allFactorsRes).then(function (test) {
+        expect(test.form.getPhoneNumberAutocomplete()).toBe('tel');
+      });
+    });
     itp('has a button with primary class and text "Send Code"', function () {
       return setup(allFactorsRes).then(function (test) {
         expectSendButton(test);
