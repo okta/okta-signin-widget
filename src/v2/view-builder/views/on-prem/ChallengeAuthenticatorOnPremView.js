@@ -2,7 +2,7 @@ import { loc } from 'okta';
 import { BaseForm } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 
-const ON_PREM_TOKEN_CHANGE_KEY = 'oie.on_prem.error.token.change';
+const ON_PREM_TOKEN_CHANGE_KEY = 'errors.E0000106';
 
 const Body = BaseForm.extend({
 
@@ -29,7 +29,7 @@ const Body = BaseForm.extend({
   },
 
   save () {
-    return loc('oform.verify', 'login');
+    return loc('mfa.challenge.verify', 'login');
   },
 });
 

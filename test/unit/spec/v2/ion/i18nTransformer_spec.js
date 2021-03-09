@@ -1,6 +1,6 @@
 import { _ } from 'okta';
 import i18nTransformer from 'v2/ion/i18nTransformer';
-import { getMessageKey } from 'v2/ion/i18nTransformer';
+import { getMessageKey, getI18NParams } from 'v2/ion/i18nTransformer';
 import Bundles from 'util/Bundles';
 
 describe('v2/ion/i18nTransformer', function () {
@@ -25,15 +25,11 @@ describe('v2/ion/i18nTransformer', function () {
       'oie.security.question.createQuestion.label': 'create a question',
       'oie.google_authenticator.otp.title': 'enter passcode',
 
-      'oie.on_prem.enroll.username.label': 'enter username',
-      'oie.on_prem.enroll.passcode.label': 'enter passcode',
-      'oie.on_prem.verify.passcode.label': 'enter passcode',
-      'oie.on_prem.error.token.change': 'token change mode',
+      'enroll.onprem.username.placeholder': 'enter {0} username',
+      'enroll.onprem.passcode.placeholder': 'enter {0} passcode',
+      'errors.E0000106': 'token change mode',
 
-      'oie.rsa.label': 'rsa',
-      'oie.rsa.enroll.username.label': 'enter username',
-      'oie.rsa.enroll.passcode.label': 'enter passcode',
-      'oie.rsa.verify.passcode.label': 'enter passcode',
+      'factor.totpHard.rsaSecurId': 'rsa',
 
       'oie.custom_otp.verify.passcode.label': 'enter passcode',
 
@@ -1135,14 +1131,14 @@ describe('v2/ion/i18nTransformer', function () {
     });
   });
 
-  it('converts oie.on_prem.error.token.change message', () => {
+  it('converts errors.E0000106 message', () => {
     const resp = {
       messages: {
         value: [
           {
             'message': 'Wait for token to change, then enter the new tokencode',
             'i18n': {
-              'key': 'oie.on_prem.error.token.change'
+              'key': 'errors.E0000106'
             },
             'class': 'INFO'
           },
@@ -1165,7 +1161,7 @@ describe('v2/ion/i18nTransformer', function () {
           {
             'message': 'unit test - token change mode',
             'i18n': {
-              'key': 'oie.on_prem.error.token.change'
+              'key': 'errors.E0000106'
             },
             'class': 'INFO'
           },
@@ -1371,7 +1367,8 @@ describe('v2/ion/i18nTransformer', function () {
           relatesTo: {
             value: {
               type: 'security_key',
-              key: 'onprem_mfa'
+              key: 'onprem_mfa',
+              displayName: 'on-prem auth'
             }
           },
           uiSchema: [
@@ -1407,7 +1404,8 @@ describe('v2/ion/i18nTransformer', function () {
           relatesTo: {
             value: {
               type: 'security_key',
-              key: 'onprem_mfa'
+              key: 'onprem_mfa',
+              displayName: 'on-prem auth'
             }
           },
           uiSchema: [
@@ -1415,7 +1413,7 @@ describe('v2/ion/i18nTransformer', function () {
               'optionsUiSchemas': [
                 [
                   {
-                    'label': 'unit test - enter username',
+                    'label': 'unit test - enter on-prem auth username',
                     'label-top': true,
                     'name': 'credentials.userName',
                     'required': true,
@@ -1423,7 +1421,7 @@ describe('v2/ion/i18nTransformer', function () {
                     'value': 'rsa_username'
                   },
                   {
-                    'label': 'unit test - enter passcode',
+                    'label': 'unit test - enter on-prem auth passcode',
                     'label-top': true,
                     'name': 'credentials.passcode',
                     'required': true,
@@ -1472,7 +1470,7 @@ describe('v2/ion/i18nTransformer', function () {
           name: 'challenge-authenticator',
           uiSchema: [
             {
-              'label': 'unit test - enter passcode',
+              'label': 'unit test - enter code',
               'label-top': true,
               'name': 'credentials.passcode',
               'type': 'text'
@@ -1491,7 +1489,8 @@ describe('v2/ion/i18nTransformer', function () {
           relatesTo: {
             value: {
               type: 'security_key',
-              key: 'rsa_token'
+              key: 'rsa_token',
+              displayName: 'rsa auth'
             }
           },
           uiSchema: [
@@ -1527,7 +1526,8 @@ describe('v2/ion/i18nTransformer', function () {
           relatesTo: {
             value: {
               type: 'security_key',
-              key: 'rsa_token'
+              key: 'rsa_token',
+              displayName: 'rsa auth'
             }
           },
           uiSchema: [
@@ -1535,7 +1535,7 @@ describe('v2/ion/i18nTransformer', function () {
               'optionsUiSchemas': [
                 [
                   {
-                    'label': 'unit test - enter username',
+                    'label': 'unit test - enter rsa auth username',
                     'label-top': true,
                     'name': 'credentials.userName',
                     'required': true,
@@ -1543,7 +1543,7 @@ describe('v2/ion/i18nTransformer', function () {
                     'value': 'rsa_username'
                   },
                   {
-                    'label': 'unit test - enter passcode',
+                    'label': 'unit test - enter rsa auth passcode',
                     'label-top': true,
                     'name': 'credentials.passcode',
                     'required': true,
@@ -1592,7 +1592,7 @@ describe('v2/ion/i18nTransformer', function () {
           name: 'challenge-authenticator',
           uiSchema: [
             {
-              'label': 'unit test - enter passcode',
+              'label': 'unit test - enter code',
               'label-top': true,
               'name': 'credentials.passcode',
               'type': 'text'
@@ -1658,5 +1658,46 @@ describe('v2/ion/i18nTransformer', function () {
         }
       ]
     });
+  });
+
+  it('gets message params for enroll-authenticator rsa / on-prem', () => {
+    const remediation =
+    {
+      'name': 'enroll-authenticator',
+      'relatesTo': {
+        'value': {
+          'displayName': 'Atko authenticator'
+        }
+      }
+    };
+    expect(getI18NParams(remediation, 'rsa_token')).toEqual(['Atko authenticator']);
+    expect(getI18NParams(remediation, 'onprem_mfa')).toEqual(['Atko authenticator']);
+  });
+
+  it('does not get message params for challenge-authenticator rsa / on-prem', () => {
+    const remediation =
+    {
+      'name': 'challenge-authenticator',
+      'relatesTo': {
+        'value': {
+          'displayName': 'Atko authenticator'
+        }
+      }
+    };
+    expect(getI18NParams(remediation, 'rsa_token')).toEqual([]);
+    expect(getI18NParams(remediation, 'onprem_mfa')).toEqual([]);
+  });
+
+  it('does not get message params for enroll-authenticator google authenticator', () => {
+    const remediation =
+    {
+      'name': 'enroll-authenticator',
+      'relatesTo': {
+        'value': {
+          'displayName': 'Atko authenticator'
+        }
+      }
+    };
+    expect(getI18NParams(remediation, 'google_otp')).toEqual([]);
   });
 });
