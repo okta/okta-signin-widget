@@ -1,4 +1,5 @@
 import { $ } from 'okta';
+import Enums from 'util/Enums';
 
 export default function createRouter (Router, widgetOptions, renderOptions, authClient, successFn, errorFn) {
   let router;
@@ -8,7 +9,9 @@ export default function createRouter (Router, widgetOptions, renderOptions, auth
       authClient,
       globalSuccessFn: (res) => {
         successFn && successFn(res); // call success function if provided
-        resolve(res);
+        if (res && res.status === Enums.SUCCESS) {
+          resolve(res);
+        }
       },
       globalErrorFn: (error) => {
         errorFn && errorFn(error); // call error function if provided
