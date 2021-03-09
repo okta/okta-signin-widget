@@ -96,9 +96,9 @@ Expect.describe('ForgotPassword', function () {
         expect($usernameLabel.text().trim()).toEqual('Email or Username');
       });
     });
-    itp('does not allow autocomplete', function () {
+    itp('sets autocomplete for username', function () {
       return setup().then(function (test) {
-        expect(test.form.getUsernameAutocomplete()).toBe('off');
+        expect(test.form.getUsernameAutocomplete()).toBe('username');
       });
     });
     itp('does not have explain by default', function () {
