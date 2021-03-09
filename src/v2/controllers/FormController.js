@@ -173,8 +173,7 @@ export default Controller.extend({
     }
 
     const identifier = model.get('identifier');
-    const transformUsername = this.settings.get('features.transformUsername');
-    if (_.isFunction(transformUsername) && identifier) {
+    if (identifier) {
       // The callback function is passed two arguments:
       // 1) username: The name entered by the user
       // 2) operation: The type of operation the user is trying to perform:
@@ -182,7 +181,11 @@ export default Controller.extend({
       //      - FORGOT_PASSWORD
       //      - UNLOCK_ACCOUNT
       const operation = FORM_NAME_TO_OPERATION_MAP[formName];
-      model.set('identifier', transformUsername(identifier, operation));
+      const newIdentifier = this.settings.transformUsername(identifier, operation);
+
+      if (identifier !== newIdentifier) {
+        model.set('identifier', newIdentifier);
+      }
     }
 
     idx.proceed(formName, model.toJSON())
