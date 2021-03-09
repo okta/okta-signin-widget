@@ -19,7 +19,7 @@ export default BaseLoginModel.extend({
   },
   loginWithActivationToken: function (activationToken) {
     return this.startTransaction(function (authClient) {
-      return authClient.signIn({ token: activationToken });
+      return authClient.signInWithCredentials({ token: activationToken });
     });
   },
 });
