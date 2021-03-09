@@ -4,6 +4,16 @@ import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { getForgotPasswordLink } from '../utils/LinksUtil';
 
 export default BaseFooter.extend({
+  postRender () {
+    BaseFooter.prototype.postRender.apply(this, arguments);
+
+    const registrationClickHandler = this.options.settings.get('registration.click');
+
+    if (registrationClickHandler) {
+      this.$el.find('.js-enroll').click(registrationClickHandler);
+    }
+  },
+
   links () {
     let helpLinkHref;
     if (this.options.settings.get('helpLinks.help')) {
