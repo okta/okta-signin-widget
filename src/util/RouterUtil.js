@@ -20,6 +20,7 @@ import ErrorCodes from './ErrorCodes';
 import Errors from './Errors';
 import OAuth2Util from './OAuth2Util';
 import Util from './Util';
+import CookieUtil from 'util/CookieUtil';
 const fn = {};
 const verifyUrlTpl = hbs('signin/verify/{{provider}}/{{factorType}}');
 const verifyUrlMultipleTpl = hbs('signin/verify/{{provider}}/{{factorType}}/{{factorIndex}}');
@@ -106,6 +107,8 @@ fn.routeAfterAuthStatusChangeError = function (router, err) {
 
   // Token has expired - no longer valid. Navigate back to primary auth.
   if (err.errorCode === ErrorCodes.INVALID_TOKEN_EXCEPTION) {
+    // If token is invalid then it must be deleted from cookie
+    CookieUtil.removeOktaStateToken();
     router.appState.set('flashError', err);
     router.controller.state.set('navigateDir', Enums.DIRECTION_BACK);
     if (router.settings.get('features.mfaOnlyFlow')) {
