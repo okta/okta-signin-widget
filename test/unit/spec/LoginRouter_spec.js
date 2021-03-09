@@ -60,6 +60,8 @@ const VALID_ID_TOKEN =
   'lXvxoMVtFk-fcdCkn1DnTtIzsFPOjysBl2vjwVBJXg9h1Nymd91l' +
   'dI5eorOMrbamRfxOFkEUC9P9mgO6DcVfR5oxY0pjfMA';
 
+const invalidTokenErrorMsg = 'Your session expired. Refresh the page to sign in.';
+
 Expect.describe('LoginRouter', function () {
   function setup (settings, resp) {
     settings = settings || {};
@@ -854,7 +856,7 @@ Expect.describe('LoginRouter', function () {
                 responseText: '{"errorCode":"E0000011","errorSummary":"Invalid token provided","errorLink":"E0000011","errorId":"oaeuiUWCPr6TUSkOclgVGlWqw","errorCauses":[]}',
                 responseJSON: {
                   errorCode: 'E0000011',
-                  errorSummary: 'Invalid token provided',
+                  errorSummary: invalidTokenErrorMsg,
                   errorLink: 'E0000011',
                   errorId: 'oaeuiUWCPr6TUSkOclgVGlWqw',
                   errorCauses: [],
@@ -914,7 +916,7 @@ Expect.describe('LoginRouter', function () {
                 responseText: '{"errorCode":"E0000011","errorSummary":"Invalid token provided","errorLink":"E0000011","errorId":"oaeuiUWCPr6TUSkOclgVGlWqw","errorCauses":[]}',
                 responseJSON: {
                   errorCode: 'E0000011',
-                  errorSummary: 'Invalid token provided',
+                  errorSummary: invalidTokenErrorMsg,
                   errorLink: 'E0000011',
                   errorId: 'oaeuiUWCPr6TUSkOclgVGlWqw',
                   errorCauses: [],
