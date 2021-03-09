@@ -165,6 +165,12 @@ export default Controller.extend({
       return;
     }
 
+    const identifier = model.get('identifier');
+    const transformUsername = this.settings.get('features.transformUsername');
+    if (_.isFunction(transformUsername) && identifier) {
+      model.set('identifier', transformUsername(identifier));
+    }
+
     idx.proceed(formName, model.toJSON())
       .then(this.handleIdxSuccess.bind(this))
       .catch(error => {
