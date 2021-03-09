@@ -195,5 +195,14 @@ export function removeRequirementsFromError (errorJSON, policy) {
   return errorJSON;
 }
 
+/**
+ * Get authenticator display name from {@code remediation}.
+ *
+ * @param {Object} remediation
+ */
+export function getAuthenticatorDisplayName (remediation) {
+  return remediation.relatesTo?.value?.displayName;
+}
+
 // Re-export function from FactorUtil
 export { getPasswordComplexityDescriptionForHtmlList };

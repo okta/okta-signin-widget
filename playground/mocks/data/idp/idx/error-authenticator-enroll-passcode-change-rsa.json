@@ -9,7 +9,7 @@
       {
         "message": "Wait for token to change, then enter the new tokencode.",
         "i18n": {
-          "key": "oie.on_prem.error.token.change",
+          "key": "errors.E0000106",
           "params": []
         },
         "class": "ERROR"
