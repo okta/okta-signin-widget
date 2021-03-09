@@ -18,8 +18,16 @@ export default Form.extend({
     return this.input(NEW_PASSWORD_FIELD);
   },
 
+  getNewPasswordAutocomplete: function () {
+    return this.autocomplete(NEW_PASSWORD_FIELD);
+  },
+
   confirmPasswordField: function () {
     return this.input(CONFIRM_PASSWORD_FIELD);
+  },
+
+  getConfirmPasswordAutocomplete: function () {
+    return this.autocomplete(CONFIRM_PASSWORD_FIELD);
   },
 
   setNewPassword: function (val) {
