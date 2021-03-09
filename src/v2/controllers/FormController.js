@@ -17,6 +17,13 @@ import { FORMS } from '../ion/RemediationConstants';
 import Util from '../../util/Util';
 import { clearTransactionMeta } from '../client/transactionMeta';
 
+const FORM_NAME_TO_OPERATION_MAP = {
+  'select-authenticator-unlock-account': 'UNLOCK_ACCOUNT',
+  'identify': 'PRIMARY_AUTH',
+  'select-identify': 'PRIMARY_AUTH',
+  'identify-recovery': 'FORGOT_PASSWORD',
+};
+
 export default Controller.extend({
   className: 'form-controller',
 
@@ -168,7 +175,14 @@ export default Controller.extend({
     const identifier = model.get('identifier');
     const transformUsername = this.settings.get('features.transformUsername');
     if (_.isFunction(transformUsername) && identifier) {
-      model.set('identifier', transformUsername(identifier));
+      // The callback function is passed two arguments:
+      // 1) username: The name entered by the user
+      // 2) operation: The type of operation the user is trying to perform:
+      //      - PRIMARY_AUTH
+      //      - FORGOT_PASSWORD
+      //      - UNLOCK_ACCOUNT
+      const operation = FORM_NAME_TO_OPERATION_MAP[formName];
+      model.set('identifier', transformUsername(identifier, operation));
     }
 
     idx.proceed(formName, model.toJSON())
