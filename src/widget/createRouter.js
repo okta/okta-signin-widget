@@ -9,7 +9,7 @@ export default function createRouter (Router, widgetOptions, renderOptions, auth
       authClient,
       globalSuccessFn: (res) => {
         successFn && successFn(res); // call success function if provided
-        if (res.status === Enums.SUCCESS) {
+        if (res && res.status === Enums.SUCCESS) {
           resolve(res);
         }
       },

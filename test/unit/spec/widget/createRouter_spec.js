@@ -175,18 +175,45 @@ describe('widget/createRouter', () => {
   });
 
   describe('success', () => {
-    it('will resolve promise', () => {
+    it('will resolve promise on SUCCESS status', () => {
       const res = createRouter(MockRouter, {}, {}, null, null, null);
-      res.routerOptions.globalSuccessFn(); // will resolve promise, should not throw
+      res.routerOptions.globalSuccessFn({status: 'SUCCESS'}); // will resolve promise, should not throw
       return res.promise;
     });
 
     it('will call successFn, if provided', () => {
       const successFn = jest.fn();
       const res = createRouter(MockRouter, {}, {}, null, successFn, null);
-      res.routerOptions.globalSuccessFn('foo'); // will resolve promise, should not throw
+      res.routerOptions.globalSuccessFn({status: 'SUCCESS'}); // will resolve promise, should not throw
       return res.promise.then(() => {
-        expect(successFn).toHaveBeenCalledWith('foo');
+        expect(successFn).toHaveBeenCalledWith({status: 'SUCCESS'});
+      });
+    });
+
+    it('will not resolve promise on another status, but call successFn', () => {
+      const successFn = jest.fn();
+      const res = createRouter(MockRouter, {}, {}, null, successFn, null);
+      res.routerOptions.globalSuccessFn({status: 'FORGOT_PASSWORD_EMAIL_SENT'}); // will NOT resolve promise
+      expect(successFn).toHaveBeenCalledWith({status: 'FORGOT_PASSWORD_EMAIL_SENT'});
+      let resolved = false;
+      res.promise.then(() => {
+        resolved = true;
+      });
+      return new Promise(r => setTimeout(r, 200)).then(() => {
+        expect(resolved).toBe(false);
+      });
+    });
+
+    it('will resolve promise only on SUCCESS status, but call successFn multiple times', () => {
+      const successFn = jest.fn();
+      const res = createRouter(MockRouter, {}, {}, null, successFn, null);
+      res.routerOptions.globalSuccessFn('foo'); // will NOT resolve promise
+      res.routerOptions.globalSuccessFn({status: 'UNLOCK_ACCOUNT_EMAIL_SENT'}); // will NOT resolve promise
+      res.routerOptions.globalSuccessFn({status: 'SUCCESS'}); // will resolve promise
+      return res.promise.then(() => {
+        expect(successFn).toHaveBeenNthCalledWith(1, 'foo');
+        expect(successFn).toHaveBeenNthCalledWith(2, {status: 'UNLOCK_ACCOUNT_EMAIL_SENT'});
+        expect(successFn).toHaveBeenNthCalledWith(3, {status: 'SUCCESS'});
       });
     });
   });
@@ -196,6 +223,7 @@ describe('widget/createRouter', () => {
       const res = createRouter(MockRouter, {}, {}, null, null, null);
       const error = new Error('foo');
       res.routerOptions.globalErrorFn(error); // will reject promise, but should not throw
+      expect.assertions(1);
       return res.promise.catch(e => {
         expect(e).toBe(error);
       });
@@ -205,7 +233,8 @@ describe('widget/createRouter', () => {
       const errorFn = jest.fn();
       const res = createRouter(MockRouter, {}, {}, null, null, errorFn);
       const error = new Error('foo');
-      res.routerOptions.globalSuccessFn(error); // will resolve promise, should not throw
+      res.routerOptions.globalErrorFn(error); // will reject promise, but should not throw
+      expect.assertions(2);
       return res.promise.catch((e) => {
         expect(e).toBe(error);
         expect(errorFn).toHaveBeenCalledWith(error);
