@@ -20,21 +20,34 @@ export async function interactionCodeFlow (settings, idxResponse) {
   const { interactionCode } = idxResponse;
   const authClient = settings.getAuthClient();
   const transactionMeta = authClient.transactionManager.load();
+  const { state } = transactionMeta;
 
+  // In remediation mode the transaction is owned by another client.
+  const isRemediationMode = settings.get('mode') === 'remediation';
+  
   // server-side applications will want to received interaction_code as a query parameter
   // this option can also be used to force a redirect for client-side/SPA applications
-  const shouldRedirect = settings.get('mode') === 'remediation';
+  const shouldRedirect = settings.get('redirect') === 'always';
   if (shouldRedirect) {
     const redirectUri = settings.get('redirectUri');
     if (!redirectUri) {
       throw new Errors.ConfigError('"redirectUri" is required');
     }
-    const { state } = transactionMeta;
     const qs = toQueryString({ 'interaction_code': interactionCode, state });
     window.location.assign(redirectUri + qs);
     return;
   }
   
+  // Return a promise (or call success callback) to client-side apps in remediation mode.
+  if (isRemediationMode) {
+    settings.callGlobalSuccess(Enums.SUCCESS, {
+      'interaction_code': interactionCode,
+      state
+    });
+    return;
+  }
+
+  // Operating in "relying-party" mode. The widget owns this transaction.
   // Complete the transaction client-side and call success/resolve promise
   const { codeVerifier } = transactionMeta;
   return authClient.token.exchangeCodeForTokens({ codeVerifier, interactionCode })

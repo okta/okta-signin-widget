@@ -36,7 +36,8 @@ export async function startLoginFlow (settings) {
   }
   
   // Use or acquire interactionHandle
-  if (settings.get('useInteractionCodeFlow')) {
+  const useInteractionHandle = settings.get('useInteractionCodeFlow') || settings.get('interactionHandle');
+  if (useInteractionHandle) {
     return interact(settings);
   }
 

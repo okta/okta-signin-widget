@@ -93,10 +93,10 @@ describe('util/OAuth2Util', function () {
       }).catch(done.fail);
     });
 
-    it('retrieves tokens through redirect when widget is configured with \'remediation\' mode', function (done) {
+    it('retrieves tokens through redirect when widget is configured with "redirect" = "always"', function (done) {
       const settingsWithRemediationMode = new Settings({
         baseUrl: 'https://foo',
-        mode: 'remediation',
+        redirect: 'always',
       });
       settingsWithRemediationMode.setAuthClient(authClient);
 

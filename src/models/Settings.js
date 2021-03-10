@@ -34,9 +34,22 @@ export default Model.extend({
     baseUrl: ['string', true],
     recoveryToken: ['string', false, undefined],
     stateToken: ['string', false, undefined],
+    interactionHandle: ['string', false, undefined],
     username: ['string', false],
     signOutLink: ['string', false],
     relayState: ['string', false],
+
+    redirect: {
+      type: 'string',
+      values: ['never', 'always', 'auto'],
+      value: 'auto',
+    },
+
+    mode: {
+      type: 'string',
+      values: ['remediation', 'relying-party'],
+      value: 'relying-party',
+    },
 
     // Function to transform the username before passing it to the API
     // for Primary Auth, Forgot Password and Unlock Account.
