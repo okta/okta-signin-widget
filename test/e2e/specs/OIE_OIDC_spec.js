@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 /* global browser */
-var OIEPrimaryAuthPage = require('../page-objects/OIEPrimaryAuthPage'),
+const OIEPrimaryAuthPage = require('../page-objects/OIEPrimaryAuthPage'),
     OIDCAppPage = require('../page-objects/OIDCAppPage'),
     util = require('../util/util'),
     Expect = require('../util/Expect');
@@ -27,7 +27,7 @@ describe('OIE OIDC flows', function () {
     return 0;
   }
 
-  var primaryAuth = new OIEPrimaryAuthPage(),
+  const primaryAuth = new OIEPrimaryAuthPage(),
       oidcApp = new OIDCAppPage();
 
   beforeEach(function () {

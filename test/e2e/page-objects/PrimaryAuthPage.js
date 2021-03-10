@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2015-2016, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015-Present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -11,7 +11,7 @@
  */
 'use strict';
 
-var FormPage = require('./FormPage'),
+const FormPage = require('./FormPage'),
     FacebookPage = require('./FacebookPage');
 
 function getSocialIdpPage (idp) {
@@ -44,7 +44,7 @@ class PrimaryAuthPage extends FormPage {
   loginToSocialIdpPopup (idp, username, password) {
     this.socialAuthButton(idp).click();
     browser.getAllWindowHandles().then(function (handles) {
-      var parent = handles[0],
+      const parent = handles[0],
           popup = handles[1];
       browser.switchTo().window(popup);
       getSocialIdpPage(idp).login(username, password);

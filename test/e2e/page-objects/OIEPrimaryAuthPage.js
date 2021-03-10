@@ -11,7 +11,7 @@
  */
 'use strict';
 
-var FormPage = require('./FormPage');
+const FormPage = require('./FormPage');
 
 class OIEPrimaryAuthPage extends FormPage {
 

@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-consts */
 /*!
  * Copyright (c) 2015-Present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 /* global browser, element, by, oktaSignIn */
-var PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
+const PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
     OIDCAppPage     = require('../page-objects/OIDCAppPage'),
     util            = require('../util/util');
 
@@ -42,7 +42,7 @@ describe('Dev Mode flows', function () {
   it('can hide, show, remove, and start a widget', function () {
     renderWidget();
     // Ensure the widget exists
-    var el = element(by.css('#okta-sign-in'));
+    const el = element(by.css('#okta-sign-in'));
     expect(el.isDisplayed()).toBe(true);
 
     // Ensure the widget can hide
@@ -67,7 +67,7 @@ describe('Dev Mode flows', function () {
 
   clientIds.forEach(clientId => {
     it('can login and return tokens using the showSignInToGetTokens method', function () {
-      var options = {
+      const options = {
         clientId,
         redirectUri: 'http://localhost:3000/done',
         scopes: ['openid', 'profile']
@@ -76,10 +76,10 @@ describe('Dev Mode flows', function () {
       browser.executeScript(`oktaSignIn.showSignInToGetTokens(${JSON.stringify(options)}).then(addTokensToPage);`);
   
       // Ensure the widget exists
-      var el = element(by.css('#okta-sign-in'));
+      const el = element(by.css('#okta-sign-in'));
       expect(el.isDisplayed()).toBe(true);
   
-      var primaryAuth = new PrimaryAuthPage(),
+      const primaryAuth = new PrimaryAuthPage(),
           oidcApp = new OIDCAppPage();
   
       primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
@@ -87,7 +87,7 @@ describe('Dev Mode flows', function () {
     });
   
     it('can login and receive tokens on a callback using the showSignInAndRedirect method', function () {
-      var options = {
+      const options = {
         clientId,
         redirectUri: 'http://localhost:3000/done',
         scopes: ['openid', 'profile']
@@ -96,10 +96,10 @@ describe('Dev Mode flows', function () {
       browser.executeScript(`oktaSignIn.showSignInAndRedirect(${JSON.stringify(options)})`);
   
       // Ensure the widget exists
-      var el = element(by.css('#okta-sign-in'));
+      const el = element(by.css('#okta-sign-in'));
       expect(el.isDisplayed()).toBe(true);
   
-      var primaryAuth = new PrimaryAuthPage(),
+      const primaryAuth = new PrimaryAuthPage(),
           oidcApp = new OIDCAppPage();
   
       primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');

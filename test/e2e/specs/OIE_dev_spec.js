@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 /* global browser, element, by, oktaSignIn */
-var OIEPrimaryAuthPage = require('../page-objects/OIEPrimaryAuthPage'),
+const OIEPrimaryAuthPage = require('../page-objects/OIEPrimaryAuthPage'),
     OIDCAppPage     = require('../page-objects/OIDCAppPage'),
     util            = require('../util/util');
 
@@ -27,7 +27,7 @@ describe('OIE Dev Mode flows', function () {
 
   clientIds.forEach(clientId => {
     it('can login and return tokens using the showSignInToGetTokens method', function () {
-      var options = {
+      const options = {
         clientId,
         redirectUri: 'http://localhost:3000/done',
         scopes: ['openid', 'profile']
@@ -36,10 +36,10 @@ describe('OIE Dev Mode flows', function () {
       browser.executeScript(`oktaSignIn.showSignInToGetTokens(${JSON.stringify(options)}).then(addTokensToPage);`);
   
       // Ensure the widget exists
-      var el = element(by.css('[id="okta-sign-in"]'));
+      const el = element(by.css('[id="okta-sign-in"]'));
       expect(el.isDisplayed()).toBe(true);
   
-      var primaryAuth = new OIEPrimaryAuthPage(),
+      const primaryAuth = new OIEPrimaryAuthPage(),
           oidcApp = new OIDCAppPage();
   
       primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
@@ -47,7 +47,7 @@ describe('OIE Dev Mode flows', function () {
     });
   
     it('can login and receive tokens on a callback using the showSignInAndRedirect method', function () {
-      var options = {
+      const options = {
         clientId,
         redirectUri: 'http://localhost:3000/done',
         scopes: ['openid', 'profile']
@@ -56,10 +56,10 @@ describe('OIE Dev Mode flows', function () {
       browser.executeScript(`oktaSignIn.showSignInAndRedirect(${JSON.stringify(options)})`);
   
       // Ensure the widget exists
-      var el = element(by.css('[id="okta-sign-in"]'));
+      const el = element(by.css('[id="okta-sign-in"]'));
       expect(el.isDisplayed()).toBe(true);
   
-      var primaryAuth = new OIEPrimaryAuthPage(),
+      const primaryAuth = new OIEPrimaryAuthPage(),
           oidcApp = new OIDCAppPage();
   
       primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 /* global browser */
-var PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
+const PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
     OIDCAppPage = require('../page-objects/OIDCAppPage'),
     FacebookPage = require('../page-objects/FacebookPage'),
     util = require('../util/util'),
@@ -28,7 +28,7 @@ describe('OIDC flows', function () {
     return 0;
   }
 
-  var primaryAuth = new PrimaryAuthPage(),
+  const primaryAuth = new PrimaryAuthPage(),
       oidcApp = new OIDCAppPage(),
       facebook = new FacebookPage();
 
