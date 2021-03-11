@@ -291,10 +291,15 @@ const setupWithTransformUsernameOnUnlock = _.partial(setup, { transformUsername:
 
 Expect.describe('PrimaryAuth', function () {
   Expect.describe('PrimaryAuthModel', function () {
-    it('returns username validation error when username is blank', function () {
+    xit('csp test', () => { 
+      expect(true).toEqual(globalCSPTrap);
+    });
+
+    fit('returns username validation error when username is blank', function () {
       const model = new PrimaryAuth({ username: '', password: 'pass' });
 
       expect(model.validate().username).toEqual('Please enter a username');
+      expect(true).toEqual(globalCSPTrap);
     });
 
     it('returns password validation error when password is blank', function () {

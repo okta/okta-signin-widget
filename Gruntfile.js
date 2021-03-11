@@ -179,7 +179,9 @@ module.exports = function (grunt) {
                 npmLayout = grunt.file.read('./test/e2e/layouts/npm.tpl', {encoding: 'utf8'}),
                 sharedFunctions = grunt.file.read('./test/e2e/partials/shared-functions.js', {encoding: 'utf8'}),
                 testTpl = Handlebars.compile(content),
-                tplVars = {};
+                tplVars = {
+                  GENERATES: 'This file is auto-generated. Do not edit.'
+                };
 
             Object.assign(tplVars, ENV.getValues());
 

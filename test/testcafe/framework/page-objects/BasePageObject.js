@@ -12,9 +12,9 @@ const SWITCH_AUTHENTICATOR_LINK = '.auth-footer .js-switchAuthenticator';
 const ionMessagesSelector = '.ion-messages-container';
 
 // TEMP: Keeping local to eliminate babel as source of problems https://devexpress.github.io/testcafe/documentation/guides/basic-guides/obtain-client-side-info.html#import-functions-to-be-used-as-client-function-dependencies
-const getCSPTrap = ClientFunction( () => { 
-  return window.globalCSPTrap;
-});
+// const getCSPTrap = ClientFunction( () => { 
+//   return window.globalCSPTrap;
+// });
 
 export default class BasePageObject {
   constructor(t) {
@@ -30,8 +30,8 @@ export default class BasePageObject {
   }
 
   async checkCSPTrap() { 
-    const cspTrap = await getCSPTrap();
-    this.t.debug();
+    // const cspTrap = await getCSPTrap();
+    const cspTrap = await this.t.eval( () => window.globalCSPTrap );
     if( !cspTrap ) { 
       throw new Error('failed to find CSPTrap');
     }

@@ -43,9 +43,30 @@ describe('OIDC flows', function () {
     browser.get('{{{WIDGET_TEST_SERVER}}}/login/signout');
   });
 
-  describe('Okta as IDP', function () {
+  fdescribe('Okta as IDP', function () {
 
     clientIds.forEach(clientId => {
+
+      fit('loads without CSP errors', function() { 
+        setup({
+          baseUrl: '{{{WIDGET_TEST_SERVER}}}',
+          clientId,
+          redirectUri: 'http://localhost:3000/done',
+          authParams: {
+            pkce: false,
+            responseType: 'id_token',
+            scopes: ['openid', 'email', 'profile', 'address', 'phone']
+          },
+          idps: [
+            {
+              'type': 'FACEBOOK',
+              'id': '0oa85bk5q6KOPeHCT0h7'
+            }
+          ]
+        });
+        expect(primaryAuth.getCspErrorsMessage()).toBe('');
+      });
+
       it('can login and exchange a sessionToken for an id_token', function () {
         setup({
           baseUrl: '{{{WIDGET_TEST_SERVER}}}',

@@ -1,5 +1,14 @@
 {{#> cdnLayout}}
 
+{{#*inline "pre-widget-script-block"}}
+(function iife() { 
+  window.globalCspTrap = globalCspTrap = [];
+  document.addEventListener("securitypolicyviolation", (e) => {
+    globalCspTrap.push(e);
+  });
+})();
+{{/inline}}
+
 function _initialize(event) {
   event.preventDefault();
   var config = JSON.parse(document.getElementById('config-textarea').value);
@@ -56,6 +65,10 @@ function addMessageToPage(id, msg) {
 }
 
 function initialize(options) {
+  addMessageToPage('csp-errors', globalCspTrap.map( function(err) { 
+    return err.blockedURI + " blocked due to CSP rule " + err.violatedDirective + " from " + err.originalPolicy;
+  }).join('')); 
+
   var oktaSignIn = new OktaSignIn(options);
   oktaSignIn.renderEl(
     { el: '#okta-login-container' },
