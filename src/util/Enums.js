@@ -79,4 +79,10 @@ export default {
   UNIVERSAL_LINK_CHALLENGE: 'UNIVERSAL_LINK',
 
   LAUNCH_AUTHENTICATOR_REMEDIATION_NAME: 'launch-authenticator',
+
+  FORM_NAME_TO_OPERATION_MAP: {
+    'select-authenticator-unlock-account': 'UNLOCK_ACCOUNT',
+    'identify': 'PRIMARY_AUTH',
+    'identify-recovery': 'FORGOT_PASSWORD',
+  },
 };

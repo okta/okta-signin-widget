@@ -15,14 +15,9 @@ import IonResponseHelper from '../ion/IonResponseHelper';
 import { getV1ClassName } from '../ion/ViewClassNamesFactory';
 import { FORMS } from '../ion/RemediationConstants';
 import Util from '../../util/Util';
+import Enums from '../../util/Enums';
 import { clearTransactionMeta } from '../client/transactionMeta';
 
-const FORM_NAME_TO_OPERATION_MAP = {
-  'select-authenticator-unlock-account': 'UNLOCK_ACCOUNT',
-  'identify': 'PRIMARY_AUTH',
-  'select-identify': 'PRIMARY_AUTH',
-  'identify-recovery': 'FORGOT_PASSWORD',
-};
 
 export default Controller.extend({
   className: 'form-controller',
@@ -180,7 +175,7 @@ export default Controller.extend({
       //      - PRIMARY_AUTH
       //      - FORGOT_PASSWORD
       //      - UNLOCK_ACCOUNT
-      const operation = FORM_NAME_TO_OPERATION_MAP[formName];
+      const operation = Enums.FORM_NAME_TO_OPERATION_MAP[formName];
       const newIdentifier = this.settings.transformUsername(identifier, operation);
 
       if (identifier !== newIdentifier) {
