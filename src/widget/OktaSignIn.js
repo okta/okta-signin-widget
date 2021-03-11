@@ -149,7 +149,7 @@ var OktaSignIn = (function () {
         if (EVENTS_LIST.includes(event)) {
           onArgs[1] = function (...callbackArgs) {
             try {
-              callback.apply(null, callbackArgs);
+              callback.apply(this, callbackArgs);
             } catch (err) {
               Logger.error(`Error happens on ${event} event:`, err);
             }
