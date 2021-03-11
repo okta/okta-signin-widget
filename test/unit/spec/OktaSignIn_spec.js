@@ -270,7 +270,7 @@ Expect.describe('OktaSignIn initialization', function() {
         });
         signIn.trigger('not-widget-event');
         expect(Logger.error).not.toHaveBeenCalled();
-      } catch (err) {}
+      } catch (err) {} // eslint-disable-line no-empty
     });
   });
 });
