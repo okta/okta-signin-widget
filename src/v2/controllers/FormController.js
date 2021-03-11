@@ -167,7 +167,8 @@ export default Controller.extend({
       return;
     }
 
-    const identifier = model.get('identifier');
+    const modelJSON = model.toJSON();
+    const identifier = modelJSON.identifier;
     if (identifier) {
       // The callback function is passed two arguments:
       // 1) username: The name entered by the user
@@ -176,14 +177,10 @@ export default Controller.extend({
       //      - FORGOT_PASSWORD
       //      - UNLOCK_ACCOUNT
       const operation = Enums.FORM_NAME_TO_OPERATION_MAP[formName];
-      const newIdentifier = this.settings.transformUsername(identifier, operation);
-
-      if (identifier !== newIdentifier) {
-        model.set('identifier', newIdentifier);
-      }
+      modelJSON.identifier = this.settings.transformUsername(identifier, operation);
     }
 
-    idx.proceed(formName, model.toJSON())
+    idx.proceed(formName, modelJSON)
       .then(this.handleIdxSuccess.bind(this))
       .catch(error => {
         if (error.proceed && error.rawIdxState) {
