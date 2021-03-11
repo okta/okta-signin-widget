@@ -9,8 +9,8 @@ yarn install
 Additionally, you have already installed dependencies for test apps:
 
 ```
-yarn install react
-yarn install angular
+yarn install:react
+yarn install:angular
 ```
 
 ## Define environment variables
@@ -30,7 +30,7 @@ http://localhost:3000/done
 
 Each of this origins must be added as 'Trusted Origins'.  
 
-The test org should have at least one 'basic' user availabe for testing.
+The test org should have at least one 'basic' user available for testing.
 
 ## Start the servers
 
@@ -91,7 +91,7 @@ Run this whenever you change environment variables.
 Install/update webdriver locally.
 
 ```
-yarn webdriver:update
+yarn webdriver-manager update
 ```
 
 You should only need to do this once.
@@ -111,7 +111,7 @@ npx protractor target/e2e/conf.js
 ```
 
 To run a specific spec:
-
+(yes, the `target/` below is correct - the conf files are copied from `test/`, which is why you need to run the grunt copy command above when you change a spec)
 ```
 npx protractor target/e2e/conf.js --specs test/e2e/specs/basic_spec.js
 ```

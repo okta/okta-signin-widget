@@ -296,6 +296,7 @@ Expect.describe('PrimaryAuth', function () {
       const model = new PrimaryAuth({ username: '', password: 'pass' });
 
       expect(model.validate().username).toEqual('Please enter a username');
+      expect(true).toEqual(globalCSPTrap);
     });
 
     it('returns password validation error when password is blank', function () {
