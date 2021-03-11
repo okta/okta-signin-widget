@@ -38,7 +38,6 @@ export default FormController.extend({
 
       return loc('enroll.totp.title', 'login', [factorName]);
     },
-    subtitle: _.partial(loc, 'mfa.scanBarcode', 'login'),
     noButtonBar: true,
     attributes: { 'data-se': 'step-scan' },
     className: 'barcode-scan',
