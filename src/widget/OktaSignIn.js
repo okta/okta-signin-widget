@@ -1,13 +1,16 @@
 import _ from 'underscore';
 import Errors from 'util/Errors';
 import Util from 'util/Util';
+import Logger from 'util/Logger';
 import createAuthClient from 'widget/createAuthClient';
 import buildRenderOptions from 'widget/buildRenderOptions';
 import createRouter from 'widget/createRouter';
 import V1Router from 'LoginRouter';
 import V2Router from 'v2/WidgetRouter';
 
-var OktaSignIn = (function() {
+const EVENTS_LIST = ['ready', 'afterError', 'afterRender', 'pageRendered'];
+
+var OktaSignIn = (function () {
 
   var router;
 
@@ -139,7 +142,22 @@ var OktaSignIn = (function() {
       Router = V1Router;
     }
 
-    _.extend(this, Router.prototype.Events);
+    _.extend(this, Router.prototype.Events, {
+      on: function(...onArgs) {
+        // custom events listener on widget instance to trap third-party callback errors
+        const [event, callback] = onArgs;
+        if (EVENTS_LIST.includes(event)) {
+          onArgs[1] = function (...callbackArgs) {
+            try {
+              callback.apply(null, callbackArgs);
+            } catch (err) {
+              Logger.error(`Error happens on ${event} event:`, err);
+            }
+          }
+        }
+        Router.prototype.Events.on.apply(this, onArgs);
+      }
+    });
     _.extend(this, getProperties(authClient, Router, options));
 
     // Triggers the event up the chain so it is available to the consumers of the widget.
