@@ -13,9 +13,8 @@ import { _, Controller } from 'okta';
 import ViewFactory from '../view-builder/ViewFactory';
 import IonResponseHelper from '../ion/IonResponseHelper';
 import { getV1ClassName } from '../ion/ViewClassNamesFactory';
-import { FORMS } from '../ion/RemediationConstants';
+import { FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/RemediationConstants';
 import Util from '../../util/Util';
-import Enums from '../../util/Enums';
 import { clearTransactionMeta } from '../client/transactionMeta';
 
 
@@ -176,7 +175,7 @@ export default Controller.extend({
       //      - PRIMARY_AUTH
       //      - FORGOT_PASSWORD
       //      - UNLOCK_ACCOUNT
-      const operation = Enums.FORM_NAME_TO_OPERATION_MAP[formName];
+      const operation = FORM_NAME_TO_OPERATION_MAP[formName];
       modelJSON.identifier = this.settings.transformUsername(identifier, operation);
     }
 

@@ -80,9 +80,8 @@ export default {
 
   LAUNCH_AUTHENTICATOR_REMEDIATION_NAME: 'launch-authenticator',
 
-  FORM_NAME_TO_OPERATION_MAP: {
-    'select-authenticator-unlock-account': 'UNLOCK_ACCOUNT',
-    'identify': 'PRIMARY_AUTH',
-    'identify-recovery': 'FORGOT_PASSWORD',
-  },
+  // settings.transformUsername
+  UNLOCK_ACCOUNT: 'UNLOCK_ACCOUNT',
+  PRIMARY_AUTH: 'PRIMARY_AUTH',
+  FORGOT_PASSWORD: 'FORGOT_PASSWORD',
 };
