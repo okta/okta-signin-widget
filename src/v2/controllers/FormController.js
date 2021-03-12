@@ -13,9 +13,10 @@ import { _, Controller } from 'okta';
 import ViewFactory from '../view-builder/ViewFactory';
 import IonResponseHelper from '../ion/IonResponseHelper';
 import { getV1ClassName } from '../ion/ViewClassNamesFactory';
-import { FORMS } from '../ion/RemediationConstants';
+import { FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/RemediationConstants';
 import Util from '../../util/Util';
 import { clearTransactionMeta } from '../client/transactionMeta';
+
 
 export default Controller.extend({
   className: 'form-controller',
@@ -165,7 +166,20 @@ export default Controller.extend({
       return;
     }
 
-    idx.proceed(formName, model.toJSON())
+    const modelJSON = model.toJSON();
+    const identifier = modelJSON.identifier;
+    if (identifier) {
+      // The callback function is passed two arguments:
+      // 1) username: The name entered by the user
+      // 2) operation: The type of operation the user is trying to perform:
+      //      - PRIMARY_AUTH
+      //      - FORGOT_PASSWORD
+      //      - UNLOCK_ACCOUNT
+      const operation = FORM_NAME_TO_OPERATION_MAP[formName];
+      modelJSON.identifier = this.settings.transformUsername(identifier, operation);
+    }
+
+    idx.proceed(formName, modelJSON)
       .then(this.handleIdxSuccess.bind(this))
       .catch(error => {
         if (error.proceed && error.rawIdxState) {

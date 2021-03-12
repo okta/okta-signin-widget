@@ -9,6 +9,9 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
+
+import Enums from '../../util/Enums';
+
 /**
  * Structure of FORMS object:
  * { [CONSTANT]: remediationForm.name }
@@ -105,11 +108,18 @@ const AUTHENTICATOR_METHODS = {
   PUSH: 'push',
 };
 
+const FORM_NAME_TO_OPERATION_MAP = {
+  [FORMS.SELECT_AUTHENTICATOR_UNLOCK]: Enums.UNLOCK_ACCOUNT,
+  [FORMS.IDENTIFY]: Enums.PRIMARY_AUTH,
+  [FORMS.IDENTIFY_RECOVERY]: Enums.FORGOT_PASSWORD,
+};
+
 export {
   FORMS,
   FORMS_WITHOUT_SIGNOUT,
   FORMS_WITH_STATIC_BACK_LINK,
   FORMS_FOR_VERIFICATION,
   AUTHENTICATOR_KEY,
-  AUTHENTICATOR_METHODS
+  AUTHENTICATOR_METHODS,
+  FORM_NAME_TO_OPERATION_MAP,
 };
