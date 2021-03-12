@@ -35,8 +35,8 @@ const isObject = x => _.isObject(x);
  */
 const getFirstLevelObjects = (resp) => {
   const result = {};
-  _.each(resp, (val, key) => {
-    // if key is remediation we dont do any transformation
+  _.each(resp, (val = {}, key) => {
+    // if key is remediation we don't do any transformation
     if (key === 'remediation') {
       return;
     }
@@ -87,7 +87,6 @@ const getRemediationValues = (idx) => {
         value: [],
       });
     }
-
   }
   return {
     remediations: [
@@ -194,7 +193,10 @@ const convert = (settings, idx = {}) => {
   );
 
   injectIdPConfigButtonToRemediation(settings, result);
-  convertRedirectIdPToSuccessRedirectIffOneIdp(result);
+  if (!result.messages) {
+    // Only redirect to the IdP if we are not in an error flow
+    convertRedirectIdPToSuccessRedirectIffOneIdp(result);
+  }
 
   return result;
 };
