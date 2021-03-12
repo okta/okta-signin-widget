@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { execSync } = require('child_process');
+const { execSync, execFileSync } = require('child_process');
 
 // If tests are running on saucelabs, we don't need to update chromedriver locally
 if (process.env.SAUCE_PLATFORM_NAME) {
@@ -40,7 +40,8 @@ axios.get(chromeDriverUrl).then((response) => {
   const chromeDriverVersion = response.data;
   console.log(`Chrome Driver Version - ${chromeDriverVersion}`);
 
-  execSync(`${__dirname}/../node_modules/protractor/bin/webdriver-manager update --versions.chrome ${chromeDriverVersion} --gecko false --versions.standalone latest`);
+  execFileSync(`${__dirname}/../node_modules/protractor/bin/webdriver-manager`, ["update",  "--versions.chrome", chromeDriverVersion, "--gecko", "false", "--versions.standalone", "latest"]);
+  console.log('Webdriver was updated');
 }).catch((err) => {
   console.log(err);
 });
