@@ -199,6 +199,7 @@ Expect.describe('OktaSignIn initialization', function() {
     afterEach(function () {
       signIn.remove();
       signIn.off();
+      global.DEBUG = false;
     });
     it('triggers an afterRender event when the Widget renders a page', function(done) {
       signIn.renderEl({ el: $sandbox });
@@ -253,14 +254,26 @@ Expect.describe('OktaSignIn initialization', function() {
         }
       });
     });
-    ['ready', 'afterError', 'afterRender', 'pageRendered'].forEach(event => {
+    ['ready', 'afterError', 'afterRender'].forEach(event => {
       it(`traps third party errors (for ${event} event) in callbacks`, function () {
+        global.DEBUG = true;
+
         const mockError = new Error('mockerror');
         signIn.on(event, function () {
           throw mockError;
         });
         signIn.trigger(event);
-        expect(Logger.error).toHaveBeenCalledWith(`Error happens on ${event} event:`, mockError);
+        expect(Logger.error).toHaveBeenCalledWith(`[okta-signin-widget] "${event}" event handler error:`, mockError);
+      });
+      it('does not log errors when not in dev mode', () => {
+        global.DEBUG = false;
+
+        const mockError = new Error('mockerror');
+        signIn.on(event, function () {
+          throw mockError;
+        });
+        signIn.trigger(event);
+        expect(Logger.error).not.toHaveBeenCalled();
       });  
     });
     it('does not trap errors non-registered events', () => {

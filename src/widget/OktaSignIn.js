@@ -8,7 +8,7 @@ import createRouter from 'widget/createRouter';
 import V1Router from 'LoginRouter';
 import V2Router from 'v2/WidgetRouter';
 
-const EVENTS_LIST = ['ready', 'afterError', 'afterRender', 'pageRendered'];
+const EVENTS_LIST = ['ready', 'afterError', 'afterRender'];
 
 var OktaSignIn = (function () {
 
@@ -151,7 +151,7 @@ var OktaSignIn = (function () {
             try {
               callback.apply(this, callbackArgs);
             } catch (err) {
-              Logger.error(`Error happens on ${event} event:`, err);
+              DEBUG && Logger.error(`[okta-signin-widget] "${event}" event handler error:`, err);
             }
           };
         }
