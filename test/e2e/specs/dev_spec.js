@@ -39,6 +39,11 @@ describe('Dev Mode flows', function () {
     util.loadTestPage('basic-dev');
   });
 
+  afterEach(function () {
+    // Logout of Okta session
+    browser.get('{{{WIDGET_TEST_SERVER}}}/login/signout');
+  });
+
   it('can hide, show, remove, and start a widget', function () {
     renderWidget();
     // Ensure the widget exists

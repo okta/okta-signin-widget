@@ -69,6 +69,11 @@ describe('OIDC flows', function () {
       });
 
       it('throws form error if auth client returns with OAuth error', function () {
+        // TODO - Enable after https://oktainc.atlassian.net/browse/OKTA-375434
+        if (process.env.ORG_OIE_ENABLED) {
+          return;
+        }
+
         setup({
           baseUrl: '{{{WIDGET_TEST_SERVER}}}',
           clientId,

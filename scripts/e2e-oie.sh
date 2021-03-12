@@ -1,7 +1,7 @@
 #!/bin/bash
 export CHROME_HEADLESS=true
 setup_service google-chrome-stable 87.0.4280.66-1
-export OIE_TESTS=true
+export ORG_OIE_ENABLED=true
 
 source $OKTA_HOME/$REPO/scripts/setup.sh
 
