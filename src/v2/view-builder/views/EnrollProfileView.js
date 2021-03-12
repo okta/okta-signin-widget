@@ -9,6 +9,15 @@ const Body = BaseForm.extend({
 
   save () {
     return loc('registration.form.submit', 'login');
+  },
+
+  saveForm () {
+    this.settings.preSubmit(this.model.attributes,
+      () => BaseForm.prototype.saveForm.apply(this, arguments),
+      (error) => this.model.trigger('error', this.model, {
+        responseJSON: error,
+      })
+    );
   }
 });
 
@@ -29,5 +38,21 @@ const Footer = BaseFooter.extend({
 
 export default BaseView.extend({
   Body,
-  Footer
+  Footer,
+  createModelClass (currentViewState, optionUiSchemaConfig, settings) {
+    let modelClass = BaseView.prototype.createModelClass.call(this, currentViewState, optionUiSchemaConfig);
+
+    settings.parseSchema(currentViewState.uiSchema,
+      (schema) => {
+        currentViewState.uiSchema = schema;
+        modelClass = BaseView.prototype.createModelClass.call(self, currentViewState, optionUiSchemaConfig);
+      },
+      (error) => {
+        this.options.appState.trigger('afterError', {
+          responseJSON: error,
+        });
+      }
+    );
+    return modelClass;
+  },
 });

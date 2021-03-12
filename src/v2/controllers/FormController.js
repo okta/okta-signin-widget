@@ -180,8 +180,18 @@ export default Controller.extend({
     }
 
     idx.proceed(formName, modelJSON)
-      .then(this.handleIdxSuccess.bind(this))
-      .catch(error => {
+      .then((resp) => {
+        const onSuccess = this.handleIdxSuccess.bind(this);
+
+        if (formName === FORMS.ENROLL_PROFILE) {
+          // call registration (aka enroll profile) hook
+          this.settings.postSubmit(resp, onSuccess, (error) => {
+            throw error;
+          });
+        } else {
+          onSuccess(resp);
+        }
+      }).catch(error => {
         if (error.proceed && error.rawIdxState) {
           // Okta server responds 401 status code with WWW-Authenticate header and new remediation
           // so that the iOS/MacOS credential SSO extension (Okta Verify) can intercept
