@@ -1,8 +1,9 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import IdPAuthenticatorPageObject from '../framework/page-objects/IdPAuthenticatorPageObject';
 import xhrEnrollIdPAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-enroll-idp.json';
+import xhrEnrollIdPAuthenticatorError from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-idp.json';
 import xhrVerifyIdPAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp.json';
-
+import xhrVerifyIdPAuthenticatorError from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-idp.json';
 
 const logger = RequestLogger(/introspect/,
   {
@@ -19,6 +20,10 @@ const enrollMock = RequestMock()
   .onRequestTo('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk')
   .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
 
+const enrollErrorMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrEnrollIdPAuthenticatorError);
+
 const verifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrVerifyIdPAuthenticator)
@@ -26,6 +31,10 @@ const verifyMock = RequestMock()
   .respond(xhrVerifyIdPAuthenticator)
   .onRequestTo('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk')
   .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
+
+const verifyErrorMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrVerifyIdPAuthenticatorError);
 
 async function setup(t) {
   const pageObject = new IdPAuthenticatorPageObject(t);
@@ -58,6 +67,15 @@ test
       .eql('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk');
   });
 
+test
+  .requestHooks(logger, enrollErrorMock)('enroll with IdP authenticator surfaces error messages', async t => {
+    const pageObject = await setup(t);
+
+    await t.expect(pageObject.getPageTitle()).eql('Set up IDP Authenticator');
+    await t.expect(pageObject.getPageSubtitle()).eql('Clicking below will redirect to enrollment in IDP Authenticator');
+    await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to enroll. Try again or contact your admin for assistance.');
+  });
+
 fixture('Verify IdP Authenticator');
 test
   .requestHooks(logger, verifyMock)('verify with IdP authenticator', async t => {
@@ -70,4 +88,13 @@ test
     const pageUrl = await pageObject.getPageUrl();
     await t.expect(pageUrl)
       .eql('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk');
+  });
+
+test
+  .requestHooks(logger, verifyErrorMock)('verify with IdP authenticator surfaces error messages', async t => {
+    const pageObject = await setup(t);
+
+    await t.expect(pageObject.getPageTitle()).eql('Verify with IDP Authenticator');
+    await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to verify with IDP Authenticator');
+    await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to verify. Try again or contact your admin for assistance.');
   });

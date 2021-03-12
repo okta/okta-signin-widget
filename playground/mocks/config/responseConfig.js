@@ -618,6 +618,10 @@ const idpAuthenticator = {
     'authenticator-enroll-select-authenticator',
     // 'authenticator-verification-select-authenticator',
     'success',
+    // Errors:
+    //  - Unlike other authenticators, these occur during idx/introspect
+    // 'error-authenticator-enroll-idp',
+    // 'error-authenticator-verification-idp',
   ],
   '/idp/idx/challenge': [
     'authenticator-verification-idp',

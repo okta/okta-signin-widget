@@ -1532,10 +1532,10 @@
     webcrypto-shim "^0.1.5"
     xhr2 "0.1.3"
 
-"@okta/okta-idx-js@0.10.0":
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/@okta/okta-idx-js/-/okta-idx-js-0.10.0.tgz#d8d7607b1d5b5963d74ef0b79c12dd8d560d1dc2"
-  integrity sha512-H98zpHfy8fvtZjzMd77QgPYLxZQzlu1VAEU8CDaOxW7W32g2lMya6SMOrJL/pSZXTKHp9L9si44z3cqmHXtvEw==
+"@okta/okta-idx-js@0.11.0":
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/@okta/okta-idx-js/-/okta-idx-js-0.11.0.tgz#4a57773a03bb075b381a25367706a465d4a4ceb1"
+  integrity sha512-cdqK1L63VFmoizf6JbStobqoyOKsL0mcsesSNTtpm9rFC7bgWlxyFgDcir/sZDGSLfKkjqbMiYqcRBoS8XlyQw==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@babel/runtime-corejs3" "^7.12.5"
