@@ -20,7 +20,6 @@ const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
 
 const GET_BACK_TO_SIGN_LINK_FLOWS = [
   RETURN_LINK_EXPIRED_KEY,
-  UNLOCK_ACCOUNT_TERMINAL_KEY
 ];
 
 const HeaderBeaconTerminal = HeaderBeacon.extend({
