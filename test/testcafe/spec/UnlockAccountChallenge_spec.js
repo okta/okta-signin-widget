@@ -59,7 +59,6 @@ test.requestHooks(identifyLockedUserMock)('should show unlock account authentica
   const successPage = new TerminalPageObject(t);
   await t.expect(successPage.getFormTitle()).eql('Account successfully unlocked!');
   await t.expect(successPage.getMessages()).eql('You can log in using your existing username and password.');
-  await t.expect(successPage.getGoBackLinkText()).eql('Back to sign in');
 });
 
 test.requestHooks(errorUnlockAccount)('should show error if identifier is blank', async t => {
