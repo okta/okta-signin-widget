@@ -1,19 +1,9 @@
-import { loc } from 'okta';
+import { loc, _ } from 'okta';
 import { BaseFooter } from '../internals';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { getForgotPasswordLink } from '../utils/LinksUtil';
 
 export default BaseFooter.extend({
-  postRender () {
-    BaseFooter.prototype.postRender.apply(this, arguments);
-
-    const registrationClickHandler = this.options.settings.get('registration.click');
-
-    if (registrationClickHandler) {
-      this.$el.find('.js-enroll').click(registrationClickHandler);
-    }
-  },
-
   links () {
     let helpLinkHref;
     if (this.options.settings.get('helpLinks.help')) {
@@ -33,12 +23,17 @@ export default BaseFooter.extend({
 
     const signupLink = [];
     if (this.options.appState.hasRemediationObject(RemediationForms.SELECT_ENROLL_PROFILE)) {
-      signupLink.push({
+      const signupLinkData = {
         'type': 'link',
         'label': loc('signup', 'login'),
         'name': 'enroll',
-        'actionPath': RemediationForms.SELECT_ENROLL_PROFILE,
-      });
+      };
+      if (_.isFunction(this.options.settings.get('registration.click'))) {
+        signupLinkData.click = this.options.settings.get('registration.click');
+      } else {
+        signupLinkData.actionPath = RemediationForms.SELECT_ENROLL_PROFILE;
+      }
+      signupLink.push(signupLinkData);
     }
 
     const forgotPasswordLink = getForgotPasswordLink(this.options.appState, this.options.settings);

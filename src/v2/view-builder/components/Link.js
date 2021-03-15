@@ -42,8 +42,14 @@ const Link = View.extend({
       this.$el.click((event) => {
         const appState = this.options.appState;
         event.preventDefault();
-        this.options.formName? appState.trigger('switchForm', this.options.formName):
-          appState.trigger('invokeAction', this.options.actionPath);
+
+        if (this.options.click) {
+          this.options.click();
+        } else if (this.options.formName) {
+          appState.trigger('switchForm', this.options.formName)
+        } else {
+          appState.trigger('invokeAction', this.options.actionPath)
+        }
       });
     }
   }
