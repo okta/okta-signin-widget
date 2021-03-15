@@ -40,19 +40,30 @@ export default BaseView.extend({
   Body,
   Footer,
   createModelClass (currentViewState, optionUiSchemaConfig, settings) {
-    let modelClass = BaseView.prototype.createModelClass.call(this, currentViewState, optionUiSchemaConfig);
+    let ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
 
     settings.parseSchema(currentViewState.uiSchema,
       (schema) => {
         currentViewState.uiSchema = schema;
-        modelClass = BaseView.prototype.createModelClass.call(self, currentViewState, optionUiSchemaConfig);
+        ModelClass = BaseView.prototype.createModelClass.apply(this, currentViewState, optionUiSchemaConfig);
       },
       (error) => {
-        this.options.appState.trigger('afterError', {
-          responseJSON: error,
+        ModelClass = ModelClass.extend({
+          props: { error: {...error, type: 'object'}, ...ModelClass.prototype.props},
         });
       }
     );
-    return modelClass;
+    return ModelClass;
   },
+  postRender () {
+    BaseView.prototype.postRender.apply(this, arguments);
+
+    const modelError = this.model.props.error;
+
+    if (modelError) {
+      this.model.trigger('error', this.model, {
+        responseJSON: modelError,
+      });
+    }
+  }
 });
