@@ -11,13 +11,13 @@
  */
 
 /* global browser */
-var PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
+const PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
     OktaHomePage = require('../page-objects/OktaHomePage'),
     util = require('../util/util'),
     Expect = require('../util/Expect');
 
 describe('OIDC flows', function () {
-  var primaryAuth = new PrimaryAuthPage(),
+  const primaryAuth = new PrimaryAuthPage(),
       oktaHome = new OktaHomePage();
 
   beforeEach(function () {

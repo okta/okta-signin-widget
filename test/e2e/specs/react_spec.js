@@ -11,8 +11,8 @@
  */
 /* global browser */
 
-var PrimaryAuthPage = require('../page-objects/PrimaryAuthPage');
-var until = protractor.ExpectedConditions;
+const PrimaryAuthPage = require('../page-objects/PrimaryAuthPage');
+const until = protractor.ExpectedConditions;
 
 describe('React flows', function () {
   it('should allow logging in with the widget', function () {
@@ -21,15 +21,15 @@ describe('React flows', function () {
     browser.driver.get('http://localhost:3001/protected');
 
     // expect to see widget
-    var widget = element(by.css('#okta-sign-in'));
+    const widget = element(by.css('#okta-sign-in'));
     browser.wait(until.presenceOf(widget), 2000, 'Unable to find widget');
 
     // log in to widget
-    var primaryAuth = new PrimaryAuthPage();
+    const primaryAuth = new PrimaryAuthPage();
     primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
 
     // expect to see protected
-    var protectedText = element(by.xpath('//h3[text()="Protected"]'));
+    const protectedText = element(by.xpath('//h3[text()="Protected"]'));
     browser.wait(until.presenceOf(protectedText), 3000, 'Not able to detect protected route');
 
     // log out of Okta session

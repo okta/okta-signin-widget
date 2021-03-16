@@ -10,12 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 /* global browser, element, by, oktaSignIn, options, OktaSignIn */
-var PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
+const PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
     OktaHomePage = require('../page-objects/OktaHomePage'),
     util = require('../util/util');
 
 describe('Basic flows', function () {
-  var primaryAuth = new PrimaryAuthPage();
+  const primaryAuth = new PrimaryAuthPage();
 
   beforeEach(function () {
     browser.driver.get('about:blank');
@@ -25,8 +25,8 @@ describe('Basic flows', function () {
 
   it('can hide, show, remove, and start a widget', function () {
     // Ensure the widget exists
-    var el = element(by.css('#okta-sign-in'));
-    var signInTitle = element(by.css('[data-se="o-form-head"]'));
+    const el = element(by.css('#okta-sign-in'));
+    const signInTitle = element(by.css('[data-se="o-form-head"]'));
     expect(el.isDisplayed()).toBe(true);
     expect(signInTitle.getText()).toBe('Sign In');
 
@@ -62,11 +62,11 @@ describe('Basic flows', function () {
 
   it('modifies the error banner using an afterError event', function () {
     // Ensure the widget exists
-    var el = element(by.css('#okta-sign-in'));
+    const el = element(by.css('#okta-sign-in'));
     expect(el.isDisplayed()).toBe(true);
 
     primaryAuth.loginToForm('foo', 'bar');
-    var errorBox = element(by.className('okta-form-infobox-error'));
+    const errorBox = element(by.className('okta-form-infobox-error'));
     util.waitForElement(errorBox);
     expect(errorBox.getText()).toBe('Custom Error!');
   });
@@ -93,7 +93,7 @@ describe('Basic flows', function () {
     browser.executeScript(createWidget);
 
     // Check that the color has been applied
-    var primaryButton = element(by.css('#okta-signin-submit'));
+    const primaryButton = element(by.css('#okta-signin-submit'));
     expect(primaryButton.getCssValue('background')).toContain(('rgb(0, 128, 0)')); // #008000 in rgb
   });
 
@@ -115,8 +115,8 @@ describe('Basic flows', function () {
     }
     browser.executeScript(createWidget);
 
-    var primaryAuth = new PrimaryAuthPage();
-    var oktaHome = new OktaHomePage();
+    const primaryAuth = new PrimaryAuthPage();
+    const oktaHome = new OktaHomePage();
 
     primaryAuth.loginToForm('{{{WIDGET_BASIC_USER}}}', '{{{WIDGET_BASIC_PASSWORD}}}');
     oktaHome.waitForPageLoad();
