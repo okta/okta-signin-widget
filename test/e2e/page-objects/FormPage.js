@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2015-2016, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015-Present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -11,7 +11,7 @@
  */
 'use strict';
 
-var EC = protractor.ExpectedConditions;
+const EC = protractor.ExpectedConditions;
 
 /**
  * Helper functions to compose css selectors
@@ -55,7 +55,7 @@ class FormPage {
   }
 
   getErrorMessage () {
-    var errorEl = this.$('.okta-form-infobox-error.infobox.infobox-error p');
+    const errorEl = this.$('.okta-form-infobox-error.infobox.infobox-error p');
     browser.wait(EC.presenceOf(errorEl));
     return errorEl.getText();
   }

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 /* global browser */
-var PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
+const PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
     OIDCAppPage = require('../page-objects/OIDCAppPage'),
     FacebookPage = require('../page-objects/FacebookPage'),
     util = require('../util/util'),
@@ -28,7 +28,7 @@ describe('OIDC flows', function () {
     return 0;
   }
 
-  var primaryAuth = new PrimaryAuthPage(),
+  const primaryAuth = new PrimaryAuthPage(),
       oidcApp = new OIDCAppPage(),
       facebook = new FacebookPage();
 
@@ -69,6 +69,11 @@ describe('OIDC flows', function () {
       });
 
       it('throws form error if auth client returns with OAuth error', function () {
+        // TODO - Enable after https://oktainc.atlassian.net/browse/OKTA-375434
+        if (process.env.ORG_OIE_ENABLED) {
+          return;
+        }
+
         setup({
           baseUrl: '{{{WIDGET_TEST_SERVER}}}',
           clientId,

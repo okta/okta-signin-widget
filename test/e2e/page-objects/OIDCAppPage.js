@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2015-2016, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2015-Present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -11,7 +11,7 @@
  */
 'use strict';
 
-var EC = protractor.ExpectedConditions;
+const EC = protractor.ExpectedConditions;
 
 class AppPage {
 
@@ -36,7 +36,7 @@ class AppPage {
   getCodeFromQuery () {
     browser.wait(EC.presenceOf(this.locationSearch));
     return this.locationSearch.getText().then(function (search) {
-      var matches = search.match(/code=([^&]+)/i);
+      const matches = search.match(/code=([^&]+)/i);
       return matches && matches[1];
     });
   }
@@ -44,7 +44,7 @@ class AppPage {
   getCodeFromHash () {
     browser.wait(EC.presenceOf(this.locationHash));
     return this.locationHash.getText().then(function (hash) {
-      var matches = hash.match(/code=([^&]+)/i);
+      const matches = hash.match(/code=([^&]+)/i);
       return matches && matches[1];
     });
   }
