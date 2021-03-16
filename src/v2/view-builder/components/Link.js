@@ -40,15 +40,21 @@ const Link = View.extend({
     // TODO OKTA-245224
     if (!this.options.href) {
       this.$el.click((event) => {
-        const appState = this.options.appState;
         event.preventDefault();
 
-        if (this.options.click) {
-          this.options.click();
-        } else if (this.options.formName) {
-          appState.trigger('switchForm', this.options.formName)
-        } else {
-          appState.trigger('invokeAction', this.options.actionPath)
+        const {
+          appState,
+          formName,
+          actionPath,
+          click,
+        } = this.options;
+
+        if (click) {
+          click();
+        } else if (formName) {
+          appState.trigger('switchForm', formName)
+        } else if (actionPath) {
+          appState.trigger('invokeAction', actionPath)
         }
       });
     }

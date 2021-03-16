@@ -1,4 +1,4 @@
-import { loc } from 'okta';
+import { loc, _ } from 'okta';
 import { BaseForm, BaseFooter, BaseView } from '../internals';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 
@@ -10,9 +10,8 @@ const Body = BaseForm.extend({
   save () {
     return loc('registration.form.submit', 'login');
   },
-
   saveForm () {
-    this.settings.preSubmit(this.model.attributes,
+    this.settings.preSubmit(this.model.toJSON(),
       () => BaseForm.prototype.saveForm.apply(this, arguments),
       (error) => this.model.trigger('error', this.model, {
         responseJSON: error,
@@ -41,15 +40,24 @@ export default BaseView.extend({
   Footer,
   createModelClass (currentViewState, optionUiSchemaConfig, settings) {
     let ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
+    const currentSchema = JSON.parse(JSON.stringify((currentViewState.uiSchema)));
 
-    settings.parseSchema(currentViewState.uiSchema,
+    settings.parseSchema(currentSchema,
       (schema) => {
-        currentViewState.uiSchema = schema;
-        ModelClass = BaseView.prototype.createModelClass.apply(this, currentViewState, optionUiSchemaConfig);
+        if (!_.isEqual(schema, currentViewState.uiSchema)) {
+          currentViewState.uiSchema = schema;
+          ModelClass = BaseView.prototype.createModelClass.call(this, currentViewState, optionUiSchemaConfig);
+        }
       },
       (error) => {
         ModelClass = ModelClass.extend({
-          props: { error: {...error, type: 'object'}, ...ModelClass.prototype.props},
+          local: {
+            parseSchemaError: {
+              value: error,
+              type: 'object',
+            },
+            ...ModelClass.prototype.local
+          },
         });
       }
     );
@@ -58,7 +66,7 @@ export default BaseView.extend({
   postRender () {
     BaseView.prototype.postRender.apply(this, arguments);
 
-    const modelError = this.model.props.error;
+    const modelError = this.model.get('parseSchemaError');
 
     if (modelError) {
       this.model.trigger('error', this.model, {
