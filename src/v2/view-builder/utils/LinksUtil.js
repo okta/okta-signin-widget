@@ -1,4 +1,4 @@
-import { loc } from 'okta';
+import { loc, _ } from 'okta';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 
 const ENROLLED_PASSWORD_RECOVERY_LINK = 'currentAuthenticatorEnrollment-recover';
@@ -129,10 +129,31 @@ const getBackToSignInLink = (settings) => {
   ];
 };
 
+const getSignUpLink = (appState, settings) => {
+  const signupLink = [];
+
+  if (appState.hasRemediationObject(RemediationForms.SELECT_ENROLL_PROFILE)) {
+    const signupLinkData = {
+      'type': 'link',
+      'label': loc('signup', 'login'),
+      'name': 'enroll'
+    };
+    if (_.isFunction(settings.get('registration.click'))) {
+      signupLinkData.click = settings.get('registration.click');
+    } else {
+      signupLinkData.actionPath = RemediationForms.SELECT_ENROLL_PROFILE;
+    }
+    signupLink.push(signupLinkData);
+  }
+
+  return signupLink;
+};
+
 export {
   getSwitchAuthenticatorLink,
   getForgotPasswordLink,
   goBackLink,
+  getSignUpLink,
   getSignOutLink,
   getBackToSignInLink,
   getSkipSetupLink

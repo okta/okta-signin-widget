@@ -52,9 +52,9 @@ const Link = View.extend({
         if (click) {
           click();
         } else if (formName) {
-          appState.trigger('switchForm', formName)
+          appState.trigger('switchForm', formName);
         } else if (actionPath) {
-          appState.trigger('invokeAction', actionPath)
+          appState.trigger('invokeAction', actionPath);
         }
       });
     }

@@ -188,7 +188,7 @@ export default Controller.extend({
           this.settings.postSubmit(resp, onSuccess, (error) => {
             model.trigger('error', model, {
               responseJSON: error,
-            })
+            });
           });
         } else {
           onSuccess(resp);
