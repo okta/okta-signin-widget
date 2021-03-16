@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, loc } from 'okta';
+import { loc } from 'okta';
 import FactorUtil from 'util/FactorUtil';
 import FormController from 'util/FormController';
 import FormType from 'util/FormType';
@@ -38,7 +38,6 @@ export default FormController.extend({
 
       return loc('enroll.totp.title', 'login', [factorName]);
     },
-    subtitle: _.partial(loc, 'mfa.scanBarcode', 'login'),
     noButtonBar: true,
     attributes: { 'data-se': 'step-scan' },
     className: 'barcode-scan',
