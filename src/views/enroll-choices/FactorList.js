@@ -100,7 +100,7 @@ export default ListView.extend({
   template: hbs(
     '\
       {{#if listTitle}}\
-        <div class="list-title">{{listTitle}}</div>\
+        <h3 class="list-title">{{listTitle}}</h3>\
       {{/if}}\
       <ul class="list-content"></ul>\
     '

@@ -34,7 +34,6 @@ export default FormController.extend({
 
       return loc('enroll.totp.title', 'login', [factorName]);
     },
-    subtitle: _.partial(loc, 'mfa.scanBarcode', 'login'),
     save: _.partial(loc, 'oform.next', 'login'),
     noCancelButton: true,
     attributes: { 'data-se': 'step-scan' },
