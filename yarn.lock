@@ -1249,10 +1249,10 @@
     webcrypto-shim "^0.1.5"
     xhr2 "0.1.3"
 
-"@okta/okta-idx-js@0.11.0":
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/@okta/okta-idx-js/-/okta-idx-js-0.11.0.tgz#4a57773a03bb075b381a25367706a465d4a4ceb1"
-  integrity sha512-cdqK1L63VFmoizf6JbStobqoyOKsL0mcsesSNTtpm9rFC7bgWlxyFgDcir/sZDGSLfKkjqbMiYqcRBoS8XlyQw==
+"@okta/okta-idx-js@0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@okta/okta-idx-js/-/okta-idx-js-0.13.0.tgz#f43f793a81b5714706c5f9800692e1d007e7d2fe"
+  integrity sha512-dMpEFgRGjcnTs4tzAM4cGPOew93TEt26KgDyMRBLN96Uo1dIxAI8q0Tc8IuV/VkT1SSykcJ2K1ew0QIPYR9ELg==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@babel/runtime-corejs3" "^7.12.5"
@@ -3574,7 +3574,7 @@ core-js@^2.4.0, core-js@^2.6.5:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
   integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
 
-core-js@^3.6.5:
+core-js@^3.6.5, core-js@^3.8:
   version "3.9.1"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.9.1.tgz#cec8de593db8eb2a85ffb0dbdeb312cb6e5460ae"
   integrity sha512-gSjRvzkxQc1zjM/5paAmL4idJBFzuJoo+jDjF1tStYFMV2ERfD02HhahhCGXUyHxQRG4yFKVSdO6g62eoRMcDg==
