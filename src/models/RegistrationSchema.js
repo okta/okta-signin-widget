@@ -75,7 +75,7 @@ export default BaseSchema.Model.extend({
 
     const self = this;
 
-    this.settings.parseSchema(
+    this.settings.parseRegistrationSchema(
       resp,
       function (resp) {
         if (resp.profileSchema) {

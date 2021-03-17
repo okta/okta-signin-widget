@@ -102,7 +102,7 @@ export default BaseLoginController.extend({
         const activationToken = self.model.get('activationToken');
         const postSubmitData = activationToken ? activationToken : self.model.get('email');
 
-        self.settings.postSubmit(
+        self.settings.postRegistrationSubmit(
           postSubmitData,
           function () {
             self.doPostSubmit();
@@ -146,7 +146,7 @@ export default BaseLoginController.extend({
         return resp;
       },
       save: function () {
-        this.settings.preSubmit(
+        this.settings.preRegistrationSubmit(
           this.attributes,
           function (postData) {
             self.registerUser(postData);
@@ -162,7 +162,7 @@ export default BaseLoginController.extend({
   },
   showErrors: function (error, hideRegisterButton) {
     //for parseSchema error hide form and show error at form level
-    if (error.callback === 'parseSchema' && error.errorCauses) {
+    if (error.callback === 'parseRegistrationSchema' && error.errorCauses) {
       error.errorSummary = _.clone(error.errorCauses[0].errorSummary);
       delete error.errorCauses;
     }

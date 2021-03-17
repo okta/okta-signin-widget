@@ -185,7 +185,7 @@ export default Controller.extend({
 
         if (formName === FORMS.ENROLL_PROFILE) {
           // call registration (aka enroll profile) hook
-          this.settings.postSubmit(resp, onSuccess, (error) => {
+          this.settings.postRegistrationSubmit(resp, onSuccess, (error) => {
             model.trigger('error', model, {
               responseJSON: error,
             });

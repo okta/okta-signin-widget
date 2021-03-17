@@ -12,7 +12,7 @@ const Body = BaseForm.extend({
   },
   saveForm () {
     // SIW customization hook for registration
-    this.settings.preSubmit(this.model.toJSON(),
+    this.settings.preRegistrationSubmit(this.model.toJSON(),
       (postData) => {
         this.model.attributes = {...this.model.attributes, ...postData};
         BaseForm.prototype.saveForm.call(this, this.model);
@@ -46,7 +46,7 @@ export default BaseView.extend({
     let ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     const currentSchema = JSON.parse(JSON.stringify((currentViewState.uiSchema)));
 
-    settings.parseSchema(currentSchema,
+    settings.parseRegistrationSchema(currentSchema,
       (schema) => {
         if (!_.isEqual(schema, currentViewState.uiSchema)) {
           currentViewState.uiSchema = schema;

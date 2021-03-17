@@ -382,7 +382,7 @@ export default Model.extend({
     });
   },
 
-  parseSchema: function (schema, onSuccess, onFailure) {
+  parseRegistrationSchema: function (schema, onSuccess, onFailure) {
     const parseSchema = this.get('registration.parseSchema');
 
     //check for parseSchema callback
@@ -404,7 +404,7 @@ export default Model.extend({
     }
   },
 
-  preSubmit: function (postData, onSuccess, onFailure) {
+  preRegistrationSubmit: function (postData, onSuccess, onFailure) {
     const preSubmit = this.get('registration.preSubmit');
 
     //check for preSubmit callback
@@ -426,7 +426,7 @@ export default Model.extend({
     }
   },
 
-  postSubmit: function (response, onSuccess, onFailure) {
+  postRegistrationSubmit: function (response, onSuccess, onFailure) {
     const postSubmit = this.get('registration.postSubmit');
 
     //check for postSubmit callback
