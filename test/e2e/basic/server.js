@@ -8,7 +8,10 @@ const TARGET_DIR = path.resolve(ROOT_DIR, 'target');
 
 var app = express();
 app.use(express.static(TARGET_DIR, {
-  extensions: ['html']
+  extensions: ['html'],
+  setHeaders: res => { 
+    res.setHeader('Content-Security-Policy', `script-src 'unsafe-inline' http://localhost:${PORT}`);
+  },
 }));
 
 app.listen(PORT);

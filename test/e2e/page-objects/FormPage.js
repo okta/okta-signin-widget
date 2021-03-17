@@ -54,7 +54,13 @@ class FormPage {
     return this.submitButton().click();
   }
 
-  getErrorMessage() {
+  getCspErrorsMessage () {
+    var cspErrorsEl = $('#csp-errors');
+    browser.wait(EC.presenceOf(cspErrorsEl));
+    return cspErrorsEl.getText();
+  }
+
+  getErrorMessage () {
     const errorEl = this.$('.okta-form-infobox-error.infobox.infobox-error p');
     browser.wait(EC.presenceOf(errorEl));
     return errorEl.getText();
