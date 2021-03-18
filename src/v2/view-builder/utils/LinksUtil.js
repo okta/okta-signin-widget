@@ -139,7 +139,7 @@ const getSignUpLink = (appState, settings) => {
       'name': 'enroll'
     };
     if (_.isFunction(settings.get('registration.click'))) {
-      signupLinkData.click = settings.get('registration.click');
+      signupLinkData.clickHandler = settings.get('registration.click');
     } else {
       signupLinkData.actionPath = RemediationForms.SELECT_ENROLL_PROFILE;
     }

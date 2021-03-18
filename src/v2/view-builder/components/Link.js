@@ -46,11 +46,11 @@ const Link = View.extend({
           appState,
           formName,
           actionPath,
-          click,
+          clickHandler,
         } = this.options;
 
-        if (click) {
-          click();
+        if (clickHandler) {
+          clickHandler();
         } else if (formName) {
           appState.trigger('switchForm', formName);
         } else if (actionPath) {
