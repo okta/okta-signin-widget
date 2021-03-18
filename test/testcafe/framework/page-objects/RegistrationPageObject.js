@@ -54,6 +54,10 @@ export default class RegistrationPageObject extends BasePageObject {
     return this.form.waitForErrorBox();
   }
 
+  getErrorBoxText() {
+    return this.form.getErrorBoxText();
+  }
+
   hasFirstNameError() {
     return this.form.hasTextBoxError(FIRSTNAME_FIELD);
   }

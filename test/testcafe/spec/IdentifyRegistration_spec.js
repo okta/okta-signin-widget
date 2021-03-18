@@ -1,4 +1,4 @@
-import { RequestMock } from 'testcafe';
+import { RequestMock, ClientFunction } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import RegistrationPageObject from '../framework/page-objects/RegistrationPageObject';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
@@ -27,6 +27,9 @@ const enrollProfileFinishMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/enroll')
   .respond(enrollProfileFinish);
 
+const rerenderWidget = ClientFunction((settings) => {
+  window.renderPlaygroundWidget(settings);
+});
 
 fixture('Registration');
 
@@ -174,4 +177,21 @@ test.requestHooks(enrollProfileFinishMock)('should show terminal screen after re
   });
 
   await t.expect(registrationPage.getTerminalContent()).eql('An activation email has been sent to john@gmail.com. Follow instructions in the email to finish creating your account');
+});
+
+test.requestHooks(mock)('should call settings.registration.click on "Sign Up" click, instead of moving to registration page', async t => {
+  const identityPage = new IdentityPageObject(t);
+  await identityPage.navigateToPage();
+  await rerenderWidget({
+    baseUrl: 'http://localhost:3000',
+    registration: {
+      // eslint-disable-next-line
+      click: () => console.log('registration click handler fired')
+    }
+  });
+
+  await identityPage.clickSignUpLink();
+  const { log } = await t.getBrowserConsoleMessages();
+
+  await t.expect(log[log.length-1]).eql('registration click handler fired');
 });
