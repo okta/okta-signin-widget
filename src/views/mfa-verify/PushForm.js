@@ -18,14 +18,17 @@ import NumberChallengeView from './NumberChallengeView';
 const titleTpl = hbs('{{factorName}} ({{{deviceName}}})');
 // deviceName is escaped on BaseForm (see BaseForm's template)
 
-const WARNING_TIMEOUT = 30000;
+const WARNING_TIMEOUT = 30000; // milliseconds
 const PushFormwarningTemplate = View.extend({
   className: 'okta-form-infobox-warning infobox infobox-warning',
+  attributes: {
+    'aria-live': 'polite',
+  },
   template: hbs`
       <span class="icon warning-16"></span>
       <p>{{warning}}</p>
     `,
-}); //milliseconds
+});
 
 export default Form.extend({
   className: 'mfa-verify-push',
