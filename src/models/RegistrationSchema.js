@@ -34,6 +34,10 @@ export default BaseSchema.Model.extend({
     BaseModel.apply(this, arguments);
   },
 
+  initialize: function () {
+    this.settings = this.settings || this.options.settings;
+  },
+
   parse: function (resp) {
     const parseResponseData = resp => {
       const requireFields = resp.schema.required;
@@ -74,7 +78,6 @@ export default BaseSchema.Model.extend({
     };
 
     const self = this;
-
     this.settings.parseRegistrationSchema(
       resp,
       function (resp) {

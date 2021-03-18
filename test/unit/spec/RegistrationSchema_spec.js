@@ -1,7 +1,17 @@
 /* eslint max-params:[2, 28], max-statements:[2, 40], camelcase:0, max-len:[2, 180] */
 import RegistrationSchema from 'models/RegistrationSchema';
+import Settings from 'models/Settings';
 
 describe('RegistrationSchema', function () {
+  const init = () => {
+    const settings = new Settings({
+      baseUrl: 'http://localhost:3000',
+      parseSchema: function (response, onSuccess) {
+        return onSuccess(response);
+      },
+    });
+    return new RegistrationSchema({settings});
+  };
   describe('properties', function () {
     describe('string field', function () {
       beforeEach(function () {
@@ -18,12 +28,7 @@ describe('RegistrationSchema', function () {
           },
         };
 
-        this.schema = new RegistrationSchema();
-        this.schema.settings = {
-          parseSchema: function (response, onSuccess) {
-            return onSuccess(response);
-          },
-        };
+        this.schema = init();
         this.schema.parse(jsonResponse);
       });
 
@@ -69,12 +74,7 @@ describe('RegistrationSchema', function () {
           },
         };
 
-        this.schema = new RegistrationSchema();
-        this.schema.settings = {
-          parseSchema: function (response, onSuccess) {
-            return onSuccess(response);
-          },
-        };
+        this.schema = init();
         this.schema.parse(jsonResponse);
       });
 
@@ -101,12 +101,7 @@ describe('RegistrationSchema', function () {
           },
         };
 
-        this.schema = new RegistrationSchema();
-        this.schema.settings = {
-          parseSchema: function (response, onSuccess) {
-            return onSuccess(response);
-          },
-        };
+        this.schema = init();
         this.schema.parse(jsonResponse);
       });
 
@@ -140,12 +135,7 @@ describe('RegistrationSchema', function () {
           },
         };
 
-        this.schema = new RegistrationSchema();
-        this.schema.settings = {
-          parseSchema: function (response, onSuccess) {
-            return onSuccess(response);
-          },
-        };
+        this.schema = init();
         this.schema.parse(jsonResponse);
       });
 
@@ -197,12 +187,7 @@ describe('RegistrationSchema', function () {
           },
         };
 
-        this.schema = new RegistrationSchema();
-        this.schema.settings = {
-          parseSchema: function (response, onSuccess) {
-            return onSuccess(response);
-          },
-        };
+        this.schema = init();
         this.schema.parse(jsonResponse);
       });
 
