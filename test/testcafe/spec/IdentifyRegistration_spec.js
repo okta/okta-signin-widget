@@ -186,12 +186,12 @@ test.requestHooks(mock)('should call settings.registration.click on "Sign Up" cl
     baseUrl: 'http://localhost:3000',
     registration: {
       // eslint-disable-next-line
-      click: () => console.log('hello')
+      click: () => console.log('registration click handler fired')
     }
   });
 
   await identityPage.clickSignUpLink();
   const { log } = await t.getBrowserConsoleMessages();
 
-  await t.expect(log[log.length-1]).eql('hello');
+  await t.expect(log[log.length-1]).eql('registration click handler fired');
 });
