@@ -56,7 +56,7 @@ function sendCode (e) {
   }
 }
 
-function isValidCountryCode(countryCode){
+function isValidCountryCode (countryCode){
   return CountryUtil.getCallingCodeForCountry(countryCode);
 }
 
