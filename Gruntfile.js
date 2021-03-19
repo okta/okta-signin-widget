@@ -329,6 +329,40 @@ module.exports = function (grunt) {
   });
 
   grunt.task.registerTask(
+    'start-e2e-app',
+    'Starts the basic e2e test app.',
+    function () {
+      grunt.task.run([
+        'copy:e2e',
+        'copy:e2e-pages',
+        'exec:build-e2e-app',
+        'connect:e2e'
+      ]);
+    }
+  );
+
+  grunt.task.registerTask(
+    'daemon',
+    'Runs and never stops',
+    function () {
+      this.async();
+    }
+  );
+
+  grunt.task.registerTask(
+    'start-e2e-app-daemon',
+    'Starts the basic e2e test app.',
+    function () {
+      grunt.task.run([
+        'start-e2e-app',
+        'daemon'
+      ]);
+
+    }
+  );
+
+
+  grunt.task.registerTask(
     'test-e2e',
     'Runs end to end webdriver tests. Pass in `--browserName {{browser}}` to ' +
     'override default phantomjs browser',
@@ -348,10 +382,7 @@ module.exports = function (grunt) {
       grunt.log.writeln('Testing against: ' + process.env.WIDGET_TEST_SERVER);
 
       grunt.task.run([
-        'copy:e2e',
-        'copy:e2e-pages',
-        'exec:build-e2e-app',
-        'connect:e2e',
+        'start-e2e-app',
         'exec:run-protractor'
       ]);
     }
