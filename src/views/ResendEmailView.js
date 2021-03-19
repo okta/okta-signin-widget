@@ -16,7 +16,7 @@ import Enums from 'util/Enums';
 export default View.extend({
   className: 'hide resend-email-infobox',
   template: hbs`
-      <div class="infobox infobox-warning">
+      <div class="infobox infobox-warning" aria-live="polite">
         <span class="icon warning-16"></span>
         <p>
           <span>{{i18n code="email.code.not.received" bundle="login"}}</span>
