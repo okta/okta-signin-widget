@@ -159,7 +159,7 @@ Okta provides several complete [sample applications](#sample-applications) which
 
 ### Okta-hosted signin page (customizable)
 
-Okta also provides a hosted signin page which can be customized so that it is available under a [custom domain][] which is a subdomain of your company's top-level domain. Although the page is hosted by Okta, you are able to [customize the template][] of this page in many powerful ways. See the [gallery][] for some examples of customized widgets.
+Okta also provides a hosted signin page which can be customized so that it is available under a [custom domain][] which is a subdomain of your company's top-level domain. Although the page is hosted by Okta, you are able to [customize the template][] of this page in many powerful ways.
 
 As far as your app is concerned, the customized widget behaves the same as the default Okta-hosted widget and you can use the same [hosted flow][].
 
