@@ -64,8 +64,21 @@ function addMessageToPage(id, msg) {
   document.body.appendChild(appNode);
 }
 
+function replaceMessageOnPage(id, msg) {
+  var containerNode = document.getElementById(id);
+  if (containerNode) {
+    containerNode.remove();
+  }
+
+  var appNode = document.createElement('div');
+  appNode.setAttribute('id', id);
+  appNode.innerHTML = msg;
+  document.body.appendChild(appNode);
+}
+
 function initialize(options) {
-  addMessageToPage('csp-errors', globalCspTrap.map( function(err) { 
+
+  replaceMessageOnPage('csp-errors', globalCspTrap.map( function(err) { 
     return err.blockedURI + " blocked due to CSP rule " + err.violatedDirective + " from " + err.originalPolicy;
   }).join('')); 
 
