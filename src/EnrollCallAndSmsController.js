@@ -24,9 +24,12 @@ import TextBox from 'views/shared/TextBox';
 let { Keys } = internal.util;
 const EnrollCallAndSmsControllerwarningTemplate = View.extend({
   className: 'okta-form-infobox-warning infobox infobox-warning login-timeout-warning',
+  attributes: {
+    'aria-live': 'polite',
+  },
   template: hbs`
       <span class="icon warning-16"></span>
-        <p>{{{warning}}}</p>
+      <p>{{{warning}}}</p>
     `,
 });
 const factorIdIsDefined = {
