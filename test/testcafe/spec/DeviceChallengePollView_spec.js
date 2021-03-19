@@ -24,16 +24,69 @@ const loopbackSuccesskMock = RequestMock()
       res.setBody(identifyWithDeviceProbingLoopback);
     }
   })
-  .onRequestTo(/2000|6511\/probe/)
-  .respond(null, 500, { 'access-control-allow-origin': '*' })
+  .onRequestTo(/2000\/probe/)
+  .respond(null, 500, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'})
+  .onRequestTo(/6511\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'})
+  .onRequestTo(/6511\/challenge/)
+  .respond((req, res) => {
+    res.statusCode = req.method !== 'POST' ? 204 : 403;
+    res.headers = {
+      'access-control-allow-origin': '*',
+      'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+      'access-control-allow-methods': 'POST, GET, OPTIONS'};
+  })
   .onRequestTo(/6512\/probe/)
-  .respond(null, 200, { 'access-control-allow-origin': '*' })
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'})
   .onRequestTo(/6512\/challenge/)
   .respond(null, 200, {
     'access-control-allow-origin': '*',
-    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept',
+    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
     'access-control-allow-methods': 'POST, OPTIONS'
   });
+
+const loopbackOVFallbackLogger = RequestLogger(/introspect|probe|challenge|poll|cancel/);
+const loopbackOVFallbackMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithDeviceProbingLoopback)
+  .onRequestTo(/2000\/probe/)
+  .respond(null, 500, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'})
+  .onRequestTo(/6511\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'})
+  .onRequestTo(/6511\/challenge/)
+  .respond((req, res) => {
+    res.statusCode = req.method !== 'POST' ? 204 : 401;
+    res.headers = {
+      'access-control-allow-origin': '*',
+      'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+      'access-control-allow-methods': 'POST, GET, OPTIONS'};
+  })
+  .onRequestTo(/6512\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'})
+  .onRequestTo(/6512\/challenge/)
+  .respond((req, res) => {
+    res.statusCode = req.method !== 'POST' ? 204 : 500;
+    res.headers = {
+      'access-control-allow-origin': '*',
+      'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+      'access-control-allow-methods': 'POST, GET, OPTIONS'};
+  })
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(identifyWithLaunchAuthenticator)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
+  .respond(loopbackChallengeNotReceived);
 
 const loopbackFallbackLogger = RequestLogger(/introspect|probe|cancel|launch|poll/);
 const loopbackFallbackMock = RequestMock()
@@ -109,18 +162,30 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().innerText).eql('Cancel and take me to sign in');
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 200 &&
-      record.request.url.match(/introspect|6512/)
-    )).eql(3);
+      record.request.url.match(/introspect/)
+    )).eql(1);
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 200 &&
-      record.request.url.match(/challenge/) &&
+              record.request.url.match(/6512\/probe/)
+    )).eql(1);
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 200 &&
+      record.request.url.match(/6512\/challenge/) &&
       record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
     )).eql(1);
     failureCount = 2;
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 500 &&
-      record.request.url.match(/2000|6511/)
-    )).eql(2);
+      record.request.url.match(/2000/)
+    )).eql(1);
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 200 &&
+                record.request.url.match(/6511\/probe/)
+    )).eql(1);
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 403 &&
+                record.request.url.match(/6511\/challenge/)
+    )).eql(1);
     await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6513/))).eql(false);
 
     const identityPage = new IdentityPageObject(t);
@@ -212,4 +277,42 @@ test
     deviceChallengeFalllbackPage.clickOktaVerifyButton();
     await t.expect(getPageUrl()).contains(mockHttpCustomUri);
     await t.expect(Selector('h1').innerText).eql('open universal link');
+  });
+
+test
+  .requestHooks(loopbackOVFallbackLogger, loopbackOVFallbackMock)('in loopback server approach, cancel polling when OV returns only fail responses', async t => {
+    setup(t);
+    await t.expect(loopbackOVFallbackLogger.count(
+      record => record.response.statusCode === 200 &&
+                record.request.url.match(/introspect/)
+    )).eql(1);
+    await t.expect(loopbackOVFallbackLogger.count(
+      record => record.response.statusCode === 500 &&
+                record.request.url.match(/2000\/probe/)
+    )).eql(1);
+    await t.expect(loopbackOVFallbackLogger.count(
+      record => record.response.statusCode === 200 &&
+                record.request.url.match(/6511\/probe/)
+    )).eql(1);
+    await t.expect(loopbackOVFallbackLogger.count(
+      record => record.response.statusCode === 401 &&
+                record.request.url.match(/6511\/challenge/)
+    )).eql(1);
+    await t.expect(loopbackOVFallbackLogger.count(
+      record => record.response.statusCode === 200 &&
+                record.request.url.match(/6512\/probe/)
+    )).eql(1);
+    await t.expect(loopbackOVFallbackLogger.count(
+      record => record.response.statusCode === 500 &&
+                record.request.url.match(/6512\/challenge/)
+    )).eql(1);
+    await t.expect(loopbackOVFallbackLogger.count(
+      record => record.response.statusCode ===200 &&
+                record.request.url.match(/\/idp\/idx\/authenticators\/poll/)
+    )).lte(3);
+    await t.expect(loopbackOVFallbackLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/\/idp\/idx\/authenticators\/poll\/cancel/)
+    )).eql(1);
+    await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6513/))).eql(false);
   });
