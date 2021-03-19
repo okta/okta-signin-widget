@@ -69,6 +69,21 @@ grunt copy:e2e-pages
 
 Run this whenever you change environment variables.
 
+## Built assets
+
+This step requires that you have run the grunt copy commands above.
+
+You will need a built version of the widget to run the tests.  For a full check you can run:
+```
+yarn build:release
+yarn build:webpack-e2e-app
+```
+
+However, for development that can be tedious to repeatedly run.  In that case you will want to run:
+```
+yarn build:webpack-dev --output-path ./target/js --output-filename okta-sign-in.min.js --watch
+```
+
 ## Prepare protractor
 
 Install/update webdriver locally.
