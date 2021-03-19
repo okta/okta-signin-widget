@@ -113,5 +113,5 @@ npx protractor target/e2e/conf.js
 To run a specific spec:
 (yes, the `target/` below is correct - the conf files are copied from `test/`, which is why you need to run the grunt copy command above when you change a spec)
 ```
-npx protractor target/e2e/conf.js --specs test/e2e/specs/basic_spec.js
+npx protractor target/e2e/conf.js --specs target/e2e/specs/basic_spec.js
 ```
