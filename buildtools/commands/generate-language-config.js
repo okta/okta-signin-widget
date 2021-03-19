@@ -35,9 +35,8 @@ exports.handler = () => {
   supportedLanguages.unshift('en');
   config.supportedLanguages = supportedLanguages;
   console.log('config.supportedLanguages:');
-  console.log(config.supportedLanguages.join(','));
+  console.log(config.supportedLanguages.join(', '));
 
   writeFileSync(OUTPUT_FILE, JSON.stringify(config, null, 2));
   console.log('Wrote config to ' + OUTPUT_FILE);
-
 };

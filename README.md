@@ -94,6 +94,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
 - [Building the Widget](#building-the-widget)
   - [Build and test commands](#build-and-test-commands)
   - [Local development workflow using `yarn link`](#local-development-workflow-using-yarn-link)
+  - [Utilizing Pseudo-loc](#utilizing-pseudo-loc)
 - [Browser support](#browser-support)
 - [Contributing](#contributing)
 
@@ -1580,6 +1581,34 @@ In your other local project directory:
 
 ```bash
 yarn link @okta/okta-signin-widget
+```
+
+### Utilizing Pseudo-loc
+
+> :warning: This tool requires access to Okta's internal registry via the VPN.
+
+A pseudo-localized language is a test language created to identify issues with the internationalization process. Generated from `login.properties` English resources, the pseudo-loc properties file can be used to test UI's for English leaks and CSS layout issues caused due to localization.
+
+To generate pseudo-loc, run the following command:
+
+```sh
+# Navigate into the pseudo-loc package
+[okta-siginin-widget]$ cd packages/@okta/pseudo-loc/
+
+# Install all required dependencies and generate login_ok_PL.propertiies
+# NOTE: This requires VPN access
+[pseudo-loc]$ yarn install
+[pseudo-loc]$ yarn pseudo-loc
+```
+
+Finally, update the `.widgetrc.js` file to use the `ok_PL` language, and start the [widget playground](#build-and-test-commands).
+
+```js
+module.exports = {
+  baseUrl: 'https://{yourOktaDomain}',
+  language: 'ok-PL',
+  ...
+}
 ```
 
 ## Browser support

@@ -2009,6 +2009,7 @@ Expect.describe('LoginRouter', function () {
             'ms',
             'nb',
             'nl-NL',
+            'ok-PL',
             'pl',
             'pt-BR',
             'ro',

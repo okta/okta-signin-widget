@@ -1,0 +1,11 @@
+{
+  "name": "pseudo-loc-for-signin-widget",
+  "version": "1.0.0",
+  "description": "Generates pseudo-loc for the Sign-In Widget",
+  "scripts": {
+    "pseudo-loc": "node pseudo-loc.js"
+  },
+  "devDependencies": {
+    "@okta/i18n.pseudo-loc": "0.0.0-4584-gced6ef0"
+  }
+}
