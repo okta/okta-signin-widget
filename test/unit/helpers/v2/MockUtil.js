@@ -23,12 +23,12 @@ const mockIntrospect = (done, mockData, assertionFn) => {
       fail(error);
     })
     .finally(() => {
+      expect(jasmine.Ajax.requests.count()).toBe(1);
+      expect(jasmine.Ajax.requests.at(0).url).toBe(`${BASE_URL}/idp/idx/introspect`);
       jasmine.Ajax.uninstall();
       done();
     });
 
-  expect(jasmine.Ajax.requests.count()).toBe(1);
-  expect(jasmine.Ajax.requests.at(0).url).toBe(`${BASE_URL}/idp/idx/introspect`);
 };
 
 export default {
