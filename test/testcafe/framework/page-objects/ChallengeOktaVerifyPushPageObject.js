@@ -1,9 +1,9 @@
 import ChallengeFactorPageObject from './ChallengeFactorPageObject';
 
 const FORM_INFOBOX_WARNING = '.okta-form-infobox-warning';
-const FORM_INFOBOX_ERROR = '.o-form-error-container .infobox-error';
+const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] [data-se="callout"]';
 const RESEND_NUMBER_CHALLENGE_BUTTON = '.okta-form-infobox-warning .resend-number-challenge';
-const FORM_INFOBOX_ERROR_TITLE = '.o-form-error-container .infobox-error > h3';
+const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
 
 export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPageObject {
   constructor(t) {

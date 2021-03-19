@@ -24,6 +24,11 @@
   .switch-channel-link {
     color: $link-text-color;
   }
+
+  .o-form-error-container > .infobox + .resend-ov-link-view {
+    // if error callout and warning callout show up on ov enroll screen, add margin between callouts
+    margin-top: 20px;
+  }
 }
 
 .oie-enroll-ov-data {

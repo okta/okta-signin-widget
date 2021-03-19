@@ -108,6 +108,13 @@ export default Controller.extend({
 
   handleSwitchForm (formName) {
     // trigger formName change to change view
+    if (this.options.appState.get('messages')) {
+      // Clear messages before calling switch form.
+      // If a form has errors sent form API inside messages
+      // and user hits back to factors list which triggers switchForm,
+      // those error will show up on another screen that gets rendered after switchForm
+      this.options.appState.unset('messages');
+    }
     this.options.appState.set('currentFormName', formName);
   },
 

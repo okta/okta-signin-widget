@@ -1,5 +1,8 @@
 import BasePageObject from './BasePageObject';
 
+const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] [data-se="callout"]';
+const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
+
 export default class EnrollOktaVerifyPageObject extends BasePageObject {
   constructor (t) {
     super(t);
@@ -47,5 +50,17 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
 
   async clickSendAgainLink() {
     await this.form.clickElement('.resend-ov-link-view a.resend-link');
+  }
+
+  getErrorBox () {
+    return this.form.getElement(FORM_INFOBOX_ERROR);
+  }
+
+  getErrorTitle() {
+    return this.form.getElement(FORM_INFOBOX_ERROR_TITLE);
+  }
+
+  async switchAuthenticator() {
+    return this.t.click('[data-se="switchAuthenticator"]');
   }
 }
