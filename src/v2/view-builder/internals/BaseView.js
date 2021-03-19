@@ -66,7 +66,9 @@ export default View.extend({
     // Create Model
     const IonModel = this.createModelClass(
       this.options.currentViewState,
-      optionUiSchemaConfig);
+      optionUiSchemaConfig,
+      this.settings,
+    );
 
     const model = new IonModel ({
       formName: this.options.currentViewState.name,
