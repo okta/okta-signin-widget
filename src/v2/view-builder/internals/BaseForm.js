@@ -4,7 +4,10 @@ import FormInputFactory from './FormInputFactory';
 const { FormUtil } = internal.views.forms.helpers;
 
 const HCAPTCHA_URL = 'https://hcaptcha.com/1/api.js?onload=onCaptchaLoaded&render=explicit';
+const HCAPTCHA_PRIVACY_URL = 'https://hcaptcha.com/privacy';
+const HCAPTCHA_TERMS_URL = 'https://hcaptcha.com/terms';
 const RECAPTCHAV2_URL = 'https://www.google.com/recaptcha/api.js?onload=onCaptchaLoaded&render=explicit';
+
 
 
 export default Form.extend({
@@ -41,7 +44,7 @@ export default Form.extend({
 
     // Render CAPTCHA if we need to and if FF CAPTCHA_SUPPORT is enabled
     if (this.options.currentViewState.captcha) {
-      this.loadCaptcha(this.options.currentViewState.captcha);
+      this.addCaptcha(this.options.currentViewState.captcha);
     }
 
     this.listenTo(this, 'save', this.saveForm);
@@ -76,71 +79,42 @@ export default Form.extend({
     }
   },
 
-  // loadCaptchaRenderScript (script) {
-  //   let captchaScript = document.createElement('script');
-  //   captchaScript.text = script;
-  //   document.body.appendChild(captchaScript);
-  // },
-
-  // loadCaptchaCDNUrl (url) {
-  //   let captchaScript = document.createElement('script');
-  //   captchaScript.src = url;
-  //   captchaScript.async = true;
-  //   captchaScript.defer = true;
-  //   document.body.appendChild(captchaScript);
-  // },
-
-  loadCaptcha (captchaInstance) {
-
+  addCaptcha (captchaConfig) {
     // eslint-disable-next-line no-unused-vars
     const onCaptchaSolved = (token) => {
-      // Set the token in the model.
+      // Set the token in the model and submit the form.
       this.model.set('captchaVerify.token', token);
       this.saveForm(this.model);
     };
 
     const onCaptchaLoaded = () => {
       // eslint-disable-next-line no-undef
-      const captchaObject = captchaInstance.type === 'HCAPTCHA' ? hcaptcha : grecaptcha;
+      const captchaObject = captchaConfig.type === 'HCAPTCHA' ? hcaptcha : grecaptcha;
       // eslint-disable-next-line no-undef
       captchaObject.render(this.saveId, {
-        sitekey: captchaInstance.siteKey,
+        sitekey: captchaConfig.siteKey,
         callback: onCaptchaSolved
       });    
+
+      // Render the HCAPTCHA footer - we need to this manually
+      if (captchaConfig.type === 'HCAPTCHA') {
+        $('body').append(
+          `<div class="footer">
+            ${loc('captcha.footer.label', 'login', [HCAPTCHA_PRIVACY_URL, HCAPTCHA_TERMS_URL])}
+          </div>`
+        );
+      }
     };
 
+    // Attaching the callback to the window object so that the CAPTCHA script that we dynamically render
+    // can have access to it since it won't have access to this view's scope.
     window.onCaptchaLoaded = onCaptchaLoaded;
 
-    if (captchaInstance.type === 'HCAPTCHA') {
+    if (captchaConfig.type === 'HCAPTCHA') {
       $.getScript(HCAPTCHA_URL);
-    } else if (captchaInstance.type === 'RECAPTCHAV2') {
+    } else if (captchaConfig.type === 'RECAPTCHAV2') {
       $.getScript(RECAPTCHAV2_URL);
     }
-
-    // var renderScript = null;
-    // var cdnURL = null;
-    // if (captchaInstance.type === 'RECAPTCHAV2') {
-    //   renderScript = 'function onloadCallback() {\n' +
-    //         '                grecaptcha.render(\'this.saveId\', {\n' +
-    //         '                   \'sitekey\' : captchaInstance.siteKey,\n' +
-    //         '                   \'callback\' : onCaptchaSolved\n' +
-    //         '                });\n' +
-    //         '            }';
-    //   cdnURL = 'https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit';
-    // } else if (captchaInstance.type === 'HCAPTCHA') {
-    //   renderScript = 'function onloadCallback() {\n' +
-    //         '                hcaptcha.render(\'this.saveId\', {\n' +
-    //         '                   \'sitekey\' : captchaInstance.siteKey,\n' +
-    //         '                   \'callback\' : onCaptchaSolved\n' +
-    //         '                });\n' +
-    //         '            }';
-    //   cdnURL = 'https://hcaptcha.com/1/api.js?onload=onloadCallback&render=explicit';
-    // }
-
-    // if (renderScript !== null && cdnURL !== null) {
-    //   this.loadCaptchaRenderScript(renderScript);
-    //   this.loadCaptchaCDNUrl(cdnURL);
-    // }
   },
 
   addInputOrView (input) {

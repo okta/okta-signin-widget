@@ -75,7 +75,6 @@
     }
   }
 
-
   @import 'modules/accessibility';
 }
 /* stylelint-enable selector-max-id */
@@ -168,3 +167,9 @@
 }
 
 @import 'okta-theme';
+
+.footer {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+}
