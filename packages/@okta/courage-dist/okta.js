@@ -1,4 +1,4 @@
-/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.5.0-4745-geb7c828 */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.5.0-4857-g13f1f5c */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -9073,6 +9073,7 @@ E.prototype = {
 };
 
 module.exports = E;
+module.exports.TinyEmitter = E;
 
 
 /***/ }),
