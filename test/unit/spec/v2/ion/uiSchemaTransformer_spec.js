@@ -1419,7 +1419,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
 
             {
               name: 'rememberMe',
-              label: 'Remember Me',
+              label: 'Keep me signed in',
               type: 'boolean',
             },
             {
@@ -1451,7 +1451,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
               name: 'rememberMe',
               label: false,
               type: 'checkbox',
-              placeholder: 'Remember Me',
+              placeholder: 'Keep me signed in',
               modelType: 'boolean',
               required: false,
               'label-top': true,
@@ -1502,7 +1502,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
 
             {
               name: 'rememberMe',
-              label: 'Remember Me',
+              label: 'Keep me signed in',
               type: 'boolean',
             },
             {
@@ -1534,7 +1534,7 @@ describe('v2/ion/uiSchemaTransformer', function () {
               name: 'rememberMe',
               label: false,
               type: 'checkbox',
-              placeholder: 'Remember Me',
+              placeholder: 'Keep me signed in',
               modelType: 'boolean',
               required: false,
               'label-top': true,
