@@ -59,6 +59,7 @@ module.exports = {
       path.join(TARGET, 'css'),
     ],
     compress: true,
+    disableHostCheck: true,
     port: DEV_SERVER_PORT,
     open: true,
     watchContentBase: true,

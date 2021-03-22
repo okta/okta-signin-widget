@@ -28,12 +28,12 @@ const convertUiSchemaFieldToProp = (uiSchemaField) => {
 };
 
 const createPropsAndLocals = function (
-  remediation = {},
+  currentViewState = {},
   optionUiSchemaConfig = {},
   props = {},
   local = {}) {
 
-  const uiSchemas = remediation.uiSchema || [];
+  const uiSchemas = currentViewState.uiSchema || [];
 
   uiSchemas.forEach(schema => {
     if (Array.isArray(schema.optionsUiSchemas)) {
@@ -64,15 +64,17 @@ const createPropsAndLocals = function (
       Object.assign(props, convertUiSchemaFieldToProp(schema));
     }
   });
+
+  // Add requirement for captchaVerify request body schema if captcha is part of currentViewState
 };
 
-const create = function (remediation = {}, optionUiSchemaConfig = {}) {
+const create = function (currentViewState = {}, optionUiSchemaConfig = {}) {
   const props = {};
   const local = {
     formName: 'string',
   };
   createPropsAndLocals(
-    remediation,
+    currentViewState,
     optionUiSchemaConfig,
     props,
     local);

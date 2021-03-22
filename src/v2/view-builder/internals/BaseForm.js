@@ -1,7 +1,11 @@
-import { _, Form, loc, internal } from 'okta';
+import { _, $, Form, loc, internal } from 'okta';
 import FormInputFactory from './FormInputFactory';
 
 const { FormUtil } = internal.views.forms.helpers;
+
+const HCAPTCHA_URL = 'https://hcaptcha.com/1/api.js?onload=onCaptchaLoaded&render=explicit';
+const RECAPTCHAV2_URL = 'https://www.google.com/recaptcha/api.js?onload=onCaptchaLoaded&render=explicit';
+
 
 export default Form.extend({
 
@@ -35,6 +39,11 @@ export default Form.extend({
       this.addInputOrView(input);
     });
 
+    // Render CAPTCHA if we need to and if FF CAPTCHA_SUPPORT is enabled
+    if (this.options.currentViewState.captcha) {
+      this.loadCaptcha(this.options.currentViewState.captcha);
+    }
+
     this.listenTo(this, 'save', this.saveForm);
     this.listenTo(this, 'cancel', this.cancelForm);
   },
@@ -65,6 +74,73 @@ export default Form.extend({
     } else {
       return [];
     }
+  },
+
+  // loadCaptchaRenderScript (script) {
+  //   let captchaScript = document.createElement('script');
+  //   captchaScript.text = script;
+  //   document.body.appendChild(captchaScript);
+  // },
+
+  // loadCaptchaCDNUrl (url) {
+  //   let captchaScript = document.createElement('script');
+  //   captchaScript.src = url;
+  //   captchaScript.async = true;
+  //   captchaScript.defer = true;
+  //   document.body.appendChild(captchaScript);
+  // },
+
+  loadCaptcha (captchaInstance) {
+
+    // eslint-disable-next-line no-unused-vars
+    const onCaptchaSolved = (token) => {
+      // Set the token in the model.
+      this.model.set('captchaVerify.token', token);
+      this.saveForm(this.model);
+    };
+
+    const onCaptchaLoaded = () => {
+      // eslint-disable-next-line no-undef
+      const captchaObject = captchaInstance.type === 'HCAPTCHA' ? hcaptcha : grecaptcha;
+      // eslint-disable-next-line no-undef
+      captchaObject.render(this.saveId, {
+        sitekey: captchaInstance.siteKey,
+        callback: onCaptchaSolved
+      });    
+    };
+
+    window.onCaptchaLoaded = onCaptchaLoaded;
+
+    if (captchaInstance.type === 'HCAPTCHA') {
+      $.getScript(HCAPTCHA_URL);
+    } else if (captchaInstance.type === 'RECAPTCHAV2') {
+      $.getScript(RECAPTCHAV2_URL);
+    }
+
+    // var renderScript = null;
+    // var cdnURL = null;
+    // if (captchaInstance.type === 'RECAPTCHAV2') {
+    //   renderScript = 'function onloadCallback() {\n' +
+    //         '                grecaptcha.render(\'this.saveId\', {\n' +
+    //         '                   \'sitekey\' : captchaInstance.siteKey,\n' +
+    //         '                   \'callback\' : onCaptchaSolved\n' +
+    //         '                });\n' +
+    //         '            }';
+    //   cdnURL = 'https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit';
+    // } else if (captchaInstance.type === 'HCAPTCHA') {
+    //   renderScript = 'function onloadCallback() {\n' +
+    //         '                hcaptcha.render(\'this.saveId\', {\n' +
+    //         '                   \'sitekey\' : captchaInstance.siteKey,\n' +
+    //         '                   \'callback\' : onCaptchaSolved\n' +
+    //         '                });\n' +
+    //         '            }';
+    //   cdnURL = 'https://hcaptcha.com/1/api.js?onload=onloadCallback&render=explicit';
+    // }
+
+    // if (renderScript !== null && cdnURL !== null) {
+    //   this.loadCaptchaRenderScript(renderScript);
+    //   this.loadCaptchaCDNUrl(cdnURL);
+    // }
   },
 
   addInputOrView (input) {
