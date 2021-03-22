@@ -34,10 +34,6 @@ export default FormController.extend({
   postRender: function() {
     FormController.prototype.postRender.apply(this, arguments);
 
-    // Move buttons in DOM to match visual hierarchy to fix tab order.
-    const buttonContainer = this.form.$el.find('.o-form-button-bar');
-    this.form.$el.find('.button-primary').appendTo(buttonContainer);
-
     // Update the "don't allow" and "allow access" buttons to be neutral by changing "allow button" to be gray.
     this.$('.o-form-button-bar .button-primary').removeClass('button-primary');
   },
@@ -72,6 +68,7 @@ export default FormController.extend({
   },
   Form: {
     noCancelButton: false,
+    buttonOrder: ['cancel', 'save'],
     autoSave: true,
     save: _.partial(loc, 'consent.required.consentButton', 'login'),
     cancel: _.partial(loc, 'consent.required.cancelButton', 'login'),
