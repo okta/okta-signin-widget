@@ -45,7 +45,7 @@
                   "mutable": false
                 },
                 {
-                  "name": "userName",
+                  "name": "clientData",
                   "label": "User Name",
                   "value": "rsa_username",
                   "required": true

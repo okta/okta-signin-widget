@@ -1378,7 +1378,7 @@ describe('v2/ion/i18nTransformer', function () {
                   {
                     'label': 'User Name',
                     'label-top': true,
-                    'name': 'credentials.userName',
+                    'name': 'credentials.clientData',
                     'required': true,
                     'type': 'text',
                     'value': 'rsa_username'
@@ -1415,7 +1415,7 @@ describe('v2/ion/i18nTransformer', function () {
                   {
                     'label': 'unit test - enter on-prem auth username',
                     'label-top': true,
-                    'name': 'credentials.userName',
+                    'name': 'credentials.clientData',
                     'required': true,
                     'type': 'text',
                     'value': 'rsa_username'
@@ -1500,7 +1500,7 @@ describe('v2/ion/i18nTransformer', function () {
                   {
                     'label': 'User Name',
                     'label-top': true,
-                    'name': 'credentials.userName',
+                    'name': 'credentials.clientData',
                     'required': true,
                     'type': 'text',
                     'value': 'rsa_username'
@@ -1537,7 +1537,7 @@ describe('v2/ion/i18nTransformer', function () {
                   {
                     'label': 'unit test - enter rsa auth username',
                     'label-top': true,
-                    'name': 'credentials.userName',
+                    'name': 'credentials.clientData',
                     'required': true,
                     'type': 'text',
                     'value': 'rsa_username'

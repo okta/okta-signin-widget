@@ -1,7 +1,7 @@
 import BasePageObject from './BasePageObject';
 
 const PASSCODE_FIELD_NAME = 'credentials.passcode';
-const USER_NAME_FIELD_NAME = 'credentials.userName';
+const USER_NAME_FIELD_NAME = 'credentials.clientData';
 const FORM_INFOBOX_ERROR = '.o-form-error-container .infobox-error';
 
 export default class EnrollOnPremPageObject extends BasePageObject {
