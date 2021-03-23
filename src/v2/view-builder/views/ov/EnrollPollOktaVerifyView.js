@@ -1,4 +1,4 @@
-import { loc } from 'okta';
+import { loc, createCallout } from 'okta';
 import { BaseForm } from '../../internals';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
@@ -7,6 +7,11 @@ import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
 import ResendView from './ResendView';
 import SwitchEnrollChannelLinkView from './SwitchEnrollChannelLinkView';
 import EnrollChannelPollDescriptionView from './EnrollChannelPollDescriptionView';
+
+const OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_IOS =
+  'oie.authenticator.app.non_fips_compliant_enrollment_device_incompatible';
+const OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_NON_IOS =
+  'oie.authenticator.app.non_fips_compliant_enrollment_app_update_required';
 
 const Body = BaseForm.extend(Object.assign(
   {
@@ -36,6 +41,32 @@ const Body = BaseForm.extend(Object.assign(
       this.listenTo(this.model, 'error', this.stopPolling);
       this.startPolling();
     },
+    showMessages () {
+      // override showMessages to display error message
+      const messagesObjs = this.options.appState.get('messages');
+      if (messagesObjs && Array.isArray(messagesObjs.value)) {
+        this.add('<div class="ion-messages-container"></div>', '.o-form-error-container');
+
+        messagesObjs.value.forEach(messagesObj => {
+          const msg = messagesObj.message;
+          if (messagesObj?.class === 'ERROR') {
+            const options = {
+              content: msg,
+              type: 'error',
+            };
+            if (this.options.appState.containsMessageWithI18nKey(OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_IOS) ||
+            this.options.appState.containsMessageWithI18nKey(OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_NON_IOS)) {
+              // add a title for ov force upgrade
+              options.title = loc('oie.okta_verify.enroll.force.upgrade.title', 'login');
+            }
+            this.add(createCallout(options), '.o-form-error-container');
+          } else {
+            this.add(`<p>${msg}</p>`, '.ion-messages-container');
+          }
+        });
+
+      }
+    },
     getUISchema () {
       const schema = [];
       const contextualData = this.options.appState.get('currentAuthenticator').contextualData;
@@ -46,7 +77,7 @@ const Body = BaseForm.extend(Object.assign(
       schema.push({
         View: SwitchEnrollChannelLinkView,
         options: {
-          selectedChannel,
+          selectedChannel
         },
         selector: selectedChannel === 'qrcode' ? '.qrcode-container' : '.switch-channel-content',
       });

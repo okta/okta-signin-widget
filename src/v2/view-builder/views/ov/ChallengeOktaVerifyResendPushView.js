@@ -31,8 +31,6 @@ const Body = BaseForm.extend(Object.assign(
               type: 'error',
             };
             if (this.options.appState.containsMessageWithI18nKey(OV_NMC_FORCE_UPGRAGE_SERVER_KEY)) {
-              // account for error customization
-              options.content = loc('oie.numberchallenge.force.upgrade', 'login');
               // add a title for OV force upgrade
               options.title = loc('oie.numberchallenge.force.upgrade.title', 'login');
             }

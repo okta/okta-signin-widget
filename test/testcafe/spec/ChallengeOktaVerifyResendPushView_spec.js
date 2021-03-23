@@ -79,7 +79,7 @@ test
     const pageTitle = challengeOktaVerifyPushPageObject.getFormTitle();
     await t.expect(pageTitle).contains('Get a push notification');
     const errorBox = challengeOktaVerifyPushPageObject.getErrorBox();
-    await t.expect(errorBox.innerText).contains('Your response was received, but your Okta Verify version is no longer supported by your organization. To verify your identity with push notifcations, update Okta Verify to the latest version, then try again.');
+    await t.expect(errorBox.innerText).contains('Your response was received, but your Okta Verify version is no longer supported by your organization. To verify your identity with push notifications, update Okta Verify to the latest version, then try again.');
     const errorTitle = challengeOktaVerifyPushPageObject.getErrorTitle();
     await t.expect(errorTitle.innerText).contains('Update Okta Verify');
     const resendPushBtn = challengeOktaVerifyPushPageObject.getResendPushButton();
