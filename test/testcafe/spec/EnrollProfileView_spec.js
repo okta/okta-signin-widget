@@ -47,7 +47,7 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onSucce
       },
       postSubmit: function (postData, onSuccess) {
         // eslint-disable-next-line
-        console.log('made it to postSubmit');
+        console.log(`made it to postSubmit ${postData}`);
         onSuccess(postData);
       },
     },
@@ -71,7 +71,7 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onSucce
   });
   // postSubmit
   const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.includes('made it to postSubmit')).ok();
+  await t.expect(log.includes('made it to postSubmit email@email.com')).ok();
 });
 
 test.requestHooks(logger, mock)('should call settings.registration hooks onFailure handlers', async t=> {
