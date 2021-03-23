@@ -80,6 +80,13 @@ export async function interact (settings) {
     codeChallengeMethod
   })
     .then(response => {
+      // In remediation mode the transaction is owned by another client.
+      const isRemediationMode = settings.get('mode') === 'remediation';
+      if (isRemediationMode) {
+        // return idx response
+        return response;
+      }
+
       // If this is a new transaction an interactionHandle was returned
       if (!interactionHandle && response.toPersist.interactionHandle) {
         meta = Object.assign({}, meta, {
