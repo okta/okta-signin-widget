@@ -113,6 +113,10 @@ export default Model.extend({
     // OAUTH2
     clientId: 'string',
     redirectUri: 'string',
+    state: 'string',
+    scopes: 'array',
+    codeChallenge: 'string',
+    codeChallengeMethod: 'string',
     oAuthTimeout: ['number', false],
 
     authScheme: ['string', false, 'OAUTH2'],

@@ -111,7 +111,9 @@ var OktaSignIn = (function () {
 
     var authParams = _.extend({
       clientId: options.clientId,
-      redirectUri: options.redirectUri
+      redirectUri: options.redirectUri,
+      state: options.state,
+      scopes: options.scopes
     }, options.authParams);
 
     if (!authParams.issuer) {

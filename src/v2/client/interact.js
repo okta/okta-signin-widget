@@ -27,7 +27,12 @@ export async function interact (settings) {
   if (interactionHandle) {
     // The transaction is owned by a client outside the widget
     settings.set('mode', 'remediation');
-    meta = {}; // do not load meta from client storage
+    meta = {
+      state: authClient.options.state,
+      scopes: authClient.options.scopes,
+      codeChallenge: settings.get('codeChallenge'),
+      codeChallengeMethod: settings.get('codeChallengeMethod')
+    };
   } else {
     // Try to load a saved transaction from client storage
     meta = await getTransactionMeta(settings);
@@ -49,9 +54,7 @@ export async function interact (settings) {
   let state;
   let scopes;
   if (!interactionHandle) {
-    // new transaction: prefer configured values
-    // TODO: remove dependency on authParams. OKTA-373096
-    state = settings.get('authParams.state') || authClient.options.state || meta.state;
+    state = authClient.options.state || meta.state;
     scopes = authClient.options.scopes || meta.scopes;
   } else {
     // saved transaction: use only saved values

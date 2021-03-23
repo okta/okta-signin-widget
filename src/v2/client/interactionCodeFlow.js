@@ -20,7 +20,7 @@ export async function interactionCodeFlow (settings, idxResponse) {
   const { interactionCode } = idxResponse;
   const authClient = settings.getAuthClient();
   const transactionMeta = authClient.transactionManager.load();
-  const { state } = transactionMeta;
+  const state = authClient.options.state || transactionMeta.state;
 
   // In remediation mode the transaction is owned by another client.
   const isRemediationMode = settings.get('mode') === 'remediation';
