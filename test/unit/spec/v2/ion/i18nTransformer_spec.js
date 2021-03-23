@@ -112,7 +112,7 @@ describe('v2/ion/i18nTransformer', function () {
               'label-top': true,
               modelType: 'boolean',
               name: 'rememberMe',
-              placeholder: 'Remember Me',
+              placeholder: 'Remember me',
               required: false,
               type: 'checkbox',
             }
@@ -144,7 +144,7 @@ describe('v2/ion/i18nTransformer', function () {
               'label-top': true,
               modelType: 'boolean',
               name: 'rememberMe',
-              placeholder: 'unit test - remember me',
+              placeholder: 'Remember me',
               required: false,
               type: 'checkbox',
             }
