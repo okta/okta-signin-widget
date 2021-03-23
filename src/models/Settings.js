@@ -21,6 +21,7 @@ import Errors from 'util/Errors';
 import IDP from 'util/IDP';
 import Logger from 'util/Logger';
 import Util from 'util/Util';
+import CountryUtil from 'util/CountryUtil';
 const SharedUtil = internal.util.Util;
 const DEFAULT_LANGUAGE = 'en';
 const ConfigError = Errors.ConfigError;
@@ -83,7 +84,7 @@ export default Model.extend({
     'features.showPasswordRequirementsAsHtmlList': ['boolean', false, false],
     'features.mfaOnlyFlow': ['boolean', false, false],
 
-    smsAndCallMFACountryCode: ['string', 'US'],
+    defaultCountryCode: ['string', false ,'US'],
 
     // I18N
     language: ['any', false], // Can be a string or a function
@@ -207,6 +208,14 @@ export default Model.extend({
             return supportedLanguages[supportedPos];
           }
         }
+      },
+    },
+    countryCode: {
+      deps: ['defaultCountryCode'],
+      fn: function (defaultCountryCode) {
+        const countries = CountryUtil.getCountries();
+        return Object.keys(countries).includes(defaultCountryCode)
+          ? defaultCountryCode : 'US';
       },
     },
     oauth2Enabled: {

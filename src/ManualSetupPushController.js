@@ -110,7 +110,7 @@ export default FormController.extend({
     return {
       local: {
         activationType: ['string', true, this.options.appState.get('factorActivationType') || 'SMS'],
-        countryCode: ['string', false, 'US'],
+        countryCode: ['string', false, this.options.appState.get('userCountryCode')],
         phoneNumber: 'string',
         SMS: ['string', false, this.options.appState.get('textActivationLinkUrl')],
         EMAIL: ['string', false, this.options.appState.get('emailActivationLinkUrl')],

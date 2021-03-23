@@ -56,139 +56,136 @@ function sendCode (e) {
   }
 }
 
-function isValidCountryCode (countryCode){
-  return CountryUtil.getCallingCodeForCountry(countryCode);
-}
-
 export default FormController.extend({
   className: function () {
     return getClassName(this.options.factorType);
   },
-  Model: {
-    props: {
-      countryCode: ['string', true, 'US'],
-      phoneNumber: ['string', true],
-      phoneExtension: ['string', false],
-      lastEnrolledPhoneNumber: 'string',
-      passCode: ['string', true],
-      factorId: 'string',
-    },
-    local: {
-      hasExistingPhones: 'boolean',
-      trapEnrollment: 'boolean',
-      ableToResend: 'boolean',
-      factorType: 'string',
-      skipPhoneValidation: 'boolean',
-    },
-    derived: {
-      countryCallingCode: {
-        deps: ['countryCode'],
-        fn: function (countryCode) {
-          return '+' + CountryUtil.getCallingCodeForCountry(countryCode);
+  Model: function () {
+    return {
+      props: {
+        phoneNumber: ['string', true],
+        phoneExtension: ['string', false],
+        lastEnrolledPhoneNumber: 'string',
+        passCode: ['string', true],
+        factorId: 'string',
+      },
+      local: {
+        countryCode: ['string', false, this.options.appState.get('userCountryCode')],
+        hasExistingPhones: 'boolean',
+        trapEnrollment: 'boolean',
+        ableToResend: 'boolean',
+        factorType: 'string',
+        skipPhoneValidation: 'boolean',
+      },
+      derived: {
+        countryCallingCode: {
+          deps: ['countryCode'],
+          fn: function (countryCode) {
+            return '+' + CountryUtil.getCallingCodeForCountry(countryCode);
+          },
+        },
+        fullPhoneNumber: {
+          deps: ['countryCallingCode', 'phoneNumber'],
+          fn: function (countryCallingCode, phoneNumber) {
+            return phoneNumber ? countryCallingCode + phoneNumber : '';
+          },
+        },
+        enrolled: {
+          deps: ['lastEnrolledPhoneNumber', 'fullPhoneNumber'],
+          fn: function (lastEnrolled, current) {
+            return lastEnrolled === current;
+          },
         },
       },
-      fullPhoneNumber: {
-        deps: ['countryCallingCode', 'phoneNumber'],
-        fn: function (countryCallingCode, phoneNumber) {
-          return phoneNumber ? countryCallingCode + phoneNumber : '';
-        },
+      limitResending: function () {
+        this.set({ ableToResend: false });
+        _.delay(_.bind(this.set, this), Enums.API_RATE_LIMIT, { ableToResend: true });
       },
-      enrolled: {
-        deps: ['lastEnrolledPhoneNumber', 'fullPhoneNumber'],
-        fn: function (lastEnrolled, current) {
-          return lastEnrolled === current;
-        },
-      },
-    },
-    limitResending: function () {
-      this.set({ ableToResend: false });
-      _.delay(_.bind(this.set, this), Enums.API_RATE_LIMIT, { ableToResend: true });
-    },
-    sendCode: function () {
-      const self = this;
-      const phoneNumber = this.get('fullPhoneNumber');
-      const phoneExtension = this.get('phoneExtension');
-
-      self.trigger('errors:clear');
-
-      if (!phoneNumber.length) {
-        self.trigger('invalid', self, { phoneNumber: 'model.validation.field.blank' });
-        return;
-      }
-
-      return this.doTransaction(function (transaction) {
-        const isMfaEnroll = transaction.status === 'MFA_ENROLL' || transaction.status === 'FACTOR_ENROLL';
-        const profileData = {
-          phoneNumber: phoneNumber,
-          updatePhone: isMfaEnroll ? self.get('hasExistingPhones') : true,
-        };
-
-        if (isCallFactor(self.get('factorType'))) {
-          profileData['phoneExtension'] = phoneExtension;
+      sendCode: function () {
+        const self = this;
+        const phoneNumber = this.get('fullPhoneNumber');
+        const phoneExtension = this.get('phoneExtension');
+  
+        self.trigger('errors:clear');
+  
+        if (!phoneNumber.length) {
+          self.trigger('invalid', self, { phoneNumber: 'model.validation.field.blank' });
+          return;
         }
-
-        if (self.get('skipPhoneValidation')) {
-          profileData['validatePhone'] = false;
-        }
-
-        const doEnroll = function (trans) {
-          const factor = _.findWhere(trans.factors, {
-            factorType: self.get('factorType'),
-            provider: 'OKTA',
-          });
-
-          return factor
-            .enroll({
-              profile: profileData,
-            })
-            .catch(function (error) {
-              if (error.errorCode === 'E0000098') {
-                // E0000098: "This phone number is invalid."
-                self.set('skipPhoneValidation', true);
-                error.xhr.responseJSON.errorSummary = loc('enroll.sms.try_again', 'login');
-              }
-              throw error;
+  
+        return this.doTransaction(function (transaction) {
+          const isMfaEnroll = transaction.status === 'MFA_ENROLL' || transaction.status === 'FACTOR_ENROLL';
+          const profileData = {
+            phoneNumber: phoneNumber,
+            updatePhone: isMfaEnroll ? self.get('hasExistingPhones') : true,
+          };
+  
+          if (isCallFactor(self.get('factorType'))) {
+            profileData['phoneExtension'] = phoneExtension;
+          }
+  
+          if (self.get('skipPhoneValidation')) {
+            profileData['validatePhone'] = false;
+          }
+  
+          const doEnroll = function (trans) {
+            const factor = _.findWhere(trans.factors, {
+              factorType: self.get('factorType'),
+              provider: 'OKTA',
             });
-        };
-
-        if (isMfaEnroll) {
-          return doEnroll(transaction);
-        } else {
-          // We must transition to MfaEnroll before updating the phone number
-          self.set('trapEnrollment', true);
-          return transaction.prev().then(doEnroll).then(function (trans) {
+  
+            return factor
+              .enroll({
+                profile: profileData,
+              })
+              .catch(function (error) {
+                if (error.errorCode === 'E0000098') {
+                  // E0000098: "This phone number is invalid."
+                  self.set('skipPhoneValidation', true);
+                  error.xhr.responseJSON.errorSummary = loc('enroll.sms.try_again', 'login');
+                }
+                throw error;
+              });
+          };
+  
+          if (isMfaEnroll) {
+            return doEnroll(transaction);
+          } else {
+            // We must transition to MfaEnroll before updating the phone number
+            self.set('trapEnrollment', true);
+            return transaction.prev().then(doEnroll).then(function (trans) {
+              self.set('trapEnrollment', false);
+              return trans;
+            });
+          }
+          // Rethrow errors so we can change state
+          // AFTER setting the new transaction
+        }, true)
+          .then(function () {
+            self.set('lastEnrolledPhoneNumber', phoneNumber);
+            self.limitResending();
+          })
+          .catch(function () {
+            self.set('ableToResend', true);
             self.set('trapEnrollment', false);
-            return trans;
           });
-        }
-        // Rethrow errors so we can change state
-        // AFTER setting the new transaction
-      }, true)
-        .then(function () {
-          self.set('lastEnrolledPhoneNumber', phoneNumber);
-          self.limitResending();
-        })
-        .catch(function () {
-          self.set('ableToResend', true);
-          self.set('trapEnrollment', false);
+      },
+      resendCode: function () {
+        this.trigger('errors:clear');
+        this.limitResending();
+        return this.doTransaction(function (transaction) {
+          return transaction.resend(this.get('factorType'));
         });
-    },
-    resendCode: function () {
-      this.trigger('errors:clear');
-      this.limitResending();
-      return this.doTransaction(function (transaction) {
-        return transaction.resend(this.get('factorType'));
-      });
-    },
-    save: function () {
-      return this.doTransaction(function (transaction) {
-        return transaction.activate({
-          passCode: this.get('passCode'),
+      },
+      save: function () {
+        return this.doTransaction(function (transaction) {
+          return transaction.activate({
+            passCode: this.get('passCode'),
+          });
         });
-      });
-    },
+      },
+    };
   },
-
   Form: function () {
     const factorType = this.options.factorType;
     const isCall = isCallFactor(factorType);
@@ -341,8 +338,5 @@ export default FormController.extend({
       this.model.set('hasExistingPhones', this.options.appState.get('hasExistingPhones'));
     }
     this.model.set('factorType', this.options.factorType);
-    if(isValidCountryCode(this.settings.get('smsAndCallMFACountryCode'))) {
-      this.model.set('countryCode', this.settings.get('smsAndCallMFACountryCode'));
-    }
   },
 });
