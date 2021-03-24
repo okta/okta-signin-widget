@@ -19,7 +19,7 @@ import LoginUtil from 'util/Util';
 const itp = Expect.itp;
 
 Expect.describe('EnrollSms', function () {
-  function setup (resp, startRouter) {
+  function setup (resp, startRouter, routerOptions = {}) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
@@ -28,6 +28,7 @@ Expect.describe('EnrollSms', function () {
       el: $sandbox,
       baseUrl: baseUrl,
       authClient: authClient,
+      defaultCountryCode: routerOptions.defaultCountryCode,
       'features.router': startRouter,
     });
 
@@ -215,6 +216,28 @@ Expect.describe('EnrollSms', function () {
     });
     itp('defaults to United States for the country', function () {
       return setup(allFactorsRes)
+        .then(function (test) {
+          return Expect.wait(function () {
+            return test.form.hasCountriesList();
+          }, test);
+        })
+        .then(function (test) {
+          expect(test.form.selectedCountry()).toBe('United States');
+        });
+    });
+    itp('selects country based on defaultCountryCode from settings', function () {
+      return setup(allFactorsRes, undefined, { defaultCountryCode: 'GB' })
+        .then(function (test) {
+          return Expect.wait(function () {
+            return test.form.hasCountriesList();
+          }, test);
+        })
+        .then(function (test) {
+          expect(test.form.selectedCountry()).toBe('United Kingdom');
+        });
+    });
+    itp('uses "US" as countryCode if settings.defaultCountryCode is not valid', function () {
+      return setup(allFactorsRes, undefined, { defaultCountryCode: 'FAKECODE' })
         .then(function (test) {
           return Expect.wait(function () {
             return test.form.hasCountriesList();

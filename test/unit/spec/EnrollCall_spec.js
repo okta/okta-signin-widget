@@ -19,7 +19,7 @@ import LoginUtil from 'util/Util';
 const itp = Expect.itp;
 
 Expect.describe('EnrollCall', function () {
-  function setup (resp, startRouter) {
+  function setup (resp, startRouter, routerOptions = {}) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
@@ -28,6 +28,7 @@ Expect.describe('EnrollCall', function () {
       el: $sandbox,
       baseUrl: baseUrl,
       authClient: authClient,
+      defaultCountryCode: routerOptions.defaultCountryCode,
       'features.router': startRouter,
     });
 
@@ -181,6 +182,18 @@ Expect.describe('EnrollCall', function () {
       return setupFn().then(function (test) {
         expect(test.form.selectedCountry()).toBe('United States');
       });
+    });
+    itp('selects country based on defaultCountryCode from settings', function () {
+      return setupFn(undefined, undefined, { defaultCountryCode: 'GB' })
+        .then(function (test) {
+          expect(test.form.selectedCountry()).toBe('United Kingdom');
+        });
+    });
+    itp('uses "US" as countryCode if settings.defaultCountryCode is not valid', function () {
+      return setupFn(undefined, undefined, { defaultCountryCode: 'FAKECODE' })
+        .then(function (test) {
+          expect(test.form.selectedCountry()).toBe('United States');
+        });
     });
     itp('updates the phone number country calling code when country is changed', function () {
       return setupFn().then(function (test) {

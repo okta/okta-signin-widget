@@ -746,6 +746,9 @@ export default Model.extend({
 
   parse: function (options) {
     this.settings = options.settings;
-    return _.extend(_.omit(options, 'settings'), { languageCode: this.settings.get('languageCode') });
+    return _.extend(_.omit(options, 'settings'), { 
+      languageCode: this.settings.get('languageCode'),
+      userCountryCode: this.settings.get('countryCode'),
+    });
   },
 });
