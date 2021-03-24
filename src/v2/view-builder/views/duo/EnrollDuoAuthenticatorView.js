@@ -6,6 +6,10 @@ const Body = BaseDuoAuthenticatorForm.extend({
   title () {
     return loc('oie.duo.enroll.title', 'login');
   },
+
+  getContextualData () {
+    return this.options.appState.get('currentAuthenticator').contextualData;
+  },
 });
 
 export default BaseAuthenticatorView.extend({
