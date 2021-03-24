@@ -2,7 +2,7 @@ import { Collection, _, loc, createButton } from 'okta';
 
 import AuthenticatorEnrollOptions from '../components/AuthenticatorEnrollOptions';
 import AuthenticatorVerifyOptions from '../components/AuthenticatorVerifyOptions';
-import { getAuthenticatorDataForEnroll, getAuthenticatorDataForVerification} from '../utils/AuthenticatorUtil';
+import { getAuthenticatorDataForEnroll, getAuthenticatorDataForVerification } from '../utils/AuthenticatorUtil';
 import { AUTHENTICATOR_KEY, FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import IDP from '../../../util/IDP';
 import AdminScopeList from '../../../views/admin-consent/ScopeList';
@@ -124,8 +124,15 @@ const createIdpButtons = (remediations) => {
       },
       className: classNames.join(' '),
       title: displayName,
-      href: idpObject.href,
     };
+    if (idpObject.type === 'PIV') {
+      button.click = () => {
+        // router.navigateTo('/signin/piv');
+        console.log('navigate to piv');
+      };
+    } else {
+      button.href = idpObject.href;
+    }
     return button;
   });
 };
@@ -137,7 +144,7 @@ const createCustomButtons = (settings) => {
       attributes: {
         'data-se': customButton.dataAttr
       },
-      className: customButton.className  + ' default-custom-button',
+      className: customButton.className + ' default-custom-button',
       title: customButton.title,
       click: customButton.click
     };

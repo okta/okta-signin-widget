@@ -79,6 +79,16 @@
         "method": "GET"
       },
       {
+        "name": "redirect-idp",
+        "type": "PIV",
+        "idp": {
+          "id": "piv-123",
+          "name": "PIV"
+        },
+        "href": "http://localhost:3000/sso/idps/piv-123?stateToken=eyJ6",
+        "method": "GET"
+      },
+      {
         "rel": [
           "create-form"
         ],

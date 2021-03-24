@@ -20,6 +20,7 @@ import ColorsUtil from 'util/ColorsUtil';
 import Enums from 'util/Enums';
 import Errors from 'util/Errors';
 import Logger from 'util/Logger';
+import BrowserFeatures from 'util/BrowserFeatures';
 import LanguageUtil from 'util/LanguageUtil';
 import AuthContainer from 'views/shared/AuthContainer';
 import Header from 'views/shared/Header';
@@ -219,6 +220,23 @@ export default Router.extend({
     this.listenTo(this.controller, 'all', this.trigger);
 
     this.controller.render();
+  },
+
+  start: function () {
+    let pushState = false;
+
+    // Support for browser's back button.
+    if (window.addEventListener && this.settings.get('features.router')) {
+      window.addEventListener('popstate', e => {
+        if (this.controller.back) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          this.controller.back();
+        }
+      });
+      pushState = BrowserFeatures.supportsPushState();
+    }
+    Router.prototype.start.call(this, { pushState: pushState });
   },
 
   hide: function () {

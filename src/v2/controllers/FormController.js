@@ -43,6 +43,7 @@ export default Controller.extend({
       currentViewState.name,
       this.options.appState.get('authenticatorKey'),
     );
+
     try {
       this.formView = this.add(TheView, {
         options: {
@@ -120,7 +121,7 @@ export default Controller.extend({
   },
 
   handleInvokeAction (actionPath = '') {
-    if(actionPath === 'cancel') {
+    if (actionPath === 'cancel') {
       clearTransactionMeta(this.options.settings);
     }
 
@@ -166,7 +167,7 @@ export default Controller.extend({
     // NOTE: okta-idx-js does not know whether a remediation
     // is required to redirect or perform a GET request.
     // As a result, we handle this accordingly by checking the formName
-    const fullPageRedirectForms = [ FORMS.REDIRECT_IDP ];
+    const fullPageRedirectForms = [FORMS.REDIRECT_IDP];
     if (fullPageRedirectForms.includes(formName)) {
       const currentViewState = this.options.appState.getCurrentViewState();
       Util.redirectWithFormGet(currentViewState.href);
@@ -224,14 +225,14 @@ export default Controller.extend({
       this.options.settings.callGlobalError(error);
     }
 
-    if(IonResponseHelper.isIonErrorResponse(error)) {
+    if (IonResponseHelper.isIonErrorResponse(error)) {
       const convertedErrors = IonResponseHelper.convertFormErrors(error);
       const showBanner = convertedErrors.responseJSON.errorCauses.length ? false : true;
       model.trigger('error', model, convertedErrors, showBanner);
     } else if (error.errorSummary) {
-      model.trigger('error', model, {responseJSON: error}, true);
+      model.trigger('error', model, { responseJSON: error }, true);
     } else {
-      model.trigger('error', model, {responseJSON: {errorSummary: String(error)}}, true);
+      model.trigger('error', model, { responseJSON: { errorSummary: String(error) } }, true);
     }
   },
 

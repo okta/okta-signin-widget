@@ -14,7 +14,8 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    // 'identify-recovery',
+    'identify-with-third-party-idps',
     // 'error-feature-not-enabled',
     // 'error-403-security-access-denied',
     // 'authenticator-enroll-email',
