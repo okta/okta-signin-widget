@@ -106,4 +106,17 @@ function initialize(options) {
     }
   );
 }
+
+function triggerCspViolation() { 
+  eval("csp trigger");
+}
+
+if (window.location.search === '?fail-csp') { 
+  try { 
+    triggerCspViolation();
+  } catch (e) { 
+    console.warn(e);
+  }
+}
+
 {{/cdnLayout}}
