@@ -853,7 +853,7 @@ var config = {
   - `zh-CN` - Chinese (PRC)
   - `zh-TW` - Chinese (Taiwan)
 
-- **defaultCountryCode:** Set the default countryCode of the widget. If no `defaultCountryCode` is provided, defaults to `US`.
+- **defaultCountryCode:** Set the default countryCode of the widget. If no `defaultCountryCode` is provided, defaults to `US`. It sets the country calling code for phone number accordingly in the widget.
 
 - **i18n:** Override the text in the widget. The full list of properties can be found in the [login.properties](packages/@okta/i18n/src/properties/login.properties) and [country.properties](packages/@okta/i18n/src/properties/country.properties) files.
 
