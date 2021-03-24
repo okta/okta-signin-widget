@@ -188,17 +188,17 @@ export default Controller.extend({
 
     idx.proceed(formName, modelJSON)
       .then((resp) => {
-        const onSuccess = this.handleIdxSuccess.bind(this);
+        const onSuccess = this.handleIdxSuccess.bind(this, resp);
 
         if (formName === FORMS.ENROLL_PROFILE) {
           // call registration (aka enroll profile) hook
-          this.settings.postRegistrationSubmit(resp, onSuccess, (error) => {
+          this.settings.postRegistrationSubmit(modelJSON?.userProfile?.email, onSuccess, (error) => {
             model.trigger('error', model, {
               responseJSON: error,
             });
           });
         } else {
-          onSuccess(resp);
+          onSuccess();
         }
       }).catch(error => {
         if (error.proceed && error.rawIdxState) {
