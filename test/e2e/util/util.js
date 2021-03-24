@@ -15,8 +15,12 @@ var util = module.exports = {};
 
 var EC = protractor.ExpectedConditions;
 
-util.loadTestPage = function(pageName) {
-  browser.get('http://localhost:3000/' + pageName + '.html');
+util.loadTestPage = function (pageName) {
+  if( pageName.indexOf('.html') < 0 ) { 
+    browser.get('http://localhost:3000/' + pageName + '.html');
+  } else { 
+    browser.get('http://localhost:3000/' + pageName);
+  }
 };
 
 util.waitForElement = function(el) {
