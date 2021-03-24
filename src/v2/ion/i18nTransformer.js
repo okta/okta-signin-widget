@@ -39,7 +39,7 @@
 // Step 5. If you create a new label then add that to login.properties file with proper string
 //         oie.your.new.label = Your new string
 ///////////////////////////////////////////////////////////////////////////////
-
+/* eslint-disable max-statements*/
 import { _, loc, $ } from 'okta';
 import Bundles from 'util/Bundles';
 import Logger from 'util/Logger';
@@ -53,7 +53,9 @@ const SECURITY_QUESTION_PREFIXES = [
 
 const I18N_OVERRIDE_MAPPINGS = {
   'identify.identifier': 'primaryauth.username.placeholder',
+  'identify.identifier.explain.label': 'primaryauth.username.tooltip',
   'identify.credentials.passcode': 'primaryauth.password.placeholder',
+  'identify.password.explain.label': 'primaryauth.password.tooltip',
   'identify.rememberMe': 'oie.remember',
 
   'identify-recovery.identifier': 'password.forgot.email.or.username.placeholder',
@@ -216,6 +218,10 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
     const params = getI18NParams(remediation, authenticatorKey);
     uiSchema.label = getI18NValue(i18nPath, uiSchema.label, params);
   }
+  if (uiSchema.explain) {
+    Logger.info('\t 2: ', i18nPath);
+    uiSchema.explain = getI18NValue(uiSchema.explain);
+  }
   if ($.isPlainObject(uiSchema.options)) {
     uiSchema.options = _.mapObject(uiSchema.options, (value, key) => {
       const i18nPathOption = `${i18nPath}.${key}`;
@@ -310,4 +316,11 @@ const uiSchemaLabelTransformer = (transformedResp) => {
   return transformedResp;
 };
 
-export { uiSchemaLabelTransformer as default, getMessage, getMessageKey, getI18NParams };
+const isCustomized = (property, settings) => {
+  const language = settings.get('language');
+  const i18n = settings.get('i18n');
+  const customizedProperty = i18n && i18n[language] && i18n[language][property];
+  return !!customizedProperty;
+};
+
+export { uiSchemaLabelTransformer as default, getMessage, getMessageKey, getI18NParams, isCustomized };
