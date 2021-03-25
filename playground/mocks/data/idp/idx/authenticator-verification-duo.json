@@ -114,7 +114,7 @@
             }
         ]
     },
-    "currentAuthenticator": {
+    "currentAuthenticatorEnrollment": {
         "type": "object",
         "value": {
             "contextualData": {
@@ -129,7 +129,7 @@
             "displayName": "Duo Security",
             "methods": [
                 {
-                    "type": "idp"
+                    "type": "duo"
                 }
             ]
         }

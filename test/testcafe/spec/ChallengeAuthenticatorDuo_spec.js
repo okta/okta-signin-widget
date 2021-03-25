@@ -33,7 +33,7 @@ async function setup(t) {
     controller: 'mfa-verify-duo',
     formName: 'challenge-authenticator',
     authenticatorKey: 'duo',
-    methodType: 'idp'
+    methodType: 'duo'
   });
 
   return challengeDuoPage;
@@ -51,7 +51,7 @@ test
       controller: 'mfa-verify-duo',
       formName: 'challenge-authenticator',
       authenticatorKey: 'duo',
-      methodType: 'idp',
+      methodType: 'duo',
     });
 
     // Check title

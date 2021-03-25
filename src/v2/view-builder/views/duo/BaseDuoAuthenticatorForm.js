@@ -7,7 +7,7 @@ export default BaseForm.extend({
   noButtonBar: true,
 
   postRender: function () {
-    const contextualData = this.options.appState.get('currentAuthenticator').contextualData;
+    const contextualData = this.getContextualData();
     // This is the place to check contextualData.integrationType once we support more types
     // Currently we only support IFRAME
     const duoFrame = this.add(`<iframe frameborder="0" title="'${this.title()}'"></iframe>`).last();
@@ -30,4 +30,8 @@ export default BaseForm.extend({
       console.error(e); // eslint-disable-line no-console
     }
   },
+
+  getContextualData () {
+    // to be overriden
+  }
 });
