@@ -53,6 +53,7 @@ export default Model.extend({
     if (Q.isPromiseAlike(res)) {
       return res.catch(function(err) {
         if (
+          err instanceof AuthPollStopError || 
           err.name === 'AuthPollStopError' ||
           err.name === Enums.AUTH_STOP_POLL_INITIATION_ERROR ||
           err.name === Enums.WEBAUTHN_ABORT_ERROR
