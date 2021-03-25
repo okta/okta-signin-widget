@@ -108,7 +108,7 @@ function initialize(options) {
 }
 
 function triggerCspViolation() { 
-  eval("csp trigger");
+  eval("var cspTrigger = true;");
 }
 
 if (window.location.search === '?fail-csp') { 
