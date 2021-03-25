@@ -18,7 +18,7 @@ const pushTitleTpl = hbs('{{factorName}} ({{{deviceName}}})');
 
 // deviceName is escaped on BaseForm (see BaseForm's template)
 
-const action = function (model) {
+const action = function(model) {
   let factorIndex;
   const factorType = model.get('factorType');
   const factorsList = this.options.appState.get('factors');
@@ -30,14 +30,14 @@ const action = function (model) {
   const self = this;
 
   this.options.appState.trigger('factorSwitched');
-  this.model.manageTransaction(function (transaction, setTransaction) {
+  this.model.manageTransaction(function(transaction, setTransaction) {
     // FACTOR_CHALLENGE does not have a prev link
     if (transaction.status === 'FACTOR_CHALLENGE') {
       this.options.appState.set('trapMfaRequiredResponse', true);
     }
     if (transaction.status === 'MFA_CHALLENGE' && transaction.prev) {
       this.options.appState.set('trapMfaRequiredResponse', true);
-      return transaction.prev().then(function (trans) {
+      return transaction.prev().then(function(trans) {
         self.trigger('options:toggle');
         setTransaction(trans);
         self.options.appState.trigger('navigate', url);
@@ -59,10 +59,10 @@ const dropdownOptions = {
   OKTA_VERIFY: {
     icon: 'factor-icon mfa-okta-verify-30',
     className: 'factor-option',
-    title: function () {
+    title: function() {
       return this.model.get('factorLabel');
     },
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
@@ -70,13 +70,13 @@ const dropdownOptions = {
   OKTA_VERIFY_PUSH: {
     icon: 'factor-icon mfa-okta-verify-30',
     className: 'factor-option',
-    title: function () {
+    title: function() {
       return pushTitleTpl({
         factorName: this.model.get('factorLabel'),
         deviceName: this.model.get('deviceName'),
       });
     },
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
@@ -84,10 +84,10 @@ const dropdownOptions = {
   GOOGLE_AUTH: {
     icon: 'factor-icon mfa-google-auth-30',
     className: 'factor-option',
-    title: function () {
+    title: function() {
       return this.model.get('factorLabel');
     },
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
@@ -95,10 +95,10 @@ const dropdownOptions = {
   CUSTOM_HOTP: {
     icon: 'factor-icon mfa-hotp-30',
     className: 'factor-option',
-    title: function () {
+    title: function() {
       return this.model.get('factorLabel');
     },
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
@@ -106,10 +106,10 @@ const dropdownOptions = {
   SYMANTEC_VIP: {
     icon: 'factor-icon mfa-symantec-30',
     className: 'factor-option',
-    title: function () {
+    title: function() {
       return this.model.get('factorLabel');
     },
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
@@ -118,7 +118,7 @@ const dropdownOptions = {
     icon: 'factor-icon mfa-rsa-30',
     className: 'factor-option',
     title: _.partial(loc, 'factor.totpHard.rsaSecurId', 'login'),
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
@@ -126,10 +126,10 @@ const dropdownOptions = {
   ON_PREM: {
     icon: 'factor-icon mfa-onprem-30',
     className: 'factor-option',
-    title: function () {
+    title: function() {
       return this.model.get('factorLabel');
     },
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
@@ -137,10 +137,10 @@ const dropdownOptions = {
   DUO: {
     icon: 'factor-icon mfa-duo-30',
     className: 'factor-option',
-    title: function () {
+    title: function() {
       return this.model.get('factorLabel');
     },
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
@@ -169,10 +169,10 @@ const dropdownOptions = {
   YUBIKEY: {
     icon: 'factor-icon mfa-yubikey-30',
     className: 'factor-option',
-    title: function () {
+    title: function() {
       return this.model.get('factorLabel');
     },
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
@@ -180,10 +180,10 @@ const dropdownOptions = {
   SMS: {
     icon: 'factor-icon mfa-sms-30',
     className: 'factor-option',
-    title: function () {
+    title: function() {
       return this.model.get('factorLabel');
     },
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
@@ -191,10 +191,10 @@ const dropdownOptions = {
   CALL: {
     icon: 'factor-icon mfa-call-30',
     className: 'factor-option',
-    title: function () {
+    title: function() {
       return this.model.get('factorLabel');
     },
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
@@ -202,10 +202,10 @@ const dropdownOptions = {
   QUESTION: {
     icon: 'factor-icon mfa-question-30',
     className: 'factor-option',
-    title: function () {
+    title: function() {
       return this.model.get('factorLabel');
     },
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
@@ -213,10 +213,10 @@ const dropdownOptions = {
   PASSWORD: {
     icon: 'factor-icon mfa-password-30',
     className: 'factor-option',
-    title: function () {
+    title: function() {
       return this.model.get('factorLabel');
     },
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
@@ -224,10 +224,10 @@ const dropdownOptions = {
   WINDOWS_HELLO: {
     icon: 'factor-icon mfa-windows-hello-30',
     className: 'factor-option',
-    title: function () {
+    title: function() {
       return this.model.get('factorLabel');
     },
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
@@ -235,10 +235,10 @@ const dropdownOptions = {
   U2F: {
     icon: 'factor-icon mfa-u2f-30',
     className: 'factor-option',
-    title: function () {
+    title: function() {
       return this.model.get('factorLabel');
     },
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
@@ -246,10 +246,10 @@ const dropdownOptions = {
   WEBAUTHN: {
     icon: 'factor-icon mfa-webauthn-30',
     className: 'factor-option',
-    title: function () {
+    title: function() {
       return this.model.get('factorLabel');
     },
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
@@ -257,10 +257,10 @@ const dropdownOptions = {
   EMAIL: {
     icon: 'factor-icon mfa-email-30',
     className: 'factor-option',
-    title: function () {
+    title: function() {
       return this.model.get('factorLabel');
     },
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
@@ -268,10 +268,10 @@ const dropdownOptions = {
   GENERIC_SAML: {
     icon: 'factor-icon mfa-custom-factor-30',
     className: 'factor-option',
-    title: function () {
+    title: function() {
       return this.model.get('factorLabel');
     },
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
@@ -279,10 +279,10 @@ const dropdownOptions = {
   GENERIC_OIDC: {
     icon: 'factor-icon mfa-custom-factor-30',
     className: 'factor-option',
-    title: function () {
+    title: function() {
       return this.model.get('factorLabel');
     },
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
@@ -290,16 +290,16 @@ const dropdownOptions = {
   CUSTOM_CLAIMS: {
     icon: 'factor-icon mfa-custom-factor-30',
     className: 'factor-option',
-    title: function () {
+    title: function() {
       return this.model.get('factorLabel');
     },
-    action: function () {
+    action: function() {
       action.call(this, this.model);
     },
   },
 };
 export default {
-  getDropdownOption: function (factorName) {
+  getDropdownOption: function(factorName) {
     return dropdownOptions[factorName];
   },
 };

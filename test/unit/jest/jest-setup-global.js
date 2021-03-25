@@ -4,18 +4,18 @@ import jasmine from 'jasmine';
 
 global.$ = global.jQuery = $;
 global.DEBUG = false;
-global.getJasmineRequireObj = function jestSetupGlobalJasmine () {
+global.getJasmineRequireObj = function jestSetupGlobalJasmine() {
   return jasmine;
 };
 global.jasmine = jasmine;
 
 navigator.credentials = {
-  create: function () {
+  create: function() {
     return Promise.resolve({
       response: {}
     });
   },
-  get: function () {
+  get: function() {
     return Promise.resolve({
       response: {}
     });

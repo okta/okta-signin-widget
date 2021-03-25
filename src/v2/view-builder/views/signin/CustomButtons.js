@@ -9,13 +9,13 @@ export default View.extend({
     {{/if}}
     <div class="okta-custom-buttons-container primary-auth-container"></div>
     `,
-  initialize (options) {
+  initialize(options) {
     options.customButtons.forEach((idpButton) => {
       this.add(createButton(idpButton), '.okta-custom-buttons-container');
     });
   },
 
-  getTemplateData () {
+  getTemplateData() {
     const jsonData = View.prototype.getTemplateData.apply(this, arguments);
 
     return Object.assign(jsonData, {

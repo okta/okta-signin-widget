@@ -9,7 +9,7 @@ export default View.extend({
     'click a.resend-link' : 'handelResendLink'
   },
 
-  initialize () {
+  initialize() {
     const selectedChannel = this.options.appState.get('currentAuthenticator').contextualData.selectedChannel;
     this.add(createCallout({
       content: selectedChannel === 'email' ?
@@ -19,24 +19,24 @@ export default View.extend({
     }));
   },
 
-  handelResendLink () {
+  handelResendLink() {
     this.options.appState.trigger('invokeAction', 'currentAuthenticator-resend');
     //hide warning, but reinitiate to show warning again after some threshold of polling
     this.$el.addClass('hide');
     this.showCalloutWithDelay();
   },
 
-  postRender () {
+  postRender() {
     this.showCalloutWithDelay();
   },
 
-  showCalloutWithDelay () {
+  showCalloutWithDelay() {
     this.showMeTimeout = _.delay(() => {
       this.$el.removeClass('hide');
     }, SHOW_RESEND_TIMEOUT);
   },
 
-  remove () {
+  remove() {
     View.prototype.remove.apply(this, arguments);
     clearTimeout(this.showMeTimeout);
   }

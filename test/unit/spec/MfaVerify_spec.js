@@ -76,16 +76,16 @@ const factors = {
 const resRejectedPushAppUpgrade = deepClone(resRejectedPush);
 resRejectedPushAppUpgrade.response.factorResultMessage = 'OKTA_VERIFY_UPGRADE_REQUIRED';
 
-function clickFactorInDropdown (test, factorName) {
+function clickFactorInDropdown(test, factorName) {
   //assumes dropdown has all factors
   test.beacon.getOptionsLinks().eq(factors[factorName]).click();
 }
 
-function deepClone (res) {
+function deepClone(res) {
   return JSON.parse(JSON.stringify(res));
 }
 
-Expect.describe('MFA Verify', function () {
+Expect.describe('MFA Verify', function() {
 
   const configWithCustomLink = {
     helpLinks: {
@@ -112,7 +112,7 @@ Expect.describe('MFA Verify', function () {
     }
   };
 
-  function createRouter (baseUrl, authClient, successSpy, settings) {
+  function createRouter(baseUrl, authClient, successSpy, settings) {
     const router = new Router(
       _.extend(
         {
@@ -130,7 +130,7 @@ Expect.describe('MFA Verify', function () {
     return router;
   }
 
-  function setup (res, selectedFactorProps, settings, languagesResponse, useResForIntrospect) {
+  function setup(res, selectedFactorProps, settings, languagesResponse, useResForIntrospect) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
@@ -147,7 +147,7 @@ Expect.describe('MFA Verify', function () {
     }
     router.refreshAuthState('dummy-token');
     return Expect.waitForMfaVerify()
-      .then(function () {
+      .then(function() {
         if (selectedFactorProps) {
           const factors = router.appState.get('factors');
           const selectedFactor = factors.findWhere(selectedFactorProps);
@@ -180,10 +180,10 @@ Expect.describe('MFA Verify', function () {
           }
         }
       })
-      .then(function () {
+      .then(function() {
         const $forms = $sandbox.find('.o-form');
 
-        let forms = _.map($forms, function (form) {
+        let forms = _.map($forms, function(form) {
           return new MfaVerifyForm($(form));
         });
 
@@ -204,7 +204,7 @@ Expect.describe('MFA Verify', function () {
       });
   }
 
-  function setupNoProvider (res, selectedFactorProps, settings) {
+  function setupNoProvider(res, selectedFactorProps, settings) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
@@ -216,7 +216,7 @@ Expect.describe('MFA Verify', function () {
     setNextResponse(res);
     router.refreshAuthState('dummy-token');
     return Expect.waitForMfaVerify()
-      .then(function () {
+      .then(function() {
         if (selectedFactorProps) {
           const factors = router.appState.get('factors');
           const selectedFactor = factors.findWhere(selectedFactorProps);
@@ -226,10 +226,10 @@ Expect.describe('MFA Verify', function () {
           return Expect.waitForMfaVerify();
         }
       })
-      .then(function () {
+      .then(function() {
         const $forms = $sandbox.find('.o-form');
 
-        let forms = _.map($forms, function (form) {
+        let forms = _.map($forms, function(form) {
           return new MfaVerifyForm($(form));
         });
 
@@ -250,7 +250,7 @@ Expect.describe('MFA Verify', function () {
       });
   }
 
-  function setupWindowsHelloOnly () {
+  function setupWindowsHelloOnly() {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
@@ -260,17 +260,17 @@ Expect.describe('MFA Verify', function () {
     setNextResponse([resRequiredWindowsHello, resChallengeWindowsHello, resSuccess]);
     router.refreshAuthState('dummy-token');
     return Expect.waitForVerifyWindowsHello()
-      .then(function () {
+      .then(function() {
         return Expect.waitForSpyCall(successSpy);
       })
-      .then(function () {
+      .then(function() {
         return {
           router: router,
         };
       });
   }
 
-  function setupWithMfaPolicy (options) {
+  function setupWithMfaPolicy(options) {
     const res = JSON.parse(JSON.stringify(resMfaAlwaysPolicy));
 
     if (options) {
@@ -331,7 +331,7 @@ Expect.describe('MFA Verify', function () {
 
   const setupOktaPushWithRefreshAuth = _.partial(setup, resVerifyPushOnly, { factorType: 'push' });
 
-  const setupWindowsHello = function (settings) {
+  const setupWindowsHello = function(settings) {
     return setup(
       resAllFactors,
       { factorType: 'webauthn', provider: 'FIDO' },
@@ -368,7 +368,7 @@ Expect.describe('MFA Verify', function () {
     'features.securityImage': true,
   });
 
-  function setupSecurityQuestionLocalized (options) {
+  function setupSecurityQuestionLocalized(options) {
     spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
     spyOn(BrowserFeatures, 'getUserLanguages').and.returnValue(['ja', 'en']);
     return setup(resAllFactors, { factorType: 'question' }, {}, [
@@ -379,7 +379,7 @@ Expect.describe('MFA Verify', function () {
 
   const setupMultipleOktaVerify = _.partial(setup, resVerifyMultiple, { factorType: 'push' }, null, null, true);
 
-  function setupMultipleOktaTOTP (settings) {
+  function setupMultipleOktaTOTP(settings) {
     const totpOnly = deepClone(resVerifyMultiple);
 
     totpOnly.response._embedded.factors = _.where(totpOnly.response._embedded.factors, {
@@ -388,7 +388,7 @@ Expect.describe('MFA Verify', function () {
     return setupNoProvider(totpOnly, { factorType: 'token:software:totp' }, settings);
   }
 
-  function setupMultipleOktaPush (settings) {
+  function setupMultipleOktaPush(settings) {
     const pushOnly = deepClone(resVerifyMultiple);
 
     pushOnly.response._embedded.factors = _.where(pushOnly.response._embedded.factors, { factorType: 'push' });
@@ -396,7 +396,7 @@ Expect.describe('MFA Verify', function () {
     return setup(pushOnly, { factorType: 'push' }, settings, null, true);
   }
 
-  function setupU2F (options) {
+  function setupU2F(options) {
     options || (options = {});
 
     if (options.u2f) {
@@ -404,10 +404,10 @@ Expect.describe('MFA Verify', function () {
         sign: jasmine.createSpy('window-u2f-spy'),
       };
       if (options && options.signStub) {
-        window.u2f.sign.and.callFake(function () {
+        window.u2f.sign.and.callFake(function() {
           const signArgs = arguments;
 
-          window.u2f.tap = function () {
+          window.u2f.tap = function() {
             options.signStub.apply(window.u2f, signArgs);
           };
         });
@@ -417,7 +417,7 @@ Expect.describe('MFA Verify', function () {
     }
 
     return setup(options.nextResponse ? options.nextResponse : resAllFactors, null, options.settings, null, true)
-      .then(function (test) {
+      .then(function(test) {
         const responses = options.multipleU2F ? [resChallengeMultipleU2F] : [resChallengeU2F];
 
         if (options && options.res) {
@@ -427,21 +427,21 @@ Expect.describe('MFA Verify', function () {
         test.router.verifyU2F();
         return Expect.waitForVerifyU2F(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         return _.extend(test, {
           form: new MfaVerifyForm($sandbox.find('.o-form')),
         });
       });
   }
 
-  function setupMultipleU2F (options) {
+  function setupMultipleU2F(options) {
     options || (options = {});
     options.nextResponse = resMultipleFactors;
     options.multipleU2F = true;
     return setupU2F(options);
   }
 
-  function setupMultipleU2FOnly (options) {
+  function setupMultipleU2FOnly(options) {
     options || (options = {});
 
     if (options.u2f) {
@@ -449,10 +449,10 @@ Expect.describe('MFA Verify', function () {
         sign: jasmine.createSpy('window-u2f-spy'),
       };
       if (options && options.signStub) {
-        window.u2f.sign.and.callFake(function () {
+        window.u2f.sign.and.callFake(function() {
           const signArgs = arguments;
 
-          window.u2f.tap = function () {
+          window.u2f.tap = function() {
             options.signStub.apply(window.u2f, signArgs);
           };
         });
@@ -476,10 +476,10 @@ Expect.describe('MFA Verify', function () {
     }
     setNextResponse(responses);
     router.refreshAuthState('dummy-token');
-    return Expect.waitForVerifyU2F().then(function () {
+    return Expect.waitForVerifyU2F().then(function() {
       const $forms = $sandbox.find('.o-form');
 
-      let forms = _.map($forms, function (form) {
+      let forms = _.map($forms, function(form) {
         return new MfaVerifyForm($(form));
       });
 
@@ -500,7 +500,7 @@ Expect.describe('MFA Verify', function () {
     });
   }
 
-  function setupMfaChallengeClaimsFactor (options) {
+  function setupMfaChallengeClaimsFactor(options) {
     options = options || {};
     const initResponse = getInitialChallengeResponse(options);
     const setNextResponse = Util.mockAjax([initResponse, resAllFactors]);
@@ -516,10 +516,10 @@ Expect.describe('MFA Verify', function () {
     router.refreshAuthState('dummy-token');
     const verifyView = options.factorResult === 'FAILED' ? 'waitForVerifyCustomFactor' : 'waitForMfaVerify';
 
-    return Expect[verifyView]().then(function () {
+    return Expect[verifyView]().then(function() {
       const $forms = $sandbox.find('.o-form');
 
-      let forms = _.map($forms, function (form) {
+      let forms = _.map($forms, function(form) {
         return new MfaVerifyForm($(form));
       });
 
@@ -540,7 +540,7 @@ Expect.describe('MFA Verify', function () {
     });
   }
 
-  function getInitialChallengeResponse (options) {
+  function getInitialChallengeResponse(options) {
     const initResponse = deepClone(resChallengeClaimsProvider);
 
     if (options && options.setFactorResult) {
@@ -550,17 +550,17 @@ Expect.describe('MFA Verify', function () {
     return initResponse;
   }
 
-  function emulateNotWindows () {
+  function emulateNotWindows() {
     spyOn(webauthn, 'isAvailable').and.returnValue(false);
     spyOn(webauthn, 'makeCredential');
     spyOn(webauthn, 'getAssertion');
     return Q();
   }
 
-  function emulateWindows (errorType) {
+  function emulateWindows(errorType) {
     spyOn(webauthn, 'isAvailable').and.returnValue(true);
 
-    spyOn(webauthn, 'getAssertion').and.callFake(function () {
+    spyOn(webauthn, 'getAssertion').and.callFake(function() {
       const deferred = Q.defer();
 
       switch (errorType) {
@@ -597,7 +597,7 @@ Expect.describe('MFA Verify', function () {
   }
 
   // Mocks the right calls for Auth SDK's transactions handled in the widget
-  function mockTransactions (controller, isTotp) {
+  function mockTransactions(controller, isTotp) {
     const model = isTotp ? controller.model.get('backupFactor') : controller.model;
     // Spy on backup factor model for TOTP, since TOTP is special
 
@@ -613,7 +613,7 @@ Expect.describe('MFA Verify', function () {
   // 1. setTransaction on model is called with transaction
   // 2. controller sets the transaction property on the appState
   // 3. routerAfterAuthStatusChange is called with the right parameters (success response)
-  function expectSetTransaction (router, res, isTotp) {
+  function expectSetTransaction(router, res, isTotp) {
     const mockTransaction = jasmine.objectContaining({ data: res.response, status: res.response.status });
     let model = router.controller.model;
     // Spy on backup factor model for TOTP, since TOTP is special
@@ -634,7 +634,7 @@ Expect.describe('MFA Verify', function () {
   // 1. model triggers the setTransactionError event
   // 2. controller sets the transactionError property on the appState
   // 3. routerAfterAuthStatusChange is called with the right parameters (error response)
-  function expectSetTransactionError (router, res, isTotp) {
+  function expectSetTransactionError(router, res, isTotp) {
     const mockError = jasmine.objectContaining(res.response);
     let model = router.controller.model;
     // Spy on backup factor model for TOTP, since TOTP is special
@@ -649,12 +649,12 @@ Expect.describe('MFA Verify', function () {
     expect(RouterUtil.routeAfterAuthStatusChangeError).toHaveBeenCalledWith(router, mockError);
   }
 
-  function setupDuo (settings) {
+  function setupDuo(settings) {
     Util.mockDuo();
     return setup(resAllFactors, { factorType: 'web', provider: 'DUO' }, settings);
   }
 
-  function setupWithFirstFactor (factorIdentifier, settings) {
+  function setupWithFirstFactor(factorIdentifier, settings) {
     const res = JSON.parse(JSON.stringify(resAllFactors));
     const factors = res.response._embedded.factors;
 
@@ -666,9 +666,9 @@ Expect.describe('MFA Verify', function () {
     return setup(res, null, settings, null, true);
   }
 
-  function setupPolling (test, finalResponse, firstPollResponse) {
+  function setupPolling(test, finalResponse, firstPollResponse) {
     // This is to reduce delay before initiating polling in the tests.
-    spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function () {
+    spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
       return setTimeout(arguments[0]);
     });
     Util.resetAjaxRequests();
@@ -694,7 +694,7 @@ Expect.describe('MFA Verify', function () {
         return Expect.waitForAjaxRequests(3, test); // The next tick will trigger the final response
       })
       .then(() => {
-        return Expect.wait(function () {
+        return Expect.wait(function() {
           return (
             JSON.stringify(test.router.controller.model.appState.get('lastAuthResponse')) ===
             JSON.stringify(finalResponse.response)
@@ -703,24 +703,24 @@ Expect.describe('MFA Verify', function () {
       });
   }
 
-  function expectHasRightBeaconImage (test, desiredClassName) {
+  function expectHasRightBeaconImage(test, desiredClassName) {
     expect(test.beacon.isFactorBeacon()).toBe(true);
     expect(test.beacon.hasClass(desiredClassName)).toBe(true);
   }
 
-  function expectTitleToBe (test, desiredTitle) {
+  function expectTitleToBe(test, desiredTitle) {
     expect(test.form.titleText()).toBe(desiredTitle);
   }
 
-  function expectSubtitleToBe (test, desiredSubtitle) {
+  function expectSubtitleToBe(test, desiredSubtitle) {
     expect(test.form.subtitleText()).toBe(desiredSubtitle);
   }
 
-  function expectLabelToBe (test, desiredLabel, fieldName) {
+  function expectLabelToBe(test, desiredLabel, fieldName) {
     expect(test.form.labelText(fieldName)).toBe(desiredLabel);
   }
 
-  function expectHasAnswerField (test, fieldType) {
+  function expectHasAnswerField(test, fieldType) {
     fieldType || (fieldType = 'text');
     const answer = test.form.answerField();
 
@@ -728,7 +728,7 @@ Expect.describe('MFA Verify', function () {
     expect(answer.attr('type')).toEqual(fieldType);
   }
 
-  function expectHasPasswordField (test, fieldType) {
+  function expectHasPasswordField(test, fieldType) {
     fieldType || (fieldType = 'text');
     const password = test.form.passwordField();
 
@@ -736,13 +736,13 @@ Expect.describe('MFA Verify', function () {
     expect(password.attr('type')).toEqual(fieldType);
   }
 
-  function expectError (test, code, message, controller, resError) {
+  function expectError(test, code, message, controller, resError) {
     expect(test.form.hasErrors()).toBe(true);
     expect(test.form.errorMessage()).toBe(message);
     expectErrorEvent(test, code, message, controller, resError);
   }
 
-  function expectErrorEvent (test, code, message, controller, resError) {
+  function expectErrorEvent(test, code, message, controller, resError) {
     expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
     expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
       {
@@ -757,16 +757,16 @@ Expect.describe('MFA Verify', function () {
     ]);
   }
 
-  function beaconTest (allFactorsRes, singleFactorRes, allFactorOnPremRes) {
-    itp('has no dropdown if there is only one factor', function () {
-      return setup(singleFactorRes, null, null, null, true).then(function (test) {
+  function beaconTest(allFactorsRes, singleFactorRes, allFactorOnPremRes) {
+    itp('has no dropdown if there is only one factor', function() {
+      return setup(singleFactorRes, null, null, null, true).then(function(test) {
         const options = test.beacon.getOptionsLinks();
 
         expect(options.length).toBe(0);
       });
     });
-    itp('has a dropdown if there is more than one factor', function () {
-      return setup(allFactorsRes).then(function (test) {
+    itp('has a dropdown if there is more than one factor', function() {
+      return setup(allFactorsRes).then(function(test) {
         const options = test.beacon.getOptionsLinks();
 
         expect(options.length).toBe(17);
@@ -775,8 +775,8 @@ Expect.describe('MFA Verify', function () {
     itp(
       'shows the right options in the dropdown, removes okta totp if ' +
         'okta push exists, and orders factors by security',
-      function () {
-        return setup(allFactorsRes).then(function (test) {
+      function() {
+        return setup(allFactorsRes).then(function(test) {
           const options = test.beacon.getOptionsLinksText();
 
           expect(options).toEqual([
@@ -804,8 +804,8 @@ Expect.describe('MFA Verify', function () {
     itp(
       'shows the right options in the dropdown, removes okta totp if ' +
         'okta push exists, and orders factors by security (On-Prem, no Password)',
-      function () {
-        return setup(allFactorOnPremRes, null, null, null, true).then(function (test) {
+      function() {
+        return setup(allFactorOnPremRes, null, null, null, true).then(function(test) {
           const options = test.beacon.getOptionsLinksText();
 
           expect(options).toEqual([
@@ -825,29 +825,29 @@ Expect.describe('MFA Verify', function () {
         });
       }
     );
-    itp('opens dropDown options when dropDown link is clicked', function () {
-      return setup(allFactorsRes).then(function (test) {
+    itp('opens dropDown options when dropDown link is clicked', function() {
+      return setup(allFactorsRes).then(function(test) {
         expect(test.beacon.getOptionsList().is(':visible')).toBe(false);
         test.beacon.dropDownButton().click();
         expect(test.beacon.getOptionsList().is(':visible')).toBe(true);
       });
     });
-    itp('sets aria-expanded when dropDown link is clicked', function () {
-      return setup(allFactorsRes).then(function (test) {
+    itp('sets aria-expanded when dropDown link is clicked', function() {
+      return setup(allFactorsRes).then(function(test) {
         expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
         test.beacon.dropDownButton().click();
         expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('true');
       });
     });
-    itp('sets aria-expanded when beacon is clicked', function () {
-      return setup(allFactorsRes).then(function (test) {
+    itp('sets aria-expanded when beacon is clicked', function() {
+      return setup(allFactorsRes).then(function(test) {
         expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
         test.beacon.factorBeacon().click();
         expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('true');
       });
     });
-    itp('sets aria-expanded to false when anywhere outside of the dropdown is clicked', function () {
-      return setup(allFactorsRes).then(function (test) {
+    itp('sets aria-expanded to false when anywhere outside of the dropdown is clicked', function() {
+      return setup(allFactorsRes).then(function(test) {
         expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
         test.beacon.factorBeacon().click();
         expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('true');
@@ -855,22 +855,22 @@ Expect.describe('MFA Verify', function () {
         expect(test.beacon.dropDownButton().attr('aria-expanded')).toBe('false');
       });
     });
-    itp('updates beacon image when different factor is selected', function () {
+    itp('updates beacon image when different factor is selected', function() {
       return setup(allFactorsRes)
-        .then(function (test) {
+        .then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-okta-security-question');
           test.beacon.dropDownButton().click();
           clickFactorInDropdown(test, 'GOOGLE_AUTH');
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.beacon.hasClass('mfa-google-auth');
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-google-auth');
         });
     });
-    itp('changes selectedFactor if option is chosen', function () {
-      return setup(allFactorsRes).then(function (test) {
+    itp('changes selectedFactor if option is chosen', function() {
+      return setup(allFactorsRes).then(function(test) {
         test.beacon.dropDownButton().click();
         clickFactorInDropdown(test, 'GOOGLE_AUTH');
         expect(test.router.navigate).toHaveBeenCalledWith('signin/verify/google/token%3Asoftware%3Atotp', {
@@ -878,23 +878,23 @@ Expect.describe('MFA Verify', function () {
         });
       });
     });
-    itp('is able to switch between factors even when the auth status is MF_CHALLENGE', function () {
+    itp('is able to switch between factors even when the auth status is MF_CHALLENGE', function() {
       spyOn(Duo, 'init');
       return setup(allFactorsRes)
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(resChallengeDuo);
           test.beacon.dropDownButton().click();
           clickFactorInDropdown(test, 'DUO');
           return tick(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(allFactorsRes);
           test.beacon.dropDownButton().click();
           clickFactorInDropdown(test, 'GOOGLE_AUTH');
           return tick(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.router.navigate).toHaveBeenCalledWith('signin/verify/google/token%3Asoftware%3Atotp', {
             trigger: true,
           });
@@ -902,7 +902,7 @@ Expect.describe('MFA Verify', function () {
     });
   }
 
-  function switchFactorTest (
+  function switchFactorTest(
     setupSmsFn,
     setupOktaPushWithTOTPFn,
     setupGoogleTOTPAutoPushTrueFn,
@@ -911,22 +911,22 @@ Expect.describe('MFA Verify', function () {
     challengeRes,
     expectedStateToken
   ) {
-    itp('Verify Security Question after switching from SMS MFA/FACTOR_CHALLENGE', function () {
+    itp('Verify Security Question after switching from SMS MFA/FACTOR_CHALLENGE', function() {
       return setupSmsFn()
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(challengeRes);
           test.form.smsSendCode().click();
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.router.controller.model.appState.get('transaction').status === 'MFA_CHALLENGE';
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(allFactorsRes);
           test.beacon.dropDownButton().click();
           clickFactorInDropdown(test, 'QUESTION');
           return Expect.waitForVerifyQuestion(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(successRes);
           // We cannot use test.form here since refers to SMS form,
@@ -936,7 +936,7 @@ Expect.describe('MFA Verify', function () {
           test.questionForm.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors/ufshpdkgNun3xNE3W0g3/verify?rememberDevice=false',
@@ -947,15 +947,15 @@ Expect.describe('MFA Verify', function () {
           });
         });
     });
-    itp('Verify Push after switching from Google TOTP', function () {
+    itp('Verify Push after switching from Google TOTP', function() {
       return setupGoogleTOTPAutoPushTrueFn({ 'features.autoPush': true })
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resChallengePush);
           test.beacon.dropDownButton().click();
           clickFactorInDropdown(test, 'OKTA_VERIFY_PUSH');
           return Expect.waitForVerifyPush(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           const button = test.form.submitButton();
           const buttonClass = button.attr('class');
 
@@ -963,14 +963,14 @@ Expect.describe('MFA Verify', function () {
           expect(button.prop('disabled')).toBe(true);
         });
     });
-    itp('Verify Google TOTP after switching from Push MFA/FACTOR_CHALLENGE', function () {
+    itp('Verify Google TOTP after switching from Push MFA/FACTOR_CHALLENGE', function() {
       return setupOktaPushWithTOTPFn()
-        .then(function (test) {
+        .then(function(test) {
           test.beacon.dropDownButton().click();
           clickFactorInDropdown(test, 'GOOGLE_AUTH');
           return tick(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(successRes);
           // We cannot use test.form here since refers to SMS form,
@@ -980,7 +980,7 @@ Expect.describe('MFA Verify', function () {
           test.googleTOTPForm.submit();
           return tick(test);
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g3/verify?rememberDevice=false',
@@ -993,57 +993,57 @@ Expect.describe('MFA Verify', function () {
     });
   }
 
-  function testSecurityQuestion (setupFn, setupFnLocalized, expectedStateToken) {
-    itp('is security question', function () {
-      return setupFn().then(function (test) {
+  function testSecurityQuestion(setupFn, setupFnLocalized, expectedStateToken) {
+    itp('is security question', function() {
+      return setupFn().then(function(test) {
         expect(test.form.isSecurityQuestion()).toBe(true);
       });
     });
-    itp('shows the right beacon', function () {
-      return setupFn().then(function (test) {
+    itp('shows the right beacon', function() {
+      return setupFn().then(function(test) {
         expectHasRightBeaconImage(test, 'mfa-okta-security-question');
       });
     });
-    itp('shows the right title', function () {
-      return setupFn().then(function (test) {
+    itp('shows the right title', function() {
+      return setupFn().then(function(test) {
         expectTitleToBe(test, 'Security Question');
       });
     });
-    itp('sets the label to the user\'s security question', function () {
-      return setupFn().then(function (test) {
+    itp('sets the label to the user\'s security question', function() {
+      return setupFn().then(function(test) {
         expectLabelToBe(test, 'What is the food you least liked as a child?', 'answer');
       });
     });
-    itp('sets the label to the user\'s security question (localized)', function () {
-      return setupFnLocalized({ localStorageIsNotSupported: false }).then(function (test) {
+    itp('sets the label to the user\'s security question (localized)', function() {
+      return setupFnLocalized({ localStorageIsNotSupported: false }).then(function(test) {
         expectLabelToBe(test, 'JA: What is the food you least liked as a child?', 'answer');
       });
     });
-    itp('sets the label to the user\'s security question (localized + no local storage)', function () {
-      return setupFnLocalized({ localStorageIsNotSupported: true }).then(function (test) {
+    itp('sets the label to the user\'s security question (localized + no local storage)', function() {
+      return setupFnLocalized({ localStorageIsNotSupported: true }).then(function(test) {
         expectLabelToBe(test, 'JA: What is the food you least liked as a child?', 'answer');
       });
     });
-    itp('has an answer field', function () {
-      return setupFn().then(function (test) {
+    itp('has an answer field', function() {
+      return setupFn().then(function(test) {
         expectHasAnswerField(test, 'password');
       });
     });
-    itp('has remember device checkbox', function () {
-      return setupFn().then(function (test) {
+    itp('has remember device checkbox', function() {
+      return setupFn().then(function(test) {
         Expect.isVisible(test.form.rememberDeviceCheckbox());
       });
     });
-    itp('no auto push checkbox', function () {
-      return setupFn({ 'features.autoPush': true }).then(function (test) {
+    itp('no auto push checkbox', function() {
+      return setupFn({ 'features.autoPush': true }).then(function(test) {
         expect(test.form.autoPushCheckbox().length).toBe(0);
       });
     });
     itp(
       'an answer field type is "password" initially and can be switched between "text" and "password" \
           by clicking on "show"/"hide" buttons',
-      function () {
-        return setupFn().then(function (test) {
+      function() {
+        return setupFn().then(function(test) {
           const answer = test.form.answerField();
 
           expect(answer.attr('type')).toEqual('password');
@@ -1060,9 +1060,9 @@ Expect.describe('MFA Verify', function () {
         });
       }
     );
-    itp('calls authClient verifyFactor with correct args when submitted', function () {
+    itp('calls authClient verifyFactor with correct args when submitted', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.form.setAnswer('food');
           test.form.setRememberDevice(true);
@@ -1070,7 +1070,7 @@ Expect.describe('MFA Verify', function () {
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors/ufshpdkgNun3xNE3W0g3/verify?rememberDevice=true',
@@ -1081,9 +1081,9 @@ Expect.describe('MFA Verify', function () {
           });
         });
     });
-    itp('disables the "verify button" when clicked', function () {
+    itp('disables the "verify button" when clicked', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.form.setAnswer('who cares');
           test.setNextResponse(resInvalid);
@@ -1095,7 +1095,7 @@ Expect.describe('MFA Verify', function () {
           expect(button.prop('disabled')).toBe(true);
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           const button = test.form.submitButton();
           const buttonClass = button.attr('class');
 
@@ -1103,37 +1103,37 @@ Expect.describe('MFA Verify', function () {
           expect(button.prop('disabled')).toBe(false);
         });
     });
-    itp('shows an error if error response from authClient', function () {
+    itp('shows an error if error response from authClient', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resInvalid);
           test.form.setAnswer('wrong');
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Your answer doesn\'t match our records. Please try again.');
         });
     });
-    itp('shows errors if verify button is clicked and answer is empty', function () {
+    itp('shows errors if verify button is clicked and answer is empty', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.form.setAnswer('');
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(0);
           expect(test.form.passCodeErrorField().length).toBe(1);
           expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
           expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
         });
     });
-    itp('sets the transaction on the appState on success response', function () {
+    itp('sets the transaction on the appState on success response', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           mockTransactions(test.router.controller);
           Util.resetAjaxRequests();
           test.form.setAnswer('food');
@@ -1141,13 +1141,13 @@ Expect.describe('MFA Verify', function () {
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expectSetTransaction(test.router, resSuccess);
         });
     });
-    itp('sets the transaction error on the appState on error response', function () {
+    itp('sets the transaction error on the appState on error response', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           mockTransactions(test.router.controller);
           Util.resetAjaxRequests();
           test.form.setAnswer('food');
@@ -1155,74 +1155,74 @@ Expect.describe('MFA Verify', function () {
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expectSetTransactionError(test.router, resInvalid);
         });
     });
   }
 
-  function testSms (setupFn, challengeSmsRes, successRes, expectedStateToken) {
-    beforeEach(function () {
+  function testSms(setupFn, challengeSmsRes, successRes, expectedStateToken) {
+    beforeEach(function() {
       const throttle = _.throttle;
 
-      spyOn(_, 'throttle').and.callFake(function (fn) {
+      spyOn(_, 'throttle').and.callFake(function(fn) {
         return throttle(fn, 0);
       });
     });
 
-    itp('is sms', function () {
-      return setupFn().then(function (test) {
+    itp('is sms', function() {
+      return setupFn().then(function(test) {
         expect(test.form.isSMS()).toBe(true);
       });
     });
-    itp('shows the right beacon', function () {
-      return setupFn().then(function (test) {
+    itp('shows the right beacon', function() {
+      return setupFn().then(function(test) {
         expectHasRightBeaconImage(test, 'mfa-okta-sms');
       });
     });
-    itp('does not autocomplete', function () {
-      return setupFn().then(function (test) {
+    itp('does not autocomplete', function() {
+      return setupFn().then(function(test) {
         expect(test.form.getAutocomplete()).toBe('off');
       });
     });
-    itp('shows the phone number in the title', function () {
-      return setupFn().then(function (test) {
+    itp('shows the phone number in the title', function() {
+      return setupFn().then(function(test) {
         expectTitleToBe(test, 'SMS Authentication');
         expectSubtitleToBe(test, '(+1 XXX-XXX-6688)');
       });
     });
-    itp('has a button to send the code', function () {
-      return setupFn().then(function (test) {
+    itp('has a button to send the code', function() {
+      return setupFn().then(function(test) {
         const button = test.form.smsSendCode();
 
         expect(button.length).toBe(1);
         expect(button.is('a')).toBe(true);
       });
     });
-    itp('has a passCode field', function () {
-      return setupFn().then(function (test) {
+    itp('has a passCode field', function() {
+      return setupFn().then(function(test) {
         expectHasAnswerField(test, 'tel');
       });
     });
-    itp('has remember device checkbox', function () {
-      return setupFn().then(function (test) {
+    itp('has remember device checkbox', function() {
+      return setupFn().then(function(test) {
         Expect.isVisible(test.form.rememberDeviceCheckbox());
       });
     });
-    itp('clears the passcode text field on clicking the "Send code" button', function () {
+    itp('clears the passcode text field on clicking the "Send code" button', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(challengeSmsRes);
 
           expect(test.form.smsSendCode().trimmedText()).toEqual('Send code');
           test.form.setAnswer('123456');
           expect(test.form.answerField().val()).toEqual('123456');
           test.form.smsSendCode().click();
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.form.answerField().val() === '';
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.smsSendCode().trimmedText()).toEqual('Sent');
           expect(test.form.answerField().val()).toEqual('');
 
@@ -1234,15 +1234,15 @@ Expect.describe('MFA Verify', function () {
           return test;
         });
     });
-    itp('calls verifyFactor with empty code if send code button is clicked', function () {
+    itp('calls verifyFactor with empty code if send code button is clicked', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(challengeSmsRes);
           test.form.smsSendCode().click();
           return tick();
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify?rememberDevice=false',
@@ -1254,32 +1254,32 @@ Expect.describe('MFA Verify', function () {
         });
     });
 
-    itp('posts resend if send code button is clicked second time', function () {
+    itp('posts resend if send code button is clicked second time', function() {
       Util.mockQDelay();
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(challengeSmsRes);
           expect(test.form.smsSendCode().text()).toBe('Send code');
           test.form.smsSendCode().click();
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.form.smsSendCode().text() === 'Re-send code';
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.submitButton().prop('disabled')).toBe(false);
           Util.resetAjaxRequests();
           test.setNextResponse(challengeSmsRes);
           test.form.smsSendCode().click();
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.form.smsSendCode().text() === 'Sent';
           }, test);
         })
-        .then(function (test) {
-          return Expect.wait(function () {
+        .then(function(test) {
+          return Expect.wait(function() {
             return test.form.smsSendCode().text() === 'Re-send code';
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(1);
           expect(test.form.submitButton().prop('disabled')).toBe(false);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
@@ -1290,18 +1290,18 @@ Expect.describe('MFA Verify', function () {
           });
         });
     });
-    it('shows warning message to click "Re-send" after 30s', function () {
+    it('shows warning message to click "Re-send" after 30s', function() {
       Util.mockQDelay();
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(challengeSmsRes);
           expect(test.form.smsSendCode().text()).toBe('Send code');
           test.form.smsSendCode().click();
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.form.smsSendCode().text() === 'Re-send code';
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.smsSendCode().text()).toBe('Re-send code');
           expect(test.form.warningMessage()).toContain('Haven\'t received an SMS? To try again, click Re-send code.');
 
@@ -1311,26 +1311,26 @@ Expect.describe('MFA Verify', function () {
           test.form.smsSendCode().click();
           expect(test.form.smsSendCode().text()).toBe('Sent');
           expect(test.form.hasWarningMessage()).toBe(false);
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.form.smsSendCode().text() === 'Re-send code';
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           // Re-send after 30s wil show the warning again
           expect(test.form.smsSendCode().text()).toBe('Re-send code');
           expect(test.form.warningMessage()).toContain('Haven\'t received an SMS? To try again, click Re-send code.');
         });
     });
-    itp('calls verifyFactor with rememberDevice URL param', function () {
+    itp('calls verifyFactor with rememberDevice URL param', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.form.setRememberDevice(true);
           test.setNextResponse(challengeSmsRes);
           test.form.smsSendCode().click();
           return tick();
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify?rememberDevice=true',
@@ -1341,44 +1341,44 @@ Expect.describe('MFA Verify', function () {
           });
         });
     });
-    itp('calls verifyFactor with empty code if verify button is clicked', function () {
+    itp('calls verifyFactor with empty code if verify button is clicked', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(challengeSmsRes);
           test.form.smsSendCode().click();
           return tick(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(resSuccess);
           test.form.setAnswer('');
           test.form.submit();
           return tick(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(0);
           expect(test.form.passCodeErrorField().length).toBe(1);
           expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
           expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
         });
     });
-    itp('calls verifyFactor with given code if verify button is clicked', function () {
+    itp('calls verifyFactor with given code if verify button is clicked', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(challengeSmsRes);
           test.form.smsSendCode().click();
           return tick(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(resSuccess);
           test.form.setAnswer('123456');
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify?rememberDevice=false',
@@ -1389,38 +1389,38 @@ Expect.describe('MFA Verify', function () {
           });
         });
     });
-    itp('shows errors if verify button is clicked and answer is empty', function () {
+    itp('shows errors if verify button is clicked and answer is empty', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.form.setAnswer('');
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(0);
           expect(test.form.passCodeErrorField().length).toBe(1);
           expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
           expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
         });
     });
-    itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+    itp('calls authClient verifyFactor with rememberDevice URL param', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.form.setRememberDevice(true);
           test.setNextResponse(challengeSmsRes);
           test.form.smsSendCode().click();
           return tick(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(resSuccess);
           test.form.setAnswer('123456');
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors/smshp9NXcoXu8z2wN0g3/verify?rememberDevice=true',
@@ -1434,78 +1434,78 @@ Expect.describe('MFA Verify', function () {
     itp(
       'temporarily disables the send code button before displaying re-send \
               to avoid exceeding the rate limit',
-      function () {
+      function() {
         const deferred = Util.mockRateLimiting();
 
         return setupFn()
-          .then(function (test) {
+          .then(function(test) {
             test.button = test.form.smsSendCode();
             expect(test.button.trimmedText()).toEqual('Send code');
             test.setNextResponse(challengeSmsRes);
             test.form.smsSendCode().click();
-            return Expect.wait(function () {
+            return Expect.wait(function() {
               return test.button.trimmedText() === 'Sent';
             }, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(test.button.trimmedText()).toEqual('Sent');
             deferred.resolve();
 
-            return Expect.wait(function () {
+            return Expect.wait(function() {
               return test.button.trimmedText() === 'Re-send code';
             }, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(test.button.length).toBe(1);
             expect(test.button.trimmedText()).toEqual('Re-send code');
           });
       }
     );
-    itp('displays only one error block if got an error resp on "Send code"', function () {
+    itp('displays only one error block if got an error resp on "Send code"', function() {
       const deferred = Util.mockRateLimiting();
 
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.hasErrors()).toBe(false);
           test.setNextResponse(resResendError);
           expect(test.form.smsSendCode().hasClass('disabled')).toBe(false);
           expect(test.afterErrorHandler.calls.count()).toBe(0);
           test.form.smsSendCode().click();
           expect(test.form.smsSendCode().hasClass('disabled')).toBe(true);
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.afterErrorHandler.calls.count() > 0;
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorBox().length).toBe(1);
           deferred.resolve();
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.form.smsSendCode().hasClass('disabled') === false;
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resResendError);
           test.form.smsSendCode().click();
           expect(test.form.smsSendCode().hasClass('disabled')).toBe(true);
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.form.smsSendCode().hasClass('disabled') === false;
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorBox().length).toBe(1);
         });
     });
-    itp('shows proper account locked error after too many failed MFA attempts.', function () {
+    itp('shows proper account locked error after too many failed MFA attempts.', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resMfaLocked);
           test.form.setAnswer('12345');
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorBox().length).toBe(1);
           expect(test.form.errorMessage()).toBe('Your account is locked because of too many authentication attempts.');
@@ -1523,15 +1523,15 @@ Expect.describe('MFA Verify', function () {
           });
         });
     });
-    itp('hides error messages after clicking on send sms', function () {
+    itp('hides error messages after clicking on send sms', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.hasErrors()).toBe(false);
           test.form.setAnswer('');
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorBox().length).toBe(1);
           test.setNextResponse(challengeSmsRes);
@@ -1539,74 +1539,74 @@ Expect.describe('MFA Verify', function () {
           test.form.smsSendCode().click();
           expect(test.form.hasErrors()).toBe(false);
           expect(test.form.smsSendCode().hasClass('disabled')).toBe(true);
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.form.smsSendCode().hasClass('disabled') === false;
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.hasErrors()).toBe(false);
           expect(test.form.errorBox().length).toBe(0);
         });
     });
   }
 
-  function testCall (setupFn, challengeCallRes, successRes, expectedStateToken) {
-    beforeEach(function () {
+  function testCall(setupFn, challengeCallRes, successRes, expectedStateToken) {
+    beforeEach(function() {
       const throttle = _.throttle;
 
-      spyOn(_, 'throttle').and.callFake(function (fn) {
+      spyOn(_, 'throttle').and.callFake(function(fn) {
         return throttle(fn, 0);
       });
     });
 
-    itp('is call', function () {
-      return setupFn().then(function (test) {
+    itp('is call', function() {
+      return setupFn().then(function(test) {
         expect(test.form.isCall()).toBe(true);
       });
     });
-    itp('shows the right beacon', function () {
-      return setupFn().then(function (test) {
+    itp('shows the right beacon', function() {
+      return setupFn().then(function(test) {
         expectHasRightBeaconImage(test, 'mfa-okta-call');
       });
     });
-    itp('does not autocomplete', function () {
-      return setupFn().then(function (test) {
+    itp('does not autocomplete', function() {
+      return setupFn().then(function(test) {
         expect(test.form.getAutocomplete()).toBe('off');
       });
     });
-    itp('shows the phone number in the title', function () {
-      return setupFn().then(function (test) {
+    itp('shows the phone number in the title', function() {
+      return setupFn().then(function(test) {
         expectTitleToBe(test, 'Voice Call Authentication');
         expectSubtitleToBe(test, '(+1 XXX-XXX-7799)');
       });
     });
-    itp('has a button to make a call', function () {
-      return setupFn().then(function (test) {
+    itp('has a button to make a call', function() {
+      return setupFn().then(function(test) {
         const button = test.form.makeCall();
 
         expect(button.length).toBe(1);
         expect(button.is('a')).toBe(true);
       });
     });
-    itp('has a passCode field', function () {
-      return setupFn().then(function (test) {
+    itp('has a passCode field', function() {
+      return setupFn().then(function(test) {
         expectHasAnswerField(test, 'tel');
       });
     });
-    itp('clears the passcode text field on clicking the "Call" button', function () {
+    itp('clears the passcode text field on clicking the "Call" button', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           test.button = test.form.makeCall();
           test.form.setAnswer('123456');
           test.setNextResponse(challengeCallRes);
           expect(test.button.trimmedText()).toEqual('Call');
           expect(test.form.answerField().val()).toEqual('123456');
           test.form.makeCall().click();
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.form.answerField().val() === '';
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.button.trimmedText()).toEqual('Calling');
           expect(test.form.answerField().val()).toEqual('');
           const button = test.form.submitButton();
@@ -1617,8 +1617,8 @@ Expect.describe('MFA Verify', function () {
           return test;
         });
     });
-    itp('calls verifyFactor with empty code if call button is clicked', function () {
-      return setupFn().then(function (test) {
+    itp('calls verifyFactor with empty code if call button is clicked', function() {
+      return setupFn().then(function(test) {
         Util.resetAjaxRequests();
         test.setNextResponse(challengeCallRes);
         test.form.makeCall().click();
@@ -1633,13 +1633,13 @@ Expect.describe('MFA Verify', function () {
         expect(test.form.makeCall().hasClass('disabled')).toBe(true);
         // Wait for PassCodeForm save logic to finish up
         Util.mockQDelay();
-        return Expect.wait(function () {
+        return Expect.wait(function() {
           return test.form.makeCall().hasClass('disabled') === false;
         }, test);
       });
     });
-    itp('calls verifyFactor with rememberDevice URL param', function () {
-      return setupFn().then(function (test) {
+    itp('calls verifyFactor with rememberDevice URL param', function() {
+      return setupFn().then(function(test) {
         Util.resetAjaxRequests();
         test.form.setRememberDevice(true);
         test.setNextResponse(challengeCallRes);
@@ -1655,14 +1655,14 @@ Expect.describe('MFA Verify', function () {
         expect(test.form.makeCall().hasClass('disabled')).toBe(true);
         // Wait for PassCodeForm save logic to finish up
         Util.mockQDelay();
-        return Expect.wait(function () {
+        return Expect.wait(function() {
           return test.form.makeCall().hasClass('disabled') === false;
         }, test);
       });
     });
-    itp('calls verifyFactor with empty code if verify button is clicked', function () {
+    itp('calls verifyFactor with empty code if verify button is clicked', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(challengeCallRes);
           test.form.makeCall().click();
@@ -1670,11 +1670,11 @@ Expect.describe('MFA Verify', function () {
           expect(test.form.makeCall().hasClass('disabled')).toBe(true);
           // Wait for PassCodeForm save logic to finish up
           Util.mockQDelay();
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.form.makeCall().hasClass('disabled') === false;
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(successRes);
           test.form.setAnswer('');
@@ -1682,31 +1682,31 @@ Expect.describe('MFA Verify', function () {
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(0);
           expect(test.form.passCodeErrorField().length).toBe(1);
           expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
           expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
         });
     });
-    itp('calls verifyFactor with given code if verify button is clicked', function () {
+    itp('calls verifyFactor with given code if verify button is clicked', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(challengeCallRes);
           test.form.makeCall().click();
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return Util.numAjaxRequests() > 0;
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(successRes);
           test.form.setAnswer('123456');
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors/clfk6mRsVLrhHznVe0g3/verify?rememberDevice=false',
@@ -1717,25 +1717,25 @@ Expect.describe('MFA Verify', function () {
           });
         });
     });
-    itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+    itp('calls authClient verifyFactor with rememberDevice URL param', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.form.setRememberDevice(true);
           test.setNextResponse(challengeCallRes);
           test.form.makeCall().click();
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return Util.numAjaxRequests() > 0;
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(successRes);
           test.form.setAnswer('123456');
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors/clfk6mRsVLrhHznVe0g3/verify?rememberDevice=true',
@@ -1746,15 +1746,15 @@ Expect.describe('MFA Verify', function () {
           });
         });
     });
-    itp('shows errors if verify button is clicked and answer is empty', function () {
+    itp('shows errors if verify button is clicked and answer is empty', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.form.setAnswer('');
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(0);
           expect(test.form.passCodeErrorField().length).toBe(1);
           expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
@@ -1764,75 +1764,75 @@ Expect.describe('MFA Verify', function () {
     itp(
       'temporarily disables the call button before displaying redial \
               to avoid exceeding the rate limit',
-      function () {
+      function() {
         const deferred = Util.mockRateLimiting();
 
         return setupFn()
-          .then(function (test) {
+          .then(function(test) {
             test.button = test.form.makeCall();
             expect(test.button.trimmedText()).toEqual('Call');
             test.setNextResponse(challengeCallRes);
             test.form.makeCall().click();
-            return Expect.wait(function () {
+            return Expect.wait(function() {
               return test.button.trimmedText() === 'Calling';
             }, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(test.button.trimmedText()).toEqual('Calling');
             deferred.resolve();
-            return Expect.wait(function () {
+            return Expect.wait(function() {
               return test.button.trimmedText() === 'Redial';
             }, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(test.button.length).toBe(1);
             expect(test.button.trimmedText()).toEqual('Redial');
           });
       }
     );
-    itp('displays only one error block if got an error resp on "Call"', function () {
+    itp('displays only one error block if got an error resp on "Call"', function() {
       const deferred = Util.mockRateLimiting();
 
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resResendError);
           test.form.makeCall().click();
           expect(test.form.makeCall().hasClass('disabled')).toBe(true);
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.afterErrorHandler.calls.count() > 0;
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorBox().length).toBe(1);
           test.afterErrorHandler.calls.reset();
           deferred.resolve();
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.form.makeCall().hasClass('disabled') === false;
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resResendError);
           test.form.makeCall().click();
           expect(test.form.makeCall().hasClass('disabled')).toBe(true);
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.form.makeCall().hasClass('disabled') === false;
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorBox().length).toBe(1);
         });
     });
-    itp('shows proper account locked error after too many failed MFA attempts.', function () {
+    itp('shows proper account locked error after too many failed MFA attempts.', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resMfaLocked);
           test.form.setAnswer('12345');
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorBox().length).toBe(1);
           expect(test.form.errorMessage()).toBe('Your account is locked because of too many authentication attempts.');
@@ -1850,14 +1850,14 @@ Expect.describe('MFA Verify', function () {
           });
         });
     });
-    itp('hides error messages after clicking on call', function () {
+    itp('hides error messages after clicking on call', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           test.form.setAnswer('');
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorBox().length).toBe(1);
           test.setNextResponse(challengeCallRes);
@@ -1865,29 +1865,29 @@ Expect.describe('MFA Verify', function () {
           expect(test.form.makeCall().hasClass('disabled')).toBe(true);
           // Wait for PassCodeForm save logic to finish up
           Util.mockQDelay();
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.form.makeCall().hasClass('disabled') === false;
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.hasErrors()).toBe(false);
           expect(test.form.errorBox().length).toBe(0);
         });
     });
 
-    itp('shows warning message to click "Redial" after 30s', function () {
+    itp('shows warning message to click "Redial" after 30s', function() {
       Util.mockQDelay();
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(challengeCallRes);
           expect(test.form.makeCall().text()).toBe('Call');
           test.form.makeCall().click();
           expect(test.form.makeCall().hasClass('disabled')).toBe(true);
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.form.makeCall().hasClass('disabled') === false;
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.makeCall().text()).toBe('Redial');
           expect(test.form.warningMessage()).toContain('Haven\'t received a voice call? To try again, click Redial.');
 
@@ -1898,42 +1898,42 @@ Expect.describe('MFA Verify', function () {
           expect(test.form.makeCall().text()).toBe('Calling');
           expect(test.form.hasWarningMessage()).toBe(false);
           expect(test.form.makeCall().hasClass('disabled')).toBe(true);
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.form.makeCall().hasClass('disabled') === false;
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           // Re-send after 30s wil show the warning again
           expect(test.form.makeCall().text()).toBe('Redial');
           expect(test.form.warningMessage()).toContain('Haven\'t received a voice call? To try again, click Redial.');
         });
     });
-    itp('posts to resend link if call button is clicked for the second time', function () {
+    itp('posts to resend link if call button is clicked for the second time', function() {
       Util.mockQDelay();
       return setupCall()
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(challengeCallRes);
           expect(test.form.makeCall().text()).toBe('Call');
           test.form.makeCall().click();
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.form.makeCall().text() === 'Redial';
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.submitButton().prop('disabled')).toBe(false);
           Util.resetAjaxRequests();
           test.setNextResponse(challengeCallRes);
           test.form.makeCall().click();
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.form.makeCall().text() === 'Calling';
           }, test);
         })
-        .then(function (test) {
-          return Expect.wait(function () {
+        .then(function(test) {
+          return Expect.wait(function() {
             return test.form.makeCall().text() === 'Redial';
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.submitButton().prop('disabled')).toBe(false);
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
@@ -1944,53 +1944,53 @@ Expect.describe('MFA Verify', function () {
     });
   }
 
-  function testGoogleTOTP (setupFn, expectedStateToken) {
-    itp('is totp', function () {
-      return setupFn().then(function (test) {
+  function testGoogleTOTP(setupFn, expectedStateToken) {
+    itp('is totp', function() {
+      return setupFn().then(function(test) {
         expect(test.form.isTOTP()).toBe(true);
       });
     });
-    itp('shows the right beacon for google TOTP', function () {
-      return setupFn().then(function (test) {
+    itp('shows the right beacon for google TOTP', function() {
+      return setupFn().then(function(test) {
         expectHasRightBeaconImage(test, 'mfa-google-auth');
       });
     });
-    itp('does not autocomplete', function () {
-      return setupFn().then(function (test) {
+    itp('does not autocomplete', function() {
+      return setupFn().then(function(test) {
         expect(test.form.getAutocomplete()).toBe('off');
       });
     });
 
-    itp('references factorName in title', function () {
-      return setupFn().then(function (test) {
+    itp('references factorName in title', function() {
+      return setupFn().then(function(test) {
         expectTitleToBe(test, 'Google Authenticator');
       });
     });
-    itp('shows the right subtitle for Google Auth', function () {
-      return setupFn().then(function (test) {
+    itp('shows the right subtitle for Google Auth', function() {
+      return setupFn().then(function(test) {
         expectSubtitleToBe(test, 'Enter your Google Authenticator passcode');
       });
     });
-    itp('has a passCode field', function () {
-      return setupFn().then(function (test) {
+    itp('has a passCode field', function() {
+      return setupFn().then(function(test) {
         expectHasAnswerField(test, 'tel');
       });
     });
-    itp('has remember device checkbox', function () {
-      return setupFn().then(function (test) {
+    itp('has remember device checkbox', function() {
+      return setupFn().then(function(test) {
         Expect.isVisible(test.form.rememberDeviceCheckbox());
       });
     });
-    itp('calls authClient verifyFactor with correct args when submitted', function () {
+    itp('calls authClient verifyFactor with correct args when submitted', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.form.setAnswer('123456');
           test.setNextResponse(resSuccess);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g3/verify?rememberDevice=false',
@@ -2001,9 +2001,9 @@ Expect.describe('MFA Verify', function () {
           });
         });
     });
-    itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+    itp('calls authClient verifyFactor with rememberDevice URL param', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.form.setAnswer('123456');
           test.form.setRememberDevice(true);
@@ -2011,7 +2011,7 @@ Expect.describe('MFA Verify', function () {
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g3/verify?rememberDevice=true',
@@ -2022,9 +2022,9 @@ Expect.describe('MFA Verify', function () {
           });
         });
     });
-    itp('disables the "verify button" when clicked', function () {
+    itp('disables the "verify button" when clicked', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.form.setAnswer('who cares');
           test.setNextResponse(resInvalid);
@@ -2036,7 +2036,7 @@ Expect.describe('MFA Verify', function () {
           expect(button.prop('disabled')).toBe(true);
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           const button = test.form.submitButton();
           const buttonClass = button.attr('class');
 
@@ -2045,15 +2045,15 @@ Expect.describe('MFA Verify', function () {
           expect(button.prop('disabled')).toBe(false);
         });
     });
-    itp('shows an error if error response from authClient', function () {
+    itp('shows an error if error response from authClient', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resInvalidTotp);
           test.form.setAnswer('wrong');
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expectError(test, 403, 'Invalid Passcode/Answer', 'mfa-verify', {
             status: 403,
             responseType: 'json',
@@ -2068,85 +2068,85 @@ Expect.describe('MFA Verify', function () {
           });
         });
     });
-    itp('shows errors if verify button is clicked and answer is empty', function () {
+    itp('shows errors if verify button is clicked and answer is empty', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.form.setAnswer('');
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(0);
           expect(test.form.passCodeErrorField().length).toBe(1);
           expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
           expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
         });
     });
-    itp('sets the transaction on the appState on success response', function () {
+    itp('sets the transaction on the appState on success response', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           mockTransactions(test.router.controller);
           test.form.setAnswer('123456');
           test.setNextResponse(resSuccess);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expectSetTransaction(test.router, resSuccess);
         });
     });
-    itp('sets the transaction error on the appState on error response', function () {
+    itp('sets the transaction error on the appState on error response', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           mockTransactions(test.router.controller);
           test.setNextResponse(resInvalidTotp);
           test.form.setAnswer('wrong');
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expectSetTransactionError(test.router, resInvalidTotp);
         });
     });
   }
 
-  function testPassword (setupFn, expectedStateToken) {
-    itp('is password', function () {
-      return setupFn().then(function (test) {
+  function testPassword(setupFn, expectedStateToken) {
+    itp('is password', function() {
+      return setupFn().then(function(test) {
         expect(test.form.isPassword()).toBe(true);
       });
     });
-    itp('shows the right beacon', function () {
-      return setupFn().then(function (test) {
+    itp('shows the right beacon', function() {
+      return setupFn().then(function(test) {
         expectHasRightBeaconImage(test, 'mfa-okta-password');
       });
     });
-    itp('shows the right title', function () {
-      return setupFn().then(function (test) {
+    itp('shows the right title', function() {
+      return setupFn().then(function(test) {
         expectTitleToBe(test, 'Password');
       });
     });
-    itp('has a password field', function () {
-      return setupFn().then(function (test) {
+    itp('has a password field', function() {
+      return setupFn().then(function(test) {
         expectHasPasswordField(test, 'password');
       });
     });
-    itp('has remember device checkbox', function () {
-      return setupFn().then(function (test) {
+    itp('has remember device checkbox', function() {
+      return setupFn().then(function(test) {
         Expect.isVisible(test.form.rememberDeviceCheckbox());
       });
     });
-    itp('no auto push checkbox', function () {
-      return setupFn({ 'features.autoPush': true }).then(function (test) {
+    itp('no auto push checkbox', function() {
+      return setupFn({ 'features.autoPush': true }).then(function(test) {
         expect(test.form.autoPushCheckbox().length).toBe(0);
       });
     });
     itp(
       'a password field type is "password" initially and can be switched between "text" and "password" \
           by clicking on "show"/"hide" buttons',
-      function () {
-        return setupFn().then(function (test) {
+      function() {
+        return setupFn().then(function(test) {
           const answer = test.form.passwordField();
 
           expect(answer.attr('type')).toEqual('password');
@@ -2159,9 +2159,9 @@ Expect.describe('MFA Verify', function () {
         });
       }
     );
-    itp('calls authClient verifyFactor with correct args when submitted', function () {
+    itp('calls authClient verifyFactor with correct args when submitted', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.form.setPassword('Abcd1234');
           test.form.setRememberDevice(true);
@@ -2169,7 +2169,7 @@ Expect.describe('MFA Verify', function () {
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'http://rain.okta1.com:1802/api/v1/authn/factors/password/verify?rememberDevice=true',
@@ -2180,9 +2180,9 @@ Expect.describe('MFA Verify', function () {
           });
         });
     });
-    itp('disables the "verify button" when clicked', function () {
+    itp('disables the "verify button" when clicked', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.form.setPassword('Abcd');
           test.setNextResponse(resInvalidPassword);
@@ -2194,7 +2194,7 @@ Expect.describe('MFA Verify', function () {
           expect(button.prop('disabled')).toBe(true);
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           const button = test.form.submitButton();
           const buttonClass = button.attr('class');
 
@@ -2202,15 +2202,15 @@ Expect.describe('MFA Verify', function () {
           expect(button.prop('disabled')).toBe(false);
         });
     });
-    itp('shows an error if error response from authClient', function () {
+    itp('shows an error if error response from authClient', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resInvalidPassword);
           test.form.setPassword('wrong');
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Password is incorrect');
           expectErrorEvent(test, 403, 'Invalid Passcode/Answer', 'mfa-verify', {
@@ -2231,24 +2231,24 @@ Expect.describe('MFA Verify', function () {
           });
         });
     });
-    itp('shows errors if verify button is clicked and password is empty', function () {
+    itp('shows errors if verify button is clicked and password is empty', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.form.setPassword('');
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(0);
           expect(test.form.passwordErrorField().length).toBe(1);
           expect(test.form.passwordErrorField().text()).toBe('Please enter a password');
           expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
         });
     });
-    itp('sets the transaction on the appState on success response', function () {
+    itp('sets the transaction on the appState on success response', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           mockTransactions(test.router.controller);
           Util.resetAjaxRequests();
           test.form.setPassword('Abcd1234');
@@ -2256,13 +2256,13 @@ Expect.describe('MFA Verify', function () {
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expectSetTransaction(test.router, resSuccess);
         });
     });
-    itp('sets the transaction error on the appState on error response', function () {
+    itp('sets the transaction error on the appState on error response', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           mockTransactions(test.router.controller);
           Util.resetAjaxRequests();
           test.form.setPassword('Abcd1234');
@@ -2270,122 +2270,122 @@ Expect.describe('MFA Verify', function () {
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expectSetTransactionError(test.router, resInvalidPassword);
         });
     });
   }
 
-  Expect.describe('General', function () {
-    Expect.describe('Defaults to the last used factor', function () {
-      itp('Security Question', function () {
-        return setup(resAllFactors).then(function (test) {
+  Expect.describe('General', function() {
+    Expect.describe('Defaults to the last used factor', function() {
+      itp('Security Question', function() {
+        return setup(resAllFactors).then(function(test) {
           expect(test.form.isSecurityQuestion()).toBe(true);
         });
       });
-      itp('Google TOTP', function () {
-        return setupWithFirstFactor({ provider: 'GOOGLE', factorType: 'token:software:totp' }).then(function (test) {
+      itp('Google TOTP', function() {
+        return setupWithFirstFactor({ provider: 'GOOGLE', factorType: 'token:software:totp' }).then(function(test) {
           expect(test.form.isTOTP()).toBe(true);
         });
       });
       // TOTP and push have the same form. If either of them is the last used, we show the push form.
-      itp('Okta TOTP/Push', function () {
-        return setupWithFirstFactor({ provider: 'OKTA', factorType: 'token:software:totp' }).then(function (test) {
+      itp('Okta TOTP/Push', function() {
+        return setupWithFirstFactor({ provider: 'OKTA', factorType: 'token:software:totp' }).then(function(test) {
           expect(test.form[0].isPush()).toBe(true);
         });
       });
-      itp('Okta Push', function () {
-        return setupWithFirstFactor({ factorType: 'push' }).then(function (test) {
+      itp('Okta Push', function() {
+        return setupWithFirstFactor({ factorType: 'push' }).then(function(test) {
           expect(test.form[0].isPush()).toBe(true);
         });
       });
-      itp('Okta SMS', function () {
-        return setupWithFirstFactor({ factorType: 'sms' }).then(function (test) {
+      itp('Okta SMS', function() {
+        return setupWithFirstFactor({ factorType: 'sms' }).then(function(test) {
           expect(test.form.isSMS()).toBe(true);
         });
       });
-      itp('Okta Email', function () {
-        return setupWithFirstFactor({ factorType: 'email' }).then(function (test) {
+      itp('Okta Email', function() {
+        return setupWithFirstFactor({ factorType: 'email' }).then(function(test) {
           expect(test.form.isEmail()).toBe(true);
         });
       });
     });
-    Expect.describe('Factor page custom link', function () {
-      itp('is visible if configured and has correct text and url', function () {
-        return setupWithFirstFactor({ factorType: 'question' }, configWithCustomLink).then(function (test) {
+    Expect.describe('Factor page custom link', function() {
+      itp('is visible if configured and has correct text and url', function() {
+        return setupWithFirstFactor({ factorType: 'question' }, configWithCustomLink).then(function(test) {
           Expect.isVisible(test.form.factorPageCustomLink($sandbox));
           expect(test.form.factorPageCustomLinkLabel($sandbox).trim()).toBe('Need help with MFA?');
           expect(test.form.factorPageCustomLinkHref($sandbox).trim()).toBe('https://acme.com/mfa-help');
         });
       });
-      itp('is not visible if not configured', function () {
-        return setupWithFirstFactor({ factorType: 'question' }).then(function (test) {
+      itp('is not visible if not configured', function() {
+        return setupWithFirstFactor({ factorType: 'question' }).then(function(test) {
           expect(test.form.factorPageCustomLink($sandbox).length).toBe(0);
         });
       });
-      itp('is not visible if configured without text', function () {
-        return setupWithFirstFactor({ factorType: 'question' }, configWithCustomLinkNoText).then(function (test) {
+      itp('is not visible if configured without text', function() {
+        return setupWithFirstFactor({ factorType: 'question' }, configWithCustomLinkNoText).then(function(test) {
           expect(test.form.factorPageCustomLink($sandbox).length).toBe(0);
         });
       });
-      itp('is not visible if configured without url', function () {
-        return setupWithFirstFactor({ factorType: 'question' }, configWithCustomLinkNoHref).then(function (test) {
+      itp('is not visible if configured without url', function() {
+        return setupWithFirstFactor({ factorType: 'question' }, configWithCustomLinkNoHref).then(function(test) {
           expect(test.form.factorPageCustomLink($sandbox).length).toBe(0);
         });
       });
-      itp('is visible if configured with features.hideSignOutLinkInMFA is true', function () {
-        return setupWithFirstFactor({ factorType: 'question' }, { ...configWithCustomLink, 'features.hideSignOutLinkInMFA': true }).then(function (test) {
+      itp('is visible if configured with features.hideSignOutLinkInMFA is true', function() {
+        return setupWithFirstFactor({ factorType: 'question' }, { ...configWithCustomLink, 'features.hideSignOutLinkInMFA': true }).then(function(test) {
           Expect.isVisible(test.form.factorPageCustomLink($sandbox));
           expect(test.form.signoutLink($sandbox).length).toBe(0);
         });
       });
-      itp('is visible if configured with features.mfaOnlyFlow is true', function () {
-        return setupWithFirstFactor({ factorType: 'question' }, { ...configWithCustomLink, 'features.mfaOnlyFlow': true }).then(function (test) {
+      itp('is visible if configured with features.mfaOnlyFlow is true', function() {
+        return setupWithFirstFactor({ factorType: 'question' }, { ...configWithCustomLink, 'features.mfaOnlyFlow': true }).then(function(test) {
           Expect.isVisible(test.form.factorPageCustomLink($sandbox));
           expect(test.form.signoutLink($sandbox).length).toBe(0);
         });
       });
-      itp('is visible if configured for U2F', function () {
-        return setupU2F({ u2f: true, settings: configWithCustomLink }).then(function (test) {
+      itp('is visible if configured for U2F', function() {
+        return setupU2F({ u2f: true, settings: configWithCustomLink }).then(function(test) {
           Expect.isVisible(test.form.factorPageCustomLink($sandbox));
         });
       });
-      itp('is visible if configured for custom factor', function () {
-        return setupClaimsProviderFactorWithIntrospect(configWithCustomLink).then(function (test) {
+      itp('is visible if configured for custom factor', function() {
+        return setupClaimsProviderFactorWithIntrospect(configWithCustomLink).then(function(test) {
           Expect.isVisible(test.form.factorPageCustomLink($sandbox));
         });
       });
-      itp('is visible if configured for Duo', function () {
-        return setupDuo(configWithCustomLink).then(function (test) {
+      itp('is visible if configured for Duo', function() {
+        return setupDuo(configWithCustomLink).then(function(test) {
           Expect.isVisible(test.form.factorPageCustomLink($sandbox));
         });
       });
-      itp('is visible if configured for Windows Hello', function () {
-        return setupWindowsHello(configWithCustomLink).then(function (test) {
+      itp('is visible if configured for Windows Hello', function() {
+        return setupWindowsHello(configWithCustomLink).then(function(test) {
           Expect.isVisible(test.form.factorPageCustomLink($sandbox));
         });
       });
     });
-    Expect.describe('Sign out link', function () {
-      itp('is visible', function () {
-        return setupWithFirstFactor({ factorType: 'question' }).then(function (test) {
+    Expect.describe('Sign out link', function() {
+      itp('is visible', function() {
+        return setupWithFirstFactor({ factorType: 'question' }).then(function(test) {
           Expect.isVisible(test.form.signoutLink($sandbox));
         });
       });
-      itp('is not present if features.hideSignOutLinkInMFA is true', function () {
-        return setupSecurityQuestion({ 'features.hideSignOutLinkInMFA': true }).then(function (test) {
+      itp('is not present if features.hideSignOutLinkInMFA is true', function() {
+        return setupSecurityQuestion({ 'features.hideSignOutLinkInMFA': true }).then(function(test) {
           expect(test.form.signoutLink($sandbox).length).toBe(0);
         });
       });
-      itp('is not present if features.mfaOnlyFlow is true', function () {
-        return setupSecurityQuestion({ 'features.mfaOnlyFlow': true }).then(function (test) {
+      itp('is not present if features.mfaOnlyFlow is true', function() {
+        return setupSecurityQuestion({ 'features.mfaOnlyFlow': true }).then(function(test) {
           expect(test.form.signoutLink($sandbox).length).toBe(0);
         });
       });
 
-      itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function () {
+      itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function() {
         return setupSecurityQuestion()
-          .then(function (test) {
+          .then(function(test) {
             spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
             spyOn(RouterUtil, 'routeAfterAuthStatusChange').and.callThrough();
             Util.resetAjaxRequests();
@@ -2393,7 +2393,7 @@ Expect.describe('MFA Verify', function () {
             test.form.signoutLink($sandbox).click();
             return Expect.waitForPrimaryAuth(test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/cancel',
@@ -2409,20 +2409,20 @@ Expect.describe('MFA Verify', function () {
 
       itp(
         'has a signout link which cancels the current stateToken and redirects to the provided signout url',
-        function () {
+        function() {
           return setupSecurityQuestion({ signOutLink: 'http://www.goodbye.com' })
-            .then(function (test) {
+            .then(function(test) {
               spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
               spyOn(RouterUtil, 'routeAfterAuthStatusChange').and.callThrough();
               spyOn(SharedUtil, 'redirect');
               Util.resetAjaxRequests();
               test.setNextResponse(resCancel);
               test.form.signoutLink($sandbox).click();
-              return Expect.wait(function () {
+              return Expect.wait(function() {
                 return RouterUtil.routeAfterAuthStatusChange.calls.count() > 0;
               }, test);
             })
-            .then(function (test) {
+            .then(function(test) {
               expect(Util.numAjaxRequests()).toBe(1);
               Expect.isJsonPost(Util.getAjaxRequest(0), {
                 url: 'https://foo.com/api/v1/authn/cancel',
@@ -2437,130 +2437,130 @@ Expect.describe('MFA Verify', function () {
         }
       );
     });
-    Expect.describe('Remember device', function () {
-      itp('is rendered', function () {
-        return setup(resAllFactors).then(function (test) {
+    Expect.describe('Remember device', function() {
+      itp('is rendered', function() {
+        return setup(resAllFactors).then(function(test) {
           Expect.isVisible(test.form.rememberDeviceCheckbox());
         });
       });
-      itp('has the right text for device based policy', function () {
-        return setupWithMfaPolicy({ minutes: 0 }).then(function (test) {
+      itp('has the right text for device based policy', function() {
+        return setupWithMfaPolicy({ minutes: 0 }).then(function(test) {
           expect(test.form.rememberDeviceLabelText()).toEqual('Do not challenge me on this device again');
         });
       });
-      itp('has the right text for time based policy (1 minute)', function () {
-        return setupWithMfaPolicy({ minutes: 1 }).then(function (test) {
+      itp('has the right text for time based policy (1 minute)', function() {
+        return setupWithMfaPolicy({ minutes: 1 }).then(function(test) {
           expect(test.form.rememberDeviceLabelText()).toEqual('Do not challenge me on this device for the next minute');
         });
       });
-      itp('has the right text for time based policy (minutes)', function () {
-        return setupWithMfaPolicy({ minutes: 15 }).then(function (test) {
+      itp('has the right text for time based policy (minutes)', function() {
+        return setupWithMfaPolicy({ minutes: 15 }).then(function(test) {
           expect(test.form.rememberDeviceLabelText()).toEqual(
             'Do not challenge me on this device for the next 15 minutes'
           );
         });
       });
-      itp('has the right text for time based policy (hours)', function () {
-        return setupWithMfaPolicy({ minutes: 120 }).then(function (test) {
+      itp('has the right text for time based policy (hours)', function() {
+        return setupWithMfaPolicy({ minutes: 120 }).then(function(test) {
           expect(test.form.rememberDeviceLabelText()).toEqual(
             'Do not challenge me on this device for the next 2 hours'
           );
         });
       });
-      itp('has the right text for time based policy (days)', function () {
-        return setupWithMfaPolicy({ minutes: 2880 }).then(function (test) {
+      itp('has the right text for time based policy (days)', function() {
+        return setupWithMfaPolicy({ minutes: 2880 }).then(function(test) {
           expect(test.form.rememberDeviceLabelText()).toEqual('Do not challenge me on this device for the next 2 days');
         });
       });
-      itp('is not rendered when policy is always ask for mfa', function () {
-        return setup(resMfaAlwaysPolicy, null, null, null, true).then(function (test) {
+      itp('is not rendered when policy is always ask for mfa', function() {
+        return setup(resMfaAlwaysPolicy, null, null, null, true).then(function(test) {
           expect(test.form.rememberDeviceCheckbox().length).toEqual(0);
         });
       });
-      itp('is checked by default if policy rememberDeviceByDefault is true', function () {
-        return setupWithMfaPolicy({ minutes: 15, byDefault: true }).then(function (test) {
+      itp('is checked by default if policy rememberDeviceByDefault is true', function() {
+        return setupWithMfaPolicy({ minutes: 15, byDefault: true }).then(function(test) {
           expect(test.form.isRememberDeviceChecked()).toBe(true);
         });
       });
-      itp('is not checked by default if policy rememberDeviceByDefault is false', function () {
-        return setupWithMfaPolicy({ minutes: 0 }).then(function (test) {
+      itp('is not checked by default if policy rememberDeviceByDefault is false', function() {
+        return setupWithMfaPolicy({ minutes: 0 }).then(function(test) {
           expect(test.form.isRememberDeviceChecked()).toBe(false);
         });
       });
     });
   });
 
-  Expect.describe('Factor types', function () {
-    Expect.describe('Security Question', function () {
+  Expect.describe('Factor types', function() {
+    Expect.describe('Security Question', function() {
       testSecurityQuestion(setupSecurityQuestion, setupSecurityQuestionLocalized, 'testStateToken');
     });
 
-    Expect.describe('TOTP', function () {
+    Expect.describe('TOTP', function() {
       testGoogleTOTP(setupGoogleTOTP, 'testStateToken');
-      itp('shows the right beacon for Okta TOTP', function () {
-        return setupOktaTOTP().then(function (test) {
+      itp('shows the right beacon for Okta TOTP', function() {
+        return setupOktaTOTP().then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-okta-verify');
         });
       });
-      itp('shows the right subtitle for Okta TOTP', function () {
-        return setupOktaTOTP().then(function (test) {
+      itp('shows the right subtitle for Okta TOTP', function() {
+        return setupOktaTOTP().then(function(test) {
           expectSubtitleToBe(test, 'Enter your Okta Verify passcode');
         });
       });
-      itp('no auto push checkbox for Okta TOTP', function () {
-        return setupOktaTOTP({ 'features.autoPush': true }).then(function (test) {
+      itp('no auto push checkbox for Okta TOTP', function() {
+        return setupOktaTOTP({ 'features.autoPush': true }).then(function(test) {
           expect(test.form.autoPushCheckbox().length).toBe(0);
         });
       });
-      itp('has a masked passCode field for RSA', function () {
-        return setupRsaTOTP().then(function (test) {
+      itp('has a masked passCode field for RSA', function() {
+        return setupRsaTOTP().then(function(test) {
           expectHasAnswerField(test, 'password');
         });
       });
-      itp('has a masked passCode field for On-Prem', function () {
-        return setupOnPremTOTP().then(function (test) {
+      itp('has a masked passCode field for On-Prem', function() {
+        return setupOnPremTOTP().then(function(test) {
           expectHasAnswerField(test, 'password');
         });
       });
-      itp('shows the right beacon for RSA TOTP', function () {
-        return setupRsaTOTP().then(function (test) {
+      itp('shows the right beacon for RSA TOTP', function() {
+        return setupRsaTOTP().then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-rsa');
         });
       });
-      itp('shows the right beacon for On Prem TOTP', function () {
-        return setupOnPremTOTP().then(function (test) {
+      itp('shows the right beacon for On Prem TOTP', function() {
+        return setupOnPremTOTP().then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-onprem');
         });
       });
 
-      itp('shows the right beacon for Symantec TOTP', function () {
-        return setupSymantecTOTP().then(function (test) {
+      itp('shows the right beacon for Symantec TOTP', function() {
+        return setupSymantecTOTP().then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-symantec');
         });
       });
-      itp('clears input field value if error is for PIN change (RSA)', function () {
+      itp('clears input field value if error is for PIN change (RSA)', function() {
         return setupRsaTOTP()
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse(resRSAChangePin);
             test.form.setAnswer('correct');
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe('Enter a new PIN having from 4 to 8 digits:');
             expect(test.form.answerField().val()).toEqual('');
           });
       });
-      itp('clears input field value if error is for PIN change (On-Prem)', function () {
+      itp('clears input field value if error is for PIN change (On-Prem)', function() {
         return setupOnPremTOTP()
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse(resRSAChangePin);
             test.form.setAnswer('correct');
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expectError(test, 409, 'Enter a new PIN having from 4 to 8 digits:', 'mfa-verify', {
               status: 409,
               responseType: 'json',
@@ -2578,42 +2578,42 @@ Expect.describe('MFA Verify', function () {
       });
     });
 
-    Expect.describe('Yubikey', function () {
-      itp('shows the right beacon for Yubikey', function () {
-        return setupYubikey().then(function (test) {
+    Expect.describe('Yubikey', function() {
+      itp('shows the right beacon for Yubikey', function() {
+        return setupYubikey().then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-yubikey');
         });
       });
-      itp('has an answer field', function () {
-        return setupYubikey().then(function (test) {
+      itp('has an answer field', function() {
+        return setupYubikey().then(function(test) {
           expectHasAnswerField(test, 'password');
         });
       });
-      itp('has right label for answer field', function () {
-        return setupYubikey().then(function (test) {
+      itp('has right label for answer field', function() {
+        return setupYubikey().then(function(test) {
           const $answerLabel = test.form.answerLabel();
 
           expect($answerLabel.text().trim()).toEqual('Click here, then tap your YubiKey');
         });
       });
-      itp('does not autocomplete', function () {
-        return setupYubikey().then(function (test) {
+      itp('does not autocomplete', function() {
+        return setupYubikey().then(function(test) {
           expect(test.form.getAutocomplete()).toBe('off');
         });
       });
-      itp('shows the right title', function () {
-        return setupYubikey().then(function (test) {
+      itp('shows the right title', function() {
+        return setupYubikey().then(function(test) {
           expectTitleToBe(test, 'YubiKey');
         });
       });
-      itp('has remember device checkbox', function () {
-        return setupYubikey().then(function (test) {
+      itp('has remember device checkbox', function() {
+        return setupYubikey().then(function(test) {
           Expect.isVisible(test.form.rememberDeviceCheckbox());
         });
       });
-      itp('disables the "verify button" when clicked', function () {
+      itp('disables the "verify button" when clicked', function() {
         return setupYubikey()
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.form.setAnswer('who cares');
             test.setNextResponse(resInvalid);
@@ -2625,7 +2625,7 @@ Expect.describe('MFA Verify', function () {
             expect(button.prop('disabled')).toBe(true);
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             const button = test.form.submitButton();
             const buttonClass = button.attr('class');
 
@@ -2633,16 +2633,16 @@ Expect.describe('MFA Verify', function () {
             expect(button.prop('disabled')).toBe(false);
           });
       });
-      itp('calls authClient verifyFactor with correct args when submitted', function () {
+      itp('calls authClient verifyFactor with correct args when submitted', function() {
         return setupYubikey()
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.form.setAnswer('123456');
             test.setNextResponse(resSuccess);
             test.form.submit();
             return Expect.waitForSpyCall(test.successSpy);
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors/ykf2l0aUIe5VBplDj0g4/verify?rememberDevice=false',
@@ -2653,9 +2653,9 @@ Expect.describe('MFA Verify', function () {
             });
           });
       });
-      itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+      itp('calls authClient verifyFactor with rememberDevice URL param', function() {
         return setupYubikey()
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.form.setAnswer('123456');
             test.form.setRememberDevice(true);
@@ -2663,7 +2663,7 @@ Expect.describe('MFA Verify', function () {
             test.form.submit();
             return Expect.waitForSpyCall(test.successSpy);
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors/ykf2l0aUIe5VBplDj0g4/verify?rememberDevice=true',
@@ -2674,131 +2674,131 @@ Expect.describe('MFA Verify', function () {
             });
           });
       });
-      itp('sets the transaction on the appState on success response', function () {
+      itp('sets the transaction on the appState on success response', function() {
         return setupYubikey()
-          .then(function (test) {
+          .then(function(test) {
             mockTransactions(test.router.controller);
             test.form.setAnswer('123456');
             test.setNextResponse(resSuccess);
             test.form.submit();
             return Expect.waitForSpyCall(test.successSpy, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expectSetTransaction(test.router, resSuccess);
           });
       });
-      itp('sets the transaction error on the appState on error response', function () {
+      itp('sets the transaction error on the appState on error response', function() {
         return setupYubikey()
-          .then(function (test) {
+          .then(function(test) {
             mockTransactions(test.router.controller);
             test.setNextResponse(resInvalid);
             test.form.setAnswer('wrong');
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expectSetTransactionError(test.router, resInvalid);
           });
       });
     });
 
-    Expect.describe('SMS', function () {
+    Expect.describe('SMS', function() {
       testSms(setupSMS, resChallengeSms, resSuccess, 'testStateToken');
     });
 
-    Expect.describe('Call', function () {
+    Expect.describe('Call', function() {
       testCall(setupCall, resChallengeCall, resSuccess, 'testStateToken');
     });
 
-    Expect.describe('Okta Push', function () {
+    Expect.describe('Okta Push', function() {
       // Remember device for Push form exists out of the form.
-      function getRememberDeviceForPushForm (test) {
+      function getRememberDeviceForPushForm(test) {
         const rememberDevice = test.router.controller.$('[data-se="o-form-input-rememberDevice"]');
         const checkbox = rememberDevice.find(':checkbox');
 
         return checkbox;
       }
-      function setRememberDeviceForPushForm (test, val) {
+      function setRememberDeviceForPushForm(test, val) {
         const checkbox = getRememberDeviceForPushForm(test);
 
         checkbox.prop('checked', val);
         checkbox.trigger('change');
       }
-      function getAutoPushCheckbox (test) {
+      function getAutoPushCheckbox(test) {
         const autoPush = test.router.controller.$('[data-se="o-form-input-autoPush"]');
         const checkbox = autoPush.find(':checkbox');
 
         return checkbox;
       }
-      function setAutoPushCheckbox (test, val) {
+      function setAutoPushCheckbox(test, val) {
         const checkbox = getAutoPushCheckbox(test);
 
         checkbox.prop('checked', val);
         checkbox.trigger('change');
       }
-      function getAutoPushLabel (test) {
+      function getAutoPushLabel(test) {
         const autoPush = test.router.controller.$('[data-se="o-form-input-autoPush"]');
         const autoPushLabel = autoPush.find('Label').text();
 
         return autoPushLabel;
       }
-      itp('has push without totp when totp is not in the factors list', function () {
-        return setupOktaPushWithRefreshAuth().then(function (test) {
+      itp('has push without totp when totp is not in the factors list', function() {
+        return setupOktaPushWithRefreshAuth().then(function(test) {
           expect(test.form.isPush()).toBe(true);
         });
       });
-      itp('has push and an inline totp form when totp is available', function () {
-        return setupOktaPushWithTOTP().then(function (test) {
+      itp('has push and an inline totp form when totp is available', function() {
+        return setupOktaPushWithTOTP().then(function(test) {
           expect(test.form[0].isPush()).toBe(true);
           expect(test.form[1].isInlineTOTP()).toBe(true);
         });
       });
-      itp('shows the right beacon', function () {
-        return setupOktaPush().then(function (test) {
+      itp('shows the right beacon', function() {
+        return setupOktaPush().then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-okta-verify');
         });
       });
-      itp('has remember device checkbox', function () {
-        return setupOktaPush().then(function (test) {
+      itp('has remember device checkbox', function() {
+        return setupOktaPush().then(function(test) {
           Expect.isVisible(getRememberDeviceForPushForm(test));
         });
       });
 
-      Expect.describe('Auto Push', function () {
-        itp('has auto push checkbox', function () {
-          return setupOktaPush({ 'features.autoPush': true }).then(function (test) {
+      Expect.describe('Auto Push', function() {
+        itp('has auto push checkbox', function() {
+          return setupOktaPush({ 'features.autoPush': true }).then(function(test) {
             Expect.isVisible(getAutoPushCheckbox(test));
           });
         });
-        itp('auto push has the right text', function () {
-          return setupOktaPush({ 'features.autoPush': true }).then(function (test) {
+        itp('auto push has the right text', function() {
+          return setupOktaPush({ 'features.autoPush': true }).then(function(test) {
             expect(getAutoPushLabel(test)).toEqual('Send push automatically');
           });
         });
-        itp('has no auto push checkbox when feature is off', function () {
-          return setupOktaPush({ 'features.autoPush': false }).then(function (test) {
+        itp('has no auto push checkbox when feature is off', function() {
+          return setupOktaPush({ 'features.autoPush': false }).then(function(test) {
             expect(getAutoPushCheckbox(test).length).toBe(0);
           });
         });
       });
-      Expect.describe('Push', function () {
-        itp('shows a title that includes the device name', function () {
-          return setupOktaPushWithIntrospect().then(function (test) {
+      Expect.describe('Push', function() {
+        itp('shows a title that includes the device name', function() {
+          return setupOktaPushWithIntrospect().then(function(test) {
             expect(test.form.titleText()).toBe('Okta Verify (Test iPhone)');
           });
         });
-        itp('calls authClient verifyFactor with correct args when submitted', function () {
+        itp('calls authClient verifyFactor with correct args when submitted', function() {
           return setupOktaPushWithIntrospect()
-            .then(function (test) {
+            .then(function(test) {
               Util.resetAjaxRequests();
               setRememberDeviceForPushForm(test, true);
               test.setNextResponse(resSuccess);
               test.form.submit();
-              return Expect.wait(function () {
+              return Expect.wait(function() {
                 return Util.numAjaxRequests() > 0;
               }, test);
             })
-            .then(function () {
+            .then(function() {
               expect(Util.numAjaxRequests()).toBe(1);
               Expect.isJsonPost(Util.getAjaxRequest(0), {
                 url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?rememberDevice=true',
@@ -2808,18 +2808,18 @@ Expect.describe('MFA Verify', function () {
               });
             });
         });
-        itp('calls authClient verifyFactor with correct args when autoPush is checked', function () {
+        itp('calls authClient verifyFactor with correct args when autoPush is checked', function() {
           return setupOktaPushWithRefreshAuth({ 'features.autoPush': true })
-            .then(function (test) {
+            .then(function(test) {
               Util.resetAjaxRequests();
               setAutoPushCheckbox(test, true);
               test.setNextResponse(resSuccess);
               test.form.submit();
-              return Expect.wait(function () {
+              return Expect.wait(function() {
                 return Util.numAjaxRequests() > 0;
               }, test);
             })
-            .then(function () {
+            .then(function() {
               expect(Util.numAjaxRequests()).toBe(1);
               Expect.isJsonPost(Util.getAjaxRequest(0), {
                 url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify' +
@@ -2830,18 +2830,18 @@ Expect.describe('MFA Verify', function () {
               });
             });
         });
-        itp('calls authClient verifyFactor with correct args when autoPush is not checked', function () {
+        itp('calls authClient verifyFactor with correct args when autoPush is not checked', function() {
           return setupOktaPushWithRefreshAuth({ 'features.autoPush': true })
-            .then(function (test) {
+            .then(function(test) {
               Util.resetAjaxRequests();
               setAutoPushCheckbox(test, false);
               test.setNextResponse(resSuccess);
               test.form.submit();
-              return Expect.wait(function () {
+              return Expect.wait(function() {
                 return Util.numAjaxRequests() > 0;
               }, test);
             })
-            .then(function () {
+            .then(function() {
               expect(Util.numAjaxRequests()).toBe(1);
               Expect.isJsonPost(Util.getAjaxRequest(0), {
                 url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify' +
@@ -2852,11 +2852,11 @@ Expect.describe('MFA Verify', function () {
               });
             });
         });
-        Expect.describe('polling', function () {
-          itp('will pass rememberMe on the first request', function () {
-            return setupOktaPush().then(function (test) {
+        Expect.describe('polling', function() {
+          itp('will pass rememberMe on the first request', function() {
+            return setupOktaPush().then(function(test) {
               setRememberDeviceForPushForm(test, true);
-              return setupPolling(test, resSuccess).then(function () {
+              return setupPolling(test, resSuccess).then(function() {
                 expect(Util.numAjaxRequests()).toBe(3);
                 // initial verifyFactor call
                 Expect.isJsonPost(Util.getAjaxRequest(0), {
@@ -2884,10 +2884,10 @@ Expect.describe('MFA Verify', function () {
               });
             });
           });
-          itp('will pass autoPush as true if checkbox checked during polling', function () {
-            return setupOktaPush({ 'features.autoPush': true }).then(function (test) {
+          itp('will pass autoPush as true if checkbox checked during polling', function() {
+            return setupOktaPush({ 'features.autoPush': true }).then(function(test) {
               setAutoPushCheckbox(test, true);
-              return setupPolling(test, resSuccess).then(function () {
+              return setupPolling(test, resSuccess).then(function() {
                 expect(Util.numAjaxRequests()).toBe(3);
                 // initial verifyFactor call
                 Expect.isJsonPost(Util.getAjaxRequest(0), {
@@ -2918,10 +2918,10 @@ Expect.describe('MFA Verify', function () {
               });
             });
           });
-          itp('will pass autoPush as false if checkbox unchecked during polling', function () {
-            return setupOktaPush({ 'features.autoPush': true }).then(function (test) {
+          itp('will pass autoPush as false if checkbox unchecked during polling', function() {
+            return setupOktaPush({ 'features.autoPush': true }).then(function(test) {
               setAutoPushCheckbox(test, false);
-              return setupPolling(test, resSuccess).then(function () {
+              return setupPolling(test, resSuccess).then(function() {
                 expect(Util.numAjaxRequests()).toBe(3);
                 // initial verifyFactor call
                 Expect.isJsonPost(Util.getAjaxRequest(0), {
@@ -2952,11 +2952,11 @@ Expect.describe('MFA Verify', function () {
               });
             });
           });
-          itp('will pass rememberDevice as true if checkbox checked during polling', function () {
-            return setupOktaPush({ 'features.autoPush': true }).then(function (test) {
+          itp('will pass rememberDevice as true if checkbox checked during polling', function() {
+            return setupOktaPush({ 'features.autoPush': true }).then(function(test) {
               setAutoPushCheckbox(test, true);
               setRememberDeviceForPushForm(test, true);
-              return setupPolling(test, resSuccess).then(function () {
+              return setupPolling(test, resSuccess).then(function() {
                 expect(Util.numAjaxRequests()).toBe(3);
                 // initial verifyFactor call
                 Expect.isJsonPost(Util.getAjaxRequest(0), {
@@ -2987,11 +2987,11 @@ Expect.describe('MFA Verify', function () {
               });
             });
           });
-          itp('will pass rememberDevice as true if checkbox checked during polling and autoPush is false', function () {
-            return setupOktaPush({ 'features.autoPush': true }).then(function (test) {
+          itp('will pass rememberDevice as true if checkbox checked during polling and autoPush is false', function() {
+            return setupOktaPush({ 'features.autoPush': true }).then(function(test) {
               setAutoPushCheckbox(test, false);
               setRememberDeviceForPushForm(test, true);
-              return setupPolling(test, resSuccess).then(function () {
+              return setupPolling(test, resSuccess).then(function() {
                 expect(Util.numAjaxRequests()).toBe(3);
                 // initial verifyFactor call
                 Expect.isJsonPost(Util.getAjaxRequest(0), {
@@ -3022,26 +3022,26 @@ Expect.describe('MFA Verify', function () {
               });
             });
           });
-          itp('will disable form submit', function () {
-            return setupOktaPush().then(function (test) {
+          itp('will disable form submit', function() {
+            return setupOktaPush().then(function(test) {
               return setupPolling(test, resSuccess)
-                .then(function () {
+                .then(function() {
                   expect(test.form.submitButton().attr('class')).toMatch('link-button-disabled');
                   expect(test.form.submitButton().prop('disabled')).toBe(true);
                   Util.resetAjaxRequests();
                   test.form.submit();
                   return tick(test); // Final tick - SUCCESS
                 })
-                .then(function () {
+                .then(function() {
                   expect(Util.numAjaxRequests()).toBe(0);
                 });
             });
           });
-          itp('on SUCCESS, sets transaction, polling stops and form is submitted', function () {
-            return setupOktaPush().then(function (test) {
+          itp('on SUCCESS, sets transaction, polling stops and form is submitted', function() {
+            return setupOktaPush().then(function(test) {
               spyOn(test.router.controller.model, 'setTransaction').and.callThrough();
               spyOn(test.router.settings, 'callGlobalSuccess');
-              return setupPolling(test, resSuccess).then(function () {
+              return setupPolling(test, resSuccess).then(function() {
                 expect(test.router.settings.callGlobalSuccess).toHaveBeenCalled();
                 // One after first poll returns and one after polling finished.
                 const calls = test.router.controller.model.setTransaction.calls;
@@ -3052,24 +3052,24 @@ Expect.describe('MFA Verify', function () {
               });
             });
           });
-          itp('sets transaction state to MFA_CHALLENGE before poll', function () {
-            return setupOktaPushWithIntrospect().then(function (test) {
+          itp('sets transaction state to MFA_CHALLENGE before poll', function() {
+            return setupOktaPushWithIntrospect().then(function(test) {
               Util.resetAjaxRequests();
               test.setNextResponse(resChallengePush);
               test.form.submit();
-              return Expect.wait(function () {
+              return Expect.wait(function() {
                 return test.router.controller.model.appState.get('transaction').status === 'MFA_CHALLENGE';
               });
             });
           });
-          itp('starts poll after a delay of 4000ms', function () {
+          itp('starts poll after a delay of 4000ms', function() {
             let callAfterTimeoutStub;
 
             return setupOktaPushWithIntrospect()
-              .then(function (test) {
-                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function (pullPromiseResolver) {
+              .then(function(test) {
+                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function(pullPromiseResolver) {
                   // setup a deterministic callAfterTimeout stub
-                  callAfterTimeoutStub = function () {
+                  callAfterTimeoutStub = function() {
                     pullPromiseResolver();
                   };
                 });
@@ -3083,7 +3083,7 @@ Expect.describe('MFA Verify', function () {
                 // wait for callAfterTimeout to be called at `models/Factor#save`
                 return Expect.waitForSpyCall(LoginUtil.callAfterTimeout, test);
               })
-              .then(function (test) {
+              .then(function(test) {
                 expect(LoginUtil.callAfterTimeout.calls.argsFor(0)[1]).toBe(4000);
                 expect(test.router.controller.model.appState.get('transaction').status).toBe('MFA_CHALLENGE');
                 const transaction = test.router.controller.model.appState.get('transaction');
@@ -3093,7 +3093,7 @@ Expect.describe('MFA Verify', function () {
                 callAfterTimeoutStub();
                 return Expect.waitForSpyCall(transaction.poll, transaction);
               })
-              .then(function (transaction) {
+              .then(function(transaction) {
                 expect(transaction.poll.calls.count()).toBe(1);
                 expect(transaction.poll).toHaveBeenCalledWith({
                   delay: 4000,
@@ -3101,21 +3101,21 @@ Expect.describe('MFA Verify', function () {
                 });
               });
           });
-          itp('does not start polling if factor was switched before the initial poll delay', function () {
+          itp('does not start polling if factor was switched before the initial poll delay', function() {
             return setupOktaPushWithTOTP()
-              .then(function (test) {
-                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function () {
+              .then(function(test) {
+                spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
                   // reducing the timeout to 100 so that test is fast.
                   return setTimeout(arguments[0], 100);
                 });
                 Util.resetAjaxRequests();
                 test.setNextResponse([resChallengePush, resAllFactors, resInvalid]);
                 test.form[0].submit();
-                return Expect.wait(function () {
+                return Expect.wait(function() {
                   return test.router.controller.model.appState.get('transaction').status === 'MFA_CHALLENGE';
                 }, test);
               })
-              .then(function (test) {
+              .then(function(test) {
                 const deferred = Q.defer();
 
                 expect(test.router.controller.model.appState.get('transaction').status).toBe('MFA_CHALLENGE');
@@ -3126,38 +3126,38 @@ Expect.describe('MFA Verify', function () {
                 clickFactorInDropdown(test, 'DUO');
                 expect(test.router.controller.model.appState.trigger).toHaveBeenCalledWith('factorSwitched');
                 setTimeout(deferred.resolve, 150);
-                return deferred.promise.then(function () {
+                return deferred.promise.then(function() {
                   expect(transaction.poll).not.toHaveBeenCalled();
                 });
               });
           });
-          itp('stops listening on factorSwitched when we start polling', function () {
-            spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function () {
+          itp('stops listening on factorSwitched when we start polling', function() {
+            spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
               return setTimeout(arguments[0]);
             });
             let stopListening;
             let appState;
 
             return setupOktaPushWithIntrospect()
-              .then(function (test) {
+              .then(function(test) {
                 appState = test.router.controller.model.appState;
                 stopListening = spyOn(test.router.controller.model, 'stopListening').and.callThrough();
                 test.setNextResponse([resChallengePush, resInvalid]);
                 test.form.submit();
                 expect(test.form.submitButton().prop('disabled')).toBe(true);
-                return Expect.wait(function () {
+                return Expect.wait(function() {
                   return stopListening.calls.count() > 0;
                 }, test);
               })
-              .then(function (test) {
+              .then(function(test) {
                 expect(stopListening).toHaveBeenCalledWith(appState, 'factorSwitched');
               });
           });
-          itp('on REJECTED, re-enables submit, displays an error, and allows resending', function () {
-            return setupOktaPush().then(function (test) {
+          itp('on REJECTED, re-enables submit, displays an error, and allows resending', function() {
+            return setupOktaPush().then(function(test) {
               return (setupPolling(test, resRejectedPush)
               // Final response - REJECTED
-                .then(function (test) {
+                .then(function(test) {
                   expect(test.form.errorMessage()).toBe('You have chosen to reject this login.');
                   expect(test.form.submitButton().prop('disabled')).toBe(false);
 
@@ -3178,7 +3178,7 @@ Expect.describe('MFA Verify', function () {
                       return Expect.waitForAjaxRequests(3, test); // 3: resSuccess
                     });
                 })
-                .then(function () {
+                .then(function() {
                   expect(Util.numAjaxRequests()).toBe(3);
 
                   // initial resendByName call
@@ -3209,11 +3209,11 @@ Expect.describe('MFA Verify', function () {
           });
           itp(
             'on REJECTED requiring app upgrade on ios, re-enables submit, displays an error, and allows resending',
-            function () {
-              return setupOktaPush().then(function (test) {
+            function() {
+              return setupOktaPush().then(function(test) {
                 return (setupPolling(test, resRejectedPushAppUpgrade)
                 // Final response - REJECTED - requires app upgrade
-                  .then(function (test) {
+                  .then(function(test) {
                     expect(test.form.errorMessage()).toBe(
                       'Verification failed because your Okta Verify version is no longer supported. To sign in, please update Okta Verify on the App Store, then try again.'
                     );
@@ -3226,7 +3226,7 @@ Expect.describe('MFA Verify', function () {
                     // Click submit
                     test.form.submit();
                   })
-                  .then(function () {
+                  .then(function() {
                     return Expect.waitForAjaxRequests(1, test) // 1: resChallengePush
                       .then(() => {
                         Util.callAllTimeouts();
@@ -3237,7 +3237,7 @@ Expect.describe('MFA Verify', function () {
                         return Expect.waitForAjaxRequests(3, test); // 3: resSuccess
                       });
                   })
-                  .then(function () {
+                  .then(function() {
                     expect(Util.numAjaxRequests()).toBe(3);
 
                     // initial resendByName call
@@ -3269,16 +3269,16 @@ Expect.describe('MFA Verify', function () {
           );
           itp(
             'on REJECTED requiring app upgrade on android, re-enables submit, displays an error, and allows resending',
-            function () {
+            function() {
               const resRejectedPushAppUpgradeAndroid = deepClone(resRejectedPushAppUpgrade);
               resRejectedPushAppUpgradeAndroid.response._embedded.factor.profile.platform = 'ANDROID';
-              return setupOktaPush().then(function (test) {
+              return setupOktaPush().then(function(test) {
                 // setting the platform as android in intial poll response too.
                 const resChallengePushAndroid = deepClone(resChallengePush);
                 resChallengePushAndroid.response._embedded.factor.profile.platform = 'ANDROID';
                 return (setupPolling(test, resRejectedPushAppUpgradeAndroid, resChallengePushAndroid)
                 // Final response - REJECTED - requires app upgrade
-                  .then(function (test) {
+                  .then(function(test) {
                     expect(test.form.errorMessage()).toBe(
                       'Verification failed because your Okta Verify version is no longer supported. To sign in, please update Okta Verify on Google Play, then try again.'
                     );
@@ -3291,7 +3291,7 @@ Expect.describe('MFA Verify', function () {
                     // Click submit
                     test.form.submit();
                   })
-                  .then(function () {
+                  .then(function() {
                     return Expect.waitForAjaxRequests(1, test) // 1: resChallengePush
                       .then(() => {
                         Util.callAllTimeouts();
@@ -3302,7 +3302,7 @@ Expect.describe('MFA Verify', function () {
                         return Expect.waitForAjaxRequests(3, test); // 3: resSuccess
                       });
                   })
-                  .then(function () {
+                  .then(function() {
                     expect(Util.numAjaxRequests()).toBe(3);
 
                     // initial resendByName call
@@ -3332,20 +3332,20 @@ Expect.describe('MFA Verify', function () {
               });
             }
           );
-          itp('on TIMEOUT, re-enables submit, displays an error, and allows resending', function () {
-            return setupOktaPush().then(function (test) {
+          itp('on TIMEOUT, re-enables submit, displays an error, and allows resending', function() {
+            return setupOktaPush().then(function(test) {
               return (setupPolling(test, resTimeoutPush)
               // Final response - TIMEOUT
-                .then(function (test) {
+                .then(function(test) {
                   expect(test.form.errorMessage()).toBe('Your push notification has expired.');
                   expect(test.form.submitButton().prop('disabled')).toBe(false);
                 }) );
             });
           });
-          itp('re-enables submit and displays an error when request fails', function () {
-            function setupFailurePolling (test) {
+          itp('re-enables submit and displays an error when request fails', function() {
+            function setupFailurePolling(test) {
               // This is to reduce delay before initiating polling in the tests.
-              spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function () {
+              spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
                 return setTimeout(arguments[0]);
               });
               const failureResponse = { status: 0, response: {} };
@@ -3395,12 +3395,12 @@ Expect.describe('MFA Verify', function () {
                   return Expect.waitForFormError(test.form, test);
                 });
             }
-            return setupOktaPushWithIntrospect().then(function (test) {
+            return setupOktaPushWithIntrospect().then(function(test) {
               spyOn(test.router.settings, 'callGlobalError');
               Q.stopUnhandledRejectionTracking();
               return (setupFailurePolling(test)
               // Final response - failed
-                .then(function (test) {
+                .then(function(test) {
                   expect(test.form.errorMessage()).toBe(
                     'Unable to connect to the server. Please check your network connection.'
                   );
@@ -3408,9 +3408,9 @@ Expect.describe('MFA Verify', function () {
                 }) );
             });
           });
-          itp('on WARNING_TIMEOUT, shows warning message', function () {
-            return setupOktaPush().then(function (test) {
-              return setupPolling(test, resSuccess).then(function (test) {
+          itp('on WARNING_TIMEOUT, shows warning message', function() {
+            return setupOktaPush().then(function(test) {
+              return setupPolling(test, resSuccess).then(function(test) {
                 expect(test.form.warningMessage()).toBe(
                   'Haven\'t received a push notification yet? Try opening the Okta Verify App on your phone.'
                 );
@@ -3418,9 +3418,9 @@ Expect.describe('MFA Verify', function () {
               });
             });
           });
-          itp('removes warnings and displays error when an error occurs', function () {
-            function setupFailurePolling (test) {
-              spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function () {
+          itp('removes warnings and displays error when an error occurs', function() {
+            function setupFailurePolling(test) {
+              spyOn(LoginUtil, 'callAfterTimeout').and.callFake(function() {
                 return setTimeout(arguments[0]);
               });
               const failureResponse = { status: 0, response: {} };
@@ -3463,16 +3463,16 @@ Expect.describe('MFA Verify', function () {
                   return Expect.waitForAjaxRequests(7, test); // 7: failureResponse
                 })
                 .then(() => {
-                  return Expect.wait(function () {
+                  return Expect.wait(function() {
                     return test.form.hasWarningMessage();
                   }, test);
                 });
             }
-            return setupOktaPushWithIntrospect().then(function (test) {
+            return setupOktaPushWithIntrospect().then(function(test) {
               spyOn(test.router.settings, 'callGlobalError');
               Q.stopUnhandledRejectionTracking();
               return setupFailurePolling(test)
-                .then(function (test) {
+                .then(function(test) {
                   expect(test.form.submitButton().prop('disabled')).toBe(true);
                   expect(test.form.submitButtonText()).toBe('Push sent!');
                   expect(test.form.$('.accessibility-text').text().trim()).toBe('Push sent!');
@@ -3482,7 +3482,7 @@ Expect.describe('MFA Verify', function () {
                   Util.callAllTimeouts();
                   return Expect.waitForFormError(test.form, test);
                 })
-                .then(function (test) {
+                .then(function(test) {
                   expect(test.form.errorMessage()).toBe(
                     'Unable to connect to the server. Please check your network connection.'
                   );
@@ -3493,15 +3493,15 @@ Expect.describe('MFA Verify', function () {
           });
         });
       });
-      Expect.describe('TOTP', function () {
-        itp('has a link to enter code', function () {
-          return setupOktaPushWithTOTP().then(function (test) {
+      Expect.describe('TOTP', function() {
+        itp('has a link to enter code', function() {
+          return setupOktaPushWithTOTP().then(function(test) {
             Expect.isLink(test.form[1].inlineTOTPAdd());
             expect(test.form[1].inlineTOTPAddText()).toEqual('Or enter code');
           });
         });
-        itp('removes link when clicking it and replaces with totp form', function () {
-          return setupOktaPushWithTOTP().then(function (test) {
+        itp('removes link when clicking it and replaces with totp form', function() {
+          return setupOktaPushWithTOTP().then(function(test) {
             const form = test.form[1];
 
             form.inlineTOTPAdd().click();
@@ -3511,19 +3511,19 @@ Expect.describe('MFA Verify', function () {
             expect(test.form[1].inlineTOTPVerifyText()).toEqual('Verify');
           });
         });
-        itp('calls authClient verifyFactor with correct args when submitted', function () {
+        itp('calls authClient verifyFactor with correct args when submitted', function() {
           return setupOktaPushWithTOTP()
-            .then(function (test) {
+            .then(function(test) {
               Util.resetAjaxRequests();
               test.form[1].inlineTOTPAdd().click();
               test.form[1].setAnswer('654321');
               test.setNextResponse(resSuccess);
               test.form[1].inlineTOTPVerify().click();
-              return Expect.wait(function () {
+              return Expect.wait(function() {
                 return Util.numAjaxRequests() > 0;
               }, test);
             })
-            .then(function () {
+            .then(function() {
               expect(Util.numAjaxRequests()).toBe(1);
               Expect.isJsonPost(Util.getAjaxRequest(0), {
                 url: 'https://foo.com/api/v1/authn/factors/osthw62MEvG6YFuHe0g3/verify?rememberDevice=false',
@@ -3534,27 +3534,27 @@ Expect.describe('MFA Verify', function () {
               });
             });
         });
-        itp('clears any errors from push when submitting inline totp', function () {
+        itp('clears any errors from push when submitting inline totp', function() {
           return setupOktaPushWithTOTP()
-            .then(function (test) {
+            .then(function(test) {
               const pushForm = test.form[0];
               const inlineForm = test.form[1];
 
               return (setupPolling(test, resRejectedPush)
-                .then(function () {
-                  return Expect.wait(function () {
+                .then(function() {
+                  return Expect.wait(function() {
                     return Util.numAjaxRequests() === 3;
                   }, test);
                 })
               // Final response - REJECTED
-                .then(function () {
+                .then(function() {
                   return Expect.waitForFormError(pushForm, {
                     test: test,
                     inlineForm: inlineForm,
                   });
                 }) );
             })
-            .then(function (res) {
+            .then(function(res) {
               expect(res.test.form.errorMessage()).toBe('You have chosen to reject this login.');
               res.inlineForm.inlineTOTPAdd().click();
               res.inlineForm.setAnswer('654321');
@@ -3562,24 +3562,24 @@ Expect.describe('MFA Verify', function () {
               res.inlineForm.inlineTOTPVerify().click();
               return Expect.waitForSpyCall(res.test.successSpy, res.test);
             })
-            .then(function (test) {
+            .then(function(test) {
               expect(test.form.hasErrors()).toBe(false);
             });
         });
-        itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+        itp('calls authClient verifyFactor with rememberDevice URL param', function() {
           return setupOktaPushWithTOTP()
-            .then(function (test) {
+            .then(function(test) {
               Util.resetAjaxRequests();
               test.form[1].inlineTOTPAdd().click();
               test.form[1].setAnswer('654321');
               setRememberDeviceForPushForm(test, true);
               test.setNextResponse(resSuccess);
               test.form[1].inlineTOTPVerify().click();
-              return Expect.wait(function () {
+              return Expect.wait(function() {
                 return Util.numAjaxRequests() > 0;
               }, test);
             })
-            .then(function () {
+            .then(function() {
               expect(Util.numAjaxRequests()).toBe(1);
               Expect.isJsonPost(Util.getAjaxRequest(0), {
                 url: 'https://foo.com/api/v1/authn/factors/osthw62MEvG6YFuHe0g3/verify?rememberDevice=true',
@@ -3590,9 +3590,9 @@ Expect.describe('MFA Verify', function () {
               });
             });
         });
-        itp('shows an error if error response from authClient', function () {
+        itp('shows an error if error response from authClient', function() {
           return setupOktaPushWithTOTP()
-            .then(function (test) {
+            .then(function(test) {
               const form = test.form[1];
 
               form.inlineTOTPAdd().click();
@@ -3600,18 +3600,18 @@ Expect.describe('MFA Verify', function () {
               test.setNextResponse(resInvalidTotp);
               form.setAnswer('wrong');
               form.inlineTOTPVerify().click();
-              return Expect.wait(function () {
+              return Expect.wait(function() {
                 return form.hasErrors();
               }, form);
             })
-            .then(function (form) {
+            .then(function(form) {
               expect(form.hasErrors()).toBe(true);
               expect(form.errorMessage()).toBe('Invalid Passcode/Answer');
             });
         });
-        itp('shows errors if verify button is clicked and answer is empty', function () {
+        itp('shows errors if verify button is clicked and answer is empty', function() {
           return setupOktaPushWithTOTP()
-            .then(function (test) {
+            .then(function(test) {
               const form = test.form[1];
 
               Util.resetAjaxRequests();
@@ -3619,15 +3619,15 @@ Expect.describe('MFA Verify', function () {
               form.inlineTOTPVerify().click();
               return Expect.waitForFormError(form, form);
             })
-            .then(function (form) {
+            .then(function(form) {
               expect(Util.numAjaxRequests()).toBe(0);
               expect(form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
               expect(form.passCodeErrorField().text()).toBe('This field cannot be left blank');
             });
         });
-        itp('clears previous error when submitting empty totp', function () {
+        itp('clears previous error when submitting empty totp', function() {
           return setupOktaPushWithTOTP()
-            .then(function (test) {
+            .then(function(test) {
               const form = test.form[1];
 
               form.inlineTOTPAdd().click();
@@ -3637,7 +3637,7 @@ Expect.describe('MFA Verify', function () {
               form.inlineTOTPVerify().click();
               return Expect.waitForFormError(form, form);
             })
-            .then(function (form) {
+            .then(function(form) {
               form.setAnswer('');
               // clicks are throttled with 100ms.
               // _.thrrottle cannot be mocked by jasmine.clock.tick
@@ -3645,37 +3645,37 @@ Expect.describe('MFA Verify', function () {
               setTimeout(() => {
                 form.inlineTOTPVerify().click();
               }, 100);
-              return Expect.wait(function () {
+              return Expect.wait(function() {
                 // Not waiting for form error but rather wait for a specific error to differentiate
                 // between two errors.
                 return form.errorMessage() === 'We found some errors. Please review the form and make corrections.';
               }, form);
             })
-            .then(function (form) {
+            .then(function(form) {
               expect(form.getErrors().length).toBe(1);
             });
         });
-        itp('sets the transaction on the appState on success response', function () {
+        itp('sets the transaction on the appState on success response', function() {
           return setupOktaPushWithTOTP()
-            .then(function (test) {
+            .then(function(test) {
               mockTransactions(test.router.controller, true);
               test.form[1].inlineTOTPAdd().click();
               test.form[1].setAnswer('654321');
               test.setNextResponse(resSuccess);
               test.form[1].inlineTOTPVerify().click();
-              return Expect.wait(function () {
+              return Expect.wait(function() {
                 const model = test.router.controller.model.get('backupFactor');
 
                 return model.setTransaction.calls.count() > 0;
               }, test);
             })
-            .then(function (test) {
+            .then(function(test) {
               expectSetTransaction(test.router, resSuccess, true);
             });
         });
-        itp('sets the transaction error on the appState on error response', function () {
+        itp('sets the transaction error on the appState on error response', function() {
           return setupOktaPushWithTOTP()
-            .then(function (test) {
+            .then(function(test) {
               mockTransactions(test.router.controller, true);
               Q.stopUnhandledRejectionTracking();
               test.setNextResponse(resInvalidTotp);
@@ -3684,49 +3684,49 @@ Expect.describe('MFA Verify', function () {
               form.inlineTOTPAdd().click();
               form.setAnswer('wrong');
               form.inlineTOTPVerify().click();
-              return Expect.wait(function () {
+              return Expect.wait(function() {
                 const model = test.router.controller.model.get('backupFactor');
 
-                return model.trigger.calls.allArgs().filter(function (a) {
+                return model.trigger.calls.allArgs().filter(function(a) {
                   return a.length && a[0] === 'setTransactionError';
                 }).length;
               }, test);
             })
-            .then(function (test) {
+            .then(function(test) {
               expectSetTransactionError(test.router, resInvalidTotp, true);
             });
         });
       });
     });
 
-    Expect.describe('Duo', function () {
-      itp('is duo', function () {
-        return setupDuo().then(function (test) {
+    Expect.describe('Duo', function() {
+      itp('is duo', function() {
+        return setupDuo().then(function(test) {
           expect(test.form.isDuo()).toBe(true);
         });
       });
-      itp('shows the right beacon', function () {
-        return setupDuo().then(function (test) {
+      itp('shows the right beacon', function() {
+        return setupDuo().then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-duo');
         });
       });
-      itp('shows the right title', function () {
-        return setupDuo().then(function (test) {
+      itp('shows the right title', function() {
+        return setupDuo().then(function(test) {
           expectTitleToBe(test, 'Duo Security');
         });
       });
-      itp('iframe has title', function () {
-        return setupDuo().then(function (test) {
+      itp('iframe has title', function() {
+        return setupDuo().then(function(test) {
           expect(test.form.$('iframe').attr('title')).toBe(test.form.titleText());
         });
       });
-      itp('has remember device checkbox', function () {
-        return setupDuo().then(function (test) {
+      itp('has remember device checkbox', function() {
+        return setupDuo().then(function(test) {
           Expect.isVisible(test.form.rememberDeviceCheckbox());
         });
       });
-      itp('makes the right init request', function () {
-        return setupDuo().then(function () {
+      itp('makes the right init request', function() {
+        return setupDuo().then(function() {
           expect(Util.numAjaxRequests()).toBe(2);
           Expect.isJsonPost(Util.getAjaxRequest(1), {
             url: 'https://foo.com/api/v1/authn/factors/ost947vv5GOSPjt9C0g4/verify?rememberDevice=false',
@@ -3736,24 +3736,24 @@ Expect.describe('MFA Verify', function () {
           });
         });
       });
-      itp('has a sign out link', function () {
-        return setupDuo().then(function (test) {
+      itp('has a sign out link', function() {
+        return setupDuo().then(function(test) {
           Expect.isVisible(test.form.signoutLink($sandbox));
         });
       });
-      itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function () {
-        return setupDuo({ 'features.hideSignOutLinkInMFA': true }).then(function (test) {
+      itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function() {
+        return setupDuo({ 'features.hideSignOutLinkInMFA': true }).then(function(test) {
           expect(test.form.signoutLink($sandbox).length).toBe(0);
         });
       });
-      itp('does not have sign out link if features.mfaOnlyFlow is true', function () {
-        return setupDuo({ 'features.mfaOnlyFlow': true }).then(function (test) {
+      itp('does not have sign out link if features.mfaOnlyFlow is true', function() {
+        return setupDuo({ 'features.mfaOnlyFlow': true }).then(function(test) {
           expect(test.form.signoutLink($sandbox).length).toBe(0);
         });
       });
-      itp('makes the correct request when rememberDevice is checked', function () {
+      itp('makes the correct request when rememberDevice is checked', function() {
         return setupDuo()
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.form.setRememberDevice(true);
             test.setNextResponse(resSuccess);
@@ -3768,7 +3768,7 @@ Expect.describe('MFA Verify', function () {
             postAction('someSignedResponse');
             return Expect.waitForSpyCall(test.successSpy, test);
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(2);
             Expect.isJsonPost(Util.getAjaxRequest(1), {
               url: 'https://foo.com/api/v1/authn/factors/ost947vv5GOSPjt9C0g4/verify?rememberDevice=true',
@@ -3778,8 +3778,8 @@ Expect.describe('MFA Verify', function () {
             });
           });
       });
-      itp('initializes duo correctly', function () {
-        return setupDuo().then(function (test) {
+      itp('initializes duo correctly', function() {
+        return setupDuo().then(function(test) {
           const initOptions = Duo.init.calls.mostRecent().args[0];
 
           expect(initOptions.host).toBe('api123443.duosecurity.com');
@@ -3788,9 +3788,9 @@ Expect.describe('MFA Verify', function () {
           expect(_.isFunction(initOptions.post_action)).toBe(true);
         });
       });
-      itp('notifies okta when duo is done, and completes verification', function () {
+      itp('notifies okta when duo is done, and completes verification', function() {
         return setupDuo()
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.setNextResponse(resSuccess);
             // Duo callback (returns an empty response)
@@ -3804,7 +3804,7 @@ Expect.describe('MFA Verify', function () {
             postAction('someSignedResponse');
             return Expect.waitForSpyCall(test.successSpy, test);
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(2);
             Expect.isFormPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors/ost947vv5GOSPjt9C0g4/verify/response',
@@ -3824,52 +3824,52 @@ Expect.describe('MFA Verify', function () {
       });
     });
 
-    Expect.describe('Windows Hello', function () {
-      itp('shows the right beacon for Windows Hello', function () {
-        return emulateNotWindows().then(setupWindowsHello).then(function (test) {
+    Expect.describe('Windows Hello', function() {
+      itp('shows the right beacon for Windows Hello', function() {
+        return emulateNotWindows().then(setupWindowsHello).then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-windows-hello');
         });
       });
 
-      itp('displays error message if not Windows', function () {
-        return emulateNotWindows().then(setupWindowsHello).then(function (test) {
+      itp('displays error message if not Windows', function() {
+        return emulateNotWindows().then(setupWindowsHello).then(function(test) {
           expect(test.form.el('o-form-error-html').length).toBe(1);
           expect(test.form.submitButton().length).toBe(0);
         });
       });
 
-      itp('does not display error message if Windows', function () {
-        return emulateWindows().then(setupWindowsHello).then(function (test) {
+      itp('does not display error message if Windows', function() {
+        return emulateWindows().then(setupWindowsHello).then(function(test) {
           expect(test.form.el('o-form-error-html').length).toBe(0);
           expect(test.form.submitButton().length).toBe(1);
         });
       });
 
-      itp('has a sign out link', function () {
-        return setupWindowsHello().then(function (test) {
+      itp('has a sign out link', function() {
+        return setupWindowsHello().then(function(test) {
           Expect.isVisible(test.form.signoutLink($sandbox));
         });
       });
-      itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function () {
-        return setupWindowsHello({ 'features.hideSignOutLinkInMFA': true }).then(function (test) {
+      itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function() {
+        return setupWindowsHello({ 'features.hideSignOutLinkInMFA': true }).then(function(test) {
           expect(test.form.signoutLink($sandbox).length).toBe(0);
         });
       });
-      itp('does not have sign out link if features.mfaOnlyFlow is true', function () {
-        return setupWindowsHello({ 'features.mfaOnlyFlow': true }).then(function (test) {
+      itp('does not have sign out link if features.mfaOnlyFlow is true', function() {
+        return setupWindowsHello({ 'features.mfaOnlyFlow': true }).then(function(test) {
           expect(test.form.signoutLink($sandbox).length).toBe(0);
         });
       });
 
-      itp('calls webauthn.getAssertion and verifies factor', function () {
+      itp('calls webauthn.getAssertion and verifies factor', function() {
         return emulateWindows()
           .then(setupWindowsHello)
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse([resChallengeWindowsHello, resSuccess]);
             test.form.submit();
             return Expect.waitForSpyCall(test.successSpy);
           })
-          .then(function () {
+          .then(function() {
             expect(webauthn.getAssertion).toHaveBeenCalledWith('NONCE', [{ id: 'credentialId' }]);
             expect(Util.numAjaxRequests()).toBe(3);
             Expect.isJsonPost(Util.getAjaxRequest(2), {
@@ -3884,29 +3884,29 @@ Expect.describe('MFA Verify', function () {
           });
       });
 
-      itp('does not show error if webauthn.getAssertion fails with AbortError', function () {
+      itp('does not show error if webauthn.getAssertion fails with AbortError', function() {
         return emulateWindows('AbortError')
           .then(setupWindowsHello)
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse(resChallengeWindowsHello);
             test.form.submit();
             return Expect.waitForSpyCall(webauthn.getAssertion, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(test.form.el('o-form-error-html').length).toBe(0);
             expect(Util.numAjaxRequests()).toBe(2);
           });
       });
 
-      itp('shows error if webauthn.getAssertion fails with NotSupportedError', function () {
+      itp('shows error if webauthn.getAssertion fails with NotSupportedError', function() {
         return emulateWindows('NotSupportedError')
           .then(setupWindowsHello)
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse(resChallengeWindowsHello);
             test.form.submit();
             return Expect.waitForFormErrorBox(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(webauthn.getAssertion.calls.count()).toBe(1);
             expect(test.form.errorBox().length).toBe(1);
             expect(test.form.errorBox().text().trim()).toBe(
@@ -3917,15 +3917,15 @@ Expect.describe('MFA Verify', function () {
           });
       });
 
-      itp('shows error if webauthn.getAssertion fails with NotFound', function () {
+      itp('shows error if webauthn.getAssertion fails with NotFound', function() {
         return emulateWindows('NotFoundError')
           .then(setupWindowsHello)
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse(resChallengeWindowsHello);
             test.form.submit();
             return Expect.waitForFormErrorBox(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(webauthn.getAssertion.calls.count()).toBe(1);
             expect(test.form.errorBox().length).toBe(1);
             expect(test.form.errorBox().text().trim()).toBe(
@@ -3936,10 +3936,10 @@ Expect.describe('MFA Verify', function () {
           });
       });
 
-      itp('subtitle changes after submitting the form', function () {
+      itp('subtitle changes after submitting the form', function() {
         return emulateWindows()
           .then(setupWindowsHello)
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse([resChallengeWindowsHello, resSuccess]);
             expect(test.form.subtitleText()).toBe('Verify your identity with Windows Hello');
             expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(false);
@@ -3951,23 +3951,23 @@ Expect.describe('MFA Verify', function () {
             spyOn(test.router.controller.model, 'trigger').and.callThrough();
             return Expect.waitForSpyCall(webauthn.getAssertion, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             return Expect.wait(() => {
               const allArgs = test.router.controller.model.trigger.calls.allArgs();
               const flattedArgs = Array.prototype.concat.apply([], allArgs);
               return flattedArgs.includes('sync') && flattedArgs.includes('signIn');
             }, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(test.form.subtitleText()).toBe('Signing in...');
             expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(true);
           });
       });
 
-      itp('subtitle changes after submitting the form to correct subtitle if config has a brandName', function () {
+      itp('subtitle changes after submitting the form to correct subtitle if config has a brandName', function() {
         return emulateWindows()
           .then(setupWindowsHelloWithBrandName)
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse([resChallengeWindowsHello, resSuccess]);
             expect(test.form.subtitleText()).toBe('Verify your identity with Windows Hello');
             expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(false);
@@ -3979,21 +3979,21 @@ Expect.describe('MFA Verify', function () {
             spyOn(test.router.controller.model, 'trigger').and.callThrough();
             return Expect.waitForSpyCall(webauthn.getAssertion, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             return Expect.wait(() => {
               const allArgs = test.router.controller.model.trigger.calls.allArgs();
               const flattedArgs = Array.prototype.concat.apply([], allArgs);
               return flattedArgs.includes('sync') && flattedArgs.includes('signIn');
             }, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(test.form.subtitleText()).toBe('Signing in to Spaghetti Inc....');
             expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(true);
           });
       });
 
-      itp('automatically triggers Windows Hello only once', function () {
-        return emulateWindows().then(setupWindowsHelloOnly).then(function (test) {
+      itp('automatically triggers Windows Hello only once', function() {
+        return emulateWindows().then(setupWindowsHelloOnly).then(function(test) {
           expect(test.router.controller.model.get('__autoTriggered__')).toBe(true);
           spyOn(test.router.controller.model, 'save');
           test.router.controller.postRender();
@@ -4002,23 +4002,23 @@ Expect.describe('MFA Verify', function () {
       });
     });
 
-    Expect.describe('Security Key (U2F)', function () {
-      itp('shows the right beacon for Security Key (U2F)', function () {
-        return setupU2F({ u2f: true }).then(function (test) {
+    Expect.describe('Security Key (U2F)', function() {
+      itp('shows the right beacon for Security Key (U2F)', function() {
+        return setupU2F({ u2f: true }).then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-u2f');
           return Expect.waitForSpyCall(window.u2f.sign);
         });
       });
 
-      itp('shows the right title', function () {
-        return setupU2F({ u2f: true }).then(function (test) {
+      itp('shows the right title', function() {
+        return setupU2F({ u2f: true }).then(function(test) {
           expectTitleToBe(test, 'Security Key (U2F)');
           return Expect.waitForSpyCall(window.u2f.sign);
         });
       });
 
-      itp('shows error if browser does not support u2f', function () {
-        return setupU2F({ u2f: false }).then(function (test) {
+      itp('shows error if browser does not support u2f', function() {
+        return setupU2F({ u2f: false }).then(function(test) {
           expect(test.form.el('o-form-error-html')).toHaveLength(1);
           expect(test.form.el('o-form-error-html').find('strong').html()).toEqual(
             'Security Key (U2F) is not supported on this browser. ' +
@@ -4027,8 +4027,8 @@ Expect.describe('MFA Verify', function () {
         });
       });
 
-      itp('shows error if browser does not support u2f and only one factor', function () {
-        return setupU2F({ u2f: false, nextResponse: resU2F }).then(function (test) {
+      itp('shows error if browser does not support u2f and only one factor', function() {
+        return setupU2F({ u2f: false, nextResponse: resU2F }).then(function(test) {
           expect(test.form.el('o-form-error-html')).toHaveLength(1);
           expect(test.form.el('o-form-error-html').find('strong').html()).toEqual(
             'Security Key (U2F) is not supported on this browser. Contact your admin for assistance.'
@@ -4036,43 +4036,43 @@ Expect.describe('MFA Verify', function () {
         });
       });
 
-      itp('does not show error if browser supports u2f', function () {
-        return setupU2F({ u2f: true }).then(function (test) {
+      itp('does not show error if browser supports u2f', function() {
+        return setupU2F({ u2f: true }).then(function(test) {
           expect(test.form.el('o-form-error-html')).toHaveLength(0);
         });
       });
 
-      itp('shows a spinner while waiting for u2f challenge', function () {
-        return setupU2F({ u2f: true }).then(function (test) {
+      itp('shows a spinner while waiting for u2f challenge', function() {
+        return setupU2F({ u2f: true }).then(function(test) {
           expect(test.form.el('u2f-waiting').length).toBe(1);
           return Expect.waitForSpyCall(window.u2f.sign);
         });
       });
 
-      itp('has remember device checkbox', function () {
-        return setupU2F({ u2f: true }).then(function (test) {
+      itp('has remember device checkbox', function() {
+        return setupU2F({ u2f: true }).then(function(test) {
           Expect.isVisible(test.form.rememberDeviceCheckbox());
         });
       });
 
-      itp('has a sign out link', function () {
-        return setupU2F({ u2f: true }).then(function (test) {
+      itp('has a sign out link', function() {
+        return setupU2F({ u2f: true }).then(function(test) {
           Expect.isVisible(test.form.signoutLink($sandbox));
         });
       });
-      itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function () {
-        return setupU2F({ u2f: true, settings: {'features.hideSignOutLinkInMFA': true} }).then(function (test) {
+      itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function() {
+        return setupU2F({ u2f: true, settings: {'features.hideSignOutLinkInMFA': true} }).then(function(test) {
           expect(test.form.signoutLink($sandbox).length).toBe(0);
         });
       });
-      itp('does not have sign out link if features.mfaOnlyFlow is true', function () {
-        return setupU2F({ u2f: true, settings: {'features.mfaOnlyFlow': true} }).then(function (test) {
+      itp('does not have sign out link if features.mfaOnlyFlow is true', function() {
+        return setupU2F({ u2f: true, settings: {'features.mfaOnlyFlow': true} }).then(function(test) {
           expect(test.form.signoutLink($sandbox).length).toBe(0);
         });
       });
 
-      itp('calls u2f.sign and verifies factor', function () {
-        const signStub = function (appId, nonce, registeredKeys, callback) {
+      itp('calls u2f.sign and verifies factor', function() {
+        const signStub = function(appId, nonce, registeredKeys, callback) {
           callback({
             keyHandle: 'someKeyHandle',
             clientData: 'someClientData',
@@ -4081,10 +4081,10 @@ Expect.describe('MFA Verify', function () {
         };
 
         return setupU2F({ u2f: true, signStub: signStub, res: resSuccess })
-          .then(function () {
+          .then(function() {
             return Expect.waitForSpyCall(window.u2f.sign);
           })
-          .then(function () {
+          .then(function() {
             window.u2f.tap();
             expect(window.u2f.sign).toHaveBeenCalledWith(
               'https://test.okta.com',
@@ -4104,8 +4104,8 @@ Expect.describe('MFA Verify', function () {
           });
       });
 
-      itp('calls u2f.sign and verifies factor when rememberDevice set to true', function () {
-        const signStub = function (appId, nonce, registeredKeys, callback) {
+      itp('calls u2f.sign and verifies factor when rememberDevice set to true', function() {
+        const signStub = function(appId, nonce, registeredKeys, callback) {
           callback({
             keyHandle: 'someKeyHandle',
             clientData: 'someClientData',
@@ -4114,11 +4114,11 @@ Expect.describe('MFA Verify', function () {
         };
 
         return setupU2F({ u2f: true, signStub: signStub, res: resSuccess })
-          .then(function (test) {
+          .then(function(test) {
             test.form.setRememberDevice(true);
             return Expect.waitForSpyCall(window.u2f.sign, test);
           })
-          .then(function () {
+          .then(function() {
             window.u2f.tap();
             expect(window.u2f.sign).toHaveBeenCalledWith(
               'https://test.okta.com',
@@ -4138,22 +4138,22 @@ Expect.describe('MFA Verify', function () {
           });
       });
 
-      itp('shows an error if u2f.sign fails', function () {
+      itp('shows an error if u2f.sign fails', function() {
         Expect.allowUnhandledPromiseRejection();
 
-        const signStub = function (appId, nonce, registeredKeys, callback) {
+        const signStub = function(appId, nonce, registeredKeys, callback) {
           callback({ errorCode: 2 });
         };
 
         return setupU2F({ u2f: true, signStub: signStub })
-          .then(function (test) {
+          .then(function(test) {
             return Expect.waitForSpyCall(window.u2f.sign, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             window.u2f.tap();
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(window.u2f.sign).toHaveBeenCalled();
             expect(test.form.hasErrors()).toBe(true);
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
@@ -4175,54 +4175,54 @@ Expect.describe('MFA Verify', function () {
       });
     });
 
-    Expect.describe('Custom SAML Factor', function () {
-      itp('is custom SAML factor', function () {
-        return setupCustomSAMLFactor().then(function (test) {
+    Expect.describe('Custom SAML Factor', function() {
+      itp('is custom SAML factor', function() {
+        return setupCustomSAMLFactor().then(function(test) {
           expect(test.form.isCustomFactor()).toBe(true);
         });
       });
-      itp('shows the right beacon', function () {
-        return setupCustomSAMLFactor().then(function (test) {
+      itp('shows the right beacon', function() {
+        return setupCustomSAMLFactor().then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-custom-factor');
         });
       });
-      itp('shows the right title', function () {
-        return setupCustomSAMLFactor().then(function (test) {
+      itp('shows the right title', function() {
+        return setupCustomSAMLFactor().then(function(test) {
           expectTitleToBe(test, 'SAML Factor');
         });
       });
-      itp('shows the right subtitle', function () {
-        return setupCustomSAMLFactor().then(function (test) {
+      itp('shows the right subtitle', function() {
+        return setupCustomSAMLFactor().then(function(test) {
           expectSubtitleToBe(test, 'Clicking below will redirect to verification with SAML Factor');
         });
       });
-      itp('has remember device checkbox', function () {
-        return setupCustomSAMLFactor().then(function (test) {
+      itp('has remember device checkbox', function() {
+        return setupCustomSAMLFactor().then(function(test) {
           Expect.isVisible(test.form.rememberDeviceCheckbox());
         });
       });
-      itp('redirects to third party when Verify button is clicked', function () {
+      itp('redirects to third party when Verify button is clicked', function() {
         spyOn(SharedUtil, 'redirect');
         return setupCustomSAMLFactor()
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse([resChallengeCustomSAMLFactor, resSuccess]);
             test.form.submit();
             return Expect.waitForSpyCall(SharedUtil.redirect);
           })
-          .then(function () {
+          .then(function() {
             expect(SharedUtil.redirect).toHaveBeenCalledWith(
               'http://rain.okta1.com:1802/policy/mfa-saml-idp-redirect?okta_key=mfa.redirect.id'
             );
           });
       });
-      itp('displays error when error response received', function () {
+      itp('displays error when error response received', function() {
         return setupCustomSAMLFactor()
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse(resNoPermissionError);
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expectError(
               test,
               403,
@@ -4243,16 +4243,16 @@ Expect.describe('MFA Verify', function () {
             );
           });
       });
-      itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+      itp('calls authClient verifyFactor with rememberDevice URL param', function() {
         return setupCustomSAMLFactor()
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.setNextResponse(resSuccess);
             test.form.setRememberDevice(true);
             test.form.submit();
             return Expect.waitForSpyCall(test.successSpy);
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'http://rain.okta1.com:1802/api/v1/authn/factors/customFactorId/verify?rememberDevice=true',
@@ -4263,54 +4263,54 @@ Expect.describe('MFA Verify', function () {
           });
       });
     });
-    Expect.describe('Custom OIDC Factor', function () {
-      itp('is custom factor', function () {
-        return setupCustomOIDCFactor().then(function (test) {
+    Expect.describe('Custom OIDC Factor', function() {
+      itp('is custom factor', function() {
+        return setupCustomOIDCFactor().then(function(test) {
           expect(test.form.isCustomFactor()).toBe(true);
         });
       });
-      itp('shows the right beacon', function () {
-        return setupCustomOIDCFactor().then(function (test) {
+      itp('shows the right beacon', function() {
+        return setupCustomOIDCFactor().then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-custom-factor');
         });
       });
-      itp('shows the right title', function () {
-        return setupCustomOIDCFactor().then(function (test) {
+      itp('shows the right title', function() {
+        return setupCustomOIDCFactor().then(function(test) {
           expectTitleToBe(test, 'OIDC Factor');
         });
       });
-      itp('shows the right subtitle', function () {
-        return setupCustomOIDCFactor().then(function (test) {
+      itp('shows the right subtitle', function() {
+        return setupCustomOIDCFactor().then(function(test) {
           expectSubtitleToBe(test, 'Clicking below will redirect to verification with OIDC Factor');
         });
       });
-      itp('has remember device checkbox', function () {
-        return setupCustomOIDCFactor().then(function (test) {
+      itp('has remember device checkbox', function() {
+        return setupCustomOIDCFactor().then(function(test) {
           Expect.isVisible(test.form.rememberDeviceCheckbox());
         });
       });
-      itp('redirects to third party when Verify button is clicked', function () {
+      itp('redirects to third party when Verify button is clicked', function() {
         spyOn(SharedUtil, 'redirect');
         return setupCustomOIDCFactor()
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse([resChallengeCustomOIDCFactor, resSuccess]);
             test.form.submit();
             return Expect.waitForSpyCall(SharedUtil.redirect);
           })
-          .then(function () {
+          .then(function() {
             expect(SharedUtil.redirect).toHaveBeenCalledWith(
               'http://rain.okta1.com:1802/policy/mfa-oidc-idp-redirect?okta_key=mfa.redirect.id'
             );
           });
       });
-      itp('displays error when error response received', function () {
+      itp('displays error when error response received', function() {
         return setupCustomOIDCFactor()
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse(resNoPermissionError);
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expectError(
               test,
               403,
@@ -4331,16 +4331,16 @@ Expect.describe('MFA Verify', function () {
             );
           });
       });
-      itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+      itp('calls authClient verifyFactor with rememberDevice URL param', function() {
         return setupCustomOIDCFactor()
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.setNextResponse(resSuccess);
             test.form.setRememberDevice(true);
             test.form.submit();
             return Expect.waitForSpyCall(test.successSpy);
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'http://rain.okta1.com:1802/api/v1/authn/factors/customFactorId/verify?rememberDevice=true',
@@ -4351,69 +4351,69 @@ Expect.describe('MFA Verify', function () {
           });
       });
     });
-    Expect.describe('Claims Provider Factor', function () {
-      itp('is claims provider factor', function () {
-        return setupClaimsProviderFactorWithIntrospect().then(function (test) {
+    Expect.describe('Claims Provider Factor', function() {
+      itp('is claims provider factor', function() {
+        return setupClaimsProviderFactorWithIntrospect().then(function(test) {
           expect(test.form.isCustomFactor()).toBe(true);
         });
       });
-      itp('shows the right beacon', function () {
-        return setupClaimsProviderFactorWithIntrospect().then(function (test) {
+      itp('shows the right beacon', function() {
+        return setupClaimsProviderFactorWithIntrospect().then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-custom-factor');
         });
       });
-      itp('shows the right title', function () {
-        return setupClaimsProviderFactorWithIntrospect().then(function (test) {
+      itp('shows the right title', function() {
+        return setupClaimsProviderFactorWithIntrospect().then(function(test) {
           expectTitleToBe(test, 'IDP factor');
         });
       });
-      itp('shows the right subtitle', function () {
-        return setupClaimsProviderFactorWithIntrospect().then(function (test) {
+      itp('shows the right subtitle', function() {
+        return setupClaimsProviderFactorWithIntrospect().then(function(test) {
           expectSubtitleToBe(test, 'Clicking below will redirect to verification with IDP factor');
         });
       });
-      itp('has remember device checkbox', function () {
-        return setupClaimsProviderFactorWithIntrospect().then(function (test) {
+      itp('has remember device checkbox', function() {
+        return setupClaimsProviderFactorWithIntrospect().then(function(test) {
           Expect.isVisible(test.form.rememberDeviceCheckbox());
         });
       });
-      itp('has a sign out link', function () {
-        return setupClaimsProviderFactorWithIntrospect().then(function (test) {
+      itp('has a sign out link', function() {
+        return setupClaimsProviderFactorWithIntrospect().then(function(test) {
           Expect.isVisible(test.form.signoutLink($sandbox));
         });
       });
-      itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function () {
-        return setupClaimsProviderFactorWithIntrospect({ 'features.hideSignOutLinkInMFA': true }).then(function (test) {
+      itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function() {
+        return setupClaimsProviderFactorWithIntrospect({ 'features.hideSignOutLinkInMFA': true }).then(function(test) {
           expect(test.form.signoutLink($sandbox).length).toBe(0);
         });
       });
-      itp('does not have sign out link if features.mfaOnlyFlow is true', function () {
-        return setupClaimsProviderFactorWithIntrospect({ 'features.mfaOnlyFlow': true }).then(function (test) {
+      itp('does not have sign out link if features.mfaOnlyFlow is true', function() {
+        return setupClaimsProviderFactorWithIntrospect({ 'features.mfaOnlyFlow': true }).then(function(test) {
           expect(test.form.signoutLink($sandbox).length).toBe(0);
         });
       });
-      itp('redirects to third party when Verify button is clicked', function () {
+      itp('redirects to third party when Verify button is clicked', function() {
         spyOn(SharedUtil, 'redirect');
         return setupClaimsProviderFactorWithIntrospect()
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
             test.form.submit();
             return Expect.waitForSpyCall(SharedUtil.redirect);
           })
-          .then(function () {
+          .then(function() {
             expect(SharedUtil.redirect).toHaveBeenCalledWith(
               'http://rain.okta1.com:1802/sso/idps/idpId?stateToken=testStateToken'
             );
           });
       });
-      itp('displays error when error response received', function () {
+      itp('displays error when error response received', function() {
         return setupClaimsProviderFactorWithIntrospect()
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse(resNoPermissionError);
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expectError(
               test,
               403,
@@ -4434,16 +4434,16 @@ Expect.describe('MFA Verify', function () {
             );
           });
       });
-      itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+      itp('calls authClient verifyFactor with rememberDevice URL param', function() {
         return setupClaimsProviderFactorWithIntrospect()
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.setNextResponse(resSuccess);
             test.form.setRememberDevice(true);
             test.form.submit();
             return Expect.waitForSpyCall(test.successSpy);
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'http://rain.okta1.com:1802/api/v1/authn/factors/claimsProviderFactorId/verify?rememberDevice=true',
@@ -4454,78 +4454,78 @@ Expect.describe('MFA Verify', function () {
           });
       });
 
-      Expect.describe('in MFA_CHALLENGE state when idp returns', function () {
-        beforeEach(function () {
+      Expect.describe('in MFA_CHALLENGE state when idp returns', function() {
+        beforeEach(function() {
           this.options = {
             setFactorResult: true,
             factorResult: 'FAILED',
             factorResultMessage: 'Verify failed.',
           };
         });
-        itp('renders claims provider factor if factorResult FAILED', function () {
-          return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+        itp('renders claims provider factor if factorResult FAILED', function() {
+          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
             expect(test.form.isCustomFactor()).toBe(true);
           });
         });
-        itp('shows the right beacon if factorResult FAILED', function () {
-          return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+        itp('shows the right beacon if factorResult FAILED', function() {
+          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
             expectHasRightBeaconImage(test, 'mfa-custom-factor');
           });
         });
-        itp('shows the right title if factorResult FAILED', function () {
-          return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+        itp('shows the right title if factorResult FAILED', function() {
+          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
             expectTitleToBe(test, 'IDP factor');
           });
         });
-        itp('shows the right subtitle if factorResult FAILED', function () {
-          return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+        itp('shows the right subtitle if factorResult FAILED', function() {
+          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
             expectSubtitleToBe(test, 'Clicking below will redirect to verification with IDP factor');
           });
         });
-        itp('has remember device checkbox if factorResult FAILED', function () {
-          return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+        itp('has remember device checkbox if factorResult FAILED', function() {
+          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
             Expect.isVisible(test.form.rememberDeviceCheckbox());
           });
         });
-        itp('has a sign out link if factorResult FAILED', function () {
-          return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+        itp('has a sign out link if factorResult FAILED', function() {
+          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
             Expect.isVisible(test.form.signoutLink($sandbox));
           });
         });
-        itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function () {
+        itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function() {
           this.options.settings = { 'features.hideSignOutLinkInMFA': true };
-          return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
             expect(test.form.signoutLink($sandbox).length).toBe(0);
           });
         });
-        itp('does not have sign out link if features.mfaOnlyFlow is true', function () {
+        itp('does not have sign out link if features.mfaOnlyFlow is true', function() {
           this.options.settings = { 'features.mfaOnlyFlow': true };
-          return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
             expect(test.form.signoutLink($sandbox).length).toBe(0);
           });
         });
-        itp('redirects to third party when Verify button is clicked', function () {
+        itp('redirects to third party when Verify button is clicked', function() {
           spyOn(SharedUtil, 'redirect');
           return setupMfaChallengeClaimsFactor(this.options)
-            .then(function (test) {
+            .then(function(test) {
               test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
               test.form.submit();
               return Expect.waitForSpyCall(SharedUtil.redirect);
             })
-            .then(function () {
+            .then(function() {
               expect(SharedUtil.redirect).toHaveBeenCalledWith(
                 'http://rain.okta1.com:1802/sso/idps/idpId?stateToken=testStateToken'
               );
             });
         });
-        itp('displays error when error response received', function () {
+        itp('displays error when error response received', function() {
           return setupMfaChallengeClaimsFactor(this.options)
-            .then(function (test) {
+            .then(function(test) {
               test.setNextResponse(resNoPermissionError);
               test.form.submit();
               return Expect.waitForFormError(test.form, test);
             })
-            .then(function (test) {
+            .then(function(test) {
               expectError(
                 test,
                 403,
@@ -4546,16 +4546,16 @@ Expect.describe('MFA Verify', function () {
               );
             });
         });
-        itp('calls authClient verifyFactor with rememberDevice URL param', function () {
+        itp('calls authClient verifyFactor with rememberDevice URL param', function() {
           return setupMfaChallengeClaimsFactor(this.options)
-            .then(function (test) {
+            .then(function(test) {
               Util.resetAjaxRequests();
               test.setNextResponse(resSuccess);
               test.form.setRememberDevice(true);
               test.form.submit();
               return Expect.waitForSpyCall(test.successSpy);
             })
-            .then(function () {
+            .then(function() {
               expect(Util.numAjaxRequests()).toBe(1);
               Expect.isJsonPost(Util.getAjaxRequest(0), {
                 url: 'http://rain.okta1.com:1802/api/v1/authn/factors/claimsProviderFactorId/verify?rememberDevice=true',
@@ -4565,60 +4565,60 @@ Expect.describe('MFA Verify', function () {
               });
             });
         });
-        itp('does not display error and loads first factor when factorResult is not returned', function () {
-          return setupMfaChallengeClaimsFactor().then(function (test) {
+        itp('does not display error and loads first factor when factorResult is not returned', function() {
+          return setupMfaChallengeClaimsFactor().then(function(test) {
             expect(test.form.isSecurityQuestion()).toBe(true);
             expect(test.form.el('o-form-error-html')).toHaveLength(0);
           });
         });
-        itp('displays error when factorResult is FAILED', function () {
-          return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+        itp('displays error when factorResult is FAILED', function() {
+          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
             expect(test.form.el('o-form-error-html')).toHaveLength(1);
             expect(test.form.el('o-form-error-html').find('strong').html()).toEqual('Verify failed.');
           });
         });
-        itp('does not display error when factorResult is WAITING', function () {
+        itp('does not display error when factorResult is WAITING', function() {
           this.options = {
             setFactorResult: true,
             factorResult: 'WAITING',
             factorResultMessage: 'Verify failed.',
           };
-          return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
             expect(test.form.isSecurityQuestion()).toBe(true);
             expect(test.form.el('o-form-error-html')).toHaveLength(0);
           });
         });
-        itp('does not display error when factorResult is undefined', function () {
+        itp('does not display error when factorResult is undefined', function() {
           this.options = {
             setFactorResult: true,
             factorResultMessage: 'Verify failed.',
           };
-          return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
             expect(test.form.isSecurityQuestion()).toBe(true);
             expect(test.form.el('o-form-error-html')).toHaveLength(0);
           });
         });
-        itp('displays default error when factorResultMessage is undefined', function () {
+        itp('displays default error when factorResultMessage is undefined', function() {
           this.options = {
             setFactorResult: true,
             factorResult: 'FAILED',
           };
-          return setupMfaChallengeClaimsFactor(this.options).then(function (test) {
+          return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
             expect(test.form.el('o-form-error-html')).toHaveLength(1);
             expect(test.form.el('o-form-error-html').find('strong').html()).toEqual(
               'There was an unexpected internal error. Please try again.'
             );
           });
         });
-        itp('can switch to Security Question and verify successfully', function () {
+        itp('can switch to Security Question and verify successfully', function() {
           return setupMfaChallengeClaimsFactor(this.options)
-            .then(function (test) {
+            .then(function(test) {
               test.setNextResponse(resAllFactors);
               test.beacon.dropDownButton().click();
               clickFactorInDropdown(test, 'QUESTION');
               return Expect.waitForVerifyQuestion(test);
             })
-            .then(function (test) {
+            .then(function(test) {
               Util.resetAjaxRequests();
               test.setNextResponse(resSuccess);
               test.questionForm = new MfaVerifyForm($sandbox.find('.o-form'));
@@ -4626,7 +4626,7 @@ Expect.describe('MFA Verify', function () {
               test.questionForm.submit();
               return Expect.waitForSpyCall(test.successSpy);
             })
-            .then(function () {
+            .then(function() {
               expect(Util.numAjaxRequests()).toBe(1);
               Expect.isJsonPost(Util.getAjaxRequest(0), {
                 url: 'https://foo.com/api/v1/authn/factors/ufshpdkgNun3xNE3W0g3/verify?rememberDevice=false',
@@ -4639,16 +4639,16 @@ Expect.describe('MFA Verify', function () {
         });
         itp(
           'does not show error and can verify when switching to Security Question and back to idp factor',
-          function () {
+          function() {
             spyOn(SharedUtil, 'redirect');
             return setupMfaChallengeClaimsFactor(this.options)
-              .then(function (test) {
+              .then(function(test) {
                 test.setNextResponse(resAllFactors);
                 test.beacon.dropDownButton().click();
                 clickFactorInDropdown(test, 'QUESTION');
                 return Expect.waitForVerifyQuestion(test);
               })
-              .then(function (test) {
+              .then(function(test) {
                 test.questionForm = new MfaVerifyForm($sandbox.find('.o-form'));
                 expect(test.questionForm.isSecurityQuestion()).toBe(true);
                 // switch to claims provider
@@ -4657,7 +4657,7 @@ Expect.describe('MFA Verify', function () {
                 clickFactorInDropdown(test, 'CUSTOM_CLAIMS');
                 return Expect.waitForVerifyCustomFactor(test);
               })
-              .then(function (test) {
+              .then(function(test) {
                 test.claimsForm = new MfaVerifyForm($sandbox.find('.o-form'));
                 expect(test.claimsForm.isCustomFactor()).toBe(true);
                 expect(test.claimsForm.el('o-form-error-html')).toHaveLength(0);
@@ -4665,7 +4665,7 @@ Expect.describe('MFA Verify', function () {
                 test.claimsForm.submit();
                 return Expect.waitForSpyCall(SharedUtil.redirect);
               })
-              .then(function () {
+              .then(function() {
                 expect(SharedUtil.redirect).toHaveBeenCalledWith(
                   'http://rain.okta1.com:1802/sso/idps/idpId?stateToken=testStateToken'
                 );
@@ -4674,50 +4674,50 @@ Expect.describe('MFA Verify', function () {
         );
       });
     });
-    Expect.describe('Password', function () {
+    Expect.describe('Password', function() {
       testPassword(setupPassword, 'testStateToken');
     });
   });
 
-  Expect.describe('Custom HOTP Factor', function () {
+  Expect.describe('Custom HOTP Factor', function() {
     testHOTPFactor(setupHOTP, 'testStateToken');
   });
 
-  function testHOTPFactor (setupFn, expectedStateToken) {
-    itp('is totpForm', function () {
-      return setupFn().then(function (test) {
+  function testHOTPFactor(setupFn, expectedStateToken) {
+    itp('is totpForm', function() {
+      return setupFn().then(function(test) {
         expect(test.form.isTOTP()).toBe(true);
       });
     });
 
-    itp('shows the right beacon', function () {
-      return setupFn().then(function (test) {
+    itp('shows the right beacon', function() {
+      return setupFn().then(function(test) {
         expectHasRightBeaconImage(test, 'mfa-hotp');
       });
     });
 
-    itp('shows the right title', function () {
-      return setupFn().then(function (test) {
+    itp('shows the right title', function() {
+      return setupFn().then(function(test) {
         expectTitleToBe(test, 'Entrust');
       });
     });
 
-    itp('shows the right subtitle', function () {
-      return setupFn().then(function (test) {
+    itp('shows the right subtitle', function() {
+      return setupFn().then(function(test) {
         expectSubtitleToBe(test, 'Enter your Entrust passcode');
       });
     });
 
-    itp('calls authClient verifyFactor with correct args when submitted', function () {
+    itp('calls authClient verifyFactor with correct args when submitted', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.form.setAnswer('123456');
           test.setNextResponse(resSuccess);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g2/verify?rememberDevice=false',
@@ -4729,9 +4729,9 @@ Expect.describe('MFA Verify', function () {
         });
     });
 
-    itp('calls authClient verifyFactor with correct args when submitted when rememberDevice is checked', function () {
+    itp('calls authClient verifyFactor with correct args when submitted when rememberDevice is checked', function() {
       return setupFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.form.setAnswer('123456');
           test.form.setRememberDevice(true);
@@ -4739,7 +4739,7 @@ Expect.describe('MFA Verify', function () {
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors/ufthp18Zup4EGLtrd0g2/verify?rememberDevice=true',
@@ -4752,11 +4752,11 @@ Expect.describe('MFA Verify', function () {
     });
   }
 
-  Expect.describe('Beacon', function () {
+  Expect.describe('Beacon', function() {
     beaconTest(resAllFactors, resVerifyTOTPOnly, resAllFactorsOnPrem);
   });
 
-  Expect.describe('Switch between different factors and verify a factor', function () {
+  Expect.describe('Switch between different factors and verify a factor', function() {
     switchFactorTest(
       setupSMS,
       setupOktaPushWithTOTP,
@@ -4766,34 +4766,34 @@ Expect.describe('MFA Verify', function () {
       resChallengeSms,
       'testStateToken'
     );
-    itp('Verify DUO after switching from SMS MFA_CHALLENGE', function () {
+    itp('Verify DUO after switching from SMS MFA_CHALLENGE', function() {
       return setupSMS()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(resChallengeSms);
           test.form.smsSendCode().click();
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.router.controller.model.appState.get('transaction').status === 'MFA_CHALLENGE';
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           spyOn(Duo, 'init');
           test.setNextResponse([resAllFactors, resChallengeDuo]);
           test.beacon.dropDownButton().click();
           clickFactorInDropdown(test, 'DUO');
           return Expect.waitForVerifyDuo(test);
         })
-        .then(function () {
+        .then(function() {
           expect(Duo.init).toHaveBeenCalled();
         });
     });
-    itp('Verify Okta TOTP success on Push MFA_REJECTED', function () {
-      return setupOktaPushWithTOTP().then(function (test) {
+    itp('Verify Okta TOTP success on Push MFA_REJECTED', function() {
+      return setupOktaPushWithTOTP().then(function(test) {
         return setupPolling(test, resRejectedPush)
-          .then(function () {
+          .then(function() {
             return tick(test);
           }) // Final response - REJECTED
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.setNextResponse([resAllFactors, resSuccess]);
             test.totpForm = new MfaVerifyForm($($sandbox.find('.o-form')[1]));
@@ -4801,11 +4801,11 @@ Expect.describe('MFA Verify', function () {
             test.totpForm.inlineTOTPAdd().click();
             test.totpForm.setAnswer('654321');
             test.totpForm.inlineTOTPVerify().click();
-            return Expect.wait(function () {
+            return Expect.wait(function() {
               return Util.numAjaxRequests() === 2;
             }, test);
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(2);
             // MFA_CHALLENGE to MFA_REQUIRED
             Expect.isJsonPost(Util.getAjaxRequest(0), {
@@ -4824,10 +4824,10 @@ Expect.describe('MFA Verify', function () {
           });
       });
     });
-    itp('Verify Okta TOTP success (after Push MFA_REJECTED) sets the transaction on the appState', function () {
-      return setupOktaPushWithTOTP().then(function (test) {
+    itp('Verify Okta TOTP success (after Push MFA_REJECTED) sets the transaction on the appState', function() {
+      return setupOktaPushWithTOTP().then(function(test) {
         return setupPolling(test, resRejectedPush)
-          .then(function (test) {
+          .then(function(test) {
             expect(test.router.controller.model.appState.get('transaction').factorResult).toBe('REJECTED');
 
             mockTransactions(test.router.controller, true);
@@ -4837,23 +4837,23 @@ Expect.describe('MFA Verify', function () {
             test.totpForm.inlineTOTPAdd().click();
             test.totpForm.setAnswer('654321');
             test.totpForm.inlineTOTPVerify().click();
-            return Expect.wait(function () {
+            return Expect.wait(function() {
               return test.router.controller.model.appState.get('transaction').status === 'SUCCESS';
             }, test);
           })
-          .then(function () {
+          .then(function() {
             expectSetTransaction(test.router, resSuccess, true);
           });
       });
     });
-    itp('Verify Okta TOTP on active Push MFA_CHALLENGE', function () {
-      return setupOktaPushWithTOTP().then(function (test) {
+    itp('Verify Okta TOTP on active Push MFA_CHALLENGE', function() {
+      return setupOktaPushWithTOTP().then(function(test) {
         // using resTimeoutPush here for the test. This needs to be resTimeoutPush
         // or resRejectedPush, to set the transaction to MFA_CHALLENGE state and
         // mimic an active poll (Note: The transaction state is not set to MFA_CHALLENGE
         // during polling).
         return setupPolling(test, resTimeoutPush)
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.setNextResponse([resAllFactors, resSuccess]);
             test.totpForm = new MfaVerifyForm($($sandbox.find('.o-form')[1]));
@@ -4861,11 +4861,11 @@ Expect.describe('MFA Verify', function () {
             test.totpForm.inlineTOTPAdd().click();
             test.totpForm.setAnswer('654321');
             test.totpForm.inlineTOTPVerify().click();
-            return Expect.wait(function () {
+            return Expect.wait(function() {
               return Util.numAjaxRequests() === 2;
             }, test);
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(2);
             Expect.isJsonPost(Util.getAjaxRequest(1), {
               url: 'https://foo.com/api/v1/authn/factors/osthw62MEvG6YFuHe0g3/verify?rememberDevice=false',
@@ -4879,33 +4879,33 @@ Expect.describe('MFA Verify', function () {
     });
   });
 
-  Expect.describe('Browser back button does not change view', function () {
-    itp('from mfa verify controller', function () {
+  Expect.describe('Browser back button does not change view', function() {
+    itp('from mfa verify controller', function() {
       return setupAllFactorsWithRouter()
-        .then(function (test) {
+        .then(function(test) {
           spyOn(window, 'addEventListener');
           test.router.start();
           expectHasRightBeaconImage(test, 'mfa-okta-security-question');
           test.beacon.dropDownButton().click();
           clickFactorInDropdown(test, 'SMS');
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.beacon.hasClass('mfa-okta-sms');
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-okta-sms');
           Util.triggerBrowserBackButton();
           return tick(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           //view is still the same
           expectHasRightBeaconImage(test, 'mfa-okta-sms');
           Util.stopRouter();
         });
     });
-    itp('from duo controller', function () {
+    itp('from duo controller', function() {
       return setupAllFactorsWithRouter()
-        .then(function (test) {
+        .then(function(test) {
           spyOn(window, 'addEventListener');
           test.router.start();
           expectHasRightBeaconImage(test, 'mfa-okta-security-question');
@@ -4913,75 +4913,75 @@ Expect.describe('MFA Verify', function () {
           test.setNextResponse(resChallengeDuo);
           test.beacon.dropDownButton().click();
           clickFactorInDropdown(test, 'DUO');
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.beacon.hasClass('mfa-duo');
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-duo');
           Util.triggerBrowserBackButton();
           return tick(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           //view is still the same
           expectHasRightBeaconImage(test, 'mfa-duo');
           Util.stopRouter();
         });
     });
-    itp('from windows hello controller', function () {
+    itp('from windows hello controller', function() {
       return emulateWindows()
         .then(setupAllFactorsWithRouter)
-        .then(function (test) {
+        .then(function(test) {
           spyOn(window, 'addEventListener');
           test.router.start();
           expectHasRightBeaconImage(test, 'mfa-okta-security-question');
           test.setNextResponse(resChallengeWindowsHello);
           test.beacon.dropDownButton().click();
           clickFactorInDropdown(test, 'WINDOWS_HELLO');
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.beacon.hasClass('mfa-windows-hello');
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-windows-hello');
           Util.triggerBrowserBackButton();
           return tick(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           //view is still the same
           expectHasRightBeaconImage(test, 'mfa-windows-hello');
           Util.stopRouter();
         });
     });
-    itp('from u2f controller', function () {
+    itp('from u2f controller', function() {
       return setupAllFactorsWithRouter()
-        .then(function (test) {
+        .then(function(test) {
           spyOn(window, 'addEventListener');
           test.router.start();
           expectHasRightBeaconImage(test, 'mfa-okta-security-question');
           return test;
         })
-        .then(function (test) {
+        .then(function(test) {
           window.u2f = {
-            sign: function () {},
+            sign: function() {},
           };
           spyOn(window.u2f, 'sign');
           test.setNextResponse(resChallengeU2F);
           test.beacon.dropDownButton().click();
           clickFactorInDropdown(test, 'U2F');
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.beacon.hasClass('mfa-u2f');
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-u2f');
           return Expect.waitForWindowListener('popstate', test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Util.triggerBrowserBackButton();
           return tick(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           //view is still the same
           expectHasRightBeaconImage(test, 'mfa-u2f');
           Util.stopRouter();
@@ -4989,10 +4989,10 @@ Expect.describe('MFA Verify', function () {
     });
   });
 
-  Expect.describe('The auth response', function () {
-    itp('is NOT TRAPPED when Mfa verify follows password re-auth', function () {
+  Expect.describe('The auth response', function() {
+    itp('is NOT TRAPPED when Mfa verify follows password re-auth', function() {
       return setupPassword()
-        .then(function (test) {
+        .then(function(test) {
           spyOn(RouterUtil, 'handleResponseStatus').and.callThrough();
           Util.resetAjaxRequests();
           test.form.setPassword('Abcd1234');
@@ -5001,41 +5001,41 @@ Expect.describe('MFA Verify', function () {
           test.form.submit();
           return Expect.waitForVerifyQuestion(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           test.questionForm = new MfaVerifyForm($sandbox.find('.o-form'));
           expect(test.questionForm.isSecurityQuestion()).toBe(true);
           // trapAuthResponse does not prevent handleResponseStatus from being called
           expect(RouterUtil.handleResponseStatus.calls.count()).toBe(1);
         });
     });
-    itp('is TRAPPED on any factor change through the dropdown', function () {
+    itp('is TRAPPED on any factor change through the dropdown', function() {
       return setupSMS()
-        .then(function (test) {
+        .then(function(test) {
           spyOn(RouterUtil, 'handleResponseStatus').and.callThrough();
           test.setNextResponse(resChallengeSms);
           test.form.smsSendCode().click();
-          return Expect.wait(function () {
+          return Expect.wait(function() {
             return test.router.controller.model.appState.get('transaction').status === 'MFA_CHALLENGE';
           }, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resAllFactors);
           test.beacon.dropDownButton().click();
           clickFactorInDropdown(test, 'QUESTION');
           return Expect.waitForVerifyQuestion(test);
         })
-        .then(function () {
+        .then(function() {
           // trapAuthResponse prevents handleResponseStatus from being called
           expect(RouterUtil.handleResponseStatus.calls.count()).toBe(0);
         });
     });
-    itp('is TRAPPED during verify of inline totp with Okta Verify Push', function () {
-      return setupOktaPushWithTOTP().then(function (test) {
+    itp('is TRAPPED during verify of inline totp with Okta Verify Push', function() {
+      return setupOktaPushWithTOTP().then(function(test) {
         return setupPolling(test, resRejectedPush)
-          .then(function () {
+          .then(function() {
             return tick(test);
           }) // Final response - REJECTED
-          .then(function (test) {
+          .then(function(test) {
             spyOn(RouterUtil, 'handleResponseStatus').and.callThrough();
             test.totpForm = new MfaVerifyForm($($sandbox.find('.o-form')[1]));
             test.totpForm.inlineTOTPAdd().click();
@@ -5044,7 +5044,7 @@ Expect.describe('MFA Verify', function () {
             test.totpForm.inlineTOTPVerify().click();
             return Expect.waitForSpyCall(test.successSpy);
           })
-          .then(function () {
+          .then(function() {
             // clicking on inline totp should trap auth response, SUCCESS response will
             // call handleResponseStatus.
             expect(RouterUtil.handleResponseStatus.calls.count()).toBe(1);
@@ -5053,11 +5053,11 @@ Expect.describe('MFA Verify', function () {
     });
   });
 
-  Expect.describe('Multiple Factors of the same type', function () {
-    function getPageForm () {
+  Expect.describe('Multiple Factors of the same type', function() {
+    function getPageForm() {
       const $forms = $sandbox.find('.o-form');
 
-      let forms = _.map($forms, function (form) {
+      let forms = _.map($forms, function(form) {
         return new MfaVerifyForm($(form));
       });
 
@@ -5067,31 +5067,31 @@ Expect.describe('MFA Verify', function () {
       return forms;
     }
 
-    Expect.describe('General', function () {
-      itp('Defaults to the last used factor', function () {
-        return setup(resMultipleFactors).then(function (test) {
+    Expect.describe('General', function() {
+      itp('Defaults to the last used factor', function() {
+        return setup(resMultipleFactors).then(function(test) {
           expect(test.form.isSecurityQuestion()).toBe(true);
         });
       });
     });
 
-    Expect.describe('Only multiple Security Keys (U2F) are setup', function () {
-      itp('shows the right beacon for Security Key (U2F)', function () {
-        return setupMultipleU2FOnly({ u2f: true }).then(function (test) {
+    Expect.describe('Only multiple Security Keys (U2F) are setup', function() {
+      itp('shows the right beacon for Security Key (U2F)', function() {
+        return setupMultipleU2FOnly({ u2f: true }).then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-u2f');
           return Expect.waitForSpyCall(window.u2f.sign);
         });
       });
 
-      itp('shows the right title', function () {
-        return setupMultipleU2FOnly({ u2f: true }).then(function (test) {
+      itp('shows the right title', function() {
+        return setupMultipleU2FOnly({ u2f: true }).then(function(test) {
           expectTitleToBe(test, 'Security Key (U2F)');
           return Expect.waitForSpyCall(window.u2f.sign);
         });
       });
 
-      itp('shows error if browser does not support u2f', function () {
-        return setupMultipleU2FOnly({ u2f: false }).then(function (test) {
+      itp('shows error if browser does not support u2f', function() {
+        return setupMultipleU2FOnly({ u2f: false }).then(function(test) {
           expect(test.form.el('o-form-error-html')).toHaveLength(1);
           expect(test.form.el('o-form-error-html').find('strong').html()).toEqual(
             'Security Key (U2F) is not supported on this browser. ' + 'Contact your admin for assistance.'
@@ -5099,27 +5099,27 @@ Expect.describe('MFA Verify', function () {
         });
       });
 
-      itp('does not show error if browser supports u2f', function () {
-        return setupMultipleU2FOnly({ u2f: true }).then(function (test) {
+      itp('does not show error if browser supports u2f', function() {
+        return setupMultipleU2FOnly({ u2f: true }).then(function(test) {
           expect(test.form.el('o-form-error-html')).toHaveLength(0);
         });
       });
 
-      itp('shows a spinner while waiting for u2f challenge', function () {
-        return setupMultipleU2FOnly({ u2f: true }).then(function (test) {
+      itp('shows a spinner while waiting for u2f challenge', function() {
+        return setupMultipleU2FOnly({ u2f: true }).then(function(test) {
           expect(test.form.el('u2f-waiting').length).toBe(1);
           return Expect.waitForSpyCall(window.u2f.sign);
         });
       });
 
-      itp('has remember device checkbox', function () {
-        return setupMultipleU2FOnly({ u2f: true }).then(function (test) {
+      itp('has remember device checkbox', function() {
+        return setupMultipleU2FOnly({ u2f: true }).then(function(test) {
           Expect.isVisible(test.form.rememberDeviceCheckbox());
         });
       });
 
-      itp('calls u2f.sign and verifies factor', function () {
-        const signStub = function (appId, nonce, registeredKeys, callback) {
+      itp('calls u2f.sign and verifies factor', function() {
+        const signStub = function(appId, nonce, registeredKeys, callback) {
           callback({
             keyHandle: 'someKeyHandle',
             clientData: 'someClientData',
@@ -5128,10 +5128,10 @@ Expect.describe('MFA Verify', function () {
         };
 
         return setupMultipleU2FOnly({ u2f: true, signStub: signStub, res: resSuccess })
-          .then(function () {
+          .then(function() {
             return Expect.waitForSpyCall(window.u2f.sign);
           })
-          .then(function () {
+          .then(function() {
             window.u2f.tap();
             expect(window.u2f.sign).toHaveBeenCalledWith(
               'http://rain.okta1.com:1802',
@@ -5155,8 +5155,8 @@ Expect.describe('MFA Verify', function () {
           });
       });
 
-      itp('calls u2f.sign and verifies factor when rememberDevice set to true', function () {
-        const signStub = function (appId, nonce, registeredKeys, callback) {
+      itp('calls u2f.sign and verifies factor when rememberDevice set to true', function() {
+        const signStub = function(appId, nonce, registeredKeys, callback) {
           callback({
             keyHandle: 'someKeyHandle',
             clientData: 'someClientData',
@@ -5165,11 +5165,11 @@ Expect.describe('MFA Verify', function () {
         };
 
         return setupMultipleU2FOnly({ u2f: true, signStub: signStub, res: resSuccess })
-          .then(function (test) {
+          .then(function(test) {
             test.form.setRememberDevice(true);
             return Expect.waitForSpyCall(window.u2f.sign, test);
           })
-          .then(function () {
+          .then(function() {
             window.u2f.tap();
             expect(window.u2f.sign).toHaveBeenCalledWith(
               'http://rain.okta1.com:1802',
@@ -5193,22 +5193,22 @@ Expect.describe('MFA Verify', function () {
           });
       });
 
-      itp('shows an error if u2f.sign fails', function () {
+      itp('shows an error if u2f.sign fails', function() {
         Expect.allowUnhandledPromiseRejection();
 
-        const signStub = function (appId, nonce, registeredKeys, callback) {
+        const signStub = function(appId, nonce, registeredKeys, callback) {
           callback({ errorCode: 2 });
         };
 
         return setupMultipleU2FOnly({ u2f: true, signStub: signStub })
-          .then(function (test) {
+          .then(function(test) {
             return Expect.waitForSpyCall(window.u2f.sign, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             window.u2f.tap();
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(window.u2f.sign).toHaveBeenCalled();
             expect(test.form.hasErrors()).toBe(true);
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
@@ -5230,23 +5230,23 @@ Expect.describe('MFA Verify', function () {
       });
     });
 
-    Expect.describe('Multiple Security Keys (U2F) and one more factor are setup', function () {
-      itp('shows the right beacon for Security Key (U2F)', function () {
-        return setupMultipleU2F({ u2f: true }).then(function (test) {
+    Expect.describe('Multiple Security Keys (U2F) and one more factor are setup', function() {
+      itp('shows the right beacon for Security Key (U2F)', function() {
+        return setupMultipleU2F({ u2f: true }).then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-u2f');
           return Expect.waitForSpyCall(window.u2f.sign);
         });
       });
 
-      itp('shows the right title', function () {
-        return setupMultipleU2F({ u2f: true }).then(function (test) {
+      itp('shows the right title', function() {
+        return setupMultipleU2F({ u2f: true }).then(function(test) {
           expectTitleToBe(test, 'Security Key (U2F)');
           return Expect.waitForSpyCall(window.u2f.sign);
         });
       });
 
-      itp('shows error if browser does not support u2f', function () {
-        return setupMultipleU2F({ u2f: false }).then(function (test) {
+      itp('shows error if browser does not support u2f', function() {
+        return setupMultipleU2F({ u2f: false }).then(function(test) {
           expect(test.form.el('o-form-error-html')).toHaveLength(1);
           expect(test.form.el('o-form-error-html').find('strong').html()).toEqual(
             'Security Key (U2F) is not supported on this browser. ' +
@@ -5255,27 +5255,27 @@ Expect.describe('MFA Verify', function () {
         });
       });
 
-      itp('does not show error if browser supports u2f', function () {
-        return setupMultipleU2F({ u2f: true }).then(function (test) {
+      itp('does not show error if browser supports u2f', function() {
+        return setupMultipleU2F({ u2f: true }).then(function(test) {
           expect(test.form.el('o-form-error-html')).toHaveLength(0);
         });
       });
 
-      itp('shows a spinner while waiting for u2f challenge', function () {
-        return setupMultipleU2F({ u2f: true }).then(function (test) {
+      itp('shows a spinner while waiting for u2f challenge', function() {
+        return setupMultipleU2F({ u2f: true }).then(function(test) {
           expect(test.form.el('u2f-waiting').length).toBe(1);
           return Expect.waitForSpyCall(window.u2f.sign);
         });
       });
 
-      itp('has remember device checkbox', function () {
-        return setupMultipleU2F({ u2f: true }).then(function (test) {
+      itp('has remember device checkbox', function() {
+        return setupMultipleU2F({ u2f: true }).then(function(test) {
           Expect.isVisible(test.form.rememberDeviceCheckbox());
         });
       });
 
-      itp('calls u2f.sign and verifies factor', function () {
-        const signStub = function (appId, nonce, registeredKeys, callback) {
+      itp('calls u2f.sign and verifies factor', function() {
+        const signStub = function(appId, nonce, registeredKeys, callback) {
           callback({
             keyHandle: 'someKeyHandle',
             clientData: 'someClientData',
@@ -5284,10 +5284,10 @@ Expect.describe('MFA Verify', function () {
         };
 
         return setupMultipleU2F({ u2f: true, signStub: signStub, res: resSuccess })
-          .then(function () {
+          .then(function() {
             return Expect.waitForSpyCall(window.u2f.sign);
           })
-          .then(function () {
+          .then(function() {
             window.u2f.tap();
             expect(window.u2f.sign).toHaveBeenCalledWith(
               'http://rain.okta1.com:1802',
@@ -5311,8 +5311,8 @@ Expect.describe('MFA Verify', function () {
           });
       });
 
-      itp('calls u2f.sign and verifies factor when rememberDevice set to true', function () {
-        const signStub = function (appId, nonce, registeredKeys, callback) {
+      itp('calls u2f.sign and verifies factor when rememberDevice set to true', function() {
+        const signStub = function(appId, nonce, registeredKeys, callback) {
           callback({
             keyHandle: 'someKeyHandle',
             clientData: 'someClientData',
@@ -5321,11 +5321,11 @@ Expect.describe('MFA Verify', function () {
         };
 
         return setupMultipleU2F({ u2f: true, signStub: signStub, res: resSuccess })
-          .then(function (test) {
+          .then(function(test) {
             test.form.setRememberDevice(true);
             return Expect.waitForSpyCall(window.u2f.sign, test);
           })
-          .then(function () {
+          .then(function() {
             window.u2f.tap();
             expect(window.u2f.sign).toHaveBeenCalledWith(
               'http://rain.okta1.com:1802',
@@ -5349,22 +5349,22 @@ Expect.describe('MFA Verify', function () {
           });
       });
 
-      itp('shows an error if u2f.sign fails', function () {
+      itp('shows an error if u2f.sign fails', function() {
         Expect.allowUnhandledPromiseRejection();
 
-        const signStub = function (appId, nonce, registeredKeys, callback) {
+        const signStub = function(appId, nonce, registeredKeys, callback) {
           callback({ errorCode: 2 });
         };
 
         return setupMultipleU2F({ u2f: true, signStub: signStub })
-          .then(function (test) {
+          .then(function(test) {
             return Expect.waitForSpyCall(window.u2f.sign, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             window.u2f.tap();
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(window.u2f.sign).toHaveBeenCalled();
             expect(test.form.hasErrors()).toBe(true);
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
@@ -5386,47 +5386,47 @@ Expect.describe('MFA Verify', function () {
       });
     });
 
-    Expect.describe('Okta Verify TOTP', function () {
-      itp('shows the right beacon', function () {
-        return setupMultipleOktaTOTP().then(function (test) {
+    Expect.describe('Okta Verify TOTP', function() {
+      itp('shows the right beacon', function() {
+        return setupMultipleOktaTOTP().then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-okta-verify');
         });
       });
 
-      itp('shows the right title', function () {
-        return setupMultipleOktaTOTP().then(function (test) {
+      itp('shows the right title', function() {
+        return setupMultipleOktaTOTP().then(function(test) {
           expectTitleToBe(test, 'Okta Verify');
         });
       });
 
-      itp('shows the right subtitle', function () {
-        return setupMultipleOktaTOTP().then(function (test) {
+      itp('shows the right subtitle', function() {
+        return setupMultipleOktaTOTP().then(function(test) {
           expectSubtitleToBe(test, 'Enter code from any registered Okta Verify device.');
         });
       });
 
-      itp('has a passCode field', function () {
-        return setupMultipleOktaTOTP().then(function (test) {
+      itp('has a passCode field', function() {
+        return setupMultipleOktaTOTP().then(function(test) {
           expectHasAnswerField(test, 'tel');
         });
       });
 
-      itp('has remember device checkbox', function () {
-        return setupMultipleOktaTOTP().then(function (test) {
+      itp('has remember device checkbox', function() {
+        return setupMultipleOktaTOTP().then(function(test) {
           Expect.isVisible(test.form.rememberDeviceCheckbox());
         });
       });
 
-      itp('calls factorType-url with correct args', function () {
+      itp('calls factorType-url with correct args', function() {
         return setupMultipleOktaTOTP()
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.form.setAnswer('123456');
             test.setNextResponse(resSuccess);
             test.form.submit();
             return Expect.waitForSpyCall(test.successSpy);
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors/token:software:totp/verify?rememberDevice=false',
@@ -5438,9 +5438,9 @@ Expect.describe('MFA Verify', function () {
           });
       });
 
-      itp('calls factorType-url with correct args and rememberDevice URL param', function () {
+      itp('calls factorType-url with correct args and rememberDevice URL param', function() {
         return setupMultipleOktaTOTP()
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.form.setAnswer('123456');
             test.form.setRememberDevice(true);
@@ -5448,7 +5448,7 @@ Expect.describe('MFA Verify', function () {
             test.form.submit();
             return Expect.waitForSpyCall(test.successSpy);
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors/token:software:totp/verify?rememberDevice=true',
@@ -5461,27 +5461,27 @@ Expect.describe('MFA Verify', function () {
       });
     });
 
-    Expect.describe('Okta Verify Push', function () {
-      itp('shows an Okta Push form', function () {
-        return setupMultipleOktaPush().then(function (test) {
+    Expect.describe('Okta Verify Push', function() {
+      itp('shows an Okta Push form', function() {
+        return setupMultipleOktaPush().then(function(test) {
           expect(test.form.isPush()).toBe(true);
         });
       });
 
-      itp('shows the right beacon', function () {
-        return setupMultipleOktaPush().then(function (test) {
+      itp('shows the right beacon', function() {
+        return setupMultipleOktaPush().then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-okta-verify');
         });
       });
 
-      itp('shows the right title (with device name)', function () {
-        return setupMultipleOktaPush().then(function (test) {
+      itp('shows the right title (with device name)', function() {
+        return setupMultipleOktaPush().then(function(test) {
           expectTitleToBe(test, 'Okta Verify (Test Device 1)');
         });
       });
 
-      itp('shows one item in the factors dropdown for each enrolled device', function () {
-        return setupMultipleOktaPush().then(function (test) {
+      itp('shows one item in the factors dropdown for each enrolled device', function() {
+        return setupMultipleOktaPush().then(function(test) {
           expect(test.beacon.getOptionsLinks().length).toBe(3);
           expect(test.beacon.getOptionsLinksText()).toEqual([
             'Okta Verify (Test Device 1)',
@@ -5491,29 +5491,29 @@ Expect.describe('MFA Verify', function () {
         });
       });
 
-      itp('updates title when different push factor is selected', function () {
+      itp('updates title when different push factor is selected', function() {
         return setupMultipleOktaPush()
-          .then(function (test) {
+          .then(function(test) {
             expectTitleToBe(test, 'Okta Verify (Test Device 1)');
             test.beacon.dropDownButton().click();
             test.beacon.getOptionsLinks().eq('1').click();
             return tick(test);
           })
-          .then(function (test) {
+          .then(function(test) {
             test.form = getPageForm();
             expectTitleToBe(test, 'Okta Verify (Test Device 2)');
           });
       });
 
-      itp('calls verifyFactor with correct args for 1st push on the list', function () {
+      itp('calls verifyFactor with correct args for 1st push on the list', function() {
         return setupMultipleOktaPush()
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.setNextResponse(resSuccess);
             test.form.submit();
             return Expect.waitForSpyCall(test.successSpy);
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors/oktaVerifyPush1/verify?rememberDevice=false',
@@ -5524,21 +5524,21 @@ Expect.describe('MFA Verify', function () {
           });
       });
 
-      itp('calls verifyFactor with correct args for 2nd push on the list', function () {
+      itp('calls verifyFactor with correct args for 2nd push on the list', function() {
         return setupMultipleOktaPush()
-          .then(function (test) {
+          .then(function(test) {
             test.beacon.dropDownButton().click();
             test.beacon.getOptionsLinks().eq('1').click();
             return tick(test);
           })
-          .then(function (test) {
+          .then(function(test) {
             test.form = getPageForm();
             Util.resetAjaxRequests();
             test.setNextResponse(resSuccess);
             test.form.submit();
             return Expect.waitForSpyCall(test.successSpy);
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors/oktaVerifyPush2/verify?rememberDevice=false',
@@ -5550,12 +5550,12 @@ Expect.describe('MFA Verify', function () {
       });
     });
 
-    Expect.describe('Okta Verify Push with number challenge', function () {
-      itp('displays number challenge on poll', function () {
-        return setupOktaPush({ 'features.autoPush': true }).then(function (test) {
+    Expect.describe('Okta Verify Push with number challenge', function() {
+      itp('displays number challenge on poll', function() {
+        return setupOktaPush({ 'features.autoPush': true }).then(function(test) {
           spyOn(test.router.controller.model, 'setTransaction').and.callThrough();
           spyOn(test.router.settings, 'callGlobalSuccess');
-          return setupPolling(test, resSuccess, resChallengePushWithNumberChallenge).then(tick).then(function () {
+          return setupPolling(test, resSuccess, resChallengePushWithNumberChallenge).then(tick).then(function() {
             // Warnings need to be cleared when switching to number challenge view.
             expect(test.form.hasWarningMessage()).toBeFalsy();
             expect(test.router.controller.$('[data-se="o-form-input-autoPush"]').is(':visible')).toBeFalsy();
@@ -5575,12 +5575,12 @@ Expect.describe('MFA Verify', function () {
         });
       });
 
-      itp('doest not display number challenge on poll in low risk cases', function () {
-        return setupOktaPush({ 'features.autoPush': true }).then(function (test) {
+      itp('doest not display number challenge on poll in low risk cases', function() {
+        return setupOktaPush({ 'features.autoPush': true }).then(function(test) {
           spyOn(test.router.controller.model, 'setTransaction').and.callThrough();
           spyOn(test.router.settings, 'callGlobalSuccess');
           return setupPolling(test, resSuccess)
-            .then(function () {
+            .then(function() {
               expect(test.form.hasWarningMessage()).toBeTruthy();
               expect(test.router.controller.$('[data-se="o-form-input-autoPush"]').is(':visible')).toBeTruthy();
               expect(test.router.controller.$('[data-se="o-form-input-rememberDevice"]').is(':visible')).toBeTruthy();
@@ -5588,7 +5588,7 @@ Expect.describe('MFA Verify', function () {
               expect(test.form.numberChallengeView().is(':visible')).toBeFalsy();
               return tick(test);
             })
-            .then(function () {
+            .then(function() {
               expect(test.router.settings.callGlobalSuccess).toHaveBeenCalled();
               // One after first poll returns and one after polling finished.
               const calls = test.router.controller.model.setTransaction.calls;
@@ -5600,12 +5600,12 @@ Expect.describe('MFA Verify', function () {
         });
       });
 
-      itp('displays error and send push button after wrong number selection in number challenge', function () {
-        return setupOktaPush({ 'features.autoPush': true }).then(function (test) {
+      itp('displays error and send push button after wrong number selection in number challenge', function() {
+        return setupOktaPush({ 'features.autoPush': true }).then(function(test) {
           spyOn(test.router.controller.model, 'setTransaction').and.callThrough();
           spyOn(test.router.settings, 'callGlobalSuccess');
           return setupPolling(test, resRejectedPush, resChallengePushWithNumberChallenge)
-            .then(function () {
+            .then(function() {
               expect(test.form.hasErrors()).toBeTruthy();
               expect(test.form.errorMessage()).toBe('You have chosen to reject this login.');
               expect(test.form.hasWarningMessage()).toBeFalsy();
@@ -5615,7 +5615,7 @@ Expect.describe('MFA Verify', function () {
               expect(test.form.numberChallengeView().is(':visible')).toBeFalsy();
               return tick(test);
             })
-            .then(function () {
+            .then(function() {
               expect(test.router.settings.callGlobalSuccess).not.toHaveBeenCalled();
               // One after first poll returns and one after polling finished.
               const calls = test.router.controller.model.setTransaction.calls;
@@ -5628,16 +5628,16 @@ Expect.describe('MFA Verify', function () {
       });
     });
 
-    Expect.describe('Okta Verify Push with TOTP', function () {
-      itp('shows an Okta Push form', function () {
-        return setupMultipleOktaVerify().then(function (test) {
+    Expect.describe('Okta Verify Push with TOTP', function() {
+      itp('shows an Okta Push form', function() {
+        return setupMultipleOktaVerify().then(function(test) {
           expect(test.form[0].isPush()).toBe(true);
           expect(test.form[1].isInlineTOTP()).toBe(true);
         });
       });
 
-      itp('shows one item in the factors dropdown for each enrolled push factor', function () {
-        return setupMultipleOktaPush().then(function (test) {
+      itp('shows one item in the factors dropdown for each enrolled push factor', function() {
+        return setupMultipleOktaPush().then(function(test) {
           expect(test.beacon.getOptionsLinks().length).toBe(3);
           expect(test.beacon.getOptionsLinksText()).toEqual([
             'Okta Verify (Test Device 1)',
@@ -5647,9 +5647,9 @@ Expect.describe('MFA Verify', function () {
         });
       });
 
-      itp('calls factorType-url with correct args for 1st TOTP on the list', function () {
+      itp('calls factorType-url with correct args for 1st TOTP on the list', function() {
         return setupMultipleOktaVerify()
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.form[1].inlineTOTPAdd().click();
             test.form[1].setAnswer('654321');
@@ -5657,7 +5657,7 @@ Expect.describe('MFA Verify', function () {
             test.form[1].inlineTOTPVerify().click();
             return tick();
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors/token:software:totp/verify?rememberDevice=false',
@@ -5669,15 +5669,15 @@ Expect.describe('MFA Verify', function () {
           });
       });
 
-      itp('calls verifyFactor with correct args for 1st push on the list', function () {
+      itp('calls verifyFactor with correct args for 1st push on the list', function() {
         return setupMultipleOktaVerify()
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.setNextResponse(resSuccess);
             test.form[0].submit();
             return Expect.waitForSpyCall(test.successSpy);
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors/oktaVerifyPush1/verify?rememberDevice=false',
@@ -5688,14 +5688,14 @@ Expect.describe('MFA Verify', function () {
           });
       });
 
-      itp('calls factorType-url with correct args for 2nd TOTP on the list', function () {
+      itp('calls factorType-url with correct args for 2nd TOTP on the list', function() {
         return setupMultipleOktaVerify()
-          .then(function (test) {
+          .then(function(test) {
             test.beacon.dropDownButton().click();
             test.beacon.getOptionsLinks().eq('1').click();
             return tick(test);
           })
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.form = getPageForm();
             test.form[1].inlineTOTPAdd().click();
@@ -5704,7 +5704,7 @@ Expect.describe('MFA Verify', function () {
             test.form[1].inlineTOTPVerify().click();
             return tick();
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors/token:software:totp/verify?rememberDevice=false',
@@ -5716,21 +5716,21 @@ Expect.describe('MFA Verify', function () {
           });
       });
 
-      itp('calls verifyFactor with correct args for 2nd push on the list', function () {
+      itp('calls verifyFactor with correct args for 2nd push on the list', function() {
         return setupMultipleOktaVerify()
-          .then(function (test) {
+          .then(function(test) {
             test.beacon.dropDownButton().click();
             test.beacon.getOptionsLinks().eq('1').click();
             return tick(test);
           })
-          .then(function (test) {
+          .then(function(test) {
             test.form = getPageForm();
             Util.resetAjaxRequests();
             test.setNextResponse(resSuccess);
             test.form[0].submit();
             return Expect.waitForSpyCall(test.successSpy);
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors/oktaVerifyPush2/verify?rememberDevice=false',

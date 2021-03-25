@@ -3,7 +3,7 @@ import createRouter from 'widget/createRouter';
 describe('widget/createRouter', () => {
   let MockRouter;
   beforeEach(() => {
-    MockRouter = function () {};
+    MockRouter = function() {};
     Object.assign(MockRouter.prototype, {
       start: jest.fn()
     });

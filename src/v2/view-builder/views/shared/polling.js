@@ -2,7 +2,7 @@ import { _ } from 'okta';
 import { MS_PER_SEC } from '../../utils/Constants';
 
 export default {
-  startPolling (newRefreshInterval) {
+  startPolling(newRefreshInterval) {
     this.pollingInterval = newRefreshInterval || this.options.currentViewState.refresh;
     this.countDownCounterValue = Math.ceil(this.pollingInterval / MS_PER_SEC);
     // Poll is present in remediation form
@@ -15,7 +15,7 @@ export default {
     }
   },
 
-  _startAuthenticatorPolling () {
+  _startAuthenticatorPolling() {
     // Authenticator won't co-exists hence it's safe to trigger both.
     [
       'currentAuthenticator',
@@ -37,7 +37,7 @@ export default {
     });
   },
 
-  startCountDown (selector , interval) {
+  startCountDown(selector , interval) {
     if(this.countDown) {
       clearInterval(this.countDown);
     }
@@ -53,13 +53,13 @@ export default {
     }, interval, this);
   },
 
-  _stopCountDown () {
+  _stopCountDown() {
     if(this.countDown) {
       clearInterval(this.countDown);
     }
   },
 
-  _startRemediationPolling () {
+  _startRemediationPolling() {
     if (_.isNumber(this.pollingInterval)) {
       this.polling = setInterval(() => {
         this.options.appState.trigger('saveForm', this.model);
@@ -67,7 +67,7 @@ export default {
     }
   },
 
-  stopPolling () {
+  stopPolling() {
     if (this.polling) {
       this._stopCountDown();
       clearInterval(this.polling);

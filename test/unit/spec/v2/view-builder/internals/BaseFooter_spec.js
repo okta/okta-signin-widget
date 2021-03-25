@@ -3,7 +3,7 @@ import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
 import Link from 'v2/view-builder/components/Link';
 
-describe('v2/view-builder/internals/BaseFooter', function () {
+describe('v2/view-builder/internals/BaseFooter', function() {
   let testContext;
 
   const renderFooter = (links, shouldShowSignOutLink) => {
@@ -30,19 +30,19 @@ describe('v2/view-builder/internals/BaseFooter', function () {
     };
   });
 
-  it('adds nothing when links function return undefined', function () {
+  it('adds nothing when links function return undefined', function() {
     const fooFooter = renderFooter(() => {}, false);
 
     expect(fooFooter.add).not.toHaveBeenCalled();
   });
-  it('adds nothing when links function return empty array', function () {
+  it('adds nothing when links function return empty array', function() {
     const fooFooter = renderFooter(() => {
       return [];
     }, false);
 
     expect(fooFooter.add).not.toHaveBeenCalled();
   });
-  it('adds nothing when empty links array', function () {
+  it('adds nothing when empty links array', function() {
     const fooFooter = renderFooter([], false);
 
     expect(fooFooter.add).not.toHaveBeenCalled();

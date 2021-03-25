@@ -12,11 +12,11 @@ const Body = BaseForm.extend({
 
   className: 'ion-form device-challenge-poll',
 
-  title () {
+  title() {
     return loc('deviceTrust.sso.redirectText', 'login');
   },
 
-  initialize () {
+  initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
 
     // TODO: OKTA-286547

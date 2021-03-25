@@ -15,7 +15,7 @@ const OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_NON_IOS =
 
 const Body = BaseForm.extend(Object.assign(
   {
-    title () {
+    title() {
       const selectedChannel = this.options.appState.get('currentAuthenticator').contextualData.selectedChannel;
       let title;
       switch (selectedChannel) {
@@ -32,7 +32,7 @@ const Body = BaseForm.extend(Object.assign(
     },
     className: 'oie-enroll-ov-poll',
     noButtonBar: true,
-    initialize () {
+    initialize() {
       BaseForm.prototype.initialize.apply(this, arguments);
       if ((BrowserFeatures.isAndroid() || BrowserFeatures.isIOS()) &
         this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'qrcode') {
@@ -41,7 +41,7 @@ const Body = BaseForm.extend(Object.assign(
       this.listenTo(this.model, 'error', this.stopPolling);
       this.startPolling();
     },
-    showMessages () {
+    showMessages() {
       // override showMessages to display error message
       const messagesObjs = this.options.appState.get('messages');
       if (messagesObjs && Array.isArray(messagesObjs.value)) {
@@ -67,7 +67,7 @@ const Body = BaseForm.extend(Object.assign(
 
       }
     },
-    getUISchema () {
+    getUISchema() {
       const schema = [];
       const contextualData = this.options.appState.get('currentAuthenticator').contextualData;
       const selectedChannel = contextualData.selectedChannel;
@@ -89,7 +89,7 @@ const Body = BaseForm.extend(Object.assign(
       }
       return schema;
     },
-    remove () {
+    remove() {
       BaseForm.prototype.remove.apply(this, arguments);
       this.stopPolling();
     },

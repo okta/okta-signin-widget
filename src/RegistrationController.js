@@ -30,19 +30,19 @@ const RegistrationControllerFooter = View.extend({
   ),
   className: 'auth-footer',
   events: {
-    'click .help': function (e) {
+    'click .help': function(e) {
       e.preventDefault();
       this.back();
     },
   },
-  back: function () {
+  back: function() {
     this.state.set('navigateDir', Enums.DIRECTION_BACK);
     this.options.appState.trigger('navigate', '');
   },
 });
 export default BaseLoginController.extend({
   className: 'registration',
-  initialize: function () {
+  initialize: function() {
     const RegistrationControllerSchema = RegistrationSchema.extend({
       settings: this.options.settings,
       url: this.options.settings.get('baseUrl') + '/api/v1/registration/form',
@@ -53,7 +53,7 @@ export default BaseLoginController.extend({
 
     this.state.set('schema', schema);
   },
-  getRegistrationApiUrl: function () {
+  getRegistrationApiUrl: function() {
     const defaultPolicyId = this.settings.get('defaultPolicyId');
     // default policyId
 
@@ -66,10 +66,10 @@ export default BaseLoginController.extend({
 
     return apiUrl;
   },
-  getRegistrationPolicyApi: function (policyId) {
+  getRegistrationPolicyApi: function(policyId) {
     return this.options.settings.get('baseUrl') + '/api/v1/registration/' + policyId;
   },
-  doPostSubmit: function () {
+  doPostSubmit: function() {
     if (this.model.get('activationToken')) {
       const self = this;
       // register via activation token
@@ -82,7 +82,7 @@ export default BaseLoginController.extend({
         settings: self.model.appState.settings,
       });
 
-      loginModel.loginWithActivationToken(this.model.get('activationToken')).then(function (transaction) {
+      loginModel.loginWithActivationToken(this.model.get('activationToken')).then(function(transaction) {
         self.model.trigger('setTransaction', transaction);
       });
     } else {
@@ -91,28 +91,28 @@ export default BaseLoginController.extend({
       this.model.appState.trigger('navigate', 'signin/register-complete');
     }
   },
-  registerUser: function (postData) {
+  registerUser: function(postData) {
     const self = this;
 
     this.model.attributes = postData;
     // Model.save returns a jqXHR
     Backbone.Model.prototype.save
       .call(this.model)
-      .then(function () {
+      .then(function() {
         const activationToken = self.model.get('activationToken');
         const postSubmitData = activationToken ? activationToken : self.model.get('email');
 
         self.settings.postRegistrationSubmit(
           postSubmitData,
-          function () {
+          function() {
             self.doPostSubmit();
           },
-          function (errors) {
+          function(errors) {
             self.showErrors(errors);
           }
         );
       })
-      .fail(function (err) {
+      .fail(function(err) {
         const responseJSON = err.responseJSON;
 
         if (responseJSON && responseJSON.errorCauses.length) {
@@ -122,7 +122,7 @@ export default BaseLoginController.extend({
         }
       });
   },
-  createRegistrationModel: function (modelProperties) {
+  createRegistrationModel: function(modelProperties) {
     const self = this;
     const RegistrationControllerModel = Model.extend({
       url: self.getRegistrationApiUrl() + '/register',
@@ -132,7 +132,7 @@ export default BaseLoginController.extend({
       local: {
         activationToken: 'string',
       },
-      toJSON: function () {
+      toJSON: function() {
         const data = Model.prototype.toJSON.apply(this, arguments);
 
         return {
@@ -140,18 +140,18 @@ export default BaseLoginController.extend({
           relayState: this.settings.get('relayState'),
         };
       },
-      parse: function (resp) {
+      parse: function(resp) {
         this.set('activationToken', resp.activationToken);
         delete resp.activationToken;
         return resp;
       },
-      save: function () {
+      save: function() {
         this.settings.preRegistrationSubmit(
           this.attributes,
-          function (postData) {
+          function(postData) {
             self.registerUser(postData);
           },
-          function (errors) {
+          function(errors) {
             self.showErrors(errors);
           }
         );
@@ -160,7 +160,7 @@ export default BaseLoginController.extend({
 
     return new RegistrationControllerModel();
   },
-  showErrors: function (error, hideRegisterButton) {
+  showErrors: function(error, hideRegisterButton) {
     //for parseSchema error hide form and show error at form level
     if (error.callback === 'parseRegistrationSchema' && error.errorCauses) {
       error.errorSummary = _.clone(error.errorCauses[0].errorSummary);
@@ -180,11 +180,11 @@ export default BaseLoginController.extend({
       this.$el.find('.button-primary').hide();
     }
   },
-  fetchInitialData: function () {
+  fetchInitialData: function() {
     const self = this;
 
     // register parse complete event listener
-    self.state.get('schema').on('parseComplete', function (updatedSchema) {
+    self.state.get('schema').on('parseComplete', function(updatedSchema) {
       const modelProperties = updatedSchema.properties.createModelProperties();
 
       self.settings.set('defaultPolicyId', updatedSchema.properties.defaultPolicyId);
@@ -199,7 +199,7 @@ export default BaseLoginController.extend({
         title: loc('registration.form.title', 'login'),
         save: loc('registration.form.submit', 'login'),
         modelEvents : { 'invalid' : 'modifyErrors' },
-        modifyErrors: function (model, errorResp) {
+        modifyErrors: function(model, errorResp) {
           // overwrite courage errorResp object to show custom error message
           for (let formFieldName in errorResp) {
             if (errorResp[formFieldName] === 'model.validation.field.string.minLength') {
@@ -213,7 +213,7 @@ export default BaseLoginController.extend({
             }
           }
         },
-        parseErrorMessage: function (resp) {
+        parseErrorMessage: function(resp) {
           const hasErrorCauses = resp.errorCauses && resp.errorCauses.length;
 
           if (hasErrorCauses) {
@@ -239,7 +239,7 @@ export default BaseLoginController.extend({
         self.showErrors(updatedSchema.error, true);
       } else {
         // add fields
-        updatedSchema.properties.each(function (schemaProperty) {
+        updatedSchema.properties.each(function(schemaProperty) {
           const inputOptions = RegistrationFormFactory.createInputOptions(schemaProperty);
           const subSchemas = schemaProperty.get('subSchemas');
           const name = schemaProperty.get('name');

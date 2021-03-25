@@ -3,8 +3,8 @@ import Expect from 'helpers/util/Expect';
 import $sandbox from 'sandbox';
 import TextBox from 'views/shared/TextBox';
 
-Expect.describe('TextBox', function () {
-  it('the value of aria-label is same as the placeholder', function () {
+Expect.describe('TextBox', function() {
+  it('the value of aria-label is same as the placeholder', function() {
     const placeHolderValue = 'Test Value 123';
     const textbox = new TextBox({
       model: new BaseModel(),
@@ -16,7 +16,7 @@ Expect.describe('TextBox', function () {
     expect(textbox.$('#' + textbox.options.inputId).attr('aria-label')).toEqual(placeHolderValue);
   });
 
-  it('has appropriate attributes for type="number"', function () {
+  it('has appropriate attributes for type="number"', function() {
     const textbox = new TextBox({
       model: new BaseModel(),
       id: _.uniqueId('textbox'),

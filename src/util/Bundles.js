@@ -46,24 +46,24 @@ const STORAGE_KEY = 'osw.languages';
  *  }
  * }
  */
-function parseOverrides (i18n) {
+function parseOverrides(i18n) {
   if (!i18n) {
     return {};
   }
 
   const i18nWithLowerCaseKeys = {};
 
-  _.each(_.keys(i18n), function (key) {
+  _.each(_.keys(i18n), function(key) {
     i18nWithLowerCaseKeys[key.toLowerCase()] = i18n[key];
   });
 
-  return _.mapObject(i18nWithLowerCaseKeys, function (props) {
+  return _.mapObject(i18nWithLowerCaseKeys, function(props) {
     const mapped = { login: {}, country: {} };
 
     if (!_.isObject(props)) {
       throw new Error('Invalid format for "i18n"');
     }
-    _.each(props, function (val, key) {
+    _.each(props, function(val, key) {
       const split = key.split(/^country\./);
 
       if (split.length > 1) {
@@ -80,7 +80,7 @@ function parseOverrides (i18n) {
 // languages are loaded on demand and cached in localStorage. These languages
 // are tied to the version of the widget - when it bumps, we reset the cache.
 
-function getCachedLanguages () {
+function getCachedLanguages() {
   let storage = JSON.parse(localStorage.getItem(STORAGE_KEY));
 
   if (!storage || storage.version !== config.version) {
@@ -91,7 +91,7 @@ function getCachedLanguages () {
   return storage;
 }
 
-function addLanguageToCache (language, loginJson, countryJson) {
+function addLanguageToCache(language, loginJson, countryJson) {
   const current = getCachedLanguages();
 
   current[language] = {
@@ -129,7 +129,7 @@ function addLanguageToCache (language, loginJson, countryJson) {
 // Note: Most developers will not need to use these overrides - the default
 // is to use the Okta CDN and to use the same path + file structure the
 // widget module publishes by default.
-function fetchJson (bundle, language, assets) {
+function fetchJson(bundle, language, assets) {
   let languageCode;
   let path;
 
@@ -155,7 +155,7 @@ function fetchJson (bundle, language, assets) {
     .then(txt => JSON.parse(txt));
 }
 
-function getBundles (language, assets) {
+function getBundles(language, assets) {
   // Two special cases:
   // 1. English is already bundled with the widget
   // 2. If the language is not in our config file, it means that they've
@@ -177,13 +177,13 @@ function getBundles (language, assets) {
   }
 
   return Q.all([fetchJson('login', language, assets), fetchJson('country', language, assets)])
-    .spread(function (loginJson, countryJson) {
+    .spread(function(loginJson, countryJson) {
       if (localStorageIsSupported) {
         addLanguageToCache(language, loginJson, countryJson);
       }
       return { login: loginJson, country: countryJson };
     })
-    .catch(function () {
+    .catch(function() {
       // If there is an error, this will default to the bundled language and
       // we will no longer try to load the language this session.
       Logger.warn('Unable to load language: ' + language);
@@ -201,15 +201,15 @@ export default {
 
   currentLanguage: null,
 
-  isLoaded: function (language) {
+  isLoaded: function(language) {
     return this.currentLanguage === language;
   },
 
-  remove: function () {
+  remove: function() {
     this.currentLanguage = null;
   },
 
-  loadLanguage: function (language, overrides, assets) {
+  loadLanguage: function(language, overrides, assets) {
     const parsedOverrides = parseOverrides(overrides);
     const lowerCaseLanguage = language.toLowerCase();
 

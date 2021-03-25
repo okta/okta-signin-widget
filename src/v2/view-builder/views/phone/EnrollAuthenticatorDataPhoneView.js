@@ -7,15 +7,15 @@ const Body = BaseForm.extend({
 
   className: 'phone-authenticator-enroll',
 
-  title () {
+  title() {
     return loc('oie.phone.enroll.title', 'login');
   },
 
-  subtitle () {
+  subtitle() {
     return loc('oie.phone.enroll.subtitle', 'login');
   },
 
-  render () {
+  render() {
     BaseForm.prototype.render.apply(this, arguments);
     const selectedMethod = this.model.get('authenticator.methodType');
     const phoneField = this.el.querySelector('.phone-authenticator-enroll__phone');
@@ -38,18 +38,18 @@ const Body = BaseForm.extend({
     this.el.querySelector('.phone-authenticator-enroll__phone-code').innerText = `+${this.model.get('phoneCode')}`;
   },
 
-  handlePhoneCodeChange () {
+  handlePhoneCodeChange() {
     const countryCodeField = this.el.querySelector('.phone-authenticator-enroll__phone-code');
     countryCodeField.innerText = `+${this.model.get('phoneCode')}`;
   },
 
-  save () {
+  save() {
     return this.model.get('authenticator.methodType') === 'voice'
       ? loc('oie.phone.call.primaryButton', 'login')
       : loc('oie.phone.sms.primaryButton', 'login');
   },
 
-  getUISchema () {
+  getUISchema() {
     const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
 
     // TODO: Using underscore to support IE, replace with Array.prototype methods (find, findIndex) when IE
@@ -109,7 +109,7 @@ const Body = BaseForm.extend({
     return uiSchemas;
   },
 
-  initialize () {
+  initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
     this.listenTo(this.model, 'change:authenticator.methodType', this.render.bind(this));
     this.listenTo(this.model, 'change:phoneCode', this.handlePhoneCodeChange.bind(this));
@@ -120,7 +120,7 @@ export default BaseAuthenticatorView.extend({
 
   Body,
 
-  createModelClass () {
+  createModelClass() {
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     const local = Object.assign(
       {
@@ -139,7 +139,7 @@ export default BaseAuthenticatorView.extend({
       {
         phoneCode: {
           deps: [ 'country' ],
-          fn: function (country) {
+          fn: function(country) {
             return CountryUtil.getCallingCodeForCountry(country);
           },
         },
@@ -149,7 +149,7 @@ export default BaseAuthenticatorView.extend({
     return ModelClass.extend({
       local,
       derived,
-      toJSON: function () {
+      toJSON: function() {
         const modelJSON = Model.prototype.toJSON.call(this, arguments);
         const extension = this.get('extension');
         const phoneCode = this.get('phoneCode');

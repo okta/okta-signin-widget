@@ -20,7 +20,7 @@ export default Form.extend({
   layout: 'o-form-theme',
   attributes: { 'data-se': 'factor-question' },
 
-  initialize: function () {
+  initialize: function() {
     this.title = this.model.get('factorLabel');
 
     this.addInput({

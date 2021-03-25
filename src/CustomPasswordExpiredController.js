@@ -20,7 +20,7 @@ export default FormController.extend({
   Model: {},
   Form: {
     noButtonBar: true,
-    title: function () {
+    title: function() {
       const expiringSoon = this.options.appState.get('isPwdExpiringSoon');
       const numDays = this.options.appState.get('passwordExpireDays');
 
@@ -36,7 +36,7 @@ export default FormController.extend({
           : loc('password.expired.title.generic', 'login');
       }
     },
-    subtitle: function () {
+    subtitle: function() {
       if (this.options.appState.get('isPwdExpiringSoon')) {
         const subtitle = this.settings.get('brandName')
           ? loc('password.expiring.subtitle.specific', 'login', [this.settings.get('brandName')])
@@ -47,7 +47,7 @@ export default FormController.extend({
 
       return loc('password.expired.custom.subtitle', 'login');
     },
-    formChildren: function () {
+    formChildren: function() {
       return [
         FormType.Button({
           title: _.partial(loc, 'password.expired.custom.submit', 'login', [
@@ -55,7 +55,7 @@ export default FormController.extend({
           ]),
           className: 'button button-primary button-wide',
           attributes: { 'data-se': 'custom-button' },
-          click: function () {
+          click: function() {
             Util.redirect(this.options.appState.get('passwordExpiredLinkUrl'));
           },
         }),

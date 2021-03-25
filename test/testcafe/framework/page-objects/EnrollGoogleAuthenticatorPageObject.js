@@ -5,28 +5,28 @@ const CODE_FIELD_NAME = 'credentials.passcode';
 
 export default class EnrollGoogleAuthenticatorPageObject extends BasePageObject {
 
-  constructor (t) {
+  constructor(t) {
     super(t);
     this.resendEmail = new ResendEmailObject(t, this.form.el);
   }
 
-  getBarcodeSubtitle () {
+  getBarcodeSubtitle() {
     return this.getTextContent('.barcode-setup-title');
   }
 
-  getmanualSetupSubtitle () {
+  getmanualSetupSubtitle() {
     return this.getTextContent('.manual-setup-title');
   }
 
-  getSetUpDescription () {
+  getSetUpDescription() {
     return this.getTextContent('.google-authenticator-setup-info');
   }
 
-  hasQRcode () {
+  hasQRcode() {
     return this.form.elementExist('.qrcode');
   }
 
-  getSharedSecret () {
+  getSharedSecret() {
     return this.form.getElement('.shared-secret input').getAttribute('placeholder');
   }
 

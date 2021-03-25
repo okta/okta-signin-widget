@@ -28,8 +28,8 @@ export default FormController.extend({
       stateToken: 'string',
     },
 
-    getInitOptions: function () {
-      return this.doTransaction(function (transaction) {
+    getInitOptions: function() {
+      return this.doTransaction(function(transaction) {
         const factor = _.findWhere(transaction.factors, {
           factorType: 'web',
           provider: 'DUO',
@@ -39,7 +39,7 @@ export default FormController.extend({
       });
     },
 
-    activate: function (signedResponse) {
+    activate: function(signedResponse) {
       const url = this.get('postAction');
       const factorId = this.get('factorId');
       const self = this;
@@ -57,12 +57,12 @@ export default FormController.extend({
       // are the only two places where we actually do this.
       // NOTE - If we ever decide to change this, we should test this very carefully.
       return Q($.post(url, data))
-        .then(function () {
-          return self.doTransaction(function (transaction) {
+        .then(function() {
+          return self.doTransaction(function(transaction) {
             return transaction.poll();
           });
         })
-        .catch(function (err) {
+        .catch(function(err) {
           self.trigger('error', self, err.xhr);
         });
     },
@@ -73,7 +73,7 @@ export default FormController.extend({
     noButtonBar: true,
     title: _.partial(loc, 'enroll.duo.title', 'login'),
 
-    postRender: function () {
+    postRender: function() {
       this.add('<iframe frameborder="0" title="' + this.title() + '"></iframe>');
       Duo.init({
         host: this.model.get('host'),
@@ -86,10 +86,10 @@ export default FormController.extend({
 
   Footer: Footer,
 
-  fetchInitialData: function () {
+  fetchInitialData: function() {
     const self = this;
 
-    return this.model.getInitOptions(this.options.appState).then(function (trans) {
+    return this.model.getInitOptions(this.options.appState).then(function(trans) {
       const res = trans.data;
 
       if (
@@ -115,7 +115,7 @@ export default FormController.extend({
     });
   },
 
-  trapAuthResponse: function () {
+  trapAuthResponse: function() {
     if (this.options.appState.get('isMfaEnrollActivate')) {
       return true;
     }

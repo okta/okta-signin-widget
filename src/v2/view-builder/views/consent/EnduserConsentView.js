@@ -7,7 +7,7 @@ import EnduserConsentAgreementText from './EnduserConsentAgreementText';
 export default AdminConsentView.extend({
   Header: EnduserConsentViewHeader,
   Footer: EnduserConsentViewFooter,
-  postRender () {
+  postRender() {
     const scopeList = this.$el.find('.scope-list');
     const consentAgreementText = new EnduserConsentAgreementText().render().el;
     scopeList.after(consentAgreementText);

@@ -60,10 +60,10 @@ const VALID_ID_TOKEN =
   'lXvxoMVtFk-fcdCkn1DnTtIzsFPOjysBl2vjwVBJXg9h1Nymd91l' +
   'dI5eorOMrbamRfxOFkEUC9P9mgO6DcVfR5oxY0pjfMA';
 
-Expect.describe('LoginRouter', function () {
-  function setup (settings, resp) {
+Expect.describe('LoginRouter', function() {
+  function setup(settings, resp) {
     settings = settings || {};
-    const setNextResponse = settings.mockAjax === false ? function () {} : Util.mockAjax();
+    const setNextResponse = settings.mockAjax === false ? function() {} : Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authParams = { issuer: baseUrl, headers: {} };
     Object.keys(settings).forEach(key => {
@@ -105,7 +105,7 @@ Expect.describe('LoginRouter', function () {
     });
   }
 
-  function setupOAuth2 (settings, options = {}) {
+  function setupOAuth2(settings, options = {}) {
     spyOn(window, 'addEventListener');
     Util.mockOIDCStateGenerator();
     return setup(
@@ -118,7 +118,7 @@ Expect.describe('LoginRouter', function () {
       ),
       resMfaRequiredOktaVerify
     )
-      .then(function (test) {
+      .then(function(test) {
         // Start in MFA_REQUIRED, and then call success. This allows us to test
         // that we are registering our handler independent of the controller we
         // are on
@@ -127,10 +127,10 @@ Expect.describe('LoginRouter', function () {
         test.router.refreshAuthState('dummy-token');
         return Expect.waitForMfaVerify(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         const origAppend = document.appendChild;
 
-        spyOn(document.body, 'appendChild').and.callFake(function (element) {
+        spyOn(document.body, 'appendChild').and.callFake(function(element) {
           if (element.tagName.toLowerCase() === 'iframe') {
             // Don't want to actually append the original iframe since it loads
             // an external url. However, we will append one without the src so
@@ -161,7 +161,7 @@ Expect.describe('LoginRouter', function () {
   }
 
   // { settings, userLanguages, supportedLanguages }
-  function setupLanguage (options) {
+  function setupLanguage(options) {
     const loadingSpy = jasmine.createSpy('loading');
     const delay = options.delay || 0;
     // TODO: remove delay from tests
@@ -169,7 +169,7 @@ Expect.describe('LoginRouter', function () {
     spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
 
     return setup(options.settings)
-      .then(function (test) {
+      .then(function(test) {
         test.router.appState.on('loading', loadingSpy);
         // Use the encrollCallAndSms controller because it uses both the login
         // and country bundles
@@ -185,7 +185,7 @@ Expect.describe('LoginRouter', function () {
         test.router.refreshAuthState('dummy-token');
         return Expect.waitForEnrollChoices(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         test.router.appState.off('loading');
         test.router.enrollCall();
         return Expect.waitForEnrollCall(
@@ -195,43 +195,43 @@ Expect.describe('LoginRouter', function () {
           })
         );
       })
-      .then(function (test) {
-        return Expect.wait(function () {
+      .then(function(test) {
+        return Expect.wait(function() {
           return test.form.hasCountriesList();
         }, test);
       });
   }
 
-  function expectPrimaryAuthRender (options = {}, path = '') {
+  function expectPrimaryAuthRender(options = {}, path = '') {
     // Reusable stub to assert that the Primary Auth for renders
     // given Widget parameters and a navigation path.
     return setup(options)
-      .then(function (test) {
+      .then(function(test) {
         Util.mockRouterNavigate(test.router);
         test.router.navigate(path);
         return Expect.waitForPrimaryAuth();
       })
-      .then(function () {
+      .then(function() {
         const form = new PrimaryAuthForm($sandbox);
 
         expect(form.isPrimaryAuth()).toBe(true);
       });
   }
 
-  function expectUnexpectedFieldLog (arg1) {
+  function expectUnexpectedFieldLog(arg1) {
     // These console warnings are called from Courage's Logger class, not
     // the Widget's. We need to assert that the following is called in specific
     // environments (window.okta && window.okta.debug are defined).
     expect(CourageLogger.warn).toHaveBeenCalledWith('Field not defined in schema', arg1);
   }
 
-  Expect.describe('Loads json bundles', function () {
+  Expect.describe('Loads json bundles', function() {
     config.supportedLanguages
-      .filter(function (lang) {
+      .filter(function(lang) {
         return lang !== 'en'; // no bundles are loaded for english
       })
-      .forEach(function (lang) {
-        it(`for language: "${lang}"`, function () {
+      .forEach(function(lang) {
+        it(`for language: "${lang}"`, function() {
           const loadingSpy = jasmine.createSpy('loading');
 
           spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(false);
@@ -242,17 +242,17 @@ Expect.describe('LoginRouter', function () {
               baseUrl: '/base/target', // local json bundles are served to us through karma
             },
           })
-            .then(function (test) {
+            .then(function(test) {
               test.router.appState.on('loading', loadingSpy);
               spyOn(Bundles, 'loadLanguage').and.callThrough();
               test.router.passwordExpired(); // choosing a simple view with text
-              return Expect.wait(function () {
+              return Expect.wait(function() {
                 const call = loadingSpy.calls.mostRecent();
 
                 return call && call.args.length === 1 && call.args[0] === false;
               }, test);
             })
-            .then(function () {
+            .then(function() {
               expect(Bundles.loadLanguage).toHaveBeenCalled();
               expect(Bundles.currentLanguage).toBe(lang);
               // Verify that the translation is being applied
@@ -269,47 +269,47 @@ Expect.describe('LoginRouter', function () {
               // Loading English here so that other tests will not be affected.
               return Bundles.loadLanguage('en');
             })
-            .then(function () {
+            .then(function() {
               expect(Bundles.currentLanguage).toBe('en');
             });
         });
       });
   });
 
-  it('logs a ConfigError error if unknown option is passed as a widget param', function () {
+  it('logs a ConfigError error if unknown option is passed as a widget param', function() {
     spyOn(CourageLogger, 'warn');
 
-    const fn = function () {
+    const fn = function() {
       setup({ foo: 'bla' });
     };
 
     expect(fn).not.toThrowError(Errors.ConfigError);
     expectUnexpectedFieldLog('foo');
   });
-  it('has the correct error message if unknown option is passed as a widget param', function () {
+  it('has the correct error message if unknown option is passed as a widget param', function() {
     spyOn(CourageLogger, 'warn');
 
-    const fn = function () {
+    const fn = function() {
       setup({ foo: 'bla' });
     };
 
     expect(fn).not.toThrow();
     expectUnexpectedFieldLog('foo');
   });
-  it('logs a ConfigError error if el is not passed as a widget param', function () {
+  it('logs a ConfigError error if el is not passed as a widget param', function() {
     spyOn(Logger, 'error');
 
-    const fn = function () {
+    const fn = function() {
       setup({ el: undefined });
     };
 
     expect(fn).not.toThrow();
     expect(Logger.error).toHaveBeenCalled();
   });
-  it('has the correct error message if el is not passed as a widget param', function () {
+  it('has the correct error message if el is not passed as a widget param', function() {
     spyOn(Logger, 'error');
 
-    const fn = function () {
+    const fn = function() {
       setup({ el: undefined });
     };
 
@@ -319,8 +319,8 @@ Expect.describe('LoginRouter', function () {
     expect(err.name).toBe('CONFIG_ERROR');
     expect(err.message).toEqual('"el" is a required widget parameter');
   });
-  it('throws a ConfigError if issuer is not passed as a widget param', function () {
-    const fn = function () {
+  it('throws a ConfigError if issuer is not passed as a widget param', function() {
+    const fn = function() {
       setup({ authClient: createAuthClient({ issuer: undefined }) });
     };
 
@@ -330,43 +330,43 @@ Expect.describe('LoginRouter', function () {
   });
   itp(
     'renders the primary autenthentication form when no globalSuccessFn and globalErrorFn are passed as widget params',
-    function () {
+    function() {
       return expectPrimaryAuthRender({ globalSuccessFn: undefined, globalErrorFn: undefined });
     }
   );
   itp(
     'renders the primary autenthentication form when a null globalSuccessFn and globalErrorFn are passed as widget params',
-    function () {
+    function() {
       return expectPrimaryAuthRender({ globalSuccessFn: null, globalErrorFn: null });
     }
   );
-  itp('set pushState true if pushState is supported', function () {
+  itp('set pushState true if pushState is supported', function() {
     spyOn(BrowserFeatures, 'supportsPushState').and.returnValue(true);
     spyOn(Router.prototype, 'start');
-    return setup({ 'features.router': true }).then(function (test) {
+    return setup({ 'features.router': true }).then(function(test) {
       test.router.start();
       expect(Router.prototype.start).toHaveBeenCalledWith({ pushState: true });
     });
   });
-  itp('set pushState false if pushState is not supported', function () {
+  itp('set pushState false if pushState is not supported', function() {
     spyOn(BrowserFeatures, 'supportsPushState').and.returnValue(false);
     spyOn(Router.prototype, 'start');
-    return setup({ 'features.router': true }).then(function (test) {
+    return setup({ 'features.router': true }).then(function(test) {
       test.router.start();
       expect(Router.prototype.start).toHaveBeenCalledWith({ pushState: false });
     });
   });
 
-  itp('invokes success callback if SUCCESS auth status is returned', function () {
+  itp('invokes success callback if SUCCESS auth status is returned', function() {
     const successSpy = jasmine.createSpy('successSpy');
 
     return setup({ globalSuccessFn: successSpy }, resSuccess)
-      .then(function (test) {
+      .then(function(test) {
         test.setNextResponse(resSuccess);
         test.router.refreshAuthState('dummy-token');
         return Expect.waitForSpyCall(successSpy);
       })
-      .then(function () {
+      .then(function() {
         const res = successSpy.calls.mostRecent().args[0];
 
         expect(res.status).toBe('SUCCESS');
@@ -384,10 +384,10 @@ Expect.describe('LoginRouter', function () {
         expect(_.isFunction(res.session.setCookieAndRedirect)).toBe(true);
       });
   });
-  itp('has a success callback which correctly implements the setCookieAndRedirect function', function () {
+  itp('has a success callback which correctly implements the setCookieAndRedirect function', function() {
     const spied = {};
 
-    spied.successFn = function (resp) {
+    spied.successFn = function(resp) {
       if (resp.status === 'SUCCESS') {
         resp.session.setCookieAndRedirect('http://baz.com/foo');
       }
@@ -395,12 +395,12 @@ Expect.describe('LoginRouter', function () {
     spyOn(spied, 'successFn').and.callThrough();
     spyOn(SharedUtil, 'redirect');
     return setup({ globalSuccessFn: spied.successFn }, resSuccess)
-      .then(function (test) {
+      .then(function(test) {
         test.setNextResponse(resSuccess);
         test.router.refreshAuthState('dummy-token');
         return Expect.waitForSpyCall(spied.successFn);
       })
-      .then(function () {
+      .then(function() {
         expect(SharedUtil.redirect).toHaveBeenCalledWith(
           'https://foo.com/login/sessionCookieRedirect?checkAccountSetupComplete=true' +
             '&token=THE_SESSION_TOKEN&redirectUrl=http%3A%2F%2Fbaz.com%2Ffoo'
@@ -409,10 +409,10 @@ Expect.describe('LoginRouter', function () {
   });
   itp(
     'has a success callback which correctly implements the setCookieAndRedirect function when features.redirectByFormSubmit is on',
-    function () {
+    function() {
       const spied = {};
 
-      spied.successFn = function (resp) {
+      spied.successFn = function(resp) {
         if (resp.status === 'SUCCESS') {
           resp.session.setCookieAndRedirect('http://baz.com/foo');
         }
@@ -420,12 +420,12 @@ Expect.describe('LoginRouter', function () {
       spyOn(spied, 'successFn').and.callThrough();
       spyOn(WidgetUtil, 'redirectWithFormGet');
       return setup({ globalSuccessFn: spied.successFn, 'features.redirectByFormSubmit': true }, resSuccess)
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resSuccess);
           test.router.refreshAuthState('dummy-token');
           return Expect.waitForSpyCall(spied.successFn);
         })
-        .then(function () {
+        .then(function() {
           expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith(
             'https://foo.com/login/sessionCookieRedirect?checkAccountSetupComplete=true' +
               '&token=THE_SESSION_TOKEN&redirectUrl=http%3A%2F%2Fbaz.com%2Ffoo'
@@ -435,11 +435,11 @@ Expect.describe('LoginRouter', function () {
   );
   itp(
     'for SESSION_STEP_UP type, success callback data contains the target resource url and a finish function',
-    function () {
+    function() {
       let targetUrl;
       const spied = {};
 
-      spied.successFn = function (resp) {
+      spied.successFn = function(resp) {
         if (resp.status === 'SUCCESS') {
           if (resp.type === 'SESSION_STEP_UP') {
             targetUrl = resp.stepUp.url;
@@ -450,12 +450,12 @@ Expect.describe('LoginRouter', function () {
       spyOn(spied, 'successFn').and.callThrough();
       spyOn(SharedUtil, 'redirect');
       return setup({ stateToken: 'aStateToken', globalSuccessFn: spied.successFn }, resSuccessStepUp)
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resSuccessStepUp);
           test.router.refreshAuthState('dummy-token');
           return Expect.waitForSpyCall(spied.successFn);
         })
-        .then(function () {
+        .then(function() {
           expect(targetUrl).toBe('http://foo.okta.com/login/step-up/redirect?stateToken=aStateToken');
           expect(SharedUtil.redirect).toHaveBeenCalledWith(
             'http://foo.okta.com/login/step-up/redirect?stateToken=aStateToken'
@@ -465,11 +465,11 @@ Expect.describe('LoginRouter', function () {
   );
   itp(
     'for SESSION_STEP_UP type, success callback data contains the target resource url and a finish function when features.redirectByFormSubmit is on',
-    function () {
+    function() {
       let targetUrl;
       const spied = {};
 
-      spied.successFn = function (resp) {
+      spied.successFn = function(resp) {
         if (resp.status === 'SUCCESS') {
           if (resp.type === 'SESSION_STEP_UP') {
             targetUrl = resp.stepUp.url;
@@ -486,12 +486,12 @@ Expect.describe('LoginRouter', function () {
       };
 
       return setup(opt, resSuccessStepUp)
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resSuccessStepUp);
           test.router.refreshAuthState('dummy-token');
           return Expect.waitForSpyCall(spied.successFn);
         })
-        .then(function () {
+        .then(function() {
           expect(targetUrl).toBe('http://foo.okta.com/login/step-up/redirect?stateToken=aStateToken');
           expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith(
             'http://foo.okta.com/login/step-up/redirect?stateToken=aStateToken'
@@ -501,10 +501,10 @@ Expect.describe('LoginRouter', function () {
   );
   itp(
     'for success with an original link, success callback data contains a next function that redirects to original.href',
-    function () {
+    function() {
       const spied = {};
 
-      spied.successFn = function (resp) {
+      spied.successFn = function(resp) {
         if (resp.status === 'SUCCESS') {
           if (resp.type === 'NEW_TYPE' && resp.next) {
             resp.next();
@@ -514,12 +514,12 @@ Expect.describe('LoginRouter', function () {
       spyOn(spied, 'successFn').and.callThrough();
       spyOn(SharedUtil, 'redirect');
       return setup({ stateToken: 'aStateToken', globalSuccessFn: spied.successFn }, resSuccessOriginal)
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resSuccessOriginal);
           test.router.refreshAuthState('dummy-token');
           return Expect.waitForSpyCall(spied.successFn);
         })
-        .then(function () {
+        .then(function() {
           expect(SharedUtil.redirect).toHaveBeenCalledWith(
             'http://foo.okta.com/original/redirect?stateToken=aStateToken'
           );
@@ -528,10 +528,10 @@ Expect.describe('LoginRouter', function () {
   );
   itp(
     'for success with an original link, success callback data contains a next function that redirects to original.href when features.redirectByFormSubmit is on',
-    function () {
+    function() {
       const spied = {};
 
-      spied.successFn = function (resp) {
+      spied.successFn = function(resp) {
         if (resp.status === 'SUCCESS') {
           if (resp.type === 'NEW_TYPE' && resp.next) {
             resp.next();
@@ -547,12 +547,12 @@ Expect.describe('LoginRouter', function () {
       };
 
       return setup(opt, resSuccessOriginal)
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resSuccessOriginal);
           test.router.refreshAuthState('dummy-token');
           return Expect.waitForSpyCall(spied.successFn);
         })
-        .then(function () {
+        .then(function() {
           expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith(
             'http://foo.okta.com/original/redirect?stateToken=aStateToken'
           );
@@ -561,10 +561,10 @@ Expect.describe('LoginRouter', function () {
   );
   itp(
     'for success with a next link, success callback data contains a next function that redirects to next.href',
-    function () {
+    function() {
       const spied = {};
 
-      spied.successFn = function (resp) {
+      spied.successFn = function(resp) {
         if (resp.status === 'SUCCESS') {
           if (resp.type === 'NEW_TYPE' && resp.next) {
             resp.next();
@@ -574,22 +574,22 @@ Expect.describe('LoginRouter', function () {
       spyOn(spied, 'successFn').and.callThrough();
       spyOn(SharedUtil, 'redirect');
       return setup({ stateToken: 'aStateToken', globalSuccessFn: spied.successFn }, resSuccessNext)
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resSuccessNext);
           test.router.refreshAuthState('dummy-token');
           return Expect.waitForSpyCall(spied.successFn);
         })
-        .then(function () {
+        .then(function() {
           expect(SharedUtil.redirect).toHaveBeenCalledWith('http://foo.okta.com/next/redirect?stateToken=aStateToken');
         });
     }
   );
   itp(
     'for success with a next link, success callback data contains a next function that redirects to next.href when features.redirectByFormSubmit is on',
-    function () {
+    function() {
       const spied = {};
 
-      spied.successFn = function (resp) {
+      spied.successFn = function(resp) {
         if (resp.status === 'SUCCESS') {
           if (resp.type === 'NEW_TYPE' && resp.next) {
             resp.next();
@@ -605,20 +605,20 @@ Expect.describe('LoginRouter', function () {
       };
 
       return setup(opt, resSuccessNext)
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resSuccessNext);
           test.router.refreshAuthState('dummy-token');
           return Expect.waitForSpyCall(spied.successFn);
         })
-        .then(function () {
+        .then(function() {
           expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith(
             'http://foo.okta.com/next/redirect?stateToken=aStateToken'
           );
         });
     }
   );
-  it('logs an error on unrecoverable errors if no globalErrorFn is defined', function () {
-    const fn = function () {
+  it('logs an error on unrecoverable errors if no globalErrorFn is defined', function() {
+    const fn = function() {
       setup({ foo: 'bar' });
     };
 
@@ -626,10 +626,10 @@ Expect.describe('LoginRouter', function () {
     expect(fn).not.toThrow('field not allowed: foo');
     expectUnexpectedFieldLog('foo');
   });
-  it('calls globalErrorFn on unrecoverable errors if it is defined', function () {
+  it('calls globalErrorFn on unrecoverable errors if it is defined', function() {
     const errorSpy = jasmine.createSpy('errorSpy');
 
-    const fn = function () {
+    const fn = function() {
       setup({ globalErrorFn: errorSpy, baseUrl: undefined });
     };
 
@@ -639,13 +639,13 @@ Expect.describe('LoginRouter', function () {
     expect(err.name).toBe('CONFIG_ERROR');
     expect(err.message).toEqual('"baseUrl" is a required widget parameter');
   });
-  it('calls globalErrorFn if colors.brand is in rgb format', function () {
+  it('calls globalErrorFn if colors.brand is in rgb format', function() {
     const errorSpy = jasmine.createSpy('errorSpy');
     const colors = {
       brand: 'rgb(255,0,0)',
     };
 
-    const fn = function () {
+    const fn = function() {
       setup({ globalErrorFn: errorSpy, colors });
     };
 
@@ -655,13 +655,13 @@ Expect.describe('LoginRouter', function () {
     expect(err.name).toBe('CONFIG_ERROR');
     expect(err.message).toEqual('"colors.brand" must be in six-digit hex format');
   });
-  it('calls globalErrorFn if colors.brand is in color name format', function () {
+  it('calls globalErrorFn if colors.brand is in color name format', function() {
     const errorSpy = jasmine.createSpy('errorSpy');
     const colors = {
       brand: 'red',
     };
 
-    const fn = function () {
+    const fn = function() {
       setup({ globalErrorFn: errorSpy, colors });
     };
 
@@ -671,25 +671,25 @@ Expect.describe('LoginRouter', function () {
     expect(err.name).toBe('CONFIG_ERROR');
     expect(err.message).toEqual('"colors.brand" must be in six-digit hex format');
   });
-  it('does not call globalErrorFn if colors.brand is in 6 digits Hex format', function () {
+  it('does not call globalErrorFn if colors.brand is in 6 digits Hex format', function() {
     const errorSpy = jasmine.createSpy('errorSpy');
     const colors = {
       brand: '#FF0000',
     };
 
-    const fn = function () {
+    const fn = function() {
       setup({ globalErrorFn: errorSpy, colors: colors });
     };
 
     expect(fn).not.toThrow();
     expect(errorSpy).not.toHaveBeenCalled();
   });
-  it('calls globalErrorFn if cors is not supported by the browser', function () {
+  it('calls globalErrorFn if cors is not supported by the browser', function() {
     const errorSpy = jasmine.createSpy('errorSpy');
 
     spyOn(BrowserFeatures, 'corsIsNotSupported').and.returnValue(true);
 
-    const fn = function () {
+    const fn = function() {
       setup({ globalErrorFn: errorSpy });
     };
 
@@ -700,96 +700,96 @@ Expect.describe('LoginRouter', function () {
     expect(err.name).toBe('UNSUPPORTED_BROWSER_ERROR');
     expect(err.message).toEqual('Unsupported browser - missing CORS support');
   });
-  itp('uses default router navigate if features.router param is true', function () {
+  itp('uses default router navigate if features.router param is true', function() {
     spyOn(Router.prototype, 'navigate');
-    return setup({ 'features.router': true }).then(function (test) {
+    return setup({ 'features.router': true }).then(function(test) {
       test.router.navigate('signin/forgot-password', { trigger: true });
       expect(Router.prototype.navigate).toHaveBeenCalledWith('signin/forgot-password', { trigger: true });
     });
   });
-  itp('uses history loadUrl if features.router param is false', function () {
+  itp('uses history loadUrl if features.router param is false', function() {
     spyOn(Router.prototype, 'navigate');
     spyOn(Backbone.history, 'loadUrl');
-    return setup({ 'features.router': false }).then(function (test) {
+    return setup({ 'features.router': false }).then(function(test) {
       test.router.navigate('signin/forgot-password', { trigger: true });
       expect(Router.prototype.navigate).not.toHaveBeenCalled();
       expect(Backbone.history.loadUrl).toHaveBeenCalledWith('signin/forgot-password');
     });
   });
-  itp('navigates to PrimaryAuth if requesting a stateful url without a stateToken', function () {
+  itp('navigates to PrimaryAuth if requesting a stateful url without a stateToken', function() {
     return expectPrimaryAuthRender({}, 'signin/recovery-question');
   });
-  itp('navigates to IDPDiscovery if features.idpDiscovery is set to true', function () {
+  itp('navigates to IDPDiscovery if features.idpDiscovery is set to true', function() {
     return setup({ 'features.idpDiscovery': true })
-      .then(function (test) {
+      .then(function(test) {
         Util.mockRouterNavigate(test.router);
         test.router.navigate('');
         return Expect.waitForIDPDiscovery();
       })
-      .then(function () {
+      .then(function() {
         const form = new IDPDiscoveryForm($sandbox);
 
         expect(form.isIDPDiscovery()).toBe(true);
       });
   });
-  itp('navigates to IDPDiscovery for /login/login.htm when features.idpDiscovery is true', function () {
+  itp('navigates to IDPDiscovery for /login/login.htm when features.idpDiscovery is true', function() {
     return setup({ 'features.idpDiscovery': true })
-      .then(function (test) {
+      .then(function(test) {
         Util.mockRouterNavigate(test.router);
         test.router.navigate('login/login.htm');
         return Expect.waitForIDPDiscovery();
       })
-      .then(function () {
+      .then(function() {
         const form = new IDPDiscoveryForm($sandbox);
 
         expect(form.isIDPDiscovery()).toBe(true);
       });
   });
-  itp('navigates to PrimaryAuth for /login/login.htm when features.idpDiscovery is false', function () {
+  itp('navigates to PrimaryAuth for /login/login.htm when features.idpDiscovery is false', function() {
     return expectPrimaryAuthRender({}, 'login/login.htm');
   });
-  itp('navigates to IDPDiscovery for /app/salesforce/{id}/sso/saml when features.idpDiscovery is true', function () {
+  itp('navigates to IDPDiscovery for /app/salesforce/{id}/sso/saml when features.idpDiscovery is true', function() {
     return setup({ 'features.idpDiscovery': true })
-      .then(function (test) {
+      .then(function(test) {
         Util.mockRouterNavigate(test.router);
         test.router.navigate('/app/salesforce/abc123sef/sso/saml');
         return Expect.waitForIDPDiscovery();
       })
-      .then(function () {
+      .then(function() {
         const form = new IDPDiscoveryForm($sandbox);
 
         expect(form.isIDPDiscovery()).toBe(true);
       });
   });
-  itp('navigates to PrimaryAuth for /app/salesforce/{id}/sso/saml when features.idpDiscovery is false', function () {
+  itp('navigates to PrimaryAuth for /app/salesforce/{id}/sso/saml when features.idpDiscovery is false', function() {
     return expectPrimaryAuthRender({ 'features.idpDiscovery': false }, '/app/salesforce/abc123sef/sso/saml');
   });
-  itp('navigates to IDPDiscovery for /any/other when features.idpDiscovery is true', function () {
+  itp('navigates to IDPDiscovery for /any/other when features.idpDiscovery is true', function() {
     return setup({ 'features.idpDiscovery': true })
-      .then(function (test) {
+      .then(function(test) {
         Util.mockRouterNavigate(test.router);
         test.router.navigate('any/other');
         return Expect.waitForIDPDiscovery();
       })
-      .then(function () {
+      .then(function() {
         const form = new IDPDiscoveryForm($sandbox);
 
         expect(form.isIDPDiscovery()).toBe(true);
       });
   });
-  itp('navigates to PrimaryAuth for /any/other when features.idpDiscovery is false', function () {
+  itp('navigates to PrimaryAuth for /any/other when features.idpDiscovery is false', function() {
     return expectPrimaryAuthRender({ 'features.idpDiscovery': false }, 'any/other');
   });
-  itp('refreshes auth state on stateful url if it needs a refresh', function () {
+  itp('refreshes auth state on stateful url if it needs a refresh', function() {
     return setup({}, resRecovery)
-      .then(function (test) {
+      .then(function(test) {
         Util.mockRouterNavigate(test.router);
         Util.mockSDKCookie(test.ac);
         test.setNextResponse(resRecovery);
         test.router.navigate('signin/recovery-question');
         return Expect.waitForRecoveryQuestion();
       })
-      .then(function () {
+      .then(function() {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn',
@@ -802,15 +802,15 @@ Expect.describe('LoginRouter', function () {
         expect(form.isRecoveryQuestion()).toBe(true);
       });
   });
-  itp('calls status and redirects if initialized with a stateToken', function () {
+  itp('calls status and redirects if initialized with a stateToken', function() {
     return setup({ stateToken: 'dummy-token' }, resRecovery)
-      .then(function (test) {
+      .then(function(test) {
         Util.mockRouterNavigate(test.router);
         test.setNextResponse(resRecovery);
         test.router.navigate('');
         return Expect.waitForRecoveryQuestion();
       })
-      .then(function () {
+      .then(function() {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/introspect',
@@ -823,15 +823,15 @@ Expect.describe('LoginRouter', function () {
         expect(form.isRecoveryQuestion()).toBe(true);
       });
   });
-  itp('navigates to PrimaryAuth and shows a flash error if the stateToken expires', function () {
+  itp('navigates to PrimaryAuth and shows a flash error if the stateToken expires', function() {
     return setup({}, resRecovery)
-      .then(function (test) {
+      .then(function(test) {
         Util.mockRouterNavigate(test.router);
         test.setNextResponse(resRecovery);
         test.router.refreshAuthState('dummy-token');
         return Expect.waitForRecoveryQuestion(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         test.setNextResponse(errorInvalidToken);
         const form = new RecoveryForm($sandbox);
 
@@ -839,7 +839,7 @@ Expect.describe('LoginRouter', function () {
         form.submit();
         return Expect.waitForPrimaryAuth(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
         expect(test.afterErrorHandler.calls.allArgs()).toEqual([
           [
@@ -876,22 +876,22 @@ Expect.describe('LoginRouter', function () {
         form.submit();
         return Expect.waitForMfaVerify(test);
       })
-      .then(function () {
+      .then(function() {
         const form = new MfaVerifyForm($sandbox);
 
         expect(form.isSecurityQuestion()).toBe(true);
         expect(form.hasErrors()).toBe(false);
       });
   });
-  itp('navigates to ErrorState page and shows a flash error if the stateToken expires', function () {
+  itp('navigates to ErrorState page and shows a flash error if the stateToken expires', function() {
     return setup({'features.mfaOnlyFlow': true }, resRecovery)
-      .then(function (test) {
+      .then(function(test) {
         Util.mockRouterNavigate(test.router);
         test.setNextResponse(resRecovery);
         test.router.refreshAuthState('dummy-token');
         return Expect.waitForRecoveryQuestion(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         test.setNextResponse(errorInvalidToken);
         const form = new RecoveryForm($sandbox);
 
@@ -899,7 +899,7 @@ Expect.describe('LoginRouter', function () {
         form.submit();
         return Expect.waitForErrorState(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
         expect(test.afterErrorHandler.calls.allArgs()).toEqual([
           [
@@ -929,15 +929,15 @@ Expect.describe('LoginRouter', function () {
         expect(form.errorMessage()).toBe('Unable to authenticate at this time.');
       });
   });
-  itp('navigates to PrimaryAuth if status is UNAUTHENTICATED, and IDP_DISCOVERY is disabled', function () {
+  itp('navigates to PrimaryAuth if status is UNAUTHENTICATED, and IDP_DISCOVERY is disabled', function() {
     return setup({ stateToken: 'dummy-token' }, resUnauthenticated)
-      .then(function (test) {
+      .then(function(test) {
         Util.mockRouterNavigate(test.router);
         test.setNextResponse(resUnauthenticated);
         test.router.navigate('/app/sso');
         return Expect.waitForPrimaryAuth(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/introspect',
@@ -951,15 +951,15 @@ Expect.describe('LoginRouter', function () {
         expect(form.isPrimaryAuth()).toBe(true);
       });
   });
-  itp('navigates to IDPDiscovery if status is UNAUTHENTICATED, and IDP_DISCOVERY is enabled', function () {
+  itp('navigates to IDPDiscovery if status is UNAUTHENTICATED, and IDP_DISCOVERY is enabled', function() {
     return setup({ stateToken: 'dummy-token', 'features.idpDiscovery': true }, resUnauthenticated)
-      .then(function (test) {
+      .then(function(test) {
         Util.mockRouterNavigate(test.router);
         test.setNextResponse(resUnauthenticated);
         test.router.navigate('/app/sso');
         return Expect.waitForIDPDiscovery(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/introspect',
@@ -973,42 +973,42 @@ Expect.describe('LoginRouter', function () {
         expect(form.isIDPDiscovery()).toBe(true);
       });
   });
-  itp('navigates to default route when status is UNAUTHENTICATED', function () {
+  itp('navigates to default route when status is UNAUTHENTICATED', function() {
     return setup({ stateToken: 'aStateToken' }, resUnauthenticated)
-      .then(function (test) {
+      .then(function(test) {
         Util.mockRouterNavigate(test.router);
         test.setNextResponse(resUnauthenticated);
         test.router.navigate('/app/sso');
         return Expect.waitForPrimaryAuth(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(test.router.navigate).toHaveBeenCalledWith('', { trigger: true });
       });
   });
-  itp('triggers an afterRender event when routing to default route and when status is UNAUTHENTICATED', function () {
+  itp('triggers an afterRender event when routing to default route and when status is UNAUTHENTICATED', function() {
     return setup({ stateToken: 'aStateToken' }, resUnauthenticated)
-      .then(function (test) {
+      .then(function(test) {
         Util.mockRouterNavigate(test.router);
         test.setNextResponse(resUnauthenticated);
         test.router.navigate('/app/sso');
         return Expect.waitForPrimaryAuth(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(test.router.navigate).toHaveBeenCalledWith('', { trigger: true });
         expect(test.afterRenderHandler).toHaveBeenCalledTimes(2);
         expect(test.afterRenderHandler.calls.allArgs()[0]).toEqual([{ controller: 'refresh-auth-state' }]);
         expect(test.afterRenderHandler.calls.allArgs()[1]).toEqual([{ controller: 'primary-auth' }]);
       });
   });
-  itp('does not show two forms if the duo fetchInitialData request fails with an expired stateToken', function () {
+  itp('does not show two forms if the duo fetchInitialData request fails with an expired stateToken', function() {
     Util.mockDuo();
     return setup()
-      .then(function (test) {
+      .then(function(test) {
         Util.mockRouterNavigate(test.router);
         test.router.primaryAuth();
         return Expect.waitForPrimaryAuth(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         Expect.allowUnhandledPromiseRejection();
         test.setNextResponse([resMfaRequiredDuo, errorInvalidToken]);
         const form = new PrimaryAuthForm($sandbox);
@@ -1018,7 +1018,7 @@ Expect.describe('LoginRouter', function () {
         form.submit();
         return Expect.waitForAjaxRequests(2, test);
       })
-      .then(function () {
+      .then(function() {
         // 2nd form will appear until the fail() handler is called in BaseLoginRouter. With Q this happens on the next tick.
         return Expect.wait(() => {
           const form = new PrimaryAuthForm($sandbox);
@@ -1029,16 +1029,16 @@ Expect.describe('LoginRouter', function () {
       });
   });
 
-  itp('makes a call to previous if the page is refreshed in an MFA_CHALLENGE state', function () {
+  itp('makes a call to previous if the page is refreshed in an MFA_CHALLENGE state', function() {
     return setup({}, resMfaChallengeDuo)
-      .then(function (test) {
+      .then(function(test) {
         Util.mockRouterNavigate(test.router);
         Util.mockSDKCookie(test.ac);
         test.setNextResponse([resMfaChallengeDuo, resMfa]);
         test.router.navigate('signin/verify/duo/web', { trigger: true });
         return Expect.waitForMfaVerify(test);
       })
-      .then(function () {
+      .then(function() {
         const form = new MfaVerifyForm($sandbox);
         // Expect that we are on the MFA_CHALLENGE page (default is push for this
         // response)
@@ -1049,14 +1049,14 @@ Expect.describe('LoginRouter', function () {
         });
       });
   });
-  itp('checks auto push by default for a returning user with autoPush true', function () {
+  itp('checks auto push by default for a returning user with autoPush true', function() {
     return setup({ 'features.autoPush': true })
-      .then(function (test) {
+      .then(function(test) {
         Util.mockRouterNavigate(test.router);
         test.router.navigate('signin');
         return Expect.waitForPrimaryAuth(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         const form = new PrimaryAuthForm($sandbox);
 
         expect(form.isPrimaryAuth()).toBe(true);
@@ -1070,7 +1070,7 @@ Expect.describe('LoginRouter', function () {
         form.submit();
         return Expect.waitForMfaVerify();
       })
-      .then(function () {
+      .then(function() {
         const form = new MfaVerifyForm($sandbox);
 
         expect(form.autoPushCheckbox().length).toBe(1);
@@ -1079,7 +1079,7 @@ Expect.describe('LoginRouter', function () {
           return Util.numAjaxRequests() === 2;
         }, form);
       })
-      .then(function (form) {
+      .then(function(form) {
         expect(form.isPushSent()).toBe(true);
         expect(Util.numAjaxRequests()).toBe(2);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
@@ -1101,14 +1101,14 @@ Expect.describe('LoginRouter', function () {
         });
       });
   });
-  itp('no auto push for a new user', function () {
+  itp('no auto push for a new user', function() {
     return setup({ 'features.autoPush': true })
-      .then(function (test) {
+      .then(function(test) {
         Util.mockRouterNavigate(test.router);
         test.router.navigate('signin');
         return Expect.waitForPrimaryAuth(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         const form = new PrimaryAuthForm($sandbox);
 
         expect(form.isPrimaryAuth()).toBe(true);
@@ -1118,7 +1118,7 @@ Expect.describe('LoginRouter', function () {
         form.submit();
         return Expect.waitForMfaVerify();
       })
-      .then(function () {
+      .then(function() {
         const form = new MfaVerifyForm($sandbox);
 
         expect(form.autoPushCheckbox().length).toBe(1);
@@ -1126,14 +1126,14 @@ Expect.describe('LoginRouter', function () {
         expect(form.isPushSent()).toBe(false);
       });
   });
-  itp('sends autoPush=false as url param when auto push checkbox is unchecked', function () {
+  itp('sends autoPush=false as url param when auto push checkbox is unchecked', function() {
     return setup({ 'features.autoPush': true })
-      .then(function (test) {
+      .then(function(test) {
         Util.mockRouterNavigate(test.router);
         test.router.navigate('signin');
         return Expect.waitForPrimaryAuth(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         const form = new PrimaryAuthForm($sandbox);
 
         expect(form.isPrimaryAuth()).toBe(true);
@@ -1143,7 +1143,7 @@ Expect.describe('LoginRouter', function () {
         form.submit();
         return Expect.waitForMfaVerify(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn',
@@ -1163,7 +1163,7 @@ Expect.describe('LoginRouter', function () {
         form.submit();
         return Expect.waitForAjaxRequest();
       })
-      .then(function () {
+      .then(function() {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/factors/opfhw7v2OnxKpftO40g3/verify?autoPush=false&rememberDevice=false',
@@ -1174,8 +1174,8 @@ Expect.describe('LoginRouter', function () {
       });
   });
 
-  Expect.describe('OIDC - okta is the idp and oauth2 is enabled', function () {
-    function expectAuthorizeUrl (url, options) {
+  Expect.describe('OIDC - okta is the idp and oauth2 is enabled', function() {
+    function expectAuthorizeUrl(url, options) {
       const parsed = new URL(url);
       const params = parsed.searchParams;
       const authorizeUrl = options.authorizeUrl || 'https://foo.com/oauth2/v1/authorize';
@@ -1212,18 +1212,18 @@ Expect.describe('LoginRouter', function () {
       }
     }
 
-    function expectCodeRedirect (options) {
-      return function (test) {
+    function expectCodeRedirect(options) {
+      return function(test) {
         const spy = test.ac.token.getWithRedirect._setLocation;
 
-        return Expect.waitForSpyCall(spy).then(function () {
+        return Expect.waitForSpyCall(spy).then(function() {
           expect(spy.calls.count()).toBe(1);
           expectAuthorizeUrl(spy.calls.argsFor(0)[0], options);
         });
       };
     }
 
-    itp('uses PKCE by default', function () {
+    itp('uses PKCE by default', function() {
       return setupOAuth2({}, { mockWellKnown: true }).then(test => {
         expectAuthorizeUrl(test.iframeElem.src, {
           responseType: 'code',
@@ -1235,7 +1235,7 @@ Expect.describe('LoginRouter', function () {
       });
     });
 
-    itp('can use implicit flow', function () {
+    itp('can use implicit flow', function() {
       return setupOAuth2({
         'authParams.pkce': false
       }).then(test => {
@@ -1248,7 +1248,7 @@ Expect.describe('LoginRouter', function () {
       });
     });
 
-    itp('can redirect with PKCE flow', function () {
+    itp('can redirect with PKCE flow', function() {
       return setupOAuth2({
         'redirect': 'always'
       }, { mockWellKnown: true, expectRedirect: true }).then(
@@ -1259,7 +1259,7 @@ Expect.describe('LoginRouter', function () {
       );
     });
 
-    itp('can redirect with PKCE flow and responseMode "fragment"', function () {
+    itp('can redirect with PKCE flow and responseMode "fragment"', function() {
       return setupOAuth2({
         'redirect': 'always',
         'authParams.responseMode': 'fragment',
@@ -1272,7 +1272,7 @@ Expect.describe('LoginRouter', function () {
       );
     });
 
-    itp('can redirect with implicit flow', function () {
+    itp('can redirect with implicit flow', function() {
       return setupOAuth2({
         'redirect': 'always',
         'authParams.pkce': false,
@@ -1283,13 +1283,13 @@ Expect.describe('LoginRouter', function () {
       );
     });
 
-    itp('authorization_code flow: redirects instead of using an iframe', function () {
+    itp('authorization_code flow: redirects instead of using an iframe', function() {
       return setupOAuth2({
         'authParams.responseType': 'code',
         'authParams.pkce': false
       }, { expectRedirect: true }).then(expectCodeRedirect({ responseType: 'code' }));
     });
-    itp('authorization_code flow: redirects to alternate authorizeUrl', function () {
+    itp('authorization_code flow: redirects to alternate authorizeUrl', function() {
       return setupOAuth2({
         'authParams.responseType': 'code',
         'authParams.pkce': false,
@@ -1301,7 +1301,7 @@ Expect.describe('LoginRouter', function () {
         })
       );
     });
-    itp('authorization_code flow: redirects to alternate authorizeUrl if an alternate issuer is provided', function () {
+    itp('authorization_code flow: redirects to alternate authorizeUrl if an alternate issuer is provided', function() {
       return setupOAuth2({
         'authParams.responseType': 'code',
         'authParams.pkce': false,
@@ -1314,7 +1314,7 @@ Expect.describe('LoginRouter', function () {
       );
     });
     itp('authorization_code flow: redirects to alternate authorizeUrl if an alternate issuer and alternate authorizeUrl is provided',
-      function () {
+      function() {
         return setupOAuth2({
           'authParams.responseType': 'code',
           'authParams.pkce': false,
@@ -1328,7 +1328,7 @@ Expect.describe('LoginRouter', function () {
         );
       }
     );
-    itp('authorization_code flow: redirects with alternate state provided', function () {
+    itp('authorization_code flow: redirects with alternate state provided', function() {
       return setupOAuth2({
         'authParams.responseType': 'code',
         'authParams.pkce': false,
@@ -1340,7 +1340,7 @@ Expect.describe('LoginRouter', function () {
         })
       );
     });
-    itp('authorization_code flow: redirects with alternate nonce provided', function () {
+    itp('authorization_code flow: redirects with alternate nonce provided', function() {
       return setupOAuth2({
         'authParams.responseType': 'code',
         'authParams.pkce': false,
@@ -1352,7 +1352,7 @@ Expect.describe('LoginRouter', function () {
         })
       );
     });
-    itp('authorization_code flow: redirects with alternate state and nonce provided', function () {
+    itp('authorization_code flow: redirects with alternate state and nonce provided', function() {
       return setupOAuth2({
         'authParams.responseType': 'code',
         'authParams.pkce': false,
@@ -1366,10 +1366,10 @@ Expect.describe('LoginRouter', function () {
         })
       );
     });
-    itp('removes the iframe when it returns with the redirect data', function () {
-      return setupOAuth2({}, { mockWellKnown: true }).then(function () {
+    itp('removes the iframe when it returns with the redirect data', function() {
+      return setupOAuth2({}, { mockWellKnown: true }).then(function() {
         return Expect.waitForWindowListener('message');
-      }).then(function () {
+      }).then(function() {
         const args = window.addEventListener.calls.mostRecent().args;
         const callback = args[1];
         expect($sandbox.find('#' + OIDC_IFRAME_ID).length).toBe(1);
@@ -1381,20 +1381,20 @@ Expect.describe('LoginRouter', function () {
             state: OIDC_STATE,
           },
         });
-        return Expect.wait(function () {
+        return Expect.wait(function() {
           return $sandbox.find('#' + OIDC_IFRAME_ID).length === 0;
         });
       });
     });
-    itp('invokes the success function with idToken and user data when the iframe returns with data', function () {
+    itp('invokes the success function with idToken and user data when the iframe returns with data', function() {
       Util.loadWellKnownAndKeysCache();
       const successSpy = jasmine.createSpy('successSpy');
 
       return setupOAuth2({ globalSuccessFn: successSpy }, { mockWellKnown: true })
-        .then(function (test) {
+        .then(function(test) {
           return Expect.waitForWindowListener('message', test);
         })
-        .then(function () {
+        .then(function() {
           const args = window.addEventListener.calls.mostRecent().args;
           // Simulate callback from an iframe
           const callback = args[1];
@@ -1407,7 +1407,7 @@ Expect.describe('LoginRouter', function () {
           });
           return Expect.waitForSpyCall(successSpy);
         })
-        .then(function () {
+        .then(function() {
           expect(successSpy.calls.count()).toBe(1);
           const data = successSpy.calls.argsFor(0)[0];
 
@@ -1436,11 +1436,11 @@ Expect.describe('LoginRouter', function () {
           });
         });
     });
-    itp('triggers the afterError event if an idToken is not returned', function () {
+    itp('triggers the afterError event if an idToken is not returned', function() {
       return setupOAuth2({}, { mockWellKnown: true })
-        .then(function (test) {
+        .then(function(test) {
           return Expect.waitForWindowListener('message', test);
-        }).then(function (test) {
+        }).then(function(test) {
           const args = window.addEventListener.calls.mostRecent().args;
           const callback = args[1];
           callback.call(null, {
@@ -1453,7 +1453,7 @@ Expect.describe('LoginRouter', function () {
           });
           return Expect.waitForSpyCall(test.afterErrorHandler, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
           expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
             {
@@ -1468,52 +1468,52 @@ Expect.describe('LoginRouter', function () {
     });
   });
 
-  Expect.describe('Events', function () {
-    itp('triggers a pageRendered event when first controller is loaded', function () {
+  Expect.describe('Events', function() {
+    itp('triggers a pageRendered event when first controller is loaded', function() {
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           test.router.primaryAuth();
           return Expect.waitForPrimaryAuth(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.eventSpy.calls.count()).toBe(1);
           expect(test.eventSpy).toHaveBeenCalledWith({ page: 'primary-auth' });
         });
     });
-    itp('triggers an afterRender event when first controller is loaded', function () {
+    itp('triggers an afterRender event when first controller is loaded', function() {
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           test.router.primaryAuth();
           return Expect.waitForPrimaryAuth(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
           expect(test.afterRenderHandler).toHaveBeenCalledWith({ controller: 'primary-auth' });
         });
     });
-    itp('triggers both pageRendered and afterRender events when first controller is loaded', function () {
+    itp('triggers both pageRendered and afterRender events when first controller is loaded', function() {
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           test.router.primaryAuth();
           return Expect.waitForPrimaryAuth(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.eventSpy).toHaveBeenCalledTimes(1);
           expect(test.eventSpy).toHaveBeenCalledWith({ page: 'primary-auth' });
           expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
           expect(test.afterRenderHandler).toHaveBeenCalledWith({ controller: 'primary-auth' });
         });
     });
-    itp('triggers a pageRendered event when navigating to a new controller', function () {
+    itp('triggers a pageRendered event when navigating to a new controller', function() {
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           // Test navigation from primary Auth to Forgot password page
           test.router.primaryAuth();
           Util.mockRouterNavigate(test.router);
           test.router.navigate('signin/forgot-password');
           return Expect.waitForForgotPassword(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           // since the event is triggered from the success function of the animation
           // as well as after render, we expect two calls
           expect(test.eventSpy.calls.count()).toBe(2);
@@ -1521,21 +1521,21 @@ Expect.describe('LoginRouter', function () {
           expect(test.eventSpy.calls.allArgs()[1]).toEqual([{ page: 'forgot-password' }]);
         });
     });
-    itp('triggers an afterRender event when navigating to a new controller', function () {
+    itp('triggers an afterRender event when navigating to a new controller', function() {
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           // Test navigation from primary Auth to Forgot password page
           test.router.primaryAuth();
           return Expect.waitForPrimaryAuth(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
           expect(test.afterRenderHandler.calls.allArgs()[0]).toEqual([{ controller: 'primary-auth' }]);
           Util.mockRouterNavigate(test.router);
           test.router.navigate('signin/forgot-password');
           return Expect.waitForForgotPassword(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           // since the event is triggered from the success function of the animation
           // as well as after render, we expect two calls
           expect(test.afterRenderHandler).toHaveBeenCalledTimes(2);
@@ -1544,8 +1544,8 @@ Expect.describe('LoginRouter', function () {
     });
   });
 
-  Expect.describe('Config: "i18n"', function () {
-    itp('supports deprecated "labels" and "country" options no locatl storage', function () {
+  Expect.describe('Config: "i18n"', function() {
+    itp('supports deprecated "labels" and "country" options no locatl storage', function() {
       return setupLanguage({
         settings: {
           labels: {
@@ -1556,14 +1556,14 @@ Expect.describe('LoginRouter', function () {
           },
         },
         localStorageIsNotSupported: true,
-      }).then(function (test) {
+      }).then(function(test) {
         test.form.selectCountry('JP');
         expect(test.form.titleText()).toBe('test override title');
         expect(test.form.selectedCountry()).toBe('Nihon');
         Expect.deprecated('Use "i18n" instead of "labels" and "country"');
       });
     });
-    itp('supports deprecated "labels" and "country" options', function () {
+    itp('supports deprecated "labels" and "country" options', function() {
       return setupLanguage({
         settings: {
           labels: {
@@ -1574,14 +1574,14 @@ Expect.describe('LoginRouter', function () {
           },
         },
         localStorageIsNotSupported: false,
-      }).then(function (test) {
+      }).then(function(test) {
         test.form.selectCountry('JP');
         expect(test.form.titleText()).toBe('test override title');
         expect(test.form.selectedCountry()).toBe('Nihon');
         Expect.deprecated('Use "i18n" instead of "labels" and "country"');
       });
     });
-    itp('overrides text in the login bundle', function () {
+    itp('overrides text in the login bundle', function() {
       return setupLanguage({
         settings: {
           i18n: {
@@ -1590,13 +1590,13 @@ Expect.describe('LoginRouter', function () {
             },
           },
         },
-      }).then(function (test) {
+      }).then(function(test) {
         expect(test.form.titleText()).toBe('test override title');
       });
     });
     itp(
       'overrides text in the login bundle if language field and key in i18n object is in different cases',
-      function () {
+      function() {
         return setupLanguage({
           settings: {
             language: 'zz-zz',
@@ -1606,14 +1606,14 @@ Expect.describe('LoginRouter', function () {
               },
             },
           },
-        }).then(function (test) {
+        }).then(function(test) {
           expect(test.form.titleText()).toBe('custom label');
         });
       }
     );
     itp(
       'overrides text in the login bundle if language field and key in i18n object is in different cases',
-      function () {
+      function() {
         return setupLanguage({
           settings: {
             language: 'zz-ZZ',
@@ -1623,14 +1623,14 @@ Expect.describe('LoginRouter', function () {
               },
             },
           },
-        }).then(function (test) {
+        }).then(function(test) {
           expect(test.form.titleText()).toBe('custom label');
         });
       }
     );
     itp(
       'overrides text in the login bundle if language field and key in i18n object is in different cases',
-      function () {
+      function() {
         return setupLanguage({
           settings: {
             language: 'nl',
@@ -1640,14 +1640,14 @@ Expect.describe('LoginRouter', function () {
               },
             },
           },
-        }).then(function (test) {
+        }).then(function(test) {
           expect(test.form.titleText()).toBe('custom label');
         });
       }
     );
     itp(
       'overrides text in the login bundle if language field and key in i18n object is in different cases',
-      function () {
+      function() {
         return setupLanguage({
           settings: {
             language: 'NL',
@@ -1657,12 +1657,12 @@ Expect.describe('LoginRouter', function () {
               },
             },
           },
-        }).then(function (test) {
+        }).then(function(test) {
           expect(test.form.titleText()).toBe('custom label');
         });
       }
     );
-    itp('uses "country.COUNTRY" to override text in the country bundle', function () {
+    itp('uses "country.COUNTRY" to override text in the country bundle', function() {
       return setupLanguage({
         settings: {
           i18n: {
@@ -1671,12 +1671,12 @@ Expect.describe('LoginRouter', function () {
             },
           },
         },
-      }).then(function (test) {
+      }).then(function(test) {
         test.form.selectCountry('JP');
         expect(test.form.selectedCountry()).toBe('Nihon');
       });
     });
-    itp('uses "country.COUNTRY" to override text in the country bundle no local storage', function () {
+    itp('uses "country.COUNTRY" to override text in the country bundle no local storage', function() {
       return setupLanguage({
         settings: {
           i18n: {
@@ -1686,13 +1686,13 @@ Expect.describe('LoginRouter', function () {
           },
         },
         localStorageIsNotSupported: true,
-      }).then(function (test) {
+      }).then(function(test) {
         test.form.selectCountry('JP');
         expect(test.form.selectedCountry()).toBe('Nihon');
       });
     });
 
-    itp('overrides text in the courage bundle for non English language', function () {
+    itp('overrides text in the courage bundle for non English language', function() {
       return setupLanguage({
         settings: {
           language: 'NL',
@@ -1702,26 +1702,26 @@ Expect.describe('LoginRouter', function () {
             },
           },
         },
-      }).then(function (test) {
+      }).then(function(test) {
         test.form.submit();
         expect(test.form.errorMessage()).toBe('Dutch error banner title');
       });
     });
 
-    itp('Strings in courage bundle are in jp as set in settings.language', function () {
+    itp('Strings in courage bundle are in jp as set in settings.language', function() {
       return setupLanguage({
         mockLanguageRequest: 'ja',
         settings: {
           language: 'ja',
         },
-      }).then(function (test) {
+      }).then(function(test) {
         test.form.submit();
         expect(test.form.errorMessage()).toBe('JA: Japanese error banner title');
       });
     });
 
-    itp('Strings in courage bundle are in en by default', function () {
-      return setupLanguage({}).then(function (test) {
+    itp('Strings in courage bundle are in en by default', function() {
+      return setupLanguage({}).then(function(test) {
         test.form.submit();
         expect(test.form.errorMessage()).toBe('We found some errors. Please review the form and make corrections.');
       });
@@ -1729,7 +1729,7 @@ Expect.describe('LoginRouter', function () {
 
     itp(
       'Sends the default accept lang header en with API calls if widget is not configured with a language',
-      function () {
+      function() {
         const success = jasmine.createSpy('successSpy');
 
         return setupLanguage({
@@ -1737,12 +1737,12 @@ Expect.describe('LoginRouter', function () {
             globalSuccessFn: success,
           },
         })
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse(resSuccess);
             test.router.navigate('');
             return Expect.waitForPrimaryAuth(test);
           })
-          .then(function (test) {
+          .then(function(test) {
             const form = new PrimaryAuthForm($sandbox);
 
             expect(form.isPrimaryAuth()).toBe(true);
@@ -1757,7 +1757,7 @@ Expect.describe('LoginRouter', function () {
       }
     );
 
-    itp('Sends the right accept lang header with API calls if widget is configured with a language', function () {
+    itp('Sends the right accept lang header with API calls if widget is configured with a language', function() {
       const success = jasmine.createSpy('successSpy');
 
       return setupLanguage({
@@ -1767,12 +1767,12 @@ Expect.describe('LoginRouter', function () {
           language: 'ja',
         },
       })
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resSuccess);
           test.router.navigate('');
           return Expect.waitForPrimaryAuth(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           const form = new PrimaryAuthForm($sandbox);
 
           expect(form.isPrimaryAuth()).toBe(true);
@@ -1787,8 +1787,8 @@ Expect.describe('LoginRouter', function () {
     });
   });
 
-  Expect.describe('Config: "assets"', function () {
-    function expectBundles (baseUrl, login, country) {
+  Expect.describe('Config: "assets"', function() {
+    function expectBundles(baseUrl, login, country) {
       expect(Util.numAjaxRequests()).toBe(3);
       const loginCall = Util.getAjaxRequest(0);
       const countryCall = Util.getAjaxRequest(1);
@@ -1810,17 +1810,17 @@ Expect.describe('LoginRouter', function () {
 
     const expectDefaultCdn = _.partial(expectBundles, 'https://global.oktacdn.com/okta-signin-widget/9.9.99');
 
-    itp('loads properties from the cdn if no baseUrl and path overrides are supplied', function () {
+    itp('loads properties from the cdn if no baseUrl and path overrides are supplied', function() {
       return setupLanguage({
         mockLanguageRequest: 'ja',
         settings: {
           language: 'ja',
         },
-      }).then(function () {
+      }).then(function() {
         expectDefaultPaths('https://global.oktacdn.com/okta-signin-widget/9.9.99');
       });
     });
-    itp('loads properties from the given baseUrl', function () {
+    itp('loads properties from the given baseUrl', function() {
       return setupLanguage({
         mockLanguageRequest: 'ja',
         settings: {
@@ -1829,11 +1829,11 @@ Expect.describe('LoginRouter', function () {
             baseUrl: 'http://foo.com',
           },
         },
-      }).then(function () {
+      }).then(function() {
         expectDefaultPaths('http://foo.com');
       });
     });
-    itp('will clean up any trailing slashes in baseUrl', function () {
+    itp('will clean up any trailing slashes in baseUrl', function() {
       return setupLanguage({
         mockLanguageRequest: 'ja',
         settings: {
@@ -1842,45 +1842,45 @@ Expect.describe('LoginRouter', function () {
             baseUrl: 'http://foo.com/',
           },
         },
-      }).then(function () {
+      }).then(function() {
         expectDefaultPaths('http://foo.com');
       });
     });
-    itp('can override bundle paths with rewrite', function () {
+    itp('can override bundle paths with rewrite', function() {
       return setupLanguage({
         mockLanguageRequest: 'ja',
         settings: {
           language: 'ja',
           assets: {
-            rewrite: function (file) {
+            rewrite: function(file) {
               return file.replace('.json', '.sha.json');
             },
           },
         },
-      }).then(function () {
+      }).then(function() {
         expectDefaultCdn('/labels/json/login_ja.sha.json', '/labels/json/country_ja.sha.json');
       });
     });
-    itp('can override bundles with both baseUrl and rewrite', function () {
+    itp('can override bundles with both baseUrl and rewrite', function() {
       return setupLanguage({
         mockLanguageRequest: 'ja',
         settings: {
           language: 'ja',
           assets: {
             baseUrl: 'http://foo.com',
-            rewrite: function (file) {
+            rewrite: function(file) {
               return file.replace('.json', '.1.json');
             },
           },
         },
-      }).then(function () {
+      }).then(function() {
         expectBundles('http://foo.com', '/labels/json/login_ja.1.json', '/labels/json/country_ja.1.json');
       });
     });
   });
 
-  Expect.describe('Config: "language"', function () {
-    function expectLanguage (titleText, countryText, test) {
+  Expect.describe('Config: "language"', function() {
+    function expectLanguage(titleText, countryText, test) {
       test.form.selectCountry('JP');
       expect(test.form.selectedCountry()).toBe(countryText);
       expect(test.form.titleText()).toBe(titleText);
@@ -1893,19 +1893,19 @@ Expect.describe('LoginRouter', function () {
 
     const expectZz = _.partial(expectLanguage, 'ZZ: enroll.call.setup', 'ZZ: country.JP');
 
-    Expect.describe('Choosing a language', function () {
-      itp('defaults to english if "language" is not specified and there are no user languages detected', function () {
+    Expect.describe('Choosing a language', function() {
+      itp('defaults to english if "language" is not specified and there are no user languages detected', function() {
         return setupLanguage({
           userLanguages: [],
         }).then(expectEn);
       });
-      itp('uses the first match of user language and supported language if user languages detected', function () {
+      itp('uses the first match of user language and supported language if user languages detected', function() {
         return setupLanguage({
           userLanguages: ['ja', 'ko', 'en'],
           mockLanguageRequest: 'ja',
         }).then(expectJa);
       });
-      itp('will ignore case differences when finding languages, i.e. for Safari', function () {
+      itp('will ignore case differences when finding languages, i.e. for Safari', function() {
         return setupLanguage({
           userLanguages: ['pt-br', 'ja'],
           mockLanguageRequest: 'ja',
@@ -1914,7 +1914,7 @@ Expect.describe('LoginRouter', function () {
               baseUrl: '/assets',
             },
           },
-        }).then(function () {
+        }).then(function() {
           const loginCall = Util.getAjaxRequest(0);
           const countryCall = Util.getAjaxRequest(1);
 
@@ -1922,7 +1922,7 @@ Expect.describe('LoginRouter', function () {
           expect(countryCall.url).toBe('/assets/labels/json/country_pt_BR.json');
         });
       });
-      itp('will use base languageCode even if region is not supported', function () {
+      itp('will use base languageCode even if region is not supported', function() {
         return setupLanguage({
           userLanguages: ['ja-ZZ', 'ko', 'en'],
           mockLanguageRequest: 'ja',
@@ -1931,7 +1931,7 @@ Expect.describe('LoginRouter', function () {
               baseUrl: '/assets',
             },
           },
-        }).then(function (test) {
+        }).then(function(test) {
           expectJa(test);
           const loginCall = Util.getAjaxRequest(0);
           const countryCall = Util.getAjaxRequest(1);
@@ -1940,7 +1940,7 @@ Expect.describe('LoginRouter', function () {
           expect(countryCall.url).toBe('/assets/labels/json/country_ja.json');
         });
       });
-      itp('will use base languageCode with region even if dialect is not supported', function () {
+      itp('will use base languageCode with region even if dialect is not supported', function() {
         return setupLanguage({
           userLanguages: ['pt-BR-zz', 'ko', 'en'],
           mockLanguageRequest: 'ja',
@@ -1949,7 +1949,7 @@ Expect.describe('LoginRouter', function () {
               baseUrl: '/assets',
             },
           },
-        }).then(function (test) {
+        }).then(function(test) {
           expectJa(test);
           const loginCall = Util.getAjaxRequest(0);
           const countryCall = Util.getAjaxRequest(1);
@@ -1958,7 +1958,7 @@ Expect.describe('LoginRouter', function () {
           expect(countryCall.url).toBe('/assets/labels/json/country_pt_BR.json');
         });
       });
-      itp('accepts a language code string as "language"', function () {
+      itp('accepts a language code string as "language"', function() {
         return setupLanguage({
           mockLanguageRequest: 'ja',
           settings: {
@@ -1966,17 +1966,17 @@ Expect.describe('LoginRouter', function () {
           },
         }).then(expectJa);
       });
-      itp('accepts a function that returns a language code', function () {
+      itp('accepts a function that returns a language code', function() {
         return setupLanguage({
           mockLanguageRequest: 'ja',
           settings: {
-            language: function () {
+            language: function() {
               return 'ja';
             },
           },
         }).then(expectJa);
       });
-      itp('passes the list of supported languages and user languages to the function', function () {
+      itp('passes the list of supported languages and user languages to the function', function() {
         const spy = jasmine.createSpy('language').and.returnValue('en');
 
         return setupLanguage({
@@ -1984,7 +1984,7 @@ Expect.describe('LoginRouter', function () {
             language: spy,
           },
           userLanguages: ['ja', 'ko', 'en'],
-        }).then(function () {
+        }).then(function() {
           expect(spy.calls.count()).toBe(1);
           const args = spy.calls.argsFor(0);
           const supported = args[0];
@@ -2026,7 +2026,7 @@ Expect.describe('LoginRouter', function () {
       });
       itp(
         'allows the developer to pass in a new language and will add that to the list of supported languages',
-        function () {
+        function() {
           const spy = jasmine.createSpy('language').and.returnValue('zz-zz');
 
           return setupLanguage({
@@ -2039,7 +2039,7 @@ Expect.describe('LoginRouter', function () {
                 },
               },
             },
-          }).then(function (test) {
+          }).then(function(test) {
             const supported = spy.calls.argsFor(0)[0];
 
             expect(supported).toContain('zz-zz');
@@ -2047,7 +2047,7 @@ Expect.describe('LoginRouter', function () {
           });
         }
       );
-      itp('will default to detection if the "language" property does not return a supported language', function () {
+      itp('will default to detection if the "language" property does not return a supported language', function() {
         return setupLanguage({
           mockLanguageRequest: 'ja',
           userLanguages: ['ja'],
@@ -2058,22 +2058,22 @@ Expect.describe('LoginRouter', function () {
       });
     });
 
-    Expect.describe('Behavior', function () {
-      itp('shows a spinner until the language is loaded if it takes longer than 200ms (i.e. ajax request)', function () {
+    Expect.describe('Behavior', function() {
+      itp('shows a spinner until the language is loaded if it takes longer than 200ms (i.e. ajax request)', function() {
         return setupLanguage({
           delay: 300, // TODO: remove delay
           mockLanguageRequest: 'ja',
           settings: {
             language: 'ja',
           },
-        }).then(function (test) {
+        }).then(function(test) {
           // 2 for the initial refreshAuthState call, and 2 for our spinner
           expect(test.loadingSpy.calls.count()).toBe(4);
           expect(test.loadingSpy.calls.argsFor(2)[0]).toBe(true);
           expect(test.loadingSpy.calls.argsFor(3)[0]).toBe(false);
         });
       });
-      itp('can load a new language dynamically by updating the appState', function () {
+      itp('can load a new language dynamically by updating the appState', function() {
         return setupLanguage({
           settings: {
             i18n: {
@@ -2085,27 +2085,27 @@ Expect.describe('LoginRouter', function () {
           },
         })
           .then(expectEn)
-          .then(function (test) {
+          .then(function(test) {
             // The new language will be rendered on the next router render, but we need
             // navigate away from the page first for the wait to work.
             test.router.forgotPassword();
             return Expect.waitForForgotPassword(test);
           })
-          .then(function (test) {
+          .then(function(test) {
             test.router.appState.set('languageCode', 'zz-zz');
             test.router.enrollCall();
             return Expect.waitForEnrollCall(test);
           })
           .then(expectZz);
       });
-      itp('caches the language after the initial fetch', function () {
+      itp('caches the language after the initial fetch', function() {
         spyOn(Storage.prototype, 'setItem').and.callThrough();
         return setupLanguage({
           mockLanguageRequest: 'ja',
           settings: {
             language: 'ja',
           },
-        }).then(function () {
+        }).then(function() {
           expect(localStorage.setItem).toHaveBeenCalledWith(
             'osw.languages',
             JSON.stringify({
@@ -2124,8 +2124,8 @@ Expect.describe('LoginRouter', function () {
           );
         });
       });
-      itp('fetches from the cache if it is available', function () {
-        spyOn(Storage.prototype, 'getItem').and.callFake(function (key) {
+      itp('fetches from the cache if it is available', function() {
+        spyOn(Storage.prototype, 'getItem').and.callFake(function(key) {
           if (key === 'osw.languages') {
             return JSON.stringify({
               version: '9.9.99',
@@ -2148,8 +2148,8 @@ Expect.describe('LoginRouter', function () {
           },
         }).then(expectJa);
       });
-      itp('fetches language again (even if its cached) after the osw version is updated', function () {
-        spyOn(Storage.prototype, 'getItem').and.callFake(function (key) {
+      itp('fetches language again (even if its cached) after the osw version is updated', function() {
+        spyOn(Storage.prototype, 'getItem').and.callFake(function(key) {
           if (key === 'osw.languages') {
             return JSON.stringify({
               version: '0.0.00',
@@ -2171,7 +2171,7 @@ Expect.describe('LoginRouter', function () {
           },
         }).then(expectJa);
       });
-      itp('will default i18n to english if properties do not exist in a given language', function () {
+      itp('will default i18n to english if properties do not exist in a given language', function() {
         return setupLanguage({
           settings: {
             i18n: {
@@ -2181,7 +2181,7 @@ Expect.describe('LoginRouter', function () {
               },
             },
           },
-        }).then(function (test) {
+        }).then(function(test) {
           expect(test.form.submitButtonText()).toBe('Verify');
         });
       });

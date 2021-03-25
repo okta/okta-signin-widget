@@ -5,7 +5,7 @@ import hbs from 'handlebars-inline-precompile';
 export default View.extend({
   // eslint-disable-next-line max-len
   template: hbs`<p class="idx-webauthn-enroll-text">{{i18n code="oie.enroll.webauthn.instructions" bundle="login"}}</p>`,
-  initialize () {
+  initialize() {
     const relatesToObject = this.options.currentViewState.relatesTo;
     const activationData = relatesToObject?.value.contextualData.activationData;
     if (BrowserFeatures.isEdge()) {

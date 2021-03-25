@@ -13,11 +13,11 @@
 import { _, loc } from 'okta';
 import BaseLoginModel from './BaseLoginModel';
 export default BaseLoginModel.extend({
-  initialize: function (options) {
+  initialize: function(options) {
     this.options = options || {};
     this.appState = this.options.appState;
   },
-  constructPostData: function (profileAttributes) {
+  constructPostData: function(profileAttributes) {
     const postData = {
       registration: {
         profile: profileAttributes,
@@ -30,14 +30,14 @@ export default BaseLoginModel.extend({
     }
     return postData;
   },
-  getEnrollFormData: function () {
-    return this.manageTransaction(function (transaction, setTransaction) {
-      return transaction.enroll().then(function (trans) {
+  getEnrollFormData: function() {
+    return this.manageTransaction(function(transaction, setTransaction) {
+      return transaction.enroll().then(function(trans) {
         setTransaction(trans);
       });
     });
   },
-  save: function () {
+  save: function() {
     let data = BaseLoginModel.prototype.toJSON.apply(this, arguments);
 
     data = _.omit(data, ['appState', 'settings', 'createNewAccount']);
@@ -50,8 +50,8 @@ export default BaseLoginModel.extend({
         responseJSON: error,
       });
     } else {
-      return this.manageTransaction(function (transaction, setTransaction) {
-        transaction.enroll(this.constructPostData(data)).then(function (trans) {
+      return this.manageTransaction(function(transaction, setTransaction) {
+        transaction.enroll(this.constructPostData(data)).then(function(trans) {
           setTransaction(trans);
         });
       });

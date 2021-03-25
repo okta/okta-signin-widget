@@ -18,7 +18,7 @@ const MOMENT_UNIT_KEYS = Object.keys(MOMENT_UNIT);
  * @param {String} momentUnit The units that val is in
  * @return {String} The key in the MOMENT_UNIT hash
  */
-const convertMomentUnits = function (momentUnit) {
+const convertMomentUnits = function(momentUnit) {
   const entry = MOMENT_UNIT_KEYS.filter(k => MOMENT_UNIT[k] === momentUnit);
 
   return entry.length === 1 ? entry[0] : momentUnit;
@@ -51,7 +51,7 @@ export default {
    * @param {FlexibleTimeUnit} unit The time unit
    * @return {TimeAndUnit} An object containing the amount of time and the unit
    */
-  getTimeInHighestRelevantUnit: function (val, unit) {
+  getTimeInHighestRelevantUnit: function(val, unit) {
     const defaultTimeObj = {
       days: 0,
       hours: 0,

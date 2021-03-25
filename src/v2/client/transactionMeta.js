@@ -12,7 +12,7 @@
 
 import Logger from 'util/Logger';
 
-export async function getTransactionMeta (settings) {
+export async function getTransactionMeta(settings) {
   const authClient = settings.getAuthClient();
 
   // Load existing transaction meta from storage
@@ -32,19 +32,19 @@ export async function getTransactionMeta (settings) {
   return authClient.token.prepareTokenParams();
 }
 
-export function saveTransactionMeta (settings, meta) {
+export function saveTransactionMeta(settings, meta) {
   const authClient = settings.getAuthClient();
   authClient.transactionManager.save(meta);
 }
 
-export function clearTransactionMeta (settings) {
+export function clearTransactionMeta(settings) {
   const authClient = settings.getAuthClient();
   authClient.transactionManager.clear();
 }
 
 // returns true if values in meta match current authClient options
 // this logic can be moved to okta-auth-js OKTA-371584
-export function isTransactionMetaValid (settings, meta) {
+export function isTransactionMetaValid(settings, meta) {
   const keys = ['clientId', 'redirectUri'];
   const authClient = settings.getAuthClient();
   const mismatch = keys.find(key => {

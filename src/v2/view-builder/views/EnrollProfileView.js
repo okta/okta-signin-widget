@@ -3,14 +3,14 @@ import { BaseForm, BaseFooter, BaseView } from '../internals';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 
 const Body = BaseForm.extend({
-  title () {
+  title() {
     return loc('registration.form.title', 'login');
   },
 
-  save () {
+  save() {
     return loc('registration.form.submit', 'login');
   },
-  saveForm () {
+  saveForm() {
     // SIW customization hook for registration
     this.settings.preRegistrationSubmit(this.model.toJSON(),
       (postData) => {
@@ -25,7 +25,7 @@ const Body = BaseForm.extend({
 });
 
 const Footer = BaseFooter.extend({
-  links () {
+  links() {
     const links = [];
     if (this.options.appState.hasRemediationObject(RemediationForms.SELECT_IDENTIFY)) {
       links.push({
@@ -42,7 +42,7 @@ const Footer = BaseFooter.extend({
 export default BaseView.extend({
   Body,
   Footer,
-  createModelClass (currentViewState, optionUiSchemaConfig, settings) {
+  createModelClass(currentViewState, optionUiSchemaConfig, settings) {
     let ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     const currentSchema = JSON.parse(JSON.stringify((currentViewState.uiSchema)));
 
@@ -67,7 +67,7 @@ export default BaseView.extend({
     );
     return ModelClass;
   },
-  postRender () {
+  postRender() {
     BaseView.prototype.postRender.apply(this, arguments);
 
     const modelError = this.model.get('parseSchemaError');

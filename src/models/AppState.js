@@ -31,7 +31,7 @@ const UNDEFINED_USER_IMAGE_DESCRIPTION = '';
 const UNKNOWN_IMAGE_DESCRIPTION = '';
 const securityImageUrlTpl = hbs('{{baseUrl}}/login/getimage?username={{username}}');
 
-function getSecurityImage (baseUrl, username, deviceFingerprint) {
+function getSecurityImage(baseUrl, username, deviceFingerprint) {
   // When the username is empty, we want to show the default image.
   if (_.isEmpty(username) || _.isUndefined(username)) {
     return Q({
@@ -51,7 +51,7 @@ function getSecurityImage (baseUrl, username, deviceFingerprint) {
   if (deviceFingerprint) {
     data['headers'] = { 'X-Device-Fingerprint': deviceFingerprint };
   }
-  return Q($.ajax(data)).then(function (res) {
+  return Q($.ajax(data)).then(function(res) {
     if (res.pwdImg === USER_NOT_SEEN_ON_DEVICE) {
       // When we get an unknown.png security image from OKTA,
       // we want to show the unknown-device security image.
@@ -69,7 +69,7 @@ function getSecurityImage (baseUrl, username, deviceFingerprint) {
   });
 }
 
-function getMinutesString (factorLifetimeInMinutes) {
+function getMinutesString(factorLifetimeInMinutes) {
   if (factorLifetimeInMinutes > 60 && factorLifetimeInMinutes <= 1440) {
     const lifetimeInHours = factorLifetimeInMinutes / 60;
 
@@ -86,18 +86,18 @@ function getMinutesString (factorLifetimeInMinutes) {
   return loc('minutes', 'login', [factorLifetimeInMinutes]);
 }
 
-function getGracePeriodRemainingDays (gracePeriodEndDate) {
+function getGracePeriodRemainingDays(gracePeriodEndDate) {
   const endDate = new Date(gracePeriodEndDate).getTime();
   const remainingDays = Math.floor((endDate - new Date().getTime()) / (1000 * 3600 * 24));
 
   return remainingDays;
 }
 
-function combineFactorsObjects (factorTypes, factors) {
+function combineFactorsObjects(factorTypes, factors) {
   const addedFactorTypes = [];
   const combinedFactors = [];
 
-  _.each(factors, function (factor) {
+  _.each(factors, function(factor) {
     const factorType = factor.factorType;
 
     if (!_.contains(addedFactorTypes, factorType)) {
@@ -115,20 +115,20 @@ function combineFactorsObjects (factorTypes, factors) {
 }
 
 export default Model.extend({
-  initialize: function () {
+  initialize: function() {
     // Handle this in initialize (as opposed to a derived property) because
     // the operation is asynchronous
     if (this.settings.get('features.securityImage')) {
       const self = this;
 
-      this.listenTo(this, 'change:username', function (model, username) {
+      this.listenTo(this, 'change:username', function(model, username) {
         getSecurityImage(this.get('baseUrl'), username, this.get('deviceFingerprint'))
-          .then(function (image) {
+          .then(function(image) {
             model.set('securityImage', image.securityImage);
             model.set('securityImageDescription', image.securityImageDescription);
             model.unset('deviceFingerprint'); //Fingerprint can only be used once
           })
-          .fail(function (jqXhr) {
+          .fail(function(jqXhr) {
             // Only notify the consumer on a CORS error
             if (BrowserFeatures.corsIsNotEnabled(jqXhr)) {
               self.settings.callGlobalError(new Errors.UnsupportedBrowserError(loc('error.enabled.cors')));
@@ -171,7 +171,7 @@ export default Model.extend({
     lastFailedChallengeFactorData: ['object', false],
   },
 
-  setAuthResponse: function (res) {
+  setAuthResponse: function(res) {
     // Because of MFA_CHALLENGE (i.e. DUO), we need to remember factors
     // across auth responses. Not doing this, for example, results in being
     // unable to switch away from the duo factor dropdown.
@@ -198,55 +198,55 @@ export default Model.extend({
     this.set('lastAuthResponse', res);
   },
 
-  clearLastAuthResponse: function () {
+  clearLastAuthResponse: function() {
     this.set('lastAuthResponse', {});
   },
 
-  setLastFailedChallengeFactorData: function () {
+  setLastFailedChallengeFactorData: function() {
     this.set('lastFailedChallengeFactorData', {
       factor: this.get('factor'),
       errorMessage: this.get('factorResultErrorMessage'),
     });
   },
 
-  clearLastFailedChallengeFactorData: function () {
+  clearLastFailedChallengeFactorData: function() {
     this.unset('lastFailedChallengeFactorData');
   },
 
   derived: {
     isSuccessResponse: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         return res.status === 'SUCCESS';
       },
     },
     isMfaRequired: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         return res.status === 'MFA_REQUIRED' || res.status === 'FACTOR_REQUIRED';
       },
     },
     isProfileRequired: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         return res.status === 'PROFILE_REQUIRED';
       },
     },
     isMfaEnroll: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         return res.status === 'MFA_ENROLL' || res.status === 'FACTOR_ENROLL';
       },
     },
     isMfaChallenge: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         return res.status === 'MFA_CHALLENGE' || res.status === 'FACTOR_CHALLENGE';
       },
     },
     isUnauthenticated: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         return res.status === 'UNAUTHENTICATED';
       },
     },
@@ -256,31 +256,31 @@ export default Model.extend({
       // user clicks 'deny' on his phone or OV app
       // version is below a required version no.
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         return res.factorResult === 'REJECTED';
       },
     },
     isMfaTimeout: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         return res.factorResult === 'TIMEOUT';
       },
     },
     isMfaEnrollActivate: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         return res.status === 'MFA_ENROLL_ACTIVATE' || res.status === 'FACTOR_ENROLL_ACTIVATE';
       },
     },
     isWaitingForActivation: {
       deps: ['isMfaEnrollActivate', 'lastAuthResponse'],
-      fn: function (isMfaEnrollActivate, res) {
+      fn: function(isMfaEnrollActivate, res) {
         return isMfaEnrollActivate && res.factorResult === 'WAITING';
       },
     },
     isWaitingForNumberChallenge: {
       deps: ['lastAuthResponse', 'isMfaChallenge'],
-      fn: function (res, isMfaChallenge) {
+      fn: function(res, isMfaChallenge) {
         if (
           isMfaChallenge &&
           res &&
@@ -297,7 +297,7 @@ export default Model.extend({
     },
     hasMultipleFactorsAvailable: {
       deps: ['factors', 'isMfaRequired', 'isMfaChallenge', 'isUnauthenticated'],
-      fn: function (factors, isMfaRequired, isMfaChallenge, isUnauthenticated) {
+      fn: function(factors, isMfaRequired, isMfaChallenge, isUnauthenticated) {
         if (!isMfaRequired && !isMfaChallenge && !isUnauthenticated) {
           return false;
         }
@@ -306,7 +306,7 @@ export default Model.extend({
     },
     promptForFactorInUnauthenticated: {
       deps: ['lastAuthResponse', 'factors'],
-      fn: function (res, factors) {
+      fn: function(res, factors) {
         if (res.status !== 'UNAUTHENTICATED') {
           return false;
         }
@@ -315,7 +315,7 @@ export default Model.extend({
     },
     userId: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         if (!res._embedded || !res._embedded.user) {
           return null;
         }
@@ -324,19 +324,19 @@ export default Model.extend({
     },
     isIdxStateToken: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         return res && _.isString(res.stateToken) && res.stateToken.startsWith('01');
       },
     },
     isPwdExpiringSoon: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         return res.status === 'PASSWORD_WARN';
       },
     },
     passwordExpireDays: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         if (!res._embedded || !res._embedded.policy || !res._embedded.policy.expiration) {
           return null;
         }
@@ -345,7 +345,7 @@ export default Model.extend({
     },
     isPwdManagedByOkta: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         if (!res._links || !res._links.next || !res._links.next.title) {
           return true;
         }
@@ -354,7 +354,7 @@ export default Model.extend({
     },
     passwordExpiredWebsiteName: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         if (!res._links || !res._links.next || !res._links.next.title) {
           return null;
         }
@@ -363,7 +363,7 @@ export default Model.extend({
     },
     passwordExpiredLinkUrl: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         if (!res._links || !res._links.next || !res._links.next.title || !res._links.next.href) {
           return null;
         }
@@ -372,19 +372,19 @@ export default Model.extend({
     },
     recoveryType: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         return res.recoveryType;
       },
     },
     factorType: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         return res.factorType;
       },
     },
     factor: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         if (!res._embedded || !res._embedded.factor) {
           return null;
         }
@@ -393,25 +393,25 @@ export default Model.extend({
     },
     activatedFactorId: {
       deps: ['factor'],
-      fn: function (factor) {
+      fn: function(factor) {
         return factor ? factor.id : null;
       },
     },
     activatedFactorType: {
       deps: ['factor'],
-      fn: function (factor) {
+      fn: function(factor) {
         return factor ? factor.factorType : null;
       },
     },
     activatedFactorProvider: {
       deps: ['factor'],
-      fn: function (factor) {
+      fn: function(factor) {
         return factor ? factor.provider : null;
       },
     },
     qrcode: {
       deps: ['factor'],
-      fn: function (factor) {
+      fn: function(factor) {
         try {
           return factor._embedded.activation._links.qrcode.href;
         } catch (err) {
@@ -421,7 +421,7 @@ export default Model.extend({
     },
     activationSendLinks: {
       deps: ['factor'],
-      fn: function (factor) {
+      fn: function(factor) {
         let sendLinks;
 
         try {
@@ -434,7 +434,7 @@ export default Model.extend({
     },
     textActivationLinkUrl: {
       deps: ['activationSendLinks'],
-      fn: function (activationSendLinks) {
+      fn: function(activationSendLinks) {
         const item = _.findWhere(activationSendLinks, { name: 'sms' });
 
         return item ? item.href : null;
@@ -442,7 +442,7 @@ export default Model.extend({
     },
     emailActivationLinkUrl: {
       deps: ['activationSendLinks'],
-      fn: function (activationSendLinks) {
+      fn: function(activationSendLinks) {
         const item = _.findWhere(activationSendLinks, { name: 'email' });
 
         return item ? item.href : null;
@@ -450,7 +450,7 @@ export default Model.extend({
     },
     sharedSecret: {
       deps: ['factor'],
-      fn: function (factor) {
+      fn: function(factor) {
         try {
           return factor._embedded.activation.sharedSecret;
         } catch (err) {
@@ -460,7 +460,7 @@ export default Model.extend({
     },
     duoEnrollActivation: {
       deps: ['factor'],
-      fn: function (factor) {
+      fn: function(factor) {
         if (!factor || !factor._embedded || !factor._embedded.activation) {
           return null;
         }
@@ -469,7 +469,7 @@ export default Model.extend({
     },
     prevLink: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         if (res._links && res._links.prev) {
           return res._links.prev.href;
         }
@@ -478,7 +478,7 @@ export default Model.extend({
     },
     skipLink: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         if (res._links && res._links.skip) {
           return res._links.skip.href;
         }
@@ -487,7 +487,7 @@ export default Model.extend({
     },
     gracePeriodRemainingDays: {
       deps: ['policy'],
-      fn: function (policy) {
+      fn: function(policy) {
         if (policy && policy.gracePeriod && policy.gracePeriod.endDate) {
           return getGracePeriodRemainingDays(policy.gracePeriod.endDate);
         }
@@ -496,7 +496,7 @@ export default Model.extend({
     },
     user: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         if (!res._embedded || !res._embedded.user) {
           return null;
         }
@@ -505,7 +505,7 @@ export default Model.extend({
     },
     recoveryQuestion: {
       deps: ['user'],
-      fn: function (user) {
+      fn: function(user) {
         if (!user || !user.recovery_question) {
           return null;
         }
@@ -514,7 +514,7 @@ export default Model.extend({
     },
     userProfile: {
       deps: ['user'],
-      fn: function (user) {
+      fn: function(user) {
         if (!user || !user.profile) {
           return null;
         }
@@ -523,7 +523,7 @@ export default Model.extend({
     },
     userConsentName: {
       deps: ['userProfile', 'username'],
-      fn: function (userProfile, username) {
+      fn: function(userProfile, username) {
         if (!userProfile || _.isEmpty(userProfile.firstName)) {
           return username;
         }
@@ -535,7 +535,7 @@ export default Model.extend({
     },
     userEmail: {
       deps: ['userProfile'],
-      fn: function (userProfile) {
+      fn: function(userProfile) {
         if (!userProfile || !userProfile.login) {
           return null;
         }
@@ -544,7 +544,7 @@ export default Model.extend({
     },
     userFullName: {
       deps: ['userProfile'],
-      fn: function (userProfile) {
+      fn: function(userProfile) {
         if (!userProfile || (!userProfile.firstName && !userProfile.lastName)) {
           return '';
         }
@@ -553,19 +553,19 @@ export default Model.extend({
     },
     defaultAppLogo: {
       deps: ['baseUrl'],
-      fn: function (baseUrl) {
+      fn: function(baseUrl) {
         return baseUrl + DEFAULT_APP_LOGO;
       },
     },
     expiresAt: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         return res.expiresAt;
       },
     },
     target: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         if (!res._embedded) {
           return null;
         }
@@ -574,7 +574,7 @@ export default Model.extend({
     },
     targetLabel: {
       deps: ['target'],
-      fn: function (target) {
+      fn: function(target) {
         if (!target) {
           return null;
         }
@@ -583,7 +583,7 @@ export default Model.extend({
     },
     targetLogo: {
       deps: ['target'],
-      fn: function (target) {
+      fn: function(target) {
         if (!target || !target._links) {
           return null;
         }
@@ -592,7 +592,7 @@ export default Model.extend({
     },
     targetTermsOfService: {
       deps: ['target'],
-      fn: function (target) {
+      fn: function(target) {
         if (!target || !target._links) {
           return null;
         }
@@ -601,7 +601,7 @@ export default Model.extend({
     },
     targetPrivacyPolicy: {
       deps: ['target'],
-      fn: function (target) {
+      fn: function(target) {
         if (!target || !target._links) {
           return null;
         }
@@ -610,7 +610,7 @@ export default Model.extend({
     },
     targetClientURI: {
       deps: ['target'],
-      fn: function (target) {
+      fn: function(target) {
         if (!target || !target._links) {
           return null;
         }
@@ -619,7 +619,7 @@ export default Model.extend({
     },
     scopes: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         if (!res._embedded) {
           return null;
         }
@@ -628,13 +628,13 @@ export default Model.extend({
     },
     issuer: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         return res?._embedded?.authentication?.issuer?.uri;
       }
     },
     hasExistingPhones: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         if (!res._embedded || !res._embedded.factors) {
           return false;
         }
@@ -651,7 +651,7 @@ export default Model.extend({
     },
     hasExistingPhonesForCall: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         if (!res._embedded || !res._embedded.factors) {
           return false;
         }
@@ -668,25 +668,25 @@ export default Model.extend({
     },
     isUndefinedUser: {
       deps: ['securityImage'],
-      fn: function (securityImage) {
+      fn: function(securityImage) {
         return securityImage === UNDEFINED_USER;
       },
     },
     isNewUser: {
       deps: ['securityImage'],
-      fn: function (securityImage) {
+      fn: function(securityImage) {
         return securityImage === NEW_USER;
       },
     },
     allowRememberDevice: {
       deps: ['policy'],
-      fn: function (policy) {
+      fn: function(policy) {
         return policy && policy.allowRememberDevice;
       },
     },
     rememberDeviceLabel: {
       deps: ['policy'],
-      fn: function (policy) {
+      fn: function(policy) {
         if (policy && policy.rememberDeviceLifetimeInMinutes > 0) {
           const timeString = getMinutesString(policy.rememberDeviceLifetimeInMinutes);
 
@@ -699,19 +699,19 @@ export default Model.extend({
     },
     rememberDeviceByDefault: {
       deps: ['policy'],
-      fn: function (policy) {
+      fn: function(policy) {
         return policy && policy.rememberDeviceByDefault;
       },
     },
     factorsPolicyInfo: {
       deps: ['policy'],
-      fn: function (policy) {
+      fn: function(policy) {
         return policy && policy.factorsPolicyInfo ? policy.factorsPolicyInfo : null;
       },
     },
     verifyCustomFactorRedirectUrl: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         if (!res._links || !res._links.next || res._links.next.name !== 'redirect' || !res._links.next.href) {
           return null;
         }
@@ -720,7 +720,7 @@ export default Model.extend({
     },
     enrollCustomFactorRedirectUrl: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         if (!res._links || !res._links.next || res._links.next.name !== 'activate' || !res._links.next.href) {
           return null;
         }
@@ -729,13 +729,13 @@ export default Model.extend({
     },
     isFactorResultFailed: {
       deps: ['lastAuthResponse'],
-      fn: function (res) {
+      fn: function(res) {
         return res.factorResult === 'FAILED';
       },
     },
     factorResultErrorMessage: {
       deps: ['lastAuthResponse', 'isFactorResultFailed'],
-      fn: function (res, isFactorResultFailed) {
+      fn: function(res, isFactorResultFailed) {
         if (isFactorResultFailed) {
           return res.factorResultMessage || loc('oform.error.unexpected', 'login');
         }
@@ -744,7 +744,7 @@ export default Model.extend({
     },
   },
 
-  parse: function (options) {
+  parse: function(options) {
     this.settings = options.settings;
     return _.extend(_.omit(options, 'settings'), { 
       languageCode: this.settings.get('languageCode'),

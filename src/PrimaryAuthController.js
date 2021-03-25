@@ -25,7 +25,7 @@ export default BaseLoginController.extend({
 
   View: PrimaryAuthForm,
 
-  constructor: function (options) {
+  constructor: function(options) {
     options.appState.unset('username');
 
     this.model = new PrimaryAuthModel(
@@ -58,7 +58,7 @@ export default BaseLoginController.extend({
     this.setUsername();
   },
 
-  addFooter: function (options) {
+  addFooter: function(options) {
     this.add(new Footer(this.toJSON({ appState: options.appState })));
 
     if (options.settings.get('features.registration') || options.appState.get('isIdxStateToken')) {
@@ -71,7 +71,7 @@ export default BaseLoginController.extend({
     }
   },
 
-  setUsername: function () {
+  setUsername: function() {
     const username = this.model.get('username');
 
     if (username) {
@@ -80,31 +80,31 @@ export default BaseLoginController.extend({
   },
 
   events: {
-    'focusout input[name=username]': function () {
+    'focusout input[name=username]': function() {
       if (this.shouldComputeDeviceFingerprint() && this.model.get('username')) {
         const self = this;
 
         this.options.appState.trigger('loading', true);
         DeviceFingerprint.generateDeviceFingerprint(this.settings.get('baseUrl'), this.$el)
-          .then(function (fingerprint) {
+          .then(function(fingerprint) {
             self.options.appState.set('deviceFingerprint', fingerprint);
             self.options.appState.set('username', self.model.get('username'));
           })
-          .catch(function () {
+          .catch(function() {
             // Keep going even if device fingerprint fails
             self.options.appState.set('username', self.model.get('username'));
           })
-          .finally(function () {
+          .finally(function() {
             self.options.appState.trigger('loading', false);
           });
       } else {
         this.options.appState.set('username', this.model.get('username'));
       }
     },
-    'focusin input': function (e) {
+    'focusin input': function(e) {
       $(e.target.parentElement).addClass('focused-input');
     },
-    'focusout input': function (e) {
+    'focusout input': function(e) {
       $(e.target.parentElement).removeClass('focused-input');
     },
   },
@@ -112,26 +112,26 @@ export default BaseLoginController.extend({
   // This model and the AppState both have a username property.
   // The controller updates the AppState's username when the user is
   // done editing (on blur) or deletes the username (see below).
-  initialize: function () {
+  initialize: function() {
     this.options.appState.unset('deviceFingerprint');
-    this.listenTo(this.model, 'change:username', function (model, value) {
+    this.listenTo(this.model, 'change:username', function(model, value) {
       if (!value) {
         // reset AppState to an undefined user.
         this.options.appState.set('username', '');
       }
     });
-    this.listenTo(this.model, 'save', function () {
+    this.listenTo(this.model, 'save', function() {
       this.state.set('enabled', false);
     });
-    this.listenTo(this.model, 'error', function () {
+    this.listenTo(this.model, 'error', function() {
       this.state.set('enabled', true);
     });
-    this.listenTo(this.state, 'togglePrimaryAuthButton', function (buttonState) {
+    this.listenTo(this.state, 'togglePrimaryAuthButton', function(buttonState) {
       this.toggleButtonState(buttonState);
     });
   },
 
-  shouldComputeDeviceFingerprint: function () {
+  shouldComputeDeviceFingerprint: function() {
     return (
       this.settings.get('features.securityImage') &&
       this.settings.get('features.deviceFingerprinting') &&

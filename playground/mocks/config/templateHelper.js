@@ -56,7 +56,7 @@ const configMock = (option) => {
       }
       next();
     },
-    template () {
+    template() {
       if (!hasChainedMockData) {
         return {
           errorSummary: `No mock found for ${apiPath}`,

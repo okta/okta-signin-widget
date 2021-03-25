@@ -9,9 +9,9 @@ import BrowserFeatures from 'util/BrowserFeatures';
 import Expect from 'helpers/util/Expect';
 import EnrollWebauthnResponse from '../../../../../../playground/mocks/data/idp/idx/authenticator-enroll-webauthn.json';
 
-describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
+describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
   let testContext;
-  beforeEach(function () {
+  beforeEach(function() {
     testContext = {};
     testContext.init = (
       currentAuthenticator = EnrollWebauthnResponse.currentAuthenticator.value,
@@ -40,11 +40,11 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
     };
   });
 
-  afterEach(function () {
+  afterEach(function() {
     $sandbox.empty();
   });
 
-  it('shows enroll instructions and setup button when browser supports webauthn', function () {
+  it('shows enroll instructions and setup button when browser supports webauthn', function() {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     testContext.init();
     expect(testContext.view.$('.idx-webauthn-enroll-text').text()).toBe(
@@ -56,7 +56,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
     expect(testContext.view.$('.webauthn-not-supported').length).toBe(0);
   });
 
-  it('shows error when browser does not support webauthn', function () {
+  it('shows error when browser does not support webauthn', function() {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => false);
     testContext.init();
     expect(testContext.view.$('.idx-webauthn-enroll-text').length).toBe(0);
@@ -66,7 +66,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
     );
   });
 
-  it('shows additional enroll instructions for edge when browser is edge', function () {
+  it('shows additional enroll instructions for edge when browser is edge', function() {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     spyOn(BrowserFeatures, 'isEdge').and.callFake(() => true);
     testContext.init();
@@ -77,7 +77,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
     expect(testContext.view.$('.webauthn-setup').length).toBe(1);
   });
 
-  it('shows UV required callout when userVerification is "required"', function () {
+  it('shows UV required callout when userVerification is "required"', function() {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     const currentAuthenticator = JSON.parse(JSON.stringify(EnrollWebauthnResponse.currentAuthenticator.value));
     currentAuthenticator.contextualData.activationData.authenticatorSelection.userVerification = 'required';
@@ -88,7 +88,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
     );
   });
 
-  it('does not show UV required callout when userVerification is "discouraged"', function () {
+  it('does not show UV required callout when userVerification is "discouraged"', function() {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     const currentAuthenticator = JSON.parse(JSON.stringify(EnrollWebauthnResponse.currentAuthenticator.value));
     currentAuthenticator.contextualData.activationData.authenticatorSelection.userVerification = 'discouraged';
@@ -96,7 +96,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
     expect(testContext.view.$('.uv-required-callout').length).toBe(0);
   });
 
-  it('click on setup hides the setup button and shows spinner', function () {
+  it('click on setup hides the setup button and shows spinner', function() {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     testContext.init();
     testContext.view.$('.webauthn-setup').click();
@@ -104,7 +104,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
     expect(testContext.view.$('.okta-waiting-spinner').css('display')).toBe('block');
   });
 
-  it('saveForm is called when credentials.get succeeds', function (done) {
+  it('saveForm is called when credentials.get succeeds', function(done) {
     const newCredential = {
       response: {
         clientDataJSON: 123,
@@ -177,7 +177,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function () {
       .catch(done.fail);
   });
 
-  it('error is displayed when credentials.create fails', function (done) {
+  it('error is displayed when credentials.create fails', function(done) {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     spyOn(navigator.credentials, 'create').and.returnValue(Promise.reject({ message: 'error from browser' }));
 

@@ -4,7 +4,7 @@ const optionLabelSelector = '.radio-label';
 const channelOptionFieldName = 'authenticator.channel';
 
 export default class SwitchOVEnrollPageObject extends BasePageObject {
-  constructor (t) {
+  constructor(t) {
     super(t);
   }
 

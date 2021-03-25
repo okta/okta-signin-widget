@@ -17,25 +17,25 @@ import FormController from 'util/FormController';
 import FormType from 'util/FormType';
 export default FormController.extend({
   events: {
-    'click .back-btn': function (e) {
+    'click .back-btn': function(e) {
       e.preventDefault();
       this.back();
     },
   },
-  back: function () {
+  back: function() {
     this.state.set('navigateDir', Enums.DIRECTION_BACK);
     this.options.appState.trigger('navigate', '');
   },
   className: 'registration-complete',
-  Model: function () {},
-  initialize: function () {
+  Model: function() {},
+  initialize: function() {
     this.settings.callGlobalSuccess(Enums.ACTIVATION_EMAIL_SENT, {
       username: this.options.appState.get('username'),
     });
   },
   Form: {
     noButtonBar: true,
-    formChildren: function () {
+    formChildren: function() {
       return [
         FormType.View({
           View: View.extend({
@@ -51,7 +51,7 @@ export default FormController.extend({
               </a>\
               '
             ),
-            getTemplateData: function () {
+            getTemplateData: function() {
               return {
                 desc: loc('registration.complete.confirm.text', 'login'),
                 title: loc('registration.complete.title', 'login'),

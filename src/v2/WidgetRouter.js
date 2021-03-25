@@ -19,7 +19,7 @@ module.exports = BaseLoginRouter.extend({
     '*wildcard': 'defaultAuth',
   },
 
-  defaultAuth: function () {
+  defaultAuth: function() {
     this.render(FormController);
   },
 

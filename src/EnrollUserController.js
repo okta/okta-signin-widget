@@ -15,12 +15,12 @@ import EnrollUserForm from 'views/enrollUser/EnrollUserForm';
 import FooterWithBackLink from 'views/shared/FooterWithBackLink';
 export default BaseLoginController.extend({
   className: 'enroll-user',
-  initialize: function (options) {
+  initialize: function(options) {
     this.options = options || {};
     // create model
     this.model = new EnrollUser(this.options);
   },
-  fetchInitialData: function () {
+  fetchInitialData: function() {
     // If user is unauthenticated and starts enroll flow make a post call to transition state to PROFILE_REQUIRED
     if (this.options.appState.get('isUnauthenticated')) {
       return this.model.getEnrollFormData();
@@ -28,12 +28,12 @@ export default BaseLoginController.extend({
       return BaseLoginController.prototype.fetchInitialData.call();
     }
   },
-  trapAuthResponse: function () {
+  trapAuthResponse: function() {
     if (this.options.appState.get('isProfileRequired')) {
       return true;
     }
   },
-  postRender: function () {
+  postRender: function() {
     const form = new EnrollUserForm(this.toJSON());
 
     this.add(form);

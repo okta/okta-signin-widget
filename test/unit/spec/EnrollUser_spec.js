@@ -13,7 +13,7 @@ import $sandbox from 'sandbox';
 import LoginUtil from 'util/Util';
 const itp = Expect.itp;
 
-function setup (isUnauthenticated) {
+function setup(isUnauthenticated) {
   let settings = {};
   const successSpy = jasmine.createSpy('successSpy');
   const setNextResponse = Util.mockAjax();
@@ -49,33 +49,33 @@ function setup (isUnauthenticated) {
   });
 }
 
-function setupEnroll () {
+function setupEnroll() {
   return Expect.waitForEnrollUser(setup(false));
 }
 
-function setupUnAuthenticated () {
+function setupUnAuthenticated() {
   return Expect.waitForPrimaryAuth(setup(true));
 }
 
-Expect.describe('Enroll User Form', function () {
-  itp('has the correct title on the enroll form', function () {
-    return setupEnroll().then(function (test) {
+Expect.describe('Enroll User Form', function() {
+  itp('has the correct title on the enroll form', function() {
+    return setupEnroll().then(function(test) {
       expect(test.form.formTitle().text()).toContain('Create Account');
     });
   });
-  itp('has the correct title on the register button', function () {
-    return setupEnroll().then(function (test) {
+  itp('has the correct title on the register button', function() {
+    return setupEnroll().then(function(test) {
       expect(test.form.formButton()[0].value).toEqual('Register');
     });
   });
-  itp('does not allow empty form submit', function () {
-    return setupEnroll().then(function (test) {
+  itp('does not allow empty form submit', function() {
+    return setupEnroll().then(function(test) {
       test.form.formButton().click();
       expect(test.form.errorMessage()).toEqual('We found some errors. Please review the form and make corrections.');
     });
   });
-  itp('renders the right fields based on API response', function () {
-    return setupEnroll().then(function (test) {
+  itp('renders the right fields based on API response', function() {
+    return setupEnroll().then(function(test) {
       expect(test.form.formInputs('streetAddress').length).toEqual(1);
       expect(test.form.formInputs('streetAddress').find('input').attr('placeholder')).toEqual('enter streetAddress *');
       expect(test.form.formInputs('streetAddress').hasClass('okta-form-input-field input-fix')).toBe(true);
@@ -87,14 +87,14 @@ Expect.describe('Enroll User Form', function () {
   });
   itp(
     'makes call to enroll if isEnrollWithLoginIntent is true and then renders the right fields based on API response',
-    function () {
+    function() {
       return setupUnAuthenticated()
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resProfileRequiredNew);
           test.form.$('.registration-link').click();
           return Expect.waitForEnrollUser(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(resSuccess);
           expect(test.form.formInputs('streetAddress').length).toEqual(1);
@@ -109,7 +109,7 @@ Expect.describe('Enroll User Form', function () {
           model.save();
           return Expect.waitForEnrollUser(test);
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.okta.com/api/v1/authn/enroll',
@@ -127,9 +127,9 @@ Expect.describe('Enroll User Form', function () {
         });
     }
   );
-  itp('enroll user form submit makes the correct post call', function () {
+  itp('enroll user form submit makes the correct post call', function() {
     return setupEnroll()
-      .then(function (test) {
+      .then(function(test) {
         Util.resetAjaxRequests();
         test.setNextResponse(resSuccess);
         const model = test.router.controller.model;
@@ -140,7 +140,7 @@ Expect.describe('Enroll User Form', function () {
         model.save();
         return Expect.waitForEnrollUser(test);
       })
-      .then(function () {
+      .then(function() {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.okta.com/api/v1/authn/enroll',

@@ -18,8 +18,8 @@ export default View.extend({
   className: 'auth-container main-container',
   id: Enums.WIDGET_CONTAINER_ID,
   attributes: { 'data-se': 'auth-container', tabindex: '-1' },
-  initialize: function (options) {
-    this.listenTo(options.appState, 'change:beaconType', function (model, type) {
+  initialize: function(options) {
+    this.listenTo(options.appState, 'change:beaconType', function(model, type) {
       this.$el.toggleClass(CAN_REMOVE_BEACON_CLS, type === 'security');
     });
   },

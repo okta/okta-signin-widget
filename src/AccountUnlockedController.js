@@ -16,7 +16,7 @@ import FormController from 'util/FormController';
 import FormType from 'util/FormType';
 export default FormController.extend({
   className: 'account-unlocked',
-  Model: function () {
+  Model: function() {
     return {
       local: {
         userFullName: ['string', false, this.options.appState.get('userFullName')],
@@ -29,13 +29,13 @@ export default FormController.extend({
     subtitle: _.partial(loc, 'account.unlock.unlocked.desc', 'login'),
     noButtonBar: true,
     attributes: { 'data-se': 'account-unlocked' },
-    formChildren: function () {
+    formChildren: function() {
       return [
         FormType.Button({
           title: loc('goback', 'login'),
           className: 'button button-primary button-wide',
           attributes: { 'data-se': 'back-button' },
-          click: function () {
+          click: function() {
             this.state.set('navigateDir', Enums.DIRECTION_BACK);
             this.options.appState.trigger('navigate', '');
           },

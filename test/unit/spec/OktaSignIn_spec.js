@@ -23,11 +23,11 @@ import V1Router from 'LoginRouter';
 const url = 'https://foo.com';
 const itp = Expect.itp;
 
-Expect.describe('OktaSignIn initialization', function () {
+Expect.describe('OktaSignIn initialization', function() {
   let signIn;
 
   /* eslint jasmine/no-global-setup:0 */
-  beforeEach(function () {
+  beforeEach(function() {
     jasmine.Ajax.install();
     jasmine.Ajax.stubRequest(/https:\/\/foo.com.*/).andReturn({
       status: 200,
@@ -38,13 +38,13 @@ Expect.describe('OktaSignIn initialization', function () {
       baseUrl: url,
     });
   });
-  afterEach(function () {
+  afterEach(function() {
     jasmine.Ajax.uninstall();
     $sandbox.empty();
   });
 
-  Expect.describe('Debug Mode', function () {
-    it('logs a warning message on page load', function () {
+  Expect.describe('Debug Mode', function() {
+    it('logs a warning message on page load', function() {
       const debugMessage =
         '\n' +
         'The Okta Sign-In Widget is running in development mode.\n' +
@@ -55,33 +55,33 @@ Expect.describe('OktaSignIn initialization', function () {
     });
   });
 
-  Expect.describe('At the root level', function () {
-    it('has a renderEl method', function () {
+  Expect.describe('At the root level', function() {
+    it('has a renderEl method', function() {
       expect(signIn.renderEl).toBeDefined();
     });
-    it('has a authClient method', function () {
+    it('has a authClient method', function() {
       expect(signIn.authClient).toBeDefined();	
     });
-    it('has a showSignInToGetTokens method', function () {
+    it('has a showSignInToGetTokens method', function() {
       expect(signIn.showSignInToGetTokens).toBeDefined();
     });
-    it('has a showSignInAndRedirect method', function () {
+    it('has a showSignInAndRedirect method', function() {
       expect(signIn.showSignInAndRedirect).toBeDefined();
     });
-    it('has a hide method', function () {
+    it('has a hide method', function() {
       expect(signIn.hide).toBeDefined();
     });
-    it('has a show method', function () {
+    it('has a show method', function() {
       expect(signIn.show).toBeDefined();
     });
-    it('has a remove method', function () {
+    it('has a remove method', function() {
       expect(signIn.remove).toBeDefined();
     });
   });
 
-  describe('Auth Client', function () {
-    Expect.describe('authClient option', function () {
-      it('accepts an authClient option', function () {
+  describe('Auth Client', function() {
+    Expect.describe('authClient option', function() {
+      it('accepts an authClient option', function() {
         const authClient = { foo: 'bar' };
         signIn = new Widget({
           baseUrl: url,
@@ -91,12 +91,12 @@ Expect.describe('OktaSignIn initialization', function () {
       });
     });
 
-    Expect.describe('Config', function () {
-      it('has an options object', function () {
+    Expect.describe('Config', function() {
+      it('has an options object', function() {
         expect(signIn.authClient.options).toBeDefined();
       });
 
-      it('SIW passes all config within authParams to OktaAuth', function () {
+      it('SIW passes all config within authParams to OktaAuth', function() {
         const authParams = {
           // known params
           issuer: 'https://my-issuer',
@@ -108,12 +108,12 @@ Expect.describe('OktaSignIn initialization', function () {
           authParams,
         });
 
-        Object.keys(authParams).forEach(function (key) {
+        Object.keys(authParams).forEach(function(key) {
           expect(signIn.authClient.options[key]).toBe(authParams[key]);
         });
       });
 
-      it('"useInteractionCodeFlow" without PKCE throws a config error', function () {
+      it('"useInteractionCodeFlow" without PKCE throws a config error', function() {
         const fn = () => {
           signIn = new Widget({
             baseUrl: url,
@@ -127,135 +127,135 @@ Expect.describe('OktaSignIn initialization', function () {
       });
     });
 
-    Expect.describe('Session', function () {
-      it('has a session method', function () {
+    Expect.describe('Session', function() {
+      it('has a session method', function() {
         expect(signIn.authClient.session).toBeDefined();
       });
-      it('has a session.close method', function () {
+      it('has a session.close method', function() {
         expect(signIn.authClient.session.close).toBeDefined();
       });
-      it('has a session.exists method', function () {
+      it('has a session.exists method', function() {
         expect(signIn.authClient.session.exists).toBeDefined();
       });
-      it('has a session.get method', function () {
+      it('has a session.get method', function() {
         expect(signIn.authClient.session.get).toBeDefined();
       });
-      it('has a session.refresh method', function () {
+      it('has a session.refresh method', function() {
         expect(signIn.authClient.session.refresh).toBeDefined();
       });
     });
 
-    Expect.describe('Token', function () {
-      it('has a token method', function () {
+    Expect.describe('Token', function() {
+      it('has a token method', function() {
         expect(signIn.authClient.token).toBeDefined();
       });
-      it('has a token.getWithoutPrompt method', function () {
+      it('has a token.getWithoutPrompt method', function() {
         expect(signIn.authClient.token.getWithoutPrompt).toBeDefined();
       });
-      it('has a token.getWithPopup method', function () {
+      it('has a token.getWithPopup method', function() {
         expect(signIn.authClient.token.getWithPopup).toBeDefined();
       });
-      it('has a token.getWithRedirect method', function () {
+      it('has a token.getWithRedirect method', function() {
         expect(signIn.authClient.token.getWithRedirect).toBeDefined();
       });
-      it('has a token.parseFromUrl method', function () {
+      it('has a token.parseFromUrl method', function() {
         expect(signIn.authClient.token.parseFromUrl).toBeDefined();
       });
-      it('has a token.decode method', function () {
+      it('has a token.decode method', function() {
         expect(signIn.authClient.token.decode).toBeDefined();
       });
-      it('has a token.renew method', function () {
+      it('has a token.renew method', function() {
         expect(signIn.authClient.token.renew).toBeDefined();
       });
-      it('has a token.getUserInfo method', function () {
+      it('has a token.getUserInfo method', function() {
         expect(signIn.authClient.token.getUserInfo).toBeDefined();
       });
-      it('has a token.verify method', function () {
+      it('has a token.verify method', function() {
         expect(signIn.authClient.token.verify).toBeDefined();
       });
     });
 
-    Expect.describe('TokenManager', function () {
-      it('has a tokenManager method', function () {
+    Expect.describe('TokenManager', function() {
+      it('has a tokenManager method', function() {
         expect(signIn.authClient.tokenManager).toBeDefined();
       });
-      it('has a tokenManager.add method', function () {
+      it('has a tokenManager.add method', function() {
         expect(signIn.authClient.tokenManager.add).toBeDefined();
       });
-      it('has a tokenManager.get method', function () {
+      it('has a tokenManager.get method', function() {
         expect(signIn.authClient.tokenManager.get).toBeDefined();
       });
-      it('has a tokenManager.remove method', function () {
+      it('has a tokenManager.remove method', function() {
         expect(signIn.authClient.tokenManager.remove).toBeDefined();
       });
-      it('has a tokenManager.clear method', function () {
+      it('has a tokenManager.clear method', function() {
         expect(signIn.authClient.tokenManager.clear).toBeDefined();
       });
-      it('has a tokenManager.renew method', function () {
+      it('has a tokenManager.renew method', function() {
         expect(signIn.authClient.tokenManager.renew).toBeDefined();
       });
-      it('has a tokenManager.on method', function () {
+      it('has a tokenManager.on method', function() {
         expect(signIn.authClient.tokenManager.on).toBeDefined();
       });
-      it('has a tokenManager.off method', function () {
+      it('has a tokenManager.off method', function() {
         expect(signIn.authClient.tokenManager.off).toBeDefined();
       });
     });
   });
 
-  Expect.describe('events', function () {
-    afterEach(function () {
+  Expect.describe('events', function() {
+    afterEach(function() {
       signIn.remove();
       signIn.off();
     });
-    it('triggers an afterRender event when the Widget renders a page', function (done) {
+    it('triggers an afterRender event when the Widget renders a page', function(done) {
       signIn.renderEl({ el: $sandbox });
-      signIn.on('afterRender', function (context) {
+      signIn.on('afterRender', function(context) {
         expect(context).toEqual({ controller: 'primary-auth' });
         done();
       });
     });
 
-    it('triggers a ready event when the Widget renders a page', function (done) {
+    it('triggers a ready event when the Widget renders a page', function(done) {
       signIn.renderEl({ el: $sandbox });
-      signIn.on('ready', function (context) {
+      signIn.on('ready', function(context) {
         expect(context).toEqual({ controller: 'primary-auth' });
         done();
       });
     });
 
-    it('triggers a ready event when the Widget is loaded with a recoveryToken', function (done) {
+    it('triggers a ready event when the Widget is loaded with a recoveryToken', function(done) {
       signIn = new Widget({
         baseUrl: url,
         recoveryToken: 'foo',
       });
       signIn.renderEl({ el: $sandbox });
-      signIn.on('ready', function (context) {
+      signIn.on('ready', function(context) {
         expect(context).toEqual({ controller: 'recovery-loading' });
         done();
       });
     });
-    it('triggers a ready event when the Widget is loaded with using idpDiscovery', function (done) {
+    it('triggers a ready event when the Widget is loaded with using idpDiscovery', function(done) {
       signIn = new Widget({
         baseUrl: url,
         features: { idpDiscovery: true },
       });
       signIn.renderEl({ el: $sandbox });
-      signIn.on('ready', function (context) {
+      signIn.on('ready', function(context) {
         expect(context).toEqual({ controller: 'idp-discovery' });
         done();
       });
     });
-    it('does not trigger a ready event twice', function (done) {
+    it('does not trigger a ready event twice', function(done) {
       signIn.renderEl({ el: '#sandbox' });
-      signIn.on('ready', function (context) {
+      signIn.on('ready', function(context) {
         expect(context).toEqual({ controller: 'primary-auth' });
         // Navigate directly to forgot-password page
         const forgotPasswordLink = document.getElementsByClassName('link js-forgot-password');
 
         forgotPasswordLink[0].click();
       });
-      signIn.on('afterRender', function (context) {
+      signIn.on('afterRender', function(context) {
         if (context.controller === 'forgot-password') {
           done();
         }
@@ -264,10 +264,10 @@ Expect.describe('OktaSignIn initialization', function () {
   });
 });
 
-describe('OktaSignIn object API', function () {
+describe('OktaSignIn object API', function() {
   let signIn;
   let router;
-  beforeEach(function () {
+  beforeEach(function() {
     spyOn(Logger, 'warn');
     signIn = null;
     router = null;
@@ -278,7 +278,7 @@ describe('OktaSignIn object API', function () {
     $sandbox.empty();
   });
 
-  function createWidget (options = {}) {
+  function createWidget(options = {}) {
     signIn = new Widget(Object.assign({
       baseUrl: url,
       features: {
@@ -287,15 +287,15 @@ describe('OktaSignIn object API', function () {
     }, options));
   }
 
-  function submitPrimaryAuthForm () {
+  function submitPrimaryAuthForm() {
     const form = new PrimaryAuthForm($sandbox);
     form.setUsername('fake@fake.com');
     form.setPassword('FakePassword1');
     form.submit();
   }
 
-  function mockRouter () {
-    spyOn(V1Router.prototype, 'start').and.callFake(function () {
+  function mockRouter() {
+    spyOn(V1Router.prototype, 'start').and.callFake(function() {
       router = this;
       router.controller = {
         remove: () => {}
@@ -356,12 +356,12 @@ describe('OktaSignIn object API', function () {
         
         return Expect.wait(() => {
           return $('.primary-auth').length === 1;
-        }).then(function () {
+        }).then(function() {
           submitPrimaryAuthForm();
           return Expect.wait(() => {
             return successFn.calls.count() > 0;
           });
-        }).then(function () {
+        }).then(function() {
           expect(successFn).toHaveBeenCalledWith({
             user: v1Success.response._embedded.user,
             type: 'SESSION_SSO',
@@ -379,7 +379,7 @@ describe('OktaSignIn object API', function () {
 
         Expect.wait(() => {
           return $('.primary-auth').length === 1;
-        }).then(function () {
+        }).then(function() {
           submitPrimaryAuthForm();
         });
         
@@ -406,7 +406,7 @@ describe('OktaSignIn object API', function () {
         return Expect.wait(() => {
           return errorFn.calls.count() > 0;
         })
-          .then(function () {
+          .then(function() {
             const error = errorFn.calls.argsFor(0)[0];
             expect(error.message).toEqual('"el" is a required widget parameter');
           });
@@ -558,10 +558,10 @@ describe('OktaSignIn object API', function () {
 
 });
 
-Expect.describe('OktaSignIn v1 pipeline bootstrap ', function () {
+Expect.describe('OktaSignIn v1 pipeline bootstrap ', function() {
   let signIn;
   const form = new PrimaryAuthForm($sandbox);
-  beforeEach(function () {
+  beforeEach(function() {
     spyOn(Logger, 'warn');
     signIn = new Widget({
       baseUrl: url,
@@ -572,13 +572,13 @@ Expect.describe('OktaSignIn v1 pipeline bootstrap ', function () {
     });
   });
 
-  afterEach(function () {
+  afterEach(function() {
     signIn.remove();
   });
 
-  function setupIntrospect (responseData) {
+  function setupIntrospect(responseData) {
     spyOn(window.history, 'pushState');
-    spyOn(signIn.authClient.tx, 'introspect').and.callFake(function () {
+    spyOn(signIn.authClient.tx, 'introspect').and.callFake(function() {
       if (responseData.status !== 200) {
         return Q.reject(responseData.response);
       } else {
@@ -592,9 +592,9 @@ Expect.describe('OktaSignIn v1 pipeline bootstrap ', function () {
       return $('.primary-auth').length === 1;
     });
   }
-  Expect.describe('Introspects token and loads primary auth view for old pipeline', function () {
-    it('calls introspect API on page load using authjs as client', function () {
-      return setupIntrospect(introspectResponse).then(function () {
+  Expect.describe('Introspects token and loads primary auth view for old pipeline', function() {
+    it('calls introspect API on page load using authjs as client', function() {
+      return setupIntrospect(introspectResponse).then(function() {
         expect(window.history.pushState.calls.argsFor(0)[2]).toBe('/signin/refresh-auth-state/00stateToken');
         expect(signIn.authClient.tx.introspect).toHaveBeenCalledWith({ stateToken: '00stateToken' });
         expect(form.isPrimaryAuth()).toBe(true);
@@ -616,8 +616,8 @@ Expect.describe('OktaSignIn v1 pipeline bootstrap ', function () {
       });
     });
 
-    it('calls introspect API on page load and handles error using authjs as client', function () {
-      return setupIntrospect(errorResponse).then(function () {
+    it('calls introspect API on page load and handles error using authjs as client', function() {
+      return setupIntrospect(errorResponse).then(function() {
         expect(window.history.pushState.calls.argsFor(0)[2]).toBe('/signin/refresh-auth-state/00stateToken');
         expect(signIn.authClient.tx.introspect).toHaveBeenCalledWith({ stateToken: '00stateToken' });
         expect(form.isPrimaryAuth()).toBe(true);
@@ -642,13 +642,13 @@ Expect.describe('OktaSignIn v1 pipeline bootstrap ', function () {
   });
 });
 
-Expect.describe('OktaSignIn v2 bootstrap', function () {
+Expect.describe('OktaSignIn v2 bootstrap', function() {
   let signIn;
   let codeVerifier;
   let codeChallenge;
   let codeChallengeMethod;
 
-  beforeEach(function () {
+  beforeEach(function() {
     spyOn(Logger, 'error');
     signIn = null;
     codeVerifier = 'fakecodeVerifier';
@@ -656,11 +656,11 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
     codeChallengeMethod = 'fakecodeChallengeMethod';
   });
 
-  afterEach(function () {
+  afterEach(function() {
     signIn && signIn.remove();
   });
 
-  function setupLoginFlow (widgetOptions, responses) {
+  function setupLoginFlow(widgetOptions, responses) {
     signIn = new Widget(
       Object.assign(
         {
@@ -683,20 +683,20 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
 
     // Add customize parser for ION request
     jasmine.Ajax.addCustomParamParser({
-      test: function (xhr) {
+      test: function(xhr) {
         return xhr.contentType().indexOf('application/ion+json;') >= 0;
       },
-      parse: function jsonParser (paramString) {
+      parse: function jsonParser(paramString) {
         return JSON.parse(paramString);
       },
     });
   }
 
-  function render () {
+  function render() {
     return signIn.renderEl({ el: $sandbox });
   }
 
-  function setupProxyIdxResponse (options) {
+  function setupProxyIdxResponse(options) {
     signIn = new Widget(
       Object.assign(
         {
@@ -719,14 +719,14 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
     );
   }
 
-  Expect.describe('Introspects token and loads Identifier view for new pipeline', function () {
-    itp('calls introspect API on page load using idx-js as client', function () {
+  Expect.describe('Introspects token and loads Identifier view for new pipeline', function() {
+    itp('calls introspect API on page load using idx-js as client', function() {
       const form = new IdentifierForm($sandbox);
       setupLoginFlow({ stateToken: '02stateToken' }, idxResponse);
       render();
       return Expect.wait(() => {
         return $('.siw-main-body').length === 1;
-      }).then(function () {
+      }).then(function() {
         expect(form.getTitle()).toBe('Sign In');
         expect(form.getIdentifierInput().length).toBe(1);
         expect(form.getIdentifierInput().attr('name')).toBe('identifier');
@@ -741,7 +741,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
       });
     });
 
-    itp('throws an error if invalid version is passed to idx-js', function () {
+    itp('throws an error if invalid version is passed to idx-js', function() {
       setupLoginFlow({
         stateToken: '02stateToken',
         apiVersion: '2.0.0'
@@ -754,11 +754,11 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
     });
   });
 
-  Expect.describe('Interaction code flow', function () {
+  Expect.describe('Interaction code flow', function() {
     let responses;
     let interactionHandle;
 
-    beforeEach(function () {
+    beforeEach(function() {
       interactionHandle = 'fake_interaction_handle';
       responses = [
         {
@@ -772,7 +772,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
       ];
     });
 
-    itp('calls interact API on page load using idx-js as client in custom hosted widget', function () {
+    itp('calls interact API on page load using idx-js as client in custom hosted widget', function() {
       const form = new IdentifierForm($sandbox);
       setupLoginFlow({ 
         clientId: 'someClientId',
@@ -783,7 +783,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
       render();
       return Expect.wait(() => {
         return $('.siw-main-body').length === 1;
-      }).then(function () {
+      }).then(function() {
         expect(form.getTitle()).toBe('Sign In');
         expect(form.getIdentifierInput().length).toBe(1);
         expect(form.getIdentifierInput().attr('name')).toBe('identifier');
@@ -800,7 +800,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
       });
     });
 
-    itp('throws an error if invalid version is passed to idx-js', function () {
+    itp('throws an error if invalid version is passed to idx-js', function() {
       setupLoginFlow({
         apiVersion: '2.0.0',
         clientId: 'someClientId',
@@ -834,7 +834,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         render();
         return Expect.wait(() => {
           return $('.siw-main-view.terminal').length === 1;
-        }).then(function () {
+        }).then(function() {
           expect(view.getErrorMessages()).toBe(testStr);
         });
       });
@@ -851,7 +851,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         render();
         return Expect.wait(() => {
           return $('.siw-main-view.terminal').length === 1;
-        }).then(function () {
+        }).then(function() {
           expect(view.getErrorMessages()).toBe(testStr);
         });
       });
@@ -870,7 +870,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
       
       return Expect.wait(() => {
         return $('.siw-main-body').length === 1;
-      }).then(function () {
+      }).then(function() {
         expect(signIn.authClient.transactionManager.save).toHaveBeenCalledWith({
           codeChallenge,
           codeVerifier,
@@ -905,7 +905,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
       
       return Expect.wait(() => {
         return $('.siw-main-body').length === 1;
-      }).then(function () {
+      }).then(function() {
 
         expect(jasmine.Ajax.requests.count()).toBe(1);
         const firstReq = jasmine.Ajax.requests.at(0);
@@ -965,7 +965,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
           tokens: {}
         }));
 
-        return render().then(function () {
+        return render().then(function() {
           expect(signIn.authClient.transactionManager.clear).toHaveBeenCalled();
         });
       });
@@ -984,7 +984,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         render();
         return Expect.wait(() => {
           return $('.siw-main-body').length === 1;
-        }).then(function () {
+        }).then(function() {
           expect(signIn.authClient.transactionManager.clear).toHaveBeenCalled();
         });
       });
@@ -1003,7 +1003,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         render();
         return Expect.wait(() => {
           return $('.siw-main-body').length === 1;
-        }).then(function () {
+        }).then(function() {
           expect(signIn.authClient.transactionManager.clear).not.toHaveBeenCalled();
         });
       });
@@ -1030,7 +1030,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
         
         return Expect.wait(() => {
           return $('.siw-main-body').length === 1;
-        }).then(function () {
+        }).then(function() {
           expect(signIn.authClient.transactionManager.clear).not.toHaveBeenCalled();
           const $signOut = $('a[data-se="cancel"]');
           $signOut.click();
@@ -1040,7 +1040,7 @@ Expect.describe('OktaSignIn v2 bootstrap', function () {
     }); // Clear transaction
   }); // interaction code
 
-  itp('Gets proxyIdxResponse and render terminal view', function () {
+  itp('Gets proxyIdxResponse and render terminal view', function() {
     setupProxyIdxResponse({ enrollmentType : 'mdm'});
     render();
     return Expect.wait(() => {

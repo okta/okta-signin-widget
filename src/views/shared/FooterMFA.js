@@ -31,7 +31,7 @@ export default FooterSignout.extend({
     '
   ),
   className: 'auth-footer clearfix',
-  getTemplateData: function () {
+  getTemplateData: function() {
     const signoutTemplateData = FooterSignout.prototype.getTemplateData.apply(this, arguments);
     const factorPageCustomLinkHref = this.settings.get('helpLinks.factorPage.href');
     const factorPageCustomLinkText = this.settings.get('helpLinks.factorPage.text');

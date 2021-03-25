@@ -17,13 +17,13 @@ const PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
 
 const clientIds = ['{{{WIDGET_WEB_CLIENT_ID}}}', '{{{WIDGET_SPA_CLIENT_ID}}}'];
 
-describe('Dev Mode flows', function () {
+describe('Dev Mode flows', function() {
 
-  function renderWidget () {
-    function renderAndRedirect () {
+  function renderWidget() {
+    function renderAndRedirect() {
       oktaSignIn.renderEl(
         {},
-        function (res) {
+        function(res) {
           if (res.status === 'SUCCESS') {
             res.session.setCookieAndRedirect('{{{WIDGET_TEST_SERVER}}}' + '/app/UserHome');
           }
@@ -33,20 +33,20 @@ describe('Dev Mode flows', function () {
     browser.executeScript(renderAndRedirect);
   }
 
-  beforeEach(function () {
+  beforeEach(function() {
     browser.driver.get('about:blank');
     browser.ignoreSynchronization = true;
     util.loadTestPage('basic-dev');
   });
 
-  afterEach(function () {
+  afterEach(function() {
     // Logout of Okta session
     browser.get('{{{WIDGET_TEST_SERVER}}}/login/signout');
     const el = element(by.css('#okta-sign-in'));
     expect(el.isDisplayed()).toBe(true);
   });
 
-  it('can hide, show, remove, and start a widget', function () {
+  it('can hide, show, remove, and start a widget', function() {
     renderWidget();
     // Ensure the widget exists
     const el = element(by.css('#okta-sign-in'));
@@ -65,15 +65,15 @@ describe('Dev Mode flows', function () {
     expect(el.isPresent()).toBe(false);
 
     // Ensure a new widget can be created
-    function createWidget () {
-      oktaSignIn.renderEl({}, function () {});
+    function createWidget() {
+      oktaSignIn.renderEl({}, function() {});
     }
     browser.executeScript(createWidget);
     expect(el.isDisplayed()).toBe(true);
   });
 
   clientIds.forEach(clientId => {
-    it('can login and return tokens using the showSignInToGetTokens method', function () {
+    it('can login and return tokens using the showSignInToGetTokens method', function() {
       const options = {
         clientId,
         redirectUri: 'http://localhost:3000/done',
@@ -93,7 +93,7 @@ describe('Dev Mode flows', function () {
       expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_BASIC_NAME}}}');
     });
   
-    it('can login and receive tokens on a callback using the showSignInAndRedirect method', function () {
+    it('can login and receive tokens on a callback using the showSignInAndRedirect method', function() {
       const options = {
         clientId,
         redirectUri: 'http://localhost:3000/done',

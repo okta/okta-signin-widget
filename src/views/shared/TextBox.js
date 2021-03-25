@@ -19,7 +19,7 @@ import 'qtip';
 import BrowserFeatures from 'util/BrowserFeatures';
 const { TextBox } = internal.views.forms.inputs;
 export default TextBox.extend({
-  postRender: function () {
+  postRender: function() {
     if (this.options.type === 'number') {
       const input = this.$('input');
 
@@ -32,7 +32,7 @@ export default TextBox.extend({
   },
   // Override the focus() to ignore focus in IE. IE (8-11) has a known bug where
   // the placeholder text disappears when the input field is focused.
-  focus: function () {
+  focus: function() {
     if (BrowserFeatures.isIE()) {
       return;
     }

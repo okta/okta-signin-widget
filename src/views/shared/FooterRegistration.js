@@ -27,7 +27,7 @@ export default View.extend({
     'click a.registration-link': 'handleClickEvent',
   },
 
-  handleClickEvent: function (e) {
+  handleClickEvent: function(e) {
     e.preventDefault();
     const clickHandler = this.settings.get('registration.click');
 
@@ -40,7 +40,7 @@ export default View.extend({
     }
   },
 
-  getTemplateData: function () {
+  getTemplateData: function() {
     const templateData = {
       label: loc('registration.signup.label', 'login'),
       text: loc('registration.signup.text', 'login'),

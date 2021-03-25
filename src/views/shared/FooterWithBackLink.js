@@ -23,12 +23,12 @@ export default View.extend({
   ),
   className: 'auth-footer',
   events: {
-    'click .help': function (e) {
+    'click .help': function(e) {
       e.preventDefault();
       this.back();
     },
   },
-  back: function () {
+  back: function() {
     this.state.set('navigateDir', Enums.DIRECTION_BACK);
     this.options.appState.trigger('navigate', '');
   },

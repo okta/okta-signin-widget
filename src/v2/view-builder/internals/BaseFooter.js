@@ -27,7 +27,7 @@ export default View.extend({
    */
   links: [],
 
-  initialize () {
+  initialize() {
     let links = _.resultCtx(this, 'links', this);
 
     // safe check

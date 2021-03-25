@@ -35,7 +35,7 @@ module.exports = {
     'curly': 2,
     'eqeqeq': 2,
     'guard-for-in': 2,
-    'indent': [2, 2, { 'VariableDeclarator': 2 } ],
+    'indent': [2, 2, { 'VariableDeclarator': 2 }],
     'max-depth': [2, 2],
     'max-len': [2, 120],
     'max-params': [2, 10],
@@ -50,7 +50,11 @@ module.exports = {
     'no-only-tests/no-only-tests': 'error',
     'quotes': [2, 'single'],
     'semi': 2,
-    'space-before-function-paren': 2,
+    'space-before-function-paren': [2, {
+      'anonymous': 'never',
+      'named': 'never',
+      'asyncArrow': 'always'
+    }],
     'strict': 0,
   },
   'root': true

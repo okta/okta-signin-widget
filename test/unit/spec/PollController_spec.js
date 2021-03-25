@@ -9,7 +9,7 @@ import resPolling from 'helpers/xhr/POLLING';
 import resSuccess from 'helpers/xhr/SUCCESS';
 import $sandbox from 'sandbox';
 
-function setup (settings, res) {
+function setup(settings, res) {
   settings || (settings = {});
   const successSpy = jasmine.createSpy('successSpy');
   const setNextResponse = Util.mockAjax();
@@ -42,11 +42,11 @@ function setup (settings, res) {
   return Expect.waitForPoll(settings);
 }
 
-Expect.describe('Polling', function () {
-  describe('Form Content', function () {
-    it('shows the correct content on load', function (done) {
+Expect.describe('Polling', function() {
+  describe('Form Content', function() {
+    it('shows the correct content on load', function(done) {
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           const title =
             'There are too many users trying to sign in right now. We will automatically retry in 1 seconds.';
           expect(test.form.pageTitle().text().trim()).toBe(title);
@@ -54,9 +54,9 @@ Expect.describe('Polling', function () {
         })
         .catch(done.fail);
     });
-    it('has the cancel button', function (done) {
+    it('has the cancel button', function(done) {
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.cancelButton()).toHaveLength(1);
           expect(test.form.cancelButton().attr('value')).toBe('Cancel');
           expect(test.form.cancelButton().attr('class')).toBe('button button-primary');
@@ -64,15 +64,15 @@ Expect.describe('Polling', function () {
         })
         .catch(done.fail);
     });
-    it('cancel button clicked cancels the current stateToken and calls the cancel function', function () {
+    it('cancel button clicked cancels the current stateToken and calls the cancel function', function() {
       return setup({}, [resPolling, resPolling, resPolling, resCancel])
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(resCancel);
           test.form.cancelButton().click();
           return Expect.waitForAjaxRequest(test);
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://example.okta.com/api/v1/authn/cancel',
@@ -85,13 +85,13 @@ Expect.describe('Polling', function () {
   });
 });
 
-Expect.describe('Polling API', function () {
-  describe('called on load', function () {
-    it('makes the request correctly', function (done) {
+Expect.describe('Polling API', function() {
+  describe('called on load', function() {
+    it('makes the request correctly', function(done) {
       setup({}, [resPolling, resPolling, resSuccess])
         .then(() => {
           // TODO: refactor to use Util.callAllTimeouts() to remove long timeout value: https://oktainc.atlassian.net/browse/OKTA-291740
-          setTimeout(function () {
+          setTimeout(function() {
             expect(Util.numAjaxRequests()).toBe(3);
             // first call is for refresh-auth
             // poll

@@ -22,7 +22,7 @@ export default View.extend({
     '
   ),
 
-  equals: function (Beacon) {
+  equals: function(Beacon) {
     return Beacon && this instanceof Beacon;
   },
 });

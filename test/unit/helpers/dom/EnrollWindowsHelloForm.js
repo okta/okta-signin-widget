@@ -1,18 +1,18 @@
 import Form from './Form';
 export default Form.extend({
-  hasErrorHtml: function () {
+  hasErrorHtml: function() {
     return this.el('o-form-error-html').length === 1;
   },
 
-  spinner: function () {
+  spinner: function() {
     return this.el('o-form-okta-waiting-spinner');
   },
 
-  backLink: function () {
+  backLink: function() {
     return this.el('back-link');
   },
 
-  buttonBar: function () {
+  buttonBar: function() {
     return this.$('.o-form-button-bar');
   },
 });

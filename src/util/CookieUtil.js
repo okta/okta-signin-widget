@@ -16,18 +16,18 @@ const LAST_USERNAME_COOKIE_NAME = 'ln';
 const DAYS_SAVE_REMEMBER = 365;
 const fn = {};
 
-fn.getCookieUsername = function () {
+fn.getCookieUsername = function() {
   return Cookie.getCookie(LAST_USERNAME_COOKIE_NAME);
 };
 
-fn.setUsernameCookie = function (username) {
+fn.setUsernameCookie = function(username) {
   Cookie.setCookie(LAST_USERNAME_COOKIE_NAME, username, {
     expires: DAYS_SAVE_REMEMBER,
     path: '/',
   });
 };
 
-fn.removeUsernameCookie = function () {
+fn.removeUsernameCookie = function() {
   Cookie.removeCookie(LAST_USERNAME_COOKIE_NAME, { path: '/' });
 };
 

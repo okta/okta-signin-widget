@@ -4,7 +4,7 @@ import CalloutObject from './components/CalloutObject';
 
 export default class TerminalPageObject extends BasePageObject {
 
-  constructor (t) {
+  constructor(t) {
     super(t);
     this.beacon = new Selector('.beacon-container');
   }

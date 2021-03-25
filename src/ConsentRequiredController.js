@@ -22,7 +22,7 @@ import consentLogoHeaderTemplate from 'views/shared/templates/consentLogoHeaderT
 
 export default FormController.extend({
   className: 'consent-required',
-  initialize: function () {
+  initialize: function() {
     this.model.set('expiresAt', this.options.appState.get('expiresAt'));
     this.model.set('scopes', this.options.appState.get('scopes'));
     this.listenTo(this.form, 'cancel', _.bind(this.model.cancel, this.model));
@@ -31,7 +31,7 @@ export default FormController.extend({
     const skipLink = new SkipLink();
     $(`#${Enums.WIDGET_LOGIN_CONTAINER_ID}`).prepend(skipLink.render().$el);
   },
-  postRender: function () {
+  postRender: function() {
     FormController.prototype.postRender.apply(this, arguments);
 
     // Move buttons in DOM to match visual hierarchy to fix tab order.
@@ -46,8 +46,8 @@ export default FormController.extend({
       expiresAt: ['string', true],
       scopes: ['array', true],
     },
-    save: function () {
-      return this.doTransaction(function (transaction) {
+    save: function() {
+      return this.doTransaction(function(transaction) {
         return transaction.consent({
           consent: {
             expiresAt: this.get('expiresAt'),
@@ -56,12 +56,12 @@ export default FormController.extend({
         });
       });
     },
-    cancel: function () {
+    cancel: function() {
       const self = this;
 
-      return this.doTransaction(function (transaction) {
+      return this.doTransaction(function(transaction) {
         return transaction.cancel();
-      }).then(function () {
+      }).then(function() {
         const consentCancelFn = self.settings.get('consent.cancel');
 
         if (_.isFunction(consentCancelFn)) {
@@ -75,13 +75,13 @@ export default FormController.extend({
     autoSave: true,
     save: _.partial(loc, 'consent.required.consentButton', 'login'),
     cancel: _.partial(loc, 'consent.required.cancelButton', 'login'),
-    formChildren: function () {
+    formChildren: function() {
       return [
         FormType.View({
           View: View.extend({
             className: 'consent-title detail-row',
             template: consentLogoHeaderTemplate,
-            getTemplateData: function () {
+            getTemplateData: function() {
               const appState = this.options.appState;
 
               return {
@@ -124,7 +124,7 @@ export default FormController.extend({
         {{/if}}\
       '
     ),
-    getTemplateData: function () {
+    getTemplateData: function() {
       const appState = this.options.appState;
 
       return {

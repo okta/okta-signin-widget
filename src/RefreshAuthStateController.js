@@ -21,11 +21,11 @@ export default FormController.extend({
     noButtonBar: true,
   },
 
-  preRender: function () {
+  preRender: function() {
     const appState = this.options.appState;
     const token = this.options.token;
 
-    this.model.startTransaction(function (authClient) {
+    this.model.startTransaction(function(authClient) {
       appState.trigger('loading', true);
       if (token) {
         return authClient.tx.introspect({
@@ -43,7 +43,7 @@ export default FormController.extend({
     });
   },
 
-  remove: function () {
+  remove: function() {
     this.options.appState.trigger('loading', false);
     return FormController.prototype.remove.apply(this, arguments);
   },

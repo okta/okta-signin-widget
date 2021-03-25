@@ -1,12 +1,12 @@
 import Q from 'q';
 
-function addMethodSpy (mock, methodName) {
-  const spy = jasmine.createSpy(methodName + 'Spy').and.callFake(function () {
+function addMethodSpy(mock, methodName) {
+  const spy = jasmine.createSpy(methodName + 'Spy').and.callFake(function() {
     if (!mock.__nextRes) {
       return Q.resolve({});
     }
     if (mock.__nextRes.isFulfilled() && mock.__globalSubscribeFn) {
-      mock.__nextRes.then(function (res) {
+      mock.__nextRes.then(function(res) {
         // Very specific to behavior in OktaAuth. Will remove when we remove
         // this logic
         if (res.status === 'MFA_CHALLENGE') {
@@ -15,7 +15,7 @@ function addMethodSpy (mock, methodName) {
         mock.__globalSubscribeFn(null, res);
       });
     } else if (mock.__nextRes.isRejected() && mock.__globalSubscribeFn) {
-      mock.__nextRes.catch(function (err) {
+      mock.__nextRes.catch(function(err) {
         mock.__globalSubscribeFn(err, null);
       });
     }
@@ -25,10 +25,10 @@ function addMethodSpy (mock, methodName) {
   mock[methodName] = spy;
 }
 
-function Mock () {
+function Mock() {
   const self = this;
 
-  this.subscribe = jasmine.createSpy('subscribeSpy').and.callFake(function (fn) {
+  this.subscribe = jasmine.createSpy('subscribeSpy').and.callFake(function(fn) {
     self.__globalSubscribeFn = fn;
   });
   addMethodSpy(this, 'primaryAuth');
@@ -49,13 +49,13 @@ function Mock () {
   addMethodSpy(this, 'getLastResponse');
 }
 
-Mock.prototype.__setNextResponse = function (res) {
+Mock.prototype.__setNextResponse = function(res) {
   const isError = res.responseJSON && res.responseJSON.errorCode;
 
   this.__nextRes = isError ? Q.reject(res) : Q.resolve(res);
 };
 
-Mock.prototype.__invokeResponse = function (res) {
+Mock.prototype.__invokeResponse = function(res) {
   this.__globalSubscribeFn(null, res);
 };
 

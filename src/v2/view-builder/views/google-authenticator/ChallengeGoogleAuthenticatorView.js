@@ -6,15 +6,15 @@ const Body = BaseForm.extend(Object.assign(
   {
     className: 'google-authenticator-challenge',
 
-    title () {
+    title() {
       return loc('oie.verify.google_authenticator.otp.title', 'login');
     },
 
-    subtitle () {
+    subtitle() {
       return loc('oie.verify.google_authenticator.otp.description', 'login');
     },
 
-    save () {
+    save() {
       return loc('mfa.challenge.verify', 'login');
     },
   },

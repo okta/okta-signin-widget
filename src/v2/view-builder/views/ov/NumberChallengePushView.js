@@ -14,46 +14,46 @@ const Body = BaseForm.extend(Object.assign(
       'click a.resend-number-challenge': 'handleResendNumberChallenge'
     },
 
-    handleResendNumberChallenge () {
+    handleResendNumberChallenge() {
       this.options.appState.trigger('invokeAction', 'currentAuthenticator-resend');
       // hide the warning
       this.options.appState.trigger('hideNumberChallengeWarning');
     },
 
-    title () {
+    title() {
       return loc('oie.okta_verify.push.sent', 'login');
     },
 
-    initialize () {
+    initialize() {
       BaseForm.prototype.initialize.apply(this, arguments);
       this.add(NumberChallengePhoneView);
     },
 
-    triggerAfterError () {
+    triggerAfterError() {
       BaseForm.prototype.triggerAfterError.apply(this, arguments);
       this.stopPolling();
       this.$el.find('.o-form-fieldset-container').empty();
     },
 
-    postRender () {
+    postRender() {
       this.startPoll();
     },
 
-    startPoll () {
+    startPoll() {
       this.startPolling();
       this.addWarning();
     },
 
-    stopPoll () {
+    stopPoll() {
       this.stopPolling();
     },
 
-    addWarning () {
+    addWarning() {
       this.add(ResendNumberChallengeView, '.o-form-error-container');
       this.options.appState.trigger('showNumberChallengeWarning');
     },
 
-    remove () {
+    remove() {
       BaseForm.prototype.remove.apply(this, arguments);
       this.stopPolling();
     },

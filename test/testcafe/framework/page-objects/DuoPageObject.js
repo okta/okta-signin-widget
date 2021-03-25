@@ -1,7 +1,7 @@
 import BasePageObject from './BasePageObject';
 
 export default class DuoPageObject extends BasePageObject {
-  constructor (t) {
+  constructor(t) {
     super(t);
   }
 

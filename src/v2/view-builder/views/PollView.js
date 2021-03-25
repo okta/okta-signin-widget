@@ -13,7 +13,7 @@ const PollMessageView = View.extend({
     <div class="okta-waiting-spinner"></div>
     `
   ,
-  getTemplateData () {
+  getTemplateData() {
     const countDownCounterValue = this.options;
     return {
       countDownCounterValue,
@@ -23,30 +23,30 @@ const PollMessageView = View.extend({
 
 const Body = BaseForm.extend(Object.assign(
   {
-    title () {
+    title() {
       return  loc('poll.form.title', 'login');
     },
 
     noButtonBar: true,
     
-    initialize () {
+    initialize() {
       BaseForm.prototype.initialize.apply(this, arguments);
       this.startPolling();
     },
 
-    render () {
+    render() {
       BaseForm.prototype.render.apply(this, arguments);
       this.countDownCounterValue = Math.ceil(this.options.appState.getCurrentViewState().refresh / MS_PER_SEC);
       this.add(new PollMessageView(this.countDownCounterValue));
       this.startCountDown('.ion-messages-container span', MS_PER_SEC);
     },
 
-    remove () {
+    remove() {
       BaseForm.prototype.remove.apply(this, arguments);
       this.stopPolling();
     },
 
-    triggerAfterError () {
+    triggerAfterError() {
       BaseForm.prototype.triggerAfterError.apply(this, arguments);
       this.stopPolling();
       this.$el.find('.o-form-fieldset-container').empty();

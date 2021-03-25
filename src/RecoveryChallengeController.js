@@ -26,20 +26,20 @@ export default FormController.extend({
     local: {
       ableToResend: 'boolean',
     },
-    resendCode: function () {
+    resendCode: function() {
       // Note: This does not require a trapAuthResponse because Backbone's
       // router will not navigate if the url path is the same
       this.limitResending();
-      return this.doTransaction(function (transaction) {
+      return this.doTransaction(function(transaction) {
         return transaction.resend();
       });
     },
-    limitResending: function () {
+    limitResending: function() {
       this.set({ ableToResend: false });
       _.delay(_.bind(this.set, this), Enums.API_RATE_LIMIT, { ableToResend: true });
     },
-    save: function () {
-      return this.doTransaction(function (transaction) {
+    save: function() {
+      return this.doTransaction(function(transaction) {
         return transaction.verify({
           passCode: this.get('passCode'),
         });
@@ -49,7 +49,7 @@ export default FormController.extend({
   Form: {
     autoSave: true,
     save: _.partial(loc, 'mfa.challenge.verify', 'login'),
-    title: function () {
+    title: function() {
       if (this.options.appState.get('factorType') === Enums.RECOVERY_FACTOR_TYPE_CALL) {
         return loc('recoveryChallenge.call.title', 'login');
       } else {
@@ -57,22 +57,22 @@ export default FormController.extend({
       }
     },
     className: 'recovery-challenge',
-    initialize: function () {
-      this.listenTo(this.model, 'error', function () {
+    initialize: function() {
+      this.listenTo(this.model, 'error', function() {
         this.clearErrors();
       });
     },
-    formChildren: function () {
+    formChildren: function() {
       return [
         FormType.Button({
           title: loc('mfa.resendCode', 'login'),
           attributes: { 'data-se': 'resend-button' },
           className: 'button sms-request-button margin-top-30',
-          click: function () {
+          click: function() {
             this.model.resendCode();
           },
-          initialize: function () {
-            this.listenTo(this.model, 'change:ableToResend', function (model, ableToResend) {
+          initialize: function() {
+            this.listenTo(this.model, 'change:ableToResend', function(model, ableToResend) {
               if (ableToResend) {
                 this.options.title = loc('mfa.resendCode', 'login');
                 this.enable();
@@ -98,13 +98,13 @@ export default FormController.extend({
   },
 
   events: {
-    'click .send-email-link': function (e) {
+    'click .send-email-link': function(e) {
       e.preventDefault();
       const settings = this.model.settings;
       const username = this.options.appState.get('username');
       const recoveryType = this.options.appState.get('recoveryType');
 
-      this.model.startTransaction(function (authClient) {
+      this.model.startTransaction(function(authClient) {
         // The user could have landed here via the Forgot Password/Unlock Account flow
         switch (recoveryType) {
         case Enums.RECOVERY_TYPE_PASSWORD:
@@ -124,7 +124,7 @@ export default FormController.extend({
     },
   },
 
-  initialize: function () {
+  initialize: function() {
     const recoveryType = this.options.appState.get('recoveryType');
     let sendEmailLink;
 
@@ -158,7 +158,7 @@ export default FormController.extend({
     }
   },
 
-  postRender: function () {
+  postRender: function() {
     this.model.limitResending();
   },
 });

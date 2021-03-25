@@ -1,18 +1,18 @@
 import Form from './Form';
 export default Form.extend({
-  backLink: function () {
+  backLink: function() {
     return this.el('back-link');
   },
 
-  buttonBar: function () {
+  buttonBar: function() {
     return this.$('.o-form-button-bar');
   },
 
-  hasErrorBox: function () {
+  hasErrorBox: function() {
     return this.el('o-form-error-container').find('.infobox-error').length > 0;
   },
 
-  errorBoxMessage: function () {
+  errorBoxMessage: function() {
     return this.$('.o-form-error-container .infobox-error h4').text().trim();
   },
 });

@@ -20,7 +20,7 @@ var signIn = new OktaSignIn({
   baseUrl: '{{{WIDGET_TEST_SERVER}}}'
 });
 
-signIn.renderEl({el: '#okta-login-container'}, function (res) {
+signIn.renderEl({el: '#okta-login-container'}, function(res) {
   if (res.status !== 'SUCCESS') {
     return;
   }

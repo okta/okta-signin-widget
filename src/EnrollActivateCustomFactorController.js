@@ -22,7 +22,7 @@ export default EnrollCustomFactorController.extend({
       provider: 'string',
       factorType: 'string',
     },
-    save: function () {
+    save: function() {
       return this.manageTransaction(() => {
         const url = this.appState.get('enrollCustomFactorRedirectUrl');
 
@@ -33,7 +33,7 @@ export default EnrollCustomFactorController.extend({
     },
   },
 
-  Form: function () {
+  Form: function() {
     const factor = new Factor.Model(this.options.appState.get('factor'), this.toJSON());
     const vendorName = factor.get('vendorName');
     const subtitle = loc('enroll.customFactor.subtitle', 'login', [vendorName]);
@@ -44,7 +44,7 @@ export default EnrollCustomFactorController.extend({
       title: vendorName,
       subtitle: subtitle,
       save: saveText,
-      formChildren: function () {
+      formChildren: function() {
         const result = [];
 
         if (this.options.appState.get('isFactorResultFailed')) {

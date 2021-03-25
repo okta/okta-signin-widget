@@ -23,20 +23,20 @@ export default View.extend({
   ),
   className: 'auth-footer',
   events: {
-    'click .js-back': function (e) {
+    'click .js-back': function(e) {
       e.preventDefault();
       this.options.appState.trigger('backToFactors');
       this.back();
     },
   },
 
-  back: function () {
+  back: function() {
     this.state.set('navigateDir', Enums.DIRECTION_BACK);
     if (this.options.appState.get('prevLink')) {
       // Once we are in the MFA_ENROLL_ACTIVATE, we need to reset to the
       // correct state. Fortunately, this means that the router will
       // handle navigation once the request is finished.
-      this.model.doTransaction(function (transaction) {
+      this.model.doTransaction(function(transaction) {
         return transaction.prev();
       });
     } else {

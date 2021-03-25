@@ -3,7 +3,7 @@ import BasePageObject from './BasePageObject';
 
 export default class PollingPageObject extends BasePageObject {
 
-  constructor (t) {
+  constructor(t) {
     super(t);
     this.spinner = new Selector('.okta-waiting-spinner');
   }

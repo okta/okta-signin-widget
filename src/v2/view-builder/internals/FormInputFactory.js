@@ -71,7 +71,7 @@ const inputCreationStrategy = {
 };
 
 // TODO: move logic to uiSchemaTransformer
-const create = function (uiSchemaObj) {
+const create = function(uiSchemaObj) {
   const strategyFn = inputCreationStrategy[uiSchemaObj.type] || _.identity;
   return strategyFn(uiSchemaObj);
 };

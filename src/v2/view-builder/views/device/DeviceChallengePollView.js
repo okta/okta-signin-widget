@@ -27,13 +27,13 @@ const Body = BaseFormWithPolling.extend(
     className: 'ion-form device-challenge-poll',
 
     events: {
-      'click #launch-ov': function (e) {
+      'click #launch-ov': function(e) {
         e.preventDefault();
         this.doCustomURI();
       }
     },
 
-    initialize () {
+    initialize() {
       BaseFormWithPolling.prototype.initialize.apply(this, arguments);
       this.listenTo(this.model, 'error', this.onPollingFail);
       this.deviceChallengePollRemediation = this.options.currentViewState;
@@ -41,18 +41,18 @@ const Body = BaseFormWithPolling.extend(
       this.startPolling();
     },
 
-    onPollingFail () {
+    onPollingFail() {
       this.$('.spinner').hide();
       this.stopPolling();
     },
 
-    remove () {
+    remove() {
       BaseForm.prototype.remove.apply(this, arguments);
       this.stopProbing();
       this.stopPolling();
     },
 
-    doChallenge () {
+    doChallenge() {
       const deviceChallenge = this.deviceChallengePollRemediation.relatesTo.value;
       switch (deviceChallenge.challengeMethod) {
       case Enums.LOOPBACK_CHALLENGE:
@@ -75,7 +75,7 @@ const Body = BaseFormWithPolling.extend(
               {{{i18n code="customUri.required.content.p2" bundle="login" arguments="downloadOVLink"}}}
             </p>
           `,
-          getTemplateData () {
+          getTemplateData() {
             return {
               downloadOVLink: deviceChallenge.downloadHref
             };
@@ -105,7 +105,7 @@ const Body = BaseFormWithPolling.extend(
       }
     },
 
-    doLoopback (authenticatorDomainUrl = '', ports = [], challengeRequest = '') {
+    doLoopback(authenticatorDomainUrl = '', ports = [], challengeRequest = '') {
       let currentPort;
       let foundPort = false;
       let countFailedPorts = 0;
@@ -179,14 +179,14 @@ const Body = BaseFormWithPolling.extend(
       });
     },
 
-    doCustomURI () {
+    doCustomURI() {
       this.ulDom && this.ulDom.remove();
       this.ulDom = this.add(`
         <iframe src="${this.customURI}" id="custom-uri-container" style="display:none;"></iframe>
       `).last();
     },
 
-    stopProbing () {
+    stopProbing() {
       this.checkPortXhr && this.checkPortXhr.abort();
       this.probingXhr && this.probingXhr.abort();
     },
@@ -194,7 +194,7 @@ const Body = BaseFormWithPolling.extend(
 );
 
 const Footer = BaseFooter.extend({
-  initialize () {
+  initialize() {
     const isFallbackApproach = [
       Enums.CUSTOM_URI_CHALLENGE,
       Enums.UNIVERSAL_LINK_CHALLENGE

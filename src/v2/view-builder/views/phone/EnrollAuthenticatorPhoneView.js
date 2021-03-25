@@ -17,11 +17,11 @@ const Body = ChallengeAuthenticatorPhoneView.prototype.Body.extend(
   {
     className: 'phone-authenticator-enroll',
 
-    title () {
+    title() {
       return loc('oie.phone.enroll.title', 'login');
     },
 
-    postRender () {
+    postRender() {
       BaseForm.prototype.postRender.apply(this, arguments);
       this.add(EnrollResendView, {
         selector: '.o-form-error-container',

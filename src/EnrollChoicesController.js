@@ -34,13 +34,13 @@ export default FormController.extend({
 
     title: _.partial(loc, 'enroll.choices.title', 'login'),
 
-    noButtonBar: function () {
+    noButtonBar: function() {
       return this.state.get('pageType') === Enums.ALL_OPTIONAL_NONE_ENROLLED;
     },
 
     subtitle: ' ',
 
-    getSubtitle: function () {
+    getSubtitle: function() {
       switch (this.state.get('pageType')) {
       case Enums.ALL_OPTIONAL_SOME_ENROLLED:
       case Enums.HAS_REQUIRED_ALL_REQUIRED_ENROLLED:
@@ -56,19 +56,19 @@ export default FormController.extend({
       }
     },
 
-    getDefaultSubtitle: function () {
+    getDefaultSubtitle: function() {
       return this.settings.get('brandName')
         ? loc('enroll.choices.description.specific', 'login', [this.settings.get('brandName')])
         : loc('enroll.choices.description.generic', 'login');
     },
 
-    getGracePeriodSubtitle: function (remainingDays) {
+    getGracePeriodSubtitle: function(remainingDays) {
       return remainingDays >= 1
         ? loc('enroll.choices.description.gracePeriod.bold', 'login', [remainingDays])
         : loc('enroll.choices.description.gracePeriod.oneDay.bold', 'login');
     },
 
-    save: function () {
+    save: function() {
       switch (this.state.get('pageType')) {
       case Enums.ALL_OPTIONAL_SOME_ENROLLED:
       case Enums.HAS_REQUIRED_ALL_REQUIRED_ENROLLED:
@@ -82,8 +82,8 @@ export default FormController.extend({
       }
     },
 
-    initialize: function (options) {
-      this.listenTo(this, 'save', function () {
+    initialize: function(options) {
+      this.listenTo(this, 'save', function() {
         let current;
 
         switch (this.state.get('pageType')) {
@@ -96,14 +96,14 @@ export default FormController.extend({
           );
           break;
         default:
-          return this.model.doTransaction(function (transaction) {
+          return this.model.doTransaction(function(transaction) {
             return transaction.skip();
           });
         }
       });
     },
 
-    preRender: function () {
+    preRender: function() {
       // form subtitle does not support unescaped strings, and we need some html elements
       // in the subtitle for this form. So instead of a regular subtitle, we add a <span>
       // with the text we need
@@ -126,7 +126,7 @@ export default FormController.extend({
       case Enums.ALL_OPTIONAL_SOME_ENROLLED:
       case Enums.ALL_OPTIONAL_NONE_ENROLLED: {
         const enrolled = factors.where({ enrolled: true });
-        const notEnrolled = factors.filter(function (factor) {
+        const notEnrolled = factors.filter(function(factor) {
           // pick factors that are not enrolled or have additional enrollments
           return !factor.get('enrolled') || factor.get('additionalEnrollment');
         });
@@ -157,7 +157,7 @@ export default FormController.extend({
     },
   },
 
-  initialize: function (options) {
+  initialize: function(options) {
     let numRequiredEnrolled = 0;
     let numRequiredNotEnrolled = 0;
     let numOptionalEnrolled = 0;
@@ -165,7 +165,7 @@ export default FormController.extend({
     let hasRequired;
     let pageType;
 
-    options.appState.get('factors').each(function (factor) {
+    options.appState.get('factors').each(function(factor) {
       const required = factor.get('required');
       const enrolled = factor.get('enrolled');
       const additionalEnrollment = factor.get('additionalEnrollment');
@@ -213,7 +213,7 @@ export default FormController.extend({
       //    enrolled, among them there is OktaVerify with Push enrolled as totp
       //    (API return OktaVerify push factor as unenrolled in this case and as we always merge
       //    push and totp in UI so we redirect to skip link here).
-      this.model.doTransaction(function (transaction) {
+      this.model.doTransaction(function(transaction) {
         return transaction.skip();
       });
     }

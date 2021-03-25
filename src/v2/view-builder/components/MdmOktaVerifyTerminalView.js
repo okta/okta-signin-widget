@@ -19,11 +19,11 @@ export default View.extend({
     </ol>
   `,
 
-  getTemplateData () {
+  getTemplateData() {
     return this.options.appState.get('deviceEnrollment');
   },
 
-  postRender: function () {
+  postRender: function() {
     // Attach each button to the respective 'data-clipboard-text'
     Clipboard.attach('.copy-clipboard-button').done(() => {
       let notification = new Notification({

@@ -1,7 +1,7 @@
 import { removeRequirementsFromError, getAuthenticatorDisplayName } from 'v2/view-builder/utils/AuthenticatorUtil';
 
-describe('v2/utils/AuthenticatorUtil', function () {
-  it('filters requirements from password error', function () {
+describe('v2/utils/AuthenticatorUtil', function() {
+  it('filters requirements from password error', function() {
     const policy = {
       'complexity': {
         'minLength': 8,
@@ -45,7 +45,7 @@ describe('v2/utils/AuthenticatorUtil', function () {
     });
   });
 
-  it('does not change anything if there are no requirements in error message', function () {
+  it('does not change anything if there are no requirements in error message', function() {
     const policy = {
       'complexity': {
         'minLength': 8,
@@ -89,7 +89,7 @@ describe('v2/utils/AuthenticatorUtil', function () {
     });
   });
 
-  it('getAuthenticatorDisplayName returns displayName from remediation', function () {
+  it('getAuthenticatorDisplayName returns displayName from remediation', function() {
     const remediation = {
       'relatesTo': {
         'value': {

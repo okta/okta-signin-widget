@@ -21,10 +21,10 @@ const Model = {
     factorType: 'string',
     provider: 'string',
   },
-  save: function () {
+  save: function() {
     this.trigger('save');
     const factorOpt = this.pick('factorType', 'provider');
-    return this.doTransaction(function (transaction) {
+    return this.doTransaction(function(transaction) {
       const factor = _.findWhere(transaction.factors, factorOpt);
 
       return factor.enroll();
@@ -32,7 +32,7 @@ const Model = {
   },
 };
 
-const Form = function () {
+const Form = function() {
   return {
     title: _.partial(loc, 'email.enroll.title', 'login'),
     noButtonBar: false,
@@ -60,7 +60,7 @@ export default FormController.extend({
 
   Footer: Footer,
 
-  initialize: function () {
+  initialize: function() {
     this.model.set(_.pick(this.options, 'factorType', 'provider'));
   },
 });

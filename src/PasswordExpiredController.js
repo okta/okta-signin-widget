@@ -28,12 +28,12 @@ export default FormController.extend({
       newPassword: ['string', true],
       confirmPassword: ['string', true],
     },
-    validate: function () {
+    validate: function() {
       return ValidationUtil.validatePasswordMatch(this);
     },
-    save: function () {
+    save: function() {
       this.trigger('save');
-      return this.doTransaction(function (transaction) {
+      return this.doTransaction(function(transaction) {
         return transaction.changePassword({
           oldPassword: this.get('oldPassword'),
           newPassword: this.get('newPassword'),
@@ -43,7 +43,7 @@ export default FormController.extend({
   },
   Form: {
     save: _.partial(loc, 'password.expired.submit', 'login'),
-    title: function () {
+    title: function() {
       const expiringSoon = this.options.appState.get('isPwdExpiringSoon');
       const numDays = this.options.appState.get('passwordExpireDays');
 
@@ -59,7 +59,7 @@ export default FormController.extend({
           : loc('password.expired.title.generic', 'login');
       }
     },
-    subtitle: function () {
+    subtitle: function() {
       if (this.options.appState.get('isPwdExpiringSoon')) {
         return this.settings.get('brandName')
           ? loc('password.expiring.subtitle.specific', 'login', [this.settings.get('brandName')])
@@ -74,7 +74,7 @@ export default FormController.extend({
 
       return FactorUtil.getPasswordComplexityDescription(policy);
     },
-    parseErrorMessage: function (responseJSON) {
+    parseErrorMessage: function(responseJSON) {
       const policy = this.options.appState.get('policy');
 
       if (!!policy && this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
@@ -90,7 +90,7 @@ export default FormController.extend({
       }
       return responseJSON;
     },
-    formChildren: function () {
+    formChildren: function() {
       let children = [];
 
       if (this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
@@ -142,8 +142,8 @@ export default FormController.extend({
   },
   Footer: Footer,
 
-  initialize: function () {
-    this.listenTo(this.form, 'save', function () {
+  initialize: function() {
+    this.listenTo(this.form, 'save', function() {
       const creds = {
         username: this.options.appState.get('userEmail'),
         password: this.model.get('newPassword'),

@@ -4,7 +4,7 @@ const RESEND_EMAIL = '.resend-email-view';
 
 export default class ResendEmailObject {
 
-  constructor (t, parent /* Selector */) {
+  constructor(t, parent /* Selector */) {
     this.t = t;
     if (parent) {
       this.el = parent.find(RESEND_EMAIL);

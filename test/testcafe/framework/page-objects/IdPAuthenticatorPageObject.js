@@ -2,7 +2,7 @@ import { ClientFunction } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 export default class IdPAuthenticatorPageObject extends BasePageObject {
-  constructor (t) {
+  constructor(t) {
     super(t);
   }
 

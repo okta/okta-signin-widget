@@ -4,7 +4,7 @@ import HeaderBeacon from './HeaderBeacon';
 import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
 
 const HeaderBeaconFactor = HeaderBeacon.extend({
-  getBeaconClassName: function () {
+  getBeaconClassName: function() {
     const authenticatorKey = this.options.appState.get('authenticatorKey');
     return getIconClassNameForBeacon(authenticatorKey);
   },

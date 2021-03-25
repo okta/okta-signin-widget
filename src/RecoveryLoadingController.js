@@ -19,26 +19,26 @@ export default FormController.extend({
     noButtonBar: true,
   },
 
-  initialize: function (options) {
+  initialize: function(options) {
     const self = this;
 
     return this.model
-      .startTransaction(function (authClient) {
+      .startTransaction(function(authClient) {
         return authClient.verifyRecoveryToken({
           recoveryToken: options.token,
         });
       })
-      .catch(function () {
+      .catch(function() {
         self.options.appState.trigger('loading', false);
         self.options.appState.trigger('removeLoading');
       });
   },
 
-  preRender: function () {
+  preRender: function() {
     this.options.appState.trigger('loading', true);
   },
 
-  trapAuthResponse: function () {
+  trapAuthResponse: function() {
     this.options.appState.trigger('loading', false);
     return false;
   },

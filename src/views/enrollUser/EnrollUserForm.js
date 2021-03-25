@@ -19,13 +19,13 @@ export default Form.extend({
   layout: 'o-form-theme',
   autoSave: true,
   noCancelButton: true,
-  title () {
+  title() {
     return loc('registration.form.title', 'login');
   },
-  save () {
+  save() {
     return loc('registration.form.submit', 'login');
   },
-  initialize: function (options) {
+  initialize: function(options) {
     this.options = options || {};
     this.schema = new ProfileSchema({
       profileSchemaAttributes: this.options.appState.get('policy').registration.profile,

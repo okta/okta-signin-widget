@@ -24,7 +24,7 @@ export default FormController.extend({
       __isEnrolled__: 'boolean',
     },
 
-    save: function () {
+    save: function() {
       if (!webauthn.isAvailable()) {
         return;
       }
@@ -35,12 +35,12 @@ export default FormController.extend({
         return this.activate();
       }
 
-      return this.doTransaction(function (transaction) {
+      return this.doTransaction(function(transaction) {
         return this._enroll(transaction);
       });
     },
 
-    _enroll: function (transaction) {
+    _enroll: function(transaction) {
       const factor = _.findWhere(transaction.factors, {
         factorType: 'webauthn',
         provider: 'FIDO',
@@ -49,10 +49,10 @@ export default FormController.extend({
       return factor.enroll();
     },
 
-    activate: function () {
+    activate: function() {
       this.set('__isEnrolled__', true);
 
-      return this.doTransaction(function (transaction) {
+      return this.doTransaction(function(transaction) {
         const activation = transaction.factor.activation;
         const user = transaction.user;
         const model = this;
@@ -71,14 +71,14 @@ export default FormController.extend({
 
         return webauthn
           .makeCredential(accountInfo, cryptoParams, challenge)
-          .then(function (creds) {
+          .then(function(creds) {
             return transaction.activate({
               credentialId: creds.credential.id,
               publicKey: creds.publicKey,
               attestation: null,
             });
           })
-          .catch(function (error) {
+          .catch(function(error) {
             switch (error.message) {
             case 'AbortError':
             case 'NotFoundError':
@@ -97,7 +97,7 @@ export default FormController.extend({
     autoSave: true,
     hasSavingState: false,
     title: _.partial(loc, 'enroll.windowsHello.title', 'login'),
-    subtitle: function () {
+    subtitle: function() {
       return webauthn.isAvailable() ? loc('enroll.windowsHello.subtitle', 'login') : '';
     },
     save: _.partial(loc, 'enroll.windowsHello.save', 'login'),
@@ -106,7 +106,7 @@ export default FormController.extend({
       stop: 'abort',
     },
 
-    modelEvents: function () {
+    modelEvents: function() {
       if (!webauthn.isAvailable()) {
         return {};
       }
@@ -118,11 +118,11 @@ export default FormController.extend({
       };
     },
 
-    noButtonBar: function () {
+    noButtonBar: function() {
       return !webauthn.isAvailable();
     },
 
-    formChildren: function () {
+    formChildren: function() {
       const result = [];
 
       if (!webauthn.isAvailable()) {
@@ -139,7 +139,7 @@ export default FormController.extend({
       return result;
     },
 
-    _startEnrollment: function () {
+    _startEnrollment: function() {
       this.subtitle = loc('enroll.windowsHello.subtitle.loading', 'login');
 
       this.model.trigger('spinner:show');
@@ -149,7 +149,7 @@ export default FormController.extend({
       this.$('.o-form-button-bar').addClass('hide');
     },
 
-    _stopEnrollment: function (errorMessage) {
+    _stopEnrollment: function(errorMessage) {
       this.subtitle = loc('enroll.windowsHello.subtitle', 'login');
 
       this.model.trigger('spinner:hide');
@@ -178,7 +178,7 @@ export default FormController.extend({
       this.$('.o-form-button-bar').removeClass('hide');
     },
 
-    _resetErrorMessage: function () {
+    _resetErrorMessage: function() {
       this._errorMessageView && this._errorMessageView.remove();
       this._errorMessageView = undefined;
       this.clearErrors();
@@ -187,7 +187,7 @@ export default FormController.extend({
 
   Footer: Footer,
 
-  trapAuthResponse: function () {
+  trapAuthResponse: function() {
     if (this.options.appState.get('isMfaEnrollActivate')) {
       this.model.activate();
       return true;

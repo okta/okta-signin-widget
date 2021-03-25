@@ -2,11 +2,11 @@
 import { FrameworkView, _ } from 'okta';
 
 const _viewAdd = FrameworkView.prototype.add;
-FrameworkView.prototype.add = function (view) {
+FrameworkView.prototype.add = function(view) {
   if (_.isString(view) && view.indexOf('{{') >= 0) {
     const msg = 'Attempt to add an uncompiled template as a string: ' + view;
     console.error(msg);
-    setImmediate(function () {
+    setImmediate(function() {
       throw new Error(msg); // fail test
     });
   }
@@ -14,11 +14,11 @@ FrameworkView.prototype.add = function (view) {
 };
 
 const _viewCompileTemplate = FrameworkView.prototype.compileTemplate;
-FrameworkView.prototype.compileTemplate = function (str) {
+FrameworkView.prototype.compileTemplate = function(str) {
   if (str.indexOf('{{') >= 0) {
     const msg = 'attempt to compile template: ' + str;
     console.error(msg);
-    setImmediate(function () {
+    setImmediate(function() {
       throw new Error(msg); // fail test
     });
   }

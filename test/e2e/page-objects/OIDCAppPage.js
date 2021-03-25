@@ -15,7 +15,7 @@ const EC = protractor.ExpectedConditions;
 
 class AppPage {
 
-  constructor () {
+  constructor() {
     this.pageEl = $('#page');
     this.idTokenUserEl = $('#idtoken_user');
     this.accessTokenTypeEl = $('#accesstoken_type');
@@ -23,27 +23,27 @@ class AppPage {
     this.locationHash = $('#location_hash');
   }
 
-  getIdTokenUser () {
+  getIdTokenUser() {
     browser.wait(EC.presenceOf(this.idTokenUserEl));
     return this.idTokenUserEl.getText();
   }
 
-  getAccessTokenType () {
+  getAccessTokenType() {
     browser.wait(EC.presenceOf(this.accessTokenTypeEl));
     return this.accessTokenTypeEl.getText();
   }
 
-  getCodeFromQuery () {
+  getCodeFromQuery() {
     browser.wait(EC.presenceOf(this.locationSearch));
-    return this.locationSearch.getText().then(function (search) {
+    return this.locationSearch.getText().then(function(search) {
       const matches = search.match(/code=([^&]+)/i);
       return matches && matches[1];
     });
   }
 
-  getCodeFromHash () {
+  getCodeFromHash() {
     browser.wait(EC.presenceOf(this.locationHash));
-    return this.locationHash.getText().then(function (hash) {
+    return this.locationHash.getText().then(function(hash) {
       const matches = hash.match(/code=([^&]+)/i);
       return matches && matches[1];
     });

@@ -37,14 +37,14 @@ import IonResponseHelper from './ion/IonResponseHelper';
 export default Router.extend({
   Events: Backbone.Events,
 
-  initialize: function (options) {
+  initialize: function(options) {
     // Create a default success and/or error handler if
     // one is not provided.
     if (!options.globalSuccessFn) {
-      options.globalSuccessFn = function () {};
+      options.globalSuccessFn = function() {};
     }
     if (!options.globalErrorFn) {
-      options.globalErrorFn = function (err) {
+      options.globalErrorFn = function(err) {
         Logger.error(err);
       };
     }
@@ -56,7 +56,7 @@ export default Router.extend({
       this.settings.callGlobalError(new Errors.ConfigError(loc('error.required.el')));
     }
 
-    $('body > div').on('click', function () {
+    $('body > div').on('click', function() {
       // OKTA-69769 Tooltip wont close on iPhone/iPad
       // Registering a click handler on the first div
       // allows a tap that falls outside the tooltip
@@ -80,7 +80,7 @@ export default Router.extend({
     this.listenTo(this.appState, 'remediationError', this.handleIdxResponseFailure);
   },
 
-  handleIdxResponseSuccess (idxResponse) {
+  handleIdxResponseSuccess(idxResponse) {
     if (idxResponse.interactionCode) {
       return interactionCodeFlow(this.settings, idxResponse);
     }
@@ -96,7 +96,7 @@ export default Router.extend({
     this.appState.setIonResponse(ionResponse);
   },
 
-  handleIdxResponseFailure (error = {}) {
+  handleIdxResponseFailure(error = {}) {
     // special case: `useInteractionCodeFlow` is true but the Org does not have OIE enabled
     // The response is not in IDX format. See playground/mocks/data/oauth2/error-feature-not-enabled.json
     if (error?.error === 'access_denied' && error.error_description) {
@@ -160,7 +160,7 @@ export default Router.extend({
     // }
   },
 
-  render: function (Controller, options = {}) {
+  render: function(Controller, options = {}) {
     // Since we have a wrapper view, render our wrapper and use its content
     // element as our new el.
     // Note: Render it here because we know dom is ready at this point
@@ -221,15 +221,15 @@ export default Router.extend({
     this.controller.render();
   },
 
-  hide: function () {
+  hide: function() {
     this.header.$el.hide();
   },
 
-  show: function () {
+  show: function() {
     this.header.$el.show();
   },
 
-  remove: function () {
+  remove: function() {
     this.unload();
     this.header.$el.remove();
     this.stopListening(this.appState);

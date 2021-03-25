@@ -7,39 +7,39 @@ const RESEND_VIEW_SELECTOR = '.phone-authenticator-enroll--warning';
 
 export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
 
-  constructor (t) {
+  constructor(t) {
     super (t);
   }
 
-  clickRadio (methodType = 'voice') {
+  clickRadio(methodType = 'voice') {
     return this.form.selectRadioButtonOptionByValue('authenticator\\.methodType', methodType);
   }
 
-  extensionIsHidden () {
+  extensionIsHidden() {
     return this.form.getElement(PHONE_NUMBER_EXTENSION_SELECTOR).hasClass('hide');
   }
 
-  getElement (selector) {
+  getElement(selector) {
     return this.form.getElement(selector);
   }
 
-  hasPhoneNumberError () {
+  hasPhoneNumberError() {
     return this.form.hasTextBoxError(phoneFieldName);
   }
 
-  clickSaveButton () {
+  clickSaveButton() {
     return this.form.clickSaveButton();
   }
 
-  waitForError () {
+  waitForError() {
     return this.form.waitForErrorBox();
   }
 
-  fillPhoneNumber (value) {
+  fillPhoneNumber(value) {
     return this.form.setTextBoxValue(phoneFieldName, value);
   }
 
-  phoneNumberFieldIsSmall () {
+  phoneNumberFieldIsSmall() {
     return this.form.getElement(PHONE_NUMBER_SELECTOR)
       .hasClass('phone-authenticator-enroll__phone--small');
   }

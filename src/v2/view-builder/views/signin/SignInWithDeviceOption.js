@@ -20,7 +20,7 @@ export default View.extend({
     </div>
     {{/unless}}
   `,
-  initialize () {
+  initialize() {
     const appState = this.options.appState;
     const deviceChallengePollRemediation = this.options.appState.get('remediations')
       .find(remediation => remediation.name === Enums.LAUNCH_AUTHENTICATOR_REMEDIATION_NAME);
@@ -30,7 +30,7 @@ export default View.extend({
       className: 'button',
       icon: 'okta-verify-authenticator',
       title: loc('oktaVerify.button', 'login'),
-      click () {
+      click() {
         const isUVapproach = deviceChallenge.challengeMethod &&
           deviceChallenge.challengeMethod === Enums.UNIVERSAL_LINK_CHALLENGE;
         if (isUVapproach) {
@@ -56,7 +56,7 @@ export default View.extend({
     }), '.okta-verify-container');
   },
 
-  getTemplateData () {
+  getTemplateData() {
     return {
       signInWithDeviceIsRequired: !!this.options.isRequired,
     };

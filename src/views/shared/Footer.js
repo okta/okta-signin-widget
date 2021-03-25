@@ -50,13 +50,13 @@ export default View.extend({
   ),
   className: 'auth-footer',
 
-  initialize: function () {
-    this.listenTo(this.state, 'change:enabled', function (model, enable) {
+  initialize: function() {
+    this.listenTo(this.state, 'change:enabled', function(model, enable) {
       this.$('.link').toggleClass('o-form-disabled', !enable);
     });
   },
 
-  getTemplateData: function () {
+  getTemplateData: function() {
     let helpLinkUrl;
     const customHelpPage = this.settings.get('helpLinks.help');
 
@@ -67,10 +67,10 @@ export default View.extend({
     }
     return _.extend(this.settings.toJSON({ verbose: true }), { helpLinkUrl: helpLinkUrl });
   },
-  postRender: function () {
+  postRender: function() {
     this.$('.js-help-links').hide();
   },
-  toggleLinks: function (e) {
+  toggleLinks: function(e) {
     e.preventDefault();
 
     this.$('.js-help-links').slideToggle(200, () => {
@@ -78,7 +78,7 @@ export default View.extend({
     });
   },
   events: {
-    'click .js-help': function (e) {
+    'click .js-help': function(e) {
       e.preventDefault();
       if (!this.state.get('enabled')) {
         return;
@@ -86,7 +86,7 @@ export default View.extend({
 
       this.toggleLinks(e);
     },
-    'click .js-forgot-password': function (e) {
+    'click .js-forgot-password': function(e) {
       e.preventDefault();
       if (!this.state.get('enabled')) {
         return;
@@ -100,7 +100,7 @@ export default View.extend({
         this.options.appState.trigger('navigate', 'signin/forgot-password');
       }
     },
-    'click .js-unlock': function (e) {
+    'click .js-unlock': function(e) {
       e.preventDefault();
       if (!this.state.get('enabled')) {
         return;

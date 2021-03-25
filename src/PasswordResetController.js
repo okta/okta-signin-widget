@@ -26,14 +26,14 @@ export default FormController.extend({
       newPassword: ['string', true],
       confirmPassword: ['string', true],
     },
-    validate: function () {
+    validate: function() {
       return ValidationUtil.validatePasswordMatch(this);
     },
-    save: function () {
+    save: function() {
       this.trigger('save');
       const self = this;
 
-      return this.doTransaction(function (transaction) {
+      return this.doTransaction(function(transaction) {
         return transaction.resetPassword({
           newPassword: self.get('newPassword'),
         });
@@ -42,12 +42,12 @@ export default FormController.extend({
   },
   Form: {
     save: _.partial(loc, 'password.reset', 'login'),
-    title: function () {
+    title: function() {
       return this.settings.get('brandName')
         ? loc('password.reset.title.specific', 'login', [this.settings.get('brandName')])
         : loc('password.reset.title.generic', 'login');
     },
-    subtitle: function () {
+    subtitle: function() {
       const policy = this.options.appState.get('policy');
 
       if (!policy || this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
@@ -56,7 +56,7 @@ export default FormController.extend({
 
       return FactorUtil.getPasswordComplexityDescription(policy);
     },
-    parseErrorMessage: function (responseJSON) {
+    parseErrorMessage: function(responseJSON) {
       const policy = this.options.appState.get('policy');
 
       if (!!policy && this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
@@ -72,7 +72,7 @@ export default FormController.extend({
       }
       return responseJSON;
     },
-    formChildren: function () {
+    formChildren: function() {
       let children = [];
 
       if (this.settings.get('features.showPasswordRequirementsAsHtmlList')) {
@@ -114,8 +114,8 @@ export default FormController.extend({
     },
   },
 
-  initialize: function () {
-    this.listenTo(this.form, 'save', function () {
+  initialize: function() {
+    this.listenTo(this.form, 'save', function() {
       const creds = {
         username: this.options.appState.get('userEmail'),
         password: this.model.get('newPassword'),

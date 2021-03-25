@@ -13,7 +13,7 @@
 import Enums from 'util/Enums';
 const fn = {};
 
-const template = function (colors) {
+const template = function(colors) {
   return `
 #okta-sign-in.auth-container .button-primary,
 #okta-sign-in.auth-container .button-primary:active,
@@ -27,7 +27,7 @@ const template = function (colors) {
 };
 
 // visible for testing
-fn.lighten = function (hex, lum) {
+fn.lighten = function(hex, lum) {
   lum = lum || 0;
   hex = hex.substr(1);
   let newHex = '#';
@@ -41,7 +41,7 @@ fn.lighten = function (hex, lum) {
   return newHex;
 };
 
-fn.addStyle = function (colors) {
+fn.addStyle = function(colors) {
   const css = template(colors);
   const main = document.getElementById(Enums.WIDGET_CONTAINER_ID);
   const style = document.createElement('style');
@@ -53,7 +53,7 @@ fn.addStyle = function (colors) {
   main.appendChild(style);
 };
 
-fn.isLoaded = function () {
+fn.isLoaded = function() {
   return !!document.getElementById(Enums.WIDGET_CONFIG_COLORS_ID);
 };
 

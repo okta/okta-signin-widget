@@ -24,10 +24,10 @@ import BrowserFeatures from 'util/BrowserFeatures';
 import HtmlErrorMessageView from 'views/mfa-verify/HtmlErrorMessageView';
 import FooterMFA from 'views/shared/FooterMFA';
 
-function getAllowCredentials (factors) {
+function getAllowCredentials(factors) {
   const allowCredentials = [];
 
-  _.each(factors, function (factor) {
+  _.each(factors, function(factor) {
     allowCredentials.push({
       type: 'public-key',
       id: CryptoUtil.strToBin(factor.profile.credentialId),
@@ -43,7 +43,7 @@ export default FormController.extend({
       rememberDevice: 'boolean',
     },
 
-    initialize: function () {
+    initialize: function() {
       const rememberDevice = FactorUtil.getRememberDeviceValue(this.appState);
 
       // set the initial value for remember device (Cannot do this while defining the
@@ -57,10 +57,10 @@ export default FormController.extend({
       });
     },
 
-    save: function () {
+    save: function() {
       this.trigger('request');
 
-      return this.doTransaction(function (transaction) {
+      return this.doTransaction(function(transaction) {
         let factor;
 
         if (transaction.factorTypes) {
@@ -76,7 +76,7 @@ export default FormController.extend({
 
         const self = this;
 
-        return factor.verify().then(function (transaction) {
+        return factor.verify().then(function(transaction) {
           let allowCredentials;
           let challenge;
 
@@ -106,7 +106,7 @@ export default FormController.extend({
               signal: self.webauthnAbortController.signal,
             })
           )
-            .then(function (assertion) {
+            .then(function(assertion) {
               const rememberDevice = !!self.get('rememberDevice');
 
               return factor.verify({
@@ -116,7 +116,7 @@ export default FormController.extend({
                 rememberDevice: rememberDevice,
               });
             })
-            .catch(function (error) {
+            .catch(function(error) {
               self.trigger('errors:clear');
               // Do not display if it is abort error triggered by code when switching.
               // self.webauthnAbortController would be null if abort was triggered by code.
@@ -128,7 +128,7 @@ export default FormController.extend({
                 });
               }
             })
-            .finally(function () {
+            .finally(function() {
               // unset webauthnAbortController on successful authentication or error
               self.webauthnAbortController = null;
             });
@@ -144,7 +144,7 @@ export default FormController.extend({
     className: 'verify-webauthn-form',
     noCancelButton: true,
     save: _.partial(loc, 'mfa.challenge.verify', 'login'),
-    noButtonBar: function () {
+    noButtonBar: function() {
       return !webauthn.isNewApiAvailable();
     },
     modelEvents: {
@@ -152,7 +152,7 @@ export default FormController.extend({
       error: '_stopEnrollment',
     },
 
-    formChildren: function () {
+    formChildren: function() {
       const children = [];
 
       if (webauthn.isNewApiAvailable()) {
@@ -198,19 +198,19 @@ export default FormController.extend({
       return children;
     },
 
-    _startEnrollment: function () {
+    _startEnrollment: function() {
       this.$('.okta-waiting-spinner').show();
       this.$('.o-form-button-bar').hide();
     },
 
-    _stopEnrollment: function () {
+    _stopEnrollment: function() {
       this.$('.okta-waiting-spinner').hide();
       this.$('.o-form-button-bar [type="submit"]')[0].value = loc('verify.u2f.retry', 'login');
       this.$('.o-form-button-bar').show();
     },
   },
 
-  postRender: function () {
+  postRender: function() {
     _.defer(() => {
       // Trigger browser prompt automatically for other browsers for better UX.
       if (webauthn.isNewApiAvailable() && !BrowserFeatures.isSafari()) {
@@ -219,7 +219,7 @@ export default FormController.extend({
     });
   },
 
-  back: function () {
+  back: function() {
     // Empty function on verify controllers to prevent users
     // from navigating back during 'verify' using the browser's
     // back button. The URL will still change, but the view will not

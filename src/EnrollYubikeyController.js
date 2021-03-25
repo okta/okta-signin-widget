@@ -22,8 +22,8 @@ export default FormController.extend({
       passCode: ['string', true],
       factorId: 'string',
     },
-    save: function () {
-      return this.doTransaction(function (transaction) {
+    save: function() {
+      return this.doTransaction(function(transaction) {
         const factor = _.findWhere(transaction.factors, {
           factorType: 'token:hardware',
           provider: 'YUBICO',

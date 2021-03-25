@@ -17,8 +17,8 @@ import LoginUtil from 'util/Util';
 const SharedUtil = internal.util.Util;
 const itp = Expect.itp;
 
-Expect.describe('EnrollCustomFactor', function () {
-  function setup (factorType) {
+Expect.describe('EnrollCustomFactor', function() {
+  function setup(factorType) {
     const setNextResponse = Util.mockAjax([responseMfaEnrollAll]);
     const baseUrl = 'https://foo.com';
     const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
@@ -37,7 +37,7 @@ Expect.describe('EnrollCustomFactor', function () {
 
     setNextResponse(responseMfaEnrollAll);
     router.refreshAuthState('dummy-token');
-    return Expect.waitForEnrollChoices().then(function () {
+    return Expect.waitForEnrollChoices().then(function() {
       switch (factorType) {
       case 'custom_oidc':
         router.enrollOIDCFactor();
@@ -61,31 +61,31 @@ Expect.describe('EnrollCustomFactor', function () {
     });
   }
 
-  Expect.describe('Enroll factor', function () {
-    Expect.describe('GENERIC_SAML', function () {
-      itp('displays the correct factorBeacon', function () {
-        return setup('custom_saml').then(function (test) {
+  Expect.describe('Enroll factor', function() {
+    Expect.describe('GENERIC_SAML', function() {
+      itp('displays the correct factorBeacon', function() {
+        return setup('custom_saml').then(function(test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
           expect(test.beacon.hasClass('mfa-custom-factor')).toBe(true);
         });
       });
 
-      itp('has a "back" link in the footer', function () {
-        return setup('custom_saml').then(function (test) {
+      itp('has a "back" link in the footer', function() {
+        return setup('custom_saml').then(function(test) {
           Expect.isVisible(test.form.backLink());
         });
       });
 
-      itp('displays correct title', function () {
-        return setup('custom_saml').then(function (test) {
+      itp('displays correct title', function() {
+        return setup('custom_saml').then(function(test) {
           test.setNextResponse(responseSuccess);
           expect(test.form.titleText()).toBe('Third Party Factor');
           expect(test.form.buttonBar().hasClass('hide')).toBe(false);
         });
       });
 
-      itp('displays correct subtitle', function () {
-        return setup('custom_saml').then(function (test) {
+      itp('displays correct subtitle', function() {
+        return setup('custom_saml').then(function(test) {
           test.setNextResponse(responseSuccess);
           expect(test.form.subtitleText()).toBe(
             'Clicking below will redirect to MFA enrollment with Third Party Factor'
@@ -94,29 +94,29 @@ Expect.describe('EnrollCustomFactor', function () {
         });
       });
 
-      itp('redirects to third party when Enroll button is clicked', function () {
+      itp('redirects to third party when Enroll button is clicked', function() {
         spyOn(SharedUtil, 'redirect');
         return setup('custom_saml')
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse([responseMfaEnrollActivateCustomSaml, responseSuccess]);
             test.form.submit();
             return Expect.waitForSpyCall(SharedUtil.redirect);
           })
-          .then(function () {
+          .then(function() {
             expect(SharedUtil.redirect).toHaveBeenCalledWith(
               'http://rain.okta1.com:1802/policy/mfa-saml-idp-redirect?okta_key=mfa.redirect.id'
             );
           });
       });
 
-      itp('displays error when error response received', function () {
+      itp('displays error when error response received', function() {
         return setup('custom_saml')
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse(resNoPermissionError);
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
@@ -146,118 +146,118 @@ Expect.describe('EnrollCustomFactor', function () {
       });
     });
 
-    Expect.describe('GENERIC_OIDC', function () {
-      itp('displays the correct factorBeacon', function () {
-        return setup('custom_oidc').then(function (test) {
+    Expect.describe('GENERIC_OIDC', function() {
+      itp('displays the correct factorBeacon', function() {
+        return setup('custom_oidc').then(function(test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
           expect(test.beacon.hasClass('mfa-custom-factor')).toBe(true);
         });
       });
 
-      itp('has a "back" link in the footer', function () {
-        return setup('custom_oidc').then(function (test) {
+      itp('has a "back" link in the footer', function() {
+        return setup('custom_oidc').then(function(test) {
           Expect.isVisible(test.form.backLink());
         });
       });
 
-      itp('displays correct title', function () {
-        return setup('custom_oidc').then(function (test) {
+      itp('displays correct title', function() {
+        return setup('custom_oidc').then(function(test) {
           test.setNextResponse(responseSuccess);
           expect(test.form.titleText()).toBe('OIDC Factor');
           expect(test.form.buttonBar().hasClass('hide')).toBe(false);
         });
       });
 
-      itp('displays correct subtitle', function () {
-        return setup('custom_oidc').then(function (test) {
+      itp('displays correct subtitle', function() {
+        return setup('custom_oidc').then(function(test) {
           test.setNextResponse(responseSuccess);
           expect(test.form.subtitleText()).toBe('Clicking below will redirect to MFA enrollment with OIDC Factor');
           expect(test.form.buttonBar().hasClass('hide')).toBe(false);
         });
       });
 
-      itp('redirects to third party when Enroll button is clicked', function () {
+      itp('redirects to third party when Enroll button is clicked', function() {
         spyOn(SharedUtil, 'redirect');
         return setup('custom_oidc')
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse([responseMfaEnrollActivateCustomOidc, responseSuccess]);
             test.form.submit();
             return Expect.waitForSpyCall(SharedUtil.redirect);
           })
-          .then(function () {
+          .then(function() {
             expect(SharedUtil.redirect).toHaveBeenCalledWith(
               'http://rain.okta1.com:1802/policy/mfa-oidc-idp-redirect?okta_key=mfa.redirect.id'
             );
           });
       });
 
-      itp('displays error when error response received', function () {
+      itp('displays error when error response received', function() {
         return setup('custom_oidc')
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse(resNoPermissionError);
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
           });
       });
     });
 
-    Expect.describe('CUSTOM_CLAIMS', function () {
-      itp('displays the correct factorBeacon', function () {
-        return setup('claims_provider').then(function (test) {
+    Expect.describe('CUSTOM_CLAIMS', function() {
+      itp('displays the correct factorBeacon', function() {
+        return setup('claims_provider').then(function(test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
           expect(test.beacon.hasClass('mfa-custom-factor')).toBe(true);
         });
       });
 
-      itp('has a "back" link in the footer', function () {
-        return setup('claims_provider').then(function (test) {
+      itp('has a "back" link in the footer', function() {
+        return setup('claims_provider').then(function(test) {
           Expect.isVisible(test.form.backLink());
         });
       });
 
-      itp('displays correct title', function () {
-        return setup('claims_provider').then(function (test) {
+      itp('displays correct title', function() {
+        return setup('claims_provider').then(function(test) {
           test.setNextResponse(responseSuccess);
           expect(test.form.titleText()).toBe('IDP factor');
           expect(test.form.buttonBar().hasClass('hide')).toBe(false);
         });
       });
 
-      itp('displays correct subtitle', function () {
-        return setup('claims_provider').then(function (test) {
+      itp('displays correct subtitle', function() {
+        return setup('claims_provider').then(function(test) {
           test.setNextResponse(responseSuccess);
           expect(test.form.subtitleText()).toBe('Clicking below will redirect to MFA enrollment with IDP factor');
           expect(test.form.buttonBar().hasClass('hide')).toBe(false);
         });
       });
 
-      itp('redirects to third party when Enroll button is clicked', function () {
+      itp('redirects to third party when Enroll button is clicked', function() {
         spyOn(SharedUtil, 'redirect');
         return setup('claims_provider')
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse([responseMfaEnrollActivateClaimsProvider, responseSuccess]);
             test.form.submit();
             return Expect.waitForSpyCall(SharedUtil.redirect);
           })
-          .then(function () {
+          .then(function() {
             expect(SharedUtil.redirect).toHaveBeenCalledWith(
               'http://rain.okta1.com:1802/sso/idps/idpId?stateToken=testStateToken'
             );
           });
       });
 
-      itp('displays error when error response received', function () {
+      itp('displays error when error response received', function() {
         return setup('claims_provider')
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse(resNoPermissionError);
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
           });

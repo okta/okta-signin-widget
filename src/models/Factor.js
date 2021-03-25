@@ -88,7 +88,7 @@ const FactorFactor = BaseLoginModel.extend({
   derived: {
     isOktaFactor: {
       deps: ['provider'],
-      fn: function (provider) {
+      fn: function(provider) {
         return provider === 'OKTA';
       },
     },
@@ -98,7 +98,7 @@ const FactorFactor = BaseLoginModel.extend({
     },
     factorLabel: {
       deps: ['provider', 'factorType', 'vendorName'],
-      fn: function (provider, factorType, vendorName) {
+      fn: function(provider, factorType, vendorName) {
         if (_.contains(['DEL_OATH', 'GENERIC_SAML', 'GENERIC_OIDC', 'CUSTOM'], provider)) {
           return vendorName;
         }
@@ -119,7 +119,7 @@ const FactorFactor = BaseLoginModel.extend({
     },
     securityQuestion: {
       deps: ['profile', 'factorType'],
-      fn: function (profile, factorType) {
+      fn: function(profile, factorType) {
         if (factorType !== 'question') {
           return null;
         }
@@ -128,7 +128,7 @@ const FactorFactor = BaseLoginModel.extend({
     },
     phoneNumber: {
       deps: ['profile', 'factorType'],
-      fn: function (profile, factorType) {
+      fn: function(profile, factorType) {
         if (_.contains(['sms', 'call'], factorType)) {
           return profile && profile.phoneNumber;
         }
@@ -137,7 +137,7 @@ const FactorFactor = BaseLoginModel.extend({
     },
     email: {
       deps: ['profile', 'factorType'],
-      fn: function (profile, factorType) {
+      fn: function(profile, factorType) {
         if (factorType === 'email') {
           return profile && profile.email;
         }
@@ -146,7 +146,7 @@ const FactorFactor = BaseLoginModel.extend({
     },
     deviceName: {
       deps: ['profile', 'factorType'],
-      fn: function (profile, factorType) {
+      fn: function(profile, factorType) {
         if (factorType !== 'push') {
           return null;
         }
@@ -155,13 +155,13 @@ const FactorFactor = BaseLoginModel.extend({
     },
     enrolled: {
       deps: ['status'],
-      fn: function (status) {
+      fn: function(status) {
         return status === 'ACTIVE';
       },
     },
     cardinality: {
       deps: ['policy', 'profiles'],
-      fn: function (policy, profiles) {
+      fn: function(policy, profiles) {
         if (profiles && profiles.length > 0) {
           const profile = profiles[0];
           //assume for now we only get one profile (multiple profiles are not supported yet)
@@ -187,7 +187,7 @@ const FactorFactor = BaseLoginModel.extend({
     },
     additionalEnrollment: {
       deps: ['cardinality'],
-      fn: function (cardinality) {
+      fn: function(cardinality) {
         if (cardinality) {
           return cardinality.enrolled !== 0 && cardinality.enrolled < cardinality.maximum;
         } else {
@@ -197,32 +197,32 @@ const FactorFactor = BaseLoginModel.extend({
     },
     required: {
       deps: ['enrollment'],
-      fn: function (enrollment) {
+      fn: function(enrollment) {
         return enrollment === 'REQUIRED';
       },
     },
     canUseResend: {
       deps: ['provider', 'factorType'],
-      fn: function (provider, factorType) {
+      fn: function(provider, factorType) {
         // Only push, sms and call have resend links.
         return provider === 'OKTA' && _.contains(['push', 'sms', 'call', 'email'], factorType);
       },
     },
     isAnswerRequired: {
       deps: ['factorType'],
-      fn: function (factorType) {
+      fn: function(factorType) {
         return _.contains(['sms', 'call', 'email', 'token', 'token:software:totp', 'question'], factorType);
       },
     },
     isFactorTypeVerification: {
       deps: ['provider', 'id'],
-      fn: function (provider, id) {
+      fn: function(provider, id) {
         return provider === undefined && id === undefined;
       },
     },
   },
 
-  parse: function (attributes) {
+  parse: function(attributes) {
     this.settings = attributes.settings;
     this.appState = attributes.appState;
     // set the initial value for remember device.
@@ -233,32 +233,32 @@ const FactorFactor = BaseLoginModel.extend({
     return _.omit(attributes, ['settings', 'appState']);
   },
 
-  validate: function () {
+  validate: function() {
     if (this.get('isAnswerRequired') && !this.get('answer')) {
       return { answer: loc('model.validation.field.blank') };
     } else if (this.get('factorType') === 'password' && !this.get('password')) {
       return { password: loc('error.password.required') };
     }
   },
-  needsPasscode: function () {
+  needsPasscode: function() {
     // we don't need passcode for email with magic link flow
     return !(this.options.appState.get('isIdxStateToken') && this.get('factorType') === 'email');
   },
-  resend: function () {
+  resend: function() {
     this.trigger('form:clear-errors');
-    return this.manageTransaction(function (transaction) {
+    return this.manageTransaction(function(transaction) {
       const firstLink = transaction.data._links.resend[0];
 
       return transaction.resend(firstLink.name);
     });
   },
 
-  save: function () {
+  save: function() {
     const rememberDevice = !!this.get('rememberDevice');
     const self = this;
     // Set/Remove the remember device cookie based on the remember device input.
 
-    return this.manageTransaction(function (transaction, setTransaction) {
+    return this.manageTransaction(function(transaction, setTransaction) {
       const data = {
         rememberDevice: rememberDevice,
       };
@@ -298,7 +298,7 @@ const FactorFactor = BaseLoginModel.extend({
       //to disable the primary button on the factor form
       this.trigger('save');
 
-      return promise.then(function (trans) {
+      return promise.then(function(trans) {
         const options = {
           delay: PUSH_INTERVAL,
           transactionCallBack: transaction => {
@@ -315,18 +315,18 @@ const FactorFactor = BaseLoginModel.extend({
             clearTimeout(initiatePollTimout);
             deferred.reject(new Errors.AuthStopPollInitiationError());
           });
-          return deferred.promise.then(function () {
+          return deferred.promise.then(function() {
             // Stop listening if factor was not switched before poll.
             self.stopListening(self.options.appState, 'factorSwitched');
             if (self.pushFactorHasAutoPush()) {
-              options.autoPush = function () {
+              options.autoPush = function() {
                 return self.get('autoPush');
               };
-              options.rememberDevice = function () {
+              options.rememberDevice = function() {
                 return self.get('rememberDevice');
               };
             }
-            return trans.poll(options).then(function (trans) {
+            return trans.poll(options).then(function(trans) {
               self.options.appState.set('lastAuthResponse', trans.data);
               setTransaction(trans);
             });
@@ -336,7 +336,7 @@ const FactorFactor = BaseLoginModel.extend({
     });
   },
 
-  _findFactor: function (transaction) {
+  _findFactor: function(transaction) {
     let factor;
 
     if (transaction.factorTypes) {
@@ -352,11 +352,11 @@ const FactorFactor = BaseLoginModel.extend({
     return factor;
   },
 
-  pushFactorHasAutoPush: function () {
+  pushFactorHasAutoPush: function() {
     return this.settings.get('features.autoPush') && this.get('factorType') === 'push';
   },
 
-  setCustomHotpVendorName: function (attributes) {
+  setCustomHotpVendorName: function(attributes) {
     // If factor is token:hotp and not enrolled, we assume the first profile is the default.
     // If factor is enrolled, we only support one profile to be enrolled, so find that one
     // and display as enrolled profile. We do this by populating profile name in vendorName.
@@ -382,7 +382,7 @@ const FactorFactors = Collection.extend({
   // there's only one option (Okta Verify), and we show a form with Push
   // with an inline totp option. What we need to do is to add totp
   // as a "backupFactor" for push
-  parse: function (factors) {
+  parse: function(factors) {
     // Keep a track of the last used factor, since
     // we need it to determine the default factor.
     this.lastUsedFactor = factors[0];
@@ -404,7 +404,7 @@ const FactorFactors = Collection.extend({
 
     const parsedFactors = _.reduce(
       factors,
-      function (memo, factor) {
+      function(memo, factor) {
         const isOkta = factor.provider === 'OKTA';
         const isOktaTotp = isOkta && factor.factorType === 'token:software:totp';
         const isOktaPush = isOkta && factor.factorType === 'push';
@@ -439,31 +439,31 @@ const FactorFactors = Collection.extend({
   // However, current code returns last used factor as first factor in list.
   // Also, will need to add priority - i.e. if they do not have a last used
   // factor, should try Okta Verify, then Okta SMS, etc.
-  getDefaultFactor: function () {
+  getDefaultFactor: function() {
     const factor = _.pick(this.lastUsedFactor, 'factorType', 'provider');
 
     return this.findWhere(factor);
   },
 
-  getFirstUnenrolledRequiredFactor: function () {
+  getFirstUnenrolledRequiredFactor: function() {
     return this.findWhere({ required: true, enrolled: false });
   },
 
-  _getFactorsOfType: function (factorType) {
+  _getFactorsOfType: function(factorType) {
     return this.where({ factorType: factorType });
   },
 
-  getFactorIndex: function (factorType, factorId) {
-    return this._getFactorsOfType(factorType).findIndex(function (factor) {
+  getFactorIndex: function(factorType, factorId) {
+    return this._getFactorsOfType(factorType).findIndex(function(factor) {
       return factor.get('id') === factorId;
     });
   },
 
-  hasMultipleFactorsOfSameType: function (factorType) {
+  hasMultipleFactorsOfSameType: function(factorType) {
     return this._getFactorsOfType(factorType).length > 1;
   },
 
-  getFactorByTypeAndIndex: function (factorType, factorIndex) {
+  getFactorByTypeAndIndex: function(factorType, factorIndex) {
     return this._getFactorsOfType(factorType)[factorIndex];
   },
 });

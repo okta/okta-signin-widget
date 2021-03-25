@@ -13,7 +13,7 @@ import Q from 'q';
 import $sandbox from 'sandbox';
 const itp = Expect.itp;
 
-function setup (settings, callRecoveryLoading, fail = false) {
+function setup(settings, callRecoveryLoading, fail = false) {
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
   const authClient = createAuthClient({ issuer: baseUrl });
@@ -58,13 +58,13 @@ function setup (settings, callRecoveryLoading, fail = false) {
   return Q(testData);
 }
 
-Expect.describe('Recovery Loading', function () {
-  itp('makes a request with correct token passed in url', function () {
+Expect.describe('Recovery Loading', function() {
+  itp('makes a request with correct token passed in url', function() {
     return setup({}, true)
       .then(test => {
         return Expect.waitForRecoveryQuestion(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/recovery/token',
@@ -76,12 +76,12 @@ Expect.describe('Recovery Loading', function () {
       });
   });
 
-  itp('makes a request with correct token passed in settings', function () {
+  itp('makes a request with correct token passed in settings', function() {
     return setup({ recoveryToken: 'SETTINGSTOKEN' }, false)
       .then(test => {
         return Expect.waitForRecoveryQuestion(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/recovery/token',
@@ -95,7 +95,7 @@ Expect.describe('Recovery Loading', function () {
         test.router.navigate('', { trigger: true });
         return Expect.waitForPrimaryAuth();
       })
-      .then(function () {
+      .then(function() {
         const form = new PrimaryAuthFormView($sandbox);
 
         expect(form.isPrimaryAuth()).toBe(true);
@@ -109,7 +109,7 @@ Expect.describe('Recovery Loading', function () {
   // it('calls a callback function if no token passed in settings');
   // ======
 
-  itp('triggers an afterError event when a request with a stale token passed in settings', function () {
+  itp('triggers an afterError event when a request with a stale token passed in settings', function() {
     return setup({ recoveryToken: 'foo' }, false, true)
       .then(test => {
         return Expect.waitForRecoveryLoading(test);
@@ -117,7 +117,7 @@ Expect.describe('Recovery Loading', function () {
       .then(test => {
         return Expect.waitForSpyCall(test.afterErrorHandler, test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/recovery/token',

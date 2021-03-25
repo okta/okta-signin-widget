@@ -13,8 +13,8 @@
 import { _, Form, Controller } from 'okta';
 import Q from 'q';
 
-function getForm (controller) {
-  return _.find(controller.getChildren(), function (item) {
+function getForm(controller) {
+  return _.find(controller.getChildren(), function(item) {
     return item instanceof Form;
   });
 }
@@ -27,9 +27,9 @@ export default Controller.extend({
   // the constructor doesn't help either (JS errors etc.). This at least guarantees that we
   // are listening to the model events.
   // Note - Figure out a way to call the constructor in the right order.
-  addListeners: function () {
+  addListeners: function() {
     // Events to enable/disable the primary button on the forms
-    this.listenTo(this.model, 'save', function () {
+    this.listenTo(this.model, 'save', function() {
       const form = getForm(this);
       //disable the submit button on forms while making the request
       //to prevent users from hitting rate limiting exceptions of
@@ -43,14 +43,14 @@ export default Controller.extend({
       this.toggleButtonState(true);
     });
 
-    this.listenTo(this.model, 'error', function () {
+    this.listenTo(this.model, 'error', function() {
       this.toggleButtonState(false);
     });
 
     this.addModelListeners(this.model);
   },
 
-  addModelListeners: function (model) {
+  addModelListeners: function(model) {
     const setTransactionHandler = transaction => {
       this.options.appState.set('transaction', transaction);
     };
@@ -79,30 +79,30 @@ export default Controller.extend({
   // promise is resolved. This is useful for cases like enrolling a security
   // question, which requires an additional request to fetch the question
   // list.
-  fetchInitialData: function () {
+  fetchInitialData: function() {
     return Q();
   },
 
   // Override this method to prevent route navigation. This is useful for
   // intermediate status changes that do not trigger a full refresh of the
   // page, like MFA_ENROLL_ACTIVATE and MFA_CHALLENGE.
-  trapAuthResponse: function () {
+  trapAuthResponse: function() {
     return false;
   },
 
-  toJSON: function () {
+  toJSON: function() {
     const data = Controller.prototype.toJSON.apply(this, arguments);
 
     return _.extend(_.pick(this.options, 'appState'), data);
   },
 
-  toggleButtonState: function (state) {
+  toggleButtonState: function(state) {
     const button = this.$el.find('.button');
 
     button.toggleClass('link-button-disabled', state).prop('disabled', state);
   },
 
-  postRenderAnimation: function () {
+  postRenderAnimation: function() {
     // Event triggered after a page is rendered along with the classname to identify the page
     // TODO: Deprecate this event in the next major version in favor of 'afterRender'
     this.trigger('pageRendered', { page: this.className });

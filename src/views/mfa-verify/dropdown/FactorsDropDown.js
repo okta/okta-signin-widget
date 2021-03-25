@@ -16,7 +16,7 @@ import Factor from '../../../models/Factor';
 import FactorsDropDownOptions from './FactorsDropDownOptions';
 const { BaseDropDown } = internal.views.components;
 
-$(document).click(function (e) {
+$(document).click(function(e) {
   const $target = $(e.target);
   const isDropdown = $target.closest('.option-selected').length > 0 && $target.closest('.dropdown').length > 0;
 
@@ -28,7 +28,7 @@ $(document).click(function (e) {
 
 export default BaseDropDown.extend({
   className: 'bg-helper icon-button',
-  screenReaderText: function () {
+  screenReaderText: function() {
     const factors = this.options.appState.get('factors');
     let factor;
     let factorLabel;
@@ -42,7 +42,7 @@ export default BaseDropDown.extend({
     return loc('mfa.factors.dropdown.sr.text', 'login', [factorLabel]);
   },
   events: {
-    'click a.option-selected': function (e) {
+    'click a.option-selected': function(e) {
       e.preventDefault();
       if (_.result(this, 'disabled')) {
         e.stopPropagation();
@@ -55,21 +55,21 @@ export default BaseDropDown.extend({
         }
       }
     },
-    'click .dropdown-disabled': function (e) {
+    'click .dropdown-disabled': function(e) {
       e.preventDefault();
       e.stopPropagation();
     },
   },
-  initialize: function () {
+  initialize: function() {
     this.addOption(FactorsDropDownOptions.getDropdownOption('TITLE'));
     const factorsList = this.options.appState.get('factors');
     const multiplePushFactors = factorsList.hasMultipleFactorsOfSameType('push');
 
-    factorsList.each(function (factor) {
+    factorsList.each(function(factor) {
       // Do not add okta totp if there are multiple okta push (each push will have an inline totp)
       if (!(factor.get('factorType') === 'token:software:totp' && multiplePushFactors)) {
         this.addOption(FactorsDropDownOptions.getDropdownOption(factor.get('factorName')), { model: factor });
-        this.listenTo(this.last(), 'options:toggle', function () {
+        this.listenTo(this.last(), 'options:toggle', function() {
           this.$('.options').hide();
           this.$('a.option-selected').attr('aria-expanded', false);
         });

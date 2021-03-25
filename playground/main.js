@@ -18,7 +18,7 @@ const renderPlaygroundWidget = (options = {}) => {
   signIn.renderEl(
     { el: '#okta-login-container' },
 
-    function success (res) {
+    function success(res) {
       // Password recovery flow
       if (res.status === 'FORGOT_PASSWORD_EMAIL_SENT') {
         alert('SUCCESS: Forgot password email sent');
@@ -54,7 +54,7 @@ const renderPlaygroundWidget = (options = {}) => {
       }
     },
 
-    function error (err) {
+    function error(err) {
       console.error('global error handler: ', err);
     }
   );
@@ -86,7 +86,7 @@ const renderPlaygroundWidget = (options = {}) => {
 
 };
 
-window.getWidgetInstance = function () {
+window.getWidgetInstance = function() {
   return signIn;
 };
 

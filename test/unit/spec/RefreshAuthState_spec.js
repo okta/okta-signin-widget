@@ -10,7 +10,7 @@ import Q from 'q';
 import $sandbox from 'sandbox';
 const itp = Expect.itp;
 
-function setup (settings) {
+function setup(settings) {
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
   const authClient = createAuthClient({ issuer: baseUrl });
@@ -42,27 +42,27 @@ function setup (settings) {
   });
 }
 
-Expect.describe('RefreshAuthState', function () {
-  itp('redirects to PrimaryAuth if authClient does not need a refresh', function () {
+Expect.describe('RefreshAuthState', function() {
+  itp('redirects to PrimaryAuth if authClient does not need a refresh', function() {
     return setup({}, true)
-      .then(function (test) {
+      .then(function(test) {
         spyOn(test.ac.tx, 'exists').and.returnValue(false);
         test.router.refreshAuthState();
         return Expect.waitForPrimaryAuth(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         Expect.isPrimaryAuth(test.router.controller);
       });
   });
-  itp('refreshes auth state and picks token from cookie', function () {
+  itp('refreshes auth state and picks token from cookie', function() {
     return setup()
-      .then(function (test) {
+      .then(function(test) {
         Util.mockSDKCookie(test.ac, null, 'a-token-in-cookie');
         test.setNextResponse(resEnroll);
         test.router.refreshAuthState();
         return Expect.waitForEnrollChoices();
       })
-      .then(function () {
+      .then(function() {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn',
@@ -72,14 +72,14 @@ Expect.describe('RefreshAuthState', function () {
         });
       });
   });
-  itp('calls status with token if initialized with token passed directly to controller via options', function () {
+  itp('calls status with token if initialized with token passed directly to controller via options', function() {
     return setup()
-      .then(function (test) {
+      .then(function(test) {
         test.setNextResponse(resEnroll);
         test.router.refreshAuthState('dummy-token');
         return Expect.waitForEnrollChoices();
       })
-      .then(function () {
+      .then(function() {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/introspect',

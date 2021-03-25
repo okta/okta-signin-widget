@@ -20,7 +20,7 @@ import ManualSetupFooter from 'views/enroll-factors/ManualSetupFooter';
 import TextBox from 'views/shared/TextBox';
 export default FormController.extend({
   className: 'enroll-manual-totp',
-  Model: function () {
+  Model: function() {
     return {
       local: {
         sharedSecret: ['string', false, this.options.appState.get('sharedSecret')],
@@ -31,7 +31,7 @@ export default FormController.extend({
   },
 
   Form: {
-    title: function () {
+    title: function() {
       const factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
 
       return loc('enroll.totp.title', 'login', [factorName]);
@@ -40,7 +40,7 @@ export default FormController.extend({
     noButtonBar: true,
     attributes: { 'data-se': 'step-manual-setup' },
 
-    formChildren: function () {
+    formChildren: function() {
       const instructions = this.settings.get('brandName')
         ? loc('enroll.totp.manualSetupInstructions.specific', 'login', [this.settings.get('brandName')])
         : loc('enroll.totp.manualSetupInstructions.generic', 'login');
@@ -55,7 +55,7 @@ export default FormController.extend({
                 </p>\
               '
             ),
-            getTemplateData: function () {
+            getTemplateData: function() {
               return {
                 instructions: instructions,
               };
@@ -78,8 +78,8 @@ export default FormController.extend({
 
   Footer: ManualSetupFooter,
 
-  initialize: function () {
-    this.listenTo(this.form, 'save', function () {
+  initialize: function() {
+    this.listenTo(this.form, 'save', function() {
       const url = RouterUtil.createActivateFactorUrl(
         this.model.get('__provider__'),
         this.model.get('__factorType__'),

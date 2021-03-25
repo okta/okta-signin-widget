@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-function log (level, args) {
+function log(level, args) {
   // Only log statements in development mode or if
   // throwing an error through console.error
   if (DEBUG || level === 'error') {
@@ -22,51 +22,51 @@ function log (level, args) {
  * Utility library of logging functions.
  */
 export default {
-  trace: function () {
+  trace: function() {
     return log('trace', arguments);
   },
 
-  dir: function () {
+  dir: function() {
     return log('dir', arguments);
   },
 
-  time: function () {
+  time: function() {
     return log('time', arguments);
   },
 
-  timeEnd: function () {
+  timeEnd: function() {
     return log('timeEnd', arguments);
   },
 
-  group: function () {
+  group: function() {
     return log('group', arguments);
   },
 
-  groupEnd: function () {
+  groupEnd: function() {
     return log('groupEnd', arguments);
   },
 
-  assert: function () {
+  assert: function() {
     return log('assert', arguments);
   },
 
-  log: function () {
+  log: function() {
     return log('log', arguments);
   },
 
-  info: function () {
+  info: function() {
     return log('info', arguments);
   },
 
-  warn: function () {
+  warn: function() {
     return log('warn', arguments);
   },
 
-  error: function () {
+  error: function() {
     return log('error', arguments);
   },
 
-  deprecate: function (msg) {
+  deprecate: function(msg) {
     return log('warn', ['[okta-signin-widget] DEPRECATED:', msg]);
   },
 };

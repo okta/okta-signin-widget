@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 var DEFAULTS = require('./env.defaults');
 var VALUES = {};
 
-function config () {
+function config() {
 
   // Read environment variables from "testenv". Override environment vars if they are already set.
   const TESTENV = path.resolve(__dirname, '../..', 'testenv');
@@ -18,7 +18,7 @@ function config () {
   }
 
   // Set defaults, populate VALUES
-  Object.keys(DEFAULTS).forEach(function (key) {
+  Object.keys(DEFAULTS).forEach(function(key) {
     if (!process.env[key]) {
       // Allow use of default value
       process.env[key] = DEFAULTS[key];
@@ -27,21 +27,21 @@ function config () {
   });
 }
 
-function checkValues () {
-  Object.keys(DEFAULTS).forEach(function (key) {
+function checkValues() {
+  Object.keys(DEFAULTS).forEach(function(key) {
     if (!VALUES[key]) {
       console.error('ERROR: no value set for environment variable: ' + key);
     }
   });
 }
 
-function printValues () {
-  Object.keys(VALUES).forEach(function (key) {
+function printValues() {
+  Object.keys(VALUES).forEach(function(key) {
     console.log(key + ' = ', VALUES[key]);
   });
 }
 
-function getValues () {
+function getValues() {
   return VALUES;
 }
 

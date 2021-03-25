@@ -28,7 +28,7 @@ const PassCodeFormwarningTemplate = View.extend({
     `,
 });
 
-function getFormAndButtonDetails (factorType) {
+function getFormAndButtonDetails(factorType) {
   switch (factorType) {
   case 'sms':
     return {
@@ -78,19 +78,19 @@ export default Form.extend({
   scrollOnError: false,
   layout: 'o-form-theme',
 
-  disableSubmitButton: function () {
+  disableSubmitButton: function() {
     return this.model.appState.get('isMfaChallenge') && this.model.get('answer');
   },
 
-  showWarning: function (msg) {
+  showWarning: function(msg) {
     this.clearWarnings();
     this.add(PassCodeFormwarningTemplate, '.o-form-error-container', { options: { warning: msg } });
   },
-  clearWarnings: function () {
+  clearWarnings: function() {
     this.$('.okta-form-infobox-warning').remove();
   },
 
-  initialize: function () {
+  initialize: function() {
     const form = this;
 
     this.title = this.model.get('factorLabel');
@@ -102,7 +102,7 @@ export default Form.extend({
     this.$el.attr('data-se', 'factor-' + factorType);
 
     this.subtitle = formAndButtonDetails.subtitle;
-    this.listenTo(this.model, 'error', function () {
+    this.listenTo(this.model, 'error', function() {
       this.clearErrors();
     });
     this.addInput({
@@ -118,7 +118,7 @@ export default Form.extend({
         attributes: { 'data-se': formAndButtonDetails.buttonDataSe },
         className: 'button ' + formAndButtonDetails.buttonClassName,
         title: formAndButtonDetails.formSubmit,
-        click: function () {
+        click: function() {
           form.clearErrors();
           this.disable();
           form.clearWarnings();
@@ -129,7 +129,7 @@ export default Form.extend({
           this.model.set('answer', '');
           this.model
             .save()
-            .then(function () {
+            .then(function() {
               // render and focus on the passcode input field.
               form.getInputs().first().render().focus();
               return Q.delay(Enums.API_RATE_LIMIT);

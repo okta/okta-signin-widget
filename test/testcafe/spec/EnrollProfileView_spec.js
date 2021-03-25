@@ -37,15 +37,15 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onSucce
 
   await rerenderWidget({
     registration: {
-      parseSchema: function (resp, onSuccess) {
+      parseSchema: function(resp, onSuccess) {
         resp.find(({name}) => name === 'userProfile.firstName').required = false;
         onSuccess(resp);
       },
-      preSubmit: function (postData, onSuccess) {
+      preSubmit: function(postData, onSuccess) {
         postData.userProfile.extra = 'stuff';
         onSuccess(postData);
       },
-      postSubmit: function (postData, onSuccess) {
+      postSubmit: function(postData, onSuccess) {
         // eslint-disable-next-line
         console.log(`made it to postSubmit ${postData}`);
         onSuccess(postData);
@@ -80,19 +80,19 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onFailu
 
   await rerenderWidget({
     registration: {
-      parseSchema: function (resp, onSuccess, onFailure) {
+      parseSchema: function(resp, onSuccess, onFailure) {
         const error = {
           'errorSummary': 'My parseSchema message'
         };
         onFailure(error);
       },
-      preSubmit: function (postData, onSuccess, onFailure) {
+      preSubmit: function(postData, onSuccess, onFailure) {
         const error = {
           'errorSummary': 'My preSubmit message'
         };
         onFailure(error);
       },
-      postSubmit: function (postData, onSuccess, onFailure) {
+      postSubmit: function(postData, onSuccess, onFailure) {
         const error = {
           'errorSummary': 'My postSubmit message'
         };
@@ -119,7 +119,7 @@ test.requestHooks(logger, mock)('should call settings.registration.postSubmit ho
 
   await rerenderWidget({
     registration: {
-      postSubmit: function (postData, onSuccess, onFailure) {
+      postSubmit: function(postData, onSuccess, onFailure) {
         const error = {
           'errorSummary': 'My postSubmit message'
         };

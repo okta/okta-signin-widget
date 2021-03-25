@@ -34,7 +34,7 @@ export default Model.extend({
   derived: {
     authenticatorProfile: {
       deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment'],
-      fn (currentAuthenticator = {}, currentAuthenticatorEnrollment = {}) {
+      fn(currentAuthenticator = {}, currentAuthenticatorEnrollment = {}) {
         return currentAuthenticator.profile
           || currentAuthenticatorEnrollment.profile
           || {};
@@ -42,7 +42,7 @@ export default Model.extend({
     },
     authenticatorKey: {
       deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment'],
-      fn (currentAuthenticator = {}, currentAuthenticatorEnrollment = {}) {
+      fn(currentAuthenticator = {}, currentAuthenticatorEnrollment = {}) {
         return currentAuthenticator.key
           || currentAuthenticatorEnrollment.key
           || '';
@@ -50,7 +50,7 @@ export default Model.extend({
     },
     authenticatorMethodType: {
       deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment',],
-      fn (currentAuthenticator = {}, currentAuthenticatorEnrollment = {}) {
+      fn(currentAuthenticator = {}, currentAuthenticatorEnrollment = {}) {
         return currentAuthenticator.methods && currentAuthenticator.methods[0].type
           || currentAuthenticatorEnrollment.methods && currentAuthenticatorEnrollment.methods[0].type
           || '';
@@ -58,17 +58,17 @@ export default Model.extend({
     },
     isPasswordRecovery: {
       deps: ['recoveryAuthenticator'],
-      fn: function (recoveryAuthenticator = {}) {
+      fn: function(recoveryAuthenticator = {}) {
         return recoveryAuthenticator?.type === 'password';
       }
     }
   },
 
-  hasRemediationObject (formName) {
+  hasRemediationObject(formName) {
     return this.get('idx').neededToProceed.find((remediation) => remediation.name === formName);
   },
 
-  getActionByPath (actionPath) {
+  getActionByPath(actionPath) {
     const paths = actionPath.split('.');
     let targetObject;
     if (paths.length === 1) {
@@ -86,7 +86,7 @@ export default Model.extend({
     }
   },
 
-  getCurrentViewState () {
+  getCurrentViewState() {
     const currentFormName = this.get('currentFormName');
 
     if (!currentFormName) {
@@ -110,7 +110,7 @@ export default Model.extend({
    * Returns the displayName of the authenticator
    * @returns {string}
    */
-  getAuthenticatorDisplayName () {
+  getAuthenticatorDisplayName() {
     const currentAuthenticator = this.get('currentAuthenticator') || {};
     const currentAuthenticatorEnrollment = this.get('currentAuthenticatorEnrollment') || {};
 
@@ -123,12 +123,12 @@ export default Model.extend({
    * Checks to see if we're in an authenticator challenge flow.
    * @returns {boolean}
    */
-  isAuthenticatorChallenge () {
+  isAuthenticatorChallenge() {
     const currentFormName = this.get('currentFormName');
     return FORMS_FOR_VERIFICATION.includes(currentFormName);
   },
 
-  shouldReRenderView (transformedResponse) {
+  shouldReRenderView(transformedResponse) {
     const previousRawState = this.has('idx') ? this.get('idx').rawIdxState : null;
     const identicalResponse = _.isEqual(
       _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh']),
@@ -172,7 +172,7 @@ export default Model.extend({
   // and form is for identity verification (FORMS_FOR_VERIFICATION)
   // - cancel remediation form is not present in the response
   // - form is part of our list FORMS_WITHOUT_SIGNOUT
-  shouldShowSignOutLinkInCurrentForm (hideSignOutLinkInMFA) {
+  shouldShowSignOutLinkInCurrentForm(hideSignOutLinkInMFA) {
     const idxActions = this.get('idx') && this.get('idx').actions;
     const currentFormName = this.get('currentFormName');
     const hideSignOutConfigOverride = hideSignOutLinkInMFA
@@ -183,7 +183,7 @@ export default Model.extend({
       && !FORMS_WITHOUT_SIGNOUT.includes(currentFormName);
   },
 
-  containsMessageWithI18nKey (keys) {
+  containsMessageWithI18nKey(keys) {
     if (!Array.isArray(keys)) {
       keys = [ keys ];
     }
@@ -192,13 +192,13 @@ export default Model.extend({
       && messagesObjs.value.some(messagesObj => _.contains(keys, messagesObj.i18n?.key));
   },
 
-  containsMessageStartingWithI18nKey (keySubStr) {
+  containsMessageStartingWithI18nKey(keySubStr) {
     const messagesObjs = this.get('messages');
     return messagesObjs && Array.isArray(messagesObjs.value)
       && messagesObjs.value.some(messagesObj => messagesObj.i18n?.key.startsWith(keySubStr));
   },
 
-  setIonResponse (transformedResponse) {
+  setIonResponse(transformedResponse) {
     if (!this.shouldReRenderView(transformedResponse)){
       return;
     }

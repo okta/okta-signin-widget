@@ -29,18 +29,18 @@ const AuthenticatorRow = View.extend({
           <div class="authenticator-button" {{#if buttonDataSeAttr}}data-se="{{buttonDataSeAttr}}"{{/if}}></div>\
         </div>\
       '),
-  children: function (){
+  children: function(){
     return [[createButton({
       className: 'button select-factor',
-      title: function () {
+      title: function() {
         return loc('oie.verify.authenticator.button.text', 'login');
       },
-      click: function () {
+      click: function() {
         this.model.trigger('selectAutheticator', this.model.get('value'));
       }
     }), '.authenticator-button']];
   },
-  minimize: function () {
+  minimize: function() {
     this.$el.addClass('authenticator-row-min');
   }
 });
@@ -53,11 +53,11 @@ export default ListView.extend({
 
   itemSelector: '.list-content',
 
-  initialize: function () {
+  initialize: function() {
     this.listenTo(this.collection,'selectAutheticator', this.handleSelect);
   },
 
-  handleSelect (data) {
+  handleSelect(data) {
     //If schema contains a required identifier to fill first then validate the form
     const validationError = this.model.validateField('identifier');
     this.model.trigger('clearFormError');

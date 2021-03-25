@@ -20,7 +20,7 @@ let { Util } = internal.util;
 export default FormController.extend({
   className: 'piv-cac-card',
   Model: {
-    save: async function () {
+    save: async function() {
       this.trigger('request');
       const self = this;
       const pivConfig = this.settings.get('piv');
@@ -43,13 +43,13 @@ export default FormController.extend({
       }
     },
 
-    getCert: function (certAuthUrl) {
+    getCert: function(certAuthUrl) {
       return $.get({
         url: certAuthUrl,
         xhrFields: {
           withCredentials: true,
         },
-        beforeSend: function () {
+        beforeSend: function() {
           // overriding this function to prevent our jquery-wrapper from
           // setting headers. Need to keep this a simple request in order for
           // PIV / CAC to work in IE.
@@ -57,7 +57,7 @@ export default FormController.extend({
       });
     },
 
-    postCert: function (certAuthUrl, data) {
+    postCert: function(certAuthUrl, data) {
       return $.post({
         url: certAuthUrl,
         xhrFields: {
@@ -65,7 +65,7 @@ export default FormController.extend({
         },
         data: JSON.stringify(data),
         contentType: 'text/plain',
-        beforeSend: function () {
+        beforeSend: function() {
           // overriding this function to prevent our jquery-wrapper from
           // setting headers. Need to keep this a simple request in order for
           // PIV / CAC to work in IE.
@@ -99,24 +99,24 @@ export default FormController.extend({
       }),
     ],
 
-    _startEnrollment: function () {
+    _startEnrollment: function() {
       this.$('.okta-waiting-spinner').show();
       this.$('.o-form-button-bar').hide();
     },
 
-    _stopEnrollment: function () {
+    _stopEnrollment: function() {
       this.$('.okta-waiting-spinner').hide();
       this.$('.o-form-button-bar').show();
     },
 
-    postRender: function () {
+    postRender: function() {
       _.defer(() => {
         this.model.save();
       });
     },
   },
 
-  back: function () {
+  back: function() {
     // Empty function on verify controllers to prevent users
     // from navigating back during 'verify' using the browser's
     // back button. The URL will still change, but the view will not

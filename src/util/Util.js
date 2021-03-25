@@ -17,7 +17,7 @@ import Enums from './Enums';
 import Logger from './Logger';
 const Util = {};
 
-const buildInputForParameter = function (name, value) {
+const buildInputForParameter = function(name, value) {
   const input = document.createElement('input');
 
   input.name = name;
@@ -26,7 +26,7 @@ const buildInputForParameter = function (name, value) {
   return input;
 };
 
-const buildDynamicForm = function (url = '', method) {
+const buildDynamicForm = function(url = '', method) {
   const splitOnFragment = url.split('#');
   const fragment = splitOnFragment[1];
   const splitOnQuery = (splitOnFragment[0] || '').split('?');
@@ -55,7 +55,7 @@ const buildDynamicForm = function (url = '', method) {
   return form;
 };
 
-Util.transformErrorXHR = function (xhr) {
+Util.transformErrorXHR = function(xhr) {
   // Handle network connection error
   if (xhr.status === 0 && _.isEmpty(xhr.responseJSON)) {
     xhr.responseJSON = { errorSummary: loc('error.network.connection', 'login') };
@@ -90,8 +90,8 @@ Util.transformErrorXHR = function (xhr) {
 };
 
 // Simple helper function to lowercase all strings in the given array
-Util.toLower = function (strings) {
-  return _.map(strings, function (str) {
+Util.toLower = function(strings) {
+  return _.map(strings, function(str) {
     return str.toLowerCase();
   });
 };
@@ -105,7 +105,7 @@ Util.toLower = function (strings) {
 // For example:
 // en-US -> [en-US, en]
 // de-DE-bavarian -> [de-DE-bavarian, de-DE, de]
-function expandLanguage (language) {
+function expandLanguage(language) {
   const expanded = [language];
   const parts = language.split('-');
 
@@ -118,23 +118,23 @@ function expandLanguage (language) {
 // Following the rules of expanding one language, this will generate
 // all potential languages in the given order (where higher priority is
 // given to expanded languages over other downstream languages).
-Util.expandLanguages = function (languages) {
+Util.expandLanguages = function(languages) {
   return _.chain(languages).map(expandLanguage).flatten().uniq().value();
 };
 
 //helper to call setTimeout
-Util.callAfterTimeout = function (callback, time) {
+Util.callAfterTimeout = function(callback, time) {
   return setTimeout(callback, time);
 };
 
 // Helper function to provide consistent formatting of template literals
 // that are logged when in development mode.
-Util.debugMessage = function (message) {
+Util.debugMessage = function(message) {
   Logger.warn(`\n${message.replace(/^(\s)+/gm, '')}`);
 };
 
 // Trigger an afterError event
-Util.triggerAfterError = function (controller, err = {}) {
+Util.triggerAfterError = function(controller, err = {}) {
   if (!err.statusCode && err.xhr && err.xhr.status) {
     // Bring the statusCode to the top-level of the Error
     err.statusCode = err.xhr.status;
@@ -149,7 +149,7 @@ Util.triggerAfterError = function (controller, err = {}) {
   Logger.warn('controller: ' + className + ', error: ' + error);
 };
 
-Util.redirect = function (url, win = window) {
+Util.redirect = function(url, win = window) {
   if (!url) {
     Logger.error(`Cannot redirect to empty URL: (${url})`);
     return;
@@ -170,11 +170,11 @@ Util.redirect = function (url, win = window) {
  *
  * Check the commit history for more details.
  */
-Util.redirectWithFormGet = function (url) {
+Util.redirectWithFormGet = function(url) {
   Util.redirectWithForm(url, 'get');
 };
 
-Util.redirectWithForm = function (url, method = 'post') {
+Util.redirectWithForm = function(url, method = 'post') {
   if (!url) {
     Logger.error(`Cannot redirect to empty URL: (${url})`);
     return;
@@ -199,7 +199,7 @@ Util.redirectWithForm = function (url, method = 'post') {
  * okta-signin-widget gives the possibility to customize every i18n, so we cannot
  * know ahead if these two are equal or different, we need to call this function everytime.
  */
-Util.createInputExplain = function (explainKey, labelKey, bundleName, explainParams, labelParams) {
+Util.createInputExplain = function(explainKey, labelKey, bundleName, explainParams, labelParams) {
   const explain = explainParams ? loc(explainKey, bundleName, explainParams) : loc(explainKey, bundleName);
   const label = labelParams ? loc(labelKey, bundleName, labelParams) : loc(labelKey, bundleName);
 
@@ -209,12 +209,12 @@ Util.createInputExplain = function (explainKey, labelKey, bundleName, explainPar
   return explain;
 };
 
-Util.isV1StateToken = function (token) {
+Util.isV1StateToken = function(token) {
   return !!(token && _.isString(token) && token.startsWith('00'));
 };
 
 // TODO: remove when auth-js is updated: OKTA-325445
-Util.removeNils = function removeNils (obj) {
+Util.removeNils = function removeNils(obj) {
   var cleaned = {};
   for (var prop in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, prop)) {

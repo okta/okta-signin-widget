@@ -6,7 +6,7 @@ export default BaseForm.extend({
 
   noButtonBar: true,
 
-  postRender: function () {
+  postRender: function() {
     const contextualData = this.getContextualData();
     // This is the place to check contextualData.integrationType once we support more types
     // Currently we only support IFRAME
@@ -31,7 +31,7 @@ export default BaseForm.extend({
     }
   },
 
-  getContextualData () {
+  getContextualData() {
     // to be overriden
   }
 });

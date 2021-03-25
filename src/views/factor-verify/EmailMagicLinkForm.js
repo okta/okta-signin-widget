@@ -18,7 +18,7 @@ export default Form.extend({
   className: 'factor-verify-magiclink',
   autoSave: true,
   noCancelButton: true,
-  initialize: function () {
+  initialize: function() {
     const form = this;
     // for FACTOR_REQUIRED with email magic link we dont need to show otp code input field and verify button
 
@@ -33,7 +33,7 @@ export default Form.extend({
         attributes: { 'data-se': 'email-send-code' },
         className: 'button email-request-button',
         title: loc('mfa.sendEmail', 'login'),
-        click: function () {
+        click: function() {
           form.clearErrors();
           this.disable();
           this.options.title = loc('mfa.sent', 'login');

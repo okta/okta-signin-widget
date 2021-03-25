@@ -13,7 +13,7 @@
 import { loc, createButton, Form } from 'okta';
 import TextBox from 'views/shared/TextBox';
 
-function addInlineTotp (form) {
+function addInlineTotp(form) {
   form.addDivider();
   form.addInput({
     label: loc('mfa.challenge.enterCode.placeholder', 'login'),
@@ -28,19 +28,19 @@ function addInlineTotp (form) {
       attributes: { 'data-se': 'inline-totp-verify' },
       className: 'button inline-totp-verify margin-top-30',
       title: loc('mfa.challenge.verify', 'login'),
-      click: function () {
+      click: function() {
         form.clearErrors();
         if (!form.isValid()) {
           return;
         }
-        form.model.manageTransaction(function (transaction, setTransaction) {
+        form.model.manageTransaction(function(transaction, setTransaction) {
           // This is the case where we enter the TOTP code and verify while there is an
           // active Push request (or polling) running. We need to invoke previous() on authClient
           // and then call model.save(). If not, we would still be in MFA_CHALLENGE state and
           // verify would result in a wrong request (push verify instead of a TOTP verify).
           if (transaction.status === 'MFA_CHALLENGE' && transaction.prev) {
             form.options.appState.set('trapMfaRequiredResponse', true);
-            return transaction.prev().then(function (trans) {
+            return transaction.prev().then(function(trans) {
               setTransaction(trans);
               form.model.save();
             });
@@ -65,10 +65,10 @@ export default Form.extend({
 
   attributes: { 'data-se': 'factor-inline-totp' },
 
-  initialize: function () {
+  initialize: function() {
     const form = this;
 
-    this.listenTo(this.model, 'error', function () {
+    this.listenTo(this.model, 'error', function() {
       this.clearErrors();
     });
     this.add(
@@ -76,7 +76,7 @@ export default Form.extend({
         className: 'link',
         attributes: { 'data-se': 'inline-totp-add' },
         title: loc('mfa.challenge.orEnterCode', 'login'),
-        click: function () {
+        click: function() {
           this.remove();
           addInlineTotp(form);
         },

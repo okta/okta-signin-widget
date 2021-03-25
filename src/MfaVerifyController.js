@@ -27,7 +27,7 @@ let { CheckBox } = internal.views.forms.inputs;
 export default BaseLoginController.extend({
   className: 'mfa-verify',
 
-  initialize: function (options) {
+  initialize: function(options) {
     const factorType = options.factorType;
     let View;
 
@@ -112,13 +112,13 @@ export default BaseLoginController.extend({
       }
       // Set rememberDevice on the backup factor (totp) if available
       if (this.model.get('backupFactor')) {
-        this.listenTo(this.model, 'change:rememberDevice', function (model, rememberDevice) {
+        this.listenTo(this.model, 'change:rememberDevice', function(model, rememberDevice) {
           model.get('backupFactor').set('rememberDevice', rememberDevice);
         });
       }
     }
 
-    this.listenTo(this.options.appState, 'change:isWaitingForNumberChallenge', function (
+    this.listenTo(this.options.appState, 'change:isWaitingForNumberChallenge', function(
       state,
       isWaitingForNumberChallenge
     ) {
@@ -136,7 +136,7 @@ export default BaseLoginController.extend({
     this.add(new FooterMFA(this.toJSON()));
   },
 
-  findModel: function (factorType, options) {
+  findModel: function(factorType, options) {
     const factors = options.appState.get('factors');
     const provider = options.provider;
     const factorIndex = options.factorIndex;
@@ -150,7 +150,7 @@ export default BaseLoginController.extend({
     }
   },
 
-  trapAuthResponse: function () {
+  trapAuthResponse: function() {
     if (
       (this.options.appState.get('isMfaRequired') && this.options.appState.get('trapMfaRequiredResponse')) ||
       this.options.appState.get('isMfaChallenge')
@@ -161,7 +161,7 @@ export default BaseLoginController.extend({
     return false;
   },
 
-  back: function () {
+  back: function() {
     // Empty function on verify controllers to prevent users
     // from navigating back during 'verify' using the browser's
     // back button. The URL will still change, but the view will not

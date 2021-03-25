@@ -31,7 +31,7 @@ export default View.extend({
   ),
 
   events: {
-    'click .auth-beacon-factor': function (e) {
+    'click .auth-beacon-factor': function(e) {
       e.preventDefault();
       e.stopPropagation();
       const expanded = this.$('.dropdown .options').toggle().is(':visible');
@@ -43,11 +43,11 @@ export default View.extend({
     },
   },
 
-  initialize: function () {
+  initialize: function() {
     this.options.appState.set('beaconType', 'factor');
   },
 
-  getTemplateData: function () {
+  getTemplateData: function() {
     const factors = this.options.appState.get('factors');
     let factor;
     let className;
@@ -61,7 +61,7 @@ export default View.extend({
     return { className: className || '' };
   },
 
-  postRender: function () {
+  postRender: function() {
     if (this.options.animate) {
       this.$('.auth-beacon-factor').fadeIn(200);
     }
@@ -72,16 +72,16 @@ export default View.extend({
     }
   },
 
-  fadeOut: function () {
+  fadeOut: function() {
     const deferred = Q.defer();
 
-    this.$('.auth-beacon-factor').fadeOut(200, function () {
+    this.$('.auth-beacon-factor').fadeOut(200, function() {
       deferred.resolve();
     });
     return deferred.promise;
   },
 
-  equals: function (Beacon, options) {
+  equals: function(Beacon, options) {
     return (
       Beacon &&
       this instanceof Beacon &&

@@ -1,26 +1,26 @@
 import Form from './Form';
 export default Form.extend({
-  enrollInstructions: function () {
+  enrollInstructions: function() {
     return this.$('.webauthn-enroll-instructions p');
   },
 
-  enrollEdgeInstructions: function () {
+  enrollEdgeInstructions: function() {
     return this.$('.webauthn-edge-text p');
   },
 
-  enrollRestrictions: function () {
+  enrollRestrictions: function() {
     return this.$('.webauthn-restrictions-text p');
   },
 
-  enrollSpinningIcon: function () {
+  enrollSpinningIcon: function() {
     return this.el('webauthn-waiting');
   },
 
-  backLink: function () {
+  backLink: function() {
     return this.el('back-link');
   },
 
-  errorHtml: function () {
+  errorHtml: function() {
     return this.el('o-form-error-html').find('strong');
   },
 });

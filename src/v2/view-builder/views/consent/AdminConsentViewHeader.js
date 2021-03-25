@@ -27,7 +27,7 @@ const AdminConsentViewHeader = View.extend({
         <div class="issuer"><span>{{issuer}}</span></div>
       {{/if}}
     </h1>`,
-  getTemplateData: function () {
+  getTemplateData: function() {
     const { appState } = this.options;
     const { label, clientUri, logo } =  appState.get('app');
     const { issuer: issuerObj } = appState.get('authentication');

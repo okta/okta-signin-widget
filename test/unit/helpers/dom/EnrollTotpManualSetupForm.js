@@ -11,105 +11,105 @@ const COUNTRY_CODE_SELECTOR = 'countryCode';
 const PHONE_INPUT = 'phoneNumber';
 const NEXT_BUTTON = 'next-button';
 export default Form.extend({
-  form: function () {
+  form: function() {
     return this.el(MANUAL_SETUP_FORM);
   },
 
-  sharedSecretField: function () {
+  sharedSecretField: function() {
     return this.input(SHARED_SECRET_FIELD);
   },
 
-  sharedSecretFieldValue: function () {
+  sharedSecretFieldValue: function() {
     return this.sharedSecretField().val();
   },
 
-  hasSharedSecret: function () {
+  hasSharedSecret: function() {
     return this.sharedSecretFieldValue() !== '';
   },
 
-  countryCodeSelect: function () {
+  countryCodeSelect: function() {
     return this.inputWrap(COUNTRY_CODE_SELECTOR).find('.chzn-container');
   },
 
-  waitForCountryCodeSelect: function (resolveValue) {
+  waitForCountryCodeSelect: function(resolveValue) {
     return Expect.wait(
-      function () {
+      function() {
         return this.countryCodeSelect().length > 0;
       }.bind(this),
       resolveValue
     );
   },
 
-  phoneNumberField: function () {
+  phoneNumberField: function() {
     return this.input(PHONE_INPUT);
   },
 
-  setPhoneNumber: function (val) {
+  setPhoneNumber: function(val) {
     const field = this.phoneNumberField();
 
     field.val(val);
     field.trigger('change');
   },
 
-  dropdownElement: function () {
+  dropdownElement: function() {
     return this.inputWrap(DROPDOWN).find('.chzn-container');
   },
 
-  waitForDropdownElement: function (resolveValue) {
+  waitForDropdownElement: function(resolveValue) {
     return Expect.wait(
-      function () {
+      function() {
         return this.dropdownElement().length > 0;
       }.bind(this),
       resolveValue
     );
   },
 
-  dropdownOptions: function () {
+  dropdownOptions: function() {
     this.selectOptions(DROPDOWN);
   },
 
-  selectDropdownOption: function (val) {
+  selectDropdownOption: function(val) {
     this.selectOption(DROPDOWN, val);
   },
 
-  selectSmsOption: function () {
+  selectSmsOption: function() {
     this.selectDropdownOption(SMS_OPTION);
   },
 
-  selectEmailOption: function () {
+  selectEmailOption: function() {
     this.selectDropdownOption(EMAIL_OPTION);
   },
 
-  selectManualOption: function () {
+  selectManualOption: function() {
     this.selectDropdownOption(MANUAL_OPTION);
   },
 
-  nextButton: function () {
+  nextButton: function() {
     return this.el(NEXT_BUTTON);
   },
 
-  nextButtonClick: function () {
+  nextButtonClick: function() {
     return this.nextButton().click();
   },
 
-  gotoScanBarcodeLink: function () {
+  gotoScanBarcodeLink: function() {
     return this.el(SCAN_BARCODE_LINK);
   },
 
-  gotoScanBarcode: function () {
+  gotoScanBarcode: function() {
     this.gotoScanBarcodeLink().click();
   },
 
-  backLink: function () {
+  backLink: function() {
     return this.el('back-link');
   },
 
-  waitForManual: function (resolveValue) {
+  waitForManual: function(resolveValue) {
     return Expect.wait(this.hasSharedSecret.bind(this), resolveValue);
   },
 
-  waitForSms: function (resolveValue) {
-    const condition = function () {
+  waitForSms: function(resolveValue) {
+    const condition = function() {
       const field = this.phoneNumberField();
 
       return !this.hasSharedSecret() && field.length === 1 && Form.isVisible(field);
@@ -118,8 +118,8 @@ export default Form.extend({
     return Expect.wait(condition, resolveValue);
   },
 
-  waitForEmail: function (resolveValue) {
-    const condition = function () {
+  waitForEmail: function(resolveValue) {
+    const condition = function() {
       return !this.hasSharedSecret() && this.phoneNumberField().is(':not(:visible)');
     }.bind(this);
 

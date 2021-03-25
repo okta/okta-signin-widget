@@ -14,7 +14,7 @@ const requirementsSelector = '[data-se="password-authenticator--rules"]';
  * TODO: Rename this to have AuthenticatorPasswordPageObject when Factor is cleaned up.
  */
 export default class EnrollPasswordPageObject extends BasePageObject {
-  constructor (t) {
+  constructor(t) {
     super(t);
   }
 
@@ -59,11 +59,11 @@ export default class EnrollPasswordPageObject extends BasePageObject {
   }
 
   // This will be used by any password page that has requirements on it.
-  getRequirements () {
+  getRequirements() {
     return this.form.getElement(requirementsSelector).innerText;
   }
 
-  requirementsExist () {
+  requirementsExist() {
     return this.form.elementExist(requirementsSelector);
   }
 }

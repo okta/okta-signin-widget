@@ -2,7 +2,7 @@ import { BaseFooter } from '../internals';
 import { getSwitchAuthenticatorLink } from '../utils/LinksUtil';
 
 export default BaseFooter.extend({
-  links () {
+  links() {
     return getSwitchAuthenticatorLink(this.options.appState);
   }
 });

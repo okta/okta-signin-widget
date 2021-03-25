@@ -3,7 +3,7 @@ import hbs from 'handlebars-inline-precompile';
 import { WARNING_TIMEOUT } from '../../utils/Constants';
 
 const ResendNumberChallengeView = View.extend({
-  initialize () {
+  initialize() {
     this.listenTo(this.options.appState, 'showNumberChallengeWarning',  () => {
       this.startWarningTimeout();
     });
@@ -23,16 +23,16 @@ const ResendNumberChallengeView = View.extend({
         </p>
       </div>
   `,
-  showWarning () {
+  showWarning() {
     this.$el.removeClass('hide');
   },
-  clearWarning () {
+  clearWarning() {
     this.$el.addClass('hide');
     clearTimeout(this.warningTimeout);
     this.startWarningTimeout();
   },
-  startWarningTimeout () {
-    this.warningTimeout = setTimeout(_.bind(function () {
+  startWarningTimeout() {
+    this.warningTimeout = setTimeout(_.bind(function() {
       this.showWarning();
     }, this), WARNING_TIMEOUT);
   }

@@ -5,7 +5,7 @@ const CODE_FIELD_NAME = 'credentials.passcode';
 
 export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
 
-  constructor (t) {
+  constructor(t) {
     super(t);
     this.resendEmail = new ResendEmailObject(t, this.form.el);
   }

@@ -33,20 +33,20 @@ const EnrollCallAndSmsControllerwarningTemplate = View.extend({
     `,
 });
 const factorIdIsDefined = {
-  factorId: function (val) {
+  factorId: function(val) {
     return !_.isUndefined(val);
   },
 };
 
-function isCallFactor (factorType) {
+function isCallFactor(factorType) {
   return factorType === 'call';
 }
 
-function getClassName (factorType) {
+function getClassName(factorType) {
   return isCallFactor(factorType) ? 'enroll-call' : 'enroll-sms';
 }
 
-function sendCode (e) {
+function sendCode(e) {
   if (Keys.isEnter(e)) {
     e.stopPropagation();
     e.preventDefault();
@@ -57,10 +57,10 @@ function sendCode (e) {
 }
 
 export default FormController.extend({
-  className: function () {
+  className: function() {
     return getClassName(this.options.factorType);
   },
-  Model: function () {
+  Model: function() {
     return {
       props: {
         phoneNumber: ['string', true],
@@ -80,28 +80,28 @@ export default FormController.extend({
       derived: {
         countryCallingCode: {
           deps: ['countryCode'],
-          fn: function (countryCode) {
+          fn: function(countryCode) {
             return '+' + CountryUtil.getCallingCodeForCountry(countryCode);
           },
         },
         fullPhoneNumber: {
           deps: ['countryCallingCode', 'phoneNumber'],
-          fn: function (countryCallingCode, phoneNumber) {
+          fn: function(countryCallingCode, phoneNumber) {
             return phoneNumber ? countryCallingCode + phoneNumber : '';
           },
         },
         enrolled: {
           deps: ['lastEnrolledPhoneNumber', 'fullPhoneNumber'],
-          fn: function (lastEnrolled, current) {
+          fn: function(lastEnrolled, current) {
             return lastEnrolled === current;
           },
         },
       },
-      limitResending: function () {
+      limitResending: function() {
         this.set({ ableToResend: false });
         _.delay(_.bind(this.set, this), Enums.API_RATE_LIMIT, { ableToResend: true });
       },
-      sendCode: function () {
+      sendCode: function() {
         const self = this;
         const phoneNumber = this.get('fullPhoneNumber');
         const phoneExtension = this.get('phoneExtension');
@@ -113,7 +113,7 @@ export default FormController.extend({
           return;
         }
   
-        return this.doTransaction(function (transaction) {
+        return this.doTransaction(function(transaction) {
           const isMfaEnroll = transaction.status === 'MFA_ENROLL' || transaction.status === 'FACTOR_ENROLL';
           const profileData = {
             phoneNumber: phoneNumber,
@@ -128,7 +128,7 @@ export default FormController.extend({
             profileData['validatePhone'] = false;
           }
   
-          const doEnroll = function (trans) {
+          const doEnroll = function(trans) {
             const factor = _.findWhere(trans.factors, {
               factorType: self.get('factorType'),
               provider: 'OKTA',
@@ -138,7 +138,7 @@ export default FormController.extend({
               .enroll({
                 profile: profileData,
               })
-              .catch(function (error) {
+              .catch(function(error) {
                 if (error.errorCode === 'E0000098') {
                   // E0000098: "This phone number is invalid."
                   self.set('skipPhoneValidation', true);
@@ -153,7 +153,7 @@ export default FormController.extend({
           } else {
             // We must transition to MfaEnroll before updating the phone number
             self.set('trapEnrollment', true);
-            return transaction.prev().then(doEnroll).then(function (trans) {
+            return transaction.prev().then(doEnroll).then(function(trans) {
               self.set('trapEnrollment', false);
               return trans;
             });
@@ -161,24 +161,24 @@ export default FormController.extend({
           // Rethrow errors so we can change state
           // AFTER setting the new transaction
         }, true)
-          .then(function () {
+          .then(function() {
             self.set('lastEnrolledPhoneNumber', phoneNumber);
             self.limitResending();
           })
-          .catch(function () {
+          .catch(function() {
             self.set('ableToResend', true);
             self.set('trapEnrollment', false);
           });
       },
-      resendCode: function () {
+      resendCode: function() {
         this.trigger('errors:clear');
         this.limitResending();
-        return this.doTransaction(function (transaction) {
+        return this.doTransaction(function(transaction) {
           return transaction.resend(this.get('factorType'));
         });
       },
-      save: function () {
-        return this.doTransaction(function (transaction) {
+      save: function() {
+        return this.doTransaction(function(transaction) {
           return transaction.activate({
             passCode: this.get('passCode'),
           });
@@ -186,7 +186,7 @@ export default FormController.extend({
       },
     };
   },
-  Form: function () {
+  Form: function() {
     const factorType = this.options.factorType;
     const isCall = isCallFactor(factorType);
     const formTitle = loc(isCall ? 'enroll.call.setup' : 'enroll.sms.setup', 'login');
@@ -209,7 +209,7 @@ export default FormController.extend({
         name: 'phoneNumber',
         input: PhoneTextBox,
         type: 'text',
-        render: function () {
+        render: function() {
           this.$('input[name="phoneNumber"]')
             .off('keydown keyup', sendCode)
             .keydown(sendCode)
@@ -235,7 +235,7 @@ export default FormController.extend({
         title: formSubmit,
         attributes: { 'data-se': buttonClassName },
         className: 'button button-primary js-enroll-phone margin-top-30 ' + buttonClassName,
-        click: function () {
+        click: function() {
           this.model.sendCode();
         },
       }),
@@ -243,12 +243,12 @@ export default FormController.extend({
         title: formRetry,
         attributes: { 'data-se': buttonClassName },
         className: 'button js-enroll-phone margin-top-30 ' + buttonClassName,
-        click: function () {
+        click: function() {
           this.model.resendCode();
         },
-        initialize: function () {
+        initialize: function() {
           this.$el.css({ display: 'none' });
-          this.listenTo(this.model, 'change:ableToResend', function (model, ableToResend) {
+          this.listenTo(this.model, 'change:ableToResend', function(model, ableToResend) {
             if (ableToResend) {
               this.options.title = formRetry;
               this.enable();
@@ -290,28 +290,28 @@ export default FormController.extend({
       autoSave: true,
       className: getClassName(factorType),
 
-      showWarning: function (msg) {
+      showWarning: function(msg) {
         this.clearWarnings();
         this.add(EnrollCallAndSmsControllerwarningTemplate, '.o-form-error-container', { options: { warning: msg } });
       },
 
-      clearWarnings: function () {
+      clearWarnings: function() {
         this.$('.okta-form-infobox-warning').remove();
       },
 
-      initialize: function () {
-        this.listenTo(this.model, 'change:ableToResend', function (model, ableToResend) {
+      initialize: function() {
+        this.listenTo(this.model, 'change:ableToResend', function(model, ableToResend) {
           if (ableToResend) {
             this.showWarning(loc(isCall ? 'factor.call.time.warning' : 'factor.sms.time.warning', 'login'));
           } else {
             this.clearWarnings();
           }
         });
-        this.listenTo(this.model, 'error errors:clear', function () {
+        this.listenTo(this.model, 'error errors:clear', function() {
           this.clearWarnings();
           this.clearErrors();
         });
-        this.listenTo(this.model, 'change:enrolled', function () {
+        this.listenTo(this.model, 'change:enrolled', function() {
           this.$('.js-enroll-phone').toggle();
         });
       },
@@ -321,7 +321,7 @@ export default FormController.extend({
 
   Footer: Footer,
 
-  trapAuthResponse: function () {
+  trapAuthResponse: function() {
     if (this.options.appState.get('isMfaEnrollActivate')) {
       this.model.set('factorId', this.options.appState.get('activatedFactorId'));
       return true;
@@ -331,7 +331,7 @@ export default FormController.extend({
     }
   },
 
-  initialize: function () {
+  initialize: function() {
     if (isCallFactor(this.options.factorType)) {
       this.model.set('hasExistingPhones', this.options.appState.get('hasExistingPhonesForCall'));
     } else {

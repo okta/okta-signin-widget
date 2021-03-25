@@ -91,8 +91,8 @@ const enrolledWebauthnFactor = {
   vendorName: 'FIDO',
 };
 
-Expect.describe('EnrollChoices', function () {
-  function setup (res, showSecurityImage, webauthnEnabled, brandName) {
+Expect.describe('EnrollChoices', function() {
+  function setup(res, showSecurityImage, webauthnEnabled, brandName) {
     const settings = {};
 
     if (webauthnEnabled) {
@@ -134,11 +134,11 @@ Expect.describe('EnrollChoices', function () {
   }
 
   // Poor man's deep clone since we don't use lodash
-  function deepClone (res) {
+  function deepClone(res) {
     return JSON.parse(JSON.stringify(res));
   }
 
-  function setGracePeriodEndDate (res, endDate) {
+  function setGracePeriodEndDate(res, endDate) {
     const policy = res.response._embedded.policy || {};
 
     res.response._embedded.policy = _.extend(policy, {
@@ -148,7 +148,7 @@ Expect.describe('EnrollChoices', function () {
     });
   }
 
-  function setupWithRequiredNoneEnrolled (brandName, endDate) {
+  function setupWithRequiredNoneEnrolled(brandName, endDate) {
     const res = deepClone(resAllFactors);
 
     res.response._embedded.factors[0].enrollment = 'REQUIRED';
@@ -161,7 +161,7 @@ Expect.describe('EnrollChoices', function () {
     return setup(res, false, false, brandName);
   }
 
-  function setupWithRequiredNoneEnrolledOnPrem () {
+  function setupWithRequiredNoneEnrolledOnPrem() {
     const res = deepClone(resAllFactorsOnPrem);
 
     res.response._embedded.factors[0].enrollment = 'REQUIRED';
@@ -172,7 +172,7 @@ Expect.describe('EnrollChoices', function () {
     return setup(res);
   }
 
-  function setupWithRequiredSomeRequiredEnrolled (endDate) {
+  function setupWithRequiredSomeRequiredEnrolled(endDate) {
     const res = deepClone(resAllFactors);
 
     res.response._embedded.factors[0].enrollment = 'REQUIRED';
@@ -185,7 +185,7 @@ Expect.describe('EnrollChoices', function () {
     return setup(res);
   }
 
-  function setupWithRequiredAllRequiredEnrolled (includeOnPrem, endDate) {
+  function setupWithRequiredAllRequiredEnrolled(includeOnPrem, endDate) {
     const response = includeOnPrem ? resAllFactorsOnPrem : resAllFactors;
     const res = deepClone(response);
 
@@ -199,7 +199,7 @@ Expect.describe('EnrollChoices', function () {
     return setup(res);
   }
 
-  function setupWithAllOptionalNoneEnrolled (brandName, endDate) {
+  function setupWithAllOptionalNoneEnrolled(brandName, endDate) {
     const res = deepClone(resAllFactors);
 
     if (endDate) {
@@ -208,7 +208,7 @@ Expect.describe('EnrollChoices', function () {
     return setup(res, false, false, brandName);
   }
 
-  function setupWithAllOptionalSomeEnrolled (includeOnPrem, endDate) {
+  function setupWithAllOptionalSomeEnrolled(includeOnPrem, endDate) {
     const response = includeOnPrem ? resAllFactorsOnPrem : resAllFactors;
     const res = deepClone(response);
 
@@ -219,14 +219,14 @@ Expect.describe('EnrollChoices', function () {
     return setup(res);
   }
 
-  function setupWithOktaVerifyPushWithSofttokenEnrolled () {
+  function setupWithOktaVerifyPushWithSofttokenEnrolled() {
     const res = deepClone(resPush);
 
     res.response._embedded.factors[0].status = 'ACTIVE';
     return setup(res);
   }
 
-  function setupWithAllEnrolledButOktaVerifyPushWithSofttokenEnrolled () {
+  function setupWithAllEnrolledButOktaVerifyPushWithSofttokenEnrolled() {
     const res = deepClone(resPush);
 
     res.response._embedded.factors[0].status = 'ACTIVE';
@@ -234,7 +234,7 @@ Expect.describe('EnrollChoices', function () {
     return setup([res, deepClone(resSuccess)]);
   }
 
-  function setupWithOktaVerifyPushWithPushEnrolled () {
+  function setupWithOktaVerifyPushWithPushEnrolled() {
     const res = deepClone(resPush);
 
     res.response._embedded.factors[0].status = 'ACTIVE';
@@ -242,7 +242,7 @@ Expect.describe('EnrollChoices', function () {
     return setup(res);
   }
 
-  function setupMultipleFactorEnrollments (options) {
+  function setupMultipleFactorEnrollments(options) {
     const res = options.singleFactorRes
       ? deepClone(options.singleFactorRes)
       : options.useProfiles ? deepClone(resAllFactorsProfile) : deepClone(resAllFactors);
@@ -259,7 +259,7 @@ Expect.describe('EnrollChoices', function () {
     return setup(res, false, options.webauthnEnabled);
   }
 
-  function setProfileData (profile, cardinality, enrolledFactor) {
+  function setProfileData(profile, cardinality, enrolledFactor) {
     const cardinalityData = {
       min: cardinality.minimum,
       max: cardinality.maximum,
@@ -271,7 +271,7 @@ Expect.describe('EnrollChoices', function () {
     }
   }
 
-  function setupMultipleRequiredActiveEnrollmentsForFactorAndAnotherFactorRequired (options) {
+  function setupMultipleRequiredActiveEnrollmentsForFactorAndAnotherFactorRequired(options) {
     const index = factorEnrollList[options.factorName].index;
     const res = deepClone(resAllFactors);
 
@@ -283,68 +283,68 @@ Expect.describe('EnrollChoices', function () {
     return setup(res, false, options.webauthnEnabled);
   }
 
-  function itHasIconAndText (factorName, iconClass, title, subtitle, res, webauthnEnabled, brandName) {
-    itp('has right icon', function () {
-      return setup(res, false, webauthnEnabled, brandName).then(function (test) {
+  function itHasIconAndText(factorName, iconClass, title, subtitle, res, webauthnEnabled, brandName) {
+    itp('has right icon', function() {
+      return setup(res, false, webauthnEnabled, brandName).then(function(test) {
         expect(test.form.factorIconClass(factorName)).toBe('factor-icon ' + iconClass);
       });
     });
-    itp('has right title', function () {
-      return setup(res, false, webauthnEnabled, brandName).then(function (test) {
+    itp('has right title', function() {
+      return setup(res, false, webauthnEnabled, brandName).then(function(test) {
         expect(test.form.factorTitle(factorName)).toBe(title);
       });
     });
-    itp('has right subtitle', function () {
-      return setup(res, false, webauthnEnabled, brandName).then(function (test) {
+    itp('has right subtitle', function() {
+      return setup(res, false, webauthnEnabled, brandName).then(function(test) {
         expect(test.form.factorSubtitle(factorName)).toBe(subtitle);
       });
     });
   }
 
-  describe('General', function () {
-    itp('has correct title', function () {
-      return setup(resAllFactors).then(function (test) {
+  describe('General', function() {
+    itp('has correct title', function() {
+      return setup(resAllFactors).then(function(test) {
         expect(test.form.titleText()).toBe('Set up multifactor authentication');
       });
     });
-    itp('shows security beacon with saved security image if security image is enabled', function () {
-      return setup(resAllFactors, true).then(function (test) {
+    itp('shows security beacon with saved security image if security image is enabled', function() {
+      return setup(resAllFactors, true).then(function(test) {
         expect(test.beacon.isSecurityBeacon()).toBe(true);
       });
     });
   });
 
-  describe('Wizard', function () {
-    describe('Required', function () {
-      itp('has the correct subtitle text', function () {
-        return setupWithRequiredNoneEnrolled().then(function (test) {
+  describe('Wizard', function() {
+    describe('Required', function() {
+      itp('has the correct subtitle text', function() {
+        return setupWithRequiredNoneEnrolled().then(function(test) {
           expect(test.form.subtitleText()).toBe(
             'Your company requires multifactor authentication to add an ' +
               'additional layer of security when signing in to your account'
           );
         });
       });
-      itp('has the correct subtitle text if config has a brandName', function () {
-        return setupWithRequiredNoneEnrolled('Spaghett Inc.').then(function (test) {
+      itp('has the correct subtitle text if config has a brandName', function() {
+        return setupWithRequiredNoneEnrolled('Spaghett Inc.').then(function(test) {
           expect(test.form.subtitleText()).toBe(
             'Your company requires multifactor authentication to add an ' +
               'additional layer of security when signing in to your Spaghett Inc. account'
           );
         });
       });
-      itp('has the correct list title of "Setup required"', function () {
-        return setupWithRequiredNoneEnrolled().then(function (test) {
+      itp('has the correct list title of "Setup required"', function() {
+        return setupWithRequiredNoneEnrolled().then(function(test) {
           expect(test.form.requiredFactorListTitle()).toBe('Setup required');
         });
       });
-      itp('chooses the first unenrolled required factor as the current factor', function () {
-        return setupWithRequiredSomeRequiredEnrolled().then(function (test) {
+      itp('chooses the first unenrolled required factor as the current factor', function() {
+        return setupWithRequiredSomeRequiredEnrolled().then(function(test) {
           // GOOGLE_AUTH is the current factor in this test
           expect(test.form.isFactorMinimized('GOOGLE_AUTH')).toBe(false);
         });
       });
-      itp('minimizes factors that are not current', function () {
-        return setupWithRequiredNoneEnrolled().then(function (test) {
+      itp('minimizes factors that are not current', function() {
+        return setupWithRequiredNoneEnrolled().then(function(test) {
           // OKTA_VERIFY is the current factor, and GOOGLE_AUTH, QUESTION, and RSA are
           // the other required factors in this test
           expect(test.form.isFactorMinimized('OKTA_VERIFY')).toBe(false);
@@ -353,8 +353,8 @@ Expect.describe('EnrollChoices', function () {
           expect(test.form.isFactorMinimized('RSA_SECURID')).toBe(true);
         });
       });
-      itp('minimizes factors that are not current (On-Prem)', function () {
-        return setupWithRequiredNoneEnrolledOnPrem().then(function (test) {
+      itp('minimizes factors that are not current (On-Prem)', function() {
+        return setupWithRequiredNoneEnrolledOnPrem().then(function(test) {
           // OKTA_VERIFY is the current factor, and GOOGLE_AUTH, QUESTION, and ON_PREM are
           // the other required factors in this test
           expect(test.form.isFactorMinimized('OKTA_VERIFY_PUSH')).toBe(false);
@@ -363,8 +363,8 @@ Expect.describe('EnrollChoices', function () {
           expect(test.form.isFactorMinimized('ON_PREM')).toBe(true);
         });
       });
-      itp('does not show optional factors', function () {
-        return setupWithRequiredNoneEnrolled().then(function (test) {
+      itp('does not show optional factors', function() {
+        return setupWithRequiredNoneEnrolled().then(function(test) {
           expect(test.form.optionalFactorList().length).toBe(0);
           expect(test.form.factorRow('SYMANTEC_VIP').length).toBe(0);
           expect(test.form.factorRow('DUO').length).toBe(0);
@@ -375,37 +375,37 @@ Expect.describe('EnrollChoices', function () {
           expect(test.form.factorRow('CUSTOM_CLAIMS').length).toBe(0);
         });
       });
-      itp('has the button text "Configure factor" if no required factors have been enrolled', function () {
-        return setupWithRequiredNoneEnrolled().then(function (test) {
+      itp('has the button text "Configure factor" if no required factors have been enrolled', function() {
+        return setupWithRequiredNoneEnrolled().then(function(test) {
           expect(test.form.submitButtonText()).toBe('Configure factor');
         });
       });
-      itp('does not have skip set up link when all factors are required', function () {
-        return setupWithRequiredNoneEnrolled().then(function (test) {
+      itp('does not have skip set up link when all factors are required', function() {
+        return setupWithRequiredNoneEnrolled().then(function(test) {
           expect(test.form.skipSetUpLink().length).toBe(0);
         });
       });
-      itp('has the button text "Configure next factor if a required factor has already been enrolled"', function () {
-        return setupWithRequiredSomeRequiredEnrolled().then(function (test) {
+      itp('has the button text "Configure next factor if a required factor has already been enrolled"', function() {
+        return setupWithRequiredSomeRequiredEnrolled().then(function(test) {
           expect(test.form.submitButtonText()).toBe('Configure next factor');
         });
       });
-      itp('shows a green checkmark next to factors that have been enrolled', function () {
-        return setupWithRequiredSomeRequiredEnrolled().then(function (test) {
+      itp('shows a green checkmark next to factors that have been enrolled', function() {
+        return setupWithRequiredSomeRequiredEnrolled().then(function(test) {
           expect(test.form.factorHasSuccessCheck('OKTA_VERIFY')).toBe(true);
           expect(test.form.factorHasSuccessCheck('GOOGLE_AUTH')).toBe(false);
           expect(test.form.factorHasSuccessCheck('QUESTION')).toBe(false);
         });
       });
-      itp('shows a gray checkmark next to factors that have been enrolled', function () {
-        return setupWithRequiredSomeRequiredEnrolled().then(function (test) {
+      itp('shows a gray checkmark next to factors that have been enrolled', function() {
+        return setupWithRequiredSomeRequiredEnrolled().then(function(test) {
           expect(test.form.factorHasPendingCheck('OKTA_VERIFY')).toBe(false);
           expect(test.form.factorHasPendingCheck('GOOGLE_AUTH')).toBe(true);
           expect(test.form.factorHasPendingCheck('QUESTION')).toBe(true);
         });
       });
-      itp('navigates to the current factor on save', function () {
-        return setupWithRequiredSomeRequiredEnrolled().then(function (test) {
+      itp('navigates to the current factor on save', function() {
+        return setupWithRequiredSomeRequiredEnrolled().then(function(test) {
           test.form.submit();
           expect(test.router.navigate).toHaveBeenCalledWith('signin/enroll/google/token%3Asoftware%3Atotp', {
             trigger: true,
@@ -414,17 +414,17 @@ Expect.describe('EnrollChoices', function () {
       });
       itp(
         'has skip set up link when it is in the response and at least 1 required factor is enrolled but all required are not enrolled yet',
-        function () {
-          return setupWithRequiredSomeRequiredEnrolled().then(function (test) {
+        function() {
+          return setupWithRequiredSomeRequiredEnrolled().then(function(test) {
             expect(test.form.skipSetUpLink().length).toBe(1);
           });
         }
       );
     });
 
-    describe('Optional/Finish', function () {
-      itp('displays the general subtitle if there are only optional factors and none are enrolled', function () {
-        return setupWithAllOptionalNoneEnrolled().then(function (test) {
+    describe('Optional/Finish', function() {
+      itp('displays the general subtitle if there are only optional factors and none are enrolled', function() {
+        return setupWithAllOptionalNoneEnrolled().then(function(test) {
           expect(test.form.subtitleText()).toBe(
             'Your company requires multifactor authentication to add an ' +
               'additional layer of security when signing in to your account'
@@ -433,8 +433,8 @@ Expect.describe('EnrollChoices', function () {
       });
       itp(
         'displays the specific subtitle if there are only optional factors and none are enrolled if config has a brandName',
-        function () {
-          return setupWithAllOptionalNoneEnrolled('Spaghetti Inc.').then(function (test) {
+        function() {
+          return setupWithAllOptionalNoneEnrolled('Spaghetti Inc.').then(function(test) {
             expect(test.form.subtitleText()).toBe(
               'Your company requires multifactor authentication to add an ' +
                 'additional layer of security when signing in to your Spaghetti Inc. account'
@@ -442,62 +442,62 @@ Expect.describe('EnrollChoices', function () {
           });
         }
       );
-      itp('displays add optional subtitle if there are only optional factors and some are enrolled', function () {
-        return setupWithAllOptionalSomeEnrolled().then(function (test) {
+      itp('displays add optional subtitle if there are only optional factors and some are enrolled', function() {
+        return setupWithAllOptionalSomeEnrolled().then(function(test) {
           expect(test.form.subtitleText()).toBe('You can configure any additional optional factor or click finish');
         });
       });
-      itp('displays add optional subtitle if all required factors have been enrolled', function () {
-        return setupWithRequiredAllRequiredEnrolled().then(function (test) {
+      itp('displays add optional subtitle if all required factors have been enrolled', function() {
+        return setupWithRequiredAllRequiredEnrolled().then(function(test) {
           expect(test.form.subtitleText()).toBe('You can configure any additional optional factor or click finish');
         });
       });
-      itp('does not have skip set up link when all factors are optional none enrolled', function () {
-        return setupWithAllOptionalNoneEnrolled().then(function (test) {
+      itp('does not have skip set up link when all factors are optional none enrolled', function() {
+        return setupWithAllOptionalNoneEnrolled().then(function(test) {
           expect(test.form.skipSetUpLink().length).toBe(0);
         });
       });
-      itp('does not have skip set up link when all factors are optional some enrolled', function () {
-        return setupWithAllOptionalSomeEnrolled().then(function (test) {
+      itp('does not have skip set up link when all factors are optional some enrolled', function() {
+        return setupWithAllOptionalSomeEnrolled().then(function(test) {
           expect(test.form.skipSetUpLink().length).toBe(0);
         });
       });
-      itp('does not have skip set up link when all required factors are enrolled', function () {
-        return setupWithRequiredAllRequiredEnrolled().then(function (test) {
+      itp('does not have skip set up link when all required factors are enrolled', function() {
+        return setupWithRequiredAllRequiredEnrolled().then(function(test) {
           expect(test.form.skipSetUpLink().length).toBe(0);
         });
       });
-      itp('does not show the enrolled list if no factors have been enrolled', function () {
-        return setupWithAllOptionalNoneEnrolled().then(function (test) {
+      itp('does not show the enrolled list if no factors have been enrolled', function() {
+        return setupWithAllOptionalNoneEnrolled().then(function(test) {
           expect(test.form.enrolledFactorList().length).toBe(0);
         });
       });
-      itp('does not have a list title if there are no enrolled factors', function () {
-        return setupWithAllOptionalNoneEnrolled().then(function (test) {
+      itp('does not have a list title if there are no enrolled factors', function() {
+        return setupWithAllOptionalNoneEnrolled().then(function(test) {
           expect(test.form.optionalFactorListTitle()).toBe('');
         });
       });
-      itp('has a list title of "Enrolled factors" for factors that have been enrolled', function () {
-        return setupWithAllOptionalSomeEnrolled().then(function (test) {
+      itp('has a list title of "Enrolled factors" for factors that have been enrolled', function() {
+        return setupWithAllOptionalSomeEnrolled().then(function(test) {
           expect(test.form.enrolledFactorListTitle()).toBe('Enrolled factors');
         });
       });
       itp(
         'has a list title of "Additional optional factors" for the optional list if ' + 'there are enrolled factors',
-        function () {
-          return setupWithAllOptionalSomeEnrolled().then(function (test) {
+        function() {
+          return setupWithAllOptionalSomeEnrolled().then(function(test) {
             expect(test.form.optionalFactorListTitle()).toBe('Additional optional factors');
           });
         }
       );
-      itp('shows enrolled factors as a minimized list', function () {
-        return setupWithRequiredAllRequiredEnrolled().then(function (test) {
+      itp('shows enrolled factors as a minimized list', function() {
+        return setupWithRequiredAllRequiredEnrolled().then(function(test) {
           expect(test.form.isFactorMinimized('GOOGLE_AUTH')).toBe(true);
           expect(test.form.isFactorMinimized('QUESTION')).toBe(true);
         });
       });
-      itp('shows optional factors in their expanded title + description state', function () {
-        return setupWithRequiredAllRequiredEnrolled().then(function (test) {
+      itp('shows optional factors in their expanded title + description state', function() {
+        return setupWithRequiredAllRequiredEnrolled().then(function(test) {
           expect(test.form.isFactorMinimized('OKTA_VERIFY')).toBe(false);
           expect(test.form.isFactorMinimized('SYMANTEC_VIP')).toBe(false);
           expect(test.form.isFactorMinimized('RSA_SECURID')).toBe(false);
@@ -511,8 +511,8 @@ Expect.describe('EnrollChoices', function () {
           expect(test.form.isFactorMinimized('CUSTOM_CLAIMS')).toBe(false);
         });
       });
-      itp('shows optional factors in their expanded title + description state (On-Prem)', function () {
-        return setupWithRequiredAllRequiredEnrolled(true).then(function (test) {
+      itp('shows optional factors in their expanded title + description state (On-Prem)', function() {
+        return setupWithRequiredAllRequiredEnrolled(true).then(function(test) {
           expect(test.form.isFactorMinimized('OKTA_VERIFY')).toBe(false);
           expect(test.form.isFactorMinimized('SYMANTEC_VIP')).toBe(false);
           expect(test.form.isFactorMinimized('ON_PREM')).toBe(false);
@@ -525,8 +525,8 @@ Expect.describe('EnrollChoices', function () {
           expect(test.form.isFactorMinimized('CUSTOM_CLAIMS')).toBe(false);
         });
       });
-      itp('has a setup button for each unenrolled optional factor which navigates to the correct page', function () {
-        return setupWithAllOptionalSomeEnrolled().then(function (test) {
+      itp('has a setup button for each unenrolled optional factor which navigates to the correct page', function() {
+        return setupWithAllOptionalSomeEnrolled().then(function(test) {
           expect(test.form.factorButton('OKTA_VERIFY').length).toBe(1);
           expect(test.form.factorButton('GOOGLE_AUTH').length).toBe(1);
           expect(test.form.factorButton('SYMANTEC_VIP').length).toBe(1);
@@ -545,8 +545,8 @@ Expect.describe('EnrollChoices', function () {
       });
       itp(
         'has a setup button for each unenrolled optional factor which navigates to the correct page (On-Prem)',
-        function () {
-          return setupWithAllOptionalSomeEnrolled(true).then(function (test) {
+        function() {
+          return setupWithAllOptionalSomeEnrolled(true).then(function(test) {
             expect(test.form.factorButton('OKTA_VERIFY_PUSH').length).toBe(0);
             expect(test.form.factorButton('QUESTION').length).toBe(1);
             expect(test.form.factorButton('GOOGLE_AUTH').length).toBe(1);
@@ -567,25 +567,25 @@ Expect.describe('EnrollChoices', function () {
           });
         }
       );
-      itp('has the button "Finish" if all required factors have been enrolled', function () {
-        return setupWithRequiredAllRequiredEnrolled().then(function (test) {
+      itp('has the button "Finish" if all required factors have been enrolled', function() {
+        return setupWithRequiredAllRequiredEnrolled().then(function(test) {
           expect(test.form.submitButtonText()).toBe('Finish');
         });
       });
-      itp('has the button "Finish" if only optional factors, but at least one has been enrolled', function () {
-        return setupWithAllOptionalSomeEnrolled().then(function (test) {
+      itp('has the button "Finish" if only optional factors, but at least one has been enrolled', function() {
+        return setupWithAllOptionalSomeEnrolled().then(function(test) {
           expect(test.form.submitButtonText()).toBe('Finish');
         });
       });
-      itp('it uses the finish link to finish enrollment if Finish is clicked', function () {
+      itp('it uses the finish link to finish enrollment if Finish is clicked', function() {
         return setupWithAllOptionalSomeEnrolled()
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.setNextResponse(resAllFactors);
             test.form.submit();
             return tick();
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/skip',
@@ -598,23 +598,23 @@ Expect.describe('EnrollChoices', function () {
       itp(
         'does not show the Finish button if there are no required factors and no ' +
           'optional factors have been enrolled',
-        function () {
-          return setupWithAllOptionalNoneEnrolled().then(function (test) {
+        function() {
+          return setupWithAllOptionalNoneEnrolled().then(function(test) {
             expect(test.form.submitButton().length).toBe(0);
           });
         }
       );
     });
 
-    describe('Grace period', function () {
-      beforeEach(function () {
+    describe('Grace period', function() {
+      beforeEach(function() {
         const today = new Date('2019-06-25T00:00:00.000Z');
 
         jasmine.clock().mockDate(today);
       });
-      describe('all factors are required and none are enrolled', function () {
-        itp('has default subtitle', function () {
-          return setupWithRequiredNoneEnrolled(null, '2019-06-28T00:00:00.000Z').then(function (test) {
+      describe('all factors are required and none are enrolled', function() {
+        itp('has default subtitle', function() {
+          return setupWithRequiredNoneEnrolled(null, '2019-06-28T00:00:00.000Z').then(function(test) {
             expect(test.form.subtitleText()).toBe(
               'Your company requires multifactor authentication to add an ' +
                 'additional layer of security when signing in to your account'
@@ -622,17 +622,17 @@ Expect.describe('EnrollChoices', function () {
           });
         });
       });
-      describe('all factors are required and at least one is enrolled', function () {
-        itp('has default subtitle when endDate is null', function () {
-          return setupWithRequiredSomeRequiredEnrolled(null).then(function (test) {
+      describe('all factors are required and at least one is enrolled', function() {
+        itp('has default subtitle when endDate is null', function() {
+          return setupWithRequiredSomeRequiredEnrolled(null).then(function(test) {
             expect(test.form.subtitleText()).toBe(
               'Your company requires multifactor authentication to add an additional ' +
                 'layer of security when signing in to your account'
             );
           });
         });
-        itp('has grace period subtitle when endDate is not null', function () {
-          return setupWithRequiredSomeRequiredEnrolled('2019-06-28T00:00:00.000Z').then(function (test) {
+        itp('has grace period subtitle when endDate is not null', function() {
+          return setupWithRequiredSomeRequiredEnrolled('2019-06-28T00:00:00.000Z').then(function(test) {
             expect(test.form.subtitleText()).toBe(
               'Your company recommends setting up additional factors for authentication. ' +
                 'Set up will be required in: 3 day(s).'
@@ -642,11 +642,11 @@ Expect.describe('EnrollChoices', function () {
         itp(
           'has grace period less than one day subtitle when time remaining is less \
           than a day',
-          function () {
+          function() {
             const today = new Date('2019-06-25T11:59:59.000Z');
 
             jasmine.clock().mockDate(today);
-            return setupWithRequiredSomeRequiredEnrolled('2019-06-26T00:00:00.000Z').then(function (test) {
+            return setupWithRequiredSomeRequiredEnrolled('2019-06-26T00:00:00.000Z').then(function(test) {
               expect(test.form.subtitleText()).toBe(
                 'Your company recommends setting up additional factors for authentication. ' +
                   'Set up will be required in: less than 1 day.'
@@ -654,11 +654,11 @@ Expect.describe('EnrollChoices', function () {
             });
           }
         );
-        itp('has default subtitle when todays date is past endDate', function () {
+        itp('has default subtitle when todays date is past endDate', function() {
           const today = new Date('2019-06-26T11:59:59.000Z');
 
           jasmine.clock().mockDate(today);
-          return setupWithRequiredSomeRequiredEnrolled('2019-06-26T00:00:00.000Z').then(function (test) {
+          return setupWithRequiredSomeRequiredEnrolled('2019-06-26T00:00:00.000Z').then(function(test) {
             expect(test.form.subtitleText()).toBe(
               'Your company requires multifactor authentication to add an additional ' +
                 'layer of security when signing in to your account'
@@ -666,16 +666,16 @@ Expect.describe('EnrollChoices', function () {
           });
         });
       });
-      describe('all factors are required and all are enrolled', function () {
-        itp('has optional subtitle', function () {
-          return setupWithRequiredAllRequiredEnrolled(null, '2019-06-28T00:00:00.000Z').then(function (test) {
+      describe('all factors are required and all are enrolled', function() {
+        itp('has optional subtitle', function() {
+          return setupWithRequiredAllRequiredEnrolled(null, '2019-06-28T00:00:00.000Z').then(function(test) {
             expect(test.form.subtitleText()).toBe('You can configure any additional optional factor or click finish');
           });
         });
       });
-      describe('all factors optional and none are enrolled', function () {
-        itp('has default subtitle', function () {
-          return setupWithAllOptionalNoneEnrolled(null, '2019-06-28T00:00:00.000Z').then(function (test) {
+      describe('all factors optional and none are enrolled', function() {
+        itp('has default subtitle', function() {
+          return setupWithAllOptionalNoneEnrolled(null, '2019-06-28T00:00:00.000Z').then(function(test) {
             expect(test.form.subtitleText()).toBe(
               'Your company requires multifactor authentication to add an ' +
                 'additional layer of security when signing in to your account'
@@ -683,9 +683,9 @@ Expect.describe('EnrollChoices', function () {
           });
         });
       });
-      describe('all factors optional and some are enrolled', function () {
-        itp('has optional subtitle', function () {
-          return setupWithAllOptionalSomeEnrolled(null, '2019-06-28T00:00:00.000Z').then(function (test) {
+      describe('all factors optional and some are enrolled', function() {
+        itp('has optional subtitle', function() {
+          return setupWithAllOptionalSomeEnrolled(null, '2019-06-28T00:00:00.000Z').then(function(test) {
             expect(test.form.subtitleText()).toBe('You can configure any additional optional factor or click finish');
           });
         });
@@ -693,8 +693,8 @@ Expect.describe('EnrollChoices', function () {
     });
   });
 
-  describe('Factor list', function () {
-    describe('OKTA_VERIFY', function () {
+  describe('Factor list', function() {
+    describe('OKTA_VERIFY', function() {
       itHasIconAndText(
         'OKTA_VERIFY',
         'mfa-okta-verify',
@@ -703,7 +703,7 @@ Expect.describe('EnrollChoices', function () {
         resAllFactors
       );
     });
-    describe('OKTA_VERIFY_PUSH', function () {
+    describe('OKTA_VERIFY_PUSH', function() {
       itHasIconAndText(
         'OKTA_VERIFY_PUSH',
         'mfa-okta-verify',
@@ -711,20 +711,20 @@ Expect.describe('EnrollChoices', function () {
         'Use a push notification sent to the mobile app.',
         resPush
       );
-      itp('does not show okta totp row when push is available', function () {
-        return setup(resPush).then(function (test) {
+      itp('does not show okta totp row when push is available', function() {
+        return setup(resPush).then(function(test) {
           expect(test.form.factorRow('OKTA_VERIFY').length).toBe(0);
         });
       });
-      itp('does not show okta totp row when push is enrolled', function () {
-        return setupWithOktaVerifyPushWithPushEnrolled().then(function (test) {
+      itp('does not show okta totp row when push is enrolled', function() {
+        return setupWithOktaVerifyPushWithPushEnrolled().then(function(test) {
           expect(test.form.factorRow('OKTA_VERIFY').length).toBe(0);
           expect(test.form.factorRow('OKTA_VERIFY_PUSH').length).toBe(1);
           expect(test.form.factorHasSuccessCheck('OKTA_VERIFY_PUSH')).toBe(true);
         });
       });
-      itp('does not show okta push row when softtoken is enrolled', function () {
-        return setupWithOktaVerifyPushWithSofttokenEnrolled().then(function (test) {
+      itp('does not show okta push row when softtoken is enrolled', function() {
+        return setupWithOktaVerifyPushWithSofttokenEnrolled().then(function(test) {
           expect(test.form.factorRow('OKTA_VERIFY_PUSH').length).toBe(0);
           expect(test.form.factorRow('OKTA_VERIFY').length).toBe(1);
           expect(test.form.factorHasSuccessCheck('OKTA_VERIFY')).toBe(true);
@@ -733,8 +733,8 @@ Expect.describe('EnrollChoices', function () {
       itp(
         'redirects straight to finish link when all factors are enrolled \
           and OktaVerify softtoken factor enrolled while push is on',
-        function () {
-          return setupWithAllEnrolledButOktaVerifyPushWithSofttokenEnrolled().then(function () {
+        function() {
+          return setupWithAllEnrolledButOktaVerifyPushWithSofttokenEnrolled().then(function() {
             Expect.isJsonPost(Util.lastAjaxRequest(), {
               url: 'https://foo.com/api/v1/authn/skip',
               data: {
@@ -745,7 +745,7 @@ Expect.describe('EnrollChoices', function () {
         }
       );
     });
-    describe('GOOGLE_AUTH', function () {
+    describe('GOOGLE_AUTH', function() {
       itHasIconAndText(
         'GOOGLE_AUTH',
         'mfa-google-auth',
@@ -754,7 +754,7 @@ Expect.describe('EnrollChoices', function () {
         resAllFactors
       );
     });
-    describe('SYMANTEC_VIP', function () {
+    describe('SYMANTEC_VIP', function() {
       itHasIconAndText(
         'SYMANTEC_VIP',
         'mfa-symantec',
@@ -763,7 +763,7 @@ Expect.describe('EnrollChoices', function () {
         resAllFactors
       );
     });
-    describe('RSA_SECURID', function () {
+    describe('RSA_SECURID', function() {
       itHasIconAndText(
         'RSA_SECURID',
         'mfa-rsa',
@@ -772,7 +772,7 @@ Expect.describe('EnrollChoices', function () {
         resAllFactors
       );
     });
-    describe('ON_PREM', function () {
+    describe('ON_PREM', function() {
       itHasIconAndText(
         'ON_PREM',
         'mfa-onprem',
@@ -781,7 +781,7 @@ Expect.describe('EnrollChoices', function () {
         resAllFactorsOnPrem
       );
     });
-    describe('DUO', function () {
+    describe('DUO', function() {
       itHasIconAndText(
         'DUO',
         'mfa-duo',
@@ -790,7 +790,7 @@ Expect.describe('EnrollChoices', function () {
         resAllFactors
       );
     });
-    describe('SMS', function () {
+    describe('SMS', function() {
       itHasIconAndText(
         'SMS',
         'mfa-okta-sms',
@@ -798,14 +798,14 @@ Expect.describe('EnrollChoices', function () {
         'Enter a single-use code sent to your mobile phone.',
         resAllFactors
       );
-      itp('has the right click event', function () {
-        return setup(resAllFactors).then(function (test) {
+      itp('has the right click event', function() {
+        return setup(resAllFactors).then(function(test) {
           test.form.factorButton('SMS').click();
           expect(test.router.navigate).toHaveBeenCalledWith('signin/enroll/okta/sms', { trigger: true });
         });
       });
     });
-    describe('CALL', function () {
+    describe('CALL', function() {
       itHasIconAndText(
         'CALL',
         'mfa-okta-call',
@@ -813,14 +813,14 @@ Expect.describe('EnrollChoices', function () {
         'Use a phone to authenticate by following voice instructions.',
         resAllFactors
       );
-      itp('has the right click event', function () {
-        return setup(resAllFactors).then(function (test) {
+      itp('has the right click event', function() {
+        return setup(resAllFactors).then(function(test) {
           test.form.factorButton('CALL').click();
           expect(test.router.navigate).toHaveBeenCalledWith('signin/enroll/okta/call', { trigger: true });
         });
       });
     });
-    describe('EMAIL', function () {
+    describe('EMAIL', function() {
       itHasIconAndText(
         'EMAIL',
         'mfa-okta-email',
@@ -828,14 +828,14 @@ Expect.describe('EnrollChoices', function () {
         'Enter a verification code sent to your email.',
         resAllFactors
       );
-      itp('has the right click event', function () {
-        return setup(resAllFactors).then(function (test) {
+      itp('has the right click event', function() {
+        return setup(resAllFactors).then(function(test) {
           test.form.factorButton('EMAIL').click();
           expect(test.router.navigate).toHaveBeenCalledWith('signin/enroll/okta/email', { trigger: true });
         });
       });
     });
-    describe('U2F', function () {
+    describe('U2F', function() {
       itHasIconAndText(
         'U2F',
         'mfa-u2f',
@@ -844,7 +844,7 @@ Expect.describe('EnrollChoices', function () {
         resAllFactors
       );
     });
-    describe('U2F WITH BRANDNAME', function () {
+    describe('U2F WITH BRANDNAME', function() {
       itHasIconAndText(
         'U2F',
         'mfa-u2f',
@@ -855,7 +855,7 @@ Expect.describe('EnrollChoices', function () {
         'Spaghetti Inc.'
       );
     });
-    describe('WEBAUTHN', function () {
+    describe('WEBAUTHN', function() {
       itHasIconAndText(
         'WEBAUTHN',
         'mfa-webauthn',
@@ -865,7 +865,7 @@ Expect.describe('EnrollChoices', function () {
         true
       );
     });
-    describe('Hotp', function () {
+    describe('Hotp', function() {
       itHasIconAndText(
         'CUSTOM_HOTP',
         'mfa-hotp',
@@ -874,14 +874,14 @@ Expect.describe('EnrollChoices', function () {
         resAllFactors
       );
 
-      itp('displays enrolled profile name if already enrolled', function () {
-        return setup(resEnrolledHotp).then(function (test) {
+      itp('displays enrolled profile name if already enrolled', function() {
+        return setup(resEnrolledHotp).then(function(test) {
           expect(test.form.factorTitle('CUSTOM_HOTP')).toBe('Entrust2');
           expect(test.form.factorHasSuccessCheck('CUSTOM_HOTP')).toBe(true);
         });
       });
     });
-    describe('QUESTION', function () {
+    describe('QUESTION', function() {
       itHasIconAndText(
         'QUESTION',
         'mfa-okta-security-question',
@@ -890,7 +890,7 @@ Expect.describe('EnrollChoices', function () {
         resAllFactors
       );
     });
-    describe('CUSTOM CLAIMS FACTOR', function () {
+    describe('CUSTOM CLAIMS FACTOR', function() {
       itHasIconAndText(
         'CUSTOM_CLAIMS',
         'mfa-custom-factor',
@@ -899,7 +899,7 @@ Expect.describe('EnrollChoices', function () {
         resAllFactors
       );
     });
-    describe('CUSTOM SAML FACTOR', function () {
+    describe('CUSTOM SAML FACTOR', function() {
       itHasIconAndText(
         'GENERIC_SAML',
         'mfa-custom-factor',
@@ -908,7 +908,7 @@ Expect.describe('EnrollChoices', function () {
         resAllFactors
       );
     });
-    describe('CUSTOM SAML FACTOR WITH BRANDNAME', function () {
+    describe('CUSTOM SAML FACTOR WITH BRANDNAME', function() {
       itHasIconAndText(
         'GENERIC_SAML',
         'mfa-custom-factor',
@@ -919,7 +919,7 @@ Expect.describe('EnrollChoices', function () {
         'Spaghetti Inc.'
       );
     });
-    describe('CUSTOM OIDC FACTOR', function () {
+    describe('CUSTOM OIDC FACTOR', function() {
       itHasIconAndText(
         'GENERIC_OIDC',
         'mfa-custom-factor',
@@ -928,7 +928,7 @@ Expect.describe('EnrollChoices', function () {
         resAllFactors
       );
     });
-    describe('CUSTOM OIDC FACTOR WITH BRANDNAME', function () {
+    describe('CUSTOM OIDC FACTOR WITH BRANDNAME', function() {
       itHasIconAndText(
         'GENERIC_OIDC',
         'mfa-custom-factor',
@@ -941,9 +941,9 @@ Expect.describe('EnrollChoices', function () {
     });
   });
 
-  describe('Factor list order', function () {
-    itp('is in correct order', function () {
-      return setup(resAllFactors).then(function (test) {
+  describe('Factor list order', function() {
+    itp('is in correct order', function() {
+      return setup(resAllFactors).then(function(test) {
         const factorList = test.form.getFactorList();
 
         expect(factorList).toEqual([
@@ -966,8 +966,8 @@ Expect.describe('EnrollChoices', function () {
         ]);
       });
     });
-    itp('with push and onPrem is in correct order', function () {
-      return setup(resAllFactorsOnPrem).then(function (test) {
+    itp('with push and onPrem is in correct order', function() {
+      return setup(resAllFactorsOnPrem).then(function(test) {
         const factorList = test.form.getFactorList();
 
         expect(factorList).toEqual([
@@ -991,17 +991,17 @@ Expect.describe('EnrollChoices', function () {
     });
   });
 
-  describe('Multiple Enrollments', function () {
-    function testMultipleEnrollmentsForFactor (factorName, webauthnEnabled, useProfiles, enrolledFactor) {
-      itp('does not display cardinality text if it is optional', function () {
+  describe('Multiple Enrollments', function() {
+    function testMultipleEnrollmentsForFactor(factorName, webauthnEnabled, useProfiles, enrolledFactor) {
+      itp('does not display cardinality text if it is optional', function() {
         const res = useProfiles ? resAllFactorsProfile : resAllFactors;
 
-        return setup(res, false, webauthnEnabled).then(function (test) {
+        return setup(res, false, webauthnEnabled).then(function(test) {
           expect(test.form.factorButtonText(factorName)).toBe('Setup');
           expect(test.form.factorCardinalityText(factorName)).toBe('');
         });
       });
-      itp('does not display cardinality text when factor is REQUIRED and maximum=1', function () {
+      itp('does not display cardinality text when factor is REQUIRED and maximum=1', function() {
         return setupMultipleFactorEnrollments({
           factorName,
           status: 'NOT_SETUP',
@@ -1009,13 +1009,13 @@ Expect.describe('EnrollChoices', function () {
           cardinality: { enrolled: 0, minimum: 0, maximum: 1 },
           webauthnEnabled,
           useProfiles,
-        }).then(function (test) {
+        }).then(function(test) {
           expect(test.form.factorButtonText(factorName)).toBe('');
           expect(test.form.factorCardinalityText(factorName)).toBe('');
           expect(test.form.submitButtonText()).toBe('Configure factor');
         });
       });
-      itp('displays correct button and cardinality text when enrolled=1 optional=2', function () {
+      itp('displays correct button and cardinality text when enrolled=1 optional=2', function() {
         return setupMultipleFactorEnrollments({
           factorName,
           status: 'ACTIVE',
@@ -1024,7 +1024,7 @@ Expect.describe('EnrollChoices', function () {
           webauthnEnabled,
           useProfiles,
           enrolledFactor,
-        }).then(function (test) {
+        }).then(function(test) {
           const factorRows = test.form.factorRow(factorName);
 
           //displays one row for enrolled, one for optional
@@ -1041,7 +1041,7 @@ Expect.describe('EnrollChoices', function () {
           expect(test.form.factorCardinalityText(null, optionalFactorRow)).toBe('');
         });
       });
-      itp('displays correct button and cardinality text when enrolled=2 optional=1', function () {
+      itp('displays correct button and cardinality text when enrolled=2 optional=1', function() {
         return setupMultipleFactorEnrollments({
           factorName,
           status: 'ACTIVE',
@@ -1050,7 +1050,7 @@ Expect.describe('EnrollChoices', function () {
           webauthnEnabled,
           useProfiles,
           enrolledFactor,
-        }).then(function (test) {
+        }).then(function(test) {
           const factorRows = test.form.factorRow(factorName);
 
           //displays one row for enrolled, one for optional
@@ -1067,7 +1067,7 @@ Expect.describe('EnrollChoices', function () {
           expect(test.form.factorCardinalityText(null, optionalFactorRow)).toBe('');
         });
       });
-      itp('displays correct button and cardinality text when enrolled=3 optional=0', function () {
+      itp('displays correct button and cardinality text when enrolled=3 optional=0', function() {
         return setupMultipleFactorEnrollments({
           factorName,
           status: 'ACTIVE',
@@ -1076,7 +1076,7 @@ Expect.describe('EnrollChoices', function () {
           webauthnEnabled,
           useProfiles,
           enrolledFactor,
-        }).then(function (test) {
+        }).then(function(test) {
           const factorRows = test.form.factorRow(factorName);
 
           //displays only one row for enrolled, none for optional
@@ -1086,7 +1086,7 @@ Expect.describe('EnrollChoices', function () {
           expect(test.form.factorCardinalityText(factorName)).toBe('(3 set up)');
         });
       });
-      itp('displays correct cardinality text when enrolled=0 required=2', function () {
+      itp('displays correct cardinality text when enrolled=0 required=2', function() {
         return setupMultipleFactorEnrollments({
           factorName,
           status: 'NOT_SETUP',
@@ -1094,13 +1094,13 @@ Expect.describe('EnrollChoices', function () {
           cardinality: { enrolled: 0, minimum: 2, maximum: 3 },
           webauthnEnabled,
           useProfiles,
-        }).then(function (test) {
+        }).then(function(test) {
           //enrolled factor row should have pending check and cardinality text
           expect(test.form.factorHasPendingCheck(factorName)).toBe(true);
           expect(test.form.factorCardinalityText(factorName)).toBe('(0 of 2 set up)');
         });
       });
-      itp('displays correct cardinality text when enrolled=1 required=1', function () {
+      itp('displays correct cardinality text when enrolled=1 required=1', function() {
         return setupMultipleFactorEnrollments({
           factorName,
           status: 'NOT_SETUP',
@@ -1109,13 +1109,13 @@ Expect.describe('EnrollChoices', function () {
           webauthnEnabled,
           useProfiles,
           enrolledFactor,
-        }).then(function (test) {
+        }).then(function(test) {
           //enrolled factor row should have pending check and cardinality text
           expect(test.form.factorHasPendingCheck(factorName)).toBe(true);
           expect(test.form.factorCardinalityText(factorName)).toBe('(1 of 2 set up)');
         });
       });
-      itp('does not have skip set up link when enrolled=1 required=1', function () {
+      itp('does not have skip set up link when enrolled=1 required=1', function() {
         return setupMultipleFactorEnrollments({
           factorName,
           status: 'NOT_SETUP',
@@ -1124,18 +1124,18 @@ Expect.describe('EnrollChoices', function () {
           webauthnEnabled,
           useProfiles,
           enrolledFactor,
-        }).then(function (test) {
+        }).then(function(test) {
           expect(test.form.skipSetUpLink().length).toBe(0);
         });
       });
-      itp('displays correct cardinality text when enrolled=2 required=0 and question required', function () {
+      itp('displays correct cardinality text when enrolled=2 required=0 and question required', function() {
         return setupMultipleRequiredActiveEnrollmentsForFactorAndAnotherFactorRequired({
           factorName,
           cardinality: { enrolled: 2, minimum: 2, maximum: 3 },
           webauthnEnabled,
           useProfiles,
           enrolledFactor,
-        }).then(function (test) {
+        }).then(function(test) {
           //enrolled factor row should have success check and cardinality text
           expect(test.form.factorHasSuccessCheck(factorName)).toBe(true);
           expect(test.form.factorCardinalityText(factorName)).toBe('(2 set up)');
@@ -1143,19 +1143,19 @@ Expect.describe('EnrollChoices', function () {
       });
       itp(
         'has skip set up link when it is in the response and enrolled=2 required=0 and question required',
-        function () {
+        function() {
           return setupMultipleRequiredActiveEnrollmentsForFactorAndAnotherFactorRequired({
             factorName,
             cardinality: { enrolled: 2, minimum: 2, maximum: 3 },
             webauthnEnabled,
             useProfiles,
             enrolledFactor,
-          }).then(function (test) {
+          }).then(function(test) {
             expect(test.form.skipSetUpLink().length).toBe(1);
           });
         }
       );
-      itp('displays correct cardinality text when enrolled=2 required=0 optional=1', function () {
+      itp('displays correct cardinality text when enrolled=2 required=0 optional=1', function() {
         return setupMultipleFactorEnrollments({
           factorName,
           status: 'ACTIVE',
@@ -1164,7 +1164,7 @@ Expect.describe('EnrollChoices', function () {
           webauthnEnabled,
           useProfiles,
           enrolledFactor,
-        }).then(function (test) {
+        }).then(function(test) {
           const factorRows = test.form.factorRow(factorName);
 
           //displays one row for enrolled, one for optional
@@ -1181,7 +1181,7 @@ Expect.describe('EnrollChoices', function () {
           expect(test.form.factorCardinalityText(null, optionalFactorRow)).toBe('');
         });
       });
-      itp('displays correct cardinality text when enrolled=3 required=0 optional=0', function () {
+      itp('displays correct cardinality text when enrolled=3 required=0 optional=0', function() {
         return setupMultipleFactorEnrollments({
           factorName,
           status: 'ACTIVE',
@@ -1190,7 +1190,7 @@ Expect.describe('EnrollChoices', function () {
           webauthnEnabled,
           useProfiles,
           enrolledFactor,
-        }).then(function (test) {
+        }).then(function(test) {
           const factorRows = test.form.factorRow(factorName);
 
           //displays only one row for enrolled, none for optional
@@ -1200,7 +1200,7 @@ Expect.describe('EnrollChoices', function () {
           expect(test.form.factorCardinalityText(factorName)).toBe('(3 set up)');
         });
       });
-      itp('checks that the order of factors is correct during enroll if enrollment OPTIONAL', function () {
+      itp('checks that the order of factors is correct during enroll if enrollment OPTIONAL', function() {
         return setupMultipleFactorEnrollments({
           factorName,
           status: 'ACTIVE',
@@ -1209,7 +1209,7 @@ Expect.describe('EnrollChoices', function () {
           webauthnEnabled,
           useProfiles,
           enrolledFactor,
-        }).then(function (test) {
+        }).then(function(test) {
           const factorRows = test.form.optionalFactorList();
           const factorIndex = factorRows.find(`[data-se="${factorName}"]`).index();
           const expectedIndex =
@@ -1222,7 +1222,7 @@ Expect.describe('EnrollChoices', function () {
           expect(factorIndex).toBe(expectedIndex);
         });
       });
-      itp('checks that the order of factors is correct during enroll if enrollment REQUIRED', function () {
+      itp('checks that the order of factors is correct during enroll if enrollment REQUIRED', function() {
         return setupMultipleFactorEnrollments({
           factorName,
           status: 'ACTIVE',
@@ -1231,7 +1231,7 @@ Expect.describe('EnrollChoices', function () {
           webauthnEnabled,
           useProfiles,
           enrolledFactor,
-        }).then(function (test) {
+        }).then(function(test) {
           const factorRows = test.form.optionalFactorList();
           const factorIndex = factorRows.find(`[data-se="${factorName}"]`).index();
           const expectedIndex =
@@ -1246,20 +1246,20 @@ Expect.describe('EnrollChoices', function () {
       });
     }
 
-    function testMultipleEnrollmentsWhenSingleFactor (
+    function testMultipleEnrollmentsWhenSingleFactor(
       factorName,
       singleFactorRes,
       webauthnEnabled,
       useProfiles,
       enrolledFactor
     ) {
-      itp('does not display cardinality text if factor is optional', function () {
-        return setup(singleFactorRes, false, webauthnEnabled).then(function (test) {
+      itp('does not display cardinality text if factor is optional', function() {
+        return setup(singleFactorRes, false, webauthnEnabled).then(function(test) {
           expect(test.form.factorButtonText(factorName)).toBe('Setup');
           expect(test.form.factorCardinalityText(factorName)).toBe('');
         });
       });
-      itp('displays correct button and cardinality text when enrolled=1 optional=2', function () {
+      itp('displays correct button and cardinality text when enrolled=1 optional=2', function() {
         return setupMultipleFactorEnrollments({
           factorName,
           status: 'ACTIVE',
@@ -1269,7 +1269,7 @@ Expect.describe('EnrollChoices', function () {
           webauthnEnabled,
           useProfiles,
           enrolledFactor,
-        }).then(function (test) {
+        }).then(function(test) {
           const factorRows = test.form.factorRow(factorName);
 
           //displays one row for enrolled, one for optional
@@ -1286,7 +1286,7 @@ Expect.describe('EnrollChoices', function () {
           expect(test.form.factorCardinalityText(null, optionalFactorRow)).toBe('');
         });
       });
-      itp('displays correct button and cardinality text when enrolled=2 optional=1', function () {
+      itp('displays correct button and cardinality text when enrolled=2 optional=1', function() {
         return setupMultipleFactorEnrollments({
           factorName,
           status: 'ACTIVE',
@@ -1296,7 +1296,7 @@ Expect.describe('EnrollChoices', function () {
           webauthnEnabled,
           useProfiles,
           enrolledFactor,
-        }).then(function (test) {
+        }).then(function(test) {
           const factorRows = test.form.factorRow(factorName);
 
           //displays one row for enrolled, one for optional
@@ -1313,7 +1313,7 @@ Expect.describe('EnrollChoices', function () {
           expect(test.form.factorCardinalityText(null, optionalFactorRow)).toBe('');
         });
       });
-      itp('displays correct cardinality text when enrolled=0 required=2', function () {
+      itp('displays correct cardinality text when enrolled=0 required=2', function() {
         return setupMultipleFactorEnrollments({
           factorName,
           status: 'NOT_SETUP',
@@ -1322,13 +1322,13 @@ Expect.describe('EnrollChoices', function () {
           singleFactorRes,
           webauthnEnabled,
           useProfiles,
-        }).then(function (test) {
+        }).then(function(test) {
           //enrolled factor row should have pending check and cardinality text
           expect(test.form.factorHasPendingCheck(factorName)).toBe(true);
           expect(test.form.factorCardinalityText(factorName)).toBe('(0 of 2 set up)');
         });
       });
-      itp('displays correct cardinality text when enrolled=1 required=1', function () {
+      itp('displays correct cardinality text when enrolled=1 required=1', function() {
         return setupMultipleFactorEnrollments({
           factorName,
           status: 'NOT_SETUP',
@@ -1338,13 +1338,13 @@ Expect.describe('EnrollChoices', function () {
           webauthnEnabled,
           useProfiles,
           enrolledFactor,
-        }).then(function (test) {
+        }).then(function(test) {
           //enrolled factor row should have pending check and cardinality text
           expect(test.form.factorHasPendingCheck(factorName)).toBe(true);
           expect(test.form.factorCardinalityText(factorName)).toBe('(1 of 2 set up)');
         });
       });
-      itp('displays correct cardinality text when enrolled=2 required=0 optional=1', function () {
+      itp('displays correct cardinality text when enrolled=2 required=0 optional=1', function() {
         return setupMultipleFactorEnrollments({
           factorName,
           status: 'ACTIVE',
@@ -1354,7 +1354,7 @@ Expect.describe('EnrollChoices', function () {
           webauthnEnabled,
           useProfiles,
           enrolledFactor,
-        }).then(function (test) {
+        }).then(function(test) {
           const factorRows = test.form.factorRow(factorName);
 
           //displays one row for enrolled, one for optional
@@ -1373,22 +1373,22 @@ Expect.describe('EnrollChoices', function () {
       });
     }
 
-    describe('U2F multi enrollments', function () {
+    describe('U2F multi enrollments', function() {
       testMultipleEnrollmentsForFactor('U2F');
     });
-    describe('with only U2F configured', function () {
+    describe('with only U2F configured', function() {
       testMultipleEnrollmentsWhenSingleFactor('U2F', resMultipleU2F);
     });
-    describe('WEBAUTHN multi enrollments', function () {
+    describe('WEBAUTHN multi enrollments', function() {
       testMultipleEnrollmentsForFactor('WEBAUTHN', true);
     });
-    describe('with only WEBAUTHN configured', function () {
+    describe('with only WEBAUTHN configured', function() {
       testMultipleEnrollmentsWhenSingleFactor('WEBAUTHN', resMultipleWebauthn, true);
     });
-    describe('WEBAUTHN with profiles', function () {
+    describe('WEBAUTHN with profiles', function() {
       testMultipleEnrollmentsForFactor('WEBAUTHN', true, true, enrolledWebauthnFactor);
     });
-    describe('with only WEBAUTHN configured with profiles', function () {
+    describe('with only WEBAUTHN configured with profiles', function() {
       testMultipleEnrollmentsWhenSingleFactor(
         'WEBAUTHN',
         resMultipleWebauthnProfile,
@@ -1397,10 +1397,10 @@ Expect.describe('EnrollChoices', function () {
         enrolledWebauthnFactor
       );
     });
-    describe('Okta Verify', function () {
+    describe('Okta Verify', function() {
       testMultipleEnrollmentsForFactor('OKTA_VERIFY');
     });
-    describe('with only Okta Verify totp configured', function () {
+    describe('with only Okta Verify totp configured', function() {
       const resMultipleOktaVerifyTotp = deepClone(resMultipleOktaVerify);
 
       resMultipleOktaVerifyTotp.response._embedded.factors = _.where(
@@ -1409,7 +1409,7 @@ Expect.describe('EnrollChoices', function () {
       );
       testMultipleEnrollmentsWhenSingleFactor('OKTA_VERIFY', resMultipleOktaVerifyTotp);
     });
-    describe('with only Okta Verify push configured', function () {
+    describe('with only Okta Verify push configured', function() {
       const resMultipleOktaVerifyTotp = deepClone(resMultipleOktaVerify);
 
       resMultipleOktaVerifyTotp.response._embedded.factors = _.where(
@@ -1418,7 +1418,7 @@ Expect.describe('EnrollChoices', function () {
       );
       testMultipleEnrollmentsWhenSingleFactor('OKTA_VERIFY_PUSH', resMultipleOktaVerifyTotp);
     });
-    describe('with only Okta Verify Totp/Push configured', function () {
+    describe('with only Okta Verify Totp/Push configured', function() {
       testMultipleEnrollmentsWhenSingleFactor('OKTA_VERIFY_PUSH', resMultipleOktaVerify);
     });
   });

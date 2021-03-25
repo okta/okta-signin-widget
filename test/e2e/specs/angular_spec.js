@@ -14,8 +14,8 @@
 const PrimaryAuthPage = require('../page-objects/PrimaryAuthPage');
 const until = protractor.ExpectedConditions;
 
-describe('Angular flows', function () {
-  it('should allow logging in with the widget', function () {
+describe('Angular flows', function() {
+  it('should allow logging in with the widget', function() {
     // open browser to a protected route
     browser.ignoreSynchronization = true;
     browser.driver.get('http://localhost:4200/protected');

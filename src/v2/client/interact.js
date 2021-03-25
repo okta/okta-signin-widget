@@ -19,7 +19,7 @@ import idx from '@okta/okta-idx-js';
 import { getTransactionMeta, saveTransactionMeta } from './transactionMeta';
 
 // Begin or resume a transaction using an interactionHandle
-export async function interact (settings) {
+export async function interact(settings) {
 
   const authClient = settings.getAuthClient();
   let meta;

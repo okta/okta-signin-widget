@@ -15,7 +15,7 @@ import $sandbox from 'sandbox';
 const SharedUtil = internal.util.Util;
 const itp = Expect.itp;
 
-function setup (settings) {
+function setup(settings) {
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
   const authClient = createAuthClient({ issuer: baseUrl });
@@ -53,24 +53,24 @@ function setup (settings) {
   return Expect.waitForRecoveryChallenge(testData);
 }
 
-Expect.describe('RecoveryChallenge', function () {
-  beforeEach(function () {
+Expect.describe('RecoveryChallenge', function() {
+  beforeEach(function() {
     const throttle = _.throttle;
 
-    spyOn(_, 'throttle').and.callFake(function (fn) {
+    spyOn(_, 'throttle').and.callFake(function(fn) {
       return throttle(fn, 0);
     });
     this.originalDelay = _.delay;
     spyOn(_, 'delay');
   });
-  itp('displays the security beacon', function () {
-    return setup().then(function (test) {
+  itp('displays the security beacon', function() {
+    return setup().then(function(test) {
       expect(test.beacon.isSecurityBeacon()).toBe(true);
     });
   });
-  itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function () {
+  itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function() {
     return setup()
-      .then(function (test) {
+      .then(function(test) {
         spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
         Util.resetAjaxRequests();
         test.setNextResponse(res200);
@@ -80,7 +80,7 @@ Expect.describe('RecoveryChallenge', function () {
         $link.click();
         return Expect.waitForPrimaryAuth(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/cancel',
@@ -93,17 +93,17 @@ Expect.describe('RecoveryChallenge', function () {
       });
   });
 
-  itp('does not show back link if hideBackToSignInForReset is true', function () {
-    return setup({ 'features.hideBackToSignInForReset': true }).then(function (test) {
+  itp('does not show back link if hideBackToSignInForReset is true', function() {
+    return setup({ 'features.hideBackToSignInForReset': true }).then(function(test) {
       const $link = test.form.signoutLink();
 
       expect($link.length).toBe(0);
     });
   });
 
-  itp('has a signout link which cancels the current stateToken and redirects to the provided signout url', function () {
+  itp('has a signout link which cancels the current stateToken and redirects to the provided signout url', function() {
     return setup({ signOutLink: 'http://www.goodbye.com' })
-      .then(function (test) {
+      .then(function(test) {
         spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
         spyOn(SharedUtil, 'redirect');
         Util.resetAjaxRequests();
@@ -114,7 +114,7 @@ Expect.describe('RecoveryChallenge', function () {
         $link.click();
         return Expect.waitForSpyCall(test.router.controller.options.appState.clearLastAuthResponse, test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/cancel',
@@ -126,18 +126,18 @@ Expect.describe('RecoveryChallenge', function () {
         expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
       });
   });
-  itp('has a text field to enter the recovery sms code', function () {
-    return setup().then(function (test) {
+  itp('has a text field to enter the recovery sms code', function() {
+    return setup().then(function(test) {
       Expect.isTextField(test.form.codeField());
     });
   });
-  itp('does not allow autocomplete', function () {
-    return setup().then(function (test) {
+  itp('does not allow autocomplete', function() {
+    return setup().then(function(test) {
       expect(test.form.getAutocompleteCodeField()).toBe('off');
     });
   });
-  itp('has a disabled "Sent" button on initialize', function () {
-    return setup().then(function (test) {
+  itp('has a disabled "Sent" button on initialize', function() {
+    return setup().then(function(test) {
       Util.resetAjaxRequests();
       spyOn(test.router.controller.model, 'resendCode').and.callThrough();
       const button = test.form.resendButton();
@@ -148,24 +148,24 @@ Expect.describe('RecoveryChallenge', function () {
       expect(Util.numAjaxRequests()).toBe(0);
     });
   });
-  itp('has a "Re-send" button after a short delay', function () {
+  itp('has a "Re-send" button after a short delay', function() {
     const delay = this.originalDelay;
 
-    _.delay.and.callFake(function (func, wait, args) {
+    _.delay.and.callFake(function(func, wait, args) {
       return delay(func, 0, args);
     });
-    return setup().then(function (test) {
+    return setup().then(function(test) {
       expect(test.form.resendButton().text()).toBe('Re-send code');
     });
   });
-  itp('"Re-send" button will resend the code and then be disabled', function () {
+  itp('"Re-send" button will resend the code and then be disabled', function() {
     const delay = this.originalDelay;
 
-    _.delay.and.callFake(function (func, wait, args) {
+    _.delay.and.callFake(function(func, wait, args) {
       return delay(func, 0, args);
     });
     return setup()
-      .then(function (test) {
+      .then(function(test) {
         Util.resetAjaxRequests();
         test.setNextResponse(resChallenge);
         test.button = test.form.resendButton();
@@ -174,7 +174,7 @@ Expect.describe('RecoveryChallenge', function () {
         expect(test.button.attr('class')).toMatch('link-button-disabled');
         return Expect.waitForAjaxRequest();
       })
-      .then(function () {
+      .then(function() {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/recovery/factors/SMS/resend',
@@ -184,14 +184,14 @@ Expect.describe('RecoveryChallenge', function () {
         });
       });
   });
-  itp('displays only one error block when a resend button clicked several time and got error resp', function () {
+  itp('displays only one error block when a resend button clicked several time and got error resp', function() {
     const delay = this.originalDelay;
 
-    _.delay.and.callFake(function (func, wait, args) {
+    _.delay.and.callFake(function(func, wait, args) {
       return delay(func, 0, args);
     });
     return setup()
-      .then(function (test) {
+      .then(function(test) {
         spyOn(test.router.controller.model, 'resendCode').and.callThrough();
         Util.resetAjaxRequests();
         test.setNextResponse(resResendError);
@@ -199,7 +199,7 @@ Expect.describe('RecoveryChallenge', function () {
         expect(test.router.controller.model.resendCode.calls.count()).toBe(1);
         return Expect.waitForFormError(test.form, test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorBox().length).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
@@ -216,7 +216,7 @@ Expect.describe('RecoveryChallenge', function () {
         test.form.resendButton().click();
         return Expect.waitForAjaxRequest(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorBox().length).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
@@ -227,16 +227,16 @@ Expect.describe('RecoveryChallenge', function () {
         });
       });
   });
-  itp('makes the right auth request when form is submitted', function () {
+  itp('makes the right auth request when form is submitted', function() {
     return setup()
-      .then(function (test) {
+      .then(function(test) {
         Util.resetAjaxRequests();
         test.form.setCode('1234');
         test.setNextResponse(resSuccess);
         test.form.submit();
         return Expect.waitForAjaxRequest(test);
       })
-      .then(function () {
+      .then(function() {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/recovery/factors/SMS/verify',
@@ -247,27 +247,27 @@ Expect.describe('RecoveryChallenge', function () {
         });
       });
   });
-  itp('validates that the code is not empty before submitting', function () {
-    return setup().then(function (test) {
+  itp('validates that the code is not empty before submitting', function() {
+    return setup().then(function(test) {
       Util.resetAjaxRequests();
       test.form.submit();
       expect(Util.numAjaxRequests()).toBe(0);
       expect(test.form.hasErrors()).toBe(true);
     });
   });
-  itp('shows an error msg if there is an error re-sending the code', function () {
+  itp('shows an error msg if there is an error re-sending the code', function() {
     const delay = this.originalDelay;
 
-    _.delay.and.callFake(function (func, wait, args) {
+    _.delay.and.callFake(function(func, wait, args) {
       return delay(func, 0, args);
     });
     return setup()
-      .then(function (test) {
+      .then(function(test) {
         test.setNextResponse(resResendError);
         test.form.resendButton().click();
         return Expect.waitForFormError(test.form, test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
         expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
@@ -295,15 +295,15 @@ Expect.describe('RecoveryChallenge', function () {
         ]);
       });
   });
-  itp('shows an error msg if there is an error submitting the code', function () {
+  itp('shows an error msg if there is an error submitting the code', function() {
     return setup()
-      .then(function (test) {
+      .then(function(test) {
         test.setNextResponse(resVerifyError);
         test.form.setCode('1234');
         test.form.submit();
         return Expect.waitForFormError(test.form, test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
         expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);

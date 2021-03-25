@@ -21,7 +21,7 @@ export default Form.extend({
   layout: 'o-form-theme',
   attributes: { 'data-se': 'factor-totp' },
 
-  initialize: function () {
+  initialize: function() {
     const factorName = this.model.get('factorLabel');
     const maskPasswordField = this.model.get('provider') === 'RSA' || this.model.get('provider') === 'DEL_OATH';
 

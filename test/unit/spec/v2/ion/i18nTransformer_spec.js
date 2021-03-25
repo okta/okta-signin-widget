@@ -3,7 +3,7 @@ import i18nTransformer from 'v2/ion/i18nTransformer';
 import { getMessageKey, getI18NParams } from 'v2/ion/i18nTransformer';
 import Bundles from 'util/Bundles';
 
-describe('v2/ion/i18nTransformer', function () {
+describe('v2/ion/i18nTransformer', function() {
   let originalLoginBundle;
 
   beforeAll(() => {

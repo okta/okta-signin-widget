@@ -29,7 +29,7 @@ export default View.extend({
 
   allRequirements: [],
 
-  initialize: function (options) {
+  initialize: function(options) {
     const policy = options.policy;
 
     if (!policy) {
@@ -39,7 +39,7 @@ export default View.extend({
     this.allRequirements = FactorUtil.getPasswordComplexityDescriptionForHtmlList(policy);
   },
 
-  getTemplateData: function () {
+  getTemplateData: function() {
     return {
       requirements: this.allRequirements,
     };

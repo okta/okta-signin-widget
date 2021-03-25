@@ -13,7 +13,7 @@ import XHRAuthenticatorEnrollOktaVerifyQr from '../../../../../playground/mocks/
 import XHRIdentifyResponse from '../../../../../playground/mocks/data/idp/idx/identify.json';
 import XHRIdentifyWithPasswordResponse from '../../../../../playground/mocks/data/idp/idx/identify-with-password.json';
 
-describe('v2/ion/uiSchemaTransformer', function () {
+describe('v2/ion/uiSchemaTransformer', function() {
   let testContext;
 
   beforeEach(() => {

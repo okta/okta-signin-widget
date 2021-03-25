@@ -18,13 +18,13 @@ const Body = BaseForm.extend({
 
   className: 'device-enrollment-terminal',
 
-  title () {
+  title() {
     return this.enrollmentType === Enums.ODA
       ? loc('enroll.title.oda', 'login')
       : loc('enroll.title.mdm', 'login');
   },
 
-  initialize () {
+  initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
     const deviceEnrollment = this.options.appState.get('deviceEnrollment');
     this.enrollmentType = (deviceEnrollment.name || '').toLowerCase(); // oda/mdm
@@ -41,7 +41,7 @@ const Body = BaseForm.extend({
 
 export default BaseView.extend({
   Body,
-  initialize () {
+  initialize() {
     BaseView.prototype.initialize.apply(this, arguments);
     const deviceEnrollment = this.options.appState.get('deviceEnrollment');
     this.enrollmentType = (deviceEnrollment.name || '').toLowerCase(); // oda/mdm

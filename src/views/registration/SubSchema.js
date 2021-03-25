@@ -15,10 +15,10 @@ import hbs from 'handlebars-inline-precompile';
 const SubSchemaSubSchema = View.extend({
   index: '',
   message: '',
-  class: function () {
+  class: function() {
     return;
   },
-  className: function () {
+  className: function() {
     return 'subschema-unsatisfied subschema-' + this.index;
   },
   template: hbs(
@@ -29,7 +29,7 @@ const SubSchemaSubSchema = View.extend({
       </p>\
     '
   ),
-  getTemplateData: function () {
+  getTemplateData: function() {
     return {
       message: this.message,
     };
@@ -38,8 +38,8 @@ const SubSchemaSubSchema = View.extend({
 export default View.extend({
   className: 'subschema',
 
-  children: function () {
-    return this.subSchemas.map(function (subSchema, index) {
+  children: function() {
+    return this.subSchemas.map(function(subSchema, index) {
       const description = subSchema.get('description');
       const message = description;
       // TODO API should send translated strings instead of i18n code inside description

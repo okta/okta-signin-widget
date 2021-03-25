@@ -18,7 +18,7 @@ import FormType from 'util/FormType';
 import StoreLinks from 'util/StoreLinks';
 import Footer from 'views/enroll-factors/Footer';
 const showWhenDeviceTypeSelected = {
-  __deviceType__: function (val) {
+  __deviceType__: function(val) {
     return val !== undefined;
   },
 };
@@ -31,10 +31,10 @@ const EnrollTotpControllerAppDownloadInstructionsView = View.extend({
       <p class="instructions">{{{appStoreLinkText}}}</p>\
     '
   ),
-  initialize: function () {
+  initialize: function() {
     this.listenTo(this.model, 'change:__deviceType__', this.render);
   },
-  getTemplateData: function () {
+  getTemplateData: function() {
     let appStoreLink;
     let appIcon;
     let appStoreName;
@@ -56,15 +56,15 @@ const EnrollTotpControllerAppDownloadInstructionsView = View.extend({
 });
 const EnrollTotpControllerEnrollTotpController = FormController.extend({
   className: 'enroll-totp',
-  Model: function () {
+  Model: function() {
     return {
       local: {
         __deviceType__: 'string',
         __factorType__: ['string', false, this.options.factorType],
         __provider__: ['string', false, this.options.provider],
       },
-      save: function () {
-        return this.doTransaction(function (transaction) {
+      save: function() {
+        return this.doTransaction(function(transaction) {
           const factor = _.findWhere(transaction.factors, {
             factorType: this.get('__factorType__'),
             provider: this.get('__provider__'),
@@ -77,7 +77,7 @@ const EnrollTotpControllerEnrollTotpController = FormController.extend({
   },
 
   Form: {
-    title: function () {
+    title: function() {
       const factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
 
       return loc('enroll.totp.title', 'login', [factorName]);
@@ -87,7 +87,7 @@ const EnrollTotpControllerEnrollTotpController = FormController.extend({
     noButtonBar: true,
     attributes: { 'data-se': 'step-device-type' },
 
-    formChildren: function () {
+    formChildren: function() {
       const inputOptions = {
         APPLE: loc('iphone', 'login'),
         ANDROID: loc('android', 'login'),

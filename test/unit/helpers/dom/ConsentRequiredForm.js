@@ -1,38 +1,38 @@
 import Form from './Form';
 export default Form.extend({
-  consentTitle: function () {
+  consentTitle: function() {
     return this.$('.consent-title');
   },
 
-  clientLogo: function () {
+  clientLogo: function() {
     return this.consentTitle().find('.client-logo');
   },
 
-  clientLogoLink: function () {
+  clientLogoLink: function() {
     return this.consentTitle().find('.client-logo-link');
   },
 
-  scopeList: function () {
+  scopeList: function() {
     return this.$('.scope-list');
   },
 
-  consentDescription: function () {
+  consentDescription: function() {
     return this.$('.o-form-content .consent-description');
   },
 
-  termsOfService: function () {
+  termsOfService: function() {
     return this.$('.consent-footer .terms-of-service');
   },
 
-  privacyPolicy: function () {
+  privacyPolicy: function() {
     return this.$('.consent-footer .privacy-policy');
   },
 
-  consentButton: function () {
+  consentButton: function() {
     return this.$('.consent-required input[data-type="save"]');
   },
 
-  cancelButton: function () {
+  cancelButton: function() {
     return this.$('.consent-required input[data-type="cancel"]');
   },
 });

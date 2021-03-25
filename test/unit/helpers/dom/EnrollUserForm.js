@@ -1,12 +1,12 @@
 import Form from './Form';
 export default Form.extend({
-  formTitle: function () {
+  formTitle: function() {
     return this.$('.enroll-user .okta-form-title');
   },
-  formButton: function () {
+  formButton: function() {
     return this.$('.enroll-user .button-primary');
   },
-  formInputs: function (field) {
+  formInputs: function(field) {
     return this.inputWrap(field);
   },
 });

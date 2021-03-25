@@ -35,7 +35,7 @@ export default class BasePageObject {
     return Selector(selector).innerText;
   }
 
-  getIonMessages () {
+  getIonMessages() {
     return this.form.getElement(ionMessagesSelector).innerText;
   }
 

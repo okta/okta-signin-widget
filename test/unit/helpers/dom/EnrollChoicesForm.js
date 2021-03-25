@@ -1,30 +1,30 @@
 import { _, $ } from 'okta';
 import Form from './Form';
 export default Form.extend({
-  factorRow: function (factorName) {
+  factorRow: function(factorName) {
     return this.el(factorName);
   },
 
-  factorDescription: function (factorName) {
+  factorDescription: function(factorName) {
     return this.factorRow(factorName).find('.enroll-factor-description');
   },
 
-  factorIconClass: function (factorName) {
+  factorIconClass: function(factorName) {
     const $el = this.factorRow(factorName).find('.enroll-factor-icon');
     const className = $el.attr('class').replace('enroll-factor-icon', '').replace(/\s\s+/g, ' ');
 
     return $.trim(className);
   },
 
-  factorTitle: function (factorName) {
+  factorTitle: function(factorName) {
     return this.factorDescription(factorName).find('h3').trimmedText();
   },
 
-  factorSubtitle: function (factorName) {
+  factorSubtitle: function(factorName) {
     return this.factorDescription(factorName).find('p').trimmedText();
   },
 
-  factorButton: function (factorName, factorsRow) {
+  factorButton: function(factorName, factorsRow) {
     if (factorName) {
       return this.factorRow(factorName).find('.button');
     } else {
@@ -32,7 +32,7 @@ export default Form.extend({
     }
   },
 
-  factorButtonText: function (factorName, factorsRow) {
+  factorButtonText: function(factorName, factorsRow) {
     if (factorName) {
       return this.factorButton(factorName).trimmedText();
     } else {
@@ -40,7 +40,7 @@ export default Form.extend({
     }
   },
 
-  factorCardinalityText: function (factorName, factorsRow) {
+  factorCardinalityText: function(factorName, factorsRow) {
     if (factorName) {
       return this.factorRow(factorName).find('.factor-cardinality').trimmedText();
     } else {
@@ -48,11 +48,11 @@ export default Form.extend({
     }
   },
 
-  isFactorMinimized: function (factorName) {
+  isFactorMinimized: function(factorName) {
     return this.factorRow(factorName).hasClass('enroll-factor-row-min');
   },
 
-  factorHasSuccessCheck: function (factorName, factorsRow) {
+  factorHasSuccessCheck: function(factorName, factorsRow) {
     if (factorName) {
       return this.factorRow(factorName).find('.success-16-green').length > 0;
     } else {
@@ -60,46 +60,46 @@ export default Form.extend({
     }
   },
 
-  factorHasPendingCheck: function (factorName) {
+  factorHasPendingCheck: function(factorName) {
     return this.factorRow(factorName).find('.success-16-gray').length > 0;
   },
 
-  requiredFactorList: function () {
+  requiredFactorList: function() {
     return this.$('.enroll-required-factor-list');
   },
 
-  requiredFactorListTitle: function () {
+  requiredFactorListTitle: function() {
     return this.requiredFactorList().find('.list-title').trimmedText();
   },
 
-  skipSetUpLink: function () {
+  skipSetUpLink: function() {
     return this.$('.enroll-choices').find('.auth-footer .js-skip');
   },
 
-  enrolledFactorList: function () {
+  enrolledFactorList: function() {
     const lists = this.$('.enroll-factor-list');
 
     return lists.length === 2 ? lists.eq(0) : $();
   },
 
-  enrolledFactorListTitle: function () {
+  enrolledFactorListTitle: function() {
     return this.enrolledFactorList().find('.list-title').trimmedText();
   },
 
-  optionalFactorList: function () {
+  optionalFactorList: function() {
     const lists = this.$('.enroll-factor-list').not('.enroll-required-factor-list');
 
     return lists.length === 2 ? lists.eq(1) : lists.eq(0);
   },
 
-  optionalFactorListTitle: function () {
+  optionalFactorListTitle: function() {
     return this.optionalFactorList().find('.list-title').trimmedText();
   },
 
-  getFactorList: function () {
+  getFactorList: function() {
     const factorRows = this.$('.enroll-factor-list .enroll-factor-row');
 
-    return _.map(factorRows, function (row) {
+    return _.map(factorRows, function(row) {
       return $(row).attr('data-se');
     });
   },

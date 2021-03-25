@@ -26,7 +26,7 @@ export default View.extend({
     '
   ),
 
-  postRender: function () {
+  postRender: function() {
     this.$('.scope-item-tooltip').qtip({
       content: {
         text: this.options.description,

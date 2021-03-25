@@ -23,7 +23,7 @@ const PUSH_INTERVAL = 6000;
 
 export default FormController.extend({
   className: 'barcode-push',
-  Model: function () {
+  Model: function() {
     return {
       local: {
         __factorType__: ['string', false, this.options.factorType],
@@ -33,7 +33,7 @@ export default FormController.extend({
   },
 
   Form: {
-    title: function () {
+    title: function() {
       const factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
 
       return loc('enroll.totp.title', 'login', [factorName]);
@@ -41,8 +41,8 @@ export default FormController.extend({
     noButtonBar: true,
     attributes: { 'data-se': 'step-scan' },
     className: 'barcode-scan',
-    initialize: function () {
-      this.listenTo(this.model, 'error errors:clear', function () {
+    initialize: function() {
+      this.listenTo(this.model, 'error errors:clear', function() {
         this.clearErrors();
       });
     },
@@ -52,17 +52,17 @@ export default FormController.extend({
 
   Footer: Footer,
 
-  initialize: function () {
+  initialize: function() {
     this.pollForEnrollment();
   },
 
-  pollForEnrollment: function () {
-    return this.model.doTransaction(function (transaction) {
+  pollForEnrollment: function() {
+    return this.model.doTransaction(function(transaction) {
       return transaction.poll(PUSH_INTERVAL);
     });
   },
 
-  trapAuthResponse: function () {
+  trapAuthResponse: function() {
     if (this.options.appState.get('isMfaEnrollActivate')) {
       return true;
     }

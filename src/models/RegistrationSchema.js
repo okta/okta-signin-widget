@@ -13,12 +13,12 @@
 import { _, BaseModel, internal } from 'okta';
 let { BaseSchema, SchemaProperty } = internal.models;
 const RegistrationSchemaRegistrationSchemaPropertyCollection = SchemaProperty.Collection.extend({
-  createModelProperties: function () {
+  createModelProperties: function() {
     const modelProperties = SchemaProperty.Collection.prototype.createModelProperties.apply(this);
 
     _.each(
       modelProperties,
-      function (modelProperty, name) {
+      function(modelProperty, name) {
         modelProperty.required = !!this.get(name).get('required');
       },
       this
@@ -29,19 +29,19 @@ const RegistrationSchemaRegistrationSchemaPropertyCollection = SchemaProperty.Co
 export default BaseSchema.Model.extend({
   expand: ['schema'],
 
-  constructor: function () {
+  constructor: function() {
     this.properties = new RegistrationSchemaRegistrationSchemaPropertyCollection();
     BaseModel.apply(this, arguments);
   },
 
-  parse: function (resp) {
+  parse: function(resp) {
     const parseResponseData = resp => {
       const requireFields = resp.schema.required;
 
       if (_.isArray(requireFields)) {
         _.each(
           requireFields,
-          function (requireField) {
+          function(requireField) {
             const field = this.properties.get(requireField);
 
             if (field) {
@@ -57,7 +57,7 @@ export default BaseSchema.Model.extend({
       if (_.isArray(fieldOrderIds)) {
         _.each(
           fieldOrderIds,
-          function (fieldOrderId, sortOrder) {
+          function(fieldOrderId, sortOrder) {
             const field = this.properties.get(fieldOrderId);
 
             if (field) {
@@ -76,7 +76,7 @@ export default BaseSchema.Model.extend({
     const self = this;
     this.settings.parseRegistrationSchema(
       resp,
-      function (resp) {
+      function(resp) {
         if (resp.profileSchema) {
           resp.schema = resp.profileSchema;
           BaseSchema.Model.prototype.parse.apply(self, [resp]);
@@ -84,7 +84,7 @@ export default BaseSchema.Model.extend({
         }
         self.trigger('parseComplete', { properties: self.properties });
       },
-      function (error) {
+      function(error) {
         self.trigger('parseComplete', { properties: self.properties, error: error });
       }
     );

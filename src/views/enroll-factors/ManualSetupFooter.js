@@ -27,26 +27,26 @@ export default View.extend({
   ),
   className: 'auth-footer',
   events: {
-    'click .js-back': function (e) {
+    'click .js-back': function(e) {
       e.preventDefault();
       this.back();
     },
-    'click .js-goto': function (e) {
+    'click .js-goto': function(e) {
       e.preventDefault();
       // go to a different screen with current auth status:
       // refresh the latest response
-      this.model.startTransaction(function (authClient) {
+      this.model.startTransaction(function(authClient) {
         return authClient.tx.resume();
       });
     },
   },
-  back: function () {
+  back: function() {
     this.state.set('navigateDir', Enums.DIRECTION_BACK);
     if (this.options.appState.get('prevLink')) {
       // Once we are in the MFA_ENROLL_ACTIVATE, we need to reset to the
       // correct state. Fortunately, this means that the router will
       // handle navigation once the request is finished.
-      this.model.doTransaction(function (transaction) {
+      this.model.doTransaction(function(transaction) {
         return transaction.prev();
       });
     } else {

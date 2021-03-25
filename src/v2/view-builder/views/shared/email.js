@@ -1,6 +1,6 @@
 import { loc } from 'okta';
 export default {
-  title () {
+  title() {
     return loc('oie.email.mfa.title', 'login');
   }
 };

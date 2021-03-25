@@ -36,11 +36,11 @@ const FactorListFactorRow = View.extend({
     '
   ),
 
-  attributes: function () {
+  attributes: function() {
     return { 'data-se': this.model.get('factorName') };
   },
 
-  children: function () {
+  children: function() {
     const children = [];
     const enrolled = this.model.get('enrolled');
     const required = this.model.get('required');
@@ -52,7 +52,7 @@ const FactorListFactorRow = View.extend({
           createButton({
             className: 'button',
             title: this.getSetupButtonText(),
-            click: function () {
+            click: function() {
               this.options.appState.trigger(
                 'navigate',
                 RouterUtil.createEnrollFactorUrl(this.model.get('provider'), this.model.get('factorType'))
@@ -76,15 +76,15 @@ const FactorListFactorRow = View.extend({
     return children;
   },
 
-  minimize: function () {
+  minimize: function() {
     this.$el.addClass('enroll-factor-row-min');
   },
 
-  maximize: function () {
+  maximize: function() {
     this.$el.removeClass('enroll-factor-row-min');
   },
 
-  getSetupButtonText: function () {
+  getSetupButtonText: function() {
     return this.model.get('additionalEnrollment')
       ? loc('enroll.choices.setup.another', 'login')
       : loc('enroll.choices.setup', 'login');
@@ -106,14 +106,14 @@ export default ListView.extend({
     '
   ),
 
-  getTemplateData: function () {
+  getTemplateData: function() {
     const json = ListView.prototype.getTemplateData.call(this);
 
     _.extend(json, this);
     return json;
   },
 
-  postRender: function () {
+  postRender: function() {
     if (this.options.minimize) {
       this.invoke('minimize');
     }

@@ -25,7 +25,7 @@ export default FormController.extend({
       rememberDevice: 'boolean',
     },
 
-    initialize: function () {
+    initialize: function() {
       const rememberDevice = FactorUtil.getRememberDeviceValue(this.appState);
 
       // set the initial value for remember device (Cannot do this while defining the
@@ -33,7 +33,7 @@ export default FormController.extend({
       this.set('rememberDevice', rememberDevice);
     },
 
-    save: function () {
+    save: function() {
       const rememberDevice = !!this.get('rememberDevice');
 
       return this.manageTransaction((transaction, setTransaction) => {
@@ -56,14 +56,14 @@ export default FormController.extend({
               Util.redirect(url);
             }
           })
-          .catch(function (err) {
+          .catch(function(err) {
             throw err;
           });
       });
     },
   },
 
-  Form: function () {
+  Form: function() {
     const factors = this.options.appState.get('factors');
     const factor = factors.findWhere({
       provider: this.options.provider,
@@ -79,7 +79,7 @@ export default FormController.extend({
       save: saveText,
       subtitle: subtitle,
       attributes: { 'data-se': 'factor-custom' },
-      initialize: function () {
+      initialize: function() {
         if (this.options.appState.get('allowRememberDevice')) {
           this.addInput({
             label: false,
@@ -91,7 +91,7 @@ export default FormController.extend({
           });
         }
       },
-      formChildren: function () {
+      formChildren: function() {
         const result = [];
         const lastFailedChallengeFactorData = this.options.appState.get('lastFailedChallengeFactorData');
 
@@ -108,20 +108,20 @@ export default FormController.extend({
     };
   },
 
-  trapAuthResponse: function () {
+  trapAuthResponse: function() {
     if (this.options.appState.get('isMfaChallenge')) {
       return true;
     }
   },
 
-  back: function () {
+  back: function() {
     // Empty function on verify controllers to prevent users
     // from navigating back during 'verify' using the browser's
     // back button. The URL will still change, but the view will not
     // More details in OKTA-135060.
   },
 
-  initialize: function () {
+  initialize: function() {
     this.model.set('provider', this.options.provider);
     this.model.set('factorType', this.options.factorType);
     this.addFooter(FooterMFA);

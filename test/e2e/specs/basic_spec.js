@@ -14,16 +14,16 @@ const PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
     OktaHomePage = require('../page-objects/OktaHomePage'),
     util = require('../util/util');
 
-describe('Basic flows', function () {
+describe('Basic flows', function() {
   const primaryAuth = new PrimaryAuthPage();
 
-  beforeEach(function () {
+  beforeEach(function() {
     browser.driver.get('about:blank');
     browser.ignoreSynchronization = true;
     util.loadTestPage('basic');
   });
 
-  it('can hide, show, remove, and start a widget', function () {
+  it('can hide, show, remove, and start a widget', function() {
     // Ensure the widget exists
     const el = element(by.css('#okta-sign-in'));
     const signInTitle = element(by.css('[data-se="o-form-head"]'));
@@ -43,7 +43,7 @@ describe('Basic flows', function () {
     expect(el.isPresent()).toBe(false);
 
     // Ensure a new widget can be created
-    function createWidget () {
+    function createWidget() {
       options.i18n = {
         en: {
           'primaryauth.title': 'Sign In to Acme'
@@ -53,14 +53,14 @@ describe('Basic flows', function () {
       oktaSignIn = new OktaSignIn(options);
       oktaSignIn.renderEl({
         el: '#okta-login-container'
-      }, function () {});
+      }, function() {});
     }
     browser.executeScript(createWidget);
     expect(el.isDisplayed()).toBe(true);
     expect(signInTitle.getText()).toBe('Sign In to Acme');
   });
 
-  it('modifies the error banner using an afterError event', function () {
+  it('modifies the error banner using an afterError event', function() {
     // Ensure the widget exists
     const el = element(by.css('#okta-sign-in'));
     expect(el.isDisplayed()).toBe(true);
@@ -71,7 +71,7 @@ describe('Basic flows', function () {
     expect(errorBox.getText()).toBe('Custom Error!');
   });
 
-  it('has the style from config.colors', function () {
+  it('has the style from config.colors', function() {
     /*global browserName*/
     // In IE, primaryButton.getCssValue('background') is empty. Expectation on line 97 fails
     if (browserName === 'internet explorer') {
@@ -80,7 +80,7 @@ describe('Basic flows', function () {
 
     // Create new widget with colors.brand
     browser.executeScript('oktaSignIn.remove()');
-    function createWidget () {
+    function createWidget() {
       options.colors = {
         brand: '#008000'
       };
@@ -88,7 +88,7 @@ describe('Basic flows', function () {
       oktaSignIn = new OktaSignIn(options);
       oktaSignIn.renderEl({
         el: '#okta-login-container'
-      }, function () {});
+      }, function() {});
     }
     browser.executeScript(createWidget);
 
@@ -97,9 +97,9 @@ describe('Basic flows', function () {
     expect(primaryButton.getCssValue('background')).toContain(('rgb(0, 128, 0)')); // #008000 in rgb
   });
 
-  it('redircts to successful page when features.redirectByFormSubmit is on', function () {
+  it('redircts to successful page when features.redirectByFormSubmit is on', function() {
     browser.executeScript('oktaSignIn.remove()');
-    function createWidget () {
+    function createWidget() {
       options.features = {
         redirectByFormSubmit: true,
       };
@@ -107,7 +107,7 @@ describe('Basic flows', function () {
       oktaSignIn = new OktaSignIn(options);
       oktaSignIn.renderEl({
         el: '#okta-login-container'
-      }, function (res) {
+      }, function(res) {
         if (res.status === 'SUCCESS') {
           res.session.setCookieAndRedirect(options.baseUrl + '/app/UserHome');
         }

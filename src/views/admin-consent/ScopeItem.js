@@ -22,7 +22,7 @@ export default View.extend({
     <span class="scope-item-tooltip icon form-help-16" />
     {{/if}}`,
 
-  postRender: function () {
+  postRender: function() {
     this.$('.scope-item-tooltip').qtip({
       content: {
         text: this.options.description

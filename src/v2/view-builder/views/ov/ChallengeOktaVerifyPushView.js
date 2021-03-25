@@ -18,17 +18,17 @@ const Body = BaseForm.extend(Object.assign(
 
     className: 'okta-verify-push-challenge',
 
-    title () {
+    title() {
       return loc('oie.okta_verify.push.title', 'login');
     },
 
-    initialize () {
+    initialize() {
       BaseForm.prototype.initialize.apply(this, arguments);
       this.listenTo(this.model, 'error', this.stopPoll);
       this.addView();
     },
 
-    addView () {
+    addView() {
       this.add(createButton({
         className: 'button button-wide button-primary send-push link-button-disabled',
         title: loc('oie.okta_verify.push.sent', 'login'),
@@ -41,35 +41,35 @@ const Body = BaseForm.extend(Object.assign(
       );
     },
 
-    postRender () {
+    postRender() {
       this.startPoll();
     },
 
-    startPoll () {
+    startPoll() {
       this.startPolling();
-      this.warningTimeout = setTimeout(_.bind(function () {
+      this.warningTimeout = setTimeout(_.bind(function() {
         this.showWarning(loc('oktaverify.warning', 'login'));
       }, this), WARNING_TIMEOUT);
     },
 
-    stopPoll () {
+    stopPoll() {
       this.stopPolling();
       this.clearWarning();
     },
 
-    showWarning (msg) {
+    showWarning(msg) {
       this.clearWarning();
       this.add(warningTemplate, '.o-form-error-container', {options: {warning: msg}});
     },
 
-    clearWarning () {
+    clearWarning() {
       if (this.$('.o-form-error-container div').hasClass('okta-form-infobox-warning')) {
         this.$('.okta-form-infobox-warning').remove();
       }
       clearTimeout(this.warningTimeout);
     },
 
-    remove () {
+    remove() {
       BaseForm.prototype.remove.apply(this, arguments);
       this.stopPolling();
     },

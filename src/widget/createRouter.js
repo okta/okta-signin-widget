@@ -1,7 +1,7 @@
 import { $ } from 'okta';
 import Enums from 'util/Enums';
 
-export default function createRouter (Router, widgetOptions, renderOptions, authClient, successFn, errorFn) {
+export default function createRouter(Router, widgetOptions, renderOptions, authClient, successFn, errorFn) {
   let router;
   let routerOptions;
   const promise = new Promise((resolve, reject) => {

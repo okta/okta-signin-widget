@@ -107,7 +107,7 @@ const testData = {
   },
 };
 
-function setup (settings) {
+function setup(settings) {
   settings || (settings = {});
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
@@ -132,7 +132,7 @@ function setup (settings) {
 
   Util.registerRouter(router);
   router.on('afterError', afterErrorHandler);
-  spyOn(RegSchema.prototype, 'fetch').and.callFake(function () {
+  spyOn(RegSchema.prototype, 'fetch').and.callFake(function() {
     this.set(this.parse(testData));
     return $.Deferred().resolve();
   });
@@ -148,14 +148,14 @@ function setup (settings) {
   });
 }
 
-Expect.describe('Registration', function () {
-  Expect.describe('settings', function () {
-    itp('uses default title', function () {
-      return setup().then(function (test) {
+Expect.describe('Registration', function() {
+  Expect.describe('settings', function() {
+    itp('uses default title', function() {
+      return setup().then(function(test) {
         expect(test.form.titleText()).toEqual('Create Account');
       });
     });
-    itp('uses custom title', function () {
+    itp('uses custom title', function() {
       const config = {
         i18n: {
           en: {
@@ -164,16 +164,16 @@ Expect.describe('Registration', function () {
         },
       };
 
-      return setup(config).then(function (test) {
+      return setup(config).then(function(test) {
         expect(test.form.titleText()).toEqual('Custom Form Title');
       });
     });
-    itp('uses default for submit', function () {
-      return setup().then(function (test) {
+    itp('uses default for submit', function() {
+      return setup().then(function(test) {
         expect(test.form.submitButtonText()).toEqual('Register');
       });
     });
-    itp('uses custom text for submit', function () {
+    itp('uses custom text for submit', function() {
       const config = {
         i18n: {
           en: {
@@ -182,12 +182,12 @@ Expect.describe('Registration', function () {
         },
       };
 
-      return setup(config).then(function (test) {
+      return setup(config).then(function(test) {
         expect(test.form.submitButtonText()).toEqual('Custom Register Button');
       });
     });
-    itp('policyid is retrieved from default org policy', function () {
-      return setup().then(function (test) {
+    itp('policyid is retrieved from default org policy', function() {
+      return setup().then(function(test) {
         test.form.setUserName('test@example.com');
         test.form.setPassword('Abcd1234');
         test.form.setFirstname('firstName');
@@ -202,8 +202,8 @@ Expect.describe('Registration', function () {
         expect(test.router.controller.model.settings.get('defaultPolicyId')).toContain('1234');
       });
     });
-    itp('policyid from form settings is used instead of default org policy', function () {
-      return setup().then(function (test) {
+    itp('policyid from form settings is used instead of default org policy', function() {
+      return setup().then(function(test) {
         test.form.setUserName('test@example.com');
         test.form.setPassword('Abcd1234');
         test.form.setFirstname('firstName');
@@ -219,10 +219,10 @@ Expect.describe('Registration', function () {
         expect(test.router.controller.model.settings.get('policyId')).toContain('5678');
       });
     });
-    itp('sends relay state with registration post if set', function () {
+    itp('sends relay state with registration post if set', function() {
       return setup({
         relayState: '%2Fapp%2FUserHome',
-      }).then(function (test) {
+      }).then(function(test) {
         Util.resetAjaxRequests();
         test.form.setUserName('test@example.com');
         test.form.setPassword('Abcd1234');
@@ -232,8 +232,8 @@ Expect.describe('Registration', function () {
         expect(postData.relayState).toBe('%2Fapp%2FUserHome');
       });
     });
-    itp('sends relay state as undefined string with registration post if not set', function () {
-      return setup().then(function (test) {
+    itp('sends relay state as undefined string with registration post if not set', function() {
+      return setup().then(function(test) {
         Util.resetAjaxRequests();
         test.form.setUserName('test@example.com');
         test.form.setPassword('Abcd1234');
@@ -243,14 +243,14 @@ Expect.describe('Registration', function () {
         expect(postData.relayState).toBeUndefined();
       });
     });
-    itp('duplicate email address in org error message is localized by widget', function () {
+    itp('duplicate email address in org error message is localized by widget', function() {
       return setup({
         i18n: {
           en: {
             'registration.error.userName.notUniqueWithinOrg': 'Custom duplicate account error message',
           }
         }
-      }).then(function (test) {
+      }).then(function(test) {
         Util.resetAjaxRequests();
         test.form.setUserName('test@example.com');
         test.form.setPassword('Abcd1234');
@@ -261,71 +261,71 @@ Expect.describe('Registration', function () {
         test.form.submit();
 
         return Expect.waitForFormErrorBox(test.form, test);
-      }).then(function (test) {
+      }).then(function(test) {
         expect(test.form.errorBox().length).toBe(1);
         expect(test.form.errorBox().text().trim()).toBe('Custom duplicate account error message');
       });
     });
   });
 
-  Expect.describe('elements', function () {
-    itp('has a firstname field', function () {
-      return setup().then(function (test) {
+  Expect.describe('elements', function() {
+    itp('has a firstname field', function() {
+      return setup().then(function(test) {
         const firstname = test.form.firstnameField();
 
         expect(firstname.length).toBe(1);
         expect(firstname.attr('type')).toEqual('text');
       });
     });
-    itp('has a lastname field', function () {
-      return setup().then(function (test) {
+    itp('has a lastname field', function() {
+      return setup().then(function(test) {
         const lastname = test.form.lastnameField();
 
         expect(lastname.length).toBe(1);
         expect(lastname.attr('type')).toEqual('text');
       });
     });
-    itp('has a username field', function () {
-      return setup().then(function (test) {
+    itp('has a username field', function() {
+      return setup().then(function(test) {
         const userName = test.form.userNameField();
 
         expect(userName.length).toBe(1);
         expect(userName.attr('type')).toEqual('text');
       });
     });
-    itp('has a preferredLanguage field', function () {
-      return setup().then(function (test) {
+    itp('has a preferredLanguage field', function() {
+      return setup().then(function(test) {
         const preferredLanguage = test.form.input('preferredLanguage');
 
         expect(preferredLanguage.length).toBe(1);
         expect(preferredLanguage.attr('type')).toEqual('text');
       });
     });
-    itp('has a countryCode field', function () {
-      return setup().then(function (test) {
+    itp('has a countryCode field', function() {
+      return setup().then(function(test) {
         const countryCode = test.form.input('countryCode');
 
         expect(countryCode.length).toBe(1);
         expect(countryCode.attr('type')).toEqual('text');
       });
     });
-    itp('has a password field', function () {
-      return setup().then(function (test) {
+    itp('has a password field', function() {
+      return setup().then(function(test) {
         const password = test.form.passwordField();
 
         expect(password.length).toBe(1);
         expect(password.attr('type')).toEqual('password');
       });
     });
-    itp('shows label for required field', function () {
-      return setup().then(function (test) {
+    itp('shows label for required field', function() {
+      return setup().then(function(test) {
         const requiredLabel = test.form.requiredFieldLabel();
 
         expect(requiredLabel).toBe('* indicates required field');
       });
     });
-    itp('shows * next to placeholder for required field', function () {
-      return setup().then(function (test) {
+    itp('shows * next to placeholder for required field', function() {
+      return setup().then(function(test) {
         const firstNamePlaceholder = test.form.fieldPlaceholder('firstName');
 
         expect(firstNamePlaceholder).toContain('*');
@@ -348,15 +348,15 @@ Expect.describe('Registration', function () {
     });
   });
 
-  Expect.describe('events', function () {
-    itp('shows an error if email is empty and register', function () {
-      return setup().then(function (test) {
+  Expect.describe('events', function() {
+    itp('shows an error if email is empty and register', function() {
+      return setup().then(function(test) {
         test.form.submit();
         expect(test.form.userNameErrorField().length).toBe(1);
       });
     });
-    itp('shows an error if firstname is too long', function () {
-      return setup().then(function (test) {
+    itp('shows an error if firstname is too long', function() {
+      return setup().then(function(test) {
         test.form.setFirstname(Util.LoremIpsum);
         test.form.submit();
         expect(test.form.firstnameErrorField().length).toBe(1);
@@ -364,9 +364,9 @@ Expect.describe('Registration', function () {
     });
   });
 
-  Expect.describe('password complexity', function () {
-    itp('Does not show password complexity error on load', function () {
-      return setup().then(function (test) {
+  Expect.describe('password complexity', function() {
+    itp('Does not show password complexity error on load', function() {
+      return setup().then(function(test) {
         expect(test.form.hasPasswordComplexityUnsatisfied('0')).toBe(false);
         expect(test.form.hasPasswordComplexityUnsatisfied('1')).toBe(false);
         expect(test.form.hasPasswordComplexityUnsatisfied('2')).toBe(false);
@@ -374,8 +374,8 @@ Expect.describe('Registration', function () {
         expect(test.form.hasPasswordComplexityUnsatisfied('4')).toBe(false);
       });
     });
-    itp('shows password complexity satisfied if it is satisfied', function () {
-      return setup().then(function (test) {
+    itp('shows password complexity satisfied if it is satisfied', function() {
+      return setup().then(function(test) {
         test.form.setUserName('test@example.com');
         test.form.setPassword('Abcd');
         test.form.focusOutPassword();
@@ -386,8 +386,8 @@ Expect.describe('Registration', function () {
         expect(test.form.hasPasswordComplexitySatisfied('4')).toBe(true);
       });
     });
-    itp('shows password complexity error if focus out and not satisfied', function () {
-      return setup().then(function (test) {
+    itp('shows password complexity error if focus out and not satisfied', function() {
+      return setup().then(function(test) {
         test.form.setUserName('test@example.com');
         test.form.setPassword('12345678');
         test.form.focusOutPassword();
@@ -405,8 +405,8 @@ Expect.describe('Registration', function () {
         );
       });
     });
-    itp('shows no password complexity error if focus out and satisfied all conditions', function () {
-      return setup().then(function (test) {
+    itp('shows no password complexity error if focus out and satisfied all conditions', function() {
+      return setup().then(function(test) {
         test.form.setUserName('test@example.com');
         test.form.setPassword('Abcd1234');
         test.form.focusOutPassword();
@@ -417,8 +417,8 @@ Expect.describe('Registration', function () {
         expect(test.form.hasPasswordComplexitySatisfied('4')).toBe(true);
       });
     });
-    itp('shows no password complexity section if no password entered', function () {
-      return setup().then(function (test) {
+    itp('shows no password complexity section if no password entered', function() {
+      return setup().then(function(test) {
         test.form.setUserName('test@example.com');
         test.form.setPassword('');
         test.form.focusOutPassword();
@@ -429,8 +429,8 @@ Expect.describe('Registration', function () {
         expect(test.form.isPasswordComplexitySectionHidden('4')).toBe(true);
       });
     });
-    itp('shows password complexity section if password entered', function () {
-      return setup().then(function (test) {
+    itp('shows password complexity section if password entered', function() {
+      return setup().then(function(test) {
         test.form.setUserName('test@example.com');
         test.form.setPassword('Abcd1234');
         test.form.focusOutPassword();
@@ -441,8 +441,8 @@ Expect.describe('Registration', function () {
         expect(test.form.isPasswordComplexitySectionHidden('4')).toBe(false);
       });
     });
-    itp('shows error if password contains part of the username:testing', function () {
-      return setup().then(function (test) {
+    itp('shows error if password contains part of the username:testing', function() {
+      return setup().then(function(test) {
         test.form.setUserName('testing');
         test.form.setPassword('Testing1234');
         test.form.focusOutPassword();
@@ -470,8 +470,8 @@ Expect.describe('Registration', function () {
         expect(test.form.passwordContainsUsernameError()).toBe(false);
       });
     });
-    itp('shows error if password contains part of username:testing1234@okta.com', function () {
-      return setup().then(function (test) {
+    itp('shows error if password contains part of username:testing1234@okta.com', function() {
+      return setup().then(function(test) {
         test.form.setUserName('testing1234@okta.com');
         test.form.setPassword('Testing1234');
         test.form.focusOutPassword();
@@ -496,8 +496,8 @@ Expect.describe('Registration', function () {
         expect(test.form.passwordContainsUsernameError()).toBe(true);
       });
     });
-    itp('shows error if password contains part of the username:testing_123', function () {
-      return setup().then(function (test) {
+    itp('shows error if password contains part of the username:testing_123', function() {
+      return setup().then(function(test) {
         test.form.setUserName('testing_123');
         test.form.setPassword('testing');
         test.form.focusOutPassword();
@@ -519,8 +519,8 @@ Expect.describe('Registration', function () {
         expect(test.form.passwordContainsUsernameError()).toBe(true);
       });
     });
-    itp('shows error if password contains part of username:first-last.name@okta.com', function () {
-      return setup().then(function (test) {
+    itp('shows error if password contains part of username:first-last.name@okta.com', function() {
+      return setup().then(function(test) {
         test.form.setUserName('first-last.name@okta.com');
         test.form.setPassword('Abcd1234');
         test.form.focusOutPassword();
@@ -536,8 +536,8 @@ Expect.describe('Registration', function () {
         expect(test.form.passwordContainsUsernameError()).toBe(true);
       });
     });
-    itp('shows error if password contains part of email:testing1234@okta.com', function () {
-      return setup().then(function (test) {
+    itp('shows error if password contains part of email:testing1234@okta.com', function() {
+      return setup().then(function(test) {
         test.form.setEmail('testing1234@okta.com');
         test.form.setPassword('Testing1234');
         test.form.focusOutPassword();
@@ -562,8 +562,8 @@ Expect.describe('Registration', function () {
         expect(test.form.passwordContainsUsernameError()).toBe(true);
       });
     });
-    itp('shows error if password contains part of email:first-last.name@okta.com', function () {
-      return setup().then(function (test) {
+    itp('shows error if password contains part of email:first-last.name@okta.com', function() {
+      return setup().then(function(test) {
         test.form.setEmail('first-last.name@okta.com');
         test.form.setPassword('Abcd1234');
         test.form.focusOutPassword();
@@ -579,8 +579,8 @@ Expect.describe('Registration', function () {
         expect(test.form.passwordContainsUsernameError()).toBe(true);
       });
     });
-    itp('hides password complexity error if password does not contain part of the username', function () {
-      return setup().then(function (test) {
+    itp('hides password complexity error if password does not contain part of the username', function() {
+      return setup().then(function(test) {
         test.form.setUserName('user@example.com');
         test.form.setPassword('Abcd1234');
         test.form.focusOutPassword();
@@ -588,8 +588,8 @@ Expect.describe('Registration', function () {
       });
     });
 
-    itp('shows password complexity error if username is entered after password', function () {
-      return setup().then(function (test) {
+    itp('shows password complexity error if username is entered after password', function() {
+      return setup().then(function(test) {
         test.form.setPassword('Abcd1234');
         test.form.focusOutPassword();
         test.form.setUserName('abcd@example.com');
@@ -598,7 +598,7 @@ Expect.describe('Registration', function () {
     });
   });
 
-  const expectRegCallbackError = function (test, callback, message) {
+  const expectRegCallbackError = function(test, callback, message) {
     const errMsg = callback + ':' + message;
 
     expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
@@ -613,7 +613,7 @@ Expect.describe('Registration', function () {
     ]);
   };
 
-  const expectRegApiError = function (test, message) {
+  const expectRegApiError = function(test, message) {
     expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
     expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
       {
@@ -626,25 +626,25 @@ Expect.describe('Registration', function () {
     ]);
   };
 
-  Expect.describe('Registration callback hooks', function () {
+  Expect.describe('Registration callback hooks', function() {
     const DEFAULT_CALLBACK_ERROR = 'We could not process your registration at this time. Please try again later.';
 
-    itp('calls parseSchema if registration.parseSchema defined in config', function () {
+    itp('calls parseSchema if registration.parseSchema defined in config', function() {
       const setting = {
         registration: {
           parseSchema: jasmine.createSpy('parseSchemaSpy'),
         },
       };
 
-      return setup(setting).then(function () {
+      return setup(setting).then(function() {
         expect(setting.registration.parseSchema).toHaveBeenCalled();
       });
     });
-    itp('calls parseSchema if registration.parseSchema is defined and parseSchema calls onSuccess', function () {
+    itp('calls parseSchema if registration.parseSchema is defined and parseSchema calls onSuccess', function() {
       const parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
       const setting = {
         registration: {
-          parseSchema: function (resp, onSuccess, onFailure) {
+          parseSchema: function(resp, onSuccess, onFailure) {
             parseSchemaSpy(resp, onSuccess, onFailure);
             onSuccess(resp);
           },
@@ -652,7 +652,7 @@ Expect.describe('Registration', function () {
         },
       };
 
-      return setup(setting).then(function (test) {
+      return setup(setting).then(function(test) {
         Util.resetAjaxRequests();
         test.form.setUserName('test@example.com');
         test.form.setPassword('Abcd1234');
@@ -664,11 +664,11 @@ Expect.describe('Registration', function () {
         expect(setting.registration.preSubmit).toHaveBeenCalled();
       });
     });
-    itp('parseSchema updates the schema correctly and calls onSuccess', function () {
+    itp('parseSchema updates the schema correctly and calls onSuccess', function() {
       const parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
       const setting = {
         registration: {
-          parseSchema: function (schema, onSuccess, onFailure) {
+          parseSchema: function(schema, onSuccess, onFailure) {
             parseSchemaSpy(schema, onSuccess, onFailure);
             schema.profileSchema.properties.zip = {
               type: 'string',
@@ -683,17 +683,17 @@ Expect.describe('Registration', function () {
         },
       };
 
-      return setup(setting).then(function (test) {
+      return setup(setting).then(function(test) {
         Util.resetAjaxRequests();
         expect(test.form.getFieldByName('zip').length).toBe(1);
         expect(test.form.fieldPlaceholder('zip')).toBe('Zip');
       });
     });
-    itp(' does not call preSubmit if parseSchema calls onFailure with default error', function () {
+    itp(' does not call preSubmit if parseSchema calls onFailure with default error', function() {
       const parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
       const setting = {
         registration: {
-          parseSchema: function (resp, onSuccess, onFailure) {
+          parseSchema: function(resp, onSuccess, onFailure) {
             parseSchemaSpy(resp, onSuccess, onFailure);
             onFailure();
           },
@@ -701,7 +701,7 @@ Expect.describe('Registration', function () {
         },
       };
 
-      return setup(setting).then(function (test) {
+      return setup(setting).then(function(test) {
         Util.resetAjaxRequests();
         test.form.setUserName('test@example.com');
         test.form.setPassword('Abcd1234');
@@ -713,11 +713,11 @@ Expect.describe('Registration', function () {
         expectRegCallbackError(test, 'parseSchema', DEFAULT_CALLBACK_ERROR);
       });
     });
-    itp(' does not call preSubmit if parseSchema calls onFailure with custom form level error', function () {
+    itp(' does not call preSubmit if parseSchema calls onFailure with custom form level error', function() {
       const parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
       const setting = {
         registration: {
-          parseSchema: function (resp, onSuccess, onFailure) {
+          parseSchema: function(resp, onSuccess, onFailure) {
             parseSchemaSpy(resp, onSuccess, onFailure);
             const errorObject = {
               errorSummary: 'Custom form level parseSchema error message',
@@ -729,7 +729,7 @@ Expect.describe('Registration', function () {
         },
       };
 
-      return setup(setting).then(function (test) {
+      return setup(setting).then(function(test) {
         Util.resetAjaxRequests();
         test.form.setUserName('test@example.com');
         test.form.setPassword('Abcd1234');
@@ -742,12 +742,12 @@ Expect.describe('Registration', function () {
         expectRegCallbackError(test, 'parseSchema', 'Custom form level parseSchema error message');
       });
     });
-    itp('preSubmit modifies postData correctly before submit', function () {
+    itp('preSubmit modifies postData correctly before submit', function() {
       const parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
       const preSubmitSpy = jasmine.createSpy('preSubmitSpy');
       const setting = {
         registration: {
-          parseSchema: function (schema, onSuccess, onFailure) {
+          parseSchema: function(schema, onSuccess, onFailure) {
             parseSchemaSpy(schema, onSuccess, onFailure);
             schema.profileSchema.properties.zip = {
               type: 'string',
@@ -766,7 +766,7 @@ Expect.describe('Registration', function () {
             };
             onSuccess(schema);
           },
-          preSubmit: function (postData, onSuccess, onFailure) {
+          preSubmit: function(postData, onSuccess, onFailure) {
             preSubmitSpy(postData, onSuccess, onFailure);
             postData.userName += '@example.com';
             onSuccess(postData);
@@ -775,7 +775,7 @@ Expect.describe('Registration', function () {
         },
       };
 
-      return setup(setting).then(function (test) {
+      return setup(setting).then(function(test) {
         Util.resetAjaxRequests();
         expect(test.form.getFieldByName('zip').length).toBe(1);
         expect(test.form.fieldPlaceholder('zip')).toBe('Zip');
@@ -802,16 +802,16 @@ Expect.describe('Registration', function () {
         expect(setting.registration.postSubmit).toHaveBeenCalled();
       });
     });
-    itp('calls postSubmit when parseSchema and preSubmit call onSuccess', function () {
+    itp('calls postSubmit when parseSchema and preSubmit call onSuccess', function() {
       const parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
       const preSubmitSpy = jasmine.createSpy('preSubmitSpy');
       const setting = {
         registration: {
-          parseSchema: function (resp, onSuccess, onFailure) {
+          parseSchema: function(resp, onSuccess, onFailure) {
             parseSchemaSpy(resp, onSuccess, onFailure);
             onSuccess(resp);
           },
-          preSubmit: function (postData, onSuccess, onFailure) {
+          preSubmit: function(postData, onSuccess, onFailure) {
             preSubmitSpy(postData, onSuccess, onFailure);
             onSuccess(postData);
           },
@@ -819,7 +819,7 @@ Expect.describe('Registration', function () {
         },
       };
 
-      return setup(setting).then(function (test) {
+      return setup(setting).then(function(test) {
         Util.resetAjaxRequests();
         test.form.setUserName('test@example.com');
         test.form.setPassword('Abcd1234');
@@ -832,21 +832,21 @@ Expect.describe('Registration', function () {
         expect(setting.registration.postSubmit).toHaveBeenCalled();
       });
     });
-    itp('calls postSubmit call onSuccess assert username is same as email', function () {
+    itp('calls postSubmit call onSuccess assert username is same as email', function() {
       const parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
       const preSubmitSpy = jasmine.createSpy('preSubmitSpy');
       const postSubmitSpy = jasmine.createSpy('postSubmitSpy');
       const setting = {
         registration: {
-          parseSchema: function (resp, onSuccess, onFailure) {
+          parseSchema: function(resp, onSuccess, onFailure) {
             parseSchemaSpy(resp, onSuccess, onFailure);
             onSuccess(resp);
           },
-          preSubmit: function (postData, onSuccess, onFailure) {
+          preSubmit: function(postData, onSuccess, onFailure) {
             preSubmitSpy(postData, onSuccess, onFailure);
             onSuccess(postData);
           },
-          postSubmit: function (postData, onSuccess, onFailure) {
+          postSubmit: function(postData, onSuccess, onFailure) {
             postSubmitSpy(postData, onSuccess, onFailure);
             onSuccess(postData);
           },
@@ -854,7 +854,7 @@ Expect.describe('Registration', function () {
       };
 
       return setup(setting)
-        .then(function (test) {
+        .then(function(test) {
           spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
           Util.resetAjaxRequests();
           test.form.setUserName('test@example.com');
@@ -865,23 +865,23 @@ Expect.describe('Registration', function () {
           test.form.submit();
           return Expect.waitForRegistrationComplete(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.router.navigate).toHaveBeenCalledWith('signin/register-complete', { trigger: true });
           expect(postSubmitSpy).toHaveBeenCalled();
           expect($('div.registration-complete .title').text()).toBe('Verification email sent');
           expect($('div.registration-complete .desc').text()).toBe('To finish signing in, check your email.');
         });
     });
-    itp('does not call postSubmit if registration.postSubmit is defined and preSubmit calls onFailure', function () {
+    itp('does not call postSubmit if registration.postSubmit is defined and preSubmit calls onFailure', function() {
       const parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
       const preSubmitSpy = jasmine.createSpy('preSubmitSpy');
       const setting = {
         registration: {
-          parseSchema: function (resp, onSuccess, onFailure) {
+          parseSchema: function(resp, onSuccess, onFailure) {
             parseSchemaSpy(resp, onSuccess, onFailure);
             onSuccess(resp);
           },
-          preSubmit: function (postData, onSuccess, onFailure) {
+          preSubmit: function(postData, onSuccess, onFailure) {
             preSubmitSpy(postData, onSuccess, onFailure);
             onFailure();
           },
@@ -889,7 +889,7 @@ Expect.describe('Registration', function () {
         },
       };
 
-      return setup(setting).then(function (test) {
+      return setup(setting).then(function(test) {
         Util.resetAjaxRequests();
         test.form.setUserName('test@example.com');
         test.form.setPassword('Abcd1234');
@@ -902,28 +902,28 @@ Expect.describe('Registration', function () {
         expectRegCallbackError(test, 'preSubmit', DEFAULT_CALLBACK_ERROR);
       });
     });
-    itp('triggers the afterError event when registration API throws an error', function () {
+    itp('triggers the afterError event when registration API throws an error', function() {
       const parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
       const preSubmitSpy = jasmine.createSpy('preSubmitSpy');
       const postSubmitSpy = jasmine.createSpy('postSubmitSpy');
       const setting = {
         registration: {
-          parseSchema: function (resp, onSuccess, onFailure) {
+          parseSchema: function(resp, onSuccess, onFailure) {
             parseSchemaSpy(resp, onSuccess, onFailure);
             onSuccess(resp);
           },
-          preSubmit: function (postData, onSuccess, onFailure) {
+          preSubmit: function(postData, onSuccess, onFailure) {
             preSubmitSpy(postData, onSuccess, onFailure);
             onSuccess();
           },
-          postSubmit: function (response, onSuccess, onFailure) {
+          postSubmit: function(response, onSuccess, onFailure) {
             postSubmitSpy(response, onSuccess, onFailure);
             onSuccess(response);
           },
         },
       };
 
-      return setup(setting).then(function (test) {
+      return setup(setting).then(function(test) {
         Util.resetAjaxRequests();
         test.form.setUserName('test');
         test.form.setPassword('Abcd1234');

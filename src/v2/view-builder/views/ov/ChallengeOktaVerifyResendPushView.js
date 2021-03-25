@@ -8,15 +8,15 @@ const Body = BaseForm.extend(Object.assign(
   {
     className: 'okta-verify-resend-push',
 
-    title () {
+    title() {
       return loc('oie.okta_verify.push.title', 'login');
     },
 
-    save () {
+    save() {
       return loc('oie.okta_verify.push.resend', 'login');
     },
 
-    showMessages () {
+    showMessages() {
       // override showMessages to display error in cases like reject push
       // or timeout. Borrowed this logic from TerminalView.
       const messagesObjs = this.options.appState.get('messages');

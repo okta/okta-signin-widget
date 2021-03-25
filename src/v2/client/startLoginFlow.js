@@ -23,7 +23,7 @@ const handleProxyIdxResponse = async (settings) => {
   });
 };
 
-export async function startLoginFlow (settings) {
+export async function startLoginFlow(settings) {
   // Return a preset response
   if (settings.get('proxyIdxResponse')) {
     return handleProxyIdxResponse(settings);

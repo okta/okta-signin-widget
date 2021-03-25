@@ -2,10 +2,10 @@ import Expect from 'helpers/util/Expect';
 import Q from 'q';
 import webauthn from 'util/webauthn';
 
-Expect.describe('webauthn', function () {
-  function setupMsCredentials () {
+Expect.describe('webauthn', function() {
+  function setupMsCredentials() {
     window.msCredentials = {
-      makeCredential: function () /*accountInfo, cryptoParams, challenge*/ {
+      makeCredential: function() /*accountInfo, cryptoParams, challenge*/ {
         const result = Q.defer();
 
         result.resolve({
@@ -17,7 +17,7 @@ Expect.describe('webauthn', function () {
         return result.promise;
       },
 
-      getAssertion: function () /*challenge, filters*/ {
+      getAssertion: function() /*challenge, filters*/ {
         const result = Q.defer();
 
         result.resolve({
@@ -37,20 +37,20 @@ Expect.describe('webauthn', function () {
     spyOn(window.msCredentials, 'getAssertion').and.callThrough();
   }
 
-  afterEach(function () {
+  afterEach(function() {
     delete window.msCredentials;
   });
 
-  it('isAvailable returns false if window.msCredentials is undefined', function () {
+  it('isAvailable returns false if window.msCredentials is undefined', function() {
     expect(webauthn.isAvailable()).toBe(false);
   });
 
-  it('isAvailable returns true if window.msCredentials is not undefined', function () {
+  it('isAvailable returns true if window.msCredentials is not undefined', function() {
     setupMsCredentials();
     expect(webauthn.isAvailable()).toBe(true);
   });
 
-  it('msCredentials.makeCredential was called with correct parameters', function () {
+  it('msCredentials.makeCredential was called with correct parameters', function() {
     setupMsCredentials();
 
     webauthn.makeCredential({ userId: 'SomeUserId' }, [{ algorithm: 'RSASSA-PKCS1-v1_5' }]);
@@ -61,7 +61,7 @@ Expect.describe('webauthn', function () {
     );
   });
 
-  it('msCredentials.getAssertion was called with correct parameters', function () {
+  it('msCredentials.getAssertion was called with correct parameters', function() {
     setupMsCredentials();
 
     webauthn.getAssertion('SomeChallenge', [{ id: 'msCredentials_ID' }]);

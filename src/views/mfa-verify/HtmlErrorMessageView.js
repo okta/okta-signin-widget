@@ -28,13 +28,13 @@ export default View.extend({
 
   message: '',
 
-  initialize: function (options) {
+  initialize: function(options) {
     if (options && options.message) {
       this.message = options.message;
     }
   },
 
-  getTemplateData: function () {
+  getTemplateData: function() {
     return {
       message: this.message,
     };

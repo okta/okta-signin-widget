@@ -12,14 +12,14 @@ const Body = BaseForm.extend({
     'error': '_checkTokenChange'
   },
 
-  title () {
+  title() {
     const vendorName =
       this.options.appState.getAuthenticatorDisplayName() ||
       loc('oie.on_prem.authenticator.default.vendorName', 'login');
     return loc('oie.on_prem.enroll.title', 'login', [vendorName]);
   },
 
-  _checkTokenChange (model, convertedErrors) {
+  _checkTokenChange(model, convertedErrors) {
     const errorSummaryKeys = convertedErrors?.responseJSON?.errorSummaryKeys;
     if (errorSummaryKeys && errorSummaryKeys.includes(ON_PREM_TOKEN_CHANGE_KEY)) {
       // this means we are in change pin, so we should clear out answer input
@@ -28,7 +28,7 @@ const Body = BaseForm.extend({
     }
   },
 
-  save () {
+  save() {
     return loc('mfa.challenge.verify', 'login');
   },
 });

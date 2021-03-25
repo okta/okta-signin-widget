@@ -11,12 +11,12 @@ export default View.extend({
     {{else}}
       {{{i18n code="oie.enroll.okta_verify.switch.channel.link.text" bundle="login"}}}
     {{/if}}`,
-  getTemplateData () {
+  getTemplateData() {
     return {
       isQRcodeChannel: this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'qrcode',
     };
   },
-  postRender () {
+  postRender() {
     this.$el.find('.switch-channel-link').on('click', (event) => {
       const appState = this.options.appState;
       event.preventDefault();

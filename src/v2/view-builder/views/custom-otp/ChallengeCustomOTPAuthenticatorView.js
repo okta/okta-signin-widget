@@ -6,18 +6,18 @@ const Body = BaseForm.extend(Object.assign(
   {
     className: 'mfa-verify-custom-otp',
 
-    title () {
+    title() {
       const vendorName =
         this.options.appState.getAuthenticatorDisplayName() ||
         loc('oie.custom_otp.authenticator.default.vendorName', 'login');
       return loc('oie.verify.custom_otp.title', 'login', [vendorName]);
     },
 
-    subtitle () {
+    subtitle() {
       return loc('oie.verify.custom_otp.description', 'login');
     },
 
-    save () {
+    save() {
       return loc('mfa.challenge.verify', 'login');
     },
   },

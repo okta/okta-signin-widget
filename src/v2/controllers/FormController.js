@@ -29,11 +29,11 @@ export default Controller.extend({
     'switchForm': 'handleSwitchForm',
   },
 
-  preRender () {
+  preRender() {
     this.removeChildren();
   },
 
-  postRender () {
+  postRender() {
     const currentViewState = this.options.appState.getCurrentViewState();
     if (!currentViewState) {
       return;
@@ -59,16 +59,16 @@ export default Controller.extend({
     this.triggerAfterRenderEvent();
   },
 
-  triggerAfterRenderEvent () {
+  triggerAfterRenderEvent() {
     const contextData = this.createAfterEventContext();
     this.trigger('afterRender', contextData);
   },
 
-  handleFormNameChange () {
+  handleFormNameChange() {
     this.render();
   },
 
-  handleAfterError (error = {}) {
+  handleAfterError(error = {}) {
     const contextData = this.createAfterEventContext();
     const errorContextData = {
       xhr: error,
@@ -79,7 +79,7 @@ export default Controller.extend({
     this.trigger('afterError', contextData, errorContextData);
   },
 
-  createAfterEventContext () {
+  createAfterEventContext() {
     const formName = this.options.appState.get('currentFormName');
     const authenticatorKey = this.options.appState.get('authenticatorKey');
     const methodType = this.options.appState.get('authenticatorMethodType');
@@ -107,7 +107,7 @@ export default Controller.extend({
     return eventData;
   },
 
-  handleSwitchForm (formName) {
+  handleSwitchForm(formName) {
     // trigger formName change to change view
     if (this.options.appState.get('messages')) {
       // Clear messages before calling switch form.
@@ -119,7 +119,7 @@ export default Controller.extend({
     this.options.appState.set('currentFormName', formName);
   },
 
-  handleInvokeAction (actionPath = '') {
+  handleInvokeAction(actionPath = '') {
     if(actionPath === 'cancel') {
       clearTransactionMeta(this.options.settings);
     }
@@ -150,7 +150,7 @@ export default Controller.extend({
     }
   },
 
-  handleSaveForm (model) {
+  handleSaveForm(model) {
     const formName = model.get('formName');
 
     const idx = this.options.appState.get('idx');
@@ -217,7 +217,7 @@ export default Controller.extend({
       });
   },
 
-  showFormErrors (model, error) {
+  showFormErrors(model, error) {
     model.trigger('clearFormError');
     if (!error) {
       error = 'FormController - unknown error found';
@@ -235,7 +235,7 @@ export default Controller.extend({
     }
   },
 
-  handleIdxSuccess: function (idxResp) {
+  handleIdxSuccess: function(idxResp) {
     this.options.appState.trigger('remediationSuccess', idxResp);
   },
 
@@ -247,7 +247,7 @@ export default Controller.extend({
    *
    * @param {boolean} disabled whether add extra disable CSS class.
    */
-  toggleFormButtonState: function (disabled) {
+  toggleFormButtonState: function(disabled) {
     const button = this.$el.find('.o-form-button-bar .button');
     button.toggleClass('link-button-disabled', disabled);
   },

@@ -13,12 +13,12 @@
 import { Model } from 'okta';
 import BaseLoginModel from './BaseLoginModel';
 export default BaseLoginModel.extend({
-  constructor: function (options) {
+  constructor: function(options) {
     this.settings = options && options.settings;
     Model.apply(this, arguments);
   },
-  loginWithActivationToken: function (activationToken) {
-    return this.startTransaction(function (authClient) {
+  loginWithActivationToken: function(activationToken) {
+    return this.startTransaction(function(authClient) {
       return authClient.signInWithCredentials({ token: activationToken });
     });
   },

@@ -3,11 +3,11 @@ import { BaseForm, BaseFooter, BaseView } from '../internals';
 
 const Body = BaseForm.extend({
 
-  title () {
+  title() {
     return loc('password.reset.title.generic', 'login');
   },
 
-  save () {
+  save() {
     return loc('oform.next', 'login');
   },
 });

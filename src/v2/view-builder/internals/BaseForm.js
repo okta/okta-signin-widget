@@ -11,11 +11,11 @@ export default Form.extend({
   autoSave: false,
   noCancelButton: true,
 
-  title () {
+  title() {
     return loc('oform.title.authenticate', 'login');
   },
 
-  save () {
+  save() {
     return loc('oform.next', 'login');
   },
 
@@ -24,7 +24,7 @@ export default Form.extend({
     'error': 'triggerAfterError',
   },
 
-  initialize () {
+  initialize() {
     const uiSchemas = this.getUISchema();
     const inputOptions = uiSchemas.map(FormInputFactory.create);
 
@@ -39,27 +39,27 @@ export default Form.extend({
     this.listenTo(this, 'cancel', this.cancelForm);
   },
 
-  handleClearFormError () {
+  handleClearFormError() {
     if (this.$('.o-form-error-container').hasClass('o-form-has-errors')) {
       this.clearErrors();
     }
   },
 
-  triggerAfterError (model, error) {
+  triggerAfterError(model, error) {
     this.options.appState.trigger('afterError', error);
   },
 
-  saveForm (model) {
+  saveForm(model) {
     //remove any existing warnings or messages before saving form
     this.$el.find('.o-form-error-container').empty();
     this.options.appState.trigger('saveForm', model);
   },
 
-  cancelForm () {
+  cancelForm() {
     this.options.appState.trigger('invokeAction', 'cancel');
   },
 
-  getUISchema () {
+  getUISchema() {
     if (Array.isArray(this.options.currentViewState.uiSchema)) {
       return this.options.currentViewState.uiSchema;
     } else {
@@ -67,7 +67,7 @@ export default Form.extend({
     }
   },
 
-  addInputOrView (input) {
+  addInputOrView(input) {
     if (input.visible === false || input.mutable === false) {
       return;
     }
@@ -89,7 +89,7 @@ export default Form.extend({
     }
   },
 
-  showMessages () {
+  showMessages() {
     // render messages as text
     const messagesObjs = this.options.appState.get('messages');
     if (messagesObjs?.value.length) {

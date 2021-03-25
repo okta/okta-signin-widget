@@ -17,7 +17,7 @@ import Footer from 'views/enroll-factors/Footer';
 import HtmlErrorMessageView from 'views/mfa-verify/HtmlErrorMessageView';
 export default FormController.extend({
   className: 'enroll-hotp',
-  Model: function () {
+  Model: function() {
     return {
       local: {
         __factorType__: ['string', false, this.options.factorType],
@@ -26,7 +26,7 @@ export default FormController.extend({
     };
   },
   Form: {
-    title: function () {
+    title: function() {
       const factors = this.options.appState.get('factors');
       const hotpFactor = factors.findWhere({
         provider: this.model.get('__provider__'),
@@ -37,7 +37,7 @@ export default FormController.extend({
     noButtonBar: true,
     attributes: { 'data-se': 'restrict-enroll' },
 
-    formChildren: function () {
+    formChildren: function() {
       const children = [
         FormType.View({
           View: new HtmlErrorMessageView({ message: loc('enroll.hotp.restricted', 'login') }),

@@ -1,7 +1,7 @@
 import AppState from 'v2/models/AppState';
 import { FORMS_WITHOUT_SIGNOUT, FORMS_FOR_VERIFICATION, FORMS } from 'v2/ion/RemediationConstants';
 
-describe('v2/models/AppState', function () {
+describe('v2/models/AppState', function() {
   beforeEach(() => {
     this.initAppState = (idxObj, currentFormName) => {
       const appStateData = idxObj || { idx: { actions: {} } };

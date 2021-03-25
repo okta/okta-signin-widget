@@ -3,11 +3,11 @@ import BaseDuoAuthenticatorForm from './BaseDuoAuthenticatorForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 
 const Body = BaseDuoAuthenticatorForm.extend({
-  title () {
+  title() {
     return loc('oie.duo.enroll.title', 'login');
   },
 
-  getContextualData () {
+  getContextualData() {
     return this.options.appState.get('currentAuthenticator').contextualData;
   },
 });

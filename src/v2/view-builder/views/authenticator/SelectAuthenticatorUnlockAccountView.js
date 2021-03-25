@@ -9,7 +9,7 @@ const UnlockAccountView = BaseForm.extend({
 });
 
 export default BaseView.extend({
-  initialize () {
+  initialize() {
     BaseView.prototype.initialize.apply(this, arguments);
     this.Body = UnlockAccountView;
   }

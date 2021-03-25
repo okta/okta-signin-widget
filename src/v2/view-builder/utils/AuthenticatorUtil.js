@@ -15,7 +15,7 @@ import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
 
 const { getPasswordComplexityDescription, getPasswordComplexityDescriptionForHtmlList } = FactorUtil;
 
-const getButtonDataSeAttr = function (authenticator) {
+const getButtonDataSeAttr = function(authenticator) {
   if (authenticator.authenticatorKey) {
     const method = authenticator.value?.methodType ?
       '-' + authenticator.value?.methodType : '';
@@ -25,7 +25,7 @@ const getButtonDataSeAttr = function (authenticator) {
 };
 
 /* eslint complexity: [0, 0] */
-const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
+const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   const authenticatorKey = authenticator.authenticatorKey;
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
   let authenticatorData = {};
@@ -169,19 +169,19 @@ const getAuthenticatorData = function (authenticator, isVerifyAuthenticator) {
   return authenticatorData;
 };
 
-export function getAuthenticatorDataForEnroll (authenticator) {
+export function getAuthenticatorDataForEnroll(authenticator) {
   return getAuthenticatorData(authenticator);
 }
 
-export function getAuthenticatorDataForVerification (authenticator) {
+export function getAuthenticatorDataForVerification(authenticator) {
   return getAuthenticatorData(authenticator, true);
 }
 
-export function getIconClassNameForBeacon (authenticatorKey) {
+export function getIconClassNameForBeacon(authenticatorKey) {
   return getAuthenticatorData({ authenticatorKey }).iconClassName;
 }
 
-export function removeRequirementsFromError (errorJSON, policy) {
+export function removeRequirementsFromError(errorJSON, policy) {
   const passwordRequirementsAsString = getPasswordComplexityDescription(policy);
   if (errorJSON.errorCauses?.length > 0
     && Array.isArray(errorJSON.errorCauses[0].errorSummary)
@@ -200,7 +200,7 @@ export function removeRequirementsFromError (errorJSON, policy) {
  *
  * @param {Object} remediation
  */
-export function getAuthenticatorDisplayName (remediation) {
+export function getAuthenticatorDisplayName(remediation) {
   return remediation.relatesTo?.value?.displayName;
 }
 

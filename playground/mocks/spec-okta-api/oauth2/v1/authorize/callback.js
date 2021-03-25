@@ -4,7 +4,7 @@ const apis = [
     proxy: false,
     path: '/oauth2/v1/authorize/callback',
     method: 'GET',
-    template () {
+    template() {
       // In a real case, `/oauth2/v1/authorize` would parse the `code`
       // and `state` and handle it as any OAuth 2.0 request.
       // To simplify the test flow, respond via a redirect with a new `stateToken`.
