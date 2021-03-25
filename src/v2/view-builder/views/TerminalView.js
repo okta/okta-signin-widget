@@ -8,6 +8,7 @@ import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
 const SAFE_MODE_KEY_PREFIX = 'idx.error.server.safe.mode';
 const UNLOCK_ACCOUNT_TERMINAL_KEY = 'oie.selfservice.unlock_user.success.message';
+export const REGISTRATION_NOT_ENABLED = 'oie.registeration.is.not.enabled';
 
 const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
   'idx.transferred.to.new.tab',
@@ -20,6 +21,7 @@ const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
 
 const GET_BACK_TO_SIGN_LINK_FLOWS = [
   RETURN_LINK_EXPIRED_KEY,
+  REGISTRATION_NOT_ENABLED,
 ];
 
 const HeaderBeaconTerminal = HeaderBeacon.extend({

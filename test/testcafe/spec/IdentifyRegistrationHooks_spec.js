@@ -22,7 +22,7 @@ const logger = RequestLogger(
 );
 
 
-fixture('EnrollProfile');
+fixture('Registration Hooks');
 
 async function setup(t) {
   const registrationPage = new RegistrationPageObject(t);
@@ -38,7 +38,7 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onSucce
   await rerenderWidget({
     registration: {
       parseSchema: function(resp, onSuccess) {
-        resp.find(({name}) => name === 'userProfile.firstName').required = false;
+        resp.find(({ name }) => name === 'userProfile.firstName').required = false;
         onSuccess(resp);
       },
       preSubmit: function(postData, onSuccess) {
@@ -74,7 +74,7 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onSucce
   await t.expect(log.includes('made it to postSubmit email@email.com')).ok();
 });
 
-test.requestHooks(logger, mock)('should call settings.registration hooks onFailure handlers', async t=> {
+test.requestHooks(logger, mock)('should call settings.registration hooks onFailure handlers', async t => {
   logger.clear();
   const registrationPage = await setup(t);
 
@@ -113,7 +113,7 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onFailu
   await t.expect(logger.requests.length).eql(0);
 });
 
-test.requestHooks(logger, mock)('should call settings.registration.postSubmit hook\'s onFailure handler', async t=> {
+test.requestHooks(logger, mock)('should call settings.registration.postSubmit hook\'s onFailure handler', async t => {
   logger.clear();
   const registrationPage = await setup(t);
 
