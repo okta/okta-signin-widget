@@ -42,7 +42,7 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     await this.footer.click('[data-se="cancel-authenticator-challenge"]');
   }
 
-  async clickSwitchAuthenticatorButton () {
+  async clickSwitchAuthenticatorButton() {
     await this.t.click(this.getFooterSwitchAuthenticatorLink());
   }
 

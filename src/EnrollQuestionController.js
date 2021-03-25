@@ -26,8 +26,8 @@ export default FormController.extend({
     local: {
       securityQuestions: 'object',
     },
-    save: function () {
-      return this.doTransaction(function (transaction) {
+    save: function() {
+      return this.doTransaction(function(transaction) {
         const factor = _.findWhere(transaction.factors, {
           factorType: 'question',
           provider: 'OKTA',
@@ -46,7 +46,7 @@ export default FormController.extend({
   Form: {
     autoSave: true,
     title: _.partial(loc, 'enroll.securityQuestion.setup', 'login'),
-    inputs: function () {
+    inputs: function() {
       return [
         {
           label: false,
@@ -54,7 +54,7 @@ export default FormController.extend({
           name: 'question',
           type: 'select',
           wide: true,
-          options: function () {
+          options: function() {
             return this.model.get('securityQuestions');
           },
           params: {
@@ -77,11 +77,11 @@ export default FormController.extend({
 
   Footer: Footer,
 
-  fetchInitialData: function () {
+  fetchInitialData: function() {
     const self = this;
 
     return this.model
-      .manageTransaction(function (transaction) {
+      .manageTransaction(function(transaction) {
         const factor = _.findWhere(transaction.factors, {
           factorType: 'question',
           provider: 'OKTA',
@@ -89,10 +89,10 @@ export default FormController.extend({
 
         return factor.questions();
       })
-      .then(function (questionsRes) {
+      .then(function(questionsRes) {
         const questions = {};
 
-        _.each(questionsRes, function (question) {
+        _.each(questionsRes, function(question) {
           questions[question.question] = FactorUtil.getSecurityQuestionLabel(question);
         });
         self.model.set('securityQuestions', questions);

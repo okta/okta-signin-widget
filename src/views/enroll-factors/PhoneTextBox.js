@@ -24,17 +24,17 @@ export default TextBox.extend({
     '
   ),
 
-  initialize: function () {
-    this.listenTo(this.model, 'change:countryCallingCode', function () {
+  initialize: function() {
+    this.listenTo(this.model, 'change:countryCallingCode', function() {
       this.$('.o-form-label-inline').text(this.model.get('countryCallingCode'));
     });
   },
 
-  preRender: function () {
+  preRender: function() {
     this.options.countryCallingCode = this.model.get('countryCallingCode');
   },
 
-  postRender: function () {
+  postRender: function() {
     // This is a hack - once inputGroups are done, get rid of it!!
     this.$el.removeClass('input-fix o-form-control');
     _.defer(() => {

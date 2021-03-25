@@ -16,7 +16,7 @@ import { toQueryString } from '@okta/okta-auth-js';
 
 import { clearTransactionMeta } from './transactionMeta';
 
-export async function interactionCodeFlow (settings, idxResponse) {
+export async function interactionCodeFlow(settings, idxResponse) {
   const { interactionCode } = idxResponse;
   const authClient = settings.getAuthClient();
   const transactionMeta = authClient.transactionManager.load();

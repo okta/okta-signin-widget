@@ -20,9 +20,9 @@ export default View.extend({
     `,
   className: 'auth-footer clearfix',
   events: {
-    'click .js-skip': function (e) {
+    'click .js-skip': function(e) {
       e.preventDefault();
-      this.model.doTransaction(function (transaction) {
+      this.model.doTransaction(function(transaction) {
         return transaction.skip();
       });
     },

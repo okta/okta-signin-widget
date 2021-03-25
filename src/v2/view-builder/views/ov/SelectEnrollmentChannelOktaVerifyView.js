@@ -4,12 +4,12 @@ import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 
 const Body = BaseForm.extend({
-  title () {
+  title() {
     return (BrowserFeatures.isAndroid() || BrowserFeatures.isIOS())
       ? loc('oie.enroll.okta_verify.setup.title', 'login')
       : loc('oie.enroll.okta_verify.select.channel.title', 'login');
   },
-  getUISchema () {
+  getUISchema() {
     const schemas = BaseForm.prototype.getUISchema.apply(this, arguments);
     // filter selected channel
     const channelField = _.find(schemas, (schema) => schema.name === 'authenticator.channel');

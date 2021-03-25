@@ -4,12 +4,12 @@ import EnrollAuthenticatorPasswordView from './EnrollAuthenticatorPasswordView';
 
 const Body = EnrollAuthenticatorPasswordView.prototype.Body.extend({
   className: 'password-authenticator',
-  subtitle () {
+  subtitle() {
     if (this.options.settings.get('brandName')) {
       return loc('password.expiring.subtitle.specific', 'login', [this.options.settings.get('brandName')]);
     }
   },
-  title () {
+  title() {
     const passwordPolicy = this.getPasswordPolicySettings() || {};
     const daysToExpiry = passwordPolicy.daysToExpiry;
 
@@ -22,10 +22,10 @@ const Body = EnrollAuthenticatorPasswordView.prototype.Body.extend({
     }
   },
 
-  save () {
+  save() {
     return loc('password.expired.submit', 'login');
   },
-  showMessages () {
+  showMessages() {
     // if brandName is configured and messages is present, render as subtitle with brandName in context
     if (this.options.settings.get('brandName')) {
       return null;
@@ -36,7 +36,7 @@ const Body = EnrollAuthenticatorPasswordView.prototype.Body.extend({
 });
 
 const Footer = BaseFooter.extend({
-  links () {
+  links() {
     const links = [];
     if (this.options.appState.hasRemediationObject('skip')) {
       links.push({

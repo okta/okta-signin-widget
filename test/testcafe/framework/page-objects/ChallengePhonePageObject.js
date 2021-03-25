@@ -1,7 +1,7 @@
 import ChallengeFactorPageObject from './ChallengeFactorPageObject';
 
 export default class ChallengePhonePageObject extends ChallengeFactorPageObject {
-  constructor (t) {
+  constructor(t) {
     super(t);
   }
 

@@ -26,8 +26,8 @@ import LoginUtil from 'util/Util';
 const itp = Expect.itp;
 const tick = Expect.tick;
 
-Expect.describe('EnrollTotp', function () {
-  function setup (res, selectedFactor, settings, startRouter) {
+Expect.describe('EnrollTotp', function() {
+  function setup(res, selectedFactor, settings, startRouter) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
@@ -49,12 +49,12 @@ Expect.describe('EnrollTotp', function () {
     Util.mockRouterNavigate(router, startRouter);
 
     return tick()
-      .then(function () {
+      .then(function() {
         setNextResponse(res);
         router.refreshAuthState('dummy-token');
         return Expect.waitForEnrollChoices();
       })
-      .then(function () {
+      .then(function() {
         router.enrollTotpFactor(selectedFactor.provider, selectedFactor.factorType);
         return Expect.waitForEnrollTotp({
           router: router,
@@ -86,94 +86,94 @@ Expect.describe('EnrollTotp', function () {
     factorType: 'push',
   });
 
-  function enrollFactor (test, res) {
+  function enrollFactor(test, res) {
     test.setNextResponse(res || resTotpEnrollSuccess);
     test.form.selectDeviceType('APPLE');
     test.form.submit();
     return test;
   }
 
-  function setupAndEnrollOktaTotp () {
+  function setupAndEnrollOktaTotp() {
     return setupOktaTotp()
-      .then(function (test) {
+      .then(function(test) {
         return enrollFactor(test, resTotpEnrollSuccess);
       })
-      .then(function (test) {
+      .then(function(test) {
         return Expect.waitForBarcodeTotp(test);
       });
   }
 
-  function setupAndEnrollGoogleTotp () {
+  function setupAndEnrollGoogleTotp() {
     return setupGoogleTotp()
-      .then(function (test) {
+      .then(function(test) {
         return enrollFactor(test, resTotpEnrollSuccess);
       })
-      .then(function (test) {
+      .then(function(test) {
         return Expect.waitForBarcodeTotp(test);
       });
   }
 
-  function setupAndEnrollOktaPush () {
+  function setupAndEnrollOktaPush() {
     return setupOktaPush()
-      .then(function (test) {
+      .then(function(test) {
         test.originalAjax = Util.stallEnrollFactorPoll(test.ac);
         return enrollFactor(test, resPushEnrollSuccess);
       })
-      .then(function (test) {
+      .then(function(test) {
         return Expect.waitForBarcodePush(test);
       });
   }
 
-  function enrollOktaPushGoCannotScan () {
-    return setupAndEnrollOktaPush().then(function (test) {
+  function enrollOktaPushGoCannotScan() {
+    return setupAndEnrollOktaPush().then(function(test) {
       test.setNextResponse([resFactorsWithPush, resPushEnrollSuccess]);
       test.scanCodeForm.clickManualSetupLink();
       return Expect.waitForManualSetupPush(test);
     });
   }
 
-  function enrollOktaPushUseManualTotp () {
-    return enrollOktaPushGoCannotScan().then(function (test) {
+  function enrollOktaPushUseManualTotp() {
+    return enrollOktaPushGoCannotScan().then(function(test) {
       test.setNextResponse([resAllFactors, resTotpEnrollSuccess]);
       test.manualSetupForm.selectManualOption();
       return test.manualSetupForm.waitForManual(test);
     });
   }
 
-  function testEnrollFactor (
+  function testEnrollFactor(
     setupOktaTotpFn,
     setupAndEnrollOktaTotpFn,
     setupGoogleTotpFn,
     setupAndEnrollGoogleTotpFn,
     expectedStateToken
   ) {
-    itp('has correct device type options for Okta Verify', function () {
-      return setupOktaTotpFn().then(function (test) {
+    itp('has correct device type options for Okta Verify', function() {
+      return setupOktaTotpFn().then(function(test) {
         expect(test.form.deviceTypeOptions().length).toBe(2);
         expect(test.form.deviceTypeOptionLabel('APPLE').length).toBe(1);
         expect(test.form.deviceTypeOptionLabel('ANDROID').length).toBe(1);
       });
     });
-    itp('has correct device type options for Google Authenticator', function () {
-      return setupGoogleTotpFn().then(function (test) {
+    itp('has correct device type options for Google Authenticator', function() {
+      return setupGoogleTotpFn().then(function(test) {
         expect(test.form.deviceTypeOptions().length).toBe(2);
         expect(test.form.deviceTypeOptionLabel('APPLE').length).toBe(1);
         expect(test.form.deviceTypeOptionLabel('ANDROID').length).toBe(1);
       });
     });
-    itp('has app download instructions not displayed until device type is selected', function () {
-      return setupOktaTotpFn().then(function (test) {
+    itp('has app download instructions not displayed until device type is selected', function() {
+      return setupOktaTotpFn().then(function(test) {
         Expect.isNotVisible(test.form.appDownloadInstructions());
       });
     });
-    itp('has app download instructions displayed when device type is selected', function () {
-      return setupOktaTotpFn().then(function (test) {
+    itp('has app download instructions displayed when device type is selected', function() {
+      return setupOktaTotpFn().then(function(test) {
         test.form.selectDeviceType('APPLE');
         Expect.isVisible(test.form.appDownloadInstructions());
       });
     });
-    itp('has correct app download instructions displayed for Okta Verify', function () {
-      return setupOktaTotpFn().then(function (test) {
+    itp('has correct app download instructions displayed for Okta Verify', function() {
+      return setupOktaTotpFn().then(function(test) {
         test.form.selectDeviceType('APPLE');
         expect(test.form.appDownloadInstructionsLinkText()).toEqual('Okta Verify from the App Store');
         expect(test.form.appDownloadInstructionsAppLogo('.okta-verify-38').length).toBe(1);
@@ -181,8 +181,8 @@ Expect.describe('EnrollTotp', function () {
         expect(test.form.appDownloadInstructionsLinkText()).toEqual('Okta Verify from the Google Play Store');
       });
     });
-    itp('has correct app download instructions displayed for Google Auth', function () {
-      return setupGoogleTotpFn().then(function (test) {
+    itp('has correct app download instructions displayed for Google Auth', function() {
+      return setupGoogleTotpFn().then(function(test) {
         test.form.selectDeviceType('APPLE');
         expect(test.form.appDownloadInstructionsLinkText()).toEqual('Google Authenticator from the App Store');
         expect(test.form.appDownloadInstructionsAppLogo('.google-auth-38').length).toBe(1);
@@ -190,30 +190,30 @@ Expect.describe('EnrollTotp', function () {
         expect(test.form.appDownloadInstructionsLinkText()).toEqual('Google Authenticator from the Google Play Store');
       });
     });
-    itp('has a next button not displayed until device type is selected', function () {
-      return setupOktaTotpFn().then(function (test) {
+    itp('has a next button not displayed until device type is selected', function() {
+      return setupOktaTotpFn().then(function(test) {
         Expect.isNotVisible(test.form.submitButton());
       });
     });
-    itp('has a next button displayed when device type is selected', function () {
-      return setupOktaTotpFn().then(function (test) {
+    itp('has a next button displayed when device type is selected', function() {
+      return setupOktaTotpFn().then(function(test) {
         test.form.selectDeviceType('APPLE');
         Expect.isVisible(test.form.submitButton());
       });
     });
-    itp('returns to factor list when browser\'s back button is clicked', function () {
+    itp('returns to factor list when browser\'s back button is clicked', function() {
       return setupOktaTotpFn({}, true)
-        .then(function (test) {
+        .then(function(test) {
           Util.triggerBrowserBackButton();
           return Expect.waitForEnrollChoices(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Expect.isEnrollChoices(test.router.controller);
           Util.stopRouter();
         });
     });
-    itp('sends enroll request with correct params for Okta totp', function () {
-      return setupAndEnrollOktaTotpFn().then(function () {
+    itp('sends enroll request with correct params for Okta totp', function() {
+      return setupAndEnrollOktaTotpFn().then(function() {
         expect(Util.numAjaxRequests()).toBe(2);
         Expect.isJsonPost(Util.getAjaxRequest(1), {
           url: 'https://foo.com/api/v1/authn/factors',
@@ -225,8 +225,8 @@ Expect.describe('EnrollTotp', function () {
         });
       });
     });
-    itp('sends enroll request with correct params for Google totp', function () {
-      return setupAndEnrollGoogleTotpFn().then(function () {
+    itp('sends enroll request with correct params for Google totp', function() {
+      return setupAndEnrollGoogleTotpFn().then(function() {
         expect(Util.numAjaxRequests()).toBe(2);
         Expect.isJsonPost(Util.getAjaxRequest(1), {
           url: 'https://foo.com/api/v1/authn/factors',
@@ -240,14 +240,14 @@ Expect.describe('EnrollTotp', function () {
     });
   }
 
-  function testOktaVerify (
+  function testOktaVerify(
     setupAndEnrollOktaPushFn,
     setupOktaPushFn,
     activatePushSmsRes,
     activatePushTimeoutRes,
     expectedStateToken
   ) {
-    function setupPolling (test, finalResponse) {
+    function setupPolling(test, finalResponse) {
       Util.resetAjaxRequests();
 
       // 1: Set for first enrollFactor
@@ -270,72 +270,72 @@ Expect.describe('EnrollTotp', function () {
           return Expect.waitForAjaxRequests(3, test); // Final response tick
         });
     }
-    itp('has qrcode image with alt attr', function () {
-      return setupAndEnrollOktaPushFn().then(function (test) {
+    itp('has qrcode image with alt attr', function() {
+      return setupAndEnrollOktaPushFn().then(function(test) {
         expect(test.scanCodeForm.qrcodeImg().length).toBe(1);
         expect(test.scanCodeForm.qrcodeImg().attr('src')).toEqual('/base/test/unit/assets/1x1.gif');
         expect(test.scanCodeForm.qrcodeImg().attr('alt')).toEqual('qr code');
       });
     });
-    itp('has a link to setup app manually', function () {
-      return setupAndEnrollOktaPushFn().then(function (test) {
+    itp('has a link to setup app manually', function() {
+      return setupAndEnrollOktaPushFn().then(function(test) {
         Expect.isVisible(test.scanCodeForm.manualSetupLink());
       });
     });
-    itp('does not have "Next" button', function () {
-      return setupAndEnrollOktaPushFn().then(function (test) {
+    itp('does not have "Next" button', function() {
+      return setupAndEnrollOktaPushFn().then(function(test) {
         expect(test.scanCodeForm.submitButton().length).toBe(0);
       });
     });
-    itp('removes the scan code form on clicking "Back to factor list" link', function () {
+    itp('removes the scan code form on clicking "Back to factor list" link', function() {
       return setupOktaPushFn()
-        .then(function (test) {
+        .then(function(test) {
           return setupPolling(test, resSuccess);
         })
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse([resFactorsWithPush]);
           test.scanCodeForm.clickBackLink();
           return Expect.waitForEnrollChoices(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.scanCodeForm.container().length).toBe(0);
         });
     });
-    itp('removes the scan code form on clicking "Can\'t scan" link', function () {
+    itp('removes the scan code form on clicking "Can\'t scan" link', function() {
       return setupOktaPushFn()
-        .then(function (test) {
+        .then(function(test) {
           return setupPolling(test, activatePushSmsRes);
         })
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse([resFactorsWithPush, resPushEnrollSuccess]);
           test.scanCodeForm.clickManualSetupLink();
           return Expect.waitForManualSetupPush(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.scanCodeForm.container().length).toBe(0);
         });
     });
-    itp('returns to factor list when browser\'s back button is clicked', function () {
+    itp('returns to factor list when browser\'s back button is clicked', function() {
       return setupOktaPushFn({}, true)
-        .then(function (test) {
+        .then(function(test) {
           return setupPolling(test, resSuccess);
         })
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse([resFactorsWithPush]);
           Util.triggerBrowserBackButton();
           return Expect.waitForEnrollChoices(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Expect.isEnrollChoices(test.router.controller);
           Util.stopRouter();
         });
     });
-    itp('polls until SUCCESS when submitted', function () {
+    itp('polls until SUCCESS when submitted', function() {
       return setupOktaPushFn()
-        .then(function (test) {
+        .then(function(test) {
           return setupPolling(test, resSuccess);
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(3);
 
           // initial enrollFactor call
@@ -365,9 +365,9 @@ Expect.describe('EnrollTotp', function () {
           });
         });
     });
-    itp('shows "Refresh code" link if got network error while polling', function () {
+    itp('shows "Refresh code" link if got network error while polling', function() {
       // Simulate polling with Auth SDK's exponential backoff (6 failed requests)
-      function setupFailurePolling (test) {
+      function setupFailurePolling(test) {
         const failureResponse = { status: 0, response: {} };
 
         Util.resetAjaxRequests();
@@ -414,14 +414,14 @@ Expect.describe('EnrollTotp', function () {
           });
       }
       return setupOktaPushFn()
-        .then(function (test) {
+        .then(function(test) {
           spyOn(test.router.settings, 'callGlobalError');
           return setupFailurePolling(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           return test.scanCodeForm.waitForRefreshQrcodeLink(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(8);
           expect(test.scanCodeForm.hasManualSetupLink()).toBe(false);
           expect(test.scanCodeForm.hasRefreshQrcodeLink()).toBe(true);
@@ -435,7 +435,7 @@ Expect.describe('EnrollTotp', function () {
           test.scanCodeForm.clickrefreshQrcodeLink();
           return Expect.waitForAjaxRequests(2, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           // errors cleared
           expect(test.scanCodeForm.hasErrors()).toBe(false);
 
@@ -459,9 +459,9 @@ Expect.describe('EnrollTotp', function () {
           });
         });
     });
-    itp('allows refresh after TIMEOUT', function () {
+    itp('allows refresh after TIMEOUT', function() {
       return setupOktaPushFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
 
           // 1: Set for first enrollFactor
@@ -478,13 +478,13 @@ Expect.describe('EnrollTotp', function () {
             return Expect.waitForAjaxRequests(2, test); // 2: submit enrollFactor poll
           });
         })
-        .then(function (test) {
+        .then(function(test) {
           // After TIMEOUT, refresh the QR code
           Expect.isVisible(test.scanCodeForm.refreshLink());
           test.scanCodeForm.clickRefreshLink();
           return Expect.waitForAjaxRequests(3, test);
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(3);
 
           // initial enrollFactor call
@@ -516,7 +516,7 @@ Expect.describe('EnrollTotp', function () {
     });
   }
 
-  function testManualSetup (
+  function testManualSetup(
     enrollOktaPushGoCannotScanFn,
     setupAndEnrollOktaPushFn,
     enrollOktaPushUseManualTotpFn,
@@ -526,22 +526,22 @@ Expect.describe('EnrollTotp', function () {
     pushEnrollSuccessNewQRRes,
     expectedStateToken
   ) {
-    itp('is rendered on "Can\'t scan" link click', function () {
-      return enrollOktaPushGoCannotScanFn().then(function (test) {
+    itp('is rendered on "Can\'t scan" link click', function() {
+      return enrollOktaPushGoCannotScanFn().then(function(test) {
         Expect.isVisible(test.manualSetupForm.form());
         Expect.isVisible(test.manualSetupForm.dropdownElement());
         Expect.isVisible(test.manualSetupForm.gotoScanBarcodeLink());
       });
     });
-    itp('has correct fields displayed when different dropdown options selected', function () {
+    itp('has correct fields displayed when different dropdown options selected', function() {
       return enrollOktaPushGoCannotScanFn()
-        .then(function (test) {
+        .then(function(test) {
           return test.manualSetupForm.waitForDropdownElement(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           return test.manualSetupForm.waitForCountryCodeSelect(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Expect.isVisible(test.manualSetupForm.dropdownElement());
           // sms (default)
           Expect.isVisible(test.manualSetupForm.countryCodeSelect());
@@ -552,7 +552,7 @@ Expect.describe('EnrollTotp', function () {
           test.manualSetupForm.selectEmailOption();
           return test.manualSetupForm.waitForEmail(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           // email option
           Expect.isNotVisible(test.manualSetupForm.countryCodeSelect());
           Expect.isNotVisible(test.manualSetupForm.phoneNumberField());
@@ -564,7 +564,7 @@ Expect.describe('EnrollTotp', function () {
           test.manualSetupForm.selectManualOption();
           return test.manualSetupForm.waitForManual(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           // manual option
           Expect.isNotVisible(test.manualSetupForm.countryCodeSelect());
           Expect.isNotVisible(test.manualSetupForm.phoneNumberField());
@@ -573,32 +573,32 @@ Expect.describe('EnrollTotp', function () {
           Expect.isVisible(test.manualSetupForm.nextButton());
         });
     });
-    itp('returns to factor list when browser\'s back button is clicked', function () {
+    itp('returns to factor list when browser\'s back button is clicked', function() {
       return setupOktaPushFn({}, true)
-        .then(function (test) {
+        .then(function(test) {
           test.originalAjax = Util.stallEnrollFactorPoll(test.ac);
           return enrollFactor(test, pushEnrollSuccessRes);
         })
-        .then(function (test) {
+        .then(function(test) {
           return Expect.waitForBarcodePush(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse([factorsWithPushRes, pushEnrollSuccessRes]);
           test.scanCodeForm.clickManualSetupLink();
           return Expect.waitForManualSetupPush(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resAllFactors);
           Util.triggerBrowserBackButton();
           return Expect.waitForEnrollChoices(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Expect.isEnrollChoices(test.router.controller);
           Util.stopRouter();
         });
     });
-    itp('goes to previous link and then enrolls in totp when choosing manually', function () {
-      return enrollOktaPushUseManualTotpFn().then(function () {
+    itp('goes to previous link and then enrolls in totp when choosing manually', function() {
+      return enrollOktaPushUseManualTotpFn().then(function() {
         expect(Util.numAjaxRequests()).toBe(6);
         Expect.isJsonPost(Util.getAjaxRequest(4), {
           url: 'https://foo.com/api/v1/authn/previous',
@@ -614,16 +614,16 @@ Expect.describe('EnrollTotp', function () {
         });
       });
     });
-    itp('goes to previous link and enrolls in push when coming from manual', function () {
+    itp('goes to previous link and enrolls in push when coming from manual', function() {
       return enrollOktaPushUseManualTotpFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           expect(test.manualSetupForm.sharedSecretFieldValue()).toEqual('superSecretSharedSecret');
           test.setNextResponse([factorsWithPushRes, pushEnrollSuccessRes]);
           test.manualSetupForm.selectSmsOption();
           return test.manualSetupForm.waitForSms(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(2);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/previous',
@@ -640,27 +640,27 @@ Expect.describe('EnrollTotp', function () {
           expect(test.manualSetupForm.sharedSecretFieldValue()).toEqual('');
         });
     });
-    itp('does not do re-enroll when switches between sms and email options', function () {
+    itp('does not do re-enroll when switches between sms and email options', function() {
       return enrollOktaPushGoCannotScanFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.manualSetupForm.selectEmailOption();
           return test.manualSetupForm.waitForEmail(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(0);
           Expect.isNotVisible(test.manualSetupForm.phoneNumberField());
           test.manualSetupForm.selectSmsOption();
           return test.manualSetupForm.waitForSms(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(0);
           Expect.isVisible(test.manualSetupForm.phoneNumberField());
         });
     });
-    itp('sends sms activation link request with correct params and shows confirmation', function () {
+    itp('sends sms activation link request with correct params and shows confirmation', function() {
       return enrollOktaPushGoCannotScanFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           Expect.isVisible(test.manualSetupForm.form());
           test.manualSetupForm.setPhoneNumber('4152554668');
@@ -668,7 +668,7 @@ Expect.describe('EnrollTotp', function () {
           test.manualSetupForm.submit();
           return Expect.waitForEnrollmentLinkSent(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/activate/sms',
@@ -683,10 +683,10 @@ Expect.describe('EnrollTotp', function () {
           expect(test.linkSentConfirmation.getMsgText().indexOf('+14152554668') >= 0).toBe(true);
         });
     });
-    itp('removes the sms activation form on successful activation response', function () {
+    itp('removes the sms activation form on successful activation response', function() {
       Expect.allowUnhandledPromiseRejection(); // OKTA-324849
       return enrollOktaPushGoCannotScanFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           Expect.isVisible(test.manualSetupForm.form());
           test.manualSetupForm.setPhoneNumber('4152554668');
@@ -696,20 +696,20 @@ Expect.describe('EnrollTotp', function () {
           test.originalAjax = Util.stallEnrollFactorPoll(test.ac, test.originalAjax);
           return Expect.waitForEnrollmentLinkSent(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Expect.isVisible(test.linkSentConfirmation.smsSentMsg());
           expect(test.linkSentConfirmation.getMsgText().indexOf('+14152554668') >= 0).toBe(true);
           test.originalAjax = Util.resumeEnrollFactorPoll(test.ac, test.originalAjax, resAllFactors);
           Util.callAllTimeouts();
           return Expect.waitForEnrollChoices(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.linkSentConfirmation.smsSentMsg().length).toBe(0);
         });
     });
-    itp('sends email activation link request with correct params and shows confirmation', function () {
+    itp('sends email activation link request with correct params and shows confirmation', function() {
       return enrollOktaPushGoCannotScanFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           Expect.isVisible(test.manualSetupForm.form());
           test.manualSetupForm.selectEmailOption();
@@ -717,7 +717,7 @@ Expect.describe('EnrollTotp', function () {
           test.manualSetupForm.submit();
           return Expect.waitForEnrollmentLinkSent(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/activate/email',
@@ -732,14 +732,14 @@ Expect.describe('EnrollTotp', function () {
     itp(
       'renders pass code form on "Next" button click when Manual is selected \
           and sends activation request with correct params on pass code submit',
-      function () {
+      function() {
         return enrollOktaPushUseManualTotpFn()
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.manualSetupForm.nextButtonClick();
             return Expect.waitForEnterPasscodePushFlow(test);
           })
-          .then(function (test) {
+          .then(function(test) {
             Expect.isVisible(test.passCodeForm.form());
             Expect.isVisible(test.passCodeForm.codeField());
             test.passCodeForm.setCode('1234');
@@ -750,7 +750,7 @@ Expect.describe('EnrollTotp', function () {
             test.passCodeForm.submit();
             return tick(test);
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors/id1234/lifecycle/activate',
@@ -765,22 +765,22 @@ Expect.describe('EnrollTotp', function () {
     itp(
       'goes back to "Can\'t" scan screen with manual option selected \
       when Back link clicked on pass code step',
-      function () {
+      function() {
         return enrollOktaPushUseManualTotpFn()
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.manualSetupForm.nextButtonClick();
             return Expect.waitForEnterPasscodePushFlow(test);
           })
-          .then(function (test) {
+          .then(function(test) {
             Expect.isVisible(test.passCodeForm.form());
             test.passCodeForm.backLink().click();
             return Expect.waitForManualSetupPush(test);
           })
-          .then(function (test) {
+          .then(function(test) {
             return test.manualSetupForm.waitForCountryCodeSelect(test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(Util.numAjaxRequests()).toBe(0);
             Expect.isVisible(test.manualSetupForm.form());
             Expect.isNotVisible(test.manualSetupForm.countryCodeSelect());
@@ -791,9 +791,9 @@ Expect.describe('EnrollTotp', function () {
           });
       }
     );
-    itp('refreshes authStatus and goes back to scan barcode screen on "Scan barcode" link click', function () {
+    itp('refreshes authStatus and goes back to scan barcode screen on "Scan barcode" link click', function() {
       return setupAndEnrollOktaPushFn()
-        .then(function (test) {
+        .then(function(test) {
           const oldQrCodeSrc = test.scanCodeForm.qrcodeImg().attr('src');
 
           expect(oldQrCodeSrc).toBe('/base/test/unit/assets/1x1.gif');
@@ -801,14 +801,14 @@ Expect.describe('EnrollTotp', function () {
           test.scanCodeForm.clickManualSetupLink();
           return Expect.waitForManualSetupPush(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           Expect.isVisible(test.manualSetupForm.form());
           test.setNextResponse([factorsWithPushRes, pushEnrollSuccessNewQRRes]);
           test.manualSetupForm.gotoScanBarcode();
           return Expect.waitForBarcodePush(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(2);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/previous',
@@ -832,112 +832,112 @@ Expect.describe('EnrollTotp', function () {
     });
   }
 
-  function testScanQRCode (setupAndEnrollOktaTotpFn, setupOktaTotpFn, totpEnrollSuccessRes, allFactorsRes) {
-    itp('has qrcode image', function () {
-      return setupAndEnrollOktaTotpFn().then(function (test) {
+  function testScanQRCode(setupAndEnrollOktaTotpFn, setupOktaTotpFn, totpEnrollSuccessRes, allFactorsRes) {
+    itp('has qrcode image', function() {
+      return setupAndEnrollOktaTotpFn().then(function(test) {
         expect(test.scanCodeForm.qrcodeImg().length).toBe(1);
         // Note: Modifying API qr code return image with something we can load locally
         expect(test.scanCodeForm.qrcodeImg().attr('src')).toEqual('/base/test/unit/assets/1x1.gif');
       });
     });
-    itp('has a link to setup app manually', function () {
-      return setupAndEnrollOktaTotpFn().then(function (test) {
+    itp('has a link to setup app manually', function() {
+      return setupAndEnrollOktaTotpFn().then(function(test) {
         Expect.isVisible(test.scanCodeForm.manualSetupLink());
       });
     });
-    itp('has "Next" button', function () {
-      return setupAndEnrollOktaTotpFn().then(function (test) {
+    itp('has "Next" button', function() {
+      return setupAndEnrollOktaTotpFn().then(function(test) {
         Expect.isVisible(test.scanCodeForm.submitButton());
       });
     });
-    itp('returns to factor list when browser\'s back button is clicked', function () {
+    itp('returns to factor list when browser\'s back button is clicked', function() {
       return setupOktaTotpFn({}, true)
-        .then(function (test) {
+        .then(function(test) {
           return enrollFactor(test, totpEnrollSuccessRes);
         })
-        .then(function (test) {
+        .then(function(test) {
           return Expect.waitForBarcodeTotp(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(allFactorsRes);
           Util.triggerBrowserBackButton();
           return Expect.waitForEnrollChoices(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Expect.isEnrollChoices(test.router.controller);
           Util.stopRouter();
         });
     });
   }
 
-  function testScanQRCodeManualSetup (setupAndEnrollOktaTotpFn, setupOktaTotpFn, totpEnrollSuccessRes) {
-    itp('is rendered on "Can\'t scan" link click', function () {
+  function testScanQRCodeManualSetup(setupAndEnrollOktaTotpFn, setupOktaTotpFn, totpEnrollSuccessRes) {
+    itp('is rendered on "Can\'t scan" link click', function() {
       return setupAndEnrollOktaTotpFn()
-        .then(function (test) {
+        .then(function(test) {
           test.scanCodeForm.clickManualSetupLink();
           return Expect.waitForManualSetupTotp(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Expect.isVisible(test.manualSetupForm.form());
           Expect.isVisible(test.manualSetupForm.sharedSecretField());
           expect(test.manualSetupForm.sharedSecretFieldValue()).toEqual('superSecretSharedSecret');
           Expect.isVisible(test.manualSetupForm.gotoScanBarcodeLink());
         });
     });
-    itp('renders pass code form on "Next" button click', function () {
+    itp('renders pass code form on "Next" button click', function() {
       return setupAndEnrollOktaTotpFn()
-        .then(function (test) {
+        .then(function(test) {
           test.scanCodeForm.clickManualSetupLink();
           return Expect.waitForManualSetupTotp(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Expect.isVisible(test.manualSetupForm.form());
           test.manualSetupForm.submit();
           return Expect.waitForActivateTotp(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Expect.isVisible(test.passCodeForm.form());
           Expect.isVisible(test.passCodeForm.codeField());
           expect(test.passCodeForm.codeField().attr('type')).toBe('tel');
         });
     });
-    itp('returns to factor list when browser\'s back button is clicked', function () {
+    itp('returns to factor list when browser\'s back button is clicked', function() {
       return setupOktaTotpFn({}, true)
-        .then(function (test) {
+        .then(function(test) {
           return enrollFactor(test, totpEnrollSuccessRes);
         })
-        .then(function (test) {
+        .then(function(test) {
           return Expect.waitForBarcodeTotp(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           test.scanCodeForm.clickManualSetupLink();
           return Expect.waitForManualSetupTotp(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resAllFactors);
           Util.triggerBrowserBackButton();
           return Expect.waitForEnrollChoices(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Expect.isEnrollChoices(test.router.controller);
           Util.stopRouter();
         });
     });
-    itp('refreshes authStatus and goes back to scan barcode screen on "Scan barcode" link click', function () {
+    itp('refreshes authStatus and goes back to scan barcode screen on "Scan barcode" link click', function() {
       return setupAndEnrollOktaTotpFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.scanCodeForm.clickManualSetupLink();
           return Expect.waitForManualSetupTotp(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Expect.isVisible(test.manualSetupForm.form());
           test.setNextResponse(totpEnrollSuccessRes);
           Util.mockSDKCookie(test.ac);
           test.manualSetupForm.gotoScanBarcode();
           return Expect.waitForBarcodeTotp(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn',
@@ -948,38 +948,38 @@ Expect.describe('EnrollTotp', function () {
     });
   }
 
-  function testScanQRCodePassCodeForm (
+  function testScanQRCodePassCodeForm(
     setupAndEnrollOktaTotpFn,
     setupOktaTotpFn,
     totpEnrollSuccessRes,
     expectedStateToken
   ) {
-    itp('renders pass code form on "Next" button click', function () {
+    itp('renders pass code form on "Next" button click', function() {
       return setupAndEnrollOktaTotpFn()
-        .then(function (test) {
+        .then(function(test) {
           test.scanCodeForm.submit();
           return Expect.waitForActivateTotp(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Expect.isVisible(test.passCodeForm.form());
           Expect.isVisible(test.passCodeForm.codeField());
           expect(test.passCodeForm.codeField().attr('type')).toBe('tel');
         });
     });
-    itp('shows error in case of an error response', function () {
+    itp('shows error in case of an error response', function() {
       return setupAndEnrollOktaTotpFn()
-        .then(function (test) {
+        .then(function(test) {
           test.scanCodeForm.submit();
           return Expect.waitForActivateTotp(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Expect.isVisible(test.passCodeForm.form());
           test.setNextResponse(resActivateError);
           test.passCodeForm.setCode(123);
           test.passCodeForm.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.passCodeForm.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Api validation failed: factorEnrollRequest');
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
@@ -1007,32 +1007,32 @@ Expect.describe('EnrollTotp', function () {
           ]);
         });
     });
-    itp('shows modified error in case of E0000079 operation not allowed error response', function () {
+    itp('shows modified error in case of E0000079 operation not allowed error response', function() {
       return setupAndEnrollOktaTotpFn()
-        .then(function (test) {
+        .then(function(test) {
           test.scanCodeForm.submit();
           return Expect.waitForActivateTotp(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Expect.isVisible(test.passCodeForm.form());
           test.setNextResponse(resOperationNotAllowed);
           test.passCodeForm.setCode(123);
           test.passCodeForm.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.passCodeForm.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('The operation is not allowed. Please refresh the page to proceed.');
         });
     });
-    itp('calls activate with the right params', function () {
+    itp('calls activate with the right params', function() {
       return setupAndEnrollOktaTotpFn()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.scanCodeForm.submit();
           return Expect.waitForActivateTotp(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Expect.isVisible(test.passCodeForm.form());
           test.passCodeForm.setCode(123456);
           test.setNextResponse(resSuccess);
@@ -1047,51 +1047,51 @@ Expect.describe('EnrollTotp', function () {
           });
         });
     });
-    itp('returns to factor list when browser\'s back button is clicked', function () {
+    itp('returns to factor list when browser\'s back button is clicked', function() {
       return setupOktaTotpFn({}, true)
-        .then(function (test) {
+        .then(function(test) {
           return enrollFactor(test, totpEnrollSuccessRes);
         })
-        .then(function (test) {
+        .then(function(test) {
           return Expect.waitForBarcodeTotp(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           test.scanCodeForm.submit();
           return Expect.waitForActivateTotp(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resAllFactors);
           Util.triggerBrowserBackButton();
           return Expect.waitForEnrollChoices(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Expect.isEnrollChoices(test.router.controller);
           Util.stopRouter();
         });
     });
   }
 
-  Expect.describe('Header & Footer', function () {
-    itp('displays the correct factorBeacon for Okta Verify', function () {
-      return setupOktaTotp().then(function (test) {
+  Expect.describe('Header & Footer', function() {
+    itp('displays the correct factorBeacon for Okta Verify', function() {
+      return setupOktaTotp().then(function(test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
         expect(test.beacon.hasClass('mfa-okta-verify')).toBe(true);
       });
     });
-    itp('displays the correct factorBeacon for Google Authenticator', function () {
-      return setupGoogleTotp().then(function (test) {
+    itp('displays the correct factorBeacon for Google Authenticator', function() {
+      return setupGoogleTotp().then(function(test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
         expect(test.beacon.hasClass('mfa-google-auth')).toBe(true);
       });
     });
-    itp('has a "back" link in the footer', function () {
-      return setupOktaTotp().then(function (test) {
+    itp('has a "back" link in the footer', function() {
+      return setupOktaTotp().then(function(test) {
         Expect.isVisible(test.form.backLink());
       });
     });
   });
 
-  Expect.describe('Enroll factor', function () {
+  Expect.describe('Enroll factor', function() {
     testEnrollFactor(
       setupOktaTotp,
       setupAndEnrollOktaTotp,
@@ -1101,21 +1101,21 @@ Expect.describe('EnrollTotp', function () {
     );
   });
 
-  Expect.describe('Scan qrcode', function () {
+  Expect.describe('Scan qrcode', function() {
     testScanQRCode(setupAndEnrollOktaTotp, setupOktaTotp, resTotpEnrollSuccess, resAllFactors);
 
-    Expect.describe('Manual setup', function () {
+    Expect.describe('Manual setup', function() {
       testScanQRCodeManualSetup(setupAndEnrollOktaTotp, setupOktaTotp, resTotpEnrollSuccess, 'testStateToken');
     });
 
-    Expect.describe('Pass code form', function () {
+    Expect.describe('Pass code form', function() {
       testScanQRCodePassCodeForm(setupAndEnrollOktaTotp, setupOktaTotp, resTotpEnrollSuccess, 'testStateToken');
     });
   });
 
-  Expect.describe('Okta Verify with Push', function () {
+  Expect.describe('Okta Verify with Push', function() {
     testOktaVerify(setupAndEnrollOktaPush, setupOktaPush, resActivatePushSms, resActivatePushTimeout, 'testStateToken');
-    Expect.describe('Manual setup', function () {
+    Expect.describe('Manual setup', function() {
       testManualSetup(
         enrollOktaPushGoCannotScan,
         setupAndEnrollOktaPush,

@@ -24,7 +24,7 @@ export default FormController.extend({
       __autoTriggered__: 'boolean',
     },
 
-    save: function () {
+    save: function() {
       if (!webauthn.isAvailable()) {
         return;
       }
@@ -32,30 +32,30 @@ export default FormController.extend({
       this.trigger('request');
       const model = this;
 
-      return this.doTransaction(function (transaction) {
+      return this.doTransaction(function(transaction) {
         const factor = _.findWhere(transaction.factors, {
           factorType: 'webauthn',
           provider: 'FIDO',
         });
 
-        return factor.verify().then(function (verifyData) {
+        return factor.verify().then(function(verifyData) {
           const factorData = verifyData.factor;
 
           return webauthn
             .getAssertion(factorData.challenge.nonce, [{ id: factorData.profile.credentialId }])
-            .then(function (assertion) {
+            .then(function(assertion) {
               return factor.verify({
                 authenticatorData: assertion.authenticatorData,
                 clientData: assertion.clientData,
                 signatureData: assertion.signature,
               });
             })
-            .then(function (data) {
+            .then(function(data) {
               model.trigger('sync');
               model.trigger('signIn');
               return data;
             })
-            .catch(function (error) {
+            .catch(function(error) {
               switch (error.message) {
               case 'AbortError':
               case 'NotFoundError':
@@ -75,7 +75,7 @@ export default FormController.extend({
     autoSave: true,
     hasSavingState: false,
     title: _.partial(loc, 'factor.windowsHello', 'login'),
-    subtitle: function () {
+    subtitle: function() {
       return webauthn.isAvailable() ? loc('verify.windowsHello.subtitle', 'login') : '';
     },
     save: _.partial(loc, 'verify.windowsHello.save', 'login'),
@@ -84,7 +84,7 @@ export default FormController.extend({
       stop: 'abort',
     },
 
-    modelEvents: function () {
+    modelEvents: function() {
       if (!webauthn.isAvailable()) {
         return {};
       }
@@ -97,11 +97,11 @@ export default FormController.extend({
       };
     },
 
-    noButtonBar: function () {
+    noButtonBar: function() {
       return !webauthn.isAvailable();
     },
 
-    formChildren: function () {
+    formChildren: function() {
       const result = [];
 
       if (!webauthn.isAvailable()) {
@@ -118,14 +118,14 @@ export default FormController.extend({
       return result;
     },
 
-    postRender: function () {
+    postRender: function() {
       if (this.options.appState.get('factors').length === 1 && !this.model.get('__autoTriggered__')) {
         this.model.set('__autoTriggered__', true);
         this.model.save();
       }
     },
 
-    _startEnrollment: function () {
+    _startEnrollment: function() {
       this.subtitle = loc('verify.windowsHello.subtitle.loading', 'login');
 
       this.model.trigger('spinner:show');
@@ -135,7 +135,7 @@ export default FormController.extend({
       this.$('.o-form-button-bar').addClass('hide');
     },
 
-    _stopEnrollment: function (errorMessage) {
+    _stopEnrollment: function(errorMessage) {
       this.subtitle = loc('verify.windowsHello.subtitle', 'login');
 
       this.model.trigger('spinner:hide');
@@ -170,7 +170,7 @@ export default FormController.extend({
       this.render();
     },
 
-    _successEnrollment: function () {
+    _successEnrollment: function() {
       this.subtitle = this.settings.get('brandName')
         ? loc('verify.windowsHello.subtitle.signingIn.specific', 'login', [this.settings.get('brandName')])
         : loc('verify.windowsHello.subtitle.signingIn.generic', 'login');
@@ -178,14 +178,14 @@ export default FormController.extend({
       this.$('.o-form-button-bar').addClass('hide');
     },
 
-    _resetErrorMessage: function () {
+    _resetErrorMessage: function() {
       this._errorMessageView && this._errorMessageView.remove();
       this._errorMessageView = undefined;
       this.clearErrors();
     },
   },
 
-  back: function () {
+  back: function() {
     // Empty function on verify controllers to prevent users
     // from navigating back during 'verify' using the browser's
     // back button. The URL will still change, but the view will not

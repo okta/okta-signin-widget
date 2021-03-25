@@ -6,13 +6,13 @@ import SwitchEnrollChannelLinkView from './SwitchEnrollChannelLinkView';
 
 const Body = BaseForm.extend({
   className: 'oie-enroll-ov-data',
-  title () {
+  title() {
     return this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'email' ?
       loc('oie.enroll.okta_verify.enroll.channel.email.title', 'login'):
       loc('oie.enroll.okta_verify.enroll.channel.sms.title', 'login');
   },
   save: loc('oie.enroll.okta_verify.setupLink', 'login'),
-  getUISchema () {
+  getUISchema() {
     const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
     const phoneNumberUISchema = _.find(uiSchemas, ({ name }) => name === 'phoneNumber');
     const phoneNumberUISchemaIndex = _.findIndex(uiSchemas, ({ name }) => name === 'phoneNumber');
@@ -59,12 +59,12 @@ const Body = BaseForm.extend({
     return uiSchemas;
   },
 
-  handlePhoneCodeChange () {
+  handlePhoneCodeChange() {
     const countryCodeField = this.el.querySelector('.country-code-label');
     countryCodeField.innerText = `+${this.model.get('phoneCode')}`;
   },
 
-  initialize () {
+  initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
     if (this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'sms') {
       this.listenTo(this.model, 'change:phoneCode', this.handlePhoneCodeChange.bind(this));
@@ -74,7 +74,7 @@ const Body = BaseForm.extend({
 
 export default BaseAuthenticatorView.extend({
   Body,
-  createModelClass () {
+  createModelClass() {
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     if (this.options.appState.get('currentAuthenticator').contextualData.selectedChannel !== 'sms') {
       return ModelClass;
@@ -93,7 +93,7 @@ export default BaseAuthenticatorView.extend({
       {
         phoneCode: {
           deps: [ 'country'],
-          fn: function (country) {
+          fn: function(country) {
             return CountryUtil.getCallingCodeForCountry(country);
           },
         },
@@ -103,7 +103,7 @@ export default BaseAuthenticatorView.extend({
     return ModelClass.extend({
       local,
       derived,
-      toJSON: function () {
+      toJSON: function() {
         const modelJSON = Model.prototype.toJSON.call(this, arguments);
         const phoneCode = this.get('phoneCode');
 
@@ -116,7 +116,7 @@ export default BaseAuthenticatorView.extend({
       },
     });
   },
-  postRender () {
+  postRender() {
     this.add(SwitchEnrollChannelLinkView, 'form');
   },
 });

@@ -8,13 +8,13 @@ import ChallengeWebauthnInfoView from './ChallengeWebauthnInfoView';
 
 const Body = BaseForm.extend({
 
-  title () {
+  title() {
     return loc('oie.verify.webauth.title', 'login');
   },
 
   className: 'oie-verify-webauthn',
 
-  getUISchema () {
+  getUISchema() {
     const schema = [];
     // Returning custom array so no input fields are displayed for webauthn
     if (webauthn.isNewApiAvailable()) {
@@ -43,7 +43,7 @@ const Body = BaseForm.extend({
     return schema;
   },
 
-  remove () {
+  remove() {
     BaseForm.prototype.remove.apply(this, arguments);
     if (this.webauthnAbortController) {
       this.webauthnAbortController.abort();
@@ -57,7 +57,7 @@ const Body = BaseForm.extend({
     'error': '_stopVerification'
   },
 
-  getCredentialsAndSave () {
+  getCredentialsAndSave() {
     this.clearErrors();
     this._startVerification();
     this.webauthnAbortController = new AbortController();
@@ -102,13 +102,13 @@ const Body = BaseForm.extend({
     });
   },
 
-  _startVerification: function () {
+  _startVerification: function() {
     this.$('.okta-waiting-spinner').show();
     this.$('.retry-webauthn').hide();
     this.$('.retry-webauthn')[0].textContent = loc('retry', 'login');
   },
 
-  _stopVerification: function () {
+  _stopVerification: function() {
     this.$('.okta-waiting-spinner').hide();
     this.$('.retry-webauthn').show();
   }
@@ -116,7 +116,7 @@ const Body = BaseForm.extend({
 
 export default BaseAuthenticatorView.extend({
   Body,
-  postRender () {
+  postRender() {
     BaseAuthenticatorView.prototype.postRender.apply(this, arguments);
     // Trigger browser prompt automatically for other browsers for better UX.
     if (webauthn.isNewApiAvailable() && !BrowserFeatures.isSafari()) {

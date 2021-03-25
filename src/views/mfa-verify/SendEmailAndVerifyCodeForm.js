@@ -15,7 +15,7 @@ import hbs from 'handlebars-inline-precompile';
 import ResendEmailView from 'views/ResendEmailView';
 import TextBox from 'views/shared/TextBox';
 
-const createEmailMaskElement = function () {
+const createEmailMaskElement = function() {
   const email = this.model.get('email');
   const emailTpl = hbs('<span class="mask-email">{{email}}</span>');
   return { factorEmail: emailTpl({ email }) };
@@ -31,20 +31,20 @@ const SendEmailAndVerifyCodeFormVerifyEmailCodeForm = Form.extend({
   attributes: {
     'data-se': 'factor-email',
   },
-  save: function () {
+  save: function() {
     return this.options.appState.get('isMfaChallenge')
       ? loc('mfa.challenge.verify', 'login')
       : loc('email.button.send', 'login');
   },
 
   events: Object.assign({}, Form.prototype.events, {
-    submit: function (e) {
+    submit: function(e) {
       e.preventDefault();
       this.handleSubmit();
     },
   }),
 
-  handleSubmit () {
+  handleSubmit() {
     this.clearErrors();
     if (this.options.appState.get('isMfaChallenge')) {
       if (this.isValid()) {
@@ -57,7 +57,7 @@ const SendEmailAndVerifyCodeFormVerifyEmailCodeForm = Form.extend({
     }
   },
 
-  initialize: function () {
+  initialize: function() {
     Form.prototype.initialize.apply(this, arguments);
 
     // render 'Send Email' page at first place
@@ -73,7 +73,7 @@ const SendEmailAndVerifyCodeFormVerifyEmailCodeForm = Form.extend({
     );
   },
 
-  renderChallengView: function () {
+  renderChallengView: function() {
     this.removeChildren();
     this.add(
       View.extend({

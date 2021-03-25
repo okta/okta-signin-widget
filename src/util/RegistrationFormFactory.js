@@ -15,14 +15,14 @@ import { _, internal, $ } from 'okta';
 import TextBox from 'views/shared/TextBox';
 let { SchemaFormFactory } = internal.views.forms.helpers;
 
-const getParts = function (username) {
+const getParts = function(username) {
   const usernameArr = username.split('');
   const minPartsLength = 3;
   const userNameParts = [];
   const delimiters = [',', '.', '-', '_', '#', '@'];
   let userNamePart = '';
 
-  _.each(usernameArr, function (part) {
+  _.each(usernameArr, function(part) {
     if (delimiters.indexOf(part) === -1) {
       userNamePart += part;
     } else {
@@ -38,7 +38,7 @@ const getParts = function (username) {
   return userNameParts.filter(Boolean);
 };
 
-const passwordContainsFormField = function (formField, password) {
+const passwordContainsFormField = function(formField, password) {
   if (!formField) {
     return false;
   }
@@ -57,7 +57,7 @@ const passwordContainsFormField = function (formField, password) {
   return false;
 };
 
-const checkSubSchema = function (subSchema, value, model) {
+const checkSubSchema = function(subSchema, value, model) {
   const minLength = subSchema.get('minLength');
   const maxLength = subSchema.get('maxLength');
   const regex = subSchema.get('format');
@@ -97,14 +97,14 @@ const checkSubSchema = function (subSchema, value, model) {
   return true;
 };
 
-const checkSubSchemas = function (fieldName, model, subSchemas, showError) {
+const checkSubSchemas = function(fieldName, model, subSchemas, showError) {
   const value = model.get(fieldName);
 
   if (!_.isString(value)) {
     return;
   }
 
-  subSchemas.each(function (subSchema, index) {
+  subSchemas.each(function(subSchema, index) {
     const ele = $('#subschemas-' + fieldName + ' .subschema-' + index);
 
     //hide password complexity if no password
@@ -128,7 +128,7 @@ const checkSubSchemas = function (fieldName, model, subSchemas, showError) {
   });
 };
 
-const fnCreateInputOptions = function (schemaProperty) {
+const fnCreateInputOptions = function(schemaProperty) {
   let inputOptions = SchemaFormFactory.createInputOptions(schemaProperty);
 
   if (inputOptions.type === 'select') {
@@ -169,22 +169,22 @@ const fnCreateInputOptions = function (schemaProperty) {
 
   if (subSchemas) {
     inputOptions.events = {
-      input: function () {
+      input: function() {
         checkSubSchemas(fieldName, this.model, subSchemas, true);
       },
-      focusout: function () {
+      focusout: function() {
         checkSubSchemas(fieldName, this.model, subSchemas, true);
       },
-      'change:userName': function () {
+      'change:userName': function() {
         checkSubSchemas(fieldName, this.model, subSchemas, true);
       },
-      'change:firstName': function () {
+      'change:firstName': function() {
         checkSubSchemas(fieldName, this.model, subSchemas, true);
       },
-      'change:lastName': function () {
+      'change:lastName': function() {
         checkSubSchemas(fieldName, this.model, subSchemas, true);
       },
-      'change:email': function () {
+      'change:email': function() {
         checkSubSchemas(fieldName, this.model, subSchemas, true);
       },
     };

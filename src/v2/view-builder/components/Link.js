@@ -19,7 +19,7 @@ const Link = View.extend({
 
   tagName: 'a',
 
-  attributes () {
+  attributes() {
     let href = this.options.href  || '#';
     return {
       'data-se': this.options.name,
@@ -27,7 +27,7 @@ const Link = View.extend({
     };
   },
 
-  className () {
+  className() {
     const names = ['link'];
     if (this.options.name) {
       const nameToClass = this.options.name.replace(/[ ]/g, '-');
@@ -36,7 +36,7 @@ const Link = View.extend({
     return names.join(' ');
   },
 
-  postRender () {
+  postRender() {
     // TODO OKTA-245224
     if (!this.options.href) {
       this.$el.click((event) => {

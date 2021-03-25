@@ -15,7 +15,7 @@ import ScopeItem from './ScopeItem';
 export default View.extend({
   className: 'scope-list detail-row',
 
-  postRender: function () {
+  postRender: function() {
     this.model.get('scopes').forEach(scope => {
       this.add(ScopeItem, {
         options: {

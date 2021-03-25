@@ -24,7 +24,7 @@ const terminalRegistrationEmailMock = RequestMock()
 
 fixture('Terminal view');
 
-async function setup (t) {
+async function setup(t) {
   const terminalPageObject = new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
   return terminalPageObject;

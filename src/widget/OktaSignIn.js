@@ -8,13 +8,13 @@ import createRouter from 'widget/createRouter';
 import V1Router from 'LoginRouter';
 import V2Router from 'v2/WidgetRouter';
 
-var OktaSignIn = (function () {
+var OktaSignIn = (function() {
 
   var router;
 
-  function getProperties (authClient, Router, widgetOptions = {}) {
+  function getProperties(authClient, Router, widgetOptions = {}) {
     // Returns a promise that will resolve on success or reject on error
-    function render (renderOptions, successFn, errorFn) {
+    function render(renderOptions, successFn, errorFn) {
       if (router) {
         throw new Error('An instance of the widget has already been rendered. Call remove() first.');
       }
@@ -24,19 +24,19 @@ var OktaSignIn = (function () {
       return res.promise;
     }
 
-    function hide () {
+    function hide() {
       if (router) {
         router.hide();
       }
     }
 
-    function show () {
+    function show() {
       if (router) {
         router.show();
       }
     }
 
-    function remove () {
+    function remove() {
       if (router) {
         router.remove();
         router = undefined;
@@ -47,7 +47,7 @@ var OktaSignIn = (function () {
      * Renders the Widget and returns a promise that resolves to OAuth tokens
      * @param options - options for the signin widget
      */
-    function showSignInToGetTokens (options = {}) {
+    function showSignInToGetTokens(options = {}) {
       const renderOptions = Object.assign(buildRenderOptions(widgetOptions, options), {
         redirect: 'never'
       });
@@ -66,7 +66,7 @@ var OktaSignIn = (function () {
      * Renders the widget and redirects to the OAuth callback
      * @param options - options for the signin widget
      */
-    function showSignInAndRedirect (options = {}) {
+    function showSignInAndRedirect(options = {}) {
       const renderOptions = Object.assign(buildRenderOptions(widgetOptions, options), {
         redirect: 'always'
       });
@@ -77,7 +77,7 @@ var OktaSignIn = (function () {
      * Renders the widget. Either resolves the returned promise, or redirects.
      * @param options - options for the signin widget
      */
-    function showSignIn (options = {}) {
+    function showSignIn(options = {}) {
       const renderOptions = Object.assign(buildRenderOptions(widgetOptions, options));
       return this.renderEl(renderOptions);
     }
@@ -102,7 +102,7 @@ var OktaSignIn = (function () {
    * @param success - success callback function
    * @param error - error callback function
    */
-  function OktaSignIn (options) {
+  function OktaSignIn(options) {
     Util.debugMessage(`
         The Okta Sign-In Widget is running in development mode.
         When you are ready to publish your app, embed the minified version to turn on production mode.
@@ -147,7 +147,7 @@ var OktaSignIn = (function () {
     this.listenTo(Router.prototype, 'all', this.trigger);
 
     // On the first afterRender event (usually when the Widget is ready) - emit a 'ready' event
-    this.once('afterRender', function (context) {
+    this.once('afterRender', function(context) {
       this.trigger('ready', context);
     });
   }

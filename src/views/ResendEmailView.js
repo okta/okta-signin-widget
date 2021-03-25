@@ -31,21 +31,21 @@ export default View.extend({
     'click .resend-email-btn': 'resendEmail',
   },
 
-  postRender: function () {
+  postRender: function() {
     this.showResendCallout();
   },
 
-  showResendCallout: function () {
+  showResendCallout: function() {
     _.delay(() => {
       this.$el.removeClass('hide');
     }, Enums.API_RATE_LIMIT);
   },
 
-  hideResendCallout: function () {
+  hideResendCallout: function() {
     this.$el.addClass('hide');
   },
 
-  resendEmail: function (e) {
+  resendEmail: function(e) {
     e.preventDefault();
     this.hideResendCallout();
     this.model.resend().finally(this.showResendCallout.bind(this));

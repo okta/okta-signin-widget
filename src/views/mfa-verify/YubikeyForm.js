@@ -21,7 +21,7 @@ export default Form.extend({
   layout: 'o-form-theme',
   attributes: { 'data-se': 'factor-yubikey' },
 
-  initialize: function () {
+  initialize: function() {
     const factorName = this.model.get('factorLabel');
 
     this.title = factorName;

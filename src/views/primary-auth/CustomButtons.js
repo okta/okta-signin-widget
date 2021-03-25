@@ -21,7 +21,7 @@ const formTitleTpl = hbs('<h2 data-se="o-form-head" class="okta-form-title o-for
 export default View.extend({
   className: 'primary-auth-container',
 
-  children: function () {
+  children: function() {
     const children = [];
     const socialIdpButtons = this.settings.get('configuredSocialIdps');
     const pivButton = this.settings.get('piv');
@@ -34,7 +34,7 @@ export default View.extend({
 
     _.each(
       socialIdpButtons,
-      function (button) {
+      function(button) {
         children.push(this._createSocialIdpButton(button));
       },
       this
@@ -42,7 +42,7 @@ export default View.extend({
 
     _.each(
       customButtons,
-      function (button) {
+      function(button) {
         children.push(this._createCustomButton(button));
       },
       this
@@ -64,16 +64,16 @@ export default View.extend({
     return children;
   },
 
-  _createSocialIdpButton: function (options) {
+  _createSocialIdpButton: function(options) {
     return createButton({
       attributes: {
         'data-se': options.dataAttr,
       },
       className: options.className,
-      title: function () {
+      title: function() {
         return options.text || loc(options.i18nKey);
       },
-      click: function (e) {
+      click: function(e) {
         e.preventDefault();
         if (this.settings.get('oauth2Enabled')) {
           OAuth2Util.getTokens(this.settings, { idp: options.id }, this.options.currentController);
@@ -89,7 +89,7 @@ export default View.extend({
     });
   },
 
-  _createPivButton: function (options) {
+  _createPivButton: function(options) {
     let className = options.className || '';
     return createButton({
       attributes: {
@@ -97,20 +97,20 @@ export default View.extend({
       },
       className: className + ' piv-button',
       title: options.text || loc('piv.cac.card', 'login'),
-      click: function (e) {
+      click: function(e) {
         e.preventDefault();
         this.options.appState.trigger('navigate', 'signin/verify/piv');
       },
     });
   },
 
-  _createCustomButton: function (options) {
+  _createCustomButton: function(options) {
     return createButton({
       attributes: {
         'data-se': options.dataAttr,
       },
       className: options.className + ' default-custom-button',
-      title: function () {
+      title: function() {
         return options.title || loc(options.i18nKey);
       },
       click: options.click,

@@ -15,8 +15,8 @@ import $sandbox from 'sandbox';
 import LoginUtil from 'util/Util';
 const itp = Expect.itp;
 
-Expect.describe('EnrollEmail', function () {
-  function setup (resp) {
+Expect.describe('EnrollEmail', function() {
+  function setup(resp) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'http://localhost:3000';
     const authClient = createAuthClient({
@@ -36,7 +36,7 @@ Expect.describe('EnrollEmail', function () {
     Util.mockRouterNavigate(router, false);
     setNextResponse(resp);
     router.refreshAuthState('dummy-token');
-    return Expect.waitForEnrollChoices().then(function () {
+    return Expect.waitForEnrollChoices().then(function() {
       router.enrollEmail();
       return Expect.waitForEnrollEmail({
         router: router,
@@ -49,9 +49,9 @@ Expect.describe('EnrollEmail', function () {
     });
   }
 
-  itp('display start enroll email form and is able to send code to email', function () {
+  itp('display start enroll email form and is able to send code to email', function() {
     return setup(xhrEnrollEmail)
-      .then(function (test) {
+      .then(function(test) {
         // 1. verify the page loads
         expect(test.form.titleText()).toBe('Set up Email Authentication');
         expect(test.form.enrollEmailContent()).toBe('Send a verification code to your registered email.');
@@ -61,14 +61,14 @@ Expect.describe('EnrollEmail', function () {
 
         return test;
       })
-      .then(function (test) {
+      .then(function(test) {
         // 2. mock data and click send button.
         Util.resetAjaxRequests();
         test.setNextResponse(xhrEnrollActivateEmail);
         test.form.submit();
         return Expect.waitForAjaxRequest();
       })
-      .then(function () {
+      .then(function() {
         // 3. verify request has been made
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
@@ -82,16 +82,16 @@ Expect.describe('EnrollEmail', function () {
       });
   });
 
-  itp('verify email code', function () {
+  itp('verify email code', function() {
     return setup(xhrEnrollEmail)
-      .then(function (test) {
+      .then(function(test) {
         // 1. click 'send to email' button
         Util.resetAjaxRequests();
         test.setNextResponse(xhrEnrollActivateEmail);
         test.form.submit();
         return Expect.waitForEnrollActivateEmail(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         // 2. assert landing on the email code verification page
         const form = new EnrollActivateEmailForm($sandbox);
         expect(form.titleText()).toBe('Set up Email Authentication');
@@ -107,7 +107,7 @@ Expect.describe('EnrollEmail', function () {
 
         return Object.assign({}, test, { form: form });
       })
-      .then(function (test) {
+      .then(function(test) {
         // 3. submit verification code
         Util.resetAjaxRequests();
         test.setNextResponse(xhrSUCCESS);
@@ -115,7 +115,7 @@ Expect.describe('EnrollEmail', function () {
         test.form.submit();
         return Expect.waitForSpyCall(test.successSpy, test);
       })
-      .then(function (test) {
+      .then(function(test) {
         // 4. enroll successfully
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
@@ -146,17 +146,17 @@ Expect.describe('EnrollEmail', function () {
         });
       });
   });
-  itp('shall be able to resend email', function () {
+  itp('shall be able to resend email', function() {
     Util.speedUpDelay();
     return setup(xhrEnrollEmail)
-      .then(function (test) {
+      .then(function(test) {
         // 1. click 'send to email' button
         Util.resetAjaxRequests();
         test.setNextResponse(xhrEnrollActivateEmail);
         test.form.submit();
         return Expect.waitForEnrollActivateEmail(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         // 2. verify resend again view
         const form = new EnrollActivateEmailForm($sandbox);
         expect(form.getResendEmailMessage().length).toBe(1);
@@ -171,7 +171,7 @@ Expect.describe('EnrollEmail', function () {
         expect(form.getResendEmailView().attr('class')).toBe('resend-email-infobox hide');
         return Expect.waitForAjaxRequest(Object.assign(test, { form }));
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'http://localhost:3000/api/v1/authn' + '/factors/eml198rKSEWOSKRIVIFT/lifecycle/resend',
@@ -183,22 +183,22 @@ Expect.describe('EnrollEmail', function () {
           return test.form.getResendEmailView().attr('class') === 'resend-email-infobox';
         }, test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(test.form.getResendEmailMessage().length).toBe(1);
         expect(test.form.getResendButton().length).toBe(1);
       });
   });
-  itp('shall display resend email error', function () {
+  itp('shall display resend email error', function() {
     Util.speedUpDelay();
     return setup(xhrEnrollEmail)
-      .then(function (test) {
+      .then(function(test) {
         // 1. click 'send to email' button
         Util.resetAjaxRequests();
         test.setNextResponse(xhrEnrollActivateEmail);
         test.form.submit();
         return Expect.waitForEnrollActivateEmail(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         // 2. verify resend again view
         const form = new EnrollActivateEmailForm($sandbox);
         expect(form.getResendEmailMessage().length).toBe(1);
@@ -213,7 +213,7 @@ Expect.describe('EnrollEmail', function () {
         expect(form.getResendEmailView().attr('class')).toBe('resend-email-infobox hide');
         return Expect.waitForFormError(test.form, test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorBox().length).toBe(1);
         expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');

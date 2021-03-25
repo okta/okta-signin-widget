@@ -22,10 +22,10 @@ import webauthn from 'util/webauthn';
 import Footer from 'views/enroll-factors/Footer';
 import HtmlErrorMessageView from 'views/mfa-verify/HtmlErrorMessageView';
 
-function getExcludeCredentials (credentials) {
+function getExcludeCredentials(credentials) {
   const excludeCredentials = [];
 
-  _.each(credentials, function (credential) {
+  _.each(credentials, function(credential) {
     excludeCredentials.push({
       type: 'public-key',
       id: CryptoUtil.strToBin(credential.id),
@@ -41,14 +41,14 @@ export default FormController.extend({
       __enrolled__: 'boolean',
     },
 
-    save: function () {
+    save: function() {
       this.trigger('request');
 
       if (this.get('__enrolled__')) {
         return this.activate();
       }
 
-      return this.doTransaction(function (transaction) {
+      return this.doTransaction(function(transaction) {
         const factor = _.findWhere(transaction.factors, {
           factorType: 'webauthn',
           provider: 'FIDO',
@@ -58,7 +58,7 @@ export default FormController.extend({
       });
     },
 
-    activate: function () {
+    activate: function() {
       this.set('__enrolled__', true);
       this.trigger('errors:clear');
       this.appState.on('backToFactors', () => {
@@ -68,7 +68,7 @@ export default FormController.extend({
         }
       });
 
-      return this.doTransaction(function (transaction) {
+      return this.doTransaction(function(transaction) {
         const activation = transaction.factor.activation;
         // enroll via browser webauthn js
 
@@ -92,13 +92,13 @@ export default FormController.extend({
               signal: self.webauthnAbortController.signal,
             })
           )
-            .then(function (newCredential) {
+            .then(function(newCredential) {
               return transaction.activate({
                 attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
                 clientData: CryptoUtil.binToStr(newCredential.response.clientDataJSON),
               });
             })
-            .catch(function (error) {
+            .catch(function(error) {
               self.trigger('errors:clear');
               // Do not display if it is abort error triggered by code when switching.
               // self.webauthnAbortController would be null if abort was triggered by code.
@@ -110,7 +110,7 @@ export default FormController.extend({
                 });
               }
             })
-            .finally(function () {
+            .finally(function() {
               // unset webauthnAbortController on successful authentication or error
               self.webauthnAbortController = null;
             });
@@ -126,14 +126,14 @@ export default FormController.extend({
     hasSavingState: false,
     autoSave: true,
     className: 'enroll-webauthn-form',
-    noButtonBar: function () {
+    noButtonBar: function() {
       return !webauthn.isNewApiAvailable();
     },
     modelEvents: {
       request: '_startEnrollment',
       error: '_stopEnrollment',
     },
-    formChildren: function () {
+    formChildren: function() {
       const children = [];
 
       if (webauthn.isNewApiAvailable()) {
@@ -160,7 +160,7 @@ export default FormController.extend({
                 <div data-se="webauthn-waiting" class="okta-waiting-spinner hide"></div>\
               '
               ),
-              getTemplateData: function () {
+              getTemplateData: function() {
                 return {
                   isEdge: BrowserFeatures.isEdge(),
                   onlySupportsSecurityKey: (BrowserFeatures.isFirefox() || BrowserFeatures.isSafari()) &&
@@ -187,12 +187,12 @@ export default FormController.extend({
       return children;
     },
 
-    _startEnrollment: function () {
+    _startEnrollment: function() {
       this.$('.okta-waiting-spinner').show();
       this.$('.o-form-button-bar').hide();
     },
 
-    _stopEnrollment: function () {
+    _stopEnrollment: function() {
       this.$('.okta-waiting-spinner').hide();
       this.$('.o-form-button-bar').show();
     },
@@ -200,7 +200,7 @@ export default FormController.extend({
 
   Footer: Footer,
 
-  trapAuthResponse: function () {
+  trapAuthResponse: function() {
     if (this.options.appState.get('isMfaEnrollActivate')) {
       this.model.activate();
       return true;

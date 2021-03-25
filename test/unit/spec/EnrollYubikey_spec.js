@@ -10,8 +10,8 @@ import $sandbox from 'sandbox';
 const itp = Expect.itp;
 const tick = Expect.tick;
 
-Expect.describe('EnrollYubikey', function () {
-  function setup (startRouter) {
+Expect.describe('EnrollYubikey', function() {
+  function setup(startRouter) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authClient = createAuthClient({ issuer: baseUrl });
@@ -36,7 +36,7 @@ Expect.describe('EnrollYubikey', function () {
     const enrollYubikey = test => {
       setNextResponse(resAllFactors);
       router.refreshAuthState('dummy-token');
-      return Expect.waitForEnrollChoices(test).then(function (test) {
+      return Expect.waitForEnrollChoices(test).then(function(test) {
         router.enrollYubikey();
         return Expect.waitForEnrollYubikey(test);
       });
@@ -49,65 +49,65 @@ Expect.describe('EnrollYubikey', function () {
     }
   }
 
-  Expect.describe('Header & Footer', function () {
-    itp('displays the correct factorBeacon', function () {
-      return setup().then(function (test) {
+  Expect.describe('Header & Footer', function() {
+    itp('displays the correct factorBeacon', function() {
+      return setup().then(function(test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
         expect(test.beacon.hasClass('mfa-yubikey')).toBe(true);
       });
     });
-    itp('has a "back" link in the footer', function () {
-      return setup().then(function (test) {
+    itp('has a "back" link in the footer', function() {
+      return setup().then(function(test) {
         Expect.isVisible(test.form.backLink());
       });
     });
   });
 
-  Expect.describe('Enroll factor', function () {
-    itp('has passCode field', function () {
-      return setup().then(function (test) {
+  Expect.describe('Enroll factor', function() {
+    itp('has passCode field', function() {
+      return setup().then(function(test) {
         Expect.isPasswordField(test.form.codeField());
       });
     });
-    itp('has a verify button', function () {
-      return setup().then(function (test) {
+    itp('has a verify button', function() {
+      return setup().then(function(test) {
         Expect.isVisible(test.form.submitButton());
       });
     });
-    itp('does not allow autocomplete', function () {
-      return setup().then(function (test) {
+    itp('does not allow autocomplete', function() {
+      return setup().then(function(test) {
         expect(test.form.getCodeFieldAutocomplete()).toBe('off');
       });
     });
-    itp('returns to factor list when browser\'s back button is clicked', function () {
+    itp('returns to factor list when browser\'s back button is clicked', function() {
       return setup(true)
-        .then(function (test) {
+        .then(function(test) {
           Util.triggerBrowserBackButton();
           return Expect.waitForEnrollChoices(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Expect.isEnrollChoices(test.router.controller);
           Util.stopRouter();
         });
     });
-    itp('does not send request and shows error if code is not entered', function () {
-      return setup().then(function (test) {
+    itp('does not send request and shows error if code is not entered', function() {
+      return setup().then(function(test) {
         Util.resetAjaxRequests();
         test.form.submit();
         expect(test.form.hasErrors()).toBe(true);
         expect(Util.numAjaxRequests()).toBe(0);
       });
     });
-    itp('calls enroll with the right params', function () {
+    itp('calls enroll with the right params', function() {
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.form.setCode(123456);
           test.setNextResponse(resSuccess);
           test.form.submit();
           return tick();
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors',

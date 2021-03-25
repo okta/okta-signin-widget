@@ -14,7 +14,7 @@ export default View.extend({
 
   Footer: BaseFooter,
 
-  className () {
+  className() {
     const appState = this.options.appState;
 
     const formName = appState.get('currentFormName');
@@ -39,7 +39,7 @@ export default View.extend({
     <div class="siw-main-footer"></div>
   `,
 
-  preRender () {
+  preRender() {
     View.prototype.preRender.apply(this, arguments);
     // Add Views
     if (this.Header !== null) {
@@ -55,7 +55,7 @@ export default View.extend({
     });
   },
 
-  renderForm () {
+  renderForm() {
     let optionUiSchemaConfig;
 
     if (this.form) {
@@ -101,7 +101,7 @@ export default View.extend({
     });
   },
 
-  createModelClass (currentViewState, optionUiSchemaConfig = {}) {
+  createModelClass(currentViewState, optionUiSchemaConfig = {}) {
     return BaseModel.create(currentViewState, optionUiSchemaConfig);
   },
 

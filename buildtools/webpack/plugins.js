@@ -8,30 +8,30 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const UglifyJsPlugin = optimize.UglifyJsPlugin;
 
-function webpackBundleAnalyzer (reportFilename = 'okta-sign-in.analyzer') {
+function webpackBundleAnalyzer(reportFilename = 'okta-sign-in.analyzer') {
   return new BundleAnalyzerPlugin({
     openAnalyzer: false,
     reportFilename: `${reportFilename}.html`,
     analyzerMode: 'static',
   });
 }
-function emptyModule () {
+function emptyModule() {
   return new IgnorePlugin(/^\.\/locale$/, /moment$/);
 }
 
-function prodMode () {
+function prodMode() {
   return new DefinePlugin({
     DEBUG: false
   });
 }
 
-function devMode () {
+function devMode() {
   return new DefinePlugin({
     DEBUG: true
   });
 }
 
-function uglify () {
+function uglify() {
   return new UglifyJsPlugin({
     compress: {
       warnings: false,
@@ -80,22 +80,22 @@ function uglify () {
   });
 }
 
-function banner () {
+function banner() {
   // Add a single Okta license after removing others
   const license = readFileSync(join(__dirname, '../../src/widget/copyright.txt'), 'utf8');
   return new BannerPlugin(license);
 }
 
-function failOnBuildFail () {
-  return function () {
-    this.plugin('done', function (build) {
+function failOnBuildFail() {
+  return function() {
+    this.plugin('done', function(build) {
       // webpack 3.x and karma-webpack combo will fail to treat seom missing assets as build failures
       // See https://oktainc.atlassian.net/browse/OKTA-253137
       if( build.compilation.warnings.length || build.compilation.errors.length ) {
         [
           ...build.compilation.warnings,
           ...build.compilation.errors,
-        ].forEach(function ( warning ) { console.error( warning ); });
+        ].forEach(function( warning ) { console.error( warning ); });
         console.error('failOnBuildFail plugin Forcibly killing build because of webpack compile failure');
         throw new Error('Plugin failOnBuildFail forcing build abort');
       }
@@ -103,7 +103,7 @@ function failOnBuildFail () {
   };
 }
 
-function plugins (options = {}) {
+function plugins(options = {}) {
   const { isProduction, skipAnalyzer } = options;
   const list = isProduction ? 
     // Uglify and add license header

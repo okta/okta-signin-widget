@@ -16,7 +16,7 @@ import FormType from 'util/FormType';
 import Util from 'util/Util';
 import TextBox from 'views/shared/TextBox';
 const form = {
-  title: function () {
+  title: function() {
     const factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
 
     return loc('enroll.totp.title', 'login', [factorName]);
@@ -26,7 +26,7 @@ const form = {
   noButtonBar: true,
   attributes: { 'data-se': 'step-sendcode' },
 
-  formChildren: function () {
+  formChildren: function() {
     return [
       FormType.Input({
         label: loc('mfa.challenge.enterCode.placeholder', 'login'),

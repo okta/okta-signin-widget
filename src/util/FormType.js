@@ -20,8 +20,8 @@ const DIVIDER = 'DIVIDER';
 const TOOLBAR = 'TOOLBAR';
 const VIEW = 'VIEW';
 
-function wrap (type) {
-  return function (viewOptions, addOptions) {
+function wrap(type) {
+  return function(viewOptions, addOptions) {
     return { type: type, viewOptions: viewOptions, addOptions: addOptions };
   };
 }

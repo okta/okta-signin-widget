@@ -4,7 +4,7 @@
 var ENV = require('./test/e2e/env');
 ENV.config();
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 
   require('load-grunt-tasks')(grunt);
   require('time-grunt')(grunt);
@@ -55,7 +55,7 @@ module.exports = function (grunt) {
             cwd: 'packages/@okta/qtip2/dist/',
             src: 'jquery.qtip.css',
             dest: 'target/sass/widgets',
-            rename: function () {
+            rename: function() {
               return 'target/sass/widgets/_jquery.qtip.scss';
             }
           }
@@ -71,7 +71,7 @@ module.exports = function (grunt) {
               'properties/{login,country}_id.properties'
             ],
             dest: I18N_SRC,
-            rename (dest, src) {
+            rename(dest, src) {
               var targetFile = `${dest}/${src.replace('_id', '_in')}`;
               grunt.log.write(`Generates _in properties: ${dest}/${src} to ${targetFile} \n`);
               return targetFile;
@@ -99,7 +99,7 @@ module.exports = function (grunt) {
             cwd: 'target/css',
             src: ['*.css', '*.css.map'],
             dest: DIST + '/css',
-            rename: function (dest, src) {
+            rename: function(dest, src) {
               if (src === 'okta-sign-in.css') {
                 return path.resolve(dest, 'okta-sign-in.min.css');
               }
@@ -111,7 +111,7 @@ module.exports = function (grunt) {
 
       'e2e': {
         options: {
-          process: function (content) {
+          process: function(content) {
             var browserName = grunt.option('browserName') || 'phantomjs',
                 tpl = Handlebars.compile(content),
                 tplVars = {
@@ -174,7 +174,7 @@ module.exports = function (grunt) {
 
       'e2e-pages': {
         options: {
-          process: function (content) {
+          process: function(content) {
             var cdnLayout = grunt.file.read('./test/e2e/layouts/cdn.tpl', {encoding: 'utf8'}),
                 devLayout = grunt.file.read('./test/e2e/layouts/cdn-dev.tpl', {encoding: 'utf8'}),
                 indexLayout = grunt.file.read('./test/e2e/layouts/index.tpl', {encoding: 'utf8'}),
@@ -199,7 +199,7 @@ module.exports = function (grunt) {
             cwd: 'test/e2e/templates/',
             src: '*.tpl',
             dest: 'target/',
-            rename: function (dest, src) {
+            rename: function(dest, src) {
               return dest + path.basename(src, '.tpl') + '.html';
             }
           },
@@ -224,7 +224,7 @@ module.exports = function (grunt) {
           failOnMatch: true,
           logFile: SEARCH_OUT_FILE,
           logFormat: 'xml',
-          onMatch: function (match) {
+          onMatch: function(match) {
             grunt.log.errorlns('URLs starting with \'/\' are not allowed in SCSS files. ' +
               'Fix this by replacing with a relative link.');
             grunt.log.errorlns('Found in file: ' + match.file + '. Line: ' + match.line);
@@ -331,7 +331,7 @@ module.exports = function (grunt) {
     'test-e2e',
     'Runs end to end webdriver tests. Pass in `--browserName {{browser}}` to ' +
     'override default phantomjs browser',
-    function () {
+    function() {
       // Print warnings for missing environment variables
       ENV.checkValues();
 
@@ -356,7 +356,7 @@ module.exports = function (grunt) {
     }
   );
 
-  grunt.task.registerTask('assets', function (target) {
+  grunt.task.registerTask('assets', function(target) {
     const prodBuild = target === 'release';
     const buildTasks = [
       'copy:generate-in-translation',
@@ -376,7 +376,7 @@ module.exports = function (grunt) {
     grunt.task.run(buildTasks);
   });
 
-  grunt.task.registerTask('build', function (target, mode) {
+  grunt.task.registerTask('build', function(target, mode) {
     const prodBuild = target === 'release';
     const buildTasks = [];
     const postBuildTasks = [];

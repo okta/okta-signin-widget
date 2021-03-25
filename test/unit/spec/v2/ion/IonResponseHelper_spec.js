@@ -2,7 +2,7 @@ import { _ } from 'okta';
 import IonResponseHelper from 'v2/ion/IonResponseHelper';
 import Bundles from 'util/Bundles';
 
-describe('v2/ion/IonResponseHelper', function () {
+describe('v2/ion/IonResponseHelper', function() {
   let originalLoginBundle;
 
   beforeAll(() => {

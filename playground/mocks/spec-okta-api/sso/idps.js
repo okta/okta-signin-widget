@@ -4,7 +4,7 @@ const apis = [
     proxy: false,
     path: '/sso/idps/:idpId',
     method: 'GET',
-    template (params) {
+    template(params) {
       // At real case, `/sso/idps/:id` would 302 to 3rd party login page.
       // To simplify the test flow, responds 200 instead.
       return `

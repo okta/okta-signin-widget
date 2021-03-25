@@ -19,8 +19,8 @@ const itp = Expect.itp;
 const testAttestationObject = 'c29tZS1yYW5kb20tYXR0ZXN0YXRpb24tb2JqZWN0';
 const testClientData = 'c29tZS1yYW5kb20tY2xpZW50LWRhdGE=';
 
-Expect.describe('EnrollWebauthn', function () {
-  function setup (startRouter, onlyWebauthn) {
+Expect.describe('EnrollWebauthn', function() {
+  function setup(startRouter, onlyWebauthn) {
     const settings = {};
 
     settings['features.webauthn'] = true;
@@ -59,7 +59,7 @@ Expect.describe('EnrollWebauthn', function () {
     const enrollWebAuthn = test => {
       setNextResponse(onlyWebauthn ? resWebauthn : resAllFactors);
       router.refreshAuthState('dummy-token');
-      return Expect.waitForEnrollChoices(test).then(function (test) {
+      return Expect.waitForEnrollChoices(test).then(function(test) {
         router.enrollWebauthn();
         return Expect.waitForEnrollWebauthn(test);
       });
@@ -71,14 +71,14 @@ Expect.describe('EnrollWebauthn', function () {
     }
   }
 
-  function mockWebauthn () {
-    navigator.credentials = { create: function () {} };
+  function mockWebauthn() {
+    navigator.credentials = { create: function() {} };
   }
 
-  function mockWebauthnSuccessRegistration (resolvePromise) {
+  function mockWebauthnSuccessRegistration(resolvePromise) {
     mockWebauthn();
     spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
-    spyOn(navigator.credentials, 'create').and.callFake(function () {
+    spyOn(navigator.credentials, 'create').and.callFake(function() {
       const deferred = Q.defer();
 
       if (resolvePromise) {
@@ -93,10 +93,10 @@ Expect.describe('EnrollWebauthn', function () {
     });
   }
 
-  function mockWebauthnFailureRegistration () {
+  function mockWebauthnFailureRegistration() {
     Q.stopUnhandledRejectionTracking();
     mockWebauthn();
-    spyOn(navigator.credentials, 'create').and.callFake(function () {
+    spyOn(navigator.credentials, 'create').and.callFake(function() {
       const deferred = Q.defer();
 
       deferred.reject({ message: 'something went wrong' });
@@ -104,25 +104,25 @@ Expect.describe('EnrollWebauthn', function () {
     });
   }
 
-  Expect.describe('Header & Footer', function () {
-    itp('displays the correct factorBeacon', function () {
-      return setup().then(function (test) {
+  Expect.describe('Header & Footer', function() {
+    itp('displays the correct factorBeacon', function() {
+      return setup().then(function(test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
         expect(test.beacon.hasClass('mfa-webauthn')).toBe(true);
       });
     });
-    itp('has a "back" link in the footer', function () {
-      return setup().then(function (test) {
+    itp('has a "back" link in the footer', function() {
+      return setup().then(function(test) {
         Expect.isVisible(test.form.backLink());
       });
     });
   });
 
-  Expect.describe('Enroll factor', function () {
-    itp('shows error if browser does not support webauthn', function () {
+  Expect.describe('Enroll factor', function() {
+    itp('shows error if browser does not support webauthn', function() {
       spyOn(webauthn, 'isNewApiAvailable').and.returnValue(false);
 
-      return setup().then(function (test) {
+      return setup().then(function(test) {
         expect(test.form.errorHtml()).toHaveLength(1);
         expect(test.form.errorHtml().html()).toEqual(
           'Security key or biometric authenticator is not supported on this browser.' +
@@ -131,10 +131,10 @@ Expect.describe('EnrollWebauthn', function () {
       });
     });
 
-    itp('shows error if browser does not support webauthn and only one factor', function () {
+    itp('shows error if browser does not support webauthn and only one factor', function() {
       spyOn(webauthn, 'isNewApiAvailable').and.returnValue(false);
 
-      return setup(false, true).then(function (test) {
+      return setup(false, true).then(function(test) {
         expect(test.form.errorHtml()).toHaveLength(1);
         expect(test.form.errorHtml().html()).toEqual(
           'Security key or biometric authenticator is not supported on this browser.' +
@@ -143,25 +143,25 @@ Expect.describe('EnrollWebauthn', function () {
       });
     });
 
-    itp('does not show error if browser supports webauthn', function () {
+    itp('does not show error if browser supports webauthn', function() {
       spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
-      return setup().then(function (test) {
+      return setup().then(function(test) {
         expect(test.form.errorHtml()).toHaveLength(0);
       });
     });
 
-    itp('shows instructions and a register button', function () {
+    itp('shows instructions and a register button', function() {
       spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
-      return setup().then(function (test) {
+      return setup().then(function(test) {
         Expect.isVisible(test.form.enrollInstructions());
         Expect.isVisible(test.form.submitButton());
       });
     });
 
-    itp('shows correct instructions for Edge browser', function () {
+    itp('shows correct instructions for Edge browser', function() {
       spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
       spyOn(BrowserFeatures, 'isEdge').and.returnValue(true);
-      return setup().then(function (test) {
+      return setup().then(function(test) {
         Expect.isVisible(test.form.enrollInstructions());
         Expect.isVisible(test.form.enrollEdgeInstructions());
         expect(test.form.enrollEdgeInstructions().text()).toEqual(
@@ -173,12 +173,12 @@ Expect.describe('EnrollWebauthn', function () {
       });
     });
 
-    itp('shows a note on support restrictions for firefox on mac', function () {
+    itp('shows a note on support restrictions for firefox on mac', function() {
       spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
       spyOn(BrowserFeatures, 'isFirefox').and.returnValue(true);
       spyOn(BrowserFeatures, 'isSafari').and.returnValue(false);
       spyOn(BrowserFeatures, 'isMac').and.returnValue(true);
-      return setup().then(function (test) {
+      return setup().then(function(test) {
         Expect.isVisible(test.form.enrollInstructions());
         Expect.isVisible(test.form.enrollRestrictions());
         expect(test.form.enrollRestrictions().text()).toEqual(
@@ -191,12 +191,12 @@ Expect.describe('EnrollWebauthn', function () {
       });
     });
 
-    itp('shows a note on support restrictions for safari on mac', function () {
+    itp('shows a note on support restrictions for safari on mac', function() {
       spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
       spyOn(BrowserFeatures, 'isFirefox').and.returnValue(false);
       spyOn(BrowserFeatures, 'isSafari').and.returnValue(true);
       spyOn(BrowserFeatures, 'isMac').and.returnValue(true);
-      return setup().then(function (test) {
+      return setup().then(function(test) {
         Expect.isVisible(test.form.enrollInstructions());
         Expect.isVisible(test.form.enrollRestrictions());
         expect(test.form.enrollRestrictions().text()).toEqual(
@@ -209,16 +209,16 @@ Expect.describe('EnrollWebauthn', function () {
       });
     });
 
-    itp('calls abort on appstate when switching to factor list after clicking enroll', function () {
+    itp('calls abort on appstate when switching to factor list after clicking enroll', function() {
       mockWebauthnSuccessRegistration(false);
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse([resEnrollActivateWebauthn]);
           test.form.submit();
           return Expect.waitForSpyCall(navigator.credentials.create, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.webauthnAbortController = test.router.controller.model.webauthnAbortController;
           expect(test.webauthnAbortController).toBeDefined();
@@ -227,37 +227,37 @@ Expect.describe('EnrollWebauthn', function () {
           test.form.backLink().click();
           return Expect.waitForEnrollChoices(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.router.controller.model.webauthnAbortController).not.toBeDefined();
           expect(test.webauthnAbortController.abort).toHaveBeenCalled();
         });
     });
 
-    itp('shows a waiting spinner after submitting the form', function () {
+    itp('shows a waiting spinner after submitting the form', function() {
       mockWebauthnSuccessRegistration(true);
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(navigator.credentials.create, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           Expect.isVisible(test.form.enrollInstructions());
           Expect.isVisible(test.form.enrollSpinningIcon());
           Expect.isNotVisible(test.form.submitButton());
         });
     });
 
-    itp('sends enroll request after submitting the form', function () {
+    itp('sends enroll request after submitting the form', function() {
       mockWebauthnSuccessRegistration(true);
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(2);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/factors',
@@ -270,16 +270,16 @@ Expect.describe('EnrollWebauthn', function () {
         });
     });
 
-    itp('calls navigator.credentials.create and activates the factor', function () {
+    itp('calls navigator.credentials.create and activates the factor', function() {
       mockWebauthnSuccessRegistration(true);
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(test.successSpy, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(navigator.credentials.create).toHaveBeenCalledWith({
             publicKey: {
               rp: {
@@ -329,18 +329,18 @@ Expect.describe('EnrollWebauthn', function () {
         });
     });
 
-    itp('shows error when navigator.credentials.create failed', function () {
+    itp('shows error when navigator.credentials.create failed', function() {
       spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
 
       mockWebauthnFailureRegistration();
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse([resEnrollActivateWebauthn, resSuccess]);
           test.form.submit();
           return Expect.waitForSpyCall(navigator.credentials.create, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(navigator.credentials.create).toHaveBeenCalled();
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorBox()).toHaveLength(1);

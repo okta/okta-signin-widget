@@ -3,7 +3,7 @@ import Util from 'util/Util';
 import config from 'config/config.json';
 import _ from 'underscore';
 
-export default function (options) {
+export default function(options) {
   var authParams = _.extend({
     transformErrorXHR: Util.transformErrorXHR,
     headers: {

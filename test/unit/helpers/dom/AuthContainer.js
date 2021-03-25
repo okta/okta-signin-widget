@@ -1,10 +1,10 @@
 import Dom from './Dom';
 export default Dom.extend({
-  authContainer: function () {
+  authContainer: function() {
     return this.el('auth-container');
   },
 
-  canBeMinimized: function () {
+  canBeMinimized: function() {
     return this.authContainer().hasClass('can-remove-beacon');
   },
 });

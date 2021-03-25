@@ -2,57 +2,57 @@ import Form from './Form';
 const NEW_PASSWORD_FIELD = 'newPassword';
 const CONFIRM_PASSWORD_FIELD = 'confirmPassword';
 export default Form.extend({
-  passwordRequirementsHtmlList: function () {
+  passwordRequirementsHtmlList: function() {
     return this.el('password-requirements-html');
   },
 
-  passwordRequirementsHtmlHeader: function () {
+  passwordRequirementsHtmlHeader: function() {
     return this.passwordRequirementsHtmlList().find('.password-requirements--header');
   },
 
-  passwordRequirementsHtmlListItems: function () {
+  passwordRequirementsHtmlListItems: function() {
     return this.passwordRequirementsHtmlList().find('.password-requirements--list-item');
   },
 
-  newPasswordField: function () {
+  newPasswordField: function() {
     return this.input(NEW_PASSWORD_FIELD);
   },
 
-  getNewPasswordAutocomplete: function () {
+  getNewPasswordAutocomplete: function() {
     return this.autocomplete(NEW_PASSWORD_FIELD);
   },
 
-  confirmPasswordField: function () {
+  confirmPasswordField: function() {
     return this.input(CONFIRM_PASSWORD_FIELD);
   },
 
-  getConfirmPasswordAutocomplete: function () {
+  getConfirmPasswordAutocomplete: function() {
     return this.autocomplete(CONFIRM_PASSWORD_FIELD);
   },
 
-  setNewPassword: function (val) {
+  setNewPassword: function(val) {
     const field = this.newPasswordField();
 
     field.val(val);
     field.trigger('change');
   },
 
-  setConfirmPassword: function (val) {
+  setConfirmPassword: function(val) {
     const field = this.confirmPasswordField();
 
     field.val(val);
     field.trigger('change');
   },
 
-  newPassFieldError: function () {
+  newPassFieldError: function() {
     return this.error(NEW_PASSWORD_FIELD);
   },
 
-  confirmPassFieldError: function () {
+  confirmPassFieldError: function() {
     return this.error(CONFIRM_PASSWORD_FIELD);
   },
 
-  signoutLink: function () {
+  signoutLink: function() {
     return this.el('signout-link');
   },
 });

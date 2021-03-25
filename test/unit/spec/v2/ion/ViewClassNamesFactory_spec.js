@@ -1,8 +1,8 @@
 import { getClassNameMapping, getV1ClassName } from 'v2/ion/ViewClassNamesFactory';
 
-describe('v1/ion/ViewClassNamesFactory', function () {
-  describe('getClassNameMapping for v2 flow plus getV1ClassName', function () {
-    it('for identify form with password', function () {
+describe('v1/ion/ViewClassNamesFactory', function() {
+  describe('getClassNameMapping for v2 flow plus getV1ClassName', function() {
+    it('for identify form with password', function() {
       const v2Class = getClassNameMapping('identify', 'okta_password', null, false);
       expect(v2Class).toEqual(['identify--okta_password', 'primary-auth']);
 
@@ -10,7 +10,7 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       expect(v1Class).toEqual('primary-auth');
     });
 
-    it('for identify form', function () {
+    it('for identify form', function() {
       const v2Class = getClassNameMapping('identify', null, null);
       expect(v2Class).toEqual(['identify', 'primary-auth']);
 
@@ -18,7 +18,7 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       expect(v1Class).toEqual('primary-auth');
     });
 
-    it('for identify-recovery form', function () {
+    it('for identify-recovery form', function() {
       const v2Class = getClassNameMapping('identify-recovery', null, null);
       expect(v2Class).toEqual(['identify-recovery', 'forgot-password']);
 
@@ -26,7 +26,7 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       expect(v1Class).toEqual('forgot-password');
     });
 
-    it('for select-authenticator-authenticate form', function () {
+    it('for select-authenticator-authenticate form', function() {
       const v2Class = getClassNameMapping('select-authenticator-authenticate', null, null);
       expect(v2Class).toEqual(['select-authenticator-authenticate']);
 
@@ -34,7 +34,7 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       expect(v1Class).toEqual(null);
     });
 
-    it('for select-authenticator-authenticate form with password', function () {
+    it('for select-authenticator-authenticate form with password', function() {
       const v2Class = getClassNameMapping('select-authenticator-authenticate', 'okta_password', null);
       expect(v2Class).toEqual(['select-authenticator-authenticate--okta_password', 'forgot-password']);
 
@@ -42,7 +42,7 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       expect(v1Class).toEqual('forgot-password');
     });
 
-    it('for select-authenticator-enroll form', function () {
+    it('for select-authenticator-enroll form', function() {
       const v2Class = getClassNameMapping('select-authenticator-enroll', null, null);
       expect(v2Class).toEqual(['select-authenticator-enroll', 'enroll-choices']);
 
@@ -50,7 +50,7 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       expect(v1Class).toEqual('enroll-choices');
     });
 
-    it('for challenge-authenticator form with email', function () {
+    it('for challenge-authenticator form with email', function() {
       const v2Class = getClassNameMapping('challenge-authenticator', 'okta_email', null);
       expect(v2Class).toEqual(['challenge-authenticator--okta_email', 'mfa-verify-passcode']);
 
@@ -58,7 +58,7 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       expect(v1Class).toEqual('mfa-verify-passcode');
     });
 
-    it('for challenge-authenticator form with security_question', function () {
+    it('for challenge-authenticator form with security_question', function() {
       const v2Class = getClassNameMapping('challenge-authenticator', 'security_question', null);
       expect(v2Class).toEqual(['challenge-authenticator--security_question', 'mfa-verify-question']);
 
@@ -66,7 +66,7 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       expect(v1Class).toEqual('mfa-verify-question');
     });
 
-    it('for enroll-authenticator form with security_question', function () {
+    it('for enroll-authenticator form with security_question', function() {
       const v2Class = getClassNameMapping('enroll-authenticator', 'security_question', null);
       expect(v2Class).toEqual(['enroll-authenticator--security_question', 'enroll-question']);
 
@@ -74,7 +74,7 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       expect(v1Class).toEqual('enroll-question');
     });
 
-    it('for enroll-authenticator form with email', function () {
+    it('for enroll-authenticator form with email', function() {
       const v2Class = getClassNameMapping('enroll-authenticator', 'okta_email', null);
       expect(v2Class).toEqual(['enroll-authenticator--okta_email', 'enroll-email']);
 
@@ -82,7 +82,7 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       expect(v1Class).toEqual('enroll-email');
     });
 
-    it('for enroll-authenticator form with password', function () {
+    it('for enroll-authenticator form with password', function() {
       const v2Class = getClassNameMapping('enroll-authenticator', 'okta_password', null);
       expect(v2Class).toEqual(['enroll-authenticator--okta_password', 'enroll-password']);
 
@@ -90,7 +90,7 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       expect(v1Class).toEqual('enroll-password');
     });
 
-    it('for enroll-authenticator form with sms', function () {
+    it('for enroll-authenticator form with sms', function() {
       const v2Class = getClassNameMapping('enroll-authenticator', 'phone_number', 'sms', null);
       expect(v2Class).toEqual(['enroll-authenticator--phone_number', 'enroll-sms']);
 
@@ -98,7 +98,7 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       expect(v1Class).toEqual('enroll-sms');
     });
 
-    it('for enroll-authenticator form with voice', function () {
+    it('for enroll-authenticator form with voice', function() {
       const v2Class = getClassNameMapping('enroll-authenticator', 'phone_number', 'voice', null);
       expect(v2Class).toEqual(['enroll-authenticator--phone_number', 'enroll-call']);
 
@@ -106,7 +106,7 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       expect(v1Class).toEqual('enroll-call');
     });
 
-    it('for reenroll-authenticator form with voice', function () {
+    it('for reenroll-authenticator form with voice', function() {
       const v2Class = getClassNameMapping('reenroll-authenticator', 'okta_password', null);
       expect(v2Class).toEqual(['reenroll-authenticator--okta_password', 'password-expired']);
 
@@ -114,7 +114,7 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       expect(v1Class).toEqual('password-expired');
     });
 
-    it('for reset-authenticator form with voice', function () {
+    it('for reset-authenticator form with voice', function() {
       const v2Class = getClassNameMapping('reset-authenticator', 'okta_password', null);
       expect(v2Class).toEqual(['reset-authenticator--okta_password', 'forgot-password']);
 
@@ -122,7 +122,7 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       expect(v1Class).toEqual('forgot-password');
     });
 
-    it('for success form', function () {
+    it('for success form', function() {
       const v2Class = getClassNameMapping('success-redirect', null, null);
       expect(v2Class).toEqual(['success-redirect']);
 
@@ -130,7 +130,7 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       expect(v1Class).toEqual(null);
     });
 
-    it('for terminal form', function () {
+    it('for terminal form', function() {
       const v2Class = getClassNameMapping('terminal', null, null);
       expect(v2Class).toEqual(['terminal']);
 
@@ -138,7 +138,7 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       expect(v1Class).toEqual(null);
     });
 
-    it('for authenticator-verification-data form wih email method sms', function () {
+    it('for authenticator-verification-data form wih email method sms', function() {
       const v2Class = getClassNameMapping('authenticator-verification-data', 'phone_number', 'sms');
       expect(v2Class).toEqual(['authenticator-verification-data--phone_number']);
 
@@ -146,7 +146,7 @@ describe('v1/ion/ViewClassNamesFactory', function () {
       expect(v1Class).toEqual(null);
     });
 
-    it('for authenticator-verification-data form wih email method voice', function () {
+    it('for authenticator-verification-data form wih email method voice', function() {
       const v2Class = getClassNameMapping('authenticator-verification-data', 'phone_number', 'voice');
       expect(v2Class).toEqual(['authenticator-verification-data--phone_number']);
 

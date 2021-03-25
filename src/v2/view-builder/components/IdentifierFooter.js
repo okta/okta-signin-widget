@@ -4,7 +4,7 @@ import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { getForgotPasswordLink, getSignUpLink } from '../utils/LinksUtil';
 
 export default BaseFooter.extend({
-  links () {
+  links() {
     let helpLinkHref;
     if (this.options.settings.get('helpLinks.help')) {
       helpLinkHref = this.options.settings.get('helpLinks.help');

@@ -10,15 +10,15 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
     super(t);
   }
 
-  getPushButton () {
+  getPushButton() {
     return this.form.getElement('.send-push');
   }
 
-  getA11ySpan () {
+  getA11ySpan() {
     return this.form.getElement('.accessibility-text');
   }
 
-  getResendPushButton () {
+  getResendPushButton() {
     return this.form.getElement('.button-primary');
   }
 
@@ -34,7 +34,7 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
     await this.form.el.find(FORM_INFOBOX_ERROR).exists;
   }
 
-  getErrorBox () {
+  getErrorBox() {
     return this.form.getElement(FORM_INFOBOX_ERROR);
   }
 
@@ -42,7 +42,7 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
     return this.form.getElement(FORM_INFOBOX_ERROR_TITLE);
   }
 
-  getWarningBox () {
+  getWarningBox() {
     return this.form.getElement(FORM_INFOBOX_WARNING);
   }
 

@@ -9,24 +9,24 @@ const Body = BaseForm.extend(
       'click a.phone-authenticator-challenge__link' : 'handleSecondaryLinkClick'
     },
 
-    title () {
+    title() {
       return loc('oie.phone.verify.title', 'login');
     },
 
-    save () {
+    save() {
       return (this.model.get('primaryMode') === 'sms')
         ? loc('oie.phone.sms.primaryButton', 'login')
         : loc('oie.phone.call.primaryButton', 'login');
     },
 
-    handleSecondaryLinkClick () {
+    handleSecondaryLinkClick() {
       // Call the API to send a code via secondary mode
       const secondaryMode = this.model.get('secondaryMode');
       this.model.set('authenticator.methodType', secondaryMode);
       this.saveForm(this.model);
     },
 
-    initialize () {
+    initialize() {
       BaseForm.prototype.initialize.apply(this, arguments);
       const sendText = ( this.model.get('primaryMode') === 'sms' )
         ? loc('oie.phone.verify.sms.sendText', 'login')
@@ -40,13 +40,13 @@ const Body = BaseForm.extend(
       </div>`);
     },
 
-    getUISchema () {
+    getUISchema() {
       // Change the UI schema to not display radios here.
       const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
       return uiSchemas.filter(schema => schema.name !== 'authenticator.methodType');
     },
 
-    render () {
+    render() {
       BaseForm.prototype.render.apply(this, arguments);
       const secondaryMode = this.model.get('secondaryMode');
       if (secondaryMode) {
@@ -66,7 +66,7 @@ const Body = BaseForm.extend(
 export default BaseAuthenticatorView.extend({
   Body,
 
-  createModelClass ({ uiSchema }) {
+  createModelClass({ uiSchema }) {
     // It is important to get methods from here to maintain single source of truth.
     const { options: methods } = _.find(uiSchema, schema => schema.name === 'authenticator.methodType');
     const relatesToObject = this.options.currentViewState.relatesTo;

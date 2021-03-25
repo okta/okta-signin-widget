@@ -4,7 +4,7 @@ const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] [data-se="callout
 const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
 
 export default class EnrollOktaVerifyPageObject extends BasePageObject {
-  constructor (t) {
+  constructor(t) {
     super(t);
   }
 
@@ -16,11 +16,11 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
     return this.form.elementExist('.qrcode');
   }
 
-  hasEnrollViaEmailInstruction () {
+  hasEnrollViaEmailInstruction() {
     return this.form.elementExist('.email-info');
   }
 
-  hasEnrollViaSmsInstruction () {
+  hasEnrollViaSmsInstruction() {
     return this.form.elementExist('.sms-info');
   }
 
@@ -36,11 +36,11 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
     return this.getTextContent('.sms-info');
   }
 
-  getSwitchChannelText () {
+  getSwitchChannelText() {
     return this.getTextContent('.switch-channel-link');
   }
 
-  async clickSwitchChannel () {
+  async clickSwitchChannel() {
     await this.form.clickElement('.switch-channel-link');
   }
 
@@ -52,7 +52,7 @@ export default class EnrollOktaVerifyPageObject extends BasePageObject {
     await this.form.clickElement('.resend-ov-link-view a.resend-link');
   }
 
-  getErrorBox () {
+  getErrorBox() {
     return this.form.getElement(FORM_INFOBOX_ERROR);
   }
 

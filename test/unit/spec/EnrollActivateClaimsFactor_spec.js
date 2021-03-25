@@ -13,8 +13,8 @@ import LoginUtil from 'util/Util';
 const SharedUtil = internal.util.Util;
 const itp = Expect.itp;
 
-Expect.describe('EnrollActivateCustomFactor', function () {
-  function setup (options) {
+Expect.describe('EnrollActivateCustomFactor', function() {
+  function setup(options) {
     const initResponse = getInitialResponse(options);
     const setNextResponse = Util.mockAjax([initResponse]);
     const baseUrl = 'https://foo.com';
@@ -43,7 +43,7 @@ Expect.describe('EnrollActivateCustomFactor', function () {
     });
   }
 
-  function getInitialResponse (options) {
+  function getInitialResponse(options) {
     const initResponse = JSON.parse(JSON.stringify(responseMfaEnrollActivateClaimsProvider));
 
     if (options && options.setFactorResult) {
@@ -53,100 +53,100 @@ Expect.describe('EnrollActivateCustomFactor', function () {
     return initResponse;
   }
 
-  describe('Enroll Activate CUSTOM_CLAIMS', function () {
-    itp('displays the correct factorBeacon', function () {
-      return setup().then(function (test) {
+  describe('Enroll Activate CUSTOM_CLAIMS', function() {
+    itp('displays the correct factorBeacon', function() {
+      return setup().then(function(test) {
         expect(test.beacon.isFactorBeacon()).toBe(true);
         expect(test.beacon.hasClass('mfa-custom-factor')).toBe(true);
       });
     });
 
-    itp('has a "back" link in the footer', function () {
-      return setup().then(function (test) {
+    itp('has a "back" link in the footer', function() {
+      return setup().then(function(test) {
         Expect.isVisible(test.form.backLink());
       });
     });
 
-    itp('displays correct title', function () {
-      return setup().then(function (test) {
+    itp('displays correct title', function() {
+      return setup().then(function(test) {
         test.setNextResponse(responseSuccess);
         expect(test.form.titleText()).toBe('IDP factor');
         expect(test.form.buttonBar().hasClass('hide')).toBe(false);
       });
     });
 
-    itp('displays correct subtitle', function () {
-      return setup().then(function (test) {
+    itp('displays correct subtitle', function() {
+      return setup().then(function(test) {
         test.setNextResponse(responseSuccess);
         expect(test.form.subtitleText()).toBe('Clicking below will redirect to MFA enrollment with IDP factor');
         expect(test.form.buttonBar().hasClass('hide')).toBe(false);
       });
     });
 
-    itp('redirects to third party when Enroll button is clicked', function () {
+    itp('redirects to third party when Enroll button is clicked', function() {
       spyOn(SharedUtil, 'redirect');
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(responseSuccess);
           test.form.submit();
           return Expect.waitForSpyCall(SharedUtil.redirect);
         })
-        .then(function () {
+        .then(function() {
           expect(SharedUtil.redirect).toHaveBeenCalledWith(
             'http://rain.okta1.com:1802/sso/idps/idpId?stateToken=testStateToken'
           );
         });
     });
 
-    itp('does not display error for normal setup', function () {
-      return setup().then(function (test) {
+    itp('does not display error for normal setup', function() {
+      return setup().then(function(test) {
         expect(test.form.hasErrorBox()).toBe(false);
       });
     });
 
-    itp('displays error when factorResult is FAILED', function () {
+    itp('displays error when factorResult is FAILED', function() {
       const options = {
         setFactorResult: true,
         factorResult: 'FAILED',
         factorResultMessage: 'Enroll failed.',
       };
 
-      return setup(options).then(function (test) {
+      return setup(options).then(function(test) {
         expect(test.form.hasErrorBox()).toBe(true);
         expect(test.form.errorBoxMessage()).toBe('Enroll failed.');
       });
     });
 
-    itp('does not display error when factorResult is WAITING', function () {
+    itp('does not display error when factorResult is WAITING', function() {
       const options = {
         setFactorResult: true,
         factorResult: 'WAITING',
         factorResultMessage: 'Enroll failed.',
       };
 
-      return setup(options).then(function (test) {
+      return setup(options).then(function(test) {
         expect(test.form.hasErrorBox()).toBe(false);
       });
     });
 
-    itp('does not display error when factorResult is undefined', function () {
+    itp('does not display error when factorResult is undefined', function() {
       const options = {
         setFactorResult: true,
         factorResultMessage: 'Enroll failed.',
       };
 
-      return setup(options).then(function (test) {
+      return setup(options).then(function(test) {
         expect(test.form.hasErrorBox()).toBe(false);
       });
     });
 
-    itp('displays default error when factorResultMessage is undefined', function () {
+    itp('displays default error when factorResultMessage is undefined', function() {
       const options = {
         setFactorResult: true,
         factorResult: 'FAILED',
       };
 
-      return setup(options).then(function (test) {
+      return setup(options).then(function(test) {
         expect(test.form.hasErrorBox()).toBe(true);
         expect(test.form.errorBoxMessage()).toBe('There was an unexpected internal error. Please try again.');
       });

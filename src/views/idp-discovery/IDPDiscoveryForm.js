@@ -14,17 +14,17 @@ import { _, loc } from 'okta';
 import PrimaryAuthForm from 'views/primary-auth/PrimaryAuthForm';
 export default PrimaryAuthForm.extend({
   className: 'idp-discovery-form',
-  save: function () {
+  save: function() {
     return loc('oform.next', 'login');
   },
   saveId: 'idp-discovery-submit',
 
-  initialize: function () {
+  initialize: function() {
     this.listenTo(this, 'save', _.bind(this.model.save, this.model));
     this.stateEnableChange();
   },
 
-  inputs: function () {
+  inputs: function() {
     const inputs = [];
     const usernameProps = {
       className: 'margin-btm-30',
@@ -40,7 +40,7 @@ export default PrimaryAuthForm.extend({
     return inputs;
   },
 
-  focus: function () {
+  focus: function() {
     if (!this.model.get('username')) {
       this.getInputs().first().focus();
     } else if (this.getInputs().toArray()[1]) {

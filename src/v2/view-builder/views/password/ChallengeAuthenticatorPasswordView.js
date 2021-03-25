@@ -7,17 +7,17 @@ import { getForgotPasswordLink } from '../../utils/LinksUtil';
 
 const Body = BaseForm.extend({
 
-  title: function () {
+  title: function() {
     return loc('oie.password.challenge.title', 'login');
   },
 
-  save: function () {
+  save: function() {
     return loc('mfa.challenge.verify', 'login');
   },
 });
 
 const Footer = AuthenticatorFooter.extend({
-  links: function () {
+  links: function() {
     let links = AuthenticatorFooter.prototype.links.apply(this, arguments);
 
     links = getForgotPasswordLink(this.options.appState, this.options.settings).concat(links);

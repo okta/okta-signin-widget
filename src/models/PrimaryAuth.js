@@ -17,13 +17,13 @@ import BaseLoginModel from './BaseLoginModel';
 import Util from 'util/Util';
 
 export default BaseLoginModel.extend({
-  props: function () {
+  props: function() {
     const cookieUsername = CookieUtil.getCookieUsername();
     const properties = this.getUsernameAndRemember(cookieUsername);
     const props = {
       username: {
         type: 'string',
-        validate: function (value) {
+        validate: function(value) {
           if (_.isEmpty(value)) {
             return loc('error.username.required', 'login');
           }
@@ -39,7 +39,7 @@ export default BaseLoginModel.extend({
     if (!(this.settings && this.settings.get('features.passwordlessAuth'))) {
       props.password = {
         type: 'string',
-        validate: function (value) {
+        validate: function(value) {
           if (_.isEmpty(value)) {
             return loc('error.password.required', 'login');
           }
@@ -49,7 +49,7 @@ export default BaseLoginModel.extend({
     return props;
   },
 
-  getUsernameAndRemember: function (cookieUsername) {
+  getUsernameAndRemember: function(cookieUsername) {
     const settingsUsername = this.settings && this.settings.get('username');
     const rememberMeEnabled = this.settings && this.settings.get('features.rememberMe');
     let remember = false;
@@ -71,19 +71,19 @@ export default BaseLoginModel.extend({
     };
   },
 
-  constructor: function (options) {
+  constructor: function(options) {
     this.settings = options && options.settings;
     this.appState = options && options.appState;
     Model.apply(this, arguments);
-    this.listenTo(this, 'change:username', function (model, username) {
+    this.listenTo(this, 'change:username', function(model, username) {
       this.set({ remember: username === this.get('lastUsername') });
     });
   },
-  parse: function (options) {
+  parse: function(options) {
     return _.omit(options, ['settings', 'appState']);
   },
 
-  save: function () {
+  save: function() {
     const username = this.settings.transformUsername(this.get('username'), Enums.PRIMARY_AUTH);
     const remember = this.get('remember');
     const lastUsername = this.get('lastUsername');
@@ -105,17 +105,17 @@ export default BaseLoginModel.extend({
       // bootstrapped with stateToken
       if (this.appState.get('isIdxStateToken')) {
         // if its an idx stateToken, we send the parameter as identifier to login API
-        primaryAuthPromise = this.doTransaction(function (transaction) {
+        primaryAuthPromise = this.doTransaction(function(transaction) {
           return this.doPrimaryAuth(authClient, signInArgs, transaction.login);
         });
       } else {
-        primaryAuthPromise = this.doTransaction(function (transaction) {
+        primaryAuthPromise = this.doTransaction(function(transaction) {
           return this.doPrimaryAuth(authClient, signInArgs, transaction.authenticate);
         });
       }
     } else {
       //normal username/password flow without stateToken
-      primaryAuthPromise = this.startTransaction(function (authClient) {
+      primaryAuthPromise = this.startTransaction(function(authClient) {
         return this.doPrimaryAuth(authClient, signInArgs, _.bind(authClient.signInWithCredentials, authClient));
       });
     }
@@ -132,7 +132,7 @@ export default BaseLoginModel.extend({
       });
   },
 
-  getSignInArgs: function (username) {
+  getSignInArgs: function(username) {
     const multiOptionalFactorEnroll = this.get('multiOptionalFactorEnroll');
     const signInArgs = {};
 
@@ -154,7 +154,7 @@ export default BaseLoginModel.extend({
     return signInArgs;
   },
 
-  setUsernameCookie: function (username, remember, lastUsername) {
+  setUsernameCookie: function(username, remember, lastUsername) {
     // Do not modify the cookie when feature is disabled, relevant for SAML ForceAuthn prompts
     if (this.settings.get('features.rememberMe')) {
       // Only delete the cookie if its owner says so. This allows other
@@ -167,7 +167,7 @@ export default BaseLoginModel.extend({
     }
   },
 
-  doPrimaryAuth: function (authClient, signInArgs, func) {
+  doPrimaryAuth: function(authClient, signInArgs, func) {
     const deviceFingerprintEnabled = this.settings.get('features.deviceFingerprinting');
     const typingPatternEnabled = this.settings.get('features.trackTypingPattern');
 
@@ -184,7 +184,7 @@ export default BaseLoginModel.extend({
 
     const self = this;
 
-    return func(signInArgs).finally(function () {
+    return func(signInArgs).finally(function() {
       if (deviceFingerprintEnabled) {
         delete authClient.options.headers['X-Device-Fingerprint'];
         self.appState.unset('deviceFingerprint'); //Fingerprint can only be used once

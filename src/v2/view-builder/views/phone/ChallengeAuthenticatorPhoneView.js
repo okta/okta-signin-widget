@@ -14,7 +14,7 @@ const ResendView = View.extend(
     // Override this to change the resend action location from response
     resendActionKey: 'currentAuthenticatorEnrollment-resend',
 
-    initialize () {
+    initialize() {
       const resendText = (this.model.get('mode') === 'sms')
         ? loc('oie.phone.verify.sms.resendText', 'login')
         : loc('oie.phone.verify.call.resendText', 'login');
@@ -27,7 +27,7 @@ const ResendView = View.extend(
       }));
     },
 
-    handleResendLink () {
+    handleResendLink() {
       this.options.appState.trigger('invokeAction', this.resendActionKey);
       // Hide warning, but start a timeout again..
       if (!this.el.classList.contains('hide')) {
@@ -36,17 +36,17 @@ const ResendView = View.extend(
       this.showCalloutAfterTimeout();
     },
 
-    postRender () {
+    postRender() {
       this.showCalloutAfterTimeout();
     },
 
-    showCalloutAfterTimeout () {
+    showCalloutAfterTimeout() {
       this.showCalloutTimer = setTimeout(() => {
         this.el.classList.remove('hide');
       }, SHOW_RESEND_TIMEOUT);
     },
 
-    remove () {
+    remove() {
       View.prototype.remove.apply(this, arguments);
       clearTimeout(this.showCalloutTimer);
     }
@@ -57,15 +57,15 @@ const Body = BaseForm.extend(Object.assign(
   {
     className: 'phone-authenticator-challenge',
 
-    title () {
+    title() {
       return loc('oie.phone.verify.title', 'login');
     },
 
-    save () {
+    save() {
       return loc('mfa.challenge.verify', 'login');
     },
 
-    initialize () {
+    initialize() {
       BaseForm.prototype.initialize.apply(this, arguments);
       const sendText = (this.model.get('mode') === 'sms')
         ? loc('oie.phone.verify.sms.codeSentText', 'login')
@@ -82,7 +82,7 @@ const Body = BaseForm.extend(Object.assign(
       });
     },
 
-    postRender () {
+    postRender() {
       BaseForm.prototype.postRender.apply(this, arguments);
       this.add(ResendView, {
         selector: '.o-form-error-container',
@@ -95,7 +95,7 @@ const Body = BaseForm.extend(Object.assign(
 export default BaseAuthenticatorView.extend({
   Body,
 
-  createModelClass () {
+  createModelClass() {
     const relatesToObject = this.options.currentViewState.relatesTo;
     const { methods, profile } = relatesToObject?.value || {};
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);

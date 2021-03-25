@@ -6,7 +6,7 @@ const COUNTRY_CODE_LABEL = '.country-code-label';
 const SWITCH_CHANNEL_TEXT = '.switch-channel-text';
 
 export default class EnrollOVViaEmailPageObject extends BasePageObject {
-  constructor (t) {
+  constructor(t) {
     super(t);
   }
 
@@ -26,7 +26,7 @@ export default class EnrollOVViaEmailPageObject extends BasePageObject {
     return this.form.clickSaveButton();
   }
 
-  hasSwitchChannelText () {
+  hasSwitchChannelText() {
     return this.form.getElement(SWITCH_CHANNEL_TEXT).visible;
   }
 }

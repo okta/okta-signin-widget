@@ -14,7 +14,7 @@ import { _, $, loc, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import Animations from 'util/Animations';
 
-function setBackgroundImage (el, appState) {
+function setBackgroundImage(el, appState) {
   const imgSrc = appState.get('securityImage');
   const imgDescription = appState.get('securityImageDescription');
   const isUndefinedUser = appState.get('isUndefinedUser');
@@ -44,10 +44,10 @@ function setBackgroundImage (el, appState) {
   }
 }
 
-function antiPhishingMessage (image, host) {
+function antiPhishingMessage(image, host) {
   $(window).on(
     'resize.securityBeaconQtip',
-    _.debounce(function () {
+    _.debounce(function() {
       if (image.is(':visible')) {
         image.qtip('show');
       }
@@ -75,7 +75,7 @@ function antiPhishingMessage (image, host) {
     hide: { event: false, fixed: true },
     show: { event: false, delay: 200 },
     events: {
-      move: function (event, api) {
+      move: function(event, api) {
         if (!api.elements.target.is(':visible')) {
           // Have to hide it immediately, with no effect
           api.set('hide.effect', false);
@@ -89,12 +89,12 @@ function antiPhishingMessage (image, host) {
   image.qtip('toggle', image.is(':visible'));
 }
 
-function destroyAntiPhishingMessage (image) {
+function destroyAntiPhishingMessage(image) {
   image.qtip('destroy');
   $(window).off('resize.securityBeaconQtip');
 }
 
-async function updateSecurityImage ($el, appState, animate) {
+async function updateSecurityImage($el, appState, animate) {
   const image = $el.find('.auth-beacon-security');
   const border = $el.find('.js-auth-beacon-border');
   const hasBorder = !appState.get('isUndefinedUser');
@@ -117,7 +117,7 @@ async function updateSecurityImage ($el, appState, animate) {
   if (!hasBorder) {
     // This occurrs when appState username is blank
     // we do not yet know if the user is recognized
-    image.fadeOut(duration, function () {
+    image.fadeOut(duration, function() {
       setBackgroundImage(image, appState);
       border.removeClass('auth-beacon-border');
       image.fadeIn(duration);
@@ -128,7 +128,7 @@ async function updateSecurityImage ($el, appState, animate) {
     border.removeClass('auth-beacon-border');
     await Animations.radialProgressBar({
       $el: radialProgressBar,
-      swap () {
+      swap() {
         image.fadeOut(duration, () => {
           setBackgroundImage(image, appState);
           image.fadeIn(duration);
@@ -160,10 +160,10 @@ export default View.extend({
   ),
   className: 'js-security-beacon',
 
-  initialize: function (options) {
+  initialize: function(options) {
     this.update = _.partial(updateSecurityImage, this.$el, options.appState);
     this.listenTo(options.appState, 'change:securityImage', this.update);
-    this.listenTo(options.appState, 'loading', function (isLoading) {
+    this.listenTo(options.appState, 'loading', function(isLoading) {
       this.$el.toggleClass('beacon-loading', isLoading);
       this.removeAntiPhishingMessage();
     });
@@ -172,15 +172,15 @@ export default View.extend({
     this.listenTo(options.appState, 'navigate', this.removeAntiPhishingMessage);
   },
 
-  postRender: function () {
+  postRender: function() {
     this.update(false);
   },
 
-  equals: function (Beacon) {
+  equals: function(Beacon) {
     return Beacon && this instanceof Beacon;
   },
 
-  removeAntiPhishingMessage: function () {
+  removeAntiPhishingMessage: function() {
     const image = this.$el.find('.auth-beacon-security');
 
     image.qtip('destroy');

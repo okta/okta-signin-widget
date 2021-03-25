@@ -2,7 +2,7 @@ import buildRenderOptions from 'widget/buildRenderOptions';
 
 describe('widget/buildRenderOptions', () => {
 
-  function callBuildRenderOptions () {
+  function callBuildRenderOptions() {
     return buildRenderOptions.apply(null, arguments);
   }
 

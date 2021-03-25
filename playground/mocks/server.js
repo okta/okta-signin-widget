@@ -18,7 +18,7 @@ const configs = dyson.getConfigurations(options);
 const app = dyson.createServer(options);
 
 // enforce CSP
-app.use('/*', function (req, res, next){
+app.use('/*', function(req, res, next){
   res.header(
     'Content-Security-Policy',
     `script-src http://localhost:${DEV_SERVER_PORT}`

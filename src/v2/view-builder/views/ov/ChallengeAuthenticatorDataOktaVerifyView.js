@@ -7,7 +7,7 @@ import { Body as SelectAuthenticatorVerifyViewBody } from '../SelectAuthenticato
 import { AUTHENTICATOR_KEY } from '../../../ion/RemediationConstants';
 
 const Body = SelectAuthenticatorVerifyViewBody.extend({
-  getUISchema () {
+  getUISchema() {
     // Change the UI schema to not display radios here.
     const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
     const methodsSchema = uiSchemas.find(schema => schema.name === 'authenticator.methodType');

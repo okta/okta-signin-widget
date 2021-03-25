@@ -21,7 +21,7 @@ const ConsentViewFooter = View.extend({
       {{/if}}\
     '
   ),
-  getTemplateData: function () {
+  getTemplateData: function() {
     const appState = this.options.appState;
     const app = appState.get('app');
 

@@ -13,16 +13,16 @@
 import { $ } from 'okta';
 import Q from 'q';
 export default {
-  getUserAgent: function () {
+  getUserAgent: function() {
     return navigator.userAgent;
   },
-  isAndroid: function () {
+  isAndroid: function() {
     return /Android/i.test(this.getUserAgent());
   },
-  isMessageFromCorrectSource: function ($iframe, event) {
+  isMessageFromCorrectSource: function($iframe, event) {
     return event.source === $iframe[0].contentWindow;
   },
-  generateDeviceFingerprint: function (oktaDomainUrl, element) {
+  generateDeviceFingerprint: function(oktaDomainUrl, element) {
     const userAgent = this.getUserAgent();
 
     if (!userAgent) {
@@ -36,22 +36,22 @@ export default {
     let $iframe;
     let iFrameTimeout;
 
-    function isWindowsPhone (userAgent) {
+    function isWindowsPhone(userAgent) {
       return userAgent.match(/windows phone|iemobile|wpdesktop/i);
     }
 
-    function removeIframe () {
+    function removeIframe() {
       $iframe.off();
       $iframe.remove();
       window.removeEventListener('message', onMessageReceivedFromOkta, false);
     }
 
-    function handleError (reason) {
+    function handleError(reason) {
       removeIframe();
       deferred.reject(reason);
     }
 
-    function onMessageReceivedFromOkta (event) {
+    function onMessageReceivedFromOkta(event) {
       if (!self.isMessageFromCorrectSource($iframe, event)) {
         return;
       }
@@ -77,7 +77,7 @@ export default {
       }
     }
 
-    function sendMessageToOkta (message) {
+    function sendMessageToOkta(message) {
       const win = $iframe[0].contentWindow;
 
       if (win) {

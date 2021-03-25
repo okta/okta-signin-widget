@@ -10,99 +10,99 @@ const SECURITY_BEACON = 'security-beacon';
 const CLASS_SELECTOR = '.primary-auth';
 const SIGN_IN_BUTTON = '.button.button-primary';
 export default Form.extend({
-  isPrimaryAuth: function () {
+  isPrimaryAuth: function() {
     return this.$(CLASS_SELECTOR).length === 1;
   },
 
-  primaryAuthForm: function () {
+  primaryAuthForm: function() {
     return this.$(CLASS_SELECTOR + ' form');
   },
 
-  usernameField: function () {
+  usernameField: function() {
     return this.input(USERNAME_FIELD);
   },
 
-  usernameLabel: function () {
+  usernameLabel: function() {
     return this.$(USERNAME_LABEL);
   },
 
-  usernameExplain: function () {
+  usernameExplain: function() {
     return this.explain(USERNAME_FIELD);
   },
 
-  usernameErrorField: function () {
+  usernameErrorField: function() {
     return this.error(USERNAME_FIELD);
   },
 
-  getUsernameFieldAutocomplete: function () {
+  getUsernameFieldAutocomplete: function() {
     return this.autocomplete(USERNAME_FIELD);
   },
 
-  passwordField: function () {
+  passwordField: function() {
     return this.input(PASSWORD_FIELD);
   },
 
-  passwordLabel: function () {
+  passwordLabel: function() {
     return this.$(PASSWORD_LABEL);
   },
 
-  passwordExplain: function () {
+  passwordExplain: function() {
     return this.explain(PASSWORD_FIELD);
   },
 
-  passwordErrorField: function () {
+  passwordErrorField: function() {
     return this.error(PASSWORD_FIELD);
   },
 
-  getPasswordFieldAutocomplete: function () {
+  getPasswordFieldAutocomplete: function() {
     return this.autocomplete(PASSWORD_FIELD);
   },
 
-  signInButton: function () {
+  signInButton: function() {
     return this.$(SIGN_IN_BUTTON);
   },
 
-  rememberMeCheckbox: function () {
+  rememberMeCheckbox: function() {
     return this.checkbox(REMEMBER_ME_FIELD);
   },
 
-  rememberMeLabelText: function () {
+  rememberMeLabelText: function() {
     return this.checkboxLabelText(REMEMBER_ME_FIELD);
   },
 
-  rememberMeCheckboxStatus: function () {
+  rememberMeCheckboxStatus: function() {
     const isChecked = this.$(REMEMBER_ME_LABEL).hasClass('checked');
 
     return isChecked ? 'checked' : 'unchecked';
   },
 
-  usernameTooltipText: function () {
+  usernameTooltipText: function() {
     return this.tooltipText(USERNAME_FIELD);
   },
 
-  passwordTooltipText: function () {
+  passwordTooltipText: function() {
     return this.tooltipText(PASSWORD_FIELD);
   },
 
-  securityImageTooltipText: function () {
+  securityImageTooltipText: function() {
     return this.tooltipText(SECURITY_BEACON);
   },
 
-  isSecurityImageTooltipDestroyed: function () {
+  isSecurityImageTooltipDestroyed: function() {
     const api = this.tooltipApi(SECURITY_BEACON);
 
     return api ? api.destroyed : true;
   },
 
-  securityBeacon: function () {
+  securityBeacon: function() {
     return this.el(SECURITY_BEACON);
   },
 
-  securityBeaconContainer: function () {
+  securityBeaconContainer: function() {
     return this.$('.beacon-container');
   },
 
-  editingUsername: function (val) {
+  editingUsername: function(val) {
     const field = this.usernameField();
 
     field.val(val);
@@ -110,70 +110,70 @@ export default Form.extend({
     return field;
   },
 
-  setUsername: function (val) {
+  setUsername: function(val) {
     this.editingUsername(val).trigger('focusout');
   },
 
-  setPassword: function (val) {
+  setPassword: function(val) {
     const field = this.passwordField();
 
     field.val(val);
     field.trigger('change');
   },
 
-  setRememberMe: function (val) {
+  setRememberMe: function(val) {
     const field = this.rememberMeCheckbox();
 
     field.prop('checked', val);
     field.trigger('change');
   },
 
-  helpFooter: function () {
+  helpFooter: function() {
     return this.$('.js-help');
   },
 
-  helpFooterLabel: function () {
+  helpFooterLabel: function() {
     return this.helpFooter().text();
   },
 
-  helpLink: function () {
+  helpLink: function() {
     return this.$('.js-help-link');
   },
 
-  helpLinkLabel: function () {
+  helpLinkLabel: function() {
     return this.helpLink().text();
   },
 
-  helpLinkHref: function () {
+  helpLinkHref: function() {
     return this.helpLink().attr('href');
   },
 
-  forgotPasswordLink: function () {
+  forgotPasswordLink: function() {
     return this.$('.js-forgot-password');
   },
 
-  forgotPasswordLabel: function () {
+  forgotPasswordLabel: function() {
     return this.forgotPasswordLink().text();
   },
 
-  forgotPasswordLinkVisible: function () {
+  forgotPasswordLinkVisible: function() {
     return this.forgotPasswordLink().is(':visible');
   },
 
-  unlockLink: function () {
+  unlockLink: function() {
     return this.$('.js-unlock');
   },
 
-  unlockLabel: function () {
+  unlockLabel: function() {
     return this.unlockLink().text();
   },
 
-  unlockLinkVisible: function () {
+  unlockLinkVisible: function() {
     return this.unlockLink().is(':visible');
   },
 
-  customLinks: function () {
-    return _.map(this.$('a.js-custom'), function (el) {
+  customLinks: function() {
+    return _.map(this.$('a.js-custom'), function(el) {
       const $el = $(el);
       const link = {
         text: $el.text(),
@@ -188,47 +188,47 @@ export default Form.extend({
     });
   },
 
-  primaryAuthContainer: function () {
+  primaryAuthContainer: function() {
     return this.$('.primary-auth-container');
   },
 
-  hasSocialAuthDivider: function () {
+  hasSocialAuthDivider: function() {
     return this.$('.auth-divider').length === 1;
   },
 
-  socialAuthButton: function (idp) {
+  socialAuthButton: function(idp) {
     return this.el('social-auth-' + idp + '-button');
   },
 
-  facebookButton: function () {
+  facebookButton: function() {
     return this.socialAuthButton('facebook');
   },
 
-  googleButton: function () {
+  googleButton: function() {
     return this.socialAuthButton('google');
   },
 
-  appleButton: function () {
+  appleButton: function() {
     return this.socialAuthButton('apple');
   },
 
-  linkedInButton: function () {
+  linkedInButton: function() {
     return this.socialAuthButton('linkedin');
   },
 
-  microsoftButton: function () {
+  microsoftButton: function() {
     return this.socialAuthButton('microsoft');
   },
 
-  socialAuthButtons: function () {
+  socialAuthButtons: function() {
     return this.$('.social-auth-button');
   },
 
-  linksAppearDisabled: function () {
+  linksAppearDisabled: function() {
     return this.$('a.link.o-form-disabled').length === this.$('a.link').length;
   },
 
-  inputsDisabled: function () {
+  inputsDisabled: function() {
     return (
       this.usernameField().is(':disabled') &&
       this.passwordField().is(':disabled') &&
@@ -236,43 +236,43 @@ export default Form.extend({
     );
   },
 
-  isDisabled: function () {
+  isDisabled: function() {
     return this.inputsDisabled() && this.linksAppearDisabled();
   },
 
-  additionalAuthButton: function () {
+  additionalAuthButton: function() {
     return this.$('.default-custom-button');
   },
 
-  pivButton: function () {
+  pivButton: function() {
     return this.$('.piv-button');
   },
 
-  authDivider: function () {
+  authDivider: function() {
     return this.$('.auth-divider');
   },
 
-  registrationContainer: function () {
+  registrationContainer: function() {
     return this.$('.registration-container');
   },
 
-  registrationLabel: function () {
+  registrationLabel: function() {
     return this.$('.registration-container .content-container .registration-label');
   },
 
-  registrationLink: function () {
+  registrationLink: function() {
     return this.$('.registration-container .content-container .registration-link');
   },
 
-  passwordToggleContainer: function () {
+  passwordToggleContainer: function() {
     return this.$('.password-toggle');
   },
 
-  passwordToggleShowContainer: function () {
+  passwordToggleShowContainer: function() {
     return this.$('.password-toggle span.button-show');
   },
 
-  passwordToggleHideContainer: function () {
+  passwordToggleHideContainer: function() {
     return this.$('.password-toggle span.button-hide');
   },
 });

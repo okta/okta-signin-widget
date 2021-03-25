@@ -38,7 +38,7 @@ const mockCrypto = ClientFunction(() => {
 
   if (typeof window.crypto.subtle === 'undefined') {
     window.crypto.subtle = {
-      digest: function () { 
+      digest: function() { 
         return Promise.resolve(65);
       }
     };
@@ -87,7 +87,7 @@ const requestLogger = RequestLogger(
 
 fixture('Interact');
 
-function decodeUrlEncodedRequestBody (body) {
+function decodeUrlEncodedRequestBody(body) {
   const params = {};
   const pairs = body.split('&');
   pairs.forEach(pair => {

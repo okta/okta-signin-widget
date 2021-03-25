@@ -9,13 +9,13 @@ export default View.extend({
     {{/if}}
     <div class="okta-idps-container"></div>
     `,
-  initialize () {
+  initialize() {
     this.options.idpButtons.forEach((idpButton) => {
       this.add(createButton(idpButton), '.okta-idps-container');
     });
   },
 
-  getTemplateData () {
+  getTemplateData() {
     const jsonData = View.prototype.getTemplateData.apply(this, arguments);
 
     return Object.assign(jsonData, {

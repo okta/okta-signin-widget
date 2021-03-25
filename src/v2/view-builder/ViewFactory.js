@@ -209,7 +209,7 @@ const VIEWS_MAPPING = {
 };
 
 module.exports = {
-  create (formName, authenticatorKey = DEFAULT) {
+  create(formName, authenticatorKey = DEFAULT) {
     const config = VIEWS_MAPPING[formName];
     if (!config) {
       Logger.warn(`Cannot find customized View for ${formName}.`);

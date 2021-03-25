@@ -22,7 +22,7 @@ export default View.extend({
   ),
   className: 'contact-support',
 
-  getTemplateData: function () {
+  getTemplateData: function() {
     return this.settings.pick('helpSupportNumber');
   },
 });

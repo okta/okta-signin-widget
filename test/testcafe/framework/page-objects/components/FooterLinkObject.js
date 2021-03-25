@@ -2,21 +2,21 @@ import { Selector } from 'testcafe';
 
 export default class FooterLinkObject {
 
-  constructor (t, selector) {
+  constructor(t, selector) {
     this.t = t;
     this.el = new Selector(`.siw-main-footer ${selector}`);
   }
 
-  getLabel () {
+  getLabel() {
     return this.el.textContent;
   }
 
-  async exists () {
+  async exists() {
     const count = await this.el.count;
     return count === 1;
   }
 
-  async click () {
+  async click() {
     return this.t.click(this.el);
   }
 

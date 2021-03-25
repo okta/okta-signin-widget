@@ -30,13 +30,13 @@ import Errors from './Errors';
 import RouterUtil from './RouterUtil';
 import Util from './Util';
 
-function isStateLessRouteHandler (router, fn) {
-  return _.find(router.stateLessRouteHandlers, function (routeName) {
+function isStateLessRouteHandler(router, fn) {
+  return _.find(router.stateLessRouteHandlers, function(routeName) {
     return fn === router[routeName];
   });
 }
 
-function beaconIsAvailable (Beacon, settings) {
+function beaconIsAvailable(Beacon, settings) {
   if (!Beacon) {
     return false;
   }
@@ -49,8 +49,8 @@ function beaconIsAvailable (Beacon, settings) {
 /**
  * TODO: deprecated by `util/LanguageUtil.loadLanguage`
  */
-function loadLanguage (appState, i18n, assetBaseUrl, assetRewrite) {
-  const timeout = setTimeout(function () {
+function loadLanguage(appState, i18n, assetBaseUrl, assetRewrite) {
+  const timeout = setTimeout(function() {
     // Trigger a spinner if we're waiting on a request for a new language.
     appState.trigger('loading', true);
   }, 200);
@@ -58,7 +58,7 @@ function loadLanguage (appState, i18n, assetBaseUrl, assetRewrite) {
   return Bundles.loadLanguage(appState.get('languageCode'), i18n, {
     baseUrl: assetBaseUrl,
     rewrite: assetRewrite,
-  }).then(function () {
+  }).then(function() {
     clearTimeout(timeout);
     appState.trigger('loading', false);
   });
@@ -67,14 +67,14 @@ function loadLanguage (appState, i18n, assetBaseUrl, assetRewrite) {
 export default Router.extend({
   Events: Backbone.Events,
 
-  initialize: function (options) {
+  initialize: function(options) {
     // Create a default success and/or error handler if
     // one is not provided.
     if (!options.globalSuccessFn) {
-      options.globalSuccessFn = function () {};
+      options.globalSuccessFn = function() {};
     }
     if (!options.globalErrorFn) {
-      options.globalErrorFn = function (err) {
+      options.globalErrorFn = function(err) {
         Logger.error(err);
       };
     }
@@ -86,7 +86,7 @@ export default Router.extend({
       this.settings.callGlobalError(new Errors.ConfigError(loc('error.required.el')));
     }
 
-    $('body > div').on('click', function () {
+    $('body > div').on('click', function() {
       // OKTA-69769 Tooltip wont close on iPhone/iPad
       // Registering a click handler on the first div
       // allows a tap that falls outside the tooltip
@@ -113,20 +113,20 @@ export default Router.extend({
       settings: this.settings,
     });
 
-    this.listenTo(this.appState, 'change:transactionError', function (appState, err) {
+    this.listenTo(this.appState, 'change:transactionError', function(appState, err) {
       RouterUtil.routeAfterAuthStatusChangeError(this, err);
     });
 
-    this.listenTo(this.appState, 'change:transaction', function (appState, trans) {
+    this.listenTo(this.appState, 'change:transaction', function(appState, trans) {
       RouterUtil.routeAfterAuthStatusChange(this, trans.data);
     });
 
-    this.listenTo(this.appState, 'navigate', function (url) {
+    this.listenTo(this.appState, 'navigate', function(url) {
       this.navigate(url, { trigger: true });
     });
   },
 
-  execute: function (cb, args) {
+  execute: function(cb, args) {
     const recoveryToken = this.settings.get('recoveryToken');
     // Recovery flow with a token passed through widget settings
 
@@ -168,7 +168,7 @@ export default Router.extend({
   // Overriding the default navigate method to allow the widget consumer
   // to "turn off" routing - if features.router is false, the browser
   // location bar will not update when the router navigates
-  navigate: function (fragment, options) {
+  navigate: function(fragment, options) {
     if (this.settings.get('features.router')) {
       return Router.prototype.navigate.apply(this, arguments);
     }
@@ -177,7 +177,7 @@ export default Router.extend({
     }
   },
 
-  render: function (Controller, options) {
+  render: function(Controller, options) {
     options || (options = {});
 
     let Beacon = options.Beacon;
@@ -244,7 +244,7 @@ export default Router.extend({
           $newRoot: this.controller.$el,
           dir: oldController.state.get('navigateDir'),
           ctx: this,
-          success: function () {
+          success: function() {
             const flashError = this.appState.get('flashError');
             const model = this.controller.model;
 
@@ -265,7 +265,7 @@ export default Router.extend({
           },
         });
       })
-      .catch(function () {
+      .catch(function() {
         // OKTA-69665 - if an error occurs in fetchInitialData, we're left in
         // a state with two active controllers. Therefore, we clean up the
         // old one. Note: This explicitly handles the invalid token case -
@@ -279,7 +279,7 @@ export default Router.extend({
       });
   },
 
-  start: function () {
+  start: function() {
     let pushState = false;
 
     // Support for browser's back button.
@@ -296,15 +296,15 @@ export default Router.extend({
     Router.prototype.start.call(this, { pushState: pushState });
   },
 
-  hide: function () {
+  hide: function() {
     this.header.$el.hide();
   },
 
-  show: function () {
+  show: function() {
     this.header.$el.show();
   },
 
-  remove: function () {
+  remove: function() {
     this.controller.remove();
     this.header.$el.remove();
     Bundles.remove();

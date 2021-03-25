@@ -8,15 +8,15 @@ import signInWithDeviceOption from './signin/SignInWithDeviceOption';
 
 const Body = BaseForm.extend({
 
-  title () {
+  title() {
     return loc('primaryauth.title', 'login');
   },
 
-  save () {
+  save() {
     return loc('oform.next', 'login');
   },
 
-  render () {
+  render() {
     BaseForm.prototype.render.apply(this, arguments);
 
     // Launch Device Authenticator
@@ -55,7 +55,7 @@ const Body = BaseForm.extend({
       this.$el.find('.button-primary').hide();
     }
   },
-  showMessages () {
+  showMessages() {
     /**
      * Renders a warning callout for unknown user flow
      * Note: Anytime we get back `messages` object along with identify view
@@ -78,13 +78,13 @@ export default BaseView.extend({
   Body,
   Footer: IdentifierFooter,
 
-  postRender () {
+  postRender() {
     BaseView.prototype.postRender.apply(this, arguments);
 
     // If user enterted identifier is not found, API sends back a message with a link to sign up
     // This is the click handler for that link
     const appState = this.options.appState;
-    this.$el.find('.js-sign-up').click(function () {
+    this.$el.find('.js-sign-up').click(function() {
       appState.trigger('invokeAction', RemediationForms.SELECT_ENROLL_PROFILE);
       return false;
     });

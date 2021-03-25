@@ -23,13 +23,13 @@ const Body = BaseForm.extend(Object.assign(
     className: 'ion-form device-challenge-poll',
 
     events: {
-      'click #launch-ov': function (e) {
+      'click #launch-ov': function(e) {
         e.preventDefault();
         this.doCustomURI();
       }
     },
 
-    initialize () {
+    initialize() {
       BaseForm.prototype.initialize.apply(this, arguments);
       this.listenTo(this.model, 'error', this.onPollingFail);
       this.deviceChallengePollRemediation = this.options.currentViewState;
@@ -37,17 +37,17 @@ const Body = BaseForm.extend(Object.assign(
       this.startPolling();
     },
 
-    onPollingFail () {
+    onPollingFail() {
       this.$('.spinner').hide();
       this.stopPolling();
     },
 
-    remove () {
+    remove() {
       BaseForm.prototype.remove.apply(this, arguments);
       this.stopPolling();
     },
 
-    doChallenge () {
+    doChallenge() {
       const deviceChallenge = this.deviceChallengePollRemediation.relatesTo.value.contextualData.challenge.value;
       switch (deviceChallenge.challengeMethod) {
       case Enums.LOOPBACK_CHALLENGE:
@@ -70,7 +70,7 @@ const Body = BaseForm.extend(Object.assign(
               {{{i18n code="customUri.required.content.p2" bundle="login" arguments="downloadOVLink"}}}
             </p>
           `,
-          getTemplateData () {
+          getTemplateData() {
             return {
               downloadOVLink: deviceChallenge.downloadHref
             };
@@ -100,7 +100,7 @@ const Body = BaseForm.extend(Object.assign(
       }
     },
 
-    doLoopback (authenticatorDomainUrl = '', ports = [], challengeRequest = '') {
+    doLoopback(authenticatorDomainUrl = '', ports = [], challengeRequest = '') {
       let currentPort;
       let foundPort = false;
       let countFailedPorts = 0;
@@ -160,7 +160,7 @@ const Body = BaseForm.extend(Object.assign(
       });
     },
 
-    doCustomURI () {
+    doCustomURI() {
       this.ulDom && this.ulDom.remove();
       this.ulDom = this.add(`
         <iframe src="${this.customURI}" id="custom-uri-container" style="display:none;"></iframe>

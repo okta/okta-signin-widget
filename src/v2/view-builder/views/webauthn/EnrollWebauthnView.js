@@ -5,7 +5,7 @@ import webauthn from '../../../../util/webauthn';
 import CryptoUtil from '../../../../util/CryptoUtil';
 import EnrollWebauthnInfoView from './EnrollWebauthnInfoView';
 
-function getExcludeCredentials (authenticatorEnrollments = []) {
+function getExcludeCredentials(authenticatorEnrollments = []) {
   const credentials = [];
   authenticatorEnrollments.forEach((enrollement) => {
     if (enrollement.type === 'security_key') {
@@ -24,7 +24,7 @@ const Body = BaseForm.extend({
   modelEvents: {
     'error': '_stopEnrollment',
   },
-  getUISchema () {
+  getUISchema() {
     const schema = [];
     // Returning custom array so no input fields are displayed for webauthn
     if (webauthn.isNewApiAvailable()) {
@@ -51,7 +51,7 @@ const Body = BaseForm.extend({
     }
     return schema;
   },
-  triggerWebauthnPrompt () {
+  triggerWebauthnPrompt() {
     this.$el.find('.o-form-error-container').empty();
     this._startEnrollment();
     const relatesToObject = this.options.currentViewState.relatesTo;
@@ -86,12 +86,12 @@ const Body = BaseForm.extend({
         });
     }
   },
-  _startEnrollment: function () {
+  _startEnrollment: function() {
     this.$('.okta-waiting-spinner').show();
     this.$('.webauthn-setup').hide();
   },
 
-  _stopEnrollment: function () {
+  _stopEnrollment: function() {
     this.$('.okta-waiting-spinner').hide();
     this.$('.webauthn-setup').show();
   },
@@ -99,7 +99,7 @@ const Body = BaseForm.extend({
 
 export default BaseAuthenticatorView.extend({
   Body,
-  postRender () {
+  postRender() {
     BaseAuthenticatorView.prototype.postRender.apply(this, arguments);
     this.$el.find('.o-form-button-bar [type="submit"]').remove();
   },

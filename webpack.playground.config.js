@@ -74,7 +74,7 @@ module.exports = {
       ],
       target: `http://localhost:${MOCK_SERVER_PORT}`
     }],
-    before () {
+    before() {
       const script = path.resolve(
         __dirname,
         'playground',

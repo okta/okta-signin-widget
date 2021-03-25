@@ -25,8 +25,8 @@ export default FormController.extend({
       nextPassCode: ['string', true],
       factorId: 'string',
     },
-    save: function () {
-      return this.doTransaction(function (transaction) {
+    save: function() {
+      return this.doTransaction(function(transaction) {
         const factor = _.findWhere(transaction.factors, {
           factorType: 'token',
           provider: 'SYMANTEC',
@@ -47,7 +47,7 @@ export default FormController.extend({
     noButtonBar: true,
     autoSave: true,
     className: 'enroll-symantec',
-    formChildren: function () {
+    formChildren: function() {
       return [
         FormType.Input({
           label: loc('enroll.symantecVip.credentialId.placeholder', 'login'),

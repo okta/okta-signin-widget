@@ -16,13 +16,13 @@ const PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
     util = require('../util/util'),
     Expect = require('../util/Expect');
 
-function setup (options) {
+function setup(options) {
   browser.executeScript('initialize(' + JSON.stringify(options) + ')');
 }
 
 const clientIds = ['{{{WIDGET_WEB_CLIENT_ID}}}', '{{{WIDGET_SPA_CLIENT_ID}}}'];
 
-describe('OIDC flows', function () {
+describe('OIDC flows', function() {
   // TODO: Enable after fixing OKTA-244878
   if (process.env.SAUCE_PLATFORM_NAME === 'android') {
     return 0;
@@ -32,21 +32,21 @@ describe('OIDC flows', function () {
       oidcApp = new OIDCAppPage(),
       facebook = new FacebookPage();
 
-  beforeEach(function () {
+  beforeEach(function() {
     browser.driver.get('about:blank');
     browser.ignoreSynchronization = true;
     util.loadTestPage('oidc');
   });
 
-  afterEach(function () {
+  afterEach(function() {
     // Logout of Okta session
     browser.get('{{{WIDGET_TEST_SERVER}}}/login/signout');
   });
 
-  describe('Okta as IDP', function () {
+  describe('Okta as IDP', function() {
 
     clientIds.forEach(clientId => {
-      it('can login and exchange a sessionToken for an id_token', function () {
+      it('can login and exchange a sessionToken for an id_token', function() {
         setup({
           baseUrl: '{{{WIDGET_TEST_SERVER}}}',
           clientId,
@@ -68,7 +68,7 @@ describe('OIDC flows', function () {
         expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_BASIC_NAME}}}');
       });
 
-      it('throws form error if auth client returns with OAuth error', function () {
+      it('throws form error if auth client returns with OAuth error', function() {
         // TODO - Enable after https://oktainc.atlassian.net/browse/OKTA-375434
         if (process.env.ORG_OIE_ENABLED) {
           return;
@@ -88,7 +88,7 @@ describe('OIDC flows', function () {
         expect(primaryAuth.getErrorMessage()).toBe('User is not assigned to the client application.');
       });
 
-      it('can login and get a token and id_token', function () {
+      it('can login and get a token and id_token', function() {
         setup({
           baseUrl: '{{{WIDGET_TEST_SERVER}}}',
           clientId,
@@ -113,7 +113,7 @@ describe('OIDC flows', function () {
   
     });
 
-    it('logs in and uses the redirect flow for responseType "code"', function () {
+    it('logs in and uses the redirect flow for responseType "code"', function() {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
         clientId: '{{{WIDGET_WEB_CLIENT_ID}}}',
@@ -129,7 +129,7 @@ describe('OIDC flows', function () {
       expect(oidcApp.getCodeFromQuery()).not.toBeNull();
     });
 
-    it('PKCE login flow', function () {
+    it('PKCE login flow', function() {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
         clientId: '{{{WIDGET_SPA_CLIENT_ID}}}',
@@ -146,7 +146,7 @@ describe('OIDC flows', function () {
       expect(oidcApp.getAccessTokenType()).toBe('Bearer');
     });
 
-    it('PKCE login flow (fragment)', function () {
+    it('PKCE login flow (fragment)', function() {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
         clientId: '{{{WIDGET_SPA_CLIENT_ID}}}',
@@ -167,13 +167,13 @@ describe('OIDC flows', function () {
   });
 
   // https://oktainc.atlassian.net/browse/OKTA-197861
-  xdescribe('Social IDP', function () {
+  xdescribe('Social IDP', function() {
 
-    afterEach(function () {
+    afterEach(function() {
       facebook.logout();
     });
 
-    it('can login and get an idToken in the popup flow', function () {
+    it('can login and get an idToken in the popup flow', function() {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
         clientId: '{{{WIDGET_WEB_CLIENT_ID}}}',
@@ -193,7 +193,7 @@ describe('OIDC flows', function () {
       expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_FB_NAME}}}');
     });
 
-    it('can login and get an idToken in the redirect flow', function () {
+    it('can login and get an idToken in the redirect flow', function() {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
         clientId: '{{{WIDGET_WEB_CLIENT_ID}}}',
@@ -214,7 +214,7 @@ describe('OIDC flows', function () {
       expect(oidcApp.getIdTokenUser()).toBe('{{{WIDGET_FB_NAME_2}}}');
     });
 
-    it('can login and get a "code" using the redirect flow', function () {
+    it('can login and get a "code" using the redirect flow', function() {
       setup({
         baseUrl: '{{{WIDGET_TEST_SERVER}}}',
         clientId: '{{{WIDGET_WEB_CLIENT_ID}}}',

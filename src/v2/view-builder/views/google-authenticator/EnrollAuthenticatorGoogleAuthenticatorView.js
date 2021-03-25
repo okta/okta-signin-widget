@@ -13,7 +13,7 @@ const viewToDisplayState = {
 };
 
 const Body = BaseForm.extend({
-  title () {
+  title() {
     return loc('oie.enroll.google_authenticator.setup.title', 'login');
   },
 
@@ -29,7 +29,7 @@ const Body = BaseForm.extend({
     `,
   }),
 
-  getUISchema () {
+  getUISchema() {
     const schema = BaseForm.prototype.getUISchema.apply(this, arguments);
 
     const nextButton = addCustomButton({
@@ -103,7 +103,7 @@ const Body = BaseForm.extend({
 
 export default BaseAuthenticatorView.extend({
   Body,
-  createModelClass () {
+  createModelClass() {
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     const local = Object.assign(
       {

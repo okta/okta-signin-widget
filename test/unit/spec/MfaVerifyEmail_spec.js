@@ -15,7 +15,7 @@ import $sandbox from 'sandbox';
 import LoginUtil from 'util/Util';
 const itp = Expect.itp;
 
-function createRouter (baseUrl, authClient, successSpy, settings) {
+function createRouter(baseUrl, authClient, successSpy, settings) {
   const router = new Router(
     _.extend(
       {
@@ -33,7 +33,7 @@ function createRouter (baseUrl, authClient, successSpy, settings) {
   return router;
 }
 
-function setupEmail () {
+function setupEmail() {
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
   const authClient = createAuthClient({
@@ -49,14 +49,14 @@ function setupEmail () {
   setNextResponse(resAllFactors);
   router.refreshAuthState('dummy-token');
   return Expect.waitForMfaVerify()
-    .then(function () {
+    .then(function() {
       const factors = router.appState.get('factors');
       const selectedFactor = factors.findWhere({ factorType: 'email' });
 
       router.verify(selectedFactor.get('provider'), selectedFactor.get('factorType'));
       return Expect.waitForVerifyEmail();
     })
-    .then(function () {
+    .then(function() {
       const form = new MfaVerifyForm($sandbox);
       const beacon = new Beacon($sandbox);
 
@@ -72,8 +72,8 @@ function setupEmail () {
     });
 }
 
-function setupEmailAndClickSend () {
-  return setupEmail().then(function (test) {
+function setupEmailAndClickSend() {
+  return setupEmail().then(function(test) {
     Util.resetAjaxRequests();
     test.setNextResponse(resChallengeEmail);
     test.form.submit();
@@ -81,22 +81,22 @@ function setupEmailAndClickSend () {
   });
 }
 
-function waitForEmailVerificationPage (test) {
+function waitForEmailVerificationPage(test) {
   return Expect.wait(() => {
     return test.form.submitButtonText() === 'Verify';
   }, test);
 }
 
-Expect.describe('MFA Verify (Email)', function () {
-  itp('is email', function () {
-    return setupEmail().then(function (test) {
+Expect.describe('MFA Verify (Email)', function() {
+  itp('is email', function() {
+    return setupEmail().then(function(test) {
       expect(test.form.isEmail()).toBe(true);
       expect(test.beacon.isFactorBeacon()).toBe(true);
       expect(test.beacon.hasClass('mfa-okta-email')).toBe(true);
     });
   });
-  itp('shows send email page', function () {
-    return setupEmail().then(function (test) {
+  itp('shows send email page', function() {
+    return setupEmail().then(function(test) {
       expect(test.form.titleText()).toBe('Verify with Email Authentication');
       expect(test.form.el('mfa-send-email-content').html()).toBe(
         'Send a verification code to ' + '<span class="mask-email">a...1@clouditude.net</span>.'
@@ -106,8 +106,8 @@ Expect.describe('MFA Verify (Email)', function () {
     });
   });
 
-  itp('click send email will send request to factor endpoint', function () {
-    return setupEmailAndClickSend().then(function () {
+  itp('click send email will send request to factor endpoint', function() {
+    return setupEmailAndClickSend().then(function() {
       expect(Util.numAjaxRequests()).toBe(1);
       Expect.isJsonPost(Util.getAjaxRequest(0), {
         url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify?rememberDevice=false',
@@ -118,8 +118,8 @@ Expect.describe('MFA Verify (Email)', function () {
       });
     });
   });
-  itp('click send email and show verify passcode page', function () {
-    return setupEmailAndClickSend().then(function (test) {
+  itp('click send email and show verify passcode page', function() {
+    return setupEmailAndClickSend().then(function(test) {
       const answer = test.form.answerField();
 
       expect(answer.length).toBe(1);
@@ -132,15 +132,15 @@ Expect.describe('MFA Verify (Email)', function () {
       Expect.isVisible(test.form.rememberDeviceCheckbox());
     });
   });
-  itp('shows errors if verify button is clicked and answer is empty', function () {
+  itp('shows errors if verify button is clicked and answer is empty', function() {
     return setupEmailAndClickSend()
-      .then(function (test) {
+      .then(function(test) {
         Util.resetAjaxRequests();
         test.setNextResponse(resChallengeEmail);
         test.form.submit();
         return Expect.waitForFormError(test.form, test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(Util.numAjaxRequests()).toBe(0);
         expect(test.form.passCodeErrorField().length).toBe(1);
         expect(test.form.passCodeErrorField().text()).toBe('This field cannot be left blank');
@@ -150,9 +150,9 @@ Expect.describe('MFA Verify (Email)', function () {
       });
   });
 
-  itp('calls verifyFactor with rememberDevice URL param', function () {
+  itp('calls verifyFactor with rememberDevice URL param', function() {
     return setupEmailAndClickSend()
-      .then(function (test) {
+      .then(function(test) {
         Util.resetAjaxRequests();
         test.setNextResponse(resSuccess);
         test.form.setAnswer('456123');
@@ -160,7 +160,7 @@ Expect.describe('MFA Verify (Email)', function () {
         test.form.submit();
         return Expect.waitForSpyCall(test.successSpy);
       })
-      .then(function () {
+      .then(function() {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify?rememberDevice=true',
@@ -171,16 +171,16 @@ Expect.describe('MFA Verify (Email)', function () {
         });
       });
   });
-  itp('calls verify endpoint when form is submitted with a passcode', function () {
+  itp('calls verify endpoint when form is submitted with a passcode', function() {
     return setupEmailAndClickSend()
-      .then(function (test) {
+      .then(function(test) {
         Util.resetAjaxRequests();
         test.setNextResponse(resSuccess);
         test.form.setAnswer('456123');
         test.form.submit();
         return Expect.waitForSpyCall(test.successSpy);
       })
-      .then(function () {
+      .then(function() {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/factors/emailhp9NXcoXu8z2wN0g3/verify?rememberDevice=false',
@@ -191,15 +191,15 @@ Expect.describe('MFA Verify (Email)', function () {
         });
       });
   });
-  itp('shows proper account locked error after too many failed MFA attempts.', function () {
+  itp('shows proper account locked error after too many failed MFA attempts.', function() {
     return setupEmailAndClickSend()
-      .then(function (test) {
+      .then(function(test) {
         test.setNextResponse(resMfaLocked);
         test.form.setAnswer('12345');
         test.form.submit();
         return Expect.waitForFormError(test.form, test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorBox().length).toBe(1);
         expect(test.form.errorMessage()).toBe('Your account is locked because of too many authentication attempts.');
@@ -229,9 +229,9 @@ Expect.describe('MFA Verify (Email)', function () {
       });
   });
 
-  itp('posts to resend link when click the `send again` button', function () {
+  itp('posts to resend link when click the `send again` button', function() {
     return setupEmailAndClickSend()
-      .then(function (test) {
+      .then(function(test) {
         Util.resetAjaxRequests();
         test.setNextResponse(resChallengeEmail);
         expect(test.form.$('.resend-email-infobox').length).toBe(1);
@@ -240,7 +240,7 @@ Expect.describe('MFA Verify (Email)', function () {
           return test.form.$('.resend-email-infobox.hide').length === 1;
         }, test);
       })
-      .then(function () {
+      .then(function() {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           data: { stateToken: 'testStateToken' },
@@ -249,17 +249,17 @@ Expect.describe('MFA Verify (Email)', function () {
       });
   });
 
-  itp('display resend error', function () {
+  itp('display resend error', function() {
     Util.speedUpDelay();
     return setupEmailAndClickSend()
-      .then(function (test) {
+      .then(function(test) {
         Util.resetAjaxRequests();
         test.setNextResponse(resResendError);
         expect(test.form.$('.resend-email-infobox:not(.hide)').length).toBe(1);
         test.form.$('.resend-email-btn').click();
         return Expect.waitForFormError(test.form, test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorBox().length).toBe(1);
         expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');

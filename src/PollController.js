@@ -16,7 +16,7 @@ import FormType from 'util/FormType';
 export default FormController.extend({
   className: 'poll',
   Model: {
-    save: function () {
+    save: function() {
       this.trigger('cancelRequest');
       return this.appState
         .get('transaction')
@@ -33,7 +33,7 @@ export default FormController.extend({
   Form: {
     autoSave: true,
     hasSavingState: false,
-    title: function () {
+    title: function() {
       return this.title;
     },
     className: 'poll-controller',
@@ -49,7 +49,7 @@ export default FormController.extend({
              </div>',
       }),
     ],
-    _checkStatus: function () {
+    _checkStatus: function() {
       // start polling request
       this.transactionObject
         .poll()
@@ -67,7 +67,7 @@ export default FormController.extend({
         });
     },
 
-    _startCountDown: function (factorPollingIntervalSeconds) {
+    _startCountDown: function(factorPollingIntervalSeconds) {
       // start one second countdown for next poll request
       this.countDown = setInterval(() => {
         // update title after every second and check if countdown == 1 to poll again
@@ -91,12 +91,12 @@ export default FormController.extend({
       }, 1000);
     },
 
-    _updateTitle: function (factorPollingIntervalSeconds) {
+    _updateTitle: function(factorPollingIntervalSeconds) {
       this.title = loc('polling.title', 'login', [factorPollingIntervalSeconds]);
       this.$el.find('.okta-form-title').text(this.title);
     },
 
-    _stopCountDown: function () {
+    _stopCountDown: function() {
       // clear countdown setInterval
       if (this.countDown) {
         clearInterval(this.countDown);
@@ -107,7 +107,7 @@ export default FormController.extend({
       }
     },
 
-    initialize: function (options) {
+    initialize: function(options) {
       this.transactionObject = options.appState.get('transaction');
       this.factorPollingIntervalSeconds = Math.ceil(this.transactionObject.transaction.profile.refresh / 1000);
       this._updateTitle(this.factorPollingIntervalSeconds);
@@ -115,14 +115,14 @@ export default FormController.extend({
     },
   },
 
-  back: function () {
+  back: function() {
     // Empty function on verify controllers to prevent users
     // from navigating back during 'verify' using the browser's
     // back button. The URL will still change, but the view will not
     // More details in OKTA-135060.
   },
 
-  remove: function () {
+  remove: function() {
     this.form._stopCountDown();
   },
 });

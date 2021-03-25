@@ -5,13 +5,13 @@ import Enums from 'util/Enums';
 export default View.extend({
   HeaderBeacon: null,
 
-  initialize () {
+  initialize() {
     if (this.HeaderBeacon) {
       this.add(this.HeaderBeacon);
     }
   },
 
-  postRender () {
+  postRender() {
     if (this.HeaderBeacon) {
       $(`#${Enums.WIDGET_CONTAINER_ID}`).removeClass('no-beacon');
 

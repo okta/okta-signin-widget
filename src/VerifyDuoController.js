@@ -31,7 +31,7 @@ export default FormController.extend({
       rememberDevice: 'boolean',
     },
 
-    initialize: function () {
+    initialize: function() {
       const rememberDevice = FactorUtil.getRememberDeviceValue(this.appState);
 
       // set the initial value for remember device (Cannot do this while defining the
@@ -39,10 +39,10 @@ export default FormController.extend({
       this.set('rememberDevice', rememberDevice);
     },
 
-    getInitOptions: function () {
+    getInitOptions: function() {
       const rememberDevice = !!this.get('rememberDevice');
 
-      return this.doTransaction(function (transaction) {
+      return this.doTransaction(function(transaction) {
         const data = {
           rememberDevice: rememberDevice,
         };
@@ -52,14 +52,14 @@ export default FormController.extend({
           factorType: 'web',
         });
 
-        return factor.verify(data).catch(function (err) {
+        return factor.verify(data).catch(function(err) {
           // Clean up the cookie on failure.
           throw err;
         });
       }, true /* rethrow errors */);
     },
 
-    verify: function (signedResponse) {
+    verify: function(signedResponse) {
       const url = this.get('postAction');
       const factorId = this.get('factorId');
       const self = this;
@@ -79,8 +79,8 @@ export default FormController.extend({
       // NOTE - If we ever decide to change this, we should test this very carefully.
 
       return Q($.post(url, data))
-        .then(function () {
-          return self.doTransaction(function (transaction) {
+        .then(function() {
+          return self.doTransaction(function(transaction) {
             let data;
 
             if (rememberDevice) {
@@ -89,7 +89,7 @@ export default FormController.extend({
             return transaction.poll(data);
           });
         })
-        .catch(function (err) {
+        .catch(function(err) {
           self.trigger('error', self, err.xhr);
         });
     },
@@ -101,7 +101,7 @@ export default FormController.extend({
     title: _.partial(loc, 'factor.duo'),
     attributes: { 'data-se': 'factor-duo' },
 
-    postRender: function () {
+    postRender: function() {
       this.add('<iframe frameborder="0" title="' + this.title() + '"></iframe>');
       if (this.options.appState.get('allowRememberDevice')) {
         this.addInput({
@@ -122,10 +122,10 @@ export default FormController.extend({
     },
   },
 
-  fetchInitialData: function () {
+  fetchInitialData: function() {
     const self = this;
 
-    return this.model.getInitOptions().then(function (trans) {
+    return this.model.getInitOptions().then(function(trans) {
       const res = trans.data;
 
       if (
@@ -148,13 +148,13 @@ export default FormController.extend({
     });
   },
 
-  trapAuthResponse: function () {
+  trapAuthResponse: function() {
     if (this.options.appState.get('isMfaChallenge')) {
       return true;
     }
   },
 
-  back: function () {
+  back: function() {
     // Empty function on verify controllers to prevent users
     // from navigating back during 'verify' using the browser's
     // back button. The URL will still change, but the view will not

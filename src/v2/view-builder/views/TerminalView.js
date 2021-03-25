@@ -23,7 +23,7 @@ const GET_BACK_TO_SIGN_LINK_FLOWS = [
 ];
 
 const HeaderBeaconTerminal = HeaderBeacon.extend({
-  getBeaconClassName: function () {
+  getBeaconClassName: function() {
     return this.options.appState.containsMessageWithI18nKey(EMAIL_AUTHENTICATOR_TERMINAL_KEYS)
       ? getIconClassNameForBeacon(AUTHENTICATOR_KEY.EMAIL)
       : HeaderBeacon.prototype.getBeaconClassName.apply(this, arguments);
@@ -33,12 +33,12 @@ const HeaderBeaconTerminal = HeaderBeacon.extend({
 const Body = BaseForm.extend({
   noButtonBar: true,
 
-  postRender () {
+  postRender() {
     BaseForm.prototype.postRender.apply(this, arguments);
     this.$el.addClass('terminal-state');
   },
 
-  title () {
+  title() {
     if (this.options.appState.containsMessageWithI18nKey(RETURN_LINK_EXPIRED_KEY)) {
       return loc('oie.email.return.link.expired.title', 'login');
     }
@@ -50,7 +50,7 @@ const Body = BaseForm.extend({
     }
   },
 
-  showMessages () {
+  showMessages() {
     const messagesObjs = this.options.appState.get('messages');
     if (messagesObjs && Array.isArray(messagesObjs.value)) {
       this.add('<div class="ion-messages-container"></div>', '.o-form-error-container');
@@ -74,7 +74,7 @@ const Body = BaseForm.extend({
 });
 
 const Footer = BaseFooter.extend({
-  links: function () {
+  links: function() {
     if (this.options.appState.containsMessageWithI18nKey(GET_BACK_TO_SIGN_LINK_FLOWS)) {
       return getBackToSignInLink(this.options.settings);
     }

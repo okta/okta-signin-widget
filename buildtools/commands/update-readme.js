@@ -4,7 +4,7 @@ const replace = require('replace-in-file');
 
 const ROOT_DIR = resolve(__dirname, '../../');
 
-function getPublishedWidgetVersion () {
+function getPublishedWidgetVersion() {
   const stdout = execSync('yarn info @okta/okta-signin-widget --json');
   const meta = JSON.parse(stdout);
   const version = meta.data['dist-tags'].latest;

@@ -1,10 +1,10 @@
 /* global module */
 var grunt = require('grunt');
 
-module.exports = function (result, threshold, writer) {
+module.exports = function(result, threshold, writer) {
   var pass = true;
 
-  function log (text, method) {
+  function log(text, method) {
     grunt.log[method](text);
     writer.write(('' + text) + '\n');
   }
@@ -22,15 +22,15 @@ module.exports = function (result, threshold, writer) {
     }
     log('', 'ok');
 
-    violations.forEach(function (ruleResult) {
+    violations.forEach(function(ruleResult) {
       log(ruleResult.help, 'subhead');
 
-      ruleResult.nodes.forEach(function (violation, index) {
+      ruleResult.nodes.forEach(function(violation, index) {
         log('   ' + (index + 1) + '. ' + JSON.stringify(violation.target), 'writeln');
 
         if (violation.any.length) {
           log('       Fix any of the following:', 'writeln');
-          violation.any.forEach(function (check) {
+          violation.any.forEach(function(check) {
             log('        \u2022 ' + check.message, 'writeln');
           });
         }
@@ -38,7 +38,7 @@ module.exports = function (result, threshold, writer) {
         var alls = violation.all.concat(violation.none);
         if (alls.length) {
           log('       Fix all of the following:', 'writeln');
-          alls.forEach(function (check) {
+          alls.forEach(function(check) {
             log('        \u2022 ' + check.message, 'writeln');
           });
         }

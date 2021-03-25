@@ -42,20 +42,20 @@ const UnlockAccountControllerFooter = View.extend({
   ),
   className: 'auth-footer',
   events: {
-    'click .js-back': function (e) {
+    'click .js-back': function(e) {
       e.preventDefault();
       this.back();
     },
-    'click .js-contact-support': function (e) {
+    'click .js-contact-support': function(e) {
       e.preventDefault();
       this.state.trigger('contactSupport');
       this.$('.js-contact-support').hide();
     },
   },
-  getTemplateData: function () {
+  getTemplateData: function() {
     return this.settings.pick('helpSupportNumber');
   },
-  back: function () {
+  back: function() {
     this.state.set('navigateDir', Enums.DIRECTION_BACK);
     this.options.appState.trigger('navigate', '');
   },
@@ -67,18 +67,18 @@ export default FormController.extend({
       username: ['string', true],
       factorType: ['string', true],
     },
-    validate: function () {
+    validate: function() {
       return ValidationUtil.validateUsername(this);
     },
-    save: function () {
+    save: function() {
       const self = this;
 
-      return this.startTransaction(function (authClient) {
+      return this.startTransaction(function(authClient) {
         return authClient.unlockAccount({
           username: self.settings.transformUsername(self.get('username'), Enums.UNLOCK_ACCOUNT),
           factorType: self.get('factorType'),
         });
-      }).catch(function () {
+      }).catch(function() {
         //need empty fail handler on model to display errors on form
       });
     },
@@ -86,7 +86,7 @@ export default FormController.extend({
   Form: {
     noButtonBar: true,
     title: _.partial(loc, 'account.unlock.title', 'login'),
-    formChildren: function () {
+    formChildren: function() {
       const smsEnabled = this.settings.get('features.smsRecovery');
       /*eslint complexity: [2, 9] max-statements: [2, 24] */
 
@@ -127,7 +127,7 @@ export default FormController.extend({
                     {{i18n code="recovery.mobile.hint" bundle="login" arguments="mobileFactors"}}\
                   </p>'
                 ),
-                getTemplateData: function () {
+                getTemplateData: function() {
                   let mobileFactors;
 
                   if (smsEnabled && callEnabled) {
@@ -184,27 +184,27 @@ export default FormController.extend({
 
       return formChildren;
     },
-    initialize: function () {
-      this.listenTo(this, 'save', function () {
+    initialize: function() {
+      this.listenTo(this, 'save', function() {
         this.options.appState.set('username', this.model.get('username'));
         this.model.save();
       });
 
-      this.listenTo(this.state, 'contactSupport', function () {
+      this.listenTo(this.state, 'contactSupport', function() {
         this.add(ContactSupport, '.o-form-error-container');
       });
     },
-    setDefaultFactorType: function (factorType) {
+    setDefaultFactorType: function(factorType) {
       if (_.isEmpty(this.model.get('factorType'))) {
         this.model.set('factorType', factorType);
       }
     },
-    createRecoveryFactorButton: function (className, labelCode, factorType, form) {
+    createRecoveryFactorButton: function(className, labelCode, factorType, form) {
       return FormType.Button({
         attributes: { 'data-se': className },
         className: 'button button-primary button-wide ' + className,
         title: loc(labelCode, 'login'),
-        click: function () {
+        click: function() {
           form.clearErrors();
           if (this.model.isValid()) {
             this.model.set('factorType', factorType);

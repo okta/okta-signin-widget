@@ -4,21 +4,21 @@ import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 
 const Body = BaseForm.extend({
 
-  title () {
+  title() {
     const displayName = this.options.appState.getAuthenticatorDisplayName();
     return this.options.isChallenge
       ? loc('oie.idp.challenge.title', 'login', [displayName])
       : loc('oie.idp.enroll.title', 'login', [displayName]);
   },
 
-  subtitle () {
+  subtitle() {
     const displayName = this.options.appState.getAuthenticatorDisplayName();
     return this.options.isChallenge
       ? loc('oie.idp.challenge.description', 'login', [displayName])
       : loc('oie.idp.enroll.description', 'login', [displayName]);
   },
 
-  showMessages () {
+  showMessages() {
     // IdP Authenticator error messages are not form errors
     // Parse and display them here.
     const messages = this.options.appState.get('messages') || {};
@@ -41,7 +41,7 @@ const Body = BaseForm.extend({
     }
   },
 
-  save () {
+  save() {
     return this.options.isChallenge
       ? loc('mfa.challenge.verify', 'login')
       : loc('mfa.enroll', 'login');
@@ -50,7 +50,7 @@ const Body = BaseForm.extend({
 });
 
 export default BaseAuthenticatorView.extend({
-  initialize () {
+  initialize() {
     BaseAuthenticatorView.prototype.initialize.apply(this, arguments);
 
     // The IdP Authenticator doesn't have a traditional enroll/challenge form.

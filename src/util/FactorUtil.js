@@ -147,8 +147,8 @@ const factorData = {
   },
 };
 
-const getPasswordComplexityRequirementsAsArray = function (policy, i18nKeys) {
-  const setExcludeAttributes = function (policyComplexity) {
+const getPasswordComplexityRequirementsAsArray = function(policy, i18nKeys) {
+  const setExcludeAttributes = function(policyComplexity) {
     const excludeAttributes = policyComplexity.excludeAttributes;
 
     policyComplexity.excludeFirstName = _.contains(excludeAttributes, 'firstName');
@@ -160,7 +160,7 @@ const getPasswordComplexityRequirementsAsArray = function (policy, i18nKeys) {
     const complexityFields = i18nKeys.complexity;
     const policyComplexity = setExcludeAttributes(policy.complexity);
 
-    const requirements = _.map(policyComplexity, function (complexityValue, complexityType) {
+    const requirements = _.map(policyComplexity, function(complexityValue, complexityType) {
       if (complexityValue <= 0) {
         // to skip 0 and -1
         return;
@@ -176,15 +176,15 @@ const getPasswordComplexityRequirementsAsArray = function (policy, i18nKeys) {
   return [];
 };
 
-const getPasswordHistoryRequirementDescription = function (policy, i18nKeys) {
+const getPasswordHistoryRequirementDescription = function(policy, i18nKeys) {
   if (policy.age && policy.age.historyCount > 0) {
     return loc(i18nKeys.history.i18n, 'login', [policy.age.historyCount]);
   }
   return null;
 };
 
-const getPasswordAgeRequirementDescription = function (policy, i18nKeys) {
-  const getPasswordAgeRequirement = function (displayableTime) {
+const getPasswordAgeRequirementDescription = function(policy, i18nKeys) {
+  const getPasswordAgeRequirement = function(displayableTime) {
     let propertiesString;
 
     switch (displayableTime.unit) {
@@ -208,7 +208,7 @@ const getPasswordAgeRequirementDescription = function (policy, i18nKeys) {
   return null;
 };
 
-const getPasswordRequirements = function (policy, i18nKeys) {
+const getPasswordRequirements = function(policy, i18nKeys) {
   const passwordRequirements = {
     complexity: [],
     history: [],
@@ -232,7 +232,7 @@ const getPasswordRequirements = function (policy, i18nKeys) {
   return passwordRequirements;
 };
 
-fn.getFactorName = function (provider, factorType) {
+fn.getFactorName = function(provider, factorType) {
   if (provider === 'OKTA' && factorType === 'token:software:totp') {
     return 'OKTA_VERIFY';
   }
@@ -281,7 +281,7 @@ fn.getFactorName = function (provider, factorType) {
   return fn.getFactorNameForFactorType.call(this, factorType);
 };
 
-fn.getFactorNameForFactorType = function (factorType) {
+fn.getFactorNameForFactorType = function(factorType) {
   if (factorType === 'u2f') {
     return 'U2F';
   }
@@ -303,17 +303,17 @@ fn.getFactorNameForFactorType = function (factorType) {
   }
 };
 
-fn.isOktaVerify = function (provider, factorType) {
+fn.isOktaVerify = function(provider, factorType) {
   return provider === 'OKTA' && (factorType === 'token:software:totp' || factorType === 'push');
 };
 
-fn.getFactorLabel = function (provider, factorType) {
+fn.getFactorLabel = function(provider, factorType) {
   const key = factorData[fn.getFactorName.apply(this, [provider, factorType])].label;
 
   return loc(key, 'login');
 };
 
-fn.getFactorDescription = function (provider, factorType) {
+fn.getFactorDescription = function(provider, factorType) {
   const descriptionKey = factorData[fn.getFactorName.apply(this, [provider, factorType])].description;
 
   if (_.isFunction(descriptionKey)) {
@@ -326,25 +326,25 @@ fn.getFactorDescription = function (provider, factorType) {
   }
 };
 
-fn.getFactorIconClassName = function (provider, factorType) {
+fn.getFactorIconClassName = function(provider, factorType) {
   return factorData[fn.getFactorName.apply(this, [provider, factorType])].iconClassName;
 };
 
-fn.getFactorSortOrder = function (provider, factorType) {
+fn.getFactorSortOrder = function(provider, factorType) {
   return factorData[fn.getFactorName.apply(this, [provider, factorType])].sortOrder;
 };
 
-fn.getRememberDeviceValue = function (appState) {
+fn.getRememberDeviceValue = function(appState) {
   return appState && appState.get('rememberDeviceByDefault');
 };
 
-fn.getSecurityQuestionLabel = function (questionObj) {
+fn.getSecurityQuestionLabel = function(questionObj) {
   const localizedQuestion = loc('security.' + questionObj.question);
 
   return localizedQuestion.indexOf('L10N_ERROR') < 0 ? localizedQuestion : questionObj.questionText;
 };
 
-fn.removeRequirementsFromError = function (responseJSON, policy) {
+fn.removeRequirementsFromError = function(responseJSON, policy) {
   const passwordRequirementsAsString = this.getPasswordComplexityDescription(policy);
 
   if (
@@ -359,7 +359,7 @@ fn.removeRequirementsFromError = function (responseJSON, policy) {
   return responseJSON;
 };
 
-fn.getPasswordComplexityDescriptionForHtmlList = function (policy) {
+fn.getPasswordComplexityDescriptionForHtmlList = function(policy) {
   const passwordRequirementHtmlI18nKeys = {
     complexity: {
       minLength: { i18n: 'password.complexity.length.description', args: true },
@@ -383,7 +383,7 @@ fn.getPasswordComplexityDescriptionForHtmlList = function (policy) {
   return _.union(passwordRequirements.complexity, passwordRequirements.history, passwordRequirements.age);
 };
 
-fn.getPasswordComplexityDescription = function (policy) {
+fn.getPasswordComplexityDescription = function(policy) {
   const passwordRequirementI18nKeys = {
     complexity: {
       minLength: { i18n: 'password.complexity.length', args: true },
@@ -408,7 +408,7 @@ fn.getPasswordComplexityDescription = function (policy) {
 
   // Generate and add complexity string to result
   if (requirements.length > 0) {
-    requirements = _.reduce(requirements, function (result, requirement) {
+    requirements = _.reduce(requirements, function(result, requirement) {
       return result ? result + loc('password.complexity.list.element', 'login', [requirement]) : requirement;
     });
 
@@ -422,7 +422,7 @@ fn.getPasswordComplexityDescription = function (policy) {
   return _.compact(result).join(' ');
 };
 
-fn.getCardinalityText = function (enrolled, required, cardinality) {
+fn.getCardinalityText = function(enrolled, required, cardinality) {
   if (cardinality) {
     if (enrolled) {
       return cardinality.enrolled === 1 ? '' : loc('enroll.choices.cardinality.setup', 'login', [cardinality.enrolled]);
@@ -433,7 +433,7 @@ fn.getCardinalityText = function (enrolled, required, cardinality) {
   return '';
 };
 
-fn.findFactorInFactorsArray = function (factors, provider, factorType) {
+fn.findFactorInFactorsArray = function(factors, provider, factorType) {
   let factor = factors.findWhere({ provider: provider, factorType: factorType });
 
   if (factor === undefined) {

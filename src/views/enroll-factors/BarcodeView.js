@@ -40,7 +40,7 @@ export default View.extend({
   ),
 
   events: {
-    'click [data-type="manual-setup"]': function (e) {
+    'click [data-type="manual-setup"]': function(e) {
       e.preventDefault();
       const url = RouterUtil.createActivateFactorUrl(
         this.model.get('__provider__'),
@@ -50,8 +50,8 @@ export default View.extend({
       if (this.model.get('__factorType__') === 'push') {
         // cancel the poll and navigate to manual setup.
         this.model
-          .doTransaction(function (transaction) {
-            return transaction.prev().then(function (trans) {
+          .doTransaction(function(transaction) {
+            return transaction.prev().then(function(trans) {
               const factor = _.findWhere(trans.factors, {
                 factorType: 'push',
                 provider: 'OKTA',
@@ -67,21 +67,21 @@ export default View.extend({
         this.options.appState.trigger('navigate', url);
       }
     },
-    'click [data-type="refresh-qrcode"]': function (e) {
+    'click [data-type="refresh-qrcode"]': function(e) {
       e.preventDefault();
       this.model.trigger('errors:clear');
 
       const self = this;
 
       this.model
-        .doTransaction(function (transaction) {
+        .doTransaction(function(transaction) {
           if (this.appState.get('isWaitingForActivation')) {
             return transaction.poll();
           } else {
             return transaction.activate();
           }
         })
-        .then(function (trans) {
+        .then(function(trans) {
           const res = trans.data;
 
           if (
@@ -96,22 +96,22 @@ export default View.extend({
     },
   },
 
-  initialize: function () {
-    this.listenTo(this.options.appState, 'change:lastAuthResponse', function () {
+  initialize: function() {
+    this.listenTo(this.options.appState, 'change:lastAuthResponse', function() {
       if (this.options.appState.get('isMfaEnrollActivate')) {
         this.$el.toggleClass('qrcode-expired', !this.options.appState.get('isWaitingForActivation'));
       } else if (this.options.appState.get('isSuccessResponse')) {
         this.$el.addClass('qrcode-success');
       }
     });
-    this.listenTo(this.model, 'error', function () {
+    this.listenTo(this.model, 'error', function() {
       if (this.options.appState.get('isMfaEnrollActivate')) {
         this.$el.toggleClass('qrcode-expired', true);
       }
     });
   },
 
-  getTemplateData: function () {
+  getTemplateData: function() {
     const factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
     let instructions;
 

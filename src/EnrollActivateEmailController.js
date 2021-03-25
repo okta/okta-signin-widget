@@ -22,24 +22,24 @@ const Model = {
     passCode: 'string',
   },
 
-  resend: function () {
+  resend: function() {
     this.trigger('form:clear-errors');
-    return this.doTransaction(function (transaction) {
+    return this.doTransaction(function(transaction) {
       // authn support multiple `resend` hence has to specify name.
       return transaction.resend('email');
     });
   },
 
-  save: function () {
+  save: function() {
     this.trigger('save');
     const formData = this.toJSON();
-    return this.doTransaction(function (transaction) {
+    return this.doTransaction(function(transaction) {
       return transaction.activate(formData);
     });
   },
 };
 
-const Form = function () {
+const Form = function() {
   return {
     title: _.partial(loc, 'email.enroll.title', 'login'),
     noButtonBar: false,
@@ -59,7 +59,7 @@ const Form = function () {
           //   is created via another handlebar template and used for bold the email address.
           template: hbs('{{{i18n code="email.mfa.email.sent.description" bundle="login" arguments="factorEmail"}}}'),
 
-          getTemplateData: function () {
+          getTemplateData: function() {
             const factor = this.options.appState.get('factor');
             const factorEmailVal = factor && factor.profile ? factor.profile.email : '';
             const factorEmail = hbs('<span class="mask-email">{{email}}</span>')({ email: factorEmailVal });

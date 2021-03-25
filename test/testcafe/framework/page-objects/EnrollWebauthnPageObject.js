@@ -1,7 +1,7 @@
 import BasePageObject from './BasePageObject';
 
 export default class EnrollWebauthnPageObject extends BasePageObject {
-  constructor (t) {
+  constructor(t) {
     super(t);
   }
 

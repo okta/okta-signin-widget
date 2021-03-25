@@ -6,9 +6,9 @@ import AppState from 'v2/models/AppState';
 
 import FormController from 'v2/controllers/FormController';
 
-describe('v2/controllers/FormController', function () {
+describe('v2/controllers/FormController', function() {
   let testContext;
-  beforeEach(function () {
+  beforeEach(function() {
     testContext = {};
     testContext.init = (settings) => {
       const appState = new AppState({idx: {neededToProceed: []}});
@@ -20,11 +20,11 @@ describe('v2/controllers/FormController', function () {
     };
   });
 
-  afterEach(function () {
+  afterEach(function() {
     testContext.controller.options.appState.get('idx').proceed.mockReset();
   });
 
-  it('passes identifier to idx.proceed', function () {
+  it('passes identifier to idx.proceed', function() {
     const settings = new Settings({
       baseUrl: 'http://localhost:3000',
     });
@@ -36,10 +36,10 @@ describe('v2/controllers/FormController', function () {
     expect(testContext.controller.options.appState.get('idx').proceed.mock.calls[0][1].identifier).toEqual('foo');
   });
 
-  it('passes transformed identifier using settings.transformUsername to idx.proceed', function () {
+  it('passes transformed identifier using settings.transformUsername to idx.proceed', function() {
     const settings = new Settings({
       baseUrl: 'http://localhost:3000',
-      transformUsername: function (username, operation) {
+      transformUsername: function(username, operation) {
         if (operation === 'PRIMARY_AUTH') {
           return `${username}@okta.com`;
         }

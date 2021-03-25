@@ -1,13 +1,13 @@
 import { BaseModel } from 'v2/view-builder/internals';
 
-describe('v2/view-builder/internals/BaseModel', function () {
+describe('v2/view-builder/internals/BaseModel', function() {
   const createModelAndVerifyPropsAndLocal = ({ uiSchema, optionUiSchemaConfig }, props, local = {}) => {
     const result = BaseModel.create({ uiSchema }, optionUiSchemaConfig);
     expect(result.prototype.props).toEqual(props);
     expect(result.prototype.local).toEqual(Object.assign({ formName: 'string' }, local));
   };
 
-  it('shall create Model - passcode', function () {
+  it('shall create Model - passcode', function() {
     const uiSchema = [
       {
         name: 'credentials.passcode',
@@ -29,7 +29,7 @@ describe('v2/view-builder/internals/BaseModel', function () {
     );
   });
 
-  it('shall create Model - profile enroll', function () {
+  it('shall create Model - profile enroll', function() {
     const uiSchema = [
       {
         name: 'userProfile.lastName',
@@ -64,7 +64,7 @@ describe('v2/view-builder/internals/BaseModel', function () {
     );
   });
 
-  it('shall create Model - identify', function () {
+  it('shall create Model - identify', function() {
     const uiSchema = [
       {
         name: 'identifier',
@@ -92,7 +92,7 @@ describe('v2/view-builder/internals/BaseModel', function () {
     );
   });
 
-  it('shall create Model - enroll phone', function () {
+  it('shall create Model - enroll phone', function() {
     const uiSchema = [
       {
         name: 'authenticator.id',
@@ -137,7 +137,7 @@ describe('v2/view-builder/internals/BaseModel', function () {
     );
   });
 
-  it('shall create Model - enroll security question', function () {
+  it('shall create Model - enroll security question', function() {
     const uiSchema = [
       {
         name: 'sub_schema_local_credentials',
@@ -245,7 +245,7 @@ describe('v2/view-builder/internals/BaseModel', function () {
     );
   });
 
-  it('shall create Model - authenticator list', function () {
+  it('shall create Model - authenticator list', function() {
     const uiSchema = [
       {
         name: 'authenticator',

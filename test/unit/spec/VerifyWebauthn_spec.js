@@ -22,7 +22,7 @@ import LoginUtil from 'util/Util';
 import webauthn from 'util/webauthn';
 const itp = Expect.itp;
 
-function createRouter (baseUrl, authClient, successSpy, settings) {
+function createRouter(baseUrl, authClient, successSpy, settings) {
   const router = new Router(
     _.extend(
       {
@@ -70,11 +70,11 @@ const configWithCustomLinkNoHref = {
   }
 };
 
-function clickFactorInDropdown (test, factorName) {
+function clickFactorInDropdown(test, factorName) {
   test.beacon.getOptionsLinks().eq(Factors[factorName]).click();
 }
 
-function setup (options) {
+function setup(options) {
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
   const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
@@ -86,7 +86,7 @@ function setup (options) {
   setNextResponse(options.multipleWebauthn ? [resMultipleWebauthnWithQuestion] : [resAllFactors]);
   router.refreshAuthState('dummy-token');
   return Expect.waitForMfaVerify()
-    .then(function () {
+    .then(function() {
       const responses = options.multipleWebauthn ? [resChallengeMultipleWebauthn] : [resChallengeWebauthn];
 
       if (options.signStatus === 'success') {
@@ -96,10 +96,10 @@ function setup (options) {
       router.verifyWebauthn();
       return Expect.waitForVerifyWebauthn();
     })
-    .then(function () {
+    .then(function() {
       const $forms = $sandbox.find('.o-form');
 
-      let forms = _.map($forms, function (form) {
+      let forms = _.map($forms, function(form) {
         return new MfaVerifyForm($(form));
       });
 
@@ -126,7 +126,7 @@ const testSignature = 'YWJjZGVmYXNkZmV3YWZrbm1hc2xqZWY=';
 const testCredentialId = 'vdCxImCygaKmXS3S_2WwgqF1LLZ4i_2MKYfAbrNByJOOmSyRD_STj6VfhLQsLdLrIdgvdP5EmO1n9Tuw5BawZw';
 const testChallenge = 'kygOUtSWURMv_t_Gj71Y';
 
-function mockWebauthn (options) {
+function mockWebauthn(options) {
   if (options.webauthnSupported) {
     navigator.credentials = {
       get: jasmine.createSpy('webauthn-spy'),
@@ -143,8 +143,8 @@ function mockWebauthn (options) {
   }
 }
 
-function mockWebauthnSignFailure () {
-  spyOn(navigator.credentials, 'get').and.callFake(function () {
+function mockWebauthnSignFailure() {
+  spyOn(navigator.credentials, 'get').and.callFake(function() {
     const deferred = Q.defer();
 
     deferred.reject({ message: 'something went wrong' });
@@ -152,8 +152,8 @@ function mockWebauthnSignFailure () {
   });
 }
 
-function mockWebauthnSignSuccess (rememberDevice) {
-  spyOn(navigator.credentials, 'get').and.callFake(function () {
+function mockWebauthnSignSuccess(rememberDevice) {
+  spyOn(navigator.credentials, 'get').and.callFake(function() {
     if (rememberDevice) {
       $('[name=rememberDevice]').prop('checked', true);
       $('[name=rememberDevice]').trigger('change');
@@ -171,11 +171,11 @@ function mockWebauthnSignSuccess (rememberDevice) {
   });
 }
 
-function mockWebauthnSignPending () {
+function mockWebauthnSignPending() {
   spyOn(navigator.credentials, 'get').and.returnValue(Q.defer().promise);
 }
 
-function setupWebauthnFactor (options) {
+function setupWebauthnFactor(options) {
   options || (options = {});
   spyOn(webauthn, 'isNewApiAvailable').and.returnValue(options.webauthnSupported === true);
   const isSafari = options.isSafari ? true : false;
@@ -184,7 +184,7 @@ function setupWebauthnFactor (options) {
   return setup(options);
 }
 
-function setupMultipleWebauthnOnly (options) {
+function setupMultipleWebauthnOnly(options) {
   options || (options = {});
   options.multipleWebauthn = true;
   spyOn(webauthn, 'isNewApiAvailable').and.returnValue(options.webauthnSupported === true);
@@ -205,10 +205,10 @@ function setupMultipleWebauthnOnly (options) {
   }
   setNextResponse(responses);
   router.refreshAuthState('dummy-token');
-  return Expect.waitForVerifyWebauthn().then(function () {
+  return Expect.waitForVerifyWebauthn().then(function() {
     const $forms = $sandbox.find('.o-form');
 
-    let forms = _.map($forms, function (form) {
+    let forms = _.map($forms, function(form) {
       return new MfaVerifyForm($(form));
     });
 
@@ -229,31 +229,31 @@ function setupMultipleWebauthnOnly (options) {
   });
 }
 
-function setupMultipleWebauthn (options) {
+function setupMultipleWebauthn(options) {
   options || (options = {});
   options.multipleWebauthn = true;
   return setupWebauthnFactor(options);
 }
 
-function expectHasRightBeaconImage (test, desiredClassName) {
+function expectHasRightBeaconImage(test, desiredClassName) {
   expect(test.beacon.isFactorBeacon()).toBe(true);
   expect(test.beacon.hasClass(desiredClassName)).toBe(true);
 }
 
-function expectTitleToBe (test, desiredTitle) {
+function expectTitleToBe(test, desiredTitle) {
   expect(test.form.titleText()).toBe(desiredTitle);
 }
 
-function testWebauthnFactor (setupFn, webauthnOnly) {
-  itp('shows the right beacon and title for webauthn', function () {
-    return setupFn({ webauthnSupported: true }).then(function (test) {
+function testWebauthnFactor(setupFn, webauthnOnly) {
+  itp('shows the right beacon and title for webauthn', function() {
+    return setupFn({ webauthnSupported: true }).then(function(test) {
       expectHasRightBeaconImage(test, 'mfa-webauthn');
       expectTitleToBe(test, 'Security Key or Biometric Authenticator');
     });
   });
 
-  itp('shows error if browser does not support webauthn', function () {
-    return setupFn({ webauthnSupported: false }).then(function (test) {
+  itp('shows error if browser does not support webauthn', function() {
+    return setupFn({ webauthnSupported: false }).then(function(test) {
       expect(test.form.el('o-form-error-html')).toHaveLength(1);
       const errorMessage = webauthnOnly
         ? 'Security key or biometric authenticator is not supported on this browser. ' +
@@ -265,61 +265,61 @@ function testWebauthnFactor (setupFn, webauthnOnly) {
     });
   });
 
-  itp('does not show error if browser supports webauthn', function () {
-    return setupFn({ webauthnSupported: true }).then(function (test) {
+  itp('does not show error if browser supports webauthn', function() {
+    return setupFn({ webauthnSupported: true }).then(function(test) {
       expect(test.form.el('o-form-error-html')).toHaveLength(0);
     });
   });
 
-  itp('shows verify button when webauthn challenge page is loaded when on safari', function () {
-    return setupFn({ webauthnSupported: true, isSafari: true }).then(function (test) {
+  itp('shows verify button when webauthn challenge page is loaded when on safari', function() {
+    return setupFn({ webauthnSupported: true, isSafari: true }).then(function(test) {
       expect(test.form.submitButton().css('display')).toBe('block');
       expect(test.form.submitButtonText()).toBe('Verify');
     });
   });
 
-  itp('does not show verify button when not on safari', function () {
-    return setupFn({ webauthnSupported: true }).then(function (test) {
+  itp('does not show verify button when not on safari', function() {
+    return setupFn({ webauthnSupported: true }).then(function(test) {
       return Expect.waitForSpyCall(navigator.credentials.get, test);
-    }).then(function (test) {
+    }).then(function(test) {
       Expect.isNotVisible(test.form.submitButton());
       expect(test.form.submitButtonText()).toBe('Verify');
     });
   });
 
-  itp('has remember device checkbox', function () {
-    return setupFn({ webauthnSupported: true }).then(function (test) {
+  itp('has remember device checkbox', function() {
+    return setupFn({ webauthnSupported: true }).then(function(test) {
       Expect.isVisible(test.form.rememberDeviceCheckbox());
     });
   });
 
-  itp('has a sign out link', function () {
-    return setupFn({ webauthnSupported: true }).then(function (test) {
+  itp('has a sign out link', function() {
+    return setupFn({ webauthnSupported: true }).then(function(test) {
       Expect.isVisible(test.form.signoutLink($sandbox));
     });
   });
-  itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function () {
-    return setupFn({ webauthnSupported: true, settings: {'features.hideSignOutLinkInMFA': true} }).then(function (test) {
+  itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function() {
+    return setupFn({ webauthnSupported: true, settings: {'features.hideSignOutLinkInMFA': true} }).then(function(test) {
       expect(test.form.signoutLink($sandbox).length).toBe(0);
     });
   });
-  itp('does not have sign out link if features.mfaOnlyFlow is true', function () {
-    return setupFn({ webauthnSupported: true, settings: {'features.mfaOnlyFlow': true} }).then(function (test) {
+  itp('does not have sign out link if features.mfaOnlyFlow is true', function() {
+    return setupFn({ webauthnSupported: true, settings: {'features.mfaOnlyFlow': true} }).then(function(test) {
       expect(test.form.signoutLink($sandbox).length).toBe(0);
     });
   });
 }
 
-function testMultipleWebauthnFactor (setupFn) {
-  itp('calls navigator.credentials.get and verifies factor', function () {
+function testMultipleWebauthnFactor(setupFn) {
+  itp('calls navigator.credentials.get and verifies factor', function() {
     return setupFn({
       webauthnSupported: true,
       signStatus: 'success',
     })
-      .then(function (test) {
+      .then(function(test) {
         return Expect.waitForSpyCall(test.successSpy);
       })
-      .then(function () {
+      .then(function() {
         expect(navigator.credentials.get).toHaveBeenCalledWith({
           publicKey: {
             allowCredentials: [
@@ -356,16 +356,16 @@ function testMultipleWebauthnFactor (setupFn) {
       });
   });
 
-  itp('calls navigator.credentials.get and verifies factor when rememberDevice set to true', function () {
+  itp('calls navigator.credentials.get and verifies factor when rememberDevice set to true', function() {
     return setupFn({
       webauthnSupported: true,
       signStatus: 'success',
       rememberDevice: true,
     })
-      .then(function (test) {
+      .then(function(test) {
         return Expect.waitForSpyCall(test.successSpy);
       })
-      .then(function () {
+      .then(function() {
         expect(navigator.credentials.get).toHaveBeenCalledWith({
           publicKey: {
             allowCredentials: [
@@ -402,16 +402,16 @@ function testMultipleWebauthnFactor (setupFn) {
       });
   });
 
-  itp('shows an error if navigator.credentials.get fails and displays retry button', function () {
+  itp('shows an error if navigator.credentials.get fails and displays retry button', function() {
     Expect.allowUnhandledPromiseRejection();
     return setupFn({
       webauthnSupported: true,
       signStatus: 'fail',
     })
-      .then(function (test) {
+      .then(function(test) {
         return Expect.waitForFormError(test.form, test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(navigator.credentials.get).toHaveBeenCalled();
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorBox()).toHaveLength(1);
@@ -437,18 +437,18 @@ function testMultipleWebauthnFactor (setupFn) {
   });
 }
 
-Expect.describe('Webauthn Factor', function () {
+Expect.describe('Webauthn Factor', function() {
   testWebauthnFactor(setupWebauthnFactor);
 
-  itp('calls navigator.credentials.get and verifies factor', function () {
+  itp('calls navigator.credentials.get and verifies factor', function() {
     return setupWebauthnFactor({
       webauthnSupported: true,
       signStatus: 'success',
     })
-      .then(function (test) {
+      .then(function(test) {
         return Expect.waitForSpyCall(test.successSpy, test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(navigator.credentials.get).toHaveBeenCalledWith({
           publicKey: {
             allowCredentials: [
@@ -478,16 +478,16 @@ Expect.describe('Webauthn Factor', function () {
       });
   });
 
-  itp('calls navigator.credentials.get and verifies factor when rememberDevice set to true', function () {
+  itp('calls navigator.credentials.get and verifies factor when rememberDevice set to true', function() {
     return setupWebauthnFactor({
       webauthnSupported: true,
       signStatus: 'success',
       rememberDevice: true,
     })
-      .then(function (test) {
+      .then(function(test) {
         return Expect.waitForSpyCall(test.successSpy);
       })
-      .then(function () {
+      .then(function() {
         expect(navigator.credentials.get).toHaveBeenCalledWith({
           publicKey: {
             allowCredentials: [
@@ -516,16 +516,16 @@ Expect.describe('Webauthn Factor', function () {
       });
   });
 
-  itp('shows an error if navigator.credentials.get fails', function () {
+  itp('shows an error if navigator.credentials.get fails', function() {
     Expect.allowUnhandledPromiseRejection();
     return setupWebauthnFactor({
       webauthnSupported: true,
       signStatus: 'fail',
     })
-      .then(function (test) {
+      .then(function(test) {
         return Expect.waitForFormError(test.form, test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(navigator.credentials.get).toHaveBeenCalled();
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.errorBox()).toHaveLength(1);
@@ -550,21 +550,21 @@ Expect.describe('Webauthn Factor', function () {
   });
 });
 
-Expect.describe('Only multiple Webauthn is setup', function () {
+Expect.describe('Only multiple Webauthn is setup', function() {
   testWebauthnFactor(setupMultipleWebauthnOnly, true);
   testMultipleWebauthnFactor(setupMultipleWebauthnOnly);
 });
 
-Expect.describe('Multiple Webauthn and one or more factors are setup', function () {
+Expect.describe('Multiple Webauthn and one or more factors are setup', function() {
   testWebauthnFactor(setupMultipleWebauthn);
   testMultipleWebauthnFactor(setupMultipleWebauthn);
 
-  itp('switching to another factor after initiating webauthn verify calls abort', function () {
+  itp('switching to another factor after initiating webauthn verify calls abort', function() {
     return setupMultipleWebauthn({ webauthnSupported: true })
-      .then(function (test) {
+      .then(function(test) {
         return Expect.waitForSpyCall(navigator.credentials.get, test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(test.form.el('webauthn-waiting').length).toBe(1);
         const webauthnAbortController = test.router.controller.model.webauthnAbortController;
 
@@ -577,12 +577,12 @@ Expect.describe('Multiple Webauthn and one or more factors are setup', function 
       });
   });
 
-  itp('SignOut after initiating webauthn verify calls abort', function () {
+  itp('SignOut after initiating webauthn verify calls abort', function() {
     return setupMultipleWebauthn({ webauthnSupported: true })
-      .then(function (test) {
+      .then(function(test) {
         return Expect.waitForSpyCall(navigator.credentials.get, test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(test.form.el('webauthn-waiting').length).toBe(1);
         test.webauthnAbortController = test.router.controller.model.webauthnAbortController;
         expect(test.webauthnAbortController).toBeDefined();
@@ -591,33 +591,33 @@ Expect.describe('Multiple Webauthn and one or more factors are setup', function 
         test.form.signoutLink(test.router.el).click();
         return Expect.waitForPrimaryAuth(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(test.router.controller.model.webauthnAbortController).not.toBeDefined();
         expect(test.webauthnAbortController.abort).toHaveBeenCalled();
       });
   });
 });
 
-Expect.describe('Factor page custom link', function () {
-  itp('is visible if configured and has correct text and url', function () {
-    return setupWebauthnFactor({ webauthnSupported: true, settings: configWithCustomLink }).then(function (test) {
+Expect.describe('Factor page custom link', function() {
+  itp('is visible if configured and has correct text and url', function() {
+    return setupWebauthnFactor({ webauthnSupported: true, settings: configWithCustomLink }).then(function(test) {
       Expect.isVisible(test.form.factorPageCustomLink($sandbox));
       expect(test.form.factorPageCustomLinkLabel($sandbox).trim()).toBe('Need help with MFA?');
       expect(test.form.factorPageCustomLinkHref($sandbox).trim()).toBe('https://acme.com/mfa-help');
     });
   });
-  itp('is not visible if not configured', function () {
-    return setupWebauthnFactor({ webauthnSupported: true }).then(function (test) {
+  itp('is not visible if not configured', function() {
+    return setupWebauthnFactor({ webauthnSupported: true }).then(function(test) {
       expect(test.form.factorPageCustomLink($sandbox).length).toBe(0);
     });
   });
-  itp('is not visible if configured without text', function () {
-    return setupWebauthnFactor({ webauthnSupported: true, settings: configWithCustomLinkNoText }).then(function (test) {
+  itp('is not visible if configured without text', function() {
+    return setupWebauthnFactor({ webauthnSupported: true, settings: configWithCustomLinkNoText }).then(function(test) {
       expect(test.form.factorPageCustomLink($sandbox).length).toBe(0);
     });
   });
-  itp('is not visible if configured without url', function () {
-    return setupWebauthnFactor({ webauthnSupported: true, settings: configWithCustomLinkNoHref }).then(function (test) {
+  itp('is not visible if configured without url', function() {
+    return setupWebauthnFactor({ webauthnSupported: true, settings: configWithCustomLinkNoHref }).then(function(test) {
       expect(test.form.factorPageCustomLink($sandbox).length).toBe(0);
     });
   });

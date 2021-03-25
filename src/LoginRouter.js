@@ -154,7 +154,7 @@ export default BaseLoginRouter.extend({
     'verifyPIV',
   ],
 
-  defaultAuth: function () {
+  defaultAuth: function() {
     if (location.hash === `#${Enums.WIDGET_CONTAINER_ID}`) {
       document.getElementById(Enums.WIDGET_CONTAINER_ID).focus();
       return;
@@ -166,15 +166,15 @@ export default BaseLoginRouter.extend({
     }
   },
 
-  idpDiscovery: function () {
+  idpDiscovery: function() {
     this.render(IDPDiscoveryController, { Beacon: SecurityBeacon });
   },
 
-  primaryAuth: function () {
+  primaryAuth: function() {
     this.render(PrimaryAuthController, { Beacon: SecurityBeacon });
   },
 
-  verifyDuo: function () {
+  verifyDuo: function() {
     this.render(VerifyDuoController, {
       provider: 'DUO',
       factorType: 'web',
@@ -182,15 +182,15 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  verifyPIV: function () {
+  verifyPIV: function() {
     this.render(VerifyPIVController, { Beacon: PIVBeacon });
   },
 
-  poll: function () {
+  poll: function() {
     this.render(PollController);
   },
 
-  verifyWebauthn: function () {
+  verifyWebauthn: function() {
     if (this.settings.get('features.webauthn')) {
       this.render(VerifyWebauthnController, {
         provider: 'FIDO',
@@ -206,7 +206,7 @@ export default BaseLoginRouter.extend({
     }
   },
 
-  verifyU2F: function () {
+  verifyU2F: function() {
     this.render(VerifyU2FController, {
       provider: 'FIDO',
       factorType: 'u2f',
@@ -214,7 +214,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  verifySAMLFactor: function () {
+  verifySAMLFactor: function() {
     this.render(VerifyCustomFactorController, {
       provider: 'GENERIC_SAML',
       factorType: 'assertion:saml2',
@@ -222,7 +222,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  verifyOIDCFactor: function () {
+  verifyOIDCFactor: function() {
     this.render(VerifyCustomFactorController, {
       provider: 'GENERIC_OIDC',
       factorType: 'assertion:oidc',
@@ -230,7 +230,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  verifyClaimsFactor: function () {
+  verifyClaimsFactor: function() {
     this.render(VerifyCustomFactorController, {
       provider: 'CUSTOM',
       factorType: 'claims_provider',
@@ -238,7 +238,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  verify: function (provider, factorType, factorIndex) {
+  verify: function(provider, factorType, factorIndex) {
     this.render(MfaVerifyController, {
       provider: provider.toUpperCase(),
       factorType: factorType,
@@ -247,18 +247,18 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  verifyNoProvider: function (factorType) {
+  verifyNoProvider: function(factorType) {
     this.render(MfaVerifyController, {
       factorType: factorType,
       Beacon: FactorBeacon,
     });
   },
 
-  enrollChoices: function () {
+  enrollChoices: function() {
     this.render(EnrollChoicesController, { Beacon: SecurityBeacon });
   },
 
-  enrollDuo: function () {
+  enrollDuo: function() {
     this.render(EnrollDuoController, {
       provider: 'DUO',
       factorType: 'web',
@@ -266,7 +266,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  enrollQuestion: function () {
+  enrollQuestion: function() {
     this.render(EnrollQuestionController, {
       provider: 'OKTA',
       factorType: 'question',
@@ -274,7 +274,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  enrollPassword: function () {
+  enrollPassword: function() {
     this.render(EnrollPasswordController, {
       provider: 'OKTA',
       factorType: 'password',
@@ -282,7 +282,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  enrollSms: function () {
+  enrollSms: function() {
     this.render(EnrollCallAndSmsController, {
       provider: 'OKTA',
       factorType: 'sms',
@@ -290,7 +290,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  enrollCall: function () {
+  enrollCall: function() {
     this.render(EnrollCallAndSmsController, {
       provider: 'OKTA',
       factorType: 'call',
@@ -298,7 +298,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  enrollEmail: function () {
+  enrollEmail: function() {
     this.render(EnrollEmailController, {
       provider: 'OKTA',
       factorType: 'email',
@@ -306,7 +306,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  enrollActivateEmail: function () {
+  enrollActivateEmail: function() {
     this.render(EnrollActivateEmailController, {
       provider: 'OKTA',
       factorType: 'email',
@@ -314,7 +314,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  enrollRsa: function () {
+  enrollRsa: function() {
     this.render(EnrollOnPremController, {
       provider: 'RSA',
       factorType: 'token',
@@ -322,7 +322,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  enrollOnPrem: function () {
+  enrollOnPrem: function() {
     this.render(EnrollOnPremController, {
       provider: 'DEL_OATH',
       factorType: 'token',
@@ -330,7 +330,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  enrollSymantecVip: function () {
+  enrollSymantecVip: function() {
     this.render(EnrollSymantecVipController, {
       provider: 'SYMANTEC',
       factorType: 'token',
@@ -338,7 +338,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  enrollYubikey: function () {
+  enrollYubikey: function() {
     this.render(EnrollYubikeyController, {
       provider: 'YUBICO',
       factorType: 'token:hardware',
@@ -346,7 +346,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  enrollSAMLFactor: function () {
+  enrollSAMLFactor: function() {
     this.render(EnrollCustomFactorController, {
       provider: 'GENERIC_SAML',
       factorType: 'assertion:saml2',
@@ -354,7 +354,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  enrollOIDCFactor: function () {
+  enrollOIDCFactor: function() {
     this.render(EnrollCustomFactorController, {
       provider: 'GENERIC_OIDC',
       factorType: 'assertion:oidc',
@@ -362,7 +362,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  enrollClaimsFactor: function () {
+  enrollClaimsFactor: function() {
     this.render(EnrollCustomFactorController, {
       provider: 'CUSTOM',
       factorType: 'claims_provider',
@@ -370,7 +370,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  enrollActivateClaimsFactor: function () {
+  enrollActivateClaimsFactor: function() {
     this.render(EnrollActivateCustomFactorController, {
       provider: 'CUSTOM',
       factorType: 'claims_provider',
@@ -378,7 +378,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  enrollTotpFactor: function (provider, factorType) {
+  enrollTotpFactor: function(provider, factorType) {
     this.render(EnrollTotpController, {
       provider: provider.toUpperCase(),
       factorType: factorType,
@@ -386,7 +386,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  enrollHotpFactor: function () {
+  enrollHotpFactor: function() {
     this.render(EnrollHotpController, {
       provider: 'CUSTOM',
       factorType: 'token:hotp',
@@ -394,7 +394,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  enrollWebauthn: function () {
+  enrollWebauthn: function() {
     if (this.settings.get('features.webauthn')) {
       this.render(EnrollWebauthnController, {
         provider: 'FIDO',
@@ -410,7 +410,7 @@ export default BaseLoginRouter.extend({
     }
   },
 
-  enrollU2F: function () {
+  enrollU2F: function() {
     this.render(EnrollU2FController, {
       provider: 'FIDO',
       factorType: 'u2f',
@@ -418,7 +418,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  scanBarcodeTotpFactor: function (provider, factorType) {
+  scanBarcodeTotpFactor: function(provider, factorType) {
     this.render(BarcodeTotpController, {
       provider: provider.toUpperCase(),
       factorType: factorType,
@@ -426,7 +426,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  scanBarcodePushFactor: function () {
+  scanBarcodePushFactor: function() {
     this.render(BarcodePushController, {
       provider: 'OKTA',
       factorType: 'push',
@@ -434,7 +434,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  activateTotpFactor: function (provider, factorType) {
+  activateTotpFactor: function(provider, factorType) {
     this.render(ActivateTotpController, {
       provider: provider.toUpperCase(),
       factorType: factorType,
@@ -442,7 +442,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  manualSetupTotpFactor: function (provider, factorType) {
+  manualSetupTotpFactor: function(provider, factorType) {
     this.render(ManualSetupTotpController, {
       provider: provider.toUpperCase(),
       factorType: factorType,
@@ -450,7 +450,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  manualSetupPushFactor: function () {
+  manualSetupPushFactor: function() {
     this.render(ManualSetupPushController, {
       provider: 'OKTA',
       factorType: 'push',
@@ -458,7 +458,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  activationLinkSent: function () {
+  activationLinkSent: function() {
     this.render(EnrollmentLinkSentController, {
       provider: 'OKTA',
       factorType: 'push',
@@ -466,7 +466,7 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  enterPasscodeInPushEnrollmentFlow: function () {
+  enterPasscodeInPushEnrollmentFlow: function() {
     this.render(EnterPasscodePushFlowController, {
       provider: 'OKTA',
       factorType: 'token:software:totp',
@@ -474,81 +474,81 @@ export default BaseLoginRouter.extend({
     });
   },
 
-  passwordExpired: function () {
+  passwordExpired: function() {
     this.render(PasswordExpiredController, { Beacon: SecurityBeacon });
   },
 
-  customPasswordExpired: function () {
+  customPasswordExpired: function() {
     this.render(CustomPasswordExpiredController, { Beacon: SecurityBeacon });
   },
 
-  forgotPassword: function () {
+  forgotPassword: function() {
     this.render(ForgotPasswordController);
   },
 
-  recoveryChallenge: function () {
+  recoveryChallenge: function() {
     this.render(RecoveryChallengeController, { Beacon: SecurityBeacon });
   },
 
-  recoveryEmailSent: function () {
+  recoveryEmailSent: function() {
     this.render(PwdResetEmailSentController, { Beacon: SecurityBeacon });
   },
 
-  unlockEmailSent: function () {
+  unlockEmailSent: function() {
     this.render(UnlockEmailSentController, { Beacon: SecurityBeacon });
   },
 
-  recoveryQuestion: function () {
+  recoveryQuestion: function() {
     this.render(RecoveryQuestionController, { Beacon: SecurityBeacon });
   },
 
-  passwordReset: function () {
+  passwordReset: function() {
     this.render(PasswordResetController, { Beacon: SecurityBeacon });
   },
 
-  recoveryLoading: function (token) {
+  recoveryLoading: function(token) {
     this.render(RecoveryLoadingController, {
       token: token,
       Beacon: SecurityBeacon,
     });
   },
 
-  unlockAccount: function () {
+  unlockAccount: function() {
     this.render(UnlockAccountController);
   },
 
-  accountUnlocked: function () {
+  accountUnlocked: function() {
     this.render(AccountUnlockedController, { Beacon: SecurityBeacon });
   },
 
-  refreshAuthState: function (token) {
+  refreshAuthState: function(token) {
     this.render(RefreshAuthStateController, {
       token: token,
       Beacon: SecurityBeacon,
     });
   },
 
-  register: function () {
+  register: function() {
     this.render(RegistrationController);
   },
 
-  registerComplete: function () {
+  registerComplete: function() {
     this.render(RegistrationCompleteController);
   },
 
-  errorState: function () {
+  errorState: function() {
     this.render(ErrorStateController, { Beacon: SecurityBeacon });
   },
 
-  consentRequired: function () {
+  consentRequired: function() {
     this.render(ConsentRequiredController);
   },
 
-  adminConsentRequired: function () {
+  adminConsentRequired: function() {
     this.render(AdminConsentRequiredController);
   },
 
-  enrollUser: function () {
+  enrollUser: function() {
     this.render(EnrollUserController);
   },
 });

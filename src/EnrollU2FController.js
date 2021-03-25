@@ -28,14 +28,14 @@ export default FormController.extend({
       __enrolled__: 'boolean',
     },
 
-    save: function () {
+    save: function() {
       this.trigger('request');
 
       if (this.get('__enrolled__')) {
         return this.activate();
       }
 
-      return this.doTransaction(function (transaction) {
+      return this.doTransaction(function(transaction) {
         const factor = _.findWhere(transaction.factors, {
           factorType: 'u2f',
           provider: 'FIDO',
@@ -45,11 +45,11 @@ export default FormController.extend({
       });
     },
 
-    activate: function () {
+    activate: function() {
       this.set('__enrolled__', true);
       this.trigger('errors:clear');
 
-      return this.doTransaction(function (transaction) {
+      return this.doTransaction(function(transaction) {
         const activation = transaction.factor.activation;
         const appId = activation.appId;
         const registerRequests = [
@@ -61,7 +61,7 @@ export default FormController.extend({
         const self = this;
         const deferred = Q.defer();
 
-        u2f.register(appId, registerRequests, [], function (data) {
+        u2f.register(appId, registerRequests, [], function(data) {
           self.trigger('errors:clear');
           if (data.errorCode && data.errorCode !== 0) {
             deferred.reject(
@@ -96,14 +96,14 @@ export default FormController.extend({
     hasSavingState: false,
     autoSave: true,
     className: 'enroll-u2f-form',
-    noButtonBar: function () {
+    noButtonBar: function() {
       return !FidoUtil.isU2fAvailable();
     },
     modelEvents: {
       request: '_startEnrollment',
       error: '_stopEnrollment',
     },
-    formChildren: function () {
+    formChildren: function() {
       const result = [];
 
       if (!FidoUtil.isU2fAvailable()) {
@@ -156,13 +156,13 @@ export default FormController.extend({
       return result;
     },
 
-    _startEnrollment: function () {
+    _startEnrollment: function() {
       this.$('.u2f-instructions').addClass('hide');
       this.$('.u2f-enroll-text').removeClass('hide');
       this.$('.o-form-button-bar').hide();
     },
 
-    _stopEnrollment: function () {
+    _stopEnrollment: function() {
       this.$('.u2f-instructions').removeClass('hide');
       this.$('.u2f-enroll-text').addClass('hide');
       this.$('.o-form-button-bar').show();
@@ -171,7 +171,7 @@ export default FormController.extend({
 
   Footer: Footer,
 
-  trapAuthResponse: function () {
+  trapAuthResponse: function() {
     if (this.options.appState.get('isMfaEnrollActivate')) {
       this.model.activate();
       return true;

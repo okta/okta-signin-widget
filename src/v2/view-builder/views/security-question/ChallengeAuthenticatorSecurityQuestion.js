@@ -3,15 +3,15 @@ import { BaseForm } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 
 const Body = BaseForm.extend({
-  title () {
+  title() {
     return loc('oie.security.question.challenge.title', 'login');
   },
 
-  save () {
+  save() {
     return loc('mfa.challenge.verify', 'login');
   },
 
-  getUISchema () {
+  getUISchema() {
     const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
     const questionKey = uiSchemas.filter(s => s.name.indexOf('questionKey') >= 0);
     const answer = uiSchemas.filter(s => s.name.indexOf('answer') >= 0);

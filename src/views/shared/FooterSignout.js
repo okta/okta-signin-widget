@@ -26,16 +26,16 @@ export default View.extend({
   events: {
     'click a[data-se="signout-link"]': 'handleSignout',
   },
-  handleSignout: function (e) {
+  handleSignout: function(e) {
     e.preventDefault();
     this.options.appState.trigger('signOut');
     const self = this;
 
     this.model
-      .doTransaction(function (transaction) {
+      .doTransaction(function(transaction) {
         return transaction.cancel();
       })
-      .then(function () {
+      .then(function() {
         if (self.settings.get('signOutLink')) {
           Util.redirect(self.settings.get('signOutLink'));
         } else {
@@ -44,7 +44,7 @@ export default View.extend({
         }
       });
   },
-  getTemplateData: function () {
+  getTemplateData: function() {
     return {
       linkClassName: _.isUndefined(this.options.linkClassName) ? 'goto' : this.options.linkClassName,
       linkText: this.options.linkText || loc('signout', 'login'),

@@ -19,7 +19,7 @@ export default Form.extend({
   className: 'primary-auth-form',
   noCancelButton: true,
   attributes: { novalidate: 'novalidate' },
-  save: function () {
+  save: function() {
     if (this.settings.get('features.passwordlessAuth')) {
       return loc('oform.next', 'login');
     }
@@ -30,7 +30,7 @@ export default Form.extend({
 
   // If socialAuth is configured, the title moves from the form to
   // the top of the container (and is rendered in socialAuth).
-  title: function () {
+  title: function() {
     let formTitle = loc('primaryauth.title', 'login');
 
     if (this.settings.get('socialAuthPositionTop')) {
@@ -39,10 +39,10 @@ export default Form.extend({
     return formTitle;
   },
 
-  initialize: function () {
+  initialize: function() {
     const trackTypingPattern = this.settings.get('features.trackTypingPattern');
 
-    this.listenTo(this, 'save', function () {
+    this.listenTo(this, 'save', function() {
       if (trackTypingPattern) {
         const typingPattern = TypingUtil.getTypingPattern();
 
@@ -58,20 +58,20 @@ export default Form.extend({
       }
       this.settings
         .processCreds(creds)
-        .then(function () {
+        .then(function() {
           if (!self.settings.get('features.deviceFingerprinting')) {
             return;
           }
           self.options.appState.trigger('loading', true);
           self.state.trigger('togglePrimaryAuthButton', true);
           return DeviceFingerprint.generateDeviceFingerprint(self.settings.get('baseUrl'), self.$el)
-            .then(function (fingerprint) {
+            .then(function(fingerprint) {
               self.options.appState.set('deviceFingerprint', fingerprint);
             })
-            .catch(function () {
+            .catch(function() {
               // Keep going even if device fingerprint fails
             })
-            .finally(function () {
+            .finally(function() {
               self.options.appState.trigger('loading', false);
               self.state.trigger('togglePrimaryAuthButton', false);
             });
@@ -82,8 +82,8 @@ export default Form.extend({
     this.stateEnableChange();
   },
 
-  stateEnableChange: function () {
-    this.listenTo(this.state, 'change:enabled', function (model, enable) {
+  stateEnableChange: function() {
+    this.listenTo(this.state, 'change:enabled', function(model, enable) {
       if (enable) {
         this.enable();
       } else {
@@ -92,7 +92,7 @@ export default Form.extend({
     });
   },
 
-  inputs: function () {
+  inputs: function() {
     const inputs = [];
 
     inputs.push(this.getUsernameField());
@@ -105,7 +105,7 @@ export default Form.extend({
     return inputs;
   },
 
-  getUsernameField: function () {
+  getUsernameField: function() {
     const userNameFieldObject = {
       className: 'margin-btm-5',
       label: loc('primaryauth.username.placeholder', 'login'),
@@ -125,7 +125,7 @@ export default Form.extend({
       disabled: this.options.appState.get('disableUsername'),
       autoComplete: 'username',
       // TODO: support a11y attrs in Courage - OKTA-279025
-      render: function () {
+      render: function() {
         this.$(`input[name=${this.options.name}]`).prop('required', true);
       },
     };
@@ -133,7 +133,7 @@ export default Form.extend({
     return userNameFieldObject;
   },
 
-  getPasswordField: function () {
+  getPasswordField: function() {
     const passwordFieldObject = {
       className: 'margin-btm-30',
       label: loc('primaryauth.password.placeholder', 'login'),
@@ -152,7 +152,7 @@ export default Form.extend({
       type: 'password',
       autoComplete: 'current-password',
       // TODO: support a11y attrs in Courage - OKTA-279025
-      render: function () {
+      render: function() {
         this.$(`input[name=${this.options.name}]`).prop('required', true);
       },
     };
@@ -164,7 +164,7 @@ export default Form.extend({
     return passwordFieldObject;
   },
 
-  isCustomized: function (property) {
+  isCustomized: function(property) {
     const language = this.settings.get('language');
     const i18n = this.settings.get('i18n');
     const customizedProperty = i18n && i18n[language] && i18n[language][property];
@@ -172,7 +172,7 @@ export default Form.extend({
     return !!customizedProperty;
   },
 
-  getRemeberMeCheckbox: function () {
+  getRemeberMeCheckbox: function() {
     return {
       label: false,
       placeholder: loc('remember', 'login'),
@@ -180,8 +180,8 @@ export default Form.extend({
       type: 'checkbox',
       'label-top': true,
       className: 'margin-btm-0',
-      initialize: function () {
-        this.listenTo(this.model, 'change:remember', function (model, val) {
+      initialize: function() {
+        this.listenTo(this.model, 'change:remember', function(model, val) {
           // OKTA-98946: We normally re-render on changes to model values,
           // but in this case we will manually update the checkbox due to
           // iOS Safari and how it handles autofill - it will autofill the
@@ -193,7 +193,7 @@ export default Form.extend({
     };
   },
 
-  focus: function () {
+  focus: function() {
     if (!this.model.get('username')) {
       this.getInputs().first().focus();
     } else if (!this.settings.get('features.passwordlessAuth')) {

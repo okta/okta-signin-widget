@@ -14,7 +14,7 @@ const focusOnSubmitButton = () => {
 };
 
 export default class BaseFormObject {
-  constructor (t, index) {
+  constructor(t, index) {
     this.t = t;
     this.el = new Selector('.o-form').nth(index || 0);
   }

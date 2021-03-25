@@ -7,69 +7,69 @@ const REFRESH_QRCODE_LINK = 'refresh-qrcode';
 const SCAN_FORM = 'step-scan';
 const REFRESH_LINK = 'refresh-qrcode';
 export default Form.extend({
-  isEnrollTotpBarcodeForm: function () {
+  isEnrollTotpBarcodeForm: function() {
     return this.container().length === 1;
   },
 
-  form: function () {
+  form: function() {
     return this.el(SCAN_FORM);
   },
 
-  container: function () {
+  container: function() {
     return this.$(CLASS_SELECTOR);
   },
 
-  qrcodeImg: function () {
+  qrcodeImg: function() {
     return this.el(QRCODE);
   },
 
-  manualSetupLink: function () {
+  manualSetupLink: function() {
     return this.el(MANUAL_SETUP_LINK);
   },
 
-  clickManualSetupLink: function () {
+  clickManualSetupLink: function() {
     this.manualSetupLink().click();
   },
 
-  refreshQrcodeLink: function () {
+  refreshQrcodeLink: function() {
     return this.el(REFRESH_QRCODE_LINK);
   },
 
-  scanInstructions: function () {
+  scanInstructions: function() {
     return this.$('.scan-instructions');
   },
 
-  hasRefreshQrcodeLink: function () {
+  hasRefreshQrcodeLink: function() {
     return this.scanInstructions().hasClass('qrcode-expired');
   },
 
-  hasManualSetupLink: function () {
+  hasManualSetupLink: function() {
     const instructions = this.scanInstructions();
 
     return !instructions.hasClass('qrcode-expired') && !instructions.hasClass('qrcode-success');
   },
 
-  clickrefreshQrcodeLink: function () {
+  clickrefreshQrcodeLink: function() {
     this.refreshQrcodeLink().click();
   },
 
-  backLink: function () {
+  backLink: function() {
     return this.el('back-link');
   },
 
-  clickBackLink: function () {
+  clickBackLink: function() {
     this.backLink().click();
   },
 
-  refreshLink: function () {
+  refreshLink: function() {
     return this.el(REFRESH_LINK);
   },
 
-  clickRefreshLink: function () {
+  clickRefreshLink: function() {
     return this.refreshLink().click();
   },
 
-  waitForRefreshQrcodeLink: function (resolveValue) {
+  waitForRefreshQrcodeLink: function(resolveValue) {
     return Expect.wait(this.hasRefreshQrcodeLink.bind(this), resolveValue);
   },
 });

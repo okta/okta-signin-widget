@@ -1,14 +1,14 @@
 import Form from './Form';
 export default Form.extend({
-  instructions: function () {
+  instructions: function() {
     return this.$('.piv-verify-text p').trimmedText();
   },
 
-  spinningIcon: function () {
+  spinningIcon: function() {
     return this.el('piv-waiting');
   },
 
-  backLink: function () {
+  backLink: function() {
     return this.el('back-link');
   },
 });

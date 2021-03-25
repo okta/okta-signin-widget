@@ -31,12 +31,12 @@ const EnrollmentLinkSentControllerFooter = View.extend({
   ),
   className: 'auth-footer',
   events: {
-    'click .js-back': function (e) {
+    'click .js-back': function(e) {
       e.preventDefault();
       this.back();
     },
   },
-  back: function () {
+  back: function() {
     const url = RouterUtil.createActivateFactorUrl(
       this.options.appState.get('activatedFactorProvider'),
       this.options.appState.get('activatedFactorType'),
@@ -59,7 +59,7 @@ const emailSentForm = {
             <p class="email-address">{{email}}</p>\
           '
         ),
-        getTemplateData: function () {
+        getTemplateData: function() {
           return { email: this.options.appState.get('userEmail') };
         },
       }),
@@ -79,7 +79,7 @@ const smsSentForm = {
             <p class="phone-number">{{phoneNumber}}</p>\
           '
         ),
-        getTemplateData: function () {
+        getTemplateData: function() {
           return { phoneNumber: this.model.get('fullPhoneNumber') };
         },
       }),
@@ -88,7 +88,7 @@ const smsSentForm = {
 };
 export default FormController.extend({
   className: 'enroll-activation-link-sent',
-  Model: function () {
+  Model: function() {
     return {
       local: {
         countryCode: ['string', false, this.options.appState.get('userCountryCode')],
@@ -99,13 +99,13 @@ export default FormController.extend({
       derived: {
         countryCallingCode: {
           deps: ['countryCode'],
-          fn: function (countryCode) {
+          fn: function(countryCode) {
             return '+' + CountryUtil.getCallingCodeForCountry(countryCode);
           },
         },
         fullPhoneNumber: {
           deps: ['countryCallingCode', 'phoneNumber'],
-          fn: function (countryCallingCode, phoneNumber) {
+          fn: function(countryCallingCode, phoneNumber) {
             return countryCallingCode + phoneNumber;
           },
         },
@@ -113,7 +113,7 @@ export default FormController.extend({
     };
   },
 
-  Form: function () {
+  Form: function() {
     const activationType = this.options.appState.get('factorActivationType');
 
     switch (activationType) {
@@ -128,21 +128,21 @@ export default FormController.extend({
 
   Footer: EnrollmentLinkSentControllerFooter,
 
-  initialize: function () {
+  initialize: function() {
     this.pollForEnrollment();
   },
 
-  remove: function () {
+  remove: function() {
     return FormController.prototype.remove.apply(this, arguments);
   },
 
-  pollForEnrollment: function () {
-    return this.model.doTransaction(function (transaction) {
+  pollForEnrollment: function() {
+    return this.model.doTransaction(function(transaction) {
       return transaction.poll(PUSH_INTERVAL);
     });
   },
 
-  trapAuthResponse: function () {
+  trapAuthResponse: function() {
     if (this.options.appState.get('isWaitingForActivation')) {
       this.pollForEnrollment();
       return true;

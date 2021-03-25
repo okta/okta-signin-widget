@@ -13,7 +13,6 @@ module.exports = {
     'es6': true,
   },
   'rules': {
-    'space-before-function-paren': 0, // remove me after clear up root eslintrc.
     'new-cap': 0, // for testcafe functions like RequestLogger, RequestMock
     'semi': 2,
     'max-len': 0,

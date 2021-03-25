@@ -16,7 +16,7 @@ import FormController from 'util/FormController';
 import FormType from 'util/FormType';
 export default FormController.extend({
   className: 'account-unlock-email-sent',
-  Model: function () {
+  Model: function() {
     return {
       local: {
         userFullName: ['string', false, this.options.appState.get('userFullName')],
@@ -26,20 +26,20 @@ export default FormController.extend({
 
   Form: {
     title: _.partial(loc, 'account.unlock.emailSent.title', 'login'),
-    subtitle: function () {
+    subtitle: function() {
       const username = this.options.appState.get('username');
 
       return loc('account.unlock.emailSent.desc', 'login', [username]);
     },
     noButtonBar: true,
     attributes: { 'data-se': 'unlock-email-sent' },
-    formChildren: function () {
+    formChildren: function() {
       return [
         FormType.Button({
           title: loc('goback', 'login'),
           className: 'button button-primary button-wide',
           attributes: { 'data-se': 'back-button' },
-          click: function () {
+          click: function() {
             this.state.set('navigateDir', Enums.DIRECTION_BACK);
             this.options.appState.trigger('navigate', '');
           },
@@ -48,7 +48,7 @@ export default FormController.extend({
     },
   },
 
-  initialize: function (options) {
+  initialize: function(options) {
     this.settings.callGlobalSuccess(Enums.UNLOCK_ACCOUNT_EMAIL_SENT, {
       username: options.appState.get('username'),
     });

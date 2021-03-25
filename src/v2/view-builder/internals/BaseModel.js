@@ -27,7 +27,7 @@ const convertUiSchemaFieldToProp = (uiSchemaField) => {
   return { [uiSchemaField.name]: config };
 };
 
-const createPropsAndLocals = function (
+const createPropsAndLocals = function(
   remediation = {},
   optionUiSchemaConfig = {},
   props = {},
@@ -66,7 +66,7 @@ const createPropsAndLocals = function (
   });
 };
 
-const create = function (remediation = {}, optionUiSchemaConfig = {}) {
+const create = function(remediation = {}, optionUiSchemaConfig = {}) {
   const props = {};
   const local = {
     formName: 'string',

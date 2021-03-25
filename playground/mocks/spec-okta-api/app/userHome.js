@@ -4,7 +4,7 @@ const apis = [
     proxy: false,
     path: '/app/UserHome',
     method: 'GET',
-    template (params, query) {
+    template(params, query) {
       return `
         <h1>Mock User Dashboard</h1>
         <h2>Query parameters</h2>

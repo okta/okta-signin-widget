@@ -122,14 +122,14 @@ test.requestHooks(identifyMock)('should show custom buttons links', async t => {
     'customButtons' : [{
       'title': 'Custom Button 1',
       'className': 'btn-customAuth-1',
-      'click': function () {
+      'click': function() {
         window.location.href = 'https://www.example.com/';
       }
     },
     {
       'title': 'Custom Button 2',
       'className': 'btn-customAuth-1',
-      'click': function () {
+      'click': function() {
         window.location.href = 'https://www.example2.com/';
       }
     }]

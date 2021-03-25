@@ -22,13 +22,13 @@ export default View.extend({
       {{/if}}
     `,
 
-  getTemplateData () {
+  getTemplateData() {
     const contextualData = this.options.appState.get('currentAuthenticator').contextualData;
     return { href: contextualData.qrcode?.href };
   },
 
   events: {
-    'click .cannot-scan-link': function (e) {
+    'click .cannot-scan-link': function(e) {
       e.preventDefault();
       this.options.model.set('viewToDisplay', 'manual');
     }

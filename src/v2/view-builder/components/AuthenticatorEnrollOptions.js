@@ -29,18 +29,18 @@ const AuthenticatorRow = View.extend({
           <div class="authenticator-button" {{#if buttonDataSeAttr}}data-se="{{buttonDataSeAttr}}"{{/if}}></div>\
         </div>\
       '),
-  children: function () {
+  children: function() {
     return [[createButton({
       className: 'button select-factor',
-      title: function () {
+      title: function() {
         return loc('oie.enroll.authenticator.button.text', 'login');
       },
-      click: function () {
+      click: function() {
         this.model.trigger('selectAutheticator', this.model.get('value'));
       }
     }), '.authenticator-button']];
   },
-  minimize: function () {
+  minimize: function() {
     this.$el.addClass('authenticator-row-min');
   }
 });
@@ -53,8 +53,8 @@ export default ListView.extend({
 
   itemSelector: '.list-content',
 
-  initialize: function () {
-    this.listenTo(this.collection,'selectAutheticator', function (data) {
+  initialize: function() {
+    this.listenTo(this.collection,'selectAutheticator', function(data) {
       this.model.set(this.options.name, data);
       this.options.appState.trigger('saveForm', this.model);
     });
@@ -66,7 +66,7 @@ export default ListView.extend({
 
   template: hbs`<div class="list-content"> <div class="authenticator-list-title"> {{title}} </div> </div>`,
 
-  getTemplateData () {
+  getTemplateData() {
     // presence of the skip remediation form tells us that the authenticators are all optional
     const title = this.hasOptionalFactors? loc('oie.setup.optional', 'login'):loc('oie.setup.required', 'login');
 

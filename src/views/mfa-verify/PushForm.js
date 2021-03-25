@@ -42,12 +42,12 @@ export default Form.extend({
     submit: 'submit',
   },
 
-  initialize: function () {
+  initialize: function() {
     this.enabled = true;
     this.listenTo(this.options.appState, 'change:isMfaRejected', this.handleRejectStateChange);
 
     this.numberChallengeView = this.add(NumberChallengeView).last();
-    this.listenTo(this.options.appState, 'change:isWaitingForNumberChallenge', function (
+    this.listenTo(this.options.appState, 'change:isWaitingForNumberChallenge', function(
       state,
       isWaitingForNumberChallenge
     ) {
@@ -60,13 +60,13 @@ export default Form.extend({
         this.$el.find('.button').show();
       }
     });
-    this.listenTo(this.options.appState, 'change:isMfaTimeout', function (state, isMfaTimeout) {
+    this.listenTo(this.options.appState, 'change:isMfaTimeout', function(state, isMfaTimeout) {
       this.setSubmitState(isMfaTimeout);
       if (isMfaTimeout) {
         this.showError(loc('oktaverify.timeout', 'login'));
       }
     });
-    this.listenTo(this.options.appState, 'change:isMfaRequired', function (state, isMfaRequired) {
+    this.listenTo(this.options.appState, 'change:isMfaRequired', function(state, isMfaRequired) {
       if (isMfaRequired) {
         this.clearErrors();
         this.clearWarnings();
@@ -77,7 +77,7 @@ export default Form.extend({
       deviceName: this.model.get('deviceName'),
     });
   },
-  setSubmitState: function (ableToSubmit) {
+  setSubmitState: function(ableToSubmit) {
     const button = this.$el.find('.button');
     const a11ySpan = this.$el.find('.accessibility-text');
     this.enabled = ableToSubmit;
@@ -97,7 +97,7 @@ export default Form.extend({
       );
     }
   },
-  submit: function (e) {
+  submit: function(e) {
     if (e !== undefined) {
       e.preventDefault();
     }
@@ -106,7 +106,7 @@ export default Form.extend({
       this.doSave();
     }
   },
-  postRender: function () {
+  postRender: function() {
     const factorsPolicyInfo = this.options.appState.get('factorsPolicyInfo');
     const id = this.model.get('id');
     const isAutoPushEnabled = this.settings.get('features.autoPush') && factorsPolicyInfo && factorsPolicyInfo[id]
@@ -119,13 +119,13 @@ export default Form.extend({
       _.defer(_.bind(this.submit, this));
     }
   },
-  doSave: function () {
+  doSave: function() {
     let warningTimeout;
 
     this.clearErrors();
     this.clearWarnings();
     if (this.model.isValid()) {
-      this.listenToOnce(this.model, 'error', function () {
+      this.listenToOnce(this.model, 'error', function() {
         this.setSubmitState(true);
         this.clearWarnings();
         clearTimeout(warningTimeout);
@@ -138,24 +138,24 @@ export default Form.extend({
       }, WARNING_TIMEOUT);
     }
   },
-  showError: function (msg) {
+  showError: function(msg) {
     this.clearWarnings();
     this.model.trigger('error', this.model, { responseJSON: { errorSummary: msg } });
   },
-  showWarning: function (msg) {
+  showWarning: function(msg) {
     this.clearWarnings();
     this.add(PushFormwarningTemplate, '.o-form-error-container', { options: { warning: msg } });
   },
-  clearWarnings: function () {
+  clearWarnings: function() {
     this.$('.okta-form-infobox-warning').remove();
   },
-  handleRejectStateChange: function (state, isMfaRejected) {
+  handleRejectStateChange: function(state, isMfaRejected) {
     if (isMfaRejected) {
       this.setSubmitState(isMfaRejected);
       this.setRejectedErrorMessage();
     }
   },
-  setRejectedErrorMessage: function () {
+  setRejectedErrorMessage: function() {
     // If rejection is due to outdated app, show error message per platform
     // else show user rejected message.
     if (this.options.appState.get('lastAuthResponse').factorResultMessage === 'OKTA_VERIFY_UPGRADE_REQUIRED') {

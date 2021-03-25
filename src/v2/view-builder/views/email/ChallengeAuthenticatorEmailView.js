@@ -18,7 +18,7 @@ const CheckYourEmailTitle = View.extend({
     {{/if}}
   `,
 
-  getTemplateData () {
+  getTemplateData() {
     const { email } = this.options;
     return {
       email,
@@ -30,7 +30,7 @@ const Body = BaseAuthenticatorEmailForm.extend(Object.assign({
 
   resendEmailAction: 'currentAuthenticatorEnrollment-resend',
 
-  initialize () {
+  initialize() {
     BaseAuthenticatorEmailForm.prototype.initialize.apply(this, arguments);
 
     const { email } = this.options.currentViewState.relatesTo?.value?.profile || {};

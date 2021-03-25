@@ -13,15 +13,15 @@ exports.describe = 'Downloads latest metadata from google libphonenumber and gen
 exports.handler = () => {
   console.log('Downloading latest metadata from google libphonenumber...');
   axios.get(METADATA_URI)
-    .then(function ({ data }) {
+    .then(function({ data }) {
       const regionCodesToCallingCodeMap = {};
-      const goog = { provide: function () { } };
+      const goog = { provide: function() { } };
       const i18n = { phonenumbers: { metadata: {} } };
       eval(data);
       Object.keys(i18n.phonenumbers.metadata.countryCodeToRegionCodeMap)
-        .forEach(function (callingCode) {
+        .forEach(function(callingCode) {
           const regionCodes = i18n.phonenumbers.metadata.countryCodeToRegionCodeMap[callingCode];
-          regionCodes.forEach(function (regionCode) {
+          regionCodes.forEach(function(regionCode) {
             regionCodesToCallingCodeMap[regionCode] = Number(callingCode);
           });
         });
@@ -44,7 +44,7 @@ exports.handler = () => {
 
       console.log(`Wrote to ${OUTPUT_FILE}`);
     })
-    .catch(function (error) {
+    .catch(function(error) {
       console.log(error);
     });
 

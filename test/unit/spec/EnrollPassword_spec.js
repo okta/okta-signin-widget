@@ -14,8 +14,8 @@ import RouterUtil from 'util/RouterUtil';
 import LoginUtil from 'util/Util';
 const itp = Expect.itp;
 
-Expect.describe('EnrollPassword', function () {
-  function setup (startRouter) {
+Expect.describe('EnrollPassword', function() {
+  function setup(startRouter) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
@@ -46,7 +46,7 @@ Expect.describe('EnrollPassword', function () {
     const enrollPassword = test => {
       setNextResponse(resAllFactors);
       router.refreshAuthState('dummy-token');
-      return Expect.waitForEnrollChoices(test).then(function (test) {
+      return Expect.waitForEnrollChoices(test).then(function(test) {
         router.enrollPassword();
         return Expect.waitForEnrollPassword(test);
       });
@@ -59,68 +59,68 @@ Expect.describe('EnrollPassword', function () {
     }
   }
 
-  itp('displays the correct factorBeacon', function () {
-    return setup().then(function (test) {
+  itp('displays the correct factorBeacon', function() {
+    return setup().then(function(test) {
       expect(test.beacon.isFactorBeacon()).toBe(true);
       expect(test.beacon.hasClass('mfa-okta-password')).toBe(true);
     });
   });
-  itp('does not allow autocomplete', function () {
-    return setup().then(function (test) {
+  itp('does not allow autocomplete', function() {
+    return setup().then(function(test) {
       expect(test.form.getPasswordAutocomplete()).toBe('off');
       expect(test.form.getConfirmPasswordAutocomplete()).toBe('off');
     });
   });
-  itp('has a password field', function () {
-    return setup().then(function (test) {
+  itp('has a password field', function() {
+    return setup().then(function(test) {
       const password = test.form.passwordField();
 
       expect(password.length).toBe(1);
       expect(password.attr('type')).toEqual('password');
     });
   });
-  itp('has a confirm password field', function () {
-    return setup().then(function (test) {
+  itp('has a confirm password field', function() {
+    return setup().then(function(test) {
       const confirmPassword = test.form.confirmPasswordField();
 
       expect(confirmPassword.length).toBe(1);
       expect(confirmPassword.attr('type')).toEqual('password');
     });
   });
-  itp('returns to factor list when browser\'s back button is clicked', function () {
+  itp('returns to factor list when browser\'s back button is clicked', function() {
     return setup(true)
-      .then(function (test) {
+      .then(function(test) {
         Util.triggerBrowserBackButton();
         return Expect.waitForEnrollChoices(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         Expect.isEnrollChoices(test.router.controller);
         Util.stopRouter();
       });
   });
 
-  itp('calls enroll with the right arguments when save is clicked', function () {
+  itp('calls enroll with the right arguments when save is clicked', function() {
     return setup(false)
-      .then(function (test) {
+      .then(function(test) {
         Util.resetAjaxRequests();
         test.form.setPassword('somepassword');
         test.form.setConfirmPassword('somepassword');
         test.setNextResponse(resSuccess);
-        spyOn(RouterUtil, 'isHostBackgroundChromeTab').and.callFake(function () {
+        spyOn(RouterUtil, 'isHostBackgroundChromeTab').and.callFake(function() {
           return true;
         });
-        spyOn(document, 'addEventListener').and.callFake(function (type, fn) {
+        spyOn(document, 'addEventListener').and.callFake(function(type, fn) {
           fn();
         });
         spyOn(document, 'removeEventListener').and.callThrough();
         test.form.submit();
 
-        spyOn(RouterUtil, 'isDocumentVisible').and.callFake(function () {
+        spyOn(RouterUtil, 'isDocumentVisible').and.callFake(function() {
           return true;
         });
         return Expect.waitForSpyCall(test.successSpy, test);
       })
-      .then(function () {
+      .then(function() {
         expect(RouterUtil.isHostBackgroundChromeTab).toHaveBeenCalled();
         expect(RouterUtil.isDocumentVisible).toHaveBeenCalled();
         expect(document.removeEventListener).toHaveBeenCalled();
@@ -140,8 +140,8 @@ Expect.describe('EnrollPassword', function () {
       });
   });
 
-  itp('validates password and confirmPassword cannot be empty', function () {
-    return setup().then(function (test) {
+  itp('validates password and confirmPassword cannot be empty', function() {
+    return setup().then(function(test) {
       Util.resetAjaxRequests();
       test.form.submit();
       expect(test.form.hasErrors()).toBe(true);
@@ -153,8 +153,8 @@ Expect.describe('EnrollPassword', function () {
       expect(Util.numAjaxRequests()).toBe(0);
     });
   });
-  itp('validates password and confirmPassword fields match and errors before the request', function () {
-    return setup().then(function (test) {
+  itp('validates password and confirmPassword fields match and errors before the request', function() {
+    return setup().then(function(test) {
       Util.resetAjaxRequests();
       test.form.setPassword('somepassword');
       test.form.setConfirmPassword('someotherpassword');
@@ -167,9 +167,9 @@ Expect.describe('EnrollPassword', function () {
       expect(Util.numAjaxRequests()).toBe(0);
     });
   });
-  itp('shows error if error response on enrollment', function () {
+  itp('shows error if error response on enrollment', function() {
     return setup()
-      .then(function (test) {
+      .then(function(test) {
         Q.stopUnhandledRejectionTracking();
         test.setNextResponse(resError);
         test.form.setPassword('somepassword');
@@ -177,7 +177,7 @@ Expect.describe('EnrollPassword', function () {
         test.form.submit();
         return Expect.waitForFormError(test.form, test);
       })
-      .then(function (test) {
+      .then(function(test) {
         expect(test.form.hasErrors()).toBe(true);
         expect(test.form.hasPasswordFieldErrors()).toBe(true);
         expect(test.form.hasConfirmPasswordFieldErrors()).toBe(false);
@@ -212,8 +212,8 @@ Expect.describe('EnrollPassword', function () {
         ]);
       });
   });
-  itp('returns to factor list when back link is clicked', function () {
-    return setup().then(function (test) {
+  itp('returns to factor list when back link is clicked', function() {
+    return setup().then(function(test) {
       test.form.backLink().click();
       expect(test.router.navigate.calls.mostRecent().args).toEqual(['signin/enroll', { trigger: true }]);
     });

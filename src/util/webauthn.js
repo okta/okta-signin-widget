@@ -14,16 +14,16 @@
 import Q from 'q';
 import FidoUtil from 'util/FidoUtil';
 
-function adaptToOkta (promise) {
+function adaptToOkta(promise) {
   return new Q(promise);
 }
 
-function makeCredential (accountInfo, cryptoParams, challenge) {
-  cryptoParams = cryptoParams.map(function (param) {
+function makeCredential(accountInfo, cryptoParams, challenge) {
+  cryptoParams = cryptoParams.map(function(param) {
     return { type: 'FIDO_2_0', algorithm: param.algorithm };
   });
 
-  const promise = window.msCredentials.makeCredential(accountInfo, cryptoParams, challenge).then(function (cred) {
+  const promise = window.msCredentials.makeCredential(accountInfo, cryptoParams, challenge).then(function(cred) {
     return Object.freeze({
       credential: { id: cred.id },
       publicKey: JSON.parse(cred.publicKey),
@@ -34,12 +34,12 @@ function makeCredential (accountInfo, cryptoParams, challenge) {
   return adaptToOkta(promise);
 }
 
-function getAssertion (challenge, allowList) {
-  const accept = allowList.map(function (item) {
+function getAssertion(challenge, allowList) {
+  const accept = allowList.map(function(item) {
     return { type: 'FIDO_2_0', id: item.id };
   });
   const filters = { accept: accept };
-  const promise = window.msCredentials.getAssertion(challenge, filters).then(function (attestation) {
+  const promise = window.msCredentials.getAssertion(challenge, filters).then(function(attestation) {
     const signature = attestation.signature;
 
     return Object.freeze({
@@ -56,13 +56,13 @@ function getAssertion (challenge, allowList) {
 export default {
   makeCredential: makeCredential,
   getAssertion: getAssertion,
-  isAvailable: function () {
+  isAvailable: function() {
     return window.hasOwnProperty('msCredentials');
   },
-  isNewApiAvailable: function () {
+  isNewApiAvailable: function() {
     return navigator && navigator.credentials && navigator.credentials.create;
   },
-  isWebauthnOrU2fAvailable: function () {
+  isWebauthnOrU2fAvailable: function() {
     return this.isNewApiAvailable() || FidoUtil.isU2fAvailable();
   },
 };

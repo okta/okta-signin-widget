@@ -14,8 +14,8 @@ import $sandbox from 'sandbox';
 const itp = Expect.itp;
 const tick = Expect.tick;
 
-Expect.describe('EnrollDuo', function () {
-  function setup (startRouter) {
+Expect.describe('EnrollDuo', function() {
+  function setup(startRouter) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authClient = createAuthClient({ issuer: baseUrl });
@@ -41,7 +41,7 @@ Expect.describe('EnrollDuo', function () {
     const enrollDuo = test => {
       setNextResponse(resAllFactors);
       router.refreshAuthState('dummy-token');
-      return Expect.waitForEnrollChoices(test).then(function (test) {
+      return Expect.waitForEnrollChoices(test).then(function(test) {
         setNextResponse(resActivateDuo);
         router.enrollDuo();
         return Expect.waitForEnrollDuo(test);
@@ -55,26 +55,26 @@ Expect.describe('EnrollDuo', function () {
     }
   }
 
-  itp('displays the correct factorBeacon', function () {
-    return setup().then(function (test) {
+  itp('displays the correct factorBeacon', function() {
+    return setup().then(function(test) {
       expect(test.beacon.isFactorBeacon()).toBe(true);
       expect(test.beacon.hasClass('mfa-duo')).toBe(true);
     });
   });
-  itp('iframe has title', function () {
-    return setup().then(function (test) {
+  itp('iframe has title', function() {
+    return setup().then(function(test) {
       expect(test.form.iframe().attr('title')).toBe(test.form.titleText());
     });
   });
-  itp('visits previous link when back link is clicked', function () {
+  itp('visits previous link when back link is clicked', function() {
     return setup()
-      .then(function (test) {
+      .then(function(test) {
         Util.resetAjaxRequests();
         test.setNextResponse(resAllFactors);
         test.form.backLink().click();
         return Expect.waitForEnrollChoices();
       })
-      .then(function () {
+      .then(function() {
         expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/previous',
@@ -84,20 +84,20 @@ Expect.describe('EnrollDuo', function () {
         });
       });
   });
-  itp('returns to factor list when browser\'s back button is clicked', function () {
+  itp('returns to factor list when browser\'s back button is clicked', function() {
     return setup(true)
-      .then(function (test) {
+      .then(function(test) {
         test.setNextResponse(resAllFactors);
         Util.triggerBrowserBackButton();
         return Expect.waitForEnrollChoices(test);
       })
-      .then(function (test) {
+      .then(function(test) {
         Expect.isEnrollChoices(test.router.controller);
         Util.stopRouter();
       });
   });
-  itp('makes the right init request', function () {
-    return setup().then(function () {
+  itp('makes the right init request', function() {
+    return setup().then(function() {
       expect(Util.numAjaxRequests()).toBe(2);
       Expect.isJsonPost(Util.getAjaxRequest(1), {
         url: 'https://foo.com/api/v1/authn/factors',
@@ -109,8 +109,8 @@ Expect.describe('EnrollDuo', function () {
       });
     });
   });
-  itp('initializes duo correctly', function () {
-    return setup().then(function (test) {
+  itp('initializes duo correctly', function() {
+    return setup().then(function(test) {
       const initOptions = Duo.init.calls.mostRecent().args[0];
 
       expect(initOptions.host).toBe('api123443.duosecurity.com');
@@ -119,9 +119,9 @@ Expect.describe('EnrollDuo', function () {
       expect(_.isFunction(initOptions.post_action)).toBe(true);
     });
   });
-  itp('notifies okta when duo is done, and completes enrollment', function () {
+  itp('notifies okta when duo is done, and completes enrollment', function() {
     return setup()
-      .then(function (test) {
+      .then(function(test) {
         Util.resetAjaxRequests();
         test.setNextResponse(resSuccess);
         // Duo callback (returns an empty response)
@@ -135,7 +135,7 @@ Expect.describe('EnrollDuo', function () {
         postAction('someSignedResponse');
         return tick();
       })
-      .then(function () {
+      .then(function() {
         expect(Util.numAjaxRequests()).toBe(2);
         Expect.isFormPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/factors/ost947vv5GOSPjt9C0g4/lifecycle/activate/response',

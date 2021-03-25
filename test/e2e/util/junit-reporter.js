@@ -1,12 +1,12 @@
 /* global module */
 var junitReportBuilder = require('junit-report-builder');
 
-function checkMessages (checks) {
-  return checks.reduce(function (messages, check) {
+function checkMessages(checks) {
+  return checks.reduce(function(messages, check) {
     messages += '    \u2022 ' + check.message + '\n';
     if (check.relatedNodes && check.relatedNodes.length) {
       messages += '    Related Nodes:\n';
-      check.relatedNodes.forEach(function (relatedNode) {
+      check.relatedNodes.forEach(function(relatedNode) {
         messages += '        \u25E6 ' + relatedNode.target[0];
       });
     }
@@ -14,7 +14,7 @@ function checkMessages (checks) {
   }, '');
 }
 
-module.exports = function (result, outFile) {
+module.exports = function(result, outFile) {
   var suite = junitReportBuilder.testSuite()
     .name(result.url)
     .timestamp(new Date().getTime())
@@ -22,9 +22,9 @@ module.exports = function (result, outFile) {
 
   var packageName = result.url;
 
-  result.violations.forEach(function (ruleResult) {
+  result.violations.forEach(function(ruleResult) {
 
-    ruleResult.nodes.forEach(function (violation) {
+    ruleResult.nodes.forEach(function(violation) {
       var failure = ruleResult.help + ' (' + ruleResult.helpUrl + ')\n';
       var stacktrace = 'Target: ' + violation.target + '\n\n' +
         'HTML: ' + violation.html + '\n\n' +
@@ -49,8 +49,8 @@ module.exports = function (result, outFile) {
     });
   });
 
-  result.passes.forEach(function (ruleResult) {
-    ruleResult.nodes.forEach(function (pass) {
+  result.passes.forEach(function(ruleResult) {
+    ruleResult.nodes.forEach(function(pass) {
       suite.testCase()
         .className(packageName + '.' + ruleResult.id)
         .name(pass.target);

@@ -17,7 +17,7 @@ import FormController from 'util/FormController';
 import FormType from 'util/FormType';
 export default FormController.extend({
   className: 'password-reset-email-sent',
-  Model: function () {
+  Model: function() {
     return {
       local: {
         userFullName: ['string', false, this.options.appState.get('userFullName')],
@@ -27,14 +27,14 @@ export default FormController.extend({
 
   Form: {
     title: _.partial(loc, 'password.forgot.emailSent.title', 'login'),
-    subtitle: function () {
+    subtitle: function() {
       const username = this.options.appState.get('username');
 
       return loc('password.forgot.emailSent.desc', 'login', [username]);
     },
     noButtonBar: true,
     attributes: { 'data-se': 'pwd-reset-email-sent' },
-    formChildren: function () {
+    formChildren: function() {
       let children = [
         FormType.View({
           View: View.extend({
@@ -43,7 +43,7 @@ export default FormController.extend({
               <span class="accessibility-text" role="status">{{alert}}</span>\
               '
             ),
-            getTemplateData: function () {
+            getTemplateData: function() {
               return { alert: loc('password.forgot.emailSent.title', 'login') };
             },
           }),
@@ -56,14 +56,14 @@ export default FormController.extend({
             title: loc('goback', 'login'),
             className: 'button button-primary button-wide',
             attributes: { 'data-se': 'back-button' },
-            click: function () {
+            click: function() {
               const self = this;
 
               return this.model
-                .doTransaction(function (transaction) {
+                .doTransaction(function(transaction) {
                   return transaction.cancel();
                 })
-                .then(function () {
+                .then(function() {
                   self.state.set('navigateDir', Enums.DIRECTION_BACK);
                   self.options.appState.trigger('navigate', '');
                 });
@@ -76,7 +76,7 @@ export default FormController.extend({
     },
   },
 
-  initialize: function (options) {
+  initialize: function(options) {
     this.settings.callGlobalSuccess(Enums.FORGOT_PASSWORD_EMAIL_SENT, {
       username: options.appState.get('username'),
     });

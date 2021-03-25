@@ -22,15 +22,15 @@ export default FormController.extend({
       answer: ['string', true],
       showAnswer: 'boolean',
     },
-    save: function () {
-      return this.doTransaction(function (transaction) {
+    save: function() {
+      return this.doTransaction(function(transaction) {
         return transaction.answer({ answer: this.get('answer') });
       });
     },
   },
   Form: {
     autoSave: true,
-    save: function () {
+    save: function() {
       switch (this.options.appState.get('recoveryType')) {
       case 'PASSWORD':
         return loc('password.forgot.question.submit', 'login');
@@ -40,7 +40,7 @@ export default FormController.extend({
         return loc('mfa.challenge.verify', 'login');
       }
     },
-    title: function () {
+    title: function() {
       switch (this.options.appState.get('recoveryType')) {
       case 'PASSWORD':
         return loc('password.forgot.question.title', 'login');
@@ -50,7 +50,7 @@ export default FormController.extend({
         return '';
       }
     },
-    formChildren: function () {
+    formChildren: function() {
       return [
         FormType.Input({
           label: this.options.appState.get('recoveryQuestion'),
@@ -58,8 +58,8 @@ export default FormController.extend({
           name: 'answer',
           input: TextBox,
           type: 'password',
-          initialize: function () {
-            this.listenTo(this.model, 'change:showAnswer', function () {
+          initialize: function() {
+            this.listenTo(this.model, 'change:showAnswer', function() {
               const type = this.model.get('showAnswer') ? 'text' : 'password';
 
               this.getInputs()[0].changeType(type);
@@ -77,7 +77,7 @@ export default FormController.extend({
       ];
     },
   },
-  initialize: function () {
+  initialize: function() {
     if (!this.settings.get('features.hideBackToSignInForReset')) {
       this.addFooter(FooterSignout, { linkText: loc('goback', 'login'), linkClassName: '' });
     }

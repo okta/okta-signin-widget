@@ -15,7 +15,7 @@ import CookieUtil from 'util/CookieUtil';
 import Enums from 'util/Enums';
 import Util from 'util/Util';
 export default PrimaryAuthModel.extend({
-  props: function () {
+  props: function() {
     const cookieUsername = CookieUtil.getCookieUsername();
     const properties = this.getUsernameAndRemember(cookieUsername);
 
@@ -29,7 +29,7 @@ export default PrimaryAuthModel.extend({
 
   local: {},
 
-  save: function () {
+  save: function() {
     const username = this.settings.transformUsername(this.get('username'), Enums.IDP_DISCOVERY);
     const remember = this.get('remember');
     const lastUsername = this.get('lastUsername');

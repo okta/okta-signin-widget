@@ -19,7 +19,7 @@ import BarcodeView from 'views/enroll-factors/BarcodeView';
 import Footer from 'views/enroll-factors/Footer';
 export default FormController.extend({
   className: 'barcode-totp',
-  Model: function () {
+  Model: function() {
     return {
       local: {
         __factorType__: ['string', false, this.options.factorType],
@@ -29,7 +29,7 @@ export default FormController.extend({
   },
 
   Form: {
-    title: function () {
+    title: function() {
       const factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
 
       return loc('enroll.totp.title', 'login', [factorName]);
@@ -44,8 +44,8 @@ export default FormController.extend({
 
   Footer: Footer,
 
-  initialize: function () {
-    this.listenTo(this.form, 'save', function () {
+  initialize: function() {
+    this.listenTo(this.form, 'save', function() {
       const url = RouterUtil.createActivateFactorUrl(
         this.model.get('__provider__'),
         this.model.get('__factorType__'),

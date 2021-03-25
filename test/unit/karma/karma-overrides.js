@@ -2,11 +2,11 @@
 
 const path = require('path');
 
-const createPattern = function (pattern) {
+const createPattern = function(pattern) {
   return { pattern, included: true, served: true, watched: false };
 };
 
-const initKarmaOverrides = function (files) {
+const initKarmaOverrides = function(files) {
   files.unshift(createPattern(path.join(__dirname, 'karma-onload.js')));
 };
 

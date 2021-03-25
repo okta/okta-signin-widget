@@ -22,7 +22,7 @@ export default PrimaryAuthController.extend({
 
   View: IDPDiscoveryForm,
 
-  constructor: function (options) {
+  constructor: function(options) {
     options.appState.unset('username');
 
     this.model = new IDPDiscoveryModel(
@@ -55,10 +55,10 @@ export default PrimaryAuthController.extend({
     this.setUsername();
   },
 
-  initialize: function () {
+  initialize: function() {
     PrimaryAuthController.prototype.initialize.apply(this);
 
-    this.listenTo(this.model, 'goToPrimaryAuth', function () {
+    this.listenTo(this.model, 'goToPrimaryAuth', function() {
       this.settings.set('username', this.model.get('username'));
       if (this.settings.get('features.passwordlessAuth')) {
         const primaryAuthModel = new PrimaryAuthModel(

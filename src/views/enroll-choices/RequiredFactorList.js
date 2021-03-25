@@ -15,17 +15,17 @@ import FactorList from './FactorList';
 export default FactorList.extend({
   listTitle: _.partial(loc, 'enroll.choices.list.setup', 'login'),
 
-  className: function () {
+  className: function() {
     return FactorList.prototype.className + ' enroll-required-factor-list';
   },
 
-  postRender: function () {
+  postRender: function() {
     let currentModel;
     let currentRow;
 
     FactorList.prototype.postRender.apply(this, arguments);
     currentModel = this.options.appState.get('factors').getFirstUnenrolledRequiredFactor();
-    currentRow = this.find(function (view) {
+    currentRow = this.find(function(view) {
       return view.model === currentModel;
     });
     currentRow.maximize();

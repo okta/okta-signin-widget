@@ -14,7 +14,7 @@ import { loc } from 'okta';
 const fn = {};
 
 // Validate the 'username' field on the model.
-fn.validateUsername = function (model) {
+fn.validateUsername = function(model) {
   const username = model.get('username');
 
   if (username && username.length > 256) {
@@ -25,7 +25,7 @@ fn.validateUsername = function (model) {
 };
 
 // Validate that the field1 and field2 fields on the model are a match.
-fn.validateFieldsMatch = function (model, field1, field2, message) {
+fn.validateFieldsMatch = function(model, field1, field2, message) {
   if (model.get(field1) !== model.get(field2)) {
     const ret = {};
 
@@ -35,7 +35,7 @@ fn.validateFieldsMatch = function (model, field1, field2, message) {
 };
 
 // Validate that the 'newPassword' and 'confirmPassword' fields on the model are a match.
-fn.validatePasswordMatch = function (model) {
+fn.validatePasswordMatch = function(model) {
   return fn.validateFieldsMatch(model, 'newPassword', 'confirmPassword', loc('password.error.match', 'login'));
 };
 

@@ -26,7 +26,7 @@ export default View.extend({
         </ul>
       {{/if}}
     `,
-  getTemplateData () {
+  getTemplateData() {
     const contextualData = this.options.appState.get('currentAuthenticator').contextualData;
     return {
       href: contextualData.qrcode?.href,

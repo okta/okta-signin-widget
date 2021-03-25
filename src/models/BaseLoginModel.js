@@ -16,16 +16,16 @@ import Enums from 'util/Enums';
 const KNOWN_ERRORS = ['OAuthError', 'AuthSdkError', 'AuthPollStopError', 'AuthApiError'];
 export default Model.extend({
   // May return either a "standard" promise or a Q promise
-  doTransaction: function (fn, rethrow) {
+  doTransaction: function(fn, rethrow) {
     const self = this;
 
     return fn
       .call(this, this.appState.get('transaction'))
-      .then(function (trans) {
+      .then(function(trans) {
         self.trigger('setTransaction', trans);
         return trans;
       })
-      .catch(function (err) {
+      .catch(function(err) {
         // Q may still consider AuthPollStopError to be unhandled
         if (
           err.name === 'AuthPollStopError' ||
@@ -42,13 +42,13 @@ export default Model.extend({
       });
   },
 
-  manageTransaction: function (fn) {
+  manageTransaction: function(fn) {
     const self = this;
     const res = fn.call(this, this.appState.get('transaction'), _.bind(this.setTransaction, this));
 
     // If it's a promise, listen for failures
     if (Q.isPromiseAlike(res)) {
-      return res.catch(function (err) {
+      return res.catch(function(err) {
         if (
           err.name === 'AuthPollStopError' ||
           err.name === Enums.AUTH_STOP_POLL_INITIATION_ERROR ||
@@ -64,18 +64,18 @@ export default Model.extend({
     return Q.resolve(res);
   },
 
-  startTransaction: function (fn) {
+  startTransaction: function(fn) {
     const self = this;
     const res = fn.call(this, this.settings.getAuthClient());
 
     // If it's a promise, then chain to it
     if (Q.isPromiseAlike(res)) {
       return res
-        .then(function (trans) {
+        .then(function(trans) {
           self.trigger('setTransaction', trans);
           return trans;
         })
-        .catch(function (err) {
+        .catch(function(err) {
           self.trigger('error', self, err.xhr);
           self.trigger('setTransactionError', err);
           throw err;
@@ -85,7 +85,7 @@ export default Model.extend({
     return Q.resolve(res);
   },
 
-  setTransaction: function (trans) {
+  setTransaction: function(trans) {
     this.appState.set('transaction', trans);
   },
 });

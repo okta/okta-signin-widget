@@ -6,10 +6,10 @@ const karma = window.__karma__; /* eslint-env browser */
 
 const originalStart = karma.start;
 
-karma.start = function () {
+karma.start = function() {
   const args = arguments;
 
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function() {
     originalStart.apply(this, args);
   });
 };

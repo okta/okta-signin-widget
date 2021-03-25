@@ -20,8 +20,8 @@ const ConsentModel = {
   props: {
     scopes: ['array', true]
   },
-  save: function () {
-    return this.doTransaction(function (transaction) {
+  save: function() {
+    return this.doTransaction(function(transaction) {
       return transaction.consent({
         consent: {
           scopes: _.pluck(this.get('scopes'), 'name')
@@ -29,11 +29,11 @@ const ConsentModel = {
       });
     });
   },
-  cancel: function () {
+  cancel: function() {
     var self = this;
-    return this.doTransaction(function (transaction) {
+    return this.doTransaction(function(transaction) {
       return transaction.cancel();
-    }).then(function () {
+    }).then(function() {
       var consentCancelFn = self.settings.get('consent.cancel');
       if (_.isFunction(consentCancelFn)) {
         consentCancelFn();
@@ -45,7 +45,7 @@ const ConsentModel = {
 const ConsentHeader = View.extend({
   className: 'consent-title detail-row',
   template: consentLogoHeaderTemplate,
-  getTemplateData: function () {
+  getTemplateData: function() {
     var appState = this.options.appState;
     return {
       appName: appState.escape('targetLabel'),
@@ -79,14 +79,14 @@ const AdminConsentRequiredController = FormController.extend({
 
   className: 'admin-consent-required',
 
-  initialize: function () {
+  initialize: function() {
     this.model.set('scopes', this.options.appState.get('scopes'));
     this.listenTo(this.form, 'cancel', () => {
       this.model.cancel();
     });
   },
 
-  postRender: function () {
+  postRender: function() {
     // Move buttons in DOM to match visual hierarchy to fix tab order.
     const buttonContainer = this.form.$el.find('.o-form-button-bar');
     this.form.$el.find('.button-primary').appendTo(buttonContainer);

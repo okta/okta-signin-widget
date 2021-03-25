@@ -15,7 +15,7 @@ import EnterPasscodeForm from 'views/enroll-factors/EnterPasscodeForm';
 import Footer from 'views/enroll-factors/Footer';
 export default FormController.extend({
   className: 'activate-totp',
-  Model: function () {
+  Model: function() {
     return {
       props: {
         factorId: ['string', true, this.options.appState.get('activatedFactorId')],
@@ -25,8 +25,8 @@ export default FormController.extend({
         __factorType__: ['string', false, this.options.factorType],
         __provider__: ['string', false, this.options.provider],
       },
-      save: function () {
-        return this.doTransaction(function (transaction) {
+      save: function() {
+        return this.doTransaction(function(transaction) {
           return transaction.activate({
             passCode: this.get('passCode'),
           });

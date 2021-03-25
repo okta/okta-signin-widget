@@ -19,11 +19,11 @@ let { FormUtil } = internal.views.forms.helpers;
 const FormControllerSimpleForm = Form.extend({
   layout: 'o-form-theme',
   noCancelButton: true,
-  constructor: function (options) {
+  constructor: function(options) {
     Form.call(this, options);
     _.each(
       _.result(this, 'formChildren') || [],
-      function (child) {
+      function(child) {
         switch (child.type) {
         case FormType.INPUT:
           this.addInput(
@@ -60,10 +60,10 @@ const FormControllerSimpleForm = Form.extend({
   },
 });
 export default BaseLoginController.extend({
-  constructor: function () {
+  constructor: function() {
     const initialize = this.initialize;
 
-    this.initialize = function () {};
+    this.initialize = function() {};
 
     BaseLoginController.apply(this, arguments);
 
@@ -71,7 +71,7 @@ export default BaseLoginController.extend({
       const Model = BaseLoginModel.extend(
         _.extend(
           {
-            parse: function (attributes) {
+            parse: function(attributes) {
               this.settings = attributes.settings;
               this.appState = attributes.appState;
               return _.omit(attributes, ['settings', 'appState']);
@@ -102,18 +102,18 @@ export default BaseLoginController.extend({
     initialize.apply(this, arguments);
   },
 
-  addFooter: function (Footer, args) {
+  addFooter: function(Footer, args) {
     this.footer = new Footer(_.extend(this.toJSON(), args || {}));
     this.add(this.footer);
   },
 
-  toJSON: function () {
+  toJSON: function() {
     const data = BaseLoginController.prototype.toJSON.apply(this, arguments);
 
     return _.extend(_.pick(this.options, 'appState'), data);
   },
 
-  back: function () {
+  back: function() {
     if (this.footer && this.footer.back) {
       this.footer.back();
     }

@@ -33,7 +33,7 @@ const sessionCookieRedirectTpl = hbs(
   '{{baseUrl}}/login/sessionCookieRedirect?checkAccountSetupComplete=true&token={{{token}}}&redirectUrl={{{redirectUrl}}}'
 );
 
-fn.isHostBackgroundChromeTab = function () {
+fn.isHostBackgroundChromeTab = function() {
   // Checks if the SIW is loaded in a chrome webview and
   // it is in an app that is in background.
   if (navigator.userAgent.match(/Android/) && navigator.userAgent.match(/Chrome/) && document.hidden) {
@@ -43,11 +43,11 @@ fn.isHostBackgroundChromeTab = function () {
   }
 };
 
-fn.isDocumentVisible = function () {
+fn.isDocumentVisible = function() {
   return document.visibilityState === 'visible';
 };
 
-fn.createVerifyUrl = function (provider, factorType, factorIndex) {
+fn.createVerifyUrl = function(provider, factorType, factorIndex) {
   if (provider && factorIndex) {
     return verifyUrlMultipleTpl({
       provider: encodeURIComponent(provider.toLowerCase()),
@@ -66,14 +66,14 @@ fn.createVerifyUrl = function (provider, factorType, factorIndex) {
   }
 };
 
-fn.createEnrollFactorUrl = function (provider, factorType) {
+fn.createEnrollFactorUrl = function(provider, factorType) {
   return enrollFactorUrlTpl({
     provider: encodeURIComponent(provider.toLowerCase()),
     factorType: encodeURIComponent(factorType),
   });
 };
 
-fn.createActivateFactorUrl = function (provider, factorType, step) {
+fn.createActivateFactorUrl = function(provider, factorType, step) {
   return activateFactorUrlTpl({
     provider: encodeURIComponent(provider.toLowerCase()),
     factorType: encodeURIComponent(factorType),
@@ -81,19 +81,19 @@ fn.createActivateFactorUrl = function (provider, factorType, step) {
   });
 };
 
-fn.createRecoveryUrl = function (recoveryToken) {
+fn.createRecoveryUrl = function(recoveryToken) {
   return recoveryUrlTpl({
     recoveryToken: encodeURIComponent(recoveryToken),
   });
 };
 
-fn.createRefreshUrl = function (stateToken) {
+fn.createRefreshUrl = function(stateToken) {
   const token = stateToken ? encodeURIComponent(stateToken) : null;
 
   return refreshUrlTpl({ token: token });
 };
 
-fn.routeAfterAuthStatusChangeError = function (router, err) {
+fn.routeAfterAuthStatusChangeError = function(router, err) {
   if (!err) {
     return;
   }
@@ -119,7 +119,7 @@ fn.routeAfterAuthStatusChangeError = function (router, err) {
   Util.triggerAfterError(router.controller, err);
 };
 
-fn.routeAfterAuthStatusChange = function (router, res) {
+fn.routeAfterAuthStatusChange = function(router, res) {
   // Other errors are handled by the function making the authClient request
   if (!res || !res.status) {
     router.appState.clearLastAuthResponse();
@@ -135,7 +135,7 @@ fn.routeAfterAuthStatusChange = function (router, res) {
   fn.handleResponseStatus(router, res);
 };
 
-fn.handleResponseStatus = function (router, res) {
+fn.handleResponseStatus = function(router, res) {
   switch (res.status) {
   case 'SUCCESS': {
     if (res.recoveryType === Enums.RECOVERY_TYPE_UNLOCK) {
@@ -168,12 +168,12 @@ fn.handleResponseStatus = function (router, res) {
 
       successData.stepUp = {
         url: targetUrl,
-        finish: function () {
+        finish: function() {
           redirectFn(targetUrl);
         },
       };
     } else if (nextUrl) {
-      successData.next = function () {
+      successData.next = function() {
         redirectFn(nextUrl);
       };
     } else {
@@ -181,7 +181,7 @@ fn.handleResponseStatus = function (router, res) {
       successData.type = Enums.SESSION_SSO;
       successData.session = {
         token: res.sessionToken,
-        setCookieAndRedirect: function (redirectUri) {
+        setCookieAndRedirect: function(redirectUri) {
           if (redirectUri) {
             Util.debugMessage(`
               Passing a "redirectUri" to "setCookieAndRedirect" is strongly discouraged.
@@ -207,7 +207,7 @@ fn.handleResponseStatus = function (router, res) {
 
     // Check if we need to wait for redirect based on host.
     if (fn.isHostBackgroundChromeTab()) {
-      document.addEventListener('visibilitychange', function checkVisibilityAndCallSuccess () {
+      document.addEventListener('visibilitychange', function checkVisibilityAndCallSuccess() {
         if (fn.isDocumentVisible()) {
           document.removeEventListener('visibilitychange', checkVisibilityAndCallSuccess);
           router.settings.callGlobalSuccess(Enums.SUCCESS, successData);
@@ -258,7 +258,7 @@ fn.handleResponseStatus = function (router, res) {
     if (router.appState.get('isFactorResultFailed')) {
       router.appState.setLastFailedChallengeFactorData();
     }
-    router.appState.get('transaction').prev().then(function (trans) {
+    router.appState.get('transaction').prev().then(function(trans) {
       router.appState.set('transaction', trans);
     });
     // TODO: catch/handle error here?

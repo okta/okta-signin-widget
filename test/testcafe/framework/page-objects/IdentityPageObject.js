@@ -13,7 +13,7 @@ const CUSTOM_BUTTON = '.custom-buttons .okta-custom-buttons-container .default-c
 const UNLOCK_ACCOUNT = '.auth-footer .js-unlock';
 
 export default class IdentityPageObject extends BasePageObject {
-  constructor (t) {
+  constructor(t) {
     super(t);
   }
 

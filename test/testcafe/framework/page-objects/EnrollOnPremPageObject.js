@@ -5,7 +5,7 @@ const USER_NAME_FIELD_NAME = 'credentials.clientData';
 const FORM_INFOBOX_ERROR = '.o-form-error-container .infobox-error';
 
 export default class EnrollOnPremPageObject extends BasePageObject {
-  constructor (t) {
+  constructor(t) {
     super(t);
   }
 
@@ -37,7 +37,7 @@ export default class EnrollOnPremPageObject extends BasePageObject {
     await this.form.el.find(FORM_INFOBOX_ERROR).exists;
   }
 
-  getErrorBox () {
+  getErrorBox() {
     return this.form.getElement(FORM_INFOBOX_ERROR);
   }
 

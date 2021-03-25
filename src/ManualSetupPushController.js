@@ -21,7 +21,7 @@ import Footer from 'views/enroll-factors/ManualSetupPushFooter';
 import PhoneTextBox from 'views/enroll-factors/PhoneTextBox';
 import TextBox from 'views/shared/TextBox';
 
-function goToFactorActivation (view, step) {
+function goToFactorActivation(view, step) {
   const url = RouterUtil.createActivateFactorUrl(
     view.options.appState.get('activatedFactorProvider'),
     view.options.appState.get('activatedFactorType'),
@@ -31,7 +31,7 @@ function goToFactorActivation (view, step) {
   view.options.appState.trigger('navigate', url);
 }
 
-function setStateValues (view) {
+function setStateValues(view) {
   let userPhoneNumber;
   let userCountryCode;
 
@@ -46,11 +46,11 @@ function setStateValues (view) {
   });
 }
 
-function enrollFactor (view, factorType) {
-  return view.model.doTransaction(function (transaction) {
+function enrollFactor(view, factorType) {
+  return view.model.doTransaction(function(transaction) {
     return transaction
       .prev()
-      .then(function (trans) {
+      .then(function(trans) {
         const factor = _.findWhere(trans.factors, {
           factorType: factorType,
           provider: 'OKTA',
@@ -58,7 +58,7 @@ function enrollFactor (view, factorType) {
 
         return factor.enroll();
       })
-      .then(function (trans) {
+      .then(function(trans) {
         let textActivationLinkUrl;
         let emailActivationLinkUrl;
         let sharedSecret;
@@ -106,7 +106,7 @@ function enrollFactor (view, factorType) {
 
 export default FormController.extend({
   className: 'enroll-manual-push',
-  Model: function () {
+  Model: function() {
     return {
       local: {
         activationType: ['string', true, this.options.appState.get('factorActivationType') || 'SMS'],
@@ -121,13 +121,13 @@ export default FormController.extend({
       derived: {
         countryCallingCode: {
           deps: ['countryCode'],
-          fn: function (countryCode) {
+          fn: function(countryCode) {
             return '+' + CountryUtil.getCallingCodeForCountry(countryCode);
           },
         },
         fullPhoneNumber: {
           deps: ['countryCallingCode', 'phoneNumber'],
-          fn: function (countryCallingCode, phoneNumber) {
+          fn: function(countryCallingCode, phoneNumber) {
             return countryCallingCode + phoneNumber;
           },
         },
@@ -136,7 +136,7 @@ export default FormController.extend({
   },
 
   Form: {
-    title: function () {
+    title: function() {
       const factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
 
       return loc('enroll.totp.title', 'login', [factorName]);
@@ -145,7 +145,7 @@ export default FormController.extend({
     noButtonBar: true,
     attributes: { 'data-se': 'step-manual-setup' },
 
-    formChildren: function () {
+    formChildren: function() {
       const instructions = this.settings.get('brandName')
         ? loc('enroll.totp.sharedSecretInstructions.specific', 'login', [this.settings.get('brandName')])
         : loc('enroll.totp.sharedSecretInstructions.generic', 'login');
@@ -185,7 +185,7 @@ export default FormController.extend({
                 </p>\
               '
             ),
-            getTemplateData: function () {
+            getTemplateData: function() {
               return {
                 instructions: instructions,
               };
@@ -199,7 +199,7 @@ export default FormController.extend({
           type: 'text',
           disabled: true,
           showWhen: { activationType: 'MANUAL' },
-          initialize: function () {
+          initialize: function() {
             this.listenTo(this.model, 'change:sharedSecret', this.render);
           },
         }),
@@ -225,7 +225,7 @@ export default FormController.extend({
           noCancelButton: true,
           save: loc('oform.send', 'login'),
           showWhen: {
-            activationType: function (val) {
+            activationType: function(val) {
               return val === 'SMS' || val === 'EMAIL';
             },
           },
@@ -238,13 +238,13 @@ export default FormController.extend({
 
   Footer: Footer,
 
-  initialize: function () {
+  initialize: function() {
     this.setInitialModel();
     // Move this logic to a model when AuthClient supports sending email and sms
-    this.listenTo(this.form, 'save', function () {
+    this.listenTo(this.form, 'save', function() {
       const self = this;
 
-      this.model.doTransaction(function (transaction) {
+      this.model.doTransaction(function(transaction) {
         const activationType = this.get('activationType').toLowerCase();
         const opts = {};
 
@@ -252,12 +252,12 @@ export default FormController.extend({
           opts.profile = { phoneNumber: this.get('fullPhoneNumber') };
         }
 
-        return transaction.factor.activation.send(activationType, opts).then(function (trans) {
+        return transaction.factor.activation.send(activationType, opts).then(function(trans) {
           setStateValues(self);
           // Note: Need to defer because OktaAuth calls our router success
           // handler on the next tick - if we immediately called, appState would
           // still be populated with the last response
-          _.defer(function () {
+          _.defer(function() {
             goToFactorActivation(self, 'sent');
           });
           return trans;
@@ -265,7 +265,7 @@ export default FormController.extend({
       });
     });
 
-    this.listenTo(this.model, 'change:activationType', function (model, value) {
+    this.listenTo(this.model, 'change:activationType', function(model, value) {
       this.form.clearErrors();
       if (value === 'MANUAL' && this.options.appState.get('activatedFactorType') !== 'token:software:totp') {
         enrollFactor(this, 'token:software:totp');
@@ -275,7 +275,7 @@ export default FormController.extend({
     });
   },
 
-  setInitialModel: function () {
+  setInitialModel: function() {
     if (this.options.appState.get('factorActivationType') === 'SMS') {
       this.model.set({
         countryCode: this.options.appState.get('userCountryCode') || 'US',
@@ -284,7 +284,7 @@ export default FormController.extend({
     }
   },
 
-  trapAuthResponse: function () {
+  trapAuthResponse: function() {
     if (this.options.appState.get('isMfaEnrollActivate') || this.options.appState.get('isMfaEnroll')) {
       return true;
     }

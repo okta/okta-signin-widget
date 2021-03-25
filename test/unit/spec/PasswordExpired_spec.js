@@ -20,11 +20,11 @@ import LoginUtil from 'util/Util';
 const SharedUtil = internal.util.Util;
 const itp = Expect.itp;
 
-function deepClone (res) {
+function deepClone(res) {
   return JSON.parse(JSON.stringify(res));
 }
 
-function setup (settings, res, custom) {
+function setup(settings, res, custom) {
   settings || (settings = {});
   const successSpy = jasmine.createSpy('successSpy');
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
@@ -69,28 +69,28 @@ function setup (settings, res, custom) {
   return Expect.waitForPasswordExpired(settings);
 }
 
-function setupWarn (numDays, settings) {
+function setupWarn(numDays, settings) {
   resPassWarn.response._embedded.policy.expiration.passwordExpireDays = numDays;
   return setup(settings, resPassWarn);
 }
 
-function setupCustomExpiredPassword (settings, res) {
+function setupCustomExpiredPassword(settings, res) {
   return setup(settings, res || resCustomPassExpired, true);
 }
 
-function setupCustomExpiredPasswordWarn (numDays, settings) {
+function setupCustomExpiredPasswordWarn(numDays, settings) {
   resCustomPassWarn.response._embedded.policy.expiration.passwordExpireDays = numDays;
   return setupCustomExpiredPassword(settings, resCustomPassWarn);
 }
 
-function submitNewPass (test, oldPass, newPass, confirmPass) {
+function submitNewPass(test, oldPass, newPass, confirmPass) {
   test.form.setOldPass(oldPass);
   test.form.setNewPass(newPass);
   test.form.setConfirmPass(confirmPass);
   test.form.submit();
 }
 
-function setupExcludeAttributes (excludeAttributesArray, showPasswordRequirementsAsHtmlList = false) {
+function setupExcludeAttributes(excludeAttributesArray, showPasswordRequirementsAsHtmlList = false) {
   const passwordExpiredResponse = deepClone(resPassExpired);
   const policyComplexity = passwordExpiredResponse.response._embedded.policy.complexity;
 
@@ -102,25 +102,25 @@ function setupExcludeAttributes (excludeAttributesArray, showPasswordRequirement
   );
 }
 
-Expect.describe('PasswordExpiration', function () {
-  Expect.describe('PasswordExpired', function () {
-    itp('shows security beacon', function () {
-      return setup().then(function (test) {
+Expect.describe('PasswordExpiration', function() {
+  Expect.describe('PasswordExpired', function() {
+    itp('shows security beacon', function() {
+      return setup().then(function(test) {
         expect(test.beacon.isSecurityBeacon()).toBe(true);
       });
     });
-    itp('has the correct title', function () {
-      return setup().then(function (test) {
+    itp('has the correct title', function() {
+      return setup().then(function(test) {
         expect(test.form.titleText()).toBe('Your password has expired');
       });
     });
-    itp('has the correct title if config has a brandName', function () {
-      return setup({ brandName: 'Spaghetti Inc.' }).then(function (test) {
+    itp('has the correct title if config has a brandName', function() {
+      return setup({ brandName: 'Spaghetti Inc.' }).then(function(test) {
         expect(test.form.titleText()).toBe('Your Spaghetti Inc. password has expired');
       });
     });
-    itp('has a valid subtitle', function () {
-      return setup().then(function (test) {
+    itp('has a valid subtitle', function() {
+      return setup().then(function(test) {
         expect(test.form.subtitleText()).toEqual(
           'Password requirements: at least 8 characters,' +
             ' a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username,' +
@@ -128,8 +128,8 @@ Expect.describe('PasswordExpiration', function () {
         );
       });
     });
-    itp('has a valid subtitle if only excludeAttributes["firstName"] is defined', function () {
-      return setupExcludeAttributes(['firstName']).then(function (test) {
+    itp('has a valid subtitle if only excludeAttributes["firstName"] is defined', function() {
+      return setupExcludeAttributes(['firstName']).then(function(test) {
         expect(test.form.subtitleText()).toEqual(
           'Password requirements: at least 8 characters,' +
             ' a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username,' +
@@ -137,8 +137,8 @@ Expect.describe('PasswordExpiration', function () {
         );
       });
     });
-    itp('has a valid subtitle if only excludeAttributes["lastName"] is defined', function () {
-      return setupExcludeAttributes(['lastName']).then(function (test) {
+    itp('has a valid subtitle if only excludeAttributes["lastName"] is defined', function() {
+      return setupExcludeAttributes(['lastName']).then(function(test) {
         expect(test.form.subtitleText()).toEqual(
           'Password requirements: at least 8 characters,' +
             ' a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username,' +
@@ -146,8 +146,8 @@ Expect.describe('PasswordExpiration', function () {
         );
       });
     });
-    itp('has a valid subtitle if only excludeAttributes[] is defined', function () {
-      return setupExcludeAttributes([]).then(function (test) {
+    itp('has a valid subtitle if only excludeAttributes[] is defined', function() {
+      return setupExcludeAttributes([]).then(function(test) {
         expect(test.form.subtitleText()).toEqual(
           'Password requirements: at least 8 characters,' +
             ' a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username.'
@@ -155,14 +155,14 @@ Expect.describe('PasswordExpiration', function () {
       });
     });
 
-    Expect.describe('Password description in HTML', function () {
-      itp('does not have a subtitle if password requirements as HTML FF is on', function () {
-        return setup({ 'features.showPasswordRequirementsAsHtmlList': true }).then(function (test) {
+    Expect.describe('Password description in HTML', function() {
+      itp('does not have a subtitle if password requirements as HTML FF is on', function() {
+        return setup({ 'features.showPasswordRequirementsAsHtmlList': true }).then(function(test) {
           expect(test.form.subtitle().length).toEqual(0);
         });
       });
-      itp('shows password requirements as HTML list if FF is on', function () {
-        return setup({ 'features.showPasswordRequirementsAsHtmlList': true }).then(function (test) {
+      itp('shows password requirements as HTML list if FF is on', function() {
+        return setup({ 'features.showPasswordRequirementsAsHtmlList': true }).then(function(test) {
           expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
           expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(8);
           expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('At least 8 characters');
@@ -179,8 +179,8 @@ Expect.describe('PasswordExpiration', function () {
       });
       itp(
         'shows password requirements as HTML list if FF is on and if only excludeAttributes["firstName"] is defined',
-        function () {
-          return setupExcludeAttributes(['firstName'], true).then(function (test) {
+        function() {
+          return setupExcludeAttributes(['firstName'], true).then(function(test) {
             expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
             expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(7);
             expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('At least 8 characters');
@@ -197,8 +197,8 @@ Expect.describe('PasswordExpiration', function () {
       );
       itp(
         'shows password requirements as HTML list if FF is on and if only excludeAttributes["lastName"] is defined',
-        function () {
-          return setupExcludeAttributes(['lastName'], true).then(function (test) {
+        function() {
+          return setupExcludeAttributes(['lastName'], true).then(function(test) {
             expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
             expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(7);
             expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('At least 8 characters');
@@ -213,8 +213,8 @@ Expect.describe('PasswordExpiration', function () {
           });
         }
       );
-      itp('shows password requirements as HTML list if FF is on and if excludeAttributes is empty', function () {
-        return setupExcludeAttributes([], true).then(function (test) {
+      itp('shows password requirements as HTML list if FF is on and if excludeAttributes is empty', function() {
+        return setupExcludeAttributes([], true).then(function(test) {
           expect(test.form.passwordRequirementsHtmlHeader().trimmedText()).toEqual('Password requirements:');
           expect(test.form.passwordRequirementsHtmlListItems().length).toEqual(6);
           expect(test.form.passwordRequirementsHtmlListItems().eq(0).text()).toEqual('At least 8 characters');
@@ -227,39 +227,39 @@ Expect.describe('PasswordExpiration', function () {
       });
     });
 
-    itp('has an old password field', function () {
-      return setup().then(function (test) {
+    itp('has an old password field', function() {
+      return setup().then(function(test) {
         Expect.isPasswordField(test.form.oldPassField());
       });
     });
-    itp('has a new password field', function () {
-      return setup().then(function (test) {
+    itp('has a new password field', function() {
+      return setup().then(function(test) {
         Expect.isPasswordField(test.form.newPassField());
       });
     });
-    itp('has a confirm password field', function () {
-      return setup().then(function (test) {
+    itp('has a confirm password field', function() {
+      return setup().then(function(test) {
         Expect.isPasswordField(test.form.confirmPassField());
       });
     });
-    itp('has a change password button', function () {
-      return setup().then(function (test) {
+    itp('has a change password button', function() {
+      return setup().then(function(test) {
         expect(test.form.submitButton().length).toBe(1);
       });
     });
-    itp('has a sign out link', function () {
-      return setup().then(function (test) {
+    itp('has a sign out link', function() {
+      return setup().then(function(test) {
         Expect.isVisible(test.form.signoutLink());
       });
     });
-    itp('does not have a skip link', function () {
-      return setup().then(function (test) {
+    itp('does not have a skip link', function() {
+      return setup().then(function(test) {
         expect(test.form.skipLink().length).toBe(0);
       });
     });
-    itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function () {
+    itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function() {
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
           spyOn(SharedUtil, 'redirect');
           Util.resetAjaxRequests();
@@ -272,7 +272,7 @@ Expect.describe('PasswordExpiration', function () {
           // see RouterUtil for details
           return Expect.waitForSpyCall(test.router.controller.options.appState.clearLastAuthResponse, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/cancel',
@@ -286,9 +286,9 @@ Expect.describe('PasswordExpiration', function () {
     });
     itp(
       'has a signout link which cancels the current stateToken and redirects to the provided signout url',
-      function () {
+      function() {
         return setup({ signOutLink: 'http://www.goodbye.com' })
-          .then(function (test) {
+          .then(function(test) {
             spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
             spyOn(SharedUtil, 'redirect');
             Util.resetAjaxRequests();
@@ -301,7 +301,7 @@ Expect.describe('PasswordExpiration', function () {
             // see RouterUtil for details
             return Expect.waitForSpyCall(test.router.controller.options.appState.clearLastAuthResponse, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/cancel',
@@ -314,17 +314,17 @@ Expect.describe('PasswordExpiration', function () {
           });
       }
     );
-    itp('calls processCreds function before saving a model', function () {
+    itp('calls processCreds function before saving a model', function() {
       const processCredsSpy = jasmine.createSpy('processCredsSpy');
 
       return setup({ processCreds: processCredsSpy })
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(resSuccess);
           submitNewPass(test, 'oldpwd', 'newpwd', 'newpwd');
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function () {
+        .then(function() {
           expect(processCredsSpy.calls.count()).toBe(1);
           expect(processCredsSpy).toHaveBeenCalledWith({
             username: 'inca@clouditude.net',
@@ -333,22 +333,22 @@ Expect.describe('PasswordExpiration', function () {
           expect(Util.numAjaxRequests()).toBe(1);
         });
     });
-    itp('calls async processCreds function before saving a model', function () {
+    itp('calls async processCreds function before saving a model', function() {
       const processCredsSpy = jasmine.createSpy('processCredsSpy');
 
       return setup({
-        processCreds: function (creds, callback) {
+        processCreds: function(creds, callback) {
           processCredsSpy(creds, callback);
           callback();
         },
       })
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(resSuccess);
           submitNewPass(test, 'oldpwd', 'newpwd', 'newpwd');
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function () {
+        .then(function() {
           expect(processCredsSpy.calls.count()).toBe(1);
           expect(processCredsSpy).toHaveBeenCalledWith(
             {
@@ -360,21 +360,21 @@ Expect.describe('PasswordExpiration', function () {
           expect(Util.numAjaxRequests()).toBe(1);
         });
     });
-    itp('calls async processCreds function and can prevent saving a model', function () {
+    itp('calls async processCreds function and can prevent saving a model', function() {
       const processCredsSpy = jasmine.createSpy('processCredsSpy');
 
       return setup({
-        processCreds: function (creds, callback) {
+        processCreds: function(creds, callback) {
           processCredsSpy(creds, callback);
         },
       })
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(resSuccess);
           submitNewPass(test, 'oldpwd', 'newpwd', 'newpwd');
           return Expect.waitForSpyCall(processCredsSpy);
         })
-        .then(function () {
+        .then(function() {
           expect(processCredsSpy.calls.count()).toBe(1);
           expect(processCredsSpy).toHaveBeenCalledWith(
             {
@@ -386,15 +386,15 @@ Expect.describe('PasswordExpiration', function () {
           expect(Util.numAjaxRequests()).toBe(0);
         });
     });
-    itp('saves the new password successfully', function () {
+    itp('saves the new password successfully', function() {
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(resSuccess);
           submitNewPass(test, 'oldpassyo', 'boopity', 'boopity');
           return Expect.waitForSpyCall(test.successSpy);
         })
-        .then(function () {
+        .then(function() {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/credentials/change_password',
@@ -406,45 +406,45 @@ Expect.describe('PasswordExpiration', function () {
           });
         });
     });
-    itp('makes submit button disable when form is submitted', function () {
+    itp('makes submit button disable when form is submitted', function() {
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(resSuccess);
           submitNewPass(test, 'oldpass', 'newpass', 'newpass');
           return Expect.waitForSpyCall(test.successSpy, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           const button = test.form.submitButton();
           const buttonClass = button.attr('class');
 
           expect(buttonClass).toContain('link-button-disabled');
         });
     });
-    itp('makes submit button enabled after error response', function () {
+    itp('makes submit button enabled after error response', function() {
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           Util.resetAjaxRequests();
           test.setNextResponse(resErrorOldPass);
           submitNewPass(test, 'wrongoldpass', 'boo', 'boo');
           test.form.submit();
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           const button = test.form.submitButton();
           const buttonClass = button.attr('class');
 
           expect(buttonClass).not.toContain('link-button-disabled');
         });
     });
-    itp('shows an error if the server returns a wrong old pass error', function () {
+    itp('shows an error if the server returns a wrong old pass error', function() {
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resErrorOldPass);
           submitNewPass(test, 'wrongoldpass', 'boo', 'boo');
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe('Old password is not correct');
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
@@ -476,14 +476,14 @@ Expect.describe('PasswordExpiration', function () {
           ]);
         });
     });
-    itp('shows an error if the server returns a complexity error', function () {
+    itp('shows an error if the server returns a complexity error', function() {
       return setup()
-        .then(function (test) {
+        .then(function(test) {
           test.setNextResponse(resErrorComplexity);
           submitNewPass(test, 'oldpassyo', 'badpass', 'badpass');
           return Expect.waitForFormError(test.form, test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
           expect(test.form.errorMessage()).toBe(
             'Password requirements were not met. Password requirements: at least 8 characters,' +
@@ -521,14 +521,14 @@ Expect.describe('PasswordExpiration', function () {
     });
     itp(
       'shows an simple error if showPasswordRequirementsAsHtmlList is on and if the server returns a complexity error',
-      function () {
+      function() {
         return setup({ 'features.showPasswordRequirementsAsHtmlList': true })
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse(resErrorComplexity);
             submitNewPass(test, 'oldpassyo', 'badpass', 'badpass');
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe('Password requirements were not met.');
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
@@ -563,14 +563,14 @@ Expect.describe('PasswordExpiration', function () {
     );
     itp(
       'shows an simple error if no error cause and if showPasswordRequirementsAsHtmlList is on and if the server returns a complexity error',
-      function () {
+      function() {
         return setup({ 'features.showPasswordRequirementsAsHtmlList': true })
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse(resErrorNoCause);
             submitNewPass(test, 'oldpassyo', 'badpass', 'badpass');
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe('Update of credentials failed');
             expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
@@ -598,8 +598,8 @@ Expect.describe('PasswordExpiration', function () {
           });
       }
     );
-    itp('validates that fields are not empty', function () {
-      return setup().then(function (test) {
+    itp('validates that fields are not empty', function() {
+      return setup().then(function(test) {
         Util.resetAjaxRequests();
         test.form.submit();
         expect(Util.numAjaxRequests()).toBe(0);
@@ -610,8 +610,8 @@ Expect.describe('PasswordExpiration', function () {
       });
     });
 
-    itp('validates that new password is equal to confirm password', function () {
-      return setup().then(function (test) {
+    itp('validates that new password is equal to confirm password', function() {
+      return setup().then(function(test) {
         Util.resetAjaxRequests();
         submitNewPass(test, 'newpass', 'differentnewpass');
         expect(Util.numAjaxRequests()).toBe(0);
@@ -621,103 +621,103 @@ Expect.describe('PasswordExpiration', function () {
     });
   });
 
-  Expect.describe('CustomPasswordExpired', function () {
-    itp('shows security beacon', function () {
-      return setup().then(function (test) {
+  Expect.describe('CustomPasswordExpired', function() {
+    itp('shows security beacon', function() {
+      return setup().then(function(test) {
         expect(test.beacon.isSecurityBeacon()).toBe(true);
       });
     });
-    itp('has the correct title', function () {
-      return setupCustomExpiredPassword().then(function (test) {
+    itp('has the correct title', function() {
+      return setupCustomExpiredPassword().then(function(test) {
         expect(test.form.titleText()).toBe('Your password has expired');
       });
     });
-    itp('has the correct title if config has a brandName', function () {
-      return setupCustomExpiredPassword({ brandName: 'Spaghetti Inc.' }).then(function (test) {
+    itp('has the correct title if config has a brandName', function() {
+      return setupCustomExpiredPassword({ brandName: 'Spaghetti Inc.' }).then(function(test) {
         expect(test.form.titleText()).toBe('Your Spaghetti Inc. password has expired');
       });
     });
-    itp('has a valid subtitle', function () {
-      return setupCustomExpiredPassword().then(function (test) {
+    itp('has a valid subtitle', function() {
+      return setupCustomExpiredPassword().then(function(test) {
         expect(test.form.subtitleText()).toEqual(
           'This password is set on another website. ' + 'Click the button below to go there and set a new password.'
         );
       });
     });
-    itp('has a custom change password button', function () {
-      return setupCustomExpiredPassword().then(function (test) {
+    itp('has a custom change password button', function() {
+      return setupCustomExpiredPassword().then(function(test) {
         expect(test.form.customButton().length).toBe(1);
       });
     });
-    itp('has a valid custom button text', function () {
-      return setupCustomExpiredPassword().then(function (test) {
+    itp('has a valid custom button text', function() {
+      return setupCustomExpiredPassword().then(function(test) {
         expect(test.form.customButtonText()).toEqual('Go to Twitter');
       });
     });
-    itp('has a sign out link', function () {
-      return setupCustomExpiredPassword().then(function (test) {
+    itp('has a sign out link', function() {
+      return setupCustomExpiredPassword().then(function(test) {
         Expect.isVisible(test.form.signoutLink());
       });
     });
-    itp('does not have a skip link', function () {
-      return setupCustomExpiredPassword().then(function (test) {
+    itp('does not have a skip link', function() {
+      return setupCustomExpiredPassword().then(function(test) {
         expect(test.form.skipLink().length).toBe(0);
       });
     });
-    itp('redirect is called with the correct arg on custom button click', function () {
+    itp('redirect is called with the correct arg on custom button click', function() {
       spyOn(SharedUtil, 'redirect');
-      return setupCustomExpiredPassword().then(function (test) {
+      return setupCustomExpiredPassword().then(function(test) {
         test.form.clickCustomButton();
         expect(SharedUtil.redirect).toHaveBeenCalledWith('https://www.twitter.com');
       });
     });
   });
 
-  Expect.describe('PasswordAboutToExpire', function () {
-    itp('has the correct title if expiring in > 0 days', function () {
-      return setupWarn(4).then(function (test) {
+  Expect.describe('PasswordAboutToExpire', function() {
+    itp('has the correct title if expiring in > 0 days', function() {
+      return setupWarn(4).then(function(test) {
         expect(test.form.titleText()).toBe('Your password will expire in 4 days');
       });
     });
-    itp('has the correct title if expiring in 0 days', function () {
-      return setupWarn(0).then(function (test) {
+    itp('has the correct title if expiring in 0 days', function() {
+      return setupWarn(0).then(function(test) {
         expect(test.form.titleText()).toBe('Your password will expire later today');
       });
     });
-    itp('has the correct title if numDays is null', function () {
-      return setupWarn(null).then(function (test) {
+    itp('has the correct title if numDays is null', function() {
+      return setupWarn(null).then(function(test) {
         expect(test.form.titleText()).toBe('Your password is expiring soon');
       });
     });
-    itp('has the correct title if numDays is undefined', function () {
-      return setupWarn(undefined).then(function (test) {
+    itp('has the correct title if numDays is undefined', function() {
+      return setupWarn(undefined).then(function(test) {
         expect(test.form.titleText()).toBe('Your password is expiring soon');
       });
     });
-    itp('has the correct subtitle', function () {
-      return setupWarn(4).then(function (test) {
+    itp('has the correct subtitle', function() {
+      return setupWarn(4).then(function(test) {
         expect(test.form.subtitleText()).toBe('When password expires you will be locked out of your account.');
       });
     });
-    itp('has the correct subtitle if config has a brandName', function () {
-      return setupWarn(4, { brandName: 'Spaghetti Inc.' }).then(function (test) {
+    itp('has the correct subtitle if config has a brandName', function() {
+      return setupWarn(4, { brandName: 'Spaghetti Inc.' }).then(function(test) {
         expect(test.form.subtitleText()).toBe(
           'When password expires you will be locked out of your Spaghetti Inc. account.'
         );
       });
     });
-    itp('has a sign out link', function () {
-      return setupWarn(4).then(function (test) {
+    itp('has a sign out link', function() {
+      return setupWarn(4).then(function(test) {
         Expect.isVisible(test.form.signoutLink());
       });
     });
-    itp('has a skip link', function () {
-      return setupWarn(4).then(function (test) {
+    itp('has a skip link', function() {
+      return setupWarn(4).then(function(test) {
         Expect.isVisible(test.form.skipLink());
       });
     });
-    itp('goToLink is called with the correct args on skip', function () {
-      return setupWarn(4).then(function (test) {
+    itp('goToLink is called with the correct args on skip', function() {
+      return setupWarn(4).then(function(test) {
         Util.resetAjaxRequests();
         test.setNextResponse(resSuccess);
         test.form.skip();
@@ -730,16 +730,16 @@ Expect.describe('PasswordExpiration', function () {
         });
       });
     });
-    itp('goToLink is called with the correct args on sign out', function () {
+    itp('goToLink is called with the correct args on sign out', function() {
       return setupWarn(4)
-        .then(function (test) {
+        .then(function(test) {
           spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
           Util.resetAjaxRequests();
           test.setNextResponse(resCancel);
           test.form.signout();
           return Expect.waitForPrimaryAuth(test);
         })
-        .then(function (test) {
+        .then(function(test) {
           expect(Util.numAjaxRequests()).toBe(1);
           Expect.isJsonPost(Util.getAjaxRequest(0), {
             url: 'https://foo.com/api/v1/authn/cancel',
@@ -753,34 +753,34 @@ Expect.describe('PasswordExpiration', function () {
     });
   });
 
-  Expect.describe('CustomPasswordAboutToExpire', function () {
-    itp('shows security beacon', function () {
-      return setupCustomExpiredPasswordWarn(4).then(function (test) {
+  Expect.describe('CustomPasswordAboutToExpire', function() {
+    itp('shows security beacon', function() {
+      return setupCustomExpiredPasswordWarn(4).then(function(test) {
         expect(test.beacon.isSecurityBeacon()).toBe(true);
       });
     });
-    itp('has the correct title if expiring in > 0 days', function () {
-      return setupCustomExpiredPasswordWarn(4).then(function (test) {
+    itp('has the correct title if expiring in > 0 days', function() {
+      return setupCustomExpiredPasswordWarn(4).then(function(test) {
         expect(test.form.titleText()).toBe('Your password will expire in 4 days');
       });
     });
-    itp('has the correct title if expiring in 0 days', function () {
-      return setupCustomExpiredPasswordWarn(0).then(function (test) {
+    itp('has the correct title if expiring in 0 days', function() {
+      return setupCustomExpiredPasswordWarn(0).then(function(test) {
         expect(test.form.titleText()).toBe('Your password will expire later today');
       });
     });
-    itp('has the correct title if numDays is null', function () {
-      return setupCustomExpiredPasswordWarn(null).then(function (test) {
+    itp('has the correct title if numDays is null', function() {
+      return setupCustomExpiredPasswordWarn(null).then(function(test) {
         expect(test.form.titleText()).toBe('Your password is expiring soon');
       });
     });
-    itp('has the correct title if numDays is undefined', function () {
-      return setupCustomExpiredPasswordWarn(undefined).then(function (test) {
+    itp('has the correct title if numDays is undefined', function() {
+      return setupCustomExpiredPasswordWarn(undefined).then(function(test) {
         expect(test.form.titleText()).toBe('Your password is expiring soon');
       });
     });
-    itp('has a valid subtitle', function () {
-      return setupCustomExpiredPasswordWarn(4).then(function (test) {
+    itp('has a valid subtitle', function() {
+      return setupCustomExpiredPasswordWarn(4).then(function(test) {
         expect(test.form.subtitleText()).toEqual(
           'When password expires you will be locked out of your account. ' +
             'This password is set on another website. ' +
@@ -788,8 +788,8 @@ Expect.describe('PasswordExpiration', function () {
         );
       });
     });
-    itp('has a valid subtitle if config has a brandName', function () {
-      return setupCustomExpiredPasswordWarn(4, { brandName: 'Spaghetti Inc.' }).then(function (test) {
+    itp('has a valid subtitle if config has a brandName', function() {
+      return setupCustomExpiredPasswordWarn(4, { brandName: 'Spaghetti Inc.' }).then(function(test) {
         expect(test.form.subtitleText()).toEqual(
           'When password expires you will be locked out of your Spaghetti Inc. account. ' +
             'This password is set on another website. ' +
@@ -797,29 +797,29 @@ Expect.describe('PasswordExpiration', function () {
         );
       });
     });
-    itp('has a custom change password button', function () {
-      return setupCustomExpiredPasswordWarn(4).then(function (test) {
+    itp('has a custom change password button', function() {
+      return setupCustomExpiredPasswordWarn(4).then(function(test) {
         expect(test.form.customButton().length).toBe(1);
       });
     });
-    itp('has a valid custom button text', function () {
-      return setupCustomExpiredPasswordWarn(4).then(function (test) {
+    itp('has a valid custom button text', function() {
+      return setupCustomExpiredPasswordWarn(4).then(function(test) {
         expect(test.form.customButtonText()).toEqual('Go to Google');
       });
     });
-    itp('has a sign out link', function () {
-      return setupCustomExpiredPasswordWarn(4).then(function (test) {
+    itp('has a sign out link', function() {
+      return setupCustomExpiredPasswordWarn(4).then(function(test) {
         Expect.isVisible(test.form.signoutLink());
       });
     });
-    itp('has a skip link', function () {
-      return setupCustomExpiredPasswordWarn(4).then(function (test) {
+    itp('has a skip link', function() {
+      return setupCustomExpiredPasswordWarn(4).then(function(test) {
         Expect.isVisible(test.form.skipLink());
       });
     });
-    itp('redirect is called with the correct arg on custom button click', function () {
+    itp('redirect is called with the correct arg on custom button click', function() {
       spyOn(SharedUtil, 'redirect');
-      return setupCustomExpiredPasswordWarn(4).then(function (test) {
+      return setupCustomExpiredPasswordWarn(4).then(function(test) {
         test.form.clickCustomButton();
         expect(SharedUtil.redirect).toHaveBeenCalledWith('https://www.google.com');
       });

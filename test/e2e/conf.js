@@ -19,7 +19,7 @@ var config = {
   framework: 'jasmine2',
   specs: ['specs/*.js'],
   restartBrowserBetweenTests: false,
-  onPrepare: function () {
+  onPrepare: function() {
     jasmine.getEnv().addReporter(new jasmineReporters.JUnitXmlReporter({
       savePath: 'build2/reports/junit',
       filePrefix: 'e2e-results',

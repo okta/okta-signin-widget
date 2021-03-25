@@ -15,10 +15,10 @@ var util = module.exports = {};
 
 var EC = protractor.ExpectedConditions;
 
-util.loadTestPage = function (pageName) {
+util.loadTestPage = function(pageName) {
   browser.get('http://localhost:3000/' + pageName + '.html');
 };
 
-util.waitForElement = function (el) {
+util.waitForElement = function(el) {
   browser.wait(EC.visibilityOf(el));
 };

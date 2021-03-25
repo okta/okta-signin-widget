@@ -22,7 +22,7 @@ export default FormController.extend({
       password: ['string', true],
       confirmPassword: ['string', true],
     },
-    validate: function () {
+    validate: function() {
       return ValidationUtil.validateFieldsMatch(
         this,
         'password',
@@ -30,8 +30,8 @@ export default FormController.extend({
         loc('password.enroll.error.match', 'login')
       );
     },
-    save: function () {
-      return this.doTransaction(function (transaction) {
+    save: function() {
+      return this.doTransaction(function(transaction) {
         const factor = _.findWhere(transaction.factors, {
           factorType: 'password',
           provider: 'OKTA',
@@ -49,7 +49,7 @@ export default FormController.extend({
   Form: {
     autoSave: true,
     title: _.partial(loc, 'enroll.password.setup', 'login'),
-    inputs: function () {
+    inputs: function() {
       return [
         {
           label: loc('mfa.challenge.password.placeholder', 'login'),

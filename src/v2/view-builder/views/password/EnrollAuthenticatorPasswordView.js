@@ -7,20 +7,20 @@ import {
 import hbs from 'handlebars-inline-precompile';
 
 const Body = BaseForm.extend({
-  title () {
+  title() {
     return loc('oie.password.enroll.title', 'login');
   },
-  save () {
+  save() {
     return loc('oform.next', 'login');
   },
 
-  initialize () {
+  initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
     const policy = this.getPasswordPolicySettings();
     this.displayPasswordPolicy(policy);
   },
 
-  displayPasswordPolicy (policy) {
+  displayPasswordPolicy(policy) {
     if (policy) {
       const rulesList = getPasswordComplexityDescriptionForHtmlList( policy );
       this.add(
@@ -46,13 +46,13 @@ const Body = BaseForm.extend({
     }
   },
 
-  triggerAfterError (model, error) {
+  triggerAfterError(model, error) {
     const policy = this.getPasswordPolicySettings();
     error.responseJSON = removeRequirementsFromError(error.responseJSON, policy);
     this.options.appState.trigger('afterError', error);
   },
 
-  getPasswordPolicySettings () {
+  getPasswordPolicySettings() {
     // This will be overridden by following scenario since the policies could be different for those.
     // - password reset (`ReEnrollAuthenticatorPasswordView.js`)
     //
@@ -60,7 +60,7 @@ const Body = BaseForm.extend({
     return relatesToObject?.value?.settings;
   },
 
-  getUISchema () {
+  getUISchema() {
     const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
     return uiSchemas.concat([
       {
@@ -80,7 +80,7 @@ export default BaseAuthenticatorView.extend({
 
   Body,
 
-  createModelClass () {
+  createModelClass() {
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     const local = Object.assign(
       {
@@ -93,7 +93,7 @@ export default BaseAuthenticatorView.extend({
     );
     return ModelClass.extend({
       local,
-      validate () {
+      validate() {
         if (this.get('credentials.passcode') !== this.get('confirmPassword') &&
             this.get('credential.value') !== this.get('confirmPassword')) {
           const errors = {

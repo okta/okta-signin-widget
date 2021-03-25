@@ -3,8 +3,8 @@ import FormInputFactory from 'v2/view-builder/internals/FormInputFactory';
 import AuthenticatorVerifyOptions from 'v2/view-builder/components/AuthenticatorVerifyOptions';
 import AuthenticatorEnrollOptions from 'v2/view-builder/components/AuthenticatorEnrollOptions';
 
-describe('v2/view-builder/internals/FormInputFactory', function () {
-  it('handles authenticatorVerify Select type', function () {
+describe('v2/view-builder/internals/FormInputFactory', function() {
+  it('handles authenticatorVerify Select type', function() {
     const input = {
       name: 'authenticator',
       type: 'authenticatorVerifySelect',
@@ -325,7 +325,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
     expect(opt).toEqual(input);
   });
 
-  it('filters additional webauthn enrollments for authenticatorVerify Select type', function () {
+  it('filters additional webauthn enrollments for authenticatorVerify Select type', function() {
     const opt = {
       type: 'authenticatorVerifySelect',
       options: [
@@ -414,7 +414,7 @@ describe('v2/view-builder/internals/FormInputFactory', function () {
     });
   });
 
-  it('handles authenticatorEnrollSelect type', function () {
+  it('handles authenticatorEnrollSelect type', function() {
     // Create a copy of input object.
     const input = {
       name: 'authenticator',

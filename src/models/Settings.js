@@ -166,7 +166,7 @@ export default Model.extend({
   derived: {
     showPasswordToggle: {
       deps: ['features.showPasswordToggleOnSignInPage'],
-      fn: function () {
+      fn: function() {
         // showPasswordToggle is for OIE only.
         // Used to default showPasswordToggleOnSignInPage to true.
         return this.options?.features?.showPasswordToggleOnSignInPage !== false;
@@ -175,14 +175,14 @@ export default Model.extend({
     },
     redirectUtilFn: {
       deps: ['features.redirectByFormSubmit'],
-      fn: function (redirectByFormSubmit) {
+      fn: function(redirectByFormSubmit) {
         return redirectByFormSubmit ? Util.redirectWithFormGet.bind(Util) : SharedUtil.redirect.bind(SharedUtil);
       },
       cache: true,
     },
     supportedLanguages: {
       deps: ['i18n'],
-      fn: function (i18n) {
+      fn: function(i18n) {
         // Developers can pass in their own languages
         return _.union(config.supportedLanguages, _.keys(i18n));
       },
@@ -190,7 +190,7 @@ export default Model.extend({
     },
     languageCode: {
       deps: ['language', 'supportedLanguages'],
-      fn: function (language, supportedLanguages) {
+      fn: function(language, supportedLanguages) {
         const userLanguages = BrowserFeatures.getUserLanguages();
 
         const preferred = _.clone(userLanguages);
@@ -229,7 +229,7 @@ export default Model.extend({
     },
     countryCode: {
       deps: ['defaultCountryCode'],
-      fn: function (defaultCountryCode) {
+      fn: function(defaultCountryCode) {
         const countries = CountryUtil.getCountries();
         return Object.keys(countries).includes(defaultCountryCode)
           ? defaultCountryCode : 'US';
@@ -237,14 +237,14 @@ export default Model.extend({
     },
     oauth2Enabled: {
       deps: ['clientId', 'authScheme'],
-      fn: function (clientId, authScheme) {
+      fn: function(clientId, authScheme) {
         return (!!clientId) && authScheme.toLowerCase() === 'oauth2';
       },
       cache: true,
     },
     oieEnabled: {
       deps: ['stateToken', 'proxyIdxResponse', 'useInteractionCodeFlow'],
-      fn: function (stateToken, proxyIdxResponse, useInteractionCodeFlow) {
+      fn: function(stateToken, proxyIdxResponse, useInteractionCodeFlow) {
         return stateToken || proxyIdxResponse || useInteractionCodeFlow;
       },
       cache: true,
@@ -252,7 +252,7 @@ export default Model.extend({
     // Redirect Uri to provide in the oauth API
     oauthRedirectUri: {
       deps: ['redirectUri'],
-      fn: function (redirectUri) {
+      fn: function(redirectUri) {
         if (redirectUri) {
           return redirectUri;
         }
@@ -275,8 +275,8 @@ export default Model.extend({
     // Adjusts the idps passed into the widget based on if they get explicit support
     configuredSocialIdps: {
       deps: ['idps'],
-      fn: function (idps) {
-        return _.map(idps, function (idpConfig) {
+      fn: function(idps) {
+        return _.map(idps, function(idpConfig) {
           const idp = _.clone(idpConfig);
 
           let type = idp.type && idp.type.toLowerCase();
@@ -301,7 +301,7 @@ export default Model.extend({
     // Can support piv authentication
     hasPivCard: {
       deps: ['piv'],
-      fn: function (piv) {
+      fn: function(piv) {
         return piv && piv.certAuthUrl;
       },
       cache: true,
@@ -309,21 +309,21 @@ export default Model.extend({
     // social auth buttons order - 'above'/'below' the primary auth form (boolean)
     socialAuthPositionTop: {
       deps: ['configuredSocialIdps', 'hasPivCard', 'idpDisplay'],
-      fn: function (configuredSocialIdps, hasPivCard, idpDisplay) {
+      fn: function(configuredSocialIdps, hasPivCard, idpDisplay) {
         return (!_.isEmpty(configuredSocialIdps) || hasPivCard) && idpDisplay.toUpperCase() === 'PRIMARY';
       },
       cache: true,
     },
     hasConfiguredButtons: {
       deps: ['configuredSocialIdps', 'customButtons', 'hasPivCard'],
-      fn: function (configuredSocialIdps, customButtons, hasPivCard) {
+      fn: function(configuredSocialIdps, customButtons, hasPivCard) {
         return !_.isEmpty(configuredSocialIdps) || !_.isEmpty(customButtons) || hasPivCard;
       },
       cache: true,
     },
   },
 
-  initialize: function (options) {
+  initialize: function(options) {
     if (!options.baseUrl) {
       this.callGlobalError(new ConfigError(loc('error.required.baseUrl')));
     } else if (options.colors && _.isString(options.colors.brand) && !options.colors.brand.match(/^#[0-9A-Fa-f]{6}$/)) {
@@ -333,22 +333,22 @@ export default Model.extend({
     }
   },
 
-  setAcceptLanguageHeader: function (authClient) {
+  setAcceptLanguageHeader: function(authClient) {
     if (authClient && authClient.options && authClient.options.headers) {
       authClient.options.headers['Accept-Language'] = this.get('languageCode');
     }
   },
 
-  setAuthClient: function (authClient) {
+  setAuthClient: function(authClient) {
     this.setAcceptLanguageHeader(authClient);
     this.authClient = authClient;
   },
 
-  getAuthClient: function () {
+  getAuthClient: function() {
     return this.authClient;
   },
 
-  set: function () {
+  set: function() {
     try {
       return Model.prototype.set.apply(this, arguments);
     } catch (e) {
@@ -361,7 +361,7 @@ export default Model.extend({
   // Invokes the global success function. This should only be called on a
   // terminal part of the code (i.e. authStatus SUCCESS or after sending
   // a recovery email)
-  callGlobalSuccess: function (status, data) {
+  callGlobalSuccess: function(status, data) {
     const res = _.extend(data, { status: status });
     // Defer this to ensure that our functions have rendered completely
     // before invoking their function
@@ -372,7 +372,7 @@ export default Model.extend({
   // Invokes the global error function. This should only be called on non
   // recoverable errors (i.e. configuration errors, browser unsupported
   // errors, etc)
-  callGlobalError: function (err) {
+  callGlobalError: function(err) {
     const globalErrorFn = this.get('globalErrorFn') || this.options.globalErrorFn;
     // Note: Must use "this.options.globalErrorFn" when they've passed invalid
     // arguments - globalErrorFn will not have been set yet
@@ -386,7 +386,7 @@ export default Model.extend({
   },
 
   // Get the username by applying the transform function if it exists.
-  transformUsername: function (username, operation) {
+  transformUsername: function(username, operation) {
     const transformFn = this.get('transformUsername');
 
     if (transformFn && _.isFunction(transformFn)) {
@@ -395,10 +395,10 @@ export default Model.extend({
     return username;
   },
 
-  processCreds: function (creds) {
+  processCreds: function(creds) {
     const processCreds = this.get('processCreds');
 
-    return Q.Promise(function (resolve) {
+    return Q.Promise(function(resolve) {
       if (!_.isFunction(processCreds)) {
         resolve();
       } else if (processCreds.length === 2) {
@@ -410,17 +410,17 @@ export default Model.extend({
     });
   },
 
-  parseRegistrationSchema: function (schema, onSuccess, onFailure) {
+  parseRegistrationSchema: function(schema, onSuccess, onFailure) {
     const parseSchema = this.get('registration.parseSchema');
 
     //check for parseSchema callback
     if (_.isFunction(parseSchema)) {
       parseSchema(
         schema,
-        function (schema) {
+        function(schema) {
           onSuccess(schema);
         },
-        function (error) {
+        function(error) {
           error = error || { errorSummary: loc('registration.default.callbackhook.error') };
           error['callback'] = 'parseSchema';
           onFailure(error);
@@ -432,17 +432,17 @@ export default Model.extend({
     }
   },
 
-  preRegistrationSubmit: function (postData, onSuccess, onFailure) {
+  preRegistrationSubmit: function(postData, onSuccess, onFailure) {
     const preSubmit = this.get('registration.preSubmit');
 
     //check for preSubmit callback
     if (_.isFunction(preSubmit)) {
       preSubmit(
         postData,
-        function (postData) {
+        function(postData) {
           onSuccess(postData);
         },
-        function (error) {
+        function(error) {
           error = error || { errorSummary: loc('registration.default.callbackhook.error') };
           error['callback'] = 'preSubmit';
           onFailure(error);
@@ -454,17 +454,17 @@ export default Model.extend({
     }
   },
 
-  postRegistrationSubmit: function (response, onSuccess, onFailure) {
+  postRegistrationSubmit: function(response, onSuccess, onFailure) {
     const postSubmit = this.get('registration.postSubmit');
 
     //check for postSubmit callback
     if (_.isFunction(postSubmit)) {
       postSubmit(
         response,
-        function (response) {
+        function(response) {
           onSuccess(response);
         },
-        function (error) {
+        function(error) {
           error = error || { errorSummary: loc('registration.default.callbackhook.error') };
           error['callback'] = 'postSubmit';
           onFailure(error);
@@ -479,18 +479,18 @@ export default Model.extend({
   // Use the parse function to transform config options to the standard
   // settings we currently support. This is a good place to deprecate old
   // option formats.
-  parse: function (options) {
+  parse: function(options) {
     if (options.labels || options.country) {
       Logger.deprecate('Use "i18n" instead of "labels" and "country"');
       const overrides = options.labels || {};
 
-      _.each(options.country, function (val, key) {
+      _.each(options.country, function(val, key) {
         overrides['country.' + key] = val;
       });
       // Old behavior is to treat the override as a global override, so we
       // need to add these overrides to each language
       options.i18n = {};
-      _.each(config.supportedLanguages, function (language) {
+      _.each(config.supportedLanguages, function(language) {
         options.i18n[language] = overrides;
       });
       delete options.labels;
@@ -512,7 +512,7 @@ export default Model.extend({
     return options;
   },
 
-  isDsTheme: function () {
+  isDsTheme: function() {
     return false;
   },
 });

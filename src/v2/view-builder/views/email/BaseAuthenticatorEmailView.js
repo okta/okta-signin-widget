@@ -12,7 +12,7 @@ const ResendView = View.extend(
       'click a.resend-link' : 'handelResendLink'
     },
 
-    initialize () {
+    initialize() {
       this.add(createCallout({
         content: `${loc('email.code.not.received', 'login')}
         <a class='resend-link'>${loc('email.button.resend', 'login')}</a>`,
@@ -20,7 +20,7 @@ const ResendView = View.extend(
       }));
     },
 
-    handelResendLink () {
+    handelResendLink() {
       this.options.appState.trigger('invokeAction', this.options.resendEmailAction);
       // Hide warning, but reinitiate to show warning again after some threshold of polling
       if (!this.$el.hasClass('hide')) {
@@ -29,17 +29,17 @@ const ResendView = View.extend(
       this.showCalloutWithDelay();
     },
 
-    postRender () {
+    postRender() {
       this.showCalloutWithDelay();
     },
 
-    showCalloutWithDelay () {
+    showCalloutWithDelay() {
       this.showMeTimeout = _.delay(() => {
         this.$el.removeClass('hide');
       }, SHOW_RESEND_TIMEOUT);
     },
 
-    remove () {
+    remove() {
       View.prototype.remove.apply(this, arguments);
       clearTimeout(this.showMeTimeout);
     }
@@ -48,10 +48,10 @@ const ResendView = View.extend(
 
 const Body = BaseForm.extend(Object.assign(
   {
-    save () {
+    save() {
       return loc('mfa.challenge.verify', 'login');
     },
-    initialize () {
+    initialize() {
       BaseForm.prototype.initialize.apply(this, arguments);
 
       this.add(ResendView, {
@@ -63,17 +63,17 @@ const Body = BaseForm.extend(Object.assign(
       this.startPolling();
     },
 
-    saveForm () {
+    saveForm() {
       BaseForm.prototype.saveForm.apply(this, arguments);
       this.stopPolling();
     },
 
-    remove () {
+    remove() {
       BaseForm.prototype.remove.apply(this, arguments);
       this.stopPolling();
     },
 
-    triggerAfterError (model, error) {
+    triggerAfterError(model, error) {
       BaseForm.prototype.triggerAfterError.apply(this, arguments);
       this.stopPolling();
 

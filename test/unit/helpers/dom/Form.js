@@ -1,40 +1,40 @@
 import { _, $ } from 'okta';
 import Dom from './Dom';
 export default Dom.extend({
-  titleText: function () {
+  titleText: function() {
     return this.el('o-form-head').trimmedText();
   },
 
-  subtitleText: function () {
+  subtitleText: function() {
     return this.el('o-form-explain').trimmedText();
   },
 
-  subtitle: function () {
+  subtitle: function() {
     return this.el('o-form-explain');
   },
 
-  inputWrap: function (field) {
+  inputWrap: function(field) {
     return this.el('o-form-input-' + field);
   },
 
-  input: function (field) {
+  input: function(field) {
     return this.inputWrap(field).find('input');
   },
 
-  inlineLabel: function (field) {
+  inlineLabel: function(field) {
     return this.inputWrap(field).find('.o-form-label-inline');
   },
 
-  select: function (field) {
+  select: function(field) {
     return this.inputWrap(field).find('select');
   },
 
-  autocomplete: function (field) {
+  autocomplete: function(field) {
     return this.input(field).attr('autocomplete');
   },
 
-  selectOptions: function (field) {
-    return _.map(this.select(field).find('option'), function (el) {
+  selectOptions: function(field) {
+    return _.map(this.select(field).find('option'), function(el) {
       return {
         val: el.value,
         text: $.trim(el.innerHTML),
@@ -42,11 +42,11 @@ export default Dom.extend({
     });
   },
 
-  selectedOption: function (field) {
+  selectedOption: function(field) {
     return this.inputWrap(field).find('.chzn-single span').trimmedText();
   },
 
-  selectOption: function (field, val) {
+  selectOption: function(field, val) {
     const $select = this.select(field);
 
     $select.val(val);
@@ -54,14 +54,14 @@ export default Dom.extend({
     $select.trigger('change');
   },
 
-  explain: function (field) {
+  explain: function(field) {
     const $container = this.inputWrap(field).parent();
     const $explain = $container.find('.o-form-explain');
 
     return $explain;
   },
 
-  error: function (field) {
+  error: function(field) {
     const $container = this.inputWrap(field).parent();
     // container holds input and error description
 
@@ -118,23 +118,23 @@ export default Dom.extend({
     return $error;
   },
 
-  checkbox: function (field) {
+  checkbox: function(field) {
     return this.inputWrap(field).find(':checkbox');
   },
 
-  checkboxLabel: function (field) {
+  checkboxLabel: function(field) {
     return this.inputWrap(field).find('label');
   },
 
-  checkboxLabelText: function (field) {
+  checkboxLabelText: function(field) {
     return this.checkboxLabel(field).trimmedText();
   },
 
-  labelText: function (field) {
+  labelText: function(field) {
     return this.inputWrap(field).closest('[data-se="o-form-fieldset"]').find('label').trimmedText();
   },
 
-  tooltipApi: function (field) {
+  tooltipApi: function(field) {
     let element;
     const formInput = this.inputWrap(field);
 
@@ -147,7 +147,7 @@ export default Dom.extend({
     return $(element).qtip('api');
   },
 
-  tooltipText: function (field) {
+  tooltipText: function(field) {
     let api;
     let tooltipText;
 
@@ -161,55 +161,55 @@ export default Dom.extend({
     return tooltipText;
   },
 
-  button: function (selector) {
+  button: function(selector) {
     return this.$(selector + '.button');
   },
 
-  submitButton: function () {
+  submitButton: function() {
     return $('[data-type="save"]');
   },
 
-  submitButtonText: function () {
+  submitButtonText: function() {
     return this.submitButton().val();
   },
 
-  submit: function () {
+  submit: function() {
     this.submitButton().click();
   },
 
-  getErrors: function () {
+  getErrors: function() {
     return this.$('.okta-form-infobox-error');
   },
 
-  hasErrors: function () {
+  hasErrors: function() {
     return this.getErrors().length > 0;
   },
 
-  errorBox: function () {
+  errorBox: function() {
     return this.el('o-form-error-container').find('.infobox-error');
   },
 
-  errorMessage: function () {
+  errorMessage: function() {
     return this.$('.okta-form-infobox-error p').text().trim();
   },
 
-  hasFieldErrors: function (field) {
+  hasFieldErrors: function(field) {
     return this.inputWrap(field).next('.okta-form-input-error').length > 0;
   },
 
-  fieldErrorMessage: function (field) {
+  fieldErrorMessage: function(field) {
     return this.inputWrap(field).next('.okta-form-input-error').text().trim();
   },
 
-  accessibilityText: function () {
+  accessibilityText: function() {
     return this.$('.accessibility-text').text().trim();
   },
 
-  warningMessage: function () {
+  warningMessage: function() {
     return this.$('.okta-form-infobox-warning p').text().trim();
   },
 
-  hasWarningMessage: function () {
+  hasWarningMessage: function() {
     return this.$('.okta-form-infobox-warning').length > 0;
   },
 });

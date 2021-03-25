@@ -3,7 +3,7 @@ import { BaseForm, BaseView } from '../internals';
 import Util from '../../../util/Util';
 
 const Body = BaseForm.extend({
-  title () {
+  title() {
     let titleString = loc('oie.success.text.signingIn', 'login');
     // For more info on the API response available in appState, see IdxResponseBuilder.java
     const app = this.options.appState.get('app');
@@ -27,7 +27,7 @@ const Body = BaseForm.extend({
     return titleString;
   },
   noButtonBar: true,
-  initialize () {
+  initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
     // TODO OKTA-250473
     // Form post for success redirect
@@ -35,7 +35,7 @@ const Body = BaseForm.extend({
     Util.redirectWithFormGet(url);
   },
 
-  render () {
+  render() {
     BaseForm.prototype.render.apply(this, arguments);
     this.add('<div class="okta-waiting-spinner"></div>');
   }

@@ -7,7 +7,7 @@ const Body = BaseAuthenticatorEmailForm.extend(Object.assign({
 
   resendEmailAction: 'currentAuthenticator-resend',
 
-  subtitle () {
+  subtitle() {
     return loc('oie.email.enroll.subtitle', 'login');
   },
 }));

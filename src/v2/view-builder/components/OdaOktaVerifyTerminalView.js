@@ -22,7 +22,7 @@ export default View.extend({
     </div>
   `,
 
-  getTemplateData () {
+  getTemplateData() {
     const deviceEnrollment = this.options.appState.get('deviceEnrollment');
     const platform = (deviceEnrollment.platform || '').toLowerCase();
     const templateData = {

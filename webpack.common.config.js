@@ -6,7 +6,7 @@ var TARGET_JS = path.resolve(__dirname, 'target/js/');
 var LOCAL_PACKAGES = path.resolve(__dirname, 'packages/');
 
 // Return a function so that all consumers get a new copy of the config
-module.exports = function (outputFilename) {
+module.exports = function(outputFilename) {
   return {
     entry: [`${SRC}/widget/OktaSignIn.js`],
     devtool: 'source-map',
@@ -41,7 +41,7 @@ module.exports = function (outputFilename) {
         // Babel
         {
           test: /\.js$/,
-          exclude: function (filePath) {
+          exclude: function(filePath) {
             const filePathContains = (f) => filePath.indexOf(f) > 0;
             const npmRequiresTransform = [
               '/node_modules/parse-ms',

@@ -20,7 +20,7 @@ const NumberChallengePhoneView = View.extend({
       </div>
     </div>
   `,
-  getTemplateData () {
+  getTemplateData() {
     const correctAnswer = this.options.appState.get('currentAuthenticator')?.contextualData?.correctAnswer;
     return {
       correctAnswer

@@ -21,17 +21,17 @@ export default View.extend({
     'spinner:hide': 'hide',
   },
 
-  initialize: function (options) {
+  initialize: function(options) {
     if (options && options.visible === false) {
       this.hide();
     }
   },
 
-  show: function () {
+  show: function() {
     this.$el.removeClass('hide');
   },
 
-  hide: function () {
+  hide: function() {
     this.$el.addClass('hide');
   },
 });

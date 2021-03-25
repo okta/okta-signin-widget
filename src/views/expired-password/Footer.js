@@ -27,15 +27,15 @@ export default View.extend({
   ),
   className: 'auth-footer clearfix',
   events: {
-    'click .js-signout': function (e) {
+    'click .js-signout': function(e) {
       e.preventDefault();
       const self = this;
 
       this.model
-        .doTransaction(function (transaction) {
+        .doTransaction(function(transaction) {
           return transaction.cancel();
         })
-        .then(function () {
+        .then(function() {
           if (self.settings.get('signOutLink')) {
             Util.redirect(self.settings.get('signOutLink'));
           } else {
@@ -44,14 +44,14 @@ export default View.extend({
           }
         });
     },
-    'click .js-skip': function (e) {
+    'click .js-skip': function(e) {
       e.preventDefault();
-      this.model.doTransaction(function (transaction) {
+      this.model.doTransaction(function(transaction) {
         return transaction.skip();
       });
     },
   },
-  getTemplateData: function () {
+  getTemplateData: function() {
     return { passwordWarn: this.options.appState.get('isPwdExpiringSoon') };
   },
 });

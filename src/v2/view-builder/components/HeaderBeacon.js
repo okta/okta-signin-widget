@@ -25,10 +25,10 @@ const BeaconView = View.extend({
     </div >\
   '),
 
-  getTemplateData: function () {
+  getTemplateData: function() {
     return { className: this.getBeaconClassName() || '' };
   },
-  getBeaconClassName () {
+  getBeaconClassName() {
     return 'undefined-user';
   }
 });

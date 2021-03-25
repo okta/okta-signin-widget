@@ -38,12 +38,12 @@ util.AUTH_PARAMS = AUTH_PARAMS;
  * @param params - {idp: 'xxx'} for social auth
  *                 {sessionToken: 'xxx'} for okta idp
  */
-util.getTokens = function (settings, params, controller) {
-  function success (result) {
+util.getTokens = function(settings, params, controller) {
+  function success(result) {
     settings.callGlobalSuccess(Enums.SUCCESS, result);
   }
 
-  function error (error) {
+  function error(error) {
     let showError = false;
     let responseJSON = error;
   

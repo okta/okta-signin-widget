@@ -21,7 +21,7 @@ export default FormController.extend({
       provider: 'string',
       factorType: 'string',
     },
-    save: function () {
+    save: function() {
       return this.manageTransaction((transaction, setTransaction) => {
         const factor = _.findWhere(transaction.factors, {
           provider: this.get('provider'),
@@ -38,14 +38,14 @@ export default FormController.extend({
               Util.redirect(url);
             }
           })
-          .catch(function (err) {
+          .catch(function(err) {
             throw err;
           });
       });
     },
   },
 
-  Form: function () {
+  Form: function() {
     const factors = this.options.appState.get('factors');
     const factor = factors.findWhere({
       provider: this.options.provider,
@@ -63,13 +63,13 @@ export default FormController.extend({
     };
   },
 
-  trapAuthResponse: function () {
+  trapAuthResponse: function() {
     if (this.options.appState.get('isMfaEnrollActivate')) {
       return true;
     }
   },
 
-  initialize: function () {
+  initialize: function() {
     this.model.set('provider', this.options.provider);
     this.model.set('factorType', this.options.factorType);
   },

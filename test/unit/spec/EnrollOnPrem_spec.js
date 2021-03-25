@@ -15,8 +15,8 @@ import $sandbox from 'sandbox';
 const itp = Expect.itp;
 const tick = Expect.tick;
 
-Expect.describe('EnrollOnPrem', function () {
-  function setup (response, includeOnPrem, startRouter) {
+Expect.describe('EnrollOnPrem', function() {
+  function setup(response, includeOnPrem, startRouter) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authClient = createAuthClient({ issuer: baseUrl });
@@ -32,14 +32,14 @@ Expect.describe('EnrollOnPrem', function () {
     Util.registerRouter(router);
     Util.mockRouterNavigate(router, startRouter);
     return tick()
-      .then(function () {
+      .then(function() {
         const res = response ? response : resAllFactors;
 
         setNextResponse(res);
         router.refreshAuthState('dummy-token');
         return Expect.waitForEnrollChoices();
       })
-      .then(function () {
+      .then(function() {
         const test = {
           router: router,
           beacon: new Beacon($sandbox),
@@ -60,7 +60,7 @@ Expect.describe('EnrollOnPrem', function () {
 
   const setupOnPrem = _.partial(setup, resAllFactorsOnPrem, true);
 
-  const getResponseNoProfile = function (response, factorType, provider) {
+  const getResponseNoProfile = function(response, factorType, provider) {
     const responseCopy = Util.deepCopy(response);
     const factors = responseCopy['response']['_embedded']['factors'];
 
@@ -70,19 +70,19 @@ Expect.describe('EnrollOnPrem', function () {
     return responseCopy;
   };
 
-  const setupRsaNoProfile = function () {
+  const setupRsaNoProfile = function() {
     const res = getResponseNoProfile(resAllFactors, 'token', 'RSA');
 
     return setup(res, false);
   };
 
-  const setupOnPremNoProfile = function () {
+  const setupOnPremNoProfile = function() {
     const res = getResponseNoProfile(resAllFactorsOnPrem, 'token', 'DEL_OATH');
 
     return setup(res, true);
   };
 
-  const setupXssVendorName = function () {
+  const setupXssVendorName = function() {
     const responseCopy = Util.deepCopy(resAllFactorsOnPrem);
     const factors = responseCopy['response']['_embedded']['factors'];
 
@@ -92,65 +92,65 @@ Expect.describe('EnrollOnPrem', function () {
     return setup(responseCopy, true);
   };
 
-  Expect.describe('RSA', function () {
-    Expect.describe('Header & Footer', function () {
-      itp('displays the correct factorBeacon', function () {
-        return setup().then(function (test) {
+  Expect.describe('RSA', function() {
+    Expect.describe('Header & Footer', function() {
+      itp('displays the correct factorBeacon', function() {
+        return setup().then(function(test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
           expect(test.beacon.hasClass('mfa-rsa')).toBe(true);
         });
       });
-      itp('has a "back" link in the footer', function () {
-        return setup().then(function (test) {
+      itp('has a "back" link in the footer', function() {
+        return setup().then(function(test) {
           Expect.isVisible(test.form.backLink());
         });
       });
-      itp('does not allow autocomplete', function () {
-        return setup().then(function (test) {
+      itp('does not allow autocomplete', function() {
+        return setup().then(function(test) {
           expect(test.form.getCodeFieldAutocomplete()).toBe('off');
         });
       });
-      itp('returns to factor list when browser\'s back button is clicked', function () {
+      itp('returns to factor list when browser\'s back button is clicked', function() {
         return setup(false, false, true)
-          .then(function (test) {
+          .then(function(test) {
             Util.triggerBrowserBackButton();
             return Expect.waitForEnrollChoices(test);
           })
-          .then(function (test) {
+          .then(function(test) {
             Expect.isEnrollChoices(test.router.controller);
             Util.stopRouter();
           });
       });
     });
 
-    Expect.describe('Enroll factor', function () {
-      itp('has a credentialId text field', function () {
-        return setup().then(function (test) {
+    Expect.describe('Enroll factor', function() {
+      itp('has a credentialId text field', function() {
+        return setup().then(function(test) {
           Expect.isTextField(test.form.credentialIdField());
         });
       });
-      itp('autopopulates credentialId text field', function () {
-        return setup().then(function (test) {
+      itp('autopopulates credentialId text field', function() {
+        return setup().then(function(test) {
           expect(test.form.getCredentialId()).toEqual('test123');
         });
       });
-      itp('does not autopopulate credentialId when profile does not exist', function () {
-        return setupRsaNoProfile().then(function (test) {
+      itp('does not autopopulate credentialId when profile does not exist', function() {
+        return setupRsaNoProfile().then(function(test) {
           expect(test.form.getCredentialId()).toEqual('');
         });
       });
-      itp('has passCode text field', function () {
-        return setup().then(function (test) {
+      itp('has passCode text field', function() {
+        return setup().then(function(test) {
           Expect.isPasswordField(test.form.codeField());
         });
       });
-      itp('has a verify button', function () {
-        return setup().then(function (test) {
+      itp('has a verify button', function() {
+        return setup().then(function(test) {
           Expect.isVisible(test.form.submitButton());
         });
       });
-      itp('does not send request and shows error if code is not entered', function () {
-        return setup().then(function (test) {
+      itp('does not send request and shows error if code is not entered', function() {
+        return setup().then(function(test) {
           Util.resetAjaxRequests();
           test.form.setCredentialId('Username');
           test.form.submit();
@@ -158,16 +158,16 @@ Expect.describe('EnrollOnPrem', function () {
           expect(Util.numAjaxRequests()).toBe(0);
         });
       });
-      itp('shows error in case of an error response', function () {
+      itp('shows error in case of an error response', function() {
         return setup()
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse(resEnrollError);
             test.form.setCredentialId('Username');
             test.form.setCode(123);
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(test.form.hasErrors()).toBe(true);
             // Note: This will change when we get field specific error messages
             expect(test.form.errorMessage()).toBe('Api validation failed: factorEnrollRequest');
@@ -196,24 +196,24 @@ Expect.describe('EnrollOnPrem', function () {
             ]);
           });
       });
-      itp('clears passcode field if error is for PIN change', function () {
+      itp('clears passcode field if error is for PIN change', function() {
         return setup()
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse(resRSAChangePin);
             test.form.setCredentialId('Username');
             test.form.setCode(123);
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe('Enter a new PIN having from 4 to 8 digits:');
             expect(test.form.codeField().val()).toEqual('');
           });
       });
-      itp('calls activate with the right params', function () {
+      itp('calls activate with the right params', function() {
         return setup()
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.form.setCredentialId('Username');
             test.form.setCode(123456);
@@ -221,7 +221,7 @@ Expect.describe('EnrollOnPrem', function () {
             test.form.submit();
             return tick();
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors',
@@ -238,65 +238,65 @@ Expect.describe('EnrollOnPrem', function () {
     });
   });
 
-  Expect.describe('On Prem (custom)', function () {
-    Expect.describe('Header & Footer', function () {
-      itp('displays the correct factorBeacon', function () {
-        return setupOnPrem().then(function (test) {
+  Expect.describe('On Prem (custom)', function() {
+    Expect.describe('Header & Footer', function() {
+      itp('displays the correct factorBeacon', function() {
+        return setupOnPrem().then(function(test) {
           expect(test.beacon.isFactorBeacon()).toBe(true);
           expect(test.beacon.hasClass('mfa-onprem')).toBe(true);
         });
       });
-      itp('has a "back" link in the footer', function () {
-        return setupOnPrem().then(function (test) {
+      itp('has a "back" link in the footer', function() {
+        return setupOnPrem().then(function(test) {
           Expect.isVisible(test.form.backLink());
         });
       });
-      itp('does not allow autocomplete', function () {
-        return setupOnPrem().then(function (test) {
+      itp('does not allow autocomplete', function() {
+        return setupOnPrem().then(function(test) {
           expect(test.form.getCodeFieldAutocomplete()).toBe('off');
         });
       });
-      itp('returns to factor list when browser\'s back button is clicked', function () {
+      itp('returns to factor list when browser\'s back button is clicked', function() {
         return setupOnPrem(true)
-          .then(function (test) {
+          .then(function(test) {
             Util.triggerBrowserBackButton();
             return Expect.waitForEnrollChoices(test);
           })
-          .then(function (test) {
+          .then(function(test) {
             Expect.isEnrollChoices(test.router.controller);
             Util.stopRouter();
           });
       });
     });
 
-    Expect.describe('Enroll factor', function () {
-      itp('has a credentialId text field', function () {
-        return setupOnPrem().then(function (test) {
+    Expect.describe('Enroll factor', function() {
+      itp('has a credentialId text field', function() {
+        return setupOnPrem().then(function(test) {
           Expect.isTextField(test.form.credentialIdField());
         });
       });
-      itp('autopopulates credentialId text field', function () {
-        return setupOnPrem().then(function (test) {
+      itp('autopopulates credentialId text field', function() {
+        return setupOnPrem().then(function(test) {
           expect(test.form.getCredentialId()).toEqual('test123');
         });
       });
-      itp('does not autopopulate credentialId when profile does not exist', function () {
-        return setupOnPremNoProfile().then(function (test) {
+      itp('does not autopopulate credentialId when profile does not exist', function() {
+        return setupOnPremNoProfile().then(function(test) {
           expect(test.form.getCredentialId()).toEqual('');
         });
       });
-      itp('has passCode text field', function () {
-        return setupOnPrem().then(function (test) {
+      itp('has passCode text field', function() {
+        return setupOnPrem().then(function(test) {
           Expect.isPasswordField(test.form.codeField());
         });
       });
-      itp('has a verify button', function () {
-        return setupOnPrem().then(function (test) {
+      itp('has a verify button', function() {
+        return setupOnPrem().then(function(test) {
           Expect.isVisible(test.form.submitButton());
         });
       });
-      itp('does not send request and shows error if code is not entered', function () {
-        return setupOnPrem().then(function (test) {
+      itp('does not send request and shows error if code is not entered', function() {
+        return setupOnPrem().then(function(test) {
           Util.resetAjaxRequests();
           test.form.setCredentialId('Username');
           test.form.submit();
@@ -304,16 +304,16 @@ Expect.describe('EnrollOnPrem', function () {
           expect(Util.numAjaxRequests()).toBe(0);
         });
       });
-      itp('shows error in case of an error response', function () {
+      itp('shows error in case of an error response', function() {
         return setupOnPrem()
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse(resEnrollError);
             test.form.setCredentialId('Username');
             test.form.setCode(123);
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(test.form.hasErrors()).toBe(true);
             // Note: This will change when we get field specific error messages
             expect(test.form.errorMessage()).toBe('Api validation failed: factorEnrollRequest');
@@ -342,24 +342,24 @@ Expect.describe('EnrollOnPrem', function () {
             ]);
           });
       });
-      itp('clears passcode field if error is for PIN change', function () {
+      itp('clears passcode field if error is for PIN change', function() {
         return setupOnPrem()
-          .then(function (test) {
+          .then(function(test) {
             test.setNextResponse(resRSAChangePin);
             test.form.setCredentialId('Username');
             test.form.setCode(123);
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
           })
-          .then(function (test) {
+          .then(function(test) {
             expect(test.form.hasErrors()).toBe(true);
             expect(test.form.errorMessage()).toBe('Enter a new PIN having from 4 to 8 digits:');
             expect(test.form.codeField().val()).toEqual('');
           });
       });
-      itp('calls activate with the right params', function () {
+      itp('calls activate with the right params', function() {
         return setupOnPrem()
-          .then(function (test) {
+          .then(function(test) {
             Util.resetAjaxRequests();
             test.form.setCredentialId('Username');
             test.form.setCode(123456);
@@ -367,7 +367,7 @@ Expect.describe('EnrollOnPrem', function () {
             test.form.submit();
             return tick();
           })
-          .then(function () {
+          .then(function() {
             expect(Util.numAjaxRequests()).toBe(1);
             Expect.isJsonPost(Util.getAjaxRequest(0), {
               url: 'https://foo.com/api/v1/authn/factors',
@@ -381,8 +381,8 @@ Expect.describe('EnrollOnPrem', function () {
             });
           });
       });
-      itp('does not have explains by default', function () {
-        return setupXssVendorName().then(function (test) {
+      itp('does not have explains by default', function() {
+        return setupXssVendorName().then(function(test) {
           expect(test.form.credIdExplain().length).toBe(0);
           expect(test.form.codeExplain().length).toBe(0);
         });

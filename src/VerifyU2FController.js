@@ -23,10 +23,10 @@ import FormType from 'util/FormType';
 import HtmlErrorMessageView from 'views/mfa-verify/HtmlErrorMessageView';
 import FooterMFA from 'views/shared/FooterMFA';
 
-function getRegisteredKeysSequence (factors) {
+function getRegisteredKeysSequence(factors) {
   const keys = [];
 
-  _.each(factors, function (factor) {
+  _.each(factors, function(factor) {
     keys.push({
       version: factor.profile.version,
       keyHandle: factor.profile.credentialId,
@@ -42,7 +42,7 @@ export default FormController.extend({
       rememberDevice: 'boolean',
     },
 
-    initialize: function () {
+    initialize: function() {
       const rememberDevice = FactorUtil.getRememberDeviceValue(this.appState);
 
       // set the initial value for remember device (Cannot do this while defining the
@@ -50,10 +50,10 @@ export default FormController.extend({
       this.set('rememberDevice', rememberDevice);
     },
 
-    save: function () {
+    save: function() {
       this.trigger('request');
 
-      return this.doTransaction(function (transaction) {
+      return this.doTransaction(function(transaction) {
         let factor;
 
         if (transaction.factorTypes) {
@@ -68,7 +68,7 @@ export default FormController.extend({
         }
         const self = this;
 
-        return factor.verify().then(function (transaction) {
+        return factor.verify().then(function(transaction) {
           let registeredKeys;
           let appId;
           let nonce;
@@ -90,7 +90,7 @@ export default FormController.extend({
 
           const deferred = Q.defer();
 
-          u2f.sign(appId, nonce, registeredKeys, function (data) {
+          u2f.sign(appId, nonce, registeredKeys, function(data) {
             self.trigger('errors:clear');
             if (data.errorCode && data.errorCode !== 0) {
               const isOneFactor = self.options.appState.get('factors').length === 1;
@@ -129,7 +129,7 @@ export default FormController.extend({
     className: 'verify-u2f-form',
     noCancelButton: true,
     save: _.partial(loc, 'verify.u2f.retry', 'login'),
-    noButtonBar: function () {
+    noButtonBar: function() {
       return !FidoUtil.isU2fAvailable();
     },
     modelEvents: {
@@ -137,7 +137,7 @@ export default FormController.extend({
       error: '_stopEnrollment',
     },
 
-    formChildren: function () {
+    formChildren: function() {
       const result = [];
 
       if (!FidoUtil.isU2fAvailable()) {
@@ -185,7 +185,7 @@ export default FormController.extend({
       return result;
     },
 
-    postRender: function () {
+    postRender: function() {
       _.defer(() => {
         if (FidoUtil.isU2fAvailable()) {
           this.model.save();
@@ -195,18 +195,18 @@ export default FormController.extend({
       });
     },
 
-    _startEnrollment: function () {
+    _startEnrollment: function() {
       this.$('.okta-waiting-spinner').removeClass('hide');
       this.$('.o-form-button-bar').hide();
     },
 
-    _stopEnrollment: function () {
+    _stopEnrollment: function() {
       this.$('.okta-waiting-spinner').addClass('hide');
       this.$('.o-form-button-bar').show();
     },
   },
 
-  back: function () {
+  back: function() {
     // Empty function on verify controllers to prevent users
     // from navigating back during 'verify' using the browser's
     // back button. The URL will still change, but the view will not

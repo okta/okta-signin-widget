@@ -14,7 +14,7 @@ import { _, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import RouterUtil from 'util/RouterUtil';
 
-function goToFactorActivation (appState) {
+function goToFactorActivation(appState) {
   const url = RouterUtil.createActivateFactorUrl(
     appState.get('activatedFactorProvider'),
     appState.get('activatedFactorType')
@@ -36,19 +36,19 @@ export default View.extend({
   ),
   className: 'auth-footer',
   events: {
-    'click .js-back': function (e) {
+    'click .js-back': function(e) {
       e.preventDefault();
       this.back();
     },
-    'click .js-goto': function (e) {
+    'click .js-goto': function(e) {
       e.preventDefault();
 
       const goToFactor = _.partial(goToFactorActivation, this.options.appState);
 
       this.options.appState.unset('factorActivationType');
       this.model
-        .doTransaction(function (transaction) {
-          return transaction.prev().then(function (trans) {
+        .doTransaction(function(transaction) {
+          return transaction.prev().then(function(trans) {
             const factor = _.findWhere(trans.factors, {
               factorType: 'push',
               provider: 'OKTA',
@@ -60,16 +60,16 @@ export default View.extend({
         .then(goToFactor);
     },
   },
-  back: function () {
+  back: function() {
     const self = this;
 
     self.options.appState.unset('factorActivationType');
     if (self.options.appState.get('prevLink')) {
       this.model
-        .doTransaction(function (transaction) {
+        .doTransaction(function(transaction) {
           return transaction.prev();
         })
-        .then(function () {
+        .then(function() {
           // we trap 'MFA_ENROLL' response that's why we need to trigger navigation from here
           self.options.appState.trigger('navigate', 'signin/enroll');
         });

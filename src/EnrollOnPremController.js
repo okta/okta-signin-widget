@@ -17,19 +17,19 @@ import Util from 'util/Util';
 import Footer from 'views/enroll-factors/Footer';
 import TextBox from 'views/shared/TextBox';
 
-function isRSA (provider) {
+function isRSA(provider) {
   return provider === 'RSA';
 }
 
-function getClassName (provider) {
+function getClassName(provider) {
   return isRSA(provider) ? 'enroll-rsa' : 'enroll-onprem';
 }
 
 export default FormController.extend({
-  className: function () {
+  className: function() {
     return getClassName(this.options.provider);
   },
-  Model: function () {
+  Model: function() {
     const provider = this.options.provider;
     const factors = this.options.appState.get('factors');
     const factor = factors.findWhere(_.pick(this.options, 'provider', 'factorType'));
@@ -42,8 +42,8 @@ export default FormController.extend({
         passCode: ['string', true],
         factorId: 'string',
       },
-      save: function () {
-        return this.doTransaction(function (transaction) {
+      save: function() {
+        return this.doTransaction(function(transaction) {
           const factor = _.findWhere(transaction.factors, {
             factorType: 'token',
             provider: provider,
@@ -58,7 +58,7 @@ export default FormController.extend({
     };
   },
 
-  Form: function () {
+  Form: function() {
     const provider = this.options.provider;
     const factors = this.options.appState.get('factors');
     const factor = factors.findWhere(_.pick(this.options, 'provider', 'factorType'));
@@ -70,7 +70,7 @@ export default FormController.extend({
       noButtonBar: true,
       autoSave: true,
       className: getClassName(provider),
-      initialize: function () {
+      initialize: function() {
         this.listenTo(this.model, 'error', (source, error) => {
           if (error && error.status === 409) {
             // 409 means we are in change pin, so we should clear out answer input

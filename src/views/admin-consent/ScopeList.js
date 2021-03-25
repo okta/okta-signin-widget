@@ -70,12 +70,12 @@ const ScopeGroupHeaderView = View.extend({
     </span>
     </div>`,
 
-  expandScopes () {
+  expandScopes() {
     this.$el.toggleClass('scope-group--is-expanded');
     this.$('.caret').toggleClass('caret--is-rotated');
   },
 
-  preRender () {
+  preRender() {
     _.chain(this.options.scopes)
       .sortBy(({ name }) => name)
       .each(({ name, displayName, description }) => {
@@ -92,7 +92,7 @@ const ScopeGroupHeaderView = View.extend({
 export default View.extend({
   className: 'scope-list detail-row',
 
-  postRender: function () {
+  postRender: function() {
     const allScopes = this.model.get('scopes');
     const scopesWithGroup = _.groupBy(allScopes, findScopeGroupKey);
 

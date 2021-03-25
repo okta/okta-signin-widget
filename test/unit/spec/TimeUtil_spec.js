@@ -1,8 +1,8 @@
 import TimeUtil from 'util/TimeUtil';
 
-describe('util/TimeUtil', function () {
-  describe('getTimeInHighestRelevantUnit', function () {
-    it('converts millisends', function () {
+describe('util/TimeUtil', function() {
+  describe('getTimeInHighestRelevantUnit', function() {
+    it('converts millisends', function() {
       expect(TimeUtil.getTimeInHighestRelevantUnit(0, 'milliseconds')).toEqual({
         time: 0,
         unit: 'MILLISECOND',
@@ -21,7 +21,7 @@ describe('util/TimeUtil', function () {
       });
     });
 
-    it('converts seconds', function () {
+    it('converts seconds', function() {
       expect(TimeUtil.getTimeInHighestRelevantUnit(0, 'minutes')).toEqual({
         time: 0,
         unit: 'MINUTE',
@@ -40,7 +40,7 @@ describe('util/TimeUtil', function () {
       });
     });
 
-    it('converts minutes', function () {
+    it('converts minutes', function() {
       expect(TimeUtil.getTimeInHighestRelevantUnit(0, 'minutes')).toEqual({
         time: 0,
         unit: 'MINUTE',
@@ -59,7 +59,7 @@ describe('util/TimeUtil', function () {
       });
     });
 
-    it('converts hours', function () {
+    it('converts hours', function() {
       expect(TimeUtil.getTimeInHighestRelevantUnit(0, 'hours')).toEqual({
         time: 0,
         unit: 'HOUR',
@@ -78,7 +78,7 @@ describe('util/TimeUtil', function () {
       });
     });
 
-    it('keep days', function () {
+    it('keep days', function() {
       expect(TimeUtil.getTimeInHighestRelevantUnit(0, 'days')).toEqual({
         time: 0,
         unit: 'DAY',
@@ -97,7 +97,7 @@ describe('util/TimeUtil', function () {
       });
     });
 
-    it('no runtime error when unknow time unit', function () {
+    it('no runtime error when unknow time unit', function() {
       expect(TimeUtil.getTimeInHighestRelevantUnit(10, 'foo')).toEqual({
         time: 10,
         unit: 'foo',

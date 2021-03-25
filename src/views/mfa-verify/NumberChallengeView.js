@@ -28,14 +28,14 @@ export default View.extend({
       </div>
       <p>{{i18n code="oktaverify.numberchallenge.explain"  bundle="login"}}</p>
     `,
-  initialize () {
+  initialize() {
     this.listenTo(this.options.appState, 'change:isWaitingForNumberChallenge', () => {
       if (this.options.appState.get('lastAuthResponse').status !== 'SUCCESS') {
         this.render();
       }
     });
   },
-  getTemplateData () {
+  getTemplateData() {
     const lastAuthResponse = this.options.appState.get('lastAuthResponse');
     if (!this.options.appState.get('isWaitingForNumberChallenge')) {
       return {

@@ -14,13 +14,13 @@ import { _, internal } from 'okta';
 let { BaseSchema } = internal.models;
 export default BaseSchema.Model.extend({
   expand: ['schema'],
-  setFieldPlaceholder: function (formFields) {
-    _.each(formFields, function (formField) {
+  setFieldPlaceholder: function(formFields) {
+    _.each(formFields, function(formField) {
       formField.title = formField.label;
     });
     return formFields;
   },
-  initialize: function (options) {
+  initialize: function(options) {
     let profileAttributes = options.profileSchemaAttributes;
 
     profileAttributes = this.setFieldPlaceholder(profileAttributes);

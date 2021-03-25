@@ -16,7 +16,7 @@ import XHRIdentifyWithThirdPartyIdps
   from '../../../../../playground/mocks/data/idp/idx/identify-with-third-party-idps.json';
 import XHRIdentifyButUnknownUser from '../../../../../playground/mocks/data/idp/idx/identify-unknown-user.json';
 
-describe('v2/ion/responseTransformer', function () {
+describe('v2/ion/responseTransformer', function() {
   let idps = [
     {
       type: 'FACEBOOK',

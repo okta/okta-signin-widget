@@ -8,221 +8,221 @@ const AUTO_PUSH = 'autoPush';
 const FACTOR_PUSH = 'factor-push';
 const NUMBER_CHALLENGE_VIEW_CLASS = '.number-challenge-view';
 export default Form.extend({
-  isDuo: function () {
+  isDuo: function() {
     return this.el('factor-duo').length === 1;
   },
 
-  isPush: function () {
+  isPush: function() {
     return this.el(FACTOR_PUSH).length === 1;
   },
 
-  isSecurityQuestion: function () {
+  isSecurityQuestion: function() {
     return this.el('factor-question').length === 1;
   },
 
-  isTOTP: function () {
+  isTOTP: function() {
     return this.el('factor-totp').length === 1;
   },
 
-  isSMS: function () {
+  isSMS: function() {
     return this.el('factor-sms').length === 1;
   },
 
-  isCall: function () {
+  isCall: function() {
     return this.el('factor-call').length === 1;
   },
 
-  isEmail: function () {
+  isEmail: function() {
     return this.el('factor-email').length === 1;
   },
 
-  isInlineTOTP: function () {
+  isInlineTOTP: function() {
     return this.el('factor-inline-totp').length === 1;
   },
 
-  isPassword: function () {
+  isPassword: function() {
     return this.el('factor-password').length === 1;
   },
 
-  isCustomFactor: function () {
+  isCustomFactor: function() {
     return this.el('factor-custom').length === 1;
   },
 
-  accessibilityText: function () {
+  accessibilityText: function() {
     return this.$('.accessibility-text').trimmedText();
   },
 
-  answerField: function () {
+  answerField: function() {
     return this.input(ANSWER_FIELD);
   },
 
-  answerLabel: function () {
+  answerLabel: function() {
     return this.$(ANSWER_LABEL);
   },
 
-  setAnswer: function (val) {
+  setAnswer: function(val) {
     const field = this.answerField();
 
     field.val(val);
     field.trigger('change');
   },
 
-  showAnswerLabelText: function () {
+  showAnswerLabelText: function() {
     return this.checkboxLabelText(SHOW_ANSWER_FIELD);
   },
 
-  answerButtonsContainer: function () {
+  answerButtonsContainer: function() {
     return this.el('o-form-input-answer').find('.password-toggle');
   },
 
-  showAnswerButton: function () {
+  showAnswerButton: function() {
     return this.el('o-form-input-answer').find('.button-show');
   },
 
-  hideAnswerButton: function () {
+  hideAnswerButton: function() {
     return this.el('o-form-input-answer').find('.button-hide');
   },
 
-  passwordField: function () {
+  passwordField: function() {
     return this.input(PASSWORD_FIELD);
   },
 
-  setPassword: function (val) {
+  setPassword: function(val) {
     const field = this.passwordField();
 
     field.val(val);
     field.trigger('change');
   },
 
-  showPasswordLabelText: function () {
+  showPasswordLabelText: function() {
     return this.checkboxLabelText(SHOW_ANSWER_FIELD);
   },
 
-  passwordButtonsContainer: function () {
+  passwordButtonsContainer: function() {
     return this.el('o-form-input-password').find('.password-toggle');
   },
 
-  showPasswordButton: function () {
+  showPasswordButton: function() {
     return this.el('o-form-input-password').find('.button-show');
   },
 
-  hidePasswordButton: function () {
+  hidePasswordButton: function() {
     return this.el('o-form-input-password').find('.button-hide');
   },
 
-  rememberDeviceCheckbox: function () {
+  rememberDeviceCheckbox: function() {
     return this.checkbox(REMEMBER_DEVICE);
   },
 
-  rememberDeviceLabelText: function () {
+  rememberDeviceLabelText: function() {
     return this.checkboxLabelText(REMEMBER_DEVICE);
   },
 
-  isRememberDeviceChecked: function () {
+  isRememberDeviceChecked: function() {
     return this.checkbox(REMEMBER_DEVICE).prop('checked');
   },
 
-  setRememberDevice: function (val) {
+  setRememberDevice: function(val) {
     const rememberDevice = this.rememberDeviceCheckbox();
 
     rememberDevice.prop('checked', val);
     rememberDevice.trigger('change');
   },
 
-  autoPushCheckbox: function () {
+  autoPushCheckbox: function() {
     return this.checkbox(AUTO_PUSH);
   },
 
-  autoPushLabelText: function () {
+  autoPushLabelText: function() {
     return this.checkboxLabelText(AUTO_PUSH);
   },
 
-  isAutoPushChecked: function () {
+  isAutoPushChecked: function() {
     return this.checkbox(AUTO_PUSH).prop('checked');
   },
 
-  setAutoPush: function (val) {
+  setAutoPush: function(val) {
     const autoPush = this.autoPushCheckbox();
 
     autoPush.prop('checked', val);
     autoPush.trigger('change');
   },
 
-  isPushSent: function () {
+  isPushSent: function() {
     const buttonText = 'Push sent!';
     return this.button('.mfa-verify ').val() === buttonText
       && this.accessibilityText() === buttonText;
   },
 
-  numberChallengeView: function () {
+  numberChallengeView: function() {
     return this.el(FACTOR_PUSH).find(NUMBER_CHALLENGE_VIEW_CLASS);
   },
 
-  getChallengeNumber: function () {
+  getChallengeNumber: function() {
     return this.el('challenge-number').text().trim();
   },
 
-  smsSendCode: function () {
+  smsSendCode: function() {
     return this.el('sms-send-code');
   },
 
-  makeCall: function () {
+  makeCall: function() {
     return this.el('make-call');
   },
 
-  inlineTOTPVerify: function () {
+  inlineTOTPVerify: function() {
     return this.el('inline-totp-verify');
   },
 
-  inlineTOTPVerifyText: function () {
+  inlineTOTPVerifyText: function() {
     return this.inlineTOTPVerify().trimmedText();
   },
 
-  inlineTOTPAdd: function () {
+  inlineTOTPAdd: function() {
     return this.el('inline-totp-add');
   },
 
-  inlineTOTPAddText: function () {
+  inlineTOTPAddText: function() {
     return this.inlineTOTPAdd().trimmedText();
   },
 
-  iframe: function () {
+  iframe: function() {
     return this.$('iframe');
   },
 
-  passCodeErrorField: function () {
+  passCodeErrorField: function() {
     return this.error('answer');
   },
 
-  passwordErrorField: function () {
+  passwordErrorField: function() {
     return this.error('password');
   },
 
-  getAutocomplete: function () {
+  getAutocomplete: function() {
     return this.autocomplete(ANSWER_FIELD);
   },
 
-  signoutLink: function ($sandbox) {
+  signoutLink: function($sandbox) {
     return $sandbox.find('[data-se=signout-link]');
   },
 
-  passwordToggleShowContainer: function () {
+  passwordToggleShowContainer: function() {
     return this.$('.password-toggle span.button-show');
   },
 
-  passwordToggleHideContainer: function () {
+  passwordToggleHideContainer: function() {
     return this.$('.password-toggle span.button-hide');
   },
 
-  factorPageCustomLink: function ($sandbox) {
+  factorPageCustomLink: function($sandbox) {
     return $sandbox.find('.js-factor-page-custom-link');
   },
 
-  factorPageCustomLinkLabel: function ($sandbox) {
+  factorPageCustomLinkLabel: function($sandbox) {
     return this.factorPageCustomLink($sandbox).text();
   },
 
-  factorPageCustomLinkHref: function ($sandbox) {
+  factorPageCustomLinkHref: function($sandbox) {
     return this.factorPageCustomLink($sandbox).attr('href');
   },
 });
