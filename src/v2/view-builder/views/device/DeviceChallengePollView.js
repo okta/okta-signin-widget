@@ -125,7 +125,6 @@ const Body = BaseFormWithPolling.extend(
       };
 
       const onPortFound = () => {
-        foundPort = true;
         return request({
           url: getAuthenticatorUrl('challenge'),
           method: 'POST',
@@ -138,6 +137,14 @@ const Body = BaseFormWithPolling.extend(
         Logger.error(`Something unexpected happened while we were checking port ${currentPort}.`);
       };
 
+      const onPortFail = () => {
+        countFailedPorts++;
+        if (countFailedPorts === ports.length) {
+          Logger.error('No available ports. Loopback server failed and polling is cancelled.');
+          this.options.appState.trigger('invokeAction', CANCEL_POLLING_ACTION);
+        }
+      };
+
       const doProbing = () => {
         this.checkPortXhr = checkPort();
         return this.checkPortXhr
@@ -145,8 +152,12 @@ const Body = BaseFormWithPolling.extend(
           .done(() => {
             this.probingXhr = onPortFound();
             return this.probingXhr.done(() => {
+              foundPort = true;
               // log in as soon as challenge request is finished
               return this.trigger('save', this.model);
+            }).fail((xhr) => {
+              Logger.error(`OV challenge response with HTTP code ${xhr.status} ${xhr.responseText}`);
+              onPortFail();
             });
           })
           .fail(onFailure);
@@ -162,12 +173,8 @@ const Body = BaseFormWithPolling.extend(
             }
           })
           .catch(() => {
-            countFailedPorts++;
             Logger.error(`Authenticator is not listening on port ${currentPort}.`);
-            if (countFailedPorts === ports.length) {
-              Logger.error('No available ports. Loopback server failed and polling is cancelled.');
-              this.options.appState.trigger('invokeAction', CANCEL_POLLING_ACTION);
-            }
+            onPortFail();
           });
       });
     },

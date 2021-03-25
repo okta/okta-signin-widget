@@ -45,7 +45,6 @@ test('probing and polling APIs are sent and responded', async t => {
       record.request.url.match(/challenge/) &&
       record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
   )).eql(1);
-  await t.expect(logger.contains(record => record.request.url.match(/6511|6512|6513/))).eql(false);
   await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).eql('Authentication failed');
   await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('none');
 });
