@@ -13,6 +13,8 @@
 import { _, Model } from 'okta';
 import Q from 'q';
 import Enums from 'util/Enums';
+import { AuthPollStopError } from '@okta/okta-auth-js';
+
 const KNOWN_ERRORS = ['OAuthError', 'AuthSdkError', 'AuthPollStopError', 'AuthApiError'];
 export default Model.extend({
   // May return either a "standard" promise or a Q promise
@@ -28,6 +30,7 @@ export default Model.extend({
       .catch(function (err) {
         // Q may still consider AuthPollStopError to be unhandled
         if (
+          err instanceof AuthPollStopError || 
           err.name === 'AuthPollStopError' ||
           err.name === Enums.AUTH_STOP_POLL_INITIATION_ERROR ||
           err.name === Enums.WEBAUTHN_ABORT_ERROR
