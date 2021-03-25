@@ -8,8 +8,6 @@ const HCAPTCHA_PRIVACY_URL = 'https://hcaptcha.com/privacy';
 const HCAPTCHA_TERMS_URL = 'https://hcaptcha.com/terms';
 const RECAPTCHAV2_URL = 'https://www.google.com/recaptcha/api.js?onload=onCaptchaLoaded&render=explicit';
 
-
-
 export default Form.extend({
 
   layout: 'o-form-theme',
@@ -80,7 +78,6 @@ export default Form.extend({
   },
 
   addCaptcha (captchaConfig) {
-    // eslint-disable-next-line no-unused-vars
     const onCaptchaSolved = (token) => {
       // Set the token in the model and submit the form.
       this.model.set('captchaVerify.token', token);
@@ -90,13 +87,16 @@ export default Form.extend({
     const onCaptchaLoaded = () => {
       // eslint-disable-next-line no-undef
       const captchaObject = captchaConfig.type === 'HCAPTCHA' ? hcaptcha : grecaptcha;
-      // eslint-disable-next-line no-undef
-      captchaObject.render(this.saveId, {
-        sitekey: captchaConfig.siteKey,
-        callback: onCaptchaSolved
-      });    
+      
+      // Iterate over all the primary buttons in the form and bind CAPTCHA to them
+      _.each(this.$('.button-primary'), (elem) => {
+        captchaObject.render(elem, {
+          sitekey: captchaConfig.siteKey,
+          callback: onCaptchaSolved
+        });    
+      });
 
-      // Render the HCAPTCHA footer - we need to this manually
+      // Render the HCAPTCHA footer - we need to do this manually since the hCAPTCHA lib doesn't do it
       if (captchaConfig.type === 'HCAPTCHA') {
         $('body').append(
           `<div class="footer">
@@ -110,10 +110,22 @@ export default Form.extend({
     // can have access to it since it won't have access to this view's scope.
     window.onCaptchaLoaded = onCaptchaLoaded;
 
+    // We check to see if the CAPTCHA references are defined already to avoid any collisions in case the library
+    // was loaded already
     if (captchaConfig.type === 'HCAPTCHA') {
-      $.getScript(HCAPTCHA_URL);
+      // eslint-disable-next-line no-undef
+      if (typeof hcaptcha === 'undefined') {
+        this._loadCaptchaLib(HCAPTCHA_URL);
+      } else {
+        onCaptchaLoaded();
+      }
     } else if (captchaConfig.type === 'RECAPTCHAV2') {
-      $.getScript(RECAPTCHAV2_URL);
+      // eslint-disable-next-line no-undef
+      if (typeof grecaptcha === 'undefined') {
+        this._loadCaptchaLib(RECAPTCHAV2_URL);
+      } else {
+        onCaptchaLoaded();
+      }
     }
   },
 
@@ -149,4 +161,15 @@ export default Form.extend({
       this.add(`<div class="ion-messages-container">${content.join(' ')}</div>`, '.o-form-error-container');
     }
   },
+
+  _loadCaptchaLib (url) {
+    // We dynamically inject <script> tag into our login container because in case the customer is hosting
+    // the SIW, we need to ensure we don't go out of scope when injecting the script.
+    let scriptTag = document.createElement('script');
+    scriptTag.src = url;
+    scriptTag.async = true;
+    scriptTag.defer = true;
+    document.getElementById('okta-login-container').appendChild(scriptTag);
+  },
+
 });
