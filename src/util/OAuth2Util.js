@@ -86,7 +86,7 @@ util.getTokens = function (settings, params, controller) {
   // Redirect flow - this can be used when logging into an external IDP, or
   // converting the Okta sessionToken to an access_token, id_token, and/or
   // authorization code. Note: The authorization code flow will always redirect.
-  if (options.mode === 'remediation' || isAuthorizationCodeFlow) {
+  if (options.redirect === 'always' || isAuthorizationCodeFlow) {
     authClient.token.getWithRedirect(getTokenOptions).catch(error);
   } else if (getTokenOptions.sessionToken) {
     // Default flow if logging in with Okta as the IDP - convert sessionToken to

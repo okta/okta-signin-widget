@@ -437,7 +437,7 @@ describe('OktaSignIn object API', function () {
         clientId,
         redirectUri,
         authParams: {},
-        mode: 'relying-party'
+        redirect: 'never'
       });
     });
     it('throws error for authorization_code flow', () => {
@@ -474,7 +474,7 @@ describe('OktaSignIn object API', function () {
         clientId,
         redirectUri,
         authParams: {},
-        mode: 'relying-party'
+        redirect: 'never'
       });
     });
     it('Can pass additional authParams', () => {
@@ -495,7 +495,7 @@ describe('OktaSignIn object API', function () {
         clientId,
         redirectUri,
         authParams,
-        mode: 'relying-party'
+        redirect: 'never'
       });
     });
   });
@@ -514,7 +514,7 @@ describe('OktaSignIn object API', function () {
         clientId,
         redirectUri,
         authParams: {},
-        mode: 'remediation'
+        redirect: 'always'
       });
     });
     it('Can override el, clientId, redirectUri', () => {
@@ -530,7 +530,7 @@ describe('OktaSignIn object API', function () {
         clientId,
         redirectUri,
         authParams: {},
-        mode: 'remediation'
+        redirect: 'always'
       });
     });
     it('Can pass additional authParams', () => {
@@ -551,7 +551,7 @@ describe('OktaSignIn object API', function () {
         clientId,
         redirectUri,
         authParams,
-        mode: 'remediation'
+        redirect: 'always'
       });
     });
   });

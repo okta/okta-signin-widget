@@ -44,12 +44,12 @@ var OktaSignIn = (function () {
     }
 
     /**
-     * Renders the Widget and returns a promise that resolvess to OAuth tokens
+     * Renders the Widget and returns a promise that resolves to OAuth tokens
      * @param options - options for the signin widget
      */
     function showSignInToGetTokens (options = {}) {
       const renderOptions = Object.assign(buildRenderOptions(widgetOptions, options), {
-        mode: 'relying-party'
+        redirect: 'never'
       });
       const promise = this.renderEl(renderOptions).then(res => {
         return res.tokens;
@@ -68,8 +68,17 @@ var OktaSignIn = (function () {
      */
     function showSignInAndRedirect (options = {}) {
       const renderOptions = Object.assign(buildRenderOptions(widgetOptions, options), {
-        mode: 'remediation'
+        redirect: 'always'
       });
+      return this.renderEl(renderOptions);
+    }
+
+    /**
+     * Renders the widget. Either resolves the returned promise, or redirects.
+     * @param options - options for the signin widget
+     */
+    function showSignIn (options = {}) {
+      const renderOptions = Object.assign(buildRenderOptions(widgetOptions, options));
       return this.renderEl(renderOptions);
     }
 
@@ -77,6 +86,7 @@ var OktaSignIn = (function () {
     return {
       renderEl: render,
       authClient: authClient,
+      showSignIn,
       showSignInToGetTokens,
       showSignInAndRedirect,
       hide,
@@ -101,7 +111,9 @@ var OktaSignIn = (function () {
 
     var authParams = _.extend({
       clientId: options.clientId,
-      redirectUri: options.redirectUri
+      redirectUri: options.redirectUri,
+      state: options.state,
+      scopes: options.scopes
     }, options.authParams);
 
     if (!authParams.issuer) {
@@ -111,7 +123,8 @@ var OktaSignIn = (function () {
     var authClient = options.authClient ? options.authClient : createAuthClient(authParams);
 
     // validate authClient configuration against widget options
-    if (options.useInteractionCodeFlow && authClient.isPKCE() === false) {
+    const useInteractionHandle = options.useInteractionCodeFlow || options.interactionHandle;
+    if (useInteractionHandle && authClient.isPKCE() === false) {
       throw new Errors.ConfigError(
         'The "useInteractionCodeFlow" option requires PKCE to be enabled on the authClient.'
       );
@@ -119,8 +132,8 @@ var OktaSignIn = (function () {
 
     var Router;
     if ((options.stateToken && !Util.isV1StateToken(options.stateToken)) 
-        // Self hosted widget can use this flag to use V2Router
-        || options.useInteractionCodeFlow 
+        // Self hosted widget can use `useInteractionCodeFlow` or `interactionHandle` option to use V2Router
+        || useInteractionHandle
         || options.proxyIdxResponse) {
       Router = V2Router;
     } else {

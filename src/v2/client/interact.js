@@ -22,11 +22,25 @@ import { getTransactionMeta, saveTransactionMeta } from './transactionMeta';
 export async function interact (settings) {
 
   const authClient = settings.getAuthClient();
-  let meta = await getTransactionMeta(settings);
+  let meta;
+  let interactionHandle = settings.get('interactionHandle');
+  if (interactionHandle) {
+    // The transaction is owned by a client outside the widget
+    settings.set('mode', 'remediation');
+    meta = {
+      state: authClient.options.state,
+      scopes: authClient.options.scopes,
+      codeChallenge: settings.get('codeChallenge'),
+      codeChallengeMethod: settings.get('codeChallengeMethod')
+    };
+  } else {
+    // Try to load a saved transaction from client storage
+    meta = await getTransactionMeta(settings);
+    interactionHandle = meta.interactionHandle; // will be undefined for new transactions
+  }
 
-  // These properties are always loaded from meta (or calculated fresh)
+  // PKCE properties from meta. These will only be used by idx-js if there is no interactionHandle.
   const {
-    interactionHandle,
     codeVerifier,
     codeChallenge,
     codeChallengeMethod
@@ -36,13 +50,11 @@ export async function interact (settings) {
   const { issuer, clientId, redirectUri } = authClient.options;
   const version = settings.get('apiVersion');
 
-  // These properties can be set in configuration, but also have a default.
+  // If we are resuming a transaction, saved values should override configured values for these properties
   let state;
   let scopes;
   if (!interactionHandle) {
-    // new transaction: prefer configured values
-    // TODO: remove dependency on authParams. OKTA-373096
-    state = settings.get('authParams.state') || authClient.options.state || meta.state;
+    state = authClient.options.state || meta.state;
     scopes = authClient.options.scopes || meta.scopes;
   } else {
     // saved transaction: use only saved values
@@ -62,12 +74,19 @@ export async function interact (settings) {
     state,
     redirectUri,
 
-    // PKCE
+    // PKCE (only used by idx-js if interactionHandle is undefined)
     codeVerifier,
     codeChallenge,
     codeChallengeMethod
   })
     .then(response => {
+      // In remediation mode the transaction is owned by another client.
+      const isRemediationMode = settings.get('mode') === 'remediation';
+      if (isRemediationMode) {
+        // return idx response
+        return response;
+      }
+
       // If this is a new transaction an interactionHandle was returned
       if (!interactionHandle && response.toPersist.interactionHandle) {
         meta = Object.assign({}, meta, {
@@ -77,7 +96,6 @@ export async function interact (settings) {
 
       // Save transaction meta so it can be resumed
       saveTransactionMeta(settings, meta);
-
 
       // return idx response
       return response;

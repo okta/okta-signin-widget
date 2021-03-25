@@ -1250,7 +1250,7 @@ Expect.describe('LoginRouter', function () {
 
     itp('can redirect with PKCE flow', function () {
       return setupOAuth2({
-        'mode': 'remediation'
+        'redirect': 'always'
       }, { mockWellKnown: true, expectRedirect: true }).then(
         expectCodeRedirect({
           responseType: 'code',
@@ -1261,7 +1261,7 @@ Expect.describe('LoginRouter', function () {
 
     itp('can redirect with PKCE flow and responseMode "fragment"', function () {
       return setupOAuth2({
-        'mode': 'remediation',
+        'redirect': 'always',
         'authParams.responseMode': 'fragment',
       }, { mockWellKnown: true, expectRedirect: true }).then(
         expectCodeRedirect({
@@ -1274,7 +1274,7 @@ Expect.describe('LoginRouter', function () {
 
     itp('can redirect with implicit flow', function () {
       return setupOAuth2({
-        'mode': 'remediation',
+        'redirect': 'always',
         'authParams.pkce': false,
       }, { expectRedirect: true }).then(
         expectCodeRedirect({
