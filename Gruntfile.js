@@ -293,7 +293,10 @@ module.exports = function (grunt) {
           options: {
             extensions: ['html'],
             setHeaders: res => {
-              res.setHeader('Content-Security-Policy', `script-src 'unsafe-inline' http://localhost:${DEFAULT_SERVER_PORT}`);
+              res.setHeader(
+                'Content-Security-Policy', 
+                `script-src 'unsafe-inline' http://localhost:${DEFAULT_SERVER_PORT}`
+              );
             }
           }
         },
