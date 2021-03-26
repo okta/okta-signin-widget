@@ -71,5 +71,5 @@ test
     await t.expect(Selector('.spinner').getStyleProperty('display')).eql('none');
     await t.expect(ssoExtensionPage.form.el.hasClass('device-challenge-poll')).ok();
     await t.expect(Selector('[data-se="switchAuthenticator"]').innerText).eql('Verify with something else');
-    await t.expect(Selector('[data-se="cancel"]').innerText).eql('Sign Out');
+    await t.expect(Selector('[data-se="cancel"]').innerText).eql('Cancel');
   });
