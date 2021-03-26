@@ -5,6 +5,7 @@ import IdentifierFooter from '../components/IdentifierFooter';
 import signInWithIdps from './signin/SignInWithIdps';
 import customButtonsView from './signin/CustomButtons';
 import signInWithDeviceOption from './signin/SignInWithDeviceOption';
+import { isCustomized } from '../../ion/i18nTransformer';
 
 const Body = BaseForm.extend({
 
@@ -89,4 +90,24 @@ export default BaseView.extend({
       return false;
     });
   },
+  createModelClass (currentViewState, optionUiSchemaConfig, settings) {
+    const { uiSchema } = currentViewState;
+
+    // Customization from .widgetrc.js or Admin Customization settings page
+    for (let i = 0; i < uiSchema.length; i++) {
+      const ionFormField = uiSchema[i];
+      const identifierExplainLabelKey = 'primaryauth.username.tooltip';
+      const passwordExplainLabelKey = 'primaryauth.password.tooltip';
+      if (ionFormField.name === 'identifier' && isCustomized(identifierExplainLabelKey, settings)) {
+        ionFormField.explain = loc(identifierExplainLabelKey, 'login');
+        ionFormField['explain-top'] = true;
+      } else if (ionFormField.name === 'credentials.passcode' &&
+          isCustomized(passwordExplainLabelKey, settings)) {
+        ionFormField.explain = loc(passwordExplainLabelKey, 'login');
+        ionFormField['explain-top'] = true;
+      }
+    }
+
+    return BaseView.prototype.createModelClass.call(this, currentViewState);
+  }
 });

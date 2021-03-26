@@ -53,9 +53,7 @@ const SECURITY_QUESTION_PREFIXES = [
 
 const I18N_OVERRIDE_MAPPINGS = {
   'identify.identifier': 'primaryauth.username.placeholder',
-  'identify.identifier.explain.label': 'primaryauth.username.tooltip',
   'identify.credentials.passcode': 'primaryauth.password.placeholder',
-  'identify.password.explain.label': 'primaryauth.password.tooltip',
   'identify.rememberMe': 'oie.remember',
 
   'identify-recovery.identifier': 'password.forgot.email.or.username.placeholder',

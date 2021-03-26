@@ -11,9 +11,6 @@
  */
 
 /* eslint max-depth: [2, 3] */
-/* eslint-disable complexity */
-
-import {isCustomized} from '../i18nTransformer';
 
 const ionOptionsToUiOptions = (options) => {
   const result = {};
@@ -56,16 +53,6 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
       uiSchema.type = 'select';
       uiSchema.wide = true;
       uiSchema.options = ionOptionsToUiOptions(ionFormField.options);
-    }
-  }
-  // Customization from .widgetrc.js or Admin Customization settings page
-  if (remediationForm.name === 'identify') {
-    if (ionFormField.name === 'identifier' && isCustomized('primaryauth.username.tooltip', settings)) {
-      uiSchema.explain = 'identify.identifier.explain.label';
-      uiSchema['explain-top'] = true;
-    } else if (ionFormField.name === 'credentials.passcode' && isCustomized('primaryauth.password.tooltip', settings)) {
-      uiSchema.explain = 'identify.password.explain.label';
-      uiSchema['explain-top'] = true;
     }
   }
 
