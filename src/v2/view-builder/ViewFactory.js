@@ -75,7 +75,8 @@ import EnrollDuoAuthenticatorView from './views/duo/EnrollDuoAuthenticatorView';
 import ChallengeDuoAuthenticatorView from './views/duo/ChallengeDuoAuthenticatorView';
 
 // idp authenticator
-import AuthenticatorIdPView from './views/idp/AuthenticatorIdPView';
+import AuthenticatorIdPVerifyView from './views/idp/AuthenticatorIdPVerifyView';
+import AuthenticatorIdPEnrollView from './views/idp/AuthenticatorIdPEnrollView';
 
 // custom otp
 import ChallengeCustomOTPAuthenticatorView from './views/custom-otp/ChallengeCustomOTPAuthenticatorView';
@@ -100,7 +101,7 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.LAUNCH_AUTHENTICATOR]: {
     [DEFAULT]: SignInDeviceView,
-  } ,
+  },
   [RemediationForms.DEVICE_APPLE_SSO_EXTENSION]: {
     [DEFAULT]: SSOExtensionView,
     [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifySSOExtensionView,
@@ -111,8 +112,8 @@ const VIEWS_MAPPING = {
   [RemediationForms.ENROLL_PROFILE]: {
     [DEFAULT]: EnrollProfileView,
   },
-  [RemediationForms.POLL] : {
-    [DEFAULT] : PollView
+  [RemediationForms.POLL]: {
+    [DEFAULT]: PollView
   },
   [RemediationForms.SELECT_AUTHENTICATOR_ENROLL]: {
     [DEFAULT]: SelectAuthenticatorEnrollView,
@@ -137,6 +138,7 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.RSA]: EnrollAuthenticatorOnPremView,
     [AUTHENTICATOR_KEY.DUO]: EnrollDuoAuthenticatorView,
     [AUTHENTICATOR_KEY.SYMANTEC_VIP]: AuthenticatorSymantecView,
+    [AUTHENTICATOR_KEY.IDP]: AuthenticatorIdPEnrollView,
   },
   [RemediationForms.ENROLL_POLL]: {
     [AUTHENTICATOR_KEY.OV]: EnrollPollOktaVerifyView,
@@ -181,6 +183,7 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.DUO]: ChallengeDuoAuthenticatorView,
     [AUTHENTICATOR_KEY.CUSTOM_OTP]: ChallengeCustomOTPAuthenticatorView,
     [AUTHENTICATOR_KEY.SYMANTEC_VIP]: AuthenticatorSymantecView,
+    [AUTHENTICATOR_KEY.IDP]: AuthenticatorIdPVerifyView,
   },
   [RemediationForms.CHALLENGE_POLL]: {
     [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifyView,
@@ -198,7 +201,7 @@ const VIEWS_MAPPING = {
   // redirect-idp remediation object looks similar to identifier view
   [RemediationForms.REDIRECT_IDP]: {
     [DEFAULT]: IdentifierView,
-    [AUTHENTICATOR_KEY.IDP]: AuthenticatorIdPView,
+    // [AUTHENTICATOR_KEY.IDP]: AuthenticatorIdPView,
   },
   [RemediationForms.DEVICE_ENROLLMENT_TERMINAL]: {
     [DEFAULT]: DeviceEnrollmentTerminalView,
