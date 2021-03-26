@@ -39,7 +39,7 @@
 // Step 5. If you create a new label then add that to login.properties file with proper string
 //         oie.your.new.label = Your new string
 ///////////////////////////////////////////////////////////////////////////////
-/* eslint-disable max-statements*/
+
 import { _, loc, $ } from 'okta';
 import Bundles from 'util/Bundles';
 import Logger from 'util/Logger';
@@ -215,10 +215,6 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
     Logger.info('\t 2: ', i18nPath);
     const params = getI18NParams(remediation, authenticatorKey);
     uiSchema.label = getI18NValue(i18nPath, uiSchema.label, params);
-  }
-  if (uiSchema.explain) {
-    Logger.info('\t 2: ', i18nPath);
-    uiSchema.explain = getI18NValue(uiSchema.explain);
   }
   if ($.isPlainObject(uiSchema.options)) {
     uiSchema.options = _.mapObject(uiSchema.options, (value, key) => {

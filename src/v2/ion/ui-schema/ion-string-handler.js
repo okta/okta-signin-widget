@@ -59,5 +59,4 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
   return uiSchema;
 };
 
-
 export default createUiSchemaForString;
