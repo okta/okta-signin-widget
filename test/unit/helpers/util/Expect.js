@@ -18,9 +18,9 @@ const unhandledRejectionListener = function(event) {
   expect('Unhandled promise rejection').toEqual(event.reason);
 };
 
-function runTest(jasmineFn, desc, testFn) {
-  jasmineFn(desc, function() {
-    const errListener = function(err) {
+function runTest (jasmineFn, desc, testFn) {
+  jasmineFn(desc, function () {
+    const errListener = function (err) {
       // We've thrown an unexpected error in the test - setup a fake
       // expectation to expose it to the developer
       expect('Unexpected error thrown').toEqual(err.message);
@@ -51,6 +51,9 @@ function runTest(jasmineFn, desc, testFn) {
 
 fn.allowUnhandledPromiseRejection = function() {
   window.removeEventListener('unhandledrejection', unhandledRejectionListener);
+  window.addEventListener('unhandledrejection', function (event) {
+    event.preventDefault();
+  });
 };
 
 function wrapDescribe(_describe, desc, fn) {
