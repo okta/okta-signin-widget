@@ -22,7 +22,6 @@ function isWindowsPhone (userAgent) {
 
 export default {
   isMessageFromCorrectSource ($iframe, event) {
-    console.log('using real');
     return event.source === $iframe[0].contentWindow;
   },
 
