@@ -1084,7 +1084,6 @@ Expect.describe('ForgotPassword', function () {
       function () {
         return setupWithCall()
           .then(function (test) {
-            Expect.allowUnhandledPromiseRejection();
             test.setNextResponse(resChallengeCall);
             test.form.setUsername('foo');
             test.form.makeCall();
