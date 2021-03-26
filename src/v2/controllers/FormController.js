@@ -137,7 +137,7 @@ export default Controller.extend({
     const actionFn = idx['actions'][actionPath];
 
     if (_.isFunction(actionFn)) {
-      // TODO: OKTA-243167 what's the approach to show spinner indicating API in fligh?
+      // TODO: OKTA-243167 what's the approach to show spinner indicating API in flight?
       actionFn()
         .then(this.handleIdxSuccess.bind(this))
         .catch(error => {
@@ -164,7 +164,7 @@ export default Controller.extend({
     // TODO: seems better to check `currentViewState?.rel`, but
     // redirect-idp form does not have `rel`
     // device-apple-sso-extension form does have `rel` and still need redirect
-    const useFormRedirect = !currentViewState?.hasOwnProperty('method')
+    const useFormRedirect = !Object.prototype.hasOwnProperty.call(currentViewState, 'method')
       || currentViewState?.method?.toLowerCase() === 'get';
     if (useFormRedirect) {
       Util.redirectWithFormGet(currentViewState.href);
