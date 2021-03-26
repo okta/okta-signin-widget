@@ -310,11 +310,17 @@ const uiSchemaLabelTransformer = (transformedResp) => {
   return transformedResp;
 };
 
-const isCustomized = (property, settings) => {
+/**
+ * Has this i18n key been overridden for customization?
+ * @param {String} i18nKey
+ * @param {Object} settings
+ * @returns Boolean
+ */
+const isCustomizedI18nKey = (i18nKey, settings) => {
   const language = settings.get('language');
   const i18n = settings.get('i18n');
-  const customizedProperty = i18n && i18n[language] && i18n[language][property];
+  const customizedProperty = i18n && i18n[language] && i18n[language][i18nKey];
   return !!customizedProperty;
 };
 
-export { uiSchemaLabelTransformer as default, getMessage, getMessageKey, getI18NParams, isCustomized };
+export { uiSchemaLabelTransformer as default, getMessage, getMessageKey, getI18NParams, isCustomizedI18nKey };
