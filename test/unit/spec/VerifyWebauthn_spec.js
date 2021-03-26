@@ -402,8 +402,9 @@ function testMultipleWebauthnFactor(setupFn) {
       });
   });
 
-  itp('shows an error if navigator.credentials.get fails and displays retry button', function() {
-    Expect.allowUnhandledPromiseRejection();
+  itp('shows an error if navigator.credentials.get fails and displays retry button', function () {
+    const errorSpy = jasmine.createSpy('unhandledRejection');
+    Expect.allowUnhandledPromiseRejection(errorSpy);
     return setupFn({
       webauthnSupported: true,
       signStatus: 'fail',
@@ -433,6 +434,7 @@ function testMultipleWebauthnFactor(setupFn) {
             },
           },
         ]);
+        return Expect.waitForSpyCall(errorSpy);
       });
   });
 }
@@ -516,8 +518,14 @@ Expect.describe('Webauthn Factor', function() {
       });
   });
 
+<<<<<<< HEAD
   itp('shows an error if navigator.credentials.get fails', function() {
     Expect.allowUnhandledPromiseRejection();
+=======
+  itp('shows an error if navigator.credentials.get fails', function () {
+    const errorSpy = jasmine.createSpy('unhandledRejection');
+    Expect.allowUnhandledPromiseRejection(errorSpy);
+>>>>>>> add spy for unhandled rejection
     return setupWebauthnFactor({
       webauthnSupported: true,
       signStatus: 'fail',
@@ -546,6 +554,7 @@ Expect.describe('Webauthn Factor', function() {
             },
           },
         ]);
+        return Expect.waitForSpyCall(errorSpy);
       });
   });
 });

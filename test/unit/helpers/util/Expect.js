@@ -49,10 +49,11 @@ function runTest (jasmineFn, desc, testFn) {
   });
 }
 
-fn.allowUnhandledPromiseRejection = function() {
+fn.allowUnhandledPromiseRejection = function (spy) {
   window.removeEventListener('unhandledrejection', unhandledRejectionListener);
   window.addEventListener('unhandledrejection', function (event) {
     event.preventDefault();
+    spy && spy();
   });
 };
 
