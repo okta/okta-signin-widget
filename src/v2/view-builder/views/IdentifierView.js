@@ -1,6 +1,7 @@
 import { loc, createCallout } from 'okta';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { BaseForm, BaseView, createIdpButtons, createCustomButtons } from '../internals';
+import DeviceFingerprinting from '../utils/DeviceFingerprinting';
 import IdentifierFooter from '../components/IdentifierFooter';
 import signInWithIdps from './signin/SignInWithIdps';
 import customButtonsView from './signin/CustomButtons';
@@ -14,6 +15,33 @@ const Body = BaseForm.extend({
 
   save () {
     return loc('oform.next', 'login');
+  },
+
+  saveForm () {
+    // Ideally this can be added to a "preSaveForm" handler - but keeping this here for now.
+    if (!this.settings.get('features.deviceFingerprinting')) {
+      BaseForm.prototype.saveForm.apply(this, arguments);
+      return;
+    }
+
+    // Before the XHR is made for "identify", we'll generate this one-time use fingerprint via
+    // a hidden-iframe (similar to authn/v1 flows)
+    const fingerprintData = {
+      oktaDomainUrl: this.settings.get('baseUrl'),
+      element: this.$el,
+      stateHandle: this.options.appState.get('idx')?.rawIdxState?.stateHandle,
+    };
+
+    this.model.trigger('request');
+
+    DeviceFingerprinting.generateDeviceFingerprint(fingerprintData)
+      .then(fingerprint => {
+        this.options.appState.set('deviceFingerprint', fingerprint);
+      })
+      .catch(() => { /* Keep going even if device fingerprint fails */ })
+      .finally(() => {
+        BaseForm.prototype.saveForm.apply(this, arguments);
+      });
   },
 
   render () {
@@ -55,6 +83,7 @@ const Body = BaseForm.extend({
       this.$el.find('.button-primary').hide();
     }
   },
+
   showMessages () {
     /**
      * Renders a warning callout for unknown user flow
@@ -81,7 +110,7 @@ export default BaseView.extend({
   postRender () {
     BaseView.prototype.postRender.apply(this, arguments);
 
-    // If user enterted identifier is not found, API sends back a message with a link to sign up
+    // If user entered identifier is not found, API sends back a message with a link to sign up
     // This is the click handler for that link
     const appState = this.options.appState;
     this.$el.find('.js-sign-up').click(function () {

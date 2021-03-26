@@ -29,6 +29,7 @@ export default Model.extend({
     idx: 'object',
     remediations: 'array',
     dynamicRefreshInterval: 'number',
+    deviceFingerprint: 'string',
   },
 
   derived: {

@@ -12,10 +12,24 @@
 
 import idx from '@okta/okta-idx-js';
 
-export async function introspect (settings) {
+export async function introspect (settings, appState) {
   const domain = settings.get('baseUrl');
   const stateHandle = settings.get('stateToken');
   const version = settings.get('apiVersion');
+  const useDeviceFingerprint = settings.get('features.deviceFingerprinting');
+
+  // For certain flows, we need to generate a device fingerprint
+  // to determine if we need to send a "New Device Sign-on Notification".
+  // In the future, this should be handled by okta-auth-js
+  idx.client.interceptors.request.use(requestConfig => {
+    const fingerprintRequestUrls = [
+      `${domain}/idp/idx/identify`,
+    ];
+    const fingerprint = appState.get('deviceFingerprint');
+    if (useDeviceFingerprint && fingerprint && fingerprintRequestUrls.includes(requestConfig.url)) {
+      requestConfig.headers['X-Device-Fingerprint'] = fingerprint;
+    }
+  });
 
   return idx.start({ domain, stateHandle, version });
 }
