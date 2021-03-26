@@ -90,7 +90,7 @@ export default BaseView.extend({
       return false;
     });
   },
-  createModelClass (currentViewState, optionUiSchemaConfig, settings) {
+  createModelClass(currentViewState, optionUiSchemaConfig, settings) {
     const { uiSchema } = currentViewState;
 
     // Customization from .widgetrc.js or Admin Customization settings page

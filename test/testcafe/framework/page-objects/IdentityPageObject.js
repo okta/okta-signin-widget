@@ -165,6 +165,10 @@ export default class IdentityPageObject extends BasePageObject {
     await this.t.click(Selector(UNLOCK_ACCOUNT));
   }
 
+  getCustomUnlockAccountLink() {
+    return Selector(UNLOCK_ACCOUNT).getAttribute('href');
+  }
+
   getIdentifierSubLabelValue() {
     return Selector(SUB_LABEL_SELECTOR).nth(0).textContent;
   }
