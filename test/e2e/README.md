@@ -10,7 +10,6 @@ Additionally, you have already installed dependencies for test apps:
 
 ```
 yarn install react
-yarn install angular
 ```
 
 ## Define environment variables
@@ -41,7 +40,6 @@ Each server process can be started in the background. This allows you to run E2E
 
 ```
 yarn start:basic
-yarn start:angular
 yarn start:react
 ```
 To kill the background server processes:
@@ -58,12 +56,6 @@ When actively developing or debugging a test you will probably prefer to have ea
 Static server: 
 ```
 node test/e2e/basic/server
-```
-
-Angular test app:
-```
-cd test/e2e/angular-app
-PORT=4200 yarn start
 ```
 
 React test app:

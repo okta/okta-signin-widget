@@ -21,7 +21,6 @@ source $OKTA_HOME/$REPO/scripts/export-test-credentials.sh
 
 function update_yarn_locks() {
     git checkout -- test/e2e/react-app/yarn.lock
-    git checkout -- test/e2e/angular-app/yarn.lock
 
     YARN_REGISTRY=https://registry.yarnpkg.com
     OKTA_REGISTRY=${ARTIFACTORY_URL}/api/npm/npm-okta-master
@@ -37,7 +36,6 @@ function update_yarn_locks() {
 
     # Replace yarn artifactory with Okta's
     sed -i "s#${YARN_REGISTRY}#${OKTA_REGISTRY}#" test/e2e/react-app/yarn.lock
-    sed -i "s#${YARN_REGISTRY}#${OKTA_REGISTRY}#" test/e2e/angular-app/yarn.lock
 }
 
 update_yarn_locks
