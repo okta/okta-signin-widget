@@ -72,6 +72,7 @@ module.exports = {
         '/sso/idps/',
         '/app/UserHome',
         '/oauth2/v1/authorize',
+        '/auth/services/',
       ],
       target: `http://localhost:${MOCK_SERVER_PORT}`
     }],
