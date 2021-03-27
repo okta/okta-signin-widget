@@ -79,7 +79,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not h
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
 });
 
-test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should add sub labels for Username and Password if i18n keys are defined', async t => {
+test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username and Password if i18n keys are defined', async t => {
   const identityPage = await setup(t);
   await rerenderWidget({
     i18n: {

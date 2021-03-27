@@ -317,7 +317,7 @@ const uiSchemaLabelTransformer = (transformedResp) => {
  * @returns Boolean
  */
 const isCustomizedI18nKey = (i18nKey, settings) => {
-  const language = settings.get('language');
+  const language = settings.get('i18nLanguage');
   const i18n = settings.get('i18n');
   const customizedProperty = i18n && i18n[language] && i18n[language][i18nKey];
   return !!customizedProperty;
