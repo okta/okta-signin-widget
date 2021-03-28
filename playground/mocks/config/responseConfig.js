@@ -663,6 +663,16 @@ const symantecVipAuthenticator = {
   ],
 };
 
+const emailChallengeConsent = {
+  '/idp/idx/introspect': [
+    'email-challenge-consent',
+  ],
+  '/idp/idx/consent': [
+    // 'terminal-return-email-consent',
+    'terminal-return-email-consent-denied',
+  ],
+};
+
 module.exports = {
   mocks: idx,
 };

@@ -16,6 +16,7 @@ const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
   'idx.return.stale',
   'idx.return.error',
   'idx.email.verification.required',
+  'idx.operation.cancelled.on.other.device',
 ];
 
 const GET_BACK_TO_SIGN_LINK_FLOWS = [
