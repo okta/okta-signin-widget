@@ -105,13 +105,15 @@ export default Router.extend({
       const idxMessages = {
         messages: {
           type: 'array',
-          value: [{
-            message: error.error_description,
-            i18n: {
-              key: 'oie.feature.disabled'
-            },
-            class: 'ERROR'
-          }],
+          value: [
+            {
+              message: error.error_description,
+              i18n: {
+                key: 'oie.feature.disabled'
+              },
+              class: 'ERROR'
+            }
+          ],
         },
       };
 

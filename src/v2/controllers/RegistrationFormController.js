@@ -15,12 +15,13 @@ import { FORMS } from '../ion/RemediationConstants';
 
 export default FormController.extend({
   postRender() {
-    // TODO: what if user navigate to this page but there is valid state token
-    // in session storage
-    // - try to sign-in
-    // - during at middle of sign-in, change URL to /signin/register/
-    // user probably expects to see sign-up page
-    // actually widget will continue show sign-in flow (because of the saved state token)
+    // TODO: what if user navigate to this page but there is valid state token in session storage?
+    // The flow is like
+    // 1. User tries to sign-in
+    // 2. During the middle of sign-in, change URL to /signin/register/
+    //
+    // User probably expects to see sign-up page
+    // But user will continue sign-in flow due to the saved state token
     if (this.options.appState.get('currentFormName') === FORMS.IDENTIFY) {
       // 1. auto switch to porfile enroll (register) page
       // basically mimic the flow that show identify page and click sign-up link.
@@ -28,10 +29,13 @@ export default FormController.extend({
         this.handleInvokeAction(FORMS.SELECT_ENROLL_PROFILE);
       } else {
         const messages = {
-          'type': 'array',
+          type: 'array',
           value: [
             {
-              message: 'registration is not supported',
+              message: 'The requested feature is not enabled in this environment.',
+              i18n: {
+                key: 'oie.feature.disabled'
+              },
               class: 'ERROR',
             }
           ]
@@ -47,7 +51,6 @@ export default FormController.extend({
             messages
           }
         };
-        // this.options.appState.setIonResponse(resp);
         this.options.appState.trigger('remediationSuccess', resp);
       }
     } else {
