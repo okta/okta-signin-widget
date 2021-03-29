@@ -402,7 +402,7 @@ function testMultipleWebauthnFactor(setupFn) {
       });
   });
 
-  itp('shows an error if navigator.credentials.get fails and displays retry button', function () {
+  itp('shows an error if navigator.credentials.get fails and displays retry button', function() {
     const errorSpy = jasmine.createSpy('unhandledRejection');
     Expect.allowUnhandledPromiseRejection(errorSpy);
     return setupFn({
@@ -518,14 +518,9 @@ Expect.describe('Webauthn Factor', function() {
       });
   });
 
-<<<<<<< HEAD
   itp('shows an error if navigator.credentials.get fails', function() {
-    Expect.allowUnhandledPromiseRejection();
-=======
-  itp('shows an error if navigator.credentials.get fails', function () {
     const errorSpy = jasmine.createSpy('unhandledRejection');
     Expect.allowUnhandledPromiseRejection(errorSpy);
->>>>>>> add spy for unhandled rejection
     return setupWebauthnFactor({
       webauthnSupported: true,
       signStatus: 'fail',

@@ -15,7 +15,7 @@ var util = module.exports = {};
 
 var EC = protractor.ExpectedConditions;
 
-util.loadTestPage = function (pageName) {
+util.loadTestPage = function(pageName) {
   if( pageName.indexOf('.html') < 0 ) { 
     browser.get('http://localhost:3000/' + pageName + '.html');
   } else { 

@@ -1083,7 +1083,7 @@ Expect.describe('ForgotPassword', function() {
       'shows an error if sending email via "Reset via email" link results in an error, after making a Voice Call',
       function() {
         return setupWithCall()
-          .then(function (test) {
+          .then(function(test) {
             // Expect.allowUnhandledPromiseRejection();
             test.setNextResponse(resChallengeCall);
             test.form.setUsername('foo');

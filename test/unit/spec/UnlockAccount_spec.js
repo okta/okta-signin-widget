@@ -761,7 +761,7 @@ Expect.describe('UnlockAccount', function() {
       'shows an error if sending email via "Unlock via email" link results in an error, after sending sms',
       function() {
         return setupWithSms()
-          .then(function (test) {
+          .then(function(test) {
             // Expect.allowUnhandledPromiseRejection();
             test.setNextResponse(resChallengeSms);
             test.form.setUsername('foo');

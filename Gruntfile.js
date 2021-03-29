@@ -335,7 +335,7 @@ module.exports = function(grunt) {
   grunt.task.registerTask(
     'build-e2e-app',
     'Builds the basic e2e test app.',
-    function () {
+    function() {
       grunt.task.run([
         'copy:e2e',
         'copy:e2e-pages',
@@ -347,7 +347,7 @@ module.exports = function(grunt) {
   grunt.task.registerTask(
     'start-e2e-app',
     'Starts the basic e2e test app, without the test runner.',
-    function () {
+    function() {
       grunt.task.run([
         'build-e2e-app',
         'connect:dev'

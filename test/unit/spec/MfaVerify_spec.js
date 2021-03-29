@@ -4138,7 +4138,7 @@ Expect.describe('MFA Verify', function() {
           });
       });
 
-      itp('shows an error if u2f.sign fails', function () {
+      itp('shows an error if u2f.sign fails', function() {
         const errorSpy = jasmine.createSpy('unhandledRejection');
         Expect.allowUnhandledPromiseRejection(errorSpy);
 

@@ -47,7 +47,7 @@ describe('OIDC flows', function() {
 
     clientIds.forEach(clientId => {
 
-      it('loads without CSP errors', function () { 
+      it('loads without CSP errors', function() { 
         setup({
           baseUrl: '{{{WIDGET_TEST_SERVER}}}',
           clientId,
@@ -67,7 +67,7 @@ describe('OIDC flows', function() {
         expect(primaryAuth.getCspErrorsMessage()).toBe('');
       });
 
-      it('would catch CSP errors', function () { 
+      it('would catch CSP errors', function() { 
         // Note: CSP errors generated after load are caught by CSP, but struggle to be found by selenium
         util.loadTestPage('oidc.html?fail-csp');
         setup({
@@ -90,7 +90,7 @@ describe('OIDC flows', function() {
           .toBe('eval blocked due to CSP rule script-src from script-src \'unsafe-inline\' http://localhost:3000');
       });
 
-      it('can login and exchange a sessionToken for an id_token', function () {
+      it('can login and exchange a sessionToken for an id_token', function() {
         setup({
           baseUrl: '{{{WIDGET_TEST_SERVER}}}',
           clientId,

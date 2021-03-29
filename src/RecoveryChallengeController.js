@@ -120,7 +120,7 @@ export default FormController.extend({
         default:
           return;
         }
-      }).catch(function () {
+      }).catch(function() {
         // swallow unhandled exceptions
       });
     },
