@@ -164,15 +164,6 @@ export default Model.extend({
   },
 
   derived: {
-    i18nLanguage: {
-      deps: ['language'],
-      fn: function(lang) {
-        if (_.isFunction(lang) || !_.isEmpty(lang)) {
-          return lang;
-        }
-        return 'en';
-      }
-    },
     showPasswordToggle: {
       deps: ['features.showPasswordToggleOnSignInPage'],
       fn: function() {
