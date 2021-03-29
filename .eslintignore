@@ -9,6 +9,4 @@ scripts
 assets
 vendor
 test/unit/helpers/xhr/
-test/e2e/angular-app/
-test/e2e/react-app/
 !.eslintrc.js
