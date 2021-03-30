@@ -1,22 +1,41 @@
 import { loc } from 'okta';
-import { BaseForm } from '../../internals';
+import { BaseForm, BaseHeader } from '../../internals';
 import ConsentViewForm from './ConsentViewForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
+import HeaderBeacon from '../../components/HeaderBeacon';
+import { getIconClassNameForBeacon } from '../../utils/AuthenticatorUtil';
+import { AUTHENTICATOR_KEY } from '../../../ion/RemediationConstants';
 
 export default BaseAuthenticatorView.extend({
   className: 'enduser-email-consent',
+
+  Header: BaseHeader.extend({
+    HeaderBeacon: HeaderBeacon.extend({
+      getBeaconClassName: function() {
+        return getIconClassNameForBeacon(AUTHENTICATOR_KEY.EMAIL);
+      },
+    }),
+  }),
+
+  postRender() {
+    // Move buttons in DOM to match visual hierarchy to fix tab order.
+    // TODO https://oktainc.atlassian.net/browse/OKTA-350521
+    const buttonContainer = this.$el.find('.o-form-button-bar');
+    buttonContainer.find('.button-primary').appendTo(buttonContainer);
+    buttonContainer.find('.button-primary').removeClass('button-primary');
+  },
+
   Body: ConsentViewForm.extend({
     title() {
-      return loc('oie.consent.enduser.email.title', 'login');
+      return loc('oie.consent.enduser.title', 'login');
     },
     save() {
-      return loc('oie.consent.enduser.email.accept.label', 'login');
+      return loc('oie.consent.enduser.accept.label', 'login');
     },
     cancel() {
-      return loc('oie.consent.enduser.email.deny.label', 'login');
+      return loc('oie.consent.enduser.deny.label', 'login');
     },
     initialize() {
-      // this.options.appState.set('authenticatorKey', 'okta_email');
       BaseForm.prototype.initialize.apply(this, arguments);
       if (this.model.get('browser')) {
         this.add(`

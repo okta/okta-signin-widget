@@ -8,15 +8,17 @@ import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
 const SAFE_MODE_KEY_PREFIX = 'idx.error.server.safe.mode';
 const UNLOCK_ACCOUNT_TERMINAL_KEY = 'oie.selfservice.unlock_user.success.message';
+const RETURN_TO_ORIGINAL_TAB_KEY = 'idx.return.to.original.tab';
+const OPERATION_CANCELED_ON_OTHER_DEVICE_KEY = 'idx.operation.cancelled.on.other.device';
 
 const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
   'idx.transferred.to.new.tab',
-  'idx.return.to.original.tab',
-  RETURN_LINK_EXPIRED_KEY,
   'idx.return.stale',
   'idx.return.error',
   'idx.email.verification.required',
-  'idx.operation.cancelled.on.other.device',
+  RETURN_TO_ORIGINAL_TAB_KEY,
+  RETURN_LINK_EXPIRED_KEY,
+  OPERATION_CANCELED_ON_OTHER_DEVICE_KEY,
 ];
 
 const GET_BACK_TO_SIGN_LINK_FLOWS = [
@@ -33,6 +35,18 @@ const HeaderBeaconTerminal = HeaderBeacon.extend({
 
 const Body = BaseForm.extend({
   noButtonBar: true,
+
+  initialize() {
+    BaseForm.prototype.initialize.call(this, arguments);
+    let description;
+    if (this.options.appState.containsMessageWithI18nKey(OPERATION_CANCELED_ON_OTHER_DEVICE_KEY)) {
+      description = loc('oie.consent.enduser.deny.description', 'login');
+    } else if (this.options.appState.containsMessageWithI18nKey(RETURN_TO_ORIGINAL_TAB_KEY)) {
+      description = loc('oie.consent.enduser.email.allow.description', 'login');
+    }
+
+    this.add(`<p>${description}</p>`);
+  },
 
   postRender() {
     BaseForm.prototype.postRender.apply(this, arguments);
