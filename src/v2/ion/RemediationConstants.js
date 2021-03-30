@@ -26,6 +26,7 @@ const FORMS = {
 
   CONSENT_ADMIN: 'admin-consent',
   CONSENT_ENDUSER: 'consent',
+  CONSENT_EMAIL_CHALLENGE: 'email-challenge-consent',
 
   SELECT_AUTHENTICATOR_AUTHENTICATE: 'select-authenticator-authenticate',
   SELECT_AUTHENTICATOR_UNLOCK: 'select-authenticator-unlock-account',
@@ -74,6 +75,7 @@ const FORMS_WITHOUT_SIGNOUT = [
   FORMS.DEVICE_ENROLLMENT_TERMINAL,
   FORMS.CONSENT_ADMIN,
   FORMS.CONSENT_ENDUSER,
+  FORMS.CONSENT_EMAIL_CHALLENGE,
 ];
 
 const FORMS_WITH_STATIC_BACK_LINK = [
