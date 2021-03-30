@@ -22,6 +22,16 @@ const enrollProfileErrorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/enroll/new')
   .respond(enrollProfileError, 403);
 
+const identifyWithoutEnrollProfile = JSON.parse(JSON.stringify(identify));
+identifyWithoutEnrollProfile.remediation.value = identifyWithoutEnrollProfile
+  .remediation
+  .value
+  .filter(r => r.name !== 'select-enroll-profile');
+
+const enrolProfileDisabledMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(identifyWithoutEnrollProfile);
+
 const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
@@ -196,6 +206,24 @@ test.requestHooks(mock)('should show register page directly and be able to creat
     controller: null,
     formName: 'terminal',
   });
+});
+
+test.requestHooks(enrolProfileDisabledMock)('should shall terminal error when registration is not supported', async t => {
+  const registrationPage = new RegistrationPageObject(t);
+
+  // navigate to /signin/register and show registration page immediately
+  await registrationPage.navigateToPage();
+  const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log.length).eql(3);
+  await t.expect(log[0]).eql('===== playground widget ready event received =====');
+  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
+  await t.expect(JSON.parse(log[2])).eql({
+    controller: null,
+    formName: 'terminal',
+  });
+
+  // expect terminal errors
+  await t.expect(registrationPage.form.getErrorBoxText()).eql('The requested feature is not enabled in this environment.');
 });
 
 test.requestHooks(mock)('should call settings.registration.click on "Sign Up" click, instead of moving to registration page', async t => {

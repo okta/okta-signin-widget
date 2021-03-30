@@ -1,4 +1,4 @@
-import { Selector, ClientFunction } from 'testcafe';
+import { Selector } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 const CALLOUT_SELECTOR = '.infobox-warning > div';
@@ -16,12 +16,6 @@ const SUB_LABEL_SELECTOR = '.o-form-explain';
 export default class IdentityPageObject extends BasePageObject {
   constructor(t) {
     super(t);
-  }
-
-  async getPageUrl() {
-
-    const pageUrl = await ClientFunction(() => window.location.href)();
-    return pageUrl;
   }
 
   getPageTitle() {
@@ -101,7 +95,7 @@ export default class IdentityPageObject extends BasePageObject {
     return this.form.getErrorBoxText();
   }
 
-  waitForIdentifierError(){
+  waitForIdentifierError() {
     return this.form.waitForTextBoxError('identifier');
   }
 
