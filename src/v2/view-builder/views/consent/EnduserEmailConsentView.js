@@ -41,7 +41,7 @@ export default BaseAuthenticatorView.extend({
         this.add(`
           <div class="enduser-email-consent--info">
             <i class="enduser-email-consent--icon browser-icon"></i>
-            <div>${this.model.get('browser')}</div>
+            <div>${this.model.escape('browser')}</div>
           </div>
         `);
       }
@@ -49,7 +49,7 @@ export default BaseAuthenticatorView.extend({
         this.add(`
           <div class="enduser-email-consent--info">
             <i class="enduser-email-consent--icon app-icon"></i>
-            <div>${this.model.get('app')}</div>
+            <div>${this.model.escape('app')}</div>
           </div>
         `);
       }
