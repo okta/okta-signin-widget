@@ -6,6 +6,8 @@ import { checkConsoleMessages } from '../framework/shared';
 
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
 import emailVerificationPolling from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling';
+import emailVerificationPollingShort from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling-short';
+import emailVerificationPollingLong from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling-long';
 import emailVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-no-profile';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidOTP from '../../../playground/mocks/data/idp/idx/error-email-verify';
@@ -86,6 +88,16 @@ const magicLinkExpiredMock = RequestMock()
 const magicLinkTransfer = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(terminalTransferedEmail);
+
+const dynamicRefreshShortIntervalMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(emailVerificationPollingShort);
+
+const dynamicRefreshLongIntervalMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(emailVerificationPollingLong);
 
 
 fixture('Challenge Email Authenticator Form');
@@ -246,7 +258,6 @@ test
     await t.expect(lastRequestUrl).eql('http://localhost:3000/idp/idx/challenge/resend');
   });
 
-
 test
   .requestHooks(magicLinkReturnTabMock)('challenge email factor with magic link', async t => {
     await setup(t);
@@ -276,4 +287,27 @@ test
     await t.expect(terminalPageObject.getErrorMessages().getTextContent()).eql('This email link has expired. To resend it, return to the screen where you requested it.');
     await t.expect(await terminalPageObject.goBackLinkExists()).ok();
     await t.expect(terminalPageObject.getFormTitle()).eql('Verify with your email');
+  });
+
+test
+  .requestHooks(logger, dynamicRefreshShortIntervalMock)('dynamic polling based on refresh interval in /poll', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
+
+    // 2 poll requests in 2 seconds at 1 sec interval
+    await t.wait(2000);
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/poll/)
+    )).eql(2);
+
+    await t.removeRequestHooks(dynamicRefreshShortIntervalMock);
+    await t.addRequestHooks(dynamicRefreshLongIntervalMock);
+
+    // 3 poll requests in 6 seconds at 2 sec interval
+    await t.wait(6000);
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/poll/)
+    )).eql(5);
   });

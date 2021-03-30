@@ -138,12 +138,7 @@ export default Model.extend({
       _.omit(previousRawState, 'expiresAt') );
 
     if (identicalResponse && !isSameRefreshInterval) {
-      // Only polling refresh interval has changed in the response,
-      // make sure to update the correct poll view's refresh value
-      const currentFormName = this.get('currentFormName');
-      const currentViewState = transformedResponse.remediations.filter(r => r.name === currentFormName)[0];
-
-      this.set('dynamicRefreshInterval', currentViewState.refresh);
+      this.set('dynamicRefreshInterval', this.getRefreshInterval(transformedResponse));
     }
 
     let reRender = true;
@@ -166,6 +161,17 @@ export default Model.extend({
       reRender = true;
     }
     return reRender;
+  },
+
+  getRefreshInterval(transformedResponse) {
+    // Only polling refresh interval has changed in the response,
+    // make sure to update the correct poll view's refresh value
+    const currentFormName = this.get('currentFormName');
+    const currentViewState = transformedResponse.remediations.filter(r => r.name === currentFormName)[0];
+    // Get new refresh interval for either: remediations, authenticator, or authenticator enrollment
+    return currentViewState.refresh ||
+      transformedResponse.currentAuthenticatorEnrollment?.poll?.refresh ||
+      transformedResponse.currentAuthenticator?.poll?.refresh;
   },
 
   // Sign Out link will be displayed in the footer of a form, unless
