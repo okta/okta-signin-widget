@@ -11,6 +11,7 @@ const UNLOCK_ACCOUNT_TERMINAL_KEY = 'oie.selfservice.unlock_user.success.message
 export const REGISTRATION_NOT_ENABLED = 'oie.registeration.is.not.enabled';
 const RETURN_TO_ORIGINAL_TAB_KEY = 'idx.return.to.original.tab';
 const OPERATION_CANCELED_ON_OTHER_DEVICE_KEY = 'idx.operation.cancelled.on.other.device';
+const OPERATION_CANCELED_BY_USER_KEY = 'idx.operation.cancelled.by.user';
 
 const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
   'idx.transferred.to.new.tab',
@@ -20,6 +21,7 @@ const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
   RETURN_TO_ORIGINAL_TAB_KEY,
   RETURN_LINK_EXPIRED_KEY,
   OPERATION_CANCELED_ON_OTHER_DEVICE_KEY,
+  OPERATION_CANCELED_BY_USER_KEY,
 ];
 
 const GET_BACK_TO_SIGN_LINK_FLOWS = [
@@ -46,8 +48,9 @@ const Body = BaseForm.extend({
     } else if (this.options.appState.containsMessageWithI18nKey(RETURN_TO_ORIGINAL_TAB_KEY)) {
       description = loc('oie.consent.enduser.email.allow.description', 'login');
     }
-
-    this.add(`<p>${description}</p>`);
+    if (description) {
+      this.add(`<p>${description}</p>`);
+    }
   },
 
   postRender() {

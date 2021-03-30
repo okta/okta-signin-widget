@@ -71,6 +71,7 @@ const idx = {
     // 'terminal-return-stale-email',
     // 'terminal-transfered-email',
     // 'terminal-registration',
+    // 'terminal-enduser-email-consent-denied',
     // 'oda-enrollment-ios',
     // 'oda-enrollment-android',
     // 'mdm-enrollment',
@@ -674,5 +675,5 @@ const emailChallengeConsent = {
 };
 
 module.exports = {
-  mocks: emailChallengeConsent,
+  mocks: idx,
 };
