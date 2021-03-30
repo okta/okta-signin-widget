@@ -45,10 +45,10 @@ export default FormController.extend({
           neededToProceed: [],
           // OKTA-382410 so bad that has to leverage rawIdxState
           rawIdxState: {
-            messages
+            messages,
           },
           context: {
-            messages
+            messages,
           }
         };
         this.options.appState.trigger('remediationSuccess', resp);

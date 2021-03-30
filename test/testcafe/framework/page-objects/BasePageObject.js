@@ -1,5 +1,5 @@
 import BaseFormObject from './components/BaseFormObject';
-import { Selector } from 'testcafe';
+import { Selector, ClientFunction } from 'testcafe';
 
 const SIGNOUT_LINK = '.auth-footer .js-cancel';
 const GO_BACK_LINK = '.auth-footer .js-go-back';
@@ -17,6 +17,11 @@ export default class BasePageObject {
 
   async navigateToPage() {
     await this.t.navigateTo(`http://localhost:3000${this.url}`);
+  }
+
+  async getPageUrl() {
+    const pageUrl = await ClientFunction(() => window.location.href)();
+    return pageUrl;
   }
 
   getFormTitle() {
