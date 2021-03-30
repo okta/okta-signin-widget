@@ -3,10 +3,11 @@ import { MS_PER_SEC } from '../../utils/Constants';
 
 export default {
   startPolling(newRefreshInterval) {
-    this.pollingInterval = newRefreshInterval || this.options.currentViewState.refresh;
+    this.fixedPollingInterval = this.options.currentViewState.refresh;
+    this.dynamicPollingInterval = newRefreshInterval;
     this.countDownCounterValue = Math.ceil(this.pollingInterval / MS_PER_SEC);
     // Poll is present in remediation form
-    if (this.pollingInterval) {
+    if (this.fixedPollingInterval) {
       this._startRemediationPolling();
     } else {
       // Poll is present in authenticator/ authenticator Enrollment obj.
@@ -24,7 +25,7 @@ export default {
       if (this.options.appState.has(responseKey)) {
         const authenticator = this.options.appState.get(responseKey);
         const authenticatorPollAction = `${responseKey}-poll`;
-        const pollInterval = authenticator?.poll?.refresh;
+        const pollInterval = this.dynamicPollingInterval || authenticator?.poll?.refresh;
         if (_.isNumber(pollInterval)) {
           this.polling = setInterval(()=>{
             this.options.appState.trigger('invokeAction', authenticatorPollAction);
@@ -60,10 +61,11 @@ export default {
   },
 
   _startRemediationPolling() {
-    if (_.isNumber(this.pollingInterval)) {
+    const pollInterval = this.dynamicPollingInterval || this.fixedPollingInterval;
+    if (_.isNumber(pollInterval)) {
       this.polling = setInterval(() => {
         this.options.appState.trigger('saveForm', this.model);
-      }, this.pollingInterval);
+      }, pollInterval);
     }
   },
 

@@ -1,9 +1,9 @@
 import { loc, View, createCallout, _ } from 'okta';
 import { BaseForm } from '../../internals';
 import email from '../shared/email';
-import polling from '../shared/polling';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
+import BaseFormWithPolling from '../../internals/BaseFormWithPolling';
 
 const ResendView = View.extend(
   {
@@ -46,13 +46,13 @@ const ResendView = View.extend(
   },
 );
 
-const Body = BaseForm.extend(Object.assign(
+const Body = BaseFormWithPolling.extend(Object.assign(
   {
     save() {
       return loc('mfa.challenge.verify', 'login');
     },
     initialize() {
-      BaseForm.prototype.initialize.apply(this, arguments);
+      BaseFormWithPolling.prototype.initialize.apply(this, arguments);
 
       this.add(ResendView, {
         selector: '.o-form-error-container',
@@ -85,7 +85,6 @@ const Body = BaseForm.extend(Object.assign(
   },
 
   email,
-  polling,
 ));
 
 export default BaseAuthenticatorView.extend({
