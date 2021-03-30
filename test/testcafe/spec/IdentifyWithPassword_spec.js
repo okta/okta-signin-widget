@@ -78,3 +78,17 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not h
   });
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
 });
+
+test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username and Password if i18n keys are defined', async t => {
+  const identityPage = await setup(t);
+  await rerenderWidget({
+    i18n: {
+      en: {
+        'primaryauth.username.tooltip': 'Your username goes here',
+        'primaryauth.password.tooltip': 'Your password goes here',
+      }
+    }
+  });
+  await t.expect(identityPage.getIdentifierSubLabelValue()).eql('Your username goes here');
+  await t.expect(identityPage.getPasswordSubLabelValue()).eql('Your password goes here');
+});
