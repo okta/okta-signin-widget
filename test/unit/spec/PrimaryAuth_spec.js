@@ -3193,7 +3193,7 @@ Expect.describe('PrimaryAuth', function() {
     });
 
     // TODO: add test to verify the behavior when missing `state` in the data
-    itp('ignores messages with the wrong origin', function() {
+    itp('Rejects messages with the wrong origin', function() {
       const successSpy = jasmine.createSpy('successSpy');
       const errorSpy = jasmine.createSpy('errorSpy');
 
@@ -3218,7 +3218,7 @@ Expect.describe('PrimaryAuth', function() {
         })
         .then(function(test) {
           expect(successSpy.calls.count()).toBe(0);
-          expect(errorSpy.calls.count()).toBe(0);
+          expect(errorSpy.calls.count()).toBe(1);
           expect(test.afterErrorHandler).toHaveBeenCalledWith(
             {
               controller: 'primary-auth',
