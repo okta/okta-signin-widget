@@ -15,6 +15,8 @@
 import { _, loc } from 'okta';
 import Enums from './Enums';
 import Logger from './Logger';
+import BrowserFeatures from './BrowserFeatures';
+
 const Util = {};
 
 const buildInputForParameter = function(name, value) {
@@ -154,7 +156,11 @@ Util.redirect = function(url, win = window) {
     Logger.error(`Cannot redirect to empty URL: (${url})`);
     return;
   }
-  win.location.href = url;
+  if (BrowserFeatures.isAndroid()) {
+    Util.redirectWithFormGet(url);
+  } else {
+    win.location.href = url;
+  }
 };
 
 /**
