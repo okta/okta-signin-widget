@@ -11,4 +11,10 @@ export default class SuccessPageObject extends BasePageObject {
     const pageUrl = await ClientFunction(() => window.location.href)();
     return pageUrl;
   }
+  getMessages() {
+    return this.form.getInnerTexts('[data-se="o-form-error-container"]');
+  }
+  getDescriptions() {
+    return this.form.getInnerTexts('[data-se="o-form-fieldset-container"]');
+  }
 }
