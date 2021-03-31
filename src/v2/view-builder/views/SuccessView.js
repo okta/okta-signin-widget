@@ -28,6 +28,8 @@ const Body = BaseForm.extend({
   noButtonBar: true,
   initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
+
+    this.model.set('useRedirect', true);
     this.trigger('save', this.model);
   },
 

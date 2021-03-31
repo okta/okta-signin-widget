@@ -22,6 +22,9 @@ const Body = BaseForm.extend({
       this.$('.spinner').hide();
     });
     this.add('<div class="spinner"></div>');
+
+    const isGetMethod = this.options.currentViewState?.method?.toLowerCase() === 'get';
+    this.model.set('useRedirect', isGetMethod);
     this.trigger('save', this.model);
   }
 });

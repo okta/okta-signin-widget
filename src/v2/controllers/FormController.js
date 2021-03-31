@@ -150,23 +150,15 @@ export default Controller.extend({
   },
 
   handleSaveForm(model) {
-    const currentViewState = this.options.appState.getCurrentViewState();
     const formName = model.get('formName');
 
     // Toggle Form saving status (e.g. disabling save button, etc)
     this.toggleFormButtonState(true);
     model.trigger('request');
 
-    // May need to redirect instead of AJAX request.
-    // NOTE: okta-idx-js does not know whether a remediation
-    // is required to redirect or perform a GET request.
-    // As a result, we handle this accordingly by checking the formName
-    // TODO: seems better to check `currentViewState?.rel`, but
-    // redirect-idp form does not have `rel`
-    // device-apple-sso-extension form does have `rel` and still need redirect
-    const useFormRedirect = !Object.prototype.hasOwnProperty.call(currentViewState, 'method')
-      || currentViewState?.method?.toLowerCase() === 'get';
-    if (useFormRedirect) {
+    // Use full page redirection if necessary
+    if (model.get('useRedirect') === true) {
+      const currentViewState = this.options.appState.getCurrentViewState();
       Util.redirectWithFormGet(currentViewState.href);
       return;
     }

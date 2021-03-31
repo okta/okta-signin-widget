@@ -23,6 +23,9 @@ const Body = BaseForm.extend({
       this.$('.spinner').hide();
     });
     this.add('<div class="credential-sso-extension"><div class="spinner"></div></div>');
+
+    const isGetMethod = this.options.currentViewState?.method?.toLowerCase() === 'get';
+    this.model.set('useRedirect', isGetMethod);
     this.trigger('save', this.model);
   }
 });
