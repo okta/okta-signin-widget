@@ -4,6 +4,7 @@ import ChallengeOktaVerifyPushPageObject from '../framework/page-objects/Challen
 import pushPoll from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push';
 import pushReject from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-reject-push';
 import pushUpgradeOktaVerify from '../../../playground/mocks/data/idp/idx/okta-verify-version-upgrade';
+import pushEnableBiometricsOktaVerify from '../../../playground/mocks/data/idp/idx/okta-verify-uv-verify-enable-biometrics';
 
 const logger = RequestLogger(/challenge|challenge\/poll/,
   {
@@ -19,11 +20,17 @@ const pushRejectMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(pushReject);
 
-const pushOktaVerifyUpgradetMock = RequestMock()
+const pushOktaVerifyUpgradeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(pushPoll)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(pushUpgradeOktaVerify);
+
+const pushEnableBiometricsMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(pushPoll)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(pushEnableBiometricsOktaVerify);
 
 fixture('Challenge Okta Verify Push Resend');
 
@@ -73,7 +80,7 @@ test
 
 
 test
-  .requestHooks(logger, pushOktaVerifyUpgradetMock)('challenge okta verify resend push with version upgrade message', async t => {
+  .requestHooks(logger, pushOktaVerifyUpgradeMock)('challenge okta verify resend push with version upgrade message', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await challengeOktaVerifyPushPageObject.waitForErrorBox();
     const pageTitle = challengeOktaVerifyPushPageObject.getFormTitle();
@@ -82,6 +89,21 @@ test
     await t.expect(errorBox.innerText).contains('Your response was received, but your Okta Verify version is no longer supported by your organization. To verify your identity with push notifications, update Okta Verify to the latest version, then try again.');
     const errorTitle = challengeOktaVerifyPushPageObject.getErrorTitle();
     await t.expect(errorTitle.innerText).contains('Update Okta Verify');
+    const resendPushBtn = challengeOktaVerifyPushPageObject.getResendPushButton();
+    await t.expect(resendPushBtn.value).contains('Resend push notification');
+    await t.expect(resendPushBtn.hasClass('link-button-disabled')).notOk();
+  });
+
+test
+  .requestHooks(logger, pushEnableBiometricsMock)('challenge okta verify resend push with uv enable biometrics message', async t => {
+    const challengeOktaVerifyPushPageObject = await setup(t);
+    await challengeOktaVerifyPushPageObject.waitForErrorBox();
+    const pageTitle = challengeOktaVerifyPushPageObject.getFormTitle();
+    await t.expect(pageTitle).contains('Get a push notification');
+    const errorBox = challengeOktaVerifyPushPageObject.getErrorBox();
+    await t.expect(errorBox.innerText).contains('We received your response, but your organization requires biometrics. On a device that supports biometrics, enable biometrics for your account and try again.');
+    const errorTitle = challengeOktaVerifyPushPageObject.getErrorTitle();
+    await t.expect(errorTitle.innerText).contains('Enable biometrics in Okta Verify');
     const resendPushBtn = challengeOktaVerifyPushPageObject.getResendPushButton();
     await t.expect(resendPushBtn.value).contains('Resend push notification');
     await t.expect(resendPushBtn.hasClass('link-button-disabled')).notOk();

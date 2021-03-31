@@ -12,6 +12,7 @@ const OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_IOS =
   'oie.authenticator.app.non_fips_compliant_enrollment_device_incompatible';
 const OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_NON_IOS =
   'oie.authenticator.app.non_fips_compliant_enrollment_app_update_required';
+const OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY = 'oie.authenticator.app.method.push.enroll.enable.biometrics';
 
 const Body = BaseForm.extend(Object.assign(
   {
@@ -58,6 +59,9 @@ const Body = BaseForm.extend(Object.assign(
             this.options.appState.containsMessageWithI18nKey(OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_NON_IOS)) {
               // add a title for ov force upgrade
               options.title = loc('oie.okta_verify.enroll.force.upgrade.title', 'login');
+            } else if (this.options.appState.containsMessageWithI18nKey(OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY)) {
+              // add a title for OV enable biometrics message during enrollment
+              options.title = loc('oie.authenticator.app.method.push.enroll.enable.biometrics.title', 'login');
             }
             this.add(createCallout(options), '.o-form-error-container');
           } else {
