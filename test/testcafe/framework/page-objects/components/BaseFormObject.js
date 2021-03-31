@@ -1,7 +1,7 @@
 import { Selector, ClientFunction } from 'testcafe';
 
 const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
-const FORM_INFOBOX_ERROR = '.o-form-error-container .infobox-error';
+const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] .infobox-error';
 
 const SUBMIT_BUTTON_SELECTOR = '.o-form-button-bar input[data-type="save"]';
 const CANCEL_BUTTON_SELECTOR = '.o-form-button-bar input[data-type="cancel"]';

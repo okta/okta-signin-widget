@@ -1,4 +1,5 @@
 import { RequestMock, ClientFunction } from 'testcafe';
+import { checkConsoleMessages } from '../framework/shared';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import RegistrationPageObject from '../framework/page-objects/RegistrationPageObject';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
@@ -44,26 +45,25 @@ async function setup(t) {
   await identityPage.clickSignUpLink();
   return new RegistrationPageObject(t);
 }
-async function verifyRegistrationPageEvent(t) {
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(5);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
-    controller: 'primary-auth',
-    formName: 'identify',
-  });
-
-  await t.expect(log[3]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[4])).eql({
-    controller: 'registration',
-    formName: 'enroll-profile',
-  });
+async function verifyRegistrationPageEvent() {
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify',
+    },
+    'afterRender',
+    {
+      controller: 'registration',
+      formName: 'enroll-profile',
+    }
+  ]);
 }
 
 test.requestHooks(mock)('should have editable fields and have account label', async t => {
   const registrationPage = await setup(t);
-  await verifyRegistrationPageEvent(t);
+  await verifyRegistrationPageEvent();
 
   /* i18n tests */
   await t.expect(registrationPage.getHaveAccountLabel()).eql('Already have an account ?');
@@ -80,7 +80,7 @@ test.requestHooks(mock)('should have editable fields and have account label', as
 
 test.requestHooks(mock)('should show errors if required fields are empty', async t => {
   const registrationPage = await setup(t);
-  await verifyRegistrationPageEvent(t);
+  await verifyRegistrationPageEvent();
 
   await registrationPage.clickRegisterButton();
   await registrationPage.waitForErrorBox();
@@ -94,7 +94,7 @@ test.requestHooks(mock)('should show errors if required fields are empty', async
 
 test.requestHooks(mock)('should show errors after empty required fields are focused out', async t => {
   const registrationPage = await setup(t);
-  await verifyRegistrationPageEvent(t);
+  await verifyRegistrationPageEvent();
 
   await registrationPage.fillFirstNameField('');
   await registrationPage.fillLastNameField('');
@@ -113,7 +113,7 @@ test.requestHooks(mock)('should show errors after empty required fields are focu
 
 test.requestHooks(enrollProfileErrorMock)('should show email field validation errors', async t => {
   const registrationPage = await setup(t);
-  await verifyRegistrationPageEvent(t);
+  await verifyRegistrationPageEvent();
 
   await registrationPage.fillFirstNameField('abc');
   await registrationPage.fillLastNameField('xyz');
@@ -156,7 +156,7 @@ test.requestHooks(enrollProfileErrorMock)('should show email field validation er
 
 test.requestHooks(mock)('should show terminal screen after registration', async t => {
   const registrationPage = await setup(t);
-  await verifyRegistrationPageEvent(t);
+  await verifyRegistrationPageEvent();
 
   // click register button
   await registrationPage.fillFirstNameField('abc');
@@ -169,13 +169,24 @@ test.requestHooks(mock)('should show terminal screen after registration', async 
     'An activation email has been sent to john@gmail.com. Follow instructions in the email to finish creating your account'
   );
 
-  const { log: log2 } = await t.getBrowserConsoleMessages();
-  await t.expect(log2.length).eql(7);
-  await t.expect(log2[5]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log2[6])).eql({
-    controller: null,
-    formName: 'terminal',
-  });
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify',
+    },
+    'afterRender',
+    {
+      controller: 'registration',
+      formName: 'enroll-profile',
+    },
+    'afterRender',
+    {
+      controller: null,
+      formName: 'terminal',
+    }
+  ]);
 });
 
 test.requestHooks(mock)('should show register page directly and be able to create account', async t => {
@@ -183,14 +194,14 @@ test.requestHooks(mock)('should show register page directly and be able to creat
 
   // navigate to /signin/register and show registration page immediately
   await registrationPage.navigateToPage();
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
-    controller: 'registration',
-    formName: 'enroll-profile',
-  });
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    {
+      controller: 'registration',
+      formName: 'enroll-profile',
+    },
+  ]);
 
   // click register button
   await registrationPage.fillFirstNameField('abc');
@@ -200,12 +211,19 @@ test.requestHooks(mock)('should show register page directly and be able to creat
 
   // show registration success terminal view
   await t.expect(registrationPage.getTerminalContent()).eql('An activation email has been sent to john@gmail.com. Follow instructions in the email to finish creating your account');
-  const { log: log2 } = await t.getBrowserConsoleMessages();
-  await t.expect(log2[3]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log2[4])).eql({
-    controller: null,
-    formName: 'terminal',
-  });
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    {
+      controller: 'registration',
+      formName: 'enroll-profile',
+    },
+    'afterRender',
+    {
+      controller: null,
+      formName: 'terminal',
+    }
+  ]);
 });
 
 test.requestHooks(enrolProfileDisabledMock)('should shall terminal error when registration is not supported', async t => {
@@ -213,14 +231,14 @@ test.requestHooks(enrolProfileDisabledMock)('should shall terminal error when re
 
   // navigate to /signin/register and show registration page immediately
   await registrationPage.navigateToPage();
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
-    controller: null,
-    formName: 'terminal',
-  });
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    {
+      controller: null,
+      formName: 'terminal',
+    }
+  ]);
 
   // expect terminal errors
   await t.expect(registrationPage.form.getErrorBoxText()).eql('The requested feature is not enabled in this environment.');
