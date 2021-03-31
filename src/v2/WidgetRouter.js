@@ -24,6 +24,11 @@ module.exports = BaseLoginRouter.extend({
   defaultAuth: function() {
     this.render(FormController);
   },
+
+  /**
+   * In order to support rendering Registration form
+   * directly when navigate to '/signin/register'.
+   */
   renderRegister() {
     this.render(RegistrationFormController);
   }

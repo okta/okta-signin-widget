@@ -13,18 +13,26 @@
 import FormController from './FormController';
 import { FORMS } from '../ion/RemediationConstants';
 
+/**
+ * Render Registration Form (a.k.a profile enroll) immediately as long as
+ * the remediation form is available and default remediation is Identify.
+ * Otherwise show error messages that feature is not supported.
+ *
+ */
 export default FormController.extend({
+
+  // TODO: what if user navigate to this page but there is valid state token in session storage?
+  // The flow is like
+  // 1. User tries to sign-in
+  // 2. During the middle of sign-in, change URL to /signin/register/
+  //
+  // User probably expects to see sign-up page
+  // But user will continue sign-in flow due to the saved state token
   postRender() {
-    // TODO: what if user navigate to this page but there is valid state token in session storage?
-    // The flow is like
-    // 1. User tries to sign-in
-    // 2. During the middle of sign-in, change URL to /signin/register/
-    //
-    // User probably expects to see sign-up page
-    // But user will continue sign-in flow due to the saved state token
+    // Auto switch to porfile enroll (register) page
+    // basically mimic the flow that show identify page and click sign-up link.
+    // Or show error messages.
     if (this.options.appState.get('currentFormName') === FORMS.IDENTIFY) {
-      // 1. auto switch to porfile enroll (register) page
-      // basically mimic the flow that show identify page and click sign-up link.
       if (this.options.appState.hasRemediationObject(FORMS.SELECT_ENROLL_PROFILE)) {
         this.handleInvokeAction(FORMS.SELECT_ENROLL_PROFILE);
       } else {
