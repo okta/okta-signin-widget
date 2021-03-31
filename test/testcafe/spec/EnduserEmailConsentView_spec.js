@@ -6,10 +6,9 @@ import enduserEmailConsentChallengeDenied from '../../../playground/mocks/data/i
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 
 const requestLogger = RequestLogger(/consent/, {
-    logRequestBody: true,
-    stringifyRequestBody: true,
-  }
-);
+  logRequestBody: true,
+  stringifyRequestBody: true,
+});
 
 const enduserEmailConsentSuccess = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
