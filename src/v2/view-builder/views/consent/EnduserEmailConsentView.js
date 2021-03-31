@@ -10,13 +10,13 @@ import hbs from 'handlebars-inline-precompile';
 const getInfo = hbs`
   {{#if browser}}
     <div class="enduser-email-consent--info">
-      <i class="enduser-email-consent--icon browser-icon"></i>
+      <i class="enduser-email-consent--icon icon--desktop"></i>
       <div>{{browser}}</div>
     </div>
   {{/if}}
   {{#if app}}
     <div class="enduser-email-consent--info">
-      <i class="enduser-email-consent--icon app-icon"></i>
+      <i class="enduser-email-consent--icon icon--app"></i>
       <div>{{app}}</div>
     </div>
   {{/if}}`;

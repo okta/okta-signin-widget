@@ -630,6 +630,30 @@
     }
   }
 
+  .icon--app {
+    /* -- Factor Icons (large): Webauthn -- */
+    background-image: url('../img/icons/mfa/app_70x70.png');
+
+    @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Webauthn -- */
+      background-image: url('../img/icons/mfa/app_76x76.png');
+    }
+  }
+
+  .icon--desktop {
+    /* -- Factor Icons (large): Webauthn -- */
+    background-image: url('../img/icons/mfa/desktop_70x70.png');
+
+    @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Webauthn -- */
+      background-image: url('../img/icons/mfa/desktop_76x76.png');
+    }
+  }
+
   .smartcard {
     /* -- Factor Icons (large): PIV -- */
     background-image: url('../img/icons/login/smartcard_70x70.png');
