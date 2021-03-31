@@ -3,7 +3,7 @@ import EnduserConsentPageObject from '../framework/page-objects/EnduserConsentPa
 import enduserEmailConsentChallengeResponse from '../../../playground/mocks/data/idp/idx/email-challenge-consent';
 import enduserEmailConsentChallengeSuccess from '../../../playground/mocks/data/idp/idx/terminal-return-email-consent';
 import enduserEmailConsentChallengeDenied from '../../../playground/mocks/data/idp/idx/terminal-return-email-consent-denied';
-import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
+import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 
 const requestLogger = RequestLogger(/consent/, {
   logRequestBody: true,
@@ -63,10 +63,10 @@ test
     await t.expect(method).eql('post');
     await t.expect(url).eql('http://localhost:3000/idp/idx/consent');
 
-    const successPage = new SuccessPageObject(t);
-    await t.expect(successPage.getBeaconClass()).contains('mfa-okta-email');
-    await t.expect(successPage.getMessages()).contains('Please return to the original tab.');
-    await t.expect(successPage.getDescriptions()).contains('To continue, return to the device or window where you requested the email link. You may close this window at any time.');
+    const terminalPage = new TerminalPageObject(t);
+    await t.expect(terminalPage.getBeaconClass()).contains('mfa-okta-email');
+    await t.expect(terminalPage.getMessages()).contains('Please return to the original tab.');
+    await t.expect(terminalPage.getMessages()).contains('To continue, return to the device or window where you requested the email link. You may close this window at any time.');
   });
 
 test
@@ -86,9 +86,10 @@ test
     await t.expect(consent).eql(false);
     await t.expect(method).eql('post');
     await t.expect(url).eql('http://localhost:3000/idp/idx/consent');
-
-    const successPage = new SuccessPageObject(t);
-    await t.expect(successPage.getBeaconClass()).contains('mfa-okta-email');
-    await t.expect(successPage.getMessages()).contains('Access denied on other device.');
-    await t.expect(successPage.getDescriptions()).contains('You may close this window at any time.');
+    
+    const terminalPage = new TerminalPageObject(t);
+    await t.expect(terminalPage.getBeaconClass()).contains('mfa-okta-email');
+    await t.expect(terminalPage.getErrorMessages().isError()).eql(true);
+    await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('Access denied on other device.');
+    await t.expect(terminalPage.getMessages()).contains('You may close this window at any time.');
   });

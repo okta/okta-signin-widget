@@ -40,19 +40,6 @@ const HeaderBeaconTerminal = HeaderBeacon.extend({
 const Body = BaseForm.extend({
   noButtonBar: true,
 
-  initialize() {
-    BaseForm.prototype.initialize.call(this, arguments);
-    let description;
-    if (this.options.appState.containsMessageWithI18nKey(OPERATION_CANCELED_ON_OTHER_DEVICE_KEY)) {
-      description = loc('oie.consent.enduser.deny.description', 'login');
-    } else if (this.options.appState.containsMessageWithI18nKey(RETURN_TO_ORIGINAL_TAB_KEY)) {
-      description = loc('oie.consent.enduser.email.allow.description', 'login');
-    }
-    if (description) {
-      this.add(`<p>${description}</p>`);
-    }
-  },
-
   postRender() {
     BaseForm.prototype.postRender.apply(this, arguments);
     this.$el.addClass('terminal-state');
@@ -72,6 +59,16 @@ const Body = BaseForm.extend({
 
   showMessages() {
     const messagesObjs = this.options.appState.get('messages');
+    let description;
+    if (this.options.appState.containsMessageWithI18nKey(OPERATION_CANCELED_ON_OTHER_DEVICE_KEY)) {
+      description = loc('oie.consent.enduser.deny.description', 'login');
+    } else if (this.options.appState.containsMessageWithI18nKey(RETURN_TO_ORIGINAL_TAB_KEY)) {
+      description = loc('oie.consent.enduser.email.allow.description', 'login');
+    }
+    if (description && Array.isArray(messagesObjs?.value)) {
+      messagesObjs.value.push({ message: `${description}` });
+    }
+
     if (messagesObjs && Array.isArray(messagesObjs.value)) {
       this.add('<div class="ion-messages-container"></div>', '.o-form-error-container');
 
@@ -80,9 +77,12 @@ const Body = BaseForm.extend({
           const msg = messagesObj.message;
           if (messagesObj.class === 'ERROR' || messagesObj.i18n?.key === RETURN_LINK_EXPIRED_KEY) {
             this.add(createCallout({
-              content: msg,
-              type: 'error',
-            }), '.o-form-error-container');
+                content: msg,
+                type: 'error',
+              }), {
+                className: '.o-form-error-container',
+                prepend: true,
+              });
           } else {
             this.add(`<p>${msg}</p>`, '.ion-messages-container');
           }
