@@ -12,6 +12,7 @@
 
 import FormController from './FormController';
 import { FORMS } from '../ion/RemediationConstants';
+import { REGISTRATION_NOT_ENABLED } from '../view-builder/views/TerminalView';
 
 /**
  * Render Registration Form (a.k.a profile enroll) immediately as long as
@@ -40,9 +41,9 @@ export default FormController.extend({
           type: 'array',
           value: [
             {
-              message: 'The requested feature is not enabled in this environment.',
+              message: 'Sign up is not enabled for this organization.',
               i18n: {
-                key: 'oie.feature.disabled'
+                key: REGISTRATION_NOT_ENABLED,
               },
               class: 'ERROR',
             }

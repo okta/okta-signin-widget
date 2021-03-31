@@ -241,7 +241,8 @@ test.requestHooks(enrolProfileDisabledMock)('should shall terminal error when re
   ]);
 
   // expect terminal errors
-  await t.expect(registrationPage.form.getErrorBoxText()).eql('The requested feature is not enabled in this environment.');
+  await t.expect(registrationPage.form.getErrorBoxText()).eql('Sign up is not enabled for this organization.');
+  await t.expect(await registrationPage.goBackLinkExists()).ok();
 });
 
 test.requestHooks(mock)('should call settings.registration.click on "Sign Up" click, instead of moving to registration page', async t => {
