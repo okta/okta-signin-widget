@@ -3,6 +3,7 @@ import hbs from 'handlebars-inline-precompile';
 import Util from '../../../../util/Util';
 import Enums from '../../../../util/Enums';
 import { UNIVERSAL_LINK_POST_DELAY } from '../../utils/Constants';
+import { FORMS } from '../../../ion/RemediationConstants';
 
 export default View.extend({
   className: 'sign-in-with-device-option',
@@ -22,17 +23,15 @@ export default View.extend({
   `,
   initialize() {
     const appState = this.options.appState;
-    const deviceChallengePollRemediation = this.options.appState.get('remediations')
-      .find(remediation => remediation.name === Enums.LAUNCH_AUTHENTICATOR_REMEDIATION_NAME);
-    const deviceChallengeRelatesTo = deviceChallengePollRemediation.relatesTo || {};
-    const deviceChallenge = deviceChallengeRelatesTo.value || {};
+    const deviceChallengePollRemediation = this.options.appState.hasRemediationObject(FORMS.LAUNCH_AUTHENTICATOR);
+
+    const deviceChallenge = deviceChallengePollRemediation?.relatesTo?.value;
     this.add(createButton({
       className: 'button',
       icon: 'okta-verify-authenticator',
       title: loc('oktaVerify.button', 'login'),
       click() {
-        const isUVapproach = deviceChallenge.challengeMethod &&
-          deviceChallenge.challengeMethod === Enums.UNIVERSAL_LINK_CHALLENGE;
+        const isUVapproach = deviceChallenge?.challengeMethod === Enums.UNIVERSAL_LINK_CHALLENGE;
         if (isUVapproach) {
           // launch the Okta Verify app
           Util.redirect(deviceChallenge.href);
@@ -49,7 +48,7 @@ export default View.extend({
           if (this.options.isRequired) {
             appState.trigger('saveForm', this.model);
           } else {
-            appState.trigger('invokeAction', Enums.LAUNCH_AUTHENTICATOR_REMEDIATION_NAME);
+            appState.trigger('invokeAction', FORMS.LAUNCH_AUTHENTICATOR);
           }
         }, isUVapproach ? UNIVERSAL_LINK_POST_DELAY : 0);
       }

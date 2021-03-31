@@ -11,13 +11,8 @@
   "bugs": {
     "url": "https://github.com/okta/okta-signin-widget/issues"
   },
-  "files": [
-    "dist"
-  ],
-  "browserslist": [
-    "> 0.1%",
-    "not ie <= 9"
-  ],
+  "files": ["dist"],
+  "browserslist": ["> 0.1%", "not ie <= 9"],
   "main": "./dist/js/okta-sign-in.entry.js",
   "scripts": {
     "clean": "rimraf target && rimraf dist && rimraf build2",
@@ -34,9 +29,9 @@
     "lint": "mkdir -p build2 && run-p -c lint:eslint lint:grunt lint:stylelint",
     "lint:report": "mkdir -p build2 && run-p -c lint:eslint:report lint:grunt:report lint:stylelint:report",
     "test:jest": "grunt assets && yarn jest",
-    "test:dev": "grunt assets && karma start",
-    "test:coverage": "yarn test --reporters=progress,coverage",
-    "test": "yarn test:dev --single-run",
+    "test:jest:coverage": "yarn test:jest --collectCoverage",
+    "test:karma": "grunt assets && yarn karma start --single-run",
+    "test:karma:coverage": "yarn test:karma --reporters=progress,coverage",
     "start:app": "yarn build:webpack-e2e-app && yarn start:basic",
     "prestart:basic": "grunt copy:e2e-pages",
     "start:basic": "PORT=3000 node test/e2e/basic/server.js & wait-on http-get://localhost:3000",
