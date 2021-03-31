@@ -5,6 +5,29 @@ import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import HeaderBeacon from '../../components/HeaderBeacon';
 import { getIconClassNameForBeacon } from '../../utils/AuthenticatorUtil';
 import { AUTHENTICATOR_KEY } from '../../../ion/RemediationConstants';
+import hbs from 'handlebars-inline-precompile';
+
+const getInfo = hbs('{{#if browser}}<div class="enduser-email-consent--info"><i class="enduser-email-consent--icon browser-icon"></i><div>{{browser}}</div></div>{{/if}}{{#if app}}<div class="enduser-email-consent--info"><i class="enduser-email-consent--icon app-icon"></i><div>{{app}}</div></div>{{/if}}');
+const enduserEmailConsentViewBody = ConsentViewForm.extend({
+  title() {
+    return loc('oie.consent.enduser.title', 'login');
+  },
+  save() {
+    return loc('oie.consent.enduser.accept.label', 'login');
+  },
+  cancel() {
+    return loc('oie.consent.enduser.deny.label', 'login');
+  },
+  initialize() {
+    BaseForm.prototype.initialize.apply(this, arguments);
+    const info = getInfo(this.model.pick('browser', 'app'));
+    this.add(info);
+  },
+  getUISchema() {
+    const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
+    return uiSchemas.filter(uiSchema => uiSchema.name !== 'consent' );
+  },
+});
 
 export default BaseAuthenticatorView.extend({
   className: 'enduser-email-consent',
@@ -25,62 +48,25 @@ export default BaseAuthenticatorView.extend({
     buttonContainer.find('.button-primary').removeClass('button-primary');
   },
 
-  Body: ConsentViewForm.extend({
-    title() {
-      return loc('oie.consent.enduser.title', 'login');
-    },
-    save() {
-      return loc('oie.consent.enduser.accept.label', 'login');
-    },
-    cancel() {
-      return loc('oie.consent.enduser.deny.label', 'login');
-    },
-    initialize() {
-      BaseForm.prototype.initialize.apply(this, arguments);
-      if (this.model.get('browser')) {
-        this.add(`
-          <div class="enduser-email-consent--info">
-            <i class="enduser-email-consent--icon browser-icon"></i>
-            <div>${this.model.escape('browser')}</div>
-          </div>
-        `);
-      }
-      if (this.model.get('app')) {
-        this.add(`
-          <div class="enduser-email-consent--info">
-            <i class="enduser-email-consent--icon app-icon"></i>
-            <div>${this.model.escape('app')}</div>
-          </div>
-        `);
-      }
-    },
-    getUISchema() {
-      const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
-      return uiSchemas.filter(uiSchema => uiSchema.name !== 'consent' );
-    },
-  }),
-
-  _getInfoObject(requestInfoArray, requestInfoName) {
-    return requestInfoArray.find(({ name }) => (name === requestInfoName) );
-  },
+  Body: enduserEmailConsentViewBody,
 
   createModelClass({ requestInfo }) {
     const ModelClass = BaseAuthenticatorView.prototype.createModelClass.apply(this, arguments);
-    const { value: browser} = this._getInfoObject(requestInfo, 'browser');
-    const { value: app } = this._getInfoObject(requestInfo, 'appName');
+    const browser = requestInfo.find(({ name }) => name === 'browser');
+    const app = requestInfo.find(({ name }) => name === 'appName');
 
-    const props = Object.assign({
+    const local = Object.assign({
       browser: {
         type: 'string',
-        value: browser
+        value: browser?.value
       },
       app: {
         type: 'string',
-        value: app
+        value: app?.value
       },
-    }, ModelClass.prototype.props );
+    }, ModelClass.prototype.local );
     return ModelClass.extend({
-      props,
+      local,
       toJSON() {
         return {
           consent: this.get('consent'),
