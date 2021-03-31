@@ -155,9 +155,36 @@ const convertRedirectIdPToSuccessRedirectIffOneIdp = (result) => {
         href: redirectIdpRemediations[0].href,
         value: [],
       };
-      result.remediations = [ successRedirect ];
+      result.remediations = [successRedirect];
     }
   }
+};
+
+
+/**
+ * API reuses `redirect-idp` remeditaion form for IdP Authenticator for both verify and enroll.
+ * Hence IdP Authenticator becomes outlier comparing with other Authenticators in terms of
+ * using `challenge-authenticator` and `enroll-authenticator` remediation form.
+ *
+ * This function change `redirect-idp` to `challenge-authenticator` or `enroll-authenticator`
+ * for IdP Authenticator.
+ */
+const modifyFormNameForIdPAuthenticator = result => {
+  if (Array.isArray(result.remediations)) {
+    const idpAuthenticator = result.remediations.filter(
+      remediation => {
+        return remediation.name === RemediationForms.REDIRECT_IDP
+          && remediation?.relatesTo?.value?.key === 'external_idp';
+      }
+    );
+
+    if (idpAuthenticator.length === 1) {
+      const isVerifyFlow = Object.prototype.hasOwnProperty.call(result, 'currentAuthenticatorEnrollment');
+      idpAuthenticator[0].name = isVerifyFlow ? 'challenge-authenticator' : 'enroll-authenticator';
+    }
+
+  }
+
 };
 
 /**
@@ -197,6 +224,8 @@ const convert = (settings, idx = {}) => {
     // Only redirect to the IdP if we are not in an error flow
     convertRedirectIdPToSuccessRedirectIffOneIdp(result);
   }
+
+  modifyFormNameForIdPAuthenticator(result);
 
   return result;
 };

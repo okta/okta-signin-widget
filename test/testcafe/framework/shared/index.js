@@ -24,3 +24,8 @@ export async function checkConsoleMessages(context = {}) {
     }
   }
 }
+
+export const Constants = {
+  // https://devexpress.github.io/testcafe/documentation/guides/concepts/built-in-wait-mechanisms.html#wait-mechanism-for-xhr-and-fetch-requests
+  TESTCAFE_DEFAULT_AJAX_WAIT: 3000, // 3seconds
+};
