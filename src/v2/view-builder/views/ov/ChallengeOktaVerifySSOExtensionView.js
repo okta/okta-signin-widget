@@ -1,6 +1,5 @@
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import { BaseForm } from '../../internals';
-import Util from '../../../../util/Util';
 import { loc } from 'okta';
 
 // for EA,
@@ -20,19 +19,14 @@ const Body = BaseForm.extend({
   initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
 
-    // TODO: OKTA-286547
-    // this should be handle by the foundation, not on the view level
-    const method = this.options.appState.get('remediations')
-      .filter(v => v.name === this.options.appState.get('currentFormName'))[0].method || '';
-    if (method.toLowerCase() === 'get') {
-      Util.redirectWithFormGet(this.options.currentViewState.href);
-    } else {
-      this.listenTo(this.model, 'error', () => {
-        this.$('.spinner').hide();
-      });
-      this.add('<div class="credential-sso-extension"><div class="spinner"></div></div>');
-      this.options.appState.trigger('saveForm', this.model);
-    }
+    this.listenTo(this.model, 'error', () => {
+      this.$('.spinner').hide();
+    });
+    this.add('<div class="credential-sso-extension"><div class="spinner"></div></div>');
+
+    const isGetMethod = this.options.currentViewState?.method?.toLowerCase() === 'get';
+    this.model.set('useRedirect', isGetMethod);
+    this.trigger('save', this.model);
   }
 });
 

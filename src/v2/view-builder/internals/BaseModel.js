@@ -44,7 +44,7 @@ const createPropsAndLocals = function(
         optionUiSchemaIndex = schema.value;
       }
       if (optionUiSchemaConfig[schema.name]) {
-        optionUiSchemaValue = {value: optionUiSchemaConfig[schema.name]};
+        optionUiSchemaValue = { value: optionUiSchemaConfig[schema.name] };
         optionUiSchemaIndex = Number(optionUiSchemaValue.value);
       }
 
@@ -69,7 +69,10 @@ const createPropsAndLocals = function(
 const create = function(remediation = {}, optionUiSchemaConfig = {}) {
   const props = {};
   const local = {
+    // current remediation form name
     formName: 'string',
+    // use full page redirect instead of AJAX
+    useRedirect: 'boolean',
   };
   createPropsAndLocals(
     remediation,

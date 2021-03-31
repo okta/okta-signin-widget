@@ -2,14 +2,15 @@ const path = require('path');
 const ROOT = path.resolve(__dirname);
 const SRC = path.resolve(ROOT, 'src');
 const LOCAL_PACKAGES = path.resolve(ROOT, 'packages');
-const REPORT_DIR = '<rootDir>/build2/reports/unit/jest';
+const COVERAGE_DIR = '<rootDir>/build2/reports/coverage/jest';
+const REPORT_DIR = '<rootDir>/build2/reports/unit';
 const OktaSignin = '<rootDir>/src/widget/OktaSignIn';
 const LEGACY_TESTS = require('./test/unit/legacy-tests');
 
 module.exports = {
-  coverageDirectory: REPORT_DIR,
-  collectCoverage: true,
-  collectCoverageFrom: ['./src/**','!./test/**'],
+  coverageDirectory: COVERAGE_DIR,
+  collectCoverage: false,
+  collectCoverageFrom: ['./src/**', '!./test/**'],
   transform: {
     '^.+\\.(js)$': 'babel-jest',
   },
@@ -25,10 +26,10 @@ module.exports = {
 
     // auth-js has a browser and server version. we want the browser version
     '^@okta/okta-auth-js$': '<rootDir>/node_modules/@okta/okta-auth-js/dist/okta-auth-js.umd.js',
-  
+
     // idx-js uses cross-fetch. Force it to use the browser version so our spies work
     '^cross-fetch$': '<rootDir>/node_modules/cross-fetch/dist/browser-ponyfill.js',
-    
+
     // General remapping
     '^nls/(.*)': '@okta/i18n/src/json/$1',
     '^okta$': `${LOCAL_PACKAGES}/@okta/courage-dist/okta.js`,
@@ -50,6 +51,9 @@ module.exports = {
   ],
   reporters: [
     'default',
-    ['jest-junit', { outputDirectory: REPORT_DIR }]
+    ['jest-junit', {
+      outputDirectory: REPORT_DIR,
+      outputName: 'okta-sign-in-widget-jest-junit-result.xml',
+    }]
   ]
 };

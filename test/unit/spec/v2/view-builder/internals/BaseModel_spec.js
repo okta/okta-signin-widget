@@ -4,7 +4,13 @@ describe('v2/view-builder/internals/BaseModel', function() {
   const createModelAndVerifyPropsAndLocal = ({ uiSchema, optionUiSchemaConfig }, props, local = {}) => {
     const result = BaseModel.create({ uiSchema }, optionUiSchemaConfig);
     expect(result.prototype.props).toEqual(props);
-    expect(result.prototype.local).toEqual(Object.assign({ formName: 'string' }, local));
+    expect(result.prototype.local).toEqual(
+      {
+        formName: 'string',
+        useRedirect: 'boolean',
+        ...local
+      }
+    );
   };
 
   it('shall create Model - passcode', function() {

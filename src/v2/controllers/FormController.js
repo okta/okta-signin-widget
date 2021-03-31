@@ -120,7 +120,7 @@ export default Controller.extend({
   },
 
   handleInvokeAction(actionPath = '') {
-    if(actionPath === 'cancel') {
+    if (actionPath === 'cancel') {
       clearTransactionMeta(this.options.settings);
     }
 
@@ -137,8 +137,7 @@ export default Controller.extend({
     const actionFn = idx['actions'][actionPath];
 
     if (_.isFunction(actionFn)) {
-      // TODO: OKTA-243167
-      // 1. what's the approach to show spinner indicating API in fligh?
+      // TODO: OKTA-243167 what's the approach to show spinner indicating API in flight?
       actionFn()
         .then(this.handleIdxSuccess.bind(this))
         .catch(error => {
@@ -153,39 +152,29 @@ export default Controller.extend({
   handleSaveForm(model) {
     const formName = model.get('formName');
 
-    const idx = this.options.appState.get('idx');
-    if (!idx['neededToProceed'].find(item => item.name === formName)) {
-      this.options.settings.callGlobalError(`Cannot find http action for "${formName}".`);
-      this.showFormErrors(this.formView.model, 'Cannot find action to proceed.');
-      return;
-    }
-
+    // Toggle Form saving status (e.g. disabling save button, etc)
     this.toggleFormButtonState(true);
     model.trigger('request');
 
-    // NOTE: okta-idx-js does not know whether a remediation
-    // is required to redirect or perform a GET request.
-    // As a result, we handle this accordingly by checking the formName
-    const fullPageRedirectForms = [ FORMS.REDIRECT_IDP ];
-    if (fullPageRedirectForms.includes(formName)) {
+    // Use full page redirection if necessary
+    if (model.get('useRedirect')) {
       const currentViewState = this.options.appState.getCurrentViewState();
       Util.redirectWithFormGet(currentViewState.href);
       return;
     }
 
-    const modelJSON = model.toJSON();
-    const identifier = modelJSON.identifier;
-    if (identifier) {
-      // The callback function is passed two arguments:
-      // 1) username: The name entered by the user
-      // 2) operation: The type of operation the user is trying to perform:
-      //      - PRIMARY_AUTH
-      //      - FORGOT_PASSWORD
-      //      - UNLOCK_ACCOUNT
-      const operation = FORM_NAME_TO_OPERATION_MAP[formName];
-      modelJSON.identifier = this.settings.transformUsername(identifier, operation);
+    // Run hook: transform the user name (a.k.a identifier)
+    const modelJSON = this.transformIdentifier(formName, model);
+
+    // Error out when this is not a remediation form. Unexpected Exception.
+    const idx = this.options.appState.get('idx');
+    if (!this.options.appState.hasRemediationObject(formName)) {
+      this.options.settings.callGlobalError(`Cannot find http action for "${formName}".`);
+      this.showFormErrors(this.formView.model, 'Cannot find action to proceed.');
+      return;
     }
 
+    // Submit request to idx endpoint
     idx.proceed(formName, modelJSON)
       .then((resp) => {
         const onSuccess = this.handleIdxSuccess.bind(this, resp);
@@ -217,6 +206,21 @@ export default Controller.extend({
       });
   },
 
+  transformIdentifier(formName, model) {
+    const modelJSON = model.toJSON();
+    if (Object.prototype.hasOwnProperty.call(modelJSON, 'identifier')) {
+      // The callback function is passed two arguments:
+      // 1) username: The name entered by the user
+      // 2) operation: The type of operation the user is trying to perform:
+      //      - PRIMARY_AUTH
+      //      - FORGOT_PASSWORD
+      //      - UNLOCK_ACCOUNT
+      const operation = FORM_NAME_TO_OPERATION_MAP[formName];
+      modelJSON.identifier = this.settings.transformUsername(modelJSON.identifier, operation);
+    }
+    return modelJSON;
+  },
+
   showFormErrors(model, error) {
     model.trigger('clearFormError');
     if (!error) {
@@ -224,14 +228,14 @@ export default Controller.extend({
       this.options.settings.callGlobalError(error);
     }
 
-    if(IonResponseHelper.isIonErrorResponse(error)) {
+    if (IonResponseHelper.isIonErrorResponse(error)) {
       const convertedErrors = IonResponseHelper.convertFormErrors(error);
       const showBanner = convertedErrors.responseJSON.errorCauses.length ? false : true;
       model.trigger('error', model, convertedErrors, showBanner);
     } else if (error.errorSummary) {
-      model.trigger('error', model, {responseJSON: error}, true);
+      model.trigger('error', model, { responseJSON: error }, true);
     } else {
-      model.trigger('error', model, {responseJSON: {errorSummary: String(error)}}, true);
+      model.trigger('error', model, { responseJSON: { errorSummary: String(error) } }, true);
     }
   },
 
