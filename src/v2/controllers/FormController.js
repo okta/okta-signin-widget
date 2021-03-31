@@ -157,7 +157,7 @@ export default Controller.extend({
     model.trigger('request');
 
     // Use full page redirection if necessary
-    if (model.get('useRedirect') === true) {
+    if (model.get('useRedirect')) {
       const currentViewState = this.options.appState.getCurrentViewState();
       Util.redirectWithFormGet(currentViewState.href);
       return;
@@ -208,7 +208,7 @@ export default Controller.extend({
 
   transformIdentifier(formName, model) {
     const modelJSON = model.toJSON();
-    if (modelJSON.hasOwnProperty('identifier')) {
+    if (Object.prototype.hasOwnProperty.call(modelJSON, 'identifier')) {
       // The callback function is passed two arguments:
       // 1) username: The name entered by the user
       // 2) operation: The type of operation the user is trying to perform:

@@ -179,7 +179,7 @@ const modifyFormNameForIdPAuthenticator = result => {
     );
 
     if (idpAuthenticator.length === 1) {
-      const isVerifyFlow = result.hasOwnProperty('currentAuthenticatorEnrollment');
+      const isVerifyFlow = Object.prototype.hasOwnProperty.call(result, 'currentAuthenticatorEnrollment');
       idpAuthenticator[0].name = isVerifyFlow ? 'challenge-authenticator' : 'enroll-authenticator';
     }
 
