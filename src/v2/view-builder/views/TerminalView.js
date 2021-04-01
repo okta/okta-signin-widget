@@ -8,10 +8,10 @@ import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
 const SAFE_MODE_KEY_PREFIX = 'idx.error.server.safe.mode';
 const UNLOCK_ACCOUNT_TERMINAL_KEY = 'oie.selfservice.unlock_user.success.message';
-export const REGISTRATION_NOT_ENABLED = 'oie.registeration.is.not.enabled';
 const RETURN_TO_ORIGINAL_TAB_KEY = 'idx.return.to.original.tab';
 const OPERATION_CANCELED_ON_OTHER_DEVICE_KEY = 'idx.operation.cancelled.on.other.device';
 const OPERATION_CANCELED_BY_USER_KEY = 'idx.operation.cancelled.by.user';
+export const REGISTRATION_NOT_ENABLED = 'oie.registeration.is.not.enabled';
 
 const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
   'idx.transferred.to.new.tab',
