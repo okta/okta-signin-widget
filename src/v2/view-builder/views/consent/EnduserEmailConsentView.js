@@ -52,10 +52,12 @@ export default BaseAuthenticatorView.extend({
     }),
   }),
 
+  buttonOrder: ['cancel', 'save'],
+
   postRender() {
-    // Move buttons in DOM to match visual hierarchy to fix tab order.
-    // TODO https://oktainc.atlassian.net/browse/OKTA-350521
     const buttonContainer = this.$el.find('.o-form-button-bar');
+    // Move buttons in DOM to match visual hierarchy to fix tab order.
+    // TODO: Clean up - OKTA-383575
     buttonContainer.find('.button-primary').appendTo(buttonContainer);
     buttonContainer.find('.button-primary').removeClass('button-primary');
   },
