@@ -88,7 +88,8 @@ export default Router.extend({
     }
 
     // transform response
-    const ionResponse = transformIdxResponse(this.settings, this.appState, idxResponse);
+    const lastResponse = this.appState.get('idx');
+    const ionResponse = transformIdxResponse(this.settings, idxResponse, lastResponse);
 
     // if this is a terminal error, clear all transaction meta
     if (IonResponseHelper.isTerminalError(ionResponse)) {
