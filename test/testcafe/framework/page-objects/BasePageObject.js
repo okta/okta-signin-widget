@@ -12,6 +12,7 @@ export default class BasePageObject {
   constructor(t) {
     this.t = t;
     this.url = '';
+    this.beacon = new Selector('.beacon-container');
     this.form = new BaseFormObject(t);
   }
 
@@ -99,5 +100,9 @@ export default class BasePageObject {
   async switchAuthenticatorLinkExists() {
     const elCount = await Selector(SWITCH_AUTHENTICATOR_LINK).count;
     return elCount === 1;
+  }
+
+  getBeaconClass() {
+    return this.beacon.find('[data-se="factor-beacon"]').getAttribute('class');
   }
 }
