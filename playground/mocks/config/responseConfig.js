@@ -71,6 +71,7 @@ const idx = {
     // 'terminal-return-stale-email',
     // 'terminal-transfered-email',
     // 'terminal-registration',
+    // 'terminal-enduser-email-consent-denied',
     // 'oda-enrollment-ios',
     // 'oda-enrollment-android',
     // 'mdm-enrollment',
@@ -660,6 +661,16 @@ const symantecVipAuthenticator = {
   ],
   '/idp/idx/credential/enroll': [
     'authenticator-enroll-symantec-vip',
+  ],
+};
+
+const emailChallengeConsent = {
+  '/idp/idx/introspect': [
+    'email-challenge-consent',
+  ],
+  '/idp/idx/consent': [
+    'terminal-return-email-consent',
+    'terminal-return-email-consent-denied',
   ],
 };
 
