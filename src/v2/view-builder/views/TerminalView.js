@@ -1,9 +1,7 @@
 import { createCallout, loc } from 'okta';
-import { BaseHeader, BaseForm, BaseFooter, BaseView } from '../internals';
-import HeaderBeacon from '../components/HeaderBeacon';
+import { BaseForm, BaseFooter, BaseView } from '../internals';
 import { getBackToSignInLink, getSkipSetupLink } from '../utils/LinksUtil';
-import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
-import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
+import EmailHeader from '../components/EmailHeader';
 
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
 const SAFE_MODE_KEY_PREFIX = 'idx.error.server.safe.mode';
@@ -28,14 +26,6 @@ const GET_BACK_TO_SIGN_LINK_FLOWS = [
   RETURN_LINK_EXPIRED_KEY,
   REGISTRATION_NOT_ENABLED,
 ];
-
-const HeaderBeaconTerminal = HeaderBeacon.extend({
-  getBeaconClassName: function() {
-    return this.options.appState.containsMessageWithI18nKey(EMAIL_AUTHENTICATOR_TERMINAL_KEYS)
-      ? getIconClassNameForBeacon(AUTHENTICATOR_KEY.EMAIL)
-      : HeaderBeacon.prototype.getBeaconClassName.apply(this, arguments);
-  }
-});
 
 const Body = BaseForm.extend({
   noButtonBar: true,
@@ -108,9 +98,12 @@ const Footer = BaseFooter.extend({
 });
 
 export default BaseView.extend({
-  Header: BaseHeader.extend({
-    HeaderBeacon: HeaderBeaconTerminal,
-  }),
+  initialize() {
+    BaseView.prototype.initialize.apply(this, arguments);
+    if (this.options.appState.containsMessageWithI18nKey(EMAIL_AUTHENTICATOR_TERMINAL_KEYS)) {
+      this.Header = EmailHeader;
+    } 
+  },
   Body,
   Footer
 });
