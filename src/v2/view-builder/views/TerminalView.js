@@ -80,7 +80,7 @@ const Body = BaseForm.extend({
               content: msg,
               type: 'error',
             }), {
-              className: '.o-form-error-container',
+              selector: '.o-form-error-container',
               prepend: true,
             });
           } else {
