@@ -23,7 +23,7 @@ const handleProxyIdxResponse = async (settings) => {
   });
 };
 
-export async function startLoginFlow(settings) {
+export async function startLoginFlow(settings, appState) {
   // Return a preset response
   if (settings.get('proxyIdxResponse')) {
     return handleProxyIdxResponse(settings);
@@ -32,7 +32,7 @@ export async function startLoginFlow(settings) {
   // Use stateToken
   const stateHandle = settings.get('stateToken');
   if (stateHandle) {
-    return introspect(settings);
+    return introspect(settings, appState);
   }
   
   // Use or acquire interactionHandle
