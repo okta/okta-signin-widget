@@ -19,7 +19,6 @@ module.exports = function(grunt) {
       DIST                  = 'dist',
       SASS                  = 'target/sass',
       I18N_SRC              = 'packages/@okta/i18n/src',
-      SEARCH_OUT_FILE       = 'build2/OSW-search-checkstyle-result.xml',
       // Note: 3000 is necessary to test against certain browsers in SauceLabs
       DEFAULT_SERVER_PORT   = 3000;
 
@@ -214,27 +213,6 @@ module.exports = function(grunt) {
       }
     },
 
-    search: {
-      noAbsoluteUrlsInCss: {
-        files: {
-          src: ['assets/sass/**/*.scss']
-        },
-        options: {
-          searchString: /url\(['"]\//g,
-          failOnMatch: true,
-          logFile: SEARCH_OUT_FILE,
-          logFormat: 'xml',
-          onMatch: function(match) {
-            grunt.log.errorlns('URLs starting with \'/\' are not allowed in SCSS files. ' +
-              'Fix this by replacing with a relative link.');
-            grunt.log.errorlns('Found in file: ' + match.file + '. Line: ' + match.line);
-            grunt.log.errorlns('Error log also written to: ' + SEARCH_OUT_FILE);
-            grunt.log.errorlns('');
-          }
-        }
-      }
-    },
-
     exec: {
       'clean': 'yarn clean',
       'retirejs': 'yarn retirejs',
@@ -418,6 +396,4 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-watch');
-
-  grunt.task.registerTask('lint', ['search:noAbsoluteUrlsInCss']);
 };
