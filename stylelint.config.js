@@ -1,8 +1,10 @@
 module.exports = {
   'plugins': [
-    'stylelint-scss'
+    'stylelint-scss',
+    './stylelint-local-rules.js'
   ],
   'rules': {
+    'okta/no-absolute-urls': true,
     'declaration-no-important': true,
     'media-feature-name-no-vendor-prefix': null,
     'no-duplicate-selectors': null,
