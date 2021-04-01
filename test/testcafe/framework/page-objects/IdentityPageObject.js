@@ -12,6 +12,7 @@ const CUSTOM_HELP_LINKS_SELECTOR = '.auth-footer .js-custom';
 const CUSTOM_BUTTON = '.custom-buttons .okta-custom-buttons-container .default-custom-button';
 const UNLOCK_ACCOUNT = '.auth-footer .js-unlock';
 const SUB_LABEL_SELECTOR = '.o-form-explain';
+const IDPS_CONTAINER = '.okta-idps-container';
 
 export default class IdentityPageObject extends BasePageObject {
   constructor(t) {
@@ -169,5 +170,9 @@ export default class IdentityPageObject extends BasePageObject {
 
   getPasswordSubLabelValue() {
     return Selector(SUB_LABEL_SELECTOR).nth(1).textContent;
+  }
+
+  getIdpsContainer() {
+    return Selector(IDPS_CONTAINER);
   }
 }

@@ -16,8 +16,15 @@ export default class BasePageObject {
     this.form = new BaseFormObject(t);
   }
 
-  async navigateToPage() {
-    await this.t.navigateTo(`http://localhost:3000${this.url}`);
+  async navigateToPage(queryParams) {
+    let qs = '';
+    if (queryParams) {
+      qs = Object.keys(queryParams).reduce((acc, cur) => {
+        acc = acc ? acc + '&' : '?';
+        return acc + encodeURIComponent(cur) + '=' + encodeURIComponent(queryParams[cur]);
+      }, '');
+    }
+    await this.t.navigateTo(`http://localhost:3000${this.url}${qs}`);
   }
 
   async getPageUrl() {

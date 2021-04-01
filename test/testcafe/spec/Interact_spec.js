@@ -17,16 +17,7 @@ const expectTerminalView = {
   formName: 'terminal'
 };
 
-// For these tests the widget will render once using default settings before we re-render using the interaction code flow
-const initialRender = [
-  'ready',
-  'afterRender',
-  expectIdentifyView,
-  'afterRender',
-  expectIdentifyView
-];
-
-const rerenderWidget = ClientFunction((settings) => {
+const renderWidget = ClientFunction((settings) => {
   // function `renderPlaygroundWidget` is defined in playground/main.js
   window.renderPlaygroundWidget(settings);
 });
@@ -54,7 +45,7 @@ const mockCrypto = ClientFunction(() => {
 });
 
 const saveTransactionMeta = ClientFunction(meta => {
-  const signIn = window.getWidgetInstance();
+  const signIn = window.createWidgetInstance();
   const authClient = signIn.authClient;
   authClient.transactionManager.save(meta);
 });
@@ -103,20 +94,16 @@ function decodeUrlEncodedRequestBody(body) {
 
 async function setup(t, options = {}) {
   const pageObject = new BasePageObject(t);
-  await pageObject.navigateToPage();
-
-  // wait for introspect from initial render
-  await t.expect(requestLogger.count(() => true)).eql(1);
-  requestLogger.clear();
+  await pageObject.navigateToPage({ render: false });
 
   // Set saved transaction meta?
   if (options.transactionMeta) {
     await saveTransactionMeta(options.transactionMeta);
   }
 
-  // Re-render the widget for interaction code flow
+  // Render the widget for interaction code flow
   await mockCrypto();
-  await rerenderWidget({
+  await renderWidget({
     stateToken: undefined,
     clientId: 'fake',
     redirectUri: 'http://doesnot-matter',
@@ -137,14 +124,6 @@ test.requestHooks(requestLogger, errorMock)('shows an error when feature is not 
   await t.expect(errors.getTextContent()).eql('The requested feature is not enabled in this environment.');
 
   await checkConsoleMessages([
-    // initial render will produce some kind of error (we are not trying to test this)
-    'ready',
-    'afterRender',
-    expectIdentifyView,
-    'afterRender',
-    expectTerminalView,
-
-    // 2nd render with interaction code flow should go straight to terminal view
     'ready',
     'afterRender',
     expectTerminalView
@@ -166,11 +145,11 @@ test.requestHooks(requestLogger, interactMock)('receives interaction_handle from
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/oauth2/default/v1/interact');
 
-  await checkConsoleMessages(initialRender.concat([
+  await checkConsoleMessages([
     'ready',
     'afterRender',
     expectIdentifyView
-  ]));
+  ]);
 });
 
 test.requestHooks(requestLogger, interactMock)('passes interaction handle to introspect endpoint', async t => {
@@ -185,11 +164,11 @@ test.requestHooks(requestLogger, interactMock)('passes interaction handle to int
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/introspect');
 
-  await checkConsoleMessages(initialRender.concat([
+  await checkConsoleMessages([
     'ready',
     'afterRender',
     expectIdentifyView
-  ]));
+  ]);
 });
 
 test.requestHooks(requestLogger, interactMock)('passes saved interaction handle to introspect endpoint', async t => {
@@ -215,9 +194,9 @@ test.requestHooks(requestLogger, interactMock)('passes saved interaction handle 
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/introspect');
 
-  await checkConsoleMessages(initialRender.concat([
+  await checkConsoleMessages([
     'ready',
     'afterRender',
     expectIdentifyView
-  ]));
+  ]);
 });

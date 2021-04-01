@@ -3,17 +3,26 @@
 
 import signinWidgetOptions from '../.widgetrc.js';
 
+let signIn;
+
+function getWidgetInstance() {
+  return signIn;
+}
+
+function createWidgetInstance(options = {}) {
+  if (signIn) {
+    signIn.remove();
+  }
+  signIn = new OktaSignIn(Object.assign({}, signinWidgetOptions, options));
+  return signIn;
+}
+
 if (typeof OktaSignIn === 'undefined') {
   // Make sure OktaSignIn is available
   setTimeout(() => window.location.reload(), 2 * 1000);
 }
-let signIn;
 const renderPlaygroundWidget = (options = {}) => {
-  if (signIn) {
-    signIn.remove();
-  }
-
-  signIn = new OktaSignIn(Object.assign({}, signinWidgetOptions, options));
+  createWidgetInstance(options);
 
   signIn.renderEl(
     { el: '#okta-login-container' },
@@ -83,12 +92,17 @@ const renderPlaygroundWidget = (options = {}) => {
     console.log(JSON.stringify(error));
   });
 
-
 };
 
-window.getWidgetInstance = function() {
-  return signIn;
-};
-
+window.getWidgetInstance = getWidgetInstance;
+window.createWidgetInstance = createWidgetInstance;
 window.renderPlaygroundWidget = renderPlaygroundWidget;
-renderPlaygroundWidget();
+
+var render = true;
+if (typeof URL !== 'undefined') {
+  var searchParams = new URL(window.location.href).searchParams;
+  if (searchParams.get('render') === '0' || searchParams.get('render') === 'false') {
+    render = false;
+  }
+}
+render && renderPlaygroundWidget();

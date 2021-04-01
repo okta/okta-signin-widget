@@ -83,11 +83,12 @@ export default Router.extend({
 
   handleIdxResponseSuccess(idxResponse) {
     if (idxResponse.interactionCode) {
+      // This is the end of the IDX flow, now entering OAuth
       return interactionCodeFlow(this.settings, idxResponse);
     }
 
     // transform response
-    const ionResponse = transformIdxResponse(this.settings, idxResponse);
+    const ionResponse = transformIdxResponse(this.settings, this.appState, idxResponse);
 
     // if this is a terminal error, clear all transaction meta
     if (IonResponseHelper.isTerminalError(ionResponse)) {
