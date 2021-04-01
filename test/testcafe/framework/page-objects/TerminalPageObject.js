@@ -1,4 +1,3 @@
-import { Selector } from 'testcafe';
 import BasePageObject from './BasePageObject';
 import CalloutObject from './components/CalloutObject';
 
@@ -6,7 +5,6 @@ export default class TerminalPageObject extends BasePageObject {
 
   constructor(t) {
     super(t);
-    this.beacon = new Selector('.beacon-container');
   }
 
   getHeader() {
@@ -23,9 +21,5 @@ export default class TerminalPageObject extends BasePageObject {
 
   waitForErrorBox() {
     return this.form.waitForErrorBox();
-  }
-
-  getBeaconClass() {
-    return this.beacon.find('[data-se="factor-beacon"]').getAttribute('class');
   }
 }

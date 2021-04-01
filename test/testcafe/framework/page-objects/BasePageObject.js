@@ -1,5 +1,5 @@
 import BaseFormObject from './components/BaseFormObject';
-import { Selector } from 'testcafe';
+import { Selector, ClientFunction } from 'testcafe';
 
 const SIGNOUT_LINK = '.auth-footer .js-cancel';
 const GO_BACK_LINK = '.auth-footer .js-go-back';
@@ -12,11 +12,17 @@ export default class BasePageObject {
   constructor(t) {
     this.t = t;
     this.url = '';
+    this.beacon = new Selector('.beacon-container');
     this.form = new BaseFormObject(t);
   }
 
   async navigateToPage() {
     await this.t.navigateTo(`http://localhost:3000${this.url}`);
+  }
+
+  async getPageUrl() {
+    const pageUrl = await ClientFunction(() => window.location.href)();
+    return pageUrl;
   }
 
   getFormTitle() {
@@ -94,5 +100,9 @@ export default class BasePageObject {
   async switchAuthenticatorLinkExists() {
     const elCount = await Selector(SWITCH_AUTHENTICATOR_LINK).count;
     return elCount === 1;
+  }
+
+  getBeaconClass() {
+    return this.beacon.find('[data-se="factor-beacon"]').getAttribute('class');
   }
 }

@@ -20,7 +20,7 @@ const Link = View.extend({
   tagName: 'a',
 
   attributes() {
-    let href = this.options.href  || '#';
+    let href = this.options.href || '#';
     return {
       'data-se': this.options.name,
       href: href
@@ -37,7 +37,7 @@ const Link = View.extend({
   },
 
   postRender() {
-    // TODO OKTA-245224
+    // TODO OKTA-245224: create sub class of Link to dispatch following if/else logic.
     if (!this.options.href) {
       this.$el.click((event) => {
         event.preventDefault();

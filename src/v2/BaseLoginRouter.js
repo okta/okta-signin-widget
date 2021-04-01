@@ -16,6 +16,7 @@
 import { _, $, Backbone, Router, loc } from 'okta';
 import Settings from 'models/Settings';
 import Bundles from 'util/Bundles';
+import BrowserFeatures from 'util/BrowserFeatures';
 import ColorsUtil from 'util/ColorsUtil';
 import Enums from 'util/Enums';
 import Errors from 'util/Errors';
@@ -41,7 +42,7 @@ export default Router.extend({
     // Create a default success and/or error handler if
     // one is not provided.
     if (!options.globalSuccessFn) {
-      options.globalSuccessFn = function() {};
+      options.globalSuccessFn = function() { };
     }
     if (!options.globalErrorFn) {
       options.globalErrorFn = function(err) {
@@ -84,7 +85,7 @@ export default Router.extend({
     if (idxResponse.interactionCode) {
       return interactionCodeFlow(this.settings, idxResponse);
     }
-  
+
     // transform response
     const ionResponse = transformIdxResponse(this.settings, idxResponse);
 
@@ -104,13 +105,15 @@ export default Router.extend({
       const idxMessages = {
         messages: {
           type: 'array',
-          value: [{
-            message: error.error_description,
-            i18n: {
-              key: 'oie.feature.disabled'
-            },
-            class: 'ERROR'
-          }],
+          value: [
+            {
+              message: error.error_description,
+              i18n: {
+                key: 'oie.feature.disabled'
+              },
+              class: 'ERROR'
+            }
+          ],
         },
       };
 
@@ -219,6 +222,11 @@ export default Router.extend({
     this.listenTo(this.controller, 'all', this.trigger);
 
     this.controller.render();
+  },
+
+  start: function() {
+    const pushState = BrowserFeatures.supportsPushState();
+    Router.prototype.start.call(this, { pushState: pushState });
   },
 
   hide: function() {

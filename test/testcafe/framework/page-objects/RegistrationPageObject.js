@@ -8,6 +8,7 @@ const EMAIL_FIELD = 'userProfile\\.email';
 export default class RegistrationPageObject extends BasePageObject {
   constructor(t) {
     super(t);
+    this.url = '/signin/register';
   }
 
   fillFirstNameField(value) {
