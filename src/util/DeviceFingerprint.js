@@ -16,9 +16,6 @@ export default {
   getUserAgent: function() {
     return navigator.userAgent;
   },
-  isAndroid: function() {
-    return /Android/i.test(this.getUserAgent());
-  },
   isMessageFromCorrectSource: function($iframe, event) {
     return event.source === $iframe[0].contentWindow;
   },

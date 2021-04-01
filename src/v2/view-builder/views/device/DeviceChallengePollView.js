@@ -3,7 +3,7 @@ import { $, loc } from 'okta';
 import { BaseHeader, BaseForm, BaseFormWithPolling, BaseFooter, BaseView } from '../../internals';
 import HeaderBeacon from '../../components/HeaderBeacon';
 import Logger from '../../../../util/Logger';
-import DeviceFingerprint from '../../../../util/DeviceFingerprint';
+import BrowserFeatures from '../../../../util/BrowserFeatures';
 import Enums from '../../../../util/Enums';
 import { CANCEL_POLLING_ACTION } from '../../utils/Constants';
 import Link from '../../components/Link';
@@ -69,7 +69,7 @@ const Body = BaseFormWithPolling.extend(
           // in loopback server, SSL handshake sometimes takes more than 100ms and thus needs additional timeout
           // however, increasing timeout is a temporary solution since user will need to wait much longer in worst case
           // TODO: OKTA-278573 Android timeout is temporarily set to 3000ms and needs optimization post-Beta
-          timeout: DeviceFingerprint.isAndroid() ? 3000 : 100
+          timeout: BrowserFeatures.isAndroid() ? 3000 : 100
         });
       };
 
