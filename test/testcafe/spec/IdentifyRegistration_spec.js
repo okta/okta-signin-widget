@@ -76,6 +76,10 @@ test.requestHooks(mock)('should have editable fields and have account label', as
   await t.expect(registrationPage.getFirstNameValue()).eql('Test First Name');
   await t.expect(registrationPage.getLastNameValue()).eql('Test Last Name');
   await t.expect(registrationPage.getEmail()).eql('test@email.com');
+
+  await t.expect(registrationPage.form.getTitle()).eql('Sign up');
+  await t.expect(registrationPage.form.getSaveButtonLabel()).eql('Sign Up');
+
 });
 
 test.requestHooks(mock)('should show errors if required fields are empty', async t => {
@@ -241,6 +245,7 @@ test.requestHooks(enrolProfileDisabledMock)('should shall terminal error when re
   ]);
 
   // expect terminal errors
+  await t.expect(registrationPage.form.getTitle()).eql('Sign up');
   await t.expect(registrationPage.form.getErrorBoxText()).eql('Sign up is not enabled for this organization.');
   await t.expect(await registrationPage.goBackLinkExists()).ok();
 });

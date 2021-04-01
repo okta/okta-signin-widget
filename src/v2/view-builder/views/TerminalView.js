@@ -55,6 +55,9 @@ const Body = BaseForm.extend({
     if (this.options.appState.containsMessageWithI18nKey(UNLOCK_ACCOUNT_TERMINAL_KEY)) {
       return loc('account.unlock.unlocked.title', 'login');
     }
+    if (this.options.appState.containsMessageWithI18nKey(REGISTRATION_NOT_ENABLED)) {
+      return loc('oie.registration.form.title');
+    }
   },
 
   showMessages() {
