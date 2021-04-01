@@ -182,6 +182,7 @@ const getI18NValue = (i18nPath, defaultValue, params = []) => {
   if (i18nKey) {
     return loc(i18nKey, 'login', params);
   } else {
+    Logger.warn(`Avoid rendering unlocalized text sent from the API: ${defaultValue}`);
     return defaultValue;
   }
 };
@@ -275,6 +276,7 @@ const getMessage = (message) => {
       return loc(i18nKey, 'login', message.i18n.params || []);
     }
   }
+  Logger.warn(`Avoid rendering unlocalized text sent from the API: ${message.message}`);
   return message.message;
 };
 
