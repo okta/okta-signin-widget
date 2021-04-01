@@ -32,7 +32,7 @@ test('clicking the launch Okta Verify button takes user to the right UI', async 
   const signInDevicePage = await setup(t);
   await signInDevicePage.clickLaunchOktaVerifyButton();
   const header = new Selector('h2[data-se="o-form-head"]');
-  await t.expect(header.textContent).eql('Sign in using Okta Verify on this device');
+  await t.expect(header.textContent).eql('Click "Open Okta Verify" on the browser prompt');
 });
 
 test('shows the correct footer links', async t => {
