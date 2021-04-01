@@ -59,7 +59,7 @@ test
     await t.expect(challengeDuoPage.hasDuoIframe()).eql(true);
 
     await t.expect(await challengeDuoPage.signoutLinkExists()).ok();
-    await t.expect(challengeDuoPage.getSignoutLinkText()).eql('Sign Out');
+    await t.expect(challengeDuoPage.getSignoutLinkText()).eql('Back to sign in');
   });
 
 test.requestHooks(answerRequestLogger, mock)('verifies successfully', async t => {

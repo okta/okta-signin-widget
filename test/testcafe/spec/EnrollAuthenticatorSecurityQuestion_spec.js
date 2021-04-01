@@ -58,8 +58,8 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionMock)(
   await t.expect(radioOptionLabel).eql('Choose a security question');
   // assert Custom Question textbox doesn't show up
   await t.expect(enrollSecurityQuestionPage.isCreateMyOwnSecurityQuestionTextBoxVisible()).notOk();
-  // no signout link at enroll page
-  await t.expect(await enrollSecurityQuestionPage.signoutLinkExists()).notOk();
+  // signout link at enroll page
+  await t.expect(await enrollSecurityQuestionPage.signoutLinkExists()).ok();
   // assert switch authenticator link shows up
   await t.expect(await enrollSecurityQuestionPage.switchAuthenticatorLinkExists()).ok();
   await t.expect(enrollSecurityQuestionPage.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');

@@ -41,7 +41,7 @@ test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock
 
   await t.expect(await challengeFactorPageObject.getAnswerLabel()).eql('Where did you go for your favorite vacation?');
   await t.expect(await challengeFactorPageObject.signoutLinkExists()).ok();
-  await t.expect(challengeFactorPageObject.getSignoutLinkText()).eql('Sign Out');
+  await t.expect(challengeFactorPageObject.getSignoutLinkText()).eql('Back to sign in');
 
   await challengeFactorPageObject.setAnswerValue('test answer');
   await challengeFactorPageObject.clickVerifyButton();

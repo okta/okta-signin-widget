@@ -41,7 +41,7 @@ test('should render an iframe for duo', async t => {
   // Verify links
   await t.expect(await enrollDuoPage.switchAuthenticatorLinkExists()).ok();
   await t.expect(enrollDuoPage.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');
-  await t.expect(await enrollDuoPage.signoutLinkExists()).notOk();
+  await t.expect(await enrollDuoPage.signoutLinkExists()).ok();
 });
 
 test('enrolls successfully', async t => {
