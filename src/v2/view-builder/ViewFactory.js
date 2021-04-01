@@ -16,6 +16,7 @@ import PollView from './views/PollView';
 // consent
 import AdminConsentView from './views/consent/AdminConsentView';
 import EnduserConsentView from './views/consent/EnduserConsentView';
+import EnduserEmailConsentView from './views/consent/EnduserEmailConsentView';
 
 // Device (Okta Verify)
 import DeviceChallengePollView from './views/device/DeviceChallengePollView';
@@ -128,6 +129,9 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.CONSENT_ENDUSER]: {
     [DEFAULT]: EnduserConsentView
+  },
+  [RemediationForms.CONSENT_EMAIL_CHALLENGE]: {
+    [DEFAULT]: EnduserEmailConsentView,
   },
   [RemediationForms.ENROLL_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.DUO]: EnrollDuoAuthenticatorView,
