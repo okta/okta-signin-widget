@@ -87,6 +87,10 @@ export default Model.extend({
     }
   },
 
+  getPollInterval() {
+    return this.getCurrentViewState().refresh;
+  },
+
   getCurrentViewState() {
     const currentFormName = this.get('currentFormName');
 
