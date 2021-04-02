@@ -1,7 +1,6 @@
 /* global Promise */
 import { $, loc } from 'okta';
 import { BaseForm, BaseFormWithPolling, BaseFooter, BaseView } from '../../internals';
-import { BaseForm, BaseFormWithPolling, BaseFooter, BaseView } from '../../internals';
 import Logger from '../../../../util/Logger';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import Enums from '../../../../util/Enums';

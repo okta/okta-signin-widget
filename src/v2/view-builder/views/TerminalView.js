@@ -46,7 +46,7 @@ const Body = BaseForm.extend({
       return loc('account.unlock.unlocked.title', 'login');
     }
     if (this.options.appState.containsMessageWithI18nKey(REGISTRATION_NOT_ENABLED)) {
-      return loc('oie.registration.form.title');
+      return loc('oie.registration.form.title', 'login');
     }
   },
 
@@ -102,7 +102,7 @@ export default BaseView.extend({
     BaseView.prototype.initialize.apply(this, arguments);
     if (this.options.appState.containsMessageWithI18nKey(EMAIL_AUTHENTICATOR_TERMINAL_KEYS)) {
       this.Header = EmailHeader;
-    } 
+    }
   },
   Body,
   Footer
