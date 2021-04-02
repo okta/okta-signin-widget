@@ -57,5 +57,5 @@ test('should the correct content', async t => {
   await t.expect(identityPage.getSeparationLineText()).eql('or');
   await identityPage.clickOktaVerifyButton();
   const header = new Selector('h2[data-se="o-form-head"]');
-  await t.expect(header.textContent).eql('Click "Open Okta Verify" on the browser prompt');
+  await t.expect(header.textContent).eql('Sign in using Okta Verify on this device');
 });

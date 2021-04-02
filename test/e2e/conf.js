@@ -76,7 +76,8 @@ if (process.env.TRAVIS  || process.env.CHROME_HEADLESS) {
       'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
       'build': process.env.TRAVIS_BUILD_NUMBER
     }];
-    config.exclude = ['specs/dev_spec.js', 'specs/npm_spec.js', 'specs/OIDC_spec.js'];
+    config.exclude = ['specs/angular_spec.js', 'specs/dev_spec.js',
+      'specs/npm_spec.js', 'specs/OIDC_spec.js', 'specs/react_spec.js'];
   }
 }
 // Local tests, required:

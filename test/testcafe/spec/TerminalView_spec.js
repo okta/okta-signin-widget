@@ -3,8 +3,8 @@ import terminalReturnEmail from '../../../playground/mocks/data/idp/idx/terminal
 import terminalTransferEmail from '../../../playground/mocks/data/idp/idx/terminal-transfered-email';
 import terminalReturnExpiredEmail from '../../../playground/mocks/data/idp/idx/terminal-return-expired-email';
 import terminalRegistrationEmail from '../../../playground/mocks/data/idp/idx/terminal-registration';
-import terminalReturnEmailConsentDenied from '../../../playground/mocks/data/idp/idx/terminal-enduser-email-consent-denied';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
+
 
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -22,10 +22,6 @@ const terminalRegistrationEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(terminalRegistrationEmail);
 
-const terminalReturnEmailConsentDeniedMock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(terminalReturnEmailConsentDenied);
-
 fixture('Terminal view');
 
 async function setup(t) {
@@ -41,10 +37,7 @@ async function setup(t) {
     terminalReturnEmailMock ],
   [ 'Shows the correct beacon for expired email terminalview',
     terminalReturnExpiredEmailMock ],
-  [ 'Shows the correct beacon for email sent terminalview',
-    terminalRegistrationEmailMock ],
-  [ 'Shows the correct beacon for terminal email consent denied screen in first device',
-    terminalReturnEmailConsentDeniedMock ],
+  [ 'Shows the correct beacon for email sent terminalview', terminalRegistrationEmailMock ]
 ].forEach(([ testTitle, mock ]) => {
   test
     .requestHooks(mock)(testTitle, async t => {

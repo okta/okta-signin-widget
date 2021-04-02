@@ -10,14 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import BaseLoginRouter from './BaseLoginRouter';
 import FormController from './controllers/FormController';
-import RegistrationFormController from './controllers/RegistrationFormController';
+import BaseLoginRouter from './BaseLoginRouter';
 
 module.exports = BaseLoginRouter.extend({
   routes: {
     '': 'defaultAuth',
-    'signin/register': 'renderRegister',
     '*wildcard': 'defaultAuth',
   },
 
@@ -25,11 +23,4 @@ module.exports = BaseLoginRouter.extend({
     this.render(FormController);
   },
 
-  /**
-   * In order to support rendering Registration form
-   * directly when navigate to '/signin/register'.
-   */
-  renderRegister() {
-    this.render(RegistrationFormController);
-  }
 });

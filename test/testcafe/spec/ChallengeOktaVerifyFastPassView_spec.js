@@ -1,7 +1,6 @@
-import { RequestLogger, RequestMock, Selector } from 'testcafe';
+import { RequestLogger, RequestMock, ClientFunction, Selector } from 'testcafe';
 import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChallengePollPageObject';
 import SelectAuthenticatorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
-import BasePageObject from '../framework/page-objects/BasePageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 import identifyWithUserVerificationLoopback from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-loopback';
@@ -48,7 +47,7 @@ const loopbackFallbackMock = RequestMock()
   .respond(identifyWithUserVerificationCustomURI);
 
 const identifyWithLaunchAuthenticatorHttpCustomUri = JSON.parse(JSON.stringify(identifyWithUserVerificationCustomURI));
-const mockHttpCustomUri = 'http://localhost:6512/launch-okta-verify';
+const mockHttpCustomUri = 'http://localhost:3000/launch-okta-verify';
 // replace custom URI with http URL so that we can mock and verify
 identifyWithLaunchAuthenticatorHttpCustomUri.currentAuthenticator.value.contextualData.challenge.value.href = mockHttpCustomUri;
 
@@ -59,9 +58,7 @@ const customURIMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
   .respond(identifyWithUserVerificationCustomURI)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
-  .respond(identifyWithLaunchAuthenticatorHttpCustomUri)
-  .onRequestTo(mockHttpCustomUri)
-  .respond('<html><h1>open universal link</h1></html>');
+  .respond(identifyWithLaunchAuthenticatorHttpCustomUri);
 
 const identifyWithSSOExtensionFallbackWithoutLink = JSON.parse(JSON.stringify(identifyWithSSOExtensionFallback));
 // remove the universal link so that Util.redirect does not open a link and the rest of the flow can be verified
@@ -111,16 +108,16 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Sign Out');
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 200 &&
-        record.request.url.match(/introspect|6512/)
+      record.request.url.match(/introspect|6512/)
     )).eql(3);
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 200 &&
-        record.request.url.match(/challenge/) &&
-        record.request.body.match(/challengeRequest":"eyJraWQiOiJW/)
+      record.request.url.match(/challenge/) &&
+      record.request.body.match(/challengeRequest":"eyJraWQiOiJW/)
     )).eql(1);
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 500 &&
-        record.request.url.match(/2000|6511/)
+      record.request.url.match(/2000|6511/)
     )).eql(2);
     probeSuccess = true;
     await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6513/))).eql(false);
@@ -135,14 +132,19 @@ test
     await setupLoopbackFallback(t);
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
-    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Click "Open Okta Verify" on the browser prompt');
+    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Sign in using Okta Verify on this device');
     const content = deviceChallengePollPageObject.getContent();
-    await t.expect(content).contains('Didn’t get a prompt?');
-    await t.expect(content).contains('Launch Okta Verify');
-    await t.expect(content).contains('Don’t have Okta Verify?');
-    await t.expect(content).contains('Download here');
+    await t.expect(content).contains('Please click');
+    await t.expect(content).contains('Open oktaverify.app');
+    await t.expect(content).contains('if you see the system dialog.');
+    await t.expect(content).contains('If nothing prompts from the browser,');
+    await t.expect(content).contains('click here to launch Okta Verify, or download & run Okta Verify.');
+    await t.expect(content).contains('If nothing prompts from the browser,');
+    await t.expect(content).contains('click here');
+    await t.expect(content).contains('to launch Okta Verify, or');
+    await t.expect(content).contains('download & run Okta Verify.');
     await t.expect(deviceChallengePollPageObject.getDownloadOktaVerifyLink()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
-    await t.expect(deviceChallengePollPageObject.getFooterLink().exists).notOk();
+    await t.expect(deviceChallengePollPageObject.getFooterLink().exists).notOk;
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Sign Out');
     await deviceChallengePollPageObject.clickSwitchAuthenticatorButton();
@@ -150,6 +152,7 @@ test
     await t.expect(secondSelectAuthenticatorPageObject.getFormTitle()).eql('Verify it\'s you with an authenticator');
   });
 
+const getPageUrl = ClientFunction(() => window.location.href);
 test
   .requestHooks(customURILogger, customURIMock)('in custom URI approach, Okta Verify is launched', async t => {
     const deviceChallengePollPageObject = await setup(t);
@@ -182,8 +185,8 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Sign Out');
     deviceChallengePollPageObject.clickUniversalLink();
+    await t.expect(getPageUrl()).contains(mockHttpCustomUri);
     await t.expect(Selector('h1').innerText).eql('open universal link');
-    await t.expect(await (new BasePageObject()).getPageUrl()).contains(mockHttpCustomUri);
   });
 
 test
@@ -196,6 +199,6 @@ test
         record.request.url.match(/introspect/)
     )).eql(1);
     deviceChallengeFalllbackPage.clickOktaVerifyButton();
+    await t.expect(getPageUrl()).contains(mockHttpCustomUri);
     await t.expect(Selector('h1').innerText).eql('open universal link');
-    await t.expect(await (new BasePageObject()).getPageUrl()).contains(mockHttpCustomUri);
   });

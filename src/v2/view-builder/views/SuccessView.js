@@ -1,5 +1,6 @@
 import { _, loc } from 'okta';
 import { BaseForm, BaseView } from '../internals';
+import Util from '../../../util/Util';
 
 const Body = BaseForm.extend({
   title() {
@@ -12,8 +13,8 @@ const Body = BaseForm.extend({
       return titleString;
     }
 
-    const { label: appInstanceName, name: appDisplayName } = app;
-    const { identifier: userEmail } = user || {};
+    const {label: appInstanceName, name: appDisplayName} = app;
+    const {identifier: userEmail} = user || {};
 
     const appName = appInstanceName ? appInstanceName : appDisplayName;
 
@@ -28,9 +29,10 @@ const Body = BaseForm.extend({
   noButtonBar: true,
   initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
-
-    this.model.set('useRedirect', true);
-    this.trigger('save', this.model);
+    // TODO OKTA-250473
+    // Form post for success redirect
+    const url = this.options.currentViewState.href;
+    Util.redirectWithFormGet(url);
   },
 
   render() {

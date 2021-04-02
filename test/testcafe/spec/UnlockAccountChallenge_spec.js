@@ -1,4 +1,4 @@
-import { RequestMock, ClientFunction } from 'testcafe';
+import { RequestMock } from 'testcafe';
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
@@ -30,10 +30,6 @@ const errorUnlockAccount = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrErrorUnlockAccount);
 
-const rerenderWidget = ClientFunction((settings) => {
-  window.renderPlaygroundWidget(settings);
-});
-
 fixture('Unlock Account');
 
 async function setup(t) {
@@ -45,25 +41,6 @@ async function setup(t) {
 test.requestHooks(identifyLockedUserMock)('should show unlock account link', async t => {
   const identityPage = await setup(t);
   await t.expect(identityPage.getUnlockAccountLinkText()).eql('Unlock account?');
-});
-
-
-test.requestHooks(identifyLockedUserMock)('should render custom Unlock account link', async t => {
-  const identityPage = await setup(t);
-
-  await rerenderWidget({
-    helpLinks: {
-      unlock: 'http://unlockaccount',
-    },
-    i18n: {
-      en: {
-        'unlockaccount': 'HELP I\'M LOCKED OUT'
-      }
-    }
-  });
-
-  await t.expect(identityPage.getUnlockAccountLinkText()).eql('HELP I\'M LOCKED OUT');
-  await t.expect(identityPage.getCustomUnlockAccountLink()).eql('http://unlockaccount');
 });
 
 test.requestHooks(identifyLockedUserMock)('should show unlock account authenticator selection list', async t => {

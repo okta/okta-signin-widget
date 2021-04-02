@@ -1,10 +1,12 @@
 /* global Promise */
-import { $ } from 'okta';
+import { $, loc, createButton, View } from 'okta';
+import hbs from 'handlebars-inline-precompile';
 import { BaseForm } from '../../internals';
 import Logger from '../../../../util/Logger';
 import DeviceFingerprint from '../../../../util/DeviceFingerprint';
 import polling from '../shared/polling';
-import {doChallenge} from '../../utils/ChallengeViewUtil';
+import Util from '../../../../util/Util';
+import Enums from '../../../../util/Enums';
 
 const request = (opts) => {
   const ajaxOptions = Object.assign({
@@ -30,7 +32,8 @@ const Body = BaseForm.extend(Object.assign(
     initialize() {
       BaseForm.prototype.initialize.apply(this, arguments);
       this.listenTo(this.model, 'error', this.onPollingFail);
-      doChallenge(this);
+      this.deviceChallengePollRemediation = this.options.currentViewState;
+      this.doChallenge();
       this.startPolling();
     },
 
@@ -44,8 +47,57 @@ const Body = BaseForm.extend(Object.assign(
       this.stopPolling();
     },
 
-    getDeviceChallengePayload() {
-      return this.options.currentViewState.relatesTo.value.contextualData.challenge.value;
+    doChallenge() {
+      const deviceChallenge = this.deviceChallengePollRemediation.relatesTo.value.contextualData.challenge.value;
+      switch (deviceChallenge.challengeMethod) {
+      case Enums.LOOPBACK_CHALLENGE:
+        this.title = loc('deviceTrust.sso.redirectText', 'login');
+        this.add(View.extend({
+          className: 'loopback-content',
+          template: hbs`<div class="spinner"></div>`
+        }));
+        this.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest);
+        break;
+      case Enums.CUSTOM_URI_CHALLENGE:
+        this.title = loc('oktaVerify.button', 'login');
+        this.add(View.extend({
+          className: 'skinny-content',
+          template: hbs`
+            <p>
+              {{{i18n code="customUri.required.content.p1" bundle="login"}}}
+            </p>
+            <p>
+              {{{i18n code="customUri.required.content.p2" bundle="login" arguments="downloadOVLink"}}}
+            </p>
+          `,
+          getTemplateData() {
+            return {
+              downloadOVLink: deviceChallenge.downloadHref
+            };
+          },
+        }));
+        this.customURI = deviceChallenge.href;
+        this.doCustomURI();
+        break;
+      case Enums.UNIVERSAL_LINK_CHALLENGE:
+        this.title = loc('universalLink.title', 'login');
+        this.add(View.extend({
+          className: 'universal-link-content',
+          template: hbs`
+            <div class="spinner"></div>
+            {{{i18n code="universalLink.content" bundle="login"}}}
+          `
+        }));
+        this.add(createButton({
+          className: 'ul-button button button-wide button-primary',
+          title: loc('oktaVerify.reopen.button', 'login'),
+          click: () => {
+            // only window.location.href can open universal link in iOS/MacOS
+            // other methods won't do, ex, AJAX get or form get (Util.redirectWithFormGet)
+            Util.redirect(deviceChallenge.href);
+          }
+        }));
+      }
     },
 
     doLoopback(authenticatorDomainUrl = '', ports = [], challengeRequest = '') {

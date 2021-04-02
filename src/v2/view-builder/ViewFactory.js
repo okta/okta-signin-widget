@@ -2,21 +2,15 @@ import Logger from 'util/Logger';
 import { AUTHENTICATOR_KEY, FORMS as RemediationForms } from '../ion/RemediationConstants';
 import { BaseView } from './internals';
 
-// Identify
+// authenticator agnostic views
 import IdentifierView from './views/IdentifierView';
 import IdentifyRecoveryView from './views/IdentifyRecoveryView';
-
-// Terminal & Success
 import TerminalView from './views/TerminalView';
 import SuccessView from './views/SuccessView';
-
-// safe mode poll view
-import PollView from './views/PollView';
 
 // consent
 import AdminConsentView from './views/consent/AdminConsentView';
 import EnduserConsentView from './views/consent/EnduserConsentView';
-import EnduserEmailConsentView from './views/consent/EnduserEmailConsentView';
 
 // Device (Okta Verify)
 import DeviceChallengePollView from './views/device/DeviceChallengePollView';
@@ -81,14 +75,16 @@ import EnrollDuoAuthenticatorView from './views/duo/EnrollDuoAuthenticatorView';
 import ChallengeDuoAuthenticatorView from './views/duo/ChallengeDuoAuthenticatorView';
 
 // idp authenticator
-import AuthenticatorIdPVerifyView from './views/idp/AuthenticatorIdPVerifyView';
-import AuthenticatorIdPEnrollView from './views/idp/AuthenticatorIdPEnrollView';
+import AuthenticatorIdPView from './views/idp/AuthenticatorIdPView';
 
 // custom otp
 import ChallengeCustomOTPAuthenticatorView from './views/custom-otp/ChallengeCustomOTPAuthenticatorView';
 
 // Symantec VIP authenticator
 import AuthenticatorSymantecView from './views/symantec/AuthenticatorSymantecView';
+
+// safe mode poll view
+import PollView from './views/PollView';
 
 const DEFAULT = '_';
 
@@ -104,7 +100,7 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.LAUNCH_AUTHENTICATOR]: {
     [DEFAULT]: SignInDeviceView,
-  },
+  } ,
   [RemediationForms.DEVICE_APPLE_SSO_EXTENSION]: {
     [DEFAULT]: SSOExtensionView,
     [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifySSOExtensionView,
@@ -115,8 +111,8 @@ const VIEWS_MAPPING = {
   [RemediationForms.ENROLL_PROFILE]: {
     [DEFAULT]: EnrollProfileView,
   },
-  [RemediationForms.POLL]: {
-    [DEFAULT]: PollView
+  [RemediationForms.POLL] : {
+    [DEFAULT] : PollView
   },
   [RemediationForms.SELECT_AUTHENTICATOR_ENROLL]: {
     [DEFAULT]: SelectAuthenticatorEnrollView,
@@ -130,36 +126,17 @@ const VIEWS_MAPPING = {
   [RemediationForms.CONSENT_ENDUSER]: {
     [DEFAULT]: EnduserConsentView
   },
-  [RemediationForms.CONSENT_EMAIL_CHALLENGE]: {
-    [DEFAULT]: EnduserEmailConsentView,
-  },
   [RemediationForms.ENROLL_AUTHENTICATOR]: {
-    [AUTHENTICATOR_KEY.DUO]: EnrollDuoAuthenticatorView,
+    [AUTHENTICATOR_KEY.PASSWORD]: EnrollAuthenticatorPasswordView,
+    [AUTHENTICATOR_KEY.WEBAUTHN]: EnrollWebauthnView,
+    [AUTHENTICATOR_KEY.PHONE]: EnrollAuthenticatorPhoneView,
+    [AUTHENTICATOR_KEY.SECURITY_QUESTION]: EnrollAuthenticatorSecurityQuestion,
     [AUTHENTICATOR_KEY.EMAIL]: EnrollAuthenticatorEmailView,
     [AUTHENTICATOR_KEY.GOOGLE_OTP]: EnrollAuthenticatorGoogleAuthenticatorView,
-    [AUTHENTICATOR_KEY.IDP]: AuthenticatorIdPEnrollView,
     [AUTHENTICATOR_KEY.ON_PREM]: EnrollAuthenticatorOnPremView,
-    [AUTHENTICATOR_KEY.PASSWORD]: EnrollAuthenticatorPasswordView,
-    [AUTHENTICATOR_KEY.PHONE]: EnrollAuthenticatorPhoneView,
     [AUTHENTICATOR_KEY.RSA]: EnrollAuthenticatorOnPremView,
-    [AUTHENTICATOR_KEY.SECURITY_QUESTION]: EnrollAuthenticatorSecurityQuestion,
+    [AUTHENTICATOR_KEY.DUO]: EnrollDuoAuthenticatorView,
     [AUTHENTICATOR_KEY.SYMANTEC_VIP]: AuthenticatorSymantecView,
-    [AUTHENTICATOR_KEY.WEBAUTHN]: EnrollWebauthnView,
-  },
-  [RemediationForms.CHALLENGE_AUTHENTICATOR]: {
-    [AUTHENTICATOR_KEY.CUSTOM_OTP]: ChallengeCustomOTPAuthenticatorView,
-    [AUTHENTICATOR_KEY.DUO]: ChallengeDuoAuthenticatorView,
-    [AUTHENTICATOR_KEY.EMAIL]: ChallengeAuthenticatorEmailView,
-    [AUTHENTICATOR_KEY.GOOGLE_OTP]: ChallengeGoogleAuthenticatorView,
-    [AUTHENTICATOR_KEY.IDP]: AuthenticatorIdPVerifyView,
-    [AUTHENTICATOR_KEY.ON_PREM]: ChallengeAuthenticatorOnPremView,
-    [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifyTotpView,
-    [AUTHENTICATOR_KEY.PASSWORD]: ChallengeAuthenticatorPasswordView,
-    [AUTHENTICATOR_KEY.PHONE]: ChallengeAuthenticatorPhoneView,
-    [AUTHENTICATOR_KEY.RSA]: ChallengeAuthenticatorOnPremView,
-    [AUTHENTICATOR_KEY.SECURITY_QUESTION]: ChallengeAuthenticatorSecurityQuestion,
-    [AUTHENTICATOR_KEY.SYMANTEC_VIP]: AuthenticatorSymantecView,
-    [AUTHENTICATOR_KEY.WEBAUTHN]: ChallengeWebauthnView,
   },
   [RemediationForms.ENROLL_POLL]: {
     [AUTHENTICATOR_KEY.OV]: EnrollPollOktaVerifyView,
@@ -191,6 +168,20 @@ const VIEWS_MAPPING = {
   [RemediationForms.SELECT_AUTHENTICATOR_UNLOCK]: {
     [DEFAULT]: SelectAuthenticatorUnlockAccountView,
   },
+  [RemediationForms.CHALLENGE_AUTHENTICATOR]: {
+    [AUTHENTICATOR_KEY.EMAIL]: ChallengeAuthenticatorEmailView,
+    [AUTHENTICATOR_KEY.PASSWORD]: ChallengeAuthenticatorPasswordView,
+    [AUTHENTICATOR_KEY.WEBAUTHN]: ChallengeWebauthnView,
+    [AUTHENTICATOR_KEY.SECURITY_QUESTION]: ChallengeAuthenticatorSecurityQuestion,
+    [AUTHENTICATOR_KEY.PHONE]: ChallengeAuthenticatorPhoneView,
+    [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifyTotpView,
+    [AUTHENTICATOR_KEY.GOOGLE_OTP]: ChallengeGoogleAuthenticatorView,
+    [AUTHENTICATOR_KEY.ON_PREM]: ChallengeAuthenticatorOnPremView,
+    [AUTHENTICATOR_KEY.RSA]: ChallengeAuthenticatorOnPremView,
+    [AUTHENTICATOR_KEY.DUO]: ChallengeDuoAuthenticatorView,
+    [AUTHENTICATOR_KEY.CUSTOM_OTP]: ChallengeCustomOTPAuthenticatorView,
+    [AUTHENTICATOR_KEY.SYMANTEC_VIP]: AuthenticatorSymantecView,
+  },
   [RemediationForms.CHALLENGE_POLL]: {
     [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifyView,
   },
@@ -204,11 +195,10 @@ const VIEWS_MAPPING = {
   [RemediationForms.SUCCESS_REDIRECT]: {
     [DEFAULT]: SuccessView,
   },
+  // redirect-idp remediation object looks similar to identifier view
   [RemediationForms.REDIRECT_IDP]: {
-    // `redirect-idp` remediation object looks similar to identifier view.
-    // Seems not ideal, shall try to create dedicated View, which may
-    // inherit from IdentifierView
     [DEFAULT]: IdentifierView,
+    [AUTHENTICATOR_KEY.IDP]: AuthenticatorIdPView,
   },
   [RemediationForms.DEVICE_ENROLLMENT_TERMINAL]: {
     [DEFAULT]: DeviceEnrollmentTerminalView,

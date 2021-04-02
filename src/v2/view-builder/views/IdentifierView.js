@@ -5,7 +5,6 @@ import IdentifierFooter from '../components/IdentifierFooter';
 import signInWithIdps from './signin/SignInWithIdps';
 import customButtonsView from './signin/CustomButtons';
 import signInWithDeviceOption from './signin/SignInWithDeviceOption';
-import { isCustomizedI18nKey } from '../../ion/i18nTransformer';
 
 const Body = BaseForm.extend({
 
@@ -72,34 +71,6 @@ const Body = BaseForm.extend({
       });
       this.add(messageCallout, '.o-form-error-container');
     }
-  },
-  /**
-   * Update UI schemas for customization from .widgetrc.js or Admin Customization settings page.
-   * @returns Array
-   */
-  getUISchema() {
-    const schemas = BaseForm.prototype.getUISchema.apply(this, arguments);
-
-    const { settings } = this.options;
-    const identifierExplainLabeli18nKey = 'primaryauth.username.tooltip';
-    const passwordExplainLabeli18nKey = 'primaryauth.password.tooltip';
-
-    const newSchemas = schemas.map(schema => {
-      const newSchema = { ...schema };
-
-      if (schema.name === 'identifier' && isCustomizedI18nKey(identifierExplainLabeli18nKey, settings)) {
-        newSchema.explain = loc(identifierExplainLabeli18nKey, 'login');
-        newSchema['explain-top'] = true;
-      } else if (schema.name === 'credentials.passcode' &&
-          isCustomizedI18nKey(passwordExplainLabeli18nKey, settings)) {
-        newSchema.explain = loc(passwordExplainLabeli18nKey, 'login');
-        newSchema['explain-top'] = true;
-      }
-
-      return newSchema;
-    });
-
-    return newSchemas;
   },
 });
 

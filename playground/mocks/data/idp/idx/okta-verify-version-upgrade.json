@@ -137,7 +137,7 @@
       {
         "message": "Your response was received, but your Okta Verify version is no longer supported by your organization. To verify your identity with push notifcations, update Okta Verify to the latest version, then try again.",
         "i18n":{
-            "key": "oie.authenticator.app.method.push.force.upgrade.number_challenge",
+            "key": "idx.authenticator.app.method.push.force.upgrade.number_challenge",
             "params": []
           },
         "class": "ERROR"

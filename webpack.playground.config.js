@@ -58,7 +58,6 @@ module.exports = {
       path.join(TARGET, 'js'),
       path.join(TARGET, 'css'),
     ],
-    historyApiFallback: true,
     compress: true,
     port: DEV_SERVER_PORT,
     open: true,

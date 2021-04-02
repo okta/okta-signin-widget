@@ -1,4 +1,4 @@
-import { Selector } from 'testcafe';
+import { Selector, ClientFunction } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 const CALLOUT_SELECTOR = '.infobox-warning > div';
@@ -11,11 +11,16 @@ const CUSTOM_HELP_LINK_SELECTOR = '.auth-footer .js-help';
 const CUSTOM_HELP_LINKS_SELECTOR = '.auth-footer .js-custom';
 const CUSTOM_BUTTON = '.custom-buttons .okta-custom-buttons-container .default-custom-button';
 const UNLOCK_ACCOUNT = '.auth-footer .js-unlock';
-const SUB_LABEL_SELECTOR = '.o-form-explain';
 
 export default class IdentityPageObject extends BasePageObject {
   constructor(t) {
     super(t);
+  }
+
+  async getPageUrl() {
+
+    const pageUrl = await ClientFunction(() => window.location.href)();
+    return pageUrl;
   }
 
   getPageTitle() {
@@ -95,7 +100,7 @@ export default class IdentityPageObject extends BasePageObject {
     return this.form.getErrorBoxText();
   }
 
-  waitForIdentifierError() {
+  waitForIdentifierError(){
     return this.form.waitForTextBoxError('identifier');
   }
 
@@ -157,17 +162,5 @@ export default class IdentityPageObject extends BasePageObject {
 
   async clickUnlockAccountLink() {
     await this.t.click(Selector(UNLOCK_ACCOUNT));
-  }
-
-  getCustomUnlockAccountLink() {
-    return Selector(UNLOCK_ACCOUNT).getAttribute('href');
-  }
-
-  getIdentifierSubLabelValue() {
-    return Selector(SUB_LABEL_SELECTOR).nth(0).textContent;
-  }
-
-  getPasswordSubLabelValue() {
-    return Selector(SUB_LABEL_SELECTOR).nth(1).textContent;
   }
 }
