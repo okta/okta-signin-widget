@@ -49,7 +49,7 @@ export default Model.extend({
       },
     },
     authenticatorMethodType: {
-      deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment'],
+      deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment',],
       fn(currentAuthenticator = {}, currentAuthenticatorEnrollment = {}) {
         return currentAuthenticator.methods && currentAuthenticator.methods[0].type
           || currentAuthenticatorEnrollment.methods && currentAuthenticatorEnrollment.methods[0].type

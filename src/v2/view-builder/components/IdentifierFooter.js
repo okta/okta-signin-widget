@@ -36,14 +36,7 @@ export default BaseFooter.extend({
     }
 
     const unlockAccountLink = [];
-    if (this.options.settings.get('helpLinks.unlock')) {
-      unlockAccountLink.push({
-        'type': 'link',
-        'label': loc('unlockaccount', 'login'),
-        'name' : 'unlock',
-        'href': this.options.settings.get('helpLinks.unlock'),
-      });
-    } else if (this.options.appState.hasRemediationObject(RemediationForms.UNLOCK_ACCOUNT)) {
+    if (this.options.appState.hasRemediationObject(RemediationForms.UNLOCK_ACCOUNT)) {
       unlockAccountLink.push({
         'type': 'link',
         'label': loc('unlockaccount', 'login'),

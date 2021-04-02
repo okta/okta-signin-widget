@@ -36,7 +36,7 @@ const verifyErrorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrVerifyIdPAuthenticatorError);
 
-async function setup(t, isVerify) {
+async function setup(t) {
   const pageObject = new IdPAuthenticatorPageObject(t);
   await pageObject.navigateToPage();
 
@@ -46,8 +46,8 @@ async function setup(t, isVerify) {
   await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
   await t.expect(JSON.parse(log[2])).eql({
     controller: null,
-    formName: isVerify ? 'challenge-authenticator' : 'enroll-authenticator',
-    authenticatorKey: 'external_idp',
+    formName:'redirect-idp',
+    authenticatorKey:'external_idp',
     methodType: 'idp'
   });
   return pageObject;
@@ -79,7 +79,7 @@ test
 fixture('Verify IdP Authenticator');
 test
   .requestHooks(logger, verifyMock)('verify with IdP authenticator', async t => {
-    const pageObject = await setup(t, true);
+    const pageObject = await setup(t);
 
     await t.expect(pageObject.getPageTitle()).eql('Verify with IDP Authenticator');
     await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to verify with IDP Authenticator');
@@ -92,7 +92,7 @@ test
 
 test
   .requestHooks(logger, verifyErrorMock)('verify with IdP authenticator surfaces error messages', async t => {
-    const pageObject = await setup(t, true);
+    const pageObject = await setup(t);
 
     await t.expect(pageObject.getPageTitle()).eql('Verify with IDP Authenticator');
     await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to verify with IDP Authenticator');

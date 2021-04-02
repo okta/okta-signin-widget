@@ -11,8 +11,13 @@
   "bugs": {
     "url": "https://github.com/okta/okta-signin-widget/issues"
   },
-  "files": ["dist"],
-  "browserslist": ["> 0.1%", "not ie <= 9"],
+  "files": [
+    "dist"
+  ],
+  "browserslist": [
+    "> 0.1%",
+    "not ie <= 9"
+  ],
   "main": "./dist/js/okta-sign-in.entry.js",
   "scripts": {
     "clean": "rimraf target && rimraf dist && rimraf build2",
@@ -27,11 +32,20 @@
     "lint": "mkdir -p build2 && run-p -c lint:eslint lint:stylelint",
     "lint:report": "mkdir -p build2 && run-p -c lint:eslint:report lint:stylelint:report",
     "test:jest": "grunt assets && yarn jest",
-    "test:karma": "grunt assets && yarn karma start --single-run",
+    "test:dev": "grunt assets && karma start",
+    "test:coverage": "yarn test --reporters=progress,coverage",
+    "test": "yarn test:dev --single-run",
     "start:app": "yarn build:webpack-e2e-app && yarn start:basic",
     "prestart:basic": "grunt copy:e2e-pages",
     "start:basic": "PORT=3000 node test/e2e/basic/server.js & wait-on http-get://localhost:3000",
-    "test:e2e": "yarn build:release && grunt test-e2e",
+    "install:react": "yarn --cwd test/e2e/react-app install",
+    "prestart:react": "kill -9 $(lsof -t -i:3001 -sTCP:LISTEN) || true",
+    "start:react": "PORT=3001 BROWSER=none yarn --cwd test/e2e/react-app start & wait-on http-get://localhost:3001",
+    "install:angular": "yarn --cwd test/e2e/angular-app install",
+    "prestart:angular": "kill -9 $(lsof -t -i:4200 -sTCP:LISTEN) || true",
+    "start:angular": "PORT=4200 yarn --cwd test/e2e/angular-app start & wait-on http-get://localhost:4200",
+    "pretest:e2e": "yarn install:react && yarn install:angular",
+    "test:e2e": "yarn build:release && yarn start:react && yarn start:angular && grunt test-e2e",
     "test:e2e:windows": "export SAUCE_PLATFORM_NAME=windows && yarn test:e2e",
     "test:testcafe-setup": "mkdir -p test-reports/testcafe && yarn start:mockDuo --no-open",
     "test:testcafe-run": "wait-on http-get://localhost:3000 && testcafe -c 2 chrome:headless test/testcafe/spec/ --reporter xunit:build2/reports/junit/testcafe-results.xml",

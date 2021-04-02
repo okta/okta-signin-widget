@@ -2,8 +2,7 @@ import { loc, createCallout } from 'okta';
 import { BaseForm } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 
-const OV_NMC_FORCE_UPGRAGE_SERVER_KEY = 'oie.authenticator.app.method.push.force.upgrade.number_challenge';
-const OV_UV_ENABLE_BIOMETRIC_SERVER_KEY = 'oie.authenticator.app.method.push.verify.enable.biometrics';
+const OV_NMC_FORCE_UPGRAGE_SERVER_KEY = 'idx.authenticator.app.method.push.force.upgrade.number_challenge';
 
 const Body = BaseForm.extend(Object.assign(
   {
@@ -34,9 +33,6 @@ const Body = BaseForm.extend(Object.assign(
             if (this.options.appState.containsMessageWithI18nKey(OV_NMC_FORCE_UPGRAGE_SERVER_KEY)) {
               // add a title for OV force upgrade
               options.title = loc('oie.numberchallenge.force.upgrade.title', 'login');
-            } else if (this.options.appState.containsMessageWithI18nKey(OV_UV_ENABLE_BIOMETRIC_SERVER_KEY)) {
-              // add a title for OV enable biometrics message during verification
-              options.title = loc('oie.authenticator.app.method.push.verify.enable.biometrics.title', 'login');
             }
             this.add(createCallout(options), '.o-form-error-container');
           } else {

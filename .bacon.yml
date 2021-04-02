@@ -10,14 +10,14 @@ test_suites:
       script_path: /root/okta/okta-signin-widget/scripts
       sort_order: '2'
       timeout: '15'
-      script_name: unit-karma
+      script_name: unit
       criteria: MERGE
       queue_name: small
     - name: unit-jest
       script_path: /root/okta/okta-signin-widget/scripts
       sort_order: '3'
       timeout: '15'
-      script_name: unit-jest
+      script_name: jest
       criteria: MERGE
       queue_name: small
     - name: testcafe

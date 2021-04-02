@@ -124,8 +124,7 @@ const getBackToSignInLink = (settings) => {
       'type': 'link',
       'label': loc('backToSignin', 'login'),
       'name': 'go-back',
-      // TODO: OKTA-381328 back to baseUrl only works for default login page
-      'href': baseUrl,
+      'href': baseUrl + '/login/login.htm'
     },
   ];
 };

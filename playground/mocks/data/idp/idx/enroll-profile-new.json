@@ -8,7 +8,9 @@
     "type": "array",
     "value": [
       {
-        "rel": ["create-form"],
+        "rel": [
+          "create-form"
+        ],
         "name": "enroll-profile",
         "href": "http://localhost:3000/idp/idx/enroll/new",
         "method": "POST",
@@ -44,9 +46,11 @@
         ]
       },
       {
-        "rel": ["create-form"],
+        "rel": [
+          "create-form"
+        ],
         "name": "select-identify",
-        "href": "http://localhost:3000/idp/idx/identify",
+        "href": "http://localhost:3000/idp/idx",
         "method": "POST",
         "accepts": "application/vnd.okta.v1+json",
         "value": [
@@ -64,7 +68,9 @@
     ]
   },
   "context": {
-    "rel": ["create-form"],
+    "rel": [
+      "create-form"
+    ],
     "name": "context",
     "href": "http://localhost:3000/idp/idx/context",
     "method": "POST",
