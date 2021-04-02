@@ -7,7 +7,7 @@ import { MS_PER_SEC } from '../utils/Constants';
 const PollMessageView = View.extend({
   template: hbs`
     <div class="ion-messages-container">
-      <p>{{i18n code="poll.form.message" 
+      <p>{{i18n code="poll.form.message"
         bundle="login" arguments="countDownCounterValue" $1="<span class='strong'>$1</span>"}} </p>
     </div>
     <div class="okta-waiting-spinner"></div>
@@ -28,10 +28,13 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     noButtonBar: true,
-    
+
     initialize() {
       BaseForm.prototype.initialize.apply(this, arguments);
-      this.startPolling();
+      const refreshInterval = this.options.appState.getCurrentViewState().refresh;
+      this.refreshTimeout = setTimeout(() => {
+        this.saveForm(this.model);
+      }, refreshInterval);
     },
 
     render() {
@@ -43,12 +46,13 @@ const Body = BaseForm.extend(Object.assign(
 
     remove() {
       BaseForm.prototype.remove.apply(this, arguments);
-      this.stopPolling();
+      clearTimeout(this.refreshTimeout);
     },
 
     triggerAfterError() {
       BaseForm.prototype.triggerAfterError.apply(this, arguments);
-      this.stopPolling();
+      clearTimeout(this.refreshTimeout);
+      this.stopCountDown();
       this.$el.find('.o-form-fieldset-container').empty();
     },
   },

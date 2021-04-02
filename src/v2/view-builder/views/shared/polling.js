@@ -54,8 +54,8 @@ export default {
     }, interval, this);
   },
 
-  _stopCountDown() {
-    if(this.countDown) {
+  stopCountDown() {
+    if (this.countDown) {
       clearInterval(this.countDown);
     }
   },
@@ -71,7 +71,7 @@ export default {
 
   stopPolling() {
     if (this.polling) {
-      this._stopCountDown();
+      this.stopCountDown();
       clearInterval(this.polling);
     }
   }
