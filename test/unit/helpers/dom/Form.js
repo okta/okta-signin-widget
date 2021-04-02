@@ -62,10 +62,11 @@ export default Dom.extend({
   },
 
   error: function(field) {
-    const $container = this.inputWrap(field).parent();
     // container holds input and error description
-
-    const errorId = $container.attr('aria-describedby');
+    const $container = this.inputWrap(field).parent();
+    
+    // input field holds reference to error description
+    const errorId = $container.find(`[name=${field}]`).attr('aria-describedby');
 
     if (!errorId) {
       throw new Error('Expected "aria-describedby" attribute for the error container on field: ' + field);
