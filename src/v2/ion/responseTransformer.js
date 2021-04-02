@@ -146,17 +146,26 @@ const injectIdPConfigButtonToRemediation = (settings, idxResp) => {
  *
  * The idea now is to reuse `success-redirect` thus converts `redirect-idp` to `success-redirect` form.
  */
-const convertRedirectIdPToSuccessRedirectIffOneIdp = (result) => {
+const convertRedirectIdPToSuccessRedirectIffOneIdp = (settings, result, lastResult) => {
   if (Array.isArray(result.remediations)) {
     const redirectIdpRemediations = result.remediations.filter(idp => idp.name === RemediationForms.REDIRECT_IDP);
-    if (redirectIdpRemediations.length === 1 && result.remediations.length === 1) {
-      const successRedirect = {
-        name: RemediationForms.SUCCESS_REDIRECT,
-        href: redirectIdpRemediations[0].href,
-        value: [],
-      };
-      result.remediations = [successRedirect];
+    if (redirectIdpRemediations.length !== 1 || result.remediations.length !== 1) {
+      return;
     }
+
+    // Direct auth clients should not redirect on the initial response
+    const isDirectAuth = settings.get('oauth2Enabled');
+    if (isDirectAuth && !lastResult) {
+      return;
+    }
+
+    const successRedirect = {
+      name: RemediationForms.SUCCESS_REDIRECT,
+      href: redirectIdpRemediations[0].href,
+      value: [],
+    };
+    result.remediations = [successRedirect];
+
   }
 };
 
@@ -205,7 +214,7 @@ const modifyFormNameForIdPAuthenticator = result => {
  *  deviceEnrollment: {},
  * }
  */
-const convert = (settings, idx = {}) => {
+const convert = (settings, idx = {}, lastResult = null) => {
   if (!isObject(idx.rawIdxState)) {
     return null;
   }
@@ -222,7 +231,7 @@ const convert = (settings, idx = {}) => {
   injectIdPConfigButtonToRemediation(settings, result);
   if (!result.messages) {
     // Only redirect to the IdP if we are not in an error flow
-    convertRedirectIdPToSuccessRedirectIffOneIdp(result);
+    convertRedirectIdPToSuccessRedirectIffOneIdp(settings, result, lastResult);
   }
 
   modifyFormNameForIdPAuthenticator(result);

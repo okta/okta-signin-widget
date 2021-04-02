@@ -16,11 +16,11 @@ import uiSchemaTransformer from './uiSchemaTransformer';
 import i18nTransformer from './i18nTransformer';
 
 // Transforms an IDX response to an ION response
-export default function transformIdxResponse(settings, idxResponse) {
+export default function transformIdxResponse(settings, curResponse, lastResponse) {
   const ionResponse = _.compose(
     i18nTransformer,
     uiSchemaTransformer.bind({}, settings),
     responseTransformer.bind({}, settings),
-  )(idxResponse);
+  )(curResponse, lastResponse);
   return ionResponse;
 }
