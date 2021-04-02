@@ -36,6 +36,8 @@ import Backbone from 'backbone';
 
 import FrameworkView from '@okta/courage/src/framework/View';
 
+import './util/scrollParent';
+
 // The string will be returned unchanged. All templates should be precompiled.
 FrameworkView.prototype.compileTemplate = function(str) {
   return function fakeTemplate() {
