@@ -3,7 +3,7 @@ import { BaseForm } from '../../internals';
 import ConsentViewForm from './ConsentViewForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import hbs from 'handlebars-inline-precompile';
-import EmailHeader from '../../components/EmailHeader';
+import EmailAuthenticatorHeader from '../../components/EmailAuthenticatorHeader';
 
 const getInfo = hbs`
   {{#if browser}}
@@ -42,7 +42,7 @@ const enduserEmailConsentViewBody = ConsentViewForm.extend({
 export default BaseAuthenticatorView.extend({
   className: 'enduser-email-consent',
 
-  Header: EmailHeader,
+  Header: EmailAuthenticatorHeader,
 
   buttonOrder: ['cancel', 'save'],
 

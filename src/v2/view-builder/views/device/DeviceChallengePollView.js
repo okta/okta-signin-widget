@@ -7,7 +7,7 @@ import Enums from '../../../../util/Enums';
 import { CANCEL_POLLING_ACTION } from '../../utils/Constants';
 import Link from '../../components/Link';
 import { doChallenge } from '../../utils/ChallengeViewUtil';
-import OktaVerifyHeader from '../../components/OktaVerifyHeader';
+import OktaVerifyAuthenticatorHeader from '../../components/OktaVerifyAuthenticatorHeader';
 
 const request = (opts) => {
   const ajaxOptions = Object.assign({
@@ -169,7 +169,7 @@ const Footer = BaseFooter.extend({
 });
 
 export default BaseView.extend({
-  Header: OktaVerifyHeader,
+  Header: OktaVerifyAuthenticatorHeader,
   Body,
   Footer
 });

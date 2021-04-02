@@ -1,7 +1,7 @@
 import { createCallout, loc } from 'okta';
 import { BaseForm, BaseFooter, BaseView } from '../internals';
 import { getBackToSignInLink, getSkipSetupLink } from '../utils/LinksUtil';
-import EmailHeader from '../components/EmailHeader';
+import EmailAuthenticatorHeader from '../components/EmailAuthenticatorHeader';
 
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
 const SAFE_MODE_KEY_PREFIX = 'idx.error.server.safe.mode';
@@ -101,7 +101,7 @@ export default BaseView.extend({
   initialize() {
     BaseView.prototype.initialize.apply(this, arguments);
     if (this.options.appState.containsMessageWithI18nKey(EMAIL_AUTHENTICATOR_TERMINAL_KEYS)) {
-      this.Header = EmailHeader;
+      this.Header = EmailAuthenticatorHeader;
     }
   },
   Body,
