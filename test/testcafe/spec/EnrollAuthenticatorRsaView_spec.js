@@ -58,7 +58,7 @@ test
     await t.expect(enrollRsaPage.getPasscodeError()).eql('This field cannot be left blank');
     await t.expect(enrollRsaPage.getUserNameError()).eql('This field cannot be left blank');
 
-    await t.expect(await enrollRsaPage.signoutLinkExists()).notOk();
+    await t.expect(await enrollRsaPage.signoutLinkExists()).ok();
   });
 
 test

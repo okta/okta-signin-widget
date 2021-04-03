@@ -65,7 +65,7 @@ async function setup(t) {
       await t.expect(passwordExpiryWarningPage.getRequirements()).contains('No parts of your username');
       await t.expect(passwordExpiryWarningPage.getRequirements()).contains('Your password cannot be any of your last 4 passwords');
       await t.expect(passwordExpiryWarningPage.getSkipLinkText()).eql('Remind me later');
-      await t.expect(passwordExpiryWarningPage.getSignoutLinkText()).eql('Sign Out');
+      await t.expect(passwordExpiryWarningPage.getSignoutLinkText()).eql('Back to sign in');
       await t.expect(passwordExpiryWarningPage.getIonMessages()).eql('When your password expires you will be locked out of your Okta account.');
     });
 });

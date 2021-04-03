@@ -4,11 +4,11 @@ import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 
 const Body = BaseForm.extend({
   title() {
-    return loc('registration.form.title', 'login');
+    return loc('oie.registration.form.title', 'login');
   },
 
   save() {
-    return loc('registration.form.submit', 'login');
+    return loc('oie.registration.form.submit', 'login');
   },
   saveForm() {
     // SIW customization hook for registration

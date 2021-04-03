@@ -44,7 +44,7 @@ test.requestHooks(mock)('default sms mode', async t => {
   // Extension field is hidden
   await t.expect(enrollPhonePage.extensionIsHidden()).eql(true);
 
-  await t.expect(await enrollPhonePage.signoutLinkExists()).notOk();
+  await t.expect(await enrollPhonePage.signoutLinkExists()).ok();
 
   // assert switch authenticator link shows up
   await t.expect(await enrollPhonePage.switchAuthenticatorLinkExists()).ok();

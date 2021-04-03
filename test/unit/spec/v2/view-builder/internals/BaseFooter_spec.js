@@ -85,7 +85,7 @@ describe('v2/view-builder/internals/BaseFooter', function() {
       {
         options: {
           actionPath: 'cancel',
-          label: 'Sign Out',
+          label: 'Back to sign in',
           name: 'cancel',
           type: 'link',
         },
@@ -123,7 +123,7 @@ describe('v2/view-builder/internals/BaseFooter', function() {
       {
         options: {
           actionPath: 'cancel',
-          label: 'Sign Out',
+          label: 'Back to sign in',
           name: 'cancel',
           type: 'link',
         },

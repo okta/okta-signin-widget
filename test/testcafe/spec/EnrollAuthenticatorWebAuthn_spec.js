@@ -33,8 +33,8 @@ test('should have webauthn not supported error if browser doesnt support', async
   await t.expect(enrollWebauthnPage.hasEnrollInstruction()).eql(false);
   await t.expect(enrollWebauthnPage.hasWebauthnNotSupportedError()).eql(true);
 
-  // no signout link at enroll page
-  await t.expect(await enrollWebauthnPage.signoutLinkExists()).notOk();
+  // signout link at enroll page
+  await t.expect(await enrollWebauthnPage.signoutLinkExists()).ok();
 
   // assert switch authenticator link shows up
   await t.expect(await enrollWebauthnPage.switchAuthenticatorLinkExists()).ok();
