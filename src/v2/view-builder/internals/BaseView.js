@@ -1,14 +1,13 @@
 import { _, View } from 'okta';
 import BaseForm from './BaseForm';
 import BaseModel from './BaseModel';
-import BaseHeader from './BaseHeader';
 import BaseFooter from './BaseFooter';
 import hbs from 'handlebars-inline-precompile';
 import {getClassNameMapping} from '../../ion/ViewClassNamesFactory';
 
 export default View.extend({
 
-  Header: BaseHeader,
+  Header: null,
 
   Body: BaseForm,
 

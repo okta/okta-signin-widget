@@ -108,7 +108,7 @@ test
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
-    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Sign Out');
+    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect|6512/)
@@ -144,7 +144,7 @@ test
     await t.expect(deviceChallengePollPageObject.getDownloadOktaVerifyLink()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
     await t.expect(deviceChallengePollPageObject.getFooterLink().exists).notOk();
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
-    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Sign Out');
+    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
     await deviceChallengePollPageObject.clickSwitchAuthenticatorButton();
     const secondSelectAuthenticatorPageObject = new SelectAuthenticatorPageObject(t);
     await t.expect(secondSelectAuthenticatorPageObject.getFormTitle()).eql('Verify it\'s you with an authenticator');
@@ -180,7 +180,7 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
-    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Sign Out');
+    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
     deviceChallengePollPageObject.clickUniversalLink();
     await t.expect(Selector('h1').innerText).eql('open universal link');
     await t.expect(await (new BasePageObject()).getPageUrl()).contains(mockHttpCustomUri);

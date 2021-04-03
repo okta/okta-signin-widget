@@ -1,18 +1,23 @@
+import { _ } from 'okta';
 import { BaseHeader, BaseView } from '../internals';
 import AuthenticatorFooter from './AuthenticatorFooter';
 import HeaderBeacon from './HeaderBeacon';
 import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
 
-const HeaderBeaconFactor = HeaderBeacon.extend({
+export const BaseAuthenticatorBeacon = HeaderBeacon.extend({
+  authenticatorKey() {
+    return this.options.appState.get('authenticatorKey');
+  },
+
   getBeaconClassName: function() {
-    const authenticatorKey = this.options.appState.get('authenticatorKey');
+    const authenticatorKey = _.result(this, 'authenticatorKey');
     return getIconClassNameForBeacon(authenticatorKey);
   },
 });
 
 export default BaseView.extend({
   Header: BaseHeader.extend({
-    HeaderBeacon: HeaderBeaconFactor,
+    HeaderBeacon: BaseAuthenticatorBeacon,
   }),
   Footer: AuthenticatorFooter,
 });

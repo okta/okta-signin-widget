@@ -1,56 +1,49 @@
 import { loc } from 'okta';
-import { BaseHeader, BaseForm, BaseView } from '../../internals';
-import HeaderBeacon from '../../components/HeaderBeacon';
+import { BaseForm, BaseView } from '../../internals';
 import OdaOktaVerifyTerminalView from '../../components/OdaOktaVerifyTerminalView';
 import MdmOktaVerifyTerminalView from '../../components/MdmOktaVerifyTerminalView';
 import Enums from 'util/Enums';
-import { getIconClassNameForBeacon } from '../../utils/AuthenticatorUtil';
-import { AUTHENTICATOR_KEY } from '../../../ion/RemediationConstants';
+import OktaVerifyAuthenticatorHeader from '../../components/OktaVerifyAuthenticatorHeader';
 
-const ODAHeader = BaseHeader.extend({
-  HeaderBeacon: HeaderBeacon.extend({
-    getBeaconClassName: () => getIconClassNameForBeacon(AUTHENTICATOR_KEY.OV),
-  }),
+const BaseDeviceEnrollTerminalForm = BaseForm.extend({
+  noButtonBar: true,
+  className: 'device-enrollment-terminal',
 });
 
-const Body = BaseForm.extend({
-  noButtonBar: true,
-
-  className: 'device-enrollment-terminal',
-
+const OdaTerminalForm = BaseDeviceEnrollTerminalForm.extend({
   title() {
-    return this.enrollmentType === Enums.ODA
-      ? loc('enroll.title.oda', 'login')
-      : loc('enroll.title.mdm', 'login');
+    return loc('enroll.title.oda', 'login');
   },
-
   initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
-    const deviceEnrollment = this.options.appState.get('deviceEnrollment');
-    this.enrollmentType = (deviceEnrollment.name || '').toLowerCase(); // oda/mdm
-    switch (this.enrollmentType) {
-    case Enums.ODA:
-      this.add(OdaOktaVerifyTerminalView);
-      break;
-    case Enums.MDM:
-      this.add(MdmOktaVerifyTerminalView);
-      break;
-    }
+    this.add(OdaOktaVerifyTerminalView);
+  },
+});
+
+const MdmTerminalForm = BaseDeviceEnrollTerminalForm.extend({
+  title() {
+    return loc('enroll.title.mdm', 'login');
+  },
+  initialize() {
+    BaseForm.prototype.initialize.apply(this, arguments);
+    this.add(MdmOktaVerifyTerminalView);
   },
 });
 
 export default BaseView.extend({
-  Body,
   initialize() {
     BaseView.prototype.initialize.apply(this, arguments);
+
     const deviceEnrollment = this.options.appState.get('deviceEnrollment');
     this.enrollmentType = (deviceEnrollment.name || '').toLowerCase(); // oda/mdm
+
     switch (this.enrollmentType) {
     case Enums.ODA:
-      this.Header = ODAHeader;
+      this.Header = OktaVerifyAuthenticatorHeader;
+      this.Body = OdaTerminalForm;
       break;
     case Enums.MDM:
-      this.Header = null;
+      this.Body = MdmTerminalForm;
       break;
     }
   }

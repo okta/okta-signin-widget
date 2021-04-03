@@ -1,14 +1,12 @@
 import { $, loc } from 'okta';
-import { BaseHeader, BaseForm, BaseFormWithPolling, BaseFooter, BaseView } from '../../internals';
-import HeaderBeacon from '../../components/HeaderBeacon';
+import { BaseForm, BaseFormWithPolling, BaseFooter, BaseView } from '../../internals';
 import Logger from '../../../../util/Logger';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import Enums from '../../../../util/Enums';
 import { CANCEL_POLLING_ACTION } from '../../utils/Constants';
 import Link from '../../components/Link';
-import { getIconClassNameForBeacon } from '../../utils/AuthenticatorUtil';
-import { AUTHENTICATOR_KEY } from '../../../ion/RemediationConstants';
-import {doChallenge} from '../../utils/ChallengeViewUtil';
+import { doChallenge } from '../../utils/ChallengeViewUtil';
+import OktaVerifyAuthenticatorHeader from '../../components/OktaVerifyAuthenticatorHeader';
 
 const request = (opts) => {
   const ajaxOptions = Object.assign({
@@ -158,21 +156,19 @@ const Footer = BaseFooter.extend({
       ];
       BaseFooter.prototype.initialize.apply(this, arguments);
     } else {
-      this.add(Link, { options: {
-        name: 'cancel-authenticator-challenge',
-        label: loc('loopback.polling.cancel.link', 'login'),
-        actionPath: CANCEL_POLLING_ACTION,
-      }});
+      this.add(Link, {
+        options: {
+          name: 'cancel-authenticator-challenge',
+          label: loc('loopback.polling.cancel.link', 'login'),
+          actionPath: CANCEL_POLLING_ACTION,
+        }
+      });
     }
   }
 });
 
 export default BaseView.extend({
-  Header: BaseHeader.extend({
-    HeaderBeacon: HeaderBeacon.extend({
-      getBeaconClassName: () => getIconClassNameForBeacon(AUTHENTICATOR_KEY.OV),
-    }),
-  }),
+  Header: OktaVerifyAuthenticatorHeader,
   Body,
   Footer
 });

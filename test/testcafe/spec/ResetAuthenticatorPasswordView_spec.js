@@ -68,7 +68,7 @@ test
     await t.expect(resetPasswordPage.hasPasswordError()).eql(false);
     await t.expect(resetPasswordPage.getConfirmPasswordError()).eql('New passwords must match');
 
-    await t.expect(await resetPasswordPage.signoutLinkExists()).notOk();
+    await t.expect(await resetPasswordPage.signoutLinkExists()).ok();
   });
 
 test

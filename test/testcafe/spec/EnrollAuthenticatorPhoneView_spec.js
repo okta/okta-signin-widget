@@ -62,7 +62,7 @@ test
     await t.expect(pageSubtitle).contains('your phone');
     await t.expect(pageSubtitle).contains('Enter the code below to verify.');
 
-    await t.expect(await enrollPhonePageObject.signoutLinkExists()).notOk();
+    await t.expect(await enrollPhonePageObject.signoutLinkExists()).ok();
   });
 
 test
@@ -83,7 +83,7 @@ test
     await t.expect(pageSubtitle).contains('your phone');
     await t.expect(pageSubtitle).contains('Enter the code below to verify.');
 
-    await t.expect(await enrollPhonePageObject.signoutLinkExists()).notOk();
+    await t.expect(await enrollPhonePageObject.signoutLinkExists()).ok();
   });
 
 test

@@ -46,7 +46,7 @@ test
     await t.expect(Selector('.spinner').exists).ok();
     await t.expect(ssoExtensionPage.form.el.hasClass('device-challenge-poll')).ok();
     await t.expect(Selector('[data-se="switchAuthenticator"]').innerText).eql('Verify with something else');
-    await t.expect(Selector('[data-se="cancel"]').innerText).eql('Sign Out');
+    await t.expect(Selector('[data-se="cancel"]').innerText).eql('Back to sign in');
 
     // the next ajax mock (credentialSSOExtensionMock) set up for delaying 4s
     // testcafe waits 3s by default for ajax call
