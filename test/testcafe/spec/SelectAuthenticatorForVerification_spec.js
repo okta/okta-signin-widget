@@ -208,7 +208,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
 
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();
-  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Sign Out');
+  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Back to sign in');
 
 });
 
@@ -239,7 +239,7 @@ test.requestHooks(mockSelectAuthenticatorForRecovery)('should load select authen
 
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();
-  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Sign Out');
+  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Back to sign in');
 });
 
 test.requestHooks(mockChallengePassword)('should navigate to password challenge page', async t => {
@@ -331,7 +331,7 @@ test.requestHooks(mockChallengeOVTotp)(`should load signed_nonce at bottom when 
 
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();
-  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Sign Out');
+  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Back to sign in');
 });
 
 test.requestHooks(mockSelectAuthenticatorKnownDevice)('should load signed_nonce at top when device is known', async t => {
@@ -366,7 +366,7 @@ test.requestHooks(mockSelectAuthenticatorKnownDevice)('should load signed_nonce 
 
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();
-  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Sign Out');
+  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Back to sign in');
 });
 
 test.requestHooks(mockSelectAuthenticatorNoSignedNonce)('should not display signed_nonce when signed_nonce method is not in OV remediation', async t => {
@@ -399,7 +399,7 @@ test.requestHooks(mockSelectAuthenticatorNoSignedNonce)('should not display sign
 
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();
-  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Sign Out');
+  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Back to sign in');
 });
 
 test.requestHooks(requestLogger, mockChallengeOVTotp)('should navigate to okta verify totp page', async t => {

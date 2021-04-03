@@ -130,7 +130,7 @@ test
     await t.expect(secondaryButtonText).contains('Receive a voice call instead');
 
     await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
-    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Sign Out');
+    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Back to sign in');
   });
 
 test
@@ -277,7 +277,7 @@ test
     await t.expect(secondaryButtonText).contains('Receive a voice call instead');
 
     await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
-    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Sign Out');
+    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Back to sign in');
 
     // enter code screen
     await challengePhonePageObject.clickNextButton();
@@ -304,7 +304,7 @@ test
     await t.expect(secondaryButtonText).contains('Receive an SMS instead');
 
     await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
-    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Sign Out');
+    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Back to sign in');
 
     // enter code screen
     await challengePhonePageObject.clickNextButton();
@@ -331,7 +331,7 @@ test
     await t.expect(secondaryButtonText).contains('Receive a voice call instead');
 
     await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
-    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Sign Out');
+    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Back to sign in');
 
     // enter code screen
     await challengePhonePageObject.clickNextButton();
@@ -358,7 +358,7 @@ test
     await t.expect(secondaryButtonText).contains('Receive an SMS instead');
 
     await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
-    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Sign Out');
+    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Back to sign in');
 
     // enter code screen
     await challengePhonePageObject.clickNextButton();

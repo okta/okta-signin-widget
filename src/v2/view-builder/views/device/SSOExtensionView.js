@@ -31,5 +31,4 @@ const Body = BaseForm.extend({
 
 export default BaseView.extend({
   Body,
-  Header: null,
 });

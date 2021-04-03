@@ -65,7 +65,7 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('challenge password authen
   await t.expect(challengePasswordPage.forgotPasswordLink.getLabel()).eql('Forgot password?');
 
   await t.expect(await challengePasswordPage.signoutLinkExists()).ok();
-  await t.expect(challengePasswordPage.getSignoutLinkText()).eql('Sign Out');
+  await t.expect(challengePasswordPage.getSignoutLinkText()).eql('Back to sign in');
 
   // verify password
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
@@ -111,7 +111,7 @@ test.requestHooks(sessionExpiresDuringPassword)('challege password authenticator
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
   await challengePasswordPage.clickNextButton();
   await t.expect(challengePasswordPage.getErrorFromErrorBox()).eql('The session has expired.');
-  await t.expect(challengePasswordPage.getSignoutLinkText()).eql('Sign Out'); // confirm they can get out of terminal state
+  await t.expect(challengePasswordPage.getSignoutLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
 });
 
 test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not recover password', async t => {

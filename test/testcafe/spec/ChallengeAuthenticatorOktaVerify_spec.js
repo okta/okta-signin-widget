@@ -48,7 +48,7 @@ test.requestHooks(mockChallengeOVSelectMethod)('should load select method list w
 
   // signout link at enroll page
   await t.expect(await selectAuthenticatorPage.signoutLinkExists()).ok();
-  await t.expect(selectAuthenticatorPage.getSignoutLinkText()).eql('Sign Out');
+  await t.expect(selectAuthenticatorPage.getSignoutLinkText()).eql('Back to sign in');
 });
 
 test.requestHooks(requestLogger, mockChallengeOVSelectMethod)('should send right methodType when fastpass is selected', async t => {

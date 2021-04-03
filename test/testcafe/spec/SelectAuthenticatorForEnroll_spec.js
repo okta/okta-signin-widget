@@ -133,9 +133,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(11)).eql('symantec_vip');
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(11)).eql('Verify by entering a temporary code from the Symantec VIP app.');
 
-  // no signout link at enroll page
-  await t.expect(await selectFactorPage.signoutLinkExists()).notOk();
-
+  await t.expect(await selectFactorPage.signoutLinkExists()).ok();
 });
 
 test.requestHooks(mockEnrollAuthenticatorPassword)('should navigate to password enrollment page', async t => {

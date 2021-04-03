@@ -32,5 +32,4 @@ const Body = BaseForm.extend({
 
 export default BaseAuthenticatorView.extend({
   Body,
-  Header: null,
 });

@@ -1,9 +1,7 @@
 import { createCallout, loc } from 'okta';
-import { BaseHeader, BaseForm, BaseFooter, BaseView } from '../internals';
-import HeaderBeacon from '../components/HeaderBeacon';
+import { BaseForm, BaseFooter, BaseView } from '../internals';
 import { getBackToSignInLink, getSkipSetupLink } from '../utils/LinksUtil';
-import { getIconClassNameForBeacon } from '../utils/AuthenticatorUtil';
-import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
+import EmailAuthenticatorHeader from '../components/EmailAuthenticatorHeader';
 
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
 const SAFE_MODE_KEY_PREFIX = 'idx.error.server.safe.mode';
@@ -11,7 +9,7 @@ const UNLOCK_ACCOUNT_TERMINAL_KEY = 'oie.selfservice.unlock_user.success.message
 const RETURN_TO_ORIGINAL_TAB_KEY = 'idx.return.to.original.tab';
 const OPERATION_CANCELED_ON_OTHER_DEVICE_KEY = 'idx.operation.cancelled.on.other.device';
 const OPERATION_CANCELED_BY_USER_KEY = 'idx.operation.cancelled.by.user';
-export const REGISTRATION_NOT_ENABLED = 'oie.registeration.is.not.enabled';
+export const REGISTRATION_NOT_ENABLED = 'oie.registration.is.not.enabled';
 
 const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
   'idx.transferred.to.new.tab',
@@ -28,14 +26,6 @@ const GET_BACK_TO_SIGN_LINK_FLOWS = [
   RETURN_LINK_EXPIRED_KEY,
   REGISTRATION_NOT_ENABLED,
 ];
-
-const HeaderBeaconTerminal = HeaderBeacon.extend({
-  getBeaconClassName: function() {
-    return this.options.appState.containsMessageWithI18nKey(EMAIL_AUTHENTICATOR_TERMINAL_KEYS)
-      ? getIconClassNameForBeacon(AUTHENTICATOR_KEY.EMAIL)
-      : HeaderBeacon.prototype.getBeaconClassName.apply(this, arguments);
-  }
-});
 
 const Body = BaseForm.extend({
   noButtonBar: true,
@@ -54,6 +44,9 @@ const Body = BaseForm.extend({
     }
     if (this.options.appState.containsMessageWithI18nKey(UNLOCK_ACCOUNT_TERMINAL_KEY)) {
       return loc('account.unlock.unlocked.title', 'login');
+    }
+    if (this.options.appState.containsMessageWithI18nKey(REGISTRATION_NOT_ENABLED)) {
+      return loc('oie.registration.form.title', 'login');
     }
   },
 
@@ -105,9 +98,12 @@ const Footer = BaseFooter.extend({
 });
 
 export default BaseView.extend({
-  Header: BaseHeader.extend({
-    HeaderBeacon: HeaderBeaconTerminal,
-  }),
+  initialize() {
+    BaseView.prototype.initialize.apply(this, arguments);
+    if (this.options.appState.containsMessageWithI18nKey(EMAIL_AUTHENTICATOR_TERMINAL_KEYS)) {
+      this.Header = EmailAuthenticatorHeader;
+    }
+  },
   Body,
   Footer
 });

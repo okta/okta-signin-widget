@@ -109,7 +109,7 @@ const getSignOutLink = (settings) => {
     return [
       {
         'actionPath': 'cancel',
-        'label': loc('signout', 'login'),
+        'label': loc('backToSignin', 'login'),
         'name': 'cancel',
         'type': 'link'
       },
@@ -118,14 +118,13 @@ const getSignOutLink = (settings) => {
 };
 
 const getBackToSignInLink = (settings) => {
-  let baseUrl = settings?.get('baseUrl') ? settings.get('baseUrl') : window.location.hostname;
   return [
     {
       'type': 'link',
       'label': loc('backToSignin', 'login'),
       'name': 'go-back',
       // TODO: OKTA-381328 back to baseUrl only works for default login page
-      'href': baseUrl,
+      'href': settings?.get('baseUrl'),
     },
   ];
 };

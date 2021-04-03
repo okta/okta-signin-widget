@@ -1,11 +1,9 @@
 import { loc } from 'okta';
-import { BaseForm, BaseHeader } from '../../internals';
+import { BaseForm } from '../../internals';
 import ConsentViewForm from './ConsentViewForm';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import HeaderBeacon from '../../components/HeaderBeacon';
-import { getIconClassNameForBeacon } from '../../utils/AuthenticatorUtil';
-import { AUTHENTICATOR_KEY } from '../../../ion/RemediationConstants';
 import hbs from 'handlebars-inline-precompile';
+import EmailAuthenticatorHeader from '../../components/EmailAuthenticatorHeader';
 
 const getInfo = hbs`
   {{#if browser}}
@@ -44,13 +42,7 @@ const enduserEmailConsentViewBody = ConsentViewForm.extend({
 export default BaseAuthenticatorView.extend({
   className: 'enduser-email-consent',
 
-  Header: BaseHeader.extend({
-    HeaderBeacon: HeaderBeacon.extend({
-      getBeaconClassName: function() {
-        return getIconClassNameForBeacon(AUTHENTICATOR_KEY.EMAIL);
-      },
-    }),
-  }),
+  Header: EmailAuthenticatorHeader,
 
   buttonOrder: ['cancel', 'save'],
 
