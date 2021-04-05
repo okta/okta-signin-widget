@@ -59,6 +59,9 @@ module.exports = {
       path.join(TARGET, 'css'),
     ],
     historyApiFallback: true,
+    headers: {
+      'Content-Security-Policy': `script-src http://localhost:${DEV_SERVER_PORT}`
+    },
     compress: true,
     port: DEV_SERVER_PORT,
     open: true,
