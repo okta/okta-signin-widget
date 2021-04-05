@@ -84,7 +84,7 @@ var _underscore = _interopRequireDefault(__webpack_require__(37));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* eslint @okta/okta-ui/no-specific-methods: 0, @okta/okta-ui/no-specific-modules: 0 */
-var _ = _underscore.default.noConflict();
+var _ = _underscore.default;
 
 _.mixin({
   resultCtx: function resultCtx(object, property, context, defaultValue) {
