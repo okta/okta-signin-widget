@@ -1,5 +1,5 @@
 import { _ } from 'okta';
-import { MS_PER_SEC } from '../utils/Constants';
+import { MS_PER_SEC } from '../../utils/Constants';
 
 export default {
   startPolling(newRefreshInterval) {
