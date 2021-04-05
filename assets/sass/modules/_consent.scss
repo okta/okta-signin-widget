@@ -76,7 +76,8 @@ $consent-light-text-color: #6e6e78; // Gray 600 in Odyssey
   }
 
   .o-form-button-bar {
-    display: inline-block;
+    display: inline-flex;
+    justify-content: space-between;
     width: 100%;
     padding-bottom: $space-between-container;
 
@@ -84,14 +85,6 @@ $consent-light-text-color: #6e6e78; // Gray 600 in Odyssey
       width: 140px;
     }
 
-    input[data-type="cancel"] {
-      float: left;
-      margin-left: 0;
-    }
-
-    input[data-type="save"] {
-      float: right;
-    }
 
     .button-primary {
       /** Consent wants both CTA buttons to look the same so user does not immediately click 'Allow' */
