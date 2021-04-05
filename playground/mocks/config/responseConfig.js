@@ -566,7 +566,7 @@ const safeModePoll = {
     // 'safe-mode-polling',
     'safe-mode-polling',
     'safe-mode-polling-refreshed-interval',
-    'success',
+    'error-safe-mode-polling',
     // 'authenticator-enroll-ov-via-sms',
     // 'terminal-polling-window-expired'
   ],

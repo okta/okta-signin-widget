@@ -9,7 +9,7 @@ const PollMessageView = View.extend({
       <p>{{i18n code="poll.form.message"
         bundle="login" arguments="countDownCounterValue" $1="<span class='strong'>$1</span>"}} </p>
     </div>
-    <div class="okta-waiting-spinner"></div>
+    <div class="hide okta-waiting-spinner safe-mode-spinner"></div>
     `
   ,
   getTemplateData() {
@@ -32,7 +32,9 @@ const Body = BaseForm.extend(Object.assign(
       BaseForm.prototype.initialize.apply(this, arguments);
       const refreshInterval = this.options.appState.getCurrentViewState().refresh;
       this.refreshTimeout = setTimeout(() => {
-        this.saveForm(this.model);
+        this.$el.find('.okta-waiting-spinner').show();
+        // start after a small delay so that the spinner does not get hidden too soon
+        setTimeout(() => this.saveForm(this.model), 200);
       }, refreshInterval);
     },
 
