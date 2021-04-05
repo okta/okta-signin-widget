@@ -52,8 +52,8 @@ test
     
     // Fill out form and submit
     await pageObject.verifyFactor('credentials.credentialId', '1234');
-    await pageObject.verifyFactor('credentials.otp', '1234');
-    await pageObject.verifyFactor('credentials.nextOtp', '1234');
+    await pageObject.verifyFactor('credentials.passcode', '1234');
+    await pageObject.verifyFactor('credentials.nextPasscode', '1234');
     await pageObject.submit();
 
     const pageUrl = await pageObject.getPageUrl();
@@ -90,7 +90,7 @@ test
     await t.expect(pageObject.getPageSubtitle()).eql('Enter the generated security code from the Symantec VIP app.');
     
     // Fill out form and submit
-    await pageObject.verifyFactor('credentials.otp', '1234');
+    await pageObject.verifyFactor('credentials.passcode', '1234');
     await pageObject.submit();
 
     const pageUrl = await pageObject.getPageUrl();
