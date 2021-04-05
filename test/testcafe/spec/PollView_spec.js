@@ -32,7 +32,7 @@ async function setup(t) {
   return identityPage;
 }
 
-test.only.requestHooks(requestLogger, identifyMock)('should make request based on timer in response', async t => {
+test.requestHooks(requestLogger, identifyMock)('should make request based on timer in response', async t => {
   let identityPage  = await setup(t);
 
   await identityPage.fillIdentifierField('username');
