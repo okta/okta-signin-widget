@@ -1,5 +1,4 @@
 import { _ } from 'okta';
-import { MS_PER_SEC } from '../../utils/Constants';
 
 export default {
   startPolling(newRefreshInterval) {
@@ -38,28 +37,6 @@ export default {
     });
   },
 
-  startCountDown(selector , interval) {
-    if(this.countDown) {
-      clearInterval(this.countDown);
-    }
-    this.counterEl = this.$el.find(selector);
-    this.countDown = setInterval(() => {
-      if(this.counterEl.text() !== '1') {
-        this.counterEl.text(this.counterEl.text() - 1);
-      } else {
-        // reset the countdown counter visible to enduser, if still polling
-        this.counterEl.text(this.countDownCounterValue);
-        this.startCountDown(selector, interval);
-      }
-    }, interval, this);
-  },
-
-  stopCountDown() {
-    if (this.countDown) {
-      clearInterval(this.countDown);
-    }
-  },
-
   _startRemediationPolling() {
     const pollInterval = this.dynamicPollingInterval || this.fixedPollingInterval;
     if (_.isNumber(pollInterval)) {
@@ -71,7 +48,6 @@ export default {
 
   stopPolling() {
     if (this.polling) {
-      this.stopCountDown();
       clearInterval(this.polling);
     }
   }

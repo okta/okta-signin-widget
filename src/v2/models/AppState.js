@@ -156,7 +156,7 @@ export default Model.extend({
       /**
        * returns true: We want to force reRender when currentForm is poll because request has to reinitiate
        * based on new refresh and UI has to reflect new timer.
-       * We dont technicall poll here we just make a request after the specified refresh time each time
+       * We dont technical poll here we just make a request after the specified refresh time each time
        * we get a new response.
        */
       reRender = true;

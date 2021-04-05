@@ -1,7 +1,6 @@
 import { loc, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import { BaseForm, BaseView } from '../internals';
-import polling from './shared/polling';
 import { MS_PER_SEC } from '../utils/Constants';
 
 const PollMessageView = View.extend({
@@ -55,9 +54,25 @@ const Body = BaseForm.extend(Object.assign(
       this.stopCountDown();
       this.$el.find('.o-form-fieldset-container').empty();
     },
-  },
 
-  polling,
+    startCountDown(selector , interval) {
+      if (this.countDown) {
+        clearInterval(this.countDown);
+      }
+      this.counterEl = this.$el.find(selector);
+      this.countDown = setInterval(() => {
+        if(this.counterEl.text() !== '0') {
+          this.counterEl.text(this.counterEl.text() - 1);
+        }
+      }, interval, this);
+    },
+
+    stopCountDown() {
+      if (this.countDown) {
+        clearInterval(this.countDown);
+      }
+    },
+  },
 ));
 
 export default BaseView.extend({

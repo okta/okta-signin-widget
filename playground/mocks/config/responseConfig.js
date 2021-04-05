@@ -554,7 +554,7 @@ const duoMFAVerify = {
 
 const safeModePoll = {
   '/idp/idx/introspect': [
-    'safe-mode-polling',
+    'identify-with-password',
   ],
   '/idp/idx/identify': [
     'authenticator-enroll-select-authenticator',
@@ -566,7 +566,7 @@ const safeModePoll = {
     // 'safe-mode-polling',
     'safe-mode-polling',
     'safe-mode-polling-refreshed-interval',
-    'error-safe-mode-polling',
+    'success',
     // 'authenticator-enroll-ov-via-sms',
     // 'terminal-polling-window-expired'
   ],
@@ -675,5 +675,5 @@ const emailChallengeConsent = {
 };
 
 module.exports = {
-  mocks: safeModePoll,
+  mocks: idx,
 };
