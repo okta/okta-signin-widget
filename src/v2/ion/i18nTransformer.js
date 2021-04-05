@@ -75,8 +75,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-authenticate.authenticator.okta_verify.signed_nonce': 'oie.okta_verify.signed_nonce.label',
   'select-authenticator-authenticate.authenticator.okta_verify.push': 'oie.okta_verify.push.title',
   'select-authenticator-authenticate.authenticator.okta_verify.totp': 'oie.okta_verify.totp.title',
-  'select-authenticator-authenticate.authenticator.google_otp':
-    'oie.google_authenticator.label',
+  'select-authenticator-authenticate.authenticator.google_otp': 'oie.google_authenticator.label',
   'select-authenticator-authenticate.authenticator.rsa_token': 'factor.totpHard.rsaSecurId',
 
   'select-authenticator-unlock-account.authenticator.okta_email': 'oie.email.label',
@@ -101,6 +100,9 @@ const I18N_OVERRIDE_MAPPINGS = {
   'enroll-authenticator.onprem_mfa.credentials.passcode': 'enroll.onprem.passcode.placeholder',
   'enroll-authenticator.rsa_token.credentials.clientData': 'enroll.onprem.username.placeholder',
   'enroll-authenticator.rsa_token.credentials.passcode': 'enroll.onprem.passcode.placeholder',
+  'enroll-authenticator.symantec_vip.credentials.credentialId': 'enroll.symantecVip.credentialId.placeholder',
+  'enroll-authenticator.symantec_vip.credentials.passcode': 'enroll.symantecVip.passcode1.placeholder',
+  'enroll-authenticator.symantec_vip.credentials.nextPasscode': 'enroll.symantecVip.passcode2.placeholder',
 
   'select-enrollment-channel.authenticator.channel.qrcode': 'oie.enroll.okta_verify.select.channel.qrcode.label',
   'select-enrollment-channel.authenticator.channel.email': 'oie.enroll.okta_verify.select.channel.email.label',
@@ -115,6 +117,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.onprem_mfa.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'challenge-authenticator.rsa_token.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'challenge-authenticator.custom_otp.credentials.passcode': 'oie.custom_otp.verify.passcode.label',
+  'challenge-authenticator.symantec_vip.credentials.passcode': 'oie.symantecVip.verify.passcode.label',
 
   'enroll-profile.userProfile.lastName': 'oie.user.profile.lastname',
   'enroll-profile.userProfile.firstName': 'oie.user.profile.firstname',
