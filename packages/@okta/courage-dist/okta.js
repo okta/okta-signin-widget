@@ -1,4 +1,4 @@
-/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.5.0-4745-geb7c828 */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.5.0-4874-gf6e1c68 */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -9073,6 +9073,7 @@ E.prototype = {
 };
 
 module.exports = E;
+module.exports.TinyEmitter = E;
 
 
 /***/ }),
@@ -11866,12 +11867,15 @@ var _default = {
     var errors = {}; // xhr error object
 
     if (responseJSON) {
-      /* eslint complexity: [2, 7] */
+      /* eslint complexity: [2, 9] */
       _underscoreWrapper.default.each(responseJSON.errorCauses || [], function (cause) {
         var res = [];
 
         if (cause.property && cause.errorSummary) {
           res = this.parseErrorCauseObject(cause);
+        } else if (cause.location && cause.errorSummary) {
+          // to handle new api error format for field level errors.
+          res = [cause.location, cause.errorSummary];
         } else {
           res = this.parseErrorSummary(cause && cause.errorSummary || '');
         }
