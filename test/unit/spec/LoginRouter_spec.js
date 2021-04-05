@@ -1180,7 +1180,7 @@ Expect.describe('LoginRouter', function() {
           test.router.remove();
         };
         expect(fn).not.toThrowError();
-      })
+      });
   });
 
   Expect.describe('OIDC - okta is the idp and oauth2 is enabled', function() {
