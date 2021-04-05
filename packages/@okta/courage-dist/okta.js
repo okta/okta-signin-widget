@@ -1,4 +1,4 @@
-/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.5.0-4745-geb7c828 */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.5.0-4874-gf6e1c68 */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -4901,30 +4901,29 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _default = _BaseView.default.extend({
   className: 'o-form-button-bar',
+  buttonOrder: ['previous', 'save', 'cancel'],
   initialize: function initialize(options) {
-    if (!options.noSubmitButton) {
-      this.addButton({
+    var _this = this;
+
+    var buttonConfigs = {
+      previous: {
+        type: 'previous'
+      },
+      save: {
         type: 'save',
         text: _underscoreWrapper.default.resultCtx(options, 'save', this),
         id: _underscoreWrapper.default.resultCtx(options, 'saveId', this),
         className: _underscoreWrapper.default.resultCtx(options, 'saveClassName', this)
-      });
-    }
-
-    if (!options.noCancelButton) {
-      this.addButton({
+      },
+      cancel: {
         type: 'cancel',
         text: _underscoreWrapper.default.resultCtx(options, 'cancel', this)
-      });
-    }
+      }
+    };
 
-    if (options.hasPrevStep) {
-      this.addButton({
-        type: 'previous'
-      }, {
-        prepend: true
-      });
-    }
+    this.__getButtonOrder(options).forEach(function (buttonName) {
+      _this.addButton(buttonConfigs[buttonName]);
+    });
   },
 
   /**
@@ -4934,6 +4933,25 @@ var _default = _BaseView.default.extend({
    */
   addButton: function addButton(params, options) {
     return this.add(_FormUtil.default.createButton(params), options);
+  },
+  __getButtonOrder: function __getButtonOrder(options) {
+    var buttonOrder = _underscoreWrapper.default.resultCtx(options, 'buttonOrder', this, this.buttonOrder);
+
+    var buttonsToSkip = [];
+
+    if (options.noSubmitButton) {
+      buttonsToSkip.push('save');
+    }
+
+    if (options.noCancelButton) {
+      buttonsToSkip.push('cancel');
+    }
+
+    if (!options.hasPrevStep) {
+      buttonsToSkip.push('previous');
+    }
+
+    return _underscoreWrapper.default.without.apply(_underscoreWrapper.default, [buttonOrder].concat(buttonsToSkip));
   }
 });
 
@@ -10803,6 +10821,7 @@ var _default = _BaseView.default.extend(
       cancel: this.cancel || _StringUtil.default.localize('oform.cancel', 'courage'),
       noCancelButton: this.noCancelButton || false,
       noSubmitButton: this.noSubmitButton || false,
+      buttonOrder: this.buttonOrder,
       hasPrevStep: this.step && this.step > 1
     }, options || this.options));
 
@@ -10857,6 +10876,13 @@ var _default = _BaseView.default.extend(
    * @default false
    */
   noSubmitButton: false,
+
+  /**
+   * Set the order of the save, cancel and previous buttons (left to right).
+   * @type {Array.<string>}
+   * @default ['previous', 'save', 'cancel']
+   */
+  buttonOrder: ['previous', 'save', 'cancel'],
 
   /**
    * The text on the save button
@@ -11199,6 +11225,34 @@ var _default = _BaseView.default.extend(
    * @default _.identity
    */
   parseErrorMessage: _underscoreWrapper.default.identity,
+  _handleErrorScroll: function _handleErrorScroll() {
+    if (!this.getAttribute('scrollOnError')) {
+      return;
+    }
+
+    var $el = (0, _jqueryWrapper.default)('#' + this.id + ' .o-form-error-container');
+
+    if ($el.length) {
+      var $scrollContext = $el.scrollParent();
+      var scrollTop; // scrollParent was almost awesome...
+      // but it returns document if there are no other scrollable parents
+      // document does not have offset, so here we have to replace with html, body
+      // Additionally when the scroll context is html, body, $el.offset().top is fixed
+      // versus when it has a different scroll context it's dynamic and requires the
+      // calculation below.
+
+      if ($scrollContext[0] === document) {
+        $scrollContext = (0, _jqueryWrapper.default)('html, body');
+        scrollTop = $el.offset().top;
+      } else {
+        scrollTop = $scrollContext.scrollTop() + $el.offset().top - $scrollContext.offset().top;
+      }
+
+      $scrollContext.animate({
+        scrollTop: scrollTop
+      }, 400);
+    }
+  },
 
   /**
    * Show an error message based on an XHR error
@@ -11243,23 +11297,7 @@ var _default = _BaseView.default.extend(
     } // slide to and focus on the error message
 
 
-    if (this.getAttribute('scrollOnError')) {
-      var $el = (0, _jqueryWrapper.default)('#' + this.id + ' .o-form-error-container');
-      var rootElement = 'html, body';
-      var modalEl;
-
-      if (this.settings.isDsTheme() && $el.length) {
-        modalEl = $el.closest('#simplemodal-container');
-      }
-
-      if (modalEl && modalEl.length) {
-        rootElement = modalEl;
-      }
-
-      $el.length && (0, _jqueryWrapper.default)(rootElement).animate({
-        scrollTop: $el.offset().top
-      }, 400);
-    }
+    this._handleErrorScroll();
 
     this.model.trigger('form:resize');
   },
@@ -11827,12 +11865,15 @@ var _default = {
     var errors = {}; // xhr error object
 
     if (responseJSON) {
-      /* eslint complexity: [2, 7] */
+      /* eslint complexity: [2, 9] */
       _underscoreWrapper.default.each(responseJSON.errorCauses || [], function (cause) {
         var res = [];
 
         if (cause.property && cause.errorSummary) {
           res = this.parseErrorCauseObject(cause);
+        } else if (cause.location && cause.errorSummary) {
+          // to handle new api error format for field level errors.
+          res = [cause.location, cause.errorSummary];
         } else {
           res = this.parseErrorSummary(cause && cause.errorSummary || '');
         }
@@ -11942,6 +11983,14 @@ var _default = _BaseView.default.extend({
     }
 
     return _underscoreWrapper.default.uniq(_underscoreWrapper.default.compact(names));
+  },
+  _getInputElement: function _getInputElement() {
+    // NOTE: this.options.input is sometimes not an array under test
+    var lastInput = Array.isArray(this.options.input) ? _underscoreWrapper.default.last(this.options.input) : this.options.input; // FIXME: replace with _.get
+
+    var id = lastInput && lastInput.options && lastInput.options.inputId;
+    var el = id ? this.$('#' + id) : null;
+    return el && el.length ? el : null;
   },
   constructor: function constructor() {
     /* eslint max-statements: [2, 18] */
@@ -12149,7 +12198,9 @@ var _default = _BaseView.default.extend({
       this.$el.append(html);
     }
 
-    this.$el.attr('aria-describedby', errorId);
+    var target = this._getInputElement() || this.$el;
+    target.attr('aria-describedby', errorId);
+    target.attr('aria-invalid', true);
   },
 
   /**
@@ -12161,7 +12212,9 @@ var _default = _BaseView.default.extend({
 
     if (this.__errorState) {
       this.$('.o-form-input-error').remove();
-      this.$el.attr('aria-describedby', null);
+      var target = this._getInputElement() || this.$el;
+      target.attr('aria-describedby', null);
+      target.attr('aria-invalid', null);
       this.$el.removeClass('o-form-has-errors');
       this.__errorState = false;
 
