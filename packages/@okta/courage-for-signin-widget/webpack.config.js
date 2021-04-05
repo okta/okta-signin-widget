@@ -3,6 +3,7 @@ const { resolve } = require('path');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { BannerPlugin } = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ReplacePlugin = require('webpack-plugin-replace');
 const PACKAGE_JSON = require('./package.json');
 
 const EMPTY = resolve(__dirname, 'src/empty');
@@ -117,7 +118,12 @@ const webpackConfig = {
         to: `${I18N_DIR}/dist/properties/`,
       }
     ]),
-
+    new ReplacePlugin({
+      patterns: [{
+        regex: /underscore\.noConflict\(\)/,
+        value: 'underscore'
+      }]
+    })
   ]
 
 };
