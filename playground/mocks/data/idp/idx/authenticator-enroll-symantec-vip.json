@@ -27,13 +27,13 @@
                   "visible": true
                 },
                 {
-                  "name": "otp",
+                  "name": "passcode",
                   "label": "Security Code 1",
                   "required": true,
                   "visible": true
                 },
                 {
-                  "name": "nextOtp",
+                  "name": "nextPasscode",
                   "label": "Security Code 2",
                   "required": true,
                   "visible": true
