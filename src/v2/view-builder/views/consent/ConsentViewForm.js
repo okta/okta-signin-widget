@@ -5,6 +5,7 @@ export default BaseForm.extend(
   {
     noButtonBar: false,
     noCancelButton: false,
+    buttonOrder: ['cancel', 'save'],
     save: () => loc('consent.required.consentButton', 'login'),
     cancel: () => loc('consent.required.cancelButton', 'login'),
     title: false,

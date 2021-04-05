@@ -59,6 +59,7 @@ const ConsentHeader = View.extend({
 
 const ConsentForm = {
   noCancelButton: false,
+  buttonOrder: ['cancel', 'save'],
   autoSave: true,
   save: _.partial(loc, 'consent.required.consentButton', 'login'),
   cancel: _.partial(loc, 'consent.required.cancelButton', 'login'),
@@ -85,12 +86,6 @@ const AdminConsentRequiredController = FormController.extend({
       this.model.cancel();
     });
   },
-
-  postRender: function() {
-    // Move buttons in DOM to match visual hierarchy to fix tab order.
-    const buttonContainer = this.form.$el.find('.o-form-button-bar');
-    this.form.$el.find('.button-primary').appendTo(buttonContainer);
-  }
 });
 
 module.exports = AdminConsentRequiredController;
