@@ -141,13 +141,15 @@ export default Model.extend({
       this.set('dynamicRefreshInterval', this.getRefreshInterval(transformedResponse));
     }
 
+    let reRender = true;
+
     if (identicalResponse) {
       /**
        * returns false: When new response is same as last.
        * usually happens during polling when pipeline doesn't proceed to next step.
        * expiresAt will be different for each response, hence compare objects without that property
        */
-      return false;
+      reRender = false;
     }
 
     if (identicalResponse && this.get('currentFormName') === 'poll') {
@@ -157,7 +159,7 @@ export default Model.extend({
        * We dont technical poll here we just make a request after the specified refresh time each time
        * we get a new response.
        */
-      return true;
+      reRender = true;
     }
 
     if (identicalResponse && FORMS_WITH_STATIC_BACK_LINK.includes(this.get('currentFormName'))) {
@@ -166,8 +168,9 @@ export default Model.extend({
        * and re-select the same authenticator for challenge. In this case also new response will be identical
        * to the old response.
        */
-      return true;
+      reRender = true;
     }
+    return reRender;
   },
 
   getRefreshInterval(transformedResponse) {
