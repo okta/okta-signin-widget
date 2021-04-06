@@ -63,7 +63,7 @@ module.exports = (config) => {
     customHeaders: [{
       match: '.*.html',
       name: 'Content-Security-Policy',
-      value: 'script-src http: \'unsafe-inline\''
+      value: 'script-src http://localhost:9876 \'unsafe-inline\''
     }]
   };
 
