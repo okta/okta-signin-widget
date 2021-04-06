@@ -12,6 +12,7 @@ const RETURN_TO_ORIGINAL_TAB_KEY = 'idx.return.to.original.tab';
 const OPERATION_CANCELED_ON_OTHER_DEVICE_KEY = 'idx.operation.cancelled.on.other.device';
 const OPERATION_CANCELED_BY_USER_KEY = 'idx.operation.cancelled.by.user';
 export const REGISTRATION_NOT_ENABLED = 'oie.registeration.is.not.enabled';
+const DEVICE_ACTIVATED = 'idx.device.activated';
 
 const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
   'idx.transferred.to.new.tab',
@@ -54,6 +55,9 @@ const Body = BaseForm.extend({
     }
     if (this.options.appState.containsMessageWithI18nKey(UNLOCK_ACCOUNT_TERMINAL_KEY)) {
       return loc('account.unlock.unlocked.title', 'login');
+    }
+    if (this.options.appState.containsMessageWithI18nKey(DEVICE_ACTIVATED)) {
+      return loc('oie.device.code.activated.success.title', 'login');
     }
   },
 

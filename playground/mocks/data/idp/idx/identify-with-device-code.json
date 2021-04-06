@@ -1,0 +1,103 @@
+{
+  "stateHandle":"02itnqG312DoS3cU0z0LWs11l76yQ8ll4d95Oye61u",
+  "version":"1.0.0",
+  "expiresAt":"2020-04-13T20:30:53.000Z",
+  "step":"IDENTIFY",
+  "intent":"LOGIN",
+  "remediation":{
+    "type":"array",
+    "value":[
+      {
+        "rel":[
+          "create-form"
+        ],
+        "name":"identify",
+        "href":"http://localhost:3000/idp/idx/identify",
+        "method":"POST",
+        "accepts":"application/vnd.okta.v1+json",
+        "value":[
+          {
+            "name":"identifier",
+            "label":"Username"
+          },
+          {
+            "name": "credentials",
+            "type": "object",
+            "form": {
+              "value": [
+                {
+                  "name": "passcode",
+                  "label": "Password",
+                  "secret": true
+                }
+              ]
+            },
+            "required": true
+          },
+          {
+            "name":"rememberMe",
+            "label":"Keep me signed in",
+            "type":"boolean"
+          },
+          {
+            "name":"stateHandle",
+            "required":true,
+            "value":"02itnqG312DoS3cU0z0LWs11l76yQ8ll4d95Oye61u",
+            "visible":false,
+            "mutable":false
+          }
+        ]
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "type": "password",
+      "key": "okta_password",
+      "id": "aut19soBFTESDoZWQ0g4",
+      "displayName": "Okta Password",
+      "methods": [
+        {
+          "type": "password"
+        }
+      ],
+      "recover": {
+        "rel": [
+          "create-form"
+        ],
+        "name": "recover",
+        "href": "http://localhost:3000/idp/idx/recover",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value":"02itnqG312DoS3cU0z0LWs11l76yQ8ll4d95Oye61u",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    }
+  },
+  "cancel":{
+    "rel":[
+      "create-form"
+    ],
+    "name":"cancel",
+    "href":"http://localhost:3000/idp/idx/cancel",
+    "method":"POST",
+    "accepts":"application/vnd.okta.v1+json",
+    "value":[
+      {
+        "name":"stateHandle",
+        "required":true,
+        "value":"02itnqG312DoS3cU0z0LWs11l76yQ8ll4d95Oye61u",
+        "visible":false,
+        "mutable":false
+      }
+    ]
+  }
+}

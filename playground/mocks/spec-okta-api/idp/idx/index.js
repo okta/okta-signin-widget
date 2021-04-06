@@ -3,6 +3,7 @@ const cancelTransaction = require('../../../data/idp/idx/identify-with-no-sso-ex
 
 const idx = [
   '/idp/idx',
+  '/idp/idx/activate',
   '/idp/idx/authenticators/okta-verify/launch',
   '/idp/idx/authenticators/poll',
   '/idp/idx/authenticators/poll/cancel',
