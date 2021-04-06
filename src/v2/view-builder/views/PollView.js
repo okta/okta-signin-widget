@@ -9,7 +9,7 @@ const PollMessageView = View.extend({
       <p>{{i18n code="poll.form.message"
         bundle="login" arguments="countDownCounterValue" $1="<span class='strong'>$1</span>"}} </p>
     </div>
-    <div class="hide okta-waiting-spinner safe-mode-spinner"></div>
+    <div class="hide okta-waiting-spinner"></div>
     `
   ,
   getTemplateData() {
