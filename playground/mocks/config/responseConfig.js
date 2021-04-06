@@ -570,9 +570,9 @@ const safeModePoll = {
     'safe-mode-polling',
   ],
   '/idp/idx/poll': [
-    'safe-mode-polling',
     // 'safe-mode-polling',
     'safe-mode-polling',
+    'safe-mode-polling-refreshed-interval',
     'error-safe-mode-polling',
     // 'authenticator-enroll-ov-via-sms',
     // 'terminal-polling-window-expired'

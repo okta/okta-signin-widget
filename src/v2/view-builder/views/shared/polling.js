@@ -38,28 +38,6 @@ export default {
     });
   },
 
-  startCountDown(selector , interval) {
-    if(this.countDown) {
-      clearInterval(this.countDown);
-    }
-    this.counterEl = this.$el.find(selector);
-    this.countDown = setInterval(() => {
-      if(this.counterEl.text() !== '1') {
-        this.counterEl.text(this.counterEl.text() - 1);
-      } else {
-        // reset the countdown counter visible to enduser, if still polling
-        this.counterEl.text(this.countDownCounterValue);
-        this.startCountDown(selector, interval);
-      }
-    }, interval, this);
-  },
-
-  _stopCountDown() {
-    if(this.countDown) {
-      clearInterval(this.countDown);
-    }
-  },
-
   _startRemediationPolling() {
     const pollInterval = this.dynamicPollingInterval || this.fixedPollingInterval;
     if (_.isNumber(pollInterval)) {
@@ -71,7 +49,6 @@ export default {
 
   stopPolling() {
     if (this.polling) {
-      this._stopCountDown();
       clearInterval(this.polling);
     }
   }

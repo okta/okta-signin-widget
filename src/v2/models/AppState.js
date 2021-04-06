@@ -152,6 +152,16 @@ export default Model.extend({
       reRender = false;
     }
 
+    if (identicalResponse && this.get('currentFormName') === 'poll') {
+      /**
+       * returns true: We want to force reRender when currentForm is poll because request has to reinitiate
+       * based on new refresh and UI has to reflect new timer.
+       * We dont technical poll here we just make a request after the specified refresh time each time
+       * we get a new response.
+       */
+      reRender = true;
+    }
+
     if (identicalResponse && FORMS_WITH_STATIC_BACK_LINK.includes(this.get('currentFormName'))) {
       /**
        * returns true: We want to force reRender if you go back to selection screen from challenge or enroll screen
