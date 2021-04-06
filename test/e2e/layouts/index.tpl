@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-
+<!-- {{GENERATES}} -->
 <head>
   <title>Okta Sign-in Widget</title>
   <meta charset="UTF-8">

@@ -1,5 +1,14 @@
 {{#> cdnLayout}}
 
+{{#*inline "pre-widget-script-block"}}
+(function iife() { 
+  window.globalCspTrap = globalCspTrap = [];
+  document.addEventListener("securitypolicyviolation", function(e) {
+    globalCspTrap.push(e);
+  });
+})();
+{{/inline}}
+
 function _initialize(event) {
   event.preventDefault();
   var config = JSON.parse(document.getElementById('config-textarea').value);
@@ -55,7 +64,24 @@ function addMessageToPage(id, msg) {
   document.body.appendChild(appNode);
 }
 
+function replaceMessageOnPage(id, msg) {
+  var containerNode = document.getElementById(id);
+  if (containerNode) {
+    containerNode.remove();
+  }
+
+  var appNode = document.createElement('div');
+  appNode.setAttribute('id', id);
+  appNode.innerHTML = msg;
+  document.body.appendChild(appNode);
+}
+
 function initialize(options) {
+
+  replaceMessageOnPage('csp-errors', globalCspTrap.map( function(err) { 
+    return err.blockedURI + " blocked due to CSP rule " + err.violatedDirective + " from " + err.originalPolicy;
+  }).join('')); 
+
   var oktaSignIn = new OktaSignIn(options);
   oktaSignIn.renderEl(
     { el: '#okta-login-container' },
@@ -80,4 +106,17 @@ function initialize(options) {
     }
   );
 }
+
+function triggerCspViolation() { 
+  eval("var cspTrigger = true;");
+}
+
+if (window.location.search === '?fail-csp') { 
+  try { 
+    triggerCspViolation();
+  } catch (e) { 
+    console.warn(e);
+  }
+}
+
 {{/cdnLayout}}
