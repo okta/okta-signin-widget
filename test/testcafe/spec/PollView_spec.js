@@ -1,30 +1,25 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
-import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
-import EnrollOVViaSMSPageObject from '../framework/page-objects/EnrollOVViaSMSPageObject';
+import PollingPageObject from '../framework/page-objects/PollingPageObject';
 
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
-import xhrSelectAuthenticatorEnroll from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator';
 import xhrSafeModepolling from '../../../playground/mocks/data/idp/idx/safe-mode-polling';
-import xhrSuccess from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-via-sms';
+import xhrSafeModepollingWithRefreshedInterval from '../../../playground/mocks/data/idp/idx/safe-mode-polling-refreshed-interval';
+import xhrError from '../../../playground/mocks/data/idp/idx/error-safe-mode-polling';
 
 const identifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentifyWithPassword)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
-  .respond(xhrSelectAuthenticatorEnroll)
-  .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
   .respond(xhrSafeModepolling)
   .onRequestTo('http://localhost:3000/idp/idx/poll')
-  .respond(xhrSuccess);
+  .respond(xhrSafeModepollingWithRefreshedInterval);
 
-// const identifyPollErrorMock = RequestMock()
-//   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-//   .respond(xhrIdentifyWithPassword)
-//   .onRequestTo('http://localhost:3000/idp/idx/identify')
-//   .respond(xhrSelectAuthenticatorEnroll)
-//   .onRequestTo('http://localhost:3000/idp/idx/poll')
-//   .respond(xhrError);
+const identifyPollErrorMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentifyWithPassword)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrError);
 
 const requestLogger = RequestLogger(/poll/);
 
@@ -32,34 +27,34 @@ fixture('Safemode Polling');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
-  const selectFactorPageObject = new SelectFactorPageObject(t);
 
-  await identityPage.navigateToPage();  
-  return [identityPage , selectFactorPageObject];
-}  
+  await identityPage.navigateToPage();
+  return identityPage;
+}
 
-test.requestHooks(requestLogger, identifyMock)('should poll', async t => {
-  let [identityPage, selectFactorPage]  = await setup(t);
+test.requestHooks(requestLogger, identifyMock)('should make request based on timer in response', async t => {
+  let identityPage  = await setup(t);
 
   await identityPage.fillIdentifierField('username');
   await identityPage.fillPasswordField('password');
   await identityPage.clickNextButton();
+  const pollingPageObject = new PollingPageObject();
 
-  selectFactorPage.selectFactorByIndex(0);
-
+  await t.wait(2000);
   await t.expect(requestLogger.count(() => true)).eql(1);
 
-  const enrollViaSMSPageObject = new EnrollOVViaSMSPageObject(t);
-  await t.expect(enrollViaSMSPageObject.getFormTitle()).eql('Set up Okta Verify via SMS');
+  await t.expect(pollingPageObject.getHeader()).eql('Unable to complete your request');
+  await t.expect(pollingPageObject.getContent().innerText).contains('We will automatically retry in');
+  await t.wait(3000);
+  await t.expect(requestLogger.count(() => true)).eql(2);
 });
 
-// Test being flaky on bacon
-// test.requestHooks(requestLogger, identifyPollErrorMock)('poll should end on error', async t => {
-//   let [identityPage, selectFactorPage]  = await setup(t);
-//   await identityPage.fillIdentifierField('username');
-//   await identityPage.fillPasswordField('password');
-//   await identityPage.clickNextButton();
-//   selectFactorPage.selectFactorByIndex(0);
-//   const terminalPageObject = new TerminalPageObject(t);
-//   await t.expect(terminalPageObject.getErrorMessages().getTextContent()).eql('Something went wrong, Try again later.');
-// });
+test.requestHooks(requestLogger, identifyPollErrorMock)('not poll on error', async t => {
+  let identityPage  = await setup(t);
+  await identityPage.fillIdentifierField('username');
+  await identityPage.fillPasswordField('password');
+  await identityPage.clickNextButton();
+  const pollingPageObject = new PollingPageObject();
+  await t.expect(pollingPageObject.getErrorMessages().getTextContent()).eql('Something went wrong, Try again later.');
+  await t.expect(pollingPageObject.getContent().length).eql(0);
+});
