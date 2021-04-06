@@ -305,7 +305,9 @@ export default Router.extend({
   },
 
   remove: function() {
-    this.controller.remove();
+    if (this.controller) {
+      this.controller.remove();
+    }
     this.header.$el.remove();
     Bundles.remove();
     Backbone.history.stop();
