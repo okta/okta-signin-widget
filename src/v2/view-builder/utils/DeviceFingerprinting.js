@@ -26,7 +26,6 @@ export default {
   },
 
   // NOTE: This utility is similar to the DeviceFingerprint.js file used for V1 authentication flows.
-  //       Changes have been applied to this file ONLY to support OIE API enhancements.
   generateDeviceFingerprint(fingerprintData) {
     return new Promise((resolve, reject) => {
       const userAgent = getUserAgent();
@@ -67,7 +66,6 @@ export default {
           if (message && message.type === 'FingerprintServiceReady') {
             sendMessageToOkta({
               type: 'GetFingerprint',
-              stateHandle: fingerprintData.stateHandle,
             });
           } else if (message && message.type === 'FingerprintAvailable') {
             removeIframe();

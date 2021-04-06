@@ -30,7 +30,6 @@ const Body = BaseForm.extend({
     const fingerprintData = {
       oktaDomainUrl: this.settings.get('baseUrl'),
       element: this.$el,
-      stateHandle: this.options.appState.get('stateHandle'),
     };
 
     this.model.trigger('request');
