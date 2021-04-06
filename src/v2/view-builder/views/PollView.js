@@ -1,16 +1,15 @@
 import { loc, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import { BaseForm, BaseView } from '../internals';
-import polling from './shared/polling';
 import { MS_PER_SEC } from '../utils/Constants';
 
 const PollMessageView = View.extend({
   template: hbs`
     <div class="ion-messages-container">
-      <p>{{i18n code="poll.form.message" 
+      <p>{{i18n code="poll.form.message"
         bundle="login" arguments="countDownCounterValue" $1="<span class='strong'>$1</span>"}} </p>
     </div>
-    <div class="okta-waiting-spinner"></div>
+    <div class="hide okta-waiting-spinner"></div>
     `
   ,
   getTemplateData() {
@@ -28,10 +27,15 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     noButtonBar: true,
-    
+
     initialize() {
       BaseForm.prototype.initialize.apply(this, arguments);
-      this.startPolling();
+      const refreshInterval = this.options.appState.getCurrentViewState().refresh;
+      this.refreshTimeout = setTimeout(() => {
+        this.$el.find('.okta-waiting-spinner').show();
+        // start after a small delay so that the spinner does not get hidden too soon
+        setTimeout(() => this.saveForm(this.model), 200);
+      }, refreshInterval);
     },
 
     render() {
@@ -43,17 +47,34 @@ const Body = BaseForm.extend(Object.assign(
 
     remove() {
       BaseForm.prototype.remove.apply(this, arguments);
-      this.stopPolling();
+      clearTimeout(this.refreshTimeout);
     },
 
     triggerAfterError() {
       BaseForm.prototype.triggerAfterError.apply(this, arguments);
-      this.stopPolling();
+      clearTimeout(this.refreshTimeout);
+      this.stopCountDown();
       this.$el.find('.o-form-fieldset-container').empty();
     },
-  },
 
-  polling,
+    startCountDown(selector , interval) {
+      if (this.countDown) {
+        clearInterval(this.countDown);
+      }
+      this.counterEl = this.$el.find(selector);
+      this.countDown = setInterval(() => {
+        if(this.counterEl.text() !== '0') {
+          this.counterEl.text(this.counterEl.text() - 1);
+        }
+      }, interval, this);
+    },
+
+    stopCountDown() {
+      if (this.countDown) {
+        clearInterval(this.countDown);
+      }
+    },
+  },
 ));
 
 export default BaseView.extend({
