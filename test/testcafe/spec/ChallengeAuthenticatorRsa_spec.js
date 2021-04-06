@@ -86,7 +86,7 @@ test.requestHooks(mockPasscodeChange)('displays error and clears passcode when p
   await challengeRsaPage.clickNextButton();
 
   await t.expect(challengeRsaPage.getInvalidOTPError())
-    .eql('Wait for token to change, then enter the new tokencode.');
+    .eql('Pin accepted, Wait for token to change, then enter new passcode.');
   await t.expect(challengeRsaPage.getPasscodeValue())
     .eql('');
 });
