@@ -6889,6 +6889,10 @@ grunt-sass@^3.0.2:
   resolved "https://registry.yarnpkg.com/grunt-sass/-/grunt-sass-3.1.0.tgz#a5936cc2a80ec08092d9f31c101dc307d1e4f71c"
   integrity sha512-90s27H7FoCDcA8C8+R0GwC+ntYD3lG6S/jqcavWm3bn9RiJTmSfOvfbFa1PXx4NbBWuiGQMLfQTj/JvvqT5w6A==
 
+grunt-search@^0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/grunt-search/-/grunt-search-0.1.8.tgz#f4ad6440baf8f5dfb5db6a7f2927940cd27d55e7"
+
 grunt@^1.0.3:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/grunt/-/grunt-1.1.0.tgz#97dc6e6add901459774a988e4f454a12e24c9d3d"

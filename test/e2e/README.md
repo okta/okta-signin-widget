@@ -6,13 +6,6 @@ This assumes you have already built the main project:
 yarn install
 ```
 
-Additionally, you have already installed dependencies for test apps:
-
-```
-yarn install:react
-yarn install:angular
-```
-
 ## Define environment variables
 
 See `test/e2e/env.defaults.js` for a list of all environment variables used by E2E tests. You can define variables in the shell (using `export VAR=value` in `~/.bash_profile` or similar) or place values in a `testenv` file at the root of this project. [dotenv docs](https://github.com/motdotla/dotenv#dotenv)
