@@ -56,5 +56,5 @@ test.requestHooks(requestLogger, identifyPollErrorMock)('not poll on error', asy
   await identityPage.clickNextButton();
   const pollingPageObject = new PollingPageObject();
   await t.expect(pollingPageObject.getErrorMessages().getTextContent()).eql('Something went wrong, Try again later.');
-  await t.expect(pollingPageObject.getContent()).toBe(null);
+  await t.expect(pollingPageObject.getContent().length).eql(0);
 });
