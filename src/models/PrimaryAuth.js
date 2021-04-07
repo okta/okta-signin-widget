@@ -110,6 +110,10 @@ export default BaseLoginModel.extend({
         });
       } else {
         primaryAuthPromise = this.doTransaction(function(transaction) {
+          if (Util.hasStepUpRedirectExpired(transaction)) {
+            // Probably requires 'Back to Application' link to be added
+            throw new Error('Sign in has expired. Please re-start the sign in process.');
+          }
           return this.doPrimaryAuth(authClient, signInArgs, transaction.authenticate);
         });
       }

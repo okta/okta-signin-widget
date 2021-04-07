@@ -227,4 +227,16 @@ Util.removeNils = function removeNils(obj) {
   return cleaned;
 };
 
+Util.hasStepUpRedirectExpired = function(transaction) {
+  if (transaction && transaction.status === Enums.UNAUTHENTICATED && transaction.type === Enums.SESSION_STEP_UP) {
+    // transaction(UNAUTHENTICATED state) created by /api/v1/authn/introspect expires in one hour
+    const ONE_HOUR_MILLISECONDS = 1000 * 60 * 60;
+    // 15 min validity check performed by /login/step-up/redirect
+    const FIFTEEN_MINUTES_MILLISECONDS = 1000 * 60 * 15;
+    const signInInitiatedAt = new Date(new Date(transaction.expiresAt).getTime() - ONE_HOUR_MILLISECONDS);
+    return new Date().getTime() > signInInitiatedAt.getTime() + FIFTEEN_MINUTES_MILLISECONDS;
+  }
+  return false;
+};
+
 export default Util;
