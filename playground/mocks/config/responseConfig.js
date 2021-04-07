@@ -90,7 +90,8 @@ const idx = {
     // 'identify-with-only-one-third-party-idp',
     // 'error-identify-access-denied',
     // 'error-identify-user-locked-unable-challenge',
-    // 'terminal-device-activated'
+    // 'terminal-device-activated',
+    // 'terminal-device-not-activated'
   ],
   '/idp/idx/challenge/answer': [
     // 'error-email-verify',
@@ -130,7 +131,7 @@ const idx = {
     'error-forgot-password',
   ],
   '/idp/idx/activate': [
-    'identify-with-device-code',
+    'identify-with-password',
     // 'error-invalid-device-code',
   ]
 };
