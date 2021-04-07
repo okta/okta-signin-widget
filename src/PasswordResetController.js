@@ -125,7 +125,7 @@ export default FormController.extend({
     });
 
     if (!this.settings.get('features.hideBackToSignInForReset')) {
-      this.addFooter(FooterSignout);
+      this.addFooter(FooterSignout, { linkText: loc('signout', 'login'), linkClassName: 'goto', closeSession: true });
     }
   },
 });

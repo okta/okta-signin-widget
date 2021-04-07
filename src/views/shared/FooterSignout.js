@@ -36,6 +36,12 @@ export default View.extend({
         return transaction.cancel();
       })
       .then(function() {
+        if (this.options.closeSession) {
+          const authClient = self.options.appState.settings.authClient;
+          return authClient.closeSession();
+        }
+      })
+      .then(function() {
         if (self.settings.get('signOutLink')) {
           Util.redirect(self.settings.get('signOutLink'));
         } else {
@@ -46,8 +52,8 @@ export default View.extend({
   },
   getTemplateData: function() {
     return {
-      linkClassName: _.isUndefined(this.options.linkClassName) ? 'goto' : this.options.linkClassName,
-      linkText: this.options.linkText || loc('signout', 'login'),
+      linkClassName: _.isUndefined(this.options.linkClassName) ? '' : this.options.linkClassName,
+      linkText: this.options.linkText || loc('goback', 'login'),
     };
   },
 });
