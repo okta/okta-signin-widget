@@ -79,7 +79,7 @@ export default FormController.extend({
   },
   initialize: function() {
     if (!this.settings.get('features.hideBackToSignInForReset')) {
-      this.addFooter(FooterSignout, { linkText: loc('goback', 'login'), linkClassName: '' });
+      this.addFooter(FooterSignout);
     }
   },
 });
