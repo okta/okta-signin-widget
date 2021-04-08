@@ -1,4 +1,3 @@
-/* global Promise */
 import { $ } from 'okta';
 import { BaseForm } from '../../internals';
 import Logger from '../../../../util/Logger';

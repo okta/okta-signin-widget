@@ -1,5 +1,4 @@
 /* eslint max-params: [2, 19] */
-/*global JSON */
 import { _ } from 'okta';
 import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';

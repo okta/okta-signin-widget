@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-consts */
 /*!
  * Copyright (c) 2015-Present, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
@@ -10,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-/* global browser, element, by, oktaSignIn */
+/* global oktaSignIn */
 const PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
     OIDCAppPage     = require('../page-objects/OIDCAppPage'),
     util            = require('../util/util');

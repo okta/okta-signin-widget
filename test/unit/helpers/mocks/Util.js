@@ -1,5 +1,4 @@
 /* eslint no-global-assign: 0, max-statements: 0 */
-/* global Promise */
 import { _, $, Backbone, internal } from 'okta';
 import Duo from 'duo';
 import 'jasmine-ajax';

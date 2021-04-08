@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* globals JSON */
 import Q from 'q';
 import FidoUtil from 'util/FidoUtil';
 
@@ -57,7 +56,7 @@ export default {
   makeCredential: makeCredential,
   getAssertion: getAssertion,
   isAvailable: function() {
-    return window.hasOwnProperty('msCredentials');
+    return Object.prototype.hasOwnProperty.call(window, 'msCredentials');
   },
   isNewApiAvailable: function() {
     return navigator && navigator.credentials && navigator.credentials.create;

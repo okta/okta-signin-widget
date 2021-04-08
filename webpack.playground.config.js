@@ -1,4 +1,3 @@
-/* global module __dirname */
 /* eslint no-console:0 */
 
 const path = require('path');

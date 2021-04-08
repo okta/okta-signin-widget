@@ -1,5 +1,3 @@
-/* global Uint8Array */
-
 import Expect from 'helpers/util/Expect';
 import CryptoUtil from 'util/CryptoUtil';
 

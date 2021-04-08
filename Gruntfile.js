@@ -1,4 +1,3 @@
-/* global module, process */
 /* eslint max-statements: 0 no-console: 0 */
 
 var ENV = require('./test/e2e/env');

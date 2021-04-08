@@ -1,5 +1,3 @@
-/* global module, __dirname */
-
 var path          = require('path');
 var commonConfig  = require('./webpack.common.config');
 var createPlugins = require('./buildtools/webpack/plugins');

@@ -1,4 +1,3 @@
-/*globals module */
 import _ from 'underscore';
 import Errors from 'util/Errors';
 import Util from 'util/Util';

@@ -1,4 +1,3 @@
-/* global module module, __dirname */
 /*eslint camelcase: ["error", {properties: "never"}]*/
 
 const { readFileSync } = require('fs');
