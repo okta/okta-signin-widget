@@ -7,8 +7,8 @@ const Body = BaseForm.extend({
   },
   subtitle: function() {
     const subtitle = this.options.settings.get('brandName') ?
-      loc('oie.select.authenticators.enroll.subtitle.2.custom', 'login', [this.options.settings.get('brandName')]):
-      loc('oie.select.authenticators.enroll.subtitle.2', 'login');
+      loc('oie.select.authenticators.enroll.subtitle.custom', 'login', [this.options.settings.get('brandName')]):
+      loc('oie.select.authenticators.enroll.subtitle', 'login');
     return subtitle;
   },
   noButtonBar: true,
