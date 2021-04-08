@@ -43,20 +43,21 @@
             "form": {
               "value": [
                 {
-                  "name": "instanceId",
+                  "name": "captchaId",
                   "required": true,
-                  "value": "4321dcba",
-                  "mutable": false,
-                  "visible": false
+                  "value": "capzomKHvPhLF7lrR0g3",
+                  "visible": false,
+                  "mutable": false
                 },
                 {
-                  "name": "token",
+                  "name": "captchaToken",
                   "required": true,
-                  "visible": false
+                  "visible": false,
+                  "hint": "captcha"
                 }
               ]
             }
-          },  
+          },
           {
             "name": "stateHandle",
             "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
@@ -103,15 +104,21 @@
     ]
   },
   "captcha2": {
-    "id": "4321dcba",
-    "name": "reCaptcha",
-    "siteKey": "6Lfw9IQaAAAAAM-mWFv6DwRtsKHyn8l14qXUBMkD",
-    "type": "RECAPTCHAV2"
-  },    
+    "type": "object",
+    "value": {
+      "id": "4321dcba",
+      "name": "hCaptcha",
+      "siteKey": "620b875d-5009-4637-b297-e71e44f32e39",
+      "type": "HCAPTCHA"
+    }
+  },
   "captcha": {
-    "id": "4321dcba",
-    "name": "hCaptcha",
-    "siteKey": "620b875d-5009-4637-b297-e71e44f32e39",
-    "type": "HCAPTCHA"
-  }  
+    "type": "object",
+    "value": {
+      "id": "4321dcba",
+      "name": "reCaptcha",
+      "siteKey": "6Lfw9IQaAAAAAM-mWFv6DwRtsKHyn8l14qXUBMkD",
+      "type": "RECAPTCHAV2"
+    }
+  }
 }

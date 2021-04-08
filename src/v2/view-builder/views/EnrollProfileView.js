@@ -3,8 +3,6 @@ import { BaseForm, BaseFooter, BaseView } from '../internals';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 
 const Body = BaseForm.extend({
-  saveId: 'enroll-profile-btn',
-  
   title () {
     return loc('registration.form.title', 'login');
   },

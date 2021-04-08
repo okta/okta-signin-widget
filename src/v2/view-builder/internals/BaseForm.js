@@ -41,8 +41,8 @@ export default Form.extend({
     });
 
     // Render CAPTCHA if we need to and if FF CAPTCHA_SUPPORT is enabled
-    if (this.options.currentViewState.captcha) {
-      this.addCaptcha(this.options.currentViewState.captcha);
+    if (this._shouldRenderCaptcha(uiSchemas) && this.options.currentViewState.captcha) {
+      this.addCaptcha(this.options.currentViewState.captcha.value);
     }
 
     this.listenTo(this, 'save', this.saveForm);
@@ -80,7 +80,7 @@ export default Form.extend({
   addCaptcha (captchaConfig) {
     const onCaptchaSolved = (token) => {
       // Set the token in the model and submit the form.
-      this.model.set('captchaVerify.token', token);
+      this.model.set('captchaVerify.captchaToken', token);
       this.saveForm(this.model);
     };
 
@@ -162,14 +162,31 @@ export default Form.extend({
     }
   },
 
+  /**
+   *  We dynamically inject <script> tag into our login container because in case the customer is hosting
+   *  the SIW, we need to ensure we don't go out of scope when injecting the script.
+  * */ 
   _loadCaptchaLib (url) {
-    // We dynamically inject <script> tag into our login container because in case the customer is hosting
-    // the SIW, we need to ensure we don't go out of scope when injecting the script.
+
     let scriptTag = document.createElement('script');
     scriptTag.src = url;
     scriptTag.async = true;
     scriptTag.defer = true;
     document.getElementById('okta-login-container').appendChild(scriptTag);
   },
+
+  /**
+   *  Whether or not to render CAPTCHA is determined by the remediation form (turned into our uiSchema) 
+   *  that the server returns. If one of the fields contains a "hint" attribute with value "captcha", 
+   *  we render the CAPTCHA in this form.
+  * */ 
+  _shouldRenderCaptcha (uiSchemas) {
+    for (const schema of uiSchemas) {
+      if (schema.hint && schema.hint === 'captcha') {
+        return true;
+      }
+    }
+    return false;
+  }
 
 });
