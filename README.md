@@ -188,7 +188,7 @@ To embed the Sign-in Widget via CDN, include links to the JS and CSS files in yo
 
 The CDN URLs contain a version number. This number should be the same for both the Javascript and the CSS file and match a version on the [releases page](/releases).
 
-The standard JS asset served from our CDN includes polyfills via [`@babel/polyfill`](https://babeljs.io/docs/en/babel-polyfill/) to ensure compatibility with older browsers. This may cause conflicts if your app already includes polyfills. For this case, we provide an alternate JS asset which does not include any polyfills.
+The standard JS asset served from our CDN includes polyfills via [`core-js`](https://github.com/zloirock/core-js) and [`regenerator-runtime`](https://github.com/facebook/regenerator/blob/master/packages/regenerator-runtime/runtime.js) to ensure compatibility with older browsers.
 
 ```html
 <!-- Latest CDN production Javascript without polyfills -->
@@ -283,7 +283,7 @@ After installing:
     --outfile=bundle.js
     ```
 
-3. Make sure you include ES6 polyfills with your bundler if you need the broadest browser support. We recommend [`@babel/polyfill`](https://babeljs.io/docs/en/babel-polyfill/).
+3. Make sure you include ES6 polyfills with your bundler if you need the broadest browser support. 
 
 #### Examples
 
