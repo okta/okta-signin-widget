@@ -131,11 +131,13 @@ export default Model.extend({
 
   shouldReRenderView(transformedResponse) {
     const previousRawState = this.has('idx') ? this.get('idx').rawIdxState : null;
+    
     const identicalResponse = _.isEqual(
-      _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh']),
-      _.nestedOmit(previousRawState, ['expiresAt', 'refresh']));
-    const isSameRefreshInterval = _.isEqual(_.omit(transformedResponse.idx.rawIdxState, 'expiresAt'),
-      _.omit(previousRawState, 'expiresAt') );
+      _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh', 'stateHandle']),
+      _.nestedOmit(previousRawState, ['expiresAt', 'refresh', 'stateHandle']));
+    const isSameRefreshInterval = _.isEqual(
+      _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'stateHandle']),
+      _.nestedOmit(previousRawState, ['expiresAt', 'stateHandle']));
 
     if (identicalResponse && !isSameRefreshInterval) {
       this.set('dynamicRefreshInterval', this.getRefreshInterval(transformedResponse));

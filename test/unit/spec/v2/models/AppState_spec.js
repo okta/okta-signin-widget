@@ -1,5 +1,5 @@
 import AppState from 'v2/models/AppState';
-import { FORMS_WITHOUT_SIGNOUT, FORMS_FOR_VERIFICATION, FORMS } from 'v2/ion/RemediationConstants';
+import {FORMS, FORMS_FOR_VERIFICATION, FORMS_WITHOUT_SIGNOUT} from 'v2/ion/RemediationConstants';
 
 describe('v2/models/AppState', function() {
   beforeEach(() => {
@@ -110,5 +110,74 @@ describe('v2/models/AppState', function() {
         expect(this.appState.isAuthenticatorChallenge()).toBe(true);
       });
     });
+  });
+
+  describe('shouldReRenderView', () => {
+    it('rerender view should be false if stateHandle are different', () => {
+
+      const transformedResponse = {
+        'idx': {
+          'rawIdxState':{
+            'version':'1.0.0',
+            'stateHandle':'12345',
+            'intent':'LOGIN',
+            'remediation':{
+              'type':'array',
+              'value':[
+                {
+                  'rel':[
+                    'create-form'
+                  ],
+                  'name':'device-challenge-poll',
+                  'relatesTo':[
+                    'authenticatorChallenge'
+                  ],
+                  'refresh':2000,
+                  'value':[
+                    {
+                      'name':'stateHandle',
+                      'required':true,
+                      'value':'12345'
+                    }
+                  ]
+                }
+              ]
+            }
+          }}};
+
+      const idxObj = {
+        'idx': {
+          'rawIdxState':{
+            'version':'1.0.0',
+            'stateHandle':'abcdf',
+            'intent':'LOGIN',
+            'remediation':{
+              'type':'array',
+              'value':[
+                {
+                  'rel':[
+                    'create-form'
+                  ],
+                  'name':'device-challenge-poll',
+                  'relatesTo':[
+                    'authenticatorChallenge'
+                  ],
+                  'refresh':2000,
+                  'value':[
+                    {
+                      'name':'stateHandle',
+                      'required':true,
+                      'value':'abcdf'
+                    }
+                  ]
+                }
+              ]
+            }
+          }}};
+
+      this.initAppState(idxObj, 'create-form');
+      expect(this.appState.shouldReRenderView(transformedResponse)).toBe(false);
+    });
+
   });
 });
