@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* global module, browser */
 var util = module.exports = {};
 
 var EC = protractor.ExpectedConditions;

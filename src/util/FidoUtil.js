@@ -61,7 +61,7 @@ fn.getU2fVersion = function() {
 };
 
 fn.isU2fAvailable = function() {
-  return window.hasOwnProperty('u2f');
+  return Object.prototype.hasOwnProperty.call(window, 'u2f');
 };
 
 export default fn;

@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* global browser */
 const PrimaryAuthPage = require('../page-objects/PrimaryAuthPage'),
     OktaHomePage = require('../page-objects/OktaHomePage'),
     util = require('../util/util'),

@@ -1,4 +1,3 @@
-/* global module */
 var grunt = require('grunt');
 
 module.exports = function(result, threshold, writer) {

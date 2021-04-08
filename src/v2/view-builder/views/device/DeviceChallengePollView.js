@@ -1,4 +1,3 @@
-/* global Promise */
 import { $, loc } from 'okta';
 import { BaseHeader, BaseForm, BaseFormWithPolling, BaseFooter, BaseView } from '../../internals';
 import HeaderBeacon from '../../components/HeaderBeacon';

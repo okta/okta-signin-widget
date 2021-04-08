@@ -274,12 +274,12 @@ Expect.describe('MFA Verify', function() {
     const res = JSON.parse(JSON.stringify(resMfaAlwaysPolicy));
 
     if (options) {
-      if (options.hasOwnProperty('minutes')) {
+      if (Object.prototype.hasOwnProperty.call(options, 'minutes')) {
         res.response._embedded.policy.allowRememberDevice = true;
         res.response._embedded.policy.rememberDeviceLifetimeInMinutes = options.minutes;
       }
 
-      if (options.hasOwnProperty('byDefault')) {
+      if (Object.prototype.hasOwnProperty.call(options, 'byDefault')) {
         res.response._embedded.policy.rememberDeviceByDefault = options.byDefault;
       }
     }

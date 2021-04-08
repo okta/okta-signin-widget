@@ -1,5 +1,3 @@
-/* global module __dirname */
-
 var path      = require('path');
 var SRC = path.resolve(__dirname, 'src');
 var TARGET_JS = path.resolve(__dirname, 'target/js/');

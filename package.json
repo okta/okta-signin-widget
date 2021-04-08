@@ -74,7 +74,7 @@
     "cssnano": "^4.1.7",
     "dotenv": "^8.0.0",
     "dyson": "^2.0.5",
-    "eslint": "^5.9.0",
+    "eslint": "^7.23.0",
     "eslint-plugin-jasmine": "^4.1.0",
     "eslint-plugin-local-rules": "^0.1.1",
     "eslint-plugin-no-only-tests": "^2.4.0",
