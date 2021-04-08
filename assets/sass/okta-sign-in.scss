@@ -74,16 +74,6 @@
       }
     }
   }
-  &:not(.no-beacon) {
-    // the following is to center the beacon vertically with the divider line
-    .siw-main-view {
-      float: left; // to prevent margin collapse which drags beacon down
-    }
-    .siw-main-footer {
-      padding-bottom: 20px; // add back padding removed from float
-    }
-  }
-
 
   @import 'modules/accessibility';
 }
