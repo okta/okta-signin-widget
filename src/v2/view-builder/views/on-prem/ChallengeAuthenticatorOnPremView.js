@@ -2,7 +2,7 @@ import { loc } from 'okta';
 import { BaseForm } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 
-const ON_PREM_TOKEN_CHANGE_KEY = 'errors.E0000106';
+const ON_PREM_TOKEN_CHANGE_KEY = 'errors.E0000113';
 
 const Body = BaseForm.extend({
 

@@ -7,9 +7,12 @@
     "type": "array",
     "value": [
       {
-        "message": "Wait for token to change, then enter the new tokencode.",
+        "message": "Pin accepted, Wait for token to change, then enter new passcode",
         "i18n": {
-          "key": "errors.E0000106"
+          "key": "errors.E0000113",
+          "params": [
+            "Pin accepted, Wait for token to change, then enter new passcode"
+          ]
         },
         "class": "ERROR"
       }
