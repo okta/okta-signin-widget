@@ -37,8 +37,8 @@ export default View.extend({
       .doTransaction(function(transaction) {
         return transaction.cancel();
       })
-      .then(() => {
-        if (this.options.closeSession) {
+      .then(function() {
+        if (self.options.closeSession) {
           const authClient = self.options.appState.settings.authClient;
           return authClient.closeSession();
         }
