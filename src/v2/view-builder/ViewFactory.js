@@ -90,6 +90,9 @@ import ChallengeCustomOTPAuthenticatorView from './views/custom-otp/ChallengeCus
 // Symantec VIP authenticator
 import AuthenticatorSymantecView from './views/symantec/AuthenticatorSymantecView';
 
+// Device code activate view
+import DeviceCodeActivateView from './views/device/DeviceCodeActivateView';
+
 const DEFAULT = '_';
 
 const VIEWS_MAPPING = {
@@ -212,6 +215,9 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.DEVICE_ENROLLMENT_TERMINAL]: {
     [DEFAULT]: DeviceEnrollmentTerminalView,
+  },
+  [RemediationForms.ACTIVATE_DEVICE] : {
+    [DEFAULT] : DeviceCodeActivateView
   },
   [RemediationForms.TERMINAL]: {
     [DEFAULT]: TerminalView,

@@ -46,6 +46,7 @@ const idx = {
     // 'authenticator-expired-password-no-complexity',
     // 'authenticator-expired-password-with-enrollment-authenticator',
     // 'authenticator-expiry-warning-password',
+    // 'device-code-activate',
     // 'enroll-profile',
     // 'enroll-profile-new',
     // 'identify-unknown-user',
@@ -88,7 +89,9 @@ const idx = {
     'authenticator-enroll-select-authenticator',
     // 'identify-with-only-one-third-party-idp',
     // 'error-identify-access-denied',
-    // 'error-identify-user-locked-unable-challenge'
+    // 'error-identify-user-locked-unable-challenge',
+    // 'terminal-device-activated',
+    // 'terminal-device-not-activated'
   ],
   '/idp/idx/challenge/answer': [
     // 'error-email-verify',
@@ -127,6 +130,10 @@ const idx = {
   '/idp/idx/recover': [
     'error-forgot-password',
   ],
+  '/idp/idx/activate': [
+    'identify-with-password',
+    // 'error-invalid-device-code',
+  ]
 };
 
 const consent = {
