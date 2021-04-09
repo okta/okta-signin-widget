@@ -103,7 +103,7 @@
       }
     ]
   },
-  "captcha2": {
+  "captcha": {
     "type": "object",
     "value": {
       "id": "4321dcba",
@@ -112,7 +112,7 @@
       "type": "HCAPTCHA"
     }
   },
-  "captcha": {
+  "captcha2": {
     "type": "object",
     "value": {
       "id": "4321dcba",

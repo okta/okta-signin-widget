@@ -36,7 +36,7 @@ const createUISchema = (transformedResp, remediationForm, settings) => {
   // back to object hierarchy through `Model.toJSON`.
   // For simplicity we are assuming that when field itself is a form its only one level deep.
   const remediationValue = _.chain(remediationForm.value || [])
-    .filter(v => v.visible !== false)
+    .filter(v => v.visible !== false) // TODO: will need to NOT filter out hint captcha
     .map(v => {
       let nestedForm;
       if (v.form) {

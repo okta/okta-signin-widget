@@ -80,6 +80,7 @@ export default Form.extend({
   addCaptcha (captchaConfig) {
     const onCaptchaSolved = (token) => {
       // Set the token in the model and submit the form.
+      // TODO: get the field that has the "hint" instead of hardcoding
       this.model.set('captchaVerify.captchaToken', token);
       this.saveForm(this.model);
     };
@@ -98,11 +99,7 @@ export default Form.extend({
 
       // Render the HCAPTCHA footer - we need to do this manually since the hCAPTCHA lib doesn't do it
       if (captchaConfig.type === 'HCAPTCHA') {
-        $('body').append(
-          `<div class="footer">
-            ${loc('captcha.footer.label', 'login', [HCAPTCHA_PRIVACY_URL, HCAPTCHA_TERMS_URL])}
-          </div>`
-        );
+        this._addHCaptchaFooter();
       }
     };
 
@@ -167,11 +164,11 @@ export default Form.extend({
    *  the SIW, we need to ensure we don't go out of scope when injecting the script.
   * */ 
   _loadCaptchaLib (url) {
-
     let scriptTag = document.createElement('script');
     scriptTag.src = url;
     scriptTag.async = true;
     scriptTag.defer = true;
+    // TODO: use reference to ID instead of harcoding; USE WIDGET_CONTAINER_ID
     document.getElementById('okta-login-container').appendChild(scriptTag);
   },
 
@@ -187,6 +184,16 @@ export default Form.extend({
       }
     }
     return false;
-  }
+  },
+
+  _addHCaptchaFooter () {
+    // NOTE: insetAdjacentHTML() is supported in all major browsers: 
+    // https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML#browser_compatibility
+    document.getElementById('okta-login-container').insertAdjacentHTML('beforeend',
+      `<div class="footer">
+        ${loc('captcha.footer.label', 'login', [HCAPTCHA_PRIVACY_URL, HCAPTCHA_TERMS_URL])}
+      </div>`
+    );
+  },
 
 });
