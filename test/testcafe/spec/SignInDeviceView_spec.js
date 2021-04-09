@@ -37,7 +37,7 @@ test('clicking the launch Okta Verify button takes user to the right UI', async 
 
 test('shows the correct footer links', async t => {
   const signInDevicePage = await setup(t);
-  await t.expect(signInDevicePage.getEnrollFooterLink().innerText).eql('Sign Up');
+  await t.expect(signInDevicePage.getEnrollFooterLink().innerText).eql('Sign up');
   await t.expect(signInDevicePage.getHelpFooterLink().innerText).eql('Help');
   await t.expect(signInDevicePage.getSignOutFooterLink().exists).eql(false);
 });

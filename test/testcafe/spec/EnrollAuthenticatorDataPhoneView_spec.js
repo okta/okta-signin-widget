@@ -38,7 +38,7 @@ test.requestHooks(mock)('default sms mode', async t => {
   // Check title
   await t.expect(enrollPhonePage.getFormTitle()).eql('Set up phone authentication');
   await t.expect(enrollPhonePage.getFormSubtitle())
-    .eql('Set up verification with a phone number. You will receive a code sent to your phone');
+    .eql('Set up verification with a phone number. You will receive a code sent to your phone.');
   await t.expect(enrollPhonePage.getSaveButtonLabel()).eql('Send a code via SMS');
 
   // Extension field is hidden
@@ -112,7 +112,7 @@ test.requestHooks(voiceOnlyOptionMock)('default is voice mode', async t => {
   // Check title
   await t.expect(enrollPhonePage.getFormTitle()).eql('Set up phone authentication');
   await t.expect(enrollPhonePage.getFormSubtitle())
-    .eql('Set up verification with a phone number. You will receive a code sent to your phone');
+    .eql('Set up verification with a phone number. You will receive a code sent to your phone.');
   await t.expect(enrollPhonePage.getSaveButtonLabel()).eql('Send a code via voice call');
 
   // Extension field is not hidden
