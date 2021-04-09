@@ -18,6 +18,10 @@ export default class EnrollGoogleAuthenticatorPageObject extends BasePageObject 
     return this.getTextContent('.manual-setup-title');
   }
 
+  isEnterCodeSubtitleVisible() {
+    return this.form.getElement('.enter-code-title').visible;
+  }
+
   getSetUpDescription() {
     return this.getTextContent('.google-authenticator-setup-info');
   }

@@ -59,6 +59,9 @@ const Body = BaseForm.extend({
     schema.unshift({
       View: this.enterCodeSubtitle,
       selector: '.o-form-fieldset-container',
+      showWhen: {
+        viewToDisplay: viewToDisplayState.ENTER_CODE,
+      }
     });
 
     schema.push(
