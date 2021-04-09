@@ -12,6 +12,7 @@
 
 import { OktaAuth, OktaAuthOptions, Tokens } from '@okta/okta-auth-js';
 
+export type UnknownFn = (args?: unknown) => unknown;
 export interface Config {
   issuer?: string;
   baseUrl?: string;
@@ -54,9 +55,9 @@ export declare class OktaSignIn {
     error?: (err: WidgetError) => void
   ): Promise<RenderResponse>;
   
-  renderEl(options: RenderOptions, successFn?: Function, errorFn?: Function): Promise<RenderResponse>;
+  renderEl(options: RenderOptions, successFn?: UnknownFn, errorFn?: UnknownFn): Promise<RenderResponse>;
   remove(): void;
-  on(event: string, fn: Function): void;
+  on(event: string, fn: UnknownFn): void;
   show(): void;
   hide(): void;
 }

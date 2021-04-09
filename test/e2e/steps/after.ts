@@ -20,6 +20,7 @@ After(deleteUserAndCredentials);
 
 After(() => browser.deleteCookies());
 
+// eslint-disable-next-line no-unused-vars
 After(async function (this: ActionContext) {
   await TestAppPage.ssoLogout();
 });

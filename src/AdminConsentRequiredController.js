@@ -88,4 +88,4 @@ const AdminConsentRequiredController = FormController.extend({
   },
 });
 
-module.exports = AdminConsentRequiredController;
+export default AdminConsentRequiredController;

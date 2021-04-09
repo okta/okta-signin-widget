@@ -1,13 +1,16 @@
 module.exports = {
   'root': true,
   'extends': [
-    'plugin:@okta/okta/courage-app' // apply courage-app rules to all files including properties
+    'plugin:@okta/okta/courage-app', // apply courage-app rules to all files including properties
   ],
   'parser': 'babel-eslint',
   'parserOptions': {
     'sourceType': 'module',
     'ecmaVersion': 2017
   },
+  'plugins': [
+    '@typescript-eslint'
+  ],
   'overrides': [
     {
       // temporarily ignoring files that violate the @okta/okta/no-exclusive-language rule
@@ -127,6 +130,23 @@ module.exports = {
         'local-rules/no-missing-keys': 2,
         'local-rules/no-missing-api-keys': 2,
       },
+    },
+    {
+      files: ['**/*.ts'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        ecmaVersion: 2020
+      },
+      extends: [
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended',
+      ],
+      rules: {
+        // TODO: enable these rules
+        '@typescript-eslint/no-explicit-any': 0,
+        '@typescript-eslint/no-empty-function': 0,
+        '@typescript-eslint/explicit-module-boundary-types': 0
+      }
     }
   ],
 };

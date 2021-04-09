@@ -1,75 +1,88 @@
 /******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./node_modules/@okta/courage/src/framework/Collection.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/framework/Collection.js ***!
-  \****************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "./src/empty.ts":
+/*!**********************!*\
+  !*** ./src/empty.ts ***!
+  \**********************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+// TODO: maybe replaced by
+// https://github.com/Calvein/empty-module
+// https://github.com/crimx/empty-module-loader
+/* harmony default export */ __webpack_exports__["default"] = ({
+  extend: () => {}
+});
 
+/***/ }),
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
+/***/ "./src/util/scrollParent.ts":
+/*!**********************************!*\
+  !*** ./src/util/scrollParent.ts ***!
+  \**********************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _okta_courage_src_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @okta/courage/src/util/jquery-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts");
 
-var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var STATE = '__STATE__',
-    FETCH_DATA = 'FETCH_DATA',
-    PAGINATION_DATA = 'PAGINATION_DATA',
-    DEFAULT_PARAMS = 'DEFAULT_PARAMS',
-    LINK_BY_HEADER = 'LINK_BY_HEADER',
-    XHR = 'XHR';
-/*
- * Sets the next page URL on the collection from link headers
- * See: http://www.rfc-editor.org/rfc/rfc5988.txt
+/*!
+ * jQuery UI Scroll Parent @VERSION
+ * http://jqueryui.com
  *
- * This method is looking for a link header with `rel="next"`
- * An set's it as the next page's URL.
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
  *
- * If it doesn't find a next page, and current page is set by a link header
- * it assumes we are at the last page and deletes the current `next`
+ * Modifications Copyright 2021 Okta, Inc.
  */
+// This is required because SIW doesn't want to include jqueryui even though it's an external dependency of courage
 
-function setLinkHeadersPagination(collection, xhr) {
-  try {
-    var links = parseLinkHeader(xhr.getResponseHeader('link'));
-    collection[STATE].set(LINK_BY_HEADER, true);
-    collection.setPagination(links['next'].href);
-  } catch (e) {
-    if (collection[STATE].get(LINK_BY_HEADER)) {
-      collection.setPagination(null);
+_okta_courage_src_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.fn.scrollParent = function (includeHidden) {
+  var position = this.css("position"),
+      excludeStaticParent = position === "absolute",
+      overflowRegex = includeHidden ? /(auto|scroll|hidden)/ : /(auto|scroll)/,
+      scrollParent = this.parents().filter(function () {
+    var parent = (0,_okta_courage_src_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default)(this);
+
+    if (excludeStaticParent && parent.css("position") === "static") {
+      return false;
     }
-  }
-}
 
-function parseQuery(url) {
-  var params = {},
-      rawQueryStr = url && url.split('?')[1],
-      queryString = rawQueryStr && decodeURIComponent(rawQueryStr.split('#')[0]).replace(/\+/g, ' '),
-      props = queryString ? queryString.split('&') : [];
+    return overflowRegex.test(parent.css("overflow") + parent.css("overflow-y") + parent.css("overflow-x"));
+  }).eq(0);
+  return position === "fixed" || !scrollParent.length ? (0,_okta_courage_src_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default)(this[0].ownerDocument || document) : scrollParent;
+};
 
-  for (var i = 0; i < props.length; i++) {
-    var parts = props[i].split('=');
-    params[parts.shift()] = parts.join('=');
-  }
+/***/ }),
 
-  return params;
-} // ################################################
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/framework/Collection.ts":
+/*!***********************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/framework/Collection.ts ***!
+  \***********************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "../../../../../../okta/okta-ui/packages/courage/src/vendor/lib/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var STATE = '__STATE__';
+var FETCH_DATA = 'FETCH_DATA';
+var PAGINATION_DATA = 'PAGINATION_DATA';
+var DEFAULT_PARAMS = 'DEFAULT_PARAMS';
+var LINK_BY_HEADER = 'LINK_BY_HEADER';
+var XHR = 'XHR'; // ################################################
 // # Source: https://gist.github.com/deiu/9335803
 // ################################################
 // unquote string (utility)
 
-
 function unquote(value) {
-  if (value.charAt(0) == '"' && value.charAt(value.length - 1) == '"') {
+  if (value.charAt(0) === '"' && value.charAt(value.length - 1) === '"') {
     return value.substring(1, value.length - 1);
   }
 
@@ -85,15 +98,18 @@ r['meta']['href'] outputs https://example.org/.meta
 
 function parseLinkHeader(header) {
   /* eslint max-statements: 0 */
-  var linkexp = /<[^>]*>\s*(\s*;\s*[^()<>@,;:"/[\]?={} \t]+=(([^()<>@,;:"/[\]?={} \t]+)|("[^"]*")))*(,|$)/g,
-      paramexp = /[^()<>@,;:"/[\]?={} \t]+=(([^()<>@,;:"/[\]?={} \t]+)|("[^"]*"))/g;
+  var linkexp = /<[^>]*>\s*(\s*;\s*[^()<>@,;:"/[\]?={} \t]+=(([^()<>@,;:"/[\]?={} \t]+)|("[^"]*")))*(,|$)/g;
+  var paramexp = /[^()<>@,;:"/[\]?={} \t]+=(([^()<>@,;:"/[\]?={} \t]+)|("[^"]*"))/g;
   var matches = header.match(linkexp);
   var rels = {};
 
   for (var i = 0; i < matches.length; i++) {
     var split = matches[i].split('>');
     var href = split[0].substring(1);
-    var link = {};
+    var link = {
+      href: undefined,
+      rel: undefined
+    };
     link.href = href;
     var s = split[1].match(paramexp);
 
@@ -109,6 +125,43 @@ function parseLinkHeader(header) {
   }
 
   return rels;
+}
+/*
+ * Sets the next page URL on the collection from link headers
+ * See: http://www.rfc-editor.org/rfc/rfc5988.txt
+ *
+ * This method is looking for a link header with `rel="next"`
+ * An set's it as the next page's URL.
+ *
+ * If it doesn't find a next page, and current page is set by a link header
+ * it assumes we are at the last page and deletes the current `next`
+ */
+
+
+function setLinkHeadersPagination(collection, xhr) {
+  try {
+    var links = parseLinkHeader(xhr.getResponseHeader('link'));
+    collection[STATE].set(LINK_BY_HEADER, true);
+    collection.setPagination(links['next'].href);
+  } catch (e) {
+    if (collection[STATE].get(LINK_BY_HEADER)) {
+      collection.setPagination(null);
+    }
+  }
+}
+
+function parseQuery(url) {
+  var params = {};
+  var rawQueryStr = url && url.split('?')[1];
+  var queryString = rawQueryStr && decodeURIComponent(rawQueryStr.split('#')[0]).replace(/\+/g, ' ');
+  var props = queryString ? queryString.split('&') : [];
+
+  for (var i = 0; i < props.length; i++) {
+    var parts = props[i].split('=');
+    params[parts.shift()] = parts.join('=');
+  }
+
+  return params;
 } // ################################################
 // # /Source
 // ################################################
@@ -142,7 +195,7 @@ function parseLinkHeader(header) {
  */
 
 
-var Collection = _backbone.default.Collection.extend(
+var Collection = backbone__WEBPACK_IMPORTED_MODULE_1___default().Collection.extend(
 /** @lends src/framework/Collection.prototype */
 {
   /**
@@ -151,9 +204,9 @@ var Collection = _backbone.default.Collection.extend(
    */
   params: {},
   constructor: function constructor(models, options) {
-    var state = new _backbone.default.Model();
+    var state = new (backbone__WEBPACK_IMPORTED_MODULE_1___default().Model)();
 
-    var defaultParams = _underscoreWrapper.default.defaults(options && options.params || {}, _underscoreWrapper.default.result(this, 'params') || {});
+    var defaultParams = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.defaults(options && options.params || {}, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, 'params') || {});
 
     state.set(DEFAULT_PARAMS, defaultParams);
     this[STATE] = state; // Adds support for child class to convert to ES6 Class.
@@ -178,19 +231,19 @@ var Collection = _backbone.default.Collection.extend(
     // The reason for `this.model !== Backbone.Model` is because `this.model` is default to `Backbone.Model`
     // set at Backbone.Collection.
 
-    if (_underscoreWrapper.default.isFunction(this.model) && this.model.length === 0 && this.model.isCourageModel !== true) {
-      this.model = _underscoreWrapper.default.result(this, 'model');
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(this.model) && this.model.length === 0 && this.model.isCourageModel !== true) {
+      this.model = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, 'model');
     }
 
-    _backbone.default.Collection.apply(this, arguments);
+    backbone__WEBPACK_IMPORTED_MODULE_1___default().Collection.apply(this, arguments);
   },
 
   /**
    * See [Backbone Collection.sync](http://backbonejs.org/#Collection-sync).
    */
   sync: function sync(method, collection, options) {
-    var self = this,
-        success = options.success;
+    var self = this;
+    var success = options.success;
 
     options.success = function (resp, status, xhr) {
       // its important to set the pagination data *before* we call the success callback
@@ -199,7 +252,7 @@ var Collection = _backbone.default.Collection.extend(
       success.apply(null, arguments);
     };
 
-    return _backbone.default.Collection.prototype.sync.call(this, method, collection, options);
+    return backbone__WEBPACK_IMPORTED_MODULE_1___default().Collection.prototype.sync.call(this, method, collection, options);
   },
 
   /**
@@ -207,9 +260,9 @@ var Collection = _backbone.default.Collection.extend(
    */
   fetch: function fetch(options) {
     options || (options = {});
-    var state = this[STATE],
-        xhr = state.get(XHR);
-    options.data = _underscoreWrapper.default.extend({}, state.get(DEFAULT_PARAMS), options.data || {});
+    var state = this[STATE];
+    var xhr = state.get(XHR);
+    options.data = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.extend({}, state.get(DEFAULT_PARAMS), options.data || {});
     options.fromFetch = true;
     state.set(FETCH_DATA, options.data);
 
@@ -217,7 +270,7 @@ var Collection = _backbone.default.Collection.extend(
       xhr.abort();
     }
 
-    xhr = _backbone.default.Collection.prototype.fetch.call(this, options);
+    xhr = backbone__WEBPACK_IMPORTED_MODULE_1___default().Collection.prototype.fetch.call(this, options);
     state.set(XHR, xhr);
     return xhr;
   },
@@ -247,14 +300,14 @@ var Collection = _backbone.default.Collection.extend(
    */
   setPagination: function setPagination(params, options) {
     /* eslint complexity: [2, 8] */
-    if (_underscoreWrapper.default.isString(params) && params) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isString(params) && params) {
       params = parseQuery(params);
     }
 
-    if (!_underscoreWrapper.default.isObject(params) || _underscoreWrapper.default.isArray(params) || !_underscoreWrapper.default.size(params)) {
+    if (!_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isObject(params) || _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isArray(params) || !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.size(params)) {
       params = null;
     } else if (options && options.fromFetch) {
-      params = _underscoreWrapper.default.extend({}, this.getFetchData(), params);
+      params = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.extend({}, this.getFetchData(), params);
     }
 
     this[STATE].set(PAGINATION_DATA, params);
@@ -284,7 +337,7 @@ var Collection = _backbone.default.Collection.extend(
    * @return {Boolean}
    */
   hasMore: function hasMore() {
-    return _underscoreWrapper.default.size(this.getPaginationData()) > 0;
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.size(this.getPaginationData()) > 0;
   },
 
   /**
@@ -316,11 +369,11 @@ var Collection = _backbone.default.Collection.extend(
       this.setPagination(null);
     }
 
-    return _backbone.default.Collection.prototype.reset.apply(this, arguments);
+    return backbone__WEBPACK_IMPORTED_MODULE_1___default().Collection.prototype.reset.apply(this, arguments);
   },
   // we want "where" to be able to search through derived properties as well
   where: function where(attrs, first) {
-    if (_underscoreWrapper.default.isEmpty(attrs)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isEmpty(attrs)) {
       return first ? void 0 : [];
     }
 
@@ -341,11 +394,11 @@ var Collection = _backbone.default.Collection.extend(
   create: function create(model, options) {
     options || (options = {});
 
-    if (!_underscoreWrapper.default.result(model, 'urlRoot')) {
-      options.url = _underscoreWrapper.default.result(this, 'url');
+    if (!_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(model, 'urlRoot')) {
+      options.url = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, 'url');
     }
 
-    return _backbone.default.Collection.prototype.create.call(this, model, options);
+    return backbone__WEBPACK_IMPORTED_MODULE_1___default().Collection.prototype.create.call(this, model, options);
   }
 });
 /**
@@ -357,35 +410,23 @@ var Collection = _backbone.default.Collection.extend(
  * either a Class or pure function that returns a Class.
  */
 
-
 Collection.isCourageCollection = true;
-var _default = Collection;
-exports.default = _default;
-module.exports = exports.default;
+/* harmony default export */ __webpack_exports__["default"] = (Collection);
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/framework/ListView.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/framework/ListView.js ***!
-  \**************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/framework/ListView.ts":
+/*!*********************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/framework/ListView.ts ***!
+  \*********************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _View = _interopRequireDefault(__webpack_require__(/*! ./View */ "./node_modules/@okta/courage/src/framework/View.js"));
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _View__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./View */ "../../../../../../okta/okta-ui/packages/courage/src/framework/View.ts");
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
 /* eslint-disable max-statements */
+
 
 /**
    * Archer.ListView is a {@link src/framework/View} that operates on a
@@ -420,11 +461,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
    * users.first().destroy();
    * userList.el; //=> "<ul><li>Jane Doe</li><li>Jim Doe</li></ul>"
    */
-var _default = _View.default.extend(
+
+/* harmony default export */ __webpack_exports__["default"] = (_View__WEBPACK_IMPORTED_MODULE_0__.default.extend(
 /** @lends src/framework/ListView.prototype */
 {
   constructor: function constructor() {
-    _View.default.apply(this, arguments);
+    _View__WEBPACK_IMPORTED_MODULE_0__.default.apply(this, arguments);
 
     if (!this.collection) {
       throw new Error('Missing collection');
@@ -458,11 +500,9 @@ var _default = _View.default.extend(
      * @protected
      */
   reset: function reset() {
-    var _this = this;
-
     this.removeChildren();
-    this.collection.each(function (model, index) {
-      _this.addItem(model, index);
+    this.collection.each((model, index) => {
+      this.addItem(model, index);
     });
     return this;
   },
@@ -490,37 +530,32 @@ var _default = _View.default.extend(
     view.listenTo(model, 'destroy remove', view.remove);
     return this;
   },
-  addShowMore: _underscoreWrapper.default.noop
-});
-
-exports.default = _default;
-module.exports = exports.default;
+  addShowMore: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.noop
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/framework/Model.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/@okta/courage/src/framework/Model.js ***!
-  \***********************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/framework/Model.ts":
+/*!******************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/framework/Model.ts ***!
+  \******************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isModelPropertySchema": function() { return /* binding */ isModelPropertySchema; }
+/* harmony export */ });
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "../../../../../../okta/okta-ui/packages/courage/src/vendor/lib/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _util_Logger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util/Logger */ "../../../../../../okta/okta-ui/packages/courage/src/util/Logger.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js"));
-
-var _Logger = _interopRequireDefault(__webpack_require__(/*! ../util/Logger */ "./node_modules/@okta/courage/src/util/Logger.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function isModelPropertySchema(obj) {
+  return obj && obj.type || obj.deps;
+}
 
 /**
    * Archer.Model is a standard [Backbone.Model](http://backbonejs.org/#Model) with a few additions:
@@ -565,14 +600,27 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
    * model.toJSON(); //=> {fname: 'Joe', lname: 'Doe'}
    */
 var Model;
+var statics = {
+  ERROR_BLANK: 'model.validation.field.blank',
+  ERROR_WRONG_TYPE: 'model.validation.field.wrong.type',
+  ERROR_NOT_ALLOWED: 'model.validation.field.value.not.allowed',
+  ERROR_INVALID: 'model.validation.field.invalid',
+  ERROR_IARRAY_UNIQUE: 'model.validation.field.array.unique',
+  ERROR_INVALID_FORMAT_EMAIL: 'model.validation.field.invalid.format.email',
+  ERROR_INVALID_FORMAT_URI: 'model.validation.field.invalid.format.uri',
+  ERROR_INVALID_FORMAT_IPV4: 'model.validation.field.invalid.format.ipv4',
+  ERROR_INVALID_FORMAT_HOSTNAME: 'model.validation.field.invalid.format.hostname',
+  ERROR_STRING_STRING_MIN_LENGTH: 'model.validation.field.string.minLength',
+  ERROR_STRING_STRING_MAX_LENGTH: 'model.validation.field.string.maxLength'
+};
 
 function flatten(value, objectTypeFields, key, target) {
-  var filter = _underscoreWrapper.default.contains(objectTypeFields, key);
+  var filter = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.contains(objectTypeFields, key);
 
   target || (target = {});
 
-  if (!filter && _underscoreWrapper.default.isObject(value) && !_underscoreWrapper.default.isArray(value) && !_underscoreWrapper.default.isFunction(value)) {
-    _underscoreWrapper.default.each(value, function (val, i) {
+  if (!filter && _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isObject(value) && !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isArray(value) && !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(value)) {
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(value, function (val, i) {
       flatten(val, objectTypeFields, key ? key + '.' + i : i, target);
     });
   } // Case where target is an empty object. Guard against returning {undefined: undefined}.
@@ -584,14 +632,14 @@ function flatten(value, objectTypeFields, key, target) {
 }
 
 function unflatten(data) {
-  _underscoreWrapper.default.each(data, function (value, key, data) {
-    if (key.indexOf('.') == -1) {
+  _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(data, function (value, key, data) {
+    if (key.indexOf('.') === -1) {
       return;
     }
 
-    var part,
-        ref = data,
-        parts = key.split('.');
+    var part;
+    var ref = data;
+    var parts = key.split('.');
 
     while ((part = parts.shift()) !== undefined) {
       if (!ref[part]) {
@@ -616,21 +664,21 @@ function createMessage(field, msg) {
 function normalizeSchemaDef(field, name) {
   var target;
 
-  if (_underscoreWrapper.default.isString(field)) {
+  if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isString(field)) {
     target = {
       type: field
     };
-  } else if (_underscoreWrapper.default.isArray(field)) {
+  } else if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isArray(field)) {
     target = {
       type: field[0],
       required: field[1],
       value: field[2]
     };
   } else {
-    target = _underscoreWrapper.default.clone(field);
+    target = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.clone(field);
   }
 
-  _underscoreWrapper.default.defaults(target, {
+  _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.defaults(target, {
     required: false,
     name: name
   });
@@ -685,29 +733,30 @@ function validateStringFormat(field, value) {
 }
 
 function validateString(field, value) {
-  var createMessageWith = _underscoreWrapper.default.partial(createMessage, field),
-      invalidFormat = validateStringFormat(field, value);
+  var createMessageWith = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.partial(createMessage, field);
+
+  var invalidFormat = validateStringFormat(field, value);
 
   if (invalidFormat) {
     return createMessageWith(invalidFormat);
   }
 
   if (value && field.minLength && value.length < field.minLength) {
-    return createMessageWith(Model.ERROR_STRING_STRING_MIN_LENGTH, value.length);
+    return createMessageWith(Model.ERROR_STRING_STRING_MIN_LENGTH);
   }
 
   if (value && field.maxLength && value.length > field.maxLength) {
-    return createMessageWith(Model.ERROR_STRING_STRING_MAX_LENGTH, value.length);
+    return createMessageWith(Model.ERROR_STRING_STRING_MAX_LENGTH);
   }
 }
 
 function _validateField(field, value) {
-  /* eslint complexity: [2, 25], max-statements: [2, 27] */
-  var createMessageWith = _underscoreWrapper.default.partial(createMessage, field),
-      isDefined = !_underscoreWrapper.default.isUndefined(value) && !_underscoreWrapper.default.isNull(value),
-      checkType,
-      errorMessage; // If using an array validator, perform the validation
+  /* eslint complexity: [2, 25], max-statements: [2, 30] */
+  var createMessageWith = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.partial(createMessage, field);
 
+  var isDefined = !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isUndefined(value) && !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isNull(value);
+  var checkType;
+  var errorMessage; // If using an array validator, perform the validation
 
   if (Array.isArray(field.validate)) {
     var output = [];
@@ -715,7 +764,7 @@ function _validateField(field, value) {
 
     var _result;
 
-    field.validate.forEach(function (item) {
+    field.validate.forEach(item => {
       if (!value) {
         _result = false;
       } else {
@@ -746,19 +795,19 @@ function _validateField(field, value) {
   } // check required fields
 
 
-  if (field.required && (!isDefined || _underscoreWrapper.default.isNull(value) || value === '')) {
+  if (field.required && (!isDefined || _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isNull(value) || value === '')) {
     return createMessageWith(Model.ERROR_BLANK);
   } // check type
 
 
-  checkType = _underscoreWrapper.default['is' + capitalize(field.type)];
+  checkType = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default['is' + capitalize(field.type)];
 
-  if (isDefined && field.type != 'any' && (!_underscoreWrapper.default.isFunction(checkType) || !checkType(value))) {
+  if (isDefined && field.type !== 'any' && (!_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(checkType) || !checkType(value))) {
     return createMessageWith(Model.ERROR_WRONG_TYPE);
   } // validate string format
 
 
-  if (value && field.type == 'string') {
+  if (value && field.type === 'string') {
     var error = validateString(field, value);
 
     if (error) {
@@ -767,23 +816,24 @@ function _validateField(field, value) {
   } // check pre set values (enum)
 
 
-  if (isDefined && field.values && !_underscoreWrapper.default.contains(field.values, value)) {
+  if (isDefined && field.values && !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.contains(field.values, value)) {
     return createMessageWith(Model.ERROR_NOT_ALLOWED);
   } // check validate method
 
 
-  if (_underscoreWrapper.default.isFunction(field.validate)) {
+  if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(field.validate)) {
     var result = field.validate(value);
 
-    if (_underscoreWrapper.default.isString(result) && result) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isString(result) && result) {
       return createMessageWith(result);
     } else if (result === false) {
       return createMessageWith(Model.ERROR_INVALID);
     }
   } // check array items
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
 
 
-  if (isDefined && field.type == 'array' && (errorMessage = validateArrayField(field, value))) {
+  if (isDefined && field.type === 'array' && (errorMessage = validateArrayField(field, value))) {
     return createMessageWith(errorMessage);
   }
 }
@@ -793,7 +843,7 @@ function validateArrayField(field, arr) {
     return 'model.validation.field.array.minItems';
   } else if (field.maxItems && arr.length > field.maxItems) {
     return 'model.validation.field.array.maxItems';
-  } else if (field.uniqueItems && arr.length > _underscoreWrapper.default.uniq(arr).length) {
+  } else if (field.uniqueItems && arr.length > _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.uniq(arr).length) {
     return Model.ERROR_IARRAY_UNIQUE;
   } else if (field.items) {
     /* eslint max-depth: [2, 3] */
@@ -811,7 +861,7 @@ function validateArrayField(field, arr) {
   }
 }
 
-Model = _backbone.default.Model.extend(
+var props =
 /** @lends src/framework/Model.prototype */
 {
   /**
@@ -949,18 +999,18 @@ Model = _backbone.default.Model.extend(
   defaults: {},
   constructor: function constructor(options) {
     this.options = options || {};
-    var schema = this['__schema__'] = {},
-        objectTypeFields = [];
+    var schema = this['__schema__'] = {};
+    var objectTypeFields = [];
     schema.computedProperties = {};
-    schema.props = _underscoreWrapper.default.clone(_underscoreWrapper.default.result(this, 'props') || {});
-    schema.derived = _underscoreWrapper.default.clone(_underscoreWrapper.default.result(this, 'derived') || {});
-    schema.local = _underscoreWrapper.default.clone(_underscoreWrapper.default.result(this, 'local') || {});
+    schema.props = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.clone(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, 'props') || {});
+    schema.derived = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.clone(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, 'derived') || {});
+    schema.local = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.clone(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, 'local') || {});
     var defaults = {};
 
-    _underscoreWrapper.default.each(_underscoreWrapper.default.extend({}, schema.props, schema.local), function (options, name) {
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.extend({}, schema.props, schema.local), function (options, name) {
       var schemaDef = normalizeSchemaDef(options, name);
 
-      if (!_underscoreWrapper.default.isUndefined(schemaDef.value)) {
+      if (!_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isUndefined(schemaDef.value)) {
         defaults[name] = schemaDef.value;
       }
 
@@ -969,38 +1019,38 @@ Model = _backbone.default.Model.extend(
       }
     }, this);
 
-    if (_underscoreWrapper.default.size(defaults)) {
-      var localDefaults = _underscoreWrapper.default.result(this, 'defaults');
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.size(defaults)) {
+      var localDefaults = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, 'defaults');
 
       this.defaults = function () {
-        return _underscoreWrapper.default.defaults({}, defaults, localDefaults);
+        return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.defaults({}, defaults, localDefaults);
       };
     } // override `validate`
 
 
-    this.validate = _underscoreWrapper.default.wrap(this.validate, function (validate) {
-      var args = _underscoreWrapper.default.rest(arguments),
-          res = _underscoreWrapper.default.extend(this._validateSchema.apply(this, args), validate.apply(this, args));
+    this.validate = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.wrap(this.validate, function (validate) {
+      var args = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.rest(arguments);
 
-      return _underscoreWrapper.default.size(res) && res || undefined;
+      var res = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.extend(this._validateSchema.apply(this, args), validate.apply(this, args));
+
+      return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.size(res) && res || undefined;
     }); // override `parse`
 
-    this.parse = _underscoreWrapper.default.wrap(this.parse, function (parse) {
-      var target = parse.apply(this, _underscoreWrapper.default.rest(arguments));
+    this.parse = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.wrap(this.parse, function (parse) {
+      var target = parse.apply(this, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.rest(arguments));
 
-      if (_underscoreWrapper.default.result(this, 'flat')) {
+      if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, 'flat')) {
         target = flatten(target, objectTypeFields);
       }
 
       return target;
     });
+    backbone__WEBPACK_IMPORTED_MODULE_1___default().Model.apply(this, arguments);
 
-    _backbone.default.Model.apply(this, arguments);
-
-    _underscoreWrapper.default.each(schema.derived, function (options, name) {
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(schema.derived, function (options, name) {
       schema.computedProperties[name] = this.__getDerivedValue(name); // set initial value;
 
-      var deps = options.deps || [];
+      var deps = isModelPropertySchema(options) ? options.deps || [] : [];
 
       if (deps.length) {
         this.on('cache:clear change:' + deps.join(' change:'), function () {
@@ -1026,11 +1076,12 @@ Model = _backbone.default.Model.extend(
      * @return {Boolean}
      */
   allows: function allows(key) {
-    var schema = this['__schema__'],
-        all = _underscoreWrapper.default.extend({}, schema.props, schema.local);
+    var schema = this['__schema__'];
 
-    if (!_underscoreWrapper.default.has(all, key)) {
-      _Logger.default.warn('Field not defined in schema', key);
+    var all = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.extend({}, schema.props, schema.local);
+
+    if (!_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.has(all, key)) {
+      _util_Logger__WEBPACK_IMPORTED_MODULE_2__.default.warn('Field not defined in schema', key);
     }
 
     return true;
@@ -1044,43 +1095,43 @@ Model = _backbone.default.Model.extend(
      */
   getPropertySchema: function getPropertySchema(propName) {
     var schema = this['__schema__'];
-    return _underscoreWrapper.default.reduce([schema.props, schema.local], function (result, options) {
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.reduce([schema.props, schema.local], function (result, options) {
       return result || normalizeSchemaDef(options[propName], propName);
     }, null);
   },
   set: function set(key, val) {
     var attrs;
 
-    if (_typeof(key) === 'object') {
+    if (typeof key === 'object') {
       attrs = key;
     } else {
       (attrs = {})[key] = val;
     } // Don't override a computed properties
 
 
-    _underscoreWrapper.default.each(attrs, function (value, key) {
-      if (_underscoreWrapper.default.has(this['__schema__'].derived, key)) {
-        throw 'overriding derived properties is not supported: ' + key;
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(attrs, function (value, key) {
+      if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.has(this['__schema__'].derived, key)) {
+        throw new Error("overriding derived properties is not supported: ".concat(key));
       }
     }, this); // Schema validation
 
 
     var errorFields = [];
 
-    _underscoreWrapper.default.each(attrs, function (value, key) {
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(attrs, function (value, key) {
       this.allows(key) || errorFields.push(key);
     }, this);
 
     if (errorFields.length) {
-      throw 'field not allowed: ' + errorFields.join(', ');
+      throw new Error("field not allowed: ".concat(errorFields.join(', ')));
     }
 
-    return _backbone.default.Model.prototype.set.apply(this, arguments);
+    return backbone__WEBPACK_IMPORTED_MODULE_1___default().Model.prototype.set.apply(this, arguments);
   },
   get: function get(attr) {
     var schema = this['__schema__'];
 
-    if (_underscoreWrapper.default.has(schema.derived, attr)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.has(schema.derived, attr)) {
       if (schema.derived[attr].cache !== false) {
         return schema.computedProperties[attr];
       } else {
@@ -1088,7 +1139,7 @@ Model = _backbone.default.Model.extend(
       }
     }
 
-    return _backbone.default.Model.prototype.get.apply(this, arguments);
+    return backbone__WEBPACK_IMPORTED_MODULE_1___default().Model.prototype.get.apply(this, arguments);
   },
 
   /**
@@ -1113,15 +1164,15 @@ Model = _backbone.default.Model.extend(
   toJSON: function toJSON(options) {
     options || (options = {});
 
-    var res = _underscoreWrapper.default.clone(_backbone.default.Model.prototype.toJSON.apply(this, arguments)),
-        schema = this['__schema__']; // cleanup local properties
+    var res = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.clone(backbone__WEBPACK_IMPORTED_MODULE_1___default().Model.prototype.toJSON.apply(this, arguments));
 
+    var schema = this['__schema__']; // cleanup local properties
 
     if (!options.verbose) {
-      res = _underscoreWrapper.default.omit(res, _underscoreWrapper.default.keys(schema.local));
+      res = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.omit(res, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.keys(schema.local));
     } else {
       // add derived properties
-      _underscoreWrapper.default.each(schema.derived, function (options, name) {
+      _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(schema.derived, function (options, name) {
         res[name] = this.get(name);
       }, this);
     }
@@ -1141,7 +1192,7 @@ Model = _backbone.default.Model.extend(
      */
   reset: function reset(options) {
     this.clear(options);
-    this.set(_underscoreWrapper.default.result(this, 'defaults'), options);
+    this.set(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, 'defaults'), options);
   },
 
   /**
@@ -1149,7 +1200,7 @@ Model = _backbone.default.Model.extend(
      * @return {Boolean} is the model in sync with the server
      */
   isSynced: function isSynced() {
-    return _underscoreWrapper.default.isEqual(this.__syncedData, this.toJSON());
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isEqual(this.__syncedData, this.toJSON());
   },
 
   /**
@@ -1170,14 +1221,14 @@ Model = _backbone.default.Model.extend(
      */
   _validateSchema: function _validateSchema() {
     var schema = this['__schema__'];
-    return _underscoreWrapper.default.reduce(_underscoreWrapper.default.extend({}, schema.props, schema.local), function (memo, options, name) {
-      return _underscoreWrapper.default.extend(memo, this.validateField(name) || {});
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.reduce(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.extend({}, schema.props, schema.local), function (memo, options, name) {
+      return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.extend(memo, this.validateField(name) || {});
     }, {}, this);
   },
   __getDerivedValue: function __getDerivedValue(name) {
     var options = this['__schema__'].derived[name];
 
-    if (_underscoreWrapper.default.isString(options)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isString(options)) {
       var key = options;
       options = {
         deps: [key],
@@ -1188,21 +1239,10 @@ Model = _backbone.default.Model.extend(
     }
 
     var deps = options.deps || [];
-    return options.fn.apply(this, _underscoreWrapper.default.map(deps, this.get, this));
+    return options.fn.apply(this, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.map(deps, this.get, this));
   }
-}, {
-  ERROR_BLANK: 'model.validation.field.blank',
-  ERROR_WRONG_TYPE: 'model.validation.field.wrong.type',
-  ERROR_NOT_ALLOWED: 'model.validation.field.value.not.allowed',
-  ERROR_INVALID: 'model.validation.field.invalid',
-  ERROR_IARRAY_UNIQUE: 'model.validation.field.array.unique',
-  ERROR_INVALID_FORMAT_EMAIL: 'model.validation.field.invalid.format.email',
-  ERROR_INVALID_FORMAT_URI: 'model.validation.field.invalid.format.uri',
-  ERROR_INVALID_FORMAT_IPV4: 'model.validation.field.invalid.format.ipv4',
-  ERROR_INVALID_FORMAT_HOSTNAME: 'model.validation.field.invalid.format.hostname',
-  ERROR_STRING_STRING_MIN_LENGTH: 'model.validation.field.string.minLength',
-  ERROR_STRING_STRING_MAX_LENGTH: 'model.validation.field.string.maxLength'
-});
+};
+Model = backbone__WEBPACK_IMPORTED_MODULE_1___default().Model.extend(props, statics);
 /**
  * It's used for distinguishing the ambiguity from _.isFunction()
  * which returns True for both a JavaScript Class constructor function
@@ -1213,37 +1253,28 @@ Model = _backbone.default.Model.extend(
  */
 
 Model.isCourageModel = true;
-var _default = Model;
-exports.default = _default;
-module.exports = exports.default;
+/* harmony default export */ __webpack_exports__["default"] = (Model);
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/framework/View.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/@okta/courage/src/framework/View.js ***!
-  \**********************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/framework/View.ts":
+/*!*****************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/framework/View.ts ***!
+  \*****************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! backbone */ "../../../../../../okta/okta-ui/packages/courage/src/vendor/lib/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_1__);
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var CHILDREN = '__children__',
-    RENDERED = '__rendered__',
-    PARENT = '__parent__',
-    CHILD_DEFINITIONS = '__children_definitions__',
-    ADD_TO_CONTAINER = '__add_to_container__';
+var CHILDREN = '__children__';
+var RENDERED = '__rendered__';
+var PARENT = '__parent__';
+var CHILD_DEFINITIONS = '__children_definitions__';
+var ADD_TO_CONTAINER = '__add_to_container__';
 
 function getIndex(container, view) {
   for (var i = 0; i < container[CHILDREN].length; i++) {
@@ -1273,30 +1304,31 @@ function doRender(view) {
 function subscribeEvents(view) {
   var isEventPropertyRe = /^(?!(?:delegate|undelegate|_))([a-zA-Z0-9]+)(?:Events)$/;
 
-  _underscoreWrapper.default.each(_underscoreWrapper.default.allKeys(view), function (key) {
+  _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.allKeys(view), function (key) {
     var matchKeys = key.match(isEventPropertyRe);
 
     if (!matchKeys) {
       return;
     }
 
-    var bindings = _underscoreWrapper.default.result(view, key),
-        entity = view.options[matchKeys[1]] || view[matchKeys[1]];
+    var bindings = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(view, key);
 
-    if (!entity || !_underscoreWrapper.default.isObject(bindings) || !_underscoreWrapper.default.isFunction(entity.trigger)) {
+    var entity = view.options[matchKeys[1]] || view[matchKeys[1]];
+
+    if (!entity || !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isObject(bindings) || !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(entity.trigger)) {
       return;
     }
 
-    _underscoreWrapper.default.each(bindings, function (callback, event) {
-      var callbacks = _underscoreWrapper.default.isFunction(callback) ? [callback] : _underscoreWrapper.default.reduce(callback.split(/\s+/), function (arr, name) {
-        if (_underscoreWrapper.default.isFunction(view[name])) {
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(bindings, function (callback, event) {
+      var callbacks = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(callback) ? [callback] : _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.reduce(callback.split(/\s+/), (arr, name) => {
+        if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(view[name])) {
           arr.push(view[name]);
         }
 
         return arr;
       }, []);
 
-      _underscoreWrapper.default.each(callbacks, function (cb) {
+      _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(callbacks, function (cb) {
         view.listenTo(entity, event, cb);
       });
     });
@@ -1331,9 +1363,8 @@ function subscribeEvents(view) {
    */
 
 
-var View = _backbone.default.View.extend(
-/** @lends src/framework/View.prototype */
-{
+var View;
+var proto = {
   /**
      * An object listing events and callback bind to this.{entity}
      * @name *Events
@@ -1383,7 +1414,7 @@ var View = _backbone.default.View.extend(
     /* eslint max-statements: [2, 17] */
     this.options = options || {};
 
-    _underscoreWrapper.default.extend(this, _underscoreWrapper.default.pick(this.options, 'state', 'settings')); // init per-instance children collection
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.extend(this, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.pick(this.options, 'state', 'settings')); // init per-instance children collection
 
 
     this[CHILDREN] = [];
@@ -1393,19 +1424,18 @@ var View = _backbone.default.View.extend(
 
     var initialize = this.initialize;
     this.initialize = noop;
+    backbone__WEBPACK_IMPORTED_MODULE_1___default().View.apply(this, arguments);
 
-    _backbone.default.View.apply(this, arguments);
-
-    _underscoreWrapper.default.each(_underscoreWrapper.default.result(this, CHILD_DEFINITIONS), function (childDefinition) {
-      this.add.apply(this, _underscoreWrapper.default.isArray(childDefinition) ? childDefinition : [childDefinition]);
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, CHILD_DEFINITIONS), function (childDefinition) {
+      this.add.apply(this, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isArray(childDefinition) ? childDefinition : [childDefinition]);
     }, this);
 
     delete this[CHILD_DEFINITIONS];
 
-    var autoRender = _underscoreWrapper.default.result(this, 'autoRender');
+    var autoRender = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, 'autoRender');
 
     if (autoRender && this.model) {
-      var event = _underscoreWrapper.default.isArray(autoRender) ? _underscoreWrapper.default.map(autoRender, function (field) {
+      var event = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isArray(autoRender) ? _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.map(autoRender, function (field) {
         return 'change:' + field;
       }).join(' ') : 'change';
       this.listenTo(this.model, event, function () {
@@ -1433,7 +1463,7 @@ var View = _backbone.default.View.extend(
     // array.splice(undefined, x) removes the first x element(s) from the array
     // this protects us against issues when calling `remove` on a child view multiple times
 
-    if (_underscoreWrapper.default.isNumber(viewIndex)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isNumber(viewIndex)) {
       this[CHILDREN].splice(viewIndex, 1);
     }
   },
@@ -1538,22 +1568,23 @@ var View = _backbone.default.View.extend(
      * var container - new View({name: 'John Doe'});
      */
   add: function add(view, selector, bubble, prepend, extraOptions) {
-    /* eslint max-statements: [2, 29], complexity: [2, 12] */
-    var options = {},
-        args = _underscoreWrapper.default.toArray(arguments); // This will throw if a compiled template function is passed accidentally
+    /* eslint max-statements: [2, 30], complexity: [2, 12] */
+    var options = {};
+
+    var args = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.toArray(arguments); // This will throw if a compiled template function is passed accidentally
 
 
-    if (_underscoreWrapper.default.isFunction(view) && (!view.prototype || !view.prototype.render)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(view) && (!view.prototype || !view.prototype.render)) {
       throw new Error('Type passed to add() is not a View');
     }
 
-    if (_underscoreWrapper.default.isObject(selector)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isObject(selector)) {
       options = selector;
       selector = options.selector;
       bubble = options.bubble;
       prepend = options.prepend;
       extraOptions = options.options;
-    } else if (_underscoreWrapper.default.isObject(bubble)) {
+    } else if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isObject(bubble)) {
       options = bubble;
       bubble = options.bubble;
       prepend = options.prepend;
@@ -1561,15 +1592,15 @@ var View = _backbone.default.View.extend(
     } // TODO: This will be deprecated at some point. Views should use precompiled templates
 
 
-    if (_underscoreWrapper.default.isString(view)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isString(view)) {
       view = function (template) {
         return View.extend({
           constructor: function constructor() {
             try {
-              var $el = _backbone.default.$(template);
+              var $el = backbone__WEBPACK_IMPORTED_MODULE_1___default().$(template);
 
-              if ($el.length != 1) {
-                throw 'invalid Element';
+              if ($el.length !== 1) {
+                throw new Error('invalid Element');
               }
 
               var unescapingRexExp = /&(\w+|#x\d+);/g;
@@ -1577,7 +1608,7 @@ var View = _backbone.default.View.extend(
               var templateUnescapedLength = template.replace(unescapingRexExp, ' ').length;
 
               if (elementUnescapedOuterHTMLLength !== templateUnescapedLength) {
-                throw 'invalid Element';
+                throw new Error('invalid Element');
               }
 
               this.template = $el.html(); // Template string will be compiled by handlebars
@@ -1596,14 +1627,14 @@ var View = _backbone.default.View.extend(
 
     if (view.prototype && view.prototype instanceof View) {
       /* eslint new-cap: 0 */
-      var viewOptions = _underscoreWrapper.default.omit(_underscoreWrapper.default.extend({}, this.options, extraOptions), 'el');
+      var viewOptions = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.omit(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.extend({}, this.options, extraOptions), 'el');
 
       args[0] = new view(viewOptions);
       return this.add.apply(this, args);
     } // prevent dups
 
 
-    if (_underscoreWrapper.default.isNumber(getIndex(this, view))) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isNumber(getIndex(this, view))) {
       throw new Error('Duplicate child');
     }
 
@@ -1613,7 +1644,7 @@ var View = _backbone.default.View.extend(
 
     view[ADD_TO_CONTAINER] = function (selector) {
       return function () {
-        if (selector && view[PARENT].$(selector).length != 1) {
+        if (selector && view[PARENT].$(selector).length !== 1) {
           throw new Error('Invalid selector: ' + selector);
         }
 
@@ -1666,7 +1697,7 @@ var View = _backbone.default.View.extend(
       this[PARENT].unregister(this);
     }
 
-    return _backbone.default.View.prototype.remove.apply(this, arguments);
+    return backbone__WEBPACK_IMPORTED_MODULE_1___default().View.prototype.remove.apply(this, arguments);
   },
 
   /**
@@ -1679,7 +1710,7 @@ var View = _backbone.default.View.extend(
   // TODO: This will be deprecated at some point. Views should use precompiled templates
   compileTemplate: function compileTemplate(template) {
     /* eslint  @okta/okta-ui/no-specific-methods: 0*/
-    return _underscoreWrapper.default.template(template);
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.template(template, undefined);
   },
 
   /**
@@ -1691,12 +1722,12 @@ var View = _backbone.default.View.extend(
      * @protected
      */
   renderTemplate: function renderTemplate(template) {
-    if (_underscoreWrapper.default.isString(template)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isString(template)) {
       // TODO: This will be deprecated at some point. Views should use precompiled templates
       template = this.compileTemplate(template);
     }
 
-    if (_underscoreWrapper.default.isFunction(template)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(template)) {
       return template(this.getTemplateData());
     }
   },
@@ -1711,9 +1742,9 @@ var View = _backbone.default.View.extend(
       verbose: true
     }) || {};
 
-    var options = _underscoreWrapper.default.omit(this.options, ['state', 'settings', 'model', 'collection']);
+    var options = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.omit(this.options, ['state', 'settings', 'model', 'collection']);
 
-    return _underscoreWrapper.default.defaults({}, modelData, options);
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.defaults({}, modelData, options);
   },
 
   /**
@@ -1774,7 +1805,7 @@ var View = _backbone.default.View.extend(
      * @param {String} method The method to invoke
      */
   invoke: function invoke(methodName) {
-    var args = _underscoreWrapper.default.toArray(arguments);
+    var args = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.toArray(arguments);
 
     this.each(function (child) {
       // if child has children, bubble down the tree
@@ -1783,26 +1814,28 @@ var View = _backbone.default.View.extend(
       } // run the function on the child
 
 
-      if (_underscoreWrapper.default.isFunction(child[methodName])) {
+      if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(child[methodName])) {
         child[methodName].apply(child, args.slice(1));
       }
     });
     return this;
   }
-}); // Code borrowed from Backbone.js source
+};
+View = backbone__WEBPACK_IMPORTED_MODULE_1___default().View.extend(
+/** @lends src/framework/View.prototype */
+proto); // Code borrowed from Backbone.js source
 // Underscore methods that we want to implement on the Container.
-
 
 var methods = ['each', 'map', 'reduce', 'reduceRight', 'find', 'filter', 'reject', 'every', 'some', 'contains', 'toArray', 'size', 'first', 'initial', 'rest', 'last', 'without', 'indexOf', 'shuffle', 'lastIndexOf', 'isEmpty', 'chain', 'where', 'findWhere'];
 
-_underscoreWrapper.default.each(methods, function (method) {
+_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(methods, function (method) {
   View.prototype[method] = function () {
-    var args = _underscoreWrapper.default.toArray(arguments);
+    var args = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.toArray(arguments);
 
-    args.unshift(_underscoreWrapper.default.toArray(this[CHILDREN]));
-    return _underscoreWrapper.default[method].apply(_underscoreWrapper.default, args);
+    args.unshift(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.toArray(this[CHILDREN]));
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default[method].apply(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default, args);
   };
-}, void 0);
+}, undefined);
 /**
    * See [_.each](http://underscorejs.org/#each)
    * @name each
@@ -2037,31 +2070,21 @@ _underscoreWrapper.default.each(methods, function (method) {
 
 
 View.isCourageView = true;
-var _default = View;
-exports.default = _default;
-module.exports = exports.default;
+/* harmony default export */ __webpack_exports__["default"] = (View);
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/models/BaseCollection.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/models/BaseCollection.js ***!
-  \*****************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/models/BaseCollection.ts":
+/*!************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/models/BaseCollection.ts ***!
+  \************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _framework_Collection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../framework/Collection */ "../../../../../../okta/okta-ui/packages/courage/src/framework/Collection.ts");
 
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _Collection = _interopRequireDefault(__webpack_require__(/*! ../framework/Collection */ "./node_modules/@okta/courage/src/framework/Collection.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Wrapper around the more generic {@link src/framework/Collection} that
@@ -2069,7 +2092,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @class module:Okta.Collection
  * @extends src/framework/Collection
  */
-var _default = _Collection.default.extend(
+
+/* harmony default export */ __webpack_exports__["default"] = (_framework_Collection__WEBPACK_IMPORTED_MODULE_1__.default.extend(
 /** @lends module:Okta.Collection.prototype */
 {
   /**
@@ -2078,49 +2102,37 @@ var _default = _Collection.default.extend(
    */
   secureJSON: false,
   constructor: function constructor() {
-    _Collection.default.apply(this, arguments);
+    _framework_Collection__WEBPACK_IMPORTED_MODULE_1__.default.apply(this, arguments);
 
-    if (_underscoreWrapper.default.result(this, 'secureJSON')) {
-      this.sync = _underscoreWrapper.default.wrap(this.sync, function (sync, method, collection, options) {
-        return sync.call(this, method, collection, _underscoreWrapper.default.extend({
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, 'secureJSON')) {
+      this.sync = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.wrap(this.sync, function (sync, method, collection, options) {
+        return sync.call(this, method, collection, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.extend({
           dataType: 'secureJSON'
         }, options));
       });
     }
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/models/BaseModel.js":
-/*!************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/models/BaseModel.js ***!
-  \************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/models/BaseModel.ts":
+/*!*******************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/models/BaseModel.ts ***!
+  \*******************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _Model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Model */ "../../../../../../okta/okta-ui/packages/courage/src/models/Model.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _Model = _interopRequireDefault(__webpack_require__(/*! ./Model */ "./node_modules/@okta/courage/src/models/Model.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var hasProps = function hasProps(model) {
-  var local = _underscoreWrapper.default.omit(model.local, _underscoreWrapper.default.keys(model._builtInLocalProps));
+  var local = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.omit(model.local, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.keys(model._builtInLocalProps));
 
-  return _underscoreWrapper.default.size(model.props) + _underscoreWrapper.default.size(local) > 0;
+  return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.size(model.props) + _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.size(local) > 0;
 };
 /**
  * @class module:Okta.BaseModel
@@ -2144,7 +2156,7 @@ var hasProps = function hasProps(model) {
  */
 
 
-var BaseModelBaseModel = _Model.default.extend(
+var props =
 /** @lends module:Okta.BaseModel.prototype */
 {
   /**
@@ -2152,13 +2164,12 @@ var BaseModelBaseModel = _Model.default.extend(
    */
   flat: false,
   constructor: function constructor() {
-    _Model.default.apply(this, arguments);
-
+    _Model__WEBPACK_IMPORTED_MODULE_1__.default.apply(this, arguments);
     this.on('sync', this._setSynced);
   },
   allows: function allows() {
     if (hasProps(this)) {
-      return _Model.default.prototype.allows.apply(this, arguments);
+      return _Model__WEBPACK_IMPORTED_MODULE_1__.default.prototype.allows.apply(this, arguments);
     } else {
       return true;
     }
@@ -2167,15 +2178,15 @@ var BaseModelBaseModel = _Model.default.extend(
   set: function set(key, val) {
     var attrs;
 
-    if (_typeof(key) === 'object') {
+    if (typeof key === 'object') {
       attrs = key;
     } else {
       (attrs = {})[key] = val;
     } // computed properties
 
 
-    (0, _underscoreWrapper.default)(attrs).each(function (fn, attr) {
-      if (!fn || !_underscoreWrapper.default.isArray(fn.__attributes)) {
+    (0,_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default)(attrs).each(function (fn, attr) {
+      if (!fn || !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isArray(fn.__attributes)) {
         return;
       }
 
@@ -2188,7 +2199,8 @@ var BaseModelBaseModel = _Model.default.extend(
         }
       }, this);
     }, this);
-    return _Model.default.prototype.set.apply(this, arguments);
+
+    return _Model__WEBPACK_IMPORTED_MODULE_1__.default.prototype.set.apply(this, arguments);
   },
 
   /**
@@ -2199,10 +2211,10 @@ var BaseModelBaseModel = _Model.default.extend(
    * @return {Mixed} The value of the model attribute
    */
   get: function get() {
-    var value = _Model.default.prototype.get.apply(this, arguments);
+    var value = _Model__WEBPACK_IMPORTED_MODULE_1__.default.prototype.get.apply(this, arguments);
 
-    if (_underscoreWrapper.default.isFunction(value)) {
-      return value.apply(this, _underscoreWrapper.default.map(value.__attributes || [], this.get, this));
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(value)) {
+      return value.apply(this, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.map(value.__attributes || [], this.get, this));
     }
 
     return value;
@@ -2229,11 +2241,9 @@ var BaseModelBaseModel = _Model.default.extend(
    */
   toJSON: function toJSON(options) {
     options || (options = {});
+    var res = _Model__WEBPACK_IMPORTED_MODULE_1__.default.prototype.toJSON.apply(this, arguments); // cleanup computed properties
 
-    var res = _Model.default.prototype.toJSON.apply(this, arguments); // cleanup computed properties
-
-
-    (0, _underscoreWrapper.default)(res).each(function (value, key) {
+    (0,_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default)(res).each(function (value, key) {
       if (typeof value === 'function') {
         if (options.verbose) {
           res[key] = this.get(key);
@@ -2243,8 +2253,9 @@ var BaseModelBaseModel = _Model.default.extend(
       }
     }, this); // cleanup private properties
 
+
     if (!options.verbose) {
-      (0, _underscoreWrapper.default)(res).each(function (value, key) {
+      (0,_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default)(res).each(function (value, key) {
         if (/^__\w+__$/.test(key)) {
           delete res[key];
         }
@@ -2256,8 +2267,8 @@ var BaseModelBaseModel = _Model.default.extend(
   sanitizeAttributes: function sanitizeAttributes(attributes) {
     var attrs = {};
 
-    _underscoreWrapper.default.each(attributes, function (value, key) {
-      if (!_underscoreWrapper.default.isFunction(value)) {
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(attributes, function (value, key) {
+      if (!_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(value)) {
         attrs[key] = value;
       }
     });
@@ -2271,11 +2282,11 @@ var BaseModelBaseModel = _Model.default.extend(
   clear: function clear(options) {
     var attrs = {};
 
-    _underscoreWrapper.default.each(this.sanitizeAttributes(this.attributes), function (value, key) {
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(this.sanitizeAttributes(this.attributes), function (value, key) {
       attrs[key] = void 0;
     });
 
-    return this.set(attrs, _underscoreWrapper.default.extend({}, options, {
+    return this.set(attrs, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.extend({}, options, {
       unset: true
     }));
   },
@@ -2284,7 +2295,7 @@ var BaseModelBaseModel = _Model.default.extend(
    * @private
    */
   _setSynced: function _setSynced(newModel) {
-    this._syncedData = newModel && _underscoreWrapper.default.isFunction(newModel.toJSON) ? newModel.toJSON() : {};
+    this._syncedData = newModel && _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(newModel.toJSON) ? newModel.toJSON() : {};
   },
 
   /**
@@ -2294,9 +2305,10 @@ var BaseModelBaseModel = _Model.default.extend(
     return this._syncedData;
   },
   isSynced: function isSynced() {
-    return _underscoreWrapper.default.isEqual(this._getSynced(), this.toJSON());
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isEqual(this._getSynced(), this.toJSON());
   }
-},
+};
+var statics =
 /** @lends module:Okta.BaseModel.prototype */
 {
   /**
@@ -2317,60 +2329,54 @@ var BaseModelBaseModel = _Model.default.extend(
    * model.toJSON(); // {fname: 'Joe', lname: 'Doe'}
    * ```
    *
-   * @param {Array} attributes - an array of the attribute names this method depends on
+   * @param {Array} attributes (optional) - an array of the attribute names this method depends on
    * @param {Function} callback the function that computes the value of the property
    *
    * @deprecated Use {@link #derived} instead
    */
-  ComputedProperty: function ComputedProperty() {
-    var args = _underscoreWrapper.default.toArray(arguments);
+  ComputedProperty: function ComputedProperty(attributes, fn) {
+    // First parameter is optional
+    if (!fn && typeof attributes === 'function') {
+      fn = attributes;
+    } else {
+      fn.__attributes = attributes;
+    }
 
-    var fn = args.pop();
-    fn.__attributes = args.pop();
     return fn;
   }
-});
-
-var _default = BaseModelBaseModel;
-exports.default = _default;
-module.exports = exports.default;
+};
+var constructor = _Model__WEBPACK_IMPORTED_MODULE_1__.default.extend(props, statics);
+/* harmony default export */ __webpack_exports__["default"] = (constructor);
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/models/BaseSchema.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/models/BaseSchema.js ***!
-  \*************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/models/BaseSchema.ts":
+/*!********************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/models/BaseSchema.ts ***!
+  \********************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _BaseCollection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BaseCollection */ "../../../../../../okta/okta-ui/packages/courage/src/models/BaseCollection.ts");
+/* harmony import */ var _BaseModel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BaseModel */ "../../../../../../okta/okta-ui/packages/courage/src/models/BaseModel.ts");
+/* harmony import */ var _SchemaProperty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SchemaProperty */ "../../../../../../okta/okta-ui/packages/courage/src/models/SchemaProperty.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
-var _BaseCollection = _interopRequireDefault(__webpack_require__(/*! ./BaseCollection */ "./node_modules/@okta/courage/src/models/BaseCollection.js"));
-
-var _BaseModel = _interopRequireDefault(__webpack_require__(/*! ./BaseModel */ "./node_modules/@okta/courage/src/models/BaseModel.js"));
-
-var _SchemaProperty = _interopRequireDefault(__webpack_require__(/*! ./SchemaProperty */ "./node_modules/@okta/courage/src/models/SchemaProperty.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var parseProperties = function parseProperties(resp) {
-  var schemaMeta = _underscoreWrapper.default.pick(resp, 'id', 'name', 'displayName');
+  var schemaMeta = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.pick(resp, 'id', 'name', 'displayName');
 
-  var properties = _underscoreWrapper.default.map(resp.schema.properties, function (property, name) {
-    return _underscoreWrapper.default.extend({
+  var properties = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.map(resp.schema.properties, function (property, name) {
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.extend({
       name: name
     }, property);
   });
 
-  _underscoreWrapper.default.each(properties, function (property) {
+  _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(properties, function (property) {
     property['__schemaMeta__'] = schemaMeta;
 
     if (property.__metadata) {
@@ -2382,23 +2388,21 @@ var parseProperties = function parseProperties(resp) {
   return properties;
 };
 
-var BaseSchemaSchema = _BaseModel.default.extend({
+var BaseSchemaSchema = _BaseModel__WEBPACK_IMPORTED_MODULE_2__.default.extend({
   defaults: {
     id: undefined,
     displayName: undefined,
     name: undefined
   },
   constructor: function constructor() {
-    this.properties = new _SchemaProperty.default.Collection();
-
-    _BaseModel.default.apply(this, arguments);
+    this.properties = new _SchemaProperty__WEBPACK_IMPORTED_MODULE_3__.default.Collection();
+    _BaseModel__WEBPACK_IMPORTED_MODULE_2__.default.apply(this, arguments);
   },
   getProperties: function getProperties() {
     return this.properties;
   },
   clone: function clone() {
-    var model = _BaseModel.default.prototype.clone.apply(this, arguments);
-
+    var model = _BaseModel__WEBPACK_IMPORTED_MODULE_2__.default.prototype.clone.apply(this, arguments);
     model.getProperties().set(this.getProperties().toJSON({
       verbose: true
     }));
@@ -2409,14 +2413,13 @@ var BaseSchemaSchema = _BaseModel.default.extend({
     this.properties.set(properties, {
       parse: true
     });
-    return _underscoreWrapper.default.omit(resp, 'schema');
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.omit(resp, 'schema');
   },
   trimProperty: function trimProperty(property) {
-    return _underscoreWrapper.default.omit(property, 'name');
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.omit(property, 'name');
   },
   toJSON: function toJSON() {
-    var json = _BaseModel.default.prototype.toJSON.apply(this, arguments);
-
+    var json = _BaseModel__WEBPACK_IMPORTED_MODULE_2__.default.prototype.toJSON.apply(this, arguments);
     json.schema = {
       properties: {}
     };
@@ -2430,43 +2433,32 @@ var BaseSchemaSchema = _BaseModel.default.extend({
     this.getProperties().each(function (model) {
       model.cleanup();
     });
-    return _BaseModel.default.prototype.save.apply(this, arguments);
+    return _BaseModel__WEBPACK_IMPORTED_MODULE_2__.default.prototype.save.apply(this, arguments);
   }
 });
-
-var BaseSchemaSchemas = _BaseCollection.default.extend({
+var BaseSchemaSchemas = _BaseCollection__WEBPACK_IMPORTED_MODULE_1__.default.extend({
   model: BaseSchemaSchema
 });
-
-var _default = {
+/* harmony default export */ __webpack_exports__["default"] = ({
   parseProperties: parseProperties,
   Model: BaseSchemaSchema,
   Collection: BaseSchemaSchemas
-};
-exports.default = _default;
-module.exports = exports.default;
+});
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/models/Model.js":
-/*!********************************************************!*\
-  !*** ./node_modules/@okta/courage/src/models/Model.js ***!
-  \********************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/models/Model.ts":
+/*!***************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/models/Model.ts ***!
+  \***************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _framework_Model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../framework/Model */ "../../../../../../okta/okta-ui/packages/courage/src/framework/Model.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _Model = _interopRequireDefault(__webpack_require__(/*! ../framework/Model */ "./node_modules/@okta/courage/src/framework/Model.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Wrapper around the more generic {@link src/framework/Model} that
@@ -2474,7 +2466,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @class module:Okta.Model
  * @extends src/framework/Model
  */
-var _default = _Model.default.extend(
+var constructor = _framework_Model__WEBPACK_IMPORTED_MODULE_1__.default.extend(
 /** @lends module:Okta.Model.prototype */
 {
   /**
@@ -2487,69 +2479,60 @@ var _default = _Model.default.extend(
     __pending__: 'boolean'
   },
   constructor: function constructor() {
-    this.local = _underscoreWrapper.default.defaults({}, _underscoreWrapper.default.result(this, 'local'), this._builtInLocalProps);
+    this.local = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.defaults({}, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, 'local'), this._builtInLocalProps);
+    _framework_Model__WEBPACK_IMPORTED_MODULE_1__.default.apply(this, arguments);
 
-    _Model.default.apply(this, arguments);
-
-    if (_underscoreWrapper.default.result(this, 'secureJSON')) {
-      this.sync = _underscoreWrapper.default.wrap(this.sync, function (sync, method, model, options) {
-        return sync.call(this, method, model, _underscoreWrapper.default.extend({
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, 'secureJSON')) {
+      this.sync = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.wrap(this.sync, function (sync, method, model, options) {
+        return sync.call(this, method, model, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.extend({
           dataType: 'secureJSON'
         }, options));
       });
     }
   }
 });
-
-exports.default = _default;
-module.exports = exports.default;
+/* harmony default export */ __webpack_exports__["default"] = (constructor);
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/models/SchemaProperty.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/models/SchemaProperty.js ***!
-  \*****************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/models/SchemaProperty.ts":
+/*!************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/models/SchemaProperty.ts ***!
+  \************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _BaseCollection = _interopRequireDefault(__webpack_require__(/*! ./BaseCollection */ "./node_modules/@okta/courage/src/models/BaseCollection.js"));
-
-var _BaseModel = _interopRequireDefault(__webpack_require__(/*! ./BaseModel */ "./node_modules/@okta/courage/src/models/BaseModel.js"));
-
-var _Logger = _interopRequireDefault(__webpack_require__(/*! ../util/Logger */ "./node_modules/@okta/courage/src/util/Logger.js"));
-
-var _SchemaUtil = _interopRequireDefault(__webpack_require__(/*! ../util/SchemaUtil */ "./node_modules/@okta/courage/src/util/SchemaUtil.js"));
-
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
-
-var _EnumTypeHelper = _interopRequireDefault(__webpack_require__(/*! ../views/forms/helpers/EnumTypeHelper */ "./node_modules/@okta/courage/src/views/forms/helpers/EnumTypeHelper.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/jquery-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts");
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _BaseCollection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BaseCollection */ "../../../../../../okta/okta-ui/packages/courage/src/models/BaseCollection.ts");
+/* harmony import */ var _BaseModel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./BaseModel */ "../../../../../../okta/okta-ui/packages/courage/src/models/BaseModel.ts");
+/* harmony import */ var _util_Logger__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../util/Logger */ "../../../../../../okta/okta-ui/packages/courage/src/util/Logger.ts");
+/* harmony import */ var _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../util/SchemaUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/SchemaUtil.ts");
+/* harmony import */ var _util_StringUtil__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../util/StringUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.ts");
+/* harmony import */ var _views_forms_helpers_EnumTypeHelper__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/forms/helpers/EnumTypeHelper */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/EnumTypeHelper.js");
+/* eslint-disable @okta/okta/no-exclusive-language */
 
 /* eslint max-statements: [2, 16], complexity: [2, 8], max-params: [2, 8] */
-var loc = _StringUtil.default.localize;
-var STRING = _SchemaUtil.default.STRING;
-var NUMBER = _SchemaUtil.default.NUMBER;
-var INTEGER = _SchemaUtil.default.INTEGER;
-var OBJECT = _SchemaUtil.default.OBJECT;
+
+
+
+
+
+
+
+
+var loc = _util_StringUtil__WEBPACK_IMPORTED_MODULE_6__.default.localize;
+var STRING = _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.STRING;
+var NUMBER = _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.NUMBER;
+var INTEGER = _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.INTEGER;
+var OBJECT = _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.OBJECT;
 
 var getArrayTypeName = function getArrayTypeName(type, elementType) {
   return type + 'of' + elementType;
 };
 
-var SchemaPropertySubSchema = _BaseModel.default.extend({
+var SchemaPropertySubSchema = _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.extend({
   defaults: {
     description: undefined,
     minLength: undefined,
@@ -2557,7 +2540,7 @@ var SchemaPropertySubSchema = _BaseModel.default.extend({
     format: undefined
   },
   parse: function parse(resp) {
-    if (_underscoreWrapper.default.isString(resp.format)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isString(resp.format)) {
       var matcher = /^\/(.+)\/$/.exec(resp.format);
 
       if (matcher) {
@@ -2568,11 +2551,9 @@ var SchemaPropertySubSchema = _BaseModel.default.extend({
     return resp;
   }
 });
-
-var SchemaPropertySubSchemaCollection = _BaseCollection.default.extend({
+var SchemaPropertySubSchemaCollection = _BaseCollection__WEBPACK_IMPORTED_MODULE_2__.default.extend({
   model: SchemaPropertySubSchema
 });
-
 var SchemaPropertySubSchemaAllOfCollection = SchemaPropertySubSchemaCollection.extend({
   _type: 'allOf'
 });
@@ -2596,8 +2577,7 @@ var constraintHandlers = {
   lessThan: '_checkLessThanConstraint',
   equals: '_checkEqualsConstraint'
 };
-
-var SchemaPropertySchemaProperty = _BaseModel.default.extend({
+var SchemaPropertySchemaProperty = _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.extend({
   idAttribute: 'name',
   local: {
     __oneOf__: {
@@ -2619,74 +2599,74 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
     subSchemas: undefined,
     settings: {
       permissions: {
-        SELF: _SchemaUtil.default.PERMISSION.READ_ONLY
+        SELF: _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.PERMISSION.READ_ONLY
       }
     },
     unique: undefined,
     __metadata__: undefined,
-    __isSensitive__: _BaseModel.default.ComputedProperty(['settings'], function (settings) {
+    __isSensitive__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['settings'], function (settings) {
       return !!(settings && settings.sensitive);
     }),
     __unique__: false,
-    __isUniqueValidated__: _BaseModel.default.ComputedProperty(['unique'], function (unique) {
-      return unique === _SchemaUtil.default.UNIQUENESS.UNIQUE_VALIDATED;
+    __isUniqueValidated__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['unique'], function (unique) {
+      return unique === _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.UNIQUENESS.UNIQUE_VALIDATED;
     }),
-    __isPendingUniqueness__: _BaseModel.default.ComputedProperty(['unique'], function (unique) {
-      return unique === _SchemaUtil.default.UNIQUENESS.PENDING_UNIQUENESS;
+    __isPendingUniqueness__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['unique'], function (unique) {
+      return unique === _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.UNIQUENESS.PENDING_UNIQUENESS;
     }),
-    __isUniqueness__: _BaseModel.default.ComputedProperty(['__isUniqueValidated__', '__isPendingUniqueness__'], function (isValidated, isPending) {
+    __isUniqueness__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['__isUniqueValidated__', '__isPendingUniqueness__'], function (isValidated, isPending) {
       return isValidated || isPending;
     }),
-    __canBeSensitive__: _BaseModel.default.ComputedProperty(['__metadata__'], function (metadata) {
+    __canBeSensitive__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['__metadata__'], function (metadata) {
       return !!(metadata && metadata.sensitivizable);
     }),
-    __userPermission__: _SchemaUtil.default.PERMISSION.READ_ONLY,
+    __userPermission__: _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.PERMISSION.READ_ONLY,
     __displayType__: undefined,
-    __displayTypeLabel__: _BaseModel.default.ComputedProperty(['__displayType__'], function (displayType) {
-      return _SchemaUtil.default.DATATYPE[displayType] || displayType;
+    __displayTypeLabel__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['__displayType__'], function (displayType) {
+      return _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.DATATYPE[displayType] || displayType;
     }),
     __supportsMinMax__: false,
     // use the private naming convention for these computed properties,
     // to deal with the complexity in cloning schema with properties (toJSON({verbose: true})),
     // to make sure these attributes are being excluded from api request
-    __isReadOnly__: _BaseModel.default.ComputedProperty(['mutability'], function (mutability) {
-      return mutability === _SchemaUtil.default.MUTABILITY.READONLY;
+    __isReadOnly__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['mutability'], function (mutability) {
+      return mutability === _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.MUTABILITY.READONLY;
     }),
-    __isWriteOnly__: _BaseModel.default.ComputedProperty(['mutability'], function (mutability) {
-      return mutability === _SchemaUtil.default.MUTABILITY.WRITEONLY;
+    __isWriteOnly__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['mutability'], function (mutability) {
+      return mutability === _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.MUTABILITY.WRITEONLY;
     }),
     __displayScope__: undefined,
-    __isScopeSelf__: _BaseModel.default.ComputedProperty(['scope'], function (scope) {
-      return scope === _SchemaUtil.default.SCOPE.SELF;
+    __isScopeSelf__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['scope'], function (scope) {
+      return scope === _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.SCOPE.SELF;
     }),
-    __isNoneScopeArrayType__: _BaseModel.default.ComputedProperty(['__isScopeSelf__', '__displayType__'], function (isScopeSelf, displayType) {
-      return !isScopeSelf && _SchemaUtil.default.isArrayDataType(displayType);
+    __isNoneScopeArrayType__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['__isScopeSelf__', '__displayType__'], function (isScopeSelf, displayType) {
+      return !isScopeSelf && _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.isArrayDataType(displayType);
     }),
-    __isImported__: _BaseModel.default.ComputedProperty(['externalName'], function (externalName) {
+    __isImported__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['externalName'], function (externalName) {
       return !!externalName;
     }),
-    __isFromBaseSchema__: _BaseModel.default.ComputedProperty(['__schemaMeta__'], function (schemaMeta) {
+    __isFromBaseSchema__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['__schemaMeta__'], function (schemaMeta) {
       return schemaMeta && schemaMeta.name === 'base';
     }),
     // Only UI can turn on __enumDefined__ and reprocess the enum/oneOf value; otherwise,
     // it should leave existing value untouch
     __enumDefined__: false,
-    __supportEnum__: _BaseModel.default.ComputedProperty(['__displayType__'], function (displayType) {
-      return _underscoreWrapper.default.contains(_SchemaUtil.default.SUPPORTENUM, displayType);
+    __supportEnum__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['__displayType__'], function (displayType) {
+      return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.contains(_util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.SUPPORTENUM, displayType);
     }),
-    __isNumberTypeEnum__: _BaseModel.default.ComputedProperty(['__displayType__'], function (displayType) {
-      return _underscoreWrapper.default.contains([_SchemaUtil.default.NUMBER, _SchemaUtil.default.ARRAYDISPLAYTYPE.arrayofnumber], displayType);
+    __isNumberTypeEnum__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['__displayType__'], function (displayType) {
+      return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.contains([_util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.NUMBER, _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.ARRAYDISPLAYTYPE.arrayofnumber], displayType);
     }),
-    __isIntegerTypeEnum__: _BaseModel.default.ComputedProperty(['__displayType__'], function (displayType) {
-      return _underscoreWrapper.default.contains([_SchemaUtil.default.INTEGER, _SchemaUtil.default.ARRAYDISPLAYTYPE.arrayofinteger], displayType);
+    __isIntegerTypeEnum__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['__displayType__'], function (displayType) {
+      return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.contains([_util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.INTEGER, _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.ARRAYDISPLAYTYPE.arrayofinteger], displayType);
     }),
-    __isObjectTypeEnum__: _BaseModel.default.ComputedProperty(['__displayType__'], function (displayType) {
-      return _underscoreWrapper.default.contains([_SchemaUtil.default.OBJECT, _SchemaUtil.default.ARRAYDISPLAYTYPE.arrayofobject], displayType);
+    __isObjectTypeEnum__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['__displayType__'], function (displayType) {
+      return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.contains([_util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.OBJECT, _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.ARRAYDISPLAYTYPE.arrayofobject], displayType);
     }),
-    __isStringTypeEnum__: _BaseModel.default.ComputedProperty(['__displayType__'], function (displayType) {
-      return _underscoreWrapper.default.contains([_SchemaUtil.default.STRING, _SchemaUtil.default.ARRAYDISPLAYTYPE.arrayofstring], displayType);
+    __isStringTypeEnum__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['__displayType__'], function (displayType) {
+      return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.contains([_util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.STRING, _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.ARRAYDISPLAYTYPE.arrayofstring], displayType);
     }),
-    __enumConstraintType__: _BaseModel.default.ComputedProperty(['__isStringTypeEnum__', '__isNumberTypeEnum__', '__isIntegerTypeEnum__', '__isObjectTypeEnum__'], function (isStringType, isNumberType, isIntegerType, isObjectType) {
+    __enumConstraintType__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['__isStringTypeEnum__', '__isNumberTypeEnum__', '__isIntegerTypeEnum__', '__isObjectTypeEnum__'], function (isStringType, isNumberType, isIntegerType, isObjectType) {
       if (isStringType) {
         return STRING;
       }
@@ -2703,19 +2683,18 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
         return OBJECT;
       }
     }),
-    __isEnumDefinedAndSupported__: _BaseModel.default.ComputedProperty(['__enumDefined__', '__supportEnum__'], function (enumDefined, supportEnum) {
+    __isEnumDefinedAndSupported__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['__enumDefined__', '__supportEnum__'], function (enumDefined, supportEnum) {
       return enumDefined && supportEnum;
     }),
-    __isLoginOfBaseSchema__: _BaseModel.default.ComputedProperty(['__isFromBaseSchema__', 'name'], function (isFromBaseSchema, name) {
+    __isLoginOfBaseSchema__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['__isFromBaseSchema__', 'name'], function (isFromBaseSchema, name) {
       return isFromBaseSchema && name === 'login';
     }),
-    __isLoginFormatRestrictionToEmail__: _BaseModel.default.ComputedProperty(['__loginFormatRestriction__'], function (loginFormatRestriction) {
-      return loginFormatRestriction === _SchemaUtil.default.LOGINPATTERNFORMAT.EMAIL;
+    __isLoginFormatRestrictionToEmail__: _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.ComputedProperty(['__loginFormatRestriction__'], function (loginFormatRestriction) {
+      return loginFormatRestriction === _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.LOGINPATTERNFORMAT.EMAIL;
     })
   },
   initialize: function initialize() {
-    _BaseModel.default.prototype.initialize.apply(this, arguments);
-
+    _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.prototype.initialize.apply(this, arguments);
     this.listenTo(this, 'change:__displayType__', this._updateTypeFormatConstraints);
     this.listenTo(this, 'change:type change:format change:items', this._updateDisplayType);
     this.listenTo(this, 'change:__minVal__ change:__maxVal__', this._updateMinMax);
@@ -2728,18 +2707,18 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
   },
   parse: function parse(resp) {
     /* eslint complexity: [2, 9] */
-    resp = _underscoreWrapper.default.clone(resp);
+    resp = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.clone(resp);
 
     if (resp.type === 'object' && resp.extendedType === 'image') {
       resp.type = 'image';
     }
 
-    resp['__displayType__'] = _SchemaUtil.default.getDisplayType(resp.type, resp.format, resp.items ? resp.items.format ? resp.items.format : resp.items.type : undefined);
+    resp['__displayType__'] = _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.getDisplayType(resp.type, resp.format, resp.items ? resp.items.format ? resp.items.format : resp.items.type : undefined);
 
     this._setRangeConstraints(resp);
 
-    resp['__supportsMinMax__'] = _SchemaUtil.default.SUPPORTSMINMAX.indexOf(resp['__displayType__']) !== -1;
-    resp['__displayScope__'] = _SchemaUtil.default.DISPLAYSCOPE[resp.scope] || _SchemaUtil.default.DISPLAYSCOPE.NA;
+    resp['__supportsMinMax__'] = _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.SUPPORTSMINMAX.indexOf(resp['__displayType__']) !== -1;
+    resp['__displayScope__'] = _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.DISPLAYSCOPE[resp.scope] || _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.DISPLAYSCOPE.NA;
 
     if (resp.settings && resp.settings.permissions && resp.settings.permissions.SELF) {
       resp['__userPermission__'] = resp.settings.permissions.SELF;
@@ -2767,11 +2746,10 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
     var constraitType = this.get('__constraint__');
     var constraitHandler = this[constraintHandlers[constraitType]];
 
-    if (_underscoreWrapper.default.isFunction(constraitHandler)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isFunction(constraitHandler)) {
       return constraitHandler.call(this);
     } else {
-      _Logger.default.warn('No constraint handler found for: ' + constraitType);
-
+      _util_Logger__WEBPACK_IMPORTED_MODULE_4__.default.warn('No constraint handler found for: ' + constraitType);
       return undefined;
     }
   },
@@ -2854,7 +2832,7 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
   },
   _checkIntegerConstraints: function _checkIntegerConstraints(field, name) {
     var val = this.get(field);
-    var error = {};
+    var error = {}; // eslint-disable-next-line no-restricted-globals
 
     if (isNaN(val)) {
       error[field] = name + ' must be a number';
@@ -2870,7 +2848,7 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
     if (resp.settings && resp.settings.masterOverride && resp.settings.masterOverride) {
       var masterOverrideValue = resp.settings.masterOverride.value;
 
-      if (_underscoreWrapper.default.isArray(masterOverrideValue) && !_underscoreWrapper.default.isEmpty(masterOverrideValue)) {
+      if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isArray(masterOverrideValue) && !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isEmpty(masterOverrideValue)) {
         resp['__masterOverrideType__'] = 'OVERRIDE';
         resp['__masterOverrideValue__'] = masterOverrideValue || [];
       } else {
@@ -2920,7 +2898,7 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
   },
   _setUniqueness: function _setUniqueness(resp) {
     var unique = resp && resp.unique;
-    resp['__unique__'] = !!(unique && (unique === _SchemaUtil.default.UNIQUENESS.UNIQUE_VALIDATED || unique === _SchemaUtil.default.UNIQUENESS.PENDING_UNIQUENESS));
+    resp['__unique__'] = !!(unique && (unique === _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.UNIQUENESS.UNIQUE_VALIDATED || unique === _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.UNIQUENESS.PENDING_UNIQUENESS));
   },
   _setLoginPattern: function _setLoginPattern() {
     if (!this.get('__isLoginOfBaseSchema__')) {
@@ -2930,25 +2908,25 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
     var pattern = this.get('pattern');
 
     if (pattern === loginFormatNonePattern) {
-      this.set('__loginFormatRestriction__', _SchemaUtil.default.LOGINPATTERNFORMAT.NONE);
+      this.set('__loginFormatRestriction__', _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.LOGINPATTERNFORMAT.NONE);
     } else if (pattern) {
-      this.set('__loginFormatRestriction__', _SchemaUtil.default.LOGINPATTERNFORMAT.CUSTOM);
+      this.set('__loginFormatRestriction__', _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.LOGINPATTERNFORMAT.CUSTOM);
       this.set('__loginFormatRestrictionCustom__', this._extractLoginPattern(pattern));
     } else {
-      this.set('__loginFormatRestriction__', _SchemaUtil.default.LOGINPATTERNFORMAT.EMAIL);
+      this.set('__loginFormatRestriction__', _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.LOGINPATTERNFORMAT.EMAIL);
     }
   },
   _updateDisplayType: function _updateDisplayType() {
     var type = this.get('type');
 
     if (type === STRING && this.get('format')) {
-      this.set('__displayType__', _SchemaUtil.default.FORMATDISPLAYTYPE[this.get('format')]);
+      this.set('__displayType__', _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.FORMATDISPLAYTYPE[this.get('format')]);
     } else {
       var items = this.get('items');
       var arraytype = items && (items.format ? items.format : items.type);
 
       if (type && arraytype) {
-        this.set('__displayType__', _SchemaUtil.default.ARRAYDISPLAYTYPE[getArrayTypeName(type, arraytype)]);
+        this.set('__displayType__', _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.ARRAYDISPLAYTYPE[getArrayTypeName(type, arraytype)]);
       } else {
         this.set('__displayType__', type);
       }
@@ -2961,7 +2939,7 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
 
     var enumOneOf = this.get('__oneOf__') || [];
 
-    if (_underscoreWrapper.default.isEmpty(enumOneOf)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isEmpty(enumOneOf)) {
       return {
         __oneOf__: loc('model.validation.field.blank', 'courage')
       };
@@ -2977,13 +2955,12 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
   },
   _isValidateOneOfConstraint: function _isValidateOneOfConstraint(values) {
     var constraintType = this.get('__enumConstraintType__');
-    return _underscoreWrapper.default.all(values, function (value) {
-      return _EnumTypeHelper.default.isConstraintValueMatchType(value.const, constraintType);
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.all(values, function (value) {
+      return _views_forms_helpers_EnumTypeHelper__WEBPACK_IMPORTED_MODULE_7__.default.isConstraintValueMatchType(value.const, constraintType);
     });
   },
   toJSON: function toJSON() {
-    var json = _BaseModel.default.prototype.toJSON.apply(this, arguments);
-
+    var json = _BaseModel__WEBPACK_IMPORTED_MODULE_3__.default.prototype.toJSON.apply(this, arguments);
     json.settings = {
       permissions: {}
     };
@@ -3019,15 +2996,15 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
         value: []
       };
 
-      if (masterOverrideValue instanceof _BaseCollection.default) {
-        _underscoreWrapper.default.each(masterOverrideValue.toJSON(), function (overrideProfile) {
+      if (masterOverrideValue instanceof _BaseCollection__WEBPACK_IMPORTED_MODULE_2__.default) {
+        _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.each(masterOverrideValue.toJSON(), function (overrideProfile) {
           json.settings.masterOverride.value.push(overrideProfile.id);
         });
       } else if (masterOverrideValue instanceof Array) {
         json.settings.masterOverride.value = masterOverrideValue;
       }
 
-      if (_underscoreWrapper.default.isEmpty(json.settings.masterOverride.value)) {
+      if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isEmpty(json.settings.masterOverride.value)) {
         delete json.settings.masterOverride;
       }
     }
@@ -3076,15 +3053,15 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
     }
 
     switch (this.get('__loginFormatRestriction__')) {
-      case _SchemaUtil.default.LOGINPATTERNFORMAT.EMAIL:
+      case _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.LOGINPATTERNFORMAT.EMAIL:
         delete json.pattern;
         break;
 
-      case _SchemaUtil.default.LOGINPATTERNFORMAT.CUSTOM:
+      case _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.LOGINPATTERNFORMAT.CUSTOM:
         json.pattern = this._buildLoginPattern(this.get('__loginFormatRestrictionCustom__'));
         break;
 
-      case _SchemaUtil.default.LOGINPATTERNFORMAT.NONE:
+      case _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.LOGINPATTERNFORMAT.NONE:
         json.pattern = loginFormatNonePattern;
         break;
     }
@@ -3095,7 +3072,7 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
     if (!this.get('__unique__')) {
       delete json.unique;
     } else if (!this.get('__isUniqueness__')) {
-      json.unique = _SchemaUtil.default.UNIQUENESS.UNIQUE_VALIDATED;
+      json.unique = _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.UNIQUENESS.UNIQUE_VALIDATED;
     }
 
     return json;
@@ -3117,7 +3094,7 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
     var result = '';
 
     for (var i = 0; i < pattern.length; i++) {
-      result = result + this._escapedRegexChar(pattern, i);
+      result += this._escapedRegexChar(pattern, i);
     }
 
     return '[' + result + ']+';
@@ -3129,12 +3106,12 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
   },
   _getEnumOneOfWithTitleCheck: function _getEnumOneOfWithTitleCheck() {
     var enumOneOf = this.get('__oneOf__');
-    return _underscoreWrapper.default.map(enumOneOf, function (value) {
-      if (_jqueryWrapper.default.trim(value.title) !== '') {
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.map(enumOneOf, function (value) {
+      if (_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.trim(value.title) !== '') {
         return value;
       }
 
-      value.title = !_underscoreWrapper.default.isString(value.const) ? JSON.stringify(value.const) : value.const;
+      value.title = !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isString(value.const) ? JSON.stringify(value.const) : value.const;
       return value;
     });
   },
@@ -3147,7 +3124,7 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
     this.unset('items', {
       silent: true
     });
-    this.set(_SchemaUtil.default.DISPLAYTYPES[displayType]);
+    this.set(_util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.DISPLAYTYPES[displayType]);
 
     if (displayType !== NUMBER && displayType !== INTEGER) {
       this.unset('minimum');
@@ -3162,7 +3139,7 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
     this.unset('__minVal__');
     this.unset('__maxVal__');
     this.unset('__equals__');
-    this.set('__supportsMinMax__', _SchemaUtil.default.SUPPORTSMINMAX.indexOf(this.get('__displayType__')) !== -1);
+    this.set('__supportsMinMax__', _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.SUPPORTSMINMAX.indexOf(this.get('__displayType__')) !== -1);
   },
   _updateMinMax: function _updateMinMax() {
     var min;
@@ -3237,10 +3214,10 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
       this.unset('__maxVal__');
     }
 
-    if (this.get('scope') !== _SchemaUtil.default.SCOPE.SYSTEM) {
+    if (this.get('scope') !== _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.SCOPE.SYSTEM) {
       if (this.get('__isScopeSelf__') === true) {
         this.set({
-          scope: _SchemaUtil.default.SCOPE.SELF
+          scope: _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.SCOPE.SELF
         }, {
           silent: true
         });
@@ -3271,12 +3248,11 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
       return;
     }
 
-    this.set('__oneOf__', _EnumTypeHelper.default.convertToOneOf(enumValues));
+    this.set('__oneOf__', _views_forms_helpers_EnumTypeHelper__WEBPACK_IMPORTED_MODULE_7__.default.convertToOneOf(enumValues));
     this.set('__enumDefined__', true);
   }
 });
-
-var SchemaPropertySchemaProperties = _BaseCollection.default.extend({
+var SchemaPropertySchemaProperties = _BaseCollection__WEBPACK_IMPORTED_MODULE_2__.default.extend({
   model: SchemaPropertySchemaProperty,
   clone: function clone() {
     return new this.constructor(this.toJSON({
@@ -3286,14 +3262,14 @@ var SchemaPropertySchemaProperties = _BaseCollection.default.extend({
     });
   },
   areAllReadOnly: function areAllReadOnly() {
-    return _underscoreWrapper.default.all(this.pluck('__isReadOnly__'));
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.all(this.pluck('__isReadOnly__'));
   },
   createModelProperties: function createModelProperties() {
     return this.reduce(function (p, schemaProperty) {
       var type = schemaProperty.get('type');
-      p[schemaProperty.id] = _underscoreWrapper.default.clone(_SchemaUtil.default.DISPLAYTYPES[type]);
+      p[schemaProperty.id] = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.clone(_util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.DISPLAYTYPES[type]);
 
-      if (_SchemaUtil.default.SUPPORTSMINMAX.indexOf(type) !== -1) {
+      if (_util_SchemaUtil__WEBPACK_IMPORTED_MODULE_5__.default.SUPPORTSMINMAX.indexOf(type) !== -1) {
         p[schemaProperty.id].minLength = schemaProperty.get('minLength');
         p[schemaProperty.id].maxLength = schemaProperty.get('maxLength');
       }
@@ -3306,50 +3282,41 @@ var SchemaPropertySchemaProperties = _BaseCollection.default.extend({
     }, {});
   }
 });
-
-var _default = {
+/* harmony default export */ __webpack_exports__["default"] = ({
   Model: SchemaPropertySchemaProperty,
   Collection: SchemaPropertySchemaProperties
-};
-exports.default = _default;
-module.exports = exports.default;
+});
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/BaseController.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/BaseController.js ***!
-  \***************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/BaseController.ts":
+/*!**********************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/BaseController.ts ***!
+  \**********************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ./jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _BaseRouter = _interopRequireDefault(__webpack_require__(/*! ./BaseRouter */ "./node_modules/@okta/courage/src/util/BaseRouter.js"));
-
-var _SettingsModel = _interopRequireDefault(__webpack_require__(/*! ./SettingsModel */ "./node_modules/@okta/courage/src/util/SettingsModel.js"));
-
-var _StateMachine = _interopRequireDefault(__webpack_require__(/*! ./StateMachine */ "./node_modules/@okta/courage/src/util/StateMachine.js"));
-
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../views/BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./jquery-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts");
+/* harmony import */ var _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _BaseRouter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BaseRouter */ "../../../../../../okta/okta-ui/packages/courage/src/util/BaseRouter.ts");
+/* harmony import */ var _SettingsModel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SettingsModel */ "../../../../../../okta/okta-ui/packages/courage/src/util/SettingsModel.ts");
+/* harmony import */ var _StateMachine__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./StateMachine */ "../../../../../../okta/okta-ui/packages/courage/src/util/StateMachine.ts");
+/* harmony import */ var _views_BaseView__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
 /* eslint max-len: [2, 150] */
+
+ // eslint-disable-next-line import/no-cycle
+
+
+
+
+
+
 function clean(obj) {
   var res = {};
 
-  _underscoreWrapper.default.each(obj, function (value, key) {
-    if (!_underscoreWrapper.default.isNull(value)) {
+  _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.each(obj, function (value, key) {
+    if (!_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isNull(value)) {
       res[key] = value;
     }
   });
@@ -3382,7 +3349,7 @@ function clean(obj) {
  */
 
 
-var _default = _BaseView.default.extend(
+var proto =
 /** @lends module:Okta.Controller.prototype */
 {
   constructor: function constructor() {
@@ -3390,36 +3357,35 @@ var _default = _BaseView.default.extend(
 
     /* eslint max-statements: [2, 21], complexity: [2, 12] */
     // If 'state' is passed down as options, use it, else create a 'new StateMachine()'
-    this.state = _underscoreWrapper.default.result(this, 'state');
-    var hasStateBeenInitialized = this.state instanceof _StateMachine.default || options.state instanceof _StateMachine.default;
+    this.state = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.result(this, 'state');
+    var hasStateBeenInitialized = this.state instanceof _StateMachine__WEBPACK_IMPORTED_MODULE_4__.default || options.state instanceof _StateMachine__WEBPACK_IMPORTED_MODULE_4__.default;
 
     if (!hasStateBeenInitialized) {
-      var stateData = _underscoreWrapper.default.defaults(clean(options.state), this.state || {}); // TODO:
+      var stateData = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.defaults(clean(options.state), this.state || {}); // TODO:
       // `framework/View.js set `this.state = options.state.`.
       // Therefore we could consider to do
       // 1. `options.state = new StateMachine()`
       // 2. remove `delete options.state`
 
 
-      this.state = new _StateMachine.default(stateData);
+      this.state = new _StateMachine__WEBPACK_IMPORTED_MODULE_4__.default(stateData);
       delete options.state;
     }
 
     if (!options.settings) {
       // allow the controller to live without a router
-      options.settings = new _SettingsModel.default(_underscoreWrapper.default.omit(options || {}, 'el'));
-      this.listen('notification', _BaseRouter.default.prototype._notify);
-      this.listen('confirmation', _BaseRouter.default.prototype._confirm);
+      options.settings = new _SettingsModel__WEBPACK_IMPORTED_MODULE_3__.default(_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.omit(options || {}, 'el'));
+      this.listen('notification', _BaseRouter__WEBPACK_IMPORTED_MODULE_2__.default.prototype._notify);
+      this.listen('confirmation', _BaseRouter__WEBPACK_IMPORTED_MODULE_2__.default.prototype._confirm);
     }
 
-    _BaseView.default.call(this, options);
-
+    _views_BaseView__WEBPACK_IMPORTED_MODULE_5__.default.call(this, options);
     this.listenTo(this.state, '__invoke__', function () {
-      var args = _underscoreWrapper.default.toArray(arguments);
+      var args = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.toArray(arguments);
 
       var method = args.shift();
 
-      if (_underscoreWrapper.default.isFunction(this[method])) {
+      if (_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isFunction(this[method])) {
         this[method].apply(this, args);
       }
     });
@@ -3428,8 +3394,8 @@ var _default = _BaseView.default.extend(
     if (this.View && this.View.isCourageView) {
       MainView = this.View;
     } // if `this.View` is a pure function that returns a Backbone View
-    else if (_underscoreWrapper.default.result(this, 'View') && _underscoreWrapper.default.result(this, 'View').isCourageView) {
-      MainView = _underscoreWrapper.default.result(this, 'View');
+    else if (_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.result(this, 'View') && _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.result(this, 'View').isCourageView) {
+      MainView = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.result(this, 'View');
     }
 
     if (MainView) {
@@ -3458,8 +3424,8 @@ var _default = _BaseView.default.extend(
   render: function render() {
     var args = arguments;
     var self = this;
-    (0, _jqueryWrapper.default)(function () {
-      _BaseView.default.prototype.render.apply(self, args);
+    (0,_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default)(function () {
+      _views_BaseView__WEBPACK_IMPORTED_MODULE_5__.default.prototype.render.apply(self, args);
     });
     return this;
   },
@@ -3470,7 +3436,7 @@ var _default = _BaseView.default.extend(
    * @return {Object} The view constructor options
    */
   toJSON: function toJSON(options) {
-    return _underscoreWrapper.default.extend(_underscoreWrapper.default.pick(this, 'state', 'settings', 'collection', 'model'), options || {});
+    return _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.extend(_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.pick(this, 'state', 'settings', 'collection', 'model'), options || {});
   },
 
   /**
@@ -3482,48 +3448,40 @@ var _default = _BaseView.default.extend(
     this.$el.empty();
     return this;
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+};
+/* harmony default export */ __webpack_exports__["default"] = (_views_BaseView__WEBPACK_IMPORTED_MODULE_5__.default.extend(proto));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/BaseRouter.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/BaseRouter.js ***!
-  \***********************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/BaseRouter.ts":
+/*!******************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/BaseRouter.ts ***!
+  \******************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js"));
-
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ./jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _Logger = _interopRequireDefault(__webpack_require__(/*! ./Logger */ "./node_modules/@okta/courage/src/util/Logger.js"));
-
-var _SettingsModel = _interopRequireDefault(__webpack_require__(/*! ./SettingsModel */ "./node_modules/@okta/courage/src/util/SettingsModel.js"));
-
-var _ConfirmationDialog = _interopRequireDefault(__webpack_require__(/*! ConfirmationDialog */ "./src/empty.js"));
-
-var _Notification = _interopRequireDefault(__webpack_require__(/*! ../views/components/Notification */ "./node_modules/@okta/courage/src/views/components/Notification.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! backbone */ "../../../../../../okta/okta-ui/packages/courage/src/vendor/lib/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var ConfirmationDialog__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ConfirmationDialog */ "./src/empty.ts");
+/* harmony import */ var _jquery_wrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./jquery-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts");
+/* harmony import */ var _underscore_wrapper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _Logger__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Logger */ "../../../../../../okta/okta-ui/packages/courage/src/util/Logger.ts");
+/* harmony import */ var _SettingsModel__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SettingsModel */ "../../../../../../okta/okta-ui/packages/courage/src/util/SettingsModel.ts");
+/* harmony import */ var _views_components_Notification__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/components/Notification */ "../../../../../../okta/okta-ui/packages/courage/src/views/components/Notification.js");
 /* eslint max-len: [2, 150], max-params: [2, 7] */
-function getRoute(router, route) {
-  var root = _underscoreWrapper.default.result(router, 'root') || '';
 
-  if (root && _underscoreWrapper.default.isString(route)) {
+
+
+
+
+
+ // eslint-disable-next-line import/no-cycle
+
+function getRoute(router, route) {
+  var root = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_3__.default.result(router, 'root') || '';
+
+  if (root && _underscore_wrapper__WEBPACK_IMPORTED_MODULE_3__.default.isString(route)) {
     return [root, route].join('/').replace(/\/{2,}/g, '/');
   }
 
@@ -3545,7 +3503,7 @@ function getRoute(router, route) {
  */
 
 
-var _default = _backbone.default.Router.extend(
+var props =
 /** @lends module:Okta.Router.prototype */
 {
   /**
@@ -3554,7 +3512,7 @@ var _default = _backbone.default.Router.extend(
    * @type {String|Function}
    */
   root: '',
-  listen: _Notification.default.prototype.listen,
+  listen: _views_components_Notification__WEBPACK_IMPORTED_MODULE_6__.default.prototype.listen,
   constructor: function constructor() {
     var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     this.el = options.el;
@@ -3567,14 +3525,13 @@ var _default = _backbone.default.Router.extend(
      * `super.initialize` at all.
      */
 
-    this.settings = new _SettingsModel.default(_underscoreWrapper.default.omit(options, 'el'));
+    this.settings = new _SettingsModel__WEBPACK_IMPORTED_MODULE_5__.default(_underscore_wrapper__WEBPACK_IMPORTED_MODULE_3__.default.omit(options, 'el'));
 
     if (options.root) {
       this.root = options.root;
     }
 
-    _backbone.default.Router.apply(this, arguments);
-
+    backbone__WEBPACK_IMPORTED_MODULE_0___default().Router.apply(this, arguments);
     this.listen('notification', this._notify);
     this.listen('confirmation', this._confirm);
   },
@@ -3596,11 +3553,9 @@ var _default = _backbone.default.Router.extend(
    *
    * @return {Okta.View} the dialog view
    */
-  _confirm: function _confirm(options) {
-    options || (options = {});
-
-    var Dialog = _ConfirmationDialog.default.extend(_underscoreWrapper.default.pick(options, 'title', 'subtitle', 'save', 'ok', 'cancel', 'cancelFn', 'noCancelButton', 'noSubmitButton', 'content', 'danger', 'type', 'closeOnOverlayClick', 'buttonOrder'));
-
+  _confirm: function _confirm() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var Dialog = ConfirmationDialog__WEBPACK_IMPORTED_MODULE_1__.default.extend(_underscore_wrapper__WEBPACK_IMPORTED_MODULE_3__.default.pick(options, 'title', 'subtitle', 'save', 'ok', 'cancel', 'cancelFn', 'noCancelButton', 'noSubmitButton', 'content', 'danger', 'type', 'closeOnOverlayClick', 'buttonOrder'));
     var dialog = new Dialog({
       model: this.settings
     }); // The model is here because itsa part of the BaseForm paradigm.
@@ -3618,8 +3573,8 @@ var _default = _backbone.default.Router.extend(
    * @private
    */
   _notify: function _notify(options) {
-    var notification = new _Notification.default(options);
-    (0, _jqueryWrapper.default)('#content').prepend(notification.render().el);
+    var notification = new _views_components_Notification__WEBPACK_IMPORTED_MODULE_6__.default(options);
+    (0,_jquery_wrapper__WEBPACK_IMPORTED_MODULE_2__.default)('#content').prepend(notification.render().el);
     return notification; // test hook
   },
 
@@ -3632,7 +3587,7 @@ var _default = _backbone.default.Router.extend(
    */
   render: function render(Controller, options) {
     this.unload();
-    options = _underscoreWrapper.default.extend(_underscoreWrapper.default.pick(this, 'settings', 'el'), options || {});
+    options = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_3__.default.extend(_underscore_wrapper__WEBPACK_IMPORTED_MODULE_3__.default.pick(this, 'settings', 'el'), options || {});
     this.controller = new Controller(options);
     this.controller.render();
   },
@@ -3645,15 +3600,17 @@ var _default = _backbone.default.Router.extend(
    * See [Backbone History](http://backbonejs.org/#History) for more information.
    */
   start: function start() {
-    var args = arguments;
-    (0, _jqueryWrapper.default)(function () {
-      if (_backbone.default.History.started) {
-        _Logger.default.error('History has already been started');
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
+    (0,_jquery_wrapper__WEBPACK_IMPORTED_MODULE_2__.default)(function () {
+      if ((backbone__WEBPACK_IMPORTED_MODULE_0___default().History.started)) {
+        _Logger__WEBPACK_IMPORTED_MODULE_4__.default.error('History has already been started');
         return;
       }
 
-      _backbone.default.history.start.apply(_backbone.default.history, args);
+      backbone__WEBPACK_IMPORTED_MODULE_0___default().history.start(...args);
     });
   },
 
@@ -3668,52 +3625,43 @@ var _default = _backbone.default.Router.extend(
     }
   },
   route: function route(_route, name, callback) {
-    return _backbone.default.Router.prototype.route.call(this, getRoute(this, _route), name, callback);
+    return backbone__WEBPACK_IMPORTED_MODULE_0___default().Router.prototype.route.call(this, getRoute(this, _route), name, callback);
   },
   navigate: function navigate(fragment, options) {
-    return _backbone.default.Router.prototype.navigate.call(this, getRoute(this, fragment), options);
+    return backbone__WEBPACK_IMPORTED_MODULE_0___default().Router.prototype.navigate.call(this, getRoute(this, fragment), options);
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+};
+var constructor = backbone__WEBPACK_IMPORTED_MODULE_0___default().Router.extend(props);
+/* harmony default export */ __webpack_exports__["default"] = (constructor);
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/ButtonFactory.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/ButtonFactory.js ***!
-  \**************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/ButtonFactory.ts":
+/*!*********************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/ButtonFactory.ts ***!
+  \*********************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _BaseButtonLink = _interopRequireDefault(__webpack_require__(/*! ../views/components/BaseButtonLink */ "./node_modules/@okta/courage/src/views/components/BaseButtonLink.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _views_components_BaseButtonLink__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../views/components/BaseButtonLink */ "../../../../../../okta/okta-ui/packages/courage/src/views/components/BaseButtonLink.js");
 /* eslint '@okta/okta-ui/no-deprecated-methods': [0, [{ name: 'BaseButtonLink.extend', use: 'Okta.createButton'}, ]] */
+
 
 /**
  * A factory method wrapper for {@link BaseButtonLink} creation
  * @class module:Okta.internal.util.ButtonFactory
  */
+
 function normalizeEvents(options) {
-  var events = _underscoreWrapper.default.extend(options.click ? {
+  var events = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.extend(options.click ? {
     click: options.click
   } : {}, options.events || {});
 
   var target = {};
 
-  _underscoreWrapper.default.each(events, function (fn, eventName) {
+  _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(events, function (fn, eventName) {
     target[eventName] = function (e) {
       if (!options.href) {
         e.preventDefault();
@@ -3729,9 +3677,7 @@ function normalizeEvents(options) {
   return target;
 }
 
-var _default =
-/** @lends module:Okta.internal.util.ButtonFactory */
-{
+/* harmony default export */ __webpack_exports__["default"] = (/** @lends module:Okta.internal.util.ButtonFactory */{
   /**
    * Creates a {@link module:Okta.internal.views.components.BaseButtonLink|BaseButtonLink}.
    * @param  {Object} options Options hash
@@ -3744,120 +3690,102 @@ var _default =
    * @returns {module:Okta.internal.views.components.BaseButtonLink} BaseButtonLink prototype ("class")
    */
   create: function create(options) {
-    options = _underscoreWrapper.default.clone(options);
+    options = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.clone(options);
     options.attrs = options.attributes;
     delete options.attributes;
-    return _BaseButtonLink.default.extend(_underscoreWrapper.default.extend(options, {
+    return _views_components_BaseButtonLink__WEBPACK_IMPORTED_MODULE_1__.default.extend(_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.extend(options, {
       events: normalizeEvents(options)
     }));
   }
-};
-exports.default = _default;
-module.exports = exports.default;
+});
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/Class.js":
-/*!******************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/Class.js ***!
-  \******************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/Class.ts":
+/*!*************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/Class.ts ***!
+  \*************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! backbone */ "../../../../../../okta/okta-ui/packages/courage/src/vendor/lib/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js"));
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function Class(options) {
-  this.options = _underscoreWrapper.default.clone(options || {});
-  this.cid = _underscoreWrapper.default.uniqueId('class');
+  this.options = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.clone(options || {});
+  this.cid = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.uniqueId('class');
   this.initialize.apply(this, arguments);
 }
 
-_underscoreWrapper.default.extend(Class.prototype, _backbone.default.Events, {
+_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.extend(Class.prototype, (backbone__WEBPACK_IMPORTED_MODULE_0___default().Events), {
   initialize: function initialize() {}
 });
 
-Class.extend = _backbone.default.Model.extend;
-var _default = Class;
-exports.default = _default;
-module.exports = exports.default;
+Class.extend = (backbone__WEBPACK_IMPORTED_MODULE_0___default().Model.extend);
+/* harmony default export */ __webpack_exports__["default"] = (Class);
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/Clipboard.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/Clipboard.js ***!
-  \**********************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/Clipboard.ts":
+/*!*****************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/Clipboard.ts ***!
+  \*****************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var clipboard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! clipboard */ "../../../../../../okta/okta-ui/node_modules/clipboard/lib/clipboard.js");
+/* harmony import */ var clipboard__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(clipboard__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./jquery-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts");
+/* harmony import */ var _underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _framework_View__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../framework/View */ "../../../../../../okta/okta-ui/packages/courage/src/framework/View.ts");
+/* harmony import */ var _Class__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Class */ "../../../../../../okta/okta-ui/packages/courage/src/util/Class.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
 
-var _clipboard = _interopRequireDefault(__webpack_require__(/*! clipboard */ "./node_modules/clipboard/lib/clipboard.js"));
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ./jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _View = _interopRequireDefault(__webpack_require__(/*! ../framework/View */ "./node_modules/@okta/courage/src/framework/View.js"));
-
-var _Class = _interopRequireDefault(__webpack_require__(/*! ./Class */ "./node_modules/@okta/courage/src/util/Class.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Clipboard = _clipboard.default;
+var Clipboard = (clipboard__WEBPACK_IMPORTED_MODULE_0___default());
 var OPTIONS = ['success', 'error', 'target', 'text'];
-
-var ClipboardClipboardWrapper = _Class.default.extend({
+var ClipboardClipboardWrapper = _Class__WEBPACK_IMPORTED_MODULE_4__.default.extend({
   initialize: function initialize(el, options) {
     /* eslint complexity:0, max-statements: [2, 24] */
-    options = _underscoreWrapper.default.pick(options || {}, OPTIONS);
+    options = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.pick(options || {}, OPTIONS);
     var trigger;
     var target;
     var text;
 
-    if (_underscoreWrapper.default.isString(el)) {
+    if (_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isString(el)) {
       trigger = el;
     }
 
-    if (_underscoreWrapper.default.isElement(el)) {
+    if (_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isElement(el)) {
       trigger = el;
     }
 
-    if (el instanceof _jqueryWrapper.default) {
-      trigger = el.selector;
+    if (el instanceof _jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default) {
+      trigger = el.selector; // TODO: use stronger type
     }
 
-    if (el instanceof _View.default) {
+    if (el instanceof _framework_View__WEBPACK_IMPORTED_MODULE_3__.default) {
       trigger = el.el;
     }
 
-    if (_underscoreWrapper.default.isFunction(options.target)) {
+    if (_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isFunction(options.target)) {
       target = options.target;
     }
 
-    if (_underscoreWrapper.default.isElement(options.target)) {
-      target = _underscoreWrapper.default.constant(options.target);
+    if (_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isElement(options.target)) {
+      target = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.constant(options.target);
     }
 
-    if (_underscoreWrapper.default.isString(options.text)) {
-      text = _underscoreWrapper.default.constant(options.text);
-    } else if (_underscoreWrapper.default.isFunction(options.text)) {
+    if (_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isString(options.text)) {
+      text = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.constant(options.text);
+    } else if (_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isFunction(options.text)) {
       text = options.text;
     }
 
@@ -3865,13 +3793,13 @@ var ClipboardClipboardWrapper = _Class.default.extend({
       target: target,
       text: text
     });
-    this.done = _underscoreWrapper.default.partial(this.__setCallback, 'success');
-    this.error = _underscoreWrapper.default.partial(this.__setCallback, 'error');
+    this.done = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.partial(this.__setCallback, 'success');
+    this.error = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.partial(this.__setCallback, 'error');
     this.done(options.success);
     this.error(options.error);
   },
   __setCallback: function __setCallback(event, callback) {
-    if (!_underscoreWrapper.default.isFunction(callback)) {
+    if (!_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isFunction(callback)) {
       return;
     }
 
@@ -3921,8 +3849,7 @@ var ClipboardClipboardWrapper = _Class.default.extend({
  * ```
  */
 
-
-var _default = {
+/* harmony default export */ __webpack_exports__["default"] = ({
   /**
    * @param {String|Node|View|jQuery} [el] el could be a selector (recommended),
    *           a dom node, a view or a jquery object
@@ -3937,66 +3864,50 @@ var _default = {
   attach: function attach(el, options) {
     return new ClipboardClipboardWrapper(el, options);
   }
-};
-exports.default = _default;
-module.exports = exports.default;
+});
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/Cookie.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/Cookie.js ***!
-  \*******************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/Cookie.ts":
+/*!**************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/Cookie.ts ***!
+  \**************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var vendor_lib_js_cookie__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vendor/lib/js.cookie */ "../../../../../../okta/okta-ui/packages/courage/src/vendor/lib/js.cookie.js");
+/* harmony import */ var vendor_lib_js_cookie__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vendor_lib_js_cookie__WEBPACK_IMPORTED_MODULE_1__);
 
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _js = _interopRequireDefault(__webpack_require__(/*! vendor/lib/js.cookie */ "./node_modules/@okta/courage/src/vendor/lib/js.cookie.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var SECURED_COOKIE = /^https/.test(window.location.href);
-var _default = {
+/* harmony default export */ __webpack_exports__["default"] = ({
   setCookie: function setCookie(name, value, options) {
-    _js.default.set(name, value, _underscoreWrapper.default.defaults(options || {}, {
+    vendor_lib_js_cookie__WEBPACK_IMPORTED_MODULE_1___default().set(name, value, _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.defaults(options || {}, {
       secure: SECURED_COOKIE,
       path: '/'
     }));
   },
   getCookie: function getCookie() {
-    return _js.default.get.apply(_js.default, arguments);
+    return vendor_lib_js_cookie__WEBPACK_IMPORTED_MODULE_1___default().get.apply((vendor_lib_js_cookie__WEBPACK_IMPORTED_MODULE_1___default()), arguments);
   },
   removeCookie: function removeCookie() {
-    return _js.default.remove.apply(_js.default, arguments);
+    return vendor_lib_js_cookie__WEBPACK_IMPORTED_MODULE_1___default().remove.apply((vendor_lib_js_cookie__WEBPACK_IMPORTED_MODULE_1___default()), arguments);
   }
-};
-exports.default = _default;
-module.exports = exports.default;
+});
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/Keys.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/Keys.js ***!
-  \*****************************************************/
-/***/ (function(module, exports) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/Keys.ts":
+/*!************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/Keys.ts ***!
+  \************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-var _default = {
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
   UP: 38,
   DOWN: 40,
   DEL: 46,
@@ -4021,29 +3932,25 @@ var _default = {
   isSpaceBar: function isSpaceBar(e) {
     return this.__isKey(e, 'SPACE');
   }
-};
-exports.default = _default;
-module.exports = exports.default;
+});
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/Logger.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/Logger.js ***!
-  \*******************************************************/
-/***/ (function(module, exports) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/Logger.ts":
+/*!**************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/Logger.ts ***!
+  \**************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-function _log(level, args) {
+__webpack_require__.r(__webpack_exports__);
+function _log(level) {
   if (window.console && window.okta && window.okta.debug) {
-    window.console[level].apply(window.console, args);
+    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    window.console[level](...args);
   }
 }
 /**
@@ -4052,15 +3959,17 @@ function _log(level, args) {
  */
 
 
-var _default =
-/** @lends module:Okta.Logger */
-{
+/* harmony default export */ __webpack_exports__["default"] = (/** @lends module:Okta.Logger */{
   /**
    * See [console.trace](https://developer.mozilla.org/en-US/docs/Web/API/Console.trace)
    * @static
    */
   trace: function trace() {
-    return _log('trace', arguments);
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    return _log('trace', ...args);
   },
 
   /**
@@ -4068,7 +3977,11 @@ var _default =
    * @static
    */
   dir: function dir() {
-    return _log('dir', arguments);
+    for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+      args[_key3] = arguments[_key3];
+    }
+
+    return _log('dir', ...args);
   },
 
   /**
@@ -4076,7 +3989,11 @@ var _default =
    * @static
    */
   time: function time() {
-    return _log('time', arguments);
+    for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+      args[_key4] = arguments[_key4];
+    }
+
+    return _log('time', ...args);
   },
 
   /**
@@ -4084,7 +4001,11 @@ var _default =
    * @static
    */
   timeEnd: function timeEnd() {
-    return _log('timeEnd', arguments);
+    for (var _len5 = arguments.length, args = new Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+      args[_key5] = arguments[_key5];
+    }
+
+    return _log('timeEnd', ...args);
   },
 
   /**
@@ -4092,7 +4013,11 @@ var _default =
    * @static
    */
   group: function group() {
-    return _log('group', arguments);
+    for (var _len6 = arguments.length, args = new Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
+      args[_key6] = arguments[_key6];
+    }
+
+    return _log('group', ...args);
   },
 
   /**
@@ -4100,7 +4025,11 @@ var _default =
    * @static
    */
   groupEnd: function groupEnd() {
-    return _log('groupEnd', arguments);
+    for (var _len7 = arguments.length, args = new Array(_len7), _key7 = 0; _key7 < _len7; _key7++) {
+      args[_key7] = arguments[_key7];
+    }
+
+    return _log('groupEnd', ...args);
   },
 
   /**
@@ -4108,7 +4037,11 @@ var _default =
    * @static
    */
   assert: function assert() {
-    return _log('assert', arguments);
+    for (var _len8 = arguments.length, args = new Array(_len8), _key8 = 0; _key8 < _len8; _key8++) {
+      args[_key8] = arguments[_key8];
+    }
+
+    return _log('assert', ...args);
   },
 
   /**
@@ -4116,7 +4049,11 @@ var _default =
    * @static
    */
   log: function log() {
-    return _log('log', arguments);
+    for (var _len9 = arguments.length, args = new Array(_len9), _key9 = 0; _key9 < _len9; _key9++) {
+      args[_key9] = arguments[_key9];
+    }
+
+    return _log('log', ...args);
   },
 
   /**
@@ -4124,7 +4061,11 @@ var _default =
    * @static
    */
   info: function info() {
-    return _log('info', arguments);
+    for (var _len10 = arguments.length, args = new Array(_len10), _key10 = 0; _key10 < _len10; _key10++) {
+      args[_key10] = arguments[_key10];
+    }
+
+    return _log('info', ...args);
   },
 
   /**
@@ -4132,7 +4073,11 @@ var _default =
    * @static
    */
   warn: function warn() {
-    return _log('warn', arguments);
+    for (var _len11 = arguments.length, args = new Array(_len11), _key11 = 0; _key11 < _len11; _key11++) {
+      args[_key11] = arguments[_key11];
+    }
+
+    return _log('warn', ...args);
   },
 
   /**
@@ -4140,35 +4085,29 @@ var _default =
    * @static
    */
   error: function error() {
-    return _log('error', arguments);
+    for (var _len12 = arguments.length, args = new Array(_len12), _key12 = 0; _key12 < _len12; _key12++) {
+      args[_key12] = arguments[_key12];
+    }
+
+    return _log('error', ...args);
   }
-};
-exports.default = _default;
-module.exports = exports.default;
+});
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/SchemaUtil.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/SchemaUtil.js ***!
-  \***********************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/SchemaUtil.ts":
+/*!******************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/SchemaUtil.ts ***!
+  \******************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _StringUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StringUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ./StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var loc = _StringUtil.default.localize;
+var loc = _StringUtil__WEBPACK_IMPORTED_MODULE_1__.default.localize;
 var SchemaUtils = {
   STRING: 'string',
   NUMBER: 'number',
@@ -4346,6 +4285,7 @@ var SchemaUtils = {
   },
   ATTRIBUTE_LEVEL_MASTERING_OPTIONS: {
     INHERIT: loc('universal-directory.profiles.attribute.source.inherit', 'courage'),
+    // eslint-disable-next-line @okta/okta/no-exclusive-language
     OKTA_MASTERED: loc('universal-directory.profiles.attribute.source.oktamastered', 'courage'),
     OVERRIDE: loc('universal-directory.profiles.attribute.source.override', 'courage')
   },
@@ -4428,44 +4368,35 @@ var SchemaUtils = {
     return sourceUsernameType;
   },
   isArrayDataType: function isArrayDataType(type) {
-    return _underscoreWrapper.default.contains(_underscoreWrapper.default.values(this.ARRAYDISPLAYTYPE), type);
+    return _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.contains(_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.values(this.ARRAYDISPLAYTYPE), type);
   },
   isObjectDataType: function isObjectDataType(type) {
     return this.DATATYPE.object === type;
   }
 };
-var _default = SchemaUtils;
-exports.default = _default;
-module.exports = exports.default;
+/* harmony default export */ __webpack_exports__["default"] = (SchemaUtils);
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/SettingsModel.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/SettingsModel.js ***!
-  \**************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/SettingsModel.ts":
+/*!*********************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/SettingsModel.ts ***!
+  \*********************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _models_Model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../models/Model */ "../../../../../../okta/okta-ui/packages/courage/src/models/Model.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _Model = _interopRequireDefault(__webpack_require__(/*! ../models/Model */ "./node_modules/@okta/courage/src/models/Model.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * @class SettingsModel
  * @extends {Okta.Model}
  * @private
  */
-var _default = _Model.default.extend({
+var props = {
   local: function local() {
     var settings = window.okta && window.okta.settings || {};
     var theme = window.okta && window.okta.theme || '';
@@ -4481,8 +4412,7 @@ var _default = _Model.default.extend({
     };
   },
   constructor: function constructor() {
-    _Model.default.apply(this, arguments);
-
+    _models_Model__WEBPACK_IMPORTED_MODULE_1__.default.apply(this, arguments);
     this.features = window._features || [];
   },
 
@@ -4492,7 +4422,7 @@ var _default = _Model.default.extend({
    * @return {Boolean}
    */
   hasFeature: function hasFeature(feature) {
-    return _underscoreWrapper.default.contains(this.features, feature);
+    return _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.contains(this.features, feature);
   },
 
   /**
@@ -4501,7 +4431,7 @@ var _default = _Model.default.extend({
    * @return {Boolean} true if any of the give features are enabled. False otherwise
    */
   hasAnyFeature: function hasAnyFeature(featureArray) {
-    return _underscoreWrapper.default.some(featureArray, this.hasFeature, this);
+    return _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.some(featureArray, this.hasFeature, this);
   },
 
   /**
@@ -4510,7 +4440,7 @@ var _default = _Model.default.extend({
    * @return {Boolean}
    */
   hasPermission: function hasPermission(permission) {
-    return _underscoreWrapper.default.contains(this.get('permissions'), permission);
+    return _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.contains(this.get('permissions'), permission);
   },
 
   /**
@@ -4520,32 +4450,22 @@ var _default = _Model.default.extend({
   isDsTheme: function isDsTheme() {
     return this.get('theme') === 'dstheme';
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+};
+/* harmony default export */ __webpack_exports__["default"] = (_models_Model__WEBPACK_IMPORTED_MODULE_1__.default.extend(props));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/StateMachine.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/StateMachine.js ***!
-  \*************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/StateMachine.ts":
+/*!********************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/StateMachine.ts ***!
+  \********************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _models_Model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../models/Model */ "../../../../../../okta/okta-ui/packages/courage/src/models/Model.ts");
 
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _Model = _interopRequireDefault(__webpack_require__(/*! ../models/Model */ "./node_modules/@okta/courage/src/models/Model.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * @class StateMachine
@@ -4554,7 +4474,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * A state object that holds the applciation state
  */
-var _default = _Model.default.extend({
+
+/* harmony default export */ __webpack_exports__["default"] = (_models_Model__WEBPACK_IMPORTED_MODULE_1__.default.extend({
   /**
    * Invokes a method on the applicable {@link Okta.Controller}
    *
@@ -4566,39 +4487,29 @@ var _default = _Model.default.extend({
    * @param {String} methodName the name of the controller method to invoke on the controller
    */
   invoke: function invoke() {
-    var args = _underscoreWrapper.default.toArray(arguments);
+    var args = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.toArray(arguments);
 
     args.unshift('__invoke__');
     this.trigger.apply(this, args);
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/StringUtil.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/StringUtil.js ***!
-  \***********************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.ts":
+/*!******************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.ts ***!
+  \******************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./jquery-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts");
+/* harmony import */ var _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var okta_i18n_bundles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! okta-i18n-bundles */ "okta-i18n-bundles");
+/* harmony import */ var okta_i18n_bundles__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(okta_i18n_bundles__WEBPACK_IMPORTED_MODULE_2__);
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ./jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _oktaI18nBundles = _interopRequireDefault(__webpack_require__(/*! okta-i18n-bundles */ "okta-i18n-bundles"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var entityMap = {
   '&amp;': '&',
@@ -4617,7 +4528,7 @@ var emailValidator = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+")
 * @return {String} converted locale code identifier
 */
 
-var parseLocale = function parseLocale(locale) {
+var parseLocale = locale => {
   if (/-/.test(locale)) {
     var parts = locale.split('-');
     parts[1] = parts[1].toUpperCase();
@@ -4639,11 +4550,11 @@ var parseLocale = function parseLocale(locale) {
 
 function getBundle(bundleName) {
   if (!bundleName) {
-    return _oktaI18nBundles.default[_underscoreWrapper.default.keys(_oktaI18nBundles.default)[0]];
+    return (okta_i18n_bundles__WEBPACK_IMPORTED_MODULE_2___default())[_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.keys((okta_i18n_bundles__WEBPACK_IMPORTED_MODULE_2___default()))[0]];
   }
 
   var locale = parseLocale(window && window.okta && window.okta.locale) || 'en';
-  return _oktaI18nBundles.default["".concat(bundleName, "_").concat(locale)] || _oktaI18nBundles.default[bundleName];
+  return (okta_i18n_bundles__WEBPACK_IMPORTED_MODULE_2___default())["".concat(bundleName, "_").concat(locale)] || (okta_i18n_bundles__WEBPACK_IMPORTED_MODULE_2___default())[bundleName];
 }
 /**
  *
@@ -4862,7 +4773,7 @@ var StringUtil =
     return parseInt;
   }(function (string) {
     var int = +string;
-    return _underscoreWrapper.default.isString(string) && int === parseInt(string, 10) ? int : string;
+    return _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isString(string) && int === parseInt(string, 10) ? int : string;
   }),
 
   /**
@@ -4872,13 +4783,13 @@ var StringUtil =
    * @return {String|object} Returns an object if the string can be casted, otherwise, returns the original string
    */
   parseObject: function parseObject(string) {
-    if (!_underscoreWrapper.default.isString(string)) {
+    if (!_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isString(string)) {
       return string;
     }
 
     try {
       var object = JSON.parse(string);
-      return _jqueryWrapper.default.isPlainObject(object) ? object : string;
+      return _jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isPlainObject(object) ? object : string;
     } catch (e) {
       return string;
     }
@@ -4894,7 +4805,7 @@ var StringUtil =
     var characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
 
     if (length === undefined) {
-      length = _underscoreWrapper.default.random(characters.length);
+      length = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.random(characters.length);
     } else if (length === 0) {
       return '';
     }
@@ -4902,7 +4813,7 @@ var StringUtil =
     var stringArray = [];
 
     while (length--) {
-      stringArray.push(characters[_underscoreWrapper.default.random(characters.length - 1)]);
+      stringArray.push(characters[_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.random(characters.length - 1)]);
     }
 
     return stringArray.join('');
@@ -4924,9 +4835,8 @@ var StringUtil =
 
   /** @static */
   isEmail: function isEmail(str) {
-    var target = _jqueryWrapper.default.trim(str);
-
-    return !_underscoreWrapper.default.isEmpty(target) && emailValidator.test(target);
+    var target = _jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.trim(str);
+    return !_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isEmpty(target) && emailValidator.test(target);
   }
 };
 /**
@@ -4936,105 +4846,77 @@ var StringUtil =
  * @hideconstructor
  */
 
-var _default = StringUtil;
-exports.default = _default;
-module.exports = exports.default;
+/* harmony default export */ __webpack_exports__["default"] = (StringUtil);
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/TemplateUtil.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/TemplateUtil.js ***!
-  \*************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/TemplateUtil.ts":
+/*!********************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/TemplateUtil.ts ***!
+  \********************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars */ "handlebars");
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
 /* eslint @okta/okta-ui/no-specific-methods: 0 */
+
 
 /**
  * @class module:Okta.internal.util.TemplateUtil
  * @hideconstructor
  */
-var _default =
-/** @lends module:Okta.internal.util.TemplateUtil */
-{
+
+/* harmony default export */ __webpack_exports__["default"] = (/** @lends module:Okta.internal.util.TemplateUtil */{
   /**
    * Compiles a Handlebars template
    * @static
    * @method
    */
   // TODO: This will be deprecated at some point. Views should use pre-compiled templates
-  tpl: _underscoreWrapper.default.memoize(function (tpl) {
+  tpl: _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.memoize(function (tpl) {
     /* eslint @okta/okta-ui/no-specific-methods: 0 */
     return function (context) {
-      return _handlebars.default.compile(tpl)(context);
+      return handlebars__WEBPACK_IMPORTED_MODULE_0___default().compile(tpl)(context);
     };
   })
-};
-exports.default = _default;
-module.exports = exports.default;
+});
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/Time.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/Time.js ***!
-  \*****************************************************/
-/***/ (function(module, exports) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/Time.ts":
+/*!************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/Time.ts ***!
+  \************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-var _default = {
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({
   DEBOUNCE_DELAY: 200,
   LOADING_FADE: 400,
   UNLOADING_FADE: 400,
   ROW_EXPANDER_TRANSITION: 150,
   HIDE_ADD_MAPPING_FORM: 300
-};
-exports.default = _default;
-module.exports = exports.default;
+});
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/Util.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/Util.js ***!
-  \*****************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/Util.ts":
+/*!************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/Util.ts ***!
+  \************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _views_BaseView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../views/BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../views/BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _default = {
+/* harmony default export */ __webpack_exports__["default"] = ({
   redirect: function redirect(url) {
     window.location = url;
   },
@@ -5055,51 +4937,42 @@ var _default = {
    * output: '?userId=123&expand=schema,app'
    */
   getUrlQueryString: function getUrlQueryString(queries) {
-    _underscoreWrapper.default.isObject(queries) || (queries = {});
+    _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isObject(queries) || (queries = {});
 
-    var queriesString = _underscoreWrapper.default.without(_underscoreWrapper.default.map(queries, function (value, key) {
+    var queriesString = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.without(_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.map(queries, function (value, key) {
       if (value !== undefined && value !== null) {
         return key + '=' + encodeURIComponent(value);
       }
     }), undefined).join('&');
 
-    return _underscoreWrapper.default.isEmpty(queriesString) ? '' : '?' + queriesString;
+    return _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isEmpty(queriesString) ? '' : '?' + queriesString;
   },
   isABaseView: function isABaseView(obj) {
-    return obj instanceof _BaseView.default || obj.prototype instanceof _BaseView.default || obj === _BaseView.default;
+    return obj instanceof _views_BaseView__WEBPACK_IMPORTED_MODULE_1__.default || obj.prototype instanceof _views_BaseView__WEBPACK_IMPORTED_MODULE_1__.default || obj === _views_BaseView__WEBPACK_IMPORTED_MODULE_1__.default;
   }
-};
-exports.default = _default;
-module.exports = exports.default;
+});
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/ViewUtil.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/ViewUtil.js ***!
-  \*********************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/ViewUtil.ts":
+/*!****************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/ViewUtil.ts ***!
+  \****************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
 
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function changeEventString(doWhen) {
-  return 'change:' + _underscoreWrapper.default.keys(doWhen).join(' change:');
+  return 'change:' + _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.keys(doWhen).join(' change:');
 }
 
 function calcDoWhen(value, key) {
   var modelValue = this.model.get(key);
 
-  if (_underscoreWrapper.default.isFunction(value)) {
+  if (_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(value)) {
     return value.call(this, modelValue);
   } else {
     return value === modelValue;
@@ -5107,9 +4980,9 @@ function calcDoWhen(value, key) {
 }
 
 function _doWhen(view, doWhen, fn) {
-  var toggle = _underscoreWrapper.default.bind(fn, view, view, doWhen);
+  var toggle = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.bind(fn, view, view, doWhen);
 
-  view.render = _underscoreWrapper.default.wrap(view.render, function (render) {
+  view.render = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.wrap(view.render, function (render) {
     var val = render.call(view);
     toggle({
       animate: false
@@ -5123,219 +4996,160 @@ function _doWhen(view, doWhen, fn) {
   });
 }
 
-var _default = {
+/* harmony default export */ __webpack_exports__["default"] = ({
   applyDoWhen: function applyDoWhen(view, doWhen, fn) {
-    if (!(view.model && _underscoreWrapper.default.isObject(doWhen) && _underscoreWrapper.default.size(doWhen) && _underscoreWrapper.default.isFunction(fn))) {
+    if (!(view.model && _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isObject(doWhen) && _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.size(doWhen) && _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(fn))) {
       return;
     }
 
     _doWhen(view, doWhen, function (view, doWhen, options) {
-      var result = _underscoreWrapper.default.every(_underscoreWrapper.default.map(doWhen, calcDoWhen, view));
+      var result = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.every(_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.map(doWhen, calcDoWhen, view));
 
       fn.call(view, result, options);
     });
   }
-};
-exports.default = _default;
-module.exports = exports.default;
+});
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/handlebars-wrapper.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/handlebars-wrapper.js ***!
-  \*******************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/handlebars-wrapper.ts":
+/*!**************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/handlebars-wrapper.ts ***!
+  \**************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
-
-__webpack_require__(/*! ./handlebars/handle-url */ "./node_modules/@okta/courage/src/util/handlebars/handle-url.js");
-
-__webpack_require__(/*! ./handlebars/helper-base64 */ "./node_modules/@okta/courage/src/util/handlebars/helper-base64.js");
-
-__webpack_require__(/*! ./handlebars/helper-date */ "./node_modules/@okta/courage/src/util/handlebars/helper-date.js");
-
-__webpack_require__(/*! ./handlebars/helper-i18n */ "./node_modules/@okta/courage/src/util/handlebars/helper-i18n.js");
-
-__webpack_require__(/*! ./handlebars/helper-img */ "./node_modules/@okta/courage/src/util/handlebars/helper-img.js");
-
-__webpack_require__(/*! ./handlebars/helper-markdown */ "./node_modules/@okta/courage/src/util/handlebars/helper-markdown.js");
-
-__webpack_require__(/*! ./handlebars/helper-xsrfTokenInput */ "./node_modules/@okta/courage/src/util/handlebars/helper-xsrfTokenInput.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars */ "handlebars");
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _handlebars_handle_url__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./handlebars/handle-url */ "../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/handle-url.ts");
+/* harmony import */ var _handlebars_helper_base64__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./handlebars/helper-base64 */ "../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-base64.ts");
+/* harmony import */ var _handlebars_helper_date__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./handlebars/helper-date */ "../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-date.ts");
+/* harmony import */ var _handlebars_helper_i18n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./handlebars/helper-i18n */ "../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-i18n.ts");
+/* harmony import */ var _handlebars_helper_img__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./handlebars/helper-img */ "../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-img.ts");
+/* harmony import */ var _handlebars_helper_markdown__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./handlebars/helper-markdown */ "../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-markdown.ts");
+/* harmony import */ var _handlebars_helper_xsrfTokenInput__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./handlebars/helper-xsrfTokenInput */ "../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-xsrfTokenInput.ts");
 // Handlebars "wrapper" is used by frontend code. It contains all helpers.
 // This runs in a browser / webpacked environment
 // TODO: Once all templates are precompiled, this file should use handlebars/runtime
 
 /* eslint @okta/okta-ui/no-specific-modules: 0 */
-// from vendor/lib
-var _default = _handlebars.default;
-exports.default = _default;
-module.exports = exports.default;
+ // from vendor/lib
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ((handlebars__WEBPACK_IMPORTED_MODULE_0___default()));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/handlebars/handle-url.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/handlebars/handle-url.js ***!
-  \**********************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/handle-url.ts":
+/*!*****************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/handle-url.ts ***!
+  \*****************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars */ "handlebars");
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars__WEBPACK_IMPORTED_MODULE_0__);
 
+var clonedEscapeExpression = (handlebars__WEBPACK_IMPORTED_MODULE_0___default().Utils.escapeExpression);
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var clonedEscapeExpression = _handlebars.default.Utils.escapeExpression;
-
-_handlebars.default.Utils.escapeExpression = function (string) {
+(handlebars__WEBPACK_IMPORTED_MODULE_0___default().Utils.escapeExpression) = function (string) {
   return clonedEscapeExpression(string).replace(/&#x3D;/g, '=');
 };
 
-var _default = _handlebars.default;
-exports.default = _default;
-module.exports = exports.default;
+/* harmony default export */ __webpack_exports__["default"] = ((handlebars__WEBPACK_IMPORTED_MODULE_0___default()));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/handlebars/helper-base64.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/handlebars/helper-base64.js ***!
-  \*************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-base64.ts":
+/*!********************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-base64.ts ***!
+  \********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars */ "handlebars");
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars__WEBPACK_IMPORTED_MODULE_0__);
 /* eslint @okta/okta-ui/no-specific-modules: 0 */
+ // Display a base 64 encoded data (e.g. certificate signature) in a nicely formatted hex format.
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// Display a base 64 encoded data (e.g. certificate signature) in a nicely formatted hex format.
-_handlebars.default.registerHelper('base64ToHex', function (base64String) {
+handlebars__WEBPACK_IMPORTED_MODULE_0___default().registerHelper('base64ToHex', function base64ToHex(base64String) {
   var raw = atob(base64String);
   var result = '';
 
   if (raw.length > 0) {
     var firstHex = raw.charCodeAt(0).toString(16);
-    result += firstHex.length === 2 ? firstHex : '0' + firstHex;
+    result += firstHex.length === 2 ? firstHex : "0".concat(firstHex);
 
-    for (var i = 1; i < raw.length; i++) {
+    for (var i = 1; i < raw.length; i += 1) {
       var hex = raw.charCodeAt(i).toString(16);
-      result += ' ' + (hex.length === 2 ? hex : '0' + hex);
+      hex = hex.length === 2 ? hex : "0".concat(hex);
+      result += " ".concat(hex);
     }
   }
 
   return result.toUpperCase();
 });
-
-var _default = _handlebars.default;
-exports.default = _default;
-module.exports = exports.default;
+/* harmony default export */ __webpack_exports__["default"] = ((handlebars__WEBPACK_IMPORTED_MODULE_0___default()));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/handlebars/helper-date.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/handlebars/helper-date.js ***!
-  \***********************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-date.ts":
+/*!******************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-date.ts ***!
+  \******************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
-
-var _moment = _interopRequireDefault(__webpack_require__(/*! moment */ "./src/empty.js"));
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars */ "handlebars");
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./src/empty.ts");
+/* harmony import */ var _underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
 /* eslint @okta/okta-ui/no-specific-modules: 0, max-params: 0, max-statements: 0 */
+
+
+
+
 function formatDate(format, dateInISOString) {
-  return _moment.default.utc(dateInISOString).utcOffset('-07:00').format(format);
+  return moment__WEBPACK_IMPORTED_MODULE_1__.default.utc(dateInISOString).utcOffset('-07:00').format(format);
 }
 
-_handlebars.default.registerHelper('shortDate', _underscoreWrapper.default.partial(formatDate, 'MMM Do'));
-
-_handlebars.default.registerHelper('mediumDate', _underscoreWrapper.default.partial(formatDate, 'MMMM DD, YYYY'));
-
-_handlebars.default.registerHelper('longDate', _underscoreWrapper.default.partial(formatDate, 'MMMM DD, YYYY, h:mma'));
-
-_handlebars.default.registerHelper('formatDate', formatDate);
-
-var _default = _handlebars.default;
-exports.default = _default;
-module.exports = exports.default;
+handlebars__WEBPACK_IMPORTED_MODULE_0___default().registerHelper('shortDate', _underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.partial(formatDate, 'MMM Do'));
+handlebars__WEBPACK_IMPORTED_MODULE_0___default().registerHelper('mediumDate', _underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.partial(formatDate, 'MMMM DD, YYYY'));
+handlebars__WEBPACK_IMPORTED_MODULE_0___default().registerHelper('longDate', _underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.partial(formatDate, 'MMMM DD, YYYY, h:mma'));
+handlebars__WEBPACK_IMPORTED_MODULE_0___default().registerHelper('formatDate', formatDate);
+/* harmony default export */ __webpack_exports__["default"] = ((handlebars__WEBPACK_IMPORTED_MODULE_0___default()));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/handlebars/helper-i18n.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/handlebars/helper-i18n.js ***!
-  \***********************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-i18n.ts":
+/*!******************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-i18n.ts ***!
+  \******************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars */ "handlebars");
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _Logger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Logger */ "../../../../../../okta/okta-ui/packages/courage/src/util/Logger.ts");
+/* harmony import */ var _StringUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../StringUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.ts");
+/* eslint @okta/okta-ui/no-specific-modules: 0 */
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
 
-var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _Logger = _interopRequireDefault(__webpack_require__(/*! ../Logger */ "./node_modules/@okta/courage/src/util/Logger.js"));
-
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var hbsEscape = _handlebars.default.Utils.escapeExpression;
+var hbsEscape = (handlebars__WEBPACK_IMPORTED_MODULE_0___default().Utils.escapeExpression);
 
 function trim(str) {
   return str && str.replace(/^\s+|\s+$/g, '');
@@ -5344,11 +5158,7 @@ function trim(str) {
 function replaceTagsWithPlaceholders(source, tag, tagValue) {
   var escapedBeginningTag = hbsEscape("<".concat(tag, ">"));
   var escapedEndTag = hbsEscape("</".concat(tag, ">"));
-
-  var _tagValue$split = tagValue.split(tag),
-      _tagValue$split2 = _slicedToArray(_tagValue$split, 2),
-      beginningTag = _tagValue$split2[0],
-      endTag = _tagValue$split2[1];
+  var [beginningTag, endTag] = tagValue.split(tag);
 
   if (!source.includes(escapedBeginningTag) && !source.includes(escapedEndTag)) {
     throw Error("Parsed tag \"".concat(tag, "\" is not present in \"").concat(source, "\""));
@@ -5363,40 +5173,35 @@ function replaceTagsWithPlaceholders(source, tag, tagValue) {
 /* eslint max-statements: [2, 18] */
 
 
-_handlebars.default.registerHelper('i18n', function (options) {
+handlebars__WEBPACK_IMPORTED_MODULE_0___default().registerHelper('i18n', function i18n(options) {
   var params;
   var key = trim(options.hash.code);
   var bundle = trim(options.hash.bundle);
-  var args = trim(options.hash['arguments']);
-  var tags = Object.keys(options.hash).filter(function (prop) {
-    return prop.match(/^\$\d+/);
-  }).map(function (prop) {
-    return {
-      tag: prop,
-      value: options.hash[prop]
-    };
-  });
+  var args = trim(options.hash.arguments);
+  var tags = Object.keys(options.hash).filter(prop => prop.match(/^\$\d+/)).map(prop => ({
+    tag: prop,
+    value: options.hash[prop]
+  }));
 
   if (args) {
-    params = _underscoreWrapper.default.map(trim(args).split(';'), function (param) {
+    params = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.map(trim(args).split(';'), function mapParam(param) {
       param = trim(param);
       var val;
-      var data = this;
       /*
        * the context(data) may be a deep object, ex {user: {name: 'John', gender: 'M'}}
        * arguments may be 'user.name'
        * return data['user']['name']
        */
 
-      _underscoreWrapper.default.each(param.split('.'), function (p) {
-        val = val ? val[p] : data[p];
+      _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.each(param.split('.'), p => {
+        val = val ? val[p] : this[p];
       });
 
       return val;
     }, this);
   }
 
-  var localizedValue = _StringUtil.default.localize(key, bundle, params);
+  var localizedValue = _StringUtil__WEBPACK_IMPORTED_MODULE_3__.default.localize(key, bundle, params);
 
   if (tags.length < 1) {
     // No HTML tags provided - return the localized and escaped string
@@ -5406,44 +5211,33 @@ _handlebars.default.registerHelper('i18n', function (options) {
   var escapedString = hbsEscape(localizedValue);
 
   try {
-    tags.forEach(function (tag) {
+    tags.forEach(tag => {
       escapedString = replaceTagsWithPlaceholders(escapedString, tag.tag, tag.value);
     });
-    return new _handlebars.default.SafeString(escapedString);
+    return new (handlebars__WEBPACK_IMPORTED_MODULE_0___default().SafeString)(escapedString);
   } catch (err) {
-    _Logger.default.error(err.toString());
-
+    _Logger__WEBPACK_IMPORTED_MODULE_2__.default.error(err.toString());
     return localizedValue;
   }
 });
-
-var _default = _handlebars.default;
-exports.default = _default;
-module.exports = exports.default;
+/* harmony default export */ __webpack_exports__["default"] = ((handlebars__WEBPACK_IMPORTED_MODULE_0___default()));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/handlebars/helper-img.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/handlebars/helper-img.js ***!
-  \**********************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-img.ts":
+/*!*****************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-img.ts ***!
+  \*****************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars */ "handlebars");
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
 /* eslint @okta/okta-ui/no-specific-modules: 0 */
+
+
 var CACHE_BUST_URL_PREFIX = '/assets';
 
 function prependCachebustPrefix(path) {
@@ -5454,111 +5248,81 @@ function prependCachebustPrefix(path) {
   return CACHE_BUST_URL_PREFIX + path;
 }
 
-_handlebars.default.registerHelper('img', function (options) {
+handlebars__WEBPACK_IMPORTED_MODULE_0___default().registerHelper('img', function img(options) {
   var cdn = typeof okta !== 'undefined' && okta.cdnUrlHostname || '';
-  /*global okta */
 
-  var hash = _underscoreWrapper.default.pick(options.hash, ['src', 'alt', 'width', 'height', 'class', 'title']);
+  var hash = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.pick(options.hash, ['src', 'alt', 'width', 'height', 'class', 'title']);
 
-  hash.src = '' + cdn + prependCachebustPrefix(hash.src);
+  hash.src = "".concat(cdn).concat(prependCachebustPrefix(hash.src));
 
-  var attrs = _underscoreWrapper.default.map(hash, function (value, attr) {
-    return attr + '="' + (attr === 'src' ? encodeURI(value) : _handlebars.default.Utils.escapeExpression(value)) + '"';
+  var attrs = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.map(hash, (value, attr) => {
+    var encodedValue = attr === 'src' ? encodeURI(value) : handlebars__WEBPACK_IMPORTED_MODULE_0___default().Utils.escapeExpression(value);
+    return "".concat(attr, "=\"").concat(encodedValue, "\"");
   });
 
-  return new _handlebars.default.SafeString('<img ' + attrs.join(' ') + '/>');
+  return new (handlebars__WEBPACK_IMPORTED_MODULE_0___default().SafeString)("<img ".concat(attrs.join(' '), "/>"));
 });
-
-var _default = _handlebars.default;
-exports.default = _default;
-module.exports = exports.default;
+/* harmony default export */ __webpack_exports__["default"] = ((handlebars__WEBPACK_IMPORTED_MODULE_0___default()));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/handlebars/helper-markdown.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/handlebars/helper-markdown.js ***!
-  \***************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-markdown.ts":
+/*!**********************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-markdown.ts ***!
+  \**********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
-
-var _markdownToHtml = _interopRequireDefault(__webpack_require__(/*! ../markdownToHtml */ "./node_modules/@okta/courage/src/util/markdownToHtml.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars */ "handlebars");
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _markdownToHtml__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../markdownToHtml */ "../../../../../../okta/okta-ui/packages/courage/src/util/markdownToHtml.ts");
 /* eslint @okta/okta-ui/no-specific-modules: 0 */
-_handlebars.default.registerHelper('markdown', function (mdText) {
-  return (0, _markdownToHtml.default)(_handlebars.default, mdText);
-});
 
-var _default = _handlebars.default;
-exports.default = _default;
-module.exports = exports.default;
+
+handlebars__WEBPACK_IMPORTED_MODULE_0___default().registerHelper('markdown', function markdown(mdText) {
+  return (0,_markdownToHtml__WEBPACK_IMPORTED_MODULE_1__.default)((handlebars__WEBPACK_IMPORTED_MODULE_0___default()), mdText);
+});
+/* harmony default export */ __webpack_exports__["default"] = ((handlebars__WEBPACK_IMPORTED_MODULE_0___default()));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/handlebars/helper-xsrfTokenInput.js":
-/*!*********************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/handlebars/helper-xsrfTokenInput.js ***!
-  \*********************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-xsrfTokenInput.ts":
+/*!****************************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-xsrfTokenInput.ts ***!
+  \****************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
-
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars */ "handlebars");
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../jquery-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts");
 /* eslint @okta/okta-ui/no-specific-modules: 0 */
-_handlebars.default.registerHelper('xsrfTokenInput', function () {
-  return new _handlebars.default.SafeString('<input type="hidden" class="hide" name="_xsrfToken" ' + 'value="' + (0, _jqueryWrapper.default)('#_xsrfToken').text() + '">');
-});
 
-var _default = _handlebars.default;
-exports.default = _default;
-module.exports = exports.default;
+
+handlebars__WEBPACK_IMPORTED_MODULE_0___default().registerHelper('xsrfTokenInput', function xsrfTokenInput() {
+  return new (handlebars__WEBPACK_IMPORTED_MODULE_0___default().SafeString)("<input type=\"hidden\" class=\"hide\" name=\"_xsrfToken\" value=\"".concat((0,_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default)('#_xsrfToken').text(), "\">"));
+});
+/* harmony default export */ __webpack_exports__["default"] = ((handlebars__WEBPACK_IMPORTED_MODULE_0___default()));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/jquery-wrapper.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/jquery-wrapper.js ***!
-  \***************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts":
+/*!**********************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts ***!
+  \**********************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _jquery = _interopRequireDefault(__webpack_require__(/*! jquery */ "jquery"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /* eslint-disable @okta/okta-ui/enforce-requirejs-names, @okta/okta-ui/no-specific-modules */
-_jquery.default.ajaxSetup({
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default().ajaxSetup({
   beforeSend: function beforeSend(xhr) {
-    xhr.setRequestHeader('X-Okta-XsrfToken', (0, _jquery.default)('#_xsrfToken').text());
+    xhr.setRequestHeader('X-Okta-XsrfToken', jquery__WEBPACK_IMPORTED_MODULE_0___default()('#_xsrfToken').text());
   },
   converters: {
     'text secureJSON': function textSecureJSON(str) {
@@ -5573,36 +5337,29 @@ _jquery.default.ajaxSetup({
 // Widget such as autocomplete and autosuggest needs to be triggered from the running version of jQuery.
 // We have 2 versions of jQuery running in parallel and they don't share the same events bus
 
-
-window.jQueryCourage = _jquery.default;
-var _default = _jquery.default;
-exports.default = _default;
-module.exports = exports.default;
+var oktaJQueryStatic = (jquery__WEBPACK_IMPORTED_MODULE_0___default());
+window.jQueryCourage = oktaJQueryStatic;
+/* harmony default export */ __webpack_exports__["default"] = (oktaJQueryStatic);
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/markdownToHtml.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/markdownToHtml.js ***!
-  \***************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/markdownToHtml.ts":
+/*!**********************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/markdownToHtml.ts ***!
+  \**********************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = mdToHtml;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ mdToHtml; }
+/* harmony export */ });
+/* harmony import */ var _underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
 // Simple "markdown parser" - just handles markdown formatted links. If we
 // find that we need more extensive markdown support, we should include
 // a fully formulated markdown library like:
 // https://github.com/evilstreak/markdown-js
+
 var RE_LINK = /\[[^\]]*\]\([^)]*\)/gi;
 var RE_LINK_HREF = /\]\(([^)]*)\)/i;
 var RE_LINK_TEXT = /\[([^\]]*)\]/i;
@@ -5620,7 +5377,7 @@ function mdToHtml(Handlebars, markdownText) {
 
   var res;
 
-  if (!_underscoreWrapper.default.isString(markdownText)) {
+  if (!_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isString(markdownText)) {
     res = '';
   } else {
     res = Handlebars.Utils.escapeExpression(markdownText).replace(RE_LINK_JS, '').replace(RE_LINK, function (mdLink) {
@@ -5634,77 +5391,2221 @@ function mdToHtml(Handlebars, markdownText) {
   return new Handlebars.SafeString(res);
 }
 
-module.exports = exports.default;
-
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/underscore-wrapper.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/underscore-wrapper.js ***!
-  \*******************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts":
+/*!**************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts ***!
+  \**************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
-
-var _underscore = _interopRequireDefault(__webpack_require__(/*! underscore */ "underscore"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars */ "handlebars");
+/* harmony import */ var handlebars__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! underscore */ "underscore");
+/* harmony import */ var underscore__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(underscore__WEBPACK_IMPORTED_MODULE_1__);
 /* eslint @okta/okta-ui/no-specific-methods: 0, @okta/okta-ui/no-specific-modules: 0 */
-_underscore.default.mixin({
-  resultCtx: function resultCtx(object, property, context, defaultValue) {
-    var value = _underscore.default.isObject(object) ? object[property] : void 0;
 
-    if (_underscore.default.isFunction(value)) {
+
+
+underscore__WEBPACK_IMPORTED_MODULE_1___default().mixin({
+  resultCtx: function resultCtx(object, property, context, defaultValue) {
+    var value = underscore__WEBPACK_IMPORTED_MODULE_1___default().isObject(object) ? object[property] : void 0;
+
+    if (underscore__WEBPACK_IMPORTED_MODULE_1___default().isFunction(value)) {
       value = value.call(context || object);
     }
 
     if (value) {
       return value;
     } else {
-      return !_underscore.default.isUndefined(defaultValue) ? defaultValue : value;
+      return !underscore__WEBPACK_IMPORTED_MODULE_1___default().isUndefined(defaultValue) ? defaultValue : value;
     }
   },
   isInteger: function isInteger(x) {
-    return _underscore.default.isNumber(x) && x % 1 === 0;
+    return underscore__WEBPACK_IMPORTED_MODULE_1___default().isNumber(x) && x % 1 === 0;
   },
   // TODO: This will be deprecated at some point. Views should use precompiled templates
   // eslint-disable-next-line @okta/okta-ui/no-bare-templates
   template: function template(source, data) {
-    var template = _handlebars.default.compile(source);
+    var template = handlebars__WEBPACK_IMPORTED_MODULE_0___default().compile(source);
 
-    return data ? template(data) : function (data) {
+    if (data) {
+      return template(data);
+    }
+
+    var fn = function fn(data) {
       return template(data);
     };
+
+    fn.source = ''; // to conform with "CompiledTemplate" type definition
+
+    return fn;
   }
 });
 
-var _default = _underscore.default;
-exports.default = _default;
-module.exports = exports.default;
+var oktaUnderscore = (underscore__WEBPACK_IMPORTED_MODULE_1___default());
+/* harmony default export */ __webpack_exports__["default"] = (oktaUnderscore);
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/vendor/lib/js.cookie.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/vendor/lib/js.cookie.js ***!
-  \****************************************************************/
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/vendor/lib/backbone.js":
+/*!**********************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/vendor/lib/backbone.js ***!
+  \**********************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Backbone.js 1.4.0
+//     (c) 2010-2019 Jeremy Ashkenas and DocumentCloud
+//     Backbone may be freely distributed under the MIT license.
+//     For all details and documentation:
+//     http://backbonejs.org
+(function (factory) {
+  // Establish the root object, `window` (`self`) in the browser, or `global` on the server.
+  // We use `self` instead of `window` for `WebWorker` support.
+  var root = typeof self == 'object' && self.self === self && self || typeof __webpack_require__.g == 'object' && __webpack_require__.g.global === __webpack_require__.g && __webpack_require__.g; // Set up Backbone appropriately for the environment. Start with AMD.
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! underscore */ "underscore"), __webpack_require__(/*! jquery */ "jquery"), exports], __WEBPACK_AMD_DEFINE_RESULT__ = (function (_, $, exports) {
+      // Export global even in AMD case in case this script is loaded with
+      // others that may still expect a global Backbone.
+      root.Backbone = factory(root, exports, _, $);
+    }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)); // Next for Node.js or CommonJS. jQuery may not be needed as a module.
+  } else { var _, $; }
+})(function (root, Backbone, _, $) {
+  // Initial Setup
+  // -------------
+  // Save the previous value of the `Backbone` variable, so that it can be
+  // restored later on, if `noConflict` is used.
+  var previousBackbone = root.Backbone; // Create a local reference to a common array method we'll want to use later.
 
-/*!
+  var _slice = Array.prototype.slice; // Current version of the library. Keep in sync with `package.json`.
+
+  Backbone.VERSION = '1.4.0'; // For Backbone's purposes, jQuery, Zepto, Ender, or My Library (kidding) owns
+  // the `$` variable.
+
+  Backbone.$ = $; // Runs Backbone.js in *noConflict* mode, returning the `Backbone` variable
+  // to its previous owner. Returns a reference to this Backbone object.
+
+  Backbone.noConflict = function () {
+    root.Backbone = previousBackbone;
+    return this;
+  }; // Turn on `emulateHTTP` to support legacy HTTP servers. Setting this option
+  // will fake `"PATCH"`, `"PUT"` and `"DELETE"` requests via the `_method` parameter and
+  // set a `X-Http-Method-Override` header.
+
+
+  Backbone.emulateHTTP = false; // Turn on `emulateJSON` to support legacy servers that can't deal with direct
+  // `application/json` requests ... this will encode the body as
+  // `application/x-www-form-urlencoded` instead and will send the model in a
+  // form param named `model`.
+
+  Backbone.emulateJSON = false; // Backbone.Events
+  // ---------------
+  // A module that can be mixed in to *any object* in order to provide it with
+  // a custom event channel. You may bind a callback to an event with `on` or
+  // remove with `off`; `trigger`-ing an event fires all callbacks in
+  // succession.
+  //
+  //     var object = {};
+  //     _.extend(object, Backbone.Events);
+  //     object.on('expand', function(){ alert('expanded'); });
+  //     object.trigger('expand');
+  //
+
+  var Events = Backbone.Events = {}; // Regular expression used to split event strings.
+
+  var eventSplitter = /\s+/; // A private global variable to share between listeners and listenees.
+
+  var _listening; // Iterates over the standard `event, callback` (as well as the fancy multiple
+  // space-separated events `"change blur", callback` and jQuery-style event
+  // maps `{event: callback}`).
+
+
+  var eventsApi = function eventsApi(iteratee, events, name, callback, opts) {
+    var i = 0,
+        names;
+
+    if (name && typeof name === 'object') {
+      // Handle event maps.
+      if (callback !== void 0 && 'context' in opts && opts.context === void 0) opts.context = callback;
+
+      for (names = _.keys(name); i < names.length; i++) {
+        events = eventsApi(iteratee, events, names[i], name[names[i]], opts);
+      }
+    } else if (name && eventSplitter.test(name)) {
+      // Handle space-separated event names by delegating them individually.
+      for (names = name.split(eventSplitter); i < names.length; i++) {
+        events = iteratee(events, names[i], callback, opts);
+      }
+    } else {
+      // Finally, standard events.
+      events = iteratee(events, name, callback, opts);
+    }
+
+    return events;
+  }; // Bind an event to a `callback` function. Passing `"all"` will bind
+  // the callback to all events fired.
+
+
+  Events.on = function (name, callback, context) {
+    this._events = eventsApi(onApi, this._events || {}, name, callback, {
+      context: context,
+      ctx: this,
+      listening: _listening
+    });
+
+    if (_listening) {
+      var listeners = this._listeners || (this._listeners = {});
+      listeners[_listening.id] = _listening; // Allow the listening to use a counter, instead of tracking
+      // callbacks for library interop
+
+      _listening.interop = false;
+    }
+
+    return this;
+  }; // Inversion-of-control versions of `on`. Tell *this* object to listen to
+  // an event in another object... keeping track of what it's listening to
+  // for easier unbinding later.
+
+
+  Events.listenTo = function (obj, name, callback) {
+    if (!obj) return this;
+
+    var id = obj._listenId || (obj._listenId = _.uniqueId('l'));
+
+    var listeningTo = this._listeningTo || (this._listeningTo = {});
+    var listening = _listening = listeningTo[id]; // This object is not listening to any other events on `obj` yet.
+    // Setup the necessary references to track the listening callbacks.
+
+    if (!listening) {
+      this._listenId || (this._listenId = _.uniqueId('l'));
+      listening = _listening = listeningTo[id] = new Listening(this, obj);
+    } // Bind callbacks on obj.
+
+
+    var error = tryCatchOn(obj, name, callback, this);
+    _listening = void 0;
+    if (error) throw error; // If the target obj is not Backbone.Events, track events manually.
+
+    if (listening.interop) listening.on(name, callback);
+    return this;
+  }; // The reducing API that adds a callback to the `events` object.
+
+
+  var onApi = function onApi(events, name, callback, options) {
+    if (callback) {
+      var handlers = events[name] || (events[name] = []);
+      var context = options.context,
+          ctx = options.ctx,
+          listening = options.listening;
+      if (listening) listening.count++;
+      handlers.push({
+        callback: callback,
+        context: context,
+        ctx: context || ctx,
+        listening: listening
+      });
+    }
+
+    return events;
+  }; // An try-catch guarded #on function, to prevent poisoning the global
+  // `_listening` variable.
+
+
+  var tryCatchOn = function tryCatchOn(obj, name, callback, context) {
+    try {
+      obj.on(name, callback, context);
+    } catch (e) {
+      return e;
+    }
+  }; // Remove one or many callbacks. If `context` is null, removes all
+  // callbacks with that function. If `callback` is null, removes all
+  // callbacks for the event. If `name` is null, removes all bound
+  // callbacks for all events.
+
+
+  Events.off = function (name, callback, context) {
+    if (!this._events) return this;
+    this._events = eventsApi(offApi, this._events, name, callback, {
+      context: context,
+      listeners: this._listeners
+    });
+    return this;
+  }; // Tell this object to stop listening to either specific events ... or
+  // to every object it's currently listening to.
+
+
+  Events.stopListening = function (obj, name, callback) {
+    var listeningTo = this._listeningTo;
+    if (!listeningTo) return this;
+    var ids = obj ? [obj._listenId] : _.keys(listeningTo);
+
+    for (var i = 0; i < ids.length; i++) {
+      var listening = listeningTo[ids[i]]; // If listening doesn't exist, this object is not currently
+      // listening to obj. Break out early.
+
+      if (!listening) break;
+      listening.obj.off(name, callback, this);
+      if (listening.interop) listening.off(name, callback);
+    }
+
+    if (_.isEmpty(listeningTo)) this._listeningTo = void 0;
+    return this;
+  }; // The reducing API that removes a callback from the `events` object.
+
+
+  var offApi = function offApi(events, name, callback, options) {
+    if (!events) return;
+    var context = options.context,
+        listeners = options.listeners;
+    var i = 0,
+        names; // Delete all event listeners and "drop" events.
+
+    if (!name && !context && !callback) {
+      for (names = _.keys(listeners); i < names.length; i++) {
+        listeners[names[i]].cleanup();
+      }
+
+      return;
+    }
+
+    names = name ? [name] : _.keys(events);
+
+    for (; i < names.length; i++) {
+      name = names[i];
+      var handlers = events[name]; // Bail out if there are no events stored.
+
+      if (!handlers) break; // Find any remaining events.
+
+      var remaining = [];
+
+      for (var j = 0; j < handlers.length; j++) {
+        var handler = handlers[j];
+
+        if (callback && callback !== handler.callback && callback !== handler.callback._callback || context && context !== handler.context) {
+          remaining.push(handler);
+        } else {
+          var listening = handler.listening;
+          if (listening) listening.off(name, callback);
+        }
+      } // Replace events if there are any remaining.  Otherwise, clean up.
+
+
+      if (remaining.length) {
+        events[name] = remaining;
+      } else {
+        delete events[name];
+      }
+    }
+
+    return events;
+  }; // Bind an event to only be triggered a single time. After the first time
+  // the callback is invoked, its listener will be removed. If multiple events
+  // are passed in using the space-separated syntax, the handler will fire
+  // once for each event, not once for a combination of all events.
+
+
+  Events.once = function (name, callback, context) {
+    // Map the event into a `{event: once}` object.
+    var events = eventsApi(onceMap, {}, name, callback, this.off.bind(this));
+    if (typeof name === 'string' && context == null) callback = void 0;
+    return this.on(events, callback, context);
+  }; // Inversion-of-control versions of `once`.
+
+
+  Events.listenToOnce = function (obj, name, callback) {
+    // Map the event into a `{event: once}` object.
+    var events = eventsApi(onceMap, {}, name, callback, this.stopListening.bind(this, obj));
+    return this.listenTo(obj, events);
+  }; // Reduces the event callbacks into a map of `{event: onceWrapper}`.
+  // `offer` unbinds the `onceWrapper` after it has been called.
+
+
+  var onceMap = function onceMap(map, name, callback, offer) {
+    if (callback) {
+      var once = map[name] = _.once(function () {
+        offer(name, once);
+        callback.apply(this, arguments);
+      });
+
+      once._callback = callback;
+    }
+
+    return map;
+  }; // Trigger one or many events, firing all bound callbacks. Callbacks are
+  // passed the same arguments as `trigger` is, apart from the event name
+  // (unless you're listening on `"all"`, which will cause your callback to
+  // receive the true name of the event as the first argument).
+
+
+  Events.trigger = function (name) {
+    if (!this._events) return this;
+    var length = Math.max(0, arguments.length - 1);
+    var args = Array(length);
+
+    for (var i = 0; i < length; i++) {
+      args[i] = arguments[i + 1];
+    }
+
+    eventsApi(triggerApi, this._events, name, void 0, args);
+    return this;
+  }; // Handles triggering the appropriate event callbacks.
+
+
+  var triggerApi = function triggerApi(objEvents, name, callback, args) {
+    if (objEvents) {
+      var events = objEvents[name];
+      var allEvents = objEvents.all;
+      if (events && allEvents) allEvents = allEvents.slice();
+      if (events) triggerEvents(events, args);
+      if (allEvents) triggerEvents(allEvents, [name].concat(args));
+    }
+
+    return objEvents;
+  }; // A difficult-to-believe, but optimized internal dispatch function for
+  // triggering events. Tries to keep the usual cases speedy (most internal
+  // Backbone events have 3 arguments).
+
+
+  var triggerEvents = function triggerEvents(events, args) {
+    var ev,
+        i = -1,
+        l = events.length,
+        a1 = args[0],
+        a2 = args[1],
+        a3 = args[2];
+
+    switch (args.length) {
+      case 0:
+        while (++i < l) {
+          (ev = events[i]).callback.call(ev.ctx);
+        }
+
+        return;
+
+      case 1:
+        while (++i < l) {
+          (ev = events[i]).callback.call(ev.ctx, a1);
+        }
+
+        return;
+
+      case 2:
+        while (++i < l) {
+          (ev = events[i]).callback.call(ev.ctx, a1, a2);
+        }
+
+        return;
+
+      case 3:
+        while (++i < l) {
+          (ev = events[i]).callback.call(ev.ctx, a1, a2, a3);
+        }
+
+        return;
+
+      default:
+        while (++i < l) {
+          (ev = events[i]).callback.apply(ev.ctx, args);
+        }
+
+        return;
+    }
+  }; // A listening class that tracks and cleans up memory bindings
+  // when all callbacks have been offed.
+
+
+  var Listening = function Listening(listener, obj) {
+    this.id = listener._listenId;
+    this.listener = listener;
+    this.obj = obj;
+    this.interop = true;
+    this.count = 0;
+    this._events = void 0;
+  };
+
+  Listening.prototype.on = Events.on; // Offs a callback (or several).
+  // Uses an optimized counter if the listenee uses Backbone.Events.
+  // Otherwise, falls back to manual tracking to support events
+  // library interop.
+
+  Listening.prototype.off = function (name, callback) {
+    var cleanup;
+
+    if (this.interop) {
+      this._events = eventsApi(offApi, this._events, name, callback, {
+        context: void 0,
+        listeners: void 0
+      });
+      cleanup = !this._events;
+    } else {
+      this.count--;
+      cleanup = this.count === 0;
+    }
+
+    if (cleanup) this.cleanup();
+  }; // Cleans up memory bindings between the listener and the listenee.
+
+
+  Listening.prototype.cleanup = function () {
+    delete this.listener._listeningTo[this.obj._listenId];
+    if (!this.interop) delete this.obj._listeners[this.id];
+  }; // Aliases for backwards compatibility.
+
+
+  Events.bind = Events.on;
+  Events.unbind = Events.off; // Allow the `Backbone` object to serve as a global event bus, for folks who
+  // want global "pubsub" in a convenient place.
+
+  _.extend(Backbone, Events); // Backbone.Model
+  // --------------
+  // Backbone **Models** are the basic data object in the framework --
+  // frequently representing a row in a table in a database on your server.
+  // A discrete chunk of data and a bunch of useful, related methods for
+  // performing computations and transformations on that data.
+  // Create a new model with the specified attributes. A client id (`cid`)
+  // is automatically generated and assigned for you.
+
+
+  var Model = Backbone.Model = function (attributes, options) {
+    var attrs = attributes || {};
+    options || (options = {});
+    this.preinitialize.apply(this, arguments);
+    this.cid = _.uniqueId(this.cidPrefix);
+    this.attributes = {};
+    if (options.collection) this.collection = options.collection;
+    if (options.parse) attrs = this.parse(attrs, options) || {};
+
+    var defaults = _.result(this, 'defaults');
+
+    attrs = _.defaults(_.extend({}, defaults, attrs), defaults);
+    this.set(attrs, options);
+    this.changed = {};
+    this.initialize.apply(this, arguments);
+  }; // Attach all inheritable methods to the Model prototype.
+
+
+  _.extend(Model.prototype, Events, {
+    // A hash of attributes whose current and previous value differ.
+    changed: null,
+    // The value returned during the last failed validation.
+    validationError: null,
+    // The default name for the JSON `id` attribute is `"id"`. MongoDB and
+    // CouchDB users may want to set this to `"_id"`.
+    idAttribute: 'id',
+    // The prefix is used to create the client id which is used to identify models locally.
+    // You may want to override this if you're experiencing name clashes with model ids.
+    cidPrefix: 'c',
+    // preinitialize is an empty function by default. You can override it with a function
+    // or object.  preinitialize will run before any instantiation logic is run in the Model.
+    preinitialize: function preinitialize() {},
+    // Initialize is an empty function by default. Override it with your own
+    // initialization logic.
+    initialize: function initialize() {},
+    // Return a copy of the model's `attributes` object.
+    toJSON: function toJSON(options) {
+      return _.clone(this.attributes);
+    },
+    // Proxy `Backbone.sync` by default -- but override this if you need
+    // custom syncing semantics for *this* particular model.
+    sync: function sync() {
+      return Backbone.sync.apply(this, arguments);
+    },
+    // Get the value of an attribute.
+    get: function get(attr) {
+      return this.attributes[attr];
+    },
+    // Get the HTML-escaped value of an attribute.
+    escape: function escape(attr) {
+      return _.escape(this.get(attr));
+    },
+    // Returns `true` if the attribute contains a value that is not null
+    // or undefined.
+    has: function has(attr) {
+      return this.get(attr) != null;
+    },
+    // Special-cased proxy to underscore's `_.matches` method.
+    matches: function matches(attrs) {
+      return !!_.iteratee(attrs, this)(this.attributes);
+    },
+    // Set a hash of model attributes on the object, firing `"change"`. This is
+    // the core primitive operation of a model, updating the data and notifying
+    // anyone who needs to know about the change in state. The heart of the beast.
+    set: function set(key, val, options) {
+      if (key == null) return this; // Handle both `"key", value` and `{key: value}` -style arguments.
+
+      var attrs;
+
+      if (typeof key === 'object') {
+        attrs = key;
+        options = val;
+      } else {
+        (attrs = {})[key] = val;
+      }
+
+      options || (options = {}); // Run validation.
+
+      if (!this._validate(attrs, options)) return false; // Extract attributes and options.
+
+      var unset = options.unset;
+      var silent = options.silent;
+      var changes = [];
+      var changing = this._changing;
+      this._changing = true;
+
+      if (!changing) {
+        this._previousAttributes = _.clone(this.attributes);
+        this.changed = {};
+      }
+
+      var current = this.attributes;
+      var changed = this.changed;
+      var prev = this._previousAttributes; // For each `set` attribute, update or delete the current value.
+
+      for (var attr in attrs) {
+        val = attrs[attr];
+        if (!_.isEqual(current[attr], val)) changes.push(attr);
+
+        if (!_.isEqual(prev[attr], val)) {
+          changed[attr] = val;
+        } else {
+          delete changed[attr];
+        }
+
+        unset ? delete current[attr] : current[attr] = val;
+      } // Update the `id`.
+
+
+      if (this.idAttribute in attrs) this.id = this.get(this.idAttribute); // Trigger all relevant attribute changes.
+
+      if (!silent) {
+        if (changes.length) this._pending = options;
+
+        for (var i = 0; i < changes.length; i++) {
+          this.trigger('change:' + changes[i], this, current[changes[i]], options);
+        }
+      } // You might be wondering why there's a `while` loop here. Changes can
+      // be recursively nested within `"change"` events.
+
+
+      if (changing) return this;
+
+      if (!silent) {
+        while (this._pending) {
+          options = this._pending;
+          this._pending = false;
+          this.trigger('change', this, options);
+        }
+      }
+
+      this._pending = false;
+      this._changing = false;
+      return this;
+    },
+    // Remove an attribute from the model, firing `"change"`. `unset` is a noop
+    // if the attribute doesn't exist.
+    unset: function unset(attr, options) {
+      return this.set(attr, void 0, _.extend({}, options, {
+        unset: true
+      }));
+    },
+    // Clear all attributes on the model, firing `"change"`.
+    clear: function clear(options) {
+      var attrs = {};
+
+      for (var key in this.attributes) {
+        attrs[key] = void 0;
+      }
+
+      return this.set(attrs, _.extend({}, options, {
+        unset: true
+      }));
+    },
+    // Determine if the model has changed since the last `"change"` event.
+    // If you specify an attribute name, determine if that attribute has changed.
+    hasChanged: function hasChanged(attr) {
+      if (attr == null) return !_.isEmpty(this.changed);
+      return _.has(this.changed, attr);
+    },
+    // Return an object containing all the attributes that have changed, or
+    // false if there are no changed attributes. Useful for determining what
+    // parts of a view need to be updated and/or what attributes need to be
+    // persisted to the server. Unset attributes will be set to undefined.
+    // You can also pass an attributes object to diff against the model,
+    // determining if there *would be* a change.
+    changedAttributes: function changedAttributes(diff) {
+      if (!diff) return this.hasChanged() ? _.clone(this.changed) : false;
+      var old = this._changing ? this._previousAttributes : this.attributes;
+      var changed = {};
+      var hasChanged;
+
+      for (var attr in diff) {
+        var val = diff[attr];
+        if (_.isEqual(old[attr], val)) continue;
+        changed[attr] = val;
+        hasChanged = true;
+      }
+
+      return hasChanged ? changed : false;
+    },
+    // Get the previous value of an attribute, recorded at the time the last
+    // `"change"` event was fired.
+    previous: function previous(attr) {
+      if (attr == null || !this._previousAttributes) return null;
+      return this._previousAttributes[attr];
+    },
+    // Get all of the attributes of the model at the time of the previous
+    // `"change"` event.
+    previousAttributes: function previousAttributes() {
+      return _.clone(this._previousAttributes);
+    },
+    // Fetch the model from the server, merging the response with the model's
+    // local attributes. Any changed attributes will trigger a "change" event.
+    fetch: function fetch(options) {
+      options = _.extend({
+        parse: true
+      }, options);
+      var model = this;
+      var success = options.success;
+
+      options.success = function (resp) {
+        var serverAttrs = options.parse ? model.parse(resp, options) : resp;
+        if (!model.set(serverAttrs, options)) return false;
+        if (success) success.call(options.context, model, resp, options);
+        model.trigger('sync', model, resp, options);
+      };
+
+      wrapError(this, options);
+      return this.sync('read', this, options);
+    },
+    // Set a hash of model attributes, and sync the model to the server.
+    // If the server returns an attributes hash that differs, the model's
+    // state will be `set` again.
+    save: function save(key, val, options) {
+      // Handle both `"key", value` and `{key: value}` -style arguments.
+      var attrs;
+
+      if (key == null || typeof key === 'object') {
+        attrs = key;
+        options = val;
+      } else {
+        (attrs = {})[key] = val;
+      }
+
+      options = _.extend({
+        validate: true,
+        parse: true
+      }, options);
+      var wait = options.wait; // If we're not waiting and attributes exist, save acts as
+      // `set(attr).save(null, opts)` with validation. Otherwise, check if
+      // the model will be valid when the attributes, if any, are set.
+
+      if (attrs && !wait) {
+        if (!this.set(attrs, options)) return false;
+      } else if (!this._validate(attrs, options)) {
+        return false;
+      } // After a successful server-side save, the client is (optionally)
+      // updated with the server-side state.
+
+
+      var model = this;
+      var success = options.success;
+      var attributes = this.attributes;
+
+      options.success = function (resp) {
+        // Ensure attributes are restored during synchronous saves.
+        model.attributes = attributes;
+        var serverAttrs = options.parse ? model.parse(resp, options) : resp;
+        if (wait) serverAttrs = _.extend({}, attrs, serverAttrs);
+        if (serverAttrs && !model.set(serverAttrs, options)) return false;
+        if (success) success.call(options.context, model, resp, options);
+        model.trigger('sync', model, resp, options);
+      };
+
+      wrapError(this, options); // Set temporary attributes if `{wait: true}` to properly find new ids.
+
+      if (attrs && wait) this.attributes = _.extend({}, attributes, attrs);
+      var method = this.isNew() ? 'create' : options.patch ? 'patch' : 'update';
+      if (method === 'patch' && !options.attrs) options.attrs = attrs;
+      var xhr = this.sync(method, this, options); // Restore attributes.
+
+      this.attributes = attributes;
+      return xhr;
+    },
+    // Destroy this model on the server if it was already persisted.
+    // Optimistically removes the model from its collection, if it has one.
+    // If `wait: true` is passed, waits for the server to respond before removal.
+    destroy: function destroy(options) {
+      options = options ? _.clone(options) : {};
+      var model = this;
+      var success = options.success;
+      var wait = options.wait;
+
+      var destroy = function destroy() {
+        model.stopListening();
+        model.trigger('destroy', model, model.collection, options);
+      };
+
+      options.success = function (resp) {
+        if (wait) destroy();
+        if (success) success.call(options.context, model, resp, options);
+        if (!model.isNew()) model.trigger('sync', model, resp, options);
+      };
+
+      var xhr = false;
+
+      if (this.isNew()) {
+        _.defer(options.success);
+      } else {
+        wrapError(this, options);
+        xhr = this.sync('delete', this, options);
+      }
+
+      if (!wait) destroy();
+      return xhr;
+    },
+    // Default URL for the model's representation on the server -- if you're
+    // using Backbone's restful methods, override this to change the endpoint
+    // that will be called.
+    url: function url() {
+      var base = _.result(this, 'urlRoot') || _.result(this.collection, 'url') || urlError();
+      if (this.isNew()) return base;
+      var id = this.get(this.idAttribute);
+      return base.replace(/[^\/]$/, '$&/') + encodeURIComponent(id);
+    },
+    // **parse** converts a response into the hash of attributes to be `set` on
+    // the model. The default implementation is just to pass the response along.
+    parse: function parse(resp, options) {
+      return resp;
+    },
+    // Create a new model with identical attributes to this one.
+    clone: function clone() {
+      return new this.constructor(this.attributes);
+    },
+    // A model is new if it has never been saved to the server, and lacks an id.
+    isNew: function isNew() {
+      return !this.has(this.idAttribute);
+    },
+    // Check if the model is currently in a valid state.
+    isValid: function isValid(options) {
+      return this._validate({}, _.extend({}, options, {
+        validate: true
+      }));
+    },
+    // Run validation against the next complete set of model attributes,
+    // returning `true` if all is well. Otherwise, fire an `"invalid"` event.
+    _validate: function _validate(attrs, options) {
+      if (!options.validate || !this.validate) return true;
+      attrs = _.extend({}, this.attributes, attrs);
+      var error = this.validationError = this.validate(attrs, options) || null;
+      if (!error) return true;
+      this.trigger('invalid', this, error, _.extend(options, {
+        validationError: error
+      }));
+      return false;
+    }
+  }); // Backbone.Collection
+  // -------------------
+  // If models tend to represent a single row of data, a Backbone Collection is
+  // more analogous to a table full of data ... or a small slice or page of that
+  // table, or a collection of rows that belong together for a particular reason
+  // -- all of the messages in this particular folder, all of the documents
+  // belonging to this particular author, and so on. Collections maintain
+  // indexes of their models, both in order, and for lookup by `id`.
+  // Create a new **Collection**, perhaps to contain a specific type of `model`.
+  // If a `comparator` is specified, the Collection will maintain
+  // its models in sort order, as they're added and removed.
+
+
+  var Collection = Backbone.Collection = function (models, options) {
+    options || (options = {});
+    this.preinitialize.apply(this, arguments);
+    if (options.model) this.model = options.model;
+    if (options.comparator !== void 0) this.comparator = options.comparator;
+
+    this._reset();
+
+    this.initialize.apply(this, arguments);
+    if (models) this.reset(models, _.extend({
+      silent: true
+    }, options));
+  }; // Default options for `Collection#set`.
+
+
+  var setOptions = {
+    add: true,
+    remove: true,
+    merge: true
+  };
+  var addOptions = {
+    add: true,
+    remove: false
+  }; // Splices `insert` into `array` at index `at`.
+
+  var splice = function splice(array, insert, at) {
+    at = Math.min(Math.max(at, 0), array.length);
+    var tail = Array(array.length - at);
+    var length = insert.length;
+    var i;
+
+    for (i = 0; i < tail.length; i++) {
+      tail[i] = array[i + at];
+    }
+
+    for (i = 0; i < length; i++) {
+      array[i + at] = insert[i];
+    }
+
+    for (i = 0; i < tail.length; i++) {
+      array[i + length + at] = tail[i];
+    }
+  }; // Define the Collection's inheritable methods.
+
+
+  _.extend(Collection.prototype, Events, {
+    // The default model for a collection is just a **Backbone.Model**.
+    // This should be overridden in most cases.
+    model: Model,
+    // preinitialize is an empty function by default. You can override it with a function
+    // or object.  preinitialize will run before any instantiation logic is run in the Collection.
+    preinitialize: function preinitialize() {},
+    // Initialize is an empty function by default. Override it with your own
+    // initialization logic.
+    initialize: function initialize() {},
+    // The JSON representation of a Collection is an array of the
+    // models' attributes.
+    toJSON: function toJSON(options) {
+      return this.map(function (model) {
+        return model.toJSON(options);
+      });
+    },
+    // Proxy `Backbone.sync` by default.
+    sync: function sync() {
+      return Backbone.sync.apply(this, arguments);
+    },
+    // Add a model, or list of models to the set. `models` may be Backbone
+    // Models or raw JavaScript objects to be converted to Models, or any
+    // combination of the two.
+    add: function add(models, options) {
+      return this.set(models, _.extend({
+        merge: false
+      }, options, addOptions));
+    },
+    // Remove a model, or a list of models from the set.
+    remove: function remove(models, options) {
+      options = _.extend({}, options);
+      var singular = !_.isArray(models);
+      models = singular ? [models] : models.slice();
+
+      var removed = this._removeModels(models, options);
+
+      if (!options.silent && removed.length) {
+        options.changes = {
+          added: [],
+          merged: [],
+          removed: removed
+        };
+        this.trigger('update', this, options);
+      }
+
+      return singular ? removed[0] : removed;
+    },
+    // Update a collection by `set`-ing a new list of models, adding new ones,
+    // removing models that are no longer present, and merging models that
+    // already exist in the collection, as necessary. Similar to **Model#set**,
+    // the core operation for updating the data contained by the collection.
+    set: function set(models, options) {
+      if (models == null) return;
+      options = _.extend({}, setOptions, options);
+
+      if (options.parse && !this._isModel(models)) {
+        models = this.parse(models, options) || [];
+      }
+
+      var singular = !_.isArray(models);
+      models = singular ? [models] : models.slice();
+      var at = options.at;
+      if (at != null) at = +at;
+      if (at > this.length) at = this.length;
+      if (at < 0) at += this.length + 1;
+      var set = [];
+      var toAdd = [];
+      var toMerge = [];
+      var toRemove = [];
+      var modelMap = {};
+      var add = options.add;
+      var merge = options.merge;
+      var remove = options.remove;
+      var sort = false;
+      var sortable = this.comparator && at == null && options.sort !== false;
+      var sortAttr = _.isString(this.comparator) ? this.comparator : null; // Turn bare objects into model references, and prevent invalid models
+      // from being added.
+
+      var model, i;
+
+      for (i = 0; i < models.length; i++) {
+        model = models[i]; // If a duplicate is found, prevent it from being added and
+        // optionally merge it into the existing model.
+
+        var existing = this.get(model);
+
+        if (existing) {
+          if (merge && model !== existing) {
+            var attrs = this._isModel(model) ? model.attributes : model;
+            if (options.parse) attrs = existing.parse(attrs, options);
+            existing.set(attrs, options);
+            toMerge.push(existing);
+            if (sortable && !sort) sort = existing.hasChanged(sortAttr);
+          }
+
+          if (!modelMap[existing.cid]) {
+            modelMap[existing.cid] = true;
+            set.push(existing);
+          }
+
+          models[i] = existing; // If this is a new, valid model, push it to the `toAdd` list.
+        } else if (add) {
+          model = models[i] = this._prepareModel(model, options);
+
+          if (model) {
+            toAdd.push(model);
+
+            this._addReference(model, options);
+
+            modelMap[model.cid] = true;
+            set.push(model);
+          }
+        }
+      } // Remove stale models.
+
+
+      if (remove) {
+        for (i = 0; i < this.length; i++) {
+          model = this.models[i];
+          if (!modelMap[model.cid]) toRemove.push(model);
+        }
+
+        if (toRemove.length) this._removeModels(toRemove, options);
+      } // See if sorting is needed, update `length` and splice in new models.
+
+
+      var orderChanged = false;
+      var replace = !sortable && add && remove;
+
+      if (set.length && replace) {
+        orderChanged = this.length !== set.length || _.some(this.models, function (m, index) {
+          return m !== set[index];
+        });
+        this.models.length = 0;
+        splice(this.models, set, 0);
+        this.length = this.models.length;
+      } else if (toAdd.length) {
+        if (sortable) sort = true;
+        splice(this.models, toAdd, at == null ? this.length : at);
+        this.length = this.models.length;
+      } // Silently sort the collection if appropriate.
+
+
+      if (sort) this.sort({
+        silent: true
+      }); // Unless silenced, it's time to fire all appropriate add/sort/update events.
+
+      if (!options.silent) {
+        for (i = 0; i < toAdd.length; i++) {
+          if (at != null) options.index = at + i;
+          model = toAdd[i];
+          model.trigger('add', model, this, options);
+        }
+
+        if (sort || orderChanged) this.trigger('sort', this, options);
+
+        if (toAdd.length || toRemove.length || toMerge.length) {
+          options.changes = {
+            added: toAdd,
+            removed: toRemove,
+            merged: toMerge
+          };
+          this.trigger('update', this, options);
+        }
+      } // Return the added (or merged) model (or models).
+
+
+      return singular ? models[0] : models;
+    },
+    // When you have more items than you want to add or remove individually,
+    // you can reset the entire set with a new list of models, without firing
+    // any granular `add` or `remove` events. Fires `reset` when finished.
+    // Useful for bulk operations and optimizations.
+    reset: function reset(models, options) {
+      options = options ? _.clone(options) : {};
+
+      for (var i = 0; i < this.models.length; i++) {
+        this._removeReference(this.models[i], options);
+      }
+
+      options.previousModels = this.models;
+
+      this._reset();
+
+      models = this.add(models, _.extend({
+        silent: true
+      }, options));
+      if (!options.silent) this.trigger('reset', this, options);
+      return models;
+    },
+    // Add a model to the end of the collection.
+    push: function push(model, options) {
+      return this.add(model, _.extend({
+        at: this.length
+      }, options));
+    },
+    // Remove a model from the end of the collection.
+    pop: function pop(options) {
+      var model = this.at(this.length - 1);
+      return this.remove(model, options);
+    },
+    // Add a model to the beginning of the collection.
+    unshift: function unshift(model, options) {
+      return this.add(model, _.extend({
+        at: 0
+      }, options));
+    },
+    // Remove a model from the beginning of the collection.
+    shift: function shift(options) {
+      var model = this.at(0);
+      return this.remove(model, options);
+    },
+    // Slice out a sub-array of models from the collection.
+    slice: function slice() {
+      return _slice.apply(this.models, arguments);
+    },
+    // Get a model from the set by id, cid, model object with id or cid
+    // properties, or an attributes object that is transformed through modelId.
+    get: function get(obj) {
+      if (obj == null) return void 0;
+      return this._byId[obj] || this._byId[this.modelId(this._isModel(obj) ? obj.attributes : obj)] || obj.cid && this._byId[obj.cid];
+    },
+    // Returns `true` if the model is in the collection.
+    has: function has(obj) {
+      return this.get(obj) != null;
+    },
+    // Get the model at the given index.
+    at: function at(index) {
+      if (index < 0) index += this.length;
+      return this.models[index];
+    },
+    // Return models with matching attributes. Useful for simple cases of
+    // `filter`.
+    where: function where(attrs, first) {
+      return this[first ? 'find' : 'filter'](attrs);
+    },
+    // Return the first model with matching attributes. Useful for simple cases
+    // of `find`.
+    findWhere: function findWhere(attrs) {
+      return this.where(attrs, true);
+    },
+    // Force the collection to re-sort itself. You don't need to call this under
+    // normal circumstances, as the set will maintain sort order as each item
+    // is added.
+    sort: function sort(options) {
+      var comparator = this.comparator;
+      if (!comparator) throw new Error('Cannot sort a set without a comparator');
+      options || (options = {});
+      var length = comparator.length;
+      if (_.isFunction(comparator)) comparator = comparator.bind(this); // Run sort based on type of `comparator`.
+
+      if (length === 1 || _.isString(comparator)) {
+        this.models = this.sortBy(comparator);
+      } else {
+        this.models.sort(comparator);
+      }
+
+      if (!options.silent) this.trigger('sort', this, options);
+      return this;
+    },
+    // Pluck an attribute from each model in the collection.
+    pluck: function pluck(attr) {
+      return this.map(attr + '');
+    },
+    // Fetch the default set of models for this collection, resetting the
+    // collection when they arrive. If `reset: true` is passed, the response
+    // data will be passed through the `reset` method instead of `set`.
+    fetch: function fetch(options) {
+      options = _.extend({
+        parse: true
+      }, options);
+      var success = options.success;
+      var collection = this;
+
+      options.success = function (resp) {
+        var method = options.reset ? 'reset' : 'set';
+        collection[method](resp, options);
+        if (success) success.call(options.context, collection, resp, options);
+        collection.trigger('sync', collection, resp, options);
+      };
+
+      wrapError(this, options);
+      return this.sync('read', this, options);
+    },
+    // Create a new instance of a model in this collection. Add the model to the
+    // collection immediately, unless `wait: true` is passed, in which case we
+    // wait for the server to agree.
+    create: function create(model, options) {
+      options = options ? _.clone(options) : {};
+      var wait = options.wait;
+      model = this._prepareModel(model, options);
+      if (!model) return false;
+      if (!wait) this.add(model, options);
+      var collection = this;
+      var success = options.success;
+
+      options.success = function (m, resp, callbackOpts) {
+        if (wait) collection.add(m, callbackOpts);
+        if (success) success.call(callbackOpts.context, m, resp, callbackOpts);
+      };
+
+      model.save(null, options);
+      return model;
+    },
+    // **parse** converts a response into a list of models to be added to the
+    // collection. The default implementation is just to pass it through.
+    parse: function parse(resp, options) {
+      return resp;
+    },
+    // Create a new collection with an identical list of models as this one.
+    clone: function clone() {
+      return new this.constructor(this.models, {
+        model: this.model,
+        comparator: this.comparator
+      });
+    },
+    // Define how to uniquely identify models in the collection.
+    modelId: function modelId(attrs) {
+      return attrs[this.model.prototype.idAttribute || 'id'];
+    },
+    // Get an iterator of all models in this collection.
+    values: function values() {
+      return new CollectionIterator(this, ITERATOR_VALUES);
+    },
+    // Get an iterator of all model IDs in this collection.
+    keys: function keys() {
+      return new CollectionIterator(this, ITERATOR_KEYS);
+    },
+    // Get an iterator of all [ID, model] tuples in this collection.
+    entries: function entries() {
+      return new CollectionIterator(this, ITERATOR_KEYSVALUES);
+    },
+    // Private method to reset all internal state. Called when the collection
+    // is first initialized or reset.
+    _reset: function _reset() {
+      this.length = 0;
+      this.models = [];
+      this._byId = {};
+    },
+    // Prepare a hash of attributes (or other model) to be added to this
+    // collection.
+    _prepareModel: function _prepareModel(attrs, options) {
+      if (this._isModel(attrs)) {
+        if (!attrs.collection) attrs.collection = this;
+        return attrs;
+      }
+
+      options = options ? _.clone(options) : {};
+      options.collection = this;
+      var model = new this.model(attrs, options);
+      if (!model.validationError) return model;
+      this.trigger('invalid', this, model.validationError, options);
+      return false;
+    },
+    // Internal method called by both remove and set.
+    _removeModels: function _removeModels(models, options) {
+      var removed = [];
+
+      for (var i = 0; i < models.length; i++) {
+        var model = this.get(models[i]);
+        if (!model) continue;
+        var index = this.indexOf(model);
+        this.models.splice(index, 1);
+        this.length--; // Remove references before triggering 'remove' event to prevent an
+        // infinite loop. #3693
+
+        delete this._byId[model.cid];
+        var id = this.modelId(model.attributes);
+        if (id != null) delete this._byId[id];
+
+        if (!options.silent) {
+          options.index = index;
+          model.trigger('remove', model, this, options);
+        }
+
+        removed.push(model);
+
+        this._removeReference(model, options);
+      }
+
+      return removed;
+    },
+    // Method for checking whether an object should be considered a model for
+    // the purposes of adding to the collection.
+    _isModel: function _isModel(model) {
+      return model instanceof Model;
+    },
+    // Internal method to create a model's ties to a collection.
+    _addReference: function _addReference(model, options) {
+      this._byId[model.cid] = model;
+      var id = this.modelId(model.attributes);
+      if (id != null) this._byId[id] = model;
+      model.on('all', this._onModelEvent, this);
+    },
+    // Internal method to sever a model's ties to a collection.
+    _removeReference: function _removeReference(model, options) {
+      delete this._byId[model.cid];
+      var id = this.modelId(model.attributes);
+      if (id != null) delete this._byId[id];
+      if (this === model.collection) delete model.collection;
+      model.off('all', this._onModelEvent, this);
+    },
+    // Internal method called every time a model in the set fires an event.
+    // Sets need to update their indexes when models change ids. All other
+    // events simply proxy through. "add" and "remove" events that originate
+    // in other collections are ignored.
+    _onModelEvent: function _onModelEvent(event, model, collection, options) {
+      if (model) {
+        if ((event === 'add' || event === 'remove') && collection !== this) return;
+        if (event === 'destroy') this.remove(model, options);
+
+        if (event === 'change') {
+          var prevId = this.modelId(model.previousAttributes());
+          var id = this.modelId(model.attributes);
+
+          if (prevId !== id) {
+            if (prevId != null) delete this._byId[prevId];
+            if (id != null) this._byId[id] = model;
+          }
+        }
+      }
+
+      this.trigger.apply(this, arguments);
+    }
+  }); // Defining an @@iterator method implements JavaScript's Iterable protocol.
+  // In modern ES2015 browsers, this value is found at Symbol.iterator.
+
+  /* global Symbol */
+
+
+  var $$iterator = typeof Symbol === 'function' && Symbol.iterator;
+
+  if ($$iterator) {
+    Collection.prototype[$$iterator] = Collection.prototype.values;
+  } // CollectionIterator
+  // ------------------
+  // A CollectionIterator implements JavaScript's Iterator protocol, allowing the
+  // use of `for of` loops in modern browsers and interoperation between
+  // Backbone.Collection and other JavaScript functions and third-party libraries
+  // which can operate on Iterables.
+
+
+  var CollectionIterator = function CollectionIterator(collection, kind) {
+    this._collection = collection;
+    this._kind = kind;
+    this._index = 0;
+  }; // This "enum" defines the three possible kinds of values which can be emitted
+  // by a CollectionIterator that correspond to the values(), keys() and entries()
+  // methods on Collection, respectively.
+
+
+  var ITERATOR_VALUES = 1;
+  var ITERATOR_KEYS = 2;
+  var ITERATOR_KEYSVALUES = 3; // All Iterators should themselves be Iterable.
+
+  if ($$iterator) {
+    CollectionIterator.prototype[$$iterator] = function () {
+      return this;
+    };
+  }
+
+  CollectionIterator.prototype.next = function () {
+    if (this._collection) {
+      // Only continue iterating if the iterated collection is long enough.
+      if (this._index < this._collection.length) {
+        var model = this._collection.at(this._index);
+
+        this._index++; // Construct a value depending on what kind of values should be iterated.
+
+        var value;
+
+        if (this._kind === ITERATOR_VALUES) {
+          value = model;
+        } else {
+          var id = this._collection.modelId(model.attributes);
+
+          if (this._kind === ITERATOR_KEYS) {
+            value = id;
+          } else {
+            // ITERATOR_KEYSVALUES
+            value = [id, model];
+          }
+        }
+
+        return {
+          value: value,
+          done: false
+        };
+      } // Once exhausted, remove the reference to the collection so future
+      // calls to the next method always return done.
+
+
+      this._collection = void 0;
+    }
+
+    return {
+      value: void 0,
+      done: true
+    };
+  }; // Backbone.View
+  // -------------
+  // Backbone Views are almost more convention than they are actual code. A View
+  // is simply a JavaScript object that represents a logical chunk of UI in the
+  // DOM. This might be a single item, an entire list, a sidebar or panel, or
+  // even the surrounding frame which wraps your whole app. Defining a chunk of
+  // UI as a **View** allows you to define your DOM events declaratively, without
+  // having to worry about render order ... and makes it easy for the view to
+  // react to specific changes in the state of your models.
+  // Creating a Backbone.View creates its initial element outside of the DOM,
+  // if an existing element is not provided...
+
+
+  var View = Backbone.View = function (options) {
+    this.cid = _.uniqueId('view');
+    this.preinitialize.apply(this, arguments);
+
+    _.extend(this, _.pick(options, viewOptions));
+
+    this._ensureElement();
+
+    this.initialize.apply(this, arguments);
+  }; // Cached regex to split keys for `delegate`.
+
+
+  var delegateEventSplitter = /^(\S+)\s*(.*)$/; // List of view options to be set as properties.
+
+  var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events']; // Set up all inheritable **Backbone.View** properties and methods.
+
+  _.extend(View.prototype, Events, {
+    // The default `tagName` of a View's element is `"div"`.
+    tagName: 'div',
+    // jQuery delegate for element lookup, scoped to DOM elements within the
+    // current view. This should be preferred to global lookups where possible.
+    $: function $(selector) {
+      return this.$el.find(selector);
+    },
+    // preinitialize is an empty function by default. You can override it with a function
+    // or object.  preinitialize will run before any instantiation logic is run in the View
+    preinitialize: function preinitialize() {},
+    // Initialize is an empty function by default. Override it with your own
+    // initialization logic.
+    initialize: function initialize() {},
+    // **render** is the core function that your view should override, in order
+    // to populate its element (`this.el`), with the appropriate HTML. The
+    // convention is for **render** to always return `this`.
+    render: function render() {
+      return this;
+    },
+    // Remove this view by taking the element out of the DOM, and removing any
+    // applicable Backbone.Events listeners.
+    remove: function remove() {
+      this._removeElement();
+
+      this.stopListening();
+      return this;
+    },
+    // Remove this view's element from the document and all event listeners
+    // attached to it. Exposed for subclasses using an alternative DOM
+    // manipulation API.
+    _removeElement: function _removeElement() {
+      this.$el.remove();
+    },
+    // Change the view's element (`this.el` property) and re-delegate the
+    // view's events on the new element.
+    setElement: function setElement(element) {
+      this.undelegateEvents();
+
+      this._setElement(element);
+
+      this.delegateEvents();
+      return this;
+    },
+    // Creates the `this.el` and `this.$el` references for this view using the
+    // given `el`. `el` can be a CSS selector or an HTML string, a jQuery
+    // context or an element. Subclasses can override this to utilize an
+    // alternative DOM manipulation API and are only required to set the
+    // `this.el` property.
+    _setElement: function _setElement(el) {
+      this.$el = el instanceof Backbone.$ ? el : Backbone.$(el);
+      this.el = this.$el[0];
+    },
+    // Set callbacks, where `this.events` is a hash of
+    //
+    // *{"event selector": "callback"}*
+    //
+    //     {
+    //       'mousedown .title':  'edit',
+    //       'click .button':     'save',
+    //       'click .open':       function(e) { ... }
+    //     }
+    //
+    // pairs. Callbacks will be bound to the view, with `this` set properly.
+    // Uses event delegation for efficiency.
+    // Omitting the selector binds the event to `this.el`.
+    delegateEvents: function delegateEvents(events) {
+      events || (events = _.result(this, 'events'));
+      if (!events) return this;
+      this.undelegateEvents();
+
+      for (var key in events) {
+        var method = events[key];
+        if (!_.isFunction(method)) method = this[method];
+        if (!method) continue;
+        var match = key.match(delegateEventSplitter);
+        this.delegate(match[1], match[2], method.bind(this));
+      }
+
+      return this;
+    },
+    // Add a single event listener to the view's element (or a child element
+    // using `selector`). This only works for delegate-able events: not `focus`,
+    // `blur`, and not `change`, `submit`, and `reset` in Internet Explorer.
+    delegate: function delegate(eventName, selector, listener) {
+      this.$el.on(eventName + '.delegateEvents' + this.cid, selector, listener);
+      return this;
+    },
+    // Clears all callbacks previously bound to the view by `delegateEvents`.
+    // You usually don't need to use this, but may wish to if you have multiple
+    // Backbone views attached to the same DOM element.
+    undelegateEvents: function undelegateEvents() {
+      if (this.$el) this.$el.off('.delegateEvents' + this.cid);
+      return this;
+    },
+    // A finer-grained `undelegateEvents` for removing a single delegated event.
+    // `selector` and `listener` are both optional.
+    undelegate: function undelegate(eventName, selector, listener) {
+      this.$el.off(eventName + '.delegateEvents' + this.cid, selector, listener);
+      return this;
+    },
+    // Produces a DOM element to be assigned to your view. Exposed for
+    // subclasses using an alternative DOM manipulation API.
+    _createElement: function _createElement(tagName) {
+      return document.createElement(tagName);
+    },
+    // Ensure that the View has a DOM element to render into.
+    // If `this.el` is a string, pass it through `$()`, take the first
+    // matching element, and re-assign it to `el`. Otherwise, create
+    // an element from the `id`, `className` and `tagName` properties.
+    _ensureElement: function _ensureElement() {
+      if (!this.el) {
+        var attrs = _.extend({}, _.result(this, 'attributes'));
+
+        if (this.id) attrs.id = _.result(this, 'id');
+        if (this.className) attrs['class'] = _.result(this, 'className');
+        this.setElement(this._createElement(_.result(this, 'tagName')));
+
+        this._setAttributes(attrs);
+      } else {
+        this.setElement(_.result(this, 'el'));
+      }
+    },
+    // Set attributes from a hash on this view's element.  Exposed for
+    // subclasses using an alternative DOM manipulation API.
+    _setAttributes: function _setAttributes(attributes) {
+      this.$el.attr(attributes);
+    }
+  }); // Proxy Backbone class methods to Underscore functions, wrapping the model's
+  // `attributes` object or collection's `models` array behind the scenes.
+  //
+  // collection.filter(function(model) { return model.get('age') > 10 });
+  // collection.each(this.addView);
+  //
+  // `Function#apply` can be slow so we use the method's arg count, if we know it.
+
+
+  var addMethod = function addMethod(base, length, method, attribute) {
+    switch (length) {
+      case 1:
+        return function () {
+          return base[method](this[attribute]);
+        };
+
+      case 2:
+        return function (value) {
+          return base[method](this[attribute], value);
+        };
+
+      case 3:
+        return function (iteratee, context) {
+          return base[method](this[attribute], cb(iteratee, this), context);
+        };
+
+      case 4:
+        return function (iteratee, defaultVal, context) {
+          return base[method](this[attribute], cb(iteratee, this), defaultVal, context);
+        };
+
+      default:
+        return function () {
+          var args = _slice.call(arguments);
+
+          args.unshift(this[attribute]);
+          return base[method].apply(base, args);
+        };
+    }
+  };
+
+  var addUnderscoreMethods = function addUnderscoreMethods(Class, base, methods, attribute) {
+    _.each(methods, function (length, method) {
+      if (base[method]) Class.prototype[method] = addMethod(base, length, method, attribute);
+    });
+  }; // Support `collection.sortBy('attr')` and `collection.findWhere({id: 1})`.
+
+
+  var cb = function cb(iteratee, instance) {
+    if (_.isFunction(iteratee)) return iteratee;
+    if (_.isObject(iteratee) && !instance._isModel(iteratee)) return modelMatcher(iteratee);
+    if (_.isString(iteratee)) return function (model) {
+      return model.get(iteratee);
+    };
+    return iteratee;
+  };
+
+  var modelMatcher = function modelMatcher(attrs) {
+    var matcher = _.matches(attrs);
+
+    return function (model) {
+      return matcher(model.attributes);
+    };
+  }; // Underscore methods that we want to implement on the Collection.
+  // 90% of the core usefulness of Backbone Collections is actually implemented
+  // right here:
+
+
+  var collectionMethods = {
+    forEach: 3,
+    each: 3,
+    map: 3,
+    collect: 3,
+    reduce: 0,
+    foldl: 0,
+    inject: 0,
+    reduceRight: 0,
+    foldr: 0,
+    find: 3,
+    detect: 3,
+    filter: 3,
+    select: 3,
+    reject: 3,
+    every: 3,
+    all: 3,
+    some: 3,
+    any: 3,
+    include: 3,
+    includes: 3,
+    contains: 3,
+    invoke: 0,
+    max: 3,
+    min: 3,
+    toArray: 1,
+    size: 1,
+    first: 3,
+    head: 3,
+    take: 3,
+    initial: 3,
+    rest: 3,
+    tail: 3,
+    drop: 3,
+    last: 3,
+    without: 0,
+    difference: 0,
+    indexOf: 3,
+    shuffle: 1,
+    lastIndexOf: 3,
+    isEmpty: 1,
+    chain: 1,
+    sample: 3,
+    partition: 3,
+    groupBy: 3,
+    countBy: 3,
+    sortBy: 3,
+    indexBy: 3,
+    findIndex: 3,
+    findLastIndex: 3
+  }; // Underscore methods that we want to implement on the Model, mapped to the
+  // number of arguments they take.
+
+  var modelMethods = {
+    keys: 1,
+    values: 1,
+    pairs: 1,
+    invert: 1,
+    pick: 0,
+    omit: 0,
+    chain: 1,
+    isEmpty: 1
+  }; // Mix in each Underscore method as a proxy to `Collection#models`.
+
+  _.each([[Collection, collectionMethods, 'models'], [Model, modelMethods, 'attributes']], function (config) {
+    var Base = config[0],
+        methods = config[1],
+        attribute = config[2];
+
+    Base.mixin = function (obj) {
+      var mappings = _.reduce(_.functions(obj), function (memo, name) {
+        memo[name] = 0;
+        return memo;
+      }, {});
+
+      addUnderscoreMethods(Base, obj, mappings, attribute);
+    };
+
+    addUnderscoreMethods(Base, _, methods, attribute);
+  }); // Backbone.sync
+  // -------------
+  // Override this function to change the manner in which Backbone persists
+  // models to the server. You will be passed the type of request, and the
+  // model in question. By default, makes a RESTful Ajax request
+  // to the model's `url()`. Some possible customizations could be:
+  //
+  // * Use `setTimeout` to batch rapid-fire updates into a single request.
+  // * Send up the models as XML instead of JSON.
+  // * Persist models via WebSockets instead of Ajax.
+  //
+  // Turn on `Backbone.emulateHTTP` in order to send `PUT` and `DELETE` requests
+  // as `POST`, with a `_method` parameter containing the true HTTP method,
+  // as well as all requests with the body as `application/x-www-form-urlencoded`
+  // instead of `application/json` with the model in a param named `model`.
+  // Useful when interfacing with server-side languages like **PHP** that make
+  // it difficult to read the body of `PUT` requests.
+
+
+  Backbone.sync = function (method, model, options) {
+    var type = methodMap[method]; // Default options, unless specified.
+
+    _.defaults(options || (options = {}), {
+      emulateHTTP: Backbone.emulateHTTP,
+      emulateJSON: Backbone.emulateJSON
+    }); // Default JSON-request options.
+
+
+    var params = {
+      type: type,
+      dataType: 'json'
+    }; // Ensure that we have a URL.
+
+    if (!options.url) {
+      params.url = _.result(model, 'url') || urlError();
+    } // Ensure that we have the appropriate request data.
+
+
+    if (options.data == null && model && (method === 'create' || method === 'update' || method === 'patch')) {
+      params.contentType = 'application/json';
+      params.data = JSON.stringify(options.attrs || model.toJSON(options));
+    } // For older servers, emulate JSON by encoding the request into an HTML-form.
+
+
+    if (options.emulateJSON) {
+      params.contentType = 'application/x-www-form-urlencoded';
+      params.data = params.data ? {
+        model: params.data
+      } : {};
+    } // For older servers, emulate HTTP by mimicking the HTTP method with `_method`
+    // And an `X-HTTP-Method-Override` header.
+
+
+    if (options.emulateHTTP && (type === 'PUT' || type === 'DELETE' || type === 'PATCH')) {
+      params.type = 'POST';
+      if (options.emulateJSON) params.data._method = type;
+      var beforeSend = options.beforeSend;
+
+      options.beforeSend = function (xhr) {
+        xhr.setRequestHeader('X-HTTP-Method-Override', type);
+        if (beforeSend) return beforeSend.apply(this, arguments);
+      };
+    } // Don't process data on a non-GET request.
+
+
+    if (params.type !== 'GET' && !options.emulateJSON) {
+      params.processData = false;
+    } // Pass along `textStatus` and `errorThrown` from jQuery.
+
+
+    var error = options.error;
+
+    options.error = function (xhr, textStatus, errorThrown) {
+      options.textStatus = textStatus;
+      options.errorThrown = errorThrown;
+      if (error) error.call(options.context, xhr, textStatus, errorThrown);
+    }; // Make the request, allowing the user to override any Ajax options.
+
+
+    var xhr = options.xhr = Backbone.ajax(_.extend(params, options));
+    model.trigger('request', model, xhr, options);
+    return xhr;
+  }; // Map from CRUD to HTTP for our default `Backbone.sync` implementation.
+
+
+  var methodMap = {
+    create: 'POST',
+    update: 'PUT',
+    patch: 'PATCH',
+    delete: 'DELETE',
+    read: 'GET'
+  }; // Set the default implementation of `Backbone.ajax` to proxy through to `$`.
+  // Override this if you'd like to use a different library.
+
+  Backbone.ajax = function () {
+    return Backbone.$.ajax.apply(Backbone.$, arguments);
+  }; // Backbone.Router
+  // ---------------
+  // Routers map faux-URLs to actions, and fire events when routes are
+  // matched. Creating a new one sets its `routes` hash, if not set statically.
+
+
+  var Router = Backbone.Router = function (options) {
+    options || (options = {});
+    this.preinitialize.apply(this, arguments);
+    if (options.routes) this.routes = options.routes;
+
+    this._bindRoutes();
+
+    this.initialize.apply(this, arguments);
+  }; // Cached regular expressions for matching named param parts and splatted
+  // parts of route strings.
+
+
+  var optionalParam = /\((.*?)\)/g;
+  var namedParam = /(\(\?)?:\w+/g;
+  var splatParam = /\*\w+/g;
+  var escapeRegExp = /[\-{}\[\]+?.,\\\^$|#\s]/g; // Set up all inheritable **Backbone.Router** properties and methods.
+
+  _.extend(Router.prototype, Events, {
+    // preinitialize is an empty function by default. You can override it with a function
+    // or object.  preinitialize will run before any instantiation logic is run in the Router.
+    preinitialize: function preinitialize() {},
+    // Initialize is an empty function by default. Override it with your own
+    // initialization logic.
+    initialize: function initialize() {},
+    // Manually bind a single named route to a callback. For example:
+    //
+    //     this.route('search/:query/p:num', 'search', function(query, num) {
+    //       ...
+    //     });
+    //
+    route: function route(_route, name, callback) {
+      if (!_.isRegExp(_route)) _route = this._routeToRegExp(_route);
+
+      if (_.isFunction(name)) {
+        callback = name;
+        name = '';
+      }
+
+      if (!callback) callback = this[name];
+      var router = this;
+      Backbone.history.route(_route, function (fragment) {
+        var args = router._extractParameters(_route, fragment);
+
+        if (router.execute(callback, args, name) !== false) {
+          router.trigger.apply(router, ['route:' + name].concat(args));
+          router.trigger('route', name, args);
+          Backbone.history.trigger('route', router, name, args);
+        }
+      });
+      return this;
+    },
+    // Execute a route handler with the provided parameters.  This is an
+    // excellent place to do pre-route setup or post-route cleanup.
+    execute: function execute(callback, args, name) {
+      if (callback) callback.apply(this, args);
+    },
+    // Simple proxy to `Backbone.history` to save a fragment into the history.
+    navigate: function navigate(fragment, options) {
+      Backbone.history.navigate(fragment, options);
+      return this;
+    },
+    // Bind all defined routes to `Backbone.history`. We have to reverse the
+    // order of the routes here to support behavior where the most general
+    // routes can be defined at the bottom of the route map.
+    _bindRoutes: function _bindRoutes() {
+      if (!this.routes) return;
+      this.routes = _.result(this, 'routes');
+
+      var route,
+          routes = _.keys(this.routes);
+
+      while ((route = routes.pop()) != null) {
+        this.route(route, this.routes[route]);
+      }
+    },
+    // Convert a route string into a regular expression, suitable for matching
+    // against the current location hash.
+    _routeToRegExp: function _routeToRegExp(route) {
+      route = route.replace(escapeRegExp, '\\$&').replace(optionalParam, '(?:$1)?').replace(namedParam, function (match, optional) {
+        return optional ? match : '([^/?]+)';
+      }).replace(splatParam, '([^?]*?)');
+      return new RegExp('^' + route + '(?:\\?([\\s\\S]*))?$');
+    },
+    // Given a route, and a URL fragment that it matches, return the array of
+    // extracted decoded parameters. Empty or unmatched parameters will be
+    // treated as `null` to normalize cross-browser behavior.
+    _extractParameters: function _extractParameters(route, fragment) {
+      var params = route.exec(fragment).slice(1);
+      return _.map(params, function (param, i) {
+        // Don't decode the search params.
+        if (i === params.length - 1) return param || null;
+        return param ? decodeURIComponent(param) : null;
+      });
+    }
+  }); // Backbone.History
+  // ----------------
+  // Handles cross-browser history management, based on either
+  // [pushState](http://diveintohtml5.info/history.html) and real URLs, or
+  // [onhashchange](https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange)
+  // and URL fragments. If the browser supports neither (old IE, natch),
+  // falls back to polling.
+
+
+  var History = Backbone.History = function () {
+    this.handlers = [];
+    this.checkUrl = this.checkUrl.bind(this); // Ensure that `History` can be used outside of the browser.
+
+    if (typeof window !== 'undefined') {
+      this.location = window.location;
+      this.history = window.history;
+    }
+  }; // Cached regex for stripping a leading hash/slash and trailing space.
+
+
+  var routeStripper = /^[#\/]|\s+$/g; // Cached regex for stripping leading and trailing slashes.
+
+  var rootStripper = /^\/+|\/+$/g; // Cached regex for stripping urls of hash.
+
+  var pathStripper = /#.*$/; // Has the history handling already been started?
+
+  History.started = false; // Set up all inheritable **Backbone.History** properties and methods.
+
+  _.extend(History.prototype, Events, {
+    // The default interval to poll for hash changes, if necessary, is
+    // twenty times a second.
+    interval: 50,
+    // Are we at the app root?
+    atRoot: function atRoot() {
+      var path = this.location.pathname.replace(/[^\/]$/, '$&/');
+      return path === this.root && !this.getSearch();
+    },
+    // Does the pathname match the root?
+    matchRoot: function matchRoot() {
+      var path = this.decodeFragment(this.location.pathname);
+      var rootPath = path.slice(0, this.root.length - 1) + '/';
+      return rootPath === this.root;
+    },
+    // Unicode characters in `location.pathname` are percent encoded so they're
+    // decoded for comparison. `%25` should not be decoded since it may be part
+    // of an encoded parameter.
+    decodeFragment: function decodeFragment(fragment) {
+      return decodeURI(fragment.replace(/%25/g, '%2525'));
+    },
+    // In IE6, the hash fragment and search params are incorrect if the
+    // fragment contains `?`.
+    getSearch: function getSearch() {
+      var match = this.location.href.replace(/#.*/, '').match(/\?.+/);
+      return match ? match[0] : '';
+    },
+    // Gets the true hash value. Cannot use location.hash directly due to bug
+    // in Firefox where location.hash will always be decoded.
+    getHash: function getHash(window) {
+      var match = (window || this).location.href.match(/#(.*)$/);
+      return match ? match[1] : '';
+    },
+    // Get the pathname and search params, without the root.
+    getPath: function getPath() {
+      var path = this.decodeFragment(this.location.pathname + this.getSearch()).slice(this.root.length - 1);
+      return path.charAt(0) === '/' ? path.slice(1) : path;
+    },
+    // Get the cross-browser normalized URL fragment from the path or hash.
+    getFragment: function getFragment(fragment) {
+      if (fragment == null) {
+        if (this._usePushState || !this._wantsHashChange) {
+          fragment = this.getPath();
+        } else {
+          fragment = this.getHash();
+        }
+      }
+
+      return fragment.replace(routeStripper, '');
+    },
+    // Start the hash change handling, returning `true` if the current URL matches
+    // an existing route, and `false` otherwise.
+    start: function start(options) {
+      if (History.started) throw new Error('Backbone.history has already been started');
+      History.started = true; // Figure out the initial configuration. Do we need an iframe?
+      // Is pushState desired ... is it available?
+
+      this.options = _.extend({
+        root: '/'
+      }, this.options, options);
+      this.root = this.options.root;
+      this._wantsHashChange = this.options.hashChange !== false;
+      this._hasHashChange = 'onhashchange' in window && (document.documentMode === void 0 || document.documentMode > 7);
+      this._useHashChange = this._wantsHashChange && this._hasHashChange;
+      this._wantsPushState = !!this.options.pushState;
+      this._hasPushState = !!(this.history && this.history.pushState);
+      this._usePushState = this._wantsPushState && this._hasPushState;
+      this.fragment = this.getFragment(); // Normalize root to always include a leading and trailing slash.
+
+      this.root = ('/' + this.root + '/').replace(rootStripper, '/'); // Transition from hashChange to pushState or vice versa if both are
+      // requested.
+
+      if (this._wantsHashChange && this._wantsPushState) {
+        // If we've started off with a route from a `pushState`-enabled
+        // browser, but we're currently in a browser that doesn't support it...
+        if (!this._hasPushState && !this.atRoot()) {
+          var rootPath = this.root.slice(0, -1) || '/';
+          this.location.replace(rootPath + '#' + this.getPath()); // Return immediately as browser will do redirect to new url
+
+          return true; // Or if we've started out with a hash-based route, but we're currently
+          // in a browser where it could be `pushState`-based instead...
+        } else if (this._hasPushState && this.atRoot()) {
+          this.navigate(this.getHash(), {
+            replace: true
+          });
+        }
+      } // Proxy an iframe to handle location events if the browser doesn't
+      // support the `hashchange` event, HTML5 history, or the user wants
+      // `hashChange` but not `pushState`.
+
+
+      if (!this._hasHashChange && this._wantsHashChange && !this._usePushState) {
+        this.iframe = document.createElement('iframe');
+        this.iframe.src = 'javascript:0';
+        this.iframe.style.display = 'none';
+        this.iframe.tabIndex = -1;
+        var body = document.body; // Using `appendChild` will throw on IE < 9 if the document is not ready.
+
+        var iWindow = body.insertBefore(this.iframe, body.firstChild).contentWindow;
+        iWindow.document.open();
+        iWindow.document.close();
+        iWindow.location.hash = '#' + this.fragment;
+      } // Add a cross-platform `addEventListener` shim for older browsers.
+
+
+      var addEventListener = window.addEventListener || function (eventName, listener) {
+        return attachEvent('on' + eventName, listener);
+      }; // Depending on whether we're using pushState or hashes, and whether
+      // 'onhashchange' is supported, determine how we check the URL state.
+
+
+      if (this._usePushState) {
+        addEventListener('popstate', this.checkUrl, false);
+      } else if (this._useHashChange && !this.iframe) {
+        addEventListener('hashchange', this.checkUrl, false);
+      } else if (this._wantsHashChange) {
+        this._checkUrlInterval = setInterval(this.checkUrl, this.interval);
+      }
+
+      if (!this.options.silent) return this.loadUrl();
+    },
+    // Disable Backbone.history, perhaps temporarily. Not useful in a real app,
+    // but possibly useful for unit testing Routers.
+    stop: function stop() {
+      // Add a cross-platform `removeEventListener` shim for older browsers.
+      var removeEventListener = window.removeEventListener || function (eventName, listener) {
+        return detachEvent('on' + eventName, listener);
+      }; // Remove window listeners.
+
+
+      if (this._usePushState) {
+        removeEventListener('popstate', this.checkUrl, false);
+      } else if (this._useHashChange && !this.iframe) {
+        removeEventListener('hashchange', this.checkUrl, false);
+      } // Clean up the iframe if necessary.
+
+
+      if (this.iframe) {
+        document.body.removeChild(this.iframe);
+        this.iframe = null;
+      } // Some environments will throw when clearing an undefined interval.
+
+
+      if (this._checkUrlInterval) clearInterval(this._checkUrlInterval);
+      History.started = false;
+    },
+    // Add a route to be tested when the fragment changes. Routes added later
+    // may override previous routes.
+    route: function route(_route2, callback) {
+      this.handlers.unshift({
+        route: _route2,
+        callback: callback
+      });
+    },
+    // Checks the current URL to see if it has changed, and if it has,
+    // calls `loadUrl`, normalizing across the hidden iframe.
+    checkUrl: function checkUrl(e) {
+      var current = this.getFragment(); // If the user pressed the back button, the iframe's hash will have
+      // changed and we should use that for comparison.
+
+      if (current === this.fragment && this.iframe) {
+        current = this.getHash(this.iframe.contentWindow);
+      }
+
+      if (current === this.fragment) return false;
+      if (this.iframe) this.navigate(current);
+      this.loadUrl();
+    },
+    // Attempt to load the current URL fragment. If a route succeeds with a
+    // match, returns `true`. If no defined routes matches the fragment,
+    // returns `false`.
+    loadUrl: function loadUrl(fragment) {
+      // If the root doesn't match, no routes can match either.
+      if (!this.matchRoot()) return false;
+      fragment = this.fragment = this.getFragment(fragment);
+      return _.some(this.handlers, function (handler) {
+        if (handler.route.test(fragment)) {
+          handler.callback(fragment);
+          return true;
+        }
+      });
+    },
+    // Save a fragment into the hash history, or replace the URL state if the
+    // 'replace' option is passed. You are responsible for properly URL-encoding
+    // the fragment in advance.
+    //
+    // The options object can contain `trigger: true` if you wish to have the
+    // route callback be fired (not usually desirable), or `replace: true`, if
+    // you wish to modify the current URL without adding an entry to the history.
+    navigate: function navigate(fragment, options) {
+      if (!History.started) return false;
+      if (!options || options === true) options = {
+        trigger: !!options
+      }; // Normalize the fragment.
+
+      fragment = this.getFragment(fragment || ''); // Don't include a trailing slash on the root.
+
+      var rootPath = this.root;
+
+      if (fragment === '' || fragment.charAt(0) === '?') {
+        rootPath = rootPath.slice(0, -1) || '/';
+      }
+
+      var url = rootPath + fragment; // Strip the fragment of the query and hash for matching.
+
+      fragment = fragment.replace(pathStripper, ''); // Decode for matching.
+
+      var decodedFragment = this.decodeFragment(fragment);
+      if (this.fragment === decodedFragment) return;
+      this.fragment = decodedFragment; // If pushState is available, we use it to set the fragment as a real URL.
+
+      if (this._usePushState) {
+        this.history[options.replace ? 'replaceState' : 'pushState']({}, document.title, url); // If hash changes haven't been explicitly disabled, update the hash
+        // fragment to store history.
+      } else if (this._wantsHashChange) {
+        this._updateHash(this.location, fragment, options.replace);
+
+        if (this.iframe && fragment !== this.getHash(this.iframe.contentWindow)) {
+          var iWindow = this.iframe.contentWindow; // Opening and closing the iframe tricks IE7 and earlier to push a
+          // history entry on hash-tag change.  When replace is true, we don't
+          // want this.
+
+          if (!options.replace) {
+            iWindow.document.open();
+            iWindow.document.close();
+          }
+
+          this._updateHash(iWindow.location, fragment, options.replace);
+        } // If you've told us that you explicitly don't want fallback hashchange-
+        // based history, then `navigate` becomes a page refresh.
+
+      } else {
+        return this.location.assign(url);
+      }
+
+      if (options.trigger) return this.loadUrl(fragment);
+    },
+    // Update the hash location, either replacing the current entry, or adding
+    // a new one to the browser history.
+    _updateHash: function _updateHash(location, fragment, replace) {
+      if (replace) {
+        var href = location.href.replace(/(javascript:|#).*$/, '');
+        location.replace(href + '#' + fragment);
+      } else {
+        // Some browsers require that `hash` contains a leading #.
+        location.hash = '#' + fragment;
+      }
+    }
+  }); // Create the default Backbone.history.
+
+
+  Backbone.history = new History(); // Helpers
+  // -------
+  // Helper function to correctly set up the prototype chain for subclasses.
+  // Similar to `goog.inherits`, but uses a hash of prototype properties and
+  // class properties to be extended.
+
+  var extend = function extend(protoProps, staticProps) {
+    var parent = this;
+    var child; // The constructor function for the new subclass is either defined by you
+    // (the "constructor" property in your `extend` definition), or defaulted
+    // by us to simply call the parent constructor.
+
+    if (protoProps && _.has(protoProps, 'constructor')) {
+      child = protoProps.constructor;
+    } else {
+      child = function child() {
+        return parent.apply(this, arguments);
+      };
+    } // Add static properties to the constructor function, if supplied.
+
+
+    _.extend(child, parent, staticProps); // Set the prototype chain to inherit from `parent`, without calling
+    // `parent`'s constructor function and add the prototype properties.
+
+
+    child.prototype = _.create(parent.prototype, protoProps);
+    child.prototype.constructor = child; // Set a convenience property in case the parent's prototype is needed
+    // later.
+
+    child.__super__ = parent.prototype;
+    return child;
+  }; // Set up inheritance for the model, collection, router, view and history.
+
+
+  Model.extend = Collection.extend = Router.extend = View.extend = History.extend = extend; // Throw an error when a URL is needed, and none is supplied.
+
+  var urlError = function urlError() {
+    throw new Error('A "url" property or function must be specified');
+  }; // Wrap an optional error callback with a fallback error event.
+
+
+  var wrapError = function wrapError(model, options) {
+    var error = options.error;
+
+    options.error = function (resp) {
+      if (error) error.call(options.context, model, resp, options);
+      model.trigger('error', model, resp, options);
+    };
+  };
+
+  return Backbone;
+});
+
+/***/ }),
+
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/vendor/lib/js.cookie.js":
+/*!***********************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/vendor/lib/js.cookie.js ***!
+  \***********************************************************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
  * JavaScript Cookie v2.1.0
  * https://github.com/js-cookie/js-cookie
  *
@@ -5840,16 +7741,13 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/vendor/plugins/chosen.jquery.js":
-/*!************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/vendor/plugins/chosen.jquery.js ***!
-  \************************************************************************/
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/chosen.jquery.js":
+/*!*******************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/chosen.jquery.js ***!
+  \*******************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
-
-// Chosen, a Select Box Enhancer for jQuery and Prototype
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Chosen, a Select Box Enhancer for jQuery and Prototype
 // by Patrick Filler for Harvest, http://getharvest.com
 //
 // Version 0.11.1
@@ -7099,16 +8997,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/vendor/plugins/jquery.custominput.js":
-/*!*****************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/vendor/plugins/jquery.custominput.js ***!
-  \*****************************************************************************/
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/jquery.custominput.js":
+/*!************************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/jquery.custominput.js ***!
+  \************************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
-
-/**
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
  * There are following local modifications:
  * - Author: Uzi Kilon ukilon@okta.com
  *   Bug: OKTA-20830 - solves the conflict when there are multiple labels
@@ -7166,16 +9061,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/vendor/plugins/jquery.placeholder.js":
-/*!*****************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/vendor/plugins/jquery.placeholder.js ***!
-  \*****************************************************************************/
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/jquery.placeholder.js":
+/*!************************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/jquery.placeholder.js ***!
+  \************************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
-
-/*! http://mths.be/placeholder v2.0.7 by @mathias */
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! http://mths.be/placeholder v2.0.7 by @mathias */
 !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ "jquery")], __WEBPACK_AMD_DEFINE_RESULT__ = (function ($) {
   var isInputSupported = ('placeholder' in document.createElement('input')),
       isTextareaSupported = ('placeholder' in document.createElement('textarea')),
@@ -7328,25 +9220,17 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/Backbone.ListView.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/Backbone.ListView.js ***!
-  \*******************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/Backbone.ListView.js":
+/*!**************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/Backbone.ListView.js ***!
+  \**************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _framework_ListView__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../framework/ListView */ "../../../../../../okta/okta-ui/packages/courage/src/framework/ListView.ts");
+/* harmony import */ var _BaseView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
 
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _ListView = _interopRequireDefault(__webpack_require__(/*! ../framework/ListView */ "./node_modules/@okta/courage/src/framework/ListView.js"));
-
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ./BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * See {@link src/framework/ListView} for more detail and examples from the base class.
@@ -7354,48 +9238,37 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @extends src/framework/ListView
  * @mixes module:Okta.View
  */
-var _default = _BaseView.default.decorate(_ListView.default);
 
-exports.default = _default;
-module.exports = exports.default;
+/* harmony default export */ __webpack_exports__["default"] = (_BaseView__WEBPACK_IMPORTED_MODULE_1__.default.decorate(_framework_ListView__WEBPACK_IMPORTED_MODULE_0__.default));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/BaseView.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/BaseView.js ***!
-  \**********************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts":
+/*!*****************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts ***!
+  \*****************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! backbone */ "../../../../../../okta/okta-ui/packages/courage/src/vendor/lib/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _framework_View__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../framework/View */ "../../../../../../okta/okta-ui/packages/courage/src/framework/View.ts");
+/* harmony import */ var _util_TemplateUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../util/TemplateUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/TemplateUtil.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
 
-var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
-var _View = _interopRequireDefault(__webpack_require__(/*! ../framework/View */ "./node_modules/@okta/courage/src/framework/View.js"));
-
-var _TemplateUtil = _interopRequireDefault(__webpack_require__(/*! ../util/TemplateUtil */ "./node_modules/@okta/courage/src/util/TemplateUtil.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-var eventBus = _underscoreWrapper.default.clone(_backbone.default.Events); // add `broadcast` and `listen` functionality to all views
+var eventBus = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.clone((backbone__WEBPACK_IMPORTED_MODULE_0___default().Events)); // add `broadcast` and `listen` functionality to all views
 // We use one event emitter per all views
 // This means we need to be very careful with event names
 
 
 var proto = {
   constructor: function constructor() {
-    _View.default.apply(this, arguments);
-
+    _framework_View__WEBPACK_IMPORTED_MODULE_2__.default.apply(this, arguments);
     this.module && this.$el.attr('data-view', this.module.id);
   },
 
@@ -7405,7 +9278,7 @@ var proto = {
   empty: function empty() {
     return this.removeChildren();
   },
-  compileTemplate: _TemplateUtil.default.tpl,
+  compileTemplate: _util_TemplateUtil__WEBPACK_IMPORTED_MODULE_3__.default.tpl,
 
   /**
    *
@@ -7450,7 +9323,7 @@ var proto = {
    * view.notify('success', 'Group created successfully');
    */
   notify: function notify(level, message, options) {
-    this.broadcast('notification', _underscoreWrapper.default.defaults({
+    this.broadcast('notification', _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.defaults({
       message: message,
       level: level
     }, options));
@@ -7497,10 +9370,11 @@ var proto = {
     var options;
     /* eslint max-statements: [2, 12] */
 
-    if (_typeof(title) === 'object') {
+    if (typeof title === 'object') {
       options = title;
     } else {
-      if (arguments.length === 2 && _underscoreWrapper.default.isFunction(message)) {
+      // eslint-disable-next-line no-lonely-if
+      if (arguments.length === 2 && _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isFunction(message)) {
         options = {
           title: 'Okta',
           // eslint-disable-line @okta/okta/no-unlocalized-text
@@ -7517,12 +9391,12 @@ var proto = {
       }
     }
 
-    if (_underscoreWrapper.default.isFunction(options.ok)) {
-      options.ok = _underscoreWrapper.default.bind(options.ok, this);
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isFunction(options.ok)) {
+      options.ok = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.bind(options.ok, this);
     }
 
-    if (_underscoreWrapper.default.isFunction(options.cancelFn)) {
-      options.cancelFn = _underscoreWrapper.default.bind(options.cancelFn, this);
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isFunction(options.cancelFn)) {
+      options.cancelFn = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.bind(options.cancelFn, this);
     }
 
     this.broadcast('confirmation', options);
@@ -7540,13 +9414,13 @@ var proto = {
    * view.alert('Mission complete');
    */
   alert: function alert(params) {
-    if (_underscoreWrapper.default.isString(params)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isString(params)) {
       params = {
         subtitle: params
       };
     }
 
-    this.confirm(_underscoreWrapper.default.extend({}, params, {
+    this.confirm(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.extend({}, params, {
       noCancelButton: true
     }));
     return this;
@@ -7560,47 +9434,37 @@ var proto = {
 
 /** @lends module:Okta.View.prototype */
 
-var _default = _View.default.extend(proto,
+/* harmony default export */ __webpack_exports__["default"] = (_framework_View__WEBPACK_IMPORTED_MODULE_2__.default.extend(proto,
 /** @lends View.prototype */
 {
   /** @method */
   decorate: function decorate(TargetView) {
     var BaseViewView = TargetView.extend({});
 
-    _underscoreWrapper.default.defaults(BaseViewView.prototype, proto);
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.defaults(BaseViewView.prototype, proto);
 
     return BaseViewView;
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/components/BaseButtonLink.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/components/BaseButtonLink.js ***!
-  \***************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/components/BaseButtonLink.js":
+/*!**********************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/components/BaseButtonLink.js ***!
+  \**********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars/runtime */ "handlebars/runtime");
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _util_ViewUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/ViewUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/ViewUtil.ts");
+/* harmony import */ var _BaseView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
 
-var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _ViewUtil = _interopRequireDefault(__webpack_require__(/*! ../../util/ViewUtil */ "./node_modules/@okta/courage/src/util/ViewUtil.js"));
-
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var disabledEvents = {
   click: function click(e) {
@@ -7619,7 +9483,7 @@ var disabledEvents = {
  * })
  */
 
-var _default = _BaseView.default.extend(
+/* harmony default export */ __webpack_exports__["default"] = (_BaseView__WEBPACK_IMPORTED_MODULE_3__.default.extend(
 /** @lends module:Okta.internal.views.components.BaseButtonLink.prototype */
 {
   attributes: function attributes() {
@@ -7629,7 +9493,7 @@ var _default = _BaseView.default.extend(
 
     var additionalAttr = this.__getAttribute('attrs');
 
-    return _underscoreWrapper.default.extend(defaultAttrs, additionalAttr);
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.extend(defaultAttrs, additionalAttr);
   },
 
   /**
@@ -7664,7 +9528,7 @@ var _default = _BaseView.default.extend(
    * @instance
    */
   tagName: 'a',
-  template: _runtime.default.template({
+  template: handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
     "1": function _(container, depth0, helpers, partials, data) {
       var helper,
           lookupProperty = container.lookupProperty || function (parent, propertyName) {
@@ -7799,9 +9663,7 @@ var _default = _BaseView.default.extend(
     this.options = options || {};
     var data = this.getTemplateData();
     this.disabled = false;
-
-    _BaseView.default.apply(this, arguments);
-
+    _BaseView__WEBPACK_IMPORTED_MODULE_3__.default.apply(this, arguments);
     this.$el.addClass('link-button');
 
     if (data.icon) {
@@ -7820,18 +9682,17 @@ var _default = _BaseView.default.extend(
     };
   },
   initialize: function initialize() {
-    _ViewUtil.default.applyDoWhen(this, _underscoreWrapper.default.resultCtx(this, 'enableWhen', this), this.toggle);
-
-    _ViewUtil.default.applyDoWhen(this, _underscoreWrapper.default.resultCtx(this, 'showWhen', this), this.toggleVisible);
+    _util_ViewUtil__WEBPACK_IMPORTED_MODULE_2__.default.applyDoWhen(this, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.resultCtx(this, 'enableWhen', this), this.toggle);
+    _util_ViewUtil__WEBPACK_IMPORTED_MODULE_2__.default.applyDoWhen(this, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.resultCtx(this, 'showWhen', this), this.toggleVisible);
   },
   render: function render() {
-    _BaseView.default.prototype.render.apply(this, arguments);
+    _BaseView__WEBPACK_IMPORTED_MODULE_3__.default.prototype.render.apply(this, arguments);
 
-    if (!_underscoreWrapper.default.result(this, 'enabled')) {
+    if (!_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.result(this, 'enabled')) {
       this.toggle(false);
     }
 
-    if (!_underscoreWrapper.default.result(this, 'visible')) {
+    if (!_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.result(this, 'visible')) {
       this.toggleVisible(false);
     }
 
@@ -7840,13 +9701,13 @@ var _default = _BaseView.default.extend(
     return this;
   },
   __getAttribute: function __getAttribute(name, defaultValue) {
-    var value = _underscoreWrapper.default.resultCtx(this.options, name, this);
+    var value = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.resultCtx(this.options, name, this);
 
-    if (_underscoreWrapper.default.isUndefined(value)) {
-      value = _underscoreWrapper.default.result(this, name);
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isUndefined(value)) {
+      value = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.result(this, name);
     }
 
-    return !_underscoreWrapper.default.isUndefined(value) ? value : defaultValue;
+    return !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isUndefined(value) ? value : defaultValue;
   },
   enable: function enable() {
     this.toggle(true);
@@ -7861,7 +9722,7 @@ var _default = _BaseView.default.extend(
     this.toggleVisible(false);
   },
   toggle: function toggle(enable) {
-    var bool = !!enable && _underscoreWrapper.default.result(this, 'enabled'); //this is to toggle the enability
+    var bool = !!enable && _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.result(this, 'enabled'); //this is to toggle the enability
 
 
     this.disabled = !bool;
@@ -7869,43 +9730,32 @@ var _default = _BaseView.default.extend(
     this.delegateEvents(this.disabled ? disabledEvents : null);
   },
   toggleVisible: function toggleVisible(visible) {
-    var hidden = !visible || !_underscoreWrapper.default.result(this, 'visible');
+    var hidden = !visible || !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.result(this, 'visible');
     this.$el.toggleClass('hide', hidden);
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/components/BaseDropDown.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/components/BaseDropDown.js ***!
-  \*************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/components/BaseDropDown.js":
+/*!********************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/components/BaseDropDown.js ***!
+  \********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars/runtime */ "handlebars/runtime");
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/jquery-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts");
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _BaseView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
 
-var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-var optionsTemplate = _runtime.default.template({
+var optionsTemplate = handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
   "1": function _(container, depth0, helpers, partials, data) {
     var helper,
         lookupProperty = container.lookupProperty || function (parent, propertyName) {
@@ -8000,7 +9850,7 @@ var optionsTemplate = _runtime.default.template({
       return undefined;
     };
 
-    return "<a href=\"\" class=\"icon-16 " + alias4((helper = (helper = lookupProperty(helpers, "className") || (depth0 != null ? lookupProperty(depth0, "className") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+    return "<a href=\"\" class=\"icon-16 " + alias4((helper = (helper = lookupProperty(helpers, "className") || (depth0 != null ? lookupProperty(depth0, "className") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "className",
       "hash": {},
       "data": data,
@@ -8014,7 +9864,7 @@ var optionsTemplate = _runtime.default.template({
           "column": 39
         }
       }
-    }) : helper)) + "\" data-se=\"" + alias4((helper = (helper = lookupProperty(helpers, "seleniumId") || (depth0 != null ? lookupProperty(depth0, "seleniumId") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+    }) : helper)) + "\" data-se=\"" + alias4((helper = (helper = lookupProperty(helpers, "seleniumId") || (depth0 != null ? lookupProperty(depth0, "seleniumId") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "seleniumId",
       "hash": {},
       "data": data,
@@ -8081,7 +9931,7 @@ var optionsTemplate = _runtime.default.template({
   "useData": true
 });
 
-var BaseDropDownDropDownOption = _BaseView.default.extend({
+var BaseDropDownDropDownOption = _BaseView__WEBPACK_IMPORTED_MODULE_3__.default.extend({
   tagName: 'li',
   events: {
     click: function click(e) {
@@ -8090,20 +9940,19 @@ var BaseDropDownDropDownOption = _BaseView.default.extend({
     }
   },
   constructor: function constructor() {
-    _BaseView.default.apply(this, arguments);
-
+    _BaseView__WEBPACK_IMPORTED_MODULE_3__.default.apply(this, arguments);
     this.$el.addClass('okta-dropdown-option option');
   },
   render: function render() {
     this.$el.html(optionsTemplate({
-      icon: _underscoreWrapper.default.result(this, 'icon'),
-      className: _underscoreWrapper.default.result(this, 'className') || '',
-      title: _underscoreWrapper.default.result(this, 'title'),
-      subtitle: _underscoreWrapper.default.result(this, 'subtitle'),
-      seleniumId: _underscoreWrapper.default.result(this, 'seleniumId')
+      icon: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, 'icon'),
+      className: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, 'className') || '',
+      title: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, 'title'),
+      subtitle: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, 'subtitle'),
+      seleniumId: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, 'seleniumId')
     }));
 
-    if (_underscoreWrapper.default.result(this, 'disabled')) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, 'disabled')) {
       this.disable();
     }
 
@@ -8114,13 +9963,12 @@ var BaseDropDownDropDownOption = _BaseView.default.extend({
     this.$el.find('a').attr('tabindex', '-1');
   }
 });
-
-var _default = _BaseView.default.extend({
+/* harmony default export */ __webpack_exports__["default"] = (_BaseView__WEBPACK_IMPORTED_MODULE_3__.default.extend({
   events: {
     'click a.option-selected': function clickAOptionSelected(e) {
       e.preventDefault();
 
-      if (_underscoreWrapper.default.result(this, 'disabled')) {
+      if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, 'disabled')) {
         e.stopPropagation();
       }
     },
@@ -8136,17 +9984,15 @@ var _default = _BaseView.default.extend({
     // so we want to disable backbone default functionality.
 
     this.className = null;
-
-    _BaseView.default.apply(this, arguments);
-
+    _BaseView__WEBPACK_IMPORTED_MODULE_3__.default.apply(this, arguments);
     this.className = className;
     this.$el.addClass('dropdown more-actions float-l');
 
-    _underscoreWrapper.default.each(_underscoreWrapper.default.result(this, 'items'), function (option) {
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.each(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, 'items'), function (option) {
       this.addOption(option, this.options);
     }, this);
   },
-  template: _runtime.default.template({
+  template: handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
     "1": function _(container, depth0, helpers, partials, data) {
       var helper,
           lookupProperty = container.lookupProperty || function (parent, propertyName) {
@@ -8215,7 +10061,7 @@ var _default = _BaseView.default.extend({
         return undefined;
       };
 
-      return "<a href=\"#\" class=\"link-button " + alias4((helper = (helper = lookupProperty(helpers, "className") || (depth0 != null ? lookupProperty(depth0, "className") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      return "<a href=\"#\" class=\"link-button " + alias4((helper = (helper = lookupProperty(helpers, "className") || (depth0 != null ? lookupProperty(depth0, "className") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "className",
         "hash": {},
         "data": data,
@@ -8261,7 +10107,7 @@ var _default = _BaseView.default.extend({
             "column": 283
           }
         }
-      })) != null ? stack1 : "") + "<span class=\"option-selected-text\">" + alias4((helper = (helper = lookupProperty(helpers, "title") || (depth0 != null ? lookupProperty(depth0, "title") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      })) != null ? stack1 : "") + "<span class=\"option-selected-text\">" + alias4((helper = (helper = lookupProperty(helpers, "title") || (depth0 != null ? lookupProperty(depth0, "title") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "title",
         "hash": {},
         "data": data,
@@ -8280,12 +10126,12 @@ var _default = _BaseView.default.extend({
     "useData": true
   }),
   getTemplateData: function getTemplateData() {
-    var className = [_underscoreWrapper.default.result(this, 'className') || '', _underscoreWrapper.default.result(this, 'disabled') ? 'dropdown-disabled' : ''];
+    var className = [_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, 'className') || '', _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, 'disabled') ? 'dropdown-disabled' : ''];
     return {
-      icon: _underscoreWrapper.default.result(this, 'icon'),
-      className: _jqueryWrapper.default.trim(className.join(' ')),
-      title: _underscoreWrapper.default.result(this, 'title'),
-      screenReaderText: _underscoreWrapper.default.result(this, 'screenReaderText')
+      icon: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, 'icon'),
+      className: _util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.trim(className.join(' ')),
+      title: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, 'title'),
+      screenReaderText: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, 'screenReaderText')
     };
   },
   addOption: function addOption(proto, options) {
@@ -8293,39 +10139,30 @@ var _default = _BaseView.default.extend({
       options: options || {}
     });
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/components/Callout.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/components/Callout.js ***!
-  \********************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/components/Callout.ts":
+/*!***************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/components/Callout.ts ***!
+  \***************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars/runtime */ "handlebars/runtime");
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _util_Time__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/Time */ "../../../../../../okta/okta-ui/packages/courage/src/util/Time.ts");
+/* harmony import */ var _BaseView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
 
-var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _Time = _interopRequireDefault(__webpack_require__(/*! ../../util/Time */ "./node_modules/@okta/courage/src/util/Time.js"));
-
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getOption(callout, option) {
-  return _underscoreWrapper.default.resultCtx(callout.options, option, callout) || _underscoreWrapper.default.result(callout, option);
+  return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.resultCtx(callout.options, option, callout) || _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.result(callout, option);
 }
 
 function getTopClass(callout) {
@@ -8358,18 +10195,15 @@ function getTopClass(callout) {
 
 var events = {
   'click .infobox-dismiss-link': function clickInfoboxDismissLink(e) {
-    var _this = this;
-
     e.preventDefault();
-    this.$el.fadeOut(_Time.default.UNLOADING_FADE, function () {
-      _this.trigger('dismissed');
-
-      _this.remove();
+    this.$el.fadeOut(_util_Time__WEBPACK_IMPORTED_MODULE_2__.default.UNLOADING_FADE, () => {
+      this.trigger('dismissed');
+      this.remove();
     });
   }
 };
 
-var template = _runtime.default.template({
+var template = handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
   "1": function _(container, depth0, helpers, partials, data) {
     var lookupProperty = container.lookupProperty || function (parent, propertyName) {
       if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -8577,7 +10411,7 @@ var template = _runtime.default.template({
   "useData": true
 });
 
-var CalloutCallout = _BaseView.default.extend(
+var CalloutCallout = _BaseView__WEBPACK_IMPORTED_MODULE_3__.default.extend(
 /** @lends src/views/components/Callout.prototype */
 {
   attributes: {
@@ -8632,10 +10466,8 @@ var CalloutCallout = _BaseView.default.extend(
    * @event src/views/components/Callout#dismissed
    */
   constructor: function constructor() {
-    this.events = _underscoreWrapper.default.defaults(this.events || {}, events);
-
-    _BaseView.default.apply(this, arguments);
-
+    this.events = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.defaults(this.events || {}, events);
+    _BaseView__WEBPACK_IMPORTED_MODULE_3__.default.apply(this, arguments);
     this.$el.addClass(getTopClass(this));
     this.template = template;
     var content = getOption(this, 'content');
@@ -8684,10 +10516,7 @@ var CalloutCallout = _BaseView.default.extend(
  * @class module:Okta.internal.views.components.Callout
  */
 
-
-var _default =
-/** @lends module:Okta.internal.views.components.Callout */
-{
+/* harmony default export */ __webpack_exports__["default"] = (/** @lends module:Okta.internal.views.components.Callout */{
   /**
    * Creates a {@link src/views/components/Callout|Callout}.
    * @static
@@ -8705,35 +10534,24 @@ var _default =
   create: function create(options) {
     return new CalloutCallout(options);
   }
-};
-exports.default = _default;
-module.exports = exports.default;
+});
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/components/Notification.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/components/Notification.js ***!
-  \*************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/components/Notification.js":
+/*!********************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/components/Notification.js ***!
+  \********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars/runtime */ "handlebars/runtime");
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _BaseView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var defaults = {
   level: 'success',
@@ -8744,8 +10562,7 @@ var defaults = {
   width: 0,
   dismissable: false
 };
-
-var _default = _BaseView.default.extend({
+/* harmony default export */ __webpack_exports__["default"] = (_BaseView__WEBPACK_IMPORTED_MODULE_2__.default.extend({
   className: 'infobox infobox-confirm infobox-confirm-fixed',
   events: {
     'click .infobox-dismiss-link': function clickInfoboxDismissLink(e) {
@@ -8753,7 +10570,7 @@ var _default = _BaseView.default.extend({
       this.fadeOut();
     }
   },
-  template: _runtime.default.template({
+  template: handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
     "1": function _(container, depth0, helpers, partials, data) {
       var lookupProperty = container.lookupProperty || function (parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -8840,7 +10657,7 @@ var _default = _BaseView.default.extend({
             "column": 164
           }
         }
-      })) != null ? stack1 : "") + "<span class=\"icon " + alias4((helper = (helper = lookupProperty(helpers, "level") || (depth0 != null ? lookupProperty(depth0, "level") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      })) != null ? stack1 : "") + "<span class=\"icon " + alias4((helper = (helper = lookupProperty(helpers, "level") || (depth0 != null ? lookupProperty(depth0, "level") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "level",
         "hash": {},
         "data": data,
@@ -8870,7 +10687,7 @@ var _default = _BaseView.default.extend({
             "column": 241
           }
         }
-      })) != null ? stack1 : "") + "<p>" + alias4((helper = (helper = lookupProperty(helpers, "message") || (depth0 != null ? lookupProperty(depth0, "message") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      })) != null ? stack1 : "") + "<p>" + alias4((helper = (helper = lookupProperty(helpers, "message") || (depth0 != null ? lookupProperty(depth0, "message") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "message",
         "hash": {},
         "data": data,
@@ -8889,7 +10706,7 @@ var _default = _BaseView.default.extend({
     "useData": true
   }),
   initialize: function initialize() {
-    this.options = _underscoreWrapper.default.defaults({}, this.options, defaults);
+    this.options = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.defaults({}, this.options, defaults);
     this.$el.addClass('infobox-' + this.options.level);
 
     if (this.options.width) {
@@ -8897,73 +10714,65 @@ var _default = _BaseView.default.extend({
     }
   },
   getTemplateData: function getTemplateData() {
-    return _underscoreWrapper.default.extend(_underscoreWrapper.default.pick(this.options, 'level', 'message', 'title'), {
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.extend(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.pick(this.options, 'level', 'message', 'title'), {
       dismissable: this.options.hide === false || this.options.dismissable === true
     });
   },
   postRender: function postRender() {
     if (this.options.hide) {
-      _underscoreWrapper.default.delay(_underscoreWrapper.default.bind(this.fadeOut, this), this.options.delay);
+      _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.delay(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.bind(this.fadeOut, this), this.options.delay);
     }
   },
   fadeOut: function fadeOut() {
-    this.$el.fadeOut(this.options.fade, _underscoreWrapper.default.bind(this.remove, this));
+    this.$el.fadeOut(this.options.fade, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.bind(this.remove, this));
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/BaseForm.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/BaseForm.js ***!
-  \****************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseForm.ts":
+/*!***********************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseForm.ts ***!
+  \***********************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars/runtime */ "handlebars/runtime");
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/jquery-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts");
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _util_StringUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/StringUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.ts");
+/* harmony import */ var _BaseView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
+/* harmony import */ var _components_ReadModeBar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/ReadModeBar */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/components/ReadModeBar.js");
+/* harmony import */ var _components_Toolbar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Toolbar */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/components/Toolbar.ts");
+/* harmony import */ var _helpers_ErrorBanner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./helpers/ErrorBanner */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/ErrorBanner.js");
+/* harmony import */ var _helpers_ErrorParser__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./helpers/ErrorParser */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/ErrorParser.ts");
+/* harmony import */ var _helpers_FormUtil__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./helpers/FormUtil */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/FormUtil.ts");
+/* harmony import */ var _helpers_InputContainer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./helpers/InputContainer */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputContainer.js");
+/* harmony import */ var _helpers_InputFactory__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./helpers/InputFactory */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputFactory.js");
+/* harmony import */ var _helpers_InputLabel__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./helpers/InputLabel */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputLabel.js");
+/* harmony import */ var _helpers_InputWrapper__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./helpers/InputWrapper */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputWrapper.js");
+/* harmony import */ var _util_SettingsModel__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../util/SettingsModel */ "../../../../../../okta/okta-ui/packages/courage/src/util/SettingsModel.ts");
 
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
-
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
-
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
-
-var _ReadModeBar = _interopRequireDefault(__webpack_require__(/*! ./components/ReadModeBar */ "./node_modules/@okta/courage/src/views/forms/components/ReadModeBar.js"));
-
-var _Toolbar = _interopRequireDefault(__webpack_require__(/*! ./components/Toolbar */ "./node_modules/@okta/courage/src/views/forms/components/Toolbar.js"));
-
-var _ErrorBanner = _interopRequireDefault(__webpack_require__(/*! ./helpers/ErrorBanner */ "./node_modules/@okta/courage/src/views/forms/helpers/ErrorBanner.js"));
-
-var _ErrorParser = _interopRequireDefault(__webpack_require__(/*! ./helpers/ErrorParser */ "./node_modules/@okta/courage/src/views/forms/helpers/ErrorParser.js"));
-
-var _FormUtil = _interopRequireDefault(__webpack_require__(/*! ./helpers/FormUtil */ "./node_modules/@okta/courage/src/views/forms/helpers/FormUtil.js"));
-
-var _InputContainer = _interopRequireDefault(__webpack_require__(/*! ./helpers/InputContainer */ "./node_modules/@okta/courage/src/views/forms/helpers/InputContainer.js"));
-
-var _InputFactory = _interopRequireDefault(__webpack_require__(/*! ./helpers/InputFactory */ "./node_modules/@okta/courage/src/views/forms/helpers/InputFactory.js"));
-
-var _InputLabel = _interopRequireDefault(__webpack_require__(/*! ./helpers/InputLabel */ "./node_modules/@okta/courage/src/views/forms/helpers/InputLabel.js"));
-
-var _InputWrapper = _interopRequireDefault(__webpack_require__(/*! ./helpers/InputWrapper */ "./node_modules/@okta/courage/src/views/forms/helpers/InputWrapper.js"));
-
-var _SettingsModel = _interopRequireDefault(__webpack_require__(/*! ../../util/SettingsModel */ "./node_modules/@okta/courage/src/util/SettingsModel.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* eslint max-statements: [2, 11] */
-var template = _runtime.default.template({
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var template = handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
   "1": function _(container, depth0, helpers, partials, data) {
     var helper,
         lookupProperty = container.lookupProperty || function (parent, propertyName) {
@@ -9150,7 +10959,7 @@ var template = _runtime.default.template({
   "useData": true
 });
 
-var sectionTitleTemplate = _runtime.default.template({
+var sectionTitleTemplate = handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
   "compiler": [8, ">= 4.3.0"],
   "main": function main(container, depth0, helpers, partials, data) {
     var helper,
@@ -9181,19 +10990,19 @@ var sectionTitleTemplate = _runtime.default.template({
   "useData": true
 });
 
-var pointerEventsSupported = (0, _jqueryWrapper.default)('<div>').css({
+var pointerEventsSupported = (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default)('<div>').css({
   'pointer-events': 'auto'
 })[0].style.pointerEvents === 'auto'; // polyfill for `pointer-events: none;` in IE < 11
 // Logic borrowed from https://github.com/kmewhort/pointer_events_polyfill (BSD)
 
 function pointerEventsPolyfill(e) {
   if (!pointerEventsSupported && this.$el.hasClass('o-form-saving')) {
-    var $el = (0, _jqueryWrapper.default)(e.currentTarget);
+    var $el = (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default)(e.currentTarget);
     $el.css('display', 'none');
     var underneathElem = document.elementFromPoint(e.clientX, e.clientY);
     $el.css('display', 'block');
     e.target = underneathElem;
-    (0, _jqueryWrapper.default)(underneathElem).trigger(e);
+    (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default)(underneathElem).trigger(e);
     return false;
   }
 }
@@ -9206,7 +11015,7 @@ var events = {
   }
 };
 
-_underscoreWrapper.default.each(['click', 'dblclick', 'mousedown', 'mouseup'], function (event) {
+_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.each(['click', 'dblclick', 'mousedown', 'mouseup'], function (event) {
   events[event + ' .o-form-input'] = pointerEventsPolyfill;
 });
 
@@ -9215,7 +11024,7 @@ var attributes = function attributes(model) {
   var collection = model && model.collection || {};
   return {
     method: 'POST',
-    action: _underscoreWrapper.default.result(model, 'urlRoot') || _underscoreWrapper.default.result(collection, 'url') || window.location.pathname,
+    action: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(model, 'urlRoot') || _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(collection, 'url') || window.location.pathname,
     'data-se': 'o-form',
     slot: 'content'
   };
@@ -9225,11 +11034,11 @@ var convertSavingState = function convertSavingState(rawSavingStateEvent, defaul
   rawSavingStateEvent || (rawSavingStateEvent = '');
   var savingStateEvent = [];
 
-  if (_underscoreWrapper.default.isString(rawSavingStateEvent)) {
+  if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isString(rawSavingStateEvent)) {
     savingStateEvent = rawSavingStateEvent.split(' ');
   }
 
-  savingStateEvent = _underscoreWrapper.default.union(savingStateEvent, defaultEvent);
+  savingStateEvent = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.union(savingStateEvent, defaultEvent);
   return savingStateEvent.join(' ');
 };
 
@@ -9293,7 +11102,7 @@ var getErrorSummary = function getErrorSummary() {
  */
 
 
-var _default = _BaseView.default.extend(
+/* harmony default export */ __webpack_exports__["default"] = (_BaseView__WEBPACK_IMPORTED_MODULE_4__.default.extend(
 /** @lends module:Okta.Form.prototype */
 {
   /**
@@ -9316,42 +11125,41 @@ var _default = _BaseView.default.extend(
     if (options.settings) {
       this.settings = options.settings;
     } else {
-      this.settings = options.settings = new _SettingsModel.default();
+      this.settings = options.settings = new _util_SettingsModel__WEBPACK_IMPORTED_MODULE_14__.default();
     }
 
-    this.id = _underscoreWrapper.default.uniqueId('form');
+    this.id = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.uniqueId('form');
     this.tagName = 'form';
 
-    _underscoreWrapper.default.defaults(this.events, events);
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.defaults(this.events, events);
 
-    _underscoreWrapper.default.defaults(this.attributes, attributes(options.model));
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.defaults(this.attributes, attributes(options.model));
 
     this.__buttons = [];
     this.__errorFields = {};
 
     this.__saveModelState(options.model);
 
-    var step = _underscoreWrapper.default.result(this, 'step');
+    var step = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, 'step');
 
     if (step) {
       // checking exists of `this.save` hence don't have to change to
       // `_.result(this, 'save')` which will execute the function and
       // is not the intent.
       if (!this.save) {
-        var totalStep = _underscoreWrapper.default.result(this, 'totalSteps');
+        var totalStep = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, 'totalSteps');
 
-        this.save = !totalStep || step === totalStep ? _StringUtil.default.localize('oform.button.finish', 'courage') : _StringUtil.default.localize('oform.button.next', 'courage');
+        this.save = !totalStep || step === totalStep ? _util_StringUtil__WEBPACK_IMPORTED_MODULE_3__.default.localize('oform.button.finish', 'courage') : _util_StringUtil__WEBPACK_IMPORTED_MODULE_3__.default.localize('oform.button.next', 'courage');
       }
 
-      this.className = _underscoreWrapper.default.result(this, 'className') + ' wizard';
+      this.className = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, 'className') + ' wizard';
     }
 
-    this.className = _underscoreWrapper.default.result(this, 'className') + ' o-form';
+    this.className = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, 'className') + ' o-form';
     this.__toolbar = this.__createToolbar(options);
+    _BaseView__WEBPACK_IMPORTED_MODULE_4__.default.call(this, options);
 
-    _BaseView.default.call(this, options);
-
-    _underscoreWrapper.default.each(_underscoreWrapper.default.result(this, 'inputs') || [], function (input) {
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.each(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, 'inputs') || [], function (input) {
       // to ingore extra argumests from `each` iteratee function
       // http://underscorejs.org/#each
       this.__addLayoutItem(input);
@@ -9362,7 +11170,7 @@ var _default = _BaseView.default.extend(
     //
 
     this.listenTo(this.model, 'change:__edit__', this.__applyMode);
-    this.listenTo(this.model, 'invalid error', _underscoreWrapper.default.throttle(function (model, resp, showBanner) {
+    this.listenTo(this.model, 'invalid error', _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.throttle(function (model, resp, showBanner) {
       this.__showErrors(model, resp, showBanner !== false);
     }, 100, {
       trailing: false
@@ -9370,13 +11178,13 @@ var _default = _BaseView.default.extend(
     this.listenTo(this.model, 'form:resize', function () {
       this.trigger('resize');
     });
-    this.listenTo(this.model, 'form:cancel', _underscoreWrapper.default.throttle(this.__cancel, 100, {
+    this.listenTo(this.model, 'form:cancel', _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.throttle(this.__cancel, 100, {
       trailing: false
     }));
-    this.listenTo(this.model, 'form:previous', _underscoreWrapper.default.throttle(this.__previous, 100, {
+    this.listenTo(this.model, 'form:previous', _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.throttle(this.__previous, 100, {
       trailing: false
     }));
-    this.__save = _underscoreWrapper.default.throttle(this.__save, 200, {
+    this.__save = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.throttle(this.__save, 200, {
       trailing: false
     });
     this.listenTo(this.model, 'form:save', function () {
@@ -9397,18 +11205,16 @@ var _default = _BaseView.default.extend(
 
     if (this.getAttribute('autoSave')) {
       this.listenTo(this, 'save', function (model) {
-        var _this = this;
-
         var xhr = model.save();
 
         if (xhr && xhr.done) {
-          xhr.done(function () {
-            _this.trigger('saved', model);
+          xhr.done(() => {
+            this.trigger('saved', model);
           });
         }
       });
 
-      if (_underscoreWrapper.default.isUndefined(hasSavingState)) {
+      if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isUndefined(hasSavingState)) {
         hasSavingState = true;
       }
     }
@@ -9439,20 +11245,20 @@ var _default = _BaseView.default.extend(
     var danger = this.getAttribute('danger');
     var saveBtnClassName = danger === true ? 'button-error' : 'button-primary';
 
-    var step = _underscoreWrapper.default.result(this, 'step');
+    var step = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, 'step');
 
-    var toolbar = new _Toolbar.default(_underscoreWrapper.default.extend({
-      save: this.save || _StringUtil.default.localize('oform.save', 'courage'),
+    var toolbar = new _components_Toolbar__WEBPACK_IMPORTED_MODULE_6__.default(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.extend({
+      save: this.save || _util_StringUtil__WEBPACK_IMPORTED_MODULE_3__.default.localize('oform.save', 'courage'),
       saveId: this.saveId,
       saveClassName: saveBtnClassName,
-      cancel: this.cancel || _StringUtil.default.localize('oform.cancel', 'courage'),
+      cancel: this.cancel || _util_StringUtil__WEBPACK_IMPORTED_MODULE_3__.default.localize('oform.cancel', 'courage'),
       noCancelButton: this.noCancelButton || false,
       noSubmitButton: this.noSubmitButton || false,
       buttonOrder: this.buttonOrder,
       hasPrevStep: step && step > 1
     }, options || this.options));
 
-    _underscoreWrapper.default.each(this.__buttons, function (args) {
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.each(this.__buttons, function (args) {
       toolbar.addButton.apply(toolbar, args);
     });
 
@@ -9610,13 +11416,13 @@ var _default = _BaseView.default.extend(
    * @return {Object} The value
    */
   getAttribute: function getAttribute(name, defaultValue) {
-    var value = _underscoreWrapper.default.resultCtx(this.options, name, this);
+    var value = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.resultCtx(this.options, name, this);
 
-    if (_underscoreWrapper.default.isUndefined(value)) {
-      value = _underscoreWrapper.default.result(this, name);
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isUndefined(value)) {
+      value = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, name);
     }
 
-    return !_underscoreWrapper.default.isUndefined(value) ? value : defaultValue;
+    return !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isUndefined(value) ? value : defaultValue;
   },
 
   /**
@@ -9646,10 +11452,9 @@ var _default = _BaseView.default.extend(
     this.__readModeBar && this.__readModeBar.remove();
 
     if (this.hasReadMode() && !this.isReadOnly()) {
-      var readModeBar = _ReadModeBar.default.extend({
+      var readModeBar = _components_ReadModeBar__WEBPACK_IMPORTED_MODULE_5__.default.extend({
         formTitle: this.getAttribute('title', '')
       });
-
       this.__readModeBar = this.add(readModeBar, '.o-form-title-bar').last();
     }
 
@@ -9661,8 +11466,7 @@ var _default = _BaseView.default.extend(
     });
     this.$el.html(html);
     delete this.template;
-
-    _BaseView.default.prototype.render.apply(this, arguments);
+    _BaseView__WEBPACK_IMPORTED_MODULE_4__.default.prototype.render.apply(this, arguments);
 
     this.__applyMode();
 
@@ -9725,7 +11529,7 @@ var _default = _BaseView.default.extend(
     if (this.model.sanitizeAttributes) {
       data = this.model.sanitizeAttributes(this.__originalModel);
     } else {
-      data = _underscoreWrapper.default.clone(this.__originalModel);
+      data = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.clone(this.__originalModel);
     }
 
     this.model.set(data, {
@@ -9754,16 +11558,16 @@ var _default = _BaseView.default.extend(
     var self = this;
 
     function validateArray(arr) {
-      return _underscoreWrapper.default.reduce(arr, function (memo, fieldName) {
-        return _underscoreWrapper.default.extend(memo, self.model.validateField(fieldName));
+      return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.reduce(arr, function (memo, fieldName) {
+        return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.extend(memo, self.model.validateField(fieldName));
       }, {});
     }
 
-    if (_underscoreWrapper.default.isUndefined(this.validate)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isUndefined(this.validate)) {
       return this.model.isValid();
-    } else if (_underscoreWrapper.default.isFunction(this.validate)) {
+    } else if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isFunction(this.validate)) {
       res = this.validate();
-    } else if (_underscoreWrapper.default.isArray(this.validate)) {
+    } else if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isArray(this.validate)) {
       res = validateArray(this.validate);
     } else if (this.validate === 'local') {
       res = validateArray(this.getInputs().map(function (input) {
@@ -9771,7 +11575,7 @@ var _default = _BaseView.default.extend(
       }));
     }
 
-    if (!_underscoreWrapper.default.isEmpty(res)) {
+    if (!_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isEmpty(res)) {
       this.model.trigger('invalid', this.model, res);
       return false;
     } else {
@@ -9851,13 +11655,13 @@ var _default = _BaseView.default.extend(
    * @method
    * @default _.identity
    */
-  parseErrorMessage: _underscoreWrapper.default.identity,
+  parseErrorMessage: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.identity,
   _handleErrorScroll: function _handleErrorScroll() {
     if (!this.getAttribute('scrollOnError')) {
       return;
     }
 
-    var $el = (0, _jqueryWrapper.default)('#' + this.id + ' .o-form-error-container');
+    var $el = (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default)('#' + this.id + ' .o-form-error-container');
 
     if ($el.length) {
       var $scrollContext = $el.scrollParent();
@@ -9869,7 +11673,7 @@ var _default = _BaseView.default.extend(
       // calculation below.
 
       if ($scrollContext[0] === document) {
-        $scrollContext = (0, _jqueryWrapper.default)('html, body');
+        $scrollContext = (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default)('html, body');
         scrollTop = $el.offset().top;
       } else {
         scrollTop = $scrollContext.scrollTop() + $el.offset().top - $scrollContext.offset().top;
@@ -9896,16 +11700,13 @@ var _default = _BaseView.default.extend(
     }
 
     var errorSummary;
+    var responseJSON = _helpers_ErrorParser__WEBPACK_IMPORTED_MODULE_8__.default.getResponseJSON(resp);
+    var validationErrors = _helpers_ErrorParser__WEBPACK_IMPORTED_MODULE_8__.default.parseFieldErrors(resp); // trigger events for field validation errors
 
-    var responseJSON = _ErrorParser.default.getResponseJSON(resp);
-
-    var validationErrors = _ErrorParser.default.parseFieldErrors(resp); // trigger events for field validation errors
-
-
-    if (_underscoreWrapper.default.size(validationErrors)) {
-      _underscoreWrapper.default.each(validationErrors, function (errors, field) {
-        this.model.trigger('form:field-error', this.__errorFields[field] || field, _underscoreWrapper.default.map(errors, function (error) {
-          return /^model\.validation/.test(error) ? _StringUtil.default.localize(error, 'courage') : error;
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.size(validationErrors)) {
+      _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.each(validationErrors, function (errors, field) {
+        this.model.trigger('form:field-error', this.__errorFields[field] || field, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.map(errors, function (error) {
+          return /^model\.validation/.test(error) ? _util_StringUtil__WEBPACK_IMPORTED_MODULE_3__.default.localize(error, 'courage') : error;
         }));
       }, this);
     } else {
@@ -9916,7 +11717,7 @@ var _default = _BaseView.default.extend(
 
     if (showBanner) {
       this.$('.o-form-error-container').addClass('o-form-has-errors');
-      this.add(_ErrorBanner.default, '.o-form-error-container', {
+      this.add(_helpers_ErrorBanner__WEBPACK_IMPORTED_MODULE_7__.default, '.o-form-error-container', {
         options: {
           errorSummary: errorSummary
         }
@@ -9947,18 +11748,18 @@ var _default = _BaseView.default.extend(
     return this;
   },
   __addLayoutItem: function __addLayoutItem(input) {
-    if (_InputFactory.default.supports(input)) {
+    if (_helpers_InputFactory__WEBPACK_IMPORTED_MODULE_11__.default.supports(input)) {
       this.addInput(input);
     } else {
       this.__addNonInputLayoutItem(input);
     }
   },
   __addNonInputLayoutItem: function __addNonInputLayoutItem(item) {
-    var itemOptions = _underscoreWrapper.default.omit(item, 'type');
+    var itemOptions = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.omit(item, 'type');
 
     switch (item.type) {
       case 'sectionTitle':
-        this.addSectionTitle(item.title, _underscoreWrapper.default.omit(itemOptions, 'title'));
+        this.addSectionTitle(item.title, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.omit(itemOptions, 'title'));
         break;
 
       case 'divider':
@@ -9986,11 +11787,8 @@ var _default = _BaseView.default.extend(
    */
   addDivider: function addDivider(options) {
     this.add('<div class="okta-form-divider form-divider"></div>');
-
-    _FormUtil.default.applyShowWhen(this.last(), options && options.showWhen);
-
-    _FormUtil.default.applyToggleWhen(this.last(), options && options.toggleWhen);
-
+    _helpers_FormUtil__WEBPACK_IMPORTED_MODULE_9__.default.applyShowWhen(this.last(), options && options.showWhen);
+    _helpers_FormUtil__WEBPACK_IMPORTED_MODULE_9__.default.applyToggleWhen(this.last(), options && options.toggleWhen);
     return this;
   },
 
@@ -10002,11 +11800,8 @@ var _default = _BaseView.default.extend(
     this.add(sectionTitleTemplate({
       title: title
     }));
-
-    _FormUtil.default.applyShowWhen(this.last(), options && options.showWhen);
-
-    _FormUtil.default.applyToggleWhen(this.last(), options && options.toggleWhen);
-
+    _helpers_FormUtil__WEBPACK_IMPORTED_MODULE_9__.default.applyShowWhen(this.last(), options && options.showWhen);
+    _helpers_FormUtil__WEBPACK_IMPORTED_MODULE_9__.default.applyToggleWhen(this.last(), options && options.toggleWhen);
     return this;
   },
 
@@ -10090,35 +11885,32 @@ var _default = _BaseView.default.extend(
    * }
    */
   addInput: function addInput(_options) {
-    _options = _underscoreWrapper.default.clone(_options);
-
-    _FormUtil.default.validateInput(_options, this.model);
-
-    var inputsOptions = _FormUtil.default.generateInputOptions(_options, this, this.__createInput).reverse(); // We need a local variable here to keep track
+    _options = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.clone(_options);
+    _helpers_FormUtil__WEBPACK_IMPORTED_MODULE_9__.default.validateInput(_options, this.model);
+    var inputsOptions = _helpers_FormUtil__WEBPACK_IMPORTED_MODULE_9__.default.generateInputOptions(_options, this, this.__createInput).reverse(); // We need a local variable here to keep track
     // as addInput can be called either directy or through the inputs array.
 
-
-    if (_underscoreWrapper.default.isEmpty(this.getInputs().toArray())) {
-      _underscoreWrapper.default.extend(inputsOptions[0], {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isEmpty(this.getInputs().toArray())) {
+      _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.extend(inputsOptions[0], {
         validateOnlyIfDirty: true
       });
     }
 
-    var inputs = _underscoreWrapper.default.map(inputsOptions, this.__createInput, this);
+    var inputs = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.map(inputsOptions, this.__createInput, this);
 
-    _underscoreWrapper.default.each(inputsOptions, function (input) {
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.each(inputsOptions, function (input) {
       if (input.errorField) {
         this.__errorFields[input.errorField] = input.name;
       }
     }, this);
 
     var options = {
-      inputId: _underscoreWrapper.default.last(inputs).options.inputId,
+      inputId: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.last(inputs).options.inputId,
       input: inputs,
       multi: inputsOptions.length > 1 ? inputsOptions.length : undefined
     };
 
-    _underscoreWrapper.default.extend(options, _underscoreWrapper.default.omit(this.options, 'input'), _underscoreWrapper.default.omit(_options, 'input'));
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.extend(options, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.omit(this.options, 'input'), _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.omit(_options, 'input'));
 
     var inputWrapper = this.__createWrapper(options);
 
@@ -10126,9 +11918,13 @@ var _default = _BaseView.default.extend(
       inputWrapper.add(this.__createLabel(options));
     }
 
-    inputWrapper.add(this._createContainer(options));
+    inputWrapper.add(this._createContainer(options)); // TODO: there may be a bug here.
+    // options.input will always be an array, so options.input.type will always be undefined
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    /// @ts-ignore
+
     inputWrapper.type = options.type || options.input.type || 'custom';
-    var args = [inputWrapper].concat(_underscoreWrapper.default.rest(arguments));
+    var args = [inputWrapper].concat(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.rest(arguments));
     return this.add.apply(this, args);
   },
 
@@ -10136,32 +11932,32 @@ var _default = _BaseView.default.extend(
    * @private
    */
   __createInput: function __createInput(options) {
-    options = _underscoreWrapper.default.pick(options, _FormUtil.default.INPUT_OPTIONS);
-    return _InputFactory.default.create(options);
+    options = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.pick(options, _helpers_FormUtil__WEBPACK_IMPORTED_MODULE_9__.default.INPUT_OPTIONS);
+    return _helpers_InputFactory__WEBPACK_IMPORTED_MODULE_11__.default.create(options);
   },
 
   /**
    * @private
    */
   __createWrapper: function __createWrapper(options) {
-    options = _underscoreWrapper.default.pick(options, _FormUtil.default.WRAPPER_OPTIONS);
-    return new _InputWrapper.default(options);
+    options = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.pick(options, _helpers_FormUtil__WEBPACK_IMPORTED_MODULE_9__.default.WRAPPER_OPTIONS);
+    return new _helpers_InputWrapper__WEBPACK_IMPORTED_MODULE_13__.default(options);
   },
 
   /**
    * @private
    */
   __createLabel: function __createLabel(options) {
-    options = _underscoreWrapper.default.pick(options, _FormUtil.default.LABEL_OPTIONS);
-    return new _InputLabel.default(options);
+    options = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.pick(options, _helpers_FormUtil__WEBPACK_IMPORTED_MODULE_9__.default.LABEL_OPTIONS);
+    return new _helpers_InputLabel__WEBPACK_IMPORTED_MODULE_12__.default(options);
   },
 
   /**
    * @private
    */
   _createContainer: function _createContainer(options) {
-    options = _underscoreWrapper.default.pick(options, _FormUtil.default.CONTAINER_OPTIONS);
-    return new _InputContainer.default(options);
+    options = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.pick(options, _helpers_FormUtil__WEBPACK_IMPORTED_MODULE_9__.default.CONTAINER_OPTIONS);
+    return new _helpers_InputContainer__WEBPACK_IMPORTED_MODULE_10__.default(options);
   },
 
   /**
@@ -10170,7 +11966,7 @@ var _default = _BaseView.default.extend(
    * @private
    */
   __saveModelState: function __saveModelState(model) {
-    this.__originalModel = _jqueryWrapper.default.extend(true, {}, model.attributes);
+    this.__originalModel = _util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.extend(true, {}, model.attributes);
   },
 
   /**
@@ -10178,10 +11974,13 @@ var _default = _BaseView.default.extend(
    * @ignore
    */
   add: function add() {
-    var args = _underscoreWrapper.default.toArray(arguments);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
+    // sets a default element selector
     typeof args[1] === 'undefined' && (args[1] = '> div.o-form-content > .o-form-fieldset-container');
-    return _BaseView.default.prototype.add.apply(this, args);
+    return _BaseView__WEBPACK_IMPORTED_MODULE_4__.default.prototype.add.apply(this, args);
   },
 
   /**
@@ -10223,7 +12022,7 @@ var _default = _BaseView.default.extend(
   contentHeight: function contentHeight(height) {
     var content = this.$('.o-form-content');
 
-    if (_underscoreWrapper.default.isNumber(height)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isNumber(height)) {
       content.css('max-height', height);
     } else {
       return content.height();
@@ -10235,56 +12034,38 @@ var _default = _BaseView.default.extend(
    * @return {InputWrapper[]} An underscore wrapped array of {@link InputWrapper} instances
    */
   getInputs: function getInputs() {
-    return (0, _underscoreWrapper.default)(this.filter(function (view) {
-      return view instanceof _InputWrapper.default;
+    return (0,_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default)(this.filter(function (view) {
+      return view instanceof _helpers_InputWrapper__WEBPACK_IMPORTED_MODULE_13__.default;
     }));
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/BaseInput.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/BaseInput.js ***!
-  \*****************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseInput.ts":
+/*!************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseInput.ts ***!
+  \************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars/runtime */ "handlebars/runtime");
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/jquery-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts");
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _util_ButtonFactory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/ButtonFactory */ "../../../../../../okta/okta-ui/packages/courage/src/util/ButtonFactory.ts");
+/* harmony import */ var _util_StringUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/StringUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.ts");
+/* harmony import */ var _BaseView__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
+/* harmony import */ var _components_Callout__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/Callout */ "../../../../../../okta/okta-ui/packages/courage/src/views/components/Callout.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
 
-var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
-var _ButtonFactory = _interopRequireDefault(__webpack_require__(/*! ../../util/ButtonFactory */ "./node_modules/@okta/courage/src/util/ButtonFactory.js"));
 
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
-
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
-
-var _Callout = _interopRequireDefault(__webpack_require__(/*! ../components/Callout */ "./node_modules/@okta/courage/src/views/components/Callout.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * @class BaseInput
- * @private
- * An abstract object that defines an input for {@link Okta.Form}
- *
- * BaseInputs are typically not created directly, but being passed to {@link Okta.Form#addInput}
- * @extends Okta.View
- */
-var _default = _BaseView.default.extend({
+var props = {
   tagName: 'span',
   attributes: function attributes() {
     return {
@@ -10298,8 +12079,8 @@ var _default = _BaseView.default.extend({
   defaultPlaceholder: '',
   constructor: function constructor(options) {
     /* eslint complexity: [2, 7] */
-    options = _underscoreWrapper.default.defaults(options || {}, {
-      inputId: options.id || _underscoreWrapper.default.uniqueId('input'),
+    options = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.defaults(options || {}, {
+      inputId: options.id || _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.uniqueId('input'),
       placeholder: this.defaultPlaceholder,
       inlineValidation: true,
       validateOnlyIfDirty: false
@@ -10309,28 +12090,28 @@ var _default = _BaseView.default.extend({
 
     var self = this;
 
-    _underscoreWrapper.default.each({
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.each({
       enable: 'removeClass',
       disable: 'addClass'
     }, function (method, action) {
-      self[action] = _underscoreWrapper.default.wrap(self[action], function (fn) {
+      self[action] = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.wrap(self[action], function (fn) {
         fn.apply(self, arguments);
         self.$el[method]('o-form-disabled');
       });
     });
 
-    _BaseView.default.call(this, options);
+    _BaseView__WEBPACK_IMPORTED_MODULE_5__.default.call(this, options);
 
-    if (_underscoreWrapper.default.result(options, 'readOnly') !== true && _underscoreWrapper.default.result(options, 'read') === true) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(options, 'readOnly') !== true && _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(options, 'read') === true) {
       this.listenTo(this.model, 'change:__edit__', this.render);
     }
 
-    if (_underscoreWrapper.default.isFunction(this.focus)) {
-      this.focus = _underscoreWrapper.default.debounce(_underscoreWrapper.default.bind(this.focus, this), 50);
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isFunction(this.focus)) {
+      this.focus = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.debounce(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.bind(this.focus, this), 50);
     } // Enable inline validation if this is not the first field in the form.
 
 
-    if (!_underscoreWrapper.default.result(options, 'validateOnlyIfDirty')) {
+    if (!_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(options, 'validateOnlyIfDirty')) {
       this.addInlineValidation();
     }
 
@@ -10345,18 +12126,18 @@ var _default = _BaseView.default.extend({
     }
   },
   addInlineValidation: function addInlineValidation() {
-    if (_underscoreWrapper.default.result(this.options, 'inlineValidation')) {
-      this.$el.on('focusout', ':input', _underscoreWrapper.default.bind(this.validate, this));
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this.options, 'inlineValidation')) {
+      this.$el.on('focusout', ':input', _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.bind(this.validate, this));
     }
   },
   toModelValue: function toModelValue() {
     var value = this.val();
 
-    if (_underscoreWrapper.default.isFunction(this.to)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isFunction(this.to)) {
       value = this.to.call(this, value);
     }
 
-    if (_underscoreWrapper.default.isFunction(this.options.to)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isFunction(this.options.to)) {
       value = this.options.to.call(this, value);
     }
 
@@ -10365,30 +12146,29 @@ var _default = _BaseView.default.extend({
   __getDependencyCalloutBtn: function __getDependencyCalloutBtn(btnConfig) {
     var self = this;
 
-    var btnOptions = _underscoreWrapper.default.clone(btnConfig);
+    var btnOptions = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.clone(btnConfig);
 
     var originalClick = btnOptions.click || function () {}; // add onfocus listener to re-evaluate depedency when callout button is clicked
 
 
     btnOptions.click = function () {
-      (0, _jqueryWrapper.default)(window).one('focus.dependency', function () {
+      (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default)(window).one('focus.dependency', function () {
         self.__showInputDependencies();
       });
       originalClick.call(self);
     };
 
-    var BaseInputCalloutBtn = _BaseView.default.extend({
-      children: [_ButtonFactory.default.create(btnOptions)]
+    var BaseInputCalloutBtn = _BaseView__WEBPACK_IMPORTED_MODULE_5__.default.extend({
+      children: [_util_ButtonFactory__WEBPACK_IMPORTED_MODULE_3__.default.create(btnOptions)]
     });
-
     return new BaseInputCalloutBtn();
   },
   getCalloutParent: function getCalloutParent() {
     return this.$('input[value="' + this.getModelValue() + '"]').parent();
   },
   __getCalloutMsgContainer: function __getCalloutMsgContainer(calloutMsg) {
-    return _BaseView.default.extend({
-      template: _runtime.default.template({
+    return _BaseView__WEBPACK_IMPORTED_MODULE_5__.default.extend({
+      template: handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
         "compiler": [8, ">= 4.3.0"],
         "main": function main(container, depth0, helpers, partials, data) {
           var helper,
@@ -10426,7 +12206,7 @@ var _default = _BaseView.default.extend({
     });
   },
   showCallout: function showCallout(calloutConfig, dependencyResolved) {
-    var callout = _underscoreWrapper.default.clone(calloutConfig);
+    var callout = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.clone(calloutConfig);
 
     callout.className = 'dependency-callout';
 
@@ -10435,17 +12215,17 @@ var _default = _BaseView.default.extend({
       delete callout.btn;
     }
 
-    var dependencyCallout = _Callout.default.create(callout);
+    var dependencyCallout = _components_Callout__WEBPACK_IMPORTED_MODULE_6__.default.create(callout);
 
     if (!dependencyResolved) {
-      dependencyCallout.add(this.__getCalloutMsgContainer(_StringUtil.default.localize('dependency.callout.msg', 'courage')));
+      dependencyCallout.add(this.__getCalloutMsgContainer(_util_StringUtil__WEBPACK_IMPORTED_MODULE_4__.default.localize('dependency.callout.msg', 'courage')));
     }
 
     var calloutParent = this.getCalloutParent();
     calloutParent.append(dependencyCallout.render().el);
 
     if (callout.type === 'success') {
-      _underscoreWrapper.default.delay(function () {
+      _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.delay(function () {
         // fade out success callout
         dependencyCallout.$el.fadeOut(800);
       }, 1000);
@@ -10459,13 +12239,13 @@ var _default = _BaseView.default.extend({
 
     if (dependencyResolved) {
       defaultCallout = {
-        title: _StringUtil.default.localize('dependency.action.completed', 'courage'),
+        title: _util_StringUtil__WEBPACK_IMPORTED_MODULE_4__.default.localize('dependency.action.completed', 'courage'),
         size: 'large',
         type: 'success'
       };
     } else {
       defaultCallout = {
-        title: _StringUtil.default.localize('dependency.action.required', 'courage', [calloutTitle]),
+        title: _util_StringUtil__WEBPACK_IMPORTED_MODULE_4__.default.localize('dependency.action.required', 'courage', [calloutTitle]),
         size: 'large',
         type: 'warning'
       };
@@ -10475,7 +12255,7 @@ var _default = _BaseView.default.extend({
   },
   __handleDependency: function __handleDependency(result, callout) {
     var self = this;
-    var calloutConfig = _underscoreWrapper.default.isFunction(callout) ? callout(result) : _underscoreWrapper.default.extend({}, callout, self.__evaluateCalloutObject(result.resolved, callout.title)); // remove existing callouts if any
+    var calloutConfig = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isFunction(callout) ? callout(result) : _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.extend({}, callout, self.__evaluateCalloutObject(result.resolved, callout.title)); // remove existing callouts if any
 
     self.removeCallout();
     self.showCallout(calloutConfig, result.resolved);
@@ -10484,7 +12264,7 @@ var _default = _BaseView.default.extend({
     var self = this;
     var fieldDependency = self.options.deps[self.getModelValue()];
 
-    if (fieldDependency && _underscoreWrapper.default.isFunction(fieldDependency.func)) {
+    if (fieldDependency && _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isFunction(fieldDependency.func)) {
       fieldDependency.func().done(function (data) {
         self.__handleDependency({
           resolved: true,
@@ -10506,7 +12286,7 @@ var _default = _BaseView.default.extend({
    * updates the model with the input's value
    */
   update: function update() {
-    if (!this._isEdited && _underscoreWrapper.default.result(this.options, 'validateOnlyIfDirty')) {
+    if (!this._isEdited && _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this.options, 'validateOnlyIfDirty')) {
       this._isEdited = true;
       this.addInlineValidation();
     }
@@ -10524,7 +12304,7 @@ var _default = _BaseView.default.extend({
    * @return {Boolean}
    */
   isEditMode: function isEditMode() {
-    var ret = !_underscoreWrapper.default.result(this.options, 'readOnly') && (_underscoreWrapper.default.result(this.options, 'read') !== true || this.model.get('__edit__') === true);
+    var ret = !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this.options, 'readOnly') && (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this.options, 'read') !== true || this.model.get('__edit__') === true);
     return ret;
   },
 
@@ -10535,12 +12315,12 @@ var _default = _BaseView.default.extend({
   render: function render() {
     this.preRender();
     var params = this.options.params;
-    this.options.params = _underscoreWrapper.default.resultCtx(this.options, 'params', this);
+    this.options.params = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.resultCtx(this.options, 'params', this);
 
     if (this.isEditMode()) {
       this.editMode();
 
-      if (_underscoreWrapper.default.resultCtx(this.options, 'disabled', this)) {
+      if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.resultCtx(this.options, 'disabled', this)) {
         this.disable();
       } else {
         this.enable();
@@ -10559,11 +12339,11 @@ var _default = _BaseView.default.extend({
    * checks if the current value in the model is valid for this field
    */
   validate: function validate() {
-    if (!this.model.get('__pending__') && this.isEditMode() && _underscoreWrapper.default.isFunction(this.model.validateField)) {
+    if (!this.model.get('__pending__') && this.isEditMode() && _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isFunction(this.model.validateField)) {
       var validationError = this.model.validateField(this.options.name);
 
       if (validationError) {
-        _underscoreWrapper.default.delay(function () {
+        _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.delay(function () {
           this.model.trigger('form:clear-error:' + this.options.name);
           this.model.trigger('invalid', this.model, validationError, false);
         }.bind(this), 100);
@@ -10611,7 +12391,7 @@ var _default = _BaseView.default.extend({
    * Renders the input in edit mode
    */
   editMode: function editMode() {
-    var options = _underscoreWrapper.default.extend({}, this.options, {
+    var options = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.extend({}, this.options, {
       value: this.getModelValue()
     });
 
@@ -10630,7 +12410,7 @@ var _default = _BaseView.default.extend({
     return this;
   },
   getReadModeString: function getReadModeString() {
-    var readModeStr = _underscoreWrapper.default.resultCtx(this.options, 'readModeString', this);
+    var readModeStr = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.resultCtx(this.options, 'readModeString', this);
 
     if (readModeStr) {
       return readModeStr;
@@ -10646,11 +12426,11 @@ var _default = _BaseView.default.extend({
   getModelValue: function getModelValue() {
     var value = this.model.get(this.options.name);
 
-    if (_underscoreWrapper.default.isFunction(this.from)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isFunction(this.from)) {
       value = this.from.call(this, value);
     }
 
-    if (_underscoreWrapper.default.isFunction(this.options.from)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isFunction(this.options.from)) {
       value = this.options.from.call(this, value);
     }
 
@@ -10708,7 +12488,7 @@ var _default = _BaseView.default.extend({
     this.options.type = type;
   },
   getNameString: function getNameString() {
-    if (_underscoreWrapper.default.isArray(this.options.name)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isArray(this.options.name)) {
       return this.options.name.join('-');
     }
 
@@ -10722,7 +12502,7 @@ var _default = _BaseView.default.extend({
    */
   getParams: function getParams(options) {
     var opts = options || this.options || {};
-    return _underscoreWrapper.default.clone(_underscoreWrapper.default.resultCtx(opts, 'params', this) || {});
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.clone(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.resultCtx(opts, 'params', this) || {});
   },
 
   /**
@@ -10732,9 +12512,9 @@ var _default = _BaseView.default.extend({
    * @return {Object} the params
    */
   getParam: function getParam(key, defaultValue) {
-    var result = _underscoreWrapper.default.resultCtx(this.getParams(), key, this);
+    var result = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.resultCtx(this.getParams(), key, this);
 
-    return !_underscoreWrapper.default.isUndefined(result) ? result : defaultValue;
+    return !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isUndefined(result) ? result : defaultValue;
   },
 
   /**
@@ -10744,7 +12524,7 @@ var _default = _BaseView.default.extend({
    * @return {Object} the param or attribute
    */
   getParamOrAttribute: function getParamOrAttribute(key) {
-    return this.getParam(key) || _underscoreWrapper.default.result(this, key);
+    return this.getParam(key) || _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this, key);
   },
   __markError: function __markError() {
     this.$el.addClass('o-form-has-errors');
@@ -10752,34 +12532,25 @@ var _default = _BaseView.default.extend({
   __clearError: function __clearError() {
     this.$el.removeClass('o-form-has-errors');
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+};
+var constructor = _BaseView__WEBPACK_IMPORTED_MODULE_5__.default.extend(props);
+/* harmony default export */ __webpack_exports__["default"] = (constructor);
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/components/ReadModeBar.js":
-/*!******************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/components/ReadModeBar.js ***!
-  \******************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/components/ReadModeBar.js":
+/*!*************************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/components/ReadModeBar.js ***!
+  \*************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _BaseView__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
+/* harmony import */ var _helpers_FormUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../helpers/FormUtil */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/FormUtil.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
-
-var _FormUtil = _interopRequireDefault(__webpack_require__(/*! ../helpers/FormUtil */ "./node_modules/@okta/courage/src/views/forms/helpers/FormUtil.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _default = _BaseView.default.extend({
+/* harmony default export */ __webpack_exports__["default"] = (_BaseView__WEBPACK_IMPORTED_MODULE_0__.default.extend({
   el: '<span class="o-form-toggle" data-type="header-btn"></span>',
   formTitle: '',
   modelEvents: {
@@ -10790,11 +12561,11 @@ var _default = _BaseView.default.extend({
   },
   addButton: function addButton() {
     if (this.model.get('__edit__')) {
-      this.add(_FormUtil.default.createReadFormButton({
+      this.add(_helpers_FormUtil__WEBPACK_IMPORTED_MODULE_1__.default.createReadFormButton({
         type: 'cancel'
       }));
     } else {
-      this.add(_FormUtil.default.createReadFormButton({
+      this.add(_helpers_FormUtil__WEBPACK_IMPORTED_MODULE_1__.default.createReadFormButton({
         type: 'edit',
         formTitle: this.formTitle,
         className: 'ajax-form-edit-link'
@@ -10805,59 +12576,46 @@ var _default = _BaseView.default.extend({
     this.removeChildren();
     this.addButton();
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/components/Toolbar.js":
-/*!**************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/components/Toolbar.js ***!
-  \**************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/components/Toolbar.ts":
+/*!*********************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/components/Toolbar.ts ***!
+  \*********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _BaseView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
+/* harmony import */ var _helpers_FormUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers/FormUtil */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/FormUtil.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
-
-var _FormUtil = _interopRequireDefault(__webpack_require__(/*! ../helpers/FormUtil */ "./node_modules/@okta/courage/src/views/forms/helpers/FormUtil.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _default = _BaseView.default.extend({
+var proto = {
   className: 'o-form-button-bar',
   buttonOrder: ['previous', 'save', 'cancel'],
   initialize: function initialize(options) {
-    var _this = this;
-
     var buttonConfigs = {
       previous: {
         type: 'previous'
       },
       save: {
         type: 'save',
-        text: _underscoreWrapper.default.resultCtx(options, 'save', this),
-        id: _underscoreWrapper.default.resultCtx(options, 'saveId', this),
-        className: _underscoreWrapper.default.resultCtx(options, 'saveClassName', this)
+        text: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.resultCtx(options, 'save', this),
+        id: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.resultCtx(options, 'saveId', this),
+        className: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.resultCtx(options, 'saveClassName', this)
       },
       cancel: {
         type: 'cancel',
-        text: _underscoreWrapper.default.resultCtx(options, 'cancel', this)
+        text: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.resultCtx(options, 'cancel', this)
       }
     };
 
-    this.__getButtonOrder(options).forEach(function (buttonName) {
-      _this.addButton(buttonConfigs[buttonName]);
+    this.__getButtonOrder(options).forEach(buttonName => {
+      this.addButton(buttonConfigs[buttonName]);
     });
   },
 
@@ -10867,10 +12625,10 @@ var _default = _BaseView.default.extend({
    * @param {Object} options {@link Okta.View#add} options
    */
   addButton: function addButton(params, options) {
-    return this.add(_FormUtil.default.createButton(params), options);
+    return this.add(_helpers_FormUtil__WEBPACK_IMPORTED_MODULE_2__.default.createButton(params), options);
   },
   __getButtonOrder: function __getButtonOrder(options) {
-    var buttonOrder = _underscoreWrapper.default.resultCtx(options, 'buttonOrder', this, this.buttonOrder);
+    var buttonOrder = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.resultCtx(options, 'buttonOrder', this, this.buttonOrder);
 
     var buttonsToSkip = [];
 
@@ -10886,40 +12644,30 @@ var _default = _BaseView.default.extend({
       buttonsToSkip.push('previous');
     }
 
-    return _underscoreWrapper.default.without.apply(_underscoreWrapper.default, [buttonOrder].concat(buttonsToSkip));
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.without(buttonOrder, ...buttonsToSkip);
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+};
+/* harmony default export */ __webpack_exports__["default"] = (_BaseView__WEBPACK_IMPORTED_MODULE_1__.default.extend(proto));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/EnumTypeHelper.js":
-/*!******************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/EnumTypeHelper.js ***!
-  \******************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/EnumTypeHelper.js":
+/*!*************************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/EnumTypeHelper.js ***!
+  \*************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _SchemaUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/SchemaUtil */ "./node_modules/@okta/courage/src/util/SchemaUtil.js"));
-
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/jquery-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts");
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/SchemaUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/SchemaUtil.ts");
+/* harmony import */ var _util_StringUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../util/StringUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.ts");
 /* eslint max-statements: 0 */
+
+
+
+
 var NAME = 'name';
 var ENUM_KEY_PREFIX = '_enum_';
 /**
@@ -10949,7 +12697,7 @@ function getEnumInputOptions(config) {
     options: getDropdownOptionsFromOneOf(enumOneOf)
   }; // input type
 
-  if (_SchemaUtil.default.isArrayDataType(config.displayType)) {
+  if (_util_SchemaUtil__WEBPACK_IMPORTED_MODULE_2__.default.isArrayDataType(config.displayType)) {
     inputOptions.type = 'checkboxset';
     inputOptions.to = valuesToEnumObjects;
     inputOptions.from = enumObjectsToValues;
@@ -10964,7 +12712,7 @@ function getEnumInputOptions(config) {
 }
 
 function getDropdownOptions(values) {
-  return _underscoreWrapper.default.isArray(values) ? getDropdownOptionsFromOneOf(convertToOneOf(values)) : {};
+  return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isArray(values) ? getDropdownOptionsFromOneOf(convertToOneOf(values)) : {};
 }
 
 function getDropdownOptionsFromOneOf(values) {
@@ -10972,7 +12720,7 @@ function getDropdownOptionsFromOneOf(values) {
     return {};
   }
 
-  return _underscoreWrapper.default.reduce(values, function (options, value, index) {
+  return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.reduce(values, function (options, value, index) {
     options[convertIndexToEnumIndex(index)] = value.title;
     return options;
   }, {});
@@ -10980,7 +12728,7 @@ function getDropdownOptionsFromOneOf(values) {
 
 function convertToOneOf(values) {
   // assume this is a legacy enum array and convert to oneOf object
-  if (!_underscoreWrapper.default.all(values, _jqueryWrapper.default.isPlainObject)) {
+  if (!_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.all(values, _util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isPlainObject)) {
     return convertEnumToOneOf(values); // we assume object without const and title is an enum object which need special conversion
   } else if (!isOneOfEnumObject(values)) {
     return convertEnumObjectToOneOf(values);
@@ -10990,13 +12738,13 @@ function convertToOneOf(values) {
 }
 
 function isOneOfEnumObject(values) {
-  return _underscoreWrapper.default.isArray(values) && _underscoreWrapper.default.all(values, function (value) {
-    return _underscoreWrapper.default.has(value, 'const') && _underscoreWrapper.default.has(value, 'title');
+  return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isArray(values) && _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.all(values, function (value) {
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.has(value, 'const') && _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.has(value, 'title');
   });
 }
 
 function convertEnumToOneOf(values) {
-  return _underscoreWrapper.default.map(values, function (value) {
+  return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.map(values, function (value) {
     return {
       const: value,
       title: valueToTitle(value)
@@ -11005,11 +12753,11 @@ function convertEnumToOneOf(values) {
 }
 
 function valueToTitle(value) {
-  if (_underscoreWrapper.default.isObject(value)) {
+  if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isObject(value)) {
     return JSON.stringify(value);
   }
 
-  if (_underscoreWrapper.default.isNumber(value)) {
+  if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isNumber(value)) {
     return value + '';
   }
 
@@ -11017,12 +12765,12 @@ function valueToTitle(value) {
 }
 
 function convertEnumObjectToOneOf(values) {
-  var findKey = _underscoreWrapper.default.partial(_underscoreWrapper.default.has, _underscoreWrapper.default, NAME); // If all object found the key NAME, use the NAME's value as display name
+  var findKey = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.partial(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.has, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default, NAME); // If all object found the key NAME, use the NAME's value as display name
 
 
-  if (_underscoreWrapper.default.all(values, findKey)) {
-    return _underscoreWrapper.default.chain(values).filter(function (value) {
-      return _jqueryWrapper.default.isPlainObject(value) && _underscoreWrapper.default.has(value, NAME);
+  if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.all(values, findKey)) {
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.chain(values).filter(function (value) {
+      return _util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isPlainObject(value) && _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.has(value, NAME);
     }).map(function (value) {
       return {
         const: value,
@@ -11040,8 +12788,8 @@ function convertIndexToEnumIndex(index) {
 }
 
 function enumObjectToValue(obj) {
-  var index = _underscoreWrapper.default.findIndex(this.options.params.enumOneOf, function (oneOfObj) {
-    return _underscoreWrapper.default.isObject(obj) ? _underscoreWrapper.default.isEqual(oneOfObj.const, obj) : oneOfObj.const === obj;
+  var index = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.findIndex(this.options.params.enumOneOf, function (oneOfObj) {
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isObject(obj) ? _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isEqual(oneOfObj.const, obj) : oneOfObj.const === obj;
   }); // Cannot rely on comparator in findIndex when compare objects so need special handling
 
 
@@ -11049,96 +12797,86 @@ function enumObjectToValue(obj) {
 }
 
 function valueToEnumObject(val) {
-  if (!_underscoreWrapper.default.isString(val) || val.indexOf(ENUM_KEY_PREFIX) !== 0) {
+  if (!_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isString(val) || val.indexOf(ENUM_KEY_PREFIX) !== 0) {
     return val;
   }
 
   var index = val.replace(ENUM_KEY_PREFIX, '');
-  var enumValue = this.options.params && _underscoreWrapper.default.isArray(this.options.params.enumOneOf) ? this.options.params.enumOneOf[index] : null; // @see `getEnumInputOptions` how enumValues has been set.
+  var enumValue = this.options.params && _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isArray(this.options.params.enumOneOf) ? this.options.params.enumOneOf[index] : null; // @see `getEnumInputOptions` how enumValues has been set.
 
-  return _underscoreWrapper.default.has(enumValue, 'const') ? enumValue.const : enumValue;
+  return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.has(enumValue, 'const') ? enumValue.const : enumValue;
 }
 
 function valuesToEnumObjects(values) {
-  return _underscoreWrapper.default.map(values, valueToEnumObject.bind(this));
+  return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.map(values, valueToEnumObject.bind(this));
 }
 
 function enumObjectsToValues(values) {
-  return _underscoreWrapper.default.map(values, enumObjectToValue.bind(this));
+  return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.map(values, enumObjectToValue.bind(this));
 }
 
 function isStringConstraint(value) {
-  return _underscoreWrapper.default.isString(value) && _jqueryWrapper.default.trim(value) !== '';
+  return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isString(value) && _util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.trim(value) !== '';
 }
 
 function isNumberConstraint(value) {
-  return _underscoreWrapper.default.isNumber(value) || _underscoreWrapper.default.isNumber(_StringUtil.default.parseFloat(_jqueryWrapper.default.trim(value)));
+  return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isNumber(value) || _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isNumber(_util_StringUtil__WEBPACK_IMPORTED_MODULE_3__.default.parseFloat(_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.trim(value)));
 }
 
 function isIntegerConstraint(value) {
-  var integer = _underscoreWrapper.default.isNumber(value) ? value : _StringUtil.default.parseInt(_jqueryWrapper.default.trim(value));
+  var integer = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isNumber(value) ? value : _util_StringUtil__WEBPACK_IMPORTED_MODULE_3__.default.parseInt(_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.trim(value));
   return typeof integer === 'number' && isFinite(integer) && Math.floor(integer) === integer;
 }
 
 function isObjectConstraint(value) {
-  if (_underscoreWrapper.default.isObject(value) && !_underscoreWrapper.default.isArray(value)) {
+  if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isObject(value) && !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isArray(value)) {
     return true;
   }
 
-  var object = _StringUtil.default.parseObject(_jqueryWrapper.default.trim(value));
-
-  return _underscoreWrapper.default.isObject(object) && !_underscoreWrapper.default.isArray(object);
+  var object = _util_StringUtil__WEBPACK_IMPORTED_MODULE_3__.default.parseObject(_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.trim(value));
+  return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isObject(object) && !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isArray(object);
 }
 
 function isConstraintValueMatchType(value, type) {
   switch (type) {
-    case _SchemaUtil.default.STRING:
+    case _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_2__.default.STRING:
       return isStringConstraint(value);
 
-    case _SchemaUtil.default.NUMBER:
+    case _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_2__.default.NUMBER:
       return isNumberConstraint(value);
 
-    case _SchemaUtil.default.INTEGER:
+    case _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_2__.default.INTEGER:
       return isIntegerConstraint(value);
 
-    case _SchemaUtil.default.OBJECT:
+    case _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_2__.default.OBJECT:
       return isObjectConstraint(value);
   }
 }
 
-var _default = {
+/* harmony default export */ __webpack_exports__["default"] = ({
   getEnumInputOptions: getEnumInputOptions,
   getDropdownOptions: getDropdownOptions,
   convertToOneOf: convertToOneOf,
   isConstraintValueMatchType: isConstraintValueMatchType
-};
-exports.default = _default;
-module.exports = exports.default;
+});
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/ErrorBanner.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/ErrorBanner.js ***!
-  \***************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/ErrorBanner.js":
+/*!**********************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/ErrorBanner.js ***!
+  \**********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars/runtime */ "handlebars/runtime");
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _BaseView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
-
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _default = _BaseView.default.extend({
-  template: _runtime.default.template({
+/* harmony default export */ __webpack_exports__["default"] = (_BaseView__WEBPACK_IMPORTED_MODULE_1__.default.extend({
+  template: handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
     "1": function _(container, depth0, helpers, partials, data) {
       var helper,
           lookupProperty = container.lookupProperty || function (parent, propertyName) {
@@ -11227,35 +12965,24 @@ var _default = _BaseView.default.extend({
   modelEvents: {
     'form:clear-errors': 'remove'
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/ErrorParser.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/ErrorParser.js ***!
-  \***************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/ErrorParser.ts":
+/*!**********************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/ErrorParser.ts ***!
+  \**********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _util_StringUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/StringUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.ts");
 
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var FIELD_REGEX = /^([\S]+): (.+)$/;
-var _default = {
+/* harmony default export */ __webpack_exports__["default"] = ({
   /**
    * Helper function that returns the json output of an xhr objext
    * @param  {jqXhr} xhr
@@ -11264,8 +12991,7 @@ var _default = {
   getResponseJSON: function getResponseJSON(xhr) {
     try {
       return xhr.responseJSON || JSON.parse(xhr.responseText);
-    } catch (e) {
-      return;
+    } catch (e) {// ignore error
     }
   },
 
@@ -11291,8 +13017,7 @@ var _default = {
    */
   parseErrorCauseObject: function parseErrorCauseObject(errorCause) {
     if (errorCause.property && errorCause.errorSummary) {
-      var localizedMsg = _StringUtil.default.localize(errorCause.reason);
-
+      var localizedMsg = _util_StringUtil__WEBPACK_IMPORTED_MODULE_1__.default.localize(errorCause.reason);
       var apiMsg = errorCause.errorSummary;
       var field = errorCause.property;
       var errorMessage = localizedMsg.indexOf('L10N_ERROR[') === -1 ? localizedMsg : apiMsg;
@@ -11301,7 +13026,7 @@ var _default = {
   },
   parseErrors: function parseErrors(resp) {
     var responseJSON = this.getResponseJSON(resp);
-    return _underscoreWrapper.default.map(responseJSON && responseJSON.errorCauses || [], function (errorCause) {
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.map(responseJSON && responseJSON.errorCauses || [], function (errorCause) {
       return ('' + errorCause.errorSummary).replace(FIELD_REGEX, '$2');
     });
   },
@@ -11325,7 +13050,7 @@ var _default = {
 
     if (responseJSON) {
       /* eslint complexity: [2, 9] */
-      _underscoreWrapper.default.each(responseJSON.errorCauses || [], function (cause) {
+      _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(responseJSON.errorCauses || [], function (cause) {
         var res = [];
 
         if (cause.property && cause.errorSummary) {
@@ -11346,49 +13071,39 @@ var _default = {
         }
       }, this);
     } // validation key/value object
-    else if (_underscoreWrapper.default.isObject(resp) && _underscoreWrapper.default.size(resp)) {
-      _underscoreWrapper.default.each(resp, function (msg, field) {
+    else if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isObject(resp) && _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.size(resp)) {
+      _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(resp, function (msg, field) {
         errors[field] = [msg];
       });
     }
 
-    return _underscoreWrapper.default.size(errors) ? errors : undefined;
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.size(errors) ? errors : undefined;
   }
-};
-exports.default = _default;
-module.exports = exports.default;
+});
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/FormUtil.js":
-/*!************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/FormUtil.js ***!
-  \************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/FormUtil.ts":
+/*!*******************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/FormUtil.ts ***!
+  \*******************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _Keys = _interopRequireDefault(__webpack_require__(/*! ../../../util/Keys */ "./node_modules/@okta/courage/src/util/Keys.js"));
-
-var _Logger = _interopRequireDefault(__webpack_require__(/*! ../../../util/Logger */ "./node_modules/@okta/courage/src/util/Logger.js"));
-
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
-
-var _ViewUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/ViewUtil */ "./node_modules/@okta/courage/src/util/ViewUtil.js"));
-
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _util_Keys__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/Keys */ "../../../../../../okta/okta-ui/packages/courage/src/util/Keys.ts");
+/* harmony import */ var _util_Logger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/Logger */ "../../../../../../okta/okta-ui/packages/courage/src/util/Logger.ts");
+/* harmony import */ var _util_StringUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../util/StringUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.ts");
+/* harmony import */ var _util_ViewUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../util/ViewUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/ViewUtil.ts");
+/* harmony import */ var _BaseView__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
 /* eslint max-params: [2, 6] */
+
+
+
+
+
+
 var LABEL_OPTIONS = ['model', 'id', 'inputId', 'type', 'label', 'sublabel', 'tooltip', 'name', 'group'];
 var CONTAINER_OPTIONS = ['wide', 'multi', 'input', 'label-top', 'explain', 'explain-top', 'customExplain', 'model', 'name', 'type', 'autoRender', 'multirowError'];
 var WRAPPER_OPTIONS = ['model', 'name', 'label-top', 'readOnly', 'events', 'initialize', 'showWhen', 'bindings', 'render', 'className', 'data-se', 'toggleWhen', 'group'];
@@ -11405,27 +13120,27 @@ var INPUT_OPTIONS = ['model', 'name', 'inputId', 'type', // base options
 'ariaLabel', // 508 compliance for inputs that do not have label associated with them
 'params', 'autoComplete' // autocomplete attribute
 ];
-var // widgets params - for input specific widgets
-OTHER_OPTIONS = ['errorField'];
+var OTHER_OPTIONS = ['errorField' // widgets params - for input specific widgets
+];
 
-var ALL_OPTIONS = _underscoreWrapper.default.uniq(_underscoreWrapper.default.union(LABEL_OPTIONS, CONTAINER_OPTIONS, WRAPPER_OPTIONS, INPUT_OPTIONS, OTHER_OPTIONS));
+var ALL_OPTIONS = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.uniq(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.union(LABEL_OPTIONS, CONTAINER_OPTIONS, WRAPPER_OPTIONS, INPUT_OPTIONS, OTHER_OPTIONS));
 
 var SAVE_BUTTON_PHASES = ['•         ', '•  •      ', '•  •  •   ', '•  •  •  •', '   •  •  •', '      •  •', '         •', '          ', '          ', '          '];
 
 function decorateDoWhen(doWhen) {
   if (doWhen && !doWhen['__edit__']) {
-    return _underscoreWrapper.default.extend({
-      __edit__: _underscoreWrapper.default.constant(true)
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.extend({
+      __edit__: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.constant(true)
     }, doWhen);
   }
 }
 
 function _createButton(options) {
-  options = _underscoreWrapper.default.pick(options || {}, 'action', 'id', 'className', 'text', 'type');
+  options = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.pick(options || {}, 'action', 'id', 'className', 'text', 'type');
   var timeoutId;
   var intervalId;
   var phaseCount;
-  return _BaseView.default.extend({
+  return _BaseView__WEBPACK_IMPORTED_MODULE_5__.default.extend({
     tagName: 'input',
     className: 'button',
     events: {
@@ -11435,7 +13150,7 @@ function _createButton(options) {
         }
       },
       keyup: function keyup(e) {
-        if (_Keys.default.isEnter(e) && options.action && !this.disabled()) {
+        if (_util_Keys__WEBPACK_IMPORTED_MODULE_1__.default.isEnter(e) && options.action && !this.disabled()) {
           options.action.call(this);
         }
       }
@@ -11478,7 +13193,7 @@ function _createButton(options) {
         this.disable();
 
         if (options.type === 'save') {
-          timeoutId = setTimeout(_underscoreWrapper.default.bind(this.__changeSaveText, this), 1000);
+          timeoutId = setTimeout(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.bind(this.__changeSaveText, this), 1000);
         }
       });
       this.listenTo(this.model, 'form:clear-saving-state', function () {
@@ -11493,7 +13208,7 @@ function _createButton(options) {
     },
     __changeSaveText: function __changeSaveText() {
       phaseCount = 0;
-      intervalId = setInterval(_underscoreWrapper.default.bind(this.__showLoadingText, this), 200);
+      intervalId = setInterval(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.bind(this.__showLoadingText, this), 200);
     },
     __showLoadingText: function __showLoadingText() {
       this.$el.val(SAVE_BUTTON_PHASES[phaseCount++ % SAVE_BUTTON_PHASES.length]);
@@ -11507,7 +13222,7 @@ function validateInput(options, model) {
 
   if (options.type === 'label') {
     if (!options.label) {
-      _Logger.default.warn('A label input must have a "label" parameter', options);
+      _util_Logger__WEBPACK_IMPORTED_MODULE_2__.default.warn('A label input must have a "label" parameter', options);
     }
 
     return;
@@ -11515,78 +13230,76 @@ function validateInput(options, model) {
 
   if (options.type === 'button') {
     if (!options.title && !options.icon) {
-      _Logger.default.warn('A button input must have a "title" and/or an "icon" parameter', options);
+      _util_Logger__WEBPACK_IMPORTED_MODULE_2__.default.warn('A button input must have a "title" and/or an "icon" parameter', options);
     }
 
     if (!options.click && !options.href) {
-      _Logger.default.warn('A button input must have a "click" and/or an "href" parameter', options);
+      _util_Logger__WEBPACK_IMPORTED_MODULE_2__.default.warn('A button input must have a "click" and/or an "href" parameter', options);
     }
 
     return;
   }
 
   if (!options.name && !options.input) {
-    _Logger.default.warn('Missing "name" or "input" parameters', options);
+    _util_Logger__WEBPACK_IMPORTED_MODULE_2__.default.warn('Missing "name" or "input" parameters', options);
   }
 
-  if (_underscoreWrapper.default.isArray(options.name) && _underscoreWrapper.default.isArray(options.input)) {
+  if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isArray(options.name) && _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isArray(options.input)) {
     throw new Error('Not allowed to have both "name" and "input" defined as array.');
   }
 
   if (options.type !== 'list' && options.name && model && model.allows) {
     var names = [];
 
-    if (_underscoreWrapper.default.isArray(options.name)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isArray(options.name)) {
       names = options.name;
     } else {
       names.push(options.name);
     }
 
-    _underscoreWrapper.default.each(names, function (name) {
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(names, function (name) {
       if (!model.allows(name)) {
         throw new Error('field not allowed: ' + options.name);
       }
     });
   }
 
-  if (_underscoreWrapper.default.isArray(options.input) && options.type !== 'list') {
-    _underscoreWrapper.default.each(options.input, function (input) {
+  if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isArray(options.input) && options.type !== 'list') {
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(options.input, function (input) {
       validateInput(input, model);
     });
   }
 
-  var keys = _underscoreWrapper.default.keys(options);
+  var keys = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.keys(options);
 
-  var intersection = _underscoreWrapper.default.intersection(keys, ALL_OPTIONS);
+  var intersection = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.intersection(keys, ALL_OPTIONS);
 
-  if (_underscoreWrapper.default.size(intersection) !== _underscoreWrapper.default.size(options)) {
-    var fields = _underscoreWrapper.default.clone(ALL_OPTIONS);
+  if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.size(intersection) !== _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.size(options)) {
+    var fields = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.clone(ALL_OPTIONS);
 
-    fields.unshift(keys);
-
-    _Logger.default.warn('Invalid input parameters', _underscoreWrapper.default.without.apply(null, fields), options);
+    _util_Logger__WEBPACK_IMPORTED_MODULE_2__.default.warn('Invalid input parameters', _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.without(keys, ...fields), options);
   }
 }
 
 function generateInputOptions(options, form, createFn) {
-  options = _underscoreWrapper.default.clone(options);
+  options = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.clone(options);
 
-  if (_underscoreWrapper.default.contains(['list', 'group'], options.type)) {
-    options.params = _underscoreWrapper.default.defaults({
+  if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.contains(['list', 'group'], options.type)) {
+    options.params = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.defaults({
       create: createFn,
-      inputs: _underscoreWrapper.default.map(_underscoreWrapper.default.isArray(options.input) ? options.input : [options.input], function (input) {
-        return _underscoreWrapper.default.first(generateInputOptions(input, form, createFn));
+      inputs: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.map(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isArray(options.input) ? options.input : [options.input], function (input) {
+        return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.first(generateInputOptions(input, form, createFn));
       })
     }, options.params || {});
     delete options.input;
   }
 
-  var inputs = _underscoreWrapper.default.isArray(options.input) ? _underscoreWrapper.default.clone(options.input) : [options];
-  return _underscoreWrapper.default.map(inputs, function (input) {
-    var target = _underscoreWrapper.default.defaults({
+  var inputs = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isArray(options.input) ? _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.clone(options.input) : [options];
+  return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.map(inputs, function (input) {
+    var target = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.defaults({
       model: form.model
-    }, input, _underscoreWrapper.default.omit(options, 'input', 'inputs'), form.options, {
-      id: _underscoreWrapper.default.uniqueId('input'),
+    }, input, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.omit(options, 'input', 'inputs'), form.options, {
+      id: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.uniqueId('input'),
       readOnly: form.isReadOnly(),
       read: form.hasReadMode()
     });
@@ -11599,7 +13312,7 @@ function generateInputOptions(options, form, createFn) {
   });
 }
 
-var _default = {
+/* harmony default export */ __webpack_exports__["default"] = ({
   LABEL_OPTIONS: LABEL_OPTIONS,
   CONTAINER_OPTIONS: CONTAINER_OPTIONS,
   WRAPPER_OPTIONS: WRAPPER_OPTIONS,
@@ -11614,13 +13327,13 @@ var _default = {
     var ariaLabel;
 
     if (options.type === 'cancel') {
-      text = ariaLabel = _StringUtil.default.localize('oform.cancel', 'courage');
+      text = ariaLabel = _util_StringUtil__WEBPACK_IMPORTED_MODULE_3__.default.localize('oform.cancel', 'courage');
 
       action = function action() {
         this.model.trigger('form:cancel');
       };
     } else {
-      text = _StringUtil.default.localize('oform.edit', 'courage');
+      text = _util_StringUtil__WEBPACK_IMPORTED_MODULE_3__.default.localize('oform.edit', 'courage');
       ariaLabel = text + ' ' + options.formTitle;
 
       action = function action() {
@@ -11628,7 +13341,7 @@ var _default = {
       };
     }
 
-    return _BaseView.default.extend({
+    return _BaseView__WEBPACK_IMPORTED_MODULE_5__.default.extend({
       tagName: 'a',
       className: options.className,
       attributes: {
@@ -11638,7 +13351,7 @@ var _default = {
       // TODO: refactor to enforce precompiled templates OKTA-309852
       // eslint-disable-next-line @okta/okta-ui/no-bare-templates
       template: function template() {
-        return _underscoreWrapper.default.escape(text);
+        return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.escape(text);
       },
       events: {
         click: function click(e) {
@@ -11649,20 +13362,20 @@ var _default = {
     });
   },
   createButton: function createButton(options) {
-    options = _underscoreWrapper.default.clone(options);
+    options = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.clone(options);
 
     switch (options.type) {
       case 'save':
-        _underscoreWrapper.default.defaults(options, {
+        _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.defaults(options, {
           className: 'button-primary'
         });
 
         break;
 
       case 'cancel':
-        _underscoreWrapper.default.defaults(options, {
+        _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.defaults(options, {
           className: 'button-clear',
-          text: _StringUtil.default.localize('oform.cancel', 'courage'),
+          text: _util_StringUtil__WEBPACK_IMPORTED_MODULE_3__.default.localize('oform.cancel', 'courage'),
           action: function action() {
             this.model.trigger('form:cancel');
           }
@@ -11671,13 +13384,16 @@ var _default = {
         break;
 
       case 'previous':
-        _underscoreWrapper.default.defaults(options, {
-          text: _StringUtil.default.localize('oform.previous', 'courage'),
+        _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.defaults(options, {
+          text: _util_StringUtil__WEBPACK_IMPORTED_MODULE_3__.default.localize('oform.previous', 'courage'),
           action: function action() {
             this.model.trigger('form:previous');
           }
         });
 
+        break;
+
+      default:
         break;
     }
 
@@ -11703,7 +13419,7 @@ var _default = {
       };
     };
 
-    _ViewUtil.default.applyDoWhen(view, decorateDoWhen(showWhen), function (bool, options) {
+    _util_ViewUtil__WEBPACK_IMPORTED_MODULE_4__.default.applyDoWhen(view, decorateDoWhen(showWhen), function (bool, options) {
       if (!options.animate) {
         view.$el.toggle(bool);
       } else {
@@ -11712,7 +13428,7 @@ var _default = {
     });
   },
   applyToggleWhen: function applyToggleWhen(view, toggleWhen) {
-    _ViewUtil.default.applyDoWhen(view, decorateDoWhen(toggleWhen), function (bool, options) {
+    _util_ViewUtil__WEBPACK_IMPORTED_MODULE_4__.default.applyDoWhen(view, decorateDoWhen(toggleWhen), function (bool, options) {
       view.$el.toggle(bool);
       view.model.trigger('form:resize');
 
@@ -11721,43 +13437,32 @@ var _default = {
       }
     });
   }
-};
-exports.default = _default;
-module.exports = exports.default;
+});
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/InputContainer.js":
-/*!******************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/InputContainer.js ***!
-  \******************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputContainer.js":
+/*!*************************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputContainer.js ***!
+  \*************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars/runtime */ "handlebars/runtime");
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _util_Logger__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/Logger */ "../../../../../../okta/okta-ui/packages/courage/src/util/Logger.ts");
+/* harmony import */ var _util_Util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../util/Util */ "../../../../../../okta/okta-ui/packages/courage/src/util/Util.ts");
+/* harmony import */ var _util_StringUtil__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../util/StringUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.ts");
+/* harmony import */ var _BaseView__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
 
-var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
-var _Logger = _interopRequireDefault(__webpack_require__(/*! ../../../util/Logger */ "./node_modules/@okta/courage/src/util/Logger.js"));
 
-var _Util = _interopRequireDefault(__webpack_require__(/*! ../../../util/Util */ "./node_modules/@okta/courage/src/util/Util.js"));
-
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
-
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-var isABaseView = _Util.default.isABaseView;
+var isABaseView = _util_Util__WEBPACK_IMPORTED_MODULE_3__.default.isABaseView;
 /**
  * @class InputContainer
  * @private
@@ -11766,7 +13471,7 @@ var isABaseView = _Util.default.isABaseView;
  * Attention: Please change with caution since this is used in other places
  */
 
-var _default = _BaseView.default.extend({
+/* harmony default export */ __webpack_exports__["default"] = (_BaseView__WEBPACK_IMPORTED_MODULE_5__.default.extend({
   attributes: function attributes() {
     return {
       'data-se': 'o-form-input-container'
@@ -11779,12 +13484,12 @@ var _default = _BaseView.default.extend({
       className += ' o-form-wide';
     }
 
-    if (_underscoreWrapper.default.contains([1, 2, 3, 4], this.options.multi)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.contains([1, 2, 3, 4], this.options.multi)) {
       className += ' o-form-multi-input-' + this.options.multi;
 
-      if (_underscoreWrapper.default.isArray(this.options.input)) {
-        var inputGroup = _underscoreWrapper.default.find(this.options.input, function (input) {
-          return _underscoreWrapper.default.contains(['text+select', 'select+text'], input.options.type);
+      if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isArray(this.options.input)) {
+        var inputGroup = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.find(this.options.input, function (input) {
+          return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.contains(['text+select', 'select+text'], input.options.type);
         });
 
         inputGroup && (className += ' o-form-multi-input-group-' + this.options.multi);
@@ -11794,18 +13499,18 @@ var _default = _BaseView.default.extend({
     return className;
   },
   _getNames: function _getNames() {
-    var names = _underscoreWrapper.default.isArray(this.options.name) ? this.options.name : [this.options.name];
+    var names = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isArray(this.options.name) ? this.options.name : [this.options.name];
     /*eslint complexity: 0 */
 
     if (this.options.type === 'group') {
-      names.push.apply(names, _underscoreWrapper.default.pluck(this.options.input[0].options.params.inputs, 'name'));
-    } else if (_underscoreWrapper.default.isArray(this.options.name)) {
+      names.push.apply(names, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.pluck(this.options.input[0].options.params.inputs, 'name'));
+    } else if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isArray(this.options.name)) {
       if (this.options.input && this.options.input.options && this.options.input.options.name) {
         names.push(this.options.input.options.name);
       }
     } else if (this.options.input) {
-      if (_underscoreWrapper.default.isArray(this.options.input)) {
-        _underscoreWrapper.default.each(this.options.input, function (inputItem) {
+      if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isArray(this.options.input)) {
+        _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.each(this.options.input, function (inputItem) {
           names.push(inputItem.options.name);
         });
       } else {
@@ -11813,11 +13518,11 @@ var _default = _BaseView.default.extend({
       }
     }
 
-    return _underscoreWrapper.default.uniq(_underscoreWrapper.default.compact(names));
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.uniq(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.compact(names));
   },
   _getInputElement: function _getInputElement() {
     // NOTE: this.options.input is sometimes not an array under test
-    var lastInput = Array.isArray(this.options.input) ? _underscoreWrapper.default.last(this.options.input) : this.options.input; // FIXME: replace with _.get
+    var lastInput = Array.isArray(this.options.input) ? _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.last(this.options.input) : this.options.input; // FIXME: replace with _.get
 
     var id = lastInput && lastInput.options && lastInput.options.inputId;
     var el = id ? this.$('#' + id) : null;
@@ -11825,13 +13530,12 @@ var _default = _BaseView.default.extend({
   },
   constructor: function constructor() {
     /* eslint max-statements: [2, 18] */
-    _BaseView.default.apply(this, arguments);
-
+    _BaseView__WEBPACK_IMPORTED_MODULE_5__.default.apply(this, arguments);
     var explainTop = this.options['explain-top'] && this.options['label-top'];
 
     if (this.options.input) {
-      if (_underscoreWrapper.default.isArray(this.options.input)) {
-        _underscoreWrapper.default.each(this.options.input, function (inputItem) {
+      if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isArray(this.options.input)) {
+        _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.each(this.options.input, function (inputItem) {
           this.add(inputItem, {
             prepend: !explainTop
           });
@@ -11848,14 +13552,14 @@ var _default = _BaseView.default.extend({
     var names = this._getNames();
 
     this.listenTo(this.model, 'form:field-error', function (name, errors) {
-      if (_underscoreWrapper.default.contains(names, name)) {
+      if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.contains(names, name)) {
         this.__setError(errors, explainTop);
       }
     });
     this.listenTo(this.model, 'form:clear-errors change:' + names.join(' change:'), this.__clearError);
     this.listenTo(this.model, 'form:clear-error:' + names.join(' form:clear-error:'), this.__clearError);
 
-    if (_underscoreWrapper.default.resultCtx(this.options, 'autoRender', this)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.resultCtx(this.options, 'autoRender', this)) {
       this.listenTo(this.model, 'change:' + this.options.name, this.render);
     }
 
@@ -11880,16 +13584,15 @@ var _default = _BaseView.default.extend({
     var explain; // Deprecated - if you need custom html, use explain instead
 
     if (options.customExplain) {
-      _Logger.default.warn('Deprecated - use explain instead of customExplain');
-
+      _util_Logger__WEBPACK_IMPORTED_MODULE_2__.default.warn('Deprecated - use explain instead of customExplain');
       this.add(this.options.customExplain);
       return;
     }
 
     explain = options.explain;
 
-    if (_underscoreWrapper.default.isFunction(explain) && !isABaseView(explain)) {
-      explain = _underscoreWrapper.default.resultCtx(this.options, 'explain', this);
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isFunction(explain) && !isABaseView(explain)) {
+      explain = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.resultCtx(this.options, 'explain', this);
     }
 
     if (!explain) {
@@ -11897,7 +13600,7 @@ var _default = _BaseView.default.extend({
     }
 
     if (isABaseView(explain)) {
-      this.template = _runtime.default.template({
+      this.template = handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
         "compiler": [8, ">= 4.3.0"],
         "main": function main(container, depth0, helpers, partials, data) {
           return "<p class=\"o-form-explain\"></p>";
@@ -11906,7 +13609,7 @@ var _default = _BaseView.default.extend({
       });
       this.add(explain, ' > .o-form-explain');
     } else {
-      this.template = _runtime.default.template({
+      this.template = handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
         "compiler": [8, ">= 4.3.0"],
         "main": function main(container, depth0, helpers, partials, data) {
           var helper,
@@ -11948,9 +13651,9 @@ var _default = _BaseView.default.extend({
     this.__errorState = true;
     this.$el.addClass('o-form-has-errors');
 
-    var errorId = _underscoreWrapper.default.uniqueId('input-container-error');
+    var errorId = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.uniqueId('input-container-error');
 
-    var html = this.__getHTMLForError(_underscoreWrapper.default.flatten(errors), errorId);
+    var html = this.__getHTMLForError(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.flatten(errors), errorId);
 
     var $elExplain = this.$('.o-form-explain').not('.o-form-input-error').first();
 
@@ -11965,7 +13668,7 @@ var _default = _BaseView.default.extend({
     target.attr('aria-invalid', true);
   },
   __getHTMLForError: function __getHTMLForError(errors, errorId) {
-    var tmpl = _runtime.default.template({
+    var tmpl = handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
       "compiler": [8, ">= 4.3.0"],
       "main": function main(container, depth0, helpers, partials, data) {
         var helper,
@@ -11981,7 +13684,7 @@ var _default = _BaseView.default.extend({
           return undefined;
         };
 
-        return "<p id=\"" + alias4((helper = (helper = lookupProperty(helpers, "errorId") || (depth0 != null ? lookupProperty(depth0, "errorId") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        return "<p id=\"" + alias4((helper = (helper = lookupProperty(helpers, "errorId") || (depth0 != null ? lookupProperty(depth0, "errorId") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
           "name": "errorId",
           "hash": {},
           "data": data,
@@ -11995,7 +13698,7 @@ var _default = _BaseView.default.extend({
               "column": 18
             }
           }
-        }) : helper)) + "\" class=\"okta-form-input-error o-form-input-error o-form-explain\" role=\"alert\"><span class=\"icon icon-16 error-16-small\" role=\"img\" aria-label=\"" + alias4((helper = (helper = lookupProperty(helpers, "iconLabel") || (depth0 != null ? lookupProperty(depth0, "iconLabel") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        }) : helper)) + "\" class=\"okta-form-input-error o-form-input-error o-form-explain\" role=\"alert\"><span class=\"icon icon-16 error-16-small\" role=\"img\" aria-label=\"" + alias4((helper = (helper = lookupProperty(helpers, "iconLabel") || (depth0 != null ? lookupProperty(depth0, "iconLabel") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
           "name": "iconLabel",
           "hash": {},
           "data": data,
@@ -12009,7 +13712,7 @@ var _default = _BaseView.default.extend({
               "column": 175
             }
           }
-        }) : helper)) + "\"></span>" + alias4((helper = (helper = lookupProperty(helpers, "text") || (depth0 != null ? lookupProperty(depth0, "text") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+        }) : helper)) + "\"></span>" + alias4((helper = (helper = lookupProperty(helpers, "text") || (depth0 != null ? lookupProperty(depth0, "text") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
           "name": "text",
           "hash": {},
           "data": data,
@@ -12028,12 +13731,11 @@ var _default = _BaseView.default.extend({
       "useData": true
     });
 
-    var iconLabel = _StringUtil.default.localize('oform.error.icon.ariaLabel', 'courage'); // 'Error'
-
+    var iconLabel = _util_StringUtil__WEBPACK_IMPORTED_MODULE_4__.default.localize('oform.error.icon.ariaLabel', 'courage'); // 'Error'
 
     if (this.options.multirowError) {
       var html = '';
-      errors.forEach(function (error) {
+      errors.forEach(error => {
         html = html + tmpl({
           errorId: errorId,
           iconLabel: iconLabel,
@@ -12055,8 +13757,6 @@ var _default = _BaseView.default.extend({
    * @private
    */
   __clearError: function __clearError() {
-    var _this = this;
-
     if (this.__errorState) {
       this.$('.o-form-input-error').remove();
       var target = this._getInputElement() || this.$el;
@@ -12065,8 +13765,8 @@ var _default = _BaseView.default.extend({
       this.$el.removeClass('o-form-has-errors');
       this.__errorState = false;
 
-      _underscoreWrapper.default.defer(function () {
-        _this.model.trigger('form:resize');
+      _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.defer(() => {
+        this.model.trigger('form:resize');
       });
     }
   },
@@ -12078,50 +13778,40 @@ var _default = _BaseView.default.extend({
     });
     return this;
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/InputFactory.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/InputFactory.js ***!
-  \****************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputFactory.js":
+/*!***********************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputFactory.js ***!
+  \***********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _InputRegistry = _interopRequireDefault(__webpack_require__(/*! ./InputRegistry */ "./node_modules/@okta/courage/src/views/forms/helpers/InputRegistry.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _InputRegistry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./InputRegistry */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputRegistry.ts");
 /* eslint complexity: 0, max-statements: 0 */
+
+
+
 function createInput(Input, options) {
-  if (_InputRegistry.default.isBaseInput(Input)) {
-    return Input.prototype ? new Input(_underscoreWrapper.default.omit(options, 'input')) : Input;
+  if (_InputRegistry__WEBPACK_IMPORTED_MODULE_1__.default.isBaseInput(Input)) {
+    return Input.prototype ? new Input(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.omit(options, 'input')) : Input;
   } else {
     return Input;
   }
 }
 
 function create(options) {
-  options = _underscoreWrapper.default.clone(options);
+  options = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.clone(options);
 
   if (options.input) {
     return createInput(options.input, options);
   }
 
-  var Input = _InputRegistry.default.get(options);
+  var Input = _InputRegistry__WEBPACK_IMPORTED_MODULE_1__.default.get(options);
 
   if (!Input) {
     throw new Error('unknown input: ' + options.type);
@@ -12131,43 +13821,34 @@ function create(options) {
 }
 
 function supports(options) {
-  return !!options.input || !!_InputRegistry.default.get(options);
+  return !!options.input || !!_InputRegistry__WEBPACK_IMPORTED_MODULE_1__.default.get(options);
 }
 
-var _default = {
+/* harmony default export */ __webpack_exports__["default"] = ({
   create: create,
   supports: supports
-};
-exports.default = _default;
-module.exports = exports.default;
+});
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/InputLabel.js":
-/*!**************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/InputLabel.js ***!
-  \**************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputLabel.js":
+/*!*********************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputLabel.js ***!
+  \*********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars/runtime */ "handlebars/runtime");
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var qtip__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! qtip */ "qtip");
+/* harmony import */ var qtip__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(qtip__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _BaseView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
 
-var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-__webpack_require__(/*! qtip */ "qtip");
-
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 /**
  * @class InputLabel
@@ -12175,7 +13856,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
  * @private
  * The input's label.
  */
-var _default = _BaseView.default.extend({
+/* harmony default export */ __webpack_exports__["default"] = (_BaseView__WEBPACK_IMPORTED_MODULE_3__.default.extend({
   className: 'okta-form-label o-form-label',
   attributes: {
     'data-se': 'o-form-label'
@@ -12193,16 +13874,15 @@ var _default = _BaseView.default.extend({
    */
   constructor: function constructor(options) {
     /* eslint max-statements: [2, 16] complexity: [2, 7]*/
-    _underscoreWrapper.default.defaults(options, {
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.defaults(options, {
       inputId: options.id
     });
 
     delete options.id;
-
-    _BaseView.default.apply(this, arguments);
+    _BaseView__WEBPACK_IMPORTED_MODULE_3__.default.apply(this, arguments);
   },
   // standardLabel: space added in the end of the label to avoid selecting label text with double click in read mode
-  template: _runtime.default.template({
+  template: handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
     "1": function _(container, depth0, helpers, partials, data) {
       return "<legend>";
     },
@@ -12272,7 +13952,7 @@ var _default = _BaseView.default.extend({
         return undefined;
       };
 
-      return "<label for=\"" + alias4((helper = (helper = lookupProperty(helpers, "inputId") || (depth0 != null ? lookupProperty(depth0, "inputId") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      return "<label for=\"" + alias4((helper = (helper = lookupProperty(helpers, "inputId") || (depth0 != null ? lookupProperty(depth0, "inputId") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "inputId",
         "hash": {},
         "data": data,
@@ -12286,7 +13966,7 @@ var _default = _BaseView.default.extend({
             "column": 178
           }
         }
-      }) : helper)) + "\">" + alias4((helper = (helper = lookupProperty(helpers, "label") || (depth0 != null ? lookupProperty(depth0, "label") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      }) : helper)) + "\">" + alias4((helper = (helper = lookupProperty(helpers, "label") || (depth0 != null ? lookupProperty(depth0, "label") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "label",
         "hash": {},
         "data": data,
@@ -12476,20 +14156,20 @@ var _default = _BaseView.default.extend({
       label: ''
     };
 
-    _underscoreWrapper.default.each(['inputId', 'label', 'sublabel', 'tooltip', 'group'], function (option) {
-      options[option] = _underscoreWrapper.default.resultCtx(this.options, option, this);
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.each(['inputId', 'label', 'sublabel', 'tooltip', 'group'], function (option) {
+      options[option] = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.resultCtx(this.options, option, this);
     }, this);
 
     if (this._isLabelView(options.label)) {
       options._isLabelView = true;
-    } else if (_underscoreWrapper.default.contains(['radio', 'checkbox'], this.options.type) || !options.label) {
+    } else if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.contains(['radio', 'checkbox'], this.options.type) || !options.label) {
       options._isRadioOrCheckbox = true;
     } else {
       options._standardLabel = true;
     }
 
     if (options.tooltip) {
-      if (_underscoreWrapper.default.isString(options.tooltip)) {
+      if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isString(options.tooltip)) {
         options.tooltip = {
           text: options.tooltip
         };
@@ -12499,7 +14179,7 @@ var _default = _BaseView.default.extend({
     return options;
   },
   _isLabelView: function _isLabelView(label) {
-    return !_underscoreWrapper.default.isUndefined(label) && label instanceof _BaseView.default;
+    return !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isUndefined(label) && label instanceof _BaseView__WEBPACK_IMPORTED_MODULE_3__.default;
   },
   postRender: function postRender() {
     var options = this.getTemplateData();
@@ -12510,7 +14190,7 @@ var _default = _BaseView.default.extend({
     }
 
     if (options.tooltip) {
-      this.$('.o-form-tooltip').qtip(_underscoreWrapper.default.extend({
+      this.$('.o-form-tooltip').qtip(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.extend({
         style: {
           classes: 'qtip-custom qtip-shadow'
         },
@@ -12527,38 +14207,27 @@ var _default = _BaseView.default.extend({
       }, options.tooltip.options));
     }
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/InputRegistry.js":
-/*!*****************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/InputRegistry.js ***!
-  \*****************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputRegistry.ts":
+/*!************************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputRegistry.ts ***!
+  \************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
 
 var registry = {};
 
 function isBaseInput(input) {
-  if (_underscoreWrapper.default.isFunction(input)) {
-    return _underscoreWrapper.default.isFunction(input.prototype.editMode) && _underscoreWrapper.default.isFunction(input.prototype.readMode);
+  if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(input)) {
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(input.prototype.editMode) && _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(input.prototype.readMode);
   } else {
-    return _underscoreWrapper.default.isObject(input) && _underscoreWrapper.default.isFunction(input.editMode) && _underscoreWrapper.default.isFunction(input.readMode);
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isObject(input) && _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(input.editMode) && _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(input.readMode);
   }
 }
 /**
@@ -12566,15 +14235,14 @@ function isBaseInput(input) {
  */
 
 
-var _default =
-/** @lends module:Okta.internal.views.forms.helpers.InputRegistry */
-{
+/* harmony default export */ __webpack_exports__["default"] = (/** @lends module:Okta.internal.views.forms.helpers.InputRegistry */{
   isBaseInput: isBaseInput,
 
   /**
    * Register a form input
    * @param {String} type string identifier for the input
    * @param {BaseInput} input the input to register
+   * @return {void}
    */
   register: function register(type, input) {
     registry[type] = input;
@@ -12598,42 +14266,33 @@ var _default =
   unregister: function unregister(type) {
     delete registry[type];
   }
-};
-exports.default = _default;
-module.exports = exports.default;
+});
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/InputWrapper.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/InputWrapper.js ***!
-  \****************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputWrapper.js":
+/*!***********************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputWrapper.js ***!
+  \***********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _BaseView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
+/* harmony import */ var _FormUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FormUtil */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/FormUtil.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
-
-var _FormUtil = _interopRequireDefault(__webpack_require__(/*! ./FormUtil */ "./node_modules/@okta/courage/src/views/forms/helpers/FormUtil.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function runCallback(callback, field) {
-  callback.apply(this, _underscoreWrapper.default.map(field.split(/\s+/), function (field) {
+  callback.apply(this, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.map(field.split(/\s+/), function (field) {
     return this.model.get(field);
   }, this));
 }
 
 function runIf(fn, ctx) {
-  if (_underscoreWrapper.default.isFunction(fn)) {
+  if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isFunction(fn)) {
     fn.call(ctx);
   }
 }
@@ -12645,7 +14304,7 @@ function runIf(fn, ctx) {
  */
 
 
-var _default = _BaseView.default.extend({
+/* harmony default export */ __webpack_exports__["default"] = (_BaseView__WEBPACK_IMPORTED_MODULE_1__.default.extend({
   tagName: function tagName() {
     if (this.options.group) {
       return 'fieldset';
@@ -12687,28 +14346,26 @@ var _default = _BaseView.default.extend({
       this.optionsClassName = options.className;
 
       options.className = function () {
-        return _underscoreWrapper.default.result(this, 'inputWrapperClassName', '') + ' ' + _underscoreWrapper.default.result(this, 'optionsClassName');
+        return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, 'inputWrapperClassName', '') + ' ' + _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, 'optionsClassName');
       };
     }
 
-    _BaseView.default.apply(this, arguments);
+    _BaseView__WEBPACK_IMPORTED_MODULE_1__.default.apply(this, arguments);
 
-    _underscoreWrapper.default.each(options.events || {}, function (callback, event) {
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(options.events || {}, function (callback, event) {
       this.listenTo(this.model, event, callback);
     }, this);
 
-    _underscoreWrapper.default.each(options.bindings || {}, function (callback, field) {
-      this.listenTo(this.model, _FormUtil.default.changeEventString(field.split(/\s+/)), _underscoreWrapper.default.bind(runCallback, this, callback, field));
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(options.bindings || {}, function (callback, field) {
+      this.listenTo(this.model, _FormUtil__WEBPACK_IMPORTED_MODULE_2__.default.changeEventString(field.split(/\s+/)), _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.bind(runCallback, this, callback, field));
     }, this);
 
-    _FormUtil.default.applyShowWhen(this, options.showWhen);
-
-    _FormUtil.default.applyToggleWhen(this, options.toggleWhen);
-
+    _FormUtil__WEBPACK_IMPORTED_MODULE_2__.default.applyShowWhen(this, options.showWhen);
+    _FormUtil__WEBPACK_IMPORTED_MODULE_2__.default.applyToggleWhen(this, options.toggleWhen);
     runIf(options.initialize, this);
   },
   postRender: function postRender() {
-    _underscoreWrapper.default.each(this.options.bindings || {}, runCallback, this);
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(this.options.bindings || {}, runCallback, this);
 
     runIf(this.options.render, this);
   },
@@ -12743,41 +14400,79 @@ var _default = _BaseView.default.extend({
   focus: function focus() {
     return this.getInput().focus();
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/SchemaFormFactory.js":
-/*!*********************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/SchemaFormFactory.js ***!
-  \*********************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/SchemaFormFactory.ts":
+/*!****************************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/SchemaFormFactory.ts ***!
+  \****************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
-
-var _BooleanSelect = _interopRequireDefault(__webpack_require__(/*! ../inputs/BooleanSelect */ "./node_modules/@okta/courage/src/views/forms/inputs/BooleanSelect.js"));
-
-var _TextBoxSet = _interopRequireDefault(__webpack_require__(/*! ../inputs/TextBoxSet */ "./node_modules/@okta/courage/src/views/forms/inputs/TextBoxSet.js"));
-
-var _EnumTypeHelper = _interopRequireDefault(__webpack_require__(/*! ./EnumTypeHelper */ "./node_modules/@okta/courage/src/views/forms/helpers/EnumTypeHelper.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _util_StringUtil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/StringUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.ts");
+/* harmony import */ var _inputs_BooleanSelect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../inputs/BooleanSelect */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/BooleanSelect.js");
+/* harmony import */ var _inputs_TextBoxSet__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../inputs/TextBoxSet */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/TextBoxSet.js");
+/* harmony import */ var _EnumTypeHelper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./EnumTypeHelper */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/EnumTypeHelper.js");
 /* eslint max-statements: 0, max-params: 0 */
-// Maps each __displayType__ to a basic set of inputOptions.
+
+
+
+
+
+
+function convertStringToNumber(string) {
+  var number = _util_StringUtil__WEBPACK_IMPORTED_MODULE_1__.default.parseFloat(string);
+  return string === '' ? null : number;
+} // converts possibleValues to choices
+// [a, b, c] => {a: a, b: b, c: c}
+
+
+function getChoices(values) {
+  return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.object(values, values);
+}
+
+function isArray(type) {
+  return type && type.indexOf('array') >= 0;
+} // A schema property may have an objectName either
+// at the root level or nested in the items object
+
+
+function getObjectName(schemaProp) {
+  var items = schemaProp.get('items');
+
+  if (items) {
+    return items.objectName;
+  }
+
+  return schemaProp.get('objectName');
+}
+/**
+ * Checks the validity of a schema property.
+ *
+ * @param {SchemaProperty} [schemaProp] A schema property backbone model
+ * @param {Object} [values] An object of the form { key: [value1, value2]}
+ * @return {Boolean} true/false
+ * @private
+ */
+
+
+function isValidSchemaProp(schemaProp, values) {
+  var objectName = getObjectName(schemaProp);
+  var results = values[objectName]; // a schema property that references an empty list of values
+  // Im looking at you, google apps.
+
+  if (objectName && (0,_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default)(results).isEmpty()) {
+    return false;
+  }
+
+  return true;
+} // Maps each __displayType__ to a basic set of inputOptions.
+
+
 function defaultOptions(property) {
   var type = property.get('__displayType__');
   var values = property.get('__possibleValues__');
@@ -12795,42 +14490,42 @@ function defaultOptions(property) {
 
   switch (type) {
     case 'arrayofstring':
-      inputOptions.input = _TextBoxSet.default;
+      inputOptions.input = _inputs_TextBoxSet__WEBPACK_IMPORTED_MODULE_3__.default;
       inputOptions.params = {
         itemType: 'string'
       };
       break;
 
     case 'arrayofnumber':
-      inputOptions.input = _TextBoxSet.default;
+      inputOptions.input = _inputs_TextBoxSet__WEBPACK_IMPORTED_MODULE_3__.default;
       inputOptions.params = {
         itemType: 'number'
       };
       break;
 
     case 'arrayofinteger':
-      inputOptions.input = _TextBoxSet.default;
+      inputOptions.input = _inputs_TextBoxSet__WEBPACK_IMPORTED_MODULE_3__.default;
       inputOptions.params = {
         itemType: 'integer'
       };
       break;
 
     case 'arrayofobject':
-      inputOptions.input = _TextBoxSet.default;
+      inputOptions.input = _inputs_TextBoxSet__WEBPACK_IMPORTED_MODULE_3__.default;
       inputOptions.params = {
         itemType: property.get('items').type
       };
       break;
 
     case 'arrayofref-id':
-      inputOptions.input = _TextBoxSet.default;
+      inputOptions.input = _inputs_TextBoxSet__WEBPACK_IMPORTED_MODULE_3__.default;
       inputOptions.params = {
         itemType: property.get('items').format
       };
       break;
 
     case 'boolean':
-      inputOptions.input = _BooleanSelect.default;
+      inputOptions.input = _inputs_BooleanSelect__WEBPACK_IMPORTED_MODULE_2__.default;
       break;
 
     case 'integer':
@@ -12847,7 +14542,7 @@ function defaultOptions(property) {
       inputOptions.readOnly = true;
 
       inputOptions.from = function (value) {
-        return _underscoreWrapper.default.isEmpty(value) ? '' : _StringUtil.default.localize('user.profile.image.image_set', 'courage'); //TODO
+        return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isEmpty(value) ? '' : _util_StringUtil__WEBPACK_IMPORTED_MODULE_1__.default.localize('user.profile.image.image_set', 'courage'); // TODO
       };
 
       break;
@@ -12870,11 +14565,11 @@ function defaultOptions(property) {
     case 'timezone':
     case 'string':
     case 'object':
-      //default input options
+      // default input options
       break;
 
     default:
-      throw new Error('unknown type: ' + type);
+      throw new Error("unknown type: ".concat(type));
   }
 
   return inputOptions;
@@ -12899,7 +14594,7 @@ function customOptions(property) {
       title: property.get('title'),
       enumValues: property.getEnumValues()
     };
-    inputOptions = _underscoreWrapper.default.extend({}, _EnumTypeHelper.default.getEnumInputOptions(configs), inputOptions);
+    inputOptions = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.extend({}, _EnumTypeHelper__WEBPACK_IMPORTED_MODULE_4__.default.getEnumInputOptions(configs), inputOptions);
   } else if (isArray(type) && values) {
     inputOptions.type = 'checkboxset';
     inputOptions.input = null;
@@ -12909,41 +14604,11 @@ function customOptions(property) {
   return inputOptions;
 }
 
-function convertStringToNumber(string) {
-  var number = _StringUtil.default.parseFloat(string);
-
-  return string === '' ? null : number;
-}
-
-function isArray(type) {
-  return type && type.indexOf('array') >= 0;
-} // converts possibleValues to choices
-// [a, b, c] => {a: a, b: b, c: c}
-
-
-function getChoices(values) {
-  return _underscoreWrapper.default.object(values, values);
-} // A schema property may have an objectName either
-// at the root level or nested in the items object
-
-
-function getObjectName(schemaProp) {
-  var items = schemaProp.get('items');
-
-  if (items) {
-    return items.objectName;
-  } else {
-    return schemaProp.get('objectName');
-  }
-}
-
 function augmentSchemaProp(schemaProp, possibleValues, profile) {
   var name = schemaProp.get('name');
-  var prefix = profile['__nestedProperty__'];
+  var prefix = profile.__nestedProperty__;
   var defaultValues = possibleValues[name];
   var userValues = profile.get(name);
-  var //TODO: Not implemented
-  fixedValues;
   var values; // If API responds with a field name that differs from the form-field name
   // example: Model's 'profile.username' vs. server's 'username'
 
@@ -12952,11 +14617,11 @@ function augmentSchemaProp(schemaProp, possibleValues, profile) {
   } // case 1: objectName - fixed list of values are set for the input
 
 
-  fixedValues = possibleValues[getObjectName(schemaProp)]; // case 2: name only - default list of values are provided, user can add more
+  var fixedValues = possibleValues[getObjectName(schemaProp)]; // case 2: name only - default list of values are provided, user can add more
   // TODO: this case does not yet exist, so it is not tested
 
   if (defaultValues && userValues) {
-    defaultValues = _underscoreWrapper.default.union(defaultValues, userValues);
+    defaultValues = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.union(defaultValues, userValues);
   } // If both fixed and default values exist,
   // take the fixed values unless they are empty
 
@@ -12992,29 +14657,8 @@ function cleanSchema(properties, values) {
     return isValidSchemaProp(schema, values);
   });
 }
-/**
- * Checks the validity of a schema property.
- *
- * @param {SchemaProperty} [schemaProp] A schema property backbone model
- * @param {Object} [values] An object of the form { key: [value1, value2]}
- * @return {Boolean} true/false
- * @private
- */
 
-
-function isValidSchemaProp(schemaProp, values) {
-  var objectName = getObjectName(schemaProp);
-  var results = values[objectName]; // a schema property that references an empty list of values
-  // Im looking at you, google apps.
-
-  if (objectName && (0, _underscoreWrapper.default)(results).isEmpty()) {
-    return false;
-  }
-
-  return true;
-}
-
-var _default = {
+/* harmony default export */ __webpack_exports__["default"] = ({
   /**
    * Creates the options hash for BaseForm.addInput from a prepared schema
    * property.
@@ -13030,18 +14674,18 @@ var _default = {
     // https://github.com/jashkenas/underscore/issues/162
 
     if (custom.params && standard.params) {
-      custom.params = _underscoreWrapper.default.defaults(custom.params, standard.params);
+      custom.params = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.defaults(custom.params, standard.params);
     }
 
-    return _underscoreWrapper.default.defaults(custom, standard);
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.defaults(custom, standard);
   },
   hasValidSchemaProps: function hasValidSchemaProps(schemaProps, possibleValues) {
-    if (_underscoreWrapper.default.isEmpty(schemaProps)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isEmpty(schemaProps)) {
       return false;
-    } else {
-      var validSchema = cleanSchema(schemaProps, possibleValues);
-      return !!validSchema.length;
     }
+
+    var validSchema = cleanSchema(schemaProps, possibleValues);
+    return !!validSchema.length;
   },
 
   /**
@@ -13075,29 +14719,19 @@ var _default = {
    */
   augmentSchemaProps: augmentSchemaProps,
   augmentSchemaProp: augmentSchemaProp
-};
-exports.default = _default;
-module.exports = exports.default;
+});
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/inputs/BooleanSelect.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/inputs/BooleanSelect.js ***!
-  \****************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/BooleanSelect.js":
+/*!***********************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/BooleanSelect.js ***!
+  \***********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _Select = _interopRequireDefault(__webpack_require__(/*! ./Select */ "./node_modules/@okta/courage/src/views/forms/inputs/Select.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Select__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Select */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/Select.js");
 
 var options = {
   undefined: 'undefined',
@@ -13133,49 +14767,38 @@ var to = function to(val) {
   }
 };
 
-var _default = _Select.default.extend({
+/* harmony default export */ __webpack_exports__["default"] = (_Select__WEBPACK_IMPORTED_MODULE_0__.default.extend({
   initialize: function initialize() {
     this.options.options = options;
     this.options.from = from;
     this.options.to = to;
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/inputs/CheckBox.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/inputs/CheckBox.js ***!
-  \***********************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/CheckBox.js":
+/*!******************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/CheckBox.js ***!
+  \******************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars/runtime */ "handlebars/runtime");
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _util_Keys__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/Keys */ "../../../../../../okta/okta-ui/packages/courage/src/util/Keys.ts");
+/* harmony import */ var vendor_plugins_jquery_custominput__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vendor/plugins/jquery.custominput */ "../../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/jquery.custominput.js");
+/* harmony import */ var vendor_plugins_jquery_custominput__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vendor_plugins_jquery_custominput__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _BaseInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../BaseInput */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseInput.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
 
-var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
-var _Keys = _interopRequireDefault(__webpack_require__(/*! ../../../util/Keys */ "./node_modules/@okta/courage/src/util/Keys.js"));
-
-__webpack_require__(/*! vendor/plugins/jquery.custominput */ "./node_modules/@okta/courage/src/vendor/plugins/jquery.custominput.js");
-
-var _BaseInput = _interopRequireDefault(__webpack_require__(/*! ../BaseInput */ "./node_modules/@okta/courage/src/views/forms/BaseInput.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-var _default = _BaseInput.default.extend({
-  template: _runtime.default.template({
+/* harmony default export */ __webpack_exports__["default"] = (_BaseInput__WEBPACK_IMPORTED_MODULE_4__.default.extend({
+  template: handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
     "compiler": [8, ">= 4.3.0"],
     "main": function main(container, depth0, helpers, partials, data) {
       var helper,
@@ -13191,7 +14814,7 @@ var _default = _BaseInput.default.extend({
         return undefined;
       };
 
-      return "<input type=\"checkbox\" name=\"" + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      return "<input type=\"checkbox\" name=\"" + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "name",
         "hash": {},
         "data": data,
@@ -13205,7 +14828,7 @@ var _default = _BaseInput.default.extend({
             "column": 37
           }
         }
-      }) : helper)) + "\" id=\"" + alias4((helper = (helper = lookupProperty(helpers, "inputId") || (depth0 != null ? lookupProperty(depth0, "inputId") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      }) : helper)) + "\" id=\"" + alias4((helper = (helper = lookupProperty(helpers, "inputId") || (depth0 != null ? lookupProperty(depth0, "inputId") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "inputId",
         "hash": {},
         "data": data,
@@ -13219,7 +14842,7 @@ var _default = _BaseInput.default.extend({
             "column": 54
           }
         }
-      }) : helper)) + "\"/><label for=\"" + alias4((helper = (helper = lookupProperty(helpers, "inputId") || (depth0 != null ? lookupProperty(depth0, "inputId") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      }) : helper)) + "\"/><label for=\"" + alias4((helper = (helper = lookupProperty(helpers, "inputId") || (depth0 != null ? lookupProperty(depth0, "inputId") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "inputId",
         "hash": {},
         "data": data,
@@ -13233,7 +14856,7 @@ var _default = _BaseInput.default.extend({
             "column": 80
           }
         }
-      }) : helper)) + "\" data-se-for-name=\"" + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      }) : helper)) + "\" data-se-for-name=\"" + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "name",
         "hash": {},
         "data": data,
@@ -13247,7 +14870,7 @@ var _default = _BaseInput.default.extend({
             "column": 108
           }
         }
-      }) : helper)) + "\">" + alias4((helper = (helper = lookupProperty(helpers, "placeholder") || (depth0 != null ? lookupProperty(depth0, "placeholder") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      }) : helper)) + "\">" + alias4((helper = (helper = lookupProperty(helpers, "placeholder") || (depth0 != null ? lookupProperty(depth0, "placeholder") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "placeholder",
         "hash": {},
         "data": data,
@@ -13274,9 +14897,9 @@ var _default = _BaseInput.default.extend({
     keyup: function keyup(e) {
       e.preventDefault();
 
-      if (_Keys.default.isSpaceBar(e)) {
+      if (_util_Keys__WEBPACK_IMPORTED_MODULE_2__.default.isSpaceBar(e)) {
         this.$(':checkbox').click();
-      } else if (_Keys.default.isEnter(e)) {
+      } else if (_util_Keys__WEBPACK_IMPORTED_MODULE_2__.default.isEnter(e)) {
         this.model.trigger('form:save');
       }
     }
@@ -13286,15 +14909,15 @@ var _default = _BaseInput.default.extend({
    * @Override
    */
   editMode: function editMode() {
-    var placeholder = _underscoreWrapper.default.resultCtx(this.options, 'placeholder', this);
+    var placeholder = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.resultCtx(this.options, 'placeholder', this);
 
     if (placeholder === '') {
-      placeholder = _underscoreWrapper.default.resultCtx(this.options, 'label', this);
+      placeholder = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.resultCtx(this.options, 'label', this);
     } else if (placeholder === false) {
       placeholder = '';
     }
 
-    this.$el.html(this.template(_underscoreWrapper.default.extend(_underscoreWrapper.default.omit(this.options, 'placeholder'), {
+    this.$el.html(this.template(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.extend(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.omit(this.options, 'placeholder'), {
       placeholder: placeholder
     })));
     var $input = this.$(':checkbox');
@@ -13326,42 +14949,31 @@ var _default = _BaseInput.default.extend({
   focus: function focus() {
     return this.$(':checkbox').focus();
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/inputs/DeletableBox.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/inputs/DeletableBox.js ***!
-  \***************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/DeletableBox.js":
+/*!**********************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/DeletableBox.js ***!
+  \**********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars/runtime */ "handlebars/runtime");
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/SchemaUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/SchemaUtil.ts");
+/* harmony import */ var _util_StringUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../util/StringUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.ts");
+/* harmony import */ var _util_Time__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../util/Time */ "../../../../../../okta/okta-ui/packages/courage/src/util/Time.ts");
+/* harmony import */ var _BaseView__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
 
-var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
-var _SchemaUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/SchemaUtil */ "./node_modules/@okta/courage/src/util/SchemaUtil.js"));
 
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
-
-var _Time = _interopRequireDefault(__webpack_require__(/*! ../../../util/Time */ "./node_modules/@okta/courage/src/util/Time.js"));
-
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var isVowel = function isVowel(string) {
   return /^[aeiou]/.test(string);
@@ -13371,7 +14983,7 @@ var getArticle = function getArticle(string) {
   return isVowel(string) ? 'an' : 'a';
 };
 
-var template = _runtime.default.template({
+var template = handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
   "compiler": [8, ">= 4.3.0"],
   "main": function main(container, depth0, helpers, partials, data) {
     var helper,
@@ -13387,7 +14999,7 @@ var template = _runtime.default.template({
       return undefined;
     };
 
-    return "<div class=\"o-form-input-group-controls\"><span class=\"input-fix o-form-control\"><input type=\"text\" class=\"o-form-text\" name=\"" + alias4((helper = (helper = lookupProperty(helpers, "key") || (depth0 != null ? lookupProperty(depth0, "key") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+    return "<div class=\"o-form-input-group-controls\"><span class=\"input-fix o-form-control\"><input type=\"text\" class=\"o-form-text\" name=\"" + alias4((helper = (helper = lookupProperty(helpers, "key") || (depth0 != null ? lookupProperty(depth0, "key") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "key",
       "hash": {},
       "data": data,
@@ -13401,7 +15013,7 @@ var template = _runtime.default.template({
           "column": 132
         }
       }
-    }) : helper)) + "\" id=\"" + alias4((helper = (helper = lookupProperty(helpers, "key") || (depth0 != null ? lookupProperty(depth0, "key") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+    }) : helper)) + "\" id=\"" + alias4((helper = (helper = lookupProperty(helpers, "key") || (depth0 != null ? lookupProperty(depth0, "key") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "key",
       "hash": {},
       "data": data,
@@ -13415,7 +15027,7 @@ var template = _runtime.default.template({
           "column": 145
         }
       }
-    }) : helper)) + "\" value=\"" + alias4((helper = (helper = lookupProperty(helpers, "value") || (depth0 != null ? lookupProperty(depth0, "value") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+    }) : helper)) + "\" value=\"" + alias4((helper = (helper = lookupProperty(helpers, "value") || (depth0 != null ? lookupProperty(depth0, "value") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "value",
       "hash": {},
       "data": data,
@@ -13429,7 +15041,7 @@ var template = _runtime.default.template({
           "column": 163
         }
       }
-    }) : helper)) + "\" placeholder=\"" + alias4((helper = (helper = lookupProperty(helpers, "placeholder") || (depth0 != null ? lookupProperty(depth0, "placeholder") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+    }) : helper)) + "\" placeholder=\"" + alias4((helper = (helper = lookupProperty(helpers, "placeholder") || (depth0 != null ? lookupProperty(depth0, "placeholder") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "placeholder",
       "hash": {},
       "data": data,
@@ -13443,7 +15055,7 @@ var template = _runtime.default.template({
           "column": 193
         }
       }
-    }) : helper)) + "\"/></span><a href=\"#\" class=\"link-button link-button-icon icon-only\"><span class=\"icon clear-input-16 \"></span></a></div><p class=\"o-form-input-error o-form-explain\"><span class=\"icon icon-16 error-16-small\"></span>" + alias4((helper = (helper = lookupProperty(helpers, "errorExplain") || (depth0 != null ? lookupProperty(depth0, "errorExplain") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+    }) : helper)) + "\"/></span><a href=\"#\" class=\"link-button link-button-icon icon-only\"><span class=\"icon clear-input-16 \"></span></a></div><p class=\"o-form-input-error o-form-explain\"><span class=\"icon icon-16 error-16-small\"></span>" + alias4((helper = (helper = lookupProperty(helpers, "errorExplain") || (depth0 != null ? lookupProperty(depth0, "errorExplain") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "errorExplain",
       "hash": {},
       "data": data,
@@ -13464,8 +15076,7 @@ var template = _runtime.default.template({
 
 var errorClass = 'o-form-has-errors';
 var updateArrayEvent = 'updateArray';
-
-var _default = _BaseView.default.extend({
+/* harmony default export */ __webpack_exports__["default"] = (_BaseView__WEBPACK_IMPORTED_MODULE_5__.default.extend({
   tagName: 'div',
   className: 'o-form-input-group',
   events: {
@@ -13481,11 +15092,11 @@ var _default = _BaseView.default.extend({
     return !this.options.readOnly && (this.options.read !== true || this.model.get('__edit__') === true);
   },
   initialize: function initialize() {
-    this.template = template(_underscoreWrapper.default.extend(this.options, {
+    this.template = template(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.extend(this.options, {
       placeholder: this.getPlaceholderText(),
       errorExplain: this.getErrorExplainText()
     }));
-    this.update = _underscoreWrapper.default.debounce(this.update, this.options.debounceDelay || _Time.default.DEBOUNCE_DELAY);
+    this.update = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.debounce(this.update, this.options.debounceDelay || _util_Time__WEBPACK_IMPORTED_MODULE_4__.default.DEBOUNCE_DELAY);
   },
   render: function render() {
     if (this.isEditMode()) {
@@ -13498,22 +15109,19 @@ var _default = _BaseView.default.extend({
     return this;
   },
   remove: function remove() {
-    var _arguments = arguments,
-        _this = this;
-
     this.trigger(updateArrayEvent, null);
-    this.$el.slideUp(function () {
-      _BaseView.default.prototype.remove.call(_this, _arguments);
+    this.$el.slideUp(() => {
+      _BaseView__WEBPACK_IMPORTED_MODULE_5__.default.prototype.remove.call(this, arguments);
     });
   },
   update: function update() {
     var updatedValue = this.$('input').val();
 
-    var parseFunc = _underscoreWrapper.default.object([_SchemaUtil.default.DATATYPE.number, _SchemaUtil.default.DATATYPE.integer], [_StringUtil.default.parseFloat, this.parseInt]);
+    var parseFunc = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.object([_util_SchemaUtil__WEBPACK_IMPORTED_MODULE_2__.default.DATATYPE.number, _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_2__.default.DATATYPE.integer], [_util_StringUtil__WEBPACK_IMPORTED_MODULE_3__.default.parseFloat, this.parseInt]);
 
-    if (_underscoreWrapper.default.has(parseFunc, this.options.itemType)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.has(parseFunc, this.options.itemType)) {
       updatedValue = parseFunc[this.options.itemType](updatedValue);
-      !_underscoreWrapper.default.isNumber(updatedValue) ? this.markInvalid() : this.clearInvalid();
+      !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isNumber(updatedValue) ? this.markInvalid() : this.clearInvalid();
     }
 
     this.trigger(updateArrayEvent, updatedValue);
@@ -13553,49 +15161,39 @@ var _default = _BaseView.default.extend({
     // this is to make sure the string is in an integer format before we parse it
     if (/^-?\d+$/.test(string)) {
       var num = parseInt(string, 10);
-      return !_underscoreWrapper.default.isNaN(num) ? num : string;
+      return !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isNaN(num) ? num : string;
     }
 
     return string;
   })
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/inputs/InputGroup.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/inputs/InputGroup.js ***!
-  \*************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/InputGroup.js":
+/*!********************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/InputGroup.js ***!
+  \********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _util_ButtonFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/ButtonFactory */ "../../../../../../okta/okta-ui/packages/courage/src/util/ButtonFactory.ts");
+/* harmony import */ var _BaseView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
+/* harmony import */ var _BaseInput__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../BaseInput */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseInput.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
-var _ButtonFactory = _interopRequireDefault(__webpack_require__(/*! ../../../util/ButtonFactory */ "./node_modules/@okta/courage/src/util/ButtonFactory.js"));
-
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
-
-var _BaseInput = _interopRequireDefault(__webpack_require__(/*! ../BaseInput */ "./node_modules/@okta/courage/src/views/forms/BaseInput.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function countInputs(inputs) {
-  return _underscoreWrapper.default.filter(inputs || [], function (input) {
-    return !_underscoreWrapper.default.contains(['label', 'button', 'select'], input.type);
+  return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.filter(inputs || [], function (input) {
+    return !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.contains(['label', 'button', 'select'], input.type);
   }).length;
 }
 
-var InputGroupLabelInput = _BaseInput.default.extend({
+var InputGroupLabelInput = _BaseInput__WEBPACK_IMPORTED_MODULE_3__.default.extend({
   tagName: 'span',
   initialize: function initialize() {
     this.$el.text(this.getModelValue());
@@ -13613,19 +15211,19 @@ var InputGroupLabelInput = _BaseInput.default.extend({
     this.$el.toggleClass('o-form-label-inline', isEditMode);
     this.$el.toggleClass('o-form-control', !isEditMode);
   },
-  focus: _underscoreWrapper.default.noop
+  focus: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.noop
 });
 
 function createButtonInput(options) {
-  return _ButtonFactory.default.create(_underscoreWrapper.default.defaults({
-    getReadModeString: _underscoreWrapper.default.constant(' '),
-    focus: _underscoreWrapper.default.noop
-  }, _underscoreWrapper.default.pick(options, 'click', 'title', 'href', 'icon')));
+  return _util_ButtonFactory__WEBPACK_IMPORTED_MODULE_1__.default.create(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.defaults({
+    getReadModeString: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.constant(' '),
+    focus: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.noop
+  }, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.pick(options, 'click', 'title', 'href', 'icon')));
 }
 
-var InputGroupInputGroupView = _BaseView.default.extend({
-  getParams: _BaseInput.default.prototype.getParams,
-  getParam: _BaseInput.default.prototype.getParam,
+var InputGroupInputGroupView = _BaseView__WEBPACK_IMPORTED_MODULE_2__.default.extend({
+  getParams: _BaseInput__WEBPACK_IMPORTED_MODULE_3__.default.prototype.getParams,
+  getParam: _BaseInput__WEBPACK_IMPORTED_MODULE_3__.default.prototype.getParam,
   className: function className() {
     var className; // Allows views to group multiple inputs under one label without any of the other
     // styling/rendering changes that come with using a group input
@@ -13647,7 +15245,7 @@ var InputGroupInputGroupView = _BaseView.default.extend({
     return className;
   },
   initialize: function initialize() {
-    _underscoreWrapper.default.each(this.getParam('inputs'), function (input) {
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(this.getParam('inputs'), function (input) {
       switch (input.type) {
         case 'label':
           this.add(InputGroupLabelInput, {
@@ -13660,9 +15258,9 @@ var InputGroupInputGroupView = _BaseView.default.extend({
           break;
 
         default:
-          input = _underscoreWrapper.default.defaults({
+          input = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.defaults({
             model: this.model,
-            params: _underscoreWrapper.default.extend({
+            params: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.extend({
               autoWidth: true
             }, input.params || {})
           }, input);
@@ -13674,12 +15272,10 @@ var InputGroupInputGroupView = _BaseView.default.extend({
     this.first().focus();
   }
 });
-
-var _default = _BaseInput.default.extend({
+/* harmony default export */ __webpack_exports__["default"] = (_BaseInput__WEBPACK_IMPORTED_MODULE_3__.default.extend({
   constructor: function constructor(options) {
     this.inputGroupView = new InputGroupInputGroupView(options);
-
-    _BaseInput.default.apply(this, arguments);
+    _BaseInput__WEBPACK_IMPORTED_MODULE_3__.default.apply(this, arguments);
   },
   editMode: function editMode() {
     this.inputGroupView.remove();
@@ -13692,14 +15288,14 @@ var _default = _BaseInput.default.extend({
     if (this.getParam('useChildInputsReadMode')) {
       this.editMode();
     } else {
-      _BaseInput.default.prototype.readMode.apply(this, arguments);
+      _BaseInput__WEBPACK_IMPORTED_MODULE_3__.default.prototype.readMode.apply(this, arguments);
     }
   },
   toStringValue: function toStringValue() {
     var strings = this.inputGroupView.map(function (input) {
       return input.getReadModeString();
     });
-    return strings.length && _underscoreWrapper.default.every(strings) ? strings.join(' ') : ' ';
+    return strings.length && _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.every(strings) ? strings.join(' ') : ' ';
   },
   focus: function focus() {
     this.inputGroupView.focus();
@@ -13708,34 +15304,23 @@ var _default = _BaseInput.default.extend({
   // test hooks
   LabelInput: InputGroupLabelInput,
   InputGroupView: InputGroupInputGroupView
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/inputs/PasswordBox.js":
-/*!**************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/inputs/PasswordBox.js ***!
-  \**************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/PasswordBox.js":
+/*!*********************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/PasswordBox.js ***!
+  \*********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars/runtime */ "handlebars/runtime");
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _TextBox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TextBox */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/TextBox.js");
 
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
-
-var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _TextBox = _interopRequireDefault(__webpack_require__(/*! ./TextBox */ "./node_modules/@okta/courage/src/views/forms/inputs/TextBox.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /*!
  * Copyright (c) 2015-2018, Okta, Inc. and/or its affiliates. All rights reserved.
@@ -13748,7 +15333,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-var toggleTemplate = _runtime.default.template({
+
+
+
+var toggleTemplate = handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
   "compiler": [8, ">= 4.3.0"],
   "main": function main(container, depth0, helpers, partials, data) {
     return "<span class=\"password-toggle\"><span class=\"eyeicon visibility-16 button-show\"></span><span class=\"eyeicon visibility-off-16 button-hide\"></span></span>";
@@ -13757,8 +15345,7 @@ var toggleTemplate = _runtime.default.template({
 });
 
 var toggleTimeout = 30000;
-
-var _default = _TextBox.default.extend({
+/* harmony default export */ __webpack_exports__["default"] = (_TextBox__WEBPACK_IMPORTED_MODULE_2__.default.extend({
   initialize: function initialize() {
     if (this.__showPasswordToggle()) {
       this.events['click .password-toggle .button-show'] = '__showPassword';
@@ -13773,25 +15360,21 @@ var _default = _TextBox.default.extend({
       this.$el.find('input[type="password"]').addClass('password-with-toggle');
     }
 
-    _TextBox.default.prototype.postRender.apply(this, arguments);
+    _TextBox__WEBPACK_IMPORTED_MODULE_2__.default.prototype.postRender.apply(this, arguments);
   },
   __showPasswordToggle: function __showPasswordToggle() {
     return this.options.params && this.options.params.showPasswordToggle;
   },
   __showPassword: function __showPassword() {
-    var _this = this;
-
-    _TextBox.default.prototype.changeType.apply(this, ['text']);
-
+    _TextBox__WEBPACK_IMPORTED_MODULE_2__.default.prototype.changeType.apply(this, ['text']);
     this.$('.password-toggle .button-show').hide();
     this.$('.password-toggle .button-hide').show();
-    this.passwordToggleTimer = _underscoreWrapper.default.delay(function () {
-      _this.__hidePassword();
+    this.passwordToggleTimer = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.delay(() => {
+      this.__hidePassword();
     }, toggleTimeout);
   },
   __hidePassword: function __hidePassword() {
-    _TextBox.default.prototype.changeType.apply(this, ['password']);
-
+    _TextBox__WEBPACK_IMPORTED_MODULE_2__.default.prototype.changeType.apply(this, ['password']);
     this.$('.password-toggle .button-show').show();
     this.$('.password-toggle .button-hide').hide(); // clear timeout
 
@@ -13799,51 +15382,41 @@ var _default = _TextBox.default.extend({
       clearTimeout(this.passwordToggleTimer);
     }
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/inputs/Radio.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/inputs/Radio.js ***!
-  \********************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/Radio.js":
+/*!***************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/Radio.js ***!
+  \***************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars/runtime */ "handlebars/runtime");
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/jquery-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts");
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _util_Keys__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../util/Keys */ "../../../../../../okta/okta-ui/packages/courage/src/util/Keys.ts");
+/* harmony import */ var _util_Util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../util/Util */ "../../../../../../okta/okta-ui/packages/courage/src/util/Util.ts");
+/* harmony import */ var _BaseView__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
+/* harmony import */ var vendor_plugins_jquery_custominput__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vendor/plugins/jquery.custominput */ "../../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/jquery.custominput.js");
+/* harmony import */ var vendor_plugins_jquery_custominput__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(vendor_plugins_jquery_custominput__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _BaseInput__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../BaseInput */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseInput.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
+/* eslint max-statements: [2, 12], max-params: [2, 6] */
 
-var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
-var _Keys = _interopRequireDefault(__webpack_require__(/*! ../../../util/Keys */ "./node_modules/@okta/courage/src/util/Keys.js"));
 
-var _Util = _interopRequireDefault(__webpack_require__(/*! ../../../util/Util */ "./node_modules/@okta/courage/src/util/Util.js"));
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
 
-__webpack_require__(/*! vendor/plugins/jquery.custominput */ "./node_modules/@okta/courage/src/vendor/plugins/jquery.custominput.js");
-
-var _BaseInput = _interopRequireDefault(__webpack_require__(/*! ../BaseInput */ "./node_modules/@okta/courage/src/views/forms/BaseInput.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-var isABaseView = _Util.default.isABaseView;
-
-var RadioRadioOption = _BaseView.default.extend({
-  template: _runtime.default.template({
+var isABaseView = _util_Util__WEBPACK_IMPORTED_MODULE_4__.default.isABaseView;
+var RadioRadioOption = _BaseView__WEBPACK_IMPORTED_MODULE_5__.default.extend({
+  template: handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
     "compiler": [8, ">= 4.3.0"],
     "main": function main(container, depth0, helpers, partials, data) {
       var helper,
@@ -13859,7 +15432,7 @@ var RadioRadioOption = _BaseView.default.extend({
         return undefined;
       };
 
-      return "<input type=\"radio\" name=\"" + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      return "<input type=\"radio\" name=\"" + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "name",
         "hash": {},
         "data": data,
@@ -13873,7 +15446,7 @@ var RadioRadioOption = _BaseView.default.extend({
             "column": 34
           }
         }
-      }) : helper)) + "\" data-se-name=\"" + alias4((helper = (helper = lookupProperty(helpers, "realName") || (depth0 != null ? lookupProperty(depth0, "realName") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      }) : helper)) + "\" data-se-name=\"" + alias4((helper = (helper = lookupProperty(helpers, "realName") || (depth0 != null ? lookupProperty(depth0, "realName") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "realName",
         "hash": {},
         "data": data,
@@ -13887,7 +15460,7 @@ var RadioRadioOption = _BaseView.default.extend({
             "column": 62
           }
         }
-      }) : helper)) + "\" value=\"" + alias4((helper = (helper = lookupProperty(helpers, "value") || (depth0 != null ? lookupProperty(depth0, "value") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      }) : helper)) + "\" value=\"" + alias4((helper = (helper = lookupProperty(helpers, "value") || (depth0 != null ? lookupProperty(depth0, "value") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "value",
         "hash": {},
         "data": data,
@@ -13901,7 +15474,7 @@ var RadioRadioOption = _BaseView.default.extend({
             "column": 80
           }
         }
-      }) : helper)) + "\" id=\"" + alias4((helper = (helper = lookupProperty(helpers, "optionId") || (depth0 != null ? lookupProperty(depth0, "optionId") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      }) : helper)) + "\" id=\"" + alias4((helper = (helper = lookupProperty(helpers, "optionId") || (depth0 != null ? lookupProperty(depth0, "optionId") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "optionId",
         "hash": {},
         "data": data,
@@ -13915,7 +15488,7 @@ var RadioRadioOption = _BaseView.default.extend({
             "column": 98
           }
         }
-      }) : helper)) + "\"><label for=\"" + alias4((helper = (helper = lookupProperty(helpers, "optionId") || (depth0 != null ? lookupProperty(depth0, "optionId") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      }) : helper)) + "\"><label for=\"" + alias4((helper = (helper = lookupProperty(helpers, "optionId") || (depth0 != null ? lookupProperty(depth0, "optionId") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "optionId",
         "hash": {},
         "data": data,
@@ -13929,7 +15502,7 @@ var RadioRadioOption = _BaseView.default.extend({
             "column": 124
           }
         }
-      }) : helper)) + "\" data-se-for-name=\"" + alias4((helper = (helper = lookupProperty(helpers, "realName") || (depth0 != null ? lookupProperty(depth0, "realName") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      }) : helper)) + "\" data-se-for-name=\"" + alias4((helper = (helper = lookupProperty(helpers, "realName") || (depth0 != null ? lookupProperty(depth0, "realName") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "realName",
         "hash": {},
         "data": data,
@@ -13943,7 +15516,7 @@ var RadioRadioOption = _BaseView.default.extend({
             "column": 156
           }
         }
-      }) : helper)) + "\" class=\"radio-label\">" + alias4((helper = (helper = lookupProperty(helpers, "label") || (depth0 != null ? lookupProperty(depth0, "label") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      }) : helper)) + "\" class=\"radio-label\">" + alias4((helper = (helper = lookupProperty(helpers, "label") || (depth0 != null ? lookupProperty(depth0, "label") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "label",
         "hash": {},
         "data": data,
@@ -13965,8 +15538,8 @@ var RadioRadioOption = _BaseView.default.extend({
     var explain;
     explain = options.explain;
 
-    if (_underscoreWrapper.default.isFunction(explain) && !isABaseView(explain)) {
-      explain = _underscoreWrapper.default.resultCtx(this.options, 'explain', this);
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isFunction(explain) && !isABaseView(explain)) {
+      explain = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.resultCtx(this.options, 'explain', this);
     }
 
     if (!explain) {
@@ -13977,10 +15550,10 @@ var RadioRadioOption = _BaseView.default.extend({
       this.add('<p class="o-form-explain"></p>', '.radio-label');
       this.add(explain, '.o-form-explain');
     } else {
-      this.add(_BaseView.default.extend({
+      this.add(_BaseView__WEBPACK_IMPORTED_MODULE_5__.default.extend({
         className: 'o-form-explain',
         tagName: 'p',
-        template: _runtime.default.template({
+        template: handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
           "compiler": [8, ">= 4.3.0"],
           "main": function main(container, depth0, helpers, partials, data) {
             var helper,
@@ -14014,17 +15587,16 @@ var RadioRadioOption = _BaseView.default.extend({
     }
   }
 });
-
-var _default = _BaseInput.default.extend({
+/* harmony default export */ __webpack_exports__["default"] = (_BaseInput__WEBPACK_IMPORTED_MODULE_7__.default.extend({
   /**
    * @Override
    */
   events: {
     'change :radio': 'update',
     keyup: function keyup(e) {
-      if (_Keys.default.isSpaceBar(e)) {
-        (0, _jqueryWrapper.default)(e.target).click();
-      } else if (_Keys.default.isEnter(e)) {
+      if (_util_Keys__WEBPACK_IMPORTED_MODULE_3__.default.isSpaceBar(e)) {
+        (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default)(e.target).click();
+      } else if (_util_Keys__WEBPACK_IMPORTED_MODULE_3__.default.isEnter(e)) {
         this.model.trigger('form:save');
       }
     }
@@ -14037,21 +15609,21 @@ var _default = _BaseInput.default.extend({
     var templates = [];
     this.$el.empty();
 
-    _underscoreWrapper.default.each(this.options.options, function (value, key) {
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.each(this.options.options, function (value, key) {
       var options = {
-        optionId: _underscoreWrapper.default.uniqueId('option'),
+        optionId: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.uniqueId('option'),
         name: this.options.inputId,
         realName: this.options.name,
         value: key
       };
 
-      if (!_underscoreWrapper.default.isObject(value)) {
+      if (!_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isObject(value)) {
         value = {
           label: value
         };
       }
 
-      _underscoreWrapper.default.extend(options, value);
+      _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.extend(options, value);
 
       templates.push(new RadioRadioOption(options).render().el);
     }, this);
@@ -14095,44 +15667,34 @@ var _default = _BaseInput.default.extend({
   focus: function focus() {
     return this.$('label:eq(0)').focus();
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/inputs/Select.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/inputs/Select.js ***!
-  \*********************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/Select.js":
+/*!****************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/Select.js ***!
+  \****************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars/runtime */ "handlebars/runtime");
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/jquery-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts");
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _util_Keys__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../util/Keys */ "../../../../../../okta/okta-ui/packages/courage/src/util/Keys.ts");
+/* harmony import */ var vendor_plugins_chosen_jquery__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vendor/plugins/chosen.jquery */ "../../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/chosen.jquery.js");
+/* harmony import */ var vendor_plugins_chosen_jquery__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vendor_plugins_chosen_jquery__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _BaseInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../BaseInput */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseInput.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
 
-var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
-var _Keys = _interopRequireDefault(__webpack_require__(/*! ../../../util/Keys */ "./node_modules/@okta/courage/src/util/Keys.js"));
 
-__webpack_require__(/*! vendor/plugins/chosen.jquery */ "./node_modules/@okta/courage/src/vendor/plugins/chosen.jquery.js");
-
-var _BaseInput = _interopRequireDefault(__webpack_require__(/*! ../BaseInput */ "./node_modules/@okta/courage/src/views/forms/BaseInput.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-var template = _runtime.default.template({
+var template = handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
   "compiler": [8, ">= 4.3.0"],
   "main": function main(container, depth0, helpers, partials, data) {
     var helper,
@@ -14148,7 +15710,7 @@ var template = _runtime.default.template({
       return undefined;
     };
 
-    return "<select id=\"" + alias4((helper = (helper = lookupProperty(helpers, "inputId") || (depth0 != null ? lookupProperty(depth0, "inputId") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+    return "<select id=\"" + alias4((helper = (helper = lookupProperty(helpers, "inputId") || (depth0 != null ? lookupProperty(depth0, "inputId") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "inputId",
       "hash": {},
       "data": data,
@@ -14162,7 +15724,7 @@ var template = _runtime.default.template({
           "column": 23
         }
       }
-    }) : helper)) + "\" name=\"" + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+    }) : helper)) + "\" name=\"" + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "name",
       "hash": {},
       "data": data,
@@ -14181,7 +15743,7 @@ var template = _runtime.default.template({
   "useData": true
 });
 
-var option = _runtime.default.template({
+var option = handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
   "compiler": [8, ">= 4.3.0"],
   "main": function main(container, depth0, helpers, partials, data) {
     var helper,
@@ -14197,7 +15759,7 @@ var option = _runtime.default.template({
       return undefined;
     };
 
-    return "<option value=\"" + alias4((helper = (helper = lookupProperty(helpers, "key") || (depth0 != null ? lookupProperty(depth0, "key") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+    return "<option value=\"" + alias4((helper = (helper = lookupProperty(helpers, "key") || (depth0 != null ? lookupProperty(depth0, "key") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "key",
       "hash": {},
       "data": data,
@@ -14211,7 +15773,7 @@ var option = _runtime.default.template({
           "column": 22
         }
       }
-    }) : helper)) + "\">" + alias4((helper = (helper = lookupProperty(helpers, "value") || (depth0 != null ? lookupProperty(depth0, "value") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+    }) : helper)) + "\">" + alias4((helper = (helper = lookupProperty(helpers, "value") || (depth0 != null ? lookupProperty(depth0, "value") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
       "name": "value",
       "hash": {},
       "data": data,
@@ -14248,14 +15810,14 @@ function defer(fn) {
   if (this.params.autoWidth) {
     return fn.call(this);
   } else {
-    return _underscoreWrapper.default.defer(_underscoreWrapper.default.bind(fn, this));
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.defer(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.bind(fn, this));
   }
 }
 
 function findSelectWidth(self) {
   self.$select.hide();
-  var select = (0, _jqueryWrapper.default)(self.$select[0]).hide();
-  (0, _jqueryWrapper.default)('body').append(select);
+  var select = (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default)(self.$select[0]).hide();
+  (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default)('body').append(select);
   var width = self.params.width = select.width() * 1.2 + 'px';
   self.$el.append(select.show());
   return width;
@@ -14269,7 +15831,7 @@ function recalculateChosen($chosen, $results, $clone) {
   }); // Update the max-height to fit within the constraints of the window. This
   // is especially important for modals because page scrolling is disabled.
 
-  var $win = (0, _jqueryWrapper.default)(window);
+  var $win = (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default)(window);
   var rHeight = $results.outerHeight();
   var rBottom = rHeight + $results.offset().top - $win.scrollTop();
   var wHeight = $win.height() - CHOSEN_WINDOW_MARGIN;
@@ -14283,7 +15845,7 @@ function fixChosenModal($select, textPlaceholder) {
   var $clone = $chosen.clone();
   var $results = $chosen.find('.chzn-results');
   var $searchInput = $chosen.find('.chzn-search input[type=text]');
-  $searchInput.on('keyup', function () {
+  $searchInput.on('keyup', () => {
     $chosen.find('#' + $select.attr('id') + '_txt').attr('aria-activedescendant', $results.find('.active-result.highlighted').attr('id'));
     var noResult = $results.find('li.no-results');
 
@@ -14307,7 +15869,7 @@ function fixChosenModal($select, textPlaceholder) {
   };
   $results.hide(); // Handler for any resize events that happen when the results list is open
 
-  var resizeHandler = _underscoreWrapper.default.debounce(function () {
+  var resizeHandler = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.debounce(function () {
     recalculateChosen($chosen, $results, $clone);
   }, 10); // When the dropdown opens, attach it to body, with the correct absolute
   // position coordinates
@@ -14326,8 +15888,8 @@ function fixChosenModal($select, textPlaceholder) {
       'z-index': CHOSEN_Z_INDEX,
       top: -999999
     });
-    (0, _jqueryWrapper.default)('body').append($chosen);
-    (0, _jqueryWrapper.default)('.chzn-search > :text').prop('placeholder', textPlaceholder);
+    (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default)('body').append($chosen);
+    (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default)('.chzn-search > :text').prop('placeholder', textPlaceholder);
     $results.show();
     recalculateChosen($chosen, $results, $clone); // Capture scroll events:
     // - for forms that use fixed positioning (like editing attributes in
@@ -14335,13 +15897,13 @@ function fixChosenModal($select, textPlaceholder) {
     // - for forms that are too long for the modal - o-form-content scroll
 
     $select.parents().scroll(resizeHandler);
-    (0, _jqueryWrapper.default)(window).on('resize scroll', resizeHandler);
+    (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default)(window).on('resize scroll', resizeHandler);
   }); // When the dropdown closes or the element is removed, revert to the
   // original styles and reattach it to its original placement in the dom.
 
   $select.on('liszt:hiding_dropdown.fixChosen remove.fixChosen', function () {
     $select.parents().off('scroll', resizeHandler);
-    (0, _jqueryWrapper.default)(window).off('resize scroll', resizeHandler);
+    (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default)(window).off('resize scroll', resizeHandler);
     $chosen.css(baseStyles);
     $results.hide();
     $results.css('max-height', CHOSEN_MAX_HEIGHT);
@@ -14351,7 +15913,7 @@ function fixChosenModal($select, textPlaceholder) {
   });
 }
 
-var _default = _BaseInput.default.extend({
+/* harmony default export */ __webpack_exports__["default"] = (_BaseInput__WEBPACK_IMPORTED_MODULE_5__.default.extend({
   className: 'o-form-select',
 
   /**
@@ -14360,7 +15922,7 @@ var _default = _BaseInput.default.extend({
   events: {
     'change select': 'update',
     'keyup .chzn-search > :text': function keyupChznSearchText(e) {
-      if (_Keys.default.isEsc(e)) {
+      if (_util_Keys__WEBPACK_IMPORTED_MODULE_3__.default.isEsc(e)) {
         this.$('.chzn-search > :text').val('');
         e.stopPropagation();
       }
@@ -14369,9 +15931,7 @@ var _default = _BaseInput.default.extend({
   constructor: function constructor() {
     this.template = template;
     this.option = this.option || option;
-
-    _BaseInput.default.apply(this, arguments);
-
+    _BaseInput__WEBPACK_IMPORTED_MODULE_5__.default.apply(this, arguments);
     this.params = this.options.params || {};
   },
 
@@ -14384,7 +15944,7 @@ var _default = _BaseInput.default.extend({
     this.$select = this.$('select');
     var options = this.getOptions();
 
-    _underscoreWrapper.default.each(options, function (value, key) {
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.each(options, function (value, key) {
       this.$select.append(this.option({
         key: key,
         value: value
@@ -14421,7 +15981,7 @@ var _default = _BaseInput.default.extend({
     defer.call(this, function () {
       var searchThreshold = this.getParam('searchThreshold', 10);
 
-      if (!_underscoreWrapper.default.result(this.options, 'autoRender') && update !== false) {
+      if (!_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.result(this.options, 'autoRender') && update !== false) {
         this.update();
       }
 
@@ -14472,11 +16032,11 @@ var _default = _BaseInput.default.extend({
     var displayString = selectedOption;
     var options = this.getOptions();
 
-    if (!_underscoreWrapper.default.isEmpty(options)) {
+    if (!_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isEmpty(options)) {
       displayString = options[selectedOption];
     }
 
-    if (_underscoreWrapper.default.isUndefined(displayString)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isUndefined(displayString)) {
       displayString = this.defaultValue();
     }
 
@@ -14494,18 +16054,18 @@ var _default = _BaseInput.default.extend({
   getOptions: function getOptions() {
     var options = this.options.options;
 
-    if (_underscoreWrapper.default.isFunction(options)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isFunction(options)) {
       options = options.call(this);
     }
 
-    return _underscoreWrapper.default.isObject(options) ? options : {};
+    return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_2__.default.isObject(options) ? options : {};
   },
   remove: function remove() {
     if (this.$select) {
       this.$select.trigger('remove');
     }
 
-    return _BaseInput.default.prototype.remove.apply(this, arguments);
+    return _BaseInput__WEBPACK_IMPORTED_MODULE_5__.default.prototype.remove.apply(this, arguments);
   },
 
   /**
@@ -14531,42 +16091,32 @@ var _default = _BaseInput.default.extend({
 
     this.$('.chzn-results .active-result').attr('role', 'option');
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/inputs/TextBox.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/inputs/TextBox.js ***!
-  \**********************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/TextBox.js":
+/*!*****************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/TextBox.js ***!
+  \*****************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars/runtime */ "handlebars/runtime");
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/jquery-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts");
+/* harmony import */ var qtip__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! qtip */ "qtip");
+/* harmony import */ var qtip__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(qtip__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _util_Keys__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../util/Keys */ "../../../../../../okta/okta-ui/packages/courage/src/util/Keys.ts");
+/* harmony import */ var vendor_plugins_jquery_placeholder__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vendor/plugins/jquery.placeholder */ "../../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/jquery.placeholder.js");
+/* harmony import */ var vendor_plugins_jquery_placeholder__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vendor_plugins_jquery_placeholder__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _BaseInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../BaseInput */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseInput.ts");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
 
-var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
 
-__webpack_require__(/*! qtip */ "qtip");
-
-var _Keys = _interopRequireDefault(__webpack_require__(/*! ../../../util/Keys */ "./node_modules/@okta/courage/src/util/Keys.js"));
-
-__webpack_require__(/*! vendor/plugins/jquery.placeholder */ "./node_modules/@okta/courage/src/vendor/plugins/jquery.placeholder.js");
-
-var _BaseInput = _interopRequireDefault(__webpack_require__(/*! ../BaseInput */ "./node_modules/@okta/courage/src/views/forms/BaseInput.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var className = 'okta-form-input-field input-fix';
 
@@ -14587,8 +16137,8 @@ function createQtipContent(options) {
   };
 }
 
-var _default = _BaseInput.default.extend({
-  template: _runtime.default.template({
+/* harmony default export */ __webpack_exports__["default"] = (_BaseInput__WEBPACK_IMPORTED_MODULE_5__.default.extend({
+  template: handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
     "1": function _(container, depth0, helpers, partials, data) {
       return "<span class=\"input-tooltip icon form-help-16\"></span>";
     },
@@ -14684,7 +16234,7 @@ var _default = _BaseInput.default.extend({
             "column": 166
           }
         }
-      })) != null ? stack1 : "") + "<input type=\"" + alias4((helper = (helper = lookupProperty(helpers, "type") || (depth0 != null ? lookupProperty(depth0, "type") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      })) != null ? stack1 : "") + "<input type=\"" + alias4((helper = (helper = lookupProperty(helpers, "type") || (depth0 != null ? lookupProperty(depth0, "type") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "type",
         "hash": {},
         "data": data,
@@ -14698,7 +16248,7 @@ var _default = _BaseInput.default.extend({
             "column": 187
           }
         }
-      }) : helper)) + "\" placeholder=\"" + alias4((helper = (helper = lookupProperty(helpers, "placeholder") || (depth0 != null ? lookupProperty(depth0, "placeholder") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      }) : helper)) + "\" placeholder=\"" + alias4((helper = (helper = lookupProperty(helpers, "placeholder") || (depth0 != null ? lookupProperty(depth0, "placeholder") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "placeholder",
         "hash": {},
         "data": data,
@@ -14712,7 +16262,7 @@ var _default = _BaseInput.default.extend({
             "column": 217
           }
         }
-      }) : helper)) + "\" name=\"" + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      }) : helper)) + "\" name=\"" + alias4((helper = (helper = lookupProperty(helpers, "name") || (depth0 != null ? lookupProperty(depth0, "name") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "name",
         "hash": {},
         "data": data,
@@ -14726,7 +16276,7 @@ var _default = _BaseInput.default.extend({
             "column": 233
           }
         }
-      }) : helper)) + "\" id=\"" + alias4((helper = (helper = lookupProperty(helpers, "inputId") || (depth0 != null ? lookupProperty(depth0, "inputId") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      }) : helper)) + "\" id=\"" + alias4((helper = (helper = lookupProperty(helpers, "inputId") || (depth0 != null ? lookupProperty(depth0, "inputId") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "inputId",
         "hash": {},
         "data": data,
@@ -14740,7 +16290,7 @@ var _default = _BaseInput.default.extend({
             "column": 250
           }
         }
-      }) : helper)) + "\" value=\"" + alias4((helper = (helper = lookupProperty(helpers, "value") || (depth0 != null ? lookupProperty(depth0, "value") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      }) : helper)) + "\" value=\"" + alias4((helper = (helper = lookupProperty(helpers, "value") || (depth0 != null ? lookupProperty(depth0, "value") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "value",
         "hash": {},
         "data": data,
@@ -14754,7 +16304,7 @@ var _default = _BaseInput.default.extend({
             "column": 268
           }
         }
-      }) : helper)) + "\" aria-label=\"" + alias4((helper = (helper = lookupProperty(helpers, "placeholder") || (depth0 != null ? lookupProperty(depth0, "placeholder") : depth0)) != null ? helper : alias2, _typeof(helper) === alias3 ? helper.call(alias1, {
+      }) : helper)) + "\" aria-label=\"" + alias4((helper = (helper = lookupProperty(helpers, "placeholder") || (depth0 != null ? lookupProperty(depth0, "placeholder") : depth0)) != null ? helper : alias2, typeof helper === alias3 ? helper.call(alias1, {
         "name": "placeholder",
         "hash": {},
         "data": data,
@@ -14813,16 +16363,15 @@ var _default = _BaseInput.default.extend({
     'change input': 'update',
     'keydown input': 'update',
     'keyup input': function keyupInput(e) {
-      if (_Keys.default.isEnter(e)) {
+      if (_util_Keys__WEBPACK_IMPORTED_MODULE_3__.default.isEnter(e)) {
         this.model.trigger('form:save');
-      } else if (_Keys.default.isEsc(e)) {
+      } else if (_util_Keys__WEBPACK_IMPORTED_MODULE_3__.default.isEsc(e)) {
         this.model.trigger('form:cancel');
       }
     }
   },
   constructor: function constructor() {
-    _BaseInput.default.apply(this, arguments);
-
+    _BaseInput__WEBPACK_IMPORTED_MODULE_5__.default.apply(this, arguments);
     this.$el.addClass('o-form-control');
   },
 
@@ -14831,9 +16380,7 @@ var _default = _BaseInput.default.extend({
    */
   editMode: function editMode() {
     this.$el.addClass(className);
-
-    _BaseInput.default.prototype.editMode.apply(this, arguments);
-
+    _BaseInput__WEBPACK_IMPORTED_MODULE_5__.default.prototype.editMode.apply(this, arguments);
     this.$('input').placeholder();
   },
 
@@ -14841,7 +16388,7 @@ var _default = _BaseInput.default.extend({
    * @Override
    */
   readMode: function readMode() {
-    _BaseInput.default.prototype.readMode.apply(this, arguments);
+    _BaseInput__WEBPACK_IMPORTED_MODULE_5__.default.prototype.readMode.apply(this, arguments);
 
     if (this.options.type === 'password') {
       this.$el.text('********');
@@ -14857,7 +16404,7 @@ var _default = _BaseInput.default.extend({
     var inputValue = this.$('input[type="' + this.options.type + '"]').val(); //IE will only read clear text pw if type="password" is explicitly in selector
 
     if (this.options.type !== 'password') {
-      inputValue = _jqueryWrapper.default.trim(inputValue);
+      inputValue = _util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.trim(inputValue);
     }
 
     return inputValue;
@@ -14870,7 +16417,9 @@ var _default = _BaseInput.default.extend({
     return this.$('input').focus();
   },
   postRender: function postRender() {
-    var params = this.options.params;
+    var {
+      params: params
+    } = this.options;
 
     if (params && params.innerTooltip) {
       var content = createQtipContent(params.innerTooltip);
@@ -14902,47 +16451,37 @@ var _default = _BaseInput.default.extend({
             y: -5,
             x: 5
           },
-          viewport: (0, _jqueryWrapper.default)('body')
+          viewport: (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_1__.default)('body')
         }
       });
     }
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
+}));
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/inputs/TextBoxSet.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/inputs/TextBoxSet.js ***!
-  \*************************************************************************/
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/TextBoxSet.js":
+/*!********************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/TextBoxSet.js ***!
+  \********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! handlebars/runtime */ "handlebars/runtime");
+/* harmony import */ var handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(handlebars_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/SchemaUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/SchemaUtil.ts");
+/* harmony import */ var _BaseInput__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../BaseInput */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseInput.ts");
+/* harmony import */ var _DeletableBox__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./DeletableBox */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/DeletableBox.js");
 
 
-Object.defineProperty(exports, "__esModule", ({
-  value: true
-}));
-exports.default = void 0;
 
-var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
-var _SchemaUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/SchemaUtil */ "./node_modules/@okta/courage/src/util/SchemaUtil.js"));
-
-var _BaseInput = _interopRequireDefault(__webpack_require__(/*! ../BaseInput */ "./node_modules/@okta/courage/src/views/forms/BaseInput.js"));
-
-var _DeletableBox = _interopRequireDefault(__webpack_require__(/*! ./DeletableBox */ "./node_modules/@okta/courage/src/views/forms/inputs/DeletableBox.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _default = _BaseInput.default.extend({
+/* harmony default export */ __webpack_exports__["default"] = (_BaseInput__WEBPACK_IMPORTED_MODULE_3__.default.extend({
   className: 'array-input',
-  template: _runtime.default.template({
+  template: handlebars_runtime__WEBPACK_IMPORTED_MODULE_0___default().template({
     "compiler": [8, ">= 4.3.0"],
     "main": function main(container, depth0, helpers, partials, data) {
       var lookupProperty = container.lookupProperty || function (parent, propertyName) {
@@ -14988,13 +16527,13 @@ var _default = _BaseInput.default.extend({
   },
   initialize: function initialize(options) {
     options || (options = {});
-    this.params = _underscoreWrapper.default.defaults(options.params || {}, this.params);
+    this.params = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.defaults(options.params || {}, this.params);
     this.uniqueIdPrefix = 'array';
   },
   // api returns null for an array that does not have value
   // convert it to an empty array
   from: function from(val) {
-    if (!_underscoreWrapper.default.isArray(val)) {
+    if (!_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isArray(val)) {
       return [];
     }
 
@@ -15006,7 +16545,7 @@ var _default = _BaseInput.default.extend({
 
     this.$el.html(this.template);
 
-    _underscoreWrapper.default.each(this.arrayObject, _underscoreWrapper.default.bind(this._addDeletableBox, this));
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.each(this.arrayObject, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.bind(this._addDeletableBox, this));
 
     return this;
   },
@@ -15020,10 +16559,10 @@ var _default = _BaseInput.default.extend({
   // for string type array, returns all values
   // for number/integer type array, returns values in number type
   val: function val() {
-    var values = _underscoreWrapper.default.values(this.arrayObject);
+    var values = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.values(this.arrayObject);
 
-    if (_underscoreWrapper.default.contains([_SchemaUtil.default.DATATYPE.number, _SchemaUtil.default.DATATYPE.integer], this.params.itemType)) {
-      values = _underscoreWrapper.default.filter(values, _underscoreWrapper.default.isNumber);
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.contains([_util_SchemaUtil__WEBPACK_IMPORTED_MODULE_2__.default.DATATYPE.number, _util_SchemaUtil__WEBPACK_IMPORTED_MODULE_2__.default.DATATYPE.integer], this.params.itemType)) {
+      values = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.filter(values, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isNumber);
     }
 
     return values;
@@ -15032,7 +16571,7 @@ var _default = _BaseInput.default.extend({
   addNewElement: function addNewElement() {
     var value = '';
 
-    var key = _underscoreWrapper.default.uniqueId(this.uniqueIdPrefix);
+    var key = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.uniqueId(this.uniqueIdPrefix);
 
     this.arrayObject[key] = value;
 
@@ -15042,13 +16581,13 @@ var _default = _BaseInput.default.extend({
     this.update();
   },
   _addDeletableBox: function _addDeletableBox(value, key) {
-    var deletableBox = new _DeletableBox.default(_underscoreWrapper.default.extend(_underscoreWrapper.default.pick(this.options, 'read', 'readOnly', 'model'), {
+    var deletableBox = new _DeletableBox__WEBPACK_IMPORTED_MODULE_4__.default(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.extend(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.pick(this.options, 'read', 'readOnly', 'model'), {
       key: key,
       value: value,
       itemType: this.params.itemType
     }));
     this.listenTo(deletableBox, 'updateArray', function (updatedValue) {
-      if (_underscoreWrapper.default.isNull(updatedValue)) {
+      if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isNull(updatedValue)) {
         delete this.arrayObject[key];
         this.stopListening(deletableBox);
       } else {
@@ -15066,2389 +16605,30 @@ var _default = _BaseInput.default.extend({
     var array = this.model.get(this.options.name);
     this.arrayObject = {};
 
-    if (_underscoreWrapper.default.isArray(array) && !_underscoreWrapper.default.isEmpty(array)) {
+    if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isArray(array) && !_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isEmpty(array)) {
       var keys = [];
       var self = this;
-      (0, _underscoreWrapper.default)(array.length).times(function () {
-        keys.push(_underscoreWrapper.default.uniqueId(self.uniqueIdPrefix));
+
+      (0,_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default)(array.length).times(function () {
+        keys.push(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.uniqueId(self.uniqueIdPrefix));
       });
-      this.arrayObject = _underscoreWrapper.default.object(keys, array);
+
+      this.arrayObject = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.object(keys, array);
     }
   }
-});
-
-exports.default = _default;
-module.exports = exports.default;
-
-/***/ }),
-
-/***/ "./src/CourageForSigninWidget.js":
-/*!***************************************!*\
-  !*** ./src/CourageForSigninWidget.js ***!
-  \***************************************/
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", ({
-  value: true
 }));
-exports.default = void 0;
-
-var _BaseCollection = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/models/BaseCollection */ "./node_modules/@okta/courage/src/models/BaseCollection.js"));
-
-var _BaseModel = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/models/BaseModel */ "./node_modules/@okta/courage/src/models/BaseModel.js"));
-
-var _BaseSchema = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/models/BaseSchema */ "./node_modules/@okta/courage/src/models/BaseSchema.js"));
-
-var _Model = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/models/Model */ "./node_modules/@okta/courage/src/models/Model.js"));
-
-var _SchemaProperty = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/models/SchemaProperty */ "./node_modules/@okta/courage/src/models/SchemaProperty.js"));
-
-var _BaseController = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/BaseController */ "./node_modules/@okta/courage/src/util/BaseController.js"));
-
-var _BaseRouter = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/BaseRouter */ "./node_modules/@okta/courage/src/util/BaseRouter.js"));
-
-var _ButtonFactory = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/ButtonFactory */ "./node_modules/@okta/courage/src/util/ButtonFactory.js"));
-
-var _Class = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/Class */ "./node_modules/@okta/courage/src/util/Class.js"));
-
-var _Cookie = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/Cookie */ "./node_modules/@okta/courage/src/util/Cookie.js"));
-
-var _Clipboard = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/Clipboard */ "./node_modules/@okta/courage/src/util/Clipboard.js"));
-
-var _Keys = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/Keys */ "./node_modules/@okta/courage/src/util/Keys.js"));
-
-var _Logger = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/Logger */ "./node_modules/@okta/courage/src/util/Logger.js"));
-
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
-
-var _Util = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/Util */ "./node_modules/@okta/courage/src/util/Util.js"));
-
-var _handlebarsWrapper = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/handlebars-wrapper */ "./node_modules/@okta/courage/src/util/handlebars-wrapper.js"));
-
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
-
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
-
-var _Backbone = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/Backbone.ListView */ "./node_modules/@okta/courage/src/views/Backbone.ListView.js"));
-
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
-
-var _BaseDropDown = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/components/BaseDropDown */ "./node_modules/@okta/courage/src/views/components/BaseDropDown.js"));
-
-var _Notification = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/components/Notification */ "./node_modules/@okta/courage/src/views/components/Notification.js"));
-
-var _BaseForm = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/BaseForm */ "./node_modules/@okta/courage/src/views/forms/BaseForm.js"));
-
-var _Toolbar = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/components/Toolbar */ "./node_modules/@okta/courage/src/views/forms/components/Toolbar.js"));
-
-var _FormUtil = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/helpers/FormUtil */ "./node_modules/@okta/courage/src/views/forms/helpers/FormUtil.js"));
-
-var _InputRegistry = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/helpers/InputRegistry */ "./node_modules/@okta/courage/src/views/forms/helpers/InputRegistry.js"));
-
-var _SchemaFormFactory = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/helpers/SchemaFormFactory */ "./node_modules/@okta/courage/src/views/forms/helpers/SchemaFormFactory.js"));
-
-var _CheckBox = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/inputs/CheckBox */ "./node_modules/@okta/courage/src/views/forms/inputs/CheckBox.js"));
-
-var _PasswordBox = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/inputs/PasswordBox */ "./node_modules/@okta/courage/src/views/forms/inputs/PasswordBox.js"));
-
-var _Radio = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/inputs/Radio */ "./node_modules/@okta/courage/src/views/forms/inputs/Radio.js"));
-
-var _Select = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/inputs/Select */ "./node_modules/@okta/courage/src/views/forms/inputs/Select.js"));
-
-var _InputGroup = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/inputs/InputGroup */ "./node_modules/@okta/courage/src/views/forms/inputs/InputGroup.js"));
-
-var _TextBox = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/inputs/TextBox */ "./node_modules/@okta/courage/src/views/forms/inputs/TextBox.js"));
-
-var _Callout = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/components/Callout */ "./node_modules/@okta/courage/src/views/components/Callout.js"));
-
-var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js"));
-
-var _View = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/framework/View */ "./node_modules/@okta/courage/src/framework/View.js"));
-
-__webpack_require__(/*! ./util/scrollParent */ "./src/util/scrollParent.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// The string will be returned unchanged. All templates should be precompiled.
-_View.default.prototype.compileTemplate = function (str) {
-  return function fakeTemplate() {
-    return str;
-  };
-}; // Override events to not support `Enter` submitting the form twice - OKTA-321999 and OKTA-317629
-
-
-var events = {
-  'input input': 'update',
-  'change input': 'update',
-  'keydown input': 'update',
-  'keyup input': function keyupInput(e) {
-    if (_Keys.default.isEsc(e)) {
-      this.model.trigger('form:cancel');
-    }
-  }
-};
-
-var TextBoxForSigninWidget = _TextBox.default.extend({
-  events: events
-});
-
-var PasswordBoxForSigninWidget = _PasswordBox.default.extend({
-  events: events
-});
-
-var Form = _BaseForm.default.extend({
-  scrollOnError: function scrollOnError() {
-    // scrollOnError is true by default. Override to false if `scrollOnError` has been set to false in widget settings.
-    var settings = this.options.settings;
-
-    if (settings.get('features.scrollOnError') === false) {
-      return false;
-    }
-
-    return true;
-  }
-});
-
-var Okta = {
-  Backbone: _backbone.default,
-  $: _jqueryWrapper.default,
-  _: _underscoreWrapper.default,
-  Handlebars: _handlebarsWrapper.default,
-  loc: _StringUtil.default.localize,
-  createButton: _ButtonFactory.default.create,
-  createCallout: _Callout.default.create,
-  registerInput: _InputRegistry.default.register,
-  Model: _Model.default,
-  // TODO: BaseModel has been deprecated and shall not be public
-  // remove this once clean up usage in widget.
-  BaseModel: _BaseModel.default,
-  Collection: _BaseCollection.default,
-  FrameworkView: _View.default,
-  View: _BaseView.default,
-  ListView: _Backbone.default,
-  Router: _BaseRouter.default,
-  Controller: _BaseController.default,
-  Form: Form,
-  internal: {
-    util: {
-      Util: _Util.default,
-      Cookie: _Cookie.default,
-      Clipboard: _Clipboard.default,
-      Logger: _Logger.default,
-      Class: _Class.default,
-      Keys: _Keys.default
-    },
-    views: {
-      components: {
-        BaseDropDown: _BaseDropDown.default,
-        Notification: _Notification.default
-      },
-      forms: {
-        helpers: {
-          FormUtil: _FormUtil.default,
-          SchemaFormFactory: _SchemaFormFactory.default
-        },
-        components: {
-          Toolbar: _Toolbar.default
-        },
-        inputs: {
-          TextBox: TextBoxForSigninWidget,
-          PasswordBox: PasswordBoxForSigninWidget,
-          CheckBox: _CheckBox.default,
-          Radio: _Radio.default,
-          Select: _Select.default,
-          InputGroup: _InputGroup.default
-        }
-      }
-    },
-    models: {
-      BaseSchema: _BaseSchema.default,
-      SchemaProperty: _SchemaProperty.default
-    }
-  }
-};
-Okta.registerInput('text', TextBoxForSigninWidget);
-Okta.registerInput('password', PasswordBoxForSigninWidget);
-Okta.registerInput('checkbox', _CheckBox.default);
-Okta.registerInput('radio', _Radio.default);
-Okta.registerInput('select', _Select.default);
-Okta.registerInput('group', _InputGroup.default);
-var _default = Okta;
-exports.default = _default;
-module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./src/empty.js":
-/*!**********************!*\
-  !*** ./src/empty.js ***!
-  \**********************/
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-var __WEBPACK_AMD_DEFINE_RESULT__;
-
-// TODO: maybe replaced by
-// https://github.com/Calvein/empty-module
-// https://github.com/crimx/empty-module-loader
-!(__WEBPACK_AMD_DEFINE_RESULT__ = (function () {}).call(exports, __webpack_require__, exports, module),
-		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-/***/ }),
-
-/***/ "./src/util/scrollParent.js":
-/*!**********************************!*\
-  !*** ./src/util/scrollParent.js ***!
-  \**********************************/
-/***/ (function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
-
-"use strict";
-
-
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*!
- * jQuery UI Scroll Parent @VERSION
- * http://jqueryui.com
- *
- * Copyright jQuery Foundation and other contributors
- * Released under the MIT license.
- * http://jquery.org/license
- *
- * Modifications Copyright 2021 Okta, Inc.
- */
-// This is required because SIW doesn't want to include jqueryui even though it's an external dependency of courage
-_jqueryWrapper.default.fn.scrollParent = function (includeHidden) {
-  var position = this.css("position"),
-      excludeStaticParent = position === "absolute",
-      overflowRegex = includeHidden ? /(auto|scroll|hidden)/ : /(auto|scroll)/,
-      scrollParent = this.parents().filter(function () {
-    var parent = (0, _jqueryWrapper.default)(this);
-
-    if (excludeStaticParent && parent.css("position") === "static") {
-      return false;
-    }
-
-    return overflowRegex.test(parent.css("overflow") + parent.css("overflow-y") + parent.css("overflow-x"));
-  }).eq(0);
-  return position === "fixed" || !scrollParent.length ? (0, _jqueryWrapper.default)(this[0].ownerDocument || document) : scrollParent;
-};
-
-/***/ }),
-
-/***/ "./node_modules/backbone/backbone.js":
-/*!*******************************************!*\
-  !*** ./node_modules/backbone/backbone.js ***!
-  \*******************************************/
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Backbone.js 1.4.0
-
-//     (c) 2010-2019 Jeremy Ashkenas and DocumentCloud
-//     Backbone may be freely distributed under the MIT license.
-//     For all details and documentation:
-//     http://backbonejs.org
-
-(function(factory) {
-
-  // Establish the root object, `window` (`self`) in the browser, or `global` on the server.
-  // We use `self` instead of `window` for `WebWorker` support.
-  var root = typeof self == 'object' && self.self === self && self ||
-            typeof __webpack_require__.g == 'object' && __webpack_require__.g.global === __webpack_require__.g && __webpack_require__.g;
-
-  // Set up Backbone appropriately for the environment. Start with AMD.
-  if (true) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! underscore */ "underscore"), __webpack_require__(/*! jquery */ "jquery"), exports], __WEBPACK_AMD_DEFINE_RESULT__ = (function(_, $, exports) {
-      // Export global even in AMD case in case this script is loaded with
-      // others that may still expect a global Backbone.
-      root.Backbone = factory(root, exports, _, $);
-    }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-  // Next for Node.js or CommonJS. jQuery may not be needed as a module.
-  } else { var _, $; }
-
-})(function(root, Backbone, _, $) {
-
-  // Initial Setup
-  // -------------
-
-  // Save the previous value of the `Backbone` variable, so that it can be
-  // restored later on, if `noConflict` is used.
-  var previousBackbone = root.Backbone;
-
-  // Create a local reference to a common array method we'll want to use later.
-  var slice = Array.prototype.slice;
-
-  // Current version of the library. Keep in sync with `package.json`.
-  Backbone.VERSION = '1.4.0';
-
-  // For Backbone's purposes, jQuery, Zepto, Ender, or My Library (kidding) owns
-  // the `$` variable.
-  Backbone.$ = $;
-
-  // Runs Backbone.js in *noConflict* mode, returning the `Backbone` variable
-  // to its previous owner. Returns a reference to this Backbone object.
-  Backbone.noConflict = function() {
-    root.Backbone = previousBackbone;
-    return this;
-  };
-
-  // Turn on `emulateHTTP` to support legacy HTTP servers. Setting this option
-  // will fake `"PATCH"`, `"PUT"` and `"DELETE"` requests via the `_method` parameter and
-  // set a `X-Http-Method-Override` header.
-  Backbone.emulateHTTP = false;
-
-  // Turn on `emulateJSON` to support legacy servers that can't deal with direct
-  // `application/json` requests ... this will encode the body as
-  // `application/x-www-form-urlencoded` instead and will send the model in a
-  // form param named `model`.
-  Backbone.emulateJSON = false;
-
-  // Backbone.Events
-  // ---------------
-
-  // A module that can be mixed in to *any object* in order to provide it with
-  // a custom event channel. You may bind a callback to an event with `on` or
-  // remove with `off`; `trigger`-ing an event fires all callbacks in
-  // succession.
-  //
-  //     var object = {};
-  //     _.extend(object, Backbone.Events);
-  //     object.on('expand', function(){ alert('expanded'); });
-  //     object.trigger('expand');
-  //
-  var Events = Backbone.Events = {};
-
-  // Regular expression used to split event strings.
-  var eventSplitter = /\s+/;
-
-  // A private global variable to share between listeners and listenees.
-  var _listening;
-
-  // Iterates over the standard `event, callback` (as well as the fancy multiple
-  // space-separated events `"change blur", callback` and jQuery-style event
-  // maps `{event: callback}`).
-  var eventsApi = function(iteratee, events, name, callback, opts) {
-    var i = 0, names;
-    if (name && typeof name === 'object') {
-      // Handle event maps.
-      if (callback !== void 0 && 'context' in opts && opts.context === void 0) opts.context = callback;
-      for (names = _.keys(name); i < names.length ; i++) {
-        events = eventsApi(iteratee, events, names[i], name[names[i]], opts);
-      }
-    } else if (name && eventSplitter.test(name)) {
-      // Handle space-separated event names by delegating them individually.
-      for (names = name.split(eventSplitter); i < names.length; i++) {
-        events = iteratee(events, names[i], callback, opts);
-      }
-    } else {
-      // Finally, standard events.
-      events = iteratee(events, name, callback, opts);
-    }
-    return events;
-  };
-
-  // Bind an event to a `callback` function. Passing `"all"` will bind
-  // the callback to all events fired.
-  Events.on = function(name, callback, context) {
-    this._events = eventsApi(onApi, this._events || {}, name, callback, {
-      context: context,
-      ctx: this,
-      listening: _listening
-    });
-
-    if (_listening) {
-      var listeners = this._listeners || (this._listeners = {});
-      listeners[_listening.id] = _listening;
-      // Allow the listening to use a counter, instead of tracking
-      // callbacks for library interop
-      _listening.interop = false;
-    }
-
-    return this;
-  };
-
-  // Inversion-of-control versions of `on`. Tell *this* object to listen to
-  // an event in another object... keeping track of what it's listening to
-  // for easier unbinding later.
-  Events.listenTo = function(obj, name, callback) {
-    if (!obj) return this;
-    var id = obj._listenId || (obj._listenId = _.uniqueId('l'));
-    var listeningTo = this._listeningTo || (this._listeningTo = {});
-    var listening = _listening = listeningTo[id];
-
-    // This object is not listening to any other events on `obj` yet.
-    // Setup the necessary references to track the listening callbacks.
-    if (!listening) {
-      this._listenId || (this._listenId = _.uniqueId('l'));
-      listening = _listening = listeningTo[id] = new Listening(this, obj);
-    }
-
-    // Bind callbacks on obj.
-    var error = tryCatchOn(obj, name, callback, this);
-    _listening = void 0;
-
-    if (error) throw error;
-    // If the target obj is not Backbone.Events, track events manually.
-    if (listening.interop) listening.on(name, callback);
-
-    return this;
-  };
-
-  // The reducing API that adds a callback to the `events` object.
-  var onApi = function(events, name, callback, options) {
-    if (callback) {
-      var handlers = events[name] || (events[name] = []);
-      var context = options.context, ctx = options.ctx, listening = options.listening;
-      if (listening) listening.count++;
-
-      handlers.push({callback: callback, context: context, ctx: context || ctx, listening: listening});
-    }
-    return events;
-  };
-
-  // An try-catch guarded #on function, to prevent poisoning the global
-  // `_listening` variable.
-  var tryCatchOn = function(obj, name, callback, context) {
-    try {
-      obj.on(name, callback, context);
-    } catch (e) {
-      return e;
-    }
-  };
-
-  // Remove one or many callbacks. If `context` is null, removes all
-  // callbacks with that function. If `callback` is null, removes all
-  // callbacks for the event. If `name` is null, removes all bound
-  // callbacks for all events.
-  Events.off = function(name, callback, context) {
-    if (!this._events) return this;
-    this._events = eventsApi(offApi, this._events, name, callback, {
-      context: context,
-      listeners: this._listeners
-    });
-
-    return this;
-  };
-
-  // Tell this object to stop listening to either specific events ... or
-  // to every object it's currently listening to.
-  Events.stopListening = function(obj, name, callback) {
-    var listeningTo = this._listeningTo;
-    if (!listeningTo) return this;
-
-    var ids = obj ? [obj._listenId] : _.keys(listeningTo);
-    for (var i = 0; i < ids.length; i++) {
-      var listening = listeningTo[ids[i]];
-
-      // If listening doesn't exist, this object is not currently
-      // listening to obj. Break out early.
-      if (!listening) break;
-
-      listening.obj.off(name, callback, this);
-      if (listening.interop) listening.off(name, callback);
-    }
-    if (_.isEmpty(listeningTo)) this._listeningTo = void 0;
-
-    return this;
-  };
-
-  // The reducing API that removes a callback from the `events` object.
-  var offApi = function(events, name, callback, options) {
-    if (!events) return;
-
-    var context = options.context, listeners = options.listeners;
-    var i = 0, names;
-
-    // Delete all event listeners and "drop" events.
-    if (!name && !context && !callback) {
-      for (names = _.keys(listeners); i < names.length; i++) {
-        listeners[names[i]].cleanup();
-      }
-      return;
-    }
-
-    names = name ? [name] : _.keys(events);
-    for (; i < names.length; i++) {
-      name = names[i];
-      var handlers = events[name];
-
-      // Bail out if there are no events stored.
-      if (!handlers) break;
-
-      // Find any remaining events.
-      var remaining = [];
-      for (var j = 0; j < handlers.length; j++) {
-        var handler = handlers[j];
-        if (
-          callback && callback !== handler.callback &&
-            callback !== handler.callback._callback ||
-              context && context !== handler.context
-        ) {
-          remaining.push(handler);
-        } else {
-          var listening = handler.listening;
-          if (listening) listening.off(name, callback);
-        }
-      }
-
-      // Replace events if there are any remaining.  Otherwise, clean up.
-      if (remaining.length) {
-        events[name] = remaining;
-      } else {
-        delete events[name];
-      }
-    }
-
-    return events;
-  };
-
-  // Bind an event to only be triggered a single time. After the first time
-  // the callback is invoked, its listener will be removed. If multiple events
-  // are passed in using the space-separated syntax, the handler will fire
-  // once for each event, not once for a combination of all events.
-  Events.once = function(name, callback, context) {
-    // Map the event into a `{event: once}` object.
-    var events = eventsApi(onceMap, {}, name, callback, this.off.bind(this));
-    if (typeof name === 'string' && context == null) callback = void 0;
-    return this.on(events, callback, context);
-  };
-
-  // Inversion-of-control versions of `once`.
-  Events.listenToOnce = function(obj, name, callback) {
-    // Map the event into a `{event: once}` object.
-    var events = eventsApi(onceMap, {}, name, callback, this.stopListening.bind(this, obj));
-    return this.listenTo(obj, events);
-  };
-
-  // Reduces the event callbacks into a map of `{event: onceWrapper}`.
-  // `offer` unbinds the `onceWrapper` after it has been called.
-  var onceMap = function(map, name, callback, offer) {
-    if (callback) {
-      var once = map[name] = _.once(function() {
-        offer(name, once);
-        callback.apply(this, arguments);
-      });
-      once._callback = callback;
-    }
-    return map;
-  };
-
-  // Trigger one or many events, firing all bound callbacks. Callbacks are
-  // passed the same arguments as `trigger` is, apart from the event name
-  // (unless you're listening on `"all"`, which will cause your callback to
-  // receive the true name of the event as the first argument).
-  Events.trigger = function(name) {
-    if (!this._events) return this;
-
-    var length = Math.max(0, arguments.length - 1);
-    var args = Array(length);
-    for (var i = 0; i < length; i++) args[i] = arguments[i + 1];
-
-    eventsApi(triggerApi, this._events, name, void 0, args);
-    return this;
-  };
-
-  // Handles triggering the appropriate event callbacks.
-  var triggerApi = function(objEvents, name, callback, args) {
-    if (objEvents) {
-      var events = objEvents[name];
-      var allEvents = objEvents.all;
-      if (events && allEvents) allEvents = allEvents.slice();
-      if (events) triggerEvents(events, args);
-      if (allEvents) triggerEvents(allEvents, [name].concat(args));
-    }
-    return objEvents;
-  };
-
-  // A difficult-to-believe, but optimized internal dispatch function for
-  // triggering events. Tries to keep the usual cases speedy (most internal
-  // Backbone events have 3 arguments).
-  var triggerEvents = function(events, args) {
-    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
-    switch (args.length) {
-      case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
-      case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
-      case 2: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2); return;
-      case 3: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2, a3); return;
-      default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args); return;
-    }
-  };
-
-  // A listening class that tracks and cleans up memory bindings
-  // when all callbacks have been offed.
-  var Listening = function(listener, obj) {
-    this.id = listener._listenId;
-    this.listener = listener;
-    this.obj = obj;
-    this.interop = true;
-    this.count = 0;
-    this._events = void 0;
-  };
-
-  Listening.prototype.on = Events.on;
-
-  // Offs a callback (or several).
-  // Uses an optimized counter if the listenee uses Backbone.Events.
-  // Otherwise, falls back to manual tracking to support events
-  // library interop.
-  Listening.prototype.off = function(name, callback) {
-    var cleanup;
-    if (this.interop) {
-      this._events = eventsApi(offApi, this._events, name, callback, {
-        context: void 0,
-        listeners: void 0
-      });
-      cleanup = !this._events;
-    } else {
-      this.count--;
-      cleanup = this.count === 0;
-    }
-    if (cleanup) this.cleanup();
-  };
-
-  // Cleans up memory bindings between the listener and the listenee.
-  Listening.prototype.cleanup = function() {
-    delete this.listener._listeningTo[this.obj._listenId];
-    if (!this.interop) delete this.obj._listeners[this.id];
-  };
-
-  // Aliases for backwards compatibility.
-  Events.bind   = Events.on;
-  Events.unbind = Events.off;
-
-  // Allow the `Backbone` object to serve as a global event bus, for folks who
-  // want global "pubsub" in a convenient place.
-  _.extend(Backbone, Events);
-
-  // Backbone.Model
-  // --------------
-
-  // Backbone **Models** are the basic data object in the framework --
-  // frequently representing a row in a table in a database on your server.
-  // A discrete chunk of data and a bunch of useful, related methods for
-  // performing computations and transformations on that data.
-
-  // Create a new model with the specified attributes. A client id (`cid`)
-  // is automatically generated and assigned for you.
-  var Model = Backbone.Model = function(attributes, options) {
-    var attrs = attributes || {};
-    options || (options = {});
-    this.preinitialize.apply(this, arguments);
-    this.cid = _.uniqueId(this.cidPrefix);
-    this.attributes = {};
-    if (options.collection) this.collection = options.collection;
-    if (options.parse) attrs = this.parse(attrs, options) || {};
-    var defaults = _.result(this, 'defaults');
-    attrs = _.defaults(_.extend({}, defaults, attrs), defaults);
-    this.set(attrs, options);
-    this.changed = {};
-    this.initialize.apply(this, arguments);
-  };
-
-  // Attach all inheritable methods to the Model prototype.
-  _.extend(Model.prototype, Events, {
-
-    // A hash of attributes whose current and previous value differ.
-    changed: null,
-
-    // The value returned during the last failed validation.
-    validationError: null,
-
-    // The default name for the JSON `id` attribute is `"id"`. MongoDB and
-    // CouchDB users may want to set this to `"_id"`.
-    idAttribute: 'id',
-
-    // The prefix is used to create the client id which is used to identify models locally.
-    // You may want to override this if you're experiencing name clashes with model ids.
-    cidPrefix: 'c',
-
-    // preinitialize is an empty function by default. You can override it with a function
-    // or object.  preinitialize will run before any instantiation logic is run in the Model.
-    preinitialize: function(){},
-
-    // Initialize is an empty function by default. Override it with your own
-    // initialization logic.
-    initialize: function(){},
-
-    // Return a copy of the model's `attributes` object.
-    toJSON: function(options) {
-      return _.clone(this.attributes);
-    },
-
-    // Proxy `Backbone.sync` by default -- but override this if you need
-    // custom syncing semantics for *this* particular model.
-    sync: function() {
-      return Backbone.sync.apply(this, arguments);
-    },
-
-    // Get the value of an attribute.
-    get: function(attr) {
-      return this.attributes[attr];
-    },
-
-    // Get the HTML-escaped value of an attribute.
-    escape: function(attr) {
-      return _.escape(this.get(attr));
-    },
-
-    // Returns `true` if the attribute contains a value that is not null
-    // or undefined.
-    has: function(attr) {
-      return this.get(attr) != null;
-    },
-
-    // Special-cased proxy to underscore's `_.matches` method.
-    matches: function(attrs) {
-      return !!_.iteratee(attrs, this)(this.attributes);
-    },
-
-    // Set a hash of model attributes on the object, firing `"change"`. This is
-    // the core primitive operation of a model, updating the data and notifying
-    // anyone who needs to know about the change in state. The heart of the beast.
-    set: function(key, val, options) {
-      if (key == null) return this;
-
-      // Handle both `"key", value` and `{key: value}` -style arguments.
-      var attrs;
-      if (typeof key === 'object') {
-        attrs = key;
-        options = val;
-      } else {
-        (attrs = {})[key] = val;
-      }
-
-      options || (options = {});
-
-      // Run validation.
-      if (!this._validate(attrs, options)) return false;
-
-      // Extract attributes and options.
-      var unset      = options.unset;
-      var silent     = options.silent;
-      var changes    = [];
-      var changing   = this._changing;
-      this._changing = true;
-
-      if (!changing) {
-        this._previousAttributes = _.clone(this.attributes);
-        this.changed = {};
-      }
-
-      var current = this.attributes;
-      var changed = this.changed;
-      var prev    = this._previousAttributes;
-
-      // For each `set` attribute, update or delete the current value.
-      for (var attr in attrs) {
-        val = attrs[attr];
-        if (!_.isEqual(current[attr], val)) changes.push(attr);
-        if (!_.isEqual(prev[attr], val)) {
-          changed[attr] = val;
-        } else {
-          delete changed[attr];
-        }
-        unset ? delete current[attr] : current[attr] = val;
-      }
-
-      // Update the `id`.
-      if (this.idAttribute in attrs) this.id = this.get(this.idAttribute);
-
-      // Trigger all relevant attribute changes.
-      if (!silent) {
-        if (changes.length) this._pending = options;
-        for (var i = 0; i < changes.length; i++) {
-          this.trigger('change:' + changes[i], this, current[changes[i]], options);
-        }
-      }
-
-      // You might be wondering why there's a `while` loop here. Changes can
-      // be recursively nested within `"change"` events.
-      if (changing) return this;
-      if (!silent) {
-        while (this._pending) {
-          options = this._pending;
-          this._pending = false;
-          this.trigger('change', this, options);
-        }
-      }
-      this._pending = false;
-      this._changing = false;
-      return this;
-    },
-
-    // Remove an attribute from the model, firing `"change"`. `unset` is a noop
-    // if the attribute doesn't exist.
-    unset: function(attr, options) {
-      return this.set(attr, void 0, _.extend({}, options, {unset: true}));
-    },
-
-    // Clear all attributes on the model, firing `"change"`.
-    clear: function(options) {
-      var attrs = {};
-      for (var key in this.attributes) attrs[key] = void 0;
-      return this.set(attrs, _.extend({}, options, {unset: true}));
-    },
-
-    // Determine if the model has changed since the last `"change"` event.
-    // If you specify an attribute name, determine if that attribute has changed.
-    hasChanged: function(attr) {
-      if (attr == null) return !_.isEmpty(this.changed);
-      return _.has(this.changed, attr);
-    },
-
-    // Return an object containing all the attributes that have changed, or
-    // false if there are no changed attributes. Useful for determining what
-    // parts of a view need to be updated and/or what attributes need to be
-    // persisted to the server. Unset attributes will be set to undefined.
-    // You can also pass an attributes object to diff against the model,
-    // determining if there *would be* a change.
-    changedAttributes: function(diff) {
-      if (!diff) return this.hasChanged() ? _.clone(this.changed) : false;
-      var old = this._changing ? this._previousAttributes : this.attributes;
-      var changed = {};
-      var hasChanged;
-      for (var attr in diff) {
-        var val = diff[attr];
-        if (_.isEqual(old[attr], val)) continue;
-        changed[attr] = val;
-        hasChanged = true;
-      }
-      return hasChanged ? changed : false;
-    },
-
-    // Get the previous value of an attribute, recorded at the time the last
-    // `"change"` event was fired.
-    previous: function(attr) {
-      if (attr == null || !this._previousAttributes) return null;
-      return this._previousAttributes[attr];
-    },
-
-    // Get all of the attributes of the model at the time of the previous
-    // `"change"` event.
-    previousAttributes: function() {
-      return _.clone(this._previousAttributes);
-    },
-
-    // Fetch the model from the server, merging the response with the model's
-    // local attributes. Any changed attributes will trigger a "change" event.
-    fetch: function(options) {
-      options = _.extend({parse: true}, options);
-      var model = this;
-      var success = options.success;
-      options.success = function(resp) {
-        var serverAttrs = options.parse ? model.parse(resp, options) : resp;
-        if (!model.set(serverAttrs, options)) return false;
-        if (success) success.call(options.context, model, resp, options);
-        model.trigger('sync', model, resp, options);
-      };
-      wrapError(this, options);
-      return this.sync('read', this, options);
-    },
-
-    // Set a hash of model attributes, and sync the model to the server.
-    // If the server returns an attributes hash that differs, the model's
-    // state will be `set` again.
-    save: function(key, val, options) {
-      // Handle both `"key", value` and `{key: value}` -style arguments.
-      var attrs;
-      if (key == null || typeof key === 'object') {
-        attrs = key;
-        options = val;
-      } else {
-        (attrs = {})[key] = val;
-      }
-
-      options = _.extend({validate: true, parse: true}, options);
-      var wait = options.wait;
-
-      // If we're not waiting and attributes exist, save acts as
-      // `set(attr).save(null, opts)` with validation. Otherwise, check if
-      // the model will be valid when the attributes, if any, are set.
-      if (attrs && !wait) {
-        if (!this.set(attrs, options)) return false;
-      } else if (!this._validate(attrs, options)) {
-        return false;
-      }
-
-      // After a successful server-side save, the client is (optionally)
-      // updated with the server-side state.
-      var model = this;
-      var success = options.success;
-      var attributes = this.attributes;
-      options.success = function(resp) {
-        // Ensure attributes are restored during synchronous saves.
-        model.attributes = attributes;
-        var serverAttrs = options.parse ? model.parse(resp, options) : resp;
-        if (wait) serverAttrs = _.extend({}, attrs, serverAttrs);
-        if (serverAttrs && !model.set(serverAttrs, options)) return false;
-        if (success) success.call(options.context, model, resp, options);
-        model.trigger('sync', model, resp, options);
-      };
-      wrapError(this, options);
-
-      // Set temporary attributes if `{wait: true}` to properly find new ids.
-      if (attrs && wait) this.attributes = _.extend({}, attributes, attrs);
-
-      var method = this.isNew() ? 'create' : options.patch ? 'patch' : 'update';
-      if (method === 'patch' && !options.attrs) options.attrs = attrs;
-      var xhr = this.sync(method, this, options);
-
-      // Restore attributes.
-      this.attributes = attributes;
-
-      return xhr;
-    },
-
-    // Destroy this model on the server if it was already persisted.
-    // Optimistically removes the model from its collection, if it has one.
-    // If `wait: true` is passed, waits for the server to respond before removal.
-    destroy: function(options) {
-      options = options ? _.clone(options) : {};
-      var model = this;
-      var success = options.success;
-      var wait = options.wait;
-
-      var destroy = function() {
-        model.stopListening();
-        model.trigger('destroy', model, model.collection, options);
-      };
-
-      options.success = function(resp) {
-        if (wait) destroy();
-        if (success) success.call(options.context, model, resp, options);
-        if (!model.isNew()) model.trigger('sync', model, resp, options);
-      };
-
-      var xhr = false;
-      if (this.isNew()) {
-        _.defer(options.success);
-      } else {
-        wrapError(this, options);
-        xhr = this.sync('delete', this, options);
-      }
-      if (!wait) destroy();
-      return xhr;
-    },
-
-    // Default URL for the model's representation on the server -- if you're
-    // using Backbone's restful methods, override this to change the endpoint
-    // that will be called.
-    url: function() {
-      var base =
-        _.result(this, 'urlRoot') ||
-        _.result(this.collection, 'url') ||
-        urlError();
-      if (this.isNew()) return base;
-      var id = this.get(this.idAttribute);
-      return base.replace(/[^\/]$/, '$&/') + encodeURIComponent(id);
-    },
-
-    // **parse** converts a response into the hash of attributes to be `set` on
-    // the model. The default implementation is just to pass the response along.
-    parse: function(resp, options) {
-      return resp;
-    },
-
-    // Create a new model with identical attributes to this one.
-    clone: function() {
-      return new this.constructor(this.attributes);
-    },
-
-    // A model is new if it has never been saved to the server, and lacks an id.
-    isNew: function() {
-      return !this.has(this.idAttribute);
-    },
-
-    // Check if the model is currently in a valid state.
-    isValid: function(options) {
-      return this._validate({}, _.extend({}, options, {validate: true}));
-    },
-
-    // Run validation against the next complete set of model attributes,
-    // returning `true` if all is well. Otherwise, fire an `"invalid"` event.
-    _validate: function(attrs, options) {
-      if (!options.validate || !this.validate) return true;
-      attrs = _.extend({}, this.attributes, attrs);
-      var error = this.validationError = this.validate(attrs, options) || null;
-      if (!error) return true;
-      this.trigger('invalid', this, error, _.extend(options, {validationError: error}));
-      return false;
-    }
-
-  });
-
-  // Backbone.Collection
-  // -------------------
-
-  // If models tend to represent a single row of data, a Backbone Collection is
-  // more analogous to a table full of data ... or a small slice or page of that
-  // table, or a collection of rows that belong together for a particular reason
-  // -- all of the messages in this particular folder, all of the documents
-  // belonging to this particular author, and so on. Collections maintain
-  // indexes of their models, both in order, and for lookup by `id`.
-
-  // Create a new **Collection**, perhaps to contain a specific type of `model`.
-  // If a `comparator` is specified, the Collection will maintain
-  // its models in sort order, as they're added and removed.
-  var Collection = Backbone.Collection = function(models, options) {
-    options || (options = {});
-    this.preinitialize.apply(this, arguments);
-    if (options.model) this.model = options.model;
-    if (options.comparator !== void 0) this.comparator = options.comparator;
-    this._reset();
-    this.initialize.apply(this, arguments);
-    if (models) this.reset(models, _.extend({silent: true}, options));
-  };
-
-  // Default options for `Collection#set`.
-  var setOptions = {add: true, remove: true, merge: true};
-  var addOptions = {add: true, remove: false};
-
-  // Splices `insert` into `array` at index `at`.
-  var splice = function(array, insert, at) {
-    at = Math.min(Math.max(at, 0), array.length);
-    var tail = Array(array.length - at);
-    var length = insert.length;
-    var i;
-    for (i = 0; i < tail.length; i++) tail[i] = array[i + at];
-    for (i = 0; i < length; i++) array[i + at] = insert[i];
-    for (i = 0; i < tail.length; i++) array[i + length + at] = tail[i];
-  };
-
-  // Define the Collection's inheritable methods.
-  _.extend(Collection.prototype, Events, {
-
-    // The default model for a collection is just a **Backbone.Model**.
-    // This should be overridden in most cases.
-    model: Model,
-
-
-    // preinitialize is an empty function by default. You can override it with a function
-    // or object.  preinitialize will run before any instantiation logic is run in the Collection.
-    preinitialize: function(){},
-
-    // Initialize is an empty function by default. Override it with your own
-    // initialization logic.
-    initialize: function(){},
-
-    // The JSON representation of a Collection is an array of the
-    // models' attributes.
-    toJSON: function(options) {
-      return this.map(function(model) { return model.toJSON(options); });
-    },
-
-    // Proxy `Backbone.sync` by default.
-    sync: function() {
-      return Backbone.sync.apply(this, arguments);
-    },
-
-    // Add a model, or list of models to the set. `models` may be Backbone
-    // Models or raw JavaScript objects to be converted to Models, or any
-    // combination of the two.
-    add: function(models, options) {
-      return this.set(models, _.extend({merge: false}, options, addOptions));
-    },
-
-    // Remove a model, or a list of models from the set.
-    remove: function(models, options) {
-      options = _.extend({}, options);
-      var singular = !_.isArray(models);
-      models = singular ? [models] : models.slice();
-      var removed = this._removeModels(models, options);
-      if (!options.silent && removed.length) {
-        options.changes = {added: [], merged: [], removed: removed};
-        this.trigger('update', this, options);
-      }
-      return singular ? removed[0] : removed;
-    },
-
-    // Update a collection by `set`-ing a new list of models, adding new ones,
-    // removing models that are no longer present, and merging models that
-    // already exist in the collection, as necessary. Similar to **Model#set**,
-    // the core operation for updating the data contained by the collection.
-    set: function(models, options) {
-      if (models == null) return;
-
-      options = _.extend({}, setOptions, options);
-      if (options.parse && !this._isModel(models)) {
-        models = this.parse(models, options) || [];
-      }
-
-      var singular = !_.isArray(models);
-      models = singular ? [models] : models.slice();
-
-      var at = options.at;
-      if (at != null) at = +at;
-      if (at > this.length) at = this.length;
-      if (at < 0) at += this.length + 1;
-
-      var set = [];
-      var toAdd = [];
-      var toMerge = [];
-      var toRemove = [];
-      var modelMap = {};
-
-      var add = options.add;
-      var merge = options.merge;
-      var remove = options.remove;
-
-      var sort = false;
-      var sortable = this.comparator && at == null && options.sort !== false;
-      var sortAttr = _.isString(this.comparator) ? this.comparator : null;
-
-      // Turn bare objects into model references, and prevent invalid models
-      // from being added.
-      var model, i;
-      for (i = 0; i < models.length; i++) {
-        model = models[i];
-
-        // If a duplicate is found, prevent it from being added and
-        // optionally merge it into the existing model.
-        var existing = this.get(model);
-        if (existing) {
-          if (merge && model !== existing) {
-            var attrs = this._isModel(model) ? model.attributes : model;
-            if (options.parse) attrs = existing.parse(attrs, options);
-            existing.set(attrs, options);
-            toMerge.push(existing);
-            if (sortable && !sort) sort = existing.hasChanged(sortAttr);
-          }
-          if (!modelMap[existing.cid]) {
-            modelMap[existing.cid] = true;
-            set.push(existing);
-          }
-          models[i] = existing;
-
-        // If this is a new, valid model, push it to the `toAdd` list.
-        } else if (add) {
-          model = models[i] = this._prepareModel(model, options);
-          if (model) {
-            toAdd.push(model);
-            this._addReference(model, options);
-            modelMap[model.cid] = true;
-            set.push(model);
-          }
-        }
-      }
-
-      // Remove stale models.
-      if (remove) {
-        for (i = 0; i < this.length; i++) {
-          model = this.models[i];
-          if (!modelMap[model.cid]) toRemove.push(model);
-        }
-        if (toRemove.length) this._removeModels(toRemove, options);
-      }
-
-      // See if sorting is needed, update `length` and splice in new models.
-      var orderChanged = false;
-      var replace = !sortable && add && remove;
-      if (set.length && replace) {
-        orderChanged = this.length !== set.length || _.some(this.models, function(m, index) {
-          return m !== set[index];
-        });
-        this.models.length = 0;
-        splice(this.models, set, 0);
-        this.length = this.models.length;
-      } else if (toAdd.length) {
-        if (sortable) sort = true;
-        splice(this.models, toAdd, at == null ? this.length : at);
-        this.length = this.models.length;
-      }
-
-      // Silently sort the collection if appropriate.
-      if (sort) this.sort({silent: true});
-
-      // Unless silenced, it's time to fire all appropriate add/sort/update events.
-      if (!options.silent) {
-        for (i = 0; i < toAdd.length; i++) {
-          if (at != null) options.index = at + i;
-          model = toAdd[i];
-          model.trigger('add', model, this, options);
-        }
-        if (sort || orderChanged) this.trigger('sort', this, options);
-        if (toAdd.length || toRemove.length || toMerge.length) {
-          options.changes = {
-            added: toAdd,
-            removed: toRemove,
-            merged: toMerge
-          };
-          this.trigger('update', this, options);
-        }
-      }
-
-      // Return the added (or merged) model (or models).
-      return singular ? models[0] : models;
-    },
-
-    // When you have more items than you want to add or remove individually,
-    // you can reset the entire set with a new list of models, without firing
-    // any granular `add` or `remove` events. Fires `reset` when finished.
-    // Useful for bulk operations and optimizations.
-    reset: function(models, options) {
-      options = options ? _.clone(options) : {};
-      for (var i = 0; i < this.models.length; i++) {
-        this._removeReference(this.models[i], options);
-      }
-      options.previousModels = this.models;
-      this._reset();
-      models = this.add(models, _.extend({silent: true}, options));
-      if (!options.silent) this.trigger('reset', this, options);
-      return models;
-    },
-
-    // Add a model to the end of the collection.
-    push: function(model, options) {
-      return this.add(model, _.extend({at: this.length}, options));
-    },
-
-    // Remove a model from the end of the collection.
-    pop: function(options) {
-      var model = this.at(this.length - 1);
-      return this.remove(model, options);
-    },
-
-    // Add a model to the beginning of the collection.
-    unshift: function(model, options) {
-      return this.add(model, _.extend({at: 0}, options));
-    },
-
-    // Remove a model from the beginning of the collection.
-    shift: function(options) {
-      var model = this.at(0);
-      return this.remove(model, options);
-    },
-
-    // Slice out a sub-array of models from the collection.
-    slice: function() {
-      return slice.apply(this.models, arguments);
-    },
-
-    // Get a model from the set by id, cid, model object with id or cid
-    // properties, or an attributes object that is transformed through modelId.
-    get: function(obj) {
-      if (obj == null) return void 0;
-      return this._byId[obj] ||
-        this._byId[this.modelId(this._isModel(obj) ? obj.attributes : obj)] ||
-        obj.cid && this._byId[obj.cid];
-    },
-
-    // Returns `true` if the model is in the collection.
-    has: function(obj) {
-      return this.get(obj) != null;
-    },
-
-    // Get the model at the given index.
-    at: function(index) {
-      if (index < 0) index += this.length;
-      return this.models[index];
-    },
-
-    // Return models with matching attributes. Useful for simple cases of
-    // `filter`.
-    where: function(attrs, first) {
-      return this[first ? 'find' : 'filter'](attrs);
-    },
-
-    // Return the first model with matching attributes. Useful for simple cases
-    // of `find`.
-    findWhere: function(attrs) {
-      return this.where(attrs, true);
-    },
-
-    // Force the collection to re-sort itself. You don't need to call this under
-    // normal circumstances, as the set will maintain sort order as each item
-    // is added.
-    sort: function(options) {
-      var comparator = this.comparator;
-      if (!comparator) throw new Error('Cannot sort a set without a comparator');
-      options || (options = {});
-
-      var length = comparator.length;
-      if (_.isFunction(comparator)) comparator = comparator.bind(this);
-
-      // Run sort based on type of `comparator`.
-      if (length === 1 || _.isString(comparator)) {
-        this.models = this.sortBy(comparator);
-      } else {
-        this.models.sort(comparator);
-      }
-      if (!options.silent) this.trigger('sort', this, options);
-      return this;
-    },
-
-    // Pluck an attribute from each model in the collection.
-    pluck: function(attr) {
-      return this.map(attr + '');
-    },
-
-    // Fetch the default set of models for this collection, resetting the
-    // collection when they arrive. If `reset: true` is passed, the response
-    // data will be passed through the `reset` method instead of `set`.
-    fetch: function(options) {
-      options = _.extend({parse: true}, options);
-      var success = options.success;
-      var collection = this;
-      options.success = function(resp) {
-        var method = options.reset ? 'reset' : 'set';
-        collection[method](resp, options);
-        if (success) success.call(options.context, collection, resp, options);
-        collection.trigger('sync', collection, resp, options);
-      };
-      wrapError(this, options);
-      return this.sync('read', this, options);
-    },
-
-    // Create a new instance of a model in this collection. Add the model to the
-    // collection immediately, unless `wait: true` is passed, in which case we
-    // wait for the server to agree.
-    create: function(model, options) {
-      options = options ? _.clone(options) : {};
-      var wait = options.wait;
-      model = this._prepareModel(model, options);
-      if (!model) return false;
-      if (!wait) this.add(model, options);
-      var collection = this;
-      var success = options.success;
-      options.success = function(m, resp, callbackOpts) {
-        if (wait) collection.add(m, callbackOpts);
-        if (success) success.call(callbackOpts.context, m, resp, callbackOpts);
-      };
-      model.save(null, options);
-      return model;
-    },
-
-    // **parse** converts a response into a list of models to be added to the
-    // collection. The default implementation is just to pass it through.
-    parse: function(resp, options) {
-      return resp;
-    },
-
-    // Create a new collection with an identical list of models as this one.
-    clone: function() {
-      return new this.constructor(this.models, {
-        model: this.model,
-        comparator: this.comparator
-      });
-    },
-
-    // Define how to uniquely identify models in the collection.
-    modelId: function(attrs) {
-      return attrs[this.model.prototype.idAttribute || 'id'];
-    },
-
-    // Get an iterator of all models in this collection.
-    values: function() {
-      return new CollectionIterator(this, ITERATOR_VALUES);
-    },
-
-    // Get an iterator of all model IDs in this collection.
-    keys: function() {
-      return new CollectionIterator(this, ITERATOR_KEYS);
-    },
-
-    // Get an iterator of all [ID, model] tuples in this collection.
-    entries: function() {
-      return new CollectionIterator(this, ITERATOR_KEYSVALUES);
-    },
-
-    // Private method to reset all internal state. Called when the collection
-    // is first initialized or reset.
-    _reset: function() {
-      this.length = 0;
-      this.models = [];
-      this._byId  = {};
-    },
-
-    // Prepare a hash of attributes (or other model) to be added to this
-    // collection.
-    _prepareModel: function(attrs, options) {
-      if (this._isModel(attrs)) {
-        if (!attrs.collection) attrs.collection = this;
-        return attrs;
-      }
-      options = options ? _.clone(options) : {};
-      options.collection = this;
-      var model = new this.model(attrs, options);
-      if (!model.validationError) return model;
-      this.trigger('invalid', this, model.validationError, options);
-      return false;
-    },
-
-    // Internal method called by both remove and set.
-    _removeModels: function(models, options) {
-      var removed = [];
-      for (var i = 0; i < models.length; i++) {
-        var model = this.get(models[i]);
-        if (!model) continue;
-
-        var index = this.indexOf(model);
-        this.models.splice(index, 1);
-        this.length--;
-
-        // Remove references before triggering 'remove' event to prevent an
-        // infinite loop. #3693
-        delete this._byId[model.cid];
-        var id = this.modelId(model.attributes);
-        if (id != null) delete this._byId[id];
-
-        if (!options.silent) {
-          options.index = index;
-          model.trigger('remove', model, this, options);
-        }
-
-        removed.push(model);
-        this._removeReference(model, options);
-      }
-      return removed;
-    },
-
-    // Method for checking whether an object should be considered a model for
-    // the purposes of adding to the collection.
-    _isModel: function(model) {
-      return model instanceof Model;
-    },
-
-    // Internal method to create a model's ties to a collection.
-    _addReference: function(model, options) {
-      this._byId[model.cid] = model;
-      var id = this.modelId(model.attributes);
-      if (id != null) this._byId[id] = model;
-      model.on('all', this._onModelEvent, this);
-    },
-
-    // Internal method to sever a model's ties to a collection.
-    _removeReference: function(model, options) {
-      delete this._byId[model.cid];
-      var id = this.modelId(model.attributes);
-      if (id != null) delete this._byId[id];
-      if (this === model.collection) delete model.collection;
-      model.off('all', this._onModelEvent, this);
-    },
-
-    // Internal method called every time a model in the set fires an event.
-    // Sets need to update their indexes when models change ids. All other
-    // events simply proxy through. "add" and "remove" events that originate
-    // in other collections are ignored.
-    _onModelEvent: function(event, model, collection, options) {
-      if (model) {
-        if ((event === 'add' || event === 'remove') && collection !== this) return;
-        if (event === 'destroy') this.remove(model, options);
-        if (event === 'change') {
-          var prevId = this.modelId(model.previousAttributes());
-          var id = this.modelId(model.attributes);
-          if (prevId !== id) {
-            if (prevId != null) delete this._byId[prevId];
-            if (id != null) this._byId[id] = model;
-          }
-        }
-      }
-      this.trigger.apply(this, arguments);
-    }
-
-  });
-
-  // Defining an @@iterator method implements JavaScript's Iterable protocol.
-  // In modern ES2015 browsers, this value is found at Symbol.iterator.
-  /* global Symbol */
-  var $$iterator = typeof Symbol === 'function' && Symbol.iterator;
-  if ($$iterator) {
-    Collection.prototype[$$iterator] = Collection.prototype.values;
-  }
-
-  // CollectionIterator
-  // ------------------
-
-  // A CollectionIterator implements JavaScript's Iterator protocol, allowing the
-  // use of `for of` loops in modern browsers and interoperation between
-  // Backbone.Collection and other JavaScript functions and third-party libraries
-  // which can operate on Iterables.
-  var CollectionIterator = function(collection, kind) {
-    this._collection = collection;
-    this._kind = kind;
-    this._index = 0;
-  };
-
-  // This "enum" defines the three possible kinds of values which can be emitted
-  // by a CollectionIterator that correspond to the values(), keys() and entries()
-  // methods on Collection, respectively.
-  var ITERATOR_VALUES = 1;
-  var ITERATOR_KEYS = 2;
-  var ITERATOR_KEYSVALUES = 3;
-
-  // All Iterators should themselves be Iterable.
-  if ($$iterator) {
-    CollectionIterator.prototype[$$iterator] = function() {
-      return this;
-    };
-  }
-
-  CollectionIterator.prototype.next = function() {
-    if (this._collection) {
-
-      // Only continue iterating if the iterated collection is long enough.
-      if (this._index < this._collection.length) {
-        var model = this._collection.at(this._index);
-        this._index++;
-
-        // Construct a value depending on what kind of values should be iterated.
-        var value;
-        if (this._kind === ITERATOR_VALUES) {
-          value = model;
-        } else {
-          var id = this._collection.modelId(model.attributes);
-          if (this._kind === ITERATOR_KEYS) {
-            value = id;
-          } else { // ITERATOR_KEYSVALUES
-            value = [id, model];
-          }
-        }
-        return {value: value, done: false};
-      }
-
-      // Once exhausted, remove the reference to the collection so future
-      // calls to the next method always return done.
-      this._collection = void 0;
-    }
-
-    return {value: void 0, done: true};
-  };
-
-  // Backbone.View
-  // -------------
-
-  // Backbone Views are almost more convention than they are actual code. A View
-  // is simply a JavaScript object that represents a logical chunk of UI in the
-  // DOM. This might be a single item, an entire list, a sidebar or panel, or
-  // even the surrounding frame which wraps your whole app. Defining a chunk of
-  // UI as a **View** allows you to define your DOM events declaratively, without
-  // having to worry about render order ... and makes it easy for the view to
-  // react to specific changes in the state of your models.
-
-  // Creating a Backbone.View creates its initial element outside of the DOM,
-  // if an existing element is not provided...
-  var View = Backbone.View = function(options) {
-    this.cid = _.uniqueId('view');
-    this.preinitialize.apply(this, arguments);
-    _.extend(this, _.pick(options, viewOptions));
-    this._ensureElement();
-    this.initialize.apply(this, arguments);
-  };
-
-  // Cached regex to split keys for `delegate`.
-  var delegateEventSplitter = /^(\S+)\s*(.*)$/;
-
-  // List of view options to be set as properties.
-  var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
-
-  // Set up all inheritable **Backbone.View** properties and methods.
-  _.extend(View.prototype, Events, {
-
-    // The default `tagName` of a View's element is `"div"`.
-    tagName: 'div',
-
-    // jQuery delegate for element lookup, scoped to DOM elements within the
-    // current view. This should be preferred to global lookups where possible.
-    $: function(selector) {
-      return this.$el.find(selector);
-    },
-
-    // preinitialize is an empty function by default. You can override it with a function
-    // or object.  preinitialize will run before any instantiation logic is run in the View
-    preinitialize: function(){},
-
-    // Initialize is an empty function by default. Override it with your own
-    // initialization logic.
-    initialize: function(){},
-
-    // **render** is the core function that your view should override, in order
-    // to populate its element (`this.el`), with the appropriate HTML. The
-    // convention is for **render** to always return `this`.
-    render: function() {
-      return this;
-    },
-
-    // Remove this view by taking the element out of the DOM, and removing any
-    // applicable Backbone.Events listeners.
-    remove: function() {
-      this._removeElement();
-      this.stopListening();
-      return this;
-    },
-
-    // Remove this view's element from the document and all event listeners
-    // attached to it. Exposed for subclasses using an alternative DOM
-    // manipulation API.
-    _removeElement: function() {
-      this.$el.remove();
-    },
-
-    // Change the view's element (`this.el` property) and re-delegate the
-    // view's events on the new element.
-    setElement: function(element) {
-      this.undelegateEvents();
-      this._setElement(element);
-      this.delegateEvents();
-      return this;
-    },
-
-    // Creates the `this.el` and `this.$el` references for this view using the
-    // given `el`. `el` can be a CSS selector or an HTML string, a jQuery
-    // context or an element. Subclasses can override this to utilize an
-    // alternative DOM manipulation API and are only required to set the
-    // `this.el` property.
-    _setElement: function(el) {
-      this.$el = el instanceof Backbone.$ ? el : Backbone.$(el);
-      this.el = this.$el[0];
-    },
-
-    // Set callbacks, where `this.events` is a hash of
-    //
-    // *{"event selector": "callback"}*
-    //
-    //     {
-    //       'mousedown .title':  'edit',
-    //       'click .button':     'save',
-    //       'click .open':       function(e) { ... }
-    //     }
-    //
-    // pairs. Callbacks will be bound to the view, with `this` set properly.
-    // Uses event delegation for efficiency.
-    // Omitting the selector binds the event to `this.el`.
-    delegateEvents: function(events) {
-      events || (events = _.result(this, 'events'));
-      if (!events) return this;
-      this.undelegateEvents();
-      for (var key in events) {
-        var method = events[key];
-        if (!_.isFunction(method)) method = this[method];
-        if (!method) continue;
-        var match = key.match(delegateEventSplitter);
-        this.delegate(match[1], match[2], method.bind(this));
-      }
-      return this;
-    },
-
-    // Add a single event listener to the view's element (or a child element
-    // using `selector`). This only works for delegate-able events: not `focus`,
-    // `blur`, and not `change`, `submit`, and `reset` in Internet Explorer.
-    delegate: function(eventName, selector, listener) {
-      this.$el.on(eventName + '.delegateEvents' + this.cid, selector, listener);
-      return this;
-    },
-
-    // Clears all callbacks previously bound to the view by `delegateEvents`.
-    // You usually don't need to use this, but may wish to if you have multiple
-    // Backbone views attached to the same DOM element.
-    undelegateEvents: function() {
-      if (this.$el) this.$el.off('.delegateEvents' + this.cid);
-      return this;
-    },
-
-    // A finer-grained `undelegateEvents` for removing a single delegated event.
-    // `selector` and `listener` are both optional.
-    undelegate: function(eventName, selector, listener) {
-      this.$el.off(eventName + '.delegateEvents' + this.cid, selector, listener);
-      return this;
-    },
-
-    // Produces a DOM element to be assigned to your view. Exposed for
-    // subclasses using an alternative DOM manipulation API.
-    _createElement: function(tagName) {
-      return document.createElement(tagName);
-    },
-
-    // Ensure that the View has a DOM element to render into.
-    // If `this.el` is a string, pass it through `$()`, take the first
-    // matching element, and re-assign it to `el`. Otherwise, create
-    // an element from the `id`, `className` and `tagName` properties.
-    _ensureElement: function() {
-      if (!this.el) {
-        var attrs = _.extend({}, _.result(this, 'attributes'));
-        if (this.id) attrs.id = _.result(this, 'id');
-        if (this.className) attrs['class'] = _.result(this, 'className');
-        this.setElement(this._createElement(_.result(this, 'tagName')));
-        this._setAttributes(attrs);
-      } else {
-        this.setElement(_.result(this, 'el'));
-      }
-    },
-
-    // Set attributes from a hash on this view's element.  Exposed for
-    // subclasses using an alternative DOM manipulation API.
-    _setAttributes: function(attributes) {
-      this.$el.attr(attributes);
-    }
-
-  });
-
-  // Proxy Backbone class methods to Underscore functions, wrapping the model's
-  // `attributes` object or collection's `models` array behind the scenes.
-  //
-  // collection.filter(function(model) { return model.get('age') > 10 });
-  // collection.each(this.addView);
-  //
-  // `Function#apply` can be slow so we use the method's arg count, if we know it.
-  var addMethod = function(base, length, method, attribute) {
-    switch (length) {
-      case 1: return function() {
-        return base[method](this[attribute]);
-      };
-      case 2: return function(value) {
-        return base[method](this[attribute], value);
-      };
-      case 3: return function(iteratee, context) {
-        return base[method](this[attribute], cb(iteratee, this), context);
-      };
-      case 4: return function(iteratee, defaultVal, context) {
-        return base[method](this[attribute], cb(iteratee, this), defaultVal, context);
-      };
-      default: return function() {
-        var args = slice.call(arguments);
-        args.unshift(this[attribute]);
-        return base[method].apply(base, args);
-      };
-    }
-  };
-
-  var addUnderscoreMethods = function(Class, base, methods, attribute) {
-    _.each(methods, function(length, method) {
-      if (base[method]) Class.prototype[method] = addMethod(base, length, method, attribute);
-    });
-  };
-
-  // Support `collection.sortBy('attr')` and `collection.findWhere({id: 1})`.
-  var cb = function(iteratee, instance) {
-    if (_.isFunction(iteratee)) return iteratee;
-    if (_.isObject(iteratee) && !instance._isModel(iteratee)) return modelMatcher(iteratee);
-    if (_.isString(iteratee)) return function(model) { return model.get(iteratee); };
-    return iteratee;
-  };
-  var modelMatcher = function(attrs) {
-    var matcher = _.matches(attrs);
-    return function(model) {
-      return matcher(model.attributes);
-    };
-  };
-
-  // Underscore methods that we want to implement on the Collection.
-  // 90% of the core usefulness of Backbone Collections is actually implemented
-  // right here:
-  var collectionMethods = {forEach: 3, each: 3, map: 3, collect: 3, reduce: 0,
-    foldl: 0, inject: 0, reduceRight: 0, foldr: 0, find: 3, detect: 3, filter: 3,
-    select: 3, reject: 3, every: 3, all: 3, some: 3, any: 3, include: 3, includes: 3,
-    contains: 3, invoke: 0, max: 3, min: 3, toArray: 1, size: 1, first: 3,
-    head: 3, take: 3, initial: 3, rest: 3, tail: 3, drop: 3, last: 3,
-    without: 0, difference: 0, indexOf: 3, shuffle: 1, lastIndexOf: 3,
-    isEmpty: 1, chain: 1, sample: 3, partition: 3, groupBy: 3, countBy: 3,
-    sortBy: 3, indexBy: 3, findIndex: 3, findLastIndex: 3};
-
-
-  // Underscore methods that we want to implement on the Model, mapped to the
-  // number of arguments they take.
-  var modelMethods = {keys: 1, values: 1, pairs: 1, invert: 1, pick: 0,
-    omit: 0, chain: 1, isEmpty: 1};
-
-  // Mix in each Underscore method as a proxy to `Collection#models`.
-
-  _.each([
-    [Collection, collectionMethods, 'models'],
-    [Model, modelMethods, 'attributes']
-  ], function(config) {
-    var Base = config[0],
-        methods = config[1],
-        attribute = config[2];
-
-    Base.mixin = function(obj) {
-      var mappings = _.reduce(_.functions(obj), function(memo, name) {
-        memo[name] = 0;
-        return memo;
-      }, {});
-      addUnderscoreMethods(Base, obj, mappings, attribute);
-    };
-
-    addUnderscoreMethods(Base, _, methods, attribute);
-  });
-
-  // Backbone.sync
-  // -------------
-
-  // Override this function to change the manner in which Backbone persists
-  // models to the server. You will be passed the type of request, and the
-  // model in question. By default, makes a RESTful Ajax request
-  // to the model's `url()`. Some possible customizations could be:
-  //
-  // * Use `setTimeout` to batch rapid-fire updates into a single request.
-  // * Send up the models as XML instead of JSON.
-  // * Persist models via WebSockets instead of Ajax.
-  //
-  // Turn on `Backbone.emulateHTTP` in order to send `PUT` and `DELETE` requests
-  // as `POST`, with a `_method` parameter containing the true HTTP method,
-  // as well as all requests with the body as `application/x-www-form-urlencoded`
-  // instead of `application/json` with the model in a param named `model`.
-  // Useful when interfacing with server-side languages like **PHP** that make
-  // it difficult to read the body of `PUT` requests.
-  Backbone.sync = function(method, model, options) {
-    var type = methodMap[method];
-
-    // Default options, unless specified.
-    _.defaults(options || (options = {}), {
-      emulateHTTP: Backbone.emulateHTTP,
-      emulateJSON: Backbone.emulateJSON
-    });
-
-    // Default JSON-request options.
-    var params = {type: type, dataType: 'json'};
-
-    // Ensure that we have a URL.
-    if (!options.url) {
-      params.url = _.result(model, 'url') || urlError();
-    }
-
-    // Ensure that we have the appropriate request data.
-    if (options.data == null && model && (method === 'create' || method === 'update' || method === 'patch')) {
-      params.contentType = 'application/json';
-      params.data = JSON.stringify(options.attrs || model.toJSON(options));
-    }
-
-    // For older servers, emulate JSON by encoding the request into an HTML-form.
-    if (options.emulateJSON) {
-      params.contentType = 'application/x-www-form-urlencoded';
-      params.data = params.data ? {model: params.data} : {};
-    }
-
-    // For older servers, emulate HTTP by mimicking the HTTP method with `_method`
-    // And an `X-HTTP-Method-Override` header.
-    if (options.emulateHTTP && (type === 'PUT' || type === 'DELETE' || type === 'PATCH')) {
-      params.type = 'POST';
-      if (options.emulateJSON) params.data._method = type;
-      var beforeSend = options.beforeSend;
-      options.beforeSend = function(xhr) {
-        xhr.setRequestHeader('X-HTTP-Method-Override', type);
-        if (beforeSend) return beforeSend.apply(this, arguments);
-      };
-    }
-
-    // Don't process data on a non-GET request.
-    if (params.type !== 'GET' && !options.emulateJSON) {
-      params.processData = false;
-    }
-
-    // Pass along `textStatus` and `errorThrown` from jQuery.
-    var error = options.error;
-    options.error = function(xhr, textStatus, errorThrown) {
-      options.textStatus = textStatus;
-      options.errorThrown = errorThrown;
-      if (error) error.call(options.context, xhr, textStatus, errorThrown);
-    };
-
-    // Make the request, allowing the user to override any Ajax options.
-    var xhr = options.xhr = Backbone.ajax(_.extend(params, options));
-    model.trigger('request', model, xhr, options);
-    return xhr;
-  };
-
-  // Map from CRUD to HTTP for our default `Backbone.sync` implementation.
-  var methodMap = {
-    create: 'POST',
-    update: 'PUT',
-    patch: 'PATCH',
-    delete: 'DELETE',
-    read: 'GET'
-  };
-
-  // Set the default implementation of `Backbone.ajax` to proxy through to `$`.
-  // Override this if you'd like to use a different library.
-  Backbone.ajax = function() {
-    return Backbone.$.ajax.apply(Backbone.$, arguments);
-  };
-
-  // Backbone.Router
-  // ---------------
-
-  // Routers map faux-URLs to actions, and fire events when routes are
-  // matched. Creating a new one sets its `routes` hash, if not set statically.
-  var Router = Backbone.Router = function(options) {
-    options || (options = {});
-    this.preinitialize.apply(this, arguments);
-    if (options.routes) this.routes = options.routes;
-    this._bindRoutes();
-    this.initialize.apply(this, arguments);
-  };
-
-  // Cached regular expressions for matching named param parts and splatted
-  // parts of route strings.
-  var optionalParam = /\((.*?)\)/g;
-  var namedParam    = /(\(\?)?:\w+/g;
-  var splatParam    = /\*\w+/g;
-  var escapeRegExp  = /[\-{}\[\]+?.,\\\^$|#\s]/g;
-
-  // Set up all inheritable **Backbone.Router** properties and methods.
-  _.extend(Router.prototype, Events, {
-
-    // preinitialize is an empty function by default. You can override it with a function
-    // or object.  preinitialize will run before any instantiation logic is run in the Router.
-    preinitialize: function(){},
-
-    // Initialize is an empty function by default. Override it with your own
-    // initialization logic.
-    initialize: function(){},
-
-    // Manually bind a single named route to a callback. For example:
-    //
-    //     this.route('search/:query/p:num', 'search', function(query, num) {
-    //       ...
-    //     });
-    //
-    route: function(route, name, callback) {
-      if (!_.isRegExp(route)) route = this._routeToRegExp(route);
-      if (_.isFunction(name)) {
-        callback = name;
-        name = '';
-      }
-      if (!callback) callback = this[name];
-      var router = this;
-      Backbone.history.route(route, function(fragment) {
-        var args = router._extractParameters(route, fragment);
-        if (router.execute(callback, args, name) !== false) {
-          router.trigger.apply(router, ['route:' + name].concat(args));
-          router.trigger('route', name, args);
-          Backbone.history.trigger('route', router, name, args);
-        }
-      });
-      return this;
-    },
-
-    // Execute a route handler with the provided parameters.  This is an
-    // excellent place to do pre-route setup or post-route cleanup.
-    execute: function(callback, args, name) {
-      if (callback) callback.apply(this, args);
-    },
-
-    // Simple proxy to `Backbone.history` to save a fragment into the history.
-    navigate: function(fragment, options) {
-      Backbone.history.navigate(fragment, options);
-      return this;
-    },
-
-    // Bind all defined routes to `Backbone.history`. We have to reverse the
-    // order of the routes here to support behavior where the most general
-    // routes can be defined at the bottom of the route map.
-    _bindRoutes: function() {
-      if (!this.routes) return;
-      this.routes = _.result(this, 'routes');
-      var route, routes = _.keys(this.routes);
-      while ((route = routes.pop()) != null) {
-        this.route(route, this.routes[route]);
-      }
-    },
-
-    // Convert a route string into a regular expression, suitable for matching
-    // against the current location hash.
-    _routeToRegExp: function(route) {
-      route = route.replace(escapeRegExp, '\\$&')
-        .replace(optionalParam, '(?:$1)?')
-        .replace(namedParam, function(match, optional) {
-          return optional ? match : '([^/?]+)';
-        })
-        .replace(splatParam, '([^?]*?)');
-      return new RegExp('^' + route + '(?:\\?([\\s\\S]*))?$');
-    },
-
-    // Given a route, and a URL fragment that it matches, return the array of
-    // extracted decoded parameters. Empty or unmatched parameters will be
-    // treated as `null` to normalize cross-browser behavior.
-    _extractParameters: function(route, fragment) {
-      var params = route.exec(fragment).slice(1);
-      return _.map(params, function(param, i) {
-        // Don't decode the search params.
-        if (i === params.length - 1) return param || null;
-        return param ? decodeURIComponent(param) : null;
-      });
-    }
-
-  });
-
-  // Backbone.History
-  // ----------------
-
-  // Handles cross-browser history management, based on either
-  // [pushState](http://diveintohtml5.info/history.html) and real URLs, or
-  // [onhashchange](https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange)
-  // and URL fragments. If the browser supports neither (old IE, natch),
-  // falls back to polling.
-  var History = Backbone.History = function() {
-    this.handlers = [];
-    this.checkUrl = this.checkUrl.bind(this);
-
-    // Ensure that `History` can be used outside of the browser.
-    if (typeof window !== 'undefined') {
-      this.location = window.location;
-      this.history = window.history;
-    }
-  };
-
-  // Cached regex for stripping a leading hash/slash and trailing space.
-  var routeStripper = /^[#\/]|\s+$/g;
-
-  // Cached regex for stripping leading and trailing slashes.
-  var rootStripper = /^\/+|\/+$/g;
-
-  // Cached regex for stripping urls of hash.
-  var pathStripper = /#.*$/;
-
-  // Has the history handling already been started?
-  History.started = false;
-
-  // Set up all inheritable **Backbone.History** properties and methods.
-  _.extend(History.prototype, Events, {
-
-    // The default interval to poll for hash changes, if necessary, is
-    // twenty times a second.
-    interval: 50,
-
-    // Are we at the app root?
-    atRoot: function() {
-      var path = this.location.pathname.replace(/[^\/]$/, '$&/');
-      return path === this.root && !this.getSearch();
-    },
-
-    // Does the pathname match the root?
-    matchRoot: function() {
-      var path = this.decodeFragment(this.location.pathname);
-      var rootPath = path.slice(0, this.root.length - 1) + '/';
-      return rootPath === this.root;
-    },
-
-    // Unicode characters in `location.pathname` are percent encoded so they're
-    // decoded for comparison. `%25` should not be decoded since it may be part
-    // of an encoded parameter.
-    decodeFragment: function(fragment) {
-      return decodeURI(fragment.replace(/%25/g, '%2525'));
-    },
-
-    // In IE6, the hash fragment and search params are incorrect if the
-    // fragment contains `?`.
-    getSearch: function() {
-      var match = this.location.href.replace(/#.*/, '').match(/\?.+/);
-      return match ? match[0] : '';
-    },
-
-    // Gets the true hash value. Cannot use location.hash directly due to bug
-    // in Firefox where location.hash will always be decoded.
-    getHash: function(window) {
-      var match = (window || this).location.href.match(/#(.*)$/);
-      return match ? match[1] : '';
-    },
-
-    // Get the pathname and search params, without the root.
-    getPath: function() {
-      var path = this.decodeFragment(
-        this.location.pathname + this.getSearch()
-      ).slice(this.root.length - 1);
-      return path.charAt(0) === '/' ? path.slice(1) : path;
-    },
-
-    // Get the cross-browser normalized URL fragment from the path or hash.
-    getFragment: function(fragment) {
-      if (fragment == null) {
-        if (this._usePushState || !this._wantsHashChange) {
-          fragment = this.getPath();
-        } else {
-          fragment = this.getHash();
-        }
-      }
-      return fragment.replace(routeStripper, '');
-    },
-
-    // Start the hash change handling, returning `true` if the current URL matches
-    // an existing route, and `false` otherwise.
-    start: function(options) {
-      if (History.started) throw new Error('Backbone.history has already been started');
-      History.started = true;
-
-      // Figure out the initial configuration. Do we need an iframe?
-      // Is pushState desired ... is it available?
-      this.options          = _.extend({root: '/'}, this.options, options);
-      this.root             = this.options.root;
-      this._wantsHashChange = this.options.hashChange !== false;
-      this._hasHashChange   = 'onhashchange' in window && (document.documentMode === void 0 || document.documentMode > 7);
-      this._useHashChange   = this._wantsHashChange && this._hasHashChange;
-      this._wantsPushState  = !!this.options.pushState;
-      this._hasPushState    = !!(this.history && this.history.pushState);
-      this._usePushState    = this._wantsPushState && this._hasPushState;
-      this.fragment         = this.getFragment();
-
-      // Normalize root to always include a leading and trailing slash.
-      this.root = ('/' + this.root + '/').replace(rootStripper, '/');
-
-      // Transition from hashChange to pushState or vice versa if both are
-      // requested.
-      if (this._wantsHashChange && this._wantsPushState) {
-
-        // If we've started off with a route from a `pushState`-enabled
-        // browser, but we're currently in a browser that doesn't support it...
-        if (!this._hasPushState && !this.atRoot()) {
-          var rootPath = this.root.slice(0, -1) || '/';
-          this.location.replace(rootPath + '#' + this.getPath());
-          // Return immediately as browser will do redirect to new url
-          return true;
-
-        // Or if we've started out with a hash-based route, but we're currently
-        // in a browser where it could be `pushState`-based instead...
-        } else if (this._hasPushState && this.atRoot()) {
-          this.navigate(this.getHash(), {replace: true});
-        }
-
-      }
-
-      // Proxy an iframe to handle location events if the browser doesn't
-      // support the `hashchange` event, HTML5 history, or the user wants
-      // `hashChange` but not `pushState`.
-      if (!this._hasHashChange && this._wantsHashChange && !this._usePushState) {
-        this.iframe = document.createElement('iframe');
-        this.iframe.src = 'javascript:0';
-        this.iframe.style.display = 'none';
-        this.iframe.tabIndex = -1;
-        var body = document.body;
-        // Using `appendChild` will throw on IE < 9 if the document is not ready.
-        var iWindow = body.insertBefore(this.iframe, body.firstChild).contentWindow;
-        iWindow.document.open();
-        iWindow.document.close();
-        iWindow.location.hash = '#' + this.fragment;
-      }
-
-      // Add a cross-platform `addEventListener` shim for older browsers.
-      var addEventListener = window.addEventListener || function(eventName, listener) {
-        return attachEvent('on' + eventName, listener);
-      };
-
-      // Depending on whether we're using pushState or hashes, and whether
-      // 'onhashchange' is supported, determine how we check the URL state.
-      if (this._usePushState) {
-        addEventListener('popstate', this.checkUrl, false);
-      } else if (this._useHashChange && !this.iframe) {
-        addEventListener('hashchange', this.checkUrl, false);
-      } else if (this._wantsHashChange) {
-        this._checkUrlInterval = setInterval(this.checkUrl, this.interval);
-      }
-
-      if (!this.options.silent) return this.loadUrl();
-    },
-
-    // Disable Backbone.history, perhaps temporarily. Not useful in a real app,
-    // but possibly useful for unit testing Routers.
-    stop: function() {
-      // Add a cross-platform `removeEventListener` shim for older browsers.
-      var removeEventListener = window.removeEventListener || function(eventName, listener) {
-        return detachEvent('on' + eventName, listener);
-      };
-
-      // Remove window listeners.
-      if (this._usePushState) {
-        removeEventListener('popstate', this.checkUrl, false);
-      } else if (this._useHashChange && !this.iframe) {
-        removeEventListener('hashchange', this.checkUrl, false);
-      }
-
-      // Clean up the iframe if necessary.
-      if (this.iframe) {
-        document.body.removeChild(this.iframe);
-        this.iframe = null;
-      }
-
-      // Some environments will throw when clearing an undefined interval.
-      if (this._checkUrlInterval) clearInterval(this._checkUrlInterval);
-      History.started = false;
-    },
-
-    // Add a route to be tested when the fragment changes. Routes added later
-    // may override previous routes.
-    route: function(route, callback) {
-      this.handlers.unshift({route: route, callback: callback});
-    },
-
-    // Checks the current URL to see if it has changed, and if it has,
-    // calls `loadUrl`, normalizing across the hidden iframe.
-    checkUrl: function(e) {
-      var current = this.getFragment();
-
-      // If the user pressed the back button, the iframe's hash will have
-      // changed and we should use that for comparison.
-      if (current === this.fragment && this.iframe) {
-        current = this.getHash(this.iframe.contentWindow);
-      }
-
-      if (current === this.fragment) return false;
-      if (this.iframe) this.navigate(current);
-      this.loadUrl();
-    },
-
-    // Attempt to load the current URL fragment. If a route succeeds with a
-    // match, returns `true`. If no defined routes matches the fragment,
-    // returns `false`.
-    loadUrl: function(fragment) {
-      // If the root doesn't match, no routes can match either.
-      if (!this.matchRoot()) return false;
-      fragment = this.fragment = this.getFragment(fragment);
-      return _.some(this.handlers, function(handler) {
-        if (handler.route.test(fragment)) {
-          handler.callback(fragment);
-          return true;
-        }
-      });
-    },
-
-    // Save a fragment into the hash history, or replace the URL state if the
-    // 'replace' option is passed. You are responsible for properly URL-encoding
-    // the fragment in advance.
-    //
-    // The options object can contain `trigger: true` if you wish to have the
-    // route callback be fired (not usually desirable), or `replace: true`, if
-    // you wish to modify the current URL without adding an entry to the history.
-    navigate: function(fragment, options) {
-      if (!History.started) return false;
-      if (!options || options === true) options = {trigger: !!options};
-
-      // Normalize the fragment.
-      fragment = this.getFragment(fragment || '');
-
-      // Don't include a trailing slash on the root.
-      var rootPath = this.root;
-      if (fragment === '' || fragment.charAt(0) === '?') {
-        rootPath = rootPath.slice(0, -1) || '/';
-      }
-      var url = rootPath + fragment;
-
-      // Strip the fragment of the query and hash for matching.
-      fragment = fragment.replace(pathStripper, '');
-
-      // Decode for matching.
-      var decodedFragment = this.decodeFragment(fragment);
-
-      if (this.fragment === decodedFragment) return;
-      this.fragment = decodedFragment;
-
-      // If pushState is available, we use it to set the fragment as a real URL.
-      if (this._usePushState) {
-        this.history[options.replace ? 'replaceState' : 'pushState']({}, document.title, url);
-
-      // If hash changes haven't been explicitly disabled, update the hash
-      // fragment to store history.
-      } else if (this._wantsHashChange) {
-        this._updateHash(this.location, fragment, options.replace);
-        if (this.iframe && fragment !== this.getHash(this.iframe.contentWindow)) {
-          var iWindow = this.iframe.contentWindow;
-
-          // Opening and closing the iframe tricks IE7 and earlier to push a
-          // history entry on hash-tag change.  When replace is true, we don't
-          // want this.
-          if (!options.replace) {
-            iWindow.document.open();
-            iWindow.document.close();
-          }
-
-          this._updateHash(iWindow.location, fragment, options.replace);
-        }
-
-      // If you've told us that you explicitly don't want fallback hashchange-
-      // based history, then `navigate` becomes a page refresh.
-      } else {
-        return this.location.assign(url);
-      }
-      if (options.trigger) return this.loadUrl(fragment);
-    },
-
-    // Update the hash location, either replacing the current entry, or adding
-    // a new one to the browser history.
-    _updateHash: function(location, fragment, replace) {
-      if (replace) {
-        var href = location.href.replace(/(javascript:|#).*$/, '');
-        location.replace(href + '#' + fragment);
-      } else {
-        // Some browsers require that `hash` contains a leading #.
-        location.hash = '#' + fragment;
-      }
-    }
-
-  });
-
-  // Create the default Backbone.history.
-  Backbone.history = new History;
-
-  // Helpers
-  // -------
-
-  // Helper function to correctly set up the prototype chain for subclasses.
-  // Similar to `goog.inherits`, but uses a hash of prototype properties and
-  // class properties to be extended.
-  var extend = function(protoProps, staticProps) {
-    var parent = this;
-    var child;
-
-    // The constructor function for the new subclass is either defined by you
-    // (the "constructor" property in your `extend` definition), or defaulted
-    // by us to simply call the parent constructor.
-    if (protoProps && _.has(protoProps, 'constructor')) {
-      child = protoProps.constructor;
-    } else {
-      child = function(){ return parent.apply(this, arguments); };
-    }
-
-    // Add static properties to the constructor function, if supplied.
-    _.extend(child, parent, staticProps);
-
-    // Set the prototype chain to inherit from `parent`, without calling
-    // `parent`'s constructor function and add the prototype properties.
-    child.prototype = _.create(parent.prototype, protoProps);
-    child.prototype.constructor = child;
-
-    // Set a convenience property in case the parent's prototype is needed
-    // later.
-    child.__super__ = parent.prototype;
-
-    return child;
-  };
-
-  // Set up inheritance for the model, collection, router, view and history.
-  Model.extend = Collection.extend = Router.extend = View.extend = History.extend = extend;
-
-  // Throw an error when a URL is needed, and none is supplied.
-  var urlError = function() {
-    throw new Error('A "url" property or function must be specified');
-  };
-
-  // Wrap an optional error callback with a fallback error event.
-  var wrapError = function(model, options) {
-    var error = options.error;
-    options.error = function(resp) {
-      if (error) error.call(options.context, model, resp, options);
-      model.trigger('error', model, resp, options);
-    };
-  };
-
-  return Backbone;
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/clipboard/lib/clipboard-action.js":
-/*!********************************************************!*\
-  !*** ./node_modules/clipboard/lib/clipboard-action.js ***!
-  \********************************************************/
+/***/ "../../../../../../okta/okta-ui/node_modules/clipboard/lib/clipboard-action.js":
+/*!*************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/node_modules/clipboard/lib/clipboard-action.js ***!
+  \*************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
     if (true) {
-        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, __webpack_require__(/*! select */ "./node_modules/select/src/select.js")], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, __webpack_require__(/*! select */ "../../../../../../okta/okta-ui/node_modules/select/src/select.js")], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -17673,15 +16853,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ "./node_modules/clipboard/lib/clipboard.js":
-/*!*************************************************!*\
-  !*** ./node_modules/clipboard/lib/clipboard.js ***!
-  \*************************************************/
+/***/ "../../../../../../okta/okta-ui/node_modules/clipboard/lib/clipboard.js":
+/*!******************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/node_modules/clipboard/lib/clipboard.js ***!
+  \******************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
     if (true) {
-        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, __webpack_require__(/*! ./clipboard-action */ "./node_modules/clipboard/lib/clipboard-action.js"), __webpack_require__(/*! tiny-emitter */ "./node_modules/tiny-emitter/index.js"), __webpack_require__(/*! good-listener */ "./node_modules/good-listener/src/listen.js")], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, __webpack_require__(/*! ./clipboard-action */ "../../../../../../okta/okta-ui/node_modules/clipboard/lib/clipboard-action.js"), __webpack_require__(/*! tiny-emitter */ "../../../../../../okta/okta-ui/node_modules/tiny-emitter/index.js"), __webpack_require__(/*! good-listener */ "../../../../../../okta/okta-ui/node_modules/good-listener/src/listen.js")], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
 		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
 		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
 		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -17884,10 +17064,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
-/***/ "./node_modules/delegate/src/closest.js":
-/*!**********************************************!*\
-  !*** ./node_modules/delegate/src/closest.js ***!
-  \**********************************************/
+/***/ "../../../../../../okta/okta-ui/node_modules/delegate/src/closest.js":
+/*!***************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/node_modules/delegate/src/closest.js ***!
+  \***************************************************************************/
 /***/ (function(module) {
 
 var DOCUMENT_NODE_TYPE = 9;
@@ -17927,13 +17107,13 @@ module.exports = closest;
 
 /***/ }),
 
-/***/ "./node_modules/delegate/src/delegate.js":
-/*!***********************************************!*\
-  !*** ./node_modules/delegate/src/delegate.js ***!
-  \***********************************************/
+/***/ "../../../../../../okta/okta-ui/node_modules/delegate/src/delegate.js":
+/*!****************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/node_modules/delegate/src/delegate.js ***!
+  \****************************************************************************/
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
-var closest = __webpack_require__(/*! ./closest */ "./node_modules/delegate/src/closest.js");
+var closest = __webpack_require__(/*! ./closest */ "../../../../../../okta/okta-ui/node_modules/delegate/src/closest.js");
 
 /**
  * Delegates event to a selector.
@@ -18015,10 +17195,10 @@ module.exports = delegate;
 
 /***/ }),
 
-/***/ "./node_modules/good-listener/src/is.js":
-/*!**********************************************!*\
-  !*** ./node_modules/good-listener/src/is.js ***!
-  \**********************************************/
+/***/ "../../../../../../okta/okta-ui/node_modules/good-listener/src/is.js":
+/*!***************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/node_modules/good-listener/src/is.js ***!
+  \***************************************************************************/
 /***/ (function(__unused_webpack_module, exports) {
 
 /**
@@ -18074,14 +17254,14 @@ exports.fn = function(value) {
 
 /***/ }),
 
-/***/ "./node_modules/good-listener/src/listen.js":
-/*!**************************************************!*\
-  !*** ./node_modules/good-listener/src/listen.js ***!
-  \**************************************************/
+/***/ "../../../../../../okta/okta-ui/node_modules/good-listener/src/listen.js":
+/*!*******************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/node_modules/good-listener/src/listen.js ***!
+  \*******************************************************************************/
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
-var is = __webpack_require__(/*! ./is */ "./node_modules/good-listener/src/is.js");
-var delegate = __webpack_require__(/*! delegate */ "./node_modules/delegate/src/delegate.js");
+var is = __webpack_require__(/*! ./is */ "../../../../../../okta/okta-ui/node_modules/good-listener/src/is.js");
+var delegate = __webpack_require__(/*! delegate */ "../../../../../../okta/okta-ui/node_modules/delegate/src/delegate.js");
 
 /**
  * Validates all params and calls the right
@@ -18179,10 +17359,10 @@ module.exports = listen;
 
 /***/ }),
 
-/***/ "./node_modules/select/src/select.js":
-/*!*******************************************!*\
-  !*** ./node_modules/select/src/select.js ***!
-  \*******************************************/
+/***/ "../../../../../../okta/okta-ui/node_modules/select/src/select.js":
+/*!************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/node_modules/select/src/select.js ***!
+  \************************************************************************/
 /***/ (function(module) {
 
 function select(element) {
@@ -18232,10 +17412,10 @@ module.exports = select;
 
 /***/ }),
 
-/***/ "./node_modules/tiny-emitter/index.js":
-/*!********************************************!*\
-  !*** ./node_modules/tiny-emitter/index.js ***!
-  \********************************************/
+/***/ "../../../../../../okta/okta-ui/node_modules/tiny-emitter/index.js":
+/*!*************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/node_modules/tiny-emitter/index.js ***!
+  \*************************************************************************/
 /***/ (function(module) {
 
 function E () {
@@ -18304,7 +17484,6 @@ E.prototype = {
 };
 
 module.exports = E;
-module.exports.TinyEmitter = E;
 
 
 /***/ }),
@@ -18402,6 +17581,30 @@ module.exports = require("underscore");
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	!function() {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = function(module) {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				function() { return module['default']; } :
+/******/ 				function() { return module; };
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	!function() {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	}();
+/******/ 	
 /******/ 	/* webpack/runtime/global */
 /******/ 	!function() {
 /******/ 		__webpack_require__.g = (function() {
@@ -18414,14 +17617,229 @@ module.exports = require("underscore");
 /******/ 		})();
 /******/ 	}();
 /******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	!function() {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = function(exports) {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	}();
+/******/ 	
 /************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/CourageForSigninWidget.js");
-/******/ 	module.exports = __webpack_exports__;
-/******/ 	
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+!function() {
+"use strict";
+/*!***************************************!*\
+  !*** ./src/CourageForSigninWidget.ts ***!
+  \***************************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Backbone": function() { return /* reexport default from dynamic */ backbone__WEBPACK_IMPORTED_MODULE_34___default.a; },
+/* harmony export */   "$": function() { return /* reexport safe */ _courage_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_16__.default; },
+/* harmony export */   "_": function() { return /* reexport safe */ _courage_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_17__.default; },
+/* harmony export */   "Handlebars": function() { return /* reexport safe */ _courage_util_handlebars_wrapper__WEBPACK_IMPORTED_MODULE_15__.default; },
+/* harmony export */   "loc": function() { return /* binding */ loc; },
+/* harmony export */   "createButton": function() { return /* binding */ createButton; },
+/* harmony export */   "createCallout": function() { return /* binding */ createCallout; },
+/* harmony export */   "registerInput": function() { return /* binding */ registerInput; },
+/* harmony export */   "Model": function() { return /* reexport safe */ _courage_models_Model__WEBPACK_IMPORTED_MODULE_3__.default; },
+/* harmony export */   "BaseModel": function() { return /* reexport safe */ _courage_models_BaseModel__WEBPACK_IMPORTED_MODULE_1__.default; },
+/* harmony export */   "Collection": function() { return /* binding */ Collection; },
+/* harmony export */   "FrameworkView": function() { return /* reexport safe */ _courage_framework_View__WEBPACK_IMPORTED_MODULE_35__.default; },
+/* harmony export */   "View": function() { return /* binding */ View; },
+/* harmony export */   "ListView": function() { return /* reexport safe */ _courage_views_Backbone_ListView__WEBPACK_IMPORTED_MODULE_18__.default; },
+/* harmony export */   "Router": function() { return /* binding */ Router; },
+/* harmony export */   "Controller": function() { return /* binding */ Controller; },
+/* harmony export */   "Form": function() { return /* binding */ Form; },
+/* harmony export */   "internal": function() { return /* binding */ internal; }
+/* harmony export */ });
+/* harmony import */ var _courage_models_BaseCollection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./courage/models/BaseCollection */ "../../../../../../okta/okta-ui/packages/courage/src/models/BaseCollection.ts");
+/* harmony import */ var _courage_models_BaseModel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./courage/models/BaseModel */ "../../../../../../okta/okta-ui/packages/courage/src/models/BaseModel.ts");
+/* harmony import */ var _courage_models_BaseSchema__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./courage/models/BaseSchema */ "../../../../../../okta/okta-ui/packages/courage/src/models/BaseSchema.ts");
+/* harmony import */ var _courage_models_Model__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./courage/models/Model */ "../../../../../../okta/okta-ui/packages/courage/src/models/Model.ts");
+/* harmony import */ var _courage_models_SchemaProperty__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./courage/models/SchemaProperty */ "../../../../../../okta/okta-ui/packages/courage/src/models/SchemaProperty.ts");
+/* harmony import */ var _courage_util_BaseController__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./courage/util/BaseController */ "../../../../../../okta/okta-ui/packages/courage/src/util/BaseController.ts");
+/* harmony import */ var _courage_util_BaseRouter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./courage/util/BaseRouter */ "../../../../../../okta/okta-ui/packages/courage/src/util/BaseRouter.ts");
+/* harmony import */ var _courage_util_ButtonFactory__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./courage/util/ButtonFactory */ "../../../../../../okta/okta-ui/packages/courage/src/util/ButtonFactory.ts");
+/* harmony import */ var _courage_util_Class__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./courage/util/Class */ "../../../../../../okta/okta-ui/packages/courage/src/util/Class.ts");
+/* harmony import */ var _courage_util_Cookie__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./courage/util/Cookie */ "../../../../../../okta/okta-ui/packages/courage/src/util/Cookie.ts");
+/* harmony import */ var _courage_util_Clipboard__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./courage/util/Clipboard */ "../../../../../../okta/okta-ui/packages/courage/src/util/Clipboard.ts");
+/* harmony import */ var _courage_util_Keys__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./courage/util/Keys */ "../../../../../../okta/okta-ui/packages/courage/src/util/Keys.ts");
+/* harmony import */ var _courage_util_Logger__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./courage/util/Logger */ "../../../../../../okta/okta-ui/packages/courage/src/util/Logger.ts");
+/* harmony import */ var _courage_util_StringUtil__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./courage/util/StringUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.ts");
+/* harmony import */ var _courage_util_Util__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./courage/util/Util */ "../../../../../../okta/okta-ui/packages/courage/src/util/Util.ts");
+/* harmony import */ var _courage_util_handlebars_wrapper__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./courage/util/handlebars-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/handlebars-wrapper.ts");
+/* harmony import */ var _courage_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./courage/util/jquery-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts");
+/* harmony import */ var _courage_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./courage/util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _courage_views_Backbone_ListView__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./courage/views/Backbone.ListView */ "../../../../../../okta/okta-ui/packages/courage/src/views/Backbone.ListView.js");
+/* harmony import */ var _courage_views_BaseView__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./courage/views/BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
+/* harmony import */ var _courage_views_components_BaseDropDown__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./courage/views/components/BaseDropDown */ "../../../../../../okta/okta-ui/packages/courage/src/views/components/BaseDropDown.js");
+/* harmony import */ var _courage_views_components_Notification__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./courage/views/components/Notification */ "../../../../../../okta/okta-ui/packages/courage/src/views/components/Notification.js");
+/* harmony import */ var _courage_views_forms_BaseForm__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./courage/views/forms/BaseForm */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseForm.ts");
+/* harmony import */ var _courage_views_forms_components_Toolbar__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./courage/views/forms/components/Toolbar */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/components/Toolbar.ts");
+/* harmony import */ var _courage_views_forms_helpers_FormUtil__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./courage/views/forms/helpers/FormUtil */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/FormUtil.ts");
+/* harmony import */ var _courage_views_forms_helpers_InputRegistry__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./courage/views/forms/helpers/InputRegistry */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputRegistry.ts");
+/* harmony import */ var _courage_views_forms_helpers_SchemaFormFactory__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./courage/views/forms/helpers/SchemaFormFactory */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/SchemaFormFactory.ts");
+/* harmony import */ var _courage_views_forms_inputs_CheckBox__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./courage/views/forms/inputs/CheckBox */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/CheckBox.js");
+/* harmony import */ var _courage_views_forms_inputs_PasswordBox__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./courage/views/forms/inputs/PasswordBox */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/PasswordBox.js");
+/* harmony import */ var _courage_views_forms_inputs_Radio__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./courage/views/forms/inputs/Radio */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/Radio.js");
+/* harmony import */ var _courage_views_forms_inputs_Select__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./courage/views/forms/inputs/Select */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/Select.js");
+/* harmony import */ var _courage_views_forms_inputs_InputGroup__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./courage/views/forms/inputs/InputGroup */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/InputGroup.js");
+/* harmony import */ var _courage_views_forms_inputs_TextBox__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./courage/views/forms/inputs/TextBox */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/TextBox.js");
+/* harmony import */ var _courage_views_components_Callout__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./courage/views/components/Callout */ "../../../../../../okta/okta-ui/packages/courage/src/views/components/Callout.ts");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! backbone */ "../../../../../../okta/okta-ui/packages/courage/src/vendor/lib/backbone.js");
+/* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_34___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_34__);
+/* harmony import */ var _courage_framework_View__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./courage/framework/View */ "../../../../../../okta/okta-ui/packages/courage/src/framework/View.ts");
+/* harmony import */ var _util_scrollParent__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./util/scrollParent */ "./src/util/scrollParent.ts");
+/* harmony import */ var _courage_util_SettingsModel__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./courage/util/SettingsModel */ "../../../../../../okta/okta-ui/packages/courage/src/util/SettingsModel.ts");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ // The string will be returned unchanged. All templates should be precompiled.
+
+_courage_framework_View__WEBPACK_IMPORTED_MODULE_35__.default.prototype.compileTemplate = function (str) {
+  var compiledTmpl = function fakeTemplate() {
+    return str;
+  };
+
+  compiledTmpl.source = ''; // to satisfy TS
+
+  return compiledTmpl;
+}; // Override events to not support `Enter` submitting the form twice - OKTA-321999 and OKTA-317629
+
+
+var events = {
+  'input input': 'update',
+  'change input': 'update',
+  'keydown input': 'update',
+  'keyup input': function keyupInput(e) {
+    if (_courage_util_Keys__WEBPACK_IMPORTED_MODULE_11__.default.isEsc(e)) {
+      this.model.trigger('form:cancel');
+    }
+  }
+};
+var TextBoxForSigninWidget = _courage_views_forms_inputs_TextBox__WEBPACK_IMPORTED_MODULE_32__.default.extend({
+  events: events
+});
+var PasswordBoxForSigninWidget = _courage_views_forms_inputs_PasswordBox__WEBPACK_IMPORTED_MODULE_28__.default.extend({
+  events: events
+});
+var Form = _courage_views_forms_BaseForm__WEBPACK_IMPORTED_MODULE_22__.default.extend({
+  scrollOnError: function scrollOnError() {
+    // scrollOnError is true by default. Override to false if `scrollOnError` has been set to false in widget settings.
+    var {
+      settings: settings
+    } = this.options;
+
+    if (settings.get('features.scrollOnError') === false) {
+      return false;
+    }
+
+    return true;
+  }
+});
+var loc = _courage_util_StringUtil__WEBPACK_IMPORTED_MODULE_13__.default.localize;
+var createButton = _courage_util_ButtonFactory__WEBPACK_IMPORTED_MODULE_7__.default.create;
+var createCallout = _courage_views_components_Callout__WEBPACK_IMPORTED_MODULE_33__.default.create;
+var registerInput = _courage_views_forms_helpers_InputRegistry__WEBPACK_IMPORTED_MODULE_25__.default.register;
+var Collection = _courage_models_BaseCollection__WEBPACK_IMPORTED_MODULE_0__.default;
+var View = _courage_views_BaseView__WEBPACK_IMPORTED_MODULE_19__.default;
+var Router = _courage_util_BaseRouter__WEBPACK_IMPORTED_MODULE_6__.default;
+var Controller = _courage_util_BaseController__WEBPACK_IMPORTED_MODULE_5__.default;
+var internal = {
+  util: {
+    Util: _courage_util_Util__WEBPACK_IMPORTED_MODULE_14__.default,
+    Cookie: _courage_util_Cookie__WEBPACK_IMPORTED_MODULE_9__.default,
+    Clipboard: _courage_util_Clipboard__WEBPACK_IMPORTED_MODULE_10__.default,
+    Logger: _courage_util_Logger__WEBPACK_IMPORTED_MODULE_12__.default,
+    Class: _courage_util_Class__WEBPACK_IMPORTED_MODULE_8__.default,
+    Keys: _courage_util_Keys__WEBPACK_IMPORTED_MODULE_11__.default
+  },
+  views: {
+    components: {
+      BaseDropDown: _courage_views_components_BaseDropDown__WEBPACK_IMPORTED_MODULE_20__.default,
+      Notification: _courage_views_components_Notification__WEBPACK_IMPORTED_MODULE_21__.default
+    },
+    forms: {
+      helpers: {
+        FormUtil: _courage_views_forms_helpers_FormUtil__WEBPACK_IMPORTED_MODULE_24__.default,
+        SchemaFormFactory: _courage_views_forms_helpers_SchemaFormFactory__WEBPACK_IMPORTED_MODULE_26__.default
+      },
+      components: {
+        Toolbar: _courage_views_forms_components_Toolbar__WEBPACK_IMPORTED_MODULE_23__.default
+      },
+      inputs: {
+        TextBox: TextBoxForSigninWidget,
+        PasswordBox: PasswordBoxForSigninWidget,
+        CheckBox: _courage_views_forms_inputs_CheckBox__WEBPACK_IMPORTED_MODULE_27__.default,
+        Radio: _courage_views_forms_inputs_Radio__WEBPACK_IMPORTED_MODULE_29__.default,
+        Select: _courage_views_forms_inputs_Select__WEBPACK_IMPORTED_MODULE_30__.default,
+        InputGroup: _courage_views_forms_inputs_InputGroup__WEBPACK_IMPORTED_MODULE_31__.default
+      }
+    }
+  },
+  models: {
+    BaseSchema: _courage_models_BaseSchema__WEBPACK_IMPORTED_MODULE_2__.default,
+    SchemaProperty: _courage_models_SchemaProperty__WEBPACK_IMPORTED_MODULE_4__.default
+  }
+};
+registerInput('text', TextBoxForSigninWidget);
+registerInput('password', PasswordBoxForSigninWidget);
+registerInput('checkbox', _courage_views_forms_inputs_CheckBox__WEBPACK_IMPORTED_MODULE_27__.default);
+registerInput('radio', _courage_views_forms_inputs_Radio__WEBPACK_IMPORTED_MODULE_29__.default);
+registerInput('select', _courage_views_forms_inputs_Select__WEBPACK_IMPORTED_MODULE_30__.default);
+registerInput('group', _courage_views_forms_inputs_InputGroup__WEBPACK_IMPORTED_MODULE_31__.default);
+ // Additional type exports
+
+
+
+
+
+
+}();
+module.exports = __webpack_exports__;
 /******/ })()
 ;
 //# sourceMappingURL=okta.js.map

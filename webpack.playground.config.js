@@ -35,7 +35,7 @@ module.exports = {
     level: 'warn',
   },
   entry: {
-    'playground.js': [`${PLAYGROUND}/main.js`]
+    'playground.js': [`${PLAYGROUND}/main.ts`]
   },
   output: {
     path: `${PLAYGROUND}`,
@@ -45,14 +45,22 @@ module.exports = {
     }
   },
   devtool: 'source-map',
+  resolve: {
+    // Add `.ts` and `.tsx` as a resolvable extension.
+    extensions: ['.ts', '.tsx', '.js']
+  },
   module: {
     rules: [
+      // all files with a `.ts` or `.tsx` extension will be handled by `preset-typescript`
       {
-        test: /\.js$/,
+        test: /\.[jt]sx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
-          presets: ['@babel/preset-env']
+          presets: [
+            '@babel/preset-env',
+            '@babel/preset-typescript' // must run before preset-env: https://github.com/babel/babel/issues/12066
+          ]
         }
       },
     ]

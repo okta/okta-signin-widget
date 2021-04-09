@@ -130,6 +130,6 @@ describe('OIDC flows', () => {
 
   // TODO: migrate old idp tests from test/e2e/OIDC_spec.js
   describe.skip('Social IDP', () => {
-
+    // TODO
   });
 });

@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "baseUrl": ".",
+    "outDir": "./target",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "checkJs": false,
+    "skipLibCheck": true,
+    "paths": {
+      "framework/*": ["node_modules/@okta/courage/src/framework/*"],
+      "vendor/*": ["node_modules/@okta/courage/src/vendor/*"],
+      "handlebars-inline-precompile": ["../../../scripts/buildtools/tsc/handlebars-inline-precompile"],
+      "ConfirmationDialog": ["buildtools/ConfirmationDialog.ts"],
+      "okta-i18n-bundles": ["node_modules/@okta/courage/src/okta-i18n-bundles.js"]
+    }
+  },
+  "include": [
+    "types/**/*"
+  ],
+  "files": [
+    "src/CourageForSigninWidget.ts"
+  ],
+  "types": []
+}

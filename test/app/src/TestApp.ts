@@ -1,5 +1,5 @@
 import { AuthSdkError, OktaAuth, TokenResponse, Tokens } from '@okta/okta-auth-js';
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import getOktaSignIn from './getOktaSignIn';
 import ConfigArea, { ConfigTemplate } from './configArea';

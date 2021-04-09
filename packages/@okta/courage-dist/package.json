@@ -1,0 +1,7 @@
+{
+  "name": "courage-dist",
+  "version": "1.0.0",
+  "description": "Generated version of Courage for Sign-In Widget",
+  "main": "okta.js",
+  "types": "types/CourageForSigninWidget.d.ts"
+}
