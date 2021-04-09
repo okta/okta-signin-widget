@@ -11,16 +11,37 @@
   "bugs": {
     "url": "https://github.com/okta/okta-signin-widget/issues"
   },
-  "files": ["dist"],
-  "browserslist": ["> 0.1%", "not ie <= 9"],
+  "files": [
+    "dist",
+    "./types/index.d.ts"
+  ],
+  "browserslist": [
+    "> 0.1%",
+    "not ie <= 9"
+  ],
+  "tsd": {
+    "directory": "types",
+    "compilerOptions": {
+      "skipLibCheck": true,
+      "lib": [
+        "dom"
+      ],
+      "paths": {
+        "@okta/okta-signin-widget": [
+          "."
+        ]
+      }
+    }
+  },
   "main": "./dist/js/okta-sign-in.entry.js",
+  "types": "./types/index.d.ts",
   "scripts": {
     "clean": "rimraf target && rimraf dist && rimraf build2",
     "generate-phone-codes": "node buildtools generate-phone-codes",
     "generate-config": "node buildtools generate-language-config",
     "update-readme": "node buildtools update-readme",
     "retirejs": "retire --jspath target/js --package",
-    "lint:eslint": "eslint .",
+    "lint:eslint": "eslint . --ext .js --ext .ts",
     "lint:eslint:report": "eslint -f checkstyle -o build2/OSW-eslint-checkstyle-result.xml .",
     "lint:stylelint": "stylelint assets/sass/",
     "lint:stylelint:report": "stylelint --custom-formatter node_modules/stylelint-checkstyle-formatter assets/sass/ > build2/OSW-stylelint-checkstyle-result.xml",
@@ -36,6 +57,7 @@
     "test:testcafe-setup": "mkdir -p test-reports/testcafe && yarn start:mockDuo --no-open",
     "test:testcafe-run": "wait-on http-get://localhost:3000 && testcafe -c 2 chrome:headless test/testcafe/spec/ --reporter xunit:build2/reports/junit/testcafe-results.xml",
     "test:testcafe-ci": "run-p -r test:testcafe-setup \"test:testcafe-run\" -- 2>/dev/null",
+    "test:tsd": "tsd",
     "protractor": "node ./scripts/update-se-drivers.js && protractor target/e2e/conf.js",
     "build:dev": "grunt build:dev",
     "build:release": "grunt build:release",
@@ -59,6 +81,8 @@
     "@okta/okta-auth-js": "4.8.0",
     "@okta/okta-idx-js": "0.14.0",
     "@sindresorhus/to-milliseconds": "^1.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
     "autoprefixer": "^9.6.1",
     "axe-core": "^3.3.1",
     "axe-webdriverjs": "^2.2.0",
@@ -127,6 +151,7 @@
     "stylelint-scss": "^3.9.2",
     "testcafe": "^1.4.0",
     "time-grunt": "^2.0.0",
+    "typescript": "^4.2.2",
     "wait-on": "^3.3.0",
     "webdriver-manager": "^12.1.8",
     "webpack": "^3.5.4",
@@ -139,6 +164,7 @@
     "cross-fetch": "^3.0.4",
     "handlebars": "^4.5.3",
     "q": "1.4.1",
+    "tsd": "^0.14.0",
     "u2f-api-polyfill": "0.4.3",
     "underscore": "1.8.3"
   },
