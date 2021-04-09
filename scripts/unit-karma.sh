@@ -9,7 +9,7 @@ export TEST_RESULT_FILE_DIR="${REPO}/build2/reports/unit"
 echo $TEST_SUITE_TYPE > $TEST_SUITE_TYPE_FILE
 echo $TEST_RESULT_FILE_DIR > $TEST_RESULT_FILE_DIR_FILE
 
-if ! yarn test:karma; then
+if ! yarn test --type karma; then
   echo "unit failed! Exiting..."
   exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
 fi

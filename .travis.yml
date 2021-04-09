@@ -17,6 +17,6 @@ addons:
 env:
   matrix:
   - TEST_SUITE=lint
-  - TEST_SUITE=test:karma
+  - TEST_SUITE="test --type karma"
   - TEST_SUITE=test:testcafe-ci
-  - TEST_SUITE=test:jest
+  - TEST_SUITE="test --type jest"

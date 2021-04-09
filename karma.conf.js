@@ -64,7 +64,8 @@ module.exports = (config) => {
       match: '.*.html',
       name: 'Content-Security-Policy',
       value: 'script-src http://localhost:9876 \'unsafe-inline\''
-    }]
+    }],
+    singleRun: true,
   };
 
   // instrument code for coverage report
