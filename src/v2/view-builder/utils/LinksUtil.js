@@ -147,7 +147,7 @@ const getSignUpLink = (appState, settings) => {
   if (appState.hasRemediationObject(RemediationForms.SELECT_ENROLL_PROFILE)) {
     const signupLinkData = {
       'type': 'link',
-      'label': loc('signup', 'login'),
+      'label': loc('oie.registration.form.title', 'login'),
       'name': 'enroll'
     };
     if (_.isFunction(settings.get('registration.click'))) {
