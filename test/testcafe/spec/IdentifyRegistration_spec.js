@@ -66,7 +66,7 @@ test.requestHooks(mock)('should have editable fields and have account label', as
   await verifyRegistrationPageEvent();
 
   /* i18n tests */
-  await t.expect(registrationPage.getHaveAccountLabel()).eql('Already have an account ?');
+  await t.expect(registrationPage.getHaveAccountLabel()).eql('Already have an account?');
   await t.expect(await registrationPage.signoutLinkExists()).notOk();
 
   await registrationPage.fillFirstNameField('Test First Name');
