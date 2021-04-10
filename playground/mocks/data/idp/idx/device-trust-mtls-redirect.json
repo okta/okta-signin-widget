@@ -1,0 +1,48 @@
+{
+  "stateHandle": "inRUXNhsc6Evt7GAb8DPAA",
+  "version": "1.0.0",
+  "expiresAt": "2020-04-13T22:55:53.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "name": "redirect-device-trust",
+        "href": "http://dv1-devtrust.okta1.com/user/settings/certificate/challenge?relaystate=abcdUXb8DPNhsc6Evt7GXYa123",
+        "method": "GET"
+      }
+    ]
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "inRUXNhsc6Evt7GAb8DPAA",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  },
+  "app":{
+    "type":"object",
+    "value":{
+      "name":"oidc_client",
+      "label":"Native client",
+      "id":"0oaxk15yB0nwAYpTg0g3"
+    }
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00ux1jX3hVYsIkk9O0g3"
+    }
+  }
+}

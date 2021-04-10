@@ -169,6 +169,25 @@ const convertRedirectIdPToSuccessRedirectIffOneIdp = (settings, result, lastResu
   }
 };
 
+/**
+ * IFF there is one `redirect-device-trust` remediation form, widget will automatically redirect to
+ * `redirect-device-trust.href`.
+ *
+ * The idea now is to reuse `success-redirect` thus converts `redirect-device-trust` to `success-redirect` form.
+ */
+const convertRedirectToSuccessRedirectForMtls = (result) => {
+  if (Array.isArray(result.remediations)) {
+    const redirectRemediations = result.remediations.filter(r => r.name === RemediationForms.REDIRECT_DEVICE_TRUST);
+    if (redirectRemediations.length === 1 && result.remediations.length === 1) {
+      const successRedirect = {
+        name: RemediationForms.SUCCESS_REDIRECT,
+        href: redirectRemediations[0].href,
+        value: [],
+      };
+      result.remediations = [ successRedirect ];
+    }
+  }
+};
 
 /**
  * API reuses `redirect-idp` remeditaion form for IdP Authenticator for both verify and enroll.
@@ -230,8 +249,9 @@ const convert = (settings, idx = {}, lastResult = null) => {
 
   injectIdPConfigButtonToRemediation(settings, result);
   if (!result.messages) {
-    // Only redirect to the IdP if we are not in an error flow
+    // Only redirect to the IdP or Device Trust Mtls if we are not in an error flow
     convertRedirectIdPToSuccessRedirectIffOneIdp(settings, result, lastResult);
+    convertRedirectToSuccessRedirectForMtls(result);
   }
 
   modifyFormNameForIdPAuthenticator(result);
