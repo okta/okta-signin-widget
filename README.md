@@ -1555,18 +1555,18 @@ We use Yarn as our node package manager. To install Yarn, check out their [insta
 
 ### Build and test commands
 
-| Command                              | Description                                                                                                                                            |
-|--------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `yarn start`                         | Build the widget, start the server, and open a browser window with the widget loaded                                                                   |
-| `yarn start --watch`                 | Build the widget, start the server, and open a browser window with the widget loaded and watch on widget js and sass changes                           |
-| `yarn build:dev`                     | Build an unminified version of the widget                                                                                                              |
-| `yarn build:release`                 | Build a minified, uglified version of the widget (`okta-sign-in.min.js`) and a non-minified **development** version of the widget (`okta-sign-in.js`). |
-| `yarn test --type karma`             | Run unit tests using Karma                                                                                                                             |
-| `yarn test --type karma --suiteHelp` | Display optional test suite options                                                                                                                    |
-| `yarn test --type jest`              | Run unit tests using Jest                                                                                                                              |
-| `yarn test --type jest --suiteHelp`  | Display optional test suite options                                                                                                                    |
-| `yarn test:testcafe <browser>`       | Run testcafe tests on selected browser (example: `yarn test:testcafe chrome`)                                                                          |
-| `yarn lint`                          | Run eslint and scss linting tests                                                                                                                      |
+| Command                           | Description                                                                                                                                            |
+|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `yarn start`                      | Build the widget, start the server, and open a browser window with the widget loaded                                                                   |
+| `yarn start --watch`              | Build the widget, start the server, and open a browser window with the widget loaded and watch on widget js and sass changes                           |
+| `yarn build:dev`                  | Build an unminified version of the widget                                                                                                              |
+| `yarn build:release`              | Build a minified, uglified version of the widget (`okta-sign-in.min.js`) and a non-minified **development** version of the widget (`okta-sign-in.js`). |
+| `yarn test -t karma`              | Run unit tests using Karma                                                                                                                             |
+| `yarn test -t karma --suiteHelp`  | Display optional test suite options                                                                                                                    |
+| `yarn test -t jest`               | Run unit tests using Jest                                                                                                                              |
+| `yarn test -t jest --suiteHelp`   | Display optional test suite options                                                                                                                    |
+| `yarn test -t testcafe <browser>` | Run testcafe tests on selected browser (example: `yarn test -t testcafe chrome`)                                                                       |
+| `yarn lint`                       | Run eslint and scss linting tests                                                                                                                      |
 
 ### Local development workflow using `yarn link`
 

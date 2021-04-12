@@ -5,10 +5,12 @@ exports.command = 'test';
 exports.desc = 'Runs tests for the Okta Sign-in Widget';
 exports.builder = {
   type: {
+    alias: 't',
     description: 'Type of the test runner',
     choices: [
       'karma',
       'jest',
+      'testcafe',
     ],
     required: true,
   },
@@ -35,6 +37,12 @@ const suiteMap = {
       'grunt assets',
     ],
   },
+  testcafe: {
+    cmd: 'testcafe',
+    preReq: [
+      'wait-on http-get://localhost:3000', // Requires the dev-server to run
+    ]
+  }
 };
 
 exports.handler = async (argv) => {
@@ -63,10 +71,12 @@ exports.handler = async (argv) => {
   };
 
   // Runs required prerequisite scripts
-  testType.preReq.forEach(script => {
-    console.log(`Running prerequisite script: ${script}`);
-    execSync(script, options);
-  });
+  if (!help) {
+    testType.preReq.forEach(script => {
+      console.log(`Running prerequisite script: ${script}`);
+      execSync(script, options);
+    });
+  }
 
   console.log(`Running: ${cmd}`);
   execSync(cmd, options);
