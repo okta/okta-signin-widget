@@ -19,7 +19,26 @@
               {
                   "name":"identifier",
                   "label":"Username"
-              },
+              },          
+              {
+               "name": "captchaVerify",
+               "form": {
+                 "value": [
+                   {
+                     "name": "instanceId",
+                     "required": true,
+                     "value": "4321dcba",
+                     "mutable": false,
+                     "visible": false
+                   },
+                   {
+                     "name": "token",
+                     "required": true,
+                     "visible": false
+                   }
+                 ]
+               }
+             },              
               {
                   "name":"stateHandle",
                   "required":true,
@@ -66,5 +85,17 @@
            "mutable":false
         }
      ]
-  }
+  },
+  "captcha": {
+   "id": "4321dcba",
+   "name": "reCaptcha",
+   "siteKey": "6Lfw9IQaAAAAAM-mWFv6DwRtsKHyn8l14qXUBMkD",
+   "type": "RECAPTCHAV2"
+ },    
+ "captcha2": {
+   "id": "4321dcba",
+   "name": "hCaptcha",
+   "siteKey": "620b875d-5009-4637-b297-e71e44f32e39",
+   "type": "HCAPTCHA"
+ }   
 }

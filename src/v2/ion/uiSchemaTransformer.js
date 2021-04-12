@@ -17,6 +17,7 @@ import { _ } from 'okta';
 import createUiSchemaForBoolean from './ui-schema/ion-boolean-handler';
 import createUiSchemaForObject from './ui-schema/ion-object-handler';
 import createUiSchemaForString from './ui-schema/ion-string-handler';
+import Enums from 'util/Enums';
 
 const UISchemaHandlers = {
   string: createUiSchemaForString,
@@ -36,7 +37,12 @@ const createUISchema = (transformedResp, remediationForm, settings) => {
   // back to object hierarchy through `Model.toJSON`.
   // For simplicity we are assuming that when field itself is a form its only one level deep.
   const remediationValue = _.chain(remediationForm.value || [])
-    .filter(v => v.visible !== false)
+    .filter(v => {
+      if (v.hint && v.hint === Enums.HINTS.CAPTCHA) {
+        return true;
+      }
+      return v.visible !== false;
+    })
     .map(v => {
       let nestedForm;
       if (v.form) {

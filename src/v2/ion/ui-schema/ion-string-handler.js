@@ -12,6 +12,8 @@
 
 /* eslint max-depth: [2, 3] */
 
+import Enums from 'util/Enums';
+
 const ionOptionsToUiOptions = (options) => {
   const result = {};
   options.forEach(({ value, label }) => {
@@ -27,6 +29,12 @@ const getPasswordUiSchema = (settings) => ({
   },
 });
 
+const getCaptchaUiSchema = () => {
+  return {
+    type: 'captcha',
+  };
+};
+
 const shouldRenderAsRadio = (name) => name.indexOf('methodType') >= 0 || name.indexOf('channel') >= 0;
 
 const createUiSchemaForString = (ionFormField, remediationForm, transformedResp, createUISchema, settings) => {
@@ -37,6 +45,10 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
   // e.g. { name: 'password', secret: true }
   if (ionFormField.secret === true) {
     Object.assign(uiSchema, getPasswordUiSchema(settings));
+  }
+
+  if (ionFormField.hint === Enums.HINTS.CAPTCHA) {
+    Object.assign(uiSchema, getCaptchaUiSchema());
   }
 
   if (Array.isArray(ionFormField.options)) {

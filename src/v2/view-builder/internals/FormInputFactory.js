@@ -7,6 +7,7 @@ import { AUTHENTICATOR_KEY, FORMS as RemediationForms } from '../../ion/Remediat
 import IDP from '../../../util/IDP';
 import AdminScopeList from '../../../views/admin-consent/ScopeList';
 import EnduserScopeList from '../../../views/consent/ScopeList';
+import CaptchaView from '../../../views/captcha/CaptchaView';
 
 
 const createAuthenticatorEnrollSelectView = (opt) => {
@@ -63,11 +64,18 @@ const createEnduserScopesView = () => {
   };
 };
 
+const createCaptchaView = () => {
+  return {
+    View: CaptchaView,
+  };
+};
+
 const inputCreationStrategy = {
   authenticatorEnrollSelect: createAuthenticatorEnrollSelectView,
   authenticatorVerifySelect: createAuthenticatorVerifySelectView,
   ['admin-consent']: createAdminScopesView,
   ['consent']: createEnduserScopesView,
+  ['captcha']: createCaptchaView,
 };
 
 // TODO: move logic to uiSchemaTransformer

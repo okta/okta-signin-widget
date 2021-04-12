@@ -77,4 +77,9 @@ export default {
   LOOPBACK_CHALLENGE: 'LOOPBACK',
   CUSTOM_URI_CHALLENGE: 'CUSTOM_URI',
   UNIVERSAL_LINK_CHALLENGE: 'UNIVERSAL_LINK',
+
+  // Possible Remediation Form Field Hints
+  HINTS: {
+    CAPTCHA: 'captcha'
+  },
 };

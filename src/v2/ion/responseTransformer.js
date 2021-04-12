@@ -53,6 +53,11 @@ const getFirstLevelObjects = (resp) => {
     if (val.type === 'object') {
       result[key] = val.value;
     }
+
+    // for handling attributes with type object -  check if CAPTCHA_SUPPORT is enabled
+    if (key === 'captcha') {
+      result[key] = val;
+    }
   });
   return result;
 };
