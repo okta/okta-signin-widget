@@ -14,10 +14,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'device-code-activate',
-    'error-invalid-device-code',
-    'terminal-device-activated',
-    'terminal-device-not-activated'
+    'identify',
     // 'error-feature-not-enabled',
     // 'error-403-security-access-denied',
     // 'authenticator-enroll-email',
@@ -573,9 +570,9 @@ const safeModePoll = {
     'safe-mode-polling',
   ],
   '/idp/idx/poll': [
-    'safe-mode-polling',
     // 'safe-mode-polling',
     'safe-mode-polling',
+    'safe-mode-polling-refreshed-interval',
     'error-safe-mode-polling',
     // 'authenticator-enroll-ov-via-sms',
     // 'terminal-polling-window-expired'
