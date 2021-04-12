@@ -48,7 +48,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     testContext.init();
     expect(testContext.view.$('.idx-webauthn-enroll-text').text()).toBe(
-      'Your browser will prompt to register a security key or biometric authenticator (Windows Hello, Touch ID, etc.). Follow the instructions to complete enrollment.'
+      'You will be prompted to register a security key or biometric authenticator (Windows Hello, Touch ID, Face ID, etc.). Follow the instructions to complete set up.'
     );
     expect(testContext.view.$('.webauthn-setup').css('display')).not.toBe('none'); // default value: empty string in jest, 'inline' in browser
     expect(testContext.view.$('.webauthn-setup').text()).toBe('Set up');
