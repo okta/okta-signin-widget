@@ -1,0 +1,11 @@
+.device-code-terminal {
+  &--icon-container {
+    margin: 0 0 25px;
+    line-height: 1.5;
+    text-align: center;
+  }
+  &--icon {
+    display: inline-block;
+    width: 21px;
+  }
+}

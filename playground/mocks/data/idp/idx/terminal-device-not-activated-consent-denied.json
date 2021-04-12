@@ -7,11 +7,11 @@
     "type": "array",
     "value": [
       {
-        "message": "Your device cannot be activated because you did not allow access.",
+        "message": "Your device cannot be activated because you did not allow access",
         "i18n": {
-          "key": "idx.device.not.activated"
+          "key": "idx.device.not.activated.consent.denied"
         },
-        "class": "ERROR"
+        "class": "INFO"
       }
     ]
   }

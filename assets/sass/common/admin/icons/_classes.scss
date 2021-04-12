@@ -1567,9 +1567,17 @@
   content: $cir-error;
   color: $icon-color-white;
 }
+.error-24-red:before {
+  content: $cir-error;
+  color: $icon-color-danger;
+}
 .success-24:before {
   content: $cir-success;
   color: $icon-color-white;
+}
+.success-24-green:before {
+  content: $cir-success;
+  color: $icon-color-green;
 }
 .directory-add-24:before {
   content: $directory-add;

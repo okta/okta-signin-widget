@@ -129,6 +129,18 @@ const getBackToSignInLink = (settings) => {
   ];
 };
 
+const getReloadPageButtonLink = () => {
+  return [
+    {
+      'type': 'link',
+      'label': 'Try again',
+      'name': 'try-again',
+      'href': window.location,
+      'className': 'button button-primary text-align-c'
+    },
+  ];
+};
+
 const getSignUpLink = (appState, settings) => {
   const signupLink = [];
 
@@ -156,5 +168,6 @@ export {
   getSignUpLink,
   getSignOutLink,
   getBackToSignInLink,
-  getSkipSetupLink
+  getSkipSetupLink,
+  getReloadPageButtonLink
 };
