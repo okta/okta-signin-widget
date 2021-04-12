@@ -59,3 +59,23 @@ The mindset is to
 ### Multi-pages flow
 
 This is useful when you want to test sort of real world user flow.
+
+## detect-english-leaks test suite
+The detect-english-leaks is a test suite that loads up the widget in ok-PL language and checks if the view has any english leaks for OIE specific flows.
+It currently has a list of mocks that are ignored as they have known issues. The test is located under spec-en-leaks/EnglishLeaks_spec.js.
+
+To run the test suite locally use.
+
+- `yarn test:enleaks`
+
+To run the test suite on CI use.
+
+- `yarn test:testcafe-ci`
+
+Note: If you ecounter test failures for this suite, it might be because of any of the following reasons (Only applicable to OIE flows)
+
+- New keys added to login.properties and they keys dont exist in login_ok_PL.properties. Running `yarn test:enleaks` locally will generate pseudo-loc properties and make sure login_ok_PL.properties gets regenerated. Additionally you can also run `grunt exec:pseudo-loc` to just generate pseudo loc properties. Running pseudo-loc currently requires you to be on VPN more details https://github.com/okta/okta-signin-widget#utilizing-pseudo-loc
+
+- New keys added to login.properties that are used to render inputs in views but are not listed in i18nTransformer.js within `I18N_OVERRIDE_MAPPINGS`.
+
+- You have built a new error state view using IDX response and the i18n key returned from the API inside the messages object is not listed in login.properties.

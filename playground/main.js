@@ -2,6 +2,7 @@
 /* eslint no-console: 0 */
 
 import signinWidgetOptions from '../.widgetrc.js';
+import { assertNoEnglishLeaks } from '../LocaleUtils';
 
 let signIn;
 
@@ -81,6 +82,16 @@ const renderPlaygroundWidget = (options = {}) => {
     // in testcafe for assertion
     console.log('===== playground widget afterRender event received =====');
     console.log(JSON.stringify(context));
+
+    // assert english leaks if locale set to ok-PL
+    if (signinWidgetOptions.language === 'ok-PL') {
+      // wait for view to finish rendering
+      const viewText = document.getElementById('okta-sign-in').textContent;
+      const noTranslationContentExists = document.getElementsByClassName('no-translate').length;
+      const noTranslationContent = noTranslationContentExists &&
+        document.getElementsByClassName('no-translate')[0].textContent;
+      assertNoEnglishLeaks(null, viewText, noTranslationContent);
+    }
   });
 
   signIn.on('afterError', (context, error) => {

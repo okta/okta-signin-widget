@@ -27,6 +27,13 @@ test_suites:
       script_name: testcafe
       criteria: MERGE
       queue_name: small
+    - name: detect-english-leaks
+      script_path: /root/okta/okta-signin-widget/scripts
+      sort_order: '8'
+      timeout: '20'
+      script_name: detect-english-leaks
+      criteria: MERGE
+      queue_name: small
     - name: e2e
       script_path: /root/okta/okta-signin-widget/scripts
       sort_order: '5'
