@@ -22,14 +22,14 @@ exports.builder = {
 
 const suiteMap = {
   karma: {
-    bin: 'karma start',
+    cmd: 'karma start',
     config: 'karma.conf.js',
     preReq: [
       'grunt assets',
     ],
   },
   jest: {
-    bin: 'jest',
+    cmd: 'jest',
     config: 'jest.config.js',
     preReq: [
       'grunt assets',
@@ -42,7 +42,7 @@ exports.handler = async (argv) => {
   const testType = suiteMap[argv.type];
   
   // Start building the test command
-  let cmd = testType.bin;
+  let { cmd } = testType;
 
   if (testType.config) {
     // If we have an available configuration file, use it
