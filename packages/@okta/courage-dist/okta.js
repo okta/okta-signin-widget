@@ -11725,7 +11725,7 @@ var _default = _BaseView.default.extend({
         "name": "i18n",
         "hash": {
           "bundle": "courage",
-          "code": "oform.errorbanner.title"
+          "code": "registration.default.callbackhook.error"
         },
         "data": data,
         "loc": {
