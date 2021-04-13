@@ -86,6 +86,6 @@ test
     await enrollRsaPage.waitForErrorBox();
     const errorBox = enrollRsaPage.getErrorBox();
     await t.expect(errorBox.innerText)
-      .contains('Wait for token to change, then enter the new tokencode.');
+      .contains('Pin accepted, Wait for token to change, then enter new passcode.');
     await t.expect(enrollRsaPage.getPasscodeValue()).eql('');
   });
