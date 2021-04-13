@@ -147,6 +147,7 @@ const authn = {
     // 'mfa-required-email',
     // 'unauthenticated',
     'admin-consent-required',
+    // 'password-expired',
   ],
   '/api/v1/authn': [
     'unauthenticated',
