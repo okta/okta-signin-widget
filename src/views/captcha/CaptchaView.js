@@ -74,7 +74,7 @@ export default View.extend({
     scriptTag.async = true;
     scriptTag.defer = true;
     // TODO: use reference to ID instead of harcoding; USE WIDGET_CONTAINER_ID
-    document.getElementById('okta-login-container').appendChild(scriptTag);
+    document.getElementById(Enums.WIDGET_CONTAINER_ID).appendChild(scriptTag);
   },
 
   _getFieldWithCaptchaHint() {

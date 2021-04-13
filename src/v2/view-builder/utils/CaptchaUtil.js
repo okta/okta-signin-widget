@@ -14,13 +14,14 @@ const HCAPTCHA_PRIVACY_URL = 'https://hcaptcha.com/privacy';
 const HCAPTCHA_TERMS_URL = 'https://hcaptcha.com/terms';
 
 import { loc, _ } from 'okta';
+import Enums from 'util/Enums';
 
 function addHCaptchaFooter() {
   // NOTE: insetAdjacentHTML() is supported in all major browsers: 
   // https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML#browser_compatibility
-  document.getElementById('okta-login-container').insertAdjacentHTML('beforeend',
+  document.getElementById(Enums.WIDGET_CONTAINER_ID).insertAdjacentHTML('beforeend',
     `<div class="footer">
-        ${loc('captcha.footer.label', 'login', [HCAPTCHA_PRIVACY_URL, HCAPTCHA_TERMS_URL])}
+        <span>${loc('captcha.footer.label', 'login', [HCAPTCHA_PRIVACY_URL, HCAPTCHA_TERMS_URL])}</span>
       </div>`
   );
 }
