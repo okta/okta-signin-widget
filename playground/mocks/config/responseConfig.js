@@ -121,8 +121,7 @@ const idx = {
     // 'authenticator-verification-google-authenticator',
   ],
   '/idp/idx/enroll/new': [
-    'error-new-signup-email',
-    'error-new-signup-email-exists'
+    'error-new-signup-failed-hook'
   ],
   '/idp/idx/cancel': [
     'identify',
