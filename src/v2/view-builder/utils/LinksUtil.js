@@ -133,7 +133,7 @@ const getReloadPageButtonLink = () => {
   return [
     {
       'type': 'link',
-      'label': 'Try again',
+      'label': loc('oie.try.again', 'login'),
       'name': 'try-again',
       'href': window.location,
       'className': 'button button-primary text-align-c'
