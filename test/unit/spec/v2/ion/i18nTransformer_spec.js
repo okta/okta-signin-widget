@@ -1,6 +1,6 @@
 import { _ } from 'okta';
 import i18nTransformer from 'v2/ion/i18nTransformer';
-import { getMessageKey, getI18NParams } from 'v2/ion/i18nTransformer';
+import { getMessageKey, getI18NParams, getMessage, getMessageFromBrowserError } from 'v2/ion/i18nTransformer';
 import Bundles from 'util/Bundles';
 
 describe('v2/ion/i18nTransformer', function() {
@@ -53,6 +53,7 @@ describe('v2/ion/i18nTransformer', function() {
 
       'password.forgot.email.or.username.placeholder': 'email or username',
 
+      'oie.browser.error.NotAllowedError': 'translated browser thrown error',
     }, (value) => `unit test - ${value}`);
   });
   afterAll(() => {
@@ -1751,5 +1752,129 @@ describe('v2/ion/i18nTransformer', function() {
       }
     };
     expect(getI18NParams(remediation, 'google_otp')).toEqual([]);
+  });
+
+  it('should get translated error message if the browser thrown error supported in our i18n bundle', () => {
+    expect(getMessageFromBrowserError({
+      message: 'browser message',
+      name: 'NotAllowedError'
+    })).toEqual('unit test - translated browser thrown error');
+  });
+
+  it('should get original message if the browser thrown error is not supported in our i18n bundle', () => {
+    expect(getMessageFromBrowserError({
+      message: 'browser message',
+      name: 'UnsupportedErrorName'
+    })).toEqual('browser message');
+  });
+
+  const expectedWebAuthnGenericError = 'You are currently unable to use a Security key or biometric authenticator. Try again.';
+
+  it.each([
+    [
+      'authfactor.webauthn.error.assertion_validation_failure',
+      {
+        message:'None of the WebAuthn authenticators the user has enrolled for was able to validate the assertion',
+        i18n:{
+          key:'authfactor.webauthn.error.assertion_validation_failure',
+        }
+      },
+      expectedWebAuthnGenericError,
+    ], [
+      'authfactor.webauthn.error.authdata_validation_failure_during_authentication_challenge',
+      {
+        message:'Failed to validate authenticator data during WebAuthn verification.',
+        i18n:{
+          key:'authfactor.webauthn.error.authdata_validation_failure_during_authentication_challenge',
+        }
+      },
+      expectedWebAuthnGenericError,
+    ], [
+      'authfactor.webauthn.error.clientdata_challenge_mismatch',
+      {
+        message:'Challenge in client data doesn\'t match with server side value',
+        i18n:{
+          key:'authfactor.webauthn.error.clientdata_challenge_mismatch',
+        }
+      },
+      expectedWebAuthnGenericError,
+    ], [
+      'authfactor.webauthn.error.clientdata_challenge_missing',
+      {
+        message:'No challenge parameter in client data',
+        i18n:{
+          key:'authfactor.webauthn.error.clientdata_challenge_missing',
+        }
+      },
+      expectedWebAuthnGenericError,
+    ], [
+      'authfactor.webauthn.error.signature_verification_failure',
+      {
+        message:'Signature verification was unsuccessful.',
+        i18n:{
+          key:'authfactor.webauthn.error.signature_verification_failure',
+        }
+      },
+      expectedWebAuthnGenericError,
+    ], [
+      'authfactor.webauthn.error.clientdata_origin_missing',
+      {
+        message:'No origin parameter in client data',
+        i18n:{
+          key:'authfactor.webauthn.error.clientdata_origin_missing',
+        }
+      },
+      expectedWebAuthnGenericError,
+    ], [
+      'authfactor.webauthn.error.clientdata_origin_mismatch',
+      {
+        message: 'Origin parameter in client data doesn\'t match. clientData origin was {0}',
+        i18n: {
+          key: 'authfactor.webauthn.error.clientdata_origin_mismatch',
+          params: ['https://idx.okta1.com']
+        },
+      },
+      expectedWebAuthnGenericError,
+    ], [
+      'authfactor.webauthn.error.clientdata_message_type_mismatch',
+      {
+        message: 'Message type in client data doesn\'t match expected message type.',
+        i18n: {
+          key: 'authfactor.webauthn.error.clientdata_message_type_mismatch',
+        },
+      },
+      expectedWebAuthnGenericError,
+    ], [
+      'authfactor.webauthn.error.clientdata_parsing_failed',
+      {
+        message:'Client data parsing failed',
+        i18n:{
+          key:'authfactor.webauthn.error.clientdata_parsing_failed',
+        },
+      },
+      expectedWebAuthnGenericError,
+    ], [
+      'authfactor.webauthn.error.invalid_enrollment_request_data',
+      {
+        message:'Invalid data in the WebAuthn enrollment request. {0}',
+        i18n:{
+          key:'authfactor.webauthn.error.invalid_enrollment_request_data',
+          params: ['User present bit was not set'],
+        },
+      },
+      expectedWebAuthnGenericError,
+    ], [
+      'authfactor.webauthn.not.known.api.error',
+      {
+        message:'This is not a api error that can be generic.',
+        i18n:{
+          key:'authfactor.webauthn.not.known.api.error',
+        },
+      },
+      'This is not a api error that can be generic.',
+    ],
+  ])('should render correct error message by get key from API: %s', (key, error, expectedMessage) => {
+    Bundles.login = originalLoginBundle;
+    expect(getMessage(error)).toEqual(expectedMessage);
   });
 });

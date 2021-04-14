@@ -46,6 +46,8 @@ import Logger from 'util/Logger';
 import { getAuthenticatorDisplayName } from '../view-builder/utils/AuthenticatorUtil';
 import { FORMS, AUTHENTICATOR_KEY } from './RemediationConstants';
 
+const WEBAUTHN_API_GENERIC_ERROR_KEY = 'authfactor.webauthn.error';
+
 const SECURITY_QUESTION_PREFIXES = [
   'enroll-authenticator.security_question.credentials.questionKey.',
   'challenge-authenticator.security_question.credentials.questionKey.',
@@ -256,6 +258,8 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
 
 };
 
+const isWebAuthnAPIError = ( i18nKey ) => i18nKey.startsWith(WEBAUTHN_API_GENERIC_ERROR_KEY);
+
 /**
  * @typedef {Object} Message
  * @property {string} message
@@ -278,9 +282,29 @@ const getMessage = (message) => {
       // e.g. the i18n value shall have placeholders like `{0}`, when params is not empty.
       return loc(i18nKey, 'login', message.i18n.params || []);
     }
+    if (isWebAuthnAPIError(i18nKey)) {
+      // The WebAuthn api error doesn't make much sense to a typical end user, but useful for developer.
+      // So keep the api message in response, but show a generic error message on UI.
+      return loc(WEBAUTHN_API_GENERIC_ERROR_KEY, 'login');
+    }
   }
   Logger.warn(`Avoid rendering unlocalized text sent from the API: ${message.message}`);
   return message.message;
+};
+
+/**
+ * @param {Object} error
+ */
+const getMessageFromBrowserError = (error) => {
+  if (error.name) {
+    const key = `oie.browser.error.${error.name}`;
+    if (Bundles.login[key]) {
+      Logger.info(`Override messages using i18n key ${key}`);
+      // expect user config i18n properly.
+      return loc(key, 'login');
+    }
+  }
+  return error.message;
 };
 
 /**
@@ -328,4 +352,11 @@ const isCustomizedI18nKey = (i18nKey, settings) => {
   return !!customizedProperty;
 };
 
-export { uiSchemaLabelTransformer as default, getMessage, getMessageKey, getI18NParams, isCustomizedI18nKey };
+export {
+  uiSchemaLabelTransformer as default,
+  getMessage,
+  getMessageKey,
+  getI18NParams,
+  isCustomizedI18nKey,
+  getMessageFromBrowserError
+};
