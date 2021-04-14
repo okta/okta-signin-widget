@@ -12,7 +12,9 @@ const Body = BaseForm.extend({
   },
 
   subtitle() {
-    return loc('oie.phone.enroll.subtitle', 'login');
+    return this.model.get('authenticator.methodType') === 'voice'
+      ? loc('oie.phone.enroll.call.subtitle', 'login')
+      : loc('oie.phone.enroll.sms.subtitle', 'login');
   },
 
   render() {
