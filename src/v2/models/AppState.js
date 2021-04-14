@@ -104,7 +104,7 @@ export default Model.extend({
       Logger.error(`\tAll available form names: ${allFormNames}`);
     }
 
-    // check CAPTCHA_SUPPORT is enabled - Ensure CAPTCHA config is part of current view state if defined.
+    // Ensure CAPTCHA config is part of current view state if defined.
     const captchaConfig = this.get('captcha');
     if (captchaConfig) {
       currentViewState['captcha'] = captchaConfig;

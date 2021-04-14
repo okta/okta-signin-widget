@@ -79,4 +79,9 @@ export default {
   UNIVERSAL_LINK_CHALLENGE: 'UNIVERSAL_LINK',
 
   LAUNCH_AUTHENTICATOR_REMEDIATION_NAME: 'launch-authenticator',
+
+  // Possible Remediation Form Field Hints
+  HINTS: {
+    CAPTCHA: 'captcha'
+  },
 };

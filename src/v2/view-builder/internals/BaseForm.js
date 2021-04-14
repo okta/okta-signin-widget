@@ -1,5 +1,6 @@
-import { _, $, Form, loc, internal } from 'okta';
+import { _, Form, loc, internal } from 'okta';
 import FormInputFactory from './FormInputFactory';
+import Enums from 'util/Enums';
 
 const { FormUtil } = internal.views.forms.helpers;
 
@@ -40,7 +41,7 @@ export default Form.extend({
       this.addInputOrView(input);
     });
 
-    // Render CAPTCHA if we need to and if FF CAPTCHA_SUPPORT is enabled
+    // Render CAPTCHA if we need to
     if (this._shouldRenderCaptcha(uiSchemas) && this.options.currentViewState.captcha) {
       this.addCaptcha(this.options.currentViewState.captcha.value);
     }
@@ -80,8 +81,8 @@ export default Form.extend({
   addCaptcha (captchaConfig) {
     const onCaptchaSolved = (token) => {
       // Set the token in the model and submit the form.
-      // TODO: get the field that has the "hint" instead of hardcoding
-      this.model.set('captchaVerify.captchaToken', token);
+      const fieldName = this._getFieldWithCaptchaHint();
+      this.model.set(fieldName, token);
       this.saveForm(this.model);
     };
 
@@ -168,8 +169,7 @@ export default Form.extend({
     scriptTag.src = url;
     scriptTag.async = true;
     scriptTag.defer = true;
-    // TODO: use reference to ID instead of harcoding; USE WIDGET_CONTAINER_ID
-    document.getElementById('okta-login-container').appendChild(scriptTag);
+    document.getElementById(Enums.WIDGET_CONTAINER_ID).appendChild(scriptTag);
   },
 
   /**
@@ -179,19 +179,28 @@ export default Form.extend({
   * */ 
   _shouldRenderCaptcha (uiSchemas) {
     for (const schema of uiSchemas) {
-      if (schema.hint && schema.hint === 'captcha') {
+      if (schema.hint && schema.hint === Enums.HINTS.CAPTCHA) {
         return true;
       }
     }
     return false;
   },
 
+  _getFieldWithCaptchaHint () {
+    const uiSchema = this.options.currentViewState.uiSchema || [];
+    for (const schema of uiSchema) {
+      if (schema.hint === Enums.HINTS.CAPTCHA) {
+        return schema.name;
+      }
+    }
+  },
+
   _addHCaptchaFooter () {
     // NOTE: insetAdjacentHTML() is supported in all major browsers: 
     // https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML#browser_compatibility
-    document.getElementById('okta-login-container').insertAdjacentHTML('beforeend',
+    document.getElementById(Enums.WIDGET_CONTAINER_ID).insertAdjacentHTML('beforeend',
       `<div class="footer">
-        ${loc('captcha.footer.label', 'login', [HCAPTCHA_PRIVACY_URL, HCAPTCHA_TERMS_URL])}
+        <span>${loc('captcha.footer.label', 'login', [HCAPTCHA_PRIVACY_URL, HCAPTCHA_TERMS_URL])}</span>
       </div>`
     );
   },

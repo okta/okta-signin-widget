@@ -54,7 +54,7 @@ const getFirstLevelObjects = (resp) => {
       result[key] = val.value;
     }
 
-    // for handling attributes with type object -  check if CAPTCHA_SUPPORT is enabled
+    // for handling CAPTCHA
     if (key === 'captcha') {
       result[key] = val;
     }
