@@ -15,6 +15,8 @@ import magicLinkReturnTab from '../../../playground/mocks/data/idp/idx/terminal-
 import magicLinkExpired from '../../../playground/mocks/data/idp/idx/terminal-return-expired-email';
 import terminalTransferedEmail from '../../../playground/mocks/data/idp/idx/terminal-transfered-email';
 import sessionExpired from '../../../playground/mocks/data/idp/idx/error-session-expired';
+import tooManyRequest from '../../../playground/mocks/data/idp/idx/error-429-too-many-request';
+import apiLimitExeeeded from '../../../playground/mocks/data/idp/idx/error-429-api-limit-exceeded';
 
 const emailVerificationEmptyProfile = JSON.parse(JSON.stringify(emailVerificationNoProfile));
 // add empty profile to test
@@ -98,6 +100,18 @@ const dynamicRefreshShortIntervalMock = RequestMock()
 const dynamicRefreshLongIntervalMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(emailVerificationPollingLong);
+
+const tooManyRequestMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerificationPolling)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(tooManyRequest, 429);
+
+const apiLimitExeededMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerificationPolling)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(apiLimitExeeeded, 429);
 
 
 fixture('Challenge Email Authenticator Form');
@@ -310,4 +324,46 @@ test
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
     )).eql(5);
+  });
+
+test
+  .requestHooks(logger, tooManyRequestMock)('pause polling when encounter 429 too many request', async t => {
+    await setup(t);
+
+    // Encounter 429
+    await t.expect(logger.count(
+      record => record.response.statusCode === 429 &&
+        record.request.url.match(/poll/)
+    )).eql(1);
+
+    await t.removeRequestHooks(tooManyRequestMock);
+    await t.addRequestHooks(validOTPmock);
+
+    // Pause for 60 sec before sending request
+    await t.wait(60000);
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/poll/)
+    )).eql(1);
+  });
+
+test
+  .requestHooks(logger, apiLimitExeededMock)('pause polling when encounter 429 api limit exeeded', async t => {
+    await setup(t);
+
+    // Encounter 429
+    await t.expect(logger.count(
+      record => record.response.statusCode === 429 &&
+        record.request.url.match(/poll/)
+    )).eql(1);
+
+    await t.removeRequestHooks(apiLimitExeededMock);
+    await t.addRequestHooks(validOTPmock);
+
+    // Pause for 60 sec before sending request
+    await t.wait(60000);
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/poll/)
+    )).eql(1);
   });
