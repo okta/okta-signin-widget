@@ -7,7 +7,7 @@
     "type": "array",
     "value": [
       {
-        "message": "Follow the instructions on your device for next steps.",
+        "message": "Follow the instructions on your device for next steps",
         "i18n": {
           "key": "idx.device.activated"
         },

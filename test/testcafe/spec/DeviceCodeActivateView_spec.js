@@ -4,7 +4,8 @@ import deviceCodeActivateResponse from '../../../playground/mocks/data/idp/idx/d
 import idxActivateResponse from '../../../playground/mocks/data/idp/idx/identify-with-password.json';
 import idxActivateErrorResponse from '../../../playground/mocks/data/idp/idx/error-invalid-device-code.json';
 import idxDeviceActivatedTerminalResponse from '../../../playground/mocks/data/idp/idx/terminal-device-activated.json';
-import idxDeviceNotActivatedTerminalResponse from '../../../playground/mocks/data/idp/idx/terminal-device-not-activated.json';
+import idxDeviceNotActivatedConsentDeniedResponse from '../../../playground/mocks/data/idp/idx/terminal-device-not-activated-consent-denied.json';
+import idxDeviceNotActivatedInternalErrorResponse from '../../../playground/mocks/data/idp/idx/terminal-device-not-activated-internal-error.json';
 
 const deviceCodeSuccessMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -14,13 +15,21 @@ const deviceCodeSuccessMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(idxDeviceActivatedTerminalResponse);
 
-const deviceCodeFailureMock = RequestMock()
+const deviceCodeConsentDeniedMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(deviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/idp/idx/activate')
   .respond(idxActivateResponse)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
-  .respond(idxDeviceNotActivatedTerminalResponse);
+  .respond(idxDeviceNotActivatedConsentDeniedResponse);
+
+const deviceCodeInternalErrorMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(deviceCodeActivateResponse)
+  .onRequestTo('http://localhost:3000/idp/idx/activate')
+  .respond(idxActivateResponse)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(idxDeviceNotActivatedInternalErrorResponse);
 
 const invalidDeviceCodeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -49,19 +58,19 @@ test.requestHooks(identifyRequestLogger, deviceCodeSuccessMock)('should be able 
   const deviceCodeActivatePageObject = await setup(t);
 
   await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Activate your device');
-  await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).eql('Follow the instructions on your device to get an activation code.');
+  await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).eql('Follow the instructions on your device to get an activation code');
   await t.expect(await deviceCodeActivatePageObject.getActivationCodeTextBoxLabel()).eql('Activation Code');
   await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
 
   // submit user code
-  await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABC-XYZ');
+  await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
 
   await t.expect(identifyRequestLogger.count(() => true)).eql(2);
   const req = identifyRequestLogger.requests[1].request;
   const reqBody = JSON.parse(req.body);
   await t.expect(reqBody).eql({
-    userCode: 'ABC-XYZ',
+    userCode: 'ABCD-WXYZ',
     stateHandle: '02itnqG312DoS3cU0z0LWs11l76yQ8ll4d95Oye61u',
   });
   await t.expect(req.method).eql('post');
@@ -89,14 +98,17 @@ test.requestHooks(identifyRequestLogger, deviceCodeSuccessMock)('should be able 
 
   // expect device activated screen
   await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Device activated');
-  await t.expect(deviceCodeActivatePageObject.getTerminalContent()).eql('Follow the instructions on your device for next steps.');
+  await t.expect(deviceCodeActivatePageObject.getTerminalContent()).eql('Follow the instructions on your device for next steps');
+  await t.expect(deviceCodeActivatePageObject.isTerminalSuccessIconPresent()).eql(true);
+  await t.expect(deviceCodeActivatePageObject.isBeaconTerminalPresent()).eql(false);
+  await t.expect(deviceCodeActivatePageObject.isTryAgainButtonPresent()).eql(false);
 });
 
-test.requestHooks(deviceCodeFailureMock)('should be able to get device not activated screen when sign in flow fails', async t => {
+test.requestHooks(deviceCodeConsentDeniedMock)('should be able to get device not activated screen when consent is denied', async t => {
   const deviceCodeActivatePageObject = await setup(t);
 
   // submit user code
-  await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABC-XYZ');
+  await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCD-WXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
 
   // identify with password
@@ -106,7 +118,30 @@ test.requestHooks(deviceCodeFailureMock)('should be able to get device not activ
 
   // expect device not activated screen
   await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Device not activated');
-  await t.expect(deviceCodeActivatePageObject.getGlobalErrors()).contains('Your device cannot be activated because you did not allow access.');
+  await t.expect(deviceCodeActivatePageObject.getTerminalContent()).contains('Your device cannot be activated because you did not allow access');
+  await t.expect(deviceCodeActivatePageObject.isTerminalErrorIconPresent()).eql(true);
+  await t.expect(deviceCodeActivatePageObject.isBeaconTerminalPresent()).eql(false);
+  await t.expect(deviceCodeActivatePageObject.isTryAgainButtonPresent()).eql(true);
+});
+
+test.requestHooks(deviceCodeInternalErrorMock)('should be able to get device not activated screen when there is an internal error', async t => {
+  const deviceCodeActivatePageObject = await setup(t);
+
+  // submit user code
+  await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCD-WXYZ');
+  await deviceCodeActivatePageObject.clickNextButton();
+
+  // identify with password
+  await deviceCodeActivatePageObject.fillIdentifierField('Test Identifier');
+  await deviceCodeActivatePageObject.fillPasswordField('random password 123');
+  await deviceCodeActivatePageObject.clickNextButton();
+
+  // expect device not activated screen
+  await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Device not activated');
+  await t.expect(deviceCodeActivatePageObject.getTerminalContent()).contains('Your device cannot be activated because of an internal error');
+  await t.expect(deviceCodeActivatePageObject.isTerminalErrorIconPresent()).eql(true);
+  await t.expect(deviceCodeActivatePageObject.isBeaconTerminalPresent()).eql(false);
+  await t.expect(deviceCodeActivatePageObject.isTryAgainButtonPresent()).eql(true);
 });
 
 test.requestHooks(invalidDeviceCodeMock)('should be able show error when wrong activation code is entered', async t => {
@@ -114,8 +149,20 @@ test.requestHooks(invalidDeviceCodeMock)('should be able show error when wrong a
   const deviceCodeActivatePageObject = await setup(t);
   await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
 
-  await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABC-XYZ');
+  await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCD-WXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
 
   await t.expect(deviceCodeActivatePageObject.getGlobalErrors()).contains('Invalid code. Try again.');
+});
+
+test.requestHooks(identifyRequestLogger, deviceCodeSuccessMock)('should be able to add hyphen automatically after 4th char in activation code input', async t => {
+  identifyRequestLogger.clear();
+  const deviceCodeActivatePageObject = await setup(t);
+
+  await t.expect(await deviceCodeActivatePageObject.getActivationCodeTextBoxLabel()).eql('Activation Code');
+  await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
+
+  await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDE');
+  // expect hyphen after 4th character
+  await t.expect(deviceCodeActivatePageObject.getActivateCodeTextBoxValue()).eql('ABCD-E');
 });

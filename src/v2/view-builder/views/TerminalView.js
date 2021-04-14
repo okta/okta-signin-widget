@@ -1,6 +1,6 @@
 import { createCallout, loc } from 'okta';
 import { BaseForm, BaseFooter, BaseView } from '../internals';
-import { getBackToSignInLink, getSkipSetupLink } from '../utils/LinksUtil';
+import { getBackToSignInLink, getSkipSetupLink, getReloadPageButtonLink } from '../utils/LinksUtil';
 import EmailAuthenticatorHeader from '../components/EmailAuthenticatorHeader';
 
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
@@ -10,7 +10,8 @@ const RETURN_TO_ORIGINAL_TAB_KEY = 'idx.return.to.original.tab';
 const OPERATION_CANCELED_ON_OTHER_DEVICE_KEY = 'idx.operation.cancelled.on.other.device';
 const OPERATION_CANCELED_BY_USER_KEY = 'idx.operation.cancelled.by.user';
 const DEVICE_ACTIVATED = 'idx.device.activated';
-const DEVICE_NOT_ACTIVATED = 'idx.device.not.activated';
+const DEVICE_NOT_ACTIVATED_CONSENT_DENIED = 'idx.device.not.activated.consent.denied';
+const DEVICE_NOT_ACTIVATED_INTERNAL_ERROR = 'idx.device.not.activated.internal.error';
 
 export const REGISTRATION_NOT_ENABLED = 'oie.registration.is.not.enabled';
 
@@ -30,12 +31,31 @@ const GET_BACK_TO_SIGN_LINK_FLOWS = [
   REGISTRATION_NOT_ENABLED,
 ];
 
+const DEVICE_CODE_ERROR_KEYS = [
+  DEVICE_NOT_ACTIVATED_CONSENT_DENIED,
+  DEVICE_NOT_ACTIVATED_INTERNAL_ERROR
+];
+
+const DEVICE_CODE_FLOW_TERMINAL_KEYS = [
+  DEVICE_ACTIVATED,
+  ...DEVICE_CODE_ERROR_KEYS
+];
+
 const Body = BaseForm.extend({
   noButtonBar: true,
 
   postRender() {
     BaseForm.prototype.postRender.apply(this, arguments);
     this.$el.addClass('terminal-state');
+
+    // show device code terminal icons
+    if (this.options.appState.containsMessageWithI18nKey(DEVICE_CODE_FLOW_TERMINAL_KEYS)) {
+      const iconClass = this.options.appState.containsMessageWithI18nKey(DEVICE_ACTIVATED)
+        ? 'success-24-green' : 'error-24-red';
+      this.$('.o-form-head').before('<div class="device-code-terminal--icon-container">' +
+        '<span class="device-code-terminal--icon ' + iconClass + '"></span>' +
+        '</div>');
+    }
   },
 
   title() {
@@ -51,7 +71,7 @@ const Body = BaseForm.extend({
     if (this.options.appState.containsMessageWithI18nKey(DEVICE_ACTIVATED)) {
       return loc('oie.device.code.activated.success.title', 'login');
     }
-    if (this.options.appState.containsMessageWithI18nKey(DEVICE_NOT_ACTIVATED)) {
+    if (this.options.appState.containsMessageWithI18nKey(DEVICE_CODE_ERROR_KEYS)) {
       return loc('oie.device.code.activated.error.title', 'login');
     }
     if (this.options.appState.containsMessageWithI18nKey(REGISTRATION_NOT_ENABLED)) {
@@ -89,7 +109,6 @@ const Body = BaseForm.extend({
             this.add(`<p>${msg}</p>`, '.ion-messages-container');
           }
         });
-
     }
   },
 
@@ -102,6 +121,9 @@ const Footer = BaseFooter.extend({
     }
     if (this.options.appState.containsMessageStartingWithI18nKey(SAFE_MODE_KEY_PREFIX)) {
       return getSkipSetupLink(this.options.appState);
+    }
+    if (this.options.appState.containsMessageWithI18nKey(DEVICE_CODE_ERROR_KEYS)) {
+      return getReloadPageButtonLink();
     }
   }
 });
