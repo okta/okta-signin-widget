@@ -27,7 +27,6 @@ describe('v2/ion/i18nTransformer', function() {
 
       'enroll.onprem.username.placeholder': 'enter {0} username',
       'enroll.onprem.passcode.placeholder': 'enter {0} passcode',
-      'errors.E0000106': 'token change mode',
       'errors.E0000113': '{0}',
 
       'factor.totpHard.rsaSecurId': 'rsa',
@@ -1124,55 +1123,6 @@ describe('v2/ion/i18nTransformer', function() {
               'key': 'idx.foo',
               'params': [
                 'Email'
-              ]
-            },
-            'class': 'INFO'
-          }
-        ]
-      }
-    });
-  });
-
-  it('converts errors.E0000106 message', () => {
-    const resp = {
-      messages: {
-        value: [
-          {
-            'message': 'Wait for token to change, then enter the new tokencode',
-            'i18n': {
-              'key': 'errors.E0000106'
-            },
-            'class': 'INFO'
-          },
-          {
-            'message': 'another {0} message',
-            'i18n': {
-              'key': 'idx.foo',
-              'params': [
-                'Atko custom on-prem'
-              ]
-            },
-            'class': 'INFO'
-          }
-        ]
-      }
-    };
-    expect(i18nTransformer(resp)).toEqual({
-      messages: {
-        value: [
-          {
-            'message': 'unit test - token change mode',
-            'i18n': {
-              'key': 'errors.E0000106'
-            },
-            'class': 'INFO'
-          },
-          {
-            'message': 'unit test - hello the Atko custom on-prem authenticator',
-            'i18n': {
-              'key': 'idx.foo',
-              'params': [
-                'Atko custom on-prem'
               ]
             },
             'class': 'INFO'
