@@ -32,8 +32,6 @@ const Body = BaseForm.extend({
       element: this.$el,
     };
 
-    this.model.trigger('request');
-
     DeviceFingerprinting.generateDeviceFingerprint(fingerprintData)
       .then(fingerprint => {
         this.options.appState.set('deviceFingerprint', fingerprint);
