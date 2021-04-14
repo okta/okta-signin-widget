@@ -3,6 +3,7 @@ import IdPAuthenticatorPageObject from '../framework/page-objects/IdPAuthenticat
 import xhrEnrollIdPAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-enroll-idp.json';
 import xhrEnrollIdPAuthenticatorError from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-idp.json';
 import xhrVerifyIdPAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp.json';
+import xhrVerifyIdPAuthenticatorSingleRemediation from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-single-remediation.json';
 import xhrVerifyIdPAuthenticatorError from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-idp.json';
 
 const logger = RequestLogger(/introspect/,
@@ -25,6 +26,14 @@ const enrollErrorMock = RequestMock()
   .respond(xhrEnrollIdPAuthenticatorError);
 
 const verifyMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrVerifyIdPAuthenticatorSingleRemediation)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrVerifyIdPAuthenticatorSingleRemediation)
+  .onRequestTo('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk')
+  .respond('<html><h1>An external IdP login page for testcafe testing</h1></html>');
+
+const verifyMockWithSelect = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrVerifyIdPAuthenticator)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
@@ -73,7 +82,7 @@ test
 
     await t.expect(pageObject.getPageTitle()).eql('Set up IDP Authenticator');
     await t.expect(pageObject.getPageSubtitle()).eql('Clicking below will redirect to enrollment in IDP Authenticator');
-    await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to enroll. Try again or contact your admin for assistance.');
+    await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to enroll authenticator. Try again or contact your admin for assistance.');
   });
 
 fixture('Verify IdP Authenticator');
@@ -91,10 +100,23 @@ test
   });
 
 test
+  .requestHooks(logger, verifyMockWithSelect)('verify with IdP authenticator and multiple remediation forms', async t => {
+    const pageObject = await setup(t, true);
+
+    await t.expect(pageObject.getPageTitle()).eql('Verify with IDP Authenticator');
+    await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to verify with IDP Authenticator');
+    await pageObject.submit();
+
+    const pageUrl = await pageObject.getPageUrl();
+    await t.expect(pageUrl)
+      .eql('http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk');
+  });
+
+test
   .requestHooks(logger, verifyErrorMock)('verify with IdP authenticator surfaces error messages', async t => {
     const pageObject = await setup(t, true);
 
     await t.expect(pageObject.getPageTitle()).eql('Verify with IDP Authenticator');
     await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to verify with IDP Authenticator');
-    await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to verify. Try again or contact your admin for assistance.');
+    await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to verify authenticator. Try again or contact your admin for assistance.');
   });

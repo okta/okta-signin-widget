@@ -7,9 +7,9 @@
     "type": "array",
     "value": [
       {
-        "message": "Unable to enroll. Try again or contact your admin for assistance.",
+        "message": "Unable to enroll authenticator. Try again or contact your admin for assistance.",
         "i18n": {
-          "key": "",
+          "key": "oie.authenticator.enroll.error.fail",
           "params": []
         },
         "class": "ERROR"

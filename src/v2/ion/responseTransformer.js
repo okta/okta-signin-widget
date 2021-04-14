@@ -229,12 +229,11 @@ const convert = (settings, idx = {}, lastResult = null) => {
   );
 
   injectIdPConfigButtonToRemediation(settings, result);
+  modifyFormNameForIdPAuthenticator(result);
   if (!result.messages) {
     // Only redirect to the IdP if we are not in an error flow
     convertRedirectIdPToSuccessRedirectIffOneIdp(settings, result, lastResult);
   }
-
-  modifyFormNameForIdPAuthenticator(result);
 
   return result;
 };
