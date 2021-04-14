@@ -126,7 +126,7 @@ test
     await t.expect(pageTitle).contains('Verify with your phone');
     await t.expect(pageSubtitle).contains('Send a code via SMS to');
     await t.expect(pageSubtitle).contains('+1 XXX-XXX-2342');
-    await t.expect(primaryButtonText).contains('Send a code via SMS');
+    await t.expect(primaryButtonText).contains('Receive a code via SMS');
     await t.expect(secondaryButtonText).contains('Receive a voice call instead');
 
     await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
@@ -169,7 +169,7 @@ test
     await t.expect(pageTitle).contains('Verify with your phone');
     await t.expect(pageSubtitle).contains('Send a code via voice call to');
     await t.expect(pageSubtitle).contains('+1 XXX-XXX-2342');
-    await t.expect(primaryButtonText).contains('Send a code via voice call');
+    await t.expect(primaryButtonText).contains('Receive a code via voice call');
     await t.expect(secondaryButtonText).contains('Receive an SMS instead');
   });
 
@@ -183,7 +183,7 @@ test
     await t.expect(pageTitle).contains('Verify with your phone');
     await t.expect(pageSubtitle).contains('Send a code via voice call to');
     await t.expect(pageSubtitle).contains('+1 XXX-XXX-2342');
-    await t.expect(primaryButtonText).contains('Send a code via voice call');
+    await t.expect(primaryButtonText).contains('Receive a code via voice call');
   });
 
 test
@@ -273,7 +273,7 @@ test
     await t.expect(pageTitle).contains('Verify with your phone');
     await t.expect(pageSubtitle).contains('Send a code via SMS to');
     await t.expect(pageSubtitle).contains('your phone');
-    await t.expect(primaryButtonText).contains('Send a code via SMS');
+    await t.expect(primaryButtonText).contains('Receive a code via SMS');
     await t.expect(secondaryButtonText).contains('Receive a voice call instead');
 
     await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
@@ -300,7 +300,7 @@ test
     await t.expect(pageTitle).contains('Verify with your phone');
     await t.expect(pageSubtitle).contains('Send a code via voice call to');
     await t.expect(pageSubtitle).contains('your phone');
-    await t.expect(primaryButtonText).contains('Send a code via voice call');
+    await t.expect(primaryButtonText).contains('Receive a code via voice call');
     await t.expect(secondaryButtonText).contains('Receive an SMS instead');
 
     await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
@@ -327,7 +327,7 @@ test
     await t.expect(pageTitle).contains('Verify with your phone');
     await t.expect(pageSubtitle).contains('Send a code via SMS to');
     await t.expect(pageSubtitle).contains('your phone');
-    await t.expect(primaryButtonText).contains('Send a code via SMS');
+    await t.expect(primaryButtonText).contains('Receive a code via SMS');
     await t.expect(secondaryButtonText).contains('Receive a voice call instead');
 
     await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
@@ -354,7 +354,7 @@ test
     await t.expect(pageTitle).contains('Verify with your phone');
     await t.expect(pageSubtitle).contains('Send a code via voice call to');
     await t.expect(pageSubtitle).contains('your phone');
-    await t.expect(primaryButtonText).contains('Send a code via voice call');
+    await t.expect(primaryButtonText).contains('Receive a code via voice call');
     await t.expect(secondaryButtonText).contains('Receive an SMS instead');
 
     await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
