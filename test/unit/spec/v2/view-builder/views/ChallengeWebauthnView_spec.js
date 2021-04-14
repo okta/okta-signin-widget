@@ -189,13 +189,33 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
       .catch(done.fail);
   });
 
-  it('error is displayed when credentials.get fails', function(done) {
+  it('error with a name that not supported on login bundle is displayed when credentials.create fails', function(done) {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     spyOn(navigator.credentials, 'get').and.returnValue(Promise.reject({ message: 'error from browser' }));
+
     testContext.init();
+
     Expect.waitForCss('.infobox-error')
       .then(() => {
-        expect(testContext.view.$el.find('.infobox-error')[0].textContent.trim()).toBe('error from browser');
+        expect(testContext.view.$('.infobox-error')[0].textContent.trim()).toBe('error from browser');
+        expect(testContext.view.form.webauthnAbortController).toBe(null);
+        done();
+      })
+      .catch(done.fail);
+  });
+
+  it('error with a name that supported on login bundle is displayed when credentials.create fails', function(done) {
+    spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
+    spyOn(navigator.credentials, 'get').and.returnValue(Promise.reject({
+      message: 'error from browser',
+      name: 'NotAllowedError',
+    }));
+
+    testContext.init();
+
+    Expect.waitForCss('.infobox-error')
+      .then(() => {
+        expect(testContext.view.$('.infobox-error')[0].textContent.trim()).toBe('The operation either timed out or was not allowed.');
         expect(testContext.view.form.webauthnAbortController).toBe(null);
         done();
       })
