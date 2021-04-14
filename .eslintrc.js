@@ -1,5 +1,8 @@
 module.exports = {
-  'extends': ['eslint:recommended'],
+  'extends': [
+    'eslint:recommended',
+    'plugin:json/recommended'
+  ],
   'env': {
     'browser': true,
     'jasmine': true,
@@ -26,6 +29,12 @@ module.exports = {
       'files': ['src/**/*.js'],
       'rules': {
         'local-rules/no-bare-templates': 2,
+      }
+    },
+    {
+      'files': ['packages/**/*.json'],
+      'rules': {
+        'local-rules/no-missing-keys': 2,
       }
     }
   ],
