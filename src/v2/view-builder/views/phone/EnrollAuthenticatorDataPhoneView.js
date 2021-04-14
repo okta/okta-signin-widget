@@ -56,7 +56,6 @@ const Body = BaseForm.extend({
 
     // TODO: Using underscore to support IE, replace with Array.prototype methods (find, findIndex) when IE
     // support is removed
-    const phoneNumberUISchema = _.find(uiSchemas, ({ name }) => name === 'authenticator.phoneNumber');
     const phoneNumberUISchemaIndex = _.findIndex(uiSchemas, ({ name }) => name === 'authenticator.phoneNumber');
 
     const countryUISchema = {
@@ -82,7 +81,7 @@ const Body = BaseForm.extend({
           label: `+${this.model.get('phoneCode')}`,
           className: 'phone-authenticator-enroll__phone-code',
         },
-        Object.assign({}, phoneNumberUISchema),
+        Object.assign({}, uiSchemas[phoneNumberUISchemaIndex]),
       ],
     };
 
@@ -106,6 +105,12 @@ const Body = BaseForm.extend({
       // Add countryUISchema before & extensionUISchema after phone..
       uiSchemas.splice(phoneNumberUISchemaIndex, 0, countryUISchema);
       uiSchemas.splice(phoneNumberUISchemaIndex + 2, 0, extensionUISchema);
+    }
+
+    const methodType = _.find(uiSchemas,  ({ name }) => name === 'authenticator.methodType');
+
+    if (methodType && methodType.options.length === 1) {
+      methodType.className = 'hide';
     }
 
     return uiSchemas;
