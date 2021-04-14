@@ -4,6 +4,7 @@ import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import webauthn from '../../../../util/webauthn';
 import CryptoUtil from '../../../../util/CryptoUtil';
 import EnrollWebauthnInfoView from './EnrollWebauthnInfoView';
+import { getMessageFromBrowserError } from '../../../ion/i18nTransformer';
 
 function getExcludeCredentials(authenticatorEnrollments = []) {
   const credentials = [];
@@ -80,7 +81,7 @@ const Body = BaseForm.extend({
         this.saveForm(this.model);
       })
         .catch((error) => {
-          this.model.trigger('error', this.model, {responseJSON: {errorSummary: error.message}});
+          this.model.trigger('error', this.model, {responseJSON: {errorSummary: getMessageFromBrowserError(error)}});
         }).finally(() => {
           this.webauthnAbortController = null;
         });

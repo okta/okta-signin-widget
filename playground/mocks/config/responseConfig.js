@@ -95,6 +95,7 @@ const idx = {
     // 'terminal-return-expired-email',
     // 'error-answer-passcode-invalid'
     'error-authenticator-enroll-security-question'
+    // 'error-authenticator-webauthn-failure'
   ],
   '/idp/idx/challenge/send': [
     // 'authenticator-enroll-ov-sms',

@@ -5,6 +5,7 @@ import CryptoUtil from '../../../../util/CryptoUtil';
 import webauthn from '../../../../util/webauthn';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import ChallengeWebauthnInfoView from './ChallengeWebauthnInfoView';
+import { getMessageFromBrowserError } from '../../../ion/i18nTransformer';
 
 const Body = BaseForm.extend({
 
@@ -94,7 +95,7 @@ const Body = BaseForm.extend({
       // Do not display if it is abort error triggered by code when switching.
       // this.webauthnAbortController would be null if abort was triggered by code.
       if (this.webauthnAbortController) {
-        this.model.trigger('error', this.model, { responseJSON: { errorSummary: error.message } });
+        this.model.trigger('error', this.model, {responseJSON: {errorSummary: getMessageFromBrowserError(error)}});
       }
     }).finally(() => {
       // unset webauthnAbortController on successful authentication or error
