@@ -26,6 +26,14 @@ function addHCaptchaFooter() {
   );
 }
 
+/**
+ *  Bind the CAPTCHA to the specified form's submit button(s). This will hijack the submit button's normal
+ *  event handler and render the CAPTCHA challenge instead. Upon solving it, the specified callback will be
+ *  invoked.
+ * @param {object} captchaConfig: The CAPTCHA configuration that includes the type and siteKey
+ * @param {Form} form: The form that will be rendering the CAPTCHA
+ * @param {Function} onCaptchaSolvedCallback: The callback to be invoked once CAPTCHA is solved
+* */ 
 export function renderCaptcha(captchaConfig, form, onCaptchaSolvedCallback) {
   // eslint-disable-next-line no-undef
   const captchaObject = captchaConfig.type === 'HCAPTCHA' ? hcaptcha : grecaptcha;

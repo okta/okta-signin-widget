@@ -20,20 +20,22 @@ export default View.extend({
   className: 'captcha-view',
 
   initialize() {
-    if (this.options.currentViewState && this.options.currentViewState.captcha) {
-      this._addCaptcha(this.options.currentViewState.captcha.value);
+    if (this.options.appState.get('captcha')) {
+      this._addCaptcha(this.options.appState.get('captcha'));
     }
   },
 
+  /**
+   *  Load the CAPTCHA lib dynamically (either HCAPTCHA or RECAPTCHAV2). Once loaded, trigger an event to inform
+   *  the parent form to actually render the CAPTCHA.
+  * */   
   _addCaptcha(captchaConfig) {
-    
     // Callback invoked when CAPTCHA is solved.
     const onCaptchaSolved = (token) => {
       // Set the token in the model and submit the form.
       const fieldName = this._getFieldWithCaptchaHint();
       this.model.set(fieldName, token);
       this.options.appState.trigger('saveForm', this.model); 
-    //   this.saveForm(this.model);
     };
 
     // Callback when CAPTCHA lib is loaded.
@@ -77,6 +79,9 @@ export default View.extend({
     document.getElementById(Enums.WIDGET_CONTAINER_ID).appendChild(scriptTag);
   },
 
+  /**
+   *  Parse through the uiSchema to extract the field that has the CAPTCHA hint associated with it
+  * */ 
   _getFieldWithCaptchaHint() {
     const uiSchema = this.options.currentViewState.uiSchema || [];
     for (const schema of uiSchema) {

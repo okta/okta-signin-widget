@@ -27,7 +27,6 @@ export default Model.extend({
     user: 'object',        // optional
     currentFormName: 'string',
     idx: 'object',
-    captcha: 'object',
     remediations: 'array',
     dynamicRefreshInterval: 'number',
     deviceFingerprint: 'string',
@@ -103,12 +102,6 @@ export default Model.extend({
       Logger.error(`\tCannot find view state for form ${currentFormName}.`);
       const allFormNames = this.get('remediations').map(r => r.name);
       Logger.error(`\tAll available form names: ${allFormNames}`);
-    }
-
-    // check CAPTCHA_SUPPORT is enabled - Ensure CAPTCHA config is part of current view state if defined.
-    const captchaConfig = this.get('captcha');
-    if (captchaConfig) {
-      currentViewState['captcha'] = captchaConfig;
     }
 
     return currentViewState;
