@@ -31,6 +31,11 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
+const fakeProcessCreds = ({ username, password }) => {
+  // eslint-disable-next-line no-console
+  console.log(`processCreds called with ${username} and ${password}`);
+};
+
 fixture('Identify + Password');
 
 async function setup(t) {
@@ -113,4 +118,13 @@ test.requestHooks(identifyMock)('should show errors when forgot password is not 
   await page.navigateToPage();
   await t.expect(page.form.getTitle()).eql('Reset your password');
   await t.expect(page.form.getErrorBoxText()).eql('Forgot password is not enabled for this organization.');
+});
+test.requestHooks(identifyWithPasswordMock)('call processCreds with the credentials', async t => {
+  const identityPage = await setup(t, true);
+  await rerenderWidget({ processCreds: fakeProcessCreds });
+  await identityPage.fillIdentifierField('abc@gmail.com');
+  await identityPage.fillPasswordField('123');
+  await identityPage.clickNextButton();
+  const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log).contains('processCreds called with abc@gmail.com and 123');
 });

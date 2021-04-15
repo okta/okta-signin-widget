@@ -13,6 +13,7 @@ const identifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(xhrErrorIdentify, 403);
 
+
 const identifyMockWithFingerprint = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify)
@@ -58,15 +59,29 @@ const rerenderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
+const fakeProcessCreds = ({ username, password }) => {
+  if (password) {
+    throw new Error('Expected there to be only a username');
+  }
+  // eslint-disable-next-line no-console
+  console.log(`processCreds called with ${username}`);
+};
+
+
 fixture('Identify');
 
-async function setup(t) {
+async function setup(t, hasPassword = false) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
-  await checkConsoleMessages({
+  const context = {
     controller: 'primary-auth',
     formName: 'identify',
-  });
+  };
+  if (hasPassword) {
+    context.authenticatorKey = 'okta_password';
+    context.methodType = 'password';
+  }
+  await checkConsoleMessages(context);
 
   return identityPage;
 }
@@ -245,4 +260,13 @@ test.requestHooks(identifyRequestLogger, identifyMockWithFingerprint)('should co
   const factorReq = identifyRequestLogger.requests[1].request;
   const factorReqHeaders = factorReq.headers;
   await t.expect(factorReqHeaders['x-device-fingerprint']).notOk();
+});
+
+test.requestHooks(identifyMock)('since there is no password field, call processCreds with just the username', async t => {
+  const identityPage = await setup(t);
+  await rerenderWidget({ processCreds: fakeProcessCreds });
+  await identityPage.fillIdentifierField('abc@gmail.com');
+  await identityPage.clickNextButton();
+  const { log } = await t.getBrowserConsoleMessages();
+  await t.expect(log).contains('processCreds called with abc@gmail.com');
 });

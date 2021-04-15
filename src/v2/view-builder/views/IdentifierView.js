@@ -20,28 +20,41 @@ const Body = BaseForm.extend({
 
   saveForm() {
     // Ideally this can be added to a "preSaveForm" handler - but keeping this here for now.
+    this.model.trigger('request');
+
+    this.getDeviceFingerprintPromise()
+      .then(() => this.getProcessCredsPromise())
+      .then(() => {
+        BaseForm.prototype.saveForm.apply(this, arguments);
+      });
+  },
+
+  getDeviceFingerprintPromise() {
     if (!this.settings.get('features.deviceFingerprinting')) {
-      BaseForm.prototype.saveForm.apply(this, arguments);
-      return;
+      return Promise.resolve();
     }
 
-    // Before the XHR is made for "identify", we'll generate this one-time use fingerprint via
-    // a hidden-iframe (similar to authn/v1 flows)
     const fingerprintData = {
       oktaDomainUrl: this.settings.get('baseUrl'),
       element: this.$el,
     };
 
-    this.model.trigger('request');
-
-    DeviceFingerprinting.generateDeviceFingerprint(fingerprintData)
+    return DeviceFingerprinting.generateDeviceFingerprint(fingerprintData)
       .then(fingerprint => {
         this.options.appState.set('deviceFingerprint', fingerprint);
       })
-      .catch(() => { /* Keep going even if device fingerprint fails */ })
-      .finally(() => {
-        BaseForm.prototype.saveForm.apply(this, arguments);
-      });
+      .catch(() => { /* Keep going even if device fingerprint fails */ });
+  },
+
+  getProcessCredsPromise() {
+    const creds = {
+      username: this.model.get('identifier'),
+    };
+    const password = this.model.get('credentials.passcode');
+    if (password) {
+      creds.password = password;
+    }
+    return this.settings.processCreds(creds);
   },
 
   render() {
