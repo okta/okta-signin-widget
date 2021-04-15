@@ -56,7 +56,7 @@ export default View.extend({
       } else {
         onCaptchaLoaded();
       }
-    } else if (captchaConfig.type === 'RECAPTCHAV2') {
+    } else if (captchaConfig.type === 'RECAPTCHA_V2') {
       // eslint-disable-next-line no-undef
       if (typeof grecaptcha === 'undefined') {
         this._loadCaptchaLib(RECAPTCHAV2_URL);

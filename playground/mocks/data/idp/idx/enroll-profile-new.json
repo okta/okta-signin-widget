@@ -112,7 +112,7 @@
       "id": "4321dcba",
       "name": "reCaptcha",
       "siteKey": "6Lfw9IQaAAAAAM-mWFv6DwRtsKHyn8l14qXUBMkD",
-      "type": "RECAPTCHAV2"
+      "type": "RECAPTCHA_V2"
     }
   }
 }
