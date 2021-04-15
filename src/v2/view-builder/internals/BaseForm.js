@@ -32,21 +32,21 @@ export default Form.extend({
     //should be used before adding any other input components
     this.showMessages();
 
+    // Render CAPTCHA if one of the form fields requires us to.
+    this.listenTo(this.options.appState, 'addCaptcha', (callback) => {
+      renderCaptcha(
+        this.options.appState.get('captcha'),
+        this,
+        callback
+      );
+    });    
+
     inputOptions.forEach(input => {
       this.addInputOrView(input);
     });
 
     this.listenTo(this, 'save', this.saveForm);
     this.listenTo(this, 'cancel', this.cancelForm);
-
-    // Render CAPTCHA if one of the form fields requires us to.
-    this.listenTo(this.model, 'addCaptcha', (callback) => {
-      renderCaptcha(
-        this.options.appState.get('captcha'),
-        this,
-        callback
-      );
-    });
   },
 
   handleClearFormError() {

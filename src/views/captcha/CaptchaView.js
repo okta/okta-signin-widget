@@ -30,39 +30,43 @@ export default View.extend({
    *  the parent form to actually render the CAPTCHA.
   * */   
   _addCaptcha(captchaConfig) {
+
     // Callback invoked when CAPTCHA is solved.
     const onCaptchaSolved = (token) => {
-      // Set the token in the model and submit the form.
+      // eslint-disable-next-line no-undef
+      const captchaObject = captchaConfig.type === 'HCAPTCHA' ? hcaptcha : grecaptcha;
+      captchaObject.reset();
+
+      // Set the token in the model
       const fieldName = this._getFieldWithCaptchaHint();
       this.model.set(fieldName, token);
-      this.options.appState.trigger('saveForm', this.model); 
+
+      // Clear form errors before re-validation
+      this.model.trigger('clearFormError');
+
+      // Client side form validation
+      this.model.validate();
+
+      if (this.model.isValid()) {
+        // If there are no errors then submit the form.
+        this.model.trigger('clearFormError');
+        this.options.appState.trigger('saveForm', this.model); 
+      }
     };
 
     // Callback when CAPTCHA lib is loaded.
     const onCaptchaLoaded = () => {
-      this.model.trigger('addCaptcha', onCaptchaSolved);
+      this.options.appState.trigger('addCaptcha', onCaptchaSolved);
     };
 
     // Attaching the callback to the window object so that the CAPTCHA script that we dynamically render
     // can have access to it since it won't have access to this view's scope.
     window.onCaptchaLoaded = onCaptchaLoaded;
 
-    // We check to see if the CAPTCHA references are defined already to avoid any collisions in case the library
-    // was loaded already
     if (captchaConfig.type === 'HCAPTCHA') {
-      // eslint-disable-next-line no-undef
-      if (typeof hcaptcha === 'undefined') {
-        this._loadCaptchaLib(HCAPTCHA_URL);
-      } else {
-        onCaptchaLoaded();
-      }
+      this._loadCaptchaLib(HCAPTCHA_URL);
     } else if (captchaConfig.type === 'RECAPTCHA_V2') {
-      // eslint-disable-next-line no-undef
-      if (typeof grecaptcha === 'undefined') {
-        this._loadCaptchaLib(RECAPTCHAV2_URL);
-      } else {
-        onCaptchaLoaded();
-      }
+      this._loadCaptchaLib(RECAPTCHAV2_URL);
     }
   },
   
@@ -75,7 +79,6 @@ export default View.extend({
     scriptTag.src = url;
     scriptTag.async = true;
     scriptTag.defer = true;
-    // TODO: use reference to ID instead of harcoding; USE WIDGET_CONTAINER_ID
     document.getElementById(Enums.WIDGET_CONTAINER_ID).appendChild(scriptTag);
   },
 

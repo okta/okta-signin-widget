@@ -38,7 +38,8 @@
                      "hint": "captcha"
                    }
                  ]
-               }
+               },
+               "relatesTo": "$.captcha"
              },             
               {
                   "name":"stateHandle",
