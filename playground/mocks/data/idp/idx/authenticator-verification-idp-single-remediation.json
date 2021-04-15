@@ -3,19 +3,6 @@
   "version": "1.0.0",
   "expiresAt": "2021-01-19T15:10:35.000Z",
   "intent": "LOGIN",
-  "messages": {
-    "type": "array",
-    "value": [
-      {
-        "message": "Unable to verify authenticator. Try again.",
-        "i18n": {
-          "key": "oie.authenticator.verify.error.fail",
-          "params": []
-        },
-        "class": "ERROR"
-      }
-    ]
-  },
   "remediation": {
     "type": "array",
     "value": [
@@ -29,45 +16,6 @@
         "href": "http://localhost:3000/sso/idps/0oa69chx4bZyx8O7l0g4?stateToken=02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk",
         "method": "GET",
         "relatesTo" : [ "$.currentAuthenticatorEnrollment" ]
-      },
-      {
-        "rel": [ "create-form" ],
-        "name": "select-authenticator-authenticate",
-        "href": "http://localhost:3000/idp/idx/challenge",
-        "method": "POST",
-        "accepts": "application/json; okta-version=1.0.0",
-        "produces": "application/ion+json; okta-version=1.0.0",
-        "value": [
-          {
-            "name": "authenticator",
-            "type": "object",
-            "options": [
-              {
-                "label": "IDP Authenticator",
-                "value": {
-                  "form": {
-                    "value": [
-                      {
-                        "name": "id",
-                        "required": true,
-                        "value": "aut4mhtS1b84AR0iQ0g4",
-                        "mutable": false
-                      }
-                    ]
-                  }
-                },
-                "relatesTo": "$.authenticatorEnrollments.value[0]"
-              }
-            ]
-          },
-          {
-            "name": "stateHandle",
-            "required": true,
-            "value": "02TptqPN4BOLIwMAGUVLPlZVJEnONAq7xkg19dy6Gk",
-            "visible": false,
-            "mutable": false
-          }
-        ]
       }
     ]
   },
