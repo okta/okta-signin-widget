@@ -228,8 +228,11 @@ const convert = (settings, idx = {}, lastResult = null) => {
     { idx }
   );
 
+  // Override the `result` to handle custom IdP login buttons
+  // and update the form for IdP Authenticators.
   injectIdPConfigButtonToRemediation(settings, result);
   modifyFormNameForIdPAuthenticator(result);
+
   if (!result.messages) {
     // Only redirect to the IdP if we are not in an error flow
     convertRedirectIdPToSuccessRedirectIffOneIdp(settings, result, lastResult);
