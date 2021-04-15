@@ -82,7 +82,7 @@ test
 
     await t.expect(pageObject.getPageTitle()).eql('Set up IDP Authenticator');
     await t.expect(pageObject.getPageSubtitle()).eql('Clicking below will redirect to enrollment in IDP Authenticator');
-    await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to enroll authenticator. Try again or contact your admin for assistance.');
+    await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to enroll authenticator. Try again.');
   });
 
 fixture('Verify IdP Authenticator');
@@ -118,5 +118,5 @@ test
 
     await t.expect(pageObject.getPageTitle()).eql('Verify with IDP Authenticator');
     await t.expect(pageObject.getPageSubtitle()).eql('You will be redirected to verify with IDP Authenticator');
-    await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to verify authenticator. Try again or contact your admin for assistance.');
+    await t.expect(pageObject.getErrorFromErrorBox()).eql('Unable to verify authenticator. Try again.');
   });

@@ -7,7 +7,7 @@
     "type": "array",
     "value": [
       {
-        "message": "Unable to verify authenticator. Try again or contact your admin for assistance.",
+        "message": "Unable to verify authenticator. Try again.",
         "i18n": {
           "key": "oie.authenticator.verify.error.fail",
           "params": []
