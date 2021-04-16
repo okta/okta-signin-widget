@@ -675,6 +675,20 @@ const emailChallengeConsent = {
   ],
 };
 
+const googleAuthenticatorVerify = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator',
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-google-authenticator',
+  ],
+  '/idp/idx/challenge/answer': [
+    'success',
+    //'error-authenticator-verification-on-google-otp-invalid-passcode',
+    //'error-authenticator-verification-on-google-otp-used-passcode'
+  ],
+};
+
 module.exports = {
   mocks: idx,
 };

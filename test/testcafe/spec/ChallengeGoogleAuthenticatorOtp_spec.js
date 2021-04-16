@@ -5,7 +5,8 @@ import { checkConsoleMessages } from '../framework/shared';
 
 import otpChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-google-authenticator';
 import success from '../../../playground/mocks/data/idp/idx/success';
-import invalidTOTP from '../../../playground/mocks/data/idp/idx/error-google-authenticator-otp';
+import invalidPasscode from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-on-google-otp-invalid-passcode';
+import usedPasscode from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-on-google-otp-used-passcode';
 
 const logger = RequestLogger(/challenge|challenge\/answer/,
   {
@@ -20,11 +21,17 @@ const validOTPmock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
-const invalidOTPMock = RequestMock()
+const invalidPasscodeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(otpChallenge)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(invalidTOTP, 403);
+  .respond(invalidPasscode, 403);
+
+const usedPasscodeMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(otpChallenge)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(usedPasscode, 403);
 
 
 fixture('Challenge Google Authenticator Form');
@@ -79,10 +86,17 @@ test
   });
 
 test
-  .requestHooks(invalidOTPMock)('challenge google authenticator with invalid TOTP', async t => {
+  .requestHooks(invalidPasscodeMock)('challenge google authenticator with invalid passcode', async t => {
     const challengeGoogleAuthenticatorPageObject = await setup(t);
     await challengeGoogleAuthenticatorPageObject.verifyFactor('credentials.passcode', '123');
     await challengeGoogleAuthenticatorPageObject.clickNextButton();
-    await challengeGoogleAuthenticatorPageObject.waitForErrorBox();
-    await t.expect(challengeGoogleAuthenticatorPageObject.getInvalidOTPError()).contains('Authentication failed');
+    await t.expect(challengeGoogleAuthenticatorPageObject.getAnswerInlineError()).eql('Your code doesn\'t match our records. Please try again.');
+  });
+
+test
+  .requestHooks(usedPasscodeMock)('challenge google authenticator with used passcode', async t => {
+    const challengeGoogleAuthenticatorPageObject = await setup(t);
+    await challengeGoogleAuthenticatorPageObject.verifyFactor('credentials.passcode', '123');
+    await challengeGoogleAuthenticatorPageObject.clickNextButton();
+    await t.expect(challengeGoogleAuthenticatorPageObject.getAnswerInlineError()).eql('Each code can only be used once. Please wait for a new code and try again.');
   });

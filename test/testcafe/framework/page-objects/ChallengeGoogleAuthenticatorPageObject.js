@@ -11,4 +11,7 @@ export default class ChallengeGoogleAuthenticatorPageObject extends ChallengeFac
     return this.form.getFormFieldLabel(OTP_FIELD);
   }
 
+  getAnswerInlineError() {
+    return this.form.getTextBoxErrorMessage(OTP_FIELD);
+  }
 }
