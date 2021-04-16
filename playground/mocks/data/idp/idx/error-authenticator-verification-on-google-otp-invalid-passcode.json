@@ -1,0 +1,229 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02z9tQvc6BSChqVj0xCg7IrGuL-nIKqTZtTsfRsQjQ",
+  "expiresAt": "2021-04-15T23:12:14.000Z",
+  "intent": "CREDENTIAL_ENROLLMENT",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "enroll-authenticator",
+        "relatesTo": [
+          "$.currentAuthenticator"
+        ],
+        "href": "http://localhost:3000/idp/idx/challenge/answer",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "credentials",
+            "type": "object",
+            "form": {
+              "value": [
+                {
+                  "name": "passcode",
+                  "label": "Enter code",
+                  "required": true,
+                  "messages": {
+                    "type": "array",
+                    "value": [
+                      {
+                        "message": "API error: Your code doesn't match our records. Please try again.",
+                        "i18n": {
+                          "key": "authfactor.challenge.soft_token.invalid_passcode"
+                        },
+                        "class": "ERROR"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            "required": true
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02z9tQvc6BSChqVj0xCg7IrGuL-nIKqTZtTsfRsQjQ",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "Google Authenticator",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut641lYaVHvoYuDm0g4",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "otp",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02z9tQvc6BSChqVj0xCg7IrGuL-nIKqTZtTsfRsQjQ",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "contextualData": {
+        "qrcode": {
+          "method": "embedded",
+          "href": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAEhklEQVR42u3dwW4bMQxFUf//T6eLrougsMhHSucCXaVwEo9OAM6MNZ8fSf/s4y2QAJEAkQCRAJEAkQCRAJEAkQCRBIgEiASIBIgEiASIBIgEiASIBIgkQCRAJEAkQCRAJED+fqPPp/Xfb99/2+/37c9z+uefdnwBAQQQQAABBBBAAAEkvUC7F8y3r396wf7v63W/v9PWDyCAAAIIIIAAAggg7wGpHsLTC7r7/3cv8PTxBQQQQAABBBBAAAEEkG1Aui+sTT+pcRoYIIAAAggggAACCCCAvAakekhOX0isHuoBAQQQQAABBBBAAAHkNiDTAVYvoG4A1SC3rR9AAAEEEEAAAQQQQO4HMm3TBl/vHcJt2gAIIIAA4uuAAOLrgLxe9cZpp4f27qE5tUDj6wINQAABBBBAAAEEkGuH9OoF3P360zeJ6D7ep4d6QAABBBBAAAEEEEAASQ/V3Qu0+w/At79/9/u3DTQggAACCCCAAAIIIO8B2bbpQvpmvPQDg6qPx5h1CQgggAACCCCAAALIWiDpNzC9cVl6CK++eXH6Zt2AAAIIIIAAAggggAAybcFMeyDO9I3atj2QCBBAAAEEEEAAAQQQnwfpXmDTH1qZ/oDRbZtxAwIIIIAAAggggAACyDYQ027Wm/YH4lYQgAACCCCAAAIIIIC8A2TbUNs95J9ewNNOAgACCCCAAAIIIIAAAsg2IN0feEqfpEjfbDn9gUOAAAIIIIAAAggggAAy7aGT025GrAaTHpq3bFYNCCCAAAIIIIAAAsg7QKoPePUBm3ZzYPrnmXbSAxBAAAEEEEAAAQQQQNIXiqpBTbtwmd4ILn2SABBAAAEEEEAAAQQQ+2JtG+Kn3ew47QNh3RdCAQEEEEAAAQQQQAABJP0GV4PrBpYe4tObNjw/pAMCCCCAAAIIIIAAUr5gp12Yev3CZvoPxJiTR4AAAggggAACCCCAXDOkp0FWD7ndC3z7kO8sFiCAAAIIIIAAAggg6SG9+4BMAzvtZspXH7ADCCCAAAIIIIAAAsi7QKov1E1/QEz6A2Xdr2dIBwQQQAABBBBAAAFk24XB9M2J0zav3jIUj1tXgAACCCCAAAIIIIA8A6T6wtPp75c+CVD9+7z6kE9AAAEEEEAAAQQQQPYC6b7ZrXuITj+gZhpoFwoBAQQQQAABBBBAANk2pKeH/vQHfqZ9gGz6kA8IIIAAAggggAACCCDpoa96QacfmjkNyK03RwICCCCAAAIIIIAAcg+Q7tefDnA7gNPHp3v9AAIIIIAAAggggADyHpBtHyCa9gchfaFv20kPQAABBBBAAAEEEEAASd9M9+3rTbtZML1x3mngqQABBBBAAAEEEEAAAaTqAHUvsPSFt+qTBLdsfg0IIIAAAggggAACyL1ApgOsHuqrh9rbHgAECCCAAAIIIIAAAgggp4e6aQ+cSW8Offr97P6DtnUza0AAAQQQQAABBBBA9gKRNgaIBIgEiASIBIgEiASIBIgEiASIJEAkQCRAJEAkQCRAJEAkQCRAJEAkASIBIgEiASIBIg3vDxKA7waCbSK7AAAAAElFTkSuQmCC",
+          "type": "image/png"
+        },
+        "sharedSecret": "Z3X32ULO4DLVRG3H"
+      },
+      "type": "app",
+      "key": "google_otp",
+      "id": "aut641lYaVHvoYuDm0g4",
+      "displayName": "Google Authenticator",
+      "methods": [
+        {
+          "type": "otp"
+        }
+      ]
+    }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "app",
+        "key": "google_otp",
+        "id": "aut641lYaVHvoYuDm0g4",
+        "displayName": "Google Authenticator",
+        "methods": [
+          {
+            "type": "otp"
+          }
+        ]
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "type": "email",
+        "key": "okta_email",
+        "id": "eae3donheOh3bkKkM0g4",
+        "displayName": "Email",
+        "methods": [
+          {
+            "type": "email"
+          }
+        ]
+      },
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "laek7jDFRlZl0sdDj0g3",
+        "displayName": "Password",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ]
+      },
+      {
+        "type": "security_question",
+        "key": "security_question",
+        "id": "qae3dooNZ1uflpAN10g4",
+        "displayName": "Security Question",
+        "methods": [
+          {
+            "type": "security_question"
+          }
+        ]
+      }
+    ]
+  },
+  "enrollmentAuthenticator": {
+    "type": "object",
+    "value": {
+      "type": "app",
+      "key": "google_otp",
+      "id": "aut641lYaVHvoYuDm0g4",
+      "displayName": "Google Authenticator",
+      "methods": [
+        {
+          "type": "otp"
+        }
+      ]
+    }
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u3dn1WCCtoXcnuU0g4"
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02z9tQvc6BSChqVj0xCg7IrGuL-nIKqTZtTsfRsQjQ",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "DEFAULT_APP"
+    }
+  }
+}
