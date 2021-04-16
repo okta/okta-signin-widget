@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "messages": {
+    "type": "array",
+    "value": [{
+      "message": "Too many requests",
+      "i18n": {
+        "key": "tooManyRequests"
+      },
+      "class": "ERROR"
+    }]
+  }
+}
