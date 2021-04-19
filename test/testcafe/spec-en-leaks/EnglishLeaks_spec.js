@@ -19,8 +19,6 @@ const ignoredMocks = [
   'terminal-return-email.json',
   'terminal-registration.json',
   'terminal-polling-window-expired.json',
-  'success.json',
-  'success-with-app-user.json',
   'success-with-interaction-code.json',
   'safe-mode-required-enrollment.json',
   'safe-mode-optional-enrollment.json',
@@ -28,14 +26,12 @@ const ignoredMocks = [
   'oda-enrollment-ios.json',
   'oda-enrollment-android.json',
   'identify-with-third-party-idps.json',
-  'identify-with-only-one-third-party-idp-app-user.json',
   'identify-with-only-one-third-party-idp.json',
   'identify-with-no-sso-extension.json',
   'identify-with-device-probing-loopback.json',
   'identify-with-device-probing-loopback-3.json',
-  'identify-with-device-probing-loopback-2.json',
   'identify-with-device-launch-authenticator.json',
-  'identify-with-apple-redirect-sso-extension.json',
+  'identify-with-apple-redirect-sso-extension.json', // flaky on bacon
   'identify-unknown-user.json',
   'error-user-is-not-assigned.json',
   'error-unlock-account.json',
@@ -84,12 +80,12 @@ const ignoredMocks = [
   'terminal-return-email-consent-denied.json',
   'terminal-return-email-consent.json',
   'email-challenge-consent.json',
-  'error-authenticator-enroll-idp.json',
-  'error-authenticator-verification-idp.json',
   'device-code-activate.json',
   'error-invalid-device-code.json',
   'terminal-device-activated.json',
   'terminal-device-not-activated.json',
+  'terminal-device-not-activated-consent-denied.json',
+  'terminal-device-not-activated-internal-error.json'
 ];
 
 const parseMockData = () => {
@@ -113,6 +109,11 @@ const setUpResponse = (filePath) => {
   // Majority of the mock files can be loaded with just mocking the introspect API and providing a response
   // In some cases we may need to mock more than just introspect API to load the screen (example polling)
   // For those cases add the url and responses to responseMap
+
+  // Needed for identify-with-apple-redirect-sso-extension
+  const verifyUrl = 'http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/123/verify?\
+  challengeRequest=dummyvalue';
+
   const responseMap = [
     { 
       'url': 'http://localhost:3000/idp/idx/introspect',
@@ -121,6 +122,20 @@ const setUpResponse = (filePath) => {
     { 
       'url': 'http://localhost:3000/idp/idx/challenge/poll',
       'response': mockResponse
+    },
+    // used for device probing mock
+    {
+      'url': 'http://localhost:3000/idp/idx/authenticators/poll',
+      'response': mockResponse
+    },
+    // used for device probing mock
+    {
+      'url': 'http://localhost:3000/idp/idx/authenticators/poll/cancel',
+      'response': mockResponse
+    },
+    {
+      'url': verifyUrl,
+      'response': '<html><h1>》ok_PL《</h1></html>'
     },
   ];
 
@@ -146,7 +161,8 @@ async function setup(t, locale) {
 const testEnglishLeaks = (mockIdxResponse, fileName, locale) => {
   test.requestHooks(mockIdxResponse)(`${fileName} should not have english leaks`, async t => {
     await setup(t, locale);
-    const viewText = await Selector('#okta-sign-in').textContent;
+    const viewTextExists = await Selector('#okta-sign-in').exists;
+    const viewText = viewTextExists && await Selector('#okta-sign-in').textContent;
     const noTranslationContentExists = await Selector('.no-translate').exists;
     const noTranslationContent = noTranslationContentExists && await Selector('.no-translate').textContent;
     await assertNoEnglishLeaks(fileName, viewText, noTranslationContent);
