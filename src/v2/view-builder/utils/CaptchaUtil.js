@@ -19,9 +19,10 @@ import Enums from 'util/Enums';
 function addHCaptchaFooter() {
   // NOTE: insetAdjacentHTML() is supported in all major browsers: 
   // https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML#browser_compatibility
-  document.getElementById(Enums.WIDGET_CONTAINER_ID).insertAdjacentHTML('beforeend',
-    `<div class="footer">
-        <span>${loc('captcha.footer.label', 'login', [HCAPTCHA_PRIVACY_URL, HCAPTCHA_TERMS_URL])}</span>
+  document.getElementsByClassName(Enums.WIDGET_FOOTER_CLASS)[0].insertAdjacentHTML('beforeend',
+    `<div id="captcha-footer">
+        <span class="footer-text">${loc('captcha.footer.label', 'login', 
+    [HCAPTCHA_PRIVACY_URL, HCAPTCHA_TERMS_URL])}</span>
       </div>`
   );
 }
@@ -40,10 +41,14 @@ export function renderCaptcha(captchaConfig, form, onCaptchaSolvedCallback) {
 
   // Iterate over all the primary buttons in the form and bind CAPTCHA to them
   _.each(form.$('.button-primary'), (elem) => {
-    captchaObject.render(elem, {
+    const captchaId = captchaObject.render(elem, {
       sitekey: captchaConfig.siteKey,
       callback: onCaptchaSolvedCallback
-    });    
+    });  
+    
+    // We attach the captchaId to the elem itself so that later on we can use it 
+    // to reset the Captcha when needed.
+    elem.setAttribute('data-captcha-id', captchaId);
   });
 
   // Render the HCAPTCHA footer - we need to do this manually since the hCAPTCHA lib doesn't do it

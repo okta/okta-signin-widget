@@ -16,6 +16,7 @@ export default {
   WIDGET_LOGIN_CONTAINER_ID: 'okta-login-container',
   WIDGET_CONTAINER_ID: 'okta-sign-in',
   WIDGET_CONFIG_COLORS_ID: 'okta-sign-in-config-colors',
+  WIDGET_FOOTER_CLASS: 'siw-main-footer',
 
   DIRECTION_BACK: 'DIRECTION_BACK',
 

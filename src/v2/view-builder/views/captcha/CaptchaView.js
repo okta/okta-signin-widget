@@ -21,21 +21,38 @@ export default View.extend({
 
   initialize() {
     if (this.options.appState.get('captcha')) {
-      this._addCaptcha(this.options.appState.get('captcha'));
+      this.captchaConfig = this.options.appState.get('captcha');
+      this._addCaptcha();
     }
+  },
+
+  remove: function(){
+    // Cleanup global Captcha references
+    if (this.captchaConfig.type === 'HCAPTCHA') {
+      window.hcaptcha = undefined;
+    } else if (this.captchaConfig.type === 'RECAPTCHA_V2') {
+      window.grecaptcha = undefined;
+    }
+
+    View.prototype.remove.apply(this, arguments);
   },
 
   /**
    *  Load the CAPTCHA lib dynamically (either HCAPTCHA or RECAPTCHAV2). Once loaded, trigger an event to inform
    *  the parent form to actually render the CAPTCHA.
   * */   
-  _addCaptcha(captchaConfig) {
+  _addCaptcha() {
 
     // Callback invoked when CAPTCHA is solved.
-    const onCaptchaSolved = (token) => {
+    this.onCaptchaSolved = (token) => {
       // eslint-disable-next-line no-undef
-      const captchaObject = captchaConfig.type === 'HCAPTCHA' ? hcaptcha : grecaptcha;
-      captchaObject.reset();
+      const captchaObject = this.captchaConfig.type === 'HCAPTCHA' ? hcaptcha : grecaptcha;
+
+      // We reset the Captchas using the id(s) that were generated during their rendering.
+      const submitButtons = document.getElementsByClassName('button-primary');
+      submitButtons.forEach(btn => {
+        captchaObject.reset(btn.getAttribute('data-captcha-id'));
+      });
 
       // Set the token in the model
       const fieldName = this._getFieldWithCaptchaHint();
@@ -56,16 +73,16 @@ export default View.extend({
 
     // Callback when CAPTCHA lib is loaded.
     const onCaptchaLoaded = () => {
-      this.options.appState.trigger('addCaptcha', onCaptchaSolved);
+      this.options.appState.trigger('addCaptcha', this.onCaptchaSolved);
     };
 
     // Attaching the callback to the window object so that the CAPTCHA script that we dynamically render
     // can have access to it since it won't have access to this view's scope.
     window.onCaptchaLoaded = onCaptchaLoaded;
 
-    if (captchaConfig.type === 'HCAPTCHA') {
+    if (this.captchaConfig.type === 'HCAPTCHA') {
       this._loadCaptchaLib(HCAPTCHA_URL);
-    } else if (captchaConfig.type === 'RECAPTCHA_V2') {
+    } else if (this.captchaConfig.type === 'RECAPTCHA_V2') {
       this._loadCaptchaLib(RECAPTCHAV2_URL);
     }
   },
