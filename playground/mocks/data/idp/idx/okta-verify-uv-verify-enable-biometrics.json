@@ -135,7 +135,7 @@
       "type": "array",
       "value": [
         {
-          "message": "We received your response, but your organization requires biometrics. On a device that supports biometrics, enable biometrics for your account and try again.",
+          "message": "Your response was received, but your organization requires biometrics. Make sure your device supports biometrics, Okta Verify is up-to-date and biometrics are enabled for your account in Okta Verify, then try again.",
           "i18n":{
               "key": "oie.authenticator.app.method.push.verify.enable.biometrics",
               "params": []
