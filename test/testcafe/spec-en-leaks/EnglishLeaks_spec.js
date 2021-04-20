@@ -23,8 +23,6 @@ const ignoredMocks = [
   'safe-mode-required-enrollment.json',
   'safe-mode-optional-enrollment.json',
   'safe-mode-credential-enrollment-intent.json',
-  'oda-enrollment-ios.json',
-  'oda-enrollment-android.json',
   'identify-with-third-party-idps.json',
   'identify-with-only-one-third-party-idp.json',
   'identify-with-no-sso-extension.json',
@@ -51,12 +49,9 @@ const ignoredMocks = [
   'consent-enduser.json',
   'consent-admin.json',
   'authenticator-verification-select-authenticator.json',
-  'authenticator-verification-phone-voice-no-profile.json',
-  'authenticator-verification-phone-sms-no-profile.json',
   'authenticator-verification-okta-verify-signed-nonce-loopback.json',
   'authenticator-verification-okta-verify-signed-nonce-custom-uri.json',
   'authenticator-verification-okta-verify-reject-push.json',
-  'authenticator-verification-number-challenge.json',
   'authenticator-verification-data-phone-voice-then-sms.json',
   'authenticator-verification-data-phone-voice-only.json',
   'authenticator-verification-data-phone-sms-then-voice.json',
@@ -66,7 +61,6 @@ const ignoredMocks = [
   'authenticator-expired-password-with-enrollment-authenticator.json',
   'authenticator-expired-password-no-complexity.json',
   'authenticator-enroll-webauthn.json',
-  'authenticator-enroll-symantec-vip.json',
   'authenticator-enroll-select-authenticator.json',
   'authenticator-enroll-phone.json',
   'authenticator-enroll-phone-voice.json',
@@ -79,11 +73,9 @@ const ignoredMocks = [
   'terminal-enduser-email-consent-denied.json',
   'terminal-return-email-consent-denied.json',
   'terminal-return-email-consent.json',
-  'email-challenge-consent.json',
   'device-code-activate.json',
   'error-invalid-device-code.json',
   'terminal-device-activated.json',
-  'terminal-device-not-activated.json',
   'terminal-device-not-activated-consent-denied.json',
   'terminal-device-not-activated-internal-error.json'
 ];
@@ -164,7 +156,13 @@ const testEnglishLeaks = (mockIdxResponse, fileName, locale) => {
     const viewTextExists = await Selector('#okta-sign-in').exists;
     const viewText = viewTextExists && await Selector('#okta-sign-in').textContent;
     const noTranslationContentExists = await Selector('.no-translate').exists;
-    const noTranslationContent = noTranslationContentExists && await Selector('.no-translate').textContent;
+    let noTranslationContent = '';
+    if (noTranslationContentExists) {
+      const noTranslateElems = await Selector('.no-translate').count;
+      for (var i = 0; i < noTranslateElems; i++) {
+        noTranslationContent += await Selector('.no-translate').nth(i).textContent;
+      }
+    }
     await assertNoEnglishLeaks(fileName, viewText, noTranslationContent);
   });
 };
