@@ -14,7 +14,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    // 'identify',
+    'identify',
     // 'error-feature-not-enabled',
     // 'error-403-security-access-denied',
     // 'authenticator-enroll-email',
@@ -62,7 +62,7 @@ const idx = {
     // 'identify-with-third-party-idps',
     // 'identify-with-only-third-party-idps',
     // 'identify-with-only-one-third-party-idp',
-    'identify-with-password',
+    // 'identify-with-password',
     // 'identify-with-universal-link',
     // 'success',
     // 'success-with-app-user',
@@ -86,8 +86,7 @@ const idx = {
     // 'authenticator-enroll-google-authenticator',
   ],
   '/idp/idx/identify': [
-    'success',
-    // 'authenticator-enroll-select-authenticator',
+    'authenticator-enroll-select-authenticator',
     // 'identify-with-only-one-third-party-idp',
     // 'error-identify-access-denied',
     // 'error-identify-user-locked-unable-challenge',
@@ -123,16 +122,14 @@ const idx = {
     // 'authenticator-verification-google-authenticator',
   ],
   '/idp/idx/enroll/new': [
-    'success',
-    // 'error-new-signup-email',
-    // 'error-new-signup-email-exists'
+    'error-new-signup-email',
+    'error-new-signup-email-exists'
   ],
   '/idp/idx/cancel': [
     'identify',
   ],
   '/idp/idx/recover': [
-    // 'error-forgot-password',
-    'identify-recovery',
+    'error-forgot-password',
   ],
   '/idp/idx/activate': [
     'identify-with-password',
@@ -569,8 +566,6 @@ const safeModePoll = {
   ],
   '/idp/idx/identify': [
     'authenticator-enroll-select-authenticator',
-    // 'identify-recovery',
-    // 'success',
   ],
   '/idp/idx/credential/enroll': [
     'safe-mode-polling',
@@ -623,8 +618,6 @@ const passwordRecovery = {
   ],
   '/idp/idx/identify': [
     // 'error-identify-access-denied',
-    // 'identify-recovery',
-    // 'success',
     'authenticator-verification-select-authenticator',
   ],
 };

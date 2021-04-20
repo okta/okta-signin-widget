@@ -20,7 +20,7 @@ function addHCaptchaFooter() {
   // NOTE: insetAdjacentHTML() is supported in all major browsers: 
   // https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML#browser_compatibility
   document.getElementsByClassName(Enums.WIDGET_FOOTER_CLASS)[0].insertAdjacentHTML('beforeend',
-    `<div id="captcha-footer">
+    `<div class="captcha-footer">
         <span class="footer-text">${loc('captcha.footer.label', 'login', 
     [HCAPTCHA_PRIVACY_URL, HCAPTCHA_TERMS_URL])}</span>
       </div>`
