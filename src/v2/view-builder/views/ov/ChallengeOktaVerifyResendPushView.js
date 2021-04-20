@@ -36,7 +36,15 @@ const Body = BaseForm.extend(Object.assign(
               options.title = loc('oie.numberchallenge.force.upgrade.title', 'login');
             } else if (this.options.appState.containsMessageWithI18nKey(OV_UV_ENABLE_BIOMETRIC_SERVER_KEY)) {
               // add a title for OV enable biometrics message during verification
+              options.content = null;
+              options.className = 'okta-verify-uv-callout-content';
               options.title = loc('oie.authenticator.app.method.push.verify.enable.biometrics.title', 'login');
+              options.subtitle = loc('oie.authenticator.app.method.push.verify.enable.biometrics.description', 'login');
+              options.bullets = [
+                loc('oie.authenticator.app.method.push.verify.enable.biometrics.point1', 'login'),
+                loc('oie.authenticator.app.method.push.verify.enable.biometrics.point2', 'login'),
+                loc('oie.authenticator.app.method.push.verify.enable.biometrics.point3', 'login')
+              ];
             }
             this.add(createCallout(options), '.o-form-error-container');
           } else {
