@@ -7,13 +7,13 @@ import EmailAuthenticatorHeader from '../../components/EmailAuthenticatorHeader'
 
 const getInfo = hbs`
   {{#if browser}}
-    <div class="enduser-email-consent--info">
+    <div class="enduser-email-consent--info no-translate">
       <i class="enduser-email-consent--icon icon--desktop"></i>
       <div>{{browser}}</div>
     </div>
   {{/if}}
   {{#if app}}
-    <div class="enduser-email-consent--info">
+    <div class="enduser-email-consent--info no-translate">
       <i class="enduser-email-consent--icon icon--app"></i>
       <div>{{app}}</div>
     </div>

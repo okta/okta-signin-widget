@@ -88,8 +88,14 @@ const renderPlaygroundWidget = (options = {}) => {
       // wait for view to finish rendering
       const viewText = document.getElementById('okta-sign-in').textContent;
       const noTranslationContentExists = document.getElementsByClassName('no-translate').length;
-      const noTranslationContent = noTranslationContentExists &&
-        document.getElementsByClassName('no-translate')[0].textContent;
+      let noTranslationContent = '';
+      /* eslint max-depth: [2, 3] */
+      if (noTranslationContentExists) {
+        const noTranslateElems = document.getElementsByClassName('no-translate');
+        for (var i = 0; i < noTranslateElems.length; i++) {
+          noTranslationContent += noTranslateElems[i].textContent;
+        }
+      }
       assertNoEnglishLeaks(null, viewText, noTranslationContent);
     }
   });

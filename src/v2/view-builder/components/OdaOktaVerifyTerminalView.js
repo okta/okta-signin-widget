@@ -10,7 +10,9 @@ export default View.extend({
     <p class="explanation">
       {{{i18n code="enroll.explanation.p2" bundle="login"}}}
       <br>
+      <span class="no-translate">
       {{signInUrl}}
+      </span>
     </p>
     <div data-se="app-store">
       <a href="{{appStoreLink}}" target="_blank">

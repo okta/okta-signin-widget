@@ -11,7 +11,7 @@ const NumberChallengePhoneView = View.extend({
       arguments="correctAnswer"
       $1="<span class='strong'>$1</span>"}}
      </p>
-    <div class="phone">
+    <div class="phone no-translate">
       <div class="phone--body">
         <div class="phone--screen">
           <span class="phone--number" data-se="challenge-number">{{correctAnswer}}</span>
