@@ -12,12 +12,17 @@ export default View.extend({
   },
 
   postRender() {
+    const mainContentContainer = $(`#${Enums.WIDGET_CONTAINER_ID}`);
+
     if (this.HeaderBeacon) {
-      $(`#${Enums.WIDGET_CONTAINER_ID}`).removeClass('no-beacon');
+      mainContentContainer.removeClass('no-beacon');
 
       // animate beacon
-      var selector = '[data-type="beacon-container"]', container = this.$el.find(selector);
-      Animations.explode(container);
+      const selector = '[data-type="beacon-container"]';
+      const beaconContainer = this.$el.find(selector);
+      Animations.explode(beaconContainer);
+    } else {
+      mainContentContainer.addClass('no-beacon');
     }
   },
 });

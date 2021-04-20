@@ -1,14 +1,14 @@
 import { _, View, $ } from 'okta';
+import BaseHeader from './BaseHeader';
 import BaseForm from './BaseForm';
 import BaseModel from './BaseModel';
 import BaseFooter from './BaseFooter';
 import hbs from 'handlebars-inline-precompile';
 import {getClassNameMapping} from '../../ion/ViewClassNamesFactory';
-import Enums from 'util/Enums';
 
 export default View.extend({
 
-  Header: null,
+  Header: BaseHeader,
 
   Body: BaseForm,
 
@@ -47,8 +47,6 @@ export default View.extend({
         selector: '.siw-main-header',
         options: this.options,
       });
-    } else {
-      $(`#${Enums.WIDGET_CONTAINER_ID}`).addClass('no-beacon');
     }
     this.renderForm();
     this.add(this.Footer, {
