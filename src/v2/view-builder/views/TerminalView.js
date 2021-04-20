@@ -14,6 +14,7 @@ const DEVICE_NOT_ACTIVATED_CONSENT_DENIED = 'idx.device.not.activated.consent.de
 const DEVICE_NOT_ACTIVATED_INTERNAL_ERROR = 'idx.device.not.activated.internal.error';
 
 export const REGISTRATION_NOT_ENABLED = 'oie.registration.is.not.enabled';
+export const FORGOT_PASSWORD_NOT_ENABLED = 'oie.forgot.password.is.not.enabled';
 
 const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
   'idx.transferred.to.new.tab',
@@ -76,6 +77,9 @@ const Body = BaseForm.extend({
     }
     if (this.options.appState.containsMessageWithI18nKey(REGISTRATION_NOT_ENABLED)) {
       return loc('oie.registration.form.title', 'login');
+    }
+    if (this.options.appState.containsMessageWithI18nKey(FORGOT_PASSWORD_NOT_ENABLED)) {
+      return loc('password.reset.title.generic', 'login');
     }
   },
 
