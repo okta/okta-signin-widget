@@ -1,8 +1,7 @@
 import { loc, _ } from 'okta';
-import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
+import { ACTIONS, FORMS as RemediationForms } from '../../ion/RemediationConstants';
 
-const ENROLLED_PASSWORD_RECOVERY_LINK = 'currentAuthenticatorEnrollment-recover';
-const ORG_PASSWORD_RECOVERY_LINK = 'currentAuthenticator-recover';
+const { ENROLLED_PASSWORD_RECOVERY_LINK, ORG_PASSWORD_RECOVERY_LINK } = ACTIONS;
 
 const getSwitchAuthenticatorLink = (appState) => {
   if (appState.hasRemediationObject(RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE)) {
