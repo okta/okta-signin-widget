@@ -47,3 +47,10 @@
     color: $link-text-color;
   }
 }
+
+.okta-verify-uv-callout-content {
+  ul {
+    list-style: inherit;
+    margin-left: 20px;
+  }
+}
