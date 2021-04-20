@@ -1,14 +1,23 @@
 import { ClientFunction, RequestMock, RequestLogger } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
+import IdentityRecoverPageObject from '../framework/page-objects/IdentifyRecoverPageObject';
 import { checkConsoleMessages } from '../framework/shared';
+import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
+import xhrIdentifyRecover from '../../../playground/mocks/data/idp/idx/identify-recovery';
 import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
 
 const identifyWithPasswordMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentifyWithPassword)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
-  .respond(xhrErrorIdentify, 403);
+  .respond(xhrErrorIdentify, 403)
+  .onRequestTo('http://localhost:3000/idp/idx/recover')
+  .respond(xhrIdentifyRecover);
+
+const identifyMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify);
 
 const identifyRequestLogger = RequestLogger(
   /idx\/identify/,
@@ -31,7 +40,7 @@ async function setup(t) {
     controller: 'primary-auth',
     formName: 'identify',
     authenticatorKey: 'okta_password',
-    methodType:'password',
+    methodType: 'password',
   });
 
   return identityPage;
@@ -66,7 +75,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password toggle if features.showPasswordToggleOnSignIn is true', async t => {
   const identityPage = await setup(t);
   await rerenderWidget({
-    features: {showPasswordToggleOnSignInPage: true},
+    features: { showPasswordToggleOnSignInPage: true },
   });
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
 });
@@ -74,7 +83,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if features.showPasswordToggleOnSignIn is false', async t => {
   const identityPage = await setup(t);
   await rerenderWidget({
-    features: {showPasswordToggleOnSignInPage: false},
+    features: { showPasswordToggleOnSignInPage: false },
   });
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
 });
@@ -91,4 +100,17 @@ test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username 
   });
   await t.expect(identityPage.getIdentifierSubLabelValue()).eql('Your username goes here');
   await t.expect(identityPage.getPasswordSubLabelValue()).eql('Your password goes here');
+});
+
+test.requestHooks(identifyWithPasswordMock)('should show forgot password page when navigates to /signin/forgot-password', async t => {
+  const page = new IdentityRecoverPageObject(t);
+  await page.navigateToPage();
+  await t.expect(page.form.getTitle()).eql('Reset your password');
+  await t.expect(await page.getIdentifyFieldLabel()).eql('Email or Username');
+});
+test.requestHooks(identifyMock)('should show errors when forgot password is not supported', async t => {
+  const page = new IdentityRecoverPageObject(t);
+  await page.navigateToPage();
+  await t.expect(page.form.getTitle()).eql('Reset your password');
+  await t.expect(page.form.getErrorBoxText()).eql('Forgot password is not enabled for this organization.');
 });
