@@ -18,8 +18,7 @@ export default View.extend({
       mainContentContainer.removeClass('no-beacon');
 
       // animate beacon
-      const selector = '[data-type="beacon-container"]';
-      const beaconContainer = this.$el.find(selector);
+      const beaconContainer = this.$el.find('[data-type="beacon-container"]');
       Animations.explode(beaconContainer);
     } else {
       mainContentContainer.addClass('no-beacon');
