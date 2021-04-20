@@ -33,6 +33,24 @@ const identifyMockWithFingerprint = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrAuthenticatorOVTotp);
 
+const identifyMockWithFingerprintError = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify)
+  .onRequestTo('http://localhost:3000/auth/services/devicefingerprint')
+  .respond(`
+  <html>
+    <script>
+      const message = JSON.stringify({
+        type: 'FingerprintAvailable',
+        fingerprint: 'mock-device-fingerprint',
+      });
+      window.parent.postMessage(message, window.location.href);
+    </script>
+  </html>
+  `)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrErrorIdentify, 403);
+
 const identifyLockedUserMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify)
@@ -115,7 +133,7 @@ test.requestHooks(identifyMock)('should show errors if required fields are empty
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
 });
 
-test.requestHooks(identifyMock)('should have correct display texts', async t => {
+test.requestHooks(identifyMock)('should have correct display text', async t => {
   // i18n values can be tested here.
   const identityPage = await setup(t);
 
@@ -146,6 +164,8 @@ test.requestHooks(identifyLockedUserMock)('should show global error for invalid 
   await identityPage.clickNextButton();
 
   await identityPage.waitForErrorBox();
+
+  await t.expect(identityPage.getSaveButtonLabel()).eql('Next');
 
   await t.expect(identityPage.getGlobalErrors()).contains('You do not have permission to perform the requested action.');
 });
@@ -218,7 +238,7 @@ test.requestHooks(identifyMock)('should render custom Unlock account link', asyn
   await t.expect(identityPage.getCustomUnlockAccountLink()).eql('http://unlockaccount');
 });
 
-test.requestHooks(identifyRequestLogger, identifyMockWithFingerprint)('should compute device fingerprint', async t => {
+test.requestHooks(identifyRequestLogger, identifyMockWithFingerprint)('should compute device fingerprint and add to header', async t => {
   const identityPage = await setup(t);
 
   await rerenderWidget({
@@ -245,4 +265,28 @@ test.requestHooks(identifyRequestLogger, identifyMockWithFingerprint)('should co
   const factorReq = identifyRequestLogger.requests[1].request;
   const factorReqHeaders = factorReq.headers;
   await t.expect(factorReqHeaders['x-device-fingerprint']).notOk();
+});
+
+test.requestHooks(identifyRequestLogger, identifyMockWithFingerprintError)('should continue to compute device fingerprint and add to header when there are API errors', async t => {
+  const identityPage = await setup(t);
+
+  await rerenderWidget({
+    features: {
+      deviceFingerprinting: true,
+    }
+  });
+
+  await identityPage.fillIdentifierField('Test Identifier');
+  await identityPage.clickNextButton();
+
+  // Validate the fingerprint is added as a request header
+  await t.expect(identifyRequestLogger.count(() => true)).eql(1);
+  const req = identifyRequestLogger.requests[0].request;
+  const reqHeaders = req.headers;
+  await t.expect(reqHeaders['x-device-fingerprint']).eql('mock-device-fingerprint');
+
+  // Validate that there is an error message
+  await identityPage.waitForErrorBox();
+  await t.expect(identityPage.getSaveButtonLabel()).eql('Next');
+  await t.expect(identityPage.getGlobalErrors()).contains('You do not have permission to perform the requested action.');
 });
