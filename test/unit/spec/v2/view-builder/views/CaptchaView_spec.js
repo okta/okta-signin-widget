@@ -3,7 +3,7 @@ import CaptchaView from 'v2/view-builder/views/captcha/CaptchaView';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
 import $sandbox from 'sandbox';
-import enrollProfile from '../../../../../../playground/mocks/data/idp/idx/enroll-profile-new.json';
+import enrollProfile from '../../../../../../playground/mocks/data/idp/idx/enroll-profile-new-with-captcha.json';
 
 describe('v2/view-builder/views/ov/EnrollPollOktaVerifyView', function() {
   let testContext;

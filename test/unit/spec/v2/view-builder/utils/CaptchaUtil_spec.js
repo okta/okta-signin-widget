@@ -1,6 +1,6 @@
 import $sandbox from 'sandbox';
 import { renderCaptcha } from 'v2/view-builder/utils/CaptchaUtil';
-import enrollProfile from '../../../../../../playground/mocks/data/idp/idx/enroll-profile-new.json';
+import enrollProfile from '../../../../../../playground/mocks/data/idp/idx/enroll-profile-new-with-captcha.json';
 import { View } from 'okta';
 import Enums from 'util/Enums';
 
