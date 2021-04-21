@@ -2,7 +2,7 @@
 /* eslint no-console: 0 */
 
 import signinWidgetOptions from '../.widgetrc.js';
-import { assertNoEnglishLeaks } from '../LocaleUtils';
+import { assertNoEnglishLeaks } from '../playground/LocaleUtils';
 
 let signIn;
 
@@ -85,15 +85,19 @@ const renderPlaygroundWidget = (options = {}) => {
 
     // assert english leaks if locale set to ok-PL
     if (signinWidgetOptions.language === 'ok-PL') {
-      // wait for view to finish rendering
-      const viewText = document.getElementById('okta-sign-in').textContent;
+      //Use innerText to avoid including hidden elements
+      let viewText = document.getElementById('okta-sign-in').innerText;
+      viewText = viewText.split('\n').join(' ');
+
       const noTranslationContentExists = document.getElementsByClassName('no-translate').length;
-      let noTranslationContent = '';
+
+      let noTranslationContent = [];
       /* eslint max-depth: [2, 3] */
       if (noTranslationContentExists) {
         const noTranslateElems = document.getElementsByClassName('no-translate');
         for (var i = 0; i < noTranslateElems.length; i++) {
-          noTranslationContent += noTranslateElems[i].textContent;
+          //build array of noTranslationContent
+          noTranslationContent.push(noTranslateElems[i].textContent);
         }
       }
       assertNoEnglishLeaks(null, viewText, noTranslationContent);

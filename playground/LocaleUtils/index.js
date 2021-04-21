@@ -1,13 +1,16 @@
 
-export async function assertNoEnglishLeaks(mockFile, viewText, noTranslationContent) {
+export async function assertNoEnglishLeaks(mockFile, viewText, noTranslationContents) {
   const regEx = '(?<=\》).+?(?=\《)'; // eslint-disable-line no-useless-escape
   const pseudoLocSymbols = ['》', '《', '《 》', '《》'];
   if (!viewText.length) {
     return;
   }
-  // Exclude all elements with a class of no-translate. Example phone numbers
-  if (noTranslationContent.length) {
-    viewText = viewText.split(noTranslationContent).join('');
+  // Exclude all elements with a class of no-translate. Example phone numbers, urls, vendor names
+  if (noTranslationContents.length) {
+    //replace each item in noTranslationContents
+    noTranslationContents.forEach(noTranslationContent => {
+      viewText = viewText.split(noTranslationContent).join('');
+    });
   }
   let extractedString = viewText.trim().replace(new RegExp(regEx, 'g'), ' ');
   /*

@@ -37,7 +37,7 @@ const Body = BaseForm.extend({
         {
           type: 'label',
           label: `+${this.model.get('phoneCode')}`,
-          className: 'country-code-label',
+          className: 'country-code-label no-translate',
         },
         Object.assign({}, phoneNumberUISchema),
       ],

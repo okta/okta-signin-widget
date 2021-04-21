@@ -21,10 +21,10 @@ const AdminConsentViewHeader = View.extend({
     {{/if}}
     <h1>
       <span class="title-text">
-        <b>{{appName}}</b>&nbsp;{{titleText}}
+        <b class="no-translate">{{appName}}</b>&nbsp;{{titleText}}
       </span>
       {{#if issuer}}
-        <div class="issuer"><span>{{issuer}}</span></div>
+        <div class="issuer no-translate"><span>{{issuer}}</span></div>
       {{/if}}
     </h1>`,
   getTemplateData: function() {
