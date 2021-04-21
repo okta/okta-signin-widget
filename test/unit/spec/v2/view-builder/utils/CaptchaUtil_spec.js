@@ -63,6 +63,6 @@ describe('CaptchaUtil', () => {
     renderCaptcha(testContext.captchaConfig, testContext.form, testContext.onCaptchaSolvedCallback);
     expect(window.hcaptcha.render).toHaveBeenCalled();
     expect(testFormView.$el.find('.button-primary').attr('data-captcha-id')).toEqual('0');
-    expect(testFormView.$el.find('#captcha-footer').length).toEqual(1);
+    expect(testFormView.$el.find('.captcha-footer').length).toEqual(1);
   });
 });
