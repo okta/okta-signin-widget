@@ -22,45 +22,18 @@ import { getTransactionMeta, saveTransactionMeta } from './transactionMeta';
 export async function interact(settings) {
 
   const authClient = settings.getAuthClient();
-  let meta;
-  let interactionHandle = settings.get('interactionHandle');
-  if (interactionHandle) {
-    // The transaction is owned by a client outside the widget
-    settings.set('mode', 'remediation');
-    meta = {
-      state: authClient.options.state,
-      scopes: authClient.options.scopes,
-      codeChallenge: settings.get('codeChallenge'),
-      codeChallengeMethod: settings.get('codeChallengeMethod')
-    };
-  } else {
-    // Try to load a saved transaction from client storage
-    meta = await getTransactionMeta(settings);
-    interactionHandle = meta.interactionHandle; // will be undefined for new transactions
-  }
-
-  // PKCE properties from meta. These will only be used by idx-js if there is no interactionHandle.
+  let meta = await getTransactionMeta(settings);
   const {
-    codeVerifier,
+    interactionHandle,
     codeChallenge,
-    codeChallengeMethod
+    codeChallengeMethod,
+    scopes,
+    state
   } = meta;
 
   // These properties are defined by global configuration
   const { issuer, clientId, redirectUri } = authClient.options;
   const version = settings.get('apiVersion');
-
-  // If we are resuming a transaction, saved values should override configured values for these properties
-  let state;
-  let scopes;
-  if (!interactionHandle) {
-    state = authClient.options.state || meta.state;
-    scopes = authClient.options.scopes || meta.scopes;
-  } else {
-    // saved transaction: use only saved values
-    state = meta.state;
-    scopes = meta.scopes;
-  }
 
   return idx.start({
     // if interactionHandle is undefined here, idx will bootstrap a new interactionHandle
@@ -74,18 +47,11 @@ export async function interact(settings) {
     state,
     redirectUri,
 
-    // PKCE (only used by idx-js if interactionHandle is undefined)
-    codeVerifier,
+    // PKCE code challenge: only used if interactionHandle is undefined
     codeChallenge,
     codeChallengeMethod
   })
     .then(response => {
-      // In remediation mode the transaction is owned by another client.
-      const isRemediationMode = settings.get('mode') === 'remediation';
-      if (isRemediationMode) {
-        // return idx response
-        return response;
-      }
 
       // If this is a new transaction an interactionHandle was returned
       if (!interactionHandle && response.toPersist.interactionHandle) {

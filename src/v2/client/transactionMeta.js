@@ -12,6 +12,12 @@
 
 import Logger from 'util/Logger';
 
+// Calculate new values
+export function createTransactionMeta(settings) {
+  const authClient = settings.getAuthClient();
+  return authClient.token.prepareTokenParams();
+}
+
 export async function getTransactionMeta(settings) {
   const authClient = settings.getAuthClient();
 
@@ -28,8 +34,24 @@ export async function getTransactionMeta(settings) {
       'This may indicate that two apps are sharing a storage key.');
   }
 
-  // Calculate new values
-  return authClient.token.prepareTokenParams();
+  // New transaction
+
+  let interactionHandle = settings.get('interactionHandle');
+  let codeChallenge = settings.get('codeChallenge');
+  let codeChallengeMethod = settings.get('codeChallengeMethod');
+
+  const meta = createTransactionMeta(settings);
+  if (interactionHandle) {
+    meta.interactionHandle = interactionHandle;
+  }
+  if (codeChallenge) {
+    meta.codeChallenge = codeChallenge;
+  }
+  if (codeChallengeMethod) {
+    meta.codeChallengeMethod = codeChallengeMethod;
+  }
+
+  return meta;
 }
 
 export function saveTransactionMeta(settings, meta) {
@@ -42,13 +64,29 @@ export function clearTransactionMeta(settings) {
   authClient.transactionManager.clear();
 }
 
-// returns true if values in meta match current authClient options
-// this logic can be moved to okta-auth-js OKTA-371584
 export function isTransactionMetaValid(settings, meta) {
-  const keys = ['clientId', 'redirectUri'];
+  // returns false if values in meta do not match current authClient options
+  // this logic can be moved to okta-auth-js OKTA-371584
+  const authOptions = ['clientId', 'redirectUri'];
   const authClient = settings.getAuthClient();
-  const mismatch = keys.find(key => {
+  const mismatch = authOptions.find(key => {
     return authClient.options[key] !== meta[key];
   });
-  return !mismatch;
+  if (mismatch) {
+    return false;
+  }
+
+  // if `interactionHandle` option was provided, validate it against the meta
+  const interactionHandle = settings.get('interactionHandle');
+  if (interactionHandle && meta.interactionHandle !== interactionHandle) {
+    return false;
+  }
+
+  // if `codeChallenge` option was provided, validate it against the meta
+  const codeChallenge = settings.get('codeChallenge');
+  if (codeChallenge && meta.codeChallenge !== codeChallenge) {
+    return false;
+  }
+
+  return true;
 }
