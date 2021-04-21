@@ -120,7 +120,7 @@ const Body = BaseForm.extend({
           ...newSchema,
           explain: loc(identifierExplainLabeli18nKey, 'login'),
           'explain-top': true,
-          inputId: 'okta-signin-username',
+          'data-se': 'username-form-container',
         };
       } else if (schema.name === 'credentials.passcode' &&
           isCustomizedI18nKey(passwordExplainLabeli18nKey, settings)) {
@@ -128,7 +128,7 @@ const Body = BaseForm.extend({
           ...newSchema,
           explain: loc(passwordExplainLabeli18nKey, 'login'),
           'explain-top': true,
-          inputId: 'okta-signin-password',
+          'data-se': 'password-form-container',
         };
       }
 
