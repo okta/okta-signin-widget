@@ -1,14 +1,10 @@
-import Expect from 'helpers/util/Expect';
 import $sandbox from 'sandbox';
 import DeviceFingerprint from 'util/DeviceFingerprint';
 
-Expect.describe('DeviceFingerprint', function() {
+describe('DeviceFingerprint', () => {
   function mockIFrameMessages(success, errorMessage) {
     const message = success
-      ? {
-        type: 'FingerprintAvailable',
-        fingerprint: 'thisIsTheFingerprint',
-      }
+      ? { type: 'FingerprintAvailable', fingerprint: 'thisIsTheFingerprint' }
       : errorMessage;
 
     // TODO (jest): event is missing `origin` propety
@@ -16,139 +12,119 @@ Expect.describe('DeviceFingerprint', function() {
   }
 
   function mockUserAgent(userAgent) {
-    spyOn(DeviceFingerprint, 'getUserAgent').and.callFake(function() {
-      return userAgent;
-    });
+    jest.spyOn(navigator, 'userAgent', 'get').mockReturnValue(userAgent);
   }
 
-  function bypassMessageSourceCheck() {
+  function bypassMessageSourceCheck(bypass = true) {
     // since we mock the Iframe messages the check to see if the message
     // sent from right iframe would fail.
-    spyOn(DeviceFingerprint, 'isMessageFromCorrectSource').and.callFake(function() {
-      return true;
-    });
+    jest.spyOn(DeviceFingerprint, 'isMessageFromCorrectSource').mockReturnValue(bypass);
   }
 
-  const baseUrl = window.origin || 'file://';
+  // HACK - mock events do not have the "origin". We can get around this by setting the
+  // checked domain to an empty string.
+  const baseUrl = '';
 
-  it('iframe is created with the right src and it is hidden', function() {
-    spyOn(window, 'addEventListener');
+  it('iframe is created with the right src and it is hidden', () => {
+    jest.spyOn(window, 'addEventListener');
     DeviceFingerprint.generateDeviceFingerprint('baseUrl', $sandbox);
     const $iFrame = $sandbox.find('iframe');
 
     expect($iFrame.length).toBe(1);
     expect($iFrame.attr('src')).toBe('baseUrl/auth/services/devicefingerprint');
     expect($iFrame.css('display')).toBe('none');
-    expect(window.addEventListener).toHaveBeenCalledWith('message', jasmine.any(Function), false);
+    expect(window.addEventListener).toHaveBeenCalledWith('message', expect.any(Function), false);
   });
 
-  it('returns a fingerprint if the communication with the iframe is successfull', function() {
+  it('returns a fingerprint if the communication with the iframe is successful', async () => {
     mockIFrameMessages(true);
     bypassMessageSourceCheck();
-    return DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox).then(function(fingerprint) {
-      expect(fingerprint).toBe('thisIsTheFingerprint');
-    });
+    const fingerprint = await DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox);
+    expect(fingerprint).toBe('thisIsTheFingerprint');
   });
 
-  it('fails if the iframe does not load', function(done) {
-    DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)
-      .then(function() {
-        done.fail('Fingerprint promise should have been rejected');
-      })
-      .catch(function(reason) {
-        expect(reason).toBe('service not available');
-        const $iFrame = $sandbox.find('iframe');
-
-        expect($iFrame.length).toBe(0);
-        done();
-      });
+  it('fails if the iframe does not load', async () => {
+    try {
+      await DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox);
+      fail('Fingerprint promise should have been rejected');
+    } catch (reason) {
+      expect(reason).toBe('service not available');
+      const $iFrame = $sandbox.find('iframe');
+      expect($iFrame.length).toBe(0);
+    }
   });
 
-  it('clears iframe timeout once the iframe loads', function() {
+  it('clears iframe timeout once the iframe loads', async () => {
     mockIFrameMessages(true);
     bypassMessageSourceCheck();
-    const originalClearTimeout = window.clearTimeout;
-
-    window.clearTimeout = jasmine.createSpy('clearTimeout');
-    return DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox).then(function(fingerprint) {
-      expect(fingerprint).toBe('thisIsTheFingerprint');
-      expect(window.clearTimeout).toHaveBeenCalled();
-      window.clearTimeout = originalClearTimeout;
-    });
+    
+    const clearTimeoutSpy = jest.spyOn(window, 'clearTimeout');
+    const fingerprint = await DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox);
+    expect(fingerprint).toBe('thisIsTheFingerprint');
+    expect(clearTimeoutSpy).toHaveBeenCalled();
   });
 
-  it('fails if there is a problem with communicating with the iframe', function(done) {
+  it('fails if there is a problem with communicating with the iframe', async () => {
     mockIFrameMessages(false);
     bypassMessageSourceCheck();
-    DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)
-      .then(function() {
-        done.fail('Fingerprint promise should have been rejected');
-      })
-      .catch(function(reason) {
-        expect(reason).toBe('no data');
-        const $iFrame = $sandbox.find('iframe');
 
-        expect($iFrame.length).toBe(0);
-        done();
-      });
+    try {
+      await DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox);
+      fail('Fingerprint promise should have been rejected');
+    } catch (reason) {
+      expect(reason).toBe('no data');
+      const $iFrame = $sandbox.find('iframe');
+      expect($iFrame.length).toBe(0);
+    }
   });
 
-  it('fails if there iframe sends and invalid message content', function(done) {
+  it('fails if there iframe sends and invalid message content', async () => {
     mockIFrameMessages(false, { type: 'InvalidMessageType' });
     bypassMessageSourceCheck();
-    DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)
-      .then(function() {
-        done.fail('Fingerprint promise should have been rejected');
-      })
-      .catch(function(reason) {
-        expect(reason).toBe('no data');
-        const $iFrame = $sandbox.find('iframe');
 
-        expect($iFrame.length).toBe(0);
-        done();
-      });
+    try {
+      await DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox);
+      fail('Fingerprint promise should have been rejected');
+    } catch (reason) {
+      expect(reason).toBe('no data');
+      const $iFrame = $sandbox.find('iframe');
+      expect($iFrame.length).toBe(0);
+    }
   });
 
-  it('fails if user agent is not defined', function(done) {
+  it('fails if user agent is not defined', async () => {
     mockUserAgent();
     mockIFrameMessages(true);
-    DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)
-      .then(function() {
-        done.fail('Fingerprint promise should have been rejected');
-      })
-      .catch(function(reason) {
-        const $iFrame = $sandbox.find('iframe');
 
-        expect($iFrame.length).toBe(0);
-        expect(reason).toBe('user agent is not defined');
-        done();
-      });
+    try {
+      await DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox);
+      fail('Fingerprint promise should have been rejected');
+    } catch (reason) {
+      const $iFrame = $sandbox.find('iframe');
+      expect($iFrame.length).toBe(0);
+      expect(reason).toBe('user agent is not defined');
+    }
   });
 
-  it('fails if it is called from a Windows phone', function(done) {
+  it('fails if it is called from a Windows phone', async () => {
     mockUserAgent('Windows Phone');
     mockIFrameMessages(true);
-    DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox)
-      .then(function() {
-        done.fail('Fingerprint promise should have been rejected');
-      })
-      .catch(function(reason) {
-        expect(reason).toBe('device fingerprint is not supported on Windows phones');
-        const $iFrame = $sandbox.find('iframe');
 
-        expect($iFrame.length).toBe(0);
-        done();
-      });
+    try {
+      await DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox);
+      fail('Fingerprint promise should have been rejected');
+    } catch (reason) {
+      expect(reason).toBe('device fingerprint is not supported on Windows phones');
+      const $iFrame = $sandbox.find('iframe');
+      expect($iFrame.length).toBe(0);
+    }
   });
 
-  it('ignores if message is not from right iframe', function(done) {
-    spyOn(DeviceFingerprint, 'isMessageFromCorrectSource').and.callFake(() => {
-      return false;
-    });
+  it('ignores if message is not from right iframe', async () => {
+    bypassMessageSourceCheck(false);
     mockIFrameMessages(true);
-    const messageHandler = () => {
-      expect(DeviceFingerprint.isMessageFromCorrectSource).toHaveBeenCalled();
 
+    const messageHandler = () => {
       // When promise either resolved or rejected, the iframe will be removed.
       // Verify the exists of iframe implies promise is neither resolved nor rejected
       const $iFrame = $sandbox.find('iframe');
@@ -158,12 +134,15 @@ Expect.describe('DeviceFingerprint', function() {
       expect($iFrame.css('display')).toBe('none');
 
       window.removeEventListener('message', messageHandler, false);
-      done();
     };
 
-    DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox);
-    expect(DeviceFingerprint.isMessageFromCorrectSource).not.toHaveBeenCalled();
-
     window.addEventListener('message', messageHandler, false);
+
+    try {
+      await DeviceFingerprint.generateDeviceFingerprint(baseUrl, $sandbox);
+      fail('Fingerprint promise should have been rejected');
+    } catch {
+      expect(DeviceFingerprint.isMessageFromCorrectSource).toHaveBeenCalled();
+    }
   });
 });
