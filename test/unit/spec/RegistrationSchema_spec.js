@@ -2,7 +2,9 @@
 import RegistrationSchema from 'models/RegistrationSchema';
 import Settings from 'models/Settings';
 
-describe('RegistrationSchema', function() {
+describe('RegistrationSchema', () => {
+  let testContext;
+
   const getSettings = () => {
     return new Settings({
       baseUrl: 'http://localhost:3000',
@@ -11,9 +13,11 @@ describe('RegistrationSchema', function() {
       },
     });
   };
-  describe('properties', function() {
-    describe('string field', function() {
-      beforeEach(function() {
+
+  describe('properties', () => {    
+    describe('string field', () => {
+  
+      beforeEach(() => {
         const jsonResponse = {
           profileSchema: {
             properties: {
@@ -26,43 +30,43 @@ describe('RegistrationSchema', function() {
             },
           },
         };
-
-        this.schema = new RegistrationSchema();
-        this.schema.settings = getSettings();
-        this.schema.parse(jsonResponse);
+        testContext = {};
+        testContext.schema = new RegistrationSchema();
+        testContext.schema.settings = getSettings();
+        testContext.schema.parse(jsonResponse);
       });
 
-      it('only has one property', function() {
-        expect(this.schema.properties.length).toEqual(1);
+      it('only has one property', () => {
+        expect(testContext.schema.properties.length).toEqual(1);
       });
 
-      it('has a correct name', function() {
-        expect(this.schema.properties.first().get('name')).toEqual('stringfield');
+      it('has a correct name', () => {
+        expect(testContext.schema.properties.first().get('name')).toEqual('stringfield');
       });
 
-      it('is a string type', function() {
-        expect(this.schema.properties.first().get('type')).toEqual('string');
+      it('is a string type', () => {
+        expect(testContext.schema.properties.first().get('type')).toEqual('string');
       });
 
-      it('has a correct description', function() {
-        expect(this.schema.properties.first().get('description')).toEqual('The description');
+      it('has a correct description', () => {
+        expect(testContext.schema.properties.first().get('description')).toEqual('The description');
       });
 
-      it('has a correct minLength', function() {
-        expect(this.schema.properties.first().get('minLength')).toEqual(2);
+      it('has a correct minLength', () => {
+        expect(testContext.schema.properties.first().get('minLength')).toEqual(2);
       });
 
-      it('has a correct maxLength', function() {
-        expect(this.schema.properties.first().get('maxLength')).toEqual(10);
+      it('has a correct maxLength', () => {
+        expect(testContext.schema.properties.first().get('maxLength')).toEqual(10);
       });
 
-      it('does not have format', function() {
-        expect(this.schema.properties.first().get('format')).toBeUndefined();
+      it('does not have format', () => {
+        expect(testContext.schema.properties.first().get('format')).toBeUndefined();
       });
     });
 
-    describe('email field', function() {
-      beforeEach(function() {
+    describe('email field', () => {
+      beforeEach(() => {
         const jsonResponse = {
           profileSchema: {
             properties: {
@@ -73,24 +77,24 @@ describe('RegistrationSchema', function() {
             },
           },
         };
-
-        this.schema = new RegistrationSchema();
-        this.schema.settings = getSettings();
-        this.schema.parse(jsonResponse);
+        testContext = {};
+        testContext.schema = new RegistrationSchema();
+        testContext.schema.settings = getSettings();
+        testContext.schema.parse(jsonResponse);
       });
 
       // eslint-disable-next-line jasmine/no-spec-dupes
-      it('is a string type', function() {
-        expect(this.schema.properties.first().get('type')).toEqual('string');
+      it('is a string type', () => {
+        expect(testContext.schema.properties.first().get('type')).toEqual('string');
       });
 
-      it('have a correct format', function() {
-        expect(this.schema.properties.first().get('format')).toEqual('email');
+      it('have a correct format', () => {
+        expect(testContext.schema.properties.first().get('format')).toEqual('email');
       });
     });
 
-    describe('enum field', function() {
-      beforeEach(function() {
+    describe('enum field', () => {
+      beforeEach(() => {
         const jsonResponse = {
           profileSchema: {
             properties: {
@@ -101,24 +105,24 @@ describe('RegistrationSchema', function() {
             },
           },
         };
-
-        this.schema = new RegistrationSchema();
-        this.schema.settings = getSettings();
-        this.schema.parse(jsonResponse);
+        testContext = {};
+        testContext.schema = new RegistrationSchema();
+        testContext.schema.settings = getSettings();
+        testContext.schema.parse(jsonResponse);
       });
 
       // eslint-disable-next-line jasmine/no-spec-dupes
-      it('is a string type', function() {
-        expect(this.schema.properties.first().get('type')).toEqual('string');
+      it('is a string type', () => {
+        expect(testContext.schema.properties.first().get('type')).toEqual('string');
       });
 
-      it('have a correct enum', function() {
-        expect(this.schema.properties.first().get('enum')).toEqual(['Apple', 'Banana', 'Cherry']);
+      it('have a correct enum', () => {
+        expect(testContext.schema.properties.first().get('enum')).toEqual(['Apple', 'Banana', 'Cherry']);
       });
     });
 
-    describe('required fields', function() {
-      beforeEach(function() {
+    describe('required fields', () => {
+      beforeEach(() => {
         const jsonResponse = {
           policyId: '1234',
           profileSchema: {
@@ -136,37 +140,37 @@ describe('RegistrationSchema', function() {
             required: ['field3', 'field1'],
           },
         };
-
-        this.schema = new RegistrationSchema();
-        this.schema.settings = getSettings();
-        this.schema.parse(jsonResponse);
+        testContext = {};
+        testContext.schema = new RegistrationSchema();
+        testContext.schema.settings = getSettings();
+        testContext.schema.parse(jsonResponse);
       });
 
-      it('has 3 properties', function() {
-        expect(this.schema.properties.length).toEqual(3);
+      it('has 3 properties', () => {
+        expect(testContext.schema.properties.length).toEqual(3);
       });
 
-      it('field1 is required', function() {
-        expect(this.schema.properties.get('field1').get('required')).toBe(true);
-        expect(this.schema.properties.createModelProperties()['field1'].required).toBe(true);
+      it('field1 is required', () => {
+        expect(testContext.schema.properties.get('field1').get('required')).toBe(true);
+        expect(testContext.schema.properties.createModelProperties()['field1'].required).toBe(true);
       });
 
-      it('field2 is not required', function() {
-        expect(this.schema.properties.get('field2').get('required')).toBe(false);
-        expect(this.schema.properties.createModelProperties()['field2'].required).toBe(false);
+      it('field2 is not required', () => {
+        expect(testContext.schema.properties.get('field2').get('required')).toBe(false);
+        expect(testContext.schema.properties.createModelProperties()['field2'].required).toBe(false);
       });
 
-      it('field3 is required', function() {
-        expect(this.schema.properties.get('field3').get('required')).toBe(true);
+      it('field3 is required', () => {
+        expect(testContext.schema.properties.get('field3').get('required')).toBe(true);
       });
 
-      it('policyId is set', function() {
-        expect(this.schema.properties.defaultPolicyId).toBe('1234');
+      it('policyId is set', () => {
+        expect(testContext.schema.properties.defaultPolicyId).toBe('1234');
       });
     });
 
-    describe('sorting order', function() {
-      beforeEach(function() {
+    describe('sorting order', () => {
+      beforeEach(() => {
         const jsonResponse = {
           profileSchema: {
             properties: {
@@ -189,18 +193,18 @@ describe('RegistrationSchema', function() {
             fieldOrder: ['field5', 'field2', 'field6', 'field3', 'field1'],
           },
         };
-
-        this.schema = new RegistrationSchema();
-        this.schema.settings = getSettings();
-        this.schema.parse(jsonResponse);
+        testContext = {};
+        testContext.schema = new RegistrationSchema();
+        testContext.schema.settings = getSettings();
+        testContext.schema.parse(jsonResponse);
       });
 
-      it('has 5 properties', function() {
-        expect(this.schema.properties.length).toEqual(5);
+      it('has 5 properties', () => {
+        expect(testContext.schema.properties.length).toEqual(5);
       });
 
-      it('have a correct sort order', function() {
-        const order = this.schema.properties.pluck('name');
+      it('have a correct sort order', () => {
+        const order = testContext.schema.properties.pluck('name');
 
         expect(order).toEqual(['field5', 'field2', 'field6', 'field3', 'field1']);
       });
