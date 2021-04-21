@@ -108,7 +108,7 @@ const getSignOutLink = (settings) => {
     return [
       {
         'actionPath': 'cancel',
-        'label': loc('backToSignin', 'login'),
+        'label': loc('goback', 'login'),
         'name': 'cancel',
         'type': 'link'
       },
@@ -120,7 +120,7 @@ const getBackToSignInLink = (settings) => {
   return [
     {
       'type': 'link',
-      'label': loc('backToSignin', 'login'),
+      'label': loc('goback', 'login'),
       'name': 'go-back',
       // TODO: OKTA-381328 back to baseUrl only works for default login page
       'href': settings?.get('baseUrl'),
