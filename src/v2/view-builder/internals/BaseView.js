@@ -1,4 +1,5 @@
 import { _, View } from 'okta';
+import BaseHeader from './BaseHeader';
 import BaseForm from './BaseForm';
 import BaseModel from './BaseModel';
 import BaseFooter from './BaseFooter';
@@ -7,7 +8,7 @@ import {getClassNameMapping} from '../../ion/ViewClassNamesFactory';
 
 export default View.extend({
 
-  Header: null,
+  Header: BaseHeader,
 
   Body: BaseForm,
 
