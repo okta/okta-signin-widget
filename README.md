@@ -1509,7 +1509,7 @@ Triggered when the widget transitions to a new page and animations have finished
 - **controller** - Current controller name
 
 ```javascript
-// Overriding the "Back to Sign In" click action on the Forgot Password page
+// Overriding the "Back to Sign in" click action on the Forgot Password page
 signIn.on('afterRender', function (context) {
   if (context.controller !== 'forgot-password') {
     return;
