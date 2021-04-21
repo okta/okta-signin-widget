@@ -77,7 +77,7 @@ Expect.describe('RecoveryChallenge', function() {
         const $link = test.form.signoutLink();
 
         expect($link.length).toBe(1);
-        expect($link.text()).toBe('Back to Sign in');
+        expect($link.text()).toBe('Back to sign in');
         $link.click();
         return Expect.waitForPrimaryAuth(test);
       })
@@ -112,7 +112,7 @@ Expect.describe('RecoveryChallenge', function() {
         const $link = test.form.signoutLink();
 
         expect($link.length).toBe(1);
-        expect($link.text()).toBe('Back to Sign in');
+        expect($link.text()).toBe('Back to sign in');
         $link.click();
         return Expect.waitForSpyCall(test.router.controller.options.appState.clearLastAuthResponse, test);
       })
