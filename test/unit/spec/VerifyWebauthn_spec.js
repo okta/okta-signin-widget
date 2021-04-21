@@ -296,7 +296,7 @@ function testWebauthnFactor(setupFn, webauthnOnly) {
   itp('has a sign out link', function() {
     return setupFn({ webauthnSupported: true }).then(function(test) {
       Expect.isVisible(test.form.signoutLink($sandbox));
-      expect(test.form.signoutLink($sandbox).text()).toBe('Back to Sign In');
+      expect(test.form.signoutLink($sandbox).text()).toBe('Back to Sign in');
     });
   });
   itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function() {

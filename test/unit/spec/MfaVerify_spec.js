@@ -2370,12 +2370,12 @@ Expect.describe('MFA Verify', function() {
       itp('is visible', function() {
         return setupWithFirstFactor({ factorType: 'question' }).then(function(test) {
           Expect.isVisible(test.form.signoutLink($sandbox));
-          expect(test.form.signoutLink($sandbox).text()).toBe('Back to Sign In');
+          expect(test.form.signoutLink($sandbox).text()).toBe('Back to Sign in');
         });
       });
-      itp('text is "Back to Sign In"', function() {
+      itp('text is "Back to Sign in"', function() {
         return setupWithFirstFactor({ factorType: 'question' }).then(function(test) {
-          expect(test.form.signoutLink($sandbox).text()).toBe('Back to Sign In');
+          expect(test.form.signoutLink($sandbox).text()).toBe('Back to Sign in');
         });
       });
       itp('is not present if features.hideSignOutLinkInMFA is true', function() {
@@ -3745,7 +3745,7 @@ Expect.describe('MFA Verify', function() {
       itp('has a sign out link', function() {
         return setupDuo().then(function(test) {
           Expect.isVisible(test.form.signoutLink($sandbox));
-          expect(test.form.signoutLink($sandbox).text()).toBe('Back to Sign In');
+          expect(test.form.signoutLink($sandbox).text()).toBe('Back to Sign in');
         });
       });
       itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function() {
@@ -3855,7 +3855,7 @@ Expect.describe('MFA Verify', function() {
       itp('has a sign out link', function() {
         return setupWindowsHello().then(function(test) {
           Expect.isVisible(test.form.signoutLink($sandbox));
-          expect(test.form.signoutLink($sandbox).text()).toBe('Back to Sign In');
+          expect(test.form.signoutLink($sandbox).text()).toBe('Back to Sign in');
         });
       });
       itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function() {
@@ -4066,7 +4066,7 @@ Expect.describe('MFA Verify', function() {
       itp('has a sign out link', function() {
         return setupU2F({ u2f: true }).then(function(test) {
           Expect.isVisible(test.form.signoutLink($sandbox));
-          expect(test.form.signoutLink($sandbox).text()).toBe('Back to Sign In');
+          expect(test.form.signoutLink($sandbox).text()).toBe('Back to Sign in');
         });
       });
       itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function() {
@@ -4389,7 +4389,7 @@ Expect.describe('MFA Verify', function() {
       itp('has a sign out link', function() {
         return setupClaimsProviderFactorWithIntrospect().then(function(test) {
           Expect.isVisible(test.form.signoutLink($sandbox));
-          expect(test.form.signoutLink($sandbox).text()).toBe('Back to Sign In');
+          expect(test.form.signoutLink($sandbox).text()).toBe('Back to Sign in');
         });
       });
       itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function() {
@@ -4500,7 +4500,7 @@ Expect.describe('MFA Verify', function() {
         itp('has a sign out link if factorResult FAILED', function() {
           return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
             Expect.isVisible(test.form.signoutLink($sandbox));
-            expect(test.form.signoutLink($sandbox).text()).toBe('Back to Sign In');
+            expect(test.form.signoutLink($sandbox).text()).toBe('Back to Sign in');
           });
         });
         itp('does not have sign out link if features.hideSignOutLinkInMFA is true', function() {
