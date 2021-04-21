@@ -5715,14 +5715,6 @@ eslint-plugin-json@^2.1.2:
     lodash "^4.17.19"
     vscode-json-languageservice "^3.7.0"
 
-eslint-plugin-json@^2.1.2:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-json/-/eslint-plugin-json-2.1.2.tgz#5bc1c221984583c0c5ff21c488386e8263a6bbb7"
-  integrity sha512-isM/fsUxS4wN1+nLsWoV5T4gLgBQnsql3nMTr8u+cEls1bL8rRQO5CP5GtxJxaOfbcKqnz401styw+H/P+e78Q==
-  dependencies:
-    lodash "^4.17.19"
-    vscode-json-languageservice "^3.7.0"
-
 eslint-plugin-local-rules@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-local-rules/-/eslint-plugin-local-rules-0.1.1.tgz#4fa5921389383f10cc1e6cfeb1c24e11597e8cef"
