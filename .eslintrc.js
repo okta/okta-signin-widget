@@ -36,6 +36,12 @@ module.exports = {
       'rules': {
         'local-rules/no-missing-keys': 2,
       }
+    },
+    {
+      'files': ['playground/**/*.json'],
+      'rules': {
+        'local-rules/no-missing-api-keys': 1,
+      }
     }
   ],
   'rules': {
