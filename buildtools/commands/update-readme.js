@@ -14,8 +14,13 @@ function getPublishedWidgetVersion() {
 
 exports.command = 'update-readme';
 exports.describe = 'Updates CDN URLs in the README file';
-exports.handler = () => {
-  const version = getPublishedWidgetVersion();
+exports.builder = {
+  ver: {
+    description: 'Use specific widget version. default to latest publish version.',
+  },
+};
+exports.handler = (argv) => {
+  const version = argv.ver ? argv.ver : getPublishedWidgetVersion();
   const options = {
     files: resolve(join(ROOT_DIR, 'README.md')),
     from: /https:\/\/global\.oktacdn\.com\/okta-signin-widget\/\d+\.\d+\.\d+/g,
