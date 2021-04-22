@@ -97,10 +97,13 @@ export default View.extend({
   _addHCaptchaFooter() {
     // NOTE: insetAdjacentHTML() is supported in all major browsers: 
     // https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML#browser_compatibility
-    document.getElementsByClassName(WIDGET_FOOTER_CLASS)[0].insertAdjacentHTML('beforeend',
-      `<div class="captcha-footer">
-          <span class="footer-text">${loc('hcaptcha.footer.label', 'login')}</span>
-        </div>`
-    );
+    const footerContainer = document.getElementsByClassName(WIDGET_FOOTER_CLASS);
+    if (footerContainer.length) {
+      footerContainer[0].insertAdjacentHTML('beforeend',
+        `<div class="captcha-footer">
+            <span class="footer-text">${loc('hcaptcha.footer.label', 'login')}</span>
+          </div>`
+      );
+    }
   }
 });

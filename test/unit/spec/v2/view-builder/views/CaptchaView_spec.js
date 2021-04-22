@@ -37,6 +37,9 @@ describe('v2/view-builder/views/CaptchaView', function() {
 
   it('_addHCaptchaFooter adds HCAPTCHA footer properly', function() {
     testContext.init();
+    testContext.view._addHCaptchaFooter();
+    expect(testContext.view.$el.find('.captcha-footer .footer-text').length).toEqual(0);
+
     const footerDiv = document.createElement('div');
     footerDiv.className = WIDGET_FOOTER_CLASS;
     testContext.view.$el.append(footerDiv);

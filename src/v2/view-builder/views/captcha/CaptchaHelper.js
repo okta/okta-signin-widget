@@ -30,8 +30,8 @@ export function renderCaptcha(captchaConfig, form, onCaptchaSolvedCallback) {
       sitekey: captchaConfig.siteKey,
       callback: (token) => {
         // We reset the Captchas using the id(s) that were generated during their rendering.
-        const submitButtons = document.getElementsByClassName('button-primary');
-        submitButtons.forEach(btn => {
+        const submitButtons = form.$('.o-form-button-bar .button[type=submit]');
+        submitButtons.each((_, btn) => {
           captchaObject.reset(btn.getAttribute('data-captcha-id'));
         });
 
