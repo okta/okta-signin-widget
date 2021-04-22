@@ -39,7 +39,7 @@ export default View.extend({
       })
       .then(function() {
         if (self.options.closeSession) {
-          const authClient = self.options.appState.settings.authClient;
+          const authClient = self.settings.authClient;
           return authClient.closeSession();
         }
       })
