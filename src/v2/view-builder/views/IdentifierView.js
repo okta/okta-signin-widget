@@ -115,21 +115,26 @@ const Body = BaseForm.extend({
     const newSchemas = schemas.map(schema => {
       let newSchema = { ...schema };
 
-      if (schema.name === 'identifier' && isCustomizedI18nKey(identifierExplainLabeli18nKey, settings)) {
-        newSchema = {
-          ...newSchema,
-          explain: loc(identifierExplainLabeli18nKey, 'login'),
-          'explain-top': true,
-          'data-se': 'username-form-container',
-        };
-      } else if (schema.name === 'credentials.passcode' &&
-          isCustomizedI18nKey(passwordExplainLabeli18nKey, settings)) {
-        newSchema = {
-          ...newSchema,
-          explain: loc(passwordExplainLabeli18nKey, 'login'),
-          'explain-top': true,
-          'data-se': 'password-form-container',
-        };
+      if (schema.name === 'identifier') {
+        newSchema['data-se'] = `o-form-fieldset-${schema.name}`;
+
+        if (isCustomizedI18nKey(identifierExplainLabeli18nKey, settings)) {
+          newSchema = {
+            ...newSchema,
+            explain: loc(identifierExplainLabeli18nKey, 'login'),
+            'explain-top': true,
+          };
+        }
+      } else if (schema.name === 'credentials.passcode') {
+        newSchema['data-se'] = `o-form-fieldset-${schema.name}`;
+
+        if (isCustomizedI18nKey(passwordExplainLabeli18nKey, settings)) {
+          newSchema = {
+            ...newSchema,
+            explain: loc(passwordExplainLabeli18nKey, 'login'),
+            'explain-top': true,
+          };
+        }
       }
 
       return newSchema;
