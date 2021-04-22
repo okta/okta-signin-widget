@@ -64,9 +64,12 @@ const createEnduserScopesView = () => {
   };
 };
 
-const createCaptchaView = () => {
+const createCaptchaView = (opt) => {
   return {
     View: CaptchaView,
+    options: {
+      name: opt.name,
+    }    
   };
 };
 

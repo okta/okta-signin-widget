@@ -10,11 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-const HCAPTCHA_URL = 'https://hcaptcha.com/1/api.js?onload=onCaptchaLoaded&render=explicit';
-const RECAPTCHAV2_URL = 'https://www.google.com/recaptcha/api.js?onload=onCaptchaLoaded&render=explicit';
+const HCAPTCHA_URL = 
+  'https://hcaptcha.com/1/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit';
+const RECAPTCHAV2_URL = 
+  'https://www.google.com/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit';
 
-import { View } from 'okta';
+import { View, loc } from 'okta';
 import Enums from 'util/Enums';
+import { WIDGET_FOOTER_CLASS } from '../../utils/Constants';
 
 export default View.extend({
   className: 'captcha-view',
@@ -42,43 +45,35 @@ export default View.extend({
    *  the parent form to actually render the CAPTCHA.
   * */   
   _addCaptcha() {
-
-    // Callback invoked when CAPTCHA is solved.
+    // Callback invoked when CAPTCHA is solved. We're binding it to this view so that it's easier
+    // to unit test.
     this.onCaptchaSolved = (token) => {
-      // eslint-disable-next-line no-undef
-      const captchaObject = this.captchaConfig.type === 'HCAPTCHA' ? hcaptcha : grecaptcha;
-
-      // We reset the Captchas using the id(s) that were generated during their rendering.
-      const submitButtons = document.getElementsByClassName('button-primary');
-      submitButtons.forEach(btn => {
-        captchaObject.reset(btn.getAttribute('data-captcha-id'));
-      });
 
       // Set the token in the model
-      const fieldName = this._getFieldWithCaptchaHint();
+      const fieldName = this.options.name;
       this.model.set(fieldName, token);
 
       // Clear form errors before re-validation
       this.model.trigger('clearFormError');
 
-      // Client side form validation
-      this.model.validate();
-
       if (this.model.isValid()) {
-        // If there are no errors then submit the form.
-        this.model.trigger('clearFormError');
         this.options.appState.trigger('saveForm', this.model); 
       }
     };
 
     // Callback when CAPTCHA lib is loaded.
     const onCaptchaLoaded = () => {
-      this.options.appState.trigger('addCaptcha', this.onCaptchaSolved);
+      this.options.appState.trigger('onCaptchaLoaded', this.captchaConfig, this.onCaptchaSolved);
+
+      // Render the HCAPTCHA footer - we need to do this manually since the HCAPTCHA lib doesn't do it
+      if (this.captchaConfig.type === 'HCAPTCHA') {
+        this._addHCaptchaFooter();
+      }  
     };
 
     // Attaching the callback to the window object so that the CAPTCHA script that we dynamically render
     // can have access to it since it won't have access to this view's scope.
-    window.onCaptchaLoaded = onCaptchaLoaded;
+    window.OktaSignInWidgetOnCaptchaLoaded = onCaptchaLoaded;
 
     if (this.captchaConfig.type === 'HCAPTCHA') {
       this._loadCaptchaLib(HCAPTCHA_URL);
@@ -99,15 +94,13 @@ export default View.extend({
     document.getElementById(Enums.WIDGET_CONTAINER_ID).appendChild(scriptTag);
   },
 
-  /**
-   *  Parse through the uiSchema to extract the field that has the CAPTCHA hint associated with it
-  * */ 
-  _getFieldWithCaptchaHint() {
-    const uiSchema = this.options.currentViewState.uiSchema || [];
-    for (const schema of uiSchema) {
-      if (schema.hint === Enums.HINTS.CAPTCHA) {
-        return schema.name;
-      }
-    }
-  },
+  _addHCaptchaFooter() {
+    // NOTE: insetAdjacentHTML() is supported in all major browsers: 
+    // https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML#browser_compatibility
+    document.getElementsByClassName(WIDGET_FOOTER_CLASS)[0].insertAdjacentHTML('beforeend',
+      `<div class="captcha-footer">
+          <span class="footer-text">${loc('hcaptcha.footer.label', 'login')}</span>
+        </div>`
+    );
+  }
 });

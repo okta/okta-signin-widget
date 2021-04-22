@@ -122,6 +122,11 @@ const ACTIONS = {
   ORG_PASSWORD_RECOVERY_LINK
 };
 
+// Possible Remediation Form Field Hints
+const HINTS = {
+  CAPTCHA: 'captcha'
+};
+
 export {
   ACTIONS,
   FORMS,
@@ -131,4 +136,5 @@ export {
   AUTHENTICATOR_KEY,
   AUTHENTICATOR_METHODS,
   FORM_NAME_TO_OPERATION_MAP,
+  HINTS
 };

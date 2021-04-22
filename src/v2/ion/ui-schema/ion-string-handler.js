@@ -12,7 +12,7 @@
 
 /* eslint max-depth: [2, 3] */
 
-import Enums from 'util/Enums';
+import { HINTS } from '../RemediationConstants';
 
 const ionOptionsToUiOptions = (options) => {
   const result = {};
@@ -47,7 +47,7 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
     Object.assign(uiSchema, getPasswordUiSchema(settings));
   }
 
-  if (ionFormField.hint === Enums.HINTS.CAPTCHA) {
+  if (ionFormField.hint === HINTS.CAPTCHA) {
     Object.assign(uiSchema, getCaptchaUiSchema());
   }
 
