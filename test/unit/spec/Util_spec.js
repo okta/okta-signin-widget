@@ -171,6 +171,7 @@ describe('util/Util', () => {
   describe('redirect', () => {
     beforeEach(() => {
       jest.spyOn(Logger, 'error');
+      jest.spyOn(console, 'error').mockImplementation(() => { /* silence log */ });
     });
 
     it('should load the URL', () => {
@@ -193,7 +194,8 @@ describe('util/Util', () => {
   describe('redirectWithFormGet', () => {
     beforeEach(() => {
       jest.spyOn(Logger, 'error');
-      jest.spyOn(HTMLFormElement.prototype, 'submit');
+      jest.spyOn(console, 'error').mockImplementation(() => { /* silence log */ });
+      jest.spyOn(HTMLFormElement.prototype, 'submit').mockImplementation(() => jest.fn());
       $sandbox.append('<div id="okta-sign-in"></div>');
     });
 
