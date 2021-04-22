@@ -1,7 +1,7 @@
 import { RequestMock, Selector } from 'testcafe';
 import PageObject from '../framework/page-objects/IdentityPageObject';
 import { renderWidget } from '../framework/shared';
-import { assertNoEnglishLeaks } from '../../../LocaleUtils';
+import { assertNoEnglishLeaks } from '../../../playground/LocaleUtils';
 const fs = require('fs');
 const path = require('path');
 
@@ -24,11 +24,9 @@ const ignoredMocks = [
   'safe-mode-optional-enrollment.json',
   'safe-mode-credential-enrollment-intent.json',
   'identify-with-third-party-idps.json',
-  'identify-with-only-one-third-party-idp.json',
   'identify-with-no-sso-extension.json',
   'identify-with-device-probing-loopback.json',
   'identify-with-device-probing-loopback-3.json',
-  'identify-with-device-launch-authenticator.json',
   'identify-with-apple-redirect-sso-extension.json', // flaky on bacon
   'identify-unknown-user.json',
   'error-user-is-not-assigned.json',
@@ -47,14 +45,9 @@ const ignoredMocks = [
   'error-authenticator-enroll-custom-otp.json',
   'error-403-security-access-denied.json',
   'consent-enduser.json',
-  'consent-admin.json',
   'authenticator-verification-select-authenticator.json',
   'authenticator-verification-okta-verify-signed-nonce-loopback.json',
-  'authenticator-verification-okta-verify-signed-nonce-custom-uri.json',
   'authenticator-verification-okta-verify-reject-push.json',
-  'authenticator-verification-data-phone-voice-then-sms.json',
-  'authenticator-verification-data-phone-voice-only.json',
-  'authenticator-verification-data-phone-sms-then-voice.json',
   'authenticator-reset-password.json',
   'authenticator-expiry-warning-password.json',
   'authenticator-expired-password.json',
@@ -64,9 +57,7 @@ const ignoredMocks = [
   'authenticator-enroll-select-authenticator.json',
   'authenticator-enroll-phone.json',
   'authenticator-enroll-phone-voice.json',
-  'authenticator-enroll-ov-via-sms.json',
   'authenticator-enroll-ov-via-email.json',
-  'authenticator-enroll-google-authenticator.json',
   'authenticator-enroll-email.json',
   'authenticator-enroll-data-phone.json',
   'authenticator-enroll-data-phone-voice.json',
@@ -154,13 +145,18 @@ const testEnglishLeaks = (mockIdxResponse, fileName, locale) => {
   test.requestHooks(mockIdxResponse)(`${fileName} should not have english leaks`, async t => {
     await setup(t, locale);
     const viewTextExists = await Selector('#okta-sign-in').exists;
-    const viewText = viewTextExists && await Selector('#okta-sign-in').textContent;
+    //Use innerText to avoid including hidden elements
+    let viewText = viewTextExists && await Selector('#okta-sign-in').innerText;
+    viewText = viewText && viewText.split('\n').join(' ');
+
     const noTranslationContentExists = await Selector('.no-translate').exists;
-    let noTranslationContent = '';
+    let noTranslationContent = [];
     if (noTranslationContentExists) {
+      //build array of noTranslationContent
       const noTranslateElems = await Selector('.no-translate').count;
       for (var i = 0; i < noTranslateElems; i++) {
-        noTranslationContent += await Selector('.no-translate').nth(i).textContent;
+        const noTranslateContent = await Selector('.no-translate').nth(i).textContent;
+        noTranslationContent.push(noTranslateContent);
       }
     }
     await assertNoEnglishLeaks(fileName, viewText, noTranslationContent);
