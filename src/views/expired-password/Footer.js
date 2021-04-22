@@ -38,7 +38,7 @@ export default View.extend({
           return transaction.cancel();
         })
         .then(function() {
-          const authClient = self.options.appState.settings.authClient;
+          const authClient = self.settings.authClient;
           return authClient.closeSession();
         })
         .then(function() {
