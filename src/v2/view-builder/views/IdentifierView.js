@@ -113,15 +113,28 @@ const Body = BaseForm.extend({
     const passwordExplainLabeli18nKey = 'primaryauth.password.tooltip';
 
     const newSchemas = schemas.map(schema => {
-      const newSchema = { ...schema };
+      let newSchema = { ...schema };
 
-      if (schema.name === 'identifier' && isCustomizedI18nKey(identifierExplainLabeli18nKey, settings)) {
-        newSchema.explain = loc(identifierExplainLabeli18nKey, 'login');
-        newSchema['explain-top'] = true;
-      } else if (schema.name === 'credentials.passcode' &&
-          isCustomizedI18nKey(passwordExplainLabeli18nKey, settings)) {
-        newSchema.explain = loc(passwordExplainLabeli18nKey, 'login');
-        newSchema['explain-top'] = true;
+      if (schema.name === 'identifier') {
+        newSchema['data-se'] = 'o-form-fieldset-identifier';
+
+        if (isCustomizedI18nKey(identifierExplainLabeli18nKey, settings)) {
+          newSchema = {
+            ...newSchema,
+            explain: loc(identifierExplainLabeli18nKey, 'login'),
+            'explain-top': true,
+          };
+        }
+      } else if (schema.name === 'credentials.passcode') {
+        newSchema['data-se'] = 'o-form-fieldset-credentials.passcode';
+
+        if (isCustomizedI18nKey(passwordExplainLabeli18nKey, settings)) {
+          newSchema = {
+            ...newSchema,
+            explain: loc(passwordExplainLabeli18nKey, 'login'),
+            'explain-top': true,
+          };
+        }
       }
 
       return newSchema;
