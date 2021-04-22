@@ -10,14 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { View, loc } from 'okta';
+import Enums from 'util/Enums';
+import { WIDGET_FOOTER_CLASS } from '../../utils/Constants';
+
 const HCAPTCHA_URL = 
   'https://hcaptcha.com/1/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit';
 const RECAPTCHAV2_URL = 
   'https://www.google.com/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit';
-
-import { View, loc } from 'okta';
-import Enums from 'util/Enums';
-import { WIDGET_FOOTER_CLASS } from '../../utils/Constants';
 
 export default View.extend({
   className: 'captcha-view',
@@ -30,14 +30,14 @@ export default View.extend({
   },
 
   remove: function(){
+    View.prototype.remove.apply(this, arguments);
+
     // Cleanup global Captcha references
     if (this.captchaConfig.type === 'HCAPTCHA') {
       window.hcaptcha = undefined;
     } else if (this.captchaConfig.type === 'RECAPTCHA_V2') {
       window.grecaptcha = undefined;
     }
-
-    View.prototype.remove.apply(this, arguments);
   },
 
   /**
