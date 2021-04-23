@@ -93,7 +93,7 @@
    "value": {
      "id": "4321dcba",
      "name": "reCaptcha",
-     "siteKey": "6Lfw9IQaAAAAAM-mWFv6DwRtsKHyn8l14qXUBMkD",
+     "siteKey": "abcd12345",
      "type": "RECAPTCHA_V2"
    }
  }  
