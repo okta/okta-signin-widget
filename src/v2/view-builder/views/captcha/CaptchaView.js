@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2017, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -12,6 +12,7 @@
 
 import { View, loc } from 'okta';
 import Enums from 'util/Enums';
+import hbs from 'handlebars-inline-precompile';
 import { WIDGET_FOOTER_CLASS } from '../../utils/Constants';
 
 const HCAPTCHA_URL = 
@@ -99,10 +100,14 @@ export default View.extend({
     // https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentHTML#browser_compatibility
     const footerContainer = document.getElementsByClassName(WIDGET_FOOTER_CLASS);
     if (footerContainer.length) {
+      const template = hbs('<div class="captcha-footer">\
+        <span class="footer-text">\
+          {{i18n code="hcaptcha.footer.label" bundle="login" $1="<a href=\'https://hcaptcha.com/privacy\' target=\'_blank\'>$1</a>" $2="<a href=\'https://hcaptcha.com/terms\' target=\'_blank\'>$2</a>"}}\
+        </span>\
+      </div>');
+      
       footerContainer[0].insertAdjacentHTML('beforeend',
-        `<div class="captcha-footer">
-            <span class="footer-text">${loc('hcaptcha.footer.label', 'login')}</span>
-          </div>`
+        template()
       );
     }
   }

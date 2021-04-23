@@ -124,7 +124,7 @@ const ACTIONS = {
 
 // Possible Remediation Form Field Hints
 const HINTS = {
-  CAPTCHA: 'captcha'
+  CAPTCHA: 'captcha',
 };
 
 export {

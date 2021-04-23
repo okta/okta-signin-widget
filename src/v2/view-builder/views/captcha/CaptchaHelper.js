@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2017, Okta, Inc. and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
  *
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
@@ -22,7 +22,6 @@ import Enums from 'util/Enums';
  * @param {Function} onCaptchaSolvedCallback: The callback to be invoked once CAPTCHA is solved
 * */ 
 export function renderCaptcha(captchaConfig, form, onCaptchaSolvedCallback) {
-  // eslint-disable-next-line no-undef
   const captchaObject = captchaConfig.type === 'HCAPTCHA' ? hcaptcha : grecaptcha;
 
   // Iterate over all the primary buttons in the form and bind CAPTCHA to them

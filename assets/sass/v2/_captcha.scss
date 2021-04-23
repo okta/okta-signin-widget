@@ -4,7 +4,8 @@
     margin-top: 10px;
 
     .footer-text {
-      font-size: 12px;
+      font-size: $font-size-footer;
+      color: $text-color-light;
     }
   }
 }
