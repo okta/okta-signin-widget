@@ -4,11 +4,11 @@ import { BaseForm, BaseView } from '../../internals';
 const Body = BaseForm.extend({
 
   title() {
-    return loc('oie.device.code.activated.title', 'login');
+    return loc('oie.device.code.activate.title', 'login');
   },
 
   subtitle() {
-    return loc('oie.device.code.activated.subtitle', 'login');
+    return loc('oie.device.code.activate.subtitle', 'login');
   },
 
   events: {

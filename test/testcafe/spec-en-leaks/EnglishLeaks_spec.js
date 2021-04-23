@@ -64,11 +64,6 @@ const ignoredMocks = [
   'terminal-enduser-email-consent-denied.json',
   'terminal-return-email-consent-denied.json',
   'terminal-return-email-consent.json',
-  'device-code-activate.json',
-  'error-invalid-device-code.json',
-  'terminal-device-activated.json',
-  'terminal-device-not-activated-consent-denied.json',
-  'terminal-device-not-activated-internal-error.json'
 ];
 
 const parseMockData = () => {
