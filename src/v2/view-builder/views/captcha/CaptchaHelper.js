@@ -22,7 +22,7 @@ import Enums from 'util/Enums';
  * @param {Function} onCaptchaSolvedCallback: The callback to be invoked once CAPTCHA is solved
 * */ 
 export function renderCaptcha(captchaConfig, form, onCaptchaSolvedCallback) {
-  const captchaObject = captchaConfig.type === 'HCAPTCHA' ? hcaptcha : grecaptcha;
+  const captchaObject = captchaConfig.type === 'HCAPTCHA' ? window.hcaptcha : window.grecaptcha;
 
   // Iterate over all the primary buttons in the form and bind CAPTCHA to them
   _.each(form.$('.o-form-button-bar .button[type=submit]'), (elem) => {

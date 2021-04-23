@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { View, loc } from 'okta';
+import { View } from 'okta';
 import Enums from 'util/Enums';
 import hbs from 'handlebars-inline-precompile';
 import { WIDGET_FOOTER_CLASS } from '../../utils/Constants';
@@ -102,10 +102,12 @@ export default View.extend({
     if (footerContainer.length) {
       const template = hbs('<div class="captcha-footer">\
         <span class="footer-text">\
-          {{i18n code="hcaptcha.footer.label" bundle="login" $1="<a href=\'https://hcaptcha.com/privacy\' target=\'_blank\'>$1</a>" $2="<a href=\'https://hcaptcha.com/terms\' target=\'_blank\'>$2</a>"}}\
+          {{i18n code="hcaptcha.footer.label" bundle="login" \
+          $1="<a href=\'https://hcaptcha.com/privacy\' target=\'_blank\'>$1</a>" \
+          $2="<a href=\'https://hcaptcha.com/terms\' target=\'_blank\'>$2</a>"}}\
         </span>\
       </div>');
-      
+
       footerContainer[0].insertAdjacentHTML('beforeend',
         template()
       );
