@@ -26,6 +26,11 @@ export function renderCaptcha(captchaConfig, form, onCaptchaSolvedCallback) {
 
   // Iterate over all the primary buttons in the form and bind CAPTCHA to them
   _.each(form.$('.o-form-button-bar .button[type=submit]'), (elem) => {
+    // This is just a safeguard to ensure we don't bind Captcha to an already bound element.
+    // It shouldn't happen in practice.
+    if (elem.getAttribute('data-captcha-id')) {
+      return;
+    }
     const captchaId = captchaObject.render(elem, {
       sitekey: captchaConfig.siteKey,
       callback: (token) => {
