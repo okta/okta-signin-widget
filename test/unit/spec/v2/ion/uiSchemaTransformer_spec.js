@@ -71,12 +71,14 @@ describe('v2/ion/uiSchemaTransformer', function() {
                 label: 'Last name',
                 required: true,
                 'label-top': true,
+                'data-se': 'o-form-fieldset-userProfile.lastName',
                 type: 'text',
               },
               {
                 name: 'userProfile.firstName',
                 label: 'First name',
                 'label-top': true,
+                'data-se': 'o-form-fieldset-userProfile.firstName',
                 required: true,
                 type: 'text',
               },
@@ -84,6 +86,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                 name: 'userProfile.email',
                 label: 'Primary email',
                 'label-top': true,
+                'data-se': 'o-form-fieldset-userProfile.email',
                 required: true,
                 type: 'text',
               },
@@ -112,6 +115,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                 name: 'identifier',
                 label: 'identifier',
                 'label-top': true,
+                'data-se': 'o-form-fieldset-identifier',
                 type: 'text',
               },
             ],
@@ -171,6 +175,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                 name: 'credentials.passcode',
                 label: 'Enter code',
                 'label-top': true,
+                'data-se': 'o-form-fieldset-credentials.passcode',
                 type: 'text',
               },
             ],
@@ -225,6 +230,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                 name: 'authenticator',
                 type: 'authenticatorVerifySelect',
                 'label-top': true,
+                'data-se': 'o-form-fieldset-authenticator',
                 options: [
                   {
                     label: 'Primary Email Address',
@@ -657,6 +663,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                 type: 'authenticatorEnrollSelect',
                 required: true,
                 'label-top': true,
+                'data-se': 'o-form-fieldset-authenticator',
                 options: [
                   {
                     label: 'Okta Password',
@@ -791,6 +798,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                 visible: false,
                 required: true,
                 'label-top': true,
+                'data-se': 'o-form-fieldset-authenticator.id',
                 type: 'text',
               },
               {
@@ -808,6 +816,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                   },
                 ],
                 'label-top': true,
+                'data-se': 'o-form-fieldset-authenticator.methodType',
                 type: 'radio',
               },
               {
@@ -816,6 +825,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                 required: true,
                 type: 'text',
                 'label-top': true,
+                'data-se': 'o-form-fieldset-authenticator.phoneNumber',
               },
             ],
             relatesTo: XHRAuthenticatorEnrollDataPhone.currentAuthenticator,
@@ -828,6 +838,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                 type: 'authenticatorEnrollSelect',
                 required: true,
                 'label-top': true,
+                'data-se': 'o-form-fieldset-authenticator',
                 options: [
                   {
                     label: 'Okta Password',
@@ -1028,6 +1039,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                   },
                 ],
                 'label-top': true,
+                'data-se': 'o-form-fieldset-credentials',
                 optionsUiSchemas: [
                   [
                     {
@@ -1041,6 +1053,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                         'favorite_vacation_location': 'Where did you go for your favorite vacation?',
                       },
                       'label-top': true,
+                      'data-se': 'o-form-fieldset-credentials.questionKey',
                       wide: true,
                     },
                     {
@@ -1049,6 +1062,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                       required: true,
                       secret: true,
                       'label-top': true,
+                      'data-se': 'o-form-fieldset-credentials.answer',
                       type: 'password',
                       params: {
                         showPasswordToggle: true,
@@ -1062,6 +1076,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                       value: 'custom',
                       mutable: false,
                       'label-top': true,
+                      'data-se': 'o-form-fieldset-credentials.questionKey',
                       type: 'text',
                     },
                     {
@@ -1069,6 +1084,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                       label: 'Create a security question',
                       required: true,
                       'label-top': true,
+                      'data-se': 'o-form-fieldset-credentials.question',
                       type: 'text',
                     },
                     {
@@ -1077,6 +1093,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                       required: true,
                       secret: true,
                       'label-top': true,
+                      'data-se': 'o-form-fieldset-credentials.answer',
                       type: 'password',
                       params: {
                         showPasswordToggle: true,
@@ -1097,6 +1114,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                 type: 'authenticatorEnrollSelect',
                 required: true,
                 'label-top': true,
+                'data-se': 'o-form-fieldset-authenticator',
                 options: [
                   {
                     label: 'Okta Password',
@@ -1311,6 +1329,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                 label: 'Username',
                 type: 'text',
                 'label-top': true,
+                'data-se': 'o-form-fieldset-identifier',
               },
               {
                 name: 'rememberMe',
@@ -1320,6 +1339,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                 modelType: 'boolean',
                 required: false,
                 'label-top': true,
+                'data-se': 'o-form-fieldset-rememberMe',
               },
             ],
           },
@@ -1357,6 +1377,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
         mutable: false,
         visible: false,
         'label-top': true,
+        'data-se': 'o-form-fieldset-authenticator.id',
         type: 'text'
       }, {
         name: 'authenticator.channel',
@@ -1374,6 +1395,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
         }],
         value: 'qrcode',
         'label-top': true,
+        'data-se': 'o-form-fieldset-authenticator.channel',
         type: 'radio'
       }]);
     });
@@ -1436,10 +1458,12 @@ describe('v2/ion/uiSchemaTransformer', function() {
               label: 'Username',
               type: 'text',
               'label-top': true,
+              'data-se': 'o-form-fieldset-identifier',
             },
             {
               'label': 'Password',
               'label-top': true,
+              'data-se': 'o-form-fieldset-credentials.passcode',
               'name': 'credentials.passcode',
               'params':  {
                 'showPasswordToggle': true,
@@ -1455,6 +1479,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
               modelType: 'boolean',
               required: false,
               'label-top': true,
+              'data-se': 'o-form-fieldset-rememberMe',
             },
           ],
         },
@@ -1519,10 +1544,12 @@ describe('v2/ion/uiSchemaTransformer', function() {
               label: 'Username',
               type: 'text',
               'label-top': true,
+              'data-se': 'o-form-fieldset-identifier',
             },
             {
               'label': 'Password',
               'label-top': true,
+              'data-se': 'o-form-fieldset-credentials.passcode',
               'name': 'credentials.passcode',
               'params':  {
                 'showPasswordToggle': false,
@@ -1538,6 +1565,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
               modelType: 'boolean',
               required: false,
               'label-top': true,
+              'data-se': 'o-form-fieldset-rememberMe',
             },
           ],
         },
