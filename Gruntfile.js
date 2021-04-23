@@ -223,7 +223,7 @@ module.exports = function(grunt) {
       'build-e2e-app': 'yarn build:webpack-e2e-app',
       'generate-config': 'yarn generate-config',
       'run-protractor': 'yarn protractor',
-      'pseudo-loc': 'node buildtools pseudo-loc',
+      'pseudo-loc': 'node scripts/buildtools pseudo-loc',
     },
 
     sass: {

@@ -1,6 +1,6 @@
 var common    = require('./webpack.common.config');
-var plugins   = require('./buildtools/webpack/plugins');
-var usePolyfill = require('./buildtools/webpack/polyfill');
+var plugins   = require('./scripts/buildtools/webpack/plugins');
+var usePolyfill = require('./scripts/buildtools/webpack/polyfill');
 var path       = require('path');
 var PLAYGROUND = path.resolve(__dirname, 'playground');
 

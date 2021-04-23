@@ -36,8 +36,8 @@ module.exports = {
     '^okta-i18n-bundles$': 'util/Bundles',
     '^jquery$': `${LOCAL_PACKAGES}/@okta/courage-dist/jquery.js`,
     '^qtip$': '@okta/qtip2/dist/jquery.qtip.min.js',
-    '^duo$': 'duo_web_sdk/index.js',
-    '^typingdna$': 'TypingDnaRecorder-JavaScript/typingdna',
+    '^duo$': `${LOCAL_PACKAGES}/vendor/duo_web_sdk/index.js`,
+    '^typingdna$': `${LOCAL_PACKAGES}/vendor/TypingDnaRecorder-JavaScript/typingdna`,
   },
   setupFiles: [
     '<rootDir>/test/unit/jest/jest-setup-global.js'

@@ -14,9 +14,9 @@
 //    necessary to run (including all vendor libraries).
 
 var config  = require('./webpack.common.config');
-var plugins = require('./buildtools/webpack/plugins');
-var useRuntime = require('./buildtools/webpack/runtime');
-var usePolyfill = require('./buildtools/webpack/polyfill');
+var plugins = require('./scripts/buildtools/webpack/plugins');
+var useRuntime = require('./scripts/buildtools/webpack/runtime');
+var usePolyfill = require('./scripts/buildtools/webpack/polyfill');
 
 // 1. entryConfig (node module main entry. minified, no polyfill)
 var entryConfig = config('okta-sign-in.entry.js');

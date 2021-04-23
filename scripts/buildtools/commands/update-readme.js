@@ -2,7 +2,7 @@ const { resolve, join } = require('path');
 const { execSync } = require('child_process');
 const replace = require('replace-in-file');
 
-const ROOT_DIR = resolve(__dirname, '../../');
+const ROOT_DIR = resolve(__dirname, '../../../');
 
 function getPublishedWidgetVersion() {
   const stdout = execSync('yarn info @okta/okta-signin-widget --json');

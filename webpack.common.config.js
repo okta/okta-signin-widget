@@ -29,8 +29,8 @@ module.exports = function(outputFilename) {
         'handlebars$': 'handlebars/dist/cjs/handlebars.runtime',
         'qtip': '@okta/qtip2/dist/jquery.qtip.min.js',
 
-        'duo': 'duo_web_sdk/index.js',
-        'typingdna': 'TypingDnaRecorder-JavaScript/typingdna',
+        'duo': `${LOCAL_PACKAGES}/vendor/duo_web_sdk/index.js`,
+        'typingdna': `${LOCAL_PACKAGES}/vendor/TypingDnaRecorder-JavaScript/typingdna`,
       }
     },
 

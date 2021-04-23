@@ -81,7 +81,7 @@ function uglify() {
 
 function banner() {
   // Add a single Okta license after removing others
-  const license = readFileSync(join(__dirname, '../../src/widget/copyright.txt'), 'utf8');
+  const license = readFileSync(join(__dirname, '../../../src/widget/copyright.txt'), 'utf8');
   return new BannerPlugin(license);
 }
 
