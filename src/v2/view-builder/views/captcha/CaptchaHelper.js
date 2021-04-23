@@ -11,6 +11,7 @@
  */
 
 import { _ } from 'okta';
+import Enums from 'util/Enums';
 
 /**
  *  Bind the CAPTCHA to the specified form's submit button(s). This will hijack the submit button's normal
@@ -30,8 +31,9 @@ export function renderCaptcha(captchaConfig, form, onCaptchaSolvedCallback) {
       sitekey: captchaConfig.siteKey,
       callback: (token) => {
         // We reset the Captchas using the id(s) that were generated during their rendering.
-        const submitButtons = form.$('.o-form-button-bar .button[type=submit]');
-        submitButtons.each((_, btn) => {
+        const submitButtons = 
+          document.querySelectorAll(`#${Enums.WIDGET_CONTAINER_ID} .o-form-button-bar .button[type=submit]`);
+        submitButtons.forEach((btn) => {
           captchaObject.reset(btn.getAttribute('data-captcha-id'));
         });
 
@@ -43,7 +45,10 @@ export function renderCaptcha(captchaConfig, form, onCaptchaSolvedCallback) {
     });  
     
     // We attach the captchaId to the elem itself so that later on we can use it 
-    // to reset the Captcha when needed.
+    // to reset the Captcha when needed. We need to reset because every time the 
+    // Captcha resolves back with a token and say we have a server side error, 
+    // if we click the submit button again it won't work otherwise. The Captcha 
+    // has be reset for it to work.
     elem.setAttribute('data-captcha-id', captchaId);
   });
  
