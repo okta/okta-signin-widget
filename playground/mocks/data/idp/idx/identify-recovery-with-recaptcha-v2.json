@@ -1,0 +1,100 @@
+{
+  "stateHandle":"eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImV",
+  "version":"1.0.0",
+  "expiresAt":"2020-04-13T20:30:53.000Z",
+  "step":"IDENTIFY",
+  "intent":"LOGIN",
+  "remediation":{
+     "type":"array",
+     "value":[
+        {
+            "rel":[
+              "create-form"
+            ],
+            "name":"identify-recovery",
+            "href":"http://localhost:3000/idp/idx/identify",
+            "method":"POST",
+            "accepts":"application/vnd.okta.v1+json",
+            "value":[
+              {
+                  "name":"identifier",
+                  "label":"Username"
+              },          
+              {
+               "name": "captchaVerify",
+               "form": {
+                 "value": [
+                   {
+                     "name": "captchaId",
+                     "required": true,
+                     "value": "capzomKHvPhLF7lrR0g3",
+                     "visible": false,
+                     "mutable": false
+                   },
+                   {
+                     "name": "captchaToken",
+                     "required": true,
+                     "visible": false,
+                     "hint": "captcha"
+                   }
+                 ]
+               },
+               "relatesTo": "$.captcha"
+             },             
+              {
+                  "name":"stateHandle",
+                  "required":true,
+                  "value":"eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImV",
+                  "visible":false,
+                  "mutable":false
+              }
+            ]
+        },
+        {
+           "rel":[
+              "create-form"
+           ],
+           "name":"select-enroll-profile",
+           "href":"http://localhost:3000/idp/idx/enroll",
+           "method":"POST",
+           "accepts":"application/vnd.okta.v1+json",
+           "value":[
+              {
+                 "name":"stateHandle",
+                 "required":true,
+                 "value":"eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImV",
+                 "visible":false,
+                 "mutable":false
+              }
+           ]
+        }
+     ]
+  },
+  "cancel":{
+     "rel":[
+        "create-form"
+     ],
+     "name":"cancel",
+     "href":"http://localhost:3000/idp/idx/cancel",
+     "method":"POST",
+     "accepts":"application/vnd.okta.v1+json",
+     "value":[
+        {
+           "name":"stateHandle",
+           "required":true,
+           "value":"eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImV",
+           "visible":false,
+           "mutable":false
+        }
+     ]
+  },
+ "captcha": {
+   "type": "object",
+   "value": {
+     "id": "4321dcba",
+     "name": "reCaptcha",
+     "siteKey": "abcd12345",
+     "type": "RECAPTCHA_V2"
+   }
+ }  
+}

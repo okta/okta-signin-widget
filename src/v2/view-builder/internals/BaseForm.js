@@ -1,4 +1,5 @@
 import { _, Form, loc, internal } from 'okta';
+import { renderCaptcha } from '../views/captcha/CaptchaHelper';
 import FormInputFactory from './FormInputFactory';
 
 const { FormUtil } = internal.views.forms.helpers;
@@ -30,6 +31,15 @@ export default Form.extend({
 
     //should be used before adding any other input components
     this.showMessages();
+
+    // Render CAPTCHA if one of the form fields requires us to.
+    this.listenTo(this.options.appState, 'onCaptchaLoaded', (captchaConfig, callback) => {
+      renderCaptcha(
+        captchaConfig,
+        this,
+        callback
+      );
+    });    
 
     inputOptions.forEach(input => {
       this.addInputOrView(input);

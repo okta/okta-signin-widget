@@ -1,0 +1,15 @@
+// CAPTCHA related elements
+.siw-main-footer {
+  .captcha-footer {
+    margin-top: 10px;
+
+    .footer-text {
+      font-size: $font-size-footer;
+      color: $text-color-light;
+    }
+  }
+}
+
+.grecaptcha-badge {
+  z-index: 9999;
+}
