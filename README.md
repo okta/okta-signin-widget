@@ -1170,7 +1170,7 @@ Optional configuration:
 
 IdP Discovery enables you to route users to different 3rd Party IdPs that are connected to your Okta Org. Users can federate back into the primary org after authenticating at the IdP.
 
-To use IdP Discovery in your application, first ensure that the `IDP_DISCOVERY` feature flag is enabled for your Org and configure an [identity provider routing rule](https://help.okta.com/en/prod/Content/Topics/Security/configure-routing-rules.htm) in the Okta admin panel.
+To use IdP Discovery in your application, configure an [identity provider routing rule](https://help.okta.com/en/prod/Content/Topics/Security/configure-routing-rules.htm) in the Okta admin panel.
 Then, in the widget configuration, set `features.idpDiscovery` to `true`.
 
 ```javascript
@@ -1181,6 +1181,32 @@ var signIn = new OktaSignIn({
     idpDiscovery: true
   }
 });
+```
+
+**Note:** IdP Discovery is supported for Okta-hosted Widget setup only. IdP Discovery for self-hosted Widget is not officialy supported by v1 API and requires an extra step to complete OIDC flow. This step involves calling [`session.exists`](https://github.com/okta/okta-auth-js#sessionexists) and [`token.getWithoutPrompt`](https://github.com/okta/okta-auth-js#tokengetwithoutpromptoptions) methods which rely on third party cookies to be available. The below snippet applies to a SPA app hosting Sign-In Widget:
+
+```javascript
+var signIn = new OktaSignIn({
+  baseUrl: 'https://{yourOktaDomain}',
+  clientId: '{appClientId}',
+  ... ...
+  features: {
+    idpDiscovery: true
+  },
+  idpDiscovery: {
+    requestContext: window.location.href
+  }
+});
+
+... ...
+
+// after successfull authentication with IdP
+signIn.authClient.session.exists().then(function (sessionExists) {
+  if (sessionExists) {
+    signIn.authClient.token.getWithoutPrompt().then(function (tokens) {
+      signIn.authClient.tokenManager.setTokens(tokens);
+    });
+  }
 ```
 
 The IdP Discovery authentication flow in widget will be
