@@ -12,8 +12,11 @@
 
 import { Model } from 'okta';
 import Logger from 'util/Logger';
-import { FORMS_WITHOUT_SIGNOUT, FORMS_WITH_STATIC_BACK_LINK,
-  FORMS_FOR_VERIFICATION } from '../ion/RemediationConstants';
+import {
+  FORMS_WITHOUT_SIGNOUT,
+  FORMS_WITH_STATIC_BACK_LINK,
+  FORMS_FOR_VERIFICATION,
+} from '../ion/RemediationConstants';
 import { _ } from '../mixins/mixins';
 
 /**
@@ -97,7 +100,7 @@ export default Model.extend({
     // didn't expect `remediations` is empty. See `setIonResponse`.
     const currentViewState = this.get('remediations').filter(r => r.name === currentFormName)[0];
 
-    if (!currentViewState ) {
+    if (!currentViewState) {
       Logger.error('Panic!!');
       Logger.error(`\tCannot find view state for form ${currentFormName}.`);
       const allFormNames = this.get('remediations').map(r => r.name);
@@ -131,7 +134,7 @@ export default Model.extend({
 
   shouldReRenderView(transformedResponse) {
     const previousRawState = this.has('idx') ? this.get('idx').rawIdxState : null;
-    
+
     const identicalResponse = _.isEqual(
       _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh', 'stateHandle']),
       _.nestedOmit(previousRawState, ['expiresAt', 'refresh', 'stateHandle']));
@@ -204,7 +207,7 @@ export default Model.extend({
 
   containsMessageWithI18nKey(keys) {
     if (!Array.isArray(keys)) {
-      keys = [ keys ];
+      keys = [keys];
     }
     const messagesObjs = this.get('messages');
     return messagesObjs && Array.isArray(messagesObjs.value)
@@ -217,8 +220,15 @@ export default Model.extend({
       && messagesObjs.value.some(messagesObj => messagesObj.i18n?.key.startsWith(keySubStr));
   },
 
+  clearAppStateCache() {
+    // clear appState before setting new values
+    this.clear({ silent: true });
+    // clear cache for derived props.
+    this.trigger('cache:clear');
+  },
+
   setIonResponse(transformedResponse) {
-    if (!this.shouldReRenderView(transformedResponse)){
+    if (!this.shouldReRenderView(transformedResponse)) {
       return;
     }
 
@@ -233,10 +243,7 @@ export default Model.extend({
       Logger.error(JSON.stringify(transformedResponse, null, 2));
     }
 
-    // clear appState before setting new values
-    this.clear({silent: true});
-    // clear cache for derived props.
-    this.trigger('cache:clear');
+    this.clearAppStateCache();
 
     // set new app state properties
     this.set(transformedResponse);

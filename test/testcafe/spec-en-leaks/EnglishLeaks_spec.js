@@ -67,7 +67,7 @@ const parseMockData = () => {
     if (!isIgnored) {
       mocks.push(file);
     } else {
-      test.skip(`Warning skipping mock ${file} from test english leaks test suite. This file may result in english leaks on the UI.`, () => {});
+      test.skip(`Warning skipping mock ${file} from test english leaks test suite. This file may result in english leaks on the UI.`, () => { });
     }
   });
   return mocks;
@@ -84,11 +84,11 @@ const setUpResponse = (filePath) => {
   challengeRequest=dummyvalue';
 
   const responseMap = [
-    { 
+    {
       'url': 'http://localhost:3000/idp/idx/introspect',
       'response': mockResponse
     },
-    { 
+    {
       'url': 'http://localhost:3000/idp/idx/challenge/poll',
       'response': mockResponse
     },

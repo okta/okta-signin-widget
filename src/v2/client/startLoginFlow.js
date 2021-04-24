@@ -13,6 +13,7 @@
 import Errors from 'util/Errors';
 import { interact } from './interact';
 import { introspect } from './introspect';
+import sessionStorageHelper from './sessionStorageHelper';
 
 const handleProxyIdxResponse = async (settings) => {
   return Promise.resolve({
@@ -22,24 +23,47 @@ const handleProxyIdxResponse = async (settings) => {
   });
 };
 
-export async function startLoginFlow(settings, appState) {
+export async function startLoginFlow(settings) {
   // Return a preset response
   if (settings.get('proxyIdxResponse')) {
     return handleProxyIdxResponse(settings);
   }
 
-  // Use stateToken
-  const stateHandle = settings.get('stateToken');
-  if (stateHandle) {
-    return introspect(settings, appState);
+  if (settings.get('overrideExistingStateToken')) {
+    sessionStorageHelper.removeStateHandle();
   }
-  
+
   // Use or acquire interactionHandle
   const useInteractionHandle = settings.get('useInteractionCodeFlow') || settings.get('interactionHandle');
   if (useInteractionHandle) {
     return interact(settings);
   }
 
-  throw new Errors.ConfigError('Set "useInteractionCodeFlow" to true in configuration to enable the '+ 
+  // Use stateToken from session storage if exists
+  // See more details at ./docs/use-session-token-prior-to-settings.png
+  const stateHandleFromSession = sessionStorageHelper.getStateHandle();
+  if (stateHandleFromSession) {
+    return introspect(settings, stateHandleFromSession)
+      .then((idxResp) => {
+        // 1. abandon the settings.stateHandle given session.stateHandle is still valid
+        settings.set('stateToken', stateHandleFromSession);
+        // 2. chain the idxResp to next handler
+        return idxResp;
+      })
+      .catch(() => {
+        // 1. remove session.stateHandle
+        sessionStorageHelper.removeStateHandle();
+        // 2. start the login again in order to introspect on settings.stateHandle
+        return startLoginFlow(settings);
+      });
+  }
+
+  // Use stateToken from options
+  const stateHandle = settings.get('stateToken');
+  if (stateHandle) {
+    return introspect(settings, stateHandle);
+  }
+
+  throw new Errors.ConfigError('Set "useInteractionCodeFlow" to true in configuration to enable the ' +
     'interaction_code" flow for self-hosted widget.');
 }

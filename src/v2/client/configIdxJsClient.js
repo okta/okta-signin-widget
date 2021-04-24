@@ -10,9 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './interactionCodeFlow';
-export * from './transactionMeta';
-export * from './interact';
-export * from './introspect';
-export * from './startLoginFlow';
-export * from './configIdxJsClient';
+import idx from '@okta/okta-idx-js';
+
+export function configIdxJsClient(appState) {
+  // For certain flows, we need to generate a device fingerprint
+  // to determine if we need to send a "New Device Sign-on Notification".
+  // In the future, this should be handled by okta-auth-js
+  idx.client.interceptors.request.use(requestConfig => {
+    const fingerprint = appState.get('deviceFingerprint');
+    if (fingerprint) {
+      requestConfig.headers['X-Device-Fingerprint'] = fingerprint;
+    }
+  });
+}
