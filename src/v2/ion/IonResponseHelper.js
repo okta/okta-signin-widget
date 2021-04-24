@@ -12,7 +12,6 @@
 
 import { _ } from 'okta';
 import { getMessage, getMessageKey } from './i18nTransformer';
-import { FORMS } from './RemediationConstants';
 
 const convertErrorMessageToErrorSummary = (formName, remediationValues = []) => {
   return _.chain(remediationValues)
@@ -152,18 +151,7 @@ const isIonErrorResponse = (response = {}) => {
   return response.version;
 };
 
-const isTerminalError = (res = {}) => {
-  if (!Array.isArray(res.remediations) || res.remediations.length !== 1) {
-    return false;
-  }
-
-  const name = res.remediations[0].name;
-  // TODO: use regex on name?
-  return name === FORMS.TERMINAL || name === FORMS.DEVICE_ENROLLMENT_TERMINAL;
-};
-
 export default {
   convertFormErrors,
   isIonErrorResponse,
-  isTerminalError
 };
