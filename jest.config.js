@@ -48,6 +48,7 @@ module.exports = {
   ],
   testPathIgnorePatterns: LEGACY_TESTS,
   roots: [
+    'src',
     'test/unit/spec'
   ],
   reporters: [

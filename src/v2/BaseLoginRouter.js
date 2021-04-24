@@ -25,15 +25,14 @@ import LanguageUtil from 'util/LanguageUtil';
 import AuthContainer from 'views/shared/AuthContainer';
 import Header from 'views/shared/Header';
 import AppState from './models/AppState';
-
+import sessionStorageHelper from './client/sessionStorageHelper';
 import {
   startLoginFlow,
   interactionCodeFlow,
-  clearTransactionMeta
+  configIdxJsClient,
 } from './client';
 
 import transformIdxResponse from './ion/transformIdxResponse';
-import IonResponseHelper from './ion/IonResponseHelper';
 
 export default Router.extend({
   Events: Backbone.Events,
@@ -77,24 +76,38 @@ export default Router.extend({
       settings: this.settings,
     });
 
+    configIdxJsClient(this.appState);
     this.listenTo(this.appState, 'remediationSuccess', this.handleIdxResponseSuccess);
     this.listenTo(this.appState, 'remediationError', this.handleIdxResponseFailure);
   },
 
   handleIdxResponseSuccess(idxResponse) {
     if (idxResponse.interactionCode) {
+      // Although session.stateHandle isn't used by interation flow,
+      // it's better to clean up at the end of the flow.
+      sessionStorageHelper.removeStateHandle();
       // This is the end of the IDX flow, now entering OAuth
       return interactionCodeFlow(this.settings, idxResponse);
     }
 
-    // transform response
     const lastResponse = this.appState.get('idx');
-    const ionResponse = transformIdxResponse(this.settings, idxResponse, lastResponse);
 
-    // if this is a terminal error, clear all transaction meta
-    if (IonResponseHelper.isTerminalError(ionResponse)) {
-      clearTransactionMeta(this.settings);
+    // Do not save state handle for the first page loads.
+    // Because there shall be no difference between following behavior
+    // 1. bootstrap widget
+    //    -> save state handle to session storage
+    //    -> refresh page
+    //    -> introspect using sessionStorage.stateHandle
+    // 2. bootstrap widget
+    //    -> do not save state handle to session storage
+    //    -> refresh page
+    //    -> introspect using options.stateHandle
+    if (lastResponse) {
+      sessionStorageHelper.setStateHandle(idxResponse?.context?.stateHandle);
     }
+
+    // transform response
+    const ionResponse = transformIdxResponse(this.settings, idxResponse, lastResponse);
 
     this.appState.setIonResponse(ionResponse);
   },
@@ -186,7 +199,7 @@ export default Router.extend({
     // and remove it from `settings` afterwards as IDX response always has
     // state token (which will be set into AppState)
     if (this.settings.get('oieEnabled')) {
-      return startLoginFlow(this.settings, this.appState)
+      return startLoginFlow(this.settings)
         .then(idxResp => {
           this.settings.unset('stateToken');
           this.settings.unset('proxyIdxResponse');
@@ -196,6 +209,7 @@ export default Router.extend({
         })
         .catch(errorResp => {
           this.settings.unset('stateToken');
+          this.settings.unset('proxyIdxResponse');
           this.settings.unset('useInteractionCodeFlow');
           this.appState.trigger('remediationError', errorResp.error);
           this.render(Controller, options);
