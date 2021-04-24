@@ -10,9 +10,20 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './interactionCodeFlow';
-export * from './transactionMeta';
-export * from './interact';
-export * from './introspect';
-export * from './startLoginFlow';
-export * from './configIdxJsClient';
+const STATE_HANDLE_SESSION_STORAGE_KEY = 'osw-oie-state-handle';
+
+const removeStateHandle = () => {
+  sessionStorage.removeItem(STATE_HANDLE_SESSION_STORAGE_KEY);
+};
+const setStateHandle = (token) => {
+  sessionStorage.setItem(STATE_HANDLE_SESSION_STORAGE_KEY, token);
+};
+const getStateHandle = () => {
+  return sessionStorage.getItem(STATE_HANDLE_SESSION_STORAGE_KEY);
+};
+
+export default {
+  removeStateHandle,
+  setStateHandle,
+  getStateHandle,
+};

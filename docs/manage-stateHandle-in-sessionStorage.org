@@ -1,0 +1,42 @@
+#+begin_src plantuml :file ./manage-stateHandle-in-sessionStorage.png
+@startuml
+start
+
+repeat
+if (session.token?) then (no)
+  :introspect on options.token;
+  break
+else (yes)
+  :introspect on sessions.token;
+  if (introspect success?) then (yes)
+    :overwrite options.token\nwith session.token;
+  else (no)
+    :remove session.token;
+    :restart login flow;
+  endif
+endif
+repeat while (restart?) is (yes) not (no)
+
+if (introspect success?) then (yes)
+  if (first page loads?) then (no)
+    :set options.token to session.token;
+  endif
+  :render pages;
+else (no)
+  :remove session.token;
+  :render error;
+endif
+note right
+  In addition, sessions.token
+  will be removed when
+  - at terminal page
+  - redirect away from SIW
+  - click back to sign-in
+end note
+stop
+
+@enduml
+#+end_src
+
+#+RESULTS:
+[[file:./manage-stateHandle-in-sessionStorage.png]]
