@@ -62,9 +62,17 @@ export default Model.extend({
     // IDX API VERSION
     apiVersion: ['string', true, '1.0.0'],
 
+    // <OIE>
     // attribute to hold proxy (fake) idx response
     // to render static pages without initiating idx pipeline
     proxyIdxResponse: ['object', false],
+
+    // <OIE>
+    // By default, state handle will be saved to session storage
+    // and will be clear when terminal error or success redirect.
+    // Set this flag to true if you want to override this behavior.
+    // a.k.a dishonor the state handle stored in session storage.
+    overrideExistingStateToken: ['boolean', false, false],
 
     // FEATURES
     'features.router': ['boolean', true, false],
@@ -91,7 +99,7 @@ export default Model.extend({
     'features.showPasswordRequirementsAsHtmlList': ['boolean', false, false],
     'features.mfaOnlyFlow': ['boolean', false, false],
 
-    defaultCountryCode: ['string', false ,'US'],
+    defaultCountryCode: ['string', false, 'US'],
 
     // I18N
     language: ['any', false], // Can be a string or a function

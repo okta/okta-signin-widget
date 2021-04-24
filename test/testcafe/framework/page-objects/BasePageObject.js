@@ -61,6 +61,10 @@ export default class BasePageObject {
     return Selector(SIGNOUT_LINK).textContent;
   }
 
+  async clickSignOutLink() {
+    await this.t.click(Selector(SIGNOUT_LINK));
+  }
+
   async goBackLinkExists() {
     const elCount = await Selector(GO_BACK_LINK).count;
     return elCount === 1;
@@ -111,5 +115,9 @@ export default class BasePageObject {
 
   getBeaconClass() {
     return this.beacon.find('[data-se="factor-beacon"]').getAttribute('class');
+  }
+
+  refresh() {
+    return this.t.eval(() => location.reload(true));
   }
 }

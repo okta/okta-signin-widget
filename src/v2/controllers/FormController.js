@@ -13,10 +13,10 @@ import { _, Controller } from 'okta';
 import ViewFactory from '../view-builder/ViewFactory';
 import IonResponseHelper from '../ion/IonResponseHelper';
 import { getV1ClassName } from '../ion/ViewClassNamesFactory';
-import { FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/RemediationConstants';
+import { FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/RemediationConstants';
 import Util from '../../util/Util';
-import { clearTransactionMeta } from '../client/transactionMeta';
-
+import sessionStorageHelper from '../client/sessionStorageHelper';
+import { clearTransactionMeta } from '../client';
 
 export default Controller.extend({
   className: 'form-controller',
@@ -35,9 +35,12 @@ export default Controller.extend({
 
   postRender() {
     const currentViewState = this.options.appState.getCurrentViewState();
+    // TODO: add comments regarding when `currentViewState` would be null?
     if (!currentViewState) {
       return;
     }
+
+    this.clearMetadata();
 
     const TheView = ViewFactory.create(
       currentViewState.name,
@@ -57,6 +60,14 @@ export default Controller.extend({
     }
 
     this.triggerAfterRenderEvent();
+  },
+
+  clearMetadata() {
+    const formName = this.options.appState.get('currentFormName');
+    // TODO: OKTA-392835 shall not clear state handle at terminal page
+    if (TERMINAL_FORMS.includes(formName)) {
+      sessionStorageHelper.removeStateHandle();
+    }
   },
 
   triggerAfterRenderEvent() {
@@ -120,11 +131,14 @@ export default Controller.extend({
   },
 
   handleInvokeAction(actionPath = '') {
+    const idx = this.options.appState.get('idx');
+
     if (actionPath === 'cancel') {
       clearTransactionMeta(this.options.settings);
+      sessionStorageHelper.removeStateHandle();
+      this.options.appState.clearAppStateCache();
     }
 
-    const idx = this.options.appState.get('idx');
     if (idx['neededToProceed'].find(item => item.name === actionPath)) {
       idx.proceed(actionPath, {})
         .then(this.handleIdxSuccess.bind(this))
@@ -158,6 +172,10 @@ export default Controller.extend({
 
     // Use full page redirection if necessary
     if (model.get('useRedirect')) {
+      // Clear when navigates away from SIW page, e.g. success, IdP Authenticator.
+      // Because SIW sort of finished its current /transaction/
+      sessionStorageHelper.removeStateHandle();
+
       const currentViewState = this.options.appState.getCurrentViewState();
       Util.redirectWithFormGet(currentViewState.href);
       return;
