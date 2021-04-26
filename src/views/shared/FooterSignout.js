@@ -40,7 +40,7 @@ export default View.extend({
       .then(function() {
         if (self.options.closeSession) {
           const authClient = self.settings.authClient;
-          return authClient.closeSession();
+          return authClient.closeSession().catch(() => {});
         }
       })
       .then(() => {
