@@ -22,6 +22,7 @@ const SCOPE_N_GROUP_CONFIG = {
   authenticators: 'resource',
   authorizationServers: 'resource',
   clients: 'resource',
+  domains: 'resource',
   factors: 'resource',
   idps: 'resource',
   linkedObjects: 'resource',
