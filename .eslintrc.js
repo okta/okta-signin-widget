@@ -40,8 +40,47 @@ module.exports = {
     {
       'files': ['playground/**/*.json'],
       'rules': {
-        'local-rules/no-missing-api-keys': 1,
-      }
+        'local-rules/no-missing-api-keys': 2,
+      },
+      'overrides': [
+        {
+          'files': [
+            'playground/**/authenticator-expiry-warning-password.json',
+            'playground/**/authenticator-verification-okta-verify-reject-push.json',
+            'playground/**/error-403-security-access-denied.json',
+            'playground/**/error-with-failure-redirect.json',
+            'playground/**/error-authenticator-verify-password.json',
+            'playground/**/error-authenticator-webauthn-failure.json',
+            'playground/**/error-email-verify.json',
+            'playground/**/error-forgot-password.json',
+            'playground/**/error-identify-access-denied.json',
+            'playground/**/error-internal-server-error.json',
+            'playground/**/error-okta-verify-totp.json',
+            'playground/**/error-pre-versioning-ff-session-expired.json',
+            'playground/**/error-safe-mode-polling.json',
+            'playground/**/error-session-expired.json',
+            'playground/**/error-unlock-account.json',
+            'playground/**/error-user-is-not-assigned.json',
+            'playground/**/identify-unknown-user.json',
+            'playground/**/safe-mode-credential-enrollment-intent.json',
+            'playground/**/safe-mode-optional-enrollment.json',
+            'playground/**/safe-mode-required-enrollment.json',
+            'playground/**/terminal-enduser-email-consent-denied.json',
+            'playground/**/terminal-polling-window-expired.json',
+            'playground/**/terminal-registration.json',
+            'playground/**/terminal-return-email-consent-denied.json',
+            'playground/**/terminal-return-email-consent.json',
+            'playground/**/terminal-return-email.json',
+            'playground/**/terminal-return-error-email.json',
+            'playground/**/terminal-return-expired-email.json',
+            'playground/**/terminal-return-stale-email.json',
+            'playground/**/terminal-transfered-email.json'
+          ],
+          'rules': {
+            'local-rules/no-missing-api-keys': 0
+          }
+        }
+      ]
     }
   ],
   'rules': {

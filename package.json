@@ -21,7 +21,7 @@
     "update-readme": "node buildtools update-readme",
     "retirejs": "retire --jspath target/js --package",
     "lint:eslint": "eslint .",
-    "lint:eslint:report": "eslint -f checkstyle -o build2/OSW-eslint-checkstyle-result.xml . --quiet",
+    "lint:eslint:report": "eslint -f checkstyle -o build2/OSW-eslint-checkstyle-result.xml .",
     "lint:stylelint": "stylelint assets/sass/",
     "lint:stylelint:report": "stylelint --custom-formatter node_modules/stylelint-checkstyle-formatter assets/sass/ > build2/OSW-stylelint-checkstyle-result.xml",
     "lint": "grunt propertiesToJSON && mkdir -p build2 && run-p -c lint:eslint lint:stylelint",
