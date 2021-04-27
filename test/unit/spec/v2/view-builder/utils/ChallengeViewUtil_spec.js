@@ -20,7 +20,7 @@ describe('v2/utils/ChallengeViewUtil', function() {
       'domain': 'test_domain',
       'ports': [12345, 22222],
       'challengerequest': 'abcdfg12345',
-      'probeTimeoutMillis': 101
+      'probeTimeoutMillis': 100
     };
     spyOn(testView, 'getDeviceChallengePayload').and.callFake(() => deviceChallenge);
     let expectedAddArg = {};
