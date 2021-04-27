@@ -49,6 +49,7 @@ const FORMS = {
   SKIP: 'skip',
   POLL: 'poll',
 
+  FAILURE_REDIRECT: 'failure-redirect',
   SUCCESS_REDIRECT: 'success-redirect',
   REDIRECT_IDP: 'redirect-idp',
 

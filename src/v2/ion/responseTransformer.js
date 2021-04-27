@@ -30,6 +30,8 @@ import { FORMS as RemediationForms } from './RemediationConstants';
 
 const isObject = x => _.isObject(x);
 
+const isError = response => !!response.messages;
+
 /**
  * Flatten first level objects from response
  */
@@ -165,7 +167,6 @@ const convertRedirectIdPToSuccessRedirectIffOneIdp = (settings, result, lastResu
       value: [],
     };
     result.remediations = [successRedirect];
-
   }
 };
 
@@ -196,6 +197,29 @@ const modifyFormNameForIdPAuthenticator = result => {
 
 };
 
+const isFailureRedirect = (result) => {
+  const context = result.idx.context;
+  return (context.failure && context.failure.name === 'failure-redirect');
+};
+
+const handleFailureRedirect = (settings, result) => {
+  const context = result.idx.context;
+
+  // Direct auth clients will usually prefer to display the error instead of redirecting
+  const isDirectAuth = settings.get('oauth2Enabled');
+  const alwaysRedirect = settings.get('redirect') === 'always'; // redirect option overrides default behavior
+  if (isDirectAuth && !alwaysRedirect) {
+    return;
+  }
+  
+  const failureRedirect = {
+    name: RemediationForms.FAILURE_REDIRECT,
+    href: context.failure.href,
+    value: [],
+  };
+  result.remediations = [failureRedirect];
+};
+
 /**
  * @param {Models.Settings} user configuration
  * @param {idx} idx object
@@ -218,23 +242,27 @@ const convert = (settings, idx = {}, lastResult = null) => {
   if (!isObject(idx.rawIdxState)) {
     return null;
   }
+
+  // build result object
   const firstLevelObjects = getFirstLevelObjects(idx.rawIdxState);
-
   const remediationValues = getRemediationValues(idx);
-
   const result = Object.assign({},
     firstLevelObjects,
     remediationValues,
     { idx }
   );
+  
+  // transform result object
+  if (isError(result) && isFailureRedirect(result)) {
+    handleFailureRedirect(settings, result);
+  }
 
   // Override the `result` to handle custom IdP login buttons
   // and update the form for IdP Authenticators.
   injectIdPConfigButtonToRemediation(settings, result);
   modifyFormNameForIdPAuthenticator(result);
 
-  if (!result.messages) {
-    // Only redirect to the IdP if we are not in an error flow
+  if (!isError(result)) { // Only redirect to the IdP if we are not in an error flow
     convertRedirectIdPToSuccessRedirectIffOneIdp(settings, result, lastResult);
   }
 

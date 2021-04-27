@@ -15,6 +15,7 @@ const idx = {
 
   '/idp/idx/introspect': [
     'identify',
+    // 'error-with-failure-redirect',
     // 'error-feature-not-enabled',
     // 'error-403-security-access-denied',
     // 'authenticator-enroll-email',
@@ -92,6 +93,7 @@ const idx = {
     // 'error-identify-user-locked-unable-challenge',
     // 'terminal-device-activated',
     // 'terminal-device-not-activated'
+    // 'error-with-failure-redirect',
   ],
   '/idp/idx/challenge/answer': [
     // 'error-email-verify',

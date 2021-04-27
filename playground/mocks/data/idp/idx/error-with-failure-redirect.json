@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02FIw1p-XDmv8y8khuj1msN3f35lTnKcAd6T7ApUTO",
+  "expiresAt": "2021-04-08T17:47:32.000Z",
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [{
+      "message": "You are not allowed to access this app. To request access, contact an admin.",
+      "i18n": {
+        "key": "idx.error.code.user_not_assigned"
+      },
+      "class": "ERROR"
+    }]
+  },
+  "failure": {
+    "name": "failure-redirect",
+    "href": "http://localhost:3000/error.html?key=idx.error.code.user_not_assigned"
+  }
+}
