@@ -36,7 +36,7 @@ describe('v2/utils/ChallengeViewUtil', function() {
     expect(testView.title).toBe(loc('deviceTrust.sso.redirectText', 'login'));
     expect(expectedAddArg.className).toBe('loopback-content');
     expect(expectedAddArg.template.call()).toBe(hbs`<div class="spinner"></div>`.call());
-    expect(testView.doLoopback).toHaveBeenCalledWith(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest, deviceChallenge.probeTimeoutMillis);
+    expect(testView.doLoopback).toHaveBeenCalledWith(deviceChallenge);
   });
 
 

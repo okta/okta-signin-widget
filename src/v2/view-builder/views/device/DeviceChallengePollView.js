@@ -51,7 +51,12 @@ const Body = BaseFormWithPolling.extend(
       return this.options.currentViewState.relatesTo.value;
     },
 
-    doLoopback(authenticatorDomainUrl = '', ports = [], challengeRequest = '', probeTimeoutMillis = 100) {
+    doLoopback(deviceChallenge) {
+      let authenticatorDomainUrl = deviceChallenge.domain !== undefined ? deviceChallenge.domain : '';
+      let ports = deviceChallenge.ports !== undefined ? deviceChallenge.ports : [];
+      let challengeRequest = deviceChallenge.challengeRequest !== undefined ? deviceChallenge.challengeRequest : '';
+      let probeTimeoutMillis = deviceChallenge.probeTimeoutMillis !== undefined ?
+        deviceChallenge.probeTimeoutMillis : 100;
       let currentPort;
       let foundPort = false;
       let countFailedPorts = 0;
