@@ -60,6 +60,7 @@ const createUISchema = (transformedResp, remediationForm, settings) => {
   return remediationValue.map(ionFormField => {
     const uiSchemaDefaultConfig = {
       'label-top': true,
+      'data-se': `o-form-fieldset-${ionFormField.name}`,
     };
     const fieldType = ionFormField.type || 'string';
     const uiSchemaHandler = UISchemaHandlers[fieldType];
