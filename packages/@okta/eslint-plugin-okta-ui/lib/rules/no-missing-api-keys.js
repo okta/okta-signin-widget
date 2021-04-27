@@ -14,6 +14,9 @@ module.exports = {
     },
   },
   create(context) {
+    const ignoreKeys = [
+      'tooManyRequests'// oie.tooManyRequests exists in the login bundle. We added oie.tooManyRequests instead of making a backend change.
+    ];
     return {
       'Program': function (node) {
         const fileName = context.getFilename();
@@ -37,7 +40,7 @@ module.exports = {
           return;
         }
         // check if i18n keys returned from API are added to login.properties
-        if (!loginEnBundle[i18nKey]) {
+        if (!loginEnBundle[i18nKey] && !ignoreKeys.includes(i18nKey)) {
           context.report({
             messageId: 'missingApiKeysLoginBundle',
             data: {
