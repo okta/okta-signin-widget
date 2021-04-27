@@ -277,8 +277,9 @@ test
     await setup(t);
     const terminalPageObject = new TerminalPageObject(t);
     await t.expect(terminalPageObject.getMessages()).eql(
-      `Please return to the original tab.To continue, return to the device or window where you requested the email link.
-      You may close this window at any time.`);
+      'Please return to the original tab.' +
+      'To continue, return to the device or window where you requested the email link. ' +
+      'You may close this window at any time.');
     await checkConsoleMessages({
       controller: null,
       formName: 'terminal',
