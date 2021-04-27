@@ -87,12 +87,17 @@ const Body = BaseForm.extend({
     const messagesObjs = this.options.appState.get('messages');
     let description;
     if (this.options.appState.containsMessageWithI18nKey(OPERATION_CANCELED_ON_OTHER_DEVICE_KEY)) {
-      description = loc('oie.consent.enduser.deny.description', 'login');
+      description = loc('idx.operation.cancelled.on.other.device', 'login');
+      messagesObjs.value.push({ message: loc('oie.consent.enduser.deny.description', 'login') });
     } else if (this.options.appState.containsMessageWithI18nKey(RETURN_TO_ORIGINAL_TAB_KEY)) {
-      description = loc('oie.consent.enduser.email.allow.description', 'login');
+      description = loc('oie.return.to.original.tab', 'login');
+      messagesObjs.value.push({ message: loc('oie.consent.enduser.email.allow.description', 'login')});
+    } else if (this.options.appState.containsMessageWithI18nKey('tooManyRequests')) {
+      description = loc('oie.tooManyRequests', 'login');
     }
+
     if (description && Array.isArray(messagesObjs?.value)) {
-      messagesObjs.value.push({ message: `${description}` });
+      messagesObjs.value[0].message = description;
     }
 
     if (messagesObjs && Array.isArray(messagesObjs.value)) {
