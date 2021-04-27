@@ -24,7 +24,8 @@ export function doChallenge(view) {
       className: 'loopback-content',
       template: hbs`<div class="spinner"></div>`
     }));
-    view.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest, deviceChallenge.probeTimeoutMillis);
+    view.doLoopback(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest,
+      deviceChallenge.probeTimeoutMillis);
     break;
   case Enums.CUSTOM_URI_CHALLENGE:
     view.title = loc('customUri.title', 'login');

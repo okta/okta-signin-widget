@@ -19,7 +19,8 @@ describe('v2/utils/ChallengeViewUtil', function() {
       'challengeMethod': Enums.LOOPBACK_CHALLENGE,
       'domain': 'test_domain',
       'ports': [12345, 22222],
-      'challengerequest': 'abcdfg12345'
+      'challengerequest': 'abcdfg12345',
+      'probeTimeoutMillis': 101
     };
     spyOn(testView, 'getDeviceChallengePayload').and.callFake(() => deviceChallenge);
     let expectedAddArg = {};
@@ -35,7 +36,7 @@ describe('v2/utils/ChallengeViewUtil', function() {
     expect(testView.title).toBe(loc('deviceTrust.sso.redirectText', 'login'));
     expect(expectedAddArg.className).toBe('loopback-content');
     expect(expectedAddArg.template.call()).toBe(hbs`<div class="spinner"></div>`.call());
-    expect(testView.doLoopback).toHaveBeenCalledWith(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest);
+    expect(testView.doLoopback).toHaveBeenCalledWith(deviceChallenge.domain, deviceChallenge.ports, deviceChallenge.challengeRequest, deviceChallenge.probeTimeoutMillis);
   });
 
 
