@@ -14,6 +14,7 @@ const WIDGET_RC = '.widgetrc';
 if (!fs.existsSync(WIDGET_RC_JS) && fs.existsSync(WIDGET_RC)) {
   console.error('============================================');
   console.error(`Please migrate the ${WIDGET_RC} to ${WIDGET_RC_JS}.`);
+  /* eslint-disable-next-line @okta/okta/no-exclusive-language */
   console.error('For more information, please see https://github.com/okta/okta-signin-widget/blob/master/MIGRATING.md');
   console.error('============================================');
   process.exit(1);

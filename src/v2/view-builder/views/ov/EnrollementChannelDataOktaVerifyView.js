@@ -36,6 +36,7 @@ const Body = BaseForm.extend({
       input: [
         {
           type: 'label',
+          /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
           label: `+${this.model.get('phoneCode')}`,
           className: 'country-code-label no-translate',
         },
