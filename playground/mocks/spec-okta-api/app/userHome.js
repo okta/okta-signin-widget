@@ -1,3 +1,4 @@
+/* eslint @okta/okta/no-unlocalized-text-in-templates:0 */
 const apis = [
   {
     delay: [1000, 3000],
