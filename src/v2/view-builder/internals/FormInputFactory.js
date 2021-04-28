@@ -8,6 +8,7 @@ import IDP from '../../../util/IDP';
 import AdminScopeList from '../../../views/admin-consent/ScopeList';
 import EnduserScopeList from '../../../views/consent/ScopeList';
 import CaptchaView from '../views/captcha/CaptchaView';
+import Util from '../../../util/Util';
 
 
 const createAuthenticatorEnrollSelectView = (opt) => {
@@ -113,6 +114,11 @@ const createIdpButtons = (remediations) => {
     let type = idpObject.type?.toLowerCase();
     let displayName;
 
+    // check if redirect-idp is x509 type
+    if (type === 'x509') {
+      return createPIVButton(idpObject);
+    }
+
     if (!_.contains(IDP.SUPPORTED_SOCIAL_IDPS, type)) {
       type = 'general-idp';
       displayName = idpObject.idp?.name || '{ Please provide a text value }';
@@ -139,6 +145,17 @@ const createIdpButtons = (remediations) => {
     };
     return button;
   });
+};
+
+const createPIVButton = (idpObject) => {
+  return {
+    className: 'piv-poc piv-button',
+    title: 'PIV POC Button',
+    click: (e) => {
+      e.preventDefault();
+      Util.redirectWithFormGet(idpObject.href);
+    },
+  };
 };
 
 const createCustomButtons = (settings) => {
