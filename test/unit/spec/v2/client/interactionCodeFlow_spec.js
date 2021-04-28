@@ -50,8 +50,8 @@ describe('v2/client/interactionCodeFlow', () => {
       authParams,
       authClient,
       redirectUri
-    }
-  })
+    };
+  });
   
   describe('redirect = always', () => {
     beforeEach(() => {
@@ -78,7 +78,7 @@ describe('v2/client/interactionCodeFlow', () => {
     it('redirects using interaction_code from response and state from saved transaction', async () => {
       await interactionCodeFlow(testContext.settings, testContext.idxResponse);
       expect(window.location.assign).toHaveBeenCalledWith(`${testContext.redirectUri}?interaction_code=a%20fake%20code&state=a%20fake%20state`);
-    })
+    });
 
     describe('with authParams.state', () => {
       beforeEach(() => {
@@ -88,7 +88,7 @@ describe('v2/client/interactionCodeFlow', () => {
       it('returns interaction_code and state from authParams.state', async () => {
         await interactionCodeFlow(testContext.settings, testContext.idxResponse);
         expect(window.location.assign).toHaveBeenCalledWith(`${testContext.redirectUri}?interaction_code=a%20fake%20code&state=state%20in%20authParams`);
-      })
+      });
     });
   });
 
@@ -116,7 +116,7 @@ describe('v2/client/interactionCodeFlow', () => {
         'interaction_code': testContext.interactionCode,
         state: testContext.transactionMeta.state
       });
-    })
+    });
 
     describe('with authParams.state', () => {
       beforeEach(() => {
@@ -130,7 +130,7 @@ describe('v2/client/interactionCodeFlow', () => {
           'interaction_code': testContext.interactionCode,
           state: testContext.authParams.state
         });
-      })
+      });
     });
   });
 
