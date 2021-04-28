@@ -123,30 +123,26 @@ Expect.describe('PasswordReset', function() {
     });
   });
 
-  itp('has a signout link which cancels the current stateToken, closes session and navigates to primaryAuth', function() {
+  itp('has a signout link which cancels the current stateToken and navigates to primaryAuth', function() {
     return setup()
       .then(function(test) {
         spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
         Util.resetAjaxRequests();
         test.setNextResponse(res200);
-        test.setNextResponse(res200);
         const $link = test.form.signoutLink();
 
         expect($link.length).toBe(1);
-        expect($link.text()).toBe('Sign Out');
+        expect($link.text()).toBe('Back to sign in');
         $link.click();
         return Expect.waitForPrimaryAuth(test);
       })
       .then(function(test) {
-        expect(Util.numAjaxRequests()).toBe(2);
+        expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/cancel',
           data: {
             stateToken: 'testStateToken',
           },
-        });
-        Expect.isJsonDelete(Util.getAjaxRequest(1), {
-          url: 'https://foo.com/api/v1/sessions/me',
         });
         expect(test.router.controller.options.appState.clearLastAuthResponse).toHaveBeenCalled();
         Expect.isPrimaryAuth(test.router.controller);
@@ -161,18 +157,17 @@ Expect.describe('PasswordReset', function() {
     });
   });
 
-  itp('has a signout link which cancels the current stateToken, closes session and redirects to the provided signout url', function() {
+  itp('has a signout link which cancels the current stateToken and redirects to the provided signout url', function() {
     return setup({ signOutLink: 'http://www.goodbye.com' })
       .then(function(test) {
         spyOn(test.router.controller.options.appState, 'clearLastAuthResponse').and.callThrough();
         spyOn(SharedUtil, 'redirect');
         Util.resetAjaxRequests();
         test.setNextResponse(res200);
-        test.setNextResponse(res200);
         const $link = test.form.signoutLink();
 
         expect($link.length).toBe(1);
-        expect($link.text()).toBe('Sign Out');
+        expect($link.text()).toBe('Back to sign in');
         $link.click();
         return Expect.waitForAjaxRequest(test);
       })
@@ -182,15 +177,12 @@ Expect.describe('PasswordReset', function() {
         return Expect.waitForSpyCall(test.router.controller.options.appState.clearLastAuthResponse, test);
       })
       .then(function(test) {
-        expect(Util.numAjaxRequests()).toBe(2);
+        expect(Util.numAjaxRequests()).toBe(1);
         Expect.isJsonPost(Util.getAjaxRequest(0), {
           url: 'https://foo.com/api/v1/authn/cancel',
           data: {
             stateToken: 'testStateToken',
           },
-        });
-        Expect.isJsonDelete(Util.getAjaxRequest(1), {
-          url: 'https://foo.com/api/v1/sessions/me',
         });
         expect(test.router.controller.options.appState.clearLastAuthResponse).toHaveBeenCalled();
         expect(SharedUtil.redirect).toHaveBeenCalledWith('http://www.goodbye.com');
