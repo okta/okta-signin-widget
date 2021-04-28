@@ -24,6 +24,9 @@ export async function interactionCodeFlow(settings, idxResponse) {
 
   // In remediation mode the transaction is owned by another client.
   const isRemediationMode = settings.get('mode') === 'remediation';
+  if (isRemediationMode) {
+    clearTransactionMeta(settings);
+  }
   
   // server-side applications will want to received interaction_code as a query parameter
   // this option can also be used to force a redirect for client-side/SPA applications

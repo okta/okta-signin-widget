@@ -45,12 +45,6 @@ export default Model.extend({
       value: 'auto',
     },
 
-    mode: {
-      type: 'string',
-      values: ['remediation', 'relying-party'],
-      value: 'relying-party',
-    },
-
     // Function to transform the username before passing it to the API
     // for Primary Auth, Forgot Password and Unlock Account.
     transformUsername: ['function', false],
@@ -116,7 +110,7 @@ export default Model.extend({
     state: 'string',
     scopes: 'array',
     codeChallenge: 'string',
-    codeChallengeMethod: 'string',
+    codeChallengeMethod: ['string', false, 'S256'],
     oAuthTimeout: ['number', false],
 
     authScheme: ['string', false, 'OAUTH2'],
@@ -234,6 +228,15 @@ export default Model.extend({
         return Object.keys(countries).includes(defaultCountryCode)
           ? defaultCountryCode : 'US';
       },
+    },
+    mode: {
+      deps: ['useInteractionCodeFlow', 'interactionHandle', 'codeChallenge'],
+      fn: function(useInteractionCodeFlow, interactionHandle, codeChallenge) {
+        if (interactionHandle || (useInteractionCodeFlow && codeChallenge)) {
+          return 'remediation';
+        }
+        return 'relying-party';
+      }
     },
     oauth2Enabled: {
       deps: ['clientId', 'authScheme'],
