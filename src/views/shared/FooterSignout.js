@@ -36,12 +36,6 @@ export default View.extend({
         return transaction.cancel();
       })
       .then(function() {
-        if (self.options.closeSession) {
-          const authClient = self.settings.authClient;
-          return authClient.closeSession().catch(() => {});
-        }
-      })
-      .then(function() {
         if (self.settings.get('signOutLink')) {
           Util.redirect(self.settings.get('signOutLink'));
         } else {
