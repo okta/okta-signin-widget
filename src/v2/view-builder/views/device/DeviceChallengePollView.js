@@ -51,7 +51,12 @@ const Body = BaseFormWithPolling.extend(
       return this.options.currentViewState.relatesTo.value;
     },
 
-    doLoopback(authenticatorDomainUrl = '', ports = [], challengeRequest = '') {
+    doLoopback(deviceChallenge) {
+      let authenticatorDomainUrl = deviceChallenge.domain !== undefined ? deviceChallenge.domain : '';
+      let ports = deviceChallenge.ports !== undefined ? deviceChallenge.ports : [];
+      let challengeRequest = deviceChallenge.challengeRequest !== undefined ? deviceChallenge.challengeRequest : '';
+      let probeTimeoutMillis = deviceChallenge.probeTimeoutMillis !== undefined ?
+        deviceChallenge.probeTimeoutMillis : 100;
       let currentPort;
       let foundPort = false;
       let countFailedPorts = 0;
@@ -63,10 +68,15 @@ const Body = BaseFormWithPolling.extend(
       const checkPort = () => {
         return request({
           url: getAuthenticatorUrl('probe'),
-          // in loopback server, SSL handshake sometimes takes more than 100ms and thus needs additional timeout
-          // however, increasing timeout is a temporary solution since user will need to wait much longer in worst case
-          // TODO: OKTA-278573 Android timeout is temporarily set to 3000ms and needs optimization post-Beta
-          timeout: BrowserFeatures.isAndroid() ? 3000 : 100
+          /*
+          OKTA-278573 in loopback server, SSL handshake sometimes takes more than 100ms and thus needs additional
+          timeout however, increasing timeout is a temporary solution since user will need to wait much longer in
+          worst case.
+          TODO: Android timeout is temporarily set to 3000ms and needs optimization post-Beta.
+          OKTA-365427 introduces probeTimeoutMillis; but we should also consider probeTimeoutMillisHTTPS for
+          customizing timeouts in the more costly Android and other (keyless) HTTPS scenarios.
+          */
+          timeout: BrowserFeatures.isAndroid() ? 3000 : probeTimeoutMillis
         });
       };
 
