@@ -4,7 +4,7 @@ const { writeFileSync } = require('fs');
 const axios = require('axios');
 
 const METADATA_URI = 'https://raw.githubusercontent.com/googlei18n/libphonenumber/master/javascript/i18n/phonenumbers/metadata.js';
-const ROOT_DIR = resolve(__dirname, '../../');
+const ROOT_DIR = resolve(__dirname, '../../../');
 const OUTPUT_FILE = resolve(ROOT_DIR, 'src/util/countryCallingCodes.js');
 
 exports.command = 'generate-phone-codes';
