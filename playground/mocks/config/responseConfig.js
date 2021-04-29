@@ -667,6 +667,7 @@ const symantecVipAuthenticator = {
     'authenticator-verification-symantec-vip',
   ],
   '/idp/idx/challenge/answer': [
+    // 'error-authenticator-verification-symantec-vip-invalid-passcode'
     'success',
   ],
   '/idp/idx/credential/enroll': [
