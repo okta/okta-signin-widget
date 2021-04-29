@@ -4,6 +4,7 @@ import { checkConsoleMessages } from '../framework/shared';
 import xhrEnrollSymantecAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-enroll-symantec-vip';
 import xhrVerifySymantecAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-verification-symantec-vip';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
+import xhrInvalidPasscode from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-symantec-vip-invalid-passcode';
 
 const logger = RequestLogger(/introspect/,
   {
@@ -27,6 +28,14 @@ const verifyMock = RequestMock()
   .respond(xhrVerifySymantecAuthenticator)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSuccess);
+
+const verifyWithInvalidPasscodeMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrVerifySymantecAuthenticator)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrVerifySymantecAuthenticator)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(xhrInvalidPasscode, 403);
 
 async function setup(t) {
   const pageObject = new SymantecAuthenticatorPageObject(t);
@@ -107,4 +116,19 @@ test
 
     pageObject.form.waitForErrorBox();
     await t.expect(pageObject.form.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
+  });
+
+test
+  .requestHooks(logger, verifyWithInvalidPasscodeMock)('verify with Symantec VIP authenticator using invalid passcode', async t => {
+    const pageObject = await setup(t);
+
+    await t.expect(pageObject.getPageTitle()).eql('Verify with Symantec VIP');
+
+    // Fill out form and submit
+    const fieldName = 'credentials.passcode';
+    await pageObject.verifyFactor(fieldName, 'somethingInvalid');
+    await pageObject.submit();
+
+    await t.expect(pageObject.form.getTextBoxErrorMessage(fieldName))
+      .eql('Your code doesn\'t match our records. Please try again.');
   });
