@@ -206,7 +206,7 @@ describe('v2/ion/responseTransformer', function() {
         messages: {
           value: [
             {
-              message: 'There is no account with the email <strong> test@rain.com </strong>. <a href="#" class="js-sign-up"> Sign up </a> for an account',
+              message: 'There is no account with the email test@rain.com.',
               i18n: {
                 key: 'idx.unknown.user',
                 params: [],

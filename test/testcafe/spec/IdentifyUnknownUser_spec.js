@@ -33,7 +33,7 @@ test('should show messages callout for unknown user', async t => {
   await identityPage.fillIdentifierField('unknown');
   await identityPage.clickNextButton();
   await t.expect(identityPage.getUnknownUserCalloutContent())
-    .eql('There is no account with the email  test@rain.com .  Sign up  for an account');
+    .eql('There is no account with the email test@rain.com.');
 });
 
 test('should remove messages callout for unknown user once successful', async t => {
