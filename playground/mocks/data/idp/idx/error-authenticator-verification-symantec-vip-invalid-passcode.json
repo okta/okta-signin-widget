@@ -1,0 +1,166 @@
+{
+  "stateHandle": "02UxxOzemJmZMFgNfWePmTbaWZvWyJyr-7hi_ps4Iu",
+  "version": "1.0.0",
+  "expiresAt": "2021-01-04T03:33:45.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [ "create-form" ],
+        "name": "challenge-authenticator",
+        "relatesTo": [ "$.currentAuthenticator" ],
+        "href": "http://localhost:3000/idp/idx/challenge/answer",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "credentials",
+            "required": true,
+            "type": "object",
+            "form": {
+              "value": [
+                {
+                  "name": "passcode",
+                  "label": "Enter security code",
+                  "required": true,
+                  "messages": {
+                    "type": "array",
+                    "value": [
+                      {
+                        "message": "API error: Your code doesn't match our records. Please try again.",
+                        "i18n": {
+                          "key": "authfactor.challenge.soft_token.invalid_passcode"
+                        },
+                        "class": "ERROR"
+                      }
+                    ]
+                  },
+                  "visible": true
+                }
+              ]
+            }
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02UxxOzemJmZMFgNfWePmTbaWZvWyJyr-7hi_ps4Iu",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": [ "create-form" ],
+        "name": "select-authenticator-authenticate",
+        "href": "http://localhost:3000/idp/idx/challenge",
+        "method": "POST",
+        "accepts": "application/json; okta-version=1.0.0",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "Symantec VIP",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut11ceMaP0B0EzMI0g4",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[0]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02UxxOzemJmZMFgNfWePmTbaWZvWyJyr-7hi_ps4Iu",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "type": "app",
+      "key": "symantec_vip",
+      "id": "aut11ceMaP0B0EzMI0g4",
+      "displayName": "Symantec VIP",
+      "methods": [
+        { "type": "otp" }
+      ]
+    }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "app",
+        "key": "symantec_vip",
+        "id": "aut11ceMaP0B0EzMI0g4",
+        "displayName": "Symantec VIP",
+        "methods": [
+          { "type": "otp" }
+        ]
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "type": "app",
+        "key": "symantec_vip",
+        "id": "aut11ceMaP0B0EzMI0g4",
+        "displayName": "Symantec VIP",
+        "methods": [
+          { "type": "otp" }
+        ]
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u11djWuT63w8aHj0g4"
+    }
+  },
+  "cancel": {
+    "rel": [ "create-form" ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02UxxOzemJmZMFgNfWePmTbaWZvWyJyr-7hi_ps4Iu",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "oidc_client",
+      "label": "TestApp",
+      "id": "0oa11ch8m94eTn0Qe0g4"
+    }
+  }
+}
