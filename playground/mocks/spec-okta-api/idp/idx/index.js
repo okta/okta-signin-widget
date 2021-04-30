@@ -34,6 +34,7 @@ const ssoExtension = [
   templateHelper({
     path: '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify',
     method: 'GET',
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text-in-templates */
     template: '<html>Verifying the device...the login flow will be resumed afterwards</html>'
   }),
   templateHelper({

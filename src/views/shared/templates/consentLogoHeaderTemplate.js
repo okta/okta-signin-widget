@@ -4,9 +4,17 @@ const consentLogoHeaderTemplate = hbs`{{#if clientURI}}
  <a href="{{clientURI}}" class="client-logo-link" target="_blank">
 {{/if}}
 {{#if customLogo}}
-  <img class="client-logo custom-logo" src="{{customLogo}}" alt="aria logo" aria-hidden="true" />
+  <img
+    class="client-logo custom-logo"
+    src="{{customLogo}}"
+    alt="{{i18n code="common.logo.alt" bundle="login"}}"
+    aria-hidden="true" />
 {{else}}
-  <img class="client-logo default-logo" src="{{defaultLogo}}" alt="aria logo" aria-hidden="true" />
+  <img
+  class="client-logo default-logo"
+  src="{{defaultLogo}}"
+  alt="{{i18n code="common.logo.alt" bundle="login"}}"
+  aria-hidden="true" />
 {{/if}}
 {{#if clientURI}}
   </a>

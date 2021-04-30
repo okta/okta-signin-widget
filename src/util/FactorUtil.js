@@ -16,18 +16,21 @@ import TimeUtil from './TimeUtil';
 const fn = {};
 const factorData = {
   OKTA_VERIFY: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: 'factor.totpSoft.oktaVerify',
     description: 'factor.totpSoft.description',
     iconClassName: 'mfa-okta-verify',
     sortOrder: 1,
   },
   OKTA_VERIFY_PUSH: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: 'factor.oktaVerifyPush',
     description: 'factor.push.description',
     iconClassName: 'mfa-okta-verify',
     sortOrder: 1,
   },
   U2F: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: 'factor.u2f',
     description: brandName => {
       return brandName ? 'factor.u2f.description.specific' : 'factor.u2f.description.generic';
@@ -36,12 +39,14 @@ const factorData = {
     sortOrder: 2,
   },
   WEBAUTHN: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: 'factor.webauthn.biometric',
     description: 'factor.webauthn.biometric.description',
     iconClassName: 'mfa-webauthn',
     sortOrder: 2,
   },
   WINDOWS_HELLO: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: 'factor.windowsHello',
     description: brandName => {
       return brandName
@@ -52,84 +57,98 @@ const factorData = {
     sortOrder: 3,
   },
   YUBIKEY: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: 'factor.totpHard.yubikey',
     description: 'factor.totpHard.yubikey.description',
     iconClassName: 'mfa-yubikey',
     sortOrder: 4,
   },
   GOOGLE_AUTH: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: 'factor.totpSoft.googleAuthenticator',
     description: 'factor.totpSoft.description',
     iconClassName: 'mfa-google-auth',
     sortOrder: 5,
   },
   CUSTOM_HOTP: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: '',
     description: 'factor.hotp.description',
     iconClassName: 'mfa-hotp',
     sortOrder: 6,
   },
   SMS: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: 'factor.sms',
     description: 'factor.sms.description',
     iconClassName: 'mfa-okta-sms',
     sortOrder: 7,
   },
   CALL: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: 'factor.call',
     description: 'factor.call.description',
     iconClassName: 'mfa-okta-call',
     sortOrder: 8,
   },
   EMAIL: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: 'factor.email',
     description: 'factor.email.description',
     iconClassName: 'mfa-okta-email',
     sortOrder: 9,
   },
   QUESTION: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: 'factor.securityQuestion',
     description: 'factor.securityQuestion.description',
     iconClassName: 'mfa-okta-security-question',
     sortOrder: 10,
   },
   DUO: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: 'factor.duo',
     description: 'factor.duo.description',
     iconClassName: 'mfa-duo',
     sortOrder: 11,
   },
   SYMANTEC_VIP: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: 'factor.totpHard.symantecVip',
     description: 'factor.totpHard.description',
     iconClassName: 'mfa-symantec',
     sortOrder: 12,
   },
   RSA_SECURID: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: 'factor.totpHard.rsaSecurId',
     description: 'factor.totpHard.description',
     iconClassName: 'mfa-rsa',
     sortOrder: 13,
   },
   ON_PREM: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: '',
     description: 'factor.totpHard.description',
     iconClassName: 'mfa-onprem',
     sortOrder: 14,
   },
   PASSWORD: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: 'factor.password',
     description: '',
     iconClassName: 'mfa-okta-password',
     sortOrder: 15,
   },
   CUSTOM_CLAIMS: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: '',
     description: 'factor.customFactor.description',
     iconClassName: 'mfa-custom-factor',
     sortOrder: 16,
   },
   GENERIC_SAML: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: '',
     description: brandName => {
       return brandName ? 'factor.customFactor.description.specific' : 'factor.customFactor.description.generic';
@@ -138,6 +157,7 @@ const factorData = {
     sortOrder: 17,
   },
   GENERIC_OIDC: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
     label: '',
     description: brandName => {
       return brandName ? 'factor.customFactor.description.specific' : 'factor.customFactor.description.generic';
