@@ -143,7 +143,8 @@
     "webdriver-manager": "^12.1.8",
     "webpack": "^3.5.4",
     "webpack-bundle-analyzer": "^3.0.2",
-    "webpack-dev-server": "2.11.3"
+    "webpack-dev-server": "2.11.3",
+    "@okta/eslint-plugin-okta":"0.4.0"
   },
   "dependencies": {
     "@babel/polyfill": "^7.10.1",
