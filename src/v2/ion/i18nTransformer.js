@@ -35,7 +35,7 @@
 // Step 2. Find idx response path, for eg. select-authenticator-enroll.authenticator.email
 // Step 3. Make that path a key and add it to I18N_OVERRIDE_MAPPINGS if doesn't exist already
 // Step 4. If you find a key in Step 1 that already exists, use it as value of key created in Step 3, 
-//          else create a new lable `oie.your.new.label` and add it.
+//          else create a new label `oie.your.new.label` and add it.
 // Step 5. If you create a new label then add that to login.properties file with proper string
 //         oie.your.new.label = Your new string
 ///////////////////////////////////////////////////////////////////////////////
@@ -128,6 +128,9 @@ const I18N_OVERRIDE_MAPPINGS = {
   'oie.session.expired' : 'oie.idx.session.expired',
 
   'activate-device.userCode' : 'oie.device.code.activate.label',
+
+  // Remap authn API errors to OIE
+  'api.authn.poll.error.push_rejected': 'oktaverify.rejected',
 };
 
 const I18N_PARAMS_MAPPING = {
@@ -270,26 +273,31 @@ const isWebAuthnAPIError = ( i18nKey ) => i18nKey.startsWith(WEBAUTHN_API_GENERI
  * @property {string[]} i18n.params
  */
 /**
- * - iff `message.i18n.key` exists and has value in 'login.properties', return the value.
- * - otherwise returns `message.message`
+ * - If `message.i18n.key` exists and has a value in 'login.properties'
+ *   through the given key or via I18N_OVERRIDE_MAPPINGS, return the value.
+ *
+ * - returns `message.message` otherwise
  *
  * @param {Message} message
  */
 const getMessage = (message) => {
   if (message.i18n?.key) {
-    const i18nKey = message.i18n.key;
+    const i18nKey = I18N_OVERRIDE_MAPPINGS[message.i18n?.key] ?? message.i18n.key;
+
     if (Bundles.login[i18nKey]) {
       Logger.info(`Override messages using i18n key ${i18nKey}`);
       // expect user config i18n properly.
       // e.g. the i18n value shall have placeholders like `{0}`, when params is not empty.
       return loc(i18nKey, 'login', message.i18n.params || []);
     }
+
     if (isWebAuthnAPIError(i18nKey)) {
       // The WebAuthn api error doesn't make much sense to a typical end user, but useful for developer.
       // So keep the api message in response, but show a generic error message on UI.
       return loc(WEBAUTHN_API_GENERIC_ERROR_KEY, 'login');
     }
   }
+
   Logger.warn(`Avoid rendering unlocalized text sent from the API: ${message.message}`);
   return message.message;
 };
