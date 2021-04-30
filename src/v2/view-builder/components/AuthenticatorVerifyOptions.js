@@ -14,21 +14,20 @@ import hbs from 'handlebars-inline-precompile';
 
 const AuthenticatorRow = View.extend({
   className: 'authenticator-row clearfix',
-  template: hbs('\
-        <div class="authenticator-icon-container">\
-          <div class="factor-icon authenticator-icon {{iconClassName}}">\
-          </div>\
-        </div>\
-        <div class="authenticator-description">\
-          <div>\
-            <h3 class="authenticator-label {{#if description}}authenticator-label--small{{/if}}">{{label}}</h3>\
-            {{#if description}}\
-              <p class="authenticator-description--text">{{description}}</p>\
-            {{/if}}\
-          </div>\
-          <div class="authenticator-button" {{#if buttonDataSeAttr}}data-se="{{buttonDataSeAttr}}"{{/if}}></div>\
-        </div>\
-      '),
+  template: hbs`
+    <div class="authenticator-icon-container">
+      <div class="factor-icon authenticator-icon {{iconClassName}}"></div>
+    </div>
+    <div class="authenticator-description">
+      <div>
+        <h3 class="authenticator-label no-translate {{#if description}}authenticator-label--small{{/if}}">{{label}}</h3>
+        {{#if description}}
+          <p class="authenticator-description--text">{{description}}</p>
+        {{/if}}
+      </div>
+      <div class="authenticator-button" {{#if buttonDataSeAttr}}data-se="{{buttonDataSeAttr}}"{{/if}}></div>
+    </div>
+  `,
   children: function(){
     return [[createButton({
       className: 'button select-factor',
