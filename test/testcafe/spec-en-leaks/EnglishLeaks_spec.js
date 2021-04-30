@@ -34,7 +34,6 @@ const ignoredMocks = [
   'error-session-expired.json',
   'error-safe-mode-polling.json',
   'error-pre-versioning-ff-session-expired.json',
-  'error-okta-verify-totp.json',
   'error-internal-server-error.json',
   'error-identify-access-denied.json',
   'error-forgot-password.json',
