@@ -44,6 +44,7 @@ module.exports = {
     'property-no-unknown': null,
     'property-no-vendor-prefix': null,
     'scss/at-import-no-partial-leading-underscore': true,
+    /* eslint-disable-next-line @okta/okta/no-exclusive-language */
     'scss/at-import-partial-extension-blacklist': [
       'scss'
     ],
@@ -63,6 +64,7 @@ module.exports = {
     ],
     'selector-no-vendor-prefix': null,
     'shorthand-property-no-redundant-values': true,
+    /* eslint-disable-next-line @okta/okta/no-exclusive-language */
     'unit-whitelist': [
       'ch',
       'em',

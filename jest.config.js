@@ -4,6 +4,7 @@ const SRC = path.resolve(ROOT, 'src');
 const LOCAL_PACKAGES = path.resolve(ROOT, 'packages');
 const COVERAGE_DIR = '<rootDir>/build2/reports/coverage/jest';
 const REPORT_DIR = '<rootDir>/build2/reports/unit';
+/* eslint-disable-next-line @okta/okta/no-unlocalized-text-in-templates */
 const OktaSignin = '<rootDir>/src/widget/OktaSignIn';
 const LEGACY_TESTS = require('./test/unit/legacy-tests');
 
