@@ -154,7 +154,7 @@ export default FormController.extend({
     }
 
     if (!this.settings.get('features.hideBackToSignInForReset')) {
-      this.add(new FooterSignout(this.toJSON()));
+      this.addFooter(FooterSignout);
     }
   },
 
