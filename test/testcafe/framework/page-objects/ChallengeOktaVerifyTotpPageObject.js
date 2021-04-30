@@ -11,4 +11,7 @@ export default class ChallengeOktaVerifyTotpPageObject extends ChallengeFactorPa
     return this.form.getFormFieldLabel(TOTP_FIELD);
   }
 
+  getAnswerInlineError() {
+    return this.form.getTextBoxErrorMessage(TOTP_FIELD);
+  }
 }
