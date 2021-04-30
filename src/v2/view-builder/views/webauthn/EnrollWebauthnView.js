@@ -20,7 +20,9 @@ function getExcludeCredentials(authenticatorEnrollments = []) {
 }
 
 const Body = BaseForm.extend({
-  title: loc('oie.enroll.webauthn.title', 'login'),
+  title() {
+    return loc('oie.enroll.webauthn.title', 'login');
+  },
   className: 'oie-enroll-webauthn',
   modelEvents: {
     'error': '_stopEnrollment',
