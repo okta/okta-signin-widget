@@ -39,6 +39,7 @@ describe('v2/ion/i18nTransformer', function() {
       'mfa.challenge.password.placeholder': 'password',
       'oie.okta_verify.totp.enterCodeText': 'enter totp code',
       'oie.google_authenticator.otp.enterCodeText': 'enter passcode',
+      'oie.enroll.okta_verify.email.label': 'email',
 
       'primaryauth.password.placeholder': 'password',
       'primaryauth.username.placeholder': 'username',
@@ -1717,6 +1718,57 @@ describe('v2/ion/i18nTransformer', function() {
       name: 'UnsupportedErrorName'
     })).toEqual('browser message');
   });
+
+  it('should get email label if it defined on enrollment-channel-data', () => {
+    const resp = {
+      remediations: [{
+        name: 'enrollment-channel-data',
+        value: [
+          {
+            label: 'Email',
+            name: 'email',
+            required: true,
+            visible: true
+          },
+        ],
+        uiSchema: [{
+          label: 'Email',
+          name: 'email',
+          required: true,
+          visible: true,
+          'label-top': true,
+          'data-se': 'o-form-fieldset-email',
+          type: 'text'
+        }]
+      }],
+    };
+
+    expect(i18nTransformer(resp)).toEqual({
+      'remediations': [{
+        name: 'enrollment-channel-data',
+        'value': [
+          {
+            'label': 'Email',
+            'name': 'email',
+            'required': true,
+            'visible': true
+          },
+        ],
+        'uiSchema': [
+          {
+            'label': 'unit test - email',
+            'name': 'email',
+            'required': true,
+            'visible': true,
+            'label-top': true,
+            'data-se': 'o-form-fieldset-email',
+            'type': 'text'
+          }
+        ]
+      }],
+    });
+  });
+
 
   const expectedWebAuthnGenericError = 'You are currently unable to use a Security key or biometric authenticator. Try again.';
 
