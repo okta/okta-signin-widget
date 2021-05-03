@@ -36,11 +36,7 @@ export default View.extend({
 
   getTemplateData: function() {
     const captchaConfig = this.options.appState.get('captcha');
-
-    let className = 'g-recaptcha';
-    if (captchaConfig && captchaConfig.type === 'HCAPTCHA') {
-      className = 'h-captcha';
-    }
+    const className = captchaConfig.type === 'HCAPTCHA' ? 'h-captcha' : 'g-recaptcha';
 
     return {
       class: captchaConfig && className,
@@ -85,8 +81,9 @@ export default View.extend({
       const parts = fieldName.split('.');
       if (parts.length > 1) {
         const topLevelAttribute = parts[0];
-        const orignalValue = this.model.get(parts[0]) || {};
+        const orignalValue = this.model.get(topLevelAttribute) || {};
         const update = this._unflattenAndSetValue(fieldName, token);
+
         this.model.set(topLevelAttribute,
           Object.assign(orignalValue, update[topLevelAttribute]));
       }
@@ -98,7 +95,7 @@ export default View.extend({
     this.onCaptchaLoaded = () => {
       const captchaObject = this.captchaConfig.type === 'HCAPTCHA' ? window.hcaptcha : window.grecaptcha;
 
-      // We set a temporary token for Captche because this is a required field for the form and is normally set
+      // We set a temporary token for Captcha because this is a required field for the form and is normally set
       // at a later time. In order to prevent client-side validation errors because of this, we have to set a 
       // dummy value. We then overwrite this with the proper token in the onCaptchaSolved callback.
       this.model.set(this.options.name, 'tempToken');
@@ -109,7 +106,7 @@ export default View.extend({
           // We reset the Captcha. We need to reset because every time the 
           // Captcha resolves back with a token and say we have a server side error, 
           // if we submit the form again it won't work otherwise. The Captcha 
-          // has be reset for it to work again.
+          // has to be reset for it to work again in that scenario.
           captchaObject.reset();
           this.onCaptchaSolved(token);
         }
@@ -128,7 +125,7 @@ export default View.extend({
     // can have access to it since it won't have access to this view's scope.
     window.OktaSignInWidgetOnCaptchaLoaded = this.onCaptchaLoaded;
 
-    // Attaching the Captcha solved callback to the window object because we reference in our template under
+    // Attaching the Captcha solved callback to the window object because we reference it in our template under
     // the 'data-callback' attribute which the Captcha library uses to invoke the callback.
     window.OktaSignInWidgetOnCaptchaSolved = this.onCaptchaSolved;
 
