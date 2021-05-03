@@ -23,12 +23,45 @@ const RECAPTCHAV2_URL =
 export default View.extend({
   className: 'captcha-view',
 
+  template: hbs`
+    {{#if isCaptchaConfigured}}\
+      <div id ="captcha-container"
+          class="{{class}}"
+          data-sitekey="{{sitekey}}"
+          data-callback="onCaptchaSolved"
+          data-size="invisible">
+      </div>
+    {{/if}}\
+  `,
+
+  getTemplateData: function() {
+    const captchaConfig = this.options.appState.get('captcha');
+
+    let className = 'g-recaptcha';
+    if (captchaConfig && captchaConfig.type === 'HCAPTCHA') {
+      className = 'h-captcha';
+    }
+
+    return {
+      class: captchaConfig && className,
+      sitekey: captchaConfig && captchaConfig.siteKey,
+      isCaptchaConfigured: !!captchaConfig
+    };
+  },
+
   initialize() {
     if (this.options.appState.get('captcha')) {
       this.captchaConfig = this.options.appState.get('captcha');
       this._addCaptcha();
     }
   },
+
+  // postRender() {
+  //   if (this.options.appState.get('captcha')) {
+  //     this.captchaConfig = this.options.appState.get('captcha');
+  //     this._addCaptcha();
+  //   }
+  // },
 
   remove: function(){
     View.prototype.remove.apply(this, arguments);
@@ -54,17 +87,50 @@ export default View.extend({
       const fieldName = this.options.name;
       this.model.set(fieldName, token);
 
+      // By the time we reach this callback, the model has already unflattened the field names.
+      // We need to ensure that we set the value inside the unflattened model attribute as well if needed.
+      const parts = fieldName.split('.');
+      if (parts.length > 1) {
+        const topLevelAttribute = parts[0];
+        const orignalValue = this.model.get(parts[0]) || {};
+        const update = this._unflattenAndSetValue(fieldName, token);
+        this.model.set(topLevelAttribute,
+          Object.assign(orignalValue, update[topLevelAttribute]));
+      }
+
       // Clear form errors before re-validation
       this.model.trigger('clearFormError');
 
-      if (this.model.isValid()) {
-        this.options.appState.trigger('saveForm', this.model); 
-      }
+      // if (this.model.isValid()) {
+      this.options.appState.trigger('saveForm', this.model); 
+      // }
     };
 
     // Callback when CAPTCHA lib is loaded.
     const onCaptchaLoaded = () => {
-      this.options.appState.trigger('onCaptchaLoaded', this.captchaConfig, this.onCaptchaSolved);
+      const captchaObject = this.captchaConfig.type === 'HCAPTCHA' ? window.hcaptcha : window.grecaptcha;
+      this.model.set(this.options.name, '***');
+
+      captchaObject.render('captcha-container', {
+        sitekey: this.captchaConfig.siteKey,
+        callback: (token) => {
+          // We reset the Captchas using the id(s) that were generated during their rendering.
+          captchaObject.reset();
+          // const submitButtons = 
+          //   document.querySelectorAll(`#${Enums.WIDGET_CONTAINER_ID} .o-form-button-bar .button[type=submit]`);
+          // submitButtons.forEach((btn) => {
+          //   captchaObject.reset(btn.getAttribute('data-captcha-id'));
+          // });
+  
+          this.onCaptchaSolved(token);
+          // Invoke the callback passed in
+          // if (onCaptchaSolvedCallback && _.isFunction(onCaptchaSolvedCallback)) {
+          //   onCaptchaSolvedCallback(token);
+          // }
+        }
+      });  
+
+      this.options.appState.trigger('onCaptchaLoaded', captchaObject);
 
       // Render the HCAPTCHA footer - we need to do this manually since the HCAPTCHA lib doesn't do it
       if (this.captchaConfig.type === 'HCAPTCHA') {
@@ -75,6 +141,7 @@ export default View.extend({
     // Attaching the callback to the window object so that the CAPTCHA script that we dynamically render
     // can have access to it since it won't have access to this view's scope.
     window.OktaSignInWidgetOnCaptchaLoaded = onCaptchaLoaded;
+    window.onCaptchaSolved = this.onCaptchaSolved;
 
     if (this.captchaConfig.type === 'HCAPTCHA') {
       this._loadCaptchaLib(HCAPTCHA_URL);
@@ -112,5 +179,22 @@ export default View.extend({
         template()
       );
     }
+  },
+
+  _unflattenAndSetValue(fieldName, value) {
+    const parts = fieldName.split('.');
+    const update = {}; // Will contain the end result update
+    let pointer = update; // Pointer that we'll use to move 
+    let part = parts.shift(); // Pop out first level of the field(s)
+
+    while (part !== undefined) {
+      // We check to see if we're at the bottom level and if so set the value. Otherwise
+      // keep defining new object to dig deeper.
+      pointer[part] = parts.length ? {} : value;
+      pointer = pointer[part]; 
+      part = parts.shift();
+    }
+    return update;
   }
+
 });

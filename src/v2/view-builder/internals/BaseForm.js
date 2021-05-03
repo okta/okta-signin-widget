@@ -33,12 +33,14 @@ export default Form.extend({
     this.showMessages();
 
     // Render CAPTCHA if one of the form fields requires us to.
-    this.listenTo(this.options.appState, 'onCaptchaLoaded', (captchaConfig, callback) => {
-      renderCaptcha(
-        captchaConfig,
-        this,
-        callback
-      );
+    this.listenTo(this.options.appState, 'onCaptchaLoaded', (captchaObject) => {
+      this.isCaptchaConfigured = true;
+      this.captchaObject = captchaObject;
+      // renderCaptcha(
+      //   captchaConfig,
+      //   this,
+      //   callback
+      // );
     });    
 
     inputOptions.forEach(input => {
@@ -62,7 +64,12 @@ export default Form.extend({
   saveForm(model) {
     //remove any existing warnings or messages before saving form
     this.$el.find('.o-form-error-container').empty();
-    this.options.appState.trigger('saveForm', model);
+
+    if (this.isCaptchaConfigured && this.captchaObject) {
+      this.captchaObject.execute();
+    } else {
+      this.options.appState.trigger('saveForm', model);
+    }
   },
 
   cancelForm() {
