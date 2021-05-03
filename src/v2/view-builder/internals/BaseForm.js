@@ -1,5 +1,4 @@
 import { _, Form, loc, internal } from 'okta';
-import { renderCaptcha } from '../views/captcha/CaptchaHelper';
 import FormInputFactory from './FormInputFactory';
 
 const { FormUtil } = internal.views.forms.helpers;
@@ -36,11 +35,6 @@ export default Form.extend({
     this.listenTo(this.options.appState, 'onCaptchaLoaded', (captchaObject) => {
       this.isCaptchaConfigured = true;
       this.captchaObject = captchaObject;
-      // renderCaptcha(
-      //   captchaConfig,
-      //   this,
-      //   callback
-      // );
     });    
 
     inputOptions.forEach(input => {
@@ -65,6 +59,7 @@ export default Form.extend({
     //remove any existing warnings or messages before saving form
     this.$el.find('.o-form-error-container').empty();
 
+    // Execute Captcha if enabled for this form.
     if (this.isCaptchaConfigured && this.captchaObject) {
       this.captchaObject.execute();
     } else {

@@ -28,7 +28,7 @@ export default View.extend({
       <div id ="captcha-container"
           class="{{class}}"
           data-sitekey="{{sitekey}}"
-          data-callback="onCaptchaSolved"
+          data-callback="OktaSignInWidgetOnCaptchaSolved"
           data-size="invisible">
       </div>
     {{/if}}\
@@ -55,13 +55,6 @@ export default View.extend({
       this._addCaptcha();
     }
   },
-
-  // postRender() {
-  //   if (this.options.appState.get('captcha')) {
-  //     this.captchaConfig = this.options.appState.get('captcha');
-  //     this._addCaptcha();
-  //   }
-  // },
 
   remove: function(){
     View.prototype.remove.apply(this, arguments);
@@ -98,38 +91,31 @@ export default View.extend({
           Object.assign(orignalValue, update[topLevelAttribute]));
       }
 
-      // Clear form errors before re-validation
-      this.model.trigger('clearFormError');
-
-      // if (this.model.isValid()) {
       this.options.appState.trigger('saveForm', this.model); 
-      // }
     };
 
-    // Callback when CAPTCHA lib is loaded.
-    const onCaptchaLoaded = () => {
+    // Callback when CAPTCHA lib is loaded. We're binding it to this view so that it's easier to unit test
+    this.onCaptchaLoaded = () => {
       const captchaObject = this.captchaConfig.type === 'HCAPTCHA' ? window.hcaptcha : window.grecaptcha;
-      this.model.set(this.options.name, '***');
+
+      // We set a temporary token for Captche because this is a required field for the form and is normally set
+      // at a later time. In order to prevent client-side validation errors because of this, we have to set a 
+      // dummy value. We then overwrite this with the proper token in the onCaptchaSolved callback.
+      this.model.set(this.options.name, 'tempToken');
 
       captchaObject.render('captcha-container', {
         sitekey: this.captchaConfig.siteKey,
         callback: (token) => {
-          // We reset the Captchas using the id(s) that were generated during their rendering.
+          // We reset the Captcha. We need to reset because every time the 
+          // Captcha resolves back with a token and say we have a server side error, 
+          // if we submit the form again it won't work otherwise. The Captcha 
+          // has be reset for it to work again.
           captchaObject.reset();
-          // const submitButtons = 
-          //   document.querySelectorAll(`#${Enums.WIDGET_CONTAINER_ID} .o-form-button-bar .button[type=submit]`);
-          // submitButtons.forEach((btn) => {
-          //   captchaObject.reset(btn.getAttribute('data-captcha-id'));
-          // });
-  
           this.onCaptchaSolved(token);
-          // Invoke the callback passed in
-          // if (onCaptchaSolvedCallback && _.isFunction(onCaptchaSolvedCallback)) {
-          //   onCaptchaSolvedCallback(token);
-          // }
         }
-      });  
+      });
 
+      // Let the Baseform know that Captcha is loaded.
       this.options.appState.trigger('onCaptchaLoaded', captchaObject);
 
       // Render the HCAPTCHA footer - we need to do this manually since the HCAPTCHA lib doesn't do it
@@ -140,8 +126,11 @@ export default View.extend({
 
     // Attaching the callback to the window object so that the CAPTCHA script that we dynamically render
     // can have access to it since it won't have access to this view's scope.
-    window.OktaSignInWidgetOnCaptchaLoaded = onCaptchaLoaded;
-    window.onCaptchaSolved = this.onCaptchaSolved;
+    window.OktaSignInWidgetOnCaptchaLoaded = this.onCaptchaLoaded;
+
+    // Attaching the Captcha solved callback to the window object because we reference in our template under
+    // the 'data-callback' attribute which the Captcha library uses to invoke the callback.
+    window.OktaSignInWidgetOnCaptchaSolved = this.onCaptchaSolved;
 
     if (this.captchaConfig.type === 'HCAPTCHA') {
       this._loadCaptchaLib(HCAPTCHA_URL);
@@ -181,6 +170,10 @@ export default View.extend({
     }
   },
 
+  /**
+   *  Unflatten the fieldName (which could look like 'captchaVerify.captchaToken') and set the 
+   *  correspoding value. So the end result would look like: {captchaVerify: {captchaToken: <value>}};
+  * */ 
   _unflattenAndSetValue(fieldName, value) {
     const parts = fieldName.split('.');
     const update = {}; // Will contain the end result update

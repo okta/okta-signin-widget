@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`v2/view-builder/views/CaptchaView view renders correctly based on Captcha configuration: default 1`] = `
+<div
+  class="captcha-view"
+>
+  <div
+    class="g-recaptcha"
+    data-callback="OktaSignInWidgetOnCaptchaSolved"
+    data-sitekey="6Lfw9IQaAAAAAM-mWFv6DwRtsKHyn8l14qXUBMkD"
+    data-size="invisible"
+    id="captcha-container"
+  />
+</div>
+`;
+
+exports[`v2/view-builder/views/CaptchaView view renders correctly based on Captcha configuration: with no Captcha configuration 1`] = `
+<div
+  class="captcha-view"
+/>
+`;
