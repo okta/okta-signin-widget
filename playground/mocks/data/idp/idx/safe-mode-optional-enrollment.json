@@ -30,9 +30,9 @@
     "type": "array",
     "value": [
       {
-        "message": "Set up is temporarily unavailable due to server maintenance. Click 'Skip set up' to continue.",
+        "message": "Set up is temporarily unavailable due to server maintenance. Try again later.",
         "i18n": {
-          "key": "idx.error.server.safe.mode.assurance.satisfied"
+          "key": "idx.error.server.safe.mode.enrollment.unavailable"
         },
         "class": "ERROR"
       }
