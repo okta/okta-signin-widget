@@ -57,7 +57,7 @@
                   {
                     "name": "channel",
                     "required": true,
-                    "visible": false,
+                    "visible": true,
                     "mutable": false,
                     "options": [
                       {
@@ -67,6 +67,10 @@
                       {
                         "value": "sms",
                         "label": "SMS"
+                      },
+                      {
+                        "value": "email",
+                        "label": "Email"
                       }
                     ]
                   }
