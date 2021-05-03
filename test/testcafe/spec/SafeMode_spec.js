@@ -45,7 +45,7 @@ test.requestHooks(skipRequestLogger, safeModeOptionalMock)('should display corre
   const terminalPage = await setup(t);
 
   await terminalPage.waitForErrorBox();
-  await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('Set up is temporarily unavailable due to server maintenance. Click \'Skip set up\' to continue.');
+  await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('Set up is temporarily unavailable due to server maintenance. Try again later.');
   await t.expect(await terminalPage.skipSetUpLinkExists()).ok();
   await t.expect(await terminalPage.signoutLinkExists()).notOk();
 
@@ -72,7 +72,7 @@ test.requestHooks(safeModeRequiredMock)('should display correct error and sign o
 test.requestHooks(safeModeCredentialEnrollmentIntent)('should display correct error and no links when server is in safe mode during credential enrollment intent', async t => {
   const terminalPage = await setup(t);
   await terminalPage.waitForErrorBox();
-  await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('Set up is temporarily unavailable due to server maintenance. Click \'Back to Settings\' to continue.');
+  await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('Set up is temporarily unavailable due to server maintenance. Try again later.');
   await t.expect(await terminalPage.skipSetUpLinkExists()).notOk();
   await t.expect(await terminalPage.signoutLinkExists()).notOk();
 });
