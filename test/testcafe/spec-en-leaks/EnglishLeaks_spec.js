@@ -16,7 +16,6 @@ const ignoredMocks = [
   'terminal-return-stale-email.json',
   'terminal-return-expired-email.json',
   'terminal-return-error-email.json',
-  'terminal-return-email.json',
   'terminal-registration.json',
   'terminal-polling-window-expired.json',
   'success-with-interaction-code.json',
