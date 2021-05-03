@@ -105,7 +105,10 @@ const Body = BaseForm.extend({
 
       messagesObjs.value
         .forEach(messagesObj => {
-          const msg = messagesObj.message;
+          let msg = messagesObj.message;
+          if (messagesObj.i18n?.key === OPERATION_CANCELED_BY_USER_KEY) {
+            msg = loc(messagesObj.i18n.key, 'login');
+          }
           if (messagesObj.class === 'ERROR' || messagesObj.i18n?.key === RETURN_LINK_EXPIRED_KEY) {
             this.add(createCallout({
               content: msg,
