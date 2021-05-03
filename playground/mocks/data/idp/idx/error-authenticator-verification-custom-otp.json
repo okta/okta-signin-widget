@@ -25,7 +25,7 @@
         ],
         "name": "challenge-authenticator",
         "relatesTo": [
-          "$.currentAuthenticator"
+          "$.currentAuthenticatorEnrollment"
         ],
         "href": "http://localhost:3000/idp/idx/challenge/answer",
         "method": "POST",
@@ -151,6 +151,7 @@
       {
         "displayName": "Okta Password",
         "type": "password",
+        "key": "okta_password",
         "id": "autwa6eD9o02iBbtv0g1",
         "authenticatorId": "aidwboITrg4b4yAYd0g3",
         "methods": [
