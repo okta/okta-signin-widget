@@ -15,7 +15,8 @@ module.exports = {
   },
   create(context) {
     const ignoreKeys = [
-      'tooManyRequests'// oie.tooManyRequests exists in the login bundle. We added oie.tooManyRequests instead of making a backend change.
+      'tooManyRequests', // oie.tooManyRequests exists in the login bundle. We added oie.tooManyRequests instead of making a backend change.
+      'idx.return.to.original.tab', // idx.return.to.original.tab is translated to oie.return.to.original.tab in Terminalview.
     ];
     return {
       'Program': function (node) {
