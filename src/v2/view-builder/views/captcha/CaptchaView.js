@@ -74,6 +74,14 @@ export default View.extend({
     // Callback invoked when CAPTCHA is solved. We're binding it to this view so that it's easier
     // to unit test.
     this.onCaptchaSolved = (token) => {
+      const captchaObject = this._getCaptchaOject();
+
+      // We reset the Captcha. We need to reset because every time the 
+      // Captcha resolves back with a token and say we have a server side error, 
+      // if we submit the form again it won't work otherwise. The Captcha 
+      // has to be reset for it to work again in that scenario.
+      const captchaId = this.$el.find('#captcha-container').attr('data-captcha-id');
+      captchaObject.reset(captchaId);
 
       // Set the token in the model
       const fieldName = this.options.name;
@@ -96,24 +104,25 @@ export default View.extend({
 
     // Callback when CAPTCHA lib is loaded. We're binding it to this view so that it's easier to unit test
     this.onCaptchaLoaded = () => {
-      const captchaObject = this.captchaConfig.type === 'HCAPTCHA' ? window.hcaptcha : window.grecaptcha;
+      // This is just a safeguard to ensure we don't bind Captcha to an already bound element.
+      // It shouldn't happen in practice.
+      if (this.$el.find('#captcha-container').attr('data-captcha-id')) {
+        return;
+      }
+
+      const captchaObject = this._getCaptchaOject();
 
       // We set a temporary token for Captcha because this is a required field for the form and is normally set
       // at a later time. In order to prevent client-side validation errors because of this, we have to set a 
       // dummy value. We then overwrite this with the proper token in the onCaptchaSolved callback.
       this.model.set(this.options.name, 'tempToken');
 
-      captchaObject.render('captcha-container', {
+      const captchaId = captchaObject.render('captcha-container', {
         sitekey: this.captchaConfig.siteKey,
-        callback: (token) => {
-          // We reset the Captcha. We need to reset because every time the 
-          // Captcha resolves back with a token and say we have a server side error, 
-          // if we submit the form again it won't work otherwise. The Captcha 
-          // has to be reset for it to work again in that scenario.
-          captchaObject.reset();
-          this.onCaptchaSolved(token);
-        }
+        callback: this.onCaptchaSolved
       });
+      
+      this.$el.find('#captcha-container').attr('data-captcha-id', captchaId);
 
       // Let the Baseform know that Captcha is loaded.
       this.options.appState.trigger('onCaptchaLoaded', captchaObject);
@@ -188,6 +197,10 @@ export default View.extend({
       part = parts.shift();
     }
     return update;
-  }
+  },
 
+  _getCaptchaOject() {
+    const captchaObject = this.captchaConfig.type === 'HCAPTCHA' ? window.hcaptcha : window.grecaptcha;
+    return captchaObject;
+  }
 });

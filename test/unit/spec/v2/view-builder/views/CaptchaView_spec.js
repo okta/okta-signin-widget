@@ -100,16 +100,20 @@ describe('v2/view-builder/views/CaptchaView', function() {
   it('Callback for when Captcha is solved submits form', function() {
     const original = window.grecaptha;
     window.grecaptcha = {
-      reset: function() {}
+      reset: jest.fn()
     };     
-    jest.spyOn(document, 'getElementsByClassName').mockReturnValue([document.createElement('button', { 'data-captcha-id' : '0' })]);
     testContext.init();
+    testContext.view.$el.find('#captcha-container').attr('data-captcha-id', '0');
+
     const spy = jest.spyOn(testContext.view.options.appState, 'trigger');
     testContext.view.onCaptchaSolved('someToken');
+    expect(window.grecaptcha.reset).toHaveBeenCalledWith('0');
     expect(testContext.view.model.get('captchaVerify.captchaToken')).toEqual('someToken');
+
     const captchaVerify = testContext.view.model.get('captchaVerify');
     expect(captchaVerify.captchaToken).toEqual('someToken');
     expect(spy).toHaveBeenCalledWith('saveForm', testContext.view.model);
+
     window.grecaptcha = original;
   });
 });

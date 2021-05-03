@@ -7,7 +7,7 @@ exports[`v2/view-builder/views/CaptchaView view renders correctly based on Captc
   <div
     class="g-recaptcha"
     data-callback="OktaSignInWidgetOnCaptchaSolved"
-    data-sitekey="6Lfw9IQaAAAAAM-mWFv6DwRtsKHyn8l14qXUBMkD"
+    data-sitekey="abcd12345"
     data-size="invisible"
     id="captcha-container"
   />
