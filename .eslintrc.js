@@ -122,7 +122,6 @@ module.exports = {
             'playground/**/terminal-polling-window-expired.json',
             'playground/**/terminal-registration.json',
             'playground/**/terminal-return-email-consent.json',
-            'playground/**/terminal-return-email.json',
             'playground/**/terminal-return-error-email.json',
             'playground/**/terminal-return-expired-email.json',
             'playground/**/terminal-return-stale-email.json',
