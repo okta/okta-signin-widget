@@ -13,7 +13,7 @@
       {
         "message": "Set up is temporarily unavailable due to server maintenance. Try again later.",
         "i18n": {
-          "key": "idx.error.server.safe.mode.assurance.not.satisfied"
+          "key": "idx.error.server.safe.mode.enrollment.unavailable"
         },
         "class": "ERROR"
       }
