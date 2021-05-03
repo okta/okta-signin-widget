@@ -36,10 +36,13 @@ export default View.extend({
 
   getTemplateData: function() {
     const captchaConfig = this.options.appState.get('captcha');
-    const className = captchaConfig.type === 'HCAPTCHA' ? 'h-captcha' : 'g-recaptcha';
+    let className = null;
+    if (captchaConfig) {
+      className = captchaConfig.type === 'HCAPTCHA' ? 'h-captcha' : 'g-recaptcha';
+    }
 
     return {
-      class: captchaConfig && className,
+      class: className,
       sitekey: captchaConfig && captchaConfig.siteKey,
       isCaptchaConfigured: !!captchaConfig
     };
