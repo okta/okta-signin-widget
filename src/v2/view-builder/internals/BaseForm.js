@@ -33,7 +33,6 @@ export default Form.extend({
 
     // Render CAPTCHA if one of the form fields requires us to.
     this.listenTo(this.options.appState, 'onCaptchaLoaded', (captchaObject) => {
-      this.isCaptchaConfigured = true;
       this.captchaObject = captchaObject;
     });    
 
@@ -60,7 +59,7 @@ export default Form.extend({
     this.$el.find('.o-form-error-container').empty();
 
     // Execute Captcha if enabled for this form.
-    if (this.isCaptchaConfigured && this.captchaObject) {
+    if (this.captchaObject) {
       this.captchaObject.execute();
     } else {
       this.options.appState.trigger('saveForm', model);
