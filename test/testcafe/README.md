@@ -26,6 +26,8 @@ Run a single test
 
 - `yarn test -t testcafe --test "should have editable fields"`
 
+**Note:** testcafe's [`-t` CLI flag](https://testcafe.io/documentation/402639/reference/command-line-interface#-t-name---test-name) conflicts with our suite runner, so please use `--test` instead.
+
 Run all similar tests that matches the pattern
 
 - `yarn test -t testcafe -T "should.*"`
