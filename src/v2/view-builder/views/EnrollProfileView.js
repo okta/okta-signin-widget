@@ -14,7 +14,7 @@ const Body = BaseForm.extend({
     // SIW customization hook for registration
     this.settings.preRegistrationSubmit(this.model.toJSON(),
       (postData) => {
-        this.model.attributes = {...this.model.attributes, ...postData};
+        this.model.attributes = {...this.model.attributes, ...this.model.parse(postData)};
         BaseForm.prototype.saveForm.call(this, this.model);
       },
       (error) => this.model.trigger('error', this.model, {

@@ -1,11 +1,12 @@
-import { RequestMock, ClientFunction } from 'testcafe';
+import { RequestMock, ClientFunction, RequestLogger } from 'testcafe';
 import { checkConsoleMessages } from '../framework/shared';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import RegistrationPageObject from '../framework/page-objects/RegistrationPageObject';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 import enrollProfileNew from '../../../playground/mocks/data/idp/idx/enroll-profile-new';
 import enrollProfileError from '../../../playground/mocks/data/idp/idx/error-new-signup-email';
-import enrollProfileFinish from '../../../playground/mocks/data/idp/idx/terminal-registration.json';
+import enrollProfileFinish from '../../../playground/mocks/data/idp/idx/terminal-registration';
+import enrollProfileNewError from '../../../playground/mocks/data/idp/idx/error-new-signup-email-exists';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -14,6 +15,14 @@ const mock = RequestMock()
   .respond(enrollProfileNew)
   .onRequestTo('http://localhost:3000/idp/idx/enroll/new')
   .respond(enrollProfileFinish);
+
+const enrollProfileNewMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(identify)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll')
+  .respond(enrollProfileNew)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll/new')
+  .respond(enrollProfileNewError, 403);
 
 const enrollProfileErrorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -28,6 +37,14 @@ identifyWithoutEnrollProfile.remediation.value = identifyWithoutEnrollProfile
   .remediation
   .value
   .filter(r => r.name !== 'select-enroll-profile');
+
+const logger = RequestLogger(
+  /new/,
+  {
+    logRequestBody: true,
+    stringifyRequestBody: true,
+  }
+);
 
 const enrolProfileDisabledMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -230,7 +247,46 @@ test.requestHooks(mock)('should show register page directly and be able to creat
   ]);
 });
 
-test.requestHooks(enrolProfileDisabledMock)('should shall terminal error when registration is not supported', async t => {
+test.requestHooks(logger, enrollProfileNewMock)('should be able to create a new account after previous attempt failed server validation', async t => {
+  const registrationPage = new RegistrationPageObject(t);
+  await registrationPage.navigateToPage();
+
+  //create new account
+  await registrationPage.fillFirstNameField('abc');
+  await registrationPage.fillLastNameField('xyz');
+  await registrationPage.fillEmailField('foo@ex.com');
+
+  //click register
+  await registrationPage.clickRegisterButton();
+  await t.expect(registrationPage.getEmailErrorMessage()).eql('A user with this Email already exists');
+  let req = logger.requests[0].request;
+  let reqBody = JSON.parse(req.body);
+  await t.expect(reqBody).eql({
+    stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
+    userProfile: {
+      firstName: 'abc',
+      lastName: 'xyz',
+      email: 'foo@ex.com'
+    }
+  });
+
+  // change email
+  await registrationPage.fillEmailField('newFoo@ex.com');
+  await registrationPage.clickRegisterButton();
+  req = logger.requests[1].request;
+  reqBody = JSON.parse(req.body);
+
+  await t.expect(reqBody).eql({
+    stateHandle: '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
+    userProfile: {
+      firstName: 'abc',
+      lastName: 'xyz',
+      email: 'newFoo@ex.com'
+    }
+  });
+});
+
+test.requestHooks(enrolProfileDisabledMock)('should show terminal error when registration is not supported', async t => {
   const registrationPage = new RegistrationPageObject(t);
 
   // navigate to /signin/register and show registration page immediately
