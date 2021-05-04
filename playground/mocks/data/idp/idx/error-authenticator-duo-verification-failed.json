@@ -1,0 +1,145 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "0226IE-haiM0SRi4WOqasDXppYpNa11tsovmA7bvOl",
+  "expiresAt": "2021-05-04T00:28:14.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "challenge-authenticator",
+        "relatesTo": [
+          "$.currentAuthenticatorEnrollment"
+        ],
+        "href": "http://localhost:3000/idp/idx/challenge/answer",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "credentials",
+            "type": "object",
+            "form": {
+              "value": [
+                {
+                  "name": "signatureData",
+                  "label": "Assertion From Duo",
+                  "required": true,
+                  "visible": false
+                }
+              ]
+            },
+            "required": true
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "0226IE-haiM0SRi4WOqasDXppYpNa11tsovmA7bvOl",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Duo web signature verification failed.",
+        "i18n": {
+          "key": "oie.authenticator.duo.method.duo.verification_failed"
+        },
+        "class": "ERROR"
+      }
+    ]
+  },
+  "currentAuthenticatorEnrollment": {
+    "type": "object",
+    "value": {
+      "contextualData": {
+        "integrationType": "IFRAME",
+        "host": "api-02a04a09.duosecurity.com",
+        "signedToken": "TX|dGlhbi5nYW5Ab2t0YS5jb218REk4QUZLQVBVOEYyUVRLUFZFVjl8MTYyMDA4ODA5NA==|f619c310eaaa54c8a700ff669e87414f8078be2f:APP|dGlhbi5nYW5Ab2t0YS5jb218REk4QUZLQVBVOEYyUVRLUFZFVjl8MTYyMDA5MTM5NA==|977af80d24cab0435751cfabacd4fa0659db5b46",
+        "script": "http://localhost:3000/js/sections/duo/Duo-Web-v2.6.js"
+      },
+      "type": "app",
+      "key": "duo",
+      "id": "dsf1jmcAshPgv0gXO0g4",
+      "displayName": "Duo Security",
+      "methods": [
+        {
+          "type": "duo"
+        }
+      ]
+    }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "app",
+        "key": "duo",
+        "id": "aut1jma8kFsgS1Np40g4",
+        "displayName": "Duo Security",
+        "methods": [
+          {
+            "type": "duo"
+          }
+        ]
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "type": "app",
+        "key": "duo",
+        "id": "dsf1jmcAshPgv0gXO0g4",
+        "displayName": "Duo Security",
+        "methods": [
+          {
+            "type": "duo"
+          }
+        ]
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00uxz3LMSqxDmwWXb0g3"
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "0226IE-haiM0SRi4WOqasDXppYpNa11tsovmA7bvOl",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "idxtest1_testduo_1",
+      "label": "testduo",
+      "id": "0oa1jo5J0pHr0vHZ10g4"
+    }
+  }
+}
