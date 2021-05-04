@@ -7,27 +7,28 @@ Also make sure your .widgetrc file points to localhost:3000 instead of rain.
 
 Run All
 
-- `yarn test -t testcafe chrome`
+- `yarn test -t testcafe`
 
-Run All in headless chrome
+Run All in headless chrome or another browser
 
 - `yarn test -t testcafe chrome:headless`
+- `yarn test -t testcafe safari`
 
 Run single Fixture
 
-- `yarn test -t testcafe chrome -f "Unknown user form"`
+- `yarn test -t testcafe -f "Unknown user form"`
 
 Run all similar Fixtures that matches the pattern
 
-- `yarn test -t testcafe chrome -F "Unknown.*"`
+- `yarn test -t testcafe -F "Unknown.*"`
 
 Run a single test
 
-- `yarn test -t testcafe chrome -t "should have editable fields"`
+- `yarn test -t testcafe --test "should have editable fields"`
 
 Run all similar tests that matches the pattern
 
-- `yarn test -t testcafe chrome -T "should.*"`
+- `yarn test -t testcafe -T "should.*"`
 
 ### To run testcafe without building playground each time you run test
 
@@ -36,14 +37,14 @@ Useful during development in order to get quicker feedback.
 
 - `yarn test:testcafe-setup`
 
-- `yarn test -t testcafe chrome test/testcafe/spec`
-- `yarn test -t testcafe chrome test/testcafe/spec -T "should.*`
+- `yarn test -t testcafe`
+- `yarn test -t testcafe -T "should.*`
 
 Note: Above command directly runs testcafe which is different than test:testcafe
 
 Live reload test for faster development
 
-- `yarn test -t testcafe chrome test/testcafe/spec -f "Unknown user form" --live`
+- `yarn test -t testcafe -f "Unknown user form" --live`
 
 ## Guideline for writing test
 
