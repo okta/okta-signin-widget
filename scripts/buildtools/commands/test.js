@@ -61,9 +61,25 @@ exports.handler = async (argv) => {
   // Show CLI configuration
   const help = argv.suiteHelp ? ' --help' : '';
 
+  // testcafe expects arguments to be passed as strings
+  const testcafeTransformArgs = [
+    '-f', '--fixture', // fixture with the specified name
+    '-F', '--fixture-grep', // fixtures whose names match the specified grep pattern
+    '-T', '--test-grep', // tests whose names match the specified grep pattern
+    '--test', // test with the specified name
+  ];
+
   // Get additional CLI args
   const additionalArgs = process.argv.slice(5).join(' ');
   cmd += `${help} ${additionalArgs}`;
+
+  testcafeTransformArgs.forEach(arg => {
+    const regex = new RegExp(`${arg}(.*?(?=-|$))`); // Capture everything except the next flag
+    const matches = cmd.match(regex) || [];
+    if (matches.length > 1) {
+      cmd = cmd.replace(regex, `${arg} "${matches[1].trim()}" `);
+    }
+  });
 
   const options = {
     stdio: 'inherit',
