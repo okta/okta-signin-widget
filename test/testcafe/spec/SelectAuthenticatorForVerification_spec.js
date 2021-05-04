@@ -509,6 +509,6 @@ test.requestHooks(mockChallengeCustomOTP)('should navigate to Custom OTP challen
 
   selectFactorPage.selectFactorByIndex(9);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
-  await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with Atko Custom OTP Authenticator');
+  await t.expect(challengeFactorPage.getFormTitle()).eql('Enter a code from Atko Custom OTP Authenticator');
 });
 
