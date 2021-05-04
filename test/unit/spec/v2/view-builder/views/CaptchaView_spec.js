@@ -89,7 +89,7 @@ describe('v2/view-builder/views/CaptchaView', function() {
     };  
     testContext.init();
     const spy = jest.spyOn(testContext.view.options.appState, 'trigger');
-    testContext.view.onCaptchaLoaded();
+    window.OktaSignInWidgetOnCaptchaLoaded();
 
     expect(testContext.view.model.get('captchaVerify.captchaToken')).toEqual('tempToken');
     expect(window.grecaptcha.render).toHaveBeenCalled();
@@ -106,12 +106,9 @@ describe('v2/view-builder/views/CaptchaView', function() {
     testContext.view.$el.find('#captcha-container').attr('data-captcha-id', '0');
 
     const spy = jest.spyOn(testContext.view.options.appState, 'trigger');
-    testContext.view.onCaptchaSolved('someToken');
+    window.OktaSignInWidgetOnCaptchaSolved('someToken');
     expect(window.grecaptcha.reset).toHaveBeenCalledWith('0');
     expect(testContext.view.model.get('captchaVerify.captchaToken')).toEqual('someToken');
-
-    const captchaVerify = testContext.view.model.get('captchaVerify');
-    expect(captchaVerify.captchaToken).toEqual('someToken');
     expect(spy).toHaveBeenCalledWith('saveForm', testContext.view.model);
 
     window.grecaptcha = original;

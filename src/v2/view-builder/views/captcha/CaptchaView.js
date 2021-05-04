@@ -15,10 +15,13 @@ import Enums from 'util/Enums';
 import hbs from 'handlebars-inline-precompile';
 import { WIDGET_FOOTER_CLASS } from '../../utils/Constants';
 
+const OktaSignInWidgetOnCaptchaLoadedCallback = 'OktaSignInWidgetOnCaptchaLoaded';
+const OktaSignInWidgetOnCaptchaSolvedCallback = 'OktaSignInWidgetOnCaptchaSolved';
+
 const HCAPTCHA_URL = 
-  'https://hcaptcha.com/1/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit';
+  `https://hcaptcha.com/1/api.js?onload=${OktaSignInWidgetOnCaptchaLoadedCallback}&render=explicit`;
 const RECAPTCHAV2_URL = 
-  'https://www.google.com/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit';
+  `https://www.google.com/recaptcha/api.js?onload=${OktaSignInWidgetOnCaptchaLoadedCallback}&render=explicit`;
 
 export default View.extend({
   className: 'captcha-view',
@@ -26,26 +29,26 @@ export default View.extend({
   template: hbs`
     {{#if isCaptchaConfigured}}\
       <div id ="captcha-container"
-          class="{{class}}"
-          data-sitekey="{{sitekey}}"
-          data-callback="OktaSignInWidgetOnCaptchaSolved"
+          class="{{className}}"
+          data-sitekey="{{siteKey}}"
+          data-callback="{{onCaptchaSolvedCallback}}"
           data-size="invisible">
       </div>
     {{/if}}\
   `,
 
   getTemplateData: function() {
-    const captchaConfig = this.options.appState.get('captcha');
-    let className = null;
-    if (captchaConfig) {
-      className = captchaConfig.type === 'HCAPTCHA' ? 'h-captcha' : 'g-recaptcha';
+    if (this.captchaConfig) {
+      const className = this.captchaConfig.type === 'HCAPTCHA' ? 'h-captcha' : 'g-recaptcha';
+      return { 
+        siteKey: this.captchaConfig.siteKey,
+        isCaptchaConfigured: true,
+        onCaptchaSolvedCallback: OktaSignInWidgetOnCaptchaSolvedCallback,
+        className, 
+      };
+    } else {
+      return {};
     }
-
-    return {
-      class: className,
-      sitekey: captchaConfig && captchaConfig.siteKey,
-      isCaptchaConfigured: !!captchaConfig
-    };
   },
 
   initialize() {
@@ -71,9 +74,8 @@ export default View.extend({
    *  the parent form to actually render the CAPTCHA.
   * */   
   _addCaptcha() {
-    // Callback invoked when CAPTCHA is solved. We're binding it to this view so that it's easier
-    // to unit test.
-    this.onCaptchaSolved = (token) => {
+    // Callback invoked when CAPTCHA is solved.
+    const onCaptchaSolved = (token) => {
       const captchaObject = this._getCaptchaOject();
 
       // We reset the Captcha. We need to reset because every time the 
@@ -87,23 +89,11 @@ export default View.extend({
       const fieldName = this.options.name;
       this.model.set(fieldName, token);
 
-      // By the time we reach this callback, the model has already unflattened the field names.
-      // We need to ensure that we set the value inside the unflattened model attribute as well if needed.
-      const parts = fieldName.split('.');
-      if (parts.length > 1) {
-        const topLevelAttribute = parts[0];
-        const orignalValue = this.model.get(topLevelAttribute) || {};
-        const update = this._unflattenAndSetValue(fieldName, token);
-
-        this.model.set(topLevelAttribute,
-          Object.assign(orignalValue, update[topLevelAttribute]));
-      }
-
       this.options.appState.trigger('saveForm', this.model); 
     };
 
-    // Callback when CAPTCHA lib is loaded. We're binding it to this view so that it's easier to unit test
-    this.onCaptchaLoaded = () => {
+    // Callback when CAPTCHA lib is loaded
+    const onCaptchaLoaded = () => {
       // This is just a safeguard to ensure we don't bind Captcha to an already bound element.
       // It shouldn't happen in practice.
       if (this.$el.find('#captcha-container').attr('data-captcha-id')) {
@@ -119,7 +109,7 @@ export default View.extend({
 
       const captchaId = captchaObject.render('captcha-container', {
         sitekey: this.captchaConfig.siteKey,
-        callback: this.onCaptchaSolved
+        callback: onCaptchaSolved
       });
       
       this.$el.find('#captcha-container').attr('data-captcha-id', captchaId);
@@ -135,11 +125,11 @@ export default View.extend({
 
     // Attaching the callback to the window object so that the CAPTCHA script that we dynamically render
     // can have access to it since it won't have access to this view's scope.
-    window.OktaSignInWidgetOnCaptchaLoaded = this.onCaptchaLoaded;
+    window[OktaSignInWidgetOnCaptchaLoadedCallback] = onCaptchaLoaded;
 
     // Attaching the Captcha solved callback to the window object because we reference it in our template under
     // the 'data-callback' attribute which the Captcha library uses to invoke the callback.
-    window.OktaSignInWidgetOnCaptchaSolved = this.onCaptchaSolved;
+    window[OktaSignInWidgetOnCaptchaSolvedCallback] = onCaptchaSolved;
 
     if (this.captchaConfig.type === 'HCAPTCHA') {
       this._loadCaptchaLib(HCAPTCHA_URL);
@@ -177,26 +167,6 @@ export default View.extend({
         template()
       );
     }
-  },
-
-  /**
-   *  Unflatten the fieldName (which could look like 'captchaVerify.captchaToken') and set the 
-   *  correspoding value. So the end result would look like: {captchaVerify: {captchaToken: <value>}};
-  * */ 
-  _unflattenAndSetValue(fieldName, value) {
-    const parts = fieldName.split('.');
-    const update = {}; // Will contain the end result update
-    let pointer = update; // Pointer that we'll use to move 
-    let part = parts.shift(); // Pop out first level of the field(s)
-
-    while (part !== undefined) {
-      // We check to see if we're at the bottom level and if so set the value. Otherwise
-      // keep defining new object to dig deeper.
-      pointer[part] = parts.length ? {} : value;
-      pointer = pointer[part]; 
-      part = parts.shift();
-    }
-    return update;
   },
 
   _getCaptchaOject() {
