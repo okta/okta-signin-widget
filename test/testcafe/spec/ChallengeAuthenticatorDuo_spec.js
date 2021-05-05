@@ -4,12 +4,26 @@ import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import DuoPageObject from '../framework/page-objects/DuoPageObject';
 import xhrAuthenticatorVerifyDuo from '../../../playground/mocks/data/idp/idx/authenticator-verification-duo';
 import success from '../../../playground/mocks/data/idp/idx/success';
+import verificationTimeout from '../../../playground/mocks/data/idp/idx/error-authenticator-duo-verification-timeout';
+import verificationFailed from '../../../playground/mocks/data/idp/idx/error-authenticator-duo-verification-failed';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorVerifyDuo)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
+
+const verificationTimeoutMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorVerifyDuo)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(verificationTimeout, 400);
+
+const verificationFailedMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorVerifyDuo)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(verificationFailed, 400);
 
 const answerRequestLogger = RequestLogger(
   /idx\/challenge\/answer/,
@@ -83,4 +97,24 @@ test.requestHooks(answerRequestLogger, mock)('verifies successfully', async t =>
   });
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/challenge/answer');
+});
+
+test.requestHooks(answerRequestLogger, verificationTimeoutMock)('verification timeout', async t => {
+  const challengeDuoPage = await setup(t);
+  const duoPageObject = new DuoPageObject(t);
+
+  await challengeDuoPage.clickDuoMockLink();
+
+  await duoPageObject.form.waitForErrorBox();
+  await t.expect(duoPageObject.form.getErrorBoxText()).eql('We were unable to verify with Duo. Try again.');
+});
+
+test.requestHooks(answerRequestLogger, verificationFailedMock)('verification failed', async t => {
+  const challengeDuoPage = await setup(t);
+  const duoPageObject = new DuoPageObject(t);
+
+  await challengeDuoPage.clickDuoMockLink();
+
+  await duoPageObject.form.waitForErrorBox();
+  await t.expect(duoPageObject.form.getErrorBoxText()).eql('We were unable to verify with Duo. Try again.');
 });
