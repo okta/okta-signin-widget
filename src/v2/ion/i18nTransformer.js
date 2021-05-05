@@ -93,9 +93,11 @@ const I18N_OVERRIDE_MAPPINGS = {
   'authenticator-verification-data.okta_verify.authenticator.methodType.totp': 'oie.okta_verify.totp.title',
 
   'authenticator-enrollment-data.phone_number.authenticator.phoneNumber': 'mfa.phoneNumber.placeholder',
+  'authenticator-enrollment-data.phone_number.authenticator.methodType.sms': 'oie.phone.enroll.sms.label',
+  'authenticator-enrollment-data.phone_number.authenticator.methodType.voice': 'oie.phone.enroll.voice.label',
 
   'enroll-authenticator.okta_password.credentials.passcode': 'oie.password.passwordLabel',
-  'enroll-authenticator.phone.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
+  'enroll-authenticator.phone_number.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'enroll-authenticator.security_question.sub_schema_local_credentials.0': 'oie.security.question.questionKey.label',
   'enroll-authenticator.security_question.sub_schema_local_credentials.1': 'oie.security.question.createQuestion.label',
   'enroll-authenticator.security_question.credentials.answer': 'mfa.challenge.answer.placeholder',
@@ -164,7 +166,6 @@ const getI18NParams = (remediation, authenticatorKey) => {
 
 const getI18nKey = (i18nPath) => {
   let i18nKey;
-
   // Extract security question value from i18nPath
   SECURITY_QUESTION_PREFIXES.forEach(prefix => {
     if (i18nPath.indexOf(prefix) === 0 ) {
