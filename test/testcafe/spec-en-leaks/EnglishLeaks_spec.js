@@ -49,7 +49,6 @@ const ignoredMocks = [
   'authenticator-enroll-email.json',
   'authenticator-enroll-data-phone.json',
   'authenticator-enroll-data-phone-voice.json',
-  'terminal-return-email-consent.json',
   'error-with-failure-redirect.json',
   'identify-recovery-with-recaptcha-v2.json'
 ];
