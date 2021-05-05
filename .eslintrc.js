@@ -118,11 +118,8 @@ module.exports = {
             'playground/**/identify-unknown-user.json',
             'playground/**/terminal-polling-window-expired.json',
             'playground/**/terminal-registration.json',
-            'playground/**/terminal-return-email-consent.json',
             'playground/**/terminal-return-error-email.json',
-            'playground/**/terminal-return-expired-email.json',
-            'playground/**/terminal-return-stale-email.json',
-            'playground/**/terminal-transfered-email.json'
+            'playground/**/terminal-return-stale-email.json'
           ],
           'rules': {
             'local-rules/no-missing-api-keys': 0
