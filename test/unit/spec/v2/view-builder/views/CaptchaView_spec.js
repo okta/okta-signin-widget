@@ -20,6 +20,7 @@ describe('v2/view-builder/views/CaptchaView', function() {
         settings,
         currentViewState: {},
         model: new Model(),
+        name: 'captchaVerify.captchaToken'
       });
       testContext.view.render();
     };
@@ -27,6 +28,16 @@ describe('v2/view-builder/views/CaptchaView', function() {
   });
   afterEach(function() {
     jest.resetAllMocks();
+  });
+
+  it('view renders correctly based on Captcha configuration', function() {
+    // If there is Captcha configuration
+    testContext.init();
+    expect(testContext.view.el).toMatchSnapshot('default');
+
+    // If there is no Captcha configuration - should not render captcha-container
+    testContext.init(null);
+    expect(testContext.view.el).toMatchSnapshot('with no Captcha configuration');
   });
 
   it('initialize calls _addCaptcha', function() {
@@ -71,33 +82,35 @@ describe('v2/view-builder/views/CaptchaView', function() {
     window.grecaptcha = original;
   });
 
-  it('Callback for when Captcha is solved submits form on no errors', function() {
+  it('ensure callback for when Captcha is loaded has no issues', function() {
     const original = window.grecaptha;
     window.grecaptcha = {
-      reset: function() {}
-    };     
-    jest.spyOn(document, 'getElementsByClassName').mockReturnValue([document.createElement('button', { 'data-captcha-id' : '0' })]);
+      render: jest.fn()
+    };  
     testContext.init();
     const spy = jest.spyOn(testContext.view.options.appState, 'trigger');
-    jest.spyOn(testContext.view.model, 'validate').mockReturnValue(true);
-    jest.spyOn(testContext.view.model, 'isValid').mockReturnValue(true);
-    testContext.view.onCaptchaSolved('someToken');
-    expect(spy).toHaveBeenCalledWith('saveForm', testContext.view.model);
+    window.OktaSignInWidgetOnCaptchaLoaded();
+
+    expect(testContext.view.model.get('captchaVerify.captchaToken')).toEqual('tempToken');
+    expect(window.grecaptcha.render).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledWith('onCaptchaLoaded', window.grecaptcha);
     window.grecaptcha = original;
   });
 
-  it('Callback for when Captcha is solved - does not submit form on errors', function() {
+  it('Callback for when Captcha is solved submits form', function() {
     const original = window.grecaptha;
     window.grecaptcha = {
-      reset: function() {}
+      reset: jest.fn()
     };     
-    jest.spyOn(document, 'getElementsByClassName').mockReturnValue([document.createElement('button', { 'data-captcha-id' : '0' })]);
     testContext.init();
+    testContext.view.$el.find('#captcha-container').attr('data-captcha-id', '0');
+
     const spy = jest.spyOn(testContext.view.options.appState, 'trigger');
-    jest.spyOn(testContext.view.model, 'validate').mockReturnValue({someError: 'someError'});
-    jest.spyOn(testContext.view.model, 'isValid').mockReturnValue(false);
-    testContext.view.onCaptchaSolved('someToken');
-    expect(spy).not.toHaveBeenCalled();
+    window.OktaSignInWidgetOnCaptchaSolved('someToken');
+    expect(window.grecaptcha.reset).toHaveBeenCalledWith('0');
+    expect(testContext.view.model.get('captchaVerify.captchaToken')).toEqual('someToken');
+    expect(spy).toHaveBeenCalledWith('saveForm', testContext.view.model);
+
     window.grecaptcha = original;
   });
 });
