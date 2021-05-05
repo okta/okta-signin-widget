@@ -1,5 +1,5 @@
 /* eslint max-params: [2, 18], max-statements: 0 */
-import { _ } from 'okta';
+import { _, internal } from 'okta';
 import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import AccountRecoveryForm from 'helpers/dom/AccountRecoveryForm';
@@ -15,6 +15,7 @@ import resError from 'helpers/xhr/RECOVERY_error';
 import resSuccess from 'helpers/xhr/SUCCESS';
 import Q from 'q';
 import $sandbox from 'sandbox';
+const SharedUtil = internal.util.Util;
 const itp = Expect.itp;
 
 function setup(settings, startRouter) {
@@ -239,6 +240,19 @@ Expect.describe('ForgotPassword', function() {
   });
 
   Expect.describe('events', function() {
+    itp('ignores signOutLink customization if SMS recovery challenge and returns to last screen when "Back to sign in" is clicked', function() {
+      return setupWithSms({ signOutLink: 'https://signout.com/' })
+        .then(function(test) {
+          spyOn(SharedUtil, 'redirect');
+          Util.resetAjaxRequests();
+          test.form.goBack();
+          return Expect.waitForPrimaryAuth(test);
+        })
+        .then(function(test) {
+          expect(SharedUtil.redirect).not.toHaveBeenCalled();
+          Expect.isPrimaryAuth(test.router.controller);
+        });
+    });
     itp('shows an error if username is empty and request email', function() {
       return setup().then(function(test) {
         Util.resetAjaxRequests();

@@ -244,6 +244,14 @@ export default Model.extend({
         return res.status === 'MFA_CHALLENGE' || res.status === 'FACTOR_CHALLENGE';
       },
     },
+    isSMSPasswordRecovery: {
+      deps: ['lastAuthResponse'],
+      fn: function({ status, factorType, recoveryType }) {
+        return status === 'RECOVERY_CHALLENGE' &&
+          factorType?.toLowerCase() === 'sms' &&
+          recoveryType?.toLowerCase() === 'password';
+      }
+    },
     isUnauthenticated: {
       deps: ['lastAuthResponse'],
       fn: function(res) {
