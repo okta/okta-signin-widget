@@ -194,7 +194,7 @@ const I18N_PARAMS_MAPPING = {
         "Email"
       ]
     }
- * output = registration.error.invalidLoginEmail.Email
+ * output = registration.error.doesNotMatchPattern.Email
  *
  * @param {String} key
  * @param {String} param
@@ -349,21 +349,21 @@ const isWebAuthnAPIError = ( i18nKey ) => i18nKey.startsWith(WEBAUTHN_API_GENERI
 const getMessage = (message) => {
   if (message.i18n?.key) {
     let i18nKey = message.i18n.key;
-    let i18nParms = message.i18n.params || [];
+    let i18nParams = message.i18n.params || [];
 
     if (I18N_OVERRIDE_MAPPINGS[message.i18n?.key]) {
       i18nKey = I18N_OVERRIDE_MAPPINGS[message.i18n?.key];
     } else if (I18N_OVERRIDE_WITH_PARAMS_MAP[i18nKey]) {
       const param = message.i18n.params?.[0];
       i18nKey = getI8nKeyUsingParams(i18nKey, param);
-      i18nParms = i18nKey.endsWith('custom') ? [param] : [];
+      i18nParams = i18nKey.endsWith('custom') ? [param] : [];
     }
 
     if (Bundles.login[i18nKey]) {
       Logger.info(`Override messages using i18n key ${i18nKey}`);
       // expect user config i18n properly.
       // e.g. the i18n value shall have placeholders like `{0}`, when params is not empty.
-      return loc(i18nKey, 'login', i18nParms);
+      return loc(i18nKey, 'login', i18nParams);
     }
 
     if (isWebAuthnAPIError(i18nKey)) {
