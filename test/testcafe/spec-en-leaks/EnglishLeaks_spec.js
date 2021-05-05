@@ -23,7 +23,6 @@ const ignoredMocks = [
   'identify-with-device-probing-loopback.json',
   'identify-with-device-probing-loopback-3.json',
   'identify-with-apple-redirect-sso-extension.json', // flaky on bacon
-  'identify-unknown-user.json',
   'error-user-is-not-assigned.json',
   'error-unlock-account.json',
   'error-session-expired.json',
