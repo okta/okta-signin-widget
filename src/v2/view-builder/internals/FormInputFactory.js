@@ -87,6 +87,27 @@ const create = function(uiSchemaObj) {
   return strategyFn(uiSchemaObj);
 };
 
+const createPIVButton = (settings, appState) => {
+  const pivIdp =
+    appState.get('remediations').filter(idp => idp.name === RemediationForms.PIV_IDP);
+  if (pivIdp.length < 1) {
+    return [];
+  }
+  const pivConfig = settings.get('piv');
+  let className = pivConfig.className || '';
+  return [{
+    attributes: {
+      'data-se': 'piv-card-button',
+    },
+    className: className + ' piv-button',
+    title: pivConfig.text || loc('piv.cac.card', 'login'),
+    click: (e) => {
+      e.preventDefault();
+      appState.trigger('switchForm', RemediationForms.PIV_IDP);
+    },
+  }];
+};
+
 /**
  * Example of `redirect-idp` remediation.
  * {
@@ -101,15 +122,19 @@ const create = function(uiSchemaObj) {
  * }
  *
  */
-const createIdpButtons = (remediations) => {
-  const redirectIdpRemediations = remediations.filter(idp => idp.name === RemediationForms.REDIRECT_IDP);
+const createIdpButtons = ({ settings, appState }) => {
+  const redirectIdpRemediations =
+    appState.get('remediations').filter(idp => idp.name === RemediationForms.REDIRECT_IDP);
 
   if (!Array.isArray(redirectIdpRemediations)) {
     return [];
   }
 
+  // create piv button
+  const pivButton = createPIVButton(settings, appState);
+
   //add buttons from idp object
-  return redirectIdpRemediations.map(idpObject => {
+  const idpButtons = redirectIdpRemediations.map(idpObject => {
     let type = idpObject.type?.toLowerCase();
     let displayName;
 
@@ -144,6 +169,8 @@ const createIdpButtons = (remediations) => {
     };
     return button;
   });
+
+  return [...pivButton, ...idpButtons];
 };
 
 const createCustomButtons = (settings) => {

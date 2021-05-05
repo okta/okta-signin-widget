@@ -755,6 +755,14 @@ const googleAuthenticatorVerify = {
   ],
 };
 
+const pivAuth = {
+  '/idp/idx/introspect': [
+    'identify-with-third-party-idps',
+    //'error-identify-with-piv',
+    //'identify-with-piv-only',
+  ],
+};
+
 module.exports = {
   mocks: idx,
 };

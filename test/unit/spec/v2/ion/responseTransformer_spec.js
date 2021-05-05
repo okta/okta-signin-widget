@@ -516,6 +516,17 @@ describe('v2/ion/responseTransformer', function() {
             name: 'redirect-idp',
           },
           {
+            action: expect.any(Function),
+            method: 'GET',
+            href: 'https://okta.mtls.okta.com/sso/idps/mtlsidp?stateToken=eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25',
+            idp: {
+              id: 'x509-123',
+              name: 'X509 Authentication',
+            },
+            name: 'piv-idp',
+            type: 'X509',
+          },
+          {
             value: [
               {
                 mutable: false,
