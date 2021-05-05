@@ -44,8 +44,6 @@ const ignoredMocks = [
   'authenticator-expired-password.json',
   'authenticator-expired-password-with-enrollment-authenticator.json',
   'authenticator-expired-password-no-complexity.json',
-  'authenticator-enroll-phone.json',
-  'authenticator-enroll-phone-voice.json',
   'authenticator-enroll-email.json',
   'authenticator-enroll-data-phone.json',
   'authenticator-enroll-data-phone-voice.json',
