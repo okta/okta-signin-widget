@@ -13,7 +13,7 @@
 import Logger from 'util/Logger';
 
 // Calculate new values
-export function createTransactionMeta(settings) {
+export async function createTransactionMeta(settings) {
   const authClient = settings.getAuthClient();
   return authClient.token.prepareTokenParams();
 }
@@ -40,7 +40,7 @@ export async function getTransactionMeta(settings) {
   let codeChallenge = settings.get('codeChallenge');
   let codeChallengeMethod = settings.get('codeChallengeMethod');
 
-  const meta = createTransactionMeta(settings);
+  const meta = await createTransactionMeta(settings);
   if (interactionHandle) {
     meta.interactionHandle = interactionHandle;
   }
@@ -85,6 +85,12 @@ export function isTransactionMetaValid(settings, meta) {
   // if `codeChallenge` option was provided, validate it against the meta
   const codeChallenge = settings.get('codeChallenge');
   if (codeChallenge && meta.codeChallenge !== codeChallenge) {
+    return false;
+  }
+
+  // if `codeChallengeMethod` option was provided, validate it against the meta
+  const codeChallengeMethod = settings.get('codeChallengeMethod');
+  if (codeChallengeMethod && meta.codeChallengeMethod !== codeChallengeMethod) {
     return false;
   }
 

@@ -110,7 +110,7 @@ export default Model.extend({
     state: 'string',
     scopes: 'array',
     codeChallenge: 'string',
-    codeChallengeMethod: ['string', false, 'S256'],
+    codeChallengeMethod: ['string', false],
     oAuthTimeout: ['number', false],
 
     authScheme: ['string', false, 'OAUTH2'],
