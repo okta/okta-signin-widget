@@ -16,6 +16,7 @@ module.exports = {
     'complexity': 0,
     'max-params': 0,
     'max-statements': 0,
+    'jasmine/no-expect-in-setup-teardown': 0,
     'jasmine/new-line-before-expect': 0,
     'jasmine/new-line-between-declarations': 0,
     'jasmine/no-spec-dupes': [1, 'branch'],
