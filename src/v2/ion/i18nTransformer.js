@@ -149,6 +149,18 @@ const I18N_PARAMS_MAPPING = {
     },
   },
 };
+/**
+ * For i18n keys that require string interpolation using values from "params".
+ * {baseKey} : {params}
+ */
+const I18N_OVERRIDE_WITH_PARAMS_MAP = {
+  'registration.error.invalidLoginEmail': {
+    Email: 'Email'
+  },
+  'registration.error.doesNotMatchPattern': {
+    Email: 'Email'
+  },
+}
 
 const getI18NParams = (remediation, authenticatorKey) => {
   const params = [];
@@ -272,6 +284,36 @@ const updateLabelForUiSchema = (remediation, uiSchema) => {
 const isWebAuthnAPIError = ( i18nKey ) => i18nKey.startsWith(WEBAUTHN_API_GENERIC_ERROR_KEY);
 
 /**
+ * For messages that need to be interpolated with param values.
+ *
+ * Enumerate each possible param interpolation and hardcode that into properties file.
+ * This is to ensure proper translation.
+ *
+ * Example:
+ * input =
+ *  "i18n": {
+      "key": "registration.error.doesNotMatchPattern",
+      "params": [
+        "Email"
+      ]
+    }
+ * output = registration.error.invalidLoginEmail.Email
+ *
+ * @param {String} key
+ * @param {String} param
+ * @returns {String}
+ */
+const getI8nKeyUsingParams = (key, param) => {
+  let i18nKey = key;
+
+  if (I18N_OVERRIDE_WITH_PARAMS_MAP[i18nKey][param]) {
+    i18nKey += `.${param}`;
+  } else {
+    i18nKey += `.custom`;
+  }
+  return i18nKey;
+}
+/**
  * @typedef {Object} Message
  * @property {string} message
  * @property {Object=} i18n
@@ -288,7 +330,14 @@ const isWebAuthnAPIError = ( i18nKey ) => i18nKey.startsWith(WEBAUTHN_API_GENERI
  */
 const getMessage = (message) => {
   if (message.i18n?.key) {
-    const i18nKey = I18N_OVERRIDE_MAPPINGS[message.i18n?.key] ?? message.i18n.key;
+    let i18nKey = message.i18n.key;
+
+    if (I18N_OVERRIDE_MAPPINGS[message.i18n?.key]) {
+      i18nKey = I18N_OVERRIDE_MAPPINGS[message.i18n?.key];
+    } else if (I18N_OVERRIDE_WITH_PARAMS_MAP[i18nKey]) {
+      const param = message.i18n.params?.[0];
+      i18nKey = getI8nKeyUsingParams(i18nKey, param);
+    }
 
     if (Bundles.login[i18nKey]) {
       Logger.info(`Override messages using i18n key ${i18nKey}`);
