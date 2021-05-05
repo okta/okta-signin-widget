@@ -15,13 +15,41 @@ import Enums from 'util/Enums';
 import hbs from 'handlebars-inline-precompile';
 import { WIDGET_FOOTER_CLASS } from '../../utils/Constants';
 
+const OktaSignInWidgetOnCaptchaLoadedCallback = 'OktaSignInWidgetOnCaptchaLoaded';
+const OktaSignInWidgetOnCaptchaSolvedCallback = 'OktaSignInWidgetOnCaptchaSolved';
+
 const HCAPTCHA_URL = 
-  'https://hcaptcha.com/1/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit';
+  `https://hcaptcha.com/1/api.js?onload=${OktaSignInWidgetOnCaptchaLoadedCallback}&render=explicit`;
 const RECAPTCHAV2_URL = 
-  'https://www.google.com/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit';
+  `https://www.google.com/recaptcha/api.js?onload=${OktaSignInWidgetOnCaptchaLoadedCallback}&render=explicit`;
 
 export default View.extend({
   className: 'captcha-view',
+
+  template: hbs`
+    {{#if isCaptchaConfigured}}\
+      <div id ="captcha-container"
+          class="{{className}}"
+          data-sitekey="{{siteKey}}"
+          data-callback="{{onCaptchaSolvedCallback}}"
+          data-size="invisible">
+      </div>
+    {{/if}}\
+  `,
+
+  getTemplateData: function() {
+    if (this.captchaConfig) {
+      const className = this.captchaConfig.type === 'HCAPTCHA' ? 'h-captcha' : 'g-recaptcha';
+      return { 
+        siteKey: this.captchaConfig.siteKey,
+        isCaptchaConfigured: true,
+        onCaptchaSolvedCallback: OktaSignInWidgetOnCaptchaSolvedCallback,
+        className, 
+      };
+    } else {
+      return {};
+    }
+  },
 
   initialize() {
     if (this.options.appState.get('captcha')) {
@@ -46,25 +74,48 @@ export default View.extend({
    *  the parent form to actually render the CAPTCHA.
   * */   
   _addCaptcha() {
-    // Callback invoked when CAPTCHA is solved. We're binding it to this view so that it's easier
-    // to unit test.
-    this.onCaptchaSolved = (token) => {
+    // Callback invoked when CAPTCHA is solved.
+    const onCaptchaSolved = (token) => {
+      const captchaObject = this._getCaptchaOject();
+
+      // We reset the Captcha. We need to reset because every time the 
+      // Captcha resolves back with a token and say we have a server side error, 
+      // if we submit the form again it won't work otherwise. The Captcha 
+      // has to be reset for it to work again in that scenario.
+      const captchaId = this.$el.find('#captcha-container').attr('data-captcha-id');
+      captchaObject.reset(captchaId);
 
       // Set the token in the model
       const fieldName = this.options.name;
       this.model.set(fieldName, token);
 
-      // Clear form errors before re-validation
-      this.model.trigger('clearFormError');
-
-      if (this.model.isValid()) {
-        this.options.appState.trigger('saveForm', this.model); 
-      }
+      this.options.appState.trigger('saveForm', this.model); 
     };
 
-    // Callback when CAPTCHA lib is loaded.
+    // Callback when CAPTCHA lib is loaded
     const onCaptchaLoaded = () => {
-      this.options.appState.trigger('onCaptchaLoaded', this.captchaConfig, this.onCaptchaSolved);
+      // This is just a safeguard to ensure we don't bind Captcha to an already bound element.
+      // It shouldn't happen in practice.
+      if (this.$el.find('#captcha-container').attr('data-captcha-id')) {
+        return;
+      }
+
+      const captchaObject = this._getCaptchaOject();
+
+      // We set a temporary token for Captcha because this is a required field for the form and is normally set
+      // at a later time. In order to prevent client-side validation errors because of this, we have to set a 
+      // dummy value. We then overwrite this with the proper token in the onCaptchaSolved callback.
+      this.model.set(this.options.name, 'tempToken');
+
+      const captchaId = captchaObject.render('captcha-container', {
+        sitekey: this.captchaConfig.siteKey,
+        callback: onCaptchaSolved
+      });
+      
+      this.$el.find('#captcha-container').attr('data-captcha-id', captchaId);
+
+      // Let the Baseform know that Captcha is loaded.
+      this.options.appState.trigger('onCaptchaLoaded', captchaObject);
 
       // Render the HCAPTCHA footer - we need to do this manually since the HCAPTCHA lib doesn't do it
       if (this.captchaConfig.type === 'HCAPTCHA') {
@@ -74,7 +125,11 @@ export default View.extend({
 
     // Attaching the callback to the window object so that the CAPTCHA script that we dynamically render
     // can have access to it since it won't have access to this view's scope.
-    window.OktaSignInWidgetOnCaptchaLoaded = onCaptchaLoaded;
+    window[OktaSignInWidgetOnCaptchaLoadedCallback] = onCaptchaLoaded;
+
+    // Attaching the Captcha solved callback to the window object because we reference it in our template under
+    // the 'data-callback' attribute which the Captcha library uses to invoke the callback.
+    window[OktaSignInWidgetOnCaptchaSolvedCallback] = onCaptchaSolved;
 
     if (this.captchaConfig.type === 'HCAPTCHA') {
       this._loadCaptchaLib(HCAPTCHA_URL);
@@ -112,5 +167,10 @@ export default View.extend({
         template()
       );
     }
+  },
+
+  _getCaptchaOject() {
+    const captchaObject = this.captchaConfig.type === 'HCAPTCHA' ? window.hcaptcha : window.grecaptcha;
+    return captchaObject;
   }
 });
