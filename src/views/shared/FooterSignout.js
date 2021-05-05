@@ -28,19 +28,20 @@ export default View.extend({
   },
   handleSignout: function(e) {
     e.preventDefault();
-    this.options.appState.trigger('signOut');
-    const self = this;
+
+    const appState = this.options.appState;
+    appState.trigger('signOut');
 
     this.model
       .doTransaction(function(transaction) {
         return transaction.cancel();
       })
-      .then(function() {
-        if (self.settings.get('signOutLink')) {
-          Util.redirect(self.settings.get('signOutLink'));
+      .then(() => {
+        if (this.settings.get('signOutLink') && !appState.get('isSMSPasswordRecovery')) {
+          Util.redirect(this.settings.get('signOutLink'));
         } else {
-          self.state.set('navigateDir', Enums.DIRECTION_BACK);
-          self.options.appState.trigger('navigate', '');
+          this.state.set('navigateDir', Enums.DIRECTION_BACK);
+          appState.trigger('navigate', '');
         }
       });
   },
