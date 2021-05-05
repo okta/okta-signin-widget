@@ -186,7 +186,8 @@ const I18N_PARAMS_MAPPING = {
  * Enumerate each possible param interpolation and hardcode that into properties file.
  * This is to ensure proper translation.
  *
- * Example:
+ * Example - a known param:
+ *
  * input =
  *  "i18n": {
       "key": "registration.error.doesNotMatchPattern",
@@ -195,6 +196,17 @@ const I18N_PARAMS_MAPPING = {
       ]
     }
  * output = registration.error.doesNotMatchPattern.Email
+ *
+ * Example - an unknown param:
+ *
+ * input =
+ *  "i18n": {
+      "key": "registration.error.doesNotMatchPattern",
+      "params": [
+        "Custom Property"
+      ]
+    }
+ * output = registration.error.doesNotMatchPattern.custom
  *
  * @param {String} key
  * @param {String} param
