@@ -1925,6 +1925,24 @@ describe('v2/ion/i18nTransformer', function() {
           },
         },
         expectedWebAuthnGenericError,
+      ],[
+        'oie.authenticator.duo.method.duo.verification_timeout',
+        {
+          message:'We did not hear back from Duo.',
+          i18n:{
+            key:'oie.authenticator.duo.method.duo.verification_timeout',
+          },
+        },
+        'We were unable to verify with Duo. Try again.',
+      ],[
+        'oie.authenticator.duo.method.duo.verification_failed',
+        {
+          message:'Duo web signature verification failed.',
+          i18n:{
+            key:'oie.authenticator.duo.method.duo.verification_failed',
+          },
+        },
+        'We were unable to verify with Duo. Try again.',
       ], [
         'authfactor.webauthn.not.known.api.error',
         {
@@ -1937,6 +1955,7 @@ describe('v2/ion/i18nTransformer', function() {
       ],
     ])('should render correct error message by get key from API: %s', (key, error, expectedMessage) => {
       Bundles.login = originalLoginBundle;
+      expect(Bundles.login[key]).toBeUndefined();
       expect(getMessage(error)).toEqual(expectedMessage);
     });
 
