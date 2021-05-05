@@ -64,7 +64,6 @@ const ignoredMocks = [
   'terminal-enduser-email-consent-denied.json',
   'terminal-return-email-consent-denied.json',
   'terminal-return-email-consent.json',
-  'error-with-failure-redirect.json',
   'identify-recovery-with-recaptcha-v2.json'
 ];
 
