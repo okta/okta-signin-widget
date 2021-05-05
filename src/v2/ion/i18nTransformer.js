@@ -128,6 +128,12 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.rsa_token.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'challenge-authenticator.custom_otp.credentials.passcode': 'oie.custom_otp.verify.passcode.label',
   'challenge-authenticator.symantec_vip.credentials.passcode': 'oie.symantecVip.verify.passcode.label',
+  'challenge-authenticator.credentials.passcode': 'oie.password.label',
+
+  'reset-authenticator.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
+  'reenroll-authenticator.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
+  'reenroll-authenticator-warning.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
+  'incorrectPassword': 'oie.password.incorrect.message',
 
   'enroll-profile.userProfile.lastName': 'oie.user.profile.lastname',
   'enroll-profile.userProfile.firstName': 'oie.user.profile.firstname',
