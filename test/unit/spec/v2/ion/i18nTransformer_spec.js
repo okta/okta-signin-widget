@@ -24,6 +24,8 @@ describe('v2/ion/i18nTransformer', function() {
       'oie.google_authenticator.otp.title': 'enter passcode',
       'enroll.onprem.username.placeholder': 'enter {0} username',
       'enroll.onprem.passcode.placeholder': 'enter {0} passcode',
+      'oie.phone.enroll.voice.label': 'voice call',
+      'oie.phone.enroll.sms.label': 'sms',
       'errors.E0000113': '{0}',
       'factor.totpHard.rsaSecurId': 'rsa',
       'oie.custom_otp.verify.passcode.label': 'enter passcode',
@@ -770,7 +772,7 @@ describe('v2/ion/i18nTransformer', function() {
     });
   });
 
-  it('converts label for enroll-authenticator-data - phone', () => {
+  it('converts labels for enroll-authenticator-data - phone', () => {
     const resp = {
       remediations: [
         {
@@ -789,10 +791,12 @@ describe('v2/ion/i18nTransformer', function() {
                 {
                   'label': 'Voice call',
                   'value': 'voice'
-                }
+                },
+                {
+                  'label': 'SMS',
+                  'value': 'sms'
+                },
               ],
-              'value': 'voice',
-              'label-top': true,
               'type': 'radio'
             },
             {
@@ -806,6 +810,7 @@ describe('v2/ion/i18nTransformer', function() {
         }
       ]
     };
+
     expect(i18nTransformer(resp)).toEqual({
       remediations: [
         {
@@ -822,12 +827,14 @@ describe('v2/ion/i18nTransformer', function() {
               'required': true,
               'options': [
                 {
-                  'label': 'Voice call',
+                  'label': 'unit test - voice call',
                   'value': 'voice'
+                },
+                {
+                  'label': 'unit test - sms',
+                  'value': 'sms'
                 }
               ],
-              'value': 'voice',
-              'label-top': true,
               'type': 'radio'
             },
             {
@@ -836,6 +843,67 @@ describe('v2/ion/i18nTransformer', function() {
               'type': 'text',
               'label': 'unit test - phone number',
               'label-top': true
+            }
+          ]
+        }
+      ]
+    });
+  });
+
+  it('converts label for enroll-authenticator - phone', () => {
+    const resp = {
+      remediations: [
+        {
+          name: 'enroll-authenticator',
+          relatesTo: {
+            value: {
+              type: 'phone',
+              key: 'phone_number',
+              methods:[{
+                type: 'sms',
+              }]
+            }
+          },
+          uiSchema: [
+            {
+              'name': 'credentials.passcode',
+              'label': 'Enter password',
+              'secret': true,
+              'label-top': true,
+              'type': 'password',
+              'params': {
+                'showPasswordToggle': true
+              }
+            }
+          ]
+        }
+      ]
+    };
+
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          name: 'enroll-authenticator',
+          relatesTo: {
+            value: {
+              type: 'phone',
+              key: 'phone_number',
+              methods:[{
+                // This is not expected to be translated for enroll-authenticator.
+                type: 'sms',
+              }]
+            }
+          },
+          uiSchema: [
+            {
+              'name': 'credentials.passcode',
+              'label': 'unit test - enter code',
+              'secret': true,
+              'label-top': true,
+              'type': 'password',
+              'params': {
+                'showPasswordToggle': true
+              }
             }
           ]
         }
