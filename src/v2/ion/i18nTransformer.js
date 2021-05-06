@@ -97,6 +97,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'authenticator-enrollment-data.phone_number.authenticator.methodType.voice': 'oie.phone.enroll.voice.label',
 
   'enroll-authenticator.okta_password.credentials.passcode': 'oie.password.passwordLabel',
+  'enroll-authenticator.okta_email.credentials.passcode': 'email.enroll.enterCode',
   'enroll-authenticator.phone_number.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'enroll-authenticator.security_question.sub_schema_local_credentials.0': 'oie.security.question.questionKey.label',
   'enroll-authenticator.security_question.sub_schema_local_credentials.1': 'oie.security.question.createQuestion.label',

@@ -39,7 +39,6 @@ const ignoredMocks = [
   'authenticator-verification-select-authenticator.json',
   'authenticator-verification-okta-verify-signed-nonce-loopback.json',
   'authenticator-expired-password-with-enrollment-authenticator.json',
-  'authenticator-enroll-email.json',
   'error-with-failure-redirect.json'
 ];
 

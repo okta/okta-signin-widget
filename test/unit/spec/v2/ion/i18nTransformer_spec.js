@@ -19,6 +19,7 @@ describe('v2/ion/i18nTransformer', function() {
       'oie.okta_verify.push.title': 'okta verify push',
       'oie.okta_verify.totp.title': 'okta verify totp',
       'oie.password.passwordLabel': 'enter password',
+      'email.enroll.enterCode': 'enter code',
       'oie.security.question.questionKey.label': 'choose a question',
       'oie.security.question.createQuestion.label': 'create a question',
       'oie.google_authenticator.otp.title': 'enter passcode',
@@ -1085,6 +1086,72 @@ describe('v2/ion/i18nTransformer', function() {
               'name': 'credentials.passcode',
               'label': 'unit test - enter code',
               'secret': true,
+              'label-top': true,
+              'type': 'password',
+              'params': {
+                'showPasswordToggle': true
+              }
+            }
+          ]
+        }
+      ]
+    });
+  });
+
+  it('converts label for enroll-authenticator - email', () => {
+    const resp = {
+      remediations: [
+        {
+          name: 'enroll-authenticator',
+          relatesTo: {
+            value: {
+              type: 'email',
+              key: 'okta_email',
+              'displayName': 'Email',
+              'methods': [
+                {
+                  'type': 'email'
+                }
+              ]
+            }
+          },
+          uiSchema: [
+            {
+              'name': 'credentials.passcode',
+              'label': 'Enter code',
+              'required': true,
+              'label-top': true,
+              'type': 'password',
+              'params': {
+                'showPasswordToggle': true
+              }
+            }
+          ]
+        }
+      ]
+    };
+
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          name: 'enroll-authenticator',
+          relatesTo: {
+            value: {
+              type: 'email',
+              key: 'okta_email',
+              'displayName': 'Email',
+              'methods': [
+                {
+                  'type': 'email'
+                }
+              ]
+            }
+          },
+          uiSchema: [
+            {
+              'name': 'credentials.passcode',
+              'label': 'unit test - enter code',
+              'required': true,
               'label-top': true,
               'type': 'password',
               'params': {
