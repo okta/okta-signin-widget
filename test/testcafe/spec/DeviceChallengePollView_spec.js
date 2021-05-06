@@ -231,7 +231,6 @@ test
     await t.expect(content).contains('Don’t have Okta Verify?');
     await t.expect(content).contains('Download here');
     await t.expect(deviceChallengePollPageObject.getDownloadOktaVerifyLink()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
-    await t.expect(deviceChallengePollPageObject.getFooterLink().getAttribute('href')).eql('http://localhost:3000');
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
   });
 
