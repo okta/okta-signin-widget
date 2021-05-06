@@ -19,6 +19,7 @@ module.exports = {
       'idx.return.to.original.tab', // idx.return.to.original.tab is translated to oie.return.to.original.tab in Terminalview.
       'oie.authenticator.duo.method.duo.verification_timeout', // This is mapped to oie.authenticator.duo.error
       'oie.authenticator.duo.method.duo.verification_failed', // This is mapped to oie.authenticator.duo.error
+      'incorrectPassword', // incorrectPassword is translated to oie.password.incorrect in i18nTransformer
     ];
     return {
       'Program': function (node) {
