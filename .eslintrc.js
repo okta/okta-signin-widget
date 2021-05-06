@@ -99,11 +99,9 @@ module.exports = {
       'overrides': [
         {
           'files': [
-            'playground/**/authenticator-expiry-warning-password.json',
             'playground/**/authenticator-verification-okta-verify-reject-push.json',
             'playground/**/error-403-security-access-denied.json',
             'playground/**/error-with-failure-redirect.json',
-            'playground/**/error-authenticator-verify-password.json',
             'playground/**/error-authenticator-webauthn-failure.json',
             'playground/**/error-email-verify.json',
             'playground/**/error-forgot-password.json',

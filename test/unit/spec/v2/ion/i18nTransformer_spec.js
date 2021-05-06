@@ -19,6 +19,7 @@ describe('v2/ion/i18nTransformer', function() {
       'oie.okta_verify.push.title': 'okta verify push',
       'oie.okta_verify.totp.title': 'okta verify totp',
       'oie.password.passwordLabel': 'enter password',
+      'email.enroll.enterCode': 'enter code',
       'oie.security.question.questionKey.label': 'choose a question',
       'oie.security.question.createQuestion.label': 'create a question',
       'oie.google_authenticator.otp.title': 'enter passcode',
@@ -36,6 +37,7 @@ describe('v2/ion/i18nTransformer', function() {
       'oie.okta_verify.totp.enterCodeText': 'enter totp code',
       'oie.google_authenticator.otp.enterCodeText': 'enter passcode',
       'oie.enroll.okta_verify.channel.email.label': 'email',
+      'oie.password.newPasswordLabel': 'new password',
 
       'primaryauth.password.placeholder': 'password',
       'primaryauth.username.placeholder': 'username',
@@ -48,6 +50,7 @@ describe('v2/ion/i18nTransformer', function() {
       'password.forgot.email.or.username.placeholder': 'email or username',
       'oie.browser.error.NotAllowedError': 'translated browser thrown error',
       'oktaverify.rejected': 'rejected',
+      'oie.password.incorrect.message': 'Password is incorrect',
     }, (value) => `unit test - ${value}`);
   });
   afterAll(() => {
@@ -473,7 +476,7 @@ describe('v2/ion/i18nTransformer', function() {
     });
   });
 
-  it('converts label for challenge-authenticator - password', () => {
+  it('converts label for challenge-authenticator.okta_password.credentials.password', () => {
     const resp = {
       remediations: [
         {
@@ -511,6 +514,43 @@ describe('v2/ion/i18nTransformer', function() {
             {
               'name': 'credentials.passcode',
               'label': 'unit test - password',
+              'secret': true,
+              'label-top': true,
+              'type': 'password',
+              'params': { 'showPasswordToggle': true }
+            }
+          ]
+        }
+      ]
+    });
+  });
+
+  it('converts label for challenge-authenticator.credentials.password', () => {
+    const resp = {
+      remediations: [
+        {
+          name: 'challenge-authenticator',
+          uiSchema: [
+            {
+              'name': 'credentials.passcode',
+              'label': 'Password',
+              'secret': true,
+              'label-top': true,
+              'type': 'password',
+              'params': { 'showPasswordToggle': true }
+            }
+          ]
+        }
+      ]
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          name: 'challenge-authenticator',
+          uiSchema: [
+            {
+              'name': 'credentials.passcode',
+              'label': 'unit test - password authenticator',
               'secret': true,
               'label-top': true,
               'type': 'password',
@@ -625,6 +665,153 @@ describe('v2/ion/i18nTransformer', function() {
               'label-top': true,
               name: 'credentials.totp',
               type: 'text',
+            }
+          ]
+        }
+      ]
+    });
+  });
+
+  it('converts label for reset-authenticator - password', () => {
+    const resp = {
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'password',
+              key: 'okta_password'
+            }
+          },
+          name: 'reset-authenticator',
+          uiSchema: [
+            {
+              'name': 'credentials.passcode',
+              'label': 'New password',
+              'secret': true,
+              'label-top': true,
+              'type': 'password',
+              'params': { 'showPasswordToggle': true }
+            }
+          ]
+        }
+      ]
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'password',
+              key: 'okta_password'
+            }
+          },
+          name: 'reset-authenticator',
+          uiSchema: [
+            {
+              'name': 'credentials.passcode',
+              'label': 'unit test - new password',
+              'secret': true,
+              'label-top': true,
+              'type': 'password',
+              'params': { 'showPasswordToggle': true }
+            }
+          ]
+        }
+      ]
+    });
+  });
+
+  it('converts label for reenroll-authenticator - password', () => {
+    const resp = {
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'password',
+              key: 'okta_password'
+            }
+          },
+          name: 'reenroll-authenticator',
+          uiSchema: [
+            {
+              'name': 'credentials.passcode',
+              'label': 'New password',
+              'secret': true,
+              'label-top': true,
+              'type': 'password',
+              'params': { 'showPasswordToggle': true }
+            }
+          ]
+        }
+      ]
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'password',
+              key: 'okta_password'
+            }
+          },
+          name: 'reenroll-authenticator',
+          uiSchema: [
+            {
+              'name': 'credentials.passcode',
+              'label': 'unit test - new password',
+              'secret': true,
+              'label-top': true,
+              'type': 'password',
+              'params': { 'showPasswordToggle': true }
+            }
+          ]
+        }
+      ]
+    });
+  });
+
+  it('converts label for reenroll-authenticator-warning - password', () => {
+    const resp = {
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'password',
+              key: 'okta_password'
+            }
+          },
+          name: 'reenroll-authenticator-warning',
+          uiSchema: [
+            {
+              'name': 'credentials.passcode',
+              'label': 'New password',
+              'secret': true,
+              'label-top': true,
+              'type': 'password',
+              'params': { 'showPasswordToggle': true }
+            }
+          ]
+        }
+      ]
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          relatesTo: {
+            value: {
+              type: 'password',
+              key: 'okta_password'
+            }
+          },
+          name: 'reenroll-authenticator-warning',
+          uiSchema: [
+            {
+              'name': 'credentials.passcode',
+              'label': 'unit test - new password',
+              'secret': true,
+              'label-top': true,
+              'type': 'password',
+              'params': { 'showPasswordToggle': true }
             }
           ]
         }
@@ -899,6 +1086,72 @@ describe('v2/ion/i18nTransformer', function() {
               'name': 'credentials.passcode',
               'label': 'unit test - enter code',
               'secret': true,
+              'label-top': true,
+              'type': 'password',
+              'params': {
+                'showPasswordToggle': true
+              }
+            }
+          ]
+        }
+      ]
+    });
+  });
+
+  it('converts label for enroll-authenticator - email', () => {
+    const resp = {
+      remediations: [
+        {
+          name: 'enroll-authenticator',
+          relatesTo: {
+            value: {
+              type: 'email',
+              key: 'okta_email',
+              'displayName': 'Email',
+              'methods': [
+                {
+                  'type': 'email'
+                }
+              ]
+            }
+          },
+          uiSchema: [
+            {
+              'name': 'credentials.passcode',
+              'label': 'Enter code',
+              'required': true,
+              'label-top': true,
+              'type': 'password',
+              'params': {
+                'showPasswordToggle': true
+              }
+            }
+          ]
+        }
+      ]
+    };
+
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          name: 'enroll-authenticator',
+          relatesTo: {
+            value: {
+              type: 'email',
+              key: 'okta_email',
+              'displayName': 'Email',
+              'methods': [
+                {
+                  'type': 'email'
+                }
+              ]
+            }
+          },
+          uiSchema: [
+            {
+              'name': 'credentials.passcode',
+              'label': 'unit test - enter code',
+              'required': true,
               'label-top': true,
               'type': 'password',
               'params': {
