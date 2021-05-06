@@ -97,6 +97,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'authenticator-enrollment-data.phone_number.authenticator.methodType.voice': 'oie.phone.enroll.voice.label',
 
   'enroll-authenticator.okta_password.credentials.passcode': 'oie.password.passwordLabel',
+  'enroll-authenticator.okta_email.credentials.passcode': 'email.enroll.enterCode',
   'enroll-authenticator.phone_number.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'enroll-authenticator.security_question.sub_schema_local_credentials.0': 'oie.security.question.questionKey.label',
   'enroll-authenticator.security_question.sub_schema_local_credentials.1': 'oie.security.question.createQuestion.label',
@@ -128,6 +129,12 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.rsa_token.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'challenge-authenticator.custom_otp.credentials.passcode': 'oie.custom_otp.verify.passcode.label',
   'challenge-authenticator.symantec_vip.credentials.passcode': 'oie.symantecVip.verify.passcode.label',
+  'challenge-authenticator.credentials.passcode': 'oie.password.label',
+
+  'reset-authenticator.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
+  'reenroll-authenticator.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
+  'reenroll-authenticator-warning.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
+  'incorrectPassword': 'oie.password.incorrect.message',
 
   'enroll-profile.userProfile.lastName': 'oie.user.profile.lastname',
   'enroll-profile.userProfile.firstName': 'oie.user.profile.firstname',

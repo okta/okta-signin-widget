@@ -34,17 +34,11 @@ const ignoredMocks = [
   'error-identify-access-denied.json',
   'error-forgot-password.json',
   'error-email-verify.json',
-  'error-authenticator-verify-password.json',
   'error-403-security-access-denied.json',
   'consent-enduser.json',
   'authenticator-verification-select-authenticator.json',
   'authenticator-verification-okta-verify-signed-nonce-loopback.json',
-  'authenticator-reset-password.json',
-  'authenticator-expiry-warning-password.json',
-  'authenticator-expired-password.json',
   'authenticator-expired-password-with-enrollment-authenticator.json',
-  'authenticator-expired-password-no-complexity.json',
-  'authenticator-enroll-email.json',
   'error-with-failure-redirect.json'
 ];
 
