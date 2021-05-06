@@ -1,4 +1,5 @@
 var useRuntime = require('./runtime');
+var unused = 'ok';
 module.exports = function usePolyfill(webpackConfig) {
   webpackConfig.entry.unshift('core-js/stable');
   webpackConfig.entry.unshift('regenerator-runtime/runtime');
