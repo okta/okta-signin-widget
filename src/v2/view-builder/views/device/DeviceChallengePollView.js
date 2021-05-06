@@ -113,7 +113,12 @@ const Body = BaseFormWithPolling.extend(
               return this.trigger('save', this.model);
             }).fail((xhr) => {
               Logger.error(`OV challenge response with HTTP code ${xhr.status} ${xhr.responseText}`);
-              onPortFail();
+              if (xhr.statusText === 'timeout') {
+                foundPort = true;
+                return this.trigger('save', this.model);
+              } else {
+                onPortFail();
+              }
             });
           })
           .fail(onFailure);
