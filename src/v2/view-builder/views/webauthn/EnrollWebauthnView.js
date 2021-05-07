@@ -9,7 +9,7 @@ import { getMessageFromBrowserError } from '../../../ion/i18nTransformer';
 function getExcludeCredentials(authenticatorEnrollments = []) {
   const credentials = [];
   authenticatorEnrollments.forEach((enrollement) => {
-    if (enrollement.type === 'security_key') {
+    if (enrollement.key === 'webauthn') {
       credentials.push({
         type: 'public-key',
         id: CryptoUtil.strToBin(enrollement.credentialId),
