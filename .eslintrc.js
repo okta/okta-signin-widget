@@ -62,7 +62,6 @@ module.exports = {
             'playground/**/safe-mode-optional-enrollment.json',
             'playground/**/safe-mode-required-enrollment.json',
             'playground/**/terminal-enduser-email-consent-denied.json',
-            'playground/**/terminal-polling-window-expired.json',
             'playground/**/terminal-return-email-consent-denied.json',
             'playground/**/terminal-return-email-consent.json',
             'playground/**/terminal-return-email.json',

@@ -13,7 +13,6 @@ fixture('English Leaks');
 const ignoredMocks = [
   'user-unlock-account.json',
   'terminal-return-email.json',
-  'terminal-polling-window-expired.json',
   'success-with-interaction-code.json',
   'safe-mode-required-enrollment.json',
   'safe-mode-optional-enrollment.json',
