@@ -11,7 +11,6 @@ const mocksFolder = `${PLAYGROUND}/mocks/data/idp/idx`;
 fixture('English Leaks');
 // These mocks have known english leaks ignoring them temporarily
 const ignoredMocks = [
-  'user-unlock-account.json',
   'terminal-transfered-email.json',
   'terminal-return-stale-email.json',
   'terminal-return-expired-email.json',
