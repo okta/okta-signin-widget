@@ -206,7 +206,7 @@ describe('v2/ion/responseTransformer', function() {
         messages: {
           value: [
             {
-              message: 'There is no account with the email test@rain.com.',
+              message: 'There is no account with that email.',
               i18n: {
                 key: 'idx.unknown.user',
                 params: [],
