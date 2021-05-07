@@ -388,6 +388,63 @@ describe('v2/ion/i18nTransformer', function() {
     });
   });
 
+  it('converts labels for select-authenticator-unlock-account', () => {
+    const resp = {
+      remediations: [
+        {
+          name: 'select-authenticator-unlock-account',
+          uiSchema: [
+            {
+              name: 'identifier',
+              label: 'Username',
+              'label-top': true,
+              type: 'text'
+            },
+            {
+              label: 'Email',
+              'label-top': true,
+              name: 'authenticator.okta_email',
+              type: 'text',
+            },
+            {
+              label: 'Phone',
+              'label-top': true,
+              name: 'authenticator.phone_number',
+              type: 'text',
+            }
+          ]
+        }
+      ]
+    };
+    expect(i18nTransformer(resp)).toEqual({
+      remediations: [
+        {
+          name: 'select-authenticator-unlock-account',
+          uiSchema: [
+            {
+              label: 'unit test - username',
+              'label-top': true,
+              name: 'identifier',
+              type: 'text',
+            },
+            {
+              label: 'unit test - email authenticator',
+              'label-top': true,
+              name: 'authenticator.okta_email',
+              type: 'text',
+            },
+            {
+              label: 'unit test - phone authenticator',
+              'label-top': true,
+              name: 'authenticator.phone_number',
+              type: 'text',
+            }
+          ]
+        }
+      ]
+    });
+  });
+
   it('converts label for challenge-authenticator - email', () => {
     const resp = {
       remediations: [
