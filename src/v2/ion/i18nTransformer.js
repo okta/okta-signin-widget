@@ -168,7 +168,7 @@ const I18N_PARAMS_MAPPING = {
  * For i18n keys that require string interpolation using values from "params".
  * {baseKey} : {params}
  */
- const I18N_OVERRIDE_WITH_PARAMS_MAP = {
+const I18N_OVERRIDE_WITH_PARAMS_MAP = {
   'registration.error.invalidLoginEmail': {
     Email: 'Email',
   },
@@ -218,7 +218,7 @@ const getI8nKeyUsingParams = (key, param) => {
   if (I18N_OVERRIDE_WITH_PARAMS_MAP[i18nKey][param]) {
     i18nKey += `.${param}`;
   } else {
-    i18nKey += `.custom`;
+    i18nKey += '.custom';
   }
   return i18nKey;
 };
