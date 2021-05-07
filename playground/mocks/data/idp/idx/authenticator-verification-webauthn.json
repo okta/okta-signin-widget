@@ -240,6 +240,17 @@
         "authenticatorId": "aidwboITrg4b4yAYd0g3"
       },
       {
+        "type": "security_key",
+        "key": "custom_otp",
+        "id": "chf1k6lWANK11wvVk0g4",
+        "displayName": "Custom OTP",
+        "methods": [
+          {
+            "type": "otp"
+          }
+        ]
+      },
+      {
         "displayName": "yubikey",
         "type": "security_key",
         "key": "webauthn",

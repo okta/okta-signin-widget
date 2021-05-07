@@ -67,7 +67,7 @@ const Body = BaseForm.extend({
     const allowCredentials = [];
     const authenticatorEnrollments = this.options.appState.get('authenticatorEnrollments').value || [];
     authenticatorEnrollments.forEach((enrollement) => {
-      if (enrollement.type === 'security_key') {
+      if (enrollement.key === 'webauthn') {
         allowCredentials.push({
           type: 'public-key',
           id: CryptoUtil.strToBin(enrollement.credentialId),
