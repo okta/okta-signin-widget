@@ -56,6 +56,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
       - [Web Application](#web-application)
   - [non-OIDC Applications](#non-oidc-applications)
 - [API Reference](#api-reference)
+    - [Interaction Code flow](#interaction-code-flow)
   - [OktaSignIn](#oktasignin)
   - [showSignInToGetTokens](#showsignintogettokens)
   - [showSignInAndRedirect](#showsigninandredirect)
@@ -380,6 +381,9 @@ signIn.renderEl({
 ```
 
 ## API Reference
+
+#### Interaction Code flow
+Follow [this documentation]('./docs/interaction_code_flow.md').
 
 ### OktaSignIn
 
