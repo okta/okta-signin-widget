@@ -11,7 +11,9 @@
   - [language](#language)
   - [defaultCountryCode](#defaultcountrycode)
   - [i18n](#i18n)
-  - [assets.baseUrl](#assetsbaseurl)
+  - [assets](#assets)
+    - [assets.baseUrl](#assetsbaseurl)
+    - [assets.rewrite](#assetsrewrite)
   - [colors](#colors)
     - [colors.brand](#colorsbrand)
   - [Help Links](#help-links)
@@ -26,7 +28,7 @@
     - [parseSchema](#parseschema)
     - [preSubmit](#presubmit)
     - [postSubmit](#postsubmit)
-    - [handling registration hook errors](#handling-registration-hook-errors)
+    - [Handling registration hook errors](#handling-registration-hook-errors)
   - [Custom Buttons](#custom-buttons)
     - [customButtons.title](#custombuttonstitle)
     - [customButtons.i18nKey](#custombuttonsi18nkey)
@@ -35,7 +37,6 @@
   - [Feature flags](#feature-flags)
     - [features.showPasswordToggleOnSignInPage](#featuresshowpasswordtoggleonsigninpage)
     - [features.hideSignOutLinkInMFA](#featureshidesignoutlinkinmfa)
-  - [OpenID Connect](#openid-connect)
 
 ## Setup
 To begin using the Interaction code flow in the Okta Sign-In Widget follow this [migration guide](https://developer.okta.com/docs/guides/migrate-to-oie/).
@@ -182,7 +183,8 @@ Override the text in the widget. The full list of properties can be found in the
     }
     ```
 
-### assets.baseUrl
+### assets
+#### assets.baseUrl
 Override the base url the widget pulls its language files from. The widget is only packaged with english text by default, and loads other languages on demand from the Okta CDN. If you want to serve the language files from your own servers, update this setting.
 
     ```javascript
@@ -199,13 +201,29 @@ Override the base url the widget pulls its language files from. The widget is on
 
     **Note:** The json files can be accessed from the `dist/labels/json` folder that is published in the [npm module](https://www.npmjs.com/package/@okta/okta-signin-widget).
 
+#### assets.rewrite
+You can use this function to rewrite the asset path and filename. Use this function if you will host the asset files on your own host, and plan to change the path or filename of the assets. This is useful, for example, if you want to cachebust the files.
+
+    ```javascript
+    assets: {
+      // Note: baseUrl is still needed to set the base path
+      baseUrl: '/path/to/dist',
+
+      rewrite: function (assetPath) {
+        // assetPath is relative to baseUrl
+        // Example assetPath to load login for 'ja': "/labels/json/login_ja.json"
+        return someCacheBustFunction(assetPath);
+      }
+    }
+    ```
+
 ### colors
 These options let you customize the appearance of the Sign-in Widget.
 
 If you want even more customization, you can modify the [Sass source files](https://github.com/okta/okta-signin-widget/tree/master/assets/sass) and [build the Widget](https://github.com/okta/okta-signin-widget#building-the-widget).
 
   #### colors.brand
-  Sets the brand (primary) color. Colors must be in hex format, like `#008000`.
+  Sets the brand color as the background color of the primary CTA button. Colors must be in hex format, like `#008000`.
 
     ```javascript
     colors: {
@@ -296,6 +314,18 @@ Hook into registration events.
 #### parseSchema
 Callback used to change the JSON schema that comes back from the Okta API.
   ```javascript
+  /**
+   * @param {array} schema -
+   *[{
+      "name": "userProfile.email",
+      "label": "Primary email",
+      "required": true,
+      "label-top": true,
+      "type": "text"
+    }]
+    @param {function} onSuccess
+    @param {function} onFailure
+  * */
   parseSchema: function (schema, onSuccess, onFailure) {
     // This example will add an additional field to the registration form
       schema.push(
@@ -315,6 +345,18 @@ Callback used to change the JSON schema that comes back from the Okta API.
 #### preSubmit
 Callback used primarily to modify the request parameters sent to the Okta API.
  ```javascript
+    /**
+     * @param {object} postData -
+     * {
+          "userProfile": {
+              "lastName": "Last Name",
+              "firstName": "First Name",
+              "email": "myname@okta.com"
+          }
+      }
+      @param {function} onSuccess
+      @param {function} onFailure
+    * */
     preSubmit: function (postData, onSuccess, onFailure) {
       // This example will add @companyname.com to the email if user fails to add it during registration
       if (postData.userProfile.email.indexOf('@acme.com') > 1) {
@@ -328,11 +370,11 @@ Callback used primarily to modify the request parameters sent to the Okta API.
 #### postSubmit
 Callback used to primarily get control and to modify the behavior post submission to registration API.
   ```javascript
-      // The callback function is passed 3 arguments: response, onSuccess, onFailure
-      // 1) response: response returned from the API post registration.
-      // 2) onSuccess: success callback.
-      // 3) onFailure: failure callback. Note: accepts an errorObject that can be used to show form level
-      //    or field level errors.
+    /**
+     * @param {object} response - "myname@okta.com"
+      @param {function} onSuccess
+      @param {function} onFailure
+    * */
     postSubmit: function (response, onSuccess, onFailure) {
       // In this example postSubmit callback is used to log the server response to the browser console before completing registration flow
       console.log(response);
@@ -341,7 +383,7 @@ Callback used to primarily get control and to modify the behavior post submissio
     }
   ```
 
-#### handling registration hook errors
+#### Handling registration hook errors
 - **onFailure and ErrorObject:** The onFailure callback accepts an error object that can be used to show a form level vs field level error on the registration form.
 
     ####  Use the default error
@@ -352,28 +394,25 @@ Callback used to primarily get control and to modify the behavior post submissio
     }
     ```
 
-    #### Use form level error
+    #### Display a form error
      ```javascript
     preSubmit: function (postData, onSuccess, onFailure) {
-      var error = {
+      const error = {
         "errorSummary": "Custom form level error"
       };
       onFailure(error);
     }
     ```
 
-    #### Use field level error
+    #### Display a form field error
     ```javascript
       preSubmit: function (postData, onSuccess, onFailure) {
-        var error = {
+        const error = {
             "errorSummary": "API Error",
             "errorCauses": [
                 {
-                    "errorSummary": "Custom field level error",
-                    "reason": "registration.error.address",
-                    "resource": "User",
-                    "property": "address", //should match field name
-                    "arguments": []
+                  "errorSummary": "Custom field level error",
+                  "property": "userProfile.email",
                 }
             ]
         };
@@ -441,6 +480,3 @@ features: {
 #### features.hideSignOutLinkInMFA
   Defaults to `false`.
   Hides the "Back to sign-in" link for MFA challenge flows.
-
-### OpenID Connect
-TODO
