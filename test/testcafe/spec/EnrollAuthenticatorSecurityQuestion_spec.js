@@ -35,7 +35,7 @@ const answerRequestLogger = RequestLogger(
   }
 );
 
-fixture('Enroll Security Question Form');
+fixture.only('Enroll Security Question Form');
 
 async function setup(t) {
   const enrollSecurityQuestionPage = new EnrollSecurityQuestionPageObject(t);
@@ -163,7 +163,7 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionErrorM
         'errorCauses': [
           {
             'errorSummary': [
-              'The security answer must be at least 4 characters'
+              'The security question answer must be at least 4 characters in length'
             ],
             'property': 'credentials.answer'
           }
