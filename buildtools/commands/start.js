@@ -12,16 +12,11 @@ exports.builder = {
       'mockDuo',
     ],
   },
-  open: {
-    description: 'Open the browser after the server starts',
-    type: 'boolean',
-    default: true,
-  },
 };
 
 exports.handler = async (argv) => {
   const buildDevCmd = 'grunt build:dev';
-  const startDevServer = `webpack-dev-server --config webpack.playground.config.js --open ${argv.open}`;
+  const startDevServer = 'webpack-dev-server --config webpack.playground.config.js';
   const mock = argv.mock ? `--env.${argv.mock}` : '';
 
   let cmd;
