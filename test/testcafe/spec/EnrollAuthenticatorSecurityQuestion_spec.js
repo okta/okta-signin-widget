@@ -35,7 +35,7 @@ const answerRequestLogger = RequestLogger(
   }
 );
 
-fixture.only('Enroll Security Question Form');
+fixture('Enroll Security Question Form');
 
 async function setup(t) {
   const enrollSecurityQuestionPage = new EnrollSecurityQuestionPageObject(t);
