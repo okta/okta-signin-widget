@@ -4,6 +4,7 @@ import { BaseView } from './internals';
 
 // Identify
 import IdentifierView from './views/IdentifierView';
+import RedirectIdPView from './views/RedirectIdPView';
 import IdentifyRecoveryView from './views/IdentifyRecoveryView';
 
 // Terminal & Auto-Redirect
@@ -211,10 +212,7 @@ const VIEWS_MAPPING = {
     [DEFAULT]: AutoRedirectView,
   },
   [RemediationForms.REDIRECT_IDP]: {
-    // `redirect-idp` remediation object looks similar to identifier view.
-    // Seems not ideal, shall try to create dedicated View, which may
-    // inherit from IdentifierView
-    [DEFAULT]: IdentifierView,
+    [DEFAULT]: RedirectIdPView,
   },
   [RemediationForms.DEVICE_ENROLLMENT_TERMINAL]: {
     [DEFAULT]: DeviceEnrollmentTerminalView,
