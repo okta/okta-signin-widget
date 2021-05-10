@@ -18,6 +18,14 @@ const Body = BaseForm.extend({
     return loc('oform.next', 'login');
   },
 
+  initialize() {
+    BaseForm.prototype.initialize.apply(this, arguments);
+
+    if (this.getUISchema().find(schema => schema.name === 'credentials.passcode')) {
+      this.save = loc('oie.identifier.form.sign.in', 'login');
+    }
+  },
+
   saveForm() {
     // Ideally this can be added to a "preSaveForm" handler - but keeping this here for now.
     if (!this.settings.get('features.deviceFingerprinting')) {
