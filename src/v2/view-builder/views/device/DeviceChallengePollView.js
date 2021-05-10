@@ -161,14 +161,6 @@ const Footer = BaseFooter.extend({
       Enums.UNIVERSAL_LINK_CHALLENGE
     ].includes(this.options.currentViewState.relatesTo.value.challengeMethod);
     if (isFallbackApproach) {
-      this.links = [
-        {
-          name: 'sign-in-options',
-          type: 'link',
-          label: loc('oie.verification.switch.authenticator', 'login'),
-          href: this.settings.get('baseUrl')
-        }
-      ];
       BaseFooter.prototype.initialize.apply(this, arguments);
     } else {
       this.add(Link, {
