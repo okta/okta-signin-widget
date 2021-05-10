@@ -21,16 +21,21 @@ exports.builder = {
 
 exports.handler = async (argv) => {
   const buildDevCmd = 'grunt build:dev';
-  const startDevServer = `webpack-dev-server --config webpack.playground.config.js --open ${argv.open}`;
+  let startDevServer = 'webpack-dev-server --config webpack.playground.config.js';
+  if (argv.open) {
+    startDevServer += ' --open';
+  }
   const mock = argv.mock ? `--env.${argv.mock}` : '';
 
   let cmd;
+
   if (argv.watch) {
     // Watch mode requires we run tasks concurrently
     cmd = `concurrently "${buildDevCmd}:watch ${mock}" "grunt watch:sass" "${startDevServer}" --kill-others`;
   } else {
     cmd = `${buildDevCmd} ${mock} && ${startDevServer}`;
   }
+
 
   const options = {
     stdio: 'inherit',

@@ -63,7 +63,6 @@ module.exports = {
     },
     compress: true,
     port: DEV_SERVER_PORT,
-    open: true,
     watchContentBase: true,
     proxy: [{
       context: [
