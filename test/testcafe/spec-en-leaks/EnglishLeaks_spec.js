@@ -11,10 +11,6 @@ const mocksFolder = `${PLAYGROUND}/mocks/data/idp/idx`;
 fixture('English Leaks');
 // These mocks have known english leaks ignoring them temporarily
 const ignoredMocks = [
-  'terminal-transfered-email.json',
-  'terminal-return-stale-email.json',
-  'terminal-return-expired-email.json',
-  'terminal-return-error-email.json',
   'success-with-interaction-code.json',
   'identify-with-third-party-idps.json',
   'identify-with-no-sso-extension.json',
@@ -23,7 +19,6 @@ const ignoredMocks = [
   'identify-with-apple-redirect-sso-extension.json', // flaky on bacon
   'identify-unknown-user.json',
   'error-user-is-not-assigned.json',
-  'error-pre-versioning-ff-session-expired.json',
   'error-internal-server-error.json',
   'error-identify-access-denied.json',
   'error-forgot-password.json',

@@ -7,7 +7,7 @@
       {
         "message": "This email link is out of date.",
         "i18n": {
-          "key": "idx.session.expired",
+          "key": "idx.return.stale",
           "params": []
         }
       }

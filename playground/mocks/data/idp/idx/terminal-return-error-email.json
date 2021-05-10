@@ -7,7 +7,7 @@
       {
         "message": "Could not process this email link.",
         "i18n": {
-          "key": "idx.session.expired",
+          "key": "idx.return.error",
           "params": []
         }
       }

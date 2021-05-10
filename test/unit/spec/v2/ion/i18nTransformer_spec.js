@@ -51,6 +51,7 @@ describe('v2/ion/i18nTransformer', function() {
       'oie.browser.error.NotAllowedError': 'translated browser thrown error',
       'oktaverify.rejected': 'rejected',
       'oie.password.incorrect.message': 'Password is incorrect',
+      'oie.idx.session.expired': 'The session has expired',
     }, (value) => `unit test - ${value}`);
   });
   afterAll(() => {
@@ -1466,6 +1467,13 @@ describe('v2/ion/i18nTransformer', function() {
             'class': 'INFO'
           },
           {
+            'message': 'The session expired.',
+            'i18n': {
+              'key': 'idx.session.expired'
+            },
+            'class': 'ERROR'
+          },
+          {
             'message': 'another {0} message',
             'i18n': {
               'key': 'idx.foo',
@@ -1487,6 +1495,13 @@ describe('v2/ion/i18nTransformer', function() {
               'key': 'idx.email.verification.required'
             },
             'class': 'INFO'
+          },
+          {
+            'message': 'unit test - The session has expired',
+            'i18n': {
+              'key': 'idx.session.expired'
+            },
+            'class': 'ERROR'
           },
           {
             'message': 'unit test - hello the Email authenticator',
