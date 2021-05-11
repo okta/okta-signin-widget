@@ -76,6 +76,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
     triggerAfterError(model, error) {
       BaseForm.prototype.triggerAfterError.apply(this, arguments);
       this.stopPolling();
+      let currentRefreshInterval = this.options.appState.get('dynamicRefreshInterval') || this.options.currentViewState.refresh;
 
       // Wait 1 min before polling again & do not show error message when encounter rate limit error
       if (error.responseJSON?.errorSummaryKeys?.includes('tooManyRequests') ||
@@ -84,14 +85,14 @@ const Body = BaseFormWithPolling.extend(Object.assign(
           model.trigger('clearFormError');
         }, 0);
         setTimeout(() => {
-          this.startPolling();
+          this.startPolling(currentRefreshInterval);
         }, 60000);
         return;
       }
 
       // Polling needs to be resumed if it's a form error and session is still valid
       if(!error.responseJSON?.errorSummaryKeys?.includes('idx.session.expired')) {
-        this.startPolling();
+        this.startPolling(currentRefreshInterval);
       }
     }
   },

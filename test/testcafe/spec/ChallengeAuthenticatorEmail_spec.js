@@ -69,7 +69,7 @@ const invalidOTPMockContinuePoll = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(emailVerification)
+  .respond(emailVerificationPollingShort)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidOTP, 403);
 
@@ -214,17 +214,44 @@ test
   });
 
 test
-  .requestHooks(logger, invalidOTPMockContinuePoll)('continue polling on form error', async t => {
+  .requestHooks(logger, invalidOTPMockContinuePoll)('continue polling on form error with dynamic polling', async t => {
     const challengeEmailPageObject = await setup(t);
+    await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
+
+    // 2 poll requests in 2 seconds at 1 sec interval
+    await t.wait(2000);
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/poll/)
+    )).eql(2);
+
+    await t.removeRequestHooks(dynamicRefreshShortIntervalMock);
+    await t.addRequestHooks(dynamicRefreshLongIntervalMock);
+
+    // 1 poll requests in 2 seconds at 2 sec interval
+    await t.wait(2000);
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/poll/)
+    )).eql(3);
+
+    await t.removeRequestHooks(dynamicRefreshLongIntervalMock);
+    await t.addRequestHooks(invalidOTPMock);
+
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton();
     await challengeEmailPageObject.waitForErrorBox();
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('Authentication failed');
-    await t.wait(5000);
+
+    await t.removeRequestHooks(invalidOTPMock);
+    await t.addRequestHooks(dynamicRefreshLongIntervalMock);
+
+    // 2 poll requests in 4 seconds at 2 sec interval
+    await t.wait(4000);
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/poll/)
-    )).eql(2);
+    )).eql(5);
   }); 
 
 test
