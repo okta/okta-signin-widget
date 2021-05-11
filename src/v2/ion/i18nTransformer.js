@@ -113,6 +113,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'enroll-authenticator.symantec_vip.credentials.credentialId': 'enroll.symantecVip.credentialId.placeholder',
   'enroll-authenticator.symantec_vip.credentials.passcode': 'enroll.symantecVip.passcode1.placeholder',
   'enroll-authenticator.symantec_vip.credentials.nextPasscode': 'enroll.symantecVip.passcode2.placeholder',
+  'idx.email.verification.required': 'registration.complete.confirm.text',
 
   'enrollment-channel-data.email': 'oie.enroll.okta_verify.channel.email.label',
 
