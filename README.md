@@ -56,7 +56,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
       - [Web Application](#web-application)
   - [non-OIDC Applications](#non-oidc-applications)
 - [API Reference](#api-reference)
-    - [Interaction Code flow](#interaction-code-flow)
+  - [Interaction Code Flow](#interaction-code-flow)
   - [OktaSignIn](#oktasignin)
   - [showSignInToGetTokens](#showsignintogettokens)
   - [showSignInAndRedirect](#showsigninandredirect)
@@ -382,8 +382,11 @@ signIn.renderEl({
 
 ## API Reference
 
-#### Interaction Code flow
-Follow [this documentation]('./docs/interaction_code_flow.md').
+### Interaction Code Flow
+
+Support for the interaction code grant is available for organizations with the Identity Engine feature enabled. Please visit [Migrating to OIE](https://developer.okta.com/docs/guides/migrate-to-oie/) for more details.
+
+Documentation for configuring the Okta Sign-in Widget for the interaction code grant is [available here]('./docs/interaction_code_flow.md').
 
 ### OktaSignIn
 
