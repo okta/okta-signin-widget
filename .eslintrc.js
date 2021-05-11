@@ -109,7 +109,6 @@ module.exports = {
             'playground/**/error-internal-server-error.json',
             'playground/**/error-okta-verify-totp.json',
             'playground/**/error-pre-versioning-ff-session-expired.json',
-            'playground/**/error-safe-mode-polling.json',
             'playground/**/error-session-expired.json',
             'playground/**/error-unlock-account.json',
             'playground/**/error-user-is-not-assigned.json',

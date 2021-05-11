@@ -26,7 +26,6 @@ const ignoredMocks = [
   'error-user-is-not-assigned.json',
   'error-unlock-account.json',
   'error-session-expired.json',
-  'error-safe-mode-polling.json',
   'error-pre-versioning-ff-session-expired.json',
   'error-internal-server-error.json',
   'error-identify-access-denied.json',
