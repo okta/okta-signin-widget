@@ -1825,6 +1825,41 @@ describe('v2/ion/i18nTransformer', function() {
     ],
   ])('should render correct error message by get key from API: %s', (key, error, expectedMessage) => {
     Bundles.login = originalLoginBundle;
+    expect(Bundles.login[key]).toBeUndefined();
     expect(getMessage(error)).toEqual(expectedMessage);
   });
+
+  it('returns an override key when present in the override map', () => {
+    const key = 'api.authn.poll.error.push_rejected';
+    const message = {
+      message: 'some message',
+      i18n: { key }
+    };
+    const widgetKey = 'oktaverify.rejected';
+    expect(Bundles.login[key]).toBeUndefined();
+    expect(getMessage(message)).toEqual(Bundles.login[widgetKey]);
+  });
+
+  it('uses an i18n key that includes the param if in I18N_OVERRIDE_WITH_PARAMS_MAP and has a known param', () => {
+    const key = 'registration.error.invalidLoginEmail';
+    const message = {
+      message: 'some message',
+      i18n: { key, params: ['Email'] },
+    };
+    const newKey = 'registration.error.invalidLoginEmail.Email';
+    expect(Bundles.login[key]).toBeUndefined();
+    expect(getMessage(message)).toEqual(Bundles.login[newKey]);
+  });
+
+  it('uses an i18n key that includes "custom" if in I18N_OVERRIDE_WITH_PARAMS_MAP and has an unknown param', () => {
+    const key = 'registration.error.invalidLoginEmail';
+    const message = {
+      message: 'some message',
+      i18n: { key, params: ['SecondEmail'] },
+    };
+    const newKey = 'registration.error.invalidLoginEmail.custom';
+    expect(Bundles.login[key]).toBeUndefined();
+    expect(getMessage(message).replace('SecondEmail', '{0}')).toEqual(Bundles.login[newKey]);
+  });
+
 });
