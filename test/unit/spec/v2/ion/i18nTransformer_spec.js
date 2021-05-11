@@ -51,7 +51,7 @@ describe('v2/ion/i18nTransformer', function() {
       'oie.browser.error.NotAllowedError': 'translated browser thrown error',
       'oktaverify.rejected': 'rejected',
       'oie.password.incorrect.message': 'Password is incorrect',
-      'oie.idx.session.expired': 'The session has expired',
+      'oie.session.expired': 'The session has expired.',
     }, (value) => `unit test - ${value}`);
   });
   afterAll(() => {
@@ -1467,7 +1467,7 @@ describe('v2/ion/i18nTransformer', function() {
             'class': 'INFO'
           },
           {
-            'message': 'The session expired.',
+            'message': 'The session has expired.',
             'i18n': {
               'key': 'idx.session.expired'
             },
@@ -1497,7 +1497,7 @@ describe('v2/ion/i18nTransformer', function() {
             'class': 'INFO'
           },
           {
-            'message': 'unit test - The session has expired',
+            'message': 'unit test - The session has expired.',
             'i18n': {
               'key': 'idx.session.expired'
             },
