@@ -2279,5 +2279,27 @@ describe('v2/ion/i18nTransformer', function() {
       expect(Bundles.login[key]).toBeUndefined();
       expect(getMessage(message)).toEqual(Bundles.login[widgetKey]);
     });
+
+    it('uses an i18n key that includes the param if in I18N_OVERRIDE_WITH_PARAMS_MAP and has a known param', () => {
+      const key = 'registration.error.invalidLoginEmail';
+      const message = {
+        message: 'some message',
+        i18n: { key, params: ['Email'] },
+      };
+      const newKey = 'registration.error.invalidLoginEmail.Email';
+      expect(Bundles.login[key]).toBeUndefined();
+      expect(getMessage(message)).toEqual(Bundles.login[newKey]);
+    });
+
+    it('uses an i18n key that includes "custom" if in I18N_OVERRIDE_WITH_PARAMS_MAP and has an unknown param', () => {
+      const key = 'registration.error.invalidLoginEmail';
+      const message = {
+        message: 'some message',
+        i18n: { key, params: ['SecondEmail'] },
+      };
+      const newKey = 'registration.error.invalidLoginEmail.custom';
+      expect(Bundles.login[key]).toBeUndefined();
+      expect(getMessage(message).replace('SecondEmail', '{0}')).toEqual(Bundles.login[newKey]);
+    });
   });
 });
