@@ -5,7 +5,7 @@ export default View.extend({
   className: 'sign-in-with-idp',
   template: hbs`
     {{#if addSeparateLine}}
-    <div class="separation-line"><span>OR</span></div>
+    <div class="separation-line"><span>{{i18n code="socialauth.divider.text" bundle="login"}}</span></div>
     {{/if}}
     <div class="okta-idps-container"></div>
     `,

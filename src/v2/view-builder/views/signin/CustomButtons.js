@@ -5,10 +5,11 @@ export default View.extend({
   className: 'custom-buttons',
   template: hbs`
     {{#if addSeparateLine}}
-    <div class="separation-line"><span>OR</span></div>
+    <div class="separation-line"><span>{{i18n code="socialauth.divider.text" bundle="login"}}</span></div>
     {{/if}}
     <div class="okta-custom-buttons-container primary-auth-container"></div>
     `,
+
   initialize(options) {
     options.customButtons.forEach((idpButton) => {
       this.add(createButton(idpButton), '.okta-custom-buttons-container');
