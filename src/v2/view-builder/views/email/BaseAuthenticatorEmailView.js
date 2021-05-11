@@ -76,7 +76,8 @@ const Body = BaseFormWithPolling.extend(Object.assign(
     triggerAfterError(model, error) {
       BaseForm.prototype.triggerAfterError.apply(this, arguments);
       this.stopPolling();
-      let currentRefreshInterval = this.options.appState.get('dynamicRefreshInterval') || this.options.currentViewState.refresh;
+      const currentRefreshInterval = this.options.appState.get('dynamicRefreshInterval')
+        || this.options.currentViewState.refresh;
 
       // Wait 1 min before polling again & do not show error message when encounter rate limit error
       if (error.responseJSON?.errorSummaryKeys?.includes('tooManyRequests') ||
