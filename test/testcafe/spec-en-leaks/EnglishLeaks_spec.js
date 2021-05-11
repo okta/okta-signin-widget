@@ -24,7 +24,6 @@ const ignoredMocks = [
   'identify-with-apple-redirect-sso-extension.json', // flaky on bacon
   'identify-unknown-user.json',
   'error-user-is-not-assigned.json',
-  'error-session-expired.json',
   'error-pre-versioning-ff-session-expired.json',
   'error-internal-server-error.json',
   'error-identify-access-denied.json',
