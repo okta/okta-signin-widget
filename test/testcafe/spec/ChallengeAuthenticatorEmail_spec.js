@@ -218,7 +218,7 @@ test
     const challengeEmailPageObject = await setup(t);
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
 
-    // 2 poll requests in 2 seconds at 1 sec interval
+    // 2 poll requests in 2 seconds at 1 sec interval (Cumulative Request: 2)
     await t.wait(2000);
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
@@ -228,7 +228,7 @@ test
     await t.removeRequestHooks(dynamicRefreshShortIntervalMock);
     await t.addRequestHooks(dynamicRefreshLongIntervalMock);
 
-    // 1 poll requests in 2 seconds at 2 sec interval
+    // 1 poll requests in 2 seconds at 2 sec interval (Cumulative Request: 3)
     await t.wait(2000);
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
@@ -246,7 +246,7 @@ test
     await t.removeRequestHooks(invalidOTPMock);
     await t.addRequestHooks(dynamicRefreshLongIntervalMock);
 
-    // 2 poll requests in 4 seconds at 2 sec interval
+    // 2 poll requests in 4 seconds at 2 sec interval (Cumulative Request: 5)
     await t.wait(4000);
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
