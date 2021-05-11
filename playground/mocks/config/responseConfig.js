@@ -156,10 +156,19 @@ const authn = {
     // 'mfa-required-email',
     // 'unauthenticated',
     'admin-consent-required',
+    // 'device-code-activate'
   ],
   '/api/v1/authn': [
     'unauthenticated',
     'success-001'
+    // 'consent-required',
+    // 'device-code-activate',
+  ],
+  '/api/v1/authn/device/activate': [
+    'terminal-device-activated',
+    // 'terminal-device-not-activated-consent-denied',
+    // 'terminal-device-not-activated-internal-error'
+    // 'error-invalid-device-code'
   ],
 };
 

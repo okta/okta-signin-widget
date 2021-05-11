@@ -142,7 +142,7 @@ const I18N_OVERRIDE_MAPPINGS = {
 
   'oie.session.expired': 'oie.idx.session.expired',
 
-  'activate-device.userCode': 'oie.device.code.activate.label',
+  'user-code.userCode': 'oie.device.code.activate.label',
 
   // Remap authn API errors to OIE
   'api.authn.poll.error.push_rejected': 'oktaverify.rejected',

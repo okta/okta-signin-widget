@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 47], max-statements: [2, 54] */
+/* eslint complexity: [2, 49], max-statements: [2, 54] */
 
 import { loc } from 'okta';
 import hbs from 'handlebars-inline-precompile';
@@ -223,6 +223,14 @@ fn.handleResponseStatus = function(router, res) {
     return;
   case 'CONSENT_REQUIRED':
     router.navigate('signin/consent', { trigger: true });
+    return;
+  case 'DEVICE_ACTIVATE':
+    router.navigate('activate', { trigger: true });
+    return;
+  case 'DEVICE_ACTIVATED':
+  case 'DEVICE_NOT_ACTIVATED_CONSENT_DENIED':
+  case 'DEVICE_NOT_ACTIVATED':
+    router.navigate('signin/device-activate-complete', { trigger: true });
     return;
     // We want the same view for FACTOR_REQUIRED & FACTOR_CHALLENGE
     // In the new idx pipeline FACTOR_CHALLENGE API response does not contain a prev link

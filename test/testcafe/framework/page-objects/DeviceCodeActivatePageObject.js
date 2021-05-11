@@ -71,4 +71,16 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
   isTryAgainButtonPresent() {
     return Selector('[data-se="try-again"]').exists;
   }
+
+  fillLegacyUserNameField(value) {
+    return this.form.setTextBoxValue('username', value);
+  }
+
+  fillLegacyPasswordField(value) {
+    return this.form.setTextBoxValue('password', value);
+  }
+
+  getLegacyErrorBoxText() {
+    return Selector('.okta-form-infobox-error p').innerText;
+  }
 }
