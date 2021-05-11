@@ -375,7 +375,7 @@ test
   });
 
 test
-  .requestHooks(logger, apiLimitExeededMock)('pause polling when encounter 429 api limit exeeded', async t => {
+  .requestHooks(logger, apiLimitExeededMock)('pause polling when encounter 429 api limit exceeded', async t => {
     await setup(t);
 
     // Encounter 429
