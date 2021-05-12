@@ -1,5 +1,5 @@
 import {RequestMock, RequestLogger, ClientFunction} from 'testcafe';
-import DeviceCodeActivatePageObject from '../../framework/page-objects/DeviceCodeActivatePageObject';
+import DeviceCodeActivatePageObject from '../../framework/page-objects-v1/DeviceCodeActivatePageObject';
 
 import legacyDeviceCodeActivateResponse from '../../../../playground/mocks/data/api/v1/authn/device-code-activate.json';
 import legacyDeviceActivatedTerminalResponse from '../../../../playground/mocks/data/api/v1/authn/terminal-device-activated.json';
@@ -92,8 +92,8 @@ test.requestHooks(requestLogger, legacyDeviceCodeSuccessMock)('should be able to
   requestLogger.clear();
 
   // identify with password
-  await deviceCodeActivatePageObject.fillLegacyUserNameField('Test Identifier');
-  await deviceCodeActivatePageObject.fillLegacyPasswordField('random password 123');
+  await deviceCodeActivatePageObject.fillUserNameField('Test Identifier');
+  await deviceCodeActivatePageObject.fillPasswordField('random password 123');
   await deviceCodeActivatePageObject.clickNextButton();
 
   await t.expect(requestLogger.count(() => true)).eql(1);
@@ -120,8 +120,8 @@ test.requestHooks(legacyDeviceCodeConsentDeniedMock)('should be able to get devi
   await deviceCodeActivatePageObject.clickNextButton();
 
   // identify with password
-  await deviceCodeActivatePageObject.fillLegacyUserNameField('Test Identifier');
-  await deviceCodeActivatePageObject.fillLegacyPasswordField('random password 123');
+  await deviceCodeActivatePageObject.fillUserNameField('Test Identifier');
+  await deviceCodeActivatePageObject.fillPasswordField('random password 123');
   await deviceCodeActivatePageObject.clickNextButton();
 
   // expect device not activated screen
@@ -143,8 +143,8 @@ test.requestHooks(legacyDeviceCodeErrorMock)('should be able to get device not a
   await deviceCodeActivatePageObject.clickNextButton();
 
   // identify with password
-  await deviceCodeActivatePageObject.fillLegacyUserNameField('Test Identifier');
-  await deviceCodeActivatePageObject.fillLegacyPasswordField('random password 123');
+  await deviceCodeActivatePageObject.fillUserNameField('Test Identifier');
+  await deviceCodeActivatePageObject.fillPasswordField('random password 123');
   await deviceCodeActivatePageObject.clickNextButton();
 
   // expect device not activated screen
@@ -164,7 +164,7 @@ test.requestHooks(legacyInvalidDeviceCodeMock)('should be able show error when w
   await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCD-WXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
-  await t.expect(deviceCodeActivatePageObject.getLegacyErrorBoxText()).contains('Invalid code. Try again.');
+  await t.expect(deviceCodeActivatePageObject.getErrorBoxText()).contains('Invalid code. Try again.');
 });
 
 test.requestHooks(requestLogger, legacyDeviceCodeSuccessMock)('should be able to add hyphen automatically after 4th char in activation code input on legacy SIW', async t => {

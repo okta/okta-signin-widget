@@ -1,4 +1,4 @@
-import BasePageObject from './BasePageObject';
+import BasePageObject from '../page-objects/BasePageObject';
 import {Selector} from 'testcafe';
 
 const USER_CODE_FIELD = 'userCode';
@@ -44,12 +44,12 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
     return this.form.getTextBoxValue(USER_CODE_FIELD);
   }
 
-  fillIdentifierField(value) {
-    return this.form.setTextBoxValue('identifier', value);
+  fillUserNameField(value) {
+    return this.form.setTextBoxValue('username', value);
   }
 
   fillPasswordField(value) {
-    return this.form.setTextBoxValue('credentials.passcode', value);
+    return this.form.setTextBoxValue('password', value);
   }
 
   getTerminalContent(){
@@ -70,5 +70,9 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
 
   isTryAgainButtonPresent() {
     return Selector('[data-se="try-again"]').exists;
+  }
+
+  getErrorBoxText() {
+    return Selector('.okta-form-infobox-error p').innerText;
   }
 }
