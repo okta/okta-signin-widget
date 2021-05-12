@@ -1,10 +1,12 @@
 .siw-main-footer {
   .auth-footer {
+    max-width: 100%;
     width: max-content;
     display: flex;
     flex-direction: column;
     .link {
       padding: 0.3rem 0;
+      word-wrap: break-word;
     }
   }
 }
