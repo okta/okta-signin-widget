@@ -46,8 +46,7 @@ describe('v2/ion/i18nTransformer', function() {
       'security.disliked_food': 'dislike food answer',
       'security.name_of_first_plush_toy': 'first plush toy answer',
       'security.favorite_vacation_location': 'vacation location answer',
-
-      'idx.email.verification.required': 'An email has been sent. Check your inbox.',
+      'idx.email.verification.required': 'To finish signing in, check your email.',
       'idx.foo': 'hello the {0} authenticator',
 
       'password.forgot.email.or.username.placeholder': 'email or username',
@@ -1088,7 +1087,7 @@ describe('v2/ion/i18nTransformer', function() {
       messages: {
         value: [
           {
-            'message': 'An activation email has been sent to john@gmail.com.',
+            'message': 'unit test - To finish signing in, check your email.',
             'i18n': {
               'key': 'idx.email.verification.required'
             },
@@ -1111,7 +1110,7 @@ describe('v2/ion/i18nTransformer', function() {
       messages: {
         value: [
           {
-            'message': 'unit test - An email has been sent. Check your inbox.',
+            'message': 'unit test - To finish signing in, check your email.',
             'i18n': {
               'key': 'idx.email.verification.required'
             },
@@ -1609,7 +1608,7 @@ describe('v2/ion/i18nTransformer', function() {
   it('gets message key', () => {
     const message =
     {
-      'message': 'An activation email has been sent to john@gmail.com.',
+      'message': 'To finish signing in, check your email.',
       'i18n': {
         'key': 'idx.email.verification.required'
       },

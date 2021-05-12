@@ -15,7 +15,8 @@ module.exports = {
   },
   create(context) {
     const ignoreKeys = [
-      'tooManyRequests'// oie.tooManyRequests exists in the login bundle. We added oie.tooManyRequests instead of making a backend change.
+      'tooManyRequests', // oie.tooManyRequests exists in the login bundle. We added oie.tooManyRequests instead of making a backend change.
+      'idx.email.verification.required', // mapped to v1 key
     ];
     return {
       'Program': function (node) {

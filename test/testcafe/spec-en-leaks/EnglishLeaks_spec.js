@@ -17,7 +17,6 @@ const ignoredMocks = [
   'terminal-return-expired-email.json',
   'terminal-return-error-email.json',
   'terminal-return-email.json',
-  'terminal-registration.json',
   'terminal-polling-window-expired.json',
   'success-with-interaction-code.json',
   'safe-mode-required-enrollment.json',
@@ -30,9 +29,6 @@ const ignoredMocks = [
   'identify-with-apple-redirect-sso-extension.json', // flaky on bacon
   'identify-unknown-user.json',
   'error-user-is-not-assigned.json',
-  'error-unlock-account.json',
-  'error-session-expired.json',
-  'error-safe-mode-polling.json',
   'error-pre-versioning-ff-session-expired.json',
   'error-okta-verify-totp.json',
   'error-internal-server-error.json',
