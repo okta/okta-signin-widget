@@ -6,6 +6,9 @@
 }
 
 .authenticator-enroll-list {
+  .authenticator-description {
+    width: 100%;
+  }
   .list-content {
     .authenticator-list-title {
       margin-bottom: $font-size-header;
