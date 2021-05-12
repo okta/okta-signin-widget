@@ -43,10 +43,10 @@ export default FormController.extend({
     title: function() {
       const lastStatus = this.options.appState.get('lastAuthResponse').status;
       if (lastStatus === DEVICE_ACTIVATED) {
-        return loc('oie.device.code.activated.success.title', 'login');
+        return loc('device.code.activated.success.title', 'login');
       }
       if (_.contains(DEVICE_CODE_ERROR_KEYS, lastStatus)) {
-        return loc('oie.device.code.activated.error.title', 'login');
+        return loc('device.code.activated.error.title', 'login');
       }
     },
     subtitle: function() {
@@ -67,7 +67,7 @@ export default FormController.extend({
           View: View.extend({
             template: hbs(
               '{{#if isDeviceCodeError}}\
-                  <a href="/activate" class="button button-primary text-align-c legacy-try-again-button" data-se="try-again">\
+                  <a href="/activate" class="button button-primary text-align-c retry-button" data-se="try-again">\
                     {{i18n code="oie.try.again" bundle="login"}}\
                   </a>\
                {{/if}}\

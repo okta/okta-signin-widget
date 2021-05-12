@@ -225,7 +225,7 @@ fn.handleResponseStatus = function(router, res) {
     router.navigate('signin/consent', { trigger: true });
     return;
   case 'DEVICE_ACTIVATE':
-    router.navigate('activate', { trigger: true });
+    router.navigate('signin/device-activate', { trigger: true });
     return;
   case 'DEVICE_ACTIVATED':
   case 'DEVICE_NOT_ACTIVATED_CONSENT_DENIED':

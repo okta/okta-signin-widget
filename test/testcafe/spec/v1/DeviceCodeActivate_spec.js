@@ -1,12 +1,12 @@
 import {RequestMock, RequestLogger, ClientFunction} from 'testcafe';
-import DeviceCodeActivatePageObject from '../framework/page-objects/DeviceCodeActivatePageObject';
+import DeviceCodeActivatePageObject from '../../framework/page-objects/DeviceCodeActivatePageObject';
 
-import legacyDeviceCodeActivateResponse from '../../../playground/mocks/data/api/v1/authn/device-code-activate.json';
-import legacyDeviceActivatedTerminalResponse from '../../../playground/mocks/data/api/v1/authn/terminal-device-activated.json';
-import legacyDeviceNotActivatedConsentDeniedTerminalResponse from '../../../playground/mocks/data/api/v1/authn/terminal-device-not-activated-consent-denied.json';
-import legacyDeviceNotActivatedInternalErrorTerminalResponse from '../../../playground/mocks/data/api/v1/authn/terminal-device-not-activated-internal-error.json';
-import legacyInvalidDeviceCodeResponse from '../../../playground/mocks/data/api/v1/authn/error-invalid-device-code.json';
-import legacyActivateResponse from '../../../playground/mocks/data/api/v1/authn/unauthenticated.json';
+import legacyDeviceCodeActivateResponse from '../../../../playground/mocks/data/api/v1/authn/device-code-activate.json';
+import legacyDeviceActivatedTerminalResponse from '../../../../playground/mocks/data/api/v1/authn/terminal-device-activated.json';
+import legacyDeviceNotActivatedConsentDeniedTerminalResponse from '../../../../playground/mocks/data/api/v1/authn/terminal-device-not-activated-consent-denied.json';
+import legacyDeviceNotActivatedInternalErrorTerminalResponse from '../../../../playground/mocks/data/api/v1/authn/terminal-device-not-activated-internal-error.json';
+import legacyInvalidDeviceCodeResponse from '../../../../playground/mocks/data/api/v1/authn/error-invalid-device-code.json';
+import legacyActivateResponse from '../../../../playground/mocks/data/api/v1/authn/unauthenticated.json';
 
 // Legacy mocks
 const legacyDeviceCodeSuccessMock = RequestMock()

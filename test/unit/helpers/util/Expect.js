@@ -383,6 +383,8 @@ const controllerClasses = {
   VerifyPIV: 'piv-cac-card',
   Poll: 'poll',
   ErrorState: 'error-state',
+  DeviceCodeActivate: 'device-code-activate',
+  DeviceCodeTerminal: 'device-code-terminal'
 };
 
 _.each(controllerClasses, function(className, controller) {

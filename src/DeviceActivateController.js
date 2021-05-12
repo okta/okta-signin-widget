@@ -39,15 +39,15 @@ export default FormController.extend({
       return loc('oform.next', 'login');
     },
     title: function() {
-      return loc('oie.device.code.activate.title', 'login');
+      return loc('device.code.activate.title', 'login');
     },
     subtitle() {
-      return loc('oie.device.code.activate.subtitle', 'login');
+      return loc('device.code.activate.subtitle', 'login');
     },
     formChildren: function() {
       return [
         FormType.Input({
-          label: loc('oie.device.code.activate.label', 'login'),
+          label: loc('device.code.activate.label', 'login'),
           'label-top': true,
           name: 'userCode',
           input: TextBox,

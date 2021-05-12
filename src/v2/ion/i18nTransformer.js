@@ -144,12 +144,16 @@ const I18N_OVERRIDE_MAPPINGS = {
 
   'user-code.userCode': 'oie.device.code.activate.label',
 
+<<<<<<< HEAD
   // Remap authn API errors to OIE
   'api.authn.poll.error.push_rejected': 'oktaverify.rejected',
 
   // Remap duo API errors to OIE
   'oie.authenticator.duo.method.duo.verification_timeout': 'oie.authenticator.duo.error',
   'oie.authenticator.duo.method.duo.verification_failed': 'oie.authenticator.duo.error',
+=======
+  'user-code.userCode' : 'device.code.activate.label',
+>>>>>>> 679e8063 (Feedback round 1)
 };
 
 const I18N_PARAMS_MAPPING = {

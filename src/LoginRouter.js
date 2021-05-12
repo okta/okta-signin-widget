@@ -138,7 +138,7 @@ export default BaseLoginRouter.extend({
     'signin/admin-consent': 'adminConsentRequired',
     'signin/enroll-user': 'enrollUser',
     'signin/device-activate-complete': 'deviceActivateComplete',
-    'activate': 'deviceActivate',
+    'signin/device-activate': 'deviceActivate',
     '*wildcard': 'defaultAuth',
   },
 

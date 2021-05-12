@@ -4,6 +4,8 @@
 // - ???
 module.exports = [
   'AdminConsentRequired_spec.js',
+  'DeviceCodeActivate_spec.js',
+  'DeviceCodeActivateTerminal_spec.js',
   'EnrollActivateClaimsFactor_spec.js',
   'EnrollCall_spec.js',
   'EnrollChoices_spec.js',

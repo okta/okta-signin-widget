@@ -54,6 +54,7 @@
   @import 'modules/registration';
   @import 'modules/password-requirements';
   @import 'v2/all';
+  @import 'v1/all';
 
   &.can-remove-beacon {
     @include max-height-mq(550px) {
