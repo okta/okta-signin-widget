@@ -149,6 +149,8 @@ const I18N_OVERRIDE_MAPPINGS = {
   // Remap duo API errors to OIE
   'oie.authenticator.duo.method.duo.verification_timeout': 'oie.authenticator.duo.error',
   'oie.authenticator.duo.method.duo.verification_failed': 'oie.authenticator.duo.error',
+
+  'idx.email.verification.required': 'registration.complete.confirm.text',
 };
 
 const I18N_PARAMS_MAPPING = {

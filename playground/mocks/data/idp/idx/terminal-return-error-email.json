@@ -1,15 +1,17 @@
 {
-  "version": "1.0.0",
-  "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
-  "messages": {
-    "type": "array",
-    "value": [
+  "version":"1.0.0",
+  "stateHandle":"02Z_TPU0ea2-6em6fQ_SccOlTyMWOfaQGqSTcWQAh0",
+  "expiresAt":"2021-05-11T20:24:28.000Z",
+  "intent":"LOGIN",
+  "messages":{
+    "type":"array",
+    "value":[
       {
-        "message": "Could not process this email link.",
-        "i18n": {
-          "key": "idx.session.expired",
-          "params": []
-        }
+        "message":"Could not process this email link. Return to the screen where you requested it.",
+        "i18n":{
+          "key":"idx.return.error"
+        },
+        "class":"ERROR"
       }
     ]
   }
