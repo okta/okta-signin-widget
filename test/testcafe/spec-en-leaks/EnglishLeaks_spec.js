@@ -22,7 +22,6 @@ const ignoredMocks = [
   'error-internal-server-error.json',
   'error-identify-access-denied.json',
   'error-forgot-password.json',
-  'error-email-verify.json',
   'error-403-security-access-denied.json',
   'consent-enduser.json',
   'authenticator-verification-select-authenticator.json',
