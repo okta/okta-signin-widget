@@ -55,6 +55,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
   await t.expect(await identityPage.getForgotPasswordLinkText()).eql('Forgot password?');
 
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
+  await t.expect(identityPage.getSaveButtonLabel()).eql('Sign in');
 
   await identityPage.clickNextButton();
 
