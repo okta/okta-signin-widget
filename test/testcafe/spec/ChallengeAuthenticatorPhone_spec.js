@@ -442,7 +442,7 @@ test
     await challengePhonePageObject.verifyFactor('credentials.passcode', 'abcd');
     await challengePhonePageObject.clickNextButton();
     await challengePhonePageObject.waitForErrorBox();
-    await t.expect(challengePhonePageObject.getInvalidOTPError()).contains('Authentication failed');
+    await t.expect(challengePhonePageObject.getInvalidOTPError()).contains('You do not have permission to perform the requested action.');
   });
 
 test

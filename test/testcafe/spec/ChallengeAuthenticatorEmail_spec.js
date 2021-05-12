@@ -169,7 +169,7 @@ test
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton();
     await challengeEmailPageObject.waitForErrorBox();
-    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('Authentication failed');
+    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('You do not have permission to perform the requested action.');
   });
 
 test
@@ -238,10 +238,8 @@ test
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton();
     await challengeEmailPageObject.waitForErrorBox();
-    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('Authentication failed');
-
-    // 2 poll requests in 4 seconds at 2 sec interval (Cumulative Request: 5)
-    await t.wait(4000);
+    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('You do not have permission to perform the requested action.');
+    await t.wait(5000);
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/poll/)
