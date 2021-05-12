@@ -84,14 +84,14 @@ const Body = BaseFormWithPolling.extend(Object.assign(
           model.trigger('clearFormError');
         }, 0);
         setTimeout(() => {
-          this.startPolling();
+          this.startPolling(this.options.appState.get('dynamicRefreshInterval'));
         }, 60000);
         return;
       }
 
       // Polling needs to be resumed if it's a form error and session is still valid
       if(!error.responseJSON?.errorSummaryKeys?.includes('idx.session.expired')) {
-        this.startPolling();
+        this.startPolling(this.options.appState.get('dynamicRefreshInterval'));
       }
     }
   },

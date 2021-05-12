@@ -69,7 +69,7 @@ const invalidOTPMockContinuePoll = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(emailVerification)
+  .respond(emailVerificationPollingLong)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidOTP, 403);
 
@@ -214,17 +214,38 @@ test
   });
 
 test
-  .requestHooks(logger, invalidOTPMockContinuePoll)('continue polling on form error', async t => {
+  .requestHooks(logger, dynamicRefreshShortIntervalMock)('continue polling on form error with dynamic polling', async t => {
     const challengeEmailPageObject = await setup(t);
+    await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
+
+    // 2 poll requests in 2 seconds at 1 sec interval (Cumulative Request: 2)
+    await t.wait(2000);
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/poll/)
+    )).eql(2);
+
+    await t.removeRequestHooks(dynamicRefreshShortIntervalMock);
+    await t.addRequestHooks(invalidOTPMockContinuePoll);
+
+    // 1 poll requests in 2 seconds at 2 sec interval (Cumulative Request: 3)
+    await t.wait(2000);
+    await t.expect(logger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/poll/)
+    )).eql(3);
+
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton();
     await challengeEmailPageObject.waitForErrorBox();
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('Authentication failed');
-    await t.wait(5000);
+
+    // 2 poll requests in 4 seconds at 2 sec interval (Cumulative Request: 5)
+    await t.wait(4000);
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/poll/)
-    )).eql(2);
+    )).eql(5);
   }); 
 
 test
@@ -348,7 +369,7 @@ test
   });
 
 test
-  .requestHooks(logger, apiLimitExeededMock)('pause polling when encounter 429 api limit exeeded', async t => {
+  .requestHooks(logger, apiLimitExeededMock)('pause polling when encounter 429 api limit exceeded', async t => {
     await setup(t);
 
     // Encounter 429
