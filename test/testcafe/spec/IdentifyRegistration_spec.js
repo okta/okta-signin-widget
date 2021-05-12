@@ -187,7 +187,7 @@ test.requestHooks(mock)('should show terminal screen after registration', async 
 
   // show successful terminal view and fires after render event
   await t.expect(registrationPage.getTerminalContent()).eql(
-    'An activation email has been sent to john@gmail.com. Follow instructions in the email to finish creating your account'
+    'To finish signing in, check your email.'
   );
 
   await checkConsoleMessages([
@@ -231,7 +231,7 @@ test.requestHooks(mock)('should show register page directly and be able to creat
   await registrationPage.clickRegisterButton();
 
   // show registration success terminal view
-  await t.expect(registrationPage.getTerminalContent()).eql('An activation email has been sent to john@gmail.com. Follow instructions in the email to finish creating your account');
+  await t.expect(registrationPage.getTerminalContent()).eql('To finish signing in, check your email.');
   await checkConsoleMessages([
     'ready',
     'afterRender',

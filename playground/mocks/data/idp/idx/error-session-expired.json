@@ -8,7 +8,7 @@
     "type": "array",
     "value": [
       {
-        "message": "The session has expired",
+        "message": "The session has expired.",
         "i18n": {
           "key": "idx.session.expired"
         },

@@ -7,7 +7,7 @@
     "type": "array",
     "value": [
       {
-        "message": "An activation email has been sent to john@gmail.com. Follow instructions in the email to finish creating your account",
+        "message": "To finish signing in, check your email.",
         "i18n": {
           "key": "idx.email.verification.required"
         },
