@@ -141,8 +141,6 @@ const I18N_OVERRIDE_MAPPINGS = {
   'enroll-profile.userProfile.firstName': 'oie.user.profile.firstname',
   'enroll-profile.userProfile.email': 'oie.user.profile.primary.email',
 
-  'oie.session.expired': 'oie.idx.session.expired',
-
   'activate-device.userCode': 'oie.device.code.activate.label',
 
   // Remap authn API errors to OIE
