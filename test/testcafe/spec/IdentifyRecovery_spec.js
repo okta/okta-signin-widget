@@ -2,6 +2,8 @@ import { RequestMock, RequestLogger } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrIdentifyRecovery from '../../../playground/mocks/data/idp/idx/identify-recovery';
+import xhrIdentifyRecoveryWithRecaptcha from '../../../playground/mocks/data/idp/idx/identify-recovery-with-recaptcha-v2.json';
+import xhrIdentifyRecoveryWithHcaptcha from '../../../playground/mocks/data/idp/idx/identify-recovery-with-hcaptcha.json';
 import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
 import xhrAuthenticatorVerifySelect from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
 
@@ -16,6 +18,18 @@ const identifyRecoveryErrorMock = RequestMock()
   .respond(xhrIdentifyRecovery)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(xhrErrorIdentify, 403);
+
+const identifyRecoveryWithRecaptchaMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentifyRecoveryWithRecaptcha)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrAuthenticatorVerifySelect);
+
+const identifyRecoveryWithHcaptchaMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentifyRecoveryWithHcaptcha)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrAuthenticatorVerifySelect);
 
 const identifyRequestLogger = RequestLogger(
   /idx\/identify/,
@@ -86,4 +100,54 @@ test.requestHooks(identifyRecoveryErrorMock)('global errors will display', async
   await identityPage.waitForErrorBox();
 
   await t.expect(identityPage.getGlobalErrors()).contains('You do not have permission to perform the requested action.');
+});
+
+test.requestHooks(identifyRequestLogger, identifyRecoveryWithRecaptchaMock)('should be able to submit identifier with reCaptcha enabled', async t => {
+  const identityPage = await setup(t);
+
+  await identityPage.fillIdentifierField('test.identifier');
+
+  // Sleep for 1s to allow captcha lib to load fully
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
+  await identityPage.clickNextButton();
+
+  await t.expect(identifyRequestLogger.count(() => true)).eql(1);
+  const req = identifyRequestLogger.requests[0].request;
+  const reqBody = JSON.parse(req.body);
+  await t.expect(reqBody).contains({
+    identifier: 'test.identifier',
+    stateHandle: 'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImV',
+  });
+  await t.expect(reqBody.captchaVerify).contains({
+    captchaId: 'capzomKHvPhLF7lrR0g3',
+  });
+
+  await t.expect(req.method).eql('post');
+  await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
+});
+
+test.requestHooks(identifyRequestLogger, identifyRecoveryWithHcaptchaMock)('should be able to submit identifier with hCaptcha enabled', async t => {
+  const identityPage = await setup(t);
+
+  await identityPage.fillIdentifierField('test.identifier');
+
+  // Sleep for 1s to allow captcha lib to load fully
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
+  await identityPage.clickNextButton();
+
+  await t.expect(identifyRequestLogger.count(() => true)).eql(1);
+  const req = identifyRequestLogger.requests[0].request;
+  const reqBody = JSON.parse(req.body);
+  await t.expect(reqBody).contains({
+    identifier: 'test.identifier',
+    stateHandle: 'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImV',
+  });
+  await t.expect(reqBody.captchaVerify).contains({
+    captchaId: 'capzomKHvPhLF7lrR0g3',
+  });
+
+  await t.expect(req.method).eql('post');
+  await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
 });

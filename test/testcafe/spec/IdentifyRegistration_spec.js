@@ -4,6 +4,8 @@ import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import RegistrationPageObject from '../framework/page-objects/RegistrationPageObject';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 import enrollProfileNew from '../../../playground/mocks/data/idp/idx/enroll-profile-new';
+import enrollProfileNewWithRecaptcha from '../../../playground/mocks/data/idp/idx/enroll-profile-new-with-recaptcha-v2.json';
+import enrollProfileNewWithHCaptcha from '../../../playground/mocks/data/idp/idx/enroll-profile-new-with-hcaptcha.json';
 import enrollProfileError from '../../../playground/mocks/data/idp/idx/error-new-signup-email';
 import enrollProfileFinish from '../../../playground/mocks/data/idp/idx/terminal-registration.json';
 
@@ -12,6 +14,22 @@ const mock = RequestMock()
   .respond(identify)
   .onRequestTo('http://localhost:3000/idp/idx/enroll')
   .respond(enrollProfileNew)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll/new')
+  .respond(enrollProfileFinish);
+
+const mockWithReCaptcha = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(identify)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll')
+  .respond(enrollProfileNewWithRecaptcha)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll/new')
+  .respond(enrollProfileFinish);
+
+const mockWithHCaptcha = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(identify)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll')
+  .respond(enrollProfileNewWithHCaptcha)
   .onRequestTo('http://localhost:3000/idp/idx/enroll/new')
   .respond(enrollProfileFinish);
 
@@ -211,6 +229,88 @@ test.requestHooks(mock)('should show register page directly and be able to creat
   await registrationPage.fillFirstNameField('abc');
   await registrationPage.fillLastNameField('xyz');
   await registrationPage.fillEmailField('foo@ex.com');
+  await registrationPage.clickRegisterButton();
+
+  // show registration success terminal view
+  await t.expect(registrationPage.getTerminalContent()).eql('An activation email has been sent to john@gmail.com. Follow instructions in the email to finish creating your account');
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    {
+      controller: 'registration',
+      formName: 'enroll-profile',
+    },
+    'afterRender',
+    {
+      controller: null,
+      formName: 'terminal',
+    }
+  ]);
+});
+
+test.requestHooks(mockWithReCaptcha)('should show register page directly and be able to create account with reCaptcha enabled', async t => {
+  const registrationPage = new RegistrationPageObject(t);
+
+  // navigate to /signin/register and show registration page immediately
+  await registrationPage.navigateToPage();
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    {
+      controller: 'registration',
+      formName: 'enroll-profile',
+    },
+  ]);
+
+  // click register button
+  await registrationPage.fillFirstNameField('abc');
+  await registrationPage.fillLastNameField('xyz');
+  await registrationPage.fillEmailField('foo@ex.com');
+
+  // Sleep for 1s to allow captcha lib to load fully
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
+  await registrationPage.clickRegisterButton();
+
+  // show registration success terminal view
+  await t.expect(registrationPage.getTerminalContent()).eql('An activation email has been sent to john@gmail.com. Follow instructions in the email to finish creating your account');
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    {
+      controller: 'registration',
+      formName: 'enroll-profile',
+    },
+    'afterRender',
+    {
+      controller: null,
+      formName: 'terminal',
+    }
+  ]);
+});
+
+test.requestHooks(mockWithHCaptcha)('should show register page directly and be able to create account with hCaptcha enabled', async t => {
+  const registrationPage = new RegistrationPageObject(t);
+
+  // navigate to /signin/register and show registration page immediately
+  await registrationPage.navigateToPage();
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    {
+      controller: 'registration',
+      formName: 'enroll-profile',
+    },
+  ]);
+
+  // click register button
+  await registrationPage.fillFirstNameField('abc');
+  await registrationPage.fillLastNameField('xyz');
+  await registrationPage.fillEmailField('foo@ex.com');
+
+  // Sleep for 1s to allow captcha lib to load fully
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
   await registrationPage.clickRegisterButton();
 
   // show registration success terminal view
