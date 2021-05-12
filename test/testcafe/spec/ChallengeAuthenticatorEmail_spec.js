@@ -69,7 +69,7 @@ const invalidOTPMockContinuePoll = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(emailVerificationPollingShort)
+  .respond(emailVerificationPollingLong)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidOTP, 403);
 
@@ -226,7 +226,7 @@ test
     )).eql(2);
 
     await t.removeRequestHooks(dynamicRefreshShortIntervalMock);
-    await t.addRequestHooks(dynamicRefreshLongIntervalMock);
+    await t.addRequestHooks(invalidOTPMockContinuePoll);
 
     // 1 poll requests in 2 seconds at 2 sec interval (Cumulative Request: 3)
     await t.wait(2000);
@@ -235,16 +235,10 @@ test
         record.request.url.match(/poll/)
     )).eql(3);
 
-    await t.removeRequestHooks(dynamicRefreshLongIntervalMock);
-    await t.addRequestHooks(invalidOTPMock);
-
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton();
     await challengeEmailPageObject.waitForErrorBox();
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('Authentication failed');
-
-    await t.removeRequestHooks(invalidOTPMock);
-    await t.addRequestHooks(dynamicRefreshLongIntervalMock);
 
     // 2 poll requests in 4 seconds at 2 sec interval (Cumulative Request: 5)
     await t.wait(4000);
