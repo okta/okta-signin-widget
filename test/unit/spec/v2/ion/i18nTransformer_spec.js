@@ -51,7 +51,7 @@ describe('v2/ion/i18nTransformer', function() {
       'oie.browser.error.NotAllowedError': 'translated browser thrown error',
       'oktaverify.rejected': 'rejected',
       'oie.password.incorrect.message': 'Password is incorrect',
-      'oie.session.expired': 'The session has expired.',
+      'idx.session.expired': 'The session has expired.',
     }, (value) => `unit test - ${value}`);
   });
   afterAll(() => {
