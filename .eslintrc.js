@@ -108,11 +108,8 @@ module.exports = {
             'playground/**/error-identify-access-denied.json',
             'playground/**/error-internal-server-error.json',
             'playground/**/error-okta-verify-totp.json',
-            'playground/**/error-pre-versioning-ff-session-expired.json',
             'playground/**/error-user-is-not-assigned.json',
             'playground/**/identify-unknown-user.json',
-            'playground/**/terminal-return-error-email.json',
-            'playground/**/terminal-return-stale-email.json'
           ],
           'rules': {
             'local-rules/no-missing-api-keys': 0
