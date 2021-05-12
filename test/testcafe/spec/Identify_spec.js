@@ -92,6 +92,7 @@ async function setup(t) {
 test.requestHooks(identifyRequestLogger, identifyMock)('should be able to submit identifier with rememberMe', async t => {
   const identityPage = await setup(t);
 
+  await t.expect(identityPage.getSaveButtonLabel()).eql('Next');
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
 
