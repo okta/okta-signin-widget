@@ -113,7 +113,6 @@ const I18N_OVERRIDE_MAPPINGS = {
   'enroll-authenticator.symantec_vip.credentials.credentialId': 'enroll.symantecVip.credentialId.placeholder',
   'enroll-authenticator.symantec_vip.credentials.passcode': 'enroll.symantecVip.passcode1.placeholder',
   'enroll-authenticator.symantec_vip.credentials.nextPasscode': 'enroll.symantecVip.passcode2.placeholder',
-  'idx.email.verification.required': 'registration.complete.confirm.text',
 
   'enrollment-channel-data.email': 'oie.enroll.okta_verify.channel.email.label',
 
@@ -141,8 +140,6 @@ const I18N_OVERRIDE_MAPPINGS = {
   'enroll-profile.userProfile.lastName': 'oie.user.profile.lastname',
   'enroll-profile.userProfile.firstName': 'oie.user.profile.firstname',
   'enroll-profile.userProfile.email': 'oie.user.profile.primary.email',
-
-  'idx.session.expired': 'oie.session.expired',
 
   'activate-device.userCode': 'oie.device.code.activate.label',
 
