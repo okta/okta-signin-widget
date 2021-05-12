@@ -22,7 +22,7 @@ const Body = BaseForm.extend({
     BaseForm.prototype.initialize.apply(this, arguments);
 
     if (this.getUISchema().find(schema => schema.name === 'credentials.passcode')) {
-      this.save = loc('oie.identifier.form.sign.in', 'login');
+      this.save = loc('oie.primaryauth.submit', 'login');
     }
   },
 
