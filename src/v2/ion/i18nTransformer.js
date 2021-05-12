@@ -126,6 +126,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'enroll-profile.userProfile.email': 'oie.user.profile.primary.email',
 
   'activate-device.userCode' : 'oie.device.code.activate.label',
+  'idx.email.verification.required': 'registration.complete.confirm.text',
 };
 
 const I18N_PARAMS_MAPPING = {

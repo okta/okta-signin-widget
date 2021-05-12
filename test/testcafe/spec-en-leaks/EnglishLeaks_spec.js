@@ -12,10 +12,6 @@ fixture('English Leaks');
 // These mocks have known english leaks ignoring them temporarily
 const ignoredMocks = [
   'user-unlock-account.json',
-  'terminal-transfered-email.json',
-  'terminal-return-stale-email.json',
-  'terminal-return-expired-email.json',
-  'terminal-return-error-email.json',
   'terminal-return-email.json',
   'terminal-polling-window-expired.json',
   'success-with-interaction-code.json',
@@ -29,7 +25,6 @@ const ignoredMocks = [
   'identify-with-apple-redirect-sso-extension.json', // flaky on bacon
   'identify-unknown-user.json',
   'error-user-is-not-assigned.json',
-  'error-pre-versioning-ff-session-expired.json',
   'error-okta-verify-totp.json',
   'error-internal-server-error.json',
   'error-identify-access-denied.json',

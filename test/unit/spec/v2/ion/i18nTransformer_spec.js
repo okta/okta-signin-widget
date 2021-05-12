@@ -46,12 +46,13 @@ describe('v2/ion/i18nTransformer', function() {
       'security.disliked_food': 'dislike food answer',
       'security.name_of_first_plush_toy': 'first plush toy answer',
       'security.favorite_vacation_location': 'vacation location answer',
-      'idx.email.verification.required': 'To finish signing in, check your email.',
+      'registration.complete.confirm.text': 'To finish signing in, check your email.',
       'idx.foo': 'hello the {0} authenticator',
 
       'password.forgot.email.or.username.placeholder': 'email or username',
 
       'oie.browser.error.NotAllowedError': 'translated browser thrown error',
+      'idx.session.expired': 'The session has expired.',
     }, (value) => `unit test - ${value}`);
   });
   afterAll(() => {
@@ -1094,6 +1095,13 @@ describe('v2/ion/i18nTransformer', function() {
             'class': 'INFO'
           },
           {
+            'message': 'The session has expired.',
+            'i18n': {
+              'key': 'idx.session.expired'
+            },
+            'class': 'ERROR'
+          },
+          {
             'message': 'another {0} message',
             'i18n': {
               'key': 'idx.foo',
@@ -1115,6 +1123,13 @@ describe('v2/ion/i18nTransformer', function() {
               'key': 'idx.email.verification.required'
             },
             'class': 'INFO'
+          },
+          {
+            'message': 'unit test - The session has expired.',
+            'i18n': {
+              'key': 'idx.session.expired'
+            },
+            'class': 'ERROR'
           },
           {
             'message': 'unit test - hello the Email authenticator',

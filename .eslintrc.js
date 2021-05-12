@@ -56,7 +56,6 @@ module.exports = {
             'playground/**/error-identify-access-denied.json',
             'playground/**/error-internal-server-error.json',
             'playground/**/error-okta-verify-totp.json',
-            'playground/**/error-pre-versioning-ff-session-expired.json',
             'playground/**/error-user-is-not-assigned.json',
             'playground/**/identify-unknown-user.json',
             'playground/**/safe-mode-credential-enrollment-intent.json',
@@ -67,9 +66,7 @@ module.exports = {
             'playground/**/terminal-return-email-consent-denied.json',
             'playground/**/terminal-return-email-consent.json',
             'playground/**/terminal-return-email.json',
-            'playground/**/terminal-return-error-email.json',
             'playground/**/terminal-return-expired-email.json',
-            'playground/**/terminal-return-stale-email.json',
             'playground/**/terminal-transfered-email.json'
           ],
           'rules': {

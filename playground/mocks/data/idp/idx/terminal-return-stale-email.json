@@ -5,9 +5,9 @@
     "type": "array",
     "value": [
       {
-        "message": "This email link is out of date.",
+        "message": "This email link is out of date. Return to the screen where you requested it.",
         "i18n": {
-          "key": "idx.session.expired",
+          "key": "idx.return.stale",
           "params": []
         }
       }
