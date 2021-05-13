@@ -14,7 +14,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    // 'identify',
+    'identify',
     // 'error-with-failure-redirect',
     // 'error-feature-not-enabled',
     // 'error-403-security-access-denied',
