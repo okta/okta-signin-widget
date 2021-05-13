@@ -136,7 +136,7 @@ test
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with your email');
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .contains('Check i**a@h***o.net for a verification message. Click the verification button in your email or enter the code below to continue.');
+      .contains('Check your email for a verification message. Click the verification button in your email or enter the code below to continue.');
   });
 
 test
