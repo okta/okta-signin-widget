@@ -154,6 +154,25 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
           },
           authenticatorKey: 'okta_verify',
         },
+        {
+          label: 'Google Authenticator',
+          value: {
+            id: 'auttheidkwh482hv8g3',
+          },
+          relatesTo: {
+            displayName: 'Google Authenticator',
+            type: 'app',
+            key: 'google_otp',
+            authenticatorId: 'aut1erh5wK1M8wA3g0g3',
+            id: 'okta-verify-enroll-id-124',
+            methods: [
+              {
+                type: 'otp'
+              }
+            ]
+          },
+          authenticatorKey:'google_otp',
+        }
       ],
     };
     // Create a copy of input object.
@@ -319,6 +338,28 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         'description': '',
         'iconClassName':'mfa-okta-verify',
         buttonDataSeAttr: 'okta_verify-signed_nonce',
+      },
+      {
+        label: 'Google Authenticator',
+        value: {
+          id: 'auttheidkwh482hv8g3',
+        },
+        relatesTo: {
+          displayName: 'Google Authenticator',
+          type: 'app',
+          key: 'google_otp',
+          authenticatorId: 'aut1erh5wK1M8wA3g0g3',
+          id: 'okta-verify-enroll-id-124',
+          methods: [
+            {
+              type: 'otp'
+            }
+          ]
+        },
+        authenticatorKey:'google_otp',
+        description:'',
+        iconClassName:'mfa-google-auth',
+        buttonDataSeAttr: 'google_otp',
       }
     ]);
     // make sure input parameter is not mutated.
@@ -516,6 +557,25 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
           },
           authenticatorKey: 'okta_verify'
         },
+        {
+          label: 'Google Authenticator',
+          value: {
+            id: 'auttheidkwh482hv8g3',
+          },
+          relatesTo: {
+            displayName: 'Google Authenticator',
+            type: 'app',
+            key: 'google_otp',
+            authenticatorId: 'aut1erh5wK1M8wA3g0g3',
+            id: 'okta-verify-enroll-id-124',
+            methods: [
+              {
+                type: 'otp'
+              }
+            ]
+          },
+          authenticatorKey:'google_otp',
+        }
       ],
       'label-top': true,
     };
@@ -642,6 +702,28 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         'description':'Okta Verify is an authenticator app, installed on your phone or computer, used to prove your identity',
         'iconClassName':'mfa-okta-verify',
         buttonDataSeAttr: 'okta_verify-signed_nonce',
+      },
+      {
+        label: 'Google Authenticator',
+        value: {
+          id: 'auttheidkwh482hv8g3',
+        },
+        relatesTo: {
+          displayName: 'Google Authenticator',
+          type: 'app',
+          key: 'google_otp',
+          authenticatorId: 'aut1erh5wK1M8wA3g0g3',
+          id: 'okta-verify-enroll-id-124',
+          methods: [
+            {
+              type: 'otp'
+            }
+          ]
+        },
+        authenticatorKey:'google_otp',
+        description:'Enter a temporary code generated from the Google Authenticator app.',
+        iconClassName:'mfa-google-auth',
+        buttonDataSeAttr: 'google_otp',
       }
     ]);
     // make sure input parameter is not mutated.
