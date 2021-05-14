@@ -750,6 +750,15 @@ export default Model.extend({
         return null;
       },
     },
+    deviceActivationStatus: {
+      deps: ['lastAuthResponse'],
+      fn: function(res) {
+        if (!res._embedded) {
+          return null;
+        }
+        return res._embedded.deviceActivationStatus;
+      },
+    },
   },
 
   parse: function(options) {

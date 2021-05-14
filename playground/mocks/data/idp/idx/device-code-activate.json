@@ -11,8 +11,8 @@
         "rel":[
           "create-form"
         ],
-        "name":"activate-device",
-        "href":"http://localhost:3000/idp/idx/activate",
+        "name":"user-code",
+        "href":"http://localhost:3000/idp/idx/device/activate",
         "method":"POST",
         "accepts":"application/vnd.okta.v1+json",
         "value":[

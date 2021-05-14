@@ -219,7 +219,7 @@ const VIEWS_MAPPING = {
   [RemediationForms.DEVICE_ENROLLMENT_TERMINAL]: {
     [DEFAULT]: DeviceEnrollmentTerminalView,
   },
-  [RemediationForms.ACTIVATE_DEVICE] : {
+  [RemediationForms.USER_CODE] : {
     [DEFAULT] : DeviceCodeActivateView
   },
   [RemediationForms.TERMINAL]: {

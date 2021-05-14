@@ -10,7 +10,7 @@ import idxDeviceNotActivatedInternalErrorResponse from '../../../playground/mock
 const deviceCodeSuccessMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(deviceCodeActivateResponse)
-  .onRequestTo('http://localhost:3000/idp/idx/activate')
+  .onRequestTo('http://localhost:3000/idp/idx/device/activate')
   .respond(idxActivateResponse)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(idxDeviceActivatedTerminalResponse);
@@ -18,7 +18,7 @@ const deviceCodeSuccessMock = RequestMock()
 const deviceCodeConsentDeniedMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(deviceCodeActivateResponse)
-  .onRequestTo('http://localhost:3000/idp/idx/activate')
+  .onRequestTo('http://localhost:3000/idp/idx/device/activate')
   .respond(idxActivateResponse)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(idxDeviceNotActivatedConsentDeniedResponse);
@@ -26,7 +26,7 @@ const deviceCodeConsentDeniedMock = RequestMock()
 const deviceCodeInternalErrorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(deviceCodeActivateResponse)
-  .onRequestTo('http://localhost:3000/idp/idx/activate')
+  .onRequestTo('http://localhost:3000/idp/idx/device/activate')
   .respond(idxActivateResponse)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(idxDeviceNotActivatedInternalErrorResponse);
@@ -34,7 +34,7 @@ const deviceCodeInternalErrorMock = RequestMock()
 const invalidDeviceCodeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(deviceCodeActivateResponse)
-  .onRequestTo('http://localhost:3000/idp/idx/activate')
+  .onRequestTo('http://localhost:3000/idp/idx/device/activate')
   .respond(idxActivateErrorResponse, 403);
 
 const identifyRequestLogger = RequestLogger(
@@ -74,7 +74,7 @@ test.requestHooks(identifyRequestLogger, deviceCodeSuccessMock)('should be able 
     stateHandle: '02itnqG312DoS3cU0z0LWs11l76yQ8ll4d95Oye61u',
   });
   await t.expect(req.method).eql('post');
-  await t.expect(req.url).eql('http://localhost:3000/idp/idx/activate');
+  await t.expect(req.url).eql('http://localhost:3000/idp/idx/device/activate');
 
   identifyRequestLogger.clear();
 

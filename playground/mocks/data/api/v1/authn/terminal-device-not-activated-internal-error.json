@@ -1,0 +1,9 @@
+{
+  "status": "SUCCESS",
+  "expiresAt": "2017-07-20T00:06:25.000Z",
+  "stateToken": "00-dummy-state-token",
+  "_embedded": {
+    "deviceActivationStatus": "DEVICE_NOT_ACTIVATED"
+  },
+  "_links": {}
+}

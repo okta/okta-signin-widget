@@ -70,10 +70,10 @@ const Body = BaseForm.extend({
       return loc('account.unlock.unlocked.title', 'login');
     }
     if (this.options.appState.containsMessageWithI18nKey(DEVICE_ACTIVATED)) {
-      return loc('oie.device.code.activated.success.title', 'login');
+      return loc('device.code.activated.success.title', 'login');
     }
     if (this.options.appState.containsMessageWithI18nKey(DEVICE_CODE_ERROR_KEYS)) {
-      return loc('oie.device.code.activated.error.title', 'login');
+      return loc('device.code.activated.error.title', 'login');
     }
     if (this.options.appState.containsMessageWithI18nKey(REGISTRATION_NOT_ENABLED)) {
       return loc('oie.registration.form.title', 'login');

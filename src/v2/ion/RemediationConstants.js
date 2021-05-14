@@ -59,7 +59,7 @@ const FORMS = {
   LAUNCH_AUTHENTICATOR: 'launch-authenticator',
   DEVICE_ENROLLMENT_TERMINAL: 'device-enrollment-terminal',
 
-  ACTIVATE_DEVICE: 'activate-device',
+  USER_CODE: 'user-code',
 
   // 'terminal` is not ION Form name but only coined in widget
   // for rendering a page that user has nothing to remediate.
@@ -75,7 +75,7 @@ const FORMS_WITHOUT_SIGNOUT = [
   FORMS.CONSENT_ADMIN,
   FORMS.CONSENT_ENDUSER,
   FORMS.CONSENT_EMAIL_CHALLENGE,
-  FORMS.ACTIVATE_DEVICE
+  FORMS.USER_CODE
 ];
 
 const FORMS_WITH_STATIC_BACK_LINK = [

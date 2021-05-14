@@ -18,6 +18,8 @@ import BarcodePushController from 'BarcodePushController';
 import BarcodeTotpController from 'BarcodeTotpController';
 import ConsentRequiredController from 'ConsentRequiredController';
 import CustomPasswordExpiredController from 'CustomPasswordExpiredController';
+import DeviceActivateController from './DeviceActivateController';
+import DeviceActivateTerminalController from './DeviceActivateTerminalController';
 import EnrollActivateCustomFactorController from 'EnrollActivateCustomFactorController';
 import EnrollActivateEmailController from 'EnrollActivateEmailController';
 import EnrollCallAndSmsController from 'EnrollCallAndSmsController';
@@ -135,6 +137,8 @@ export default BaseLoginRouter.extend({
     'signin/consent': 'consentRequired',
     'signin/admin-consent': 'adminConsentRequired',
     'signin/enroll-user': 'enrollUser',
+    'signin/device-activate-complete': 'deviceActivateComplete',
+    'signin/device-activate': 'deviceActivate',
     '*wildcard': 'defaultAuth',
   },
 
@@ -550,5 +554,12 @@ export default BaseLoginRouter.extend({
 
   enrollUser: function() {
     this.render(EnrollUserController);
+  },
+
+  deviceActivate: function() {
+    this.render(DeviceActivateController);
+  },
+  deviceActivateComplete: function() {
+    this.render(DeviceActivateTerminalController);
   },
 });
