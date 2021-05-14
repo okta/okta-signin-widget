@@ -139,6 +139,9 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign 
   await t.expect(await identityPage.getForgotPasswordLinkText()).eql('Forgot password?');
 
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
+  
+  // Sleep for 1s to allow captcha lib to load fully
+  await new Promise(resolve => setTimeout(resolve, 1000));
 
   await identityPage.clickNextButton();
 
@@ -161,6 +164,9 @@ test.requestHooks(identifyRequestLogger, identifyMockWithReCaptcha)('should sign
   await t.expect(await identityPage.getForgotPasswordLinkText()).eql('Forgot password?');
 
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
+
+  // Sleep for 1s to allow captcha lib to load fully
+  await new Promise(resolve => setTimeout(resolve, 1000));
 
   await identityPage.clickNextButton();
 
