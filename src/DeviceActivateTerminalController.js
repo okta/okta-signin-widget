@@ -30,7 +30,7 @@ export default FormController.extend({
     FormController.prototype.postRender.apply(this, arguments);
 
     // show device code terminal icons
-    const iconClass = this.options.appState.get('lastAuthResponse').status === DEVICE_ACTIVATED
+    const iconClass = this.options.appState.get('deviceActivationStatus') === DEVICE_ACTIVATED
       ? 'success-24-green' : 'error-24-red';
     this.$('.o-form-head').before('<div class="device-code-terminal--icon-container">' +
       '<span class="device-code-terminal--icon ' + iconClass + '"></span>' +
@@ -41,23 +41,23 @@ export default FormController.extend({
     noCancelButton: true,
     noButtonBar: true,
     title: function() {
-      const lastStatus = this.options.appState.get('lastAuthResponse').status;
-      if (lastStatus === DEVICE_ACTIVATED) {
+      const deviceActivationStatus = this.options.appState.get('deviceActivationStatus');
+      if (deviceActivationStatus === DEVICE_ACTIVATED) {
         return loc('device.code.activated.success.title', 'login');
       }
-      if (_.contains(DEVICE_CODE_ERROR_KEYS, lastStatus)) {
+      if (_.contains(DEVICE_CODE_ERROR_KEYS, deviceActivationStatus)) {
         return loc('device.code.activated.error.title', 'login');
       }
     },
     subtitle: function() {
-      const lastStatus = this.options.appState.get('lastAuthResponse').status;
-      if (lastStatus === DEVICE_ACTIVATED) {
+      const deviceActivationStatus = this.options.appState.get('deviceActivationStatus');
+      if (deviceActivationStatus === DEVICE_ACTIVATED) {
         return loc('idx.device.activated', 'login');
       }
-      if (lastStatus === DEVICE_NOT_ACTIVATED_CONSENT_DENIED) {
+      if (deviceActivationStatus === DEVICE_NOT_ACTIVATED_CONSENT_DENIED) {
         return loc('idx.device.not.activated.consent.denied', 'login');
       }
-      if (lastStatus === DEVICE_NOT_ACTIVATED) {
+      if (deviceActivationStatus === DEVICE_NOT_ACTIVATED) {
         return loc('idx.device.not.activated.internal.error', 'login');
       }
     },
@@ -75,7 +75,7 @@ export default FormController.extend({
             ),
             getTemplateData: function() {
               return {
-                isDeviceCodeError: _.contains(DEVICE_CODE_ERROR_KEYS, this.options.appState.get('lastAuthResponse').status)
+                isDeviceCodeError: _.contains(DEVICE_CODE_ERROR_KEYS, this.options.appState.get('deviceActivationStatus'))
               };
             },
           }),

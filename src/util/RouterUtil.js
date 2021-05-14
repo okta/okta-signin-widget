@@ -10,9 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 49], max-statements: [2, 54] */
+/* eslint complexity: [2, 47], max-statements: [2, 56] */
 
-import { loc } from 'okta';
+import { _, loc } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import BrowserFeatures from './BrowserFeatures';
 import Enums from './Enums';
@@ -32,6 +32,7 @@ const sessionCookieRedirectTpl = hbs(
   // eslint-disable-next-line max-len
   '{{baseUrl}}/login/sessionCookieRedirect?checkAccountSetupComplete=true&token={{{token}}}&redirectUrl={{{redirectUrl}}}'
 );
+const deviceActivationStatuses = ['DEVICE_ACTIVATED', 'DEVICE_NOT_ACTIVATED_CONSENT_DENIED', 'DEVICE_NOT_ACTIVATED'];
 
 fn.isHostBackgroundChromeTab = function() {
   // Checks if the SIW is loaded in a chrome webview and
@@ -143,6 +144,11 @@ fn.handleResponseStatus = function(router, res) {
       return;
     }
 
+    if (_.contains(deviceActivationStatuses, res._embedded?.deviceActivationStatus)) {
+      router.navigate('signin/device-activate-complete', { trigger: true });
+      return;
+    }
+
     // If the desired end result object needs to have idToken (and not sessionToken),
     // get the id token from session token before calling the global success function.
     if (router.settings.get('oauth2Enabled')) {
@@ -226,11 +232,6 @@ fn.handleResponseStatus = function(router, res) {
     return;
   case 'DEVICE_ACTIVATE':
     router.navigate('signin/device-activate', { trigger: true });
-    return;
-  case 'DEVICE_ACTIVATED':
-  case 'DEVICE_NOT_ACTIVATED_CONSENT_DENIED':
-  case 'DEVICE_NOT_ACTIVATED':
-    router.navigate('signin/device-activate-complete', { trigger: true });
     return;
     // We want the same view for FACTOR_REQUIRED & FACTOR_CHALLENGE
     // In the new idx pipeline FACTOR_CHALLENGE API response does not contain a prev link
