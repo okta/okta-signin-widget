@@ -26,13 +26,19 @@ const loopbackSuccesskMock = RequestMock()
     }
   })
   .onRequestTo(/2000|6511\/probe/)
-  .respond(null, 500, { 'access-control-allow-origin': '*' })
+  .respond(null, 500, { 
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
   .onRequestTo(/6512\/probe/)
-  .respond(null, 200, { 'access-control-allow-origin': '*' })
+  .respond(null, 200, { 
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
   .onRequestTo(/6512\/challenge/)
   .respond(null, 200, {
     'access-control-allow-origin': '*',
-    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept',
+    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
     'access-control-allow-methods': 'POST, OPTIONS'
   });
 
@@ -111,6 +117,7 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 200 &&
+      record.request.method !== 'options' &&
         record.request.url.match(/introspect|6512/)
     )).eql(3);
     await t.expect(loopbackSuccessLogger.count(
@@ -118,8 +125,10 @@ test
         record.request.url.match(/challenge/) &&
         record.request.body.match(/challengeRequest":"eyJraWQiOiJW/)
     )).eql(1);
+    // Check if pre-flight HTTP requests were sent
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 500 &&
+      record.request.method === 'options' &&
         record.request.url.match(/2000|6511/)
     )).eql(2);
     probeSuccess = true;

@@ -204,6 +204,7 @@ test
     )).eql(1);
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 200 &&
+        record.request.method === 'get' &&
         record.request.url.match(/6512\/probe/)
     )).eql(1);
     await t.expect(loopbackSuccessLogger.count(
@@ -218,6 +219,7 @@ test
     )).eql(1);
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 200 &&
+        record.request.method === 'get' &&
         record.request.url.match(/6511\/probe/)
     )).eql(1);
     await t.expect(loopbackSuccessLogger.count(
@@ -248,7 +250,8 @@ test
     )).eql(1);
     await t.expect(loopbackSuccessForChallengeTimeoutLogger.count(
       record => record.response.statusCode === 200 &&
-                record.request.url.match(/6511\/probe/)
+        record.request.method === 'get' &&
+        record.request.url.match(/6511\/probe/)
     )).eql(1);
 
     await t.expect(loopbackSuccessForChallengeTimeoutLogger.contains(record => record.request.url.match(/6512/))).eql(false);
@@ -355,6 +358,7 @@ test
     )).eql(1);
     await t.expect(loopbackOVFallbackLogger.count(
       record => record.response.statusCode === 200 &&
+      record.request.method === 'get' &&
         record.request.url.match(/6511\/probe/)
     )).eql(1);
     await t.expect(loopbackOVFallbackLogger.count(
@@ -363,6 +367,7 @@ test
     )).eql(1);
     await t.expect(loopbackOVFallbackLogger.count(
       record => record.response.statusCode === 200 &&
+        record.request.method === 'get' &&
         record.request.url.match(/6512\/probe/)
     )).eql(1);
     await t.expect(loopbackOVFallbackLogger.count(
