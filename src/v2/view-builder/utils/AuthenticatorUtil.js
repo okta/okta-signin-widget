@@ -92,7 +92,9 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
 
   case AUTHENTICATOR_KEY.GOOGLE_OTP:
     Object.assign(authenticatorData, {
-      description: '',
+      description: isVerifyAuthenticator
+        ? ''
+        : loc('oie.google_authenticator.authenticator.description', 'login'),
       iconClassName: 'mfa-google-auth',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
     });
