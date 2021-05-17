@@ -104,7 +104,6 @@ module.exports = {
             'playground/**/error-with-failure-redirect.json',
             'playground/**/error-authenticator-webauthn-failure.json',
             'playground/**/error-email-verify.json',
-            'playground/**/error-forgot-password.json',
             'playground/**/error-identify-access-denied.json',
             'playground/**/error-internal-server-error.json',
             'playground/**/error-okta-verify-totp.json',
