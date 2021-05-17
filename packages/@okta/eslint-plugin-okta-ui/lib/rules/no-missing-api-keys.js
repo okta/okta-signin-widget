@@ -21,6 +21,7 @@ module.exports = {
       'oie.authenticator.duo.method.duo.verification_failed', // This is mapped to oie.authenticator.duo.error
       'incorrectPassword', // incorrectPassword is translated to oie.password.incorrect in i18nTransformer
       'idx.email.verification.required', // mapped to v1 key
+      'security.access_denied', // mapped to v1 key in i18nTransformer
     ];
     return {
       'Program': function (node) {
