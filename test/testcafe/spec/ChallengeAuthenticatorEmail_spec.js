@@ -169,7 +169,7 @@ test
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton();
     await challengeEmailPageObject.waitForErrorBox();
-    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('You do not have permission to perform the requested action.');
+    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('You do not have permission to perform the requested action');
   });
 
 test
@@ -238,7 +238,7 @@ test
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton();
     await challengeEmailPageObject.waitForErrorBox();
-    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('You do not have permission to perform the requested action.');
+    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('You do not have permission to perform the requested action');
     await t.wait(5000);
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&

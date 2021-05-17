@@ -151,6 +151,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'oie.authenticator.duo.method.duo.verification_failed': 'oie.authenticator.duo.error',
 
   'idx.email.verification.required': 'registration.complete.confirm.text',
+  'security.access_denied': 'errors.E0000006',
 };
 
 const I18N_PARAMS_MAPPING = {

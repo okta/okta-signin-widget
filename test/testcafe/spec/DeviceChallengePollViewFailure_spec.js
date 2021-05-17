@@ -52,6 +52,6 @@ test('probing and polling APIs are sent and responded', async t => {
       record.request.url.match(/challenge/) &&
       record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
   )).eql(1);
-  await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).eql('You do not have permission to perform the requested action.');
+  await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).eql('You do not have permission to perform the requested action');
   await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('none');
 });
