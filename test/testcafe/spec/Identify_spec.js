@@ -168,7 +168,7 @@ test.requestHooks(identifyLockedUserMock)('should show global error for invalid 
 
   await t.expect(identityPage.getSaveButtonLabel()).eql('Next');
 
-  await t.expect(identityPage.getGlobalErrors()).contains('You do not have permission to perform the requested action.');
+  await t.expect(identityPage.getGlobalErrors()).contains('You do not have permission to perform the requested action');
 });
 
 test.requestHooks(identifyThenSelectAuthenticatorMock)('navigate to other screen will not trigger "ready" event again', async t => {
@@ -300,5 +300,5 @@ test.requestHooks(identifyRequestLogger, identifyMockWithFingerprintError)('shou
   // Validate that there is an error message
   await identityPage.waitForErrorBox();
   await t.expect(identityPage.getSaveButtonLabel()).eql('Next');
-  await t.expect(identityPage.getGlobalErrors()).contains('You do not have permission to perform the requested action.');
+  await t.expect(identityPage.getGlobalErrors()).contains('You do not have permission to perform the requested action');
 });
