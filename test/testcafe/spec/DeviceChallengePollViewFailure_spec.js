@@ -14,13 +14,19 @@ const mock = RequestMock()
     res.setBody(error);
   })
   .onRequestTo(/2000\/probe/)
-  .respond(null, 200, { 'access-control-allow-origin': '*' })
+  .respond(null, 200, { 
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
   .onRequestTo(/6511|6512|6513\/probe/)
-  .respond(null, 500, { 'access-control-allow-origin': '*' })
+  .respond(null, 500, { 
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
   .onRequestTo(/2000\/challenge/)
   .respond(null, 200, {
     'access-control-allow-origin': '*',
-    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept',
+    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
     'access-control-allow-methods': 'POST, OPTIONS'
   });
 
@@ -38,6 +44,7 @@ test('probing and polling APIs are sent and responded', async t => {
   await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
   await t.expect(logger.count(
     record => record.response.statusCode === 200 &&
+      record.request.method !== 'options' &&
       record.request.url.match(/introspect|2000/)
   )).eql(3);
   await t.expect(logger.count(

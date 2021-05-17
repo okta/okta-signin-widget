@@ -137,7 +137,7 @@
     "stylelint": "^10.1.0",
     "stylelint-checkstyle-formatter": "^0.1.2",
     "stylelint-scss": "^3.9.2",
-    "testcafe": "^1.4.0",
+    "testcafe": "^1.14.2",
     "time-grunt": "^2.0.0",
     "wait-on": "^3.3.0",
     "webdriver-manager": "^12.1.8",
