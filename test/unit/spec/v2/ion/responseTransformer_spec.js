@@ -114,7 +114,7 @@ describe('v2/ion/responseTransformer', function() {
                 type: 'object',
                 options: [
                   {
-                    label: 'Primary Email Address',
+                    label: 'Email',
                     value: {
                       form: {
                         value: [

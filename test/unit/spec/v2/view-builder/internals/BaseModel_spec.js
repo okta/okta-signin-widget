@@ -53,7 +53,7 @@ describe('v2/view-builder/internals/BaseModel', function() {
       },
       {
         name: 'userProfile.email',
-        label: 'Primary email',
+        label: 'Email',
         'label-top': true,
         required: true,
         type: 'text',

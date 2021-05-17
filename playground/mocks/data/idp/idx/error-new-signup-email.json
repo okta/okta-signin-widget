@@ -32,7 +32,7 @@
                 },
                 {
                   "name": "email",
-                  "label": "Primary Email",
+                  "label": "Email",
                   "required": true,
                   "messages": {
                     "type": "array",

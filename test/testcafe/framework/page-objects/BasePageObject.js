@@ -36,6 +36,10 @@ export default class BasePageObject {
     return this.form.getTitle();
   }
 
+  getFormFieldLabel(field) {
+    return this.form.getFormFieldLabel(field);
+  }
+
   getSaveButtonLabel() {
     return this.form.getElement('.button-primary').value;
   }

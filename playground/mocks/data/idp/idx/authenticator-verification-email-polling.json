@@ -52,7 +52,7 @@
             "type":"object",
             "options":[
               {
-                "label":"Primary Email Address",
+                "label":"Email",
                 "value":{
                   "form":{
                     "value":[
@@ -111,7 +111,7 @@
       "type":"email",
       "key": "okta_email",
       "id":"eae1d4u7aVB3VBbI70g4",
-      "displayName":"Primary Email Address",
+      "displayName":"Email",
       "methods":[
         {
           "type":"email"
@@ -129,7 +129,7 @@
         "type":"email",
         "key": "okta_email",
         "id":"eae1d4u7aVB3VBbI70g4",
-        "displayName":"Primary Email Address",
+        "displayName":"Email",
         "methods":[
           {
             "type":"email"
