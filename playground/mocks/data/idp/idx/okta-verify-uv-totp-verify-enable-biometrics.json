@@ -1,0 +1,252 @@
+{
+  "stateHandle": "02ZKtFVdKvzW8tMRWh17SnFdrfMyUf7aWsA7SWbImX",
+  "version": "1.0.0",
+  "expiresAt": "2021-03-01T23:51:09.000Z",
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Your response was received, but your organization requires biometrics. Make sure your device supports biometrics, Okta Verify is up-to-date and biometrics are enabled for your account in Okta Verify, then try again.",
+        "i18n": {
+          "key": "oie.authenticator.oktaverify.method.totp.verify.enable.biometrics",
+          "params": []
+        },
+        "class": "ERROR"
+      }
+    ]
+  },
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel":[
+          "create-form"
+        ],
+        "name":"challenge-authenticator",
+        "relatesTo":[
+          "$.currentAuthenticator"
+        ],
+        "href":"http://localhost:3000/idp/idx/challenge/answer",
+        "method":"POST",
+        "accepts":"application/json; okta-version=1.0.0",
+        "value":[
+          {
+            "name":"credentials",
+            "form":{
+              "value":[
+                {
+                  "name": "totp",
+                  "label": "Enter code from Okta Verify app",
+                  "visible": true,
+                  "required": true
+                }
+              ]
+            }
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "022P5Fd8jBy3b77XEdFCqnjz__5wQxksRfrAS4z6wP",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-authenticate",
+        "href": "http://localhost:3000/idp/idx/challenge",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "Email",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut1kwlmpxkrTTHpv0g4",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "email",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[0]"
+              },
+              {
+                "label": "Okta Verify",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut1kxbY4k3KnPvvd0g4",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "type": "string",
+                        "required": false,
+                        "options": [
+                          {
+                            "label": "Enter a code",
+                            "value": "totp"
+                          },
+                          {
+                            "label": "Get a push notification",
+                            "value": "push"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[1]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "022P5Fd8jBy3b77XEdFCqnjz__5wQxksRfrAS4z6wP",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "profile": {
+        "deviceName": "sdk_gphone_x86"
+      },
+      "type": "app",
+      "key": "okta_verify",
+      "id": "aut1kxbY4k3KnPvvd0g4",
+      "displayName": "Okta Verify",
+      "methods": [
+        {
+          "type": "totp"
+        }
+      ]
+    }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "email",
+        "key": "okta_email",
+        "id": "aut1kwlmpxkrTTHpv0g4",
+        "displayName": "Email",
+        "methods": [
+          {
+            "type": "email"
+          }
+        ]
+      },
+      {
+        "type": "app",
+        "key": "okta_verify",
+        "id": "aut1kxbY4k3KnPvvd0g4",
+        "displayName": "Okta Verify",
+        "methods": [
+          {
+            "type": "push"
+          },
+          {
+            "type": "totp"
+          }
+        ]
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "profile": {
+          "email": "g***n@okta.com"
+        },
+        "type": "email",
+        "key": "okta_email",
+        "id": "eae1kw3Tb8MoAAaNs0g4",
+        "displayName": "Email",
+        "methods": [
+          {
+            "type": "email"
+          }
+        ]
+      },
+      {
+        "profile": {
+          "deviceName": "sdk_gphone_x86"
+        },
+        "type": "app",
+        "key": "okta_verify",
+        "id": "pfd1kw0V8hoOaMZ1e0g4",
+        "displayName": "Okta Verify",
+        "methods": [
+          {
+            "type": "push"
+          },
+          {
+            "type": "totp"
+          }
+        ]
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u1j0yJwwRvnJQa60g4"
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "022P5Fd8jBy3b77XEdFCqnjz__5wQxksRfrAS4z6wP",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "DEFAULT_APP"
+    }
+  }
+}

@@ -6,6 +6,7 @@ import { checkConsoleMessages } from '../framework/shared';
 import totpChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidTOTP from '../../../playground/mocks/data/idp/idx/error-okta-verify-totp';
+import totpEnableBiometricsOktaVerify from '../../../playground/mocks/data/idp/idx/okta-verify-uv-totp-verify-enable-biometrics';
 
 const logger = RequestLogger(/challenge|challenge\/answer/,
   {
@@ -25,6 +26,12 @@ const invalidTOTPMock = RequestMock()
   .respond(totpChallenge)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidTOTP, 403);
+
+const totpEnableBiometricsMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(totpChallenge)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(totpEnableBiometricsOktaVerify);
 
 
 fixture('Challenge Okta Verify Totp Form');
@@ -89,4 +96,24 @@ test
     await challengeOktaVerifyTOTPPageObject.verifyFactor('credentials.totp', '123');
     await challengeOktaVerifyTOTPPageObject.clickNextButton();
     await t.expect(challengeOktaVerifyTOTPPageObject.getAnswerInlineError()).contains('Invalid code. Try again.');
+  });
+
+test
+  .requestHooks(logger, totpEnableBiometricsMock)('challenge okta verify totp uv enable biometrics message', async t => {
+    const challengeOktaVerifyTOTPPageObject = await setup(t);
+    await challengeOktaVerifyTOTPPageObject.verifyFactor('credentials.totp', '123');
+    await challengeOktaVerifyTOTPPageObject.clickNextButton();
+    await challengeOktaVerifyTOTPPageObject.waitForErrorBox();
+    const pageTitle = challengeOktaVerifyTOTPPageObject.getFormTitle();
+    await t.expect(pageTitle).contains('Enter a code');
+    const errorTitle = challengeOktaVerifyTOTPPageObject.getErrorTitle();
+    await t.expect(errorTitle.innerText).contains('Enable biometrics in Okta Verify');
+    const errorSubtitle = challengeOktaVerifyTOTPPageObject.getErrorSubtitle();
+    await t.expect(errorSubtitle.innerText).contains('Your response was received, but your organization requires biometrics. Make sure you meet the following requirements, then try again:');
+    const errorSubtitleBullet1 = challengeOktaVerifyTOTPPageObject.getNthErrorBulletPoint(0);
+    await t.expect(errorSubtitleBullet1.innerText).contains('Your device supports biometrics');
+    const errorSubtitleBullet2 = challengeOktaVerifyTOTPPageObject.getNthErrorBulletPoint(1);
+    await t.expect(errorSubtitleBullet2.innerText).contains('Okta Verify is up-to-date');
+    const errorSubtitleBullet3 = challengeOktaVerifyTOTPPageObject.getNthErrorBulletPoint(2);
+    await t.expect(errorSubtitleBullet3.innerText).contains('In Okta Verify, biometrics are enabled for your account');
   });
