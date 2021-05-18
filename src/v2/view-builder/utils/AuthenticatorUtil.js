@@ -13,7 +13,7 @@ import { loc, _ } from 'okta';
 import FactorUtil from '../../../util/FactorUtil';
 import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
 
-const { getPasswordComplexityDescription, getPasswordComplexityDescriptionForHtmlList } = FactorUtil;
+const { getPasswordComplexityDescriptionForHtmlList } = FactorUtil;
 
 const getButtonDataSeAttr = function(authenticator) {
   if (authenticator.authenticatorKey) {
@@ -183,16 +183,13 @@ export function getIconClassNameForBeacon(authenticatorKey) {
   return getAuthenticatorData({ authenticatorKey }).iconClassName;
 }
 
-export function removeRequirementsFromError(errorJSON, policy) {
-  const passwordRequirementsAsString = getPasswordComplexityDescription(policy);
+export function removeRequirementsFromError(errorJSON) {
   if (errorJSON.errorCauses?.length > 0
     && Array.isArray(errorJSON.errorCauses[0].errorSummary)
     && errorJSON.errorCauses[0].errorSummary.length > 0) {
 
     // Remove the requirements string if it is present.
-    errorJSON.errorCauses[0].errorSummary = errorJSON.errorCauses[0].errorSummary[0]
-      .replace(`${passwordRequirementsAsString}`, '')
-      .trim();
+    errorJSON.errorCauses[0].errorSummary = loc('password.passwordRequirementsNotMet', 'login');
   }
   return errorJSON;
 }

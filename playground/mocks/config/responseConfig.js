@@ -14,7 +14,8 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    // 'identify',
+    // 'authenticator-reset-password-requirement-error',
     // 'error-with-failure-redirect',
     // 'error-feature-not-enabled',
     // 'error-403-security-access-denied',
@@ -44,6 +45,7 @@ const idx = {
     // 'authenticator-verification-select-authenticator-ov-m2',
     // 'authenticator-verification-webauthn',
     // 'authenticator-reset-password',
+    'error-authenticator-reset-password-requirement',
     // 'authenticator-expired-password',
     // 'authenticator-expired-password-no-complexity',
     // 'authenticator-expired-password-with-enrollment-authenticator',
@@ -99,9 +101,10 @@ const idx = {
   '/idp/idx/challenge/answer': [
     // 'error-email-verify',
     // 'terminal-return-expired-email',
-    // 'error-answer-passcode-invalid'
-    'error-authenticator-enroll-security-question'
-    // 'error-authenticator-webauthn-failure'
+    // 'error-answer-passcode-invalid',
+    // 'error-authenticator-enroll-security-question',
+    // 'error-authenticator-webauthn-failure',
+    'error-authenticator-reset-password-requirement',
   ],
   '/idp/idx/challenge/send': [
     // 'authenticator-enroll-ov-sms',

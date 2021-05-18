@@ -2,26 +2,6 @@ import { removeRequirementsFromError, getAuthenticatorDisplayName } from 'v2/vie
 
 describe('v2/utils/AuthenticatorUtil', function() {
   it('filters requirements from password error', function() {
-    const policy = {
-      'complexity': {
-        'minLength': 8,
-        'minLowerCase': 1,
-        'minUpperCase': 1,
-        'minNumber': 1,
-        'minSymbol': 1,
-        'excludeUsername': true,
-        'excludeAttributes': [
-          'firstName',
-          'lastName'
-        ],
-        'excludeFirstName': true,
-        'excludeLastName': true
-      },
-      'age': {
-        'minAgeMinutes': 120,
-        'historyCount': 4
-      }
-    };
     const errorJSON = {
       'errorCauses': [
         {
@@ -33,7 +13,7 @@ describe('v2/utils/AuthenticatorUtil', function() {
       ],
       'errorSummary': ''
     };
-    const result = removeRequirementsFromError(errorJSON, policy);
+    const result = removeRequirementsFromError(errorJSON);
     expect(result).toEqual({
       'errorCauses': [
         {
@@ -46,26 +26,6 @@ describe('v2/utils/AuthenticatorUtil', function() {
   });
 
   it('does not change anything if there are no requirements in error message', function() {
-    const policy = {
-      'complexity': {
-        'minLength': 8,
-        'minLowerCase': 1,
-        'minUpperCase': 1,
-        'minNumber': 1,
-        'minSymbol': 1,
-        'excludeUsername': true,
-        'excludeAttributes': [
-          'firstName',
-          'lastName'
-        ],
-        'excludeFirstName': true,
-        'excludeLastName': true
-      },
-      'age': {
-        'minAgeMinutes': 120,
-        'historyCount': 4
-      }
-    };
     const errorJSON = {
       'errorCauses': [
         {
@@ -77,7 +37,7 @@ describe('v2/utils/AuthenticatorUtil', function() {
       ],
       'errorSummary': ''
     };
-    const result = removeRequirementsFromError(errorJSON, policy);
+    const result = removeRequirementsFromError(errorJSON);
     expect(result).toEqual({
       'errorCauses': [
         {
