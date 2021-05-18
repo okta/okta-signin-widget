@@ -1,4 +1,4 @@
-import { RequestLogger, RequestMock } from 'testcafe';
+import { RequestLogger, RequestMock, ClientFunction } from 'testcafe';
 import xhrAuthenticatorRequiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
 import xhrInvalidPassword from '../../../playground/mocks/data/idp/idx/error-authenticator-verify-password';
 import xhrForgotPasswordError from '../../../playground/mocks/data/idp/idx/error-forgot-password';
@@ -39,6 +39,11 @@ const recoveryRequestLogger = RequestLogger(
     stringifyRequestBody: true,
   }
 );
+
+const rerenderWidget = ClientFunction((settings) => {
+  window.renderPlaygroundWidget(settings);
+});
+
 
 fixture('Challenge Authenticator Password');
 
@@ -142,4 +147,16 @@ test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not reco
   });
   await t.expect(req1.method).eql('post');
   await t.expect(req1.url).eql('http://localhost:3000/idp/idx/recover');
+});
+
+test.requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for Password if i18n keys are defined', async t => {
+  const challengePasswordPage = await setup(t);
+  await rerenderWidget({
+    i18n: {
+      en: {
+        'primaryauth.password.tooltip': 'Your password goes here',
+      }
+    }
+  });
+  await t.expect(challengePasswordPage.getPasswordSubLabelValue()).eql('Your password goes here');
 });
