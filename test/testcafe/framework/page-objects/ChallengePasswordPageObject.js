@@ -1,8 +1,11 @@
+import { Selector } from 'testcafe';
+
 import ChallengeFactorPageObject from './ChallengeFactorPageObject';
 import FooterLinkObject from './components/FooterLinkObject';
 
 const FORGOT_PASSWORD_SELECTOR = '.auth-footer .js-forgot-password';
 const PASSWORD_FIELD = 'credentials\\.passcode';
+const SUB_LABEL_SELECTOR = '.o-form-explain';
 
 export default class ChallengePasswordPageObject extends ChallengeFactorPageObject {
   constructor(t) {
@@ -15,4 +18,7 @@ export default class ChallengePasswordPageObject extends ChallengeFactorPageObje
     return this.form.getTextBoxErrorMessage(PASSWORD_FIELD);
   }
 
+  getPasswordSubLabelValue() {
+    return Selector(SUB_LABEL_SELECTOR).nth(0).textContent;
+  }
 }
