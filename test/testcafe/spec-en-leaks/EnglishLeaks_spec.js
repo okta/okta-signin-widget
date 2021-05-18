@@ -29,7 +29,8 @@ const ignoredMocks = [
   'authenticator-verification-okta-verify-signed-nonce-loopback.json',
   'authenticator-expired-password-with-enrollment-authenticator.json',
   'error-with-failure-redirect.json',
-  'identify-recovery-with-recaptcha-v2.json'
+  'identify-recovery-with-recaptcha-v2.json', // flaky on bacon
+  'identify-with-password-with-recaptcha-v2.json' // flaky on bacon
 ];
 
 const parseMockData = () => {
