@@ -189,7 +189,7 @@ export function removeRequirementsFromError(errorJSON) {
     && errorJSON.errorCauses[0].errorSummary.length > 0) {
 
     // Remove the requirements string if it is present.
-    errorJSON.errorCauses[0].errorSummary = loc('password.passwordRequirementsNotMet', 'login');
+    errorJSON.errorCauses[0].errorSummary = loc('registration.error.password.passwordRequirementsNotMet', 'login');
   }
   return errorJSON;
 }
