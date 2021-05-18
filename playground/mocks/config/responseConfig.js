@@ -14,8 +14,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    // 'identify',
-    // 'authenticator-reset-password-requirement-error',
+    'identify',
     // 'error-with-failure-redirect',
     // 'error-feature-not-enabled',
     // 'error-403-security-access-denied',
@@ -45,7 +44,6 @@ const idx = {
     // 'authenticator-verification-select-authenticator-ov-m2',
     // 'authenticator-verification-webauthn',
     // 'authenticator-reset-password',
-    'error-authenticator-reset-password-requirement',
     // 'authenticator-expired-password',
     // 'authenticator-expired-password-no-complexity',
     // 'authenticator-expired-password-with-enrollment-authenticator',
