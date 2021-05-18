@@ -66,7 +66,11 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign 
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
 });
 
-test.requestHooks(identifyRequestLogger, identifyMockWithReCaptcha)('should sign in with reCaptcha enabled', async t => {
+// https://oktainc.atlassian.net/browse/OKTA-393059
+// We're disabling this test for now because there seems to be an underlying issue with with this test
+// in Bacon. Locally this test runs with no issues but it's very flaky on Bacon. OKTA-393059 is created to investigate
+// further.
+test.skip().requestHooks(identifyRequestLogger, identifyMockWithReCaptcha)('should sign in with reCaptcha enabled', async t => {
   const identityPage = await setup(t);
 
   // Wait for the reCaptcha container to appear in the DOM and become visible.
