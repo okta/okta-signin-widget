@@ -62,7 +62,7 @@ test
     await enrollGoogleAuthenticatorPageObject.enterCode('123456');
     await enrollGoogleAuthenticatorPageObject.submit();
 
-    await t.expect(enrollGoogleAuthenticatorPageObject.form.getErrorBoxText()).eql('Authentication failed');
+    await t.expect(enrollGoogleAuthenticatorPageObject.form.getErrorBoxText()).eql('You do not have permission to perform the requested action');
   });
 
 test
@@ -80,7 +80,7 @@ test
     await enrollGoogleAuthenticatorPageObject.enterCode('123456');
     await enrollGoogleAuthenticatorPageObject.submit();
 
-    await t.expect(enrollGoogleAuthenticatorPageObject.form.getErrorBoxText()).eql('Authentication failed');
+    await t.expect(enrollGoogleAuthenticatorPageObject.form.getErrorBoxText()).eql('You do not have permission to perform the requested action');
   });
 
 test
