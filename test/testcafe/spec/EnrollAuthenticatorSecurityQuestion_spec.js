@@ -168,7 +168,8 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionErrorM
             'property': 'credentials.answer'
           }
         ],
-        'errorSummaryKeys': []
+        'errorSummaryKeys': [],
+        'errorIntent': 'LOGIN',
       }
     }
   });
