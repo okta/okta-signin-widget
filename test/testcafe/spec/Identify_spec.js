@@ -239,6 +239,17 @@ test.requestHooks(identifyMock)('should render custom Unlock account link', asyn
   await t.expect(identityPage.getCustomUnlockAccountLink()).eql('http://unlockaccount');
 });
 
+test.requestHooks(identifyMock)('should not render custom forgot password link', async t => {
+  const identityPage = await setup(t);
+  await rerenderWidget({
+    helpLinks: {
+      forgotPassword: '/forgotpassword'
+    }
+  });
+
+  await t.expect(await identityPage.hasForgotPasswordLinkText()).notOk();
+});
+
 test.requestHooks(identifyRequestLogger, identifyMockWithFingerprint)('should compute device fingerprint and add to header', async t => {
   const identityPage = await setup(t);
 
