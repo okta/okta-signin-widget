@@ -17,7 +17,7 @@ import 'qtip';
 export default View.extend({
   className: 'scope-item',
   template: hbs`
-    <p class="scope-item-text">{{name}}</p>
+    <p class="scope-item-text no-translate">{{name}}</p>
     {{#if description}}
     <span class="scope-item-tooltip icon form-help-16" />
     {{/if}}`,

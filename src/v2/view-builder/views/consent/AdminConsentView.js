@@ -8,11 +8,15 @@ export default BaseView.extend({
   Body: ConsentViewForm,
   createModelClass(currentViewState) {
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
-    const {scopes} = currentViewState.uiSchema[0];
+    const { uiSchema, name } = currentViewState;
+    const { scopes } = uiSchema[0];
+    const isAdminConsent = name === 'admin-consent';
+
     const i18nKeyPrefix = 'consent.scopes';
+
     const localizedScopes = scopes.map(({name}) => ({
       name,
-      displayName: loc(`${i18nKeyPrefix}.${name}.label`, 'login'),
+      displayName: isAdminConsent ? name : loc(`${i18nKeyPrefix}.${name}.label`, 'login'),
       description: loc(`${i18nKeyPrefix}.${name}.desc`, 'login'),
     }));
 
