@@ -85,5 +85,5 @@ test.requestHooks(identifyRecoveryErrorMock)('global errors will display', async
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
 
-  await t.expect(identityPage.getGlobalErrors()).contains('You do not have permission to perform the requested action.');
+  await t.expect(identityPage.getGlobalErrors()).contains('You do not have permission to perform the requested action');
 });

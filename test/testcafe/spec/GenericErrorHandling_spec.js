@@ -34,5 +34,5 @@ test.requestHooks(noMessagesErrorMock)('should be able generic error when reques
 test.requestHooks(securityAccessDeniedMock)('should be able display error when request failed ith 403 with no stateToken', async t => {
   const terminalPage = await setup(t);
   await terminalPage.waitForErrorBox();
-  await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('You do not have permission to perform the requested action.');
+  await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('You do not have permission to perform the requested action');
 });
