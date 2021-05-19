@@ -639,7 +639,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
           ]
         },
         'authenticatorKey':'okta_verify',
-        'description':'Okta Verify is an authenticator app, installed on your phone or computer, used to prove your identity',
+        'description':'Okta Verify is an authenticator app, installed on your phone, used to prove your identity',
         'iconClassName':'mfa-okta-verify',
         buttonDataSeAttr: 'okta_verify-signed_nonce',
       }
