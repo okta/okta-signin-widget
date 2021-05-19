@@ -18,7 +18,7 @@ describe('v2/utils/AuthenticatorUtil', function() {
       'errorCauses': [
         {
           'property': 'credentials.passcode',
-          'errorSummary': 'Password requirements were not met.'
+          'errorSummary': 'Password requirements were not met'
         }
       ],
       'errorSummary': ''
@@ -42,7 +42,7 @@ describe('v2/utils/AuthenticatorUtil', function() {
       'errorCauses': [
         {
           'property': 'credentials.passcode',
-          'errorSummary': 'Password requirements were not met.'
+          'errorSummary': 'Password requirements were not met'
         }
       ],
       'errorSummary': ''
