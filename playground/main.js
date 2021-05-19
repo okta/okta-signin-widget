@@ -126,4 +126,4 @@ if (typeof URL !== 'undefined') {
     render = false;
   }
 }
-render && renderPlaygroundWidget();
+render && ! window._isTestCafe && renderPlaygroundWidget();

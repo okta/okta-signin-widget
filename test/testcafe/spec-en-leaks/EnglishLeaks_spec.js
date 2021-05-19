@@ -14,13 +14,13 @@ fixture('English Leaks')
   .clientScripts([
     // crypto.digest is not available for http
     {
-    content: '\
-      window.crypto.subtle = { \
-        digest: (_alg, _buf) => { \
-          return Promise.resolve(new ArrayBuffer()); \
-        } \
-      }; \
-    '
+      content: '\
+        window.crypto.subtle = { \
+          digest: (_alg, _buf) => { \
+            return Promise.resolve(new ArrayBuffer()); \
+          } \
+        }; \
+      '
     },
     // setNativeDialogHandler not working for some reason
     {
@@ -28,6 +28,12 @@ fixture('English Leaks')
         window.alert = function(str) { \
           window._alert = str; \
         }; \
+      '
+    },
+    // prevent initial playground render
+    {
+      content: '\
+        window._isTestCafe = true; \
       '
     }
   ]);
@@ -42,6 +48,22 @@ const ignoredMocks = [
   'authenticator-verification-select-authenticator.json',
   'error-with-failure-redirect.json',
   'identify-recovery-with-recaptcha-v2.json'
+];
+
+const optionsForInteractionCodeFlow = {
+  clientId: 'fake',
+  useInteractionCodeFlow: true,
+  codeVerifier: 'fake',
+  codeChallenge: 'totally_fake',
+  codeChallengeMethod: 'S256',
+  authParams: {
+    ignoreSignature: true,
+    pkce: true,
+  },
+  stateToken: undefined
+};
+const mocksWithInteractionCodeFlow = [
+  'success-with-interaction-code.json'
 ];
 
 const parseMockData = () => {
@@ -120,17 +142,19 @@ const setUpResponse = (filePath) => {
   return mock;
 };
 
-async function setup(t, locale) {
+async function setup(t, locale, fileName) {
+  const options = mocksWithInteractionCodeFlow.includes(fileName) ? optionsForInteractionCodeFlow : {};
   const widgetView = new PageObject(t);
   await widgetView.navigateToPage();
   await renderWidget({
+    ...options,
     'language': locale
   });
 }
 
 const testEnglishLeaks = (mockIdxResponse, fileName, locale) => {
   test.requestHooks(mockIdxResponse)(`${fileName} should not have english leaks`, async t => {
-    await setup(t, locale);
+    await setup(t, locale, fileName);
     const viewTextExists = await Selector('#okta-sign-in').exists;
     //Use innerText to avoid including hidden elements
     let viewText = viewTextExists && await Selector('#okta-sign-in').innerText;
