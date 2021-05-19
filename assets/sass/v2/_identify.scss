@@ -15,6 +15,16 @@
   }
 }
 
+.sign-in-with-idp {
+  .okta-idps-container {
+    .social-auth-button.link-button {
+      &:last-of-type {
+        margin-bottom: 0px;
+      }   
+    }   
+  }
+}
+
 .sign-in-with-device-option,
 .sign-in-with-idp,
 .custom-buttons {
