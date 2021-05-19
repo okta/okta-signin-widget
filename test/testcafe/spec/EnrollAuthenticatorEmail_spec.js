@@ -57,7 +57,7 @@ test
     await enrollEmailPageObject.enterCode('123456');
     await enrollEmailPageObject.form.clickSaveButton();
 
-    await t.expect(enrollEmailPageObject.form.getErrorBoxText()).eql('Authentication failed');
+    await t.expect(enrollEmailPageObject.form.getErrorBoxText()).eql('You do not have permission to perform the requested action');
   });
 
 test

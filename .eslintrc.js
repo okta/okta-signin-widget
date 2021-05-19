@@ -100,11 +100,8 @@ module.exports = {
         {
           'files': [
             'playground/**/authenticator-verification-okta-verify-reject-push.json',
-            'playground/**/error-403-security-access-denied.json',
             'playground/**/error-with-failure-redirect.json',
             'playground/**/error-authenticator-webauthn-failure.json',
-            'playground/**/error-email-verify.json',
-            'playground/**/error-identify-access-denied.json',
             'playground/**/error-internal-server-error.json',
             'playground/**/error-okta-verify-totp.json',
             'playground/**/error-user-is-not-assigned.json',
