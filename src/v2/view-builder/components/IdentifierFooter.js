@@ -5,11 +5,13 @@ import { getForgotPasswordLink, getSignUpLink } from '../utils/LinksUtil';
 
 export default BaseFooter.extend({
   links() {
+    const { appState, settings } = this.options;
+
     let helpLinkHref;
-    if (this.options.settings.get('helpLinks.help')) {
-      helpLinkHref = this.options.settings.get('helpLinks.help');
+    if (settings.get('helpLinks.help')) {
+      helpLinkHref = settings.get('helpLinks.help');
     } else {
-      const baseUrl = this.options.settings.get('baseUrl');
+      const baseUrl = settings.get('baseUrl');
       helpLinkHref = baseUrl + '/help/login';
     }
 
@@ -21,14 +23,17 @@ export default BaseFooter.extend({
       },
     ];
 
-    const signUpLink = getSignUpLink(this.options.appState, this.options.settings);
+    const signUpLink = getSignUpLink(appState, settings);
 
-    const forgotPasswordLink = getForgotPasswordLink(this.options.appState, this.options.settings);
+    let forgotPasswordLink = [];
+    if (!appState.isIdentifierOnlyView()) {
+      forgotPasswordLink = getForgotPasswordLink(appState, settings);
+    }
 
     const customHelpLinks = [];
-    if (this.options.settings.get('helpLinks.custom')) {
+    if (settings.get('helpLinks.custom')) {
       //add custom helpLinks
-      this.options.settings.get('helpLinks.custom').forEach(customHelpLink => {
+      settings.get('helpLinks.custom').forEach(customHelpLink => {
         customHelpLink.name = 'custom';
         customHelpLink.label = customHelpLink.text;
         customHelpLinks.push(customHelpLink);
@@ -36,14 +41,14 @@ export default BaseFooter.extend({
     }
 
     const unlockAccountLink = [];
-    if (this.options.settings.get('helpLinks.unlock')) {
+    if (settings.get('helpLinks.unlock')) {
       unlockAccountLink.push({
         'type': 'link',
         'label': loc('unlockaccount', 'login'),
         'name' : 'unlock',
-        'href': this.options.settings.get('helpLinks.unlock'),
+        'href': settings.get('helpLinks.unlock'),
       });
-    } else if (this.options.appState.hasRemediationObject(RemediationForms.UNLOCK_ACCOUNT)) {
+    } else if (appState.hasRemediationObject(RemediationForms.UNLOCK_ACCOUNT)) {
       unlockAccountLink.push({
         'type': 'link',
         'label': loc('unlockaccount', 'login'),
