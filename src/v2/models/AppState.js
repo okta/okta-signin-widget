@@ -65,7 +65,12 @@ export default Model.extend({
       fn: function(recoveryAuthenticator = {}) {
         return recoveryAuthenticator?.type === 'password';
       }
-    }
+    },
+  },
+
+  isIdentifierOnlyView() {
+    return !this.get('remediations')?.find(({name}) => name === 'identify')
+      ?.uiSchema?.find(({name}) => name === 'credentials.passcode');
   },
 
   hasRemediationObject(formName) {
