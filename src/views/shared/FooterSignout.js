@@ -31,13 +31,14 @@ export default View.extend({
 
     const appState = this.options.appState;
     appState.trigger('signOut');
+    const isSMSPasswordRecovery = appState.get('isSMSPasswordRecovery');
 
     this.model
       .doTransaction(function(transaction) {
         return transaction.cancel();
       })
       .then(() => {
-        if (this.settings.get('signOutLink') && !appState.get('isSMSPasswordRecovery')) {
+        if (this.settings.get('signOutLink') && !isSMSPasswordRecovery) {
           Util.redirect(this.settings.get('signOutLink'));
         } else {
           this.state.set('navigateDir', Enums.DIRECTION_BACK);
