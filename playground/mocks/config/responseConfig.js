@@ -8,6 +8,10 @@ const idx = {
     'well-known-openid-configuration'
   ],
 
+  '/oauth2/default/v1/token': [
+    'success-tokens'
+  ],
+
   '/oauth2/default/v1/interact': [
     'interact'
     // 'error-feature-not-enabled'
@@ -102,7 +106,8 @@ const idx = {
     // 'error-identify-user-locked-unable-challenge',
     // 'error-unable-to-authenticate-user',
     // 'terminal-device-activated',
-    // 'terminal-device-not-activated'
+    // 'terminal-device-not-activated',
+    // 'success-with-interaction-code',
     // 'error-with-failure-redirect',
   ],
   '/idp/idx/challenge/answer': [

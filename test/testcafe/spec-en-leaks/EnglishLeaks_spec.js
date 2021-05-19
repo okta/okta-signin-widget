@@ -7,8 +7,31 @@ const path = require('path');
 
 const PLAYGROUND = path.resolve(__dirname, '../../../playground');
 const mocksFolder = `${PLAYGROUND}/mocks/data/idp/idx`;
+const mocksOauth2Folder = `${PLAYGROUND}/mocks/data/oauth2`;
 
-fixture('English Leaks');
+fixture('English Leaks')
+  .page('http://localhost:3000')
+  .clientScripts([
+    // crypto.digest is not available for http
+    {
+    content: '\
+      window.crypto.subtle = { \
+        digest: (_alg, _buf) => { \
+          return Promise.resolve(new ArrayBuffer()); \
+        } \
+      }; \
+    '
+    },
+    // setNativeDialogHandler not working for some reason
+    {
+      content: '\
+        window.alert = function(str) { \
+          window._alert = str; \
+        }; \
+      '
+    }
+  ]);
+
 // These mocks have known english leaks ignoring them temporarily
 const ignoredMocks = [
   'success-with-interaction-code.json',
@@ -76,6 +99,14 @@ const setUpResponse = (filePath) => {
       'url': verifyUrl,
       'response': '<html><h1>》ok_PL《</h1></html>'
     },
+    {
+      'url': 'http://localhost:3000/oauth2/default/v1/token',
+      'response': require(`${mocksOauth2Folder}/success-tokens.json`)
+    },
+    {
+      'url': 'http://localhost:3000/oauth2/default/v1/interact',
+      'response': require(`${mocksOauth2Folder}/interact.json`)
+    }
   ];
 
   const mock = RequestMock();
