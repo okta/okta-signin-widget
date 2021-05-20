@@ -1,6 +1,10 @@
 .phone-authenticator-challenge {
   .okta-form-subtitle {
     text-align: center;
+
+    .okta-form-subtitle--description {
+      margin-top: 1rem;
+    }
   }
   &__link {
     display: block;
