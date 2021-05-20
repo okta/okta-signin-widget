@@ -102,6 +102,7 @@ module.exports = {
             'playground/**/authenticator-verification-okta-verify-reject-push.json',
             'playground/**/error-with-failure-redirect.json',
             'playground/**/error-authenticator-webauthn-failure.json',
+            'playground/**/error-forgot-password.json',
             'playground/**/error-internal-server-error.json',
             'playground/**/error-okta-verify-totp.json',
             'playground/**/error-user-is-not-assigned.json',

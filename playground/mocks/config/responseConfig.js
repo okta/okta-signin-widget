@@ -651,7 +651,6 @@ const userUnlockAccount = {
     'user-unlock-account',
   ],
   '/idp/idx/challenge': [
-    // 'error-400-unlock-account',
     // 'authenticator-verification-data-phone-sms-then-voice',
     'authenticator-verification-email'
   ],
