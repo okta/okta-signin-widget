@@ -38,18 +38,13 @@ async function setup(t) {
   return identityPage;
 }
 
-// https://oktainc.atlassian.net/browse/OKTA-393059
-// We're disabling this test for now because there seems to be an underlying issue with with this test
-// in Bacon. Locally this test runs with no issues but it's very flaky on Bacon. OKTA-393059 is created to investigate
-// further.
-test.requestHooks(identifyRequestLogger, identifyRecoveryWithReCaptchaMock).skip('should be able to submit identifier with reCaptcha enabled', async t => {
+test.requestHooks(identifyRequestLogger, identifyRecoveryWithReCaptchaMock)('should be able to submit identifier with reCaptcha enabled', async t => {
   const identityPage = await setup(t);
 
-  // Wait for the reCaptcha container to appear in the DOM and become visible.
-  const captchaContainer = Selector('#captcha-container .grecaptcha-badge');
-  await captchaContainer.with({ visibilityCheck: true })();
-
   await identityPage.fillIdentifierField('test.identifier');
+
+  // Wait for the reCaptcha container to appear in the DOM and become visible.
+  await t.expect(Selector('#captcha-container').find('.grecaptcha-badge').exists).ok({timeout: 3000});
 
   await identityPage.clickNextButton();
 
@@ -76,6 +71,9 @@ test.requestHooks(identifyRequestLogger, identifyRecoveryWithHCaptchaMock)('shou
   await captchaContainer.with({ visibilityCheck: true })();
 
   await identityPage.fillIdentifierField('test.identifier');
+
+  // Wait for the hCaptcha container to appear in the DOM and become visible.
+  await t.expect(Selector('#captcha-container').find('iframe').exists).ok({timeout: 3000});
 
   await identityPage.clickNextButton();
 

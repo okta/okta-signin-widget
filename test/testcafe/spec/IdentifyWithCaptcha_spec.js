@@ -43,16 +43,15 @@ async function setup(t) {
 test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign in with hCaptcha enabled', async t => {
   const identityPage = await setup(t);
 
-  // Wait for the hCaptcha container to appear in the DOM and become visible.
-  const captchaContainer = Selector('#captcha-container iframe');
-  await captchaContainer.with({ visibilityCheck: true })();
-
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('random password 123');
   await t.expect(await identityPage.hasForgotPasswordLinkText()).ok();
   await t.expect(await identityPage.getForgotPasswordLinkText()).eql('Forgot password?');
 
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
+
+  // Wait for the hCaptcha container to appear in the DOM and become visible.
+  await t.expect(Selector('#captcha-container').find('iframe').exists).ok({timeout: 3000});
 
   await identityPage.clickNextButton();
 
@@ -66,16 +65,8 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign 
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
 });
 
-// https://oktainc.atlassian.net/browse/OKTA-393059
-// We're disabling this test for now because there seems to be an underlying issue with with this test
-// in Bacon. Locally this test runs with no issues but it's very flaky on Bacon. OKTA-393059 is created to investigate
-// further.
-test.requestHooks(identifyRequestLogger, identifyMockWithReCaptcha).skip('should sign in with reCaptcha enabled', async t => {
+test.requestHooks(identifyRequestLogger, identifyMockWithReCaptcha)('should sign in with reCaptcha enabled', async t => {
   const identityPage = await setup(t);
-
-  // Wait for the reCaptcha container to appear in the DOM and become visible.
-  const captchaContainer = Selector('#captcha-container .grecaptcha-badge');
-  await captchaContainer.with({ visibilityCheck: true })();
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.fillPasswordField('random password 123');
@@ -83,6 +74,9 @@ test.requestHooks(identifyRequestLogger, identifyMockWithReCaptcha).skip('should
   await t.expect(await identityPage.getForgotPasswordLinkText()).eql('Forgot password?');
 
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
+
+  // Wait for the reCaptcha container to appear in the DOM and become visible.
+  await t.expect(Selector('#captcha-container').find('.grecaptcha-badge').exists).ok({timeout: 3000});
 
   await identityPage.clickNextButton();
 

@@ -31,11 +31,7 @@ identifyWithoutEnrollProfile.remediation.value = identifyWithoutEnrollProfile
 
 fixture('Registration With Captcha');
 
-// https://oktainc.atlassian.net/browse/OKTA-393059
-// We're disabling this test for now because there seems to be an underlying issue with with this test
-// in Bacon. Locally this test runs with no issues but it's very flaky on Bacon. OKTA-393059 is created to investigate
-// further.
-test.requestHooks(mockWithReCaptcha).skip('should show register page directly and be able to create account with reCaptcha enabled', async t => {
+test.requestHooks(mockWithReCaptcha)('should show register page directly and be able to create account with reCaptcha enabled', async t => {
   const registrationPage = new RegistrationPageObject(t);
 
   // navigate to /signin/register and show registration page immediately
@@ -49,14 +45,13 @@ test.requestHooks(mockWithReCaptcha).skip('should show register page directly an
     },
   ]);
 
-  // Wait for the reCaptcha container to appear in the DOM and become visible.
-  const captchaContainer = Selector('#captcha-container .grecaptcha-badge');
-  await captchaContainer.with({ visibilityCheck: true })();
-
   // click register button
   await registrationPage.fillFirstNameField('abc');
   await registrationPage.fillLastNameField('xyz');
   await registrationPage.fillEmailField('foo@ex.com');
+
+  // Wait for the reCaptcha container to appear in the DOM and become visible.
+  await t.expect(Selector('#captcha-container').find('.grecaptcha-badge').exists).ok({timeout: 3000});
 
   await registrationPage.clickRegisterButton();
 
@@ -91,14 +86,13 @@ test.requestHooks(mockWithHCaptcha)('should show register page directly and be a
     },
   ]);
 
-  // Wait for the hCaptcha container to appear in the DOM and become visible.
-  const captchaContainer = Selector('#captcha-container iframe');
-  await captchaContainer.with({ visibilityCheck: true })();
-
   // click register button
   await registrationPage.fillFirstNameField('abc');
   await registrationPage.fillLastNameField('xyz');
   await registrationPage.fillEmailField('foo@ex.com');
+
+  // Wait for the hCaptcha container to appear in the DOM and become visible.
+  await t.expect(Selector('#captcha-container').find('iframe').exists).ok({timeout: 3000});
 
   await registrationPage.clickRegisterButton();
 
