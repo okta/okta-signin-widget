@@ -25,6 +25,17 @@ const identifyRequestLogger = RequestLogger(
   }
 );
 
+// test.clientScripts({
+//   content: `
+//       window.addEventListener('error', function (e) {
+//           console.log('IN ERROR HANDLER');
+//           console.error(e.message); 
+//       });`
+// })('Skip error but log it', async t => {
+//   console.log('VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV');
+//   console.log(await t.getBrowserConsoleMessages());
+// });
+
 fixture('Identify Recovery - reset flow with Captcha');
 
 async function setup(t) {
@@ -39,28 +50,38 @@ async function setup(t) {
 }
 
 test.requestHooks(identifyRequestLogger, identifyRecoveryWithReCaptchaMock)('should be able to submit identifier with reCaptcha enabled', async t => {
-  const identityPage = await setup(t);
+  try {
+    const identityPage = await setup(t);
+  
+    await identityPage.fillIdentifierField('test.identifier');
+  
+    // Wait for the reCaptcha container to appear in the DOM and become visible.
+    await t.expect(Selector('#captcha-container').find('.grecaptcha-badge').exists).ok({timeout: 3000});
+  
+    const { log } = await t.getBrowserConsoleMessages();
+    console.log('UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU');
+    console.log(log);
 
-  await identityPage.fillIdentifierField('test.identifier');
-
-  // Wait for the reCaptcha container to appear in the DOM and become visible.
-  await t.expect(Selector('#captcha-container').find('.grecaptcha-badge').exists).ok({timeout: 3000});
-
-  await identityPage.clickNextButton();
-
-  await t.expect(identifyRequestLogger.count(() => true)).eql(1);
-  const req = identifyRequestLogger.requests[0].request;
-  const reqBody = JSON.parse(req.body);
-  await t.expect(reqBody).contains({
-    identifier: 'test.identifier',
-    stateHandle: 'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImV',
-  });
-  await t.expect(reqBody.captchaVerify).contains({
-    captchaId: 'capzomKHvPhLF7lrR0g3',
-  });
-
-  await t.expect(req.method).eql('post');
-  await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
+    await identityPage.clickNextButton();
+  
+    await t.expect(identifyRequestLogger.count(() => true)).eql(1);
+    const req = identifyRequestLogger.requests[0].request;
+    const reqBody = JSON.parse(req.body);
+    await t.expect(reqBody).contains({
+      identifier: 'test.identifier',
+      stateHandle: 'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImV',
+    });
+    await t.expect(reqBody.captchaVerify).contains({
+      captchaId: 'capzomKHvPhLF7lrR0g3',
+    });
+  
+    await t.expect(req.method).eql('post');
+    await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
+  } catch (err) {
+    console.log('ttttttttttttttttttttttttttt');
+    console.log(err);
+    throw err;
+  }
 });
 
 test.requestHooks(identifyRequestLogger, identifyRecoveryWithHCaptchaMock)('should be able to submit identifier with hCaptcha enabled', async t => {
