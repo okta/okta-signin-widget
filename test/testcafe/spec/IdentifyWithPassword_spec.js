@@ -73,7 +73,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
 });
 
-test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password toggle if features.showPasswordToggleOnSignIn is true', async t => {
+test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password toggle if features.showPasswordToggleOnSignInPage is true', async t => {
   const identityPage = await setup(t);
   await rerenderWidget({
     features: { showPasswordToggleOnSignInPage: true },
@@ -81,10 +81,18 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
 });
 
-test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if features.showPasswordToggleOnSignIn is false', async t => {
+test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if features.showPasswordToggleOnSignInPage is false', async t => {
   const identityPage = await setup(t);
   await rerenderWidget({
     features: { showPasswordToggleOnSignInPage: false },
+  });
+  await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
+});
+
+test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if "features.showPasswordToggleOnSignInPage" is false', async t => {
+  const identityPage = await setup(t);
+  await rerenderWidget({
+    'features.showPasswordToggleOnSignInPage': false,
   });
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
 });
