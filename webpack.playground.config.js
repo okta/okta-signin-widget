@@ -60,7 +60,9 @@ module.exports = {
     ],
     historyApiFallback: true,
     headers: {
-      'Content-Security-Policy': `script-src http://localhost:${DEV_SERVER_PORT}`
+      'Content-Security-Policy': `script-src http://localhost:${DEV_SERVER_PORT} \
+       https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; \
+      frame-src https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/;`
     },
     compress: true,
     port: DEV_SERVER_PORT,
