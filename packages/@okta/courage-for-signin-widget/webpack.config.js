@@ -118,10 +118,11 @@ const webpackConfig = {
         to: `${I18N_DIR}/dist/properties/`,
       }
     ]),
+    // TODO: OKTA-397756
     new ReplacePlugin({
       patterns: [{
-        regex: /underscore\.noConflict\(\)/,
-        value: 'underscore'
+        regex: /underscore\.default\.noConflict\(\)/,
+        value: 'underscore.default'
       }]
     })
   ]
