@@ -3,10 +3,12 @@ import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { BaseForm, BaseView, createIdpButtons, createCustomButtons } from '../internals';
 import DeviceFingerprinting from '../utils/DeviceFingerprinting';
 import IdentifierFooter from '../components/IdentifierFooter';
+import Link from '../components/Link';
 import signInWithIdps from './signin/SignInWithIdps';
 import customButtonsView from './signin/CustomButtons';
 import signInWithDeviceOption from './signin/SignInWithDeviceOption';
 import { isCustomizedI18nKey } from '../../ion/i18nTransformer';
+import { getForgotPasswordLink, shouldShowForgotPasswordLink } from '../utils/LinksUtil';
 
 const Body = BaseForm.extend({
 
@@ -61,6 +63,17 @@ const Body = BaseForm.extend({
     // add external idps buttons
     const idpButtons = createIdpButtons(this.options.appState.get('remediations'));
     if (Array.isArray(idpButtons) && idpButtons.length) {
+
+      // Add the forgot password 
+      const forgotPasswordLink = getForgotPasswordLink(this.options.appState, this.options.settings);
+      if (shouldShowForgotPasswordLink(this.options.appState) && forgotPasswordLink.length) {
+        this.add('<div class="links-container"></div>', { selector: '.o-form-button-bar' });
+        this.add(Link, {
+          selector: '.links-container',
+          options: forgotPasswordLink[0],
+        });
+      }
+
       this.add(signInWithIdps, {
         selector: '.o-form-button-bar',
         options: {

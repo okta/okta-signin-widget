@@ -1,7 +1,7 @@
 import { loc } from 'okta';
-import { BaseFooter } from '../internals';
+import { BaseFooter, createIdpButtons } from '../internals';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
-import { getForgotPasswordLink, getSignUpLink } from '../utils/LinksUtil';
+import { getForgotPasswordLink, getSignUpLink, shouldShowForgotPasswordLink } from '../utils/LinksUtil';
 
 export default BaseFooter.extend({
   links() {
@@ -25,9 +25,11 @@ export default BaseFooter.extend({
 
     const signUpLink = getSignUpLink(appState, settings);
 
-    let forgotPasswordLink = [];
-    if (!appState.isIdentifierOnlyView()) {
-      forgotPasswordLink = getForgotPasswordLink(appState, settings);
+    let forgotPasswordLink = []; 
+    const idpButtons = createIdpButtons(this.options.appState.get('remediations'));
+    if (shouldShowForgotPasswordLink(appState) &&
+        (!Array.isArray(idpButtons) || idpButtons.length === 0)) {
+      forgotPasswordLink = getForgotPasswordLink(this.options.appState, this.options.settings);
     }
 
     const customHelpLinks = [];
