@@ -153,7 +153,13 @@ const isIonErrorResponse = (response = {}) => {
   return response.version;
 };
 
+const containsMessageWithI18nKey = (convertedErrors, key) => {
+  return convertedErrors.responseJSON.errorSummaryKeys &&
+    convertedErrors.responseJSON.errorSummaryKeys.includes(key);
+};
+
 export default {
   convertFormErrors,
   isIonErrorResponse,
+  containsMessageWithI18nKey,
 };

@@ -5,7 +5,6 @@ const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="c
 const FORM_INFOBOX_ERROR_SUBTITLE = '[data-se="o-form-error-container"] [data-se="callout"] > p';
 const FORM_INFOBOX_ERROR_BULLETS = '[data-se="o-form-error-container"] [data-se="callout"] > ul li';
 
-
 export default class ChallengeOktaVerifyTotpPageObject extends ChallengeFactorPageObject {
   constructor(t) {
     super(t);
