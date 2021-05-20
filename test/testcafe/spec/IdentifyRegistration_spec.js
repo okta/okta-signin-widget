@@ -7,6 +7,8 @@ import enrollProfileNew from '../../../playground/mocks/data/idp/idx/enroll-prof
 import enrollProfileError from '../../../playground/mocks/data/idp/idx/error-new-signup-email';
 import enrollProfileFinish from '../../../playground/mocks/data/idp/idx/terminal-registration';
 import enrollProfileNewError from '../../../playground/mocks/data/idp/idx/error-new-signup-email-exists';
+// import enrollProfileNewCustomLabel from '../../../playground/mocks/data/idp/idx/enroll-profile-new-custom-labels';
+
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -85,6 +87,10 @@ test.requestHooks(mock)('should have editable fields and have account label', as
   /* i18n tests */
   await t.expect(registrationPage.getHaveAccountLabel()).eql('Already have an account?');
   await t.expect(await registrationPage.signoutLinkExists()).notOk();
+
+  await t.expect(await registrationPage.getFormFieldLabel('userProfile.email')).eql('Email');
+  await t.expect(await registrationPage.getFormFieldLabel('userProfile.firstName')).eql('First name');
+  await t.expect(await registrationPage.getFormFieldLabel('userProfile.lastName')).eql('Last name');
 
   await registrationPage.fillFirstNameField('Test First Name');
   await registrationPage.fillLastNameField('Test Last Name');
@@ -326,3 +332,14 @@ test.requestHooks(mock)('should call settings.registration.click on "Sign Up" cl
   // will not navigate to register page
   await t.expect(identityPage.getPageTitle()).eql('Sign In');
 });
+
+// TODO : OKTA-397225
+// Uncomment once we support custom labels
+// test.requestHooks(enrollProfileNewCustomLabelMock)('should show custom labels', async t => {
+//   const registrationPage = await setup(t);
+
+//   await t.expect(await registrationPage.getFormFieldLabel('userProfile.email')).eql('This is your awesome email address');
+//   await t.expect(await registrationPage.getFormFieldLabel('userProfile.firstName')).eql('Please enter your first name');
+//   await t.expect(await registrationPage.getFormFieldLabel('userProfile.lastName')).eql('Please enter your last name');
+
+// });

@@ -32,7 +32,7 @@
                 },
                 {
                   "name": "email",
-                  "label": "Primary email",
+                  "label": "Email",
                   "required": true
                 }
               ]

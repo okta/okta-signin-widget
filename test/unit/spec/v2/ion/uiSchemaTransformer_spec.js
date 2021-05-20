@@ -53,7 +53,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                     },
                     {
                       name: 'email',
-                      label: 'Primary email',
+                      label: 'Email',
                       required: true,
                     },
                   ],
@@ -84,7 +84,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
               },
               {
                 name: 'userProfile.email',
-                label: 'Primary email',
+                label: 'Email',
                 'label-top': true,
                 'data-se': 'o-form-fieldset-userProfile.email',
                 required: true,
@@ -194,7 +194,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                 type: 'object',
                 options: [
                   {
-                    label: 'Primary Email Address',
+                    label: 'Email',
                     value: {
                       form: {
                         value: [
@@ -233,7 +233,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                 'data-se': 'o-form-fieldset-authenticator',
                 options: [
                   {
-                    label: 'Primary Email Address',
+                    label: 'Email',
                     value: {
                       id: 'aut1bospdDFs7q3vc0g4',
                     },
