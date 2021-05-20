@@ -129,9 +129,7 @@ async function setup(t, locale, fileName) {
   const widgetView = new PageObject(t);
   await widgetView.navigateToPage();
   await widgetView.mockCrypto();
-  await t.setNativeDialogHandler((_type, _text) => {
-    return true;
-  });
+  await t.setNativeDialogHandler(() => true);
   await renderWidget({
     ...options,
     'language': locale
