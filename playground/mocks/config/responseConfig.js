@@ -14,7 +14,8 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    // 'identify',
+    'error-authenticator-enroll-password-common',
     // 'error-with-failure-redirect',
     // 'error-feature-not-enabled',
     // 'error-403-security-access-denied',
@@ -102,7 +103,8 @@ const idx = {
     // 'error-answer-passcode-invalid',
     // 'error-authenticator-enroll-security-question',
     // 'error-authenticator-webauthn-failure',
-    'error-authenticator-reset-password-requirement',
+    // 'error-authenticator-reset-password-requirement',
+    'error-authenticator-enroll-password-common',
   ],
   '/idp/idx/challenge/send': [
     // 'authenticator-enroll-ov-sms',
