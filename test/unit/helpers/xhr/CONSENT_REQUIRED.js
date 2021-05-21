@@ -35,6 +35,11 @@ export default {
         {
           name: 'api:write',
         },
+        {
+          name: 'api:xss',
+          displayName: 'scope with xss<img srcset=x onloadend=alert(1)>',
+          description: 'This scope contains xss<img srcset=x onloadend=alert(1)>',
+        },
       ],
       user: {
         id: '00uo9lKo7Ea265DZq0g3',

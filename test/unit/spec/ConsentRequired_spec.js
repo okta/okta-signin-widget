@@ -76,7 +76,7 @@ Expect.describe('ConsentRequired', function() {
   describe('ScopeList', function() {
     itp('has the correct number of scopes', function() {
       return setup().then(function(test) {
-        expect(test.form.scopeList().children()).toHaveLength(2);
+        expect(test.form.scopeList().children()).toHaveLength(3);
       });
     });
     itp('scope item show displayName instead of name if the first is available', function() {
@@ -88,6 +88,14 @@ Expect.describe('ConsentRequired', function() {
     itp('scope item show name if displayName is not available', function() {
       return setup().then(function(test) {
         expect(test.form.scopeList().children()[1].textContent).toEqual(expect.stringContaining('api:write'));
+      });
+    });
+    itp('scope item show name if it contains xss', function() {
+      return setup().then(function(test) {
+        expect(test.form.scopeList().children()[2].textContent)
+          .toEqual(expect.stringContaining('scope with xss<img srcset=x onloadend=alert(1)>'));
+        expect(test.form.scopeList().children().eq(2).find('p').html())
+          .toEqual('scope with xss&lt;img srcset=x onloadend=alert(1)&gt;');
       });
     });
     itp('scope item has a tooltip if description is available', function() {
@@ -103,6 +111,13 @@ Expect.describe('ConsentRequired', function() {
     itp('scope item does not have a tooltip if description is not available', function() {
       return setup().then(function(test) {
         expect(test.form.scopeList().children().eq(1).find('span.scope-item-tooltip')).toHaveLength(0);
+      });
+    });
+    itp('scope item has a tooltip with xss', function() {
+      return setup().then(function(test) {
+        expect(test.form.scopeList().children().eq(0).find('span.scope-item-tooltip')).toHaveLength(1);
+        expect(test.form.scopeList().children().eq(2).find('span.scope-item-tooltip').qtip().options.content.text)
+          .toEqual('This scope contains xss&lt;img srcset=x onloadend=alert(1)&gt;');
       });
     });
   });
@@ -169,7 +184,7 @@ Expect.describe('ConsentRequired', function() {
             data: {
               consent: {
                 expiresAt: '2017-07-20T00:06:25.000Z',
-                scopes: ['api:read', 'api:write'],
+                scopes: ['api:read', 'api:write', 'api:xss'],
               },
               stateToken: 'testStateToken',
             },

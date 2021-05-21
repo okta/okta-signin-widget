@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { View } from 'okta';
+import { View, _ } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import 'qtip';
 
@@ -25,7 +25,7 @@ export default View.extend({
   postRender: function() {
     this.$('.scope-item-tooltip').qtip({
       content: {
-        text: this.options.description
+        text: _.escape(this.options.description)
       },
       style: { classes: 'okta-tooltip qtip-custom qtip-shadow' },
       position: {
