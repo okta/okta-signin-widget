@@ -25,17 +25,6 @@ const identifyRequestLogger = RequestLogger(
   }
 );
 
-// test.clientScripts({
-//   content: `
-//       window.addEventListener('error', function (e) {
-//           console.log('IN ERROR HANDLER');
-//           console.error(e.message); 
-//       });`
-// })('Skip error but log it', async t => {
-//   console.log('VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV');
-//   console.log(await t.getBrowserConsoleMessages());
-// });
-
 fixture('Identify Recovery - reset flow with Captcha');
 
 async function setup(t) {
@@ -50,7 +39,6 @@ async function setup(t) {
 }
 
 test.requestHooks(identifyRequestLogger, identifyRecoveryWithReCaptchaMock)('should be able to submit identifier with reCaptcha enabled', async t => {
-  try {
     const identityPage = await setup(t);
   
     await identityPage.fillIdentifierField('test.identifier');
@@ -64,7 +52,19 @@ test.requestHooks(identifyRequestLogger, identifyRecoveryWithReCaptchaMock)('sho
 
     await identityPage.clickNextButton();
   
-    await t.expect(identifyRequestLogger.count(() => true)).eql(1);
+    console.log('RECAPTCHA BEFORE AWAIT');
+    console.log(identifyRequestLogger.requests);
+    let count = await identifyRequestLogger.count(() => true);
+    console.log(count);
+  
+    // await t.expect(identifyRequestLogger.count(() => true)).eql(1);
+    await t.expect(identifyRequestLogger.count(() => true)).ok({timeout: 10000});
+  
+    console.log('RECAPTCHA AFTER AWAIT');
+    console.log(identifyRequestLogger.requests);
+    count = await identifyRequestLogger.count(() => true);
+    console.log(count);
+  
     const req = identifyRequestLogger.requests[0].request;
     const reqBody = JSON.parse(req.body);
     await t.expect(reqBody).contains({
@@ -77,10 +77,6 @@ test.requestHooks(identifyRequestLogger, identifyRecoveryWithReCaptchaMock)('sho
   
     await t.expect(req.method).eql('post');
     await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
-  } catch (err) {
-    console.log('ttttttttttttttttttttttttttt');
-    console.log(err);
-    throw err;
   }
 });
 
@@ -98,7 +94,19 @@ test.requestHooks(identifyRequestLogger, identifyRecoveryWithHCaptchaMock)('shou
 
   await identityPage.clickNextButton();
 
-  await t.expect(identifyRequestLogger.count(() => true)).eql(1);
+  console.log('HCAPTCHA BEFORE AWAIT');
+  console.log(identifyRequestLogger.requests);
+  let count = await identifyRequestLogger.count(() => true);
+  console.log(count);
+
+  // await t.expect(identifyRequestLogger.count(() => true)).eql(1);
+  await t.expect(identifyRequestLogger.count(() => true)).ok({timeout: 10000});
+
+  console.log('HCAPTCHA AFTER AWAIT');
+  console.log(identifyRequestLogger.requests);
+  count = await identifyRequestLogger.count(() => true);
+  console.log(count);
+
   const req = identifyRequestLogger.requests[0].request;
   const reqBody = JSON.parse(req.body);
   await t.expect(reqBody).contains({

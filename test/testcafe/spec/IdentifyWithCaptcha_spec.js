@@ -1,4 +1,4 @@
-import { RequestMock, RequestLogger, Selector } from 'testcafe';
+import { RequestMock, RequestLogger, Selector, ClientFunction } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrIdentifyWithPasswordWithReCaptcha from '../../../playground/mocks/data/idp/idx/identify-with-password-with-recaptcha-v2.json';
@@ -26,17 +26,6 @@ const identifyRequestLogger = RequestLogger(
 );
 
 fixture('Identify + Password With Captcha');
-
-test.clientScripts({
-  content: `
-      window.addEventListener('error', function (e) {
-          console.log('IN ERROR HANDLER');
-          console.error(e.message); 
-      });`
-})('Skip error but log it', async t => {
-  console.log('VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV');
-  console.log(await t.getBrowserConsoleMessages());
-});
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -66,7 +55,19 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign 
 
   await identityPage.clickNextButton();
 
-  await t.expect(identifyRequestLogger.count(() => true)).eql(1);
+  console.log('HCAPTCHA BEFORE AWAIT');
+  console.log(identifyRequestLogger.requests);
+  let count = await identifyRequestLogger.count(() => true);
+  console.log(count);
+
+  // await t.expect(identifyRequestLogger.count(() => true)).eql(1);
+  await t.expect(identifyRequestLogger.count(() => true)).ok({timeout: 10000});
+
+  console.log('HCAPTCHA AFTER AWAIT');
+  console.log(identifyRequestLogger.requests);
+  count = await identifyRequestLogger.count(() => true);
+  console.log(count);
+
   const req = identifyRequestLogger.requests[0].request;
   const reqBody = JSON.parse(req.body);
   await t.expect(reqBody.captchaVerify).contains({
@@ -77,36 +78,38 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign 
 });
 
 test.requestHooks(identifyRequestLogger, identifyMockWithReCaptcha)('should sign in with reCaptcha enabled', async t => {
-  try {
-    const identityPage = await setup(t);
+  const identityPage = await setup(t);
 
-    await identityPage.fillIdentifierField('Test Identifier');
-    await identityPage.fillPasswordField('random password 123');
-    await t.expect(await identityPage.hasForgotPasswordLinkText()).ok();
-    await t.expect(await identityPage.getForgotPasswordLinkText()).eql('Forgot password?');
+  await identityPage.fillIdentifierField('Test Identifier');
+  await identityPage.fillPasswordField('random password 123');
+  await t.expect(await identityPage.hasForgotPasswordLinkText()).ok();
+  await t.expect(await identityPage.getForgotPasswordLinkText()).eql('Forgot password?');
   
-    await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
+  await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
   
-    // Wait for the reCaptcha container to appear in the DOM and become visible.
-    await t.expect(Selector('#captcha-container').find('.grecaptcha-badge').exists).ok({timeout: 3000});
+  // Wait for the reCaptcha container to appear in the DOM and become visible.
+  await t.expect(Selector('#captcha-container').find('.grecaptcha-badge').exists).ok({timeout: 3000});
   
-    const { log } = await t.getBrowserConsoleMessages();
-    console.log('UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU');
-    console.log(log);
+  await identityPage.clickNextButton();
 
-    await identityPage.clickNextButton();
-  
-    await t.expect(identifyRequestLogger.count(() => true)).eql(1);
-    const req = identifyRequestLogger.requests[0].request;
-    const reqBody = JSON.parse(req.body);
-    await t.expect(reqBody.captchaVerify).contains({
-      captchaId: 'capzomKHvPhLF7lrR0g3',
-    });
-    await t.expect(req.method).eql('post');
-    await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
-  } catch (err) {
-    console.log('ttttttttttttttttttttttttttt');
-    console.log(err);
-    throw err;
-  }
+  console.log('RECAPTCHA BEFORE AWAIT');
+  console.log(identifyRequestLogger.requests);
+  let count = await identifyRequestLogger.count(() => true);
+  console.log(count);
+
+  // await t.expect(identifyRequestLogger.count(() => true)).eql(1);
+  await t.expect(identifyRequestLogger.count(() => true)).ok({timeout: 10000});
+
+  console.log('RECAPTCHA AFTER AWAIT');
+  console.log(identifyRequestLogger.requests);
+  count = await identifyRequestLogger.count(() => true);
+  console.log(count);
+
+  const req = identifyRequestLogger.requests[0].request;
+  const reqBody = JSON.parse(req.body);
+  await t.expect(reqBody.captchaVerify).contains({
+    captchaId: 'capzomKHvPhLF7lrR0g3',
+  });
+  await t.expect(req.method).eql('post');
+  await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
 });
