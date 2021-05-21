@@ -22,6 +22,8 @@ const mockWithHCaptcha = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/enroll/new')
   .respond(enrollProfileFinish);  
 
+const requestLogger = new RequestLogger();
+
 const identifyWithoutEnrollProfile = JSON.parse(JSON.stringify(identify));
 identifyWithoutEnrollProfile.remediation.value = identifyWithoutEnrollProfile
   .remediation
@@ -30,7 +32,7 @@ identifyWithoutEnrollProfile.remediation.value = identifyWithoutEnrollProfile
 
 fixture('Registration With Captcha');
 
-test.requestHooks(mockWithReCaptcha)('should show register page directly and be able to create account with reCaptcha enabled', async t => {
+test.requestHooks(requestLogger, mockWithReCaptcha)('should show register page directly and be able to create account with reCaptcha enabled', async t => {
   const registrationPage = new RegistrationPageObject(t);
   
   // navigate to /signin/register and show registration page immediately
@@ -55,6 +57,9 @@ test.requestHooks(mockWithReCaptcha)('should show register page directly and be 
   await registrationPage.clickRegisterButton();
 
   await t.wait(5000);
+
+  console.log('DUMPING REQUEST LOGS');
+  console.log(requestLogger.requests);
   
   // show registration success terminal view
   await t.expect(registrationPage.getTerminalContent()).eql('To finish signing in, check your email.');

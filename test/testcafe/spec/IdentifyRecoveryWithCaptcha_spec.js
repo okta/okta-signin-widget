@@ -25,6 +25,8 @@ const identifyRequestLogger = RequestLogger(
   }
 );
 
+const requestLogger = RequestLogger();
+
 fixture('Identify Recovery - reset flow with Captcha');
 
 async function setup(t) {
@@ -38,7 +40,7 @@ async function setup(t) {
   return identityPage;
 }
 
-test.requestHooks(identifyRequestLogger, identifyRecoveryWithReCaptchaMock)('should be able to submit identifier with reCaptcha enabled', async t => {
+test.requestHooks(identifyRequestLogger, requestLogger, identifyRecoveryWithReCaptchaMock)('should be able to submit identifier with reCaptcha enabled', async t => {
   const identityPage = await setup(t);
   
   await identityPage.fillIdentifierField('test.identifier');
@@ -49,14 +51,16 @@ test.requestHooks(identifyRequestLogger, identifyRecoveryWithReCaptchaMock)('sho
   await identityPage.clickNextButton();
 
   await t.wait(5000);
-  
+
+  console.log('DUMPING REQUEST LOGS');
+  console.log(requestLogger.requests);
+
   console.log('RECAPTCHA BEFORE AWAIT 2');
   console.log(identifyRequestLogger.requests);
   let count = await identifyRequestLogger.count(() => true);
   console.log(count);
   
-  // await t.expect(identifyRequestLogger.count(() => true)).eql(1);
-  await t.expect(identifyRequestLogger.count(() => true)).ok({timeout: 10000});
+  await t.expect(identifyRequestLogger.count(() => true)).eql(1);
   
   console.log('RECAPTCHA AFTER AWAIT 2');
   console.log(identifyRequestLogger.requests);
@@ -96,7 +100,7 @@ test.requestHooks(identifyRequestLogger, identifyRecoveryWithHCaptchaMock)('shou
   let count = await identifyRequestLogger.count(() => true);
   console.log(count);
 
-  // await t.expect(identifyRequestLogger.count(() => true)).eql(1);
+  await t.expect(identifyRequestLogger.count(() => true)).eql(1);
   // await t.expect(identifyRequestLogger.count(() => true)).ok({timeout: 10000});
 
   console.log('HCAPTCHA AFTER AWAIT 2');

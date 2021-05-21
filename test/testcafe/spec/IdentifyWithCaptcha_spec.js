@@ -25,6 +25,8 @@ const identifyRequestLogger = RequestLogger(
   }
 );
 
+const requestLogger = new RequestLogger();
+
 fixture('Identify + Password With Captcha');
 
 async function setup(t) {
@@ -60,8 +62,8 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign 
   let count = await identifyRequestLogger.count(() => true);
   console.log(count);
 
-  // await t.expect(identifyRequestLogger.count(() => true)).eql(1);
-  await t.expect(identifyRequestLogger.count(() => true)).ok({timeout: 10000});
+  await t.expect(identifyRequestLogger.count(() => true)).eql(1);
+  // await t.expect(identifyRequestLogger.count(() => true)).ok({timeout: 10000});
 
   console.log('HCAPTCHA AFTER AWAIT 1');
   console.log(identifyRequestLogger.requests);
@@ -77,7 +79,7 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign 
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
 });
 
-test.requestHooks(identifyRequestLogger, identifyMockWithReCaptcha)('should sign in with reCaptcha enabled', async t => {
+test.requestHooks(identifyRequestLogger, requestLogger, identifyMockWithReCaptcha)('should sign in with reCaptcha enabled', async t => {
   const identityPage = await setup(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
@@ -94,13 +96,16 @@ test.requestHooks(identifyRequestLogger, identifyMockWithReCaptcha)('should sign
 
   await t.wait(5000);
 
+  console.log('DUMPING REQUEST LOGS');
+  console.log(requestLogger.requests);
+
   console.log('RECAPTCHA BEFORE AWAIT 1');
   console.log(identifyRequestLogger.requests);
   let count = await identifyRequestLogger.count(() => true);
   console.log(count);
 
-  // await t.expect(identifyRequestLogger.count(() => true)).eql(1);
-  await t.expect(identifyRequestLogger.count(() => true)).ok({timeout: 10000});
+  await t.expect(identifyRequestLogger.count(() => true)).eql(1);
+  // await t.expect(identifyRequestLogger.count(() => true)).ok({timeout: 10000});
 
   console.log('RECAPTCHA AFTER AWAIT 1');
   console.log(identifyRequestLogger.requests);
