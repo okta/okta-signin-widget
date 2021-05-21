@@ -364,6 +364,7 @@ const getMessage = (message) => {
     let i18nKey = message.i18n.key;
     let i18nParams = message.i18n.params || [];
 
+    // TODO - remove this block once API fix is done - OKTA-398080
     // Sometimes API sends params: [""] an array with empty string.
     // example - error-authenticator-enroll-password-common mock
     if (i18nParams.length === 1 && i18nParams[0] === '') {
