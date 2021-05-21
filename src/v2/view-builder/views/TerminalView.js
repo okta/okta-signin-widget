@@ -94,6 +94,8 @@ const Body = BaseForm.extend({
       messagesObjs.value.push({ message: loc('oie.consent.enduser.email.allow.description', 'login')});
     } else if (this.options.appState.containsMessageWithI18nKey('tooManyRequests')) {
       description = loc('oie.tooManyRequests', 'login');
+    } else if (this.options.appState.containsMessageWithI18nKey('security.access_denied')) {
+      description = loc('errors.E0000006', 'login');
     }
 
     if (description && Array.isArray(messagesObjs?.value)) {
