@@ -184,12 +184,16 @@ export function getIconClassNameForBeacon(authenticatorKey) {
 }
 
 export function removeRequirementsFromError(errorJSON) {
+  const passwordRequirementsNotMet = loc('registration.error.password.passwordRequirementsNotMet', 'login');
   if (errorJSON.errorCauses?.length > 0
     && Array.isArray(errorJSON.errorCauses[0].errorSummary)
     && errorJSON.errorCauses[0].errorSummary.length > 0) {
-
-    // Remove the requirements string if it is present.
-    errorJSON.errorCauses[0].errorSummary = loc('registration.error.password.passwordRequirementsNotMet', 'login');
+    // Change from Array to string for all errors.
+    errorJSON.errorCauses[0].errorSummary = errorJSON.errorCauses[0].errorSummary[0];
+    // Remove the requirements string only if this is requirements were not met error.
+    if (errorJSON.errorCauses[0].errorSummary.indexOf(passwordRequirementsNotMet) > -1) {
+      errorJSON.errorCauses[0].errorSummary = passwordRequirementsNotMet;  
+    }
   }
   return errorJSON;
 }

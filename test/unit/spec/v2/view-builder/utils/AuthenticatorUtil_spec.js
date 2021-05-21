@@ -25,13 +25,13 @@ describe('v2/utils/AuthenticatorUtil', function() {
     });
   });
 
-  it('does not change anything if there are no requirements in error message', function() {
+  it('does not change anything if the error is not "requirements missing" error message', function() {
     const errorJSON = {
       'errorCauses': [
         {
           'property': 'credentials.passcode',
           'errorSummary': [
-            'Password requirements were not met.'
+            'This password was found in a list of commonly used passwords. Please try another password.'
           ]
         }
       ],
@@ -42,7 +42,7 @@ describe('v2/utils/AuthenticatorUtil', function() {
       'errorCauses': [
         {
           'property': 'credentials.passcode',
-          'errorSummary': 'Password requirements were not met'
+          'errorSummary': 'This password was found in a list of commonly used passwords. Please try another password.'
         }
       ],
       'errorSummary': ''
