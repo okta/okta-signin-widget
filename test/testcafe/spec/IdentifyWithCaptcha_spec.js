@@ -17,9 +17,15 @@ const identifyMockWithReCaptcha = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(success);  
 
-const identifyRequestLogger = RequestLogger();
+const identifyRequestLogger = RequestLogger(
+  /idx\/identify/,
+  {
+    logRequestBody: true,
+    stringifyRequestBody: true,
+  }
+);
 
-fixture('IdentifyPassword');
+fixture('Identify + Password With Captcha');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
