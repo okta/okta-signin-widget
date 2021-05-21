@@ -6,6 +6,7 @@ describe('v2/utils/AuthenticatorUtil', function() {
       'errorCauses': [
         {
           'property': 'credentials.passcode',
+          'errorKey': ['password.passwordRequirementsNotMet'],
           'errorSummary': [
             'Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username, does not include your first name, does not include your last name. Your password cannot be any of your last 4 passwords. At least 2 hour(s) must have elapsed since you last changed your password.'
           ]
@@ -18,6 +19,7 @@ describe('v2/utils/AuthenticatorUtil', function() {
       'errorCauses': [
         {
           'property': 'credentials.passcode',
+          'errorKey': ['password.passwordRequirementsNotMet'],
           'errorSummary': 'Password requirements were not met'
         }
       ],
