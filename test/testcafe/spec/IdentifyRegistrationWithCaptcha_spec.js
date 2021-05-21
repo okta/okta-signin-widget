@@ -28,17 +28,6 @@ identifyWithoutEnrollProfile.remediation.value = identifyWithoutEnrollProfile
   .value
   .filter(r => r.name !== 'select-enroll-profile');
 
-// test.clientScripts({
-//   content: `
-//       window.addEventListener('error', function (e) {
-//           console.log('IN ERROR HANDLER');
-//           console.error(e.message); 
-//       });`
-// })('Skip error but log it', async t => {
-//   console.log('VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV');
-//   console.log(await t.getBrowserConsoleMessages());
-// });
-
 fixture('Registration With Captcha');
 
 test.requestHooks(mockWithReCaptcha)('should show register page directly and be able to create account with reCaptcha enabled', async t => {
@@ -63,11 +52,9 @@ test.requestHooks(mockWithReCaptcha)('should show register page directly and be 
   // Wait for the reCaptcha container to appear in the DOM and become visible.
   await t.expect(Selector('#captcha-container').find('.grecaptcha-badge').exists).ok({timeout: 3000});
   
-  const { log } = await t.getBrowserConsoleMessages();
-  console.log('UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU');
-  console.log(log);
-
   await registrationPage.clickRegisterButton();
+
+  await t.wait(5000);
   
   // show registration success terminal view
   await t.expect(registrationPage.getTerminalContent()).eql('To finish signing in, check your email.');

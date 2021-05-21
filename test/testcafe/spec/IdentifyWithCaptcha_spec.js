@@ -17,15 +17,9 @@ const identifyMockWithReCaptcha = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(success);  
 
-const identifyRequestLogger = RequestLogger(
-  /idx\/identify/,
-  {
-    logRequestBody: true,
-    stringifyRequestBody: true,
-  }
-);
+const identifyRequestLogger = RequestLogger();
 
-fixture('Identify + Password With Captcha');
+fixture('IdentifyPassword');
 
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
@@ -91,6 +85,8 @@ test.requestHooks(identifyRequestLogger, identifyMockWithReCaptcha)('should sign
   await t.expect(Selector('#captcha-container').find('.grecaptcha-badge').exists).ok({timeout: 3000});
   
   await identityPage.clickNextButton();
+
+  await t.wait(5000);
 
   console.log('RECAPTCHA BEFORE AWAIT 1');
   console.log(identifyRequestLogger.requests);

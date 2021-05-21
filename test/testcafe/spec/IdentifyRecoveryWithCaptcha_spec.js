@@ -45,12 +45,10 @@ test.requestHooks(identifyRequestLogger, identifyRecoveryWithReCaptchaMock)('sho
   
   // Wait for the reCaptcha container to appear in the DOM and become visible.
   await t.expect(Selector('#captcha-container').find('.grecaptcha-badge').exists).ok({timeout: 3000});
-  
-  const { log } = await t.getBrowserConsoleMessages();
-  console.log('UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU');
-  console.log(log);
 
   await identityPage.clickNextButton();
+
+  await t.wait(5000);
   
   console.log('RECAPTCHA BEFORE AWAIT 2');
   console.log(identifyRequestLogger.requests);
