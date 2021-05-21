@@ -1401,12 +1401,9 @@ describe('v2/ion/uiSchemaTransformer', function() {
     });
   });
 
-  it('sets showPasswordToggle to true if features.showPasswordToggleOnSignInPage is true', done => {
+  it('sets showPasswordToggle to true by default', done => {
     testContext.settings = new Settings({
       baseUrl: 'http://localhost:3000',
-      features: {
-        showPasswordToggleOnSignInPage: true,
-      }
     });
 
     MockUtil.mockIntrospect(done, XHRIdentifyWithPasswordResponse, idxResp => {
@@ -1486,6 +1483,91 @@ describe('v2/ion/uiSchemaTransformer', function() {
       );
     });
   });
+
+  it('sets showPasswordToggle to false if "features.showPasswordToggleOnSignInPage" is false', done => {
+    testContext.settings = new Settings({
+      baseUrl: 'http://localhost:3000',
+      'features.showPasswordToggleOnSignInPage': false,
+    });
+
+    MockUtil.mockIntrospect(done, XHRIdentifyWithPasswordResponse, idxResp => {
+      const result = _.compose(uiSchemaTransformer.bind(null, testContext.settings), responseTransformer.bind(null, testContext.settings))(idxResp);
+      expect(result.remediations[0]).toEqual(
+        {
+          name: 'identify',
+          href: 'http://localhost:3000/idp/idx/identify',
+          rel: ['create-form'],
+          accepts: 'application/vnd.okta.v1+json',
+          method: 'POST',
+          action: jasmine.any(Function),
+          value: [
+            {
+              name: 'identifier',
+              label: 'Username',
+            },
+            {
+              'form':  {
+                'value': [
+                  {
+                    'label': 'Password',
+                    'name': 'passcode',
+                    'secret': true,
+                  },
+                ],
+              },
+              'name': 'credentials',
+              'required': true,
+              'type': 'object',
+            },
+
+            {
+              name: 'rememberMe',
+              label: 'Keep me signed in',
+              type: 'boolean',
+            },
+            {
+              name: 'stateHandle',
+              required: true,
+              value: jasmine.any(String),
+              visible: false,
+              mutable: false,
+            },
+          ],
+          uiSchema: [
+            {
+              name: 'identifier',
+              label: 'Username',
+              type: 'text',
+              'label-top': true,
+              'data-se': 'o-form-fieldset-identifier',
+            },
+            {
+              'label': 'Password',
+              'label-top': true,
+              'data-se': 'o-form-fieldset-credentials.passcode',
+              'name': 'credentials.passcode',
+              'params':  {
+                'showPasswordToggle': false,
+              },
+              'secret': true,
+              'type': 'password',
+            },
+            {
+              name: 'rememberMe',
+              label: false,
+              type: 'checkbox',
+              placeholder: 'Keep me signed in',
+              modelType: 'boolean',
+              required: false,
+              'label-top': true,
+              'data-se': 'o-form-fieldset-rememberMe',
+            },
+          ],
+        },
+      );
+    });
+  });
+
 
   it('sets showPasswordToggle to false if features.showPasswordToggleOnSignInPage is false', done => {
     testContext.settings = new Settings({

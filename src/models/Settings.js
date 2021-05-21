@@ -171,7 +171,10 @@ export default Model.extend({
       fn: function() {
         // showPasswordToggle is for OIE only.
         // Used to default showPasswordToggleOnSignInPage to true.
-        return this.options?.features?.showPasswordToggleOnSignInPage !== false;
+        const defaultValue = true;
+        const customizedValue = this.options?.features?.showPasswordToggleOnSignInPage ??
+          this.options?.['features.showPasswordToggleOnSignInPage'];
+        return customizedValue ?? defaultValue;
       },
       cache: true,
     },
