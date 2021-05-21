@@ -79,7 +79,7 @@ const Body = BaseForm.extend(Object.assign(
       this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">
         ${sendText}&nbsp;<span class='${strongClass}'>${this.model.escape('phoneNumber')}.</span>
         &nbsp;${enterCodeText}
-        <p class="okta-form-subtitle--description">${carrierChargesText}</p>
+        <p>${carrierChargesText}</p>
         </div>`, {
         prepend: true,
         selector: '.o-form-fieldset-container',

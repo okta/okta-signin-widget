@@ -38,7 +38,7 @@ const Body = BaseForm.extend(
       // Courage doesn't support HTML, hence creating a subtitle here.
       this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">${sendText}
         <span ${ extraCssClasses ? 'class="' + extraCssClasses + '"' : ''}>${this.model.escape('phoneNumber')}</span>
-        <p class="okta-form-subtitle--description">${carrierChargesText}</p>
+        <p>${carrierChargesText}</p>
       </div>`);
     },
 
