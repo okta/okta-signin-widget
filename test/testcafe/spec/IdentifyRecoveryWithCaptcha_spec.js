@@ -39,45 +39,44 @@ async function setup(t) {
 }
 
 test.requestHooks(identifyRequestLogger, identifyRecoveryWithReCaptchaMock)('should be able to submit identifier with reCaptcha enabled', async t => {
-    const identityPage = await setup(t);
+  const identityPage = await setup(t);
   
-    await identityPage.fillIdentifierField('test.identifier');
+  await identityPage.fillIdentifierField('test.identifier');
   
-    // Wait for the reCaptcha container to appear in the DOM and become visible.
-    await t.expect(Selector('#captcha-container').find('.grecaptcha-badge').exists).ok({timeout: 3000});
+  // Wait for the reCaptcha container to appear in the DOM and become visible.
+  await t.expect(Selector('#captcha-container').find('.grecaptcha-badge').exists).ok({timeout: 3000});
   
-    const { log } = await t.getBrowserConsoleMessages();
-    console.log('UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU');
-    console.log(log);
+  const { log } = await t.getBrowserConsoleMessages();
+  console.log('UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU');
+  console.log(log);
 
-    await identityPage.clickNextButton();
+  await identityPage.clickNextButton();
   
-    console.log('RECAPTCHA BEFORE AWAIT');
-    console.log(identifyRequestLogger.requests);
-    let count = await identifyRequestLogger.count(() => true);
-    console.log(count);
+  console.log('RECAPTCHA BEFORE AWAIT');
+  console.log(identifyRequestLogger.requests);
+  let count = await identifyRequestLogger.count(() => true);
+  console.log(count);
   
-    // await t.expect(identifyRequestLogger.count(() => true)).eql(1);
-    await t.expect(identifyRequestLogger.count(() => true)).ok({timeout: 10000});
+  // await t.expect(identifyRequestLogger.count(() => true)).eql(1);
+  await t.expect(identifyRequestLogger.count(() => true)).ok({timeout: 10000});
   
-    console.log('RECAPTCHA AFTER AWAIT');
-    console.log(identifyRequestLogger.requests);
-    count = await identifyRequestLogger.count(() => true);
-    console.log(count);
+  console.log('RECAPTCHA AFTER AWAIT');
+  console.log(identifyRequestLogger.requests);
+  count = await identifyRequestLogger.count(() => true);
+  console.log(count);
   
-    const req = identifyRequestLogger.requests[0].request;
-    const reqBody = JSON.parse(req.body);
-    await t.expect(reqBody).contains({
-      identifier: 'test.identifier',
-      stateHandle: 'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImV',
-    });
-    await t.expect(reqBody.captchaVerify).contains({
-      captchaId: 'capzomKHvPhLF7lrR0g3',
-    });
+  const req = identifyRequestLogger.requests[0].request;
+  const reqBody = JSON.parse(req.body);
+  await t.expect(reqBody).contains({
+    identifier: 'test.identifier',
+    stateHandle: 'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImV',
+  });
+  await t.expect(reqBody.captchaVerify).contains({
+    captchaId: 'capzomKHvPhLF7lrR0g3',
+  });
   
-    await t.expect(req.method).eql('post');
-    await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
-  }
+  await t.expect(req.method).eql('post');
+  await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
 });
 
 test.requestHooks(identifyRequestLogger, identifyRecoveryWithHCaptchaMock)('should be able to submit identifier with hCaptcha enabled', async t => {
