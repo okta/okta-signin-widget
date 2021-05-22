@@ -1,9 +1,28 @@
-import { loc } from 'okta';
+import { loc, View } from 'okta';
 import { BaseFooter } from '../internals';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { getForgotPasswordLink, getSignUpLink } from '../utils/LinksUtil';
+import Link from './Link';
+import hbs from 'handlebars-inline-precompile';
 
 export default BaseFooter.extend({
+  footerInfo() {
+    const signUpLinkData = getSignUpLink(this.options.appState, this.options.settings);
+    //Build sign up link view appended with a text. Link class can only build anchor tags
+    const SignUpLinkWithText = View.extend({
+      className: 'signup-info',
+      template: hbs`
+        <span>{{i18n code="registration.signup.label" bundle="login"}}</span><span class="signup-link"></span>
+        `,
+      initialize() {
+        this.add(Link, '.signup-link', {
+          options: signUpLinkData[0]
+        }, );
+      }
+    });
+    return SignUpLinkWithText;
+  },
+
   links() {
     const { appState, settings } = this.options;
 
@@ -22,8 +41,6 @@ export default BaseFooter.extend({
         'href': helpLinkHref,
       },
     ];
-
-    const signUpLink = getSignUpLink(appState, settings);
 
     let forgotPasswordLink = [];
     if (!appState.isIdentifierOnlyView()) {
@@ -59,7 +76,6 @@ export default BaseFooter.extend({
 
     return forgotPasswordLink
       .concat(unlockAccountLink)
-      .concat(signUpLink)
       .concat(helpLink)
       .concat(customHelpLinks);
   }
