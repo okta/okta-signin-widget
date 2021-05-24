@@ -32,14 +32,19 @@ export default View.extend({
     'click .js-signout': function(e) {
       e.preventDefault();
       const self = this;
+      const authClient = self.settings.authClient;
 
       this.model
         .doTransaction(function(transaction) {
           return transaction.cancel();
         })
         .then(function() {
-          const authClient = self.settings.authClient;
-          return authClient.closeSession().catch(() => {});
+          return authClient.session.exists();
+        })
+        .then(function(sessionExists) {
+          if (sessionExists) {
+            return authClient.closeSession().catch(() => {});
+          }
         })
         .then(function() {
           if (self.settings.get('signOutLink')) {
