@@ -149,6 +149,7 @@ test.requestHooks(identifyMock)('should have correct display text', async t => {
 
   const signupLinkText = identityPage.getSignupLinkText();
   await t.expect(signupLinkText).eql('Sign up');
+  await t.expect(identityPage.getFooterInfo()).eql('Don\'t have an account?Sign up');
 
   const needhelpLinkText = identityPage.getNeedhelpLinkText();
   await t.expect(needhelpLinkText).eql('Help');

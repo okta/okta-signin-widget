@@ -1,12 +1,35 @@
 .siw-main-footer {
   .auth-footer {
     max-width: 100%;
-    width: max-content;
     display: flex;
     flex-direction: column;
     .link {
+      width: fit-content;
       padding: 0.3rem 0;
       word-wrap: break-word;
+    }
+  }
+
+  .footer-info {
+    border-top: 1px solid $border-color-default;
+    padding-top: 1rem;
+    margin-top: 1rem;
+    display: flex;
+
+    .signup-info {
+      margin: 0 auto;
+
+      span {
+        padding: 0.3rem 0;
+      }
+
+      .signup-link {
+        padding-left: 0.3rem;
+
+        .link {
+          color: $primary-color;
+        }
+      }
     }
   }
 }

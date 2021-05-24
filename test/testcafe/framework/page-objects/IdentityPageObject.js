@@ -13,6 +13,7 @@ const CUSTOM_BUTTON = '.custom-buttons .okta-custom-buttons-container .default-c
 const UNLOCK_ACCOUNT = '.auth-footer .js-unlock';
 const SUB_LABEL_SELECTOR = '.o-form-explain';
 const IDPS_CONTAINER = '.okta-idps-container';
+const FOOTER_INFO_SELECTOR = '.footer-info';
 
 export default class IdentityPageObject extends BasePageObject {
   constructor(t) {
@@ -146,6 +147,10 @@ export default class IdentityPageObject extends BasePageObject {
 
   getCustomHelpLinksLabel(index) {
     return Selector(CUSTOM_HELP_LINKS_SELECTOR).nth(index).textContent;
+  }
+
+  getFooterInfo() {
+    return Selector(FOOTER_INFO_SELECTOR).textContent;
   }
 
   async clickCustomButtonLink(index) {
