@@ -16,7 +16,7 @@ export default BaseView.extend({
 
     const localizedScopes = scopes.map(({name}) => ({
       name,
-      displayName: isAdminConsent ? name : loc(`${i18nKeyPrefix}.${name}.label`, 'login'),
+      displayName: (isAdminConsent || name === 'openid') ? name : loc(`${i18nKeyPrefix}.${name}.label`, 'login'),
       description: loc(`${i18nKeyPrefix}.${name}.desc`, 'login'),
     }));
 
