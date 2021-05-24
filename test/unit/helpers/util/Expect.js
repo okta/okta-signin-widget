@@ -292,6 +292,10 @@ fn.isJsonResponse = function(args, method, expected) {
   }
 };
 
+fn.isJsonGet = function(args, expected) {
+  fn.isJsonResponse(args, 'GET', expected);
+};
+
 fn.isJsonPost = function(args, expected) {
   fn.isJsonResponse(args, 'POST', expected);
 };
