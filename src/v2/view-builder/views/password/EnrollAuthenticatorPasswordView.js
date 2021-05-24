@@ -47,8 +47,7 @@ const Body = BaseForm.extend({
   },
 
   triggerAfterError(model, error) {
-    const policy = this.getPasswordPolicySettings();
-    error.responseJSON = removeRequirementsFromError(error.responseJSON, policy);
+    error.responseJSON = removeRequirementsFromError(error.responseJSON);
     this.options.appState.trigger('afterError', error);
   },
 
