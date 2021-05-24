@@ -9,16 +9,7 @@ const PLAYGROUND = path.resolve(__dirname, '../../../playground');
 const mocksFolder = `${PLAYGROUND}/mocks/data/idp/idx`;
 const mocksOauth2Folder = `${PLAYGROUND}/mocks/data/oauth2`;
 
-fixture('English Leaks')
-  .page('http://localhost:3000')
-  .clientScripts([
-    // prevent initial playground render
-    {
-      content: '\
-        window._isTestCafe = true; \
-      '
-    }
-  ]);
+fixture('English Leaks');
 
 // These mocks have known english leaks ignoring them temporarily
 const ignoredMocks = [
@@ -126,7 +117,7 @@ const setUpResponse = (filePath) => {
 async function setup(t, locale, fileName) {
   const options = mocksWithInteractionCodeFlow.includes(fileName) ? optionsForInteractionCodeFlow : {};
   const widgetView = new PageObject(t);
-  await widgetView.navigateToPage();
+  await widgetView.navigateToPage({ render: false });
   await widgetView.mockCrypto();
   await t.setNativeDialogHandler(() => true);
   await renderWidget({
