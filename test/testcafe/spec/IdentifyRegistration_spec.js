@@ -168,6 +168,10 @@ test.requestHooks(enrollProfileErrorMock)('should show email field validation er
         'errorSummary': '',
         'errorCauses': [
           {
+            'errorKey': [
+              'registration.error.invalidLoginEmail',
+              'registration.error.doesNotMatchPattern'
+            ],
             'errorSummary': [
               '\'Email\' must be in the form of an email address',
               'Provided value for property \'Email\' does not match required pattern'
