@@ -8,18 +8,21 @@ import hbs from 'handlebars-inline-precompile';
 export default BaseFooter.extend({
   footerInfo() {
     const signUpLinkData = getSignUpLink(this.options.appState, this.options.settings);
+    let SignUpLinkWithText;
     //Build sign up link view appended with a text. Link class can only build anchor tags
-    const SignUpLinkWithText = View.extend({
-      className: 'signup-info',
-      template: hbs`
-        <span>{{i18n code="registration.signup.label" bundle="login"}}</span><span class="signup-link"></span>
-        `,
-      initialize() {
-        this.add(Link, '.signup-link', {
-          options: signUpLinkData[0]
-        }, );
-      }
-    });
+    if(signUpLinkData.length) {
+      SignUpLinkWithText = View.extend({
+        className: 'signup-info',
+        template: hbs`
+          <span>{{i18n code="registration.signup.label" bundle="login"}}</span><span class="signup-link"></span>
+          `,
+        initialize() {
+          this.add(Link, '.signup-link', {
+            options: signUpLinkData[0]
+          });
+        }
+      });
+    }
     return SignUpLinkWithText;
   },
 

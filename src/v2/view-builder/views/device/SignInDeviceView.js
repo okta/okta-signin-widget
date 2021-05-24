@@ -27,7 +27,7 @@ const Body = BaseForm.extend({
 // override the footer to add all the supported links except the sign out link
 // no session is granted at this point
 const Footer = IdentifierFooter.extend({
-  noBackToSignInLink: true
+  hasBackToSignInLink: false
 });
 
 export default BaseView.extend({

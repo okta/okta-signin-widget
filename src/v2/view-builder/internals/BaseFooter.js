@@ -35,14 +35,14 @@ export default View.extend({
 
   /**
    * Boolean
-   * If true then 'Back to sign in' does not get added
+   * If false then 'Back to sign in' does not get added to the view
    */
-  noBackToSignInLink: false,
+  hasBackToSignInLink: true,
 
   initialize() {
     let links = _.resultCtx(this, 'links', this);
     const footerInfo = _.resultCtx(this, 'footerInfo', this);
-    const noBackToSignInLink = _.resultCtx(this, 'noBackToSignInLink', this);
+    const hasBackToSignInLink = _.resultCtx(this, 'hasBackToSignInLink', this);
 
     // safe check
     // 1. avoid none array from override
@@ -57,7 +57,7 @@ export default View.extend({
     // Previously called cancel/Sign Out links
     if (this.options.appState.shouldShowSignOutLinkInCurrentForm(
       this.options.settings.get('features.hideSignOutLinkInMFA') ||
-      this.settings.get('features.mfaOnlyFlow')) && !noBackToSignInLink) {
+      this.settings.get('features.mfaOnlyFlow')) && hasBackToSignInLink) {
       links = links.concat(getSignOutLink(this.options.settings));
     }
 
@@ -67,7 +67,7 @@ export default View.extend({
       });
     });
 
-    if(footerInfo) {
+    if (footerInfo) {
       this.add(View.extend({
         className: 'footer-info',
       }));
