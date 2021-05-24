@@ -21,7 +21,6 @@ const ignoredMocks = [
   'error-user-is-not-assigned.json',
   'error-internal-server-error.json',
   'error-forgot-password.json',
-  'consent-enduser.json',
   'authenticator-verification-select-authenticator.json',
   'authenticator-verification-okta-verify-signed-nonce-loopback.json',
   'error-with-failure-redirect.json',
