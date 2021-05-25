@@ -176,7 +176,7 @@ Expect.describe('EnrollTotp', function() {
       return setupOktaTotpFn().then(function(test) {
         test.form.selectDeviceType('APPLE');
         expect(test.form.appDownloadInstructionsLinkText()).toEqual('Okta Verify from the App Store');
-        expect(test.form.appDownloadInstructionsAppLogo('.okta-verify-38').length).toBe(1);
+        expect(test.form.appDownloadInstructionsAppLogo('.okta-verify-download-icon').length).toBe(1);
         test.form.selectDeviceType('ANDROID');
         expect(test.form.appDownloadInstructionsLinkText()).toEqual('Okta Verify from the Google Play Store');
       });

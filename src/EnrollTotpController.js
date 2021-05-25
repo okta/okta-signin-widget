@@ -46,7 +46,7 @@ const EnrollTotpControllerAppDownloadInstructionsView = View.extend({
       appIcon = 'google-auth-38';
     } else {
       appStoreLink = StoreLinks.OKTA[this.model.get('__deviceType__')];
-      appIcon = 'okta-verify-38';
+      appIcon = 'okta-verify-download-icon';
     }
     return {
       appStoreLinkText: loc('enroll.totp.downloadApp', 'login', [appStoreLink, factorName, appStoreName]),
