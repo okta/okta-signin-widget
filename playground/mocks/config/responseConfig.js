@@ -15,6 +15,7 @@ const idx = {
 
   '/idp/idx/introspect': [
     'identify',
+    // 'error-email-verify',
     // 'error-with-failure-redirect',
     // 'error-feature-not-enabled',
     // 'error-account-creation',
