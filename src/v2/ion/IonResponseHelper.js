@@ -22,6 +22,7 @@ const convertErrorMessageToErrorSummary = (formName, remediationValues = []) => 
       return {
         property: formName ? `${formName}.${field.name}` : field.name,
         errorSummary: field.messages.value.map(getMessage),
+        errorKey: field.messages.value.map(getMessageKey),
       };
     })
     .value();

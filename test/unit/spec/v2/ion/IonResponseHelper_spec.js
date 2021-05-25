@@ -187,10 +187,12 @@ describe('v2/ion/IonResponseHelper', function() {
           errorCauses: [
             {
               property: 'userName',
+              errorKey: ['bar.error'],
               errorSummary: ['ut override - hello bar error'],
             },
             {
               property: 'password',
+              errorKey: ['foo1.error', 'foo2.error'],
               errorSummary: ['foo1 error', 'foo2 error'],
             },
           ],
@@ -256,10 +258,12 @@ describe('v2/ion/IonResponseHelper', function() {
           errorCauses: [
             {
               property: 'credentials.userName',
+              errorKey: ['bar.error'],
               errorSummary: ['ut override - hello bar error'],
             },
             {
               property: 'credentials.password',
+              errorKey: ['foo.error'],
               errorSummary: ['foo error'],
             },
           ],
@@ -268,6 +272,53 @@ describe('v2/ion/IonResponseHelper', function() {
         },
       });
     });
+
+    it('returns array with empty string if key not found in messages object', () => {
+      const resp = {
+        remediation: {
+          value: [
+            {
+              name: 'test-form',
+              value: [
+                {
+                  name: 'credentials',
+                  form: {
+                    value: [
+                      {
+                        label: 'Login Name',
+                        name: 'userName',
+                        messages: {
+                          value: [
+                            { // no i18n object here.
+                              class: 'ERROR',
+                              message: 'bar error',
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      };
+      expect(IonResponseHelper.convertFormErrors(resp)).toEqual({
+        responseJSON: {
+          errorCauses: [
+            {
+              property: 'credentials.userName',
+              errorKey: [''],
+              errorSummary: ['bar error'],
+            },
+          ],
+          errorSummary: '',
+          errorSummaryKeys: [],
+        },
+      });
+    });
+
     it('has `options` fields messages', () => {
       const resp = {
         remediation: {
@@ -356,6 +407,7 @@ describe('v2/ion/IonResponseHelper', function() {
           errorCauses: [
             {
               property: 'authenticator.answer',
+              errorKey: ['answer.is.short'],
               errorSummary: ['security question answer is too short'],
             },
           ],
@@ -453,6 +505,7 @@ describe('v2/ion/IonResponseHelper', function() {
           errorCauses: [
             {
               property: 'authenticator.answer',
+              errorKey: ['answer.too.short'],
               errorSummary: ['ut override - answer must be 4+ chars'],
             },
           ],

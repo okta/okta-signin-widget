@@ -162,6 +162,9 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionErrorM
         'errorSummary': '',
         'errorCauses': [
           {
+            'errorKey': [
+              'securityQuestion.answer.tooShort.arg'
+            ],
             'errorSummary': [
               'The security question answer must be at least 4 characters in length'
             ],
