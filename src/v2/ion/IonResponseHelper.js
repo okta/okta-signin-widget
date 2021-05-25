@@ -139,6 +139,7 @@ const convertFormErrors = (response) => {
     errorCauses: getRemediationErrors(response),
     errorSummary: getGlobalErrors(response),
     errorSummaryKeys: getGlobalErrorKeys(response),
+    errorIntent: response.intent,
   };
 
   return {

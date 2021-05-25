@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02IrI7l3TqPruPbn9h8FPT5-kQI0p3JHp8xsFHMNZH",
+  "expiresAt": "2021-05-19T14:07:26.000Z",
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Too many requests",
+        "i18n": {
+          "key": "tooManyRequests"
+        },
+        "class": "ERROR"
+      }
+    ]
+  }
+}

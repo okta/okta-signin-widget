@@ -179,7 +179,8 @@ test.requestHooks(enrollProfileErrorMock)('should show email field validation er
             'property': 'userProfile.email'
           }
         ],
-        'errorSummaryKeys': []
+        'errorSummaryKeys': [],
+        'errorIntent': 'LOGIN',
       }
     }
   });
