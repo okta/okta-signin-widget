@@ -1,7 +1,7 @@
 import { loc, View } from 'okta';
-import { BaseFooter } from '../internals';
+import { BaseFooter, createIdpButtons } from '../internals';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
-import { getForgotPasswordLink, getSignUpLink } from '../utils/LinksUtil';
+import { getForgotPasswordLink, getSignUpLink, shouldShowForgotPasswordLink } from '../utils/LinksUtil';
 import Link from './Link';
 import hbs from 'handlebars-inline-precompile';
 
@@ -45,9 +45,11 @@ export default BaseFooter.extend({
       },
     ];
 
-    let forgotPasswordLink = [];
-    if (!appState.isIdentifierOnlyView()) {
-      forgotPasswordLink = getForgotPasswordLink(appState, settings);
+    let forgotPasswordLink = []; 
+    const idpButtons = createIdpButtons(this.options.appState.get('remediations'));
+    if (shouldShowForgotPasswordLink(appState) &&
+        (!Array.isArray(idpButtons) || idpButtons.length === 0)) {
+      forgotPasswordLink = getForgotPasswordLink(this.options.appState, this.options.settings);
     }
 
     const customHelpLinks = [];
