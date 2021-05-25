@@ -7,7 +7,7 @@ import XHRIdentifyWithPassword
 import XHRIdentifyWithThirdPartyIdps
   from '../../../../../../playground/mocks/data/idp/idx/identify-with-third-party-idps.json';
 
-describe('v2/view-builder/views/CaptchaView', function() {
+describe('v2/view-builder/views/IdentifierView', function() {
   let testContext;
   beforeEach(function() { 
     testContext = {};
@@ -34,8 +34,9 @@ describe('v2/view-builder/views/CaptchaView', function() {
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
     testContext.init();
 
-    // The forgot password link should NOT be in the siw-main-footer
-    expect(testContext.view.el).toMatchSnapshot('With Multiple IDPs');
+    // The forgot password link should NOT be in the siw-main-footer and should be in .links-container
+    expect(testContext.view.$el.find('.links-container .js-forgot-password').length).toEqual(1);
+    expect(testContext.view.$el.find('.siw-main-footer .js-forgot-password').length).toEqual(0);
   });
 
   it('view renders forgot password link correctly with no IDPs', function() {
@@ -45,6 +46,7 @@ describe('v2/view-builder/views/CaptchaView', function() {
     testContext.init(XHRIdentifyWithPassword.remediation.value);
     
     // The forgot password link should be in the siw-main-footer
-    expect(testContext.view.el).toMatchSnapshot('With Multiple IDPs');
+    expect(testContext.view.$el.find('.siw-main-footer .js-forgot-password').length).toEqual(1);
+    expect(testContext.view.$el.find('.links-container .js-forgot-password').length).toEqual(0);
   });
 });
