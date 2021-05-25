@@ -50,7 +50,7 @@ export default BaseFooter.extend({
 
     let forgotPasswordLink = []; 
     if (this.shouldShowForgotPasswordLink()) {
-      forgotPasswordLink = getForgotPasswordLink(this.options.appState, this.options.settings);
+      forgotPasswordLink = getForgotPasswordLink(appState, settings);
     }
 
     const customHelpLinks = [];

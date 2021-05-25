@@ -155,7 +155,7 @@ export default BaseView.extend({
   Body,
 
   initialize() {
-    // We override the defaul IdentifierFooter by passing in our custom shouldShowForgotPasswordLink() method.
+    // We override the default IdentifierFooter by passing in our custom shouldShowForgotPasswordLink() method.
     this.Footer = IdentifierFooter.extend({
       shouldShowForgotPasswordLink: () => {
         // We don't add the forgot password link in the footer if SIW renders multi IDPs,
