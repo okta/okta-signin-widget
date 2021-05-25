@@ -71,13 +71,16 @@ const Body = BaseForm.extend(Object.assign(
         ? loc('oie.phone.verify.sms.codeSentText', 'login')
         : loc('mfa.calling', 'login');
       const enterCodeText = loc('oie.phone.verify.enterCodeText', 'login');
+      const carrierChargesText = loc('oie.phone.carrier.charges', 'login');
 
       const strongClass = this.model.get('phoneNumber') !== loc('oie.phone.alternate.title', 'login') ?
         'strong no-translate' : '';
       // Courage doesn't support HTML, hence creating a subtitle here.
       this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">
         ${sendText}&nbsp;<span class='${strongClass}'>${this.model.escape('phoneNumber')}.</span>
-        &nbsp;${enterCodeText}</div>`, {
+        &nbsp;${enterCodeText}
+        <p>${carrierChargesText}</p>
+        </div>`, {
         prepend: true,
         selector: '.o-form-fieldset-container',
       });
