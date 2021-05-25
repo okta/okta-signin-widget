@@ -102,7 +102,8 @@ const idx = {
     // 'error-answer-passcode-invalid',
     // 'error-authenticator-enroll-security-question',
     // 'error-authenticator-webauthn-failure',
-    'error-authenticator-enroll-password-common',
+    // 'error-authenticator-enroll-password-common',
+    'error-authenticator-enroll-security-question-html-tags',
   ],
   '/idp/idx/challenge/send': [
     // 'authenticator-enroll-ov-sms',
