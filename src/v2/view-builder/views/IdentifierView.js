@@ -64,7 +64,7 @@ const Body = BaseForm.extend({
     const idpButtons = createIdpButtons(this.options.appState.get('remediations'));
     if (Array.isArray(idpButtons) && idpButtons.length) {
 
-      // OKTA-396776: Add the forgot password link before the buttons for multiple IDPs
+      // Add the forgot password link before the buttons for multiple IDPs
       const forgotPasswordLink = getForgotPasswordLink(this.options.appState, this.options.settings);
       if (shouldShowForgotPasswordLink(this.options.appState) && forgotPasswordLink.length) {
         this.add('<div class="links-container"></div>', { selector: '.o-form-button-bar' });

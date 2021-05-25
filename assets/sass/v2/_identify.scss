@@ -85,9 +85,10 @@
     margin-top: 1.9em;
     margin-bottom: -1em;
     max-width: 100%;
-    width: max-content;
+    width: fit-content;
     display: flex;
     flex-direction: column;
+    text-align: left;
     .link {
       padding: 0.3rem 0;
       word-wrap: break-word;
