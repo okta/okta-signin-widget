@@ -1,11 +1,14 @@
 import { loc, View } from 'okta';
-import { BaseFooter, createIdpButtons } from '../internals';
+import { BaseFooter } from '../internals';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
-import { getForgotPasswordLink, getSignUpLink, shouldShowForgotPasswordLink } from '../utils/LinksUtil';
+import { getForgotPasswordLink, getSignUpLink } from '../utils/LinksUtil';
 import Link from './Link';
 import hbs from 'handlebars-inline-precompile';
 
 export default BaseFooter.extend({
+
+  shouldShowForgotPasswordLink: () => !this.options.appState.isIdentifierOnlyView(),
+
   footerInfo() {
     const signUpLinkData = getSignUpLink(this.options.appState, this.options.settings);
     let SignUpLinkWithText;
@@ -46,11 +49,7 @@ export default BaseFooter.extend({
     ];
 
     let forgotPasswordLink = []; 
-    // We don't add the forgot password link in the footer if SIW renders multi IDPs,
-    // instead in that case we add it before the IDP buttons in IdentifierView.
-    const idpButtons = createIdpButtons(this.options.appState.get('remediations'));
-    if (shouldShowForgotPasswordLink(appState) &&
-        (!Array.isArray(idpButtons) || idpButtons.length === 0)) {
+    if (this.shouldShowForgotPasswordLink()) {
       forgotPasswordLink = getForgotPasswordLink(this.options.appState, this.options.settings);
     }
 

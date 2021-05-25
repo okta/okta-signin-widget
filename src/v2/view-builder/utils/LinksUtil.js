@@ -29,11 +29,6 @@ const getSwitchAuthenticatorLink = (appState) => {
   return [];
 };
 
-const shouldShowForgotPasswordLink = (appState) => {
-  // Base Condition for showing forgot password link
-  return !appState.isIdentifierOnlyView();
-};
-
 const getForgotPasswordLink = (appState, settings) => {
   const forgotPasswordLink = {
     'type': 'link',
@@ -173,6 +168,5 @@ export {
   getSignOutLink,
   getBackToSignInLink,
   getSkipSetupLink,
-  getReloadPageButtonLink,
-  shouldShowForgotPasswordLink
+  getReloadPageButtonLink
 };
