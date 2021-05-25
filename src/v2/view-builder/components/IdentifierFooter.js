@@ -46,6 +46,8 @@ export default BaseFooter.extend({
     ];
 
     let forgotPasswordLink = []; 
+    // OKTA-396776: We don't add the forgot password link in the footer if SIW renders multi IDPs,
+    // instead in that case we add it before the IDP buttons in IdentifierView.
     const idpButtons = createIdpButtons(this.options.appState.get('remediations'));
     if (shouldShowForgotPasswordLink(appState) &&
         (!Array.isArray(idpButtons) || idpButtons.length === 0)) {
