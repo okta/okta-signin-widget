@@ -37,8 +37,8 @@ export default View.extend({
       .doTransaction(function(transaction) {
         return transaction.cancel();
       })
-      .then(function() {
-        if (self.settings.get('signOutLink') && !isSMSPasswordRecovery) {
+      .then(() => {
+        if (this.settings.get('signOutLink') && !isSMSPasswordRecovery) {
           Util.redirect(self.settings.get('signOutLink'));
         } else {
           this.state.set('navigateDir', Enums.DIRECTION_BACK);
