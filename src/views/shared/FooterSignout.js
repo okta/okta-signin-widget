@@ -37,9 +37,15 @@ export default View.extend({
       .doTransaction(function(transaction) {
         return transaction.cancel();
       })
-      .then(() => {
-        if (this.settings.get('signOutLink') && !isSMSPasswordRecovery) {
-          Util.redirect(this.settings.get('signOutLink'));
+      .then(function() {
+        if (this.options.closeSession) {
+          const authClient = self.options.appState.settings.authClient;
+          return authClient.closeSession();
+        }
+      })
+      .then(function() {
+        if (self.settings.get('signOutLink') && !isSMSPasswordRecovery) {
+          Util.redirect(self.settings.get('signOutLink'));
         } else {
           this.state.set('navigateDir', Enums.DIRECTION_BACK);
           appState.trigger('navigate', '');
@@ -48,8 +54,8 @@ export default View.extend({
   },
   getTemplateData: function() {
     return {
-      linkClassName: _.isUndefined(this.options.linkClassName) ? 'goto' : this.options.linkClassName,
-      linkText: this.options.linkText || loc('signout', 'login'),
+      linkClassName: _.isUndefined(this.options.linkClassName) ? '' : this.options.linkClassName,
+      linkText: this.options.linkText || loc('goback', 'login'),
     };
   },
 });
