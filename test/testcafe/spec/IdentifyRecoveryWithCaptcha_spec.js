@@ -52,11 +52,9 @@ test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyRecover
   await identityPage.fillIdentifierField('test.identifier');
   
   // Wait for the reCaptcha container to appear in the DOM and become visible.
-  await t.expect(Selector('#captcha-container').find('.grecaptcha-badge').exists).ok({timeout: 3000});
+  await t.expect(Selector('#captcha-container').find('.grecaptcha-badge').exists).ok();
 
   await identityPage.clickNextButton();
-
-  await t.wait(3000);
 
   // Ensure request to google's API was sent out with the correct siteKey. This is our best option to validate that this
   // flow works because otherwise in Bacon for some reason, the full reCaptcha flow does not always work - it's very flaky.
@@ -75,7 +73,7 @@ test.requestHooks(identifyRequestLogger, identifyRecoveryWithHCaptchaMock)('shou
   await identityPage.fillIdentifierField('test.identifier');
 
   // Wait for the hCaptcha container to appear in the DOM and become visible.
-  await t.expect(Selector('#captcha-container').find('iframe').exists).ok({timeout: 3000});
+  await t.expect(Selector('#captcha-container').find('iframe').exists).ok();
   await identityPage.clickNextButton();
   await t.expect(identifyRequestLogger.count(() => true)).eql(1);
 

@@ -83,9 +83,8 @@ test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyMockWit
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
   
   // Wait for the reCaptcha container to appear in the DOM and become visible.
-  await t.expect(Selector('#captcha-container').find('.grecaptcha-badge').exists).ok({timeout: 3000});
+  await t.expect(Selector('#captcha-container').find('.grecaptcha-badge').exists).ok();
   await identityPage.clickNextButton();
-  await t.wait(3000);
 
   // Ensure request to google's API was sent out with the correct siteKey. This is our best option to validate that this
   // flow works because otherwise in Bacon for some reason, the full reCaptcha flow does not always work - it's very flaky.
