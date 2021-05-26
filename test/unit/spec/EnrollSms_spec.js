@@ -215,7 +215,7 @@ Expect.describe('EnrollSms', function() {
       });
     });
     itp('has hidden country search input by default', function() {
-      return setup().then(function(test) {
+      return setup().then(function() {
         const searchInput = $sandbox.find('.chzn-search > input');
         expect(searchInput.css('display')).toBe('none');
       });
