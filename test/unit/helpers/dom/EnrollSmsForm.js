@@ -19,6 +19,10 @@ export default Form.extend({
     return this.inputWrap(COUNTRIES_FIELD).find('.chzn-container').length > 0;
   },
 
+  countryDropdown: function() {
+    return this.inputWrap(COUNTRIES_FIELD).find('.chzn-container');
+  },
+
   phoneNumberField: function() {
     return this.input(PHONE_FIELD);
   },

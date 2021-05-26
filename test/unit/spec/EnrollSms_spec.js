@@ -214,6 +214,15 @@ Expect.describe('EnrollSms', function() {
         expect(test.form.getCodeFieldAutocomplete()).toBe('off');
       });
     });
+    itp('has search input display set correctly', function() {
+      return setup().then(function(test) {
+        const searchInput = $sandbox.find('.chzn-search > input');
+        expect(searchInput.css('display')).toBe('none');
+        const mousedown = $.Event('mousedown');
+        test.form.countryDropdown().trigger(mousedown);
+        expect(searchInput.css('display')).toBe('inline-block');
+      });
+    });
     itp('defaults to United States for the country', function() {
       return setup(allFactorsRes)
         .then(function(test) {
