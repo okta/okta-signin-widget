@@ -39,7 +39,7 @@ export default View.extend({
       })
       .then(() => {
         if (this.settings.get('signOutLink') && !isSMSPasswordRecovery) {
-          Util.redirect(self.settings.get('signOutLink'));
+          Util.redirect(this.settings.get('signOutLink'));
         } else {
           this.state.set('navigateDir', Enums.DIRECTION_BACK);
           appState.trigger('navigate', '');
