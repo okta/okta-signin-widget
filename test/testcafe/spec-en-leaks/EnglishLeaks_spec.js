@@ -13,16 +13,12 @@ fixture('English Leaks');
 const ignoredMocks = [
   'success-with-interaction-code.json',
   'identify-with-third-party-idps.json',
-  'identify-with-no-sso-extension.json',
-  'identify-with-device-probing-loopback.json',
-  'identify-with-device-probing-loopback-3.json',
   'identify-with-apple-redirect-sso-extension.json', // flaky on bacon
   'identify-unknown-user.json',
   'error-user-is-not-assigned.json',
   'error-internal-server-error.json',
   'error-forgot-password.json',
   'authenticator-verification-select-authenticator.json',
-  'authenticator-verification-okta-verify-signed-nonce-loopback.json',
   'error-with-failure-redirect.json',
   'identify-recovery-with-recaptcha-v2.json'
 ];
@@ -72,6 +68,10 @@ const setUpResponse = (filePath) => {
     // used for device probing mock
     {
       'url': 'http://localhost:3000/idp/idx/authenticators/poll/cancel',
+      'response': mockResponse
+    },
+    {
+      'url': 'http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/456/verify/cancel',
       'response': mockResponse
     },
     {
