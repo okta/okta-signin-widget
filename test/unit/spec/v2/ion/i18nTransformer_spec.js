@@ -52,6 +52,7 @@ describe('v2/ion/i18nTransformer', function() {
       'oktaverify.rejected': 'rejected',
       'oie.password.incorrect.message': 'Password is incorrect',
       'idx.session.expired': 'The session has expired.',
+      'oie.post.password.update.auth.failure.error': 'Authentication failed after password update.',
     }, (value) => `unit test - ${value}`);
   });
   afterAll(() => {
@@ -1474,6 +1475,13 @@ describe('v2/ion/i18nTransformer', function() {
             'class': 'ERROR'
           },
           {
+            'message': 'Authentication failed after password update.',
+            'i18n': {
+              'key': 'api.users.auth.error.POST_PASSWORD_UPDATE_AUTH_FAILURE'
+            },
+            'class': 'ERROR'
+          },
+          {
             'message': 'another {0} message',
             'i18n': {
               'key': 'idx.foo',
@@ -1500,6 +1508,13 @@ describe('v2/ion/i18nTransformer', function() {
             'message': 'unit test - The session has expired.',
             'i18n': {
               'key': 'idx.session.expired'
+            },
+            'class': 'ERROR'
+          },
+          {
+            'message': 'unit test - Authentication failed after password update.',
+            'i18n': {
+              'key': 'api.users.auth.error.POST_PASSWORD_UPDATE_AUTH_FAILURE'
             },
             'class': 'ERROR'
           },
