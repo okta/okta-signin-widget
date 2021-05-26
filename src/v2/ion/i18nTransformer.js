@@ -152,6 +152,7 @@ const I18N_OVERRIDE_MAPPINGS = {
 
   'idx.email.verification.required': 'registration.complete.confirm.text',
   'tooManyRequests': 'oie.tooManyRequests',
+  'api.users.auth.error.POST_PASSWORD_UPDATE_AUTH_FAILURE': 'oie.post.password.update.auth.failure.error',
 };
 
 const I18N_PARAMS_MAPPING = {

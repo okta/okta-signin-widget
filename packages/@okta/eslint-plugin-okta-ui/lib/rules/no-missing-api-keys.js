@@ -22,6 +22,7 @@ module.exports = {
       'incorrectPassword', // incorrectPassword is translated to oie.password.incorrect in i18nTransformer
       'idx.email.verification.required', // mapped to v1 key
       'security.access_denied', // mapped to v1 key in i18nTransformer
+      'api.users.auth.error.POST_PASSWORD_UPDATE_AUTH_FAILURE', // mapped to oie alias in i18Transformer
     ];
     return {
       'Program': function (node) {
