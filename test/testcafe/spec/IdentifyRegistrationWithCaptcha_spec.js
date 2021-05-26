@@ -88,7 +88,7 @@ test.requestHooks(mockWithHCaptcha)('should show register page directly and be a
   await registrationPage.fillEmailField('foo@ex.com');
 
   // Wait for the hCaptcha container to appear in the DOM and become visible.
-  await t.expect(Selector('#captcha-container').find('iframe').exists).ok({timeout: 3000});
+  await t.expect(Selector('#captcha-container').find('iframe').exists).ok();
   await registrationPage.clickRegisterButton();
 
   // show registration success terminal view
