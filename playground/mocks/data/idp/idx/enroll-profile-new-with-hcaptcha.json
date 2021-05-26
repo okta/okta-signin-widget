@@ -103,7 +103,7 @@
     "value": {
       "id": "4321dcba",
       "name": "hCaptcha",
-      "siteKey": "abcd12345",
+      "siteKey": "20000000-ffff-ffff-ffff-000000000002",
       "type": "HCAPTCHA"
     }
   }

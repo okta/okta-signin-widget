@@ -91,9 +91,9 @@
  "captcha": {
    "type": "object",
    "value": {
-     "id": "4321dcba",
+     "id": "abcd1234",
      "name": "reCaptcha",
-     "siteKey": "abcd12345",
+     "siteKey": "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
      "type": "RECAPTCHA_V2"
    }
  }  
