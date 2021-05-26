@@ -7,7 +7,7 @@ export default View.extend({
   template: hbs `
     {{#if isQRcodeChannel}}
       <a href="#" class="switch-channel-link">
-        {{{i18n code="oie.enroll.okta_verify.qrcode.cannotScan" bundle="login"}}}</a>
+        {{i18n code="enroll.totp.cannotScan" bundle="login"}}</a>
     {{else}}
       {{{i18n code="oie.enroll.okta_verify.switch.channel.link.text" bundle="login"}}}
     {{/if}}`,
