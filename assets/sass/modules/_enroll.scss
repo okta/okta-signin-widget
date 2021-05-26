@@ -150,6 +150,14 @@ $enroll-content-spacing: 15px;
     }
   }
 
+  .chzn-drop > .chzn-search > input {
+    display: none;
+  }
+
+  .chzn-with-drop > .chzn-drop > .chzn-search > input {
+    display: inline-block;
+  }
+
   .sms-request-button {
     float: right;
     width: 140px;
