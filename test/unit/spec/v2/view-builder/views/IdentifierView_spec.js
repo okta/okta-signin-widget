@@ -34,8 +34,8 @@ describe('v2/view-builder/views/IdentifierView', function() {
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
     testContext.init();
 
-    // The forgot password link should NOT be in the siw-main-footer and should be in .links-container
-    expect(testContext.view.$el.find('.links-container .js-forgot-password').length).toEqual(1);
+    // The forgot password link should NOT be in the siw-main-footer and should be in .links-primary
+    expect(testContext.view.$el.find('.links-primary .js-forgot-password').length).toEqual(1);
     expect(testContext.view.$el.find('.siw-main-footer .js-forgot-password').length).toEqual(0);
   });
 
@@ -47,6 +47,6 @@ describe('v2/view-builder/views/IdentifierView', function() {
     
     // The forgot password link should be in the siw-main-footer
     expect(testContext.view.$el.find('.siw-main-footer .js-forgot-password').length).toEqual(1);
-    expect(testContext.view.$el.find('.links-container .js-forgot-password').length).toEqual(0);
+    expect(testContext.view.$el.find('.links-primary .js-forgot-password').length).toEqual(0);
   });
 });

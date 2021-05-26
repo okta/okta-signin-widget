@@ -67,9 +67,9 @@ const Body = BaseForm.extend({
       // Add the forgot password link before the buttons for multiple IDPs
       const forgotPasswordLink = getForgotPasswordLink(this.options.appState, this.options.settings);
       if (forgotPasswordLink.length) {
-        this.add('<div class="links-container"></div>', { selector: '.o-form-button-bar' });
+        this.add('<div class="links-primary"></div>', { selector: '.o-form-button-bar' });
         this.add(Link, {
-          selector: '.links-container',
+          selector: '.links-primary',
           options: forgotPasswordLink[0],
         });
       }
@@ -155,11 +155,11 @@ export default BaseView.extend({
   Body,
 
   initialize() {
-    // We override the default IdentifierFooter by passing in our custom shouldShowForgotPasswordLink() method.
+    // Override Footer by overriding showForgotPasswordLink method
     this.Footer = IdentifierFooter.extend({
-      shouldShowForgotPasswordLink: () => {
+      showForgotPasswordLink: () => {
         // We don't add the forgot password link in the footer if SIW renders multi IDPs,
-        // instead in that case we add it before the IDP buttons in IdentifierView.
+        // instead in that case we add it before the IDP buttons in IdentifierView as primary links.
         const idpButtons = createIdpButtons(this.options.appState.get('remediations'));
         return (!this.options.appState.isIdentifierOnlyView() &&
           (!Array.isArray(idpButtons) || idpButtons.length === 0));

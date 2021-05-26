@@ -7,7 +7,9 @@ import hbs from 'handlebars-inline-precompile';
 
 export default BaseFooter.extend({
 
-  shouldShowForgotPasswordLink: () => !this.options.appState.isIdentifierOnlyView(),
+  showForgotPasswordLink() { 
+    return !this.options.appState.isIdentifierOnlyView();
+  },
 
   footerInfo() {
     const signUpLinkData = getSignUpLink(this.options.appState, this.options.settings);
@@ -49,7 +51,7 @@ export default BaseFooter.extend({
     ];
 
     let forgotPasswordLink = []; 
-    if (this.shouldShowForgotPasswordLink()) {
+    if (this.showForgotPasswordLink()) {
       forgotPasswordLink = getForgotPasswordLink(appState, settings);
     }
 
