@@ -2,8 +2,8 @@ import { RequestMock, Selector, RequestLogger } from 'testcafe';
 import { checkConsoleMessages } from '../framework/shared';
 import RegistrationPageObject from '../framework/page-objects/RegistrationPageObject';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
-import enrollProfileNewWithRecaptcha from '../../../playground/mocks/data/idp/idx/enroll-profile-new-with-recaptcha-v2.json';
-import enrollProfileNewWithHCaptcha from '../../../playground/mocks/data/idp/idx/enroll-profile-new-with-hcaptcha.json';
+import enrollProfileNewWithRecaptcha from '../../../playground/mocks/data/idp/idx/enroll-profile-new-with-recaptcha-v2';
+import enrollProfileNewWithHCaptcha from '../../../playground/mocks/data/idp/idx/enroll-profile-new-with-hcaptcha';
 import enrollProfileFinish from '../../../playground/mocks/data/idp/idx/terminal-registration';
 
 const mockWithReCaptcha = RequestMock()

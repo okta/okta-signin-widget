@@ -1,8 +1,8 @@
 import { RequestMock, RequestLogger, Selector } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { checkConsoleMessages } from '../framework/shared';
-import xhrIdentifyRecoveryWithRecaptcha from '../../../playground/mocks/data/idp/idx/identify-recovery-with-recaptcha-v2.json';
-import xhrIdentifyRecoveryWithHcaptcha from '../../../playground/mocks/data/idp/idx/identify-recovery-with-hcaptcha.json';
+import xhrIdentifyRecoveryWithRecaptcha from '../../../playground/mocks/data/idp/idx/identify-recovery-with-recaptcha-v2';
+import xhrIdentifyRecoveryWithHcaptcha from '../../../playground/mocks/data/idp/idx/identify-recovery-with-hcaptcha';
 import xhrAuthenticatorVerifySelect from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
 
 const identifyRecoveryWithReCaptchaMock = RequestMock()
