@@ -214,10 +214,15 @@ Expect.describe('EnrollSms', function() {
         expect(test.form.getCodeFieldAutocomplete()).toBe('off');
       });
     });
-    itp('has search input display set correctly', function() {
+    itp('has hidden country search input by default', function() {
       return setup().then(function(test) {
         const searchInput = $sandbox.find('.chzn-search > input');
         expect(searchInput.css('display')).toBe('none');
+      });
+    });
+    itp('shows country search input on mousedown of country dropdown', function() {
+      return setup().then(function(test) {
+        const searchInput = $sandbox.find('.chzn-search > input');
         const mousedown = $.Event('mousedown');
         test.form.countryDropdown().trigger(mousedown);
         expect(searchInput.css('display')).toBe('inline-block');
