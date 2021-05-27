@@ -33,7 +33,7 @@ const AdminConsentViewHeader = View.extend({
     const { issuer: issuerObj } = appState.get('authentication');
 
     const customLogo = logo?.href;
-    const altText = loc('logo.for.the.app.alt.text', 'login');
+    const altText = logo?.alt || 'aria logo';
     const appName = _.escape(label);
     const clientURI = clientUri?.href;
 
