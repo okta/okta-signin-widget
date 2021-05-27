@@ -260,6 +260,10 @@ const getI18nKey = (i18nPath) => {
   return i18nKey;
 };
 
+const doesI18NKeyExist = (i18nKey) => {
+  return !!Bundles.login[i18nKey];
+};
+
 /**
  * Find i18n value using {@code i18nPath} if it exists.
  * Otherwise return {@code defaultValue}.
@@ -467,6 +471,7 @@ export {
   getMessage,
   getMessageKey,
   getI18NParams,
+  doesI18NKeyExist,
   isCustomizedI18nKey,
   getMessageFromBrowserError
 };

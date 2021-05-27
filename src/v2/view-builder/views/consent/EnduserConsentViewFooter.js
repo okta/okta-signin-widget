@@ -11,7 +11,7 @@ const ConsentViewFooter = View.extend({
           {{i18n code="consent.required.termsOfService" bundle="login"}}\
         </a>\
         {{#if privacyPolicy}}\
-          &#8226\
+          <span class="no-translate">&#8226</span>\
         {{/if}}\
       {{/if}}\
       {{#if privacyPolicy}}\

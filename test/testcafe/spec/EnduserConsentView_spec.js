@@ -5,11 +5,17 @@ import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 
 import xhrConsentEnduser from '../../../playground/mocks/data/idp/idx/consent-enduser';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
-
+import xhrConsentEnduserCustomScopes from '../../../playground/mocks/data/idp/idx/consent-enduser-custom-scopes';
 
 const consentEnduserMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrConsentEnduser)
+  .onRequestTo('http://localhost:3000/idp/idx/consent')
+  .respond(xhrSuccess);
+
+const consentEnduserCustomScopesMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrConsentEnduserCustomScopes)
   .onRequestTo('http://localhost:3000/idp/idx/consent')
   .respond(xhrSuccess);
 
@@ -41,6 +47,15 @@ test.requestHooks(requestLogger, consentEnduserMock)('should render scopes', asy
   await t.expect(consentPage.getScopeItemTexts()).eql([
     'View your email address.',
     'View your phone number.',
+  ]);
+});
+
+test.requestHooks(requestLogger, consentEnduserCustomScopesMock)('should render custom scopes', async t => {
+  const consentPage  = await setup(t);
+
+  await t.expect(consentPage.getScopeItemTexts()).eql([
+    'View your mobile phone data plan.',
+    'View your internet search history.',
   ]);
 });
 
