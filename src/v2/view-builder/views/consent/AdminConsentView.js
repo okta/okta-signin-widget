@@ -2,23 +2,34 @@ import { BaseView } from '../../internals';
 import { loc } from 'okta';
 import AdminConsentViewHeader from './AdminConsentViewHeader';
 import ConsentViewForm from './ConsentViewForm';
+import { doesI18NKeyExist } from '../../../ion/i18nTransformer';
 
 export default BaseView.extend({
   Header: AdminConsentViewHeader,
   Body: ConsentViewForm,
   createModelClass(currentViewState) {
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
-    const { uiSchema, name } = currentViewState;
+    const { uiSchema } = currentViewState;
     const { scopes } = uiSchema[0];
-    const isAdminConsent = name === 'admin-consent';
 
     const i18nKeyPrefix = 'consent.scopes';
 
-    const localizedScopes = scopes.map(({name}) => ({
-      name,
-      displayName: (isAdminConsent || name === 'openid') ? name : loc(`${i18nKeyPrefix}.${name}.label`, 'login'),
-      description: loc(`${i18nKeyPrefix}.${name}.desc`, 'login'),
-    }));
+    const localizedScopes = scopes.map(({ name, displayName, description }) => {
+      const scopeKey = `${i18nKeyPrefix}.${name}`;
+      const labelKey = `${scopeKey}.label`;
+      const descKey = `${scopeKey}.desc`;
+      const doesLabelExist = doesI18NKeyExist(labelKey);
+      const doesDescExist = doesI18NKeyExist(descKey);
+      const i18nDisplayName = doesLabelExist ? loc(labelKey, 'login') : displayName;
+      const i18nDescription = doesDescExist ? loc(descKey, 'login'): description;
+
+      return {
+        name,
+        displayName: i18nDisplayName,
+        description: i18nDescription,
+        isCustomized: !doesLabelExist,
+      };
+    });
 
     return ModelClass.extend({
       props: {

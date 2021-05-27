@@ -17,7 +17,7 @@ export default View.extend({
   className: 'scope-item',
   template: hbs(
     '\
-      <div class={{classNames}}>\
+      <div class="{{classNames}}">\
         <p>{{name}}</p>\
       </div>\
       {{#if description}}\
@@ -26,9 +26,11 @@ export default View.extend({
     '
   ),
   getTemplateData() {
-    const { name, description } = this.options;
+    const { name, description, isCustomized } = this.options;
     const baseClass = 'scope-item-text';
-    return { classNames: name === 'openid' ? `${baseClass} no-translate`: baseClass, name, description };
+    const classNames = (name === 'openid' || isCustomized)
+      ? `${baseClass} no-translate`: baseClass;
+    return { classNames, name, description };
   },
 
   postRender: function() {

@@ -21,6 +21,7 @@ export default View.extend({
         options: {
           name: scope.displayName || scope.name,
           description: scope.description,
+          isCustomized: scope.isCustomized,
         },
       });
     });
