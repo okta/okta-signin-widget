@@ -34,7 +34,9 @@ const parseMockData = () => {
   console.log('================= Parsing mocks for en leaks automation =============');
   fs.readdirSync(mocksFolder).forEach(file => {
     const isIgnored = ignoredMocks.includes(file);
-    if (!isIgnored) {
+    //only allow json mock files
+    const isJsonMock = path.extname(file) === '.json';
+    if (!isIgnored && isJsonMock) {
       mocks.push(file);
     } else {
       test.skip(`Warning skipping mock ${file} from test english leaks test suite. This file may result in english leaks on the UI.`, () => { });

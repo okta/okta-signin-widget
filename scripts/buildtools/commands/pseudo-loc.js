@@ -8,7 +8,7 @@ exports.handler = async () => {
   // IMPORTANT:
   //   This utility requires VPN access to our internal NPM registry
   //   This script will fail without a connection
-  const packagePath = resolve(__dirname, '../../packages/@okta/pseudo-loc');
+  const packagePath = resolve(__dirname, '../../../packages/@okta/pseudo-loc');
   const installCmd = 'yarn install --silent';
 
   console.log('======= Installing Package Dependencies =======');
