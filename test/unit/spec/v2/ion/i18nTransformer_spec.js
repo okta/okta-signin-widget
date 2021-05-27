@@ -22,7 +22,6 @@ describe('v2/ion/i18nTransformer', function() {
       'email.enroll.enterCode': 'enter code',
       'oie.security.question.questionKey.label': 'choose a question',
       'oie.security.question.createQuestion.label': 'create a question',
-      'oie.google_authenticator.otp.title': 'enter passcode',
       'enroll.onprem.username.placeholder': 'enter {0} username',
       'enroll.onprem.passcode.placeholder': 'enter {0} passcode',
       'oie.phone.enroll.voice.label': 'voice call',

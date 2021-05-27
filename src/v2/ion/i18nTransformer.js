@@ -105,7 +105,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'enroll-authenticator.security_question.credentials.answer': 'mfa.challenge.answer.placeholder',
   'enroll-authenticator.security_question.credentials.question': 'oie.security.question.createQuestion.label',
   'enroll-authenticator.security_question.credentials.questionKey': 'oie.security.question.questionKey.label',
-  'enroll-authenticator.google_otp.credentials.passcode': 'oie.google_authenticator.otp.title',
+  'enroll-authenticator.google_otp.credentials.passcode': 'oie.google_authenticator.otp.enterCodeText',
   'enroll-authenticator.onprem_mfa.credentials.clientData': 'enroll.onprem.username.placeholder',
   'enroll-authenticator.onprem_mfa.credentials.passcode': 'enroll.onprem.passcode.placeholder',
   'enroll-authenticator.rsa_token.credentials.clientData': 'enroll.onprem.username.placeholder',
