@@ -99,13 +99,10 @@ module.exports = {
       'overrides': [
         {
           'files': [
-            'playground/**/authenticator-verification-okta-verify-reject-push.json',
-            'playground/**/error-with-failure-redirect.json',
-            'playground/**/error-authenticator-webauthn-failure.json',
-            'playground/**/error-internal-server-error.json',
-            'playground/**/error-okta-verify-totp.json',
-            'playground/**/error-user-is-not-assigned.json',
-            'playground/**/identify-unknown-user.json',
+            'playground/**/error-with-failure-redirect.json', //OKTA-390647
+            'playground/**/error-internal-server-error.json', //OKTA-389430
+            'playground/**/error-user-is-not-assigned.json', //OKTA-389249
+            'playground/**/identify-unknown-user.json', //OKTA-386386
           ],
           'rules': {
             'local-rules/no-missing-api-keys': 0
