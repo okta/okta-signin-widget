@@ -1,4 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
+import { renderWidget } from '../framework/shared';
 import SelectAuthenticatorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 
 import xhrSelectMethodOktaVerify from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-select-method';
@@ -49,6 +50,17 @@ test.requestHooks(mockChallengeOVSelectMethod)('should load select method list w
   // signout link at enroll page
   await t.expect(await selectAuthenticatorPage.signoutLinkExists()).ok();
   await t.expect(selectAuthenticatorPage.getSignoutLinkText()).eql('Back to sign in');
+});
+
+test.requestHooks(mockChallengeOVSelectMethod)('should load select method list with okta verify and no sign-out link', async t => {
+  const selectAuthenticatorPage = await setup(t);
+  await renderWidget({
+    features: { hideSignOutLinkInMFA: true },
+  });
+  await t.expect(selectAuthenticatorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
+
+  // signout link is not visible
+  await t.expect(await selectAuthenticatorPage.signoutLinkExists()).notOk();
 });
 
 test.requestHooks(requestLogger, mockChallengeOVSelectMethod)('should send right methodType when fastpass is selected', async t => {

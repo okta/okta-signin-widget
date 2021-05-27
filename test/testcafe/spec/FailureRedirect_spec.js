@@ -1,4 +1,5 @@
-import { ClientFunction, RequestMock } from 'testcafe';
+import { RequestMock } from 'testcafe';
+import { renderWidget } from '../framework/shared';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import PlaygroundErrorPageObject from '../framework/page-objects/PlaygroundErrorPageObject';
 import xhrErrorWithFailureRedirect from '../../../playground/mocks/data/idp/idx/error-with-failure-redirect';
@@ -8,11 +9,6 @@ const userNotAssignedMock = RequestMock()
   .respond(xhrErrorWithFailureRedirect);
 
 fixture('Failure with redirect');
-
-const renderWidget = ClientFunction((settings) => {
-  // function `renderPlaygroundWidget` is defined in playground/main.js
-  window.renderPlaygroundWidget(settings);
-});
 
 test.requestHooks(userNotAssignedMock)('generic case: redirects', async t => {
   const terminalPage = new TerminalPageObject(t);

@@ -1,4 +1,5 @@
-import { RequestMock, RequestLogger, ClientFunction } from 'testcafe';
+import { RequestMock, RequestLogger } from 'testcafe';
+import { renderWidget } from '../framework/shared';
 import RegistrationPageObject from '../framework/page-objects/RegistrationPageObject';
 import enrollProfile from '../../../playground/mocks/data/idp/idx/enroll-profile';
 import success from '../../../playground/mocks/data/idp/idx/terminal-registration';
@@ -8,10 +9,6 @@ const mock = RequestMock()
   .respond(enrollProfile)
   .onRequestTo('http://localhost:3000/idp/idx/enroll/new')
   .respond(success);
-
-const rerenderWidget = ClientFunction((settings) => {
-  window.renderPlaygroundWidget(settings);
-});
 
 const logger = RequestLogger(
   /enroll/,
@@ -35,7 +32,7 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onSucce
   logger.clear();
   const registrationPage = await setup(t);
 
-  await rerenderWidget({
+  await renderWidget({
     registration: {
       parseSchema: function(resp, onSuccess) {
         resp.find(({ name }) => name === 'userProfile.firstName').required = false;
@@ -78,7 +75,7 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onFailu
   logger.clear();
   const registrationPage = await setup(t);
 
-  await rerenderWidget({
+  await renderWidget({
     registration: {
       parseSchema: function(resp, onSuccess, onFailure) {
         const error = {
@@ -117,7 +114,7 @@ test.requestHooks(logger, mock)('should call settings.registration.postSubmit ho
   logger.clear();
   const registrationPage = await setup(t);
 
-  await rerenderWidget({
+  await renderWidget({
     registration: {
       postSubmit: function(postData, onSuccess, onFailure) {
         const error = {

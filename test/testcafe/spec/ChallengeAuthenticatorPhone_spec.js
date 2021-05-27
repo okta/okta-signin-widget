@@ -1,6 +1,6 @@
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengePhonePageObject from '../framework/page-objects/ChallengePhonePageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import { RequestMock, RequestLogger } from 'testcafe';
 import phoneVerificationSMSThenVoice from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-sms-then-voice';
 import phoneVerificationVoiceThenSMS from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-then-sms';
@@ -131,6 +131,18 @@ test
 
     await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
     await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Back to sign in');
+  });
+
+test
+  .requestHooks(smsPrimaryMock)('SMS primary mode - can render with no sign-out link', async t => {
+    const challengePhonePageObject = await setup(t);
+    await renderWidget({
+      features: { hideSignOutLinkInMFA: true },
+    });
+
+    await t.expect(challengePhonePageObject.getFormTitle()).contains('Verify with your phone');
+    // signout link is not visible
+    await t.expect(await challengePhonePageObject.signoutLinkExists()).notOk();
   });
 
 test

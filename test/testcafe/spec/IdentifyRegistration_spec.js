@@ -1,5 +1,5 @@
-import { RequestMock, ClientFunction, RequestLogger } from 'testcafe';
-import { checkConsoleMessages } from '../framework/shared';
+import { RequestMock, RequestLogger } from 'testcafe';
+import { checkConsoleMessages, renderWidget as rerenderWidget } from '../framework/shared';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import RegistrationPageObject from '../framework/page-objects/RegistrationPageObject';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
@@ -51,10 +51,6 @@ const logger = RequestLogger(
 const enrolProfileDisabledMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(identifyWithoutEnrollProfile);
-
-const rerenderWidget = ClientFunction((settings) => {
-  window.renderPlaygroundWidget(settings);
-});
 
 fixture('Registration');
 

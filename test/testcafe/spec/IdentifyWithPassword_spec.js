@@ -1,7 +1,7 @@
-import { ClientFunction, RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import IdentityRecoverPageObject from '../framework/page-objects/IdentifyRecoverPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
 import xhrIdentifyRecover from '../../../playground/mocks/data/idp/idx/identify-recovery';
@@ -26,10 +26,6 @@ const identifyRequestLogger = RequestLogger(
     stringifyRequestBody: true,
   }
 );
-
-const rerenderWidget = ClientFunction((settings) => {
-  window.renderPlaygroundWidget(settings);
-});
 
 fixture('Identify + Password');
 
@@ -75,7 +71,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password toggle if features.showPasswordToggleOnSignInPage is true', async t => {
   const identityPage = await setup(t);
-  await rerenderWidget({
+  await renderWidget({
     features: { showPasswordToggleOnSignInPage: true },
   });
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
@@ -83,7 +79,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if features.showPasswordToggleOnSignInPage is false', async t => {
   const identityPage = await setup(t);
-  await rerenderWidget({
+  await renderWidget({
     features: { showPasswordToggleOnSignInPage: false },
   });
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
@@ -91,7 +87,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not h
 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if "features.showPasswordToggleOnSignInPage" is false', async t => {
   const identityPage = await setup(t);
-  await rerenderWidget({
+  await renderWidget({
     'features.showPasswordToggleOnSignInPage': false,
   });
   await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
@@ -99,7 +95,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not h
 
 test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username and Password if i18n keys are defined', async t => {
   const identityPage = await setup(t);
-  await rerenderWidget({
+  await renderWidget({
     i18n: {
       en: {
         'primaryauth.username.tooltip': 'Your username goes here',
