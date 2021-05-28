@@ -220,7 +220,7 @@ test
     const challengeEmailPageObject = await setup(t);
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
     await t.wait(5000);
-    await t.expect(challengeEmailPageObject.getErrorFromErrorBox()).eql('The session has expired.');
+    await t.expect(challengeEmailPageObject.getErrorFromErrorBox()).eql('The session has expired. Refresh the page and try again.');
     // Check no poll requests were made further. There seems to be no way to interrupt a poll with mock response.
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
