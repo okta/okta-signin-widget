@@ -1,7 +1,7 @@
 {
   "name": "@okta/okta-signin-widget",
   "description": "The Okta Sign-In Widget",
-  "version": "5.7.0",
+  "version": "5.8.0",
   "homepage": "https://github.com/okta/okta-signin-widget",
   "license": "Apache-2.0",
   "repository": {
@@ -144,7 +144,7 @@
     "webpack": "^3.5.4",
     "webpack-bundle-analyzer": "^3.0.2",
     "webpack-dev-server": "2.11.3",
-    "@okta/eslint-plugin-okta":"0.4.0"
+    "@okta/eslint-plugin-okta": "0.4.0"
   },
   "dependencies": {
     "@babel/polyfill": "^7.10.1",
