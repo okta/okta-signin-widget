@@ -34,7 +34,12 @@ const optionsForInteractionCodeFlow = {
   },
   stateToken: undefined
 };
+
 const mocksWithInteractionCodeFlow = [
+  'success-with-interaction-code.json'
+];
+
+const mocksWithAlert = [
   'success-with-interaction-code.json'
 ];
 
@@ -115,11 +120,17 @@ const setUpResponse = (filePath) => {
 };
 
 async function setup(t, locale, fileName) {
-  const options = mocksWithInteractionCodeFlow.includes(fileName) ? optionsForInteractionCodeFlow : {};
+  const withInteractionCodeFlow = mocksWithInteractionCodeFlow.includes(fileName);
+  const withAlert = mocksWithAlert.includes(fileName);
+  const options = withInteractionCodeFlow ? optionsForInteractionCodeFlow : {};
   const widgetView = new PageObject(t);
   await widgetView.navigateToPage({ render: false });
-  await widgetView.mockCrypto();
-  await t.setNativeDialogHandler(() => true);
+  if (withInteractionCodeFlow) {
+    await widgetView.mockCrypto();
+  }
+  if (withAlert) {
+    await t.setNativeDialogHandler(() => true);
+  }
   await renderWidget({
     ...options,
     'language': locale

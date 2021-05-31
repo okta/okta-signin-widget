@@ -8,10 +8,6 @@ const idx = {
     'well-known-openid-configuration'
   ],
 
-  '/oauth2/default/v1/token': [
-    'success-tokens'
-  ],
-
   '/oauth2/default/v1/interact': [
     'interact'
     // 'error-feature-not-enabled'
