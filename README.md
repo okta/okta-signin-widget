@@ -296,7 +296,7 @@ Although a `redirectUri` is required in the configuration, no redirection will o
 var signIn = new OktaSignIn(
   {
     baseUrl: 'https://{yourOktaDomain}',
-    clientId: '{{clientId of your OIDC app}}'
+    clientId: '{{clientId of your OIDC app}}',
     redirectUri: '{{redirectUri configured in OIDC app}}'
   }
 );
