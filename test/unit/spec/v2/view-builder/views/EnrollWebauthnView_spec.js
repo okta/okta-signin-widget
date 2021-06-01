@@ -28,6 +28,7 @@ describe('v2/view-builder/views/webauthn/EnrollWebauthnView', function() {
         authenticatorEnrollments,
       });
       spyOn(appState, 'hasRemediationObject').and.callFake(formName => formName === 'select-authenticator-enroll');
+      spyOn(appState, 'hasMoreThanOneAuthenticatorOption').and.callFake(formName => formName === 'select-authenticator-enroll');
       spyOn(appState, 'shouldShowSignOutLinkInCurrentForm').and.returnValue(false);
       const settings = new Settings({ baseUrl: 'http://localhost:3000' });
       testContext.view = new EnrollWebauthnView({

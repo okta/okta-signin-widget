@@ -17,6 +17,7 @@ import {
   FORMS_WITH_STATIC_BACK_LINK,
   FORMS_FOR_VERIFICATION,
 } from '../ion/RemediationConstants';
+import { createOVOptions } from '../ion/ui-schema/ion-object-handler';
 import { _ } from '../mixins/mixins';
 
 /**
@@ -75,6 +76,19 @@ export default Model.extend({
 
   hasRemediationObject(formName) {
     return this.get('idx').neededToProceed.find((remediation) => remediation.name === formName);
+  },
+
+  hasMoreThanOneAuthenticatorOption(formName) {
+    const form = this.hasRemediationObject(formName);
+    if (form) {
+      const authenticator = form.value.find((value) => value.name === 'authenticator');
+      let authenticatorOptions = authenticator && authenticator.options;
+      // OV is a special case, so process OV options
+      authenticatorOptions = [...authenticatorOptions]; //clone it since we are changing it for OV
+      createOVOptions(authenticatorOptions);
+      return authenticatorOptions.length > 1;
+    }
+    return false;
   },
 
   getActionByPath(actionPath) {

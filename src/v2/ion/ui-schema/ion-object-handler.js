@@ -18,7 +18,7 @@ import { AUTHENTICATOR_KEY } from '../RemediationConstants';
  * @param {AuthenticatorOption[]} options
  * @param {( AuthenticatorEnrollment[] || Authenticator[] )} authenticators
  */
-const createOVOptions = (options = []) => {
+export const createOVOptions = (options = []) => {
   // Split OV into individual entries for verification (one for each method).
   const ovItem = options.find((option) => option.relatesTo.key === AUTHENTICATOR_KEY.OV);
   const methodTypeObj = ovItem?.value?.form?.value?.find(v => v.name === 'methodType');

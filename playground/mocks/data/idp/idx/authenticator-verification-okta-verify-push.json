@@ -42,7 +42,7 @@
             "type": "object",
             "options": [
               {
-                "label": "",
+                "label": "Okta Verify",
                 "value": {
                   "form": {
                     "value": [
@@ -168,7 +168,7 @@
         "key": "okta_verify",
         "id": "aen1mz5J4cuNoaR3l0g4",
         "authenticatorId": "auttheidkwh282hv8g3",
-        "methods": [ 
+        "methods": [
           { "type": "signed_nonce" },
           { "type": "push" },
           { "type": "totp" }
@@ -180,7 +180,7 @@
         "key": "okta_verify",
         "id": "aen1mz5J4cuNoaR3l0g3",
         "authenticatorId": "auttheidkwh282hv8g3",
-        "methods": [ 
+        "methods": [
           { "type": "signed_nonce" },
           { "type": "push" },
           { "type": "totp" }
