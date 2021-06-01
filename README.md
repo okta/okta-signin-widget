@@ -1210,10 +1210,11 @@ var signIn = new OktaSignIn({
 // after successfull authentication with IdP
 signIn.authClient.session.exists().then(function (sessionExists) {
   if (sessionExists) {
-    signIn.authClient.token.getWithoutPrompt().then(function (tokens) {
-      signIn.authClient.tokenManager.setTokens(tokens);
+    signIn.authClient.token.getWithoutPrompt().then(function (res) {
+      signIn.authClient.tokenManager.setTokens(res.tokens);
     });
   }
+}
 ```
 
 The IdP Discovery authentication flow in widget will be
