@@ -59,6 +59,7 @@ test
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
 
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).ok();
+    await t.expect(await enrollGoogleAuthenticatorPageObject.getOtpLabel()).contains('Enter code');
     await enrollGoogleAuthenticatorPageObject.enterCode('123456');
     await enrollGoogleAuthenticatorPageObject.submit();
 
@@ -77,6 +78,7 @@ test
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
 
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).ok();
+    await t.expect(await enrollGoogleAuthenticatorPageObject.getOtpLabel()).contains('Enter code');
     await enrollGoogleAuthenticatorPageObject.enterCode('123456');
     await enrollGoogleAuthenticatorPageObject.submit();
 
@@ -94,6 +96,7 @@ test
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
 
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).ok();
+    await t.expect(await enrollGoogleAuthenticatorPageObject.getOtpLabel()).contains('Enter code');
     await enrollGoogleAuthenticatorPageObject.enterCode('123456');
     await enrollGoogleAuthenticatorPageObject.submit();
 
@@ -115,6 +118,7 @@ test
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
 
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).ok();
+    await t.expect(await enrollGoogleAuthenticatorPageObject.getOtpLabel()).contains('Enter code');
     await enrollGoogleAuthenticatorPageObject.enterCode('123456');
     await enrollGoogleAuthenticatorPageObject.submit();
 
