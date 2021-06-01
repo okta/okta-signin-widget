@@ -153,7 +153,7 @@
     "handlebars": "^4.5.3",
     "q": "1.4.1",
     "u2f-api-polyfill": "0.4.3",
-    "underscore": "1.8.3"
+    "underscore": "1.13.1"
   },
   "optionalDependencies": {
     "fsevents": "*"
