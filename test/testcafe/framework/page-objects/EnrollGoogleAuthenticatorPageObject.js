@@ -46,6 +46,10 @@ export default class EnrollGoogleAuthenticatorPageObject extends BasePageObject 
     await this.form.clickElement('.google-authenticator-verify');
   }
 
+  getOtpLabel() {
+    return this.form.getFormFieldLabel(CODE_FIELD_NAME);
+  }
+
   enterCode(value) {
     return this.form.setTextBoxValue(CODE_FIELD_NAME, value);
   }
