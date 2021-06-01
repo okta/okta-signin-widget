@@ -35,7 +35,7 @@ describe('v2/ion/i18nTransformer', function() {
       'mfa.challenge.enterCode.placeholder': 'enter code',
       'mfa.challenge.password.placeholder': 'password',
       'oie.okta_verify.totp.enterCodeText': 'enter totp code',
-      'oie.google_authenticator.otp.enterCodeText': 'enter passcode',
+      'oie.google_authenticator.otp.enterCodeText': 'enter code',
       'oie.enroll.okta_verify.channel.email.label': 'email',
       'oie.password.newPasswordLabel': 'new password',
 
@@ -912,7 +912,7 @@ describe('v2/ion/i18nTransformer', function() {
           name: 'challenge-authenticator',
           uiSchema: [
             {
-              label: 'unit test - enter passcode',
+              label: 'unit test - enter code',
               'label-top': true,
               name: 'credentials.passcode',
               type: 'text',
@@ -1750,7 +1750,7 @@ describe('v2/ion/i18nTransformer', function() {
                 [
                   {
                     'name': 'credentials.passcode',
-                    'label': 'unit test - enter passcode',
+                    'label': 'unit test - enter code',
                     'required': true,
                     'visible': true,
                   }
