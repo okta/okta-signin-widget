@@ -1211,7 +1211,7 @@ var signIn = new OktaSignIn({
 signIn.authClient.session.exists().then(function (sessionExists) {
   if (sessionExists) {
     signIn.authClient.token.getWithoutPrompt().then(function (res) {
-      tokens = res.tokens
+      var tokens = res.tokens
       signIn.authClient.tokenManager.setTokens(tokens);
     });
   }
