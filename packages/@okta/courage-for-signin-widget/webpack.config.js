@@ -3,6 +3,7 @@ const { resolve } = require('path');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { BannerPlugin } = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ReplaceInFileWebpackPlugin = require('replace-in-file-webpack-plugin');
 const PACKAGE_JSON = require('./package.json');
 
 const EMPTY = resolve(__dirname, 'src/empty');
@@ -117,7 +118,16 @@ const webpackConfig = {
         to: `${I18N_DIR}/dist/properties/`,
       }
     ]),
-
+    // TODO: Handlebars helpers are provided through the Courage framework.
+    // This replacement plugin is temporarily used to remove a deprecated method.
+    // Changes to the internal Courage framework are tracked via OKTA-397756.
+    new ReplaceInFileWebpackPlugin([{
+      dir: PUBLISH_DIR,
+      rules: [{
+        search: /underscore.default.noConflict\(\)/,
+        replace: 'underscore.default',
+      }]
+    }]),
   ]
 
 };
