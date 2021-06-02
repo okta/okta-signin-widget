@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { _, Controller, createCallout, loc } from 'okta';
+import { _, Controller } from 'okta';
 import ViewFactory from '../view-builder/ViewFactory';
 import IonResponseHelper from '../ion/IonResponseHelper';
 import { getV1ClassName } from '../ion/ViewClassNamesFactory';
@@ -17,8 +17,6 @@ import { FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/Remedi
 import Util from '../../util/Util';
 import sessionStorageHelper from '../client/sessionStorageHelper';
 import { clearTransactionMeta } from '../client';
-
-const OV_UV_ENABLE_BIOMETRIC_SERVER_KEY = 'oie.authenticator.oktaverify.method.totp.verify.enable.biometrics';
 
 export default Controller.extend({
   className: 'form-controller',
@@ -250,24 +248,8 @@ export default Controller.extend({
     let errorObj;
     if (IonResponseHelper.isIonErrorResponse(error)) {
       const convertedErrors = IonResponseHelper.convertFormErrors(error);
-      if (IonResponseHelper.containsMessageWithI18nKey(convertedErrors, OV_UV_ENABLE_BIOMETRIC_SERVER_KEY)) {
-        this.formView.add('<div class="ion-messages-container"></div>', '.o-form-error-container');
-        const options = {
-          type: 'error',
-          className: 'okta-verify-uv-callout-content',
-          title: loc('oie.authenticator.oktaverify.method.totp.verify.enable.biometrics.title', 'login'),
-          subtitle: loc('oie.authenticator.oktaverify.method.totp.verify.enable.biometrics.description', 'login'),
-          bullets: [
-            loc('oie.authenticator.oktaverify.method.totp.verify.enable.biometrics.point1', 'login'),
-            loc('oie.authenticator.oktaverify.method.totp.verify.enable.biometrics.point2', 'login'),
-            loc('oie.authenticator.oktaverify.method.totp.verify.enable.biometrics.point3', 'login')
-          ],
-        };
-        this.formView.add(createCallout(options), '.o-form-error-container');
-      } else {
-        const showBanner = convertedErrors.responseJSON.errorCauses.length ? false : true;
-        model.trigger('error', model, convertedErrors, showBanner);
-      }
+      const showBanner = convertedErrors.responseJSON.errorCauses.length ? false : true;
+      model.trigger('error', model, convertedErrors, showBanner);
     } else if (error.errorSummary) {
       errorObj = { responseJSON: error };
     }
