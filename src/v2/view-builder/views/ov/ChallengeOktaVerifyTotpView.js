@@ -24,6 +24,8 @@ const Body = BaseForm.extend(
       console.log('My error');
       console.log(model);
       console.log(convertedErrors);
+      this.model.set('credentials.totp', '');
+      this.render();
       /*const errorSummaryKeys = convertedErrors?.responseJSON?.errorSummaryKeys;
       if (errorSummaryKeys && errorSummaryKeys.includes(OV_UV_ENABLE_BIOMETRIC_SERVER_KEY)) {
         // this means we are in change pin, so we should clear out answer input
