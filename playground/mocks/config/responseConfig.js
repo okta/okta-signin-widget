@@ -17,6 +17,8 @@ const idx = {
     'identify',
     // 'error-with-failure-redirect',
     // 'error-feature-not-enabled',
+    // 'error-account-creation',
+    // 'error-request-not-completed',
     // 'error-403-security-access-denied',
     // 'error-session-expired',
     // 'authenticator-enroll-email',
