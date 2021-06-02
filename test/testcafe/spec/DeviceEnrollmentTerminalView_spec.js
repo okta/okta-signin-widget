@@ -1,4 +1,5 @@
-import {ClientFunction, RequestLogger, RequestMock} from 'testcafe';
+import {RequestLogger, RequestMock} from 'testcafe';
+import { renderWidget as rerenderWidget } from '../framework/shared';
 import DeviceEnrollmentTerminalPageObject from '../framework/page-objects/DeviceEnrollmentTerminalPageObject';
 import IOSOdaEnrollment from '../../../playground/mocks/data/idp/idx/oda-enrollment-ios';
 import AndroidOdaEnrollment from '../../../playground/mocks/data/idp/idx/oda-enrollment-android';
@@ -15,11 +16,6 @@ const androidOdaMock = RequestMock()
 const mdmMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(MdmEnrollment);
-
-const rerenderWidget = ClientFunction((settings) => {
-  // function `renderPlaygroundWidget` is defined in playground/main.js
-  window.renderPlaygroundWidget(settings);
-});
 
 fixture('Device enrollment terminal view for ODA and MDM');
 
