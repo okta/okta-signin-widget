@@ -194,18 +194,15 @@ export default Model.extend({
       transformedResponse.currentAuthenticator?.poll?.refresh;
   },
 
-  // Sign Out link will be displayed in the footer of a form, unless
-  // - widget config hideSignOutLinkInMFA=true or mfaOnlyFlow=true
-  // and form is for identity verification (FORMS_FOR_VERIFICATION)
+  // Sign Out link will be displayed in the footer of a form, unless:
+  // - widget configuration set hideSignOutLinkInMFA or mfaOnlyFlow to true
   // - cancel remediation form is not present in the response
   // - form is part of our list FORMS_WITHOUT_SIGNOUT
   shouldShowSignOutLinkInCurrentForm(hideSignOutLinkInMFA) {
     const idxActions = this.get('idx') && this.get('idx').actions;
     const currentFormName = this.get('currentFormName');
-    const hideSignOutConfigOverride = hideSignOutLinkInMFA
-      && FORMS_FOR_VERIFICATION.includes(currentFormName);
 
-    return !hideSignOutConfigOverride
+    return !hideSignOutLinkInMFA
       && _.isFunction(idxActions?.cancel)
       && !FORMS_WITHOUT_SIGNOUT.includes(currentFormName);
   },

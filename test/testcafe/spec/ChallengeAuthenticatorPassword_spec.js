@@ -1,11 +1,11 @@
-import { RequestLogger, RequestMock, ClientFunction } from 'testcafe';
+import { RequestLogger, RequestMock } from 'testcafe';
+import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import xhrAuthenticatorRequiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
 import xhrInvalidPassword from '../../../playground/mocks/data/idp/idx/error-authenticator-verify-password';
 import xhrForgotPasswordError from '../../../playground/mocks/data/idp/idx/error-forgot-password';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import ChallengePasswordPageObject from '../framework/page-objects/ChallengePasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
 import sessionExpired from '../../../playground/mocks/data/idp/idx/error-pre-versioning-ff-session-expired';
 
 const mockChallengeAuthenticatorPassword = RequestMock()
@@ -39,11 +39,6 @@ const recoveryRequestLogger = RequestLogger(
     stringifyRequestBody: true,
   }
 );
-
-const rerenderWidget = ClientFunction((settings) => {
-  window.renderPlaygroundWidget(settings);
-});
-
 
 fixture('Challenge Authenticator Password');
 
@@ -79,6 +74,20 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('challenge password authen
   const pageUrl = await successPage.getPageUrl();
   await t.expect(pageUrl)
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
+});
+
+test.requestHooks(mockChallengeAuthenticatorPassword)('challenge password authenticator with no sign-out link', async t => {
+  const challengePasswordPage = await setup(t);
+  await renderWidget({
+    features: { hideSignOutLinkInMFA: true },
+  });
+
+  // assert switch authenticator link
+  await challengePasswordPage.switchAuthenticatorExists();
+  await t.expect(challengePasswordPage.getSwitchAuthenticatorButtonText()).eql('Verify with something else');
+
+  // signout link is not visible
+  await t.expect(await challengePasswordPage.signoutLinkExists()).notOk();
 });
 
 test.requestHooks(mockInvalidPassword)('challege password authenticator with invalid password', async t => {
@@ -152,7 +161,7 @@ test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not reco
 
 test.requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for Password if i18n keys are defined', async t => {
   const challengePasswordPage = await setup(t);
-  await rerenderWidget({
+  await renderWidget({
     i18n: {
       en: {
         'primaryauth.password.tooltip': 'Your password goes here',

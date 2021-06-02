@@ -1,4 +1,5 @@
 import { RequestMock } from 'testcafe';
+import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import DuoPageObject from '../framework/page-objects/DuoPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import xhrAuthenticatorEnrollDuo from '../../../playground/mocks/data/idp/idx/authenticator-enroll-duo';
@@ -16,12 +17,7 @@ fixture('Authenticator Enroll Duo')
 async function setup(t) {
   const enrollDuoPage = new DuoPageObject(t);
   await enrollDuoPage.navigateToPage();
-
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'enroll-duo',
     formName: 'enroll-authenticator',
     authenticatorKey: 'duo',
@@ -42,6 +38,19 @@ test('should render an iframe for duo', async t => {
   await t.expect(await enrollDuoPage.switchAuthenticatorLinkExists()).ok();
   await t.expect(enrollDuoPage.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');
   await t.expect(await enrollDuoPage.signoutLinkExists()).ok();
+});
+
+test('should render an iframe for duo without sign-out link', async t => {
+  const enrollDuoPage = await setup(t);
+  await renderWidget({
+    features: { hideSignOutLinkInMFA: true },
+  });
+
+  // Check title
+  await t.expect(enrollDuoPage.getFormTitle()).eql('Set up Duo Security');
+
+  // signout link is not visible
+  await t.expect(await enrollDuoPage.signoutLinkExists()).notOk();
 });
 
 test('enrolls successfully', async t => {

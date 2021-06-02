@@ -1,5 +1,6 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 
+import { renderWidget } from '../framework/shared';
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
 
@@ -209,7 +210,16 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();
   await t.expect(selectFactorPage.getSignoutLinkText()).eql('Back to sign in');
+});
 
+test.requestHooks(mockChallengePassword)('should load select authenticator list with no sign-out link', async t => {
+  const selectFactorPage = await setup(t);
+  await renderWidget({
+    features: { hideSignOutLinkInMFA: true },
+  });
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
+  // signout link is not visible
+  await t.expect(await selectFactorPage.signoutLinkExists()).notOk();
 });
 
 test.requestHooks(mockAuthenticatorListNoNumber)('should not display phone number in description if not available', async t => {
