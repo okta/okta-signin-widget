@@ -124,9 +124,11 @@ async function setup(t, locale, fileName) {
   const withAlert = mocksWithAlert.includes(fileName);
   const options = withInteractionCodeFlow ? optionsForInteractionCodeFlow : {};
   const widgetView = new PageObject(t);
-  await widgetView.navigateToPage({ render: false });
   if (withInteractionCodeFlow) {
+    await widgetView.navigateToPage({ render: false });
     await widgetView.mockCrypto();
+  } else {
+    await widgetView.navigateToPage();
   }
   if (withAlert) {
     await t.setNativeDialogHandler(() => true);
