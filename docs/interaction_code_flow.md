@@ -506,4 +506,4 @@ Enable or disable widget functionality with the following options.
 #### features.hideSignOutLinkInMFA
 
   Defaults to `false`.
-  Hides the "Back to sign-in" link for MFA challenge flows.
+  Hides the "Back to sign in" link for authenticator enrollment and challenge flows.

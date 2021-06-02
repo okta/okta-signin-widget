@@ -6,6 +6,7 @@ import xhrAuthenticatorVerifyDuo from '../../../playground/mocks/data/idp/idx/au
 import success from '../../../playground/mocks/data/idp/idx/success';
 import verificationTimeout from '../../../playground/mocks/data/idp/idx/error-authenticator-duo-verification-timeout';
 import verificationFailed from '../../../playground/mocks/data/idp/idx/error-authenticator-duo-verification-failed';
+import { checkConsoleMessages, renderWidget } from '../framework/shared';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -38,12 +39,7 @@ fixture('Challenge Duo');
 async function setup(t) {
   const challengeDuoPage = new DuoPageObject(t);
   await challengeDuoPage.navigateToPage();
-
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'mfa-verify-duo',
     formName: 'challenge-authenticator',
     authenticatorKey: 'duo',
@@ -74,6 +70,19 @@ test
 
     await t.expect(await challengeDuoPage.signoutLinkExists()).ok();
     await t.expect(challengeDuoPage.getSignoutLinkText()).eql('Back to sign in');
+  });
+
+test
+  .requestHooks(mock)('renders an iframe for Duo without sign-out link', async t => {
+    const challengeDuoPage = await setup(t);
+    await renderWidget({
+      features: { hideSignOutLinkInMFA: true },
+    });
+
+    // Check title
+    await t.expect(challengeDuoPage.getFormTitle()).eql('Verify with Duo Security');
+    // signout link is not visible
+    await t.expect(await challengeDuoPage.signoutLinkExists()).notOk();
   });
 
 test.requestHooks(answerRequestLogger, mock)('verifies successfully', async t => {
