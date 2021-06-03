@@ -6,6 +6,7 @@ import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
 import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
 import xhrAuthenticatorVerifySelect from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
 import xhrAuthenticatorOVTotp from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp';
+import config from '../../../src/config/config.json';
 
 const identifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -107,6 +108,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should be able to submit
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
   await t.expect(reqHeaders['x-device-fingerprint']).notOk();
+  await t.expect(reqHeaders['x-okta-user-agent-extended']).eql(`okta-signin-widget-${config.version}`);
 
   identifyRequestLogger.clear();
   await identityPage.fillIdentifierField('another foobar');
