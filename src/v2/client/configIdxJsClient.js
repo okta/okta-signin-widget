@@ -11,6 +11,7 @@
  */
 
 import idx from '@okta/okta-idx-js';
+import config from 'config/config.json';
 
 export function configIdxJsClient(appState) {
   // For certain flows, we need to generate a device fingerprint
@@ -21,5 +22,6 @@ export function configIdxJsClient(appState) {
     if (fingerprint) {
       requestConfig.headers['X-Device-Fingerprint'] = fingerprint;
     }
+    requestConfig.headers['X-Okta-User-Agent-Extended'] = `okta-signin-widget-${config.version}`;
   });
 }
