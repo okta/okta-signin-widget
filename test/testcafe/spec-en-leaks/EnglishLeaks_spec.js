@@ -43,6 +43,10 @@ const mocksWithAlert = [
   'success-with-interaction-code.json'
 ];
 
+const mocksWithoutInitialRender = [
+  'success-with-interaction-code.json'
+];
+
 const parseMockData = () => {
   // parse mocks folder
   const mocks = [];
@@ -121,14 +125,17 @@ const setUpResponse = (filePath) => {
 
 async function setup(t, locale, fileName) {
   const withInteractionCodeFlow = mocksWithInteractionCodeFlow.includes(fileName);
+  const preventInitialRender = mocksWithoutInitialRender.includes(fileName);
   const withAlert = mocksWithAlert.includes(fileName);
   const options = withInteractionCodeFlow ? optionsForInteractionCodeFlow : {};
   const widgetView = new PageObject(t);
-  if (withInteractionCodeFlow) {
+  if (preventInitialRender) {
     await widgetView.navigateToPage({ render: false });
-    await widgetView.mockCrypto();
   } else {
     await widgetView.navigateToPage();
+  }
+  if (withInteractionCodeFlow) {
+    await widgetView.mockCrypto();
   }
   if (withAlert) {
     await t.setNativeDialogHandler(() => true);
