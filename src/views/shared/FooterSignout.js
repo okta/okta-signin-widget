@@ -49,7 +49,7 @@ export default View.extend({
   getTemplateData: function() {
     return {
       linkClassName: _.isUndefined(this.options.linkClassName) ? 'goto' : this.options.linkClassName,
-      linkText: this.options.linkText || loc('signout', 'login'),
+      linkText: this.options.linkText || loc('goback', 'login'),
     };
   },
 });

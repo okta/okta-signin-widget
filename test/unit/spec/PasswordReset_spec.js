@@ -132,6 +132,7 @@ Expect.describe('PasswordReset', function() {
         const $link = test.form.signoutLink();
 
         expect($link.length).toBe(1);
+        expect($link.text()).toBe('Back to sign in');
         $link.click();
         return Expect.waitForPrimaryAuth(test);
       })
@@ -166,6 +167,7 @@ Expect.describe('PasswordReset', function() {
         const $link = test.form.signoutLink();
 
         expect($link.length).toBe(1);
+        expect($link.text()).toBe('Back to sign in');
         $link.click();
         return Expect.waitForAjaxRequest(test);
       })

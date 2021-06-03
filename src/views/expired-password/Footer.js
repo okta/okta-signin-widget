@@ -22,7 +22,9 @@ export default View.extend({
           {{i18n code="password.expiring.later" bundle="login"}}\
         </a>\
       {{/if}}\
-      <a href="#" class="link help goto js-signout" data-se="signout-link">{{i18n code="signout" bundle="login"}}</a>\
+      <a href="#" class="link help goto js-signout" data-se="signout-link">\
+        {{i18n code="signout" bundle="login"}}\
+      </a>\
     '
   ),
   className: 'auth-footer clearfix',
@@ -30,10 +32,19 @@ export default View.extend({
     'click .js-signout': function(e) {
       e.preventDefault();
       const self = this;
+      const authClient = self.settings.authClient;
 
       this.model
         .doTransaction(function(transaction) {
           return transaction.cancel();
+        })
+        .then(function() {
+          return authClient.session.exists();
+        })
+        .then(function(sessionExists) {
+          if (sessionExists) {
+            return authClient.closeSession().catch(() => {});
+          }
         })
         .then(function() {
           if (self.settings.get('signOutLink')) {
