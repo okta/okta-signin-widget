@@ -2,6 +2,8 @@ import AppState from 'v2/models/AppState';
 import MockUtil from '../../../helpers/v2/MockUtil';
 import XHRAuthenticatorChallengOktaVerify
   from '../../../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push.json';
+import XHRAuthenticatorEnrollOktaVerify
+  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-sms.json';
 import { FORMS_FOR_VERIFICATION, FORMS_WITHOUT_SIGNOUT } from 'v2/ion/RemediationConstants';
 
 describe('v2/models/AppState', function() {
@@ -182,6 +184,35 @@ describe('v2/models/AppState', function() {
       expect(this.appState.shouldReRenderView(transformedResponse)).toBe(false);
     });
 
+  });
+
+  describe('hasRemediationObject', () => {
+    it('returns null if there form is not present', (done) => {
+      const oktaVerifyChallengResponse = JSON.parse(JSON.stringify(XHRAuthenticatorChallengOktaVerify));
+      MockUtil.mockIntrospect(done, oktaVerifyChallengResponse, idxResp => {
+        this.initAppState({ idx: idxResp }, 'challenge-authenticator');
+        expect(this.appState.hasRemediationObject('other-form')).toBeUndefined();
+        done();
+      });
+    });
+
+    it('returns the remediation object if there form is present (select-authenticator-enroll)', (done) => {
+      const oktaVerifyEnrollResponse = JSON.parse(JSON.stringify(XHRAuthenticatorEnrollOktaVerify));
+      MockUtil.mockIntrospect(done, oktaVerifyEnrollResponse, idxResp => {
+        this.initAppState({ idx: idxResp }, 'enroll-authenticator');
+        expect(this.appState.hasRemediationObject('select-authenticator-enroll')).toBeDefined();
+        done();
+      });
+    });
+
+    it('returns the remediation object if there form is present (select-authenticator-authenticate)', (done) => {
+      const oktaVerifyChallengResponse = JSON.parse(JSON.stringify(XHRAuthenticatorChallengOktaVerify));
+      MockUtil.mockIntrospect(done, oktaVerifyChallengResponse, idxResp => {
+        this.initAppState({ idx: idxResp }, 'challenge-authenticator');
+        expect(this.appState.hasRemediationObject('select-authenticator-authenticate')).toBeDefined();
+        done();
+      });
+    });
   });
 
   describe('hasMoreThanOneAuthenticatorOption', () => {

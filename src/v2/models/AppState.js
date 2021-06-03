@@ -80,15 +80,15 @@ export default Model.extend({
 
   hasMoreThanOneAuthenticatorOption(formName) {
     const form = this.hasRemediationObject(formName);
-    if (form) {
-      const authenticator = form.value.find((value) => value.name === 'authenticator');
-      let authenticatorOptions = authenticator && authenticator.options;
-      // OV is a special case, so process OV options
-      authenticatorOptions = [...authenticatorOptions]; //clone it since we are changing it for OV
-      createOVOptions(authenticatorOptions);
-      return authenticatorOptions.length > 1;
+    if (!form) {
+      return false;
     }
-    return false;
+    const authenticator = form.value.find((value) => value.name === 'authenticator');
+    let authenticatorOptions = authenticator?.options || [];
+    // OV is a special case, so process OV options
+    authenticatorOptions = [...authenticatorOptions]; //clone it since we are changing it for OV
+    createOVOptions(authenticatorOptions);
+    return authenticatorOptions.length > 1;
   },
 
   getActionByPath(actionPath) {
