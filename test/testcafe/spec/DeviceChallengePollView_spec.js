@@ -7,12 +7,13 @@ import loopbackChallengeNotReceived from '../../../playground/mocks/data/idp/idx
 import identifyWithLaunchAuthenticator from '../../../playground/mocks/data/idp/idx/identify-with-device-launch-authenticator';
 import identifyWithSSOExtensionFallback from '../../../playground/mocks/data/idp/idx/identify-with-apple-sso-extension-fallback';
 import identifyWithLaunchUniversalLink from '../../../playground/mocks/data/idp/idx/identify-with-universal-link';
+import userIsNotAssignedError from '../../../playground/mocks/data/idp/idx/error-user-is-not-assigned.json';
 
 const BEACON_CLASS = 'mfa-okta-verify';
 
-let failureCount = 0;
+let failureCount = 0, pollingError = false;
 const loopbackSuccessLogger = RequestLogger(/introspect|probe|challenge/, { logRequestBody: true, stringifyRequestBody: true });
-const loopbackSuccesskMock = RequestMock()
+const loopbackSuccessMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithDeviceProbingLoopback)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
@@ -49,6 +50,31 @@ const loopbackSuccesskMock = RequestMock()
     'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
   })
   .onRequestTo(/6512\/challenge/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+    'access-control-allow-methods': 'POST, OPTIONS'
+  });
+
+const loopbackSuccessButNotAssignedAppMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithDeviceProbingLoopback)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond((req, res) => {
+    if (pollingError) {
+      res.statusCode = '400';
+      res.setBody(userIsNotAssignedError);
+    } else {
+      res.statusCode = '200';
+      res.setBody(identifyWithDeviceProbingLoopback);
+    }
+  })
+  .onRequestTo(/2000\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/2000\/challenge/)
   .respond(null, 200, {
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
@@ -192,7 +218,7 @@ async function setupLoopbackFallback(t) {
 }
 
 test
-  .requestHooks(loopbackSuccessLogger, loopbackSuccesskMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
+  .requestHooks(loopbackSuccessLogger, loopbackSuccessMock)('in loopback server approach, probing and polling requests are sent and responded', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
@@ -234,7 +260,7 @@ test
   });
 
 test
-  .requestHooks(loopbackSuccessForChallengeTimeoutLogger, loopbackSuccessForChallengeTimeoutMock)('in loopback server approach, will pool but not cancel when challenge timeout', async t => {
+  .requestHooks(loopbackSuccessForChallengeTimeoutLogger, loopbackSuccessForChallengeTimeoutMock)('in loopback server approach, will poll but not cancel when challenge timeout', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
@@ -262,6 +288,35 @@ test
               record.request.url.match(/\/idp\/idx\/authenticators\/poll/)
     )).gte(1);
     await t.expect(loopbackSuccessForChallengeTimeoutLogger.contains(record => record.request.url.match(/\/idp\/idx\/authenticators\/poll\/cancel/))).eql(false);
+  });
+
+test
+  .requestHooks(loopbackSuccessLogger, loopbackSuccessButNotAssignedAppMock)('loopback succeeds but user is not assigned to app, then clicks cancel link', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().innerText).eql('Cancel and take me to sign in');
+
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/introspect/)
+    )).eql(1);
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.method === 'get' &&
+        record.request.url.match(/2000\/probe/)
+    )).eql(1);
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/2000\/challenge/) &&
+        record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
+    )).eql(1);
+
+    await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6511/))).eql(false);
+    await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6512/))).eql(false);
+    await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6513/))).eql(false);
+
+    pollingError = true;
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
+    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Take me to sign in');
   });
 
 test
