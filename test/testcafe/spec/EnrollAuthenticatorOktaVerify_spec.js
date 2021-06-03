@@ -198,6 +198,12 @@ test.requestHooks(logger, enrollViaQRcodeMocks)('should be able to enroll via qr
   await t.expect(enrollOktaVerifyPage.hasEnrollViaSmsInstruction()).eql(false);
   await t.expect(enrollOktaVerifyPage.hasQRcode()).eql(true);
   await t.expect(enrollOktaVerifyPage.getQRInstruction()).eql(qrCodeInstruction);
+
+  // Verify links
+  await t.expect(await enrollOktaVerifyPage.switchAuthenticatorLinkExists()).ok();
+  await t.expect(enrollOktaVerifyPage.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');
+  await t.expect(await enrollOktaVerifyPage.signoutLinkExists()).ok();
+
   await t.wait(4000);
   await t.expect(logger.count(
     record => record.response.statusCode === 200 &&
@@ -220,6 +226,11 @@ test.requestHooks(mock)('should render switch channel view when Can\'t scan is c
     .eql('Text me a setup link');
   await t.expect(switchChannelPageObject.getOptionLabel(1))
     .eql('Email me a setup link');
+
+  // Verify links
+  await t.expect(await switchChannelPageObject.switchAuthenticatorLinkExists()).ok();
+  await t.expect(switchChannelPageObject.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');
+  await t.expect(await switchChannelPageObject.signoutLinkExists()).ok();
 });
 
 test.requestHooks(resendEmailMocks)('should render switch channel view when "try different way" is clicked when in email flow', async t => {
@@ -233,6 +244,11 @@ test.requestHooks(resendEmailMocks)('should render switch channel view when "try
     .eql('Scan a QR code');
   await t.expect(switchChannelPageObject.getOptionLabel(1))
     .eql('Text me a setup link');
+
+  // Verify links
+  await t.expect(await switchChannelPageObject.switchAuthenticatorLinkExists()).ok();
+  await t.expect(switchChannelPageObject.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');
+  await t.expect(await switchChannelPageObject.signoutLinkExists()).ok();
 });
 
 test.requestHooks(resendSmsMocks)('should render switch channel view when "try different way" is clicked when in sms flow', async t => {

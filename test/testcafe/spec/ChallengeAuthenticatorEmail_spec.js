@@ -143,6 +143,11 @@ test
     await t.expect(pageTitle).contains('Verify with your email');
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .contains('Check your email for a verification message. Click the verification button in your email or enter the code below to continue.');
+
+    // Verify links (switch authenticator link not present since there are no other authenticators available)
+    await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
+    await t.expect(await challengeEmailPageObject.signoutLinkExists()).ok();
+    await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
   });
 
 test
@@ -259,7 +264,7 @@ test
       record => record.response.statusCode === 200 &&
       record.request.url.match(/poll/)
     )).eql(5);
-  }); 
+  });
 
 test
   .requestHooks(logger, validOTPmock)('resend after 30 seconds', async t => {

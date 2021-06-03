@@ -51,6 +51,12 @@ test
     const resendPushBtn = challengeOktaVerifyPushPageObject.getResendPushButton();
     await t.expect(resendPushBtn.value).contains('Resend push notification');
     await t.expect(resendPushBtn.hasClass('link-button-disabled')).notOk();
+
+    // Verify links
+    await t.expect(await challengeOktaVerifyPushPageObject.switchAuthenticatorLinkExists()).ok();
+    await t.expect(challengeOktaVerifyPushPageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
+    await t.expect(await challengeOktaVerifyPushPageObject.signoutLinkExists()).ok();
+    await t.expect(challengeOktaVerifyPushPageObject.getSignoutLinkText()).eql('Back to sign in');
   });
 
 test

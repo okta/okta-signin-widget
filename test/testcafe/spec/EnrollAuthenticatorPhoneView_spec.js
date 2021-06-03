@@ -62,6 +62,8 @@ test
     await t.expect(pageSubtitle).contains('your phone');
     await t.expect(pageSubtitle).contains('Enter the code below to verify.');
 
+    // Verify links (switch authenticator link not present since there are no other authenticators available)
+    await t.expect(await enrollPhonePageObject.switchAuthenticatorLinkExists()).notOk();
     await t.expect(await enrollPhonePageObject.signoutLinkExists()).ok();
   });
 
@@ -83,6 +85,9 @@ test
     await t.expect(pageSubtitle).contains('your phone');
     await t.expect(pageSubtitle).contains('Enter the code below to verify.');
 
+    // Verify links
+    // Verify links (switch authenticator link not present since there are no other authenticators available)
+    await t.expect(await enrollPhonePageObject.switchAuthenticatorLinkExists()).notOk();
     await t.expect(await enrollPhonePageObject.signoutLinkExists()).ok();
   });
 

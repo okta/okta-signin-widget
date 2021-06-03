@@ -52,6 +52,12 @@ test
     await t.expect(await challengeOktaVerifyTOTPPageObject.getTotpLabel())
       .contains('Enter code from Okta Verify app');
 
+    // Verify links
+    await t.expect(await challengeOktaVerifyTOTPPageObject.switchAuthenticatorLinkExists()).ok();
+    await t.expect(challengeOktaVerifyTOTPPageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
+    await t.expect(await challengeOktaVerifyTOTPPageObject.signoutLinkExists()).ok();
+    await t.expect(challengeOktaVerifyTOTPPageObject.getSignoutLinkText()).eql('Back to sign in');
+
     await challengeOktaVerifyTOTPPageObject.verifyFactor('credentials.totp', '1234');
     await challengeOktaVerifyTOTPPageObject.clickNextButton();
     const successPage = new SuccessPageObject(t);

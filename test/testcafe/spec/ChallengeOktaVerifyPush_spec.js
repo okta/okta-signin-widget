@@ -50,6 +50,12 @@ test
     await t.expect(a11ySpan.textContent).contains('Push notification sent');
     await t.expect(pushBtn.hasClass('link-button-disabled')).ok();
     await t.expect(pageTitle).contains('Get a push notification');
+
+    // Verify links
+    await t.expect(await challengeOktaVerifyPushPageObject.switchAuthenticatorLinkExists()).ok();
+    await t.expect(challengeOktaVerifyPushPageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
+    await t.expect(await challengeOktaVerifyPushPageObject.signoutLinkExists()).ok();
+    await t.expect(challengeOktaVerifyPushPageObject.getSignoutLinkText()).eql('Back to sign in');
   });
 
 test
