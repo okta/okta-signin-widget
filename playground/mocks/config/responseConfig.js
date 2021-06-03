@@ -14,7 +14,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    // 'identify',
     // 'error-with-failure-redirect',
     // 'error-feature-not-enabled',
     // 'error-account-creation',
@@ -63,7 +63,7 @@ const idx = {
     // 'identify-with-device-probing-loopback-3',
     // 'identify-with-device-probing-loopback-challenge-not-received',
     // 'identify-with-no-sso-extension',
-    // 'identify-with-third-party-idps',
+    'identify-with-third-party-idps',
     // 'identify-with-only-third-party-idps',
     // 'identify-with-only-one-third-party-idp',
     // 'identify-with-password',
