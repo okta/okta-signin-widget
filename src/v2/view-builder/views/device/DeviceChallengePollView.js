@@ -7,6 +7,7 @@ import { CANCEL_POLLING_ACTION } from '../../utils/Constants';
 import Link from '../../components/Link';
 import { doChallenge } from '../../utils/ChallengeViewUtil';
 import OktaVerifyAuthenticatorHeader from '../../components/OktaVerifyAuthenticatorHeader';
+import { getSignOutLink } from '../../utils/LinksUtil';
 
 const request = (opts) => {
   const ajaxOptions = Object.assign({
@@ -39,6 +40,10 @@ const Body = BaseFormWithPolling.extend(
     onPollingFail() {
       this.$('.spinner').hide();
       this.stopPolling();
+      // When SIW receives form error, polling is already stopped
+      // SIW needs to update footer link from /poll/cancel to /idp/idx/cancel
+      const data = { label: loc('loopback.polling.cancel.link.with.form.error', 'login') };
+      this.options.appState.trigger('updateFooterLink', data);
     },
 
     remove() {
@@ -156,11 +161,8 @@ const Body = BaseFormWithPolling.extend(
 
 const Footer = BaseFooter.extend({
   initialize() {
-    const isFallbackApproach = [
-      Enums.CUSTOM_URI_CHALLENGE,
-      Enums.UNIVERSAL_LINK_CHALLENGE
-    ].includes(this.options.currentViewState.relatesTo.value.challengeMethod);
-    if (isFallbackApproach) {
+    this.listenTo(this.options.appState, 'updateFooterLink', this.handleUpdateFooterLink);
+    if (this.isFallbackApproach()) {
       BaseFooter.prototype.initialize.apply(this, arguments);
     } else {
       this.add(Link, {
@@ -171,7 +173,24 @@ const Footer = BaseFooter.extend({
         }
       });
     }
-  }
+  },
+
+  handleUpdateFooterLink(data) {
+    // only update link for loopback
+    if (!this.isFallbackApproach()) {
+      this.$el.find('.js-cancel-authenticator-challenge').remove();
+      this.add(Link, {
+        options: getSignOutLink(this.options.settings, data)[0]
+      });
+    } 
+  },
+
+  isFallbackApproach() {
+    return [
+      Enums.CUSTOM_URI_CHALLENGE,
+      Enums.UNIVERSAL_LINK_CHALLENGE
+    ].includes(this.options.currentViewState.relatesTo.value.challengeMethod);
+  },
 });
 
 export default BaseView.extend({

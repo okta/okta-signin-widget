@@ -95,7 +95,7 @@ const getSkipSetupLink = (appState) => {
   return [];
 };
 
-const getSignOutLink = (settings) => {
+const getSignOutLink = (settings, options = {}) => {
   if (settings?.get('signOutLink')) {
     return [
       {
@@ -108,7 +108,7 @@ const getSignOutLink = (settings) => {
     return [
       {
         'actionPath': 'cancel',
-        'label': loc('backToSignin', 'login'),
+        'label': !options.label ? loc('backToSignin', 'login') : options.label,
         'name': 'cancel',
         'type': 'link'
       },
