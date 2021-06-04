@@ -18,7 +18,7 @@ import { AUTHENTICATOR_KEY } from '../RemediationConstants';
  * @param {AuthenticatorOption[]} options
  * @param {( AuthenticatorEnrollment[] || Authenticator[] )} authenticators
  */
-function createOVOptions(options = []) {
+export function createOVOptions(options = []) {
   // Split OV into individual entries for verification (one for each method).
   const ovItem = options.find((option) => option.relatesTo.key === AUTHENTICATOR_KEY.OV);
   const methodTypeObj = ovItem?.value?.form?.value?.find(v => v.name === 'methodType');
@@ -109,7 +109,8 @@ function getAuthenticatorsVerifyUiSchema({ options }) {
 /**
   * Create ui schema for ION field that has type 'object'.
   */
-function createUiSchemaForObject(ionFormField, remediationForm, transformedResp, createUISchema, settings) {
+export default function createUiSchemaForObject(ionFormField, remediationForm, transformedResp,
+  createUISchema, settings) {
   const uiSchema = {};
 
   if (ionFormField.name === 'authenticator' &&
@@ -148,8 +149,3 @@ function createUiSchemaForObject(ionFormField, remediationForm, transformedResp,
 
   return uiSchema;
 }
-
-export {
-  createUiSchemaForObject as default,
-  createOVOptions
-};

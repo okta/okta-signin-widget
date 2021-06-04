@@ -5,7 +5,12 @@ import { getSwitchAuthenticatorLink } from 'v2/view-builder/utils/LinksUtil';
 describe('v2/utils/LinksUtil', function() {
   const mockAppState = (remediationFormName, hasMoreThanOneAuthenticator) => {
     const appState = new AppState();
-    jest.spyOn(appState, 'hasMoreThanOneAuthenticatorOption').mockReturnValue(hasMoreThanOneAuthenticator);
+    spyOn(appState, 'getRemediationAuthenticationOptions').and.callFake(formName => {
+      if (formName === remediationFormName && hasMoreThanOneAuthenticator) {
+        return [ { label: 'some authenticator '}, { label: 'another authenticator' } ];
+      }
+      return [];
+    });
     return appState;
   };
 

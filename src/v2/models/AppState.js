@@ -78,7 +78,7 @@ export default Model.extend({
     return this.get('idx').neededToProceed.find((remediation) => remediation.name === formName);
   },
 
-  hasMoreThanOneAuthenticatorOption(formName) {
+  getRemediationAuthenticationOptions(formName) {
     const form = this.hasRemediationObject(formName);
     if (!form) {
       return false;
@@ -88,7 +88,7 @@ export default Model.extend({
     // OV is a special case, so process OV options
     authenticatorOptions = [...authenticatorOptions]; //clone it since we are changing it for OV
     createOVOptions(authenticatorOptions);
-    return authenticatorOptions.length > 1;
+    return authenticatorOptions;
   },
 
   getActionByPath(actionPath) {
