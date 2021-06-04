@@ -22,28 +22,6 @@ const renderWidget = ClientFunction((settings) => {
   window.renderPlaygroundWidget(settings);
 });
 
-const mockCrypto = ClientFunction(() => {
-  if (typeof window.crypto === 'undefined') {
-    window.crypto = {};
-  }
-
-  if (typeof window.crypto.subtle === 'undefined') {
-    window.crypto.subtle = {
-      digest: function() {
-        return Promise.resolve(65);
-      }
-    };
-  }
-
-  if (typeof Uint8Array === 'undefined') {
-    window['Uint8Array'] = window.Number;
-  }
-
-  String.fromCharCode = function() {
-    return 'mocked';
-  };
-});
-
 const saveTransactionMeta = ClientFunction(meta => {
   const signIn = window.createWidgetInstance();
   const authClient = signIn.authClient;
@@ -102,7 +80,7 @@ async function setup(t, options = {}) {
   }
 
   // Render the widget for interaction code flow
-  await mockCrypto();
+  await pageObject.mockCrypto();
   await renderWidget({
     stateToken: undefined,
     clientId: 'fake',

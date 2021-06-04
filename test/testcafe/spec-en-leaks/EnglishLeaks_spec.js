@@ -7,11 +7,12 @@ const path = require('path');
 
 const PLAYGROUND = path.resolve(__dirname, '../../../playground');
 const mocksFolder = `${PLAYGROUND}/mocks/data/idp/idx`;
+const mocksOauth2Folder = `${PLAYGROUND}/mocks/data/oauth2`;
 
 fixture('English Leaks');
+
 // These mocks have known english leaks ignoring them temporarily
 const ignoredMocks = [
-  'success-with-interaction-code.json',
   'identify-with-third-party-idps.json',
   'identify-with-apple-redirect-sso-extension.json', // flaky on bacon
   'identify-unknown-user.json',
@@ -21,6 +22,31 @@ const ignoredMocks = [
   'authenticator-verification-select-authenticator.json',
   'error-with-failure-redirect.json',
   'identify-recovery-with-recaptcha-v2.json'
+];
+
+const optionsForInteractionCodeFlow = {
+  clientId: 'fake',
+  useInteractionCodeFlow: true,
+  codeVerifier: 'fake',
+  codeChallenge: 'totally_fake',
+  codeChallengeMethod: 'S256',
+  authParams: {
+    ignoreSignature: true,
+    pkce: true,
+  },
+  stateToken: undefined
+};
+
+const mocksWithInteractionCodeFlow = [
+  'success-with-interaction-code.json'
+];
+
+const mocksWithAlert = [
+  'success-with-interaction-code.json'
+];
+
+const mocksWithoutInitialRender = [
+  'success-with-interaction-code.json'
 ];
 
 const parseMockData = () => {
@@ -78,6 +104,14 @@ const setUpResponse = (filePath) => {
       'url': verifyUrl,
       'response': '<html><h1>》ok_PL《</h1></html>'
     },
+    {
+      'url': 'http://localhost:3000/oauth2/default/v1/token',
+      'response': require(`${mocksOauth2Folder}/success-tokens.json`)
+    },
+    {
+      'url': 'http://localhost:3000/oauth2/default/v1/interact',
+      'response': require(`${mocksOauth2Folder}/interact.json`)
+    }
   ];
 
   const mock = RequestMock();
@@ -91,17 +125,32 @@ const setUpResponse = (filePath) => {
   return mock;
 };
 
-async function setup(t, locale) {
+async function setup(t, locale, fileName) {
+  const withInteractionCodeFlow = mocksWithInteractionCodeFlow.includes(fileName);
+  const preventInitialRender = mocksWithoutInitialRender.includes(fileName);
+  const withAlert = mocksWithAlert.includes(fileName);
+  const options = withInteractionCodeFlow ? optionsForInteractionCodeFlow : {};
   const widgetView = new PageObject(t);
-  await widgetView.navigateToPage();
+  if (preventInitialRender) {
+    await widgetView.navigateToPage({ render: false });
+  } else {
+    await widgetView.navigateToPage();
+  }
+  if (withInteractionCodeFlow) {
+    await widgetView.mockCrypto();
+  }
+  if (withAlert) {
+    await t.setNativeDialogHandler(() => true);
+  }
   await renderWidget({
+    ...options,
     'language': locale
   });
 }
 
 const testEnglishLeaks = (mockIdxResponse, fileName, locale) => {
   test.requestHooks(mockIdxResponse)(`${fileName} should not have english leaks`, async t => {
-    await setup(t, locale);
+    await setup(t, locale, fileName);
     const viewTextExists = await Selector('#okta-sign-in').exists;
     //Use innerText to avoid including hidden elements
     let viewText = viewTextExists && await Selector('#okta-sign-in').innerText;

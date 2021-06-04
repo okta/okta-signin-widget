@@ -98,7 +98,8 @@ const idx = {
     // 'error-identify-access-denied',
     // 'error-identify-user-locked-unable-challenge',
     // 'terminal-device-activated',
-    // 'terminal-device-not-activated'
+    // 'terminal-device-not-activated',
+    // 'success-with-interaction-code',
     // 'error-with-failure-redirect',
   ],
   '/idp/idx/challenge/answer': [

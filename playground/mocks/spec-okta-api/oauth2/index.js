@@ -8,8 +8,9 @@ const wellKnown = [
 
 const apiEndpoints = [
   '/oauth2/default/v1/interact',
+  '/oauth2/default/v1/token'
 ].map(path => {
   return templateHelper({path});
 });
 
-module.exports = Object.assign({}, wellKnown, apiEndpoints);
+module.exports = wellKnown.concat(apiEndpoints);
