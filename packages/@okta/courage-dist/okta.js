@@ -1,4 +1,4 @@
-/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.5.0-4857-g13f1f5c */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.5.0-5082-ga8d26d7 */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -255,6 +255,7 @@ var proto = {
       if (arguments.length === 2 && _underscoreWrapper.default.isFunction(message)) {
         options = {
           title: 'Okta',
+          // eslint-disable-line @okta/okta/no-unlocalized-text
           subtitle: title,
           ok: message
         };
@@ -438,6 +439,50 @@ function getBundle(bundleName) {
   var locale = parseLocale(window && window.okta && window.okta.locale) || 'en';
   return _oktaI18nBundles.default["".concat(bundleName, "_").concat(locale)] || _oktaI18nBundles.default[bundleName];
 }
+/**
+ *
+ * CustomEvent polyfill for IE
+ * https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#polyfill
+ */
+
+
+function IECustomEvent(event, params) {
+  params = params || {
+    bubbles: false,
+    cancelable: false,
+    detail: null
+  };
+  var evt = document.createEvent('CustomEvent');
+  evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+  return evt;
+}
+/**
+ * Call the window.okta.emitL10nError function if it is defined
+ * @param {String} key The i18n key
+ * @param {String} bundleName The i18n bundle name
+ * @param {String} reason Could be 'bundle' (Bundle not found), 'key' (Key not found) or 'parameters' (Parameters mismatch).
+ */
+
+
+function emitL10nError(key, bundleName, reason) {
+  // CustomEvent polyfill for IE
+  if (!window.CustomEvent) {
+    window.CustomEvent = IECustomEvent;
+  } // dispatchEvent for sentry
+
+
+  if (typeof window.CustomEvent === 'function') {
+    var event = new CustomEvent('okta-i18n-error', {
+      detail: {
+        type: 'l10n-error',
+        key: key,
+        bundleName: bundleName,
+        reason: reason
+      }
+    });
+    document.dispatchEvent(event);
+  }
+}
 
 var StringUtil =
 /** @lends module:Okta.internal.util.StringUtil */
@@ -447,7 +492,7 @@ var StringUtil =
     var args = Array.prototype.slice.apply(arguments);
     var value = args.shift();
     var oldValue = value;
-    /* eslint max-statements: [2, 13] */
+    /* eslint max-statements: [2, 15] */
 
     function triggerError() {
       throw new Error('Mismatch number of variables: ' + arguments[0] + ', ' + JSON.stringify(args));
@@ -522,10 +567,16 @@ var StringUtil =
     var bundle = getBundle(bundleName);
 
     if (!bundle) {
+      emitL10nError(key, bundleName, 'bundle');
       return 'L10N_ERROR[' + bundleName + ']';
     }
 
-    return bundle[key] || 'L10N_ERROR[' + key + ']';
+    if (bundle[key]) {
+      return bundle[key];
+    } else {
+      emitL10nError(key, bundleName, 'key');
+      return 'L10N_ERROR[' + key + ']';
+    }
   },
 
   /**
@@ -541,6 +592,7 @@ var StringUtil =
     /* eslint complexity: [2, 6] */
 
     if (!bundle) {
+      emitL10nError(key, bundleName, 'bundle');
       return 'L10N_ERROR[' + bundleName + ']';
     }
 
@@ -550,11 +602,17 @@ var StringUtil =
       params = params && params.slice ? params.slice(0) : [];
       params.unshift(value);
       value = StringUtil.sprintf.apply(null, params);
-    } catch (e) {
-      value = null;
-    }
 
-    return value || 'L10N_ERROR[' + key + ']';
+      if (value) {
+        return value;
+      } else {
+        emitL10nError(key, bundleName, 'key');
+        return 'L10N_ERROR[' + key + ']';
+      }
+    } catch (e) {
+      emitL10nError(key, bundleName, 'parameters');
+      return 'L10N_ERROR[' + key + ']';
+    }
   },
 
   /**
@@ -1621,6 +1679,7 @@ var _default = {
 
     return _BaseView.default.extend({
       tagName: 'a',
+      className: options.className,
       attributes: {
         href: '#',
         'aria-label': ariaLabel
@@ -4476,6 +4535,7 @@ var _default = _backbone.default.Router.extend(
    *
    * @param  {Object} options Options Hash
    * @param  {String} options.title The title
+   * @param  {Array<string>} buttonOrder The order of the buttons
    * @param  {String} options.subtitle The explain text
    * @param  {String} options.save The text for the save button
    * @param  {Function} options.ok The callback function to run when hitting "OK"
@@ -4490,7 +4550,7 @@ var _default = _backbone.default.Router.extend(
   _confirm: function _confirm(options) {
     options || (options = {});
 
-    var Dialog = _ConfirmationDialog.default.extend(_underscoreWrapper.default.pick(options, 'title', 'subtitle', 'save', 'ok', 'cancel', 'cancelFn', 'noCancelButton', 'noSubmitButton', 'content', 'danger', 'type', 'closeOnOverlayClick'));
+    var Dialog = _ConfirmationDialog.default.extend(_underscoreWrapper.default.pick(options, 'title', 'subtitle', 'save', 'ok', 'cancel', 'cancelFn', 'noCancelButton', 'noSubmitButton', 'content', 'danger', 'type', 'closeOnOverlayClick', 'buttonOrder'));
 
     var dialog = new Dialog({
       model: this.settings
@@ -11653,7 +11713,8 @@ var _default = _BaseView.default.extend({
     } else {
       this.add(_FormUtil.default.createReadFormButton({
         type: 'edit',
-        formTitle: this.formTitle
+        formTitle: this.formTitle,
+        className: 'ajax-form-edit-link'
       }));
     }
   },
@@ -11867,12 +11928,16 @@ var _default = {
     var errors = {}; // xhr error object
 
     if (responseJSON) {
-      /* eslint complexity: [2, 7] */
+      /* eslint complexity: [2, 9] */
       _underscoreWrapper.default.each(responseJSON.errorCauses || [], function (cause) {
         var res = [];
 
         if (cause.property && cause.errorSummary) {
           res = this.parseErrorCauseObject(cause);
+        } else if (cause.location && cause.errorSummary) {
+          // To handle new api error format for field level errors.
+          // Ignoring the reason attribute as the translation happens in the API layer and not in the client any more.
+          res = [cause.location, cause.errorSummary];
         } else {
           res = this.parseErrorSummary(cause && cause.errorSummary || '');
         }
