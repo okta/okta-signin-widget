@@ -53,6 +53,8 @@ const Body = BaseForm.extend({
   },
 
   render() {
+    // cause an error 
+    const errorLabel = loc('invalidkey', 'login');
     BaseForm.prototype.render.apply(this, arguments);
 
     // Launch Device Authenticator

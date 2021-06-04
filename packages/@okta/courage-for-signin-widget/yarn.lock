@@ -25,16 +25,16 @@
   dependencies:
     "@babel/helper-module-imports" "^7.0.0"
 
-"@okta/courage@4.5.0-4857-g13f1f5c":
-  version "4.5.0-4857-g13f1f5c"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/courage/-/@okta/courage-4.5.0-4857-g13f1f5c.tgz#9cd1ac0d2458066571b57b3a8a7f69137f559d5e"
-  integrity sha1-nNGsDSRYBmVxtXs6in9pE39VnV4=
+"@okta/courage@4.5.0-5081-g99e49ae":
+  version "4.5.0-5081-g99e49ae"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/courage/-/@okta/courage-4.5.0-5081-g99e49ae.tgz#c4c59e4884d98332d88e9eca032d4fe35bf073e9"
+  integrity sha1-xMWeSITZgzLYjp7KAy1P41vwc+k=
   dependencies:
-    "@okta/jquery.simplemodal" "1.4.18"
-    "@okta/moment" "1.1.5"
+    "@okta/jquery.simplemodal" "1.4.19-g8b711ea"
+    "@okta/moment" "1.1.6-g5eecd36"
     backbone "^1.3.3"
     clipboard "^1.5.16"
-    handlebars "4.7.6"
+    handlebars "4.7.7"
     selectize "0.12.4"
     underscore "1.8.3"
 
@@ -50,15 +50,15 @@
     node-properties-parser "^0.0.2"
     pkg-up "^3.1.0"
 
-"@okta/jquery.simplemodal@1.4.18":
-  version "1.4.18"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/jquery.simplemodal/-/@okta/jquery.simplemodal-1.4.18.tgz#ff73bd62e4d9b5c4c2df828a1d3ad928271b28c8"
-  integrity sha1-/3O9YuTZtcTC34KKHTrZKCcbKMg=
+"@okta/jquery.simplemodal@1.4.19-g8b711ea":
+  version "1.4.19-g8b711ea"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/jquery.simplemodal/-/@okta/jquery.simplemodal-1.4.19-g8b711ea.tgz#30409b299cffe5fb5cf1296e80d4b28456b04a0c"
+  integrity sha1-MECbKZz/5ftc8SlugNSyhFawSgw=
 
-"@okta/moment@1.1.5":
-  version "1.1.5"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta/@okta/moment/-/@okta/moment-1.1.5.tgz#9f5723d20bdec6a94944ba00e72befcda82d2849"
-  integrity sha1-n1cj0gvexqlJRLoA5yvvzagtKEk=
+"@okta/moment@1.1.6-g5eecd36":
+  version "1.1.6-g5eecd36"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/moment/-/@okta/moment-1.1.6-g5eecd36.tgz#228a4726f585f857f3443fd1e7965da953d0d72b"
+  integrity sha1-IopHJvWF+FfzRD/R55ZdqVPQ1ys=
   dependencies:
     moment "^2.24.0"
 
@@ -1564,10 +1564,10 @@ gzip-size@^5.0.0:
     duplexer "^0.1.1"
     pify "^4.0.1"
 
-handlebars@4.7.6:
-  version "4.7.6"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/handlebars/-/handlebars-4.7.6.tgz#d4c05c1baf90e9945f77aa68a7a219aa4a7df74e"
-  integrity sha1-1MBcG6+Q6ZRfd6pop6IZqkp9904=
+handlebars@4.7.7:
+  version "4.7.7"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/handlebars/-/handlebars-4.7.7.tgz#9ce33416aad02dbd6c8fafa8240d5d98004945a1"
+  integrity sha1-nOM0FqrQLb1sj6+oJA1dmABJRaE=
   dependencies:
     minimist "^1.2.5"
     neo-async "^2.6.0"
