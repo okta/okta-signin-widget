@@ -116,6 +116,7 @@ const getSignOutLink = (settings) => {
   }
 };
 
+// Use it to create a widget configured link in the absence of `cancel` object in remediation
 const getBackToSignInLink = (settings) => {
   return [
     {

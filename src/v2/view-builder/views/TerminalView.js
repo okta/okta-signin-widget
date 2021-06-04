@@ -12,24 +12,23 @@ const OPERATION_CANCELED_BY_USER_KEY = 'idx.operation.cancelled.by.user';
 const DEVICE_ACTIVATED = 'idx.device.activated';
 const DEVICE_NOT_ACTIVATED_CONSENT_DENIED = 'idx.device.not.activated.consent.denied';
 const DEVICE_NOT_ACTIVATED_INTERNAL_ERROR = 'idx.device.not.activated.internal.error';
+const FLOW_CONTINUE_IN_NEW_TAB = 'idx.transferred.to.new.tab';
+const EMAIL_LINK_OUT_OF_DATE = 'idx.return.stale';
+const EMAIL_LINK_CANT_BE_PROCESSED = 'idx.return.error';
+const EMAIL_VERIFICATION_REQUIRED = 'idx.email.verification.required';
 
 export const REGISTRATION_NOT_ENABLED = 'oie.registration.is.not.enabled';
 export const FORGOT_PASSWORD_NOT_ENABLED = 'oie.forgot.password.is.not.enabled';
 
 const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
-  'idx.transferred.to.new.tab',
-  'idx.return.stale',
-  'idx.return.error',
-  'idx.email.verification.required',
+  FLOW_CONTINUE_IN_NEW_TAB,
+  EMAIL_LINK_OUT_OF_DATE,
+  EMAIL_LINK_CANT_BE_PROCESSED,
+  EMAIL_VERIFICATION_REQUIRED,
   RETURN_TO_ORIGINAL_TAB_KEY,
   RETURN_LINK_EXPIRED_KEY,
   OPERATION_CANCELED_ON_OTHER_DEVICE_KEY,
   OPERATION_CANCELED_BY_USER_KEY,
-];
-
-const GET_BACK_TO_SIGN_LINK_FLOWS = [
-  RETURN_LINK_EXPIRED_KEY,
-  REGISTRATION_NOT_ENABLED,
 ];
 
 const DEVICE_CODE_ERROR_KEYS = [
@@ -40,6 +39,16 @@ const DEVICE_CODE_ERROR_KEYS = [
 const DEVICE_CODE_FLOW_TERMINAL_KEYS = [
   DEVICE_ACTIVATED,
   ...DEVICE_CODE_ERROR_KEYS
+];
+
+// These terminal views build their own links, basically they have cancel remediation in error response
+// Or doesn't require a Back to Sign in link because the flow didn't start from login screen
+const NO_BACKTOSIGNIN_LINK_VIEWS = [
+  UNLOCK_ACCOUNT_TERMINAL_KEY,
+  RETURN_TO_ORIGINAL_TAB_KEY,
+  FLOW_CONTINUE_IN_NEW_TAB,
+  OPERATION_CANCELED_ON_OTHER_DEVICE_KEY,
+  ...DEVICE_CODE_FLOW_TERMINAL_KEYS
 ];
 
 const Body = BaseForm.extend({
@@ -124,15 +133,17 @@ const Body = BaseForm.extend({
 });
 
 const Footer = BaseFooter.extend({
+  // All terminal views should have Back to sign in link either widget configured or server configured.
   links: function() {
-    if (this.options.appState.containsMessageWithI18nKey(GET_BACK_TO_SIGN_LINK_FLOWS)) {
-      return getBackToSignInLink(this.options.settings);
-    }
     if (this.options.appState.containsMessageStartingWithI18nKey(SAFE_MODE_KEY_PREFIX)) {
       return getSkipSetupLink(this.options.appState);
     }
     if (this.options.appState.containsMessageWithI18nKey(DEVICE_CODE_ERROR_KEYS)) {
       return getReloadPageButtonLink();
+    }
+
+    if (!this.options.appState.containsMessageWithI18nKey(NO_BACKTOSIGNIN_LINK_VIEWS)) {
+      return getBackToSignInLink(this.options.settings);
     }
   }
 });

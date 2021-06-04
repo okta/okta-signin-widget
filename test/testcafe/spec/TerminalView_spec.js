@@ -5,6 +5,11 @@ import terminalReturnExpiredEmail from '../../../playground/mocks/data/idp/idx/t
 import terminalRegistrationEmail from '../../../playground/mocks/data/idp/idx/terminal-registration';
 import terminalReturnEmailConsentDenied from '../../../playground/mocks/data/idp/idx/terminal-enduser-email-consent-denied';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
+import sessionExpired from '../../../playground/mocks/data/idp/idx/error-session-expired';
+import noPermissionForAction from '../../../playground/mocks/data/idp/idx/error-403-security-access-denied';
+import pollingExpired from '../../../playground/mocks/data/idp/idx/terminal-polling-window-expired';
+import unlockFailed from '../../../playground/mocks/data/idp/idx/error-unlock-account';
+import accessDeniedOnOtherDeivce from '../../../playground/mocks/data/idp/idx/terminal-return-email-consent-denied';
 
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -25,6 +30,26 @@ const terminalRegistrationEmailMock = RequestMock()
 const terminalReturnEmailConsentDeniedMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(terminalReturnEmailConsentDenied);
+
+const sessionExpiredMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(sessionExpired);
+
+const noPermissionForActionMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(noPermissionForAction);
+
+const pollingExpiredMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(pollingExpired);
+
+const unlockFailedMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(unlockFailed);
+
+const accessDeniedOnOtherDeivceMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(accessDeniedOnOtherDeivce);
 
 fixture('Terminal view');
 
@@ -50,5 +75,34 @@ async function setup(t) {
     .requestHooks(mock)(testTitle, async t => {
       const terminalViewPage = await setup(t);
       await t.expect(terminalViewPage.getBeaconClass()).contains('mfa-okta-email');
+    });
+});
+
+// Generally all terminal states should have Back to sgin in link.
+// No need to add tests for each view here, respctive test class for the flow should test it.
+[
+  ['should have Back to sign in link when session expires', sessionExpiredMock],
+  ['should have Back to sign in link when operation cancelled', terminalReturnEmailConsentDeniedMock],
+  ['should have Back to sign in link when access denied', noPermissionForActionMock],
+  ['should have Back to sign in link when polling window expired', pollingExpiredMock],
+  ['should have Back to sign in link when unlock account failed', unlockFailedMock]
+].forEach(([ testTitle, mock ]) => {
+  test
+    .requestHooks(mock)(testTitle, async t => {
+      const terminalViewPage = await setup(t);
+      await t.expect(await terminalViewPage.goBackLinkExists()).ok();
+    });
+});
+
+// Adds a check to test if back to sign in link is not required in some terminal states.
+// This should be added in respective test class for the flow
+[
+  ['should not have Back to sign in link when flow continued in new tab', terminalTransferredEmailMock],
+  ['should not have Back to sign in link when access denied on other device', accessDeniedOnOtherDeivceMock],
+].forEach(([ testTitle, mock ]) => {
+  test
+    .requestHooks(mock)(testTitle, async t => {
+      const terminalViewPage = await setup(t);
+      await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
     });
 });
