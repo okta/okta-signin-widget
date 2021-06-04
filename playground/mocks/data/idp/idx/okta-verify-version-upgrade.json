@@ -147,9 +147,6 @@
   "currentAuthenticator": {
     "type": "object",
     "value": {
-      "profile": {
-        "deviceName": "sdk_gphone_x86"
-      },
       "resend": {
         "rel": [
           "create-form"

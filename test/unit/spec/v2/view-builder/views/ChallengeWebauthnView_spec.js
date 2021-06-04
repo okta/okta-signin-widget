@@ -14,11 +14,11 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   beforeEach(function() {
     testContext = {};
     testContext.init = (
-      currentAuthenticatorEnrollment = ChallengeWebauthnResponse.currentAuthenticatorEnrollment.value,
+      currentAuthenticator = ChallengeWebauthnResponse.currentAuthenticator.value,
       authenticatorEnrollments = []
     ) => {
       const appState = new AppState({
-        currentAuthenticatorEnrollment,
+        currentAuthenticator,
         authenticatorEnrollments,
       });
       spyOn(appState, 'hasRemediationObject').and.callFake(
@@ -29,7 +29,7 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
       const currentViewState = {
         name: 'challenge-authenticator',
         relatesTo: {
-          value: currentAuthenticatorEnrollment,
+          value: currentAuthenticator,
         },
       };
       testContext.view = new ChallengeWebauthnView({
@@ -89,7 +89,7 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
     spyOn(BrowserFeatures, 'isSafari').and.callFake(() => true);
     testContext.init(
-      ChallengeWebauthnResponse.currentAuthenticatorEnrollment.value,
+      ChallengeWebauthnResponse.currentAuthenticator.value,
       ChallengeWebauthnResponse.authenticatorEnrollments
     );
     expect(testContext.view.$('.idx-webauthn-verify-text').text()).toBe(
@@ -114,11 +114,11 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
 
   it('shows UV required callout when userVerification is "required"', function() {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
-    const currentAuthenticatorEnrollment = JSON.parse(
-      JSON.stringify(ChallengeWebauthnResponse.currentAuthenticatorEnrollment.value)
+    const currentAuthenticator = JSON.parse(
+      JSON.stringify(ChallengeWebauthnResponse.currentAuthenticator.value)
     );
-    currentAuthenticatorEnrollment.contextualData.challengeData.userVerification = 'required';
-    testContext.init(currentAuthenticatorEnrollment);
+    currentAuthenticator.contextualData.challengeData.userVerification = 'required';
+    testContext.init(currentAuthenticator);
     expect(testContext.view.$('.uv-required-callout').length).toBe(1);
     expect(testContext.view.$('.uv-required-callout').text().trim()).toBe(
       'Biometric verification or a PIN is required to sign in with this authenticator.'
@@ -127,11 +127,11 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
 
   it('does not show UV required callout when userVerification is "discouraged"', function() {
     spyOn(webauthn, 'isNewApiAvailable').and.callFake(() => true);
-    const currentAuthenticatorEnrollment = JSON.parse(
-      JSON.stringify(ChallengeWebauthnResponse.currentAuthenticatorEnrollment.value)
+    const currentAuthenticator = JSON.parse(
+      JSON.stringify(ChallengeWebauthnResponse.currentAuthenticator.value)
     );
-    currentAuthenticatorEnrollment.contextualData.challengeData.userVerification = 'discouraged';
-    testContext.init(currentAuthenticatorEnrollment);
+    currentAuthenticator.contextualData.challengeData.userVerification = 'discouraged';
+    testContext.init(currentAuthenticator);
     expect(testContext.view.$('.uv-required-callout').length).toBe(0);
   });
 
@@ -148,7 +148,7 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
     spyOn(navigator.credentials, 'get').and.returnValue(Promise.resolve(assertion));
 
     testContext.init(
-      ChallengeWebauthnResponse.currentAuthenticatorEnrollment.value,
+      ChallengeWebauthnResponse.currentAuthenticator.value,
       ChallengeWebauthnResponse.authenticatorEnrollments
     );
     Expect.waitForSpyCall(testContext.view.form.saveForm)
@@ -171,7 +171,7 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
             ],
             userVerification: 'required',
             challenge: CryptoUtil.strToBin(
-              ChallengeWebauthnResponse.currentAuthenticatorEnrollment.value.contextualData.challengeData.challenge
+              ChallengeWebauthnResponse.currentAuthenticator.value.contextualData.challengeData.challenge
             ),
           },
           signal: jasmine.any(Object),

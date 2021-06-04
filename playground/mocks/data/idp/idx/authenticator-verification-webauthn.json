@@ -13,7 +13,7 @@
         ],
         "name": "challenge-authenticator",
         "relatesTo": [
-          "$.currentAuthenticatorEnrollment"
+          "$.currentAuthenticator"
         ],
         "href": "http://localhost:3000/idp/idx/challenge/answer",
         "method": "POST",
@@ -91,52 +91,26 @@
                 "relatesTo": "$.authenticatorEnrollments.value[0]"
               },
               {
-                "label": "FIDO2 (WebAuthn)",
-                "value": {
-                  "form": {
-                    "value": [
+                "label":"Security Key or Biometric",
+                "value":{
+                  "form":{
+                    "value":[
                       {
-                        "name": "id",
-                        "value": "fwftheidkwh282hv8g3",
-                        "required": true,
-                        "mutable": false,
-                        "visible": false
+                        "name":"id",
+                        "required":true,
+                        "value":"aut12uqz8PnlDpzQ20g4",
+                        "mutable":false
                       },
                       {
-                        "name": "methodType",
-                        "value": "webauthn",
-                        "required": false,
-                        "mutable": false,
-                        "visible": false
+                        "name":"methodType",
+                        "required":false,
+                        "value":"webauthn",
+                        "mutable":false
                       }
                     ]
                   }
                 },
-                "relatesTo": "$.authenticatorEnrollments.value[1]"
-              },
-              {
-                "label": "FIDO2 (WebAuthn)",
-                "value": {
-                  "form": {
-                    "value": [
-                      {
-                        "name": "id",
-                        "value": "aidtheidkwh282hv8g3",
-                        "required": true,
-                        "mutable": false,
-                        "visible": false
-                      },
-                      {
-                        "name": "methodType",
-                        "value": "webauthn",
-                        "required": false,
-                        "mutable": false,
-                        "visible": false
-                      }
-                    ]
-                  }
-                },
-                "relatesTo": "$.authenticatorEnrollments.value[2]"
+                "relatesTo":"$.authenticators.value[1]"
               },
               {
                 "label": "Okta Email",
@@ -208,15 +182,9 @@
       }
     ]
   },
-  "currentAuthenticatorEnrollment": {
-    "type": "object",
-    "value": {
-      "type": "security_key",
-      "key": "webauthn",
-      "id": "auteq0lLiL9o1cYoN0g4",
-      "credentialId": "7Ag2iWUqfz0SanWDj-ZZ2fpDsgiEDt_08O1VSSRZHpgkUS1zhLSyWYDrxXXB5VE_w1iiqSvPaRgXcmG5rPwB-w",
-      "authenticatorId": "fwftheidkwh282hv8g3",
-      "displayName": "MacBook Touch ID",
+  "currentAuthenticator":{
+    "type":"object",
+    "value":{
       "contextualData": {
         "challengeData": {
           "challenge": "qjUCU0xoVe5QZ3-etDCD",
@@ -226,8 +194,81 @@
           }
         }
       },
-      "methods": [ { "type": "webauthn" } ]
+      "type": "security_key",
+      "key": "webauthn",
+      "id": "auteq0lLiL9o1cYoN0g4",
+      "displayName":"Security Key or Biometric",
+      "methods":[
+        {
+          "type":"webauthn"
+        }
+      ]
     }
+  },
+  "authenticators":{
+    "type":"array",
+    "value":[
+      {
+        "type":"password",
+        "key":"okta_password",
+        "id":"aidwboITrg4b4yAYd0g3",
+        "displayName":"Password",
+        "methods":[
+          {
+            "type":"password"
+          }
+        ]
+      },
+      {
+        "type":"security_key",
+        "key":"webauthn",
+        "id":"aut12uqz8PnlDpzQ20g4",
+        "displayName":"Security Key or Biometric",
+        "methods":[
+          {
+            "type":"webauthn"
+          }
+        ]
+      },
+      {
+        "type":"email",
+        "key":"okta_email",
+        "id":"autwa6eD9o02iBbtv0g3",
+        "displayName":"Email",
+        "methods":[
+          {
+            "type":"email"
+          }
+        ]
+      },
+      {
+        "displayName": "Okta Phone",
+        "type": "phone",
+        "key": "phone_number",
+        "authenticatorId": "aid568g3mXgtID0X1SLH",
+        "id": "autwa6eD9o02iBbsta82",
+        "methods": [
+          {
+            "type": "sms"
+          },
+          {
+            "type": "voice"
+          }
+        ]
+      },
+      {
+        "displayName": "Okta Security Question",
+        "type": "security_question",
+        "key": "security_question",
+        "authenticatorId": "aid568g3mXgtID0HHSLH",
+        "id": "autwa6eD9o02iBbaaa82",
+        "methods":[
+          {
+            "type":"security_question"
+          }
+        ]
+      }
+    ]
   },
   "authenticatorEnrollments": {
     "type": "array",
