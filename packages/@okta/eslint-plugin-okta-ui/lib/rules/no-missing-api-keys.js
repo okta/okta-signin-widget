@@ -24,7 +24,8 @@ module.exports = {
       'security.access_denied', // mapped to v1 key in i18nTransformer
       'api.users.auth.error.POST_PASSWORD_UPDATE_AUTH_FAILURE', // mapped to oie alias in i18Transformer
       'api.authn.poll.error.push_rejected',// mapped to oktaverify.rejected in i18Transformer
-      'authfactor.webauthn.error.assertion_validation_failure' // mapped to authfactor.webauthn.error in i18Transformer
+      'authfactor.webauthn.error.assertion_validation_failure', // mapped to authfactor.webauthn.error in i18Transformer
+      'api.factors.error.sms.invalid_phone', // mapped to oie.phone.invalid in i18nTransformer
     ];
     return {
       'Program': function (node) {
