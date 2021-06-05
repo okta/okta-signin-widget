@@ -81,7 +81,7 @@ export default Model.extend({
   getRemediationAuthenticationOptions(formName) {
     const form = this.hasRemediationObject(formName);
     if (!form) {
-      return false;
+      return [];
     }
     const authenticator = form.value.find((value) => value.name === 'authenticator');
     let authenticatorOptions = authenticator?.options || [];
