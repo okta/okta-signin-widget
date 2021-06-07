@@ -407,6 +407,19 @@ const ovTotpSuccess = {
   ],
 };
 
+// ov challenge (3 methods) and no other authenticator available
+const onlyOVAuthenticatorTOTPChallenge = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-okta-verify-select-method'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-okta-verify-totp-onlyOV'
+  ],
+  '/idp/idx/challenge/answer': [
+    'success'
+  ],
+};
+
 // ov challenge m2 totp - error
 const ovTotpError = {
   '/idp/idx/introspect': [
