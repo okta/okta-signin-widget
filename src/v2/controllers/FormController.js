@@ -245,15 +245,13 @@ export default Controller.extend({
       error = 'FormController - unknown error found';
       this.options.settings.callGlobalError(error);
     }
-
+    let errorObj;
     if (IonResponseHelper.isIonErrorResponse(error)) {
-      const convertedErrors = IonResponseHelper.convertFormErrors(error);
-      model.trigger('error', model, convertedErrors, true);
+      errorObj = IonResponseHelper.convertFormErrors(error);
     } else if (error.errorSummary) {
-      model.trigger('error', model, { responseJSON: error }, true);
-    } else {
-      model.trigger('error', model, { responseJSON: { errorSummary: String(error) } }, true);
+      errorObj = { responseJSON: error };
     }
+    model.trigger('error', model, errorObj || { responseJSON: { errorSummary: String(error) } }, true);
   },
 
   handleIdxSuccess: function(idxResp) {
