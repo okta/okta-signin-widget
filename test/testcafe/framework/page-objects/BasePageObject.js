@@ -27,6 +27,16 @@ export default class BasePageObject {
     await this.t.navigateTo(`http://localhost:3000${this.url}${qs}`);
   }
 
+  async preventRedirect(toUrls) {
+    await ClientFunction((toUrls) => {
+      window.addEventListener('submit', function(e) {
+        if (!toUrls || toUrls.includes(e.target.action)) {
+          e.preventDefault();
+        }
+      });
+    })(toUrls);
+  }
+
   async getPageUrl() {
     const pageUrl = await ClientFunction(() => window.location.href)();
     return pageUrl;

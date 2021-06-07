@@ -195,7 +195,7 @@ describe('util/Util', () => {
     beforeEach(() => {
       jest.spyOn(Logger, 'error');
       jest.spyOn(console, 'error').mockImplementation(() => { /* silence log */ });
-      jest.spyOn(HTMLFormElement.prototype, 'submit').mockImplementation(() => jest.fn());
+      jest.spyOn(HTMLInputElement.prototype, 'click').mockImplementation(() => jest.fn());
       $sandbox.append('<div id="okta-sign-in"></div>');
     });
 
@@ -206,20 +206,23 @@ describe('util/Util', () => {
     it('shall submit a plain URL', () => {
       Util.redirectWithFormGet('http://example.com/idp/123');
 
-      expect($('#okta-sign-in form')[0].submit).toHaveBeenCalledTimes(1);
+      expect($('#okta-sign-in form :submit')[0].click).toHaveBeenCalledTimes(1);
       expect($('#okta-sign-in').html()).toBe(
-        '<form method="get" style="display: none;" action="http://example.com/idp/123">' + '</form>'
+        '<form method="get" style="display: none;" action="http://example.com/idp/123">' + 
+          '<input type="submit">' + 
+          '</form>'
       );
     });
 
     it('shall submit URL that has query pamaters', () => {
       Util.redirectWithFormGet('http://example.com/idp/123?foo=aaa&bar=bbb');
 
-      expect($('#okta-sign-in form')[0].submit).toHaveBeenCalledTimes(1);
+      expect($('#okta-sign-in form :submit')[0].click).toHaveBeenCalledTimes(1);
       expect($('#okta-sign-in').html()).toBe(
         '<form method="get" style="display: none;" action="http://example.com/idp/123">' +
           '<input name="foo" type="hidden" value="aaa">' +
           '<input name="bar" type="hidden" value="bbb">' +
+          '<input type="submit">' + 
           '</form>'
       );
     });
@@ -227,10 +230,11 @@ describe('util/Util', () => {
     it('shall submit URL that has query pamaters and fragement', () => {
       Util.redirectWithFormGet('http://example.com/idp/123?redirectURI=https%3A%2F%2Ffoo.com#hello=okta');
 
-      expect($('#okta-sign-in form')[0].submit).toHaveBeenCalledTimes(1);
+      expect($('#okta-sign-in form :submit')[0].click).toHaveBeenCalledTimes(1);
       expect($('#okta-sign-in').html()).toBe(
         '<form method="get" style="display: none;" action="http://example.com/idp/123#hello=okta">' +
           '<input name="redirectURI" type="hidden" value="https://foo.com">' +
+          '<input type="submit">' + 
           '</form>'
       );
     });
@@ -240,10 +244,11 @@ describe('util/Util', () => {
         'http://example.com/idp/123?foo=a%22%2F%3E%3Cimg%20error%3D%22alert(11)%22%20src%3D%22xx%22%2F%3E'
       );
 
-      expect($('#okta-sign-in form')[0].submit).toHaveBeenCalledTimes(1);
+      expect($('#okta-sign-in form :submit')[0].click).toHaveBeenCalledTimes(1);
       expect($('#okta-sign-in').html()).toBe(
         '<form method="get" style="display: none;" action="http://example.com/idp/123">' +
           '<input name="foo" type="hidden" value="a&quot;/><img error=&quot;alert(11)&quot; src=&quot;xx&quot;/>">' +
+          '<input type="submit">' + 
           '</form>'
       );
     });
@@ -251,10 +256,11 @@ describe('util/Util', () => {
     it('shall submit URL that XSS value', () => {
       Util.redirectWithFormGet('http://example.com/idp/123?foo=%22/><img error="alert(2)" src="yy"/>');
 
-      expect($('#okta-sign-in form')[0].submit).toHaveBeenCalledTimes(1);
+      expect($('#okta-sign-in form :submit')[0].click).toHaveBeenCalledTimes(1);
       expect($('#okta-sign-in').html()).toBe(
         '<form method="get" style="display: none;" action="http://example.com/idp/123">' +
           '<input name="foo" type="hidden" value="&quot;/><img error">' +
+          '<input type="submit">' + 
           '</form>'
       );
     });

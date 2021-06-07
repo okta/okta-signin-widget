@@ -18,8 +18,14 @@ const ignoredMocks = [
   'error-user-is-not-assigned.json',
   'error-forgot-password.json',
   'authenticator-verification-select-authenticator.json',
-  'error-with-failure-redirect.json',
   'identify-recovery-with-recaptcha-v2.json'
+];
+
+const mocksWithPreventRedirect = [
+  'error-with-failure-redirect.json'
+];
+const mocksWithoutInitialRender = [
+  'error-with-failure-redirect.json'
 ];
 
 const parseMockData = () => {
@@ -90,9 +96,20 @@ const setUpResponse = (filePath) => {
   return mock;
 };
 
-async function setup(t, locale) {
+async function setup(t, locale, fileName) {
+  const preventRedirect = mocksWithPreventRedirect.includes(fileName);
+  const preventInitialRender = mocksWithoutInitialRender.includes(fileName);
   const widgetView = new PageObject(t);
-  await widgetView.navigateToPage();
+  if (preventInitialRender) {
+    await widgetView.navigateToPage({ render: false });
+  } else {
+    await widgetView.navigateToPage();
+  }
+  if (preventRedirect) {
+    await widgetView.preventRedirect([
+      'http://localhost:3000/error.html'
+    ]);
+  }
   await renderWidget({
     'language': locale
   });
@@ -100,7 +117,7 @@ async function setup(t, locale) {
 
 const testEnglishLeaks = (mockIdxResponse, fileName, locale) => {
   test.requestHooks(mockIdxResponse)(`${fileName} should not have english leaks`, async t => {
-    await setup(t, locale);
+    await setup(t, locale, fileName);
     const viewTextExists = await Selector('#okta-sign-in').exists;
     //Use innerText to avoid including hidden elements
     let viewText = viewTextExists && await Selector('#okta-sign-in').innerText;

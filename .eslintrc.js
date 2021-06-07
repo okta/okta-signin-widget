@@ -99,7 +99,6 @@ module.exports = {
       'overrides': [
         {
           'files': [
-            'playground/**/error-with-failure-redirect.json', //OKTA-390647
             'playground/**/error-internal-server-error.json', //OKTA-389430
             'playground/**/error-user-is-not-assigned.json', //OKTA-389249
             'playground/**/identify-unknown-user.json', //OKTA-386386
