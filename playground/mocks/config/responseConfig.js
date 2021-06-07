@@ -21,6 +21,7 @@ const idx = {
     // 'error-request-not-completed',
     // 'error-403-security-access-denied',
     // 'error-session-expired',
+    // 'error-password-reset-failed',
     // 'authenticator-enroll-email',
     // 'error-internal-server-error',
     // 'authenticator-enroll-password',
