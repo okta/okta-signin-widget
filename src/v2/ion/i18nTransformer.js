@@ -155,6 +155,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'api.users.auth.error.POST_PASSWORD_UPDATE_AUTH_FAILURE': 'oie.post.password.update.auth.failure.error',
   'security.access_denied': 'errors.E0000006',
   'E0000009': 'errors.E0000009',
+  'api.factors.error.sms.invalid_phone': 'oie.phone.invalid',
 };
 
 const I18N_PARAMS_MAPPING = {
