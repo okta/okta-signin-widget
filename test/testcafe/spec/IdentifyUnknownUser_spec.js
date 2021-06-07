@@ -13,7 +13,7 @@ const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(registeredUser);
 
-fixture('Identify but Unknown User')
+fixture('Identify Unknown User')
   .requestHooks(mock);
 
 async function setup(t) {
@@ -33,7 +33,7 @@ test('should show messages callout for unknown user', async t => {
   await identityPage.fillIdentifierField('unknown');
   await identityPage.clickNextButton();
   await t.expect(identityPage.getUnknownUserCalloutContent())
-    .eql('There is no account with the email test@rain.com.');
+    .eql('Unable to sign in');
 });
 
 test('should remove messages callout for unknown user once successful', async t => {
