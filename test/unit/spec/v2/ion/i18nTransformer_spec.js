@@ -53,6 +53,7 @@ describe('v2/ion/i18nTransformer', function() {
       'oie.password.incorrect.message': 'Password is incorrect',
       'idx.session.expired': 'The session has expired.',
       'oie.post.password.update.auth.failure.error': 'Authentication failed after password update.',
+      'oie.phone.invalid': 'Invalid Phone',
     }, (value) => `unit test - ${value}`);
   });
   afterAll(() => {
@@ -1490,7 +1491,14 @@ describe('v2/ion/i18nTransformer', function() {
               ]
             },
             'class': 'INFO'
-          }
+          },
+          {
+            'message': 'Invalid',
+            'i18n': {
+              'key': 'api.factors.error.sms.invalid_phone'
+            },
+            'class': 'ERROR'
+          },
         ]
       }
     };
@@ -1527,7 +1535,14 @@ describe('v2/ion/i18nTransformer', function() {
               ]
             },
             'class': 'INFO'
-          }
+          },
+          {
+            'message': 'unit test - Invalid Phone',
+            'i18n': {
+              'key': 'api.factors.error.sms.invalid_phone'
+            },
+            'class': 'ERROR'
+          },
         ]
       }
     });
