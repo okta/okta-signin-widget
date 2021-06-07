@@ -15,6 +15,7 @@ fixture('English Leaks');
 const ignoredMocks = [
   'identify-with-third-party-idps.json',
   'identify-with-apple-redirect-sso-extension.json', // flaky on bacon
+  'error-user-is-not-assigned.json',
   'error-internal-server-error.json',
   'error-forgot-password.json',
   'authenticator-verification-select-authenticator.json',
