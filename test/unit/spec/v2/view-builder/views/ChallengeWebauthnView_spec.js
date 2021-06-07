@@ -21,9 +21,12 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
         currentAuthenticatorEnrollment,
         authenticatorEnrollments,
       });
-      spyOn(appState, 'hasRemediationObject').and.callFake(
-        formName => formName === 'select-authenticator-authenticate'
-      );
+      spyOn(appState, 'getRemediationAuthenticationOptions').and.callFake(formName => {
+        if (formName === 'select-authenticator-authenticate') {
+          return [ { label: 'some authenticator '} ];
+        }
+        return [];
+      });
       spyOn(appState, 'shouldShowSignOutLinkInCurrentForm').and.returnValue(false);
       const settings = new Settings({ baseUrl: 'http://localhost:3000' });
       const currentViewState = {
@@ -66,7 +69,7 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
     expect(testContext.view.$('.idx-webauthn-verify-text').text()).toBe(
       'You will be prompted to use a security key or biometric verification (Windows Hello, Touch ID, etc.). Follow the instructions to complete verification.'
     );
-    expect(testContext.view.$('.retry-webauthn').css('display')).not.toBe('none'); 
+    expect(testContext.view.$('.retry-webauthn').css('display')).not.toBe('none');
     expect(testContext.view.$('.retry-webauthn').text()).toBe('Verify');
     expect(testContext.view.$('.webauthn-not-supported').length).toBe(0);
   });

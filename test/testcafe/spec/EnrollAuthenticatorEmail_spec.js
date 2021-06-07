@@ -69,6 +69,11 @@ test
       .eql('Please check your email and enter the code below.');
     await t.expect(enrollEmailPageObject.form.getSaveButtonLabel()).eql('Verify');
 
+    // Verify links
+    await t.expect(await enrollEmailPageObject.switchAuthenticatorLinkExists()).ok();
+    await t.expect(enrollEmailPageObject.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');
+    await t.expect(await enrollEmailPageObject.signoutLinkExists()).ok();
+
     await enrollEmailPageObject.enterCode('561234');
     await enrollEmailPageObject.form.clickSaveButton();
 

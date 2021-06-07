@@ -60,6 +60,11 @@ test
     await t.expect(await challengeGoogleAuthenticatorPageObject.getOtpLabel())
       .contains('Enter code');
 
+    // Verify links (switch authenticator link not present since there are no other authenticators available)
+    await t.expect(await challengeGoogleAuthenticatorPageObject.switchAuthenticatorLinkExists()).notOk();
+    await t.expect(await challengeGoogleAuthenticatorPageObject.signoutLinkExists()).ok();
+    await t.expect(challengeGoogleAuthenticatorPageObject.getSignoutLinkText()).eql('Back to sign in');
+
     await challengeGoogleAuthenticatorPageObject.verifyFactor('credentials.passcode', '1234');
     await challengeGoogleAuthenticatorPageObject.clickNextButton();
     const successPage = new SuccessPageObject(t);

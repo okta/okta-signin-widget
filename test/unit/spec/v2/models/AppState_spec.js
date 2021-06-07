@@ -1,4 +1,9 @@
 import AppState from 'v2/models/AppState';
+import MockUtil from '../../../helpers/v2/MockUtil';
+import XHRAuthenticatorChallengOktaVerify
+  from '../../../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push.json';
+import XHRAuthenticatorEnrollOktaVerify
+  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-sms.json';
 import { FORMS_FOR_VERIFICATION, FORMS_WITHOUT_SIGNOUT } from 'v2/ion/RemediationConstants';
 
 describe('v2/models/AppState', function() {
@@ -179,5 +184,147 @@ describe('v2/models/AppState', function() {
       expect(this.appState.shouldReRenderView(transformedResponse)).toBe(false);
     });
 
+  });
+
+  describe('hasRemediationObject', () => {
+    it('returns null if the form is not present', (done) => {
+      const oktaVerifyChallengResponse = JSON.parse(JSON.stringify(XHRAuthenticatorChallengOktaVerify));
+      MockUtil.mockIntrospect(done, oktaVerifyChallengResponse, idxResp => {
+        this.initAppState({ idx: idxResp }, 'challenge-authenticator');
+        expect(this.appState.hasRemediationObject('other-form')).toBeUndefined();
+        done();
+      });
+    });
+
+    it('returns the remediation object if the form is present (select-authenticator-enroll)', (done) => {
+      const oktaVerifyEnrollResponse = JSON.parse(JSON.stringify(XHRAuthenticatorEnrollOktaVerify));
+      MockUtil.mockIntrospect(done, oktaVerifyEnrollResponse, idxResp => {
+        this.initAppState({ idx: idxResp }, 'enroll-authenticator');
+        expect(this.appState.hasRemediationObject('select-authenticator-enroll')).toBeDefined();
+        done();
+      });
+    });
+
+    it('returns the remediation object if the form is present (select-authenticator-authenticate)', (done) => {
+      const oktaVerifyChallengResponse = JSON.parse(JSON.stringify(XHRAuthenticatorChallengOktaVerify));
+      MockUtil.mockIntrospect(done, oktaVerifyChallengResponse, idxResp => {
+        this.initAppState({ idx: idxResp }, 'challenge-authenticator');
+        expect(this.appState.hasRemediationObject('select-authenticator-authenticate')).toBeDefined();
+        done();
+      });
+    });
+  });
+
+  describe('getRemediationAuthenticationOptions', () => {
+    const getAuthenticatorOptionsObj = (response) => {
+      const remediationObj = response.remediation.value.find(remediation => remediation.name  === 'select-authenticator-authenticate');
+      return remediationObj.value.find(value => value.name === 'authenticator');
+    };
+
+    const getAuthenticatorObj = (authenticatorOptionsObj, label) => {
+      return authenticatorOptionsObj.options.find(option => option.label === label);
+    };
+
+    const getAuthenticatorMethodsObj = (authenticatorObj) => {
+      return authenticatorObj.value.form.value.find(value => value.name === 'methodType');
+    };
+
+    const changeOVMethodsInAuthenticatorObj = (authenticatorObj, ovMethods) => {
+      const methodTypes = getAuthenticatorMethodsObj(authenticatorObj);
+      methodTypes.options = methodTypes.options.filter(method => ovMethods.includes(method.value));
+    };
+
+    it('returns array size 1 if response has only 1 authenticator', (done) => {
+      const oktaVerifyChallengResponse = JSON.parse(JSON.stringify(XHRAuthenticatorChallengOktaVerify));
+      const authenticatorOptionsObj = getAuthenticatorOptionsObj(oktaVerifyChallengResponse);
+      // Replace options with only Password
+      authenticatorOptionsObj.options = [ getAuthenticatorObj(authenticatorOptionsObj, 'Okta Password') ];
+      expect(authenticatorOptionsObj.options).toHaveLength(1);
+
+      MockUtil.mockIntrospect(done, oktaVerifyChallengResponse, idxResp => {
+        this.initAppState({ idx: idxResp }, 'challenge-authenticator');
+        const options = this.appState.getRemediationAuthenticationOptions('select-authenticator-authenticate');
+        expect(options).toHaveLength(1);
+        expect(options[0].label).toBe('Okta Password');
+        done();
+      });
+    });
+
+    it('returns array size 4 if response has Okta Verify (all methods) and password', (done) => {
+      const oktaVerifyChallengResponse = JSON.parse(JSON.stringify(XHRAuthenticatorChallengOktaVerify));
+      const authenticatorOptionsObj = getAuthenticatorOptionsObj(oktaVerifyChallengResponse);
+      // Okta Verify and Password are available
+      expect(authenticatorOptionsObj.options).toHaveLength(2);
+
+      MockUtil.mockIntrospect(done, oktaVerifyChallengResponse, idxResp => {
+        this.initAppState({ idx: idxResp }, 'challenge-authenticator');
+        const options = this.appState.getRemediationAuthenticationOptions('select-authenticator-authenticate');
+        expect(options).toHaveLength(4);
+        expect(options[0].label).toBe('Get a push notification');
+        expect(options[1].label).toBe('Enter a code');
+        expect(options[2].label).toBe('Okta Password');
+        expect(options[3].label).toBe('Use Okta FastPass');
+        done();
+      });
+    });
+
+    it('returns array size 3 if response has Okta Verify with all methods', (done) => {
+      const oktaVerifyChallengResponse = JSON.parse(JSON.stringify(XHRAuthenticatorChallengOktaVerify));
+      const authenticatorOptionsObj = getAuthenticatorOptionsObj(oktaVerifyChallengResponse);
+      // Replace options with only Okta Verify with 3 methods available
+      const ovAuthenticatorObj = getAuthenticatorObj(authenticatorOptionsObj, 'Okta Verify');
+      authenticatorOptionsObj.options = [ ovAuthenticatorObj ];
+      expect(authenticatorOptionsObj.options).toHaveLength(1);
+      expect(getAuthenticatorMethodsObj(ovAuthenticatorObj).options).toHaveLength(3);
+
+      MockUtil.mockIntrospect(done, oktaVerifyChallengResponse, idxResp => {
+        this.initAppState({ idx: idxResp }, 'challenge-authenticator');
+        const options = this.appState.getRemediationAuthenticationOptions('select-authenticator-authenticate');
+        expect(options).toHaveLength(3);
+        expect(options[0].label).toBe('Get a push notification');
+        expect(options[1].label).toBe('Enter a code');
+        expect(options[2].label).toBe('Use Okta FastPass');
+        done();
+      });
+    });
+
+    it('returns array size 2 if response has Okta Verify with 2 methods', (done) => {
+      const oktaVerifyChallengResponse = JSON.parse(JSON.stringify(XHRAuthenticatorChallengOktaVerify));
+      const authenticatorOptionsObj = getAuthenticatorOptionsObj(oktaVerifyChallengResponse);
+      // Replace options with only Okta Verify with 1 method available
+      const ovAuthenticatorObj = getAuthenticatorObj(authenticatorOptionsObj, 'Okta Verify');
+      changeOVMethodsInAuthenticatorObj(ovAuthenticatorObj, ['totp', 'push']);
+      authenticatorOptionsObj.options = [ ovAuthenticatorObj ];
+      expect(authenticatorOptionsObj.options).toHaveLength(1);
+      expect(getAuthenticatorMethodsObj(ovAuthenticatorObj).options).toHaveLength(2);
+
+      MockUtil.mockIntrospect(done, oktaVerifyChallengResponse, idxResp => {
+        this.initAppState({ idx: idxResp }, 'challenge-authenticator');
+        const options = this.appState.getRemediationAuthenticationOptions('select-authenticator-authenticate');
+        expect(options).toHaveLength(2);
+        expect(options[0].label).toBe('Get a push notification');
+        expect(options[1].label).toBe('Enter a code');
+        done();
+      });
+    });
+
+    it('returns array size 1 if response has Okta Verify with only 1 method (signed_nonce)', (done) => {
+      const oktaVerifyChallengResponse = JSON.parse(JSON.stringify(XHRAuthenticatorChallengOktaVerify));
+      const authenticatorOptionsObj = getAuthenticatorOptionsObj(oktaVerifyChallengResponse);
+      // Replace options with only Okta Verify with 1 method available
+      const ovAuthenticatorObj = getAuthenticatorObj(authenticatorOptionsObj, 'Okta Verify');
+      changeOVMethodsInAuthenticatorObj(ovAuthenticatorObj, ['signed_nonce']);
+      authenticatorOptionsObj.options = [ ovAuthenticatorObj ];
+      expect(authenticatorOptionsObj.options).toHaveLength(1);
+      expect(getAuthenticatorMethodsObj(ovAuthenticatorObj).options).toHaveLength(1);
+
+      MockUtil.mockIntrospect(done, oktaVerifyChallengResponse, idxResp => {
+        this.initAppState({ idx: idxResp }, 'challenge-authenticator');
+        const options = this.appState.getRemediationAuthenticationOptions('select-authenticator-authenticate');
+        expect(options).toHaveLength(1);
+        expect(options[0].label).toBe('Use Okta FastPass');
+        done();
+      });
+    });
   });
 });
