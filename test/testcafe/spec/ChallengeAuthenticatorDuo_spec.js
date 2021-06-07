@@ -53,11 +53,7 @@ test
   .requestHooks(mock)('renders an iframe for Duo', async t => {
     const challengeDuoPage = await setup(t);
 
-    const { log } = await t.getBrowserConsoleMessages();
-    await t.expect(log.length).eql(3);
-    await t.expect(log[0]).eql('===== playground widget ready event received =====');
-    await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-    await t.expect(JSON.parse(log[2])).eql({
+    await checkConsoleMessages({
       controller: 'mfa-verify-duo',
       formName: 'challenge-authenticator',
       authenticatorKey: 'duo',
@@ -68,6 +64,9 @@ test
     await t.expect(challengeDuoPage.getFormTitle()).eql('Verify with Duo Security');
     await t.expect(challengeDuoPage.hasDuoIframe()).eql(true);
 
+    // Verify links
+    await t.expect(await challengeDuoPage.switchAuthenticatorLinkExists()).ok();
+    await t.expect(challengeDuoPage.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
     await t.expect(await challengeDuoPage.signoutLinkExists()).ok();
     await t.expect(challengeDuoPage.getSignoutLinkText()).eql('Back to sign in');
   });

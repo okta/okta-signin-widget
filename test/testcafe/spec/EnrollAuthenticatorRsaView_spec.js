@@ -1,6 +1,7 @@
 import { RequestMock } from 'testcafe';
 import EnrollRsaPageObject from '../framework/page-objects/EnrollOnPremPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
+import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollRsa from '../../../playground/mocks/data/idp/idx/authenticator-enroll-rsa';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import xhrPasscodeChange from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-passcode-change-rsa';
@@ -23,11 +24,7 @@ async function setup(t) {
   const enrollRsaPage = new EnrollRsaPageObject(t);
   await enrollRsaPage.navigateToPage();
 
-  const { log } = await t.getBrowserConsoleMessages();
-  await t.expect(log.length).eql(3);
-  await t.expect(log[0]).eql('===== playground widget ready event received =====');
-  await t.expect(log[1]).eql('===== playground widget afterRender event received =====');
-  await t.expect(JSON.parse(log[2])).eql({
+  await checkConsoleMessages({
     controller: 'enroll-rsa',
     formName: 'enroll-authenticator',
     authenticatorKey: 'rsa_token',
@@ -47,9 +44,9 @@ test
     await t.expect(enrollRsaPage.userNameFieldExists()).eql(true);
     await t.expect(enrollRsaPage.passcodeFieldExists()).eql(true);
 
-    // assert switch authenticator link shows up
-    await t.expect(await enrollRsaPage.switchAuthenticatorLinkExists()).ok();
-    await t.expect(enrollRsaPage.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');
+    // Verify links (switch authenticator link not present since there are no other authenticators available)
+    await t.expect(await enrollRsaPage.switchAuthenticatorLinkExists()).notOk();
+    await t.expect(await enrollRsaPage.signoutLinkExists()).ok();
 
     // fields are required
     await enrollRsaPage.fillUserName('');
@@ -58,6 +55,8 @@ test
     await t.expect(enrollRsaPage.getPasscodeError()).eql('This field cannot be left blank');
     await t.expect(enrollRsaPage.getUserNameError()).eql('This field cannot be left blank');
 
+    // Verify links (switch authenticator link not present since there are no other authenticators available)
+    await t.expect(await enrollRsaPage.switchAuthenticatorLinkExists()).notOk();
     await t.expect(await enrollRsaPage.signoutLinkExists()).ok();
   });
 

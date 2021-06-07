@@ -18,7 +18,7 @@ import { AUTHENTICATOR_KEY } from '../RemediationConstants';
  * @param {AuthenticatorOption[]} options
  * @param {( AuthenticatorEnrollment[] || Authenticator[] )} authenticators
  */
-const createOVOptions = (options = []) => {
+export function createOVOptions(options = []) {
   // Split OV into individual entries for verification (one for each method).
   const ovItem = options.find((option) => option.relatesTo.key === AUTHENTICATOR_KEY.OV);
   const methodTypeObj = ovItem?.value?.form?.value?.find(v => v.name === 'methodType');
@@ -63,9 +63,9 @@ const createOVOptions = (options = []) => {
       ovItem.relatesTo.deviceKnown ? options.unshift(signedNonceOption) : options.push(signedNonceOption);
     }
   }
-};
+}
 
-const createAuthenticatorOptions = (options = []) => {
+function createAuthenticatorOptions(options = []) {
   createOVOptions(options);
   return options.map(option => {
     const value = option.value?.form?.value || [];
@@ -90,26 +90,27 @@ const createAuthenticatorOptions = (options = []) => {
       authenticatorKey: option.relatesTo?.key,
     };
   });
-};
+}
 
-const getAuthenticatorsEnrollUiSchema = ({ options }) => {
+function getAuthenticatorsEnrollUiSchema({ options }) {
   return {
     type: 'authenticatorEnrollSelect',
     options: createAuthenticatorOptions(options),
   };
-};
+}
 
-const getAuthenticatorsVerifyUiSchema = ({ options }) => {
+function getAuthenticatorsVerifyUiSchema({ options }) {
   return {
     type: 'authenticatorVerifySelect',
     options: createAuthenticatorOptions(options),
   };
-};
+}
 
 /**
   * Create ui schema for ION field that has type 'object'.
   */
-const createUiSchemaForObject = (ionFormField, remediationForm, transformedResp, createUISchema, settings) => {
+export default function createUiSchemaForObject(ionFormField, remediationForm, transformedResp,
+  createUISchema, settings) {
   const uiSchema = {};
 
   if (ionFormField.name === 'authenticator' &&
@@ -147,6 +148,4 @@ const createUiSchemaForObject = (ionFormField, remediationForm, transformedResp,
   }
 
   return uiSchema;
-};
-
-export default createUiSchemaForObject;
+}

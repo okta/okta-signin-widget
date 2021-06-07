@@ -46,6 +46,12 @@ test.requestHooks(mockChallengeAuthenticatorOnPrem)('challenge on prem authentic
   await t.expect(saveBtnText).contains('Verify');
   await t.expect(pageTitle).contains('Verify with Atko Custom On-prem');
 
+  // Verify links
+  await t.expect(await challengeOnPremPage.switchAuthenticatorLinkExists()).ok();
+  await t.expect(challengeOnPremPage.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
+  await t.expect(await challengeOnPremPage.signoutLinkExists()).ok();
+  await t.expect(challengeOnPremPage.getSignoutLinkText()).eql('Back to sign in');
+
   // verify passcode
   await challengeOnPremPage.verifyFactor('credentials.passcode', 'test');
   await challengeOnPremPage.clickNextButton();

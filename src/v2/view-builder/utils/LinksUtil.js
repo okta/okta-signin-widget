@@ -4,7 +4,7 @@ import { ACTIONS, FORMS as RemediationForms } from '../../ion/RemediationConstan
 const { ENROLLED_PASSWORD_RECOVERY_LINK, ORG_PASSWORD_RECOVERY_LINK } = ACTIONS;
 
 const getSwitchAuthenticatorLink = (appState) => {
-  if (appState.hasRemediationObject(RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE)) {
+  if (appState.getRemediationAuthenticationOptions(RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE).length > 1) {
     return [
       {
         'type': 'link',
@@ -15,7 +15,7 @@ const getSwitchAuthenticatorLink = (appState) => {
     ];
   }
 
-  if (appState.hasRemediationObject(RemediationForms.SELECT_AUTHENTICATOR_ENROLL)) {
+  if (appState.getRemediationAuthenticationOptions(RemediationForms.SELECT_AUTHENTICATOR_ENROLL).length > 1) {
     return [
       {
         'type': 'link',

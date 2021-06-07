@@ -10,15 +10,27 @@
         "rel":[
           "create-form"
         ],
-        "name":"challenge-poll",
+        "name":"challenge-authenticator",
         "relatesTo":[
           "$.currentAuthenticator"
         ],
-        "href":"http://localhost:3000/idp/idx/challenge/poll",
+        "href":"http://localhost:3000/idp/idx/challenge/answer",
         "method":"POST",
         "accepts":"application/vnd.okta.v1+json",
-        "refresh": 4000,
         "value":[
+          {
+            "name":"credentials",
+            "form":{
+              "value":[
+                {
+                 "name": "totp",
+                 "label": "Enter code from Okta Verify app",
+                 "visible": true,
+                 "required": true
+               }
+              ]
+            }
+          },
           {
             "name": "stateHandle",
             "required": true,
@@ -78,28 +90,6 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[0]"
-              },
-              {
-                "label": "Okta Password",
-                "value": {
-                  "form": {
-                    "value": [
-                      {
-                        "name": "id",
-                        "required": true,
-                        "value": "aidwboITrg4b4yAYd0g3",
-                        "mutable": false
-                      },
-                      {
-                        "name": "methodType",
-                        "required": false,
-                        "value": "password",
-                        "mutable": false
-                      }
-                    ]
-                  }
-                },
-                "relatesTo": "$.authenticatorEnrollments.value[2]"
               }
             ]
           },
@@ -122,7 +112,7 @@
       "id": "auttheidkwh282hv8g3",
       "displayName": "",
       "methods": [
-        { "type": "push" }
+        { "type": "totp" }
       ]
     }
   },
@@ -143,17 +133,6 @@
           },
           {
             "type": "totp"
-          }
-        ]
-      },
-      {
-        "type": "password",
-        "key": "okta_password",
-        "id": "autepwdJFCg0J7vK60g4",
-        "displayName": "Okta Password",
-        "methods": [
-          {
-            "type": "password"
           }
         ]
       }
@@ -185,18 +164,6 @@
           { "type": "push" },
           { "type": "totp" }
         ]
-      },
-      {
-        "displayName": "Okta Password",
-        "type": "password",
-        "key": "okta_password",
-        "id": "autwa6eD9o02iBbtv0g1",
-        "authenticatorId": "aidwboITrg4b4yAYd0g3",
-        "methods": [
-          {
-            "type": "password"
-          }
-        ]
       }
     ]
   },
@@ -211,7 +178,7 @@
       "create-form"
     ],
     "name": "cancel",
-    "href": "http://localhost:3000/idp/idx/cancel",
+    "href": "https://idx.okta1.com/idp/idx/cancel",
     "method": "POST",
     "accepts": "application/vnd.okta.v1+json",
     "value": [
