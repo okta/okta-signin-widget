@@ -183,6 +183,12 @@ test
     await t.expect(pageSubtitle).contains('+1 XXX-XXX-2342');
     await t.expect(primaryButtonText).contains('Receive a code via voice call');
     await t.expect(secondaryButtonText).contains('Receive an SMS instead');
+
+    // Verify links
+    await t.expect(await challengePhonePageObject.switchAuthenticatorLinkExists()).ok();
+    await t.expect(challengePhonePageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
+    await t.expect(await challengePhonePageObject.signoutLinkExists()).ok();
+    await t.expect(challengePhonePageObject.getSignoutLinkText()).eql('Back to sign in');
   });
 
 test

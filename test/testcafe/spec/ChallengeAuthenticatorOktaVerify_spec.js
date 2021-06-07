@@ -1,8 +1,9 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import { renderWidget } from '../framework/shared';
 import SelectAuthenticatorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
-
+import ChallengeOktaVerifyTotpPageObject from '../framework/page-objects/ChallengeOktaVerifyTotpPageObject';
 import xhrSelectMethodOktaVerify from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-select-method';
+import xhrChallengeTotpOktaVerifyOnly from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp-onlyOV';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 
@@ -17,6 +18,14 @@ const mockChallengeOVSelectMethod = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectMethodOktaVerify)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrSuccess);
+
+const mockChallengeOVTotpMethod = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectMethodOktaVerify)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrChallengeTotpOktaVerifyOnly)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSuccess);
 
 fixture('Select Method screen for Okta verify');
@@ -127,4 +136,37 @@ test.requestHooks(requestLogger, mockChallengeOVSelectMethod)('should send right
     },
     'stateHandle': '02ciZ1YTWakSanNu8GNNTnTXzhL5hoLzTlR0JewfG3'
   });
+});
+
+test.requestHooks(requestLogger, mockChallengeOVTotpMethod)('should show switch authenticator link only when needed', async t => {
+  const selectAuthenticatorPage = await setup(t);
+  await t.expect(selectAuthenticatorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
+  await t.expect(selectAuthenticatorPage.getFormSubtitle()).eql('Select from the following options');
+
+  // This view (only OV authenticator, but with 3 methods) is custom
+  // The response contains the same select-authenticator-authenticate form as other views
+  // So we need to be sure we don't display a switch authenticator link in this page specificallym
+  // since this page itself is a select authenticator page
+  await t.expect(await selectAuthenticatorPage.switchAuthenticatorLinkExists()).notOk();
+
+  selectAuthenticatorPage.selectFactorByIndex(2);
+  const challengeOktaVerifyTOTPPageObject = new ChallengeOktaVerifyTotpPageObject(t);
+  const saveBtnText = challengeOktaVerifyTOTPPageObject.getSaveButtonLabel();
+  await t.expect(saveBtnText).contains('Verify');
+
+  // Once we select a method and move to a challenge view, we should see the link to switch authenticator
+  // Since there are 3 possible choices (OV FastPass, OV Push, OV TOTP)
+  await t.expect(await challengeOktaVerifyTOTPPageObject.switchAuthenticatorLinkExists()).ok();
+  await t.expect(challengeOktaVerifyTOTPPageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
+
+  // verify sign out link
+  await t.expect(await challengeOktaVerifyTOTPPageObject.signoutLinkExists()).ok();
+  await t.expect(challengeOktaVerifyTOTPPageObject.getSignoutLinkText()).eql('Back to sign in');
+
+  await challengeOktaVerifyTOTPPageObject.verifyFactor('credentials.totp', '1234');
+  await challengeOktaVerifyTOTPPageObject.clickNextButton();
+  const successPage = new SuccessPageObject(t);
+  const pageUrl = await successPage.getPageUrl();
+  await t.expect(pageUrl)
+    .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });

@@ -40,6 +40,10 @@ test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock
   const challengeFactorPageObject = await setup(t);
 
   await t.expect(await challengeFactorPageObject.getAnswerLabel()).eql('Where did you go for your favorite vacation?');
+
+  // Verify links
+  await t.expect(await challengeFactorPageObject.switchAuthenticatorLinkExists()).ok();
+  await t.expect(challengeFactorPageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
   await t.expect(await challengeFactorPageObject.signoutLinkExists()).ok();
   await t.expect(challengeFactorPageObject.getSignoutLinkText()).eql('Back to sign in');
 
