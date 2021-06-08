@@ -86,7 +86,8 @@ const idx = {
     // 'mdm-enrollment',
   ],
   '/idp/idx/enroll': [
-    'enroll-profile-new'
+    'enroll-profile-new',
+    // 'error-enroll-regisration-unavailable',
   ],
   '/idp/idx/credential/enroll': [
     // 'authenticator-enroll-ov-via-sms',
