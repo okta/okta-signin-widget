@@ -14,6 +14,7 @@ module.exports = {
     },
   },
   create(context) {
+    // TODO Update this rule to look into i18nTransformer instead of maintaining an ignore list here OKTA-399792
     const ignoreKeys = [
       'tooManyRequests', // oie.tooManyRequests exists in the login bundle. We added oie.tooManyRequests instead of making a backend change.
       'idx.return.to.original.tab', // idx.return.to.original.tab is translated to oie.return.to.original.tab in Terminalview.
@@ -26,6 +27,7 @@ module.exports = {
       'api.authn.poll.error.push_rejected',// mapped to oktaverify.rejected in i18Transformer
       'authfactor.webauthn.error.assertion_validation_failure', // mapped to authfactor.webauthn.error in i18Transformer
       'api.factors.error.sms.invalid_phone', // mapped to oie.phone.invalid in i18nTransformer
+      'E0000009'// mapped to errors.E0000009 in i18nTransformer
     ];
     return {
       'Program': function (node) {
