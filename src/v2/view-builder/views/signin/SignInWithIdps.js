@@ -4,10 +4,13 @@ import hbs from 'handlebars-inline-precompile';
 export default View.extend({
   className: 'sign-in-with-idp',
   template: hbs`
-    {{#if addSeparateLine}}
+    {{#if addSeparateLineAtTop}}
     <div class="separation-line"><span>{{i18n code="socialauth.divider.text" bundle="login"}}</span></div>
     {{/if}}
     <div class="okta-idps-container"></div>
+    {{#if addSeparateLineAtBottom}}
+    <div class="separation-line"><span>{{i18n code="socialauth.divider.text" bundle="login"}}</span></div>
+    {{/if}}    
     `,
   initialize() {
     this.options.idpButtons.forEach((idpButton) => {
@@ -19,7 +22,8 @@ export default View.extend({
     const jsonData = View.prototype.getTemplateData.apply(this, arguments);
 
     return Object.assign(jsonData, {
-      addSeparateLine: this.options.addSeparateLine,
+      addSeparateLineAtTop: this.options.addSeparateLine && !this.options.addSeparateLineAtBottom,
+      addSeparateLineAtBottom: this.options.addSeparateLine && this.options.addSeparateLineAtBottom,
     });
   }
 });
