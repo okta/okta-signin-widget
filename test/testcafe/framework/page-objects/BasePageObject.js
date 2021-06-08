@@ -16,6 +16,30 @@ export default class BasePageObject {
     this.form = new BaseFormObject(t);
   }
 
+  async mockCrypto() {
+    await ClientFunction(() => {
+      if (typeof window.crypto === 'undefined') {
+        window.crypto = {};
+      }
+    
+      if (typeof window.crypto.subtle === 'undefined') {
+        window.crypto.subtle = {
+          digest: function() {
+            return Promise.resolve(65);
+          }
+        };
+      }
+    
+      if (typeof Uint8Array === 'undefined') {
+        window['Uint8Array'] = window.Number;
+      }
+    
+      String.fromCharCode = function() {
+        return 'mocked';
+      };
+    })();
+  }
+
   async navigateToPage(queryParams) {
     let qs = '';
     if (queryParams) {
