@@ -96,16 +96,6 @@ module.exports = {
         'local-rules/no-missing-keys': 2,
         'local-rules/no-missing-api-keys': 2,
       },
-      'overrides': [
-        {
-          'files': [
-            'playground/**/error-internal-server-error.json', //OKTA-389430
-          ],
-          'rules': {
-            'local-rules/no-missing-api-keys': 0
-          }
-        }
-      ]
     }
   ],
 };
