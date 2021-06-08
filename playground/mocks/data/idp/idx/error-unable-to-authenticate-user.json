@@ -1,0 +1,105 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02V8LzauWq9zMtOzJwFwyHhNIjFsFaLnt5XkxCzEga",
+  "expiresAt": "2021-06-05T02:51:34.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [ "create-form" ],
+        "name": "identify",
+        "href": "http://localhost:3000/idp/idx/identify",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [ 
+          {
+            "name": "identifier",
+            "label": "Username"
+          },
+          {
+            "name": "rememberMe",
+            "type": "boolean",
+            "label": "Remember this device"
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02V8LzauWq9zMtOzJwFwyHhNIjFsFaLnt5XkxCzEga",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": [ "create-form" ],
+        "name": "select-enroll-profile",
+        "href": "http://localhost:3000/idp/idx/enroll",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02V8LzauWq9zMtOzJwFwyHhNIjFsFaLnt5XkxCzEga",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Unable to login to \"myApp\" at this time. For assistance, please contact your administrator.",
+        "i18n": {
+          "key": "oie.assurance.unsatisfiable",
+          "params": [ "myApp" ]
+        },
+        "class": "ERROR"
+      }
+    ]
+  },
+  "cancel": {
+    "rel": [ "create-form" ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02V8LzauWq9zMtOzJwFwyHhNIjFsFaLnt5XkxCzEga",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "oidc_client",
+      "label": "myApp",
+      "id": "0oa21s8ikMyqTFpSK0g4",
+      "termsOfService": {
+        "rel": [ "terms-of-service" ],
+        "href": "https://app.example.com/terms-of-service"
+      },
+      "privacyPolicy": {
+        "rel": [ "privacy-policy" ],
+        "href": "https://app.example.com/privacy-policy"
+      },
+      "logo": {
+        "rel": [ "icon" ],
+        "href": "https://app.example.com/logo",
+        "alt": "Logo for the app"
+      }
+    }
+  }
+}
