@@ -100,13 +100,6 @@ module.exports = {
         {
           'files': [
             'playground/**/error-internal-server-error.json', //OKTA-389430
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-            'playground/**/error-user-is-not-assigned.json', //OKTA-389249
->>>>>>> e7883d9c (fix: update i18n key/message identify-unknown-user.json to "Unable to sign in")
-=======
->>>>>>> eae408ca (fix: add i18n key for "User is not assigned to this application.")
           ],
           'rules': {
             'local-rules/no-missing-api-keys': 0
