@@ -211,7 +211,7 @@ export default Router.extend({
           this.settings.unset('stateToken');
           this.settings.unset('proxyIdxResponse');
           this.settings.unset('useInteractionCodeFlow');
-          this.appState.trigger('remediationError', errorResp.error);
+          this.appState.trigger('remediationError', errorResp.error || errorResp);
           this.render(Controller, options);
         });
     }
