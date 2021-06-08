@@ -18,7 +18,8 @@ const ignoredMocks = [
   'error-internal-server-error.json',
   'error-forgot-password.json',
   'authenticator-verification-select-authenticator.json',
-  'identify-recovery-with-recaptcha-v2.json'
+  'identify-recovery-with-recaptcha-v2.json', // No english leaks for this, just flaky on bacon due to loading the reCaptcha lib 
+  'identify-with-password-with-recaptcha-v2.json' // No english leaks for this, just flaky on bacon due to loading the reCaptcha lib 
 ];
 
 const optionsForInteractionCodeFlow = {
