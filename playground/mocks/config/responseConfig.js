@@ -98,6 +98,7 @@ const idx = {
     // 'identify-with-only-one-third-party-idp',
     // 'error-identify-access-denied',
     // 'error-identify-user-locked-unable-challenge',
+    // 'error-unable-to-authenticate-user',
     // 'terminal-device-activated',
     // 'terminal-device-not-activated'
     // 'error-with-failure-redirect',
