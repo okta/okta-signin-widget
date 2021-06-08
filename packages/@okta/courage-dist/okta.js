@@ -1,4 +1,4 @@
-/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.5.0-5081-g99e49ae */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.5.0-5082-ga8d26d7 */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -440,15 +440,37 @@ function getBundle(bundleName) {
   return _oktaI18nBundles.default["".concat(bundleName, "_").concat(locale)] || _oktaI18nBundles.default[bundleName];
 }
 /**
- * Call the window.okta.logL10Error function if it is defined
+ *
+ * CustomEvent polyfill for IE
+ * https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#polyfill
+ */
+
+
+function IECustomEvent(event, params) {
+  params = params || {
+    bubbles: false,
+    cancelable: false,
+    detail: null
+  };
+  var evt = document.createEvent('CustomEvent');
+  evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+  return evt;
+}
+/**
+ * Call the window.okta.emitL10nError function if it is defined
  * @param {String} key The i18n key
  * @param {String} bundleName The i18n bundle name
  * @param {String} reason Could be 'bundle' (Bundle not found), 'key' (Key not found) or 'parameters' (Parameters mismatch).
  */
 
 
-function logL10nError(key, bundleName, reason) {
-  // throw error for sentry
+function emitL10nError(key, bundleName, reason) {
+  // CustomEvent polyfill for IE
+  if (!window.CustomEvent) {
+    window.CustomEvent = IECustomEvent;
+  } // dispatchEvent for sentry
+
+
   if (typeof window.CustomEvent === 'function') {
     var event = new CustomEvent('okta-i18n-error', {
       detail: {
@@ -545,14 +567,14 @@ var StringUtil =
     var bundle = getBundle(bundleName);
 
     if (!bundle) {
-      logL10nError(key, bundleName, 'bundle');
+      emitL10nError(key, bundleName, 'bundle');
       return 'L10N_ERROR[' + bundleName + ']';
     }
 
     if (bundle[key]) {
       return bundle[key];
     } else {
-      logL10nError(key, bundleName, 'key');
+      emitL10nError(key, bundleName, 'key');
       return 'L10N_ERROR[' + key + ']';
     }
   },
@@ -570,7 +592,7 @@ var StringUtil =
     /* eslint complexity: [2, 6] */
 
     if (!bundle) {
-      logL10nError(key, bundleName, 'bundle');
+      emitL10nError(key, bundleName, 'bundle');
       return 'L10N_ERROR[' + bundleName + ']';
     }
 
@@ -584,11 +606,11 @@ var StringUtil =
       if (value) {
         return value;
       } else {
-        logL10nError(key, bundleName, 'key');
+        emitL10nError(key, bundleName, 'key');
         return 'L10N_ERROR[' + key + ']';
       }
     } catch (e) {
-      logL10nError(key, bundleName, 'parameters');
+      emitL10nError(key, bundleName, 'parameters');
       return 'L10N_ERROR[' + key + ']';
     }
   },

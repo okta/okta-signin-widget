@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "@okta/babel-plugin-handlebars-inline-precompile": "3.1.0-beta.4200.gf3d0a27",
-    "@okta/courage": "4.5.0-5081-g99e49ae",
+    "@okta/courage": "4.5.0-5082-ga8d26d7",
     "@okta/eslint-plugin-okta-ui": "0.1.0-beta.4181.g1f38f27",
     "copy-webpack-plugin": "4.6.0",
     "webpack": "3.12.0",
