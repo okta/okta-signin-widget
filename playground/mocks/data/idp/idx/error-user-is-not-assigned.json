@@ -56,7 +56,10 @@
   "messages": {
     "type": "array",
     "value": [{
-      "message": "User is not assigned to this application",
+      "message": "User is not assigned to this application.",
+      "i18n": {
+        "key": "idx.error.user.not.assigned.to.app"
+      },
       "class": "ERROR"
     }]
   },
