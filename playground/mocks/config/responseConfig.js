@@ -109,6 +109,9 @@ const idx = {
     // 'error-authenticator-webauthn-failure',
     // 'error-authenticator-enroll-password-common',
     'error-authenticator-enroll-security-question-html-tags',
+    'error-authenticator-enroll-password-common',
+    // 'error-authenticator-reset-password-requirement',
+    // 'error-authenticator-enroll-security-question-html-tags',
   ],
   '/idp/idx/challenge/send': [
     // 'authenticator-enroll-ov-sms',
@@ -125,11 +128,13 @@ const idx = {
     // 'authenticator-verification-okta-verify-push',
   ],
   '/idp/idx/challenge': [
-    'authenticator-verification-webauthn',
+    // 'authenticator-verification-webauthn',
     // 'authenticator-verification-password',
     // 'authenticator-verification-okta-verify-totp',
     // 'authenticator-verification-okta-verify-push',
     // 'authenticator-verification-google-authenticator',
+    'error-authenticator-phone-sms-ratelimit',
+    'error-authenticator-phone-voice-ratelimit',
   ],
   '/idp/idx/enroll/new': [
     'error-new-signup-email',
