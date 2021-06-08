@@ -3,16 +3,22 @@ import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnro
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollPassword from '../../../playground/mocks/data/idp/idx/authenticator-enroll-password';
+import xhrAuthenticatorEnrollPasswordError from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-password-common';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
-const mock = RequestMock()
+const successMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollPassword)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSuccess);
 
-fixture('Authenticator Enroll Password')
-  .requestHooks(mock);
+const errorMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollPassword)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(xhrAuthenticatorEnrollPasswordError, 403);
+
+fixture('Authenticator Enroll Password');
 
 async function setup(t) {
   const enrollPasswordPage = new FactorEnrollPasswordPageObject(t);
@@ -27,7 +33,7 @@ async function setup(t) {
   return enrollPasswordPage;
 }
 
-test('should have both password and confirmPassword fields and both are required', async t => {
+test.requestHooks(successMock)('should have both password and confirmPassword fields and both are required', async t => {
   const enrollPasswordPage = await setup(t);
 
   // Check title
@@ -53,11 +59,12 @@ test('should have both password and confirmPassword fields and both are required
   await enrollPasswordPage.waitForErrorBox();
   await t.expect(enrollPasswordPage.hasPasswordError()).eql(false);
   await t.expect(enrollPasswordPage.getConfirmPasswordError()).eql('New passwords must match');
+  await t.expect(enrollPasswordPage.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
 
   await t.expect(await enrollPasswordPage.signoutLinkExists()).ok();
 });
 
-test('should succeed when fill same value', async t => {
+test.requestHooks(successMock)('should succeed when same values are filled', async t => {
   const enrollPasswordPage = await setup(t);
   const successPage = new SuccessPageObject(t);
 
@@ -70,7 +77,19 @@ test('should succeed when fill same value', async t => {
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
 
-test('should have the correct reqiurements', async t => {
+test.requestHooks(errorMock)('should show a callout when server-side field errors are received', async t => {
+  const enrollPasswordPage = await setup(t);
+
+  await enrollPasswordPage.fillPassword('abcdabcd');
+  await enrollPasswordPage.fillConfirmPassword('abcdabcd');
+  await enrollPasswordPage.clickNextButton();
+
+  await enrollPasswordPage.waitForErrorBox();
+  await t.expect(enrollPasswordPage.getPasswordError()).eql('This password was found in a list of commonly used passwords. Please try another password.');
+  await t.expect(enrollPasswordPage.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
+});
+
+test.requestHooks(successMock)('should have the correct reqiurements', async t => {
   const enrollPasswordPage = await setup(t);
   await t.expect(enrollPasswordPage.getRequirements()).contains('Password requirements:');
   await t.expect(enrollPasswordPage.getRequirements()).contains('At least 8 characters');
