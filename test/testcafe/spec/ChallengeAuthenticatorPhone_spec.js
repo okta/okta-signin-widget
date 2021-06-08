@@ -13,6 +13,7 @@ import smsVerificationNoProfile from '../../../playground/mocks/data/idp/idx/aut
 import voiceVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice-no-profile';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidCode from '../../../playground/mocks/data/idp/idx/error-email-verify';
+import voiceRatelimitErrorMock from '../../../playground/mocks/data/idp/idx/error-authenticator-phone-voice-ratelimit';
 
 const phoneVerificationSMSThenVoiceEmptyProfile = JSON.parse(JSON.stringify(phoneVerificationSMSThenVoiceNoProfile));
 // add empty profile to test
@@ -101,7 +102,13 @@ const invalidCodeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidCode, 403);
 
-fixture('Challenge Phone Form');
+const ratelimitReachedMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(phoneVerificationSMSThenVoice)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(voiceRatelimitErrorMock, 429);
+
+fixture.only('Challenge Phone Form');
 
 async function setup(t) {
   const challengePhonePageObject = new ChallengePhonePageObject(t);
@@ -485,4 +492,27 @@ test
     await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
     const resendEmailView = challengePhonePageObject.resendEmailView();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received a call? Call again');
+  });
+
+test
+  .requestHooks(logger, ratelimitReachedMock)
+  ('Voice ratelimit error followed by primary button click will send correct request body', async t => {
+    const challengePhonePageObject = await setup(t);
+    await challengePhonePageObject.clickSecondaryLink();
+
+    await t.expect(logger.count(() => true)).eql(1);
+    const { request: { body, method, url } } = logger.requests[0];
+    const { authenticator: voiceRequestObj} = JSON.parse(body);
+    await t.expect(voiceRequestObj).eql({ id: 'autxl8PPhwHUpOpW60g3', methodType: 'voice' });
+
+    // Check for ratelimt error here.
+    await challengePhonePageObject.waitForErrorBox();
+    await t.expect(challengePhonePageObject.getErrorFromErrorBox()).contains('You have reached the limit of call requests, please try again later.');
+    
+    // Click primary button (in this case SMS) and test for request body.
+    challengePhonePageObject.clickNextButton();
+    await t.expect(logger.count(() => true)).eql(2);
+    const { request: { body: smsRequestBody } } = logger.requests[1];
+    const { authenticator: smsRequestObj } = JSON.parse(smsRequestBody);
+    await t.expect(smsRequestObj).eql({ id: 'autxl8PPhwHUpOpW60g3', methodType: 'sms'});
   });
