@@ -14,7 +14,6 @@ const ignoredMocks = [
   'success-with-interaction-code.json',
   'identify-with-third-party-idps.json',
   'identify-with-apple-redirect-sso-extension.json', // flaky on bacon
-  'error-user-is-not-assigned.json',
   'error-forgot-password.json',
   'authenticator-verification-select-authenticator.json',
   'error-with-failure-redirect.json',
