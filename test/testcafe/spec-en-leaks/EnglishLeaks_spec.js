@@ -18,7 +18,6 @@ const ignoredMocks = [
   'error-internal-server-error.json',
   'error-forgot-password.json',
   'authenticator-verification-select-authenticator.json',
-  'error-with-failure-redirect.json',
   'identify-recovery-with-recaptcha-v2.json'
 ];
 
@@ -43,8 +42,12 @@ const mocksWithAlert = [
   'success-with-interaction-code.json'
 ];
 
+const mocksWithPreventRedirect = [
+  'error-with-failure-redirect.json'
+];
 const mocksWithoutInitialRender = [
-  'success-with-interaction-code.json'
+  'success-with-interaction-code.json',
+  'error-with-failure-redirect.json'
 ];
 
 const parseMockData = () => {
@@ -128,6 +131,8 @@ async function setup(t, locale, fileName) {
   const preventInitialRender = mocksWithoutInitialRender.includes(fileName);
   const withAlert = mocksWithAlert.includes(fileName);
   const options = withInteractionCodeFlow ? optionsForInteractionCodeFlow : {};
+  const preventRedirect = mocksWithPreventRedirect.includes(fileName);
+  
   const widgetView = new PageObject(t);
   if (preventInitialRender) {
     await widgetView.navigateToPage({ render: false });
@@ -139,6 +144,11 @@ async function setup(t, locale, fileName) {
   }
   if (withAlert) {
     await t.setNativeDialogHandler(() => true);
+  }
+  if (preventRedirect) {
+    await widgetView.preventRedirect([
+      'http://localhost:3000/error.html'
+    ]);
   }
   await renderWidget({
     ...options,
