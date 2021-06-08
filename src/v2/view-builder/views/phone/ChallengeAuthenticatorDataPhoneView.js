@@ -27,6 +27,9 @@ const Body = BaseForm.extend(
     },
 
     initialize() {
+      this.model && this.model.on('error', () => {
+        this.model.set('authenticator.methodType', this.model.get('primaryMode'));
+      });
       BaseForm.prototype.initialize.apply(this, arguments);
       const sendText = ( this.model.get('primaryMode') === 'sms' )
         ? loc('oie.phone.verify.sms.sendText', 'login')
@@ -74,7 +77,7 @@ export default BaseAuthenticatorView.extend({
     const relatesToObject = this.options.currentViewState.relatesTo;
     const { profile } = relatesToObject?.value || {};
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
-    const local = Object.assign({
+    const props = Object.assign({
       primaryMode: {
         'value': methods[0].value,
         'type': 'string',
@@ -87,7 +90,11 @@ export default BaseAuthenticatorView.extend({
         'value': profile?.phoneNumber ? profile.phoneNumber : loc('oie.phone.alternate.title', 'login'),
         'type': 'string',
       },
-    }, ModelClass.prototype.local);
-    return ModelClass.extend({ local });
+      'authenticator.methodType': {
+        'value': methods[0].value,
+        'type': 'string',
+      },
+    }, ModelClass.prototype.props);
+    return ModelClass.extend({ props });
   },
 });
