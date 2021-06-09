@@ -27,6 +27,8 @@ const Body = BaseForm.extend(
     },
 
     initialize() {
+      // This is needed when user clicks on secondary (say voice) and call fails with ratelimit server-side error.
+      // Then the user clicks primary button (say sms) and right methodType needs to be sent.
       this.model.on('error', () => this.model.set('authenticator.methodType', this.model.get('primaryMode')));
       BaseForm.prototype.initialize.apply(this, arguments);
       const sendText = ( this.model.get('primaryMode') === 'sms' )
