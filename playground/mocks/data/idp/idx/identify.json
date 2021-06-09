@@ -71,5 +71,13 @@
            "mutable":false
         }
      ]
-  }
+  },
+  "app": {
+      "type": "object",
+      "value": {
+         "name": "okta_enduser",
+         "label": "Okta Dashboard",
+         "id": "0oa1bowRUq4I8pIfd0g4"
+      }
+   }
 }
