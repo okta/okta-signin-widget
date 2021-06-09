@@ -198,3 +198,10 @@ test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('Direct auth: IDP discover
 
   await t.expect(logger.contains(record => record.response.statusCode === 200)).ok();
 });
+
+test.requestHooks(logger, mockWithoutIdentify)('custom idps should show correct label', async t => {
+  const identityPage = await setup(t);
+  await t.expect(identityPage.getIdpsContainer().childElementCount).eql(6);
+  await t.expect(identityPage.getCustomIdpButtonLabel(0)).contains('Sign in with My SAML IDP');
+  await t.expect(identityPage.getCustomIdpButtonLabel(1)).eql('Sign in with SAML IDP');
+});
