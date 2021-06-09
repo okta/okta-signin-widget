@@ -115,7 +115,8 @@ const createIdpButtons = (remediations) => {
 
     if (!_.contains(IDP.SUPPORTED_SOCIAL_IDPS, type)) {
       type = 'general-idp';
-      displayName = idpObject.idp?.name || '{ Please provide a text value }';
+      // OKTA-396684 - makes sure that custom idps always have a name
+      displayName = loc('customauth.sign.in.with.label', 'login', [idpObject.idp?.name]);
     } else {
       displayName = loc(`socialauth.${type}.label`, 'login');
     }
@@ -124,6 +125,10 @@ const createIdpButtons = (remediations) => {
       'social-auth-button',
       `social-auth-${type}-button`,
     ];
+
+    if (type === 'general-idp') {
+      classNames.push('no-translate');
+    }
 
     if (idpObject.idp.className) {
       classNames.push(idpObject.idp.className);
