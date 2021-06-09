@@ -77,27 +77,17 @@ const Body = BaseForm.extend({
       // We check the 'idpDisplay' option config to determine whether to render the idp buttons 
       // above or below the form
       const idpDisplay = this.options.settings.get('idpDisplay');
-      if (idpDisplay.toUpperCase() === 'PRIMARY') {
-        // Render idp buttons above the form
-        this.add(signInWithIdps, {
-          prepend: true,
-          selector: '.o-form-fieldset-container',
-          options: {
-            idpButtons,
-            addSeparateLine: true,
-            addSeparateLineAtBottom: true
-          }
-        });
-      } else {
-        // Render idp buttons below the form
-        this.add(signInWithIdps, {
-          selector: '.o-form-button-bar',
-          options: {
-            idpButtons,
-            addSeparateLine: true,
-          }
-        });
-      }
+      const isPrimaryDisplay = idpDisplay.toUpperCase() === 'PRIMARY';
+
+      this.add(signInWithIdps, {
+        prepend: isPrimaryDisplay,
+        selector: isPrimaryDisplay ? '.o-form-fieldset-container' : '.o-form-button-bar',
+        options: {
+          idpButtons,
+          addSeparateLine: true,
+          addSeparateLineAtBottom: isPrimaryDisplay
+        }
+      });
     }
 
     const customButtons = createCustomButtons(this.options.settings);
