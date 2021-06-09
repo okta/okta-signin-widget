@@ -108,7 +108,7 @@ const ratelimitReachedMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(voiceRatelimitErrorMock, 429);
 
-fixture.only('Challenge Phone Form');
+fixture('Challenge Phone Form');
 
 async function setup(t) {
   const challengePhonePageObject = new ChallengePhonePageObject(t);
@@ -495,14 +495,13 @@ test
   });
 
 test
-  .requestHooks(logger, ratelimitReachedMock)
-  ('Voice ratelimit error followed by primary button click will send correct request body', async t => {
+  .requestHooks(logger, ratelimitReachedMock)('Voice ratelimit error followed by primary button click will send correct request body', async t => {
     const challengePhonePageObject = await setup(t);
     await challengePhonePageObject.clickSecondaryLink();
 
     await t.expect(logger.count(() => true)).eql(1);
-    const { request: { body, method, url } } = logger.requests[0];
-    const { authenticator: voiceRequestObj} = JSON.parse(body);
+    const { request: { body: voiceRequestBody } } = logger.requests[0];
+    const { authenticator: voiceRequestObj} = JSON.parse(voiceRequestBody);
     await t.expect(voiceRequestObj).eql({ id: 'autxl8PPhwHUpOpW60g3', methodType: 'voice' });
 
     // Check for ratelimt error here.
