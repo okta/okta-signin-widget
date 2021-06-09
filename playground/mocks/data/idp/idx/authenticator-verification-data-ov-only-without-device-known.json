@@ -34,16 +34,16 @@
                   "required": true,
                   "options": [
                     {
-                      "label": "FastPass",
-                      "value": "signed_nonce"
-                    },
-                    {
                       "label": "push notification",
                       "value": "push"
                     },
                     {
                       "label": "totp",
                       "value": "totp"
+                    },
+                    {
+                      "label": "FastPass",
+                      "value": "signed_nonce"
                     }
                   ]
                 }
@@ -89,16 +89,16 @@
                         "required": false,
                         "options": [
                           {
-                            "label": "Use Okta FastPass",
-                            "value": "signed_nonce"
-                          },
-                          {
                             "label": "Get a push notification",
                             "value": "push"
                           },
                           {
                             "label": "Enter a code",
                             "value": "totp"
+                          },
+                          {
+                            "label": "Use Okta FastPass",
+                            "value": "signed_nonce"
                           }
                         ]
                       }
@@ -148,13 +148,13 @@
       "displayName": "",
       "methods": [
         {
-          "type": "signed_nonce"
-        },
-        {
           "type": "push"
         },
         {
           "type": "totp"
+        },
+        {
+          "type": "signed_nonce"
         }
       ]
     }
@@ -169,13 +169,13 @@
         "displayName": "",
         "methods": [
           {
-            "type": "signed_nonce"
-          },
-          {
             "type": "push"
           },
           {
             "type": "totp"
+          },
+          {
+            "type": "signed_nonce"
           }
         ]
       }
