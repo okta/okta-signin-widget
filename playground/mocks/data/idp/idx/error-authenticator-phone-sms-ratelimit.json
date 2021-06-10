@@ -1,0 +1,18 @@
+{
+  "version":"1.0.0",
+  "stateHandle":"02N_DicWmD_7nV4tsX7HRX2rbWt27yn_EPIxI2nKA9",
+  "expiresAt":"2021-06-07T18:59:29.000Z",
+  "intent":"LOGIN",
+  "messages":{
+    "type":"array",
+    "value":[
+      {
+        "message":"You have reached the limit of sms requests, please try again later.",
+        "i18n":{
+          "key":"errors.E0000150"
+        },
+        "class":"ERROR"
+      }
+    ]
+  }
+}
