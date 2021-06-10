@@ -1,0 +1,18 @@
+{
+  "version":"1.0.0",
+  "stateHandle":"02u0qHSLHev_cc2TMpR_nIAiyv_QkYIhHVpLRNvlGi",
+  "expiresAt":"2021-06-07T17:55:21.000Z",
+  "intent":"LOGIN",
+  "messages":{
+    "type":"array",
+    "value":[
+      {
+        "message":"You have reached the limit of call requests, please try again later.",
+        "i18n":{
+          "key":"errors.E0000151"
+        },
+        "class":"ERROR"
+      }
+    ]
+  }
+}
