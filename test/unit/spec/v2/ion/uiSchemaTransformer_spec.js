@@ -1297,6 +1297,11 @@ describe('v2/ion/uiSchemaTransformer', function() {
     MockUtil.mockIntrospect(done, XHRIdentifyResponse, idxResp => {
       const result = _.compose(uiSchemaTransformer.bind(null, testContext.settings), responseTransformer.bind(null, testContext.settings))(idxResp);
       expect(result).toEqual({
+        app: {
+          name: 'okta_enduser',
+          label: 'Okta Dashboard',
+          id: '0oa1bowRUq4I8pIfd0g4'
+        },
         remediations: [
           {
             name: 'identify',
