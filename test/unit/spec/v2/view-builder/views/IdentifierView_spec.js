@@ -9,12 +9,17 @@ import XHRIdentifyWithThirdPartyIdps
 
 describe('v2/view-builder/views/IdentifierView', function() {
   let testContext;
+  let idpDisplay = undefined;
+
   beforeEach(function() { 
     testContext = {};
     testContext.init = (remediations = XHRIdentifyWithThirdPartyIdps.remediation.value) => {
       const appState = new AppState();
       appState.set('remediations', remediations);
-      const settings = new Settings({ baseUrl: 'http://localhost:3000' });
+      const settings = new Settings({ 
+        baseUrl: 'http://localhost:3000',
+        idpDisplay
+      });
       testContext.view = new IdentifierView({
         appState,
         settings,
@@ -48,5 +53,41 @@ describe('v2/view-builder/views/IdentifierView', function() {
     // The forgot password link should be in the siw-main-footer
     expect(testContext.view.$el.find('.siw-main-footer .js-forgot-password').length).toEqual(1);
     expect(testContext.view.$el.find('.links-primary .js-forgot-password').length).toEqual(0);
+  });
+
+  it('view renders IDP buttons correctly with idpDisplay property', function() {
+    jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
+    testContext.init();
+
+    // The idp buttons should be rendered below the main login fields when no idpDisplay defined.
+    expect(testContext.view.$el.find('.o-form-button-bar .sign-in-with-idp').length).toEqual(1);
+    expect(testContext.view.$el.find('.o-form-fieldset-container .sign-in-with-idp').length).toEqual(0);
+
+    idpDisplay = 'PRIMARY';
+    testContext.init();
+
+    // The idp buttons should be rendered above the main login fields when idpDisplay is PRIMARY.
+    expect(testContext.view.$el.find('.o-form-fieldset-container .sign-in-with-idp').length).toEqual(1);
+    expect(testContext.view.$el.find('.o-form-button-bar .sign-in-with-idp').length).toEqual(0);
+
+    idpDisplay = 'SECONDARY';
+    testContext.init();
+
+    // The idp buttons should be rendered below the main login fields when idpDisplay is SECONDARY.
+    expect(testContext.view.$el.find('.o-form-button-bar .sign-in-with-idp').length).toEqual(1);
+    expect(testContext.view.$el.find('.o-form-fieldset-container .sign-in-with-idp').length).toEqual(0);
+  });
+
+  it('view renders no IDP buttons with no IDPs in the remediation', function() {
+    jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
+    testContext.init(XHRIdentifyWithPassword.remediation.value);
+    
+    // No IDP buttons should be rendered.
+    expect(testContext.view.$el.find('.o-form-fieldset-container .sign-in-with-idp').length).toEqual(0);
+    expect(testContext.view.$el.find('.o-form-button-bar .sign-in-with-idp').length).toEqual(0);
   });
 });
