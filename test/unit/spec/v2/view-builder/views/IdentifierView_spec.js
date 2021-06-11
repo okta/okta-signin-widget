@@ -79,4 +79,15 @@ describe('v2/view-builder/views/IdentifierView', function() {
     expect(testContext.view.$el.find('.o-form-button-bar .sign-in-with-idp').length).toEqual(1);
     expect(testContext.view.$el.find('.o-form-fieldset-container .sign-in-with-idp').length).toEqual(0);
   });
+
+  it('view renders no IDP buttons with no IDPs in the remediation', function() {
+    jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
+    testContext.init(XHRIdentifyWithPassword.remediation.value);
+    
+    // No IDP buttons should be rendered.
+    expect(testContext.view.$el.find('.o-form-fieldset-container .sign-in-with-idp').length).toEqual(0);
+    expect(testContext.view.$el.find('.o-form-button-bar .sign-in-with-idp').length).toEqual(0);
+  });
 });

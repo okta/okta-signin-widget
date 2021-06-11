@@ -60,33 +60,12 @@ const Body = BaseForm.extend({
       this.add(signInWithDeviceOption, '.o-form-fieldset-container', false, true, { isRequired: false });
     }
 
-    // add external idps buttons
+    // add forgot password link and external idps buttons if needed
     const idpButtons = createIdpButtons(this.options.appState.get('remediations'));
     if (Array.isArray(idpButtons) && idpButtons.length) {
-
       // Add the forgot password link before the buttons for multiple IDPs
-      const forgotPasswordLink = getForgotPasswordLink(this.options.appState, this.options.settings);
-      if (forgotPasswordLink.length) {
-        this.add('<div class="links-primary"></div>', { selector: '.o-form-button-bar' });
-        this.add(Link, {
-          selector: '.links-primary',
-          options: forgotPasswordLink[0],
-        });
-      }
-
-      // We check the 'idpDisplay' option config to determine whether to render the idp buttons 
-      // above or below the login fields
-      const idpDisplay = this.options.settings.get('idpDisplay');
-      const isPrimaryIdpDisplay = idpDisplay && idpDisplay.toUpperCase() === 'PRIMARY';
-
-      this.add(signInWithIdps, {
-        prepend: isPrimaryIdpDisplay,
-        selector: isPrimaryIdpDisplay ? '.o-form-fieldset-container' : '.o-form-button-bar',
-        options: {
-          idpButtons,
-          isPrimaryIdpDisplay
-        }
-      });
+      this._addForgotPasswordView();
+      this._addIdpView(idpButtons);
     }
 
     const customButtons = createCustomButtons(this.options.settings);
@@ -154,6 +133,33 @@ const Body = BaseForm.extend({
     });
 
     return newSchemas;
+  },
+
+  _addForgotPasswordView() {
+    const forgotPasswordLink = getForgotPasswordLink(this.options.appState, this.options.settings);
+    if (forgotPasswordLink.length) {
+      this.add('<div class="links-primary"></div>', { selector: '.o-form-button-bar' });
+      this.add(Link, {
+        selector: '.links-primary',
+        options: forgotPasswordLink[0],
+      });
+    }
+  },
+
+  _addIdpView(idpButtons) {
+    // We check the 'idpDisplay' option config to determine whether to render the idp buttons 
+    // above or below the login fields
+    const idpDisplay = this.options.settings.get('idpDisplay');
+    const isPrimaryIdpDisplay = idpDisplay && idpDisplay.toUpperCase() === 'PRIMARY';
+
+    this.add(signInWithIdps, {
+      prepend: isPrimaryIdpDisplay,
+      selector: isPrimaryIdpDisplay ? '.o-form-fieldset-container' : '.o-form-button-bar',
+      options: {
+        idpButtons,
+        isPrimaryIdpDisplay
+      }
+    });
   },
 });
 
