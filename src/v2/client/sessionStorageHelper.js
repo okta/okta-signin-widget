@@ -11,19 +11,26 @@
  */
 
 const STATE_HANDLE_SESSION_STORAGE_KEY = 'osw-oie-state-handle';
+const APP_ID_SESSION_STORAGE_KEY = 'osw-oie-app-id';
 
 const removeStateHandle = () => {
+  sessionStorage.removeItem(APP_ID_SESSION_STORAGE_KEY);
   sessionStorage.removeItem(STATE_HANDLE_SESSION_STORAGE_KEY);
 };
-const setStateHandle = (token) => {
+const setStateHandle = (token, appId) => {
+  sessionStorage.setItem(APP_ID_SESSION_STORAGE_KEY, appId);
   sessionStorage.setItem(STATE_HANDLE_SESSION_STORAGE_KEY, token);
 };
 const getStateHandle = () => {
   return sessionStorage.getItem(STATE_HANDLE_SESSION_STORAGE_KEY);
+};
+const getAppId = () => {
+  return sessionStorage.getItem(APP_ID_SESSION_STORAGE_KEY);
 };
 
 export default {
   removeStateHandle,
   setStateHandle,
   getStateHandle,
+  getAppId,
 };

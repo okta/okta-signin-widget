@@ -23,7 +23,7 @@ const handleProxyIdxResponse = async (settings) => {
   });
 };
 
-export async function startLoginFlow(settings) {
+export async function startLoginFlow(settings, useSessionStateHandle = false) {
   // Return a preset response
   if (settings.get('proxyIdxResponse')) {
     return handleProxyIdxResponse(settings);
@@ -42,6 +42,26 @@ export async function startLoginFlow(settings) {
   // Use stateToken from session storage if exists
   // See more details at ./docs/use-session-token-prior-to-settings.png
   const stateHandleFromSession = sessionStorageHelper.getStateHandle();
+
+  // Use stateToken from options
+  const stateHandle = settings.get('stateToken');
+  if (stateHandle && !useSessionStateHandle) {
+    // We first need to introspect on settings.stateToken to get the current app context
+    return introspect(settings, stateHandle)
+      .then(idxResp => {
+        const currentAppId = idxResp?.context?.app?.value?.id;
+
+        if (stateHandleFromSession && currentAppId === sessionStorageHelper.getAppId()) {
+          // appId matches cached stateHandle, so use stateHandle instead to get stored state
+          // ie. might have left off at a later remediation step
+          return startLoginFlow(settings, true);
+        } else {
+          sessionStorageHelper.removeStateHandle();
+          return idxResp;
+        }
+      });
+  }
+
   if (stateHandleFromSession) {
     return introspect(settings, stateHandleFromSession)
       .then((idxResp) => {
@@ -56,12 +76,6 @@ export async function startLoginFlow(settings) {
         // 2. start the login again in order to introspect on settings.stateHandle
         return startLoginFlow(settings);
       });
-  }
-
-  // Use stateToken from options
-  const stateHandle = settings.get('stateToken');
-  if (stateHandle) {
-    return introspect(settings, stateHandle);
   }
 
   throw new Errors.ConfigError('Set "useInteractionCodeFlow" to true in configuration to enable the ' +

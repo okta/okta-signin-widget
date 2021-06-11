@@ -103,7 +103,9 @@ export default Router.extend({
     //    -> refresh page
     //    -> introspect using options.stateHandle
     if (lastResponse) {
-      sessionStorageHelper.setStateHandle(idxResponse?.context?.stateHandle);
+      const stateHandle = idxResponse?.context?.stateHandle;
+      const appId = idxResponse?.context?.app?.value?.id;
+      sessionStorageHelper.setStateHandle(stateHandle, appId);
     }
 
     // transform response
