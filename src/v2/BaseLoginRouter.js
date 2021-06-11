@@ -33,6 +33,7 @@ import {
 } from './client';
 
 import transformIdxResponse from './ion/transformIdxResponse';
+import { FORMS } from './ion/RemediationConstants';
 
 export default Router.extend({
   Events: Backbone.Events,
@@ -104,6 +105,11 @@ export default Router.extend({
     //    -> introspect using options.stateHandle
     if (lastResponse) {
       sessionStorageHelper.setStateHandle(idxResponse?.context?.stateHandle);
+    }
+    // Ignore Device Probe calls that can occur on first page loads
+    // that mimic moving forward in remediation flow
+    if (this.appState.get('currentFormName') === FORMS.CANCEL_TRANSACTION) {
+      sessionStorageHelper.removeStateHandle();
     }
 
     // transform response
