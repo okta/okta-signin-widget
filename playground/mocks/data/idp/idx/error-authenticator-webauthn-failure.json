@@ -91,7 +91,7 @@
                 "relatesTo":"$.authenticatorEnrollments.value[0]"
               },
               {
-                "label":"MacBook Touch ID",
+                "label":"Security Key or Biometric",
                 "value":{
                   "form":{
                     "value":[
@@ -175,7 +175,7 @@
       "type":"security_key",
       "key":"webauthn",
       "id":"aut12uqz8PnlDpzQ20g4",
-      "displayName":"MacBook Touch ID",
+      "displayName":"Security Key or Biometric",
       "methods":[
         {
           "type":"webauthn"
@@ -201,7 +201,7 @@
         "type":"security_key",
         "key":"webauthn",
         "id":"aut12uqz8PnlDpzQ20g4",
-        "displayName":"MacBook Touch ID",
+        "displayName":"Security Key or Biometric",
         "methods":[
           {
             "type":"webauthn"

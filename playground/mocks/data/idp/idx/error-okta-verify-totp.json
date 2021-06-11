@@ -117,9 +117,6 @@
   "currentAuthenticator": {
     "type": "object",
     "value": {
-      "profile": {
-        "deviceName": "OnePlus 7 Pro"
-      },
       "send": {
         "rel": [
           "create-form"
