@@ -75,17 +75,16 @@ const Body = BaseForm.extend({
       }
 
       // We check the 'idpDisplay' option config to determine whether to render the idp buttons 
-      // above or below the form
+      // above or below the login fields
       const idpDisplay = this.options.settings.get('idpDisplay');
-      const isPrimaryDisplay = idpDisplay.toUpperCase() === 'PRIMARY';
+      const isPrimaryIdpDisplay = idpDisplay && idpDisplay.toUpperCase() === 'PRIMARY';
 
       this.add(signInWithIdps, {
-        prepend: isPrimaryDisplay,
-        selector: isPrimaryDisplay ? '.o-form-fieldset-container' : '.o-form-button-bar',
+        prepend: isPrimaryIdpDisplay,
+        selector: isPrimaryIdpDisplay ? '.o-form-fieldset-container' : '.o-form-button-bar',
         options: {
           idpButtons,
-          addSeparateLine: true,
-          addSeparateLineAtBottom: isPrimaryDisplay
+          isPrimaryIdpDisplay
         }
       });
     }

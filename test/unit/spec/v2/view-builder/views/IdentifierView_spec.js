@@ -9,7 +9,7 @@ import XHRIdentifyWithThirdPartyIdps
 
 describe('v2/view-builder/views/IdentifierView', function() {
   let testContext;
-  let idpDisplay = 'SECONDARY';
+  let idpDisplay = undefined;
 
   beforeEach(function() { 
     testContext = {};
@@ -59,17 +59,23 @@ describe('v2/view-builder/views/IdentifierView', function() {
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
+    testContext.init();
+
+    // The idp buttons should be rendered below the main login fields when no idpDisplay defined.
+    expect(testContext.view.$el.find('.o-form-button-bar .sign-in-with-idp').length).toEqual(1);
+    expect(testContext.view.$el.find('.o-form-fieldset-container .sign-in-with-idp').length).toEqual(0);
+
     idpDisplay = 'PRIMARY';
     testContext.init();
 
-    // The idp buttons should be rendered above the main form.
+    // The idp buttons should be rendered above the main login fields when idpDisplay is PRIMARY.
     expect(testContext.view.$el.find('.o-form-fieldset-container .sign-in-with-idp').length).toEqual(1);
     expect(testContext.view.$el.find('.o-form-button-bar .sign-in-with-idp').length).toEqual(0);
 
     idpDisplay = 'SECONDARY';
     testContext.init();
 
-    // The idp buttons should be rendered below the main form.
+    // The idp buttons should be rendered below the main login fields when idpDisplay is SECONDARY.
     expect(testContext.view.$el.find('.o-form-button-bar .sign-in-with-idp').length).toEqual(1);
     expect(testContext.view.$el.find('.o-form-fieldset-container .sign-in-with-idp').length).toEqual(0);
   });
