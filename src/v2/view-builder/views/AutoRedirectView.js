@@ -1,5 +1,6 @@
 import { _, loc } from 'okta';
 import { BaseForm, BaseView } from '../internals';
+import Enums from '../../../util/Enums';
 
 const Body = BaseForm.extend({
   title() {
@@ -29,8 +30,11 @@ const Body = BaseForm.extend({
   initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
 
-    this.model.set('useRedirect', true);
-    this.trigger('save', this.model);
+    // this.model.set('useRedirect', true);
+    // this.trigger('save', this.model);
+    this.settings.callGlobalSuccess(Enums.SUCCESS, {
+      username: this.options.appState.get('username'),
+    });
   },
 
   render() {

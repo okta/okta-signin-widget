@@ -14,7 +14,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    // 'identify',
     // 'error-email-verify',
     // 'error-with-failure-redirect',
     // 'error-feature-not-enabled',
@@ -70,7 +70,7 @@ const idx = {
     // 'identify-with-only-one-third-party-idp',
     // 'identify-with-password',
     // 'identify-with-universal-link',
-    // 'success',
+    'success',
     // 'success-with-app-user',
     // 'terminal-return-email',
     // 'terminal-return-error-email',
