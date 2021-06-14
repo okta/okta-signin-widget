@@ -11,26 +11,26 @@
  */
 
 const STATE_HANDLE_SESSION_STORAGE_KEY = 'osw-oie-state-handle';
-const LAST_VISITED_URL_SESSION_STORAGE_KEY = 'osw-oie-last-visited-url';
+const LAST_INITIATED_LOGIN_URL_SESSION_STORAGE_KEY = 'osw-oie-last-initiated-login-url';
 
 const removeStateHandle = () => {
   sessionStorage.removeItem(STATE_HANDLE_SESSION_STORAGE_KEY);
-  sessionStorage.removeItem(LAST_VISITED_URL_SESSION_STORAGE_KEY);
+  sessionStorage.removeItem(LAST_INITIATED_LOGIN_URL_SESSION_STORAGE_KEY);
 };
 const setStateHandle = (token) => {
   sessionStorage.setItem(STATE_HANDLE_SESSION_STORAGE_KEY, token);
-  sessionStorage.setItem(LAST_VISITED_URL_SESSION_STORAGE_KEY, window.location.href);
+  sessionStorage.setItem(LAST_INITIATED_LOGIN_URL_SESSION_STORAGE_KEY, window.location.href);
 };
 const getStateHandle = () => {
   return sessionStorage.getItem(STATE_HANDLE_SESSION_STORAGE_KEY);
 };
-const getLastVisitedURL = () => {
-  return sessionStorage.getItem(LAST_VISITED_URL_SESSION_STORAGE_KEY);
+const getLastInitiatedLoginUrl = () => {
+  return sessionStorage.getItem(LAST_INITIATED_LOGIN_URL_SESSION_STORAGE_KEY);
 };
 
 export default {
   removeStateHandle,
   setStateHandle,
   getStateHandle,
-  getLastVisitedURL,
+  getLastInitiatedLoginUrl,
 };
