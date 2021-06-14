@@ -209,3 +209,73 @@ test.requestHooks(identifyChallengeMock)('shall clear when session.stateHandle i
   await t.expect(identityPage.form.getTitle()).eql('Sign In');
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
 });
+
+test.requestHooks(identifyChallengeMock)('shall clear when session.stateHandle has a different app context', async t => {
+  const multipleIntrospectMock = RequestMock()
+    .onRequestTo('http://localhost:3000/idp/idx/introspect')
+    .respond((req, res) => {
+      // return a different app context
+      res.statusCode = '200';
+      const xhrIdentifyWithDifferentApp =  {
+        ...xhrIdentify,
+        app: {
+          value: {
+            id: '123',
+          }
+        },
+        stateHandle: 'stateHandleForAppId123',
+      };
+      res.setBody(xhrIdentifyWithDifferentApp);
+    });
+  const identityPage = new IdentityPageObject(t);
+  const challengeEmailPageObject = new ChallengeEmailPageObject(t);
+
+  // Identify page
+  await identityPage.navigateToPage();
+  await t.expect(getStateHandleFromSessionStorage()).eql(null);
+  await identityPage.fillIdentifierField('foo@test.com');
+  await identityPage.clickNextButton();
+
+  // Email challenge page
+  const pageTitle = challengeEmailPageObject.form.getTitle();
+  await t.expect(pageTitle).eql('Verify with your email');
+  await t.expect(getStateHandleFromSessionStorage()).eql(xhrEmailVerification.stateHandle);
+
+  // Reset mocks
+  await t.removeRequestHooks(identifyChallengeMock);
+  await t.addRequestHooks(multipleIntrospectMock);
+  await t.addRequestHooks(introspectRequestLogger);
+
+  // Refresh
+  await challengeEmailPageObject.refresh();
+
+  // Verify introspect requests
+  // introspect with setting.stateHandle (from .widgetrc)
+  await t.expect(introspectRequestLogger.count(() => true)).eql(1);
+
+  const req1 = introspectRequestLogger.requests[0].request;
+  const reqBody1 = JSON.parse(req1.body);
+  await t.expect(reqBody1).eql({
+    stateToken: 'dummy-state-token-wrc',
+  });
+  await t.expect(req1.url).eql('http://localhost:3000/idp/idx/introspect');
+
+  // Go back to Identify page as saved state handle becomes invalid
+  // and new state handle responds identify
+  await t.expect(identityPage.form.getTitle()).eql('Sign In');
+  await t.expect(getStateHandleFromSessionStorage()).eql(null);
+});
+
+test.requestHooks(credentialSSONotExistLogger, credentialSSONotExistMock)('shall clear session.stateHandle when SSO extension fails', async t => {
+  const ssoExtensionPage = new BasePageObject(t);
+  await ssoExtensionPage.navigateToPage();
+  await t.expect(credentialSSONotExistLogger.count(
+    record => record.response.statusCode === 200 &&
+      record.request.url.match(/introspect/)
+  )).eql(1);
+  await t.expect(credentialSSONotExistLogger.count(
+    record => record.response.statusCode === 200 &&
+      record.request.url.match(/456\/verify\/cancel/)
+  )).eql(1);
+  await t.expect(getStateHandleFromSessionStorage()).eql(null);
+});
