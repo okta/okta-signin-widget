@@ -179,6 +179,8 @@ export default Router.extend({
   },
 
   render: function(Controller, options = {}) {
+    // If url changes then widget assumes that user's intention was to initiate a new login flow,
+    // so clear stored token to use the latest token.
     if (sessionStorageHelper.getLastVisitedURL() !== window.location.href) {
       sessionStorageHelper.removeStateHandle();
     }

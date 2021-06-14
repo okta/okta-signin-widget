@@ -209,3 +209,31 @@ test.requestHooks(identifyChallengeMock)('shall clear when session.stateHandle i
   await t.expect(identityPage.form.getTitle()).eql('Sign In');
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
 });
+
+
+test.requestHooks(introspectRequestLogger, identifyChallengeMock)('shall clear session.stateHandle when URL changes to handle changing apps', async t => {
+  const identityPage = new IdentityPageObject(t);
+  const challengeEmailPageObject = new ChallengeEmailPageObject(t);
+
+  // Identify page
+  await identityPage.navigateToPage();
+  await t.expect(getStateHandleFromSessionStorage()).eql(null);
+  await identityPage.fillIdentifierField('foo@test.com');
+  await identityPage.clickNextButton();
+
+  // Email challenge page
+  const pageTitle = challengeEmailPageObject.form.getTitle();
+  await t.expect(pageTitle).eql('Verify with your email');
+  await t.expect(getStateHandleFromSessionStorage()).eql(xhrEmailVerification.stateHandle);
+
+  // Change apps
+  await t.navigateTo('/app/phpsaml/123/sso/saml');
+
+  // Verify introspect requests, one for each app visit
+  await t.expect(introspectRequestLogger.count(() => true)).eql(2);
+
+  // Go back to Identify page as saved state handle becomes invalid
+  // and new state handle responds identify
+  await t.expect(identityPage.form.getTitle()).eql('Sign In');
+  await t.expect(getStateHandleFromSessionStorage()).eql(null);
+});
