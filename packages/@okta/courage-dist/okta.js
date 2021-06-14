@@ -1,4 +1,4 @@
-/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.5.0-5082-ga8d26d7 */
+/*! THIS FILE IS GENERATED FROM PACKAGE @okta/courage@4.5.0-5100-g8598522 */
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -84,24 +84,22 @@ var _underscore = _interopRequireDefault(__webpack_require__(37));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* eslint @okta/okta-ui/no-specific-methods: 0, @okta/okta-ui/no-specific-modules: 0 */
-var _ = _underscore.default;
-
-_.mixin({
+_underscore.default.mixin({
   resultCtx: function resultCtx(object, property, context, defaultValue) {
-    var value = _.isObject(object) ? object[property] : void 0;
+    var value = _underscore.default.isObject(object) ? object[property] : void 0;
 
-    if (_.isFunction(value)) {
+    if (_underscore.default.isFunction(value)) {
       value = value.call(context || object);
     }
 
     if (value) {
       return value;
     } else {
-      return !_.isUndefined(defaultValue) ? defaultValue : value;
+      return !_underscore.default.isUndefined(defaultValue) ? defaultValue : value;
     }
   },
   isInteger: function isInteger(x) {
-    return _.isNumber(x) && x % 1 === 0;
+    return _underscore.default.isNumber(x) && x % 1 === 0;
   },
   // TODO: This will be deprecated at some point. Views should use precompiled templates
   // eslint-disable-next-line @okta/okta-ui/no-bare-templates
@@ -114,7 +112,7 @@ _.mixin({
   }
 });
 
-var _default = _;
+var _default = _underscore.default;
 exports.default = _default;
 module.exports = exports.default;
 

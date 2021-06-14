@@ -25,18 +25,18 @@
   dependencies:
     "@babel/helper-module-imports" "^7.0.0"
 
-"@okta/courage@4.5.0-5082-ga8d26d7":
-  version "4.5.0-5082-ga8d26d7"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/courage/-/@okta/courage-4.5.0-5082-ga8d26d7.tgz#18e4302dfeff95b8246ee9561f78a120713c4cb5"
-  integrity sha1-GOQwLf7/lbgkbulWH3ihIHE8TLU=
+"@okta/courage@4.5.0-5100-g8598522":
+  version "4.5.0-5100-g8598522"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/courage/-/@okta/courage-4.5.0-5100-g8598522.tgz#fd10cf251a6c453ecedb6a6c935770f5e51a6f06"
+  integrity sha1-/RDPJRpsRT7O22psk1dw9eUabwY=
   dependencies:
     "@okta/jquery.simplemodal" "1.4.19-g8b711ea"
     "@okta/moment" "1.1.6-g5eecd36"
-    backbone "^1.3.3"
+    backbone "1.3.3"
     clipboard "^1.5.16"
     handlebars "4.7.7"
     selectize "0.12.4"
-    underscore "1.8.3"
+    underscore "1.13.1"
 
 "@okta/eslint-plugin-okta-ui@0.1.0-beta.4181.g1f38f27":
   version "0.1.0-beta.4181.g1f38f27"
@@ -293,10 +293,10 @@ aws4@^1.8.0:
   resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/aws4/-/aws4-1.10.0.tgz#a17b3a8ea811060e74d47d306122400ad4497ae2"
   integrity sha1-oXs6jqgRBg501H0wYSJACtRJeuI=
 
-backbone@^1.3.3:
-  version "1.4.0"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/backbone/-/backbone-1.4.0.tgz#54db4de9df7c3811c3f032f34749a4cd27f3bd12"
-  integrity sha1-VNtN6d98OBHD8DLzR0mkzSfzvRI=
+backbone@1.3.3:
+  version "1.3.3"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/backbone/-/backbone-1.3.3.tgz#4cc80ea7cb1631ac474889ce40f2f8bc683b2999"
+  integrity sha1-TMgOp8sWMaxHSInOQPL4vGg7KZk=
   dependencies:
     underscore ">=1.8.3"
 
@@ -2953,11 +2953,6 @@ repeat-string@^1.5.2, repeat-string@^1.6.1:
   version "1.6.1"
   resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/repeat-string/-/repeat-string-1.6.1.tgz#8dcae470e1c88abc2d600fff4a776286da75e637"
 
-replace-in-file-webpack-plugin@^1.0.6:
-  version "1.0.6"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/replace-in-file-webpack-plugin/-/replace-in-file-webpack-plugin-1.0.6.tgz#eee7e139be967e8e48a0552f73037ed567b54dbd"
-  integrity sha1-7ufhOb6Wfo5IoFUvcwN+1We1Tb0=
-
 request-promise-core@1.1.3:
   version "1.1.3"
   resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/request-promise-core/-/request-promise-core-1.1.3.tgz#e9a3c081b51380dfea677336061fea879a829ee9"
@@ -3574,10 +3569,10 @@ uglifyjs-webpack-plugin@^0.4.6:
     uglify-js "^2.8.29"
     webpack-sources "^1.0.1"
 
-underscore@1.8.3:
-  version "1.8.3"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/underscore/-/underscore-1.8.3.tgz#4f3fb53b106e6097fcf9cb4109f2a5e9bdfa5022"
-  integrity sha1-Tz+1OxBuYJf8+ctBCfKl6b36UCI=
+underscore@1.13.1:
+  version "1.13.1"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/underscore/-/underscore-1.13.1.tgz#0c1c6bd2df54b6b69f2314066d65b6cde6fcf9d1"
+  integrity sha1-DBxr0t9UtrafIxQGbWW2zeb8+dE=
 
 underscore@>=1.8.3:
   version "1.10.2"
