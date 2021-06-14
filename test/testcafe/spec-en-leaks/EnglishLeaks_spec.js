@@ -13,9 +13,6 @@ fixture('English Leaks');
 
 // These mocks have known english leaks ignoring them temporarily
 const ignoredMocks = [
-  'identify-with-third-party-idps.json',
-  'identify-with-apple-redirect-sso-extension.json', // flaky on bacon
-  'error-forgot-password.json',
   'authenticator-verification-select-authenticator.json',
   'identify-recovery-with-recaptcha-v2.json', // No english leaks for this, just flaky on bacon due to loading the reCaptcha lib 
   'identify-with-password-with-recaptcha-v2.json' // No english leaks for this, just flaky on bacon due to loading the reCaptcha lib 
