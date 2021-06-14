@@ -106,8 +106,9 @@ export default Router.extend({
     if (lastResponse) {
       sessionStorageHelper.setStateHandle(idxResponse?.context?.stateHandle);
     }
-    // Ignore Device Probe calls that can occur on first page loads
-    // that mimic moving forward in remediation flow
+    // Login flows that mimic step up (moving forward in login pipeline) via internal api calls,
+    // need to clear stored stateHandles.
+    // This way the flow can maintain the latest state handle. For eg. Device probe calls
     if (this.appState.get('currentFormName') === FORMS.CANCEL_TRANSACTION) {
       sessionStorageHelper.removeStateHandle();
     }
