@@ -296,7 +296,7 @@ Although a `redirectUri` is required in the configuration, no redirection will o
 var signIn = new OktaSignIn(
   {
     baseUrl: 'https://{yourOktaDomain}',
-    clientId: '{{clientId of your OIDC app}}'
+    clientId: '{{clientId of your OIDC app}}',
     redirectUri: '{{redirectUri configured in OIDC app}}'
   }
 );
@@ -1207,13 +1207,14 @@ var signIn = new OktaSignIn({
 
 ... ...
 
-// after successfull authentication with IdP
+// after successful authentication with IdP
 signIn.authClient.session.exists().then(function (sessionExists) {
   if (sessionExists) {
-    signIn.authClient.token.getWithoutPrompt().then(function (tokens) {
-      signIn.authClient.tokenManager.setTokens(tokens);
+    signIn.authClient.token.getWithoutPrompt().then(function (response) {
+      signIn.authClient.tokenManager.setTokens(response.tokens);
     });
   }
+}
 ```
 
 The IdP Discovery authentication flow in widget will be
