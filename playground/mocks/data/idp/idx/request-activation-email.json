@@ -1,0 +1,77 @@
+{
+  "version":"1.0.0",
+  "stateHandle":"02K37KkVhGOcbSsrPvuuhEPskSR9Lal7x61ko_7wDJ",
+  "expiresAt":"2021-06-09T23:20:12.000Z",
+  "intent":"LOGIN",
+  "remediation":{
+     "type":"array",
+     "value":[
+        {
+           "rel":[
+              "create-form"
+           ],
+           "name":"request-activation-email",
+           "href":"http://localhost:3000/idp/idx/request-activation",
+           "method":"POST",
+           "produces":"application/ion+json; okta-version=1.0.0",
+           "value":[
+              {
+                 "name":"stateHandle",
+                 "required":true,
+                 "value":"02K37KkVhGOcbSsrPvuuhEPskSR9Lal7x61ko_7wDJ",
+                 "visible":false,
+                 "mutable":false
+              }
+           ],
+           "accepts":"application/json; okta-version=1.0.0"
+        }
+     ]
+  },
+  "messages":{
+     "type":"array",
+     "value":[
+        {
+           "message":"Your account activation link is no longer valid. Request a new activation email below.",
+           "i18n":{
+              "key":"idx.expired.activation.token",
+              "params":[
+              ]
+           },
+           "class":"ERROR"
+        }
+     ]
+  },
+  "user":{
+     "type":"object",
+     "value":{
+        "id":"00u2i47G1dlNfCTCI0g4"
+     }
+  },
+  "cancel":{
+     "rel":[
+        "create-form"
+     ],
+     "name":"cancel",
+     "href":"http://localhost:3000/idp/idx/cancel",
+     "method":"POST",
+     "produces":"application/ion+json; okta-version=1.0.0",
+     "value":[
+        {
+           "name":"stateHandle",
+           "required":true,
+           "value":"02K37KkVhGOcbSsrPvuuhEPskSR9Lal7x61ko_7wDJ",
+           "visible":false,
+           "mutable":false
+        }
+     ],
+     "accepts":"application/json; okta-version=1.0.0"
+  },
+  "app":{
+     "type":"object",
+     "value":{
+        "name":"okta_enduser",
+        "label":"Okta Dashboard",
+        "id":"DEFAULT_APP"
+     }
+  }
+}

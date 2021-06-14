@@ -159,6 +159,19 @@ const idx = {
   ]
 };
 
+const emailActivation = {
+  '/idp/idx/introspect': [
+    'request-activation-email',
+    // 'error-request-activation-email-invalid',
+    // 'error-request-activation-email-expired-token',
+    // 'error-request-activation-email-suspended',
+    // 'terminal-request-activation-email-submitted',
+  ],
+  '/idp/idx/request-activation': [
+    'terminal-request-activation-email-submitted'
+  ]
+};
+
 const consent = {
   '/idp/idx/introspect': [
     // 'consent-admin',

@@ -23,6 +23,7 @@ const FORMS = {
   SELECT_ENROLL_PROFILE: 'select-enroll-profile',
   ENROLL_PROFILE: 'enroll-profile',
   UNLOCK_ACCOUNT: 'unlock-account',
+  REQUEST_ACTIVATION: 'request-activation-email',
 
   CONSENT_ADMIN: 'admin-consent',
   CONSENT_ENDUSER: 'consent',

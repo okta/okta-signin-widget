@@ -1,0 +1,16 @@
+{
+	"version": "1.0.0",
+	"stateHandle": "02EyMNqKngOFFFrwPYAyskdPy5wUwEWUHWZtspcChI",
+	"expiresAt": "2021-06-10T22:41:52.000Z",
+	"intent": "LOGIN",
+	"messages": {
+		"type": "array",
+		"value": [{
+			"message": "Your account activation link is no longer valid. Contact your administrator to request a new activation link.",
+			"i18n": {
+				"key": "idx.expired.activation.token"
+			},
+			"class": "ERROR"
+		}]
+	}
+}
