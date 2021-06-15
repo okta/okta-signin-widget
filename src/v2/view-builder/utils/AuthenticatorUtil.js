@@ -56,6 +56,7 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
         ? authenticator.relatesTo?.profile?.phoneNumber
         : loc('oie.phone.authenticator.description', 'login'),
       iconClassName: 'mfa-okta-phone',
+      noTranslateClassName: isVerifyAuthenticator ? 'no-translate' : '',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
     });
     break;
