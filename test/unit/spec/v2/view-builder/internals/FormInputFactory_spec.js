@@ -245,6 +245,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
       },
       {
         label: 'Phone',
+        noTranslateClassName: 'no-translate',
         value: {
           id: 'aut5v31Tb789KuCGY0g4',
           enrollmentId: 'pae5ykx4eIvfslkO90g4',
@@ -273,6 +274,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
       },
       {
         label: 'Phone',
+        noTranslateClassName: 'no-translate',
         value: {
           id: 'aut5v31Tb789KuCGY0g4',
           enrollmentId: 'pae5ykzcnhmdfSMuQ0g4',
@@ -609,6 +611,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
       },
       {
         label: 'Okta Phone',
+        noTranslateClassName: '',
         value: {
           id: 'aid568g3mXgtID0X1SLH',
         },
