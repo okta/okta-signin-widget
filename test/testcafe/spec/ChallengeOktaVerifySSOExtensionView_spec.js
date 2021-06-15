@@ -5,6 +5,7 @@ import identifyUserVerificationWithCredentialSSOExtension from '../../../playgro
 import identifyWithNoAppleCredentialSSOExtension from '../../../playground/mocks/data/idp/idx/identify-with-no-sso-extension';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 import { Constants } from '../framework/shared';
+import { getStateHandleFromSessionStorage } from '../framework/shared';
 
 const logger = RequestLogger(/introspect/);
 const verifyUrl = 'http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/ft2FCeXuk7ov8iehMivYavZFhPxZUpBvB0/verify';
@@ -74,4 +75,5 @@ test
     const identityPage = new IdentityPageObject(t);
     await identityPage.fillIdentifierField('Test Identifier');
     await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
+    await t.expect(getStateHandleFromSessionStorage()).eql(null);
   });
