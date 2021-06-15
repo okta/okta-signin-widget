@@ -4,7 +4,9 @@ import xhrSessionExpried from '../../../playground/mocks/data/idp/idx/error-sess
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import xhrMagicLinkExpired from '../../../playground/mocks/data/idp/idx/terminal-return-expired-email';
+import xhrIdentifyWithNoAppleCredentialSSOExtension from '../../../playground/mocks/data/idp/idx/identify-with-no-sso-extension';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
+import BasePageObject from '../framework/page-objects/BasePageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
@@ -27,6 +29,14 @@ const introspectRequestLogger = RequestLogger(
     stringifyRequestBody: true,
   }
 );
+
+const credentialSSONotExistMock = RequestMock()
+  .onRequestTo(/idp\/idx\/introspect/)
+  .respond(xhrIdentifyWithNoAppleCredentialSSOExtension)
+  .onRequestTo(/idp\/idx\/authenticators\/sso_extension\/transactions\/456\/verify\/cancel/)
+  .respond(xhrIdentify);
+
+const credentialSSONotExistLogger = RequestLogger(/introspect|verify\/cancel/);
 
 fixture('Session Storage - manage state in client side')
   .afterEach(() => {
@@ -235,5 +245,19 @@ test.requestHooks(introspectRequestLogger, identifyChallengeMock)('shall clear s
   // Go back to Identify page as saved state handle becomes invalid
   // and new state handle responds identify
   await t.expect(identityPage.form.getTitle()).eql('Sign In');
+  await t.expect(getStateHandleFromSessionStorage()).eql(null);
+});
+
+test.requestHooks(credentialSSONotExistLogger, credentialSSONotExistMock)('shall clear session.stateHandle when SSO extension fails', async t => {
+  const ssoExtensionPage = new BasePageObject(t);
+  await ssoExtensionPage.navigateToPage();
+  await t.expect(credentialSSONotExistLogger.count(
+    record => record.response.statusCode === 200 &&
+      record.request.url.match(/introspect/)
+  )).eql(1);
+  await t.expect(credentialSSONotExistLogger.count(
+    record => record.response.statusCode === 200 &&
+      record.request.url.match(/456\/verify\/cancel/)
+  )).eql(1);
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
 });
