@@ -179,6 +179,11 @@ export default Router.extend({
   },
 
   render: function(Controller, options = {}) {
+    // If url changes then widget assumes that user's intention was to initiate a new login flow,
+    // so clear stored token to use the latest token.
+    if (sessionStorageHelper.getLastInitiatedLoginUrl() !== window.location.href) {
+      sessionStorageHelper.removeStateHandle();
+    }
     // Since we have a wrapper view, render our wrapper and use its content
     // element as our new el.
     // Note: Render it here because we know dom is ready at this point
