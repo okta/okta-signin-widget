@@ -28,6 +28,9 @@ import DeviceEnrollmentTerminalView from './views/device/DeviceEnrollmentTermina
 // registration
 import EnrollProfileView from './views/EnrollProfileView';
 
+// Email Activation
+import RequestActivationEmail from './views/activation/RequestActivationEmailView';
+
 // authenticator list
 import SelectAuthenticatorEnrollView from './views/SelectAuthenticatorEnrollView';
 import SelectAuthenticatorVerifyView from './views/SelectAuthenticatorVerifyView';
@@ -121,6 +124,9 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.POLL]: {
     [DEFAULT]: PollView
+  },
+  [RemediationForms.REQUEST_ACTIVATION]: {
+    [DEFAULT]: RequestActivationEmail
   },
   [RemediationForms.SELECT_AUTHENTICATOR_ENROLL]: {
     [DEFAULT]: SelectAuthenticatorEnrollView,

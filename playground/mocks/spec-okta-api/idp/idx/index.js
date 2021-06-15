@@ -25,7 +25,8 @@ const idx = [
   '/idp/idx/recover',
   '/idp/idx/skip',
   '/idp/idx/poll',
-  '/idp/idx/unlock-account'
+  '/idp/idx/unlock-account',
+  '/idp/idx/request-activation',
 ].map(path => {
   return templateHelper({path});
 });

@@ -17,6 +17,12 @@ const EMAIL_LINK_OUT_OF_DATE = 'idx.return.stale';
 const EMAIL_LINK_CANT_BE_PROCESSED = 'idx.return.error';
 const EMAIL_VERIFICATION_REQUIRED = 'idx.email.verification.required';
 
+const EMAIL_ACTIVATION_EMAIL_EXPIRE = 'idx.expired.activation.token';
+const EMAIL_ACTIVATION_EMAIL_INVALID = 'idx.missing.activation.token';
+const EMAIL_ACTIVATION_EMAIL_SUBMITTED = 'idx.request.activation.email';
+const EMAIL_ACTIVATION_EMAIL_SUSPENDED = 'idx.activating.inactive.user';
+ 
+
 export const REGISTRATION_NOT_ENABLED = 'oie.registration.is.not.enabled';
 export const FORGOT_PASSWORD_NOT_ENABLED = 'oie.forgot.password.is.not.enabled';
 
@@ -51,6 +57,21 @@ const NO_BACKTOSIGNIN_LINK_VIEWS = [
   ...DEVICE_CODE_FLOW_TERMINAL_KEYS
 ];
 
+// Key map to transform terminal view titles {ApiKey : WidgetKey}  
+const terminalViewTitles = {
+  [RETURN_LINK_EXPIRED_KEY] : 'oie.email.return.link.expired.title',
+  [UNLOCK_ACCOUNT_TERMINAL_KEY] : 'account.unlock.unlocked.title',
+  [DEVICE_ACTIVATED] : 'device.code.activated.success.title',
+  [REGISTRATION_NOT_ENABLED] : 'oie.registration.form.title',
+  [FORGOT_PASSWORD_NOT_ENABLED] : 'password.reset.title.generic',
+  [EMAIL_ACTIVATION_EMAIL_EXPIRE] : 'oie.activation.request.email.title.expire',
+  [EMAIL_ACTIVATION_EMAIL_SUBMITTED] : 'oie.activation.request.email.title.submitted',
+  [EMAIL_ACTIVATION_EMAIL_SUSPENDED] : 'oie.activation.request.email.title.suspended',
+  [EMAIL_ACTIVATION_EMAIL_INVALID] : 'oie.activation.request.email.title.invalid',
+  [DEVICE_NOT_ACTIVATED_CONSENT_DENIED] : 'device.code.activated.error.title',
+  [DEVICE_NOT_ACTIVATED_INTERNAL_ERROR] : 'device.code.activated.error.title',
+};
+
 const Body = BaseForm.extend({
   noButtonBar: true,
 
@@ -69,26 +90,18 @@ const Body = BaseForm.extend({
   },
 
   title() {
-    if (this.options.appState.containsMessageWithI18nKey(RETURN_LINK_EXPIRED_KEY)) {
-      return loc('oie.email.return.link.expired.title', 'login');
-    }
+    return this.getTerminalViewTitle();
+  },
+
+  getTerminalViewTitle() {
     if (this.options.appState.containsMessageStartingWithI18nKey(SAFE_MODE_KEY_PREFIX)) {
       return loc('oie.safe.mode.title', 'login');
     }
-    if (this.options.appState.containsMessageWithI18nKey(UNLOCK_ACCOUNT_TERMINAL_KEY)) {
-      return loc('account.unlock.unlocked.title', 'login');
-    }
-    if (this.options.appState.containsMessageWithI18nKey(DEVICE_ACTIVATED)) {
-      return loc('device.code.activated.success.title', 'login');
-    }
-    if (this.options.appState.containsMessageWithI18nKey(DEVICE_CODE_ERROR_KEYS)) {
-      return loc('device.code.activated.error.title', 'login');
-    }
-    if (this.options.appState.containsMessageWithI18nKey(REGISTRATION_NOT_ENABLED)) {
-      return loc('oie.registration.form.title', 'login');
-    }
-    if (this.options.appState.containsMessageWithI18nKey(FORGOT_PASSWORD_NOT_ENABLED)) {
-      return loc('password.reset.title.generic', 'login');
+
+    const apiKeys = Object.keys(terminalViewTitles);
+    const key = apiKeys.find(key => this.options.appState.containsMessageWithI18nKey(key));
+    if (key) {
+      return loc(terminalViewTitles[key], 'login');
     }
   },
 

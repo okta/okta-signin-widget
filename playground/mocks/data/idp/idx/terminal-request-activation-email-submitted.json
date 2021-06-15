@@ -1,0 +1,26 @@
+{
+    "stateHandle": "02SrPNlTAOhaU8-l7a2T1Q3wNnqJl3KByb7vLpVxgf",
+    "version": "1.0.0",
+    "expiresAt": "2021-01-13T19:31:17.000Z",
+    "intent": "LOGIN",
+    "messages": {
+        "type": "array",
+        "value": [
+            {
+                "message": "New activation link requested. If your information matches our records, you will receive a new activation link in your inbox soon.",
+                "i18n": {
+                    "key": "idx.request.activation.email"
+                },
+                "class": "INFO"
+            }
+        ]
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "oidc_client",
+            "label": "Native client",
+            "id": "0oa1rbdGe97K1CWAy0g4"
+        }
+    }
+  }

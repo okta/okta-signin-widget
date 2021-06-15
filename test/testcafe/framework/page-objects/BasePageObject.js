@@ -134,6 +134,10 @@ export default class BasePageObject {
     return Selector(SKIP_SET_UP_LINK).textContent;
   }
 
+  getErrorBoxText() {
+    return this.form.getErrorBoxText();
+  }
+
   async clickSetUpSkipLink() {
     await this.t.click(Selector(SKIP_SET_UP_LINK));
   }
