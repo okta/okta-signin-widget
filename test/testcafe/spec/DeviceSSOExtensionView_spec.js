@@ -8,6 +8,7 @@ import identifyUserVerificationWithCredentialSSOExtension from '../../../playgro
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 import error from '../../../playground/mocks/data/idp/idx/error-email-verify';
 import { Constants } from '../framework/shared';
+import { getStateHandleFromSessionStorage } from '../framework/shared';
 
 const logger = RequestLogger(/introspect/);
 const verifyUrl = 'http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/123/verify?\
@@ -134,6 +135,7 @@ test
     const identityPage = new IdentityPageObject(t);
     await identityPage.fillIdentifierField('Test Identifier');
     await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
+    await t.expect(getStateHandleFromSessionStorage()).eql(null);
   });
 
 test
