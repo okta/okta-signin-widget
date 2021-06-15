@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`v2/view-builder/views/AutoRedirectView view renders corectly - default case 1`] = `
+<div
+  class="siw-main-view "
+>
+  <div
+    class="siw-main-header"
+  >
+    <div />
+  </div>
+  <div
+    class="siw-main-body"
+  >
+    <form
+      action="/"
+      class="ion-form o-form o-form-edit-mode"
+      data-se="o-form"
+      id="form1"
+      method="POST"
+      slot="content"
+    >
+      <div
+        class="o-form-content o-form-theme clearfix"
+        data-se="o-form-content"
+      >
+        <h2
+          class="okta-form-title o-form-head"
+          data-se="o-form-head"
+        >
+          Signing in...
+        </h2>
+        <div
+          class="o-form-error-container"
+          data-se="o-form-error-container"
+        />
+        <div
+          class="o-form-fieldset-container"
+          data-se="o-form-fieldset-container"
+        />
+      </div>
+    </form>
+  </div>
+  <div
+    class="siw-main-footer"
+  >
+    <div
+      class="auth-footer"
+    />
+  </div>
+</div>
+`;
+
+exports[`v2/view-builder/views/AutoRedirectView view renders correctly according to showRedirectAnimation: should NOT render spinner 1`] = `
+<div
+  class="siw-main-view "
+>
+  <div
+    class="siw-main-header"
+  >
+    <div />
+  </div>
+  <div
+    class="siw-main-body"
+  >
+    <form
+      action="/"
+      class="ion-form o-form o-form-edit-mode"
+      data-se="o-form"
+      id="form2"
+      method="POST"
+      slot="content"
+    >
+      <div
+        class="o-form-content o-form-theme clearfix"
+        data-se="o-form-content"
+      >
+        <h2
+          class="okta-form-title o-form-head"
+          data-se="o-form-head"
+        >
+          Signing in...
+        </h2>
+        <div
+          class="o-form-error-container"
+          data-se="o-form-error-container"
+        />
+        <div
+          class="o-form-fieldset-container"
+          data-se="o-form-fieldset-container"
+        />
+      </div>
+    </form>
+  </div>
+  <div
+    class="siw-main-footer"
+  >
+    <div
+      class="auth-footer"
+    />
+  </div>
+</div>
+`;
+
+exports[`v2/view-builder/views/AutoRedirectView view renders correctly according to showRedirectAnimation: should have spinner 1`] = `
+<div
+  class="siw-main-view "
+>
+  <div
+    class="siw-main-header"
+  >
+    <div />
+  </div>
+  <div
+    class="siw-main-body"
+  >
+    <form
+      action="/"
+      class="ion-form o-form o-form-edit-mode"
+      data-se="o-form"
+      id="form3"
+      method="POST"
+      slot="content"
+    >
+      <div
+        class="o-form-content o-form-theme clearfix"
+        data-se="o-form-content"
+      >
+        <h2
+          class="okta-form-title o-form-head"
+          data-se="o-form-head"
+        >
+          Signing in to Okta Administration as admin@idx.com
+        </h2>
+        <div
+          class="o-form-error-container"
+          data-se="o-form-error-container"
+        />
+        <div
+          class="o-form-fieldset-container"
+          data-se="o-form-fieldset-container"
+        >
+          <div
+            class="okta-waiting-spinner"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+  <div
+    class="siw-main-footer"
+  >
+    <div
+      class="auth-footer"
+    />
+  </div>
+</div>
+`;
