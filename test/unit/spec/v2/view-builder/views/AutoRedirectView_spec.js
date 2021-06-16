@@ -35,10 +35,10 @@ describe('v2/view-builder/views/AutoRedirectView', function() {
     expect(testContext.view.el).toMatchSnapshot();
   });
 
-  it('view renders correctly according to showRedirectAnimation', function() {
+  it('view renders correctly according to showRedirectView', function() {
     settings = new Settings({ 
       baseUrl: 'http://localhost:3000',
-      'features.showRedirectAnimation': false
+      'features.showRedirectView': false
     });    
     testContext.init();
     expect(testContext.view.el).toMatchSnapshot('should NOT render spinner');
@@ -46,7 +46,7 @@ describe('v2/view-builder/views/AutoRedirectView', function() {
 
     settings = new Settings({ 
       baseUrl: 'http://localhost:3000',
-      'features.showRedirectAnimation': true
+      'features.showRedirectView': true
     });    
     testContext.init();
     expect(testContext.view.el).toMatchSnapshot('should have spinner');

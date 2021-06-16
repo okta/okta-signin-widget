@@ -51,7 +51,7 @@ exports[`v2/view-builder/views/AutoRedirectView view renders corectly - default 
 </div>
 `;
 
-exports[`v2/view-builder/views/AutoRedirectView view renders correctly according to showRedirectAnimation: should NOT render spinner 1`] = `
+exports[`v2/view-builder/views/AutoRedirectView view renders correctly according to showRedirectView: should NOT render spinner 1`] = `
 <div
   class="siw-main-view "
 >
@@ -102,7 +102,7 @@ exports[`v2/view-builder/views/AutoRedirectView view renders correctly according
 </div>
 `;
 
-exports[`v2/view-builder/views/AutoRedirectView view renders correctly according to showRedirectAnimation: should have spinner 1`] = `
+exports[`v2/view-builder/views/AutoRedirectView view renders correctly according to showRedirectView: should have spinner 1`] = `
 <div
   class="siw-main-view "
 >
