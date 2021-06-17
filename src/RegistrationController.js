@@ -136,28 +136,16 @@ export default BaseLoginController.extend({
   },
 
   renderIsNotUniqueError: function(error) {
-    // remove generic form-level error
-    this.model.trigger('form:clear-errors');
-
     const { location } = error.errorCauses[0];
     const errorSummary = loc(
       'registration.error.userName.notUniqueWithinOrg',
       'login',
       [location]
     );
-
-    setTimeout(
-      () =>
-        this.model.trigger(
-          'error',
-          this.model,
-          {
-            responseJSON: { errorSummary }, // remove errorCauses so message renders at form-level
-          },
-          true
-        ),
-      100 // to beat race-condition with something that is clearing this error message
-    );
+    // replace generic error message with more specific one
+    // without using backbone events because there was a race condition
+    // between clearing and triggering errors
+    this.$el.find('.okta-form-infobox-error p').text(errorSummary);
   },
 
   createRegistrationModel: function(modelProperties) {
