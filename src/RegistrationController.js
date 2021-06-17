@@ -141,7 +141,7 @@ export default BaseLoginController.extend({
 
     const { location } = error.errorCauses[0];
     const errorSummary = loc(
-      'registration.error.account.notUniqueWithinOrg',
+      'registration.error.userName.notUniqueWithinOrg',
       'login',
       [location]
     );
