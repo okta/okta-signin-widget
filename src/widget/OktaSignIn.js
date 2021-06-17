@@ -151,7 +151,9 @@ var OktaSignIn = (function () {
             try {
               callback.apply(this, callbackArgs);
             } catch (err) {
-              DEBUG && Logger.error(`[okta-signin-widget] "${event}" event handler error:`, err);
+              if (options.logging?.logEventsError !== false) {
+                Logger.error(`[okta-signin-widget] "${event}" event handler error:`, err);
+              }
             }
           };
         }

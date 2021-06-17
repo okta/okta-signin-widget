@@ -199,7 +199,6 @@ Expect.describe('OktaSignIn initialization', function() {
     afterEach(function () {
       signIn.remove();
       signIn.off();
-      global.DEBUG = false;
     });
     it('triggers an afterRender event when the Widget renders a page', function(done) {
       signIn.renderEl({ el: $sandbox });
@@ -256,8 +255,6 @@ Expect.describe('OktaSignIn initialization', function() {
     });
     ['ready', 'afterError', 'afterRender'].forEach(event => {
       it(`traps third party errors (for ${event} event) in callbacks`, function () {
-        global.DEBUG = true;
-
         const mockError = new Error('mockerror');
         signIn.on(event, function () {
           throw mockError;
@@ -265,9 +262,27 @@ Expect.describe('OktaSignIn initialization', function() {
         signIn.trigger(event);
         expect(Logger.error).toHaveBeenCalledWith(`[okta-signin-widget] "${event}" event handler error:`, mockError);
       });
-      it('does not log errors when not in dev mode', () => {
-        global.DEBUG = false;
-
+      it(`traps third party errors (for ${event} event) in callbacks when logging.logEventsError config is true`, function () {
+        signIn = new Widget({
+          baseUrl: url,
+          logging: {
+            logEventsError: true
+          }
+        });
+        const mockError = new Error('mockerror');
+        signIn.on(event, function () {
+          throw mockError;
+        });
+        signIn.trigger(event);
+        expect(Logger.error).toHaveBeenCalledWith(`[okta-signin-widget] "${event}" event handler error:`, mockError);
+      });
+      it('does not log errors when logging.logEventsError config is false', () => {
+        signIn = new Widget({
+          baseUrl: url,
+          logging: {
+            logEventsError: false
+          }
+        });
         const mockError = new Error('mockerror');
         signIn.on(event, function () {
           throw mockError;
