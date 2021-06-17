@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeOktaVerifyPushPageObject from '../framework/page-objects/ChallengeOktaVerifyPushPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 
 import pushPoll from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push';
 import success from '../../../playground/mocks/data/idp/idx/success';
@@ -30,6 +30,8 @@ fixture('Challenge Okta Verify Push');
 async function setup(t) {
   const challengeOktaVerifyPushPageObject = new ChallengeOktaVerifyPushPageObject(t);
   await challengeOktaVerifyPushPageObject.navigateToPage();
+  await a11yCheck(t);
+
   return challengeOktaVerifyPushPageObject;
 }
 

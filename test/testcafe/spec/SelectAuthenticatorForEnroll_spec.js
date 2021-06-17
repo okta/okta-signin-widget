@@ -12,6 +12,7 @@ import success from '../../../playground/mocks/data/idp/idx/success';
 
 import xhrSelectAuthenticatorEnroll from '../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator';
 import xhrAuthenticatorEnrollCustomOTP from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-custom-otp';
+import { a11yCheck } from '../framework/shared';
 
 const mockEnrollAuthenticatorPassword = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -47,6 +48,8 @@ fixture('Select Authenticator for enrollment Form');
 async function setup(t) {
   const selectFactorPageObject = new SelectFactorPageObject(t);
   await selectFactorPageObject.navigateToPage();
+  await a11yCheck(t);
+
   return selectFactorPageObject;
 }
 

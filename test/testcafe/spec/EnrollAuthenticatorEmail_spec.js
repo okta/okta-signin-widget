@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import EnrollEmailPageObject from '../framework/page-objects/EnrollEmailPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 
 import xhrEnrollEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email';
 import success from '../../../playground/mocks/data/idp/idx/success';
@@ -36,13 +36,13 @@ fixture('Enroll Email Authenticator');
 async function setup(t) {
   const enrollEmailPageObject = new EnrollEmailPageObject(t);
   await enrollEmailPageObject.navigateToPage();
-
   await checkConsoleMessages({
     controller: 'enroll-email',
     formName: 'enroll-authenticator',
     authenticatorKey: 'okta_email',
     methodType: 'email',
   });
+  await a11yCheck(t);
 
   return enrollEmailPageObject;
 }

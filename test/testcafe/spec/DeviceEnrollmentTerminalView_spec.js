@@ -22,6 +22,8 @@ fixture('Device enrollment terminal view for ODA and MDM');
 async function setup(t) {
   const deviceEnrollmentTerminalPageObject = new DeviceEnrollmentTerminalPageObject(t);
   await deviceEnrollmentTerminalPageObject.navigateToPage();
+  // await a11yCheck(t); // Links must have discernible text OKTA-TODO
+
   return deviceEnrollmentTerminalPageObject;
 }
 

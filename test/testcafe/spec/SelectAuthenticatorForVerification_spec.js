@@ -1,6 +1,6 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 
-import { renderWidget } from '../framework/shared';
+import { a11yCheck, renderWidget } from '../framework/shared';
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
 
@@ -111,6 +111,7 @@ fixture('Select Authenticator for verification Form');
 async function setup(t) {
   const selectFactorPageObject = new SelectFactorPageObject(t);
   await selectFactorPageObject.navigateToPage();
+  await a11yCheck(t);
   return selectFactorPageObject;
 }
 

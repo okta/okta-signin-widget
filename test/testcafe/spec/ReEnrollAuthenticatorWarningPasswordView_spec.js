@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorExpiryWarningPassword from '../../../playground/mocks/data/idp/idx/authenticator-expiry-warning-password.json';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
@@ -43,6 +43,7 @@ async function setup(t) {
     authenticatorKey: 'okta_password',
     methodType:'password',
   });
+  await a11yCheck(t);
 
   return passwordExpiryWarningPage;
 }

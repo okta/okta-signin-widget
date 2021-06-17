@@ -8,6 +8,7 @@ import identifyWithUserVerificationLoopback from '../../../playground/mocks/data
 import identifyWithUserVerificationCustomURI from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-custom-uri';
 import identifyWithSSOExtensionFallback from '../../../playground/mocks/data/idp/idx/identify-with-apple-sso-extension-fallback';
 import identifyWithUserVerificationLaunchUniversalLink from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-universal-link';
+import { a11yCheck } from '../framework/shared';
 
 const BEACON_CLASS = 'mfa-okta-verify';
 
@@ -98,12 +99,16 @@ fixture('Device Challenge Polling View for user verification and MFA with the Lo
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
   await deviceChallengePollPage.navigateToPage();
+  await a11yCheck(t);
+
   return deviceChallengePollPage;
 }
 
 async function setupLoopbackFallback(t) {
   const deviceChallengeFalllbackPage = new IdentityPageObject(t);
   await deviceChallengeFalllbackPage.navigateToPage();
+  await a11yCheck(t);
+
   return deviceChallengeFalllbackPage;
 }
 

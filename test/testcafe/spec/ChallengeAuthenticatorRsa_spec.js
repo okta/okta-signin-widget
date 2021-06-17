@@ -3,7 +3,7 @@ import xhrAuthenticatorRequiredRsa from '../../../playground/mocks/data/idp/idx/
 import xhrInvalidPasscode from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-rsa';
 import xhrPasscodeChange from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-passcode-change-rsa';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 import ChallengeRsaPageObject from '../framework/page-objects/ChallengeOnPremPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 
@@ -30,6 +30,8 @@ fixture('Challenge Authenticator RSA');
 async function setup(t) {
   const challengeRsaPage = new ChallengeRsaPageObject(t);
   await challengeRsaPage.navigateToPage();
+  await a11yCheck(t);
+
   return challengeRsaPage;
 }
 

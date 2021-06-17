@@ -29,6 +29,8 @@ const requestLogger = RequestLogger(/consent/,
 async function setup(t) {
   const consentPage = new ConsentPageObject(t);
   await consentPage.navigateToPage();
+  // await a11yCheck(t); // Links must have discernible text OKTA-TODO
+
   return consentPage;
 }
 

@@ -4,7 +4,7 @@ import SwitchOVEnrollChannelPageObject from '../framework/page-objects/SwitchOVE
 import EnrollOVViaEmailPageObject from '../framework/page-objects/EnrollOVViaEmailPageObject';
 import EnrollOVViaSMSPageObject from '../framework/page-objects/EnrollOVViaSMSPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollOktaVerifyQr from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr';
 import xhrAuthenticatorEnrollOktaVerifyViaEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-via-email';
 import xhrAuthenticatorEnrollOktaVerifyEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email';
@@ -186,6 +186,7 @@ async function setup(t) {
     formName: 'enroll-poll',
     authenticatorKey: 'okta_verify',
   });
+  await a11yCheck(t);
 
   return enrollOktaVerifyPage;
 }

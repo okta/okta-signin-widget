@@ -8,6 +8,7 @@ import xhrUserUnlockSuccess from '../../../playground/mocks/data/idp/idx/user-ac
 import xhrUserUnlockEmailChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
 import xhrErrorUnlockAccount from '../../../playground/mocks/data/idp/idx/error-unlock-account';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
+import { a11yCheck } from '../framework/shared';
 
 
 const identifyLockedUserMock = RequestMock()
@@ -39,6 +40,8 @@ fixture('Unlock Account');
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
+  await a11yCheck(t);
+
   return identityPage;
 }
 
