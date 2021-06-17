@@ -30,11 +30,14 @@ const Body = BaseForm.extend({
   initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
 
-    // this.model.set('useRedirect', true);
-    // this.trigger('save', this.model);
-    this.settings.callGlobalSuccess(Enums.SUCCESS, {
-      username: this.options.appState.get('username'),
-    });
+    if (this.settings.get('features.hideSignOutLinkInMFA')) {
+      this.settings.callGlobalSuccess(Enums.SUCCESS, {
+        username: this.options.appState.get('username'),
+      });
+    } else {
+      this.model.set('useRedirect', true);
+      this.trigger('save', this.model);
+    }
   },
 
   render() {
