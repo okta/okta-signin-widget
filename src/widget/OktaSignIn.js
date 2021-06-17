@@ -10,7 +10,7 @@ import V2Router from 'v2/WidgetRouter';
 
 const EVENTS_LIST = ['ready', 'afterError', 'afterRender'];
 
-var OktaSignIn = (function () {
+var OktaSignIn = (function() {
 
   var router;
 
@@ -143,11 +143,11 @@ var OktaSignIn = (function () {
     }
 
     _.extend(this, Router.prototype.Events, {
-      on: function (...onArgs) {
+      on: function(...onArgs) {
         // custom events listener on widget instance to trap third-party callback errors
         const [event, callback] = onArgs;
         if (EVENTS_LIST.includes(event)) {
-          onArgs[1] = function (...callbackArgs) {
+          onArgs[1] = function(...callbackArgs) {
             try {
               callback.apply(this, callbackArgs);
             } catch (err) {
