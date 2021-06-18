@@ -3,6 +3,7 @@ import { _, $, Backbone, internal } from 'okta';
 import Duo from 'duo';
 import 'jasmine-ajax';
 import Q from 'q';
+import Bundles from 'util/Bundles';
 import keys from '../xhr/keys';
 import wellKnown from '../xhr/well-known';
 import wellKnownSharedResource from '../xhr/well-known-shared-resource';
@@ -17,6 +18,10 @@ afterEach(() => {
     isAjaxMocked = false;
   }
 });
+
+fn.mockBundles = function() {
+  spyOn(Bundles, 'isLoaded').and.returnValue(true);
+};
 
 fn.LoremIpsum =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' +

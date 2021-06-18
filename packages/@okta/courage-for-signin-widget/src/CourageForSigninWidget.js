@@ -70,6 +70,19 @@ const Form = BaseForm.extend({
   }
 });
 
+const Controller = BaseController.extend({
+  // The courage BaseController renders asynchronously in current versions of jQuery
+  // https://github.com/okta/okta-ui/blob/master/packages/courage/src/util/BaseController.js#L108
+  // https://api.jquery.com/jquery/#jQuery-callback
+  // Override so that render is synchronous
+  render: function() {
+    const args = arguments;
+    const self = this;
+    BaseView.prototype.render.apply(self, args);
+    return this;
+  }
+});
+
 const Okta = {
   Backbone: Backbone,
 
@@ -103,7 +116,7 @@ const Okta = {
 
   Router: BaseRouter,
 
-  Controller: BaseController,
+  Controller,
 
   Form,
 

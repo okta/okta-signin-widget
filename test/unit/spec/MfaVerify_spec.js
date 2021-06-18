@@ -112,7 +112,7 @@ Expect.describe('MFA Verify', function() {
     }
   };
 
-  function createRouter(baseUrl, authClient, successSpy, settings) {
+  function createRouter(baseUrl, authClient, successSpy, settings, startRouter) {
     const router = new Router(
       _.extend(
         {
@@ -126,19 +126,25 @@ Expect.describe('MFA Verify', function() {
     );
 
     Util.registerRouter(router);
-    Util.mockRouterNavigate(router);
+    Util.mockRouterNavigate(router, startRouter);
     return router;
   }
 
-  function setup(res, selectedFactorProps, settings, languagesResponse, useResForIntrospect) {
+  async function setup(res, selectedFactorProps, settings, languagesResponse, useResForIntrospect, startRouter) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
     const successSpy = jasmine.createSpy('success');
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
-    const router = createRouter(baseUrl, authClient, successSpy, settings);
+    const router = createRouter(baseUrl, authClient, successSpy, settings, startRouter);
 
     router.on('afterError', afterErrorHandler);
+    if (startRouter) {
+      if (typeof startRouter !== 'boolean') {
+        throw new Error('startRouter parameter should be boolean');
+      }
+      await Expect.waitForPrimaryAuth();
+    }
     const resp = resAllFactors;
 
     setNextResponse(res);
@@ -146,65 +152,67 @@ Expect.describe('MFA Verify', function() {
       setNextResponse(languagesResponse);
     }
     router.refreshAuthState('dummy-token');
-    return Expect.waitForMfaVerify()
-      .then(function() {
-        if (selectedFactorProps) {
-          const factors = router.appState.get('factors');
-          const selectedFactor = factors.findWhere(selectedFactorProps);
-          const provider = selectedFactor.get('provider');
-          const factorType = selectedFactor.get('factorType');
+    await Expect.waitForMfaVerify();
 
-          if (provider === 'DUO' && factorType === 'web') {
-            setNextResponse(resChallengeDuo);
-            router.verifyDuo();
-            return Expect.waitForVerifyDuo();
-          } else if (provider === 'FIDO' && factorType === 'webauthn') {
-            setNextResponse(resChallengeWindowsHello);
-            router.verifyWebauthn();
-            return Expect.waitForVerifyWindowsHello();
-          } else if (provider === 'GENERIC_SAML' && factorType === 'assertion:saml2') {
-            setNextResponse(resChallengeCustomSAMLFactor);
-            router.verifySAMLFactor();
-            return Expect.waitForVerifyCustomFactor();
-          } else if (provider === 'GENERIC_OIDC' && factorType === 'assertion:oidc') {
-            setNextResponse(resChallengeCustomOIDCFactor);
-            router.verifyOIDCFactor();
-            return Expect.waitForVerifyCustomFactor();
-          } else if (provider === 'CUSTOM' && factorType === 'claims_provider') {
-            setNextResponse(resChallengeClaimsProvider);
-            router.verifyClaimsFactor();
-            return Expect.waitForVerifyCustomFactor();
-          } else {
-            router.verify(selectedFactor.get('provider'), selectedFactor.get('factorType'));
-            return Expect.waitForMfaVerify();
-          }
-        }
-      })
-      .then(function() {
-        const $forms = $sandbox.find('.o-form');
+    if (selectedFactorProps) {
+      const factors = router.appState.get('factors');
+      const selectedFactor = factors.findWhere(selectedFactorProps);
+      const provider = selectedFactor.get('provider');
+      const factorType = selectedFactor.get('factorType');
 
-        let forms = _.map($forms, function(form) {
-          return new MfaVerifyForm($(form));
-        });
+      if (provider === 'DUO' && factorType === 'web') {
+        setNextResponse(resChallengeDuo);
+        router.verifyDuo();
+        await Expect.waitForVerifyDuo();
+      } else if (provider === 'FIDO' && factorType === 'webauthn') {
+        setNextResponse(resChallengeWindowsHello);
+        router.verifyWebauthn();
+        await Expect.waitForVerifyWindowsHello();
+      } else if (provider === 'GENERIC_SAML' && factorType === 'assertion:saml2') {
+        setNextResponse(resChallengeCustomSAMLFactor);
+        router.verifySAMLFactor();
+        await Expect.waitForVerifyCustomFactor();
+      } else if (provider === 'GENERIC_OIDC' && factorType === 'assertion:oidc') {
+        setNextResponse(resChallengeCustomOIDCFactor);
+        router.verifyOIDCFactor();
+        await Expect.waitForVerifyCustomFactor();
+      } else if (provider === 'CUSTOM' && factorType === 'claims_provider') {
+        setNextResponse(resChallengeClaimsProvider);
+        router.verifyClaimsFactor();
+        await Expect.waitForVerifyCustomFactor();
+      } else {
+        router.verify(selectedFactor.get('provider'), selectedFactor.get('factorType'));
+        // BaseLoginController returns an instance of Q() from `fetchInitialData`
+        // use tick() to wait for this promise to resolve and render
+        await tick();
+        await Expect.waitForMfaVerify();
+      }
+    }
 
-        if (forms.length === 1) {
-          forms = forms[0];
-        }
-        const beacon = new Beacon($sandbox);
+    const $forms = $sandbox.find('.o-form');
 
-        return {
-          router: router,
-          form: forms,
-          beacon: beacon,
-          ac: authClient,
-          setNextResponse: setNextResponse,
-          successSpy: successSpy,
-          afterErrorHandler: afterErrorHandler,
-        };
-      });
+    let forms = _.map($forms, function(form) {
+      return new MfaVerifyForm($(form));
+    });
+
+    if (forms.length === 1) {
+      forms = forms[0];
+    }
+    const beacon = new Beacon($sandbox);
+
+    return {
+      router: router,
+      form: forms,
+      beacon: beacon,
+      ac: authClient,
+      setNextResponse: setNextResponse,
+      successSpy: successSpy,
+      afterErrorHandler: afterErrorHandler,
+    };
+    
   }
 
-  function setupNoProvider(res, selectedFactorProps, settings) {
+  async function setupNoProvider(res, selectedFactorProps, settings) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
@@ -215,39 +223,40 @@ Expect.describe('MFA Verify', function() {
     router.on('afterError', afterErrorHandler);
     setNextResponse(res);
     router.refreshAuthState('dummy-token');
-    return Expect.waitForMfaVerify()
-      .then(function() {
-        if (selectedFactorProps) {
-          const factors = router.appState.get('factors');
-          const selectedFactor = factors.findWhere(selectedFactorProps);
-          const factorType = selectedFactor.get('factorType');
+    await Expect.waitForMfaVerify();
 
-          router.verifyNoProvider(factorType);
-          return Expect.waitForMfaVerify();
-        }
-      })
-      .then(function() {
-        const $forms = $sandbox.find('.o-form');
+    if (selectedFactorProps) {
+      const factors = router.appState.get('factors');
+      const selectedFactor = factors.findWhere(selectedFactorProps);
+      const factorType = selectedFactor.get('factorType');
 
-        let forms = _.map($forms, function(form) {
-          return new MfaVerifyForm($(form));
-        });
+      router.verifyNoProvider(factorType);
+      // BaseLoginController returns an instance of Q() from `fetchInitialData`
+      // use tick() to wait for this promise to resolve and render
+      await tick();
+      await Expect.waitForMfaVerify();
+    }
 
-        if (forms.length === 1) {
-          forms = forms[0];
-        }
-        const beacon = new Beacon($sandbox);
+    const $forms = $sandbox.find('.o-form');
 
-        return {
-          router: router,
-          form: forms,
-          beacon: beacon,
-          ac: authClient,
-          setNextResponse: setNextResponse,
-          successSpy: successSpy,
-          afterErrorHandler: afterErrorHandler,
-        };
-      });
+    let forms = _.map($forms, function(form) {
+      return new MfaVerifyForm($(form));
+    });
+
+    if (forms.length === 1) {
+      forms = forms[0];
+    }
+    const beacon = new Beacon($sandbox);
+
+    return {
+      router: router,
+      form: forms,
+      beacon: beacon,
+      ac: authClient,
+      setNextResponse: setNextResponse,
+      successSpy: successSpy,
+      afterErrorHandler: afterErrorHandler,
+    };
   }
 
   function setupWindowsHelloOnly() {
@@ -323,7 +332,10 @@ Expect.describe('MFA Verify', function() {
 
   const setupOktaPushWithTOTP = _.partial(setup, resAllFactors, { factorType: 'push', provider: 'OKTA' });
 
-  const setupOktaTOTP = _.partial(setup, resVerifyTOTPOnly, { factorType: 'token:software:totp' }, null, null, true);
+  const setupOktaTOTP = function(settings) {
+    settings = Object.assign({ factorType: 'token:software:totp' }, settings);
+    return setup(resVerifyTOTPOnly, null, { factorType: 'token:software:totp' });
+  };
 
   const setupOktaPush = _.partial(setup, resVerifyPushOnly, { factorType: 'push' });
 
@@ -346,7 +358,10 @@ Expect.describe('MFA Verify', function() {
     { 'features.webauthn': false, brandName: 'Spaghetti Inc.' }
   );
 
-  const setupPassword = _.partial(setup, resPassword, { factorType: 'password' }, null, null, true);
+  const setupPassword = function(settings = {}) {
+    settings = Object.assign({ factorType: 'password' }, settings);
+    return setup(resPassword, null, settings);
+  };
 
   const setupCustomSAMLFactor = _.partial(setup, resAllFactors, {
     factorType: 'assertion:saml2',
@@ -363,10 +378,13 @@ Expect.describe('MFA Verify', function() {
     provider: 'CUSTOM',
   });
 
-  const setupAllFactorsWithRouter = _.partial(setup, resAllFactors, null, {
-    'features.router': true,
-    'features.securityImage': true,
-  });
+  const setupAllFactorsWithRouter = _.partial(setup, resAllFactors, null,
+    {
+      'features.router': true,
+      'features.securityImage': true,
+    }, null, false,
+    true // start router
+  );
 
   function setupSecurityQuestionLocalized(options) {
     spyOn(BrowserFeatures, 'localStorageIsNotSupported').and.returnValue(options.localStorageIsNotSupported);
@@ -396,7 +414,7 @@ Expect.describe('MFA Verify', function() {
     return setup(pushOnly, { factorType: 'push' }, settings, null, true);
   }
 
-  function setupU2F(options) {
+  async function setupU2F(options) {
     options || (options = {});
 
     if (options.u2f) {
@@ -416,22 +434,19 @@ Expect.describe('MFA Verify', function() {
       delete window.u2f;
     }
 
-    return setup(options.nextResponse ? options.nextResponse : resAllFactors, null, options.settings, null, true)
-      .then(function(test) {
-        const responses = options.multipleU2F ? [resChallengeMultipleU2F] : [resChallengeU2F];
-
-        if (options && options.res) {
-          responses.push(options.res);
-        }
-        test.setNextResponse(responses);
-        test.router.verifyU2F();
-        return Expect.waitForVerifyU2F(test);
-      })
-      .then(function(test) {
-        return _.extend(test, {
-          form: new MfaVerifyForm($sandbox.find('.o-form')),
-        });
-      });
+    const test = await setup(options.nextResponse ? options.nextResponse : resAllFactors, null, options.settings, null, true);
+    const responses = options.multipleU2F ? [resChallengeMultipleU2F] : [resChallengeU2F];
+    if (options && options.res) {
+      responses.push(options.res);
+    }
+    test.setNextResponse(responses);
+    test.router.verifyU2F();
+    // BaseLoginController returns an instance of Q() from `fetchInitialData`
+    // use tick() to wait for this promise to resolve and render
+    await tick();
+    await Expect.waitForVerifyU2F();
+    test.form = new MfaVerifyForm($sandbox.find('.o-form'));
+    return test;
   }
 
   function setupMultipleU2F(options) {
@@ -500,7 +515,12 @@ Expect.describe('MFA Verify', function() {
     });
   }
 
-  function setupMfaChallengeClaimsFactor(options) {
+  async function setupMfaChallengeClaimsFactor(options) {
+    // BaseLoginRouter will render twice if language bundles are not loaded:
+    // https://github.com/okta/okta-signin-widget/blob/master/src/util/BaseLoginRouter.js#L202
+    // We are not testing i18n, so we can mock language bundles as loaded
+    Util.mockBundles();
+
     options = options || {};
     const initResponse = getInitialChallengeResponse(options);
     const setNextResponse = Util.mockAjax([initResponse, resAllFactors]);
@@ -515,29 +535,25 @@ Expect.describe('MFA Verify', function() {
     router.on('afterError', afterErrorHandler);
     router.refreshAuthState('dummy-token');
     const verifyView = options.factorResult === 'FAILED' ? 'waitForVerifyCustomFactor' : 'waitForMfaVerify';
-
-    return Expect[verifyView]().then(function() {
-      const $forms = $sandbox.find('.o-form');
-
-      let forms = _.map($forms, function(form) {
-        return new MfaVerifyForm($(form));
-      });
-
-      if (forms.length === 1) {
-        forms = forms[0];
-      }
-      const beacon = new Beacon($sandbox);
-
-      return {
-        router: router,
-        form: forms,
-        beacon: beacon,
-        ac: authClient,
-        setNextResponse: setNextResponse,
-        successSpy: successSpy,
-        afterErrorHandler: afterErrorHandler,
-      };
+    await Expect[verifyView]();
+    const $forms = $sandbox.find('.o-form');
+    let forms = _.map($forms, function(form) {
+      return new MfaVerifyForm($(form));
     });
+    if (forms.length === 1) {
+      forms = forms[0];
+    }
+    const beacon = new Beacon($sandbox);
+    const test = {
+      router: router,
+      form: forms,
+      beacon: beacon,
+      ac: authClient,
+      setNextResponse: setNextResponse,
+      successSpy: successSpy,
+      afterErrorHandler: afterErrorHandler,
+    };
+    return test;
   }
 
   function getInitialChallengeResponse(options) {
@@ -558,6 +574,9 @@ Expect.describe('MFA Verify', function() {
   }
 
   function emulateWindows(errorType) {
+    if (errorType) {
+      Q.stopUnhandledRejectionTracking();
+    }
     spyOn(webauthn, 'isAvailable').and.returnValue(true);
 
     spyOn(webauthn, 'getAssertion').and.callFake(function() {
@@ -948,7 +967,7 @@ Expect.describe('MFA Verify', function() {
         });
     });
     itp('Verify Push after switching from Google TOTP', function() {
-      return setupGoogleTOTPAutoPushTrueFn({ 'features.autoPush': true })
+      return setupGoogleTOTPAutoPushTrueFn()
         .then(function(test) {
           test.setNextResponse(resChallengePush);
           test.beacon.dropDownButton().click();
@@ -2502,6 +2521,12 @@ Expect.describe('MFA Verify', function() {
     });
 
     Expect.describe('TOTP', function() {
+      beforeEach(() => {
+        // BaseLoginRouter will render twice if language bundles are not loaded:
+        // https://github.com/okta/okta-signin-widget/blob/master/src/util/BaseLoginRouter.js#L202
+        // We are not testing i18n, so we can mock language bundles as loaded
+        Util.mockBundles();
+      });
       testGoogleTOTP(setupGoogleTOTP, 'testStateToken');
       itp('shows the right beacon for Okta TOTP', function() {
         return setupOktaTOTP().then(function(test) {
@@ -4686,6 +4711,12 @@ Expect.describe('MFA Verify', function() {
       });
     });
     Expect.describe('Password', function() {
+      beforeEach(() => {
+        // BaseLoginRouter will render twice if language bundles are not loaded:
+        // https://github.com/okta/okta-signin-widget/blob/master/src/util/BaseLoginRouter.js#L202
+        // We are not testing i18n, so we can mock language bundles as loaded
+        Util.mockBundles();
+      });
       testPassword(setupPassword, 'testStateToken');
     });
   });
@@ -4764,6 +4795,12 @@ Expect.describe('MFA Verify', function() {
   }
 
   Expect.describe('Beacon', function() {
+    beforeEach(() => {
+      // BaseLoginRouter will render twice if language bundles are not loaded:
+      // https://github.com/okta/okta-signin-widget/blob/master/src/util/BaseLoginRouter.js#L202
+      // We are not testing i18n, so we can mock language bundles as loaded
+      Util.mockBundles();
+    });
     beaconTest(resAllFactors, resVerifyTOTPOnly, resAllFactorsOnPrem);
   });
 
@@ -4891,11 +4928,15 @@ Expect.describe('MFA Verify', function() {
   });
 
   Expect.describe('Browser back button does not change view', function() {
+    beforeEach(() => {
+      // BaseLoginRouter will render twice if language bundles are not loaded:
+      // https://github.com/okta/okta-signin-widget/blob/master/src/util/BaseLoginRouter.js#L202
+      // We are not testing i18n in this file, so we can mock language bundles as loaded
+      Util.mockBundles();
+    });
     itp('from mfa verify controller', function() {
       return setupAllFactorsWithRouter()
         .then(function(test) {
-          spyOn(window, 'addEventListener');
-          test.router.start();
           expectHasRightBeaconImage(test, 'mfa-okta-security-question');
           test.beacon.dropDownButton().click();
           clickFactorInDropdown(test, 'SMS');
@@ -4914,37 +4955,29 @@ Expect.describe('MFA Verify', function() {
           Util.stopRouter();
         });
     });
-    itp('from duo controller', function() {
-      return setupAllFactorsWithRouter()
-        .then(function(test) {
-          spyOn(window, 'addEventListener');
-          test.router.start();
-          expectHasRightBeaconImage(test, 'mfa-okta-security-question');
-          spyOn(Duo, 'init');
-          test.setNextResponse(resChallengeDuo);
-          test.beacon.dropDownButton().click();
-          clickFactorInDropdown(test, 'DUO');
-          return Expect.wait(function() {
-            return test.beacon.hasClass('mfa-duo');
-          }, test);
-        })
-        .then(function(test) {
-          expectHasRightBeaconImage(test, 'mfa-duo');
-          Util.triggerBrowserBackButton();
-          return tick(test);
-        })
-        .then(function(test) {
-          //view is still the same
-          expectHasRightBeaconImage(test, 'mfa-duo');
-          Util.stopRouter();
-        });
+    itp('from duo controller', async function() {
+      const test = await setupAllFactorsWithRouter();
+      expectHasRightBeaconImage(test, 'mfa-okta-security-question');
+      spyOn(Duo, 'init');
+      test.setNextResponse(resChallengeDuo);
+      test.beacon.dropDownButton().click();
+      clickFactorInDropdown(test, 'DUO');
+      await Expect.wait(function() {
+        return test.beacon.hasClass('mfa-duo');
+      });
+
+      expectHasRightBeaconImage(test, 'mfa-duo');
+      Util.triggerBrowserBackButton();
+      await tick();
+
+      //view is still the same
+      expectHasRightBeaconImage(test, 'mfa-duo');
+      Util.stopRouter();
     });
     itp('from windows hello controller', function() {
       return emulateWindows()
         .then(setupAllFactorsWithRouter)
         .then(function(test) {
-          spyOn(window, 'addEventListener');
-          test.router.start();
           expectHasRightBeaconImage(test, 'mfa-okta-security-question');
           test.setNextResponse(resChallengeWindowsHello);
           test.beacon.dropDownButton().click();
@@ -4967,8 +5000,6 @@ Expect.describe('MFA Verify', function() {
     itp('from u2f controller', function() {
       return setupAllFactorsWithRouter()
         .then(function(test) {
-          spyOn(window, 'addEventListener');
-          test.router.start();
           expectHasRightBeaconImage(test, 'mfa-okta-security-question');
           return test;
         })
@@ -5087,6 +5118,13 @@ Expect.describe('MFA Verify', function() {
     });
 
     Expect.describe('Only multiple Security Keys (U2F) are setup', function() {
+      beforeEach(() => {
+        // BaseLoginRouter will render twice if language bundles are not loaded:
+        // https://github.com/okta/okta-signin-widget/blob/master/src/util/BaseLoginRouter.js#L202
+        // We are not testing i18n in this file, so we can mock language bundles as loaded
+        Util.mockBundles();
+      });
+
       itp('shows the right beacon for Security Key (U2F)', function() {
         return setupMultipleU2FOnly({ u2f: true }).then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-u2f');
@@ -5398,6 +5436,13 @@ Expect.describe('MFA Verify', function() {
     });
 
     Expect.describe('Okta Verify TOTP', function() {
+      beforeEach(() => {
+        // BaseLoginRouter will render twice if language bundles are not loaded:
+        // https://github.com/okta/okta-signin-widget/blob/master/src/util/BaseLoginRouter.js#L202
+        // We are not testing i18n, so we can mock language bundles as loaded
+        Util.mockBundles();
+      });
+
       itp('shows the right beacon', function() {
         return setupMultipleOktaTOTP().then(function(test) {
           expectHasRightBeaconImage(test, 'mfa-okta-verify');

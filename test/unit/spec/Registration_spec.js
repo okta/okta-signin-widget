@@ -796,6 +796,7 @@ Expect.describe('Registration', function() {
 
         spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
         model.save();
+        Util.callAllTimeouts();
         expect(test.router.controller.model.get('userName')).toBe('test@example.com');
         expect(test.router.controller.model.get('preferredLanguage')).toBe('en');
         expect(test.router.controller.model.get('countryCode')).toBe('us');
@@ -829,6 +830,7 @@ Expect.describe('Registration', function() {
 
         spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
         model.save();
+        Util.callAllTimeouts();
         expect(setting.registration.postSubmit).toHaveBeenCalled();
       });
     });
@@ -914,7 +916,7 @@ Expect.describe('Registration', function() {
           },
           preSubmit: function(postData, onSuccess, onFailure) {
             preSubmitSpy(postData, onSuccess, onFailure);
-            onSuccess();
+            onSuccess(postData);
           },
           postSubmit: function(response, onSuccess, onFailure) {
             postSubmitSpy(response, onSuccess, onFailure);
@@ -942,6 +944,7 @@ Expect.describe('Registration', function() {
 
         spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().reject(apiResponse));
         model.save();
+        Util.callAllTimeouts();
         expectRegApiError(test, '\'Email address \' must be in the form of an email address');
       });
     });

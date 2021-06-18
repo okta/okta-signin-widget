@@ -21,7 +21,9 @@ module.exports = function(outputFilename) {
         'nls': '@okta/i18n/src/json',
         'okta': `${LOCAL_PACKAGES}/@okta/courage-dist/okta.js`,
         'okta-i18n-bundles': 'util/Bundles',
-        'jquery': `${LOCAL_PACKAGES}/@okta/courage-dist/jquery.js`,
+
+        // Uncomment the line below to use the version of jQuery from courage
+        // 'jquery': `${LOCAL_PACKAGES}/@okta/courage-dist/jquery.js`,
 
         // Vendor files from courage that are remapped in OSW to point to an npm
         // module in our package.json dependencies
