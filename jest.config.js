@@ -35,7 +35,7 @@ module.exports = {
     '^nls/(.*)': '@okta/i18n/src/json/$1',
     '^okta$': `${LOCAL_PACKAGES}/@okta/courage-dist/okta.js`,
     '^okta-i18n-bundles$': 'util/Bundles',
-    '^jquery$': `${LOCAL_PACKAGES}/@okta/courage-dist/jquery.js`,
+    // '^jquery$': `${LOCAL_PACKAGES}/@okta/courage-dist/jquery.js`,
     '^qtip$': '@okta/qtip2/dist/jquery.qtip.min.js',
     '^duo$': `${LOCAL_PACKAGES}/vendor/duo_web_sdk/index.js`,
     '^typingdna$': `${LOCAL_PACKAGES}/vendor/TypingDnaRecorder-JavaScript/typingdna`,

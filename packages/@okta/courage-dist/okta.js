@@ -6479,6 +6479,21 @@ var Form = _BaseForm.default.extend({
   }
 });
 
+var Controller = _BaseController.default.extend({
+  // The courage BaseController renders asynchronously in current versions of jQuery
+  // https://github.com/okta/okta-ui/blob/master/packages/courage/src/util/BaseController.js#L108
+  // https://api.jquery.com/jquery/#jQuery-callback
+  // Override so that render is synchronous
+  render: function render() {
+    var args = arguments;
+    var self = this;
+
+    _BaseView.default.prototype.render.apply(self, args);
+
+    return this;
+  }
+});
+
 var Okta = {
   Backbone: _backbone.default,
   $: _jqueryWrapper.default,
@@ -6497,7 +6512,7 @@ var Okta = {
   View: _BaseView.default,
   ListView: _Backbone.default,
   Router: _BaseRouter.default,
-  Controller: _BaseController.default,
+  Controller: Controller,
   Form: Form,
   internal: {
     util: {

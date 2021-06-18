@@ -823,65 +823,63 @@ Expect.describe('LoginRouter', function() {
         expect(form.isRecoveryQuestion()).toBe(true);
       });
   });
-  itp('navigates to PrimaryAuth and shows a flash error if the stateToken expires', function() {
-    return setup({}, resRecovery)
-      .then(function(test) {
-        Util.mockRouterNavigate(test.router);
-        test.setNextResponse(resRecovery);
-        test.router.refreshAuthState('dummy-token');
-        return Expect.waitForRecoveryQuestion(test);
-      })
-      .then(function(test) {
-        test.setNextResponse(errorInvalidToken);
-        const form = new RecoveryForm($sandbox);
 
-        form.setAnswer('4444');
-        form.submit();
-        return Expect.waitForPrimaryAuth(test);
-      })
-      .then(function(test) {
-        expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
-        expect(test.afterErrorHandler.calls.allArgs()).toEqual([
-          [
-            { controller: 'primary-auth' },
-            {
-              name: 'AuthApiError',
-              message: 'Invalid token provided',
-              statusCode: 401,
-              xhr: {
-                status: 401,
-                responseType: 'json',
-                responseText: '{"errorCode":"E0000011","errorSummary":"Invalid token provided","errorLink":"E0000011","errorId":"oaeuiUWCPr6TUSkOclgVGlWqw","errorCauses":[]}',
-                responseJSON: {
-                  errorCode: 'E0000011',
-                  errorSummary: 'Invalid token provided',
-                  errorLink: 'E0000011',
-                  errorId: 'oaeuiUWCPr6TUSkOclgVGlWqw',
-                  errorCauses: [],
-                },
-              },
+  itp('navigates to PrimaryAuth and shows a flash error if the stateToken expires', async function() {
+    // flashError is set in RouterUtil, shown in courage BaseForm method: __showErrors
+    // BaseLoginRouter will see the flashError and trigger the error on PrimaryAuth model after render 
+    const test = await setup({}, resRecovery);
+    Util.mockRouterNavigate(test.router);
+    test.setNextResponse(resRecovery);
+    test.router.refreshAuthState('dummy-token');
+    await Expect.waitForRecoveryQuestion(test);
+    
+    test.setNextResponse(errorInvalidToken);
+    let form = new RecoveryForm($sandbox);
+
+    form.setAnswer('4444');
+    form.submit();
+    await Expect.waitForPrimaryAuth(test);
+
+    expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+    expect(test.afterErrorHandler.calls.allArgs()).toEqual([
+      [
+        { controller: 'primary-auth' },
+        {
+          name: 'AuthApiError',
+          message: 'Invalid token provided',
+          statusCode: 401,
+          xhr: {
+            status: 401,
+            responseType: 'json',
+            responseText: '{"errorCode":"E0000011","errorSummary":"Invalid token provided","errorLink":"E0000011","errorId":"oaeuiUWCPr6TUSkOclgVGlWqw","errorCauses":[]}',
+            responseJSON: {
+              errorCode: 'E0000011',
+              errorSummary: 'Invalid token provided',
+              errorLink: 'E0000011',
+              errorId: 'oaeuiUWCPr6TUSkOclgVGlWqw',
+              errorCauses: [],
             },
-          ],
-        ]);
-        const form = new PrimaryAuthForm($sandbox);
+          },
+        },
+      ],
+    ]);
+    
+    form = new PrimaryAuthForm($sandbox);
+    expect(form.isPrimaryAuth()).toBe(true);
+    expect(form.hasErrors()).toBe(true);
+    expect(form.errorMessage()).toBe('Your session has expired. Please try to sign in again.');
 
-        expect(form.isPrimaryAuth()).toBe(true);
-        expect(form.hasErrors()).toBe(true);
-        expect(form.errorMessage()).toBe('Your session has expired. Please try to sign in again.');
+    // Submit the form and verify that we no longer have the flash error message
+    test.setNextResponse(resMfa);
+    form.setUsername('testuser');
+    form.setPassword('pass');
+    form.submit();
+    await Expect.waitForMfaVerify(test);
 
-        // Submit the form and verify that we no longer have the flash error message
-        test.setNextResponse(resMfa);
-        form.setUsername('testuser');
-        form.setPassword('pass');
-        form.submit();
-        return Expect.waitForMfaVerify(test);
-      })
-      .then(function() {
-        const form = new MfaVerifyForm($sandbox);
+    form = new MfaVerifyForm($sandbox);
 
-        expect(form.isSecurityQuestion()).toBe(true);
-        expect(form.hasErrors()).toBe(false);
-      });
+    expect(form.isSecurityQuestion()).toBe(true);
+    expect(form.hasErrors()).toBe(false);
   });
   itp('navigates to ErrorState page and shows a flash error if the stateToken expires', function() {
     return setup({'features.mfaOnlyFlow': true }, resRecovery)
@@ -1398,6 +1396,11 @@ Expect.describe('LoginRouter', function() {
     itp('invokes the success function with idToken and user data when the iframe returns with data', function() {
       Util.loadWellKnownAndKeysCache();
       const successSpy = jasmine.createSpy('successSpy');
+
+      // In this test the id token will be returned succesfully. It must pass all validation.
+      // Mock the date to 10 seconds after token was issued.
+      const AUTH_TIME = (1451606400) * 1000; // The time the "VALID_ID_TOKEN" was issued
+      jasmine.clock().mockDate(new Date(AUTH_TIME + 10000));
 
       return setupOAuth2({ globalSuccessFn: successSpy }, { mockWellKnown: true })
         .then(function(test) {

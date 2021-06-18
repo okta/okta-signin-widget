@@ -12,7 +12,7 @@
 
 /* eslint complexity: [2, 13] */
 
-import { _, $, loc, Collection } from 'okta';
+import { _, loc, Collection } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import FactorList from 'views/enroll-choices/FactorList';
 import Footer from 'views/enroll-choices/Footer';
@@ -107,7 +107,7 @@ export default FormController.extend({
       // form subtitle does not support unescaped strings, and we need some html elements
       // in the subtitle for this form. So instead of a regular subtitle, we add a <span>
       // with the text we need
-      this.add(subtitleTpl({ subtitle: this.getSubtitle() }), $('p.okta-form-subtitle'));
+      this.add(subtitleTpl({ subtitle: this.getSubtitle() }), 'p.okta-form-subtitle');
 
       const factors = this.options.appState.get('factors');
 
