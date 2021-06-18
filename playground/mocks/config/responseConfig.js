@@ -14,7 +14,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    // 'identify',
     // 'error-401-invalid-otp-passcode',
     // 'error-with-failure-redirect',
     // 'error-feature-not-enabled',
@@ -39,7 +39,7 @@ const idx = {
     // 'authenticator-verification-data-phone-sms-then-voice',
     // 'authenticator-verification-data-phone-voice-only',
     // 'authenticator-verification-data-phone-voice-then-sms',
-    // 'authenticator-verification-email',
+    'authenticator-verification-email',
     // 'authenticator-verification-password',
     // 'authenticator-verification-phone-sms',
     // 'authenticator-verification-phone-voice',
@@ -85,6 +85,7 @@ const idx = {
     // 'oda-enrollment-ios',
     // 'oda-enrollment-android',
     // 'mdm-enrollment',
+    // 'authenticator-verification-number-challenge',
   ],
   '/idp/idx/enroll': [
     'enroll-profile-new',
@@ -97,7 +98,7 @@ const idx = {
     'error-authenticator-enroll-phone-invalid-number',
   ],
   '/idp/idx/identify': [
-    'authenticator-enroll-select-authenticator',
+    // 'authenticator-enroll-select-authenticator',
     // 'identify-with-only-one-third-party-idp',
     // 'error-identify-access-denied',
     // 'error-identify-user-locked-unable-challenge',
@@ -106,33 +107,44 @@ const idx = {
     // 'terminal-device-not-activated',
     // 'success-with-interaction-code',
     // 'error-with-failure-redirect',
+    // 'authenticator-verification-email'
+    // 'authenticator-verification-number-challenge',
   ],
   '/idp/idx/challenge/answer': [
+    'error-authenticator-verify-password',
     // 'error-401-invalid-otp-passcode',
     // 'terminal-return-expired-email',
     // 'error-answer-passcode-invalid',
     // 'error-authenticator-enroll-security-question',
     // 'error-authenticator-webauthn-failure',
     // 'error-authenticator-enroll-password-common',
-    'error-authenticator-reset-password-requirement',
-    'error-authenticator-enroll-security-question-html-tags',
-    'error-authenticator-enroll-password-common',
     // 'error-authenticator-reset-password-requirement',
     // 'error-authenticator-enroll-security-question-html-tags',
+    // 'error-authenticator-enroll-password-common',
+    // 'error-authenticator-reset-password-requirement',
+    // 'error-authenticator-enroll-security-question-html-tags',
+    // 'success',
   ],
   '/idp/idx/challenge/send': [
     // 'authenticator-enroll-ov-sms',
     'authenticator-enroll-ov-email',
   ],
   '/idp/idx/challenge/resend': [
-    'authenticator-enroll-ov-sms',
+    // 'authenticator-enroll-ov-sms',
     // 'authenticator-verification-phone-voice'
+    // 'authenticator-verification-email',
   ],
   '/idp/idx/challenge/poll': [
-    'success',
-    // 'enroll-profile-new'
+    // 'success',
     // 'authenticator-enroll-email',
     // 'authenticator-verification-okta-verify-push',
+    'authenticator-verification-email',
+    'authenticator-verification-email',
+    'authenticator-verification-email',
+    'authenticator-verification-email',
+    'authenticator-verification-email',
+    // 'enroll-profile-new',
+    // 'authenticator-verification-number-challenge'
   ],
   '/idp/idx/challenge': [
     // 'authenticator-verification-webauthn',
@@ -140,11 +152,11 @@ const idx = {
     // 'authenticator-verification-okta-verify-totp',
     // 'authenticator-verification-okta-verify-push',
     // 'authenticator-verification-google-authenticator',
-    'error-authenticator-phone-sms-ratelimit',
+    // 'error-authenticator-phone-sms-ratelimit',
     'error-authenticator-phone-voice-ratelimit',
   ],
   '/idp/idx/enroll/new': [
-    'error-new-signup-email',
+    // 'error-new-signup-email',
     'error-new-signup-email-exists'
   ],
   '/idp/idx/cancel': [
@@ -402,20 +414,27 @@ const userVerificationUniversalLink = {
 // ov enroll
 const ovEnroll = {
   '/idp/idx/introspect': [
-    'authenticator-enroll-ov-qr',
+    'authenticator-enroll-ov-sms',
+    // 'authenticator-enroll-ov-qr',
   ],
   '/idp/idx/credential/enroll': [
-    'authenticator-enroll-ov-via-email',
+    // 'authenticator-enroll-ov-via-email',
+    'authenticator-enroll-ov-via-sms',
   ],
   '/idp/idx/challenge/send': [
-    'authenticator-enroll-ov-email',
+    // 'authenticator-enroll-ov-email',
+    'authenticator-enroll-ov-sms-version-upgrade',
   ],
   '/idp/idx/challenge/resend': [
-    'authenticator-enroll-ov-email'
+    'authenticator-enroll-ov-sms',
+    // 'authenticator-enroll-ov-email',
+    // 'authenticator-enroll-ov-via-sms'
   ],
   '/idp/idx/challenge/poll': [
-    'authenticator-enroll-ov-email',
-    'success'
+    'authenticator-enroll-ov-sms',
+    // 'authenticator-enroll-ov-email',
+    // 'authenticator-enroll-ov-via-sms',
+    // 'success'
   ],
 };
 
@@ -512,9 +531,11 @@ const ovSignedNonceLoopback = {
     'authenticator-verification-okta-verify-signed-nonce-loopback'
   ],
   '/idp/idx/authenticators/poll': [
-    'authenticator-verification-okta-verify-signed-nonce-loopback',
     'success',
   ],
+  // '/idp/idx/authenticators/poll/cancel': [
+  //   'identify',
+  // ],
 };
 
 // Okta Verify challenge signed nonce - custom uri
@@ -756,5 +777,5 @@ const googleAuthenticatorVerify = {
 };
 
 module.exports = {
-  mocks: idx,
+  mocks: ovEnroll,
 };

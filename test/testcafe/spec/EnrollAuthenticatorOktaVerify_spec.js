@@ -298,6 +298,7 @@ test.requestHooks(resendEmailMocks)('after timeout should be able see and click 
   await enrollOktaVerifyPage.clickSendAgainLink();
   await t.expect(enrollOktaVerifyPage.resendView().visible).notOk();
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).eql(emailInstruction);
+  // this test should be updated to check for poll requests made
 });
 
 test.requestHooks(logger, enrollViaSmsMocks)('should be able enroll via sms', async t => {
@@ -339,6 +340,7 @@ test.requestHooks(resendSmsMocks)('after timeout should be able see and click se
   await enrollOktaVerifyPage.clickSendAgainLink();
   await t.expect(enrollOktaVerifyPage.resendView().visible).notOk();
   await t.expect(enrollOktaVerifyPage.getSmsInstruction()).eql(smsInstruction);
+  // this test should be updated to check for poll requests made
 });
 
 

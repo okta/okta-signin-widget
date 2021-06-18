@@ -52,7 +52,7 @@ export default FormController.extend({
             messages,
           }
         };
-        this.options.appState.trigger('remediationSuccess', resp);
+        this.options.appState.trigger('updateRemediationState', resp);
       }
     } else {
       // otherwise behavior as default FormController to handle remediations.

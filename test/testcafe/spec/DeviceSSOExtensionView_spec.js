@@ -139,7 +139,7 @@ test
   });
 
 test
-  .requestHooks(logger, verifyErrorMock)('hideds the spinner when authenticator verification fails', async t => {
+  .requestHooks(logger, verifyErrorMock)('hides spinner when authenticator verification fails', async t => {
     const ssoExtensionPage = new BasePageObject(t);
     await ssoExtensionPage.navigateToPage();
     await t.expect(Selector('.spinner').getStyleProperty('display')).eql('none');

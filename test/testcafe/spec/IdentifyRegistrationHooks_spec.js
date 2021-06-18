@@ -110,7 +110,7 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onFailu
   await t.expect(logger.requests.length).eql(0);
 });
 
-test.requestHooks(logger, mock)('should call settings.registration.postSubmit hook\'s onFailure handler', async t => {
+test.requestHooks(logger, mock)('should call settings.registration.postSubmit hooks onFailure handler', async t => {
   logger.clear();
   const registrationPage = await setup(t);
 

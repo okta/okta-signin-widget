@@ -86,15 +86,17 @@ const Body = BaseForm.extend({
      * Note: Anytime we get back `messages` object along with identify view
      * we would render it as a warning callout
      * */
-    const messagesObj = this.options.appState.get('messages');
-    if (messagesObj?.value.length
-        && this.options.appState.get('currentFormName') === 'identify') {
-      const content = messagesObj.value[0].message;
-      const messageCallout = createCallout({
-        content: content,
-        type: 'warning',
-      });
-      this.add(messageCallout, '.o-form-error-container');
+    if(!this.options.appState.get('idx')?.formError) {
+      const messagesObj = this.options.appState.get('messages');
+      if (messagesObj?.value.length
+          && this.options.appState.get('currentFormName') === 'identify') {
+        const content = messagesObj.value[0].message;
+        const messageCallout = createCallout({
+          content: content,
+          type: 'warning',
+        });
+        this.add(messageCallout, '.o-form-error-container');
+      }
     }
   },
   /**

@@ -90,7 +90,7 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('challenge password authen
   await t.expect(await challengePasswordPage.signoutLinkExists()).notOk();
 });
 
-test.requestHooks(mockInvalidPassword)('challege password authenticator with invalid password', async t => {
+test.requestHooks(mockInvalidPassword)('challenge password authenticator with invalid password', async t => {
   const challengePasswordPage = await setup(t);
   await challengePasswordPage.switchAuthenticatorExists();
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
@@ -120,27 +120,27 @@ test.requestHooks(mockInvalidPassword)('challege password authenticator with inv
 
 });
 
-test.requestHooks(sessionExpiresDuringPassword)('challege password authenticator with expired session', async t => {
+test.requestHooks(sessionExpiresDuringPassword)('challenge password authenticator with expired session', async t => {
   const challengePasswordPage = await setup(t);
   await challengePasswordPage.switchAuthenticatorExists();
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
   await challengePasswordPage.clickNextButton();
   await t.expect(challengePasswordPage.getErrorFromErrorBox()).eql('The session has expired.');
-  await t.expect(challengePasswordPage.getSignoutLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
+  await t.expect(await challengePasswordPage.goBackLinkExists()).eql(true); // confirm they can get out of terminal state
 });
 
-test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not recover password', async t => {
+test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not recover password and show terminal error', async t => {
   const challengePasswordPage = await setup(t);
   await challengePasswordPage.forgotPasswordLink.exists();
   await challengePasswordPage.forgotPasswordLink.click();
   // show form error once even click twice and trigger API request twice.
-  await challengePasswordPage.forgotPasswordLink.click();
+  // await challengePasswordPage.forgotPasswordLink.click();
 
   await t.expect(challengePasswordPage.form.getErrorBoxCount()).eql(1);
   await t.expect(challengePasswordPage.form.getErrorBoxText())
     .eql('Reset password is not allowed at this time. Please contact support for assistance.');
 
-  await t.expect(recoveryRequestLogger.count(() => true)).eql(2);
+  await t.expect(recoveryRequestLogger.count(() => true)).eql(1);
 
   const req0 = recoveryRequestLogger.requests[0].request;
   const reqBody0 = JSON.parse(req0.body);
@@ -149,14 +149,6 @@ test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not reco
   });
   await t.expect(req0.method).eql('post');
   await t.expect(req0.url).eql('http://localhost:3000/idp/idx/recover');
-
-  const req1 = recoveryRequestLogger.requests[1].request;
-  const reqBody1 = JSON.parse(req1.body);
-  await t.expect(reqBody1).eql({
-    stateHandle: 'eyJ6aXAiOiJERUYi',
-  });
-  await t.expect(req1.method).eql('post');
-  await t.expect(req1.url).eql('http://localhost:3000/idp/idx/recover');
 });
 
 test.requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for Password if i18n keys are defined', async t => {

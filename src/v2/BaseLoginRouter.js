@@ -78,11 +78,11 @@ export default Router.extend({
     });
 
     configIdxJsClient(this.appState);
-    this.listenTo(this.appState, 'remediationSuccess', this.handleIdxResponseSuccess);
+    this.listenTo(this.appState, 'updateRemediationState', this.handleUpdateRemediationState);
     this.listenTo(this.appState, 'remediationError', this.handleIdxResponseFailure);
   },
 
-  handleIdxResponseSuccess(idxResponse) {
+  handleUpdateRemediationState(idxResponse) {
     if (idxResponse.interactionCode) {
       // Although session.stateHandle isn't used by interation flow,
       // it's better to clean up at the end of the flow.
@@ -116,7 +116,7 @@ export default Router.extend({
     // transform response
     const ionResponse = transformIdxResponse(this.settings, idxResponse, lastResponse);
 
-    this.appState.setIonResponse(ionResponse);
+    this.appState.setIonResponse(ionResponse, this.controller);
   },
 
   handleIdxResponseFailure(error = {}) {
@@ -168,7 +168,7 @@ export default Router.extend({
         error.details.context = { messages: idxMessage };
       }
 
-      return this.handleIdxResponseSuccess(error.details);
+      return this.handleUpdateRemediationState(error.details);
     }
 
     // assume it's a config error
@@ -216,7 +216,7 @@ export default Router.extend({
           this.settings.unset('stateToken');
           this.settings.unset('proxyIdxResponse');
           this.settings.unset('useInteractionCodeFlow');
-          this.appState.trigger('remediationSuccess', idxResp);
+          this.appState.trigger('updateRemediationState', idxResp);
           this.render(Controller, options);
         })
         .catch(errorResp => {

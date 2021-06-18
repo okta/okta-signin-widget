@@ -38,7 +38,7 @@ const credentialSSONotExistMock = RequestMock()
 
 const credentialSSONotExistLogger = RequestLogger(/introspect|verify\/cancel/);
 
-fixture('Session Storage - manage state in client side')
+fixture('Session Storage that manage state in client side')
   .afterEach(() => {
     ClientFunction(() => { window.sessionStorage.clear(); });
   });
@@ -94,6 +94,8 @@ test.requestHooks(identifyChallengeMock)('shall save state handle during authent
   const challengeTerminalMock = RequestMock()
     .onRequestTo('http://localhost:3000/idp/idx/introspect')
     .respond(xhrEmailVerification)
+    .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+    .respond(xhrEmailVerification)
     .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
     .respond(xhrMagicLinkExpired);
 
@@ -118,8 +120,9 @@ test.requestHooks(identifyChallengeMock)('shall save state handle during authent
   await t.removeRequestHooks(identifyChallengeMock);
   await t.addRequestHooks(challengeTerminalMock);
 
-  // Refresh shall stay at same page
+  // Refresh shall stay at same page to preserve login flow context, in case of `poll` test needs to wait to finish polling
   await challengeEmailPageObject.refresh();
+  await t.wait(1000);
   const pageTitleAfterRefresh = challengeEmailPageObject.form.getTitle();
   await t.expect(pageTitleAfterRefresh).eql('Verify with your email');
   await t.expect(getStateHandleFromSessionStorage()).eql(xhrEmailVerification.stateHandle);

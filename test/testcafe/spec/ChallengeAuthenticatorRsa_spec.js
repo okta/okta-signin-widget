@@ -74,7 +74,7 @@ test.requestHooks(mockChallengeAuthenticatorRsa)('passcode is required', async t
   await t.expect(challengeRsaPage.getPasscodeError()).eql('This field cannot be left blank');
 });
 
-test.requestHooks(mockInvalidPasscode)('challege RSA authenticator with invalid passcode', async t => {
+test.requestHooks(mockInvalidPasscode)('challenge RSA authenticator with invalid passcode', async t => {
   const challengeRsaPage = await setup(t);
   await challengeRsaPage.verifyFactor('credentials.passcode', 'test');
   await challengeRsaPage.clickNextButton();

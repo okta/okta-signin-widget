@@ -468,7 +468,7 @@ test.requestHooks(requestLogger, mockChallengeOVFastPass)('should navigate to ok
   selectFactorPage.selectFactorByIndex(3);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
   await t.expect(challengeFactorPage.getPageTitle()).eql('Verifying your identity');
-
+  // await t.expect(challengeFactorPage.getPageTitle()).eql('Signing in');
   await t.expect(requestLogger.count(() => true)).eql(2);
   const req1 = requestLogger.requests[0].request;
   await t.expect(req1.url).eql('http://localhost:3000/idp/idx/introspect');

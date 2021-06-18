@@ -101,13 +101,16 @@ export default Form.extend({
   },
 
   showMessages() {
-    // render messages as text
-    const messagesObjs = this.options.appState.get('messages');
-    if (messagesObjs?.value.length) {
-      const content = messagesObjs.value.map((messagesObj) => {
-        return messagesObj.message;
-      });
-      this.add(`<div class="ion-messages-container">${content.join(' ')}</div>`, '.o-form-error-container');
+    // render messages as text for terminal states, if remediation doesn't exists.
+    // If remediation exists then FormController will take care of any inline or form level error rendering
+    if (!this.options.appState.get('idx')?.formError) {
+      const messagesObjs = this.options.appState.get('messages');
+      if (messagesObjs?.value.length) {
+        const content = messagesObjs.value.map((messagesObj) => {
+          return messagesObj.message;
+        });
+        this.add(`<div class="ion-messages-container">${content.join(' ')}</div>`, '.o-form-error-container');
+      }
     }
   },
 });

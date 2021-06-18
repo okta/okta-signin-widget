@@ -269,7 +269,7 @@ test
   });
 
 test
-  .requestHooks(logger, validOTPmock)('resend after 30 seconds', async t => {
+  .requestHooks(logger, validOTPmock)('resend after 30 seconds for challenge email', async t => {
     const challengeEmailPageObject = await setup(t);
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
     await t.wait(31000);

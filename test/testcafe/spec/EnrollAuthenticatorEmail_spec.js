@@ -102,7 +102,7 @@ test
   });
 
 test
-  .requestHooks(logger, validOTPmock)('resend after 30 seconds', async t => {
+  .requestHooks(logger, validOTPmock)('resend after 30 seconds for enroll email', async t => {
     const enrollEmailPageObject = await setup(t);
     await t.expect(enrollEmailPageObject.resendEmail.isHidden()).ok();
     await t.wait(31000);

@@ -472,8 +472,7 @@ test
   });
 
 test
-  .requestHooks(logger, smsPrimaryMock)(`Callout appears after 30 seconds in sms mode
-  - enter code screen`, async t => {
+  .requestHooks(logger, smsPrimaryMock)(`Callout appears after 30 seconds in sms mode enter code screen`, async t => {
     const challengePhonePageObject = await setup(t);
     await challengePhonePageObject.clickNextButton();
     await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).ok();
@@ -484,8 +483,7 @@ test
   });
 
 test
-  .requestHooks(voicePrimaryMock)(`Callout appears after 30 seconds in voice mode
-  - enter code screen`, async t => {
+  .requestHooks(voicePrimaryMock)(`Callout appears after 30 seconds in voice mode enter code screen`, async t => {
     const challengePhonePageObject = await setup(t);
     await challengePhonePageObject.clickNextButton();
     await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).ok();
