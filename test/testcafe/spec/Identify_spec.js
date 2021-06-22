@@ -177,7 +177,7 @@ test.requestHooks(identifyThenSelectAuthenticatorMock)('navigate to other screen
 
   const selectAuthenticatorPage = new SelectFactorPageObject();
 
-  await t.expect(selectAuthenticatorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
+  await t.expect(selectAuthenticatorPage.getFormTitle()).eql('Verify it\'s you with a security method');
 
   const { log } = await t.getBrowserConsoleMessages();
 
@@ -267,7 +267,7 @@ test.requestHooks(identifyRequestLogger, identifyMockWithFingerprint)('should co
 
   // Validate future requests do NOT contain the request header
   const selectAuthenticatorPage = new SelectFactorPageObject(t);
-  await t.expect(selectAuthenticatorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
+  await t.expect(selectAuthenticatorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await selectAuthenticatorPage.selectFactorByIndex(0);
 
   await t.expect(identifyRequestLogger.count(() => true)).eql(2);

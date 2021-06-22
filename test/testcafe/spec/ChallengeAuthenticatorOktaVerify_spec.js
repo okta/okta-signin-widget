@@ -9,7 +9,7 @@ import xhrChallengeTotpOktaVerifyOnly
   from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp-onlyOV';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
-const FORM_TITLE = 'Verify it\'s you with an authenticator';
+const FORM_TITLE = 'Verify it\'s you with a security method';
 const FORM_SUBTITLE = 'Select from the following options';
 const ENTER_CODE_TEXT = 'Enter a code';
 const FAST_PASS_TEXT = 'Use Okta Verify on this device';
