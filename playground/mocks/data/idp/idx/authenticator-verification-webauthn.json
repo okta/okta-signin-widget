@@ -358,5 +358,13 @@
         "mutable": false
       }
     ]
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "New Okta End User Dashboard",
+      "id": "DEFAULT_APP"
+    }
   }
 }
