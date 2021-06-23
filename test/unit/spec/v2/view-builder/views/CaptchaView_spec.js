@@ -63,6 +63,9 @@ describe('v2/view-builder/views/CaptchaView', function() {
   });
 
   it('Captcha gets loaded properly', function() {
+    // Mock browser locale
+    jest.spyOn(navigator, 'language', 'get').mockReturnValue('en');
+
     const spy = jest.spyOn(CaptchaView.prototype, '_loadCaptchaLib');
     testContext.init();
     expect(spy).toHaveBeenCalledWith('https://www.google.com/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en');

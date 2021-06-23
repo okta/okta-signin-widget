@@ -24,7 +24,7 @@ const RECAPTCHAV2_URL =
   `https://www.google.com/recaptcha/api.js?onload=${OktaSignInWidgetOnCaptchaLoadedCallback}&render=explicit`;
 
 const getCaptchaUrl = (baseURL, locale) => {
-  return `${baseURL}&hl=${locale || 'en'}`;
+  return `${baseURL}&hl=${locale || navigator.language}`;
 };
 
 export default View.extend({
