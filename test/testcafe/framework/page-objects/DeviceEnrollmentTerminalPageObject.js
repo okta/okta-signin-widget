@@ -2,6 +2,7 @@ import { Selector } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
 const COPY_BUTTON_CLASS = '.copy-clipboard-button';
+const COPY_ORG_LINK_BUTTON_CLASS = '.copy-org-clipboard-button';
 
 export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
   constructor(t) {
@@ -38,5 +39,13 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
 
   getCopiedValue() {
     return this.body.find(COPY_BUTTON_CLASS).getAttribute('data-clipboard-text');
+  }
+
+  getCopyOrgLinkButtonLabel() {
+    return this.getTextContent(COPY_ORG_LINK_BUTTON_CLASS);
+  }
+
+  getCopiedOrgLinkValue() {
+    return this.body.find(COPY_ORG_LINK_BUTTON_CLASS).getAttribute('data-clipboard-text');
   }
 }
