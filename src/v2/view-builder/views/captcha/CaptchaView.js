@@ -23,10 +23,6 @@ const HCAPTCHA_URL =
 const RECAPTCHAV2_URL = 
   `https://www.google.com/recaptcha/api.js?onload=${OktaSignInWidgetOnCaptchaLoadedCallback}&render=explicit`;
 
-const getCaptchaUrl = (baseURL, locale) => {
-  return `${baseURL}&hl=${locale || navigator.language}`;
-};
-
 export default View.extend({
   className: 'captcha-view',
 
@@ -135,11 +131,11 @@ export default View.extend({
     // the 'data-callback' attribute which the Captcha library uses to invoke the callback.
     window[OktaSignInWidgetOnCaptchaSolvedCallback] = onCaptchaSolved;
 
-    const locale = this.options.settings.get('language');
+    
     if (this.captchaConfig.type === 'HCAPTCHA') {
-      this._loadCaptchaLib(getCaptchaUrl(HCAPTCHA_URL, locale));
+      this._loadCaptchaLib(this._getCaptchaUrl(HCAPTCHA_URL));
     } else if (this.captchaConfig.type === 'RECAPTCHA_V2') {
-      this._loadCaptchaLib(getCaptchaUrl(RECAPTCHAV2_URL, locale));
+      this._loadCaptchaLib(this._getCaptchaUrl(RECAPTCHAV2_URL));
     }
   },
   
@@ -177,5 +173,10 @@ export default View.extend({
   _getCaptchaOject() {
     const captchaObject = this.captchaConfig.type === 'HCAPTCHA' ? window.hcaptcha : window.grecaptcha;
     return captchaObject;
+  },
+
+  _getCaptchaUrl(baseURL) {
+    const locale = this.options.settings.get('language');
+    return `${baseURL}&hl=${locale || navigator.language}`;
   }
 });
