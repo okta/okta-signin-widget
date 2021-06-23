@@ -23,6 +23,10 @@ const HCAPTCHA_URL =
 const RECAPTCHAV2_URL = 
   `https://www.google.com/recaptcha/api.js?onload=${OktaSignInWidgetOnCaptchaLoadedCallback}&render=explicit`;
 
+const getCaptchaUrl = (baseURL, locale) => {
+  return `${baseURL}&hl=${locale || 'en'}`;
+};
+
 export default View.extend({
   className: 'captcha-view',
 
@@ -131,10 +135,11 @@ export default View.extend({
     // the 'data-callback' attribute which the Captcha library uses to invoke the callback.
     window[OktaSignInWidgetOnCaptchaSolvedCallback] = onCaptchaSolved;
 
+    const locale = this.options.settings.get('language');
     if (this.captchaConfig.type === 'HCAPTCHA') {
-      this._loadCaptchaLib(HCAPTCHA_URL);
+      this._loadCaptchaLib(getCaptchaUrl(HCAPTCHA_URL, locale));
     } else if (this.captchaConfig.type === 'RECAPTCHA_V2') {
-      this._loadCaptchaLib(RECAPTCHAV2_URL);
+      this._loadCaptchaLib(getCaptchaUrl(RECAPTCHAV2_URL, locale));
     }
   },
   
