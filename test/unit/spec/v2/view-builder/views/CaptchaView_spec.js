@@ -8,13 +8,14 @@ import { WIDGET_FOOTER_CLASS } from 'v2/view-builder/utils/Constants';
 
 describe('v2/view-builder/views/CaptchaView', function() {
   let testContext;
+  let language = undefined;
   beforeEach(function() { 
     testContext = {};
     testContext.init = (captcha = enrollProfileWithReCaptcha.captcha.value) => {
       const appState = new AppState({
         captcha
       });
-      const settings = new Settings({ baseUrl: 'http://localhost:3000' });
+      const settings = new Settings({ baseUrl: 'http://localhost:3000', language });
       testContext.view = new CaptchaView({
         appState,
         settings,
@@ -62,12 +63,23 @@ describe('v2/view-builder/views/CaptchaView', function() {
   });
 
   it('Captcha gets loaded properly', function() {
+    // Mock browser locale
+    jest.spyOn(navigator, 'language', 'get').mockReturnValue('en');
+
     const spy = jest.spyOn(CaptchaView.prototype, '_loadCaptchaLib');
     testContext.init();
-    expect(spy).toHaveBeenCalledWith('https://www.google.com/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit');
+    expect(spy).toHaveBeenCalledWith('https://www.google.com/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en');
     
     testContext.init(enrollProfileWithHCaptcha.captcha.value);
-    expect(spy).toHaveBeenCalledWith('https://hcaptcha.com/1/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit');
+    expect(spy).toHaveBeenCalledWith('https://hcaptcha.com/1/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=en');
+
+    // Switch the language for SIW and ensure Captcha gets loaded with correct locale
+    language = 'fr';
+    testContext.init();
+    expect(spy).toHaveBeenCalledWith('https://www.google.com/recaptcha/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=fr');
+    
+    testContext.init(enrollProfileWithHCaptcha.captcha.value);
+    expect(spy).toHaveBeenCalledWith('https://hcaptcha.com/1/api.js?onload=OktaSignInWidgetOnCaptchaLoaded&render=explicit&hl=fr');
   });
 
   it('Captcha gets removed properly', function() {
