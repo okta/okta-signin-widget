@@ -131,10 +131,11 @@ export default View.extend({
     // the 'data-callback' attribute which the Captcha library uses to invoke the callback.
     window[OktaSignInWidgetOnCaptchaSolvedCallback] = onCaptchaSolved;
 
+    
     if (this.captchaConfig.type === 'HCAPTCHA') {
-      this._loadCaptchaLib(HCAPTCHA_URL);
+      this._loadCaptchaLib(this._getCaptchaUrl(HCAPTCHA_URL));
     } else if (this.captchaConfig.type === 'RECAPTCHA_V2') {
-      this._loadCaptchaLib(RECAPTCHAV2_URL);
+      this._loadCaptchaLib(this._getCaptchaUrl(RECAPTCHAV2_URL));
     }
   },
   
@@ -172,5 +173,10 @@ export default View.extend({
   _getCaptchaOject() {
     const captchaObject = this.captchaConfig.type === 'HCAPTCHA' ? window.hcaptcha : window.grecaptcha;
     return captchaObject;
+  },
+
+  _getCaptchaUrl(baseURL) {
+    const locale = this.options.settings.get('language');
+    return `${baseURL}&hl=${locale || navigator.language}`;
   }
 });
