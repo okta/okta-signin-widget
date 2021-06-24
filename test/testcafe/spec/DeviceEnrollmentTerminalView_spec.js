@@ -31,14 +31,18 @@ test
     await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Download Okta Verify');
     await t.expect(deviceEnrollmentTerminalPage.getBeaconClass()).contains('mfa-okta-verify');
     const content = deviceEnrollmentTerminalPage.getContentText();
-    await t.expect(content).contains('To sign in using Okta Verify, you');
-    await t.expect(content).contains('ll need to set up Okta Verify on this device. Download the Okta Verify app on the App Store.');
-    await t.expect(content).contains('In the app, follow the instructions to add an organizational account.');
+    await t.expect(content).contains('To sign in using Okta Verify, you will need to set up');
+    await t.expect(content).contains('Okta Verify on this device.');
+    await t.expect(content).contains('Tap the Copy Link button below.');
+    await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
+    await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
+    await t.expect(content).contains('On this device, open your browser, then paste the copied link into the address bar.');
+    await t.expect(content).contains('Download the Okta Verify app.');
+    await t.expect(content).contains('Open Okta Verify and follow the steps to add your account.');
     await t.expect(content).contains('When prompted, choose Sign In, then enter the sign-in URL:');
     await t.expect(content).contains('https://idx.okta1.com');
-    await t.expect(content).contains('Apple®, App Store, and the Apple logo are trademarks of Apple Inc.');
-    await t.expect(deviceEnrollmentTerminalPage.getAppStoreLink()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
-    await t.expect(deviceEnrollmentTerminalPage.getAppStoreLogo()).contains('ios-app-store-logo');
+    await t.expect(deviceEnrollmentTerminalPage.getCopyOrgLinkButtonLabel()).eql('Copy sign-in URL to clipboard');
+    await t.expect(content).contains('Finish setting up your account in Okta Verify, then try accessing this app again.');
   });
 
 test
@@ -47,14 +51,13 @@ test
     await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Download Okta Verify');
     await t.expect(deviceEnrollmentTerminalPage.getBeaconClass()).contains('mfa-okta-verify');
     const content = deviceEnrollmentTerminalPage.getContentText();
-    await t.expect(content).contains('To sign in using Okta Verify, you');
-    await t.expect(content).contains('ll need to set up Okta Verify on this device. Download the Okta Verify app on Google Play.');
-    await t.expect(content).contains('In the app, follow the instructions to add an organizational account.');
+    await t.expect(content).contains('To sign in using Okta Verify, you will need to set up');
+    await t.expect(content).contains('On Google Play, download the Okta Verify app.');
+    await t.expect(content).contains('Open Okta Verify and follow the steps to add your account.');
     await t.expect(content).contains('When prompted, choose Sign In, then enter the sign-in URL:');
     await t.expect(content).contains('https://idx.okta1.com');
-    await t.expect(content).contains('Google Play and the Google Play logo are trademarks of Google LLC.');
-    await t.expect(deviceEnrollmentTerminalPage.getAppStoreLink()).eql('https://play.google.com/store/apps/details?id=com.okta.android.auth');
-    await t.expect(deviceEnrollmentTerminalPage.getAppStoreLogo()).contains('android-app-store-logo');
+    await t.expect(deviceEnrollmentTerminalPage.getCopyOrgLinkButtonLabel()).eql('Copy sign-in URL to clipboard');
+    await t.expect(content).contains('Finish setting up your account in Okta Verify, then try accessing this app again.');
   });
 
 test
@@ -96,13 +99,18 @@ test
     await t.expect(deviceEnrollmentTerminalPage.getHeader()).eql('Download Okta Verify');
     await t.expect(deviceEnrollmentTerminalPage.getBeaconClass()).contains('mfa-okta-verify');
     const content = deviceEnrollmentTerminalPage.getContentText();
-    await t.expect(content).contains('To sign in using Okta Verify, you');
-    await t.expect(content).contains('ll need to set up Okta Verify on this device. Download the Okta Verify app on the App Store.');
-    await t.expect(content).contains('In the app, follow the instructions to add an organizational account.');
+    await t.expect(content).contains('To sign in using Okta Verify, you will need to set up');
+    await t.expect(content).contains('Okta Verify on this device.');
+    await t.expect(content).contains('Tap the Copy Link button below.');
+    await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
+    await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
+    await t.expect(content).contains('On this device, open your browser, then paste the copied link into the address bar.');
+    await t.expect(content).contains('Download the Okta Verify app.');
+    await t.expect(content).contains('Open Okta Verify and follow the steps to add your account.');
     await t.expect(content).contains('When prompted, choose Sign In, then enter the sign-in URL:');
     await t.expect(content).contains('https://rain.okta1.com');
-    await t.expect(deviceEnrollmentTerminalPage.getAppStoreLink()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
-    await t.expect(deviceEnrollmentTerminalPage.getAppStoreLogo()).contains('ios-app-store-logo');
+    await t.expect(deviceEnrollmentTerminalPage.getCopyOrgLinkButtonLabel()).eql('Copy sign-in URL to clipboard');
+    await t.expect(content).contains('Finish setting up your account in Okta Verify, then try accessing this app again.');
   });
 
 test
