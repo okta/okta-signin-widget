@@ -1,45 +1,74 @@
-import { View, loc } from 'okta';
+import { View, loc, internal } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import Enums from 'util/Enums';
+
+const { Notification } = internal.views.components;
+const { Clipboard } = internal.util;
 
 export default View.extend({
   template: hbs`
     <p class="explanation">
-      {{i18n code="enroll.explanation.p1" bundle="login" arguments="appStoreName"}}
+      {{i18n code="enroll.explanation.p1" bundle="login"}}
     </p>
-    <p class="explanation">
-      {{{i18n code="enroll.explanation.p2" bundle="login"}}}
-      <br>
-      <span class="no-translate">
-      {{signInUrl}}
-      </span>
-    </p>
-    <div data-se="app-store">
-      <a href="{{appStoreLink}}" target="_blank">
-        <div class="app-store-logo {{appStoreLogoClass}}"></div>
-      </a>
-    </div>
-    <div class="copy">
-      {{copy}}
-    </div>
+    <ol>
+      {{#if isIOS}}
+      <li>
+        {{i18n code="enroll.mdm.step1" bundle="login"}}
+        <a data-clipboard-text="{{appStoreLink}}" class="button link-button copy-clipboard-button">
+          {{i18n code="enroll.mdm.copyLink" bundle="login"}}
+        </a>
+      </li>
+      <li>{{i18n code="enroll.mdm.step2" bundle="login"}}</li>
+      <li>{{i18n code="enroll.oda.step3" bundle="login"}}</li>
+      {{/if}}
+      {{#if isAndroid}}
+      <li>{{i18n code="enroll.oda.android.step1" bundle="login"}}</li>
+      {{/if}}
+      <li>{{i18n code="enroll.oda.step1" bundle="login"}}</li>
+      <li>
+        {{i18n code="enroll.oda.step2" bundle="login"}}
+        <p class="org-signin-link">
+          <span class="no-translate">
+          {{signInUrl}}
+          </span>
+        </p>
+        <a data-clipboard-text="{{signInUrl}}" class="button link-button copy-org-clipboard-button">
+          {{i18n code="enroll.oda.org.copyLink" bundle="login"}}
+        </a>
+      </li>
+      <li>{{i18n code="enroll.oda.step6" bundle="login"}}</li>
+    </ol>
   `,
 
   getTemplateData() {
     const deviceEnrollment = this.options.appState.get('deviceEnrollment');
     const platform = (deviceEnrollment.platform || '').toLowerCase();
-    const templateData = {
+    const isIOS = platform === Enums.IOS;
+    return {
       signInUrl: deviceEnrollment.signInUrl,
-      appStoreLogoClass: `${platform}-app-store-logo`,
-      copy: loc(`enroll.copy.${platform}`, 'login'),
+      isIOS,
+      isAndroid: platform === Enums.ANDROID,
+      appStoreLink: isIOS ? Enums.OKTA_VERIFY_APPLE_APP_STORE_URL : null,
     };
-    if (platform === Enums.IOS) {
-      templateData.appStoreName = loc('enroll.appleStore', 'login');
-      templateData.appStoreLink = Enums.OKTA_VERIFY_APPLE_APP_STORE_URL;
-    }
-    if (platform === Enums.ANDROID) {
-      templateData.appStoreName = loc('enroll.googleStore', 'login');
-      templateData.appStoreLink = Enums.OKTA_VERIFY_GOOGLE_PLAY_STORE_URL;
-    }
-    return templateData;
+  },
+
+  postRender: function() {
+    // Attach each button to the respective 'data-clipboard-text'
+    Clipboard.attach('.copy-clipboard-button').done(() => {
+      let notification = new Notification({
+        message: loc('enroll.mdm.copyLink.success', 'login'),
+        level: 'success',
+      });
+      this.el.prepend(notification.render().el);
+      return false;
+    });
+    Clipboard.attach('.copy-org-clipboard-button').done(() => {
+      let notification = new Notification({
+        message: loc('enroll.oda.org.copyLink.success', 'login'),
+        level: 'success',
+      });
+      this.el.prepend(notification.render().el);
+      return false;
+    });
   },
 });
