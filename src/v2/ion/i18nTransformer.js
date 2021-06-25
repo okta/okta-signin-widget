@@ -87,7 +87,8 @@ const I18N_OVERRIDE_MAPPINGS = {
 
   'select-authenticator-unlock-account.authenticator.okta_email': 'oie.email.label',
   'select-authenticator-unlock-account.authenticator.phone_number': 'oie.phone.label',
-
+  'select-authenticator-unlock-account.authenticator.okta_verify.push': 'oie.okta_verify.push.title',
+  
   'authenticator-verification-data.okta_verify.authenticator.methodType.signed_nonce':
     'oie.okta_verify.signed_nonce.label',
   'authenticator-verification-data.okta_verify.authenticator.methodType.push': 'oie.okta_verify.push.title',
