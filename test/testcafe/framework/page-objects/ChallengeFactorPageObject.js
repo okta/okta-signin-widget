@@ -1,6 +1,7 @@
 import BasePageObject from './BasePageObject';
 import { Selector } from 'testcafe';
 
+const PASSCODE_FIELD_NAME = 'credentials.passcode';
 const SWITCH_FACTOR_SELECTOR = '.auth-footer .js-switchFactor';
 const SWITCH_AUTHENTICATOR_SELECTOR = '.auth-footer .js-switchAuthenticator';
 
@@ -46,6 +47,10 @@ export default class ChallengeFactorPageObject extends BasePageObject {
 
   getErrorFromErrorBox() {
     return this.form.getErrorBoxText();
+  }
+  
+  getInvalidOTPFieldError() {
+    return this.form.getTextBoxErrorMessage(PASSCODE_FIELD_NAME);
   }
 
   /**

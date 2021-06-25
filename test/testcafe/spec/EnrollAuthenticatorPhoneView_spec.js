@@ -5,7 +5,7 @@ import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-phone';
 import xhrAuthenticatorEnrollPhoneVoice from '../../../playground/mocks/data/idp/idx/authenticator-enroll-phone-voice';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
-import invalidCode from '../../../playground/mocks/data/idp/idx/error-email-verify';
+import invalidCode from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
 
 const smsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -142,7 +142,8 @@ test
     await challengePhonePageObject.verifyFactor('credentials.passcode', 'abcd');
     await challengePhonePageObject.clickNextButton();
     await challengePhonePageObject.waitForErrorBox();
-    await t.expect(challengePhonePageObject.getInvalidOTPError()).contains('You do not have permission to perform the requested action');
+    await t.expect(challengePhonePageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
+    await t.expect(challengePhonePageObject.getInvalidOTPError()).contains('We found some errors.');
   });
 
 test

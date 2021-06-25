@@ -10,7 +10,7 @@ import emailVerificationPollingShort from '../../../playground/mocks/data/idp/id
 import emailVerificationPollingLong from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling-long';
 import emailVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-no-profile';
 import success from '../../../playground/mocks/data/idp/idx/success';
-import invalidOTP from '../../../playground/mocks/data/idp/idx/error-email-verify';
+import invalidOTP from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
 import invalidOTPTooManyRequest from '../../../playground/mocks/data/idp/idx/error-429-too-many-request-submission';
 import magicLinkReturnTab from '../../../playground/mocks/data/idp/idx/terminal-return-email';
 import magicLinkExpired from '../../../playground/mocks/data/idp/idx/terminal-return-expired-email';
@@ -180,7 +180,8 @@ test
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton();
     await challengeEmailPageObject.waitForErrorBox();
-    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('You do not have permission to perform the requested action');
+    await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
+    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
   });
 
 test
@@ -258,7 +259,8 @@ test
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton();
     await challengeEmailPageObject.waitForErrorBox();
-    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('You do not have permission to perform the requested action');
+    await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
+    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
     await t.wait(5000);
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&

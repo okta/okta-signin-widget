@@ -5,7 +5,7 @@ import { checkConsoleMessages } from '../framework/shared';
 
 import xhrEnrollEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email';
 import success from '../../../playground/mocks/data/idp/idx/success';
-import invalidOTP from '../../../playground/mocks/data/idp/idx/error-email-verify';
+import invalidOTP from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
 
 const logger = RequestLogger(/challenge\/poll|challenge\/answer|challenge\/resend/,
   {
@@ -57,7 +57,8 @@ test
     await enrollEmailPageObject.enterCode('123456');
     await enrollEmailPageObject.form.clickSaveButton();
 
-    await t.expect(enrollEmailPageObject.form.getErrorBoxText()).contains('You do not have permission to perform the requested action');
+    await t.expect(enrollEmailPageObject.getCodeFieldError()).contains('Invalid code. Try again.');
+    await t.expect(enrollEmailPageObject.form.getErrorBoxText()).contains('We found some errors.');
   });
 
 test
