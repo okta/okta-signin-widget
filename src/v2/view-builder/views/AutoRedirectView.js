@@ -8,7 +8,7 @@ const Body = BaseForm.extend({
     const app = this.options.appState.get('app');
     const user = this.options.appState.get('user');
 
-    if (!this.showRedirectView) {
+    if (!this.redirectView || this.redirectView === 'Simplified') {
       titleString = loc('oie.success.text.signingIn.with.ellipsis', 'login');
       return titleString;
     }
@@ -33,14 +33,14 @@ const Body = BaseForm.extend({
   noButtonBar: true,
   initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
-    this.showRedirectView = this.settings.get('features.showRedirectView');
+    this.redirectView = this.settings.get('features.showRedirectView');
     this.model.set('useRedirect', true);
     this.trigger('save', this.model);
   },
 
   render() {
     BaseForm.prototype.render.apply(this, arguments);
-    if (this.showRedirectView) {
+    if (this.redirectView === 'Default') {
       this.add('<div class="okta-waiting-spinner"></div>');
     }
   }
