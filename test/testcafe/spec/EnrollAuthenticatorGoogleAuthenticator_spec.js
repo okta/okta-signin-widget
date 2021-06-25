@@ -5,7 +5,7 @@ import { checkConsoleMessages } from '../framework/shared';
 
 import xhrEnrollGoogleAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-enroll-google-authenticator.json';
 import success from '../../../playground/mocks/data/idp/idx/success';
-import invalidOTP from '../../../playground/mocks/data/idp/idx/error-email-verify';
+import invalidOTP from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
 
 const logger = RequestLogger(/challenge\/poll|challenge\/answer|challenge\/resend/,
   {
@@ -63,7 +63,8 @@ test
     await enrollGoogleAuthenticatorPageObject.enterCode('123456');
     await enrollGoogleAuthenticatorPageObject.submit();
 
-    await t.expect(enrollGoogleAuthenticatorPageObject.form.getErrorBoxText()).contains('You do not have permission to perform the requested action');
+    await t.expect(enrollGoogleAuthenticatorPageObject.getCodeFieldError()).contains('Invalid code. Try again.');
+    await t.expect(enrollGoogleAuthenticatorPageObject.form.getErrorBoxText()).contains('We found some errors.');
   });
 
 test
@@ -82,7 +83,8 @@ test
     await enrollGoogleAuthenticatorPageObject.enterCode('123456');
     await enrollGoogleAuthenticatorPageObject.submit();
 
-    await t.expect(enrollGoogleAuthenticatorPageObject.form.getErrorBoxText()).contains('You do not have permission to perform the requested action');
+    await t.expect(enrollGoogleAuthenticatorPageObject.getCodeFieldError()).contains('Invalid code. Try again.');
+    await t.expect(enrollGoogleAuthenticatorPageObject.form.getErrorBoxText()).contains('We found some errors.');
   });
 
 test

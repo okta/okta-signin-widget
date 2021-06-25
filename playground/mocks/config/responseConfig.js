@@ -15,7 +15,7 @@ const idx = {
 
   '/idp/idx/introspect': [
     'identify',
-    // 'error-email-verify',
+    // 'error-401-invalid-otp-passcode',
     // 'error-with-failure-redirect',
     // 'error-feature-not-enabled',
     // 'error-account-creation',
@@ -108,7 +108,7 @@ const idx = {
     // 'error-with-failure-redirect',
   ],
   '/idp/idx/challenge/answer': [
-    // 'error-email-verify',
+    // 'error-401-invalid-otp-passcode',
     // 'terminal-return-expired-email',
     // 'error-answer-passcode-invalid',
     // 'error-authenticator-enroll-security-question',
@@ -260,8 +260,8 @@ const windowAuthnLoopbackPollingFail = {
   '/idp/idx/authenticators/poll': [
     'identify-with-device-probing-loopback-2', // 2
     'identify-with-device-probing-loopback-3', // 3
-    'error-email-verify', // 4 as a signal of failure
-    'error-email-verify', // 5 should not come here as it has error out in step 4
+    'error-403-access-denied', // 4 as a signal of failure
+    'error-403-access-denied', // 5 should not come here as it has error out in step 4
   ],
 };
 

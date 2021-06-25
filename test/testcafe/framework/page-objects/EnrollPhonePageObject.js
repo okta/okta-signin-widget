@@ -1,5 +1,6 @@
 import BasePageObject from './BasePageObject';
 
+const PASSCODE_FIELD_NAME = 'credentials.passcode';
 const PHONE_NUMBER_SELECTOR = '.phone-authenticator-enroll__phone';
 const PHONE_NUMBER_EXTENSION_SELECTOR = '.phone-authenticator-enroll__phone-ext';
 const phoneFieldName = 'authenticator\\.phoneNumber';
@@ -58,6 +59,10 @@ export default class EnrollAuthenticatorPhonePageObject extends BasePageObject {
 
   getInvalidOTPError() {
     return this.form.getErrorBoxText();
+  }
+
+  getInvalidOTPFieldError() {
+    return this.form.getTextBoxErrorMessage(PASSCODE_FIELD_NAME);
   }
 
   resendEmailView() {
