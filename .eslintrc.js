@@ -13,7 +13,6 @@ module.exports = {
       // temporarily ignoring files that violate the @okta/okta/no-exclusive-language rule
       'files': [
         'packages/**/login.properties',
-        'packages/**/login_ok_PL.properties',
         'packages/**/country_fr.properties',
       ],
       'rules': {
