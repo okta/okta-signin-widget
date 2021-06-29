@@ -209,5 +209,5 @@ test.requestHooks(logger, mockWithoutIdentify)('custom idps should show correct 
 test.requestHooks(logger, mockWithoutIdentify)('view with only idp buttons should render "Back to Sign In" link', async t => {
   const identityPage = await setup(t);
   await t.expect(identityPage.getIdpsContainer().childElementCount).eql(6);
-  await t.expect(await identityPage.goBackLinkExists()).ok();
+  await t.expect(await identityPage.signoutLinkExists()).ok();
 });
