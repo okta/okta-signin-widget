@@ -1468,9 +1468,9 @@ features: {
 
 Customize the widget logging behaviour with the following config options.
 
-#### logEventsError
+#### external
 
-Boolean that enable or disable browser console log for [custom event callbacks](#events). Defaults to `true`.
+Boolean that enable or disable browser console error for errors from `custom callback functions`. Defaults to `true`.
 
 ## Events
 

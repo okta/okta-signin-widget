@@ -262,11 +262,11 @@ Expect.describe('OktaSignIn initialization', function() {
         signIn.trigger(event);
         expect(Logger.error).toHaveBeenCalledWith(`[okta-signin-widget] "${event}" event handler error:`, mockError);
       });
-      it(`traps third party errors (for ${event} event) in callbacks when logging.logEventsError config is true`, function() {
+      it(`traps third party errors (for ${event} event) in callbacks when logging.external config is true`, function() {
         signIn = new Widget({
           baseUrl: url,
           logging: {
-            logEventsError: true
+            external: true
           }
         });
         const mockError = new Error('mockerror');
@@ -276,11 +276,11 @@ Expect.describe('OktaSignIn initialization', function() {
         signIn.trigger(event);
         expect(Logger.error).toHaveBeenCalledWith(`[okta-signin-widget] "${event}" event handler error:`, mockError);
       });
-      it('does not log errors when logging.logEventsError config is false', () => {
+      it('does not log errors when logging.external config is false', () => {
         signIn = new Widget({
           baseUrl: url,
           logging: {
-            logEventsError: false
+            external: false
           }
         });
         const mockError = new Error('mockerror');
