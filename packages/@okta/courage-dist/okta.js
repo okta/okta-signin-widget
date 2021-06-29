@@ -6466,6 +6466,19 @@ var PasswordBoxForSigninWidget = _PasswordBox.default.extend({
   events: events
 });
 
+var Form = _BaseForm.default.extend({
+  scrollOnError: function scrollOnError() {
+    // scrollOnError is true by default. Override to false if `scrollOnError` has been set to false in widget settings.
+    var settings = this.options.settings;
+
+    if (settings.get('features.scrollOnError') === false) {
+      return false;
+    }
+
+    return true;
+  }
+});
+
 var Okta = {
   Backbone: _backbone.default,
   $: _jqueryWrapper.default,
@@ -6485,7 +6498,7 @@ var Okta = {
   ListView: _Backbone.default,
   Router: _BaseRouter.default,
   Controller: _BaseController.default,
-  Form: _BaseForm.default,
+  Form: Form,
   internal: {
     util: {
       Util: _Util.default,
