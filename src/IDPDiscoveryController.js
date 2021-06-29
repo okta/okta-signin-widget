@@ -16,6 +16,7 @@ import PrimaryAuthModel from 'models/PrimaryAuth';
 import BaseLoginController from 'util/BaseLoginController';
 import IDPDiscoveryForm from 'views/idp-discovery/IDPDiscoveryForm';
 import CustomButtons from 'views/primary-auth/CustomButtons';
+import DeviceFingerprint from 'util/DeviceFingerprint';
 
 export default PrimaryAuthController.extend({
   className: 'idp-discovery',
@@ -60,25 +61,46 @@ export default PrimaryAuthController.extend({
 
     this.listenTo(this.model, 'goToPrimaryAuth', function() {
       this.settings.set('username', this.model.get('username'));
-      if (this.settings.get('features.passwordlessAuth')) {
-        const primaryAuthModel = new PrimaryAuthModel(
-          {
-            username: this.model.get('username'),
-            multiOptionalFactorEnroll: this.options.settings.get('features.multiOptionalFactorEnroll'),
-            settings: this.options.settings,
-            appState: this.options.appState,
-          },
-          { parse: true }
-        );
-
-        // Events to set the transaction attributes on the app state.
-        this.addModelListeners(primaryAuthModel);
-        // Make the primary auth request
-        primaryAuthModel.save();
+      const self = this;
+      if (this.settings.get('features.deviceFingerprinting')) {
+        DeviceFingerprint.generateDeviceFingerprint(this.settings.get('baseUrl'), this.$el)
+          .then(function(fingerprint) {
+            self.options.appState.set('deviceFingerprint', fingerprint);
+            self.options.appState.set('username', self.model.get('username'));
+          })
+          .catch(function() {
+          // Keep going even if device fingerprint fails
+            self.options.appState.set('username', self.model.get('username'));
+          })
+          .finally(function() {
+            self.doPrimaryAuth();
+          });
       } else {
-        this.options.appState.set('disableUsername', true);
-        this.options.appState.trigger('navigate', 'signin');
+        self.doPrimaryAuth();
       }
     });
   },
+
+  doPrimaryAuth : function() {
+    if (this.settings.get('features.passwordlessAuth')) {
+      const primaryAuthModel = new PrimaryAuthModel(
+        {
+          username: this.model.get('username'),
+          multiOptionalFactorEnroll: this.options.settings.get('features.multiOptionalFactorEnroll'),
+          settings: this.options.settings,
+          appState: this.options.appState,
+        },
+        { parse: true }
+      );
+
+      // Events to set the transaction attributes on the app state.
+      this.addModelListeners(primaryAuthModel);
+      // Make the primary auth request
+      primaryAuthModel.save();
+    } else {
+      this.options.appState.set('disableUsername', true);
+      this.options.appState.trigger('navigate', 'signin');
+    }
+  },
+
 });

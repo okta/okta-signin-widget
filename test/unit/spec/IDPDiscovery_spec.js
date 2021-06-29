@@ -8,11 +8,13 @@ import IDPDiscoveryForm from 'helpers/dom/IDPDiscoveryForm';
 import Util from 'helpers/mocks/Util';
 import Expect from 'helpers/util/Expect';
 import resError from 'helpers/xhr/ERROR_webfinger';
+import resSuccess from 'helpers/xhr/SUCCESS';
 import resSuccessRepostIWA from 'helpers/xhr/IDPDiscoverySuccessRepost_IWA';
 import resSuccessIWA from 'helpers/xhr/IDPDiscoverySuccess_IWA';
 import resSuccessOktaIDP from 'helpers/xhr/IDPDiscoverySuccess_OktaIDP';
 import resSuccessSAML from 'helpers/xhr/IDPDiscoverySuccess_SAML';
 import resPasswordlessUnauthenticated from 'helpers/xhr/PASSWORDLESS_UNAUTHENTICATED';
+import resUnauthenticated from 'helpers/xhr/UNAUTHENTICATED';
 import resSecurityImage from 'helpers/xhr/security_image';
 import resSecurityImageFail from 'helpers/xhr/security_image_fail';
 import IDPDiscovery from 'models/IDPDiscovery';
@@ -853,6 +855,82 @@ Expect.describe('IDPDiscovery', function() {
           expect(ajaxArgs.requestHeaders['X-Device-Fingerprint']).toBeUndefined();
         });
     });
+    itp('renders primary auth with a device fingerprint for passwordless flow during idp discovery', 
+      function() {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
+          const deferred = Q.defer();
+          deferred.resolve('thisIsTheDeviceFingerprint');
+          return deferred.promise;
+        });
+        return setup({ features: {deviceFingerprinting: true,  passwordlessAuth: true}, })
+          .then(function(test) {
+            Util.resetAjaxRequests();
+            Util.mockRouterNavigate(test.router);
+            test.setNextWebfingerResponse(resSuccessOktaIDP);  
+            test.setNextResponse(resPasswordlessUnauthenticated);
+            test.form.setUsername('testuser@clouditude.net');
+            test.form.submit();
+            return Expect.waitForMfaVerify(test);
+          })
+          .then(function() {
+            expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
+            const ajaxArgs = Util.getAjaxRequest(0);
+            expect(ajaxArgs.requestHeaders['x-device-fingerprint']).toBe('thisIsTheDeviceFingerprint');
+          });
+      });
+    itp('renders primary auth with a device fingerprint when passwordless is disabled during idp discovery', 
+      function() {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
+          const deferred = Q.defer();
+          deferred.resolve('thisIsTheDeviceFingerprint');
+          return deferred.promise;
+        });
+        return setup({ features: {deviceFingerprinting: true}})
+          .then(function(test) {
+            Util.mockRouterNavigate(test.router);
+            test.setNextWebfingerResponse(resSuccessOktaIDP);  
+            test.setNextResponse(resUnauthenticated);
+            test.form.setUsername('testuser@clouditude.net');
+            test.form.submit();
+            return Expect.waitForPrimaryAuth(test);
+          })
+          .then(function(test) {
+            Util.resetAjaxRequests();
+            test.form.setPassword('pass');
+            test.form.submit();
+            test.setNextResponse(resSuccess);
+            return Expect.waitForSpyCall(test.successSpy, test);
+          })
+          .then(function() {
+            expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
+            const ajaxArgs = Util.getAjaxRequest(0);
+            expect(ajaxArgs.requestHeaders['x-device-fingerprint']).toBe('thisIsTheDeviceFingerprint');
+          });
+      });
+    itp('renders primary auth when device fingerprint generation fails', 
+      function() {
+        spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
+          const deferred = Q.defer();
+          deferred.reject('testFailure');
+          return deferred.promise;
+        });
+        return setup({ features: {deviceFingerprinting: true,  passwordlessAuth: true}, })
+          .then(function(test) {
+            Util.resetAjaxRequests();
+            Util.mockRouterNavigate(test.router);
+            test.setNextWebfingerResponse(resSuccessOktaIDP);  
+            test.setNextResponse(resPasswordlessUnauthenticated);
+            test.form.setUsername('testuser@clouditude.net');
+            test.form.submit();
+            return Expect.waitForMfaVerify(test);
+          })
+          .then(function() {
+            expect(DeviceFingerprint.generateDeviceFingerprint).toHaveBeenCalled();
+            const ajaxArgs = Util.getAjaxRequest(0);
+            expect(ajaxArgs.url).toBe('https://foo.com/api/v1/authn');
+            expect(ajaxArgs.requestHeaders['x-device-fingerprint']).toBeUndefined();
+          });
+      });
   });
 
   describe('events', function() {
