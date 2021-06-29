@@ -7,6 +7,7 @@ const NEEDHELP_SELECTOR = 'a[data-se="help"]';
 const FORGOT_PASSWORD_SELECTOR = 'a[data-se="forgot-password"]';
 const CUSTOM_CHECKBOX_SELECTOR = '.custom-checkbox';
 const REMEMBER_ME_FIELD_NAME = 'rememberMe';
+const BACK_TO_SIGN_IN_SELECTOR = '.auth-footer .js-go-back';
 const CUSTOM_HELP_LINK_SELECTOR = '.auth-footer .js-help';
 const CUSTOM_HELP_LINKS_SELECTOR = '.auth-footer .js-custom';
 const CUSTOM_BUTTON = '.custom-buttons .okta-custom-buttons-container .default-custom-button';
@@ -188,5 +189,9 @@ export default class IdentityPageObject extends BasePageObject {
 
   getCustomIdpButtonLabel(index) {
     return Selector(CUSTOM_IDP_BUTTON).nth(index).textContent;
+  }
+
+  async hasBackToSignInLink() {
+    return await Selector(BACK_TO_SIGN_IN_SELECTOR).count;
   }
 }

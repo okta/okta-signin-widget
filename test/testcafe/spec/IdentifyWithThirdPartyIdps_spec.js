@@ -205,3 +205,9 @@ test.requestHooks(logger, mockWithoutIdentify)('custom idps should show correct 
   await t.expect(identityPage.getCustomIdpButtonLabel(0)).contains('Sign in with My SAML IDP');
   await t.expect(identityPage.getCustomIdpButtonLabel(1)).eql('Sign in with SAML IDP');
 });
+
+test.requestHooks(logger, mockWithoutIdentify)('view with only idp buttons should render "Back to Sign In" link', async t => {
+  const identityPage = await setup(t);
+  await t.expect(identityPage.getIdpsContainer().childElementCount).eql(6);
+  await t.expect(await identityPage.hasBackToSignInLink()).ok();
+});
