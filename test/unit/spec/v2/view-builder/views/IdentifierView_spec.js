@@ -1,4 +1,4 @@
-import { Model } from 'okta';
+import { Model, $ } from 'okta';
 import IdentifierView from 'v2/view-builder/views/IdentifierView';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
@@ -89,5 +89,20 @@ describe('v2/view-builder/views/IdentifierView', function() {
     // No IDP buttons should be rendered.
     expect(testContext.view.$el.find('.o-form-fieldset-container .sign-in-with-idp').length).toEqual(0);
     expect(testContext.view.$el.find('.o-form-button-bar .sign-in-with-idp').length).toEqual(0);
+  });
+
+  it('view renders IDP buttons correctly with tooltip', function() {
+    jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
+    testContext.init();
+
+    // Get the idp buttons
+    const buttons = testContext.view.$el.find('.o-form-button-bar .sign-in-with-idp .social-auth-button.link-button');
+
+    // Ensure the button tooltip is equal to the button title
+    buttons.each(function(){
+      expect($(this).attr('title')).toEqual($(this).text());
+    });
   });
 });

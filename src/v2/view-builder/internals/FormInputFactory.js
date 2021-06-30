@@ -137,6 +137,7 @@ const createIdpButtons = (remediations) => {
     const button = {
       attributes: {
         'data-se': `social-auth-${type}-button`,
+        'title': displayName // We add a tooltip in case the name gets truncated if too long
       },
       className: classNames.join(' '),
       title: displayName,
