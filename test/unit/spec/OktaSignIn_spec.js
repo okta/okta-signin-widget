@@ -193,6 +193,9 @@ Expect.describe('OktaSignIn initialization', function() {
   });
 
   Expect.describe('events', function() {
+    beforeEach(function() {
+      spyOn(Logger, 'error');
+    });
     afterEach(function() {
       signIn.remove();
       signIn.off();
@@ -249,6 +252,30 @@ Expect.describe('OktaSignIn initialization', function() {
           done();
         }
       });
+    });
+    ['ready', 'afterError', 'afterRender'].forEach(event => {
+      it(`traps third party errors (for ${event} event) in callbacks`, function() {
+        const mockError = new Error('mockerror');
+        const fn = function() {
+          signIn.on(event, function() {
+            throw mockError;
+          });
+          signIn.trigger(event);
+        };
+        expect(fn).not.toThrowError(mockError);
+        expect(Logger.error).toHaveBeenCalledWith(`[okta-signin-widget] "${event}" event handler error:`, mockError);
+      });
+    });
+    it('does not trap errors non-registered events', () => {
+      const mockError = new Error('mockerror');
+      const fn = function() {
+        signIn.on('not-widget-event', function() {
+          throw mockError;
+        });
+        signIn.trigger('not-widget-event');
+      };
+      expect(fn).toThrowError(mockError);
+      expect(Logger.error).not.toHaveBeenCalled();
     });
   });
 });
