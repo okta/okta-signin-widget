@@ -262,34 +262,6 @@ Expect.describe('OktaSignIn initialization', function() {
         signIn.trigger(event);
         expect(Logger.error).toHaveBeenCalledWith(`[okta-signin-widget] "${event}" event handler error:`, mockError);
       });
-      it(`traps third party errors (for ${event} event) in callbacks when logging.external config is true`, function() {
-        signIn = new Widget({
-          baseUrl: url,
-          logging: {
-            external: true
-          }
-        });
-        const mockError = new Error('mockerror');
-        signIn.on(event, function() {
-          throw mockError;
-        });
-        signIn.trigger(event);
-        expect(Logger.error).toHaveBeenCalledWith(`[okta-signin-widget] "${event}" event handler error:`, mockError);
-      });
-      it('does not log errors when logging.external config is false', () => {
-        signIn = new Widget({
-          baseUrl: url,
-          logging: {
-            external: false
-          }
-        });
-        const mockError = new Error('mockerror');
-        signIn.on(event, function() {
-          throw mockError;
-        });
-        signIn.trigger(event);
-        expect(Logger.error).not.toHaveBeenCalled();
-      });  
     });
     it('does not trap errors non-registered events', () => {
       try {

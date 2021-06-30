@@ -87,7 +87,6 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
   - [Smart Card IdP](#smart-card-idp)
   - [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
   - [Feature flags](#feature-flags)
-  - [Logging](#logging)
 - [Events](#events)
   - [ready](#ready)
   - [afterError](#aftererror)
@@ -1463,14 +1462,6 @@ features: {
 - **features.idpDiscovery** - Enable [IdP Discovery](#idp-discovery). Defaults to `false`.
 
 - **features.showPasswordToggleOnSignInPage** - End users can now toggle visibility of their password on the Okta Sign-In page, allowing end users to check their password before they click Sign In. This helps prevent account lock outs caused by end users exceeding your org's permitted number of failed sign-in attempts. Note that passwords are visible for 30 seconds and then hidden automatically. Defaults to `false`.
-
-### Logging
-
-Customize the widget logging behaviour with the following config options.
-
-#### external
-
-Boolean that enable or disable browser console error for errors from `custom callback functions`. Defaults to `true`.
 
 ## Events
 
