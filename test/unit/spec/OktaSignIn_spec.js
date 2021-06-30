@@ -256,21 +256,26 @@ Expect.describe('OktaSignIn initialization', function() {
     ['ready', 'afterError', 'afterRender'].forEach(event => {
       it(`traps third party errors (for ${event} event) in callbacks`, function() {
         const mockError = new Error('mockerror');
-        signIn.on(event, function() {
-          throw mockError;
-        });
-        signIn.trigger(event);
+        const fn = function() {
+          signIn.on(event, function() {
+            throw mockError;
+          });
+          signIn.trigger(event);
+        };
+        expect(fn).not.toThrowError(mockError);
         expect(Logger.error).toHaveBeenCalledWith(`[okta-signin-widget] "${event}" event handler error:`, mockError);
       });
     });
     it('does not trap errors non-registered events', () => {
-      try {
+      const mockError = new Error('mockerror');
+      const fn = function() {
         signIn.on('not-widget-event', function() {
-          throw new Error('mockerror');
+          throw mockError;
         });
         signIn.trigger('not-widget-event');
-        expect(Logger.error).not.toHaveBeenCalled();
-      } catch (err) {} // eslint-disable-line no-empty
+      };
+      expect(fn).toThrowError(mockError);
+      expect(Logger.error).not.toHaveBeenCalled();
     });
   });
 });
