@@ -110,9 +110,6 @@ test.requestHooks(mockWithoutIdentify)('should only render idp buttons with iden
   await t.expect(identityPage.getIdpButton('.social-auth-google-button').textContent).eql('Sign in with Google');
   await t.expect(identityPage.getIdpButton('.social-auth-linkedin-button').textContent).eql('Sign in with LinkedIn');
   await t.expect(identityPage.getIdpButton('.social-auth-microsoft-button').textContent).eql('Sign in with Microsoft');
-
-  // no signout link at enroll page
-  await t.expect(await identityPage.signoutLinkExists()).notOk();
 });
 
 test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP login page with basic Signing in message', async t => {
@@ -204,4 +201,10 @@ test.requestHooks(logger, mockWithoutIdentify)('custom idps should show correct 
   await t.expect(identityPage.getIdpsContainer().childElementCount).eql(6);
   await t.expect(identityPage.getCustomIdpButtonLabel(0)).contains('Sign in with My SAML IDP');
   await t.expect(identityPage.getCustomIdpButtonLabel(1)).eql('Sign in with SAML IDP');
+});
+
+test.requestHooks(logger, mockWithoutIdentify)('view with only idp buttons should render "Back to Sign In" link', async t => {
+  const identityPage = await setup(t);
+  await t.expect(identityPage.getIdpsContainer().childElementCount).eql(6);
+  await t.expect(await identityPage.signoutLinkExists()).ok();
 });
