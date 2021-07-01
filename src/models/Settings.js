@@ -98,7 +98,8 @@ export default Model.extend({
     'features.useDeviceFingerprintForSecurityImage': ['boolean', false, true],
     'features.showPasswordRequirementsAsHtmlList': ['boolean', false, false],
     'features.mfaOnlyFlow': ['boolean', false, false],
-
+    'features.scrollOnError': ['boolean', false, true],
+    
     defaultCountryCode: ['string', false, 'US'],
 
     // I18N

@@ -59,6 +59,17 @@ const events = {
 const TextBoxForSigninWidget = TextBox.extend({ events });
 const PasswordBoxForSigninWidget = PasswordBox.extend({ events });
 
+const Form = BaseForm.extend({
+  scrollOnError() {
+    // scrollOnError is true by default. Override to false if `scrollOnError` has been set to false in widget settings.
+    const { settings } = this.options;
+    if (settings.get('features.scrollOnError') === false) {
+      return false;
+    }
+    return true;
+  }
+});
+
 const Okta = {
   Backbone: Backbone,
 
@@ -94,7 +105,7 @@ const Okta = {
 
   Controller: BaseController,
 
-  Form: BaseForm,
+  Form,
 
   internal: {
     util: {
