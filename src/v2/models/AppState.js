@@ -70,8 +70,8 @@ export default Model.extend({
   },
 
   isIdentifierOnlyView() {
-    return !this.get('remediations')?.find(({name}) => name === 'identify')
-      ?.uiSchema?.find(({name}) => name === 'credentials.passcode');
+    return !this.get('remediations')?.find(({ name }) => name === 'identify')
+      ?.uiSchema?.find(({ name }) => name === 'credentials.passcode');
   },
 
   hasRemediationObject(formName) {
@@ -238,15 +238,21 @@ export default Model.extend({
 
   clearAppStateCache() {
     // clear appState before setting new values
-    this.clear({ silent: true });
+    const attrs = {};
+    for (var key in this.attributes) {
+      if (key !== 'currentFormName') {
+        attrs[key] = void 0;
+      }
+    }
+    this.set(attrs, Object.assign({}, {unset: true, silent: true}));
     // clear cache for derived props.
     this.trigger('cache:clear');
   },
 
   setIonResponse(transformedResponse) {
-    if (!this.shouldReRenderView(transformedResponse)) {
-      return;
-    }
+    // if (!this.shouldReRenderView(transformedResponse)) {
+    //   return;
+    // }
 
     // `currentFormName` is default to first form of remediations or nothing.
     let currentFormName = null;
