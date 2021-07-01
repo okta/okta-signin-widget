@@ -1,6 +1,6 @@
 import { RequestMock, RequestLogger, Selector, ClientFunction } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 import identifyWithName from '../../../playground/mocks/data/idp/idx/identify';
 import identifyWithIdpsIdentify from '../../../playground/mocks/data/idp/idx/identify-with-third-party-idps';
 import identifyWithIdpsNoIdentify from '../../../playground/mocks/data/idp/idx/identify-with-only-third-party-idps';
@@ -52,6 +52,7 @@ fixture('Identify + IDPs');
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
+
   return identityPage;
 }
 
@@ -63,6 +64,7 @@ async function setupDirectAuth(t) {
     clientId: 'fake',
     redirectUri: 'http://doesnot-matter',
   });
+  await a11yCheck(t);
   return identityPage;
 }
 
@@ -100,6 +102,7 @@ test
 test.requestHooks(mockWithoutIdentify)('should only render idp buttons with identifier form ', async t => {
   const identityPage = await setup(t);
 
+  await a11yCheck(t);
   await checkConsoleMessages({
     controller: null,
     formName: 'redirect-idp',
@@ -164,6 +167,7 @@ test.requestHooks(logger, mockOnlyOneIdpAppUser)('should auto redirect to 3rd pa
 test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('IDP discovery will auto redirect to 3rd party IDP after identify with name', async t => {
   const identityPage = await setup(t);
 
+  await a11yCheck(t);
   await checkConsoleMessages({
     controller: 'primary-auth',
     formName: 'identify',
@@ -201,6 +205,7 @@ test.requestHooks(logger, mockIdpDiscoveryWithOneIdp)('Direct auth: IDP discover
 
 test.requestHooks(logger, mockWithoutIdentify)('custom idps should show correct label', async t => {
   const identityPage = await setup(t);
+  await a11yCheck(t);
   await t.expect(identityPage.getIdpsContainer().childElementCount).eql(6);
   await t.expect(identityPage.getCustomIdpButtonLabel(0)).contains('Sign in with My SAML IDP');
   await t.expect(identityPage.getCustomIdpButtonLabel(1)).eql('Sign in with SAML IDP');

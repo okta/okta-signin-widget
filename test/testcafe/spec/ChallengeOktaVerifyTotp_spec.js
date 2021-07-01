@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeOktaVerifyTotpPageObject from '../framework/page-objects/ChallengeOktaVerifyTotpPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 
 import totpChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp';
 import success from '../../../playground/mocks/data/idp/idx/success';
@@ -32,6 +32,8 @@ fixture('Challenge Okta Verify Totp Form');
 async function setup(t) {
   const challengeOktaVerifyTOTPPageObject = new ChallengeOktaVerifyTotpPageObject(t);
   await challengeOktaVerifyTOTPPageObject.navigateToPage();
+  await a11yCheck(t);
+
   return challengeOktaVerifyTOTPPageObject;
 }
 

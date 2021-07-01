@@ -4,6 +4,7 @@ import enduserEmailConsentChallengeResponse from '../../../playground/mocks/data
 import enduserEmailConsentChallengeSuccess from '../../../playground/mocks/data/idp/idx/terminal-return-email-consent';
 import enduserEmailConsentChallengeDenied from '../../../playground/mocks/data/idp/idx/terminal-return-email-consent-denied';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
+import { a11yCheck } from '../framework/shared';
 
 const requestLogger = RequestLogger(/consent/, {
   logRequestBody: true,
@@ -27,6 +28,8 @@ fixture('Enduser Email Consent');
 async function setup(t) {
   const consentPageObject = new EnduserConsentPageObject(t);
   await consentPageObject.navigateToPage();
+  await a11yCheck(t);
+
   return consentPageObject;
 }
 

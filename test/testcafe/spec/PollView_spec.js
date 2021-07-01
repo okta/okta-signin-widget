@@ -6,6 +6,7 @@ import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/iden
 import xhrSafeModepolling from '../../../playground/mocks/data/idp/idx/safe-mode-polling';
 import xhrSafeModepollingWithRefreshedInterval from '../../../playground/mocks/data/idp/idx/safe-mode-polling-refreshed-interval';
 import xhrError from '../../../playground/mocks/data/idp/idx/error-safe-mode-polling';
+import { a11yCheck } from '../framework/shared';
 
 const identifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -29,6 +30,7 @@ async function setup(t) {
   const identityPage = new IdentityPageObject(t);
 
   await identityPage.navigateToPage();
+  await a11yCheck(t);
   return identityPage;
 }
 

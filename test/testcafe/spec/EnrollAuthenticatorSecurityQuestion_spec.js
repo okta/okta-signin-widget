@@ -40,12 +40,12 @@ fixture('Enroll Security Question Form');
 async function setup(t) {
   const enrollSecurityQuestionPage = new EnrollSecurityQuestionPageObject(t);
   await enrollSecurityQuestionPage.navigateToPage();
-
   await checkConsoleMessages({
     controller: 'enroll-question',
     formName: 'enroll-authenticator',
     authenticatorKey: 'security_question',
   });
+  // await a11yCheck(t); // Form elements must have labels OKTA-TODO
 
   return enrollSecurityQuestionPage;
 }

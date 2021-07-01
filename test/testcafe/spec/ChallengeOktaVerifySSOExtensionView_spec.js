@@ -4,7 +4,7 @@ import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identifyUserVerificationWithCredentialSSOExtension from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-credential-sso-extension';
 import identifyWithNoAppleCredentialSSOExtension from '../../../playground/mocks/data/idp/idx/identify-with-no-sso-extension';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
-import { Constants } from '../framework/shared';
+import { a11yCheck, Constants } from '../framework/shared';
 import { getStateHandleFromSessionStorage } from '../framework/shared';
 
 const logger = RequestLogger(/introspect/);
@@ -28,18 +28,24 @@ const credentialSSONotExistMock = RequestMock()
   .onRequestTo(/idp\/idx\/authenticators\/sso_extension\/transactions\/456\/verify\/cancel/)
   .respond(identify);
 
+async function setup(t) {
+  const ssoExtensionPage = new BasePageObject(t);
+  await ssoExtensionPage.navigateToPage();
+  await a11yCheck(t);
+
+  return ssoExtensionPage;
+}
+
 
 fixture('App SSO Extension View from MFA list');
 
 test
   .requestHooks(logger, credentialSSOExtensionMock)('with credential SSO Extension approach, opens the verify URL', async t => {
-    const ssoExtensionPage = new BasePageObject(t);
-    await ssoExtensionPage.navigateToPage();
+    const ssoExtensionPage = await setup(t);
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
     )).eql(1);
-
     // verify ui content
     const ssoExtensionHeader = new Selector('.device-apple-sso-extension .siw-main-header');
     await t.expect(ssoExtensionHeader.find('.beacon-container').exists).eql(false);
@@ -62,8 +68,7 @@ test
 
 test
   .requestHooks(credentialSSONotExistLogger, credentialSSONotExistMock)('cancels transaction when the authenticator does not exist', async t => {
-    const ssoExtensionPage = new BasePageObject(t);
-    await ssoExtensionPage.navigateToPage();
+    await setup(t);
     await t.expect(credentialSSONotExistLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)

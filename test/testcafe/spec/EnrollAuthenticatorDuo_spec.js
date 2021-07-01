@@ -1,5 +1,5 @@
 import { RequestMock } from 'testcafe';
-import { checkConsoleMessages, renderWidget } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages, renderWidget } from '../framework/shared';
 import DuoPageObject from '../framework/page-objects/DuoPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import xhrAuthenticatorEnrollDuo from '../../../playground/mocks/data/idp/idx/authenticator-enroll-duo';
@@ -23,6 +23,7 @@ async function setup(t) {
     authenticatorKey: 'duo',
     methodType: 'idp',
   });
+  await a11yCheck(t);
 
   return enrollDuoPage;
 }

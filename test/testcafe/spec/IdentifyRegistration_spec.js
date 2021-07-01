@@ -1,5 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
-import { checkConsoleMessages, renderWidget as rerenderWidget } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages, renderWidget as rerenderWidget } from '../framework/shared';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import RegistrationPageObject from '../framework/page-objects/RegistrationPageObject';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
@@ -58,6 +58,7 @@ async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
   await identityPage.clickSignUpLink();
+  await a11yCheck(t);
   return new RegistrationPageObject(t);
 }
 async function verifyRegistrationPageEvent() {

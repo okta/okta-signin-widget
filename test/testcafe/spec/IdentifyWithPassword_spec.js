@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import IdentityRecoverPageObject from '../framework/page-objects/IdentifyRecoverPageObject';
-import { checkConsoleMessages, renderWidget } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages, renderWidget } from '../framework/shared';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
 import xhrIdentifyRecover from '../../../playground/mocks/data/idp/idx/identify-recovery';
@@ -38,6 +38,7 @@ async function setup(t) {
     authenticatorKey: 'okta_password',
     methodType: 'password',
   });
+  await a11yCheck(t);
 
   return identityPage;
 }

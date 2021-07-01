@@ -5,6 +5,7 @@ import terminalReturnExpiredEmail from '../../../playground/mocks/data/idp/idx/t
 import terminalRegistrationEmail from '../../../playground/mocks/data/idp/idx/terminal-registration';
 import terminalReturnEmailConsentDenied from '../../../playground/mocks/data/idp/idx/terminal-enduser-email-consent-denied';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
+import { a11yCheck } from '../framework/shared';
 
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -31,6 +32,8 @@ fixture('Terminal view');
 async function setup(t) {
   const terminalPageObject = new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
+  await a11yCheck(t);
+
   return terminalPageObject;
 }
 

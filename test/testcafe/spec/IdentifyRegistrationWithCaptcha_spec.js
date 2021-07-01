@@ -1,5 +1,5 @@
 import { RequestMock, Selector, RequestLogger } from 'testcafe';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 import RegistrationPageObject from '../framework/page-objects/RegistrationPageObject';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 import enrollProfileNewWithRecaptcha from '../../../playground/mocks/data/idp/idx/enroll-profile-new-with-recaptcha-v2';
@@ -36,12 +36,8 @@ identifyWithoutEnrollProfile.remediation.value = identifyWithoutEnrollProfile
   .value
   .filter(r => r.name !== 'select-enroll-profile');
 
-fixture('Registration With Captcha');
-
-test.requestHooks(reCaptchaRequestLogger, mockWithReCaptcha)('should show register page directly and be able to create account with reCaptcha enabled', async t => {
+async function setup(t) {
   const registrationPage = new RegistrationPageObject(t);
-  
-  // navigate to /signin/register and show registration page immediately
   await registrationPage.navigateToPage();
   await checkConsoleMessages([
     'ready',
@@ -51,7 +47,16 @@ test.requestHooks(reCaptchaRequestLogger, mockWithReCaptcha)('should show regist
       formName: 'enroll-profile',
     },
   ]);
-  
+  await a11yCheck(t);
+
+  return registrationPage;
+}
+
+fixture('Registration With Captcha');
+
+test.requestHooks(reCaptchaRequestLogger, mockWithReCaptcha)('should show register page directly and be able to create account with reCaptcha enabled', async t => {
+  const registrationPage = await setup(t);
+
   // click register button
   await registrationPage.fillFirstNameField('abc');
   await registrationPage.fillLastNameField('xyz');
@@ -69,18 +74,7 @@ test.requestHooks(reCaptchaRequestLogger, mockWithReCaptcha)('should show regist
 });
 
 test.requestHooks(mockWithHCaptcha)('should show register page directly and be able to create account with hCaptcha enabled', async t => {
-  const registrationPage = new RegistrationPageObject(t);
-
-  // navigate to /signin/register and show registration page immediately
-  await registrationPage.navigateToPage();
-  await checkConsoleMessages([
-    'ready',
-    'afterRender',
-    {
-      controller: 'registration',
-      formName: 'enroll-profile',
-    },
-  ]);
+  const registrationPage = await setup(t);
 
   // click register button
   await registrationPage.fillFirstNameField('abc');

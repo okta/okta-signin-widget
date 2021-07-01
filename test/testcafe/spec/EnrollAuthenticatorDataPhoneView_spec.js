@@ -28,6 +28,7 @@ async function setup(t) {
     formName: 'authenticator-enrollment-data',
     authenticatorKey: 'phone_number',
   });
+  // await a11yCheck(t); Form elements must have labels OKTA-TODO
 
   return enrollPhonePage;
 }

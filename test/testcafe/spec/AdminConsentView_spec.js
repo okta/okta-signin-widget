@@ -6,7 +6,6 @@ import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import xhrConsentAdmin from '../../../playground/mocks/data/idp/idx/consent-admin';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
-
 const consentAdminMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrConsentAdmin)
@@ -25,6 +24,8 @@ fixture('AdminConsent');
 async function setup(t) {
   const consentPage = new ConsentPageObject(t);
   await consentPage.navigateToPage();
+  // await a11yCheck(t); // Image embedded in an anchor tag without discernible text OKTA-TODO
+
   return consentPage;
 }
 

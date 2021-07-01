@@ -1,6 +1,6 @@
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengePhonePageObject from '../framework/page-objects/ChallengePhonePageObject';
-import { checkConsoleMessages, renderWidget } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages, renderWidget } from '../framework/shared';
 import { RequestMock, RequestLogger } from 'testcafe';
 import phoneVerificationSMSThenVoice from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-sms-then-voice';
 import phoneVerificationVoiceThenSMS from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-then-sms';
@@ -113,6 +113,8 @@ fixture('Challenge Phone Form');
 async function setup(t) {
   const challengePhonePageObject = new ChallengePhonePageObject(t);
   await challengePhonePageObject.navigateToPage();
+  await a11yCheck(t);
+
   return challengePhonePageObject;
 }
 

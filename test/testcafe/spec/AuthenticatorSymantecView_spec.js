@@ -1,6 +1,6 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import SymantecAuthenticatorPageObject from '../framework/page-objects/SymantecAuthenticatorPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 import xhrEnrollSymantecAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-enroll-symantec-vip';
 import xhrVerifySymantecAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-verification-symantec-vip';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
@@ -40,6 +40,7 @@ const verifyWithInvalidPasscodeMock = RequestMock()
 async function setup(t) {
   const pageObject = new SymantecAuthenticatorPageObject(t);
   await pageObject.navigateToPage();
+  await a11yCheck(t);
 
   return pageObject;
 }

@@ -4,7 +4,7 @@ import xhrInvalidOTP from '../../../playground/mocks/data/idp/idx/error-authenti
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import ChallengeCustomOTPPageObject from '../framework/page-objects/ChallengeCustomOTPPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 
 const mockChallengeAuthenticatorCustomOTP = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -23,6 +23,8 @@ fixture('Challenge Authenticator Custom OTP');
 async function setup(t) {
   const challengeCustomOTPPage = new ChallengeCustomOTPPageObject(t);
   await challengeCustomOTPPage.navigateToPage();
+  await a11yCheck(t);
+
   return challengeCustomOTPPage;
 }
 

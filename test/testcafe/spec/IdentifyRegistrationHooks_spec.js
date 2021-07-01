@@ -1,5 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
-import { renderWidget } from '../framework/shared';
+import { a11yCheck, renderWidget } from '../framework/shared';
 import RegistrationPageObject from '../framework/page-objects/RegistrationPageObject';
 import enrollProfile from '../../../playground/mocks/data/idp/idx/enroll-profile';
 import success from '../../../playground/mocks/data/idp/idx/terminal-registration';
@@ -24,6 +24,8 @@ fixture('Registration Hooks');
 async function setup(t) {
   const registrationPage = new RegistrationPageObject(t);
   await registrationPage.navigateToPage();
+  await a11yCheck(t);
+
   return registrationPage;
 }
 
