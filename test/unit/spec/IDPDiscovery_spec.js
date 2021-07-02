@@ -364,12 +364,6 @@ Expect.describe('IDPDiscovery', function() {
       });
     });
     itp('does not show a beacon if features.securityImage is false', function() {
-
-      // BaseLoginRouter will render twice if language bundles are not loaded:
-      // https://github.com/okta/okta-signin-widget/blob/master/src/util/BaseLoginRouter.js#L202
-      // We are not testing i18n, so we can mock language bundles as loaded
-      Util.mockBundles();
-
       return setup().then(function(test) {
         expect(test.beacon.beacon().length).toBe(0);
       });
@@ -642,7 +636,7 @@ Expect.describe('IDPDiscovery', function() {
     });
     itp('toggles "focused-input" css class on focus in and focus out', function() {
       return setup().then(function(test) {
-        test.form.usernameField().focusin();
+        test.form.usernameField().focus();
         expect(test.form.usernameField()[0].parentElement).toHaveClass('focused-input');
         test.form.usernameField().focusout();
         expect(test.form.usernameField()[0].parentElement).not.toHaveClass('focused-input');

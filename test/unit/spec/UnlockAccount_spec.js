@@ -14,7 +14,7 @@ import $sandbox from 'sandbox';
 
 const itp = Expect.itp;
 
-async function setup(settings, startRouter) {
+function setup(settings, startRouter) {
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
   const authClient = createAuthClient({ issuer: baseUrl });
@@ -38,9 +38,6 @@ async function setup(settings, startRouter) {
 
   Util.registerRouter(router);
   Util.mockRouterNavigate(router, startRouter);
-  if (startRouter) {
-    await Expect.waitForPrimaryAuth();
-  }
   router.unlockAccount();
   return Expect.waitForUnlockAccount({
     router: router,

@@ -15,14 +15,7 @@ import $sandbox from 'sandbox';
 const SharedUtil = internal.util.Util;
 const itp = Expect.itp;
 
-async function setup(settings, mockDelay = false) {
-  if (mockDelay) {
-    const originalDelay = _.delay;
-    spyOn(_, 'delay').and.callFake(function(func, wait, args) {
-      return originalDelay(func, 0, args); // delay will call function wrapped in setTimeout()
-    });
-  }
-
+function setup(settings) {
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
   const authClient = createAuthClient({ issuer: baseUrl });
@@ -57,14 +50,7 @@ async function setup(settings, mockDelay = false) {
   };
 
   router.refreshAuthState('dummy-token');
-
-  const test = await Expect.waitForRecoveryChallenge(testData);
-
-  // mocking delay to use 0 time will still wrap functions in `setTimeout`
-  if (mockDelay) {
-    Util.callAllTimeouts();
-  }
-  return test;
+  return Expect.waitForRecoveryChallenge(testData);
 }
 
 Expect.describe('RecoveryChallenge', function() {
@@ -74,6 +60,8 @@ Expect.describe('RecoveryChallenge', function() {
     spyOn(_, 'throttle').and.callFake(function(fn) {
       return throttle(fn, 0);
     });
+    this.originalDelay = _.delay;
+    spyOn(_, 'delay');
   });
   itp('displays the security beacon', function() {
     return setup().then(function(test) {
@@ -163,13 +151,22 @@ Expect.describe('RecoveryChallenge', function() {
     });
   });
   itp('has a "Re-send" button after a short delay', function() {
-    return setup(undefined, true).then(function(test) {
-      Util.callAllTimeouts();
+    const delay = this.originalDelay;
+
+    _.delay.and.callFake(function(func, wait, args) {
+      return delay(func, 0, args);
+    });
+    return setup().then(function(test) {
       expect(test.form.resendButton().text()).toBe('Re-send code');
     });
   });
   itp('"Re-send" button will resend the code and then be disabled', function() {
-    return setup(undefined, true)
+    const delay = this.originalDelay;
+
+    _.delay.and.callFake(function(func, wait, args) {
+      return delay(func, 0, args);
+    });
+    return setup()
       .then(function(test) {
         Util.resetAjaxRequests();
         test.setNextResponse(resChallenge);
@@ -190,9 +187,13 @@ Expect.describe('RecoveryChallenge', function() {
       });
   });
   itp('displays only one error block when a resend button clicked several time and got error resp', function() {
-    return setup(undefined, true)
+    const delay = this.originalDelay;
+
+    _.delay.and.callFake(function(func, wait, args) {
+      return delay(func, 0, args);
+    });
+    return setup()
       .then(function(test) {
-        Util.callAllTimeouts();
         spyOn(test.router.controller.model, 'resendCode').and.callThrough();
         Util.resetAjaxRequests();
         test.setNextResponse(resResendError);
@@ -257,7 +258,12 @@ Expect.describe('RecoveryChallenge', function() {
     });
   });
   itp('shows an error msg if there is an error re-sending the code', function() {
-    return setup(undefined, true)
+    const delay = this.originalDelay;
+
+    _.delay.and.callFake(function(func, wait, args) {
+      return delay(func, 0, args);
+    });
+    return setup()
       .then(function(test) {
         test.setNextResponse(resResendError);
         test.form.resendButton().click();

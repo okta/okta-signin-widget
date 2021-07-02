@@ -18,7 +18,7 @@ import $sandbox from 'sandbox';
 const SharedUtil = internal.util.Util;
 const itp = Expect.itp;
 
-async function setup(settings, startRouter) {
+function setup(settings, startRouter) {
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
   const authClient = createAuthClient({ issuer: baseUrl });
@@ -43,9 +43,6 @@ async function setup(settings, startRouter) {
   router.on('afterError', afterErrorHandler);
   Util.registerRouter(router);
   Util.mockRouterNavigate(router, startRouter);
-  if (startRouter) {
-    await Expect.waitForPrimaryAuth();
-  }
   router.forgotPassword();
   return Expect.waitForForgotPassword({
     router: router,
@@ -65,10 +62,7 @@ function transformUsername(name) {
   return name.indexOf(suffix) !== -1 ? name : name + suffix;
 }
 
-const setupWithSms = function(settings) {
-  settings = Object.assign({ 'features.smsRecovery': true }, settings);
-  return setup(settings);
-};
+const setupWithSms = _.partial(setup, { 'features.smsRecovery': true });
 
 const setupWithRedirect = _.partial(setup, {
   suppliedRedirectUri: 'https://example.com',
@@ -826,7 +820,6 @@ Expect.describe('ForgotPassword', function() {
       return setup().then(function(test) {
         test.form.goBack();
         expect(test.router.navigate).toHaveBeenCalledWith('', { trigger: true });
-        return Expect.waitForPrimaryAuth(test); // wait for navigation to complete
       });
     });
     itp('returns to primary auth when browser\'s back button is clicked', function() {
