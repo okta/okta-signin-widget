@@ -26,8 +26,8 @@ import { _ } from '../mixins/mixins';
 export default Model.extend({
 
   local: {
-    introspectSuccess: 'object', // only set during introspection
-    introspectError: 'object', // only set during introspection
+    introspectSuccess: 'object', // only set during introspection; TODO: remove me
+    introspectError: 'object', // only set during introspection; TODO: remove me
     user: 'object',        // optional
     currentFormName: 'string',
     idx: 'object',
