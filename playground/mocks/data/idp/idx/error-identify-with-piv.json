@@ -1,0 +1,69 @@
+{
+  "stateHandle": "eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25",
+  "version": "1.0.0",
+  "expiresAt": "2020-04-13T22:55:53.000Z",
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Authentication failed",
+        "i18n": {
+          "key": "errors.E0000004"
+        },
+        "class": "ERROR"
+      }
+    ]
+  },
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "name": "redirect-idp",
+        "type": "X509",
+        "idp": {
+          "id": "x509-123",
+          "name": "X509 Authentication"
+        },
+        "href": "https://okta.mtls.okta.com/sso/idps/mtlsidp?stateToken=eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25",
+        "method": "GET"
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-enroll-profile",
+        "href": "http://localhost:3000/idp/idx/enroll",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    ]
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  }
+}

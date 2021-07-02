@@ -97,6 +97,9 @@ import AuthenticatorSymantecView from './views/symantec/AuthenticatorSymantecVie
 // Device code activate view
 import DeviceCodeActivateView from './views/device/DeviceCodeActivateView';
 
+// X509 PIV view
+import ChallengePIVView from './views/piv/ChallengePIVView';
+
 const DEFAULT = '_';
 
 const VIEWS_MAPPING = {
@@ -219,6 +222,9 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.REDIRECT_IDP]: {
     [DEFAULT]: RedirectIdPView,
+  },
+  [RemediationForms.PIV_IDP]: {
+    [DEFAULT]: ChallengePIVView,
   },
   [RemediationForms.DEVICE_ENROLLMENT_TERMINAL]: {
     [DEFAULT]: DeviceEnrollmentTerminalView,

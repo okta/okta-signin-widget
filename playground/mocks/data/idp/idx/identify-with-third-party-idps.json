@@ -79,6 +79,16 @@
         "method": "GET"
       },
       {
+        "name": "redirect-idp",
+        "type": "X509",
+        "idp": {
+          "id": "x509-123",
+          "name": "X509 Authentication"
+        },
+        "href": "https://okta.mtls.okta.com/sso/idps/mtlsidp?stateToken=eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25",
+        "method": "GET"
+      },
+      {
         "rel": [
           "create-form"
         ],

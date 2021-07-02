@@ -53,6 +53,7 @@ const FORMS = {
   FAILURE_REDIRECT: 'failure-redirect',
   SUCCESS_REDIRECT: 'success-redirect',
   REDIRECT_IDP: 'redirect-idp',
+  PIV_IDP: 'piv-idp',
 
   DEVICE_CHALLENGE_POLL: 'device-challenge-poll',
   DEVICE_APPLE_SSO_EXTENSION: 'device-apple-sso-extension',
@@ -132,6 +133,9 @@ const TERMINAL_FORMS = [
   FORMS.TERMINAL,
   FORMS.DEVICE_ENROLLMENT_TERMINAL,
 ];
+const IDP_FORM_TYPE = {
+  X509: 'X509',
+};
 
 export {
   ACTIONS,
@@ -144,4 +148,5 @@ export {
   FORM_NAME_TO_OPERATION_MAP,
   HINTS,
   TERMINAL_FORMS,
+  IDP_FORM_TYPE,
 };
