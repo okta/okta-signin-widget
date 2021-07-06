@@ -14,7 +14,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    // 'identify',
     // 'error-401-invalid-otp-passcode',
     // 'error-with-failure-redirect',
     // 'error-feature-not-enabled',
@@ -39,7 +39,7 @@ const idx = {
     // 'authenticator-verification-data-phone-sms-then-voice',
     // 'authenticator-verification-data-phone-voice-only',
     // 'authenticator-verification-data-phone-voice-then-sms',
-    // 'authenticator-verification-email',
+    'authenticator-verification-email',
     // 'authenticator-verification-password',
     // 'authenticator-verification-phone-sms',
     // 'authenticator-verification-phone-voice',
@@ -108,15 +108,15 @@ const idx = {
     // 'error-with-failure-redirect',
   ],
   '/idp/idx/challenge/answer': [
-    // 'error-401-invalid-otp-passcode',
+    'error-401-invalid-otp-passcode',
     // 'terminal-return-expired-email',
     // 'error-answer-passcode-invalid',
     // 'error-authenticator-enroll-security-question',
     // 'error-authenticator-webauthn-failure',
     // 'error-authenticator-enroll-password-common',
-    'error-authenticator-reset-password-requirement',
-    'error-authenticator-enroll-security-question-html-tags',
-    'error-authenticator-enroll-password-common',
+    // 'error-authenticator-reset-password-requirement',
+    // 'error-authenticator-enroll-security-question-html-tags',
+    // 'error-authenticator-enroll-password-common',
     // 'error-authenticator-reset-password-requirement',
     // 'error-authenticator-enroll-security-question-html-tags',
   ],
@@ -129,7 +129,9 @@ const idx = {
     // 'authenticator-verification-phone-voice'
   ],
   '/idp/idx/challenge/poll': [
-    'success',
+    'authenticator-verification-email',
+    'authenticator-verification-email'
+    // 'success',
     // 'enroll-profile-new'
     // 'authenticator-enroll-email',
     // 'authenticator-verification-okta-verify-push',
