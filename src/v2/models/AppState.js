@@ -257,20 +257,20 @@ export default Model.extend({
     if (transformedResponse.idx?.formError) {
       this.trigger('showFormErrors', controller, transformedResponse.idx.rawIdxState);
     }
-
-    this.clearAppStateCache();
-      
-    // set new app state properties
-    this.set(transformedResponse);
-    this.set({ currentFormName });
-    
+ 
     // To support polling when response is identical, do not re-render the view.
     // constantly re-rendering during poll can cause flickering issue on widget. But this is a hack and can 
-    // only work if idx response is not changing. If stateHandle changes between the polls then it will update
-    // erender the page, this may cause unexpected UI behaviour.
+    // only work if idx response is not changing. If stateHandle changes between the polls then it will update and 
+    // rerender the page, this may cause unexpected UI behaviour.
     // TODO: Epic - OKTA-408419, Ticket - OKTA-408316 (once this fixed, we should remove shouldReRenderView completely)
 
     if (this.shouldReRenderView(transformedResponse)) {
+      this.clearAppStateCache();
+      
+      // set new app state properties
+      this.set(transformedResponse);
+      this.set({ currentFormName });
+
       // Do not re-render the form, if remediation has formErrors.
       if (!transformedResponse.idx?.formError) {
         // trigger a re-render of formController
