@@ -109,6 +109,9 @@ const idx = {
   ],
   '/idp/idx/challenge/answer': [
     // 'error-401-invalid-otp-passcode',
+    // 'error-429-too-many-request-operation-ratelimit',
+    // 'error-429-too-many-request',
+    // 'error-429-api-limit-exceeded',
     // 'terminal-return-expired-email',
     // 'error-answer-passcode-invalid',
     // 'error-authenticator-enroll-security-question',
@@ -130,6 +133,9 @@ const idx = {
   ],
   '/idp/idx/challenge/poll': [
     'success',
+    // 'authenticator-verification-email-polling-long',
+    // 'error-429-too-many-request',
+    // 'error-429-api-limit-exceeded',
     // 'enroll-profile-new'
     // 'authenticator-enroll-email',
     // 'authenticator-verification-okta-verify-push',
