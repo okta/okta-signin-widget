@@ -208,16 +208,23 @@ export default Controller.extend({
           onSuccess();
         }
       }).catch(error => {
-        if (error.proceed && error.rawIdxState) {
-          // Okta server responds 401 status code with WWW-Authenticate header and new remediation
-          // so that the iOS/MacOS credential SSO extension (Okta Verify) can intercept
-          // the response reaches here when Okta Verify is not installed
-          // we need to return an idx object so that
-          // the SIW can proceed to the next step without showing error
-          this.handleIdxSuccess(error);
-        } else {
-          this.showFormErrors(model, error);
+        // if (error.proceed && error.rawIdxState) {
+        //   // Okta server responds 401 status code with WWW-Authenticate header and new remediation
+        //   // so that the iOS/MacOS credential SSO extension (Okta Verify) can intercept
+        //   // the response reaches here when Okta Verify is not installed
+        //   // we need to return an idx object so that
+        //   // the SIW can proceed to the next step without showing error
+        //   this.showFormErrors(model, error.rawIdxState);
+        //   this.handleIdxSuccess(error);
+        // } else {
+        //   this.showFormErrors(model, error.rawIdxState);
+        //   this.handleIdxSuccess(error);
+        // }
+        if(error.rawIdxState?.remediation) {
+          error.formError = true;
         }
+        this.showFormErrors(model, error.rawIdxState);
+        this.handleIdxSuccess(error);
       })
       .finally(() => {
         this.toggleFormButtonState(false);
