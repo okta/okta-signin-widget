@@ -217,20 +217,10 @@ export default Controller.extend({
           onSuccess();
         }
       }).catch(error => {
-        if (error.stepUp) {
-          // special case where login flow needs to step up even when there is some remediation 
-          // that should not be rendered on widget.
-          // for eg : iOS/MacOS credential SSO extension view
-          this.handleIdxResponse(error);
-        } else {
-          // TODO: OKTA-405383 - clean up actual API responses to not treat terminal errors as form errors 
-          // If idx response contains Remediation + Message (error), 
-          // then mark this error as `formError` and do not treat it as a terminal state
           if(error.rawIdxState?.remediation) {
             error.formError = true;
           }
           this.handleIdxResponse(error);
-        }
       })
       .finally(() => {
         this.toggleFormButtonState(false);

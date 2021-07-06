@@ -298,6 +298,7 @@ test.requestHooks(identifyRequestLogger, identifyMockWithFingerprintError)('shou
 
   // Validate that there is an error message
   await identityPage.waitForErrorBox();
-  await t.expect(identityPage.getSaveButtonLabel()).eql('Next');
+  // Terminal error will not have any buttons, if this test expect a button then change the remediation response for this error
+  //await t.expect(identityPage.getSaveButtonLabel()).eql('Next');
   await t.expect(identityPage.getGlobalErrors()).contains('You do not have permission to perform the requested action');
 });

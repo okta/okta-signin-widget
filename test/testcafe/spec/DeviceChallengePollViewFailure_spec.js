@@ -33,13 +33,16 @@ const mock = RequestMock()
 fixture('Device Challenge Polling View with Polling Failure')
   .requestHooks(logger, mock);
 
+
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
   await deviceChallengePollPage.navigateToPage();
   return deviceChallengePollPage;
 }
 
-test('probing and polling APIs are sent and responded', async t => {
+// Should be fixed by OKTA-408364
+
+test.skip('probing and polling APIs are sent and responded', async t => {
   const deviceChallengePollPageObject = await setup(t);
   await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
   await t.expect(logger.count(

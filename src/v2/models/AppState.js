@@ -261,7 +261,7 @@ export default Model.extend({
     // To support polling when response is identical, do not re-render the view.
     // constantly re-rendering during poll can cause flickering issue on widget. But this is a hack and can 
     // only work if idx response is not changing. If stateHandle changes between the polls then it will update and 
-    // rerender the page, this may cause unexpected UI behaviour.
+    // rerender the page, this may cause unexpected UI behaviour in flows implmeneted before this change.
     // TODO: Epic - OKTA-408419, Ticket - OKTA-408316 (once this fixed, we should remove shouldReRenderView completely)
 
     if (this.shouldReRenderView(transformedResponse)) {

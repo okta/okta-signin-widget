@@ -39,7 +39,7 @@ const idx = {
     // 'authenticator-verification-data-phone-sms-then-voice',
     // 'authenticator-verification-data-phone-voice-only',
     // 'authenticator-verification-data-phone-voice-then-sms',
-    'authenticator-verification-email',
+    // 'authenticator-verification-email',
     // 'authenticator-verification-password',
     // 'authenticator-verification-phone-sms',
     // 'authenticator-verification-phone-voice',
@@ -86,6 +86,7 @@ const idx = {
     // 'oda-enrollment-android',
     // 'mdm-enrollment',
     // 'authenticator-verification-number-challenge',
+    'authenticator-enroll-google-authenticator',
   ],
   '/idp/idx/enroll': [
     'enroll-profile-new',
@@ -94,8 +95,8 @@ const idx = {
   '/idp/idx/credential/enroll': [
     // 'authenticator-enroll-ov-via-sms',
     // 'authenticator-enroll-security-question',
-    // 'authenticator-enroll-google-authenticator',
-    'error-authenticator-enroll-phone-invalid-number',
+    'authenticator-enroll-google-authenticator',
+    // 'error-authenticator-enroll-phone-invalid-number',
   ],
   '/idp/idx/identify': [
     // 'authenticator-enroll-select-authenticator',
@@ -111,8 +112,8 @@ const idx = {
     // 'authenticator-verification-number-challenge',
   ],
   '/idp/idx/challenge/answer': [
-    'error-authenticator-verify-password',
-    // 'error-401-invalid-otp-passcode',
+    // 'error-authenticator-verify-password',
+    'error-401-invalid-otp-passcode',
     // 'terminal-return-expired-email',
     // 'error-answer-passcode-invalid',
     // 'error-authenticator-enroll-security-question',
@@ -777,5 +778,5 @@ const googleAuthenticatorVerify = {
 };
 
 module.exports = {
-  mocks: ovEnroll,
+  mocks: idx,
 };
