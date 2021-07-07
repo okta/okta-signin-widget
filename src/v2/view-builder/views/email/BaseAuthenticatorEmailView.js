@@ -84,7 +84,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
         return;
       }
 
-      if (this.isPollingRateLimitError(error)) {
+      if (this.isRateLimitError(error)) {
         // When polling encounter rate limit error, wait 60 sec for rate limit bucket to reset
         // before polling again & hide error message
         if (this.formSubmitted === false) {
@@ -101,7 +101,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       this.formSubmitted = false;
     },
 
-    isPollingRateLimitError(error) {
+    isRateLimitError(error) {
       return (error.responseJSON?.errorSummaryKeys?.includes('tooManyRequests') ||
         error.responseJSON?.errorCode === 'E0000047') &&
         !error.responseJSON?.errorIntent;
