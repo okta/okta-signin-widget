@@ -114,6 +114,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'enroll-authenticator.symantec_vip.credentials.credentialId': 'enroll.symantecVip.credentialId.placeholder',
   'enroll-authenticator.symantec_vip.credentials.passcode': 'enroll.symantecVip.passcode1.placeholder',
   'enroll-authenticator.symantec_vip.credentials.nextPasscode': 'enroll.symantecVip.passcode2.placeholder',
+  'enroll-authenticator.yubikey_token.credentials.passcode': 'oie.yubikey.passcode.label',
 
   'enrollment-channel-data.email': 'oie.enroll.okta_verify.channel.email.label',
 
@@ -131,6 +132,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.rsa_token.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'challenge-authenticator.custom_otp.credentials.passcode': 'oie.custom_otp.verify.passcode.label',
   'challenge-authenticator.symantec_vip.credentials.passcode': 'oie.symantecVip.verify.passcode.label',
+  'challenge-authenticator.yubikey_token.credentials.passcode': 'oie.yubikey.passcode.label',
   'challenge-authenticator.credentials.passcode': 'oie.password.label',
 
   'reset-authenticator.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',

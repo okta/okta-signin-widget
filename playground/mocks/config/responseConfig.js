@@ -763,6 +763,22 @@ const pivAuth = {
   ],
 };
 
+const yubikeyAuthenticator = {
+  '/idp/idx/introspect': [
+    'authenticator-enroll-select-authenticator',
+    // 'authenticator-verification-select-authenticator',
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-yubikey',
+  ],
+  '/idp/idx/challenge/answer': [
+    'success',
+  ],
+  '/idp/idx/credential/enroll': [
+    'authenticator-enroll-yubikey',
+  ],
+};
+
 module.exports = {
   mocks: idx,
 };

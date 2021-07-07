@@ -105,6 +105,7 @@ const AUTHENTICATOR_KEY = {
   IDP: 'external_idp',
   CUSTOM_OTP: 'custom_otp',
   SYMANTEC_VIP: 'symantec_vip',
+  YUBIKEY: 'yubikey_token',
 };
 
 const AUTHENTICATOR_METHODS = {

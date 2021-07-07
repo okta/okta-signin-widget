@@ -1,0 +1,166 @@
+{
+  "stateHandle": "02U8D8oIqmFd3BE1XqjFexhopK6XYEglTNjV74mUFQ",
+  "version": "1.0.0",
+  "expiresAt": "2021-01-04T03:31:12.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "enroll-authenticator",
+        "relatesTo": [
+          "$.currentAuthenticator"
+        ],
+        "href": "http://localhost:3000/idp/idx/challenge/answer",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "credentials",
+            "type": "object",
+            "form": {
+              "value": [
+                {
+                  "name": "passcode",
+                  "label": "Insert then tap your YubiKey",
+                  "required": true,
+                  "visible": true,
+                  "secret": true
+                }
+              ]
+            },
+            "required": true
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02U8D8oIqmFd3BE1XqjFexhopK6XYEglTNjV74mUFQ",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "Yubikey Authenticator",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut11ceMaP0B0EzMI0g4",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02U8D8oIqmFd3BE1XqjFexhopK6XYEglTNjV74mUFQ",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "type": "security_key",
+      "key": "yubikey_token",
+      "id": "aut11ceMaP0B0EzMI0g4",
+      "displayName": "Yubikey Authenticator",
+      "methods": [
+        {
+          "type": "otp"
+        }
+      ]
+    }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "security_key",
+        "key": "yubikey_token",
+        "id": "aut11ceMaP0B0EzMI0g4",
+        "displayName": "Yubikey Authenticator",
+        "methods": [
+          {
+            "type": "otp"
+          }
+        ]
+      }
+    ]
+  },
+  "enrollmentAuthenticator": {
+    "type": "object",
+    "value": {
+      "type": "security_key",
+      "key": "yubikey_token",
+      "id": "aut11ceMaP0B0EzMI0g4",
+      "displayName": "Yubikey Authenticator",
+      "methods": [
+        {
+          "type": "otp"
+        }
+      ]
+    }
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u11djWuT63w8aHj0g4"
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02U8D8oIqmFd3BE1XqjFexhopK6XYEglTNjV74mUFQ",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/ion+json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "oidc_client",
+      "label": "Native client",
+      "id": "0oa2m3t6w7G9nErL00g4"
+    }
+  }
+}
