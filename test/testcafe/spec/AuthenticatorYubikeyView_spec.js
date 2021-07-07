@@ -47,8 +47,8 @@ test
       methodType: 'otp'
     });
 
-    await t.expect(pageObject.getPageTitle()).eql('Set up YubiKey');
-    await t.expect(pageObject.getPageSubtitle()).eql('Insert the YubiKey into a USB port and tap it to generate a verification code.');
+    await t.expect(pageObject.getFormTitle()).eql('Set up YubiKey');
+    await t.expect(pageObject.getFormSubtitle()).eql('Insert the YubiKey into a USB port and tap it to generate a verification code.');
     
     // Fill out form and submit
     await pageObject.verifyFactor('credentials.passcode', '1234');
@@ -62,7 +62,7 @@ test
   .requestHooks(logger, enrollMock)('enroll with YubiKey authenticator outputs form errors', async t => {
     const pageObject = await setup(t);
 
-    await t.expect(pageObject.getPageTitle()).eql('Set up YubiKey');
+    await t.expect(pageObject.getFormTitle()).eql('Set up YubiKey');
     
     // Do not fill out the form and submit
     await pageObject.submit();
@@ -83,8 +83,8 @@ test
       methodType: 'otp'
     });
 
-    await t.expect(pageObject.getPageTitle()).eql('Verify with YubiKey');
-    await t.expect(pageObject.getPageSubtitle()).eql('Insert the YubiKey into a USB port and tap it to generate a verification code.');
+    await t.expect(pageObject.getFormTitle()).eql('Verify with YubiKey');
+    await t.expect(pageObject.getFormSubtitle()).eql('Insert the YubiKey into a USB port and tap it to generate a verification code.');
     
     // Fill out form and submit
     await pageObject.verifyFactor('credentials.passcode', '1234');
@@ -98,7 +98,7 @@ test
   .requestHooks(logger, verifyMock)('verify with YubiKey authenticator outputs form errors', async t => {
     const pageObject = await setup(t);
 
-    await t.expect(pageObject.getPageTitle()).eql('Verify with YubiKey');
+    await t.expect(pageObject.getFormTitle()).eql('Verify with YubiKey');
     
     await pageObject.submit();
 
