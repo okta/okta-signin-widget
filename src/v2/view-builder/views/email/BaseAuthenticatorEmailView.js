@@ -75,6 +75,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
 
     triggerAfterError(model, error) {
       BaseForm.prototype.triggerAfterError.apply(this, arguments);
+      const isFormPolling = !!this.polling;
       this.stopPolling();
 
       if (error.responseJSON?.errorSummaryKeys?.includes('idx.session.expired')) {
@@ -82,21 +83,21 @@ const Body = BaseFormWithPolling.extend(Object.assign(
         return;
       }
 
-      if (this.isPollingRateLimitError(error)) {
+      if (this.isRateLimitError(error)) {
         // When polling encounter rate limit error, wait 60 sec for rate limit bucket to reset
         // before polling again & hide error message
-        setTimeout(() => {
-          model.trigger('clearFormError');
-        }, 0);
-        setTimeout(() => {
-          this.startPolling(this.options.appState.get('dynamicRefreshInterval'));
-        }, 60000);
+        if (isFormPolling) {
+          setTimeout(() => {
+            model.trigger('clearFormError');
+          }, 0);
+        }
+        this.startPolling(60000);
       } else {
         this.startPolling(this.options.appState.get('dynamicRefreshInterval'));
       }
     },
 
-    isPollingRateLimitError(error) {
+    isRateLimitError(error) {
       return (error.responseJSON?.errorSummaryKeys?.includes('tooManyRequests') ||
         error.responseJSON?.errorCode === 'E0000047') &&
         !error.responseJSON?.errorIntent;
