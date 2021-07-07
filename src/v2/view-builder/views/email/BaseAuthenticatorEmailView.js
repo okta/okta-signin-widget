@@ -91,9 +91,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
             model.trigger('clearFormError');
           }, 0);
         }
-        setTimeout(() => {
-          this.startPolling(this.options.appState.get('dynamicRefreshInterval'));
-        }, 60000);
+        this.startPolling(60000);
       } else {
         this.startPolling(this.options.appState.get('dynamicRefreshInterval'));
       }
