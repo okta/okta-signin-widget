@@ -53,7 +53,6 @@ const Body = BaseFormWithPolling.extend(Object.assign(
     },
     initialize() {
       BaseFormWithPolling.prototype.initialize.apply(this, arguments);
-      this.formSubmitted = false;
 
       this.add(ResendView, {
         selector: '.o-form-error-container',
@@ -66,7 +65,6 @@ const Body = BaseFormWithPolling.extend(Object.assign(
 
     saveForm() {
       BaseForm.prototype.saveForm.apply(this, arguments);
-      this.formSubmitted = true;
       this.stopPolling();
     },
 
@@ -77,6 +75,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
 
     triggerAfterError(model, error) {
       BaseForm.prototype.triggerAfterError.apply(this, arguments);
+      const isFormPolling = this.polling;
       this.stopPolling();
 
       if (error.responseJSON?.errorSummaryKeys?.includes('idx.session.expired')) {
@@ -87,7 +86,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       if (this.isRateLimitError(error)) {
         // When polling encounter rate limit error, wait 60 sec for rate limit bucket to reset
         // before polling again & hide error message
-        if (this.formSubmitted === false) {
+        if (isFormPolling) {
           setTimeout(() => {
             model.trigger('clearFormError');
           }, 0);
@@ -98,7 +97,6 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       } else {
         this.startPolling(this.options.appState.get('dynamicRefreshInterval'));
       }
-      this.formSubmitted = false;
     },
 
     isRateLimitError(error) {
