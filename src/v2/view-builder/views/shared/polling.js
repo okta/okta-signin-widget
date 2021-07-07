@@ -50,7 +50,7 @@ export default {
   stopPolling() {
     if (this.polling) {
       clearInterval(this.polling);
-      this.polling = false;
+      this.polling = null;
     }
   }
 };
