@@ -75,7 +75,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
 
     triggerAfterError(model, error) {
       BaseForm.prototype.triggerAfterError.apply(this, arguments);
-      const isFormPolling = this.polling;
+      const isFormPolling = !!this.polling;
       this.stopPolling();
 
       if (error.responseJSON?.errorSummaryKeys?.includes('idx.session.expired')) {
