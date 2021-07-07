@@ -35,7 +35,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
             method: 'POST',
             rel: ['create-form'],
             accepts: 'application/vnd.okta.v1+json',
-            action: jasmine.any(Function),
+            action: expect.any(Function),
             value: [
               {
                 name: 'userProfile',
@@ -98,7 +98,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
             rel: ['create-form'],
             accepts: 'application/vnd.okta.v1+json',
             method: 'POST',
-            action: jasmine.any(Function),
+            action: expect.any(Function),
             value: [
               {
                 name: 'identifier',
@@ -147,7 +147,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
             rel: ['create-form'],
             accepts: 'application/vnd.okta.v1+json',
             method: 'POST',
-            action: jasmine.any(Function),
+            action: expect.any(Function),
             value: [
               {
                 type: 'object',
@@ -187,7 +187,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
             method: 'POST',
             rel: ['create-form'],
             accepts: 'application/vnd.okta.v1+json',
-            action: jasmine.any(Function),
+            action: expect.any(Function),
             value: [
               {
                 name: 'authenticator',
@@ -265,7 +265,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
             rel: ['create-form'],
             accepts: 'application/vnd.okta.v1+json',
             method: 'POST',
-            action: jasmine.any(Function),
+            action: expect.any(Function),
             value: [
               {
                 name: 'authenticator',
@@ -651,7 +651,33 @@ describe('v2/ion/uiSchemaTransformer', function() {
                           type: 'otp'
                         }
                       ]
-                    }
+                    },
+                  },
+                  {
+                    label: 'YubiKey Authenticator',
+                    value: {
+                      form: {
+                        value: [
+                          {
+                            mutable: false,
+                            name: 'id',
+                            required: true,
+                            value: 'aut11ceMaP0B0EzMI0g4',
+                          },
+                        ],
+                      },
+                    },
+                    relatesTo: {
+                      displayName: 'YubiKey Authenticator',
+                      key: 'yubikey_token',
+                      id: 'aut11ceMaP0B0EzMI0g4',
+                      type: 'security_key',
+                      methods: [
+                        {
+                          type: 'otp'
+                        }
+                      ]
+                    },
                   }
                 ]
               },
@@ -763,6 +789,14 @@ describe('v2/ion/uiSchemaTransformer', function() {
                     authenticatorKey: 'symantec_vip',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[11]
                   },
+                  {
+                    label: 'YubiKey Authenticator',
+                    value: {
+                      id: 'aut11ceMaP0B0EzMI0g4',
+                    },
+                    authenticatorKey: 'yubikey_token',
+                    relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[12]
+                  },
                 ]
               }
             ]
@@ -789,7 +823,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
         user: XHRAuthenticatorEnrollDataPhone.user.value,
         remediations: [
           Object.assign({}, XHRAuthenticatorEnrollDataPhone.remediation.value[0], {
-            action: jasmine.any(Function),
+            action: expect.any(Function),
             uiSchema: [
               {
                 name: 'authenticator.id',
@@ -831,7 +865,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
             relatesTo: XHRAuthenticatorEnrollDataPhone.currentAuthenticator,
           }),
           Object.assign({}, XHRAuthenticatorEnrollSecurityQuestion.remediation.value[1], {
-            action: jasmine.any(Function),
+            action: expect.any(Function),
             uiSchema: [
               {
                 name: 'authenticator',
@@ -1022,7 +1056,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
         user: XHRAuthenticatorEnrollSecurityQuestion.user.value,
         remediations: [
           Object.assign(XHRAuthenticatorEnrollSecurityQuestion.remediation.value[0], {
-            action: jasmine.any(Function),
+            action: expect.any(Function),
             uiSchema: [
               {
                 name: 'sub_schema_local_credentials',
@@ -1107,7 +1141,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
             relatesTo: XHRAuthenticatorEnrollSecurityQuestion.currentAuthenticator,
           }),
           Object.assign(XHRAuthenticatorEnrollSecurityQuestion.remediation.value[1], {
-            action: jasmine.any(Function),
+            action: expect.any(Function),
             uiSchema: [
               {
                 name: 'authenticator',
@@ -1304,7 +1338,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
             rel: ['create-form'],
             accepts: 'application/vnd.okta.v1+json',
             method: 'POST',
-            action: jasmine.any(Function),
+            action: expect.any(Function),
             value: [
               {
                 name: 'identifier',
@@ -1318,7 +1352,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
               {
                 name: 'stateHandle',
                 required: true,
-                value: jasmine.any(String),
+                value: expect.any(String),
                 visible: false,
                 mutable: false,
               },
@@ -1349,12 +1383,12 @@ describe('v2/ion/uiSchemaTransformer', function() {
             rel: ['create-form'],
             accepts: 'application/vnd.okta.v1+json',
             method: 'POST',
-            action: jasmine.any(Function),
+            action: expect.any(Function),
             value: [
               {
                 name: 'stateHandle',
                 required: true,
-                value: jasmine.any(String),
+                value: expect.any(String),
                 visible: false,
                 mutable: false,
               },
@@ -1415,7 +1449,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
           rel: ['create-form'],
           accepts: 'application/vnd.okta.v1+json',
           method: 'POST',
-          action: jasmine.any(Function),
+          action: expect.any(Function),
           value: [
             {
               name: 'identifier',
@@ -1444,7 +1478,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
             {
               name: 'stateHandle',
               required: true,
-              value: jasmine.any(String),
+              value: expect.any(String),
               visible: false,
               mutable: false,
             },
@@ -1499,7 +1533,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
           rel: ['create-form'],
           accepts: 'application/vnd.okta.v1+json',
           method: 'POST',
-          action: jasmine.any(Function),
+          action: expect.any(Function),
           value: [
             {
               name: 'identifier',
@@ -1528,7 +1562,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
             {
               name: 'stateHandle',
               required: true,
-              value: jasmine.any(String),
+              value: expect.any(String),
               visible: false,
               mutable: false,
             },
@@ -1586,7 +1620,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
           rel: ['create-form'],
           accepts: 'application/vnd.okta.v1+json',
           method: 'POST',
-          action: jasmine.any(Function),
+          action: expect.any(Function),
           value: [
             {
               name: 'identifier',
@@ -1615,7 +1649,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
             {
               name: 'stateHandle',
               required: true,
-              value: jasmine.any(String),
+              value: expect.any(String),
               visible: false,
               mutable: false,
             },

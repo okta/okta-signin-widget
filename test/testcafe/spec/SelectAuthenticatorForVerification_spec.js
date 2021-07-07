@@ -118,7 +118,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
-  await t.expect(selectFactorPage.getFactorsCount()).eql(14);
+  await t.expect(selectFactorPage.getFactorsCount()).eql(15);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(0)).eql(false);
@@ -206,6 +206,12 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getFactorIconClassByIndex(13)).contains('mfa-symantec');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(13)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(13)).eql('symantec_vip');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(14)).eql('YubiKey Authenticator');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(14)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(14)).contains('mfa-yubikey');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(14)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(14)).eql('yubikey_token');
 
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();
