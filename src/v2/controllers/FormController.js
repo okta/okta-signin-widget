@@ -17,6 +17,7 @@ import { FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/Remedi
 import Util from '../../util/Util';
 import sessionStorageHelper from '../client/sessionStorageHelper';
 import { clearTransactionMeta } from '../client';
+import idx from '@okta/okta-idx-js';
 
 export default Controller.extend({
   className: 'form-controller',
@@ -208,23 +209,16 @@ export default Controller.extend({
           onSuccess();
         }
       }).catch(error => {
-        // if (error.proceed && error.rawIdxState) {
-        //   // Okta server responds 401 status code with WWW-Authenticate header and new remediation
-        //   // so that the iOS/MacOS credential SSO extension (Okta Verify) can intercept
-        //   // the response reaches here when Okta Verify is not installed
-        //   // we need to return an idx object so that
-        //   // the SIW can proceed to the next step without showing error
-        //   this.showFormErrors(model, error.rawIdxState);
-        //   this.handleIdxSuccess(error);
-        // } else {
-        //   this.showFormErrors(model, error.rawIdxState);
-        //   this.handleIdxSuccess(error);
-        // }
-        if(error.rawIdxState?.remediation) {
-          error.formError = true;
+        if (error.proceed && error.rawIdxState) {
+          // Okta server responds 401 status code with WWW-Authenticate header and new remediation
+          // so that the iOS/MacOS credential SSO extension (Okta Verify) can intercept
+          // the response reaches here when Okta Verify is not installed
+          // we need to return an idx object so that
+          // the SIW can proceed to the next step without showing error
+          this.handleIdxSuccess(error);
+        } else {
+          this.showFormErrors(model, error);
         }
-        this.showFormErrors(model, error.rawIdxState);
-        this.handleIdxSuccess(error);
       })
       .finally(() => {
         this.toggleFormButtonState(false);
@@ -255,6 +249,7 @@ export default Controller.extend({
     let errorObj;
     if (IonResponseHelper.isIonErrorResponse(error)) {
       errorObj = IonResponseHelper.convertFormErrors(error);
+      this.handleIdxSuccess(idx.makeIdxState(Object.assign({}, error, {hasFormError: true})));
     } else if (error.errorSummary) {
       errorObj = { responseJSON: error };
     }

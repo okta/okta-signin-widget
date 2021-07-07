@@ -152,6 +152,10 @@ export default Model.extend({
   },
 
   shouldReRenderView(transformedResponse) {
+    if (transformedResponse?.idx?.context?.hasFormError) {
+      return false;
+    }
+
     const previousRawState = this.has('idx') ? this.get('idx').rawIdxState : null;
 
     const identicalResponse = _.isEqual(
@@ -166,6 +170,7 @@ export default Model.extend({
     }
 
     let reRender = true;
+
 
     if (identicalResponse) {
       /**
@@ -250,7 +255,7 @@ export default Model.extend({
   },
 
   setIonResponse(transformedResponse) {
-    const doRerender = !transformedResponse.idx?.formError && this.shouldReRenderView(transformedResponse);
+    const doRerender = this.shouldReRenderView(transformedResponse);
     this.clearAppStateCache(doRerender);
 
     // `currentFormName` is default to first form of remediations or nothing.
