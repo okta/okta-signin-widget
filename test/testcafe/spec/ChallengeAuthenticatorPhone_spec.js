@@ -12,7 +12,7 @@ import phoneVerificationVoiceThenSMSNoProfile from '../../../playground/mocks/da
 import smsVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-sms-no-profile';
 import voiceVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice-no-profile';
 import success from '../../../playground/mocks/data/idp/idx/success';
-import invalidCode from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
+import invalidCode from '../../../playground/mocks/data/idp/idx/error-401-challenge-invalid-otp-passcode';
 import voiceRatelimitErrorMock from '../../../playground/mocks/data/idp/idx/error-authenticator-phone-voice-ratelimit';
 
 const phoneVerificationSMSThenVoiceEmptyProfile = JSON.parse(JSON.stringify(phoneVerificationSMSThenVoiceNoProfile));

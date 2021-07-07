@@ -5,7 +5,7 @@ import { checkConsoleMessages } from '../framework/shared';
 
 import xhrEnrollEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email';
 import success from '../../../playground/mocks/data/idp/idx/success';
-import invalidOTP from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
+import invalidOTP from '../../../playground/mocks/data/idp/idx/error-401-enroll-invalid-otp-passcode';
 
 const logger = RequestLogger(/challenge\/poll|challenge\/answer|challenge\/resend/,
   {
