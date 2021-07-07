@@ -22,12 +22,10 @@ export default Controller.extend({
   className: 'form-controller',
 
   appStateEvents: {
-    // 'change:currentFormName': 'handleFormNameChange',
     'afterError': 'handleAfterError',
     'invokeAction': 'handleInvokeAction',
     'saveForm': 'handleSaveForm',
     'switchForm': 'handleSwitchForm',
-    'showFormErrors': 'showFormErrors',
     'handleFormNameChange': 'handleFormNameChange',
   },
 
@@ -148,6 +146,7 @@ export default Controller.extend({
         .catch(error => {
           if(error.rawIdxState?.remediation) {
             error.formError = true;
+            this.showFormErrors(this, error);
           }
           this.handleIdxResponse(error);
         });
@@ -163,6 +162,7 @@ export default Controller.extend({
         .catch(error => {
           if(error.rawIdxState?.remediation) {
             error.formError = true;
+            this.showFormErrors(this, error);
           }
           this.handleIdxResponse(error);
         });
@@ -219,6 +219,7 @@ export default Controller.extend({
       }).catch(error => {
           if(error.rawIdxState?.remediation) {
             error.formError = true;
+            this.showFormErrors(this, error);
           }
           this.handleIdxResponse(error);
       })

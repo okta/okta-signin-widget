@@ -116,7 +116,7 @@ export default Router.extend({
     // transform response
     const ionResponse = transformIdxResponse(this.settings, idxResponse, lastResponse);
 
-    this.appState.setIonResponse(ionResponse, this.controller);
+    this.appState.setIonResponse(ionResponse);
   },
 
   handleIdxResponseFailure(error = {}) {

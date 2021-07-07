@@ -241,7 +241,7 @@ export default Model.extend({
     this.trigger('cache:clear');
   },
 
-  setIonResponse(transformedResponse, controller) {
+  setIonResponse(transformedResponse) {
     // `currentFormName` is default to first form of remediations or nothing.
     let currentFormName = null;
     if (!_.isEmpty(transformedResponse.remediations)) {
@@ -251,11 +251,6 @@ export default Model.extend({
       Logger.error('\tNo remediation found.');
       Logger.error('\tHere is the entire response');
       Logger.error(JSON.stringify(transformedResponse, null, 2));
-    }
-
-    // Trigger errors from previous state, before updating app state
-    if (transformedResponse.idx?.formError) {
-      this.trigger('showFormErrors', controller, transformedResponse.idx.rawIdxState);
     }
  
     // To support polling when response is identical, do not re-render the view.
