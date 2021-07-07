@@ -11,7 +11,7 @@ import emailVerificationPollingLong from '../../../playground/mocks/data/idp/idx
 import emailVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-no-profile';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidOTP from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
-import invalidOTPTooManyRequest from '../../../playground/mocks/data/idp/idx/error-429-too-many-request-submission';
+import invalidOTPTooManyRequest from '../../../playground/mocks/data/idp/idx/error-429-too-many-request-operation-ratelimit';
 import magicLinkReturnTab from '../../../playground/mocks/data/idp/idx/terminal-return-email';
 import magicLinkExpired from '../../../playground/mocks/data/idp/idx/terminal-return-expired-email';
 import terminalTransferedEmail from '../../../playground/mocks/data/idp/idx/terminal-transfered-email';
@@ -102,23 +102,29 @@ const dynamicRefreshLongIntervalMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(emailVerificationPollingLong);
 
-const tooManyRequestMock = RequestMock()
+const tooManyRequestPollMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerificationPolling)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(tooManyRequest, 429);
 
-const apiLimitExeededMock = RequestMock()
+const apiLimitExceededPollMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerificationPolling)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(apiLimitExeeeded, 429);
 
-const invalidOTPTooManyRequestMock = RequestMock()
+const invalidOTPTooManyOperationRequestMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidOTPTooManyRequest, 429);
+
+const otpTooManyRequestMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(tooManyRequest, 429);
 
 fixture('Challenge Email Authenticator Form');
 
@@ -185,7 +191,16 @@ test
   });
 
 test
-  .requestHooks(invalidOTPTooManyRequestMock)('challenge email authenticator with too many invalid OTP', async t => {
+  .requestHooks(invalidOTPTooManyOperationRequestMock)('challenge email authenticator with too many invalid OTP', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
+    await challengeEmailPageObject.clickNextButton();
+    await challengeEmailPageObject.waitForErrorBox();
+    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('Too many attempts');
+  });
+
+test
+  .requestHooks(otpTooManyRequestMock)('challenge email authenticator reached Org Ratelimit on OTP submission', async t => {
     const challengeEmailPageObject = await setup(t);
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton();
@@ -368,7 +383,7 @@ test
   });
 
 test
-  .requestHooks(logger, tooManyRequestMock)('pause polling when encounter 429 too many request', async t => {
+  .requestHooks(logger, tooManyRequestPollMock)('pause polling when encounter 429 too many request', async t => {
     const challengeEmailPageObject = await setup(t);
 
     // Encounter 429
@@ -377,7 +392,7 @@ test
         record.request.url.match(/poll/)
     )).eql(1);
 
-    await t.removeRequestHooks(tooManyRequestMock);
+    await t.removeRequestHooks(tooManyRequestPollMock);
     await t.addRequestHooks(validOTPmock);
 
     // No error message
@@ -393,7 +408,7 @@ test
   });
 
 test
-  .requestHooks(logger, apiLimitExeededMock)('pause polling when encounter 429 api limit exceeded', async t => {
+  .requestHooks(logger, apiLimitExceededPollMock)('pause polling when encounter 429 api limit exceeded', async t => {
     const challengeEmailPageObject = await setup(t);
 
     // Encounter 429
@@ -402,7 +417,7 @@ test
         record.request.url.match(/poll/)
     )).eql(1);
 
-    await t.removeRequestHooks(apiLimitExeededMock);
+    await t.removeRequestHooks(apiLimitExceededPollMock);
     await t.addRequestHooks(validOTPmock);
 
     // No error message
