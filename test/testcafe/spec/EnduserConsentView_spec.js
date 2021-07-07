@@ -59,6 +59,12 @@ test.requestHooks(requestLogger, consentEnduserCustomScopesMock)('should render 
   ]);
 });
 
+test.requestHooks(requestLogger, consentEnduserCustomScopesMock)('should display correct titleText', async t => {
+  const consentPage  = await setup(t);
+
+  await t.expect(await consentPage.getHeaderTitleText()).eql('would like to:');
+});
+
 test.requestHooks(requestLogger, consentEnduserMock)('should call /consent and send {consent: true} on "Allow Access" click', async t => {
   const consentPage  = await setup(t);
 

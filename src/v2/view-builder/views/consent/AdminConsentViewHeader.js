@@ -5,7 +5,7 @@ const defaultLogo = '/img/logos/default.png';
 
 const AdminConsentViewHeader = View.extend({
   className: 'consent-title detail-row',
-  titleText: () => loc('oie.consent.admin.title', 'login'),
+  titleText: () => loc('oie.consent.scopes.admin.title', 'login'),
   hasIssuer: true,
   template: hbs`
     {{#if clientURI}}
