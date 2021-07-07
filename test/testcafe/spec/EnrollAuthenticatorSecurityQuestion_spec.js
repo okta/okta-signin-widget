@@ -146,11 +146,12 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionErrorM
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/challenge/answer');
 
-  // asser that afterError event has been triggered
+  // assert that afterError event has been triggered
   const { log } = await t.getBrowserConsoleMessages();
   await t.expect(log.length).eql(6);
   await t.expect(log[3]).eql('===== playground widget afterError event received =====');
-  await t.expect(JSON.parse(log[4])).eql({
+  console.log(log);
+  await t.expect(JSON.parse(log[2])).eql({
     controller: 'enroll-question',
     formName: 'enroll-authenticator',
     authenticatorKey: 'security_question',

@@ -269,7 +269,7 @@ test
   });
 
 test
-  .requestHooks(logger, validOTPmock)('resend after 30 seconds', async t => {
+  .requestHooks(logger, validOTPmock)('resend after 30 seconds for challenge email', async t => {
     const challengeEmailPageObject = await setup(t);
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
     await t.wait(31000);
@@ -382,14 +382,17 @@ test
 
     // No error message
     await t.wait(100);
-    await t.expect(challengeEmailPageObject.form.getErrorBoxCount()).eql(0);
+    await t.expect(challengeEmailPageObject.form.getErrorBoxCount()).eql(1);
 
-    // Pause for 60 sec before sending request
-    await t.wait(60000);
-    await t.expect(logger.count(
-      record => record.response.statusCode === 200 &&
-        record.request.url.match(/poll/)
-    )).eql(1);
+    // From: OKTA-404796
+    // Since the remediation was a terminal state, widget will not restart polling untill remediation response tell it to do so.
+
+    // // Pause for 60 sec before sending request
+    // await t.wait(60000);
+    // await t.expect(logger.count(
+    //   record => record.response.statusCode === 200 &&
+    //     record.request.url.match(/poll/)
+    // )).eql(1);
   });
 
 test
@@ -404,15 +407,18 @@ test
 
     await t.removeRequestHooks(apiLimitExeededMock);
     await t.addRequestHooks(validOTPmock);
-
+    
     // No error message
     await t.wait(100);
     await t.expect(challengeEmailPageObject.form.getErrorBoxCount()).eql(0);
+    
+    // From: OKTA-404796
+    // Since the remediation was a terminal state, widget will not restart polling untill remediation response tell it to do so.
 
-    // Pause for 60 sec before sending request
-    await t.wait(60000);
-    await t.expect(logger.count(
-      record => record.response.statusCode === 200 &&
-        record.request.url.match(/poll/)
-    )).eql(1);
+    // // Pause for 60 sec before sending request
+    // await t.wait(60000);
+    // await t.expect(logger.count(
+    //   record => record.response.statusCode === 200 &&
+    //     record.request.url.match(/poll/)
+    // )).eql(1);
   });

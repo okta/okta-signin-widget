@@ -22,11 +22,11 @@ export default Controller.extend({
   className: 'form-controller',
 
   appStateEvents: {
-    'change:currentFormName': 'handleFormNameChange',
     'afterError': 'handleAfterError',
     'invokeAction': 'handleInvokeAction',
     'saveForm': 'handleSaveForm',
     'switchForm': 'handleSwitchForm',
+    'handleFormNameChange': 'handleFormNameChange',
   },
 
   preRender() {
@@ -58,7 +58,7 @@ export default Controller.extend({
       this.options.settings.callGlobalError(error);
       return;
     }
-
+    
     this.triggerAfterRenderEvent();
   },
 
@@ -128,6 +128,7 @@ export default Controller.extend({
       this.options.appState.unset('messages');
     }
     this.options.appState.set('currentFormName', formName);
+    this.handleFormNameChange();
   },
 
   handleInvokeAction(actionPath = '') {
@@ -141,9 +142,13 @@ export default Controller.extend({
 
     if (idx['neededToProceed'].find(item => item.name === actionPath)) {
       idx.proceed(actionPath, {})
-        .then(this.handleIdxSuccess.bind(this))
+        .then(this.handleIdxResponse.bind(this))
         .catch(error => {
-          this.showFormErrors(this.formView.model, error);
+          if(error.rawIdxState?.remediation) {
+            error.formError = true;
+            this.showFormErrors(this, error);
+          }
+          this.handleIdxResponse(error);
         });
       return;
     }
@@ -153,13 +158,17 @@ export default Controller.extend({
     if (_.isFunction(actionFn)) {
       // TODO: OKTA-243167 what's the approach to show spinner indicating API in flight?
       actionFn()
-        .then(this.handleIdxSuccess.bind(this))
+        .then(this.handleIdxResponse.bind(this))
         .catch(error => {
-          this.showFormErrors(this.formView.model, error);
+          if(error.rawIdxState?.remediation) {
+            error.formError = true;
+            this.showFormErrors(this, error);
+          }
+          this.handleIdxResponse(error);
         });
     } else {
       this.options.settings.callGlobalError(`Invalid action selected: ${actionPath}`);
-      this.showFormErrors(this.formView.model, 'Invalid action selected.');
+      this.showFormErrors(this, 'Invalid action selected.');
     }
   },
 
@@ -188,14 +197,14 @@ export default Controller.extend({
     const idx = this.options.appState.get('idx');
     if (!this.options.appState.hasRemediationObject(formName)) {
       this.options.settings.callGlobalError(`Cannot find http action for "${formName}".`);
-      this.showFormErrors(this.formView.model, 'Cannot find action to proceed.');
+      this.showFormErrors(this, 'Cannot find action to proceed.');
       return;
     }
 
     // Submit request to idx endpoint
     idx.proceed(formName, modelJSON)
       .then((resp) => {
-        const onSuccess = this.handleIdxSuccess.bind(this, resp);
+        const onSuccess = this.handleIdxResponse.bind(this, resp);
 
         if (formName === FORMS.ENROLL_PROFILE) {
           // call registration (aka enroll profile) hook
@@ -208,16 +217,11 @@ export default Controller.extend({
           onSuccess();
         }
       }).catch(error => {
-        if (error.proceed && error.rawIdxState) {
-          // Okta server responds 401 status code with WWW-Authenticate header and new remediation
-          // so that the iOS/MacOS credential SSO extension (Okta Verify) can intercept
-          // the response reaches here when Okta Verify is not installed
-          // we need to return an idx object so that
-          // the SIW can proceed to the next step without showing error
-          this.handleIdxSuccess(error);
-        } else {
-          this.showFormErrors(model, error);
-        }
+          if(error.rawIdxState?.remediation) {
+            error.formError = true;
+            this.showFormErrors(this, error);
+          }
+          this.handleIdxResponse(error);
       })
       .finally(() => {
         this.toggleFormButtonState(false);
@@ -239,13 +243,20 @@ export default Controller.extend({
     return modelJSON;
   },
 
-  showFormErrors(model, error) {
+  showFormErrors(controller, error) {
+    const model = controller.formView.model;
+
     model.trigger('clearFormError');
     if (!error) {
       error = 'FormController - unknown error found';
-      this.options.settings.callGlobalError(error);
+      controller.options.settings.callGlobalError(error);
     }
     let errorObj;
+    
+    if(error?.rawIdxState) {
+      error = error.rawIdxState;
+    }
+
     if (IonResponseHelper.isIonErrorResponse(error)) {
       errorObj = IonResponseHelper.convertFormErrors(error);
     } else if (error.errorSummary) {
@@ -254,8 +265,8 @@ export default Controller.extend({
     model.trigger('error', model, errorObj || { responseJSON: { errorSummary: String(error) } }, true);
   },
 
-  handleIdxSuccess: function(idxResp) {
-    this.options.appState.trigger('remediationSuccess', idxResp);
+  handleIdxResponse: function(idxResp) {
+    this.options.appState.trigger('updateRemediationState', idxResp);
   },
 
   /**

@@ -72,7 +72,7 @@ test.requestHooks(mockChallengeAuthenticatorOnPrem)('passcode is required', asyn
   await t.expect(challengeOnPremPage.getPasscodeError()).eql('This field cannot be left blank');
 });
 
-test.requestHooks(mockInvalidPasscode)('challege on prem authenticator with invalid passcode', async t => {
+test.requestHooks(mockInvalidPasscode)('challenge on prem authenticator with invalid passcode', async t => {
   const challengeOnPremPage = await setup(t);
   await challengeOnPremPage.verifyFactor('credentials.passcode', 'test');
   await challengeOnPremPage.clickNextButton();

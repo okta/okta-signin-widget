@@ -118,7 +118,7 @@ describe('v2/models/AppState', function() {
   });
 
   describe('shouldReRenderView', () => {
-    it('rerender view should be false if stateHandle are different', () => {
+    it('rerender view should be true if stateHandle are different', () => {
 
       const transformedResponse = {
         'idx': {
@@ -181,7 +181,7 @@ describe('v2/models/AppState', function() {
           }}};
 
       this.initAppState(idxObj, 'create-form');
-      expect(this.appState.shouldReRenderView(transformedResponse)).toBe(false);
+      expect(this.appState.shouldReRenderView(transformedResponse)).toBe(true);
     });
 
   });

@@ -155,11 +155,9 @@ export default Model.extend({
     const previousRawState = this.has('idx') ? this.get('idx').rawIdxState : null;
 
     const identicalResponse = _.isEqual(
-      _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh', 'stateHandle']),
-      _.nestedOmit(previousRawState, ['expiresAt', 'refresh', 'stateHandle']));
-    const isSameRefreshInterval = _.isEqual(
-      _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'stateHandle']),
-      _.nestedOmit(previousRawState, ['expiresAt', 'stateHandle']));
+      _.nestedOmit(transformedResponse.idx.rawIdxState, ['refresh']),
+      _.nestedOmit(previousRawState, ['refresh']));
+    const isSameRefreshInterval = _.isEqual(transformedResponse.idx.rawIdxState, previousRawState);
 
     if (identicalResponse && !isSameRefreshInterval) {
       this.set('dynamicRefreshInterval', this.getRefreshInterval(transformedResponse));
@@ -244,10 +242,6 @@ export default Model.extend({
   },
 
   setIonResponse(transformedResponse) {
-    if (!this.shouldReRenderView(transformedResponse)) {
-      return;
-    }
-
     // `currentFormName` is default to first form of remediations or nothing.
     let currentFormName = null;
     if (!_.isEmpty(transformedResponse.remediations)) {
@@ -258,18 +252,25 @@ export default Model.extend({
       Logger.error('\tHere is the entire response');
       Logger.error(JSON.stringify(transformedResponse, null, 2));
     }
+ 
+    // To support polling when response is identical, do not re-render the view.
+    // constantly re-rendering during poll can cause flickering issue on widget. But this is a hack and can 
+    // only work if idx response is not changing. If stateHandle changes between the polls then it will update and 
+    // rerender the page, this may cause unexpected UI behaviour in flows implmeneted before this change.
+    // TODO: Epic - OKTA-408419, Ticket - OKTA-408316 (once this fixed, we should remove shouldReRenderView completely)
 
-    this.clearAppStateCache();
+    if (this.shouldReRenderView(transformedResponse)) {
+      this.clearAppStateCache();
+      
+      // set new app state properties
+      this.set(transformedResponse);
+      this.set({ currentFormName });
 
-    // set new app state properties
-    this.set(transformedResponse);
-
-    // make sure change `currentFormName` is last step.
-    // change `currentFormName` will re-render FormController,
-    // which may depend on other derived properties hence
-    // those derived properties must be re-computed before
-    // re-rendering controller.
-    this.set({ currentFormName });
+      // Do not re-render the form, if remediation has formErrors.
+      if (!transformedResponse.idx?.formError) {
+        // trigger a re-render of formController
+        this.trigger('handleFormNameChange');
+      }
+    }
   }
-
 });

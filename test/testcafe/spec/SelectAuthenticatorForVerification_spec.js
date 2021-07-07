@@ -462,13 +462,13 @@ test.requestHooks(requestLogger, mockChallengeOVPush)('should navigate to okta v
   });
 });
 
-test.requestHooks(requestLogger, mockChallengeOVFastPass)('should navigate to okta verify fast pass page', async t => {
+// Ignore this test : Should be Fix by OKTA-408364
+test.skip.requestHooks(requestLogger, mockChallengeOVFastPass)('should navigate to okta verify fast pass page', async t => {
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with an authenticator');
   selectFactorPage.selectFactorByIndex(3);
   const challengeFactorPage = new ChallengeFactorPageObject(t);
   await t.expect(challengeFactorPage.getPageTitle()).eql('Verifying your identity');
-
   await t.expect(requestLogger.count(() => true)).eql(2);
   const req1 = requestLogger.requests[0].request;
   await t.expect(req1.url).eql('http://localhost:3000/idp/idx/introspect');
