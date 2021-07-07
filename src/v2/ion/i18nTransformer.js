@@ -71,6 +71,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-enroll.authenticator.security_question': 'oie.security.question.label',
   'select-authenticator-enroll.authenticator.symantec_vip': 'factor.totpHard.symantecVip',
   'select-authenticator-enroll.authenticator.webauthn': 'oie.webauthn.label',
+  'select-authenticator-enroll.authenticator.yubikey_token': 'oie.yubikey.label',
 
   'select-authenticator-authenticate.authenticator.duo': 'factor.duo',
   'select-authenticator-authenticate.authenticator.google_otp': 'oie.google_authenticator.label',
@@ -84,6 +85,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-authenticate.authenticator.security_question': 'oie.security.question.label',
   'select-authenticator-authenticate.authenticator.symantec_vip': 'factor.totpHard.symantecVip',
   'select-authenticator-authenticate.authenticator.webauthn': 'oie.webauthn.label',
+  'select-authenticator-authenticate.authenticator.yubikey_token': 'oie.yubikey.label',
 
   'select-authenticator-unlock-account.authenticator.okta_email': 'oie.email.label',
   'select-authenticator-unlock-account.authenticator.phone_number': 'oie.phone.label',
