@@ -70,8 +70,8 @@ export default Model.extend({
   },
 
   isIdentifierOnlyView() {
-    return !this.get('remediations')?.find(({name}) => name === 'identify')
-      ?.uiSchema?.find(({name}) => name === 'credentials.passcode');
+    return !this.get('remediations')?.find(({ name }) => name === 'identify')
+      ?.uiSchema?.find(({ name }) => name === 'credentials.passcode');
   },
 
   hasRemediationObject(formName) {
@@ -241,43 +241,46 @@ export default Model.extend({
       && messagesObjs.value.some(messagesObj => messagesObj.i18n?.key.startsWith(keySubStr));
   },
 
-  clearAppStateCache(doRerender) {
+  clearAppStateCache() {
     // clear appState before setting new values
     const attrs = {};
     for (var key in this.attributes) {
-      if (key !== 'currentFormName' || doRerender) {
+      if (key !== 'currentFormName') {
         attrs[key] = void 0;
       }
     }
-    this.set(attrs, Object.assign({}, {unset: true, silent: true}));
+    this.set(attrs, Object.assign({}, { unset: true, silent: true }));
     // clear cache for derived props.
     this.trigger('cache:clear');
   },
 
   setIonResponse(transformedResponse) {
     const doRerender = this.shouldReRenderView(transformedResponse);
-    this.clearAppStateCache(doRerender);
-
-    // `currentFormName` is default to first form of remediations or nothing.
-    let currentFormName = null;
-    if (!_.isEmpty(transformedResponse.remediations)) {
-      currentFormName = transformedResponse.remediations[0].name;
-    } else {
-      Logger.error('Panic!!');
-      Logger.error('\tNo remediation found.');
-      Logger.error('\tHere is the entire response');
-      Logger.error(JSON.stringify(transformedResponse, null, 2));
-    }
-
+    this.clearAppStateCache();
     // set new app state properties
     this.set(transformedResponse);
 
-    // make sure change `currentFormName` is last step.
-    // change `currentFormName` will re-render FormController,
-    // which may depend on other derived properties hence
-    // those derived properties must be re-computed before
-    // re-rendering controller.
-    this.set({ currentFormName });
+    if (doRerender) {
+      // `currentFormName` is default to first form of remediations or nothing.
+      let currentFormName = null;
+      if (!_.isEmpty(transformedResponse.remediations)) {
+        currentFormName = transformedResponse.remediations[0].name;
+      } else {
+        Logger.error('Panic!!');
+        Logger.error('\tNo remediation found.');
+        Logger.error('\tHere is the entire response');
+        Logger.error(JSON.stringify(transformedResponse, null, 2));
+      }
+
+      this.unset('currentFormName', {silent: true });
+      // make sure change `currentFormName` is last step.
+      // change `currentFormName` will re-render FormController,
+      // which may depend on other derived properties hence
+      // those derived properties must be re-computed before
+      // re-rendering controller.
+      this.set({ currentFormName });
+
+    }
   }
 
 });
