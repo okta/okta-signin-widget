@@ -272,14 +272,13 @@ export default Model.extend({
         Logger.error(JSON.stringify(transformedResponse, null, 2));
       }
 
-      this.unset('currentFormName', {silent: true });
+      this.unset('currentFormName', { silent: true });
       // make sure change `currentFormName` is last step.
       // change `currentFormName` will re-render FormController,
       // which may depend on other derived properties hence
       // those derived properties must be re-computed before
       // re-rendering controller.
       this.set({ currentFormName });
-
     }
   }
 
