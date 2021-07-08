@@ -1,4 +1,4 @@
-import { Model } from 'okta';
+import { Model, $ } from 'okta';
 import IdentifierView from 'v2/view-builder/views/IdentifierView';
 import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
@@ -89,5 +89,36 @@ describe('v2/view-builder/views/IdentifierView', function() {
     // No IDP buttons should be rendered.
     expect(testContext.view.$el.find('.o-form-fieldset-container .sign-in-with-idp').length).toEqual(0);
     expect(testContext.view.$el.find('.o-form-button-bar .sign-in-with-idp').length).toEqual(0);
+  });
+
+  it('view renders IDP buttons correctly with tooltip if text is too long', function() {
+    jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
+
+    // Case where text is short
+    jest.spyOn(Element.prototype, 'clientWidth', 'get').mockImplementation(() => 50);
+    testContext.init();
+
+    // Get the idp buttons
+    let buttons = testContext.view.$el.find('.o-form-button-bar .sign-in-with-idp .social-auth-button.link-button');
+    
+    buttons.each(function(){
+      // Ensure there is no tooltip when text is short.
+      expect($(this).attr('title')).toEqual(undefined);
+    });
+
+
+    // Case where text is too long.
+    jest.spyOn(Element.prototype, 'clientWidth', 'get').mockImplementation(() => 500);
+    testContext.init();
+
+    // Get the idp buttons
+    buttons = testContext.view.$el.find('.o-form-button-bar .sign-in-with-idp .social-auth-button.link-button');
+    
+    buttons.each(function(){
+      // Ensure the button tooltip is equal to the button title when it is long
+      expect($(this).attr('title')).toEqual($(this).text());
+    });
   });
 });
