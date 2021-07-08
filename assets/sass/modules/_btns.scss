@@ -88,7 +88,11 @@ $od-secondary-button-action-text-color: #124a94;
   line-height: 50px;
   margin-top: 15px;
   padding-left: 90px;
+  padding-right: 40px;
   text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   &:last-of-type {
     margin-bottom: 25px;
