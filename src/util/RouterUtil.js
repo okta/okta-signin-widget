@@ -139,89 +139,7 @@ fn.routeAfterAuthStatusChange = function(router, res) {
 fn.handleResponseStatus = function(router, res) {
   switch (res.status) {
   case 'SUCCESS': {
-    if (res.recoveryType === Enums.RECOVERY_TYPE_UNLOCK) {
-      router.navigate('signin/account-unlocked', { trigger: true });
-      return;
-    }
-
-    if (_.contains(deviceActivationStatuses, res._embedded?.deviceActivationStatus)) {
-      router.navigate('signin/device-activate-complete', { trigger: true });
-      return;
-    }
-
-    // If the desired end result object needs to have idToken (and not sessionToken),
-    // get the id token from session token before calling the global success function.
-    if (router.settings.get('oauth2Enabled')) {
-      OAuth2Util.getTokens(router.settings, { sessionToken: res.sessionToken }, router.controller);
-      return;
-    }
-
-    const successData = {
-      user: res._embedded.user,
-      type: res.type || Enums.SESSION_SSO,
-    };
-
-    if (res.relayState) {
-      successData.relayState = res.relayState;
-    }
-
-    const redirectFn = router.settings.get('redirectUtilFn');
-    const nextUrl =
-        res._links && ((res._links.original && res._links.original.href) || (res._links.next && res._links.next.href));
-
-    if (res.type === Enums.SESSION_STEP_UP) {
-      const targetUrl = res._links && res._links.next && res._links.next.href;
-
-      successData.stepUp = {
-        url: targetUrl,
-        finish: function() {
-          redirectFn(targetUrl);
-        },
-      };
-    } else if (nextUrl) {
-      successData.next = function() {
-        redirectFn(nextUrl);
-      };
-    } else {
-      // Add the type for now until the API returns it.
-      successData.type = Enums.SESSION_SSO;
-      successData.session = {
-        token: res.sessionToken,
-        setCookieAndRedirect: function(redirectUri) {
-          if (redirectUri) {
-            Util.debugMessage(`
-              Passing a "redirectUri" to "setCookieAndRedirect" is strongly discouraged.
-              It is recommended to set a "redirectUri" option in the config object passed to the widget constructor.
-            `);
-          }
-
-          redirectUri = redirectUri || router.settings.get('redirectUri');
-          if (!redirectUri) {
-            throw new Errors.ConfigError('"redirectUri" is required');
-          }
-
-          redirectFn(
-            sessionCookieRedirectTpl({
-              baseUrl: router.settings.get('baseUrl'),
-              token: encodeURIComponent(res.sessionToken),
-              redirectUrl: encodeURIComponent(redirectUri),
-            })
-          );
-        },
-      };
-    }
-
-    // Check if we need to wait for redirect based on host.
-    if (fn.isHostBackgroundChromeTab()) {
-      document.addEventListener('visibilitychange', function checkVisibilityAndCallSuccess() {
-        if (fn.isDocumentVisible()) {
-          document.removeEventListener('visibilitychange', checkVisibilityAndCallSuccess);
-          router.settings.callGlobalSuccess(Enums.SUCCESS, successData);
-        }
-      });
-    } else {
-      router.settings.callGlobalSuccess(Enums.SUCCESS, successData);
-    }
+    handleSuccessResponseStatus(router, res);
     return;
   }
   case 'ADMIN_CONSENT_REQUIRED':
@@ -325,6 +243,7 @@ fn.handleResponseStatus = function(router, res) {
           errorSummary: loc('error.auth.lockedOut', 'login'),
         },
       });
+      router.controller.model.appState.trigger('removeLoading');
     }
     return;
   case 'PROFILE_REQUIRED':
@@ -346,5 +265,91 @@ fn.handleResponseStatus = function(router, res) {
     throw new Error('Unknown status: ' + res.status);
   }
 };
+
+function handleSuccessResponseStatus(router, res) {
+  if (res.recoveryType === Enums.RECOVERY_TYPE_UNLOCK) {
+    router.navigate('signin/account-unlocked', { trigger: true });
+    return;
+  }
+
+  if (_.contains(deviceActivationStatuses, res._embedded?.deviceActivationStatus)) {
+    router.navigate('signin/device-activate-complete', { trigger: true });
+    return;
+  }
+
+  // If the desired end result object needs to have idToken (and not sessionToken),
+  // get the id token from session token before calling the global success function.
+  if (router.settings.get('oauth2Enabled')) {
+    OAuth2Util.getTokens(router.settings, { sessionToken: res.sessionToken }, router.controller);
+    return;
+  }
+
+  const successData = {
+    user: res._embedded.user,
+    type: res.type || Enums.SESSION_SSO,
+  };
+
+  if (res.relayState) {
+    successData.relayState = res.relayState;
+  }
+
+  const redirectFn = router.settings.get('redirectUtilFn');
+  const nextUrl =
+      res._links && ((res._links.original && res._links.original.href) || (res._links.next && res._links.next.href));
+
+  if (res.type === Enums.SESSION_STEP_UP) {
+    const targetUrl = res._links && res._links.next && res._links.next.href;
+
+    successData.stepUp = {
+      url: targetUrl,
+      finish: function() {
+        redirectFn(targetUrl);
+      },
+    };
+  } else if (nextUrl) {
+    successData.next = function() {
+      redirectFn(nextUrl);
+    };
+  } else {
+    // Add the type for now until the API returns it.
+    successData.type = Enums.SESSION_SSO;
+    successData.session = {
+      token: res.sessionToken,
+      setCookieAndRedirect: function(redirectUri) {
+        if (redirectUri) {
+          Util.debugMessage(`
+            Passing a "redirectUri" to "setCookieAndRedirect" is strongly discouraged.
+            It is recommended to set a "redirectUri" option in the config object passed to the widget constructor.
+          `);
+        }
+
+        redirectUri = redirectUri || router.settings.get('redirectUri');
+        if (!redirectUri) {
+          throw new Errors.ConfigError('"redirectUri" is required');
+        }
+
+        redirectFn(
+          sessionCookieRedirectTpl({
+            baseUrl: router.settings.get('baseUrl'),
+            token: encodeURIComponent(res.sessionToken),
+            redirectUrl: encodeURIComponent(redirectUri),
+          })
+        );
+      },
+    };
+  }
+
+  // Check if we need to wait for redirect based on host.
+  if (fn.isHostBackgroundChromeTab()) {
+    document.addEventListener('visibilitychange', function checkVisibilityAndCallSuccess() {
+      if (fn.isDocumentVisible()) {
+        document.removeEventListener('visibilitychange', checkVisibilityAndCallSuccess);
+        router.settings.callGlobalSuccess(Enums.SUCCESS, successData);
+      }
+    });
+  } else {
+    router.settings.callGlobalSuccess(Enums.SUCCESS, successData);
+  }
+}
 
 export default fn;
