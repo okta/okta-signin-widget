@@ -130,6 +130,8 @@ const idx = {
   ],
   '/idp/idx/challenge/poll': [
     'success',
+    // 'authenticator-verification-email',
+    // 'authenticator-verification-email'
     // 'enroll-profile-new'
     // 'authenticator-enroll-email',
     // 'authenticator-verification-okta-verify-push',

@@ -17,6 +17,7 @@ import { FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/Remedi
 import Util from '../../util/Util';
 import sessionStorageHelper from '../client/sessionStorageHelper';
 import { clearTransactionMeta } from '../client';
+import idx from '@okta/okta-idx-js';
 
 export default Controller.extend({
   className: 'form-controller',
@@ -248,6 +249,16 @@ export default Controller.extend({
     let errorObj;
     if (IonResponseHelper.isIonErrorResponse(error)) {
       errorObj = IonResponseHelper.convertFormErrors(error);
+
+      // When error happened, we need to try to refresh `appState` due to `stateHandle` changed.
+      // A little sloppy logic to determine how to determine whether need to refresh appState.
+      // 1. set `hasFormError` to avoid re-render the page
+      // 2. sometime error response is very different (especially no remediation) which is only
+      //    intent for show errors hence no need to refresh `appState`.
+      const idxState = idx.makeIdxState(Object.assign({}, error, {hasFormError: true}));
+      if (Array.isArray(idxState?.neededToProceed) && idxState?.neededToProceed.length) {
+        this.handleIdxSuccess(idxState);
+      }
     } else if (error.errorSummary) {
       errorObj = { responseJSON: error };
     }
