@@ -6,6 +6,7 @@ import webauthn from '../../../../util/webauthn';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import ChallengeWebauthnInfoView from './ChallengeWebauthnInfoView';
 import { getMessageFromBrowserError } from '../../../ion/i18nTransformer';
+import ChallengeWebauthnFooter from '../../components/ChallengeWebauthnFooter';
 
 const Body = BaseForm.extend({
 
@@ -117,6 +118,7 @@ const Body = BaseForm.extend({
 
 export default BaseAuthenticatorView.extend({
   Body,
+  Footer: ChallengeWebauthnFooter,
   postRender() {
     BaseAuthenticatorView.prototype.postRender.apply(this, arguments);
     // Trigger browser prompt automatically for other browsers for better UX.

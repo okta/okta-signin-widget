@@ -1,5 +1,6 @@
 import { View, _, $} from 'okta';
 import Link from '../components/Link';
+import ToggleTextLink from '../components/ToggleTextLink';
 import { getSignOutLink } from '../utils/LinksUtil';
 
 /**
@@ -62,9 +63,11 @@ export default View.extend({
     }
 
     links.forEach(link => {
-      this.add(Link, {
-        options: link,
-      });
+      let LinkView = Link;
+      if (link.type === 'toggle-text-link') {
+        LinkView = ToggleTextLink;
+      }
+      this.add(LinkView, { options: link });
     });
 
     if (footerInfo) {
