@@ -249,7 +249,11 @@ export default Controller.extend({
     let errorObj;
     if (IonResponseHelper.isIonErrorResponse(error)) {
       errorObj = IonResponseHelper.convertFormErrors(error);
-      this.handleIdxSuccess(idx.makeIdxState(Object.assign({}, error, {hasFormError: true})));
+      const idxState = idx.makeIdxState(Object.assign({}, error, {hasFormError: true}));
+      // has remediation, try to refresh `appState.idx`.
+      if (Array.isArray(idxState?.neededToProceed) && idxState?.neededToProceed.length) {
+        this.handleIdxSuccess(idxState);
+      }
     } else if (error.errorSummary) {
       errorObj = { responseJSON: error };
     }
