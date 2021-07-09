@@ -25,6 +25,7 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
     [AUTHENTICATOR_KEY.GOOGLE_OTP]: 'mfa-verify',
     [AUTHENTICATOR_KEY.DUO]: 'mfa-verify-duo',
     [AUTHENTICATOR_KEY.SYMANTEC_VIP]: 'mfa-verify',
+    [AUTHENTICATOR_KEY.YUBIKEY]: 'mfa-verify',
   },
   [FORMS.CHALLENGE_POLL]: {
     [AUTHENTICATOR_KEY.OV]: 'mfa-verify',
@@ -43,6 +44,7 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
     [AUTHENTICATOR_KEY.RSA]: 'enroll-rsa',
     [AUTHENTICATOR_KEY.DUO]: 'enroll-duo',
     [AUTHENTICATOR_KEY.SYMANTEC_VIP]: 'enroll-symantec',
+    [AUTHENTICATOR_KEY.YUBIKEY]: 'enroll-yubikey',
   },
 
   [FORMS.SELECT_AUTHENTICATOR_ENROLL]: {

@@ -55,7 +55,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up authenticators');
   await t.expect(selectFactorPage.getFormSubtitle()).eql(
     'Authenticators help protect your account by ensuring only you have access.');
-  await t.expect(selectFactorPage.getFactorsCount()).eql(12);
+  await t.expect(selectFactorPage.getFactorsCount()).eql(13);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-password');
@@ -133,6 +133,12 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(11)).eql('Set up');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(11)).eql('symantec_vip');
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(11)).eql('Verify by entering a temporary code from the Symantec VIP app.');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(12)).eql('YubiKey Authenticator');
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(12)).contains('mfa-yubikey');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(12)).eql('Set up');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(12)).eql('yubikey_token');
+  await t.expect(selectFactorPage.getFactorDescriptionByIndex(12)).eql('Verify your identity using YubiKey');
 
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();
 });

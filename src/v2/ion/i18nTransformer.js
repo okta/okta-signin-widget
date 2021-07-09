@@ -71,6 +71,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-enroll.authenticator.security_question': 'oie.security.question.label',
   'select-authenticator-enroll.authenticator.symantec_vip': 'factor.totpHard.symantecVip',
   'select-authenticator-enroll.authenticator.webauthn': 'oie.webauthn.label',
+  'select-authenticator-enroll.authenticator.yubikey_token': 'oie.yubikey.label',
 
   'select-authenticator-authenticate.authenticator.duo': 'factor.duo',
   'select-authenticator-authenticate.authenticator.google_otp': 'oie.google_authenticator.label',
@@ -84,6 +85,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'select-authenticator-authenticate.authenticator.security_question': 'oie.security.question.label',
   'select-authenticator-authenticate.authenticator.symantec_vip': 'factor.totpHard.symantecVip',
   'select-authenticator-authenticate.authenticator.webauthn': 'oie.webauthn.label',
+  'select-authenticator-authenticate.authenticator.yubikey_token': 'oie.yubikey.label',
 
   'select-authenticator-unlock-account.authenticator.okta_email': 'oie.email.label',
   'select-authenticator-unlock-account.authenticator.phone_number': 'oie.phone.label',
@@ -114,6 +116,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'enroll-authenticator.symantec_vip.credentials.credentialId': 'enroll.symantecVip.credentialId.placeholder',
   'enroll-authenticator.symantec_vip.credentials.passcode': 'enroll.symantecVip.passcode1.placeholder',
   'enroll-authenticator.symantec_vip.credentials.nextPasscode': 'enroll.symantecVip.passcode2.placeholder',
+  'enroll-authenticator.yubikey_token.credentials.passcode': 'oie.yubikey.passcode.label',
 
   'enrollment-channel-data.email': 'oie.enroll.okta_verify.channel.email.label',
 
@@ -131,6 +134,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'challenge-authenticator.rsa_token.credentials.passcode': 'mfa.challenge.enterCode.placeholder',
   'challenge-authenticator.custom_otp.credentials.passcode': 'oie.custom_otp.verify.passcode.label',
   'challenge-authenticator.symantec_vip.credentials.passcode': 'oie.symantecVip.verify.passcode.label',
+  'challenge-authenticator.yubikey_token.credentials.passcode': 'oie.yubikey.passcode.label',
   'challenge-authenticator.credentials.passcode': 'oie.password.label',
 
   'reset-authenticator.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',

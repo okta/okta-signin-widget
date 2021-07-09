@@ -152,7 +152,8 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[4]"
-              }, {
+              },
+              {
                 "label": "Google Authenticator",
                 "value": {
                   "form": {
@@ -167,7 +168,8 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[5]"
-              }, {
+              },
+              {
                 "label": "Atko Custom On-prem",
                 "value": {
                   "form": {
@@ -190,7 +192,8 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[6]"
-              }, {
+              },
+              {
                 "label": "RSA SecurID",
                 "value": {
                   "form": {
@@ -289,6 +292,28 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[11]"
+              },
+              {
+                "label": "YubiKey Authenticator",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut10faWWbNaNWBaH0g4",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "otp",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[12]"
               }
             ]
           },
@@ -424,6 +449,17 @@
         "key": "symantec_vip",
         "id": "aut11ceMaP0B0EzMI0g4",
         "displayName": "Symantec VIP",
+        "methods": [
+          {
+            "type": "otp"
+          }
+        ]
+      },
+      {
+        "type": "security_key",
+        "key": "yubikey_token",
+        "id": "aut10faWWbNaNWBaH0g4",
+        "displayName": "YubiKey Authenticator",
         "methods": [
           {
             "type": "otp"

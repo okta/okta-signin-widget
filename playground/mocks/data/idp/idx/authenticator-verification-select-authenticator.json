@@ -363,6 +363,22 @@
                   }
                 },
                 "relatesTo": "$.authenticatorEnrollments.value[14]"
+              },
+              {
+                "label": "YubiKey Authenticator",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut11ceMaP0B0EzMI0g4",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[15]"
               }
             ]
           },
@@ -540,6 +556,17 @@
         "key": "symantec_vip",
         "id": "aut11ceMaP0B0EzMI0g4",
         "displayName": "Symantec VIP",
+        "methods": [
+          {
+            "type": "otp"
+          }
+        ]
+      },
+      {
+        "type": "security_key",
+        "key": "yubikey_token",
+        "id": "aut11ceMaP0B0EzMI0g4",
+        "displayName": "YubiKey Authenticator",
         "methods": [
           {
             "type": "otp"
