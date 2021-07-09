@@ -662,7 +662,13 @@ describe('v2/ion/uiSchemaTransformer', function() {
                             mutable: false,
                             name: 'id',
                             required: true,
-                            value: 'aut11ceMaP0B0EzMI0g4',
+                            value: 'aut10faWWbNaNWBaH0g4',
+                          },
+                          {
+                            mutable: false,
+                            name: 'methodType',
+                            required: false,
+                            value: 'otp',
                           },
                         ],
                       },
@@ -670,7 +676,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                     relatesTo: {
                       displayName: 'YubiKey Authenticator',
                       key: 'yubikey_token',
-                      id: 'aut11ceMaP0B0EzMI0g4',
+                      id: 'aut10faWWbNaNWBaH0g4',
                       type: 'security_key',
                       methods: [
                         {
@@ -792,7 +798,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
                   {
                     label: 'YubiKey Authenticator',
                     value: {
-                      id: 'aut11ceMaP0B0EzMI0g4',
+                      id: 'aut10faWWbNaNWBaH0g4',
                     },
                     authenticatorKey: 'yubikey_token',
                     relatesTo: XHRAuthenticatorEnrollSelectAuthenticators.authenticators.value[12]

@@ -301,7 +301,13 @@
                       {
                         "name": "id",
                         "required": true,
-                        "value": "aut11ceMaP0B0EzMI0g4",
+                        "value": "aut10faWWbNaNWBaH0g4",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "otp",
                         "mutable": false
                       }
                     ]
@@ -452,7 +458,7 @@
       {
         "type": "security_key",
         "key": "yubikey_token",
-        "id": "aut11ceMaP0B0EzMI0g4",
+        "id": "aut10faWWbNaNWBaH0g4",
         "displayName": "YubiKey Authenticator",
         "methods": [
           {
