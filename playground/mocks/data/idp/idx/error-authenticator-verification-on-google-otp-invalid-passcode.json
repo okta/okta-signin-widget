@@ -1,19 +1,15 @@
 {
+  "stateHandle": "02UyyOzemJmZMFgNfWePmTbaWZvWyJyr-7hi_ps4Iu",
   "version": "1.0.0",
-  "stateHandle": "02z9tQvc6BSChqVj0xCg7IrGuL-nIKqTZtTsfRsQjQ",
-  "expiresAt": "2021-04-15T23:12:14.000Z",
-  "intent": "CREDENTIAL_ENROLLMENT",
+  "expiresAt": "2021-01-04T03:33:45.000Z",
+  "intent": "LOGIN",
   "remediation": {
     "type": "array",
     "value": [
       {
-        "rel": [
-          "create-form"
-        ],
-        "name": "enroll-authenticator",
-        "relatesTo": [
-          "$.currentAuthenticator"
-        ],
+        "rel": ["create-form"],
+        "name": "challenge-authenticator",
+        "relatesTo": ["$.currentAuthenticator"],
         "href": "http://localhost:3000/idp/idx/challenge/answer",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
@@ -27,6 +23,7 @@
                   "name": "passcode",
                   "label": "Enter code",
                   "required": true,
+                  "visible": true,
                   "messages": {
                     "type": "array",
                     "value": [
@@ -47,7 +44,7 @@
           {
             "name": "stateHandle",
             "required": true,
-            "value": "02z9tQvc6BSChqVj0xCg7IrGuL-nIKqTZtTsfRsQjQ",
+            "value": "02UyyOzemJmZMFgNfWePmTbaWZvWyJyr-7hi_ps4Iu",
             "visible": false,
             "mutable": false
           }
@@ -55,69 +52,58 @@
         "accepts": "application/json; okta-version=1.0.0"
       },
       {
-        "rel": [
-          "create-form"
-        ],
-        "name": "select-authenticator-enroll",
-        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "rel": ["create-form"],
+        "name": "select-authenticator-authenticate",
+        "href": "http://localhost:3000/idp/idx/challenge",
         "method": "POST",
-        "produces": "application/ion+json; okta-version=1.0.0",
+        "accepts": "application/vnd.okta.v1+json",
         "value": [
           {
             "name": "authenticator",
             "type": "object",
             "options": [
               {
-                "label": "Google Authenticator",
+                "label": "Okta Password",
                 "value": {
                   "form": {
                     "value": [
                       {
                         "name": "id",
                         "required": true,
-                        "value": "aut641lYaVHvoYuDm0g4",
+                        "value": "aidwboITrg4b4yAYd0g3",
                         "mutable": false
                       },
                       {
                         "name": "methodType",
                         "required": false,
-                        "value": "otp",
+                        "value": "password",
                         "mutable": false
                       }
                     ]
                   }
                 },
-                "relatesTo": "$.authenticators.value[0]"
+                "relatesTo": "$.authenticatorEnrollments.value[1]"
               }
             ]
           },
           {
             "name": "stateHandle",
             "required": true,
-            "value": "02z9tQvc6BSChqVj0xCg7IrGuL-nIKqTZtTsfRsQjQ",
+            "value": "02im-3M2f6UXHgNfS7Ns7C85EKHzGaKw0u1CC4p9_r",
             "visible": false,
             "mutable": false
           }
-        ],
-        "accepts": "application/json; okta-version=1.0.0"
+        ]
       }
     ]
   },
   "currentAuthenticator": {
     "type": "object",
     "value": {
-      "contextualData": {
-        "qrcode": {
-          "method": "embedded",
-          "href": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAEhklEQVR42u3dwW4bMQxFUf//T6eLrougsMhHSucCXaVwEo9OAM6MNZ8fSf/s4y2QAJEAkQCRAJEAkQCRAJEAkQCRBIgEiASIBIgEiASIBIgEiASIBIgkQCRAJEAkQCRAJED+fqPPp/Xfb99/2+/37c9z+uefdnwBAQQQQAABBBBAAAEkvUC7F8y3r396wf7v63W/v9PWDyCAAAIIIIAAAggg7wGpHsLTC7r7/3cv8PTxBQQQQAABBBBAAAEEkG1Aui+sTT+pcRoYIIAAAggggAACCCCAvAakekhOX0isHuoBAQQQQAABBBBAAAHkNiDTAVYvoG4A1SC3rR9AAAEEEEAAAQQQQO4HMm3TBl/vHcJt2gAIIIAA4uuAAOLrgLxe9cZpp4f27qE5tUDj6wINQAABBBBAAAEEkGuH9OoF3P360zeJ6D7ep4d6QAABBBBAAAEEEEAASQ/V3Qu0+w/At79/9/u3DTQggAACCCCAAAIIIO8B2bbpQvpmvPQDg6qPx5h1CQgggAACCCCAAALIWiDpNzC9cVl6CK++eXH6Zt2AAAIIIIAAAggggAAybcFMeyDO9I3atj2QCBBAAAEEEEAAAQQQnwfpXmDTH1qZ/oDRbZtxAwIIIIAAAggggAACyDYQ027Wm/YH4lYQgAACCCCAAAIIIIC8A2TbUNs95J9ewNNOAgACCCCAAAIIIIAAAsg2IN0feEqfpEjfbDn9gUOAAAIIIIAAAggggAAy7aGT025GrAaTHpq3bFYNCCCAAAIIIIAAAsg7QKoPePUBm3ZzYPrnmXbSAxBAAAEEEEAAAQQQQNIXiqpBTbtwmd4ILn2SABBAAAEEEEAAAQQQ+2JtG+Kn3ew47QNh3RdCAQEEEEAAAQQQQAABJP0GV4PrBpYe4tObNjw/pAMCCCCAAAIIIIAAUr5gp12Yev3CZvoPxJiTR4AAAggggAACCCCAXDOkp0FWD7ndC3z7kO8sFiCAAAIIIIAAAggg6SG9+4BMAzvtZspXH7ADCCCAAAIIIIAAAsi7QKov1E1/QEz6A2Xdr2dIBwQQQAABBBBAAAFk24XB9M2J0zav3jIUj1tXgAACCCCAAAIIIIA8A6T6wtPp75c+CVD9+7z6kE9AAAEEEEAAAQQQQPYC6b7ZrXuITj+gZhpoFwoBAQQQQAABBBBAANk2pKeH/vQHfqZ9gGz6kA8IIIAAAggggAACCCDpoa96QacfmjkNyK03RwICCCCAAAIIIIAAcg+Q7tefDnA7gNPHp3v9AAIIIIAAAggggADyHpBtHyCa9gchfaFv20kPQAABBBBAAAEEEEAASd9M9+3rTbtZML1x3mngqQABBBBAAAEEEEAAAaTqAHUvsPSFt+qTBLdsfg0IIIAAAggggAACyL1ApgOsHuqrh9rbHgAECCCAAAIIIIAAAgggp4e6aQ+cSW8Offr97P6DtnUza0AAAQQQQAABBBBA9gKRNgaIBIgEiASIBIgEiASIBIgEiASIJEAkQCRAJEAkQCRAJEAkQCRAJEAkASIBIgEiASIBIg3vDxKA7waCbSK7AAAAAElFTkSuQmCC",
-          "type": "image/png"
-        },
-        "sharedSecret": "Z3X32ULO4DLVRG3H"
-      },
-      "type": "app",
-      "key": "google_otp",
-      "id": "aut641lYaVHvoYuDm0g4",
       "displayName": "Google Authenticator",
+      "key": "google_otp",
+      "type": "app",
+      "id": "aut11ceMaP0B0EzMI0g4",
       "methods": [
         {
           "type": "otp"
@@ -129,10 +115,10 @@
     "type": "array",
     "value": [
       {
-        "type": "app",
-        "key": "google_otp",
-        "id": "aut641lYaVHvoYuDm0g4",
         "displayName": "Google Authenticator",
+        "key": "google_otp",
+        "type": "app",
+        "id": "aut11ceMaP0B0EzMI0g4",
         "methods": [
           {
             "type": "otp"
@@ -145,64 +131,37 @@
     "type": "array",
     "value": [
       {
-        "type": "email",
-        "key": "okta_email",
-        "id": "eae3donheOh3bkKkM0g4",
-        "displayName": "Email",
+        "displayName": "Google Authenticator",
+        "key": "google_otp",
+        "type": "app",
+        "id": "uft14qoSHV31dpdrO0g4",
         "methods": [
           {
-            "type": "email"
+            "type": "otp"
           }
         ]
       },
       {
+        "displayName": "Okta Password",
         "type": "password",
-        "key": "okta_password",
-        "id": "laek7jDFRlZl0sdDj0g3",
-        "displayName": "Password",
+        "id": "autwa6eD9o02iBbtv0g1",
+        "authenticatorId": "aidwboITrg4b4yAYd0g3",
         "methods": [
           {
             "type": "password"
           }
         ]
-      },
-      {
-        "type": "security_question",
-        "key": "security_question",
-        "id": "qae3dooNZ1uflpAN10g4",
-        "displayName": "Security Question",
-        "methods": [
-          {
-            "type": "security_question"
-          }
-        ]
       }
     ]
-  },
-  "enrollmentAuthenticator": {
-    "type": "object",
-    "value": {
-      "type": "app",
-      "key": "google_otp",
-      "id": "aut641lYaVHvoYuDm0g4",
-      "displayName": "Google Authenticator",
-      "methods": [
-        {
-          "type": "otp"
-        }
-      ]
-    }
   },
   "user": {
     "type": "object",
     "value": {
-      "id": "00u3dn1WCCtoXcnuU0g4"
+      "id": "00u11djWuT63w8aHj0g4"
     }
   },
   "cancel": {
-    "rel": [
-      "create-form"
-    ],
+    "rel": ["create-form"],
     "name": "cancel",
     "href": "http://localhost:3000/idp/idx/cancel",
     "method": "POST",
@@ -211,7 +170,7 @@
       {
         "name": "stateHandle",
         "required": true,
-        "value": "02z9tQvc6BSChqVj0xCg7IrGuL-nIKqTZtTsfRsQjQ",
+        "value": "02UyyOzemJmZMFgNfWePmTbaWZvWyJyr-7hi_ps4Iu",
         "visible": false,
         "mutable": false
       }
@@ -221,9 +180,9 @@
   "app": {
     "type": "object",
     "value": {
-      "name": "okta_enduser",
-      "label": "Okta Dashboard",
-      "id": "DEFAULT_APP"
+      "name": "oidc_client",
+      "label": "TestApp",
+      "id": "0oa11ch8m94eTn0Qe0g4"
     }
   }
 }

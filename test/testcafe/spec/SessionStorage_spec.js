@@ -7,6 +7,7 @@ import xhrSuccessWithInteractionCode from '../../../playground/mocks/data/idp/id
 import xhrSuccessTokens from '../../../playground/mocks/data/oauth2/success-tokens';
 import xhrMagicLinkExpired from '../../../playground/mocks/data/idp/idx/terminal-return-expired-email';
 import xhrIdentifyWithNoAppleCredentialSSOExtension from '../../../playground/mocks/data/idp/idx/identify-with-no-sso-extension';
+import xhrInvalidOTP from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
 import BasePageObject from '../framework/page-objects/BasePageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
@@ -21,6 +22,8 @@ const identifyChallengeMock = RequestMock()
   .respond(xhrEmailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(xhrEmailVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(xhrInvalidOTP)
   .onRequestTo('http://localhost:3000/idp/idx/cancel')
   .respond(xhrIdentify);
 
@@ -126,7 +129,7 @@ test.requestHooks(identifyChallengeMock)('shall save state handle during authent
   await challengeEmailPageObject.refresh();
   const pageTitleAfterRefresh = challengeEmailPageObject.form.getTitle();
   await t.expect(pageTitleAfterRefresh).eql('Verify with your email');
-  await t.expect(getStateHandleFromSessionStorage()).eql(xhrEmailVerification.stateHandle);
+  await t.expect(getStateHandleFromSessionStorage()).eql(xhrInvalidOTP.stateHandle);
 
   // Verify
   await challengeEmailPageObject.clickEnterCodeLink();

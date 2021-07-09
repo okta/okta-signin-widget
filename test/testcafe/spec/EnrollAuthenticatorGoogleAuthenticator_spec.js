@@ -5,7 +5,7 @@ import { checkConsoleMessages } from '../framework/shared';
 
 import xhrEnrollGoogleAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-enroll-google-authenticator.json';
 import success from '../../../playground/mocks/data/idp/idx/success';
-import invalidOTP from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
+import xhrInvalidOTP from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-google-invalid-otp';
 
 const logger = RequestLogger(/challenge\/poll|challenge\/answer|challenge\/resend/,
   {
@@ -28,7 +28,7 @@ const invalidOTPMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
   .respond(xhrEnrollGoogleAuthenticator)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(invalidOTP, 403);
+  .respond(xhrInvalidOTP, 403);
 
 
 fixture('Enroll Google Authenticator');

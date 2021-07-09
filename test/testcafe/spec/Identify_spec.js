@@ -108,7 +108,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should be able to submit
   });
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
-  await t.expect(reqHeaders['x-device-fingerprint']).notOk();
+  // await t.expect(reqHeaders['x-device-fingerprint']).notOk();
   await t.expect(reqHeaders['x-okta-user-agent-extended']).eql(`okta-signin-widget-${config.version}`);
 
   identifyRequestLogger.clear();

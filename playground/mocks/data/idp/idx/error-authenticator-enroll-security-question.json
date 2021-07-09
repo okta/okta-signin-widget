@@ -345,12 +345,7 @@
       "type":"security_question",
       "key":"security_question",
       "id":"aut2adqTWq8ux94AY0g4",
-      "displayName":"Security Question",
-      "methods":[
-        {
-          "type":"security_question"
-        }
-      ]
+      "displayName":"Okta Security Question"
     }
   },
   "authenticators":{
