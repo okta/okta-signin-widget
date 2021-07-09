@@ -38,7 +38,7 @@ describe('v2/view-builder/views/AutoRedirectView', function() {
   it('view renders correctly according to interstitialBeforeLoginRedirect', function() {
     settings = new Settings({ 
       baseUrl: 'http://localhost:3000',
-      'features.interstitialBeforeLoginRedirect': 'NONE'
+      'interstitialBeforeLoginRedirect': 'NONE'
     });    
     testContext.init();
     expect(testContext.view.el).toMatchSnapshot('should NOT render spinner');
@@ -46,7 +46,7 @@ describe('v2/view-builder/views/AutoRedirectView', function() {
 
     settings = new Settings({ 
       baseUrl: 'http://localhost:3000',
-      'features.interstitialBeforeLoginRedirect': 'DEFAULT'
+      'interstitialBeforeLoginRedirect': 'DEFAULT'
     });    
     testContext.init();
     expect(testContext.view.el).toMatchSnapshot('should have spinner');
