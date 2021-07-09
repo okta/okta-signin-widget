@@ -33,7 +33,7 @@ const Body = BaseForm.extend({
   noButtonBar: true,
   initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
-    this.redirectView = this.settings.get('features.interstitialBeforeLoginRedirect');
+    this.redirectView = this.settings.get('interstitialBeforeLoginRedirect');
     this.model.set('useRedirect', true);
     this.trigger('save', this.model);
   },
