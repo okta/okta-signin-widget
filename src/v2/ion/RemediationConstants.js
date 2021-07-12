@@ -133,7 +133,7 @@ const TERMINAL_FORMS = [
   FORMS.DEVICE_ENROLLMENT_TERMINAL,
 ];
 
-// Possible options for the SIW interistitial redirect view
+// Possible options for the SIW interstitial redirect view
 const INTERSTITIAL_REDIRECT_VIEW = {
   DEFAULT: 'DEFAULT',
   NONE: 'NONE'
