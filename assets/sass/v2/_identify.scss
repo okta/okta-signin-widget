@@ -1,8 +1,6 @@
 .sign-in-with-device-option {
   .okta-verify-container {
-    .okta-verify-authenticator {
-      margin: 0 0.83em 0 0;
-    }
+    text-align: center;
   }
 }
 
@@ -33,17 +31,14 @@
       margin-bottom: 0.83em;
     }
     .button {
-      display: flex;
+      display: block;
       position: relative;
       min-height: 50px;
       height: auto;
-      padding-top: 10px;
+      padding-top: 15px;
       padding-bottom: 10px;
       line-height: 1.4;
       align-items: center;
-      .okta-verify-authenticator {
-        flex-shrink: 0;
-      }
     }
   }
   .separation-line {
