@@ -158,7 +158,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(5)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(5)).eql('security_question');
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(6)).eql('Use Okta Verify on this device');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(6)).eql('Use Okta FastPass');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(6)).eql(false);
   await t.expect(selectFactorPage.getFactorIconClassByIndex(6)).contains('mfa-okta-verify');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(6)).eql('Select');
@@ -339,7 +339,7 @@ test.requestHooks(mockChallengeOVTotp)(`should load signed_nonce at bottom when 
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2)).eql('okta_password');
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Use Okta Verify on this device');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Use Okta FastPass');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(3)).eql(false);
   await t.expect(selectFactorPage.getFactorIconClassByIndex(3)).contains('mfa-okta-verify');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(3)).eql('Select');
@@ -356,7 +356,7 @@ test.requestHooks(mockSelectAuthenticatorKnownDevice)('should load signed_nonce 
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
   await t.expect(selectFactorPage.getFactorsCount()).eql(4);
 
-  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Use Okta Verify on this device');
+  await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Use Okta FastPass');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(0)).eql(false);
   await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-verify');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Select');

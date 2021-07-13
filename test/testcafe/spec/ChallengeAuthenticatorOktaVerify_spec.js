@@ -12,7 +12,7 @@ import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 const FORM_TITLE = 'Verify it\'s you with an authenticator';
 const FORM_SUBTITLE = 'Select from the following options';
 const ENTER_CODE_TEXT = 'Enter a code';
-const FAST_PASS_TEXT = 'Use Okta Verify on this device';
+const FAST_PASS_TEXT = 'Use Okta FastPass';
 const PUSH_NOTIFICATION_TEXT = 'Get a push notification';
 const SIGN_OUT_TEXT = 'Back to sign in';
 

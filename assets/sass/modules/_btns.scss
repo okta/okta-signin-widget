@@ -106,15 +106,17 @@ $od-secondary-button-action-text-color: #124a94;
   }
 }
 
-.okta-verify-authenticator {
-  height: 20px;
-  width: 20px;
-  display: block;
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  background-size: cover;
-  float: left;
-  margin: 15px 0;
+.button {
+  .okta-verify-authenticator {
+    height: 20px;
+    width: 20px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+    vertical-align: middle;
+    display: inline-block;
+    margin: 0 0.83em 0 0;
+  }
 }
 
 .default-custom-button.link-button {
