@@ -138,6 +138,13 @@ const IDP_FORM_TYPE = {
   X509: 'X509',
 };
 
+// Possible options for the SIW interstitial redirect view
+const INTERSTITIAL_REDIRECT_VIEW = {
+  DEFAULT: 'DEFAULT',
+  NONE: 'NONE'
+};
+
+
 export {
   ACTIONS,
   FORMS,
@@ -150,4 +157,5 @@ export {
   HINTS,
   TERMINAL_FORMS,
   IDP_FORM_TYPE,
+  INTERSTITIAL_REDIRECT_VIEW,
 };
