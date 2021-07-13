@@ -146,8 +146,6 @@ export default Model.extend({
     lastAuthResponse: ['object', true, {}],
     transaction: 'object',
     transactionError: 'object',
-    introspectSuccess: 'object', // only set during introspection
-    introspectError: 'object', // only set during introspection
     username: 'string',
     factors: 'object',
     policy: 'object',
@@ -763,7 +761,7 @@ export default Model.extend({
 
   parse: function(options) {
     this.settings = options.settings;
-    return _.extend(_.omit(options, 'settings'), { 
+    return _.extend(_.omit(options, 'settings'), {
       languageCode: this.settings.get('languageCode'),
       userCountryCode: this.settings.get('countryCode'),
     });
