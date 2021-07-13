@@ -15,7 +15,8 @@ const idx = {
 
   '/idp/idx/introspect': [
     'identify',
-    // 'error-401-invalid-otp-passcode',
+    // 'error-401-challenge-invalid-otp-passcode',
+    // 'error-401-enroll-invalid-otp-passcode',
     // 'error-with-failure-redirect',
     // 'error-feature-not-enabled',
     // 'error-account-creation',
@@ -108,7 +109,8 @@ const idx = {
     // 'error-with-failure-redirect',
   ],
   '/idp/idx/challenge/answer': [
-    // 'error-401-invalid-otp-passcode',
+    // 'error-401-challenge-invalid-otp-passcode',
+    // 'error-401-enroll-invalid-otp-passcode',
     // 'error-429-too-many-request-operation-ratelimit',
     // 'error-429-too-many-request',
     // 'error-429-api-limit-exceeded',

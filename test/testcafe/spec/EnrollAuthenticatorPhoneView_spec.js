@@ -5,7 +5,7 @@ import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-phone';
 import xhrAuthenticatorEnrollPhoneVoice from '../../../playground/mocks/data/idp/idx/authenticator-enroll-phone-voice';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
-import invalidCode from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
+import invalidCode from '../../../playground/mocks/data/idp/idx/error-401-enroll-invalid-otp-passcode';
 
 const smsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
