@@ -26,8 +26,6 @@ import { _ } from '../mixins/mixins';
 export default Model.extend({
 
   local: {
-    introspectSuccess: 'object', // only set during introspection
-    introspectError: 'object', // only set during introspection
     user: 'object',        // optional
     currentFormName: 'string',
     idx: 'object',
@@ -70,8 +68,8 @@ export default Model.extend({
   },
 
   isIdentifierOnlyView() {
-    return !this.get('remediations')?.find(({name}) => name === 'identify')
-      ?.uiSchema?.find(({name}) => name === 'credentials.passcode');
+    return !this.get('remediations')?.find(({ name }) => name === 'identify')
+      ?.uiSchema?.find(({ name }) => name === 'credentials.passcode');
   },
 
   hasRemediationObject(formName) {

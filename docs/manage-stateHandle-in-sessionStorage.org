@@ -2,6 +2,15 @@
 @startuml
 start
 
+note left
+  - session.token :: token cached in session storage
+  - options.token :: token passed in when init SIW
+end note
+
+if (window.location != previous window.location) then (yes)
+  :remove session.token;
+endif
+
 repeat
 if (session.token?) then (no)
   :introspect on options.token;
@@ -20,6 +29,9 @@ repeat while (restart?) is (yes) not (no)
 if (introspect success?) then (yes)
   if (first page loads?) then (no)
     :set options.token to session.token;
+  endif
+  if (current form == CANCEL_TRANSACTION) then (yes)
+    :remove session.token;
   endif
   :render pages;
 else (no)
