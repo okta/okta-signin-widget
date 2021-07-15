@@ -159,6 +159,8 @@ export default Model.extend({
       _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'stateHandle']),
       _.nestedOmit(previousRawState, ['expiresAt', 'stateHandle']));
 
+    // TODO: consider move to another function, otherwise 'shouldReRenderView'
+    // does too much work.
     if (identicalResponse && !isSameRefreshInterval) {
       this.set('dynamicRefreshInterval', this.getRefreshInterval(transformedResponse));
     }
@@ -234,17 +236,22 @@ export default Model.extend({
       && messagesObjs.value.some(messagesObj => messagesObj.i18n?.key.startsWith(keySubStr));
   },
 
-  clearAppStateCache() {
+  clearAppStateCache(shallReRender) {
     // clear appState before setting new values
-    this.clear({ silent: true });
+    const attrs = {};
+    for (var key in this.attributes) {
+      if (key !== 'currentFormName' || shallReRender) {
+        attrs[key] = void 0;
+      }
+    }
+    this.set(attrs, Object.assign({}, {unset: true, silent: true}));
     // clear cache for derived props.
     this.trigger('cache:clear');
   },
 
   setIonResponse(transformedResponse) {
-    if (!this.shouldReRenderView(transformedResponse)) {
-      return;
-    }
+    const shallReRender = this.shouldReRenderView(transformedResponse);
+    this.clearAppStateCache(shallReRender);
 
     // `currentFormName` is default to first form of remediations or nothing.
     let currentFormName = null;
@@ -256,8 +263,6 @@ export default Model.extend({
       Logger.error('\tHere is the entire response');
       Logger.error(JSON.stringify(transformedResponse, null, 2));
     }
-
-    this.clearAppStateCache();
 
     // set new app state properties
     this.set(transformedResponse);
