@@ -317,7 +317,7 @@ signIn.showSignInToGetTokens({
 var signIn = new OktaSignIn(
   {
     baseUrl: 'https://{yourOktaDomain}',
-    clientId: '{{clientId of your OIDC app}}'
+    clientId: '{{clientId of your OIDC app}}',
     redirectUri: '{{redirectUri configured in OIDC app}}',
     authParams: {
       pkce: false,
@@ -334,7 +334,7 @@ This example uses the [authorization code flow][]
 var signIn = new OktaSignIn(
   {
     baseUrl: 'https://{yourOktaDomain}',
-    clientId: '{{clientId of your OIDC app}}'
+    clientId: '{{clientId of your OIDC app}}',
     redirectUri: '{{redirectUri configured in OIDC app}}',
     authParams: {
       pkce: false,
@@ -410,7 +410,7 @@ For [OIDC][] applications, including [Social Login][], you will want to provide 
 var signIn = new OktaSignIn(
   {
     baseUrl: 'https://{yourOktaDomain}',
-    clientId: '{{clientId of your OIDC app}}'
+    clientId: '{{clientId of your OIDC app}}',
     redirectUri: '{{redirectUri configured in OIDC app}}'
   }
 );
@@ -459,7 +459,7 @@ var signIn = new OktaSignIn({
   // Assumes there is an empty element on the page with an id of 'osw-container'
   el: '#osw-container'
   baseUrl: 'https://{yourOktaDomain}',
-  clientId: '{{clientId of your OIDC app}}'
+  clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
   authParams: {
     pkce: false,
@@ -664,7 +664,7 @@ For OIDC applications, you need to set the `clientId` and `redirectUri` (in addi
 ```javascript
 var config = {
   baseUrl: 'https://{yourOktaDomain}',
-  clientId: '{{clientId of your OIDC app}}'
+  clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}'
 }
 ```
@@ -681,7 +681,7 @@ A different [Custom Authorization Server][] can be specified by setting the `iss
 ```javascript
 var config = {
   baseUrl: 'https://{yourOktaDomain}',
-  clientId: '{{clientId of your OIDC app}}'
+  clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
   authParams: {
     issuer: 'https://{yourOktaDomain}/oauth2/{authServerID}'
@@ -694,7 +694,7 @@ Some applications, such as those that require access to the Okta User API, will 
 ```javascript
 var config = {
   baseUrl: 'https://{yourOktaDomain}',
-  clientId: '{{clientId of your OIDC app}}'
+  clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
   authParams: {
     issuer: 'https://{yourOktaDomain}'
