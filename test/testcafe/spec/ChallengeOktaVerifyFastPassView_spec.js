@@ -156,7 +156,7 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
     await deviceChallengePollPageObject.clickSwitchAuthenticatorButton();
     const secondSelectAuthenticatorPageObject = new SelectAuthenticatorPageObject(t);
-    await t.expect(secondSelectAuthenticatorPageObject.getFormTitle()).eql('Verify it\'s you with an authenticator');
+    await t.expect(secondSelectAuthenticatorPageObject.getFormTitle()).eql('Verify it\'s you with a security method');
   });
 
 test

@@ -149,7 +149,7 @@ test.requestHooks(mockEnrollAuthenticator)('should show custom brandName title o
     'brandName': 'Spaghetti Inc',
   });
   await t.expect(selectAuthenticatorPageObject.getFormSubtitle()).eql(
-    'Authenticators help protect your Spaghetti Inc account by ensuring only you have access.');
+    'Security methods help protect your Spaghetti Inc account by ensuring only you have access.');
 });
 
 test.requestHooks(mockAuthenticatorResetPassword)('should show custom brandName title on reset password page', async t => {
