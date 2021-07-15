@@ -52,9 +52,9 @@ async function setup(t) {
 
 test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authenticator list', async t => {
   const selectFactorPage = await setup(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Set up authenticators');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
   await t.expect(selectFactorPage.getFormSubtitle()).eql(
-    'Authenticators help protect your account by ensuring only you have access.');
+    'Security methods help protect your account by ensuring only you have access.');
   await t.expect(selectFactorPage.getFactorsCount()).eql(13);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
@@ -145,7 +145,7 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should load select authentic
 
 test.requestHooks(mockEnrollAuthenticatorPassword)('should navigate to password enrollment page', async t => {
   const selectFactorPage = await setup(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Set up authenticators');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
 
   selectFactorPage.selectFactorByIndex(0);
   const enrollPasswordPage = new FactorEnrollPasswordPageObject(t);
@@ -155,14 +155,14 @@ test.requestHooks(mockEnrollAuthenticatorPassword)('should navigate to password 
 
 test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)('select password challenge page and hit switch authenticator and re-select password', async t => {
   const selectFactorPage = await setup(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Set up authenticators');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
 
   selectFactorPage.selectFactorByIndex(0);
   const enrollPasswordPage = new FactorEnrollPasswordPageObject(t);
   await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
   await enrollPasswordPage.clickSwitchAuthenticatorButton();
-  await t.expect(selectFactorPage.getFormTitle()).eql('Set up authenticators');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
   // re-select password
   selectFactorPage.selectFactorByIndex(0);
   await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
@@ -185,7 +185,7 @@ test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)('select passwo
 
 test.requestHooks(mockOptionalAuthenticatorEnrollment)('should skip optional enrollment and go to success', async t => {
   const selectFactorPage = await setup(t);
-  await t.expect(selectFactorPage.getFormTitle()).eql('Set up authenticators');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
 
   selectFactorPage.skipOptionalEnrollment();
   const successPage = new SuccessPageObject(t);
