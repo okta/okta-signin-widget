@@ -16,17 +16,6 @@ module.exports = {
   // Check this link for configurations - https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/
   // Check this for capabilities - http://appium.io/docs/en/writing-running-appium/caps/#general-capabilities
   androidCapabilities: [{
-    'deviceName': 'Samsung Galaxy S9 WQHD GoogleAPI Emulator',
-    'platformName': 'Android',
-    'platformVersion': '8.1',
-    'deviceOrientation': 'portrait',
-    'unicodeKeyboard': true,
-    'resetKeyboard': true,
-    'browserName': 'Chrome',
-    'appiumVersion': '1.9.1',
-    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-    'build': process.env.TRAVIS_BUILD_NUMBER
-  }, {
     'deviceName': 'Google Pixel 3 XL GoogleAPI Emulator',
     'platformName': 'Android',
     'platformVersion': '9.0',
@@ -34,7 +23,7 @@ module.exports = {
     'unicodeKeyboard': true,
     'resetKeyboard': true,
     'browserName': 'Chrome',
-    'appiumVersion': '1.9.1',
+    'appiumVersion': '1.16.0',
     'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
     'build': process.env.TRAVIS_BUILD_NUMBER
   }]
