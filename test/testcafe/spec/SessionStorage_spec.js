@@ -3,6 +3,8 @@ import xhrEmailVerification from '../../../playground/mocks/data/idp/idx/authent
 import xhrSessionExpried from '../../../playground/mocks/data/idp/idx/error-session-expired';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
+import xhrSuccessWithInteractionCode from '../../../playground/mocks/data/idp/idx/success-with-interaction-code';
+import xhrSuccessTokens from '../../../playground/mocks/data/oauth2/success-tokens';
 import xhrMagicLinkExpired from '../../../playground/mocks/data/idp/idx/terminal-return-expired-email';
 import xhrIdentifyWithNoAppleCredentialSSOExtension from '../../../playground/mocks/data/idp/idx/identify-with-no-sso-extension';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
@@ -10,7 +12,7 @@ import BasePageObject from '../framework/page-objects/BasePageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
-import { getStateHandleFromSessionStorage } from '../framework/shared';
+import { getStateHandleFromSessionStorage, renderWidget, checkConsoleMessages } from '../framework/shared';
 
 const identifyChallengeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -260,4 +262,93 @@ test.requestHooks(credentialSSONotExistLogger, credentialSSONotExistMock)('shall
       record.request.url.match(/456\/verify\/cancel/)
   )).eql(1);
   await t.expect(getStateHandleFromSessionStorage()).eql(null);
+});
+
+test.requestHooks(identifyChallengeMock)('shall back to sign-in and authenticate successfully', async t => {
+  const identityPage = new IdentityPageObject(t);
+  const challengeEmailPageObject = new ChallengeEmailPageObject(t);
+  let pageTitle;
+
+  // Add mocks for interaction code flow
+  const challengeSuccessMock = RequestMock()
+    .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+    .respond(xhrSuccessWithInteractionCode)
+    .onRequestTo('http://localhost:3000/oauth2/default/v1/token')
+    .respond(xhrSuccessTokens);
+  await t.addRequestHooks(challengeSuccessMock);
+
+  // Setup widget with interaction code flow
+  const optionsForInteractionCodeFlow = {
+    clientId: 'fake',
+    useInteractionCodeFlow: true,
+    authParams: {
+      ignoreSignature: true,
+      pkce: true,
+    },
+    stateToken: undefined
+  };
+  await identityPage.navigateToPage({ render: false });
+  await identityPage.mockCrypto();
+  await t.setNativeDialogHandler(() => true);
+  await renderWidget(optionsForInteractionCodeFlow);
+
+  // Identify page
+  await identityPage.fillIdentifierField('foo@test.com');
+  await identityPage.clickNextButton();
+
+  // Email challenge page - click 'Back to sign-in'
+  pageTitle = challengeEmailPageObject.form.getTitle();
+  await t.expect(pageTitle).eql('Verify with your email');
+  await challengeEmailPageObject.clickSignOutLink();
+
+  // Go back to Identify page
+  pageTitle = identityPage.form.getTitle();
+  await t.expect(pageTitle).eql('Sign In');
+  await identityPage.fillIdentifierField('foo@test.com');
+  await identityPage.clickNextButton();
+
+  // Email challenge page - verify
+  pageTitle = challengeEmailPageObject.form.getTitle();
+  await t.expect(pageTitle).eql('Verify with your email');
+  await challengeEmailPageObject.verifyFactor('credentials.passcode', '1234');
+  await challengeEmailPageObject.clickNextButton();
+  
+  // Check success
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify'
+    },
+    'afterRender',
+    {
+      controller: 'mfa-verify-passcode',
+      formName: 'challenge-authenticator',
+      authenticatorKey: 'okta_email',
+      methodType: 'email'
+    },
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify'
+    },
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify'
+    },
+    'afterRender',
+    {
+      controller: 'mfa-verify-passcode',
+      formName: 'challenge-authenticator',
+      authenticatorKey: 'okta_email',
+      methodType: 'email'
+    },
+    {
+      status: 'SUCCESS',
+      accessToken: xhrSuccessTokens.access_token,
+      idToken: xhrSuccessTokens.id_token
+    }
+  ]);
 });
