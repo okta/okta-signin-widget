@@ -247,7 +247,7 @@ Expect.describe('Registration', function() {
       return setup({
         i18n: {
           en: {
-            'registration.error.userName.notUniqueWithinOrg': 'Custom duplicate account error message',
+            'registration.error.userName.notUniqueWithinOrg': 'Custom duplicate {0} error message',
           }
         }
       }).then(function(test) {
@@ -263,7 +263,7 @@ Expect.describe('Registration', function() {
         return Expect.waitForFormErrorBox(test.form, test);
       }).then(function(test) {
         expect(test.form.errorBox().length).toBe(1);
-        expect(test.form.errorBox().text().trim()).toBe('Custom duplicate account error message');
+        expect(test.form.errorBox().text().trim()).toBe('Custom duplicate Email error message');
       });
     });
   });

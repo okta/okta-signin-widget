@@ -112,16 +112,42 @@ export default BaseLoginController.extend({
           }
         );
       })
-      .fail(function(err) {
+      .fail((err) => {
         const responseJSON = err.responseJSON;
 
         if (responseJSON && responseJSON.errorCauses.length) {
-          const errMsg = responseJSON.errorCauses[0].errorSummary;
+          const { errorCode, errorCauses } = responseJSON;
+          const { errorSummary, reason } = errorCauses[0];
 
-          Util.triggerAfterError(self, new Errors.RegistrationError(errMsg));
+          const isNotUniqueValue =
+            errorCode === 'E0000001' &&
+            reason === 'UNIQUE_CONSTRAINT';
+
+          if (isNotUniqueValue) {
+            this.renderIsNotUniqueError(responseJSON);
+          }
+
+          Util.triggerAfterError(
+            this,
+            new Errors.RegistrationError(errorSummary)
+          );
         }
       });
   },
+
+  renderIsNotUniqueError: function(error) {
+    const { location } = error.errorCauses[0];
+    const errorSummary = loc(
+      'registration.error.userName.notUniqueWithinOrg',
+      'login',
+      [location]
+    );
+    // replace generic error message with more specific one
+    // without using backbone events because there was a race condition
+    // between clearing and triggering errors
+    this.$el.find('.okta-form-infobox-error p').text(errorSummary);
+  },
+
   createRegistrationModel: function(modelProperties) {
     const self = this;
     const RegistrationControllerModel = Model.extend({
@@ -212,19 +238,6 @@ export default BaseLoginController.extend({
               );
             }
           }
-        },
-        parseErrorMessage: function(resp) {
-          const hasErrorCauses = resp.errorCauses && resp.errorCauses.length;
-
-          if (hasErrorCauses) {
-            const isDuplicateEmailCause = resp.errorCode === 'E0000001'
-              && resp.errorCauses[0].reason === 'UNIQUE_CONSTRAINT';
-
-            if (isDuplicateEmailCause) {
-              resp.errorCauses[0].errorSummary = loc('registration.error.userName.notUniqueWithinOrg', 'login');
-            }
-          }
-          return resp;
         },
       });
       const form = new RegistrationControllerForm(self.toJSON());
