@@ -109,6 +109,7 @@
     "value": {
       "displayName": "Atko Custom OTP Authenticator",
       "key": "custom_otp",
+      "logo": "http://localhost:3000/img/icons/mfa/wells_fargo_logo.svg",
       "type": "otp",
       "id": "aut11ceMaP0B0EzMI0g4",
       "methods": [
@@ -124,6 +125,7 @@
       {
         "displayName": "Atko Custom OTP Authenticator",
         "key": "custom_otp",
+        "logo": "http://localhost:3000/img/icons/mfa/wells_fargo_logo.svg",
         "type": "otp",
         "id": "aut11ceMaP0B0EzMI0g4",
         "methods": [
@@ -140,6 +142,7 @@
       {
         "displayName": "Atko Custom OTP Authenticator",
         "key": "custom_otp",
+        "logo": "http://localhost:3000/img/icons/mfa/wells_fargo_logo.svg",
         "type": "otp",
         "id": "uft14qoSHV31dpdrO0g4",
         "methods": [

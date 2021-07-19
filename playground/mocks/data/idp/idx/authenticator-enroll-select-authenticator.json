@@ -411,6 +411,7 @@
       {
         "type": "security_key",
         "key": "custom_otp",
+        "logo": "http://localhost:3000/img/icons/mfa/wells_fargo_logo.svg",
         "id": "aut32kl92UF8kfE4E0g4",
         "displayName": "Atko Custom OTP Authenticator",
         "methods": [

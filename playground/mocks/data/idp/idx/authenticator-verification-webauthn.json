@@ -283,6 +283,7 @@
       {
         "type": "security_key",
         "key": "custom_otp",
+        "logo": "http://localhost:3000/img/icons/mfa/wells_fargo_logo.svg",
         "id": "chf1k6lWANK11wvVk0g4",
         "displayName": "Custom OTP",
         "methods": [

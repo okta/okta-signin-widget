@@ -247,25 +247,20 @@
 
   .mfa-hotp {
     /* -- Factor Icons (large): Hotp Factor -- */
-    background-image: url('../img/icons/mfa/hotpFactor_70x70.png');
-
-    @media
-      (-webkit-min-device-pixel-ratio: 2),
-      (min-resolution: 192dpi) {
-      /* -- Factor Icons (high DPI): Hotp Factor  -- */
-      background-image: url('../img/icons/mfa/hotpFactor@2x.png');
-    }
+    background-image: url('../img/icons/mfa/hotpFactor_70x70.svg');
   }
 
   .mfa-hotp-30 {
     /* -- Factor Icons (small): Hotp Factor -- */
-    background-image: url('../img/icons/mfa/hotpFactor_38x38.png');
+    background-image: url('../img/icons/mfa/hotpFactor_70x70.svg');
+    background-color: #e3f3fe;
 
     @media
       (-webkit-min-device-pixel-ratio: 2),
       (min-resolution: 192dpi) {
       /* -- Factor Icons (high DPI): Hotp Factor  -- */
-      background-image: url('../img/icons/mfa/hotpFactor_ico@2x.png');
+      background-image: url('../img/icons/mfa/hotpFactor_70x70.svg');
+      background-color: #e3f3fe;
     }
   }
 

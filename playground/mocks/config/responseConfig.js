@@ -761,6 +761,18 @@ const googleAuthenticatorVerify = {
   ],
 };
 
+const customOtp = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-select-authenticator',
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-custom-otp',
+  ],
+  '/idp/idx/challenge/answer': [
+    'success',
+  ],
+};
+
 module.exports = {
-  mocks: idx,
+  mocks: customOtp,
 };

@@ -11,6 +11,8 @@
  */
 import { _, Controller } from 'okta';
 import ViewFactory from '../view-builder/ViewFactory';
+import { getIconClassNameForBeacon } from '../view-builder/utils/AuthenticatorUtil';
+import { overrideIconForClass } from '../view-builder/utils/CustomizationUtils';
 import IonResponseHelper from '../ion/IonResponseHelper';
 import { getV1ClassName } from '../ion/ViewClassNamesFactory';
 import { FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/RemediationConstants';
@@ -46,6 +48,22 @@ export default Controller.extend({
       currentViewState.name,
       this.options.appState.get('authenticatorKey'),
     );
+
+    // Walk through every authenticator and apply customizations
+    this.options.appState
+      .getRemediationAuthenticationOptions(currentViewState.name)
+      .forEach(authenticator => {
+        // Open question:
+        // Should we hardcode a list or rely on our API responses?
+        const classIconOverrides = ['mfa-hotp'];
+
+        const iconClassName = getIconClassNameForBeacon(authenticator.relatesTo?.key);
+        const logoHref = authenticator.relatesTo?.logo;
+        if (classIconOverrides.includes(iconClassName) && logoHref) {
+          overrideIconForClass(iconClassName, logoHref);
+        }
+      });
+
     try {
       this.formView = this.add(TheView, {
         options: {
