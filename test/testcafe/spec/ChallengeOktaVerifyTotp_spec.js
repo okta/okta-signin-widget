@@ -6,7 +6,7 @@ import { checkConsoleMessages } from '../framework/shared';
 import totpChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidTOTP from '../../../playground/mocks/data/idp/idx/error-okta-verify-totp';
-import totpEnableBiometricsOktaVerify from '../../../playground/mocks/data/idp/idx/okta-verify-uv-totp-verify-enable-biometrics';
+import errorEnableBiometricsOktaVerifyTotp from '../../../playground/mocks/data/idp/idx/error-okta-verify-uv-totp-verify-enable-biometrics';
 
 const logger = RequestLogger(/challenge|challenge\/answer/,
   {
@@ -31,7 +31,7 @@ const totpEnableBiometricsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(totpChallenge)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(totpEnableBiometricsOktaVerify);
+  .respond(errorEnableBiometricsOktaVerifyTotp, 400);
 
 fixture('Challenge Okta Verify Totp Form');
 
@@ -102,9 +102,9 @@ test
     const challengeOktaVerifyTOTPPageObject = await setup(t);
     await challengeOktaVerifyTOTPPageObject.verifyFactor('credentials.totp', '123');
     await challengeOktaVerifyTOTPPageObject.clickNextButton();
-    await challengeOktaVerifyTOTPPageObject.waitForErrorBox();
     const pageTitle = challengeOktaVerifyTOTPPageObject.getFormTitle();
     await t.expect(pageTitle).contains('Enter a code');
+    await challengeOktaVerifyTOTPPageObject.waitForErrorBox();
     const errorTitle = challengeOktaVerifyTOTPPageObject.getErrorTitle();
     await t.expect(errorTitle.innerText).contains('Enable biometrics in Okta Verify');
     const errorSubtitle = challengeOktaVerifyTOTPPageObject.getErrorSubtitle();

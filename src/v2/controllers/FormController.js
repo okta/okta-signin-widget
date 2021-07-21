@@ -247,9 +247,7 @@ export default Controller.extend({
     }
     let errorObj;
     if (IonResponseHelper.isIonErrorResponse(error)) {
-      const convertedErrors = IonResponseHelper.convertFormErrors(error);
-      const showBanner = convertedErrors.responseJSON.errorCauses.length ? false : true;
-      model.trigger('error', model, convertedErrors, showBanner);
+      errorObj = IonResponseHelper.convertFormErrors(error);
     } else if (error.errorSummary) {
       errorObj = { responseJSON: error };
     }
