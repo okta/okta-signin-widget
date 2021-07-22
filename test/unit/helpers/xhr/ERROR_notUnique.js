@@ -11,6 +11,7 @@ export default {
         domain: 'registration request',
         errorSummary: 'A user with this Email already exists',
         locationType: 'body',
+        location: 'Email',
         reason: 'UNIQUE_CONSTRAINT',
       },
     ],
