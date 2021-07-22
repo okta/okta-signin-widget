@@ -30,154 +30,163 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
   let authenticatorData = {};
   switch (key) {
-  case AUTHENTICATOR_KEY.EMAIL:
-    Object.assign(authenticatorData, {
-      description: isVerifyAuthenticator
-        ? ''
-        : loc('oie.email.authenticator.description', 'login'),
-      iconClassName: 'mfa-okta-email',
-      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
-    });
-    break;
+    case AUTHENTICATOR_KEY.EMAIL:
+      Object.assign(authenticatorData, {
+        description: isVerifyAuthenticator
+          ? ''
+          : loc('oie.email.authenticator.description', 'login'),
+        iconClassName: 'mfa-okta-email',
+        buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      });
+      break;
 
-  case AUTHENTICATOR_KEY.PASSWORD:
-    Object.assign(authenticatorData, {
-      description: isVerifyAuthenticator
-        ? ''
-        : loc('oie.password.authenticator.description', 'login'),
-      iconClassName: 'mfa-okta-password',
-      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
-    });
-    break;
+    case AUTHENTICATOR_KEY.PASSWORD:
+      Object.assign(authenticatorData, {
+        description: isVerifyAuthenticator
+          ? ''
+          : loc('oie.password.authenticator.description', 'login'),
+        iconClassName: 'mfa-okta-password',
+        buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      });
+      break;
 
-  case AUTHENTICATOR_KEY.PHONE:
-    Object.assign(authenticatorData, {
-      description: isVerifyAuthenticator
-        ? authenticator.relatesTo?.profile?.phoneNumber
-        : loc('oie.phone.authenticator.description', 'login'),
-      iconClassName: 'mfa-okta-phone',
-      noTranslateClassName: isVerifyAuthenticator ? 'no-translate' : '',
-      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
-    });
-    break;
+    case AUTHENTICATOR_KEY.PHONE:
+      Object.assign(authenticatorData, {
+        description: isVerifyAuthenticator
+          ? authenticator.relatesTo?.profile?.phoneNumber
+          : loc('oie.phone.authenticator.description', 'login'),
+        iconClassName: 'mfa-okta-phone',
+        noTranslateClassName: isVerifyAuthenticator ? 'no-translate' : '',
+        buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      });
+      break;
 
-  case AUTHENTICATOR_KEY.SECURITY_QUESTION:
-    Object.assign(authenticatorData, {
-      description: isVerifyAuthenticator
-        ? ''
-        : loc('oie.security.question.authenticator.description', 'login'),
-      iconClassName: 'mfa-okta-security-question',
-      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
-    });
-    break;
+    case AUTHENTICATOR_KEY.SECURITY_QUESTION:
+      Object.assign(authenticatorData, {
+        description: isVerifyAuthenticator
+          ? ''
+          : loc('oie.security.question.authenticator.description', 'login'),
+        iconClassName: 'mfa-okta-security-question',
+        buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      });
+      break;
 
-  case AUTHENTICATOR_KEY.WEBAUTHN:
-    Object.assign(authenticatorData, {
-      description: isVerifyAuthenticator
-        ? ''
-        : loc('oie.webauthn.description', 'login'),
-      iconClassName: 'mfa-webauthn',
-      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
-    });
-    break;
+    case AUTHENTICATOR_KEY.WEBAUTHN:
+      Object.assign(authenticatorData, {
+        description: isVerifyAuthenticator
+          ? ''
+          : loc('oie.webauthn.description', 'login'),
+        iconClassName: 'mfa-webauthn',
+        buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      });
+      break;
 
-  case AUTHENTICATOR_KEY.OV:
-    Object.assign(authenticatorData, {
-      description: isVerifyAuthenticator
-        ? ''
-        : loc('oie.okta_verify.authenticator.description', 'login'),
-      iconClassName: 'mfa-okta-verify',
-      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
-    });
-    break;
+    case AUTHENTICATOR_KEY.OV:
+      Object.assign(authenticatorData, {
+        description: isVerifyAuthenticator
+          ? ''
+          : loc('oie.okta_verify.authenticator.description', 'login'),
+        iconClassName: 'mfa-okta-verify',
+        buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      });
+      break;
 
-  case AUTHENTICATOR_KEY.GOOGLE_OTP:
-    Object.assign(authenticatorData, {
-      description: isVerifyAuthenticator
-        ? ''
-        : loc('oie.google_authenticator.authenticator.description', 'login'),
-      iconClassName: 'mfa-google-auth',
-      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
-    });
-    break;
+    case AUTHENTICATOR_KEY.GOOGLE_OTP:
+      Object.assign(authenticatorData, {
+        description: isVerifyAuthenticator
+          ? ''
+          : loc('oie.google_authenticator.authenticator.description', 'login'),
+        iconClassName: 'mfa-google-auth',
+        buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      });
+      break;
 
-  case AUTHENTICATOR_KEY.ON_PREM: {
-    const vendorName =  authenticator.relatesTo?.displayName ||
-      loc('oie.on_prem.authenticator.default.vendorName', 'login');
-    Object.assign(authenticatorData, {
-      description: isVerifyAuthenticator
-        ? ''
-        : loc('oie.on_prem.authenticator.description', 'login', [vendorName]),
-      iconClassName: 'mfa-onprem',
-      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
-    });
-    break;
-  }
+    case AUTHENTICATOR_KEY.ON_PREM: {
+      const vendorName =  authenticator.relatesTo?.displayName ||
+        loc('oie.on_prem.authenticator.default.vendorName', 'login');
+      Object.assign(authenticatorData, {
+        description: isVerifyAuthenticator
+          ? ''
+          : loc('oie.on_prem.authenticator.description', 'login', [vendorName]),
+        iconClassName: 'mfa-onprem',
+        buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      });
+      break;
+    }
 
-  case AUTHENTICATOR_KEY.RSA:
-    Object.assign(authenticatorData, {
-      description: isVerifyAuthenticator
-        ? ''
-        : loc('oie.rsa.authenticator.description', 'login'),
-      iconClassName: 'mfa-rsa',
-      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
-    });
-    break;
+    case AUTHENTICATOR_KEY.RSA:
+      Object.assign(authenticatorData, {
+        description: isVerifyAuthenticator
+          ? ''
+          : loc('oie.rsa.authenticator.description', 'login'),
+        iconClassName: 'mfa-rsa',
+        buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      });
+      break;
 
-  case AUTHENTICATOR_KEY.DUO:
-    Object.assign(authenticatorData, {
-      description: isVerifyAuthenticator
-        ? ''
-        : loc('oie.duo.authenticator.description', 'login'),
-      iconClassName: 'mfa-duo',
-      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
-    });
-    break;
+    case AUTHENTICATOR_KEY.DUO:
+      Object.assign(authenticatorData, {
+        description: isVerifyAuthenticator
+          ? ''
+          : loc('oie.duo.authenticator.description', 'login'),
+        iconClassName: 'mfa-duo',
+        buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      });
+      break;
 
-  case AUTHENTICATOR_KEY.IDP: {
-    const idpName =  authenticator.relatesTo?.displayName;
-    Object.assign(authenticatorData, {
-      description: isVerifyAuthenticator
-        ? ''
-        : loc('oie.idp.authenticator.description', 'login', [idpName]),
-      iconClassName: 'mfa-custom-factor',
-      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
-    });
-    break;
-  }
-  case AUTHENTICATOR_KEY.CUSTOM_OTP: {
-    Object.assign(authenticatorData, {
-      description: isVerifyAuthenticator
-        ? ''
-        : loc('oie.custom_otp.description', 'login'),
-      iconClassName: 'mfa-hotp',
-      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
-    });
-    break;
-  }
+    case AUTHENTICATOR_KEY.IDP: {
+      const idpName =  authenticator.relatesTo?.displayName;
+      Object.assign(authenticatorData, {
+        description: isVerifyAuthenticator
+          ? ''
+          : loc('oie.idp.authenticator.description', 'login', [idpName]),
+        iconClassName: 'mfa-custom-factor',
+        buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      });
+      break;
+    }
+    case AUTHENTICATOR_KEY.CUSTOM_OTP: {
+      Object.assign(authenticatorData, {
+        description: isVerifyAuthenticator
+          ? ''
+          : loc('oie.custom_otp.description', 'login'),
+        iconClassName: 'mfa-hotp',
+        buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      });
+      break;
+    }
 
-  case AUTHENTICATOR_KEY.SYMANTEC_VIP: {
-    const appName =  authenticator.relatesTo?.displayName;
-    Object.assign(authenticatorData, {
-      description: isVerifyAuthenticator
-        ? ''
-        : loc('oie.symantecVip.authenticator.description', 'login', [appName]),
-      iconClassName: 'mfa-symantec',
-      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
-    });
-    break;
-  }
+    case AUTHENTICATOR_KEY.SYMANTEC_VIP: {
+      const appName =  authenticator.relatesTo?.displayName;
+      Object.assign(authenticatorData, {
+        description: isVerifyAuthenticator
+          ? ''
+          : loc('oie.symantecVip.authenticator.description', 'login', [appName]),
+        iconClassName: 'mfa-symantec',
+        buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      });
+      break;
+    }
 
-  case AUTHENTICATOR_KEY.YUBIKEY: {
-    Object.assign(authenticatorData, {
-      description: isVerifyAuthenticator
-        ? ''
-        : loc('oie.yubikey.authenticator.description', 'login'),
-      iconClassName: 'mfa-yubikey',
-      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
-    });
-    break;
-  }
+    case AUTHENTICATOR_KEY.YUBIKEY: {
+      Object.assign(authenticatorData, {
+        description: isVerifyAuthenticator
+          ? ''
+          : loc('oie.yubikey.authenticator.description', 'login'),
+        iconClassName: 'mfa-yubikey',
+        buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      });
+      break;
+    }
+
+    case AUTHENTICATOR_KEY.CUSTOM_APP: {
+      Object.assign(authenticatorData, {
+        description: '',
+        iconClassName: 'mfa-custom-app',
+        buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      });
+      break;
+    }
   }
 
   return authenticatorData;

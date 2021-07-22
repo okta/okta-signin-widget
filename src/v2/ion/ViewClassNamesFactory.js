@@ -26,6 +26,7 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
     [AUTHENTICATOR_KEY.DUO]: 'mfa-verify-duo',
     [AUTHENTICATOR_KEY.SYMANTEC_VIP]: 'mfa-verify',
     [AUTHENTICATOR_KEY.YUBIKEY]: 'mfa-verify',
+    [AUTHENTICATOR_KEY.CUSTOM_APP]: 'mfa-verify',
   },
   [FORMS.CHALLENGE_POLL]: {
     [AUTHENTICATOR_KEY.OV]: 'mfa-verify',
