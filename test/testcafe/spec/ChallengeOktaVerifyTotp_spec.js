@@ -94,6 +94,7 @@ test
     const challengeOktaVerifyTOTPPageObject = await setup(t);
     await challengeOktaVerifyTOTPPageObject.verifyFactor('credentials.totp', '123');
     await challengeOktaVerifyTOTPPageObject.clickNextButton();
+    await challengeOktaVerifyTOTPPageObject.waitForErrorBox();
     await t.expect(challengeOktaVerifyTOTPPageObject.getAnswerInlineError()).contains('Invalid code. Try again.');
   });
 

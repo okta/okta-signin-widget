@@ -143,7 +143,7 @@ export default Controller.extend({
       idx.proceed(actionPath, {})
         .then(this.handleIdxSuccess.bind(this))
         .catch(error => {
-          this.showFormErrors(this.formView.model, error);
+          this.showFormErrors(this.formView.model, error, this.formView.form);
         });
       return;
     }
@@ -155,11 +155,11 @@ export default Controller.extend({
       actionFn()
         .then(this.handleIdxSuccess.bind(this))
         .catch(error => {
-          this.showFormErrors(this.formView.model, error);
+          this.showFormErrors(this.formView.model, error, this.formView.form);
         });
     } else {
       this.options.settings.callGlobalError(`Invalid action selected: ${actionPath}`);
-      this.showFormErrors(this.formView.model, 'Invalid action selected.');
+      this.showFormErrors(this.formView.model, 'Invalid action selected.', this.formView.form);
     }
   },
 
@@ -188,7 +188,7 @@ export default Controller.extend({
     const idx = this.options.appState.get('idx');
     if (!this.options.appState.hasRemediationObject(formName)) {
       this.options.settings.callGlobalError(`Cannot find http action for "${formName}".`);
-      this.showFormErrors(this.formView.model, 'Cannot find action to proceed.');
+      this.showFormErrors(this.formView.model, 'Cannot find action to proceed.', this.formView.form);
       return;
     }
 
@@ -216,7 +216,7 @@ export default Controller.extend({
           // the SIW can proceed to the next step without showing error
           this.handleIdxSuccess(error);
         } else {
-          this.showFormErrors(model, error);
+          this.showFormErrors(model, error, this.formView.form);
         }
       })
       .finally(() => {
@@ -239,7 +239,7 @@ export default Controller.extend({
     return modelJSON;
   },
 
-  showFormErrors(model, error) {
+  showFormErrors(model, error, form) {
     model.trigger('clearFormError');
     if (!error) {
       error = 'FormController - unknown error found';
@@ -251,7 +251,11 @@ export default Controller.extend({
     } else if (error.errorSummary) {
       errorObj = { responseJSON: error };
     }
-    model.trigger('error', model, errorObj || { responseJSON: { errorSummary: String(error) } }, true);
+    const showErrorBanner = !form?.isErrorMessageCustomized(errorObj);
+    model.trigger('error', model, errorObj || { responseJSON: { errorSummary: String(error) } }, showErrorBanner);
+    if (!showErrorBanner) {
+      form.showCustomErrorMessage(errorObj);
+    }
   },
 
   handleIdxSuccess: function(idxResp) {

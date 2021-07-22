@@ -34,7 +34,7 @@ export default Form.extend({
     // Render CAPTCHA if one of the form fields requires us to.
     this.listenTo(this.options.appState, 'onCaptchaLoaded', (captchaObject) => {
       this.captchaObject = captchaObject;
-    });    
+    });
 
     inputOptions.forEach(input => {
       this.addInputOrView(input);
@@ -98,6 +98,23 @@ export default Form.extend({
         optionUiSchemas.forEach(this.addInputOrView.bind(this));
       }
     }
+  },
+
+  /*
+   * Whether an error message should be rendered as the default BaeForm error banner or not
+   * if this fn returns true, BaseForm won't render the error banner, and the Form needs to
+   * override showCustomErrorMessage with the logic to render an error message
+   */
+  isErrorMessageCustomized() {
+    return false;
+  },
+
+  /*
+   * Renders an error message
+   * This should be overriden if isErrorMessageCustomized() returns true
+   */
+  showCustomErrorMessage() {
+    this.$('.o-form-error-container').addClass('o-form-has-errors');
   },
 
   showMessages() {
