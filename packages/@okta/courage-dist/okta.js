@@ -11960,10 +11960,6 @@ var _default = {
 
         if (cause.property && cause.errorSummary) {
           res = this.parseErrorCauseObject(cause);
-        } else if (cause.location && cause.errorSummary) {
-          // To handle new api error format for field level errors.
-          // Ignoring the reason attribute as the translation happens in the API layer and not in the client any more.
-          res = [cause.location, cause.errorSummary];
         } else {
           res = this.parseErrorSummary(cause && cause.errorSummary || '');
         }
