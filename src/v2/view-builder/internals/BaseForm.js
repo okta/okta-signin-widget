@@ -101,22 +101,29 @@ export default Form.extend({
   },
 
   /*
-   * Whether an error message should be rendered as the default BaeForm error banner or not
-   * if this fn returns true, BaseForm won't render the error banner, and the Form needs to
-   * override showCustomErrorMessage with the logic to render an error message
+   * Whether an form error message should be rendered as the default BaseForm error banner or not
+   * if this function returns true, BaseForm won't render the error banner after form submit. Instead,
+   * the form needs to override showCustomErrorMessage with the logic to render that error message
    */
   isErrorMessageCustomized() {
     return false;
   },
 
   /*
-   * Renders an error message
+   * Renders an error message (if any) after form is submitted
    * This should be overriden if isErrorMessageCustomized() returns true
    */
   showCustomErrorMessage() {
     this.$('.o-form-error-container').addClass('o-form-has-errors');
   },
 
+  /*
+   * Renders the contents of messages object (if any) during initialize
+   * This function is called during Form.initialize, and will display
+   * messages when the form renders.
+   * Note: any errors happening after the form is rendered won't use this function,
+   * this is only used during initialize
+   */
   showMessages() {
     // render messages as text
     const messagesObjs = this.options.appState.get('messages');
