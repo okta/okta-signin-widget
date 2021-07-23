@@ -16,7 +16,7 @@ const Body = BaseForm.extend(Object.assign(
       return loc('mfa.challenge.verify', 'login');
     },
 
-    isErrorMessageCustomized(convertedErrors) {
+    isErrorCalloutCustomized(convertedErrors) {
       const errorSummaryKeys = convertedErrors?.responseJSON?.errorSummaryKeys;
       if (errorSummaryKeys && errorSummaryKeys.includes(OV_UV_ENABLE_BIOMETRIC_SERVER_KEY)) {
         return true;
@@ -24,8 +24,8 @@ const Body = BaseForm.extend(Object.assign(
       return false;
     },
 
-    showCustomErrorMessage() {
-      BaseForm.prototype.showCustomErrorMessage.apply(this, arguments);
+    showCustomErrorCallout() {
+      BaseForm.prototype.showCustomErrorCallout.apply(this, arguments);
       this.add('<div class="ion-messages-container"></div>', '.o-form-error-container');
       const options = {
         type: 'error',

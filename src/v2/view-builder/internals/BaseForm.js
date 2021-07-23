@@ -103,17 +103,17 @@ export default Form.extend({
   /*
    * Whether an form error message should be rendered as the default BaseForm error banner or not
    * if this function returns true, BaseForm won't render the error banner after form submit. Instead,
-   * the form needs to override showCustomErrorMessage with the logic to render that error message
+   * the form needs to override showCustomErrorCallout with the logic to render that error message
    */
-  isErrorMessageCustomized() {
+  isErrorCalloutCustomized() {
     return false;
   },
 
   /*
    * Renders an error message (if any) after form is submitted
-   * This should be overriden if isErrorMessageCustomized() returns true
+   * This should be overriden if isErrorCalloutCustomized() returns true
    */
-  showCustomErrorMessage() {
+  showCustomErrorCallout() {
     this.$('.o-form-error-container').addClass('o-form-has-errors');
   },
 

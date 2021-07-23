@@ -251,10 +251,10 @@ export default Controller.extend({
     } else if (error.errorSummary) {
       errorObj = { responseJSON: error };
     }
-    const showErrorBanner = !form?.isErrorMessageCustomized(errorObj);
+    const showErrorBanner = !form?.isErrorCalloutCustomized(errorObj);
     model.trigger('error', model, errorObj || { responseJSON: { errorSummary: String(error) } }, showErrorBanner);
     if (!showErrorBanner) {
-      form.showCustomErrorMessage(errorObj);
+      form.showCustomErrorCallout(errorObj);
     }
   },
 
