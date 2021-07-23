@@ -34,7 +34,6 @@ export default Model.extend({
     baseUrl: ['string', true],
     recoveryToken: ['string', false, undefined],
     stateToken: ['string', false, undefined],
-    interactionHandle: ['string', false, undefined],
     username: ['string', false],
     signOutLink: ['string', false],
     relayState: ['string', false],
@@ -242,9 +241,9 @@ export default Model.extend({
       },
     },
     mode: {
-      deps: ['useInteractionCodeFlow', 'interactionHandle', 'codeChallenge'],
-      fn: function(useInteractionCodeFlow, interactionHandle, codeChallenge) {
-        if (interactionHandle || (useInteractionCodeFlow && codeChallenge)) {
+      deps: ['useInteractionCodeFlow', 'codeChallenge'],
+      fn: function(useInteractionCodeFlow, codeChallenge) {
+        if (useInteractionCodeFlow && codeChallenge) {
           return 'remediation';
         }
         return 'relying-party';
