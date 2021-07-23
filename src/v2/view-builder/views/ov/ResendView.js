@@ -1,6 +1,8 @@
-import { View, createCallout, _ } from 'okta';
-import hbs from 'handlebars-inline-precompile';
+import { View, createCallout, _, loc } from 'okta';
 import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
+
+const IDX_EMAIL_CODE_NOT_RECEIVED = 'idx.email.code.not.received';
+const IDX_SMS_CODE_NOT_RECEIVED = 'idx.sms.code.not.received';
 
 export default View.extend({
   //only show after certain threshold of polling
@@ -11,10 +13,25 @@ export default View.extend({
 
   initialize() {
     const selectedChannel = this.options.appState.get('currentAuthenticator').contextualData.selectedChannel;
+    let resendMessage;
+    if (this.settings.get('features.hasPollingWarningMessages')) {
+      if (this.options.appState.containsMessageWithI18nKey(IDX_EMAIL_CODE_NOT_RECEIVED)) {
+        resendMessage = loc(`${IDX_EMAIL_CODE_NOT_RECEIVED}`, 'login');
+      } else if (this.options.appState.containsMessageWithI18nKey(IDX_SMS_CODE_NOT_RECEIVED)) {
+        resendMessage = loc(`${IDX_SMS_CODE_NOT_RECEIVED}`, 'login');
+      }
+    } else {
+      resendMessage = selectedChannel === 'email'
+        ? loc('oie.enroll.okta_verify.email.notReceived', 'login')
+        : loc('oie.enroll.okta_verify.sms.notReceived', 'login');        
+    }
+
+    const linkText = selectedChannel === 'email'
+      ? loc('email.button.resend', 'login')
+      : loc('oie.phone.verify.sms.resendLinkText', 'login');
+
     this.add(createCallout({
-      content: selectedChannel === 'email' ?
-        hbs `{{{i18n code="oie.enroll.okta_verify.email.notReceived" bundle="login"}}}`:
-        hbs `{{{i18n code="oie.enroll.okta_verify.sms.notReceived" bundle="login"}}}`,
+      content: `${resendMessage}&nbsp;<a class='resend-link'>${linkText}</a>`,
       type: 'warning',
     }));
   },

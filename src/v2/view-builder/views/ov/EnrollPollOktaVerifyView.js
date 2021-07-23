@@ -3,7 +3,7 @@ import { BaseForm } from '../../internals';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import polling from '../shared/polling';
-import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
+import { FORMS as RemediationForms, MESSAGE_CLASS } from '../../../ion/RemediationConstants';
 import ResendView from './ResendView';
 import SwitchEnrollChannelLinkView from './SwitchEnrollChannelLinkView';
 import EnrollChannelPollDescriptionView from './EnrollChannelPollDescriptionView';
@@ -52,7 +52,9 @@ const Body = BaseForm.extend(Object.assign(
 
         messagesObjs.value.forEach(messagesObj => {
           const msg = messagesObj.message;
-          if (messagesObj?.class === 'ERROR') {
+          if (!messagesObj.class || messagesObj?.class === MESSAGE_CLASS.INFO) {
+            this.add(`<p>${msg}</p>`, '.ion-messages-container');
+          } else if (messagesObj?.class === MESSAGE_CLASS.ERROR) {
             const options = {
               content: msg,
               type: 'error',
@@ -66,8 +68,6 @@ const Body = BaseForm.extend(Object.assign(
               options.title = loc('oie.authenticator.app.method.push.enroll.enable.biometrics.title', 'login');
             }
             this.add(createCallout(options), '.o-form-error-container');
-          } else {
-            this.add(`<p>${msg}</p>`, '.ion-messages-container');
           }
         });
 

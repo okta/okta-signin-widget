@@ -3,6 +3,9 @@ import { BaseForm, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
 
+const IDX_CALL_CODE_NOT_RECEIVED = 'idx.phone.call.not.received';
+const IDX_SMS_CODE_NOT_RECEIVED = 'idx.sms.code.not.received';
+
 const ResendView = View.extend(
   {
     // To be shown after a timeout
@@ -15,14 +18,25 @@ const ResendView = View.extend(
     resendActionKey: 'currentAuthenticatorEnrollment-resend',
 
     initialize() {
-      const resendText = (this.model.get('mode') === 'sms')
-        ? loc('oie.phone.verify.sms.resendText', 'login')
-        : loc('oie.phone.verify.call.resendText', 'login');
+      let resendMessage;
+      if (this.settings.get('features.hasPollingWarningMessages')) {
+        if (this.options.appState.containsMessageWithI18nKey(IDX_CALL_CODE_NOT_RECEIVED)) {
+          resendMessage = loc(`${IDX_CALL_CODE_NOT_RECEIVED}`, 'login');
+        } else if (this.options.appState.containsMessageWithI18nKey(IDX_SMS_CODE_NOT_RECEIVED)) {
+          resendMessage = loc(`${IDX_SMS_CODE_NOT_RECEIVED}`, 'login');
+        }
+      } else {
+        resendMessage = (this.model.get('mode') === 'sms')
+          ? loc('oie.phone.verify.sms.resendText', 'login')
+          : loc('oie.phone.verify.call.resendText', 'login');
+      }
+
       const linkText = (this.model.get('mode') === 'sms')
         ? loc('oie.phone.verify.sms.resendLinkText', 'login')
         : loc('oie.phone.verify.call.resendLinkText', 'login');
+        
       this.add(createCallout({
-        content: `${resendText}&nbsp;<a class='resend-link'>${linkText}</a>`,
+        content: `${resendMessage}&nbsp;<a class='resend-link'>${linkText}</a>`,
         type: 'warning',
       }));
     },

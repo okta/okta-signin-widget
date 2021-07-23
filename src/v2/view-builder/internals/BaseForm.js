@@ -1,5 +1,6 @@
 import { _, Form, loc, internal } from 'okta';
 import FormInputFactory from './FormInputFactory';
+import { MESSAGE_CLASS } from '../../ion/RemediationConstants';
 
 const { FormUtil } = internal.views.forms.helpers;
 
@@ -128,9 +129,12 @@ export default Form.extend({
     // render messages as text
     const messagesObjs = this.options.appState.get('messages');
     if (messagesObjs?.value.length) {
-      const content = messagesObjs.value.map((messagesObj) => {
-        return messagesObj.message;
-      });
+      const content = messagesObjs.value
+        // We don't display messages of class WARN
+        .filter(messagesObj => messagesObj?.class !== MESSAGE_CLASS.WARN)
+        .map((messagesObj) => {
+          return messagesObj.message;
+        });
       this.add(`<div class="ion-messages-container">${content.join(' ')}</div>`, '.o-form-error-container');
     }
   },

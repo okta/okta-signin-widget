@@ -5,6 +5,8 @@ import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
 import BaseFormWithPolling from '../../internals/BaseFormWithPolling';
 
+const IDX_EMAIL_CODE_NOT_RECEIVED = 'idx.email.code.not.received';
+
 const ResendView = View.extend(
   {
     className: 'hide resend-email-view',
@@ -13,8 +15,17 @@ const ResendView = View.extend(
     },
 
     initialize() {
+      let resendMessage;
+      if (this.settings.get('features.hasPollingWarningMessages')) {
+        if (this.options.appState.containsMessageWithI18nKey(IDX_EMAIL_CODE_NOT_RECEIVED)) {
+          resendMessage = loc(`${IDX_EMAIL_CODE_NOT_RECEIVED}`, 'login');
+        }
+      } else {
+        resendMessage = loc('email.code.not.received', 'login');
+      }
+
       this.add(createCallout({
-        content: `${loc('email.code.not.received', 'login')}
+        content: `${resendMessage}
         <a class='resend-link'>${loc('email.button.resend', 'login')}</a>`,
         type: 'warning',
       }));
