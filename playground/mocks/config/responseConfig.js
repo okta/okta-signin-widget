@@ -460,7 +460,8 @@ const ovTotpError = {
     'authenticator-verification-okta-verify-totp'
   ],
   '/idp/idx/challenge/answer': [
-    'error-okta-verify-totp'
+    'error-okta-verify-totp',
+    // 'error-okta-verify-uv-totp-verify-enable-biometrics',
   ],
 };
 

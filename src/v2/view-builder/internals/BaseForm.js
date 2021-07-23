@@ -34,7 +34,7 @@ export default Form.extend({
     // Render CAPTCHA if one of the form fields requires us to.
     this.listenTo(this.options.appState, 'onCaptchaLoaded', (captchaObject) => {
       this.captchaObject = captchaObject;
-    });    
+    });
 
     inputOptions.forEach(input => {
       this.addInputOrView(input);
@@ -100,6 +100,30 @@ export default Form.extend({
     }
   },
 
+  /*
+   * Whether an form error message should be rendered as the default BaseForm error banner or not
+   * if this function returns true, BaseForm won't render the error banner after form submit. Instead,
+   * the form needs to override showCustomErrorCallout with the logic to render that error message
+   */
+  isErrorCalloutCustomized() {
+    return false;
+  },
+
+  /*
+   * Renders an error message (if any) after form is submitted
+   * This should be overriden if isErrorCalloutCustomized() returns true
+   */
+  showCustomErrorCallout() {
+    this.$('.o-form-error-container').addClass('o-form-has-errors');
+  },
+
+  /*
+   * Renders the contents of messages object (if any) during initialize
+   * This function is called during Form.initialize, and will display
+   * messages when the form renders.
+   * Note: any errors happening after the form is rendered won't use this function,
+   * this is only used during initialize
+   */
   showMessages() {
     // render messages as text
     const messagesObjs = this.options.appState.get('messages');
