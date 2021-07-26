@@ -86,7 +86,9 @@ function antiPhishingMessage(image, host) {
     },
   });
 
-  image.qtip('toggle', image.is(':visible'));
+  setTimeout(() => {
+    image.qtip('toggle', image.is(':visible'));
+  }, 1);
 }
 
 function destroyAntiPhishingMessage(image) {
