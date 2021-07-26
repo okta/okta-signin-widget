@@ -80,6 +80,7 @@ export default Router.extend({
     configIdxJsClient(this.appState);
     this.listenTo(this.appState, 'remediationSuccess', this.handleIdxResponseSuccess);
     this.listenTo(this.appState, 'remediationError', this.handleIdxResponseFailure);
+    this.listenTo(this.appState, 'interactionCanceled', this.handleInteractionCanceled);
   },
 
   handleIdxResponseSuccess(idxResponse) {
@@ -215,6 +216,7 @@ export default Router.extend({
         .then(idxResp => {
           this.settings.unset('stateToken');
           this.settings.unset('proxyIdxResponse');
+          // TODO: do not unset  `useInteractionCodeFlow` OKTA-405474
           this.settings.unset('useInteractionCodeFlow');
           this.appState.trigger('remediationSuccess', idxResp);
           this.render(Controller, options);
@@ -222,6 +224,7 @@ export default Router.extend({
         .catch(errorResp => {
           this.settings.unset('stateToken');
           this.settings.unset('proxyIdxResponse');
+          // TODO: do not unset  `useInteractionCodeFlow` OKTA-405474
           this.settings.unset('useInteractionCodeFlow');
           this.appState.trigger('remediationError', errorResp.error || errorResp);
           this.render(Controller, options);
@@ -239,6 +242,7 @@ export default Router.extend({
 
     // render Controller
     this.unload();
+
     const controllerOptions = _.extend({
       el: this.el,
       settings: this.settings,
@@ -250,6 +254,10 @@ export default Router.extend({
     this.listenTo(this.controller, 'all', this.trigger);
 
     this.controller.render();
+  },
+
+  handleInteractionCanceled() {
+    this.render(this.controller.constructor);
   },
 
   start: function() {

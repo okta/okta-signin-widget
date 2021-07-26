@@ -86,3 +86,11 @@ export function isTransactionMetaValid(settings, meta) {
 
   return true;
 }
+
+export function isInteractionCodeFlow(settings) {
+  // Because useInteractionCodeFlow is unset after startLoginFlow, check interactionHandle
+  // TODO: Revise this with OKTA-405474
+  const authClient = settings.getAuthClient();
+  const transactionMeta = authClient.transactionManager.load();
+  return settings.get('useInteractionCodeFlow') || !!transactionMeta?.interactionHandle;
+}

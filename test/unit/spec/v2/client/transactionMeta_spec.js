@@ -3,7 +3,8 @@ import {
   getTransactionMeta,
   saveTransactionMeta,
   clearTransactionMeta,
-  isTransactionMetaValid
+  isTransactionMetaValid,
+  isInteractionCodeFlow
 } from 'v2/client/transactionMeta';
 import { Model } from 'okta';
 
@@ -229,6 +230,27 @@ describe('v2/client/transactionMeta', () => {
       testContext.transactionMeta.codeChallengeMethod = 'abc';
       testContext.settings.set('codeChallengeMethod', 'abc');
       expect(isTransactionMetaValid(testContext.settings, testContext.transactionMeta)).toBe(true);
+    });
+  });
+
+  describe('isInteractionCodeFlow', () => {
+    it('returns true if useInteractionCodeFlow option in set', async () => {
+      testContext.settings.useInteractionCodeFlow = true;
+      const res = await isInteractionCodeFlow(testContext.settings);
+      expect(res).toBe(true);
+    });
+
+    it('returns true if interactionHandle in present in transactionMeta', async () => {
+      testContext.transactionMeta.interactionHandle = testContext.interactionHandle;
+      const res = await isInteractionCodeFlow(testContext.settings);
+      expect(res).toBe(true);
+    });
+
+    it('returns false if no interactionHandle is present and option useInteractionCodeFlow is not set', async () => {
+      delete testContext.settings.useInteractionCodeFlow;
+      delete testContext.transactionMeta.interactionHandle;
+      const res = await isInteractionCodeFlow(testContext.settings);
+      expect(res).toBe(false);
     });
   });
 });

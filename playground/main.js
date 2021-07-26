@@ -55,11 +55,11 @@ const renderPlaygroundWidget = (options = {}) => {
       //    an array of tokens or a single token, depending on the
       //    initial configuration.
       else if (Array.isArray(res)) {
-        console.log(res);
+        console.log(JSON.stringify(res));
         alert('SUCCESS: OIDC with multiple responseTypes. Check console.');
       }
       else {
-        console.log(res);
+        console.log(JSON.stringify(res));
         alert('SUCCESS: OIDC with single responseType. Check Console');
       }
     },

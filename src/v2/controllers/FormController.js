@@ -16,7 +16,7 @@ import { getV1ClassName } from '../ion/ViewClassNamesFactory';
 import { FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/RemediationConstants';
 import Util from '../../util/Util';
 import sessionStorageHelper from '../client/sessionStorageHelper';
-import { clearTransactionMeta } from '../client';
+import { clearTransactionMeta, isInteractionCodeFlow } from '../client';
 
 export default Controller.extend({
   className: 'form-controller',
@@ -132,6 +132,7 @@ export default Controller.extend({
 
   handleInvokeAction(actionPath = '') {
     const idx = this.options.appState.get('idx');
+    const useInteractionCodeFlow = isInteractionCodeFlow(this.options.settings);
 
     if (actionPath === 'cancel') {
       clearTransactionMeta(this.options.settings);
@@ -153,7 +154,15 @@ export default Controller.extend({
     if (_.isFunction(actionFn)) {
       // TODO: OKTA-243167 what's the approach to show spinner indicating API in flight?
       actionFn()
-        .then(this.handleIdxSuccess.bind(this))
+        .then((resp) => {
+          if (actionPath === 'cancel' && useInteractionCodeFlow) {
+            // TODO: remove this line after OKTA-405474
+            this.options.settings.set('useInteractionCodeFlow', true);
+            this.options.appState.trigger('interactionCanceled');
+          } else {
+            this.handleIdxSuccess(resp);
+          }
+        })
         .catch(error => {
           this.showFormErrors(this.formView.model, error, this.formView.form);
         });
