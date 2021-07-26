@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint complexity: [2, 47], max-statements: [2, 56] */
+/* eslint complexity: [2, 47], max-statements: [2, 63] */
 
 import { _, loc } from 'okta';
 import hbs from 'handlebars-inline-precompile';
@@ -237,14 +237,21 @@ fn.handleResponseStatus = function(router, res) {
     if (router.settings.get('features.selfServiceUnlock')) {
       router.navigate('signin/unlock', { trigger: true });
     } else {
-      const err = {
+      const errorMessage = loc('error.auth.lockedOut', 'login');
+      const resError = {
         responseJSON: {
           errorCauses: [],
-          errorSummary: loc('error.auth.lockedOut', 'login'),
+          errorSummary: errorMessage,
+          errorCode: 'E0000069',
         },
       };
+      const err = {
+        name: 'AuthApiError',
+        message: errorMessage,
+        xhr: resError
+      };
       router.controller.model.appState.trigger('removeLoading');
-      router.controller.model.trigger('error', router.controller.model, err);
+      router.controller.model.trigger('error', router.controller.model, resError);
       Util.triggerAfterError(router.controller, err);
     }
     return;
