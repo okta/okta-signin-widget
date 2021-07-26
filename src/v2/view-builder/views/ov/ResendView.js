@@ -13,25 +13,29 @@ export default View.extend({
 
   initialize() {
     const selectedChannel = this.options.appState.get('currentAuthenticator').contextualData.selectedChannel;
-    let resendMessage;
+    let content;
     if (this.settings.get('features.hasPollingWarningMessages')) {
+      let resendMessage;
       if (this.options.appState.containsMessageWithI18nKey(IDX_EMAIL_CODE_NOT_RECEIVED)) {
         resendMessage = loc(`${IDX_EMAIL_CODE_NOT_RECEIVED}`, 'login');
       } else if (this.options.appState.containsMessageWithI18nKey(IDX_SMS_CODE_NOT_RECEIVED)) {
         resendMessage = loc(`${IDX_SMS_CODE_NOT_RECEIVED}`, 'login');
       }
+
+      const linkText = selectedChannel === 'email'
+        ? loc('email.button.resend', 'login')
+        : loc('oie.phone.verify.sms.resendLinkText', 'login');
+
+      content = `${resendMessage}&nbsp;<a class='resend-link'>${linkText}</a>`;
+
     } else {
-      resendMessage = selectedChannel === 'email'
+      content = selectedChannel === 'email'
         ? loc('oie.enroll.okta_verify.email.notReceived', 'login')
         : loc('oie.enroll.okta_verify.sms.notReceived', 'login');        
     }
 
-    const linkText = selectedChannel === 'email'
-      ? loc('email.button.resend', 'login')
-      : loc('oie.phone.verify.sms.resendLinkText', 'login');
-
     this.add(createCallout({
-      content: `${resendMessage}&nbsp;<a class='resend-link'>${linkText}</a>`,
+      content: content,
       type: 'warning',
     }));
   },
