@@ -82,6 +82,7 @@ test.requestHooks(identifyChallengeMock)('shall save state handle during authent
   await t.expect(getStateHandleFromSessionStorage()).eql(xhrEmailVerification.stateHandle);
 
   // Verify
+  await challengeEmailPageObject.clickEnterCodeLink();
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '1234');
   await challengeEmailPageObject.clickNextButton();
 
@@ -113,6 +114,7 @@ test.requestHooks(identifyChallengeMock)('shall save state handle during authent
   const pageTitle = challengeEmailPageObject.form.getTitle();
   await t.expect(pageTitle).eql('Verify with your email');
   await t.expect(getStateHandleFromSessionStorage()).eql(xhrEmailVerification.stateHandle);
+  await challengeEmailPageObject.clickEnterCodeLink();
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '1234');
   await challengeEmailPageObject.clickNextButton();
 
@@ -127,6 +129,7 @@ test.requestHooks(identifyChallengeMock)('shall save state handle during authent
   await t.expect(getStateHandleFromSessionStorage()).eql(xhrEmailVerification.stateHandle);
 
   // Verify
+  await challengeEmailPageObject.clickEnterCodeLink();
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '1234');
   await challengeEmailPageObject.clickNextButton();
 
@@ -187,6 +190,7 @@ test.requestHooks(identifyChallengeMock)('shall clear when session.stateHandle i
   // Email challenge page
   const pageTitle = challengeEmailPageObject.form.getTitle();
   await t.expect(pageTitle).eql('Verify with your email');
+  await challengeEmailPageObject.clickEnterCodeLink();
   await t.expect(getStateHandleFromSessionStorage()).eql(xhrEmailVerification.stateHandle);
 
   // Reset mocks
@@ -310,6 +314,7 @@ test.requestHooks(identifyChallengeMock)('shall back to sign-in and authenticate
   // Email challenge page - verify
   pageTitle = challengeEmailPageObject.form.getTitle();
   await t.expect(pageTitle).eql('Verify with your email');
+  await challengeEmailPageObject.clickEnterCodeLink();
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '1234');
   await challengeEmailPageObject.clickNextButton();
   

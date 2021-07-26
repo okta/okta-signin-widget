@@ -12,4 +12,8 @@ export default class ChallengeEmailPageObject extends ChallengeFactorPageObject 
   async clickSendAgainLink() {
     await this.form.clickElement('.resend-email-view a.resend-link');
   }
+
+  async clickEnterCodeLink() {
+    await this.form.clickElement('.enter-auth-code-instead-link');
+  }
 }

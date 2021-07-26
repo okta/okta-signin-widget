@@ -75,10 +75,13 @@ test.requestHooks(identifyLockedUserMock)('should show unlock account authentica
   await t.expect(selectFactorPage.getFactorsCount()).eql(2);
   await selectFactorPage.fillIdentifierField('username');
   await selectFactorPage.selectFactorByIndex(0);
+
   const challengeEmailPageObject =new ChallengeEmailPageObject(t);
   await t.expect(challengeEmailPageObject.getFormTitle()).eql('Verify with your email');
+  await challengeEmailPageObject.clickEnterCodeLink();
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '12345');
   await challengeEmailPageObject.clickNextButton();
+
   const successPage = new TerminalPageObject(t);
   await t.expect(successPage.getFormTitle()).eql('Account successfully unlocked!');
   await t.expect(successPage.getMessages()).eql('You can log in using your existing username and password.');
@@ -103,9 +106,12 @@ test.requestHooks(errorUnlockAccount)('should show error when unlock account fai
   const selectFactorPage = new SelectFactorPageObject(t);
   await selectFactorPage.fillIdentifierField('username');
   await selectFactorPage.selectFactorByIndex(0);
-  const challengeEmailPageObject =new ChallengeEmailPageObject(t);
+
+  const challengeEmailPageObject = new ChallengeEmailPageObject(t);
+  await challengeEmailPageObject.clickEnterCodeLink();
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '12345');
   await challengeEmailPageObject.clickNextButton();
+
   const terminaErrorPage = new TerminalPageObject(t);
   await terminaErrorPage.waitForErrorBox();
   await t.expect(terminaErrorPage.getErrorMessages().isError()).eql(true);
