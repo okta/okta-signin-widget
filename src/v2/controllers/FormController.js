@@ -46,6 +46,7 @@ export default Controller.extend({
       currentViewState.name,
       this.options.appState.get('authenticatorKey'),
     );
+
     try {
       this.formView = this.add(TheView, {
         options: {
