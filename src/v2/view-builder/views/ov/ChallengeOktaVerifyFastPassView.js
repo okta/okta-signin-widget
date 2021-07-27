@@ -1,6 +1,7 @@
 import { $ } from 'okta';
 import { BaseForm } from '../../internals';
 import Logger from '../../../../util/Logger';
+import { CHALLENGE_TIMEOUT } from '../../utils/Constants';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import polling from '../shared/polling';
 import {doChallenge} from '../../utils/ChallengeViewUtil';
@@ -82,7 +83,7 @@ const Body = BaseForm.extend(Object.assign(
           url: getAuthenticatorUrl('challenge'),
           method: 'POST',
           data: JSON.stringify({ challengeRequest }),
-          timeout: 3000 // authenticator should respond within 3000ms for challenge request
+          timeout: CHALLENGE_TIMEOUT // authenticator should respond within 5 min (300000ms) for challenge request
         });
       };
 

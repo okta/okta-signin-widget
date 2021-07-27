@@ -3,7 +3,7 @@ import { BaseForm, BaseFormWithPolling, BaseFooter, BaseView } from '../../inter
 import Logger from '../../../../util/Logger';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import Enums from '../../../../util/Enums';
-import { CANCEL_POLLING_ACTION } from '../../utils/Constants';
+import { CANCEL_POLLING_ACTION, CHALLENGE_TIMEOUT } from '../../utils/Constants';
 import Link from '../../components/Link';
 import { doChallenge } from '../../utils/ChallengeViewUtil';
 import OktaVerifyAuthenticatorHeader from '../../components/OktaVerifyAuthenticatorHeader';
@@ -90,7 +90,7 @@ const Body = BaseFormWithPolling.extend(
           url: getAuthenticatorUrl('challenge'),
           method: 'POST',
           data: JSON.stringify({ challengeRequest }),
-          timeout: 3000 // authenticator should respond within 3000ms for challenge request
+          timeout: CHALLENGE_TIMEOUT // authenticator should respond within 5 min (300000ms) for challenge request
         });
       };
 
