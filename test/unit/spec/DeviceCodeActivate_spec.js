@@ -5,6 +5,7 @@ import DeviceCodeActivateForm from 'helpers/dom/DeviceCodeActivateForm';
 import Util from 'helpers/mocks/Util';
 import Expect from 'helpers/util/Expect';
 import resDeviceCodeActivate from 'helpers/xhr/DEVICE_CODE_ACTIVATE';
+import resDeviceCodeActivateError from 'helpers/xhr/DEVICE_CODE_ACTIVATE_invalidCode';
 import resDeviceCodeActivated from 'helpers/xhr/DEVICE_CODE_TERMINAL_activated';
 import resDeviceCodeActivateInvalidCode from 'helpers/xhr/DEVICE_CODE_TERMINAL_invalidCode';
 import $sandbox from 'sandbox';
@@ -117,6 +118,17 @@ Expect.describe('DeviceCodeActivate', function() {
         .then(function(test) {
           test.form.setUserCodeAndTriggerKeyup('BADD');
           expect(test.form.userCodeField().val()).toBe('BADD-');
+        });
+    });
+    itp('url with invalid user code shows error', function() {
+      return setup(undefined, resDeviceCodeActivateError)
+        .then(function(test) {
+          Util.resetAjaxRequests();
+          return Expect.waitForFormError(test.form, test);
+        })
+        .then(function(test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage()).toBe('Invalid code. Try again.');
         });
     });
   });

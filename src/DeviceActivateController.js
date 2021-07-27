@@ -11,10 +11,20 @@
  */
 
 /* eslint max-len: [2, 160] */
-import { loc } from 'okta';
+import hbs from 'handlebars-inline-precompile';
+import {loc, View} from 'okta';
 import FormController from 'util/FormController';
 import FormType from 'util/FormType';
 import TextBox from './views/shared/TextBox';
+
+const InvalidUserCodeErrorView = View.extend({
+  template: hbs`
+      <div class="okta-form-infobox-error infobox infobox-error" role="alert">
+          <span class="icon error-16"></span>
+           <p>{{i18n code="api.authn.error.PASSCODE_INVALID" bundle="login"}}</p>
+      </div>
+    `
+});
 
 export default FormController.extend({
   className: 'device-code-activate',
@@ -45,6 +55,10 @@ export default FormController.extend({
       return loc('device.code.activate.subtitle', 'login');
     },
     formChildren: function() {
+      if (this.options.appState.get('deviceActivationStatus') === 'INVALID_USER_CODE') {
+        this.add(InvalidUserCodeErrorView, '.o-form-error-container');
+      }
+
       return [
         FormType.Input({
           label: loc('device.code.activate.label', 'login'),
