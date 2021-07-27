@@ -31,6 +31,12 @@ describe('OIDC flows', function() {
   });
 
   it('can login and auth in a basic flow', function() {
+    // TODO: remove when OKTA-415707 is resolved
+    if (process.env.ORG_OIE_ENABLED) {
+      console.error('test is disabled: OKTA-415707');
+      return;
+    }
+
     Expect.toBeA11yCompliant();
     primaryAuth.loginToForm('{{{WIDGET_BASIC_USER_3}}}', '{{{WIDGET_BASIC_PASSWORD_3}}}');
     oktaHome.waitForPageLoad();

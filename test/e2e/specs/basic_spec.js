@@ -98,6 +98,11 @@ describe('Basic flows', function() {
   });
 
   it('redircts to successful page when features.redirectByFormSubmit is on', function() {
+    // TODO: remove when OKTA-415707 is resolved
+    if (process.env.ORG_OIE_ENABLED) {
+      console.error('test is disabled: OKTA-415707');
+      return;
+    }
     browser.executeScript('oktaSignIn.remove()');
     function createWidget() {
       options.features = {
