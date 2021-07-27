@@ -1,4 +1,4 @@
-import { View, loc } from 'okta';
+import { View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import BaseAuthenticatorEmailView from './BaseAuthenticatorEmailView';
 
@@ -11,19 +11,29 @@ const CheckYourEmailTitle = View.extend({
     'data-se': 'o-form-explain',
   },
   template: hbs`
+    {{#if email}}
+      {{i18n 
+          code="oie.email.verify.alternate.magicLinkToEmailAddress" 
+          bundle="login" 
+          arguments="email" 
+          $1="<span class='strong'>$1</span>"
+      }}
+    {{else}}
+      {{i18n 
+        code="oie.email.verify.alternate.magicLinkToYourEmail" 
+        bundle="login" 
+        $1="<span class='strong'>$1</span>"
+      }}
+    {{/if}}
     {{i18n 
-      code="oie.email.verify.alternate.sentText" 
+      code="oie.email.verify.alternate.instructions" 
       bundle="login" 
-      arguments="email" 
-      $1="<span class='strong'>$1</span>"
     }}
   `,
 
   getTemplateData() {
     const { email } = this.options;
-    return {
-      email: email || loc('oie.email.verify.alternate.sentText.email', 'login'),
-    };
+    return { email };
   },
 });
 
