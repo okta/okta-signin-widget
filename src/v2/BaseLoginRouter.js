@@ -80,7 +80,7 @@ export default Router.extend({
     configIdxJsClient(this.appState);
     this.listenTo(this.appState, 'remediationSuccess', this.handleIdxResponseSuccess);
     this.listenTo(this.appState, 'remediationError', this.handleIdxResponseFailure);
-    this.listenTo(this.appState, 'interactionCanceled', this.handleInteractionCanceled);
+    this.listenTo(this.appState, 'restartLoginFlow', this.restartLoginFlow);
   },
 
   handleIdxResponseSuccess(idxResponse) {
@@ -245,7 +245,7 @@ export default Router.extend({
     this.controller.render();
   },
 
-  handleInteractionCanceled() {
+  restartLoginFlow() {
     this.render(this.controller.constructor);
   },
 
