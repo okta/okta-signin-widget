@@ -70,16 +70,6 @@ describe('v2/client/startLoginFlow', () => {
     expect(mocked.introspect.introspect).not.toHaveBeenCalled();
   });
 
-  it('shall run interation flow when pass a "interactionHandle"', async () => {
-    testContext.settings.set('interactionHandle', 'abc interaction handle 123');
-    const result = await startLoginFlow(testContext.settings);
-    expect(result).toEqual('fake interact response');
-
-    expect(mocked.interact.interact).toHaveBeenCalledWith(testContext.settings);
-    expect(mocked.interact.interact).toHaveBeenCalledTimes(1);
-    expect(mocked.introspect.introspect).not.toHaveBeenCalled();
-  });
-
   it('shall introspect on "settings.stateToken"', async () => {
     const result = await startLoginFlow(testContext.settings);
     expect(result).toEqual('first introspect response');

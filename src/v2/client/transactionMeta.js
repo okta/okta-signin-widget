@@ -35,15 +35,11 @@ export async function getTransactionMeta(settings) {
   }
 
   // New transaction
+  const meta = await createTransactionMeta(settings);
 
-  let interactionHandle = settings.get('interactionHandle');
+  // If a codeChallenge was passed in config, use it
   let codeChallenge = settings.get('codeChallenge');
   let codeChallengeMethod = settings.get('codeChallengeMethod');
-
-  const meta = await createTransactionMeta(settings);
-  if (interactionHandle) {
-    meta.interactionHandle = interactionHandle;
-  }
   if (codeChallenge) {
     meta.codeChallenge = codeChallenge;
   }
@@ -73,12 +69,6 @@ export function isTransactionMetaValid(settings, meta) {
     return authClient.options[key] !== meta[key];
   });
   if (mismatch) {
-    return false;
-  }
-
-  // if `interactionHandle` option was provided, validate it against the meta
-  const interactionHandle = settings.get('interactionHandle');
-  if (interactionHandle && meta.interactionHandle !== interactionHandle) {
     return false;
   }
 

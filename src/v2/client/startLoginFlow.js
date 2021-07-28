@@ -33,9 +33,8 @@ export async function startLoginFlow(settings) {
     sessionStorageHelper.removeStateHandle();
   }
 
-  // Use or acquire interactionHandle
-  const useInteractionHandle = settings.get('useInteractionCodeFlow') || settings.get('interactionHandle');
-  if (useInteractionHandle) {
+  // Use interaction code flow, if enabled
+  if (settings.get('useInteractionCodeFlow')) {
     return interact(settings);
   }
 
