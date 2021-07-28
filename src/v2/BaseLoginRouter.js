@@ -192,6 +192,7 @@ export default Router.extend({
     if (sessionStorageHelper.getLastInitiatedLoginUrl() !== window.location.href) {
       sessionStorageHelper.removeStateHandle();
     }
+    
     // Since we have a wrapper view, render our wrapper and use its content
     // element as our new el.
     // Note: Render it here because we know dom is ready at this point
@@ -216,21 +217,22 @@ export default Router.extend({
         .then(idxResp => {
           this.settings.unset('stateToken');
           this.settings.unset('proxyIdxResponse');
-          // TODO: do not unset  `useInteractionCodeFlow` OKTA-405474
-          this.settings.unset('useInteractionCodeFlow');
           this.appState.trigger('remediationSuccess', idxResp);
-          this.render(Controller, options);
         })
         .catch(errorResp => {
           this.settings.unset('stateToken');
           this.settings.unset('proxyIdxResponse');
-          // TODO: do not unset  `useInteractionCodeFlow` OKTA-405474
-          this.settings.unset('useInteractionCodeFlow');
           this.appState.trigger('remediationError', errorResp.error || errorResp);
-          this.render(Controller, options);
+        })
+        .finally(() => {
+          this._render(Controller, options);
         });
     }
 
+    this._render(Controller, options);
+  },
+
+  _render: function(Controller, options = {}) {
     // Load the custom colors only on the first render
     if (this.settings.get('colors.brand') && !ColorsUtil.isLoaded()) {
       const colors = {
