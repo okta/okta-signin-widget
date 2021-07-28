@@ -1,6 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import DeviceCodeActivatePageObject from '../framework/page-objects/DeviceCodeActivatePageObject';
 import deviceCodeActivateResponse from '../../../playground/mocks/data/idp/idx/device-code-activate.json';
+import deviceCodeActivateErrorResponse from '../../../playground/mocks/data/idp/idx/error-device-code-activate.json';
 import idxActivateResponse from '../../../playground/mocks/data/idp/idx/identify-with-password.json';
 import idxActivateErrorResponse from '../../../playground/mocks/data/idp/idx/error-invalid-device-code.json';
 import idxDeviceActivatedTerminalResponse from '../../../playground/mocks/data/idp/idx/terminal-device-activated.json';
@@ -36,6 +37,14 @@ const invalidDeviceCodeMock = RequestMock()
   .respond(deviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/idp/idx/device/activate')
   .respond(idxActivateErrorResponse, 403);
+
+const deviceCodeInvalidUserCodeMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(deviceCodeActivateErrorResponse)
+  .onRequestTo('http://localhost:3000/idp/idx/device/activate')
+  .respond(idxActivateResponse)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(idxDeviceActivatedTerminalResponse);
 
 const identifyRequestLogger = RequestLogger(
   /idx/,
@@ -153,6 +162,22 @@ test.requestHooks(invalidDeviceCodeMock)('should be able show error when wrong a
   await deviceCodeActivatePageObject.clickNextButton();
 
   await t.expect(deviceCodeActivatePageObject.getGlobalErrors()).contains('Invalid code. Try again.');
+});
+
+test.requestHooks(identifyRequestLogger, deviceCodeInvalidUserCodeMock)('should be able show error when wrong activation code is passed in the url', async t => {
+  identifyRequestLogger.clear();
+  const deviceCodeActivatePageObject = new DeviceCodeActivatePageObject(t);
+  // navigate to /activate?user_code=FAKE-CODE
+  await deviceCodeActivatePageObject.navigateToPage({ 'user_code': 'FAKE-CODE' });
+  await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
+  // expect error
+  await t.expect(deviceCodeActivatePageObject.getGlobalErrors()).contains('Invalid code. Try again.');
+
+  // enter correct code now
+  await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
+  await deviceCodeActivatePageObject.clickNextButton();
+  // expect next screen
+  await t.expect(deviceCodeActivatePageObject.isIdentifierFieldVisible()).eql(true);
 });
 
 test.requestHooks(identifyRequestLogger, deviceCodeSuccessMock)('should be able to add hyphen automatically after 4th char in activation code input', async t => {

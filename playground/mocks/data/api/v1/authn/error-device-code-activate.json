@@ -1,0 +1,19 @@
+{
+  "status": "DEVICE_ACTIVATE",
+  "expiresAt": "2017-07-20T00:06:25.000Z",
+  "stateToken": "00-dummy-state-token",
+  "_embedded": {
+    "deviceActivationStatus": "INVALID_USER_CODE"
+  },
+  "_links": {
+    "next": {
+      "name": "deviceActivate",
+      "href": "http://localhost:3000/api/v1/authn/device/activate",
+      "hints": {
+        "allow": [
+          "POST"
+        ]
+      }
+    }
+  }
+}

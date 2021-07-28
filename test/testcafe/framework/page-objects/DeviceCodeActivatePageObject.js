@@ -44,6 +44,10 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
     return this.form.getTextBoxValue(USER_CODE_FIELD);
   }
 
+  isIdentifierFieldVisible() {
+    return this.form.findFormFieldInput('identifier').visible;
+  }
+
   fillIdentifierField(value) {
     return this.form.setTextBoxValue('identifier', value);
   }

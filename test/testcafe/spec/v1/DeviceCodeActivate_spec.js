@@ -6,6 +6,7 @@ import legacyDeviceActivatedTerminalResponse from '../../../../playground/mocks/
 import legacyDeviceNotActivatedConsentDeniedTerminalResponse from '../../../../playground/mocks/data/api/v1/authn/terminal-device-not-activated-consent-denied.json';
 import legacyDeviceNotActivatedInternalErrorTerminalResponse from '../../../../playground/mocks/data/api/v1/authn/terminal-device-not-activated-internal-error.json';
 import legacyInvalidDeviceCodeResponse from '../../../../playground/mocks/data/api/v1/authn/error-invalid-device-code.json';
+import legacyDeviceCodeActivateErrorResponse from '../../../../playground/mocks/data/api/v1/authn/error-device-code-activate.json';
 import legacyActivateResponse from '../../../../playground/mocks/data/api/v1/authn/unauthenticated.json';
 
 // Legacy mocks
@@ -38,6 +39,14 @@ const legacyInvalidDeviceCodeMock = RequestMock()
   .respond(legacyDeviceCodeActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
   .respond(legacyInvalidDeviceCodeResponse, 403);
+
+const deviceCodeInvalidUserCodeMock = RequestMock()
+  .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
+  .respond(legacyDeviceCodeActivateErrorResponse)
+  .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
+  .respond(legacyActivateResponse)
+  .onRequestTo('http://localhost:3000/api/v1/authn')
+  .respond(legacyDeviceActivatedTerminalResponse);
 
 const requestLogger = RequestLogger(
   /api\/v1/,
@@ -165,6 +174,26 @@ test.requestHooks(legacyInvalidDeviceCodeMock)('should be able show error when w
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCD-WXYZ');
   await deviceCodeActivatePageObject.clickNextButton();
   await t.expect(deviceCodeActivatePageObject.getErrorBoxText()).contains('Invalid code. Try again.');
+});
+
+test.requestHooks(requestLogger, deviceCodeInvalidUserCodeMock)('should be able show error when wrong activation code is passed in the url on legacy SIW', async t => {
+  requestLogger.clear();
+  const deviceCodeActivatePageObject = new DeviceCodeActivatePageObject(t);
+  // navigate to /activate?user_code=FAKE-CODE
+  await deviceCodeActivatePageObject.navigateToPage({ 'user_code': 'FAKE-CODE' });
+  await rerenderWidget({
+    stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
+  });
+
+  await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
+  // expect error
+  await t.expect(deviceCodeActivatePageObject.getErrorBoxText()).contains('Invalid code. Try again.');
+
+  // enter correct code now
+  await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDWXYZ');
+  await deviceCodeActivatePageObject.clickNextButton();
+  // expect next screen
+  await t.expect(deviceCodeActivatePageObject.isUserNameFieldVisible()).eql(true);
 });
 
 test.requestHooks(requestLogger, legacyDeviceCodeSuccessMock)('should be able to add hyphen automatically after 4th char in activation code input on legacy SIW', async t => {
