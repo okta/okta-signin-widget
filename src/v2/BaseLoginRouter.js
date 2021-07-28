@@ -186,13 +186,13 @@ export default Router.extend({
     // }
   },
 
-  render: function(Controller, options = {}) {
+  render: async function(Controller, options = {}) {
     // If url changes then widget assumes that user's intention was to initiate a new login flow,
     // so clear stored token to use the latest token.
     if (sessionStorageHelper.getLastInitiatedLoginUrl() !== window.location.href) {
       sessionStorageHelper.removeStateHandle();
     }
-    
+
     // Since we have a wrapper view, render our wrapper and use its content
     // element as our new el.
     // Note: Render it here because we know dom is ready at this point
@@ -203,36 +203,24 @@ export default Router.extend({
     // If we need to load a language (or apply custom i18n overrides), do
     // this now and re-run render after it's finished.
     if (!Bundles.isLoaded(this.settings.get('languageCode'))) {
-      return LanguageUtil.loadLanguage(this.appState, this.settings)
-        .done(() => {
-          this.render(Controller, options);
-        });
+      await LanguageUtil.loadLanguage(this.appState, this.settings);
     }
 
     // introspect stateToken when widget is bootstrap with state token
     // and remove it from `settings` afterwards as IDX response always has
     // state token (which will be set into AppState)
     if (this.settings.get('oieEnabled')) {
-      return startLoginFlow(this.settings)
-        .then(idxResp => {
-          this.settings.unset('stateToken');
-          this.settings.unset('proxyIdxResponse');
-          this.appState.trigger('remediationSuccess', idxResp);
-        })
-        .catch(errorResp => {
-          this.settings.unset('stateToken');
-          this.settings.unset('proxyIdxResponse');
-          this.appState.trigger('remediationError', errorResp.error || errorResp);
-        })
-        .finally(() => {
-          this._render(Controller, options);
-        });
+      try {
+        const idxResp = await startLoginFlow(this.settings);
+        this.appState.trigger('remediationSuccess', idxResp);
+      } catch (errorResp) {
+        this.appState.trigger('remediationError', errorResp.error || errorResp);
+      } finally {
+        this.settings.unset('stateToken');
+        this.settings.unset('proxyIdxResponse');
+      }
     }
 
-    this._render(Controller, options);
-  },
-
-  _render: function(Controller, options = {}) {
     // Load the custom colors only on the first render
     if (this.settings.get('colors.brand') && !ColorsUtil.isLoaded()) {
       const colors = {
