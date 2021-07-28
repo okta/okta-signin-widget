@@ -1548,7 +1548,7 @@ signIn.on('pageRendered', function (data) {
 
 ## Building the Widget
 
-We use Yarn as our node package manager. To install Yarn, check out their [install documentation](https://yarnpkg.com/en/docs/install). Please use the most recent LTS version of node to build the widget. 
+We use Yarn as our node package manager. To install Yarn, check out their [install documentation](https://yarnpkg.com/en/docs/install). Please use the most recent LTS version of node to build the widget. The current widget can be successfully built on node v14.17.3 & node v12.22.3.
 
 1. Clone this repo and navigate to the new `okta-signin-widget` folder.
 
