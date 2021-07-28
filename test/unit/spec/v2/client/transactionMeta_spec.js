@@ -231,5 +231,4 @@ describe('v2/client/transactionMeta', () => {
       expect(isTransactionMetaValid(testContext.settings, testContext.transactionMeta)).toBe(true);
     });
   });
-
 });

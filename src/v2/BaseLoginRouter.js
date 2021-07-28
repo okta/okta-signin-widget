@@ -192,7 +192,6 @@ export default Router.extend({
     if (sessionStorageHelper.getLastInitiatedLoginUrl() !== window.location.href) {
       sessionStorageHelper.removeStateHandle();
     }
-
     // Since we have a wrapper view, render our wrapper and use its content
     // element as our new el.
     // Note: Render it here because we know dom is ready at this point
@@ -232,7 +231,6 @@ export default Router.extend({
 
     // render Controller
     this.unload();
-
     const controllerOptions = _.extend({
       el: this.el,
       settings: this.settings,
