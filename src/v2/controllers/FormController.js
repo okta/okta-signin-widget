@@ -155,6 +155,8 @@ export default Controller.extend({
       actionFn()
         .then((resp) => {
           if (actionPath === 'cancel' && this.options.settings.get('useInteractionCodeFlow')) {
+            // In this case we need to restart login flow and recreate transaction meta
+            // that will be used in interactionCodeFlow function
             this.options.appState.trigger('interactionCanceled');
           } else {
             this.handleIdxSuccess(resp);
