@@ -12,9 +12,8 @@ module.exports = {
     {
       // temporarily ignoring files that violate the @okta/okta/no-exclusive-language rule
       'files': [
-        'packages/**/login.properties',
-        'packages/**/login_ok_PL.properties',
-        'packages/**/country_fr.properties',
+        'packages/**/login*.properties', // "oktamastered"
+        'packages/**/country_fr.properties', // "yougoslave"
       ],
       'rules': {
         '@okta/okta/no-exclusive-language': 0,

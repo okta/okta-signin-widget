@@ -1,4 +1,4 @@
-/* eslint max-params:[2, 32], max-statements:[2, 45], camelcase:0, max-len:[2, 180] */
+/* eslint max-params:[2, 32], max-statements:[2, 46], camelcase:0, max-len:[2, 180] */
 import { _, $, internal } from 'okta';
 import { OAuthError } from '@okta/okta-auth-js';
 import createAuthClient from 'widget/createAuthClient';
