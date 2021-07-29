@@ -20,13 +20,15 @@ const pushSuccessMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(success);
 
-const pushWaitMock = RequestMock()
+const pushRejectMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(pushPoll)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(pushPollReject)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(pushPoll);
 
-const pushRejectMock = RequestMock()
+  const pushWaitMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(pushPoll)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
@@ -89,10 +91,82 @@ test
   });
 
 test
+  .requestHooks(logger, pushWaitMock)('challenge Custom App push polling', async t => {
+    await setup(t);
+    await t.wait(4000);
+    await t.expect(logger.count(() => true)).eql(1);
+
+    const { request: {
+      body: answerRequestBodyString,
+      method: answerRequestMethod,
+      url: answerRequestUrl,
+    }
+    } = logger.requests[0];
+    const answerRequestBody = JSON.parse(answerRequestBodyString);
+    await t.expect(answerRequestBody).eql({
+      stateHandle: '02XxswQHZqCz4aWbqQFNXYRC4HHoqd76NBC-FIGbbH'
+    });
+    await t.expect(answerRequestMethod).eql('post');
+    await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/challenge/poll');
+
+    await t.wait(3000); // 7 sec total elapsed
+    await t.expect(logger.count(() => true)).eql(1);
+
+    await t.wait(1000); // 8 sec total elapsed
+    await t.expect(logger.count(() => true)).eql(2);
+
+    const { request: {
+      method: answerRequestMethod2,
+      url: answerRequestUrl2,
+    }
+    } = logger.requests[1];    
+    await t.expect(answerRequestMethod2).eql('post');
+    await t.expect(answerRequestUrl2).eql('http://localhost:3000/idp/idx/challenge/poll');
+  });
+  
+
+test
+  .requestHooks(logger, pushRejectMock)('challenge Custom App reject push', async t => {
+    const challengeCustomAppPushPageObject = await setup(t);
+    const errorBox = challengeCustomAppPushPageObject.getErrorBox();
+    await t.expect(errorBox.innerText)
+      .eql('You have chosen to reject this login.');
+    await t.expect(challengeCustomAppPushPageObject.form.getSaveButtonLabel())
+      .eql('Resend push notification');
+    await t.expect(logger.count(() => true)).eql(1);
+    
+    // To make sure polling stops after reject
+    await t.wait(5000);
+    await t.expect(logger.count(() => true)).eql(1);
+    
+    await challengeCustomAppPushPageObject.clickNextButton();
+    await t.expect(logger.count(() => true)).eql(2);
+    
+    const { request: {
+      body: requestBodyString,
+      method: requestMethod,
+      url: requestUrl,
+    }
+    } = logger.requests[1];
+    const requestBody = JSON.parse(requestBodyString);
+    await t.expect(requestBody).eql({
+      authenticator: {
+        id: 'aut198w4v0f8dr8gT0g4',
+        methodType: 'push'
+      },
+      stateHandle: '02jScqx_dpaclG7Hury1J4J2qS2B_bltQte8eCSQUe'
+    });
+    await t.expect(requestMethod).eql('post');
+    await t.expect(requestUrl).eql('http://localhost:3000/idp/idx/challenge');
+  });
+
+test
   .requestHooks(pushWaitMock)('Warning callout appears after 30 seconds', async t => {
     const challengeCustomAppPushPageObject = await setup(t);
-    await t.wait(30500);
+    await t.wait(10000);
+    await t.expect(challengeCustomAppPushPageObject.getWarningBox().length).eql(0);
+    await t.wait(20100); // Total > 30s
     const warningBox = challengeCustomAppPushPageObject.getWarningBox();
     await t.expect(warningBox.innerText)
-      .eql('Haven\'t received a push notification yet? Try opening the Custom App App on your phone.');
+      .eql('Haven\'t received a push notification yet? Try opening the Custom Push App on your phone.');
   });

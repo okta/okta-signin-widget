@@ -21,7 +21,7 @@
           {
             "name":"authenticator",
             "type":"object",
-            "label":"Wells Fargo Verify App",
+            "label":"Custom Push",
             "value":{
               "form":{
                 "value":[
@@ -65,7 +65,7 @@
             "type":"object",
             "options":[
               {
-                "label":"Wells Fargo Verify App",
+                "label":"Custom Push",
                 "value":{
                   "form":{
                     "value":[
@@ -177,7 +177,7 @@
       "type":"app",
       "key":"custom_app",
       "id":"aut198w4v0f8dr8gT0g4",
-      "displayName":"Wells Fargo Verify App",
+      "displayName":"Custom Push",
       "logo":"https://tc1static.oktacdn.com/assets/img/logos/custompushLogo.svg",
       "methods":[
         {
@@ -193,7 +193,7 @@
         "type":"app",
         "key":"custom_app",
         "id":"aut198w4v0f8dr8gT0g4",
-        "displayName":"Wells Fargo Verify App",
+        "displayName":"Custom Push",
         "logo":"https://tc1static.oktacdn.com/assets/img/logos/custompushLogo.svg",
         "methods":[
           {
@@ -224,7 +224,7 @@
         "type":"app",
         "key":"custom_app",
         "id":"pfd1bmoy4nH6heq2v0g4",
-        "displayName":"Wells Fargo Verify App",
+        "displayName":"Custom Push",
         "methods":[
           {
             "type":"push"

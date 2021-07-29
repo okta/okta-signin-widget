@@ -186,6 +186,7 @@ export default View.extend({
       .then(function() {
         removeBeacon(self);
         container.removeClass(LOADING_BEACON_CLS);
+        console.log('test');
       })
       .done(); // TODO: can this be removed if Animations.implode returns standard ES6 Promise?
   },
