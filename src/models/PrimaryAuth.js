@@ -109,9 +109,11 @@ export default BaseLoginModel.extend({
           return this.doPrimaryAuth(authClient, signInArgs, transaction.login);
         });
       } else {
+        // Sending rethrow as true to doTransaction to make sure doTranction throws the error.
+        // This is needed for the cleanup on error we are doing below in the catch.
         primaryAuthPromise = this.doTransaction(function(transaction) {
           return this.doPrimaryAuth(authClient, signInArgs, transaction.authenticate);
-        });
+        }, true);
       }
     } else {
       //normal username/password flow without stateToken
