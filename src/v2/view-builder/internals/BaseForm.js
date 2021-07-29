@@ -1,4 +1,4 @@
-import { _, Form, loc, internal } from 'okta';
+import { _, Form, loc, internal, createCallout } from 'okta';
 import FormInputFactory from './FormInputFactory';
 import { MESSAGE_CLASS } from '../../ion/RemediationConstants';
 
@@ -129,12 +129,25 @@ export default Form.extend({
     // render messages as text
     const messagesObjs = this.options.appState.get('messages');
     if (messagesObjs?.value.length) {
+
       const content = messagesObjs.value
-        // We don't display messages of class WARN
-        .filter(messagesObj => messagesObj?.class !== MESSAGE_CLASS.WARN)
+        .filter(messagesObj => {
+          const isWarningMessage = messagesObj?.class === MESSAGE_CLASS.WARN;
+          if (isWarningMessage) {
+            // Display WARN messages in a callout before filtering them out 
+            this.add(createCallout({
+              content: messagesObj.message,
+              type: 'warning',
+            }), {
+              selector: '.o-form-error-container',
+            });
+          }
+          return !isWarningMessage;
+        })
         .map((messagesObj) => {
           return messagesObj.message;
         });
+
       this.add(`<div class="ion-messages-container">${content.join(' ')}</div>`, '.o-form-error-container');
     }
   },
