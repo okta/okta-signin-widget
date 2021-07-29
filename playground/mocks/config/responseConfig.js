@@ -786,6 +786,19 @@ const yubikeyAuthenticator = {
   ],
 };
 
+const secondaryEmail = {
+  '/idp/idx/introspect': [
+    'authenticator-enroll-select-authenticator-with-skip'
+  ],
+  '/idp/idx/credential/enroll': [
+    'authenticator-enroll-secondary-email',
+    'authenticator-enroll-select-authenticator-no-second-email'
+  ],
+  //authenticator-verify
+  //success
+  //expired-error 
+}
+
 module.exports = {
-  mocks: idx,
+  mocks: secondaryEmail,
 };

@@ -102,6 +102,7 @@ import ChallengePIVView from './views/piv/ChallengePIVView';
 
 // YubiKey
 import AuthenticatorYubiKeyView from './views/yubikey/AuthenticatorYubiKeyView';
+import EnrollSecondaryEmailView from './views/email/EnrollSecondaryEmailView';
 
 const DEFAULT = '_';
 
@@ -139,6 +140,7 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.AUTHENTICATOR_ENROLLMENT_DATA]: {
     [AUTHENTICATOR_KEY.PHONE]: EnrollAuthenticatorDataPhoneView,
+    [AUTHENTICATOR_KEY.EMAIL]: EnrollSecondaryEmailView,
   },
   [RemediationForms.CONSENT_ADMIN]: {
     [DEFAULT]: AdminConsentView
