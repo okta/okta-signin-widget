@@ -242,7 +242,7 @@ fn.handleResponseStatus = function(router, res) {
         responseJSON: {
           errorCauses: [],
           errorSummary: errorMessage,
-          errorCode: 'E0000069',
+          errorCode: 'E0000119',
         },
       };
       const err = {

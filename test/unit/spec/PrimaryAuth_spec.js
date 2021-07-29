@@ -2308,7 +2308,7 @@ Expect.describe('PrimaryAuth', function() {
                 responseJSON: {
                   errorCauses: [],
                   errorSummary: 'Your account is locked. Please contact your administrator.',
-                  errorCode: 'E0000069'
+                  errorCode: 'E0000119'
                 }
               }
             },
