@@ -80,6 +80,7 @@ export default Router.extend({
     configIdxJsClient(this.appState);
     this.listenTo(this.appState, 'remediationSuccess', this.handleIdxResponseSuccess);
     this.listenTo(this.appState, 'remediationError', this.handleIdxResponseFailure);
+    this.listenTo(this.appState, 'restartLoginFlow', this.restartLoginFlow);
   },
 
   handleIdxResponseSuccess(idxResponse) {
@@ -185,7 +186,8 @@ export default Router.extend({
     // }
   },
 
-  render: function(Controller, options = {}) {
+  /* eslint max-statements: [2, 21] */
+  render: async function(Controller, options = {}) {
     // If url changes then widget assumes that user's intention was to initiate a new login flow,
     // so clear stored token to use the latest token.
     if (sessionStorageHelper.getLastInitiatedLoginUrl() !== window.location.href) {
@@ -201,31 +203,22 @@ export default Router.extend({
     // If we need to load a language (or apply custom i18n overrides), do
     // this now and re-run render after it's finished.
     if (!Bundles.isLoaded(this.settings.get('languageCode'))) {
-      return LanguageUtil.loadLanguage(this.appState, this.settings)
-        .done(() => {
-          this.render(Controller, options);
-        });
+      await LanguageUtil.loadLanguage(this.appState, this.settings);
     }
 
     // introspect stateToken when widget is bootstrap with state token
     // and remove it from `settings` afterwards as IDX response always has
     // state token (which will be set into AppState)
     if (this.settings.get('oieEnabled')) {
-      return startLoginFlow(this.settings)
-        .then(idxResp => {
-          this.settings.unset('stateToken');
-          this.settings.unset('proxyIdxResponse');
-          this.settings.unset('useInteractionCodeFlow');
-          this.appState.trigger('remediationSuccess', idxResp);
-          this.render(Controller, options);
-        })
-        .catch(errorResp => {
-          this.settings.unset('stateToken');
-          this.settings.unset('proxyIdxResponse');
-          this.settings.unset('useInteractionCodeFlow');
-          this.appState.trigger('remediationError', errorResp.error || errorResp);
-          this.render(Controller, options);
-        });
+      try {
+        const idxResp = await startLoginFlow(this.settings);
+        this.appState.trigger('remediationSuccess', idxResp);
+      } catch (errorResp) {
+        this.appState.trigger('remediationError', errorResp.error || errorResp);
+      } finally {
+        this.settings.unset('stateToken');
+        this.settings.unset('proxyIdxResponse');
+      }
     }
 
     // Load the custom colors only on the first render
@@ -250,6 +243,10 @@ export default Router.extend({
     this.listenTo(this.controller, 'all', this.trigger);
 
     this.controller.render();
+  },
+
+  restartLoginFlow() {
+    this.render(this.controller.constructor);
   },
 
   start: function() {
