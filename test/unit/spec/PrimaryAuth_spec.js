@@ -2286,6 +2286,35 @@ Expect.describe('PrimaryAuth', function() {
           expect(test.form.errorMessage()).toBe('Your account is locked. Please contact your administrator.');
         });
     });
+    itp('triggers afterError event if authClient returns with LOCKED_OUT response and selfServiceUnlock is off', function() {
+      return setup()
+        .then(function(test) {
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resLockedOut);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.afterErrorHandler, test);
+        })
+        .then(function(test) {
+          expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+          expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+            {
+              controller: 'primary-auth',
+            },
+            {
+              name: 'AuthApiError',
+              message: 'Your account is locked. Please contact your administrator.',
+              xhr: {
+                responseJSON: {
+                  errorCauses: [],
+                  errorSummary: 'Your account is locked. Please contact your administrator.',
+                  errorCode: 'E0000119'
+                }
+              }
+            },
+          ]);
+        });
+    });
     itp('redirects to "unlock" if authClient returns with LOCKED_OUT response and selfServiceUnlock is on', function() {
       return setup({ 'features.selfServiceUnlock': true })
         .then(function(test) {
