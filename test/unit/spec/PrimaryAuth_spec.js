@@ -23,6 +23,7 @@ import resUnauthenticated from 'helpers/xhr/UNAUTHENTICATED';
 import resUnauthorized from 'helpers/xhr/UNAUTHORIZED_ERROR';
 import resSecurityImage from 'helpers/xhr/security_image';
 import resSecurityImageFail from 'helpers/xhr/security_image_fail';
+import resSecurityImageNewUser from 'helpers/xhr/security_image_new_user';
 import PrimaryAuth from 'models/PrimaryAuth';
 import Q from 'q';
 import $sandbox from 'sandbox';
@@ -1702,27 +1703,54 @@ Expect.describe('PrimaryAuth', function() {
           expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
         });
     });
-    itp('show anti-phishing message if security image become visible', function() {
+    
+    itp('show anti-phishing message when security image is new user', function() {
       return setup({ features: { securityImage: true } })
         .then(function(test) {
           spyOn($.qtip.prototype, 'toggle').and.callThrough();
-          test.setNextResponse(resSecurityImageFail);
+          test.setNextResponse(resSecurityImageNewUser);
           test.form.setUsername('testuser');
-          return Expect.waitForSpyCall($.qtip.prototype.toggle, test);
+          return Expect.waitForSecurityImageTooltip(true, test);
         })
         .then(function(test) {
           expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
           $.qtip.prototype.toggle.calls.reset();
           test.form.securityBeaconContainer().hide();
           $(window).trigger('resize');
-          return Expect.waitForSpyCall($.qtip.prototype.toggle, test);
+          return Expect.waitForSecurityImageTooltip(false, test);
         })
         .then(function(test) {
           expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: false }));
           $.qtip.prototype.toggle.calls.reset();
           test.form.securityBeaconContainer().show();
           $(window).trigger('resize');
-          return Expect.waitForSpyCall($.qtip.prototype.toggle, test);
+          return Expect.waitForSecurityImageTooltip(true, test);
+        })
+        .then(function() {
+          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
+        });
+    });
+    itp('show anti-phishing message if security image become visible', function() {
+      return setup({ features: { securityImage: true } })
+        .then(function(test) {
+          spyOn($.qtip.prototype, 'toggle').and.callThrough();
+          test.setNextResponse(resSecurityImageFail);
+          test.form.setUsername('testuser');
+          return Expect.waitForSecurityImageTooltip(true, test);
+        })
+        .then(function(test) {
+          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));
+          $.qtip.prototype.toggle.calls.reset();
+          test.form.securityBeaconContainer().hide();
+          $(window).trigger('resize');
+          return Expect.waitForSecurityImageTooltip(false, test);
+        })
+        .then(function(test) {
+          expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: false }));
+          $.qtip.prototype.toggle.calls.reset();
+          test.form.securityBeaconContainer().show();
+          $(window).trigger('resize');
+          return Expect.waitForSecurityImageTooltip(true, test);
         })
         .then(function() {
           expect($.qtip.prototype.toggle.calls.argsFor(0)).toEqual(jasmine.objectContaining({ 0: true }));

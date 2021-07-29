@@ -70,7 +70,7 @@ module.exports = {
         '/oauth2/',
         '/api/v1/',
         '/idp/idx/',
-        '/login/getimage/',
+        '/login/getimage',
         '/sso/idps/',
         '/app/UserHome',
         '/oauth2/v1/authorize',
