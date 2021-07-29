@@ -117,7 +117,7 @@ export default BaseLoginController.extend({
 
         if (responseJSON && responseJSON.errorCauses.length) {
           const { errorCode, errorCauses } = responseJSON;
-          const { errorSummary, reason } = errorCauses[0];
+          const { errorSummary, reason, location } = errorCauses[0];
 
           const isNotUniqueValue =
             errorCode === 'E0000001' &&
@@ -126,6 +126,8 @@ export default BaseLoginController.extend({
           if (isNotUniqueValue) {
             this.renderIsNotUniqueError(responseJSON);
           }
+
+          this.renderLegacyLocationErrorIfNeeded(location, errorSummary);
 
           Util.triggerAfterError(
             this,
@@ -146,6 +148,16 @@ export default BaseLoginController.extend({
     // without using backbone events because there was a race condition
     // between clearing and triggering errors
     this.$el.find('.okta-form-infobox-error p').text(errorSummary);
+  },
+
+  renderLegacyLocationErrorIfNeeded: function(location, errorSummary) {
+    // replace generic error message with errorSummary for v1 SIW
+    // this makes sure that with legacy location that starts with `data.userProfile`
+    // we still see the errorSummary in the error banner instead of only a generic error
+    // See example in https://developer.okta.com/docs/reference/registration-hook/#sample-json-payload-of-request
+    if (location && location.startsWith('data.userProfile')) {
+      this.$el.find('.okta-form-infobox-error p').text(errorSummary);
+    }
   },
 
   createRegistrationModel: function(modelProperties) {
