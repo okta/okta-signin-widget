@@ -211,6 +211,13 @@ fn.waitForWindowListener = function(eventName, resolveValue) {
   return fn.wait(condition, resolveValue);
 };
 
+fn.waitForSecurityImageTooltip = function(expectToBeVisible, resolveValue) {
+  return fn.wait(() => {
+    const $el = $('.okta-security-image-tooltip:visible');
+    const isVisible = $el.isInViewport();
+    return isVisible === expectToBeVisible;
+  }, resolveValue);
+};
 
 fn.wait = function(condition, resolveValue, timeout) {
   function check(success, fail, triesLeft) {

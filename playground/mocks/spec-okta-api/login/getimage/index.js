@@ -22,7 +22,8 @@ module.exports = {
   method: 'GET',
   template(params, query) {
     let obj;
-    console.log('query', query);
+
+    // For playground users, show different images based on a username
     switch (query.username) {
     case 'unknown':
       obj = UNKNOWN_USER;

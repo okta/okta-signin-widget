@@ -86,9 +86,10 @@ function antiPhishingMessage(image, host) {
     },
   });
 
+  // It is necessary to delay toggle to the next render cycle, since qtip internally defers some setup tasks.
   setTimeout(() => {
     image.qtip('toggle', image.is(':visible'));
-  }, 1);
+  }, 0);
 }
 
 function destroyAntiPhishingMessage(image) {
