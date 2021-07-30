@@ -82,6 +82,7 @@ const idx = {
     // 'terminal-invalid-forgot-password-token',
     // 'terminal-invalid-reset-password-token',
     // 'terminal-reset-password-inactive-user',
+    // 'terminal-reset-password-success',
     // 'oda-enrollment-ios',
     // 'oda-enrollment-android',
     // 'mdm-enrollment',
