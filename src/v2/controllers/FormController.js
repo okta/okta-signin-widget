@@ -17,6 +17,7 @@ import { FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/Remedi
 import Util from '../../util/Util';
 import sessionStorageHelper from '../client/sessionStorageHelper';
 import { clearTransactionMeta } from '../client';
+import CookieUtil from 'util/CookieUtil';
 
 export default Controller.extend({
   className: 'form-controller',
@@ -141,7 +142,7 @@ export default Controller.extend({
 
     if (idx['neededToProceed'].find(item => item.name === actionPath)) {
       idx.proceed(actionPath, {})
-        .then(this.handleIdxSuccess.bind(this))
+        .then(this.handleIdxSuccess.bind(this, null, this.formView.model))
         .catch(error => {
           this.showFormErrors(this.formView.model, error, this.formView.form);
         });
@@ -159,7 +160,7 @@ export default Controller.extend({
             // that will be used in interactionCodeFlow function
             this.options.appState.trigger('restartLoginFlow');
           } else {
-            this.handleIdxSuccess(resp);
+            this.handleIdxSuccess(resp, this.formView.model);
           }
         })
         .catch(error => {
@@ -203,7 +204,7 @@ export default Controller.extend({
     // Submit request to idx endpoint
     idx.proceed(formName, modelJSON)
       .then((resp) => {
-        const onSuccess = this.handleIdxSuccess.bind(this, resp);
+        const onSuccess = this.handleIdxSuccess.bind(this, resp, model);
 
         if (formName === FORMS.ENROLL_PROFILE) {
           // call registration (aka enroll profile) hook
@@ -222,7 +223,7 @@ export default Controller.extend({
           // the response reaches here when Okta Verify is not installed
           // we need to return an idx object so that
           // the SIW can proceed to the next step without showing error
-          this.handleIdxSuccess(error);
+          this.handleIdxSuccess(error, model);
         } else {
           this.showFormErrors(model, error, this.formView.form);
         }
@@ -266,7 +267,8 @@ export default Controller.extend({
     }
   },
 
-  handleIdxSuccess: function(idxResp) {
+  handleIdxSuccess: function(idxResp, model) {
+    this.updateIdentifierCookie(model);
     this.options.appState.trigger('remediationSuccess', idxResp);
   },
 
@@ -283,4 +285,27 @@ export default Controller.extend({
     button.toggleClass('link-button-disabled', disabled);
   },
 
+  /**
+    * When "Remember My Username" is enabled, we save the identifier in a cookie
+    * so that the next time the user visits the SIW, the identifier field can be 
+    * pre-filled with this value.
+    * TODO: add a check in the schema to see if identifier is there
+   */
+  updateIdentifierCookie: function(model) {
+    const formName = model.get('formName');
+    // Only update the cookie when we're on the "identify" forms to avoid
+    // uneccessary updates.
+    if (formName !== FORMS.IDENTIFY) {
+      return;
+    }
+
+    if (this.settings.get('features.rememberMe')) {
+      const identifier = model.get('identifier');
+      CookieUtil.setUsernameCookie(identifier);
+
+    } else {
+      // We remove the cookie explicitly if this feature is disabled.
+      CookieUtil.removeUsernameCookie();
+    }    
+  }
 });
