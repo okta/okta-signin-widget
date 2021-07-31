@@ -8,6 +8,7 @@ import Util from 'helpers/mocks/Util';
 import Expect from 'helpers/util/Expect';
 import resSuccess from 'helpers/xhr/SUCCESS';
 import resErrorNotUnique from 'helpers/xhr/ERROR_notUnique';
+import resErrorInvalidEmailDomain from 'helpers/xhr/ERROR_INVALID_EMAIL_DOMAIN';
 import RegSchema from 'models/RegistrationSchema';
 import $sandbox from 'sandbox';
 
@@ -269,6 +270,54 @@ Expect.describe('Registration', function() {
         expect(test.form.errorBox().length).toBe(1);
         expect(test.form.errorBox().text().trim()).toBe('Custom duplicate Email error message');
       });
+    });
+  });
+  itp('render error summary when errorCause is using location that starts with data.userProfile', function() {
+    return setup().then(function(test) {
+      Util.resetAjaxRequests();
+      test.form.setUserName('test@example.com');
+      test.form.setPassword('Abcd1234');
+      test.form.setFirstname('firstName');
+      test.form.setLastname('lastName');
+      test.form.setReferrer('referrer');
+      test.setNextResponse(resErrorInvalidEmailDomain);
+      test.form.submit();
+
+      return Expect.waitForFormErrorBox(test.form, test);
+    }).then(function(test) {
+      expect(test.form.errorBox().text().trim()).toBe(
+        'We found some errors. Please review the form and make corrections.'
+      );
+      const { errorSummary, location } = resErrorInvalidEmailDomain.response.errorCauses[0];
+      test.router.controller.renderLegacyLocationErrorIfNeeded(location, errorSummary);
+      expect(test.form.errorBox().length).toBe(1);
+      expect(test.form.errorBox().text().trim()).toBe('You specified an invalid email domain');
+    });
+  });
+  itp('render generic error when errorCause is using location that does not start with data.userProfile', function() {
+    return setup().then(function(test) {
+      Util.resetAjaxRequests();
+      test.form.setUserName('test@example.com');
+      test.form.setPassword('Abcd1234');
+      test.form.setFirstname('firstName');
+      test.form.setLastname('lastName');
+      test.form.setReferrer('referrer');
+      // update the location property to NOT start with data.userProfile
+      resErrorInvalidEmailDomain.response.errorCauses[0].location = 'someLocation';
+      test.setNextResponse(resErrorInvalidEmailDomain);
+      test.form.submit();
+
+      return Expect.waitForFormErrorBox(test.form, test);
+    }).then(function(test) {
+      expect(test.form.errorBox().text().trim()).toBe(
+        'We found some errors. Please review the form and make corrections.'
+      );
+      const { errorSummary, location } = resErrorInvalidEmailDomain.response.errorCauses[0];
+      test.router.controller.renderLegacyLocationErrorIfNeeded(location, errorSummary);
+      expect(test.form.errorBox().length).toBe(1);
+      expect(test.form.errorBox().text().trim()).toBe(
+        'We found some errors. Please review the form and make corrections.'
+      );
     });
   });
 
