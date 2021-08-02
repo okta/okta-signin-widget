@@ -15,7 +15,7 @@ exports.handler = function() {
 
   // package size
   const ONE_MB = 1000000;
-  expect(manifest.size).toBeGreaterThan(11 * ONE_MB);
+  expect(manifest.size).toBeGreaterThan(10 * ONE_MB);
   expect(manifest.size).toBeLessThan(12 * ONE_MB);
 
   // files

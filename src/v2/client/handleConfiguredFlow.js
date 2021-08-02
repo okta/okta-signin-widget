@@ -17,13 +17,6 @@
 // and will default to the original idx response otherwise. This depends on the Org configurations
 import Errors from 'util/Errors';
 import Logger from 'util/Logger';
-import { interact } from './interact';
-import {
-  getTransactionMeta,
-  getSavedTransactionMeta,
-  saveTransactionMeta,
-  clearTransactionMeta,
-} from './transactionMeta';
 import { FORMS } from '../ion/RemediationConstants';
 import { CONFIGURED_FLOW } from './constants';
 
@@ -56,7 +49,7 @@ async function proceedIfAvailable(idxState, remediation, flow) {
 
 // attempts to "step into" a specific flow by calling `.proceed` with a specific remeidation (or calls an action)
 // the "desired" remeidation is not guaranteed to be available, depends upon Org configurations
-async function stepIntoSpecificIdxFlow(idxState, flow='') {
+async function stepIntoSpecificIdxFlow(idxState, flow='default') {
   switch (flow) {
   case CONFIGURED_FLOW.DEFAULT:
   case CONFIGURED_FLOW.PROCEED:
@@ -64,12 +57,10 @@ async function stepIntoSpecificIdxFlow(idxState, flow='') {
     // default IDX response from interact is "Login" page/flow. Do nothing
     return idxState;
 
+  // step logic is handled by auth-js
   case CONFIGURED_FLOW.REGISTRATION:
-    return await proceedIfAvailable(idxState, FORMS.SELECT_ENROLL_PROFILE, flow);
-
   case CONFIGURED_FLOW.RESET_PASSWORD:
-    return idxState.actions['currentAuthenticator-recover'] ?
-      await idxState.actions['currentAuthenticator-recover']() : idxState;
+    return idxState;
 
   case CONFIGURED_FLOW.UNLOCK_ACCOUNT:
     // requires: introspect -> identify-recovery -> select-authenticator-unlock-account
@@ -84,31 +75,10 @@ async function stepIntoSpecificIdxFlow(idxState, flow='') {
 // ensures the `flow` stored in the transaction meta matches the flow configuration
 // if they do not match, abandon the current (meta) flow and start a new (configured) flow
 export async function handleConfiguredFlow(originalResp, settings) {
-  const configuredFlow = settings.get('flow');
-
-  if (!configuredFlow || configuredFlow === CONFIGURED_FLOW.DEFAULT || configuredFlow === CONFIGURED_FLOW.PROCEED) {
-    return originalResp;
-  }
-
-  let idxState = originalResp;
-
-  const meta = await getTransactionMeta(settings);
-
-  if (meta.flow && meta.flow !== configuredFlow) {
-    // configured flow and active flow do not match, abandon active flow, start new (configured) flow
-    Logger.warn(`Canceling current '${meta.flow}' flow to start '${configuredFlow}' flow`);
-    clearTransactionMeta(settings);
-    idxState = await interact(settings);
-  }
+  const authClient = settings.getAuthClient();
+  const configuredFlow = authClient.idx.getFlow();
 
   // attempts to step into the desired flow
-  idxState = await stepIntoSpecificIdxFlow(idxState, configuredFlow);
-
-  // meta could have been mutated since the first `getTransactionMeta` call in this function
-  // retrieve again before writing to the transaction, otherwise the n-1 idx call is saved
-  const currMeta = await getSavedTransactionMeta(settings);
-  const newMeta = Object.assign({}, {...currMeta}, {flow: configuredFlow});
-  saveTransactionMeta(settings, newMeta);
-
+  const idxState = await stepIntoSpecificIdxFlow(originalResp, configuredFlow);
   return idxState;
 }

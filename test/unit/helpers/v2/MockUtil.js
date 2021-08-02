@@ -1,4 +1,4 @@
-import idx from '@okta/okta-idx-js';
+import { OktaAuth } from '@okta/okta-auth-js';
 import 'jasmine-ajax';
 
 const BASE_URL = 'http://localhost:3000';
@@ -10,14 +10,15 @@ const mockIntrospect = (done, mockData, assertionFn) => {
     responseJSON: mockData,
   });
 
-  const idxStartOpt = {
-    domain: BASE_URL,
-    stateHandle: '01test-state-token',
-    version: '1.0.0',
+  const introspectOptions = {
+    stateHandle: '01test-state-token'
   };
 
-  idx
-    .start(idxStartOpt)
+  const authClient = new OktaAuth({
+    issuer: BASE_URL
+  });
+
+  authClient.idx.introspect(introspectOptions)
     .then(assertionFn)
     .catch(error => {
       fail(error);

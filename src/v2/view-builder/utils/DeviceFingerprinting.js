@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+// TODO: Use AuthJS for device fingerprinting: OKTA-418160
 import { $ } from 'okta';
 
 function getUserAgent() {

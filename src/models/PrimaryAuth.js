@@ -172,22 +172,22 @@ export default BaseLoginModel.extend({
 
     // Add the custom header for fingerprint, typing pattern if needed, and then remove it afterwards
     // Since we only need to send it for primary auth
-    if (deviceFingerprintEnabled && this.appState.get('deviceFingerprint')) { // OKTA-325445
-      authClient.options.headers['X-Device-Fingerprint'] = this.appState.get('deviceFingerprint');
+    if (deviceFingerprintEnabled && this.appState.get('deviceFingerprint')) {
+      authClient.http.setRequestHeader('X-Device-Fingerprint', this.appState.get('deviceFingerprint'));
     }
-    if (typingPatternEnabled && this.appState.get('typingPattern')) { // OKTA-325445
-      authClient.options.headers['X-Typing-Pattern'] = this.appState.get('typingPattern');
+    if (typingPatternEnabled && this.appState.get('typingPattern')) {
+      authClient.http.setRequestHeader('X-Typing-Pattern', this.appState.get('typingPattern'));
     }
 
     const self = this;
 
     return func(signInArgs).finally(function() {
       if (deviceFingerprintEnabled) {
-        delete authClient.options.headers['X-Device-Fingerprint'];
+        authClient.http.setRequestHeader('X-Device-Fingerprint', undefined);
         self.appState.unset('deviceFingerprint'); //Fingerprint can only be used once
       }
       if (typingPatternEnabled) {
-        delete authClient.options.headers['X-Typing-Pattern'];
+        authClient.http.setRequestHeader('X-Typing-Pattern', undefined);
         self.appState.unset('typingPattern');
       }
     });

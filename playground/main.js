@@ -67,7 +67,7 @@ const renderPlaygroundWidget = (options = {}) => {
     function error(err) {
       console.error('global error handler: ', err);
     }
-  );
+  ).catch(() => { /* we are using global error handler */});
 
   signIn.on('ready', () => {
     // handle `ready` event.

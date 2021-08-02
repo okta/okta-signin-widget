@@ -95,7 +95,7 @@ export default class ConfigArea {
   }
 
   addEventListeners(): void {
-    this.configForm.addEventListener('change', (event) => {
+    this.configForm.addEventListener('change', () => {
         const config = getConfigFromForm();
         const str = configToString(config);
         this.updateConfigPreview(str);

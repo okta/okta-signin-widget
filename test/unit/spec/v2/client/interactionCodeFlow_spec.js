@@ -1,17 +1,6 @@
 import { interactionCodeFlow } from 'v2/client/interactionCodeFlow';
 import { Model } from 'okta';
 
-jest.mock('v2/client/transactionMeta', () => {
-  return {
-    getSavedTransactionMeta: () => {},
-    clearTransactionMeta: () => {}
-  };
-});
-
-const mocked = {
-  transactionMeta: require('v2/client/transactionMeta')
-};
-
 describe('v2/client/interactionCodeFlow', () => {
   let testContext;
   beforeEach(() => {
@@ -30,6 +19,10 @@ describe('v2/client/interactionCodeFlow', () => {
       options: authParams,
       token: {
         exchangeCodeForTokens: () => Promise.resolve()
+      },
+      idx: {
+        getSavedTransactionMeta: () => {},
+        clearTransactionMeta: () => {}
       }
     };
     const redirectUri = 'fake';
@@ -51,7 +44,7 @@ describe('v2/client/interactionCodeFlow', () => {
     };
 
     // By default return saved transaction meta
-    jest.spyOn(mocked.transactionMeta, 'getSavedTransactionMeta').mockResolvedValue(transactionMeta);
+    jest.spyOn(authClient.idx, 'getSavedTransactionMeta').mockResolvedValue(transactionMeta);
   });
   
   describe('redirect = always', () => {
@@ -99,9 +92,10 @@ describe('v2/client/interactionCodeFlow', () => {
     });
 
     it('clears transaction meta', async () => {
-      jest.spyOn(mocked.transactionMeta, 'clearTransactionMeta');
-      await interactionCodeFlow(testContext.settings, testContext.idxResponse);
-      expect(mocked.transactionMeta.clearTransactionMeta).toHaveBeenCalled();
+      const { authClient, settings, idxResponse } = testContext;
+      jest.spyOn(authClient.idx, 'clearTransactionMeta');
+      await interactionCodeFlow(settings, idxResponse);
+      expect(authClient.idx.clearTransactionMeta).toHaveBeenCalled();
     });
 
     it('does not exchange code for tokens', async () => {
@@ -137,8 +131,8 @@ describe('v2/client/interactionCodeFlow', () => {
 
   describe('relying-party mode', () => {
     it('throws an exception if transaction meta can not be loaded', async () => {
-      const { settings, idxResponse } = testContext;
-      mocked.transactionMeta.getSavedTransactionMeta.mockReturnValue(null);
+      const { settings, idxResponse, authClient } = testContext;
+      authClient.idx.getSavedTransactionMeta.mockReturnValue(null);
       await expect(interactionCodeFlow(settings, idxResponse)).rejects.toEqual({
         name: 'CONFIG_ERROR',
         message: 'Could not load transaction data from storage'
@@ -156,9 +150,10 @@ describe('v2/client/interactionCodeFlow', () => {
     });
 
     it('clears transaction meta', async () => {
-      jest.spyOn(mocked.transactionMeta, 'clearTransactionMeta');
-      await interactionCodeFlow(testContext.settings, testContext.idxResponse);
-      expect(mocked.transactionMeta.clearTransactionMeta).toHaveBeenCalled();
+      const { authClient, settings, idxResponse } = testContext;
+      jest.spyOn(authClient.idx, 'clearTransactionMeta');
+      await interactionCodeFlow(settings, idxResponse);
+      expect(authClient.idx.clearTransactionMeta).toHaveBeenCalled();
     });
 
     describe('if exchangeCodeForTokens throws error', () => {
@@ -173,9 +168,10 @@ describe('v2/client/interactionCodeFlow', () => {
       });
 
       it('clears transaction meta', async () => {
-        jest.spyOn(mocked.transactionMeta, 'clearTransactionMeta');
-        await interactionCodeFlow(testContext.settings, testContext.idxResponse);
-        expect(mocked.transactionMeta.clearTransactionMeta).toHaveBeenCalled();
+        const { authClient, settings, idxResponse } = testContext;
+        jest.spyOn(authClient.idx, 'clearTransactionMeta');
+        await interactionCodeFlow(settings, idxResponse);
+        expect(authClient.idx.clearTransactionMeta).toHaveBeenCalled();
       });
     });
   });

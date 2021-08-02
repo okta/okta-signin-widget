@@ -1,21 +1,9 @@
-import { _ } from 'okta';
 import WidgetRouter from 'v2/WidgetRouter';
 import FormController from 'v2/controllers/FormController';
 import $sandbox from 'sandbox';
 import getAuthClient from 'widget/getAuthClient';
 import XHRIdentifyWithPassword
   from '../../../../playground/mocks/data/idp/idx/identify-with-password.json';
-
-jest.mock('v2/client/interact', () => {
-  return {
-    interact: () => { }
-  };
-});
-
-const mocked = {
-  interact: require('v2/client/interact'),
-};
-
 
 describe('v2/WidgetRouter', function() {
   let testContext;
@@ -28,6 +16,9 @@ describe('v2/WidgetRouter', function() {
     const baseUrl = 'https://foo.com';
     const authParams = {
       issuer: baseUrl,
+      transactionManager: {
+        saveLastResponse: false
+      }
     };
     Object.keys(settings).forEach(key => {
       const parts = key.split('.');
@@ -39,16 +30,12 @@ describe('v2/WidgetRouter', function() {
     const afterRenderHandler = jest.fn();
     const afterErrorHandler = jest.fn();
 
-    const router = new WidgetRouter(
-      _.extend(
-        {
-          el: $sandbox,
-          baseUrl: baseUrl,
-          authClient: authClient,
-        },
-        settings
-      )
-    );
+    const router = new WidgetRouter({
+      el: $sandbox,
+      baseUrl,
+      authClient,
+      ...settings
+    });
 
     router.appState.set('remediations', remediations);
     router.appState.set('currentFormName', formName);
@@ -58,10 +45,12 @@ describe('v2/WidgetRouter', function() {
     router.on('afterError', afterErrorHandler);
 
     testContext = {
+      authClient,
       router,
       afterRenderHandler,
       afterErrorHandler,
     };
+    return testContext;
   }
 
   beforeEach(function() {
@@ -71,36 +60,38 @@ describe('v2/WidgetRouter', function() {
   afterEach(function() {
     $sandbox.empty();
     jest.resetAllMocks();
+    localStorage.clear();
+    sessionStorage.clear();
   });
 
   
   it('should not be visible until initial render', async function() {
     setup();
-    expect(testContext.router.header.$el.css('display')).toBe('none');
-    await testContext.router.render(FormController);
-    expect(testContext.afterErrorHandler).toHaveBeenCalledTimes(0);
-    expect(testContext.afterRenderHandler).toHaveBeenCalledTimes(1);
-    expect(testContext.router.header.$el.css('display')).toBe('block');
-    expect(testContext.router.controller.$el.find('.o-form-head').text()).toBe('Sign In');
+    const { router, afterErrorHandler, afterRenderHandler } = testContext;
+    expect(router.header.$el.css('display')).toBe('none');
+    await router.render(FormController);
+    expect(afterErrorHandler).toHaveBeenCalledTimes(0);
+    expect(afterRenderHandler).toHaveBeenCalledTimes(1);
+    expect(router.header.$el.css('display')).toBe('block');
+    expect(router.controller.$el.find('.o-form-head').text()).toBe('Sign In');
   });
   
   it('should be visible and render initial error', async function() {
-    jest.spyOn(mocked.interact, 'interact').mockRejectedValue({
-      error: {
-        error: 'access_denied',
-        // eslint-disable-next-line camelcase
-        error_description: 'OIE is not enabled'
-      }
-    });
-    setup({
+    const { authClient } = setup({
       useInteractionCodeFlow: true,
     });
-    expect(testContext.router.header.$el.css('display')).toBe('none');
-    await testContext.router.render(FormController);
-    expect(testContext.afterErrorHandler).toHaveBeenCalledTimes(0);
-    expect(testContext.afterRenderHandler).toHaveBeenCalledTimes(1);
-    expect(testContext.router.header.$el.css('display')).toBe('block');
-    expect(testContext.router.controller.$el.find('.o-form-error-container').text()).toBe(
+    const { router, afterErrorHandler, afterRenderHandler } = testContext;
+    jest.spyOn(authClient.idx, 'start').mockRejectedValue({
+      error: 'access_denied',
+      // eslint-disable-next-line camelcase
+      error_description: 'OIE is not enabled'
+    });
+    expect(router.header.$el.css('display')).toBe('none');
+    await router.render(FormController);
+    expect(afterErrorHandler).toHaveBeenCalledTimes(0);
+    expect(afterRenderHandler).toHaveBeenCalledTimes(1);
+    expect(router.header.$el.css('display')).toBe('block');
+    expect(router.controller.$el.find('.o-form-error-container').text()).toBe(
       'The requested feature is not enabled in this environment.'
     );
   });

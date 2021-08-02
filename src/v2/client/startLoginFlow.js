@@ -12,10 +12,7 @@
 
 import Errors from 'util/Errors';
 import { emailVerifyCallback } from './emailVerifyCallback';
-import { interact } from './interact';
-import { introspect } from './introspect';
 import sessionStorageHelper from './sessionStorageHelper';
-import { getSavedTransactionMeta } from './transactionMeta';
 import { CONFIGURED_FLOW } from './constants';
 
 const handleProxyIdxResponse = async (settings) => {
@@ -27,7 +24,10 @@ const handleProxyIdxResponse = async (settings) => {
 };
 
 /* eslint max-depth: [2, 3] */
+// eslint-disable-next-line complexity, max-statements
 export async function startLoginFlow(settings) {
+  const authClient = settings.getAuthClient();
+
   // Return a preset response
   if (settings.get('proxyIdxResponse')) {
     return handleProxyIdxResponse(settings);
@@ -37,49 +37,62 @@ export async function startLoginFlow(settings) {
     sessionStorageHelper.removeStateHandle();
   }
 
-  if (settings.get('stateTokenExternalId')) {
+  if (settings.get('otp')) {
     return emailVerifyCallback(settings);
   }
 
   if (settings.get('useInteractionCodeFlow')) {
-    // if the configured flow is set to `proceed`, the SIW should only continue an existing idx transaction
-    // if the SIW loads from a fresh state (there is no current transaction), throw an error
-    const configuredFlow = settings.get('flow');
-    if (configuredFlow && configuredFlow === CONFIGURED_FLOW.PROCEED) {
-      const meta = await getSavedTransactionMeta(settings);
-      if (!meta) {
+    let meta = await authClient.idx.getSavedTransactionMeta();
+    const idxOptions = {
+      exchangeCodeForTokens: false // we handle this in interactionCodeFlow.js
+    };
+    if (!meta) {
+      // no saved transaction
+      // if the configured flow is set to `proceed`, the SIW should only continue an existing idx transaction
+      // if the SIW loads from a fresh state (there is no current transaction), throw an error
+      const flow = authClient.idx.getFlow();
+      if (flow && flow === CONFIGURED_FLOW.PROCEED) {
         throw new Errors.ConfiguredFlowError(
-          'Unable to proceed: saved transaction could not be loaded', configuredFlow
+          'Unable to proceed: saved transaction could not be loaded', flow
         );
       }
+      // start new transaction
+      return authClient.idx.start(idxOptions);
     }
 
-    return interact(settings);
+    // continue saved transaction
+    return authClient.idx.proceed(idxOptions);
   }
 
   // Use stateToken from session storage if exists
   // See more details at ./docs/use-session-token-prior-to-settings.png
   const stateHandleFromSession = sessionStorageHelper.getStateHandle();
   if (stateHandleFromSession) {
-    return introspect(settings, stateHandleFromSession)
-      .then((idxResp) => {
-        // 1. abandon the settings.stateHandle given session.stateHandle is still valid
-        settings.set('stateToken', stateHandleFromSession);
-        // 2. chain the idxResp to next handler
-        return idxResp;
-      })
-      .catch(() => {
-        // 1. remove session.stateHandle
-        sessionStorageHelper.removeStateHandle();
-        // 2. start the login again in order to introspect on settings.stateHandle
-        return startLoginFlow(settings);
+    try {
+      const idxResp = await authClient.idx.introspect({
+        stateHandle: stateHandleFromSession
       });
+      const hasError = idxResp.context?.messages?.value.length > 0;
+      if (hasError) {
+        throw new Error('saved stateToken is invalid'); // will be caught in this function
+      }
+
+      // 1. abandon the settings.stateHandle given session.stateHandle is still valid
+      settings.set('stateToken', stateHandleFromSession);
+      // 2. chain the idxResp to next handler
+      return idxResp;
+    } catch {
+      // 1. remove session.stateHandle
+      sessionStorageHelper.removeStateHandle();
+      // 2. start the login again in order to introspect on settings.stateHandle
+      return startLoginFlow(settings);
+    }
   }
 
   // Use stateToken from options
   const stateHandle = settings.get('stateToken');
   if (stateHandle) {
-    return introspect(settings, stateHandle);
+    return authClient.idx.introspect({ stateHandle });
   }
 
   throw new Errors.ConfigError('Set "useInteractionCodeFlow" to true in configuration to enable the ' +
