@@ -1,6 +1,7 @@
 import { RequestLogger, RequestMock } from 'testcafe';
 import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import xhrAuthenticatorRequiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
+import xhrSSPRSuccess from '../../../playground/mocks/data/idp/idx/terminal-reset-password-success';
 import xhrInvalidPassword from '../../../playground/mocks/data/idp/idx/error-authenticator-verify-password';
 import xhrForgotPasswordError from '../../../playground/mocks/data/idp/idx/error-forgot-password';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
@@ -31,6 +32,12 @@ const sessionExpiresDuringPassword = RequestMock()
   .respond(xhrAuthenticatorRequiredPassword)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(sessionExpired, 401);
+
+const resetPasswordSuccess = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorRequiredPassword)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(xhrSSPRSuccess, 200);
 
 const recoveryRequestLogger = RequestLogger(
   /idp\/idx\/recover/,
@@ -127,6 +134,16 @@ test.requestHooks(sessionExpiresDuringPassword)('challege password authenticator
   await challengePasswordPage.clickNextButton();
   await t.expect(challengePasswordPage.getErrorFromErrorBox()).eql('The session has expired.');
   await t.expect(challengePasswordPage.getSignoutLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
+});
+
+test.requestHooks(resetPasswordSuccess)('password changed successfully', async t => {
+  const challengePasswordPage = await setup(t);
+  await challengePasswordPage.switchAuthenticatorExists();
+  await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
+  await challengePasswordPage.clickNextButton();
+
+  await t.expect(challengePasswordPage.getIonMessages()).eql('You can now sign in with your existing username and new password.');
+  await t.expect(challengePasswordPage.getGoBackLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
 });
 
 test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not recover password', async t => {
