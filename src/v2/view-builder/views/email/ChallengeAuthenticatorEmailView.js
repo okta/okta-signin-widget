@@ -52,6 +52,10 @@ const Body = BaseAuthenticatorEmailForm.extend(
     noButtonBar: true,
     resendEmailAction: 'currentAuthenticatorEnrollment-resend',
 
+    events: {
+      'click .enter-auth-code-instead-link': 'showAuthCodeEntry',
+    },
+
     initialize() {
       BaseAuthenticatorEmailForm.prototype.initialize.apply(this, arguments);
 
@@ -72,10 +76,6 @@ const Body = BaseAuthenticatorEmailForm.extend(
 
     postRender() {
       this.showCodeEntryField(false);
-    },
-
-    events: {
-      'click .enter-auth-code-instead-link': 'showAuthCodeEntry',
     },
 
     showAuthCodeEntry() {
