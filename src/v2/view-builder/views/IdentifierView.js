@@ -56,6 +56,9 @@ const Body = BaseForm.extend({
       element: this.$el,
     };
 
+    // For certain flows, we need to generate a device fingerprint
+    // to determine if we need to send a "New Device Sign-on Notification".
+    // In the future, this should be handled completely by okta-auth-js OKTA-418160
     DeviceFingerprinting.generateDeviceFingerprint(fingerprintData)
       .then(fingerprint => {
         this.options.appState.set('deviceFingerprint', fingerprint);

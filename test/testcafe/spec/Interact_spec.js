@@ -157,9 +157,11 @@ test.requestHooks(requestLogger, interactMock)('passes saved interaction handle 
       codeChallenge: 'totally_fake',
       codeChallengeMethod: 'S256',
 
-      // These properties need to match config. See `isTransactionMetaValid``
+      // These properties must match config. See `isTransactionMetaValid` https://github.com/okta/okta-auth-js/blob/master/lib/idx/transactionMeta.ts
+      issuer: 'http://localhost:3000/oauth2/default',
       clientId: 'fake',
       redirectUri: 'http://doesnot-matter',
+      state: 'mock-state'
     }
   });
 

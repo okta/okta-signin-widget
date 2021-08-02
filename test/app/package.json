@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@okta/okta-auth-js": "^5.8.0",
+    "@okta/okta-auth-js": "^6.0.0",
     "@okta/okta-signin-widget": "*"
   },
   "devDependencies": {

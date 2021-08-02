@@ -63,9 +63,6 @@ export default Model.extend({
     logoText: ['string', false],
     helpSupportNumber: 'string',
 
-    // IDX API VERSION
-    apiVersion: ['string', true, '1.0.0'],
-
     // <OIE>
     // attribute to hold proxy (fake) idx response
     // to render static pages without initiating idx pipeline
@@ -173,7 +170,7 @@ export default Model.extend({
     piv: ['object', false, {}],
 
     //Email verify callback
-    stateTokenExternalId: 'string'
+    otp: 'string'
   },
 
   derived: {
@@ -378,8 +375,8 @@ export default Model.extend({
   },
 
   setAcceptLanguageHeader: function(authClient) {
-    if (authClient && authClient.options && authClient.options.headers) {
-      authClient.options.headers['Accept-Language'] = this.get('languageCode');
+    if (authClient) {
+      authClient.http.setRequestHeader('Accept-Language', this.get('languageCode'));
     }
   },
 

@@ -1,6 +1,5 @@
 import { RequestMock } from 'testcafe';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
-import { checkConsoleMessages } from '../framework/shared';
 import xhr403SecurityAccessDenied from '../../../playground/mocks/data/idp/idx/error-403-security-access-denied';
 
 const securityAccessDeniedMock = RequestMock()
@@ -17,11 +16,7 @@ fixture('GenericErrors');
 async function setup(t) {
   const terminalPage = new TerminalPageObject(t);
   await terminalPage.navigateToPage();
-  await checkConsoleMessages({
-    controller: null,
-    formName: 'terminal',
-  });
-
+  await terminalPage.waitForTerminalView();
   return terminalPage;
 }
 

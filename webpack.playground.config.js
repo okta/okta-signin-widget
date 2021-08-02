@@ -40,6 +40,9 @@ module.exports = {
   output: {
     path: `${PLAYGROUND}`,
     filename: 'playground.bundle.js',
+    environment: {
+      arrowFunction: false // for IE11
+    }
   },
   devtool: 'source-map',
   module: {

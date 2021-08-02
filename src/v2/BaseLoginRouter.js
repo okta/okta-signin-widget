@@ -1,3 +1,4 @@
+/* eslint max-depth: [1,4] */
 /*!
  * Copyright (c) 2020, Okta, Inc. and/or its affiliates. All rights reserved.
  * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
@@ -29,13 +30,13 @@ import sessionStorageHelper from './client/sessionStorageHelper';
 import {
   startLoginFlow,
   interactionCodeFlow,
-  configIdxJsClient,
   handleConfiguredFlow
 } from './client';
 
 import transformIdxResponse from './ion/transformIdxResponse';
 import { FORMS } from './ion/RemediationConstants';
 import CookieUtil from 'util/CookieUtil';
+import { formatError } from './client/formatError';
 
 export default Router.extend({
   Events: Backbone.Events,
@@ -84,10 +85,19 @@ export default Router.extend({
     // Hide until unitial render
     this.hide();
 
-    configIdxJsClient(this.appState);
+    this.listenTo(this.appState, 'change:deviceFingerprint', this.updateDeviceFingerprint);
+    this.listenTo(this.appState, 'error', this.handleError);
     this.listenTo(this.appState, 'updateAppState', this.handleUpdateAppState);
     this.listenTo(this.appState, 'remediationError', this.handleIdxResponseFailure);
     this.listenTo(this.appState, 'restartLoginFlow', this.restartLoginFlow);
+  },
+
+  updateDeviceFingerprint() {
+    const authClient = this.settings.getAuthClient();
+    const fingerprint = this.appState.get('deviceFingerprint');
+    if (fingerprint) {
+      authClient.http.setRequestHeader('X-Device-Fingerprint', fingerprint);
+    }
   },
 
   async handleUpdateAppState(idxResponse) {
@@ -135,62 +145,18 @@ export default Router.extend({
   },
 
   handleIdxResponseFailure(error = {}) {
-    // special case: `useInteractionCodeFlow` is true but the Org does not have OIE enabled
-    // The response is not in IDX format. See playground/mocks/data/oauth2/error-feature-not-enabled.json
-    if (error?.error === 'access_denied' && error.error_description) {
-      // simulate an IDX error response
-      const idxMessages = {
-        messages: {
-          type: 'array',
-          value: [
-            {
-              message: error.error_description,
-              i18n: {
-                key: 'oie.feature.disabled'
-              },
-              class: 'ERROR'
-            }
-          ],
-        },
-      };
+    // IDX errors will not call the global error handler
+    error = formatError(error);
+    this.handleUpdateAppState(error.details);
+  },
 
-      // Format the error to resemble an IdX error
-      error = Object.assign({
-        details: {
-          rawIdxState: idxMessages,
-          context: idxMessages,
-          neededToProceed: [],
-        }
-      }, error);
-    }
-
-    // loosely check whether is IDX error response
-    // see idx for details: https://github.com/okta/okta-idx-js/blob/master/src/index.js
-    if (error?.details?.rawIdxState) {
-      // Populate generic error message if there isn't any.
-      if (!error.details.rawIdxState.messages) {
-        const idxMessage = {
-          type: 'array',
-          value: [
-            {
-              message: loc('oform.error.unexpected', 'login'),
-              class: 'ERROR'
-            }
-          ]
-        };
-        // Format the error to resemble an IdX error
-        error.details.rawIdxState.messages = idxMessage;
-        error.details.context = { messages: idxMessage };
-      }
-
-      return this.handleUpdateAppState(error.details);
-    }
-
-    // If the error is a string, wrap it in an Error object
-    if (typeof error === 'string') {
-      error = new Error(error);
-    }
-    this.settings.callGlobalError(error);
+  // Generic error handler for all exceptions
+  handleError(error = {}) {
+    // Show error message and notify listeners
+    const originalError = error;
+    const formattedError = formatError({...error}); // format the error to resemble an IDX response
+    this.handleUpdateAppState(formattedError.details);
+    this.settings.callGlobalError(originalError);
 
     // -- TODO: OKTA-244631 How to surface up the CORS error in IDX?
     // -- The `err` object from idx.js doesn't have XHR object
@@ -201,7 +167,7 @@ export default Router.extend({
     // }
   },
 
-  /* eslint max-statements: [2, 25], complexity: [2, 11] */
+  /* eslint max-statements: [2, 27], complexity: [2, 11] */
   render: async function(Controller, options = {}) {
     // If url changes then widget assumes that user's intention was to initiate a new login flow,
     // so clear stored token to use the latest token.
@@ -227,14 +193,16 @@ export default Router.extend({
     if (this.settings.get('oieEnabled')) {
       try {
         let idxResp = await startLoginFlow(this.settings);
-        /* eslint-disable max-depth */
-        if (this.settings.get('flow') && !this.hasControllerRendered) {
-          idxResp = await handleConfiguredFlow(idxResp, this.settings);
+        if (idxResp.error) {
+          this.appState.trigger('remediationError', idxResp.error);
+        } else {
+          if (this.settings.get('flow') && !this.hasControllerRendered) {
+            idxResp = await handleConfiguredFlow(idxResp, this.settings);
+          }
+          this.appState.trigger('updateAppState', idxResp);
         }
-        /* eslint-enable max-depth */
-        this.appState.trigger('updateAppState', idxResp);
-      } catch (errorResp) {
-        this.appState.trigger('remediationError', errorResp.error || errorResp);
+      } catch (exception) {
+        this.appState.trigger('error', exception);
       } finally {
         this.settings.unset('stateToken');
         this.settings.unset('proxyIdxResponse');

@@ -16,6 +16,7 @@ import Logger from 'util/Logger';
 import Widget from 'widget/OktaSignIn';
 
 const url = 'https://foo.com';
+const issuer = `${url}/oauth2/default`;
 const itp = Expect.itp;
 
 describe('OktaSignIn v2 bootstrap', function() {
@@ -23,17 +24,21 @@ describe('OktaSignIn v2 bootstrap', function() {
   let codeVerifier;
   let codeChallenge;
   let codeChallengeMethod;
+  let withCredentials;
 
   beforeEach(function() {
     jest.spyOn(Logger, 'error').mockImplementation(() => { });
+    jest.spyOn(console, 'warn').mockImplementation(() => { });
     signIn = null;
     codeVerifier = 'fakecodeVerifier';
     codeChallenge = 'fakecodeChallenge';
     codeChallengeMethod = 'fakecodeChallengeMethod';
+    withCredentials = true;
   });
 
   afterEach(function() {
     sessionStorage.clear();
+    localStorage.clear();
     signIn && signIn.remove();
   });
 
@@ -42,10 +47,6 @@ describe('OktaSignIn v2 bootstrap', function() {
       Object.assign(
         {
           baseUrl: url,
-          apiVersion: '1.0.0',
-          features: {
-            router: true,
-          },
         },
         widgetOptions || {}
       )
@@ -97,7 +98,7 @@ describe('OktaSignIn v2 bootstrap', function() {
   }
 
   describe('Introspects token and loads Identifier view for new pipeline', function() {
-    itp('calls introspect API on page load using idx-js as client', function() {
+    itp('calls introspect API on page load', function() {
       const form = new IdentifierForm($sandbox);
       setupLoginFlow({ stateToken: '02stateToken' }, idxResponse);
       render();
@@ -118,17 +119,6 @@ describe('OktaSignIn v2 bootstrap', function() {
       });
     });
 
-    itp('throws an error if invalid version is passed to idx-js', function() {
-      setupLoginFlow({
-        stateToken: '02stateToken',
-        apiVersion: '2.0.0'
-      }, idxResponse);
-
-      return render().catch(err => {
-        expect(err.name).toBe('Error');
-        expect(err.message.toString()).toEqual('Unknown api version: 2.0.0.  Use an exact semver version.');
-      });
-    });
   });
 
   describe('Interaction code flow', function() {
@@ -149,7 +139,7 @@ describe('OktaSignIn v2 bootstrap', function() {
       ];
     });
 
-    itp('calls interact API on page load using idx-js as client in custom hosted widget', function() {
+    itp('calls interact API on page load in custom hosted widget', function() {
       const form = new IdentifierForm($sandbox);
       setupLoginFlow({
         clientId: 'someClientId',
@@ -177,22 +167,8 @@ describe('OktaSignIn v2 bootstrap', function() {
       });
     });
 
-    itp('throws an error if invalid version is passed to idx-js', function() {
-      setupLoginFlow({
-        apiVersion: '2.0.0',
-        clientId: 'someClientId',
-        redirectUri: 'http://0.0.0.0:9999',
-        useInteractionCodeFlow: true
-      }, responses);
-      jest.spyOn(signIn.authClient.transactionManager, 'exists').mockReturnValue(false);
-      return render().catch(err => {
-        expect(err.name).toBe('Error');
-        expect(err.message.toString()).toEqual('Unknown api version: 2.0.0.  Use an exact semver version.');
-      });
-    });
-
     describe('shows error when IDENTITY_ENGINE feature is not enabled', () => {
-      itp('shows translated error when i18n is available', () => {
+      itp('shows translated error when i18n is available', async () => {
         const view = new TerminalView($sandbox);
         const testStr = 'This is a test string';
         setupLoginFlow({
@@ -208,14 +184,22 @@ describe('OktaSignIn v2 bootstrap', function() {
         }, [
           errorFeatureNotEnabled
         ]);
-        render();
-        return Expect.wait(() => {
-          return $('.siw-main-view.terminal').length === 1;
-        }).then(function() {
-          expect(view.getErrorMessages()).toBe(testStr);
-        });
+
+        let didThrow = false;
+        try {
+          await render();
+        } catch (e) {
+          didThrow = true;
+          expect(e).toEqual({
+            'error': 'access_denied',
+            'error_description': 'The requested feature is not enabled in this environment.',
+          });
+        }
+        expect(didThrow).toBe(true);
+        expect($('.siw-main-view.terminal').length).toBe(1);
+        expect(view.getErrorMessages()).toBe(testStr);
       });
-      itp('shows untranslated error when i18n is not available', () => {
+      itp('shows untranslated error when i18n is not available', async () => {
         const view = new TerminalView($sandbox);
         const testStr = 'The requested feature is not enabled in this environment.';
         setupLoginFlow({
@@ -225,34 +209,128 @@ describe('OktaSignIn v2 bootstrap', function() {
         }, [
           errorFeatureNotEnabled
         ]);
-        render();
-        return Expect.wait(() => {
-          return $('.siw-main-view.terminal').length === 1;
-        }).then(function() {
-          expect(view.getErrorMessages()).toBe(testStr);
-        });
+        let didThrow = false;
+        try {
+          await render();
+        } catch (e) {
+          didThrow = true;
+          expect(e).toEqual({
+            'error': 'access_denied',
+            'error_description': 'The requested feature is not enabled in this environment.',
+          });
+        }
+        expect(didThrow).toBe(true);
+        expect($('.siw-main-view.terminal').length).toBe(1);
+        expect(view.getErrorMessages()).toBe(testStr);
       });
     });
 
-    itp('Saves the interaction handle', () => {
-      setupLoginFlow({
-        clientId: 'someClientId',
-        redirectUri: 'http://0.0.0.0:9999',
-        useInteractionCodeFlow: true
-      }, responses);
+    describe('Saved transaction meta', () => {
+      itp('Saves the interaction handle', () => {
+        setupLoginFlow({
+          clientId: 'someClientId',
+          redirectUri: 'http://0.0.0.0:9999',
+          useInteractionCodeFlow: true
+        }, responses);
 
-      jest.spyOn(signIn.authClient.transactionManager, 'exists').mockReturnValue(false);
-      jest.spyOn(signIn.authClient.transactionManager, 'load').mockReturnValue({});
-      render();
+        jest.spyOn(signIn.authClient.transactionManager, 'exists').mockReturnValue(false);
+        jest.spyOn(signIn.authClient.transactionManager, 'load').mockReturnValue({});
+        render();
 
-      return Expect.wait(() => {
-        return $('.siw-main-body').length === 1;
-      }).then(function() {
-        expect(signIn.authClient.transactionManager.save).toHaveBeenCalledWith({
-          codeChallenge,
-          codeVerifier,
-          codeChallengeMethod,
-          interactionHandle
+        return Expect.wait(() => {
+          return $('.siw-main-body').length === 1;
+        }).then(function() {
+          expect(signIn.authClient.transactionManager.save).toHaveBeenCalledWith({
+            flow: 'default',
+            codeChallenge,
+            codeVerifier,
+            codeChallengeMethod,
+            interactionHandle,
+            issuer,
+            urls: {
+              authorizeUrl: `${issuer}/v1/authorize`,
+              issuer,
+              logoutUrl: `${issuer}/v1/logout`,
+              revokeUrl: `${issuer}/v1/revoke`,
+              tokenUrl: `${issuer}/v1/token`,
+              userinfoUrl: `${issuer}/v1/userinfo`,
+            },
+            withCredentials
+          }, { muteWarning: true });
+        });
+      });
+
+      itp('Saves the configured flow', () => {
+        setupLoginFlow({
+          clientId: 'someClientId',
+          redirectUri: 'http://0.0.0.0:9999',
+          useInteractionCodeFlow: true,
+          flow: 'login'
+        }, responses);
+
+        jest.spyOn(signIn.authClient.transactionManager, 'exists').mockReturnValue(false);
+        jest.spyOn(signIn.authClient.transactionManager, 'load').mockReturnValue({});
+        render();
+
+        return Expect.wait(() => {
+          return $('.siw-main-body').length === 1;
+        }).then(function() {
+          expect(signIn.authClient.transactionManager.save).toHaveBeenCalledWith({
+            flow: 'login',
+            codeChallenge,
+            codeVerifier,
+            codeChallengeMethod,
+            interactionHandle,
+            issuer,
+            urls: {
+              authorizeUrl: `${issuer}/v1/authorize`,
+              issuer,
+              logoutUrl: `${issuer}/v1/logout`,
+              revokeUrl: `${issuer}/v1/revoke`,
+              tokenUrl: `${issuer}/v1/token`,
+              userinfoUrl: `${issuer}/v1/userinfo`,
+            },
+            withCredentials
+          }, { muteWarning: true });
+        });
+      });
+
+      itp('Saves the codeChallenge and codeChallengeMethod', () => {
+        setupLoginFlow({
+          clientId: 'someClientId',
+          redirectUri: 'http://0.0.0.0:9999',
+          useInteractionCodeFlow: true,
+          codeChallenge: 'custom',
+          codeChallengeMethod: 'custom-method'
+        }, responses);
+        signIn.authClient.token.prepareTokenParams.mockResolvedValue({
+          codeChallenge: 'custom',
+          codeChallengeMethod: 'custom-method'
+        });
+        jest.spyOn(signIn.authClient.transactionManager, 'exists').mockReturnValue(false);
+        jest.spyOn(signIn.authClient.transactionManager, 'load').mockReturnValue({});
+        render();
+
+        return Expect.wait(() => {
+          return $('.siw-main-body').length === 1;
+        }).then(function() {
+          expect(signIn.authClient.transactionManager.save).toHaveBeenCalledWith({
+            flow: 'default',
+            codeVerifier: undefined,
+            codeChallenge: 'custom',
+            codeChallengeMethod: 'custom-method',
+            interactionHandle,
+            issuer,
+            urls: {
+              authorizeUrl: `${issuer}/v1/authorize`,
+              issuer,
+              logoutUrl: `${issuer}/v1/logout`,
+              revokeUrl: `${issuer}/v1/revoke`,
+              tokenUrl: `${issuer}/v1/token`,
+              userinfoUrl: `${issuer}/v1/userinfo`,
+            },
+            withCredentials
+          }, { muteWarning: true });
         });
       });
     });
@@ -276,7 +354,8 @@ describe('OktaSignIn v2 bootstrap', function() {
 
         // Needed for isTransactionMetaValid
         clientId,
-        redirectUri
+        redirectUri,
+        issuer
       });
       render();
 
@@ -292,14 +371,6 @@ describe('OktaSignIn v2 bootstrap', function() {
         expect(firstReq.data()).toEqual({ interactionHandle: savedInteractionHandle });
 
         expect(signIn.authClient.transactionManager.load).toHaveBeenCalled();
-        expect(signIn.authClient.transactionManager.save).toHaveBeenCalledWith({
-          codeChallenge,
-          codeVerifier,
-          codeChallengeMethod,
-          interactionHandle: savedInteractionHandle,
-          clientId,
-          redirectUri
-        });
       });
     });
 
@@ -316,7 +387,8 @@ describe('OktaSignIn v2 bootstrap', function() {
           codeChallenge,
           codeChallengeMethod,
           clientId,
-          redirectUri
+          redirectUri,
+          issuer
         };
       });
 
@@ -327,7 +399,9 @@ describe('OktaSignIn v2 bootstrap', function() {
           redirectUri,
           useInteractionCodeFlow: true
         }, [
-          idxSuccessInteractionCode, {
+          idxSuccessInteractionCode, 
+          // token success
+          {
             state: 200,
             responseType: 'json',
             response: {
@@ -347,7 +421,7 @@ describe('OktaSignIn v2 bootstrap', function() {
         });
       });
 
-      itp('does NOT clear on permanent error', () => {
+      itp('does NOT clear shared storage on permanent error', () => {
         setupLoginFlow({
           clientId,
           redirectUri,
@@ -362,7 +436,7 @@ describe('OktaSignIn v2 bootstrap', function() {
         return Expect.wait(() => {
           return $('.siw-main-body').length === 1;
         }).then(function() {
-          expect(signIn.authClient.transactionManager.clear).not.toHaveBeenCalled();
+          expect(signIn.authClient.transactionManager.clear).toHaveBeenCalledWith({ clearSharedStorage: false });
         });
       });
 

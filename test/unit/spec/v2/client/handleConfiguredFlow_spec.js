@@ -4,24 +4,6 @@ import idx from '@okta/okta-idx-js';
 import RAW_IDX_RESPONSE from 'helpers/v2/idx/fullFlowResponse';
 import { handleConfiguredFlow } from '../../../../../src/v2/client';
 
-jest.mock('v2/client/interact', () => {
-  return {
-    interact: () => { }
-  };
-});
-
-jest.mock('v2/client/transactionMeta', () => ({
-  getTransactionMeta: () => jest.fn(() => Promise.resolve({})),
-  getSavedTransactionMeta: jest.fn(() => Promise.resolve({})),
-  saveTransactionMeta: jest.fn(() => Promise.resolve({})),
-  clearTransactionMeta: jest.fn(),
-}));
-
-const mocked = {
-  interact: require('v2/client/interact'),
-  transactionMeta: require('v2/client/transactionMeta'),
-};
-
 describe('v2/client/handleConfiguredFlow', () => {
   let testContext;
 
@@ -30,15 +12,25 @@ describe('v2/client/handleConfiguredFlow', () => {
   });
 
   function setup(options) {
+    const authClient = {
+      idx: {
+        getFlow: () => options.flow,
+      }
+    };
+    testContext.authClient = authClient;
+
     const settings = new Settings({
       baseUrl: 'http://localhost:3000',
       ...options
     }, { parse: true });
+    jest.spyOn(settings, 'getAuthClient').mockReturnValue(authClient);
+    testContext.settings = settings;
 
     testContext.idxState = idx.makeIdxState(RAW_IDX_RESPONSE);
     jest.spyOn(testContext.idxState, 'proceed').mockResolvedValue(options.flow || 'noflow');
 
-    return { settings, idxState: testContext.idxState };
+    
+    return testContext;
   }
 
   it('flow=\'\'', async () => {
@@ -72,7 +64,7 @@ describe('v2/client/handleConfiguredFlow', () => {
     const flow = 'signup';
     const { settings, idxState } = setup({flow});
     const idx = await handleConfiguredFlow(idxState, settings);
-    expect(idx).toBe(flow);
+    expect(idx).toBe(idxState);
   });
 
   it('flow=RESET_PASSWORD', async () => {
@@ -83,22 +75,11 @@ describe('v2/client/handleConfiguredFlow', () => {
     jest.spyOn(idxState.actions, 'currentAuthenticator-recover').mockResolvedValue(flow);
 
     const idx = await handleConfiguredFlow(idxState, settings);
-    expect(idx).toBe(flow);
+    expect(idx).toBe(idxState);
   });
-
 
   it('flow=UNLOCK_ACCOUNT', async () => {
     const flow = 'unlockAccount';
-    const { settings, idxState } = setup({flow});
-    const idx = await handleConfiguredFlow(idxState, settings);
-    expect(idx).toBe(flow);
-  });
-
-  it('should start new flow when flow !== meta.flow', async () => {
-    const flow = 'login';
-    jest.spyOn(mocked.transactionMeta, 'getTransactionMeta').mockResolvedValue({flow: 'signup'});
-    jest.spyOn(mocked.interact, 'interact').mockResolvedValue(flow);
-
     const { settings, idxState } = setup({flow});
     const idx = await handleConfiguredFlow(idxState, settings);
     expect(idx).toBe(flow);

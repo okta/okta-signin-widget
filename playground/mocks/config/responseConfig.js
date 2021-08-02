@@ -105,7 +105,8 @@ const idx = {
     'error-authenticator-enroll-phone-invalid-number',
   ],
   '/idp/idx/identify': [
-    'authenticator-enroll-select-authenticator',
+    'authenticator-verification-email',
+    // 'authenticator-enroll-select-authenticator',
     // 'identify-with-only-one-third-party-idp',
     // 'error-identify-access-denied',
     // 'error-identify-user-locked-unable-challenge',
@@ -117,6 +118,7 @@ const idx = {
     // 'error-unsupported-idx-response'
   ],
   '/idp/idx/challenge/answer': [
+    'error-401-invalid-otp-passcode',
     // 'error-401-invalid-otp-passcode',
     // 'error-429-too-many-request-operation-ratelimit',
     // 'error-429-too-many-request',
@@ -141,7 +143,8 @@ const idx = {
     // 'authenticator-verification-phone-voice'
   ],
   '/idp/idx/challenge/poll': [
-    'success',
+    'authenticator-verification-email',
+    // 'success',
     // 'authenticator-verification-email-polling-long',
     // 'error-429-too-many-request',
     // 'error-429-api-limit-exceeded',

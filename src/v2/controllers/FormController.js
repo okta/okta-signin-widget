@@ -16,7 +16,6 @@ import { getV1ClassName } from '../ion/ViewClassNamesFactory';
 import { FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/RemediationConstants';
 import Util from '../../util/Util';
 import sessionStorageHelper from '../client/sessionStorageHelper';
-import { clearTransactionMeta } from '../client';
 
 export default Controller.extend({
   className: 'form-controller',
@@ -134,7 +133,7 @@ export default Controller.extend({
     const idx = this.options.appState.get('idx');
 
     if (actionPath === 'cancel') {
-      clearTransactionMeta(this.options.settings);
+      this.options.settings.getAuthClient().idx.clearTransactionMeta();
       sessionStorageHelper.removeStateHandle();
       this.options.appState.clearAppStateCache();
     }

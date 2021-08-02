@@ -56,7 +56,8 @@ module.exports = function(outputFilename, mode = 'development') {
             const shallBeExcluded = [
               '/node_modules/',
               'packages/@okta/courage-dist/jquery.js',
-              'packages/@okta/qtip2'
+              'packages/@okta/qtip2',
+              'okta-auth-js'
             ].some(filePathContains);
 
             return shallBeExcluded && !npmRequiresTransform;

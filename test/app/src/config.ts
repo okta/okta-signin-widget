@@ -43,8 +43,8 @@ export function getIssuer(config: Config): string {
 }
 
 export function getDefaultConfig(): Config {
-  const ISSUER = process.env.ISSUER || '<baseUrl>/oauth2/default';
-  const CLIENT_ID = process.env.CLIENT_ID;
+  const ISSUER = process.env.ISSUER || process.env.WIDGET_TEST_SERVER + '/oauth2/default';
+  const CLIENT_ID = process.env.CLIENT_ID || process.env.WIDGET_SPA_CLIENT_ID;
 
   const config: Config = {
     issuer: ISSUER,

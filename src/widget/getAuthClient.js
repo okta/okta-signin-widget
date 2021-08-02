@@ -10,6 +10,9 @@ export default function(options) {
     redirectUri: options.redirectUri,
     state: options.state,
     scopes: options.scopes,
+    flow: options.flow,
+    codeChallenge: options.codeChallenge,
+    codeChallengeMethod: options.codeChallengeMethod,
     transformErrorXHR: Util.transformErrorXHR,
   }, options.authParams);
 
@@ -17,6 +20,10 @@ export default function(options) {
     authParams.issuer = options.baseUrl + '/oauth2/default';
   }
 
+  authParams.transactionManager = authParams.transactionManager || {};
+  Object.assign(authParams.transactionManager, {
+    saveLastResponse: false
+  });
   var authClient = options.authClient ? options.authClient : new OktaAuth(authParams);
   if (!authClient._oktaUserAgent) {
     // TODO: this block handles OKTA UA for passed in authClient, error should be thrown in the next major version
@@ -26,10 +33,6 @@ export default function(options) {
   } else {
     authClient._oktaUserAgent.addEnvironment(`okta-signin-widget-${config.version}`);
   }
-
-  // Set default headers object for widget access
-  // TOOD: remove when auth-js includes https://oktainc.atlassian.net/browse/OKTA-435081
-  authClient.options.headers = authClient.options.headers || {};
 
   return authClient;
 }

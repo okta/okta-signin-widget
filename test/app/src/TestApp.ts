@@ -5,7 +5,8 @@ import getOktaSignIn from './getOktaSignIn';
 import ConfigArea, { ConfigTemplate } from './configArea';
 import {
   getBaseUrl,
-  getConfigFromStorage
+  getConfigFromStorage,
+  getDefaultConfig
 } from './config';
 import { Config, OktaSignIn, RenderResponse } from './types';
 
@@ -97,10 +98,10 @@ const LayoutTemplate = `
     <div class="flex-row">
       ${ActionsTemplate}
       <div id="main-column">
+        ${CallbackTemplate}
         <div id="okta-login-container">
           <!-- widget renders here -->
         </div>
-        ${CallbackTemplate}
         ${TokensTemplate}
         ${CodeTemplate}
         ${ErrorsTemplate}
@@ -117,7 +118,7 @@ const LayoutTemplate = `
 export default class TestApp {
   authClient: OktaAuth;
   oktaSignIn: OktaSignIn;
-  errors: Error[];
+  errors: Error[] = [];
   cspErrors: SecurityPolicyViolationEvent[] = [];
   
   // config
@@ -176,7 +177,8 @@ export default class TestApp {
     this.addEventListeners();
 
     if (window.location.pathname === '/done') {
-      return this.handleLoginCallback();
+      this.handleLoginCallback();
+      return;
     }
 
     this.configArea = new ConfigArea();
@@ -323,27 +325,43 @@ export default class TestApp {
     this.oidcErrorContainer.innerHTML = JSON.stringify(err);
   }
 
-  handleLoginCallback(): void {
+  async handleLoginCallback(): Promise<void> {
     this.callbackContainer.style.display = 'block';
     this.configContainer.style.display = 'none';
     document.querySelectorAll('#actions-container .pure-menu-item:not(.visible-on-callback').forEach(el => {
       (el as HTMLElement).style.display = 'none';
     });
 
-    // add responseMode to config
+    const config = getConfigFromStorage() || getDefaultConfig();
+
+    // auto-detect responseMode
     let responseMode;
     if (window.location.search.indexOf('code') >= 0) {
       responseMode = 'query';
     } else if (window.location.hash.indexOf('code') >= 0) {
       responseMode = 'fragment';
     }
-    const config = getConfigFromStorage();
-    config.authParams = config.authParams || {};
-    config.authParams.responseMode = responseMode;
+    if (responseMode) {
+      config.authParams = config.authParams || {};
+      config.authParams.responseMode = responseMode;
+    }
 
     // get authClient
     const oktaSign = getOktaSignIn(config);
     const authClient = oktaSign.authClient;
+
+    // email verify callback
+    if (authClient.idx.isEmailVerifyCallback(window.location.search)) {
+      const { state, otp } = authClient.idx.parseEmailVerifyCallback(window.location.search);
+      this.oktaSignIn = await getOktaSignIn({ ...config, state, otp });
+      this.oktaSignIn.showSignIn({ el: '#okta-login-container' }).then((res: TokenResponse) => {
+        if (res.tokens) {
+          this.setTokens(res.tokens);
+          this.oktaSignIn.remove();
+        }
+      });
+      return;
+    }
 
     // handle redirect
     if (authClient.token.isLoginRedirect()) {
@@ -363,7 +381,7 @@ export default class TestApp {
       }
       
       promise
-        .catch(function(err: Error) {
+        .catch((err: Error) => {
           this.renderError(err);
         });
     }

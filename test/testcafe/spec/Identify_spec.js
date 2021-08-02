@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
-import { checkConsoleMessages, renderWidget as rerenderWidget } from '../framework/shared';
+import { checkConsoleMessages, renderWidget as rerenderWidget, getAuthJSVersion } from '../framework/shared';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
 import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
 import xhrAuthenticatorVerifySelect from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
@@ -113,8 +113,9 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should be able to submit
   });
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
-  await t.expect(reqHeaders['x-device-fingerprint']).notOk();
-  await t.expect(reqHeaders['x-okta-user-agent-extended']).eql(`okta-signin-widget-${config.version}`);
+  await t.expect(reqHeaders['x-device-fingerprint']).notOk(); // only enabled if `features.deviceFingerprinting` is true
+  const authJSVersion = getAuthJSVersion();
+  await t.expect(reqHeaders['x-okta-user-agent-extended']).eql(`okta-auth-js/${authJSVersion} okta-signin-widget-${config.version}`);
 
   identifyRequestLogger.clear();
   await identityPage.fillIdentifierField('another foobar');
@@ -320,7 +321,7 @@ test.requestHooks(identifyRequestLogger, identifyMockWithFingerprint)('should co
   const reqHeaders = req.headers;
   await t.expect(reqHeaders['x-device-fingerprint']).eql('mock-device-fingerprint');
 
-  // Validate future requests do NOT contain the request header
+  // future requests will also contain the request header
   const selectAuthenticatorPage = new SelectFactorPageObject(t);
   await t.expect(selectAuthenticatorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await selectAuthenticatorPage.selectFactorByIndex(0);
@@ -328,7 +329,7 @@ test.requestHooks(identifyRequestLogger, identifyMockWithFingerprint)('should co
   await t.expect(identifyRequestLogger.count(() => true)).eql(2);
   const factorReq = identifyRequestLogger.requests[1].request;
   const factorReqHeaders = factorReq.headers;
-  await t.expect(factorReqHeaders['x-device-fingerprint']).notOk();
+  await t.expect(factorReqHeaders['x-device-fingerprint']).eql('mock-device-fingerprint');
 });
 
 test.requestHooks(identifyRequestLogger, identifyMockWithFingerprintError)('should continue to compute device fingerprint and add to header when there are API errors', async t => {
