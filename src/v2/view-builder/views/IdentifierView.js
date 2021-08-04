@@ -36,8 +36,7 @@ const Body = BaseForm.extend({
 
     // Set username/identifier from the cookie. Note this takes precedence over the
     // above (the config scenario).
-    if (uiSchema.find(schema => schema.name === 'identifier') 
-        && this.settings.get('features.rememberMe')) {
+    if (this._shouldApplyRememberMyUsername(uiSchema)) {
       this._applyRememberMyUsername();
     }
   },
@@ -189,6 +188,11 @@ const Body = BaseForm.extend({
     return (uiSchema.find(schema => schema.name === 'identifier') && this.settings.get('username'));
   }, 
    
+  _shouldApplyRememberMyUsername(uiSchema) {
+    return (uiSchema.find(schema => schema.name === 'identifier') 
+        && this.settings.get('features.rememberMe'));
+  },
+
   /**
    * When "Remember My Username" is enabled, we pre-fill the identifier
    * field with the saved userName cookie. The cookie would have been originally

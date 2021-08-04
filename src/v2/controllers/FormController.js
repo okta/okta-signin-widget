@@ -142,7 +142,7 @@ export default Controller.extend({
 
     if (idx['neededToProceed'].find(item => item.name === actionPath)) {
       idx.proceed(actionPath, {})
-        .then(this.handleIdxSuccess.bind(this, null, this.formView.model))
+        .then(this.handleIdxSuccess.bind(this))
         .catch(error => {
           this.showFormErrors(this.formView.model, error, this.formView.form);
         });
@@ -160,7 +160,7 @@ export default Controller.extend({
             // that will be used in interactionCodeFlow function
             this.options.appState.trigger('restartLoginFlow');
           } else {
-            this.handleIdxSuccess(resp, this.formView.model);
+            this.handleIdxSuccess(resp);
           }
         })
         .catch(error => {
@@ -268,7 +268,9 @@ export default Controller.extend({
   },
 
   handleIdxSuccess: function(idxResp, model) {
-    this.updateIdentifierCookie(model);
+    if (model) {
+      this.updateIdentifierCookie(model);
+    }
     this.options.appState.trigger('remediationSuccess', idxResp);
   },
 
