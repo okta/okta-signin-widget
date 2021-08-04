@@ -70,6 +70,7 @@ const idx = {
     // 'identify-with-only-one-third-party-idp',
     // 'identify-with-password',
     // 'identify-with-universal-link',
+    // 'identify-with-app-link',
     // 'success',
     // 'success-with-app-user',
     // 'terminal-return-email',
@@ -350,6 +351,22 @@ const appleUniversalLink = {
     'identify-with-universal-link',
     'identify-with-universal-link',
     'success',
+  ],
+};
+
+// device probe: Android authenticator with app link
+const androidAuthnLoopbackFailfast = {
+  '/idp/idx/introspect': [
+    'identify-with-device-probing-loopback',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'identify-with-app-link',
+  ],
+  '/idp/idx/authenticators/okta-verify/launch': [
+    'identify-with-app-link',
+  ],
+  '/idp/idx/authenticators/poll/cancel': [
+    'identify-with-device-probing-loopback-challenge-not-received-android'
   ],
 };
 

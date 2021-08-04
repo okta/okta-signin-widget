@@ -62,6 +62,10 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     await this.t.click(Selector('.ul-button'));
   }
 
+  async clickAppLink() {
+    await this.t.click(Selector('.al-button'));
+  }
+
   async clickLaunchOktaVerifyLink() {
     await this.t.click(this.body.find('#launch-ov'));
   }

@@ -59,8 +59,8 @@
   "authenticatorChallenge": {
     "type": "object",
     "value": {
-      "challengeMethod": "UNIVERSAL_LINK",
-      "href": "https://login.okta.com/auth/okta-verify?challengeRequest=something",
+      "challengeMethod": "APP_LINK",
+      "href": "https://login.trexcloud.com/auth/okta-verify?challengeRequest=something",
       "cancel": {
           "rel": ["create-form"],
           "name": "cancel-polling-transaction",
