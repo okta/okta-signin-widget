@@ -159,12 +159,12 @@ Util.triggerAfterError = function(controller, err = {}) {
   Logger.warn('controller: ' + className + ', error: ' + error);
 };
 
-Util.redirect = function(url, win = window) {
+Util.redirect = function(url, win = window, isAppLink = false) {
   if (!url) {
     Logger.error(`Cannot redirect to empty URL: (${url})`);
     return;
   }
-  if (BrowserFeatures.isAndroid()) {
+  if (BrowserFeatures.isAndroid() && !isAppLink) {
     Util.redirectWithFormGet(url);
   } else {
     win.location.href = url;

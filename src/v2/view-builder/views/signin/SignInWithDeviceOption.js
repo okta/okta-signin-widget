@@ -36,8 +36,15 @@ export default View.extend({
           // launch the Okta Verify app
           Util.redirect(deviceChallenge.href);
         }
+
+        const isAppLinkapproach = deviceChallenge?.challengeMethod === Enums.APP_LINK_CHALLENGE;
+        if (isAppLinkapproach) {
+          // launch the Okta Verify app
+          Util.redirect(deviceChallenge.href, window, true);
+        }
+
         // OKTA-350084
-        // For the universal link (iOS) approach,
+        // For the universal link (iOS) and app link (Android) approach,
         // we need to 1. launch the Okta Verify app
         // and 2. take the enduser to the next step right away
         // In Safari, when Okta Verify app is not installed, step 1 responds with error immediately,
@@ -50,7 +57,7 @@ export default View.extend({
           } else {
             appState.trigger('invokeAction', FORMS.LAUNCH_AUTHENTICATOR);
           }
-        }, isUVapproach ? UNIVERSAL_LINK_POST_DELAY : 0);
+        }, isUVapproach || isAppLinkapproach ? UNIVERSAL_LINK_POST_DELAY : 0);
       }
     }), '.okta-verify-container');
   },

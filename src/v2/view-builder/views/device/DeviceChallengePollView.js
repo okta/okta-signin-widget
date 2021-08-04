@@ -188,7 +188,8 @@ const Footer = BaseFooter.extend({
   isFallbackApproach() {
     return [
       Enums.CUSTOM_URI_CHALLENGE,
-      Enums.UNIVERSAL_LINK_CHALLENGE
+      Enums.UNIVERSAL_LINK_CHALLENGE,
+      Enums.APP_LINK_CHALLENGE
     ].includes(this.options.currentViewState.relatesTo.value.challengeMethod);
   },
 });
