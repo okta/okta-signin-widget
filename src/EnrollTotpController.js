@@ -35,9 +35,8 @@ const EnrollTotpControllerAppDownloadInstructionsView = View.extend({
     this.listenTo(this.model, 'change:__deviceType__', this.render);
   },
   postRender: function() {
-    // TODO remove after translations are in place. OKTA-417836
     const link  = this.$el.find('.instructions a');
-    if (window.self !== window.top && link.length) {
+    if (link.length) {
       link[0].setAttribute('target', '_blank');
       link[0].setAttribute('rel', 'noreferer noopener');
     }
