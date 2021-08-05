@@ -34,6 +34,13 @@ const EnrollTotpControllerAppDownloadInstructionsView = View.extend({
   initialize: function() {
     this.listenTo(this.model, 'change:__deviceType__', this.render);
   },
+  postRender: function() {
+    const link  = this.$el.find('.instructions a');
+    if (link.length) {
+      link[0].setAttribute('target', '_blank');
+      link[0].setAttribute('rel', 'noreferer noopener');
+    }
+  },
   getTemplateData: function() {
     let appStoreLink;
     let appIcon;

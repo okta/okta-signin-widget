@@ -190,6 +190,16 @@ Expect.describe('EnrollTotp', function() {
         expect(test.form.appDownloadInstructionsLinkText()).toEqual('Google Authenticator from the Google Play Store');
       });
     });
+    itp('has link right target and rel attributes for app/play store links', function() {
+      return setupOktaTotpFn().then(function(test) {
+        test.form.selectDeviceType('APPLE');
+        expect(test.form.appDownloadInstructionsLink()[0].getAttribute('target')).toEqual('_blank');
+        expect(test.form.appDownloadInstructionsLink()[0].getAttribute('rel')).toEqual('noreferer noopener');
+        test.form.selectDeviceType('ANDROID');
+        expect(test.form.appDownloadInstructionsLink()[0].getAttribute('target')).toEqual('_blank');
+        expect(test.form.appDownloadInstructionsLink()[0].getAttribute('rel')).toEqual('noreferer noopener');
+      });
+    });
     itp('has a next button not displayed until device type is selected', function() {
       return setupOktaTotpFn().then(function(test) {
         Expect.isNotVisible(test.form.submitButton());
