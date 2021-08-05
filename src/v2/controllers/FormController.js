@@ -223,7 +223,7 @@ export default Controller.extend({
           // the response reaches here when Okta Verify is not installed
           // we need to return an idx object so that
           // the SIW can proceed to the next step without showing error
-          this.handleIdxSuccess(error, model);
+          this.handleIdxSuccess(error);
         } else {
           this.showFormErrors(model, error, this.formView.form);
         }
