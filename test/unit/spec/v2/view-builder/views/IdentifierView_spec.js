@@ -148,25 +148,59 @@ describe('v2/view-builder/views/IdentifierView', function() {
     expect(testContext.view.$el.find('.o-form-input-name-identifier input').val()).toEqual('testUsername');
   });  
 
-  it('view updates model correctly with rememberMe feature ON', function() {
+  it('view updates model and view correctly with rememberMe feature ON', function() {
+    features = {
+      rememberMe: true
+    };
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
-
-    jest.spyOn(IdentifierView.prototype.Body.prototype, '_shouldApplyRememberMyUsername').mockReturnValue(true);
     jest.spyOn(CookieUtil, 'getCookieUsername').mockReturnValue('testUsername');
+
+    currentViewState = { 
+      uiSchema: [{
+        'autoComplete': 'identifier',
+        'data-se': 'o-form-fieldset-identifier',
+        'label': 'Username',
+        'label-top': true,
+        'name': 'identifier',
+        'type': 'text',
+      }]
+    };
+
+    // Ensure model and view are updated correctly
     testContext.init(XHRIdentifyWithPassword.remediation.value);
     expect(testContext.view.model.get('identifier')).toEqual('testUsername');
+    expect(testContext.view.$el.find('.o-form-input-name-identifier input').val()).toEqual('testUsername');
+    expect(testContext.view.$el.find('.o-form-input-name-identifier input').attr('autocomplete')).toEqual('identifier');
   });
 
-  it('view updates model correctly with rememberMe feature OFF', function() {
+  it('view updates model and view correctly with rememberMe feature OFF', function() {
+    features = {
+      rememberMe: false
+    };    
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
 
     jest.spyOn(IdentifierView.prototype.Body.prototype, '_shouldApplyRememberMyUsername').mockReturnValue(false);
     jest.spyOn(CookieUtil, 'getCookieUsername').mockReturnValue('testUsername');
+
+    currentViewState = { 
+      uiSchema: [{
+        'autoComplete': 'identifier',
+        'data-se': 'o-form-fieldset-identifier',
+        'label': 'Username',
+        'label-top': true,
+        'name': 'identifier',
+        'type': 'text',
+      }]
+    };
+
+    // Ensure model and view are updated correctly
     testContext.init(XHRIdentifyWithPassword.remediation.value);
     expect(testContext.view.model.get('identifier')).not.toEqual('testUsername');
+    expect(testContext.view.$el.find('.o-form-input-name-identifier input').val()).toEqual('');
+    expect(testContext.view.$el.find('.o-form-input-name-identifier input').attr('autocomplete')).toEqual('identifier');    
   });
 });
