@@ -187,7 +187,7 @@ To embed the Sign-in Widget via CDN, include links to the JS and CSS files in yo
 <link href="https://global.oktacdn.com/okta-signin-widget/5.9.1/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
 ```
 
-The CDN URLs contain a version number. This number should be the same for both the Javascript and the CSS file and match a version on the [releases page](/releases).
+The CDN URLs contain a version number. This number should be the same for both the Javascript and the CSS file and match a version on the [releases page](../../releases).
 
 The standard JS asset served from our CDN includes polyfills via [`core-js`](https://github.com/zloirock/core-js) and [`regenerator-runtime`](https://github.com/facebook/regenerator/blob/master/packages/regenerator-runtime/runtime.js) to ensure compatibility with older browsers.
 
