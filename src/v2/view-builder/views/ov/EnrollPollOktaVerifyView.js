@@ -35,10 +35,6 @@ const Body = BaseForm.extend(Object.assign(
     noButtonBar: true,
     initialize() {
       BaseForm.prototype.initialize.apply(this, arguments);
-      if ((BrowserFeatures.isAndroid() || BrowserFeatures.isIOS()) &
-        this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'qrcode') {
-        this.options.appState.trigger('switchForm', RemediationForms.SELECT_ENROLLMENT_CHANNEL);
-      }
       this.listenTo(this.model, 'error', this.stopPolling);
       this.startPolling();
     },
@@ -70,6 +66,16 @@ const Body = BaseForm.extend(Object.assign(
         });
 
       }
+    },
+    postRender() {
+      // Using setTimeout of 0 because, the view is added in postRender of formController and not the initialize,
+      // and hence by the time swithForm is called, current view is not rendered and availabe on controller $el.
+      setTimeout(() => {
+        if ((BrowserFeatures.isAndroid() || BrowserFeatures.isIOS()) &
+          this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'qrcode') {
+          this.options.appState.trigger('switchForm', RemediationForms.SELECT_ENROLLMENT_CHANNEL);
+        }
+      }, 0);
     },
     getUISchema() {
       const schema = [];
