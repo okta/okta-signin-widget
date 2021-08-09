@@ -262,10 +262,6 @@ Expect.describe('Registration', function() {
 
         return Expect.waitForFormErrorBox(test.form, test);
       }).then(function(test) {
-        expect(test.form.errorBox().text().trim()).toBe(
-          'We found some errors. Please review the form and make corrections.'
-        );
-        test.router.controller.renderIsNotUniqueError(resErrorNotUnique.response);
         expect(test.form.errorBox().length).toBe(1);
         expect(test.form.errorBox().text().trim()).toBe('Custom duplicate Email error message');
       });

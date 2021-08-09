@@ -338,8 +338,7 @@ fn.mockSetInterval = function() {
     originalSetInterval = window.setInterval;
     window.setInterval = createMock(function() {
       const id = originalSetInterval.apply(this, arguments);
-
-      timeouts.push(id);
+      intervals.push(id);
       return id;
     });
   }
