@@ -65,8 +65,9 @@ test
 
     const terminalPage = new TerminalPageObject(t);
     await t.expect(terminalPage.getBeaconClass()).contains('mfa-okta-email');
-    await t.expect(terminalPage.getMessages()).contains('Please return to the original tab.');
-    await t.expect(terminalPage.getMessages()).contains('To continue, return to the device or window where you requested the email link. You may close this window at any time.');
+    await t.expect(terminalPage.getFormTitle()).contains('Email verified!');
+    await t.expect(terminalPage.getMessages()).contains('Please return to your original screen to continue.');
+    await t.expect(terminalPage.getMessages()).contains('Close this window anytime.');
   });
 
 test
@@ -91,5 +92,5 @@ test
     await t.expect(terminalPage.getBeaconClass()).contains('mfa-okta-email');
     await t.expect(terminalPage.getErrorMessages().isError()).eql(true);
     await t.expect(terminalPage.getErrorMessages().getTextContent()).eql('Access denied on other device.');
-    await t.expect(terminalPage.getMessages()).contains('You may close this window at any time.');
+    await t.expect(terminalPage.getMessages()).contains('Close this window anytime.');
   });
