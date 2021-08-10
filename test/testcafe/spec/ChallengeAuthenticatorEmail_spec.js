@@ -2,9 +2,11 @@ import { RequestMock, RequestLogger } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, renderWidget } from '../framework/shared';
 
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
+import emailVerificationWithWarning from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-with-warning';
+import emailOVVerificationWithWarning from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email-with-warning';
 import emailVerificationPolling from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling';
 import emailVerificationPollingShort from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling-short';
 import emailVerificationPollingLong from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling-long';
@@ -39,6 +41,19 @@ const validOTPmock = RequestMock()
   .respond(emailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
+
+const emailChallengeWithWarning = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerificationWithWarning)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(emailVerificationWithWarning);  
+
+const emailOVChallengeWithWarning = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailOVVerificationWithWarning)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(emailOVVerificationWithWarning);  
+
 
 const validOTPmockNoProfile = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -347,6 +362,32 @@ test
     await t.expect(lastRequestMethod).eql('post');
     await t.expect(lastRequestUrl).eql('http://localhost:3000/idp/idx/challenge/resend');
   });
+
+test
+  .requestHooks(logger, emailChallengeWithWarning)('resend message is extracted from response correctly part 1', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await renderWidget({
+      features: { hasPollingWarningMessages: true },
+    });
+    await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
+    await t.wait(31000);
+    await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).notOk();
+    const resendEmailView = challengeEmailPageObject.resendEmailView();
+    await t.expect(resendEmailView.innerText).eql('Haven\'t received an email? Send again');
+  });
+
+test
+  .requestHooks(logger, emailOVChallengeWithWarning)('resend message is extracted from response correctly part 2', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await renderWidget({
+      features: { hasPollingWarningMessages: true },
+    });
+    await t.expect(challengeEmailPageObject.resendOVView().hasClass('hide')).ok();
+    await t.wait(31000);
+    await t.expect(challengeEmailPageObject.resendOVView().hasClass('hide')).notOk();
+    const resendOVView = challengeEmailPageObject.resendOVView();
+    await t.expect(resendOVView.innerText).eql('Haven\'t received an email? Send again');
+  });    
 
 test
   .requestHooks(magicLinkReturnTabMock)('challenge email factor with magic link', async t => {

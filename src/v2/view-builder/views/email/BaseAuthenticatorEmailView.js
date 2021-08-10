@@ -4,6 +4,7 @@ import email from '../shared/email';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
 import BaseFormWithPolling from '../../internals/BaseFormWithPolling';
+import { MESSAGE_CLASS } from '../../../ion/RemediationConstants';
 
 const IDX_EMAIL_CODE_NOT_RECEIVED = 'idx.email.code.not.received';
 
@@ -73,6 +74,20 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       });
       this.startPolling();
     },
+
+    showMessages() {
+      // render messages as text
+      const messagesObjs = this.options.appState.get('messages');
+      if (messagesObjs?.value.length) {
+        const content = messagesObjs.value
+          // We don't display messages of class WARN right away (we display them after a delay in this view)
+          .filter(messagesObj => messagesObj?.class !== MESSAGE_CLASS.WARN)
+          .map((messagesObj) => {
+            return messagesObj.message;
+          });
+        this.add(`<div class="ion-messages-container">${content.join(' ')}</div>`, '.o-form-error-container');
+      }
+    },    
 
     saveForm() {
       BaseForm.prototype.saveForm.apply(this, arguments);

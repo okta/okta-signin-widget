@@ -9,6 +9,10 @@ export default class ChallengeEmailPageObject extends ChallengeFactorPageObject 
     return this.form.getElement('.resend-email-view');
   }
 
+  resendOVView() {
+    return this.form.getElement('.resend-ov-link-view');
+  }
+
   async clickSendAgainLink() {
     await this.form.clickElement('.resend-email-view a.resend-link');
   }

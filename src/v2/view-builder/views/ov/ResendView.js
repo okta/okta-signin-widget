@@ -26,7 +26,7 @@ export default View.extend({
         ? loc('email.button.resend', 'login')
         : loc('oie.phone.verify.sms.resendLinkText', 'login');
 
-      content = `${resendMessage}&nbsp;<a class='resend-link'>${linkText}</a>`;
+      content = `${resendMessage} <a class='resend-link'>${linkText}</a>`;
 
     } else {
       content = selectedChannel === 'email'
