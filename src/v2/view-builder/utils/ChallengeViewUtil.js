@@ -71,7 +71,7 @@ export function doChallenge(view) {
       className: 'universal-link-content',
       template: hbs`
             <div class="spinner"></div>
-            {{{i18n code="universalLink.content" bundle="login"}}}
+            {{i18n code="universalLink.content" bundle="login"}}
           `
     }));
     view.add(createButton({
@@ -83,5 +83,24 @@ export function doChallenge(view) {
         Util.redirect(deviceChallenge.href);
       }
     }));
+    break;
+  case Enums.APP_LINK_CHALLENGE:
+    view.title = loc('appLink.title', 'login');
+    view.add(View.extend({
+      className: 'app-link-content',
+      template: hbs`
+            {{i18n code="appLink.content" bundle="login"}}
+          `
+    }));
+    view.add(createButton({
+      className: 'al-button button button-wide button-primary',
+      title: loc('oktaVerify.open.button', 'login'),
+      click: () => {
+        // only window.location.href can open app link in Android
+        // other methods won't do, ex, AJAX get or form get (Util.redirectWithFormGet)
+        Util.redirect(deviceChallenge.href, window, true);
+      }
+    }));
+    break;
   }
 }
