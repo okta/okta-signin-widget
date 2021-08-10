@@ -154,7 +154,7 @@ test
     await t.wait(30500);
     await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
     const resendEmailView = challengePhonePageObject.resendEmailView();
-    await t.expect(resendEmailView.innerText).eql('Haven\'t received an SMS? Send again');
+    await t.expect(resendEmailView.innerText).eql('Haven\'t received an SMS? Send again');
   });
 
 test
@@ -165,5 +165,5 @@ test
     await t.wait(30500);
     await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
     const resendEmailView = challengePhonePageObject.resendEmailView();
-    await t.expect(resendEmailView.innerText).eql('Haven\'t received a call? Call again');
+    await t.expect(resendEmailView.innerText).eql('Haven\'t received a call? Call again');
   });
