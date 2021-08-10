@@ -17,6 +17,10 @@ export default class ChallengePhonePageObject extends ChallengeFactorPageObject 
     return this.form.getElement('.phone-authenticator-challenge__resend-warning');
   }
 
+  resendOVView() {
+    return this.form.getElement('.resend-ov-link-view');
+  }
+
   getSecondaryLinkText() {
     return this.getTextContent('.phone-authenticator-challenge__link');
   }

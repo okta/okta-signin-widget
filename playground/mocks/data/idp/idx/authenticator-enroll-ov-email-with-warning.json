@@ -1,0 +1,319 @@
+{
+  "stateHandle": "02vWoN3BXxJ9oeJA05wdCO2sp1q-RimAkwgnN-6xaW",
+  "version": "1.0.0",
+  "expiresAt": "2020-04-09T16:15:46.000Z",
+  "step": "ENROLL",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "enroll-poll",
+        "href": "http://localhost:3000/idp/idx/challenge/poll",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "refresh": 4000,
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "022afk9OLqrN2DipVIuIxC0wqzuxMaFIbpOf6pcBh8",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-enrollment-channel",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "label": "Okta Verify",
+            "value": {
+              "form": {
+                "value": [
+                  {
+                    "name": "id",
+                    "value": "aidtheidkwh282hv8g3",
+                    "required": true,
+                    "mutable": false,
+                    "visible": false
+                  },
+                  {
+                    "name": "channel",
+                    "required": true,
+                    "visible": true,
+                    "options": [
+                      {
+                        "value": "qrcode",
+                        "label": "QRcode"
+                      },
+                      {
+                        "value": "sms",
+                        "label": "SMS"
+                      },
+                      {
+                        "value": "email",
+                        "label": "Email"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "022afk9OLqrN2DipVIuIxC0wqzuxMaFIbpOf6pcBh8",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "authenticator",
+            "required": true,
+            "type": "object",
+            "options": [
+              {
+                "label": "Okta Password",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "autwa6eD9o02iBbtv0g3",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "password",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              },
+              {
+                "label": "Security Key or Biometric Authenticator (FIDO2)",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "aidtheidkwh282hv8g3",
+                        "required": true,
+                        "mutable": false,
+                        "visible": false
+                      },
+                      {
+                        "name": "methodType",
+                        "value": "webauthn",
+                        "required": false,
+                        "mutable": false,
+                        "visible": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[1]"
+              },
+              {
+                "label": "Okta Verify",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "aut1erh5wK1M8wA3g0g4",
+                        "required": true,
+                        "mutable": false
+                      },
+                      {
+                        "name": "channel",
+                        "required": false,
+                        "type": "string",
+                        "options": [
+                          {
+                            "value": "qrcode",
+                            "label": "QRCODE"
+                          },
+                          {
+                            "value": "sms",
+                            "label": "SMS"
+                          },
+                          {
+                            "value": "email",
+                            "label": "EMAIL"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[2]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "022afk9OLqrN2DipVIuIxC0wqzuxMaFIbpOf6pcBh8",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    ]
+  },
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message":"Haven't received an email?",
+        "i18n":{
+          "key":"idx.email.code.not.received",
+          "params":[]
+        },
+        "class":"WARN"
+      }
+    ]
+  },  
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "type": "app",
+      "key": "okta_verify",
+      "authenticatorInstanceId": "aidL86XHm5Xtg3SD0I1g",
+      "contextualData": {
+        "selectedChannel": "email",
+        "email": "joy@okta.com"
+      },
+      "resend": {
+        "rel":[
+          "create-form"
+        ],
+        "name":"resend",
+        "href":"http://localhost:3000/idp/idx/challenge/resend",
+        "method":"POST",
+        "accepts":"application/vnd.okta.v1+json",
+        "value":[
+          {
+            "name":"stateHandle",
+            "required":true,
+            "value": "02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
+            "visible":false,
+            "mutable":false
+          },
+          {
+            "name": "email",
+            "required":true,
+            "value": "joy@okta.com",
+            "visible":false,
+            "mutable":false
+          }
+        ]
+      }
+    }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "catalogKey": "okta_password",
+        "authenticatorId": "aidtmbseAWnMPtLe20g3",
+        "authenticatorName": "Okta Password",
+        "methods": [
+          {
+            "methodType": "password"
+          }
+        ]
+      },
+      {
+        "catalogKey": "webauthn",
+        "authenticatorId": "aidtheidkwh282hv8g3",
+        "authenticatorName": "Security Key or Biometric Authenticator (FIDO2)",
+        "methods": [
+          {
+            "methodType": "webauthn"
+          }
+        ]
+      },
+      {
+        "catalogKey": "okta_verify",
+        "authenticatorId": "aut1erh5wK1M8wA3g0g4",
+        "authenticatorName": "Okta Verify",
+        "methods": [
+          {
+            "methodType": "signed_nonce"
+          },
+          {
+            "methodType": "push"
+          },
+          {
+            "methodType": "totp"
+          }
+        ]
+      }
+    ]
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://idx.okta1.com:1802/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "022afk9OLqrN2DipVIuIxC0wqzuxMaFIbpOf6pcBh8",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  },
+  "context": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "context",
+    "href": "http://idx.okta1.com:1802/idp/idx/context",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "022afk9OLqrN2DipVIuIxC0wqzuxMaFIbpOf6pcBh8",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  }
+}

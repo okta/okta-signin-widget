@@ -6,7 +6,10 @@ import phoneVerificationSMSThenVoice from '../../../playground/mocks/data/idp/id
 import phoneVerificationVoiceThenSMS from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-then-sms';
 import phoneVerificationVoiceOnly from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-only';
 import smsVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-sms';
+import smsVerificationWithWarning from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-sms-with-warning';
 import voiceVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice';
+import voiceVerificationWithWarning from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-voice-with-warning';
+import voiceVerificationWithSMSWarning from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-sms-with-warning';
 import phoneVerificationSMSThenVoiceNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-sms-then-voice-no-profile';
 import phoneVerificationVoiceThenSMSNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-then-sms-no-profile';
 import smsVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-phone-sms-no-profile';
@@ -48,6 +51,12 @@ const smsPrimaryMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
+const smsPrimaryMockWithWarning = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(smsVerificationWithWarning)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(smsVerificationWithWarning);
+
 const voicePrimaryMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(phoneVerificationVoiceThenSMS)
@@ -55,6 +64,18 @@ const voicePrimaryMock = RequestMock()
   .respond(voiceVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
+
+const voicePrimaryMockWithWarning = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(voiceVerificationWithWarning)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(voiceVerificationWithWarning);
+
+const voicePrimaryMockWithSMSWarning = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(voiceVerificationWithSMSWarning)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(voiceVerificationWithSMSWarning);    
 
 const smsPrimaryMockNoProfile = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -484,6 +505,21 @@ test
   });
 
 test
+  .requestHooks(logger, smsPrimaryMockWithWarning)(`Callout message is extracted from response and appears after 30 seconds in sms mode
+  - enter code screen`, async t => {
+    const challengePhonePageObject = await setup(t);
+    await renderWidget({
+      features: { hasPollingWarningMessages: true },
+    });
+    // await challengePhonePageObject.clickNextButton();
+    await t.expect(challengePhonePageObject.resendOVView().hasClass('hide')).ok();
+    await t.wait(30500);
+    await t.expect(challengePhonePageObject.resendOVView().hasClass('hide')).notOk();
+    const resendOVView = challengePhonePageObject.resendOVView();
+    await t.expect(resendOVView.innerText).eql('Haven\'t received an SMS? Send again');
+  });  
+
+test
   .requestHooks(voicePrimaryMock)(`Callout appears after 30 seconds in voice mode
   - enter code screen`, async t => {
     const challengePhonePageObject = await setup(t);
@@ -494,6 +530,35 @@ test
     const resendEmailView = challengePhonePageObject.resendEmailView();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received a call? Call again');
   });
+
+test
+  .requestHooks(voicePrimaryMockWithWarning)(`Callout message is extracted from response and appears after 30 seconds in voice mode
+  - enter code screen`, async t => {
+    await t.debug();
+    const challengePhonePageObject = await setup(t);
+    await renderWidget({
+      features: { hasPollingWarningMessages: true },
+    });    
+    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).ok();
+    await t.wait(30500);
+    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
+    const resendEmailView = challengePhonePageObject.resendEmailView();
+    await t.expect(resendEmailView.innerText).eql('Haven\'t received a call? Call again');
+  });  
+
+test
+  .requestHooks(voicePrimaryMockWithSMSWarning)(`Callout message is extracted from response and appears after 30 seconds in voice sms mode
+  - enter code screen`, async t => {
+    const challengePhonePageObject = await setup(t);
+    await renderWidget({
+      features: { hasPollingWarningMessages: true },
+    });    
+    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).ok();
+    await t.wait(30500);
+    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
+    const resendEmailView = challengePhonePageObject.resendEmailView();
+    await t.expect(resendEmailView.innerText).eql('Haven\'t received an SMS? Send again');
+  });  
 
 test
   .requestHooks(logger, ratelimitReachedMock)('Voice ratelimit error followed by primary button click will send correct request body', async t => {

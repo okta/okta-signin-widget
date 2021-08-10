@@ -2,6 +2,8 @@ import { loc, View, createCallout } from 'okta';
 import { BaseForm, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
+import { MESSAGE_CLASS } from '../../../ion/RemediationConstants';
+
 
 const IDX_CALL_CODE_NOT_RECEIVED = 'idx.phone.call.not.received';
 const IDX_SMS_CODE_NOT_RECEIVED = 'idx.sms.code.not.received';
@@ -36,7 +38,7 @@ const ResendView = View.extend(
         : loc('oie.phone.verify.call.resendLinkText', 'login');
         
       this.add(createCallout({
-        content: `${resendMessage}&nbsp;<a class='resend-link'>${linkText}</a>`,
+        content: `${resendMessage} <a class='resend-link'>${linkText}</a>`,
         type: 'warning',
       }));
     },
@@ -98,6 +100,20 @@ const Body = BaseForm.extend(Object.assign(
         prepend: true,
         selector: '.o-form-fieldset-container',
       });
+    },
+
+    showMessages() {
+      // render messages as text
+      const messagesObjs = this.options.appState.get('messages');
+      if (messagesObjs?.value.length) {
+        const content = messagesObjs.value
+          // We don't display messages of class WARN right away (we display them after a delay in this view)
+          .filter(messagesObj => messagesObj?.class !== MESSAGE_CLASS.WARN)
+          .map((messagesObj) => {
+            return messagesObj.message;
+          });
+        this.add(`<div class="ion-messages-container">${content.join(' ')}</div>`, '.o-form-error-container');
+      }
     },
 
     postRender() {
