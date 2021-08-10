@@ -35,12 +35,14 @@ const Body = BaseForm.extend(Object.assign(
     noButtonBar: true,
     initialize() {
       BaseForm.prototype.initialize.apply(this, arguments);
+      this.listenTo(this.model, 'error', this.stopPolling);
+      this.startPolling();
+    },
+    postRender() {
       if ((BrowserFeatures.isAndroid() || BrowserFeatures.isIOS()) &
         this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'qrcode') {
         this.options.appState.trigger('switchForm', RemediationForms.SELECT_ENROLLMENT_CHANNEL);
       }
-      this.listenTo(this.model, 'error', this.stopPolling);
-      this.startPolling();
     },
     showMessages() {
       // override showMessages to display error message
