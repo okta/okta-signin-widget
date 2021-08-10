@@ -4,6 +4,9 @@ import Settings from 'models/Settings';
 import $sandbox from 'sandbox';
 import BrowserFeatures from 'util/BrowserFeatures';
 import xhrAuthenticatorEnrollOktaVerifyQr from '../../../../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr';
+import FormController from 'v2/controllers/FormController';
+import transformIdxResponse from 'v2/ion/transformIdxResponse';
+import MockUtil from '../../../../helpers/v2/MockUtil';
 
 describe('v2/view-builder/views/ov/EnrollPollOktaVerifyView', function() {
   let testContext;
@@ -61,5 +64,24 @@ describe('v2/view-builder/views/ov/EnrollPollOktaVerifyView', function() {
     expect(BrowserFeatures.isIOS).toHaveBeenCalled();
     expect(testContext.view.options.appState.trigger).not.toHaveBeenCalled();
     expect(testContext.view.$('.qrcode').length).toBe(1);
+  });
+
+  it('switches to select enroll method form when on mobile', function(done) {
+    MockUtil.mockIntrospect(done, xhrAuthenticatorEnrollOktaVerifyQr, idxResp => {
+      const appState = new AppState();
+      const settings = new Settings({ baseUrl: 'http://localhost:3000' });
+      const ionResponse = transformIdxResponse(settings, idxResp);
+      appState.setIonResponse(ionResponse);
+      testContext.view = new FormController({
+        el: $sandbox,
+        appState,
+        settings,
+      });
+      spyOn(BrowserFeatures, 'isIOS').and.callFake(() => true);
+      spyOn(BrowserFeatures, 'isAndroid').and.callFake(() => false);
+      testContext.view.render();
+      expect(testContext.view.$('.select-enrollment-channel--okta_verify').length).toBe(1);
+      expect(testContext.view.$('.oie-enroll-ov-poll').length).toBe(0);
+    });
   });
 });
