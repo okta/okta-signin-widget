@@ -65,8 +65,8 @@ test
 
     const terminalPage = new TerminalPageObject(t);
     await t.expect(terminalPage.getBeaconClass()).contains('mfa-okta-email');
-    await t.expect(terminalPage.getFormTitle()).contains('Email verified!');
-    await t.expect(terminalPage.getMessages()).contains('Please return to your original screen to continue.');
+    await t.expect(terminalPage.getFormTitle()).contains('Success! Return to the original tab or window');
+    await t.expect(terminalPage.getMessages()).contains('To continue, please return to the original browser tab or window you used to verify.');
     await t.expect(terminalPage.getMessages()).contains('Close this window anytime.');
   });
 
