@@ -22,6 +22,10 @@ export default Form.extend({
     return this.appDownloadInstructions().find('a').text().trim();
   },
 
+  appDownloadInstructionsLink: function() {
+    return this.appDownloadInstructions().find('a');
+  },
+
   selectDeviceType: function(val) {
     const options = this.deviceTypeOptions();
 
