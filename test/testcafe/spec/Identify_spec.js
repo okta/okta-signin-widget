@@ -8,6 +8,11 @@ import xhrAuthenticatorVerifySelect from '../../../playground/mocks/data/idp/idx
 import xhrAuthenticatorOVTotp from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp';
 import config from '../../../src/config/config.json';
 
+
+const baseIdentifyMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify);
+
 const identifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify)
@@ -300,4 +305,15 @@ test.requestHooks(identifyRequestLogger, identifyMockWithFingerprintError)('shou
   await identityPage.waitForErrorBox();
   await t.expect(identityPage.getSaveButtonLabel()).eql('Next');
   await t.expect(identityPage.getGlobalErrors()).contains('You do not have permission to perform the requested action');
+});
+
+test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should pre-populate identifier field with username config', async t => {
+  const identityPage = await setup(t);
+  await rerenderWidget({
+    username: 'myTestUsername@okta.com'
+  });
+
+  // Ensure identifier field is pre-filled
+  const identifier = identityPage.getIdentifierValue();
+  await t.expect(identifier).eql('myTestUsername@okta.com');
 });

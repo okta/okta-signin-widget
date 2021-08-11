@@ -9,22 +9,23 @@ import XHRIdentifyWithThirdPartyIdps
 
 describe('v2/view-builder/views/IdentifierView', function() {
   let testContext;
-  let idpDisplay = undefined;
+  let currentViewState = {};
+  let features = {};
+  let settings = new Settings({ 
+    baseUrl: 'http://localhost:3000',
+    features
+  });
 
   beforeEach(function() { 
     testContext = {};
     testContext.init = (remediations = XHRIdentifyWithThirdPartyIdps.remediation.value) => {
       const appState = new AppState();
       appState.set('remediations', remediations);
-      const settings = new Settings({ 
-        baseUrl: 'http://localhost:3000',
-        idpDisplay
-      });
       testContext.view = new IdentifierView({
         appState,
         settings,
-        currentViewState: {},
         model: new Model(),
+        currentViewState
       });
       testContext.view.render();
     };
@@ -65,14 +66,14 @@ describe('v2/view-builder/views/IdentifierView', function() {
     expect(testContext.view.$el.find('.o-form-button-bar .sign-in-with-idp').length).toEqual(1);
     expect(testContext.view.$el.find('.o-form-fieldset-container .sign-in-with-idp').length).toEqual(0);
 
-    idpDisplay = 'PRIMARY';
+    settings.set('idpDisplay', 'PRIMARY');
     testContext.init();
 
     // The idp buttons should be rendered above the main login fields when idpDisplay is PRIMARY.
     expect(testContext.view.$el.find('.o-form-fieldset-container .sign-in-with-idp').length).toEqual(1);
     expect(testContext.view.$el.find('.o-form-button-bar .sign-in-with-idp').length).toEqual(0);
 
-    idpDisplay = 'SECONDARY';
+    settings.set('idpDisplay', 'SECONDARY');
     testContext.init();
 
     // The idp buttons should be rendered below the main login fields when idpDisplay is SECONDARY.
@@ -121,4 +122,28 @@ describe('v2/view-builder/views/IdentifierView', function() {
       expect($(this).attr('title')).toEqual($(this).text());
     });
   });
+
+  it('view updates model and view correctly if "username" config is passed in', function() {
+    settings.set('username', 'testUsername');
+
+    jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
+
+    currentViewState = { 
+      uiSchema: [{
+        'autoComplete': 'identifier',
+        'data-se': 'o-form-fieldset-identifier',
+        'label': 'Username',
+        'label-top': true,
+        'name': 'identifier',
+        'type': 'text',
+      }]
+    };
+
+    // Ensure model and view are updated correctly
+    testContext.init(XHRIdentifyWithPassword.remediation.value);
+    expect(testContext.view.model.get('identifier')).toEqual('testUsername');
+    expect(testContext.view.$el.find('.o-form-input-name-identifier input').val()).toEqual('testUsername');
+  });  
 });
