@@ -23,8 +23,13 @@ const Body = BaseForm.extend({
   initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
 
-    if (this.getUISchema().find(schema => schema.name === 'credentials.passcode')) {
+    const uiSchema = this.getUISchema();
+    if (uiSchema.find(schema => schema.name === 'credentials.passcode')) {
       this.save = loc('oie.primaryauth.submit', 'login');
+    }
+
+    if(this._shouldAddUsername(uiSchema)) {
+      this.model.set('identifier', this.settings.get('username'));
     }
   },
 
@@ -161,6 +166,12 @@ const Body = BaseForm.extend({
       }
     });
   },
+
+  _shouldAddUsername(uiSchema) {
+    // We pre-populate the identifier/username field only if we're in an identifier
+    // form and if the option is passed in.
+    return (uiSchema.find(schema => schema.name === 'identifier') && this.settings.get('username'));
+  },  
 });
 
 export default BaseView.extend({
