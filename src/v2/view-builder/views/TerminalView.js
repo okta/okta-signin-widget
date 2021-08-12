@@ -70,6 +70,7 @@ const terminalViewTitles = {
   [EMAIL_ACTIVATION_EMAIL_INVALID] : 'oie.activation.request.email.title.invalid',
   [DEVICE_NOT_ACTIVATED_CONSENT_DENIED] : 'device.code.activated.error.title',
   [DEVICE_NOT_ACTIVATED_INTERNAL_ERROR] : 'device.code.activated.error.title',
+  [RETURN_TO_ORIGINAL_TAB_KEY] : 'oie.consent.enduser.email.allow.title',
 };
 
 const Body = BaseForm.extend({
@@ -112,8 +113,8 @@ const Body = BaseForm.extend({
       description = loc('idx.operation.cancelled.on.other.device', 'login');
       messagesObjs.value.push({ message: loc('oie.consent.enduser.deny.description', 'login') });
     } else if (this.options.appState.containsMessageWithI18nKey(RETURN_TO_ORIGINAL_TAB_KEY)) {
-      description = loc('oie.return.to.original.tab', 'login');
-      messagesObjs.value.push({ message: loc('oie.consent.enduser.email.allow.description', 'login')});
+      description = loc('oie.consent.enduser.email.allow.description', 'login');
+      messagesObjs.value.push({ message: loc('oie.return.to.original.tab', 'login')});
     } else if (this.options.appState.containsMessageWithI18nKey('tooManyRequests')) {
       description = loc('oie.tooManyRequests', 'login');
     }

@@ -332,10 +332,9 @@ test
   .requestHooks(magicLinkReturnTabMock)('challenge email factor with magic link', async t => {
     await setup(t);
     const terminalPageObject = new TerminalPageObject(t);
-    await t.expect(terminalPageObject.getMessages()).eql(
-      'Please return to the original tab.' +
-      'To continue, return to the device or window where you requested the email link. ' +
-      'You may close this window at any time.');
+    await t.expect(terminalPageObject.getFormTitle()).contains('Success! Return to the original tab or window');
+    await t.expect(terminalPageObject.getMessages()).contains('To continue, please return to the original browser tab or window you used to verify.');
+    await t.expect(terminalPageObject.getMessages()).contains('Close this window anytime.');
     await checkConsoleMessages({
       controller: null,
       formName: 'terminal',
