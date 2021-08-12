@@ -9,6 +9,7 @@ $od-secondary-button-action-text-color: #124a94;
 /* ======= Buttons ======= */
 
 .button,
+// link-button is a link that looks like a button
 .button.link-button {
   display: inline-block;
   height: $input-height;
@@ -19,6 +20,19 @@ $od-secondary-button-action-text-color: #124a94;
   font-size: $font-size;
   box-sizing: border-box;
   -webkit-appearance: none;
+}
+
+// button-link is a link that looks like a button
+.button-link {
+  color: $link-text-color;
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
 }
 
 .button-wide,

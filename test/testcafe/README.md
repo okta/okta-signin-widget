@@ -32,6 +32,10 @@ Run all similar tests that matches the pattern
 
 - `yarn test -t testcafe -T "should.*"`
 
+Run all tests in a particular spec file
+
+- `yarn test -t testcafe 'test/testcafe/spec/ChallengeAuthenticatorEmail_spec.js'`
+
 ### To run testcafe without building playground each time you run test
 
 Start playground at one terminal and run the test in another terminal.

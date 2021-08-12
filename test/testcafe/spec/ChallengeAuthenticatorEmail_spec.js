@@ -143,12 +143,16 @@ test
       authenticatorKey: 'okta_email',
       methodType: 'email',
     });
+    await challengeEmailPageObject.clickEnterCodeLink();
+
     const pageTitle = challengeEmailPageObject.getPageTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with your email');
+
+    const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .contains('Check your email for a verification message. Click the verification button in your email or enter the code below to continue.');
+      .contains(`An email magic link was sent to ${emailAddress}. Click the link in the email or enter the code below to continue.`);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
@@ -159,30 +163,35 @@ test
 test
   .requestHooks(validOTPmockNoProfile)('challenge email authenticator screen has right labels when profile is null', async t => {
     const challengeEmailPageObject = await setup(t);
+    await challengeEmailPageObject.clickEnterCodeLink();
 
     const pageTitle = challengeEmailPageObject.getPageTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with your email');
+
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .contains('Check your email for a verification message. Click the verification button in your email or enter the code below to continue.');
+      .contains('An email magic link was sent to your email. Click the link in the email or enter the code below to continue.');
   });
 
 test
   .requestHooks(validOTPmockEmptyProfile)('challenge email authenticator screen has right labels when profile is empty', async t => {
     const challengeEmailPageObject = await setup(t);
+    await challengeEmailPageObject.clickEnterCodeLink();
 
     const pageTitle = challengeEmailPageObject.getPageTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with your email');
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .contains('Check your email for a verification message. Click the verification button in your email or enter the code below to continue.');
+      .contains('An email magic link was sent to your email. Click the link in the email or enter the code below to continue.');
   });
 
 test
   .requestHooks(invalidOTPMock)('challenge email authenticator with invalid OTP', async t => {
     const challengeEmailPageObject = await setup(t);
+    await challengeEmailPageObject.clickEnterCodeLink();
+
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton();
     await challengeEmailPageObject.waitForErrorBox();
@@ -193,6 +202,8 @@ test
 test
   .requestHooks(invalidOTPTooManyOperationRequestMock)('challenge email authenticator with too many invalid OTP', async t => {
     const challengeEmailPageObject = await setup(t);
+    await challengeEmailPageObject.clickEnterCodeLink();
+
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton();
     await challengeEmailPageObject.waitForErrorBox();
@@ -202,6 +213,8 @@ test
 test
   .requestHooks(otpTooManyRequestMock)('challenge email authenticator reached Org Ratelimit on OTP submission', async t => {
     const challengeEmailPageObject = await setup(t);
+    await challengeEmailPageObject.clickEnterCodeLink();
+
     await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
     await challengeEmailPageObject.clickNextButton();
     await challengeEmailPageObject.waitForErrorBox();
@@ -211,6 +224,8 @@ test
 test
   .requestHooks(logger, validOTPmock)('challenge email authenticator with valid OTP', async t => {
     const challengeEmailPageObject = await setup(t);
+    await challengeEmailPageObject.clickEnterCodeLink();
+
     await challengeEmailPageObject.verifyFactor('credentials.passcode', '1234');
     await challengeEmailPageObject.clickNextButton();
     const successPage = new SuccessPageObject(t);
@@ -239,6 +254,7 @@ test
 test
   .requestHooks(logger, stopPollMock)('no polling if session has expired', async t => {
     const challengeEmailPageObject = await setup(t);
+
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
     await t.wait(5000);
     await t.expect(challengeEmailPageObject.getErrorFromErrorBox()).eql('The session has expired.');
@@ -252,6 +268,8 @@ test
 test
   .requestHooks(logger, dynamicRefreshShortIntervalMock)('continue polling on form error with dynamic polling', async t => {
     const challengeEmailPageObject = await setup(t);
+    await challengeEmailPageObject.clickEnterCodeLink();
+
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
 
     // 2 poll requests in 2 seconds at 1 sec interval (Cumulative Request: 2)
@@ -286,6 +304,8 @@ test
 test
   .requestHooks(logger, validOTPmock)('resend after 30 seconds', async t => {
     const challengeEmailPageObject = await setup(t);
+    await challengeEmailPageObject.clickEnterCodeLink();
+
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
     await t.wait(31000);
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).notOk();
