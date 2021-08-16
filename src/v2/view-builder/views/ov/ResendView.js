@@ -46,6 +46,12 @@ export default View.extend({
 
   handelResendLink() {
     this.options.appState.trigger('invokeAction', 'currentAuthenticator-resend');
+
+    // With the this feature on, UI should be stateless so no need to do the operations below
+    if (this.settings.get('features.includeResendWarningMessages')) {
+      return;
+    } 
+
     //hide warning, but reinitiate to show warning again after some threshold of polling
     this.$el.addClass('hide');
     this.showCalloutWithDelay();

@@ -36,6 +36,12 @@ const ResendView = View.extend(
 
     handelResendLink() {
       this.options.appState.trigger('invokeAction', this.options.resendEmailAction);
+      
+      // With the this feature on, UI should be stateless so no need to do the operations below
+      if (this.settings.get('features.includeResendWarningMessages')) {
+        return;
+      } 
+
       // Hide warning, but reinitiate to show warning again after some threshold of polling
       if (!this.$el.hasClass('hide')) {
         this.$el.addClass('hide');

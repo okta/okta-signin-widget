@@ -47,6 +47,12 @@ const ResendView = View.extend(
 
     handleResendLink() {
       this.options.appState.trigger('invokeAction', this.resendActionKey);
+
+      // With the this feature on, UI should be stateless so no need to do the operations below
+      if (this.settings.get('features.includeResendWarningMessages')) {
+        return;
+      } 
+
       // Hide warning, but start a timeout again..
       if (!this.el.classList.contains('hide')) {
         this.el.classList.add('hide');
