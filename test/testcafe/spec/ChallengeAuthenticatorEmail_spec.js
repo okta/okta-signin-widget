@@ -367,10 +367,8 @@ test
   .requestHooks(logger, emailChallengeWithWarning)('resend message is extracted from response correctly part 1', async t => {
     const challengeEmailPageObject = await setup(t);
     await renderWidget({
-      features: { hasPollingWarningMessages: true },
+      features: { includeResendWarningMessages: true },
     });
-    await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
-    await t.wait(31000);
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).notOk();
     const resendEmailView = challengeEmailPageObject.resendEmailView();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received an email? Send again');
@@ -380,10 +378,8 @@ test
   .requestHooks(logger, emailOVChallengeWithWarning)('resend message is extracted from response correctly part 2', async t => {
     const challengeEmailPageObject = await setup(t);
     await renderWidget({
-      features: { hasPollingWarningMessages: true },
+      features: { includeResendWarningMessages: true },
     });
-    await t.expect(challengeEmailPageObject.resendOVView().hasClass('hide')).ok();
-    await t.wait(31000);
     await t.expect(challengeEmailPageObject.resendOVView().hasClass('hide')).notOk();
     const resendOVView = challengeEmailPageObject.resendOVView();
     await t.expect(resendOVView.innerText).eql('Haven\'t received an email? Send again');

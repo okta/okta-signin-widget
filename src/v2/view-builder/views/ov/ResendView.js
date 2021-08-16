@@ -6,7 +6,7 @@ const IDX_SMS_CODE_NOT_RECEIVED = 'idx.sms.code.not.received';
 
 export default View.extend({
   //only show after certain threshold of polling
-  className: 'hide resend-ov-link-view',
+  className: 'resend-ov-link-view',
   events: {
     'click a.resend-link' : 'handelResendLink'
   },
@@ -14,7 +14,7 @@ export default View.extend({
   initialize() {
     const selectedChannel = this.options.appState.get('currentAuthenticator').contextualData.selectedChannel;
     let content;
-    if (this.settings.get('features.hasPollingWarningMessages')) {
+    if (this.settings.get('features.includeResendWarningMessages')) {
       let resendMessage;
       if (this.options.appState.containsMessageWithI18nKey(IDX_EMAIL_CODE_NOT_RECEIVED)) {
         resendMessage = loc(`${IDX_EMAIL_CODE_NOT_RECEIVED}`, 'login');
@@ -22,11 +22,13 @@ export default View.extend({
         resendMessage = loc(`${IDX_SMS_CODE_NOT_RECEIVED}`, 'login');
       }
 
-      const linkText = selectedChannel === 'email'
-        ? loc('email.button.resend', 'login')
-        : loc('oie.phone.verify.sms.resendLinkText', 'login');
-
-      content = `${resendMessage} <a class='resend-link'>${linkText}</a>`;
+      if (resendMessage) {
+        const linkText = selectedChannel === 'email'
+          ? loc('email.button.resend', 'login')
+          : loc('oie.phone.verify.sms.resendLinkText', 'login');
+  
+        content = `${resendMessage} <a class='resend-link'>${linkText}</a>`;
+      }
 
     } else {
       content = selectedChannel === 'email'
@@ -34,10 +36,12 @@ export default View.extend({
         : loc('oie.enroll.okta_verify.sms.notReceived', 'login');        
     }
 
-    this.add(createCallout({
-      content: content,
-      type: 'warning',
-    }));
+    if (content) {
+      this.add(createCallout({
+        content: content,
+        type: 'warning',
+      }));
+    }
   },
 
   handelResendLink() {
@@ -48,7 +52,12 @@ export default View.extend({
   },
 
   postRender() {
-    this.showCalloutWithDelay();
+    // If includeResendWarningMessages, the displaying of warning messages will be completely driven
+    // by the backend response (i.e. we should not retain message and display it after a delay).
+    if (!this.settings.get('features.includeResendWarningMessages')) {
+      this.$el.addClass('hide');
+      this.showCalloutWithDelay();
+    }
   },
 
   showCalloutWithDelay() {

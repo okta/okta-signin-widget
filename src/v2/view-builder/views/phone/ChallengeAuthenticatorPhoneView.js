@@ -11,7 +11,7 @@ const IDX_SMS_CODE_NOT_RECEIVED = 'idx.sms.code.not.received';
 const ResendView = View.extend(
   {
     // To be shown after a timeout
-    className: 'phone-authenticator-challenge__resend-warning hide',
+    className: 'phone-authenticator-challenge__resend-warning',
     events: {
       'click a.resend-link': 'handleResendLink'
     },
@@ -21,7 +21,7 @@ const ResendView = View.extend(
 
     initialize() {
       let resendMessage;
-      if (this.settings.get('features.hasPollingWarningMessages')) {
+      if (this.settings.get('features.includeResendWarningMessages')) {
         if (this.options.appState.containsMessageWithI18nKey(IDX_CALL_CODE_NOT_RECEIVED)) {
           resendMessage = loc(`${IDX_CALL_CODE_NOT_RECEIVED}`, 'login');
         } else if (this.options.appState.containsMessageWithI18nKey(IDX_SMS_CODE_NOT_RECEIVED)) {
@@ -37,10 +37,12 @@ const ResendView = View.extend(
         ? loc('oie.phone.verify.sms.resendLinkText', 'login')
         : loc('oie.phone.verify.call.resendLinkText', 'login');
         
-      this.add(createCallout({
-        content: `${resendMessage} <a class='resend-link'>${linkText}</a>`,
-        type: 'warning',
-      }));
+      if (resendMessage) {
+        this.add(createCallout({
+          content: `${resendMessage} <a class='resend-link'>${linkText}</a>`,
+          type: 'warning',
+        }));
+      }
     },
 
     handleResendLink() {
@@ -53,7 +55,12 @@ const ResendView = View.extend(
     },
 
     postRender() {
-      this.showCalloutAfterTimeout();
+      // If includeResendWarningMessages, the displaying of warning messages will be completely driven
+      // by the backend response (i.e. we should not retain message and display it after a delay).
+      if (!this.settings.get('features.includeResendWarningMessages')) {
+        this.el.classList.add('hide');
+        this.showCalloutAfterTimeout();
+      }      
     },
 
     showCalloutAfterTimeout() {
@@ -107,7 +114,8 @@ const Body = BaseForm.extend(Object.assign(
       const messagesObjs = this.options.appState.get('messages');
       if (messagesObjs?.value.length) {
         const content = messagesObjs.value
-          // We don't display messages of class WARN right away (we display them after a delay in this view)
+          // We don't display messages of class WARN in showMessages because the ResendView above has custom
+          // logic that updates the message before displaying so we solely rely on that logic.
           .filter(messagesObj => messagesObj?.class !== MESSAGE_CLASS.WARN)
           .map((messagesObj) => {
             return messagesObj.message;

@@ -10,14 +10,14 @@ const IDX_EMAIL_CODE_NOT_RECEIVED = 'idx.email.code.not.received';
 
 const ResendView = View.extend(
   {
-    className: 'hide resend-email-view',
+    className: 'resend-email-view',
     events: {
       'click a.resend-link' : 'handelResendLink'
     },
 
     initialize() {
       let resendMessage;
-      if (this.settings.get('features.hasPollingWarningMessages')) {
+      if (this.settings.get('features.includeResendWarningMessages')) {
         if (this.options.appState.containsMessageWithI18nKey(IDX_EMAIL_CODE_NOT_RECEIVED)) {
           resendMessage = loc(`${IDX_EMAIL_CODE_NOT_RECEIVED}`, 'login');
         }
@@ -25,11 +25,13 @@ const ResendView = View.extend(
         resendMessage = loc('email.code.not.received', 'login');
       }
 
-      this.add(createCallout({
-        content: `${resendMessage}
-        <a class='resend-link'>${loc('email.button.resend', 'login')}</a>`,
-        type: 'warning',
-      }));
+      if (resendMessage) {
+        this.add(createCallout({
+          content: `${resendMessage}
+          <a class='resend-link'>${loc('email.button.resend', 'login')}</a>`,
+          type: 'warning',
+        }));
+      }
     },
 
     handelResendLink() {
@@ -42,7 +44,12 @@ const ResendView = View.extend(
     },
 
     postRender() {
-      this.showCalloutWithDelay();
+      // If includeResendWarningMessages, the displaying of warning messages will be completely driven
+      // by the backend response (i.e. we should not retain message and display it after a delay).      
+      if (!this.settings.get('features.includeResendWarningMessages')) {
+        this.$el.addClass('hide');
+        this.showCalloutWithDelay();
+      }
     },
 
     showCalloutWithDelay() {
@@ -80,7 +87,8 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       const messagesObjs = this.options.appState.get('messages');
       if (messagesObjs?.value.length) {
         const content = messagesObjs.value
-          // We don't display messages of class WARN right away (we display them after a delay in this view)
+          // We don't display messages of class WARN in showMessages because the ResendView above has custom
+          // logic that updates the message before displaying so we solely rely on that logic.
           .filter(messagesObj => messagesObj?.class !== MESSAGE_CLASS.WARN)
           .map((messagesObj) => {
             return messagesObj.message;
