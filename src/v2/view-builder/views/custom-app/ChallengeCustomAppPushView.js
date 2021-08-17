@@ -49,7 +49,8 @@ const Body = BaseForm.extend(Object.assign(
     startPoll() {
       this.startPolling();
       this.warningTimeout = setTimeout(_.bind(function() {
-        this.showWarning(loc('oie.custom_app.push.warning', 'login', [this.options.appState.getAuthenticatorDisplayName()]));
+        this.showWarning(loc('oie.custom_app.push.warning', 'login',
+          [this.options.appState.getAuthenticatorDisplayName()]));
       }, this), WARNING_TIMEOUT);
     },
 

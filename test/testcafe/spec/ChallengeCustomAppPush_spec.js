@@ -28,7 +28,7 @@ const pushRejectMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(pushPoll);
 
-  const pushWaitMock = RequestMock()
+const pushWaitMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(pushPoll)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')

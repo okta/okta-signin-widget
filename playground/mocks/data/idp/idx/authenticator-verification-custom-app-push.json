@@ -107,36 +107,7 @@
   },
   "currentAuthenticator":{
     "type":"object",
-    "value":{
-      "resend":{
-        "rel":[
-          "create-form"
-        ],
-        "name":"resend",
-        "href":"http://localhost:3000/idp/idx/challenge",
-        "method":"POST",
-        "produces":"application/ion+json; okta-version=1.0.0",
-        "value":[
-          {
-            "name":"authenticator",
-            "required":true,
-            "value":{
-              "methodType":"push",
-              "id":"aut198w4v0f8dr8gT0g4"
-            },
-            "visible":false,
-            "mutable":false
-          },
-          {
-            "name":"stateHandle",
-            "required":true,
-            "value":"02XxswQHZqCz4aWbqQFNXYRC4HHoqd76NBC-FIGbbH",
-            "visible":false,
-            "mutable":false
-          }
-        ],
-        "accepts":"application/json; okta-version=1.0.0"
-      },
+    "value": {
       "type":"app",
       "key":"custom_app",
       "id":"aut198w4v0f8dr8gT0g4",
