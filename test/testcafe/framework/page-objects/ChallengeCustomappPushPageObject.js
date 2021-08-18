@@ -4,7 +4,7 @@ const FORM_INFOBOX_WARNING = '.okta-form-infobox-warning';
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] [data-se="callout"]';
 const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
 
-export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPageObject {
+export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPageObject {
   constructor(t) {
     super(t);
   }
