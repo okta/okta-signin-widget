@@ -58,7 +58,7 @@ test
     await t.expect(pushBtn.textContent).contains('Push notification sent');
     await t.expect(a11ySpan.textContent).contains('Push notification sent');
     await t.expect(pushBtn.hasClass('link-button-disabled')).ok();
-    await t.expect(pageTitle).contains('Get a push notification');
+    await t.expect(pageTitle).contains('Verify with Custom Push');
 
     // Verify links
     await t.expect(await challengeCustomAppPushPageObject.switchAuthenticatorLinkExists()).ok();
