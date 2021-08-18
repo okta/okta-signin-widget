@@ -18,5 +18,5 @@ test('should display warning message', async t => {
   await setup(t);
   const calloutText = Selector('.infobox-warning').textContent;
   await t.expect(calloutText)
-    .eql('Haven\'t received a push notification yet? Try opening the Okta Verify App on your phone.');
+    .eql('Haven\'t received a call?');
 });

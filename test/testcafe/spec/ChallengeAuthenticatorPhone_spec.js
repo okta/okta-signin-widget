@@ -493,24 +493,9 @@ test
   });
 
 test
-  .requestHooks(logger, smsPrimaryMock)(`Callout appears after 30 seconds in sms mode
+  .requestHooks(logger, smsPrimaryMockWithWarning)(`Callout message is extracted from response in sms mode
   - enter code screen`, async t => {
     const challengePhonePageObject = await setup(t);
-    await challengePhonePageObject.clickNextButton();
-    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).ok();
-    await t.wait(30500);
-    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
-    const resendEmailView = challengePhonePageObject.resendEmailView();
-    await t.expect(resendEmailView.innerText).eql('Haven\'t received an SMS? Send again');
-  });
-
-test
-  .requestHooks(logger, smsPrimaryMockWithWarning)(`Callout message is extracted from response and appears after 30 seconds in sms mode
-  - enter code screen`, async t => {
-    const challengePhonePageObject = await setup(t);
-    await renderWidget({
-      features: { includeResendWarningMessages: true },
-    });
     // await challengePhonePageObject.clickNextButton();
     await t.expect(challengePhonePageObject.resendOVView().hasClass('hide')).notOk();
     const resendOVView = challengePhonePageObject.resendOVView();
@@ -518,36 +503,18 @@ test
   });  
 
 test
-  .requestHooks(voicePrimaryMock)(`Callout appears after 30 seconds in voice mode
+  .requestHooks(voicePrimaryMockWithWarning)(`Callout message is extracted from response in voice mode
   - enter code screen`, async t => {
     const challengePhonePageObject = await setup(t);
-    await challengePhonePageObject.clickNextButton();
-    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).ok();
-    await t.wait(30500);
-    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
-    const resendEmailView = challengePhonePageObject.resendEmailView();
-    await t.expect(resendEmailView.innerText).eql('Haven\'t received a call? Call again');
-  });
-
-test
-  .requestHooks(voicePrimaryMockWithWarning)(`Callout message is extracted from response and appears after 30 seconds in voice mode
-  - enter code screen`, async t => {
-    const challengePhonePageObject = await setup(t);
-    await renderWidget({
-      features: { includeResendWarningMessages: true },
-    });    
     await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
     const resendEmailView = challengePhonePageObject.resendEmailView();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received a call? Call again');
   });  
 
 test
-  .requestHooks(voicePrimaryMockWithSMSWarning)(`Callout message is extracted from response and appears after 30 seconds in voice sms mode
+  .requestHooks(voicePrimaryMockWithSMSWarning)(`Callout message is extracted from response in voice sms mode
   - enter code screen`, async t => {
     const challengePhonePageObject = await setup(t);
-    await renderWidget({
-      features: { includeResendWarningMessages: true },
-    });    
     await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
     const resendEmailView = challengePhonePageObject.resendEmailView();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received an SMS? Send again');

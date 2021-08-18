@@ -2,7 +2,7 @@ import { RequestMock, RequestLogger } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
-import { checkConsoleMessages, renderWidget } from '../framework/shared';
+import { checkConsoleMessages } from '../framework/shared';
 
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
 import emailVerificationWithWarning from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-with-warning';
@@ -34,11 +34,11 @@ const logger = RequestLogger(/challenge|challenge\/poll|challenge\/answer/,
 
 const validOTPmock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(emailVerification)
+  .respond(emailVerificationWithWarning)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(emailVerification)
+  .respond(emailVerificationWithWarning)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
-  .respond(emailVerification)
+  .respond(emailVerificationWithWarning)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
@@ -319,33 +319,24 @@ test
 test
   .requestHooks(logger, validOTPmock)('resend after 30 seconds', async t => {
     const challengeEmailPageObject = await setup(t);
-    await challengeEmailPageObject.clickEnterCodeLink();
-
-    await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
-    await t.wait(31000);
+    await challengeEmailPageObject.clickEnterCodeLink();    
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).notOk();
     const resendEmailView = challengeEmailPageObject.resendEmailView();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received an email? Send again');
 
-    // 8 poll requests in 32 seconds and 1 resend request after click.
-    await t.expect(logger.count(
-      record => record.response.statusCode === 200 &&
-      record.request.url.match(/poll/)
-    )).eql(8);
-
     await challengeEmailPageObject.clickSendAgainLink();
-    await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/resend/)
     )).eql(1);
 
-    const { request: {
-      body: firstRequestBody,
-      method: firstRequestMethod,
-      url: firstRequestUrl,
-    }
+    const { 
+      request: {
+        body: firstRequestBody,
+        method: firstRequestMethod,
+      } 
     } = logger.requests[0];
+
     const { request: {
       body: lastRequestBody,
       method: lastRequestMethod,
@@ -355,7 +346,6 @@ test
     let jsonBody = JSON.parse(firstRequestBody);
     await t.expect(jsonBody).eql({'stateHandle':'02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8'});
     await t.expect(firstRequestMethod).eql('post');
-    await t.expect(firstRequestUrl).eql('http://localhost:3000/idp/idx/challenge/poll');
 
     jsonBody = JSON.parse(lastRequestBody);
     await t.expect(jsonBody).eql({'stateHandle':'02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8'});
@@ -366,9 +356,6 @@ test
 test
   .requestHooks(logger, emailChallengeWithWarning)('resend message is extracted from response correctly part 1', async t => {
     const challengeEmailPageObject = await setup(t);
-    await renderWidget({
-      features: { includeResendWarningMessages: true },
-    });
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).notOk();
     const resendEmailView = challengeEmailPageObject.resendEmailView();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received an email? Send again');
@@ -377,9 +364,6 @@ test
 test
   .requestHooks(logger, emailOVChallengeWithWarning)('resend message is extracted from response correctly part 2', async t => {
     const challengeEmailPageObject = await setup(t);
-    await renderWidget({
-      features: { includeResendWarningMessages: true },
-    });
     await t.expect(challengeEmailPageObject.resendOVView().hasClass('hide')).notOk();
     const resendOVView = challengeEmailPageObject.resendOVView();
     await t.expect(resendOVView.innerText).eql('Haven\'t received an email? Send again');

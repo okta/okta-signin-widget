@@ -1,5 +1,4 @@
-import { View, createCallout, _, loc } from 'okta';
-import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
+import { View, createCallout, loc } from 'okta';
 
 const IDX_EMAIL_CODE_NOT_RECEIVED = 'idx.email.code.not.received';
 const IDX_SMS_CODE_NOT_RECEIVED = 'idx.sms.code.not.received';
@@ -13,32 +12,21 @@ export default View.extend({
 
   initialize() {
     const selectedChannel = this.options.appState.get('currentAuthenticator').contextualData.selectedChannel;
-    let content;
-    if (this.settings.get('features.includeResendWarningMessages')) {
-      let resendMessage;
-      if (this.options.appState.containsMessageWithI18nKey(IDX_EMAIL_CODE_NOT_RECEIVED)) {
-        resendMessage = loc(`${IDX_EMAIL_CODE_NOT_RECEIVED}`, 'login');
-      } else if (this.options.appState.containsMessageWithI18nKey(IDX_SMS_CODE_NOT_RECEIVED)) {
-        resendMessage = loc(`${IDX_SMS_CODE_NOT_RECEIVED}`, 'login');
-      }
+    let resendMessage;
 
-      if (resendMessage) {
-        const linkText = selectedChannel === 'email'
-          ? loc('email.button.resend', 'login')
-          : loc('oie.phone.verify.sms.resendLinkText', 'login');
-  
-        content = `${resendMessage} <a class='resend-link'>${linkText}</a>`;
-      }
-
-    } else {
-      content = selectedChannel === 'email'
-        ? loc('oie.enroll.okta_verify.email.notReceived', 'login')
-        : loc('oie.enroll.okta_verify.sms.notReceived', 'login');        
+    if (this.options.appState.containsMessageWithI18nKey(IDX_EMAIL_CODE_NOT_RECEIVED)) {
+      resendMessage = loc(`${IDX_EMAIL_CODE_NOT_RECEIVED}`, 'login');
+    } else if (this.options.appState.containsMessageWithI18nKey(IDX_SMS_CODE_NOT_RECEIVED)) {
+      resendMessage = loc(`${IDX_SMS_CODE_NOT_RECEIVED}`, 'login');
     }
 
-    if (content) {
+    if (resendMessage) {
+      const linkText = selectedChannel === 'email'
+        ? loc('email.button.resend', 'login')
+        : loc('oie.phone.verify.sms.resendLinkText', 'login');
+        
       this.add(createCallout({
-        content: content,
+        content: `${resendMessage} <a class='resend-link'>${linkText}</a>`,
         type: 'warning',
       }));
     }
@@ -46,30 +34,6 @@ export default View.extend({
 
   handelResendLink() {
     this.options.appState.trigger('invokeAction', 'currentAuthenticator-resend');
-
-    // With the this feature on, UI should be stateless so no need to do the operations below
-    if (this.settings.get('features.includeResendWarningMessages')) {
-      return;
-    } 
-
-    //hide warning, but reinitiate to show warning again after some threshold of polling
-    this.$el.addClass('hide');
-    this.showCalloutWithDelay();
-  },
-
-  postRender() {
-    // If includeResendWarningMessages, the displaying of warning messages will be completely driven
-    // by the backend response (i.e. we should not retain message and display it after a delay).
-    if (!this.settings.get('features.includeResendWarningMessages')) {
-      this.$el.addClass('hide');
-      this.showCalloutWithDelay();
-    }
-  },
-
-  showCalloutWithDelay() {
-    this.showMeTimeout = _.delay(() => {
-      this.$el.removeClass('hide');
-    }, SHOW_RESEND_TIMEOUT);
   },
 
   remove() {

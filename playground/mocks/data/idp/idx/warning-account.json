@@ -68,9 +68,9 @@
     "type": "array",
     "value": [
       {
-        "message": "Haven't received a push notification yet? Try opening the Okta Verify App on your phone.",
+        "message": "Haven't received a call?",
         "i18n": {
-          "key": "oktaverify.warning"
+          "key": "oie.phone.verify.call.resendText"
         },
         "class": "WARN"
       }

@@ -1,7 +1,6 @@
 import { loc, View, createCallout } from 'okta';
 import { BaseForm, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
 import { MESSAGE_CLASS } from '../../../ion/RemediationConstants';
 
 
@@ -21,16 +20,10 @@ const ResendView = View.extend(
 
     initialize() {
       let resendMessage;
-      if (this.settings.get('features.includeResendWarningMessages')) {
-        if (this.options.appState.containsMessageWithI18nKey(IDX_CALL_CODE_NOT_RECEIVED)) {
-          resendMessage = loc(`${IDX_CALL_CODE_NOT_RECEIVED}`, 'login');
-        } else if (this.options.appState.containsMessageWithI18nKey(IDX_SMS_CODE_NOT_RECEIVED)) {
-          resendMessage = loc(`${IDX_SMS_CODE_NOT_RECEIVED}`, 'login');
-        }
-      } else {
-        resendMessage = (this.model.get('mode') === 'sms')
-          ? loc('oie.phone.verify.sms.resendText', 'login')
-          : loc('oie.phone.verify.call.resendText', 'login');
+      if (this.options.appState.containsMessageWithI18nKey(IDX_CALL_CODE_NOT_RECEIVED)) {
+        resendMessage = loc(`${IDX_CALL_CODE_NOT_RECEIVED}`, 'login');
+      } else if (this.options.appState.containsMessageWithI18nKey(IDX_SMS_CODE_NOT_RECEIVED)) {
+        resendMessage = loc(`${IDX_SMS_CODE_NOT_RECEIVED}`, 'login');
       }
 
       const linkText = (this.model.get('mode') === 'sms')
@@ -47,32 +40,6 @@ const ResendView = View.extend(
 
     handleResendLink() {
       this.options.appState.trigger('invokeAction', this.resendActionKey);
-
-      // With the this feature on, UI should be stateless so no need to do the operations below
-      if (this.settings.get('features.includeResendWarningMessages')) {
-        return;
-      } 
-
-      // Hide warning, but start a timeout again..
-      if (!this.el.classList.contains('hide')) {
-        this.el.classList.add('hide');
-      }
-      this.showCalloutAfterTimeout();
-    },
-
-    postRender() {
-      // If includeResendWarningMessages, the displaying of warning messages will be completely driven
-      // by the backend response (i.e. we should not retain message and display it after a delay).
-      if (!this.settings.get('features.includeResendWarningMessages')) {
-        this.el.classList.add('hide');
-        this.showCalloutAfterTimeout();
-      }      
-    },
-
-    showCalloutAfterTimeout() {
-      this.showCalloutTimer = setTimeout(() => {
-        this.el.classList.remove('hide');
-      }, SHOW_RESEND_TIMEOUT);
     },
 
     remove() {

@@ -2,7 +2,6 @@ import { loc, View, createCallout, _ } from 'okta';
 import { BaseForm } from '../../internals';
 import email from '../shared/email';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
 import BaseFormWithPolling from '../../internals/BaseFormWithPolling';
 import { MESSAGE_CLASS } from '../../../ion/RemediationConstants';
 
@@ -17,12 +16,8 @@ const ResendView = View.extend(
 
     initialize() {
       let resendMessage;
-      if (this.settings.get('features.includeResendWarningMessages')) {
-        if (this.options.appState.containsMessageWithI18nKey(IDX_EMAIL_CODE_NOT_RECEIVED)) {
-          resendMessage = loc(`${IDX_EMAIL_CODE_NOT_RECEIVED}`, 'login');
-        }
-      } else {
-        resendMessage = loc('email.code.not.received', 'login');
+      if (this.options.appState.containsMessageWithI18nKey(IDX_EMAIL_CODE_NOT_RECEIVED)) {
+        resendMessage = loc(`${IDX_EMAIL_CODE_NOT_RECEIVED}`, 'login');
       }
 
       if (resendMessage) {
@@ -36,32 +31,6 @@ const ResendView = View.extend(
 
     handelResendLink() {
       this.options.appState.trigger('invokeAction', this.options.resendEmailAction);
-      
-      // With the this feature on, UI should be stateless so no need to do the operations below
-      if (this.settings.get('features.includeResendWarningMessages')) {
-        return;
-      } 
-
-      // Hide warning, but reinitiate to show warning again after some threshold of polling
-      if (!this.$el.hasClass('hide')) {
-        this.$el.addClass('hide');
-      }
-      this.showCalloutWithDelay();
-    },
-
-    postRender() {
-      // If includeResendWarningMessages, the displaying of warning messages will be completely driven
-      // by the backend response (i.e. we should not retain message and display it after a delay).      
-      if (!this.settings.get('features.includeResendWarningMessages')) {
-        this.$el.addClass('hide');
-        this.showCalloutWithDelay();
-      }
-    },
-
-    showCalloutWithDelay() {
-      this.showMeTimeout = _.delay(() => {
-        this.$el.removeClass('hide');
-      }, SHOW_RESEND_TIMEOUT);
     },
 
     remove() {

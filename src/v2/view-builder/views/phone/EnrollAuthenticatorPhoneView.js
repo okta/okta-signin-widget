@@ -8,7 +8,7 @@ import { BaseForm } from '../../internals';
 const EnrollResendView = ResendView.extend(
   {
     // To be shown after a timeout
-    className: 'phone-authenticator-enroll--warning hide',
+    className: 'phone-authenticator-enroll--warning',
     resendActionKey: 'currentAuthenticator-resend',
   },
 );
