@@ -319,7 +319,6 @@ test
 test
   .requestHooks(logger, validOTPmock)('resend after 30 seconds', async t => {
     const challengeEmailPageObject = await setup(t);
-    await challengeEmailPageObject.clickEnterCodeLink();    
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).notOk();
     const resendEmailView = challengeEmailPageObject.resendEmailView();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received an email? Send again');
