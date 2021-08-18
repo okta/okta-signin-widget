@@ -8,8 +8,10 @@ import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollOktaVerifyQr from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr';
 import xhrAuthenticatorEnrollOktaVerifyViaEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-via-email';
 import xhrAuthenticatorEnrollOktaVerifyEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email';
+import xhrAuthenticatorEnrollOktaVerifyEmailWithWarning from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email-with-warning';
 import xhrAuthenticatorEnrollOktaVerifyViaSMS from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-via-sms';
 import xhrAuthenticatorEnrollOktaVerifySMS from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-sms';
+import xhrAuthenticatorEnrollOktaVerifySMSWithWarning from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-sms-with-warning';
 
 import xhrAuthenticatorEnrollOktaVerifyViaEmailVersionUpgrade from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-email-version-upgrade';
 import xhrAuthenticatorEnrollOktaVerifyViaSMSVersionUpgrade from '../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-sms-version-upgrade';
@@ -58,6 +60,14 @@ const resendEmailMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
   .respond(xhrAuthenticatorEnrollOktaVerifyEmail);
 
+const resendEmailMocksWithWarning = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollOktaVerifyEmail)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(xhrAuthenticatorEnrollOktaVerifyEmailWithWarning)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
+  .respond(xhrAuthenticatorEnrollOktaVerifyEmail);
+
 const enrollViaSmsMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorEnrollOktaVerifyQr)
@@ -75,6 +85,14 @@ const resendSmsMocks = RequestMock()
   .respond(xhrAuthenticatorEnrollOktaVerifySMS)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
   .respond(xhrAuthenticatorEnrollOktaVerifySMS);
+
+const resendSmsMocksWithWarning = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorEnrollOktaVerifySMS)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(xhrAuthenticatorEnrollOktaVerifySMSWithWarning)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
+  .respond(xhrAuthenticatorEnrollOktaVerifySMS);  
 
 const enrollViaSmsVersionUpgradeMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -287,14 +305,14 @@ test.requestHooks(enrollViaEmailMocks)('should be able enroll via email', async 
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
 
-test.requestHooks(resendEmailMocks)('after timeout should be able see and click send again link when enrolling via email', async t => {
+test.requestHooks(resendEmailMocksWithWarning)('after poll should be able see and click send again link when enrolling via email', async t => {
   const enrollOktaVerifyPage = await setup(t);
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).eql(emailInstruction);
   await t.expect(enrollOktaVerifyPage.resendView().visible).notOk();
-  await t.wait(30000);
+  await t.wait(4000);
   await t.expect(enrollOktaVerifyPage.resendView().visible).ok();
   const resendView = enrollOktaVerifyPage.resendView();
-  await t.expect(resendView.innerText).eql('Haven’t received an email? Check your spam folder or send again');
+  await t.expect(resendView.innerText).eql('Haven\'t received an email? Send again');
   await enrollOktaVerifyPage.clickSendAgainLink();
   await t.expect(enrollOktaVerifyPage.resendView().visible).notOk();
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).eql(emailInstruction);
@@ -328,14 +346,14 @@ test.requestHooks(logger, enrollViaSmsMocks)('should be able enroll via sms', as
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
 
-test.requestHooks(resendSmsMocks)('after timeout should be able see and click send again link when enrolling via sms', async t => {
+test.requestHooks(resendSmsMocksWithWarning)('after poll should be able see and click send again link when enrolling via sms', async t => {
   const enrollOktaVerifyPage = await setup(t);
   await t.expect(enrollOktaVerifyPage.getSmsInstruction()).eql(smsInstruction);
   await t.expect(enrollOktaVerifyPage.resendView().visible).notOk();
-  await t.wait(30000);
+  await t.wait(4000);
   await t.expect(enrollOktaVerifyPage.resendView().visible).ok();
   const resendView = enrollOktaVerifyPage.resendView();
-  await t.expect(resendView.innerText).eql('Haven’t received an SMS? Send again');
+  await t.expect(resendView.innerText).eql('Haven\'t received an SMS? Send again');
   await enrollOktaVerifyPage.clickSendAgainLink();
   await t.expect(enrollOktaVerifyPage.resendView().visible).notOk();
   await t.expect(enrollOktaVerifyPage.getSmsInstruction()).eql(smsInstruction);

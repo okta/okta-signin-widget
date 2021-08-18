@@ -4,6 +4,7 @@ import EnrollEmailPageObject from '../framework/page-objects/EnrollEmailPageObje
 import { checkConsoleMessages } from '../framework/shared';
 
 import xhrEnrollEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email';
+import xhrEnrollEmailWithWarning from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email-with-warning';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidOTP from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
 
@@ -23,6 +24,16 @@ const validOTPmock = RequestMock()
   .respond(xhrEnrollEmail)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
+
+const validOTPmockWithWarning = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrEnrollEmail)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(xhrEnrollEmailWithWarning)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
+  .respond(xhrEnrollEmail)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(success);  
 
 const invalidOTPMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -102,22 +113,24 @@ test
   });
 
 test
-  .requestHooks(logger, validOTPmock)('resend after 30 seconds', async t => {
+  .requestHooks(logger, validOTPmockWithWarning)('resend after callout', async t => {
     const enrollEmailPageObject = await setup(t);
-    await t.expect(enrollEmailPageObject.resendEmail.isHidden()).ok();
-    await t.wait(31000);
-    await t.expect(enrollEmailPageObject.resendEmail.isHidden()).notOk();
-    await t.expect(enrollEmailPageObject.resendEmail.getText()).eql('Haven\'t received an email? Send again');
 
-    // 8 poll requests in 31 seconds and 1 resend request after click.
+    // Wait 4 seconds for poll request to kick in
+    await t.wait(4000);
+    // Ensure poll request came in
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
-    )).eql(8);
+    )).eql(1);
+
+    await t.expect(await enrollEmailPageObject.resendEmailViewCalloutExists()).ok();
+
+    await t.expect(enrollEmailPageObject.resendEmail.getText()).eql('Haven\'t received an email? Send again');
 
     await enrollEmailPageObject.resendEmail.click();
+    await t.expect(await enrollEmailPageObject.resendEmailViewCalloutExists()).notOk();
 
-    await t.expect(enrollEmailPageObject.resendEmail.isHidden()).ok();
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
       record.request.url.match(/resend/)
