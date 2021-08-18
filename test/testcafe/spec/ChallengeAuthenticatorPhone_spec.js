@@ -496,7 +496,6 @@ test
   .requestHooks(logger, smsPrimaryMockWithWarning)(`Callout message is extracted from response in sms mode
   - enter code screen`, async t => {
     const challengePhonePageObject = await setup(t);
-    // await challengePhonePageObject.clickNextButton();
     await t.expect(challengePhonePageObject.resendOVView().hasClass('hide')).notOk();
     const resendOVView = challengePhonePageObject.resendOVView();
     await t.expect(resendOVView.innerText).eql('Haven\'t received an SMS? Send again');
