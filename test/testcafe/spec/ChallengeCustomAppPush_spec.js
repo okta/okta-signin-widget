@@ -168,5 +168,5 @@ test
     await t.wait(20100); // Total > 30s
     const warningBox = challengeCustomAppPushPageObject.getWarningBox();
     await t.expect(warningBox.innerText)
-      .eql('Haven\'t received a push notification yet? Try opening the Custom Push App on your phone.');
+      .eql('Haven\'t received a push notification yet? Try opening <span class="strong">Custom Push<span> on your phone.');
   });
