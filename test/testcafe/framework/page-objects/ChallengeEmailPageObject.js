@@ -1,4 +1,5 @@
 import ChallengeFactorPageObject from './ChallengeFactorPageObject';
+import { Selector } from 'testcafe';
 
 export default class ChallengeEmailPageObject extends ChallengeFactorPageObject {
   constructor(t) {
@@ -7,6 +8,11 @@ export default class ChallengeEmailPageObject extends ChallengeFactorPageObject 
 
   resendEmailView() {
     return this.form.getElement('.resend-email-view');
+  }
+
+  async resendEmailViewCalloutExists() {
+    const elCount = await Selector('.resend-email-view .infobox').count;
+    return elCount === 1;
   }
 
   resendOVView() {

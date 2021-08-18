@@ -269,8 +269,7 @@ test
 test
   .requestHooks(logger, stopPollMock)('no polling if session has expired', async t => {
     const challengeEmailPageObject = await setup(t);
-
-    await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
+    await t.expect(await challengeEmailPageObject.resendEmailViewCalloutExists()).notOk();
     await t.wait(5000);
     await t.expect(challengeEmailPageObject.getErrorFromErrorBox()).eql('The session has expired.');
     // Check no poll requests were made further. There seems to be no way to interrupt a poll with mock response.
@@ -284,8 +283,7 @@ test
   .requestHooks(logger, dynamicRefreshShortIntervalMock)('continue polling on form error with dynamic polling', async t => {
     const challengeEmailPageObject = await setup(t);
     await challengeEmailPageObject.clickEnterCodeLink();
-
-    await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
+    await t.expect(await challengeEmailPageObject.resendEmailViewCalloutExists()).notOk();
 
     // 2 poll requests in 2 seconds at 1 sec interval (Cumulative Request: 2)
     await t.wait(2000);
@@ -317,7 +315,7 @@ test
   });
 
 test
-  .requestHooks(logger, validOTPmock)('resend after 30 seconds', async t => {
+  .requestHooks(logger, validOTPmock)('resend after callout', async t => {
     const challengeEmailPageObject = await setup(t);
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).notOk();
     const resendEmailView = challengeEmailPageObject.resendEmailView();
@@ -401,7 +399,7 @@ test
 test
   .requestHooks(logger, dynamicRefreshShortIntervalMock)('dynamic polling based on refresh interval in /poll', async t => {
     const challengeEmailPageObject = await setup(t);
-    await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
+    await t.expect(await challengeEmailPageObject.resendEmailViewCalloutExists()).notOk();
 
     // 2 poll requests in 2 seconds at 1 sec interval
     await t.wait(2000);
