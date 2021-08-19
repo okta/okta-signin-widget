@@ -126,6 +126,9 @@ describe('v2/view-builder/views/IdentifierView', function() {
 
   it('view updates model and view correctly if "username" config is passed in', function() {
     settings.set('username', 'testUsername');
+    features = {
+      rememberMe: false
+    };    
 
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
@@ -149,6 +152,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
   });  
 
   it('view updates model and view correctly with rememberMe feature ON', function() {
+    settings.set('username', '');
     features = {
       rememberMe: true
     };
@@ -176,6 +180,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
   });
 
   it('view updates model and view correctly with rememberMe feature OFF', function() {
+    settings.set('username', '');
     features = {
       rememberMe: false
     };    

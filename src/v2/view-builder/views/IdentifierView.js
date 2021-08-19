@@ -200,7 +200,9 @@ const Body = BaseForm.extend({
    */
   _applyRememberMyUsername() {
     const cookieUsername = CookieUtil.getCookieUsername();
-    this.model.set('identifier', cookieUsername);
+    if (cookieUsername) {
+      this.model.set('identifier', cookieUsername);
+    }
   }
 });
 
