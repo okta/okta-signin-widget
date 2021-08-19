@@ -291,19 +291,22 @@ export default Controller.extend({
     * When "Remember My Username" is enabled, we save the identifier in a cookie
     * so that the next time the user visits the SIW, the identifier field can be 
     * pre-filled with this value.
-    * TODO: add a check in the schema to see if identifier is there
    */
   updateIdentifierCookie: function(model) {
     const formName = model.get('formName');
-    // Only update the cookie when we're on the "identify" forms to avoid
-    // uneccessary updates.
-    if (formName !== FORMS.IDENTIFY) {
+
+    // Only update the cookie when the user has successfully identified themselves (i.e. if we're on the
+    // challenge-authenticator form) to avoid incorrect/uneccessary updates.
+    if (formName !== FORMS.CHALLENGE_AUTHENTICATOR) {
       return;
     }
 
     if (this.settings.get('features.rememberMe')) {
-      const identifier = model.get('identifier');
-      CookieUtil.setUsernameCookie(identifier);
+      const user = this.options.appState.get('user');
+      const { identifier } = user || {};
+      if (identifier) {
+        CookieUtil.setUsernameCookie(identifier);
+      }
 
     } else {
       // We remove the cookie explicitly if this feature is disabled.
