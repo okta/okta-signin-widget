@@ -73,7 +73,11 @@
           "key": "oie.phone.verify.call.resendText"
         },
         "class": "WARN"
-      }
+      },
+      {
+        "message": "My test warning",
+        "class": "WARN"
+      }      
     ]
   },
   "authenticators": {

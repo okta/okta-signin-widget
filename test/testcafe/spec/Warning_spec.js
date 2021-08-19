@@ -1,6 +1,6 @@
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import { RequestMock, Selector } from 'testcafe';
-import warning from '../../../playground/mocks/data/idp/idx/warning-account';
+import warning from '../../../playground/mocks/data/idp/idx/warning-message';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')

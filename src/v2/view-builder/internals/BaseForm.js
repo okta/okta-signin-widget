@@ -130,17 +130,19 @@ export default Form.extend({
     const messagesObjs = this.options.appState.get('messages');
     if (messagesObjs?.value.length) {
 
+      let isWarningDisplayed = false;
       const content = messagesObjs.value
         .filter(messagesObj => {
           const isWarningMessage = messagesObj?.class === MESSAGE_CLASS.WARN;
-          if (isWarningMessage) {
-            // Display WARN messages in a callout before filtering them out 
+          if (isWarningMessage && !isWarningDisplayed) {
+            // Display the first WARN message in a callout before filtering them all out 
             this.add(createCallout({
               content: messagesObj.message,
               type: 'warning',
             }), {
               selector: '.o-form-error-container',
             });
+            isWarningDisplayed = true;
           }
           return !isWarningMessage;
         })
