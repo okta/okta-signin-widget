@@ -103,7 +103,7 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
 
   case AUTHENTICATOR_KEY.ON_PREM: {
     const vendorName =  authenticator.relatesTo?.displayName ||
-          loc('oie.on_prem.authenticator.default.vendorName', 'login');
+      loc('oie.on_prem.authenticator.default.vendorName', 'login');
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? ''
