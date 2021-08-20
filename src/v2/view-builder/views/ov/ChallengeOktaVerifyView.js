@@ -1,5 +1,5 @@
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import ChallengeOktaVerifyPushView from './ChallengeOktaVerifyPushView';
+import { Body as ChallengePushViewBody } from '../shared/ChallengePushView';
 import ChallengeOktaVerifyFastPassView from './ChallengeOktaVerifyFastPassView';
 import NumberChallengePushView from './NumberChallengePushView';
 import { AUTHENTICATOR_METHODS } from '../../../ion/RemediationConstants';
@@ -13,7 +13,7 @@ export default BaseAuthenticatorView.extend({
       currentAuthenticator?.contextualData?.correctAnswer) {
       this.Body = NumberChallengePushView;
     } else if (selectedMethod?.type === AUTHENTICATOR_METHODS.PUSH) {
-      this.Body = ChallengeOktaVerifyPushView;
+      this.Body = ChallengePushViewBody;
     } else {
       this.Body = ChallengeOktaVerifyFastPassView;
     }
