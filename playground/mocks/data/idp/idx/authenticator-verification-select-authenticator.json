@@ -381,7 +381,7 @@
                 "relatesTo": "$.authenticatorEnrollments.value[15]"
               },
               {
-                "label":"Wells Fargo Verify App",
+                "label":"Custom Push App",
                 "value":{
                    "form":{
                       "value":[
@@ -607,8 +607,8 @@
         "type":"app",
         "key":"custom_app",
         "id":"pfd1bmoy4nH6heq2v0g4",
-        "displayName":"Wells Fargo Verify App",
-        "logo": "http://localhost:3000/img/icons/mfa/wells_fargo_logo.svg",
+        "displayName":"Custom Push App",
+        "logo": "http://localhost:3000/img/icons/mfa/custom_push.svg",
         "methods":[
           {
             "type":"push"

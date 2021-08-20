@@ -118,7 +118,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   const selectFactorPage = await setup(t);
   await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
   await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
-  await t.expect(selectFactorPage.getFactorsCount()).eql(15);
+  await t.expect(selectFactorPage.getFactorsCount()).eql(16);
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Password');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(0)).eql(false);
@@ -212,6 +212,12 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
   await t.expect(selectFactorPage.getFactorIconClassByIndex(14)).contains('mfa-yubikey');
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(14)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(14)).eql('yubikey_token');
+
+  await t.expect(selectFactorPage.getFactorLabelByIndex(15)).eql('Custom Push App');
+  await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(15)).eql(false);
+  await t.expect(selectFactorPage.getFactorIconClassByIndex(15)).contains('mfa-custom-app');
+  await t.expect(selectFactorPage.getFactorSelectButtonByIndex(15)).eql('Select');
+  await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(15)).eql('custom_app');
 
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();
