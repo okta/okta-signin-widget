@@ -22,6 +22,7 @@ module.exports = {
       'oie.authenticator.duo.method.duo.verification_failed', // This is mapped to oie.authenticator.duo.error
       'incorrectPassword', // incorrectPassword is translated to oie.password.incorrect in i18nTransformer
       'idx.email.verification.required', // mapped to v1 key
+      'idx.email.code.not.received', // mapped to v1 key
       'security.access_denied', // mapped to v1 key in i18nTransformer
       'api.users.auth.error.POST_PASSWORD_UPDATE_AUTH_FAILURE', // mapped to oie alias in i18Transformer
       'api.authn.poll.error.push_rejected',// mapped to oktaverify.rejected in i18Transformer

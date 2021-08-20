@@ -222,7 +222,7 @@ export default Model.extend({
   getMessageWithI18nKey(key) {
     const messagesObjs = this.get('messages');
     if (messagesObjs && Array.isArray(messagesObjs.value)) {
-      return messagesObjs.value.find(messagesObj => _.contains([key], messagesObj.i18n?.key))
+      return messagesObjs.value.find(messagesObj => _.contains([key], messagesObj.i18n?.key));
     }
   },
 
