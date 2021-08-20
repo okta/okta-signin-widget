@@ -11,10 +11,8 @@ import CookieUtil from 'util/CookieUtil';
 describe('v2/view-builder/views/IdentifierView', function() {
   let testContext;
   let currentViewState = {};
-  let features = {};
   let settings = new Settings({ 
     baseUrl: 'http://localhost:3000',
-    features
   });
 
   beforeEach(function() { 
@@ -126,9 +124,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
 
   it('view updates model and view correctly if "username" config is passed in', function() {
     settings.set('username', 'testUsername');
-    features = {
-      rememberMe: false
-    };    
+    settings.set('features.rememberMe', false);
 
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
@@ -153,9 +149,8 @@ describe('v2/view-builder/views/IdentifierView', function() {
 
   it('fills in identifier form with username from cookie when rememberMe feature is enabled', function() {
     settings.set('username', '');
-    features = {
-      rememberMe: true
-    };
+    settings.set('features.rememberMe', true);
+
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
@@ -181,9 +176,8 @@ describe('v2/view-builder/views/IdentifierView', function() {
 
   it('does not fill in identifier form with username from cookie when rememberMe feature is disabled', function() {
     settings.set('username', '');
-    features = {
-      rememberMe: false
-    };    
+    settings.set('features.rememberMe', false);
+   
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
