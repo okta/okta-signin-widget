@@ -141,7 +141,7 @@
     "testcafe": "^1.14.2",
     "time-grunt": "^2.0.0",
     "wait-on": "^3.3.0",
-    "webdriver-manager": "^12.1.8",
+    "webdriver-manager": "^13.0.0",
     "webpack": "^3.5.4",
     "webpack-bundle-analyzer": "^3.0.2",
     "webpack-dev-server": "2.11.3"
