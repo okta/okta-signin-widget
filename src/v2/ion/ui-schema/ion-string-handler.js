@@ -11,7 +11,7 @@
  */
 
 /* eslint max-depth: [2, 3] */
-
+import { loc } from 'okta';
 import { HINTS } from '../RemediationConstants';
 
 const ionOptionsToUiOptions = (options) => {
@@ -65,6 +65,13 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
       uiSchema.type = 'select';
       uiSchema.wide = true;
       uiSchema.options = ionOptionsToUiOptions(ionFormField.options);
+    }
+  }
+
+  // set optional label for text boxes
+  if(ionFormField.required === false) {
+    if(uiSchema.type === 'text') {
+      uiSchema.sublabel = loc('oie.form.field.optional', 'login');
     }
   }
 

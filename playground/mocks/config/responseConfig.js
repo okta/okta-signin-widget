@@ -806,6 +806,23 @@ const yubikeyAuthenticator = {
   ],
 };
 
+const secondaryEmail = {
+  '/idp/idx/introspect': [
+    'identify-with-password'
+  ],
+  '/idp/idx/identify': [
+    'enroll-profile-update-params',
+    'enroll-profile-update-all-optional-params',
+    'error-enroll-profile-update-params'
+  ],
+  '/idp/idx/skip': [
+    'success-with-app-user'
+  ],
+  '/idp/idx/enroll/new': [
+    'success-with-app-user'
+  ]
+};
+
 module.exports = {
   mocks: idx,
 };

@@ -202,6 +202,16 @@ export default class BaseFormObject {
       .child('label');
   }
 
+  getFormFieldSubLabel(fieldName) {
+    const label = this.el
+      .find(`[data-se="o-form-input-${fieldName}"]`)
+      .parent('[data-se="o-form-input-container"]')
+      .sibling('[data-se="o-form-label"]')
+      .child('span');
+
+    return label.innerText;
+  }
+
   // =====================================
   // un-categoried
   // =====================================

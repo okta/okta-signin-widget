@@ -22,6 +22,7 @@ const FORMS = {
   IDENTIFY_RECOVERY: 'identify-recovery',
   SELECT_ENROLL_PROFILE: 'select-enroll-profile',
   ENROLL_PROFILE: 'enroll-profile',
+  ENROLL_PROFILE_UPDATE: 'profile-update',
   UNLOCK_ACCOUNT: 'unlock-account',
   REQUEST_ACTIVATION: 'request-activation-email',
 

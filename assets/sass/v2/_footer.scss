@@ -15,6 +15,21 @@
         margin: 15px 0 15px 15px;
       }
     }
+
+    &.side-by-side-links {
+      display: flex;
+      flex-direction: row;
+
+      .link {
+        flex-basis: 50%;
+
+        &.js-skip-setup {
+          order: 2;
+          text-align: right;
+          color: $primary-color;
+        }
+      }
+    }
   }
 
   .footer-info {
