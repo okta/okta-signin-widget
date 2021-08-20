@@ -1,4 +1,5 @@
 import { View, createCallout, loc } from 'okta';
+import { getMessage } from '../../../ion/i18nTransformer';
 
 const IDX_EMAIL_CODE_NOT_RECEIVED = 'idx.email.code.not.received';
 const IDX_SMS_CODE_NOT_RECEIVED = 'idx.sms.code.not.received';
@@ -14,8 +15,10 @@ export default View.extend({
     const selectedChannel = this.options.appState.get('currentAuthenticator').contextualData.selectedChannel;
     let resendMessage;
 
-    if (this.options.appState.containsMessageWithI18nKey(IDX_EMAIL_CODE_NOT_RECEIVED)) {
-      resendMessage = loc(`${IDX_EMAIL_CODE_NOT_RECEIVED}`, 'login');
+    const i18nEmailMessage = this.options.appState.getMessageWithI18nKey(IDX_EMAIL_CODE_NOT_RECEIVED);
+    if (i18nEmailMessage) {
+      // Special case: The email i18n key is mapped to our v1 key in i18nTransformer
+      resendMessage = getMessage(i18nEmailMessage);
     } else if (this.options.appState.containsMessageWithI18nKey(IDX_SMS_CODE_NOT_RECEIVED)) {
       resendMessage = loc(`${IDX_SMS_CODE_NOT_RECEIVED}`, 'login');
     }

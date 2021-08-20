@@ -4,6 +4,7 @@ import email from '../shared/email';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import BaseFormWithPolling from '../../internals/BaseFormWithPolling';
 import { MESSAGE_CLASS } from '../../../ion/RemediationConstants';
+import { getMessage } from '../../../ion/i18nTransformer';
 
 const IDX_EMAIL_CODE_NOT_RECEIVED = 'idx.email.code.not.received';
 
@@ -16,8 +17,9 @@ const ResendView = View.extend(
 
     initialize() {
       let resendMessage;
-      if (this.options.appState.containsMessageWithI18nKey(IDX_EMAIL_CODE_NOT_RECEIVED)) {
-        resendMessage = loc(`${IDX_EMAIL_CODE_NOT_RECEIVED}`, 'login');
+      const i18nMessage = this.options.appState.getMessageWithI18nKey(IDX_EMAIL_CODE_NOT_RECEIVED);
+      if (i18nMessage) {
+        resendMessage = getMessage(i18nMessage);
       }
 
       if (resendMessage) {
