@@ -127,7 +127,7 @@
     "nodemon": "^2.0.7",
     "npm-run-all": "^4.1.5",
     "parse-ms": "^2.0.0",
-    "protractor": "^5.4.2",
+    "protractor": "^7.0.0",
     "regenerator-runtime": "^0.13.7",
     "remove-strict-webpack-plugin": "^0.1.2",
     "replace-in-file": "^6.2.0",
