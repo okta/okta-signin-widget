@@ -151,7 +151,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
     expect(testContext.view.$el.find('.o-form-input-name-identifier input').val()).toEqual('testUsername');
   });  
 
-  it('view updates model and view correctly with rememberMe feature ON', function() {
+  it('fills in identifier form with username from cookie when rememberMe feature is enabled', function() {
     settings.set('username', '');
     features = {
       rememberMe: true
@@ -179,7 +179,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
     expect(testContext.view.$el.find('.o-form-input-name-identifier input').attr('autocomplete')).toEqual('identifier');
   });
 
-  it('view updates model and view correctly with rememberMe feature OFF', function() {
+  it('does not fill in identifier form with username from cookie when rememberMe feature is disabled', function() {
     settings.set('username', '');
     features = {
       rememberMe: false

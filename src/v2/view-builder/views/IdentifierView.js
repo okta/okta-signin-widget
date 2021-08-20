@@ -29,15 +29,12 @@ const Body = BaseForm.extend({
       this.save = loc('oie.primaryauth.submit', 'login');
     }
 
-    // Set username/identifier from the config (i.e. config.username)
-    if(this._shouldAddUsername(uiSchema)) {
-      this.model.set('identifier', this.settings.get('username'));
-    }
-
-    // Set username/identifier from the cookie. Note this takes precedence over the
-    // above (the config scenario).
+    // Set username/identifier from the cookie. Note this takes precedence over the the config scenario.
     if (this._shouldApplyRememberMyUsername(uiSchema)) {
       this._applyRememberMyUsername();
+    } else if(this._shouldAddUsername(uiSchema)) {
+      // Set username/identifier from the config (i.e. config.username)
+      this.model.set('identifier', this.settings.get('username'));
     }
   },
 

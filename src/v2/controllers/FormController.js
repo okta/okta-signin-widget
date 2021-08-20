@@ -17,7 +17,6 @@ import { FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/Remedi
 import Util from '../../util/Util';
 import sessionStorageHelper from '../client/sessionStorageHelper';
 import { clearTransactionMeta } from '../client';
-import CookieUtil from 'util/CookieUtil';
 
 export default Controller.extend({
   className: 'form-controller',
@@ -204,7 +203,7 @@ export default Controller.extend({
     // Submit request to idx endpoint
     idx.proceed(formName, modelJSON)
       .then((resp) => {
-        const onSuccess = this.handleIdxSuccess.bind(this, resp, model);
+        const onSuccess = this.handleIdxSuccess.bind(this, resp);
 
         if (formName === FORMS.ENROLL_PROFILE) {
           // call registration (aka enroll profile) hook
@@ -267,10 +266,7 @@ export default Controller.extend({
     }
   },
 
-  handleIdxSuccess: function(idxResp, model) {
-    if (model) {
-      this.updateIdentifierCookie(model);
-    }
+  handleIdxSuccess: function(idxResp) {
     this.options.appState.trigger('remediationSuccess', idxResp);
   },
 
@@ -286,31 +282,4 @@ export default Controller.extend({
     const button = this.$el.find('.o-form-button-bar .button');
     button.toggleClass('link-button-disabled', disabled);
   },
-
-  /**
-    * When "Remember My Username" is enabled, we save the identifier in a cookie
-    * so that the next time the user visits the SIW, the identifier field can be 
-    * pre-filled with this value.
-   */
-  updateIdentifierCookie: function(model) {
-    const formName = model.get('formName');
-
-    // Only update the cookie when the user has successfully identified themselves (i.e. if we're on the
-    // challenge-authenticator form) to avoid incorrect/uneccessary updates.
-    if (formName !== FORMS.CHALLENGE_AUTHENTICATOR) {
-      return;
-    }
-
-    if (this.settings.get('features.rememberMe')) {
-      const user = this.options.appState.get('user');
-      const { identifier } = user || {};
-      if (identifier) {
-        CookieUtil.setUsernameCookie(identifier);
-      }
-
-    } else {
-      // We remove the cookie explicitly if this feature is disabled.
-      CookieUtil.removeUsernameCookie();
-    }    
-  }
 });
