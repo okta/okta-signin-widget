@@ -86,20 +86,23 @@ function banner() {
 }
 
 function failOnBuildFail() {
-  return function() {
-    this.plugin('done', function(build) {
+  const FailOnBuildPlugin = function () {};
+  FailOnBuildPlugin.prototype.apply = function(compiler) {
+    compiler.hooks.done.tap('Fail on build', (stats) => {
+
       // webpack 3.x and karma-webpack combo will fail to treat seom missing assets as build failures
       // See https://oktainc.atlassian.net/browse/OKTA-253137
-      if( build.compilation.warnings.length || build.compilation.errors.length ) {
+      if( stats.warnings.length || stats.errors.length ) {
         [
-          ...build.compilation.warnings,
-          ...build.compilation.errors,
+          ...stats.warnings,
+          ...stats.errors,
         ].forEach(function( warning ) { console.error( warning ); });
         console.error('failOnBuildFail plugin Forcibly killing build because of webpack compile failure');
         throw new Error('Plugin failOnBuildFail forcing build abort');
       }
     });
   };
+  return FailOnBuildPlugin;
 }
 
 function plugins(options = {}) {

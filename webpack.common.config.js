@@ -4,9 +4,10 @@ var TARGET_JS = path.resolve(__dirname, 'target/js/');
 var LOCAL_PACKAGES = path.resolve(__dirname, 'packages/');
 
 // Return a function so that all consumers get a new copy of the config
-module.exports = function(outputFilename) {
+module.exports = function(outputFilename, mode = 'development') {
   return {
     entry: [`${SRC}/widget/OktaSignIn.js`],
+    mode,
     devtool: 'source-map',
     output: {
       path: TARGET_JS,
@@ -65,10 +66,6 @@ module.exports = function(outputFilename) {
             ]
           }
         },
-        {
-          test: /\.json$/,
-          loader: 'json-loader'
-        },
         // load external source maps
         {
           test: /\.js$/,
@@ -81,9 +78,6 @@ module.exports = function(outputFilename) {
     // Webpack attempts to add a polyfill for process
     // and setImmediate, because q uses process to see
     // if it's in a Node.js environment
-    node: {
-      process: false,
-      setImmediate: false
-    }
+    node: false
   };
 };
