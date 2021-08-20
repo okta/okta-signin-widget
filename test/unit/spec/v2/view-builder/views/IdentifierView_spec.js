@@ -147,7 +147,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
     expect(testContext.view.$el.find('.o-form-input-name-identifier input').val()).toEqual('testUsername');
   });  
 
-  it('fills in identifier form with username from cookie when rememberMe feature is enabled', function() {
+  it('pre-fill identifier form with username from cookie when rememberMe feature is enabled', function() {
     settings.set('username', '');
     settings.set('features.rememberMe', true);
 
@@ -174,7 +174,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
     expect(testContext.view.$el.find('.o-form-input-name-identifier input').attr('autocomplete')).toEqual('identifier');
   });
 
-  it('does not fill in identifier form with username from cookie when rememberMe feature is disabled', function() {
+  it('does not pre-fill identifier form with username from cookie when rememberMe feature is disabled', function() {
     settings.set('username', '');
     settings.set('features.rememberMe', false);
    

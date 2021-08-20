@@ -85,8 +85,11 @@ export default Router.extend({
   },
 
   handleIdxResponseSuccess(idxResponse) {
-    // Check if cookie needs to be updated
-    this.updateIdentifierCookie(idxResponse);
+    // Only update the cookie when the user has successfully authenticated themselves 
+    // to avoid incorrect/uneccessary updates.
+    if (this.hasAuthenticationSucceeded(idxResponse)) {
+      this.updateIdentifierCookie(idxResponse);
+    }
 
     if (idxResponse.interactionCode) {
       // Although session.stateHandle isn't used by interation flow,
@@ -255,13 +258,6 @@ export default Router.extend({
     * pre-filled with this value.
    */
   updateIdentifierCookie: function(idxResponse) {
-    // Only update the cookie when the user has successfully authenticated themselves 
-    // to avoid incorrect/uneccessary updates. This is done by checking the server response
-    // and seeing if either the 'success' or 'successWithInteractionCode' objects are present.
-    if (!idxResponse?.rawIdxState?.success && !idxResponse?.rawIdxState?.successWithInteractionCode) {
-      return;
-    }
-
     if (this.settings.get('features.rememberMe')) {
       // Update the cookie with the identifier
       const user = idxResponse?.context?.user;
@@ -273,7 +269,13 @@ export default Router.extend({
       // We remove the cookie explicitly if this feature is disabled.
       CookieUtil.removeUsernameCookie();
     }    
-  },  
+  },
+
+  hasAuthenticationSucceeded(idxResponse) {
+    // Check whether authentication has succeeded. This is done by checking the server response
+    // and seeing if either the 'success' or 'successWithInteractionCode' objects are present.
+    return idxResponse?.rawIdxState?.success || idxResponse?.rawIdxState?.successWithInteractionCode;
+  },
 
   restartLoginFlow() {
     this.render(this.controller.constructor);
