@@ -30,7 +30,8 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
   let authenticatorData = {};
   switch (key) {
-  case AUTHENTICATOR_KEY.EMAIL:
+  case AUTHENTICATOR_KEY.EMAIL: {
+    const emailType = authenticator.relatesTo;
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
         ? ''
@@ -38,7 +39,14 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
       iconClassName: 'mfa-okta-email',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
     });
-    break;
+
+    //TODO: backend should send a new key so that this can be handled gracefully like other authenticators
+    if(emailType && emailType.displayName === 'Secondary Email') {
+      authenticatorData.label = loc('oie.secondemail.authenticator.label', 'login');
+      authenticatorData.description = loc('oie.secondemail.authenticator.description', 'login');
+    }
+  }
+  break;
 
   case AUTHENTICATOR_KEY.PASSWORD:
     Object.assign(authenticatorData, {

@@ -100,36 +100,7 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[1]"
-              },
-              {
-                "label":"Secondary Email",
-                "value":{
-                   "form":{
-                      "value":[
-                         {
-                            "name":"id",
-                            "required":true,
-                            "value":"autyygERmOHuKROw40g3",
-                            "mutable":false
-                         },
-                         {
-                            "name":"methodType",
-                            "required":false,
-                            "value":"email",
-                            "mutable":false
-                         },
-                         {
-                            "name":"secondary_email",
-                            "required":true,
-                            "value":true,
-                            "visible":false,
-                            "mutable":false
-                         }
-                      ]
-                   }
-                },
-                "relatesTo":"$.authenticators.value[3]"
-             }
+              }
             ]
           },
           {
@@ -184,12 +155,6 @@
         "type": "phone",
         "key": "phone_number",
         "authenticatorId": "aid568g3mXgtID0X1SLH"
-      },
-      {
-        "displayName":"Secondary Email",
-        "type":"email",
-        "key":"okta_email",
-        "id": "autyygERmOHuKROw40g3"
       }
     ]
   },
