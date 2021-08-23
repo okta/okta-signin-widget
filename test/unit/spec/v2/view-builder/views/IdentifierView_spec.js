@@ -6,14 +6,13 @@ import XHRIdentifyWithPassword
   from '../../../../../../playground/mocks/data/idp/idx/identify-with-password.json';
 import XHRIdentifyWithThirdPartyIdps
   from '../../../../../../playground/mocks/data/idp/idx/identify-with-third-party-idps.json';
+import CookieUtil from 'util/CookieUtil';
 
 describe('v2/view-builder/views/IdentifierView', function() {
   let testContext;
   let currentViewState = {};
-  let features = {};
   let settings = new Settings({ 
     baseUrl: 'http://localhost:3000',
-    features
   });
 
   beforeEach(function() { 
@@ -125,6 +124,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
 
   it('view updates model and view correctly if "username" config is passed in', function() {
     settings.set('username', 'testUsername');
+    settings.set('features.rememberMe', false);
 
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
@@ -146,4 +146,60 @@ describe('v2/view-builder/views/IdentifierView', function() {
     expect(testContext.view.model.get('identifier')).toEqual('testUsername');
     expect(testContext.view.$el.find('.o-form-input-name-identifier input').val()).toEqual('testUsername');
   });  
+
+  it('pre-fill identifier form with username from cookie when rememberMe feature is enabled', function() {
+    settings.set('username', '');
+    settings.set('features.rememberMe', true);
+
+    jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
+    jest.spyOn(CookieUtil, 'getCookieUsername').mockReturnValue('testUsername');
+
+    currentViewState = { 
+      uiSchema: [{
+        'autoComplete': 'identifier',
+        'data-se': 'o-form-fieldset-identifier',
+        'label': 'Username',
+        'label-top': true,
+        'name': 'identifier',
+        'type': 'text',
+      }]
+    };
+
+    // Ensure model and view are updated correctly
+    testContext.init(XHRIdentifyWithPassword.remediation.value);
+    expect(testContext.view.model.get('identifier')).toEqual('testUsername');
+    expect(testContext.view.$el.find('.o-form-input-name-identifier input').val()).toEqual('testUsername');
+    expect(testContext.view.$el.find('.o-form-input-name-identifier input').attr('autocomplete')).toEqual('identifier');
+  });
+
+  it('does not pre-fill identifier form with username from cookie when rememberMe feature is disabled', function() {
+    settings.set('username', '');
+    settings.set('features.rememberMe', false);
+   
+    jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
+
+    jest.spyOn(IdentifierView.prototype.Body.prototype, '_shouldApplyRememberMyUsername').mockReturnValue(false);
+    jest.spyOn(CookieUtil, 'getCookieUsername').mockReturnValue('testUsername');
+
+    currentViewState = { 
+      uiSchema: [{
+        'autoComplete': 'identifier',
+        'data-se': 'o-form-fieldset-identifier',
+        'label': 'Username',
+        'label-top': true,
+        'name': 'identifier',
+        'type': 'text',
+      }]
+    };
+
+    // Ensure model and view are updated correctly
+    testContext.init(XHRIdentifyWithPassword.remediation.value);
+    expect(testContext.view.model.get('identifier')).not.toEqual('testUsername');
+    expect(testContext.view.$el.find('.o-form-input-name-identifier input').val()).toEqual('');
+    expect(testContext.view.$el.find('.o-form-input-name-identifier input').attr('autocomplete')).toEqual('identifier');    
+  });
 });

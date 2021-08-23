@@ -34,6 +34,7 @@ import {
 
 import transformIdxResponse from './ion/transformIdxResponse';
 import { FORMS } from './ion/RemediationConstants';
+import CookieUtil from 'util/CookieUtil';
 
 export default Router.extend({
   Events: Backbone.Events,
@@ -84,6 +85,12 @@ export default Router.extend({
   },
 
   handleIdxResponseSuccess(idxResponse) {
+    // Only update the cookie when the user has successfully authenticated themselves 
+    // to avoid incorrect/uneccessary updates.
+    if (this.hasAuthenticationSucceeded(idxResponse)) {
+      this.updateIdentifierCookie(idxResponse);
+    }
+
     if (idxResponse.interactionCode) {
       // Although session.stateHandle isn't used by interation flow,
       // it's better to clean up at the end of the flow.
@@ -243,6 +250,31 @@ export default Router.extend({
     this.listenTo(this.controller, 'all', this.trigger);
 
     this.controller.render();
+  },
+
+  /**
+    * When "Remember My Username" is enabled, we save the identifier in a cookie
+    * so that the next time the user visits the SIW, the identifier field can be 
+    * pre-filled with this value.
+   */
+  updateIdentifierCookie: function(idxResponse) {
+    if (this.settings.get('features.rememberMe')) {
+      // Update the cookie with the identifier
+      const user = idxResponse?.context?.user;
+      const { identifier } = user?.value || {};
+      if (identifier) {
+        CookieUtil.setUsernameCookie(identifier);
+      }
+    } else {
+      // We remove the cookie explicitly if this feature is disabled.
+      CookieUtil.removeUsernameCookie();
+    }    
+  },
+
+  hasAuthenticationSucceeded(idxResponse) {
+    // Check whether authentication has succeeded. This is done by checking the server response
+    // and seeing if either the 'success' or 'successWithInteractionCode' objects are present.
+    return idxResponse?.rawIdxState?.success || idxResponse?.rawIdxState?.successWithInteractionCode;
   },
 
   restartLoginFlow() {

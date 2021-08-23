@@ -494,7 +494,8 @@ Enable or disable widget functionality with the following options.
   ```javascript
   features: {
     showPasswordToggleOnSignInPage: true,
-    hideSignOutLinkInMFA: false
+    hideSignOutLinkInMFA: false,
+    rememberMe: true
   }
   ```
 
@@ -507,3 +508,8 @@ Enable or disable widget functionality with the following options.
 
   Defaults to `false`.
   Hides the "Back to sign in" link for authenticator enrollment and challenge flows.
+
+#### features.rememberMe
+
+  Defaults to `true`.
+  Pre-fills the identifier field with the previously used username.

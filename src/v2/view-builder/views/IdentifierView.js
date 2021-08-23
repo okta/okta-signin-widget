@@ -9,6 +9,7 @@ import customButtonsView from './signin/CustomButtons';
 import signInWithDeviceOption from './signin/SignInWithDeviceOption';
 import { isCustomizedI18nKey } from '../../ion/i18nTransformer';
 import { getForgotPasswordLink } from '../utils/LinksUtil';
+import CookieUtil from 'util/CookieUtil';
 
 const Body = BaseForm.extend({
 
@@ -28,7 +29,11 @@ const Body = BaseForm.extend({
       this.save = loc('oie.primaryauth.submit', 'login');
     }
 
-    if(this._shouldAddUsername(uiSchema)) {
+    // Set username/identifier from the cookie. Note this takes precedence over the the config scenario.
+    if (this._shouldApplyRememberMyUsername(uiSchema)) {
+      this._applyRememberMyUsername();
+    } else if(this._shouldAddUsername(uiSchema)) {
+      // Set username/identifier from the config (i.e. config.username)
       this.model.set('identifier', this.settings.get('username'));
     }
   },
@@ -116,13 +121,20 @@ const Body = BaseForm.extend({
     const newSchemas = schemas.map(schema => {
       let newSchema = { ...schema };
 
-      if (schema.name === 'identifier' &&
-        isCustomizedI18nKey(identifierExplainLabeli18nKey, settings)
-      ) {
+      if (schema.name === 'identifier') {
+        if (isCustomizedI18nKey(identifierExplainLabeli18nKey, settings)) {
+          newSchema = {
+            ...newSchema,
+            explain: loc(identifierExplainLabeli18nKey, 'login'),
+            'explain-top': true,
+          };
+        }
+
+        // We enable the browser's autocomplete for the identifier input
+        // because we want to allow the user to choose from previously used identifiers.
         newSchema = {
           ...newSchema,
-          explain: loc(identifierExplainLabeli18nKey, 'login'),
-          'explain-top': true,
+          autoComplete: 'identifier'
         };
       } else if (schema.name === 'credentials.passcode' &&
         isCustomizedI18nKey(passwordExplainLabeli18nKey, settings)
@@ -171,7 +183,24 @@ const Body = BaseForm.extend({
     // We pre-populate the identifier/username field only if we're in an identifier
     // form and if the option is passed in.
     return (uiSchema.find(schema => schema.name === 'identifier') && this.settings.get('username'));
-  },  
+  }, 
+   
+  _shouldApplyRememberMyUsername(uiSchema) {
+    return (uiSchema.find(schema => schema.name === 'identifier') 
+        && this.settings.get('features.rememberMe'));
+  },
+
+  /**
+   * When "Remember My Username" is enabled, we pre-fill the identifier
+   * field with the saved userName cookie. The cookie would have been originally
+   * saved when submitting the form previously.
+   */
+  _applyRememberMyUsername() {
+    const cookieUsername = CookieUtil.getCookieUsername();
+    if (cookieUsername) {
+      this.model.set('identifier', cookieUsername);
+    }
+  }
 });
 
 export default BaseView.extend({

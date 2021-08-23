@@ -282,5 +282,4 @@ export default Controller.extend({
     const button = this.$el.find('.o-form-button-bar .button');
     button.toggleClass('link-button-disabled', disabled);
   },
-
 });

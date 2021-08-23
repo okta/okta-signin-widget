@@ -301,6 +301,7 @@ describe('v2/ion/responseTransformer', function() {
         ],
         user: {
           id: '00ub0ttoyz062NeVa0g4',
+          identifier: 'testUser@okta.com',
         },
         idx: idxResp,
       });
