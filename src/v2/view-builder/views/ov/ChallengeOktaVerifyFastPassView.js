@@ -1,9 +1,8 @@
 import { $ } from 'okta';
-import { BaseForm } from '../../internals';
+import { BaseFormWithPolling } from '../../internals';
 import Logger from '../../../../util/Logger';
 import { CHALLENGE_TIMEOUT } from '../../utils/Constants';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
-import polling from '../shared/polling';
 import {doChallenge} from '../../utils/ChallengeViewUtil';
 
 const request = (opts) => {
@@ -14,7 +13,7 @@ const request = (opts) => {
   return $.ajax(ajaxOptions);
 };
 
-const Body = BaseForm.extend(Object.assign(
+const Body = BaseFormWithPolling.extend(Object.assign(
   {
     noButtonBar: true,
 
@@ -28,7 +27,7 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     initialize() {
-      BaseForm.prototype.initialize.apply(this, arguments);
+      BaseFormWithPolling.prototype.initialize.apply(this, arguments);
       this.listenTo(this.model, 'error', this.onPollingFail);
       doChallenge(this);
       this.startPolling();
@@ -40,7 +39,7 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     remove() {
-      BaseForm.prototype.remove.apply(this, arguments);
+      BaseFormWithPolling.prototype.remove.apply(this, arguments);
       this.stopPolling();
     },
 
@@ -125,8 +124,6 @@ const Body = BaseForm.extend(Object.assign(
       `).last();
     },
   },
-
-  polling,
 ));
 
 export default Body;

@@ -1,5 +1,5 @@
 import { $, loc } from 'okta';
-import { BaseForm, BaseFormWithPolling, BaseFooter, BaseView } from '../../internals';
+import { BaseFormWithPolling, BaseFooter, BaseView } from '../../internals';
 import Logger from '../../../../util/Logger';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import Enums from '../../../../util/Enums';
@@ -47,7 +47,7 @@ const Body = BaseFormWithPolling.extend(
     },
 
     remove() {
-      BaseForm.prototype.remove.apply(this, arguments);
+      BaseFormWithPolling.prototype.remove.apply(this, arguments);
       this.stopProbing();
       this.stopPolling();
     },
