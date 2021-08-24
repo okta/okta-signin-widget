@@ -1,4 +1,4 @@
-import { loc, createButton, createCallout } from 'okta';
+import { _, loc, createButton, createCallout } from 'okta';
 import { BaseForm } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import CryptoUtil from '../../../../util/CryptoUtil';
@@ -75,11 +75,11 @@ const Body = BaseForm.extend({
         });
       }
     });
-    const options = {
+    const challengeData = authenticatorData.contextualData.challengeData;
+    const options = _.extend({}, challengeData, {
       allowCredentials,
-      userVerification: authenticatorData.contextualData.challengeData.userVerification,
-      challenge: CryptoUtil.strToBin(authenticatorData.contextualData.challengeData.challenge),
-    };
+      challenge: CryptoUtil.strToBin(challengeData.challenge),
+    });
     navigator.credentials.get({
       publicKey: options,
       signal: this.webauthnAbortController.signal
