@@ -89,7 +89,7 @@
                     ]
                   }
                 },
-                "relatesTo":"$.authenticators.value[1]"
+                "relatesTo":"$.authenticators.value[0]"
               },
               {
                 "label":"Duo Security",
@@ -111,7 +111,7 @@
                     ]
                   }
                 },
-                "relatesTo":"$.authenticatorEnrollments.value[0]"
+                "relatesTo":"$.authenticatorEnrollments.value[1]"
               }
             ]
           },

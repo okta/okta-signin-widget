@@ -126,7 +126,7 @@ test
   
 
 test
-  .requestHooks(logger, pushRejectMock)('challenge Custom App reject push', async t => {
+  .requestHooks(logger, pushRejectMock)('challenge Custom App reject push and then resend', async t => {
     const challengeCustomAppPushPageObject = await setup(t);
     const errorBox = challengeCustomAppPushPageObject.getErrorBox();
     await t.expect(errorBox.innerText)
