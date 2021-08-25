@@ -14,7 +14,6 @@ import { _, loc, Model } from 'okta';
 import CookieUtil from 'util/CookieUtil';
 import Enums from 'util/Enums';
 import BaseLoginModel from './BaseLoginModel';
-import Util from 'util/Util';
 
 export default BaseLoginModel.extend({
   props: function() {

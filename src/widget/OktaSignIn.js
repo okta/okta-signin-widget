@@ -7,6 +7,7 @@ import buildRenderOptions from 'widget/buildRenderOptions';
 import createRouter from 'widget/createRouter';
 import V1Router from 'LoginRouter';
 import V2Router from 'v2/WidgetRouter';
+import config from 'config/config.json';
 
 const EVENTS_LIST = ['ready', 'afterError', 'afterRender'];
 
