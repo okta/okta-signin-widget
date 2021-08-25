@@ -1471,7 +1471,7 @@ Expect.describe('LoginRouter', function() {
           const data = successSpy.calls.argsFor(0)[0];
 
           expect(data.status).toBe('SUCCESS');
-          expect(data.tokens.idToken.value).toBe(VALID_ID_TOKEN);
+          expect(data.tokens.idToken.idToken).toBe(VALID_ID_TOKEN);
           expect(data.tokens.idToken.claims).toEqual({
             amr: ['pwd'],
             aud: 'someClientId',

@@ -148,6 +148,11 @@ var OktaSignIn = (function() {
     }
 
     var authClient = options.authClient ? options.authClient : createAuthClient(authParams);
+    if (!authClient._oktaUserAgent) {
+      throw new Errors.ConfigError('The passed in authClient should be version 5.4.0 or above.');
+    } else {
+      authClient._oktaUserAgent.addEnvironment(`okta-signin-widget-${config.version}`);
+    }
 
     // validate authClient configuration against widget options
     if (options.useInteractionCodeFlow  && authClient.isPKCE() === false) {
