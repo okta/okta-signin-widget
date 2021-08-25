@@ -2976,7 +2976,7 @@ Expect.describe('PrimaryAuth', function() {
             const data = test.successSpy.calls.argsFor(0)[0];
 
             expect(data.status).toBe('SUCCESS');
-            expect(data.tokens.idToken.value).toBe(VALID_ID_TOKEN);
+            expect(data.tokens.idToken.idToken).toBe(VALID_ID_TOKEN);
             expect(data.tokens.idToken.claims).toEqual({
               amr: ['pwd'],
               aud: 'someClientId',
@@ -3037,9 +3037,9 @@ Expect.describe('PrimaryAuth', function() {
           const data = test.successSpy.calls.argsFor(0)[0];
 
           expect(data.status).toBe('SUCCESS');
-          expect(data.tokens.idToken.value).toBe(VALID_ID_TOKEN);
+          expect(data.tokens.idToken.idToken).toBe(VALID_ID_TOKEN);
 
-          expect(data.tokens.accessToken.value).toBe(VALID_ACCESS_TOKEN);
+          expect(data.tokens.accessToken.accessToken).toBe(VALID_ACCESS_TOKEN);
           expect(data.tokens.accessToken.scopes).toEqual(['openid', 'email', 'profile']);
           expect(data.tokens.accessToken.tokenType).toBe('Bearer');
         })

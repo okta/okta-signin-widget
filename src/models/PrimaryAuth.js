@@ -179,8 +179,6 @@ export default BaseLoginModel.extend({
     if (typingPatternEnabled && this.appState.get('typingPattern')) { // OKTA-325445
       authClient.options.headers['X-Typing-Pattern'] = this.appState.get('typingPattern');
     }
-    // TODO: remove when auth-js is updated: OKTA-325445
-    authClient.options.headers = Util.removeNils(authClient.options.headers);
 
     const self = this;
 
