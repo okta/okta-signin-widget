@@ -85,7 +85,7 @@
     "core-js": "^3.9.1",
     "cssnano": "^4.1.7",
     "dotenv": "^8.0.0",
-    "dyson": "^2.0.5",
+    "dyson": "^4.1.0",
     "eslint": "^7.23.0",
     "eslint-plugin-jasmine": "^4.1.0",
     "eslint-plugin-json": "^2.1.2",
