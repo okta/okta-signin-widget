@@ -103,6 +103,10 @@ import ChallengePIVView from './views/piv/ChallengePIVView';
 // YubiKey
 import AuthenticatorYubiKeyView from './views/yubikey/AuthenticatorYubiKeyView';
 
+// custom app
+import ChallengePushView from './views/shared/ChallengePushView';
+import ChallengeCustomAppResendPushView from './views/custom-app/ChallengeCustomAppResendPushView'; 
+
 const DEFAULT = '_';
 
 const VIEWS_MAPPING = {
@@ -211,9 +215,11 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.CHALLENGE_POLL]: {
     [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifyView,
+    [AUTHENTICATOR_KEY.CUSTOM_APP]: ChallengePushView,
   },
   [RemediationForms.RESEND]: {
     [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifyResendPushView,
+    [AUTHENTICATOR_KEY.CUSTOM_APP]: ChallengeCustomAppResendPushView,
   },
   [RemediationForms.AUTHENTICATOR_VERIFICATION_DATA]: {
     [AUTHENTICATOR_KEY.PHONE]: ChallengeAuthenticatorDataPhoneView,

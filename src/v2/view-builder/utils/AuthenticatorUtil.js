@@ -178,6 +178,15 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
     });
     break;
   }
+
+  case AUTHENTICATOR_KEY.CUSTOM_APP: {
+    Object.assign(authenticatorData, {
+      description: '',
+      iconClassName: 'mfa-custom-app',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+    });
+    break;
+  }
   }
 
   return authenticatorData;

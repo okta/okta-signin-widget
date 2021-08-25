@@ -1,8 +1,11 @@
-import { _, loc, createButton, View } from 'okta';
+// Common view for OV push and custom push.
+import { loc, createButton, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import { BaseForm } from '../../internals';
 import polling from '../shared/polling';
 import { WARNING_TIMEOUT } from '../../utils/Constants';
+import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
+import { AUTHENTICATOR_KEY } from '../../../ion/RemediationConstants';
 
 const warningTemplate = View.extend({
   className: 'okta-form-infobox-warning infobox infobox-warning',
@@ -11,15 +14,13 @@ const warningTemplate = View.extend({
     <p>{{warning}}</p>
   `
 });
-
 const Body = BaseForm.extend(Object.assign(
   {
     noButtonBar: true,
 
-    className: 'okta-verify-push-challenge',
-
     title() {
-      return loc('oie.okta_verify.push.title', 'login');
+      return this.isOV() ? loc('oie.okta_verify.push.title', 'login') :
+        loc('oie.verify.custom_app.title', 'login', [this.options.appState.getAuthenticatorDisplayName()]);
     },
 
     initialize() {
@@ -31,25 +32,31 @@ const Body = BaseForm.extend(Object.assign(
     addView() {
       this.add(createButton({
         className: 'button button-wide button-primary send-push link-button-disabled',
-        title: loc('oie.okta_verify.push.sent', 'login'),
+        title: this.isOV() ? loc('oie.okta_verify.push.sent', 'login') : loc('oie.custom_app.push.sent', 'login'),
         click: (e) => {
           e.preventDefault();
         }
       }));
       this.add(
-        `<span class='accessibility-text' role='alert'>${loc('oie.okta_verify.push.sent', 'login')}</span>`,
+        `<span class='accessibility-text' role='alert'>
+        ${this.isOV() ? loc('oie.okta_verify.push.sent', 'login') : loc('oie.custom_app.push.sent', 'login')}</span>`,
       );
     },
 
     postRender() {
+      const className = this.isOV() ?
+        'okta-verify-push-challenge' : ' custom-app-push-challenge';
+      this.$el.addClass(className);
       this.startPoll();
     },
 
     startPoll() {
       this.startPolling();
-      this.warningTimeout = setTimeout(_.bind(function() {
-        this.showWarning(loc('oktaverify.warning', 'login'));
-      }, this), WARNING_TIMEOUT);
+      this.warningTimeout = setTimeout(() => {
+        const warningText = this.isOV() ? loc('oktaverify.warning', 'login') :
+          loc('oie.custom_app.push.warning', 'login', [this.options.appState.getAuthenticatorDisplayName()]);
+        this.showWarning(warningText);
+      }, WARNING_TIMEOUT);
     },
 
     stopPoll() {
@@ -73,9 +80,20 @@ const Body = BaseForm.extend(Object.assign(
       BaseForm.prototype.remove.apply(this, arguments);
       this.stopPolling();
     },
+
+    isOV() {
+      return this.options.appState.get('authenticatorKey') === AUTHENTICATOR_KEY.OV;
+    },
   },
 
   polling,
 ));
 
-export default Body;
+const AuthenticatorView = BaseAuthenticatorView.extend({
+  Body,
+});
+
+export {
+  AuthenticatorView as default,
+  Body,
+};

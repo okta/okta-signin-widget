@@ -141,6 +141,8 @@ const idx = {
     // 'enroll-profile-new'
     // 'authenticator-enroll-email',
     // 'authenticator-verification-okta-verify-push',
+    // 'authenticator-verification-custom-app-push',
+    // 'authenticator-verification-custom-app-push-reject',
   ],
   '/idp/idx/challenge': [
     // 'authenticator-verification-webauthn',

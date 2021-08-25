@@ -106,6 +106,7 @@ const AUTHENTICATOR_KEY = {
   CUSTOM_OTP: 'custom_otp',
   SYMANTEC_VIP: 'symantec_vip',
   YUBIKEY: 'yubikey_token',
+  CUSTOM_APP: 'custom_app',
 };
 
 const AUTHENTICATOR_METHODS = {
