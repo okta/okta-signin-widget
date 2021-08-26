@@ -174,6 +174,9 @@ describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
               ),
             },
           ],
+          extensions: {
+            appid: 'https://localhost:3000',
+          },
           userVerification: 'required',
           challenge: CryptoUtil.strToBin(
             ChallengeWebauthnResponse.currentAuthenticator.value.contextualData.challengeData.challenge
