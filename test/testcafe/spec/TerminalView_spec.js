@@ -10,6 +10,7 @@ import noPermissionForAction from '../../../playground/mocks/data/idp/idx/error-
 import pollingExpired from '../../../playground/mocks/data/idp/idx/terminal-polling-window-expired';
 import unlockFailed from '../../../playground/mocks/data/idp/idx/error-unlock-account';
 import accessDeniedOnOtherDeivce from '../../../playground/mocks/data/idp/idx/terminal-return-email-consent-denied';
+import terminalUnlockAccountFailedPermissions from '../../../playground/mocks/data/idp/idx/error-unlock-account-failed-permissions';
 
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -51,6 +52,10 @@ const accessDeniedOnOtherDeivceMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(accessDeniedOnOtherDeivce);
 
+const terminalUnlockAccountFailedPermissionsMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(terminalUnlockAccountFailedPermissions);
+
 fixture('Terminal view');
 
 async function setup(t) {
@@ -78,14 +83,14 @@ async function setup(t) {
     });
 });
 
-// Generally all terminal states should have Back to sgin in link.
-// No need to add tests for each view here, respctive test class for the flow should test it.
+// Generally all terminal states should have Back to sign in link.
+// No need to add tests for each view here, respective test class for the flow should test it.
 [
   ['should have Back to sign in link when session expires', sessionExpiredMock],
   ['should have Back to sign in link when operation cancelled', terminalReturnEmailConsentDeniedMock],
   ['should have Back to sign in link when access denied', noPermissionForActionMock],
   ['should have Back to sign in link when polling window expired', pollingExpiredMock],
-  ['should have Back to sign in link when unlock account failed', unlockFailedMock]
+  ['should have Back to sign in link when unlock account failed', unlockFailedMock],
 ].forEach(([ testTitle, mock ]) => {
   test
     .requestHooks(mock)(testTitle, async t => {
@@ -104,5 +109,17 @@ async function setup(t) {
     .requestHooks(mock)(testTitle, async t => {
       const terminalViewPage = await setup(t);
       await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
+    });
+});
+
+// Back to sign in link is added based on IDX response and not added by default
+[
+  ['should have Back to sign in link from response to cancel when unlock account failed due to permission', terminalUnlockAccountFailedPermissionsMock],
+].forEach(([ testTitle, mock ]) => {
+  test
+    .requestHooks(mock)(testTitle, async t => {
+      const terminalViewPage = await setup(t);
+      await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
+      await t.expect(await terminalViewPage.signoutLinkExists()).ok();
     });
 });

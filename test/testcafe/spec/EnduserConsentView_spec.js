@@ -6,6 +6,8 @@ import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import xhrConsentEnduser from '../../../playground/mocks/data/idp/idx/consent-enduser';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import xhrConsentEnduserCustomScopes from '../../../playground/mocks/data/idp/idx/consent-enduser-custom-scopes';
+import terminalResetPasswordNotAllowed from '../../../playground/mocks/data/idp/idx/error-reset-password-not-allowed';
+import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 
 const consentEnduserMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -18,6 +20,12 @@ const consentEnduserCustomScopesMock = RequestMock()
   .respond(xhrConsentEnduserCustomScopes)
   .onRequestTo('http://localhost:3000/idp/idx/consent')
   .respond(xhrSuccess);
+
+const consentEnduserFailedMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrConsentEnduser)
+  .onRequestTo('http://localhost:3000/idp/idx/consent')
+  .respond(terminalResetPasswordNotAllowed);
 
 const requestLogger = RequestLogger(/consent/,
   {
@@ -91,4 +99,22 @@ test.requestHooks(requestLogger, consentEnduserMock)('should call /consent and s
   await t.expect(url).eql('http://localhost:3000/idp/idx/consent');
 
   await testRedirect(t);
+});
+
+test.requestHooks(requestLogger, consentEnduserFailedMock)('should go to Terminal View after giving consent and failed', async t => {
+  const consentPage  = await setup(t);
+
+  await consentPage.clickDontAllowButton();
+  const { request: {body, method, url}} = requestLogger.requests[requestLogger.requests.length - 1];
+  const jsonBody = JSON.parse(body);
+
+  await t.expect(jsonBody.consent).eql(false);
+  await t.expect(method).eql('post');
+  await t.expect(url).eql('http://localhost:3000/idp/idx/consent');
+
+  const terminalPageObject = new TerminalPageObject(t);
+  await t.expect(await terminalPageObject.goBackLinkExists()).notOk();
+  await t.expect(await terminalPageObject.signoutLinkExists()).ok();
+  await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
+  await t.expect(terminalPageObject.getErrorMessages().getTextContent()).contains('Reset password is not allowed at this time. Please contact support for assistance.');
 });
