@@ -2,12 +2,19 @@
   .siw-main-body {
     a.resend-link {
       cursor: pointer;
+      color: #007dc1;
     }
 
     span.strong {
       font-weight: bold;
       color: $dark-text-color;
       word-break: break-all;
+    }
+
+    .resend-ov-link-view {
+      .ion-messages-container {
+        font-size: $font-size-small;
+      }
     }
   }
 }

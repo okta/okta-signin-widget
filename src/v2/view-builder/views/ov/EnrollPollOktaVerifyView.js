@@ -90,7 +90,7 @@ const Body = BaseForm.extend(Object.assign(
       if (['email', 'sms'].includes(selectedChannel)) {
         schema.push({
           View: ResendView,
-          selector: '.o-form-error-container',
+          // selector: '.o-form-error-container',
         });
       }
       return schema;
