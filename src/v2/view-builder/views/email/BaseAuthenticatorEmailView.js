@@ -1,47 +1,92 @@
-import { loc, View, createCallout, _ } from 'okta';
+import { loc, View } from 'okta';
 import { BaseForm } from '../../internals';
 import email from '../shared/email';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
 import BaseFormWithPolling from '../../internals/BaseFormWithPolling';
+import sessionStorageHelper from '../../../client/sessionStorageHelper';
+import { addUserFeedbackCallout } from '../../utils/ResendViewUtil';
+
 
 const ResendView = View.extend(
   {
-    className: 'hide resend-email-view',
+    className: 'resend-email-view',
     events: {
       'click a.resend-link' : 'handelResendLink'
     },
 
     initialize() {
-      this.add(createCallout({
-        content: `${loc('email.code.not.received', 'login')}
-        <a class='resend-link'>${loc('email.button.resend', 'login')}</a>`,
-        type: 'warning',
-      }));
+      const resendContext = this.options.appState.get('currentAuthenticator')?.resend;
+
+      if (resendContext) {
+        const content = `${loc('email.code.not.received', 'login')}
+          <a class='resend-link'>${loc('email.button.resend', 'login')}</a>`;
+
+        this.add(`<div class="ion-messages-container">${content}</div>`);
+      }
+      // this.add(createCallout({
+      //   content: `${loc('email.code.not.received', 'login')}
+      //   <a class='resend-link'>${loc('email.button.resend', 'login')}</a>`,
+      //   type: 'warning',
+      // }));
     },
 
     handelResendLink() {
       this.options.appState.trigger('invokeAction', this.options.resendEmailAction);
       // Hide warning, but reinitiate to show warning again after some threshold of polling
-      if (!this.$el.hasClass('hide')) {
-        this.$el.addClass('hide');
-      }
-      this.showCalloutWithDelay();
+      // if (!this.$el.hasClass('hide')) {
+      //   this.$el.addClass('hide');
+      // }
+      // this.showCalloutWithDelay();
+      sessionStorageHelper.setResendTimestamp(Date.now());
+
+      const contextualData = this.options.appState.get('currentAuthenticator')?.contextualData;
+      const content = contextualData?.email
+        ? `${loc('oie.email.code.user.feedback.with.email', 'login', 
+          [this.options.appState.get('currentAuthenticator')?.contextualData.email])}`
+        :`${loc('oie.email.code.user.feedback', 'login')}`;
+
+      this.userFeedbackTimeout = addUserFeedbackCallout(content, this);
+      
+      // this.addUserFeedbackCallout();      
     },
 
-    postRender() {
-      this.showCalloutWithDelay();
-    },
+    // addUserFeedbackCallout() {
+    //   const messageCallout = createCallout({
+    //     content: `${loc('oie.email.code.user.feedback', 'login', 
+    //       [this.options.appState.get('currentAuthenticator')?.contextualData?.email || ''])}`,
+    //     type: 'info',
+    //   });
+  
+    //   // Get message container from the parent since it's not in the scope of this view
+    //   // const messageContainer = this.$el.parent(); 
+    //   // messageContainer.prepend(messageCallout.render().el);
 
-    showCalloutWithDelay() {
-      this.showMeTimeout = _.delay(() => {
-        this.$el.removeClass('hide');
-      }, SHOW_RESEND_TIMEOUT);
-    },
+    //   this.add(messageCallout, { prepend: true });
+  
+    //   // Dismiss callout after timeout
+    //   this.userFeedbackTimeout = setInterval(() => {
+    //     const start = sessionStorageHelper.getResendTimestamp();
+    //     const now = Date.now();
+    //     if (now - start >= USER_FEEDBACK_TIMEOUT) {
+    //       messageCallout.remove();
+    //       clearInterval(this.userFeedbackTimeout);
+    //     }      
+    //   }, 500);
+    // },
+
+    // postRender() {
+    //   this.showCalloutWithDelay();
+    // },
+
+    // showCalloutWithDelay() {
+    //   this.showMeTimeout = _.delay(() => {
+    //     this.$el.removeClass('hide');
+    //   }, SHOW_RESEND_TIMEOUT);
+    // },
 
     remove() {
       View.prototype.remove.apply(this, arguments);
-      clearTimeout(this.showMeTimeout);
+      clearTimeout(this.userFeedbackTimeout);
     }
   },
 );

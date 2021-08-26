@@ -11,7 +11,12 @@
       word-break: break-all;
     }
 
-    .resend-ov-link-view {
+    .resend-ov-link-view, 
+    .resend-email-view, 
+    .phone-authenticator-challenge__resend-warning {
+      .infobox {
+        margin-bottom: 18px;
+      }
       .ion-messages-container {
         font-size: $font-size-small;
       }
