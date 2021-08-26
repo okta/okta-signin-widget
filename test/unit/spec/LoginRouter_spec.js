@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 34], max-statements: 0, max-len: [2, 180], camelcase:0 */
 import { _, $, Backbone, Router, internal } from 'okta';
-import createAuthClient from 'widget/createAuthClient';
+import getAuthClient from 'widget/getAuthClient';
 import LoginRouter from 'LoginRouter';
 import config from 'config/config.json';
 import EnrollCallForm from 'helpers/dom/EnrollCallForm';
@@ -72,7 +72,7 @@ Expect.describe('LoginRouter', function() {
         authParams[parts[1]] = settings[key];
       }
     });
-    const authClient = createAuthClient(authParams);
+    const authClient = settings.authClient || getAuthClient({ authParams });
     const eventSpy = jasmine.createSpy('eventSpy');
     const afterRenderHandler = jasmine.createSpy('afterRenderHandler');
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
@@ -318,15 +318,6 @@ Expect.describe('LoginRouter', function() {
 
     expect(err.name).toBe('CONFIG_ERROR');
     expect(err.message).toEqual('"el" is a required widget parameter');
-  });
-  it('throws a ConfigError if issuer is not passed as a widget param', function() {
-    const fn = function() {
-      setup({ authClient: createAuthClient({ issuer: undefined }) });
-    };
-
-    expect(fn).toThrowError(
-      'No issuer passed to constructor. Required usage: new OktaAuth({issuer: "https://{yourOktaDomain}.com/oauth2/{authServerId}"})'
-    );
   });
   itp(
     'renders the primary autenthentication form when no globalSuccessFn and globalErrorFn are passed as widget params',
