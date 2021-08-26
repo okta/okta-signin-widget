@@ -6,6 +6,8 @@ import EmailAuthenticatorHeader from '../components/EmailAuthenticatorHeader';
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
 const SAFE_MODE_KEY_PREFIX = 'idx.error.server.safe.mode';
 const UNLOCK_ACCOUNT_TERMINAL_KEY = 'oie.selfservice.unlock_user.success.message';
+const UNLOCK_ACCOUNT_FAILED_PERMISSIONS = 'oie.selfservice.unlock_user.challenge.failed.permissions';
+const RESET_PASSWORD_NOT_ALLOWED = 'oie.selfservice.reset.password.not.allowed';
 const RETURN_TO_ORIGINAL_TAB_KEY = 'idx.return.to.original.tab';
 const OPERATION_CANCELED_ON_OTHER_DEVICE_KEY = 'idx.operation.cancelled.on.other.device';
 const OPERATION_CANCELED_BY_USER_KEY = 'idx.operation.cancelled.by.user';
@@ -54,7 +56,9 @@ const NO_BACKTOSIGNIN_LINK_VIEWS = [
   RETURN_TO_ORIGINAL_TAB_KEY,
   FLOW_CONTINUE_IN_NEW_TAB,
   OPERATION_CANCELED_ON_OTHER_DEVICE_KEY,
-  ...DEVICE_CODE_FLOW_TERMINAL_KEYS
+  ...DEVICE_CODE_FLOW_TERMINAL_KEYS,
+  UNLOCK_ACCOUNT_FAILED_PERMISSIONS,
+  RESET_PASSWORD_NOT_ALLOWED,
 ];
 
 // Key map to transform terminal view titles {ApiKey : WidgetKey}  
