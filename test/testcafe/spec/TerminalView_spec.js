@@ -10,7 +10,6 @@ import noPermissionForAction from '../../../playground/mocks/data/idp/idx/error-
 import pollingExpired from '../../../playground/mocks/data/idp/idx/terminal-polling-window-expired';
 import unlockFailed from '../../../playground/mocks/data/idp/idx/error-unlock-account';
 import accessDeniedOnOtherDeivce from '../../../playground/mocks/data/idp/idx/terminal-return-email-consent-denied';
-import terminalResetPasswordNotAllowed from '../../../playground/mocks/data/idp/idx/error-reset-password-not-allowed';
 import terminalUnlockAccountFailedPermissions from '../../../playground/mocks/data/idp/idx/error-unlock-account-failed-permissions';
 
 const terminalTransferredEmailMock = RequestMock()
@@ -52,10 +51,6 @@ const unlockFailedMock = RequestMock()
 const accessDeniedOnOtherDeivceMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(accessDeniedOnOtherDeivce);
-
-const terminalResetPasswordNotAllowedMock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(terminalResetPasswordNotAllowed);
 
 const terminalUnlockAccountFailedPermissionsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -119,7 +114,6 @@ async function setup(t) {
 
 // Back to sign in link is added based on IDX response and not added by default
 [
-  ['should have Back to sign in link from response to cancel when password reset failed', terminalResetPasswordNotAllowedMock],
   ['should have Back to sign in link from response to cancel when unlock account failed due to permission', terminalUnlockAccountFailedPermissionsMock],
 ].forEach(([ testTitle, mock ]) => {
   test
