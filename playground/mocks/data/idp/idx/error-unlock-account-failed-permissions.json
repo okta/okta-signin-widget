@@ -1,0 +1,52 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02apz_6gl07niM5rZOQRDUeeLcuy2ugNtBp_IUCYva",
+  "expiresAt": "2021-07-14T18:19:46.000Z",
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "You do not have permission to perform the requested action",
+        "i18n": {
+          "key": "oie.selfservice.unlock_user.challenge.failed.permissions",
+          "params": []
+        },
+        "class": "ERROR"
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u10cn3nruW3kkus0h8"
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02apz_6gl07niM5rZOQRDUeeLcuy2ugNtBp_IUCYva",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "DEFAULT_APP"
+    }
+  }
+}
