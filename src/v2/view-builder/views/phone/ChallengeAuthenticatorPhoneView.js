@@ -36,11 +36,6 @@ const ResendView = View.extend(
 
     handleResendLink() {
       this.options.appState.trigger('invokeAction', this.resendActionKey);
-      // Hide warning, but start a timeout again..
-      // if (!this.el.classList.contains('hide')) {
-      //   this.el.classList.add('hide');
-      // }
-      // this.showCalloutAfterTimeout();
       sessionStorageHelper.setResendTimestamp(Date.now());
 
       const contextualData = this.options.appState.get('currentAuthenticatorEnrollment')?.contextualData;
@@ -59,16 +54,6 @@ const ResendView = View.extend(
   
       this.userFeedbackTimeout = addUserFeedbackCallout(content, this);
     },
-
-    // postRender() {
-    //   this.showCalloutAfterTimeout();
-    // },
-
-    // showCalloutAfterTimeout() {
-    //   this.showCalloutTimer = setTimeout(() => {
-    //     this.el.classList.remove('hide');
-    //   }, SHOW_RESEND_TIMEOUT);
-    // },
 
     remove() {
       View.prototype.remove.apply(this, arguments);

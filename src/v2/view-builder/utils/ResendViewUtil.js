@@ -8,10 +8,6 @@ const addUserFeedbackCallout = (content, container) => {
     content
   });
 
-  // Get message container from the parent since it's not in the scope of this view
-  // const messageContainer = this.$el.parent();
-  // messageContainer.prepend(messageCallout.render().el);
-
   container.add(messageCallout, { prepend: true });
 
   // Dismiss callout after timeout

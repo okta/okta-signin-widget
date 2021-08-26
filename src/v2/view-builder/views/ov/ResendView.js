@@ -50,35 +50,7 @@ export default View.extend({
     }
 
     this.userFeedbackTimeout = addUserFeedbackCallout(content, this);
-    // this.addUserFeedbackCallout();
   },
-
-  // addUserFeedbackCallout() {
-  //   const messageCallout = createCallout({
-  //     content: this.selectedChannel === 'email' ?
-  //       `${loc('oie.email.code.user.feedback.with.email', 'login', 
-  //         [this.options.appState.get('currentAuthenticator')?.contextualData.email])}`
-  //       :`${loc('oie.sms.code.user.feedback', 'login', 
-  //         [this.options.appState.get('currentAuthenticator')?.contextualData.phoneNumber])}`,
-  //     type: 'info',
-  //   });
-
-  //   // Get message container from the parent since it's not in the scope of this view
-  //   // const messageContainer = this.$el.parent().find('.o-form-error-container'); 
-  //   // messageContainer.prepend(messageCallout.render().el);
-
-  //   this.add(messageCallout, { prepend: true });
-
-  //   // Dismiss callout after timeout
-  //   this.userFeedbackTimeout = setInterval(() => {
-  //     const start = sessionStorageHelper.getResendTimestamp();
-  //     const now = Date.now();
-  //     if (now - start >= USER_FEEDBACK_TIMEOUT) {
-  //       messageCallout.remove();
-  //       clearInterval(this.userFeedbackTimeout);
-  //     }      
-  //   }, 500);
-  // },
 
   remove() {
     View.prototype.remove.apply(this, arguments);
