@@ -1,0 +1,121 @@
+{
+  "version":"1.0.0",
+  "stateHandle":"02m5bP1_PZfgeox0qFcNeh5Zr71MB3gs3tw7kCsL2G",
+  "expiresAt":"2021-08-17T13:30:07.000Z",
+  "intent":"LOGIN",
+  "remediation":{
+     "type":"array",
+     "value":[
+        {
+           "rel":[
+              "create-form"
+           ],
+           "name":"profile-update",
+           "href":"http://localhost:3000/idp/idx/enroll/new",
+           "method":"POST",
+           "produces":"application/ion+json; okta-version=1.0.0",
+           "value":[
+                {
+                 "name":"userProfile",
+                 "form":{
+                    "value":[
+                       {
+                          "name":"newAttribute",
+                          "label":"Some custom attribute",
+                          "required":false
+                       }
+                    ]
+                 }
+              },
+              {
+                 "name":"userProfile",
+                 "form":{
+                    "value":[
+                       {
+                          "name":"secondEmail",
+                          "label":"Secondary email",
+                          "desc":"Use a second email to recover your account in case you become locked out. This email must be verified after set up.",
+                          "required":false,
+                          "minLength":1,
+                          "maxLength":100
+                       }
+                    ]
+                 }
+              },
+              {
+                "name":"userProfile",
+                "form":{
+                   "value":[
+                      {
+                         "name":"newAttribute2",
+                         "label":"Some custom attribute 2",
+                         "required":true
+                      }
+                   ]
+                }
+             },
+              {
+                 "name":"stateHandle",
+                 "required":true,
+                 "value":"02m5bP1_PZfgeox0qFcNeh5Zr71MB3gs3tw7kCsL2G",
+                 "visible":false,
+                 "mutable":false
+              }
+           ],
+           "accepts":"application/json; okta-version=1.0.0"
+        },
+        {
+          "rel": [
+            "create-form"
+          ],
+          "name": "skip",
+          "href": "http://localhost:3000/idp/idx/skip",
+          "method": "POST",
+          "accepts": "application/vnd.okta.v1+json",
+          "value": [
+            {
+              "name": "stateHandle",
+              "required": true,
+              "value": "02vWoN3BXxJ9oeJA05wdCO2sp1q-RimAkwgnN-6xaW",
+              "visible": false,
+              "mutable": false
+            }
+          ]
+        }
+     ]
+  },
+  "user":{
+     "type":"object",
+     "value":{
+        "id":"00u13f9y2r7d4zB390g4",
+        "identifier": "testUser@okta.com"
+     }
+  },
+  "cancel":{
+     "rel":[
+        "create-form"
+     ],
+     "name":"cancel",
+     "href":"http://localhost:3000/idp/idx/cancel",
+     "method":"POST",
+     "produces":"application/ion+json; okta-version=1.0.0",
+     "value":[
+        {
+           "name":"stateHandle",
+           "required":true,
+           "value":"02m5bP1_PZfgeox0qFcNeh5Zr71MB3gs3tw7kCsL2G",
+           "visible":false,
+           "mutable":false
+        }
+     ],
+     "accepts":"application/json; okta-version=1.0.0"
+  },
+  "app":{
+     "type":"object",
+     "value":{
+        "name":"okta_enduser",
+        "label":"Okta Dashboard",
+        "id":"0oay6fLeui13rEyTj0g3"
+     }
+  }
+}

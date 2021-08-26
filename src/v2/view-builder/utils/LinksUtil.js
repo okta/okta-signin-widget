@@ -80,12 +80,12 @@ const goBackLink = (appState) => {
   return [];
 };
 
-const getSkipSetupLink = (appState) => {
+const getSkipSetupLink = (appState, linkName) => {
   if (appState.hasRemediationObject(RemediationForms.SKIP)) {
     return [
       {
         'type': 'link',
-        'label': loc('oie.enroll.skip.setup', 'login'),
+        'label': linkName ?? loc('oie.enroll.skip.setup', 'login'),
         'name': 'skip-setup',
         'actionPath': RemediationForms.SKIP,
       }

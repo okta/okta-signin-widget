@@ -16,7 +16,9 @@ const ignoredMocks = [
   'error-internal-server-error.json',// fixed in master branch https://github.com/okta/okta-signin-widget/pull/1981
   'identify-with-apple-redirect-sso-extension.json', // flaky on bacon
   'identify-recovery-with-recaptcha-v2.json', // No english leaks for this, just flaky on bacon due to loading the reCaptcha lib 
-  'identify-with-password-with-recaptcha-v2.json' // No english leaks for this, just flaky on bacon due to loading the reCaptcha lib 
+  'identify-with-password-with-recaptcha-v2.json', // No english leaks for this, just flaky on bacon due to loading the reCaptcha lib
+  'enroll-profile-update-all-optional-params.json', // No english leaks as custom attribute label comes from server
+  'enroll-profile-update-all-optional-params.json', // No english leaks as custom attribute label comes from server
 ];
 
 const optionsForInteractionCodeFlow = {

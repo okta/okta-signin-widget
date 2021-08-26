@@ -17,6 +17,14 @@
         margin-top: 1rem;
       }
     }
+
+    .o-form-content .o-form-label {
+      padding-right: 0;
+
+      .o-form-explain {
+        float: right;
+      }
+    }
   }
 
   // Fixing OKTA-303139 here, making sure V1 stays the same.

@@ -28,6 +28,9 @@ import DeviceEnrollmentTerminalView from './views/device/DeviceEnrollmentTermina
 // registration
 import EnrollProfileView from './views/EnrollProfileView';
 
+// registration update
+import EnrollProfileUpdateView from './views/EnrollProfileUpdateView';
+
 // Email Activation
 import RequestActivationEmail from './views/activation/RequestActivationEmailView';
 
@@ -131,6 +134,9 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.ENROLL_PROFILE]: {
     [DEFAULT]: EnrollProfileView,
+  },
+  [RemediationForms.ENROLL_PROFILE_UPDATE]: {
+    [DEFAULT]: EnrollProfileUpdateView,
   },
   [RemediationForms.POLL]: {
     [DEFAULT]: PollView
