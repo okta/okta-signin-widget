@@ -1,12 +1,13 @@
-import { loc, View, createCallout } from 'okta';
+import { loc, View } from 'okta';
 import { BaseForm, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
+import sessionStorageHelper from '../../../client/sessionStorageHelper';
+import { addUserFeedbackCallout } from '../../utils/ResendViewUtil';
 
 const ResendView = View.extend(
   {
     // To be shown after a timeout
-    className: 'phone-authenticator-challenge__resend-warning hide',
+    className: 'phone-authenticator-challenge__resend-warning',
     events: {
       'click a.resend-link': 'handleResendLink'
     },
@@ -15,40 +16,63 @@ const ResendView = View.extend(
     resendActionKey: 'currentAuthenticatorEnrollment-resend',
 
     initialize() {
-      const resendText = (this.model.get('mode') === 'sms')
-        ? loc('oie.phone.verify.sms.resendText', 'login')
-        : loc('oie.phone.verify.call.resendText', 'login');
-      const linkText = (this.model.get('mode') === 'sms')
-        ? loc('oie.phone.verify.sms.resendLinkText', 'login')
-        : loc('oie.phone.verify.call.resendLinkText', 'login');
-      this.add(createCallout({
-        content: `${resendText}&nbsp;<a class='resend-link'>${linkText}</a>`,
-        type: 'warning',
-      }));
+      const resendContext = this.options.appState.get('currentAuthenticatorEnrollment')?.resend;
+
+      if (resendContext) {
+        const resendText = (this.model.get('mode') === 'sms')
+          ? loc('oie.phone.verify.sms.resendText', 'login')
+          : loc('oie.phone.verify.call.resendText', 'login');
+        const linkText = (this.model.get('mode') === 'sms')
+          ? loc('oie.phone.verify.sms.resendLinkText', 'login')
+          : loc('oie.phone.verify.call.resendLinkText', 'login');
+        
+        const content = `${resendText}&nbsp;<a class='resend-link'>${linkText}</a>`;
+        this.add(`<div class="ion-messages-container">${content}</div>`);
+      }
+      // this.add(createCallout({
+      //   type: 'warning',
+      // }));
     },
 
     handleResendLink() {
       this.options.appState.trigger('invokeAction', this.resendActionKey);
       // Hide warning, but start a timeout again..
-      if (!this.el.classList.contains('hide')) {
-        this.el.classList.add('hide');
+      // if (!this.el.classList.contains('hide')) {
+      //   this.el.classList.add('hide');
+      // }
+      // this.showCalloutAfterTimeout();
+      sessionStorageHelper.setResendTimestamp(Date.now());
+
+      const contextualData = this.options.appState.get('currentAuthenticatorEnrollment')?.contextualData;
+      let content;
+      if (this.model.get('mode') === 'sms') {
+        content = contextualData?.phoneNumber
+          ? `${loc('oie.sms.code.user.feedback.with.phoneNumber', 'login', 
+            [contextualData.phoneNumber])}`
+          :`${loc('oie.sms.code.user.feedback', 'login')}`;
+      } else {
+        content = contextualData?.phoneNumber
+          ? `${loc('oie.phone.call.user.feedback.with.phoneNumber', 'login', 
+            [contextualData.phoneNumber])}`
+          :`${loc('oie.phone.call.user.feedback', 'login')}`;
       }
-      this.showCalloutAfterTimeout();
+  
+      this.userFeedbackTimeout = addUserFeedbackCallout(content, this);
     },
 
-    postRender() {
-      this.showCalloutAfterTimeout();
-    },
+    // postRender() {
+    //   this.showCalloutAfterTimeout();
+    // },
 
-    showCalloutAfterTimeout() {
-      this.showCalloutTimer = setTimeout(() => {
-        this.el.classList.remove('hide');
-      }, SHOW_RESEND_TIMEOUT);
-    },
+    // showCalloutAfterTimeout() {
+    //   this.showCalloutTimer = setTimeout(() => {
+    //     this.el.classList.remove('hide');
+    //   }, SHOW_RESEND_TIMEOUT);
+    // },
 
     remove() {
       View.prototype.remove.apply(this, arguments);
-      clearTimeout(this.showCalloutTimer);
+      clearTimeout(this.userFeedbackTimeout);
     }
   },
 );

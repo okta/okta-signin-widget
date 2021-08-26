@@ -15,7 +15,10 @@ const ResendView = View.extend(
     },
 
     initialize() {
-      const resendContext = this.options.appState.get('currentAuthenticator')?.resend;
+      // could be currentAuthenticatorEnrollment-resend or currentAuthenticator-resend
+      this.authenticatorContext = this.options.resendEmailAction.split('-')[0];
+
+      const resendContext = this.options.appState.get(this.authenticatorContext)?.resend;
 
       if (resendContext) {
         const content = `${loc('email.code.not.received', 'login')}
@@ -39,10 +42,10 @@ const ResendView = View.extend(
       // this.showCalloutWithDelay();
       sessionStorageHelper.setResendTimestamp(Date.now());
 
-      const contextualData = this.options.appState.get('currentAuthenticator')?.contextualData;
+      const contextualData = this.options.appState.get(this.authenticatorContext)?.contextualData;
       const content = contextualData?.email
         ? `${loc('oie.email.code.user.feedback.with.email', 'login', 
-          [this.options.appState.get('currentAuthenticator')?.contextualData.email])}`
+          [contextualData.email])}`
         :`${loc('oie.email.code.user.feedback', 'login')}`;
 
       this.userFeedbackTimeout = addUserFeedbackCallout(content, this);

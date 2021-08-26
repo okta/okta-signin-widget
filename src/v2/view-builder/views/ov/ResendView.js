@@ -40,12 +40,12 @@ export default View.extend({
     if (this.selectedChannel === 'email') {
       content = contextualData?.email
         ? `${loc('oie.email.code.user.feedback.with.email', 'login', 
-          [this.options.appState.get('currentAuthenticator')?.contextualData.email])}`
+          [contextualData.email])}`
         :`${loc('oie.email.code.user.feedback', 'login')}`;
     } else {
       content = contextualData?.phoneNumber
         ? `${loc('oie.sms.code.user.feedback.with.phoneNumber', 'login', 
-          [this.options.appState.get('currentAuthenticator')?.contextualData.phoneNumber])}`
+          [contextualData.phoneNumber])}`
         :`${loc('oie.sms.code.user.feedback', 'login')}`;
     }
 
