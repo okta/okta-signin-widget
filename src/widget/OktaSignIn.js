@@ -2,13 +2,12 @@ import _ from 'underscore';
 import Errors from 'util/Errors';
 import Util from 'util/Util';
 import Logger from 'util/Logger';
-import createAuthClient from 'widget/createAuthClient';
+import getAuthClient from 'widget/getAuthClient';
 import buildRenderOptions from 'widget/buildRenderOptions';
 import createRouter from 'widget/createRouter';
 import V1Router from 'LoginRouter';
 import V2Router from 'v2/WidgetRouter';
 import Hooks from 'models/Hooks';
-import config from 'config/config.json';
 
 const EVENTS_LIST = ['ready', 'afterError', 'afterRender'];
 
@@ -137,23 +136,7 @@ var OktaSignIn = (function() {
         See: https://developer.okta.com/code/javascript/okta_sign-in_widget#cdn
       `);
 
-    var authParams = _.extend({
-      clientId: options.clientId,
-      redirectUri: options.redirectUri,
-      state: options.state,
-      scopes: options.scopes
-    }, options.authParams);
-
-    if (!authParams.issuer) {
-      authParams.issuer = options.baseUrl + '/oauth2/default';
-    }
-
-    var authClient = options.authClient ? options.authClient : createAuthClient(authParams);
-    if (!authClient._oktaUserAgent) {
-      throw new Errors.ConfigError('The passed in authClient should be version 5.4.0 or above.');
-    } else {
-      authClient._oktaUserAgent.addEnvironment(`okta-signin-widget-${config.version}`);
-    }
+    var authClient = getAuthClient(options);
 
     // validate authClient configuration against widget options
     if (options.useInteractionCodeFlow  && authClient.isPKCE() === false) {

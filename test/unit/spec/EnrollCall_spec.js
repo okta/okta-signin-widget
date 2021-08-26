@@ -1,6 +1,6 @@
 /* eslint max-params: 0 */
 import { _, $ } from 'okta';
-import createAuthClient from 'widget/createAuthClient';
+import getAuthClient from 'widget/getAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import Form from 'helpers/dom/EnrollCallForm';
@@ -22,7 +22,9 @@ Expect.describe('EnrollCall', function() {
   function setup(resp, startRouter, routerOptions = {}) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
-    const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+    const authClient = getAuthClient({
+      authParams: { issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR }
+    });
     const afterRenderHandler = jasmine.createSpy('afterRenderHandler');
     const router = new Router({
       el: $sandbox,

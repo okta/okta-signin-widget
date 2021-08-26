@@ -1,5 +1,5 @@
 import { _ } from 'okta';
-import createAuthClient from 'widget/createAuthClient';
+import getAuthClient from 'widget/getAuthClient';
 import Router from 'LoginRouter';
 import DeviceCodeActivateForm from 'helpers/dom/DeviceCodeActivateForm';
 import Util from 'helpers/mocks/Util';
@@ -18,7 +18,9 @@ function setup(settings, res) {
   const setNextResponse = Util.mockAjax();
   const baseUrl = window.location.origin;
   const logoUrl = '/img/logos/default.png';
-  const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+  const authClient = getAuthClient({
+    authParams: { issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR }
+  });
   const router = new Router(
     _.extend(
       {
