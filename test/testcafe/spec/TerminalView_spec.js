@@ -88,8 +88,8 @@ async function setup(t) {
     });
 });
 
-// Generally all terminal states should have Back to sgin in link.
-// No need to add tests for each view here, respctive test class for the flow should test it.
+// Generally all terminal states should have Back to sign in link.
+// No need to add tests for each view here, respective test class for the flow should test it.
 [
   ['should have Back to sign in link when session expires', sessionExpiredMock],
   ['should have Back to sign in link when operation cancelled', terminalReturnEmailConsentDeniedMock],
@@ -116,5 +116,18 @@ async function setup(t) {
     .requestHooks(mock)(testTitle, async t => {
       const terminalViewPage = await setup(t);
       await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
+    });
+});
+
+// Back to sign in link is added based on IDX response and not added by default
+[
+  ['should have Back to sign in link when password reset failed', terminalResetPasswordNotAllowedMock],
+  ['should have Back to sign in link when unlock account failed due to permission', terminalUnlockAccountFailedPermissionsMock],
+].forEach(([ testTitle, mock ]) => {
+  test
+    .requestHooks(mock)(testTitle, async t => {
+      const terminalViewPage = await setup(t);
+      await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
+      await t.expect(await terminalViewPage.signoutLinkExists()).ok();
     });
 });
