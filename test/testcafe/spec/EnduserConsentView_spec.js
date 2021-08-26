@@ -114,4 +114,6 @@ test.requestHooks(requestLogger, consentEnduserFailedMock)('should go to Termina
 
   const terminalPageObject = new TerminalPageObject(t);
   await t.expect(await terminalPageObject.goBackLinkExists()).notOk();
+  await t.expect(await terminalPageObject.signoutLinkExists()).ok();
+  await t.expect(terminalPageObject.getMessages()).contains('Reset password is not allowed at this time. Please contact support for assistance.');
 });

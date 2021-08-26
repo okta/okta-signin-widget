@@ -96,8 +96,6 @@ async function setup(t) {
   ['should have Back to sign in link when access denied', noPermissionForActionMock],
   ['should have Back to sign in link when polling window expired', pollingExpiredMock],
   ['should have Back to sign in link when unlock account failed', unlockFailedMock],
-  ['should have Back to sign in link when password reset failed', terminalResetPasswordNotAllowedMock],
-  ['should have Back to sign in link when unlock account failed due to permission', terminalUnlockAccountFailedPermissionsMock],
 ].forEach(([ testTitle, mock ]) => {
   test
     .requestHooks(mock)(testTitle, async t => {
@@ -121,8 +119,8 @@ async function setup(t) {
 
 // Back to sign in link is added based on IDX response and not added by default
 [
-  ['should have Back to sign in link when password reset failed', terminalResetPasswordNotAllowedMock],
-  ['should have Back to sign in link when unlock account failed due to permission', terminalUnlockAccountFailedPermissionsMock],
+  ['should have Back to sign in link from response to cancel when password reset failed', terminalResetPasswordNotAllowedMock],
+  ['should have Back to sign in link from response to cancel when unlock account failed due to permission', terminalUnlockAccountFailedPermissionsMock],
 ].forEach(([ testTitle, mock ]) => {
   test
     .requestHooks(mock)(testTitle, async t => {
