@@ -29,7 +29,7 @@ const Body = BaseForm.extend({
       this.save = loc('oie.primaryauth.submit', 'login');
     }
 
-    // Set username/identifier from the config. Note this takes precedence over the "remember me" feature.
+    // Set username/identifier from the config. Note this takes precedence over the "remember my username" feature.
     if(this._shouldAddUsername(uiSchema)) {
       // Set username/identifier from the config (i.e. config.username)
       this.model.set('identifier', this.settings.get('username'));
