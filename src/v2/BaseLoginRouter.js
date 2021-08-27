@@ -219,7 +219,7 @@ export default Router.extend({
     if (this.settings.get('oieEnabled')) {
       try {
         const idxResp = await startLoginFlow(this.settings);
-        this.appState.trigger('remediationSuccess', idxResp);
+        this.appState.trigger('updateAppState', idxResp);
       } catch (errorResp) {
         this.appState.trigger('remediationError', errorResp.error || errorResp);
       } finally {

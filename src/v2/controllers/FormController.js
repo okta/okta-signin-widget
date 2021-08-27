@@ -159,7 +159,7 @@ export default Controller.extend({
             // that will be used in interactionCodeFlow function
             this.options.appState.trigger('restartLoginFlow');
           } else {
-            this.handleIdxSuccess(resp);
+            this.handleIdxResponse(resp);
           }
         })
         .catch(error => {
@@ -272,7 +272,6 @@ export default Controller.extend({
     if (!showErrorBanner) {
       form.showCustomErrorCallout(errorObj);
     }
-        
     idxStateError = Object.assign({}, idxStateError, {hasFormError: true});
     // TODO OKTA-408410: Widget should update the state on every new response. It should NOT do selective update.
     // For eg 429 rate-limit errors, we have to skip updating idx state, because error response is not an idx response.

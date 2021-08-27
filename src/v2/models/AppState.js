@@ -150,9 +150,9 @@ export default Model.extend({
   },
 
   shouldReRenderView(transformedResponse) {
-    if (transformedResponse?.idx?.hasFormError) {
-      return false;
-    }
+    // if (transformedResponse?.idx?.hasFormError) {
+    //   return false;
+    // }
 
     const previousRawState = this.has('idx') ? this.get('idx').rawIdxState : null;
 
