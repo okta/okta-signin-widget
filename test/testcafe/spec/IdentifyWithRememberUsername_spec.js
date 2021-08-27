@@ -236,7 +236,7 @@ test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticator)('identi
   await t.expect(identifier).eql('testUser@okta.com');
 });
 
-test.requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifier field with remembered username when config.username passed in and feature.rememberMe enabled', async t => {
+test.requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifier field with config.username passed in and feature.rememberMe enabled', async t => {
   const identityPage = await setup(t);
   await rerenderWidget({
     features: {
@@ -258,16 +258,16 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifi
     identifier: 'testUser@okta.com',
   });
 
-  // Ensure identifier field is pre-filled with saved username cookie and not config.username passed in
+  // Ensure identifier field is pre-filled with config.username passed in
   await identityPage.navigateToPage();
   await rerenderWidget({
-    username: 'shouldNotUseThis',
+    username: 'configUsername@okta.com',
     features: {
       rememberMe: true,
     }
   });
 
   const identifier = identityPage.getIdentifierValue();
-  await t.expect(identifier).eql('testUser@okta.com');
+  await t.expect(identifier).eql('configUsername@okta.com');
 });
 
