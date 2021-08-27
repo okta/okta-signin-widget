@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 15] */
 import { _ } from 'okta';
-import createAuthClient from 'widget/createAuthClient';
+import getAuthClient from 'widget/getAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import PrimaryAuthFormView from 'helpers/dom/PrimaryAuthForm';
@@ -16,7 +16,9 @@ const itp = Expect.itp;
 function setup(settings, callRecoveryLoading, fail = false) {
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
-  const authClient = createAuthClient({ issuer: baseUrl });
+  const authClient = getAuthClient({
+    authParams: { issuer: baseUrl }
+  });
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
   const router = new Router(
     _.extend(

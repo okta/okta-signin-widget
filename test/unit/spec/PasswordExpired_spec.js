@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 19] */
 import { _, internal } from 'okta';
-import createAuthClient from 'widget/createAuthClient';
+import getAuthClient from 'widget/getAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import PasswordExpiredForm from 'helpers/dom/PasswordExpiredForm';
@@ -33,7 +33,9 @@ function setup(settings, res, custom) {
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
-  const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+  const authClient = getAuthClient({
+    authParams: { issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR }
+  });
   const router = new Router(
     _.extend(
       {

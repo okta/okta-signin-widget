@@ -1,7 +1,7 @@
 /* eslint max-params:[2, 32], max-statements:[2, 46], camelcase:0, max-len:[2, 180] */
 import { _, $, internal } from 'okta';
 import { OAuthError } from '@okta/okta-auth-js';
-import createAuthClient from 'widget/createAuthClient';
+import getAuthClient from 'widget/getAuthClient';
 import Router from 'LoginRouter';
 import PrimaryAuthController from 'PrimaryAuthController';
 import AuthContainer from 'helpers/dom/AuthContainer';
@@ -99,10 +99,12 @@ async function setup(settings, requests, refreshState) {
 
   const setNextResponse = Util.mockAjax(requests);
   const baseUrl = 'https://foo.com';
-  const authClient = createAuthClient(Object.assign({
-    issuer: baseUrl,
-    transformErrorXHR: LoginUtil.transformErrorXHR, headers: {}
-  }, settings.authParams));
+  const authClient = getAuthClient({
+    authParams: Object.assign({
+      issuer: baseUrl,
+      transformErrorXHR: LoginUtil.transformErrorXHR, headers: {}
+    }, settings.authParams)
+  });
   const successSpy = jasmine.createSpy('success');
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
   const router = new Router(
@@ -883,6 +885,25 @@ Expect.describe('PrimaryAuth', function() {
         expect(test.form.passwordField()[0].parentElement).not.toHaveClass('focused-input');
         expect(test.router.controller.model.validate).not.toHaveBeenCalled();
       });
+    });
+  });
+
+  Expect.describe('Okta UA', function() {
+    itp('tracks Okta UA for widget in "x-okta-user-agent-extended"', function() {
+      return setup()
+        .then(function(test) {
+          Util.resetAjaxRequests();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+        .then(function() {
+          expect(Util.numAjaxRequests()).toBe(1);
+          const ajaxArgs = Util.getAjaxRequest(0);
+          expect(ajaxArgs.requestHeaders['x-okta-user-agent-extended'].indexOf('okta-signin-widget-9.9.99')).toBeGreaterThan(-1);
+        });
     });
   });
 
@@ -2976,7 +2997,7 @@ Expect.describe('PrimaryAuth', function() {
             const data = test.successSpy.calls.argsFor(0)[0];
 
             expect(data.status).toBe('SUCCESS');
-            expect(data.tokens.idToken.value).toBe(VALID_ID_TOKEN);
+            expect(data.tokens.idToken.idToken).toBe(VALID_ID_TOKEN);
             expect(data.tokens.idToken.claims).toEqual({
               amr: ['pwd'],
               aud: 'someClientId',
@@ -3037,9 +3058,9 @@ Expect.describe('PrimaryAuth', function() {
           const data = test.successSpy.calls.argsFor(0)[0];
 
           expect(data.status).toBe('SUCCESS');
-          expect(data.tokens.idToken.value).toBe(VALID_ID_TOKEN);
+          expect(data.tokens.idToken.idToken).toBe(VALID_ID_TOKEN);
 
-          expect(data.tokens.accessToken.value).toBe(VALID_ACCESS_TOKEN);
+          expect(data.tokens.accessToken.accessToken).toBe(VALID_ACCESS_TOKEN);
           expect(data.tokens.accessToken.scopes).toEqual(['openid', 'email', 'profile']);
           expect(data.tokens.accessToken.tokenType).toBe('Bearer');
         })

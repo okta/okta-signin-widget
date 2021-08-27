@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint camelcase: 0 */
 import { _, $, internal } from 'okta';
-import createAuthClient from 'widget/createAuthClient';
+import getAuthClient from 'widget/getAuthClient';
 import Router from 'LoginRouter';
 import Duo from 'duo';
 import Beacon from 'helpers/dom/Beacon';
@@ -133,7 +133,9 @@ Expect.describe('MFA Verify', function() {
   async function setup(res, selectedFactorProps, settings, languagesResponse, useResForIntrospect, startRouter) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
-    const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+    const authClient = getAuthClient({
+      authParams: { issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR }
+    });
     const successSpy = jasmine.createSpy('success');
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     const router = createRouter(baseUrl, authClient, successSpy, settings, startRouter);
@@ -215,7 +217,9 @@ Expect.describe('MFA Verify', function() {
   async function setupNoProvider(res, selectedFactorProps, settings) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
-    const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+    const authClient = getAuthClient({
+      authParams: { issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR }
+    });
     const successSpy = jasmine.createSpy('success');
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     const router = createRouter(baseUrl, authClient, successSpy, settings);
@@ -262,7 +266,9 @@ Expect.describe('MFA Verify', function() {
   function setupWindowsHelloOnly() {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
-    const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+    const authClient = getAuthClient({
+      authParams: { issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR }
+    });
     const successSpy = jasmine.createSpy('success');
     const router = createRouter(baseUrl, authClient, successSpy);
 
@@ -478,7 +484,9 @@ Expect.describe('MFA Verify', function() {
 
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
-    const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+    const authClient = getAuthClient({
+      authParams: { issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR }
+    });
     const successSpy = jasmine.createSpy('success');
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     const router = createRouter(baseUrl, authClient, successSpy);
@@ -527,7 +535,9 @@ Expect.describe('MFA Verify', function() {
     //get MFA_CHALLENGE, and routerUtil calls prev, to set state to MFA_REQUIRED
 
     const baseUrl = 'https://foo.com';
-    const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+    const authClient = getAuthClient({
+      authParams: { issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR }
+    });
     const successSpy = jasmine.createSpy('success');
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     const router = createRouter(baseUrl, authClient, successSpy, options.settings);

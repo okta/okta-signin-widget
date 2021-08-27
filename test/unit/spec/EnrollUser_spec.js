@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 13], max-len: [2, 160] */
 import { _ } from 'okta';
-import createAuthClient from 'widget/createAuthClient';
+import getAuthClient from 'widget/getAuthClient';
 import Router from 'LoginRouter';
 import EnrollUserForm from 'helpers/dom/EnrollUserForm';
 import Util from 'helpers/mocks/Util';
@@ -22,7 +22,9 @@ function setup(isUnauthenticated) {
   setNextResponse(nextResponse);
   const baseUrl = 'https://example.okta.com';
   const logoUrl = 'https://logo.com';
-  const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+  const authClient = getAuthClient({
+    authParams: { issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR }
+  });
   const router = new Router(
     _.extend(
       {
