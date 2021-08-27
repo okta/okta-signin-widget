@@ -250,6 +250,18 @@ const emailVerificationMocks = {
 
 
 // ===== IDX
+const fastpassUnassignedApp = {
+  '/idp/idx/introspect': [
+    'error-400-user-not-assigned',
+  ],
+  '/idp/idx/authenticators/okta-verify/launch': [
+    'error-400-user-not-assigned-2',
+  ],
+  '/idp/idx/identify': [
+    'error-400-user-not-assigned-3',
+  ],
+};
+
 // device probe: Windows authenticator with loopback server
 const windowAuthnLoopback = {
   '/idp/idx/introspect': [

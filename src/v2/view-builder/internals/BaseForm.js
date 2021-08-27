@@ -45,7 +45,9 @@ export default Form.extend({
   },
 
   handleClearFormError() {
-    if (this.$('.o-form-error-container').hasClass('o-form-has-errors')) {
+    const formErrorContainer = this.$('.o-form-error-container');
+    formErrorContainer.empty();
+    if (formErrorContainer.hasClass('o-form-has-errors')) {
       this.clearErrors();
     }
   },
