@@ -310,10 +310,7 @@ test.requestHooks(identifyRequestLogger, identifyMockWithFingerprintError)('shou
 test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should pre-populate identifier field with username config', async t => {
   const identityPage = await setup(t);
   await rerenderWidget({
-    username: 'myTestUsername@okta.com',
-    features: { // Ensure remember my username feature is off so it doesn't override config
-      rememberMe: false,
-    }    
+    username: 'myTestUsername@okta.com'
   });
 
   // Ensure identifier field is pre-filled

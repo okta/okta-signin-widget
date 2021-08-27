@@ -124,7 +124,6 @@ describe('v2/view-builder/views/IdentifierView', function() {
 
   it('view updates model and view correctly if "username" config is passed in', function() {
     settings.set('username', 'testUsername');
-    settings.set('features.rememberMe', false);
 
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
@@ -176,7 +175,6 @@ describe('v2/view-builder/views/IdentifierView', function() {
 
   it('does not pre-fill identifier form with username from cookie when rememberMe feature is disabled', function() {
     settings.set('username', '');
-    settings.set('features.rememberMe', false);
    
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
