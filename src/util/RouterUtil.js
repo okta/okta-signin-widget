@@ -304,11 +304,10 @@ function handleSuccessResponseStatus(router, res) {
   }
 
   const redirectFn = router.settings.get('redirectUtilFn');
-  const nextUrl =
-      res._links && ((res._links.original && res._links.original.href) || (res._links.next && res._links.next.href));
+  const nextUrl = res?._links?.original?.href || res?._links?.next?.href;
 
   if (res.type === Enums.SESSION_STEP_UP) {
-    const targetUrl = res._links && res._links.next && res._links.next.href;
+    const targetUrl = res?._links?.next?.href;
 
     successData.stepUp = {
       url: targetUrl,
@@ -316,37 +315,39 @@ function handleSuccessResponseStatus(router, res) {
         redirectFn(targetUrl);
       },
     };
-  } else if (nextUrl) {
-    successData.next = function() {
-      redirectFn(nextUrl);
-    };
   } else {
-    // Add the type for now until the API returns it.
-    successData.type = Enums.SESSION_SSO;
-    successData.session = {
-      token: res.sessionToken,
-      setCookieAndRedirect: function(redirectUri) {
-        if (redirectUri) {
-          Util.debugMessage(`
-            Passing a "redirectUri" to "setCookieAndRedirect" is strongly discouraged.
-            It is recommended to set a "redirectUri" option in the config object passed to the widget constructor.
-          `);
-        }
+    if (nextUrl) {
+      successData.next = function() {
+        redirectFn(nextUrl);
+      };
+    }
 
-        redirectUri = redirectUri || router.settings.get('redirectUri');
-        if (!redirectUri) {
-          throw new Errors.ConfigError('"redirectUri" is required');
-        }
+    if (res.sessionToken) {
+      successData.session = {
+        token: res.sessionToken,
+        setCookieAndRedirect: function(redirectUri) {
+          if (redirectUri) {
+            Util.debugMessage(`
+              Passing a "redirectUri" to "setCookieAndRedirect" is strongly discouraged.
+              It is recommended to set a "redirectUri" option in the config object passed to the widget constructor.
+            `);
+          }
 
-        redirectFn(
-          sessionCookieRedirectTpl({
-            baseUrl: router.settings.get('baseUrl'),
-            token: encodeURIComponent(res.sessionToken),
-            redirectUrl: encodeURIComponent(redirectUri),
-          })
-        );
-      },
-    };
+          redirectUri = redirectUri || router.settings.get('redirectUri');
+          if (!redirectUri) {
+            throw new Errors.ConfigError('"redirectUri" is required');
+          }
+
+          redirectFn(
+            sessionCookieRedirectTpl({
+              baseUrl: router.settings.get('baseUrl'),
+              token: encodeURIComponent(res.sessionToken),
+              redirectUrl: encodeURIComponent(redirectUri),
+            })
+          );
+        },
+      };
+    }
   }
 
   // Check if we need to wait for redirect based on host.
