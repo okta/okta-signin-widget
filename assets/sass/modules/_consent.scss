@@ -1,4 +1,4 @@
-@use 'common/mixins';
+@use '../common/shared/helpers/mixins';
 
 $space-between-container: 25px;
 $space-of-last-container: $space-between-container - 14px; // 14px is margin between form body and form toolbar
