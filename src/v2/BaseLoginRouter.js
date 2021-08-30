@@ -79,18 +79,18 @@ export default Router.extend({
     });
 
     configIdxJsClient(this.appState);
-    this.listenTo(this.appState, 'remediationSuccess', this.handleIdxResponseSuccess);
+    this.listenTo(this.appState, 'updateAppState', this.handleUpdateAppState);
     this.listenTo(this.appState, 'remediationError', this.handleIdxResponseFailure);
     this.listenTo(this.appState, 'restartLoginFlow', this.restartLoginFlow);
   },
 
-  handleIdxResponseSuccess(idxResponse) {
+  handleUpdateAppState(idxResponse) {
     // Only update the cookie when the user has successfully authenticated themselves 
     // to avoid incorrect/uneccessary updates.
     if (this.hasAuthenticationSucceeded(idxResponse)) {
       this.updateIdentifierCookie(idxResponse);
     }
-
+    
     if (idxResponse.interactionCode) {
       // Although session.stateHandle isn't used by interation flow,
       // it's better to clean up at the end of the flow.
@@ -176,7 +176,7 @@ export default Router.extend({
         error.details.context = { messages: idxMessage };
       }
 
-      return this.handleIdxResponseSuccess(error.details);
+      return this.handleUpdateAppState(error.details);
     }
 
     // assume it's a config error
@@ -219,7 +219,7 @@ export default Router.extend({
     if (this.settings.get('oieEnabled')) {
       try {
         const idxResp = await startLoginFlow(this.settings);
-        this.appState.trigger('remediationSuccess', idxResp);
+        this.appState.trigger('updateAppState', idxResp);
       } catch (errorResp) {
         this.appState.trigger('remediationError', errorResp.error || errorResp);
       } finally {
