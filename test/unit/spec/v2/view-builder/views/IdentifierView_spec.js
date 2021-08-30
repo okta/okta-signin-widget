@@ -149,6 +149,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
   it('pre-fill identifier form with username from cookie when rememberMe feature is enabled', function() {
     settings.set('username', '');
     settings.set('features.rememberMe', true);
+    settings.set('features.rememberMyUsernameOnOIE', true);
 
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
