@@ -320,6 +320,9 @@ function handleSuccessResponseStatus(router, res) {
       successData.next = function() {
         redirectFn(nextUrl);
       };
+    } else {
+      // Add the type for now until the API returns it.
+      successData.type = Enums.SESSION_SSO;
     }
 
     if (res.sessionToken) {
