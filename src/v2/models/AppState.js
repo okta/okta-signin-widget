@@ -150,10 +150,6 @@ export default Model.extend({
   },
 
   shouldReRenderView(transformedResponse) {
-    // if (transformedResponse?.idx?.hasFormError) {
-    //   return false;
-    // }
-
     const previousRawState = this.has('idx') ? this.get('idx').rawIdxState : null;
 
     const identicalResponse = _.isEqual(
@@ -176,6 +172,14 @@ export default Model.extend({
        * expiresAt will be different for each response, hence compare objects without that property
        */
       reRender = false;
+    }
+
+    if(transformedResponse?.idx?.hasFormError) {
+      reRender = false;
+
+      if(!identicalResponse) {
+        reRender = true;
+      }
     }
 
     if (identicalResponse && this.get('currentFormName') === 'poll') {
