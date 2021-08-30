@@ -79,6 +79,7 @@ test.requestHooks(identifyRequestLogger, identifyWithError)('identifer first flo
   await rerenderWidget({
     features: {
       rememberMe: true,
+      rememberMyUsernameOnOIE: true
     }
   });
 
@@ -92,6 +93,12 @@ test.requestHooks(identifyRequestLogger, identifyWithError)('identifer first flo
 
   // Ensure identifier field is not pre-filled
   await identityPage.navigateToPage();
+  await rerenderWidget({
+    features: {
+      rememberMe: true,
+      rememberMyUsernameOnOIE: true
+    }
+  });  
   const identifier = identityPage.getIdentifierValue();
   await t.expect(identifier).eql('');
 });
@@ -101,6 +108,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordError)('identifer w
   await rerenderWidget({
     features: {
       rememberMe: true,
+      rememberMyUsernameOnOIE: true
     }
   });
 
@@ -112,6 +120,12 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordError)('identifer w
 
   // Ensure identifier field is not pre-filled
   await identityPage.navigateToPage();
+  await rerenderWidget({
+    features: {
+      rememberMe: true,
+      rememberMyUsernameOnOIE: true
+    }
+  });  
   const identifier = identityPage.getIdentifierValue();
   await t.expect(identifier).eql('');
 });
@@ -121,6 +135,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('identifer first flow - s
   await rerenderWidget({
     features: {
       rememberMe: true,
+      rememberMyUsernameOnOIE: true
     }
   });
 
@@ -139,6 +154,12 @@ test.requestHooks(identifyRequestLogger, identifyMock)('identifer first flow - s
 
   // Ensure identifier field is pre-filled with saved username cookie
   await identityPage.navigateToPage();
+  await rerenderWidget({
+    features: {
+      rememberMe: true,
+      rememberMyUsernameOnOIE: true
+    }
+  });
   const identifier = identityPage.getIdentifierValue();
   await t.expect(identifier).eql('testUser@okta.com');
 });
@@ -148,6 +169,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('identifer wi
   await rerenderWidget({
     features: {
       rememberMe: true,
+      rememberMyUsernameOnOIE: true
     }
   });
 
@@ -168,6 +190,12 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('identifer wi
 
   // Ensure identifier field is pre-filled with saved username cookie
   await identityPage.navigateToPage();
+  await rerenderWidget({
+    features: {
+      rememberMe: true,
+      rememberMyUsernameOnOIE: true
+    }
+  });  
   const identifier = identityPage.getIdentifierValue();
   await t.expect(identifier).eql('testUser@okta.com');
 });
@@ -177,6 +205,7 @@ test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticatorError)('i
   await rerenderWidget({
     features: {
       rememberMe: true,
+      rememberMyUsernameOnOIE: true
     }
   });
 
@@ -192,6 +221,12 @@ test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticatorError)('i
 
   // Ensure identifier field is not pre-filled
   await identityPage.navigateToPage();
+  await rerenderWidget({
+    features: {
+      rememberMe: true,
+      rememberMyUsernameOnOIE: true
+    }
+  });  
   const identifier = identityPage.getIdentifierValue();
   await t.expect(identifier).eql('');
 });
@@ -206,6 +241,7 @@ test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticator)('identi
     },
     features: {
       rememberMe: true,
+      rememberMyUsernameOnOIE: true
     },
     stateToken: undefined
   };
@@ -232,6 +268,12 @@ test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticator)('identi
 
   // Ensure identifier field is pre-filled with saved username cookie
   await identityPage.navigateToPage();
+  await rerenderWidget({
+    features: {
+      rememberMe: true,
+      rememberMyUsernameOnOIE: true
+    }
+  });
   const identifier = identityPage.getIdentifierValue();
   await t.expect(identifier).eql('testUser@okta.com');
 });
@@ -241,6 +283,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifi
   await rerenderWidget({
     features: {
       rememberMe: true,
+      rememberMyUsernameOnOIE: true
     }
   });
 
@@ -264,6 +307,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifi
     username: 'configUsername@okta.com',
     features: {
       rememberMe: true,
+      rememberMyUsernameOnOIE: true
     }
   });
 
