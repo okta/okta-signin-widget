@@ -87,7 +87,8 @@ export default Router.extend({
   handleIdxResponseSuccess(idxResponse) {
     // Only update the cookie when the user has successfully authenticated themselves 
     // to avoid incorrect/uneccessary updates.
-    if (this.hasAuthenticationSucceeded(idxResponse)) {
+    if (this.hasAuthenticationSucceeded(idxResponse) 
+      && this.settings.get('features.rememberMyUsernameOnOIE')) {
       this.updateIdentifierCookie(idxResponse);
     }
 

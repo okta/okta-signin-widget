@@ -187,7 +187,7 @@ const Body = BaseForm.extend({
    
   _shouldApplyRememberMyUsername(uiSchema) {
     return (uiSchema.find(schema => schema.name === 'identifier') 
-        && this.settings.get('features.rememberMe'));
+        && this.settings.get('features.rememberMe') && this.settings.get('features.rememberMyUsernameOnOIE'));
   },
 
   /**
