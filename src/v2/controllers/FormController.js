@@ -141,7 +141,7 @@ export default Controller.extend({
 
     if (idx['neededToProceed'].find(item => item.name === actionPath)) {
       idx.proceed(actionPath, {})
-        .then(this.handleIdxSuccess.bind(this))
+        .then(this.handleIdxResponse.bind(this))
         .catch(error => {
           this.showFormErrors(this.formView.model, error, this.formView.form);
         });
@@ -159,7 +159,7 @@ export default Controller.extend({
             // that will be used in interactionCodeFlow function
             this.options.appState.trigger('restartLoginFlow');
           } else {
-            this.handleIdxSuccess(resp);
+            this.handleIdxResponse(resp);
           }
         })
         .catch(error => {
@@ -203,7 +203,7 @@ export default Controller.extend({
     // Submit request to idx endpoint
     idx.proceed(formName, modelJSON)
       .then((resp) => {
-        const onSuccess = this.handleIdxSuccess.bind(this, resp);
+        const onSuccess = this.handleIdxResponse.bind(this, resp);
 
         if (formName === FORMS.ENROLL_PROFILE) {
           // call registration (aka enroll profile) hook
@@ -216,13 +216,13 @@ export default Controller.extend({
           onSuccess();
         }
       }).catch(error => {
-        if (error.proceed && error.rawIdxState) {
+        if (error.stepUp) {
           // Okta server responds 401 status code with WWW-Authenticate header and new remediation
           // so that the iOS/MacOS credential SSO extension (Okta Verify) can intercept
           // the response reaches here when Okta Verify is not installed
           // we need to return an idx object so that
           // the SIW can proceed to the next step without showing error
-          this.handleIdxSuccess(error);
+          this.handleIdxResponse(error);
         } else {
           this.showFormErrors(model, error, this.formView.form);
         }
@@ -248,26 +248,42 @@ export default Controller.extend({
   },
 
   showFormErrors(model, error, form) {
+    let errorObj, idxStateError;
     model.trigger('clearFormError');
+    
     if (!error) {
       error = 'FormController - unknown error found';
       this.options.settings.callGlobalError(error);
     }
-    let errorObj;
+
+    if(error?.rawIdxState) {
+      idxStateError = error;
+      error = error.rawIdxState;
+    }
+
     if (IonResponseHelper.isIonErrorResponse(error)) {
       errorObj = IonResponseHelper.convertFormErrors(error);
     } else if (error.errorSummary) {
       errorObj = { responseJSON: error };
     }
     const showErrorBanner = !form?.isErrorCalloutCustomized(errorObj);
+    // show error before updating app state.
     model.trigger('error', model, errorObj || { responseJSON: { errorSummary: String(error) } }, showErrorBanner);
+    idxStateError = Object.assign({}, idxStateError, {hasFormError: true});
+
     if (!showErrorBanner) {
       form.showCustomErrorCallout(errorObj);
     }
+
+    // TODO OKTA-408410: Widget should update the state on every new response. It should NOT do selective update.
+    // For eg 429 rate-limit errors, we have to skip updating idx state, because error response is not an idx response.
+    if (Array.isArray(idxStateError?.neededToProceed) && idxStateError?.neededToProceed.length) {
+      this.handleIdxResponse(idxStateError);
+    }
   },
 
-  handleIdxSuccess: function(idxResp) {
-    this.options.appState.trigger('remediationSuccess', idxResp);
+  handleIdxResponse: function(idxResp) {
+    this.options.appState.trigger('updateAppState', idxResp);
   },
 
   /**
