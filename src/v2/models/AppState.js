@@ -20,6 +20,7 @@ import {
 } from '../ion/RemediationConstants';
 import { createOVOptions } from '../ion/ui-schema/ion-object-handler';
 import { _ } from '../mixins/mixins';
+import { executeHooksBefore, executeHooksAfter } from 'util/Hooks';
 
 /**
  * Keep track of stateMachine with this special model. Similar to `src/models/AppState.js`
@@ -33,6 +34,7 @@ export default Model.extend({
     remediations: 'array',
     dynamicRefreshInterval: 'number',
     deviceFingerprint: 'string',
+    hooks: 'object' // instance of models/Hooks
   },
 
   derived: {
@@ -65,7 +67,7 @@ export default Model.extend({
       fn: function(recoveryAuthenticator = {}) {
         return recoveryAuthenticator?.type === 'password';
       }
-    },
+    }
   },
 
   isIdentifierOnlyView() {
@@ -236,7 +238,7 @@ export default Model.extend({
     this.trigger('cache:clear');
   },
 
-  setIonResponse(transformedResponse) {
+  async setIonResponse(transformedResponse, hooks) {
     const doRerender = this.shouldReRenderView(transformedResponse);
     this.clearAppStateCache();
     // set new app state properties
@@ -254,6 +256,9 @@ export default Model.extend({
         Logger.error(JSON.stringify(transformedResponse, null, 2));
       }
 
+      const hook = hooks?.getHook(currentFormName); // may be undefined
+      await executeHooksBefore(hook);
+  
       this.unset('currentFormName', { silent: true });
       // make sure change `currentFormName` is last step.
       // change `currentFormName` will re-render FormController,
@@ -261,7 +266,13 @@ export default Model.extend({
       // those derived properties must be re-computed before
       // re-rendering controller.
       this.set({ currentFormName });
+
+      await executeHooksAfter(hook);
     }
+  },
+
+  getUser: function() {
+    return this.get('user');
   },
 
   _isReRenderRequired(identicalResponse, transformedResponse, previousRawState) {

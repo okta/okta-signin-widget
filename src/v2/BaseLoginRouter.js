@@ -51,7 +51,7 @@ export default Router.extend({
       };
     }
 
-    this.settings = new Settings(_.omit(options, 'el', 'authClient'), { parse: true });
+    this.settings = new Settings(_.omit(options, 'el', 'authClient', 'hooks'), { parse: true });
     this.settings.setAuthClient(options.authClient);
 
     if (!options.el) {
@@ -66,6 +66,7 @@ export default Router.extend({
       // and then the open tooltip will lose focus and close.
     });
 
+    this.hooks = options.hooks;
     this.appState = new AppState();
 
     const wrapper = new AuthContainer({ appState: this.appState });
@@ -84,7 +85,7 @@ export default Router.extend({
     this.listenTo(this.appState, 'restartLoginFlow', this.restartLoginFlow);
   },
 
-  handleUpdateAppState(idxResponse) {
+  async handleUpdateAppState(idxResponse) {
     // Only update the cookie when the user has successfully authenticated themselves 
     // to avoid incorrect/uneccessary updates.
     if (this.hasAuthenticationSucceeded(idxResponse) 
@@ -125,7 +126,7 @@ export default Router.extend({
     // transform response
     const ionResponse = transformIdxResponse(this.settings, idxResponse, lastResponse);
 
-    this.appState.setIonResponse(ionResponse);
+    await this.appState.setIonResponse(ionResponse, this.hooks);
   },
 
   handleIdxResponseFailure(error = {}) {

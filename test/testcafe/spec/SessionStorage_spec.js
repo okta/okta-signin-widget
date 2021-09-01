@@ -330,7 +330,7 @@ test.requestHooks(identifyChallengeMock)('shall back to sign-in and authenticate
   await challengeEmailPageObject.clickEnterCodeLink();
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '1234');
   await challengeEmailPageObject.clickNextButton();
-  
+
   // Check success
   await checkConsoleMessages([
     'ready',
@@ -345,11 +345,6 @@ test.requestHooks(identifyChallengeMock)('shall back to sign-in and authenticate
       formName: 'challenge-authenticator',
       authenticatorKey: 'okta_email',
       methodType: 'email'
-    },
-    'afterRender',
-    {
-      controller: 'primary-auth',
-      formName: 'identify'
     },
     'afterRender',
     {

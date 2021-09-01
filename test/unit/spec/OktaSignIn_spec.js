@@ -9,6 +9,10 @@ import $sandbox from 'sandbox';
 import Logger from 'util/Logger';
 import Widget from 'widget/OktaSignIn';
 import V1Router from 'LoginRouter';
+import V1AppState from 'models/AppState';
+import V2AppState from 'v2/models/AppState';
+import Hooks from 'models/Hooks';
+
 const url = 'https://foo.com';
 const itp = Expect.itp;
 
@@ -65,6 +69,15 @@ Expect.describe('OktaSignIn initialization', function() {
     });
     it('has a remove method', function() {
       expect(signIn.remove).toBeDefined();
+    });
+    it('has a before method', function() {
+      expect(signIn.before).toBeDefined();
+    });
+    it('has an after method', function() {
+      expect(signIn.after).toBeDefined();
+    });
+    it('has a getUser method', function() {
+      expect(signIn.getUser).toBeDefined();
     });
   });
 
@@ -572,4 +585,67 @@ describe('OktaSignIn object API', function() {
     });
   });
 
+  describe('getUser', () => {
+
+    describe('before render', () => {
+      beforeEach(() => {
+        createWidget();
+      });
+      it('returns undefined', () => {
+        expect(signIn.getUser()).toBeUndefined();
+      });
+    });
+
+    describe('after render', () => {
+      beforeEach(() => {
+        createWidget();
+        signIn.renderEl({ el: $sandbox });
+      });
+      it('returns result from appState', () => {
+        const mockUser = { fake: true };
+        jest.spyOn(V1AppState.prototype, 'getUser').mockReturnValue(mockUser);
+        expect(signIn.getUser()).toBe(mockUser);
+
+      });
+    });
+
+    describe('after render v2', () => {
+      beforeEach(() => {
+        createWidget({ stateToken: 'fakeV2Token' });
+        signIn.renderEl({ el: $sandbox });
+      });
+      it('returns result from appState', () => {
+        const mockUser = { fake: true };
+        jest.spyOn(V2AppState.prototype, 'getUser').mockReturnValue(mockUser);
+        expect(signIn.getUser()).toBe(mockUser);
+
+      });
+    });
+  });
+
+  describe('Hooks API', () => {
+    beforeEach(() => {
+      jest.spyOn(Hooks.prototype, 'mergeHook');
+      createWidget();
+    });
+    describe('before()', () => {
+      it('calls mergeHook', () => {
+        const fn = jest.fn();
+        signIn.before('some-form', fn);
+        expect(Hooks.prototype.mergeHook).toHaveBeenCalledWith('some-form', {
+          before: [fn]
+        });
+      });
+    });
+
+    describe('after()', () => {
+      it('calls mergeHook', () => {
+        const fn = jest.fn();
+        signIn.after('some-form', fn);
+        expect(Hooks.prototype.mergeHook).toHaveBeenCalledWith('some-form', {
+          after: [fn]
+        });
+      });
+    });
+  });
 });

@@ -67,11 +67,11 @@ describe('v2/view-builder/views/ov/EnrollPollOktaVerifyView', function() {
   });
 
   it('switches to select enroll method form when on mobile', function(done) {
-    MockUtil.mockIntrospect(done, xhrAuthenticatorEnrollOktaVerifyQr, idxResp => {
+    MockUtil.mockIntrospect(done, xhrAuthenticatorEnrollOktaVerifyQr, async (idxResp) => {
       const appState = new AppState();
       const settings = new Settings({ baseUrl: 'http://localhost:3000' });
       const ionResponse = transformIdxResponse(settings, idxResp);
-      appState.setIonResponse(ionResponse);
+      await appState.setIonResponse(ionResponse);
       testContext.view = new FormController({
         el: $sandbox,
         appState,
