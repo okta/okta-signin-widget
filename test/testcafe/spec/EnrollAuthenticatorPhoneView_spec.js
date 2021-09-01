@@ -167,3 +167,17 @@ test
     const resendEmailView = challengePhonePageObject.resendEmailView();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received a call? Call again');
   });
+
+test
+  .requestHooks(smsMock)('Callout appears after 30 seconds at most even after re-render', async t => {
+    const challengePhonePageObject = await setup(t);
+    await challengePhonePageObject.clickNextButton();
+    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).ok();
+    await t.wait(15000);
+    challengePhonePageObject.navigateToPage();
+    await challengePhonePageObject.clickNextButton();
+    await t.wait(15500);
+    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
+    const resendEmailView = challengePhonePageObject.resendEmailView();
+    await t.expect(resendEmailView.innerText).eql('Haven\'t received an SMS? Send again');
+  });

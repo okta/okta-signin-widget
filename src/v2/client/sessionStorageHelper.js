@@ -12,6 +12,7 @@
 
 const STATE_HANDLE_SESSION_STORAGE_KEY = 'osw-oie-state-handle';
 const LAST_INITIATED_LOGIN_URL_SESSION_STORAGE_KEY = 'osw-oie-last-initiated-login-url';
+const RESEND_TIMESTAMP_SESSION_STORAGE_KEY = 'osw-oie-resend-timestamp';
 
 const removeStateHandle = () => {
   sessionStorage.removeItem(STATE_HANDLE_SESSION_STORAGE_KEY);
@@ -27,10 +28,23 @@ const getStateHandle = () => {
 const getLastInitiatedLoginUrl = () => {
   return sessionStorage.getItem(LAST_INITIATED_LOGIN_URL_SESSION_STORAGE_KEY);
 };
+const removeResendTimestamp = () => {
+  sessionStorage.removeItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY);
+};
+const setResendTimestamp = (token) => {
+  sessionStorage.setItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY, token);
+};
+const getResendTimestamp = () => {
+  return sessionStorage.getItem(RESEND_TIMESTAMP_SESSION_STORAGE_KEY);
+};
+
 
 export default {
   removeStateHandle,
   setStateHandle,
   getStateHandle,
   getLastInitiatedLoginUrl,
+  removeResendTimestamp,
+  setResendTimestamp,
+  getResendTimestamp
 };
