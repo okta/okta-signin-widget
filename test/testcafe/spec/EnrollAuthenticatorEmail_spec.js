@@ -145,3 +145,14 @@ test
     await t.expect(lastRequestMethod).eql('post');
     await t.expect(lastRequestUrl).eql('http://localhost:3000/idp/idx/challenge/resend');
   });
+
+test
+  .requestHooks(logger, validOTPmock)('resend after 30 seconds at most even after re-render', async t => {
+    const enrollEmailPageObject = await setup(t);
+    await t.expect(enrollEmailPageObject.resendEmail.isHidden()).ok();
+    await t.wait(15000);
+    enrollEmailPageObject.navigateToPage();
+    await t.wait(15500);
+    await t.expect(enrollEmailPageObject.resendEmail.isHidden()).notOk();
+    await t.expect(enrollEmailPageObject.resendEmail.getText()).eql('Haven\'t received an email? Send again');
+  });

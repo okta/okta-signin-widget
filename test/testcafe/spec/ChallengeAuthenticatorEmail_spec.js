@@ -349,6 +349,21 @@ test
   });
 
 test
+  .requestHooks(logger, validOTPmock)('resend after at most 30 seconds even after re-render', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await challengeEmailPageObject.clickEnterCodeLink();
+
+    await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
+    await t.wait(15000);
+    challengeEmailPageObject.navigateToPage();
+    await challengeEmailPageObject.clickEnterCodeLink();
+    await t.wait(15500);
+    await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).notOk();
+    const resendEmailView = challengeEmailPageObject.resendEmailView();
+    await t.expect(resendEmailView.innerText).eql('Haven\'t received an email? Send again');
+  });
+
+test
   .requestHooks(magicLinkReturnTabMock)('challenge email factor with magic link', async t => {
     await setup(t);
     const terminalPageObject = new TerminalPageObject(t);

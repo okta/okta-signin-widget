@@ -1,8 +1,8 @@
-import { View, createCallout, _ } from 'okta';
+import { createCallout } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
+import BaseResendView from '../shared/BaseResendView';
 
-export default View.extend({
+export default BaseResendView.extend({
   //only show after certain threshold of polling
   className: 'hide resend-ov-link-view',
   events: {
@@ -23,21 +23,6 @@ export default View.extend({
     this.options.appState.trigger('invokeAction', 'currentAuthenticator-resend');
     //hide warning, but reinitiate to show warning again after some threshold of polling
     this.$el.addClass('hide');
-    this.showCalloutWithDelay();
+    this.showCalloutAfterTimeout();
   },
-
-  postRender() {
-    this.showCalloutWithDelay();
-  },
-
-  showCalloutWithDelay() {
-    this.showMeTimeout = _.delay(() => {
-      this.$el.removeClass('hide');
-    }, SHOW_RESEND_TIMEOUT);
-  },
-
-  remove() {
-    View.prototype.remove.apply(this, arguments);
-    clearTimeout(this.showMeTimeout);
-  }
 });
