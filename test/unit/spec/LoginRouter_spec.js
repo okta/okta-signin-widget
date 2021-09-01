@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 34], max-statements: 0, max-len: [2, 180], camelcase:0 */
+/* eslint max-params: [2, 34], max-statements: 0, max-len: [2, 210], camelcase:0 */
 import { _, $, Backbone, Router, internal } from 'okta';
 import createAuthClient from 'widget/createAuthClient';
 import LoginRouter from 'LoginRouter';
