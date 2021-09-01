@@ -132,7 +132,7 @@ test.requestHooks(sessionExpiresDuringPassword)('challege password authenticator
   await challengePasswordPage.switchAuthenticatorExists();
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
   await challengePasswordPage.clickNextButton();
-  await t.expect(challengePasswordPage.getErrorFromErrorBox()).eql('The session has expired.');
+  await t.expect(challengePasswordPage.getErrorFromErrorBox()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
   await t.expect(challengePasswordPage.getSignoutLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
 });
 

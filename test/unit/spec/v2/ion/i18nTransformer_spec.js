@@ -51,7 +51,7 @@ describe('v2/ion/i18nTransformer', function() {
       'oie.browser.error.NotAllowedError': 'translated browser thrown error',
       'oktaverify.rejected': 'rejected',
       'oie.password.incorrect.message': 'Password is incorrect',
-      'idx.session.expired': 'The session has expired.',
+      'idx.session.expired': 'You have been logged out due to inactivity. Refresh or return to the sign in screen.',
       'oie.post.password.update.auth.failure.error': 'Authentication failed after password update.',
       'oie.phone.invalid': 'Invalid Phone',
     }, (value) => `unit test - ${value}`);
@@ -1469,7 +1469,7 @@ describe('v2/ion/i18nTransformer', function() {
             'class': 'INFO'
           },
           {
-            'message': 'The session has expired.',
+            'message': 'You have been logged out due to inactivity. Refresh or return to the sign in screen.',
             'i18n': {
               'key': 'idx.session.expired'
             },
@@ -1513,7 +1513,7 @@ describe('v2/ion/i18nTransformer', function() {
             'class': 'INFO'
           },
           {
-            'message': 'unit test - The session has expired.',
+            'message': 'unit test - You have been logged out due to inactivity. Refresh or return to the sign in screen.',
             'i18n': {
               'key': 'idx.session.expired'
             },
