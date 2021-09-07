@@ -257,7 +257,7 @@ test
 
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
     await t.wait(5000);
-    await t.expect(challengeEmailPageObject.getErrorFromErrorBox()).eql('The session has expired.');
+    await t.expect(challengeEmailPageObject.getErrorFromErrorBox()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
     // Check no poll requests were made further. There seems to be no way to interrupt a poll with mock response.
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&

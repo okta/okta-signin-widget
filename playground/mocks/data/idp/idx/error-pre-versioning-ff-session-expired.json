@@ -4,7 +4,7 @@
     "type":"array",
     "value":[
       {
-        "message":"The session has expired.",
+        "message":"You have been logged out due to inactivity. Refresh or return to the sign in screen.",
         "i18n":{
           "key":"idx.session.expired"
         },
