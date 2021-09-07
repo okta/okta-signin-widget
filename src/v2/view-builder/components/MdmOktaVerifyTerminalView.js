@@ -4,21 +4,7 @@ import hbs from 'handlebars-inline-precompile';
 const { Notification } = internal.views.components;
 const { Clipboard } = internal.util;
 
-export default View.extend({
-  template: hbs`
-    <div>{{i18n code="enroll.explanation.mdm" bundle="login"}}</div>
-    <ol>
-      <li>
-        {{i18n code="enroll.mdm.step1" bundle="login"}}
-        <a data-clipboard-text="{{enrollmentLink}}" class="button link-button copy-clipboard-button">
-          {{i18n code="enroll.mdm.copyLink" bundle="login"}}
-        </a>
-      </li>
-      <li>{{i18n code="enroll.mdm.step2" bundle="login"}}</li>
-      <li>{{{i18n code="enroll.mdm.step3" bundle="login" arguments="vendor"}}}</li>
-    </ol>
-  `,
-
+const BaseMdmOktaVerifyTerminalView = View.extend({
   getTemplateData() {
     return this.options.appState.get('deviceEnrollment');
   },
@@ -35,3 +21,40 @@ export default View.extend({
     });
   },
 });
+
+const IosMdmOktaVerifyTerminalView = BaseMdmOktaVerifyTerminalView.extend({
+  template: hbs`
+    <div>{{i18n code="enroll.explanation.mdm" bundle="login"}}</div>
+    <ol>
+      <li>
+        {{i18n code="enroll.mdm.step1" bundle="login"}}
+        <a data-clipboard-text="{{enrollmentLink}}" class="button link-button copy-clipboard-button">
+          {{i18n code="enroll.mdm.copyLink" bundle="login"}}
+        </a>
+      </li>
+      <li>{{i18n code="enroll.mdm.step2" bundle="login"}}</li>
+      <li>{{{i18n code="enroll.mdm.step3" bundle="login" arguments="vendor"}}}</li>
+    </ol>
+  `,
+});
+
+const AndroidMdmOktaVerifyTerminalView = BaseMdmOktaVerifyTerminalView.extend({
+  template: hbs`
+    <div>{{i18n code="enroll.explanation.mdm" bundle="login"}}</div>
+    <ol>
+      <li>
+        {{i18n code="enroll.mdm.step1" bundle="login"}}
+        <a data-clipboard-text="{{enrollmentLink}}" class="button link-button copy-clipboard-button">
+          {{i18n code="enroll.mdm.copyLink" bundle="login"}}
+        </a>
+      </li>
+      <li>{{i18n code="enroll.mdm.step2" bundle="login"}}</li>
+      <li>{{{i18n code="enroll.mdm.step3" bundle="login" arguments="vendor"}}}</li>
+    </ol>
+  `,
+});
+
+export {
+  IosMdmOktaVerifyTerminalView,
+  AndroidMdmOktaVerifyTerminalView
+};

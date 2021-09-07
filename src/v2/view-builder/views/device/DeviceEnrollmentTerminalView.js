@@ -1,6 +1,8 @@
 import { loc } from 'okta';
 import { BaseForm, BaseView } from '../../internals';
-import OdaOktaVerifyTerminalView from '../../components/OdaOktaVerifyTerminalView';
+import { IosAndAndroidLoopbackOdaTerminalView, 
+  AndroidAppLinkOdaTerminalView,
+  getDeviceEnrollmentContext} from '../../components/OdaOktaVerifyTerminalView';
 import MdmOktaVerifyTerminalView from '../../components/MdmOktaVerifyTerminalView';
 import Enums from 'util/Enums';
 import OktaVerifyAuthenticatorHeader from '../../components/OktaVerifyAuthenticatorHeader';
@@ -10,13 +12,42 @@ const BaseDeviceEnrollTerminalForm = BaseForm.extend({
   className: 'device-enrollment-terminal',
 });
 
+const PreselectForm = BaseForm.extend({
+  title: loc('enroll.title.oda.with.account', 'login'),
+  initialize() {
+    BaseForm.prototype.initialize.apply(this, arguments);
+    const deviceEnrollmentContext = getDeviceEnrollmentContext(this.options.appState.get('deviceEnrollment'));
+    this.model.set('hasOVAccount', 'no');
+    this.addInput({
+      label: () => loc('enroll.subtitle.fastpass', 'login', [ deviceEnrollmentContext.orgName ]),
+      'label-top': true,
+      options: {
+        'no': loc('enroll.option.noaccount.fastpass', 'login'),
+        'yes': loc('enroll.option.account.fastpass', 'login'),
+      },
+      name: 'hasOVAccount',
+      type: 'radio',
+    });
+  },
+  // saveForm(model) {
+    
+  // }
+});
+
 const OdaTerminalForm = BaseDeviceEnrollTerminalForm.extend({
   title() {
+    const deviceEnrollmentContext = getDeviceEnrollmentContext(this.options.appState.get('deviceEnrollment'));
+    if (deviceEnrollmentContext.isAndroidAppLinkWithAccount) {
+      return loc('enroll.title.oda.with.account', 'login');
+    }
+    if (deviceEnrollmentContext.isAndroidAppLinkWithoutAccount) {
+      return loc('enroll.title.oda.without.account', 'login');
+    }
     return loc('enroll.title.oda', 'login');
   },
   initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
-    this.add(OdaOktaVerifyTerminalView);
+    this.add(AndroidAppLinkOdaTerminalView);
   },
 });
 
@@ -40,7 +71,7 @@ export default BaseView.extend({
     switch (this.enrollmentType) {
     case Enums.ODA:
       this.Header = OktaVerifyAuthenticatorHeader;
-      this.Body = OdaTerminalForm;
+      this.Body = PreselectForm;
       break;
     case Enums.MDM:
       this.Body = MdmTerminalForm;
