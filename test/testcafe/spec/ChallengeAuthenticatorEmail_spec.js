@@ -11,6 +11,7 @@ import emailVerificationPollingLong from '../../../playground/mocks/data/idp/idx
 import emailVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-no-profile';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidOTP from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
+import invalidEmailOTP from '../../../playground/mocks/data/idp/idx/error-401-invalid-email-otp-passcode';
 import invalidOTPTooManyRequest from '../../../playground/mocks/data/idp/idx/error-429-too-many-request-operation-ratelimit';
 import magicLinkReturnTab from '../../../playground/mocks/data/idp/idx/terminal-return-email';
 import magicLinkExpired from '../../../playground/mocks/data/idp/idx/terminal-return-expired-email';
@@ -63,8 +64,18 @@ const validOTPmockEmptyProfile = RequestMock()
 const invalidOTPMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(emailVerification)  
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidOTP, 403);
+
+const invalidOTPMockWithPoll = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(emailVerification)  
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(invalidEmailOTP, 403);
 
 const invalidOTPMockContinuePoll = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -198,6 +209,23 @@ test
     await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
   });
+
+test
+  .requestHooks(invalidOTPMockWithPoll)('challenge email authenticator - ensure poll does not clear invalid OTP error', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await challengeEmailPageObject.clickEnterCodeLink();
+
+    await challengeEmailPageObject.verifyFactor('credentials.passcode', 'xyz');
+    await challengeEmailPageObject.clickNextButton();
+    await challengeEmailPageObject.waitForErrorBox();
+    await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
+    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
+
+    // Wait for the next /poll to happen
+    await t.wait(5000);
+    await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
+    await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
+  });  
 
 test
   .requestHooks(invalidOTPTooManyOperationRequestMock)('challenge email authenticator with too many invalid OTP', async t => {
