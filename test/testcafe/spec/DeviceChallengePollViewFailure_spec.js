@@ -2,6 +2,7 @@ import { RequestLogger, RequestMock } from 'testcafe';
 import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChallengePollPageObject';
 import identifyWithDeviceProbingLoopback from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback';
 import error from '../../../playground/mocks/data/idp/idx/error-403-access-denied';
+import { Constants } from '../framework/shared';
 
 const logger = RequestLogger(/introspect|probe|challenge/, { logRequestBody: true, stringifyRequestBody: true });
 
@@ -10,8 +11,11 @@ const mock = RequestMock()
   .respond(identifyWithDeviceProbingLoopback)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
-    res.statusCode = '403';
-    res.setBody(error);
+    return new Promise((resolve) => setTimeout(function() {
+      res.statusCode = '403';
+      res.setBody(error);
+      resolve(res);
+    }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2000));
   })
   .onRequestTo(/2000\/probe/)
   .respond(null, 200, { 
@@ -42,6 +46,8 @@ async function setup(t) {
 test('probing and polling APIs are sent and responded', async t => {
   const deviceChallengePollPageObject = await setup(t);
   await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
+  await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().innerText).eql('Cancel and take me to sign in');
+  await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().length).eql(0);
   await t.expect(logger.count(
     record => record.response.statusCode === 200 &&
       record.request.method !== 'options' &&
@@ -54,4 +60,6 @@ test('probing and polling APIs are sent and responded', async t => {
   )).eql(1);
   await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).contains('You do not have permission to perform the requested action');
   await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('none');
+  await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Take me to sign in');
+  await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().length).eql(0);
 });
