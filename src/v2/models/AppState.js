@@ -16,6 +16,7 @@ import {
   FORMS_WITHOUT_SIGNOUT,
   FORMS_WITH_STATIC_BACK_LINK,
   FORMS_FOR_VERIFICATION,
+  AUTHENTICATOR_KEY,
 } from '../ion/RemediationConstants';
 import { createOVOptions } from '../ion/ui-schema/ion-object-handler';
 import { _ } from '../mixins/mixins';
@@ -167,36 +168,7 @@ export default Model.extend({
       this.set('dynamicRefreshInterval', this.getRefreshInterval(transformedResponse));
     }
 
-    let reRender = true;
-
-    if (identicalResponse) {
-      /**
-       * returns false: When new response is same as last.
-       * usually happens during polling when pipeline doesn't proceed to next step.
-       * expiresAt will be different for each response, hence compare objects without that property
-       */
-      reRender = false;
-    }
-
-    if (identicalResponse && this.get('currentFormName') === 'poll') {
-      /**
-       * returns true: We want to force reRender when currentForm is poll because request has to reinitiate
-       * based on new refresh and UI has to reflect new timer.
-       * We dont technical poll here we just make a request after the specified refresh time each time
-       * we get a new response.
-       */
-      reRender = true;
-    }
-
-    if (identicalResponse && FORMS_WITH_STATIC_BACK_LINK.includes(this.get('currentFormName'))) {
-      /**
-       * returns true: We want to force reRender if you go back to selection screen from challenge or enroll screen
-       * and re-select the same authenticator for challenge. In this case also new response will be identical
-       * to the old response.
-       */
-      reRender = true;
-    }
-    return reRender;
+    return this._isReRenderRequired(identicalResponse, transformedResponse, previousRawState);
   },
 
   getRefreshInterval(transformedResponse) {
@@ -277,6 +249,60 @@ export default Model.extend({
       // re-rendering controller.
       this.set({ currentFormName });
     }
+  },
+
+  _isReRenderRequired(identicalResponse, transformedResponse, previousRawState) {
+    let reRender = true;
+
+    const isPreviousStateError = this.get('idx')?.hasFormError;
+    if (isPreviousStateError && this._isChallengeAuthenticatorPoll(transformedResponse, previousRawState)) {
+      reRender = false;
+    }
+
+    if (identicalResponse) {
+      /**
+       * returns false: When new response is same as last.
+       * usually happens during polling when pipeline doesn't proceed to next step.
+       * expiresAt will be different for each response, hence compare objects without that property
+       */
+      reRender = false;
+    }
+
+    if (identicalResponse && this.get('currentFormName') === 'poll') {
+      /**
+       * returns true: We want to force reRender when currentForm is poll because request has to reinitiate
+       * based on new refresh and UI has to reflect new timer.
+       * We dont technical poll here we just make a request after the specified refresh time each time
+       * we get a new response.
+       */
+      reRender = true;
+    }
+
+    if (identicalResponse && FORMS_WITH_STATIC_BACK_LINK.includes(this.get('currentFormName'))) {
+      /**
+       * returns true: We want to force reRender if you go back to selection screen from challenge or enroll screen
+       * and re-select the same authenticator for challenge. In this case also new response will be identical
+       * to the old response.
+       */
+      reRender = true;
+    }
+    return reRender;
+  },
+
+  /**
+   * This is to account for the edge case introduced by this issue: OKTA-419210. With the current idx remediations,
+   * there's no good way to generalize this as the backend handles the authenticators for phone, sms and 
+   * email differently. Although not ideal, we have to keep this check in for now until we find a better solution.
+   */
+  _isChallengeAuthenticatorPoll(transformedResponse, previousRawState) {
+    const isSameExceptMessages = _.isEqual(
+      _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh', 'stateHandle']),
+      _.nestedOmit(previousRawState, ['expiresAt', 'refresh', 'stateHandle', 'messages']));      
+
+    const isChallengeAuthenticator = this.get('currentFormName') === 'challenge-authenticator';
+    const isCurrentAuthenticatorEmail = this.get('currentAuthenticatorEnrollment')?.key === AUTHENTICATOR_KEY.EMAIL;
+
+    return isSameExceptMessages && isChallengeAuthenticator && isCurrentAuthenticatorEmail;
   }
 
 });

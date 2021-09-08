@@ -2519,10 +2519,10 @@
     webcrypto-shim "^0.1.5"
     xhr2 "0.1.3"
 
-"@okta/okta-idx-js@0.20.0-g621b609":
-  version "0.20.0-g621b609"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/okta-idx-js/-/@okta/okta-idx-js-0.20.0-g621b609.tgz#d5651343add5157c68781c155ad984edd3d884a2"
-  integrity sha1-1WUTQ63VFXxoeBwVWtmE7dPYhKI=
+"@okta/okta-idx-js@0.20.0-g4e26e8f":
+  version "0.20.0-g4e26e8f"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/okta-idx-js/-/@okta/okta-idx-js-0.20.0-g4e26e8f.tgz#2fb780f3abf69deb040033c6fdf15eb3967c32de"
+  integrity sha1-L7eA86v2nesEADPG/fFes5Z8Mt4=
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@babel/runtime-corejs3" "^7.12.5"
