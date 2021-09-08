@@ -1,4 +1,4 @@
-/* eslint max-params: [2, 34], max-statements: 0, max-len: [2, 180], camelcase:0 */
+/* eslint max-params: [2, 34], max-statements: 0, max-len: [2, 210], camelcase:0 */
 import { _, $, Backbone, Router, internal } from 'okta';
 import createAuthClient from 'widget/createAuthClient';
 import LoginRouter from 'LoginRouter';
@@ -22,6 +22,7 @@ import resRecovery from 'helpers/xhr/RECOVERY';
 import resSuccess from 'helpers/xhr/SUCCESS';
 import resSuccessNext from 'helpers/xhr/SUCCESS_next';
 import resSuccessOriginal from 'helpers/xhr/SUCCESS_original';
+import resSuccessWithSTAF from 'helpers/xhr/SUCCESS_with_STAF';
 import resSuccessStepUp from 'helpers/xhr/SUCCESS_session_step_up';
 import resUnauthenticated from 'helpers/xhr/UNAUTHENTICATED';
 import labelsCountryJa from 'helpers/xhr/labels_country_ja';
@@ -613,6 +614,50 @@ Expect.describe('LoginRouter', function() {
         .then(function() {
           expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith(
             'http://foo.okta.com/next/redirect?stateToken=aStateToken'
+          );
+        });
+    }
+  );
+  itp(
+    'for success with session token and next link, success callback data contains a next function and session object that implements setCookieAndRedirect function (when STATE_TOKEN_ALL_FLOWS is enabled)',
+    function() {
+      const spied = {};
+      spied.successFn = function(resp) {
+        if (resp.status === 'SUCCESS') {
+          if (resp.session) {
+            resp.session.setCookieAndRedirect('http://baz.com/foo');
+          }
+          if (resp.next) {
+            resp.next();
+          }
+        }
+      };
+      const successSpy = spyOn(spied, 'successFn').and.callThrough();
+      spyOn(SharedUtil, 'redirect');
+      const opt = {
+        stateToken: 'aStateToken',
+        globalSuccessFn: successSpy,
+      };
+
+      return setup(opt, resSuccessWithSTAF)
+        .then(function(test) {
+          test.setNextResponse(resSuccessWithSTAF);
+          test.router.refreshAuthState('dummy-token');
+          return Expect.waitForSpyCall(successSpy);
+        })
+        .then(function() {
+          const res = successSpy.calls.mostRecent().args[0];
+          expect(res.status).toBe('SUCCESS');
+          expect(res.session.token).toBe('THE_SESSION_TOKEN');
+          expect(_.isFunction(res.session.setCookieAndRedirect)).toBe(true);
+          expect(_.isFunction(res.next)).toBe(true);
+
+          expect(SharedUtil.redirect).toHaveBeenCalledWith(
+            'https://foo.com/login/sessionCookieRedirect?checkAccountSetupComplete=true' +
+              '&token=THE_SESSION_TOKEN&redirectUrl=http%3A%2F%2Fbaz.com%2Ffoo'
+          );
+          expect(SharedUtil.redirect).toHaveBeenCalledWith(
+            'http://foo.okta.com/login/token/redirect?stateToken=aStateToken'
           );
         });
     }
