@@ -4052,7 +4052,7 @@ Expect.describe('MFA Verify', function() {
 
       itp('shows error if browser does not support u2f', function() {
         return setupU2F({ u2f: false }).then(function(test) {
-          expect(test.form.el('o-form-error-html')).toHaveLength(1);
+          expect(test.form.el('o-form-error-html').length).toEqual(1);
           expect(test.form.el('o-form-error-html').find('strong').html()).toEqual(
             'Security Key (U2F) is not supported on this browser. ' +
               'Select another factor or contact your admin for assistance.'
@@ -4062,7 +4062,7 @@ Expect.describe('MFA Verify', function() {
 
       itp('shows error if browser does not support u2f and only one factor', function() {
         return setupU2F({ u2f: false, nextResponse: resU2F }).then(function(test) {
-          expect(test.form.el('o-form-error-html')).toHaveLength(1);
+          expect(test.form.el('o-form-error-html').length).toEqual(1);
           expect(test.form.el('o-form-error-html').find('strong').html()).toEqual(
             'Security Key (U2F) is not supported on this browser. Contact your admin for assistance.'
           );
@@ -4071,7 +4071,7 @@ Expect.describe('MFA Verify', function() {
 
       itp('does not show error if browser supports u2f', function() {
         return setupU2F({ u2f: true }).then(function(test) {
-          expect(test.form.el('o-form-error-html')).toHaveLength(0);
+          expect(test.form.el('o-form-error-html').length).toEqual(0);
         });
       });
 
@@ -4604,12 +4604,12 @@ Expect.describe('MFA Verify', function() {
         itp('does not display error and loads first factor when factorResult is not returned', function() {
           return setupMfaChallengeClaimsFactor().then(function(test) {
             expect(test.form.isSecurityQuestion()).toBe(true);
-            expect(test.form.el('o-form-error-html')).toHaveLength(0);
+            expect(test.form.el('o-form-error-html').length).toEqual(0);
           });
         });
         itp('displays error when factorResult is FAILED', function() {
           return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
-            expect(test.form.el('o-form-error-html')).toHaveLength(1);
+            expect(test.form.el('o-form-error-html').length).toEqual(1);
             expect(test.form.el('o-form-error-html').find('strong').html()).toEqual('Verify failed.');
           });
         });
@@ -4621,7 +4621,7 @@ Expect.describe('MFA Verify', function() {
           };
           return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
             expect(test.form.isSecurityQuestion()).toBe(true);
-            expect(test.form.el('o-form-error-html')).toHaveLength(0);
+            expect(test.form.el('o-form-error-html').length).toEqual(0);
           });
         });
         itp('does not display error when factorResult is undefined', function() {
@@ -4631,7 +4631,7 @@ Expect.describe('MFA Verify', function() {
           };
           return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
             expect(test.form.isSecurityQuestion()).toBe(true);
-            expect(test.form.el('o-form-error-html')).toHaveLength(0);
+            expect(test.form.el('o-form-error-html').length).toEqual(0);
           });
         });
         itp('displays default error when factorResultMessage is undefined', function() {
@@ -4640,7 +4640,7 @@ Expect.describe('MFA Verify', function() {
             factorResult: 'FAILED',
           };
           return setupMfaChallengeClaimsFactor(this.options).then(function(test) {
-            expect(test.form.el('o-form-error-html')).toHaveLength(1);
+            expect(test.form.el('o-form-error-html').length).toEqual(1);
             expect(test.form.el('o-form-error-html').find('strong').html()).toEqual(
               'There was an unexpected internal error. Please try again.'
             );
@@ -4696,7 +4696,7 @@ Expect.describe('MFA Verify', function() {
               .then(function(test) {
                 test.claimsForm = new MfaVerifyForm($sandbox.find('.o-form'));
                 expect(test.claimsForm.isCustomFactor()).toBe(true);
-                expect(test.claimsForm.el('o-form-error-html')).toHaveLength(0);
+                expect(test.claimsForm.el('o-form-error-html').length).toEqual(0);
                 test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
                 test.claimsForm.submit();
                 return Expect.waitForSpyCall(SharedUtil.redirect);
@@ -5141,7 +5141,7 @@ Expect.describe('MFA Verify', function() {
 
       itp('shows error if browser does not support u2f', function() {
         return setupMultipleU2FOnly({ u2f: false }).then(function(test) {
-          expect(test.form.el('o-form-error-html')).toHaveLength(1);
+          expect(test.form.el('o-form-error-html').length).toEqual(1);
           expect(test.form.el('o-form-error-html').find('strong').html()).toEqual(
             'Security Key (U2F) is not supported on this browser. ' + 'Contact your admin for assistance.'
           );
@@ -5150,7 +5150,7 @@ Expect.describe('MFA Verify', function() {
 
       itp('does not show error if browser supports u2f', function() {
         return setupMultipleU2FOnly({ u2f: true }).then(function(test) {
-          expect(test.form.el('o-form-error-html')).toHaveLength(0);
+          expect(test.form.el('o-form-error-html').length).toEqual(0);
         });
       });
 
@@ -5296,7 +5296,7 @@ Expect.describe('MFA Verify', function() {
 
       itp('shows error if browser does not support u2f', function() {
         return setupMultipleU2F({ u2f: false }).then(function(test) {
-          expect(test.form.el('o-form-error-html')).toHaveLength(1);
+          expect(test.form.el('o-form-error-html').length).toEqual(1);
           expect(test.form.el('o-form-error-html').find('strong').html()).toEqual(
             'Security Key (U2F) is not supported on this browser. ' +
               'Select another factor or contact your admin for assistance.'
@@ -5306,7 +5306,7 @@ Expect.describe('MFA Verify', function() {
 
       itp('does not show error if browser supports u2f', function() {
         return setupMultipleU2F({ u2f: true }).then(function(test) {
-          expect(test.form.el('o-form-error-html')).toHaveLength(0);
+          expect(test.form.el('o-form-error-html').length).toEqual(0);
         });
       });
 

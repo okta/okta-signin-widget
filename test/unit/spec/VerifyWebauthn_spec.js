@@ -107,7 +107,6 @@ function setup(options) {
         forms = forms[0];
       }
       const beacon = new Beacon($sandbox);
-
       return {
         router: router,
         form: forms,
@@ -254,7 +253,7 @@ function testWebauthnFactor(setupFn, webauthnOnly) {
 
   itp('shows error if browser does not support webauthn', function() {
     return setupFn({ webauthnSupported: false }).then(function(test) {
-      expect(test.form.el('o-form-error-html')).toHaveLength(1);
+      expect(test.form.el('o-form-error-html').length).toEqual(1);
       const errorMessage = webauthnOnly
         ? 'Security key or biometric authenticator is not supported on this browser. ' +
             'Contact your admin for assistance.'
@@ -267,7 +266,7 @@ function testWebauthnFactor(setupFn, webauthnOnly) {
 
   itp('does not show error if browser supports webauthn', function() {
     return setupFn({ webauthnSupported: true }).then(function(test) {
-      expect(test.form.el('o-form-error-html')).toHaveLength(0);
+      expect(test.form.el('o-form-error-html').length).toEqual(0);
     });
   });
 
@@ -415,7 +414,7 @@ function testMultipleWebauthnFactor(setupFn) {
       .then(function(test) {
         expect(navigator.credentials.get).toHaveBeenCalled();
         expect(test.form.hasErrors()).toBe(true);
-        expect(test.form.errorBox()).toHaveLength(1);
+        expect(test.form.errorBox().length).toEqual(1);
         expect(test.form.errorMessage()).toEqual('something went wrong');
         expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
         expect(test.form.submitButton().css('display')).toBe('block');
@@ -529,7 +528,7 @@ Expect.describe('Webauthn Factor', function() {
       .then(function(test) {
         expect(navigator.credentials.get).toHaveBeenCalled();
         expect(test.form.hasErrors()).toBe(true);
-        expect(test.form.errorBox()).toHaveLength(1);
+        expect(test.form.errorBox().length).toEqual(1);
         expect(test.form.errorMessage()).toEqual('something went wrong');
         expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
         expect(test.router.controller.model.webauthnAbortController).toBe(null);

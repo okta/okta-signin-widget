@@ -18,24 +18,24 @@ describe('v2/utils/LinksUtil', function() {
     describe('select-authenticator-authenticate', () => {
       it('returns a link when multiple authenticators available', function() {
         const appState = mockAppState(FORMS.SELECT_AUTHENTICATOR_AUTHENTICATE, true);
-        expect(getSwitchAuthenticatorLink(appState)).toHaveLength(1);
+        expect(getSwitchAuthenticatorLink(appState).length).toEqual(1);
       });
 
       it('returns empty when just one authenticator available', function() {
         const appState = mockAppState(FORMS.SELECT_AUTHENTICATOR_AUTHENTICATE, false);
-        expect(getSwitchAuthenticatorLink(appState)).toHaveLength(0);
+        expect(getSwitchAuthenticatorLink(appState).length).toEqual(0);
       });
     });
 
     describe('select-authenticator-enroll', () => {
       it('returns a link when multiple authenticators available', function() {
         const appState = mockAppState(FORMS.SELECT_AUTHENTICATOR_ENROLL, true);
-        expect(getSwitchAuthenticatorLink(appState)).toHaveLength(1);
+        expect(getSwitchAuthenticatorLink(appState).length).toEqual(1);
       });
 
       it('returns empty when just one authenticator available', function() {
         const appState = mockAppState(FORMS.SELECT_AUTHENTICATOR_ENROLL, false);
-        expect(getSwitchAuthenticatorLink(appState)).toHaveLength(0);
+        expect(getSwitchAuthenticatorLink(appState).length).toEqual(0);
       });
     });
   });

@@ -60,14 +60,14 @@ Expect.describe('EnrollHotp', function() {
   Expect.describe('Enroll factor', function() {
     itp('is restricted', function() {
       return setup().then(function(test) {
-        expect(test.form.errorHtml()).toHaveLength(1);
+        expect(test.form.errorHtml().length).toEqual(1);
         expect(test.form.errorHtml().html()).toEqual('Contact your administrator to continue enrollment.');
       });
     });
 
     itp('has right profile name', function() {
       return setup().then(function(test) {
-        expect(test.form.title()).toHaveLength(1);
+        expect(test.form.title().length).toEqual(1);
         expect(test.form.title().html()).toEqual('Setup Entrust');
       });
     });

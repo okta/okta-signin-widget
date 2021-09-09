@@ -57,7 +57,7 @@ Expect.describe('Polling', function() {
     it('has the cancel button', function(done) {
       return setup()
         .then(function(test) {
-          expect(test.form.cancelButton()).toHaveLength(1);
+          expect(test.form.cancelButton().length).toEqual(1);
           expect(test.form.cancelButton().attr('value')).toBe('Cancel');
           expect(test.form.cancelButton().attr('class')).toBe('button button-primary');
           done();

@@ -76,7 +76,7 @@ Expect.describe('ConsentRequired', function() {
   describe('ScopeList', function() {
     itp('has the correct number of scopes', function() {
       return setup().then(function(test) {
-        expect(test.form.scopeList().children()).toHaveLength(3);
+        expect(test.form.scopeList().children().length).toEqual(3);
       });
     });
     itp('scope item show displayName instead of name if the first is available', function() {
@@ -100,7 +100,7 @@ Expect.describe('ConsentRequired', function() {
     });
     itp('scope item has a tooltip if description is available', function() {
       return setup().then(function(test) {
-        expect(test.form.scopeList().children().eq(0).find('span.scope-item-tooltip')).toHaveLength(1);
+        expect(test.form.scopeList().children().eq(0).find('span.scope-item-tooltip').length).toEqual(1);
         expect(test.form.scopeList().html()).toMatch(new RegExp(
           '<div class="scope-item"><div class="scope-item-text"><p>Ability to read protected data</p></div>' + 
           '<span class="scope-item-tooltip icon form-help-16" data-hasqtip="\\d+"></span></div>' + 
@@ -110,12 +110,12 @@ Expect.describe('ConsentRequired', function() {
     });
     itp('scope item does not have a tooltip if description is not available', function() {
       return setup().then(function(test) {
-        expect(test.form.scopeList().children().eq(1).find('span.scope-item-tooltip')).toHaveLength(0);
+        expect(test.form.scopeList().children().eq(1).find('span.scope-item-tooltip').length).toEqual(0);
       });
     });
     itp('scope item has a tooltip with xss', function() {
       return setup().then(function(test) {
-        expect(test.form.scopeList().children().eq(0).find('span.scope-item-tooltip')).toHaveLength(1);
+        expect(test.form.scopeList().children().eq(0).find('span.scope-item-tooltip').length).toEqual(1);
         expect(test.form.scopeList().children().eq(2).find('span.scope-item-tooltip').qtip().options.content.text)
           .toEqual('This scope contains xss&lt;img srcset=x onloadend=alert(1)&gt;');
       });
@@ -125,7 +125,7 @@ Expect.describe('ConsentRequired', function() {
   describe('ConsentForm', function() {
     itp('has the default logo if client logo is not provided', function() {
       return setup().then(function(test) {
-        expect(test.form.clientLogoLink()).toHaveLength(0);
+        expect(test.form.clientLogoLink().length).toEqual(0);
         expect(test.form.clientLogo().attr('src')).toBe(`${window.location.origin}/img/logos/default.png`);
       });
     });
@@ -164,7 +164,7 @@ Expect.describe('ConsentRequired', function() {
     });
     itp('has the consent button', function() {
       return setup().then(function(test) {
-        expect(test.form.consentButton()).toHaveLength(1);
+        expect(test.form.consentButton().length).toEqual(1);
         expect(test.form.consentButton().attr('value')).toBe('Allow Access');
         expect(test.form.consentButton().attr('class')).toBe('button');
       });
@@ -193,7 +193,7 @@ Expect.describe('ConsentRequired', function() {
     });
     itp('has the cancel button', function() {
       return setup().then(function(test) {
-        expect(test.form.cancelButton()).toHaveLength(1);
+        expect(test.form.cancelButton().length).toEqual(1);
         expect(test.form.cancelButton().attr('value')).toBe('Don\'t Allow');
         expect(test.form.cancelButton().attr('class')).toBe('button button-clear');
       });

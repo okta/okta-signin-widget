@@ -123,7 +123,7 @@ Expect.describe('EnrollWebauthn', function() {
       spyOn(webauthn, 'isNewApiAvailable').and.returnValue(false);
 
       return setup().then(function(test) {
-        expect(test.form.errorHtml()).toHaveLength(1);
+        expect(test.form.errorHtml().length).toEqual(1);
         expect(test.form.errorHtml().html()).toEqual(
           'Security key or biometric authenticator is not supported on this browser.' +
             ' Select another factor or contact your admin for assistance.'
@@ -135,7 +135,7 @@ Expect.describe('EnrollWebauthn', function() {
       spyOn(webauthn, 'isNewApiAvailable').and.returnValue(false);
 
       return setup(false, true).then(function(test) {
-        expect(test.form.errorHtml()).toHaveLength(1);
+        expect(test.form.errorHtml().length).toEqual(1);
         expect(test.form.errorHtml().html()).toEqual(
           'Security key or biometric authenticator is not supported on this browser.' +
             ' Contact your admin for assistance.'
@@ -146,7 +146,7 @@ Expect.describe('EnrollWebauthn', function() {
     itp('does not show error if browser supports webauthn', function() {
       spyOn(webauthn, 'isNewApiAvailable').and.returnValue(true);
       return setup().then(function(test) {
-        expect(test.form.errorHtml()).toHaveLength(0);
+        expect(test.form.errorHtml().length).toEqual(0);
       });
     });
 
@@ -343,7 +343,7 @@ Expect.describe('EnrollWebauthn', function() {
         .then(function(test) {
           expect(navigator.credentials.create).toHaveBeenCalled();
           expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorBox()).toHaveLength(1);
+          expect(test.form.errorBox().length).toEqual(1);
           expect(test.form.errorMessage()).toEqual('something went wrong');
           expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
           expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
