@@ -1,4 +1,5 @@
 import { RequestLogger, RequestMock, ClientFunction, Selector } from 'testcafe';
+import { renderWidget } from '../framework/shared';
 import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChallengePollPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
@@ -225,7 +226,42 @@ const appLinkWithoutLaunchMock = RequestMock()
   .onRequestTo(customAppLink)
   .respond('<html><h1>open app link</h1></html>');
 
-fixture('Device Challenge Polling View with the Loopback Server, Custom URI and Universal Link approaches');
+const username = 'john.smith@okta.com';
+const LoginHintCustomURIMock = RequestMock()
+  .onRequestTo(/idp\/idx\/introspect/)
+  .respond(loopbackChallengeNotReceived)
+  .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
+  .respond(identifyWithLaunchAuthenticator)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(identifyWithLaunchAuthenticator);
+
+const loginHintUniversalLink = mockHttpCustomUri+'&login_hint='+encodeURIComponent(username);
+const LoginHintUniversalLinkMock = RequestMock()
+  .onRequestTo(/idp\/idx\/introspect/)
+  .respond(loopbackChallengeNotReceived)
+  .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
+  .respond(identifyWithLaunchUniversalLink)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(identifyWithLaunchUniversalLink)
+  .onRequestTo(loginHintUniversalLink)
+  .respond('<html><h1>open universal link with login_hint</h1></html>')
+  .onRequestTo(mockHttpCustomUri)
+  .respond('<html><h1>open universal link without login_hint</h1></html>');
+
+const loginHintAppLink = customAppLink+'&login_hint='+encodeURIComponent(username);
+const LoginHintAppLinkMock = RequestMock()
+  .onRequestTo(/idp\/idx\/introspect/)
+  .respond(loopbackChallengeNotReceived)
+  .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
+  .respond(identifyWithLaunchAppLink)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(identifyWithLaunchAppLink)
+  .onRequestTo(loginHintAppLink)
+  .respond('<html><h1>open app link with login_hint</h1></html>')
+  .onRequestTo(customAppLink)
+  .respond('<html><h1>open app link without login_hint</h1></html>');
+
+fixture('Device Challenge Polling View with the Loopback Server, Custom URI, App Link, and Universal Link approaches');
 
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
@@ -485,4 +521,112 @@ test
         record.request.url.match(/\/idp\/idx\/authenticators\/poll\/cancel/)
     )).eql(1);
     await t.expect(loopbackOVFallbackLogger.contains(record => record.request.url.match(/6513/))).eql(false);
+  });
+
+test
+  .requestHooks(LoginHintCustomURIMock)('expect login_hint in CustomURI when engFastpassMultipleAccounts is on', async t => {
+    const identityPage = await setupLoopbackFallback(t);
+    await renderWidget({
+      features: { engFastpassMultipleAccounts: true },
+    });
+
+    // enter username as login_hint on the SIW page
+    await identityPage.fillIdentifierField(username);
+    identityPage.clickOktaVerifyButton();
+    const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
+    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Click "Open Okta Verify" on the browser prompt');
+
+    // verify login_hint has been appended to the customURI url in the iframe
+    const attributes = await deviceChallengePollPageObject.getIframeAttributes();
+    await t.expect(attributes.src).contains('login_hint='+encodeURIComponent(username));
+  });
+
+test
+  .requestHooks(LoginHintCustomURIMock)('expect login_hint not in CustomURI when engFastpassMultipleAccounts is off', async t => {
+    const identityPage = await setupLoopbackFallback(t);
+    await renderWidget({
+      features: { engFastpassMultipleAccounts: false },
+    });
+
+    // enter username as login_hint on the SIW page
+    await identityPage.fillIdentifierField(username);
+    identityPage.clickOktaVerifyButton();
+    const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
+    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Click "Open Okta Verify" on the browser prompt');
+
+    // verify login_hint is not appended to the customURI url in the iframe
+    const attributes = await deviceChallengePollPageObject.getIframeAttributes();
+    await t.expect(attributes.src).notContains(encodeURIComponent(username));
+  });
+
+test
+  .requestHooks(LoginHintUniversalLinkMock)('expect login_hint in UniversalLink with engFastpassMultipleAccounts on', async t => {
+    const identityPage = await setupLoopbackFallback(t);
+    await renderWidget({
+      features: { engFastpassMultipleAccounts: true },
+    });
+
+    await identityPage.fillIdentifierField(username);
+    identityPage.clickOktaVerifyButton();
+    const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
+    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Sign in with Okta FastPass');
+
+    deviceChallengePollPageObject.clickUniversalLink();
+    // verify login_hint has been appended to the universal link url
+    await t.expect(getPageUrl()).contains('login_hint='+encodeURIComponent(username));
+    await t.expect(Selector('h1').innerText).eql('open universal link with login_hint');
+  });
+
+test
+  .requestHooks(LoginHintUniversalLinkMock)('expect login_hint not in UniversalLink engFastpassMultipleAccounts off', async t => {
+    const identityPage = await setupLoopbackFallback(t);
+    await renderWidget({
+      features: { engFastpassMultipleAccounts: false },
+    });
+
+    await identityPage.fillIdentifierField(username);
+    identityPage.clickOktaVerifyButton();
+    const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
+    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Sign in with Okta FastPass');
+
+    deviceChallengePollPageObject.clickUniversalLink();
+    // verify login_hint is not appended to the universal link url
+    await t.expect(getPageUrl()).notContains(encodeURIComponent(username));
+    await t.expect(Selector('h1').innerText).eql('open universal link without login_hint');
+  });
+
+test
+  .requestHooks(LoginHintAppLinkMock)('expect login_hint in AppLink when engFastpassMultipleAccounts is on', async t => {
+    const identityPage = await setupLoopbackFallback(t);
+    await renderWidget({
+      features: { engFastpassMultipleAccounts: true },
+    });
+
+    await identityPage.fillIdentifierField(username);
+    identityPage.clickOktaVerifyButton();
+    const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
+    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Sign in with Okta FastPass');
+
+    deviceChallengePollPageObject.clickAppLink();
+    // verify login_hint has been appended to the app link url
+    await t.expect(getPageUrl()).contains('login_hint='+encodeURIComponent(username));
+    await t.expect(Selector('h1').innerText).eql('open app link with login_hint');
+  });
+
+test
+  .requestHooks(LoginHintAppLinkMock)('expect login_hint not in AppLink when engFastpassMultipleAccounts is off', async t => {
+    const identityPage = await setupLoopbackFallback(t);
+    await renderWidget({
+      features: { engFastpassMultipleAccounts: false },
+    });
+
+    await identityPage.fillIdentifierField(username);
+    identityPage.clickOktaVerifyButton();
+    const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
+    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Sign in with Okta FastPass');
+
+    deviceChallengePollPageObject.clickAppLink();
+    // verify login_hint is not appended to the app link url
+    await t.expect(getPageUrl()).notContains(encodeURIComponent(username));
+    await t.expect(Selector('h1').innerText).eql('open app link without login_hint');
   });
