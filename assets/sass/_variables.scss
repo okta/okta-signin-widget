@@ -63,6 +63,10 @@ $microsoft-icon-bg-color: #4294de; // microsoft brand color - #00A1F1
 $microsoft-label-bg-color: #00a1f1;
 $microsoft-border-color: #447199;
 
+$other-icon-bg-color: #fff;
+$other-label-bg-color: $button-bg-color;
+$other-border-color: darken($button-bg-color, 22%);
+
 // Default Custom Button Colors
 $default-custom-button-background-color: #ff5f73;
 $default-custom-button-border-color: #d6001a;
