@@ -29,11 +29,15 @@ const Body = BaseForm.extend({
       this.save = loc('oie.primaryauth.submit', 'login');
     }
 
-    // Set username/identifier from the config. Note this takes precedence over the "remember my username" feature.
+    // Precedence for pre-filling identifier field:
+    // 1. Use username/identifier from the config.
+    // 2. Use identifier value returned in remediation response (model will have this attr set if it's there) 
+    // 3. Use value from the "remember my username" cookie.
     if(this._shouldAddUsername(uiSchema)) {
       // Set username/identifier from the config (i.e. config.username)
       this.model.set('identifier', this.settings.get('username'));
-    } else if (this._shouldApplyRememberMyUsername(uiSchema)) {
+    } else if (!this.model.get('identifier') && this._shouldApplyRememberMyUsername(uiSchema)) {
+      // Use value from cookie if the remediation did not return identifier value.
       this._applyRememberMyUsername();
     }
   },
@@ -187,7 +191,8 @@ const Body = BaseForm.extend({
    
   _shouldApplyRememberMyUsername(uiSchema) {
     return (uiSchema.find(schema => schema.name === 'identifier') 
-        && this.settings.get('features.rememberMe') && this.settings.get('features.rememberMyUsernameOnOIE'));
+        && this.settings.get('features.rememberMe')
+        && this.settings.get('features.rememberMyUsernameOnOIE'));
   },
 
   /**
