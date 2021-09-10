@@ -129,7 +129,6 @@
     "parse-ms": "^2.0.0",
     "protractor": "^7.0.0",
     "regenerator-runtime": "^0.13.7",
-    "remove-strict-webpack-plugin": "^0.1.2",
     "replace-in-file": "^6.2.0",
     "retire": "^2.0.3",
     "rimraf": "^2.6.2",

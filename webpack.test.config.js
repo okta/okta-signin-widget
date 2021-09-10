@@ -4,12 +4,9 @@ var createPlugins = require('./scripts/buildtools/webpack/plugins');
 var useRuntime = require('./scripts/buildtools/webpack/runtime');
 var testConfig    = commonConfig('main-tests.js');
 var rootDir       = path.resolve(__dirname);
-var RemoveStrictPlugin = require( 'remove-strict-webpack-plugin' );
 var plugins = createPlugins({ isProduction: false });
 var webpack = require('webpack');
 var SDK_VERSION = require('@okta/okta-auth-js').SDK_VERSION; // Maintain CommonJS require for Node.js
-
-plugins.unshift(new RemoveStrictPlugin());
 
 plugins.push(new webpack.DefinePlugin({
   SDK_VERSION: JSON.stringify(SDK_VERSION)
@@ -21,8 +18,7 @@ testConfig.module.rules.push({
   enforce: 'pre'
 });
 
-testConfig.entry = null;
-testConfig.output = null;
+testConfig.entry = {}; // required by webpack config validation schema
 testConfig.devtool = 'inline-source-map';
 testConfig.plugins = plugins;
 Object.assign(testConfig.resolve.alias, {
