@@ -31,5 +31,13 @@ export default View.extend({
   remove() {
     View.prototype.remove.apply(this, arguments);
     clearInterval(this.showMeInterval);
+
+    // Clear resend timeStamp whenever we change views (this means we're navigating away from the resend view)
+    const formName = this.options.appState.get('currentFormName');
+    if (this.options.model 
+      && this.options.model.get('formName') !== formName
+      && sessionStorageHelper.getResendTimestamp()) {
+      sessionStorageHelper.removeResendTimestamp();
+    }    
   },
 });

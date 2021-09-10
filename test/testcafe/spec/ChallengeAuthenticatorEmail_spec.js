@@ -392,6 +392,28 @@ test
   });
 
 test
+  .requestHooks(logger, validOTPmock)('resend timer resets when we navigate away from view', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await challengeEmailPageObject.clickEnterCodeLink();
+
+    await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
+    await t.wait(30500);
+    await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).notOk();
+    const resendEmailView = challengeEmailPageObject.resendEmailView();
+    await t.expect(resendEmailView.innerText).eql('Haven\'t received an email? Send again');
+
+    // Navigate away from the view
+    await challengeEmailPageObject.clickSignOutLink();
+    challengeEmailPageObject.navigateToPage();
+
+    await challengeEmailPageObject.clickEnterCodeLink();
+    await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
+    await t.wait(30500);
+    await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).notOk();
+    await t.expect(resendEmailView.innerText).eql('Haven\'t received an email? Send again');
+  });
+
+test
   .requestHooks(magicLinkReturnTabMock)('challenge email factor with magic link', async t => {
     await setup(t);
     const terminalPageObject = new TerminalPageObject(t);
