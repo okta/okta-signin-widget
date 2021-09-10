@@ -52,7 +52,7 @@
     "build:release": "grunt build:release",
     "build:webpack-dev": "webpack --config webpack.dev.config.js",
     "build:webpack-release": "webpack --config webpack.release.config.js",
-    "build:webpack-e2e-app": "webpack target/e2e/app/app-using-osw-entry.js target/js/app-bundle.js",
+    "build:webpack-e2e-app": "webpack ./target/e2e/app/app-using-osw-entry.js -o ./target/js/",
     "prepublishOnly": "yarn build:release",
     "start:mockDuo": "echo \"DEPRECATED: Please run 'yarn start --mock mockDuo' instead.\" && exit 1",
     "start:playground": "echo \"DEPRECATED: Please run 'yarn start --watch' instead.\" && exit 1",

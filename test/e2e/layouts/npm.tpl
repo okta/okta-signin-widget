@@ -11,7 +11,7 @@
 
 <body>
   <div id="okta-login-container"></div>
-  <script src="js/app-bundle.js"></script>
+  <script src="js/main.js"></script>
   <script type="text/javascript">
     {{> @partial-block }}
   </script>
