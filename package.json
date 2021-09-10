@@ -139,6 +139,7 @@
     "stylelint-scss": "^3.20.1",
     "testcafe": "^1.14.2",
     "time-grunt": "^2.0.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "wait-on": "^3.3.0",
     "webdriver-manager": "^13.0.0",
     "webpack": "^5.51.1",
