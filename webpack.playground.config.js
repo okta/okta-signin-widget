@@ -28,6 +28,9 @@ if (!fs.existsSync(WIDGET_RC_JS)) {
 module.exports = {
   mode: 'development',
   target: 'web',
+  infrastructureLogging: {
+    level: 'warn',
+  },
   entry: {
     'playground.js': [`${PLAYGROUND}/main.js`]
   },
