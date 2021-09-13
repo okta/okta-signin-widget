@@ -84,7 +84,7 @@ Expect.describe('EnrollU2F', function() {
   function expectError(test, errorMessage) {
     expect(window.u2f.register).toHaveBeenCalled();
     expect(test.form.hasErrors()).toBe(true);
-    expect(test.form.errorBox()).toHaveLength(1);
+    expect(test.form.errorBox().length).toEqual(1);
     expect(test.form.errorMessage()).toEqual(errorMessage);
     expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
     expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
@@ -122,7 +122,7 @@ Expect.describe('EnrollU2F', function() {
       delete window.u2f;
 
       return setup().then(function(test) {
-        expect(test.form.errorHtml()).toHaveLength(1);
+        expect(test.form.errorHtml().length).toEqual(1);
         expect(test.form.errorHtml().html()).toEqual(
           'Security Key (U2F) is not supported on this browser.' +
             ' Select another factor or contact your admin for assistance.'
@@ -134,7 +134,7 @@ Expect.describe('EnrollU2F', function() {
       delete window.u2f;
 
       return setup(false, true).then(function(test) {
-        expect(test.form.errorHtml()).toHaveLength(1);
+        expect(test.form.errorHtml().length).toEqual(1);
         expect(test.form.errorHtml().html()).toEqual(
           'Security Key (U2F) is not supported on this browser.' + ' Contact your admin for assistance.'
         );
@@ -145,7 +145,7 @@ Expect.describe('EnrollU2F', function() {
       mockU2f();
 
       return setup().then(function(test) {
-        expect(test.form.errorHtml()).toHaveLength(0);
+        expect(test.form.errorHtml().length).toEqual(0);
       });
     });
 

@@ -174,7 +174,7 @@ Expect.describe('PIV', function() {
         })
         .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorBox()).toHaveLength(1);
+          expect(test.form.errorBox().length).toEqual(1);
           expect(test.form.errorMessage()).toEqual('Invalid certificate.');
         });
     });
@@ -214,7 +214,7 @@ Expect.describe('PIV', function() {
         })
         .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorBox()).toHaveLength(1);
+          expect(test.form.errorBox().length).toEqual(1);
           expect(test.form.errorMessage()).toEqual(
             'There was an error signing in. Click the button below to try again.'
           );
@@ -231,7 +231,7 @@ Expect.describe('PIV', function() {
         })
         .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorBox()).toHaveLength(1);
+          expect(test.form.errorBox().length).toEqual(1);
           expect(test.form.errorMessage()).toEqual(
             'There was an error signing in. Click the button below to try again.'
           );
@@ -249,7 +249,7 @@ Expect.describe('PIV', function() {
         })
         .then(function(test) {
           expect(test.form.hasErrors()).toBe(true);
-          expect(test.form.errorBox()).toHaveLength(1);
+          expect(test.form.errorBox().length).toEqual(1);
           expect(test.form.errorMessage()).toEqual('Authentication failed');
         });
     });

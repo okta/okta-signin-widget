@@ -131,7 +131,7 @@ Expect.describe('AdminConsentRequired', function() {
 
   itp('has the default logo if client logo is not provided', function() {
     return setup().then(function(test) {
-      expect(test.form.clientLogoLink()).toHaveLength(0);
+      expect(test.form.clientLogoLink().length).toEqual(0);
       expect(test.form.clientLogo().attr('src')).toBe(`${window.location.origin}/img/logos/default.png`);
     });
   });
@@ -155,7 +155,7 @@ Expect.describe('AdminConsentRequired', function() {
 
   itp('has the consent button', function() {
     return setup().then(function(test) {
-      expect(test.form.consentButton()).toHaveLength(1);
+      expect(test.form.consentButton().length).toEqual(1);
       expect(test.form.consentButton().attr('value')).toBe('Allow Access');
       expect(test.form.consentButton().attr('class')).toBe('button button-primary');
     });
@@ -193,7 +193,7 @@ Expect.describe('AdminConsentRequired', function() {
 
   itp('has the cancel button', function() {
     return setup().then(function(test) {
-      expect(test.form.cancelButton()).toHaveLength(1);
+      expect(test.form.cancelButton().length).toEqual(1);
       expect(test.form.cancelButton().attr('value')).toBe('Don\'t Allow');
       expect(test.form.cancelButton().attr('class')).toBe('button button-clear');
     });

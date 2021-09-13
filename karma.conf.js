@@ -7,7 +7,7 @@ module.exports = (config) => {
   const options = {
     basePath: './',
     browsers: ['ChromeHeadlessNoSandbox'],
-    frameworks: ['karma-overrides', 'jasmine-jquery', 'jasmine'],
+    frameworks: ['karma-overrides', 'jasmine'],
     files: [
       { pattern: './test/unit/main.js', watched: false },
       { pattern: './test/unit/assets/*', watched: false, included: false, served: true, nocache: false },
