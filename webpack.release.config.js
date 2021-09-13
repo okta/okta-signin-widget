@@ -52,5 +52,6 @@ useRuntime(noJqueryConfig);
 var devConfig = config('okta-sign-in.js', 'development');
 devConfig.plugins = plugins({ isProduction: false, analyzerFile: 'okta-sign-in.analyzer' });
 usePolyfill(devConfig);
+devConfig.optimization.minimize = false;
 
 module.exports = [entryConfig, noPolyfillConfig, cdnConfig, noJqueryConfig, devConfig];

@@ -55,11 +55,6 @@ module.exports = {
     static: [
       PLAYGROUND,
       TARGET,
-      // webpack-dev-server v2 only watch contentbase on root level
-      // explicitly list folders to watch for browser auto reload
-      // sub-folders can be removed when upgrade to webpack-dev-server v3
-      path.join(TARGET, 'js'),
-      path.join(TARGET, 'css'),
       {
         staticOptions: {
           watchContentBase: true
