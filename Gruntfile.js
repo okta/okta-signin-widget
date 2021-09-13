@@ -219,7 +219,8 @@ module.exports = function(grunt) {
       'clean': 'yarn clean',
       'retirejs': 'yarn retirejs',
       'build-dev': 'yarn build:webpack-dev' + (mockDuo ? ' --env mockDuo=true' : ''),
-      'build-dev-watch': 'yarn build:webpack-dev --watch --env.skipAnalyzer' + (mockDuo ? ' --env mockDuo=true' : ''),
+      'build-dev-watch':
+        'yarn build:webpack-dev --watch --env skipAnalyzer=true' + (mockDuo ? ' --env mockDuo=true' : ''),
       'build-release': 'yarn build:webpack-release',
       'build-e2e-app': 'yarn build:webpack-e2e-app',
       'generate-config': 'yarn generate-config',
