@@ -27,8 +27,13 @@ const Body = BaseForm.extend({
         View.extend({
           tagName: 'section',
           template:
-            hbs`<div class="password-authenticator--heading">
-              {{i18n code="duresspassword.complexity.requirements.header" bundle="login"}}
+            hbs`
+            </div>
+            <a href="https://en.wikipedia.org/wiki/Duress_code" target="_blank">
+            {{i18n code="duresspassword.learnmore" bundle="login"}}</a>
+            <div>
+            <div class="password-authenticator--heading">
+              {{i18n code="password.complexity.requirements.header" bundle="login"}}
             </div>
             <ul class="password-authenticator--list">
               {{#each rulesList}}<li>{{this}}</li>{{/each}}

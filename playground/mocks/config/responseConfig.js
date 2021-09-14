@@ -93,7 +93,7 @@ const idx = {
     // 'error-enroll-regisration-unavailable',
   ],
   '/idp/idx/credential/enroll': [
-    'authenticator-enroll-password',
+    'authenticator-enroll-duresspassword',
     // 'authenticator-enroll-security-question',
     // 'authenticator-enroll-google-authenticator',
     // 'error-authenticator-enroll-phone-invalid-number',
@@ -110,6 +110,7 @@ const idx = {
     // 'error-with-failure-redirect',
   ],
   '/idp/idx/challenge/answer': [
+    'success'
     // 'error-401-invalid-otp-passcode',
     // 'error-429-too-many-request-operation-ratelimit',
     // 'error-429-too-many-request',
@@ -119,9 +120,9 @@ const idx = {
     // 'error-authenticator-enroll-security-question',
     // 'error-authenticator-webauthn-failure',
     // 'error-authenticator-enroll-password-common',
-    'error-authenticator-reset-password-requirement',
-    'error-authenticator-enroll-security-question-html-tags',
-    'error-authenticator-enroll-password-common',
+    // 'error-authenticator-reset-password-requirement',
+    // 'error-authenticator-enroll-security-question-html-tags',
+    // 'error-authenticator-enroll-password-common',
     // 'error-authenticator-reset-password-requirement',
     // 'error-authenticator-enroll-security-question-html-tags',
   ],
