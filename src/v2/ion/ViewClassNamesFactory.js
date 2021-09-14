@@ -4,7 +4,8 @@ import { AUTHENTICATOR_KEY, FORMS } from './RemediationConstants';
 const FORMNAME_CLASSNAME_MAPPINGS = {
   [FORMS.IDENTIFY]: {
     [FORMS.IDENTIFY]: 'primary-auth',
-    [AUTHENTICATOR_KEY.PASSWORD]: 'primary-auth'
+    [AUTHENTICATOR_KEY.PASSWORD]: 'primary-auth',
+    [AUTHENTICATOR_KEY.DURESS_PASSWORD]: 'primary-auth'
   },
   [FORMS.IDENTIFY_RECOVERY]: {
     [FORMS.IDENTIFY_RECOVERY]: 'forgot-password',
@@ -15,6 +16,7 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
   [FORMS.CHALLENGE_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.EMAIL]: 'mfa-verify-passcode',
     [AUTHENTICATOR_KEY.PASSWORD]: 'mfa-verify-password',
+    [AUTHENTICATOR_KEY.DURESS_PASSWORD]: 'mfa-verify-duresspassword',
     sms: 'mfa-verify-passcode',
     voice: 'mfa-verify-passcode',
     [AUTHENTICATOR_KEY.SECURITY_QUESTION]: 'mfa-verify-question',
@@ -39,6 +41,7 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
   [FORMS.ENROLL_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.EMAIL]: 'enroll-email',
     [AUTHENTICATOR_KEY.PASSWORD]: 'enroll-password',
+    [AUTHENTICATOR_KEY.DURESS_PASSWORD]: 'enroll-duresspassword',
     sms: 'enroll-sms',
     voice: 'enroll-call',
     [AUTHENTICATOR_KEY.SECURITY_QUESTION]: 'enroll-question',
@@ -54,14 +57,17 @@ const FORMNAME_CLASSNAME_MAPPINGS = {
     'select-authenticator-enroll': 'enroll-choices'
   },
   [FORMS.SELECT_AUTHENTICATOR_AUTHENTICATE]: {
-    [AUTHENTICATOR_KEY.PASSWORD]: 'forgot-password'
+    [AUTHENTICATOR_KEY.PASSWORD]: 'forgot-password',
+    [AUTHENTICATOR_KEY.DURESS_PASSWORD]: 'forgot-duresspassword'
   },
   [FORMS.REENROLL_AUTHENTICATOR]: {
-    [AUTHENTICATOR_KEY.PASSWORD]: 'password-expired'
+    [AUTHENTICATOR_KEY.DURESS_PASSWORD]: 'password-expired',
+    [AUTHENTICATOR_KEY.DURESS_PASSWORD]: 'duresspassword-expired'
   },
 
   [FORMS.RESET_AUTHENTICATOR]: {
-    [AUTHENTICATOR_KEY.PASSWORD]: 'forgot-password'
+    [AUTHENTICATOR_KEY.PASSWORD]: 'forgot-password',
+    [AUTHENTICATOR_KEY.DURESS_PASSWORD]: 'forgot-duresspassword'
   },
 
   [FORMS.CONSENT_ADMIN]: {
@@ -125,4 +131,3 @@ export {
   getClassNameMapping,
   getV1ClassName
 };
-

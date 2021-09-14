@@ -30,6 +30,7 @@ import EnrollEmailController from 'EnrollEmailController';
 import EnrollHotpController from 'EnrollHotpController';
 import EnrollOnPremController from 'EnrollOnPremController';
 import EnrollPasswordController from 'EnrollPasswordController';
+import EnrollDuressPasswordController from 'EnrollDuressPasswordController';
 import EnrollQuestionController from 'EnrollQuestionController';
 import EnrollSymantecVipController from 'EnrollSymantecVipController';
 import EnrollTotpController from 'EnrollTotpController';
@@ -92,6 +93,7 @@ export default BaseLoginRouter.extend({
     'signin/enroll/duo/web': 'enrollDuo',
     'signin/enroll/okta/question': 'enrollQuestion',
     'signin/enroll/okta/password': 'enrollPassword',
+    'signin/enroll/okta/duress_password': 'enrollDuressPassword',
     'signin/enroll/okta/sms': 'enrollSms',
     'signin/enroll/okta/call': 'enrollCall',
     'signin/enroll/okta/email': 'enrollEmail',
@@ -282,6 +284,13 @@ export default BaseLoginRouter.extend({
     this.render(EnrollPasswordController, {
       provider: 'OKTA',
       factorType: 'password',
+      Beacon: FactorBeacon,
+    });
+  },
+  enrollDuressPassword: function() {
+    this.render(EnrollDuressPasswordController, {
+      provider: 'OKTA',
+      factorType: 'duresspassword',
       Beacon: FactorBeacon,
     });
   },

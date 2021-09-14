@@ -95,6 +95,7 @@ const FORMS_FOR_VERIFICATION = [
 const AUTHENTICATOR_KEY = {
   EMAIL: 'okta_email',
   PASSWORD: 'okta_password',
+  DURESS_PASSWORD: 'okta_duresspassword',
   PHONE: 'phone_number',
   WEBAUTHN: 'webauthn',
   SECURITY_QUESTION: 'security_question',

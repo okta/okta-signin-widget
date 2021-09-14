@@ -11,7 +11,7 @@ import CaptchaView from '../views/captcha/CaptchaView';
 
 
 const isTextOverflow = (text, maxWidth) => {
-  // Create a temporary element and attach it to the document so we can compare the client width to the 
+  // Create a temporary element and attach it to the document so we can compare the client width to the
   // max width allowed.
   const elem = document.createElement('div');
   elem.style.position = 'absolute';
@@ -27,6 +27,7 @@ const isTextOverflow = (text, maxWidth) => {
 };
 
 const createAuthenticatorEnrollSelectView = (opt) => {
+  console.log(opt);
   var optionItems = (opt.options || [])
     .map(opt => {
       return Object.assign({}, opt, getAuthenticatorDataForEnroll(opt));
@@ -85,7 +86,7 @@ const createCaptchaView = (opt) => {
     View: CaptchaView,
     options: {
       name: opt.name,
-    }    
+    }
   };
 };
 
@@ -99,6 +100,7 @@ const inputCreationStrategy = {
 
 // TODO: move logic to uiSchemaTransformer
 const create = function(uiSchemaObj) {
+  console.trace(uiSchemaObj);
   const strategyFn = inputCreationStrategy[uiSchemaObj.type] || _.identity;
   return strategyFn(uiSchemaObj);
 };

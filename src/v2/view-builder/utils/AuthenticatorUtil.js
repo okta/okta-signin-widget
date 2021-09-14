@@ -25,7 +25,9 @@ const getButtonDataSeAttr = function(authenticator) {
 };
 
 /* eslint complexity: [0, 0] */
+// eslint-disable-next-line max-statements
 const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
+  console.log(authenticator);
   const authenticatorKey = authenticator.authenticatorKey;
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
   let authenticatorData = {};
@@ -49,7 +51,15 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
     });
     break;
-
+  case AUTHENTICATOR_KEY.DURESS_PASSWORD:
+    Object.assign(authenticatorData, {
+      description: isVerifyAuthenticator
+        ? ''
+        : loc('oie.duresspassword.authenticator.description', 'login'),
+      iconClassName: 'mfa-okta-password',
+      buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+    });
+    break;
   case AUTHENTICATOR_KEY.PHONE:
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator

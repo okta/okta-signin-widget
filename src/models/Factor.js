@@ -41,6 +41,7 @@ const FactorFactor = BaseLoginModel.extend({
         'push',
         'u2f',
         'password',
+        'duresspassword',
         'assertion:saml2',
         'assertion:oidc',
         'claims_provider',

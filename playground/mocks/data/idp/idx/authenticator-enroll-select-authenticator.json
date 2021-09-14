@@ -43,34 +43,21 @@
                 "relatesTo": "$.authenticators.value[0]"
               },
               {
-                "label": "Okta Phone",
+                "label": "Okta Duress Password",
                 "value": {
                   "form": {
                     "value": [
                       {
                         "name": "id",
-                        "value": "aid568g3mXgtID0X1SLH",
-                        "mutable": false,
-                        "required": true
+                        "required": true,
+                        "value": "autwa6eD9o02iBbtv0g4",
+                        "mutable": false
                       },
                       {
                         "name": "methodType",
                         "required": false,
-                        "options": [
-                          {
-                            "label": "SMS",
-                            "value": "sms"
-                          },
-                          {
-                            "label": "VOICE",
-                            "value": "voice"
-                          }
-                        ]
-                      },
-                      {
-                        "name": "phoneNumber",
-                        "required": false,
-                        "type": "string"
+                        "value": "duresspassword",
+                        "mutable": false
                       }
                     ]
                   }
@@ -216,7 +203,7 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[7]"
-              }, 
+              },
               {
                 "label": "Duo Security",
                 "value": {
@@ -314,6 +301,41 @@
                   }
                 },
                 "relatesTo": "$.authenticators.value[12]"
+              },
+              {
+                "label": "Okta Phone",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "aid568g3mXgtID0X1SLH",
+                        "mutable": false,
+                        "required": true
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "options": [
+                          {
+                            "label": "SMS",
+                            "value": "sms"
+                          },
+                          {
+                            "label": "VOICE",
+                            "value": "voice"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "phoneNumber",
+                        "required": false,
+                        "type": "string"
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[13]"
               }
             ]
           },
@@ -346,11 +368,11 @@
         "id": "webauthn-enroll-id-123"
       },
       {
-        "displayName": "Okta Phone",
-        "type": "phone",
-        "key": "phone_number",
-        "authenticatorId": "aid568g3mXgtID0X1SLH",
-        "id": "phone-enroll-id-123"
+        "displayName": "Okta Duress Password",
+        "type": "duresspassword",
+        "key": "okta_duresspassword",
+        "authenticatorId": "autwa6eD9o02iBbtv0g4",
+        "id": "duress-password-enroll-id-123"
       },
       {
         "displayName": "Okta Security Question",
@@ -410,7 +432,7 @@
             "type": "otp"
           }
         ]
-      }, 
+      },
       {
         "type": "app",
         "key": "duo",
@@ -421,7 +443,7 @@
             "type": "idp"
           }
         ]
-      }, 
+      },
       {
         "type": "federated",
         "id": "aut4mhtS1b84AR0iQ0g4",
@@ -465,6 +487,13 @@
             "type": "otp"
           }
         ]
+      },
+      {
+        "displayName": "Okta Phone",
+        "type": "phone",
+        "key": "phone_number",
+        "authenticatorId": "aid568g3mXgtID0X1SLH",
+        "id": "phone-enroll-id-123"
       }
     ]
   },

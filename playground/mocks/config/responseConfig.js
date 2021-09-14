@@ -93,10 +93,10 @@ const idx = {
     // 'error-enroll-regisration-unavailable',
   ],
   '/idp/idx/credential/enroll': [
-    // 'authenticator-enroll-ov-via-sms',
+    'authenticator-enroll-password',
     // 'authenticator-enroll-security-question',
     // 'authenticator-enroll-google-authenticator',
-    'error-authenticator-enroll-phone-invalid-number',
+    // 'error-authenticator-enroll-phone-invalid-number',
   ],
   '/idp/idx/identify': [
     'authenticator-enroll-select-authenticator',

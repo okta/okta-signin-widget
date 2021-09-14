@@ -83,6 +83,7 @@ function createAuthenticatorOptions(options = []) {
       .reduce((init, v) => {
         return Object.assign(init, { [v.name]: v.value });
       }, {});
+    console.log(valueObject);
     return {
       label: option.label,
       value: valueObject,

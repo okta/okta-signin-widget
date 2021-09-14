@@ -406,7 +406,30 @@
                    }
                 },
                 "relatesTo":"$.authenticatorEnrollments.value[16]"
+              },
+              {
+                "label": "Okta Duress Password",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aidwboITrg4b4yAYd0g4",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "duresspassword",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[17]"
               }
+
             ]
           },
           {
@@ -614,6 +637,13 @@
             "type":"push"
           }
         ]
+      },
+      {
+        "displayName": "Duress Password",
+        "type": "duress_password",
+        "key": "okta_duresspassword",
+        "id": "autwa6eD9o02iBbtv0g4",
+        "authenticatorId": "aidwboITrg4b4yAYd0g4"
       }
     ]
   },

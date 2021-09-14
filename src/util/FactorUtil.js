@@ -165,6 +165,13 @@ const factorData = {
     iconClassName: 'mfa-custom-factor',
     sortOrder: 18,
   },
+  DURESS_PASSWORD: {
+    /* eslint-disable-next-line @okta/okta/no-unlocalized-text */
+    label: 'factor.duresspassword',
+    description: '',
+    iconClassName: 'mfa-okta-duress-password',
+    sortOrder: 19,
+  },
 };
 
 const getPasswordComplexityRequirementsAsArray = function(policy, i18nKeys) {
@@ -291,6 +298,9 @@ fn.getFactorName = function(provider, factorType) {
   }
   if (provider === 'OKTA' && factorType === 'password') {
     return 'PASSWORD';
+  }
+  if (provider === 'OKTA' && factorType === 'duresspassword') {
+    return 'DURESS_PASSWORD';
   }
   if (provider === 'GENERIC_SAML' && factorType === 'assertion:saml2') {
     return 'GENERIC_SAML';

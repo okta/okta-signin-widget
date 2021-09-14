@@ -46,6 +46,14 @@ import ReEnrollAuthenticatorPasswordView from './views/password/ReEnrollAuthenti
 import ReEnrollAuthenticatorWarningPasswordView from './views/password/ReEnrollAuthenticatorWarningPasswordView';
 import ResetAuthenticatorPasswordView from './views/password/ResetAuthenticatorPasswordView';
 
+// duress password
+import EnrollAuthenticatorDuressPasswordView from './views/duress-password/EnrollAuthenticatorDuressPasswordView';
+import ChallengeAuthenticatorDuressPasswordView from './views/duress-password/ChallengeAuthenticatorDuressPasswordView';
+import ReEnrollAuthenticatorDuressPasswordView from './views/duress-password/ReEnrollAuthenticatorDuressPasswordView';
+// eslint-disable-next-line max-len
+import ReEnrollAuthenticatorWarningDuressPasswordView from './views/duress-password/ReEnrollAuthenticatorWarningDuressPasswordView';
+import ResetAuthenticatorDuressPasswordView from './views/duress-password/ResetAuthenticatorDuressPasswordView';
+
 // phone
 import EnrollAuthenticatorPhoneView from './views/phone/EnrollAuthenticatorPhoneView';
 import EnrollAuthenticatorDataPhoneView from './views/phone/EnrollAuthenticatorDataPhoneView';
@@ -108,7 +116,7 @@ import AuthenticatorYubiKeyView from './views/yubikey/AuthenticatorYubiKeyView';
 
 // custom app
 import ChallengePushView from './views/shared/ChallengePushView';
-import ChallengeCustomAppResendPushView from './views/custom-app/ChallengeCustomAppResendPushView'; 
+import ChallengeCustomAppResendPushView from './views/custom-app/ChallengeCustomAppResendPushView';
 
 const DEFAULT = '_';
 
@@ -166,6 +174,7 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.IDP]: AuthenticatorIdPEnrollView,
     [AUTHENTICATOR_KEY.ON_PREM]: EnrollAuthenticatorOnPremView,
     [AUTHENTICATOR_KEY.PASSWORD]: EnrollAuthenticatorPasswordView,
+    [AUTHENTICATOR_KEY.DURESS_PASSWORD]: EnrollAuthenticatorDuressPasswordView,
     [AUTHENTICATOR_KEY.PHONE]: EnrollAuthenticatorPhoneView,
     [AUTHENTICATOR_KEY.RSA]: EnrollAuthenticatorOnPremView,
     [AUTHENTICATOR_KEY.SECURITY_QUESTION]: EnrollAuthenticatorSecurityQuestion,
@@ -182,6 +191,7 @@ const VIEWS_MAPPING = {
     [AUTHENTICATOR_KEY.ON_PREM]: ChallengeAuthenticatorOnPremView,
     [AUTHENTICATOR_KEY.OV]: ChallengeOktaVerifyTotpView,
     [AUTHENTICATOR_KEY.PASSWORD]: ChallengeAuthenticatorPasswordView,
+    [AUTHENTICATOR_KEY.DURESS_PASSWORD]: ChallengeAuthenticatorDuressPasswordView,
     [AUTHENTICATOR_KEY.PHONE]: ChallengeAuthenticatorPhoneView,
     [AUTHENTICATOR_KEY.RSA]: ChallengeAuthenticatorOnPremView,
     [AUTHENTICATOR_KEY.SECURITY_QUESTION]: ChallengeAuthenticatorSecurityQuestion,
@@ -202,16 +212,19 @@ const VIEWS_MAPPING = {
   [RemediationForms.REENROLL_AUTHENTICATOR]: {
     // Password expired scenario..
     [AUTHENTICATOR_KEY.PASSWORD]: ReEnrollAuthenticatorPasswordView,
+    [AUTHENTICATOR_KEY.DURESS_PASSWORD]: ReEnrollAuthenticatorDuressPasswordView
   },
   // Will expire soon warnings for authenticators..
   [RemediationForms.REENROLL_AUTHENTICATOR_WARNING]: {
     // Password will expire soon scenario..
     [AUTHENTICATOR_KEY.PASSWORD]: ReEnrollAuthenticatorWarningPasswordView,
+    [AUTHENTICATOR_KEY.DURESS_PASSWORD]: ReEnrollAuthenticatorWarningDuressPasswordView
   },
   // Reset forms for authenticators..
   [RemediationForms.RESET_AUTHENTICATOR]: {
     // Admin driven password reset..
     [AUTHENTICATOR_KEY.PASSWORD]: ResetAuthenticatorPasswordView,
+    [AUTHENTICATOR_KEY.DURESS_PASSWORD]: ResetAuthenticatorDuressPasswordView
   },
   [RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE]: {
     [DEFAULT]: SelectAuthenticatorVerifyView,
