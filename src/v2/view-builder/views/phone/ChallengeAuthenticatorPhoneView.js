@@ -1,9 +1,9 @@
-import { loc, View, createCallout } from 'okta';
+import { loc, createCallout } from 'okta';
 import { BaseForm, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
+import BaseResendView from '../shared/BaseResendView';
 
-const ResendView = View.extend(
+const ResendView = BaseResendView.extend(
   {
     // To be shown after a timeout
     className: 'phone-authenticator-challenge__resend-warning hide',
@@ -35,21 +35,6 @@ const ResendView = View.extend(
       }
       this.showCalloutAfterTimeout();
     },
-
-    postRender() {
-      this.showCalloutAfterTimeout();
-    },
-
-    showCalloutAfterTimeout() {
-      this.showCalloutTimer = setTimeout(() => {
-        this.el.classList.remove('hide');
-      }, SHOW_RESEND_TIMEOUT);
-    },
-
-    remove() {
-      View.prototype.remove.apply(this, arguments);
-      clearTimeout(this.showCalloutTimer);
-    }
   },
 );
 
