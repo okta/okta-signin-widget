@@ -23,5 +23,7 @@ export function configIdxJsClient(appState) {
       requestConfig.headers['X-Device-Fingerprint'] = fingerprint;
     }
     requestConfig.headers['X-Okta-User-Agent-Extended'] = `okta-signin-widget-${config.version}`;
+    requestConfig.headers['X-Forwarded-For'] = localStorage.getItem('X-Forwarded-For');
+    requestConfig.headers['Preview-User-Agent'] = localStorage.getItem('Preview-User-Agent');
   });
 }
