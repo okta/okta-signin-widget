@@ -13,6 +13,7 @@
 import idx from '@okta/okta-idx-js';
 
 export async function introspect(settings, stateHandle) {
+  console.log('start introspect: ', settings, stateHandle)
   const domain = settings.get('baseUrl');
   const version = settings.get('apiVersion');
 

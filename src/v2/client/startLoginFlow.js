@@ -24,6 +24,8 @@ const handleProxyIdxResponse = async (settings) => {
 };
 
 export async function startLoginFlow(settings) {
+  console.log('startLoginFlow ', settings);
+
   // Return a preset response
   if (settings.get('proxyIdxResponse')) {
     return handleProxyIdxResponse(settings);
@@ -41,7 +43,9 @@ export async function startLoginFlow(settings) {
   // Use stateToken from session storage if exists
   // See more details at ./docs/use-session-token-prior-to-settings.png
   const stateHandleFromSession = sessionStorageHelper.getStateHandle();
+  console.log('stateHandleFromSession: ', stateHandleFromSession);
   if (stateHandleFromSession) {
+    console.log('in stateHandleFromSession');
     return introspect(settings, stateHandleFromSession)
       .then((idxResp) => {
         // 1. abandon the settings.stateHandle given session.stateHandle is still valid
@@ -59,7 +63,9 @@ export async function startLoginFlow(settings) {
 
   // Use stateToken from options
   const stateHandle = settings.get('stateToken');
+  console.log('stateHandle: ', stateHandle);
   if (stateHandle) {
+    console.log('in stateHandle');
     return introspect(settings, stateHandle);
   }
 

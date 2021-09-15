@@ -20,6 +20,7 @@ import { getTransactionMeta, saveTransactionMeta } from './transactionMeta';
 
 // Begin or resume a transaction using an interactionHandle
 export async function interact(settings) {
+  console.log('start interact', settings);
 
   const authClient = settings.getAuthClient();
   let meta = await getTransactionMeta(settings);
@@ -34,6 +35,9 @@ export async function interact(settings) {
   // These properties are defined by global configuration
   const { issuer, clientId, redirectUri } = authClient.options;
   const version = settings.get('apiVersion');
+
+  console.log('interact request1', settings);
+  console.log('interact request2', meta);
 
   return idx.start({
     // if interactionHandle is undefined here, idx will bootstrap a new interactionHandle

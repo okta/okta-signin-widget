@@ -15,6 +15,8 @@ function log(level, args) {
   // throwing an error through console.error
   if (DEBUG || level === 'error') {
     window.console[level].apply(window.console, args);
+    const stackTrace = new Error().stack
+    console.log('stacktrace: ', stackTrace);
   }
 }
 

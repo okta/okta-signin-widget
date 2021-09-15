@@ -7,6 +7,7 @@ export default function buildRenderOptions(widgetOptions = {}, options = {}) {
   const { el, clientId, redirectUri } = Object.assign({}, widgetOptions, options);
   const renderOptions = Object.assign({}, { el, clientId, redirectUri, authParams });
 
+  console.log('checking config');
   if (!renderOptions.el) {
     throw new Errors.ConfigError('"el" is required');
   }

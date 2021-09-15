@@ -38,8 +38,13 @@ const Body = BaseForm.extend({
   initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
     this.redirectView = this.settings.get('interstitialBeforeLoginRedirect');
-    this.model.set('useRedirect', true);
+    this.model.set('useRedirect', false);
+    console.log('redirect model: ', this.model);
     this.trigger('save', this.model);
+
+    const event = new CustomEvent('policy-preview-success');
+    document.dispatchEvent(event);
+    console.log('dispatching custom event: ', event);
   },
 
   render() {

@@ -17,6 +17,7 @@ import i18nTransformer from './i18nTransformer';
 
 // Transforms an IDX response to an ION response
 export default function transformIdxResponse(settings, curResponse, lastResponse) {
+  console.log('transform idx response: ', settings);
   const ionResponse = _.compose(
     i18nTransformer,
     uiSchemaTransformer.bind({}, settings),
