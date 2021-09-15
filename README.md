@@ -5,6 +5,8 @@
 [![npm version](https://img.shields.io/npm/v/@okta/okta-signin-widget.svg?style=flat-square)](https://www.npmjs.com/package/@okta/okta-signin-widget)
 <!-- END GITHUB ONLY -->
 
+bump
+
 <!-- links -->
 [devforum]: https://devforum.okta.com/
 [lang-landing]: https://developer.okta.com/code/javascript
