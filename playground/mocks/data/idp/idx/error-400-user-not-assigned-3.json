@@ -1,0 +1,119 @@
+{
+  "version":"1.0.0",
+  "stateHandle":"02DjWW-aa8tJ1lIspi9pjD44c6N7pXC__J3WWjp_FK",
+  "expiresAt":"2022-08-26T00:16:55.000Z",
+  "intent":"LOGIN",
+  "remediation":{
+    "type":"array",
+    "value":[
+      {
+        "rel":[
+          "create-form"
+        ],
+        "name":"identify",
+        "href":"http://localhost:3000/idp/idx/identify",
+        "method":"POST",
+        "produces":"application/ion+json; okta-version=1.0.0",
+        "value":[
+          {
+            "name":"identifier",
+            "label":"Username"
+          },
+          {
+            "name":"rememberMe",
+            "type":"boolean",
+            "label":"Remember this device"
+          },
+          {
+            "name":"stateHandle",
+            "required":true,
+            "value":"02DjWW-aa8tJ1lIspi9pjD44c6N7pXC__J3WWjp_FK",
+            "visible":false,
+            "mutable":false
+          }
+        ],
+        "accepts":"application/json; okta-version=1.0.0"
+      },
+      {
+        "rel":[
+          "create-form"
+        ],
+        "name":"launch-authenticator",
+        "relatesTo":[
+          "authenticatorChallenge"
+        ],
+        "href":"http://localhost:3000/idp/idx/authenticators/okta-verify/launch",
+        "method":"POST",
+        "produces":"application/ion+json; okta-version=1.0.0",
+        "value":[
+          {
+            "name":"stateHandle",
+            "required":true,
+            "value":"02DjWW-aa8tJ1lIspi9pjD44c6N7pXC__J3WWjp_FK",
+            "visible":false,
+            "mutable":false
+          }
+        ],
+        "accepts":"application/json; okta-version=1.0.0"
+      },
+      {
+        "rel":[
+          "create-form"
+        ],
+        "name":"unlock-account",
+        "href":"http://localhost:3000/idp/idx/unlock-account",
+        "method":"POST",
+        "produces":"application/ion+json; okta-version=1.0.0",
+        "value":[
+          {
+            "name":"stateHandle",
+            "required":true,
+            "value":"02DjWW-aa8tJ1lIspi9pjD44c6N7pXC__J3WWjp_FK",
+            "visible":false,
+            "mutable":false
+          }
+        ],
+        "accepts":"application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "messages":{
+    "type":"array",
+    "value":[
+      {
+        "message":"User is not assigned to this application.",
+        "i18n":{
+          "key":"idx.error.user.not.assigned.to.app"
+        },
+        "class":"ERROR"
+      }
+    ]
+  },
+  "cancel":{
+    "rel":[
+      "create-form"
+    ],
+    "name":"cancel",
+    "href":"http://localhost:3000/idp/idx/cancel",
+    "method":"POST",
+    "produces":"application/ion+json; okta-version=1.0.0",
+    "value":[
+      {
+        "name":"stateHandle",
+        "required":true,
+        "value":"02DjWW-aa8tJ1lIspi9pjD44c6N7pXC__J3WWjp_FK",
+        "visible":false,
+        "mutable":false
+      }
+    ],
+    "accepts":"application/json; okta-version=1.0.0"
+  },
+  "app":{
+    "type":"object",
+    "value":{
+      "name":"okta_oktaprise_1",
+      "label":"oktaprise",
+      "id":"0oa14q13b78mZ5dVy1d8"
+    }
+  }
+}

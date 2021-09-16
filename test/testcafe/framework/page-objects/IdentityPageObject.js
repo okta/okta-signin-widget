@@ -1,7 +1,7 @@
 import { Selector } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
-const CALLOUT_SELECTOR = '.infobox-warning > div';
+const CALLOUT_SELECTOR = '[data-se="callout"]';
 const ENROLL_SELECTOR = 'a[data-se="enroll"]';
 const NEEDHELP_SELECTOR = 'a[data-se="help"]';
 const FORGOT_PASSWORD_SELECTOR = 'a[data-se="forgot-password"]';
@@ -116,6 +116,10 @@ export default class IdentityPageObject extends BasePageObject {
 
   hasCallout() {
     return !this.form.getCallout(CALLOUT_SELECTOR);
+  }
+
+  hasUnknownUserErrorCallout() {
+    return this.form.getCallout(CALLOUT_SELECTOR).hasClass('infobox-error');
   }
 
   getUnknownUserCalloutContent() {
