@@ -201,14 +201,6 @@ export default Router.extend({
       this.el = this.header.render().getContentEl();
     }
 
-    setTimeout(() => {
-      const hasRendered = this.controller && this.controller.constructor === Controller && this.controller.rendered();
-      if (!this.header.isLoadingBeacon() && !hasRendered) {
-        this.show();
-        this.header.setLoadingBeacon(true);
-      }
-    }, 1000);
-
     // If we need to load a language (or apply custom i18n overrides), do
     // this now and re-run render after it's finished.
     if (!Bundles.isLoaded(this.appState.get('languageCode'))) {
@@ -242,8 +234,6 @@ export default Router.extend({
     return this.controller
       .fetchInitialData()
       .then(() => {
-        this.header.removeLoadingBeacon();
-
         // Beacon transition occurs in parallel to page swap
         if (!beaconIsAvailable(Beacon, this.settings)) {
           Beacon = null;

@@ -219,14 +219,6 @@ export default Router.extend({
       this.el = this.header.render().getContentEl();
     }
 
-    setTimeout(() => {
-      const hasRendered = this.controller && this.controller.constructor === Controller && this.controller.rendered();
-      if (!this.header.isLoadingBeacon() && !hasRendered) {
-        this.show();
-        this.header.setLoadingBeacon(true);
-      }
-    }, 1000);
-
     // If we need to load a language (or apply custom i18n overrides), do
     // this now and re-run render after it's finished.
     if (!Bundles.isLoaded(this.settings.get('languageCode'))) {
@@ -256,8 +248,6 @@ export default Router.extend({
 
       ColorsUtil.addStyle(colors);
     }
-
-    this.header.removeLoadingBeacon();
 
     // render Controller
     this.unload();
