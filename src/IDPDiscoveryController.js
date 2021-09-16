@@ -25,12 +25,10 @@ export default PrimaryAuthController.extend({
 
   constructor: function(options) {
     options.appState.unset('username');
-    const lastAuthResponse = options.appState.get('lastAuthResponse');
-    const stateToken = lastAuthResponse && lastAuthResponse?.stateToken;
 
     this.model = new IDPDiscoveryModel(
       {
-        requestContext: stateToken || options.settings.get('idpDiscovery.requestContext'),
+        requestContext: options.settings.get('idpDiscovery.requestContext'),
         settings: options.settings,
         appState: options.appState,
       },
