@@ -113,6 +113,8 @@ export default Router.extend({
       settings: this.settings,
     });
 
+    this.hide();
+
     this.listenTo(this.appState, 'change:transactionError', function(appState, err) {
       RouterUtil.routeAfterAuthStatusChangeError(this, err);
     });
@@ -233,6 +235,7 @@ export default Router.extend({
         this.controller.render();
 
         if (!oldController) {
+          this.show();
           this.el.append(this.controller.el);
           this.controller.postRenderAnimation();
           return;
