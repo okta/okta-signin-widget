@@ -79,6 +79,8 @@ export default Router.extend({
       settings: this.settings,
     });
 
+    this.hide();
+
     configIdxJsClient(this.appState);
     this.listenTo(this.appState, 'updateAppState', this.handleUpdateAppState);
     this.listenTo(this.appState, 'remediationError', this.handleIdxResponseFailure);
@@ -252,6 +254,8 @@ export default Router.extend({
     this.listenTo(this.controller, 'all', this.trigger);
 
     this.controller.render();
+
+    this.show();
   },
 
   /**
