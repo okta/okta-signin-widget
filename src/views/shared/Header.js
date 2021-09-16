@@ -102,7 +102,7 @@ export default View.extend({
     const container = this.$(selector);
     const transition = typeOfTransition(this.currentBeacon, NextBeacon, options);
     const self = this;
-
+    
     switch (transition) {
     case 'none':
       this.$el.addClass(NO_BEACON_CLS);
@@ -179,6 +179,9 @@ export default View.extend({
 
   // Hide the beacon on primary auth failure. On primary auth success, setBeacon does this job.
   removeLoadingBeacon: function() {
+    if (!isLoadingBeacon(this.currentBeacon)) {
+      return;
+    }
     const self = this;
     const container = this.$('[data-type="beacon-container"]');
 
@@ -188,6 +191,10 @@ export default View.extend({
         container.removeClass(LOADING_BEACON_CLS);
       })
       .done(); // TODO: can this be removed if Animations.implode returns standard ES6 Promise?
+  },
+
+  isLoadingBeacon: function() {
+    return isLoadingBeacon(this.currentBeacon);
   },
 
   getTemplateData: function() {
