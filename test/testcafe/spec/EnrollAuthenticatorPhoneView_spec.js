@@ -5,7 +5,7 @@ import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollPhone from '../../../playground/mocks/data/idp/idx/authenticator-enroll-phone';
 import xhrAuthenticatorEnrollPhoneVoice from '../../../playground/mocks/data/idp/idx/authenticator-enroll-phone-voice';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
-import invalidCode from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
+import invalidCode from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-phone-invalid-otp';
 
 const smsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -166,4 +166,18 @@ test
     await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
     const resendEmailView = challengePhonePageObject.resendEmailView();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received a call? Call again');
+  });
+
+test
+  .requestHooks(smsMock)('Callout appears after 30 seconds at most even after re-render', async t => {
+    const challengePhonePageObject = await setup(t);
+    await challengePhonePageObject.clickNextButton();
+    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).ok();
+    await t.wait(15000);
+    challengePhonePageObject.navigateToPage();
+    await challengePhonePageObject.clickNextButton();
+    await t.wait(15500);
+    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
+    const resendEmailView = challengePhonePageObject.resendEmailView();
+    await t.expect(resendEmailView.innerText).eql('Haven\'t received an SMS? Send again');
   });

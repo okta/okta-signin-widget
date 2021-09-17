@@ -1,11 +1,11 @@
-import { loc, View, createCallout, _ } from 'okta';
+import { loc, createCallout } from 'okta';
 import { BaseForm } from '../../internals';
 import email from '../shared/email';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import { SHOW_RESEND_TIMEOUT } from '../../utils/Constants';
+import BaseResendView from '../shared/BaseResendView';
 import BaseFormWithPolling from '../../internals/BaseFormWithPolling';
 
-const ResendView = View.extend(
+const ResendView = BaseResendView.extend(
   {
     className: 'hide resend-email-view',
     events: {
@@ -26,23 +26,8 @@ const ResendView = View.extend(
       if (!this.$el.hasClass('hide')) {
         this.$el.addClass('hide');
       }
-      this.showCalloutWithDelay();
+      this.showCalloutAfterTimeout();
     },
-
-    postRender() {
-      this.showCalloutWithDelay();
-    },
-
-    showCalloutWithDelay() {
-      this.showMeTimeout = _.delay(() => {
-        this.$el.removeClass('hide');
-      }, SHOW_RESEND_TIMEOUT);
-    },
-
-    remove() {
-      View.prototype.remove.apply(this, arguments);
-      clearTimeout(this.showMeTimeout);
-    }
   },
 );
 

@@ -3,6 +3,7 @@ import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
 import { renderWidget as rerenderWidget } from '../framework/shared';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
+import xhrIdentifyWithUsername from '../../../playground/mocks/data/idp/idx/identify-with-username';
 import xhrPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
 import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
@@ -32,6 +33,10 @@ const identifyMock = RequestMock()
   .respond(xhrPassword)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSuccess);
+
+const identifyWithUsernameMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentifyWithUsername);  
 
 const identifyWithPasswordMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -260,5 +265,40 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifi
 
   const identifier = identityPage.getIdentifierValue();
   await t.expect(identifier).eql('configUsername@okta.com');
+});
+
+test.requestHooks(identifyRequestLogger, identifyMock)('should pre-fill identifier field with remediation identifier value over saved cookie', async t => {
+  const identityPage = await setup(t);
+  await rerenderWidget(baseConfig);
+
+  // Go through authentication process to save cookie
+  await identityPage.fillIdentifierField('cookieUser@okta.com');
+  await identityPage.clickNextButton();
+
+  await identityPage.fillPasswordField('testPassword');
+  await identityPage.clickNextButton();  
+
+  await t.expect(identifyRequestLogger.count(() => true)).eql(2);
+  const req = identifyRequestLogger.requests[0].request;
+  const reqBody = JSON.parse(req.body);
+  await t.expect(reqBody).contains({
+    identifier: 'cookieUser@okta.com',
+  });
+
+  // Mock the server response to include identifier value
+  await t.removeRequestHooks(identifyMock);
+  await t.addRequestHooks(identifyWithUsernameMock);
+
+  await identityPage.navigateToPage({ 'login_hint': 'testUsername@okta.com' });
+  await rerenderWidget({
+    features: {
+      rememberMe: true,
+      rememberMyUsernameOnOIE: true
+    }
+  });
+
+  // Ensure identifier field is pre-filled with identifier returned in remediation
+  const identifier = identityPage.getIdentifierValue();
+  await t.expect(identifier).eql('testUsername@okta.com');
 });
 

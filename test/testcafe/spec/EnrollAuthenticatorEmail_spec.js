@@ -5,7 +5,7 @@ import { checkConsoleMessages } from '../framework/shared';
 
 import xhrEnrollEmail from '../../../playground/mocks/data/idp/idx/authenticator-enroll-email';
 import success from '../../../playground/mocks/data/idp/idx/success';
-import invalidOTP from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
+import invalidOTP from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-email-invalid-otp';
 
 const logger = RequestLogger(/challenge\/poll|challenge\/answer|challenge\/resend/,
   {
@@ -144,4 +144,15 @@ test
     await t.expect(jsonBody).eql({'stateHandle':'eyJ6aXAiOiJER'});
     await t.expect(lastRequestMethod).eql('post');
     await t.expect(lastRequestUrl).eql('http://localhost:3000/idp/idx/challenge/resend');
+  });
+
+test
+  .requestHooks(logger, validOTPmock)('resend after 30 seconds at most even after re-render', async t => {
+    const enrollEmailPageObject = await setup(t);
+    await t.expect(enrollEmailPageObject.resendEmail.isHidden()).ok();
+    await t.wait(15000);
+    enrollEmailPageObject.navigateToPage();
+    await t.wait(15500);
+    await t.expect(enrollEmailPageObject.resendEmail.isHidden()).notOk();
+    await t.expect(enrollEmailPageObject.resendEmail.getText()).eql('Haven\'t received an email? Send again');
   });

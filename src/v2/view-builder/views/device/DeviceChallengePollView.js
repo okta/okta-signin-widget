@@ -165,23 +165,23 @@ const Footer = BaseFooter.extend({
     if (this.isFallbackApproach()) {
       BaseFooter.prototype.initialize.apply(this, arguments);
     } else {
-      this.add(Link, {
+      this.backLink = this.add(Link, {
         options: {
           name: 'cancel-authenticator-challenge',
           label: loc('loopback.polling.cancel.link', 'login'),
           actionPath: CANCEL_POLLING_ACTION,
         }
-      });
+      }).last();
     }
   },
 
   handleUpdateFooterLink(data) {
     // only update link for loopback
     if (!this.isFallbackApproach()) {
-      this.$el.find('.js-cancel-authenticator-challenge').remove();
-      this.add(Link, {
+      this.backLink && this.backLink.remove();
+      this.backLink = this.add(Link, {
         options: getSignOutLink(this.options.settings, data)[0]
-      });
+      }).last();
     } 
   },
 

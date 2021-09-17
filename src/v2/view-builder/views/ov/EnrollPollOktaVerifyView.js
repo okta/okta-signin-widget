@@ -4,7 +4,7 @@ import BrowserFeatures from '../../../../util/BrowserFeatures';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import polling from '../shared/polling';
 import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
-import ResendView from './ResendView';
+import OVResendView from './OVResendView';
 import SwitchEnrollChannelLinkView from './SwitchEnrollChannelLinkView';
 import EnrollChannelPollDescriptionView from './EnrollChannelPollDescriptionView';
 
@@ -89,7 +89,7 @@ const Body = BaseForm.extend(Object.assign(
       });
       if (['email', 'sms'].includes(selectedChannel)) {
         schema.push({
-          View: ResendView,
+          View: OVResendView,
           selector: '.o-form-error-container',
         });
       }
