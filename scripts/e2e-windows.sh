@@ -1,6 +1,6 @@
 #!/bin/bash
 export SAUCE_USERNAME=OktaSignInWidget
-export SAUCE_ACCESS_KEY="$(aws s3 --quiet --region us-east-1 cp s3://ci-secret-stash/prod/signinwidget/sauce_access_key /dev/stdout)"
+get_vault_secret_key devex/sauce-labs accessKey SAUCE_ACCESS_KEY
 export TRAVIS_JOB_NUMBER=123 # A random number to start sauce tunnel
 export TRAVIS_BUILD_NUMBER=123
 export TRAVIS=true # to make sure right version of sauce tunnel is installed in start-sauce-connect.sh
