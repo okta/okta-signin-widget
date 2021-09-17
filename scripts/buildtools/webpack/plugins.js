@@ -4,6 +4,7 @@ const { DefinePlugin, BannerPlugin, IgnorePlugin } = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 function webpackBundleAnalyzer(reportFilename = 'okta-sign-in.analyzer') {
+  // OKTA-429162: webpack-bundle-analyzer does not report bundled modules stats after upgrade to webpack@5
   return new BundleAnalyzerPlugin({
     openAnalyzer: false,
     reportFilename: `${reportFilename}.html`,
@@ -29,7 +30,9 @@ function devMode() {
 function banner() {
   // Add a single Okta license after removing others
   const license = readFileSync(join(__dirname, '../../../src/widget/copyright.txt'), 'utf8');
-  return new BannerPlugin(license);
+  return new BannerPlugin({
+    banner: license
+  });
 }
 
 function failOnBuildFail() {
@@ -37,7 +40,7 @@ function failOnBuildFail() {
   FailOnBuildPlugin.prototype.apply = function(compiler) {
     compiler.hooks.done.tap('Fail on build', (stats) => {
 
-      // webpack 3.x and karma-webpack combo will fail to treat seom missing assets as build failures
+      // webpack 5.x and karma-webpack combo will fail to treat some missing assets as build failures
       // See https://oktainc.atlassian.net/browse/OKTA-253137
       if( stats.warnings.length || stats.errors.length ) {
         [
