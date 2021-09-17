@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
-var path      = require('path');
+const path = require('path');
+
 const TerserPlugin = require('terser-webpack-plugin');
 
 var SRC = path.resolve(__dirname, 'src');
@@ -88,6 +89,8 @@ module.exports = function(outputFilename, mode = 'development') {
       minimizer: [
         new TerserPlugin({
           minify: (file, sourceMap) => {
+            let oktaLicenseBannersCount = 0;
+
             // https://github.com/mishoo/UglifyJS2#minify-options
             const uglifyJsOptions = {
               compress: {
@@ -115,7 +118,11 @@ module.exports = function(outputFilename, mode = 'development') {
                   const isLicense = /^!/.test(comment.value) ||
                                   /.*(([Ll]icense)|([Cc]opyright)|(\([Cc]\))).*/.test(comment.value);
                   const isOkta = /.*Okta.*/.test(comment.value);
-          
+                  // Keep Okta license added by banner plugin - since it runs before optimization
+                  const isFirstOktaBanner = oktaLicenseBannersCount === 0;
+                  if (isOkta) {
+                    ++oktaLicenseBannersCount;
+                  }
                   // Some licenses are in inline comments, rather than standard block comments.
                   // UglifyJS2 treats consecutive inline comments as separate comments, so we
                   // need exceptions to include all relevant licenses.
@@ -131,8 +138,7 @@ module.exports = function(outputFilename, mode = 'development') {
                   const isException = exceptions.some(exception => {
                     return comment.value.indexOf(exception) !== -1;
                   });
-          
-                  return (isLicense || isException) && !isOkta;
+                  return (isLicense || isException) && (!isOkta || isFirstOktaBanner);
                 },
               },
               warnings: false
@@ -146,7 +152,7 @@ module.exports = function(outputFilename, mode = 'development') {
   
             return require('uglify-js').minify(file, uglifyJsOptions);
           },
-        }),
+        })
       ],
     },
   };
