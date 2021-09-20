@@ -157,5 +157,8 @@
   },
   "optionalDependencies": {
     "fsevents": "*"
+  },
+  "resolutions": {
+    "dot-prop": "^5.3.0"
   }
 }
