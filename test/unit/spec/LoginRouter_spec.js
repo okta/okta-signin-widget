@@ -2,6 +2,8 @@
 import { _, $, Backbone, Router, internal } from 'okta';
 import createAuthClient from 'widget/createAuthClient';
 import LoginRouter from 'LoginRouter';
+import PrimaryAuthController from 'PrimaryAuthController';
+import SecurityBeacon from 'views/shared/SecurityBeacon';
 import config from 'config/config.json';
 import EnrollCallForm from 'helpers/dom/EnrollCallForm';
 import IDPDiscoveryForm from 'helpers/dom/IDPDiscoveryForm';
@@ -2243,5 +2245,22 @@ Expect.describe('LoginRouter', function() {
         });
       });
     });
+  });
+
+  itp('should not be visible until initial render', async function() {
+    const test = await setup();
+
+    // Should not be visible on init
+    Expect.isNotVisible(test.router.header.$el);
+
+    // Should not be visible until initial data has been loaded
+    spyOn(PrimaryAuthController.prototype, 'fetchInitialData').and.callFake(function() {
+      Expect.isNotVisible(test.router.header.$el);
+      return Promise.resolve();
+    });
+
+    // Should be visible after render
+    await test.router.render(PrimaryAuthController, { Beacon: SecurityBeacon });
+    Expect.isVisible(test.router.header.$el);
   });
 });
