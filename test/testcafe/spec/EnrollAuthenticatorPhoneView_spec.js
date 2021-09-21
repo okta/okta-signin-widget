@@ -144,6 +144,10 @@ test
     await challengePhonePageObject.waitForErrorBox();
     await t.expect(challengePhonePageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
     await t.expect(challengePhonePageObject.getInvalidOTPError()).contains('We found some errors.');
+    await t.wait(30500);
+    await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
+    const resendEmailView = challengePhonePageObject.resendEmailView();
+    await t.expect(resendEmailView.innerText).eql('Haven\'t received an SMS? Send again');
   });
 
 test
