@@ -17,6 +17,7 @@ import BaseLoginController from 'util/BaseLoginController';
 import IDPDiscoveryForm from 'views/idp-discovery/IDPDiscoveryForm';
 import CustomButtons from 'views/primary-auth/CustomButtons';
 import DeviceFingerprint from 'util/DeviceFingerprint';
+import Util from './util/Util';
 
 export default PrimaryAuthController.extend({
   className: 'idp-discovery',
@@ -25,10 +26,18 @@ export default PrimaryAuthController.extend({
 
   constructor: function(options) {
     options.appState.unset('username');
+    let requestContext = options.settings.get('idpDiscovery.requestContext');
+    const lastAuthResponse = options.appState.get('lastAuthResponse');
+    const stateToken = lastAuthResponse && lastAuthResponse?.stateToken;
+
+    //Update requestContext wiht last stateToken, if the context was stateToken and not a fromUri
+    if(Util.isV1StateToken(requestContext)) {
+      requestContext = stateToken;
+    }
 
     this.model = new IDPDiscoveryModel(
       {
-        requestContext: options.settings.get('idpDiscovery.requestContext'),
+        requestContext: requestContext,
         settings: options.settings,
         appState: options.appState,
       },
