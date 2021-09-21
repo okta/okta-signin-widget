@@ -226,6 +226,24 @@ $od-secondary-button-action-text-color: #124a94;
   }
 }
 
+@mixin social-auth-button-colorless-template($bg-image) {
+  background-color: $other-label-bg-color;
+  background: $bg-image no-repeat 12px/24px,
+    linear-gradient(90deg, $other-icon-bg-color 50px, $other-label-bg-color 50px);
+  border: 1px solid $other-border-color;
+
+  &:active,
+  &:focus,
+  &:hover {
+    background: $bg-image no-repeat 12px/24px,
+      linear-gradient(90deg, lighten($other-icon-bg-color, 3%) 50px, lighten($other-label-bg-color, 3%) 50px);
+  }
+
+  &.link-button {
+    color: $dark-text-color;
+  }
+}
+
 @mixin default-custom-button-template($background-color, $border-color) {
   background-color: $background-color;
   border: 1px solid $border-color;
@@ -274,12 +292,8 @@ $od-secondary-button-action-text-color: #124a94;
 }
 
 .social-auth-apple-button {
-  @include social-auth-button-template(
-    url('../img/icons/login/apple_logo.png'),
-    $apple-icon-bg-color,
-    $apple-label-bg-color,
-    $apple-border-color
-  );
+  @include social-auth-button-template(url('../img/icons/login/apple_logo.png'),
+  $apple-icon-bg-color, $apple-label-bg-color, $apple-border-color);
 
   background-position: 15px 50%, 0% 0%;
 
@@ -318,4 +332,40 @@ $od-secondary-button-action-text-color: #124a94;
 
 .piv-button.link-button {
   @include piv-button-template($piv-button-background-color, $piv-button-border-text-color, $piv-action-button-background-color, $piv-action-button-border-text-color);
+}
+
+.social-auth-github-button {
+  @include social-auth-button-colorless-template(url('../img/icons/login/github_logo.png'));
+}
+
+.social-auth-gitlab-button {
+  @include social-auth-button-colorless-template(url('../img/icons/login/gitlab_logo.png'));
+}
+
+.social-auth-yahoo-button {
+  @include social-auth-button-colorless-template(url('../img/icons/login/yahoo_logo.png'));
+}
+
+.social-auth-line-button {
+  @include social-auth-button-colorless-template(url('../img/icons/login/line_logo.png'));
+}
+
+.social-auth-paypal-button {
+  @include social-auth-button-colorless-template(url('../img/icons/login/paypal_logo.png'));
+}
+
+.social-auth-paypal_sandbox-button {
+  @include social-auth-button-colorless-template(url('../img/icons/login/paypal_sandbox_logo.png'));
+}
+
+.social-auth-salesforce-button {
+  @include social-auth-button-colorless-template(url('../img/icons/login/salesforce_logo.png'));
+}
+
+.social-auth-amazon-button {
+  @include social-auth-button-colorless-template(url('../img/icons/login/amazon_logo.png'));
+}
+
+.social-auth-yahoo_japan-button {
+  @include social-auth-button-colorless-template(url('../img/icons/login/yahoo_japan_logo.png'));
 }

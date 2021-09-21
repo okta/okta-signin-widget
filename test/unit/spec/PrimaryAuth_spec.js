@@ -2674,6 +2674,35 @@ Expect.describe('PrimaryAuth', function() {
         expect(buttons.eq(2).attr('class')).toContain('other-class');
       });
     });
+    itp('displays styled buttons for supported types', function() {
+      const idpTypes = [
+        'FACEBOOK',
+        'GOOGLE',
+        'LINKEDIN',
+        'MICROSOFT',
+        'APPLE',
+        'GITHUB',
+        'GITLAB',
+        'YAHOO',
+        'LINE',
+        'PAYPAL',
+        'PAYPAL_SANDBOX',
+        'SALESFORCE',
+        'AMAZON',
+        'YAHOO_JAPAN',
+      ];
+      const settings = {
+        idps: idpTypes.map(t => ({ type: t, id: '0oaDUMMY' }))
+      };
+
+      return setup(settings).then(function(test) {
+        const buttons = test.form.socialAuthButtons();
+        expect(buttons.length).toBe(idpTypes.length);
+        for (const [i, type] of idpTypes.entries()) {
+          expect(buttons.eq(i).attr('class')).toContain(`social-auth-${type.toLowerCase()}-button`);
+        }
+      });
+    });
     itp('displays generic idp buttons for unknown types', function() {
       const settings = {
         idps: [
