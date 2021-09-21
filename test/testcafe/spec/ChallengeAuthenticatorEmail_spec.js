@@ -1,10 +1,11 @@
-import { RequestMock, RequestLogger } from 'testcafe';
+import { RequestMock, RequestLogger, ClientFunction } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
+import emailVerificationWithoutResend from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-without-resend';
 import emailVerificationPolling from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling';
 import emailVerificationPollingShort from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling-short';
 import emailVerificationPollingLong from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling-long';
@@ -40,6 +41,12 @@ const validOTPmock = RequestMock()
   .respond(emailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
+
+const validOTPWithoutResendMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(emailVerificationWithoutResend);
 
 const validOTPmockNoProfile = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -136,6 +143,10 @@ const otpTooManyRequestMock = RequestMock()
   .respond(emailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(tooManyRequest, 429);
+
+const getResendTimestamp = ClientFunction(() => {
+  return window.sessionStorage.getItem('osw-oie-resend-timestamp');
+});
 
 fixture('Challenge Email Authenticator Form');
 
@@ -411,6 +422,19 @@ test
     await t.wait(30500);
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).notOk();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received an email? Send again');
+  });
+
+test
+  .requestHooks(logger, validOTPWithoutResendMock)('resend timer resets remediation has no resend context', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await challengeEmailPageObject.clickEnterCodeLink();
+
+    await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
+
+    // The /poll simulates a response with a remediation with no "resend" context which will reset
+    // resend timer, hence the entry should be deleted from sessionStorage.
+    await t.wait(6000);
+    await t.expect(getResendTimestamp()).eql(null);
   });
 
 test
