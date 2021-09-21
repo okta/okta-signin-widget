@@ -113,7 +113,15 @@ export default Router.extend({
       settings: this.settings,
     });
 
+    // Hide until unitial render
     this.hide();
+    // Show if loading state was set to true before initial render
+    // (eg. because of long load of language)
+    this.listenTo(this.appState, 'loading', function(isLoading) {
+      if (isLoading) {
+        this.show();
+      }
+    });
 
     this.listenTo(this.appState, 'change:transactionError', function(appState, err) {
       RouterUtil.routeAfterAuthStatusChangeError(this, err);
