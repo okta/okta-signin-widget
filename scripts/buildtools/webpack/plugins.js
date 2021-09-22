@@ -1,6 +1,4 @@
-const { readFileSync } = require('fs');
-const { join } = require('path');
-const { DefinePlugin, BannerPlugin, IgnorePlugin } = require('webpack');
+const { DefinePlugin, IgnorePlugin } = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 function webpackBundleAnalyzer(reportFilename = 'okta-sign-in.analyzer') {
@@ -27,14 +25,6 @@ function devMode() {
   });
 }
 
-function banner() {
-  // Add a single Okta license after removing others
-  const license = readFileSync(join(__dirname, '../../../src/widget/copyright.txt'), 'utf8');
-  return new BannerPlugin({
-    banner: license
-  });
-}
-
 function failOnBuildFail() {
   const FailOnBuildPlugin = function () {};
   FailOnBuildPlugin.prototype.apply = function(compiler) {
@@ -58,12 +48,10 @@ function failOnBuildFail() {
 function plugins(options = {}) {
   const { isProduction, skipAnalyzer } = options;
   const list = isProduction ? 
-    // Add license header
     [
       failOnBuildFail(),
       emptyModule(),
       prodMode(),
-      banner(),
     ] : 
     // Use DEBUG/development environment w/ console warnings
     [

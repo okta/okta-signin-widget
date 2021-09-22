@@ -1,11 +1,12 @@
 /* eslint-disable camelcase */
-const path = require('path');
+const { resolve, join } = require('path');
+const { readFileSync } = require('fs');
 
 const TerserPlugin = require('terser-webpack-plugin');
 
-var SRC = path.resolve(__dirname, 'src');
-var TARGET_JS = path.resolve(__dirname, 'target/js/');
-var LOCAL_PACKAGES = path.resolve(__dirname, 'packages/');
+var SRC = resolve(__dirname, 'src');
+var TARGET_JS = resolve(__dirname, 'target/js/');
+var LOCAL_PACKAGES = resolve(__dirname, 'packages/');
 
 // Return a function so that all consumers get a new copy of the config
 module.exports = function(outputFilename, mode = 'development') {
@@ -88,70 +89,54 @@ module.exports = function(outputFilename, mode = 'development') {
       minimize: true,
       minimizer: [
         new TerserPlugin({
-          minify: (file, sourceMap) => {
-            let oktaLicenseBannersCount = 0;
+          terserOptions: {
+            compress: {
+              // Drop all console.* and Logger statements
+              drop_console: true,
+              drop_debugger: true,
+              pure_funcs: [
+                'Logger.trace',
+                'Logger.dir',
+                'Logger.time',
+                'Logger.timeEnd',
+                'Logger.group',
+                'Logger.groupEnd',
+                'Logger.assert',
+                'Logger.log',
+                'Logger.info',
+                'Logger.warn',
+                'Logger.deprecate'
+              ],
+            },
+            format: {
+              comments: (node, comment) => {
+                // Remove other Okta copyrights
+                const isLicense = /^!/.test(comment.value) ||
+                                /.*(([Ll]icense)|([Cc]opyright)|(\([Cc]\))).*/.test(comment.value);
+                const isOkta = /.*Okta.*/.test(comment.value);
 
-            // https://github.com/mishoo/UglifyJS2#minify-options
-            const uglifyJsOptions = {
-              compress: {
-                // Drop all console.* and Logger statements
-                drop_console: true,
-                drop_debugger: true,
-                pure_funcs: [
-                  'Logger.trace',
-                  'Logger.dir',
-                  'Logger.time',
-                  'Logger.timeEnd',
-                  'Logger.group',
-                  'Logger.groupEnd',
-                  'Logger.assert',
-                  'Logger.log',
-                  'Logger.info',
-                  'Logger.warn',
-                  'Logger.deprecate'
-                ],
+                // Some licenses are in inline comments, rather than standard block comments.
+                // UglifyJS2 treats consecutive inline comments as separate comments, so we
+                // need exceptions to include all relevant licenses.
+                const exceptions = [
+                  'Chosen, a Select Box Enhancer',
+                  'by Patrick Filler for Harvest',
+                  'Version 0.11.1',
+                  'Full source at https://github.com/harvesthq/chosen',
+
+                  'Underscore.js 1.8.3'
+                ];
+
+                const isException = exceptions.some(exception => {
+                  return comment.value.indexOf(exception) !== -1;
+                });
+                return (isLicense || isException) && (!isOkta);
               },
-              sourceMap: true,
-              output: {
-                comments: (node, comment) => {
-                  // Remove other Okta copyrights
-                  const isLicense = /^!/.test(comment.value) ||
-                                  /.*(([Ll]icense)|([Cc]opyright)|(\([Cc]\))).*/.test(comment.value);
-                  const isOkta = /.*Okta.*/.test(comment.value);
-                  // Keep Okta license added by banner plugin - since it runs before optimization
-                  const isFirstOktaBanner = oktaLicenseBannersCount === 0;
-                  if (isOkta) {
-                    ++oktaLicenseBannersCount;
-                  }
-                  // Some licenses are in inline comments, rather than standard block comments.
-                  // UglifyJS2 treats consecutive inline comments as separate comments, so we
-                  // need exceptions to include all relevant licenses.
-                  const exceptions = [
-                    'Chosen, a Select Box Enhancer',
-                    'by Patrick Filler for Harvest',
-                    'Version 0.11.1',
-                    'Full source at https://github.com/harvesthq/chosen',
-          
-                    'Underscore.js 1.8.3'
-                  ];
-          
-                  const isException = exceptions.some(exception => {
-                    return comment.value.indexOf(exception) !== -1;
-                  });
-                  return (isLicense || isException) && (!isOkta || isFirstOktaBanner);
-                },
-              },
-              warnings: false
-            };
-  
-            if (sourceMap) {
-              uglifyJsOptions.sourceMap = {
-                content: sourceMap,
-              };
             }
-  
-            return require('uglify-js').minify(file, uglifyJsOptions);
           },
+          extractComments: {
+            banner: readFileSync(join(__dirname, './src/widget/copyright.txt'), 'utf8')
+          }
         })
       ],
     },

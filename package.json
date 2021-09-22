@@ -140,7 +140,6 @@
     "terser-webpack-plugin": "^5.2.4",
     "testcafe": "^1.14.2",
     "time-grunt": "^2.0.0",
-    "uglify-js": "^3.14.2",
     "wait-on": "^3.3.0",
     "webdriver-manager": "^13.0.0",
     "webpack": "^5.51.1",
