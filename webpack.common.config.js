@@ -135,6 +135,8 @@ module.exports = function(outputFilename, mode = 'development') {
             }
           },
           extractComments: {
+            // `banner` config option is intended for a message pointing to file containing license info
+            // we use it to place single Okta license banner
             banner: readFileSync(join(__dirname, './src/widget/copyright.txt'), 'utf8')
           }
         })
