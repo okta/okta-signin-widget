@@ -24,7 +24,7 @@ const Body = ChallengeAuthenticatorPhoneView.prototype.Body.extend(
     postRender() {
       BaseForm.prototype.postRender.apply(this, arguments);
       this.add(EnrollResendView, {
-        selector: '.o-form-error-container',
+        selector: '.o-form-info-container',
         prepend: true,
       });
     },

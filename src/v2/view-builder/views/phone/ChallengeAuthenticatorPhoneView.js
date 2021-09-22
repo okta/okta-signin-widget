@@ -74,7 +74,7 @@ const Body = BaseForm.extend(Object.assign(
     postRender() {
       BaseForm.prototype.postRender.apply(this, arguments);
       this.add(ResendView, {
-        selector: '.o-form-error-container',
+        selector: '.o-form-info-container',
         prepend: true,
       });
     },

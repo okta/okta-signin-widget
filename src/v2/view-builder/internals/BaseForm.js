@@ -68,6 +68,16 @@ export default Form.extend({
     }
   },
 
+  postRender() {
+    /**
+     * Widget would use infoContainer to display interactive messages that should be persisted during
+     * invalid form submissions. For eg resend-warning callout should not be cleared upon invalid form submit.
+     * Rerender would clear infoContainer or views classes can clear it explicitly.
+     */
+    const infoContainer= '<div class=\'o-form-info-container\'></div>';
+    this.$el.find('.o-form-error-container').before(infoContainer);
+  },
+
   cancelForm() {
     this.options.appState.trigger('invokeAction', 'cancel');
   },
