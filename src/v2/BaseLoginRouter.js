@@ -205,7 +205,7 @@ export default Router.extend({
     // }
   },
 
-  /* eslint max-statements: [2, 21] */
+  /* eslint max-statements: [2, 22] */
   render: async function(Controller, options = {}) {
     // If url changes then widget assumes that user's intention was to initiate a new login flow,
     // so clear stored token to use the latest token.
