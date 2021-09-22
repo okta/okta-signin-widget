@@ -8,6 +8,7 @@ import emailVerification from '../../../playground/mocks/data/idp/idx/authentica
 import emailVerificationWithoutResend from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-without-resend';
 import emailVerificationPolling from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling';
 import emailVerificationPollingShort from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling-short';
+import emailVerificationPollingVeryShort from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling-very-short';
 import emailVerificationPollingLong from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling-long';
 import emailVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-no-profile';
 import success from '../../../playground/mocks/data/idp/idx/success';
@@ -44,7 +45,7 @@ const validOTPmock = RequestMock()
 
 const validOTPWithoutResendMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(emailVerification)
+  .respond(emailVerificationPollingVeryShort)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(emailVerificationWithoutResend);
 
@@ -427,13 +428,11 @@ test
 test
   .requestHooks(logger, validOTPWithoutResendMock)('resend timer resets remediation has no resend context', async t => {
     const challengeEmailPageObject = await setup(t);
-    await challengeEmailPageObject.clickEnterCodeLink();
-
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
 
     // The /poll simulates a response with a remediation with no "resend" context which will reset
     // resend timer, hence the entry should be deleted from sessionStorage.
-    await t.wait(6000);
+    await t.wait(110);
     await t.expect(getResendTimestamp()).eql(null);
   });
 
