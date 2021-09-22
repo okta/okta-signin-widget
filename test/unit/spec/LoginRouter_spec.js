@@ -2262,5 +2262,6 @@ Expect.describe('LoginRouter', function() {
     // Should be visible after render
     await test.router.render(PrimaryAuthController, { Beacon: SecurityBeacon });
     Expect.isVisible(test.router.header.$el);
+    expect(test.afterRenderHandler).toHaveBeenCalledTimes(1);
   });
 });
