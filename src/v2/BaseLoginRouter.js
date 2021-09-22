@@ -249,6 +249,9 @@ export default Router.extend({
       ColorsUtil.addStyle(colors);
     }
 
+    // Show before initial render
+    this.show();
+
     // render Controller
     this.unload();
     const controllerOptions = _.extend({
@@ -262,8 +265,6 @@ export default Router.extend({
     this.listenTo(this.controller, 'all', this.trigger);
 
     this.controller.render();
-
-    this.show();
   },
 
   /**

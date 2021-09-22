@@ -240,10 +240,12 @@ export default Router.extend({
         }
         this.header.setBeacon(Beacon, controllerOptions);
 
+        // Show before initial render
+        this.show();
+
         this.controller.render();
 
         if (!oldController) {
-          this.show();
           this.el.append(this.controller.el);
           this.controller.postRenderAnimation();
           return;
