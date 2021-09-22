@@ -69,9 +69,11 @@ export default Form.extend({
   },
 
   postRender() {
-    // widget would use info container to display interactive messages that would not be cleared once displayed
-    // but can be replaced by view classes. For eg resend-warning callout should not be cleared upon form submission
-    // if there is any error. Rerender would clear info container.
+    /**
+     * Widget would use infoContainer to display interactive messages that should be persisted during
+     * invalid form submissions. For eg resend-warning callout should not be cleared upon invalid form submit.
+     * Rerender would clear infoContainer or views classes can clear it explicitly.
+     */
     const infoContainer= '<div class=\'o-form-info-container\'></div>';
     this.$el.find('.o-form-error-container').before(infoContainer);
   },
