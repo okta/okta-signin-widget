@@ -2521,8 +2521,8 @@
 
 "@okta/okta-idx-js@0.20.0":
   version "0.20.0"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/okta-idx-js/-/@okta/okta-idx-js-0.20.0.tgz#830c7ef811f6e677176f069709cb89a106967f05"
-  integrity sha1-gwx++BH25ncXbwaXCcuJoQaWfwU=
+  resolved "https://registry.yarnpkg.com/@okta/okta-idx-js/-/okta-idx-js-0.20.0.tgz#830c7ef811f6e677176f069709cb89a106967f05"
+  integrity sha512-PmZEEqqHrmW9f5vvQzmjo5iZTee3n2OLSP0qgxC/Ew0BnsuvVYxsJturVj3E1+y7bzDcK3e8rU7mIyjJdxo2gg==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@babel/runtime-corejs3" "^7.12.5"
