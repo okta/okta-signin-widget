@@ -11,7 +11,7 @@
               "create-form"
            ],
            "name":"profile-update",
-           "href":"http://idx.okta1.com:1802/idp/idx/enroll/new",
+           "href":"http://localhost:3000/idp/idx/enroll/new",
            "method":"POST",
            "produces":"application/ion+json; okta-version=1.0.0",
            "value":[
@@ -37,7 +37,8 @@
                           "desc":"Use a second email to recover your account in case you become locked out. This email must be verified after set up.",
                           "required":false,
                           "minLength":1,
-                          "maxLength":100
+                          "maxLength":100,
+                          "descKey": "secondary.email.desc"
                        }
                     ]
                  }
@@ -96,7 +97,7 @@
         "create-form"
      ],
      "name":"cancel",
-     "href":"http://idx.okta1.com:1802/idp/idx/cancel",
+     "href":"http://localhost:3000/idp/idx/cancel",
      "method":"POST",
      "produces":"application/ion+json; okta-version=1.0.0",
      "value":[

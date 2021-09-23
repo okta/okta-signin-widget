@@ -51,5 +51,16 @@ const Footer = BaseFooter.extend({
 
 export default BaseView.extend({
   Body,
-  Footer
+  Footer,
+
+  postRender() {
+    BaseView.prototype.postRender.apply(this, arguments);
+    /**
+     * As per requirement of this flow set secondEmail default to empty string, if exists in remediation
+     * ideally server should have passed default string in remediation
+     */
+    if (this.options.appState.getSchemaByName('userProfile.secondEmail')) {
+      this.model.set('userProfile.secondEmail', '');
+    }
+  }
 });

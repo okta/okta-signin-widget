@@ -37,7 +37,8 @@
                           "desc":"Use a second email to recover your account in case you become locked out. This email must be verified after set up.",
                           "required":false,
                           "minLength":1,
-                          "maxLength":100
+                          "maxLength":100,
+                          "descKey": "secondary.email.desc"
                        }
                     ]
                  }

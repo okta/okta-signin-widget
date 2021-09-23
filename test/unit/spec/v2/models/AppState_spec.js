@@ -117,6 +117,20 @@ describe('v2/models/AppState', function() {
     });
   });
 
+  describe('getSchemaByName', () => {
+    it('returns ui schema for a given field', () => {
+      jest.spyOn(AppState.prototype, 'getCurrentViewState').mockReturnValue({uiSchema : [{name: 'some-field'}]});
+      this.initAppState({}, 'profile-update');
+      expect(this.appState.getSchemaByName('some-field')).toEqual({'name': 'some-field'});
+    });
+
+    it('returns undefined if given field does not exists', () => {
+      jest.spyOn(AppState.prototype, 'getCurrentViewState').mockReturnValue({uiSchema : [{name: 'some-field'}]});
+      this.initAppState({}, 'profile-update');
+      expect(this.appState.getSchemaByName('field')).toBeUndefined();
+    });
+  });
+
   describe('shouldReRenderView', () => {
     it('rerender view should be false if stateHandle are different', () => {
 
