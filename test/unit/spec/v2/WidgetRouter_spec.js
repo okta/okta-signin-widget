@@ -12,7 +12,7 @@ describe('v2/WidgetRouter', function() {
   function setup(
     settings = {}, 
     remediations = XHRIdentifyWithPassword.remediation.value,
-    formName = "identify"
+    formName = 'identify'
   ) {
     const baseUrl = 'https://foo.com';
     const authParams = { issuer: baseUrl, headers: {} };
@@ -35,7 +35,7 @@ describe('v2/WidgetRouter', function() {
         settings
       )
     );
-    
+
     router.appState.set('remediations', remediations);
     router.appState.set('currentFormName', formName);
     router.appState.set('idx', {neededToProceed: []});
