@@ -4,6 +4,7 @@ import EnrollProfileUpdateViewPageObject from '../framework/page-objects/EnrollP
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify-with-password';
 import xhrEnrollProfileUpdate from '../../../playground/mocks/data/idp/idx/enroll-profile-update-params';
 import xhrEnrollProfileUpdateAllOptional from '../../../playground/mocks/data/idp/idx/enroll-profile-update-all-optional-params';
+import xhrEnrollProfileUpdateSuccess from '../../../playground/mocks/data/idp/idx/success-with-app-user';
 
 const xhrEnrollProfileUpdateMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -17,8 +18,16 @@ const xhrEnrollProfileUpdateAllOptionalMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(xhrEnrollProfileUpdateAllOptional);
 
+const xhrEnrollProfileUpdateAllOptionalSuccess = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrEnrollProfileUpdateAllOptional)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll/new')
+  .respond(xhrEnrollProfileUpdateSuccess);
+
 const requestLogger = RequestLogger(
-  /idx\/skip/,
+  /idx\/*/,
   {
     logRequestBody: true,
     stringifyRequestBody: true,
@@ -65,4 +74,25 @@ test.requestHooks(requestLogger, xhrEnrollProfileUpdateAllOptionalMock)('should 
   await enrollProfileUpdatePage.clickSetUpSkipLink();
   const req = requestLogger.requests[0].request;
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/skip');
+});
+
+test.requestHooks(requestLogger, xhrEnrollProfileUpdateAllOptionalSuccess)('should set secondEmail default to empty on form submit when all fields are optional', async t => {
+  const enrollProfileUpdatePage = new EnrollProfileUpdateViewPageObject(t);
+  const identityPage = await setup(t);
+  await identityPage.fillIdentifierField('test');
+  await identityPage.fillPasswordField('test 123');
+  await identityPage.clickNextButton();
+
+  requestLogger.clear();
+  await enrollProfileUpdatePage.clickFinishButton();
+  const req = requestLogger.requests[0].request;
+  await t.expect(req.url).eql('http://localhost:3000/idp/idx/enroll/new');
+  const reqBody = JSON.parse(req.body);
+  await t.expect(reqBody).eql({
+    userProfile: {
+      secondEmail: '',
+    },
+    stateHandle: '02m5bP1_PZfgeox0qFcNeh5Zr71MB3gs3tw7kCsL2G',
+  });
+
 });

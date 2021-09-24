@@ -129,6 +129,19 @@ export default Model.extend({
   },
 
   /**
+   * Returns ui schema of the form field from current view state
+   * @param {string} fieldName
+   * @returns {}
+   */
+  getSchemaByName(fieldName) {
+    const currentViewState = this.getCurrentViewState();
+    if(currentViewState) {
+      const uiSchema = currentViewState.uiSchema;
+      return uiSchema.find(({ name }) => name === fieldName);
+    }
+  },
+
+  /**
    * Returns the displayName of the authenticator
    * @returns {string}
    */
