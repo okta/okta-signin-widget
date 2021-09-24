@@ -1,0 +1,175 @@
+{
+  "stateHandle":"02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
+  "version":"1.0.0",
+  "expiresAt":"2020-06-22T20:28:04.000Z",
+  "intent":"LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "challenge-authenticator",
+        "relatesTo": [
+          "$.currentAuthenticatorEnrollment"
+        ],
+        "href": "http://localhost:3000/idp/idx/challenge/answer",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "credentials",
+            "type": "object",
+            "form": {
+              "value": [
+                {
+                  "name": "passcode",
+                  "label": "Password",
+                  "secret": true
+                }
+              ]
+            },
+            "required": true
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02j01pyg5WFJis0entklWZbRFsxe_06Tmb8q5h1I70",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-authenticate",
+        "href": "http://localhost:3000/idp/idx/challenge",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "Password",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "auteoklL27jSexTpT0g4",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "password",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[0]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02j01pyg5WFJis0entklWZbRFsxe_06Tmb8q5h1I70",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "currentAuthenticatorEnrollment": {
+    "type": "object",
+    "value": {
+      "recover": {
+        "rel": [
+          "create-form"
+        ],
+        "name": "recover",
+        "href": "http://localhost:3000/idp/idx/recover",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02j01pyg5WFJis0entklWZbRFsxe_06Tmb8q5h1I70",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      "type": "password",
+      "key": "okta_password",
+      "id": "lae1wl2NK8sxbz3WH0g4",
+      "displayName": "Password",
+      "methods": [
+        {
+          "type": "password"
+        }
+      ]
+    }
+  },
+  "authenticatorEnrollments":{
+    "type":"array",
+    "value":[
+      {
+        "type":"email",
+        "key": "okta_email",
+        "id":"eae1d4u7aVB3VBbI70g4",
+        "displayName":"Email",
+        "methods":[
+          {
+            "type":"email"
+          }
+        ]
+      }
+    ]
+  },
+  "user":{
+    "type":"object",
+    "value":{
+      "id":"00u1d4o00DWrRfc5u0g4"
+    }
+  },
+  "cancel":{
+    "rel":[
+      "create-form"
+    ],
+    "name":"cancel",
+    "href":"http://localhost:3000/idp/idx/cancel",
+    "method":"POST",
+    "accepts":"application/vnd.okta.v1+json",
+    "value":[
+      {
+        "name":"stateHandle",
+        "required":true,
+        "value":"02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8",
+        "visible":false,
+        "mutable":false
+      }
+    ]
+  },
+  "app":{
+    "type":"object",
+    "value":{
+      "name":"oidc_client",
+      "label":"Native client",
+      "id":"0oa1bowRUq4I8pIfd0g4"
+    }
+  }
+}
