@@ -8,7 +8,8 @@
     "value": {
       "name": "oda",
       "signInUrl": "https://idx.okta1.com",
-      "platform": "ANDROID"
+      "platform": "ANDROID",
+      "challengeMethod": "LOOPBACK"
     }
   },
   "cancel": {

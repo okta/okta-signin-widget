@@ -2,16 +2,28 @@
   ol {
     counter-reset: decimal;
   }
-  li {
-    margin: 24px 0;
-    padding-left: 24px;
+  ol,
+  ul {
+    li {
+      margin: 24px 0;
+      padding-left: 24px;
+      &::before {
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        width: 20px;
+      }
+    }
+  }
+  ol li {
     &::before {
       content: counter(decimal) ". ";
       counter-increment: decimal;
-      display: inline-block;
-      position: absolute;
-      left: 0;
-      width: 20px;
+    }
+  }
+  ul li {
+    &::before {
+      content: "•";
     }
   }
   .copy-clipboard-button {
@@ -19,9 +31,22 @@
     height: 44px;
     line-height: 44px;
   }
+  .copy-org-clipboard-button {
+    width: 100%;
+    text-align: center;
+  }
+  .download-ov-link {
+    color: $primary-color;
+  }
   .o-form-fieldset-container {
     .explanation {
       margin: 24px 0;
+    }
+    .o-form-label {
+      font-weight: normal;
+    }
+    .subtitle {
+      font-weight: bold;
     }
     .org-signin-link {
       margin: 10px 0;

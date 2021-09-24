@@ -13,16 +13,48 @@ export default class DeviceEnrollmentTerminalPageObject extends BasePageObject {
     this.footer = new Selector('.auth-footer');
   }
 
+  async clickWithoutOVAccount() {
+    await this.form.selectRadioButtonOption('hasOVAccount', 0);
+  }
+
+  async clickWithOVAccount() {
+    await this.form.selectRadioButtonOption('hasOVAccount', 1);
+  }
+
+  async clickNextButton() {
+    await this.form.clickSaveButton();
+  }
+
+  getBackLink() {
+    return Selector('[data-se="back-to-preselect"]');
+  }
+
+  async clickBackLink() {
+    await this.t.click(this.getBackLink());
+  }
+
+  getBackLinkText() {
+    return this.getBackLink().innerText;
+  }
+
   getBeaconClass() {
     return this.beacon.find('[data-se="factor-beacon"]').getAttribute('class');
   }
 
   getHeader() {
-    return this.body.find('[data-se="o-form-head"]').innerText;
+    return this.getTextContent('[data-se="o-form-head"]');
+  }
+
+  getSubHeader() {
+    return this.getTextContent('[data-se="subheader"]');
   }
 
   getContentText() {
     return this.getTextContent('[data-se="o-form-fieldset-container"]');
+  }
+
+  getContentByIndex(idx = 1) {
+    return this.getTextContent(`.o-form-fieldset-container ol li:nth-of-type(${idx})`);
   }
 
   getAppStoreLink() {
