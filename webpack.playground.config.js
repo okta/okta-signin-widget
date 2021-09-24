@@ -26,7 +26,11 @@ if (!fs.existsSync(WIDGET_RC_JS)) {
 }
 
 module.exports = {
+  mode: 'development',
   target: 'web',
+  infrastructureLogging: {
+    level: 'warn',
+  },
   entry: {
     'playground.js': [`${PLAYGROUND}/main.js`]
   },
@@ -41,22 +45,21 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-        query: {
+        options: {
           presets: ['@babel/preset-env']
         }
       },
     ]
   },
-  watch: true,
   devServer: {
-    contentBase: [
+    static: [
       PLAYGROUND,
       TARGET,
-      // webpack-dev-server v2 only watch contentbase on root level
-      // explicitly list folders to watch for browser auto reload
-      // sub-folders can be removed when upgrade to webpack-dev-server v3
-      path.join(TARGET, 'js'),
-      path.join(TARGET, 'css'),
+      {
+        staticOptions: {
+          watchContentBase: true
+        }
+      }
     ],
     historyApiFallback: true,
     headers: {
@@ -64,7 +67,6 @@ module.exports = {
     },
     compress: true,
     port: DEV_SERVER_PORT,
-    watchContentBase: true,
     proxy: [{
       context: [
         '/oauth2/',
@@ -78,7 +80,7 @@ module.exports = {
       ],
       target: `http://localhost:${MOCK_SERVER_PORT}`
     }],
-    before() {
+    onBeforeSetupMiddleware() {
       const script = path.resolve(
         __dirname,
         'playground',

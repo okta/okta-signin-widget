@@ -90,7 +90,7 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: JS,
-            src: ['okta-sign-in*', '!*.html'],
+            src: ['okta-sign-in*', '!*.html', '!*.txt'],
             dest: DIST + '/js'
           },
           {
@@ -218,8 +218,9 @@ module.exports = function(grunt) {
     exec: {
       'clean': 'yarn clean',
       'retirejs': 'yarn retirejs',
-      'build-dev': 'yarn build:webpack-dev' + (mockDuo ? ' --env.mockDuo' : ''),
-      'build-dev-watch': 'yarn build:webpack-dev --watch --env.skipAnalyzer' + (mockDuo ? ' --env.mockDuo' : ''),
+      'build-dev': 'yarn build:webpack-dev' + (mockDuo ? ' --env mockDuo=true' : ''),
+      'build-dev-watch':
+        'yarn build:webpack-dev --watch --env skipAnalyzer=true' + (mockDuo ? ' --env mockDuo=true' : ''),
       'build-release': 'yarn build:webpack-release',
       'build-e2e-app': 'yarn build:webpack-e2e-app',
       'generate-config': 'yarn generate-config',

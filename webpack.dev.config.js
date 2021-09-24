@@ -16,6 +16,10 @@ module.exports = (env = {}) => {
   };
   usePolyfill(webpackConfig);
 
+  if (!isProduction) {
+    webpackConfig.optimization.minimize = false;
+  }
+
   if (env.mockDuo) {
     console.log('======> Mocking Duo iFrame');  // eslint-disable-line no-console
     Object.assign(webpackConfig.resolve.alias, {

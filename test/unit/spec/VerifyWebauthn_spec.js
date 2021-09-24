@@ -127,9 +127,13 @@ const testChallenge = 'kygOUtSWURMv_t_Gj71Y';
 
 function mockWebauthn(options) {
   if (options.webauthnSupported) {
-    navigator.credentials = {
-      get: jasmine.createSpy('webauthn-spy'),
-    };
+    Object.defineProperty(navigator, 'credentials', {
+      value: {
+        get: () => jasmine.createSpy('webauthn-spy'),
+      },
+      configurable: true
+    });
+
     if (options.signStatus === 'fail') {
       mockWebauthnSignFailure();
     } else if (options.signStatus === 'success') {

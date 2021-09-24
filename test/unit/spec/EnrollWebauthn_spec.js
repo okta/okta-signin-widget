@@ -72,7 +72,12 @@ Expect.describe('EnrollWebauthn', function() {
   }
 
   function mockWebauthn() {
-    navigator.credentials = { create: function() {} };
+    Object.defineProperty(navigator, 'credentials', {
+      value: {
+        create: () => jasmine.createSpy('enroll-webauthn-spy'),
+      },
+      configurable: true
+    });
   }
 
   function mockWebauthnSuccessRegistration(resolvePromise) {
