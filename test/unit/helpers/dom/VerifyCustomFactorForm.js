@@ -1,4 +1,3 @@
-import { Selector } from 'testcafe';
 import Form from './Form';
 export default Form.extend({
   backLink: function() {
@@ -14,8 +13,7 @@ export default Form.extend({
   },
 
   hasSpinner() {
-    this.spinner = new Selector('.okta-waiting-spinner');
-    return !!this.spinner;
+    return this.$('.okta-waiting-spinner');
   },
 
   errorBoxMessage: function() {

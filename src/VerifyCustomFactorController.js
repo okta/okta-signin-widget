@@ -27,11 +27,13 @@ export default FormController.extend({
 
     initialize: function() {
       const rememberDevice = FactorUtil.getRememberDeviceValue(this.appState);
+
       // set the initial value for remember device (Cannot do this while defining the
       // local property because this.settings would not be initialized there yet).
       this.set('rememberDevice', rememberDevice);
 
-      if (this.settings.get('features.skipIdpFactorVerificationBtn')) {
+      if (this.settings.get('features.skipIdpFactorVerificationBtn') &&
+        !this.appState.get('lastFailedChallengeFactorData')) {
         this.set('provider', 'CUSTOM');
         this.set('factorType', 'claims_provider');
         this.save();
@@ -76,17 +78,17 @@ export default FormController.extend({
     });
     const vendorName = factor.get('vendorName');
     const saveText = loc('mfa.challenge.verify', 'login');
+    const lastFailedChallengeFactorData = this.options.appState.get('lastFailedChallengeFactorData');
     let subtitle = loc('verify.customFactor.subtitle', 'login', [vendorName]);
 
-    if (!this.settings.get('features.skipIdpFactorVerificationBtn')) {
+    if (this.settings.get('features.skipIdpFactorVerificationBtn') && !lastFailedChallengeFactorData) {
       subtitle = loc('verify.customFactor.subtitle.redirect', 'login', [vendorName]);
+
+      this.listenTo(this.model, 'error', () => {
+        subtitle = loc('verify.customFactor.subtitle', 'login', [vendorName]);
+        this.$('.o-form-explain').text(subtitle);
+      });
     }
-
-    this.listenTo(this.model, 'error', () => {
-      subtitle = loc('verify.customFactor.subtitle', 'login', [vendorName]);
-      this.$('.o-form-explain').text(subtitle);
-    });
-
     return {
       autoSave: true,
       title: vendorName,
@@ -110,7 +112,7 @@ export default FormController.extend({
         const result = [];
         const lastFailedChallengeFactorData = this.options.appState.get('lastFailedChallengeFactorData');
 
-        if (this.settings.get('features.skipIdpFactorVerificationBtn')) {
+        if (this.settings.get('features.skipIdpFactorVerificationBtn') && !lastFailedChallengeFactorData) {
           result.push(
             FormType.View({
               View:
@@ -132,10 +134,16 @@ export default FormController.extend({
     };
   },
 
+  __lastFailedChallengeFactorData__: null,
+
   postRender() {
     if (this.settings.get('features.skipIdpFactorVerificationBtn')) {
       this.$('.o-form-button-bar').hide();
       this.$('.okta-waiting-spinner').show();
+      if (this.__lastFailedChallengeFactorData__) {
+        this.$('.okta-waiting-spinner').hide();
+        this.$('.o-form-button-bar').show();
+      }
     }
   },
 
@@ -155,12 +163,17 @@ export default FormController.extend({
   initialize: function() {
     this.model.set('provider', this.options.provider);
     this.model.set('factorType', this.options.factorType);
+    this.__lastFailedChallengeFactorData__ = this.options.appState.get('lastFailedChallengeFactorData');
 
-    this.listenTo(this.model, 'error', () => {
-      this.$('.okta-waiting-spinner').hide();
-      // this.$('.o-form-button-bar').show();
-      //TODO (Investigate): clicking the btn after redirect fails results in error
-    });
+    if (this.settings.get('features.skipIdpFactorVerificationBtn')) {
+      this.$('.okta-waiting-spinner').show();
+      this.$('.o-form-button-bar').hide();
+
+      this.listenTo(this.model, 'error', () => {
+        this.$('.okta-waiting-spinner').hide();
+        this.$('.o-form-button-bar').show();
+      });
+    }
     this.addFooter(FooterMFA);
   },
 });

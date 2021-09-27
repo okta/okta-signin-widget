@@ -1,227 +1,263 @@
 /* eslint max-params:[2, 16] */
-import { internal } from 'okta';
+import { _, $, internal } from 'okta';
 import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
-import Form from 'helpers/dom/VerifyCustomFactorForm';
+import VerifyCustomFactorForm from 'helpers/dom/VerifyCustomFactorForm';
 import Util from 'helpers/mocks/Util';
 import Expect from 'helpers/util/Expect';
-import Factor from '../../../src/models/Factor';
-import responseMfaEnrollActivateCustomSaml from 'helpers/xhr/MFA_ENROLL_ACTIVATE_CustomSaml';
-import AppState from 'v2/models/AppState';
-import responseMfaEnrollAll from 'helpers/xhr/MFA_ENROLL_allFactors';
-import VerifyCustomFactorController from '../../../src/VerifyCustomFactorController';
-import responseSuccess from 'helpers/xhr/SUCCESS';
+import resAllFactors from 'helpers/xhr/MFA_REQUIRED_allFactors';
+import resNoPermissionError from 'helpers/xhr/NO_PERMISSION_error';
+import resChallengeClaimsProvider from 'helpers/xhr/MFA_CHALLENGE_ClaimsProvider';
+import resSuccess from 'helpers/xhr/SUCCESS';
 import $sandbox from 'sandbox';
 import LoginUtil from 'util/Util';
 const SharedUtil = internal.util.Util;
 const itp = Expect.itp;
 
 Expect.describe('VerifyCustomFactor', function() {
-  function setup(factorType, skipIdpFactorVerificationBtn) {
-    const setNextResponse = Util.mockAjax([responseMfaEnrollAll]);
+  function createRouter(baseUrl, authClient, successSpy, settings, startRouter) {
+    const router = new Router(
+      _.extend(
+        {
+          el: $sandbox,
+          baseUrl: baseUrl,
+          authClient: authClient,
+          globalSuccessFn: successSpy,
+        },
+        settings
+      )
+    );
+
+    Util.registerRouter(router);
+    Util.mockRouterNavigate(router, startRouter);
+    return router;
+  }
+
+  function expectError(test, code, message, controller, resError) {
+    expect(test.form.hasErrors()).toBe(true);
+    expect(test.form.errorMessage()).toBe(message);
+    expectErrorEvent(test, code, message, controller, resError);
+  }
+
+  function expectErrorEvent(test, code, message, controller, resError) {
+    expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
+    expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+      {
+        controller: controller,
+      },
+      {
+        name: 'AuthApiError',
+        message: message,
+        statusCode: code,
+        xhr: resError,
+      },
+    ]);
+  }
+
+  function expectSubtitleToBe(test, desiredSubtitle) {
+    expect(test.form.subtitleText()).toBe(desiredSubtitle);
+  }
+
+  async function setup(res, selectedFactorProps, settings, lastFailedChallengeFactorData, languagesResponse, startRouter) {
+    const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
     const successSpy = jasmine.createSpy('success');
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
-
-    const router = new Router({
-      el: $sandbox,
-      baseUrl: baseUrl,
-      authClient: authClient,
-      globalSuccessFn: successSpy,
-    });
+    const router = createRouter(baseUrl, authClient, successSpy, settings, startRouter);
 
     router.on('afterError', afterErrorHandler);
-    Util.registerRouter(router);
-    Util.mockRouterNavigate(router);
-
-    setNextResponse(responseMfaEnrollAll);
-    router.refreshAuthState('dummy-token');
-
-    return Expect.waitForEnrollChoices().then(function() {
-      switch (factorType) {
-      case 'custom_oidc':
-        router.enrollOIDCFactor();
-        break;
-      case 'custom_saml':
-        router.enrollSAMLFactor();
-        break;
-      case '  ':
-        router.enrollClaimsFactor();
-        break;
+    if (startRouter) {
+      if (typeof startRouter !== 'boolean') {
+        throw new Error('startRouter parameter should be boolean');
       }
+      await Expect.waitForPrimaryAuth();
+    }
 
-      const factors = [
-        {
-          'id': 'clphnxrY5beGtUu610g4',
-          'factorType': 'claims_provider',
-          'provider': 'CUSTOM',
-          'vendorName': 'v1-200-idp-trex',
-          '_links': {
-            'verify': {
-              'href': 'http://v1-200.okta1.com:1802/api/v1/authn/factors/clphnxrY5beGtUu610g4/verify',
-              'hints': {
-                'allow': [
-                  'POST'
-                ]
-              }
-            }
-          }
-        }
-      ];
+    setNextResponse(res);
+    if (languagesResponse) {
+      setNextResponse(languagesResponse);
+    }
+    router.refreshAuthState('dummy-token');
+    await Expect.waitForMfaVerify();
 
-      const transaction = {
-        'factors': [
-          {
-            'id': 'clphnxrY5beGtUu610g4',
-            'factorType': 'claims_provider',
-            'provider': 'CUSTOM',
-            'vendorName': 'v1-200-idp-trex'
-          }
-        ]
-      };
+    router.appState.set('lastFailedChallengeFactorData', lastFailedChallengeFactorData);
 
-      transaction.factors = transaction.factors.map((factor) => new Factor.Model(factor));
+    if (selectedFactorProps) {
+      const factors = router.appState.get('factors');
+      const selectedFactor = factors.findWhere(selectedFactorProps);
+      const provider = selectedFactor.get('provider');
+      const factorType = selectedFactor.get('factorType');
 
-      const appState = new AppState();
-      const factorsArray = factors.map((factor) => new Factor.Model(factor));
-      appState.set('factors', new Factor.Collection(factorsArray, { parse: true }));
-      appState.set('transaction', transaction);
+      if (provider === 'CUSTOM' && factorType === 'claims_provider') {
+        setNextResponse(resChallengeClaimsProvider);
+        router.verifyClaimsFactor();
+        await Expect.waitForVerifyCustomFactor();
+      }
+    }
 
-      return new VerifyCustomFactorController({
-          router,
-          beacon: new Beacon($sandbox),
-          form: new Form($sandbox),
-          ac: authClient,
-          setNextResponse,
-          successSpy,
-          afterErrorHandler,
-          appState,
-          factorType: factorType,
-          provider: 'CUSTOM',
-          'features.skipIdpFactorVerificationBtn': skipIdpFactorVerificationBtn,
-        })
-      });
+    const $forms = $sandbox.find('.o-form');
+
+    let forms = _.map($forms, function(form) {
+      return new VerifyCustomFactorForm($(form));
+    });
+
+    if (forms.length === 1) {
+      forms = forms[0];
+    }
+    const beacon = new Beacon($sandbox);
+
+    return {
+      router: router,
+      form: forms,
+      beacon: beacon,
+      ac: authClient,
+      setNextResponse: setNextResponse,
+      successSpy: successSpy,
+      afterErrorHandler: afterErrorHandler,
+    };
   }
 
-  Expect.describe('Verify custom factor', function() {
-    Expect.describe('CUSTOM_CLAIMS when SKIP_IDP_FACTOR_VERIFICATION_BUTTON FF is on', function() {
-      itp('displays the redirect subtitle', function() {
-        return setup('claims_provider', true).then(function(test) {
-          const factor = factors.find((factor) => factor.factorType === 'claims_provider');
-          test.options.setNextResponse(responseSuccess);
-          expect(test.options.form.subtitleText()).toBe(`Redirecting to ${factor.vendorName}...`);
+  const setupClaimsProviderFactorWithIntrospect = _.partial(setup, resAllFactors, {
+    factorType: 'claims_provider',
+    provider: 'CUSTOM',
+  });
+
+  Expect.describe('Claims Provider Factor', function() {
+    Expect.describe('when SKIP_IDP_FACTOR_VERIFICATION_BUTTON FF is on', function() {
+      itp('hides the button bar when lastFailedChallengeFactorData is null', function() {
+        return setupClaimsProviderFactorWithIntrospect({ 'features.skipIdpFactorVerificationBtn': true }, null).then(function(test) {
+          Expect.isNotVisible(test.form.buttonBar());
         });
       });
 
-      itp("has a 'back' link in the footer", function() {
-        return setup('claims_provider').then(function(test) {
-          Expect.isVisible(test.form.backLink());
+      itp('shows the button bar when lastFailedChallengeFactorData has value', function() {
+        return setupClaimsProviderFactorWithIntrospect( { 'features.skipIdpFactorVerificationBtn': true }, {
+          errorMessage: 'lastFailedChallengeFactorData error message',
+        }).then(function(test) {
+          expect(test.form.buttonBar().hasClass('hide')).toBe(false);
         });
       });
 
-      itp('hides the button bar', function() {
-        return setup('claims_provider', true).then(function(test) {
-          test.setNextResponse(responseSuccess);
-          expect(test.form.buttonBar().hasClass('hide')).toBe(true);
+      itp('shows the waiting spinner when lastFailedChallengeFactorData is null', function() {
+        return setupClaimsProviderFactorWithIntrospect( { 'features.skipIdpFactorVerificationBtn': true }, null).then(function(test) {
+          expect(test.form.hasSpinner().length).toBe(1);
         });
       });
 
-      itp('shows the waiting spinner', function() {
-        return setup('claims_provider', true).then(function(test) {
-          test.setNextResponse(responseSuccess);
-          expect(test.form.hasSpinner()).toBe(true);
+      itp('hides the waiting spinner when lastFailedChallengeFactorData has value', function() {
+        return setupClaimsProviderFactorWithIntrospect( { 'features.skipIdpFactorVerificationBtn': true }, {
+          errorMessage: 'lastFailedChallengeFactorData error message',
+        }).then(function(test) {
+          expect(test.form.hasSpinner().length).toBe(0);
         });
       });
 
-      itp('redirects to third party automatically', function() {
+      itp('shows the right auto redirect subtitle when lastFailedChallengeFactorData is null', function() {
+        return setupClaimsProviderFactorWithIntrospect({ 'features.skipIdpFactorVerificationBtn': true }, null).then(function(test) {
+          expectSubtitleToBe(test, 'Redirecting to IDP factor...');
+        });
+      });
+
+      itp('shows the right auto redirect subtitle when lastFailedChallengeFactorData has value', function() {
+        return setupClaimsProviderFactorWithIntrospect({ 'features.skipIdpFactorVerificationBtn': true }, {
+          errorMessage: 'lastFailedChallengeFactorData error message',
+        }).then(function(test) {
+          expectSubtitleToBe(test, 'Clicking below will redirect to verification with IDP factor');
+        });
+      });
+
+      itp('redirects automatically to third party when lastFailedChallengeFactorData is null', function() {
         spyOn(SharedUtil, 'redirect');
-        return setup('claims_provider', true)
+        return setupClaimsProviderFactorWithIntrospect({ 'features.skipIdpFactorVerificationBtn': true }, null)
           .then(function(test) {
-            test.setNextResponse([responseMfaEnrollActivateCustomSaml, responseSuccess]);
-            test.initialize();
+            test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
+            test.form.initialize();
             return Expect.waitForSpyCall(SharedUtil.redirect);
           })
           .then(function() {
             expect(SharedUtil.redirect).toHaveBeenCalledWith(
-              'http://rain.okta1.com:1802/policy/mfa-oidc-idp-redirect?okta_key=mfa.redirect.id',
+              'http://rain.okta1.com:1802/sso/idps/idpId?stateToken=testStateToken'
             );
           });
       });
 
       itp('displays error when error response received', function() {
-        return setup('claims_provider', true)
+        return setupClaimsProviderFactorWithIntrospect()
           .then(function(test) {
             test.setNextResponse(resNoPermissionError);
             test.form.submit();
             return Expect.waitForFormError(test.form, test);
           })
           .then(function(test) {
-            expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+            expectError(
+              test,
+              403,
+              'You do not have permission to perform the requested action',
+              'verify-custom-factor custom-factor-form',
+              {
+                status: 403,
+                responseType: 'json',
+                responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae3CaVvE33SqKyymZRyUWE7Q","errorCauses":[]}',
+                responseJSON: {
+                  errorCode: 'E0000006',
+                  errorSummary: 'You do not have permission to perform the requested action',
+                  errorLink: 'E0000006',
+                  errorId: 'oae3CaVvE33SqKyymZRyUWE7Q',
+                  errorCauses: [],
+                },
+              }
+            );
           });
       });
     });
 
-    Expect.describe('CUSTOM_CLAIMS when SKIP_IDP_FACTOR_VERIFICATION_BUTTON FF is OFF', function() {
-      itp('displays correct subtitle', function() {
-        return setup('claims_provider', false).then(function(test) {
-          const factor = factors.find((factor) => factor.factorType === 'claims_provider');
-          test.options.setNextResponse(responseSuccess);
-          expect(test.options.form.subtitleText()).toBe('Clicking below will redirect to MFA enrollment with IDP factor');
-        });
-      });
-
-      itp("has a 'back' link in the footer", function() {
-        return setup('claims_provider', false).then(function(test) {
-          Expect.isVisible(test.form.backLink());
+    Expect.describe('when SKIP_IDP_FACTOR_VERIFICATION_BUTTON FF is off', function() {
+      itp('shows the right subtitle', function() {
+        return setupClaimsProviderFactorWithIntrospect( { 'features.skipIdpFactorVerificationBtn': false } ).then(function(test) {
+          expectSubtitleToBe(test, 'Clicking below will redirect to verification with IDP factor');
         });
       });
 
       itp('shows the button bar', function() {
-        return setup('claims_provider', false).then(function(test) {
-          test.setNextResponse(responseSuccess);
+        return setupClaimsProviderFactorWithIntrospect( { 'features.skipIdpFactorVerificationBtn': false } ).then(function(test) {
           expect(test.form.buttonBar().hasClass('hide')).toBe(false);
         });
       });
 
       itp('hides the waiting spinner', function() {
-        return setup('claims_provider', false).then(function(test) {
-          test.setNextResponse(responseSuccess);
-          expect(test.form.hasSpinner()).toBe(false);
+        return setupClaimsProviderFactorWithIntrospect( { 'features.skipIdpFactorVerificationBtn': false } ).then(function(test) {
+          expect(test.form.hasSpinner().length).toBe(0);
         });
       });
 
       itp('redirects to third party when Verify button is clicked', function() {
         spyOn(SharedUtil, 'redirect');
-        return setup('claims_provider', false)
+        return setupClaimsProviderFactorWithIntrospect()
           .then(function(test) {
-            test.setNextResponse([responseMfaEnrollActivateCustomSaml, responseSuccess]);
+            test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
             test.form.submit();
             return Expect.waitForSpyCall(SharedUtil.redirect);
           })
           .then(function() {
             expect(SharedUtil.redirect).toHaveBeenCalledWith(
-              'http://rain.okta1.com:1802/policy/mfa-oidc-idp-redirect?okta_key=mfa.redirect.id',
+              'http://rain.okta1.com:1802/sso/idps/idpId?stateToken=testStateToken'
             );
           });
       });
 
-      itp('displays error when error response received', function() {
-        return setup('claims_provider', false)
+      itp('does not redirect to third party automatically', function() {
+        spyOn(SharedUtil, 'redirect');
+        return setupClaimsProviderFactorWithIntrospect({ 'features.skipIdpFactorVerificationBtn': false }, null)
           .then(function(test) {
-            test.setNextResponse(resNoPermissionError);
-            test.form.submit();
-            return Expect.waitForFormError(test.form, test);
-          })
-          .then(function(test) {
-            expect(test.form.hasErrors()).toBe(true);
-            expect(test.form.errorMessage()).toBe('You do not have permission to perform the requested action');
+            test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
+            test.form.initialize();
+            expect(SharedUtil.redirect).not.toHaveBeenCalledWith(
+              'http://rain.okta1.com:1802/sso/idps/idpId?stateToken=testStateToken'
+            );
           });
       });
     });
   });
-
-
 });
