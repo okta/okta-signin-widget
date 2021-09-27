@@ -68,6 +68,8 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
   - [on](#on)
   - [off](#off)
   - [authClient](#authclient)
+  - [before](#before)
+  - [after](#after)
 - [Configuration](#configuration)
   - [OIDC Applications](#oidc-applications)
   - [Basic config options](#basic-config-options)
@@ -87,6 +89,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
   - [Smart Card IdP](#smart-card-idp)
   - [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
   - [Feature flags](#feature-flags)
+  - [Hooks](#hooks)
 - [Events](#events)
   - [ready](#ready)
   - [afterError](#aftererror)
@@ -627,6 +630,50 @@ var config = {
 
 var signIn = new OktaSignIn(config);
 // signIn.authClient.options.clientId === '{yourClientId}'
+```
+
+### before
+
+> **Note**: This function is only supported when using the Okta Identity Engine
+
+Adds an asynchronous hook function which will execute before a view is rendered.
+
+```javascript
+var config = {
+  baseUrl: 'https://{yourOktaDomain}',
+  authParams: {
+    issuer: 'https://{yourOktaDomain}/oauth2/default',
+    clientId: '{yourClientId}'  
+  },
+  useInteractionCodeFlow: true
+};
+var signIn = new OktaSignIn(config);
+signIn.before('success-redirect', async () => {
+  // custom logic can go here. when the function resolves, execution will continue.
+});
+
+```
+
+### after
+
+> **Note**: This function is only supported when using the Okta Identity Engine
+
+Adds an asynchronous hook function which will execute after a view is rendered.
+
+```javascript
+var config = {
+  baseUrl: 'https://{yourOktaDomain}',
+  authParams: {
+    issuer: 'https://{yourOktaDomain}/oauth2/default',
+    clientId: '{yourClientId}'  
+  },
+  useInteractionCodeFlow: true
+};
+var signIn = new OktaSignIn(config);
+signIn.after('identify', async () => {
+  // custom logic can go here. when the function resolves, execution will continue.
+});
+
 ```
 
 ## Configuration
@@ -1464,6 +1511,44 @@ features: {
 - **features.showPasswordToggleOnSignInPage** - End users can now toggle visibility of their password on the Okta Sign-In page, allowing end users to check their password before they click Sign In. This helps prevent account lock outs caused by end users exceeding your org's permitted number of failed sign-in attempts. Note that passwords are visible for 30 seconds and then hidden automatically. Defaults to `false`.
 
 - **features.scrollOnError** - By default, errors will be scrolled into view. Set to `false` to disable this behavior.
+
+### Hooks
+
+> **Note**: Hooks are only supported when using the Okta Identity Engine
+
+Asynchronous callbacks can be invoked before or after a specific view is rendered. Hook callbacks block processing to run custom logic. Nomal execution will resume after the Promise returned from the callback function resolves.
+
+```javascript
+// Hooks can be added via config
+const config = {
+  hooks: {
+    'identify': {
+      after: [
+        async function afterIdentify() {
+          // custom logic goes here
+        }
+      ]
+    },
+    'success-redirect': {
+      before: [
+        async function afterIdentify() {
+          // custom logic goes here
+        }
+      ]
+    }
+  }
+};
+
+// Hooks can also be added at runtime
+signIn.before('success-redirect', async () => {
+  // custom logic goes here
+});
+
+signIn.after('identify', async () => {
+  // custom logic goes here
+});
+
+```
 
 ## Events
 

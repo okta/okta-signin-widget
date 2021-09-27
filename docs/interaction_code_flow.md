@@ -45,6 +45,7 @@
   - [Feature flags](#feature-flags)
     - [features.showPasswordToggleOnSignInPage](#featuresshowpasswordtoggleonsigninpage)
     - [features.hideSignOutLinkInMFA](#featureshidesignoutlinkinmfa)
+    - [features.rememberMe](#featuresrememberme)
 
 ## Setup
 
@@ -307,6 +308,38 @@ Custom link href for the "Unlock Account" link. For this link to display, `featu
 Array of custom link objects `{text, href, target}` that will be added to the *"Need help signing in?"* section. The `target` of the link is optional.
 
 ### Hooks
+
+Asynchronous callbacks can be invoked before or after a specific view is rendered. Hook callbacks block processing to run custom logic. Nomal execution will resume after the Promise returned from the callback function resolves.
+
+```javascript
+// Hooks can be set in config
+hooks: {
+  'identify': {
+    after: [
+      async function afterIdentify() {
+        // custom logic goes here
+      }
+    ]
+  },
+  'success-redirect': {
+    before: [
+      async function afterIdentify() {
+        // custom logic goes here
+      }
+    ]
+  }
+}
+
+// Hooks can also be added at runtime
+signIn.before('success-redirect', async () => {
+  // custom logic goes here
+});
+
+signIn.after('identify', async () => {
+  // custom logic goes here
+});
+
+```
 
 #### transformUsername
 
