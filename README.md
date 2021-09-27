@@ -386,7 +386,7 @@ signIn.renderEl({
 
 Support for the interaction code grant is available for organizations with the Identity Engine feature enabled. Please visit [Migrating to OIE](https://developer.okta.com/docs/guides/migrate-to-oie/) for more details.
 
-Documentation for configuring the Okta Sign-in Widget for the interaction code grant is [available here]('./docs/interaction_code_flow.md').
+Documentation for configuring the Okta Sign-in Widget for the interaction code grant is [available here](https://github.com/okta/okta-signin-widget/blob/master/docs/interaction_code_flow.md#setup).
 
 ### OktaSignIn
 
