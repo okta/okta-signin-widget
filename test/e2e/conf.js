@@ -84,7 +84,7 @@ if (process.env.TRAVIS  || process.env.CHROME_HEADLESS) {
 // WIDGET_BASIC_USER
 // WIDGET_BASIC_PASSWORD
 else {
-  const webdriverManagerConfig = require('webdriver-manager/selenium/update-config.json');
+  const webdriverManagerConfig = require('protractor/node_modules/webdriver-manager/selenium/update-config.json');
 
   config.directConnect = true;
   config.chromeDriver = webdriverManagerConfig.chrome.last;
