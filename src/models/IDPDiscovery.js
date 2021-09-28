@@ -14,6 +14,8 @@ import PrimaryAuthModel from 'models/PrimaryAuth';
 import CookieUtil from 'util/CookieUtil';
 import Enums from 'util/Enums';
 import Util from 'util/Util';
+import {$} from 'okta';
+
 export default PrimaryAuthModel.extend({
   props: function() {
     const cookieUsername = CookieUtil.getCookieUsername();
@@ -29,7 +31,15 @@ export default PrimaryAuthModel.extend({
 
   local: {},
 
+  triggerAutomatically: function() {
+    this.saveInternal(true);
+  },
+
   save: function() {
+    this.saveInternal(false);
+  },
+
+  saveInternal: function(autoTriggered) {
     const username = this.settings.transformUsername(this.get('username'), Enums.IDP_DISCOVERY);
     const remember = this.get('remember');
     const lastUsername = this.get('lastUsername');
@@ -50,13 +60,15 @@ export default PrimaryAuthModel.extend({
     };
     const authClient = this.appState.settings.authClient;
 
+    console.log('reached this!');
     authClient
       .webfinger(webfingerArgs)
       .then(res => {
         if (res && res.links && res.links[0]) {
-          if (res.links[0].properties['okta:idp:type'] === 'OKTA') {
+          if (res.links[0].properties['okta:idp:type'] === 'OKTA' && !autoTriggered) {
             this.trigger('goToPrimaryAuth');
-          } else if (res.links[0].href) {
+          } else if (res.links[0].properties['okta:idp:type'] !== 'OKTA' && res.links[0].href) {
+            this.showSpinner(autoTriggered);
             const redirectFn = res.links[0].href.includes('OKTA_INVALID_SESSION_REPOST%3Dtrue')
               ? Util.redirectWithFormGet.bind(Util)
               : this.settings.get('redirectUtilFn');
@@ -68,6 +80,7 @@ export default PrimaryAuthModel.extend({
         }
       })
       .catch(() => {
+        this.hideSpinner();
         this.trigger('error');
         // Specific event handled by the Header for the case where the security image is not
         // enabled and we want to show a spinner. (Triggered only here and handled only by Header).
@@ -78,4 +91,21 @@ export default PrimaryAuthModel.extend({
         this.appState.trigger('loading', false);
       });
   },
+
+  showSpinner: function(autoTriggered) {
+    if (autoTriggered) {
+      $('.idp-discovery-form').hide();
+      $('.force-idp-spinner').show();
+      $('.auth-footer').hide();
+    }
+  },
+
+  hideSpinner: function() {
+    $('.idp-discovery-form').show();
+    $('.force-idp-spinner').hide();
+    $('.auth-footer').show();
+  }
+
 });
+
+

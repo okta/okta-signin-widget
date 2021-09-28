@@ -163,7 +163,7 @@ export default BaseLoginRouter.extend({
       document.getElementById(Enums.WIDGET_CONTAINER_ID).focus();
       return;
     }
-    if (this.settings.get('features.idpDiscovery')) {
+    if (this.settings.get('features.idpDiscovery') || this.appState.get('forcedIdpEvaluation')) {
       this.idpDiscovery();
     } else {
       this.primaryAuth();

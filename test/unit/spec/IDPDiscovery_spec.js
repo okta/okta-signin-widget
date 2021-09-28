@@ -15,6 +15,10 @@ import resSuccessOktaIDP from 'helpers/xhr/IDPDiscoverySuccess_OktaIDP';
 import resSuccessSAML from 'helpers/xhr/IDPDiscoverySuccess_SAML';
 import resPasswordlessUnauthenticated from 'helpers/xhr/PASSWORDLESS_UNAUTHENTICATED';
 import resUnauthenticated from 'helpers/xhr/UNAUTHENTICATED';
+import resUnauthenticatedForceIdp from 'helpers/xhr/UNAUTHENTICATED_FORCE_IDP';
+import resDeviceCodeActivate from 'helpers/xhr/DEVICE_CODE_ACTIVATE';
+import DeviceCodeActivateForm from 'helpers/dom/DeviceCodeActivateForm';
+import resDeviceCodeActivateInvalidCode from 'helpers/xhr/DEVICE_CODE_TERMINAL_invalidCode';
 import resSecurityImage from 'helpers/xhr/security_image';
 import resSecurityImageFail from 'helpers/xhr/security_image_fail';
 import IDPDiscovery from 'models/IDPDiscovery';
@@ -26,12 +30,15 @@ import Errors from 'util/Errors';
 import WidgetUtil from 'util/Util';
 const SharedUtil = internal.util.Util;
 const itp = Expect.itp;
+const fitp = Expect.fitp;
 const BEACON_LOADING_CLS = 'beacon-loading';
 const OIDC_STATE = 'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg';
 
 function setup(settings, requests) {
   settings || (settings = {});
-  settings['features.idpDiscovery'] = true;
+  if (settings['features.idpDiscovery'] === undefined) {
+    settings['features.idpDiscovery'] = true;
+  }
   settings['language'] = 'en';
 
   // To speed up the test suite, calls to debounce are
@@ -287,6 +294,41 @@ function setupWithoutCustomButtonsWithoutIdp() {
   return setup(settings);
 }
 
+function setupDeviceActivation(settings, res) {
+  settings || (settings = {});
+  const successSpy = jasmine.createSpy('successSpy');
+  const setNextResponse = Util.mockAjax();
+  const baseUrl = window.location.origin;
+  const logoUrl = '/img/logos/default.png';
+  const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: WidgetUtil.transformErrorXHR });
+  const router = new Router(
+    _.extend(
+      {
+        el: $sandbox,
+        baseUrl: baseUrl,
+        logo: logoUrl,
+        authClient: authClient,
+        globalSuccessFn: successSpy,
+      },
+      settings
+    )
+  );
+
+  Util.registerRouter(router);
+  Util.mockRouterNavigate(router);
+  Util.mockJqueryCss();
+  setNextResponse(res || resDeviceCodeActivate);
+  router.refreshAuthState('dummy-token');
+  settings = {
+    router: router,
+    successSpy: successSpy,
+    form: new DeviceCodeActivateForm($sandbox),
+    ac: authClient,
+    setNextResponse: setNextResponse,
+  };
+  return Expect.waitForDeviceCodeActivate(settings);
+}
+
 const setupWithTransformUsername = _.partial(setup, { username: 'foobar', transformUsername: transformUsername });
 
 const setupWithTransformUsernameOnUnlock = _.partial(setup, { transformUsername: transformUsernameOnUnlock });
@@ -298,6 +340,72 @@ Expect.describe('IDPDiscovery', function() {
 
       expect(model.validate().username).toEqual('model.validation.field.blank');
     });
+  });
+
+  describe('IDPDiscoveryAuthTrigger', function() {
+
+    fitp('next button click makes the correct post', function() {
+      return setupDeviceActivation()
+        .then(function(test) {
+          Util.resetAjaxRequests();
+          test.setNextResponse(resUnauthenticatedForceIdp);
+          test.form.setUserCode('ABCD-WXYZ');
+          test.form.nextButton().click();
+          return Expect.waitForAjaxRequest(test);
+        })
+        .then(function(test) {
+          expect(Util.numAjaxRequests()).toBe(1);
+          window.console.log(Util.lastAjaxRequest());
+          window.console.log(test.router.appState);
+          window.console.log(test.router.appState.get('forceIdpEvaluation'));
+          Expect.isJsonPost(Util.lastAjaxRequest(), {
+            url: 'http://localhost:3000/api/v1/authn/device/activate',
+            data: {
+              userCode: 'ABCD-WXYZ',
+              stateToken: '00-dummy-state-token',
+            },
+          });
+        });
+        // .then(function(test) {
+        //   window.console.log('after force IDP response');
+        //   window.console.log('forceIdpEvaluation: ' + test.router.appState.get('forceIdpEvaluation'));
+        //   test.setNextWebfingerResponse(resSuccessSAML);
+        //   return waitForWebfingerCall(test);
+  
+        // }).then(function(test) {
+        //   window.console.log('after web fingers response');
+        //   window.console.log('forceIdpEvaluation: ' + test.router.appState.get('forceIdpEvaluation'));
+        //   expect(test.ac.webfinger).toHaveBeenCalledWith({
+        //     resource: 'okta:acct:undefined',
+        //     requestContext: 'okta:forcedIdpEvaluation:stateToken...',
+        //   });
+        // });
+    });
+
+    // fit('fewwfewf', function() {
+    //   return setup({ features: {idpDiscovery: false} }, resUnauthenticatedForceIdp)
+    //   // .then(function(test) {
+    //   //   window.console.log('before force IDP response');
+    //   //   window.console.log('forceIdpEvaluation: ' + test.router.appState.get('forceIdpEvaluation'));
+    //   //   test.setNextResponse(resUnauthenticatedForceIdp);
+
+    //   //   return Expect.waitForIDPDiscovery(test);
+    //   // })
+    //   .then(function(test) {
+    //     window.console.log('after force IDP response');
+    //     window.console.log('forceIdpEvaluation: ' + test.router.appState.get('forceIdpEvaluation'));
+    //     test.setNextWebfingerResponse(resSuccessSAML);
+    //     return waitForWebfingerCall(test);
+
+    //   }).then(function(test) {
+    //     window.console.log('after web fingers response');
+    //     window.console.log('forceIdpEvaluation: ' + test.router.appState.get('forceIdpEvaluation'));
+    //     expect(test.ac.webfinger).toHaveBeenCalledWith({
+    //       resource: 'okta:acct:undefined',
+    //       requestContext: 'okta:forcedIdpEvaluation:stateToken...',
+    //     });
+    //   });
+    // });
   });
 
   describe('settings', function() {

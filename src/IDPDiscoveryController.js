@@ -30,9 +30,15 @@ export default PrimaryAuthController.extend({
     const lastAuthResponse = options.appState.get('lastAuthResponse');
     const stateToken = lastAuthResponse && lastAuthResponse?.stateToken;
 
+    console.log('idp discovery controller contructor');
+
     //Update requestContext wiht last stateToken, if the context was stateToken and not a fromUri
     if(Util.isV1StateToken(requestContext)) {
       requestContext = stateToken;
+    }
+    let forcedIdpEvaluation = options.appState.get('forcedIdpEvaluation');
+    if (forcedIdpEvaluation) {
+      requestContext = 'okta:forcedIdpEvaluation:' + stateToken;
     }
 
     this.model = new IDPDiscoveryModel(
@@ -88,6 +94,12 @@ export default PrimaryAuthController.extend({
         self.doPrimaryAuth();
       }
     });
+
+    this.add('<div class="force-idp-spinner" style="display: none"></div>');
+    if (this.options.appState.get('forcedIdpEvaluation')) {
+      this.model.triggerAutomatically();
+      return;
+    }
   },
 
   doPrimaryAuth : function() {

@@ -40,6 +40,10 @@ module.exports = (config) => {
     webpackMiddleware: {
       stats: 'normal',
     },
+    browserConsoleLogOptions: {
+      level: 'debug',
+      console: true
+    },
     client: {
       // Passing specific test to run
       // but this works only with `karma start`, not `karma run`.
@@ -56,7 +60,7 @@ module.exports = (config) => {
         flags: [ '-headless' ],
       },
       ChromeHeadlessNoSandbox: {
-        base: 'ChromeHeadless',
+        base: 'Chrome',
         flags: ['--no-sandbox']
       }
     },
@@ -65,7 +69,7 @@ module.exports = (config) => {
       name: 'Content-Security-Policy',
       value: 'script-src http://localhost:9876 \'unsafe-inline\''
     }],
-    singleRun: true,
+    singleRun: false,
   };
 
   // instrument code for coverage report
