@@ -34,6 +34,10 @@ export default PrimaryAuthController.extend({
     if(Util.isV1StateToken(requestContext)) {
       requestContext = stateToken;
     }
+    let forcedIdpEvaluation = options.appState.get('forcedIdpEvaluation');
+    if (forcedIdpEvaluation) {
+      requestContext = 'okta:forcedIdpEvaluation:' + stateToken;
+    }
 
     this.model = new IDPDiscoveryModel(
       {
@@ -88,6 +92,12 @@ export default PrimaryAuthController.extend({
         self.doPrimaryAuth();
       }
     });
+
+    this.add('<div class="force-idp-spinner" style="display: none"></div>');
+    if (this.options.appState.get('forcedIdpEvaluation')) {
+      this.model.triggerAutomatically();
+      return;
+    }
   },
 
   doPrimaryAuth : function() {
