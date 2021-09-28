@@ -44,11 +44,11 @@ describe('Hooks', () => {
     });
   
     describe('getHook', () => {
-      it('returrns undefined by default', () => {
+      it('returns undefined by default', () => {
         expect(testContext.hooks.get('hooks')).toBeUndefined();
         expect(testContext.hooks.getHook('some-form')).toBeUndefined();
       });
-      it('returrns undefined if a hook has not been set for a given formName', () => {
+      it('returns undefined if a hook has not been set for a given formName', () => {
         const mockHook = { before: [jest.fn()], after: [jest.fn()] };
         testContext.hooks.set('hooks', {
           'some-form': mockHook
@@ -179,7 +179,7 @@ describe('Hooks', () => {
       it('does not throw if a hook with no before section was passed', () => {
         expect(executeHooksAfter.bind(null, {})).not.toThrow();
       });
-      it('executes afterr functions in order', async () => {
+      it('executes after functions in order', async () => {
         jest.useFakeTimers();
         const callback1 = jest.fn();
         const fn1 = createDummyHook(callback1);
@@ -200,7 +200,5 @@ describe('Hooks', () => {
         expect(callback2).toHaveBeenCalled();
       });
     });
-
   });
-
 });
