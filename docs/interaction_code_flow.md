@@ -4,6 +4,9 @@
 
 - [Setup](#setup)
 - [Getting started](#getting-started)
+- [API Reference](#api-reference)
+  - [before](#before)
+  - [after](#after)
 - [Configuration options](#configuration-options)
   - [Brand](#brand)
     - [logo](#logo)
@@ -28,12 +31,13 @@
       - [helpLinks.unlock](#helplinksunlock)
       - [helpLinks.custom](#helplinkscustom)
   - [Hooks](#hooks)
+  - [Username and password](#username-and-password)
     - [transformUsername](#transformusername)
-    - [Registration hooks](#registration-hooks)
-      - [parseSchema](#parseschema)
-      - [preSubmit](#presubmit)
-      - [postSubmit](#postsubmit)
-    - [Handling registration hook errors](#handling-registration-hook-errors)
+  - [Registration](#registration)
+    - [parseSchema](#parseschema)
+    - [preSubmit](#presubmit)
+    - [postSubmit](#postsubmit)
+    - [Handling registration callback errors](#handling-registration-callback-errors)
       - [Use the default error](#use-the-default-error)
       - [Display a form error](#display-a-form-error)
       - [Display a form field error](#display-a-form-field-error)
@@ -53,14 +57,59 @@ To begin using the Interaction code flow in the Okta Sign-In Widget follow this 
 
 ## Getting started
 
-The only configuration required to initialize the Okta Sign-In Widget is the `baseUrl`.
+Interaction code flow extends OIDC flow with PKCE. You should provide the OIDC configuration for your app, including `redirectUri` and `clientId` as shown below. Additionally, the `useInteractionCodeFlow` option should be set to `true`.
 
 ```javascript
-const signIn = new OktaSignIn(
+var signIn = new OktaSignIn(
   {
     baseUrl: 'https://{yourOktaDomain}',
+    clientId: '{{clientId of your OIDC app}}',
+    redirectUri: '{{redirectUri configured in OIDC app}}',
+    useInteractionCodeFlow: true
   }
 );
+```
+
+## API Reference
+
+### before
+
+Adds an asynchronous [hook](#hooks) function which will execute before a view is rendered.
+
+```javascript
+var config = {
+  baseUrl: 'https://{yourOktaDomain}',
+  authParams: {
+    issuer: 'https://{yourOktaDomain}/oauth2/default',
+    clientId: '{yourClientId}'  
+  },
+  useInteractionCodeFlow: true
+};
+var signIn = new OktaSignIn(config);
+signIn.before('success-redirect', async () => {
+  // custom logic can go here. when the function resolves, execution will continue.
+});
+
+```
+
+### after
+
+Adds an asynchronous [hook](#hooks) function which will execute after a view is rendered.
+
+```javascript
+var config = {
+  baseUrl: 'https://{yourOktaDomain}',
+  authParams: {
+    issuer: 'https://{yourOktaDomain}/oauth2/default',
+    clientId: '{yourClientId}'  
+  },
+  useInteractionCodeFlow: true
+};
+var signIn = new OktaSignIn(config);
+signIn.after('identify', async () => {
+  // custom logic can go here. when the function resolves, execution will continue.
+});
+
 ```
 
 ## Configuration options
@@ -171,7 +220,7 @@ Set the default countryCode of the widget. If no `defaultCountryCode` is provide
 
 #### i18n
 
-Override the text in the widget. The full list of properties can be found in the [login.properties](packages/@okta/i18n/src/properties/login.properties) and [country.properties](packages/@okta/i18n/src/properties/country.properties) files.
+Override the text in the widget. The full list of properties can be found in the [login.properties](../packages/@okta/i18n/src/properties/login.properties) and [country.properties](../packages/@okta/i18n/src/properties/country.properties) files.
 
   ```javascript
   // The i18n object maps language codes to a hash of property keys ->
@@ -309,7 +358,7 @@ Array of custom link objects `{text, href, target}` that will be added to the *"
 
 ### Hooks
 
-Asynchronous callbacks can be invoked before or after a specific view is rendered. Hook callbacks block processing to run custom logic. Nomal execution will resume after the Promise returned from the callback function resolves.
+Asynchronous callbacks can be invoked before or after a specific view is rendered. Hooks can be used to add custom logic such as tracking, logging, or additional user input. Normal execution is blocked while the hooks is executing and will resume after the Promise returned from the hook function resolves. Hooks can be added via config, as shown below, or at runtime using the [before](#before) or [after](#after) methods. The full list of views can be found in [RemediationConstants.js](https://github.com/okta/okta-signin-widget/blob/master/src/v2/ion/RemediationConstants.js#L19).
 
 ```javascript
 // Hooks can be set in config
@@ -341,6 +390,8 @@ signIn.after('identify', async () => {
 
 ```
 
+### Username and password
+
 #### transformUsername
 
 Transforms the username before sending requests with the username to Okta. This is useful when you have an internal mapping between what the user enters and their Okta username.
@@ -361,9 +412,9 @@ Transforms the username before sending requests with the username to Okta. This 
   }
   ```
 
-#### Registration hooks
+### Registration
 
-Hook into registration events.
+Callback functions can be provided which will be called at specific moments in the registration process.
 
 ```javascript
   registration: {
@@ -382,7 +433,7 @@ Hook into registration events.
   },
 ```
 
-##### parseSchema
+#### parseSchema
 
 Callback used to change the JSON schema that comes back from the Okta API.
 
@@ -404,7 +455,7 @@ Callback used to change the JSON schema that comes back from the Okta API.
   }
   ```
 
-##### preSubmit
+#### preSubmit
 
 Callback used primarily to modify the request parameters sent to the Okta API.
 
@@ -420,7 +471,7 @@ Callback used primarily to modify the request parameters sent to the Okta API.
     }
   ```
 
-##### postSubmit
+#### postSubmit
 
 Callback used to primarily get control and to modify the behavior post submission to registration API.
 
@@ -432,7 +483,7 @@ Callback used to primarily get control and to modify the behavior post submissio
   }
 ```
 
-#### Handling registration hook errors
+#### Handling registration callback errors
 
 - **onFailure and ErrorObject:** The onFailure callback accepts an error object that can be used to show a form level vs field level error on the registration form.
 
