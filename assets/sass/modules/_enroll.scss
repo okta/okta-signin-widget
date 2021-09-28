@@ -39,13 +39,13 @@ $enroll-content-spacing: 15px;
   align-items: center;
 
   .enroll-factor-description {
+    width: 100%;
     overflow: hidden;
   }
 
   .enroll-factor-label {
     display: flex;
     justify-content: space-between;
-    min-width: 250px;
   }
 
   .enroll-factor-button {
