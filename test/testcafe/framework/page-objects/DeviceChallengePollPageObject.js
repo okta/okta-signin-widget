@@ -18,6 +18,10 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     return this.body.find('[data-se="o-form-head"]').innerText;
   }
 
+  getIframeAttributes() {
+    return Selector('#custom-uri-container').attributes;
+  }
+
   getContent() {
     return this.getTextContent('[data-se="o-form-fieldset-container"]');
   }

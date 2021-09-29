@@ -14,9 +14,17 @@ import hbs from 'handlebars-inline-precompile';
 import Enums from '../../../util/Enums';
 import Util from '../../../util/Util';
 
+export function appendLoginHint(deviceChallengeUrl, loginHint) {
+  if (deviceChallengeUrl && loginHint) {
+    deviceChallengeUrl += '&login_hint=' + loginHint;
+  }
+
+  return deviceChallengeUrl;
+}
 
 export function doChallenge(view) {
   const deviceChallenge = view.getDeviceChallengePayload();
+  const loginHint = view.options?.settings?.get('identifier');
   switch (deviceChallenge.challengeMethod) {
   case Enums.LOOPBACK_CHALLENGE:
     view.title = loc('deviceTrust.sso.redirectText', 'login');
@@ -62,7 +70,7 @@ export function doChallenge(view) {
         };
       },
     }));
-    view.customURI = deviceChallenge.href;
+    view.customURI = appendLoginHint(deviceChallenge.href, loginHint);
     view.doCustomURI();
     break;
   case Enums.UNIVERSAL_LINK_CHALLENGE:
@@ -80,7 +88,8 @@ export function doChallenge(view) {
       click: () => {
         // only window.location.href can open universal link in iOS/MacOS
         // other methods won't do, ex, AJAX get or form get (Util.redirectWithFormGet)
-        Util.redirect(deviceChallenge.href);
+        let deviceChallengeUrl = appendLoginHint(deviceChallenge.href, loginHint);
+        Util.redirect(deviceChallengeUrl);
       }
     }));
     break;
@@ -98,7 +107,8 @@ export function doChallenge(view) {
       click: () => {
         // only window.location.href can open app link in Android
         // other methods won't do, ex, AJAX get or form get (Util.redirectWithFormGet)
-        Util.redirect(deviceChallenge.href, window, true);
+        let deviceChallengeUrl = appendLoginHint(deviceChallenge.href, loginHint);
+        Util.redirect(deviceChallengeUrl, window, true);
       }
     }));
     break;
