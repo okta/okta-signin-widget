@@ -1,6 +1,6 @@
 /* eslint max-params:[2, 16] */
 import { _, $, internal } from 'okta';
-import createAuthClient from 'widget/createAuthClient';
+import getAuthClient from 'widget/getAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import VerifyCustomFactorForm from 'helpers/dom/VerifyCustomFactorForm';
@@ -42,7 +42,7 @@ Expect.describe('VerifyCustomFactor', function() {
 
   function expectErrorEvent(test, code, message, controller, resError) {
     expect(test.afterErrorHandler).toHaveBeenCalledTimes(1);
-    expect(test.afterErrorHandler.calls.allArgs()[0]).toEqual([
+    expect(test.afterErrorHandler.mock.calls[0]).toEqual([
       {
         controller: controller,
       },
@@ -59,12 +59,17 @@ Expect.describe('VerifyCustomFactor', function() {
     expect(test.form.subtitleText()).toBe(desiredSubtitle);
   }
 
-  async function setup(res, selectedFactorProps, settings, lastFailedChallengeFactorData, languagesResponse, startRouter) {
+  async function setup(res, selectedFactorProps, settings, lastFailedChallengeFactorData, languagesResponse , startRouter) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
-    const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
-    const successSpy = jasmine.createSpy('success');
-    const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
+    const authClient = getAuthClient({
+      authParams: {
+        issuer: baseUrl,
+        transformErrorXHR: LoginUtil.transformErrorXHR
+      }
+    });
+    const successSpy = jest.fn();
+    const afterErrorHandler =  jest.fn();
     const router = createRouter(baseUrl, authClient, successSpy, settings, startRouter);
 
     router.on('afterError', afterErrorHandler);
@@ -126,51 +131,58 @@ Expect.describe('VerifyCustomFactor', function() {
 
   Expect.describe('Claims Provider Factor', function() {
     Expect.describe('when SKIP_IDP_FACTOR_VERIFICATION_BUTTON FF is on', function() {
-      itp('hides the button bar when lastFailedChallengeFactorData is null', function() {
-        return setupClaimsProviderFactorWithIntrospect({ 'features.skipIdpFactorVerificationBtn': true }, null).then(function(test) {
-          Expect.isNotVisible(test.form.buttonBar());
+      const lastFailedChallengeFactorData = {
+        errorMessage: 'Verify failed.'
+      };
+
+      let settings = {};
+
+      beforeEach(() => {
+        settings = { 'features.skipIdpFactorVerificationBtn': true };
+      });
+
+      itp('hides the button bar when', function() {
+        return setupClaimsProviderFactorWithIntrospect(settings)
+          .then(function(test) {
+            Expect.isNotVisible(test.form.buttonBar());
+          });
+      });
+
+      itp('shows the button bar when lastFailedChallengeFactorData is not null', function() {
+        return setupClaimsProviderFactorWithIntrospect(settings ,lastFailedChallengeFactorData).then(function(test) {
+          expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(false);
         });
       });
 
-      itp('shows the button bar when lastFailedChallengeFactorData has value', function() {
-        return setupClaimsProviderFactorWithIntrospect( { 'features.skipIdpFactorVerificationBtn': true }, {
-          errorMessage: 'lastFailedChallengeFactorData error message',
-        }).then(function(test) {
-          expect(test.form.buttonBar().hasClass('hide')).toBe(false);
+      itp('shows the waiting spinner', function() {
+        return setupClaimsProviderFactorWithIntrospect(settings)
+          .then(function(test) {
+            expect(test.form.hasSpinner().length).toBe(1);
+          });
+      });
+
+      itp('hides the waiting spinner when lastFailedChallengeFactorData is not null', function() {
+        return setupClaimsProviderFactorWithIntrospect(settings, lastFailedChallengeFactorData).then(function(test) {
+          expect(test.form.$('.okta-waiting-spinner').length).toBe(0);
         });
       });
 
-      itp('shows the waiting spinner when lastFailedChallengeFactorData is null', function() {
-        return setupClaimsProviderFactorWithIntrospect( { 'features.skipIdpFactorVerificationBtn': true }, null).then(function(test) {
-          expect(test.form.hasSpinner().length).toBe(1);
-        });
+      itp('shows the right auto redirect subtitle', function() {
+        return setupClaimsProviderFactorWithIntrospect(settings)
+          .then(function(test) {
+            expectSubtitleToBe(test, 'Redirecting to IDP factor...');
+          });
       });
 
-      itp('hides the waiting spinner when lastFailedChallengeFactorData has value', function() {
-        return setupClaimsProviderFactorWithIntrospect( { 'features.skipIdpFactorVerificationBtn': true }, {
-          errorMessage: 'lastFailedChallengeFactorData error message',
-        }).then(function(test) {
-          expect(test.form.hasSpinner().length).toBe(0);
-        });
-      });
-
-      itp('shows the right auto redirect subtitle when lastFailedChallengeFactorData is null', function() {
-        return setupClaimsProviderFactorWithIntrospect({ 'features.skipIdpFactorVerificationBtn': true }, null).then(function(test) {
-          expectSubtitleToBe(test, 'Redirecting to IDP factor...');
-        });
-      });
-
-      itp('shows the right auto redirect subtitle when lastFailedChallengeFactorData has value', function() {
-        return setupClaimsProviderFactorWithIntrospect({ 'features.skipIdpFactorVerificationBtn': true }, {
-          errorMessage: 'lastFailedChallengeFactorData error message',
-        }).then(function(test) {
+      itp('shows the right auto redirect subtitle when lastFailedChallengeFactorData is not null', function() {
+        return setupClaimsProviderFactorWithIntrospect(settings, lastFailedChallengeFactorData).then(function(test) {
           expectSubtitleToBe(test, 'Clicking below will redirect to verification with IDP factor');
         });
       });
 
-      itp('redirects automatically to third party when lastFailedChallengeFactorData is null', function() {
+      itp('redirects automatically to third party', function() {
         spyOn(SharedUtil, 'redirect');
-        return setupClaimsProviderFactorWithIntrospect({ 'features.skipIdpFactorVerificationBtn': true }, null)
+        return setupClaimsProviderFactorWithIntrospect(settings)
           .then(function(test) {
             test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
             test.form.initialize();
@@ -182,9 +194,63 @@ Expect.describe('VerifyCustomFactor', function() {
             );
           });
       });
+    });
+
+    Expect.describe('when SKIP_IDP_FACTOR_VERIFICATION_BUTTON FF is off', function() {
+      let settings = {};
+
+      beforeEach(() => {
+        settings = { 'features.skipIdpFactorVerificationBtn': false };
+      });
+
+      itp('shows the right subtitle', function() {
+        return setupClaimsProviderFactorWithIntrospect(settings)
+          .then(function(test) {
+            expectSubtitleToBe(test, 'Clicking below will redirect to verification with IDP factor');
+          });
+      });
+
+      itp('shows the button bar', function() {
+        return setupClaimsProviderFactorWithIntrospect(settings)
+          .then(function(test) {
+            expect(test.form.buttonBar().hasClass('hide')).toBe(false);
+          });
+      });
+
+      itp('hides the waiting spinner', function() {
+        return setupClaimsProviderFactorWithIntrospect(settings)
+          .then(function(test) {
+            expect(test.form.hasSpinner().length).toBe(0);
+          });
+      });
+
+      itp('redirects to third party when Verify button is clicked', function() {
+        spyOn(SharedUtil, 'redirect');
+        return setupClaimsProviderFactorWithIntrospect(settings)
+          .then(function(test) {
+            test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
+            test.form.submit();
+            return Expect.waitForSpyCall(SharedUtil.redirect);
+          })
+          .then(function() {
+            expect(SharedUtil.redirect).toHaveBeenCalledWith(
+              'http://rain.okta1.com:1802/sso/idps/idpId?stateToken=testStateToken'
+            );
+          });
+      });
+
+      itp('does not redirect to third party automatically', function() {
+        jest.spyOn(SharedUtil, 'redirect');
+        return setupClaimsProviderFactorWithIntrospect(settings)
+          .then(function(test) {
+            test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
+            test.form.initialize();
+            expect(SharedUtil.redirect).not.toHaveBeenCalled();
+          });
+      });
 
       itp('displays error when error response received', function() {
-        return setupClaimsProviderFactorWithIntrospect()
+        return setupClaimsProviderFactorWithIntrospect(settings)
           .then(function(test) {
             test.setNextResponse(resNoPermissionError);
             test.form.submit();
@@ -208,53 +274,6 @@ Expect.describe('VerifyCustomFactor', function() {
                   errorCauses: [],
                 },
               }
-            );
-          });
-      });
-    });
-
-    Expect.describe('when SKIP_IDP_FACTOR_VERIFICATION_BUTTON FF is off', function() {
-      itp('shows the right subtitle', function() {
-        return setupClaimsProviderFactorWithIntrospect( { 'features.skipIdpFactorVerificationBtn': false } ).then(function(test) {
-          expectSubtitleToBe(test, 'Clicking below will redirect to verification with IDP factor');
-        });
-      });
-
-      itp('shows the button bar', function() {
-        return setupClaimsProviderFactorWithIntrospect( { 'features.skipIdpFactorVerificationBtn': false } ).then(function(test) {
-          expect(test.form.buttonBar().hasClass('hide')).toBe(false);
-        });
-      });
-
-      itp('hides the waiting spinner', function() {
-        return setupClaimsProviderFactorWithIntrospect( { 'features.skipIdpFactorVerificationBtn': false } ).then(function(test) {
-          expect(test.form.hasSpinner().length).toBe(0);
-        });
-      });
-
-      itp('redirects to third party when Verify button is clicked', function() {
-        spyOn(SharedUtil, 'redirect');
-        return setupClaimsProviderFactorWithIntrospect()
-          .then(function(test) {
-            test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
-            test.form.submit();
-            return Expect.waitForSpyCall(SharedUtil.redirect);
-          })
-          .then(function() {
-            expect(SharedUtil.redirect).toHaveBeenCalledWith(
-              'http://rain.okta1.com:1802/sso/idps/idpId?stateToken=testStateToken'
-            );
-          });
-      });
-
-      itp('does not redirect to third party automatically', function() {
-        spyOn(SharedUtil, 'redirect');
-        return setupClaimsProviderFactorWithIntrospect({ 'features.skipIdpFactorVerificationBtn': false }, null)
-          .then(function(test) {
-            test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
-            test.form.initialize();
-            expect(SharedUtil.redirect).not.toHaveBeenCalledWith(
-              'http://rain.okta1.com:1802/sso/idps/idpId?stateToken=testStateToken'
             );
           });
       });

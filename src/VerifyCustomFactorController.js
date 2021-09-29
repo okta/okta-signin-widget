@@ -31,7 +31,6 @@ export default FormController.extend({
       // set the initial value for remember device (Cannot do this while defining the
       // local property because this.settings would not be initialized there yet).
       this.set('rememberDevice', rememberDevice);
-
       if (this.settings.get('features.skipIdpFactorVerificationBtn') &&
         !this.appState.get('lastFailedChallengeFactorData')) {
         this.set('provider', 'CUSTOM');
@@ -134,15 +133,14 @@ export default FormController.extend({
     };
   },
 
-  __lastFailedChallengeFactorData__: null,
-
   postRender() {
     if (this.settings.get('features.skipIdpFactorVerificationBtn')) {
-      this.$('.o-form-button-bar').hide();
-      this.$('.okta-waiting-spinner').show();
-      if (this.__lastFailedChallengeFactorData__) {
+      if (this.options.appState.get('lastFailedChallengeFactorData')) {
         this.$('.okta-waiting-spinner').hide();
         this.$('.o-form-button-bar').show();
+      } else {
+        this.$('.o-form-button-bar').hide();
+        this.$('.okta-waiting-spinner').show();
       }
     }
   },
@@ -163,12 +161,8 @@ export default FormController.extend({
   initialize: function() {
     this.model.set('provider', this.options.provider);
     this.model.set('factorType', this.options.factorType);
-    this.__lastFailedChallengeFactorData__ = this.options.appState.get('lastFailedChallengeFactorData');
 
     if (this.settings.get('features.skipIdpFactorVerificationBtn')) {
-      this.$('.okta-waiting-spinner').show();
-      this.$('.o-form-button-bar').hide();
-
       this.listenTo(this.model, 'error', () => {
         this.$('.okta-waiting-spinner').hide();
         this.$('.o-form-button-bar').show();
