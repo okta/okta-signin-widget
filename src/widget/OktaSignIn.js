@@ -7,6 +7,7 @@ import buildRenderOptions from 'widget/buildRenderOptions';
 import createRouter from 'widget/createRouter';
 import V1Router from 'LoginRouter';
 import V2Router from 'v2/WidgetRouter';
+import Hooks from 'models/Hooks';
 
 const EVENTS_LIST = ['ready', 'afterError', 'afterRender'];
 
@@ -14,14 +15,14 @@ var OktaSignIn = (function() {
 
   var router;
 
-  function getProperties(authClient, Router, widgetOptions = {}) {
+  function getProperties(authClient, hooks, Router, widgetOptions = {}) {
     // Returns a promise that will resolve on success or reject on error
     function render(renderOptions, successFn, errorFn) {
       if (router) {
         throw new Error('An instance of the widget has already been rendered. Call remove() first.');
       }
 
-      const res = createRouter(Router, widgetOptions, renderOptions, authClient, successFn, errorFn);
+      const res = createRouter(Router, widgetOptions, renderOptions, authClient, successFn, errorFn, hooks);
       router = res.router;
       return res.promise;
     }
@@ -84,6 +85,27 @@ var OktaSignIn = (function() {
       return this.renderEl(renderOptions);
     }
 
+    // Hook convenience functions
+    function before(formName, callbackFn) {
+      hooks.mergeHook(formName, {
+        before: [
+          callbackFn
+        ]
+      });
+    }
+
+    function after(formName, callbackFn) {
+      hooks.mergeHook(formName, {
+        after: [
+          callbackFn
+        ]
+      });
+    }
+
+    function getUser() {
+      return router?.appState?.getUser();
+    }
+
     // Properties exposed on OktaSignIn object.
     return {
       renderEl: render,
@@ -94,6 +116,9 @@ var OktaSignIn = (function() {
       hide,
       show,
       remove,
+      before,
+      after,
+      getUser,
     };
   }
 
@@ -131,6 +156,11 @@ var OktaSignIn = (function() {
       );
     }
 
+    // Hooks can be modified before or after render
+    var hooks = new Hooks({
+      hooks: options.hooks
+    });
+
     var Router;
     if ((options.stateToken && !Util.isV1StateToken(options.stateToken)) 
         // Self hosted widget can use `useInteractionCodeFlow` to use V2Router
@@ -157,7 +187,7 @@ var OktaSignIn = (function() {
         Router.prototype.Events.on.apply(this, onArgs);
       }
     });
-    _.extend(this, getProperties(authClient, Router, options));
+    _.extend(this, getProperties(authClient, hooks, Router, options));
 
     // Triggers the event up the chain so it is available to the consumers of the widget.
     this.listenTo(Router.prototype, 'all', this.trigger);

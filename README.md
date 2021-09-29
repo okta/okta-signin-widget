@@ -28,6 +28,7 @@
 [Custom Authorization Server]: https://developer.okta.com/docs/guides/customize-authz-server/overview/
 [Authorization Server]: https://developer.okta.com/docs/concepts/auth-servers/#which-authorization-server-should-you-use
 [Social Login]: https://developer.okta.com/docs/concepts/social-login/
+[Identity Engine]: https://developer.okta.com/docs/guides/oie-intro/
 <!-- end links -->
 
 <!-- omit in toc -->
@@ -40,6 +41,7 @@ The widget is used on Okta's default signin page to start an Okta SSO session an
 See the [Usage Guide](#usage-guide) for more information on how to get started using the Sign-in Widget.
 
 <!-- TOC is generated using Markdown All in One -->
+- [Okta Identity Engine](#okta-identity-engine)
 - [Related SDKs](#related-sdks)
   - [Javascript](#javascript)
   - [Java](#java)
@@ -68,6 +70,8 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
   - [on](#on)
   - [off](#off)
   - [authClient](#authclient)
+  - [before](#before)
+  - [after](#after)
 - [Configuration](#configuration)
   - [OIDC Applications](#oidc-applications)
   - [Basic config options](#basic-config-options)
@@ -87,6 +91,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
   - [Smart Card IdP](#smart-card-idp)
   - [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
   - [Feature flags](#feature-flags)
+  - [Hooks](#hooks)
 - [Events](#events)
   - [ready](#ready)
   - [afterError](#aftererror)
@@ -98,6 +103,10 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
   - [Utilizing Pseudo-loc](#utilizing-pseudo-loc)
 - [Browser support](#browser-support)
 - [Contributing](#contributing)
+
+## Okta Identity Engine
+
+The Okta [Identity Engine][] (OIE) is a platform service that allows enterprises to build more flexible access experiences that are tailored to their organizational needs. The Okta Sign-in Widget supports OIE in all [usage](#usage-guide) scenarios.
 
 ## Related SDKs
 
@@ -171,6 +180,8 @@ For a completely seamless experience, which also allows for the highest level of
 Using an embedded widget, client-side web and native apps can avoid the round-trip redirect of the [hosted flow][]. An embedded widget is able to perform the [OIDC][] flow and return [OAuth][] tokens directly within the application. See [showSignInToGetTokens](#showsignintogettokens).
 
 Server-side web applications using the [authorization code flow][] will complete the [OIDC][] flow and receive [OAuth][] tokens on the server, so they **must use a redirect flow**. These apps should use [showSignInAndRedirect](#showsigninandredirect).
+
+Organizations using the Okta [Identity Engine][] should follow the [interaction code flow](#interaction-code-flow).
 
 You can embed the Sign-In Widget in your app either by including a script from the Okta CDN or by bundling the npm module [@okta/okta-signin-widget](https://www.npmjs.com/package/@okta/okta-signin-widget) with your app.
 
@@ -384,7 +395,7 @@ signIn.renderEl({
 
 ### Interaction Code Flow
 
-Support for the interaction code grant is available for organizations with the Identity Engine feature enabled. Please visit [Migrating to OIE](https://developer.okta.com/docs/guides/migrate-to-oie/) for more details.
+Support for the interaction code grant is available for organizations with the [Identity Engine](#okta-identity-engine) feature enabled. Please visit [Migrating to OIE](https://developer.okta.com/docs/guides/migrate-to-oie/) for more details.
 
 Documentation for configuring the Okta Sign-in Widget for the interaction code grant is [available here](https://github.com/okta/okta-signin-widget/blob/master/docs/interaction_code_flow.md#setup).
 
@@ -627,6 +638,50 @@ var config = {
 
 var signIn = new OktaSignIn(config);
 // signIn.authClient.options.clientId === '{yourClientId}'
+```
+
+### before
+
+> **Note**: This function is only supported when using the [Okta Identity Engine](#okta-identity-engine)
+
+Adds an asynchronous [hook](#hooks) function which will execute before a view is rendered.
+
+```javascript
+var config = {
+  baseUrl: 'https://{yourOktaDomain}',
+  authParams: {
+    issuer: 'https://{yourOktaDomain}/oauth2/default',
+    clientId: '{yourClientId}'  
+  },
+  useInteractionCodeFlow: true
+};
+var signIn = new OktaSignIn(config);
+signIn.before('success-redirect', async () => {
+  // custom logic can go here. when the function resolves, execution will continue.
+});
+
+```
+
+### after
+
+> **Note**: This function is only supported when using the [Okta Identity Engine](#okta-identity-engine)
+
+Adds an asynchronous [hook](#hooks) function which will execute after a view is rendered.
+
+```javascript
+var config = {
+  baseUrl: 'https://{yourOktaDomain}',
+  authParams: {
+    issuer: 'https://{yourOktaDomain}/oauth2/default',
+    clientId: '{yourClientId}'  
+  },
+  useInteractionCodeFlow: true
+};
+var signIn = new OktaSignIn(config);
+signIn.after('identify', async () => {
+  // custom logic can go here. when the function resolves, execution will continue.
+});
+
 ```
 
 ## Configuration
@@ -1464,6 +1519,44 @@ features: {
 - **features.showPasswordToggleOnSignInPage** - End users can now toggle visibility of their password on the Okta Sign-In page, allowing end users to check their password before they click Sign In. This helps prevent account lock outs caused by end users exceeding your org's permitted number of failed sign-in attempts. Note that passwords are visible for 30 seconds and then hidden automatically. Defaults to `false`.
 
 - **features.scrollOnError** - By default, errors will be scrolled into view. Set to `false` to disable this behavior.
+
+### Hooks
+
+> **Note**: Hooks are only supported when using the [Okta Identity Engine](#okta-identity-engine)
+
+Asynchronous callbacks can be invoked before or after a specific view is rendered. Hooks can be used to add custom logic such as tracking, logging, or additional user input. Normal execution is blocked while the hooks is executing and will resume after the Promise returned from the hook function resolves. Hooks can be added via config, as shown below, or at runtime using the [before](#before) or [after](#after) methods. The full list of views can be found in [RemediationConstants.js](https://github.com/okta/okta-signin-widget/blob/master/src/v2/ion/RemediationConstants.js#L19).
+
+```javascript
+// Hooks can be added via config
+const config = {
+  hooks: {
+    'identify': {
+      after: [
+        async function afterIdentify() {
+          // custom logic goes here
+        }
+      ]
+    },
+    'success-redirect': {
+      before: [
+        async function afterIdentify() {
+          // custom logic goes here
+        }
+      ]
+    }
+  }
+};
+
+// Hooks can also be added at runtime
+signIn.before('success-redirect', async () => {
+  // custom logic goes here
+});
+
+signIn.after('identify', async () => {
+  // custom logic goes here
+});
+
+```
 
 ## Events
 

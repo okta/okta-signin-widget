@@ -52,6 +52,7 @@ export default Model.extend({
     globalSuccessFn: 'function',
     globalErrorFn: 'function',
     processCreds: 'function',
+    hooks: 'object',
 
     // IMAGES
     logo: 'string',
@@ -529,4 +530,5 @@ export default Model.extend({
   isDsTheme: function() {
     return false;
   },
+
 });

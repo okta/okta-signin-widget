@@ -341,4 +341,12 @@ describe('v2/models/AppState', function() {
       });
     });
   });
+
+  describe('getUser', () => {
+    it('returns the "user" object', () => {
+      const user = { identifier: 'nobody@nowhere', firstName: 'fake', lastName: 'also-fake' };
+      this.initAppState({ user });
+      expect(this.appState.getUser()).toBe(user);
+    });
+  });
 });

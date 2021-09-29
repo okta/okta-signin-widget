@@ -211,6 +211,10 @@ export default Model.extend({
     this.unset('lastFailedChallengeFactorData');
   },
 
+  getUser: function() {
+    return this.get('user');
+  },
+
   derived: {
     isSuccessResponse: {
       deps: ['lastAuthResponse'],
