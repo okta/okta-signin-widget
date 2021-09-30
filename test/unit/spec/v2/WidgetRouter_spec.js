@@ -2,7 +2,7 @@ import { _ } from 'okta';
 import WidgetRouter from 'v2/WidgetRouter';
 import FormController from 'v2/controllers/FormController';
 import $sandbox from 'sandbox';
-import createAuthClient from 'widget/createAuthClient';
+import getAuthClient from 'widget/getAuthClient';
 import XHRIdentifyWithPassword
   from '../../../../playground/mocks/data/idp/idx/identify-with-password.json';
 
@@ -35,7 +35,7 @@ describe('v2/WidgetRouter', function() {
         authParams[parts[1]] = settings[key];
       }
     });
-    const authClient = createAuthClient(authParams);
+    const authClient = getAuthClient({ authParams });
     const afterRenderHandler = jest.fn();
     const afterErrorHandler = jest.fn();
 

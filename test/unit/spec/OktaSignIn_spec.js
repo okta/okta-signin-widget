@@ -7,7 +7,6 @@ import v1Success from 'helpers/xhr/SUCCESS';
 import 'jasmine-ajax';
 import $sandbox from 'sandbox';
 import Logger from 'util/Logger';
-import Errors from 'util/Errors';
 import Widget from 'widget/OktaSignIn';
 import V1Router from 'LoginRouter';
 import V1AppState from 'models/AppState';
@@ -97,14 +96,15 @@ Expect.describe('OktaSignIn initialization', function() {
         });
         expect(signIn.authClient).toBe(authClient);
       });
-      it('throws error if _oktaUserAgent field is not exist', function() {
-        const authClient = { foo: 'bar' };
-        const expectedError = new Errors.ConfigError('The passed in authClient should be version 5.4.0 or above.');
-        expect(() => new Widget({
-          baseUrl: url,
-          authClient,
-        })).toThrow(expectedError);
-      });
+      // TODO: https://oktainc.atlassian.net/browse/OKTA-433378
+      // it('throws error if _oktaUserAgent field is not exist', function() {
+      //   const authClient = { foo: 'bar' };
+      //   const expectedError = new Errors.ConfigError('The passed in authClient should be version 5.4.0 or above.');
+      //   expect(() => new Widget({
+      //     baseUrl: url,
+      //     authClient,
+      //   })).toThrow(expectedError);
+      // });
     });
 
     Expect.describe('Config', function() {
