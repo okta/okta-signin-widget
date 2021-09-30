@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint max-params: [2, 16], max-statements: [2, 18] */
+/* eslint max-params: [2, 16], max-statements: [2, 20] */
 // BaseLoginRouter contains the more complicated router logic - rendering/
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
@@ -112,6 +112,9 @@ export default Router.extend({
       appState: this.appState,
       settings: this.settings,
     });
+
+    // Hide until unitial render
+    this.hide();
 
     this.listenTo(this.appState, 'change:transactionError', function(appState, err) {
       RouterUtil.routeAfterAuthStatusChangeError(this, err);
@@ -229,6 +232,9 @@ export default Router.extend({
           Beacon = null;
         }
         this.header.setBeacon(Beacon, controllerOptions);
+
+        // Show before initial render
+        this.show();
 
         this.controller.render();
 

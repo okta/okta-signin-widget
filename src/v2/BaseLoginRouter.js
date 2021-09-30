@@ -79,6 +79,9 @@ export default Router.extend({
       settings: this.settings,
     });
 
+    // Hide until unitial render
+    this.hide();
+
     configIdxJsClient(this.appState);
     this.listenTo(this.appState, 'updateAppState', this.handleUpdateAppState);
     this.listenTo(this.appState, 'remediationError', this.handleIdxResponseFailure);
@@ -195,7 +198,7 @@ export default Router.extend({
     // }
   },
 
-  /* eslint max-statements: [2, 21] */
+  /* eslint max-statements: [2, 22] */
   render: async function(Controller, options = {}) {
     // If url changes then widget assumes that user's intention was to initiate a new login flow,
     // so clear stored token to use the latest token.
@@ -238,6 +241,9 @@ export default Router.extend({
 
       ColorsUtil.addStyle(colors);
     }
+
+    // Show before initial render
+    this.show();
 
     // render Controller
     this.unload();
