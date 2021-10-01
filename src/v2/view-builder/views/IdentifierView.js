@@ -22,6 +22,7 @@ const Body = BaseForm.extend({
   },
 
   initialize() {
+    /* eslint complexity: [2, 11] */
     BaseForm.prototype.initialize.apply(this, arguments);
 
     const uiSchema = this.getUISchema();
@@ -43,7 +44,7 @@ const Body = BaseForm.extend({
         if (_.isEmpty(value)) {
           return loc(identifierRequiredi18nKey, 'login');
         }
-      }
+      };
     }
     if (passwordProps && passwordProps.required && isCustomizedPasswordRequiredi18nKey) {
       passwordProps.required = false;
@@ -51,7 +52,7 @@ const Body = BaseForm.extend({
         if (_.isEmpty(value)) {
           return loc(passwordRequiredi18nKey, 'login');
         }
-      }
+      };
     }
 
     // Precedence for pre-filling identifier field:

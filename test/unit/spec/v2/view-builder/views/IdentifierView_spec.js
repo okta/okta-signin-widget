@@ -21,7 +21,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
     originalLoginEnBundle = Bundles.login_en;
   });
   afterAll(() => {
-    Bundles.login_en = originalLoginEnBundle;
+    Bundles['login_en'] = originalLoginEnBundle;
     originalLoginEnBundle = null;
   });
 
@@ -223,7 +223,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
       baseUrl: 'http://localhost:3000',
       i18n
     });
-    Bundles.login_en = i18n.en;
+    Bundles['login_en'] = i18n.en;
 
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
