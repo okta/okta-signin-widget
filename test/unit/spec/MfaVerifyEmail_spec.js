@@ -216,6 +216,7 @@ Expect.describe('MFA Verify (Email)', function() {
             statusCode: 403,
             xhr: {
               status: 403,
+              headers: { 'content-type': 'application/json' },
               responseType: 'json',
               responseText: '{"errorCode":"E0000069","errorSummary":"User Locked","errorLink":"E0000069","errorId":"oaeGLSGT-QCT_ijvM0RT6SV0A","errorCauses":[]}',
               responseJSON: {

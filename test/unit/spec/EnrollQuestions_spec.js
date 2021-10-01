@@ -258,6 +258,7 @@ function testEnrollQuestion(allFactors, expectedStateToken) {
             statusCode: 400,
             xhr: {
               status: 400,
+              headers: { 'content-type': 'application/json' },
               responseType: 'json',
               responseText: '{"errorCode":"E0000001","errorSummary":"Api validation failed: factorEnrollRequest","errorLink":"E0000001","errorId":"oaeaHotRD81TUCq9ADltRSjVA","errorCauses":[{"errorSummary":"Invalid Profile."}]}',
               responseJSON: {

@@ -1540,6 +1540,7 @@ Expect.describe('MFA Verify', function() {
           expect(test.form.errorMessage()).toBe('Your account is locked because of too many authentication attempts.');
           expectErrorEvent(test, 403, 'User Locked', 'mfa-verify', {
             status: 403,
+            headers: { 'content-type': 'application/json' },
             responseType: 'json',
             responseText: '{"errorCode":"E0000069","errorSummary":"User Locked","errorLink":"E0000069","errorId":"oaeGLSGT-QCT_ijvM0RT6SV0A","errorCauses":[]}',
             responseJSON: {
@@ -1867,6 +1868,7 @@ Expect.describe('MFA Verify', function() {
           expect(test.form.errorMessage()).toBe('Your account is locked because of too many authentication attempts.');
           expectErrorEvent(test, 403, 'User Locked', 'mfa-verify', {
             status: 403,
+            headers: { 'content-type': 'application/json' },
             responseType: 'json',
             responseText: '{"errorCode":"E0000069","errorSummary":"User Locked","errorLink":"E0000069","errorId":"oaeGLSGT-QCT_ijvM0RT6SV0A","errorCauses":[]}',
             responseJSON: {
@@ -2085,6 +2087,7 @@ Expect.describe('MFA Verify', function() {
         .then(function(test) {
           expectError(test, 403, 'Invalid Passcode/Answer', 'mfa-verify', {
             status: 403,
+            headers: { 'content-type': 'application/json' },
             responseType: 'json',
             responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oael69itLSMTbioahsUZ-7xiQ","errorCauses":[]}',
             responseJSON: {
@@ -2244,6 +2247,7 @@ Expect.describe('MFA Verify', function() {
           expect(test.form.errorMessage()).toBe('Password is incorrect');
           expectErrorEvent(test, 403, 'Invalid Passcode/Answer', 'mfa-verify', {
             status: 403,
+            headers: { 'content-type': 'application/json' },
             responseType: 'json',
             responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oael69itLSMTbioahsUZ-7xiQ","errorCauses":[{"errorSummary":"Password is incorrect"}]}',
             responseJSON: {
@@ -2604,6 +2608,7 @@ Expect.describe('MFA Verify', function() {
           .then(function(test) {
             expectError(test, 409, 'Enter a new PIN having from 4 to 8 digits:', 'mfa-verify', {
               status: 409,
+              headers: { 'content-type': 'application/json' },
               responseType: 'json',
               responseText: '{"errorCode":"E0000113","errorSummary":"Enter a new PIN having from 4 to 8 digits:","errorLink":"E0000113","errorId":"errorId","errorCauses":[]}',
               responseJSON: {
@@ -4274,6 +4279,7 @@ Expect.describe('MFA Verify', function() {
               'verify-custom-factor custom-factor-form',
               {
                 status: 403,
+                headers: { 'content-type': 'application/json' },
                 responseType: 'json',
                 responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae3CaVvE33SqKyymZRyUWE7Q","errorCauses":[]}',
                 responseJSON: {
@@ -4362,6 +4368,7 @@ Expect.describe('MFA Verify', function() {
               'verify-custom-factor custom-factor-form',
               {
                 status: 403,
+                headers: { 'content-type': 'application/json' },
                 responseType: 'json',
                 responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae3CaVvE33SqKyymZRyUWE7Q","errorCauses":[]}',
                 responseJSON: {
@@ -4466,6 +4473,7 @@ Expect.describe('MFA Verify', function() {
               'verify-custom-factor custom-factor-form',
               {
                 status: 403,
+                headers: { 'content-type': 'application/json' },
                 responseType: 'json',
                 responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae3CaVvE33SqKyymZRyUWE7Q","errorCauses":[]}',
                 responseJSON: {
@@ -4579,6 +4587,7 @@ Expect.describe('MFA Verify', function() {
                 'verify-custom-factor custom-factor-form',
                 {
                   status: 403,
+                  headers: { 'content-type': 'application/json' },
                   responseType: 'json',
                   responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae3CaVvE33SqKyymZRyUWE7Q","errorCauses":[]}',
                   responseJSON: {

@@ -275,6 +275,7 @@ Expect.describe('RecoveryQuestion', function() {
             statusCode: 400,
             xhr: {
               status: 400,
+              headers: { 'content-type': 'application/json' },
               responseType: 'json',
               responseText: '{"errorCode":"E0000087","errorSummary":"The recovery question answer did not match our records.","errorLink":"E0000087","errorId":"oaelYrw2A4AThiuqrb4UhGdUg","errorCauses":[]}',
               responseJSON: {

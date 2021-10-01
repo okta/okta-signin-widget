@@ -411,6 +411,7 @@ Expect.describe('EnrollSms', function() {
             statusCode: 400,
             xhr: {
               status: 400,
+              headers: { 'content-type': 'application/json' },
               responseType: 'json',
               responseText: '{"errorCode":"E0000001","errorSummary":"Api validation failed: factorEnrollRequest","errorLink":"E0000001","errorId":"oaepmWRr7i5TZa2AQv8sNmu6w","errorCauses":[{"errorSummary":"Invalid Phone Number."}]}',
               responseJSON: {
@@ -716,6 +717,7 @@ Expect.describe('EnrollSms', function() {
               statusCode: 403,
               xhr: {
                 status: 403,
+                headers: { 'content-type': 'application/json' },
                 responseType: 'json',
                 responseText: '{"errorCode":"E0000068","errorSummary":"Invalid Passcode/Answer","errorLink":"E0000068","errorId":"oaeW52tAk_9T0Obvns7jwww6g","errorCauses":[{"errorSummary":"Your token doesn\'t match our records. Please try again."}]}',
                 responseJSON: {

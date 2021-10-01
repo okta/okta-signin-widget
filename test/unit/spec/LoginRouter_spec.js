@@ -888,6 +888,7 @@ Expect.describe('LoginRouter', function() {
           statusCode: 401,
           xhr: {
             status: 401,
+            headers: { 'content-type': 'application/json' },
             responseType: 'json',
             responseText: '{"errorCode":"E0000011","errorSummary":"Invalid token provided","errorLink":"E0000011","errorId":"oaeuiUWCPr6TUSkOclgVGlWqw","errorCauses":[]}',
             responseJSON: {
@@ -946,6 +947,7 @@ Expect.describe('LoginRouter', function() {
               statusCode: 401,
               xhr: {
                 status: 401,
+                headers: { 'content-type': 'application/json' },
                 responseType: 'json',
                 responseText: '{"errorCode":"E0000011","errorSummary":"Invalid token provided","errorLink":"E0000011","errorId":"oaeuiUWCPr6TUSkOclgVGlWqw","errorCauses":[]}',
                 responseJSON: {
