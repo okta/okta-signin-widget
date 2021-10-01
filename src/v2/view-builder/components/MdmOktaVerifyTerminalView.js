@@ -16,6 +16,7 @@ export default View.extend({
       </li>
       <li>{{i18n code="enroll.mdm.step2" bundle="login"}}</li>
       <li>{{{i18n code="enroll.mdm.step3" bundle="login" arguments="vendor"}}}</li>
+      <li>{{i18n code="enroll.mdm.step4" bundle="login"}}</li>
     </ol>
   `,
 

@@ -69,7 +69,8 @@ test
     await t.expect(content).contains('s security requirements. Follow the instructions below to continue.');
     await t.expect(content).contains('Tap the Copy Link button below.');
     await t.expect(content).contains('On this device, open your browser, then paste the copied link into the address bar.');
-    await t.expect(content).contains('Follow the instructions in your browser to set up Airwatch, then try accessing this app again');
+    await t.expect(content).contains('Follow the instructions in your browser to set up Airwatch.');
+    await t.expect(content).contains('Logout and re-login and then try accessing the app again.');
     await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
     await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://sampleEnrollmentlink.com');
   });
@@ -136,7 +137,8 @@ test
     await t.expect(content).contains('s security requirements. Follow the instructions below to continue.');
     await t.expect(content).contains('Tap the Copy Link button below.');
     await t.expect(content).contains('On this device, open your browser, then paste the copied link into the address bar.');
-    await t.expect(content).contains('Follow the instructions in your browser to set up MobileIron, then try accessing this app again');
+    await t.expect(content).contains('Follow the instructions in your browser to set up MobileIron.');
+    await t.expect(content).contains('Logout and re-login and then try accessing the app again.');
     await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
     await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://anotherSampleEnrollmentlink.com');
   });
@@ -277,7 +279,8 @@ test
     await t.expect(content).contains('s security requirements. Follow the instructions below to continue.');
     await t.expect(content).contains('Tap the Copy Link button below.');
     await t.expect(content).contains('On this device, open your browser, then paste the copied link into the address bar.');
-    await t.expect(content).contains('Follow the instructions in your browser to set up MobileIron, then try accessing this app again');
+    await t.expect(content).contains('Follow the instructions in your browser to set up MobileIron.');
+    await t.expect(content).contains('Logout and re-login and then try accessing the app again.');
     await t.expect(deviceEnrollmentTerminalPage.getCopyButtonLabel()).eql('Copy link to clipboard');
     await t.expect(deviceEnrollmentTerminalPage.getCopiedValue()).eql('https://anotherSampleEnrollmentlink.com');
   });
