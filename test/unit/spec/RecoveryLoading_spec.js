@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 15] */
 import { _ } from 'okta';
-import createAuthClient from 'widget/createAuthClient';
+import getAuthClient from 'widget/getAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import PrimaryAuthFormView from 'helpers/dom/PrimaryAuthForm';
@@ -16,7 +16,9 @@ const itp = Expect.itp;
 function setup(settings, callRecoveryLoading, fail = false) {
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
-  const authClient = createAuthClient({ issuer: baseUrl });
+  const authClient = getAuthClient({
+    authParams: { issuer: baseUrl }
+  });
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
   const router = new Router(
     _.extend(
@@ -137,6 +139,7 @@ Expect.describe('Recovery Loading', function() {
             statusCode: 403,
             xhr: {
               status: 403,
+              headers: { 'content-type': 'application/json' },
               responseType: 'json',
               responseText: '{"errorCode":"E0000105","errorSummary":"You have accessed an account recovery link that has expired or been previously used.","errorLink":"E0000105","errorId":"oaeJFD_L3CcQoC9Am9y7tpfrQ","errorCauses":[]}',
               responseJSON: {

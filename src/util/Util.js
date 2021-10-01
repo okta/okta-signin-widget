@@ -227,18 +227,4 @@ Util.isV1StateToken = function(token) {
   return !!(token && _.isString(token) && token.startsWith('00'));
 };
 
-// TODO: remove when auth-js is updated: OKTA-325445
-Util.removeNils = function removeNils(obj) {
-  var cleaned = {};
-  for (var prop in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, prop)) {
-      var value = obj[prop];
-      if (value !== null && value !== undefined) {
-        cleaned[prop] = value;
-      }
-    }
-  }
-  return cleaned;
-};
-
 export default Util;
