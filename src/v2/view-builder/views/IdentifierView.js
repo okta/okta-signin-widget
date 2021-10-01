@@ -1,4 +1,4 @@
-import { loc, createCallout } from 'okta';
+import { loc, createCallout, _ } from 'okta';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { BaseForm, BaseView, createIdpButtons, createCustomButtons } from '../internals';
 import DeviceFingerprinting from '../utils/DeviceFingerprinting';
@@ -27,6 +27,25 @@ const Body = BaseForm.extend({
     const uiSchema = this.getUISchema();
     if (uiSchema.find(schema => schema.name === 'credentials.passcode')) {
       this.save = loc('oie.primaryauth.submit', 'login');
+    }
+   
+    // Customize required error text
+    const identifierRequiredi18nKey = 'error.username.required';
+    const passwordRequiredi18nKey = 'error.password.required';
+    const props = this.model.__schema__.props;
+    if (props.identifier && isCustomizedI18nKey(identifierRequiredi18nKey, this.settings)) {
+      props.identifier.validate = function(value) {
+        if (_.isEmpty(value)) {
+          return loc(identifierRequiredi18nKey, 'login');
+        }
+      }
+    }
+    if (props.password && isCustomizedI18nKey(passwordRequiredi18nKey, this.settings)) {
+      props.password.validate = function(value) {
+        if (_.isEmpty(value)) {
+          return loc(passwordRequiredi18nKey, 'login');
+        }
+      }
     }
 
     // Precedence for pre-filling identifier field:
