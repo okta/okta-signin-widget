@@ -59,7 +59,7 @@ Expect.describe('VerifyCustomFactor', function() {
     expect(test.form.subtitleText()).toBe(desiredSubtitle);
   }
 
-  async function setup(res, selectedFactorProps, settings, lastFailedChallengeFactorData, languagesResponse , startRouter) {
+  async function setup(settings, lastFailedChallengeFactorData, languagesResponse , startRouter) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authClient = getAuthClient({
@@ -80,7 +80,7 @@ Expect.describe('VerifyCustomFactor', function() {
       await Expect.waitForPrimaryAuth();
     }
 
-    setNextResponse(res);
+    setNextResponse(resAllFactors);
     if (languagesResponse) {
       setNextResponse(languagesResponse);
     }
@@ -89,18 +89,9 @@ Expect.describe('VerifyCustomFactor', function() {
 
     router.appState.set('lastFailedChallengeFactorData', lastFailedChallengeFactorData);
 
-    if (selectedFactorProps) {
-      const factors = router.appState.get('factors');
-      const selectedFactor = factors.findWhere(selectedFactorProps);
-      const provider = selectedFactor.get('provider');
-      const factorType = selectedFactor.get('factorType');
-
-      if (provider === 'CUSTOM' && factorType === 'claims_provider') {
-        setNextResponse(resChallengeClaimsProvider);
-        router.verifyClaimsFactor();
-        await Expect.waitForVerifyCustomFactor();
-      }
-    }
+    setNextResponse(resChallengeClaimsProvider);
+    router.verifyClaimsFactor();
+    await Expect.waitForVerifyCustomFactor();
 
     const $forms = $sandbox.find('.o-form');
 
@@ -124,13 +115,8 @@ Expect.describe('VerifyCustomFactor', function() {
     };
   }
 
-  const setupClaimsProviderFactorWithIntrospect = _.partial(setup, resAllFactors, {
-    factorType: 'claims_provider',
-    provider: 'CUSTOM',
-  });
-
   Expect.describe('Claims Provider Factor', function() {
-    Expect.describe('when SKIP_IDP_FACTOR_VERIFICATION_BUTTON FF is on', function() {
+    Expect.describe('when features.skipIdpFactorVerificationBtn is true', function() {
       const lastFailedChallengeFactorData = {
         errorMessage: 'Verify failed.'
       };
@@ -141,51 +127,50 @@ Expect.describe('VerifyCustomFactor', function() {
         settings = { 'features.skipIdpFactorVerificationBtn': true };
       });
 
-      itp('hides the button bar when', function() {
-        return setupClaimsProviderFactorWithIntrospect(settings)
+      itp('hides the button bar', function() {
+        return setup(settings)
           .then(function(test) {
             Expect.isNotVisible(test.form.buttonBar());
           });
       });
 
       itp('shows the button bar when lastFailedChallengeFactorData is not null', function() {
-        return setupClaimsProviderFactorWithIntrospect(settings ,lastFailedChallengeFactorData).then(function(test) {
+        return setup(settings ,lastFailedChallengeFactorData).then(function(test) {
           expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(false);
         });
       });
 
       itp('shows the waiting spinner', function() {
-        return setupClaimsProviderFactorWithIntrospect(settings)
+        return setup(settings)
           .then(function(test) {
-            expect(test.form.hasSpinner().length).toBe(1);
+            expect(test.form.hasSpinner()).toBe(true);
           });
       });
 
       itp('hides the waiting spinner when lastFailedChallengeFactorData is not null', function() {
-        return setupClaimsProviderFactorWithIntrospect(settings, lastFailedChallengeFactorData).then(function(test) {
-          expect(test.form.$('.okta-waiting-spinner').length).toBe(0);
+        return setup(settings, lastFailedChallengeFactorData).then(function(test) {
+          expect(test.form.hasSpinner()).toBe(false);
         });
       });
 
       itp('shows the right auto redirect subtitle', function() {
-        return setupClaimsProviderFactorWithIntrospect(settings)
+        return setup(settings)
           .then(function(test) {
             expectSubtitleToBe(test, 'Redirecting to IDP factor...');
           });
       });
 
       itp('shows the right auto redirect subtitle when lastFailedChallengeFactorData is not null', function() {
-        return setupClaimsProviderFactorWithIntrospect(settings, lastFailedChallengeFactorData).then(function(test) {
+        return setup(settings, lastFailedChallengeFactorData).then(function(test) {
           expectSubtitleToBe(test, 'Clicking below will redirect to verification with IDP factor');
         });
       });
 
       itp('redirects automatically to third party', function() {
         spyOn(SharedUtil, 'redirect');
-        return setupClaimsProviderFactorWithIntrospect(settings)
+        return setup(settings)
           .then(function(test) {
             test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
-            test.form.initialize();
             return Expect.waitForSpyCall(SharedUtil.redirect);
           })
           .then(function() {
@@ -196,7 +181,7 @@ Expect.describe('VerifyCustomFactor', function() {
       });
     });
 
-    Expect.describe('when SKIP_IDP_FACTOR_VERIFICATION_BUTTON FF is off', function() {
+    Expect.describe('when features.skipIdpFactorVerificationBtn is false', function() {
       let settings = {};
 
       beforeEach(() => {
@@ -204,29 +189,29 @@ Expect.describe('VerifyCustomFactor', function() {
       });
 
       itp('shows the right subtitle', function() {
-        return setupClaimsProviderFactorWithIntrospect(settings)
+        return setup(settings)
           .then(function(test) {
             expectSubtitleToBe(test, 'Clicking below will redirect to verification with IDP factor');
           });
       });
 
       itp('shows the button bar', function() {
-        return setupClaimsProviderFactorWithIntrospect(settings)
+        return setup(settings)
           .then(function(test) {
             expect(test.form.buttonBar().hasClass('hide')).toBe(false);
           });
       });
 
       itp('hides the waiting spinner', function() {
-        return setupClaimsProviderFactorWithIntrospect(settings)
+        return setup(settings)
           .then(function(test) {
-            expect(test.form.hasSpinner().length).toBe(0);
+            expect(test.form.hasSpinner()).toBe(false);
           });
       });
 
       itp('redirects to third party when Verify button is clicked', function() {
         spyOn(SharedUtil, 'redirect');
-        return setupClaimsProviderFactorWithIntrospect(settings)
+        return setup(settings)
           .then(function(test) {
             test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
             test.form.submit();
@@ -241,7 +226,7 @@ Expect.describe('VerifyCustomFactor', function() {
 
       itp('does not redirect to third party automatically', function() {
         jest.spyOn(SharedUtil, 'redirect');
-        return setupClaimsProviderFactorWithIntrospect(settings)
+        return setup(settings)
           .then(function(test) {
             test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
             test.form.initialize();
@@ -250,7 +235,7 @@ Expect.describe('VerifyCustomFactor', function() {
       });
 
       itp('displays error when error response received', function() {
-        return setupClaimsProviderFactorWithIntrospect(settings)
+        return setup(settings)
           .then(function(test) {
             test.setNextResponse(resNoPermissionError);
             test.form.submit();
@@ -264,6 +249,7 @@ Expect.describe('VerifyCustomFactor', function() {
               'verify-custom-factor custom-factor-form',
               {
                 status: 403,
+                headers: { 'content-type': 'application/json' },
                 responseType: 'json',
                 responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae3CaVvE33SqKyymZRyUWE7Q","errorCauses":[]}',
                 responseJSON: {

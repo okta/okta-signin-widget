@@ -13,7 +13,7 @@ export default Form.extend({
   },
 
   hasSpinner() {
-    return this.$('.okta-waiting-spinner');
+    return this.$('.okta-waiting-spinner').length > 0;
   },
 
   errorBoxMessage: function() {
