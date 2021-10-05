@@ -26,5 +26,9 @@ export default function(options) {
     authClient._oktaUserAgent.addEnvironment(`okta-signin-widget-${config.version}`);
   }
 
+  // Set default headers object for widget access
+  // TOOD: remove when auth-js includes https://oktainc.atlassian.net/browse/OKTA-435081
+  authClient.options.headers = authClient.options.headers || {};
+
   return authClient;
 }
