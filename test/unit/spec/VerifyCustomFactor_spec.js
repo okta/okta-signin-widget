@@ -9,14 +9,13 @@ import Expect from 'helpers/util/Expect';
 import resAllFactors from 'helpers/xhr/MFA_REQUIRED_allFactors';
 import resNoPermissionError from 'helpers/xhr/NO_PERMISSION_error';
 import resChallengeClaimsProvider from 'helpers/xhr/MFA_CHALLENGE_ClaimsProvider';
-import resSuccess from 'helpers/xhr/SUCCESS';
 import $sandbox from 'sandbox';
 import LoginUtil from 'util/Util';
 const SharedUtil = internal.util.Util;
 const itp = Expect.itp;
 
 Expect.describe('VerifyCustomFactor', function() {
-  function createRouter(baseUrl, authClient, successSpy, settings, startRouter) {
+  function createRouter(baseUrl, authClient, successSpy, settings) {
     const router = new Router(
       _.extend(
         {
@@ -30,7 +29,7 @@ Expect.describe('VerifyCustomFactor', function() {
     );
 
     Util.registerRouter(router);
-    Util.mockRouterNavigate(router, startRouter);
+    Util.mockRouterNavigate(router);
     return router;
   }
 
@@ -59,7 +58,7 @@ Expect.describe('VerifyCustomFactor', function() {
     expect(test.form.subtitleText()).toBe(desiredSubtitle);
   }
 
-  async function setup(settings, lastFailedChallengeFactorData, languagesResponse , startRouter) {
+  async function setup(settings, lastFailedChallengeFactorData) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
     const authClient = getAuthClient({
@@ -70,20 +69,11 @@ Expect.describe('VerifyCustomFactor', function() {
     });
     const successSpy = jest.fn();
     const afterErrorHandler =  jest.fn();
-    const router = createRouter(baseUrl, authClient, successSpy, settings, startRouter);
+    const router = createRouter(baseUrl, authClient, successSpy, settings);
 
     router.on('afterError', afterErrorHandler);
-    if (startRouter) {
-      if (typeof startRouter !== 'boolean') {
-        throw new Error('startRouter parameter should be boolean');
-      }
-      await Expect.waitForPrimaryAuth();
-    }
 
     setNextResponse(resAllFactors);
-    if (languagesResponse) {
-      setNextResponse(languagesResponse);
-    }
     router.refreshAuthState('dummy-token');
     await Expect.waitForMfaVerify();
 
@@ -136,7 +126,7 @@ Expect.describe('VerifyCustomFactor', function() {
 
       itp('shows the button bar when lastFailedChallengeFactorData is not null', function() {
         return setup(settings ,lastFailedChallengeFactorData).then(function(test) {
-          expect(test.form.$('.o-form-button-bar').hasClass('hide')).toBe(false);
+          expect(test.form.buttonBar().hasClass('hide')).toBe(false);
         });
       });
 
@@ -169,8 +159,7 @@ Expect.describe('VerifyCustomFactor', function() {
       itp('redirects automatically to third party', function() {
         spyOn(SharedUtil, 'redirect');
         return setup(settings)
-          .then(function(test) {
-            test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
+          .then(function() {
             return Expect.waitForSpyCall(SharedUtil.redirect);
           })
           .then(function() {
@@ -213,7 +202,6 @@ Expect.describe('VerifyCustomFactor', function() {
         spyOn(SharedUtil, 'redirect');
         return setup(settings)
           .then(function(test) {
-            test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
             test.form.submit();
             return Expect.waitForSpyCall(SharedUtil.redirect);
           })
@@ -227,9 +215,7 @@ Expect.describe('VerifyCustomFactor', function() {
       itp('does not redirect to third party automatically', function() {
         jest.spyOn(SharedUtil, 'redirect');
         return setup(settings)
-          .then(function(test) {
-            test.setNextResponse([resChallengeClaimsProvider, resSuccess]);
-            test.form.initialize();
+          .then(function() {
             expect(SharedUtil.redirect).not.toHaveBeenCalled();
           });
       });

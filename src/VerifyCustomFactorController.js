@@ -134,14 +134,10 @@ export default FormController.extend({
   },
 
   postRender() {
-    if (this.settings.get('features.skipIdpFactorVerificationBtn')) {
-      if (this.options.appState.get('lastFailedChallengeFactorData')) {
-        this.$('.okta-waiting-spinner').hide();
-        this.$('.o-form-button-bar').show();
-      } else {
-        this.$('.o-form-button-bar').hide();
-        this.$('.okta-waiting-spinner').show();
-      }
+    if (this.settings.get('features.skipIdpFactorVerificationBtn') &&
+      !this.options.appState.get('lastFailedChallengeFactorData')) {
+      this.$('.o-form-button-bar').hide();
+      this.$('.okta-waiting-spinner').show();
     }
   },
 
