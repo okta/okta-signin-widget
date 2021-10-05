@@ -18,6 +18,7 @@ import PollView from './views/PollView';
 import AdminConsentView from './views/consent/AdminConsentView';
 import EnduserConsentView from './views/consent/EnduserConsentView';
 import EnduserEmailConsentView from './views/consent/EnduserEmailConsentView';
+import ReturnOtpOnlyView from './views/consent/ReturnOtpOnlyView';
 
 // Device (Okta Verify)
 import DeviceChallengePollView from './views/device/DeviceChallengePollView';
@@ -252,6 +253,9 @@ const VIEWS_MAPPING = {
   [RemediationForms.TERMINAL]: {
     [DEFAULT]: TerminalView,
   },
+  [RemediationForms.IDX_RETURN_LINK_OTPONLY]: {
+    [DEFAULT]: ReturnOtpOnlyView,
+  }
 };
 
 module.exports = {
