@@ -9,14 +9,15 @@ export default View.extend({
     <div>{{i18n code="enroll.explanation.mdm" bundle="login"}}</div>
     <ol>
       <li>
-        {{i18n code="enroll.mdm.step1" bundle="login"}}
+        {{i18n code="enroll.mdm.step.copyLink" bundle="login"}}
         <a data-clipboard-text="{{enrollmentLink}}" class="button link-button copy-clipboard-button">
           {{i18n code="enroll.mdm.copyLink" bundle="login"}}
         </a>
       </li>
-      <li>{{i18n code="enroll.mdm.step2" bundle="login"}}</li>
-      <li>{{{i18n code="enroll.mdm.step3" bundle="login" arguments="vendor"}}}</li>
-      <li>{{i18n code="enroll.mdm.step4" bundle="login"}}</li>
+      <li>{{i18n code="enroll.mdm.step.pasteLink" bundle="login"}}</li>
+      <li>{{i18n code="enroll.mdm.step.followInstructions" bundle="login" 
+      arguments="vendor" $1="<span class='semi-strong'>$1</span>"}}</li>
+      <li>{{i18n code="enroll.mdm.step.relogin" bundle="login"}}</li>
     </ol>
   `,
 
