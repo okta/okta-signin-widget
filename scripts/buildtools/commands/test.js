@@ -88,7 +88,7 @@ exports.handler = async (argv) => {
 
   // Runs required prerequisite scripts
   if (!help) {
-    testType.preReq.forEach(script => {
+    (testType.preReq || []).forEach(script => {
       console.log(`Running prerequisite script: ${script}`);
       execSync(script, options);
     });

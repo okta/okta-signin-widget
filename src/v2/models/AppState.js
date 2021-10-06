@@ -34,7 +34,8 @@ export default Model.extend({
     remediations: 'array',
     dynamicRefreshInterval: 'number',
     deviceFingerprint: 'string',
-    hooks: 'object' // instance of models/Hooks
+    hooks: 'object', // instance of models/Hooks
+    hasRendered: ['boolean', false, false],
   },
 
   derived: {

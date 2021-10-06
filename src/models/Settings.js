@@ -44,6 +44,10 @@ export default Model.extend({
       value: 'auto',
     },
 
+    // Widget can use this to bootstrap itself with custom login flows 
+    // instead of standard idx responses
+    flow: ['string', false, 'default'],
+
     // Function to transform the username before passing it to the API
     // for Primary Auth, Forgot Password and Unlock Account.
     transformUsername: ['function', false],
@@ -344,7 +348,7 @@ export default Model.extend({
         return !_.isEmpty(configuredSocialIdps) || !_.isEmpty(customButtons) || hasPivCard;
       },
       cache: true,
-    },
+    }
   },
 
   initialize: function(options) {
