@@ -1,8 +1,7 @@
 import { loc } from 'okta';
-import { BaseView } from '../../internals';
+import { BaseFooter, BaseView, BaseForm } from '../../internals';
 import hbs from 'handlebars-inline-precompile';
 import EmailAuthenticatorHeader from '../../components/EmailAuthenticatorHeader';
-import TerminalView from '../TerminalView';
 
 const getInfo = hbs`
   {{#if browser}}
@@ -28,21 +27,18 @@ const getInfo = hbs`
       <i class="enduser-email-consent--icon icon--app"></i>
       <div>{{otp}}</div>
     </div>
-  {{/if}}
-  {{#if message}}
-    <div class="enduser-email-consent--info no-translate">
-      <i class="enduser-email-consent--icon icon--app"></i>
-      <div>{{message}}</div>
-    </div>
   {{/if}}`;
-const returnOtpOnlyViewBody = TerminalView.extend({
+
+const returnOtpOnlyViewBody = BaseForm.extend({
+  noButtonBar: true,
+  postRender() {
+    BaseForm.prototype.postRender.apply(this, arguments);
+    const info = getInfo(this.model.pick('browser', 'app'));
+    this.add(info);
+    this.$el.addClass('terminal-state');
+  },
   title() {
     return loc('idx.return.link.otponly.title', 'login');
-  },
-  initialize() {
-    BaseView.prototype.initialize.apply(this, arguments);
-    const info = getInfo(this.model.pick('browser', 'app', 'geolocation', 'otp', 'message'));
-    this.add(info);
   },
   showMessages() {
     const otpOnlyWarningMsg = loc('idx.return.link.otponly.warning', 'login');
@@ -52,27 +48,22 @@ const returnOtpOnlyViewBody = TerminalView.extend({
   },
 });
 
+const Body = returnOtpOnlyViewBody;
+const Footer = BaseFooter;
+
 export default BaseView.extend({
   initialize() {
     BaseView.prototype.initialize.apply(this, arguments);
     this.Header = EmailAuthenticatorHeader;
-    this.Body = returnOtpOnlyViewBody;
   },
-
-  className: 'return-link-otp-only',
-
-  postRender() {
-    BaseForm.prototype.postRender.apply(this, arguments);
-    this.$el.addClass('terminal-state');
-  },
-
+  Body,
+  Footer,
   createModelClass({ requestInfo }) {
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     const browser = requestInfo.find(({ name }) => name === 'browser');
     const app = requestInfo.find(({ name }) => name === 'appName');
     const geolocation = requestInfo.find(({ name }) => name === 'geolocation');
     const otp = requestInfo.find(({ name }) => name === 'otp');
-    const message = requestInfo.find(({ name }) => name === 'message');
 
     const local = Object.assign({
       browser: {
@@ -91,11 +82,9 @@ export default BaseView.extend({
         type: 'string',
         value: otp?.value
       },
-      message: {
-        type: 'string',
-        value: message?.value
-      },
     }, ModelClass.prototype.local);
-    return ModelClass;
+    return ModelClass.extend({
+      local,
+    });
   }
 });
