@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "outDir": "./public/dist",
+    "noImplicitAny": true,
+    "noEmit": false,
+    "module": "es6",
+    "target": "es5",
+    "allowJs": true,
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.js"
+  ]
+}

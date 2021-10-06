@@ -19,7 +19,7 @@ http://localhost:8080/implicit/callback
 http://localhost:3000/done
 ```
 
-Each of this origins must be added as 'Trusted Origins'.  
+Each of these origins must be added as 'Trusted Origins'.  
 
 The test org should have at least one 'basic' user available for testing.
 
