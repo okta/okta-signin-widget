@@ -86,6 +86,7 @@ Expect.describe('OktaSignIn initialization', function() {
       it('accepts an authClient option', function() {
         const authClient = { 
           foo: 'bar', 
+          options: {},
           _oktaUserAgent: {
             addEnvironment: jest.fn()
           } 
