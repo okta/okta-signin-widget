@@ -6,7 +6,7 @@ export default class SuccessPageObject extends BasePageObject {
     super(t);
   }
   async getPageUrl() {
-    await this.t.expect(Selector('h1').innerText).eql('Mock User Dashboard');
+    await this.t.expect(Selector('#mock-user-dashboard-title').innerText).eql('Mock User Dashboard');
 
     const pageUrl = await ClientFunction(() => window.location.href)();
     return pageUrl;
