@@ -38,12 +38,12 @@ const IosAndAndroidLoopbackOdaTerminalView =  BaseOdaOktaVerifyTerminalView.exte
     <ol>
       {{#if isIOS}}
       <li>
-        {{i18n code="enroll.mdm.step1" bundle="login"}}
+        {{i18n code="enroll.mdm.step.copyLink" bundle="login"}}
         <a data-clipboard-text="{{appStoreLink}}" class="button link-button copy-clipboard-button">
           {{i18n code="enroll.mdm.copyLink" bundle="login"}}
         </a>
       </li>
-      <li>{{i18n code="enroll.mdm.step2" bundle="login"}}</li>
+      <li>{{i18n code="enroll.mdm.step.pasteLink" bundle="login"}}</li>
       <li>{{i18n code="enroll.oda.step3" bundle="login"}}</li>
       {{/if}}
       {{#if isAndroidLoopback}}
