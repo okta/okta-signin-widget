@@ -199,7 +199,47 @@ export default Router.extend({
     // }
   },
 
-  /* eslint max-statements: [2, 22] */
+  async handleInitialView(idxResponse) {
+    console.log('inside handleInitialView');
+    const initialView = this.settings.get('initialView');
+    if (!initialView) {
+      return;
+    }
+
+    // TODO: confirm getCurrentViewState returns `undefined`? This would indicate no view has been rendered
+    const currentFormName = this.appState.getCurrentViewState();
+    console.log('currentFormName: ', currentFormName);
+    if (currentFormName !== initialView) {
+      console.log('view check true');
+      // TODO: verify initialView is in the list of possible remediations, handle when not the case - or not?
+
+      if (initialView === 'identify') {
+        console.log('identify');
+        // TODO: revisit, based on assumption `identify` is the top-most remediation. Confirm this?
+        // return idxResponse.proceed('identify');
+      }
+      else if (initialView === 'register') {
+        console.log('register');
+        return idxResponse.proceed('select-enroll-profile');
+      }
+      else if (initialView === 'reset-password') {
+        console.log('reset');
+        // return idxResponse.actions['currentAuthenticator-record']();
+        const resp = await idxResponse.actions['currentAuthenticator-recover']();
+        // return idxResponse;
+        console.log('action resp: ', resp);
+        return resp;
+      }
+      else {
+        throw new Error(`Unknown \`initialView\` value: ${initialView}`);
+      }
+    }
+
+    // default to original idx response
+    return idxResponse;
+  },
+
+  /* eslint max-statements: [2, 30] */
   render: async function(Controller, options = {}) {
     // If url changes then widget assumes that user's intention was to initiate a new login flow,
     // so clear stored token to use the latest token.
@@ -224,7 +264,10 @@ export default Router.extend({
     // state token (which will be set into AppState)
     if (this.settings.get('oieEnabled')) {
       try {
-        const idxResp = await startLoginFlow(this.settings);
+        const startResp = await startLoginFlow(this.settings);
+        console.log('start: ', startResp);
+        const idxResp = await this.handleInitialView(startResp);
+        console.log('idxResp: ', idxResp);
         this.appState.trigger('updateAppState', idxResp);
       } catch (errorResp) {
         this.appState.trigger('remediationError', errorResp.error || errorResp);
