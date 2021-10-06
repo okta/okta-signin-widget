@@ -102,7 +102,7 @@ async function setup(settings, requests, refreshState) {
   const authClient = getAuthClient({
     authParams: Object.assign({
       issuer: baseUrl,
-      transformErrorXHR: LoginUtil.transformErrorXHR, headers: {}
+      transformErrorXHR: LoginUtil.transformErrorXHR,
     }, settings.authParams)
   });
   const successSpy = jasmine.createSpy('success');
