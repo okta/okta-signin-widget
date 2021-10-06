@@ -1,0 +1,18 @@
+{
+  "stateToken": "aStateToken",
+  "status": "UNAUTHENTICATED",
+  "_embedded": {
+    "forcedIdpEvaluation": true
+  },
+  "_links": {
+    "next": {
+      "name": "authenticate",
+      "href": "http://localhost:3000/api/v1/authn",
+      "hints": {
+        "allow": [
+          "POST"
+        ]
+      }
+    }
+  }
+}

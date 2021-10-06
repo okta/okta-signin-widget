@@ -60,7 +60,6 @@ export default PrimaryAuthModel.extend({
     };
     const authClient = this.appState.settings.authClient;
 
-    console.log('reached this!');
     authClient
       .webfinger(webfingerArgs)
       .then(res => {

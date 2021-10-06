@@ -11,7 +11,6 @@ import resDeviceCodeActivateInvalidCode from 'helpers/xhr/DEVICE_CODE_TERMINAL_i
 import $sandbox from 'sandbox';
 import LoginUtil from 'util/Util';
 const itp = Expect.itp;
-const fitp = Expect.fitp;
 
 function setup(settings, res) {
   settings || (settings = {});
@@ -72,7 +71,7 @@ Expect.describe('DeviceCodeActivate', function() {
         expect(test.form.userCodeField().attr('name')).toBe('userCode');
       });
     });
-    fitp('next button click makes the correct post', function() {
+    itp('next button click makes the correct post', function() {
       return setup()
         .then(function(test) {
           Util.resetAjaxRequests();

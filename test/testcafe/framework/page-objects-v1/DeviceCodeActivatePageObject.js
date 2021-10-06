@@ -79,4 +79,8 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
   getErrorBoxText() {
     return Selector('.okta-form-infobox-error p').innerText;
   }
+
+  isForcedIdpSpinnerPresent() {
+    return Selector('.force-idp-spinner').exists;
+  }
 }

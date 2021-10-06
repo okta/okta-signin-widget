@@ -1,0 +1,16 @@
+{
+  "subject": "okta:acct:undefined",
+  "links": [
+    {
+      "rel": "okta:idp",
+      "href": "http://localhost:3000/sso/idps/0oa4onxsxfUDwUb8u0g4?fromURI=%2Foauth2%2Fv1%2Fauthorize%2Fredirect%3Fokta_key%3DRmNkmXAY-3wTxNLyw4k0WFmgPsWOYK_2-mU7inYRisg&login_hint=undefined#",
+      "titles": {
+        "und": "LinkedIn IdP"
+      },
+      "properties": {
+        "okta:idp:type": "LINKEDIN",
+        "okta:idp:id": "0oa4onxsxfUDwUb8u0g4"
+      }
+    }
+  ]
+}
