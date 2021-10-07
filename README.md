@@ -1520,6 +1520,8 @@ features: {
 
 - **features.scrollOnError** - By default, errors will be scrolled into view. Set to `false` to disable this behavior.
 
+- **features.skipIdpFactorVerificationBtn** - Automatically redirects to the selected Identity Provider when selected from the list of factors. Defaults to `false`.
+
 ### Hooks
 
 > **Note**: Hooks are only supported when using the [Okta Identity Engine](#okta-identity-engine)

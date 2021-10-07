@@ -31,6 +31,12 @@ export default FormController.extend({
       // set the initial value for remember device (Cannot do this while defining the
       // local property because this.settings would not be initialized there yet).
       this.set('rememberDevice', rememberDevice);
+      if (this.settings.get('features.skipIdpFactorVerificationBtn') &&
+        !this.appState.get('lastFailedChallengeFactorData')) {
+        this.set('provider', 'CUSTOM');
+        this.set('factorType', 'claims_provider');
+        this.save();
+      }
     },
 
     save: function() {
@@ -71,8 +77,17 @@ export default FormController.extend({
     });
     const vendorName = factor.get('vendorName');
     const saveText = loc('mfa.challenge.verify', 'login');
-    const subtitle = loc('verify.customFactor.subtitle', 'login', [vendorName]);
+    const lastFailedChallengeFactorData = this.options.appState.get('lastFailedChallengeFactorData');
+    let subtitle = loc('verify.customFactor.subtitle', 'login', [vendorName]);
 
+    if (this.settings.get('features.skipIdpFactorVerificationBtn') && !lastFailedChallengeFactorData) {
+      subtitle = loc('verify.customFactor.subtitle.redirect', 'login', [vendorName]);
+
+      this.listenTo(this.model, 'error', () => {
+        subtitle = loc('verify.customFactor.subtitle', 'login', [vendorName]);
+        this.$('.o-form-explain').text(subtitle);
+      });
+    }
     return {
       autoSave: true,
       title: vendorName,
@@ -91,9 +106,19 @@ export default FormController.extend({
           });
         }
       },
+
       formChildren: function() {
         const result = [];
         const lastFailedChallengeFactorData = this.options.appState.get('lastFailedChallengeFactorData');
+
+        if (this.settings.get('features.skipIdpFactorVerificationBtn') && !lastFailedChallengeFactorData) {
+          result.push(
+            FormType.View({
+              View:
+                '<div data-se="custom-factor-waiting" class="okta-waiting-spinner"></div>'
+            })
+          );
+        }
 
         if (lastFailedChallengeFactorData) {
           result.push(
@@ -106,6 +131,14 @@ export default FormController.extend({
         return result;
       },
     };
+  },
+
+  postRender() {
+    if (this.settings.get('features.skipIdpFactorVerificationBtn') &&
+      !this.options.appState.get('lastFailedChallengeFactorData')) {
+      this.$('.o-form-button-bar').hide();
+      this.$('.okta-waiting-spinner').show();
+    }
   },
 
   trapAuthResponse: function() {
@@ -124,6 +157,13 @@ export default FormController.extend({
   initialize: function() {
     this.model.set('provider', this.options.provider);
     this.model.set('factorType', this.options.factorType);
+
+    if (this.settings.get('features.skipIdpFactorVerificationBtn')) {
+      this.listenTo(this.model, 'error', () => {
+        this.$('.okta-waiting-spinner').hide();
+        this.$('.o-form-button-bar').show();
+      });
+    }
     this.addFooter(FooterMFA);
   },
 });
