@@ -16,7 +16,9 @@ const BaseDeviceEnrollTerminalForm = BaseForm.extend({
 
 const AndroidAppLinkPreselectForm = BaseForm.extend({
   attributes: { 'data-se': 'android-app-link-setup-options-terminal' },
-  title: loc('enroll.title.oda.with.account', 'login'),
+  title() {
+    return loc('enroll.title.oda.with.account', 'login');
+  },
   initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
     const deviceEnrollmentContext = getDeviceEnrollmentContext(this.options.appState.get('deviceEnrollment'));
@@ -42,7 +44,9 @@ const AndroidAppLinkPreselectForm = BaseForm.extend({
 
 const AndroidAppLinkWithAccountOdaTerminalForm = BaseDeviceEnrollTerminalForm.extend({
   attributes: { 'data-se': 'android-oda-app-link-with-ov-account-terminal' },
-  title: loc('enroll.title.oda.with.account', 'login'),
+  title() {
+    return loc('enroll.title.oda.with.account', 'login');
+  },
   initialize() {
     BaseDeviceEnrollTerminalForm.prototype.initialize.apply(this, arguments);
     this.add(AndroidAppLinkWithAccountOdaTerminalView);
@@ -51,7 +55,9 @@ const AndroidAppLinkWithAccountOdaTerminalForm = BaseDeviceEnrollTerminalForm.ex
 
 const AndroidAppLinkWithoutAccountOdaTerminalForm = BaseDeviceEnrollTerminalForm.extend({
   attributes: { 'data-se': 'android-oda-app-link-without-ov-account-terminal' },
-  title: loc('enroll.title.oda.without.account', 'login'),
+  title() {
+    return loc('enroll.title.oda.without.account', 'login');
+  },
   initialize() {
     BaseDeviceEnrollTerminalForm.prototype.initialize.apply(this, arguments);
     this.add(AndroidAppLinkWithoutAccountOdaTerminalView);
@@ -60,7 +66,9 @@ const AndroidAppLinkWithoutAccountOdaTerminalForm = BaseDeviceEnrollTerminalForm
 
 const IosAndAndroidLoopbackOdaTerminalForm = BaseDeviceEnrollTerminalForm.extend({
   attributes: { 'data-se': 'loopback-terminal' },
-  title: loc('enroll.title.oda', 'login'),
+  title() {
+    return loc('enroll.title.oda', 'login');
+  },
   initialize() {
     BaseDeviceEnrollTerminalForm.prototype.initialize.apply(this, arguments);
     this.add(IosAndAndroidLoopbackOdaTerminalView);
@@ -69,7 +77,9 @@ const IosAndAndroidLoopbackOdaTerminalForm = BaseDeviceEnrollTerminalForm.extend
 
 const MdmTerminalForm = BaseDeviceEnrollTerminalForm.extend({
   attributes: { 'data-se': 'mdm-terminal' },
-  title: loc('enroll.title.mdm', 'login'),
+  title() {
+    return loc('enroll.title.mdm', 'login');
+  },
   initialize() {
     BaseDeviceEnrollTerminalForm.prototype.initialize.apply(this, arguments);
     this.add(MdmOktaVerifyTerminalView);
