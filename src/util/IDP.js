@@ -12,7 +12,7 @@ const SUPPORTED_SOCIAL_IDPS = [
   'paypal_sandbox',
   'salesforce',
   'amazon',
-  'yahoo_japan',
+  'yahoojp',
 ];
 export default {
   SUPPORTED_SOCIAL_IDPS,

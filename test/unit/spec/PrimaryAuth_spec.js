@@ -2710,7 +2710,7 @@ Expect.describe('PrimaryAuth', function() {
         'PAYPAL_SANDBOX',
         'SALESFORCE',
         'AMAZON',
-        'YAHOO_JAPAN',
+        'YAHOOJP',
       ];
       const settings = {
         idps: idpTypes.map(t => ({ type: t, id: '0oaDUMMY' }))
