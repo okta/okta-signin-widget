@@ -366,6 +366,6 @@ $od-secondary-button-action-text-color: #124a94;
   @include social-auth-button-colorless-template(url('../img/icons/login/amazon_logo.png'));
 }
 
-.social-auth-yahoo_japan-button {
-  @include social-auth-button-colorless-template(url('../img/icons/login/yahoo_japan_logo.png'));
+.social-auth-yahoojp-button {
+  @include social-auth-button-colorless-template(url('../img/icons/login/yahoojp_logo.png'));
 }
