@@ -67,7 +67,7 @@
     "@babel/plugin-transform-runtime": "^7.10.3",
     "@babel/preset-env": "^7.10.3",
     "@babel/runtime-corejs3": "^7.10.3",
-    "@okta/eslint-plugin-okta": "0.4.0",
+    "@okta/eslint-plugin-okta": "0.5.0",
     "@okta/okta-auth-js": "^5.5.0",
     "@okta/okta-idx-js": "0.20.0",
     "@sindresorhus/to-milliseconds": "^1.0.0",
