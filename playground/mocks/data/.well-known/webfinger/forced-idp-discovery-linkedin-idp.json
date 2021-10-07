@@ -1,0 +1,16 @@
+{
+  "subject": "okta:acct:",
+  "links": [
+    {
+      "rel": "okta:idp",
+      "href": "http://localhost:3000/sso/idps/0oa4onxsxfUDwUb8u0g4?stateToken=00lpyQXxOMfE0lbVM1vEY4u3usVvlmkK5rDx69GQgb&login_hint=#",
+      "titles": {
+        "und": "LinkedIn IdP"
+      },
+      "properties": {
+        "okta:idp:type": "LINKEDIN",
+        "okta:idp:id": "0oa4onxsxfUDwUb8u0g4"
+      }
+    }
+  ]
+}
