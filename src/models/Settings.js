@@ -192,7 +192,7 @@ export default Model.extend({
       deps: ['i18n', 'language'],
       fn: function(i18n, language) {
         // Developers can pass in their own languages
-        return _.union(config.supportedLanguages, _.keys(i18n), [language]);
+        return _.union(config.supportedLanguages, _.keys(i18n), language ? [language] : []);
       },
       cache: true,
     },
