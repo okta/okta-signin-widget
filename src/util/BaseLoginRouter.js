@@ -49,7 +49,7 @@ function beaconIsAvailable(Beacon, settings) {
 /**
  * TODO: deprecated by `util/LanguageUtil.loadLanguage`
  */
-function loadLanguage(appState, i18n, assetBaseUrl, assetRewrite) {
+function loadLanguage(appState, i18n, assetBaseUrl, assetRewrite, supportedLanguages) {
   const timeout = setTimeout(function() {
     // Trigger a spinner if we're waiting on a request for a new language.
     appState.trigger('loading', true);
@@ -58,7 +58,7 @@ function loadLanguage(appState, i18n, assetBaseUrl, assetRewrite) {
   return Bundles.loadLanguage(appState.get('languageCode'), i18n, {
     baseUrl: assetBaseUrl,
     rewrite: assetRewrite,
-  }).then(function() {
+  }, supportedLanguages).then(function() {
     clearTimeout(timeout);
     appState.trigger('loading', false);
   });
@@ -201,7 +201,8 @@ export default Router.extend({
         this.appState,
         this.settings.get('i18n'),
         this.settings.get('assets.baseUrl'),
-        this.settings.get('assets.rewrite')
+        this.settings.get('assets.rewrite'),
+        this.settings.get('supportedLanguages')
       ).then(_.bind(this.render, this, Controller, options));
     }
 
