@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { _, Model } from 'okta';
+import { _, Model, loc } from 'okta';
 
 const convertUiSchemaFieldToProp = (uiSchemaField) => {
   const config = Object.assign(
@@ -22,6 +22,25 @@ const convertUiSchemaFieldToProp = (uiSchemaField) => {
 
   if (uiSchemaField.modelType) {
     config.type = uiSchemaField.modelType;
+  }
+
+  // Customize required error text
+  const identifierRequiredi18nKey = 'error.username.required';
+  const passwordRequiredi18nKey = 'error.password.required';
+  if (uiSchemaField.name == 'identifier' && config.required) {
+    config.required = false;
+    config.validate = function(value) {
+      if (_.isEmpty(value)) {
+        return loc(identifierRequiredi18nKey, 'login');
+      }
+    };
+  } else if (uiSchemaField.name == 'credentials.passcode' && config.required) {
+    config.required = false;
+    config.validate = function(value) {
+      if (_.isEmpty(value)) {
+        return loc(passwordRequiredi18nKey, 'login');
+      }
+    };
   }
 
   return { [uiSchemaField.name]: config };

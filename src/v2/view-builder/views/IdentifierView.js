@@ -29,31 +29,6 @@ const Body = BaseForm.extend({
     if (uiSchema.find(schema => schema.name === 'credentials.passcode')) {
       this.save = loc('oie.primaryauth.submit', 'login');
     }
-   
-    // Customize required error text
-    const identifierRequiredi18nKey = 'error.username.required';
-    const passwordRequiredi18nKey = 'error.password.required';
-    const isCustomizedIdentifierRequiredi18nKey = isCustomizedI18nKey(identifierRequiredi18nKey, this.settings);
-    const isCustomizedPasswordRequiredi18nKey = isCustomizedI18nKey(passwordRequiredi18nKey, this.settings);
-    const props = this.model.__schema__.props;
-    const identifierProps = props['identifier'];
-    const passwordProps = props['credentials.passcode'];
-    if (identifierProps && identifierProps.required && isCustomizedIdentifierRequiredi18nKey) {
-      identifierProps.required = false;
-      identifierProps.validate = function(value) {
-        if (_.isEmpty(value)) {
-          return loc(identifierRequiredi18nKey, 'login');
-        }
-      };
-    }
-    if (passwordProps && passwordProps.required && isCustomizedPasswordRequiredi18nKey) {
-      passwordProps.required = false;
-      passwordProps.validate = function(value) {
-        if (_.isEmpty(value)) {
-          return loc(passwordRequiredi18nKey, 'login');
-        }
-      };
-    }
 
     // Precedence for pre-filling identifier field:
     // 1. Use username/identifier from the config.
