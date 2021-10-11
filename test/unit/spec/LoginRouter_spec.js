@@ -163,6 +163,10 @@ Expect.describe('LoginRouter', function() {
       });
   }
 
+  function expectUnsuportedLanguageLoad(test, delay = 0) {
+    test.setNextResponse([_.extend({ delay }, labelsLoginJa), _.extend({ delay }, labelsCountryJa)]);
+  }
+
   // { settings, userLanguages, supportedLanguages }
   function setupLanguage(options) {
     const loadingSpy = jasmine.createSpy('loading');
@@ -182,6 +186,13 @@ Expect.describe('LoginRouter', function() {
           switch (options.mockLanguageRequest) {
           case 'ja':
             test.setNextResponse([_.extend({ delay }, labelsLoginJa), _.extend({ delay }, labelsCountryJa)]);
+            break;
+          // Unsupported languages
+          case 'zz-zz':
+          case 'zz-ZZ':
+          case 'nl':
+          case 'NL':
+            expectUnsuportedLanguageLoad(test, delay);
             break;
           }
         }
@@ -1650,6 +1661,7 @@ Expect.describe('LoginRouter', function() {
       'overrides text in the login bundle if language field and key in i18n object is in different cases',
       function() {
         return setupLanguage({
+          mockLanguageRequest: 'zz-zz',
           settings: {
             language: 'zz-zz',
             i18n: {
@@ -1667,6 +1679,7 @@ Expect.describe('LoginRouter', function() {
       'overrides text in the login bundle if language field and key in i18n object is in different cases',
       function() {
         return setupLanguage({
+          mockLanguageRequest: 'zz-ZZ',
           settings: {
             language: 'zz-ZZ',
             i18n: {
@@ -1684,6 +1697,7 @@ Expect.describe('LoginRouter', function() {
       'overrides text in the login bundle if language field and key in i18n object is in different cases',
       function() {
         return setupLanguage({
+          mockLanguageRequest: 'nl',
           settings: {
             language: 'nl',
             i18n: {
@@ -1701,6 +1715,7 @@ Expect.describe('LoginRouter', function() {
       'overrides text in the login bundle if language field and key in i18n object is in different cases',
       function() {
         return setupLanguage({
+          mockLanguageRequest: 'NL',
           settings: {
             language: 'NL',
             i18n: {
@@ -1746,6 +1761,7 @@ Expect.describe('LoginRouter', function() {
 
     itp('overrides text in the courage bundle for non English language', function() {
       return setupLanguage({
+        mockLanguageRequest: 'NL',
         settings: {
           language: 'NL',
           i18n: {
@@ -2082,6 +2098,7 @@ Expect.describe('LoginRouter', function() {
           const spy = jasmine.createSpy('language').and.returnValue('zz-zz');
 
           return setupLanguage({
+            mockLanguageRequest: 'zz-zz',
             settings: {
               language: spy,
               i18n: {
@@ -2145,6 +2162,7 @@ Expect.describe('LoginRouter', function() {
           })
           .then(function(test) {
             test.router.appState.set('languageCode', 'zz-zz');
+            expectUnsuportedLanguageLoad(test);
             test.router.enrollCall();
             return Expect.waitForEnrollCall(test);
           })
