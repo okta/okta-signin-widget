@@ -27,14 +27,14 @@ const convertUiSchemaFieldToProp = (uiSchemaField) => {
   // Customize required error text
   const identifierRequiredi18nKey = 'error.username.required';
   const passwordRequiredi18nKey = 'error.password.required';
-  if (uiSchemaField.name == 'identifier' && config.required) {
+  if (uiSchemaField.name === 'identifier' && config.required) {
     config.required = false;
     config.validate = function(value) {
       if (_.isEmpty(value)) {
         return loc(identifierRequiredi18nKey, 'login');
       }
     };
-  } else if (uiSchemaField.name == 'credentials.passcode' && config.required) {
+  } else if (uiSchemaField.name === 'credentials.passcode' && config.required) {
     config.required = false;
     config.validate = function(value) {
       if (_.isEmpty(value)) {

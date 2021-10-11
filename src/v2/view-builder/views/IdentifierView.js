@@ -1,4 +1,4 @@
-import { loc, createCallout, _ } from 'okta';
+import { loc, createCallout } from 'okta';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { BaseForm, BaseView, createIdpButtons, createCustomButtons } from '../internals';
 import DeviceFingerprinting from '../utils/DeviceFingerprinting';
