@@ -1,5 +1,5 @@
 import { _ } from 'okta';
-import { MS_PER_SEC } from '../../utils/Constants';
+import { MS_PER_SEC, MIN_POLL_INTERVAL } from '../../utils/Constants';
 
 export default {
   startPolling(newRefreshInterval) {
@@ -29,7 +29,7 @@ export default {
         if (_.isNumber(pollInterval)) {
           this.polling = setInterval(()=>{
             this.options.appState.trigger('invokeAction', authenticatorPollAction);
-          }, pollInterval);
+          }, pollInterval >= MIN_POLL_INTERVAL ? pollInterval : MIN_POLL_INTERVAL);
         }
         return true;
       } else {
@@ -43,7 +43,7 @@ export default {
     if (_.isNumber(pollInterval)) {
       this.polling = setInterval(() => {
         this.options.appState.trigger('saveForm', this.model);
-      }, pollInterval);
+      }, pollInterval >= MIN_POLL_INTERVAL ? pollInterval : MIN_POLL_INTERVAL);
     }
   },
 
