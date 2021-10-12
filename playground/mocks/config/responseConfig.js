@@ -73,7 +73,7 @@ const idx = {
     // 'identify-with-third-party-idps',
     // 'identify-with-only-third-party-idps',
     // 'identify-with-only-one-third-party-idp',
-    'identify-with-password',
+    // 'identify-with-password',
     // 'identify-with-universal-link',
     // 'identify-with-app-link',
     // 'success',
@@ -171,11 +171,7 @@ const idx = {
     'identify',
   ],
   '/idp/idx/recover': [
-<<<<<<< HEAD
     'error-forgot-password',
-=======
-    // 'error-forgot-password',
->>>>>>> 2f3a0dfb (working demo of initial view)
     'authenticator-reset-password'
   ],
   '/idp/idx/activate': [
