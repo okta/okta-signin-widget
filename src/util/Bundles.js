@@ -160,7 +160,7 @@ function getBundles(language, assets, supportedLanguages) {
   // 1. English is already bundled with the widget
   // 2. If the language is not in our config file, it means that they've
   //    probably defined it on their own.
-  if (language === 'en' || !_.contains(supportedLanguages || config.supportedLanguages, language)) {
+  if (language === 'en' || !_.contains(supportedLanguages, language)) {
     return Q({});
   }
 
