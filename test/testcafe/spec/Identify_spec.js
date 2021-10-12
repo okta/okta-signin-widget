@@ -318,7 +318,7 @@ test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should pre-populate 
   await t.expect(identifier).eql('myTestUsername@okta.com');
 });
 
-test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should hide "Keep me signed in" checkbox with username config', async t => {
+test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should hide "Keep me signed in" checkbox with config', async t => {
   const identityPage = await setup(t);
   await rerenderWidget({
     features: { showOptionForKeepMeSignedIn: false }
