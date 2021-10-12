@@ -82,6 +82,8 @@ export default Router.extend({
     // Hide until unitial render
     this.hide();
 
+    this.firstRender = true;
+
     configIdxJsClient(this.appState);
     this.listenTo(this.appState, 'updateAppState', this.handleUpdateAppState);
     this.listenTo(this.appState, 'remediationError', this.handleIdxResponseFailure);
@@ -94,8 +96,7 @@ export default Router.extend({
     if (this.hasAuthenticationSucceeded(idxResponse) 
       && this.settings.get('features.rememberMyUsernameOnOIE')) {
       this.updateIdentifierCookie(idxResponse);
-    }    
-
+    }
     if (idxResponse.interactionCode) {
       // Although session.stateHandle isn't used by interation flow,
       // it's better to clean up at the end of the flow.
@@ -200,18 +201,9 @@ export default Router.extend({
   },
 
   async handleInitialView(idxResponse) {
-    console.log('inside handleInitialView');
     const initialView = this.settings.get('initialView');
-    if (!initialView) {
-      return;
-    }
-
-    // TODO: confirm getCurrentViewState returns `undefined`? This would indicate no view has been rendered
-    const currentFormName = this.appState.getCurrentViewState();
-    console.log('currentFormName: ', currentFormName);
-    if (currentFormName !== initialView) {
-      console.log('view check true');
-      // TODO: verify initialView is in the list of possible remediations, handle when not the case - or not?
+    if (initialView) {
+      let fn = null;
 
       if (initialView === 'identify') {
         console.log('identify');
@@ -220,18 +212,41 @@ export default Router.extend({
       }
       else if (initialView === 'register') {
         console.log('register');
-        return idxResponse.proceed('select-enroll-profile');
+        // return idxResponse.proceed('select-enroll-profile');
+        fn = () => idxResponse.proceed('select-enroll-profile');
       }
       else if (initialView === 'reset-password') {
         console.log('reset');
         // return idxResponse.actions['currentAuthenticator-record']();
-        const resp = await idxResponse.actions['currentAuthenticator-recover']();
-        // return idxResponse;
-        console.log('action resp: ', resp);
-        return resp;
+        // const resp = await idxResponse.actions['currentAuthenticator-recover']();
+        // // return idxResponse;
+        // console.log('action resp: ', resp);
+        // return resp;
+
+        fn = idxResponse.actions['currentAuthenticator-recover'];
       }
       else {
-        throw new Error(`Unknown \`initialView\` value: ${initialView}`);
+        // throw new Error(`Unknown \`initialView\` value: ${initialView}`);
+        Logger.warn(`Unknown \`initialView\` value: ${initialView}`);
+      }
+
+      if (fn) {
+        try {
+          // error will not be caught without await
+          return await fn();
+        }
+        catch (err) {
+          console.log('caught bad proceed error', err);
+          // https://github.com/okta/okta-idx-js/blob/master/src/v1/makeIdxState.js#L30
+          if (typeof err === 'string' && err.startsWith('Unknown remediation choice')) {
+            Logger.warn(`initialView configuration [${initialView}] not valid with current remediations`);
+            this.appState.set('messages', {value: [{message: 'Please contact Jeff'}]});
+            // will default to original idxResponse
+          }
+          else {
+            throw err;
+          }
+        }
       }
     }
 
@@ -266,9 +281,30 @@ export default Router.extend({
       try {
         const startResp = await startLoginFlow(this.settings);
         console.log('start: ', startResp);
-        const idxResp = await this.handleInitialView(startResp);
+        let idxResp = startResp;
+        let messages = null;
+
+        /* eslint-disable max-depth */
+        if (this.firstRender) {
+          idxResp = await this.handleInitialView(startResp);
+          messages = this.appState.get('messages');
+          console.log('messages: ', this.appState.get('messages'));
+        }
+        /* eslint-enable max-depth */
+
+        // const idxResp = await startInitialViewFlow(this.settings);
         console.log('idxResp: ', idxResp);
+
         this.appState.trigger('updateAppState', idxResp);
+
+        /* eslint-disable max-depth */
+        if (messages && this.firstRender) {
+          // messages will be cleared after `.trigger 'updateAppState'` call, carry them over during initialView
+          this.appState.set('messages', messages);
+        }
+        /* eslint-enable max-depth */
+
+        this.firstRender = false;
       } catch (errorResp) {
         this.appState.trigger('remediationError', errorResp.error || errorResp);
       } finally {
@@ -276,6 +312,8 @@ export default Router.extend({
         this.settings.unset('proxyIdxResponse');
       }
     }
+
+    console.log('messages: ', this.appState.get('messages'));
 
     // Load the custom colors only on the first render
     if (this.settings.get('colors.brand') && !ColorsUtil.isLoaded()) {
