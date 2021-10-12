@@ -1,8 +1,8 @@
 import { BaseModel } from 'v2/view-builder/internals';
 
 describe('v2/view-builder/internals/BaseModel', function() {
-  const createModelAndVerifyPropsAndLocal = ({ uiSchema, optionUiSchemaConfig }, props, local = {}) => {
-    const result = BaseModel.create({ uiSchema }, optionUiSchemaConfig);
+  const createModelAndVerifyPropsAndLocal = ({ uiSchema, name, optionUiSchemaConfig }, props, local = {}) => {
+    const result = BaseModel.create({ uiSchema, name }, optionUiSchemaConfig);
     expect(result.prototype.props).toEqual(props);
     expect(result.prototype.local).toEqual(
       {
@@ -30,9 +30,7 @@ describe('v2/view-builder/internals/BaseModel', function() {
     createModelAndVerifyPropsAndLocal(
       { uiSchema },
       {
-        'credentials.passcode': {
-          type: 'string', required: false, validate: expect.any(Function)
-        },
+        'credentials.passcode': { type: 'string', required: true },
       }
     );
   });
@@ -92,7 +90,7 @@ describe('v2/view-builder/internals/BaseModel', function() {
     ];
 
     createModelAndVerifyPropsAndLocal(
-      { uiSchema },
+      { uiSchema, name: 'identify' },
       {
         identifier: { type: 'string', required: false, validate: expect.any(Function) },
         rememberMe: { type: 'boolean', required: false },

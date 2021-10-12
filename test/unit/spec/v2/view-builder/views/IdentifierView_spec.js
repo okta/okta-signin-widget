@@ -247,7 +247,8 @@ describe('v2/view-builder/views/IdentifierView', function() {
         },
         'secret': true,
         'type': 'password',
-      }]
+      }],
+      name: 'identify'
     };
 
     testContext.init(XHRIdentifyWithPassword.remediation.value);
