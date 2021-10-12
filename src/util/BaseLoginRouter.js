@@ -29,6 +29,7 @@ import Enums from './Enums';
 import Errors from './Errors';
 import RouterUtil from './RouterUtil';
 import Util from './Util';
+import LanguageUtil from './LanguageUtil';
 
 function isStateLessRouteHandler(router, fn) {
   return _.find(router.stateLessRouteHandlers, function(routeName) {
@@ -44,24 +45,6 @@ function beaconIsAvailable(Beacon, settings) {
     return settings.get('features.securityImage');
   }
   return true;
-}
-
-/**
- * TODO: deprecated by `util/LanguageUtil.loadLanguage`
- */
-function loadLanguage(appState, i18n, assetBaseUrl, assetRewrite, supportedLanguages) {
-  const timeout = setTimeout(function() {
-    // Trigger a spinner if we're waiting on a request for a new language.
-    appState.trigger('loading', true);
-  }, 200);
-
-  return Bundles.loadLanguage(appState.get('languageCode'), i18n, {
-    baseUrl: assetBaseUrl,
-    rewrite: assetRewrite,
-  }, supportedLanguages).then(function() {
-    clearTimeout(timeout);
-    appState.trigger('loading', false);
-  });
 }
 
 export default Router.extend({
@@ -197,13 +180,8 @@ export default Router.extend({
     // If we need to load a language (or apply custom i18n overrides), do
     // this now and re-run render after it's finished.
     if (!Bundles.isLoaded(this.appState.get('languageCode'))) {
-      return loadLanguage(
-        this.appState,
-        this.settings.get('i18n'),
-        this.settings.get('assets.baseUrl'),
-        this.settings.get('assets.rewrite'),
-        this.settings.get('supportedLanguages')
-      ).then(_.bind(this.render, this, Controller, options));
+      return LanguageUtil.loadLanguage(this.appState, this.settings)
+        .then(_.bind(this.render, this, Controller, options));
     }
 
     // Load the custom colors only on the first render
