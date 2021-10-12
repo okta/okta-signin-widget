@@ -41,7 +41,9 @@ describe('Dev Mode flows', function() {
   afterEach(function() {
     // Logout of Okta session
     browser.get('{{{WIDGET_TEST_SERVER}}}/login/signout');
+
     const el = element(by.css('#okta-sign-in'));
+    browser.wait(protractor.ExpectedConditions.presenceOf(el), 2000);
     expect(el.isDisplayed()).toBe(true);
   });
 
