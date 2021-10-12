@@ -30,7 +30,9 @@ describe('v2/view-builder/internals/BaseModel', function() {
     createModelAndVerifyPropsAndLocal(
       { uiSchema },
       {
-        'credentials.passcode': { type: 'string', required: true },
+        'credentials.passcode': {
+          type: 'string', required: false, validate: expect.any(Function)
+        },
       }
     );
   });
@@ -92,7 +94,7 @@ describe('v2/view-builder/internals/BaseModel', function() {
     createModelAndVerifyPropsAndLocal(
       { uiSchema },
       {
-        identifier: { type: 'string', required: true },
+        identifier: { type: 'string', required: false, validate: expect.any(Function) },
         rememberMe: { type: 'boolean', required: false },
       }
     );
