@@ -43,7 +43,7 @@ describe('Dev Mode flows', function() {
     browser.get('{{{WIDGET_TEST_SERVER}}}/login/signout');
 
     const el = element(by.css('#okta-sign-in'));
-    browser.wait(protractor.ExpectedConditions.presenceOf(el), 2000);
+    browser.wait(protractor.ExpectedConditions.visibilityOf(el), 5000);
     expect(el.isDisplayed()).toBe(true);
   });
 
