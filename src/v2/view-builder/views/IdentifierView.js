@@ -117,7 +117,7 @@ const Body = BaseForm.extend({
     const identifierExplainLabeli18nKey = 'primaryauth.username.tooltip';
     const passwordExplainLabeli18nKey = 'primaryauth.password.tooltip';
 
-    const newSchemas = schemas.map(schema => {
+    let newSchemas = schemas.map(schema => {
       let newSchema = { ...schema };
 
       if (schema.name === 'identifier') {
@@ -147,6 +147,12 @@ const Body = BaseForm.extend({
 
       return newSchema;
     });
+
+    // If showOptionForKeepMeSignedIn is explicitly set to false, we ensure we don't display
+    // the "Keep me signed in" checkbox
+    if (this.settings.get('features.showOptionForKeepMeSignedIn') === false) {
+      newSchemas = newSchemas.filter(schema => schema.name !== 'rememberMe');
+    }
 
     return newSchemas;
   },

@@ -317,3 +317,14 @@ test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should pre-populate 
   const identifier = identityPage.getIdentifierValue();
   await t.expect(identifier).eql('myTestUsername@okta.com');
 });
+
+test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should hide "Keep me signed in" checkbox with username config', async t => {
+  const identityPage = await setup(t);
+  await rerenderWidget({
+    features: { showOptionForKeepMeSignedIn: false }
+  });
+
+  // Ensure checkbox is hidden
+  const doesCheckboxExist = identityPage.identifierFieldExists('.custom-checkbox [name="rememberMe"');
+  await t.expect(doesCheckboxExist).eql(false);
+});
