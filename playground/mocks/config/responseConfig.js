@@ -825,7 +825,7 @@ const secondaryEmail = {
   '/idp/idx/identify': [
     'enroll-profile-update-params',
     'enroll-profile-update-all-optional-params',
-    'error-enroll-profile-update-params'
+    'enroll-profile-update-params'
   ],
   '/idp/idx/skip': [
     'success-with-app-user'

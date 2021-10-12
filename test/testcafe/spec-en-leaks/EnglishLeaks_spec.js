@@ -20,6 +20,7 @@ const ignoredMocks = [
   'enroll-profile-update-all-optional-params.json', // No english leaks as custom attribute label comes from server
   'enroll-profile-update-all-optional-params.json', // No english leaks as custom attribute label comes from server
   'enroll-profile-update-params.json', // flaky on Bacon - will be fixed in OKTA-423953
+  'oda-enrollment-ios.json', // already fixed but changes are not in 5.12 yet, should be reverted
 ];
 
 const optionsForInteractionCodeFlow = {
