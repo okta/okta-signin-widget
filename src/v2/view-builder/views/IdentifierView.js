@@ -148,9 +148,9 @@ const Body = BaseForm.extend({
       return newSchema;
     });
 
-    // If showOptionForKeepMeSignedIn is explicitly set to false, we ensure we don't display
+    // If showKeepMeSignedIn is explicitly set to false, we ensure we don't display
     // the "Keep me signed in" checkbox
-    if (this.settings.get('features.showOptionForKeepMeSignedIn') === false) {
+    if (this.settings.get('features.showKeepMeSignedIn') === false) {
       newSchemas = newSchemas.filter(schema => schema.name !== 'rememberMe');
     }
 

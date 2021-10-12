@@ -99,6 +99,7 @@ export default Model.extend({
     'features.showPasswordRequirementsAsHtmlList': ['boolean', false, false],
     'features.mfaOnlyFlow': ['boolean', false, false],
     'features.scrollOnError': ['boolean', false, true],
+    'features.showKeepMeSignedIn': ['boolean', false, true],
     
     defaultCountryCode: ['string', false, 'US'],
 

@@ -321,10 +321,30 @@ test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should pre-populate 
 test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should hide "Keep me signed in" checkbox with config', async t => {
   const identityPage = await setup(t);
   await rerenderWidget({
-    features: { showOptionForKeepMeSignedIn: false }
+    features: { showKeepMeSignedIn: false }
   });
 
   // Ensure checkbox is hidden
   const doesCheckboxExist = identityPage.identifierFieldExists('.custom-checkbox [name="rememberMe"');
   await t.expect(doesCheckboxExist).eql(false);
+});
+
+test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should show "Keep me signed in" checkbox with config or by default', async t => {
+  const identityPage = await setup(t);
+  await rerenderWidget({
+    features: {}
+  });
+
+  // Ensure checkbox is shown
+  let doesCheckboxExist = identityPage.identifierFieldExists('.custom-checkbox [name="rememberMe"');
+  await t.expect(doesCheckboxExist).eql(true);
+
+
+  await rerenderWidget({
+    features: { showKeepMeSignedIn: true }
+  });
+
+  // Ensure checkbox is shown
+  doesCheckboxExist = identityPage.identifierFieldExists('.custom-checkbox [name="rememberMe"');
+  await t.expect(doesCheckboxExist).eql(true);
 });
