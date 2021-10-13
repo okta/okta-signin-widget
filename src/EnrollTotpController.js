@@ -89,7 +89,6 @@ const EnrollTotpControllerEnrollTotpController = FormController.extend({
 
       return loc('enroll.totp.title', 'login', [factorName]);
     },
-    subtitle: _.partial(loc, 'enroll.totp.selectDevice', 'login'),
     autoSave: true,
     noButtonBar: true,
     attributes: { 'data-se': 'step-device-type' },
@@ -104,6 +103,8 @@ const EnrollTotpControllerEnrollTotpController = FormController.extend({
           name: '__deviceType__',
           type: 'radio',
           options: inputOptions,
+          group: true,
+          label: _.partial(loc, 'enroll.totp.selectDevice', 'login'),
         }),
         FormType.Divider({ showWhen: showWhenDeviceTypeSelected }),
         FormType.View({
