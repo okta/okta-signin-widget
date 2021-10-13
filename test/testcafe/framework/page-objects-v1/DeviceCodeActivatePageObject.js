@@ -48,6 +48,11 @@ export default class DeviceCodeActivatePageObject extends BasePageObject {
     return this.form.findFormFieldInput('username').visible;
   }
 
+  // TODO: OKTA-436775 Move some of this code that's unrelated to device flow out of this page object into a more generic
+  isPasswordFieldVisible() {
+    return this.form.findFormFieldInput('password').visible;
+  }
+
   fillUserNameField(value) {
     return this.form.setTextBoxValue('username', value);
   }
