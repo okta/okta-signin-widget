@@ -13,13 +13,13 @@ fixture('English Leaks');
 
 // These mocks have known english leaks ignoring them temporarily
 const ignoredMocks = [
-  'error-internal-server-error.json',// fixed in master branch https://github.com/okta/okta-signin-widget/pull/1981
   'identify-with-apple-redirect-sso-extension.json', // flaky on bacon
   'identify-recovery-with-recaptcha-v2.json', // No english leaks for this, just flaky on bacon due to loading the reCaptcha lib 
   'identify-with-password-with-recaptcha-v2.json', // No english leaks for this, just flaky on bacon due to loading the reCaptcha lib
   'enroll-profile-update-all-optional-params.json', // No english leaks as custom attribute label comes from server
-  'enroll-profile-update-all-optional-params.json', // No english leaks as custom attribute label comes from server
-  'enroll-profile-update-params.json', // flaky on Bacon - will be fixed in OKTA-423953
+  'enroll-profile-update-params.json', // No english leaks as custom attribute label comes from server
+  'oda-enrollment-ios.json', // already fixed in master but changes are not in 5.12 yet, should be reverted
+  'mdm-enrollment.json', // already fixed in master but changes are not in 5.12 yet, should be reverted
 ];
 
 const optionsForInteractionCodeFlow = {

@@ -145,6 +145,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'enroll-profile.userProfile.lastName': 'oie.user.profile.lastname',
   'enroll-profile.userProfile.firstName': 'oie.user.profile.firstname',
   'enroll-profile.userProfile.email': 'oie.user.profile.primary.email',
+  'profile-update.userProfile.secondEmail': 'oie.user.profile.secondary.email',
 
   'user-code.userCode': 'device.code.activate.label',
 
