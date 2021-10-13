@@ -31,6 +31,11 @@ const AUTH_PARAMS = [
 ];
 util.AUTH_PARAMS = AUTH_PARAMS;
 
+const VISIBLE_ERRORS = [
+  'access_denied',
+  'jit_failure_missing_fields',
+];
+
 /**
  * Get the tokens in the OIDC/OAUTH flows
  *
@@ -47,8 +52,7 @@ util.getTokens = function(settings, params, controller) {
     let showError = false;
     let responseJSON = error;
   
-    // user is not assigned to OIDC client
-    if (error.errorCode === 'access_denied') {
+    if (VISIBLE_ERRORS.includes(error.errorCode)) {
       showError = true;
     }
 

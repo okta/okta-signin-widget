@@ -10,7 +10,8 @@ import Enums from '../../../src/util/Enums';
 describe('util/OAuth2Util', function() {
   class MockModel {
     constructor() {
-      this.trigger = function() {};
+      this.trigger = jest.fn();
+      this.appState = { trigger: jest.fn() };
     }
   }
 
@@ -54,6 +55,28 @@ describe('util/OAuth2Util', function() {
         expect(Util.triggerAfterError).toHaveBeenCalledTimes(1);
         const exceptionMessage = Util.triggerAfterError.calls.mostRecent().args[1].message;
         expect(exceptionMessage).toEqual('Auth SDK error');
+        done();
+      }).catch(done.fail);
+    });
+
+    it.each([
+      'jit_failure_missing_fields', 'access_denied'
+    ])('shows SDK errors of certain types', function(errCode, done) {
+      const authException = new AuthSdkError('Auth SDK error');
+      authException.errorCode = errCode;
+
+      spyOn(authClient.token, 'getWithPopup').and.callFake(function() {
+        return new Promise(function() {
+          throw authException;
+        });
+      });
+
+      return new Promise(function(resolve) {
+        spyOn(Util, 'triggerAfterError').and.callFake(resolve);
+        OAuth2Util.getTokens(settings, {}, controller);
+      }).then(function() {
+        expect(controller.model.trigger).toHaveBeenCalledTimes(1);
+        expect(controller.model.trigger).toHaveBeenLastCalledWith('error', controller.model, { responseJSON: authException });
         done();
       }).catch(done.fail);
     });
