@@ -230,7 +230,7 @@ const generateOtpOnlyHTML = (fieldName, message) => {
                 <i class="enduser-email-consent--icon icon--desktop"></i>
                 <div>${message}</div>
               </div>`
-    case "otp":
+    case "otp": // TODO: format otp to look more like Figma mockup
       break;
     default:
       return "";
