@@ -20,6 +20,16 @@ module.exports = {
       },
     },
     {
+      'files': [
+        // ignore all translations except for login.properties
+        'packages/**/login_*.properties',
+        'packages/**/country*.properties',
+      ],
+      'rules': {
+        '@okta/okta/no-missing-i18n-comments': 'off',
+      },
+    },
+    {
       'files': ['*.js'],
       'extends': [
         'eslint:recommended',

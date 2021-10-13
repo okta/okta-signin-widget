@@ -2496,10 +2496,10 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
-"@okta/eslint-plugin-okta@0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@okta/eslint-plugin-okta/-/eslint-plugin-okta-0.4.0.tgz#128160c06ccf809d9f72bde2316ddfc5cdfb3eaa"
-  integrity sha512-cq32cOdxzqXekJGZS9ZgwvR1bX/b26sqMA2t1Kj4PajVzql7SJHLC8uNrDceTRdtbubQuAmvml2bCKR4jLC6MA==
+"@okta/eslint-plugin-okta@0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@okta/eslint-plugin-okta/-/eslint-plugin-okta-0.5.0.tgz#0ea7919988670a1a169e8e63e6e9d5015d0a5766"
+  integrity sha512-kDKzYl7O0UJ3n0uFsYD8u+moWC0IB3rifA6vi5mb2zl684K2XpSoyVg6loOZhiZziymF3lxhx5dZsNqzCTlS2w==
   dependencies:
     fs-extra "^9.0.1"
     i18n-lint "^1.1.0"
