@@ -64,8 +64,6 @@ const FORMS = {
 
   USER_CODE: 'user-code',
 
-  IDX_RETURN_LINK_OTPONLY: 'idx-return-link-otponly',
-
   // 'terminal` is not ION Form name but only coined in widget
   // for rendering a page that user has nothing to remediate.
   TERMINAL: 'terminal',
