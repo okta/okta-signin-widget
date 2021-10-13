@@ -4,6 +4,7 @@ import { getBackToSignInLink, getSkipSetupLink, getReloadPageButtonLink } from '
 import EmailAuthenticatorHeader from '../components/EmailAuthenticatorHeader';
 
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
+const IDX_RETURN_LINK_OTP_ONLY = 'idx.enter.otp.in.original.tab';
 const SAFE_MODE_KEY_PREFIX = 'idx.error.server.safe.mode';
 const UNLOCK_ACCOUNT_TERMINAL_KEY = 'oie.selfservice.unlock_user.success.message';
 const UNLOCK_ACCOUNT_FAILED_PERMISSIONS = 'oie.selfservice.unlock_user.challenge.failed.permissions';
@@ -37,6 +38,7 @@ const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
   RETURN_LINK_EXPIRED_KEY,
   OPERATION_CANCELED_ON_OTHER_DEVICE_KEY,
   OPERATION_CANCELED_BY_USER_KEY,
+  IDX_RETURN_LINK_OTP_ONLY
 ];
 
 const DEVICE_CODE_ERROR_KEYS = [
@@ -59,6 +61,7 @@ const NO_BACKTOSIGNIN_LINK_VIEWS = [
   ...DEVICE_CODE_FLOW_TERMINAL_KEYS,
   UNLOCK_ACCOUNT_FAILED_PERMISSIONS,
   RESET_PASSWORD_NOT_ALLOWED,
+  IDX_RETURN_LINK_OTP_ONLY
 ];
 
 // Key map to transform terminal view titles {ApiKey : WidgetKey}  
@@ -75,6 +78,7 @@ const terminalViewTitles = {
   [DEVICE_NOT_ACTIVATED_CONSENT_DENIED] : 'device.code.activated.error.title',
   [DEVICE_NOT_ACTIVATED_INTERNAL_ERROR] : 'device.code.activated.error.title',
   [RETURN_TO_ORIGINAL_TAB_KEY] : 'oie.consent.enduser.email.allow.title',
+  [IDX_RETURN_LINK_OTP_ONLY]: 'idx.return.link.otponly.title'
 };
 
 const Body = BaseForm.extend({
@@ -123,6 +127,29 @@ const Body = BaseForm.extend({
       description = loc('oie.tooManyRequests', 'login');
     } else if (this.options.appState.containsMessageWithI18nKey(RETURN_LINK_EXPIRED_KEY)) {
       messagesObjs.value[0].class = 'ERROR';
+    } else if (this.options.appState.containsMessageWithI18nKey(IDX_RETURN_LINK_OTP_ONLY)) {
+      
+      // Get app name
+      const app = this.options.appState.get('app');
+      const appName = app.value.label;
+      
+      // Get browser, OS, geolocation from client object
+      const client = this.options.appState.get('client').value;
+      const browser = client.browser;
+      const os = client.os;
+      const browserOnOsString = `${browser} on ${os}`;
+      const geolocation = client.geolocation;
+
+      // Get OTP from currentAuthenticator object
+      const currentAuthenticator = this.options.appState.get('currentAuthenticator');
+      const otp = currentAuthenticator.value.contextualData.otp;
+
+      description = otp; // Have OTP shown first before other information
+      messagesObjs.value.push({ message: loc('idx.return.link.otponly.request', 'login') });
+      messagesObjs.value.push({ message: generateOtpOnlyHTML('browser', browserOnOsString) });
+      messagesObjs.value.push({ message: generateOtpOnlyHTML('app', appName) });
+      messagesObjs.value.push({ message: generateOtpOnlyHTML('geolocation', geolocation) });
+      messagesObjs.value.push({ message: loc('idx.return.link.otponly.warning', 'login')});
     }
 
     if (description && Array.isArray(messagesObjs?.value)) {
@@ -131,6 +158,29 @@ const Body = BaseForm.extend({
 
     this.options.appState.set('messages', messagesObjs);
     BaseForm.prototype.showMessages.call(this);
+    if (messagesObjs && Array.isArray(messagesObjs.value)) {
+      this.add('<div class="ion-messages-container"></div>', '.o-form-error-container');
+
+      messagesObjs.value
+        .forEach(messagesObj => {
+          const msg = messagesObj.message;
+          if (messagesObj.class === 'ERROR' || messagesObj.i18n?.key === RETURN_LINK_EXPIRED_KEY) {
+            this.add(createCallout({
+              content: msg,
+              type: 'error',
+            }), {
+              selector: '.o-form-error-container',
+              prepend: true,
+            });
+          } else {
+            if (msg.startsWith("<")) { // Add html without wrapper tags
+              this.add(msg, '.ion-messages-container');
+            } else { // if msg is a string literal, add using <p> tag
+              this.add(`<p>${msg}</p>`, '.ion-messages-container');
+            }
+          }
+        });
+    }
   },
 
 });
@@ -162,3 +212,27 @@ export default BaseView.extend({
   Body,
   Footer
 });
+
+const generateOtpOnlyHTML = (fieldName, message) => {
+  switch(fieldName) {
+    case "browser":
+      return `<div class="enduser-email-consent--info no-translate">
+                <i class="enduser-email-consent--icon icon--desktop"></i>
+                <div>${message}</div>
+              </div>`
+    case "app":
+      return `<div class="enduser-email-consent--info no-translate">
+                <i class="enduser-email-consent--icon icon--app"></i>
+                <div>${message}</div>
+              </div>`
+    case "geolocation":
+      return `<div class="enduser-email-consent--info no-translate">
+                <i class="enduser-email-consent--icon icon--desktop"></i>
+                <div>${message}</div>
+              </div>`
+    case "otp":
+      break;
+    default:
+      return ""; 
+  }
+}
