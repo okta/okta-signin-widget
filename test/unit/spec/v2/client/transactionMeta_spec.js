@@ -92,11 +92,13 @@ describe('v2/client/transactionMeta', () => {
         const res = await getTransactionMeta(testContext.settings);
         expect(res).toEqual(testContext.newMeta);
       });
-      it('honors `codeChallenge`, and `codeChallengeMethod` options', async () => {
+      it('honors `interactionHandle`, `codeChallenge`, and `codeChallengeMethod` options', async () => {
+        testContext.settings.set('interactionHandle', testContext.interactionHandle);
         testContext.settings.set('codeChallenge', testContext.codeChallenge);
         testContext.settings.set('codeChallengeMethod', testContext.codeChallengeMethod);
         const res = await getTransactionMeta(testContext.settings);
         expect(res.foo).toBe('bar');
+        expect(res.interactionHandle).toBe(testContext.interactionHandle);
         expect(res.codeChallenge).toBe(testContext.codeChallenge);
         expect(res.codeChallengeMethod).toBe(testContext.codeChallengeMethod);
       });
@@ -114,17 +116,20 @@ describe('v2/client/transactionMeta', () => {
           const res = await getTransactionMeta(testContext.settings);
           expect(res).toEqual(testContext.transactionMeta);
         });
-        it('honors `codeChallenge`, and `codeChallengeMethod` options', async () => {
-          const { codeChallenge, codeChallengeMethod } = testContext;
+        it('honors `interactionHandle`, `codeChallenge`, and `codeChallengeMethod` options', async () => {
+          const { interactionHandle, codeChallenge, codeChallengeMethod } = testContext;
+          testContext.settings.set('interactionHandle', interactionHandle);
           testContext.settings.set('codeChallenge', codeChallenge);
           testContext.settings.set('codeChallengeMethod', codeChallengeMethod);
           Object.assign(testContext.transactionMeta, {
+            interactionHandle,
             codeChallenge,
             codeChallengeMethod 
           });
 
           const res = await getTransactionMeta(testContext.settings);
           expect(res).toEqual(testContext.transactionMeta);
+          expect(res.interactionHandle).toBe(interactionHandle);
           expect(res.codeChallenge).toBe(codeChallenge);
           expect(res.codeChallengeMethod).toBe(codeChallengeMethod);
         });
@@ -145,13 +150,15 @@ describe('v2/client/transactionMeta', () => {
           expect(res).toEqual(testContext.newMeta);
         });
   
-        it('honors `codeChallenge`, and `codeChallengeMethod` options', async () => {
-          const { codeChallenge, codeChallengeMethod } = testContext;
+        it('honors `interactionHandle`, `codeChallenge` and `codeChallengeMethod` options', async () => {
+          const { interactionHandle, codeChallenge, codeChallengeMethod } = testContext;
+          testContext.settings.set('interactionHandle', interactionHandle);
           testContext.settings.set('codeChallenge', codeChallenge);
           testContext.settings.set('codeChallengeMethod', codeChallengeMethod);
   
           const res = await getTransactionMeta(testContext.settings);
           expect(res.foo).toBe('bar');
+          expect(res.interactionHandle).toBe(interactionHandle);
           expect(res.codeChallenge).toBe(codeChallenge);
           expect(res.codeChallengeMethod).toBe(codeChallengeMethod);
         });
@@ -196,6 +203,12 @@ describe('v2/client/transactionMeta', () => {
     it('returns false if `redirectUri` does not match', () => {
       testContext.transactionMeta.redirectUri = 'abc';
       testContext.authParams.redirectUri = 'def';
+      expect(isTransactionMetaValid(testContext.settings, testContext.transactionMeta)).toBe(false);
+    });
+
+    it('returns false if `interactionHandle` does not match', () => {
+      testContext.transactionMeta.interactionHandle = 'abc';
+      testContext.settings.set('interactionHandle', 'def');
       expect(isTransactionMetaValid(testContext.settings, testContext.transactionMeta)).toBe(false);
     });
 
