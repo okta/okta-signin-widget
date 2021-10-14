@@ -597,3 +597,8 @@ Enable or disable widget functionality with the following options.
 
   Defaults to `true`.
   Pre-fills the identifier field with the previously used username.
+
+#### features.showKeepMeSignedIn
+
+  Defaults to `true`.
+  Shows/hides the "Keep me signed in" checkbox.
