@@ -429,6 +429,8 @@ test
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Sign in with Okta FastPass');
+    await t.expect(deviceChallengePollPageObject.getContent())
+      .contains('If Okta Verify did not open automatically, tap the button below to reopen Okta Verify.');
     await t.expect(deviceChallengePollPageObject.getPrimiaryButtonText()).eql('Open Okta Verify');
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     deviceChallengePollPageObject.clickAppLink();
