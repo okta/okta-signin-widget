@@ -24,7 +24,7 @@ const EMAIL_ACTIVATION_EMAIL_EXPIRE = 'idx.expired.activation.token';
 const EMAIL_ACTIVATION_EMAIL_INVALID = 'idx.missing.activation.token';
 const EMAIL_ACTIVATION_EMAIL_SUBMITTED = 'idx.request.activation.email';
 const EMAIL_ACTIVATION_EMAIL_SUSPENDED = 'idx.activating.inactive.user';
- 
+
 
 export const REGISTRATION_NOT_ENABLED = 'oie.registration.is.not.enabled';
 export const FORGOT_PASSWORD_NOT_ENABLED = 'oie.forgot.password.is.not.enabled';
@@ -81,6 +81,30 @@ const terminalViewTitles = {
   [IDX_RETURN_LINK_OTP_ONLY]: 'idx.return.link.otponly.title',
 };
 
+const generateOtpOnlyHTML = (fieldName, message) => {
+  switch (fieldName) {
+    case 'browser':
+      return `<div class="enduser-email-consent--info no-translate">
+                <i class="enduser-email-consent--icon icon--desktop"></i>
+                <div>${message}</div>
+              </div>`;
+    case 'app':
+      return `<div class="enduser-email-consent--info no-translate">
+                <i class="enduser-email-consent--icon icon--app"></i>
+                <div>${message}</div>
+              </div>`;
+    case 'geolocation':
+      return message !== null ?
+        `<div class="enduser-email-consent--info no-translate">
+                <i class="enduser-email-consent--icon icon--location"></i>
+                <div>${message}</div>
+              </div>` :
+        '';
+    default:
+      return '';
+  }
+};
+
 const Body = BaseForm.extend({
   noButtonBar: true,
 
@@ -122,7 +146,7 @@ const Body = BaseForm.extend({
       messagesObjs.value.push({ message: loc('oie.consent.enduser.deny.description', 'login') });
     } else if (this.options.appState.containsMessageWithI18nKey(RETURN_TO_ORIGINAL_TAB_KEY)) {
       description = loc('oie.consent.enduser.email.allow.description', 'login');
-      messagesObjs.value.push({ message: loc('oie.return.to.original.tab', 'login')});
+      messagesObjs.value.push({ message: loc('oie.return.to.original.tab', 'login') });
     } else if (this.options.appState.containsMessageWithI18nKey('tooManyRequests')) {
       description = loc('oie.tooManyRequests', 'login');
     } else if (this.options.appState.containsMessageWithI18nKey(RETURN_LINK_EXPIRED_KEY)) {
@@ -138,7 +162,7 @@ const Body = BaseForm.extend({
       const browser = client.browser;
       const os = client.os;
       const browserOnOsString = `${browser} on ${os}`;
-      const geolocation = client.geolocation;
+      const geolocation = client.geolocation || null;
 
       // Get OTP from currentAuthenticator object
       const currentAuthenticator = this.options.appState.get('currentAuthenticator');
@@ -173,7 +197,7 @@ const Body = BaseForm.extend({
               prepend: true,
             });
           } else {
-            if (msg.startsWith("<")) { // Add html strings without wrapper tags
+            if (msg.startsWith('<')) { // Add html strings without wrapper tags
               this.add(msg, '.ion-messages-container');
             } else { // if msg is a string literal, add using <p> tag
               this.add(`<p>${msg}</p>`, '.ion-messages-container');
@@ -213,26 +237,4 @@ export default BaseView.extend({
   Footer
 });
 
-const generateOtpOnlyHTML = (fieldName, message) => {
-  switch (fieldName) {
-    case "browser":
-      return `<div class="enduser-email-consent--info no-translate">
-                <i class="enduser-email-consent--icon icon--desktop"></i>
-                <div>${message}</div>
-              </div>`
-    case "app":
-      return `<div class="enduser-email-consent--info no-translate">
-                <i class="enduser-email-consent--icon icon--app"></i>
-                <div>${message}</div>
-              </div>`
-    case "geolocation":
-      return `<div class="enduser-email-consent--info no-translate">
-                <i class="enduser-email-consent--icon icon--desktop"></i>
-                <div>${message}</div>
-              </div>`
-    case "otp": // TODO: format otp to look more like Figma mockup
-      break;
-    default:
-      return "";
-  }
-}
+
