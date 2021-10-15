@@ -7,6 +7,7 @@ import idx from '@okta/okta-idx-js';
 import XHRIdentifyWithPassword
   from '../../../../playground/mocks/data/idp/idx/identify-with-password.json';
 import XHRIdentify from '../../../../playground/mocks/data/idp/idx/identify.json';
+import EnrollProfile from '../../../../playground/mocks/data/idp/idx/enroll-profile.json';
 
 jest.mock('v2/client/interact', () => {
   return {
@@ -131,18 +132,24 @@ describe('v2/BaseLoginRouter', function() {
   // });
 
   it('should render register page', async function() {
-    jest.spyOn(mocked.interact, 'interact').mockResolvedValue(idx.makeIdxState(XHRIdentifyWithPassword));
-    jest.spyOn(mocked.introspect, 'introspect').mockResolvedValue(idx.makeIdxState(XHRIdentifyWithPassword));
+    const mockEnrollProfileResponse = idx.makeIdxState(EnrollProfile);
+    const mockIntrospectResponse = idx.makeIdxState(XHRIdentifyWithPassword);
+    expect(typeof mockIntrospectResponse.actions['currentAuthenticator-recover']).toBe('function');
+    jest.spyOn(mockIntrospectResponse.actions, 'currentAuthenticator-recover').mockResolvedValue(mockEnrollProfileResponse);
+    jest.spyOn(mocked.interact, 'interact').mockResolvedValue(mockIntrospectResponse);
+    // jest.spyOn(mocked.introspect, 'introspect').mockResolvedValue(idx.makeIdxState(XHRIdentifyWithPassword));
 
     setup({
       useInteractionCodeFlow: true,
+      // stateToken: 'obviously-fake',
       initialView: 'reset-password'
     });
     await testContext.router.render(FormController);
-    await delay();
+    // await delay();
+    expect(mockIntrospectResponse.actions['currentAuthenticator-recover']).toHaveBeenCalledWith();
     expect(testContext.afterErrorHandler).toHaveBeenCalledTimes(0);
-    // expect(testContext.afterRenderHandler).toHaveBeenCalledTimes(1);
+    // expect(testContext.afterRenderHandler).toHaveBeenCalledTimes(1)
     expect(testContext.router.header.$el.css('display')).toBe('block');
-    expect(testContext.router.controller.$el.find('.o-form-head').text()).toBe('Reset your password');
+    expect(testContext.router.controller.$el.find('.o-form-head').text()).toBe('Sign up');
   });
 });
