@@ -1,0 +1,43 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02ucn3Ua_JZUCwvOJooY8BLZ8gVryTNY4YSieVhq6D",
+  "expiresAt": "2021-10-16T16:46:45.000Z",
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "There was a problem signing you into your identity provider. Please contact your administrator for help.",
+        "i18n":{
+          "key": "placeholder.key"
+        },
+        "class": "ERROR"
+      }
+    ]
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02ucn3Ua_JZUCwvOJooY8BLZ8gVryTNY4YSieVhq6D",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "id": "0oar82hwN7CEmu30B0g4"
+    }
+  }
+}
