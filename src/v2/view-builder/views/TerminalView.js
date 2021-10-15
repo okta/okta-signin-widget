@@ -83,26 +83,45 @@ const terminalViewTitles = {
 
 const generateOtpOnlyHTML = (fieldName, message) => {
   switch (fieldName) {
-    case 'browser':
-      return `<div class="enduser-email-consent--info no-translate">
-                <i class="enduser-email-consent--icon icon--desktop"></i>
-                <div>${message}</div>
-              </div>`;
-    case 'app':
-      return `<div class="enduser-email-consent--info no-translate">
-                <i class="enduser-email-consent--icon icon--app"></i>
-                <div>${message}</div>
-              </div>`;
-    case 'geolocation':
-      return message !== null ?
-        `<div class="enduser-email-consent--info no-translate">
-                <i class="enduser-email-consent--icon icon--location"></i>
-                <div>${message}</div>
-              </div>` :
-        '';
-    default:
-      return '';
+  case 'browser':
+    return `<div class="enduser-email-consent--info no-translate">
+              <i class="enduser-email-consent--icon icon--desktop"></i>
+              <div>${message}</div>
+            </div>`;
+  case 'app':
+    return `<div class="enduser-email-consent--info no-translate">
+              <i class="enduser-email-consent--icon icon--app"></i>
+              <div>${message}</div>
+            </div>`;
+  case 'geolocation':
+    return message !== null ?
+      `<div class="enduser-email-consent--info no-translate">
+              <i class="enduser-email-consent--icon icon--location"></i>
+              <div>${message}</div>
+            </div>` :
+      '';
+  default:
+    return '';
   }
+};
+
+const populateOtpTerminalFields = () => {
+  // Get app name
+  const app = this.options.appState.get('app');
+  const appName = app.value.label;
+
+  // Get browser, OS, geolocation from client object
+  const client = this.options.appState.get('client').value;
+  const browser = client.browser;
+  const os = client.os;
+  const browserOnOsString = `${browser} on ${os}`;
+  const geolocation = client.geolocation || null;
+
+  // Get OTP from currentAuthenticator object
+  const currentAuthenticator = this.options.appState.get('currentAuthenticator');
+  const otp = currentAuthenticator.value.contextualData.otp;
+
+  return [appName, browserOnOsString, geolocation, otp];
 };
 
 const Body = BaseForm.extend({
@@ -153,27 +172,16 @@ const Body = BaseForm.extend({
       messagesObjs.value[0].class = 'ERROR';
     } else if (this.options.appState.containsMessageWithI18nKey(IDX_RETURN_LINK_OTP_ONLY)) {
 
-      // Get app name
-      const app = this.options.appState.get('app');
-      const appName = app.value.label;
-
-      // Get browser, OS, geolocation from client object
-      const client = this.options.appState.get('client').value;
-      const browser = client.browser;
-      const os = client.os;
-      const browserOnOsString = `${browser} on ${os}`;
-      const geolocation = client.geolocation || null;
-
-      // Get OTP from currentAuthenticator object
-      const currentAuthenticator = this.options.appState.get('currentAuthenticator');
-      const otp = currentAuthenticator.value.contextualData.otp;
+      const [appName, browserOnOsString, geolocation, otp] = populateOtpTerminalFields();
 
       description = otp; // Have OTP shown first before other information
-      messagesObjs.value.push({ message: loc('idx.return.link.otponly.request', 'login') });
-      messagesObjs.value.push({ message: generateOtpOnlyHTML('browser', browserOnOsString) });
-      messagesObjs.value.push({ message: generateOtpOnlyHTML('app', appName) });
-      messagesObjs.value.push({ message: generateOtpOnlyHTML('geolocation', geolocation) });
-      messagesObjs.value.push({ message: loc('idx.return.link.otponly.warning', 'login') });
+      messagesObjs.value.push(
+        { message: loc('idx.return.link.otponly.request', 'login') },
+        { message: generateOtpOnlyHTML('browser', browserOnOsString) },
+        { message: generateOtpOnlyHTML('app', appName) },
+        { message: generateOtpOnlyHTML('geolocation', geolocation) },
+        { message: loc('idx.return.link.otponly.warning', 'login') },
+      );
     }
 
     if (description && Array.isArray(messagesObjs?.value)) {
