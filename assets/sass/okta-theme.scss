@@ -654,6 +654,18 @@
     }
   }
 
+  .icon--location {
+    /* -- Factor Icons (large): Webauthn -- */
+    background-image: url('../img/icons/mfa/location_70x70.png');
+
+    @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
+      /* -- Factor Icons (high DPI): Webauthn -- */
+      background-image: url('../img/icons/mfa/location_76x76.png');
+    }
+  }
+
   .smartcard {
     /* -- Factor Icons (large): PIV -- */
     background-image: url('../img/icons/login/smartcard_70x70.png');
