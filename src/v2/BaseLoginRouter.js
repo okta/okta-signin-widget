@@ -318,8 +318,6 @@ export default Router.extend({
       }
     }
 
-    console.log('messages: ', this.appState.get('messages'));
-
     // Load the custom colors only on the first render
     if (this.settings.get('colors.brand') && !ColorsUtil.isLoaded()) {
       const colors = {
