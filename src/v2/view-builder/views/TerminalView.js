@@ -205,11 +205,7 @@ const Body = BaseForm.extend({
               prepend: true,
             });
           } else {
-            if (msg.startsWith('<')) { // Add html strings without wrapper tags
-              this.add(msg, '.ion-messages-container');
-            } else { // if msg is a string literal, add using <p> tag
               this.add(`<p>${msg}</p>`, '.ion-messages-container');
-            }
           }
         });
     }
