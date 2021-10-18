@@ -19,6 +19,10 @@
   width: $container-width;
   min-width: $container-min-width;
 
+  &:focus {
+    outline: none;
+  }
+
   @include device-mq(x-small) {
     margin-top: 0;
     width: 100%;
