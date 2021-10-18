@@ -11,6 +11,7 @@ import pollingExpired from '../../../playground/mocks/data/idp/idx/terminal-poll
 import unlockFailed from '../../../playground/mocks/data/idp/idx/error-unlock-account';
 import accessDeniedOnOtherDeivce from '../../../playground/mocks/data/idp/idx/terminal-return-email-consent-denied';
 import terminalUnlockAccountFailedPermissions from '../../../playground/mocks/data/idp/idx/error-unlock-account-failed-permissions';
+import terminalReturnOtpOnly from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only';
 
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -56,6 +57,10 @@ const terminalUnlockAccountFailedPermissionsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(terminalUnlockAccountFailedPermissions);
 
+const terminalReturnOtpOnlyMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(terminalReturnOtpOnly);
+
 fixture('Terminal view');
 
 async function setup(t) {
@@ -75,6 +80,8 @@ async function setup(t) {
     terminalRegistrationEmailMock ],
   [ 'Shows the correct beacon for terminal email consent denied screen in first device',
     terminalReturnEmailConsentDeniedMock ],
+  [ 'Shows correct beacon for OTP info page in email magic link flow',
+    terminalReturnOtpOnlyMock ],
 ].forEach(([ testTitle, mock ]) => {
   test
     .requestHooks(mock)(testTitle, async t => {
@@ -104,6 +111,7 @@ async function setup(t) {
 [
   ['should not have Back to sign in link when flow continued in new tab', terminalTransferredEmailMock],
   ['should not have Back to sign in link when access denied on other device', accessDeniedOnOtherDeivceMock],
+  ['Should not have Back to sign in link when OTP info page is accessed', terminalReturnOtpOnlyMock ],
 ].forEach(([ testTitle, mock ]) => {
   test
     .requestHooks(mock)(testTitle, async t => {
