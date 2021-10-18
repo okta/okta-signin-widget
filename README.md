@@ -60,6 +60,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
 - [API Reference](#api-reference)
   - [Interaction Code Flow](#interaction-code-flow)
   - [OktaSignIn](#oktasignin)
+  - [showSignIn](#showsignin)
   - [showSignInToGetTokens](#showsignintogettokens)
   - [showSignInAndRedirect](#showsigninandredirect)
   - [renderEl](#renderel)
