@@ -183,7 +183,6 @@ describe('v2/BaseLoginRouter', function() {
 
     setup({
       useInteractionCodeFlow: true,
-      // stateToken: 'obviously-fake',
       initialView: 'reset-password'
     });
     await testContext.router.render(FormController);
