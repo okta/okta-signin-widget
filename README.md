@@ -449,7 +449,7 @@ The following properties are available when using the `showSignIn` method:
 * `authParams.issuer` (optional) - Specify a custom issuer to perform the [OIDC](https://developer.okta.com/docs/reference/api/oidc/) flow. Defaults to the baseUrl plus "/oauth2/default". See [Custom Authorization Server](https://developer.okta.com/docs/guides/customize-authz-server/overview/).
 
 Here is a code snippet that shows how to use `showSignIn`:
-```
+```javascript
 var signIn = new OktaSignIn({
   baseUrl: 'https://{yourOktaDomain}',
   clientId: '{{clientId of your OIDC app}}',
