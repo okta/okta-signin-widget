@@ -831,6 +831,32 @@ Expect.describe('PrimaryAuth', function() {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
       });
     });
+    itp('sets username input aria-invalid="false" on init and clears on blur', function() {
+      return setup()
+        .then((test) => {
+          expect(test.form.usernameField()[0].getAttribute('aria-invalid')).toEqual('false');
+          test.form.usernameField().focusin();
+          expect(test.form.usernameField()[0].getAttribute('aria-invalid')).toEqual('false');
+          test.form.usernameField().focusout();
+          return test;
+        })
+        .then((test) => {
+          expect(test.form.usernameField()[0].getAttribute('aria-invalid')).toBeFalsy();
+        });
+    });
+    itp('sets password input aria-invalid="false" on init and clears on blur', function() {
+      return setup()
+        .then(function(test) {
+          expect(test.form.passwordField()[0].getAttribute('aria-invalid')).toEqual('false');
+          test.form.passwordField().focusin();
+          expect(test.form.passwordField()[0].getAttribute('aria-invalid')).toEqual('false');
+          test.form.passwordField().focusout();
+          return test;
+        })
+        .then((test) => {
+          expect(test.form.passwordField()[0].getAttribute('aria-invalid')).toBeFalsy();
+        });
+    });
     itp('show username validation error when username field is dirty', function() {
       return setup().then(function(test) {
         test.form.usernameField().focus();
