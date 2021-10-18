@@ -220,6 +220,10 @@ export default Router.extend({
         return idxResponse.actions['currentAuthenticator-recover']();
       }
     }
+    else if (initialView === 'unlock') {
+      // requires: introspect -> identify-recovery -> select-authenticator-unlock-account
+      return await idxResponse.proceed('identify-recovery');
+    }
     else {
       Logger.warn(`Unknown \`initialView\` value: ${initialView}`);
     }

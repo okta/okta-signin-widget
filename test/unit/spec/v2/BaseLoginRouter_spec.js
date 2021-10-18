@@ -7,7 +7,11 @@ import idx from '@okta/okta-idx-js';
 import XHRIdentifyWithPassword
   from '../../../../playground/mocks/data/idp/idx/identify-with-password.json';
 import XHRIdentify from '../../../../playground/mocks/data/idp/idx/identify.json';
+import ResetPassword from '../../../../playground/mocks/data/idp/idx/authenticator-reset-password.json';
 import EnrollProfile from '../../../../playground/mocks/data/idp/idx/enroll-profile.json';
+import XHRIdentifyWithRecovery
+  from '../../../../playground/mocks/data/idp/idx/identify-recovery.json';
+import UserUnlockAccount from '../../../../playground/mocks/data/idp/idx/user-unlock-account.json';
 
 jest.mock('v2/client/interact', () => {
   return {
@@ -35,20 +39,10 @@ const TestRouter = BaseLoginRouter.extend({
   },
 });
 
-const delay = () => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, 2000);
-  });
-};
-
 describe('v2/BaseLoginRouter', function() {
   let testContext;
 
-  function setup(
-    settings = {},
-    remediations = XHRIdentifyWithPassword.remediation.value,
-    formName = 'identify'
-  ) {
+  function setup(settings = {}) {
     const baseUrl = 'https://foo.com';
     const authParams = {
       issuer: baseUrl,
@@ -60,8 +54,6 @@ describe('v2/BaseLoginRouter', function() {
       }
     });
     const authClient = getAuthClient({ authParams });
-    const afterRenderHandler = jest.fn();
-    const afterErrorHandler = jest.fn();
 
     const router = new TestRouter(
       _.extend(
@@ -74,11 +66,8 @@ describe('v2/BaseLoginRouter', function() {
       )
     );
 
-    // router.appState.set('remediations', remediations);
-    // router.appState.set('currentFormName', formName);
-    // router.appState.set('idx', {neededToProceed: []});
-    // router.handleUpdateAppState(XHRIdentifyWithPassword);
-    // router.handleUpdateAppState(XHRIdentify);
+    const afterRenderHandler = jest.fn();
+    const afterErrorHandler = jest.fn();
 
     router.on('afterRender', afterRenderHandler);
     router.on('afterError', afterErrorHandler);
@@ -99,57 +88,125 @@ describe('v2/BaseLoginRouter', function() {
     jest.resetAllMocks();
   });
 
+  it('should render without error when initialView not provided', async function() {
+    const mockIntrospectResponse = idx.makeIdxState(XHRIdentify);
+    jest.spyOn(mocked.introspect, 'introspect').mockResolvedValue(mockIntrospectResponse);
 
-  // it('should not be visible until initial render', async function() {
-  //   setup();
-  //   expect(testContext.router.header.$el.css('display')).toBe('none');
-  //   await testContext.router.render(FormController);
-  //   expect(testContext.afterErrorHandler).toHaveBeenCalledTimes(0);
-  //   expect(testContext.afterRenderHandler).toHaveBeenCalledTimes(1);
-  //   expect(testContext.router.header.$el.css('display')).toBe('block');
-  //   expect(testContext.router.controller.$el.find('.o-form-head').text()).toBe('Sign In');
-  // });
-  //
-  // it('should be visible and render initial error', async function() {
-  //   jest.spyOn(mocked.interact, 'interact').mockRejectedValue({
-  //     error: {
-  //       error: 'access_denied',
-  //       // eslint-disable-next-line camelcase
-  //       error_description: 'OIE is not enabled'
-  //     }
-  //   });
-  //   setup({
-  //     useInteractionCodeFlow: true,
-  //   });
-  //   expect(testContext.router.header.$el.css('display')).toBe('none');
-  //   await testContext.router.render(FormController);
-  //   expect(testContext.afterErrorHandler).toHaveBeenCalledTimes(0);
-  //   expect(testContext.afterRenderHandler).toHaveBeenCalledTimes(1);
-  //   expect(testContext.router.header.$el.css('display')).toBe('block');
-  //   expect(testContext.router.controller.$el.find('.o-form-error-container').text()).toBe(
-  //     'The requested feature is not enabled in this environment.'
-  //   );
-  // });
+    setup({stateToken: 'foo'});
+    await testContext.router.render(FormController);
+    expect(testContext.afterErrorHandler).toHaveBeenCalledTimes(0);
+    expect(testContext.afterRenderHandler).toHaveBeenCalledTimes(1);
+    expect(testContext.router.appState.getCurrentViewState().name).toBe('identify');
+  });
 
-  it('should render register page', async function() {
-    const mockEnrollProfileResponse = idx.makeIdxState(EnrollProfile);
+  it('should render identify page (stateToken=null, useInteractionCodeFlow=true)', async function() {
     const mockIntrospectResponse = idx.makeIdxState(XHRIdentifyWithPassword);
-    expect(typeof mockIntrospectResponse.actions['currentAuthenticator-recover']).toBe('function');
-    jest.spyOn(mockIntrospectResponse.actions, 'currentAuthenticator-recover').mockResolvedValue(mockEnrollProfileResponse);
     jest.spyOn(mocked.interact, 'interact').mockResolvedValue(mockIntrospectResponse);
-    // jest.spyOn(mocked.introspect, 'introspect').mockResolvedValue(idx.makeIdxState(XHRIdentifyWithPassword));
 
     setup({
       useInteractionCodeFlow: true,
-      // stateToken: 'obviously-fake',
+      initialView: 'identify'
+    });
+    await testContext.router.render(FormController);
+    expect(testContext.afterErrorHandler).toHaveBeenCalledTimes(0);
+    expect(testContext.afterRenderHandler).toHaveBeenCalled();
+    expect(testContext.router.appState.getCurrentViewState().name).toBe('identify');
+  });
+
+  it('should render identify page (stateToken=null, useInteractionCodeFlow=false)', async function() {
+    const mockIntrospectResponse = idx.makeIdxState(XHRIdentifyWithPassword);
+    jest.spyOn(mocked.interact, 'interact').mockResolvedValue(mockIntrospectResponse);
+
+    setup({
+      // useInteractionCodeFlow: true,
+      initialView: 'identify'
+    });
+    await testContext.router.render(FormController);
+    expect(testContext.afterErrorHandler).toHaveBeenCalledTimes(0);
+    expect(testContext.afterRenderHandler).toHaveBeenCalled();
+    expect(testContext.router.appState.getCurrentViewState().name).toBe('identify');
+  });
+
+  it('should render identify page (stateToken="fake-token", useInteractionCodeFlow=false)', async function() {
+    const mockIntrospectResponse = idx.makeIdxState(XHRIdentifyWithPassword);
+    jest.spyOn(mocked.introspect, 'introspect').mockResolvedValue(mockIntrospectResponse);
+
+    setup({
+      initialView: 'identify',
+      stateToken: 'fake-token'
+    });
+    await testContext.router.render(FormController);
+    expect(testContext.afterErrorHandler).toHaveBeenCalledTimes(0);
+    expect(testContext.afterRenderHandler).toHaveBeenCalled();
+    expect(testContext.router.appState.getCurrentViewState().name).toBe('identify');
+  });
+
+  it('should render identify page (stateToken="fake-token", useInteractionCodeFlow=true)', async function() {
+    const mockIntrospectResponse = idx.makeIdxState(XHRIdentifyWithPassword);
+    jest.spyOn(mocked.introspect, 'introspect').mockResolvedValue(mockIntrospectResponse);
+
+    setup({
+      useInteractionCodeFlow: true,
+      initialView: 'identify',
+      stateToken: 'fake-token'
+    });
+    await testContext.router.render(FormController);
+    expect(testContext.afterErrorHandler).toHaveBeenCalledTimes(0);
+    expect(testContext.afterRenderHandler).toHaveBeenCalled();
+    expect(testContext.router.appState.getCurrentViewState().name).toBe('identify');
+  });
+
+  it('should result with `enroll-profile` render', async function() {
+    const mockEnrollProfileResponse = idx.makeIdxState(EnrollProfile);
+    const mockIntrospectResponse = idx.makeIdxState(XHRIdentifyWithPassword);
+    expect(typeof mockIntrospectResponse.proceed).toBe('function');
+    jest.spyOn(mockIntrospectResponse, 'proceed').mockResolvedValue(mockEnrollProfileResponse);
+    jest.spyOn(mocked.interact, 'interact').mockResolvedValue(mockIntrospectResponse);
+
+    setup({
+      useInteractionCodeFlow: true,
+      initialView: 'register'
+    });
+    await testContext.router.render(FormController);
+    expect(mockIntrospectResponse.proceed).toHaveBeenCalledTimes(1);
+    expect(testContext.afterErrorHandler).toHaveBeenCalledTimes(0);
+    expect(testContext.afterRenderHandler).toHaveBeenCalled();
+    expect(testContext.router.appState.getCurrentViewState().name).toBe('enroll-profile');
+  });
+
+  it('should result with `reset-authenticator` (password) render', async function() {
+    const mockResetPasswordResponse = idx.makeIdxState(ResetPassword);
+    const mockIntrospectResponse = idx.makeIdxState(XHRIdentifyWithPassword);
+    expect(typeof mockIntrospectResponse.actions['currentAuthenticator-recover']).toBe('function');
+    jest.spyOn(mockIntrospectResponse.actions, 'currentAuthenticator-recover').mockResolvedValue(mockResetPasswordResponse);
+    jest.spyOn(mocked.interact, 'interact').mockResolvedValue(mockIntrospectResponse);
+
+    setup({
+      useInteractionCodeFlow: true,
       initialView: 'reset-password'
     });
     await testContext.router.render(FormController);
-    // await delay();
-    expect(mockIntrospectResponse.actions['currentAuthenticator-recover']).toHaveBeenCalledWith();
+    expect(mockIntrospectResponse.actions['currentAuthenticator-recover']).toHaveBeenCalledTimes(1);
     expect(testContext.afterErrorHandler).toHaveBeenCalledTimes(0);
-    // expect(testContext.afterRenderHandler).toHaveBeenCalledTimes(1)
-    expect(testContext.router.header.$el.css('display')).toBe('block');
-    expect(testContext.router.controller.$el.find('.o-form-head').text()).toBe('Sign up');
+    expect(testContext.afterRenderHandler).toHaveBeenCalled();
+    expect(testContext.router.appState.getCurrentViewState().name).toBe('reset-authenticator');
+  });
+
+  it('should result with `select-authenticator-unlock-account` render', async function() {
+    const mockUserUnlockAccountResponse = idx.makeIdxState(UserUnlockAccount);
+    const mockIntrospectResponse = idx.makeIdxState(XHRIdentifyWithRecovery);
+    expect(typeof mockIntrospectResponse.proceed).toBe('function');
+    jest.spyOn(mockIntrospectResponse, 'proceed').mockResolvedValue(mockUserUnlockAccountResponse);
+    jest.spyOn(mocked.interact, 'interact').mockResolvedValue(mockIntrospectResponse);
+
+    setup({
+      useInteractionCodeFlow: true,
+      initialView: 'register'
+    });
+    await testContext.router.render(FormController);
+    expect(mockIntrospectResponse.proceed).toHaveBeenCalledTimes(1);
+    expect(testContext.afterErrorHandler).toHaveBeenCalledTimes(0);
+    expect(testContext.afterRenderHandler).toHaveBeenCalled();
+    expect(testContext.router.appState.getCurrentViewState().name).toBe('select-authenticator-unlock-account');
   });
 });

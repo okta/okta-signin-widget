@@ -34,7 +34,7 @@ const suiteMap = {
     cmd: 'jest',
     config: 'jest.config.js',
     preReq: [
-      'grunt assets',
+      //'grunt assets',
     ],
   },
   testcafe: {
