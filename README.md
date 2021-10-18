@@ -427,6 +427,50 @@ var signIn = new OktaSignIn(
 );
 ```
 
+### showSignIn
+
+> **Note**:
+ The showSignIn method is backward compatible. You can use it with both Okta Identity Engine (as of Widget v5.5.0) and Okta Classic Engine.
+
+Recommended for most use cases. Receives an interaction code, either by Promise or redirect, depending on [sign-in policy](https://help.okta.com/oie/en-us/Content/Topics/identity-engine/procedures/set-up-default-app-redirect.htm). Renders the widget to the DOM to prompt the user to sign in.
+
+On successful [authentication](https://developer.okta.com/docs/guides/oie-intro/#deployment-models), one of the following happens:
+* The Promise is resolved to an object containing OAuth tokens.
+* The browser is redirected to Okta with information to begin a new session. Okta servers process the information and then redirect back to your app's `redirectUri`.
+  * If successful, an authorization code appears in the URL as the `code` query parameter.
+  * If unsuccessful, an `error` query parameter appears in the URL.
+
+The following properties are available when using the `showSignIn` method:
+* `baseUrl` (required) - The base URL for your domain. Can be any Okta org. See [Basic config options](#basic-config-options).
+* `clientId` (optional) - Client Id pre-registered with Okta for the OIDC authentication flow. If omitted, defaults to the value passed in during the construction of the Widget.
+* `redirectUri` (optional) - The URL that is redirected to after authentication. You must be pre-register this URL as part of client registration. Defaults to the current origin.
+* `userInteractionCodeFlow` (optional) - Extends the OIDC flow with PKCE. Set to `true`. See [Interaction code flow - getting started](interaction_code_flow.md#getting-started).
+* `authParams.issuer` (optional) - Specify a custom issuer to perform the [OIDC](https://developer.okta.com/docs/reference/api/oidc/) flow. Defaults to the baseUrl plus "/oauth2/default". See [Custom Authorization Server](https://developer.okta.com/docs/guides/customize-authz-server/overview/).
+
+Here is a code snippet that shows how to use `showSignIn`:
+```
+var signIn = new OktaSignIn({
+  baseUrl: 'https://{yourOktaDomain}',
+  clientId: '{{clientId of your OIDC app}}',
+  redirectUri: '{{redirectUri configured in OIDC app}}',
+  useInteractionCodeFlow: true,
+  authParams: {
+    issuer: 'https://{yourOktaDomain}/oauth2/default'
+  }
+});
+
+oktaSignIn.showSignIn().then(response 
+=> {
+oktaSignIn.authClient.setTokens(response.tokens);
+/// navigate to user home page
+})
+  .catch(function(error) {
+    // This function is invoked with errors the widget cannot recover from:
+    // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR
+    console.log('login error', error);
+  });
+```
+
 ### showSignInToGetTokens
 
 Returns a Promise. Renders the widget to the DOM to prompt the user to sign in. On successful [authentication][], the Promise will be resolved to an object containing [OAuth][] tokens.
@@ -458,7 +502,7 @@ signIn.showSignInToGetTokens({
 
 ### showSignInAndRedirect
 
-Returns a Promise. Renders the widget to the DOM to prompt the user to sign in. On successful [authentication][], the browser will be redirected to Okta with information to begin a new session. Okta's servers will process the information and then redirect back to your application's `redirectUri`. If succesful, an authorization code will exist in the URL as the "code" query parameter. If unsuccesful, there will be an "error" query parameter in the URL.
+Returns a Promise. Renders the widget to the DOM to prompt the user to sign in. On successful [authentication][], the browser will be redirected to Okta with information to begin a new session. Okta's servers will process the information and then redirect back to your application's `redirectUri`. If successful, an authorization code will exist in the URL as the "code" query parameter. If unsuccessful, there will be an "error" query parameter in the URL.
 
 * `options`
   * `el` *(optional) - CSS selector which identifies the container element that the widget attaches to. If omitted, defaults to the value passed in during the construction of the Widget.
