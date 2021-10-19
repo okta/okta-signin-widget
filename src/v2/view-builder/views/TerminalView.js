@@ -159,8 +159,9 @@ const Footer = BaseFooter.extend({
     if (this.options.appState.containsMessageWithI18nKey(DEVICE_CODE_ERROR_KEYS)) {
       return getReloadPageButtonLink();
     }
-
-    if (!this.options.appState.containsMessageWithI18nKey(NO_BACKTOSIGNIN_LINK_VIEWS)) {
+    // If cancel object exists idx response then view would take care of rendering back to sign in link
+    if (!this.options.appState.hasActionObject('cancel') &&
+        !this.options.appState.containsMessageWithI18nKey(NO_BACKTOSIGNIN_LINK_VIEWS)) {
       return getBackToSignInLink(this.options.settings);
     }
   }

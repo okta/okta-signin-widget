@@ -131,6 +131,18 @@ describe('v2/models/AppState', function() {
     });
   });
 
+  describe('hasActionObject', () => {
+    it('returns true if given action object exists', () => {
+      this.initAppState({ idx: { actions: { cancel: () => {} } } });
+      expect(this.appState.hasActionObject('cancel')).toBe(true);
+    });
+
+    it('returns false if given action object does not exists', () => {
+      this.initAppState();
+      expect(this.appState.hasActionObject('cancel')).toBe(false);
+    });
+  });
+
   describe('shouldReRenderView', () => {
     it('rerender view should be false if stateHandle are different', () => {
 
