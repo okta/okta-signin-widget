@@ -83,6 +83,8 @@ const terminalViewTitles = {
 
 const generateOtpOnlyHTML = (fieldName, message) => {
   switch (fieldName) {
+  case 'otp':
+    return `<h1 class='otp-value'>${message}</h1>`;
   case 'browser':
     return `<div class="enduser-email-consent--info no-translate">
               <i class="enduser-email-consent--icon icon--desktop"></i>
@@ -91,7 +93,7 @@ const generateOtpOnlyHTML = (fieldName, message) => {
   case 'app':
     return `<div class="enduser-email-consent--info no-translate">
               <i class="enduser-email-consent--icon icon--app"></i>
-              <div>${message}</div>
+              <div>Accessing ${message}</div>
             </div>`;
   case 'geolocation':
     return message !== null ?
@@ -100,6 +102,10 @@ const generateOtpOnlyHTML = (fieldName, message) => {
               <div>${message}</div>
             </div>` :
       '';
+  case 'requestFrom':
+    return `<div class="enduser-email-consent--info no-translate">
+              <div>${message}</div>
+            </div>`;
   default:
     return '';
   }
@@ -153,11 +159,15 @@ const Body = BaseForm.extend({
       messagesObjs.value[0].class = 'ERROR';
     } else if (this.options.appState.containsMessageWithI18nKey(IDX_RETURN_LINK_OTP_ONLY)) {
 
-      const [appName, browserOnOsString, geolocation, otp] = this.options.appState.getOtpOnlyInfo();
+      const appName = this.options.appState.get('app').label;
+      const client = this.options.appState.get('client');
+      const browserOnOsString = `${client.browser} on ${client.os}`;
+      const geolocation = client.geolocation || null;
+      const otp = this.options.appState.get('currentAuthenticator').contextualData.otp;
 
-      description = otp; // Have OTP shown first before other information
+      description = generateOtpOnlyHTML('otp', otp); // Have OTP shown first before other information
       messagesObjs.value.push(
-        { message: loc('idx.return.link.otponly.request', 'login') },
+        { message: generateOtpOnlyHTML('requestFrom', loc('idx.return.link.otponly.request', 'login')) },
         { message: generateOtpOnlyHTML('browser', browserOnOsString) },
         { message: generateOtpOnlyHTML('app', appName) },
         { message: generateOtpOnlyHTML('geolocation', geolocation) },

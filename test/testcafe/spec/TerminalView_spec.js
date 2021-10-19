@@ -12,6 +12,7 @@ import unlockFailed from '../../../playground/mocks/data/idp/idx/error-unlock-ac
 import accessDeniedOnOtherDeivce from '../../../playground/mocks/data/idp/idx/terminal-return-email-consent-denied';
 import terminalUnlockAccountFailedPermissions from '../../../playground/mocks/data/idp/idx/error-unlock-account-failed-permissions';
 import terminalReturnOtpOnly from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only';
+import terminalReturnOtpOnlyNoLocation from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-no-location';
 
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -61,6 +62,20 @@ const terminalReturnOtpOnlyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(terminalReturnOtpOnly);
 
+const terminalReturnOtpOnlyNoLocationMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(terminalReturnOtpOnlyNoLocation);
+
+// OTP Only View constants
+function getOtpOnlyIconSelector(fieldName) {
+  return `[class='enduser-email-consent--icon icon--${fieldName}']`;
+}
+
+const BROWSER_OS_ICON_SELECTOR = getOtpOnlyIconSelector('desktop');
+const APP_ICON_SELECTOR = getOtpOnlyIconSelector('app');
+const GEOLOCATION_ICON_SELECTOR = getOtpOnlyIconSelector('location');
+const OTP_VALUE_SELECTOR = `[class='otp-value']`;
+
 fixture('Terminal view');
 
 async function setup(t) {
@@ -82,6 +97,8 @@ async function setup(t) {
     terminalReturnEmailConsentDeniedMock ],
   [ 'Shows correct beacon for OTP info page in email magic link flow',
     terminalReturnOtpOnlyMock ],
+  [ 'Shows correct beacon for OTP info page (w/out geolocation) in email magic link flow',
+    terminalReturnOtpOnlyNoLocationMock ],
 ].forEach(([ testTitle, mock ]) => {
   test
     .requestHooks(mock)(testTitle, async t => {
@@ -112,6 +129,7 @@ async function setup(t) {
   ['should not have Back to sign in link when flow continued in new tab', terminalTransferredEmailMock],
   ['should not have Back to sign in link when access denied on other device', accessDeniedOnOtherDeivceMock],
   ['Should not have Back to sign in link when OTP info page is accessed', terminalReturnOtpOnlyMock ],
+  ['Should not have Back to sign in link when OTP info page (w/out location) is accessed', terminalReturnOtpOnlyNoLocationMock ],
 ].forEach(([ testTitle, mock ]) => {
   test
     .requestHooks(mock)(testTitle, async t => {
@@ -129,5 +147,24 @@ async function setup(t) {
       const terminalViewPage = await setup(t);
       await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
       await t.expect(await terminalViewPage.signoutLinkExists()).ok();
+    });
+});
+
+// Make sure geolocation is only displayed on OTP Only page when present in response
+[
+  ['Should have entry for geolocation on OTP info page when accessed', terminalReturnOtpOnlyMock, true],
+  ['Should not have entry for geolocation on OTP info page (w/out location) when accessed', terminalReturnOtpOnlyNoLocationMock, false],
+].forEach(([testTitle, mock, expectedValue]) => {
+  test
+    .requestHooks(mock)(testTitle, async t => {
+      const terminalViewPage = await setup(t);
+      // Make sure OTP, Browser & OS, App Name are present
+      await t.expect(await terminalViewPage.elementExist(OTP_VALUE_SELECTOR)).ok();
+      await t.expect(await terminalViewPage.elementExist(BROWSER_OS_ICON_SELECTOR)).ok();
+      await t.expect(await terminalViewPage.elementExist(APP_ICON_SELECTOR)).ok();
+      // Ensure geolocation's presence or not based on response
+      expectedValue ?
+        await t.expect(await terminalViewPage.elementExist(GEOLOCATION_ICON_SELECTOR)).ok() :
+        await t.expect(await terminalViewPage.elementExist(GEOLOCATION_ICON_SELECTOR)).notOk();
     });
 });

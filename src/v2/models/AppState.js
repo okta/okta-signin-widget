@@ -331,46 +331,6 @@ export default Model.extend({
     const isCurrentAuthenticatorEmail = this.get('currentAuthenticatorEnrollment')?.key === AUTHENTICATOR_KEY.EMAIL;
 
     return isSameExceptMessages && isChallengeAuthenticator && isCurrentAuthenticatorEmail;
-  },
-
-  /**
-   * Returns the OTP from the contextual data of the authenticator
-   * @returns {string}
-   */
-  getOtpValue() {
-    return this.get('currentAuthenticator').contextualData.otp;
-  },
-
-  /**
-   * Returns the name of the app being logged in to during the email magic link flow
-   * @returns {string}
-   */
-  getAppLabel() {
-    return this.get('app').label;
-  },
-
-  /**
-   * Returns the client object used during the email magic link flow to provide info on the login
-   * @returns {Object}
-   */
-  getClientInfo() {
-    const client = this.get('client');
-    return {
-      browser: client.browser,
-      os: client.os,
-      geolocation: client?.geolocation || null,
-    };
-  },
-
-  /**
-   * Returns the info for the OTP only terminal view
-   * @returns {Array}
-   */
-  getOtpOnlyInfo() {
-    const appName = this.getAppLabel();
-    const otpValue = this.getOtpValue();
-    const client = this.getClientInfo();
-    return [appName, `${client.browser} on ${client.os}`, client.geolocation, otpValue];
-  },
+  }
 
 });
