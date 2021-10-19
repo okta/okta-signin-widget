@@ -9,7 +9,7 @@
       {
         "message": "There was a problem signing you into your identity provider. Please contact your administrator for help.",
         "i18n":{
-          "key": "placeholder.key"
+          "key": "idx.identity.provider.auth.error"
         },
         "class": "ERROR"
       }
