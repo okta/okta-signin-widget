@@ -6,6 +6,7 @@ const nodemon = require('nodemon');
 
 const TARGET = path.resolve(__dirname, 'target');
 const PLAYGROUND = path.resolve(__dirname, 'playground');
+const HOST = '0.0.0.0';
 const DEV_SERVER_PORT = 3000;
 const MOCK_SERVER_PORT = 3030;
 const WIDGET_RC_JS = '.widgetrc.js';
@@ -52,6 +53,7 @@ module.exports = {
     ]
   },
   devServer: {
+    host: HOST,
     static: [
       PLAYGROUND,
       TARGET,
@@ -63,7 +65,9 @@ module.exports = {
     ],
     historyApiFallback: true,
     headers: {
-      'Content-Security-Policy': `script-src http://localhost:${DEV_SERVER_PORT}`
+      'Content-Security-Policy': [
+        `script-src http://${HOST}:${DEV_SERVER_PORT}`
+      ].join(';')
     },
     compress: true,
     port: DEV_SERVER_PORT,
@@ -78,7 +82,7 @@ module.exports = {
         '/oauth2/v1/authorize',
         '/auth/services/',
       ],
-      target: `http://localhost:${MOCK_SERVER_PORT}`
+      target: `http://${HOST}:${MOCK_SERVER_PORT}`
     }],
     onBeforeSetupMiddleware() {
       const script = path.resolve(
