@@ -34,6 +34,10 @@ util.AUTH_PARAMS = AUTH_PARAMS;
 const VISIBLE_ERRORS = [
   'access_denied',
   'jit_failure_missing_fields',
+  'jit_failure_invalid_login_format',
+  'jit_failure_values_not_match_pattern',
+  'jit_failure_values_too_long',
+  'jit_failure_invalid_locale',
 ];
 
 /**

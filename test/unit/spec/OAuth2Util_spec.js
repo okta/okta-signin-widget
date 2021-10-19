@@ -60,7 +60,12 @@ describe('util/OAuth2Util', function() {
     });
 
     it.each([
-      'jit_failure_missing_fields', 'access_denied'
+      'access_denied',
+      'jit_failure_missing_fields',
+      'jit_failure_invalid_login_format',
+      'jit_failure_values_not_match_pattern',
+      'jit_failure_values_too_long',
+      'jit_failure_invalid_locale',
     ])('shows SDK errors of certain types', function(errCode, done) {
       const authException = new AuthSdkError('Auth SDK error');
       authException.errorCode = errCode;
