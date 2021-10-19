@@ -93,7 +93,7 @@ const generateOtpOnlyHTML = (fieldName, message) => {
   case 'app':
     return `<div class="enduser-email-consent--info no-translate">
               <i class="enduser-email-consent--icon icon--app"></i>
-              <div>Accessing ${message}</div>
+              <div>${'Accessing ' + message}</div>
             </div>`;
   case 'geolocation':
     return message !== null ?

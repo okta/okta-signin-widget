@@ -74,7 +74,7 @@ function getOtpOnlyIconSelector(fieldName) {
 const BROWSER_OS_ICON_SELECTOR = getOtpOnlyIconSelector('desktop');
 const APP_ICON_SELECTOR = getOtpOnlyIconSelector('app');
 const GEOLOCATION_ICON_SELECTOR = getOtpOnlyIconSelector('location');
-const OTP_VALUE_SELECTOR = `[class='otp-value']`;
+const OTP_VALUE_SELECTOR = '[class=\'otp-value\']';
 
 fixture('Terminal view');
 
