@@ -105,25 +105,6 @@ const generateOtpOnlyHTML = (fieldName, message) => {
   }
 };
 
-const populateOtpTerminalFields = () => {
-  // Get app name
-  const app = this.options.appState.get('app');
-  const appName = app.value.label;
-
-  // Get browser, OS, geolocation from client object
-  const client = this.options.appState.get('client').value;
-  const browser = client.browser;
-  const os = client.os;
-  const browserOnOsString = `${browser} on ${os}`;
-  const geolocation = client.geolocation || null;
-
-  // Get OTP from currentAuthenticator object
-  const currentAuthenticator = this.options.appState.get('currentAuthenticator');
-  const otp = currentAuthenticator.value.contextualData.otp;
-
-  return [appName, browserOnOsString, geolocation, otp];
-};
-
 const Body = BaseForm.extend({
   noButtonBar: true,
 
@@ -172,7 +153,7 @@ const Body = BaseForm.extend({
       messagesObjs.value[0].class = 'ERROR';
     } else if (this.options.appState.containsMessageWithI18nKey(IDX_RETURN_LINK_OTP_ONLY)) {
 
-      const [appName, browserOnOsString, geolocation, otp] = populateOtpTerminalFields();
+      const [appName, browserOnOsString, geolocation, otp] = this.options.appState.getOtpOnlyInfo();
 
       description = otp; // Have OTP shown first before other information
       messagesObjs.value.push(
