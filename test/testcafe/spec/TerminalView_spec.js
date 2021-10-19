@@ -13,6 +13,7 @@ import accessDeniedOnOtherDeivce from '../../../playground/mocks/data/idp/idx/te
 import terminalUnlockAccountFailedPermissions from '../../../playground/mocks/data/idp/idx/error-unlock-account-failed-permissions';
 import terminalReturnOtpOnly from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only';
 import terminalReturnOtpOnlyNoLocation from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-no-location';
+import TerminalOtpOnlyPageObject from '../framework/page-objects/TerminalOtpOnlyPageObject';
 
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -71,17 +72,18 @@ function getOtpOnlyIconSelector(fieldName) {
   return `[class='enduser-email-consent--icon icon--${fieldName}']`;
 }
 
-const BROWSER_OS_ICON_SELECTOR = getOtpOnlyIconSelector('desktop');
-const APP_ICON_SELECTOR = getOtpOnlyIconSelector('app');
-const GEOLOCATION_ICON_SELECTOR = getOtpOnlyIconSelector('location');
-const OTP_VALUE_SELECTOR = '[class=\'otp-value\']';
-
 fixture('Terminal view');
 
 async function setup(t) {
   const terminalPageObject = new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
   return terminalPageObject;
+}
+
+async function setupOtpOnly(t) {
+  const terminalOtpOnlyPageObject = new TerminalOtpOnlyPageObject(t);
+  await terminalOtpOnlyPageObject.navigateToPage();
+  return terminalOtpOnlyPageObject;
 }
 
 [
@@ -157,14 +159,14 @@ async function setup(t) {
 ].forEach(([testTitle, mock, expectedValue]) => {
   test
     .requestHooks(mock)(testTitle, async t => {
-      const terminalViewPage = await setup(t);
+      const terminalOtpOnlyPage = await setupOtpOnly(t);
       // Make sure OTP, Browser & OS, App Name are present
-      await t.expect(await terminalViewPage.elementExist(OTP_VALUE_SELECTOR)).ok();
-      await t.expect(await terminalViewPage.elementExist(BROWSER_OS_ICON_SELECTOR)).ok();
-      await t.expect(await terminalViewPage.elementExist(APP_ICON_SELECTOR)).ok();
+      await t.expect(await terminalOtpOnlyPage.doesOtpEntryExist()).ok();
+      await t.expect(await terminalOtpOnlyPage.doesBrowserOsEntryExist()).ok();
+      await t.expect(await terminalOtpOnlyPage.doesAppEntryExist()).ok();
       // Ensure geolocation's presence or not based on response
       expectedValue ?
-        await t.expect(await terminalViewPage.elementExist(GEOLOCATION_ICON_SELECTOR)).ok() :
-        await t.expect(await terminalViewPage.elementExist(GEOLOCATION_ICON_SELECTOR)).notOk();
+        await t.expect(await terminalOtpOnlyPage.doesGeolocationEntryExist()).ok() :
+        await t.expect(await terminalOtpOnlyPage.doesGeolocationEntryExist()).notOk();
     });
 });
