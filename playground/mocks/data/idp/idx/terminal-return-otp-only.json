@@ -19,7 +19,7 @@
         "otp": "123456"
       },
       "type": "email",
-      "key": "okta_email                                        ",
+      "key": "okta_email",
       "id": "aut5gn8p1c0jGB5nO0g4",
       "displayName": "Email",
       "methods": [
