@@ -67,11 +67,6 @@ const terminalReturnOtpOnlyNoLocationMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(terminalReturnOtpOnlyNoLocation);
 
-// OTP Only View constants
-function getOtpOnlyIconSelector(fieldName) {
-  return `[class='enduser-email-consent--icon icon--${fieldName}']`;
-}
-
 fixture('Terminal view');
 
 async function setup(t) {
