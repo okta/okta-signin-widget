@@ -32,15 +32,15 @@
   "client": {
     "type": "object",
     "value": {
-      "browser": "FIREFOX",
-      "os": "Mac OS X"
+      "browser": "FÌRÉFÓX",
+      "os": "Máç Ó§ X"
     }
   },
   "app": {
     "type": "object",
     "value": {
       "name": "oidc_client",
-      "label": "my 3rd magic link spa",
+      "label": "₥¥ 3řδ ₥áϱïç ℓïñƙ ƨƥá ℓôřè₥",
       "id": "0oa5u4b54akg0cVYw0g4"
     }
   }
