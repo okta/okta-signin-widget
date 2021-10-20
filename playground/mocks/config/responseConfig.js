@@ -23,6 +23,7 @@ const idx = {
     // 'error-403-security-access-denied',
     // 'error-session-expired',
     // 'error-password-reset-failed',
+    // 'error-identify-with-only-one-third-party-idp',
     // 'authenticator-enroll-email',
     // 'error-internal-server-error',
     // 'authenticator-enroll-password',
