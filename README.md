@@ -442,25 +442,25 @@ On successful [authentication](https://developer.okta.com/docs/guides/oie-intro/
   * If unsuccessful, an `error` query parameter appears in the URL.
 
 The following properties are available when using the `showSignIn` method:
-* `baseUrl` (required) - The base URL for your domain. Can be any Okta org. See [Basic config options](#basic-config-options).
+* `el` *(optional) - CSS selector which identifies the container element that the widget attaches to. If omitted, defaults to the value passed in during the construction of the Widget.
 * `clientId` (optional) - Client Id pre-registered with Okta for the OIDC authentication flow. If omitted, defaults to the value passed in during the construction of the Widget.
 * `redirectUri` (optional) - The URL that is redirected to after authentication. You must be pre-register this URL as part of client registration. Defaults to the current origin.
-* `userInteractionCodeFlow` (optional) - Extends the OIDC flow with PKCE. Set to `true`. See [Interaction code flow - getting started](interaction_code_flow.md#getting-started).
-* `authParams.issuer` (optional) - Specify a custom issuer to perform the [OIDC](https://developer.okta.com/docs/reference/api/oidc/) flow. Defaults to the baseUrl plus "/oauth2/default". See [Custom Authorization Server](https://developer.okta.com/docs/guides/customize-authz-server/overview/).
+* `scopes` *(optional)* - Specify what information to make available in the returned access or ID token. If omitted, defaults to the value of `authParams.scopes` passed in during construction of the Widget. Defaults to `['openid', 'email']`.
 
 Here is a code snippet that shows how to use `showSignIn`:
 ```javascript
 var signIn = new OktaSignIn({
-  baseUrl: 'https://{yourOktaDomain}',
+   // Assumes there is an empty element on the page with an id of ‘osw-container’
+  el: ‘#osw-container’,
   clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
-  useInteractionCodeFlow: true,
+  baseUrl: ‘https://{yourOktaDomain},
   authParams: {
     issuer: 'https://{yourOktaDomain}/oauth2/default'
   }
 });
 
-oktaSignIn.showSignIn().then(response 
+oktaSignIn.showSignIn().then(response
 => {
 oktaSignIn.authClient.setTokens(response.tokens);
 /// navigate to user home page
