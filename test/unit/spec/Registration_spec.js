@@ -443,8 +443,8 @@ Expect.describe('Registration', function() {
         expect(test.form.$('#subschemas-password').html()).toBe(
           '<div class="subschema-0 subschema-satisfied"><p class=""><span class="icon icon-16 confirm-16"></span>registration.passwordComplexity.minLength</p></div>' +
           '<div class="subschema-1 subschema-satisfied"><p class=""><span class="icon icon-16 confirm-16"></span>registration.passwordComplexity.minNumber</p></div>' + 
-          '<div class="subschema-2 subschema-error subschema-unsatisfied"><p class=""><span class="icon icon-16 error error-16-small"></span>registration.passwordComplexity.minLower</p></div>' + 
-          '<div class="subschema-3 subschema-error subschema-unsatisfied"><p class=""><span class="icon icon-16 error error-16-small"></span>registration.passwordComplexity.minUpper</p></div>' + 
+          '<div class="subschema-2 subschema-error subschema-unsatisfied"><p class="" role="alert" aria-live="polite"><span class="icon icon-16 error error-16-small"></span>registration.passwordComplexity.minLower</p></div>' + 
+          '<div class="subschema-3 subschema-error subschema-unsatisfied"><p class="" role="alert" aria-live="polite"><span class="icon icon-16 error error-16-small"></span>registration.passwordComplexity.minUpper</p></div>' + 
           '<div class="subschema-4 subschema-satisfied"><p class=""><span class="icon icon-16 confirm-16"></span>registration.passwordComplexity.excludeUsername</p></div>'
         );
       });

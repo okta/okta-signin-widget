@@ -835,6 +835,12 @@ const secondaryEmail = {
   ]
 };
 
+const selfServiceRegistration = {
+  '/api/v1/registration/form': [
+    'registration-form'
+  ]
+};
+
 module.exports = {
-  mocks: idx,
+  mocks: selfServiceRegistration,
 };

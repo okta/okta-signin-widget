@@ -6,11 +6,13 @@ const nodemon = require('nodemon');
 
 const TARGET = path.resolve(__dirname, 'target');
 const PLAYGROUND = path.resolve(__dirname, 'playground');
-const HOST = '0.0.0.0';
 const DEV_SERVER_PORT = 3000;
 const MOCK_SERVER_PORT = 3030;
 const WIDGET_RC_JS = '.widgetrc.js';
 const WIDGET_RC = '.widgetrc';
+
+// run `OKTA_SIW_HOST=0.0.0.0 yarn start --watch` to override the host
+const HOST = process.env.OKTA_SIW_HOST || 'localhost';
 
 if (!fs.existsSync(WIDGET_RC_JS) && fs.existsSync(WIDGET_RC)) {
   console.error('============================================');
@@ -65,9 +67,7 @@ module.exports = {
     ],
     historyApiFallback: true,
     headers: {
-      'Content-Security-Policy': [
-        `script-src http://${HOST}:${DEV_SERVER_PORT}`
-      ].join(';')
+      'Content-Security-Policy': `script-src http://${HOST}:${DEV_SERVER_PORT}`
     },
     compress: true,
     port: DEV_SERVER_PORT,
