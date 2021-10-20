@@ -433,13 +433,12 @@ var signIn = new OktaSignIn(
 > **Note**:
  The showSignIn method is backward compatible. You can use it with both Okta Identity Engine (as of Widget v5.5.0) and Okta Classic Engine.
 
-Recommended for most use cases. Receives an interaction code, either by Promise or redirect, depending on [sign-in policy](https://help.okta.com/oie/en-us/Content/Topics/identity-engine/procedures/set-up-default-app-redirect.htm). Renders the widget to the DOM to prompt the user to sign in.
+Recommended for most use cases. WEB applications should use the [showSignInAndRedirect](#showsigninandredirect) method.
 
-On successful [authentication](https://developer.okta.com/docs/guides/oie-intro/#deployment-models), one of the following happens:
-* The Promise is resolved to an object containing OAuth tokens.
-* The browser is redirected to Okta with information to begin a new session. Okta servers process the information and then redirect back to your app's `redirectUri`.
-  * If successful, an authorization code appears in the URL as the `code` query parameter.
-  * If unsuccessful, an `error` query parameter appears in the URL.
+Receives an interaction code, either by Promise or redirect, depending on [sign-in policy](https://help.okta.com/oie/en-us/Content/Topics/identity-engine/procedures/set-up-default-app-redirect.htm). Renders the widget to the DOM to prompt the user to sign in. Returns one of the following:
+* On success, the promise resolves.
+* On error, the promise rejects.
+* Redirects to Okta or another identity provider (IdP).
 
 The following properties are available when using the `showSignIn` method:
 * `el` *(optional) - CSS selector which identifies the container element that the widget attaches to. If omitted, defaults to the value passed in during the construction of the Widget.
