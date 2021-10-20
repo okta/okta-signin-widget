@@ -13,6 +13,12 @@ const SUPPORTED_SOCIAL_IDPS = [
   'salesforce',
   'amazon',
   'yahoojp',
+  'discord',
+  'adobe',
+  'orcid',
+  'spotify',
+  'xero',
+  'quickbooks',
 ];
 export default {
   SUPPORTED_SOCIAL_IDPS,
