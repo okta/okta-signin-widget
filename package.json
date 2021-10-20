@@ -1,7 +1,7 @@
 {
   "name": "@okta/okta-signin-widget",
   "description": "The Okta Sign-In Widget",
-  "version": "5.12.1",
+  "version": "5.12.2",
   "homepage": "https://github.com/okta/okta-signin-widget",
   "license": "Apache-2.0",
   "repository": {
