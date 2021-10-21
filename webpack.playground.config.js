@@ -11,6 +11,9 @@ const MOCK_SERVER_PORT = 3030;
 const WIDGET_RC_JS = '.widgetrc.js';
 const WIDGET_RC = '.widgetrc';
 
+// run `OKTA_SIW_HOST=0.0.0.0 yarn start --watch` to override the host
+const HOST = process.env.OKTA_SIW_HOST || 'localhost';
+
 if (!fs.existsSync(WIDGET_RC_JS) && fs.existsSync(WIDGET_RC)) {
   console.error('============================================');
   console.error(`Please migrate the ${WIDGET_RC} to ${WIDGET_RC_JS}.`);
@@ -52,6 +55,7 @@ module.exports = {
     ]
   },
   devServer: {
+    host: HOST,
     static: [
       PLAYGROUND,
       TARGET,
@@ -63,7 +67,7 @@ module.exports = {
     ],
     historyApiFallback: true,
     headers: {
-      'Content-Security-Policy': `script-src http://localhost:${DEV_SERVER_PORT}`
+      'Content-Security-Policy': `script-src http://${HOST}:${DEV_SERVER_PORT}`
     },
     compress: true,
     port: DEV_SERVER_PORT,
@@ -78,7 +82,7 @@ module.exports = {
         '/oauth2/v1/authorize',
         '/auth/services/',
       ],
-      target: `http://localhost:${MOCK_SERVER_PORT}`
+      target: `http://${HOST}:${MOCK_SERVER_PORT}`
     }],
     onBeforeSetupMiddleware() {
       const script = path.resolve(

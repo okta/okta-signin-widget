@@ -278,6 +278,16 @@ $enroll-content-spacing: 15px;
   .okta-form-subtitle.o-form-explain {
     text-align: left;
   }
+  .o-form-label {
+    padding: 0;
+    margin-bottom: 20px;
+    line-height: inherit;
+
+    legend {
+      font-weight: normal;
+      color: #777;
+    }
+  }
 }
 
 .app-logo {

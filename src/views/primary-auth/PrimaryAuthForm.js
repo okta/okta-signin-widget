@@ -126,7 +126,28 @@ export default Form.extend({
       autoComplete: 'username',
       // TODO: support a11y attrs in Courage - OKTA-279025
       render: function() {
-        this.$(`input[name=${this.options.name}]`).prop('required', true);
+        const that = this;
+        function clearAriaInvalid() {
+          that.$(this)
+            .removeAttr('aria-invalid')
+            .off('focusout', clearAriaInvalid)
+            .off('change', clearAriaInvalid);
+        }
+
+        this.$(`input[name=${this.options.name}]`)
+          // OKTA-430928: to prevent NVDA and JAWS screen readers from
+          // announcing "required invalid entry" before the user has a chance to
+          // complete the field, aria-invalid is set to "false" initially and
+          // removed on focusout or change using clearAriaInvalid()
+          .attr({
+            'aria-invalid': 'false',
+            'aria-required': 'true',
+          })
+          .prop({
+            required: true,
+          })
+          .focusout(clearAriaInvalid)
+          .change(clearAriaInvalid);
       },
     };
 
@@ -153,7 +174,27 @@ export default Form.extend({
       autoComplete: 'current-password',
       // TODO: support a11y attrs in Courage - OKTA-279025
       render: function() {
-        this.$(`input[name=${this.options.name}]`).prop('required', true);
+        const that = this;
+        function clearAriaInvalid() {
+          that.$(this)
+            .removeAttr('aria-invalid')
+            .off('focusout', clearAriaInvalid)
+            .off('change', clearAriaInvalid);
+        }
+        this.$(`input[name=${this.options.name}]`)
+          // OKTA-430928: to prevent NVDA and JAWS screen readers from
+          // announcing "required invalid entry" before the user has a chance to
+          // complete the field, aria-invalid is set to "false" initially and
+          // removed on focusout or change using clearAriaInvalid()
+          .attr({
+            'aria-invalid': 'false',
+            'aria-required': 'true',
+          })
+          .prop({
+            required: true
+          })
+          .focusout(clearAriaInvalid)
+          .change(clearAriaInvalid);
       },
     };
 
@@ -172,6 +213,7 @@ export default Form.extend({
     return !!customizedProperty;
   },
 
+  // TODO fix method name typo
   getRemeberMeCheckbox: function() {
     return {
       label: false,

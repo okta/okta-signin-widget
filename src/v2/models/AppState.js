@@ -79,6 +79,10 @@ export default Model.extend({
     return this.get('idx').neededToProceed.find((remediation) => remediation.name === formName);
   },
 
+  hasActionObject(actionName) {
+    return !!this.get('idx')?.actions?.[actionName];
+  },
+
   getRemediationAuthenticationOptions(formName) {
     const form = this.hasRemediationObject(formName);
     if (!form) {
