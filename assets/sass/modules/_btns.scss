@@ -369,3 +369,27 @@ $od-secondary-button-action-text-color: #124a94;
 .social-auth-yahoojp-button {
   @include social-auth-button-colorless-template(url('../img/icons/login/yahoojp_logo.png'));
 }
+
+.social-auth-discord-button {
+  @include social-auth-button-colorless-template(url('../img/icons/login/discord_logo.png'));
+}
+
+.social-auth-adobe-button {
+  @include social-auth-button-colorless-template(url('../img/icons/login/adobe_logo.png'));
+}
+
+.social-auth-orcid-button {
+  @include social-auth-button-colorless-template(url('../img/icons/login/orcid_logo.png'));
+}
+
+.social-auth-spotify-button {
+  @include social-auth-button-colorless-template(url('../img/icons/login/spotify_logo.png'));
+}
+
+.social-auth-xero-button {
+  @include social-auth-button-colorless-template(url('../img/icons/login/xero_logo.png'));
+}
+
+.social-auth-quickbooks-button {
+  @include social-auth-button-colorless-template(url('../img/icons/login/quickbooks_logo.png'));
+}

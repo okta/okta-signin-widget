@@ -2737,6 +2737,12 @@ Expect.describe('PrimaryAuth', function() {
         'SALESFORCE',
         'AMAZON',
         'YAHOOJP',
+        'DISCORD',
+        'ADOBE',
+        'ORCID',
+        'SPOTIFY',
+        'XERO',
+        'QUICKBOOKS',
       ];
       const settings = {
         idps: idpTypes.map(t => ({ type: t, id: '0oaDUMMY' }))
