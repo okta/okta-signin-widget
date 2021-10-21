@@ -2,7 +2,7 @@ import { loc } from 'okta';
 
 
 const getTerminalOtpEmailMagicLinkContext = (terminalOtpOnlyResponse) => {
-  const appName = terminalOtpOnlyResponse.get('app').label;
+  const appName = `Accessing ${terminalOtpOnlyResponse.get('app').label}`;
   const client = terminalOtpOnlyResponse.get('client');
   const browserOnOsString = `${client.browser} on ${client.os}`;
   const geolocation = client.geolocation;
@@ -31,14 +31,12 @@ const generateOtpOnlyHTML = (data) => {
     <i class="enduser-email-consent--icon icon--app"></i>
     <div>${data.appName}</div>
   </div>
-  ${data.geolocation ?
-    `
+  ${data.geolocation ? `
     <div class="enduser-email-consent--info no-translate">
       <i class="enduser-email-consent--icon icon--location"></i>
       <div>${data.geolocation}</div>
     </div>
-    `
-    : ''}
+    ` : ''}
   <p>${loc('idx.return.link.otponly.warning', 'login')}</p>
   `;
 };
