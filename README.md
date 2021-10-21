@@ -1349,7 +1349,7 @@ OIDC flow is required for [Social Login][].
 
 | **Note**: The value for `redirectUri` (or current origin) **must be listed** in the set of "Login Redirect URIs" shown on the application's "General Settings" in the Okta Admin UI
 
-- **idps:** External Identity Providers to use in OIDC authentication, also known as [Social Login][]. Supported IDPs ( `GOOGLE`, `FACEBOOK`, `APPLE`, `MICROSOFT` and `LINKEDIN` ) are declared with a `type` and will get distinct styling and default i18n text, while any other entry will receive a general styling and require text to be provided.  Each IDP can have additional CSS classes added via an optional `className` property.
+- **idps:** External Identity Providers to use in OIDC authentication, also known as [Social Login][]. Supported IDPs are declared with a `type` and will get distinct styling and default i18n text, while any other entry will receive a general styling and require text to be provided.  Each IDP can have additional CSS classes added via an optional `className` property.
 
     ```javascript
     idps: [
@@ -1361,6 +1361,8 @@ OIDC flow is required for [Social Login][].
       {id: '0oabds23xM3ssMjosl0g5', text: 'Login with Joe', className: 'with-joe' }
     ]
     ```
+
+    The following IdPs are supported: `ADOBE`, `AMAZON`, `APPLE`, `DISCORD`, `FACEBOOK`, `GITHUB`, `GITLAB`, `GOOGLE`, `LINE`, `LINKEDIN`, `MICROSOFT`, `ORCID`, `PAYPAL`, `PAYPAL_SANDBOX`, `QUICKBOOKS`, `SALESFORCE`, `SPOTIFY`, `XERO`, `YAHOO`, and `YAHOOJP`.
 
 - **idpDisplay:** Display order for external [identity providers][] relative to the Okta login form. Defaults to `SECONDARY`.
 
