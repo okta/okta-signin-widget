@@ -435,7 +435,7 @@ var signIn = new OktaSignIn(
 
 Recommended for most use cases. WEB applications should use the [showSignInAndRedirect](#showsigninandredirect) method.
 
-Receives an interaction code, either by Promise or redirect, depending on [sign-in policy](https://help.okta.com/oie/en-us/Content/Topics/identity-engine/procedures/set-up-default-app-redirect.htm). Renders the widget to the DOM to prompt the user to sign in. Results in one of the following:
+Renders the widget to the DOM to prompt the user to sign in. Results in one of the following:
 * On success, the promise resolves.
 * On error, the promise rejects.
 * Redirects to Okta or another identity provider (IdP).
