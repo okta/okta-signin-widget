@@ -2,6 +2,7 @@ import { loc } from 'okta';
 import { BaseForm, BaseFooter, BaseView } from '../internals';
 import { getBackToSignInLink, getSkipSetupLink, getReloadPageButtonLink } from '../utils/LinksUtil';
 import EmailAuthenticatorHeader from '../components/EmailAuthenticatorHeader';
+import { generateOtpOnlyHTML, getTerminalOtpEmailMagicLinkContext } from './consent/EmailMagicLinkOTPTerminalView';
 
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
 const IDX_RETURN_LINK_OTP_ONLY = 'idx.enter.otp.in.original.tab';
@@ -81,36 +82,6 @@ const terminalViewTitles = {
   [IDX_RETURN_LINK_OTP_ONLY]: 'idx.return.link.otponly.title',
 };
 
-const generateOtpOnlyHTML = (fieldName, message) => {
-  switch (fieldName) {
-  case 'otp':
-    return `<h1 class='otp-value'>${message}</h1>`;
-  case 'browser':
-    return `<div class="enduser-email-consent--info no-translate">
-              <i class="enduser-email-consent--icon icon--desktop"></i>
-              <div>${message}</div>
-            </div>`;
-  case 'app':
-    return `<div class="enduser-email-consent--info no-translate">
-              <i class="enduser-email-consent--icon icon--app"></i>
-              <div>${'Accessing ' + message}</div>
-            </div>`;
-  case 'geolocation':
-    return message !== null ?
-      `<div class="enduser-email-consent--info no-translate">
-              <i class="enduser-email-consent--icon icon--location"></i>
-              <div>${message}</div>
-            </div>` :
-      '';
-  case 'requestFrom':
-    return `<div class="enduser-email-consent--info no-translate">
-              <div>${message}</div>
-            </div>`;
-  default:
-    return '';
-  }
-};
-
 const Body = BaseForm.extend({
   noButtonBar: true,
 
@@ -158,21 +129,7 @@ const Body = BaseForm.extend({
     } else if (this.options.appState.containsMessageWithI18nKey(RETURN_LINK_EXPIRED_KEY)) {
       messagesObjs.value[0].class = 'ERROR';
     } else if (this.options.appState.containsMessageWithI18nKey(IDX_RETURN_LINK_OTP_ONLY)) {
-
-      const appName = this.options.appState.get('app').label;
-      const client = this.options.appState.get('client');
-      const browserOnOsString = `${client.browser} on ${client.os}`;
-      const geolocation = client.geolocation || null;
-      const otp = this.options.appState.get('currentAuthenticator').contextualData.otp;
-
-      description = generateOtpOnlyHTML('otp', otp); // Have OTP shown first before other information
-      messagesObjs.value.push(
-        { message: generateOtpOnlyHTML('requestFrom', loc('idx.return.link.otponly.request', 'login')) },
-        { message: generateOtpOnlyHTML('browser', browserOnOsString) },
-        { message: generateOtpOnlyHTML('app', appName) },
-        { message: generateOtpOnlyHTML('geolocation', geolocation) },
-        { message: loc('idx.return.link.otponly.warning', 'login') },
-      );
+      description = generateOtpOnlyHTML(getTerminalOtpEmailMagicLinkContext(this.options.appState));
     }
 
     if (description && Array.isArray(messagesObjs?.value)) {
