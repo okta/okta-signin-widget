@@ -435,10 +435,7 @@ var signIn = new OktaSignIn(
 
 Recommended for most use cases. WEB applications should use the [showSignInAndRedirect](#showsigninandredirect) method.
 
-Renders the widget to the DOM to prompt the user to sign in. Results in one of the following:
-* On success, the promise resolves.
-* On error, the promise rejects.
-* Redirects to Okta or another identity provider (IdP).
+Renders the widget to the DOM to prompt the user to sign in. On success, the promise resolves. On error, the promise rejects. If a redirect, redirects to Okta or another identity provider (IdP). See [renderEl](#renderel).
 
 The following properties are available when using the `showSignIn` method:
 * `el` *(optional) - CSS selector which identifies the container element that the widget attaches to. If omitted, defaults to the value passed in during the construction of the Widget.
@@ -578,9 +575,9 @@ success({
 
 - `stepUp` *(optional\<function\>)* - Only present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and `type` is `SESSION_STEP_UP`. `res.stepUp.finish()` call redirect the user to the URL at `res.stepUp.url`.
 
-- `next` *(optional\<function\>)* - May be present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and the response contains a redirect URL. Calling this function will redirect the user.
+- `next` *(optional\<function\>)* - May be present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and the response contains a redirect URL. Calling this function redirects the user.
 
-- `session` *(optional\<object\>)* - Only present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and `type` is `SESSION_SSO`. `res.session.setCookieAndRedirect(url)` will redirect the user to the passed URL.
+- `session` *(optional\<object\>)* - Only present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and `type` is `SESSION_SSO`. In the Classic Engine, `res.session.setCookieAndRedirect(url)` redirects the user to the passed URL (this method is deprecated from the Identity Engine).
 
 ### hide
 
