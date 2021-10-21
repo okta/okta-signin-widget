@@ -25,7 +25,7 @@ const EMAIL_ACTIVATION_EMAIL_EXPIRE = 'idx.expired.activation.token';
 const EMAIL_ACTIVATION_EMAIL_INVALID = 'idx.missing.activation.token';
 const EMAIL_ACTIVATION_EMAIL_SUBMITTED = 'idx.request.activation.email';
 const EMAIL_ACTIVATION_EMAIL_SUSPENDED = 'idx.activating.inactive.user';
-
+ 
 
 export const REGISTRATION_NOT_ENABLED = 'oie.registration.is.not.enabled';
 export const FORGOT_PASSWORD_NOT_ENABLED = 'oie.forgot.password.is.not.enabled';
@@ -123,7 +123,7 @@ const Body = BaseForm.extend({
       messagesObjs.value.push({ message: loc('oie.consent.enduser.deny.description', 'login') });
     } else if (this.options.appState.containsMessageWithI18nKey(RETURN_TO_ORIGINAL_TAB_KEY)) {
       description = loc('oie.consent.enduser.email.allow.description', 'login');
-      messagesObjs.value.push({ message: loc('oie.return.to.original.tab', 'login') });
+      messagesObjs.value.push({ message: loc('oie.return.to.original.tab', 'login')});
     } else if (this.options.appState.containsMessageWithI18nKey('tooManyRequests')) {
       description = loc('oie.tooManyRequests', 'login');
     } else if (this.options.appState.containsMessageWithI18nKey(RETURN_LINK_EXPIRED_KEY)) {
