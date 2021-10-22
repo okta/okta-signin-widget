@@ -1362,7 +1362,7 @@ OIDC flow is required for [Social Login][].
     ]
     ```
 
-    The following IdPs are supported: `ADOBE`, `AMAZON`, `APPLE`, `DISCORD`, `FACEBOOK`, `GITHUB`, `GITLAB`, `GOOGLE`, `LINE`, `LINKEDIN`, `MICROSOFT`, `ORCID`, `PAYPAL`, `PAYPAL_SANDBOX`, `QUICKBOOKS`, `SALESFORCE`, `SPOTIFY`, `XERO`, `YAHOO`, and `YAHOOJP`.
+    The `GOOGLE`, `FACEBOOK`, `APPLE`, `MICROSOFT`, and `LINKEDIN` IdP types are available to all organizations. The following IdP types are currently in [Early Access](https://developer.okta.com/docs/reference/releases-at-okta/#early-access-ea): `ADOBE`, `AMAZON`, `DISCORD`, `FACEBOOK`, `GITHUB`, `GITLAB`, `LINE`, `ORCID`, `PAYPAL`, `PAYPAL_SANDBOX`, `QUICKBOOKS`, `SALESFORCE`, `SPOTIFY`, `XERO`, `YAHOO`, and `YAHOOJP`.
 
 - **idpDisplay:** Display order for external [identity providers][] relative to the Okta login form. Defaults to `SECONDARY`.
 
