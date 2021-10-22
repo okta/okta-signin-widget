@@ -433,7 +433,7 @@ var signIn = new OktaSignIn(
 > **Note**:
  The showSignIn method is backward compatible. You can use it with both Okta Identity Engine (as of Widget v5.5.0) and Okta Classic Engine.
 
-Recommended for most use cases. WEB applications should use the [showSignInAndRedirect](#showsigninandredirect) method.
+Recommended for most use cases. [Server-side web apps](https://developer.okta.com/code/javascript/okta_sign-in_widget/#server-side-web-application-using-authorization-code-flow) should use the [showSignInAndRedirect](#showsigninandredirect) method.
 
 Renders the widget to the DOM to prompt the user to sign in. On success, the promise resolves. On error, the promise rejects. If a redirect, redirects to Okta or another identity provider (IdP). The responses and errors are the same as those for [renderEl](#renderel).
 
