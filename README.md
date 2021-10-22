@@ -435,7 +435,7 @@ var signIn = new OktaSignIn(
 
 Recommended for most use cases. WEB applications should use the [showSignInAndRedirect](#showsigninandredirect) method.
 
-Renders the widget to the DOM to prompt the user to sign in. On success, the promise resolves. On error, the promise rejects. If a redirect, redirects to Okta or another identity provider (IdP). The responses and errors are the same as thos for [renderEl](#renderel).
+Renders the widget to the DOM to prompt the user to sign in. On success, the promise resolves. On error, the promise rejects. If a redirect, redirects to Okta or another identity provider (IdP). The responses and errors are the same as those for [renderEl](#renderel).
 
 The following properties are available when using the `showSignIn` method:
 * `el` *(optional) - CSS selector which identifies the container element that the widget attaches to. If omitted, defaults to the value passed in during the construction of the Widget.
