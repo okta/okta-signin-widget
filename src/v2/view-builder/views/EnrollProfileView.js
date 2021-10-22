@@ -4,11 +4,19 @@ import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 
 const Body = BaseForm.extend({
   title() {
+    if (this.options.appState.getCurrentViewState().href.endsWith('update')) {
+      return loc('oie.registration.form.update.title', 'login');
+    }
     return loc('oie.registration.form.title', 'login');
+
   },
 
   save() {
+    if (this.options.appState.getCurrentViewState().href.endsWith('update')) {
+      return loc('oie.registration.form.update.submit', 'login');
+    }
     return loc('oie.registration.form.submit', 'login');
+
   },
   saveForm() {
     // SIW customization hook for registration
