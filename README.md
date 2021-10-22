@@ -302,7 +302,7 @@ After installing:
 
 ##### SPA Application
 
-Although a `redirectUri` is required in the configuration, no redirection will occur using this flow. The Sign-in Widget will communicate with Okta and receive tokens directly.
+Although a `redirectUri` is required in the configuration, no redirection occurs using this flow. The Sign-in Widget will communicate with Okta and receive tokens directly.
 
 ```javascript
 var signIn = new OktaSignIn(
