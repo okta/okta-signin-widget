@@ -1,8 +1,5 @@
 const templateHelper = require('../../../../config/templateHelper');
 
-
-
-
 const authn = [
   '/api/v1/authn/introspect',
   '/api/v1/authn/skip',
