@@ -16,7 +16,7 @@ The test org should have a configured SPA app with following login redirect call
 http://localhost:3000/done
 ```
 
-Each of these origins must be added as 'Trusted Origins'.  
+Each of these origins must be added as [Trusted Origins](https://help.okta.com/en/prod/Content/Topics/Security/API-trusted-origins.htm).  
 
 The test org should have at least one 'basic' user available for testing.
 
@@ -63,6 +63,6 @@ npx wdio ./test/e2e-wdio/wdio.conf.js --spec ./test/e2e-wdio/specs/{filename}
 
 * You can also add `await browser.debug()` statement in any test case to pause the browser.
 
-* You can run test in `headless modde` by adding `CHROME_HEADLESS=true` or `CI=true` to the environment variables.
+* You can run test in `headless mode` by adding `CHROME_HEADLESS=true` or `CI=true` to the environment variables.
 
 For more debugging information, check out [WebdriverIO debugging](https://webdriver.io/docs/debugging/).
