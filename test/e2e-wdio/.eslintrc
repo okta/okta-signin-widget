@@ -1,0 +1,7 @@
+{
+  "plugins": ["webdriverio"],
+  "env": {
+    "webdriverio/wdio": true,
+    "mocha": true
+  }
+}

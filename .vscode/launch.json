@@ -33,6 +33,20 @@
       ],
       "console": "integratedTerminal",
       "cwd": "${workspaceRoot}"
+    },
+    {
+      "type": "node",
+      "protocol": "inspector",
+      "request": "launch",
+      "name": "Debug with WebdriverIO",
+      "program": "${workspaceRoot}/node_modules/@wdio/cli/bin/wdio.js",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v12.13.0/bin/node",
+      "args": [
+          "${workspaceRoot}/test/e2e-wdio/wdio.conf.js"
+      ],
+      "autoAttachChildProcesses": true,
+      "console": "integratedTerminal",
+      "cwd": "${workspaceRoot}"
     }
   ]
 }
