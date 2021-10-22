@@ -577,7 +577,7 @@ success({
 
 - `next` *(optional\<function\>)* - May be present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and the response contains a redirect URL. Calling this function redirects the user.
 
-- `session` *(optional\<object\>)* - Only present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and `type` is `SESSION_SSO`. In the Classic Engine, `res.session.setCookieAndRedirect(url)` redirects the user to the passed URL (this method is deprecated from the Identity Engine).
+- `session` *(optional\<object\>)* - Only present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and `type` is `SESSION_SSO`. `res.session.setCookieAndRedirect(url)` redirects the user to the passed URL.
 
 ### hide
 
