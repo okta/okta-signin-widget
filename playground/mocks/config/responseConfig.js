@@ -848,5 +848,6 @@ const selfServiceRegistration = {
 
 module.exports = {
   // mocks: idx,
+  // mocks: authn,
   mocks: selfServiceRegistration,
 };
