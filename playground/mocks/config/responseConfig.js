@@ -109,6 +109,7 @@ const idx = {
     // 'terminal-device-not-activated',
     // 'success-with-interaction-code',
     // 'error-with-failure-redirect',
+    // 'error-unsupported-idx-response'
   ],
   '/idp/idx/challenge/answer': [
     // 'error-401-invalid-otp-passcode',
