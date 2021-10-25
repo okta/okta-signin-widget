@@ -214,7 +214,7 @@ export default Router.extend({
 
     // If we need to load a language (or apply custom i18n overrides), do
     // this now and re-run render after it's finished.
-    if (!Bundles.isLoaded(this.settings.get('languageCode'))) {
+    if (!Bundles.isLoaded(this.appState.get('languageCode'))) {
       await LanguageUtil.loadLanguage(this.appState, this.settings);
     }
 
