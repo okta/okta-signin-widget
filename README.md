@@ -60,6 +60,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
 - [API Reference](#api-reference)
   - [Interaction Code Flow](#interaction-code-flow)
   - [OktaSignIn](#oktasignin)
+  - [showSignIn](#showsignin)
   - [showSignInToGetTokens](#showsignintogettokens)
   - [showSignInAndRedirect](#showsigninandredirect)
   - [renderEl](#renderel)
@@ -161,9 +162,9 @@ There are several ways to use the Okta Sign-in Widget:
 
 ### Okta-hosted signin page (default)
 
-Okta provides a signin page, available at your [organization][]'s URL which allows the user to complete the entire authorization flow, start a SSO (Single Sign-On) session, and set the Okta [session cookie][] in the web browser. This page can be customized with a background image and logo. By default, signing in on this page will redirect the user to the Okta user dashboard.
+Okta provides a signin page, available at your [organization][]'s URL which allows the user to complete the entire authorization flow, start a SSO (Single Sign-On) session, and set the Okta [session cookie][] in the web browser. This page can be customized with a background image and logo. By default, signing in on this page redirects the user to the Okta user dashboard.
 
-The default Okta-hosted signin page can also be used to authenticate a user in an OIDC application. Your app can [redirect to a sigin-in page][] to perform the [authentication][] flow after which Okta will redirect back to the app [callback][]. Okta provides [SDKs](#sdks) in many languages to help construct the redirect URL and handle the login [callback][] as part of the [hosted flow][].
+The default Okta-hosted signin page can also be used to authenticate a user in an OIDC application. Your app can [redirect to a sigin-in page][] to perform the [authentication][] flow after which Okta redirects back to the app [callback][]. Okta provides [SDKs](#sdks) in many languages to help construct the redirect URL and handle the login [callback][] as part of the [hosted flow][].
 
 Okta provides several complete [sample applications](#sample-applications) which demonstrate how to use the Okta [hosted flow][].
 
@@ -179,7 +180,7 @@ For a completely seamless experience, which also allows for the highest level of
 
 Using an embedded widget, client-side web and native apps can avoid the round-trip redirect of the [hosted flow][]. An embedded widget is able to perform the [OIDC][] flow and return [OAuth][] tokens directly within the application. See [showSignInToGetTokens](#showsignintogettokens).
 
-Server-side web applications using the [authorization code flow][] will complete the [OIDC][] flow and receive [OAuth][] tokens on the server, so they **must use a redirect flow**. These apps should use [showSignInAndRedirect](#showsigninandredirect).
+Server-side web applications using the [authorization code flow][] complete the [OIDC][] flow and receive [OAuth][] tokens on the server, so they **must use a redirect flow**. These apps should use [showSignInAndRedirect](#showsigninandredirect).
 
 Organizations using the Okta [Identity Engine][] should follow the [interaction code flow](#interaction-code-flow).
 
@@ -226,7 +227,7 @@ yarn add @okta/okta-signin-widget
 npm install @okta/okta-signin-widget --save
 ```
 
-This will install the latest version of the Sign-in Widget to your project's `node_modules` directory.
+This installs the latest version of the Sign-in Widget to your project's `node_modules` directory.
 
 The widget source files and assets will be installed to `node_modules/@okta/okta-signin-widget/dist`, and will have this directory structure:
 
@@ -301,7 +302,7 @@ After installing:
 
 ##### SPA Application
 
-Although a `redirectUri` is required in the configuration, no redirection will occur using this flow. The Sign-in Widget will communicate with Okta and receive tokens directly.
+Although a `redirectUri` is required in the configuration, no redirection occurs using this flow. The Sign-in Widget will communicate with Okta and receive tokens directly.
 
 ```javascript
 var signIn = new OktaSignIn(
@@ -427,6 +428,45 @@ var signIn = new OktaSignIn(
 );
 ```
 
+### showSignIn
+
+> **Note**:
+ The showSignIn method is backward compatible. You can use it with both Okta Identity Engine (as of Widget v5.5.0) and Okta Classic Engine.
+
+Recommended for most use cases. [Server-side web apps](https://developer.okta.com/code/javascript/okta_sign-in_widget/#server-side-web-application-using-authorization-code-flow) should use the [showSignInAndRedirect](#showsigninandredirect) method.
+
+Renders the widget to the DOM to prompt the user to sign in. On success, the promise resolves. On error, the promise rejects. If a redirect, redirects to Okta or another identity provider (IdP). The responses and errors are the same as those for [renderEl](#renderel).
+
+The following properties are available when using the `showSignIn` method:
+* `el` *(optional) - CSS selector which identifies the container element that the widget attaches to. If omitted, defaults to the value passed in during the construction of the Widget.
+* `clientId` (optional) - Client Id pre-registered with Okta for the OIDC authentication flow. If omitted, defaults to the value passed in during the construction of the Widget.
+* `redirectUri` (optional) - The URL that is redirected to after authentication. You must be pre-register this URL as part of client registration. Defaults to the current origin.
+* `scopes` *(optional)* - Specify what information to make available in the returned access or ID token. If omitted, defaults to the value of `authParams.scopes` passed in during construction of the Widget. Defaults to `['openid', 'email']`.
+
+Here is a code snippet that shows how to use `showSignIn`:
+```javascript
+var signIn = new OktaSignIn({
+   // Assumes there is an empty element on the page with an id of ‘osw-container’
+  el: ‘#osw-container’,
+  clientId: '{{clientId of your OIDC app}}',
+  redirectUri: '{{redirectUri configured in OIDC app}}',
+  baseUrl: ‘https://{yourOktaDomain},
+  authParams: {
+    issuer: 'https://{yourOktaDomain}/oauth2/default'
+  }
+});
+
+oktaSignIn.showSignIn().then(response
+=> {
+oktaSignIn.authClient.handleLoginRedirect(res.tokens);
+})
+  .catch(function(error) {
+    // This function is invoked with errors the widget cannot recover from:
+    // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR
+    console.log('login error', error);
+  });
+```
+
 ### showSignInToGetTokens
 
 Returns a Promise. Renders the widget to the DOM to prompt the user to sign in. On successful [authentication][], the Promise will be resolved to an object containing [OAuth][] tokens.
@@ -458,7 +498,7 @@ signIn.showSignInToGetTokens({
 
 ### showSignInAndRedirect
 
-Returns a Promise. Renders the widget to the DOM to prompt the user to sign in. On successful [authentication][], the browser will be redirected to Okta with information to begin a new session. Okta's servers will process the information and then redirect back to your application's `redirectUri`. If succesful, an authorization code will exist in the URL as the "code" query parameter. If unsuccesful, there will be an "error" query parameter in the URL.
+Returns a Promise. Renders the widget to the DOM to prompt the user to sign in. On successful [authentication][], the browser will be redirected to Okta with information to begin a new session. Okta's servers will process the information and then redirect back to your application's `redirectUri`. If successful, an authorization code will exist in the URL as the "code" query parameter. If unsuccessful, there will be an "error" query parameter in the URL.
 
 * `options`
   * `el` *(optional) - CSS selector which identifies the container element that the widget attaches to. If omitted, defaults to the value passed in during the construction of the Widget.
@@ -535,9 +575,9 @@ success({
 
 - `stepUp` *(optional\<function\>)* - Only present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and `type` is `SESSION_STEP_UP`. `res.stepUp.finish()` call redirect the user to the URL at `res.stepUp.url`.
 
-- `next` *(optional\<function\>)* - May be present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and the response contains a redirect URL. Calling this function will redirect the user.
+- `next` *(optional\<function\>)* - May be present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and the response contains a redirect URL. Calling this function redirects the user.
 
-- `session` *(optional\<object\>)* - Only present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and `type` is `SESSION_SSO`. `res.session.setCookieAndRedirect(url)` will redirect the user to the passed URL.
+- `session` *(optional\<object\>)* - Only present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and `type` is `SESSION_SSO`. `res.session.setCookieAndRedirect(url)` redirects the user to the passed URL.
 
 ### hide
 
