@@ -20,6 +20,13 @@
             "form":{
               "value":[
                 {
+                  "name":"favouriteSport",
+                  "label":"Favourite Sport",
+                  "required":true,
+                  "minLength":1,
+                  "maxLength":50
+                },
+                {
                   "name":"test1",
                   "label":"Test 1",
                   "required":true,

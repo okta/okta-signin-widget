@@ -45,7 +45,6 @@ test.requestHooks(requestLogger, EnrollProfileSignUpMock)('should show sign up b
   await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.lastName')).eql('Last name');
   await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.email')).eql('Email');
   await t.expect(await enrollProfilePage.getSaveButtonLabel()).eql('Sign Up');
-  await enrollProfilePage.clickSubmitButton();
 });
 
 test.requestHooks(requestLogger, EnrollProfileSubmitMock)('should show submit button when updating info for an existing user', async t => {
@@ -58,5 +57,4 @@ test.requestHooks(requestLogger, EnrollProfileSubmitMock)('should show submit bu
   requestLogger.clear();
   await t.expect(enrollProfilePage.getFormTitle()).eql('Sign in');
   await t.expect(await enrollProfilePage.getSaveButtonLabel()).eql('Submit');
-  await enrollProfilePage.clickSubmitButton();
 });
