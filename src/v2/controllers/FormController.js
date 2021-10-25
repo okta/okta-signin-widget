@@ -266,7 +266,7 @@ export default Controller.extend({
     } else if (error.errorSummary) {
       errorObj = { responseJSON: error };
     } else {
-      Util.consoleErrorLog(error);
+      Util.logConsoleError(error);
       errorObj = { responseJSON: { errorSummary: loc('error.unsupported.response', 'login')}};
     }
     const showErrorBanner = !form?.isErrorCalloutCustomized(errorObj);

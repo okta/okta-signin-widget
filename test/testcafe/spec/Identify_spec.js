@@ -12,7 +12,7 @@ const baseIdentifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify);
 
-const identifyMockError = RequestMock()
+const identifyMockWithUnsupportedResponseError = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
@@ -142,7 +142,7 @@ test.requestHooks(identifyMock)('should show errors if required fields are empty
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
 });
 
-test.requestHooks(identifyMockError)('should show error if server response is unsupported', async t => {
+test.requestHooks(identifyMockWithUnsupportedResponseError)('should show error if server response is unsupported', async t => {
   const identityPage = await setup(t);
   await identityPage.fillIdentifierField('test');
   await identityPage.clickNextButton();

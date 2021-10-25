@@ -143,7 +143,7 @@ Util.debugMessage = function(message) {
   Logger.warn(`\n${message.replace(/^(\s)+/gm, '')}`);
 };
 
-Util.consoleErrorLog = function(message) {
+Util.logConsoleError = function(message) {
   Logger.error(message);
 };
 
