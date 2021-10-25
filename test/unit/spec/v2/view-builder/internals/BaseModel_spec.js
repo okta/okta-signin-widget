@@ -1,8 +1,8 @@
 import { BaseModel } from 'v2/view-builder/internals';
 
 describe('v2/view-builder/internals/BaseModel', function() {
-  const createModelAndVerifyPropsAndLocal = ({ uiSchema, name, optionUiSchemaConfig }, props, local = {}) => {
-    const result = BaseModel.create({ uiSchema, name }, optionUiSchemaConfig);
+  const createModelAndVerifyPropsAndLocal = ({ uiSchema, optionUiSchemaConfig }, props, local = {}) => {
+    const result = BaseModel.create({ uiSchema }, optionUiSchemaConfig);
     expect(result.prototype.props).toEqual(props);
     expect(result.prototype.local).toEqual(
       {
@@ -90,9 +90,9 @@ describe('v2/view-builder/internals/BaseModel', function() {
     ];
 
     createModelAndVerifyPropsAndLocal(
-      { uiSchema, name: 'identify' },
+      { uiSchema },
       {
-        identifier: { type: 'string', required: false, validate: expect.any(Function) },
+        identifier: { type: 'string', required: true },
         rememberMe: { type: 'boolean', required: false },
       }
     );
