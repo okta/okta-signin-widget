@@ -113,16 +113,35 @@ const checkSubSchemas = function(fieldName, model, subSchemas, showError) {
     } else {
       ele.children('p').addClass('default-schema');
     }
+
+    // clear aria role and live-region for re-validation
+    ele.children('p')
+      .removeAttr('role')
+      .removeAttr('aria-live');
+
+    // reset errors
     ele.removeClass('subschema-satisfied subschema-unsatisfied subschema-error');
+
+    // validate
     if (checkSubSchema(subSchema, value, model)) {
+      // passed
       ele.addClass('subschema-satisfied');
       ele.find('p span').removeClass('error error-16-small');
       ele.find('p span').addClass('confirm-16');
     } else {
+      // failed
       if (showError) {
         ele.find('p span').removeClass('confirm-16');
         ele.find('p span').addClass('error error-16-small');
         ele.addClass('subschema-error subschema-unsatisfied');
+
+        ele.find('p')
+          // set role="alert" so the password requirement is read by
+          // screen-readers
+          .attr('role', 'alert')
+          // set aria-live="polite" so it will "debounce" and wait to read the
+          // message between keystrokes
+          .attr('aria-live', 'polite');
       }
     }
   });
