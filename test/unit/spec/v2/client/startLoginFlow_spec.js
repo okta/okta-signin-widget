@@ -12,10 +12,15 @@ jest.mock('v2/client/introspect', () => {
     introspect: () => { }
   };
 });
-
+jest.mock('v2/client/emailVerifyCallback', () => {
+  return {
+    emailVerifyCallback: () => { }
+  };
+});
 const mocked = {
   introspect: require('v2/client/introspect'),
   interact: require('v2/client/interact'),
+  emailVerifyCallback: require('v2/client/emailVerifyCallback')
 };
 
 describe('v2/client/startLoginFlow', () => {
@@ -27,6 +32,8 @@ describe('v2/client/startLoginFlow', () => {
       .mockResolvedValue('fake interact response');
     jest.spyOn(mocked.introspect, 'introspect')
       .mockResolvedValueOnce('first introspect response');
+    jest.spyOn(mocked.emailVerifyCallback, 'emailVerifyCallback')
+      .mockResolvedValue('fake emailVerifyCallback response');
 
     testContext.settings = new Settings({
       baseUrl: 'localhost:1234',
@@ -60,6 +67,19 @@ describe('v2/client/startLoginFlow', () => {
     expect(mocked.introspect.introspect).not.toHaveBeenCalled();
   });
 
+  it('shall do email verify callback when "stateTokenExternalId" is defined', async () => {
+    const { settings } = testContext;
+    settings.set('useInteractionCodeFlow', true);
+    settings.set('stateTokenExternalId', 'abc');
+    const result = await startLoginFlow(testContext.settings);
+    expect(result).toEqual('fake emailVerifyCallback response');
+
+    expect(mocked.emailVerifyCallback.emailVerifyCallback).toHaveBeenCalledWith(testContext.settings);
+    expect(mocked.emailVerifyCallback.emailVerifyCallback).toHaveBeenCalledTimes(1);
+    expect(mocked.introspect.introspect).not.toHaveBeenCalled();
+    expect(mocked.interact.interact).not.toHaveBeenCalled();
+  });
+
   it('shall run interation flow when "useInteractionCodeFlow" is on', async () => {
     testContext.settings.set('useInteractionCodeFlow', true);
     const result = await startLoginFlow(testContext.settings);
@@ -68,6 +88,7 @@ describe('v2/client/startLoginFlow', () => {
     expect(mocked.interact.interact).toHaveBeenCalledWith(testContext.settings);
     expect(mocked.interact.interact).toHaveBeenCalledTimes(1);
     expect(mocked.introspect.introspect).not.toHaveBeenCalled();
+    expect(mocked.emailVerifyCallback.emailVerifyCallback).not.toHaveBeenCalled();
   });
 
   it('shall introspect on "settings.stateToken"', async () => {
@@ -75,6 +96,7 @@ describe('v2/client/startLoginFlow', () => {
     expect(result).toEqual('first introspect response');
 
     expect(mocked.interact.interact).not.toHaveBeenCalled();
+    expect(mocked.emailVerifyCallback.emailVerifyCallback).not.toHaveBeenCalled();
     expect(mocked.introspect.introspect).toHaveBeenCalledTimes(1);
     expect(mocked.introspect.introspect).toHaveBeenCalledWith(
       testContext.settings,
@@ -90,6 +112,7 @@ describe('v2/client/startLoginFlow', () => {
     expect(result).toEqual('first introspect response');
 
     expect(mocked.interact.interact).not.toHaveBeenCalled();
+    expect(mocked.emailVerifyCallback.emailVerifyCallback).not.toHaveBeenCalled();
     expect(mocked.introspect.introspect).toHaveBeenCalledTimes(1);
     expect(mocked.introspect.introspect).toHaveBeenCalledWith(
       testContext.settings,
@@ -104,6 +127,7 @@ describe('v2/client/startLoginFlow', () => {
     expect(result).toEqual('first introspect response');
 
     expect(mocked.interact.interact).not.toHaveBeenCalled();
+    expect(mocked.emailVerifyCallback.emailVerifyCallback).not.toHaveBeenCalled();
     expect(mocked.introspect.introspect).toHaveBeenCalledTimes(1);
     expect(mocked.introspect.introspect).toHaveBeenCalledWith(
       testContext.settings,
@@ -124,6 +148,7 @@ describe('v2/client/startLoginFlow', () => {
     expect(result).toEqual('another introspect response');
 
     expect(mocked.interact.interact).not.toHaveBeenCalled();
+    expect(mocked.emailVerifyCallback.emailVerifyCallback).not.toHaveBeenCalled();
     expect(mocked.introspect.introspect).toHaveBeenCalledTimes(2);
     expect(mocked.introspect.introspect.mock.calls[0][0]).toBe(testContext.settings);
     expect(mocked.introspect.introspect.mock.calls[0][1])

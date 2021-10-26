@@ -166,6 +166,9 @@ export default Model.extend({
 
     //PIV
     piv: ['object', false, {}],
+
+    //Email verify callback
+    stateTokenExternalId: 'string'
   },
 
   derived: {

@@ -18,6 +18,7 @@ module.exports = {
     extensions: ['.js', '.ts'],
     alias: {
       './getOktaSignIn': './getOktaSignInFromCDN',
+      // '@okta/okta-auth-js': '@okta/okta-auth-js/build/dist/okta-auth-js.umd.js'
       // '@okta/okta-signin-widget': path.resolve(__dirname, 'target/js/okta-sign-in.entry.js'),
     }
   },
@@ -25,14 +26,14 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /dist/],
         use: {
           loader: 'babel-loader'
         }
       },
       {
         test: /\.ts$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /dist/],
         use: [
           {
             loader: 'babel-loader'

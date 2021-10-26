@@ -125,8 +125,8 @@ describe('OktaSignIn v2 bootstrap', function() {
       }, idxResponse);
 
       return render().catch(err => {
-        expect(err.name).toBe('CONFIG_ERROR');
-        expect(err.message.toString()).toEqual('Error: Unknown api version: 2.0.0.  Use an exact semver version.');
+        expect(err.name).toBe('Error');
+        expect(err.message.toString()).toEqual('Unknown api version: 2.0.0.  Use an exact semver version.');
       });
     });
   });
@@ -186,8 +186,8 @@ describe('OktaSignIn v2 bootstrap', function() {
       }, responses);
       jest.spyOn(signIn.authClient.transactionManager, 'exists').mockReturnValue(false);
       return render().catch(err => {
-        expect(err.name).toBe('CONFIG_ERROR');
-        expect(err.message.toString()).toEqual('Error: Unknown api version: 2.0.0.  Use an exact semver version.');
+        expect(err.name).toBe('Error');
+        expect(err.message.toString()).toEqual('Unknown api version: 2.0.0.  Use an exact semver version.');
       });
     });
 

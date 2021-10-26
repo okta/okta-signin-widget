@@ -1,7 +1,14 @@
 {
-  "plugins": ["webdriverio"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:jasmine/recommended"
+  ],
+  "plugins": [
+    "jasmine",
+    "webdriverio"
+  ],
   "env": {
     "webdriverio/wdio": true,
-    "mocha": true
+    "jasmine": true
   }
 }

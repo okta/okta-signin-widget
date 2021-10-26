@@ -29,6 +29,10 @@ class TestAppPage {
     return browser.url(`http://localhost:3000/${path}`);
   }
 
+  async openInNewTab(path = '') {
+    await browser.newWindow(`http://localhost:3000/${path}`, { windowFeatures: 'noopener=yes' });
+  }
+
   async ssoLogout() {
     await browser.url(`${WIDGET_TEST_SERVER}/login/signout`);
   }

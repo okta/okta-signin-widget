@@ -1,5 +1,6 @@
 import {
   createTransactionMeta,
+  getSavedTransactionMeta,
   getTransactionMeta,
   saveTransactionMeta,
   clearTransactionMeta,
@@ -40,7 +41,7 @@ describe('v2/client/transactionMeta', () => {
         save: () => {}
       },
       token: {
-        prepareTokenParams: () => Promise.resolve()
+        prepareTokenParams: () => Promise.resolve({})
       }
     };
     const settings = new Model();
@@ -73,6 +74,84 @@ describe('v2/client/transactionMeta', () => {
       assertIsPromise(res);
       return res;
     });
+    it('honors `codeChallenge`, and `codeChallengeMethod` options', async () => {
+      testContext.settings.set('codeChallenge', testContext.codeChallenge);
+      testContext.settings.set('codeChallengeMethod', testContext.codeChallengeMethod);
+      const res = await createTransactionMeta(testContext.settings);
+      expect(res.codeChallenge).toBe(testContext.codeChallenge);
+      expect(res.codeChallengeMethod).toBe(testContext.codeChallengeMethod);
+    });
+  });
+
+  describe('getSavedTransactionMeta', () => {
+    it('returns a promise', () => {
+      const res = getSavedTransactionMeta(testContext.settings);
+      assertIsPromise(res);
+      return res;
+    });
+    it('loads meta using state', async () => {
+      const { authClient, settings } = testContext;
+      const state = 'abc';
+      authClient.options.state = state;
+      jest.spyOn(authClient.transactionManager, 'exists');
+      jest.spyOn(authClient.transactionManager, 'load');
+      await getSavedTransactionMeta(settings);
+      expect(authClient.transactionManager.exists).toHaveBeenCalledWith({ state });
+      expect(authClient.transactionManager.load).toHaveBeenCalledWith({ state });
+    });
+    describe('no existing meta', () => {
+      beforeEach(() => {
+        testContext.transactionMeta = null;
+        expect(testContext.authClient.transactionManager.exists()).toBe(false);
+        jest.spyOn(testContext.authClient.token, 'prepareTokenParams');
+      });
+      it('does not attempt to create new meta', async () => {
+        const res = await getSavedTransactionMeta(testContext.settings);
+        expect(res).toEqual(undefined);
+        expect(testContext.authClient.token.prepareTokenParams).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('with existing meta', () => {
+      describe('existing is valid', () => {
+        beforeEach(() => {
+          jest.spyOn(testContext.authClient.token, 'prepareTokenParams');
+        });
+        afterEach(() => {
+          expect(testContext.authClient.token.prepareTokenParams).not.toHaveBeenCalled();
+        });
+        it('returns existing meta', async () => {
+          const res = await getSavedTransactionMeta(testContext.settings);
+          expect(res).toEqual(testContext.transactionMeta);
+        });
+      });
+
+      describe('existing is invalid', () => {
+        beforeEach(() => {
+          testContext.newMeta = { foo: 'bar' };
+          jest.spyOn(testContext.authClient.token, 'prepareTokenParams').mockReturnValue(Promise.resolve(testContext.newMeta));
+          testContext.authParams.clientId = 'fake'; // will cause transaction meta to be invalid
+        });
+        afterEach(() => {
+          expect(testContext.authClient.token.prepareTokenParams).not.toHaveBeenCalled();
+        });
+
+        it('returns undefined', async () => {
+          const res = await getSavedTransactionMeta(testContext.settings);
+          expect(res).toEqual(undefined);
+        });
+
+        it('prints a warning message', async () => {
+          jest.spyOn(mocked.Logger, 'warn');
+          await getSavedTransactionMeta(testContext.settings);
+
+          expect(mocked.Logger.warn).toHaveBeenCalledWith(
+            'Saved transaction meta does not match the current configuration. ' + 
+            'This may indicate that two apps are sharing a storage key.'
+          );
+        });
+      });
+    });
   });
 
   describe('getTransactionMeta', () => {
@@ -81,6 +160,17 @@ describe('v2/client/transactionMeta', () => {
       assertIsPromise(res);
       return res;
     });
+    it('loads meta using state', async () => {
+      const { authClient, settings } = testContext;
+      const state = 'abc';
+      authClient.options.state = state;
+      jest.spyOn(authClient.transactionManager, 'exists');
+      jest.spyOn(authClient.transactionManager, 'load');
+      await getTransactionMeta(settings);
+      expect(authClient.transactionManager.exists).toHaveBeenCalledWith({ state });
+      expect(authClient.transactionManager.load).toHaveBeenCalledWith({ state });
+    });
+
     describe('no existing meta', () => {
       beforeEach(() => {
         testContext.transactionMeta = null;
@@ -187,6 +277,17 @@ describe('v2/client/transactionMeta', () => {
 
 
   describe('isTransactionMetaValid', () => {
+    it('returns true if meta has a `state`, but settings does not', () => {
+      testContext.transactionMeta.state = 'abc';
+      expect(isTransactionMetaValid(testContext.settings, testContext.transactionMeta)).toBe(true);
+    });
+
+    it('returns false if `state` does not match value in settings', () => {
+      testContext.transactionMeta.state = 'abc';
+      testContext.settings.set('state', 'def');
+      expect(isTransactionMetaValid(testContext.settings, testContext.transactionMeta)).toBe(false);
+    });
+
     it('returns false if `clientId` does not match', () => {
       testContext.transactionMeta.clientId = 'abc';
       testContext.authParams.clientId = 'def';

@@ -3,6 +3,7 @@ import { Model } from 'okta';
 
 jest.mock('v2/client/transactionMeta', () => {
   return {
+    getSavedTransactionMeta: () => {},
     clearTransactionMeta: () => {}
   };
 });
@@ -27,9 +28,6 @@ describe('v2/client/interactionCodeFlow', () => {
     const authParams = {};
     const authClient = {
       options: authParams,
-      transactionManager: {
-        load: () => transactionMeta
-      },
       token: {
         exchangeCodeForTokens: () => Promise.resolve()
       }
@@ -51,6 +49,9 @@ describe('v2/client/interactionCodeFlow', () => {
       authClient,
       redirectUri
     };
+
+    // By default return saved transaction meta
+    jest.spyOn(mocked.transactionMeta, 'getSavedTransactionMeta').mockResolvedValue(transactionMeta);
   });
   
   describe('redirect = always', () => {
@@ -135,6 +136,15 @@ describe('v2/client/interactionCodeFlow', () => {
   });
 
   describe('relying-party mode', () => {
+    it('throws an exception if transaction meta can not be loaded', async () => {
+      const { settings, idxResponse } = testContext;
+      mocked.transactionMeta.getSavedTransactionMeta.mockReturnValue(null);
+      await expect(interactionCodeFlow(settings, idxResponse)).rejects.toEqual({
+        name: 'CONFIG_ERROR',
+        message: 'Could not load transaction data from storage'
+      });
+    });
+
     it('exchanges code for tokens using the codeVerifier from saved transaction', async () => {
       jest.spyOn(testContext.authClient.token, 'exchangeCodeForTokens');
       const { interactionCode, codeVerifier } = testContext;
