@@ -20,22 +20,17 @@
             "form":{
               "value":[
                 {
-                  "name":"favouriteSport",
-                  "label":"Favourite Sport",
+                  "name":"favoriteSport",
+                  "label":"Favorite sport",
                   "required":true,
                   "minLength":1,
                   "maxLength":50
                 },
                 {
-                  "name":"test1",
-                  "label":"Test 1",
+                  "name":"newAttribute",
+                  "label":"Custom attribute",
                   "required":true,
                   "minLength":0
-                },
-                {
-                  "name":"test2",
-                  "label":"Test 2",
-                  "required":true
                 }
               ]
             }

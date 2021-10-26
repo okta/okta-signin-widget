@@ -3,13 +3,13 @@ import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import EnrollProfileViewPageObject from '../framework/page-objects/EnrollProfileViewPageObject';
 import Identify from '../../../playground/mocks/data/idp/idx/identify-with-password';
 import EnrollProfileSubmit from '../../../playground/mocks/data/idp/idx/enroll-profile-submit';
-import EnrollProfileSignUp from '../../../playground/mocks/data/idp/idx/enroll-profile-signup.json';
+import EnrollProfileSignUp from '../../../playground/mocks/data/idp/idx/enroll-profile-new';
 
 
 const EnrollProfileSignUpMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(Identify)
-  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .onRequestTo('http://localhost:3000/idp/idx/enroll')
   .respond(EnrollProfileSignUp);
 
 const EnrollProfileSubmitMock = RequestMock()
