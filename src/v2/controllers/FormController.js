@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { _, Controller } from 'okta';
+import { _, Controller, loc } from 'okta';
 import ViewFactory from '../view-builder/ViewFactory';
 import IonResponseHelper from '../ion/IonResponseHelper';
 import { getV1ClassName } from '../ion/ViewClassNamesFactory';
@@ -265,10 +265,13 @@ export default Controller.extend({
       errorObj = IonResponseHelper.convertFormErrors(error);
     } else if (error.errorSummary) {
       errorObj = { responseJSON: error };
+    } else {
+      Util.logConsoleError(error);
+      errorObj = { responseJSON: { errorSummary: loc('error.unsupported.response', 'login')}};
     }
     const showErrorBanner = !form?.isErrorCalloutCustomized(errorObj);
     // show error before updating app state.
-    model.trigger('error', model, errorObj || { responseJSON: { errorSummary: String(error) } }, showErrorBanner);
+    model.trigger('error', model, errorObj, showErrorBanner);
     idxStateError = Object.assign({}, idxStateError, {hasFormError: true});
 
     if (!showErrorBanner) {

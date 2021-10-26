@@ -143,6 +143,10 @@ Util.debugMessage = function(message) {
   Logger.warn(`\n${message.replace(/^(\s)+/gm, '')}`);
 };
 
+Util.logConsoleError = function(message) {
+  Logger.error(message);
+};
+
 // Trigger an afterError event
 Util.triggerAfterError = function(controller, err = {}) {
   if (!err.statusCode && err.xhr && err.xhr.status) {
