@@ -4,7 +4,7 @@
     "type": "array",
     "value": [
       {
-        "message": "Enter the OTP where you where authenticating.",
+        "message": "Enter the OTP where you were authenticating.",
         "i18n": {
           "key": "idx.enter.otp.in.original.tab"
         },

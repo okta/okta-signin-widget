@@ -1,12 +1,12 @@
 import { loc } from 'okta';
 
 
-const getTerminalOtpEmailMagicLinkContext = (terminalOtpOnlyResponse) => {
-  const appName = `Accessing ${terminalOtpOnlyResponse.get('app').label}`;
-  const client = terminalOtpOnlyResponse.get('client');
+const getTerminalOtpEmailMagicLinkContext = (appState) => {
+  const appName = loc('idx.return.link.otponly.accessing.app', 'login', [appState.get('app').label]);
+  const client = appState.get('client');
   const browserOnOsString = `${client.browser} on ${client.os}`;
   const geolocation = client.geolocation;
-  const otp = terminalOtpOnlyResponse.get('currentAuthenticator').contextualData.otp;
+  const otp = appState.get('currentAuthenticator').contextualData.otp;
 
   return {
     appName,
