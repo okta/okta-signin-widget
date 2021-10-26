@@ -117,6 +117,7 @@ const Body = BaseForm.extend({
 
   showMessages() {
     const messagesObjs = this.options.appState.get('messages');
+    let hasSpecialView = false;
     let description;
     if (this.options.appState.containsMessageWithI18nKey(OPERATION_CANCELED_ON_OTHER_DEVICE_KEY)) {
       description = loc('idx.operation.cancelled.on.other.device', 'login');
@@ -130,7 +131,7 @@ const Body = BaseForm.extend({
       messagesObjs.value[0].class = 'ERROR';
     } else if (this.options.appState.containsMessageWithI18nKey(IDX_RETURN_LINK_OTP_ONLY)) {
       this.add(OTPInformationTerminalView);
-      return;
+      hasSpecialView = true;
     }
 
     if (description && Array.isArray(messagesObjs?.value)) {
@@ -139,7 +140,7 @@ const Body = BaseForm.extend({
 
     this.options.appState.set('messages', messagesObjs);
     BaseForm.prototype.showMessages.call(this);
-    if (messagesObjs && Array.isArray(messagesObjs.value)) {
+    if (messagesObjs && Array.isArray(messagesObjs.value) && !hasSpecialView) {
       this.add('<div class="ion-messages-container"></div>', '.o-form-error-container');
 
       messagesObjs.value

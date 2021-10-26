@@ -50,6 +50,5 @@ const OTPInformationTerminalView = BaseEmailMagicLinkOTPTerminalView.extend({
 });
 
 export {
-  getTerminalOtpEmailMagicLinkContext,
   OTPInformationTerminalView
 };
