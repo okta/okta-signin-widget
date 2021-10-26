@@ -1,11 +1,14 @@
-import { loc } from 'okta';
-
+import { loc, View } from 'okta';
+import hbs from 'handlebars-inline-precompile';
 
 const getTerminalOtpEmailMagicLinkContext = (appState) => {
   const appName = loc('idx.return.link.otponly.accessing.app', 'login', [appState.get('app').label]);
   const client = appState.get('client');
   const browserOnOsString = loc('idx.return.link.otponly.browser.on.os', 'login', [client.browser, client.os]);
-  const geolocation = client.location ? loc('idx.return.link.otponly.city.country', 'login', [data.geolocation]) : null;
+  const clientLocationExists = client.location && client.location.city && client.location.country;
+  const geolocation = clientLocationExists ?
+    loc('idx.return.link.otponly.city.country', 'login', [client.location.city, client.location.country]) :
+    null;
   const otp = appState.get('currentAuthenticator').contextualData.otp;
 
   return {
@@ -16,32 +19,37 @@ const getTerminalOtpEmailMagicLinkContext = (appState) => {
   };
 };
 
+const BaseEmailMagicLinkOTPTerminalView = View.extend({
+  getTemplateData() {
+    return getTerminalOtpEmailMagicLinkContext(this.options.appState);
+  },
+});
 
-const generateOtpOnlyHTML = (data) => {
-  return `
-  <h1 class='otp-value'>${data.otp}</h1>
+const OTPInformationTerminalView = BaseEmailMagicLinkOTPTerminalView.extend({
+  template: hbs`
+  <h1 class='otp-value'>{{otp}}</h1>
   <div class="enduser-email-consent--info no-translate">
-    <div>${loc('idx.return.link.otponly.request', 'login')}</div>
+    <div>{{i18n code="idx.return.link.otponly.request" bundle="login"}}</div>
   </div>
   <div class="enduser-email-consent--info no-translate">
     <i class="enduser-email-consent--icon icon--desktop"></i>
-    <div>${data.browserOnOsString}</div>
+    <div>{{browserOnOsString}}</div>
   </div>
   <div class="enduser-email-consent--info no-translate">
     <i class="enduser-email-consent--icon icon--app"></i>
-    <div>${data.appName}</div>
+    <div>{{appName}}</div>
   </div>
-  ${data.geolocation ? `
-    <div class="enduser-email-consent--info no-translate">
-      <i class="enduser-email-consent--icon icon--location"></i>
-      <div>${data.geolocation}</div>
-    </div>
-    ` : ''}
-  <p>${loc('idx.return.link.otponly.warning', 'login')}</p>
-  `;
-};
+  {{#if geolocation}}
+  <div class="enduser-email-consent--info no-translate">
+    <i class="enduser-email-consent--icon icon--location"></i>
+    <div>{{geolocation}}</div>
+  </div>
+  {{/if}}
+  <p class='otp-warning'>{{i18n code="idx.return.link.otponly.warning" bundle="login"}}</p>
+  `,
+});
 
 export {
   getTerminalOtpEmailMagicLinkContext,
-  generateOtpOnlyHTML
+  OTPInformationTerminalView
 };

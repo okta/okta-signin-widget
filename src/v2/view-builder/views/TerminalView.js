@@ -2,7 +2,7 @@ import { loc } from 'okta';
 import { BaseForm, BaseFooter, BaseView } from '../internals';
 import { getBackToSignInLink, getSkipSetupLink, getReloadPageButtonLink } from '../utils/LinksUtil';
 import EmailAuthenticatorHeader from '../components/EmailAuthenticatorHeader';
-import { generateOtpOnlyHTML, getTerminalOtpEmailMagicLinkContext } from './consent/EmailMagicLinkOTPTerminalView';
+import { OTPInformationTerminalView } from './consent/EmailMagicLinkOTPTerminalView';
 
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
 const IDX_RETURN_LINK_OTP_ONLY = 'idx.enter.otp.in.original.tab';
@@ -129,7 +129,8 @@ const Body = BaseForm.extend({
     } else if (this.options.appState.containsMessageWithI18nKey(RETURN_LINK_EXPIRED_KEY)) {
       messagesObjs.value[0].class = 'ERROR';
     } else if (this.options.appState.containsMessageWithI18nKey(IDX_RETURN_LINK_OTP_ONLY)) {
-      description = generateOtpOnlyHTML(getTerminalOtpEmailMagicLinkContext(this.options.appState));
+      this.add(OTPInformationTerminalView);
+      return;
     }
 
     if (description && Array.isArray(messagesObjs?.value)) {
