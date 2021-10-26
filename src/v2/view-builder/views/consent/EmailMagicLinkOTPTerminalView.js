@@ -4,8 +4,8 @@ import { loc } from 'okta';
 const getTerminalOtpEmailMagicLinkContext = (appState) => {
   const appName = loc('idx.return.link.otponly.accessing.app', 'login', [appState.get('app').label]);
   const client = appState.get('client');
-  const browserOnOsString = `${client.browser} on ${client.os}`;
-  const geolocation = client.location;
+  const browserOnOsString = loc('idx.return.link.otponly.browser.on.os', 'login', [client.browser, client.os]);
+  const geolocation = client.location ? loc('idx.return.link.otponly.city.country', 'login', [data.geolocation]) : null;
   const otp = appState.get('currentAuthenticator').contextualData.otp;
 
   return {
@@ -34,7 +34,7 @@ const generateOtpOnlyHTML = (data) => {
   ${data.geolocation ? `
     <div class="enduser-email-consent--info no-translate">
       <i class="enduser-email-consent--icon icon--location"></i>
-      <div>${data.geolocation.city}, ${data.geolocation.country}</div>
+      <div>${data.geolocation}</div>
     </div>
     ` : ''}
   <p>${loc('idx.return.link.otponly.warning', 'login')}</p>
