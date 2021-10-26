@@ -99,6 +99,7 @@ export default BaseLoginController.extend({
     Backbone.Model.prototype.save
       .call(this.model)
       .then(function() {
+        self.model.trigger('form:set-saving-state');
         const activationToken = self.model.get('activationToken');
         const postSubmitData = activationToken ? activationToken : self.model.get('email');
 
