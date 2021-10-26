@@ -34,7 +34,10 @@
     "value": {
       "browser": "FIREFOX",
       "os": "Mac OS X",
-      "geolocation": "Toronto"
+      "location": {
+        "city": "Toronto",
+        "country": "Canada"
+      }
     }
   },
   "app": {

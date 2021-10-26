@@ -33,7 +33,8 @@
     "type": "object",
     "value": {
       "browser": "FIREFOX",
-      "os": "Mac OS X"
+      "os": "Mac OS X",
+      "location": {}
     }
   },
   "app": {
