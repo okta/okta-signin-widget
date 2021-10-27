@@ -1,0 +1,84 @@
+{
+  "version":"1.0.0",
+  "stateHandle":"02m5bP1_PZfgeox0qFcNeh5Zr71MB3gs3tw7kCsL2G",
+  "expiresAt":"2021-08-17T13:30:07.000Z",
+  "intent":"LOGIN",
+  "remediation":{
+    "type":"array",
+    "value":[
+      {
+        "rel":[
+          "create-form"
+        ],
+        "name":"enroll-profile",
+        "href":"http://localhost:3000/idp/idx/enroll/update",
+        "method":"POST",
+        "produces":"application/ion+json; okta-version=1.0.0",
+        "value":[
+          {
+            "name":"userProfile",
+            "form":{
+              "value":[
+                {
+                  "name":"favoriteSport",
+                  "label":"Favorite sport",
+                  "required":true,
+                  "minLength":1,
+                  "maxLength":50
+                },
+                {
+                  "name":"newAttribute",
+                  "label":"Custom attribute",
+                  "required":true,
+                  "minLength":0
+                }
+              ]
+            }
+          },
+          {
+            "name":"stateHandle",
+            "required":true,
+            "value":"02m5bP1_PZfgeox0qFcNeh5Zr71MB3gs3tw7kCsL2G",
+            "visible":false,
+            "mutable":false
+          }
+        ],
+        "accepts":"application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "user":{
+    "type":"object",
+    "value":{
+      "id":"00u13f9y2r7d4zB390g4",
+      "identifier": "testUser@okta.com"
+    }
+  },
+  "cancel":{
+    "rel":[
+      "create-form"
+    ],
+    "name":"cancel",
+    "href":"http://localhost:3000/idp/idx/cancel",
+    "method":"POST",
+    "produces":"application/ion+json; okta-version=1.0.0",
+    "value":[
+      {
+        "name":"stateHandle",
+        "required":true,
+        "value":"02m5bP1_PZfgeox0qFcNeh5Zr71MB3gs3tw7kCsL2G",
+        "visible":false,
+        "mutable":false
+      }
+    ],
+    "accepts":"application/json; okta-version=1.0.0"
+  },
+  "app":{
+    "type":"object",
+    "value":{
+      "name":"okta_enduser",
+      "label":"Okta Dashboard",
+      "id":"0oay6fLeui13rEyTj0g3"
+    }
+  }
+}
