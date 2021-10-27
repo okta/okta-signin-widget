@@ -217,7 +217,9 @@ export default BaseView.extend({
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
 
     // customize pre-submit form validation inline error messages
-    const props = {};
+    const props = {
+      ...ModelClass.prototype.props
+    };
     const identifierRequiredi18nKey = 'error.username.required';
     const passwordRequiredi18nKey = 'error.password.required';
     const identifierProps = ModelClass.prototype.props['identifier'];
