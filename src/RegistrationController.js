@@ -114,7 +114,6 @@ export default BaseLoginController.extend({
         );
       })
       .fail((err) => {
-        self.model.trigger('form:clear-saving-state');
         const responseJSON = err.responseJSON;
 
         if (responseJSON && responseJSON.errorCauses.length) {
