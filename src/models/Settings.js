@@ -189,10 +189,14 @@ export default Model.extend({
       cache: true,
     },
     supportedLanguages: {
-      deps: ['i18n'],
-      fn: function(i18n) {
+      deps: ['i18n', 'language'],
+      fn: function(i18n, language) {
         // Developers can pass in their own languages
-        return _.union(config.supportedLanguages, _.keys(i18n));
+        return _.union(
+          config.supportedLanguages, 
+          _.keys(i18n), 
+          _.isString(language) ? [language] : []
+        );
       },
       cache: true,
     },

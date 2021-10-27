@@ -155,12 +155,12 @@ function fetchJson(bundle, language, assets) {
     .then(txt => JSON.parse(txt));
 }
 
-function getBundles(language, assets) {
+function getBundles(language, assets, supportedLanguages) {
   // Two special cases:
   // 1. English is already bundled with the widget
   // 2. If the language is not in our config file, it means that they've
   //    probably defined it on their own.
-  if (language === 'en' || !_.contains(config.supportedLanguages, language)) {
+  if (language === 'en' || !_.contains(supportedLanguages, language)) {
     return Q({});
   }
 
@@ -209,11 +209,10 @@ export default {
     this.currentLanguage = null;
   },
 
-  loadLanguage: function(language, overrides, assets) {
+  loadLanguage: function(language, overrides, assets, supportedLanguages) {
     const parsedOverrides = parseOverrides(overrides);
     const lowerCaseLanguage = language.toLowerCase();
-
-    return getBundles(language, assets).then(bundles => {
+    return getBundles(language, assets, supportedLanguages).then(bundles => {
       // Always extend from the built in defaults in the event that some
       // properties are not translated
       this.login = _.extend({}, login, bundles.login);
