@@ -222,7 +222,8 @@ export default BaseView.extend({
     const passwordRequiredi18nKey = 'error.password.required';
     if (isCustomizedI18nKey(identifierRequiredi18nKey, this.settings)) {
       props['identifier'] = {
-        type: 'string',
+        ...ModelClass.prototype.props['identifier'],
+        required: false,
         validate: function(value) {
           if (_.isEmpty(value)) {
             return loc(identifierRequiredi18nKey, 'login');
@@ -232,7 +233,8 @@ export default BaseView.extend({
     }
     if (isCustomizedI18nKey(passwordRequiredi18nKey, this.settings)) {
       props['credentials.passcode'] = {
-        type: 'string',
+        ...ModelClass.prototype.props['credentials.passcode'],
+        required: false,
         validate: function(value) {
           if (_.isEmpty(value)) {
             return loc(passwordRequiredi18nKey, 'login');
