@@ -150,6 +150,24 @@ test.requestHooks(identifyMockWithUnsupportedResponseError)('should show error i
   await t.expect(identityPage.getErrorBoxText()).eql('There was an unsupported response from server.');
 });
 
+test.requestHooks(identifyMock)('should show customized error if required field identifier is empty', async t => {
+  const identityPage = await setup(t);
+  await rerenderWidget({
+    i18n: {
+      en: {
+        'error.username.required': 'Custom error text',
+      }
+    }
+  });
+
+  await identityPage.clickNextButton();
+  await identityPage.waitForErrorBox();
+
+  await t.expect(identityPage.hasIdentifierError()).eql(true);
+  await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
+  await t.expect(identityPage.getIdentifierErrorMessage()).eql('Custom error text');
+});
+
 test.requestHooks(identifyMock)('should have correct display text', async t => {
   // i18n values can be tested here.
   const identityPage = await setup(t);

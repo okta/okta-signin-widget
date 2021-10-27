@@ -114,6 +114,22 @@ export default class IdentityPageObject extends BasePageObject {
     return this.form.hasTextBoxErrorMessage('identifier');
   }
 
+  getIdentifierErrorMessage() {
+    return this.form.getTextBoxErrorMessage('identifier');
+  }
+
+  hasPasswordError() {
+    return this.form.hasTextBoxError('credentials\\.passcode');
+  }
+
+  hasPasswordErrorMessage() {
+    return this.form.hasTextBoxErrorMessage('credentials\\.passcode');
+  }
+
+  getPasswordErrorMessage() {
+    return this.form.getTextBoxErrorMessage('credentials\\.passcode');
+  }
+
   hasCallout() {
     return !this.form.getCallout(CALLOUT_SELECTOR);
   }

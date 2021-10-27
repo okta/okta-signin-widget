@@ -42,6 +42,25 @@ async function setup(t) {
   return identityPage;
 }
 
+test.requestHooks(identifyWithPasswordMock)('should show customized error if required field password is empty', async t => {
+  const identityPage = await setup(t);
+  await renderWidget({
+    i18n: {
+      en: {
+        'error.password.required': 'Custom error text',
+      }
+    }
+  });
+
+  await identityPage.fillIdentifierField('Test Identifier');
+  await identityPage.clickNextButton();
+  await identityPage.waitForErrorBox();
+
+  await t.expect(identityPage.hasPasswordError()).eql(true);
+  await t.expect(identityPage.hasPasswordErrorMessage()).eql(true);
+  await t.expect(identityPage.getPasswordErrorMessage()).eql('Custom error text');
+});
+
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password field, password toggle, and forgot password link', async t => {
   const identityPage = await setup(t);
 
