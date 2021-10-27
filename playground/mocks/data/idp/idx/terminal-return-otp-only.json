@@ -35,8 +35,12 @@
       "browser": "FIREFOX",
       "os": "Mac OS X",
       "location": {
+        "country": "Canada",
+        "countryISO": "CA",
         "city": "Toronto",
-        "country": "Canada"
+        "postal": "M9M",
+        "latitude": 12.3456,
+        "longitude": -98.7654
       }
     }
   },
