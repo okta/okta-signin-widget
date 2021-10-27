@@ -100,7 +100,6 @@ export default BaseLoginController.extend({
       .call(this.model)
       .then(function() {
         self.model.trigger('startSaving');
-
         const activationToken = self.model.get('activationToken');
         const postSubmitData = activationToken ? activationToken : self.model.get('email');
 
