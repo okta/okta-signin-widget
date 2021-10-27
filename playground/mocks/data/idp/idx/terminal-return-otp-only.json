@@ -40,7 +40,8 @@
         "city": "Toronto",
         "postal": "M9M",
         "latitude": 12.3456,
-        "longitude": -98.7654
+        "longitude": -98.7654,
+        "state": "Ontario"
       }
     }
   },

@@ -5,9 +5,10 @@ const getTerminalOtpEmailMagicLinkContext = (appState) => {
   const appName = loc('idx.return.link.otponly.accessing.app', 'login', [appState.get('app').label]);
   const client = appState.get('client');
   const browserOnOsString = loc('idx.return.link.otponly.browser.on.os', 'login', [client.browser, client.os]);
-  const clientLocationExists = client.location && client.location.city && client.location.country;
+  // need city and 1 of (state, country) to display location
+  const clientLocationExists = client.location && client.location.city && (client.location.state || client.location.country);
   const geolocation = clientLocationExists ?
-    loc('idx.return.link.otponly.city.country', 'login', [client.location.city, client.location.country]) :
+    loc('idx.return.link.otponly.city.country', 'login', [client.location.city, client.location.state || client.location.country]) :
     null;
   const otp = appState.get('currentAuthenticator').contextualData.otp;
 
