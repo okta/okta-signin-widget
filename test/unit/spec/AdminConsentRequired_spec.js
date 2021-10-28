@@ -1,5 +1,5 @@
 import { _ } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import createAuthClient from 'widget/createAuthClient';
 import LoginRouter from 'LoginRouter';
 import AdminConsentRequiredForm from 'helpers/dom/AdminConsentRequiredForm';
 import Util from 'helpers/mocks/Util';
@@ -21,11 +21,9 @@ function setup(settings, res = resAdminConsentRequired) {
   const successSpy = jasmine.createSpy('successSpy');
   const setNextResponse = Util.mockAjax();
   const baseUrl = window.location.origin;
-  const authClient = getAuthClient({
-    authParams: {
-      issuer: baseUrl,
-      transformErrorXHR: LoginUtil.transformErrorXHR,
-    }
+  const authClient = createAuthClient({
+    issuer: baseUrl,
+    transformErrorXHR: LoginUtil.transformErrorXHR,
   });
   const router = new LoginRouter(
     _.extend(

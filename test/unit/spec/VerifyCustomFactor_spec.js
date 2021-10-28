@@ -1,6 +1,6 @@
 /* eslint max-params:[2, 16] */
 import { _, $, internal } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import VerifyCustomFactorForm from 'helpers/dom/VerifyCustomFactorForm';
@@ -61,11 +61,9 @@ Expect.describe('VerifyCustomFactor', function() {
   async function setup(settings, lastFailedChallengeFactorData) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
-    const authClient = getAuthClient({
-      authParams: {
-        issuer: baseUrl,
-        transformErrorXHR: LoginUtil.transformErrorXHR
-      }
+    const authClient = createAuthClient({
+      issuer: baseUrl,
+      transformErrorXHR: LoginUtil.transformErrorXHR
     });
     const successSpy = jest.fn();
     const afterErrorHandler =  jest.fn();

@@ -29,8 +29,8 @@ export async function checkConsoleMessages(context = {}) {
       const parsedLog = JSON.parse(log[i]);
       if (context[i].status === 'SUCCESS') {
         await t.expect(parsedLog.status).eql('SUCCESS');
-        await t.expect(parsedLog.tokens.accessToken.accessToken).eql(context[i].accessToken);
-        await t.expect(parsedLog.tokens.idToken.idToken).eql(context[i].idToken);
+        await t.expect(parsedLog.tokens.accessToken.value).eql(context[i].accessToken);
+        await t.expect(parsedLog.tokens.idToken.value).eql(context[i].idToken);
       } else {
         await t.expect(parsedLog).eql(context[i]);
       }

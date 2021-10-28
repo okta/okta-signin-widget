@@ -2667,36 +2667,23 @@
     node-properties-parser "^0.0.2"
     properties-to-json "^0.1.7"
 
-"@okta/okta-auth-js@^5.5.0":
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-5.5.0.tgz#aef4014f2561ca1e201a6819714b176020f488f4"
-  integrity sha512-9WQSyHA0l2YV8VhjjjlaW3FiNHybxoGUwmzpz7igSpfgiItMkvMxD8LB0BeGHGvIOpo3KRJXbPUAI/3Jk7n5dw==
+"@okta/okta-auth-js@4.8.0":
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-4.8.0.tgz#b745bc826b0df16f51f481a07a89f3387d48ab45"
+  integrity sha512-uaF2jS6avN0BNJ8EuJYM+KIwm3KZRo4QNAnEUDppysnxRtPlgExU2ndMEPZoSyYbCRdEd1x8UuSWTxrXhXThKQ==
   dependencies:
     "@babel/runtime" "^7.12.5"
-    "@okta/okta-idx-js" "0.19.0"
-    "@peculiar/webcrypto" "1.1.6"
     Base64 "1.1.0"
-    atob "^2.1.2"
-    btoa "^1.2.1"
     core-js "^3.6.5"
     cross-fetch "^3.0.6"
     js-cookie "2.2.1"
+    karma-coverage "^2.0.3"
     node-cache "^5.1.2"
     p-cancelable "^2.0.0"
     text-encoding "^0.7.0"
     tiny-emitter "1.1.0"
     webcrypto-shim "^0.1.5"
     xhr2 "0.1.3"
-
-"@okta/okta-idx-js@0.19.0":
-  version "0.19.0"
-  resolved "https://registry.yarnpkg.com/@okta/okta-idx-js/-/okta-idx-js-0.19.0.tgz#f54a6692e530c481d41fac8f4e6d9d1f07683ff5"
-  integrity sha512-gtgPXIA5w/fQH5rqI1ZjrMhTE+seKSj1Xb5ryzeqW/+1YIo630pzk/JPZ1Svc8yth92uxN9M9wJLTYyUcdzI5w==
-  dependencies:
-    "@babel/runtime" "^7.12.5"
-    "@babel/runtime-corejs3" "^7.12.5"
-    core-js "^3.15.1"
-    jsonpath-plus "^5.1.0"
 
 "@okta/okta-idx-js@0.20.0":
   version "0.20.0"
@@ -2707,34 +2694,6 @@
     "@babel/runtime-corejs3" "^7.12.5"
     core-js "^3.15.1"
     jsonpath-plus "^5.1.0"
-
-"@peculiar/asn1-schema@^2.0.27":
-  version "2.0.38"
-  resolved "https://registry.yarnpkg.com/@peculiar/asn1-schema/-/asn1-schema-2.0.38.tgz#98b6f12daad275ecd6774dfe31fb62f362900412"
-  integrity sha512-zZ64UpCTm9me15nuCpPgJghSdbEm8atcDQPCyK+bKXjZAQ1735NCZXCSCfbckbQ4MH36Rm9403n/qMq77LFDzQ==
-  dependencies:
-    "@types/asn1js" "^2.0.2"
-    asn1js "^2.1.1"
-    pvtsutils "^1.2.0"
-    tslib "^2.3.0"
-
-"@peculiar/json-schema@^1.1.12":
-  version "1.1.12"
-  resolved "https://registry.yarnpkg.com/@peculiar/json-schema/-/json-schema-1.1.12.tgz#fe61e85259e3b5ba5ad566cb62ca75b3d3cd5339"
-  integrity sha512-coUfuoMeIB7B8/NMekxaDzLhaYmp0HZNPEjYRm9goRou8UZIC3z21s0sL9AWoCw4EG876QyO3kYrc61WNF9B/w==
-  dependencies:
-    tslib "^2.0.0"
-
-"@peculiar/webcrypto@1.1.6":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@peculiar/webcrypto/-/webcrypto-1.1.6.tgz#484bb58be07149e19e873861b585b0d5e4f83b7b"
-  integrity sha512-xcTjouis4Y117mcsJslWAGypwhxtXslkVdRp7e3tHwtuw0/xCp1te8RuMMv/ia5TsvxomcyX/T+qTbRZGLLvyA==
-  dependencies:
-    "@peculiar/asn1-schema" "^2.0.27"
-    "@peculiar/json-schema" "^1.1.12"
-    pvtsutils "^1.1.2"
-    tslib "^2.1.0"
-    webcrypto-core "^1.2.0"
 
 "@polka/url@^1.0.0-next.17":
   version "1.0.0-next.17"
@@ -2802,11 +2761,6 @@
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/@types/aria-query/-/aria-query-4.2.2.tgz#ed4e0ad92306a704f9fb132a0cfcf77486dbe2bc"
   integrity sha512-HnYpAE1Y6kRyKM/XkEuiRQhTHvkzMBurTHnpFLYLBGPIylZNPs9jJcuOOYWxPLJCSEtmZT0Y8rHDokKN7rRTig==
-
-"@types/asn1js@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@types/asn1js/-/asn1js-2.0.2.tgz#bb1992291381b5f06e22a829f2ae009267cdf8c5"
-  integrity sha512-t4YHCgtD+ERvH0FyxvNlYwJ2ezhqw7t+Ygh4urQ7dJER8i185JPv6oIM3ey5YQmGN6Zp9EMbpohkjZi9t3UxwA==
 
 "@types/babel__core@^7.0.0", "@types/babel__core@^7.1.7":
   version "7.1.12"
@@ -3968,13 +3922,6 @@ asn1@~0.2.3:
   dependencies:
     safer-buffer "~2.1.0"
 
-asn1js@^2.0.26, asn1js@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/asn1js/-/asn1js-2.1.1.tgz#bb3896191ebb5fb1caeda73436a6c6e20a2eedff"
-  integrity sha512-t9u0dU0rJN4ML+uxgN6VM2Z4H5jWIYm0w8LsZLzMJaQsgL3IJNbxHgmbWDvJAwspyHpDFuzUaUFh4c05UB4+6g==
-  dependencies:
-    pvutils latest
-
 assert-plus@1.0.0, assert-plus@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/assert-plus/-/assert-plus-1.0.0.tgz#f12e0f3c5d77b0b1cdd9146942e4e96c1e4dd525"
@@ -4549,11 +4496,6 @@ bser@2.1.1:
   integrity sha512-gQxTNE/GAfIIrmHLUE3oJyp5FO6HRBfhjnw4/wMmA63ZGDJnWBmgY/lyQBpnDUkGmAhbSe39tx2d/iTOAfglwQ==
   dependencies:
     node-int64 "^0.4.0"
-
-btoa@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/btoa/-/btoa-1.2.1.tgz#01a9909f8b2c93f6bf680ba26131eb30f7fa3d73"
-  integrity sha512-SB4/MIGlsiVkMcHmT+pSmIPoNDoHg+7cMzmt3Uxt628MTz2487DKSqK/fuhFBrkuqrYv5UCEnACpF4dTFNKc/g==
 
 buffer-alloc-unsafe@^1.1.0:
   version "1.1.0"
@@ -12293,18 +12235,6 @@ puppeteer-core@^10.1.0:
     unbzip2-stream "1.3.3"
     ws "7.4.6"
 
-pvtsutils@^1.1.2, pvtsutils@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/pvtsutils/-/pvtsutils-1.2.0.tgz#619e4767093d23cd600482600c16f4c36d3025bb"
-  integrity sha512-IDefMJEQl7HX0FP2hIKJFnAR11klP1js2ixCrOaMhe3kXFK6RQ2ABUCuwWaaD4ib0hSbh2fGTICvWJJhDfNecA==
-  dependencies:
-    tslib "^2.2.0"
-
-pvutils@latest:
-  version "1.0.17"
-  resolved "https://registry.yarnpkg.com/pvutils/-/pvutils-1.0.17.tgz#ade3c74dfe7178944fe44806626bd2e249d996bf"
-  integrity sha512-wLHYUQxWaXVQvKnwIDWFVKDJku9XDCvyhhxoq8dc5MFdIlRenyPI9eSfEtcvgHgD7FlvCyGAlWgOzRnZD99GZQ==
-
 q@1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.4.1.tgz#55705bcd93c5f3673530c2c2cbc0c2b3addc286e"
@@ -14645,7 +14575,7 @@ tslib@^1.9.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.11.2.tgz#9c79d83272c9a7aaf166f73915c9667ecdde3cc9"
   integrity sha512-tTSkux6IGPnUGUd1XAZHcpu85MOkIl5zX49pO+jfsie3eP0B6pyhOlLXm3cAC6T7s+euSDDUUV+Acop5WmtkVg==
 
-tslib@^2.0.0, tslib@^2.0.3, tslib@^2.1.0, tslib@^2.2.0, tslib@^2.3.0:
+tslib@^2.0.3:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
@@ -15173,17 +15103,6 @@ webauth@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/webauth/-/webauth-1.1.0.tgz#64704f6b8026986605bc3ca629952e6e26fdd100"
   integrity sha1-ZHBPa4AmmGYFvDymKZUubib90QA=
-
-webcrypto-core@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/webcrypto-core/-/webcrypto-core-1.2.0.tgz#44fda3f9315ed6effe9a1e47466e0935327733b5"
-  integrity sha512-p76Z/YLuE4CHCRdc49FB/ETaM4bzM3roqWNJeGs+QNY1fOTzKTOVnhmudW1fuO+5EZg6/4LG9NJ6gaAyxTk9XQ==
-  dependencies:
-    "@peculiar/asn1-schema" "^2.0.27"
-    "@peculiar/json-schema" "^1.1.12"
-    asn1js "^2.0.26"
-    pvtsutils "^1.1.2"
-    tslib "^2.1.0"
 
 webcrypto-shim@^0.1.5:
   version "0.1.6"

@@ -1,6 +1,6 @@
 /* eslint max-params:[2, 28], max-statements:[2, 41], camelcase:0, max-len:[2, 180] */
 import { _, $, internal } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import AuthContainer from 'helpers/dom/AuthContainer';
 import Beacon from 'helpers/dom/Beacon';
@@ -44,13 +44,11 @@ function setup(settings, requests) {
 
   const setNextResponse = Util.mockAjax(requests);
   const baseUrl = 'https://foo.com';
-  const authClient = getAuthClient({
-    authParams: {
-      issuer: baseUrl,
-      pkce: false,
-      transformErrorXHR: WidgetUtil.transformErrorXHR,
-      headers: {},
-    }
+  const authClient = createAuthClient({
+    issuer: baseUrl,
+    pkce: false,
+    transformErrorXHR: WidgetUtil.transformErrorXHR,
+    headers: {},
   });
   const successSpy = jasmine.createSpy('success');
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
