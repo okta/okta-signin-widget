@@ -9,7 +9,7 @@
 #  - [CODEOWNERS] https://help.github.com/articles/about-codeowners
 #  - [Widget] https://github.com/orgs/okta/teams/widget-contributors/members
 
-*    @pradeepdewda-okta @sherizada-okta @mauriciocastillosilva-okta @haishengwu-okta @magizh-okta @robertdamphousse-okta @TianGan-okta @aarongranick-okta @shuowu-okta
+*    @pradeepdewda-okta @sherizada-okta @mauriciocastillosilva-okta @haishengwu-okta @magizh-okta @robertdamphousse-okta @TianGan-okta @aarongranick-okta @shuowu-okta @lesterchoi-okta
 
 # Localization: pseudo-loc, i18n, etc.
 packages/@okta/pseudo-loc/    @nikhilvenkatraman-okta @jmelberg-okta
