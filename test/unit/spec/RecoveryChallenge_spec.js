@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 16] */
 import { _, internal } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import RecoveryChallengeForm from 'helpers/dom/RecoveryChallengeForm';
@@ -25,9 +25,7 @@ async function setup(settings, mockDelay = false) {
 
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
-  const authClient = getAuthClient({
-    authParams: { issuer: baseUrl }
-  });
+  const authClient = createAuthClient({ issuer: baseUrl });
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
   const router = new Router(
     _.extend(
@@ -279,7 +277,6 @@ Expect.describe('RecoveryChallenge', function() {
             statusCode: 403,
             xhr: {
               status: 403,
-              headers: { 'content-type': 'application/json' },
               responseType: 'json',
               responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae-vceygQ0R2KIGrs9IRcVfw","errorCauses":[]}',
               responseJSON: {
@@ -316,7 +313,6 @@ Expect.describe('RecoveryChallenge', function() {
             statusCode: 403,
             xhr: {
               status: 403,
-              headers: { 'content-type': 'application/json' },
               responseType: 'json',
               responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae3CaVvE33SqKyymZRyUWE7Q","errorCauses":[]}',
               responseJSON: {

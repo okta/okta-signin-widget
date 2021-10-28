@@ -1,7 +1,7 @@
 /* eslint max-len: [2, 140] */
 import OAuth2Util from 'util/OAuth2Util';
 import Util from 'util/Util';
-import getAuthClient from 'widget/getAuthClient';
+import createAuthClient from 'widget/createAuthClient';
 import Settings from '../../../src/models/Settings';
 import { AuthSdkError } from '@okta/okta-auth-js';
 import Enums from '../../../src/util/Enums';
@@ -27,9 +27,7 @@ describe('util/OAuth2Util', function() {
 
     beforeEach(function() {
       controller = new MockController();
-      authClient = getAuthClient({
-        authParams: { issuer: 'https://foo/default' }
-      });
+      authClient = createAuthClient({issuer: 'https://foo/default'});
       settings = new Settings({
         baseUrl: 'https://foo'
       });

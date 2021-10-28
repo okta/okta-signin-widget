@@ -1,5 +1,5 @@
 import { _ } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import FormView from 'helpers/dom/Form';
@@ -13,9 +13,7 @@ const itp = Expect.itp;
 function setup(settings) {
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
-  const authClient = getAuthClient({
-    authParams: { issuer: baseUrl }
-  });
+  const authClient = createAuthClient({ issuer: baseUrl });
   const router = new Router(
     _.extend(
       {

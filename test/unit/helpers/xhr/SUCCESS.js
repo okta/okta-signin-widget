@@ -2,7 +2,6 @@ export default {
   status: 200,
   responseType: 'json',
   response: {
-    headers: { 'content-type': 'application/json' },
     expiresAt: '2015-08-05T14:10:54.000Z',
     status: 'SUCCESS',
     sessionToken: 'THE_SESSION_TOKEN',

@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 16] */
 import { _, internal } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import RecoveryQuestionForm from 'helpers/dom/RecoveryQuestionForm';
@@ -18,9 +18,7 @@ const itp = Expect.itp;
 function setup(settings, res) {
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
-  const authClient = getAuthClient({
-    authParams: { issuer: baseUrl }
-  });
+  const authClient = createAuthClient({ issuer: baseUrl });
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
   const router = new Router(
     _.extend(
@@ -275,7 +273,6 @@ Expect.describe('RecoveryQuestion', function() {
             statusCode: 400,
             xhr: {
               status: 400,
-              headers: { 'content-type': 'application/json' },
               responseType: 'json',
               responseText: '{"errorCode":"E0000087","errorSummary":"The recovery question answer did not match our records.","errorLink":"E0000087","errorId":"oaelYrw2A4AThiuqrb4UhGdUg","errorCauses":[]}',
               responseJSON: {

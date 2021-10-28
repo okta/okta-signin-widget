@@ -1,4 +1,4 @@
-import getAuthClient from 'widget/getAuthClient';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import Form from 'helpers/dom/EnrollTokenFactorForm';
@@ -14,9 +14,7 @@ Expect.describe('EnrollYubikey', function() {
   function setup(startRouter) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
-    const authClient = getAuthClient({
-      authParams: { issuer: baseUrl }
-    });
+    const authClient = createAuthClient({ issuer: baseUrl });
     const router = new Router({
       el: $sandbox,
       baseUrl: baseUrl,

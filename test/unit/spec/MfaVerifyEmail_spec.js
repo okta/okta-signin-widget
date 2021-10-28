@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { _ } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import MfaVerifyForm from 'helpers/dom/MfaVerifyForm';
@@ -36,11 +36,9 @@ function createRouter(baseUrl, authClient, successSpy, settings) {
 function setupEmail() {
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
-  const authClient = getAuthClient({
-    authParams: {
-      issuer: baseUrl,
-      transformErrorXHR: LoginUtil.transformErrorXHR,
-    }
+  const authClient = createAuthClient({
+    issuer: baseUrl,
+    transformErrorXHR: LoginUtil.transformErrorXHR,
   });
   const successSpy = jasmine.createSpy('success');
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
@@ -216,7 +214,6 @@ Expect.describe('MFA Verify (Email)', function() {
             statusCode: 403,
             xhr: {
               status: 403,
-              headers: { 'content-type': 'application/json' },
               responseType: 'json',
               responseText: '{"errorCode":"E0000069","errorSummary":"User Locked","errorLink":"E0000069","errorId":"oaeGLSGT-QCT_ijvM0RT6SV0A","errorCauses":[]}',
               responseJSON: {

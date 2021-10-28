@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 16] */
 import { _ } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import Form from 'helpers/dom/EnrollWebauthnForm';
@@ -27,9 +27,7 @@ Expect.describe('EnrollWebauthn', function() {
 
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
-    const authClient = getAuthClient({
-      authParams: { issuer: baseUrl }
-    });
+    const authClient = createAuthClient({ issuer: baseUrl });
     const successSpy = jasmine.createSpy('success');
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     const router = new Router(
