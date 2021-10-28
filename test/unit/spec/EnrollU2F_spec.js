@@ -1,5 +1,5 @@
 /* eslint max-params: [2, 14] */
-import getAuthClient from 'widget/getAuthClient';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import Form from 'helpers/dom/EnrollU2FForm';
@@ -18,9 +18,7 @@ Expect.describe('EnrollU2F', function() {
   function setup(startRouter, onlyU2F) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
-    const authClient = getAuthClient({
-      authParams: { issuer: baseUrl }
-    });
+    const authClient = createAuthClient({ issuer: baseUrl });
     const successSpy = jasmine.createSpy('success');
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     const router = new Router({

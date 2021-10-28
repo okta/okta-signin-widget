@@ -84,28 +84,13 @@ Expect.describe('OktaSignIn initialization', function() {
   describe('Auth Client', function() {
     Expect.describe('authClient option', function() {
       it('accepts an authClient option', function() {
-        const authClient = { 
-          foo: 'bar', 
-          options: {},
-          _oktaUserAgent: {
-            addEnvironment: jest.fn()
-          } 
-        };
+        const authClient = { foo: 'bar', options: {} };
         signIn = new Widget({
           baseUrl: url,
           authClient,
         });
         expect(signIn.authClient).toBe(authClient);
       });
-      // TODO: https://oktainc.atlassian.net/browse/OKTA-433378
-      // it('throws error if _oktaUserAgent field is not exist', function() {
-      //   const authClient = { foo: 'bar' };
-      //   const expectedError = new Errors.ConfigError('The passed in authClient should be version 5.4.0 or above.');
-      //   expect(() => new Widget({
-      //     baseUrl: url,
-      //     authClient,
-      //   })).toThrow(expectedError);
-      // });
     });
 
     Expect.describe('Config', function() {

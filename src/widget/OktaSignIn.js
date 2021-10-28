@@ -2,7 +2,7 @@ import _ from 'underscore';
 import Errors from 'util/Errors';
 import Util from 'util/Util';
 import Logger from 'util/Logger';
-import getAuthClient from 'widget/getAuthClient';
+import createAuthClient from 'widget/createAuthClient';
 import buildRenderOptions from 'widget/buildRenderOptions';
 import createRouter from 'widget/createRouter';
 import V1Router from 'LoginRouter';
@@ -136,7 +136,18 @@ var OktaSignIn = (function() {
         See: https://developer.okta.com/code/javascript/okta_sign-in_widget#cdn
       `);
 
-    var authClient = getAuthClient(options);
+    var authParams = _.extend({
+      clientId: options.clientId,
+      redirectUri: options.redirectUri,
+      state: options.state,
+      scopes: options.scopes
+    }, options.authParams);
+
+    if (!authParams.issuer) {
+      authParams.issuer = options.baseUrl + '/oauth2/default';
+    }
+
+    var authClient = options.authClient ? options.authClient : createAuthClient(authParams);
 
     // validate authClient configuration against widget options
     if (options.useInteractionCodeFlow  && authClient.isPKCE() === false) {

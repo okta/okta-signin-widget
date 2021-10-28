@@ -1,6 +1,6 @@
 /* eslint max-params:[2, 15] */
 import { internal } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import Form from 'helpers/dom/EnrollCustomFactorForm';
@@ -18,9 +18,7 @@ Expect.describe('EnrollActivateCustomFactor', function() {
     const initResponse = getInitialResponse(options);
     const setNextResponse = Util.mockAjax([initResponse]);
     const baseUrl = 'https://foo.com';
-    const authClient = getAuthClient({
-      authParams: { issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR }
-    });
+    const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
     const successSpy = jasmine.createSpy('success');
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     const router = new Router({

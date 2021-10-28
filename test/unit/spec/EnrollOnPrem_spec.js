@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 15] */
 import { _ } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import Form from 'helpers/dom/EnrollTokenFactorForm';
@@ -19,9 +19,7 @@ Expect.describe('EnrollOnPrem', function() {
   function setup(response, includeOnPrem, startRouter) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
-    const authClient = getAuthClient({
-      authParams: { issuer: baseUrl }
-    });
+    const authClient = createAuthClient({ issuer: baseUrl });
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     const router = new Router({
       el: $sandbox,
@@ -184,7 +182,6 @@ Expect.describe('EnrollOnPrem', function() {
                 statusCode: 400,
                 xhr: {
                   status: 400,
-                  headers: { 'content-type': 'application/json' },
                   responseType: 'json',
                   responseText: '{"errorCode":"E0000001","errorSummary":"Api validation failed: factorEnrollRequest","errorLink":"E0000001","errorId":"oaepmWRr7i5TZa2AQv8sNmu6w","errorCauses":[]}',
                   responseJSON: {
@@ -331,7 +328,6 @@ Expect.describe('EnrollOnPrem', function() {
                 statusCode: 400,
                 xhr: {
                   status: 400,
-                  headers: { 'content-type': 'application/json' },
                   responseType: 'json',
                   responseText: '{"errorCode":"E0000001","errorSummary":"Api validation failed: factorEnrollRequest","errorLink":"E0000001","errorId":"oaepmWRr7i5TZa2AQv8sNmu6w","errorCauses":[]}',
                   responseJSON: {

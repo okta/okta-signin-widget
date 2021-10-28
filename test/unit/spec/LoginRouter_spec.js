@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 34], max-statements: 0, max-len: [2, 210], camelcase:0 */
 import { _, $, Backbone, Router, internal } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import createAuthClient from 'widget/createAuthClient';
 import LoginRouter from 'LoginRouter';
 import PrimaryAuthController from 'PrimaryAuthController';
 import SecurityBeacon from 'views/shared/SecurityBeacon';
@@ -75,7 +75,7 @@ Expect.describe('LoginRouter', function() {
         authParams[parts[1]] = settings[key];
       }
     });
-    const authClient = settings.authClient || getAuthClient({ authParams });
+    const authClient = createAuthClient(authParams);
     const eventSpy = jasmine.createSpy('eventSpy');
     const afterRenderHandler = jasmine.createSpy('afterRenderHandler');
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
@@ -332,6 +332,15 @@ Expect.describe('LoginRouter', function() {
 
     expect(err.name).toBe('CONFIG_ERROR');
     expect(err.message).toEqual('"el" is a required widget parameter');
+  });
+  it('throws a ConfigError if issuer is not passed as a widget param', function() {
+    const fn = function() {
+      setup({ authClient: createAuthClient({ issuer: undefined }) });
+    };
+
+    expect(fn).toThrowError(
+      'No issuer passed to constructor. Required usage: new OktaAuth({issuer: "https://{yourOktaDomain}.com/oauth2/{authServerId}"})'
+    );
   });
   itp(
     'renders the primary autenthentication form when no globalSuccessFn and globalErrorFn are passed as widget params',
@@ -899,7 +908,6 @@ Expect.describe('LoginRouter', function() {
           statusCode: 401,
           xhr: {
             status: 401,
-            headers: { 'content-type': 'application/json' },
             responseType: 'json',
             responseText: '{"errorCode":"E0000011","errorSummary":"Invalid token provided","errorLink":"E0000011","errorId":"oaeuiUWCPr6TUSkOclgVGlWqw","errorCauses":[]}',
             responseJSON: {
@@ -958,7 +966,6 @@ Expect.describe('LoginRouter', function() {
               statusCode: 401,
               xhr: {
                 status: 401,
-                headers: { 'content-type': 'application/json' },
                 responseType: 'json',
                 responseText: '{"errorCode":"E0000011","errorSummary":"Invalid token provided","errorLink":"E0000011","errorId":"oaeuiUWCPr6TUSkOclgVGlWqw","errorCauses":[]}',
                 responseJSON: {
@@ -1475,7 +1482,7 @@ Expect.describe('LoginRouter', function() {
           const data = successSpy.calls.argsFor(0)[0];
 
           expect(data.status).toBe('SUCCESS');
-          expect(data.tokens.idToken.idToken).toBe(VALID_ID_TOKEN);
+          expect(data.tokens.idToken.value).toBe(VALID_ID_TOKEN);
           expect(data.tokens.idToken.claims).toEqual({
             amr: ['pwd'],
             aud: 'someClientId',

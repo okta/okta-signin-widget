@@ -1,5 +1,5 @@
 /* eslint max-params: [2, 15] */
-import getAuthClient from 'widget/getAuthClient';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import Form from 'helpers/dom/EnrollTokenFactorForm';
@@ -16,9 +16,7 @@ Expect.describe('EnrollSymantecVip', function() {
   function setup(startRouter) {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
-    const authClient = getAuthClient({
-      authParams: { issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR }
-    });
+    const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     const router = new Router({
       el: $sandbox,
@@ -136,7 +134,6 @@ Expect.describe('EnrollSymantecVip', function() {
               statusCode: 400,
               xhr: {
                 status: 400,
-                headers: { 'content-type': 'application/json' },
                 responseType: 'json',
                 responseText: '{"errorCode":"E0000001","errorSummary":"Api validation failed: factorEnrollRequest","errorLink":"E0000001","errorId":"oaepmWRr7i5TZa2AQv8sNmu6w","errorCauses":[{"errorSummary":"Invalid Phone Number."}]}',
                 responseJSON: {

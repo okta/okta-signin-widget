@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 19] */
 import { _ } from 'okta';
-import getAuthClient from 'widget/getAuthClient';
+import createAuthClient from 'widget/createAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import Form from 'helpers/dom/EnrollQuestionsForm';
@@ -22,9 +22,7 @@ const itp = Expect.itp;
 function setup(res, startRouter, languagesResponse) {
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
-  const authClient = getAuthClient({
-    authParams: { issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR }
-  });
+  const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
   const successSpy = jasmine.createSpy('success');
   const router = new Router({
@@ -258,7 +256,6 @@ function testEnrollQuestion(allFactors, expectedStateToken) {
             statusCode: 400,
             xhr: {
               status: 400,
-              headers: { 'content-type': 'application/json' },
               responseType: 'json',
               responseText: '{"errorCode":"E0000001","errorSummary":"Api validation failed: factorEnrollRequest","errorLink":"E0000001","errorId":"oaeaHotRD81TUCq9ADltRSjVA","errorCauses":[{"errorSummary":"Invalid Profile."}]}',
               responseJSON: {
