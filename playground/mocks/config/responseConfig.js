@@ -841,9 +841,6 @@ const selfServiceRegistration = {
   '/api/v1/authn': [
     'success-001',
   ],
-  '/api/v1/registration/form': [
-    'form',
-  ],
   '/api/v1/registration/:id/register': [
     'register',
   ]
