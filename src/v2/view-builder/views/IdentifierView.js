@@ -218,10 +218,11 @@ export default BaseView.extend({
     // customize pre-submit form validation inline error messages
     const identifierRequiredi18nKey = 'error.username.required';
     const passwordRequiredi18nKey = 'error.password.required';
+    const props = ModelClass.prototype.props;
     const validate = (attr) => {
       const inlineErrors = {};
-      const isEmptyIdentifier = ModelClass.prototype.props['identifier'] && !attr?.['identifier'];
-      const isEmptyPassword = ModelClass.prototype.props['credentials.passcode'] && !attr?.['credentials.passcode'];
+      const isEmptyIdentifier = props['identifier'] && !attr?.['identifier'];
+      const isEmptyPassword = props['credentials.passcode'] && !attr?.['credentials.passcode'];
       if (isEmptyIdentifier && isCustomizedI18nKey(identifierRequiredi18nKey, this.settings)) {
         inlineErrors['identifier'] = loc(identifierRequiredi18nKey, 'login');
       }
