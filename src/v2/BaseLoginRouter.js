@@ -27,6 +27,7 @@ import Header from 'views/shared/Header';
 import AppState from './models/AppState';
 import sessionStorageHelper from './client/sessionStorageHelper';
 import {
+  introspect,
   startLoginFlow,
   interactionCodeFlow,
   configIdxJsClient,
@@ -127,6 +128,11 @@ export default Router.extend({
       sessionStorageHelper.removeStateHandle();
     }
 
+    // TODO: remove this
+    console.log('UpdateAppState:', idxResponse.rawIdxState.stateHandle);
+    const intro = await introspect(this.settings, idxResponse.context.stateHandle);
+    console.log(intro);
+
     // transform response
     const ionResponse = transformIdxResponse(this.settings, idxResponse, lastResponse);
 
@@ -201,35 +207,46 @@ export default Router.extend({
   },
 
   async handleInitialView(originalIdxResp) {
-    // ensure no current state/idx flow exists
-    // TODO:
-    // const idxResponse = await originalIdxResp.actions.cancel();
-    const idxResponse = originalIdxResp;
+    let idxResponse = originalIdxResp;
 
-    const initialView = this.settings.get('initialView');
-    if (initialView === 'identify') {
-      // TODO: revisit, based on assumption `identify` is the top-most remediation. Confirm this?
-      // return idxResponse.proceed('identify');
+    try {
+      const initialView = this.settings.get('initialView');
+      if (initialView === 'login') {
+        // TODO: revisit, based on assumption `identify` is the top-most remediation. Confirm this?
+        // return idxResponse.proceed('identify');
+      }
+      else if (initialView === 'register') {
+        idxResponse = await idxResponse.proceed('select-enroll-profile');
+      }
+      else if (initialView === 'reset') {
+        // if `currentAuthenticator-recover` action is not available on the parsed idxResponse,
+        // reject an InitialViewError to be caught in `handleOieRender`, this mimics a bad .proceed() call
+        idxResponse = idxResponse.actions['currentAuthenticator-recover'] ?
+          idxResponse.actions['currentAuthenticator-recover']() :
+          Promise.reject(new Errors.InitialViewError('Unable to invoke desired action', initialView));
+      }
+      else if (initialView === 'unlock') {
+        // requires: introspect -> identify-recovery -> select-authenticator-unlock-account
+        idxResponse = await idxResponse.proceed('identify-recovery');
+      }
+      else {
+        Logger.warn(`Unknown \`initialView\` value: ${initialView}`);
+      }
+
+      // default to original idx response
+      return await idxResponse;
     }
-    else if (initialView === 'register') {
-      return await idxResponse.proceed('select-enroll-profile');
-    }
-    else if (initialView === 'reset-password') {
-      // TODO: handle when not available action
-      if (idxResponse.actions['currentAuthenticator-recover']) {
-        return idxResponse.actions['currentAuthenticator-recover']();
+    catch (err) {
+      // catches and handles `Unknown remediation` errors thrown by this.handleInitialView (via okta-idx-js)
+      if (typeof err === 'string' && err.startsWith('Unknown remediation choice')) {
+        Logger.warn(`initialView [${this.settings.get('initialView')}] not valid with current Org configurations`);
+        throw new Errors.InitialViewError('Unable to proceed to desired view', this.settings.get('initialView'));
+      }
+      else {
+        // do not catch non-`Errors.InitialViewError` errors here
+        throw err;
       }
     }
-    else if (initialView === 'unlock') {
-      // requires: introspect -> identify-recovery -> select-authenticator-unlock-account
-      return await idxResponse.proceed('identify-recovery');
-    }
-    else {
-      Logger.warn(`Unknown \`initialView\` value: ${initialView}`);
-    }
-
-    // default to original idx response
-    return idxResponse;
   },
 
   async handleOieRender() {
@@ -245,9 +262,7 @@ export default Router.extend({
       this.appState.trigger('updateAppState', idxResp);
     }
     catch (err) {
-      // catches and handles `Unknown remediation` errors thrown by this.handleInitialView (and okta-idx-js)
-      if (typeof err === 'string' && err.startsWith('Unknown remediation choice')) {
-        Logger.warn(`initialView [${this.settings.get('initialView')}] not valid with current Org configurations`);
+      if (err instanceof Errors.InitialViewError) {
         this.appState.trigger('updateAppState', originalResp);
         this.appState.set('messages', {value: [{message: 'Please contact Jeff'}]});
       }
@@ -255,6 +270,9 @@ export default Router.extend({
         // do not catch unknown errors here
         throw err;
       }
+    }
+    finally {
+      this.isFirstRender = false;
     }
   },
 
@@ -283,7 +301,12 @@ export default Router.extend({
     // state token (which will be set into AppState)
     if (this.settings.get('oieEnabled')) {
       try {
-        await this.handleOieRender();
+        // await this.handleOieRender();
+        const { idxResponse, message } = await startLoginFlow(this.settings);
+        this.appState.trigger('updateAppState', idxResponse);
+        if (message) {
+          this.appState.set('messages', {value: [{ message }]});
+        }
       } catch (errorResp) {
         this.appState.trigger('remediationError', errorResp.error || errorResp);
       } finally {
@@ -321,7 +344,7 @@ export default Router.extend({
 
   /**
     * When "Remember My Username" is enabled, we save the identifier in a cookie
-    * so that the next time the user visits the SIW, the identifier field can be 
+    * so that the next time the user visits the SIW, the identifier field can be
     * pre-filled with this value.
    */
   updateIdentifierCookie: function(idxResponse) {
@@ -335,7 +358,7 @@ export default Router.extend({
     } else {
       // We remove the cookie explicitly if this feature is disabled.
       CookieUtil.removeUsernameCookie();
-    }    
+    }
   },
 
   hasAuthenticationSucceeded(idxResponse) {
@@ -345,6 +368,7 @@ export default Router.extend({
   },
 
   restartLoginFlow() {
+    console.log('### RESTART LOGIN FLOW CALLED');
     this.render(this.controller.constructor);
   },
 

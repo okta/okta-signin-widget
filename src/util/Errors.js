@@ -63,6 +63,13 @@ function WebauthnAbortError() {
 }
 WebauthnAbortError.prototype = new Error();
 
+function InitialFlowError(message, viewSetting) {
+  this.name = Enums.INITIAL_FLOW_ERROR;
+  this.message = message;
+  this.viewSetting = viewSetting;
+}
+InitialFlowError.prototype = new Error();
+
 export default {
   ConfigError: ConfigError,
   UnsupportedBrowserError: UnsupportedBrowserError,
@@ -72,4 +79,5 @@ export default {
   U2FError: U2FError,
   WebAuthnError: WebAuthnError,
   WebauthnAbortError: WebauthnAbortError,
+  InitialFlowError: InitialFlowError,
 };
