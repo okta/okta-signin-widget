@@ -1,4 +1,4 @@
-import { loc, createCallout, _ } from 'okta';
+import { loc, createCallout } from 'okta';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { BaseForm, BaseView, createIdpButtons, createCustomButtons } from '../internals';
 import DeviceFingerprinting from '../utils/DeviceFingerprinting';
@@ -215,40 +215,25 @@ export default BaseView.extend({
 
   createModelClass() {
     const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
-
+    
     // customize pre-submit form validation inline error messages
-    const props = {
-      ...ModelClass.prototype.props
-    };
     const identifierRequiredi18nKey = 'error.username.required';
     const passwordRequiredi18nKey = 'error.password.required';
-    const identifierProps = ModelClass.prototype.props['identifier'];
-    const passwordProps = ModelClass.prototype.props['credentials.passcode'];
-    if (identifierProps?.required && isCustomizedI18nKey(identifierRequiredi18nKey, this.settings)) {
-      props['identifier'] = {
-        ...identifierProps,
-        required: false,
-        validate: function(value) {
-          if (_.isEmpty(value)) {
-            return loc(identifierRequiredi18nKey, 'login');
-          }
-        }
-      };
-    }
-    if (passwordProps?.required && isCustomizedI18nKey(passwordRequiredi18nKey, this.settings)) {
-      props['credentials.passcode'] = {
-        ...passwordProps,
-        required: false,
-        validate: function(value) {
-          if (_.isEmpty(value)) {
-            return loc(passwordRequiredi18nKey, 'login');
-          }
-        }
-      };
-    }
+    const validate = (attr) => {
+      const inlineErrors = {};
+      const isEmptyIdentifier = ModelClass.prototype.props['identifier'] && !attr?.['identifier'];
+      const isEmptyPassword = ModelClass.prototype.props['credentials.passcode'] && !attr?.['credentials.passcode'];
+      if (isEmptyIdentifier && isCustomizedI18nKey(identifierRequiredi18nKey, this.settings)) {
+        inlineErrors['identifier'] = loc(identifierRequiredi18nKey, 'login');
+      }
+      if (isEmptyPassword && isCustomizedI18nKey(passwordRequiredi18nKey, this.settings)) {
+        inlineErrors['credentials.passcode'] = loc(passwordRequiredi18nKey, 'login');
+      }
+      return inlineErrors;
+    };
 
     return ModelClass.extend({
-      props
+      validate
     });
   },
 
