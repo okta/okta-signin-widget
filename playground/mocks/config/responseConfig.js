@@ -15,6 +15,8 @@ const idx = {
 
   '/idp/idx/introspect': [
     'identify',
+    // 'authenticator-enroll-ov-qr-enable-biometrics',
+    // 'authenticator-verification-okta-verify-push',
     // 'error-401-invalid-otp-passcode',
     // 'error-with-failure-redirect',
     // 'error-feature-not-enabled',
@@ -145,6 +147,9 @@ const idx = {
     // 'authenticator-verification-okta-verify-push',
     // 'authenticator-verification-custom-app-push',
     // 'authenticator-verification-custom-app-push-reject',
+    // 'authenticator-enroll-ov-sms-enable-biometrics',
+    // 'okta-verify-version-upgrade',
+    // 'okta-verify-uv-verify-enable-biometrics'
   ],
   '/idp/idx/challenge': [
     // 'authenticator-verification-webauthn',
@@ -496,6 +501,15 @@ const ovTotpError = {
   '/idp/idx/challenge/answer': [
     'error-okta-verify-totp',
     // 'error-okta-verify-uv-totp-verify-enable-biometrics',
+  ],
+};
+
+const totpEnableBiometrics = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-okta-verify-totp'
+  ],
+  '/idp/idx/challenge/answer': [
+    'error-okta-verify-uv-totp-verify-enable-biometrics',
   ],
 };
 

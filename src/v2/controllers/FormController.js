@@ -247,8 +247,18 @@ export default Controller.extend({
     return modelJSON;
   },
 
+  /**
+   * @param model current form model
+   * @param error any errors after user action
+   * @param form current form
+   * Handle errors that get displayed right after any user action. After such form errors widget doesn't
+   * reload or re-render, but updates the AppSate with latest remediation.
+   */
   showFormErrors(model, error, form) {
-    let errorObj, idxStateError;
+    /* eslint max-statements: [2, 22] */
+    let errorObj;
+    let idxStateError;
+    let showErrorBanner = true;
     model.trigger('clearFormError');
     
     if (!error) {
@@ -269,14 +279,14 @@ export default Controller.extend({
       Util.logConsoleError(error);
       errorObj = { responseJSON: { errorSummary: loc('error.unsupported.response', 'login')}};
     }
-    const showErrorBanner = !form?.isErrorCalloutCustomized(errorObj);
+
+    if(_.isFunction(form?.showCustomFormErrorCallout)) {
+      showErrorBanner = !form.showCustomFormErrorCallout(errorObj);
+    }
+
     // show error before updating app state.
     model.trigger('error', model, errorObj, showErrorBanner);
     idxStateError = Object.assign({}, idxStateError, {hasFormError: true});
-
-    if (!showErrorBanner) {
-      form.showCustomErrorCallout(errorObj);
-    }
 
     // TODO OKTA-408410: Widget should update the state on every new response. It should NOT do selective update.
     // For eg 429 rate-limit errors, we have to skip updating idx state, because error response is not an idx response.

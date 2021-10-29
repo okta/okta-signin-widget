@@ -1,4 +1,4 @@
-import { loc, createCallout } from 'okta';
+import { loc } from 'okta';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import { BaseForm, BaseView, createIdpButtons, createCustomButtons } from '../internals';
 import DeviceFingerprinting from '../utils/DeviceFingerprinting';
@@ -94,18 +94,6 @@ const Body = BaseForm.extend({
     }
   },
 
-  showMessages() {
-    const messagesObj = this.options.appState.get('messages');
-    if (messagesObj?.value.length
-        && this.options.appState.get('currentFormName') === 'identify') {
-      const displayMessageObj = messagesObj.value[0];
-      const messageCallout = createCallout({
-        content: displayMessageObj.message,
-        type: (displayMessageObj.class || '').toLowerCase(),
-      });
-      this.introspectMessage = this.add(messageCallout, '.o-form-error-container').last();
-    }
-  },
   /**
    * Update UI schemas for customization from .widgetrc.js or Admin Customization settings page.
    * @returns Array
