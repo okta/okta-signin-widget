@@ -251,7 +251,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
     };
 
     testContext.init(XHRIdentifyWithPassword.remediation.value);
-    testContext.view.form.__save();
+    expect(testContext.view.form.isValid()).toEqual(false);
 
     const $usernameError = testContext.view.$el.find('[data-se="o-form-fieldset-identifier"] .o-form-input-error');
     const $psswordError = testContext.view.$el.find('[data-se="o-form-fieldset-credentials.passcode"] .o-form-input-error');
