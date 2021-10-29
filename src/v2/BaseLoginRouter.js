@@ -371,6 +371,7 @@ export default Router.extend({
   },
 
   restartLoginFlow() {
+    console.log('### RESTART LOGIN FLOW CALLED');
     this.render(this.controller.constructor);
   },
 
