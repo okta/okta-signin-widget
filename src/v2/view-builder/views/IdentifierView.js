@@ -22,7 +22,6 @@ const Body = BaseForm.extend({
   },
 
   initialize() {
-    /* eslint complexity: [2, 11] */
     BaseForm.prototype.initialize.apply(this, arguments);
 
     const uiSchema = this.getUISchema();
