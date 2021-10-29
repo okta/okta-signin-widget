@@ -169,7 +169,7 @@ test.requestHooks(identifyMock)('should show customized error if required field 
   await t.expect(identityPage.getIdentifierErrorMessage()).eql('Username is required!');
 });
 
-test.requestHooks(identifyRequestLogger, identifyMock)('should be able to submit identifier if error text for password is customized', async t => {
+test.requestHooks(identifyRequestLogger, identifyMock)('should not show custom error if password doesn\'t exist in remediation', async t => {
   const identityPage = await setup(t);
   await rerenderWidget({
     i18n: {
