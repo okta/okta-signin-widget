@@ -79,9 +79,17 @@ export default View.extend({
           OAuth2Util.getTokens(this.settings, { idp: options.id }, this.options.currentController);
         } else {
           const baseUrl = this.settings.get('baseUrl');
-          const params = $.param({
-            fromURI: this.settings.get('relayState'),
-          });
+          let params;
+          const lastAuthResponse = this.options.appState.get('lastAuthResponse');
+          if (this.options.appState.get('usingDeviceFlow')) {
+            params = $.param({
+              stateToken: lastAuthResponse?.stateToken,
+            });
+          } else {
+            params = $.param({
+              fromURI: this.settings.get('relayState'),
+            });
+          }
           const targetUri = `${baseUrl}/sso/idps/${options.id}?${params}`;
           SharedUtil.redirect(targetUri);
         }
