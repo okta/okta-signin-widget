@@ -156,7 +156,7 @@ test.requestHooks(identifyMock)('should show customized error if required field 
   await rerenderWidget({
     i18n: {
       en: {
-        'error.username.required': 'Custom error text',
+        'error.username.required': 'Username is required!',
       }
     }
   });
@@ -166,7 +166,23 @@ test.requestHooks(identifyMock)('should show customized error if required field 
 
   await t.expect(identityPage.hasIdentifierError()).eql(true);
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
-  await t.expect(identityPage.getIdentifierErrorMessage()).eql('Custom error text');
+  await t.expect(identityPage.getIdentifierErrorMessage()).eql('Username is required!');
+});
+
+test.requestHooks(identifyRequestLogger, identifyMock)('should be able to submit identifier if error text for password is customized', async t => {
+  const identityPage = await setup(t);
+  await rerenderWidget({
+    i18n: {
+      en: {
+        'error.username.required': 'Username is required!',
+        'error.password.required': 'Password is required!',
+      }
+    }
+  });
+
+  await identityPage.fillIdentifierField('test');
+  await identityPage.clickNextButton();
+  await t.expect(identifyRequestLogger.count(() => true)).eql(1);
 });
 
 test.requestHooks(identifyMock)('should have correct display text', async t => {
