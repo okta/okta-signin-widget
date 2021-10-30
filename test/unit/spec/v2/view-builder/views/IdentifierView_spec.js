@@ -7,12 +7,22 @@ import XHRIdentifyWithPassword
 import XHRIdentifyWithThirdPartyIdps
   from '../../../../../../playground/mocks/data/idp/idx/identify-with-third-party-idps.json';
 import CookieUtil from 'util/CookieUtil';
+import Bundles from 'util/Bundles';
 
 describe('v2/view-builder/views/IdentifierView', function() {
+  let originalLoginEnBundle;
   let testContext;
   let currentViewState = {};
-  let settings = new Settings({ 
+  let settings = new Settings({
     baseUrl: 'http://localhost:3000',
+  });
+
+  beforeAll(() => {
+    originalLoginEnBundle = Bundles.login_en;
+  });
+  afterAll(() => {
+    Bundles['login_en'] = originalLoginEnBundle;
+    originalLoginEnBundle = null;
   });
 
   beforeEach(function() { 
@@ -200,5 +210,52 @@ describe('v2/view-builder/views/IdentifierView', function() {
     expect(testContext.view.model.get('identifier')).not.toEqual('testUsername');
     expect(testContext.view.$el.find('.o-form-input-name-identifier input').val()).toEqual('');
     expect(testContext.view.$el.find('.o-form-input-name-identifier input').attr('autocomplete')).toEqual('identifier');    
+  });
+
+  it('should customize username/password required messages', function() {
+    const i18n = {
+      en: {
+        'error.username.required': 'Username is required!',
+        'error.password.required': 'Password is required!'
+      }
+    };
+    settings = new Settings({
+      baseUrl: 'http://localhost:3000',
+      i18n
+    });
+    Bundles['login_en'] = i18n.en;
+
+    jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
+    
+    currentViewState = { 
+      uiSchema: [{
+        'autoComplete': 'identifier',
+        'data-se': 'o-form-fieldset-identifier',
+        'label': 'Username',
+        'label-top': true,
+        'name': 'identifier',
+        'type': 'text',
+      }, {
+        'label': 'Password',
+        'label-top': true,
+        'data-se': 'o-form-fieldset-credentials.passcode',
+        'name': 'credentials.passcode',
+        'params':  {
+          'showPasswordToggle': false,
+        },
+        'secret': true,
+        'type': 'password',
+      }]
+    };
+
+    testContext.init(XHRIdentifyWithPassword.remediation.value);
+    expect(testContext.view.form.isValid()).toEqual(false);
+
+    const $usernameError = testContext.view.$el.find('[data-se="o-form-fieldset-identifier"] .o-form-input-error');
+    const $psswordError = testContext.view.$el.find('[data-se="o-form-fieldset-credentials.passcode"] .o-form-input-error');
+    expect($usernameError.text()).toEqual('Username is required!');
+    expect($psswordError.text()).toEqual('Password is required!');
   });
 });

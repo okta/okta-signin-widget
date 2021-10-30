@@ -212,6 +212,31 @@ const Body = BaseForm.extend({
 export default BaseView.extend({
   Body,
 
+  createModelClass() {
+    const ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
+    
+    // customize pre-submit form validation inline error messages
+    const identifierRequiredi18nKey = 'error.username.required';
+    const passwordRequiredi18nKey = 'error.password.required';
+    const props = ModelClass.prototype.props;
+    const validate = (attr) => {
+      const inlineErrors = {};
+      const isEmptyIdentifier = props['identifier'] && !attr?.['identifier'];
+      const isEmptyPassword = props['credentials.passcode'] && !attr?.['credentials.passcode'];
+      if (isEmptyIdentifier && isCustomizedI18nKey(identifierRequiredi18nKey, this.settings)) {
+        inlineErrors['identifier'] = loc(identifierRequiredi18nKey, 'login');
+      }
+      if (isEmptyPassword && isCustomizedI18nKey(passwordRequiredi18nKey, this.settings)) {
+        inlineErrors['credentials.passcode'] = loc(passwordRequiredi18nKey, 'login');
+      }
+      return inlineErrors;
+    };
+
+    return ModelClass.extend({
+      validate
+    });
+  },
+
   initialize() {
     // Override Footer by overriding showForgotPasswordLink method
     this.Footer = IdentifierFooter.extend({

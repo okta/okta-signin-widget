@@ -140,6 +140,7 @@ test.requestHooks(identifyMock)('should show errors if required fields are empty
 
   await t.expect(identityPage.hasIdentifierError()).eql(true);
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
+  await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
 });
 
 test.requestHooks(identifyMockWithUnsupportedResponseError)('should show error if server response is unsupported', async t => {
@@ -148,6 +149,40 @@ test.requestHooks(identifyMockWithUnsupportedResponseError)('should show error i
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
   await t.expect(identityPage.getErrorBoxText()).eql('There was an unsupported response from server.');
+});
+
+test.requestHooks(identifyMock)('should show customized error if required field identifier is empty', async t => {
+  const identityPage = await setup(t);
+  await rerenderWidget({
+    i18n: {
+      en: {
+        'error.username.required': 'Username is required!',
+      }
+    }
+  });
+
+  await identityPage.clickNextButton();
+  await identityPage.waitForErrorBox();
+
+  await t.expect(identityPage.hasIdentifierError()).eql(true);
+  await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
+  await t.expect(identityPage.getIdentifierErrorMessage()).eql('Username is required!');
+});
+
+test.requestHooks(identifyRequestLogger, identifyMock)('should not show custom error if password doesn\'t exist in remediation', async t => {
+  const identityPage = await setup(t);
+  await rerenderWidget({
+    i18n: {
+      en: {
+        'error.username.required': 'Username is required!',
+        'error.password.required': 'Password is required!',
+      }
+    }
+  });
+
+  await identityPage.fillIdentifierField('test');
+  await identityPage.clickNextButton();
+  await t.expect(identifyRequestLogger.count(() => true)).eql(1);
 });
 
 test.requestHooks(identifyMock)('should have correct display text', async t => {

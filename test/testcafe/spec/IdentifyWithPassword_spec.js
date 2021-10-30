@@ -42,6 +42,53 @@ async function setup(t) {
   return identityPage;
 }
 
+test.requestHooks(identifyWithPasswordMock)('should show errors if required fields are empty', async t => {
+  const identityPage = await setup(t);
+
+  await identityPage.clickNextButton();
+  await identityPage.waitForErrorBox();
+
+  await t.expect(identityPage.hasIdentifierError()).eql(true);
+  await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
+  await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
+
+  await identityPage.fillIdentifierField('Test Identifier');
+  await identityPage.clickNextButton();
+  await identityPage.waitForErrorBox();
+
+  await t.expect(identityPage.hasPasswordError()).eql(true);
+  await t.expect(identityPage.hasPasswordErrorMessage()).eql(true);
+  await t.expect(identityPage.getPasswordErrorMessage()).eql('This field cannot be left blank');
+});
+
+test.requestHooks(identifyWithPasswordMock)('should show customized error if required field password is empty', async t => {
+  const identityPage = await setup(t);
+  await renderWidget({
+    i18n: {
+      en: {
+        'error.username.required': 'Username is required!',
+        'error.password.required': 'Password is required!',
+      }
+    }
+  });
+
+  await identityPage.clickNextButton();
+  await identityPage.waitForErrorBox();
+
+  await t.expect(identityPage.hasIdentifierError()).eql(true);
+  await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
+  await t.expect(identityPage.getIdentifierErrorMessage()).eql('Username is required!');
+
+
+  await identityPage.fillIdentifierField('Test Identifier');
+  await identityPage.clickNextButton();
+  await identityPage.waitForErrorBox();
+
+  await t.expect(identityPage.hasPasswordError()).eql(true);
+  await t.expect(identityPage.hasPasswordErrorMessage()).eql(true);
+  await t.expect(identityPage.getPasswordErrorMessage()).eql('Password is required!');
+});
+
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password field, password toggle, and forgot password link', async t => {
   const identityPage = await setup(t);
 
