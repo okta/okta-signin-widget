@@ -31,7 +31,30 @@ export async function createTransactionMeta(settings) {
   return meta;
 }
 
-export async function getSavedTransactionMeta(settings) {
+export function readTransactionMeta(settings) {
+  const authClient = settings.getAuthClient();
+
+  // Load existing transaction meta from storage
+  if (authClient.transactionManager.exists()) {
+    const existing = authClient.transactionManager.load();
+    if (isTransactionMetaValid(settings, existing)) {
+      return existing;
+    }
+    // existing meta is not valid for this configuration
+    // this is common when changing configuration in local development environment
+    // in a production environment, this may indicate that two apps are sharing a storage key
+    Logger.warn('Saved transaction meta does not match the current configuration. ' + 
+      'This may indicate that two apps are sharing a storage key.');
+  }
+
+  return null;
+}
+
+export async function getTransactionMeta(settings) {
+  // const existing = readTransactionMeta(settings);
+  // if (existing) {
+  //   return existing;
+  // }
   const authClient = settings.getAuthClient();
   const state = authClient.options.state;
 

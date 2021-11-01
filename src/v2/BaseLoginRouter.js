@@ -129,14 +129,15 @@ export default Router.extend({
     }
 
     // TODO: remove this
-    console.log('UpdateAppState:', idxResponse.rawIdxState.stateHandle);
-    const intro = await introspect(this.settings, idxResponse.context.stateHandle);
-    console.log(intro);
+    // console.log('UpdateAppState:', idxResponse.rawIdxState.stateHandle);
+    // const intro = await introspect(this.settings, idxResponse.context.stateHandle);
+    // console.log(intro);
 
     // transform response
     const ionResponse = transformIdxResponse(this.settings, idxResponse, lastResponse);
 
     await this.appState.setIonResponse(ionResponse, this.hooks);
+    console.log('BaseLoginRouter handler');
   },
 
   handleIdxResponseFailure(error = {}) {
@@ -206,6 +207,7 @@ export default Router.extend({
     // }
   },
 
+  // TODO - probably remove before PR
   async handleInitialView(originalIdxResp) {
     let idxResponse = originalIdxResp;
 
@@ -249,6 +251,7 @@ export default Router.extend({
     }
   },
 
+  // TODO - probably remove before PR
   async handleOieRender() {
     const originalResp = await startLoginFlow(this.settings);
     let idxResp = originalResp;
@@ -302,7 +305,7 @@ export default Router.extend({
     if (this.settings.get('oieEnabled')) {
       try {
         // await this.handleOieRender();
-        const { idxResponse, message } = await startLoginFlow(this.settings);
+        const { idxResponse, message } = await startLoginFlow(this.settings, this.appState);
         this.appState.trigger('updateAppState', idxResponse);
         if (message) {
           this.appState.set('messages', {value: [{ message }]});
@@ -368,7 +371,6 @@ export default Router.extend({
   },
 
   restartLoginFlow() {
-    console.log('### RESTART LOGIN FLOW CALLED');
     this.render(this.controller.constructor);
   },
 

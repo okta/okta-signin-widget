@@ -14,8 +14,15 @@ import Errors from 'util/Errors';
 import { emailVerifyCallback } from './emailVerifyCallback';
 import { interact } from './interact';
 import { introspect } from './introspect';
-import { getTransactionMeta, saveTransactionMeta, clearTransactionMeta } from './transactionMeta';
 import sessionStorageHelper from './sessionStorageHelper';
+import idx from '@okta/okta-idx-js';
+import { request } from '@okta/okta-idx-js/src/client';
+import { 
+  getTransactionMeta,
+  saveTransactionMeta, 
+  clearTransactionMeta,
+  readTransactionMeta
+} from './transactionMeta';
 
 const handleProxyIdxResponse = async (settings) => {
   return Promise.resolve({
@@ -24,8 +31,6 @@ const handleProxyIdxResponse = async (settings) => {
     neededToProceed: [],
   });
 };
-
-// const recover = 
 
 async function startSpecificIdxFlow (originalIdxResp, flow='') {
   console.log('trying to start flow: ', originalIdxResp, flow);
@@ -71,6 +76,43 @@ async function startSpecificIdxFlow (originalIdxResp, flow='') {
       throw err;
     }
   }
+}
+
+async function continueIdxFlow(settings) {
+  // TODO: remove
+  // return startIdxFlow(settings);
+
+  const meta = await getTransactionMeta(settings);
+
+  // /**
+  //  * Definition 1 - uses idx.client.interceptor to "cache" and replicate last idx call on page load
+  //  */
+  // if (!meta.lastFlowOperation) {
+  //   // TODO: review this???
+  //   return startIdxFlow(settings);
+  // }
+
+  // const { url, ...params } = meta.lastFlowOperation;
+  // const req = await request(url, params);
+  // if (req.ok) {
+  //   const body = await req.json();
+  //   return idx.makeIdxState(body);
+  // }
+  // else {
+  //   const { messages, ...body } = await req.json();
+  //   return idx.makeIdxState(body);
+  // }
+
+  /**
+   * Definition 2 - listens to 'updateAppState' and "caches" rawIdxState to be loaded from transactionMeta on page load
+   */
+
+  if (!meta.lastRawIdx) {
+    // TODO: review this???
+    return startIdxFlow(settings);
+  }
+
+  return idx.makeIdxState(meta.lastRawIdx);
 }
 
 async function startIdxFlow(settings) {
@@ -121,10 +163,12 @@ async function startIdxFlow(settings) {
     'interaction_code" flow for self-hosted widget.');
 }
 
-export async function startLoginFlow(settings) {
+export async function startLoginFlow(settings, appState) {
   console.log('####  startLoginFlow called   ####');
   // const originalResp = await startIdxFlow(settings);      // defaults to login flow
   let idxResponse = null;
+
+  console.log(idx.client.interceptors.request);
 
   try {
     // `initialView` settings is cleared in `finally` block, so this logic only runs on first render
@@ -133,46 +177,49 @@ export async function startLoginFlow(settings) {
       const meta = await getTransactionMeta(settings);
       // console.log('meta: ', meta);
 
-      if (meta.flow && meta.flow !== configuredFlow) {
-        Logger.warn(`Cancelling current '${meta.flow}' flow to start '${configuredFlow}' flow`);
-        // idxResponse = await idxResponse.actions.cancel();
-        sessionStorageHelper.removeStateHandle();
-        clearTransactionMeta(settings);
-        idxResponse = await interact(settings);
+      // called *after* `getTransactionMeta` to ensure a transaction exists
+      idx.client.interceptors.request.use(requestConfig => {
+        const path = requestConfig.url.split('/').pop();
+        if (!['introspect', 'interact'].some(m => m === path)) {
+          const meta = readTransactionMeta(settings);     // cannot be async
+          const newMeta = Object.assign({}, {...meta}, {lastFlowOperation: {...requestConfig}});
+          console.log('newMeta!', newMeta);
+          saveTransactionMeta(settings, newMeta);
+        }
+        return requestConfig;
+      });
+
+      appState.on('updateAppState', async (idxResponse) => {
+        console.log('inside StartFlow', idxResponse);
+        const meta = readTransactionMeta(settings);     // cannot be async
+        const newMeta = Object.assign({}, {...meta}, {lastRawIdx: {...idxResponse.rawIdxState}});
+        saveTransactionMeta(settings, newMeta);
+      });
+
+      if (meta.flow === configuredFlow) {
+        // TODO: continue flow
+        idxResponse = await continueIdxFlow(settings);
+        console.log('continue response', idxResponse);
       }
       else {
-        idxResponse = await startIdxFlow(settings);
-      }
+        if (!meta.flow) {
+          idxResponse = await startIdxFlow(settings);
+        }
+        else {
+          // configured flow and active flow do not match, abandon active flow, start new (configured) flow
+          Logger.warn(`Cancelling current '${meta.flow}' flow to start '${configuredFlow}' flow`);
+          sessionStorageHelper.removeStateHandle();
+          clearTransactionMeta(settings);
+          idxResponse = await interact(settings);
+        }
 
-      // if (meta.flow) {
-      //   if (meta.flow === configuredFlow) {
-      //     Logger.warn(`'${meta.flow}' flow already started, continuing...`);
-      //     sessionStorageHelper.setStateHandle(meta?.flowHandle);
-      //     idxResponse = await startIdxFlow(settings);
-      //     // idxResponse = await introspect(settings, meta.flowHandle);
-      //     console.log('idxResponse1', idxResponse);
-      //     return { idxResponse };
-      //   }
-      //   else {
-      //     Logger.warn(`Cancelling current '${meta.flow}' flow to start '${configuredFlow}' flow`);
-      //     // idxResponse = await idxResponse.actions.cancel();
-      //     sessionStorageHelper.removeStateHandle();
-      //     clearTransactionMeta(settings);
-      //     idxResponse = await interact(settings);
-      //   }
-      // }
-      // else {
-      //   idxResponse = await startIdxFlow(settings);
-      // }
-
-      if (!meta.flow) {
+        // flow is configured (via settings), but no transaction meta exists for an active flow
+        // idxResponse = await startIdxFlow(settings);
         idxResponse = await startSpecificIdxFlow(idxResponse, configuredFlow);
         console.log('idxResponse2', idxResponse);
         // TODO: can we assume the flow has "started" successfully if we don't error within `startSpecificIdxFlow`???
-        const newMeta = Object.assign({}, {...meta}, {flow: configuredFlow, flowHandle: idxResponse?.context?.stateHandle});
+        const newMeta = Object.assign({}, {...meta}, {flow: configuredFlow});
         saveTransactionMeta(settings, newMeta);
-
-        sessionStorageHelper.setStateHandle(idxResponse?.context?.stateHandle);
       }
     }
     else {
@@ -197,8 +244,8 @@ export async function startLoginFlow(settings) {
     // this should only happen on the first call, during bootstrapping
     settings.set('initialView', false);
 
-    // const meta2 = await getTransactionMeta(settings);
-    // console.log('meta2: ', meta2);
+    const meta2 = await getTransactionMeta(settings);
+    console.log('meta2: ', meta2);
 
     // TODO: remove this
     // const resp = await introspect(settings, idxResponse.rawIdxState.stateHandle);
