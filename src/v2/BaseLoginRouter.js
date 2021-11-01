@@ -304,12 +304,12 @@ export default Router.extend({
     // state token (which will be set into AppState)
     if (this.settings.get('oieEnabled')) {
       try {
-        // await this.handleOieRender();
-        const { idxResponse, message } = await startLoginFlow(this.settings, this.appState);
-        this.appState.trigger('updateAppState', idxResponse);
-        if (message) {
-          this.appState.set('messages', {value: [{ message }]});
-        }
+        await this.handleOieRender();
+        // const { idxResponse, message } = await startLoginFlow(this.settings, this.appState);
+        // this.appState.trigger('updateAppState', idxResponse);
+        // if (message) {
+        //   this.appState.set('messages', {value: [{ message }]});
+        // }
       } catch (errorResp) {
         this.appState.trigger('remediationError', errorResp.error || errorResp);
       } finally {
