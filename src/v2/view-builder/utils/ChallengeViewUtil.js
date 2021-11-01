@@ -9,7 +9,7 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { loc, View, createButton } from 'okta';
+import { loc, View, createButton, _ } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import Enums from '../../../util/Enums';
 import Util from '../../../util/Util';
@@ -25,6 +25,8 @@ export function appendLoginHint(deviceChallengeUrl, loginHint) {
 export function doChallenge(view) {
   const deviceChallenge = view.getDeviceChallengePayload();
   const loginHint = view.options?.settings?.get('identifier');
+  const SPINNER_TIMEOUT = 4000;
+  const HIDE_CLASS = 'hide';
   switch (deviceChallenge.challengeMethod) {
   case Enums.LOOPBACK_CHALLENGE:
     view.title = loc('deviceTrust.sso.redirectText', 'login');
@@ -98,17 +100,35 @@ export function doChallenge(view) {
     view.add(View.extend({
       className: 'app-link-content',
       template: hbs`
-            {{i18n code="appLink.content" bundle="login"}}
-          `
+        <div class="spinner"></div>
+        <div class="appLinkContent {{hideClass}}">{{i18n code="appLink.content" bundle="login"}}</div>
+      `,
+      getTemplateData() {
+        return { hideClass: HIDE_CLASS };
+      },
+      postRender() {
+        setTimeout(_.bind(()=> {
+          const data = { label: loc('goback', 'login') };
+          this.options.appState.trigger('updateFooterLink', data);
+          this.$('.spinner').addClass(HIDE_CLASS);
+          this.$('.appLinkContent').removeClass(HIDE_CLASS);
+        }, this), SPINNER_TIMEOUT);
+      },
     }));
     view.add(createButton({
-      className: 'al-button button button-wide button-primary',
+      className: `${HIDE_CLASS} al-button button button-wide button-primary`,
       title: loc('oktaVerify.open.button', 'login'),
       click: () => {
+        // OKTA-432811
         // only window.location.href can open app link in Android
         // other methods won't do, ex, AJAX get or form get (Util.redirectWithFormGet)
         let deviceChallengeUrl = appendLoginHint(deviceChallenge.href, loginHint);
         Util.redirect(deviceChallengeUrl, window, true);
+      },
+      postRender() {
+        setTimeout(_.bind(()=> {
+          this.$el.removeClass(HIDE_CLASS);
+        }, this), SPINNER_TIMEOUT);
       }
     }));
     break;

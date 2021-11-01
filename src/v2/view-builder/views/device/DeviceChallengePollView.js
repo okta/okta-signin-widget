@@ -162,7 +162,7 @@ const Body = BaseFormWithPolling.extend(
 const Footer = BaseFooter.extend({
   initialize() {
     this.listenTo(this.options.appState, 'updateFooterLink', this.handleUpdateFooterLink);
-    if (this.isFallbackApproach()) {
+    if (this.isFallbackApproach() && !this.isFallbackDelayed()) {
       BaseFooter.prototype.initialize.apply(this, arguments);
     } else {
       this.backLink = this.add(Link, {
@@ -177,7 +177,7 @@ const Footer = BaseFooter.extend({
 
   handleUpdateFooterLink(data) {
     // only update link for loopback
-    if (!this.isFallbackApproach()) {
+    if (!this.isFallbackApproach() || this.isFallbackDelayed()) {
       this.backLink && this.backLink.remove();
       this.backLink = this.add(Link, {
         options: getSignOutLink(this.options.settings, data)[0]
@@ -192,6 +192,12 @@ const Footer = BaseFooter.extend({
       Enums.APP_LINK_CHALLENGE
     ].includes(this.options.currentViewState.relatesTo.value.challengeMethod);
   },
+
+  isFallbackDelayed() {
+    // only delay showing the reopen Okta Verify button for the app link approach for now
+    // until we have more data shows other approaches have the slow cold start problem of the Okta Verify app as well
+    return this.options.currentViewState.relatesTo.value.challengeMethod === Enums.APP_LINK_CHALLENGE;
+  }
 });
 
 export default BaseView.extend({
