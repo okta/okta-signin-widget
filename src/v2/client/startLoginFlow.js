@@ -14,10 +14,8 @@ import Errors from 'util/Errors';
 import { emailVerifyCallback } from './emailVerifyCallback';
 import { interact } from './interact';
 import { introspect } from './introspect';
-import { getTransactionMeta, saveTransactionMeta, clearTransactionMeta } from './transactionMeta';
 import sessionStorageHelper from './sessionStorageHelper';
 import idx from '@okta/okta-idx-js';
-import { request } from '@okta/okta-idx-js/src/client';
 import { 
   getTransactionMeta,
   saveTransactionMeta, 
