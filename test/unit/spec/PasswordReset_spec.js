@@ -1,5 +1,5 @@
 import { _, internal } from 'okta';
-import createAuthClient from 'widget/createAuthClient';
+import getAuthClient from 'widget/getAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import PasswordResetForm from 'helpers/dom/PasswordResetForm';
@@ -79,7 +79,9 @@ function setup(settings) {
 
   const setNextResponse = Util.mockAjax();
   const baseUrl = 'https://foo.com';
-  const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+  const authClient = getAuthClient({
+    authParams: { issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR }
+  });
   const router = new Router(
     _.extend(
       {
@@ -843,6 +845,7 @@ Expect.describe('PasswordReset', function() {
             statusCode: 403,
             xhr: {
               status: 403,
+              headers: { 'content-type': 'application/json' },
               responseType: 'json',
               responseText: '{"errorCode":"E0000080","errorSummary":"The password does not meet the complexity requirements of the current password policy.","errorLink":"E0000080","errorId":"oaeZL71b-kLQyae-eG7rzghzQ","errorCauses":[{"errorSummary":"Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username, does not include your first name, does not include your last name."}]}',
               responseJSON: {
@@ -886,6 +889,7 @@ Expect.describe('PasswordReset', function() {
             statusCode: 403,
             xhr: {
               status: 403,
+              headers: { 'content-type': 'application/json' },
               responseType: 'json',
               responseText: '{"errorCode":"E0000080","errorSummary":"The password does not meet the complexity requirements of the current password policy.","errorLink":"E0000080","errorId":"oaeZL71b-kLQyae-eG7rzghzQ","errorCauses":[{"errorSummary":"Password requirements were not met. Password requirements: at least 8 characters, a lowercase letter, an uppercase letter, a number, a symbol, no parts of your username, does not include your first name, does not include your last name."}]}',
               responseJSON: {
@@ -931,6 +935,7 @@ Expect.describe('PasswordReset', function() {
             statusCode: 403,
             xhr: {
               status: 403,
+              headers: { 'content-type': 'application/json' },
               responseType: 'json',
               responseText: '{"errorCode":"E0000080","errorSummary":"The password does not meet the complexity requirements of the current password policy.","errorLink":"E0000080","errorId":"oaeZL71b-kLQyae-eG7rzghzQ"}',
               responseJSON: {
