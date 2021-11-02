@@ -27,7 +27,6 @@ import Header from 'views/shared/Header';
 import AppState from './models/AppState';
 import sessionStorageHelper from './client/sessionStorageHelper';
 import {
-  introspect,
   startLoginFlow,
   interactionCodeFlow,
   configIdxJsClient,
@@ -83,8 +82,6 @@ export default Router.extend({
     // Hide until unitial render
     this.hide();
 
-    this.isFirstRender = true;
-
     configIdxJsClient(this.appState);
     this.listenTo(this.appState, 'updateAppState', this.handleUpdateAppState);
     this.listenTo(this.appState, 'remediationError', this.handleIdxResponseFailure);
@@ -97,7 +94,8 @@ export default Router.extend({
     if (this.hasAuthenticationSucceeded(idxResponse) 
       && this.settings.get('features.rememberMyUsernameOnOIE')) {
       this.updateIdentifierCookie(idxResponse);
-    }
+    }    
+
     if (idxResponse.interactionCode) {
       // Although session.stateHandle isn't used by interation flow,
       // it's better to clean up at the end of the flow.
@@ -128,16 +126,10 @@ export default Router.extend({
       sessionStorageHelper.removeStateHandle();
     }
 
-    // TODO: remove this
-    // console.log('UpdateAppState:', idxResponse.rawIdxState.stateHandle);
-    // const intro = await introspect(this.settings, idxResponse.context.stateHandle);
-    // console.log(intro);
-
     // transform response
     const ionResponse = transformIdxResponse(this.settings, idxResponse, lastResponse);
 
     await this.appState.setIonResponse(ionResponse, this.hooks);
-    console.log('BaseLoginRouter handler');
   },
 
   handleIdxResponseFailure(error = {}) {
@@ -207,79 +199,7 @@ export default Router.extend({
     // }
   },
 
-  // TODO - probably remove before PR
-  async handleInitialView(originalIdxResp) {
-    let idxResponse = originalIdxResp;
-
-    try {
-      const initialView = this.settings.get('initialView');
-      if (initialView === 'login') {
-        // TODO: revisit, based on assumption `identify` is the top-most remediation. Confirm this?
-        // return idxResponse.proceed('identify');
-      }
-      else if (initialView === 'register') {
-        idxResponse = await idxResponse.proceed('select-enroll-profile');
-      }
-      else if (initialView === 'reset') {
-        // if `currentAuthenticator-recover` action is not available on the parsed idxResponse,
-        // reject an InitialViewError to be caught in `handleOieRender`, this mimics a bad .proceed() call
-        idxResponse = idxResponse.actions['currentAuthenticator-recover'] ?
-          idxResponse.actions['currentAuthenticator-recover']() :
-          Promise.reject(new Errors.InitialViewError('Unable to invoke desired action', initialView));
-      }
-      else if (initialView === 'unlock') {
-        // requires: introspect -> identify-recovery -> select-authenticator-unlock-account
-        idxResponse = await idxResponse.proceed('identify-recovery');
-      }
-      else {
-        Logger.warn(`Unknown \`initialView\` value: ${initialView}`);
-      }
-
-      // default to original idx response
-      return await idxResponse;
-    }
-    catch (err) {
-      // catches and handles `Unknown remediation` errors thrown by this.handleInitialView (via okta-idx-js)
-      if (typeof err === 'string' && err.startsWith('Unknown remediation choice')) {
-        Logger.warn(`initialView [${this.settings.get('initialView')}] not valid with current Org configurations`);
-        throw new Errors.InitialViewError('Unable to proceed to desired view', this.settings.get('initialView'));
-      }
-      else {
-        // do not catch non-`Errors.InitialViewError` errors here
-        throw err;
-      }
-    }
-  },
-
-  // TODO - probably remove before PR
-  async handleOieRender() {
-    const originalResp = await startLoginFlow(this.settings);
-    let idxResp = originalResp;
-
-    try {
-      if (this.isFirstRender && this.settings.get('initialView')) {
-        this.isFirstRender = false;
-        idxResp = await this.handleInitialView(originalResp);
-      }
-
-      this.appState.trigger('updateAppState', idxResp);
-    }
-    catch (err) {
-      if (err instanceof Errors.InitialViewError) {
-        this.appState.trigger('updateAppState', originalResp);
-        this.appState.set('messages', {value: [{message: 'Please contact Jeff'}]});
-      }
-      else {
-        // do not catch unknown errors here
-        throw err;
-      }
-    }
-    finally {
-      this.isFirstRender = false;
-    }
-  },
-
-  /* eslint max-statements: [2, 30] */
+  /* eslint max-statements: [2, 22] */
   render: async function(Controller, options = {}) {
     // If url changes then widget assumes that user's intention was to initiate a new login flow,
     // so clear stored token to use the latest token.
@@ -304,12 +224,8 @@ export default Router.extend({
     // state token (which will be set into AppState)
     if (this.settings.get('oieEnabled')) {
       try {
-        await this.handleOieRender();
-        // const { idxResponse, message } = await startLoginFlow(this.settings, this.appState);
-        // this.appState.trigger('updateAppState', idxResponse);
-        // if (message) {
-        //   this.appState.set('messages', {value: [{ message }]});
-        // }
+        const idxResp = await startLoginFlow(this.settings);
+        this.appState.trigger('updateAppState', idxResp);
       } catch (errorResp) {
         this.appState.trigger('remediationError', errorResp.error || errorResp);
       } finally {
@@ -347,7 +263,7 @@ export default Router.extend({
 
   /**
     * When "Remember My Username" is enabled, we save the identifier in a cookie
-    * so that the next time the user visits the SIW, the identifier field can be
+    * so that the next time the user visits the SIW, the identifier field can be 
     * pre-filled with this value.
    */
   updateIdentifierCookie: function(idxResponse) {
@@ -361,7 +277,7 @@ export default Router.extend({
     } else {
       // We remove the cookie explicitly if this feature is disabled.
       CookieUtil.removeUsernameCookie();
-    }
+    }    
   },
 
   hasAuthenticationSucceeded(idxResponse) {
@@ -371,7 +287,6 @@ export default Router.extend({
   },
 
   restartLoginFlow() {
-    console.log('### RESTART LOGIN FLOW CALLED');
     this.render(this.controller.constructor);
   },
 

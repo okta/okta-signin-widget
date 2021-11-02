@@ -12,6 +12,8 @@
 
 import Errors from 'util/Errors';
 import { emailVerifyCallback } from './emailVerifyCallback';
+import Logger from 'util/Logger';
+import Enums from 'util/Enums';
 import { interact } from './interact';
 import { introspect } from './introspect';
 import sessionStorageHelper from './sessionStorageHelper';
@@ -30,31 +32,29 @@ const handleProxyIdxResponse = async (settings) => {
 };
 
 async function startSpecificIdxFlow(originalIdxResp, flow='') {
-  console.log('trying to start flow: ', originalIdxResp, flow);
   let idxResponse = originalIdxResp;
 
   try {
-    if (flow === 'login') {
-      // TODO: revisit, based on assumption `identify` is the top-most remediation. Confirm this?
-      // return idxResponse.proceed('identify');
+    if (flow === Enums.LOGIN_FLOW) {
+      // default IDX response from interact is "Login" page/flow. Do nothing
     }
-    else if (flow === 'register') {
+    else if (flow === Enums.REGISTRATION_FLOW) {
       idxResponse = await idxResponse.proceed('select-enroll-profile');
     }
-    else if (flow === 'reset-password') {
+    else if (flow === Enums.RESET_PASSWORD_FLOW) {
       // if `currentAuthenticator-recover` action is not available on the parsed idxResponse,
-      // reject an InitialFlowError to be caught in `handleOieRender`, this mimics a bad .proceed() call
-      // TODO: review this, it seems very hacky
+      // reject an InitialFlowError to be caught in `startInteractionCodeFlow`, this mimics a bad .proceed() call
       idxResponse = idxResponse.actions['currentAuthenticator-recover'] ?
         idxResponse.actions['currentAuthenticator-recover']() :
         Promise.reject(new Errors.InitialFlowError('Unable to invoke desired action', flow));
     }
-    else if (flow === 'unlock') {
+    else if (flow === Enums.UNLOCK_ACCOUNT_FLOW) {
       // requires: introspect -> identify-recovery -> select-authenticator-unlock-account
       idxResponse = await idxResponse.proceed('identify-recovery');
     }
     else {
       Logger.warn(`Unknown \`flow\` value: ${flow}`);
+      throw new Errors.InitialFlowError('Unknown flow value', flow);
     }
 
     // default to original idx response
@@ -63,11 +63,11 @@ async function startSpecificIdxFlow(originalIdxResp, flow='') {
   catch (err) {
     // catches and handles `Unknown remediation` errors thrown okta-idx-js
     if (typeof err === 'string' && err.startsWith('Unknown remediation choice')) {
-      Logger.warn(`initialView [${flow}] not valid with current Org configurations`);
+      Logger.warn(`initialFlow [${flow}] not valid with current Org configurations`);
       throw new Errors.InitialFlowError('Unable to proceed to desired view', flow);
     }
     else {
-      // do not catch non-`Errors.InitialFlowError` errors here
+      // do not catch non-`Unknown remediation` errors here
       throw err;
     }
   }
@@ -166,7 +166,7 @@ export async function startLoginFlow(settings, appState) {
   console.log(idx.client.interceptors.request);
 
   try {
-    const configuredFlow = settings.get('initialView');
+    const configuredFlow = settings.get('initialFlow');
     if (configuredFlow) {
       const meta = await getTransactionMeta(settings);
 
@@ -178,23 +178,19 @@ export async function startLoginFlow(settings, appState) {
           clearTransactionMeta(settings);
         }
 
-        // flow is configured (via settings), but no transaction meta exists for an active flow
         idxResponse = await startSpecificIdxFlow(idxResponse, configuredFlow);
-        console.log('idxResponse2', idxResponse);
-        // TODO: can we assume the flow has "started" successfully if we don't error within `startSpecificIdxFlow`???
         const newMeta = Object.assign({}, {...meta}, {flow: configuredFlow});
         saveTransactionMeta(settings, newMeta);
       }
     }
   }
   catch (err) {
-    console.log(err);
     if (err instanceof Errors.InitialFlowError) {
       // TODO: add meaningful "error" message, explaining to user why flow was interrupted
-      if (idxResponse.messages) {
-        idxResponse.messages = {type:'array', value: []};
+      if (!idxResponse.rawIdxState.messages) {
+        idxResponse.rawIdxState.messages = {type:'array', value: []};
       }
-      idxResponse.messages.push({message: 'Please contact Jeff'});
+      idxResponse.rawIdxState.messages.value.push({message: 'Please contact Jeff'});
     }
     else {
       // do not catch unknown errors here
@@ -202,7 +198,7 @@ export async function startLoginFlow(settings, appState) {
     }
   }
   finally {
-    settings.set('initialView', false);
+    settings.set('initialFlow', false);
   }
 
     const meta2 = await getTransactionMeta(settings);

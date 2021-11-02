@@ -63,10 +63,10 @@ function WebauthnAbortError() {
 }
 WebauthnAbortError.prototype = new Error();
 
-function InitialFlowError(message, viewSetting) {
+function InitialFlowError(message, flowSetting) {
   this.name = Enums.INITIAL_FLOW_ERROR;
   this.message = message;
-  this.viewSetting = viewSetting;
+  this.flowSetting = flowSetting;
 }
 InitialFlowError.prototype = new Error();
 

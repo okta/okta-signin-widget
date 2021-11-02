@@ -79,4 +79,10 @@ export default {
   CUSTOM_URI_CHALLENGE: 'CUSTOM_URI',
   UNIVERSAL_LINK_CHALLENGE: 'UNIVERSAL_LINK',
   APP_LINK_CHALLENGE: 'APP_LINK',
+
+  // Initial Flows
+  LOGIN_FLOW: 'login',
+  REGISTRATION_FLOW: 'registration',
+  RESET_PASSWORD_FLOW: 'reset-password',
+  UNLOCK_ACCOUNT_FLOW: 'unlock'
 };
