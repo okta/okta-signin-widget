@@ -17,9 +17,9 @@
 [authentication]: https://developer.okta.com/docs/concepts/authentication/
 [OIDC]: https://developer.okta.com/docs/reference/api/oidc/
 [identity providers]: https://developer.okta.com/docs/concepts/identity-providers/
-[session cookie]: https://developer.okta.com/docs/guides/session-cookie/-/overview/
+[session cookie]: https://developer.okta.com/docs/guides/session-cookie/overview/
 [hosted flow]: https://developer.okta.com/docs/concepts/okta-hosted-flows/
-[redirect to a sigin-in page]: https://developer.okta.com/docs/guides/sign-into-web-app/go/redirect-to-sign-in/
+[redirect to a sign-in page]: https://developer.okta.com/docs/guides/sign-into-web-app/go/redirect-to-sign-in/
 [callback]: https://developer.okta.com/docs/guides/sign-into-web-app/go/define-callback/
 [authorization code flow]: https://developer.okta.com/docs/concepts/oauth-openid/#authorization-code-flow
 [PKCE]: https://developer.okta.com/docs/concepts/oauth-openid/#authorization-code-flow-with-pkce
@@ -48,15 +48,15 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
   - [.Net](#net)
 - [Sample applications](#sample-applications)
 - [Usage Guide](#usage-guide)
-  - [Okta-hosted signin page (default)](#okta-hosted-signin-page-default)
-  - [Okta-hosted signin page (customizable)](#okta-hosted-signin-page-customizable)
+  - [Okta-hosted sign-in page (default)](#okta-hosted-sign-in-page-default)
+  - [Okta-hosted sign-in page (customizable)](#okta-hosted-sign-in-page-customizable)
   - [Embedded (self-hosted)](#embedded-self-hosted)
     - [Using the Okta CDN](#using-the-okta-cdn)
     - [Using the npm module](#using-the-npm-module)
     - [Examples](#examples)
       - [SPA Application](#spa-application)
       - [Web Application](#web-application)
-  - [non-OIDC Applications](#non-oidc-applications)
+  - [Non-OIDC Applications](#non-oidc-applications)
 - [API Reference](#api-reference)
   - [Interaction Code Flow](#interaction-code-flow)
   - [OktaSignIn](#oktasignin)
@@ -134,7 +134,7 @@ These SDKs are fully compatible with the Okta Sign-in Widget and provide utiliti
 
 ## Sample applications
 
-Complete sample applications demonstrate usage of the Okta Sign-In Widget in both [Okta-hosted](#okta-hosted-signin-page-default) and [embedded](#embedded-self-hosted) scenarios.
+Complete sample applications demonstrate usage of the Okta Sign-In Widget in both [Okta-hosted](#okta-hosted-sign-in-page-default) and [embedded](#embedded-self-hosted) scenarios.
 
 - [Javascript](https://github.com/okta/okta-auth-js/tree/master/samples)
 - [React](https://github.com/okta/samples-js-react)
@@ -154,37 +154,37 @@ Complete sample applications demonstrate usage of the Okta Sign-In Widget in bot
 
 There are several ways to use the Okta Sign-in Widget:
 
-- Okta provides a [default signin page](#okta-hosted-signin-page-default) for your organization, hosted at your organization's Okta URL.
+- Okta provides a [default sign-in page](#okta-hosted-sign-in-page-default) for your organization, hosted at your organization's Okta URL.
 
-- Okta supports an option to create a [custom domain][] with a highly [customizable Okta-hosted signin page](#okta-hosted-signin-page-customizable).
+- Okta supports an option to create a [custom domain][] with a highly [customizable Okta-hosted sign-in page](#okta-hosted-sign-in-page-customizable).
 
 - You can [embed the widget](#embedded-self-hosted) directly into your application.
 
-### Okta-hosted signin page (default)
+### Okta-hosted sign-in page (default)
 
-Okta provides a signin page, available at your [organization][]'s URL which allows the user to complete the entire authorization flow, start a SSO (Single Sign-On) session, and set the Okta [session cookie][] in the web browser. This page can be customized with a background image and logo. By default, signing in on this page redirects the user to the Okta user dashboard.
+Okta provides a sign-in page, available at your [organization][]'s URL, which allows the user to complete the entire authorization flow, start an SSO (Single Sign-On) session, and set the Okta [session cookie][] in the web browser. You can customize this page with a background image and logo. By default, signing in on this page redirects the user to the Okta user dashboard.
 
-The default Okta-hosted signin page can also be used to authenticate a user in an OIDC application. Your app can [redirect to a sigin-in page][] to perform the [authentication][] flow after which Okta redirects back to the app [callback][]. Okta provides [SDKs](#sdks) in many languages to help construct the redirect URL and handle the login [callback][] as part of the [hosted flow][].
+The default Okta-hosted sign-in page can also authenticate a user in an OIDC application. Your app can [redirect to a sign-in page][] to perform the [authentication][] flow, after which Okta redirects the user back to the app [callback][]. Okta provides [SDKs](#sdks) in many languages to help construct the redirect URL and handle the login [callback][] as part of the [hosted flow][].
 
 Okta provides several complete [sample applications](#sample-applications) which demonstrate how to use the Okta [hosted flow][].
 
-### Okta-hosted signin page (customizable)
+### Okta-hosted sign-in page (customizable)
 
-Okta also provides a hosted signin page which can be customized so that it is available under a [custom domain][] which is a subdomain of your company's top-level domain. Although the page is hosted by Okta, you are able to [customize the template][] of this page in many powerful ways.
+Okta also provides a hosted sign-in page that can be customized so that it is available under a [custom domain][] which is a subdomain of your company's top-level domain. Although the page is hosted by Okta, you can [customize the template][] of this page in many powerful ways.
 
 As far as your app is concerned, the customized widget behaves the same as the default Okta-hosted widget and you can use the same [hosted flow][].
 
 ### Embedded (self-hosted)
 
-For a completely seamless experience, which also allows for the highest level of customization, the Sign-In Widget can be embedded directly into your application. This allows full use of the widget's [configuration](#configuration) and [api](#api-reference).
+For a completely seamless experience that allows for the highest level of customization, you can embed the Sign-In Widget directly into your application. This allows full use of the widget's [configuration](#configuration) and [API](#api-reference).
 
-Using an embedded widget, client-side web and native apps can avoid the round-trip redirect of the [hosted flow][]. An embedded widget is able to perform the [OIDC][] flow and return [OAuth][] tokens directly within the application. See [showSignInToGetTokens](#showsignintogettokens).
+Using an embedded widget for client-side web and native apps can avoid the round-trip redirect of the [hosted flow][]. An embedded widget can perform the [OIDC][] flow and return [OAuth][] tokens directly within the application. See [showSignInToGetTokens](#showsignintogettokens).
 
 Server-side web applications using the [authorization code flow][] complete the [OIDC][] flow and receive [OAuth][] tokens on the server, so they **must use a redirect flow**. These apps should use [showSignInAndRedirect](#showsigninandredirect).
 
 Organizations using the Okta [Identity Engine][] should follow the [interaction code flow](#interaction-code-flow).
 
-You can embed the Sign-In Widget in your app either by including a script from the Okta CDN or by bundling the npm module [@okta/okta-signin-widget](https://www.npmjs.com/package/@okta/okta-signin-widget) with your app.
+You can embed the Sign-In Widget in your app by either including a script from the Okta CDN or bundling the npm module [@okta/okta-signin-widget](https://www.npmjs.com/package/@okta/okta-signin-widget) with your app.
 
 #### Using the Okta CDN
 
@@ -229,7 +229,7 @@ npm install @okta/okta-signin-widget --save
 
 This installs the latest version of the Sign-in Widget to your project's `node_modules` directory.
 
-The widget source files and assets will be installed to `node_modules/@okta/okta-signin-widget/dist`, and will have this directory structure:
+The widget source files and assets are installed to `node_modules/@okta/okta-signin-widget/dist`, and have this directory structure:
 
 ```bash
 node_modules/@okta/okta-signin-widget/dist/
@@ -323,7 +323,7 @@ signIn.showSignInToGetTokens({
 });
 ```
 
-[PKCE][] is enabled by default for new SPA applications. (SPA applications can enable or disable `PKCE` in the Okta Admin UI under the `General Settings` for the application.) Although [PKCE][] is recommended for SPA applications, the [implicit flow][] is supported. To use [implicit flow][] in a SPA Application, set `authParams.pkce` to `false`, as shown:
+[PKCE][] is enabled by default for new SPA applications. (SPA applications can enable or disable `PKCE` in the Okta Admin Console under the `General Settings` for the application.) Although [PKCE][] is recommended for SPA applications, the [implicit flow][] is supported. To use [implicit flow][] in a SPA Application, set `authParams.pkce` to `false`, as shown:
 
 ```javascript
 var signIn = new OktaSignIn(
@@ -367,7 +367,7 @@ signIn.showSignInAndRedirect({
 });
 ```
 
-### non-OIDC Applications
+### Non-OIDC Applications
 
 In most cases, the widget will be used to authenticate users into an [OIDC][] application. However, the Sign-in widget can also be used to authenticate a user outside of an OIDC application.
 
@@ -1773,7 +1773,7 @@ To generate pseudo-loc, run the following command:
 
 ```sh
 # Navigate into the pseudo-loc package
-[okta-siginin-widget]$ cd packages/@okta/pseudo-loc/
+[okta-signin-widget]$ cd packages/@okta/pseudo-loc/
 
 # Install all required dependencies and generate login_ok_PL.propertiies
 # NOTE: This requires VPN access
