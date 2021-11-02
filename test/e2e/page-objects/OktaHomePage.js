@@ -16,8 +16,8 @@ const EC = protractor.ExpectedConditions;
 class OktaHomePage {
 
   constructor() {
-    this.mainContentEl = $('.main-content');
-    this.usernameEl = $('[data-se=user-menu] .option-selected-text');
+    this.mainContentEl = $('#main-content');
+    this.usernameEl = $('[data-se=dropdown-menu-button-header]');
   }
 
   waitForPageLoad() {
