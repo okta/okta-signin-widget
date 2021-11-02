@@ -1,6 +1,6 @@
 class OktaHomePage {
   get mainContent() { return $('#main-content'); }
-  get username() { return $('[data-se=user-menu] .option-selected-text'); }
+  get username() { return $('[data-se=dropdown-menu-button-header]'); }
 
   async waitForPageLoad() {
     await browser.waitUntil(async () => {
