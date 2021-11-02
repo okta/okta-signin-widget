@@ -1,5 +1,5 @@
 /* eslint max-params: [2, 16] */
-import createAuthClient from 'widget/createAuthClient';
+import getAuthClient from 'widget/getAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import Form from 'helpers/dom/EnrollHotpForm';
@@ -14,7 +14,9 @@ Expect.describe('EnrollHotp', function() {
   function setup() {
     const setNextResponse = Util.mockAjax();
     const baseUrl = 'https://foo.com';
-    const authClient = createAuthClient({ issuer: baseUrl });
+    const authClient = getAuthClient({
+      authParams: { issuer: baseUrl }
+    });
     const successSpy = jasmine.createSpy('success');
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     const router = new Router({
