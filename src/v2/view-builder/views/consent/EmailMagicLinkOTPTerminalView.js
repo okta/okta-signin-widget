@@ -14,7 +14,7 @@ const getTerminalOtpEmailMagicLinkContext = (appState) => {
       'login',
       [client.location.city, client.location.state || client.location.country]) :
     null;
-  const otp = appState.get('currentAuthenticator').contextualData.otp;
+  const otp = appState.get('currentAuthenticator')?.contextualData?.otp;
 
   return {
     appName,
@@ -33,19 +33,19 @@ const BaseEmailMagicLinkOTPTerminalView = View.extend({
 const OTPInformationTerminalView = BaseEmailMagicLinkOTPTerminalView.extend({
   template: hbs`
   <h1 class='otp-value'>{{otp}}</h1>
-  <div class="enduser-email-consent--info no-translate">
+  <div class="enduser-email-consent--info">
     <div>{{i18n code="idx.return.link.otponly.request" bundle="login"}}</div>
   </div>
-  <div class="enduser-email-consent--info no-translate">
+  <div class="enduser-email-consent--info">
     <i class="enduser-email-consent--icon icon--desktop"></i>
     <div>{{browserOnOsString}}</div>
   </div>
-  <div class="enduser-email-consent--info no-translate">
+  <div class="enduser-email-consent--info">
     <i class="enduser-email-consent--icon icon--app"></i>
     <div>{{appName}}</div>
   </div>
   {{#if geolocation}}
-  <div class="enduser-email-consent--info no-translate">
+  <div class="enduser-email-consent--info">
     <i class="enduser-email-consent--icon icon--location"></i>
     <div>{{geolocation}}</div>
   </div>
