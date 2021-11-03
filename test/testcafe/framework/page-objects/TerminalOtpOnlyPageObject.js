@@ -6,9 +6,12 @@ const getOtpOnlyIconSelector = (fieldName) => {
 
 // OTP Only View constants
 const BROWSER_OS_ICON_SELECTOR = getOtpOnlyIconSelector('desktop');
+const BROWSER_OS_TEXT_SELECTOR = '[data-se=\'otp-browser-os\']';
 const APP_ICON_SELECTOR = getOtpOnlyIconSelector('app');
+const APP_TEXT_SELECTOR = '[data-se=\'otp-app\']';
 const GEOLOCATION_ICON_SELECTOR = getOtpOnlyIconSelector('location');
-const OTP_VALUE_SELECTOR = '[class=\'otp-value\']';
+const GEOLOCATION_TEXT_SELECTOR = '[data-se=\'otp-geolocation\']';
+const OTP_VALUE_SELECTOR = '.otp-value';
 
 export default class TerminalOtpOnlyPageObject extends TerminalPageObject {
 
@@ -16,40 +19,28 @@ export default class TerminalOtpOnlyPageObject extends TerminalPageObject {
     super(t);
   }
 
-  doesBrowserOsEntryExist() {
+  doesBrowserOsIconExist() {
     return this.form.elementExist(BROWSER_OS_ICON_SELECTOR);
   }
 
-  getBrowserOsEntry() {
-    return this.form.getElement(BROWSER_OS_ICON_SELECTOR);
+  getBrowserOsElement() {
+    return this.form.getElement(BROWSER_OS_TEXT_SELECTOR);
   }
 
-  isCorrectBrowserOsEntry(expected) {
-    return expected === this.getBrowserOsEntry().innerText;
-  }
-
-  doesAppEntryExist() {
+  doesAppIconExist() {
     return this.form.elementExist(APP_ICON_SELECTOR);
   }
 
-  getAppEntry() {
-    return this.form.getElement(APP_ICON_SELECTOR);
+  getAppNameElement() {
+    return this.form.getElement(APP_TEXT_SELECTOR);
   }
 
-  isCorrectAppEntry(expected) {
-    return expected === this.getAppEntry().innerText;
-  }
-
-  doesGeolocationEntryExist() {
+  doesGeolocationIconExist() {
     return this.form.elementExist(GEOLOCATION_ICON_SELECTOR);
   }
 
-  getGeolocationEntry() {
-    return this.form.getElement(GEOLOCATION_ICON_SELECTOR);
-  }
-
-  isCorrectGeolocationEntry(expected) {
-    return expected === this.getGeolocationEntry().innerText;
+  getGeolocationElement() {
+    return this.form.getElement(GEOLOCATION_TEXT_SELECTOR);
   }
 
   doesOtpEntryExist() {
@@ -58,10 +49,6 @@ export default class TerminalOtpOnlyPageObject extends TerminalPageObject {
 
   getOtpEntry() {
     return this.form.getElement(OTP_VALUE_SELECTOR);
-  }
-
-  isCorrectOtpEntry(expected) {
-    return expected === this.getOtpEntry().innerText;
   }
 
 }

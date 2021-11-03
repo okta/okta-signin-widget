@@ -38,16 +38,16 @@ const OTPInformationTerminalView = BaseEmailMagicLinkOTPTerminalView.extend({
   </div>
   <div class="enduser-email-consent--info">
     <i class="enduser-email-consent--icon icon--desktop"></i>
-    <div>{{browserOnOsString}}</div>
+    <div data-se="otp-browser-os">{{browserOnOsString}}</div>
   </div>
   <div class="enduser-email-consent--info">
     <i class="enduser-email-consent--icon icon--app"></i>
-    <div>{{appName}}</div>
+    <div data-se="otp-app">{{appName}}</div>
   </div>
   {{#if geolocation}}
   <div class="enduser-email-consent--info">
     <i class="enduser-email-consent--icon icon--location"></i>
-    <div>{{geolocation}}</div>
+    <div data-se="otp-geolocation">{{geolocation}}</div>
   </div>
   {{/if}}
   <p class='otp-warning'>{{i18n code="idx.return.link.otponly.warning" bundle="login"}}</p>
