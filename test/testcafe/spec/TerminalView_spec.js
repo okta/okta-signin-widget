@@ -157,16 +157,16 @@ async function setupOtpOnly(t) {
       const terminalOtpOnlyPage = await setupOtpOnly(t);
       // Make sure OTP, Browser & OS, App Name are present
       await t.expect(await terminalOtpOnlyPage.doesOtpEntryExist()).ok();
-      await t.expect(await terminalOtpOnlyPage.isCorrectOtpEntry("123456")).ok();
+      await t.expect(await terminalOtpOnlyPage.isCorrectOtpEntry('123456')).ok();
       await t.expect(await terminalOtpOnlyPage.doesBrowserOsEntryExist()).ok();
-      await t.expect(await terminalOtpOnlyPage.isCorrectBrowserOsEntry("FIREFOX on Mac OS X")).ok();
+      await t.expect(await terminalOtpOnlyPage.isCorrectBrowserOsEntry('FIREFOX on Mac OS X')).ok();
       await t.expect(await terminalOtpOnlyPage.doesAppEntryExist()).ok();
-      await t.expect(await terminalOtpOnlyPage.isCorrectAppEntry("my 3rd magic link spa")).ok();
+      await t.expect(await terminalOtpOnlyPage.isCorrectAppEntry('my 3rd magic link spa')).ok();
 
       // Ensure geolocation's presence or not based on response
       if (expectingGeolocation) {
         await t.expect(await terminalOtpOnlyPage.doesGeolocationEntryExist()).ok();
-        await t.expect(await terminalOtpOnlyPage.isCorrectGeolocationEntry("Toronto, Ontario")).ok();
+        await t.expect(await terminalOtpOnlyPage.isCorrectGeolocationEntry('Toronto, Ontario')).ok();
       } else {
         await t.expect(await terminalOtpOnlyPage.doesGeolocationEntryExist()).notOk();
       }
