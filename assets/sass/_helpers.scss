@@ -22,7 +22,7 @@
 
 @mixin mobile {
   @media only screen
-  /* ----------- iPhone 4 and 4S ----------- */
+  /* ----------- iPhone 4 and 4S <test comment to be removed> ----------- */
   /* Portrait and Landscape */
     and (min-device-width: 320px)
     and (max-device-width: 480px)
