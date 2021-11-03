@@ -1,4 +1,4 @@
-import { createCallout, loc } from 'okta';
+import { loc } from 'okta';
 import { BaseForm, BaseFooter, BaseView } from '../internals';
 import { getBackToSignInLink, getSkipSetupLink, getReloadPageButtonLink } from '../utils/LinksUtil';
 import EmailAuthenticatorHeader from '../components/EmailAuthenticatorHeader';
@@ -121,31 +121,16 @@ const Body = BaseForm.extend({
       messagesObjs.value.push({ message: loc('oie.return.to.original.tab', 'login')});
     } else if (this.options.appState.containsMessageWithI18nKey('tooManyRequests')) {
       description = loc('oie.tooManyRequests', 'login');
+    } else if (this.options.appState.containsMessageWithI18nKey(RETURN_LINK_EXPIRED_KEY)) {
+      messagesObjs.value[0].class = 'ERROR';
     }
 
     if (description && Array.isArray(messagesObjs?.value)) {
       messagesObjs.value[0].message = description;
     }
 
-    if (messagesObjs && Array.isArray(messagesObjs.value)) {
-      this.add('<div class="ion-messages-container"></div>', '.o-form-error-container');
-
-      messagesObjs.value
-        .forEach(messagesObj => {
-          const msg = messagesObj.message;
-          if (messagesObj.class === 'ERROR' || messagesObj.i18n?.key === RETURN_LINK_EXPIRED_KEY) {
-            this.add(createCallout({
-              content: msg,
-              type: 'error',
-            }), {
-              selector: '.o-form-error-container',
-              prepend: true,
-            });
-          } else {
-            this.add(`<p>${msg}</p>`, '.ion-messages-container');
-          }
-        });
-    }
+    this.options.appState.set('messages', messagesObjs);
+    BaseForm.prototype.showMessages.call(this);
   },
 
 });

@@ -1,4 +1,4 @@
-import { loc, createCallout } from 'okta';
+import { loc } from 'okta';
 import { BaseForm } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import PIVHeader from './PIVHeader';
@@ -42,31 +42,8 @@ const Body = BaseForm.extend({
   stopAuthentication: function() {
     this.$('.okta-waiting-spinner').hide();
     this.$('.o-form-button-bar').show();
-  },
-
-  showMessages() {
-    // PIV error messages are not form errors
-    // Parse and display them here.
-    // TODO: OKTA-383470
-    const messages = this.options.appState.get('messages') || {};
-    if (Array.isArray(messages.value)) {
-      this.add('<div class="ion-messages-container”></div>', '.o-form-error-container');
-
-      messages
-        .value
-        .forEach(messagesObj => {
-          const msg = messagesObj.message;
-          if (messagesObj.class === 'ERROR') {
-            this.add(createCallout({
-              content: msg,
-              type: 'error',
-            }), '.o-form-error-container');
-          } else {
-            this.add(`<p>${msg}</p>`, '.ion-messages-container');
-          }
-        });
-    }
-  },
+  }
+  
 });
 
 export default BaseAuthenticatorView.extend({

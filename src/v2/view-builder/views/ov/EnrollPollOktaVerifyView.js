@@ -1,4 +1,4 @@
-import { loc, createCallout } from 'okta';
+import { loc } from 'okta';
 import { BaseForm } from '../../internals';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
@@ -45,33 +45,17 @@ const Body = BaseForm.extend(Object.assign(
       }
     },
     showMessages() {
-      // override showMessages to display error message
-      const messagesObjs = this.options.appState.get('messages');
-      if (messagesObjs && Array.isArray(messagesObjs.value)) {
-        this.add('<div class="ion-messages-container"></div>', '.o-form-error-container');
-
-        messagesObjs.value.forEach(messagesObj => {
-          const msg = messagesObj.message;
-          if (messagesObj?.class === 'ERROR') {
-            const options = {
-              content: msg,
-              type: 'error',
-            };
-            if (this.options.appState.containsMessageWithI18nKey(OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_IOS) ||
-            this.options.appState.containsMessageWithI18nKey(OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_NON_IOS)) {
-              // add a title for ov force upgrade
-              options.title = loc('oie.okta_verify.enroll.force.upgrade.title', 'login');
-            } else if (this.options.appState.containsMessageWithI18nKey(OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY)) {
-              // add a title for OV enable biometrics message during enrollment
-              options.title = loc('oie.authenticator.app.method.push.enroll.enable.biometrics.title', 'login');
-            }
-            this.add(createCallout(options), '.o-form-error-container');
-          } else {
-            this.add(`<p>${msg}</p>`, '.ion-messages-container');
-          }
-        });
-
+      // override showMessages to display custom callout
+      const calloutOptions = {};
+      if (this.options.appState.containsMessageWithI18nKey(OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_IOS) ||
+        this.options.appState.containsMessageWithI18nKey(OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_NON_IOS)) {
+        // add a title for ov force upgrade
+        calloutOptions.title = loc('oie.okta_verify.enroll.force.upgrade.title', 'login');
+      } else if (this.options.appState.containsMessageWithI18nKey(OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY)) {
+        // add a title for OV enable biometrics message during enrollment
+        calloutOptions.title = loc('oie.authenticator.app.method.push.enroll.enable.biometrics.title', 'login');
       }
+      BaseForm.prototype.showMessages.call(this, calloutOptions);
     },
     getUISchema() {
       const schema = [];

@@ -1,4 +1,4 @@
-import { _, Form, loc, internal } from 'okta';
+import { _, Form, loc, internal, createCallout, View } from 'okta';
 import FormInputFactory from './FormInputFactory';
 
 const { FormUtil } = internal.views.forms.helpers;
@@ -113,37 +113,39 @@ export default Form.extend({
   },
 
   /*
-   * Whether an form error message should be rendered as the default BaseForm error banner or not
-   * if this function returns true, BaseForm won't render the error banner after form submit. Instead,
-   * the form needs to override showCustomErrorCallout with the logic to render that error message
-   */
-  isErrorCalloutCustomized() {
-    return false;
-  },
+  * Views should override this function to render custom error callouts for invalid form actions.
+  * Should return true when callout is customized
+  */
+  showCustomFormErrorCallout: null,
 
   /*
-   * Renders an error message (if any) after form is submitted
-   * This should be overriden if isErrorCalloutCustomized() returns true
-   */
-  showCustomErrorCallout() {
-    this.$('.o-form-error-container').addClass('o-form-has-errors');
-  },
-
-  /*
-   * Renders the contents of messages object (if any) during initialize
+   * Renders the contents of messages object (if any, on error) during initialize
    * This function is called during Form.initialize, and will display
-   * messages when the form renders.
-   * Note: any errors happening after the form is rendered won't use this function,
-   * this is only used during initialize
+   * messages when the form reloads.
+   * Note: Any user action related form errors handled by FormController.showFormErrors
    */
-  showMessages() {
-    // render messages as text
-    const messagesObjs = this.options.appState.get('messages');
-    if (messagesObjs?.value.length) {
-      const content = messagesObjs.value.map((messagesObj) => {
-        return messagesObj.message;
+  showMessages(options) {
+    const messages = this.options.appState.get('messages') || {};
+    const errContainer = '.o-form-error-container';
+    if (Array.isArray(messages.value) && !(options instanceof View)) {
+      this.add('<div class="ion-messages-container"></div>', errContainer);
+      messages.value.forEach(obj => {
+        if(!obj?.class || obj.class === 'INFO') {
+          // add message as plain text
+          this.add(`<p>${obj.message}</p>`, '.ion-messages-container');
+        } else {
+          // add error callout with custom options
+          options = Object.assign(_.pick(obj, 'message', 'class'), options);
+          this.add(createCallout({
+            content: options.message,
+            type: (options.class || '').toLowerCase(),
+            title: options.title ? options.title : ''
+          }), errContainer);
+        }
       });
-      this.add(`<div class="ion-messages-container">${content.join(' ')}</div>`, '.o-form-error-container');
+    } else if (options instanceof View) {
+      // if callee is showCustomFormErrorCallout. show custom error views
+      this.add(options, errContainer);
     }
   },
 });
