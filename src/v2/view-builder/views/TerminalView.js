@@ -139,26 +139,8 @@ const Body = BaseForm.extend({
     }
 
     this.options.appState.set('messages', messagesObjs);
-    BaseForm.prototype.showMessages.call(this);
-
-    if (messagesObjs && Array.isArray(messagesObjs.value) && !hasCustomView) {
-      this.add('<div class="ion-messages-container"></div>', '.o-form-error-container');
-
-      messagesObjs.value
-        .forEach(messagesObj => {
-          const msg = messagesObj.message;
-          if (messagesObj.class === 'ERROR' || messagesObj.i18n?.key === RETURN_LINK_EXPIRED_KEY) {
-            this.add(createCallout({
-              content: msg,
-              type: 'error',
-            }), {
-              selector: '.o-form-error-container',
-              prepend: true,
-            });
-          } else {
-            this.add(`<p>${msg}</p>`, '.ion-messages-container');
-          }
-        });
+    if (!hasCustomView) {
+      BaseForm.prototype.showMessages.call(this);
     }
   },
 
