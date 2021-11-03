@@ -63,7 +63,7 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
   }
 
   waitForPrimaryButtonAfterSpinner() {
-    return Selector('[data-se="o-form-fieldset-container"] .button-primary', { timeout: 4000 });
+    return Selector('[data-se="o-form-fieldset-container"] .button-primary', { timeout: 4500 });
   }
 
   async clickUniversalLink() {

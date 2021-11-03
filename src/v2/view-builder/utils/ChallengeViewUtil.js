@@ -13,6 +13,7 @@ import { loc, View, createButton, _ } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import Enums from '../../../util/Enums';
 import Util from '../../../util/Util';
+import { FASTPASS_FALLBACK_SPINNER_TIMEOUT } from '../utils/Constants';
 
 export function appendLoginHint(deviceChallengeUrl, loginHint) {
   if (deviceChallengeUrl && loginHint) {
@@ -25,7 +26,6 @@ export function appendLoginHint(deviceChallengeUrl, loginHint) {
 export function doChallenge(view) {
   const deviceChallenge = view.getDeviceChallengePayload();
   const loginHint = view.options?.settings?.get('identifier');
-  const SPINNER_TIMEOUT = 4000;
   const HIDE_CLASS = 'hide';
   switch (deviceChallenge.challengeMethod) {
   case Enums.LOOPBACK_CHALLENGE:
@@ -112,7 +112,7 @@ export function doChallenge(view) {
           this.options.appState.trigger('updateFooterLink', data);
           this.$('.spinner').addClass(HIDE_CLASS);
           this.$('.appLinkContent').removeClass(HIDE_CLASS);
-        }, this), SPINNER_TIMEOUT);
+        }, this), FASTPASS_FALLBACK_SPINNER_TIMEOUT);
       },
     }));
     view.add(createButton({
@@ -128,7 +128,7 @@ export function doChallenge(view) {
       postRender() {
         setTimeout(_.bind(()=> {
           this.$el.removeClass(HIDE_CLASS);
-        }, this), SPINNER_TIMEOUT);
+        }, this), FASTPASS_FALLBACK_SPINNER_TIMEOUT);
       }
     }));
     break;

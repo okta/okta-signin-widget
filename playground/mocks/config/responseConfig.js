@@ -387,6 +387,18 @@ const androidAuthnLoopbackFailfast = {
   ],
 };
 
+const identifierAndroidAppLink = {
+  '/idp/idx/introspect': [
+    'identify-with-device-probing-loopback-challenge-not-received',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'identify-with-app-link',
+  ],
+  '/idp/idx/authenticators/okta-verify/launch': [
+    'identify-with-app-link',
+  ]
+};
+
 // user verification: Windows/Android authenticator with loopback server
 const userVerificationLoopback = {
   '/idp/idx/introspect': [
@@ -410,6 +422,22 @@ const userVerificationCustomUri = {
   ],
   '/idp/idx/authenticators/okta-verify/launch': [
     'authenticator-verification-okta-verify-signed-nonce-custom-uri',
+  ]
+};
+
+// user verification: Windows authenticator with app link
+const userVerificationAppLink = {
+  '/idp/idx/introspect': [
+    'identify-with-device-probing-loopback-challenge-not-received',
+  ],
+  '/idp/idx/identify': [
+    'authenticator-verification-okta-verify-signed-nonce-app-link',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'authenticator-verification-okta-verify-signed-nonce-app-link',
+  ],
+  '/idp/idx/authenticators/okta-verify/launch': [
+    'authenticator-verification-okta-verify-signed-nonce-app-link',
   ]
 };
 

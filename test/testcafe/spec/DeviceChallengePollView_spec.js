@@ -623,6 +623,7 @@ test
 
     await t.expect(deviceChallengePollPageObject.waitForPrimaryButtonAfterSpinner().innerText).eql('Open Okta Verify');
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
+    await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('none');
     deviceChallengePollPageObject.clickAppLink();
     // verify login_hint has been appended to the app link url
     await t.expect(getPageUrl()).contains('login_hint='+encodeURIComponent(username));
