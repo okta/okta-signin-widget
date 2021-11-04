@@ -425,7 +425,7 @@ const userVerificationCustomUri = {
   ]
 };
 
-// user verification: Windows authenticator with app link
+// user verification: Android authenticator with app link
 const userVerificationAppLink = {
   '/idp/idx/introspect': [
     'identify-with-device-probing-loopback-challenge-not-received',

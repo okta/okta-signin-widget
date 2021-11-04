@@ -3,7 +3,7 @@ import { BaseFormWithPolling } from '../../internals';
 import Logger from '../../../../util/Logger';
 import { CHALLENGE_TIMEOUT } from '../../utils/Constants';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
-import {doChallenge} from '../../utils/ChallengeViewUtil';
+import { doChallenge } from '../../utils/ChallengeViewUtil';
 
 const request = (opts) => {
   const ajaxOptions = Object.assign({

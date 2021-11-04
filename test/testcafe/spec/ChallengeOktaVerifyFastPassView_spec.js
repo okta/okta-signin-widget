@@ -238,13 +238,12 @@ test
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Sign in with Okta FastPass');
 
-    await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('block');
+    const content = deviceChallengePollPageObject.getContent();
+    await t.expect(content)
+      .contains('If Okta Verify did not open automatically, tap the button below to reopen Okta Verify.');
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
 
-    await t.expect(deviceChallengePollPageObject.waitForPrimaryButtonAfterSpinner().innerText).eql('Open Okta Verify');
-    await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
-    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
     deviceChallengePollPageObject.clickAppLink();
     // verify login_hint has been appended to the app link url
     await t.expect(getPageUrl()).contains('login_hint='+encodeURIComponent(username));

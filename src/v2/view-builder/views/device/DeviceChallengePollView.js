@@ -3,7 +3,7 @@ import { BaseFormWithPolling, BaseFooter, BaseView } from '../../internals';
 import Logger from '../../../../util/Logger';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import Enums from '../../../../util/Enums';
-import { CANCEL_POLLING_ACTION, CHALLENGE_TIMEOUT } from '../../utils/Constants';
+import { CANCEL_POLLING_ACTION, CHALLENGE_TIMEOUT, IDENTIFIER_FLOW } from '../../utils/Constants';
 import Link from '../../components/Link';
 import { doChallenge } from '../../utils/ChallengeViewUtil';
 import OktaVerifyAuthenticatorHeader from '../../components/OktaVerifyAuthenticatorHeader';
@@ -33,7 +33,7 @@ const Body = BaseFormWithPolling.extend(
     initialize() {
       BaseFormWithPolling.prototype.initialize.apply(this, arguments);
       this.listenTo(this.model, 'error', this.onPollingFail);
-      doChallenge(this);
+      doChallenge(this, IDENTIFIER_FLOW);
       this.startPolling();
     },
 

@@ -13,7 +13,7 @@ import { loc, View, createButton, _ } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import Enums from '../../../util/Enums';
 import Util from '../../../util/Util';
-import { FASTPASS_FALLBACK_SPINNER_TIMEOUT } from '../utils/Constants';
+import { FASTPASS_FALLBACK_SPINNER_TIMEOUT, IDENTIFIER_FLOW } from '../utils/Constants';
 
 export function appendLoginHint(deviceChallengeUrl, loginHint) {
   if (deviceChallengeUrl && loginHint) {
@@ -23,7 +23,7 @@ export function appendLoginHint(deviceChallengeUrl, loginHint) {
   return deviceChallengeUrl;
 }
 
-export function doChallenge(view) {
+export function doChallenge(view, fromView) {
   const deviceChallenge = view.getDeviceChallengePayload();
   const loginHint = view.options?.settings?.get('identifier');
   const HIDE_CLASS = 'hide';
@@ -100,19 +100,24 @@ export function doChallenge(view) {
     view.add(View.extend({
       className: 'app-link-content',
       template: hbs`
-        <div class="spinner"></div>
+        <div class="spinner {{hideClass}}"></div>
         <div class="appLinkContent {{hideClass}}">{{i18n code="appLink.content" bundle="login"}}</div>
       `,
       getTemplateData() {
         return { hideClass: HIDE_CLASS };
       },
       postRender() {
-        setTimeout(_.bind(()=> {
-          const data = { label: loc('goback', 'login') };
-          this.options.appState.trigger('updateFooterLink', data);
-          this.$('.spinner').addClass(HIDE_CLASS);
+        if (fromView === IDENTIFIER_FLOW) {
+          this.$('.spinner').removeClass(HIDE_CLASS);
+          setTimeout(_.bind(()=> {
+            const data = { label: loc('goback', 'login') };
+            this.options.appState.trigger('updateFooterLink', data);
+            this.$('.spinner').addClass(HIDE_CLASS);
+            this.$('.appLinkContent').removeClass(HIDE_CLASS);
+          }, this), FASTPASS_FALLBACK_SPINNER_TIMEOUT);
+        } else {
           this.$('.appLinkContent').removeClass(HIDE_CLASS);
-        }, this), FASTPASS_FALLBACK_SPINNER_TIMEOUT);
+        }
       },
     }));
     view.add(createButton({
@@ -126,9 +131,13 @@ export function doChallenge(view) {
         Util.redirect(deviceChallengeUrl, window, true);
       },
       postRender() {
-        setTimeout(_.bind(()=> {
+        if (fromView === IDENTIFIER_FLOW) {
+          setTimeout(_.bind(()=> {
+            this.$el.removeClass(HIDE_CLASS);
+          }, this), FASTPASS_FALLBACK_SPINNER_TIMEOUT);
+        } else {
           this.$el.removeClass(HIDE_CLASS);
-        }, this), FASTPASS_FALLBACK_SPINNER_TIMEOUT);
+        }
       }
     }));
     break;
