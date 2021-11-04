@@ -24,6 +24,7 @@ const EXTERNAL_PATHS = [
 ];
 
 const webpackConfig = {
+  mode: 'development',
   entry: ['./src/CourageForSigninWidget.js'],
   devtool: 'source-map',
   output: {
@@ -74,7 +75,7 @@ const webpackConfig = {
           return shallBeExcluded && !npmRequiresTransform;
         },
         loader: 'babel-loader',
-        query: {
+        options: {
           presets: [['@babel/preset-env', { modules: 'commonjs' }]],
           plugins: [
             '@okta/babel-plugin-handlebars-inline-precompile',
@@ -86,7 +87,8 @@ const webpackConfig = {
   },
 
   plugins: [
-    new BannerPlugin(`THIS FILE IS GENERATED FROM PACKAGE @okta/courage@${PACKAGE_JSON.devDependencies['@okta/courage']}`),
+    // TODO: BundleAnalyzer doesn't work with webpack5
+    // https://github.com/webpack-contrib/webpack-bundle-analyzer/issues/327
     new BundleAnalyzerPlugin({
       openAnalyzer: false,
       reportFilename: `${DIST_FILE_NAME}.html`,
