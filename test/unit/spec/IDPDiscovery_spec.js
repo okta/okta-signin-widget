@@ -126,7 +126,13 @@ function setupSocial(settings) {
     )
   ).then(function(test) {
     spyOn(window, 'open').and.callFake(function() {
-      test.oidcWindow = { closed: false, close: jasmine.createSpy() };
+      test.oidcWindow = { 
+        closed: false, 
+        close: jasmine.createSpy(),
+        location: {
+          assign: jasmine.createSpy()
+        }
+      };
       return test.oidcWindow;
     });
     return test;
