@@ -1,7 +1,7 @@
 /* eslint max-params:[2, 32], max-statements:[2, 46], camelcase:0, max-len:[2, 180] */
 import { _, $, internal } from 'okta';
 import { OAuthError } from '@okta/okta-auth-js';
-import createAuthClient from 'widget/createAuthClient';
+import getAuthClient from 'widget/getAuthClient';
 import Router from 'LoginRouter';
 import PrimaryAuthController from 'PrimaryAuthController';
 import AuthContainer from 'helpers/dom/AuthContainer';
@@ -99,10 +99,12 @@ async function setup(settings, requests, refreshState) {
 
   const setNextResponse = Util.mockAjax(requests);
   const baseUrl = 'https://foo.com';
-  const authClient = createAuthClient(Object.assign({
-    issuer: baseUrl,
-    transformErrorXHR: LoginUtil.transformErrorXHR, headers: {}
-  }, settings.authParams));
+  const authClient = getAuthClient({
+    authParams: Object.assign({
+      issuer: baseUrl,
+      transformErrorXHR: LoginUtil.transformErrorXHR,
+    }, settings.authParams)
+  });
   const successSpy = jasmine.createSpy('success');
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
   const router = new Router(
@@ -197,7 +199,13 @@ function setupSocial(settings) {
     )
   ).then(function(test) {
     spyOn(window, 'open').and.callFake(function() {
-      test.oidcWindow = { closed: false, close: jasmine.createSpy() };
+      test.oidcWindow = { 
+        closed: false, 
+        close: jasmine.createSpy(),
+        location: {
+          assign: jasmine.createSpy()
+        }
+      };
       return test.oidcWindow;
     });
     return test;
@@ -909,6 +917,25 @@ Expect.describe('PrimaryAuth', function() {
         expect(test.form.passwordField()[0].parentElement).not.toHaveClass('focused-input');
         expect(test.router.controller.model.validate).not.toHaveBeenCalled();
       });
+    });
+  });
+
+  Expect.describe('Okta UA', function() {
+    itp('tracks Okta UA for widget in "x-okta-user-agent-extended"', function() {
+      return setup()
+        .then(function(test) {
+          Util.resetAjaxRequests();
+          test.form.setUsername('testuser');
+          test.form.setPassword('pass');
+          test.setNextResponse(resSuccess);
+          test.form.submit();
+          return Expect.waitForSpyCall(test.successSpy, test);
+        })
+        .then(function() {
+          expect(Util.numAjaxRequests()).toBe(1);
+          const ajaxArgs = Util.getAjaxRequest(0);
+          expect(ajaxArgs.requestHeaders['x-okta-user-agent-extended'].indexOf('okta-signin-widget-9.9.99')).toBeGreaterThan(-1);
+        });
     });
   });
 
@@ -2907,28 +2934,30 @@ Expect.describe('PrimaryAuth', function() {
       return setupSocial()
         .then(function(test) {
           test.form.facebookButton().click();
-          return Expect.waitForSpyCall(window.open);
+          return Promise.all([test, Expect.waitForSpyCall(test.oidcWindow.location.assign)]);
         })
-        .then(function() {
+        .then(function([test]) {
           expect(window.open.calls.count()).toBe(1);
           expect(window.open).toHaveBeenCalledWith(
-            'https://foo.com/oauth2/v1/authorize?' +
-              'client_id=someClientId&' +
-              'display=popup&' +
-              'idp=0oaidiw9udOSceD1234&' +
-              'nonce=' +
-              OIDC_NONCE +
-              '&' +
-              'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
-              'response_mode=okta_post_message&' +
-              'response_type=id_token&' +
-              'state=' +
-              OIDC_STATE +
-              '&' +
-              'scope=openid%20email%20profile',
+            '/',
             'External Identity Provider User Authentication',
             'toolbar=no, scrollbars=yes, resizable=yes, top=100, left=500, width=600, height=600'
           );
+          const expectedRedirectUri = 'https://foo.com/oauth2/v1/authorize?' +
+          'client_id=someClientId&' +
+          'display=popup&' +
+          'idp=0oaidiw9udOSceD1234&' +
+          'nonce=' +
+          OIDC_NONCE +
+          '&' +
+          'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
+          'response_mode=okta_post_message&' +
+          'response_type=id_token&' +
+          'state=' +
+          OIDC_STATE +
+          '&' +
+          'scope=openid%20email%20profile';
+          expect(test.oidcWindow.location.assign).toHaveBeenCalledWith(expectedRedirectUri);
         });
     });
     itp('navigate to "/sso/idp/:id" at none OIDC mode when an idp button is clicked', function() {
@@ -2950,28 +2979,30 @@ Expect.describe('PrimaryAuth', function() {
       return setupSocial({ 'authParams.responseType': 'token' })
         .then(function(test) {
           test.form.facebookButton().click();
-          return Expect.waitForSpyCall(window.open);
+          return Promise.all([test, Expect.waitForSpyCall(test.oidcWindow.location.assign)]);
         })
-        .then(function() {
+        .then(function([test]) {
+          const expectedRedirectUri = 'https://foo.com/oauth2/v1/authorize?' +
+          'client_id=someClientId&' +
+          'display=popup&' +
+          'idp=0oaidiw9udOSceD1234&' +
+          'nonce=' +
+          OIDC_NONCE +
+          '&' +
+          'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
+          'response_mode=okta_post_message&' +
+          'response_type=token&' +
+          'state=' +
+          OIDC_STATE +
+          '&' +
+          'scope=openid%20email%20profile';
           expect(window.open.calls.count()).toBe(1);
           expect(window.open).toHaveBeenCalledWith(
-            'https://foo.com/oauth2/v1/authorize?' +
-              'client_id=someClientId&' +
-              'display=popup&' +
-              'idp=0oaidiw9udOSceD1234&' +
-              'nonce=' +
-              OIDC_NONCE +
-              '&' +
-              'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
-              'response_mode=okta_post_message&' +
-              'response_type=token&' +
-              'state=' +
-              OIDC_STATE +
-              '&' +
-              'scope=openid%20email%20profile',
+            '/',
             'External Identity Provider User Authentication',
             'toolbar=no, scrollbars=yes, resizable=yes, top=100, left=500, width=600, height=600'
           );
+          expect(test.oidcWindow.location.assign).toHaveBeenCalledWith(expectedRedirectUri);
         });
     });
     itp(
@@ -2980,28 +3011,30 @@ Expect.describe('PrimaryAuth', function() {
         return setupSocial({ 'authParams.responseType': ['id_token', 'token'] })
           .then(function(test) {
             test.form.facebookButton().click();
-            return Expect.waitForSpyCall(window.open);
+            return Promise.all([test, Expect.waitForSpyCall(window.open)]);
           })
-          .then(function() {
+          .then(function([test]) {
+            const expectedRedirectUri = 'https://foo.com/oauth2/v1/authorize?' +
+            'client_id=someClientId&' +
+            'display=popup&' +
+            'idp=0oaidiw9udOSceD1234&' +
+            'nonce=' +
+            OIDC_NONCE +
+            '&' +
+            'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
+            'response_mode=okta_post_message&' +
+            'response_type=id_token%20token&' +
+            'state=' +
+            OIDC_STATE +
+            '&' +
+            'scope=openid%20email%20profile';
             expect(window.open.calls.count()).toBe(1);
             expect(window.open).toHaveBeenCalledWith(
-              'https://foo.com/oauth2/v1/authorize?' +
-                'client_id=someClientId&' +
-                'display=popup&' +
-                'idp=0oaidiw9udOSceD1234&' +
-                'nonce=' +
-                OIDC_NONCE +
-                '&' +
-                'redirect_uri=https%3A%2F%2F0.0.0.0%3A9999&' +
-                'response_mode=okta_post_message&' +
-                'response_type=id_token%20token&' +
-                'state=' +
-                OIDC_STATE +
-                '&' +
-                'scope=openid%20email%20profile',
+              '/',
               'External Identity Provider User Authentication',
               'toolbar=no, scrollbars=yes, resizable=yes, top=100, left=500, width=600, height=600'
             );
+            expect(test.oidcWindow.location.assign).toHaveBeenCalledWith(expectedRedirectUri);
           });
       }
     );
@@ -3037,7 +3070,7 @@ Expect.describe('PrimaryAuth', function() {
             const data = test.successSpy.calls.argsFor(0)[0];
 
             expect(data.status).toBe('SUCCESS');
-            expect(data.tokens.idToken.value).toBe(VALID_ID_TOKEN);
+            expect(data.tokens.idToken.idToken).toBe(VALID_ID_TOKEN);
             expect(data.tokens.idToken.claims).toEqual({
               amr: ['pwd'],
               aud: 'someClientId',
@@ -3098,9 +3131,9 @@ Expect.describe('PrimaryAuth', function() {
           const data = test.successSpy.calls.argsFor(0)[0];
 
           expect(data.status).toBe('SUCCESS');
-          expect(data.tokens.idToken.value).toBe(VALID_ID_TOKEN);
+          expect(data.tokens.idToken.idToken).toBe(VALID_ID_TOKEN);
 
-          expect(data.tokens.accessToken.value).toBe(VALID_ACCESS_TOKEN);
+          expect(data.tokens.accessToken.accessToken).toBe(VALID_ACCESS_TOKEN);
           expect(data.tokens.accessToken.scopes).toEqual(['openid', 'email', 'profile']);
           expect(data.tokens.accessToken.tokenType).toBe('Bearer');
         })

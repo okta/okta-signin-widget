@@ -1,6 +1,6 @@
 /* eslint max-params:[2, 28], max-statements:[2, 41], camelcase:0, max-len:[2, 180] */
 import { _, $, internal } from 'okta';
-import createAuthClient from 'widget/createAuthClient';
+import getAuthClient from 'widget/getAuthClient';
 import Router from 'LoginRouter';
 import AuthContainer from 'helpers/dom/AuthContainer';
 import Beacon from 'helpers/dom/Beacon';
@@ -44,11 +44,13 @@ function setup(settings, requests) {
 
   const setNextResponse = Util.mockAjax(requests);
   const baseUrl = 'https://foo.com';
-  const authClient = createAuthClient({
-    issuer: baseUrl,
-    pkce: false,
-    transformErrorXHR: WidgetUtil.transformErrorXHR,
-    headers: {},
+  const authClient = getAuthClient({
+    authParams: {
+      issuer: baseUrl,
+      pkce: false,
+      transformErrorXHR: WidgetUtil.transformErrorXHR,
+      headers: {},
+    }
   });
   const successSpy = jasmine.createSpy('success');
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
@@ -124,7 +126,13 @@ function setupSocial(settings) {
     )
   ).then(function(test) {
     spyOn(window, 'open').and.callFake(function() {
-      test.oidcWindow = { closed: false, close: jasmine.createSpy() };
+      test.oidcWindow = { 
+        closed: false, 
+        close: jasmine.createSpy(),
+        location: {
+          assign: jasmine.createSpy()
+        }
+      };
       return test.oidcWindow;
     });
     return test;

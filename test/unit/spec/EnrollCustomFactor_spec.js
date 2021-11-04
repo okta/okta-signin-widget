@@ -1,6 +1,6 @@
 /* eslint max-params:[2, 16] */
 import { internal } from 'okta';
-import createAuthClient from 'widget/createAuthClient';
+import getAuthClient from 'widget/getAuthClient';
 import Router from 'LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import Form from 'helpers/dom/EnrollCustomFactorForm';
@@ -21,7 +21,9 @@ Expect.describe('EnrollCustomFactor', function() {
   function setup(factorType) {
     const setNextResponse = Util.mockAjax([responseMfaEnrollAll]);
     const baseUrl = 'https://foo.com';
-    const authClient = createAuthClient({ issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR });
+    const authClient = getAuthClient({
+      authParams: { issuer: baseUrl, transformErrorXHR: LoginUtil.transformErrorXHR }
+    });
     const successSpy = jasmine.createSpy('success');
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
     const router = new Router({
@@ -130,6 +132,7 @@ Expect.describe('EnrollCustomFactor', function() {
                 statusCode: 403,
                 xhr: {
                   status: 403,
+                  headers: { 'content-type': 'application/json' },
                   responseType: 'json',
                   responseText: '{"errorCode":"E0000006","errorSummary":"You do not have permission to perform the requested action","errorLink":"E0000006","errorId":"oae3CaVvE33SqKyymZRyUWE7Q","errorCauses":[]}',
                   responseJSON: {

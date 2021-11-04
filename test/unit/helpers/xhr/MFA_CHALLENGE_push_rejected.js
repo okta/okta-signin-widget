@@ -2,6 +2,7 @@ export default {
   status: 200,
   responseType: 'json',
   response: {
+    headers: { 'content-type': 'application/json' },
     stateToken: 'testStateToken',
     expiresAt: '2015-10-22T02:23:28.893Z',
     status: 'MFA_CHALLENGE',
