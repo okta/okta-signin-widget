@@ -2,8 +2,10 @@ import { loc } from 'okta';
 import { BaseForm, BaseFooter, BaseView } from '../internals';
 import { getBackToSignInLink, getSkipSetupLink, getReloadPageButtonLink } from '../utils/LinksUtil';
 import EmailAuthenticatorHeader from '../components/EmailAuthenticatorHeader';
+import { OTPInformationTerminalView } from './consent/EmailMagicLinkOTPTerminalView';
 
 const RETURN_LINK_EXPIRED_KEY = 'idx.return.link.expired';
+const IDX_RETURN_LINK_OTP_ONLY = 'idx.enter.otp.in.original.tab';
 const SAFE_MODE_KEY_PREFIX = 'idx.error.server.safe.mode';
 const UNLOCK_ACCOUNT_TERMINAL_KEY = 'oie.selfservice.unlock_user.success.message';
 const UNLOCK_ACCOUNT_FAILED_PERMISSIONS = 'oie.selfservice.unlock_user.challenge.failed.permissions';
@@ -37,6 +39,7 @@ const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
   RETURN_LINK_EXPIRED_KEY,
   OPERATION_CANCELED_ON_OTHER_DEVICE_KEY,
   OPERATION_CANCELED_BY_USER_KEY,
+  IDX_RETURN_LINK_OTP_ONLY,
 ];
 
 const DEVICE_CODE_ERROR_KEYS = [
@@ -59,6 +62,7 @@ const NO_BACKTOSIGNIN_LINK_VIEWS = [
   ...DEVICE_CODE_FLOW_TERMINAL_KEYS,
   UNLOCK_ACCOUNT_FAILED_PERMISSIONS,
   RESET_PASSWORD_NOT_ALLOWED,
+  IDX_RETURN_LINK_OTP_ONLY,
 ];
 
 // Key map to transform terminal view titles {ApiKey : WidgetKey}  
@@ -75,6 +79,7 @@ const terminalViewTitles = {
   [DEVICE_NOT_ACTIVATED_CONSENT_DENIED] : 'device.code.activated.error.title',
   [DEVICE_NOT_ACTIVATED_INTERNAL_ERROR] : 'device.code.activated.error.title',
   [RETURN_TO_ORIGINAL_TAB_KEY] : 'oie.consent.enduser.email.allow.title',
+  [IDX_RETURN_LINK_OTP_ONLY]: 'idx.return.link.otponly.title',
 };
 
 const Body = BaseForm.extend({
@@ -112,6 +117,7 @@ const Body = BaseForm.extend({
 
   showMessages() {
     const messagesObjs = this.options.appState.get('messages');
+    let hasCustomView = false;
     let description;
     if (this.options.appState.containsMessageWithI18nKey(OPERATION_CANCELED_ON_OTHER_DEVICE_KEY)) {
       description = loc('idx.operation.cancelled.on.other.device', 'login');
@@ -123,6 +129,9 @@ const Body = BaseForm.extend({
       description = loc('oie.tooManyRequests', 'login');
     } else if (this.options.appState.containsMessageWithI18nKey(RETURN_LINK_EXPIRED_KEY)) {
       messagesObjs.value[0].class = 'ERROR';
+    } else if (this.options.appState.containsMessageWithI18nKey(IDX_RETURN_LINK_OTP_ONLY)) {
+      this.add(OTPInformationTerminalView);
+      hasCustomView = true;
     }
 
     if (description && Array.isArray(messagesObjs?.value)) {
@@ -130,7 +139,9 @@ const Body = BaseForm.extend({
     }
 
     this.options.appState.set('messages', messagesObjs);
-    BaseForm.prototype.showMessages.call(this);
+    if (!hasCustomView) {
+      BaseForm.prototype.showMessages.call(this);
+    }
   },
 
 });

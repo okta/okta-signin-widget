@@ -14,3 +14,13 @@
     background-size: cover;
   }
 }
+
+.otp-value {
+  font-size: x-large;
+  text-align: center;
+}
+
+.otp-warning {
+  color: $light-text-color;
+  text-align: center;
+}
