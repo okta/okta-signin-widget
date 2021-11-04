@@ -429,10 +429,17 @@ test
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Sign in with Okta FastPass');
+
+    await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('block');
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().innerText).eql('Cancel and take me to sign in');
+
+    await t.expect(deviceChallengePollPageObject.waitForPrimaryButtonAfterSpinner().innerText).eql('Open Okta Verify');
+
     await t.expect(deviceChallengePollPageObject.getContent())
       .contains('If Okta Verify did not open automatically, tap the button below to reopen Okta Verify.');
     await t.expect(deviceChallengePollPageObject.getPrimiaryButtonText()).eql('Open Okta Verify');
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
+    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
     deviceChallengePollPageObject.clickAppLink();
     await t.expect(getPageUrl()).contains(customAppLink);
     await t.expect(Selector('h1').innerText).eql('open app link');
@@ -608,6 +615,14 @@ test
     identityPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Sign in with Okta FastPass');
+
+    await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('block');
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().innerText).eql('Cancel and take me to sign in');
+
+
+    await t.expect(deviceChallengePollPageObject.waitForPrimaryButtonAfterSpinner().innerText).eql('Open Okta Verify');
+    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
+    await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('none');
 
     deviceChallengePollPageObject.clickAppLink();
     // verify login_hint has been appended to the app link url
