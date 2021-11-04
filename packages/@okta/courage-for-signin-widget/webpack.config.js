@@ -17,7 +17,6 @@ const DIST_FILE_NAME = 'okta';
 const EXTERNAL_PATHS = [
   'jquery',
   'qtip',
-  'backbone',
   'underscore',
   'handlebars',
   'handlebars/runtime',
