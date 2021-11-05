@@ -81,8 +81,8 @@ export default {
   APP_LINK_CHALLENGE: 'APP_LINK',
 
   // Initial Flows
-  LOGIN_FLOW: 'login',
-  REGISTRATION_FLOW: 'registration',
-  RESET_PASSWORD_FLOW: 'reset-password',
-  UNLOCK_ACCOUNT_FLOW: 'unlock'
+  LOGIN_FLOW: 'authenticate',
+  REGISTRATION_FLOW: 'register',
+  RESET_PASSWORD_FLOW: 'recoverPassword',
+  UNLOCK_ACCOUNT_FLOW: 'unlockAccount'
 };

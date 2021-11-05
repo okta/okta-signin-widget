@@ -30,6 +30,7 @@ import {
   startLoginFlow,
   interactionCodeFlow,
   configIdxJsClient,
+  startSpecificFlow
 } from './client';
 
 import transformIdxResponse from './ion/transformIdxResponse';
@@ -89,6 +90,10 @@ export default Router.extend({
   },
 
   async handleUpdateAppState(idxResponse) {
+    if (this.settings.get('oieEnabled') && this.settings.get('useInteractionCodeFlow')) {
+      idxResponse = await startSpecificFlow(idxResponse, this.settings);
+    }
+
     // Only update the cookie when the user has successfully authenticated themselves 
     // to avoid incorrect/unnecessary updates.
     if (this.hasAuthenticationSucceeded(idxResponse) 
@@ -224,7 +229,10 @@ export default Router.extend({
     // state token (which will be set into AppState)
     if (this.settings.get('oieEnabled')) {
       try {
-        const idxResp = await startLoginFlow(this.settings);
+        let idxResp = await startLoginFlow(this.settings);
+        // if (this.settings.get('useInteractionCodeFlow')) {
+        //   idxResp = await startSpecificFlow(idxResp, this.settings);
+        // }
         this.appState.trigger('updateAppState', idxResp);
       } catch (errorResp) {
         this.appState.trigger('remediationError', errorResp.error || errorResp);

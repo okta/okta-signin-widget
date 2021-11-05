@@ -17,11 +17,6 @@ import Enums from 'util/Enums';
 import { interact } from './interact';
 import { introspect } from './introspect';
 import sessionStorageHelper from './sessionStorageHelper';
-import {
-  getTransactionMeta,
-  saveTransactionMeta,
-  clearTransactionMeta,
-} from './transactionMeta';
 
 const handleProxyIdxResponse = async (settings) => {
   return Promise.resolve({
@@ -216,7 +211,7 @@ export async function startLoginFlow(settings) {
 
   // Use interaction code flow, if enabled
   if (settings.get('useInteractionCodeFlow')) {
-    return startInteractionCodeFlow(settings);
+    return interact(settings);
   }
 
   // Use stateToken from session storage if exists

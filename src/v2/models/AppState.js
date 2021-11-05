@@ -125,11 +125,10 @@ export default Model.extend({
     const currentViewState = this.get('remediations').filter(r => r.name === currentFormName)[0];
 
     if (!currentViewState) {
-      // TODO: uncomment these lines
-      //Logger.error('Panic!!');
-      //Logger.error(`\tCannot find view state for form ${currentFormName}.`);
-      //const allFormNames = this.get('remediations').map(r => r.name);
-      //Logger.error(`\tAll available form names: ${allFormNames}`);
+      Logger.error('Panic!!');
+      Logger.error(`\tCannot find view state for form ${currentFormName}.`);
+      const allFormNames = this.get('remediations').map(r => r.name);
+      Logger.error(`\tAll available form names: ${allFormNames}`);
     }
 
     return currentViewState;
