@@ -132,7 +132,7 @@ There are many different ways the Okta Sign-In Widget can be customized.
 
 #### logoText
 
-  Text for `alt` attribute of the logo image, logo text will only show up when logo image is not avaiable
+  Text for `alt` attribute of the logo image, logo text will only show up when logo image is not available
 
 ```javascript
 // Text to describe the logo
