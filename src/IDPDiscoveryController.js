@@ -30,7 +30,7 @@ export default PrimaryAuthController.extend({
     const lastAuthResponse = options.appState.get('lastAuthResponse');
     const stateToken = lastAuthResponse && lastAuthResponse?.stateToken;
 
-    //Update requestContext wiht last stateToken, if the context was stateToken and not a fromUri
+    //Update requestContext with last stateToken, if the context was stateToken and not a fromUri
     if(Util.isV1StateToken(requestContext)) {
       requestContext = stateToken;
     }

@@ -707,7 +707,7 @@ Expect.describe('MFA Verify', function() {
     // 3: Set for verifyFactor poll finish
     test.setNextResponse([resChallengePush, firstPollResponse || resChallengePush, finalResponse]);
 
-    // View contains 2 forms when push and totp are avaiable
+    // View contains 2 forms when push and totp are available
     // For polling we are only interested in the push form.
     if (test.form.length > 0) {
       test.form = test.form[0];
@@ -3686,7 +3686,7 @@ Expect.describe('MFA Verify', function() {
             .then(function(form) {
               form.setAnswer('');
               // clicks are throttled with 100ms.
-              // _.thrrottle cannot be mocked by jasmine.clock.tick
+              // _.throttle cannot be mocked by jasmine.clock.tick
               // hence using real timeout of 100ms.
               setTimeout(() => {
                 form.inlineTOTPVerify().click();
