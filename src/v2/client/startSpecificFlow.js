@@ -25,7 +25,7 @@ async function proceedIfAvailable(idxResponse, remediation) {
   console.log(idxResponse);
   const rem = idxResponse.neededToProceed.find(item => item.name === remediation);
   if (rem) {
-      return await idxResponse.proceed(remediation);
+    return await idxResponse.proceed(remediation);
   }
   return idxResponse;
 };
@@ -79,7 +79,7 @@ export async function startSpecificFlow(originalResp, settings) {
   
   if (meta.flowId !== configuredFlow || !configuredFlow) {
     // configured flow and active flow do not match, abandon active flow, start new (configured) flow
-    Logger.warn(`Cancelling current '${meta.flowId}' flow to start '${configuredFlow}' flow`);
+    Logger.warn(`Canceling current '${meta.flowId}' flow to start '${configuredFlow}' flow`);
     sessionStorageHelper.removeStateHandle();
     clearTransactionMeta(settings);
     idxResponse = await startLoginFlow(settings);
@@ -87,7 +87,11 @@ export async function startSpecificFlow(originalResp, settings) {
 
   if (configuredFlow) {
     idxResponse = await stepIntoSpecificIdxFlow(idxResponse, configuredFlow);
-    const newMeta = Object.assign({}, {...meta}, {flowId: configuredFlow});
+    
+    // meta could have been mutated since the first `getTransactionMeta` call in this function
+    // retrieve again before writing to the transaction, otherwise the n-1 idx call is saved
+    const currMeta = await getTransactionMeta(settings);
+    const newMeta = Object.assign({}, {...currMeta}, {flowId: configuredFlow});
     saveTransactionMeta(settings, newMeta);
 
     return idxResponse;
