@@ -82,7 +82,7 @@ function validateAuthClientOptions(settings, meta) {
   // this logic can be moved to okta-auth-js OKTA-371584
   const authOptions = ['clientId', 'redirectUri'];
   const authClient = settings.getAuthClient();
-  const mismatch = authOptions.find(key => {
+  const mismatch = authOptions.some(key => {
     if (authClient.options[key] !== meta[key]) {
       Logger.warn(`Saved transaction meta does not match on key '${key}'`);
       return true;
@@ -94,7 +94,7 @@ function validateAuthClientOptions(settings, meta) {
 function validateWidgetOptions(settings, meta) {
   // returns false if values in meta do not match current widget options
   const widgetOptions = ['state', 'codeChallenge', 'codeChallengeMethod'];
-  const mismatch = widgetOptions.find(key => {
+  const mismatch = widgetOptions.some(key => {
     const value = settings.get(key);
     if (value && value !== meta[key]) {
       Logger.warn(`Saved transaction meta does not match on key '${key}'`);
