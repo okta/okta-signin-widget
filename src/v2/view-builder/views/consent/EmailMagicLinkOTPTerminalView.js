@@ -2,38 +2,15 @@ import { loc, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 
 const generateGeolocationString = (location = {}) => {
-  let geolocationString = null;
-  let geolocationValues = [];
-
-  // see which info is provided
-  if (location.city) {
-    geolocationValues.push(location.city);
+  if (!location.city && !location.country) {
+    return null;
   }
-  if (location.state) {
-    geolocationValues.push(location.state);
-  }
-  if (location.country) {
-    geolocationValues.push(location.country);
-  }
-
-  // build string based on values provided
-  switch (geolocationValues.length) {
-  case 0:
-    break;
-  case 1:
-    geolocationString = geolocationValues[0];
-    break;
-  case 2:
-    geolocationString = loc('geolocation.formatting.partial', 'login', geolocationValues);
-    break;
-  case 3:
-    geolocationString = loc('geolocation.formatting.all', 'login', geolocationValues);
-    break;
-  default:
-    break;
-  }
-
-  return geolocationString;
+  // Use 1 of 2 formats based on presence of 'state' in response:
+  // 1. City, State, Country
+  // 2. City, Country
+  return location.state ?
+    loc('geolocation.formatting.all', 'login', [location.city, location.state, location.country]) :
+    loc('geolocation.formatting.partial', 'login', [location.city, location.country]);
 };
 
 const getTerminalOtpEmailMagicLinkContext = (appState) => {
