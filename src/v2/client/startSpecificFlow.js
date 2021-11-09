@@ -13,6 +13,7 @@
 import Errors from 'util/Errors';
 import Logger from 'util/Logger';
 import Enums from 'util/Enums';
+import { interact } from './interact';
 import { startLoginFlow } from './startLoginFlow';
 import sessionStorageHelper from './sessionStorageHelper';
 import {
@@ -71,32 +72,32 @@ async function stepIntoSpecificIdxFlow(idxResponse, flow='') {
 }
   
 export async function startSpecificFlow(originalResp, settings) {
+  const configuredFlow = settings.get('initialFlow');
+  if (!configuredFlow) {
+    return originalResp;
+  }
+
   let idxResponse = originalResp;
 
   const meta = await getTransactionMeta(settings);
-  const configuredFlow = settings.get('initialFlow');
   console.log(meta.flowId, configuredFlow)
   
-  if (meta.flowId !== configuredFlow || !configuredFlow) {
+  if (meta.flowId && meta.flowId !== configuredFlow) {
     // configured flow and active flow do not match, abandon active flow, start new (configured) flow
     Logger.warn(`Canceling current '${meta.flowId}' flow to start '${configuredFlow}' flow`);
     sessionStorageHelper.removeStateHandle();
     clearTransactionMeta(settings);
-    idxResponse = await startLoginFlow(settings);
+    idxResponse = await interact(settings);
   }
 
-  if (configuredFlow) {
-    idxResponse = await stepIntoSpecificIdxFlow(idxResponse, configuredFlow);
-    
-    // meta could have been mutated since the first `getTransactionMeta` call in this function
-    // retrieve again before writing to the transaction, otherwise the n-1 idx call is saved
-    const currMeta = await getTransactionMeta(settings);
-    const newMeta = Object.assign({}, {...currMeta}, {flowId: configuredFlow});
-    saveTransactionMeta(settings, newMeta);
+  // attempts to step into the desired flow
+  idxResponse = await stepIntoSpecificIdxFlow(idxResponse, configuredFlow);
 
-    return idxResponse;
-  }
+  // meta could have been mutated since the first `getTransactionMeta` call in this function
+  // retrieve again before writing to the transaction, otherwise the n-1 idx call is saved
+  const currMeta = await getTransactionMeta(settings);
+  const newMeta = Object.assign({}, {...currMeta}, {flowId: configuredFlow});
+  saveTransactionMeta(settings, newMeta);
 
   return idxResponse;
 }
-  
