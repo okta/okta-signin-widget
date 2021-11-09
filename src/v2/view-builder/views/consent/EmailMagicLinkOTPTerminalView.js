@@ -1,19 +1,44 @@
 import { loc, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 
+const generateGeolocationString = (location) => {
+  let geolocation = null;
+  let values = [];
+  if (location) {
+    // see which info is provided
+    if (location.city) {
+      values.push(location.city);
+    }
+    if (location.state) {
+      values.push(location.state);
+    }
+    if (location.country) {
+      values.push(location.country);
+    }
+    switch (values.length) {
+    case 0:
+      break;
+    case 1:
+      geolocation = values[0];
+      break;
+    case 2:
+      geolocation = loc('idx.return.link.otponly.city.state.country.some', 'login', values);
+      break;
+    case 3:
+      geolocation = loc('idx.return.link.otponly.city.state.country.all', 'login', values);
+      break;
+    default:
+      break;
+    }
+  }
+  return geolocation;
+};
+
 const getTerminalOtpEmailMagicLinkContext = (appState) => {
   const appName = loc('idx.return.link.otponly.accessing.app', 'login', [appState.get('app').label]);
   const client = appState.get('client');
   const browserOnOsString = loc('idx.return.link.otponly.browser.on.os', 'login', [client.browser, client.os]);
-  // need city and 1 of (state, country) to display location
-  const clientLocationExists = client.location &&
-   client.location.city && 
-   (client.location.state || client.location.country);
-  const geolocation = clientLocationExists ?
-    loc('idx.return.link.otponly.city.state.country', 
-      'login',
-      [client.location.city, client.location.state || client.location.country]) :
-    null;
+  const geolocation = generateGeolocationString(client.location);
   const otp = appState.get('currentAuthenticator')?.contextualData?.otp;
 
   return {
