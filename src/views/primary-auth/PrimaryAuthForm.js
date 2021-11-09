@@ -143,9 +143,6 @@ export default Form.extend({
             'aria-invalid': 'false',
             'aria-required': 'true',
           })
-          .prop({
-            required: true,
-          })
           .focusout(clearAriaInvalid)
           .change(clearAriaInvalid);
       },
@@ -189,9 +186,6 @@ export default Form.extend({
           .attr({
             'aria-invalid': 'false',
             'aria-required': 'true',
-          })
-          .prop({
-            required: true
           })
           .focusout(clearAriaInvalid)
           .change(clearAriaInvalid);

@@ -508,7 +508,7 @@ Expect.describe('PrimaryAuth', function() {
         expect(username.length).toBe(1);
         expect(username.attr('type')).toEqual('text');
         expect(username.attr('id')).toEqual('okta-signin-username');
-        expect(username.prop('required')).toEqual(true);
+        expect(username.prop('required')).toEqual(false);
       });
     });
     itp('has a password field', function() {
@@ -518,7 +518,7 @@ Expect.describe('PrimaryAuth', function() {
         expect(password.length).toBe(1);
         expect(password.attr('type')).toEqual('password');
         expect(password.attr('id')).toEqual('okta-signin-password');
-        expect(password.prop('required')).toEqual(true);
+        expect(password.prop('required')).toEqual(false);
       });
     });
     itp('has a sign in button', function() {
