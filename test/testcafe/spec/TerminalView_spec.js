@@ -11,7 +11,8 @@ import pollingExpired from '../../../playground/mocks/data/idp/idx/terminal-poll
 import unlockFailed from '../../../playground/mocks/data/idp/idx/error-unlock-account';
 import accessDeniedOnOtherDeivce from '../../../playground/mocks/data/idp/idx/terminal-return-email-consent-denied';
 import terminalUnlockAccountFailedPermissions from '../../../playground/mocks/data/idp/idx/error-unlock-account-failed-permissions';
-import terminalReturnOtpOnly from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only';
+import terminalReturnOtpOnlyFullLocation from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-full-location.json';
+import terminalReturnOtpOnlyPartialLocation from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-partial-location.json';
 import terminalReturnOtpOnlyNoLocation from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-no-location';
 import TerminalOtpOnlyPageObject from '../framework/page-objects/TerminalOtpOnlyPageObject';
 
@@ -61,11 +62,15 @@ const terminalUnlockAccountFailedPermissionsMock = RequestMock()
 
 const terminalReturnOtpOnlyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(terminalReturnOtpOnly);
+  .respond(terminalReturnOtpOnlyFullLocation);
 
 const terminalReturnOtpOnlyNoLocationMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(terminalReturnOtpOnlyNoLocation);
+
+const terminalReturnOtpOnlyPartialLocationMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(terminalReturnOtpOnlyPartialLocation);
 
 fixture('Terminal view');
 
@@ -149,8 +154,9 @@ async function setupOtpOnly(t) {
 
 // Make sure geolocation is only displayed on OTP Only page when present in response
 [
-  ['Should have entry for geolocation on OTP info page when accessed', terminalReturnOtpOnlyMock, true],
-  ['Should not have entry for geolocation on OTP info page (w/out location) when accessed', terminalReturnOtpOnlyNoLocationMock, false],
+  ['Should have entry for geolocation on OTP info page when accessed', terminalReturnOtpOnlyMock, 'Toronto, Ontario, Canada'],
+  ['Should have entry for geolocation on OTP info page (w/ partial location info) when accessed', terminalReturnOtpOnlyPartialLocationMock, 'Toronto, Canada'],
+  ['Should not have entry for geolocation on OTP info page (w/out location) when accessed', terminalReturnOtpOnlyNoLocationMock, null],
 ].forEach(([testTitle, mock, expectingGeolocation]) => {
   test
     .requestHooks(mock)(testTitle, async t => {
@@ -166,7 +172,7 @@ async function setupOtpOnly(t) {
       // Ensure geolocation's presence or not based on response
       if (expectingGeolocation) {
         await t.expect(await terminalOtpOnlyPage.doesGeolocationIconExist()).ok();
-        await t.expect(terminalOtpOnlyPage.getGeolocationElement().innerText).eql('Toronto, Ontario');
+        await t.expect(terminalOtpOnlyPage.getGeolocationElement().innerText).eql(expectingGeolocation);
       } else {
         await t.expect(await terminalOtpOnlyPage.doesGeolocationIconExist()).notOk();
       }
