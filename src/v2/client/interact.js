@@ -34,7 +34,6 @@ export async function interact(settings) {
   // These properties are defined by global configuration
   const { issuer, clientId, redirectUri } = authClient.options;
   const version = settings.get('apiVersion');
-
   return idx.start({
     // if interactionHandle is undefined here, idx will bootstrap a new interactionHandle
     interactionHandle,
@@ -49,7 +48,7 @@ export async function interact(settings) {
 
     // PKCE code challenge: only used if interactionHandle is undefined
     codeChallenge,
-    codeChallengeMethod
+    codeChallengeMethod,
   })
     .then(response => {
 

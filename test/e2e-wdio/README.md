@@ -41,13 +41,13 @@ yarn start:test:app
 #### Run all specs:
 
 ```sh
-npx wdio ./test/e2e-wdio/wdio.conf.js
+yarn wdio ./test/e2e-wdio/wdio.conf.js
 ```
 
 #### Run single spec:
 
 ```sh
-npx wdio ./test/e2e-wdio/wdio.conf.js --spec ./test/e2e-wdio/specs/{filename}
+yarn wdio ./test/e2e-wdio/wdio.conf.js --spec ./test/e2e-wdio/specs/{filename}
 ```
 
 ### Add a new test case
@@ -64,5 +64,7 @@ npx wdio ./test/e2e-wdio/wdio.conf.js --spec ./test/e2e-wdio/specs/{filename}
 * You can also add `await browser.debug()` statement in any test case to pause the browser.
 
 * You can run test in `headless mode` by adding `CHROME_HEADLESS=true` or `CI=true` to the environment variables.
+
+* You may need to set the `CHROMEDRIVER_VERSION` environment variable to match the version of Chrome on your machine. For example, `CHROMEDRIVER_VERSION=94.0.4606.41` can be added to the `testenv` file to work with Chrome version 94. Latest version numbers can be found at [chromedriver.chromium.org](https://chromedriver.chromium.org/downloads)
 
 For more debugging information, check out [WebdriverIO debugging](https://webdriver.io/docs/debugging/).

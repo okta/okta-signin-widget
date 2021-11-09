@@ -14,13 +14,14 @@ import Enums from 'util/Enums';
 import Errors from 'util/Errors';
 import { toQueryString } from '@okta/okta-auth-js';
 
-import { clearTransactionMeta } from './transactionMeta';
+import { getSavedTransactionMeta, clearTransactionMeta } from './transactionMeta';
 
+// eslint-disable-next-line max-statements
 export async function interactionCodeFlow(settings, idxResponse) {
   const { interactionCode } = idxResponse;
   const authClient = settings.getAuthClient();
-  const transactionMeta = authClient.transactionManager.load();
-  const state = authClient.options.state || transactionMeta.state;
+  const transactionMeta = await getSavedTransactionMeta(settings);
+  const state = authClient.options.state || transactionMeta?.state;
 
   // In remediation mode the transaction is owned by another client.
   const isRemediationMode = settings.get('mode') === 'remediation';
@@ -52,6 +53,9 @@ export async function interactionCodeFlow(settings, idxResponse) {
 
   // Operating in "relying-party" mode. The widget owns this transaction.
   // Complete the transaction client-side and call success/resolve promise
+  if (!transactionMeta) {
+    throw new Errors.ConfigError('Could not load transaction data from storage');
+  }
   const { codeVerifier } = transactionMeta;
   return authClient.token.exchangeCodeForTokens({ codeVerifier, interactionCode })
     .then(({ tokens }) => {

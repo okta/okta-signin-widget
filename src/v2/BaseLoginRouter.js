@@ -184,10 +184,11 @@ export default Router.extend({
       return this.handleUpdateAppState(error.details);
     }
 
-    // assume it's a config error
-    this.settings.callGlobalError(new Errors.ConfigError(
-      error
-    ));
+    // If the error is a string, wrap it in an Error object
+    if (typeof error === 'string') {
+      error = new Error(error);
+    }
+    this.settings.callGlobalError(error);
 
     // -- TODO: OKTA-244631 How to surface up the CORS error in IDX?
     // -- The `err` object from idx.js doesn't have XHR object

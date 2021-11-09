@@ -15,15 +15,35 @@ import Logger from 'util/Logger';
 // Calculate new values
 export async function createTransactionMeta(settings) {
   const authClient = settings.getAuthClient();
-  return authClient.token.prepareTokenParams();
+  const meta = await authClient.token.prepareTokenParams({
+    codeChallengeMethod: settings.get('codeChallengeMethod')
+  });
+
+  // Some parameters can be overriden in settings
+  const codeChallenge = settings.get('codeChallenge');
+  if (codeChallenge) {
+    meta.codeChallenge = codeChallenge;
+  }
+  const codeChallengeMethod = settings.get('codeChallengeMethod');
+  if (codeChallengeMethod) {
+    meta.codeChallengeMethod = codeChallengeMethod;
+  }
+  return meta;
 }
 
-export async function getTransactionMeta(settings) {
+export async function getSavedTransactionMeta(settings) {
   const authClient = settings.getAuthClient();
+  const state = authClient.options.state;
 
-  // Load existing transaction meta from storage
-  if (authClient.transactionManager.exists()) {
-    const existing = authClient.transactionManager.load();
+  if (!authClient.transactionManager.exists({ state })) {
+    return;
+  }
+
+  // Load existing transaction meta from shared localStorage, if possible
+  // Matching state loads transaction storage from localStorage. No match loads from sessionStorage. 
+  // Can be disabled by setting `authParams.transactionManager.enableSharedStorage=false` in widget options
+  const existing = authClient.transactionManager.load({ state });
+  if (existing) {
     if (isTransactionMetaValid(settings, existing)) {
       return existing;
     }
@@ -33,20 +53,17 @@ export async function getTransactionMeta(settings) {
     Logger.warn('Saved transaction meta does not match the current configuration. ' + 
       'This may indicate that two apps are sharing a storage key.');
   }
+}
+
+// Retuns saved meta, if it exists, or creates new meta
+export async function getTransactionMeta(settings) {
+  const existing = await getSavedTransactionMeta(settings);
+  if (existing) {
+    return existing;
+  }
 
   // New transaction
   const meta = await createTransactionMeta(settings);
-
-  // If a codeChallenge was passed in config, use it
-  let codeChallenge = settings.get('codeChallenge');
-  let codeChallengeMethod = settings.get('codeChallengeMethod');
-  if (codeChallenge) {
-    meta.codeChallenge = codeChallenge;
-  }
-  if (codeChallengeMethod) {
-    meta.codeChallengeMethod = codeChallengeMethod;
-  }
-
   return meta;
 }
 
@@ -60,27 +77,39 @@ export function clearTransactionMeta(settings) {
   authClient.transactionManager.clear();
 }
 
-export function isTransactionMetaValid(settings, meta) {
+function validateAuthClientOptions(settings, meta) {
   // returns false if values in meta do not match current authClient options
   // this logic can be moved to okta-auth-js OKTA-371584
   const authOptions = ['clientId', 'redirectUri'];
   const authClient = settings.getAuthClient();
-  const mismatch = authOptions.find(key => {
-    return authClient.options[key] !== meta[key];
+  const mismatch = authOptions.some(key => {
+    if (authClient.options[key] !== meta[key]) {
+      Logger.warn(`Saved transaction meta does not match on key '${key}'`);
+      return true;
+    }
   });
-  if (mismatch) {
+  return !mismatch;
+}
+
+function validateWidgetOptions(settings, meta) {
+  // returns false if values in meta do not match current widget options
+  const widgetOptions = ['state', 'codeChallenge', 'codeChallengeMethod'];
+  const mismatch = widgetOptions.some(key => {
+    const value = settings.get(key);
+    if (value && value !== meta[key]) {
+      Logger.warn(`Saved transaction meta does not match on key '${key}'`);
+      return true;
+    }
+  });
+  return !mismatch;
+}
+
+export function isTransactionMetaValid(settings, meta) {
+  if (!validateAuthClientOptions(settings, meta)) {
     return false;
   }
 
-  // if `codeChallenge` option was provided, validate it against the meta
-  const codeChallenge = settings.get('codeChallenge');
-  if (codeChallenge && meta.codeChallenge !== codeChallenge) {
-    return false;
-  }
-
-  // if `codeChallengeMethod` option was provided, validate it against the meta
-  const codeChallengeMethod = settings.get('codeChallengeMethod');
-  if (codeChallengeMethod && meta.codeChallengeMethod !== codeChallengeMethod) {
+  if (!validateWidgetOptions(settings, meta)) {
     return false;
   }
 

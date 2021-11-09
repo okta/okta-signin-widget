@@ -7,10 +7,12 @@ const idx = {
   '/oauth2/default/.well-known/openid-configuration': [
     'well-known-openid-configuration'
   ],
-
   '/oauth2/default/v1/interact': [
     'interact'
     // 'error-feature-not-enabled'
+  ],
+  '/oauth2/default/v1/token': [
+    'error-token-invalid-grant-pkce'
   ],
 
   '/idp/idx/introspect': [
@@ -76,6 +78,7 @@ const idx = {
     // 'identify-with-app-link',
     // 'success',
     // 'success-with-app-user',
+    // 'success-with-interaction-code'
     // 'terminal-return-email',
     // 'terminal-return-error-email',
     // 'terminal-return-expired-email',

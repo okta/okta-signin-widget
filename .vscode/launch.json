@@ -42,7 +42,9 @@
       "program": "${workspaceRoot}/node_modules/@wdio/cli/bin/wdio.js",
       "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v12.13.0/bin/node",
       "args": [
-          "${workspaceRoot}/test/e2e-wdio/wdio.conf.js"
+          "${workspaceRoot}/test/e2e-wdio/wdio.conf.js",
+          "--spec",
+          "${relativeFile}"
       ],
       "autoAttachChildProcesses": true,
       "console": "integratedTerminal",

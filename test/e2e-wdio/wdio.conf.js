@@ -3,7 +3,7 @@ const path = require('path');
 require('./env').config();
 
 const CI = process.env.CI;
-const logLevel = CI ? 'warn' : 'info';
+const logLevel = 'warn';
 const browserOptions = {
     args: []
 };

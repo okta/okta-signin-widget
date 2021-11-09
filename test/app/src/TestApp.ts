@@ -141,9 +141,13 @@ export default class TestApp {
       this.oktaSignIn = await getOktaSignIn(config);
       this.oktaSignIn.renderEl({
         el: '#okta-login-container'
-      }, function(res: any) {
-        if (res.status === 'SUCCESS') {
+      }, (res: any) => {
+        if (res.status === 'SUCCESS' && res.session) {
           res.session.setCookieAndRedirect(config.baseUrl + '/app/UserHome');
+        }
+        if (res.tokens) {
+          this.setTokens(res.tokens);
+          this.oktaSignIn.remove();
         }
       });
     });

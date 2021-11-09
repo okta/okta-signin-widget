@@ -11,6 +11,7 @@
  */
 
 import Errors from 'util/Errors';
+import { emailVerifyCallback } from './emailVerifyCallback';
 import { interact } from './interact';
 import { introspect } from './introspect';
 import sessionStorageHelper from './sessionStorageHelper';
@@ -33,7 +34,10 @@ export async function startLoginFlow(settings) {
     sessionStorageHelper.removeStateHandle();
   }
 
-  // Use interaction code flow, if enabled
+  if (settings.get('stateTokenExternalId')) {
+    return emailVerifyCallback(settings);
+  }
+
   if (settings.get('useInteractionCodeFlow')) {
     return interact(settings);
   }
