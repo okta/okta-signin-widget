@@ -63,6 +63,7 @@ import ChallengeWebauthnView from './views/webauthn/ChallengeWebauthnView';
 // email
 import EnrollAuthenticatorEmailView from './views/email/EnrollAuthenticatorEmailView';
 import ChallengeAuthenticatorEmailView from './views/email/ChallengeAuthenticatorEmailView';
+import ChallengeAuthenticatorDataEmailView from './views/email/ChallengeAuthenticatorDataEmailView';
 
 // app (okta verify)
 import EnrollPollOktaVerifyView from './views/ov/EnrollPollOktaVerifyView';
@@ -229,7 +230,8 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.AUTHENTICATOR_VERIFICATION_DATA]: {
     [AUTHENTICATOR_KEY.PHONE]: ChallengeAuthenticatorDataPhoneView,
-    [AUTHENTICATOR_KEY.OV]: ChallengeAuthenticatorDataOktaVerifyView
+    [AUTHENTICATOR_KEY.OV]: ChallengeAuthenticatorDataOktaVerifyView,
+    [AUTHENTICATOR_KEY.EMAIL]: ChallengeAuthenticatorDataEmailView,
   },
   [RemediationForms.FAILURE_REDIRECT]: {
     [DEFAULT]: AutoRedirectView,
