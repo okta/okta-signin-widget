@@ -1,37 +1,39 @@
 import { loc, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 
-const generateGeolocationString = (location) => {
-  let geolocation = null;
-  let values = [];
-  if (location) {
-    // see which info is provided
-    if (location.city) {
-      values.push(location.city);
-    }
-    if (location.state) {
-      values.push(location.state);
-    }
-    if (location.country) {
-      values.push(location.country);
-    }
-    switch (values.length) {
-    case 0:
-      break;
-    case 1:
-      geolocation = values[0];
-      break;
-    case 2:
-      geolocation = loc('idx.return.link.otponly.city.state.country.some', 'login', values);
-      break;
-    case 3:
-      geolocation = loc('idx.return.link.otponly.city.state.country.all', 'login', values);
-      break;
-    default:
-      break;
-    }
+const generateGeolocationString = (location = {}) => {
+  let geolocationString = null;
+  let geolocationValues = [];
+
+  // see which info is provided
+  if (location.city) {
+    geolocationValues.push(location.city);
   }
-  return geolocation;
+  if (location.state) {
+    geolocationValues.push(location.state);
+  }
+  if (location.country) {
+    geolocationValues.push(location.country);
+  }
+
+  // build string based on values provided
+  switch (geolocationValues.length) {
+  case 0:
+    break;
+  case 1:
+    geolocationString = geolocationValues[0];
+    break;
+  case 2:
+    geolocationString = loc('geolocation.formatting.partial', 'login', geolocationValues);
+    break;
+  case 3:
+    geolocationString = loc('geolocation.formatting.all', 'login', geolocationValues);
+    break;
+  default:
+    break;
+  }
+
+  return geolocationString;
 };
 
 const getTerminalOtpEmailMagicLinkContext = (appState) => {
