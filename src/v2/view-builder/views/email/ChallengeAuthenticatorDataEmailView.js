@@ -15,7 +15,7 @@ const Body = BaseAuthenticatorEmailForm.extend(
 
     initialize() {
       BaseAuthenticatorEmailForm.prototype.initialize.apply(this, arguments);
-      const userEmail = this.options.appState.get('authenticatorEnrollments').value[0].profile.email;
+      const userEmail = this.options.appState.get('currentAuthenticatorEnrollment')?.profile?.email;
       const subtitleText = loc('oie.email.verify.subtitle', 'login');
 
       this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">${subtitleText}
