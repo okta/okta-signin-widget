@@ -21,7 +21,7 @@ import terminalTransferedEmail from '../../../playground/mocks/data/idp/idx/term
 import sessionExpired from '../../../playground/mocks/data/idp/idx/error-session-expired';
 import tooManyRequest from '../../../playground/mocks/data/idp/idx/error-429-too-many-request';
 import apiLimitExeeeded from '../../../playground/mocks/data/idp/idx/error-429-api-limit-exceeded';
-import emailVerificationData from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-email';
+import emailVerificationSendEmailData from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-email';
 
 const emailVerificationEmptyProfile = JSON.parse(JSON.stringify(emailVerificationNoProfile));
 // add empty profile to test
@@ -36,7 +36,7 @@ const logger = RequestLogger(/challenge|challenge\/poll|challenge\/answer/,
 
 const sendEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(emailVerificationData)
+  .respond(emailVerificationSendEmailData)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(emailVerification);
 
@@ -179,7 +179,7 @@ test
     await t.expect(pageTitle).contains('Verify with your email');
     await t.expect(saveBtnText).contains('Send me an email');
 
-    const emailAddress = emailVerificationData.currentAuthenticatorEnrollment.value.profile.email;
+    const emailAddress = emailVerificationSendEmailData.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .eql(`Verify with an email link or enter a code sent to ${emailAddress}`);
 
