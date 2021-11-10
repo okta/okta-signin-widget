@@ -1,6 +1,8 @@
 import { Selector } from 'testcafe';
 import BasePageObject from './BasePageObject';
 
+const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] [data-se="callout"]';
+
 export default class DeviceChallengePollViewPageObject extends BasePageObject {
   constructor(t) {
     super(t);
@@ -76,5 +78,9 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
 
   async clickLaunchOktaVerifyLink() {
     await this.t.click(this.body.find('#launch-ov'));
+  }
+
+  getErrorBox() {
+    return this.form.getElement(FORM_INFOBOX_ERROR);
   }
 }

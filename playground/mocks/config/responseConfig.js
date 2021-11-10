@@ -420,6 +420,26 @@ const userVerificationLoopback = {
   ],
 };
 
+// user verification: loopback with biometrics error for Windows/MacOS
+const userVerificationDesktopLoopbackBiometricsError = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-okta-verify-signed-nonce-loopback'
+  ],
+  '/idp/idx/authenticators/poll': [
+    'error-okta-verify-uv-fastpass-verify-enable-biometrics-desktop',
+  ],
+};
+
+// user verification: loopback with biometrics error for Android
+const userVerificationMobileLoopbackBiometricsError = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-okta-verify-signed-nonce-loopback'
+  ],
+  '/idp/idx/authenticators/poll': [
+    'error-okta-verify-uv-fastpass-verify-enable-biometrics-mobile',
+  ],
+};
+
 // user verification: Windows authenticator with custom URI
 const userVerificationCustomUri = {
   '/idp/idx/introspect': [
@@ -531,7 +551,7 @@ const ovTotpError = {
   ],
   '/idp/idx/challenge/answer': [
     'error-okta-verify-totp',
-    // 'error-okta-verify-uv-totp-verify-enable-biometrics',
+    //'error-okta-verify-uv-totp-verify-enable-biometrics',
   ],
 };
 
