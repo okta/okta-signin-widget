@@ -11,9 +11,6 @@ import pollingExpired from '../../../playground/mocks/data/idp/idx/terminal-poll
 import unlockFailed from '../../../playground/mocks/data/idp/idx/error-unlock-account';
 import accessDeniedOnOtherDeivce from '../../../playground/mocks/data/idp/idx/terminal-return-email-consent-denied';
 import terminalUnlockAccountFailedPermissions from '../../../playground/mocks/data/idp/idx/error-unlock-account-failed-permissions';
-import terminalReturnOtpOnly from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only';
-import terminalReturnOtpOnlyNoLocation from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-no-location';
-import TerminalOtpOnlyPageObject from '../framework/page-objects/TerminalOtpOnlyPageObject';
 
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -59,26 +56,12 @@ const terminalUnlockAccountFailedPermissionsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(terminalUnlockAccountFailedPermissions);
 
-const terminalReturnOtpOnlyMock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(terminalReturnOtpOnly);
-
-const terminalReturnOtpOnlyNoLocationMock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(terminalReturnOtpOnlyNoLocation);
-
 fixture('Terminal view');
 
 async function setup(t) {
   const terminalPageObject = new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
   return terminalPageObject;
-}
-
-async function setupOtpOnly(t) {
-  const terminalOtpOnlyPageObject = new TerminalOtpOnlyPageObject(t);
-  await terminalOtpOnlyPageObject.navigateToPage();
-  return terminalOtpOnlyPageObject;
 }
 
 [
@@ -92,10 +75,6 @@ async function setupOtpOnly(t) {
     terminalRegistrationEmailMock ],
   [ 'Shows the correct beacon for terminal email consent denied screen in first device',
     terminalReturnEmailConsentDeniedMock ],
-  [ 'Shows correct beacon for OTP info page in email magic link flow',
-    terminalReturnOtpOnlyMock ],
-  [ 'Shows correct beacon for OTP info page (w/out geolocation) in email magic link flow',
-    terminalReturnOtpOnlyNoLocationMock ],
 ].forEach(([ testTitle, mock ]) => {
   test
     .requestHooks(mock)(testTitle, async t => {
@@ -125,8 +104,6 @@ async function setupOtpOnly(t) {
 [
   ['should not have Back to sign in link when flow continued in new tab', terminalTransferredEmailMock],
   ['should not have Back to sign in link when access denied on other device', accessDeniedOnOtherDeivceMock],
-  ['Should not have Back to sign in link when OTP info page is accessed', terminalReturnOtpOnlyMock ],
-  ['Should not have Back to sign in link when OTP info page (w/out location) is accessed', terminalReturnOtpOnlyNoLocationMock ],
 ].forEach(([ testTitle, mock ]) => {
   test
     .requestHooks(mock)(testTitle, async t => {
@@ -144,32 +121,5 @@ async function setupOtpOnly(t) {
       const terminalViewPage = await setup(t);
       await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
       await t.expect(await terminalViewPage.signoutLinkExists()).ok();
-    });
-});
-
-// Make sure geolocation is only displayed on OTP Only page when present in response
-[
-  ['Should have entry for geolocation on OTP info page when accessed', terminalReturnOtpOnlyMock, true],
-  ['Should not have entry for geolocation on OTP info page (w/out location) when accessed', terminalReturnOtpOnlyNoLocationMock, false],
-].forEach(([testTitle, mock, expectingGeolocation]) => {
-  test
-    .requestHooks(mock)(testTitle, async t => {
-      const terminalOtpOnlyPage = await setupOtpOnly(t);
-      // Make sure OTP, Browser & OS, App Name are present
-      await t.expect(await terminalOtpOnlyPage.doesOtpEntryExist()).ok();
-      await t.expect(await terminalOtpOnlyPage.doesBrowserOsIconExist()).ok();
-      await t.expect(await terminalOtpOnlyPage.doesAppIconExist()).ok();
-      await t.expect(terminalOtpOnlyPage.getAppNameElement().innerText).contains('my 3rd magic link spa');
-      await t.expect(terminalOtpOnlyPage.getBrowserOsElement().innerText).eql('FIREFOX on Mac OS X');
-      await t.expect(terminalOtpOnlyPage.getOtpEntry().innerText).eql('123456');
-
-      // Ensure geolocation's presence or not based on response
-      if (expectingGeolocation) {
-        await t.expect(await terminalOtpOnlyPage.doesGeolocationIconExist()).ok();
-        await t.expect(terminalOtpOnlyPage.getGeolocationElement().innerText).eql('Toronto, Ontario');
-      } else {
-        await t.expect(await terminalOtpOnlyPage.doesGeolocationIconExist()).notOk();
-      }
-              
     });
 });
