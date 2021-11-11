@@ -13,16 +13,13 @@ const Body = BaseAuthenticatorEmailForm.extend(
       return loc('oie.email.verify.primaryButton', 'login');
     },
 
-    initialize() {
-      BaseAuthenticatorEmailForm.prototype.initialize.apply(this, arguments);
+    postRender() {
+      BaseAuthenticatorEmailForm.prototype.postRender.apply(this, arguments);
       const userEmail = this.options.appState.get('currentAuthenticatorEnrollment')?.profile?.email;
-      const subtitleText = loc('oie.email.verify.subtitle', 'login');
-
-      this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">${subtitleText}
-        <span class="strong no-translate">${userEmail}</span>
-      </div>`, {
+      const subtitleText = loc('oie.email.verify.subtitle', 'login', [userEmail]);
+      this.add(`<div class="okta-form-subtitle" data-se="o-form-explain">${subtitleText}</div>`, {
         prepend: true,
-        selector: '.o-form-error-container',
+        selector: '.o-form-info-container',
       });
     },
 

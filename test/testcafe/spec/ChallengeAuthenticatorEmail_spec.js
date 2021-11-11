@@ -217,12 +217,15 @@ test
     });
     await challengeEmailPageObject.clickEnterCodeLink();
 
-    const pageTitle = challengeEmailPageObject.getPageTitle();
+    const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
-    await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with your email');
+    await t.expect(saveBtnText).notContains('Send me an email');
+    await t.expect(saveBtnText).contains('Verify');
 
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
+    await t.expect(challengeEmailPageObject.getFormSubtitle())
+      .notContains(`Verify with an email link or enter a code sent to ${emailAddress}`);
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .contains(`An email magic link was sent to ${emailAddress}. Click the link in the email or enter the code below to continue.`);
 
