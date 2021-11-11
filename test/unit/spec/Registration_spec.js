@@ -1035,5 +1035,4 @@ Expect.describe('Registration', function() {
         });
     });
   });
-})
-;
+});
