@@ -99,6 +99,7 @@ export default BaseLoginController.extend({
     Backbone.Model.prototype.save
       .call(this.model)
       .then(function() {
+        self.model.trigger('startSaving');
         const activationToken = self.model.get('activationToken');
         const postSubmitData = activationToken ? activationToken : self.model.get('email');
 
@@ -237,6 +238,11 @@ export default BaseLoginController.extend({
         title: loc('registration.form.title', 'login'),
         save: loc('registration.form.submit', 'login'),
         modelEvents : { 'invalid' : 'modifyErrors' },
+        hasSavingState: true,
+        customSavingState: {
+          start: 'startSaving',
+          stop: 'stopSaving',
+        },
         modifyErrors: function(model, errorResp) {
           // overwrite courage errorResp object to show custom error message
           for (let formFieldName in errorResp) {

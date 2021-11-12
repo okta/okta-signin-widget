@@ -11,6 +11,8 @@ import resErrorNotUnique from 'helpers/xhr/ERROR_notUnique';
 import resErrorInvalidEmailDomain from 'helpers/xhr/ERROR_INVALID_EMAIL_DOMAIN';
 import RegSchema from 'models/RegistrationSchema';
 import $sandbox from 'sandbox';
+import Settings from 'models/Settings';
+
 
 const itp = Expect.itp;
 const testData = {
@@ -442,9 +444,9 @@ Expect.describe('Registration', function() {
         expect(test.form.hasPasswordComplexitySatisfied('4')).toBe(true);
         expect(test.form.$('#subschemas-password').html()).toBe(
           '<div class="subschema-0 subschema-satisfied"><p class=""><span class="icon icon-16 confirm-16"></span>registration.passwordComplexity.minLength</p></div>' +
-          '<div class="subschema-1 subschema-satisfied"><p class=""><span class="icon icon-16 confirm-16"></span>registration.passwordComplexity.minNumber</p></div>' + 
-          '<div class="subschema-2 subschema-error subschema-unsatisfied"><p class="" role="alert" aria-live="polite"><span class="icon icon-16 error error-16-small"></span>registration.passwordComplexity.minLower</p></div>' + 
-          '<div class="subschema-3 subschema-error subschema-unsatisfied"><p class="" role="alert" aria-live="polite"><span class="icon icon-16 error error-16-small"></span>registration.passwordComplexity.minUpper</p></div>' + 
+          '<div class="subschema-1 subschema-satisfied"><p class=""><span class="icon icon-16 confirm-16"></span>registration.passwordComplexity.minNumber</p></div>' +
+          '<div class="subschema-2 subschema-error subschema-unsatisfied"><p class="" role="alert" aria-live="polite"><span class="icon icon-16 error error-16-small"></span>registration.passwordComplexity.minLower</p></div>' +
+          '<div class="subschema-3 subschema-error subschema-unsatisfied"><p class="" role="alert" aria-live="polite"><span class="icon icon-16 error error-16-small"></span>registration.passwordComplexity.minUpper</p></div>' +
           '<div class="subschema-4 subschema-satisfied"><p class=""><span class="icon icon-16 confirm-16"></span>registration.passwordComplexity.excludeUsername</p></div>'
         );
       });
@@ -991,6 +993,46 @@ Expect.describe('Registration', function() {
         Util.callAllTimeouts();
         expectRegApiError(test, '\'Email address \' must be in the form of an email address');
       });
+    });
+    itp('tests primary button staying disabled through save state', function() {
+      const parseSchemaSpy = jasmine.createSpy('parseSchemaSpy');
+      const preSubmitSpy = jasmine.createSpy('preSubmitSpy');
+      const postSubmitSpy = jasmine.createSpy('postSubmitSpy');
+      const setting = {
+        registration: {
+          parseSchema: function(resp, onSuccess, onFailure) {
+            parseSchemaSpy(resp, onSuccess, onFailure);
+            onSuccess(resp);
+          },
+          preSubmit: function(postData, onSuccess, onFailure) {
+            preSubmitSpy(postData, onSuccess, onFailure);
+            onSuccess(postData);
+          },
+          postSubmit: function(postData, onSuccess, onFailure) {
+            postSubmitSpy(postData, onSuccess, onFailure);
+            onSuccess(postData);
+          },
+        },
+      };
+
+      return setup(setting)
+        .then(function(test) {
+          spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
+          spyOn(Settings.prototype, 'postRegistrationSubmit').and
+            .returnValue(new Promise(resolve => setTimeout(resolve, 105)));
+          Util.resetAjaxRequests();
+          test.form.setUserName('test@example.com');
+          test.form.setPassword('Abcd1234');
+          test.form.setFirstname('firstName');
+          test.form.setLastname('lastName');
+          test.form.setReferrer('referrer');
+          expect($('input.button-primary').length).toBe(1);
+          expect($('input.button-primary.btn-disabled').length).toBe(0);
+          test.form.submit();
+          return new Promise(resolve => setTimeout(resolve, 100));
+        }).then(() => {
+          expect($('input.button-primary.btn-disabled').length).toBe(1);
+        });
     });
   });
 });
