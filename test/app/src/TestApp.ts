@@ -224,10 +224,22 @@ export default class TestApp {
   }
 
   handleLoginCallback() {
+    // add responseMode to config
+    let responseMode;
+    if (window.location.search.indexOf('code') >= 0) {
+      responseMode = 'query';
+    } else if (window.location.hash.indexOf('code') >= 0) {
+      responseMode = 'fragment';
+    }
     const config = JSON.parse(localStorage.getItem('okta-widget-config'));
+    config.authParams = config.authParams || {};
+    config.authParams.responseMode = responseMode;
+
+    // get authClient
     const oktaSign = getOktaSignIn(config);
     const authClient = oktaSign.authClient;
 
+    // handle redirect
     if (authClient.token.isLoginRedirect()) {
       let promise;
       if (/(interaction_code=)/i.test(window.location.search)) {
