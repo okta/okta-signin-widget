@@ -156,10 +156,11 @@ describe('v2/utils/ChallengeViewUtil', function() {
     expect(testView.add).toHaveBeenCalledTimes(2);
     expect(expectedAddArgs[0].className).toBe('app-link-content');
     expect(expectedAddArgs[0].template.call()).toBe(hbs`
-            {{{i18n code="appLink.content" bundle="login"}}}
-          `.call());
+      <div class="spinner "></div>
+      <div class="appLinkContent ">If Okta Verify did not open automatically, tap the button below to reopen Okta Verify.</div>
+    `.call());
     let expectedCreateButton = createButton({
-      className: 'al-button button button-wide button-primary',
+      className: 'hide al-button button button-wide button-primary',
       title: loc('oktaVerify.reopen.button', 'login'),
       click: () => {
         // only window.location.href can open universal link in iOS/MacOS
