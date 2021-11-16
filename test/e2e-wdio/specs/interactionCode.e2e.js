@@ -16,6 +16,7 @@ describe('Interaction code flows', () => {
     config = {
       baseUrl: WIDGET_TEST_SERVER,
       redirectUri: 'http://localhost:3000/done',
+      el: '#okta-login-container',
       clientId: WIDGET_SPA_CLIENT_ID,
       useInteractionCodeFlow: true,
       scopes: ['openid', 'email', 'profile']
@@ -34,6 +35,33 @@ describe('Interaction code flows', () => {
       await TestAppPage.startButton.click();
       await waitForLoad(TestAppPage.widget);
       await PrimaryAuthPage.login(WIDGET_BASIC_USER, WIDGET_BASIC_PASSWORD);
+      await TestAppPage.assertIDToken(WIDGET_BASIC_NAME);
+    });
+  });
+
+  describe('3rd party OIDC IdP login', () => {
+    beforeEach(() => {
+      config = {
+        baseUrl: WIDGET_TEST_SERVER,
+        clientId: WIDGET_SPA_CLIENT_ID,
+        responseType: 'code',
+        redirectUri: 'http://localhost:3000/done',
+        useInteractionCodeFlow: true,
+        authParams: {
+          pkce: true,
+          display: 'page',
+          scopes: ['openid', 'email', 'profile', 'address', 'phone']
+        }
+      };
+    });
+
+    // We use another Okta org as "3rd party" OIDC provider for this test
+    // This org has the same test user (WIDGET_BASIC_USER) which is used to test login
+    it('can login to a 3rd party OIDC IdP using interaction code flow', async () => {
+      await TestAppPage.setConfig(config);
+      await TestAppPage.startWithRenderEl.click();
+      await waitForLoad(TestAppPage.widget);
+      await PrimaryAuthPage.loginOktaOIDCIdP(WIDGET_BASIC_USER, WIDGET_BASIC_PASSWORD);
       await TestAppPage.assertIDToken(WIDGET_BASIC_NAME);
     });
   });
@@ -77,7 +105,4 @@ describe('Interaction code flows', () => {
       await PrimaryAuthPage.waitForForgotPassword();
     });
   });
-
 });
-
-
