@@ -357,7 +357,7 @@ var signIn = new OktaSignIn(
 
 // When the authorization flow is complete there will be a redirect to Okta.
 // Okta's servers will process the information and then redirect back to your application's `redirectUri`
-// If succesful, an authorization code will exist in the URL as the "code" query parameter
+// If successful, an authorization code will exist in the URL as the "code" query parameter
 // If unsuccesful, there will be an "error" query parameter in the URL
 signIn.showSignInAndRedirect({
   // Assumes there is an empty element on the page with an id of 'osw-container'
@@ -819,7 +819,7 @@ var config = {
     logo: 'https://acme.com/img/logo.png'
     ```
 
-- **logoText:** Text for `alt` attribute of the logo image, logo text will only show up when logo image is not avaiable
+- **logoText:** Text for `alt` attribute of the logo image, logo text will only show up when logo image is not available
 
     ```javascript
     // Text to describe the logo
@@ -1775,7 +1775,7 @@ To generate pseudo-loc, run the following command:
 # Navigate into the pseudo-loc package
 [okta-signin-widget]$ cd packages/@okta/pseudo-loc/
 
-# Install all required dependencies and generate login_ok_PL.propertiies
+# Install all required dependencies and generate login_ok_PL.properties
 # NOTE: This requires VPN access
 [pseudo-loc]$ yarn install
 [pseudo-loc]$ yarn pseudo-loc
