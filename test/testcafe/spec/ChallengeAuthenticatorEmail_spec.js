@@ -176,8 +176,8 @@ test
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
-    await t.expect(pageTitle).contains('Verify with your email');
-    await t.expect(saveBtnText).contains('Send me an email');
+    await t.expect(pageTitle).eql('Verify with your email');
+    await t.expect(saveBtnText).eql('Send me an email');
 
     const emailAddress = emailVerificationSendEmailData.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
@@ -194,11 +194,11 @@ test
     const challengeEmailPageObject = await setup(t);
     await challengeEmailPageObject.clickNextButton();
     const pageTitle = challengeEmailPageObject.getFormTitle();
-    await t.expect(pageTitle).contains('Verify with your email');
+    await t.expect(pageTitle).eql('Verify with your email');
 
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .contains(`An email magic link was sent to ${emailAddress}. Click the link in the email or enter the code below to continue.`);
+      .eql(`An email magic link was sent to ${emailAddress}. Click the link in the email or enter the code below to continue.`);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
@@ -219,15 +219,12 @@ test
 
     const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
-    await t.expect(pageTitle).contains('Verify with your email');
-    await t.expect(saveBtnText).notContains('Send me an email');
-    await t.expect(saveBtnText).contains('Verify');
+    await t.expect(pageTitle).eql('Verify with your email');
+    await t.expect(saveBtnText).eql('Verify');
 
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .notContains(`Verify with an email link or enter a code sent to ${emailAddress}`);
-    await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .contains(`An email magic link was sent to ${emailAddress}. Click the link in the email or enter the code below to continue.`);
+      .eql(`An email magic link was sent to ${emailAddress}. Click the link in the email or enter the code below to continue.`);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
