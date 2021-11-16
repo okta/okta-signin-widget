@@ -63,9 +63,9 @@ export default View.extend({
     }
 
     // TODO: remove this?
-    const flow = this.options.settings.get('initialFlow');
+    const flow = this.options.settings.get('flow');
     if (flow && flow !== 'authenticate') {
-      links = [];
+      // links = [];
     }
 
     links.forEach(link => {

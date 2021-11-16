@@ -44,7 +44,7 @@ export default Model.extend({
       value: 'auto',
     },
 
-    initialFlow: ['string', false, undefined],
+    flow: ['string', false, 'authenticate'],
 
     // Function to transform the username before passing it to the API
     // for Primary Auth, Forgot Password and Unlock Account.

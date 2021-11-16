@@ -91,6 +91,8 @@ export default Router.extend({
 
   async handleUpdateAppState(idxResponse) {
     if (this.settings.get('oieEnabled') && this.settings.get('useInteractionCodeFlow')) {
+      // console.log('here')
+      // return false;
       idxResponse = await startSpecificFlow(idxResponse, this.settings);
     }
 

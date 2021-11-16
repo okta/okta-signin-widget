@@ -84,5 +84,6 @@ export default {
   LOGIN_FLOW: 'authenticate',
   REGISTRATION_FLOW: 'register',
   RESET_PASSWORD_FLOW: 'recoverPassword',
-  UNLOCK_ACCOUNT_FLOW: 'unlockAccount'
+  UNLOCK_ACCOUNT_FLOW: 'unlockAccount',
+  CONTINUE_FLOW: 'continueFlow',
 };

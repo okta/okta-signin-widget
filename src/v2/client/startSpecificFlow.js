@@ -50,7 +50,7 @@ async function stepIntoSpecificIdxFlow(idxResponse, flow='') {
 
     if (flow === Enums.UNLOCK_ACCOUNT_FLOW) {
       // requires: introspect -> identify-recovery -> select-authenticator-unlock-account
-      return await proceedIfAvailable(idxResponse,'identify-recovery');
+      return await proceedIfAvailable(idxResponse,'unlock-account');
     }
 
     Logger.warn(`Unknown \`flow\` value: ${flow}`);
@@ -60,7 +60,7 @@ async function stepIntoSpecificIdxFlow(idxResponse, flow='') {
     console.log('stepIntoSpecificIdxFlow Error caught')
     // catches and handles `Unknown remediation` errors thrown okta-idx-js
     if (typeof err === 'string' && err.startsWith('Unknown remediation choice')) {
-      Logger.warn(`initialFlow [${flow}] not valid with current Org configurations`);
+      Logger.warn(`flow [${flow}] not valid with current Org configurations`);
       // throw new Errors.InitialFlowError('Unable to proceed to desired flow', flow);
       return idxResponse;
     }
@@ -72,8 +72,9 @@ async function stepIntoSpecificIdxFlow(idxResponse, flow='') {
 }
   
 export async function startSpecificFlow(originalResp, settings) {
-  const configuredFlow = settings.get('initialFlow');
-  if (!configuredFlow) {
+  const configuredFlow = settings.get('flow');
+  if (!configuredFlow || configuredFlow === Enums.CONTINUE_FLOW) {
+    // TODO: update meta.flowId when CONTINUE_FLOW configured??
     return originalResp;
   }
 
