@@ -27,7 +27,7 @@ export default {
         const authenticatorPollAction = `${responseKey}-poll`;
         const pollInterval = this.dynamicPollingInterval || authenticator?.poll?.refresh;
         if (_.isNumber(pollInterval)) {
-          this.polling = setInterval(()=>{
+          this.polling = setTimeout(()=>{
             this.options.appState.trigger('invokeAction', authenticatorPollAction);
           }, pollInterval);
         }
@@ -41,7 +41,7 @@ export default {
   _startRemediationPolling() {
     const pollInterval = this.dynamicPollingInterval || this.fixedPollingInterval;
     if (_.isNumber(pollInterval)) {
-      this.polling = setInterval(() => {
+      this.polling = setTimeout(() => {
         this.options.appState.trigger('saveForm', this.model);
       }, pollInterval);
     }

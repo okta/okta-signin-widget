@@ -28,6 +28,10 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     return this.getTextContent('[data-se="o-form-fieldset-container"]');
   }
 
+  getAppLinkContent() {
+    return this.getTextContent('.appLinkContent');
+  }
+
   getFooterLink() {
     return this.footer.find('[data-se="sign-in-options"]');
   }
