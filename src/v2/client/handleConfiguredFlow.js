@@ -14,7 +14,6 @@ import Errors from 'util/Errors';
 import Logger from 'util/Logger';
 import Enums from 'util/Enums';
 import { interact } from './interact';
-import { startLoginFlow } from './startLoginFlow';
 import sessionStorageHelper from './sessionStorageHelper';
 import {
   getTransactionMeta,
@@ -71,7 +70,7 @@ async function stepIntoSpecificIdxFlow(idxResponse, flow='') {
   }
 }
   
-export async function startSpecificFlow(originalResp, settings) {
+export async function handleConfiguredFlow(originalResp, settings) {
   const configuredFlow = settings.get('flow');
   if (!configuredFlow || configuredFlow === Enums.CONTINUE_FLOW) {
     // TODO: update meta.flowId when CONTINUE_FLOW configured??
