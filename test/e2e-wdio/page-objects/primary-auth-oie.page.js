@@ -12,6 +12,8 @@ class PrimaryAuthOIEPage {
   get passwordField() { return $('input[name="credentials.passcode"]'); }
   get submitButton() { return $('input[data-type="save"]'); }
 
+  get oktaOidcIdPButton() { return $('[data-se="social-auth-general-idp-button"]'); }
+
   async waitForForgotPassword() {
     await waitForLoad(this.forgotPassword);
   }
@@ -34,6 +36,13 @@ class PrimaryAuthOIEPage {
   }
 
   async login(username, password) {
+    await this.identifierField.setValue(username);
+    await this.passwordField.setValue(password);
+    await this.submitButton.click();
+  }
+
+  async loginOktaOIDCIdP(username, password) {
+    await this.oktaOidcIdPButton.click();
     await this.identifierField.setValue(username);
     await this.passwordField.setValue(password);
     await this.submitButton.click();

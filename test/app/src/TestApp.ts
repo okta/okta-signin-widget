@@ -130,6 +130,7 @@ export default class TestApp {
       try {
         const parsedConfig = JSON.parse(value);
         this.configPreview.innerHTML = JSON.stringify(parsedConfig, null, 2);
+        localStorage.setItem('okta-widget-config', JSON.stringify(parsedConfig));
       } catch (e) {
         // do nothing, only render preview when config is ready as JSON format
       }
@@ -227,26 +228,40 @@ export default class TestApp {
   }
 
   handleLoginCallback() {
+    // add responseMode to config
     let responseMode;
     if (window.location.search.indexOf('code') >= 0) {
       responseMode = 'query';
     } else if (window.location.hash.indexOf('code') >= 0) {
       responseMode = 'fragment';
     }
-    const authClient = new OktaAuth({
-      issuer: `${process.env.WIDGET_TEST_SERVER}/oauth2/default`,
-      redirectUri: 'http://localhost:3000/done',
-      pkce: false,
-      responseMode: responseMode
-    });
+    const config = JSON.parse(localStorage.getItem('okta-widget-config'));
+    config.authParams = config.authParams || {};
+    config.authParams.responseMode = responseMode;
 
+    // get authClient
+    const oktaSign = getOktaSignIn(config);
+    const authClient = oktaSign.authClient;
+
+    // handle redirect
     if (authClient.token.isLoginRedirect()) {
-      authClient.token.parseFromUrl()
-        .then((res) => {
-          this.setTokens(res.tokens);
-          this.setCode(res.code);
-        })
-        .catch(function(err) {
+      let promise;
+      if (/(interaction_code=)/i.test(window.location.search)) {
+        promise = authClient.idx.handleInteractionCodeRedirect(window.location.href)
+          .then(() => {
+            const tokens = authClient.tokenManager.getTokensSync();
+            this.setTokens(tokens);
+          })
+      } else {
+        promise = authClient.token.parseFromUrl()
+          .then((res: any) => {
+            this.setTokens(res.tokens);
+            this.setCode(res.code);
+          });
+      }
+      
+      promise
+        .catch(function(err: Error) {
           console.log(err);
         })
         .finally(() => {
