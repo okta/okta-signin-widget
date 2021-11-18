@@ -1,0 +1,45 @@
+{
+  "version":"1.0.0",
+  "stateHandle":"eyJ6aXAiOiJERUYiLCJhb",
+  "expiresAt":"2021-11-18T20:16:13.000Z",
+  "intent":"LOGIN",
+  "messages":{
+    "type":"array",
+    "value":[
+      {
+        "message":"Random error message.",
+        "i18n": {
+          "key": "core.auth.factor.signedNonce.error.deletedDevice"
+        },
+        "class":"ERROR"
+      }
+    ]
+  },
+  "cancel":{
+    "rel":[
+      "create-form"
+    ],
+    "name":"cancel",
+    "href":"https://rain.okta1.com/idp/idx/cancel",
+    "method":"POST",
+    "produces":"application/ion+json; okta-version=1.0.0",
+    "value":[
+      {
+        "name":"stateHandle",
+        "required":true,
+        "value":"eyJ6aXAiOiJERUYiLCJhbGl",
+        "visible":false,
+        "mutable":false
+      }
+    ],
+    "accepts":"application/json; okta-version=1.0.0"
+  },
+  "app":{
+    "type":"object",
+    "value":{
+      "name":"okta_enduser",
+      "label":"Okta Dashboard",
+      "id":"0oaw4kX2L8oCmIQAb0g3"
+    }
+  }
+}

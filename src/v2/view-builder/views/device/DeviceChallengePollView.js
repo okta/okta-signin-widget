@@ -1,5 +1,5 @@
-import { $, loc } from 'okta';
-import { BaseFormWithPolling, BaseFooter, BaseView } from '../../internals';
+import { $, loc, createCallout } from 'okta';
+import {BaseFormWithPolling, BaseFooter, BaseView} from '../../internals';
 import Logger from '../../../../util/Logger';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import Enums from '../../../../util/Enums';
@@ -8,6 +8,8 @@ import Link from '../../components/Link';
 import { doChallenge } from '../../utils/ChallengeViewUtil';
 import OktaVerifyAuthenticatorHeader from '../../components/OktaVerifyAuthenticatorHeader';
 import { getSignOutLink } from '../../utils/LinksUtil';
+
+const SIGNED_NONCE_ERROR_KEY = 'auth.factor.signedNonce.error';
 
 const request = (opts) => {
   const ajaxOptions = Object.assign({
@@ -143,6 +145,23 @@ const Body = BaseFormWithPolling.extend(
             onPortFail();
           });
       });
+    },
+
+    showCustomFormErrorCallout(error) {
+      let options = {
+        type: 'error',
+        className: 'okta-verify-uv-callout-content',
+        subtitle: error.responseJSON.errorSummary,
+      };
+
+      const containsSignedNonceError = error.responseJSON.errorSummaryKeys
+        .some((key) => key.includes(SIGNED_NONCE_ERROR_KEY));
+      if (containsSignedNonceError) {
+        options.title = loc('user.fail.verifyIdentity', 'login');
+      }
+
+      this.showMessages(createCallout(options));
+      return true;
     },
 
     doCustomURI() {
