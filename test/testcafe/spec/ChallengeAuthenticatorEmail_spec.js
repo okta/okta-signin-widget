@@ -21,6 +21,7 @@ import terminalTransferedEmail from '../../../playground/mocks/data/idp/idx/term
 import sessionExpired from '../../../playground/mocks/data/idp/idx/error-session-expired';
 import tooManyRequest from '../../../playground/mocks/data/idp/idx/error-429-too-many-request';
 import apiLimitExeeeded from '../../../playground/mocks/data/idp/idx/error-429-api-limit-exceeded';
+import emailVerificationSendEmailData from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-email';
 
 const emailVerificationEmptyProfile = JSON.parse(JSON.stringify(emailVerificationNoProfile));
 // add empty profile to test
@@ -32,6 +33,12 @@ const logger = RequestLogger(/challenge|challenge\/poll|challenge\/answer/,
     stringifyRequestBody: true,
   }
 );
+
+const sendEmailMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerificationSendEmailData)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(emailVerification);
 
 const validOTPmock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -158,6 +165,48 @@ async function setup(t) {
 }
 
 test
+  .requestHooks(sendEmailMock)('send email screen should have right labels', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await checkConsoleMessages({
+      controller: null,
+      formName: 'authenticator-verification-data',
+      authenticatorKey: 'okta_email',
+      methodType: 'email',
+    });
+
+    const pageTitle = challengeEmailPageObject.getFormTitle();
+    const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
+    await t.expect(pageTitle).eql('Verify with your email');
+    await t.expect(saveBtnText).eql('Send me an email');
+
+    const emailAddress = emailVerificationSendEmailData.currentAuthenticatorEnrollment.value.profile.email;
+    await t.expect(challengeEmailPageObject.getFormSubtitle())
+      .eql(`Verify with an email link or enter a code sent to ${emailAddress}`);
+
+    // Verify links (switch authenticator link not present since there are no other authenticators available)
+    await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
+    await t.expect(await challengeEmailPageObject.signoutLinkExists()).ok();
+    await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
+  });
+
+test
+  .requestHooks(sendEmailMock)('send me an email button should take to challenge email authenticator screen', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await challengeEmailPageObject.clickNextButton();
+    const pageTitle = challengeEmailPageObject.getFormTitle();
+    await t.expect(pageTitle).eql('Verify with your email');
+
+    const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
+    await t.expect(challengeEmailPageObject.getFormSubtitle())
+      .eql(`An email magic link was sent to ${emailAddress}. Click the link in the email or enter the code below to continue.`);
+
+    // Verify links (switch authenticator link not present since there are no other authenticators available)
+    await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
+    await t.expect(await challengeEmailPageObject.signoutLinkExists()).ok();
+    await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
+  });
+
+test
   .requestHooks(validOTPmock)('challenge email authenticator screen has right labels', async t => {
     const challengeEmailPageObject = await setup(t);
     await checkConsoleMessages({
@@ -168,14 +217,14 @@ test
     });
     await challengeEmailPageObject.clickEnterCodeLink();
 
-    const pageTitle = challengeEmailPageObject.getPageTitle();
+    const pageTitle = challengeEmailPageObject.getFormTitle();
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
-    await t.expect(saveBtnText).contains('Verify');
-    await t.expect(pageTitle).contains('Verify with your email');
+    await t.expect(pageTitle).eql('Verify with your email');
+    await t.expect(saveBtnText).eql('Verify');
 
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .contains(`An email magic link was sent to ${emailAddress}. Click the link in the email or enter the code below to continue.`);
+      .eql(`An email magic link was sent to ${emailAddress}. Click the link in the email or enter the code below to continue.`);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
