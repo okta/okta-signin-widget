@@ -5,6 +5,8 @@ import BasePageObject from '../framework/page-objects/BasePageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 import identifyWithUserVerificationLoopback from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-loopback';
+import identifyWithUserVerificationLoopbackBiometricsErrorMobile from '../../../playground/mocks/data/idp/idx/error-okta-verify-uv-fastpass-verify-enable-biometrics-mobile.json';
+import identifyWithUserVerificationLoopbackBiometricsErrorDesktop from '../../../playground/mocks/data/idp/idx/error-okta-verify-uv-fastpass-verify-enable-biometrics-desktop.json';
 import identifyWithUserVerificationCustomURI from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-custom-uri';
 import identifyWithSSOExtensionFallback from '../../../playground/mocks/data/idp/idx/identify-with-apple-sso-extension-fallback';
 import identifyWithUserVerificationLaunchUniversalLink from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-universal-link';
@@ -43,6 +45,35 @@ const loopbackSuccesskMock = RequestMock()
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
     'access-control-allow-methods': 'POST, OPTIONS'
+  });
+
+const loopbackBiometricsErrorLogger = RequestLogger(/introspect|probe|cancel|launch|poll/);
+const loopbackBiometricsErrorMobileMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithUserVerificationLoopback)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond((req, res) => {
+    if (probeSuccess) {
+      res.statusCode = '400';
+      res.setBody(identifyWithUserVerificationLoopbackBiometricsErrorMobile);
+    } else {
+      res.statusCode = '200';
+      res.setBody(identifyWithUserVerificationLoopback);
+    }
+  });
+
+const loopbackBiometricsErrorDesktopMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithUserVerificationLoopback)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond((req, res) => {
+    if (probeSuccess) {
+      res.statusCode = '400';
+      res.setBody(identifyWithUserVerificationLoopbackBiometricsErrorDesktop);
+    } else {
+      res.statusCode = '200';
+      res.setBody(identifyWithUserVerificationLoopback);
+    }
   });
 
 const loopbackFallbackLogger = RequestLogger(/introspect|probe|cancel|launch|poll/);
@@ -153,6 +184,46 @@ test
     const identityPage = new IdentityPageObject(t);
     await identityPage.fillIdentifierField('Test Identifier');
     await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
+  });
+
+test
+  .requestHooks(loopbackBiometricsErrorLogger, loopbackBiometricsErrorMobileMock)('in loopback server clamshell mode, show biometrics error for mobile when polling returns such response', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
+    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
+    await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
+    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
+
+    probeSuccess = true;
+    const errorText = deviceChallengePollPageObject.getErrorBox().innerText;
+    await t.expect(errorText).contains('Biometrics needed for Okta Verify');
+    await t.expect(errorText).contains('Your response was received, but your organization requires biometrics.');
+    await t.expect(errorText).contains('Make sure you meet the following requirements, then try again');
+    await t.expect(errorText).contains('Your device supports biometrics');
+    await t.expect(errorText).contains('Okta Verify is up-to-date');
+    await t.expect(errorText).contains('In Okta Verify, biometrics are enabled for your account');
+    await t.expect(errorText).notContains('Your device\'s biometric sensors are accessible');
+  });
+
+test
+  .requestHooks(loopbackBiometricsErrorLogger, loopbackBiometricsErrorDesktopMock)('in loopback server clamshell mode, show biometrics error for desktop when polling returns such response', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
+    await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
+    await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
+    await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
+    await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
+
+    probeSuccess = true;
+    const errorText = deviceChallengePollPageObject.getErrorBox().innerText;
+    await t.expect(errorText).contains('Biometrics needed for Okta Verify');
+    await t.expect(errorText).contains('Your response was received, but your organization requires biometrics.');
+    await t.expect(errorText).contains('Make sure you meet the following requirements, then try again');
+    await t.expect(errorText).contains('Your device supports biometrics');
+    await t.expect(errorText).contains('Okta Verify is up-to-date');
+    await t.expect(errorText).contains('In Okta Verify, biometrics are enabled for your account');
+    await t.expect(errorText).contains('Your device\'s biometric sensors are accessible');
   });
 
 test

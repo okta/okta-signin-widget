@@ -1,0 +1,58 @@
+{
+   "version":"1.0.0",
+   "stateHandle":"02zMxGpO2d8MdP7jxUaCShKzcF441EBXJOnTr7UCb0",
+   "expiresAt":"2021-11-03T17:42:45.000Z",
+   "intent":"LOGIN",
+   "messages":{
+      "type":"array",
+      "value":[
+         {
+            "message":"Your response was received, but your organization requires biometrics. Make sure your device supports biometrics, Okta Verify is up-to-date, biometrics are enabled for your account in Okta Verify and your device's biometric sensors are accessible, then try again.",
+            "i18n":{
+               "key":"oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.desktop"
+            },
+            "class":"ERROR"
+         }
+      ]
+   },
+   "user":{
+      "type":"object",
+      "value":{
+         "id":"00uy8atHj1x8T0NrQ0g3",
+         "identifier":"mov@okta.com",
+         "profile":{
+            "firstName":"mov",
+            "lastName":"1",
+            "timeZone":"America/Los_Angeles",
+            "locale":"en_US"
+         }
+      }
+   },
+   "cancel":{
+      "rel":[
+         "create-form"
+      ],
+      "name":"cancel",
+      "href":"https://localhost:3000/idp/idx/cancel",
+      "method":"POST",
+      "produces":"application/ion+json; okta-version=1.0.0",
+      "value":[
+         {
+            "name":"stateHandle",
+            "required":true,
+            "value":"02zMxGpO2d8MdP7jxUaCShKzcF441EBXJOnTr7UCb0",
+            "visible":false,
+            "mutable":false
+         }
+      ],
+      "accepts":"application/json; okta-version=1.0.0"
+   },
+   "app":{
+      "type":"object",
+      "value":{
+         "name":"oidc_client",
+         "label":"OIDC",
+         "id":"0oay76efxzwhirUfx0g3"
+      }
+   }
+}
