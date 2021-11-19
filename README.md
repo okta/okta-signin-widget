@@ -234,9 +234,7 @@ The widget source files and assets are installed to `node_modules/@okta/okta-sig
 ```bash
 node_modules/@okta/okta-signin-widget/dist/
 ├── css/
-│   │   # Main CSS file for widget styles. Try not to override the classes in this
-│   │   # file when creating a custom theme - the classes/elements are subject to
-│   │   # change between releases
+│   │   # Main CSS file for widget styles
 │   └── okta-sign-in.min.css
 │
 │   # Base font and image files that are used in rendering the widget
