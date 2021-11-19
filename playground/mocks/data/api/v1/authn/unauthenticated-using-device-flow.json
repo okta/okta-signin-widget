@@ -2,7 +2,7 @@
   "stateToken": "aStateToken",
   "status": "UNAUTHENTICATED",
   "_embedded": {
-    "forceIdpDiscovery": true
+    "usingDeviceFlow": true
   },
   "_links": {
     "next": {

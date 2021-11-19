@@ -761,10 +761,10 @@ export default Model.extend({
         return res._embedded.deviceActivationStatus;
       },
     },
-    forceIdpDiscovery: {
+    usingDeviceFlow: {
       deps: ['lastAuthResponse'],
       fn: function(res) {
-        return !!(res._embedded && res._embedded.forceIdpDiscovery);
+        return !!(res._embedded && res._embedded.usingDeviceFlow);
       },
     },
   },

@@ -7,6 +7,7 @@ const config = {
     rememberMe: true,
     multiOptionalFactorEnroll: true
   },
+  // Do not bootstrap stateToken if you want to enable v1
   stateToken: 'dummy-state-token-wrc',
   authParams: {
     pkce: false // PKCE is enabled by default in okta-auth-js@3.0
