@@ -1,4 +1,4 @@
-import {doChallenge} from '../../../../../../src/v2/view-builder/utils/ChallengeViewUtil';
+import { appendLoginHint, doChallenge } from '../../../../../../src/v2/view-builder/utils/ChallengeViewUtil';
 import { loc, View, createButton } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import Enums from '../../../../../../src/util/Enums';
@@ -13,6 +13,7 @@ describe('v2/utils/ChallengeViewUtil', function() {
   }
 
   const testView = new TestView();
+  const deviceChallengeHref = 'https://login.okta.com/auth/okta-verify?challengeRequest=something';
 
   it('LOOPBACK_CHALLENGE test case', function() {
     const deviceChallenge = {
@@ -43,8 +44,8 @@ describe('v2/utils/ChallengeViewUtil', function() {
   it('CUSTOM_URI_CHALLENGE test case', function() {
     const deviceChallenge = {
       'challengeMethod': Enums.CUSTOM_URI_CHALLENGE,
-      'href': 'testHref',
-      'downloadHref': 'testDownloadHref'
+      'href': deviceChallengeHref,
+      'downloadHref': 'testDownloadHref',
     };
     spyOn(testView, 'getDeviceChallengePayload').and.callFake(() => deviceChallenge);
     spyOn(testView, 'doCustomURI');
@@ -99,7 +100,7 @@ describe('v2/utils/ChallengeViewUtil', function() {
   it('UNIVERSAL_LINK_CHALLENGE test case', function() {
     const deviceChallenge = {
       'challengeMethod': Enums.UNIVERSAL_LINK_CHALLENGE,
-      'href': 'testHref'
+      'href': deviceChallengeHref,
     };
     spyOn(testView, 'getDeviceChallengePayload').and.callFake(() => deviceChallenge);
     let expectedAddArgs = [];
@@ -139,7 +140,7 @@ describe('v2/utils/ChallengeViewUtil', function() {
   it('APP_LINK_CHALLENGE test case', function() {
     const deviceChallenge = {
       'challengeMethod': Enums.APP_LINK_CHALLENGE,
-      'href': 'testHref'
+      'href': deviceChallengeHref
     };
     spyOn(testView, 'getDeviceChallengePayload').and.callFake(() => deviceChallenge);
     let expectedAddArgs = [];
@@ -181,4 +182,30 @@ describe('v2/utils/ChallengeViewUtil', function() {
     expect(window.location.href).toEqual(deviceChallenge.href);
   });
 
+  describe('.appendLoginHint', () => {
+    it('returns the correct URL', () => {
+      const VALID_DEVICE_CHALLENGE_HREF = [
+        deviceChallengeHref,
+        'https://login.trexcloud.com/auth/okta-verify?challengeRequest=something',
+      ];
+      let rest;
+      VALID_DEVICE_CHALLENGE_HREF.forEach((validHref) => {
+        rest = appendLoginHint(validHref, 'test');
+        expect(rest).toEqual(validHref + '&login_hint=test');
+      });
+    });
+    it('returns null if the  correct URL', () => {
+      const INVALID_DEVICE_CHALLENGE_HREF = [
+        'http://login.preview.com/auth/okta-verify?challengeRequest=something',
+        'http://login.trexcloud.com/auth/okta-verify?challengeRequest=something',
+        'https://login.preview.com/auth/okta-verify?challengeRequest=something',
+        'https://test.okta.com/auth/okta-verify?challengeRequest=something',
+      ];
+      let rest;
+      INVALID_DEVICE_CHALLENGE_HREF.forEach((invalidHref) => {
+        rest = appendLoginHint(invalidHref, 'test');
+        expect(rest).toEqual(null);
+      });
+    });
+  });
 });

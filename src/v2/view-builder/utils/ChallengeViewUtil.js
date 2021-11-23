@@ -16,6 +16,10 @@ import Util from '../../../util/Util';
 import { FASTPASS_FALLBACK_SPINNER_TIMEOUT, IDENTIFIER_FLOW } from '../utils/Constants';
 
 export function appendLoginHint(deviceChallengeUrl, loginHint) {
+
+  if (!/https:\/\/login\.(okta|trexcloud)\.com/.test(deviceChallengeUrl)) {
+    return null;
+  }
   if (deviceChallengeUrl && loginHint) {
     deviceChallengeUrl += '&login_hint=' + loginHint;
   }
