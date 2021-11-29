@@ -1,6 +1,8 @@
 // Generated from okta-core sha: 900f683
 // Note: Do not modify this file directly.
 
+@use "sass:math";
+
 // Break Points
 $x-large: 1209px;
 $large: 1024px;
@@ -22,11 +24,11 @@ $medium-max-org-logo-width: 90px;
 $x-small-max-org-logo-width: 55px;
 
 // Tab Size
-$x-large-tab-width: floor($x-large-container-width / $num-tabs);
-$large-tab-width: floor($large-container-width / $num-tabs);
-$medium-tab-width: floor($medium-container-width / $num-tabs);
-$small-tab-width: floor($small-container-width / $num-tabs);
-$x-small-tab-width: floor($x-small-container-width / $num-tabs);
+$x-large-tab-width: floor(math.div($x-large-container-width, $num-tabs));
+$large-tab-width: floor(math.div($large-container-width, $num-tabs));
+$medium-tab-width: floor(math.div($medium-container-width, $num-tabs));
+$small-tab-width: floor(math.div($small-container-width, $num-tabs));
+$x-small-tab-width: floor(math.div($x-small-container-width, $num-tabs));
 
 // App Button Size
 $large-app-wrapper-spacing: 28px;
