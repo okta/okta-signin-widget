@@ -1,6 +1,8 @@
 // Generated from okta-core sha: 900f683
 // Note: Do not modify this file directly.
 
+@use "sass:math";
+
 // Okta colors
 $primary-color: #007dc1;
 $primary-border-color: #005380;
@@ -33,7 +35,7 @@ $text-color-placeholder: #a1a1a1;
 $paragraph-line-height: 18px;
 $component-heading-color: #919191;
 $form-heading-color: $secondary-color-text;
-$paragraph-margin: $paragraph-line-height / 2;
+$paragraph-margin: math.div($paragraph-line-height, 2);
 
 // Buttons
 $btn-bg-color-primary: $secondary-color;
