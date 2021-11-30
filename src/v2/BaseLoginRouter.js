@@ -30,6 +30,7 @@ import {
   startLoginFlow,
   interactionCodeFlow,
   configIdxJsClient,
+  handleConfiguredFlow
 } from './client';
 
 import transformIdxResponse from './ion/transformIdxResponse';
@@ -224,7 +225,10 @@ export default Router.extend({
     // state token (which will be set into AppState)
     if (this.settings.get('oieEnabled')) {
       try {
-        const idxResp = await startLoginFlow(this.settings);
+        let idxResp = await startLoginFlow(this.settings);
+        if (this.settings.get('useInteractionCodeFlow')) {
+          idxResp = await handleConfiguredFlow(idxResp, this.settings);
+        }
         this.appState.trigger('updateAppState', idxResp);
       } catch (errorResp) {
         this.appState.trigger('remediationError', errorResp.error || errorResp);

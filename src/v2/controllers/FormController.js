@@ -16,7 +16,7 @@ import { getV1ClassName } from '../ion/ViewClassNamesFactory';
 import { FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/RemediationConstants';
 import Util from '../../util/Util';
 import sessionStorageHelper from '../client/sessionStorageHelper';
-import { clearTransactionMeta } from '../client';
+import { clearTransactionMeta, handleConfiguredFlow } from '../client';
 
 export default Controller.extend({
   className: 'form-controller',
@@ -295,7 +295,11 @@ export default Controller.extend({
     }
   },
 
-  handleIdxResponse: function(idxResp) {
+  handleIdxResponse: async function(idxResp) {
+    const { settings } = this.options;
+    if (settings.get('flow')) {
+      idxResp = await handleConfiguredFlow(idxResp, settings);
+    }
     this.options.appState.trigger('updateAppState', idxResp);
   },
 

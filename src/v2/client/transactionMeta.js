@@ -31,7 +31,7 @@ export async function createTransactionMeta(settings) {
   return meta;
 }
 
-export async function getSavedTransactionMeta(settings) {
+export async function getTransactionMeta(settings) {
   const authClient = settings.getAuthClient();
   const state = authClient.options.state;
 

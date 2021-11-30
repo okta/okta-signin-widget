@@ -44,6 +44,8 @@ export default Model.extend({
       value: 'auto',
     },
 
+    flow: ['string', false, ''],
+
     // Function to transform the username before passing it to the API
     // for Primary Auth, Forgot Password and Unlock Account.
     transformUsername: ['function', false],
@@ -344,7 +346,7 @@ export default Model.extend({
         return !_.isEmpty(configuredSocialIdps) || !_.isEmpty(customButtons) || hasPivCard;
       },
       cache: true,
-    },
+    }
   },
 
   initialize: function(options) {

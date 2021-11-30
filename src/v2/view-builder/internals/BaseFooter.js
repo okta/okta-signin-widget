@@ -62,6 +62,12 @@ export default View.extend({
       links = links.concat(getSignOutLink(this.options.settings));
     }
 
+    // TODO: remove this?
+    const flow = this.options.settings.get('flow');
+    if (flow && flow !== 'authenticate') {
+      // links = [];
+    }
+
     links.forEach(link => {
       let LinkView = Link;
       if (link.type === 'toggle-text-link') {
