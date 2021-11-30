@@ -19,19 +19,87 @@
             "form": {
               "value": [
                 {
-                  "name": "lastName",
-                  "label": "Last name",
-                  "required": true
+                  "name": "firstName",
+                  "type": "string",
+                  "label": "First name",
+                  "required": true,
+                  "minLength": 1,
+                  "maxLength": 50
                 },
                 {
-                  "name": "firstName",
-                  "label": "First name",
-                  "required": true
+                  "name": "lastName",
+                  "type": "string",
+                  "label": "Last name",
+                  "required": true,
+                  "minLength": 1,
+                  "maxLength": 50
                 },
                 {
                   "name": "email",
+                  "type": "string",
                   "label": "Email",
                   "required": true
+                },
+                {
+                  "name":"countryCode",
+                  "type": "string",
+                  "label":"Country Code",
+                  "required":true
+                },
+                {
+                  "name":"timezone",
+                  "type": "string",
+                  "label":"Time Zone",
+                  "required":true
+                },
+                {
+                  "name": "favSong",
+                  "type": "string",
+                  "label": "Song",
+                  "required": true,
+                  "options": [
+                    {
+                      "label": "display",
+                      "value": {
+                        "type": "object",
+                        "value": {
+                          "type": "select",
+                          "options": {
+                            "smells": "Smells Like Teen Spirit",
+                            "imagine": "Imagine",
+                            "billie": "Billie Jean",
+                            "bohemian": "Bohemian Rhapsody",
+                            "hey": "Hey Jude",
+                            "rolling": "Like A Rolling Stone"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "color",
+                  "type": "string",
+                  "label": "Color",
+                  "required": false,
+                  "options": [
+                    {
+                      "label": "display",
+                      "value": {
+                        "type": "object",
+                        "value": {
+                          "type": "select",
+                          "options": {
+                            "red": "Red",
+                            "green": "White",
+                            "yellow": "Yellow",
+                            "blue": "Blue",
+                            "black": "Black"
+                          }
+                        }
+                      }
+                    }
+                  ]
                 }
               ]
             }

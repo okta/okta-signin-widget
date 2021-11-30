@@ -13,6 +13,8 @@
 /* eslint max-depth: [2, 3] */
 import { loc } from 'okta';
 import { HINTS } from '../RemediationConstants';
+import CountryUtil from '../../../util/CountryUtil';
+import TimeZone from '../../../util/TimeZone';
 
 const ionOptionsToUiOptions = (options) => {
   const result = {};
@@ -73,6 +75,18 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
     if(uiSchema.type === 'text') {
       uiSchema.sublabel = loc('oie.form.field.optional', 'login');
     }
+  }
+
+  if(ionFormField.name === 'userProfile.countryCode'){
+    uiSchema.type = 'select';
+    uiSchema.wide = true;
+    uiSchema.options = CountryUtil.getCountries();
+  }
+
+  if(ionFormField.name === 'userProfile.timezone'){
+    uiSchema.type = 'select';
+    uiSchema.wide = true;
+    uiSchema.options = TimeZone;
   }
 
   return uiSchema;
