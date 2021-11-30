@@ -24,7 +24,7 @@ const clientIds = ['{{{WIDGET_WEB_CLIENT_ID}}}', '{{{WIDGET_SPA_CLIENT_ID}}}'];
 describe('OIDC flows', function() {
   // TODO: Enable after fixing OKTA-244878
   if (process.env.SAUCE_PLATFORM_NAME === 'android') {
-    return 0;
+    //return 0;
   }
 
   const primaryAuth = new PrimaryAuthPage(),
