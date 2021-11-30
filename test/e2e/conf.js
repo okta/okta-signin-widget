@@ -63,15 +63,8 @@ if (process.env.TRAVIS  || process.env.CHROME_HEADLESS) {
   if (process.env.SAUCE_PLATFORM_NAME === 'windows') {
     config.multiCapabilities =
     [{
-      'browserName': 'internet explorer',
-      'browserVersion': 'latest',
-      'platformName': 'Windows 10',
-      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-      'build': process.env.TRAVIS_BUILD_NUMBER
-    },
-    {
       'browserName': 'MicrosoftEdge',
-      'browserVersion': 'latest',
+      'browserVersion': '17.17134',
       'platformName': 'Windows 10',
       'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
       'build': process.env.TRAVIS_BUILD_NUMBER
