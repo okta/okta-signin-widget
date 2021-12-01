@@ -89,7 +89,6 @@
     "babel-loader": "^8.2.2",
     "babel-plugin-add-module-exports": "^1.0.2",
     "babel-plugin-istanbul": "^6.0.0",
-    "backbone": "1.2.1",
     "concurrently": "^5.1.0",
     "core-js": "^3.9.1",
     "cross-spawn-with-kill": "^1.0.0",

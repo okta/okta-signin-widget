@@ -16,7 +16,7 @@ exports[`v2/view-builder/views/AutoRedirectView view renders corectly - default 
       action="/"
       class="ion-form o-form o-form-edit-mode"
       data-se="o-form"
-      id="form1"
+      id="form7"
       method="POST"
       slot="content"
     >
@@ -70,7 +70,7 @@ exports[`v2/view-builder/views/AutoRedirectView view renders correctly according
       action="/"
       class="ion-form o-form o-form-edit-mode"
       data-se="o-form"
-      id="form2"
+      id="form22"
       method="POST"
       slot="content"
     >
@@ -124,7 +124,7 @@ exports[`v2/view-builder/views/AutoRedirectView view renders correctly according
       action="/"
       class="ion-form o-form o-form-edit-mode"
       data-se="o-form"
-      id="form3"
+      id="form37"
       method="POST"
       slot="content"
     >
