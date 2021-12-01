@@ -14,7 +14,7 @@
 import { loc } from 'okta';
 import { HINTS } from '../RemediationConstants';
 import CountryUtil from '../../../util/CountryUtil';
-import TimeZone from '../../../util/TimeZone';
+import TimeZone from '../../view-builder/utils/TimeZone';
 
 const ionOptionsToUiOptions = (options) => {
   const result = {};
@@ -80,7 +80,7 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
   if(ionFormField.name === 'userProfile.countryCode'){
     uiSchema.type = 'select';
     uiSchema.wide = true;
-    uiSchema.options = CountryUtil.getCountries();
+    uiSchema.options = CountryUtil.getCountryCode();
   }
 
   if(ionFormField.name === 'userProfile.timezone'){

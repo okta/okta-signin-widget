@@ -39,6 +39,27 @@ fn.getCountries = function() {
   return sorted;
 };
 
+fn.getCountryCode = function(){
+
+  const countries = _.omit(bundles.country, 'HM', 'BV', 'TF');
+  // HM, BV, and TF do not have phone prefixes, so don't give the
+  // user the option to choose these countries. FYI it appears that these
+  // countries do not have calling codes because they are ~~uninhabited~~
+
+  let collection = _.map(countries, function(name, code) {
+    return { name: name, code: code };
+  });
+
+  collection = _.sortBy(collection, 'name');
+  const sorted = {};
+
+  _.each(collection, function(country) {
+    sorted[country.code] = country.name +' (' + country.code + ')';
+  });
+
+  return sorted;
+};
+
 fn.getCallingCodeForCountry = function(countryCode) {
   return countryCallingCodes[countryCode];
 };
