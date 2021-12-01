@@ -80,6 +80,8 @@ export default Router.extend({
       settings: this.settings,
     });
 
+    this.hasControllerRendered = false;
+
     // Hide until unitial render
     this.hide();
 
@@ -227,7 +229,7 @@ export default Router.extend({
       try {
         let idxResp = await startLoginFlow(this.settings);
         /* eslint-disable max-depth */
-        if (this.settings.get('flow') && !this.appState.get('hasRendered')) {
+        if (this.settings.get('flow') && !this.hasControllerRendered) {
           idxResp = await handleConfiguredFlow(idxResp, this.settings);
         }
         /* eslint-enable max-depth */
@@ -266,7 +268,7 @@ export default Router.extend({
 
     this.controller.render();
 
-    this.appState.set('hasRendered', true);
+    this.hasControllerRendered = true;
   },
 
   /**
