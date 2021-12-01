@@ -164,6 +164,10 @@ const I18N_OVERRIDE_MAPPINGS = {
   'api.factors.error.sms.invalid_phone': 'oie.phone.invalid',
   'app.ldap.password.reset.failed': 'errors.E0000017',
   'oie.selfservice.unlock_user.challenge.failed.permissions': 'errors.E0000006',
+  'core.auth.factor.signedNonce.error.invalidEnrollment': 'core.auth.factor.signedNonce.error',
+  'core.auth.factor.signedNonce.error.invalidFactor': 'core.auth.factor.signedNonce.error',
+  'core.auth.factor.signedNonce.error.deletedDevice': 'core.auth.factor.signedNonce.error',
+  'core.auth.factor.signedNonce.error.invalidDeviceStatus': 'core.auth.factor.signedNonce.error.invalidDevice',
 };
 
 const I18N_PARAMS_MAPPING = {
