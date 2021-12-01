@@ -2,7 +2,7 @@ import { RequestMock, RequestLogger } from 'testcafe';
 
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeSecurityQuestionPageObject from '../framework/page-objects/ChallengeSecurityQuestionPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 
 import xhrAuthenticatorVerifySecurityQuestion from '../../../playground/mocks/data/idp/idx/authenticator-verification-security-question';
 import success from '../../../playground/mocks/data/idp/idx/success';
@@ -32,7 +32,7 @@ async function setup(t) {
     formName: 'challenge-authenticator',
     authenticatorKey: 'security_question',
   });
-
+  await a11yCheck(t);
   return challengeFactorPage;
 }
 

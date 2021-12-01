@@ -5,6 +5,7 @@ import pushPoll from '../../../playground/mocks/data/idp/idx/authenticator-verif
 import pushReject from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-reject-push';
 import pushUpgradeOktaVerify from '../../../playground/mocks/data/idp/idx/okta-verify-version-upgrade';
 import pushEnableBiometricsOktaVerify from '../../../playground/mocks/data/idp/idx/okta-verify-uv-verify-enable-biometrics';
+import { a11yCheck } from '../framework/shared';
 
 const logger = RequestLogger(/challenge|challenge\/poll/,
   {
@@ -37,6 +38,7 @@ fixture('Challenge Okta Verify Push Resend');
 async function setup(t) {
   const challengeOktaVerifyPushPageObject = new ChallengeOktaVerifyPushPageObject(t);
   await challengeOktaVerifyPushPageObject.navigateToPage();
+  await a11yCheck(t);
   return challengeOktaVerifyPushPageObject;
 }
 

@@ -6,7 +6,7 @@ import xhrAuthenticatorVerifyDuo from '../../../playground/mocks/data/idp/idx/au
 import success from '../../../playground/mocks/data/idp/idx/success';
 import verificationTimeout from '../../../playground/mocks/data/idp/idx/error-authenticator-duo-verification-timeout';
 import verificationFailed from '../../../playground/mocks/data/idp/idx/error-authenticator-duo-verification-failed';
-import { checkConsoleMessages, renderWidget } from '../framework/shared';
+import { a11yCheck,  checkConsoleMessages, renderWidget } from '../framework/shared';
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -45,7 +45,7 @@ async function setup(t) {
     authenticatorKey: 'duo',
     methodType: 'duo'
   });
-
+  await a11yCheck(t);
   return challengeDuoPage;
 }
 

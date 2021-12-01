@@ -1,7 +1,7 @@
 import { ClientFunction, RequestMock, RequestLogger } from 'testcafe';
 import BasePageObject from '../framework/page-objects/BasePageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 import xhrServerError from '../../../playground/mocks/data/oauth2/error-feature-not-enabled';
 import xhrWellKnownResponse from '../../../playground/mocks/data/oauth2/well-known-openid-configuration.json';
 import xhrInteractResponse from '../../../playground/mocks/data/oauth2/interact.json';
@@ -91,6 +91,7 @@ async function setup(t, options = {}) {
       state: 'mock-state'
     }
   });
+  await a11yCheck(t);
 }
 
 test.requestHooks(requestLogger, errorMock)('shows an error when feature is not enabled', async t => {

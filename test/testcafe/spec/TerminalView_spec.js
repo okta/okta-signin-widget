@@ -11,6 +11,7 @@ import pollingExpired from '../../../playground/mocks/data/idp/idx/terminal-poll
 import unlockFailed from '../../../playground/mocks/data/idp/idx/error-unlock-account';
 import accessDeniedOnOtherDeivce from '../../../playground/mocks/data/idp/idx/terminal-return-email-consent-denied';
 import terminalUnlockAccountFailedPermissions from '../../../playground/mocks/data/idp/idx/error-unlock-account-failed-permissions';
+import { a11yCheck } from '../framework/shared';
 
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -61,6 +62,7 @@ fixture('Terminal view');
 async function setup(t) {
   const terminalPageObject = new TerminalPageObject(t);
   await terminalPageObject.navigateToPage();
+  await a11yCheck(t);
   return terminalPageObject;
 }
 

@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import EnrollGoogleAuthenticatorPageObject from '../framework/page-objects/EnrollGoogleAuthenticatorPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 
 import xhrEnrollGoogleAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-enroll-google-authenticator.json';
 import success from '../../../playground/mocks/data/idp/idx/success';
@@ -42,6 +42,7 @@ async function setup(t) {
     authenticatorKey:'google_otp',
     methodType: 'otp'
   });
+  await a11yCheck(t);
   return enrollGoogleAuthenticatorPageObject;
 }
 

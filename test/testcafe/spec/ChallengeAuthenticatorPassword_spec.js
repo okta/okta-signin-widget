@@ -1,5 +1,5 @@
 import { RequestLogger, RequestMock } from 'testcafe';
-import { checkConsoleMessages, renderWidget } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages, renderWidget } from '../framework/shared';
 import xhrAuthenticatorRequiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
 import xhrSSPRSuccess from '../../../playground/mocks/data/idp/idx/terminal-reset-password-success';
 import xhrInvalidPassword from '../../../playground/mocks/data/idp/idx/error-authenticator-verify-password';
@@ -57,7 +57,7 @@ async function setup(t) {
     formName: 'challenge-authenticator',
     authenticatorKey: 'okta_password',
   });
-
+  await a11yCheck(t);
   return challengePasswordPage;
 }
 

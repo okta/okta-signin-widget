@@ -1,6 +1,6 @@
 import { RequestLogger, RequestMock } from 'testcafe';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 import xhrSafeModeOptionalEnrollment from '../../../playground/mocks/data/idp/idx/safe-mode-optional-enrollment';
 import xhrSafeModeRequiredEnrollment from '../../../playground/mocks/data/idp/idx/safe-mode-required-enrollment';
 import xhrSafeModeCredentialEnrollmentIntent from '../../../playground/mocks/data/idp/idx/safe-mode-credential-enrollment-intent';
@@ -37,7 +37,7 @@ async function setup(t) {
     controller: null,
     formName: 'terminal',
   });
-
+  await a11yCheck(t);
   return terminalPage;
 }
 

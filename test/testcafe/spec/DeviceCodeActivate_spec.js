@@ -7,6 +7,7 @@ import idxActivateErrorResponse from '../../../playground/mocks/data/idp/idx/err
 import idxDeviceActivatedTerminalResponse from '../../../playground/mocks/data/idp/idx/terminal-device-activated.json';
 import idxDeviceNotActivatedConsentDeniedResponse from '../../../playground/mocks/data/idp/idx/terminal-device-not-activated-consent-denied.json';
 import idxDeviceNotActivatedInternalErrorResponse from '../../../playground/mocks/data/idp/idx/terminal-device-not-activated-internal-error.json';
+import { a11yCheck } from '../framework/shared';
 
 const deviceCodeSuccessMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -59,6 +60,7 @@ fixture('Device Code Activation Flow');
 async function setup(t) {
   const deviceCodeActivatePage = new DeviceCodeActivatePageObject(t);
   await deviceCodeActivatePage.navigateToPage();
+  await a11yCheck(t);
   return deviceCodeActivatePage;
 }
 

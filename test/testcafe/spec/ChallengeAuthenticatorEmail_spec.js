@@ -2,7 +2,7 @@ import { RequestMock, RequestLogger, ClientFunction } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import {a11yCheck, checkConsoleMessages } from '../framework/shared';
 
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
 import emailVerificationWithoutResend from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-without-resend';
@@ -161,6 +161,7 @@ fixture('Challenge Email Authenticator Form');
 async function setup(t) {
   const challengeEmailPageObject = new ChallengeEmailPageObject(t);
   await challengeEmailPageObject.navigateToPage();
+  await a11yCheck(t);
   return challengeEmailPageObject;
 }
 

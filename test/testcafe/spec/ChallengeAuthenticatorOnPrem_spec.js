@@ -5,7 +5,7 @@ import xhrPasscodeChange from '../../../playground/mocks/data/idp/idx/error-auth
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import ChallengeOnPremPageObject from '../framework/page-objects/ChallengeOnPremPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 
 const mockChallengeAuthenticatorOnPrem = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -36,6 +36,7 @@ async function setup(t) {
     authenticatorKey: 'onprem_mfa',
     methodType: 'otp'
   });
+  await a11yCheck(t);
   return challengeOnPremPage;
 }
 

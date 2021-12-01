@@ -1,5 +1,5 @@
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 import unknownUser from '../../../playground/mocks/data/idp/idx/identify-unknown-user';
 import notAssignedApp from '../../../playground/mocks/data/idp/idx/error-400-user-not-assigned';
 import registeredUser from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator.json';
@@ -30,7 +30,7 @@ async function setup(t) {
     controller: 'primary-auth',
     formName: 'identify',
   });
-
+  await a11yCheck(t);
   return identityPage;
 }
 

@@ -2,5 +2,10 @@
   "browsers": [
     "chrome"
   ],
+  "clientScripts":[
+    {
+      "module": "axe-core/axe.min.js"
+    }
+  ],
   "src": "test/testcafe/spec/"
 }
