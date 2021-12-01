@@ -9,8 +9,6 @@ import { doChallenge } from '../../utils/ChallengeViewUtil';
 import OktaVerifyAuthenticatorHeader from '../../components/OktaVerifyAuthenticatorHeader';
 import { getSignOutLink } from '../../utils/LinksUtil';
 
-const SIGNED_NONCE_ERROR_KEY = 'auth.factor.signedNonce.error';
-
 const request = (opts) => {
   const ajaxOptions = Object.assign({
     method: 'GET',
@@ -148,14 +146,14 @@ const Body = BaseFormWithPolling.extend(
     },
 
     showCustomFormErrorCallout(error) {
-      let options = {
+      const options = {
         type: 'error',
         className: 'okta-verify-uv-callout-content',
         subtitle: error.responseJSON.errorSummary,
       };
 
       const containsSignedNonceError = error.responseJSON.errorSummaryKeys
-        .some((key) => key.includes(SIGNED_NONCE_ERROR_KEY));
+        .some((key) => key.includes('auth.factor.signedNonce.error'));
       if (containsSignedNonceError) {
         options.title = loc('user.fail.verifyIdentity', 'login');
       }
