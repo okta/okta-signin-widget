@@ -9,7 +9,7 @@
       {
         "message":"Random error message.",
         "i18n": {
-          "key": "core.auth.factor.signedNonce.error.deletedDevice"
+          "key": "core.auth.factor.signedNonce.error.invalidDevice"
         },
         "class":"ERROR"
       }

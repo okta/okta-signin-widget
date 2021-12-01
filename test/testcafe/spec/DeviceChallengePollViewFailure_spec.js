@@ -96,5 +96,5 @@ test
   .requestHooks(logger, deviceInvalidatedErrorMsg)('add title when device or account is invalidated', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).eql(
-      'Couldn’t verify your identity\n\nYour device or account was invalidated. Re-enroll your account on Okta Verify and try again.');
+      'Couldn’t verify your identity\n\nYour device or account was invalidated. If this is unexpected, contact your administrator for help.');
   });
