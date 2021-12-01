@@ -167,6 +167,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'core.auth.factor.signedNonce.error.invalidEnrollment': 'core.auth.factor.signedNonce.error',
   'core.auth.factor.signedNonce.error.invalidFactor': 'core.auth.factor.signedNonce.error',
   'core.auth.factor.signedNonce.error.deletedDevice': 'core.auth.factor.signedNonce.error',
+  'core.auth.factor.signedNonce.error.invalidDeviceStatus': 'core.auth.factor.signedNonce.error.invalidDevice',
 };
 
 const I18N_PARAMS_MAPPING = {
