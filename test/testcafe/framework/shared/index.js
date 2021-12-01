@@ -2,7 +2,13 @@ import { t, ClientFunction } from 'testcafe';
 
 export const renderWidget = ClientFunction((settings) => {
   // function `renderPlaygroundWidget` is defined in playground/main.js
-  window.renderPlaygroundWidget(settings);
+  if (document.readyState === 'complete') {
+    window.renderPlaygroundWidget(settings);
+  } else {
+    window.onLoad = function() {
+      window.renderPlaygroundWidget(settings);
+    };
+  }
 });
 
 // Centralized console log assertion for verifying:
