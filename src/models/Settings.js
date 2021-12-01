@@ -44,8 +44,8 @@ export default Model.extend({
       value: 'auto',
     },
 
-    // Widget can use this to bootstrap itself with custom login flows 
-    // instead of standard idx responses
+    // allows bootstrapping the Widget into a specific view such
+    // as register or forgot password
     flow: ['string', false, 'default'],
 
     // Function to transform the username before passing it to the API

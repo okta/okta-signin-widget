@@ -39,6 +39,7 @@ import CookieUtil from 'util/CookieUtil';
 
 export default Router.extend({
   Events: Backbone.Events,
+  hasControllerRendered: false,
 
   initialize: function(options) {
     // Create a default success and/or error handler if
@@ -79,8 +80,6 @@ export default Router.extend({
       appState: this.appState,
       settings: this.settings,
     });
-
-    this.hasControllerRendered = false;
 
     // Hide until unitial render
     this.hide();
