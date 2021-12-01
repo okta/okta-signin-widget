@@ -297,7 +297,6 @@ export default Router.extend({
 
   restartLoginFlow() {
     this.render(this.controller.constructor);
-    this.appState.set('hasRendered', true);
   },
 
   start: function() {
