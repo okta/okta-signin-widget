@@ -66,7 +66,7 @@ test.requestHooks(requestLogger, EnrollProfileSubmitMock)('should show submit bu
   await t.expect(await enrollProfilePage.getSaveButtonLabel()).eql('Submit');
 });
 
-test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('should show more fields when creating a new user', async t => {
+test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('should show dropdown values for base properties (country code and timezone) on registration form', async t => {
   const enrollProfilePage = new EnrollProfileViewPageObject(t);
   const identityPage = await setup(t);
   await identityPage.clickSignUpLink();
