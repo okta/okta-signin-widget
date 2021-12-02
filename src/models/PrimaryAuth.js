@@ -110,7 +110,7 @@ export default BaseLoginModel.extend({
       } else {
         primaryAuthPromise = this.doTransaction(function(transaction) {
           return this.doPrimaryAuth(authClient, signInArgs, transaction.authenticate);
-        });
+        }, true);
       }
     } else {
       //normal username/password flow without stateToken
