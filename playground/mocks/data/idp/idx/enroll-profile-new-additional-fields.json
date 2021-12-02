@@ -32,6 +32,16 @@
                   "name": "email",
                   "label": "Email",
                   "required": true
+                },
+                {
+                  "name":"countryCode",
+                  "label":"Country code",
+                  "required":true
+                },
+                {
+                  "name":"timezone",
+                  "label":"Timezone",
+                  "required":true
                 }
               ]
             }

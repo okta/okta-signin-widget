@@ -4,6 +4,7 @@ import EnrollProfileViewPageObject from '../framework/page-objects/EnrollProfile
 import Identify from '../../../playground/mocks/data/idp/idx/identify-with-password';
 import EnrollProfileSubmit from '../../../playground/mocks/data/idp/idx/enroll-profile-submit';
 import EnrollProfileSignUp from '../../../playground/mocks/data/idp/idx/enroll-profile-new';
+import EnrollProfileSignUpWithAdditionalFields from '../../../playground/mocks/data/idp/idx/enroll-profile-new-additional-fields.json';
 
 
 const EnrollProfileSignUpMock = RequestMock()
@@ -17,6 +18,12 @@ const EnrollProfileSubmitMock = RequestMock()
   .respond(Identify)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(EnrollProfileSubmit);
+
+const EnrollProfileSignUpWithAdditionalFieldsMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(Identify)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll')
+  .respond(EnrollProfileSignUpWithAdditionalFields);
 
 const requestLogger = RequestLogger(
   /idx\/*/,
@@ -57,4 +64,15 @@ test.requestHooks(requestLogger, EnrollProfileSubmitMock)('should show submit bu
   requestLogger.clear();
   await t.expect(enrollProfilePage.getFormTitle()).eql('Sign in');
   await t.expect(await enrollProfilePage.getSaveButtonLabel()).eql('Submit');
+});
+
+test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('should show more fields when creating a new user', async t => {
+  const enrollProfilePage = new EnrollProfileViewPageObject(t);
+  const identityPage = await setup(t);
+  await identityPage.clickSignUpLink();
+
+  requestLogger.clear();
+  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.countryCode')).eql('Country code');
+  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.timezone')).eql('Timezone');
+  await t.expect(await enrollProfilePage.getSaveButtonLabel()).eql('Sign Up');
 });
