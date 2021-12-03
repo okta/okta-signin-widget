@@ -19,6 +19,9 @@ import xhrAuthenticatorOVPush from '../../../playground/mocks/data/idp/idx/authe
 import xhrAuthenticatorOVFastPass from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-loopback';
 import xhrSelectAuthenticatorsOktaVerifyWithoutSignedNonce from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-without-signed-nonce';
 import xhrAuthenticatorCustomOTP from '../../../playground/mocks/data/idp/idx/authenticator-verification-custom-otp';
+import xhrSelectAuthenticatorOVWithMoreMethod from '../../../playground/mocks/data/idp/idx/identify-from-multiple-ov-method';
+import xhrSelectAuthenticatorOVWithMethodSendPushOnly from '../../../playground/mocks/data/idp/idx/identify-with-last-used-ov';
+import xhrAuthenticatorOVPushWithAutoChallenge from '../../../playground/mocks/data/idp/idx/challenge-with-push-notification';
 
 const requestLogger = RequestLogger(
   /idx\/introspect|\/challenge/,
@@ -81,6 +84,20 @@ const mockSelectAuthenticatorKnownDevice = RequestMock()
 const mockSelectAuthenticatorNoSignedNonce = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrSelectAuthenticatorsOktaVerifyWithoutSignedNonce);
+
+const mockOktaVerifyWithMoreMethods = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticatorOVWithMoreMethod);
+
+const mockOktaVerifySendPushOnly = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticatorOVWithMethodSendPushOnly);
+
+const mockChallengeOVSendPush = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticatorOVWithMethodSendPushOnly)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrAuthenticatorOVPushWithAutoChallenge);
 
 const mockChallengeOVPush = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -423,6 +440,90 @@ test.requestHooks(mockSelectAuthenticatorNoSignedNonce)('should not display sign
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();
   await t.expect(selectFactorPage.getSignoutLinkText()).eql('Back to sign in');
 });
+
+test.requestHooks(mockOktaVerifyWithMoreMethods)(
+  'should load authenticators list when ov method type has items more than just push', async t => {
+    const selectFactorPage = await setup(t);
+    await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
+    await t.expect(selectFactorPage.getFormSubtitle()).eql('Select from the following options');
+    await t.expect(selectFactorPage.getFactorsCount()).eql(3);
+
+    await t.expect(selectFactorPage.getFactorLabelByIndex(0)).eql('Get a push notification');
+    await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(0)).eql(false);
+    await t.expect(selectFactorPage.getFactorIconClassByIndex(0)).contains('mfa-okta-verify');
+    await t.expect(selectFactorPage.getFactorSelectButtonByIndex(0)).eql('Select');
+    await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(0)).eql('okta_verify');
+
+    await t.expect(selectFactorPage.getFactorLabelByIndex(1)).eql('Enter a code');
+    await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(1)).eql(false);
+    await t.expect(selectFactorPage.getFactorIconClassByIndex(1)).contains('mfa-okta-verify');
+    await t.expect(selectFactorPage.getFactorSelectButtonByIndex(1)).eql('Select');
+    await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(1)).eql('okta_verify');
+
+    await t.expect(selectFactorPage.getFactorLabelByIndex(2)).eql('Use Okta FastPass');
+    await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(2)).eql(false);
+    await t.expect(selectFactorPage.getFactorIconClassByIndex(2)).contains('mfa-okta-verify');
+    await t.expect(selectFactorPage.getFactorSelectButtonByIndex(2)).eql('Select');
+    await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(2)).eql('okta_verify');
+
+    // signout link at enroll page
+    await t.expect(await selectFactorPage.signoutLinkExists()).ok();
+    await t.expect(selectFactorPage.getSignoutLinkText()).eql('Back to sign in');
+  }
+);
+
+test.requestHooks(mockOktaVerifySendPushOnly)('should load view with a button and a checkbox when push is the only method type', async t => {
+  const selectFactorPage = await setup(t);
+  await t.expect(await selectFactorPage.formWithClassExist()).ok();
+  await t.expect(selectFactorPage.getFormTitle()).eql('Get a push notification');
+  await t.expect(selectFactorPage.getSubtitleElement().getStyleProperty('display')).eql('none');
+
+  const pushBtn = selectFactorPage.getPushButton();
+  await t.expect(pushBtn.textContent).contains('Send push');
+  await t.expect(pushBtn.hasClass('link-button-disabled')).notOk();
+  const a11ySpan = selectFactorPage.getA11ySpan();
+  await t.expect(a11ySpan.textContent).contains('Send push');
+
+  await t.expect(await selectFactorPage.autoChallengeInputExists()).ok();
+  const checkboxLabel = selectFactorPage.getAutoChallengeCheckboxLabel();
+  await t.expect(checkboxLabel.hasClass('checked')).ok();
+  await t.expect(checkboxLabel.textContent).eql('Send push automatically');
+
+  // unselect checkbox on click
+  await selectFactorPage.clickAutoChallengeCheckbox();
+  await t.expect(checkboxLabel.hasClass('checked')).notOk();
+
+  // signout link at enroll page
+  await t.expect(await selectFactorPage.signoutLinkExists()).ok();
+  await t.expect(selectFactorPage.getSignoutLinkText()).eql('Back to sign in');
+});
+
+test.requestHooks(requestLogger, mockChallengeOVSendPush)(
+  'should navigate to okta verify push page on clicking send push button', async t => {
+    const selectFactorPage = await setup(t);
+    await t.expect(selectFactorPage.getFormTitle()).eql('Get a push notification');
+
+    selectFactorPage.clickSendPushButton();
+    const challengeFactorPage = new ChallengeFactorPageObject(t);
+    await t.expect(challengeFactorPage.getFormTitle()).eql('Get a push notification');
+
+    await t.expect(requestLogger.count(() => true)).eql(2);
+    const req1 = requestLogger.requests[0].request;
+    await t.expect(req1.url).eql('http://localhost:3000/idp/idx/introspect');
+
+    const req2 = requestLogger.requests[1].request;
+    await t.expect(req2.url).eql('http://localhost:3000/idp/idx/challenge');
+    await t.expect(req2.method).eql('post');
+    await t.expect(JSON.parse(req2.body)).eql({
+      'authenticator': {
+        'id': 'aut1ejvmCE1iWalJR0g4',
+        'methodType': 'push',
+        'autoChallenge': true,
+      },
+      'stateHandle': '02f9EONFMnQZtAQHl7Gf4Ye-R4mXc8cOhBUSMc7ubQ'
+    });
+  }
+);
 
 test.requestHooks(requestLogger, mockChallengeOVTotp)('should navigate to okta verify totp page', async t => {
   const selectFactorPage = await setup(t);

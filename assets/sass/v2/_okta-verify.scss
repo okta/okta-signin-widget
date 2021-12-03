@@ -56,3 +56,15 @@
     margin-left: 20px;
   }
 }
+
+.okta-verify-push-challenge {
+  .o-form-fieldset {
+    &:first-of-type {
+      margin-top: 10px;
+    }
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+}

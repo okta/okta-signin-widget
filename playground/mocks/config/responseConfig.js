@@ -915,6 +915,51 @@ const selfServiceRegistration = {
   ]
 };
 
+const oktaVerifyPushNotification = {
+  '/idp/idx/introspect': [
+    'login-with-username-password',
+  ],
+  '/idp/idx/identify': [
+    'identify-with-push-notification',
+  ],
+  '/idp/idx/challenge': [
+    'challenge-with-push-notification',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'challenge-with-push-notification',
+  ],
+};
+
+const rememberLastUsedOktaVerify = {
+  '/idp/idx/introspect': [
+    'login-with-username-password',
+  ],
+  '/idp/idx/identify': [
+    'identify-with-last-used-ov',
+  ],
+  '/idp/idx/challenge': [
+    'challenge-with-push-notification',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'challenge-with-push-notification',
+  ],
+};
+
+const selectOktaVerifyMethod = {
+  '/idp/idx/introspect': [
+    'login-with-username-password',
+  ],
+  '/idp/idx/identify': [
+    'identify-from-multiple-ov-method',
+  ],
+  '/idp/idx/challenge': [
+    'challenge-with-push-notification',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'challenge-with-push-notification',
+  ],
+};
+
 module.exports = {
-  mocks: idx,
+  mocks: oktaVerifyPushNotification,
 };

@@ -1,4 +1,4 @@
-import { Collection } from 'okta';
+import { Collection, createButton, loc } from 'okta';
 import { BaseForm, BaseFooter } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import AuthenticatorVerifyOptions from '../../components/AuthenticatorVerifyOptions';
@@ -7,7 +7,42 @@ import { Body as SelectAuthenticatorVerifyViewBody } from '../SelectAuthenticato
 import { AUTHENTICATOR_KEY } from '../../../ion/RemediationConstants';
 
 const Body = SelectAuthenticatorVerifyViewBody.extend({
+  initialize() {
+    BaseForm.prototype.initialize.apply(this, arguments);
+    if (this.isPushOnlyFlow()) {
+      this.addView();
+    }
+  },
+
+  addView() {
+    this.add(createButton({
+      className: 'button button-wide button-primary send-push',
+      title: loc('oie.okta_verify.sendPushButton', 'login'),
+      click: () => {
+        this.$el.submit();
+      },
+    }));
+    this.add(
+      `<span class='accessibility-text' role='alert'>${loc('oie.okta_verify.sendPushButton', 'login')}</span>`,
+    );
+  },
+
+  postRender() {
+    if (this.isPushOnlyFlow()) {
+      this.$el.addClass('okta-verify-push-challenge');
+      this.$el.find('.okta-form-subtitle').hide();
+      // Move checkbox below the button
+      const checkbox = this.$el.find('.o-form-fieldset');
+      checkbox.length && this.$el.find('.o-form-fieldset-container').append(checkbox);
+    }
+  },
+
   getUISchema() {
+    if (this.isPushOnlyFlow()) {
+      // Prevent from displaying radio buttons on the UI
+      const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
+      return uiSchemas.filter(schema => schema.name !== 'authenticator.methodType');
+    }
     // Change the UI schema to not display radios here.
     const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
     const methodsSchema = uiSchemas.find(schema => schema.name === 'authenticator.methodType');

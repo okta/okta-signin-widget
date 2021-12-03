@@ -4,6 +4,8 @@ const FORM_INFOBOX_WARNING = '.okta-form-infobox-warning';
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] [data-se="callout"]';
 const RESEND_NUMBER_CHALLENGE_BUTTON = '.okta-form-infobox-warning .resend-number-challenge';
 const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
+const AUTO_CHALLENGE_CHECKBOX_SELECTOR = '[name="autoChallenge"]';
+const AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR = '[data-se-for-name="autoChallenge"]';
 
 export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPageObject {
   constructor(t) {
@@ -44,6 +46,18 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
 
   getWarningBox() {
     return this.form.getElement(FORM_INFOBOX_WARNING);
+  }
+
+  async autoChallengeInputExists() {
+    return this.form.elementExist(AUTO_CHALLENGE_CHECKBOX_SELECTOR);
+  }
+
+  getAutoChallengeCheckboxLabel() {
+    return this.form.getElement(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR);
+  }
+
+  async clickAutoChallengeCheckbox() {
+    await this.t.click(this.form.getElement(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR));
   }
 
 }

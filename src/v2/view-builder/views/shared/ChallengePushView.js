@@ -47,6 +47,9 @@ const Body = BaseForm.extend(Object.assign(
       const className = this.isOV() ?
         'okta-verify-push-challenge' : ' custom-app-push-challenge';
       this.$el.addClass(className);
+      // Move checkbox below the button
+      const checkbox = this.$el.find('.o-form-fieldset');
+      checkbox.length && this.$el.find('.o-form-fieldset-container').append(checkbox);
       this.startPoll();
     },
 
