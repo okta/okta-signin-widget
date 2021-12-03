@@ -961,5 +961,5 @@ const selectOktaVerifyMethod = {
 };
 
 module.exports = {
-  mocks: rememberLastUsedOktaVerify,
+  mocks: idx,
 };
