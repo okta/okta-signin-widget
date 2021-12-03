@@ -97,6 +97,7 @@ test
     await challengeOktaVerifyTOTPPageObject.clickNextButton();
     await challengeOktaVerifyTOTPPageObject.waitForErrorBox();
     await t.expect(challengeOktaVerifyTOTPPageObject.getAnswerInlineError()).contains('Invalid code. Try again.');
+    await a11yCheck(t);
   });
 
 test

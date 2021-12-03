@@ -70,6 +70,7 @@ test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign 
   });
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
+  await a11yCheck(t);
 });
 
 test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyMockWithReCaptcha)('should sign in with reCaptcha enabled', async t => {
@@ -91,4 +92,5 @@ test.requestHooks(identifyRequestLogger, reCaptchaRequestLogger, identifyMockWit
   await t.expect(reCaptchaRequestLogger.count(() => true)).eql(1);
   const req = reCaptchaRequestLogger.requests[0].request;
   await t.expect(req.url).contains('6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI');
+  await a11yCheck(t);
 });

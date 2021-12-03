@@ -298,6 +298,7 @@ test.requestHooks(resendEmailMocks)('after timeout should be able see and click 
   await enrollOktaVerifyPage.clickSendAgainLink();
   await t.expect(enrollOktaVerifyPage.resendView().visible).notOk();
   await t.expect(enrollOktaVerifyPage.getEmailInstruction()).eql(emailInstruction);
+  await a11yCheck(t);
 });
 
 test.requestHooks(logger, enrollViaSmsMocks)('should be able enroll via sms', async t => {
@@ -313,6 +314,7 @@ test.requestHooks(logger, enrollViaSmsMocks)('should be able enroll via sms', as
   await t.expect(enrollViaSMSPageObject.hasCountryField()).ok();
   await t.expect(enrollViaSMSPageObject.getCountryLabel()).eql('+1');
   await enrollViaSMSPageObject.fillPhoneField('8887227871');
+  await a11yCheck(t);
   await enrollViaSMSPageObject.clickNextButton();
   await t.expect(logger.count(() => true)).eql(3);
   const { request: { body: answerRequestBodyString }} = logger.requests[2];
@@ -339,6 +341,7 @@ test.requestHooks(resendSmsMocks)('after timeout should be able see and click se
   await enrollOktaVerifyPage.clickSendAgainLink();
   await t.expect(enrollOktaVerifyPage.resendView().visible).notOk();
   await t.expect(enrollOktaVerifyPage.getSmsInstruction()).eql(smsInstruction);
+  await a11yCheck(t);
 });
 
 
@@ -465,6 +468,7 @@ test.requestHooks(logger, enrollViaSmsVersionUpgradeMocksGoBack)('should not sho
   await t.expect(enrollViaSMSPageObject.hasCountryField()).ok();
   await t.expect(enrollViaSMSPageObject.getCountryLabel()).eql('+1');
   await enrollViaSMSPageObject.fillPhoneField('8887227871');
+  await a11yCheck(t);
   await enrollViaSMSPageObject.clickNextButton();
   await t.expect(logger.count(() => true)).eql(3);
   const { request: { body: answerRequestBodyString }} = logger.requests[2];
@@ -481,6 +485,7 @@ test.requestHooks(logger, enrollViaSmsVersionUpgradeMocksGoBack)('should not sho
   // hit go back
   await enrollOktaVerifyPage.switchAuthenticator();
   await t.expect(errorBox.exists).notOk;
+  await a11yCheck(t);
 });
 
 test.requestHooks(logger, enrollViaQRcodeEnableBiometricsMocks)('should see ov enable biometrics message during enroll via QR code', async t => {

@@ -51,7 +51,7 @@ test.requestHooks(identifyWithPasswordMock)('should show errors if required fiel
   await t.expect(identityPage.hasIdentifierError()).eql(true);
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
   await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
-
+  await a11yCheck(t);
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
@@ -59,6 +59,7 @@ test.requestHooks(identifyWithPasswordMock)('should show errors if required fiel
   await t.expect(identityPage.hasPasswordError()).eql(true);
   await t.expect(identityPage.hasPasswordErrorMessage()).eql(true);
   await t.expect(identityPage.getPasswordErrorMessage()).eql('This field cannot be left blank');
+  await a11yCheck(t);
 });
 
 test.requestHooks(identifyWithPasswordMock)('should show customized error if required field password is empty', async t => {
@@ -78,7 +79,7 @@ test.requestHooks(identifyWithPasswordMock)('should show customized error if req
   await t.expect(identityPage.hasIdentifierError()).eql(true);
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
   await t.expect(identityPage.getIdentifierErrorMessage()).eql('Username is required!');
-
+  await a11yCheck(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
@@ -87,6 +88,7 @@ test.requestHooks(identifyWithPasswordMock)('should show customized error if req
   await t.expect(identityPage.hasPasswordError()).eql(true);
   await t.expect(identityPage.hasPasswordErrorMessage()).eql(true);
   await t.expect(identityPage.getPasswordErrorMessage()).eql('Password is required!');
+  await a11yCheck(t);
 });
 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have password field, password toggle, and forgot password link', async t => {
@@ -159,10 +161,12 @@ test.requestHooks(identifyWithPasswordMock)('should show forgot password page wh
   await page.navigateToPage();
   await t.expect(page.form.getTitle()).eql('Reset your password');
   await t.expect(await page.getIdentifyFieldLabel()).eql('Email or Username');
+  await a11yCheck(t);
 });
 test.requestHooks(identifyMock)('should show errors when forgot password is not supported', async t => {
   const page = new IdentityRecoverPageObject(t);
   await page.navigateToPage();
   await t.expect(page.form.getTitle()).eql('Reset your password');
   await t.expect(page.form.getErrorBoxText()).eql('Forgot password is not enabled for this organization.');
+  await a11yCheck(t);
 });

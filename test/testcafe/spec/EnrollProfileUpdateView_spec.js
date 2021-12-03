@@ -5,6 +5,7 @@ import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify-with-pa
 import xhrEnrollProfileUpdate from '../../../playground/mocks/data/idp/idx/enroll-profile-update-params';
 import xhrEnrollProfileUpdateAllOptional from '../../../playground/mocks/data/idp/idx/enroll-profile-update-all-optional-params';
 import xhrEnrollProfileUpdateSuccess from '../../../playground/mocks/data/idp/idx/success-with-app-user';
+import {a11yCheck} from "../framework/shared";
 
 const xhrEnrollProfileUpdateMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -53,10 +54,11 @@ test.requestHooks(xhrEnrollProfileUpdateMock)('should have correct form title, f
   await t.expect(await enrollProfileUpdatePage.skipSetUpLinkExists()).notOk();
   await t.expect(await enrollProfileUpdatePage.getFormFieldLabel('userProfile.secondEmail')).eql('Secondary email');
   await t.expect(enrollProfileUpdatePage.getFormFieldSubLabel('userProfile.secondEmail')).eql('Optional');
-
+  await a11yCheck(t);
   // show error when field is required
   await enrollProfileUpdatePage.clickFinishButton();
   await t.expect(enrollProfileUpdatePage.getTextBoxErrorMessage('userProfile.newAttribute2')).eql('This field cannot be left blank');
+  await a11yCheck(t);
 });
 
 test.requestHooks(requestLogger, xhrEnrollProfileUpdateAllOptionalMock)('should have skip link when all fields are optional', async t => {

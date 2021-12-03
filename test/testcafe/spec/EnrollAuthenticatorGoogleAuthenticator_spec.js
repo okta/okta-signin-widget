@@ -66,6 +66,7 @@ test
 
     await t.expect(enrollGoogleAuthenticatorPageObject.getCodeFieldError()).contains('Invalid code. Try again.');
     await t.expect(enrollGoogleAuthenticatorPageObject.form.getErrorBoxText()).contains('We found some errors.');
+    await a11yCheck(t);
   });
 
 test
@@ -78,14 +79,16 @@ test
     await t.expect(enrollGoogleAuthenticatorPageObject.getmanualSetupSubtitle()).eql('Can\'t scan barcode?');
     await t.expect(enrollGoogleAuthenticatorPageObject.getSharedSecret()).eql('ZR74DHZTG43NBULV');
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
-
+    await a11yCheck(t);
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).ok();
     await t.expect(await enrollGoogleAuthenticatorPageObject.getOtpLabel()).contains('Enter code');
+
     await enrollGoogleAuthenticatorPageObject.enterCode('123456');
     await enrollGoogleAuthenticatorPageObject.submit();
 
     await t.expect(enrollGoogleAuthenticatorPageObject.getCodeFieldError()).contains('Invalid code. Try again.');
     await t.expect(enrollGoogleAuthenticatorPageObject.form.getErrorBoxText()).contains('We found some errors.');
+    await a11yCheck(t);
   });
 
 test

@@ -59,7 +59,7 @@ test
     await resetPasswordPage.waitForErrorBox();
     await t.expect(resetPasswordPage.getPasswordError()).eql('This field cannot be left blank');
     await t.expect(resetPasswordPage.getConfirmPasswordError()).eql('This field cannot be left blank');
-
+    await a11yCheck(t);
     // password must match
     await resetPasswordPage.fillPassword('abcd');
     await resetPasswordPage.fillConfirmPassword('1234');
@@ -69,6 +69,7 @@ test
     await t.expect(resetPasswordPage.getConfirmPasswordError()).eql('New passwords must match');
 
     await t.expect(await resetPasswordPage.signoutLinkExists()).ok();
+    await a11yCheck(t);
   });
 
 test

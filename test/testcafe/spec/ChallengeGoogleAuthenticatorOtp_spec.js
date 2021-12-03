@@ -97,6 +97,7 @@ test
     await challengeGoogleAuthenticatorPageObject.verifyFactor('credentials.passcode', '123');
     await challengeGoogleAuthenticatorPageObject.clickNextButton();
     await t.expect(challengeGoogleAuthenticatorPageObject.getAnswerInlineError()).eql('Your code doesn\'t match our records. Please try again.');
+    await a11yCheck(t);
   });
 
 test

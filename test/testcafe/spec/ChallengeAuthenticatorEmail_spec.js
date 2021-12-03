@@ -222,7 +222,7 @@ test
     const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
     await t.expect(pageTitle).eql('Verify with your email');
     await t.expect(saveBtnText).eql('Verify');
-
+    await a11yCheck(t);
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .eql(`An email magic link was sent to ${emailAddress}. Click the link in the email or enter the code below to continue.`);
@@ -245,6 +245,7 @@ test
 
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .contains('An email magic link was sent to your email. Click the link in the email or enter the code below to continue.');
+    await a11yCheck(t);
   });
 
 test
@@ -270,6 +271,7 @@ test
     await challengeEmailPageObject.waitForErrorBox();
     await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
+    await a11yCheck(t);
   });
 
 test
@@ -287,6 +289,7 @@ test
     await t.wait(5000);
     await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
+    await a11yCheck(t);
   });  
 
 test
@@ -298,6 +301,7 @@ test
     await challengeEmailPageObject.clickNextButton();
     await challengeEmailPageObject.waitForErrorBox();
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('Too many attempts');
+    await a11yCheck(t);
   });
 
 test
@@ -309,6 +313,7 @@ test
     await challengeEmailPageObject.clickNextButton();
     await challengeEmailPageObject.waitForErrorBox();
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('Too many attempts');
+    await a11yCheck(t);
   });
 
 test
@@ -339,6 +344,7 @@ test
     });
     await t.expect(answerRequestMethod).eql('post');
     await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/challenge/answer');
+    await a11yCheck(t);
   });
 
 test
@@ -389,6 +395,7 @@ test
       record => record.response.statusCode === 200 &&
       record.request.url.match(/poll/)
     )).eql(5);
+    await a11yCheck(t);
   });
 
 test
@@ -407,7 +414,7 @@ test
       record => record.response.statusCode === 200 &&
       record.request.url.match(/poll/)
     )).eql(8);
-
+    await a11yCheck(t);
     await challengeEmailPageObject.clickSendAgainLink();
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
     await t.expect(logger.count(
@@ -436,6 +443,7 @@ test
     await t.expect(jsonBody).eql({'stateHandle':'02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8'});
     await t.expect(lastRequestMethod).eql('post');
     await t.expect(lastRequestUrl).eql('http://localhost:3000/idp/idx/challenge/resend');
+    await a11yCheck(t);
   });
 
 test
@@ -451,6 +459,7 @@ test
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).notOk();
     const resendEmailView = challengeEmailPageObject.resendEmailView();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received an email? Send again');
+    await a11yCheck(t);
   });
 
 test

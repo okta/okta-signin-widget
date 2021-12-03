@@ -114,6 +114,7 @@ test.requestHooks(mock)('should show errors if required fields are empty', async
   await t.expect(registrationPage.hasFirstNameErrorMessage()).eql(true);
   await t.expect(registrationPage.hasEmailError()).eql(true);
   await t.expect(registrationPage.hasEmailErrorMessage()).eql(true);
+  await a11yCheck(t);
 });
 
 test.requestHooks(mock)('should show errors after empty required fields are focused out', async t => {
@@ -133,6 +134,7 @@ test.requestHooks(mock)('should show errors after empty required fields are focu
   await t.expect(registrationPage.hasFirstNameErrorMessage()).eql(true);
   await t.expect(registrationPage.hasEmailError()).eql(true);
   await t.expect(registrationPage.hasEmailErrorMessage()).eql(true);
+  await a11yCheck(t);
 });
 
 test.requestHooks(enrollProfileErrorMock)('should show email field validation errors', async t => {
@@ -150,7 +152,7 @@ test.requestHooks(enrollProfileErrorMock)('should show email field validation er
   await t.expect(registrationPage.hasEmailError()).eql(true);
   await t.expect(registrationPage.hasEmailErrorMessage()).eql(true);
   await t.expect(registrationPage.getEmailErrorMessage()).contains('\'Email\' must be in the form of an email address');
-
+  await a11yCheck(t);
   const { log } = await t.getBrowserConsoleMessages();
   await t.expect(log.length).eql(8);
   await t.expect(log[5]).eql('===== playground widget afterError event received =====');

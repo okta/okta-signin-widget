@@ -60,6 +60,7 @@ test
 
     await t.expect(enrollEmailPageObject.getCodeFieldError()).contains('Invalid code. Try again.');
     await t.expect(enrollEmailPageObject.form.getErrorBoxText()).contains('We found some errors.');
+    await a11yCheck(t);
   });
 
 test

@@ -81,7 +81,7 @@ test
     await passwordExpiryWarningPage.waitForErrorBox();
     await t.expect(passwordExpiryWarningPage.getPasswordError()).eql('This field cannot be left blank');
     await t.expect(passwordExpiryWarningPage.getConfirmPasswordError()).eql('This field cannot be left blank');
-
+    await a11yCheck(t);
     // password must match
     await passwordExpiryWarningPage.fillPassword('abcd');
     await passwordExpiryWarningPage.fillConfirmPassword('1234');
@@ -92,6 +92,7 @@ test
 
     await t.expect(await passwordExpiryWarningPage.signoutLinkExists()).ok();
     await t.expect(await passwordExpiryWarningPage.skipLinkExists()).ok();
+    await a11yCheck(t);
   });
 
 test

@@ -55,6 +55,7 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onSucce
   await registrationPage.clickRegisterButton();
   // parseSchema removes requirement on first name field
   await t.expect(registrationPage.hasFirstNameError()).notOk();
+  await a11yCheck(t);
   // preSubmit
   const req = logger.requests[0].request;
   const reqBody = JSON.parse(req.body);
@@ -109,6 +110,7 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onFailu
 
   // no request because the form fails to submit
   await t.expect(logger.requests.length).eql(0);
+  await a11yCheck(t);
 });
 
 test.requestHooks(logger, mock)('should call settings.registration.postSubmit hook\'s onFailure handler', async t => {

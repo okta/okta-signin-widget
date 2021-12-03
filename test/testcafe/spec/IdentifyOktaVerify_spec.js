@@ -42,6 +42,7 @@ test('should show errors if required fields are empty', async t => {
 
   await t.expect(identityPage.hasIdentifierError()).eql(true);
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
+  await a11yCheck(t);
 });
 
 test('should the correct title', async t => {

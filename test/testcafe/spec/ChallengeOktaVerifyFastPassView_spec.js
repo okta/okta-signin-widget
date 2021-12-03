@@ -245,9 +245,11 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterLink().exists).notOk();
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
+    await a11yCheck(t);
     await deviceChallengePollPageObject.clickSwitchAuthenticatorButton();
     const secondSelectAuthenticatorPageObject = new SelectAuthenticatorPageObject(t);
     await t.expect(secondSelectAuthenticatorPageObject.getFormTitle()).eql('Verify it\'s you with a security method');
+    await a11yCheck(t);
   });
 
 test
@@ -284,6 +286,7 @@ test
     deviceChallengePollPageObject.clickUniversalLink();
     await t.expect(Selector('h1').innerText).eql('open universal link');
     await t.expect(await (new BasePageObject()).getPageUrl()).contains(mockHttpCustomUri);
+    await a11yCheck(t);
   });
 
 test

@@ -125,6 +125,7 @@ test.requestHooks(deviceCodeConsentDeniedMock)('should be able to get device not
   // identify with password
   await deviceCodeActivatePageObject.fillIdentifierField('Test Identifier');
   await deviceCodeActivatePageObject.fillPasswordField('random password 123');
+  await a11yCheck(t);
   await deviceCodeActivatePageObject.clickNextButton();
 
   // expect device not activated screen
@@ -133,6 +134,7 @@ test.requestHooks(deviceCodeConsentDeniedMock)('should be able to get device not
   await t.expect(deviceCodeActivatePageObject.isTerminalErrorIconPresent()).eql(true);
   await t.expect(deviceCodeActivatePageObject.isBeaconTerminalPresent()).eql(false);
   await t.expect(deviceCodeActivatePageObject.isTryAgainButtonPresent()).eql(true);
+  await a11yCheck(t);
 });
 
 test.requestHooks(deviceCodeInternalErrorMock)('should be able to get device not activated screen when there is an internal error', async t => {
@@ -164,6 +166,7 @@ test.requestHooks(invalidDeviceCodeMock)('should be able show error when wrong a
   await deviceCodeActivatePageObject.clickNextButton();
 
   await t.expect(deviceCodeActivatePageObject.getGlobalErrors()).contains('Invalid code. Try again.');
+  await a11yCheck(t);
 });
 
 test.requestHooks(identifyRequestLogger, deviceCodeInvalidUserCodeMock)('should be able show error when wrong activation code is passed in the url', async t => {

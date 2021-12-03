@@ -71,6 +71,7 @@ test.requestHooks(mockChallengeAuthenticatorOnPrem)('passcode is required', asyn
 
   await challengeOnPremPage.waitForErrorBox();
   await t.expect(challengeOnPremPage.getPasscodeError()).eql('This field cannot be left blank');
+  await a11yCheck(t);
 });
 
 test.requestHooks(mockInvalidPasscode)('challege on prem authenticator with invalid passcode', async t => {
@@ -80,6 +81,7 @@ test.requestHooks(mockInvalidPasscode)('challege on prem authenticator with inva
 
   await t.expect(challengeOnPremPage.getInvalidOTPError())
     .eql('Invalid code. Try again.');
+  await a11yCheck(t);
 });
 
 test.requestHooks(mockPasscodeChange)('displays error and clears passcode when passcode change response', async t => {
@@ -91,4 +93,5 @@ test.requestHooks(mockPasscodeChange)('displays error and clears passcode when p
     .eql('Pin accepted, Wait for token to change, then enter new passcode.');
   await t.expect(challengeOnPremPage.getPasscodeValue())
     .eql('');
+  await a11yCheck(t);
 });

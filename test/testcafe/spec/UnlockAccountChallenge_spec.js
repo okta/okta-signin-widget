@@ -117,4 +117,5 @@ test.requestHooks(errorUnlockAccount)('should show error when unlock account fai
   await terminaErrorPage.waitForErrorBox();
   await t.expect(terminaErrorPage.getErrorMessages().isError()).eql(true);
   await t.expect(terminaErrorPage.getErrorMessages().getTextContent()).eql('We are unable to unlock your account at this time, please contact your administrator');
+  await a11yCheck(t);
 });

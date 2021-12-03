@@ -163,6 +163,7 @@ test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)('select passwo
   const enrollPasswordPage = new FactorEnrollPasswordPageObject(t);
   await t.expect(enrollPasswordPage.passwordFieldExists()).eql(true);
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
+  await a11yCheck(t);
   await enrollPasswordPage.clickSwitchAuthenticatorButton();
   await t.expect(selectFactorPage.getFormTitle()).eql('Set up security methods');
   // re-select password
@@ -171,6 +172,7 @@ test.requestHooks(requestLogger, mockEnrollAuthenticatorPassword)('select passwo
   await t.expect(enrollPasswordPage.confirmPasswordFieldExists()).eql(true);
 
   await t.expect(requestLogger.count(() => true)).eql(3);
+  await a11yCheck(t);
   const req1 = requestLogger.requests[0].request;
   await t.expect(req1.url).eql('http://localhost:3000/idp/idx/introspect');
 

@@ -313,6 +313,7 @@ test
     await t.expect(pageSubtitle).contains('A code was sent to');
     await t.expect(pageSubtitle).contains('your phone');
     await t.expect(pageSubtitle).contains('Enter the code below to verify.');
+    await a11yCheck(t);
   });
 
 test
@@ -474,6 +475,7 @@ test
     await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
     const resendEmailView = challengePhonePageObject.resendEmailView();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received an SMS? Send again');
+    await a11yCheck(t);
   });
 
 test

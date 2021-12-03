@@ -55,6 +55,7 @@ test
     await t.expect(enrollOnPremPage.getUserNameError()).eql('This field cannot be left blank');
 
     await t.expect(await enrollOnPremPage.signoutLinkExists()).ok();
+    await a11yCheck(t);
   });
 
 test
@@ -84,4 +85,5 @@ test
     await t.expect(errorBox.innerText)
       .contains('Pin accepted, Wait for token to change, then enter new passcode.');
     await t.expect(enrollOnPremPage.getPasscodeValue()).eql('');
+    await a11yCheck(t);
   });

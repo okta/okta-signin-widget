@@ -66,14 +66,14 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('challenge password authen
   // assert switch authenticator link
   await challengePasswordPage.switchAuthenticatorExists();
   await t.expect(challengePasswordPage.getSwitchAuthenticatorButtonText()).eql('Verify with something else');
-
+  await a11yCheck(t);
   // assert forgot password link
   await challengePasswordPage.forgotPasswordLink.exists();
   await t.expect(challengePasswordPage.forgotPasswordLink.getLabel()).eql('Forgot password?');
 
   await t.expect(await challengePasswordPage.signoutLinkExists()).ok();
   await t.expect(challengePasswordPage.getSignoutLinkText()).eql('Back to sign in');
-
+  await a11yCheck(t);
   // verify password
   await challengePasswordPage.verifyFactor('credentials.passcode', 'test');
   await challengePasswordPage.clickNextButton();
@@ -134,6 +134,7 @@ test.requestHooks(sessionExpiresDuringPassword)('challege password authenticator
   await challengePasswordPage.clickNextButton();
   await t.expect(challengePasswordPage.getErrorFromErrorBox()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
   await t.expect(challengePasswordPage.getSignoutLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
+  await a11yCheck(t);
 });
 
 test.requestHooks(resetPasswordSuccess)('password changed successfully', async t => {
@@ -144,6 +145,7 @@ test.requestHooks(resetPasswordSuccess)('password changed successfully', async t
 
   await t.expect(challengePasswordPage.getIonMessages()).eql('You can now sign in with your existing username and new password.');
   await t.expect(challengePasswordPage.getGoBackLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
+  await a11yCheck(t);
 });
 
 test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not recover password', async t => {
@@ -158,6 +160,7 @@ test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not reco
     .eql('Reset password is not allowed at this time. Please contact support for assistance.');
 
   await t.expect(recoveryRequestLogger.count(() => true)).eql(2);
+  await a11yCheck(t);
 
   const req0 = recoveryRequestLogger.requests[0].request;
   const reqBody0 = JSON.parse(req0.body);

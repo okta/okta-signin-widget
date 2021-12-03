@@ -168,7 +168,7 @@ test.requestHooks(requestLogger, mockChallengeOVTotpMethod)('should show switch 
   // verify sign out link
   await t.expect(await challengeOktaVerifyTOTPPageObject.signoutLinkExists()).ok();
   await t.expect(challengeOktaVerifyTOTPPageObject.getSignoutLinkText()).eql('Back to sign in');
-
+  await a11yCheck(t);
   await challengeOktaVerifyTOTPPageObject.verifyFactor('credentials.totp', '1234');
   await challengeOktaVerifyTOTPPageObject.clickNextButton();
   const successPage = new SuccessPageObject(t);

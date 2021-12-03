@@ -58,6 +58,7 @@ test
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await enrollRsaPage.switchAuthenticatorLinkExists()).notOk();
     await t.expect(await enrollRsaPage.signoutLinkExists()).ok();
+    await a11yCheck(t);
   });
 
 test
@@ -87,4 +88,5 @@ test
     await t.expect(errorBox.innerText)
       .contains('Pin accepted, Wait for token to change, then enter new passcode.');
     await t.expect(enrollRsaPage.getPasscodeValue()).eql('');
+    await a11yCheck(t);
   });

@@ -149,6 +149,7 @@ test
     await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
     const resendEmailView = challengePhonePageObject.resendEmailView();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received an SMS? Send again');
+    await a11yCheck(t);
   });
 
 test

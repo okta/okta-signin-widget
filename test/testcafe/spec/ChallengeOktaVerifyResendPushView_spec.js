@@ -59,6 +59,7 @@ test
     await t.expect(challengeOktaVerifyPushPageObject.getSwitchAuthenticatorLinkText()).eql('Verify with something else');
     await t.expect(await challengeOktaVerifyPushPageObject.signoutLinkExists()).ok();
     await t.expect(challengeOktaVerifyPushPageObject.getSignoutLinkText()).eql('Back to sign in');
+    await a11yCheck(t);
   });
 
 test
