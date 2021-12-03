@@ -961,5 +961,5 @@ const selectOktaVerifyMethod = {
 };
 
 module.exports = {
-  mocks: oktaVerifyPushNotification,
+  mocks: rememberLastUsedOktaVerify,
 };
