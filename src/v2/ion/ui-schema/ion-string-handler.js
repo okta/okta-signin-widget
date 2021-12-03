@@ -40,6 +40,7 @@ const getCaptchaUiSchema = () => {
 const shouldRenderAsRadio = (name) => name.indexOf('methodType') >= 0 || name.indexOf('channel') >= 0;
 
 const createUiSchemaForString = (ionFormField, remediationForm, transformedResp, createUISchema, settings) => {
+  /* eslint-disable no-eval */
   const uiSchema = {
     type: 'text'
   };
