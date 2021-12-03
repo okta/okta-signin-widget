@@ -486,12 +486,12 @@ test.requestHooks(mockOktaVerifySendPushOnly)('should load view with a button an
 
   await t.expect(await selectFactorPage.autoChallengeInputExists()).ok();
   const checkboxLabel = selectFactorPage.getAutoChallengeCheckboxLabel();
-  await t.expect(checkboxLabel.hasClass('checked')).ok();
+  await t.expect(checkboxLabel.hasClass('checked')).notOk();
   await t.expect(checkboxLabel.textContent).eql('Send push automatically');
 
-  // unselect checkbox on click
+  // select checkbox on click
   await selectFactorPage.clickAutoChallengeCheckbox();
-  await t.expect(checkboxLabel.hasClass('checked')).notOk();
+  await t.expect(checkboxLabel.hasClass('checked')).ok();
 
   // signout link at enroll page
   await t.expect(await selectFactorPage.signoutLinkExists()).ok();
@@ -518,7 +518,7 @@ test.requestHooks(requestLogger, mockChallengeOVSendPush)(
       'authenticator': {
         'id': 'aut1ejvmCE1iWalJR0g4',
         'methodType': 'push',
-        'autoChallenge': true,
+        'autoChallenge': false,
       },
       'stateHandle': '02f9EONFMnQZtAQHl7Gf4Ye-R4mXc8cOhBUSMc7ubQ'
     });

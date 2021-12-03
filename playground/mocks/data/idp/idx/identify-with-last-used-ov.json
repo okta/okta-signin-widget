@@ -40,7 +40,7 @@
                     "name" : "autoChallenge",
                     "type" : "boolean",
                     "required" : "false",
-                    "value" : true,
+                    "value" : false,
                     "label" : "Send push automatically",
                     "visible" : true,
                     "mutable" : true
