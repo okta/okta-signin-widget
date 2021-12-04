@@ -25,6 +25,7 @@ const Body = BaseForm.extend(Object.assign(
 
     initialize() {
       BaseForm.prototype.initialize.apply(this, arguments);
+      this.hasSavingState = !this.isOV();
       this.listenTo(this.model, 'error', this.stopPoll);
       this.addView();
     },
@@ -48,8 +49,10 @@ const Body = BaseForm.extend(Object.assign(
         'okta-verify-push-challenge' : ' custom-app-push-challenge';
       this.$el.addClass(className);
       // Move checkbox below the button
-      const checkbox = this.$el.find('.o-form-fieldset');
-      checkbox.length && this.$el.find('.o-form-fieldset-container').append(checkbox);
+      if (this.isOV()) {
+        const checkbox = this.$el.find('.o-form-fieldset');
+        checkbox.length && this.$el.find('.o-form-fieldset-container').append(checkbox);
+      }
       this.startPoll();
     },
 

@@ -980,7 +980,7 @@ only screen and (min-resolution: 2dppx) {
 
 /* disabled state */
 .o-form-disabled,
-.o-form-saving .o-form-input > *:not(.o-form-disabled):not(.o-form-input-name-autoChallenge) {
+.o-form-saving .o-form-input > *:not(.o-form-disabled) {
   opacity: 0.4;
   pointer-events: none;
   display: block;
