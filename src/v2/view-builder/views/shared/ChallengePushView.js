@@ -25,6 +25,9 @@ const Body = BaseForm.extend(Object.assign(
 
     initialize() {
       BaseForm.prototype.initialize.apply(this, arguments);
+      // 'hasSavingState' would be true when the auth key is custom_app.
+      // Setting it to false when auth key is okta_verify.
+      // So that 'o-form-saving' css class is not added and checkbox remains enabled. 
       this.hasSavingState = !this.isOV();
       this.listenTo(this.model, 'error', this.stopPoll);
       this.addView();
