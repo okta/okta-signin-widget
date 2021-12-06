@@ -50,12 +50,13 @@ export const getStateHandleFromSessionStorage = ClientFunction(() => {
 });
 
 export const a11yCheck = async (t) => {
-  await checkForViolations(t, {
-    include: [['#okta-login-container']]
-      },
-      {
-        rules: {'document-title': {enabled: false}},
-        runOnly: ['section508', 'wcag21a', 'wcag21aa'],
-      },
+  await checkForViolations(t,
+    {
+      include: [['#okta-login-container']]
+    },
+    {
+      rules: {'document-title': {enabled: false}},
+      runOnly: ['section508', 'wcag21a', 'wcag21aa'],
+    },
   );
 };

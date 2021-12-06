@@ -2,7 +2,7 @@ import { RequestMock, RequestLogger, ClientFunction } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
-import {a11yCheck, checkConsoleMessages } from '../framework/shared';
+import {a11yCheck, checkConsoleMessages, Constants} from '../framework/shared';
 
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
 import emailVerificationWithoutResend from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-without-resend';
@@ -104,7 +104,13 @@ const stopPollMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerificationPolling)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(sessionExpired, 403);
+   .respond((req, res) => {
+     return new Promise((resolve) => setTimeout(function() {
+       res.statusCode='403';
+       res.setBody(sessionExpired);
+       resolve(res);
+     }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT));
+   });
 
 const magicLinkReturnTabMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
