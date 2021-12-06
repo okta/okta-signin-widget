@@ -75,7 +75,13 @@ const Body = BaseAuthenticatorEmailForm.extend(
     },
 
     postRender() {
-      this.showCodeEntryField(false);
+      let showPolling = (typeof(this.polling) != "undefined" && polling != null) ? true : false;
+      if (showPolling) {
+        this.showCodeEntryField(false);
+      } else {
+        this.noButtonBar = false;
+        this.showEnterAuthCodeInsteadLink(false);
+      }
     },
 
     showAuthCodeEntry() {
