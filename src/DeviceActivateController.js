@@ -28,19 +28,23 @@ const InvalidUserCodeErrorView = View.extend({
 
 export default FormController.extend({
   className: 'device-code-activate',
-  Model: {
-    props: {
-      userCode: ['string', true],
-      stateToken: 'string',
-    },
-    save: function() {
-      const self = this;
-      return this.doTransaction(function(transaction) {
-        return transaction.deviceActivate({
-          userCode: self.get('userCode')
+  Model: function() {
+    return {
+      props: {
+        stateToken: 'string',
+      },
+      local: {
+        userCode: ['string', true, this.options?.appState?.get('userCode')],
+      },
+      save: function() {
+        const self = this;
+        return this.doTransaction(function(transaction) {
+          return transaction.deviceActivate({
+            userCode: self.get('userCode')
+          });
         });
-      });
-    },
+      }
+    };
   },
   Form: {
     noCancelButton: true,

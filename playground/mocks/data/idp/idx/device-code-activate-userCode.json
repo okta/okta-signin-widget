@@ -1,0 +1,35 @@
+{
+  "stateHandle":"02itnqG312DoS3cU0z0LWs11l76yQ8ll4d95Oye61u",
+  "version":"1.0.0",
+  "expiresAt":"2020-04-13T20:30:53.000Z",
+  "step":"IDENTIFY",
+  "intent":"LOGIN",
+  "remediation":{
+    "type":"array",
+    "value":[
+      {
+        "rel":[
+          "create-form"
+        ],
+        "name":"user-code",
+        "href":"http://localhost:3000/idp/idx/device/activate",
+        "method":"POST",
+        "accepts":"application/vnd.okta.v1+json",
+        "value":[
+          {
+            "name":"userCode",
+            "label":"Activation Code",
+            "value": "ABCDXYWZ"
+          },
+          {
+            "name":"stateHandle",
+            "required":true,
+            "value":"02itnqG312DoS3cU0z0LWs11l76yQ8ll4d95Oye61u",
+            "visible":false,
+            "mutable":false
+          }
+        ]
+      }
+    ]
+  }
+}

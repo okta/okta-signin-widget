@@ -8,6 +8,7 @@ import legacyDeviceNotActivatedInternalErrorTerminalResponse from '../../../../p
 import legacyInvalidDeviceCodeResponse from '../../../../playground/mocks/data/api/v1/authn/error-invalid-device-code.json';
 import legacyDeviceCodeActivateErrorResponse from '../../../../playground/mocks/data/api/v1/authn/error-device-code-activate.json';
 import legacyActivateResponse from '../../../../playground/mocks/data/api/v1/authn/unauthenticated.json';
+import legacyDeviceCodeActivateWithUserCodeResponse from '../../../../playground/mocks/data/api/v1/authn/device-code-activate-userCode.json';
 
 // Legacy mocks
 const legacyDeviceCodeSuccessMock = RequestMock()
@@ -43,6 +44,14 @@ const legacyInvalidDeviceCodeMock = RequestMock()
 const deviceCodeInvalidUserCodeMock = RequestMock()
   .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
   .respond(legacyDeviceCodeActivateErrorResponse)
+  .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
+  .respond(legacyActivateResponse)
+  .onRequestTo('http://localhost:3000/api/v1/authn')
+  .respond(legacyDeviceActivatedTerminalResponse);
+
+const legacyDeviceCodeSuccessWithUserCodeMock = RequestMock()
+  .onRequestTo('http://localhost:3000/api/v1/authn/introspect')
+  .respond(legacyDeviceCodeActivateWithUserCodeResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn/device/activate')
   .respond(legacyActivateResponse)
   .onRequestTo('http://localhost:3000/api/v1/authn')
@@ -208,4 +217,55 @@ test.requestHooks(requestLogger, legacyDeviceCodeSuccessMock)('should be able to
   await deviceCodeActivatePageObject.setActivateCodeTextBoxValue('ABCDE');
   // expect hyphen after 4th character
   await t.expect(deviceCodeActivatePageObject.getActivateCodeTextBoxValue()).eql('ABCD-E');
+});
+
+test.requestHooks(requestLogger, legacyDeviceCodeSuccessWithUserCodeMock)('should be able to complete device code activation flow on legacy SIW with user code prefilled', async t => {
+  const deviceCodeActivatePageObject = await setup(t);
+  await rerenderWidget({
+    stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
+  });
+
+  await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Activate your device');
+  await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).eql('Follow the instructions on your device to get an activation code');
+  await t.expect(await deviceCodeActivatePageObject.getActivationCodeTextBoxLabel()).eql('Activation Code');
+  await t.expect(deviceCodeActivatePageObject.isActivateCodeTextBoxVisible()).eql(true);
+
+  await t.expect(requestLogger.contains(record => record.request.url.match(/api\/v1\/authn\/introspect/))).eql(true);
+
+  requestLogger.clear();
+
+  // check if user code is prefilled in the input
+  await t.expect(deviceCodeActivatePageObject.getActivateCodeTextBoxValue()).eql('ABCDXYWZ');
+
+  // submit user code
+  await deviceCodeActivatePageObject.clickNextButton();
+
+  await t.expect(requestLogger.count(() => true)).eql(1);
+  const req = requestLogger.requests[0].request;
+  const reqBody = JSON.parse(req.body);
+  await t.expect(reqBody).eql({
+    userCode: 'ABCDXYWZ',
+    stateToken: '00-dummy-state-token',
+  });
+  await t.expect(req.method).eql('post');
+  await t.expect(req.url).eql('http://localhost:3000/api/v1/authn/device/activate');
+
+  requestLogger.clear();
+
+  // identify with password
+  await deviceCodeActivatePageObject.fillUserNameField('Test Identifier');
+  await deviceCodeActivatePageObject.fillPasswordField('random password 123');
+  await deviceCodeActivatePageObject.clickNextButton();
+
+  await t.expect(requestLogger.count(() => true)).eql(1);
+  const reqIdentify = requestLogger.requests[0].request;
+  await t.expect(reqIdentify.method).eql('post');
+  await t.expect(reqIdentify.url).eql('http://localhost:3000/api/v1/authn');
+
+  // expect device activated screen
+  await t.expect(deviceCodeActivatePageObject.getPageTitle()).eql('Device activated');
+  await t.expect(deviceCodeActivatePageObject.getPageSubtitle()).eql('Follow the instructions on your device for next steps');
+  await t.expect(deviceCodeActivatePageObject.isTerminalSuccessIconPresent()).eql(true);
+  await t.expect(deviceCodeActivatePageObject.isBeaconTerminalPresent()).eql(false);
+  await t.expect(deviceCodeActivatePageObject.isTryAgainButtonPresent()).eql(false);
 });
