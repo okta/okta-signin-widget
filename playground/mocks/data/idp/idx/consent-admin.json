@@ -95,7 +95,8 @@
   "user": {
         "type": "object",
         "value": {
-            "id": "00u4mufzdKWDb8hbC0g4"
+          "id": "00u4mufzdKWDb8hbC0g4",
+          "identifier": "testUser@okta.com"
         }
   },
   "authentication":{
