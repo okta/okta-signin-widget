@@ -71,6 +71,14 @@ export default class BasePageObject {
     return this.form.getTitle();
   }
 
+  hasIdentifier() {
+    return this.form.elementExist('.identifier-container');
+  }
+
+  getIdentifier() {
+    return this.getTextContent('.identifier-container');
+  }
+
   getFormFieldLabel(field) {
     return this.form.getFormFieldLabel(field);
   }
