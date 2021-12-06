@@ -104,13 +104,13 @@ const stopPollMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerificationPolling)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-   .respond((req, res) => {
-     return new Promise((resolve) => setTimeout(function() {
-       res.statusCode='403';
-       res.setBody(sessionExpired);
-       resolve(res);
-     }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT));
-   });
+  .respond((req, res) => {
+    return new Promise((resolve) => setTimeout(function() {
+      res.statusCode = '403';
+      res.setBody(sessionExpired);
+      resolve(res);
+    }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT));
+  });
 
 const magicLinkReturnTabMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
