@@ -76,6 +76,17 @@ export default Form.extend({
      */
     const infoContainer= '<div class=\'o-form-info-container\'></div>';
     this.$el.find('.o-form-error-container').before(infoContainer);
+
+    const { identifier } = this.options.appState.get('user') || {};
+    if (identifier) {
+      // add identifier below title
+      // if no title ('terminal-reset-password-success'), do what?
+      this.$el
+        .find('[data-se="o-form-head"]')
+        .after(
+          `<div class="identifier-container"><span class="identifier" data-se="identifier">${identifier}</span></div>`,
+        );
+    }
   },
 
   cancelForm() {
