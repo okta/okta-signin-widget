@@ -29,18 +29,18 @@ const credentialSSONotExistMock = RequestMock()
   .respond(identify);
 
 async function setup(t) {
-    const ssoExtensionPage = new BasePageObject(t);
-    await ssoExtensionPage.navigateToPage();
-    await a11yCheck(t);
+  const ssoExtensionPage = new BasePageObject(t);
+  await ssoExtensionPage.navigateToPage();
+  await a11yCheck(t);
 
-    return ssoExtensionPage;
+  return ssoExtensionPage;
 }
 
 fixture('App SSO Extension View from MFA list');
 
 test
   .requestHooks(logger, credentialSSOExtensionMock)('with credential SSO Extension approach, opens the verify URL', async t => {
-      const ssoExtensionPage = await setup(t);
+    const ssoExtensionPage = await setup(t);
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)
@@ -68,7 +68,7 @@ test
 
 test
   .requestHooks(credentialSSONotExistLogger, credentialSSONotExistMock)('cancels transaction when the authenticator does not exist', async t => {
-      await setup(t);
+    await setup(t);
     await t.expect(credentialSSONotExistLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/introspect/)

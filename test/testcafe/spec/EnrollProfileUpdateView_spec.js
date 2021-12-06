@@ -5,7 +5,7 @@ import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify-with-pa
 import xhrEnrollProfileUpdate from '../../../playground/mocks/data/idp/idx/enroll-profile-update-params';
 import xhrEnrollProfileUpdateAllOptional from '../../../playground/mocks/data/idp/idx/enroll-profile-update-all-optional-params';
 import xhrEnrollProfileUpdateSuccess from '../../../playground/mocks/data/idp/idx/success-with-app-user';
-import {a11yCheck} from "../framework/shared";
+import {a11yCheck} from '../framework/shared';
 
 const xhrEnrollProfileUpdateMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')

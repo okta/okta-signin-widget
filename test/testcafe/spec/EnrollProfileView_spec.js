@@ -4,7 +4,7 @@ import EnrollProfileViewPageObject from '../framework/page-objects/EnrollProfile
 import Identify from '../../../playground/mocks/data/idp/idx/identify-with-password';
 import EnrollProfileSubmit from '../../../playground/mocks/data/idp/idx/enroll-profile-submit';
 import EnrollProfileSignUp from '../../../playground/mocks/data/idp/idx/enroll-profile-new';
-import {a11yCheck} from "../framework/shared";
+import {a11yCheck} from '../framework/shared';
 
 
 const EnrollProfileSignUpMock = RequestMock()

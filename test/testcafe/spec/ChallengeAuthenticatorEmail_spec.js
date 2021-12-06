@@ -344,7 +344,6 @@ test
     });
     await t.expect(answerRequestMethod).eql('post');
     await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/challenge/answer');
-    await a11yCheck(t);
   });
 
 test
