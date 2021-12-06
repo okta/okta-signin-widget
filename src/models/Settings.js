@@ -44,6 +44,10 @@ export default Model.extend({
       value: 'auto',
     },
 
+    // allows bootstrapping the Widget into a specific view such
+    // as register or forgot password
+    flow: ['string', false, 'default'],
+
     // Function to transform the username before passing it to the API
     // for Primary Auth, Forgot Password and Unlock Account.
     transformUsername: ['function', false],
@@ -344,7 +348,7 @@ export default Model.extend({
         return !_.isEmpty(configuredSocialIdps) || !_.isEmpty(customButtons) || hasPivCard;
       },
       cache: true,
-    },
+    }
   },
 
   initialize: function(options) {

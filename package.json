@@ -1,7 +1,7 @@
 {
   "name": "@okta/okta-signin-widget",
   "description": "The Okta Sign-In Widget",
-  "version": "5.14.0",
+  "version": "5.15.0",
   "homepage": "https://github.com/okta/okta-signin-widget",
   "license": "Apache-2.0",
   "repository": {
@@ -90,7 +90,6 @@
     "babel-loader": "^8.2.2",
     "babel-plugin-add-module-exports": "^1.0.2",
     "babel-plugin-istanbul": "^6.0.0",
-    "backbone": "1.2.1",
     "concurrently": "^5.1.0",
     "core-js": "^3.9.1",
     "cross-spawn-with-kill": "^1.0.0",

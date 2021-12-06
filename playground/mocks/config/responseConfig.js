@@ -172,6 +172,7 @@ const idx = {
   ],
   '/idp/idx/recover': [
     'error-forgot-password',
+    'authenticator-reset-password'
   ],
   '/idp/idx/activate': [
     'identify-with-password',

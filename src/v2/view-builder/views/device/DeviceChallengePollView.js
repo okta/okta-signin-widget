@@ -1,5 +1,5 @@
-import { $, loc } from 'okta';
-import { BaseFormWithPolling, BaseFooter, BaseView } from '../../internals';
+import { $, loc, createCallout } from 'okta';
+import {BaseFormWithPolling, BaseFooter, BaseView} from '../../internals';
 import Logger from '../../../../util/Logger';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import Enums from '../../../../util/Enums';
@@ -143,6 +143,23 @@ const Body = BaseFormWithPolling.extend(
             onPortFail();
           });
       });
+    },
+
+    showCustomFormErrorCallout(error) {
+      const options = {
+        type: 'error',
+        className: 'okta-verify-uv-callout-content',
+        subtitle: error.responseJSON.errorSummary,
+      };
+
+      const containsSignedNonceError = error.responseJSON.errorSummaryKeys
+        .some((key) => key.includes('auth.factor.signedNonce.error'));
+      if (containsSignedNonceError) {
+        options.title = loc('user.fail.verifyIdentity', 'login');
+      }
+
+      this.showMessages(createCallout(options));
+      return true;
     },
 
     doCustomURI() {

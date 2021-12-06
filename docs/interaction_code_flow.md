@@ -50,6 +50,7 @@
     - [features.showPasswordToggleOnSignInPage](#featuresshowpasswordtoggleonsigninpage)
     - [features.hideSignOutLinkInMFA](#featureshidesignoutlinkinmfa)
     - [features.rememberMe](#featuresrememberme)
+  - [Flow](#flow)
 
 ## Setup
 
@@ -597,3 +598,32 @@ Enable or disable widget functionality with the following options.
 
   Defaults to `true`.
   Pre-fills the identifier field with the previously used username.
+
+### Flow
+By default, Widget will either proceed with an existing flow or start a new authenticate flow. This option allows bootstrapping the Widget into a specific view such as register or forgot password. Using this option, it is possible to build specific pages for login, register, and forgot password.
+
+_Note: these views will not work unless the Org is configured to allow them
+(example: if Self-Service Registration is not enabled, `flow: 'signup'` will
+not result in a registration view)_
+
+```javascript
+// login.html
+new OktaSignIn({
+  flow: 'login'
+});
+
+// signup.html
+new OktaSignIn({
+  flow: 'signup'
+});
+
+// forgot_password.html
+new OktaSignIn({
+  flow: 'forgotPassword'
+});
+
+// unlock_account.html
+new OktaSignIn({
+  flow: 'unlockAccount'
+});
+```

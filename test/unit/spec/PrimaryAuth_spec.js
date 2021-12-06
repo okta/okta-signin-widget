@@ -1625,6 +1625,23 @@ Expect.describe('PrimaryAuth', function() {
             expect(test.beacon.beacon().length).toBe(0);
           });
       });
+      itp('hide beacon spinner when security image is disabled during invalid login attempt', function() {
+        return setup()
+          .then(function(test) {
+            Q.stopUnhandledRejectionTracking();
+            test.setNextResponse(resUnauthorized);
+            test.form.setUsername('testuser');
+            test.form.setPassword('pass');
+            test.form.submit();
+            return Expect.waitForFormError(test.form, test);
+          })
+          .then(function(test) {
+            expect(test.form.hasErrors()).toBe(true);
+            expect(test.form.errorMessage()).toBe('Unable to sign in');
+            expect(test.beacon.isLoadingBeacon()).toBe(false);
+            expect(test.beacon.beacon().length).toBe(0);
+          });
+      });
       itp('does not show beacon-loading animation on CORS error (no security image)', function() {
         return setup()
           .then(function(test) {
