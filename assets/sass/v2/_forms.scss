@@ -26,6 +26,19 @@
         float: right;
       }
     }
+    .identifier-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+    .identifier {
+      color: $black;
+      font-weight: $font-weight-labels;
+      display: inline-block;
+      border-radius: 15px;
+      border: $border-default;
+      padding: 5px 10px;
+    }
   }
 
   // Fixing OKTA-303139 here, making sure V1 stays the same.
