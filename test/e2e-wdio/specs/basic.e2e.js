@@ -23,7 +23,7 @@ describe('Basic flows', () => {
   });
 
   afterEach(async () => {
-    await TestAppPage.ssoLogout();
+    await browser.refresh();
   });
 
   it('can hide, show, remove, and start a widget', async () => {
@@ -71,12 +71,13 @@ describe('Basic flows', () => {
     await TestAppPage.setConfig(config);
     await TestAppPage.startButton.click();
     await waitForLoad(TestAppPage.widget);
-    await TestAppPage.submit.then(el => el.getCSSProperty('background')).then(background => {
-      expect(background.value).toContain('rgba(0, 128, 0, 1)');
+    await TestAppPage.submit.scrollIntoView();
+    await TestAppPage.submit.then(el => el.getCSSProperty('background-color')).then(background => {
+      expect(background.value).toContain('rgba(0,128,0,1)');
     });
   });
 
-  it('redircts to successful page when features.redirectByFormSubmit is on', async () => {
+  it('redirects to successful page when features.redirectByFormSubmit is on', async () => {
     // TODO: remove when OKTA-415707 is resolved
     if (process.env.ORG_OIE_ENABLED) {
       console.error('test is disabled: OKTA-415707');

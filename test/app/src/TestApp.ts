@@ -125,8 +125,7 @@ export default class TestApp {
     // config editor
     this.configEditor.addEventListener('input', (event: any) => {
       const { value } = event.target;
-      this.configEditor.textContent = value;
-      // set valid config to preview 
+      // set valid config to preview
       try {
         const parsedConfig = JSON.parse(value);
         this.configPreview.innerHTML = JSON.stringify(parsedConfig, null, 2);
