@@ -3,6 +3,8 @@ import { BaseForm } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 
 const Body = BaseForm.extend(Object.assign({
+  noButtonBar: true,
+
   initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
     this.addView();
@@ -29,7 +31,9 @@ const Body = BaseForm.extend(Object.assign({
     BaseForm.prototype.render.apply(this, arguments);
     this.$el.addClass('okta-verify-push-challenge');
     // Move checkbox below the button
-    const checkbox = this.$el.find('.o-form-fieldset');
+    // Checkbox is rendered by BaseForm using remediation response and 
+    // hence by default always gets added above buttons.
+    const checkbox = this.$el.find('[data-se="o-form-fieldset-authenticator.autoChallenge"]');
     checkbox.length && this.$el.find('.o-form-fieldset-container').append(checkbox);
   },
 
@@ -37,7 +41,6 @@ const Body = BaseForm.extend(Object.assign({
     const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
     return uiSchemas.filter(schema => schema.name !== 'authenticator.methodType');
   },
-  noButtonBar: true,
 }));
 
 const AuthenticatorView = BaseAuthenticatorView.extend({

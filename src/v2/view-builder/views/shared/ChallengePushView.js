@@ -50,8 +50,10 @@ const Body = BaseForm.extend(Object.assign(
     render() {
       BaseForm.prototype.render.apply(this, arguments);
       // Move checkbox below the button
+      // Checkbox is rendered by BaseForm using remediation response and 
+      // hence by default always gets added above buttons.
       if (this.isOV()) {
-        const checkbox = this.$el.find('.o-form-fieldset');
+        const checkbox = this.$el.find('[data-se="o-form-fieldset-autoChallenge"]');
         checkbox.length && this.$el.find('.o-form-fieldset-container').append(checkbox);
       }
     },
