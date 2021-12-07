@@ -48,6 +48,13 @@ test_suites:
       script_name: e2e-wdio
       criteria: MERGE
       queue_name: small
+    - name: e2e-wdio-saucelabs
+      script_path: /root/okta/okta-signin-widget/scripts
+      sort_order: '5'
+      timeout: '30'
+      script_name: e2e-wdio-saucelabs
+      criteria: MERGE
+      queue_name: small
     - name: e2e-saucelabs-windows
       script_path: /root/okta/okta-signin-widget/scripts
       sort_order: '6'
