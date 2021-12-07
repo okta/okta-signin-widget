@@ -74,7 +74,7 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
     Object.assign(uiSchema, timezoneUISchema);
   }
 
-  if (Array.isArray(ionFormField.options) && ionFormField.options[0].value) {
+  if (Array.isArray(ionFormField.options) && ionFormField.options[0] && ionFormField.options[0].value) {
     if (shouldRenderAsRadio(ionFormField.name)) {
       // e.g. { name: 'methodType', options: [ {label: 'sms'} ], type: 'string' | null }
       uiSchema.type = 'radio';
