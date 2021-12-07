@@ -124,7 +124,7 @@ test.requestHooks(mockInvalidPassword)('challege password authenticator with inv
       }
     }
   });
-
+  await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
 });
 
 test.requestHooks(sessionExpiresDuringPassword)('challege password authenticator with expired session', async t => {
@@ -134,6 +134,7 @@ test.requestHooks(sessionExpiresDuringPassword)('challege password authenticator
   await challengePasswordPage.clickNextButton();
   await t.expect(challengePasswordPage.getErrorFromErrorBox()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
   await t.expect(challengePasswordPage.getSignoutLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
+  await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
 });
 
 test.requestHooks(resetPasswordSuccess)('password changed successfully', async t => {
@@ -144,6 +145,7 @@ test.requestHooks(resetPasswordSuccess)('password changed successfully', async t
 
   await t.expect(challengePasswordPage.getIonMessages()).eql('You can now sign in with your existing username and new password.');
   await t.expect(challengePasswordPage.getGoBackLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
+  await t.expect(challengePasswordPage.hasIdentifier()).notOk();
 });
 
 test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not recover password', async t => {
@@ -174,6 +176,7 @@ test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not reco
   });
   await t.expect(req1.method).eql('post');
   await t.expect(req1.url).eql('http://localhost:3000/idp/idx/recover');
+  await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
 });
 
 test.requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for Password if i18n keys are defined', async t => {
@@ -186,4 +189,5 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for
     }
   });
   await t.expect(challengePasswordPage.getPasswordSubLabelValue()).eql('Your password goes here');
+  await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
 });
