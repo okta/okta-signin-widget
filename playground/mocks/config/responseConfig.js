@@ -917,46 +917,46 @@ const selfServiceRegistration = {
 
 const oktaVerifyPushNotification = {
   '/idp/idx/introspect': [
-    'login-with-username-password',
+    'identify-with-username-password',
   ],
   '/idp/idx/identify': [
-    'identify-with-push-notification',
+    'authenticator-verification-okta-verify-authenticator-list',
   ],
   '/idp/idx/challenge': [
-    'challenge-with-push-notification',
+    'authenticator-verification-okta-verify-push-autoChallenge',
   ],
   '/idp/idx/authenticators/poll': [
-    'challenge-with-push-notification',
+    'authenticator-verification-okta-verify-push-autoChallenge',
   ],
 };
 
 const rememberLastUsedOktaVerify = {
   '/idp/idx/introspect': [
-    'login-with-username-password',
+    'identify-with-username-password',
   ],
   '/idp/idx/identify': [
-    'identify-with-last-used-ov',
+    'authenticator-verification-okta-verify-send-push-autoChallenge',
   ],
   '/idp/idx/challenge': [
-    'challenge-with-push-notification',
+    'authenticator-verification-okta-verify-push-autoChallenge',
   ],
   '/idp/idx/authenticators/poll': [
-    'challenge-with-push-notification',
+    'authenticator-verification-okta-verify-push-autoChallenge',
   ],
 };
 
 const selectOktaVerifyMethod = {
   '/idp/idx/introspect': [
-    'login-with-username-password',
+    'identify-with-username-password',
   ],
   '/idp/idx/identify': [
-    'identify-from-multiple-ov-method',
+    'authenticator-verification-okta-verify-methods',
   ],
   '/idp/idx/challenge': [
-    'challenge-with-push-notification',
+    'authenticator-verification-okta-verify-push-autoChallenge',
   ],
   '/idp/idx/authenticators/poll': [
-    'challenge-with-push-notification',
+    'authenticator-verification-okta-verify-push-autoChallenge',
   ],
 };
 

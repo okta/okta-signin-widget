@@ -11,12 +11,6 @@ const skipOptionalEnrollmentSelector = '.authenticator-list .skip-all';
 const CUSTOM_SIGN_OUT_LINK_SELECTOR = '.auth-footer .js-cancel';
 const CUSTOM_OTP_BUTTON_SELECTOR = '.authenticator-list .authenticator-row:nth-child(12) .authenticator-button a';
 const IDENTIFIER_FIELD = 'identifier';
-const AUTO_CHALLENGE_CHECKBOX_SELECTOR = '[name="authenticator.autoChallenge"]';
-const AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR = '[data-se-for-name="authenticator.autoChallenge"]';
-const SEND_PUSH_BUTTON_SELECTOR = '.send-push';
-const A11Y_TEXT_SELECTOR = '.accessibility-text';
-const SUBTITLE_SELECTOR = '[data-se="o-form-explain"]';
-const FORM_SELECTOR = '.okta-verify-push-challenge';
 
 export default class SelectFactorPageObject extends BasePageObject {
   constructor(t) {
@@ -78,39 +72,6 @@ export default class SelectFactorPageObject extends BasePageObject {
 
   getIndetifierError() {
     return this.form.getTextBoxErrorMessage(IDENTIFIER_FIELD);
-  }
-
-  async  formWithClassExist() {
-    const formCount = await Selector(FORM_SELECTOR).count;
-    return formCount === 1;
-  }
-
-  getA11ySpan() {
-    return this.form.getElement(A11Y_TEXT_SELECTOR);
-  }
-
-  getPushButton() {
-    return this.form.getElement(SEND_PUSH_BUTTON_SELECTOR);
-  }
-
-  getSubtitleElement() {
-    return this.form.getElement(SUBTITLE_SELECTOR);
-  }
-
-  async autoChallengeInputExists() {
-    return this.form.elementExist(AUTO_CHALLENGE_CHECKBOX_SELECTOR);
-  }
-
-  getAutoChallengeCheckboxLabel() {
-    return this.form.getElement(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR);
-  }
-
-  async clickAutoChallengeCheckbox() {
-    await this.t.click(this.form.getElement(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR));
-  }
-
-  async clickSendPushButton() {
-    await this.t.click(this.getPushButton());
   }
 
 }

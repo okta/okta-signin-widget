@@ -27,7 +27,7 @@ const Body = BaseForm.extend(Object.assign(
       BaseForm.prototype.initialize.apply(this, arguments);
       // 'hasSavingState' would be true when the auth key is custom_app.
       // Setting it to false when auth key is okta_verify.
-      // So that 'o-form-saving' css class is not added and checkbox remains enabled. 
+      // So that 'o-form-saving' css class is not added while polling and checkbox remains enabled. 
       this.hasSavingState = !this.isOV();
       this.listenTo(this.model, 'error', this.stopPoll);
       this.addView();
@@ -47,15 +47,20 @@ const Body = BaseForm.extend(Object.assign(
       );
     },
 
-    postRender() {
-      const className = this.isOV() ?
-        'okta-verify-push-challenge' : ' custom-app-push-challenge';
-      this.$el.addClass(className);
+    render() {
+      BaseForm.prototype.render.apply(this, arguments);
       // Move checkbox below the button
       if (this.isOV()) {
         const checkbox = this.$el.find('.o-form-fieldset');
         checkbox.length && this.$el.find('.o-form-fieldset-container').append(checkbox);
       }
+    },
+
+    postRender() {
+      BaseForm.prototype.postRender.apply(this, arguments);
+      const className = this.isOV() ?
+        'okta-verify-push-challenge' : ' custom-app-push-challenge';
+      this.$el.addClass(className);
       this.startPoll();
     },
 
