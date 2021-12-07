@@ -1,23 +1,23 @@
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import { 
-  Body as ChallengeAuthenticatorOktaVerifyPushOnlyView
+  Body as ChallengeAuthenticatorDataOktaVerifyPushOnlyView
 } from './ChallengeAuthenticatorDataOktaVerifyPushOnlyView';
-import { Body as ChallengeAuthenticatorOktaVerifyView } from './ChallengeAuthenticatorDataOktaVerifyView';
+import { Body as ChallengeAuthenticatorDataOktaVerifyView } from './ChallengeAuthenticatorDataOktaVerifyView';
 
 export default BaseAuthenticatorView.extend({
   initialize() {
     BaseAuthenticatorView.prototype.initialize.apply(this, arguments);
     if (this.isPushOnlyFlow()) {
-      this.Body = ChallengeAuthenticatorOktaVerifyPushOnlyView;
+      this.Body = ChallengeAuthenticatorDataOktaVerifyPushOnlyView;
     } else {
-      this.Body = ChallengeAuthenticatorOktaVerifyView;
+      this.Body = ChallengeAuthenticatorDataOktaVerifyView;
     }
   },
 
   isPushOnlyFlow() {
-    const uiSchema = this.options.currentViewState.uiSchema;
+    const uiSchema = this.options?.currentViewState?.uiSchema;
     const methodType = Array.isArray(uiSchema) && uiSchema.find(schema => schema.name === 'authenticator.methodType');
-    const methodTypeOptions = methodType && methodType.options;
+    const methodTypeOptions = methodType?.options;
     return Array.isArray(methodTypeOptions) && methodTypeOptions.length === 1 && methodTypeOptions[0].value === 'push';
   },
 });

@@ -920,7 +920,7 @@ const oktaVerifyPushNotification = {
     'identify-with-username-password',
   ],
   '/idp/idx/identify': [
-    'authenticator-verification-okta-verify-authenticator-list',
+    'authenticator-verification-factor-list',
   ],
   '/idp/idx/challenge': [
     'authenticator-verification-okta-verify-push-autoChallenge',
@@ -950,7 +950,7 @@ const selectOktaVerifyMethod = {
     'identify-with-username-password',
   ],
   '/idp/idx/identify': [
-    'authenticator-verification-okta-verify-methods',
+    'authenticator-verification-okta-verify-factor-list',
   ],
   '/idp/idx/challenge': [
     'authenticator-verification-okta-verify-push-autoChallenge',

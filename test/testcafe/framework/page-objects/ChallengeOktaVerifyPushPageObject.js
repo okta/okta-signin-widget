@@ -7,6 +7,7 @@ const RESEND_NUMBER_CHALLENGE_BUTTON = '.okta-form-infobox-warning .resend-numbe
 const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
 const SUBTITLE_SELECTOR = '[data-se="o-form-explain"]';
 const FORM_SELECTOR = '.okta-verify-push-challenge';
+
 export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPageObject {
   constructor(t) {
     super(t);
