@@ -166,7 +166,6 @@ export default FormController.extend({
             self.limitResending();
           })
           .catch(function() {
-            self.set('ableToResend', true);
             self.set('trapEnrollment', false);
           });
       },
