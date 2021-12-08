@@ -1,3 +1,4 @@
+import { BaseFooter } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import { 
   Body as ChallengeAuthenticatorDataOktaVerifyPushOnlyView
@@ -11,6 +12,7 @@ export default BaseAuthenticatorView.extend({
       this.Body = ChallengeAuthenticatorDataOktaVerifyPushOnlyView;
     } else {
       this.Body = ChallengeAuthenticatorDataOktaVerifyView;
+      this.Footer = BaseFooter;
     }
   },
 
