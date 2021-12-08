@@ -603,7 +603,7 @@ Enable or disable widget functionality with the following options.
 The Okta Sign-In Widget will either proceed with a current flow or start a new authenticate flow by default. This option allows bootstrapping the widget into a specific view such as register, unlock, or forgot password. The widget can be used in particular pages such as login, forgot-password, and unlock pages with the appropriate value set in the `flow` config option  
 
 _Note: these views will not work unless the Org in the admin console is configured to allow them
-(example: if Self-Service Registration in the admin console is not enabled, `flow: 'signup'` will
+(example: if Profile Enrollment in the admin console is not enabled, `flow: 'signup'` will
 not result in a registration view)_
 
 ```javascript
