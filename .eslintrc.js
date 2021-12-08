@@ -78,16 +78,6 @@ module.exports = {
         }],
         'strict': 0,
       },
-      'overrides': [
-        {
-          'files': [
-            'src/**/ion-string-handler.js',
-          ],
-          'rules': {
-            'complexity': [2, 20],
-          },
-        },
-      ]
     },
     {
       'files': ['src/**/*.js'],

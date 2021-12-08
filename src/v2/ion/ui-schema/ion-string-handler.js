@@ -11,6 +11,7 @@
  */
 
 /* eslint max-depth: [2, 3] */
+/* eslint complexity: [2, 20] */
 import { loc } from 'okta';
 import { HINTS } from '../RemediationConstants';
 import CountryUtil from '../../../util/CountryUtil';
