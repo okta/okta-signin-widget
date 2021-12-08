@@ -31,10 +31,8 @@ export default FormController.extend({
   Model: function() {
     return {
       props: {
-        stateToken: 'string',
-      },
-      local: {
         userCode: ['string', true, this.options?.appState?.get('userCode')],
+        stateToken: 'string',
       },
       save: function() {
         const self = this;
