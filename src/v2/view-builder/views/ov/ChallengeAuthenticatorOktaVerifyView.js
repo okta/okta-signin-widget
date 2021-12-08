@@ -15,9 +15,8 @@ export default BaseAuthenticatorView.extend({
   },
 
   isPushOnlyFlow() {
-    const uiSchema = this.options?.currentViewState?.uiSchema;
-    const methodType = Array.isArray(uiSchema) && uiSchema.find(schema => schema.name === 'authenticator.methodType');
+    const methodType = this.options.appState.getSchemaByName('authenticator.methodType');
     const methodTypeOptions = methodType?.options;
-    return Array.isArray(methodTypeOptions) && methodTypeOptions.length === 1 && methodTypeOptions[0].value === 'push';
+    return methodTypeOptions.length === 1 && methodTypeOptions[0].value === 'push';
   },
 });
