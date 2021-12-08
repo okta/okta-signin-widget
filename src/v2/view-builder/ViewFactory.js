@@ -72,7 +72,7 @@ import EnrollementChannelDataOktaVerifyView from './views/ov/EnrollementChannelD
 import ChallengeOktaVerifyView from './views/ov/ChallengeOktaVerifyView';
 import ChallengeOktaVerifyTotpView from './views/ov/ChallengeOktaVerifyTotpView';
 import ChallengeOktaVerifyResendPushView from './views/ov/ChallengeOktaVerifyResendPushView';
-import ChallengeAuthenticatorOktaVerifyView from './views/ov/ChallengeAuthenticatorOktaVerifyView';
+import ChallengeAuthenticatorDataOktaVerifyView from './views/ov/ChallengeAuthenticatorDataOktaVerifyView';
 import ChallengeOktaVerifySSOExtensionView from './views/ov/ChallengeOktaVerifySSOExtensionView';
 
 // app (google authenticator)
@@ -230,7 +230,7 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.AUTHENTICATOR_VERIFICATION_DATA]: {
     [AUTHENTICATOR_KEY.PHONE]: ChallengeAuthenticatorDataPhoneView,
-    [AUTHENTICATOR_KEY.OV]: ChallengeAuthenticatorOktaVerifyView,
+    [AUTHENTICATOR_KEY.OV]: ChallengeAuthenticatorDataOktaVerifyView,
     [AUTHENTICATOR_KEY.EMAIL]: ChallengeAuthenticatorDataEmailView,
   },
   [RemediationForms.FAILURE_REDIRECT]: {

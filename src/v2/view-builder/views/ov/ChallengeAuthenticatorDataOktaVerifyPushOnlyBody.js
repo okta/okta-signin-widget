@@ -1,20 +1,12 @@
 import { createButton, loc } from 'okta';
 import { BaseForm } from '../../internals';
-import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 
 const Body = BaseForm.extend(Object.assign({
+  className: 'okta-verify-push-challenge',
   noButtonBar: true,
 
   initialize() {
     BaseForm.prototype.initialize.apply(this, arguments);
-    this.addView();
-  },
-
-  title() {
-    return loc('oie.okta_verify.push.title', 'login');
-  },
-
-  addView() {
     this.add(createButton({
       className: 'button button-wide button-primary send-push',
       title: loc('oie.okta_verify.sendPushButton', 'login'),
@@ -27,9 +19,12 @@ const Body = BaseForm.extend(Object.assign({
     );
   },
 
+  title() {
+    return loc('oie.okta_verify.push.title', 'login');
+  },
+
   render() {
     BaseForm.prototype.render.apply(this, arguments);
-    this.$el.addClass('okta-verify-push-challenge');
     // Move checkbox below the button
     // Checkbox is rendered by BaseForm using remediation response and 
     // hence by default always gets added above buttons.
@@ -42,12 +37,5 @@ const Body = BaseForm.extend(Object.assign({
     return uiSchemas.filter(schema => schema.name !== 'authenticator.methodType');
   },
 }));
-
-const AuthenticatorView = BaseAuthenticatorView.extend({
-  Body,
-});
   
-export {
-  AuthenticatorView as default,
-  Body,
-};
+export default Body;

@@ -917,46 +917,46 @@ const selfServiceRegistration = {
 
 const oktaVerifyPushNotification = {
   '/idp/idx/introspect': [
-    'identify-with-username-password',
+    'identify-with-password',
   ],
   '/idp/idx/identify': [
-    'authenticator-verification-factor-list',
+    'authenticator-verification-select-authenticator-without-signed-nonce',
   ],
   '/idp/idx/challenge': [
-    'authenticator-verification-okta-verify-push-autoChallenge',
+    'authenticator-verification-okta-verify-push-autoChallenge-on',
   ],
   '/idp/idx/authenticators/poll': [
-    'authenticator-verification-okta-verify-push-autoChallenge',
+    'authenticator-verification-okta-verify-push-autoChallenge-on',
   ],
 };
 
 const rememberLastUsedOktaVerify = {
   '/idp/idx/introspect': [
-    'identify-with-username-password',
+    'identify-with-password',
   ],
   '/idp/idx/identify': [
-    'authenticator-verification-okta-verify-send-push-autoChallenge',
+    'authenticator-verification-data-okta-verify-push-autoChallenge-off',
   ],
   '/idp/idx/challenge': [
-    'authenticator-verification-okta-verify-push-autoChallenge',
+    'authenticator-verification-okta-verify-push-autoChallenge-on',
   ],
   '/idp/idx/authenticators/poll': [
-    'authenticator-verification-okta-verify-push-autoChallenge',
+    'authenticator-verification-okta-verify-push-autoChallenge-on',
   ],
 };
 
 const selectOktaVerifyMethod = {
   '/idp/idx/introspect': [
-    'identify-with-username-password',
+    'identify-with-password',
   ],
   '/idp/idx/identify': [
-    'authenticator-verification-okta-verify-factor-list',
+    'authenticator-verification-data-ov-only-without-device-known',
   ],
   '/idp/idx/challenge': [
-    'authenticator-verification-okta-verify-push-autoChallenge',
+    'authenticator-verification-okta-verify-push-autoChallenge-on',
   ],
   '/idp/idx/authenticators/poll': [
-    'authenticator-verification-okta-verify-push-autoChallenge',
+    'authenticator-verification-okta-verify-push-autoChallenge-on',
   ],
 };
 

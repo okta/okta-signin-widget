@@ -5,7 +5,7 @@ import { checkConsoleMessages } from '../framework/shared';
 
 import pushPoll from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push';
 import success from '../../../playground/mocks/data/idp/idx/success';
-import sendPushPoll from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push-autoChallenge';
+import pushPollAutoChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push-autoChallenge-on';
 
 const AUTO_CHALLENGE_CHECKBOX_SELECTOR = '[name="autoChallenge"]';
 const AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR = '[data-se-for-name="autoChallenge"]';
@@ -29,15 +29,15 @@ const pushWaitMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
   .respond(pushPoll);
 
-const sendPushMock = RequestMock()
+const pushAutoChallengeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(sendPushPoll);
+  .respond(pushPollAutoChallenge);
 
-const sendPushWaitMock = RequestMock()
+const pushWaitAutoChallengeMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(sendPushPoll)
+  .respond(pushPollAutoChallenge)
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/poll')
-  .respond(sendPushPoll);
+  .respond(pushPollAutoChallenge);
 
 fixture('Challenge Okta Verify Push');
 
@@ -74,7 +74,7 @@ test
   });
 
 test
-  .requestHooks(sendPushMock)('challenge ov push screen has right labels and a checkbox', async t => {
+  .requestHooks(pushAutoChallengeMock)('challenge ov push screen has right labels and a checkbox', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkConsoleMessages({
       controller: 'mfa-verify',
@@ -107,7 +107,7 @@ test
   });
 
 test
-  .requestHooks(logger, sendPushWaitMock)('should call polling API and checkbox should be clickable after polling started', async t => {
+  .requestHooks(logger, pushWaitAutoChallengeMock)('should call polling API and checkbox should be clickable after polling started', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     const checkboxLabel = challengeOktaVerifyPushPageObject.getAutoChallengeCheckboxLabel(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR);
     await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists(AUTO_CHALLENGE_CHECKBOX_SELECTOR)).ok();

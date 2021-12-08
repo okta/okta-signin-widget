@@ -5,7 +5,6 @@ const FORM_INFOBOX_WARNING = '.okta-form-infobox-warning';
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] [data-se="callout"]';
 const RESEND_NUMBER_CHALLENGE_BUTTON = '.okta-form-infobox-warning .resend-number-challenge';
 const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="callout"] > h3';
-const SUBTITLE_SELECTOR = '[data-se="o-form-explain"]';
 const FORM_SELECTOR = '.okta-verify-push-challenge';
 
 export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPageObject {
@@ -49,10 +48,6 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
     return this.form.getElement(FORM_INFOBOX_WARNING);
   }
 
-  subtitleExists() {
-    return this.form.elementExist(SUBTITLE_SELECTOR);
-  }
-
   async autoChallengeInputExists(selector) {
     return this.form.elementExist(selector);
   }
@@ -65,7 +60,7 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
     await this.t.click(this.form.getElement(selector));
   }
 
-  async  formWithClassExist() {
+  async  isOktaVerifyPushChallengeForm() {
     const formCount = await Selector(FORM_SELECTOR).count;
     return formCount === 1;
   }

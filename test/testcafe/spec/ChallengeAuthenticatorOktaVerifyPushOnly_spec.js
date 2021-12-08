@@ -3,8 +3,8 @@ import { RequestMock, RequestLogger } from 'testcafe';
 import ChallengeOktaVerifyPushPageObject from '../framework/page-objects/ChallengeOktaVerifyPushPageObject';
 import ChallengeFactorPageObject from '../framework/page-objects/ChallengeFactorPageObject';
 
-import xhrSelectAuthenticatorOVWithMethodSendPushOnly from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-send-push-autoChallenge';
-import xhrAuthenticatorOVPushWithAutoChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push-autoChallenge';
+import xhrSelectAuthenticatorOVWithMethodSendPushOnly from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-okta-verify-push-autoChallenge-off';
+import xhrAuthenticatorOVPushWithAutoChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push-autoChallenge-on';
 
 const requestLogger = RequestLogger(
   /introspect|\/challenge/,
@@ -36,7 +36,7 @@ test.requestHooks(mockOktaVerifySendPushOnly)('should load view with a button an
   const AUTO_CHALLENGE_CHECKBOX_SELECTOR = '[name="authenticator.autoChallenge"]';
   const AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR = '[data-se-for-name="authenticator.autoChallenge"]';
   const challengeOktaVerifyPushPageObject = await setup(t);
-  await t.expect(await challengeOktaVerifyPushPageObject.formWithClassExist()).ok();
+  await t.expect(await challengeOktaVerifyPushPageObject.isOktaVerifyPushChallengeForm()).ok();
   await t.expect(challengeOktaVerifyPushPageObject.getFormTitle()).eql('Get a push notification');
   await t.expect(challengeOktaVerifyPushPageObject.subtitleExists()).notOk();
 
