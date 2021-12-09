@@ -219,7 +219,7 @@ test.requestHooks(requestLogger, legacyDeviceCodeSuccessMock)('should be able to
   await t.expect(deviceCodeActivatePageObject.getActivateCodeTextBoxValue()).eql('ABCD-E');
 });
 
-test.requestHooks(requestLogger, legacyDeviceCodeSuccessWithUserCodeMock)('should be able to complete device code activation flow on legacy SIW with user code prefilled', async t => {
+test.requestHooks(requestLogger, legacyDeviceCodeSuccessWithUserCodeMock)('should be able to complete device code activation flow on legacy SIW with user code pre-populated', async t => {
   const deviceCodeActivatePageObject = await setup(t);
   await rerenderWidget({
     stateToken: '00-dummy-state-token', //start with 00 to render legacy sign in widget
