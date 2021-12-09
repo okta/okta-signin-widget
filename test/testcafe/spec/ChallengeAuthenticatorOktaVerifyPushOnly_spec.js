@@ -32,33 +32,36 @@ async function setup(t) {
   return challengeOktaVerifyPushPageObject;
 }
 
-test.requestHooks(mockOktaVerifySendPushOnly)('should load view with a button and a checkbox when push is the only method type', async t => {
-  const AUTO_CHALLENGE_CHECKBOX_SELECTOR = '[name="authenticator.autoChallenge"]';
-  const AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR = '[data-se-for-name="authenticator.autoChallenge"]';
-  const challengeOktaVerifyPushPageObject = await setup(t);
-  await t.expect(await challengeOktaVerifyPushPageObject.isOktaVerifyPushChallengeForm()).ok();
-  await t.expect(challengeOktaVerifyPushPageObject.getFormTitle()).eql('Get a push notification');
-  await t.expect(challengeOktaVerifyPushPageObject.subtitleExists()).notOk();
+test.requestHooks(mockOktaVerifySendPushOnly)(
+  'should load view with a button and a checkbox when push is the only method type and has auto challenge schema',
+  async t => {
+    const AUTO_CHALLENGE_CHECKBOX_SELECTOR = '[name="authenticator.autoChallenge"]';
+    const AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR = '[data-se-for-name="authenticator.autoChallenge"]';
+    const challengeOktaVerifyPushPageObject = await setup(t);
+    await t.expect(await challengeOktaVerifyPushPageObject.isOktaVerifyPushChallengeForm()).ok();
+    await t.expect(challengeOktaVerifyPushPageObject.getFormTitle()).eql('Get a push notification');
+    await t.expect(challengeOktaVerifyPushPageObject.subtitleExists()).notOk();
 
-  const pushBtn = challengeOktaVerifyPushPageObject.getPushButton();
-  await t.expect(pushBtn.textContent).contains('Send push');
-  await t.expect(pushBtn.hasClass('link-button-disabled')).notOk();
-  const a11ySpan = challengeOktaVerifyPushPageObject.getA11ySpan();
-  await t.expect(a11ySpan.textContent).contains('Send push');
+    const pushBtn = challengeOktaVerifyPushPageObject.getPushButton();
+    await t.expect(pushBtn.textContent).contains('Send push');
+    await t.expect(pushBtn.hasClass('link-button-disabled')).notOk();
+    const a11ySpan = challengeOktaVerifyPushPageObject.getA11ySpan();
+    await t.expect(a11ySpan.textContent).contains('Send push');
 
-  await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists(AUTO_CHALLENGE_CHECKBOX_SELECTOR)).ok();
-  const checkboxLabel = challengeOktaVerifyPushPageObject.getAutoChallengeCheckboxLabel(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR);
-  await t.expect(checkboxLabel.hasClass('checked')).notOk();
-  await t.expect(checkboxLabel.textContent).eql('Send push automatically');
+    await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists(AUTO_CHALLENGE_CHECKBOX_SELECTOR)).ok();
+    const checkboxLabel = challengeOktaVerifyPushPageObject.getAutoChallengeCheckboxLabel(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR);
+    await t.expect(checkboxLabel.hasClass('checked')).notOk();
+    await t.expect(checkboxLabel.textContent).eql('Send push automatically');
 
-  // select checkbox on click
-  await challengeOktaVerifyPushPageObject.clickAutoChallengeCheckbox(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR);
-  await t.expect(checkboxLabel.hasClass('checked')).ok();
+    // select checkbox on click
+    await challengeOktaVerifyPushPageObject.clickAutoChallengeCheckbox(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR);
+    await t.expect(checkboxLabel.hasClass('checked')).ok();
 
-  // signout link at enroll page
-  await t.expect(await challengeOktaVerifyPushPageObject.signoutLinkExists()).ok();
-  await t.expect(challengeOktaVerifyPushPageObject.getSignoutLinkText()).eql('Back to sign in');
-});
+    // signout link at enroll page
+    await t.expect(await challengeOktaVerifyPushPageObject.signoutLinkExists()).ok();
+    await t.expect(challengeOktaVerifyPushPageObject.getSignoutLinkText()).eql('Back to sign in');
+  }
+);
 
 test.requestHooks(requestLogger, mockChallengeOVSendPush)(
   'should navigate to okta verify push page on clicking send push button', async t => {

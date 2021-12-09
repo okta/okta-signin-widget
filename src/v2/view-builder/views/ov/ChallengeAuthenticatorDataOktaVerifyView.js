@@ -8,7 +8,7 @@ import ChallengeAuthenticatorDataOktaVerifyFormView from './ChallengeAuthenticat
 export default BaseAuthenticatorView.extend({
   initialize() {
     BaseAuthenticatorView.prototype.initialize.apply(this, arguments);
-    if (this.isPushOnlyFlow()) {
+    if (this.isPushOnlyWithAutoChallengeFlow()) {
       this.Body = ChallengeAuthenticatorDataOktaVerifyPushOnlyFormView;
     } else {
       this.Body = ChallengeAuthenticatorDataOktaVerifyFormView;
@@ -16,9 +16,10 @@ export default BaseAuthenticatorView.extend({
     }
   },
 
-  isPushOnlyFlow() {
+  isPushOnlyWithAutoChallengeFlow() {
     const methodType = this.options.appState.getSchemaByName('authenticator.methodType');
+    const hasAutoChallengeSchema = this.options.appState.getSchemaByName('authenticator.autoChallenge');
     const methodTypeOptions = methodType?.options;
-    return methodTypeOptions.length === 1 && methodTypeOptions[0].value === 'push';
+    return hasAutoChallengeSchema && methodTypeOptions.length === 1 && methodTypeOptions[0].value === 'push';
   },
 });
