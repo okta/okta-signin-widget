@@ -35,8 +35,6 @@ async function setup(t) {
 test.requestHooks(mockOktaVerifySendPushOnly)(
   'should load view with a button and a checkbox when push is the only method type and has auto challenge schema',
   async t => {
-    const AUTO_CHALLENGE_CHECKBOX_SELECTOR = '[name="authenticator.autoChallenge"]';
-    const AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR = '[data-se-for-name="authenticator.autoChallenge"]';
     const challengeOktaVerifyPushPageObject = await setup(t);
     await t.expect(await challengeOktaVerifyPushPageObject.isOktaVerifyPushChallengeForm()).ok();
     await t.expect(challengeOktaVerifyPushPageObject.getFormTitle()).eql('Get a push notification');
@@ -48,13 +46,13 @@ test.requestHooks(mockOktaVerifySendPushOnly)(
     const a11ySpan = challengeOktaVerifyPushPageObject.getA11ySpan();
     await t.expect(a11ySpan.textContent).contains('Send push');
 
-    await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists(AUTO_CHALLENGE_CHECKBOX_SELECTOR)).ok();
-    const checkboxLabel = challengeOktaVerifyPushPageObject.getAutoChallengeCheckboxLabel(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR);
+    await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists()).ok();
+    const checkboxLabel = challengeOktaVerifyPushPageObject.getAutoChallengeCheckboxLabel();
     await t.expect(checkboxLabel.hasClass('checked')).notOk();
     await t.expect(checkboxLabel.textContent).eql('Send push automatically');
 
     // select checkbox on click
-    await challengeOktaVerifyPushPageObject.clickAutoChallengeCheckbox(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR);
+    await challengeOktaVerifyPushPageObject.clickAutoChallengeCheckbox();
     await t.expect(checkboxLabel.hasClass('checked')).ok();
 
     // signout link at enroll page

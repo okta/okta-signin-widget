@@ -7,9 +7,6 @@ import pushPoll from '../../../playground/mocks/data/idp/idx/authenticator-verif
 import success from '../../../playground/mocks/data/idp/idx/success';
 import pushPollAutoChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push-autoChallenge-on';
 
-const AUTO_CHALLENGE_CHECKBOX_SELECTOR = '[name="autoChallenge"]';
-const AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR = '[data-se-for-name="autoChallenge"]';
-
 const logger = RequestLogger(/challenge|challenge\/poll|authenticators\/poll/,
   {
     logRequestBody: true,
@@ -64,7 +61,7 @@ test
     await t.expect(a11ySpan.textContent).contains('Push notification sent');
     await t.expect(pushBtn.hasClass('link-button-disabled')).ok();
     await t.expect(pageTitle).contains('Get a push notification');
-    await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists(AUTO_CHALLENGE_CHECKBOX_SELECTOR)).notOk();
+    await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists()).notOk();
 
     // Verify links
     await t.expect(await challengeOktaVerifyPushPageObject.switchAuthenticatorLinkExists()).ok();
@@ -86,17 +83,17 @@ test
     const pageTitle = challengeOktaVerifyPushPageObject.getFormTitle();
     const pushBtn = challengeOktaVerifyPushPageObject.getPushButton();
     const a11ySpan = challengeOktaVerifyPushPageObject.getA11ySpan();
-    const checkboxLabel = challengeOktaVerifyPushPageObject.getAutoChallengeCheckboxLabel(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR);
+    const checkboxLabel = challengeOktaVerifyPushPageObject.getAutoChallengeCheckboxLabel();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
     await t.expect(a11ySpan.textContent).contains('Push notification sent');
     await t.expect(pushBtn.hasClass('link-button-disabled')).ok();
     await t.expect(pageTitle).contains('Get a push notification');
-    await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists(AUTO_CHALLENGE_CHECKBOX_SELECTOR)).ok();
+    await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists()).ok();
     await t.expect(checkboxLabel.hasClass('checked')).ok();
     await t.expect(checkboxLabel.textContent).eql('Send push automatically');
 
     // unselect checkbox on click
-    await challengeOktaVerifyPushPageObject.clickAutoChallengeCheckbox(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR);
+    await challengeOktaVerifyPushPageObject.clickAutoChallengeCheckbox();
     await t.expect(checkboxLabel.hasClass('checked')).notOk();
 
     // Verify links
@@ -109,8 +106,8 @@ test
 test
   .requestHooks(logger, pushWaitAutoChallengeMock)('should call polling API and checkbox should be clickable after polling started', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
-    const checkboxLabel = challengeOktaVerifyPushPageObject.getAutoChallengeCheckboxLabel(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR);
-    await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists(AUTO_CHALLENGE_CHECKBOX_SELECTOR)).ok();
+    const checkboxLabel = challengeOktaVerifyPushPageObject.getAutoChallengeCheckboxLabel();
+    await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists()).ok();
     await t.expect(checkboxLabel.hasClass('checked')).ok();
     await t.expect(checkboxLabel.textContent).eql('Send push automatically');
     // wait for polling to start
@@ -132,7 +129,7 @@ test
     await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/authenticators/poll');
 
     // unselect checkbox on click
-    await challengeOktaVerifyPushPageObject.clickAutoChallengeCheckbox(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR);
+    await challengeOktaVerifyPushPageObject.clickAutoChallengeCheckbox();
     await t.expect(checkboxLabel.hasClass('checked')).notOk();
   });
 
