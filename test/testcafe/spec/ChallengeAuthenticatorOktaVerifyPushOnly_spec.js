@@ -36,15 +36,12 @@ test.requestHooks(mockOktaVerifySendPushOnly)(
   'should load view with a button and a checkbox when push is the only method type and has auto challenge schema',
   async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
-    await t.expect(await challengeOktaVerifyPushPageObject.isOktaVerifyPushChallengeForm()).ok();
+    await t.expect(await challengeOktaVerifyPushPageObject.isOktaVerifySendPushForm()).ok();
     await t.expect(challengeOktaVerifyPushPageObject.getFormTitle()).eql('Get a push notification');
     await t.expect(challengeOktaVerifyPushPageObject.subtitleExists()).notOk();
 
-    const pushBtn = challengeOktaVerifyPushPageObject.getPushButton();
-    await t.expect(pushBtn.textContent).contains('Send push');
-    await t.expect(pushBtn.hasClass('link-button-disabled')).notOk();
-    const a11ySpan = challengeOktaVerifyPushPageObject.getA11ySpan();
-    await t.expect(a11ySpan.textContent).contains('Send push');
+    const pushButtonLabel = challengeOktaVerifyPushPageObject.getSaveButtonLabel();
+    await t.expect(pushButtonLabel).eql('Send push');
 
     await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists()).ok();
     const checkboxLabel = challengeOktaVerifyPushPageObject.getAutoChallengeCheckboxLabel();

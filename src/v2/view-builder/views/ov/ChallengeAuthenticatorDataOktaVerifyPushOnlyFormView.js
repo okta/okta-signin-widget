@@ -1,22 +1,11 @@
-import { createButton, loc } from 'okta';
+import { loc } from 'okta';
 import { BaseForm } from '../../internals';
 
 const Body = BaseForm.extend(Object.assign({
-  className: 'okta-verify-push-challenge',
-  noButtonBar: true,
+  className: 'okta-verify-send-push-form',
 
-  initialize() {
-    BaseForm.prototype.initialize.apply(this, arguments);
-    this.add(createButton({
-      className: 'button button-wide button-primary send-push',
-      title: loc('oie.okta_verify.sendPushButton', 'login'),
-      click: () => {
-        this.$el.submit();
-      },
-    }));
-    this.add(
-      `<span class='accessibility-text' role='alert'>${loc('oie.okta_verify.sendPushButton', 'login')}</span>`,
-    );
+  save() {
+    return loc('oie.okta_verify.sendPushButton', 'login');
   },
 
   title() {
@@ -29,7 +18,7 @@ const Body = BaseForm.extend(Object.assign({
     // Checkbox is rendered by BaseForm using remediation response and 
     // hence by default always gets added above buttons.
     const checkbox = this.$el.find('[data-se="o-form-fieldset-authenticator.autoChallenge"]');
-    checkbox.length && this.$el.find('.o-form-fieldset-container').append(checkbox);
+    checkbox.length && this.$el.find('.o-form-button-bar').after(checkbox);
   },
 
   getUISchema() {

@@ -57,6 +57,12 @@
   }
 }
 
+.okta-verify-send-push-form {
+  .o-form-button-bar {
+    padding-bottom: 10px;
+  }
+}
+
 .okta-verify-push-challenge {
   .o-form-fieldset {
     &:first-of-type {
