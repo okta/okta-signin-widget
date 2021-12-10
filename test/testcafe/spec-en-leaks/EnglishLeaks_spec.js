@@ -20,6 +20,11 @@ const ignoredMocks = [
   'enroll-profile-update-params.json', // No english leaks as custom attribute label comes from server
   'oda-enrollment-ios.json', // already fixed in master but changes are not in 5.12 yet, should be reverted
   'mdm-enrollment.json', // already fixed in master but changes are not in 5.12 yet, should be reverted
+
+  // flaky on bacon
+  'terminal-return-otp-only-full-location.json',
+  'terminal-return-otp-only-no-location.json',
+  'terminal-return-otp-only-partial-location.json'
 ];
 
 const optionsForInteractionCodeFlow = {
