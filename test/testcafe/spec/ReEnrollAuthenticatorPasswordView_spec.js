@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorExpiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-expired-password';
 import xhrAuthenticatorExpiredPasswordNoComplexity from '../../../playground/mocks/data/idp/idx/authenticator-expired-password-no-complexity';
 import xhrAuthenticatorExpiredPasswordWithEnrollment from '../../../playground/mocks/data/idp/idx/authenticator-expired-password-with-enrollment-authenticator';
@@ -43,7 +43,7 @@ async function setup(t) {
     authenticatorKey: 'okta_password',
     methodType:'password',
   });
-
+  await a11yCheck(t);
   return expiredPasswordPage;
 }
 
@@ -94,7 +94,7 @@ test
     await expiredPasswordPage.waitForErrorBox();
     await t.expect(expiredPasswordPage.getPasswordError()).eql('This field cannot be left blank');
     await t.expect(expiredPasswordPage.getConfirmPasswordError()).eql('This field cannot be left blank');
-
+    await a11yCheck(t);
     // password must match
     await expiredPasswordPage.fillPassword('abcd');
     await expiredPasswordPage.fillConfirmPassword('1234');
@@ -104,6 +104,7 @@ test
     await t.expect(expiredPasswordPage.getConfirmPasswordError()).eql('New passwords must match');
 
     await t.expect(await expiredPasswordPage.signoutLinkExists()).ok();
+    await a11yCheck(t);
   });
 
 test

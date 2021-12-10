@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorResetPassword from '../../../playground/mocks/data/idp/idx/authenticator-reset-password';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
@@ -29,7 +29,7 @@ async function setup(t) {
     authenticatorKey: 'okta_password',
     methodType:'password',
   });
-
+  await a11yCheck(t);
   return resetPasswordPage;
 }
 
@@ -59,7 +59,7 @@ test
     await resetPasswordPage.waitForErrorBox();
     await t.expect(resetPasswordPage.getPasswordError()).eql('This field cannot be left blank');
     await t.expect(resetPasswordPage.getConfirmPasswordError()).eql('This field cannot be left blank');
-
+    await a11yCheck(t);
     // password must match
     await resetPasswordPage.fillPassword('abcd');
     await resetPasswordPage.fillConfirmPassword('1234');
@@ -69,6 +69,7 @@ test
     await t.expect(resetPasswordPage.getConfirmPasswordError()).eql('New passwords must match');
 
     await t.expect(await resetPasswordPage.signoutLinkExists()).ok();
+    await a11yCheck(t);
   });
 
 test

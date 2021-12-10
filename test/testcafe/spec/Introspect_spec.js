@@ -1,6 +1,6 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 import xhrInternalServerError from '../../../playground/mocks/data/idp/idx/error-internal-server-error';
 
 const introspectMock = RequestMock()
@@ -25,7 +25,7 @@ async function setup(t) {
     controller: null,
     formName: 'terminal',
   });
-
+  await a11yCheck(t);
   return terminalPageObject;
 }
 

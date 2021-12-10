@@ -1,5 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
-import { renderWidget } from '../framework/shared';
+import { a11yCheck, renderWidget } from '../framework/shared';
 import SelectAuthenticatorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import ChallengeOktaVerifyTotpPageObject from '../framework/page-objects/ChallengeOktaVerifyTotpPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
@@ -71,7 +71,7 @@ async function setup(t) {
   await t.expect(selectAuthenticatorPageObject.getFormTitle()).eql(FORM_TITLE);
   await t.expect(selectAuthenticatorPageObject.getFormSubtitle()).eql(FORM_SUBTITLE);
   await t.expect(selectAuthenticatorPageObject.getFactorsCount()).eql(3);
-
+  await a11yCheck(t);
   return selectAuthenticatorPageObject;
 }
 
@@ -168,7 +168,7 @@ test.requestHooks(requestLogger, mockChallengeOVTotpMethod)('should show switch 
   // verify sign out link
   await t.expect(await challengeOktaVerifyTOTPPageObject.signoutLinkExists()).ok();
   await t.expect(challengeOktaVerifyTOTPPageObject.getSignoutLinkText()).eql('Back to sign in');
-
+  await a11yCheck(t);
   await challengeOktaVerifyTOTPPageObject.verifyFactor('credentials.totp', '1234');
   await challengeOktaVerifyTOTPPageObject.clickNextButton();
   const successPage = new SuccessPageObject(t);

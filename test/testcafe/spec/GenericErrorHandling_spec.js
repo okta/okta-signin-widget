@@ -1,6 +1,6 @@
 import { RequestMock } from 'testcafe';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 import xhr403SecurityAccessDenied from '../../../playground/mocks/data/idp/idx/error-403-security-access-denied';
 
 const securityAccessDeniedMock = RequestMock()
@@ -21,7 +21,7 @@ async function setup(t) {
     controller: null,
     formName: 'terminal',
   });
-
+  await a11yCheck(t);
   return terminalPage;
 }
 

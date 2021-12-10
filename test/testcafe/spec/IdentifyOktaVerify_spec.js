@@ -1,6 +1,6 @@
 import { RequestLogger, RequestMock, Selector } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 import loopbackChallengeNotReceived from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-challenge-not-received';
 import launchAuthenticatorOption from '../../../playground/mocks/data/idp/idx/identify-with-device-launch-authenticator';
 
@@ -22,7 +22,7 @@ async function setup(t) {
     controller: 'primary-auth',
     formName: 'identify',
   });
-
+  await a11yCheck(t);
   return deviceChallengePollPage;
 }
 
@@ -42,6 +42,7 @@ test('should show errors if required fields are empty', async t => {
 
   await t.expect(identityPage.hasIdentifierError()).eql(true);
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
+  await a11yCheck(t);
 });
 
 test('should the correct title', async t => {

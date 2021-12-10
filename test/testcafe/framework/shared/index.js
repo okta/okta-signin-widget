@@ -1,4 +1,5 @@
-import { t, ClientFunction } from 'testcafe';
+import {t, ClientFunction} from 'testcafe';
+import {checkForViolations} from '@testcafe-community/axe';
 
 export const renderWidget = ClientFunction((settings) => {
   // function `renderPlaygroundWidget` is defined in playground/main.js
@@ -47,3 +48,15 @@ export const Constants = {
 export const getStateHandleFromSessionStorage = ClientFunction(() => {
   return window.sessionStorage.getItem('osw-oie-state-handle');
 });
+
+export const a11yCheck = async (t) => {
+  await checkForViolations(t,
+    {
+      include: [['#okta-login-container']]
+    },
+    {
+      rules: {'document-title': {enabled: false}},
+      runOnly: ['section508', 'wcag21a', 'wcag21aa'],
+    },
+  );
+};

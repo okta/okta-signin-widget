@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorExpiryWarningPassword from '../../../playground/mocks/data/idp/idx/authenticator-expiry-warning-password.json';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
@@ -43,7 +43,7 @@ async function setup(t) {
     authenticatorKey: 'okta_password',
     methodType:'password',
   });
-
+  await a11yCheck(t);
   return passwordExpiryWarningPage;
 }
 
@@ -81,7 +81,7 @@ test
     await passwordExpiryWarningPage.waitForErrorBox();
     await t.expect(passwordExpiryWarningPage.getPasswordError()).eql('This field cannot be left blank');
     await t.expect(passwordExpiryWarningPage.getConfirmPasswordError()).eql('This field cannot be left blank');
-
+    await a11yCheck(t);
     // password must match
     await passwordExpiryWarningPage.fillPassword('abcd');
     await passwordExpiryWarningPage.fillConfirmPassword('1234');
@@ -92,6 +92,7 @@ test
 
     await t.expect(await passwordExpiryWarningPage.signoutLinkExists()).ok();
     await t.expect(await passwordExpiryWarningPage.skipLinkExists()).ok();
+    await a11yCheck(t);
   });
 
 test

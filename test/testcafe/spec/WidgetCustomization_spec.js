@@ -8,6 +8,7 @@ import xhrSelectAuthenticatorEnroll from '../../../playground/mocks/data/idp/idx
 import xhrAuthenticatorResetPassword from '../../../playground/mocks/data/idp/idx/authenticator-reset-password';
 import xhrAuthenticatorExpiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-expired-password';
 import xhrAuthenticatorExpiryWarningPassword from '../../../playground/mocks/data/idp/idx/authenticator-expiry-warning-password';
+import { a11yCheck } from '../framework/shared';
 
 const identifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -42,6 +43,7 @@ fixture('Custom widget attributes');
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
+  await a11yCheck(t);
   return identityPage;
 }
 

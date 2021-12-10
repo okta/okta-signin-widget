@@ -5,6 +5,7 @@ import xhrEnrollIdPAuthenticatorError from '../../../playground/mocks/data/idp/i
 import xhrVerifyIdPAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp.json';
 import xhrVerifyIdPAuthenticatorSingleRemediation from '../../../playground/mocks/data/idp/idx/authenticator-verification-idp-single-remediation.json';
 import xhrVerifyIdPAuthenticatorError from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-idp.json';
+import { a11yCheck } from '../framework/shared';
 
 const logger = RequestLogger(/introspect/,
   {
@@ -59,6 +60,7 @@ async function setup(t, isVerify) {
     authenticatorKey: 'external_idp',
     methodType: 'idp'
   });
+  await a11yCheck(t);
   return pageObject;
 }
 

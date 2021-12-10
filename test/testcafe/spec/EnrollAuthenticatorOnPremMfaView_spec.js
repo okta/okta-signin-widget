@@ -1,7 +1,7 @@
 import { RequestMock } from 'testcafe';
 import EnrollOnPremPageObject from '../framework/page-objects/EnrollOnPremPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollOnPrem from '../../../playground/mocks/data/idp/idx/authenticator-enroll-on-prem';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import xhrPasscodeChange from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-passcode-change-on-prem';
@@ -29,7 +29,7 @@ async function setup(t) {
     authenticatorKey: 'onprem_mfa',
     methodType: 'otp'
   });
-
+  await a11yCheck(t);
   return enrollOnPremPage;
 }
 
@@ -55,6 +55,7 @@ test
     await t.expect(enrollOnPremPage.getUserNameError()).eql('This field cannot be left blank');
 
     await t.expect(await enrollOnPremPage.signoutLinkExists()).ok();
+    await a11yCheck(t);
   });
 
 test
@@ -84,4 +85,5 @@ test
     await t.expect(errorBox.innerText)
       .contains('Pin accepted, Wait for token to change, then enter new passcode.');
     await t.expect(enrollOnPremPage.getPasscodeValue()).eql('');
+    await a11yCheck(t);
   });

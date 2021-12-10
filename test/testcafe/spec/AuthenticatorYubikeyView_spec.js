@@ -1,5 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
-import { checkConsoleMessages } from '../framework/shared';
+import {a11yCheck, checkConsoleMessages} from '../framework/shared';
 import YubiKeyAuthenticatorPageObject from '../framework/page-objects/YubiKeyAuthenticatorPageObject';
 import xhrEnrollYubiKeyAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-enroll-yubikey';
 import xhrVerifyYubiKeyAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-verification-yubikey';
@@ -31,7 +31,7 @@ const verifyMock = RequestMock()
 async function setup(t) {
   const pageObject = new YubiKeyAuthenticatorPageObject(t);
   await pageObject.navigateToPage();
-
+  await a11yCheck(t);
   return pageObject;
 }
 

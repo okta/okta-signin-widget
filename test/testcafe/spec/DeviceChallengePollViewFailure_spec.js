@@ -3,7 +3,7 @@ import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChall
 import identifyWithDeviceProbingLoopback from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback';
 import error from '../../../playground/mocks/data/idp/idx/error-403-access-denied';
 import errorDeviceInvalid from '../../../playground/mocks/data/idp/idx/error-poll-400-device-account-invalid';
-import { Constants } from '../framework/shared';
+import { a11yCheck, Constants } from '../framework/shared';
 
 const logger = RequestLogger(/introspect|probe|challenge/, { logRequestBody: true, stringifyRequestBody: true });
 
@@ -68,6 +68,7 @@ fixture('Device Challenge Polling View with Polling Failure');
 async function setup(t) {
   const deviceChallengePollPage = new DeviceChallengePollPageObject(t);
   await deviceChallengePollPage.navigateToPage();
+  await a11yCheck(t);
   return deviceChallengePollPage;
 }
 

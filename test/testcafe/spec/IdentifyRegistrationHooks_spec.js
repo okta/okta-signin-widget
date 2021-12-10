@@ -1,5 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
-import { renderWidget } from '../framework/shared';
+import { a11yCheck, renderWidget } from '../framework/shared';
 import RegistrationPageObject from '../framework/page-objects/RegistrationPageObject';
 import enrollProfile from '../../../playground/mocks/data/idp/idx/enroll-profile';
 import success from '../../../playground/mocks/data/idp/idx/terminal-registration';
@@ -24,6 +24,7 @@ fixture('Registration Hooks');
 async function setup(t) {
   const registrationPage = new RegistrationPageObject(t);
   await registrationPage.navigateToPage();
+  await a11yCheck(t);
   return registrationPage;
 }
 
@@ -54,6 +55,7 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onSucce
   await registrationPage.clickRegisterButton();
   // parseSchema removes requirement on first name field
   await t.expect(registrationPage.hasFirstNameError()).notOk();
+  await a11yCheck(t);
   // preSubmit
   const req = logger.requests[0].request;
   const reqBody = JSON.parse(req.body);
@@ -108,6 +110,7 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onFailu
 
   // no request because the form fails to submit
   await t.expect(logger.requests.length).eql(0);
+  await a11yCheck(t);
 });
 
 test.requestHooks(logger, mock)('should call settings.registration.postSubmit hook\'s onFailure handler', async t => {

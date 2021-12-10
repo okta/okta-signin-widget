@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeGoogleAuthenticatorPageObject from '../framework/page-objects/ChallengeGoogleAuthenticatorPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 
 import otpChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-google-authenticator';
 import success from '../../../playground/mocks/data/idp/idx/success';
@@ -39,6 +39,7 @@ fixture('Challenge Google Authenticator Form');
 async function setup(t) {
   const challengeGoogleAuthenticatorPageObject = new ChallengeGoogleAuthenticatorPageObject(t);
   await challengeGoogleAuthenticatorPageObject.navigateToPage();
+  await a11yCheck(t);
   return challengeGoogleAuthenticatorPageObject;
 }
 
@@ -96,6 +97,7 @@ test
     await challengeGoogleAuthenticatorPageObject.verifyFactor('credentials.passcode', '123');
     await challengeGoogleAuthenticatorPageObject.clickNextButton();
     await t.expect(challengeGoogleAuthenticatorPageObject.getAnswerInlineError()).eql('Your code doesn\'t match our records. Please try again.');
+    await a11yCheck(t);
   });
 
 test

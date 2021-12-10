@@ -1,6 +1,6 @@
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengePhonePageObject from '../framework/page-objects/ChallengePhonePageObject';
-import { checkConsoleMessages, renderWidget } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages, renderWidget } from '../framework/shared';
 import { RequestMock, RequestLogger } from 'testcafe';
 import phoneVerificationSMSThenVoice from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-sms-then-voice';
 import phoneVerificationVoiceThenSMS from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-then-sms';
@@ -113,6 +113,7 @@ fixture('Challenge Phone Form');
 async function setup(t) {
   const challengePhonePageObject = new ChallengePhonePageObject(t);
   await challengePhonePageObject.navigateToPage();
+  await a11yCheck(t);
   return challengePhonePageObject;
 }
 
@@ -312,6 +313,7 @@ test
     await t.expect(pageSubtitle).contains('A code was sent to');
     await t.expect(pageSubtitle).contains('your phone');
     await t.expect(pageSubtitle).contains('Enter the code below to verify.');
+    await a11yCheck(t);
   });
 
 test
@@ -473,6 +475,7 @@ test
     await t.expect(challengePhonePageObject.resendEmailView().hasClass('hide')).notOk();
     const resendEmailView = challengePhonePageObject.resendEmailView();
     await t.expect(resendEmailView.innerText).eql('Haven\'t received an SMS? Send again');
+    await a11yCheck(t);
   });
 
 test

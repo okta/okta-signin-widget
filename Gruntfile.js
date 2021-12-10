@@ -114,11 +114,7 @@ module.exports = function(grunt) {
             var browserName = grunt.option('browserName') || 'phantomjs',
                 tpl = Handlebars.compile(content),
                 tplVars = {
-                  browserName: browserName,
-
-                  // To include accessibility check in the test, pass in -a11y option, i.e.
-                  // "grunt test-e2e --browserName chrome -a11y"
-                  CHECK_A11Y: !!grunt.option('a11y')
+                  browserName: browserName
                 };
 
             Object.assign(tplVars, ENV.getValues());

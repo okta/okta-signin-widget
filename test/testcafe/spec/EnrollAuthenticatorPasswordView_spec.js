@@ -1,7 +1,7 @@
 import { RequestMock } from 'testcafe';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorEnrollPassword from '../../../playground/mocks/data/idp/idx/authenticator-enroll-password';
 import xhrAuthenticatorEnrollPasswordError from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-password-common';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
@@ -29,7 +29,7 @@ async function setup(t) {
     authenticatorKey: 'okta_password',
     methodType:'password',
   });
-
+  await a11yCheck(t);
   return enrollPasswordPage;
 }
 
@@ -47,6 +47,7 @@ test.requestHooks(successMock)('should have both password and confirmPassword fi
   await t.expect(enrollPasswordPage.getSwitchAuthenticatorLinkText()).eql('Return to authenticator list');
 
   // fields are required
+  await a11yCheck(t);
   await enrollPasswordPage.clickNextButton();
   await enrollPasswordPage.waitForErrorBox();
   await t.expect(enrollPasswordPage.getPasswordError()).eql('This field cannot be left blank');
@@ -62,6 +63,7 @@ test.requestHooks(successMock)('should have both password and confirmPassword fi
   await t.expect(enrollPasswordPage.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
 
   await t.expect(await enrollPasswordPage.signoutLinkExists()).ok();
+  await a11yCheck(t);
 });
 
 test.requestHooks(successMock)('should succeed when same values are filled', async t => {

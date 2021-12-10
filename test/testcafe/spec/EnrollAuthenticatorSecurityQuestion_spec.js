@@ -2,7 +2,7 @@ import { RequestMock, RequestLogger } from 'testcafe';
 
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import EnrollSecurityQuestionPageObject from '../framework/page-objects/EnrollSecurityQuestionPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 
 import xhrAuthenticatorEnrollSecurityQuestion from '../../../playground/mocks/data/idp/idx/authenticator-enroll-security-question';
 import xhrErrorAuthenticatorEnrollSecurityQuestion from '../../../playground/mocks/data/idp/idx/error-authenticator-enroll-security-question.json';
@@ -46,6 +46,7 @@ async function setup(t) {
     formName: 'enroll-authenticator',
     authenticatorKey: 'security_question',
   });
+  await a11yCheck(t);
 
   return enrollSecurityQuestionPage;
 }
@@ -131,7 +132,7 @@ test.requestHooks(answerRequestLogger, authenticatorEnrollSecurityQuestionErrorM
   await enrollSecurityQuestionPage.clickVerifyButton();
 
   await t.expect(enrollSecurityQuestionPage.getAnswerInlineError()).eql('The security question answer must be at least 4 characters in length');
-
+  await a11yCheck(t);
   // assert that request has been made
   await t.expect(answerRequestLogger.count(() => true)).eql(1);
   const req = answerRequestLogger.requests[0].request;

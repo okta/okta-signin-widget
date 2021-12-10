@@ -5,7 +5,7 @@ import xhrPasscodeChange from '../../../playground/mocks/data/idp/idx/error-auth
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import ChallengeOnPremPageObject from '../framework/page-objects/ChallengeOnPremPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 
 const mockChallengeAuthenticatorOnPrem = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -36,6 +36,7 @@ async function setup(t) {
     authenticatorKey: 'onprem_mfa',
     methodType: 'otp'
   });
+  await a11yCheck(t);
   return challengeOnPremPage;
 }
 
@@ -70,6 +71,7 @@ test.requestHooks(mockChallengeAuthenticatorOnPrem)('passcode is required', asyn
 
   await challengeOnPremPage.waitForErrorBox();
   await t.expect(challengeOnPremPage.getPasscodeError()).eql('This field cannot be left blank');
+  await a11yCheck(t);
 });
 
 test.requestHooks(mockInvalidPasscode)('challege on prem authenticator with invalid passcode', async t => {
@@ -79,6 +81,7 @@ test.requestHooks(mockInvalidPasscode)('challege on prem authenticator with inva
 
   await t.expect(challengeOnPremPage.getInvalidOTPError())
     .eql('Invalid code. Try again.');
+  await a11yCheck(t);
 });
 
 test.requestHooks(mockPasscodeChange)('displays error and clears passcode when passcode change response', async t => {
@@ -90,4 +93,5 @@ test.requestHooks(mockPasscodeChange)('displays error and clears passcode when p
     .eql('Pin accepted, Wait for token to change, then enter new passcode.');
   await t.expect(challengeOnPremPage.getPasscodeValue())
     .eql('');
+  await a11yCheck(t);
 });

@@ -1,6 +1,6 @@
 import { RequestMock, RequestLogger, Selector, ClientFunction } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { a11yCheck, checkConsoleMessages } from '../framework/shared';
 import identifyWithName from '../../../playground/mocks/data/idp/idx/identify';
 import identifyWithIdpsIdentify from '../../../playground/mocks/data/idp/idx/identify-with-third-party-idps';
 import identifyWithIdpsNoIdentify from '../../../playground/mocks/data/idp/idx/identify-with-only-third-party-idps';
@@ -59,6 +59,7 @@ fixture('Identify + IDPs');
 async function setup(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage();
+  await a11yCheck(t);
   return identityPage;
 }
 
@@ -70,6 +71,7 @@ async function setupDirectAuth(t) {
     clientId: 'fake',
     redirectUri: 'http://doesnot-matter',
   });
+  await a11yCheck(t);
   return identityPage;
 }
 
@@ -120,7 +122,7 @@ test.requestHooks(mockWithoutIdentify)('should only render idp buttons with iden
 });
 
 test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP login page with basic Signing in message', async t => {
-  await setup(t);
+  await new IdentityPageObject(t).navigateToPage();
 
   await checkConsoleMessages({
     controller: null,
@@ -150,7 +152,7 @@ test.requestHooks(logger, mockOnlyOneIdp)('Direct auth: does not auto redirect t
 });
 
 test.requestHooks(logger, mockOnlyOneIdpAppUser)('should auto redirect to 3rd party IdP login page with Signing in longer message', async t => {
-  await setup(t);
+  await new IdentityPageObject(t).navigateToPage();
 
   await checkConsoleMessages({
     controller: null,
