@@ -10,6 +10,7 @@ import Expect from 'helpers/util/Expect';
 import resEnrollError from 'helpers/xhr/MFA_ENROLL_ACTIVATE_error';
 import resEnrollActivateError from 'helpers/xhr/MFA_ENROLL_ACTIVATE_errorActivate';
 import resEnrollInvalidPhoneError from 'helpers/xhr/MFA_ENROLL_ACTIVATE_invalid_phone';
+import resEnrollTollFreePhoneError from 'helpers/xhr/MFA_ENROLL_ACTIVATE_error';
 import resEnrollSuccess from 'helpers/xhr/MFA_ENROLL_ACTIVATE_success';
 import resAllFactors from 'helpers/xhr/MFA_ENROLL_allFactors';
 import resExistingPhone from 'helpers/xhr/MFA_ENROLL_smsFactor_existingPhone';
@@ -429,6 +430,34 @@ Expect.describe('EnrollSms', function() {
           },
         ]);
       });
+    });
+
+    itp('shows error message only (no warning), when invalid phonenumber is inputted', function() {
+      return setup(allFactorsRes)
+        .then(function(test) {
+          Util.resetAjaxRequests();
+          sendCode(test, resEnrollInvalidPhoneError, 'PF', '12345678');
+          return Expect.waitForFormError(test.form, test);
+        })
+        .then(function(test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage()).toBe('The number you entered seems invalid. If the number is correct, please try again.');
+          expect(test.form.hasWarningMessage()).toBe(false);
+        });
+    });
+
+    itp('shows error message only (no warning), when toll-free phonenumber is inputted', function() {
+      return setup(allFactorsRes)
+        .then(function(test) {
+          Util.resetAjaxRequests();
+          sendCode(test, resEnrollTollFreePhoneError, 'US', '8557494750');
+          return Expect.waitForFormError(test.form, test);
+        })
+        .then(function(test) {
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage()).toBe('Invalid Phone Number.');
+          expect(test.form.hasWarningMessage()).toBe(false);
+        });
     });
   }
 
