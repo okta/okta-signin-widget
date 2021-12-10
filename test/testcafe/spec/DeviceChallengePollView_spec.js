@@ -14,6 +14,12 @@ import userIsNotAssignedError from '../../../playground/mocks/data/idp/idx/error
 
 const BEACON_CLASS = 'mfa-okta-verify';
 
+const wait = async (timeout) => {
+  await new Promise((resolve) => setTimeout( () => {
+    resolve();
+  }, timeout));
+};
+
 let failureCount = 0, pollingError = false;
 const loopbackSuccessLogger = RequestLogger(/introspect|probe|challenge/, { logRequestBody: true, stringifyRequestBody: true });
 const loopbackSuccessMock = RequestMock()
@@ -59,7 +65,7 @@ const loopbackSuccessMock = RequestMock()
     'access-control-allow-methods': 'POST, OPTIONS'
   });
 
-const loopbackPollTimeoutMockLogger = RequestLogger(/poll/, { logRequestBody: true, stringifyRequestBody: true });
+const loopbackPollMockLogger = RequestLogger(/poll/, { logRequestBody: true, stringifyRequestBody: true });
 const loopbackPollTimeoutMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithDeviceProbingLoopback)
@@ -72,7 +78,46 @@ const loopbackPollTimeoutMock = RequestMock()
     }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2_000));
   })
   .onRequestTo(/2000\/probe/)
-  .respond(null, 500, {
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/6511\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/6511\/challenge/)
+  .respond((req, res) => {
+    res.statusCode = req.method !== 'POST' ? 204 : 403;
+    res.headers = {
+      'access-control-allow-origin': '*',
+      'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+      'access-control-allow-methods': 'POST, GET, OPTIONS'
+    };
+  })
+  .onRequestTo(/6512\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/6512\/challenge/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+    'access-control-allow-methods': 'POST, OPTIONS'
+  });
+
+const loopbackPollFailedMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithDeviceProbingLoopback)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond((req, res) => {
+    res.statusCode = '400';
+    res.setBody(userIsNotAssignedError);
+  })
+  .onRequestTo(/2000\/probe/)
+  .respond(null, 200, {
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
   })
@@ -361,18 +406,27 @@ test
   });
 
 test
-  .requestHooks(loopbackPollTimeoutMockLogger, loopbackPollTimeoutMock)('new poll does not starts until last one is ended', async t => {
+  .requestHooks(loopbackPollMockLogger, loopbackPollFailedMock)('next poll should not start if previous is failed', async t => {
+    loopbackPollMockLogger.clear();
+    await setup(t);
+    await wait(10_000);
+
+    await t.expect(loopbackPollMockLogger.count(
+      record => record.request.url.match(/\/idp\/idx\/authenticators\/poll/)
+    )).eql(1);
+  });
+
+test
+  .requestHooks(loopbackPollMockLogger, loopbackPollTimeoutMock)('new poll does not starts until last one is ended', async t => {
+    loopbackPollMockLogger.clear();
     await setup(t);
     // This test verify if new /poll calls are made only if the previous one was finished instead of polling with fixed interval.
     // Updating /poll response to take 5 sec to response.
     // Then counting the number of calls that should be done in time interval. Default Timeout for /poll is 2 sec.
     // Expecting to get only 2 calls(first at 2nd sec, second at 9th(5 sec response + 2 sec timeout) second).
-    const tetsTimeout = 10_000;
-    await new Promise((resolve) => setTimeout( () => {
-      resolve();
-    }, tetsTimeout));
+    await wait(10_000);
 
-    await t.expect(loopbackPollTimeoutMockLogger.count(
+    await t.expect(loopbackPollMockLogger.count(
       record => record.request.url.match(/\/idp\/idx\/authenticators\/poll/)
     )).eql(2);
   });

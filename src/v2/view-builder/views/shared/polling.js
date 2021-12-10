@@ -49,7 +49,7 @@ export default {
 
   stopPolling() {
     if (this.polling) {
-      clearInterval(this.polling);
+      clearTimeout(this.polling);
       this.polling = null;
     }
   }
