@@ -3,7 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const ENV = require('../e2e/env');
 ENV.config();
-
 const DEV_SERVER_PORT = 3000;
 
 module.exports = {
@@ -49,6 +48,7 @@ module.exports = {
   devServer: {
     static: [
       path.resolve(__dirname, '..', '..', 'target'),
+      path.resolve(__dirname, 'public'),
       {
         staticOptions: {
           watchContentBase: true

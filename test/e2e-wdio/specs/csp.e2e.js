@@ -21,6 +21,7 @@ describe('CSP', () => {
   it('can catch CSP errors', async () => { 
     await TestAppPage.triggerCspFail.click();
     const errorText = await TestAppPage.getCspErrors();
+    
     expect(errorText).toBe('eval blocked due to CSP rule script-src from script-src http://localhost:3000');
   });
 
@@ -45,6 +46,7 @@ describe('CSP', () => {
       await TestAppPage.setConfig(config);
       await TestAppPage.startButton.click();
       await waitForLoad(TestAppPage.widget);
+
       expect(await TestAppPage.getCspErrors()).toBe('');
     });
   });

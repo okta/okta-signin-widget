@@ -74,6 +74,8 @@
     "@okta/okta-auth-js": "^5.8.0",
     "@okta/okta-idx-js": "0.22.0",
     "@sindresorhus/to-milliseconds": "^1.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "@typescript-eslint/parser": "^2.34.0",
     "@wdio/cli": "^7.14.1",
     "@wdio/jasmine-framework": "^7.16.0",
     "@wdio/junit-reporter": "^7.15.0",

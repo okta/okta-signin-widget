@@ -1,0 +1,96 @@
+* {
+  box-sizing: border-box;
+}
+
+#app {
+  padding: 5px;
+}
+#layout {
+  position: relative;
+  z-index: 1;
+}
+#main-column {
+  min-width: 40px;
+}
+#tokens-container {
+  max-width: 400px;
+  overflow: hidden;
+}
+#config-container {
+  max-width: 800px;
+}
+#config-controls, #callback-controls {
+  display: inline-block;
+}
+#tokens-dump, #config-dump {
+  line-height: 24px;
+}
+
+.flex-row, .slides {
+  flex-direction: row;
+  display: flex;
+  gap: 5px;
+}
+
+/* .box {
+  border: 1px solid darkgray;
+  padding: 10px;
+  overflow-wrap: break-word;
+} */
+
+.actions {
+  max-width: 500px;
+}
+
+#config-form input[type=text] {
+  min-width: 500px;
+}
+
+label,
+input,
+select {
+  font-size: larger;
+}
+
+label {
+  color: #333;
+}
+.pure-menu-link {
+  color: #000;
+  width: 100%;
+}
+a, .link {
+  padding: 4px;
+  display: inline-block;
+  background-color: #eeeeee;
+  color: #000;
+  border: 1px #333 solid;
+  font-size: 16px;
+  cursor: pointer;
+}
+a:active, a.clicked, .pure-menu-link:hover {
+  background-color: green;
+  color: white;
+}
+
+.selected {
+  font-weight: bold;
+}
+
+.config-link {
+  font-size: 24px;
+  text-decoration: none;
+}
+
+.box.nav {
+  display: flex;
+  line-height: 30px;
+  height: 60px;
+}
+.box.nav .link, .box.nav a {
+  margin-right: 10px;
+}
+
+.hidden {
+  display: none;
+}
