@@ -1,36 +1,62 @@
-import { AuthSdkError, OktaAuth, Tokens } from '@okta/okta-auth-js';
+import { AuthSdkError, OktaAuth, TokenResponse, Tokens } from '@okta/okta-auth-js';
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 import getOktaSignIn from './getOktaSignIn';
+import ConfigArea, { ConfigTemplate } from './configArea';
+import {
+  getBaseUrl,
+  getConfigFromStorage
+} from './config';
+import { Config, OktaSignIn, RenderResponse } from './types';
 
-const ConfigTemplate = `
-  <div id="config-container">
-    <h3>Config</h3>
-    <h4>Editor (JSON format)</h4>
-    <textarea id="config-editor"></textarea>
-    <h4>Config Preview</h4>
-    <pre id="config-preview"></pre>
-  </div>
-`;
 
 const ActionsTemplate = `
-  <div id="actions-container">
-    <h3>Widget UI Actions</h3>
-    <button name="start">Start</button>
-    <button name="hide">Hide</button>
-    <button name="show">Show</button>
-    <button name="remove">Remove</button>
-    <button name="showSignInAndRedirect">
-      Start Widget with showSignInAndRedirect
-    </button>
-    <button name="showSignInToGetTokens">
-      Start Widget with showSignInToGetTokens
-    </button>
-    <button name="renderEl">
-      Start Widget with RenderEl
-    </button>
-    <button name="fail-csp">
-      Trigger CSP Fail
-    </button>
+  <div id="actions-container" class="pure-menu">
+    <ul class="pure-menu-list">
+      <li class="pure-menu-item">
+        <button name="showSignIn" class="pure-menu-link">
+          showSignIn
+        </button>
+      </li>
+      <li class="pure-menu-item">
+        <button name="showSignInAndRedirect" class="pure-menu-link">
+          showSignInAndRedirect
+        </button>
+      </li>
+      <li class="pure-menu-item">
+        <button name="showSignInToGetTokens" class="pure-menu-link">
+          showSignInToGetTokens
+        </button>
+      </li>
+      <li class="pure-menu-item">
+        <button name="renderEl" class="pure-menu-link">
+          renderEl
+        </button>
+      </li>
+      <li class="pure-menu-item">
+        <button name="start" class="pure-menu-link">Start</button>
+      </li>
+      <li class="pure-menu-item">
+        <button name="hide" class="pure-menu-link">Hide</button>
+      </li>
+      <li class="pure-menu-item">
+        <button name="show" class="pure-menu-link">Show</button>
+      </li>
+      <li class="pure-menu-item">
+        <button name="remove" class="pure-menu-link">Remove</button>
+      </li>
+      <li class="pure-menu-item">
+        <button name="fail-csp" class="pure-menu-link">
+          Trigger CSP Fail
+        </button>
+      </li>
+      <li class="pure-menu-item visible-on-callback">
+        <button name="clearTransaction" class="pure-menu-link">clear transaction storage</button>
+      </li>
+      <li class="pure-menu-item visible-on-callback">
+        <button name="signOut" class="pure-menu-link">signOut</button>
+      </li>
+    </ul>
   </div>
 `;
 
@@ -42,6 +68,11 @@ const CodeTemplate = `
   <div id="code-container"></div>
 `;
 
+
+const ErrorsTemplate = `
+  <div id="errors-container"></div>
+`;
+
 const CSPErrorsTemplate = `
   <div id="csp-errors-container"></div>
 `;
@@ -50,68 +81,122 @@ const OIDCErrorTemplate = `
   <div id="oidc-error-container"></div>
 `;
 
+const CallbackTemplate = `
+  <div id="callback-container">
+    <div class="header">
+      <strong>OAuth Callback Page</strong>
+      <div id="callback-controls">
+        <a href="/">Return Home</a>
+      </div>
+    </div>
+  </div>
+`;
+
 const LayoutTemplate = `
   <div id="layout">
-    <h2>Sign-In-Widget test pages</h2>
-    ${ConfigTemplate}
-    ${ActionsTemplate}
-    ${TokensTemplate}
-    ${CodeTemplate}
-    ${CSPErrorsTemplate}
-    ${OIDCErrorTemplate}
+    <div class="flex-row">
+      ${ActionsTemplate}
+      <div id="main-column">
+        <div id="okta-login-container">
+          <!-- widget renders here -->
+        </div>
+        ${CallbackTemplate}
+        ${TokensTemplate}
+        ${CodeTemplate}
+        ${ErrorsTemplate}
+        ${CSPErrorsTemplate}
+        ${OIDCErrorTemplate}
+      </div>
+      <div class="right-column">
+        ${ConfigTemplate}
+      </div>
+    </div>
   </div>
 `;
 
 export default class TestApp {
   authClient: OktaAuth;
-  oktaSignIn: any;
+  oktaSignIn: OktaSignIn;
+  errors: Error[];
   cspErrors: SecurityPolicyViolationEvent[] = [];
-
+  
   // config
-  configEditor: Element;
-  configPreview: Element;
+  configArea: ConfigArea;
+  configEditor: HTMLElement;
+  configPreview: HTMLElement;
   // action buttons
-  startButton: Element;
-  hideButton: Element;
-  showButton: Element;
-  removeButton: Element;
-  showSignInAndRedirectButton: Element;
-  showSignInToGetTokensButton: Element;
-  renderElButton: Element;
-  failCspButton: Element;
-  // containers
-  codeContainer: Element;
-  tokensContainer: Element;
-  cspErrorsContainer: Element;
-  oidcErrorContainer: Element;
+  startButton: HTMLElement;
+  hideButton: HTMLElement;
+  showButton: HTMLElement;
+  removeButton: HTMLElement;
+  showSignInButton: HTMLElement;
+  showSignInAndRedirectButton: HTMLElement;
+  showSignInToGetTokensButton: HTMLElement;
+  renderElButton: HTMLElement;
+  failCspButton: HTMLElement;
+  signOutButton: HTMLElement;
+  clearTransaction: HTMLElement;
 
-  bootstrap(rootElem: Element) {
+  // containers
+  configContainer: HTMLElement;
+  callbackContainer: HTMLElement;
+  codeContainer: HTMLElement;
+  tokensContainer: HTMLElement;
+  errorsContainer: HTMLElement;
+  cspErrorsContainer: HTMLElement;
+  oidcErrorContainer: HTMLElement;
+
+  bootstrap(rootElem: Element): void {
     rootElem.innerHTML = LayoutTemplate;
 
     // set elements
+    this.callbackContainer = document.getElementById('callback-container');
+    this.configContainer = document.getElementById('config-container');
     this.configEditor = document.getElementById('config-editor');
     this.configPreview = document.getElementById('config-preview');
     this.startButton = document.querySelector('#actions-container button[name="start"]');
     this.hideButton = document.querySelector('#actions-container button[name="hide"]');
     this.showButton = document.querySelector('#actions-container button[name="show"]');
     this.removeButton = document.querySelector('#actions-container button[name="remove"]');
+    this.showSignInButton = document.querySelector('#actions-container button[name="showSignIn"]');
     this.showSignInAndRedirectButton = document.querySelector('#actions-container button[name="showSignInAndRedirect"]');
     this.showSignInToGetTokensButton = document.querySelector('#actions-container button[name="showSignInToGetTokens"]');
     this.renderElButton = document.querySelector('#actions-container button[name="renderEl"]')
     this.failCspButton = document.querySelector('#actions-container button[name="fail-csp"]');
+    this.clearTransaction = document.querySelector('#actions-container button[name="clearTransaction"]');
+    this.signOutButton = document.querySelector('#actions-container button[name="signOut"]');
     this.tokensContainer = document.getElementById('tokens-container');
     this.codeContainer = document.getElementById('code-container');
+    this.errorsContainer = document.getElementById('errors-container');
     this.cspErrorsContainer = document.getElementById('csp-errors-container');
     this.oidcErrorContainer = document.getElementById('oidc-error-container');
+
+    this.callbackContainer.style.display = 'none';
 
     this.addEventListeners();
 
     if (window.location.pathname === '/done') {
-      this.handleLoginCallback();
+      return this.handleLoginCallback();
     }
+
+    this.configArea = new ConfigArea();
+    this.configArea.bootstrap();
   }
 
-  addEventListeners() {
+  renderError(err?: Error): void {
+    if (err) {
+      console.error(err);
+      this.errors.push(err);
+    }
+    this.errors.forEach(err => {
+      const errorEl = document.createElement('div');
+      const message = err.message || err.toString();
+      errorEl.innerHTML = `${message}`;
+      this.errorsContainer.appendChild(errorEl);
+    });
+  }
+
+  addEventListeners(): void {
     // csp listener
     document.addEventListener('securitypolicyviolation', (err) => {
       this.cspErrors = [...this.cspErrors, err];
@@ -122,29 +207,16 @@ export default class TestApp {
       });
     });
 
-    // config editor
-    this.configEditor.addEventListener('input', (event: any) => {
-      const { value } = event.target;
-      this.configEditor.textContent = value;
-      // set valid config to preview 
-      try {
-        const parsedConfig = JSON.parse(value);
-        this.configPreview.innerHTML = JSON.stringify(parsedConfig, null, 2);
-        localStorage.setItem('okta-widget-config', JSON.stringify(parsedConfig));
-      } catch (e) {
-        // do nothing, only render preview when config is ready as JSON format
-      }
-    });
-
     // actions
     this.startButton.addEventListener('click', async () => {
       const config = this.getConfig();
       this.oktaSignIn = await getOktaSignIn(config);
       this.oktaSignIn.renderEl({
         el: '#okta-login-container'
-      }, (res: any) => {
+      }, (res: RenderResponse) => {
         if (res.status === 'SUCCESS' && res.session) {
-          res.session.setCookieAndRedirect(config.baseUrl + '/app/UserHome');
+          const baseUrl = getBaseUrl(config);
+          res.session.setCookieAndRedirect(baseUrl + '/app/UserHome');
         }
         if (res.tokens) {
           this.setTokens(res.tokens);
@@ -162,15 +234,25 @@ export default class TestApp {
       this.oktaSignIn.remove();
       this.oktaSignIn = null;
     });
+    this.showSignInButton.addEventListener('click', async () => {
+      const config = this.getConfig();
+      this.oktaSignIn = await getOktaSignIn(config);
+      this.oktaSignIn.showSignIn({ el: '#okta-login-container' }).then((res: TokenResponse) => {
+        if (res.tokens) {
+          this.setTokens(res.tokens);
+          this.oktaSignIn.remove();
+        }
+      });
+    });
     this.showSignInAndRedirectButton.addEventListener('click', async () => {
       const config = this.getConfig();
       this.oktaSignIn = await getOktaSignIn(config);
-      this.oktaSignIn.showSignInAndRedirect();
+      this.oktaSignIn.showSignInAndRedirect({ el: '#okta-login-container' });
     });
     this.showSignInToGetTokensButton.addEventListener('click', async () => {
       const config = this.getConfig();
       this.oktaSignIn = await getOktaSignIn(config);
-      this.oktaSignIn.showSignInToGetTokens().then((tokens: Tokens) => {
+      this.oktaSignIn.showSignInToGetTokens({ el: '#okta-login-container' }).then((tokens: Tokens) => {
         this.setTokens(tokens);
         this.oktaSignIn.remove();
       });
@@ -180,7 +262,7 @@ export default class TestApp {
       this.oktaSignIn = await getOktaSignIn(config);
       this.oktaSignIn.renderEl(
         { el: '#okta-login-container' },
-        (res: any) => {
+        (res: RenderResponse) => {
           if (res.status !== 'SUCCESS') {
             return;
           }
@@ -191,7 +273,7 @@ export default class TestApp {
           this.setOidcError(err);
         }
       );
-      this.oktaSignIn.on('afterError', (context: any, error: any) => {
+      this.oktaSignIn.on('afterError', (context: never, error: Error) => {
         console.log(context, error);
       });
     });
@@ -203,9 +285,23 @@ export default class TestApp {
         console.warn(e);
       }
     });
+    this.clearTransaction.addEventListener('click', async () => {
+      if (!this.oktaSignIn) {
+        const config = this.getConfig();
+        this.oktaSignIn = await getOktaSignIn(config);
+      }
+      this.oktaSignIn.authClient.transactionManager.clear();
+    });
+    this.signOutButton.addEventListener('click', async () => {
+      if (!this.oktaSignIn) {
+        const config = this.getConfig();
+        this.oktaSignIn = await getOktaSignIn(config);
+      }
+      this.oktaSignIn.authClient.signOut();
+    });
   }
 
-  getConfig() {
+  getConfig(): Config {
     let config;
     try {
       config = JSON.parse(this.configPreview.innerHTML);
@@ -215,19 +311,25 @@ export default class TestApp {
     return config;
   }
 
-  setTokens(tokens: Tokens) {
+  setTokens(tokens: Tokens): void {
     this.tokensContainer.innerHTML = JSON.stringify(tokens, null, 2);
   }
 
-  setCode(code: string) {
+  setCode(code: string): void {
     this.codeContainer.innerHTML = code;
   }
 
-  setOidcError(err: AuthSdkError) {
+  setOidcError(err: AuthSdkError): void {
     this.oidcErrorContainer.innerHTML = JSON.stringify(err);
   }
 
-  handleLoginCallback() {
+  handleLoginCallback(): void {
+    this.callbackContainer.style.display = 'block';
+    this.configContainer.style.display = 'none';
+    document.querySelectorAll('#actions-container .pure-menu-item:not(.visible-on-callback').forEach(el => {
+      (el as HTMLElement).style.display = 'none';
+    });
+
     // add responseMode to config
     let responseMode;
     if (window.location.search.indexOf('code') >= 0) {
@@ -235,7 +337,7 @@ export default class TestApp {
     } else if (window.location.hash.indexOf('code') >= 0) {
       responseMode = 'fragment';
     }
-    const config = JSON.parse(localStorage.getItem('okta-widget-config'));
+    const config = getConfigFromStorage();
     config.authParams = config.authParams || {};
     config.authParams.responseMode = responseMode;
 
@@ -254,7 +356,7 @@ export default class TestApp {
           })
       } else {
         promise = authClient.token.parseFromUrl()
-          .then((res: any) => {
+          .then((res: TokenResponse) => {
             this.setTokens(res.tokens);
             this.setCode(res.code);
           });
@@ -262,10 +364,7 @@ export default class TestApp {
       
       promise
         .catch(function(err: Error) {
-          console.log(err);
-        })
-        .finally(() => {
-          window.history.pushState({}, '', '/');
+          this.renderError(err);
         });
     }
   }
