@@ -11,6 +11,7 @@
  */
 
 import { _ } from 'okta';
+import { loc } from 'okta';
 import bundles from './Bundles';
 import countryCallingCodes from './countryCallingCodes';
 const fn = {};
@@ -54,7 +55,7 @@ fn.getCountryCode = function(){
   const sorted = {};
 
   _.each(collection, function(country) {
-    sorted[country.code] = country.name +' (' + country.code + ')';
+    sorted[country.code] = loc('country.option.label', 'login', [country.name, country.code]);
   });
 
   return sorted;
