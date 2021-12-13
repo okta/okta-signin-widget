@@ -72,11 +72,11 @@ export default class BasePageObject {
   }
 
   hasIdentifier() {
-    return this.form.elementExist('.identifier-container');
+    return this.form.elementExist('[data-se="identifier"]');
   }
 
   getIdentifier() {
-    return this.getTextContent('.identifier-container');
+    return this.getTextContent('[data-se="identifier"]');
   }
 
   getFormFieldLabel(field) {

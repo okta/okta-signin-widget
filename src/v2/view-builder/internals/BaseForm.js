@@ -81,10 +81,11 @@ export default Form.extend({
     if (identifier) {
       // add identifier below title
       // if no title ('terminal-reset-password-success'), do what?
-      this.$el
-        .find('[data-se="o-form-head"]')
+      const header = this.$el.find('[data-se="o-form-head"]');
+      header.addClass('has-identifier');
+      header
         .after(
-          `<div class="identifier-container"><span class="identifier" data-se="identifier">${identifier}</span></div>`,
+          `<span class="identifier" data-se="identifier" title=${identifier}>${identifier}</span>`,
         );
     }
   },

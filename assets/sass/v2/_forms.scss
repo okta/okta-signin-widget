@@ -26,18 +26,22 @@
         float: right;
       }
     }
-    .identifier-container {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 15px;
+    .o-form-head.has-identifier {
+      margin-bottom: 10px;
     }
     .identifier {
-      color: $black;
-      font-weight: $font-weight-labels;
-      display: inline-block;
-      border-radius: 15px;
-      border: $border-default;
-      padding: 5px 10px;
+      font-size: $body-font-size;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .identifier::before {
+      content: url('../img/icons/identifier/user-icon.svg');
+      vertical-align: -20%;
+      padding-right: 4px;
     }
   }
 
