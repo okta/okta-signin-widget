@@ -144,6 +144,8 @@ const I18N_OVERRIDE_MAPPINGS = {
 
   'enroll-profile.userProfile.lastName': 'oie.user.profile.lastname',
   'enroll-profile.userProfile.firstName': 'oie.user.profile.firstname',
+  'enroll-profile.userProfile.countryCode': 'oie.user.profile.countryCode',
+  'enroll-profile.userProfile.timezone': 'oie.user.profile.timezone',
   'enroll-profile.userProfile.email': 'oie.user.profile.primary.email',
   'profile-update.userProfile.secondEmail': 'oie.user.profile.secondary.email',
 
@@ -168,6 +170,9 @@ const I18N_OVERRIDE_MAPPINGS = {
   'core.auth.factor.signedNonce.error.invalidFactor': 'core.auth.factor.signedNonce.error',
   'core.auth.factor.signedNonce.error.deletedDevice': 'core.auth.factor.signedNonce.error',
   'core.auth.factor.signedNonce.error.invalidDeviceStatus': 'core.auth.factor.signedNonce.error.invalidDevice',
+
+  // re-map autoPush: Send push automatically for mock authenticator-verification-okta-verify-push-autoChallenge-on
+  'challenge-poll.okta_verify.autoChallenge': 'autoPush'
 };
 
 const I18N_PARAMS_MAPPING = {
