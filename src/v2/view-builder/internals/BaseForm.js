@@ -77,22 +77,29 @@ export default Form.extend({
     const infoContainer= '<div class=\'o-form-info-container\'></div>';
     this.$el.find('.o-form-error-container').before(infoContainer);
 
-    const { identifier } = this.options.appState.get('user') || {};
-    if (identifier) {
-      // add identifier below title
-      // if no title ('terminal-reset-password-success'), do what?
-      const header = this.$el.find('[data-se="o-form-head"]');
-      const isTerminalView = this.options.currentViewState.name === 'terminal';
-      const identifierHTMLString =
-        `<span class="identifier" data-se="identifier" title=${identifier}>${identifier}</span>`;
+    this.addIdentifier();
+  },
 
-      if (header.length) {
-        header.addClass('has-identifier');
-        header.after(identifierHTMLString);
-      } else if (isTerminalView) {
-        this.$el.find('.o-form-error-container').after(identifierHTMLString);
-        this.$el.find('.identifier').addClass('is-terminal');
-      }
+  /**
+   * Render user identifier below title, or if no title, render below message.
+   */
+  addIdentifier() {
+    const { identifier } = this.options.appState.get('user') || {};
+    if (!identifier) {
+      return;
+    }
+
+    const header = this.$el.find('[data-se="o-form-head"]');
+    const isTerminalView = this.options.currentViewState.name === 'terminal';
+    const identifierHTMLString =
+      `<span class="identifier" data-se="identifier" title=${identifier}>${identifier}</span>`;
+
+    if (header.length) {
+      header.addClass('has-identifier');
+      header.after(identifierHTMLString);
+    } else if (isTerminalView) {
+      this.$el.find('.o-form-error-container').after(identifierHTMLString);
+      this.$el.find('.identifier').addClass('is-terminal');
     }
   },
 
