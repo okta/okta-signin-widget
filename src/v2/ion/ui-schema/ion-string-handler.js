@@ -47,9 +47,8 @@ const countryUISchema = {
 
 const timezoneUISchema = {
   type: 'select',
-  options: TimeZone.getTimeZone(),
-  wide: true,
-  value: 'PST',
+  options: TimeZone,
+  wide: true
 };
 
 const shouldRenderAsRadio = (name) => name.indexOf('methodType') >= 0 || name.indexOf('channel') >= 0;
