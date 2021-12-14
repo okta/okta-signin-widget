@@ -82,11 +82,17 @@ export default Form.extend({
       // add identifier below title
       // if no title ('terminal-reset-password-success'), do what?
       const header = this.$el.find('[data-se="o-form-head"]');
-      header.addClass('has-identifier');
-      header
-        .after(
-          `<span class="identifier" data-se="identifier" title=${identifier}>${identifier}</span>`,
-        );
+      const isTerminalView = this.options.currentViewState.name === 'terminal';
+      const identifierHTMLString =
+        `<span class="identifier" data-se="identifier" title=${identifier}>${identifier}</span>`;
+
+      if (header.length) {
+        header.addClass('has-identifier');
+        header.after(identifierHTMLString);
+      } else if (isTerminalView) {
+        this.$el.find('.o-form-error-container').after(identifierHTMLString);
+        this.$el.find('.identifier').addClass('is-terminal');
+      }
     }
   },
 

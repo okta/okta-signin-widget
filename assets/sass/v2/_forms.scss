@@ -37,6 +37,10 @@
       display: flex;
       justify-content: center;
       margin-bottom: 24px;
+      &.is-terminal {
+        margin-bottom: 0;
+        margin-top: -10px;
+      }
     }
     .identifier::before {
       content: url('../img/icons/identifier/user-icon.svg');
