@@ -88,6 +88,9 @@ export default Form.extend({
     if (!identifier) {
       return;
     }
+    if (!this.settings.get('features.showIdentifier')) {
+      return;
+    }
 
     const header = this.$el.find('[data-se="o-form-head"]');
     const isTerminalView = this.options.currentViewState.name === 'terminal';
