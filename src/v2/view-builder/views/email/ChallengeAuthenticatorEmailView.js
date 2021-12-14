@@ -74,6 +74,8 @@ const Body = BaseAuthenticatorEmailForm.extend(
     },
 
     postRender() {
+      BaseAuthenticatorEmailForm.prototype.postRender.apply(this, arguments);
+
       this.showCodeEntryField(false);
     },
 

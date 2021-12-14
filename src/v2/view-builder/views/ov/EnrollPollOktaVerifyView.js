@@ -39,6 +39,8 @@ const Body = BaseForm.extend(Object.assign(
       this.startPolling();
     },
     postRender() {
+      BaseForm.prototype.postRender.apply(this, arguments);
+
       if ((BrowserFeatures.isAndroid() || BrowserFeatures.isIOS()) &
         this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'qrcode') {
         this.options.appState.trigger('switchForm', RemediationForms.SELECT_ENROLLMENT_CHANNEL);
