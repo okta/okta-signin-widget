@@ -1,9 +1,14 @@
-export default {
+import {_, loc} from 'okta';
+
+const fn = {};
+
+// This timezone list could be updated in the future
+const timeZone ={
   GMT: 'UTC',
   WET: 'WET',
   CET: 'CET',
-  MET: 'CET',
-  ECT: 'CET',
+  MET: 'MET',
+  ECT: 'ECT',
   EET: 'EET',
   MIT: 'Pacific/Apia',
   HST: 'Pacific/Honolulu',
@@ -33,3 +38,17 @@ export default {
   SST: 'Pacific/Guadalcanal',
   NST: 'Pacific/Auckland',
 };
+
+fn.getTimeZone = function(){
+
+  const translated = {};
+  const keys = Object.keys(timeZone);
+
+  _.each(keys, function(key) {
+    translated[key] = loc('timezone.option.label', 'login', [timeZone[key]]);
+  });
+
+  return translated;
+};
+
+export default fn;
