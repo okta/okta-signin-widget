@@ -1,0 +1,231 @@
+{
+  "stateHandle": "02ciZ1YTWakSanNu8GNNTnTXzhL5hoLzTlR0JewfG3",
+  "version": "1.0.0",
+  "expiresAt": "2020-09-02T15:58:07.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "authenticator-verification-data",
+        "relatesTo": [
+          "$.currentAuthenticator"
+        ],
+        "href": "http://localhost:3000/idp/idx/challenge",
+        "method": "POST",
+        "value": [
+          {
+            "name": "authenticator",
+            "label": "",
+            "form": {
+              "value": [
+                {
+                  "name": "id",
+                  "required": true,
+                  "value": "aut13qrZReYpIib7R0g4",
+                  "mutable": false
+                },
+                {
+                  "name": "methodType",
+                  "type": "string",
+                  "required": true,
+                  "options": [
+                    {
+                      "label": "push notification",
+                      "value": "push"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02ciZ1YTWakSanNu8GNNTnTXzhL5hoLzTlR0JewfG3",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/ion+json; okta-version=1.0.0"
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-authenticate",
+        "href": "http://localhost:3000/idp/idx/challenge",
+        "method": "POST",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut13qrZReYpIib7R0g4",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "type": "string",
+                        "required": false,
+                        "options": [
+                          {
+                            "label": "Get a push notification",
+                            "value": "push"
+                          },
+                          {
+                            "label": "Enter a code",
+                            "value": "totp"
+                          },
+                          {
+                            "label": "Use Okta FastPass",
+                            "value": "signed_nonce"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02ciZ1YTWakSanNu8GNNTnTXzhL5hoLzTlR0JewfG3",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/ion+json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "send": {
+        "rel": [
+          "create-form"
+        ],
+        "name": "send",
+        "href": "http://localhost:3000/idp/idx/challenge/send",
+        "method": "POST",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02ciZ1YTWakSanNu8GNNTnTXzhL5hoLzTlR0JewfG3",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/ion+json; okta-version=1.0.0"
+      },
+      "type": "app",
+      "key": "okta_verify",
+      "id": "aut13qrZReYpIib7R0g4",
+      "displayName": "",
+      "methods": [
+        {
+          "type": "push"
+        },
+        {
+          "type": "totp"
+        },
+        {
+          "type": "signed_nonce"
+        }
+      ]
+    }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "app",
+        "key": "okta_verify",
+        "id": "aut13qrZReYpIib7R0g4",
+        "displayName": "",
+        "methods": [
+          {
+            "type": "push"
+          },
+          {
+            "type": "totp"
+          },
+          {
+            "type": "signed_nonce"
+          }
+        ]
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "type": "app",
+        "key": "okta_verify",
+        "id": "pfd3a9cMcr0ZYWJ8t0g4",
+        "displayName": "",
+        "methods": [
+          {
+            "type": "signed_nonce"
+          },
+          {
+            "type": "push"
+          },
+          {
+            "type": "totp"
+          }
+        ]
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u2x779KA0h4HgM40g4"
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02ciZ1YTWakSanNu8GNNTnTXzhL5hoLzTlR0JewfG3",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/ion+json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "oidc_client",
+      "label": "test",
+      "id": "0oa13qtA9bXl2q7Qu0g4"
+    }
+  }
+}
+  
