@@ -155,9 +155,6 @@
     "type": "array",
     "value": [
       {
-        "profile": {
-          "email": "i***1@okta.com"
-        },
         "type": "email",
         "key": "okta_email",
         "id": "eae2ep99TyJZdLB8R0g4",
@@ -174,13 +171,7 @@
     "type": "object",
     "value": {
       "id": "00u2ep8CG3BouMb750g4",
-      "identifier": "testUser@okta.com",
-      "profile": {
-        "firstName": "Test",
-        "lastName": "user1",
-        "timeZone": "America/Los_Angeles",
-        "locale": "en_US"
-      }
+      "identifier": "testUser@okta.com"
     }
   },
   "cancel": {
