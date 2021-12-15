@@ -194,7 +194,7 @@ test
 
     const emailAddress = emailVerificationSendEmailData.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql(`Verify with an email link or enter a code sent to ${emailAddress}`);
+      .eql(`Verify with an email link or enter a code sent to ${emailAddress}.`);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
@@ -212,7 +212,7 @@ test
     await t.expect(saveBtnText).eql('Send me an email');
 
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql('Verify with an email link or enter a code sent to your email');
+      .eql('Verify with an email link or enter a code sent to your email.');
   });
 
 test
@@ -225,7 +225,7 @@ test
     await t.expect(saveBtnText).eql('Send me an email');
 
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql('Verify with an email link or enter a code sent to your email');
+      .eql('Verify with an email link or enter a code sent to your email.');
   });
 
 test
