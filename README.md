@@ -724,7 +724,7 @@ signIn.after('identify', async () => {
 
 ## Configuration
 
-The only required configuration option is `baseUrl`. All others are optional.
+For non-OIDC applications, the only required configuration option is `baseUrl`. All others are optional.
 
 ```javascript
 // Basic example
@@ -752,46 +752,42 @@ var signIn = new OktaSignIn(config);
 
 ### OIDC Applications
 
-For OIDC applications, you need to set the `clientId` and `redirectUri` (in addition to `baseUrl`).
+For OIDC applications, you need to set the `clientId` and `redirectUri`. If `issuer` is not set, it will be inferred from `baseUrl`.
 
 ```javascript
 var config = {
-  baseUrl: 'https://{yourOktaDomain}',
+  baseUrl: 'https://{yourOktaDomain}', // issuer will be https://{yourOktaDomain}/oauth2/default
   clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}'
 }
 ```
 
-By default, the issuer ([Authorization Server][]) will be set to the default [Custom Authorization Server][]: 
+By default, the issuer ([Authorization Server][]) will be set to the default [Custom Authorization Server][].
 
 ```javascript
 // default issuer
 config.baseUrl + '/oauth2/default'
 ```
 
-A different [Custom Authorization Server][] can be specified by setting the `issuer` in the `authParams` section:
+A different [Custom Authorization Server][] can be specified by setting the `issuer` explicitly:
 
 ```javascript
 var config = {
-  baseUrl: 'https://{yourOktaDomain}',
+  issuer: 'https://{yourOktaDomain}/oauth2/custom',
   clientId: '{{clientId of your OIDC app}}',
-  redirectUri: '{{redirectUri configured in OIDC app}}',
-  authParams: {
-    issuer: 'https://{yourOktaDomain}/oauth2/{authServerID}'
-  }
+  redirectUri: '{{redirectUri configured in OIDC app}}'
 }
 ```
 
-Some applications, such as those that require access to the Okta User API, will want to use the Okta Organization [Authorization Server][] as the issuer. In this case the `issuer` should match the `baseUrl`:
+If `issuer` is set, there is no need to set `baseUrl`.
+
+Some applications, such as those that require access to the Okta User API, will want to use the Okta Organization [Authorization Server][] as the issuer. In this case the `issuer` should match your Okta domain:
 
 ```javascript
 var config = {
-  baseUrl: 'https://{yourOktaDomain}',
+  issuer: 'https://{yourOktaDomain}',
   clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
-  authParams: {
-    issuer: 'https://{yourOktaDomain}'
-  }
 }
 ```
 
@@ -1333,6 +1329,8 @@ OIDC flow is required for [Social Login][].
 
 | **Note**: Configuration values can be found in the Okta Admin UI under the application's "General Settings"
 
+- **issuer:** Specify a custom issuer to perform the [OIDC][] flow. Defaults to the baseUrl plus "/oauth2/default". See the guide on setting up a [Custom Authorization Server][] for more information.
+
 - **clientId:** Client Id of the application. Required for OIDC flow. If this option is not set, all other options in [this section](#openid-connect) are ignored.
 
     ```javascript
@@ -1380,7 +1378,7 @@ OIDC flow is required for [Social Login][].
 - **authClient:** An [AuthJS](https://github.com/okta/okta-auth-js) instance. This will be available on the widget instance as the [authClient](#authclient) property. 
  **Note:** If the `authClient` option is used, `authParams` will be ignored.
 
-- **authParams:** An object containing configuration which is used to create the internal [authClient`](#authclient). Selected options are described below. See the full set of [Configuration options](https://github.com/okta/okta-auth-js#configuration-options)
+- **authParams:** An object containing configuration which is used to create the internal [authClient`](#authclient). Selected options are described below. See the full set of [Configuration options](https://github.com/okta/okta-auth-js#configuration-options). Certain options, such as `clientId`, `redirectUri`, and `issuer` can be set either as top-level configuration options or inside `authParams`. Values in `authParams` are more specific and will override values specified at the top-level.
 
 - **authParams.pkce:** Set to `false` to disable [PKCE][] flow
 
