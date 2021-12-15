@@ -36,7 +36,7 @@ const BaseEmailMagicLinkOTPTerminalView = View.extend({
 
 const OTPInformationTerminalView = BaseEmailMagicLinkOTPTerminalView.extend({
   template: hbs`
-  <h1 class='otp-value'>{{otp}}</h1>
+  <h1 class='otp-value no-translate'>{{otp}}</h1>
   <div class="enduser-email-consent--info">
     <div>{{i18n code="idx.return.link.otponly.request" bundle="login"}}</div>
   </div>
