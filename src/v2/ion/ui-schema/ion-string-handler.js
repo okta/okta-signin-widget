@@ -11,8 +11,11 @@
  */
 
 /* eslint max-depth: [2, 3] */
+/* eslint complexity: [2, 20] */
 import { loc } from 'okta';
 import { HINTS } from '../RemediationConstants';
+import CountryUtil from '../../../util/CountryUtil';
+import TimeZone from '../../view-builder/utils/TimeZone';
 
 const ionOptionsToUiOptions = (options) => {
   const result = {};
@@ -35,6 +38,19 @@ const getCaptchaUiSchema = () => {
   };
 };
 
+const countryUISchema = {
+  type: 'select',
+  options: CountryUtil.getCountryCode(),
+  wide: true,
+  value: 'US',
+};
+
+const timezoneUISchema = {
+  type: 'select',
+  options: TimeZone,
+  wide: true
+};
+
 const shouldRenderAsRadio = (name) => name.indexOf('methodType') >= 0 || name.indexOf('channel') >= 0;
 
 const createUiSchemaForString = (ionFormField, remediationForm, transformedResp, createUISchema, settings) => {
@@ -51,14 +67,20 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
     Object.assign(uiSchema, getCaptchaUiSchema());
   }
 
-  if (Array.isArray(ionFormField.options)) {
+  if(ionFormField.name === 'userProfile.countryCode'){
+    Object.assign(uiSchema, countryUISchema);
+  }
+
+  if(ionFormField.name === 'userProfile.timezone'){
+    Object.assign(uiSchema, timezoneUISchema);
+  }
+
+  if (Array.isArray(ionFormField.options) && ionFormField.options[0] && ionFormField.options[0].value) {
     if (shouldRenderAsRadio(ionFormField.name)) {
       // e.g. { name: 'methodType', options: [ {label: 'sms'} ], type: 'string' | null }
       uiSchema.type = 'radio';
       // set the default value to the first value..
-      if (ionFormField.options[0] && ionFormField.options[0].value) {
-        ionFormField.value = ionFormField.options[0].value;
-      }
+      ionFormField.value = ionFormField.options[0].value;
     } else {
       // default to select (dropdown). no particular reason (certainly can default to radio.)
       // e.g. { name: 'questionKey', options: [], type: 'string' | null }
@@ -69,10 +91,8 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
   }
 
   // set optional label for text boxes
-  if(ionFormField.required === false) {
-    if(uiSchema.type === 'text') {
-      uiSchema.sublabel = loc('oie.form.field.optional', 'login');
-    }
+  if(ionFormField.required === false && uiSchema.type === 'text') {
+    uiSchema.sublabel = loc('oie.form.field.optional', 'login');
   }
 
   return uiSchema;

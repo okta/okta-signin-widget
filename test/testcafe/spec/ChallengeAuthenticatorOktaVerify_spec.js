@@ -5,6 +5,8 @@ import ChallengeOktaVerifyTotpPageObject from '../framework/page-objects/Challen
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import xhrOktaVerifyOnlyMethodsWithoutDeviceKnown
   from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-ov-only-without-device-known';
+import xhrOktaVerifyPushOnlyWithoutAutoChallenge
+  from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-okta-verify-push-only-without-autochallenge';
 import xhrChallengeTotpOktaVerifyOnly
   from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp-onlyOV';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
@@ -22,6 +24,10 @@ const requestLogger = RequestLogger(/challenge/,
     stringifyRequestBody: true,
   }
 );
+
+const mockChallengeOVPushOnlySelectMethod = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrOktaVerifyPushOnlyWithoutAutoChallenge);
 
 const mockChallengeOVSelectMethod = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -64,13 +70,13 @@ async function verifySelectAuthenticator(t, selectAuthenticatorPage, expectedRes
   await t.expect(JSON.parse(requestLog.body)).eql(expectedResponse);
 }
 
-async function setup(t) {
+async function setup(t, factorsCount = 3) {
   const selectAuthenticatorPageObject = new SelectAuthenticatorPageObject(t);
   await selectAuthenticatorPageObject.navigateToPage();
 
   await t.expect(selectAuthenticatorPageObject.getFormTitle()).eql(FORM_TITLE);
   await t.expect(selectAuthenticatorPageObject.getFormSubtitle()).eql(FORM_SUBTITLE);
-  await t.expect(selectAuthenticatorPageObject.getFactorsCount()).eql(3);
+  await t.expect(selectAuthenticatorPageObject.getFactorsCount()).eql(factorsCount);
 
   return selectAuthenticatorPageObject;
 }
@@ -81,6 +87,16 @@ test.requestHooks(mockChallengeOVSelectMethod)('preserve the order of authentica
   await verifyFactorByIndex(t, selectAuthenticatorPage, 0, PUSH_NOTIFICATION_TEXT);
   await verifyFactorByIndex(t, selectAuthenticatorPage, 1, ENTER_CODE_TEXT);
   await verifyFactorByIndex(t, selectAuthenticatorPage, 2, FAST_PASS_TEXT);
+
+  // signout link at enroll page
+  await t.expect(await selectAuthenticatorPage.signoutLinkExists()).ok();
+  await t.expect(selectAuthenticatorPage.getSignoutLinkText()).eql(SIGN_OUT_TEXT);
+});
+
+test.requestHooks(mockChallengeOVPushOnlySelectMethod)('authenticator list should have just the push notification', async t => {
+  const selectAuthenticatorPage = await setup(t, 1);
+
+  await verifyFactorByIndex(t, selectAuthenticatorPage, 0, PUSH_NOTIFICATION_TEXT);
 
   // signout link at enroll page
   await t.expect(await selectAuthenticatorPage.signoutLinkExists()).ok();
