@@ -5,6 +5,7 @@ import _ from 'underscore';
 
 export default function(options) {
   var authParams = _.extend({
+    issuer: options.issuer,
     clientId: options.clientId,
     redirectUri: options.redirectUri,
     state: options.state,

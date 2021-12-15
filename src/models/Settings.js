@@ -120,6 +120,7 @@ export default Model.extend({
     },
 
     // OAUTH2
+    issuer: 'string',
     clientId: 'string',
     redirectUri: 'string',
     state: 'string',
@@ -352,9 +353,24 @@ export default Model.extend({
   },
 
   initialize: function(options) {
-    if (!options.baseUrl) {
+    let { baseUrl, colors } = options;
+    if (!baseUrl) {
+      // infer baseUrl from the issuer
+      const { authClient } = options;
+      if (authClient) {
+        baseUrl = authClient.getIssuerOrigin();
+      } else {
+        // issuer can be passed at top-level or in authParams
+        let { issuer, authParams } = options;
+        issuer = issuer || authParams?.issuer;
+        baseUrl = issuer?.split('/oauth2/')[0];
+      }
+      this.set('baseUrl', baseUrl);
+    }
+
+    if (!baseUrl) {
       this.callGlobalError(new ConfigError(loc('error.required.baseUrl')));
-    } else if (options.colors && _.isString(options.colors.brand) && !options.colors.brand.match(/^#[0-9A-Fa-f]{6}$/)) {
+    } else if (colors && _.isString(colors.brand) && !colors.brand.match(/^#[0-9A-Fa-f]{6}$/)) {
       this.callGlobalError(new ConfigError(loc('error.invalid.colors.brand')));
     } else if (BrowserFeatures.corsIsNotSupported()) {
       this.callGlobalError(new UnsupportedBrowserError(loc('error.unsupported.cors')));
