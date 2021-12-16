@@ -22,10 +22,15 @@ import sessionExpired from '../../../playground/mocks/data/idp/idx/error-session
 import tooManyRequest from '../../../playground/mocks/data/idp/idx/error-429-too-many-request';
 import apiLimitExeeeded from '../../../playground/mocks/data/idp/idx/error-429-api-limit-exceeded';
 import emailVerificationSendEmailData from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-email';
+import emailVerificationSendEmailDataNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-email-no-profile';
 
 const emailVerificationEmptyProfile = JSON.parse(JSON.stringify(emailVerificationNoProfile));
 // add empty profile to test
 emailVerificationEmptyProfile.remediation.value[0].profile = {};
+
+const emailVerificationSendEmailDataEmptyProfile = JSON.parse(JSON.stringify(emailVerificationSendEmailDataNoProfile));
+// add empty profile to test
+emailVerificationSendEmailDataEmptyProfile.currentAuthenticatorEnrollment.value.profile = {};
 
 const logger = RequestLogger(/challenge|challenge\/poll|challenge\/answer/,
   {
@@ -39,6 +44,14 @@ const sendEmailMock = RequestMock()
   .respond(emailVerificationSendEmailData)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(emailVerification);
+
+const sendEmailEmptyProfileMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerificationSendEmailDataEmptyProfile);
+
+const sendEmailNoProfileMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerificationSendEmailDataNoProfile);
 
 const validOTPmock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -181,12 +194,38 @@ test
 
     const emailAddress = emailVerificationSendEmailData.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql(`Verify with an email link or enter a code sent to ${emailAddress}`);
+      .eql(`Verify with an email link or enter a code sent to ${emailAddress}.`);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
     await t.expect(await challengeEmailPageObject.signoutLinkExists()).ok();
     await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
+  });
+
+test
+  .requestHooks(sendEmailEmptyProfileMock)('send me an email screen has right labels when profile is empty', async t => {
+    const challengeEmailPageObject = await setup(t);
+
+    const pageTitle = challengeEmailPageObject.getFormTitle();
+    const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
+    await t.expect(pageTitle).contains('Verify with your email');
+    await t.expect(saveBtnText).eql('Send me an email');
+
+    await t.expect(challengeEmailPageObject.getFormSubtitle())
+      .eql('Verify with an email link or enter a code sent to your email.');
+  });
+
+test
+  .requestHooks(sendEmailNoProfileMock)('send me an email screen has right labels when profile is null', async t => {
+    const challengeEmailPageObject = await setup(t);
+
+    const pageTitle = challengeEmailPageObject.getFormTitle();
+    const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
+    await t.expect(pageTitle).contains('Verify with your email');
+    await t.expect(saveBtnText).eql('Send me an email');
+
+    await t.expect(challengeEmailPageObject.getFormSubtitle())
+      .eql('Verify with an email link or enter a code sent to your email.');
   });
 
 test
