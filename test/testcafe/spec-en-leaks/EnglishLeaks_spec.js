@@ -18,7 +18,8 @@ const ignoredMocks = [
   'identify-with-password-with-recaptcha-v2.json', // No english leaks for this, just flaky on bacon due to loading the reCaptcha lib
   'enroll-profile-update-all-optional-params.json', // No english leaks as custom attribute label comes from server
   'enroll-profile-update-params.json', // No english leaks as custom attribute label comes from server
-  'enroll-profile-new-additional-fields' // No english leaks on UI. Country and timezone dropdown values are not localized OKTA-454630
+  'enroll-profile-new-additional-fields.json', // No english leaks on UI. Country and timezone dropdown values are not localized OKTA-454630
+  'enroll-profile-submit.json' // flaky on bacon
 ];
 
 const optionsForInteractionCodeFlow = {
