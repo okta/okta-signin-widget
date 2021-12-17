@@ -1,10 +1,12 @@
 /* eslint max-len: [2, 140] */
+import { loc } from 'okta';
 import OAuth2Util from 'util/OAuth2Util';
 import Util from 'util/Util';
 import getAuthClient from 'widget/getAuthClient';
 import Settings from '../../../src/models/Settings';
 import { AuthSdkError } from '@okta/okta-auth-js';
 import Enums from '../../../src/util/Enums';
+import Errors from '../../../src/util/Errors';
 
 
 describe('util/OAuth2Util', function() {
@@ -67,7 +69,8 @@ describe('util/OAuth2Util', function() {
       'jit_failure_values_too_long',
       'jit_failure_invalid_locale',
     ])('shows SDK errors of certain types', function(errCode, done) {
-      const authException = new AuthSdkError('Auth SDK error');
+      const errorMessage = 'Auth SDK error';
+      const authException = new AuthSdkError(errorMessage);
       authException.errorCode = errCode;
 
       spyOn(authClient.token, 'getWithPopup').and.callFake(function() {
@@ -81,7 +84,15 @@ describe('util/OAuth2Util', function() {
         OAuth2Util.getTokens(settings, {}, controller);
       }).then(function() {
         expect(controller.model.trigger).toHaveBeenCalledTimes(1);
-        expect(controller.model.trigger).toHaveBeenLastCalledWith('error', controller.model, { responseJSON: authException });
+        if (errCode === 'access_denied') {
+          expect(controller.model.trigger).toHaveBeenLastCalledWith('error', controller.model,
+            { responseJSON: authException });
+        } else {
+          expect(controller.model.trigger).toHaveBeenLastCalledWith('error', controller.model,
+            { responseJSON: { errorSummary: loc('error.jit_failure', 'login') }});
+        }
+        expect(Util.triggerAfterError).toHaveBeenCalledTimes(1);
+        expect(Util.triggerAfterError).toHaveBeenCalledWith(controller, new Errors.OAuthError(errorMessage), settings);
         done();
       }).catch(done.fail);
     });
