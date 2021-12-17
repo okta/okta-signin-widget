@@ -223,7 +223,7 @@ exports.config = {
     //
     // Options to be passed to Jasmine.
     jasmineOpts: {
-        defaultTimeoutInterval: 60000
+        defaultTimeoutInterval: 90000
     }
     //
     // =====

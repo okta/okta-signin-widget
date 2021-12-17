@@ -23,7 +23,7 @@ describe('Basic flows', () => {
   });
 
   afterEach(async () => {
-    await browser.refresh();
+    await TestAppPage.ssoLogout();
   });
 
   it('can hide, show, remove, and start a widget', async () => {
