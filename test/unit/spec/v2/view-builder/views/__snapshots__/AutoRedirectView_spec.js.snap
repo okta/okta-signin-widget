@@ -25,7 +25,7 @@ exports[`v2/view-builder/views/AutoRedirectView view renders corectly - default 
         data-se="o-form-content"
       >
         <h2
-          class="okta-form-title o-form-head"
+          class="okta-form-title o-form-head has-identifier"
           data-se="o-form-head"
         >
           Signing in...
@@ -79,7 +79,7 @@ exports[`v2/view-builder/views/AutoRedirectView view renders correctly according
         data-se="o-form-content"
       >
         <h2
-          class="okta-form-title o-form-head"
+          class="okta-form-title o-form-head has-identifier"
           data-se="o-form-head"
         >
           Signing in...
@@ -133,7 +133,7 @@ exports[`v2/view-builder/views/AutoRedirectView view renders correctly according
         data-se="o-form-content"
       >
         <h2
-          class="okta-form-title o-form-head"
+          class="okta-form-title o-form-head has-identifier"
           data-se="o-form-head"
         >
           Signing in to Okta Administration as admin@idx.com
