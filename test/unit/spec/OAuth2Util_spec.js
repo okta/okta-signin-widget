@@ -68,19 +68,19 @@ describe('util/OAuth2Util', function() {
       'jit_failure_values_not_match_pattern',
       'jit_failure_values_too_long',
       'jit_failure_invalid_locale',
-    ])('shows SDK errors of certain types', function(errCode, done) {
+    ])('generates the proper error message for errorCode "%s"', function(errCode, done) {
       const errorMessage = 'Auth SDK error';
       const authException = new AuthSdkError(errorMessage);
       authException.errorCode = errCode;
 
-      spyOn(authClient.token, 'getWithPopup').and.callFake(function() {
+      jest.spyOn(authClient.token, 'getWithPopup').mockImplementation(() => {
         return new Promise(function() {
           throw authException;
         });
       });
 
       return new Promise(function(resolve) {
-        spyOn(Util, 'triggerAfterError').and.callFake(resolve);
+        jest.spyOn(Util, 'triggerAfterError').mockImplementation(resolve);
         OAuth2Util.getTokens(settings, {}, controller);
       }).then(function() {
         expect(controller.model.trigger).toHaveBeenCalledTimes(1);
