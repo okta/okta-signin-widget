@@ -31,6 +31,14 @@ const AUTH_PARAMS = [
 ];
 util.AUTH_PARAMS = AUTH_PARAMS;
 
+const JIT_ERRORS = [
+  'jit_failure_missing_fields',
+  'jit_failure_invalid_login_format',
+  'jit_failure_values_not_match_pattern',
+  'jit_failure_values_too_long',
+  'jit_failure_invalid_locale',
+];
+
 /**
  * Get the tokens in the OIDC/OAUTH flows
  *
@@ -46,10 +54,15 @@ util.getTokens = function(settings, params, controller) {
   function error(error) {
     let showError = false;
     let responseJSON = error;
-  
-    // user is not assigned to OIDC client
+
+    // User is not assigned to OIDC client
     if (error.errorCode === 'access_denied') {
       showError = true;
+    }
+
+    if (JIT_ERRORS.includes(error.errorCode)) {
+      showError = true;
+      responseJSON = { errorSummary: loc('error.jit_failure', 'login') };
     }
 
     // MFA is required but prompt=none (authn V1)
