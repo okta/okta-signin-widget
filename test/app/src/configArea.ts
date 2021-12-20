@@ -117,7 +117,6 @@ export default class ConfigArea {
   }
 
   updateConfigPreview(value: string): void {
-    this.configEditor.textContent = value;
     try {
       const parsedConfig = JSON.parse(value);
       this.configPreview.innerHTML = configToString(parsedConfig);
