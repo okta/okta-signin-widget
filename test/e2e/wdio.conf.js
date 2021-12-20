@@ -173,7 +173,7 @@ exports.config = {
         ['junit', {
             outputDir: 'build2/reports/junit',
             outputFileFormat: function() { // optional
-                return 'e2e-wdio-results.xml';
+                return 'e2e-results.xml';
             }
         }]
     ],

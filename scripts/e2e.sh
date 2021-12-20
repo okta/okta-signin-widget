@@ -22,8 +22,8 @@ export WIDGET_WEB_CLIENT_ID=0oa8ls36zUZj7oFJ2696
 
 export ORG_OIE_ENABLED=true
 
-if ! yarn test:e2e:wdio; then
-  echo "e2e wdio tests failed! Exiting..."
+if ! yarn test:e2e; then
+  echo "e2e tests failed! Exiting..."
   exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
 fi
 

@@ -35,7 +35,7 @@
     "test:karma": "echo \"DEPRECATED: Please run 'yarn test -t karma' instead.\" && exit 1",
     "test": "node scripts/buildtools test",
     "prestart:basic": "grunt copy:e2e-pages",
-    "test:e2e:wdio": "yarn build:release && node test/e2e-wdio/runner.js",
+    "test:e2e": "yarn build:release && node test/e2e/runner.js",
     "test:testcafe-setup": "mkdir -p test-reports/testcafe && yarn start --mock mockDuo --open false",
     "test:testcafe-run": "yarn test -t testcafe -c 2 chrome:headless --reporter xunit:build2/reports/junit/testcafe-results.xml",
     "test:testcafe-ci": "run-p -r test:testcafe-setup \"test:testcafe-run\" -- 2>/dev/null",

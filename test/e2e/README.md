@@ -41,13 +41,13 @@ yarn start:test:app
 #### Run all specs:
 
 ```sh
-yarn wdio ./test/e2e-wdio/wdio.conf.js
+yarn wdio ./test/e2e/wdio.conf.js
 ```
 
 #### Run single spec:
 
 ```sh
-yarn wdio ./test/e2e-wdio/wdio.conf.js --spec ./test/e2e-wdio/specs/{filename}
+yarn wdio ./test/e2e/wdio.conf.js --spec ./test/e2e/specs/{filename}
 ```
 
 ### Add a new test case
