@@ -17,9 +17,9 @@ aws s3 --quiet --region us-east-1 cp s3://ci-secret-stash/prod/signinwidget/expo
 source $OKTA_HOME/$REPO/scripts/export-test-credentials.sh
 
 # We use the below OIE enabled org and clients for OIE tests
-export WIDGET_TEST_SERVER=https://oie-widget-tests.sigmanetcorp.us
-export WIDGET_SPA_CLIENT_ID=0oa3mtlnedKzXMeto0g7
-export WIDGET_WEB_CLIENT_ID=0oa3mvgsvrEdck9GO0g7
+export WIDGET_TEST_SERVER=https://oie-signin-widget.okta.com
+export WIDGET_SPA_CLIENT_ID=0oa8lrg7ojTsbJgRQ696
+export WIDGET_WEB_CLIENT_ID=0oa8ls36zUZj7oFJ2696
 
 export ORG_OIE_ENABLED=true
 
