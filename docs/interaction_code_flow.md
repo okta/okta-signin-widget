@@ -619,7 +619,7 @@ new OktaSignIn({
 
 // forgot_password.html
 new OktaSignIn({
-  flow: 'forgotPassword'
+  flow: 'resetPassword'
 });
 
 // unlock_account.html
