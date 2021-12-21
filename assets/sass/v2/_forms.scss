@@ -29,20 +29,24 @@
     .o-form-head.has-identifier {
       margin-bottom: 10px;
     }
+    .identifier-container {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      text-align: center;
+    }
     .identifier {
       font-size: $body-font-size;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
-      display: flex;
-      justify-content: center;
       margin-bottom: 24px;
       &.is-terminal {
         margin-bottom: 0;
         margin-top: -10px;
       }
     }
-    .identifier::before {
+    .identifier-container::before {
       content: url('../img/icons/identifier/user-icon.svg');
       vertical-align: -20%;
       padding-right: 4px;
