@@ -26,7 +26,7 @@ const Body = BaseForm.extend({
 
     const appName = appInstanceName ? appInstanceName : appDisplayName;
 
-    if (appName && userEmail) {
+    if (appName && userEmail && !this.settings.get('features.showIdentifier')) {
       titleString = loc('oie.success.text.signingIn.with.appName.and.identifier', 'login', [appName, userEmail]);
     } else if (appName) {
       titleString = loc('oie.success.text.signingIn.with.appName', 'login', [appName]);

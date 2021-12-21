@@ -51,6 +51,17 @@ describe('v2/view-builder/views/AutoRedirectView', function() {
       'interstitialBeforeLoginRedirect': INTERSTITIAL_REDIRECT_VIEW.DEFAULT
     });    
     testContext.init();
-    expect(testContext.view.el).toMatchSnapshot('should have spinner');
+    expect(testContext.view.el).toMatchSnapshot('should have spinner, app name, and user identifier');
+  });
+
+
+  it('renders user identifier in title when features.showIdentifier is false', function() {
+    settings = new Settings({
+      baseUrl: 'http://localhost:3000',
+      'interstitialBeforeLoginRedirect': INTERSTITIAL_REDIRECT_VIEW.DEFAULT,
+      'features.showIdentifier': false,
+    });
+    testContext.init();
+    expect(testContext.view.el).toMatchSnapshot('should show identifier in title');
   });
 });
