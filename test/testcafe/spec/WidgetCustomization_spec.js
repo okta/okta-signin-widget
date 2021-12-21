@@ -177,3 +177,16 @@ test.requestHooks(mockAuthenticatorPasswordExpiryWarning)('should show custom br
   });
   await t.expect(passwordExpiryWarningPage.getFormSubtitle()).eql('When password expires you will be locked out of your Spaghetti Inc account.');
 });
+
+test.requestHooks(mockAuthenticatorPasswordExpiryWarning)('should show user\'s identifier by default if user context exists', async t => {
+  const passwordExpiryWarningPage = await setupPasswordExpired(t);
+  await t.expect(passwordExpiryWarningPage.getIdentifier()).eql('testUser@okta.com');
+});
+
+test.requestHooks(mockAuthenticatorPasswordExpiryWarning)('should hide user\'s identifier if feature is disabled', async t => {
+  const passwordExpiryWarningPage = await setupPasswordExpired(t);
+  await rerenderWidget({
+    'features.showIdentifier': false,
+  });
+  await t.expect(passwordExpiryWarningPage.hasIdentifier()).eql(false);
+});

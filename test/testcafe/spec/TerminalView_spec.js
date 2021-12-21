@@ -83,6 +83,22 @@ async function setup(t) {
     });
 });
 
+// Terminal screens with user context should display identifier in the user remediation object
+[
+  [ 'Shows user identifier for terminal return to original tab scenario for email',
+    terminalReturnEmailMock ],
+  [ 'Shows user identifier for terminal registration email',
+    terminalRegistrationEmailMock ],
+  [ 'Shows user identifier for terminal unlock account failed because of permissions',
+    terminalUnlockAccountFailedPermissionsMock ],
+].forEach(([ testTitle, mock ]) => {
+  test
+    .requestHooks(mock)(testTitle, async t => {
+      const terminalViewPage = await setup(t);
+      await t.expect(terminalViewPage.getIdentifier()).contains('testUser@okta.com');
+    });
+});
+
 // Generally all terminal states should have Back to sign in link.
 // No need to add tests for each view here, respective test class for the flow should test it.
 [
