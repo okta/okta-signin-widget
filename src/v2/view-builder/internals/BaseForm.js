@@ -95,7 +95,9 @@ export default Form.extend({
     const header = this.$el.find('[data-se="o-form-head"]');
     const isTerminalView = this.options.currentViewState.name === 'terminal';
     const identifierHTMLString =
-      `<div class="identifier-container"><span class="identifier no-translate" data-se="identifier" title=${identifier}>${identifier}</span></div>`;
+      '<div class="identifier-container">' +
+        `<span class="identifier no-translate" data-se="identifier" title=${identifier}>${identifier}</span>` +
+      '</div>';
 
     if (header.length) {
       header.addClass('has-identifier');

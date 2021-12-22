@@ -88,13 +88,17 @@ exports[`v2/view-builder/views/AutoRedirectView view renders corectly - default 
         >
           Signing in...
         </h2>
-        <span
-          class="identifier no-translate"
-          data-se="identifier"
-          title="testUser@okta.com"
+        <div
+          class="identifier-container"
         >
-          testUser@okta.com
-        </span>
+          <span
+            class="identifier no-translate"
+            data-se="identifier"
+            title="testUser@okta.com"
+          >
+            testUser@okta.com
+          </span>
+        </div>
         <div
           class="o-form-info-container"
         />
@@ -149,13 +153,17 @@ exports[`v2/view-builder/views/AutoRedirectView view renders correctly according
         >
           Signing in...
         </h2>
-        <span
-          class="identifier no-translate"
-          data-se="identifier"
-          title="testUser@okta.com"
+        <div
+          class="identifier-container"
         >
-          testUser@okta.com
-        </span>
+          <span
+            class="identifier no-translate"
+            data-se="identifier"
+            title="testUser@okta.com"
+          >
+            testUser@okta.com
+          </span>
+        </div>
         <div
           class="o-form-info-container"
         />
@@ -180,7 +188,7 @@ exports[`v2/view-builder/views/AutoRedirectView view renders correctly according
 </div>
 `;
 
-exports[`v2/view-builder/views/AutoRedirectView view renders correctly according to interstitialBeforeLoginRedirect: should have spinner 1`] = `
+exports[`v2/view-builder/views/AutoRedirectView view renders correctly according to interstitialBeforeLoginRedirect: should have spinner, app name, and user identifier 1`] = `
 <div
   class="siw-main-view "
 >
@@ -210,13 +218,17 @@ exports[`v2/view-builder/views/AutoRedirectView view renders correctly according
         >
           Signing in to Okta Administration
         </h2>
-        <span
-          class="identifier no-translate"
-          data-se="identifier"
-          title="testUser@okta.com"
+        <div
+          class="identifier-container"
         >
-          testUser@okta.com
-        </span>
+          <span
+            class="identifier no-translate"
+            data-se="identifier"
+            title="testUser@okta.com"
+          >
+            testUser@okta.com
+          </span>
+        </div>
         <div
           class="o-form-info-container"
         />
