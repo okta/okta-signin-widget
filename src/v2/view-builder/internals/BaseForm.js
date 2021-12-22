@@ -100,11 +100,9 @@ export default Form.extend({
       '</div>';
 
     if (header.length) {
-      header.addClass('has-identifier');
       header.after(identifierHTMLString);
     } else if (isTerminalView) {
       this.$el.find('.o-form-error-container').after(identifierHTMLString);
-      this.$el.find('.identifier').addClass('is-terminal');
     }
   },
 

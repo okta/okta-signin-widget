@@ -26,25 +26,21 @@
         float: right;
       }
     }
-    .o-form-head.has-identifier {
-      margin-bottom: 10px;
-    }
+
     .identifier-container {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
       text-align: center;
+      position: relative;
+      top: -5px;
+      margin-bottom: 15px;
     }
     .identifier {
       font-size: $body-font-size;
       text-overflow: ellipsis;
       overflow: hidden;
       white-space: nowrap;
-      margin-bottom: 24px;
-      &.is-terminal {
-        margin-bottom: 0;
-        margin-top: -10px;
-      }
     }
     .identifier-container::before {
       content: url('../img/icons/identifier/user-icon.svg');
