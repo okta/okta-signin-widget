@@ -1,3 +1,5 @@
+import hbs from 'handlebars-inline-precompile';
+
 import { _, Form, loc, internal, createCallout, View } from 'okta';
 import FormInputFactory from './FormInputFactory';
 
@@ -87,21 +89,18 @@ export default Form.extend({
     const { identifier } = this.options.appState.get('user') || {};
     if (!identifier) {
       return;
-    }
-    if (!this.settings.get('features.showIdentifier')) {
+    } else if (!this.settings.get('features.showIdentifier')) {
       return;
     }
 
     const header = this.$el.find('[data-se="o-form-head"]');
-    const isTerminalView = this.options.currentViewState.name === 'terminal';
-    const identifierHTMLString =
-      '<div class="identifier-container">' +
-        `<span class="identifier no-translate" data-se="identifier" title=${identifier}>${identifier}</span>` +
-      '</div>';
+    const identifierHTMLString = hbs('<div class="identifier-container">\
+        <span class="identifier no-translate" data-se="identifier" title={{identifier}}>{{identifier}}</span>\
+      </div>')({identifier});
 
     if (header.length) {
       header.after(identifierHTMLString);
-    } else if (isTerminalView) {
+    } else {
       this.$el.find('.o-form-error-container').after(identifierHTMLString);
     }
   },
