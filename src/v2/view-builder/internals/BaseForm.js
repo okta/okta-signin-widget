@@ -100,7 +100,6 @@ export default Form.extend({
         FormUtil.applyShowWhen(this.last(), input.showWhen);
       }
     } else {
-      input["multirowError"] = true;
       this.addInput(input);
     }
 
