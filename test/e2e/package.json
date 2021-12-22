@@ -1,0 +1,37 @@
+{
+  "name": "@okta/e2e",
+  "version": "1.0.0",
+  "main": "runner.js",
+  "private": true,
+  "scripts": {
+    "build": "yarn workspace @okta/okta-signin-widget build:release",
+    "test": "yarn build && node ./runner.js"
+  },
+  "dependencies": {
+    "@okta/okta-auth-js": "^5.8.0",
+    "@okta/okta-signin-widget": "*"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.5",
+    "@babel/plugin-transform-runtime": "^7.10.3",
+    "@babel/preset-env": "^7.15.6",
+    "@babel/runtime": "^7.10.3",
+    "@okta/env": "*",
+    "@wdio/cli": "^7.14.1",
+    "@wdio/jasmine-framework": "^7.16.0",
+    "@wdio/junit-reporter": "^7.15.0",
+    "@wdio/local-runner": "^7.14.1",
+    "@wdio/sauce-service": "^7.16.10",
+    "@wdio/selenium-standalone-service": "^7.14.1",
+    "@wdio/spec-reporter": "^7.14.1",
+    "cross-spawn-with-kill": "^1.0.0",
+    "husky": "^3.0.2",
+    "jasmine-ajax": "^4.0.0",
+    "jasmine-core": "2.99.1",
+    "jasmine-reporters": "^2.3.2",
+    "regenerator-runtime": "^0.13.7",
+    "wait-on": "^3.3.0",
+    "webdriver-manager": "^13.0.0",
+    "wdio-iedriver-service": "^0.1.0"
+  }
+}

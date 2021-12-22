@@ -1,13 +1,13 @@
 const path = require('path');
 const spawn = require('cross-spawn-with-kill');
 const waitOn = require('wait-on');
-require('./env').config();
+require('@okta/env').config();
 
 const getTask = () => () => {
   return new Promise(resolve => {
     // start the dev server
     const server = spawn('yarn', [
-      'start:test:app'
+      'workspace', '@okta/test.app', 'start'
     ], { stdio: 'inherit' });
 
     waitOn({

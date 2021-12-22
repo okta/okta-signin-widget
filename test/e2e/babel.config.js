@@ -3,5 +3,8 @@ module.exports = {
     [
       '@babel/preset-env'
     ]
+  ],
+  'plugins': [
+    ['@babel/transform-runtime']
   ]
 };

@@ -9,7 +9,14 @@
     "sourceMap": true,
     "moduleResolution": "node",
     "baseUrl": "./",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "lib": [
+      "ES2015",
+      "dom"
+    ],
+    "types": [
+      "node"
+    ]
   },
   "include": [
     "src/**/*.ts",

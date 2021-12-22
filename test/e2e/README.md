@@ -1,9 +1,5 @@
 # Manually running E2E tests
 
-**Note:** Before the repos is transformed into a yarn workspace, the test should be run in the root directory (`okta-signin-widget/`) of the repo.
-
-// TODO: https://oktainc.atlassian.net/browse/OKTA-437720
-
 ## Define environment variables
 
 See `test/e2e-wdio/env.defaults.js` for a list of all environment variables used by E2E tests. You can define variables in the shell (using `export VAR=value` in `~/.bash_profile` or similar) or place values in a `testenv` file at the root of this project. [dotenv docs](https://github.com/motdotla/dotenv#dotenv)
@@ -25,7 +21,7 @@ The test org should have at least one 'basic' user available for testing.
 The runner script (./runner.js) starts the test app then runs specs against the test app.
 
 ```sh
-yarn test:e2e:wdio
+yarn test:e2e
 ```
 
 ## Run test app and specs separately
@@ -41,13 +37,14 @@ yarn start:test:app
 #### Run all specs:
 
 ```sh
-yarn wdio ./test/e2e/wdio.conf.js
+# Note: config path is relative to ./test/e2e/
+yarn workspace @okta/e2e wdio ./wdio.conf.js
 ```
 
 #### Run single spec:
 
 ```sh
-yarn wdio ./test/e2e/wdio.conf.js --spec ./test/e2e/specs/{filename}
+yarn workspace @okta/e2e wdio ./wdio.conf.js --spec ./test/e2e/specs/{filename}
 ```
 
 ### Add a new test case
@@ -56,6 +53,10 @@ yarn wdio ./test/e2e/wdio.conf.js --spec ./test/e2e/specs/{filename}
 2. Make test changes.
 3. [Run the changed test spec](#run-single-spec), you can also use `fit` or `xit` to focus on the targeted test case.
 4. Adjust test case if needed.
+
+## Chrome Binary
+
+To point `wdio` at a specific chrome/chromium binary, set `CHROMIUM_BINARY` to the path of the desired binary file. Make sure to also set `CHROMEDRIVER_VERSION` to the same version as the targeted binary.
 
 ## Debugging
 

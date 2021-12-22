@@ -1,0 +1,35 @@
+{
+  "name": "@okta/test.app",
+  "version": "1.0.0",
+  "main": "dist/main.bundle.js",
+  "private": true,
+  "scripts": {
+    "start": "webpack serve --config ./webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@okta/okta-auth-js": "^5.8.0",
+    "@okta/okta-signin-widget": "*"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.5",
+    "@babel/plugin-transform-modules-commonjs": "^7.10.1",
+    "@babel/plugin-transform-runtime": "^7.10.3",
+    "@babel/preset-env": "^7.15.6",
+    "@babel/register": "^7.15.3",
+    "@babel/runtime": "^7.10.3",
+    "@babel/runtime-corejs3": "^7.10.3",
+    "@okta/env": "*",
+    "@types/node": "^17.0.2",
+    "babel-loader": "^8.2.2",
+    "events": "^3.3.0",
+    "html-webpack-plugin": "^5.3.2",
+    "regenerator-runtime": "^0.13.7",
+    "source-map-loader": "^0.2.4",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.4.4",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.0.0"
+  }
+}
