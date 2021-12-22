@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
-const ENV = require('../e2e/env');
+const ENV = require('@okta/env');
 ENV.config();
 const DEV_SERVER_PORT = 3000;
 
@@ -19,7 +19,8 @@ module.exports = {
       './getOktaSignIn': './getOktaSignInFromCDN',
       // '@okta/okta-auth-js': '@okta/okta-auth-js/build/dist/okta-auth-js.umd.js'
       // '@okta/okta-signin-widget': path.resolve(__dirname, 'target/js/okta-sign-in.entry.js'),
-    }
+    },
+    fallback: { 'events': require.resolve('events/') }
   },
   module: {
     rules: [

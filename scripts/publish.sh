@@ -9,6 +9,14 @@ yarn global add @okta/ci-pkginfo
 export PATH="${PATH}:$(yarn global bin)"
 export TEST_SUITE_TYPE="build"
 
+# Build
+if ! yarn build:release; then
+  echo "build failed! Exiting..."
+  exit ${TEST_FAILURE}
+fi
+
+pushd ./dist
+
 if ! ci-append-sha; then
   echo "ci-append-sha failed! Exiting..."
   exit $FAILED_SETUP
@@ -31,5 +39,7 @@ else
   # only echo the info since the upload is not crucial
   echo "Fail to upload okta-signin-widget job data artifact_version=${artifact_version} to s3!" >&2
 fi
+
+popd
 
 exit $SUCCESS

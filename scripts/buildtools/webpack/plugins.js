@@ -9,8 +9,13 @@ function webpackBundleAnalyzer(reportFilename = 'okta-sign-in.analyzer') {
     analyzerMode: 'static',
   });
 }
+
+// https://webpack.js.org/plugins/ignore-plugin/#example-of-ignoring-moment-locales
 function emptyModule() {
-  return new IgnorePlugin(/^\.\/locale$/, /moment$/);
+  return new IgnorePlugin({
+    resourceRegExp: /^\.\/locale$/,
+    contextRegExp: /moment$/,
+  });
 }
 
 function prodMode() {

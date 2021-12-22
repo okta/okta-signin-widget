@@ -1,12 +1,16 @@
 /* eslint-disable */
 const path = require('path');
-require('./env').config();
+require('@okta/env').config();
 
 const CI = process.env.CI;
 const logLevel = 'warn';
 const browserOptions = {
     args: []
 };
+
+if (process.env.CHROMIUM_BINARY) {
+    browserOptions.binary = process.env.CHROMIUM_BINARY;
+}
 
 if (process.env.CI || process.env.CHROME_HEADLESS) {
     browserOptions.args = browserOptions.args.concat([
@@ -171,7 +175,7 @@ exports.config = {
     reporters: [
         'spec',
         ['junit', {
-            outputDir: 'build2/reports/junit',
+            outputDir: '../../build2/reports/junit',
             outputFileFormat: function() { // optional
                 return 'e2e-results.xml';
             }

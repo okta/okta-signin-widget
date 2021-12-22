@@ -1,6 +1,6 @@
 /* eslint max-statements: 0 no-console: 0 */
 
-var ENV = require('./test/e2e/env');
+const ENV = require('@okta/env');
 ENV.config();
 
 module.exports = function(grunt) {
@@ -226,6 +226,7 @@ module.exports = function(grunt) {
       'generate-config': 'yarn generate-config',
       'run-protractor': 'yarn protractor',
       'pseudo-loc': 'node scripts/buildtools pseudo-loc',
+      'prepack': 'node scripts/buildtools build:prepack'
     },
 
     sass: {
@@ -392,6 +393,7 @@ module.exports = function(grunt) {
     if (prodBuild) {
       buildTasks.push('exec:build-release');
       postBuildTasks.push('copy:target-to-dist');
+      postBuildTasks.push('exec:prepack');
     } else {
       const devTask = mode === 'watch' ? 'exec:build-dev-watch' : 'exec:build-dev';
       buildTasks.push(devTask);

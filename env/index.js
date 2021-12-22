@@ -2,6 +2,7 @@
 const path = require('path');
 const fs = require('fs');
 const dotenv = require('dotenv');
+const ROOT_DIR = path.resolve(__dirname, '..');
 
 var DEFAULTS = require('./env.defaults');
 var VALUES = {};
@@ -9,7 +10,7 @@ var VALUES = {};
 function config() {
 
   // Read environment variables from "testenv". Override environment vars if they are already set.
-  const TESTENV = path.resolve(__dirname, '../..', 'testenv');
+  const TESTENV = path.resolve(ROOT_DIR, 'testenv');
   if (fs.existsSync(TESTENV)) {
     const envConfig = dotenv.parse(fs.readFileSync(TESTENV));
     Object.keys(envConfig).forEach((k) => {

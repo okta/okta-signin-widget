@@ -1,6 +1,6 @@
 /* eslint-disable */
 const path = require('path');
-require('./env').config();
+require('@okta/env').config();
 require('@babel/register'); // Allows use of import module syntax
 require('regenerator-runtime'); // Allows use of async/await
 
