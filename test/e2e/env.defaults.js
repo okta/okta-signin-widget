@@ -1,9 +1,4 @@
 module.exports = {
-  // OAUTH
-  ISSUER: '',
-  CLIENT_ID: '',
-  REDIRECT_URI: '',
-  
   // Server / Client
   WIDGET_TEST_SERVER: '',
   WIDGET_AUTH_SERVER_ID: 'default',

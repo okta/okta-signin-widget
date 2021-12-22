@@ -1,115 +1,70 @@
 # Manually running E2E tests
 
-This assumes you have already built the main project:
+**Note:** Before the repos is transformed into a yarn workspace, the test should be run in the root directory (`okta-signin-widget/`) of the repo.
 
-```sh
-yarn install
-```
+// TODO: https://oktainc.atlassian.net/browse/OKTA-437720
 
 ## Define environment variables
 
-See `test/e2e/env.defaults.js` for a list of all environment variables used by E2E tests. You can define variables in the shell (using `export VAR=value` in `~/.bash_profile` or similar) or place values in a `testenv` file at the root of this project. [dotenv docs](https://github.com/motdotla/dotenv#dotenv)
+See `test/e2e-wdio/env.defaults.js` for a list of all environment variables used by E2E tests. You can define variables in the shell (using `export VAR=value` in `~/.bash_profile` or similar) or place values in a `testenv` file at the root of this project. [dotenv docs](https://github.com/motdotla/dotenv#dotenv)
 
 For all E2E tests to pass locally, you will need to define these values. You will need a test org and a FB user.
 
 The test org should have a configured SPA app with following login redirect callbacks:
 
 ```sh
-http://localhost:8080/implicit/callback
 http://localhost:3000/done
 ```
 
-Each of these origins must be added as 'Trusted Origins'.  
+Each of these origins must be added as [Trusted Origins](https://help.okta.com/en/prod/Content/Topics/Security/API-trusted-origins.htm).  
 
 The test org should have at least one 'basic' user available for testing.
 
-## Start the servers
+## Run tests with runner script
 
-You will need to restart the server whenever you change environment variables.
-
-### Single terminal
-
-Each server process can be started in the background. This allows you to run E2E tests within a single terminal.
+The runner script (./runner.js) starts the test app then runs specs against the test app.
 
 ```sh
-yarn start:basic
+yarn test:e2e:wdio
 ```
 
-To kill the background server processes:
+## Run test app and specs separately
+
+### Start test app
 
 ```sh
-killall node
+yarn start:test:app
 ```
 
-### Separate terminals
+### Run specs against the test app
 
-When actively developing or debugging a test you will probably prefer to have each server running in its own terminal.
-
-Static server:
+#### Run all specs:
 
 ```sh
-node test/e2e/basic/server
+yarn wdio ./test/e2e/wdio.conf.js
 ```
 
-## Prepare tests
-
-Generate test specs:
+#### Run single spec:
 
 ```sh
-grunt copy:e2e
+yarn wdio ./test/e2e/wdio.conf.js --spec ./test/e2e/specs/{filename}
 ```
 
-Run this whenever you change environment variables or spec src.
+### Add a new test case
 
-Generate test pages:
+1. [Start test app](#start-test-app).
+2. Make test changes.
+3. [Run the changed test spec](#run-single-spec), you can also use `fit` or `xit` to focus on the targeted test case.
+4. Adjust test case if needed.
 
-```sh
-grunt copy:e2e-pages
-```
+## Debugging
 
-Run this whenever you change environment variables.
+* If you are using vscode, pick `Debug with WebdriverIO` for debugging. You can limit the debugging scope by changing the `specs` field in `wdio.config.js` file (e.g., `specs/**/*.e2e.js` -> `specs/**/basic.e2e.js`). 
 
-## Built assets
+* You can also add `await browser.debug()` statement in any test case to pause the browser.
 
-This step requires that you have run the grunt copy commands above.
+* You can run test in `headless mode` by adding `CHROME_HEADLESS=true` or `CI=true` to the environment variables.
 
-You will need a built version of the widget to run the tests.  For a full check you can run:
-```
-yarn build:release
-yarn build:webpack-e2e-app
-```
+* You may need to set the `CHROMEDRIVER_VERSION` environment variable to match the version of Chrome on your machine. For example, `CHROMEDRIVER_VERSION=94.0.4606.41` can be added to the `testenv` file to work with Chrome version 94. Latest version numbers can be found at [chromedriver.chromium.org](https://chromedriver.chromium.org/downloads)
 
-However, for development that can be tedious to repeatedly run.  In that case you will want to run:
-```
-yarn build:webpack-dev --output-path ./target/js --output-filename okta-sign-in.min.js --watch
-```
-
-## Prepare protractor
-
-Install/update webdriver locally.
-
-```
-yarn webdriver-manager update
-```
-
-You should only need to do this once.
-
-## Run specs
-
-To see protractor options simply run:
-
-```sh
-npx protractor
-```
-
-You can run all specs with this command:
-
-```sh
-npx protractor target/e2e/conf.js
-```
-
-To run a specific spec:
-(yes, the `target/` below is correct - the conf files are copied from `test/`, which is why you need to run the grunt copy command above when you change a spec)
-```
-npx protractor target/e2e/conf.js --specs target/e2e/specs/basic_spec.js
-```
+For more debugging information, check out [WebdriverIO debugging](https://webdriver.io/docs/debugging/).
