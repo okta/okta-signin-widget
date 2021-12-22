@@ -600,10 +600,10 @@ Enable or disable widget functionality with the following options.
   Pre-fills the identifier field with the previously used username.
 
 ### Flow
-By default, Widget will either proceed with an existing flow or start a new authenticate flow. This option allows bootstrapping the Widget into a specific view such as register or forgot password. Using this option, it is possible to build specific pages for login, register, and forgot password.
+The Okta Sign-In Widget will either proceed with a current flow or start a new authenticate flow by default. This option allows bootstrapping the widget into a specific view such as register, unlock, or reset password. The widget can be used in particular pages such as login, reset-password, and unlock pages with the appropriate value set in the `flow` config option  
 
-_Note: these views will not work unless the Org is configured to allow them
-(example: if Self-Service Registration is not enabled, `flow: 'signup'` will
+_Note: These views will not work unless the admin has configured the org to allow these operations
+(example: if Profile Enrollment (User sign-up) in the admin console is not enabled, `flow: 'signup'` will
 not result in a registration view)_
 
 ```javascript
@@ -617,9 +617,9 @@ new OktaSignIn({
   flow: 'signup'
 });
 
-// forgot_password.html
+// reset_password.html
 new OktaSignIn({
-  flow: 'forgotPassword'
+  flow: 'resetPassword'
 });
 
 // unlock_account.html
