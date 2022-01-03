@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "types": [
+            "node",
+            "webdriverio/async",
+            "@wdio/jasmine-framework",
+            "expect-webdriverio"
+        ],
+        "target": "ES5"
+    }
+}

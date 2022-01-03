@@ -16,7 +16,7 @@ const getTask = () => () => {
       ]
     }).then(() => {
       // 2. run webdriver based on if sauce is needed or not
-      let wdioConfig = path.resolve(__dirname, 'wdio.conf.js');
+      let wdioConfig = path.resolve(__dirname, 'wdio.conf.ts');
       if (process.env.RUN_SAUCE_TESTS) {
         wdioConfig = path.resolve(__dirname, 'sauce.wdio.conf.js');
       }
