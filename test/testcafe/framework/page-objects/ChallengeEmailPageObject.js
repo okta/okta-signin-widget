@@ -1,12 +1,18 @@
 import ChallengeFactorPageObject from './ChallengeFactorPageObject';
 
+const RESEND_EMAIL_VIEW_SELECTOR = '.resend-email-view';
+
 export default class ChallengeEmailPageObject extends ChallengeFactorPageObject {
   constructor(t) {
     super(t);
   }
 
   resendEmailView() {
-    return this.form.getElement('.resend-email-view');
+    return this.form.getElement(RESEND_EMAIL_VIEW_SELECTOR);
+  }
+
+  resendEmailViewExists() {
+    return this.form.elementExist(RESEND_EMAIL_VIEW_SELECTOR);
   }
 
   async clickSendAgainLink() {
