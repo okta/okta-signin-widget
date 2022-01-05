@@ -1,8 +1,8 @@
 import { loc, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-import BaseAuthenticatorEmailView from './BaseAuthenticatorEmailView';
+import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 
-const BaseAuthenticatorEmailForm = BaseAuthenticatorEmailView.prototype.Body;
+const BaseAuthenticatorEmailForm = BaseAuthenticatorView.prototype.Body;
 
 const SubtitleView = View.extend({
   template: hbs`
@@ -58,6 +58,6 @@ const Body = BaseAuthenticatorEmailForm.extend(
   },
 );
 
-export default BaseAuthenticatorEmailView.extend({
+export default BaseAuthenticatorView.extend({
   Body,
 });
