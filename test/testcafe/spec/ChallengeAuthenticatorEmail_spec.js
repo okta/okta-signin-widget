@@ -203,6 +203,19 @@ test
   });
 
 test
+  .requestHooks(sendEmailMock)('should not show send again warning after 30 seconds', async t => {
+    const challengeEmailPageObject = await setup(t);
+
+    const pageTitle = challengeEmailPageObject.getFormTitle();
+    const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
+    await t.expect(pageTitle).eql('Verify with your email');
+    await t.expect(saveBtnText).eql('Send me an email');
+
+    await t.wait(31000);
+    await t.expect(challengeEmailPageObject.resendEmailViewExists()).notOk();
+  });
+
+test
   .requestHooks(sendEmailEmptyProfileMock)('send me an email screen has right labels when profile is empty', async t => {
     const challengeEmailPageObject = await setup(t);
 
