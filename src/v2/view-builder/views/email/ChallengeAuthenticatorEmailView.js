@@ -21,8 +21,7 @@ const CheckYourEmailTitle = View.extend({
     {{else}}
       {{i18n 
         code="oie.email.verify.alternate.magicLinkToYourEmail" 
-        bundle="login" 
-        $1="<span class='strong'>$1</span>"
+        bundle="login"
       }}
     {{/if}}
     {{i18n 
