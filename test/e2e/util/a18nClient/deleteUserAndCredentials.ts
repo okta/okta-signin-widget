@@ -14,10 +14,13 @@
 
 import a18nClient from './a18nClient';
 import deleteUser from './deleteUser';
-import { User } from '@okta/okta-sdk-nodejs';
-import { UserCredentials } from './createCredentials';
+import ActionContext from './context';
 
-export default async function(user: User, credentials: UserCredentials): Promise<void> {
-    await a18nClient.deleteProfile(credentials.profileId);
-    await deleteUser(user);
-}
+export default async function(this: ActionContext): Promise<void> {
+    if (this.credentials) {
+        await a18nClient.deleteProfile(this.credentials.profileId);
+    }
+    if (this.user) {
+        await deleteUser(this.user);
+    }
+  }

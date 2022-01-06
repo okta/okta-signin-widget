@@ -12,13 +12,9 @@
 
 
 import createCredentials from './createCredentials';
-import createUser from './createUser';
 import ActionContext from './context';
 
-export default async function (this: ActionContext, firstName: string, assignToGroups?: string[]): Promise<void> {
-  const credentials = this.credentials || await createCredentials(firstName);
-  this.credentials = credentials;
-  const user = await createUser(credentials, assignToGroups);
-  this.user = user;
+export default async function (this: ActionContext, firstName: string): Promise<void> {
+  this.credentials = await createCredentials(firstName);
 }
 

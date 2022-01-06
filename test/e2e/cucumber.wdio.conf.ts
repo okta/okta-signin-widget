@@ -1,56 +1,125 @@
-const path = require('path');
-require('./env').config();
+/*!
+ * Copyright (c) 2015-present, Okta, Inc. and/or its affiliates. All rights reserved.
+ * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
+ *
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * 
+ * See the License for the specific language governing permissions and limitations under the License.
+ */
 
+/* eslint-disable */
+const path = require('path');
+require('@babel/register'); // Allows use of import module syntax
+require('regenerator-runtime'); // Allows use of async/await
+
+const DEBUG = process.env.DEBUG;
 const CI = process.env.CI;
+const defaultTimeoutInterval = DEBUG ? (24 * 60 * 60 * 1000) : 10000;
 const logLevel = 'warn';
-const browserOptions = {
+const chromeOptions = {
     args: []
 };
 
-if (process.env.CI || process.env.CHROME_HEADLESS) {
-    browserOptions.args = browserOptions.args.concat([
-        '--headless',
+if (CI) {
+    chromeOptions.args = chromeOptions.args.concat([
         '--disable-gpu',
         '--window-size=1600x1200',
         '--no-sandbox',
         '--whitelisted-ips',
         '--disable-extensions',
-        '--verbose',
-        '--disable-dev-shm-usage'
+        '--verbose'
     ]);
 }
 
+// driver version must match installed chrome version
+// https://chromedriver.storage.googleapis.com/index.html
+
 const CHROMEDRIVER_VERSION = process.env.CHROMEDRIVER_VERSION || '89.0.4389.23';
 const drivers = {
-    chrome: { version: CHROMEDRIVER_VERSION }
+  chrome: { version: CHROMEDRIVER_VERSION }
+};
+
+ // If you are using Cucumber you need to specify the location of your step definitions.
+const cucumberOpts: WebdriverIO.CucumberOpts = {
+  // <boolean> show full backtrace for errors
+  backtrace: false,
+  // <string[]> module used for processing required features
+  requireModule: [],
+  // <boolean< Treat ambiguous definitions as errors
+  failAmbiguousDefinitions: true,
+  // <boolean> invoke formatters without executing steps
+  // dryRun: false,
+  // <boolean> abort the run on first failure
+  failFast: false,
+  // <boolean> Enable this config to treat undefined definitions as
+  // warnings
+  ignoreUndefinedDefinitions: false,
+  // <string[]> ("extension:module") require files with the given
+  // EXTENSION after requiring MODULE (repeatable)
+  names: [],
+  // <boolean> hide step definition snippets for pending steps
+  snippets: true,
+  // <boolean> hide source uris
+  source: true,
+  // <string[]> (name) specify the profile to use
+  profile: [],
+  // <string[]> (file/dir) require files before executing features
+  require: [
+      // './steps/given.ts',
+      // './steps/when.ts',
+      path.resolve(__dirname, 'steps/given.ts'),
+      path.resolve(__dirname, 'steps/when.ts'),
+      path.resolve(__dirname, 'steps/then.ts'),
+      path.resolve(__dirname, 'steps/after.ts'),
+      // Or search a (sub)folder for JS files with a wildcard
+      // works since version 1.1 of the wdio-cucumber-framework
+      // './src/**/*.js',
+  ],
+  scenarioLevelReporter: false,
+  order: 'defined',
+  // <string> specify a custom snippet syntax
+  snippetSyntax: undefined,
+  // <boolean> fail if there are any undefined or pending steps
+  strict: true,
+  // <string> (expression) only execute the features or scenarios with
+  // tags matching the expression, see
+  // https://docs.cucumber.io/tag-expressions/
+  tagExpression: 'not @Pending',
+  // <boolean> add cucumber tags to feature or scenario name
+  tagsInTitle: false,
+  // <number> timeout for step definitions
+  timeout: defaultTimeoutInterval,
 };
 
 export const config: WebdriverIO.Config = {
-    //
+
     // ====================
     // Runner Configuration
     // ====================
     //
+    // WebdriverIO allows it to run your tests in arbitrary locations (e.g. locally or
+    // on a remote machine).
+    runner: 'local',
+    //
+    // Override default path ('/wd/hub') for chromedriver service.
+    path: '/',
     //
     // ==================
     // Specify Test Files
     // ==================
     // Define which test specs should run. The pattern is relative to the directory
-    // from which `wdio` was called.
-    //
-    // The specs are defined as an array of spec files (optionally using wildcards
-    // that will be expanded). The test for each spec file will be run in a separate
-    // worker process. In order to have a group of spec files run in the same worker
-    // process simply enclose them in an array within the specs array.
-    //
-    // If you are calling `wdio` from an NPM script (see https://docs.npmjs.com/cli/run-script),
-    // then the current working directory is where your `package.json` resides, so `wdio`
-    // will be called from there.
+    // from which `wdio` was called. Notice that, if you are calling `wdio` from an
+    // NPM script (see https://docs.npmjs.com/cli/run-script) then the current working
+    // directory is where your package.json resides, so `wdio` will be called from there.
     //
     specs: [
-        path.resolve(__dirname, 'specs/**/*.e2e.ts'),
-        path.resolve(__dirname, 'specs/**/*.e2e.js')
-    ],
+      // path.resolve(__dirname, 'specs/**/*.e2e.js')
+      path.resolve(__dirname, 'features/**/*.feature')
+  ],
+
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
@@ -78,15 +147,13 @@ export const config: WebdriverIO.Config = {
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
     capabilities: [{
-    
         // maxInstances can get overwritten per capability. So if you have an in-house Selenium
         // grid with only 5 firefox instances available you can make sure that not more than
         // 5 instances get started at a time.
-        maxInstances: 1,
+        maxInstances: 1, // all tests use the same user and local storage. they must run in series
         //
         browserName: 'chrome',
-        'goog:chromeOptions': browserOptions,
-        acceptInsecureCerts: true
+        'goog:chromeOptions': chromeOptions
         // If outputDir is provided WebdriverIO can capture driver session logs
         // it is possible to configure which logTypes to include/exclude.
         // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
@@ -99,20 +166,20 @@ export const config: WebdriverIO.Config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'info',
+    logLevel,
     //
     // Set specific log levels per logger
     // loggers:
     // - webdriver, webdriverio
-    // - @wdio/browserstack-service, @wdio/devtools-service, @wdio/sauce-service
+    // - @wdio/applitools-service, @wdio/browserstack-service, @wdio/devtools-service, @wdio/sauce-service
     // - @wdio/mocha-framework, @wdio/jasmine-framework
-    // - @wdio/local-runner
+    // - @wdio/local-runner, @wdio/lambda-runner
     // - @wdio/sumologic-reporter
-    // - @wdio/cli, @wdio/config, @wdio/utils
+    // - @wdio/cli, @wdio/config, @wdio/sync, @wdio/utils
     // Level of logging verbosity: trace | debug | info | warn | error | silent
     // logLevels: {
     //     webdriver: 'info',
-    //     '@wdio/appium-service': 'info'
+    //     '@wdio/applitools-service': 'info'
     // },
     //
     // If you only want to run your tests until a specific amount of tests have failed use
@@ -123,14 +190,14 @@ export const config: WebdriverIO.Config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'http://localhost:8080',
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
     //
     // Default timeout in milliseconds for request
-    // if browser driver or grid doesn't send response
-    connectionRetryTimeout: 120000,
+    // if Selenium Grid doesn't send response
+    connectionRetryTimeout: 90000,
     //
     // Default request retries count
     connectionRetryCount: 3,
@@ -140,59 +207,41 @@ export const config: WebdriverIO.Config = {
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
     services: [
-        ['selenium-standalone', {
-            installArgs: {
-                drivers
-            },
-            args: {
-                drivers
-            }
-        }]
+      ['selenium-standalone', {
+        installArgs: {
+          drivers
+        },
+        args: {
+          drivers
+        }
+      }]
     ],
-    
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
-    // see also: https://webdriver.io/docs/frameworks
+    // see also: https://webdriver.io/docs/frameworks.html
     //
     // Make sure you have the wdio adapter package for the specific framework installed
     // before running any tests.
-    framework: 'jasmine',
+    framework: 'cucumber',
+
+    cucumberOpts,
     //
     // The number of times to retry the entire specfile when it fails as a whole
     // specFileRetries: 1,
     //
-    // Delay in seconds between the spec file retry attempts
-    // specFileRetriesDelay: 0,
-    //
-    // Whether or not retried specfiles should be retried immediately or deferred to the end of the queue
-    // specFileRetriesDeferred: false,
-    //
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
-    // see also: https://webdriver.io/docs/dot-reporter
+    // see also: https://webdriver.io/docs/dot-reporter.html
     reporters: [
-        'spec',
-        ['junit', {
-            outputDir: 'build2/reports/junit',
-            outputFileFormat: function() { // optional
-                return 'e2e-wdio-results.xml';
-            }
-        }]
+      'spec',
+      ['junit', {
+          outputDir: '../../build2/reports/e2e',
+          outputFileFormat: function() { // optional
+              return 'junit-results.xml';
+          }
+      }]
     ],
-    //
-    // Options to be passed to Jasmine.
-    jasmineOpts: {
-        // Jasmine default timeout
-        defaultTimeoutInterval: 60000,
-        //
-        // The Jasmine framework allows interception of each assertion in order to log the state of the application
-        // or website depending on the result. For example, it is pretty handy to take a screenshot every time
-        // an assertion fails.
-        expectationResultHandler: function(passed, assertion) {
-            // do something
-        }
-    },
-    
+
     //
     // =====
     // Hooks
@@ -209,32 +258,19 @@ export const config: WebdriverIO.Config = {
     // onPrepare: function (config, capabilities) {
     // },
     /**
-     * Gets executed before a worker process is spawned and can be used to initialise specific service
-     * for that worker as well as modify runtime environments in an async fashion.
-     * @param  {String} cid      capability id (e.g 0-0)
-     * @param  {[type]} caps     object containing capabilities for session that will be spawn in the worker
-     * @param  {[type]} specs    specs to be run in the worker process
-     * @param  {[type]} args     object that will be merged with the main configuration once worker is initialised
-     * @param  {[type]} execArgv list of string arguments passed to the worker process
-     */
-    // onWorkerStart: function (cid, caps, specs, args, execArgv) {
-    // },
-    /**
      * Gets executed just before initialising the webdriver session and test framework. It allows you
      * to manipulate configurations depending on the capability or spec.
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that are to be run
-     * @param {String} cid worker id (e.g. 0-0)
      */
-    // beforeSession: function (config, capabilities, specs, cid) {
+    // beforeSession: function (config, capabilities, specs) {
     // },
     /**
      * Gets executed before test execution begins. At this point you can access to all global
      * variables like `browser`. It is the perfect place to define custom commands.
      * @param {Array.<Object>} capabilities list of capabilities details
-     * @param {Array.<String>} specs        List of spec file paths that are to be run
-     * @param {Object}         browser      instance of created browser/device session
+     * @param {Array.<String>} specs List of spec file paths that are to be run
      */
     // before: function (capabilities, specs) {
     // },
@@ -266,12 +302,12 @@ export const config: WebdriverIO.Config = {
      * Hook that gets executed _after_ a hook within the suite starts (e.g. runs after calling
      * afterEach in Mocha)
      */
-    // afterHook: function (test, context, { error, result, duration, passed, retries }) {
+    // afterHook: function (test, context, { error, result, duration, passed }) {
     // },
     /**
      * Function to be executed after a test (in Mocha/Jasmine).
      */
-    // afterTest: function(test, context, { error, result, duration, passed, retries }) {
+    // afterTest: function(test, context, { error, result, duration, passed }) {
     // },
 
 
@@ -324,4 +360,4 @@ export const config: WebdriverIO.Config = {
     */
     //onReload: function(oldSessionId, newSessionId) {
     //}
-}
+};

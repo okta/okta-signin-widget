@@ -11,14 +11,16 @@
  */
 
 
-import createCredentials from './createCredentials';
-import createUser from './createUser';
-import ActionContext from './context';
+import { After } from '@cucumber/cucumber';
+import ActionContext from '../util/a18nClient/context';
+import deleteUserAndCredentials from '../util/a18nClient/deleteUserAndCredentials';
+import TestAppPage from '../page-objects/test-app.page';
 
-export default async function (this: ActionContext, firstName: string, assignToGroups?: string[]): Promise<void> {
-  const credentials = this.credentials || await createCredentials(firstName);
-  this.credentials = credentials;
-  const user = await createUser(credentials, assignToGroups);
-  this.user = user;
-}
+After(deleteUserAndCredentials);
+
+After(() => browser.deleteCookies());
+
+After(async function (this: ActionContext) {
+  await TestAppPage.ssoLogout();
+});
 
