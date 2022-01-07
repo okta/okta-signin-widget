@@ -148,11 +148,12 @@ describe('v2/view-builder/views/IdentifierView', function() {
   });
 
   it('view renders custom button title based on i18n config', function() {
-    settings.set('i18n', {
+    const i18n = {
       en: {
         'customButton.title': 'Custom Button Title',
       }
-    });
+    };
+    settings.set('i18n', i18n);
     settings.set('customButtons', [{
       i18nKey: 'customButton.title',
       className: 'btn-customAuth'
