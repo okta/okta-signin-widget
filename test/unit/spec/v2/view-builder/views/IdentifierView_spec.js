@@ -158,7 +158,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
       i18nKey: 'customButton.title',
       className: 'btn-customAuth'
     }]);
-    Bundles['en'] = i18n.en;
+    Bundles['login_en'] = i18n.en;
 
     jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
     jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
