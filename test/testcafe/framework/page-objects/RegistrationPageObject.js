@@ -96,6 +96,10 @@ export default class RegistrationPageObject extends BasePageObject {
     return this.form.getTextBoxErrorMessage(EMAIL_FIELD);
   }
 
+  getNthEmailErrorMessage(value) {
+    return this.form.getNthErrorMessage(EMAIL_FIELD, value);
+  }
+
   getHaveAccountLabel() {
     return Selector(BACK).textContent;
   }

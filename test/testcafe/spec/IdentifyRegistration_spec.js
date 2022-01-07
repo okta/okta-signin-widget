@@ -7,8 +7,6 @@ import enrollProfileNew from '../../../playground/mocks/data/idp/idx/enroll-prof
 import enrollProfileError from '../../../playground/mocks/data/idp/idx/error-new-signup-email';
 import enrollProfileFinish from '../../../playground/mocks/data/idp/idx/terminal-registration';
 import enrollProfileNewError from '../../../playground/mocks/data/idp/idx/error-new-signup-email-exists';
-// import enrollProfileNewCustomLabel from '../../../playground/mocks/data/idp/idx/enroll-profile-new-custom-labels';
-
 
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -180,6 +178,8 @@ test.requestHooks(enrollProfileErrorMock)('should show email field validation er
       }
     }
   });
+  await t.expect(registrationPage.getNthEmailErrorMessage(0)).eql('\'Email\' must be in the form of an email address');
+  await t.expect(registrationPage.getNthEmailErrorMessage(1)).eql('Provided value for property \'Email\' does not match required pattern');
 });
 
 test.requestHooks(mock)('should show terminal screen after registration', async t => {
