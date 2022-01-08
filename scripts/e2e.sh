@@ -22,8 +22,19 @@ export WIDGET_WEB_CLIENT_ID=0oa8ls36zUZj7oFJ2696
 
 export ORG_OIE_ENABLED=true
 
+# Run spec tests
 if ! yarn test:e2e; then
-  echo "e2e tests failed! Exiting..."
+  echo "e2e spec tests failed! Exiting..."
+  exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
+fi
+
+# Run feature tests
+export RUN_FEATURE_TESTS=true
+get_vault_secret_key devex/auth-js-sdk-vars a18n_api_key A18N_API_KEY
+get_vault_secret_key devex/okta-signin-widget test_org_okta_api_key OKTA_CLIENT_TOKEN
+
+if ! yarn test:e2e; then
+  echo "e2e feature tests failed! Exiting..."
   exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
 fi
 
