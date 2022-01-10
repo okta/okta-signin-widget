@@ -53,6 +53,8 @@ const timezoneUISchema = {
 
 const shouldRenderAsRadio = (name) => name.indexOf('methodType') >= 0 || name.indexOf('channel') >= 0;
 
+const isDisplayPresent = (ionField) => ionField.label === 'display' && ionField.value !== undefined;
+
 const createUiSchemaForString = (ionFormField, remediationForm, transformedResp, createUISchema, settings) => {
   const uiSchema = {
     type: 'text'
@@ -76,7 +78,17 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
   }
 
   if (Array.isArray(ionFormField.options) && ionFormField.options[0] && ionFormField.options[0].value) {
-    if (shouldRenderAsRadio(ionFormField.name)) {
+    if (isDisplayPresent(ionFormField.options[0])) {
+      let display = ionFormField.options[0].value.value;
+      uiSchema.type = display.inputType;
+      if (display.inputType === 'radio') {
+        uiSchema.options = display.options;
+      } else if (display.inputType === 'select') {
+        uiSchema.wide = true;
+        //it will create a placeholder for dropdowns, by default it will show 'Select an Option'
+        uiSchema.options = Object.assign({0: ''}, ionOptionsToUiOptions(display.options));
+      }
+    } else if (shouldRenderAsRadio(ionFormField.name)) {
       // e.g. { name: 'methodType', options: [ {label: 'sms'} ], type: 'string' | null }
       uiSchema.type = 'radio';
       // set the default value to the first value..
