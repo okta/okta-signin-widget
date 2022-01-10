@@ -2,9 +2,9 @@
 
 ## Define environment variables
 
-See `test/e2e-wdio/env.defaults.js` for a list of all environment variables used by E2E tests. You can define variables in the shell (using `export VAR=value` in `~/.bash_profile` or similar) or place values in a `testenv` file at the root of this project. [dotenv docs](https://github.com/motdotla/dotenv#dotenv)
+See `test/e2e/env.defaults.js` for a list of all environment variables used by E2E tests. You can define variables in the shell (using `export VAR=value` in `~/.bash_profile` or similar) or place values in a `testenv` file at the root of this project. [dotenv docs](https://github.com/motdotla/dotenv#dotenv)
 
-For all E2E tests to pass locally, you will need to define these values. You will need a test org and a FB user.
+For all E2E tests to pass locally, you will need to define these values. You will need a test org.
 
 The test org should have a configured SPA app with following login redirect callbacks:
 
@@ -18,9 +18,18 @@ The test org should have at least one 'basic' user available for testing.
 
 ## Run tests with runner script
 
-The runner script (./runner.js) starts the test app then runs specs against the test app.
+The runner script (./runner.js) starts the test app then runs specs or cucumber feature tests against the test app.
 
 ```sh
+yarn test:e2e
+```
+
+To run the cucumber feature tests, you need additional environment variables along with the ones needed to run spec tests
+
+```sh
+export RUN_FEATURE_TESTS=true
+export A18N_API_KEY=xxxx # API key to use the a18n tool for dynamic user creation (Ask DevEx team)
+export OKTA_CLIENT_TOKEN=xxxx # Okta API key for the test org
 yarn test:e2e
 ```
 
@@ -44,7 +53,7 @@ yarn workspace @okta/e2e wdio ./wdio.conf.js
 #### Run single spec:
 
 ```sh
-yarn workspace @okta/e2e wdio ./wdio.conf.js --spec ./test/e2e/specs/{filename}
+yarn workspace @okta/e2e wdio ./wdio.conf.js --spec ./specs/{filename}
 ```
 
 ### Add a new test case
@@ -57,6 +66,30 @@ yarn workspace @okta/e2e wdio ./wdio.conf.js --spec ./test/e2e/specs/{filename}
 ## Chrome Binary
 
 To point `wdio` at a specific chrome/chromium binary, set `CHROMIUM_BINARY` to the path of the desired binary file. Make sure to also set `CHROMEDRIVER_VERSION` to the same version as the targeted binary.
+
+### Run cucumber feature tests against the test app
+
+#### Run all feature tests:
+
+```sh
+# Note: config path is relative to ./test/e2e/
+yarn workspace @okta/e2e wdio ./cucumber.wdio.conf.ts
+```
+
+#### Run single feature test:
+
+```sh
+yarn workspace @okta/e2e wdio ./cucumber.wdio.conf.ts --spec ./features/{filename}.feature
+```
+
+### Add a new feature test
+
+Cucumber feature tests are written in Gherkin language. Refer https://cucumber.io/docs/guides/overview/
+
+1. [Start test app](#start-test-app).
+2. Add a new feature file corresponding to your feature
+3. Add steps in the step definition files to execute the steps in your feature (given.ts, when.ts, then.ts, after.ts)
+4. Run the feature test and adjust as needed
 
 ## Debugging
 

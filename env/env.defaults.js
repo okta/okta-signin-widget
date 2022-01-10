@@ -27,19 +27,4 @@ module.exports = {
   // Basic user 5
   WIDGET_BASIC_USER_5: '',
   WIDGET_BASIC_PASSWORD_5: '',
-
-  // FB user 1
-  WIDGET_FB_USER: '',
-  WIDGET_FB_PASSWORD: '',
-  WIDGET_FB_NAME: 'Tom Alacddgjegbja Qinson',
-
-  // FB user 2
-  WIDGET_FB_USER_2: '',
-  WIDGET_FB_PASSWORD_2: '',
-  WIDGET_FB_NAME_2: 'Joe Alacchebjdhcf Bharambewitz',
-
-  // FB user 3
-  WIDGET_FB_USER_3: '',
-  WIDGET_FB_PASSWORD_3: '',
-
 };
