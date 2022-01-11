@@ -53,8 +53,6 @@ const timezoneUISchema = {
 
 const shouldRenderAsRadio = (name) => name.indexOf('methodType') >= 0 || name.indexOf('channel') >= 0;
 
-const isDisplayPresent = (ionField) => ionField.label === 'display' && ionField.value !== undefined;
-
 const createUiSchemaForString = (ionFormField, remediationForm, transformedResp, createUISchema, settings) => {
   const uiSchema = {
     type: 'text'
@@ -78,8 +76,9 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
   }
 
   if (Array.isArray(ionFormField.options) && ionFormField.options[0] && ionFormField.options[0].value) {
-    if (isDisplayPresent(ionFormField.options[0])) {
-      let display = ionFormField.options[0].value.value;
+    let ionField = ionFormField.options[0];
+    if (ionField.label === 'display') {
+      let display = ionField.value.value;
       uiSchema.type = display.inputType;
       if (display.inputType === 'radio') {
         uiSchema.options = display.options;

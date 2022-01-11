@@ -1,0 +1,188 @@
+{
+  "stateHandle": "01r2p5S9qaAjESMFuPzt7r3ZMcZZQ_vvS0Tzg56ajB",
+  "version": "1.0.0",
+  "expiresAt": "2019-07-24T21:25:33.000Z",
+
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": ["create-form"],
+        "name": "enroll-profile",
+        "href": "http://localhost:3000/idp/idx/enroll/new",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "userProfile",
+            "form": {
+              "value": [
+                {
+                  "name": "firstName",
+                  "type": "string",
+                  "label": "First name",
+                  "required": true
+                },
+                {
+                  "name": "lastName",
+                  "type": "string",
+                  "label": "Last name",
+                  "required": true
+                },
+                {
+                  "name": "email",
+                  "type": "string",
+                  "label": "Email",
+                  "required": true
+                },
+                {
+                  "name": "colores",
+                  "type": "string",
+                  "label": "Colors",
+                  "required": false,
+                  "options": [
+                    {
+                      "label": "display",
+                      "value": {
+                        "type": "object",
+                        "value": {
+                          "inputType": "select",
+                          "options": [
+                            {
+                              "label": "Red",
+                              "value": "red"
+                            },
+                            {
+                              "label": "Blue",
+                              "value": "blue"
+                            },
+                            {
+                              "label": "Green",
+                              "value": "green"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "favpizza",
+                  "type": "string",
+                  "label": "Favorite Pizza",
+                  "required": false,
+                  "options": [
+                    {
+                      "label": "display",
+                      "value": {
+                        "type": "object",
+                        "value": {
+                          "inputType": "radio",
+                          "options": [
+                            {
+                              "label": "Lucali",
+                              "value": "lucali"
+                            },
+                            {
+                              "label": "Razza",
+                              "value": "razza"
+                            },
+                            {
+                              "label": "Di Fara Pizza",
+                              "value": "difara"
+                            },
+                            {
+                              "label": "Bread And Salt",
+                              "value": "breadsalt"
+                            },
+                            {
+                              "label": "Ops",
+                              "value": "ops"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "favsong",
+                  "type": "string",
+                  "label": "Favorite Song",
+                  "required": false,
+                  "options": [
+                    {
+                      "label": "display",
+                      "value": {
+                        "type": "object",
+                        "value": {
+                          "inputType": "select",
+                          "options": [
+                            {
+                              "label": "Smells Like Teen Spirit - Nirvana",
+                              "value": "smells"
+                            },
+                            {
+                              "label": "Imagine - John Lennon",
+                              "value": "imagine"
+                            },
+                            {
+                              "label": "One - U2",
+                              "value": "one"
+                            },
+                            {
+                              "label": "Billie Jean - Michael Jackson",
+                              "value": "billie"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "name": "stateHandle",
+            "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+            "visible": false
+          }
+        ]
+      },
+      {
+        "rel": ["create-form"],
+        "name": "select-identify",
+        "href": "http://localhost:3000/idp/idx/identify",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "identifier",
+            "label": "identifier"
+          },
+          {
+            "name": "stateHandle",
+            "value": "01r2p5S9qaAjESMFuPzt7r3ZMcZZQ_vvS0Tzg56ajB",
+            "visible": false
+          }
+        ]
+      }
+    ]
+  },
+  "context": {
+    "rel": ["create-form"],
+    "name": "context",
+    "href": "http://localhost:3000/idp/idx/context",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "value": "01r2p5S9qaAjESMFuPzt7r3ZMcZZQ_vvS0Tzg56ajB",
+        "visible": false
+      }
+    ]
+  }
+}
