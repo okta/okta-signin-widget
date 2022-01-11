@@ -18,7 +18,6 @@ const SubtitleView = View.extend({
         {{i18n
           code="oie.email.verify.subtitleWithoutEmailAddress"
           bundle="login"
-          $1="<span class='strong'>$1</span>"
         }}
       {{/if}}
     </div>
