@@ -146,6 +146,7 @@
     "webpack-dev-server": "^4.0.0"
   },
   "dependencies": {
+    "@okta/courage": "4.5.0-5765-g9b650ca",
     "cross-fetch": "^3.0.4",
     "handlebars": "^4.5.3",
     "jasmine": "^4.0.1",
