@@ -102,7 +102,8 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
   }
 
   // set optional label for text boxes
-  if(ionFormField.required === false && uiSchema.type === 'text') {
+  if(ionFormField.required === false && (uiSchema.type === 'text' || uiSchema.type === 'radio' ||
+      uiSchema.type === 'select')) {
     uiSchema.sublabel = loc('oie.form.field.optional', 'login');
   }
 
