@@ -1,10 +1,2977 @@
 /******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./node_modules/@okta/courage/src/framework/Collection.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/framework/Collection.js ***!
-  \****************************************************************/
+/***/ "../../../../../okta/okta-ui/node_modules/backbone/backbone.js":
+/*!*********************************************************************!*\
+  !*** ../../../../../okta/okta-ui/node_modules/backbone/backbone.js ***!
+  \*********************************************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Backbone.js 1.4.0
+
+//     (c) 2010-2019 Jeremy Ashkenas and DocumentCloud
+//     Backbone may be freely distributed under the MIT license.
+//     For all details and documentation:
+//     http://backbonejs.org
+
+(function(factory) {
+
+  // Establish the root object, `window` (`self`) in the browser, or `global` on the server.
+  // We use `self` instead of `window` for `WebWorker` support.
+  var root = typeof self == 'object' && self.self === self && self ||
+            typeof __webpack_require__.g == 'object' && __webpack_require__.g.global === __webpack_require__.g && __webpack_require__.g;
+
+  // Set up Backbone appropriately for the environment. Start with AMD.
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! underscore */ "underscore"), __webpack_require__(/*! jquery */ "jquery"), exports], __WEBPACK_AMD_DEFINE_RESULT__ = (function(_, $, exports) {
+      // Export global even in AMD case in case this script is loaded with
+      // others that may still expect a global Backbone.
+      root.Backbone = factory(root, exports, _, $);
+    }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+  // Next for Node.js or CommonJS. jQuery may not be needed as a module.
+  } else { var _, $; }
+
+})(function(root, Backbone, _, $) {
+
+  // Initial Setup
+  // -------------
+
+  // Save the previous value of the `Backbone` variable, so that it can be
+  // restored later on, if `noConflict` is used.
+  var previousBackbone = root.Backbone;
+
+  // Create a local reference to a common array method we'll want to use later.
+  var slice = Array.prototype.slice;
+
+  // Current version of the library. Keep in sync with `package.json`.
+  Backbone.VERSION = '1.4.0';
+
+  // For Backbone's purposes, jQuery, Zepto, Ender, or My Library (kidding) owns
+  // the `$` variable.
+  Backbone.$ = $;
+
+  // Runs Backbone.js in *noConflict* mode, returning the `Backbone` variable
+  // to its previous owner. Returns a reference to this Backbone object.
+  Backbone.noConflict = function() {
+    root.Backbone = previousBackbone;
+    return this;
+  };
+
+  // Turn on `emulateHTTP` to support legacy HTTP servers. Setting this option
+  // will fake `"PATCH"`, `"PUT"` and `"DELETE"` requests via the `_method` parameter and
+  // set a `X-Http-Method-Override` header.
+  Backbone.emulateHTTP = false;
+
+  // Turn on `emulateJSON` to support legacy servers that can't deal with direct
+  // `application/json` requests ... this will encode the body as
+  // `application/x-www-form-urlencoded` instead and will send the model in a
+  // form param named `model`.
+  Backbone.emulateJSON = false;
+
+  // Backbone.Events
+  // ---------------
+
+  // A module that can be mixed in to *any object* in order to provide it with
+  // a custom event channel. You may bind a callback to an event with `on` or
+  // remove with `off`; `trigger`-ing an event fires all callbacks in
+  // succession.
+  //
+  //     var object = {};
+  //     _.extend(object, Backbone.Events);
+  //     object.on('expand', function(){ alert('expanded'); });
+  //     object.trigger('expand');
+  //
+  var Events = Backbone.Events = {};
+
+  // Regular expression used to split event strings.
+  var eventSplitter = /\s+/;
+
+  // A private global variable to share between listeners and listenees.
+  var _listening;
+
+  // Iterates over the standard `event, callback` (as well as the fancy multiple
+  // space-separated events `"change blur", callback` and jQuery-style event
+  // maps `{event: callback}`).
+  var eventsApi = function(iteratee, events, name, callback, opts) {
+    var i = 0, names;
+    if (name && typeof name === 'object') {
+      // Handle event maps.
+      if (callback !== void 0 && 'context' in opts && opts.context === void 0) opts.context = callback;
+      for (names = _.keys(name); i < names.length ; i++) {
+        events = eventsApi(iteratee, events, names[i], name[names[i]], opts);
+      }
+    } else if (name && eventSplitter.test(name)) {
+      // Handle space-separated event names by delegating them individually.
+      for (names = name.split(eventSplitter); i < names.length; i++) {
+        events = iteratee(events, names[i], callback, opts);
+      }
+    } else {
+      // Finally, standard events.
+      events = iteratee(events, name, callback, opts);
+    }
+    return events;
+  };
+
+  // Bind an event to a `callback` function. Passing `"all"` will bind
+  // the callback to all events fired.
+  Events.on = function(name, callback, context) {
+    this._events = eventsApi(onApi, this._events || {}, name, callback, {
+      context: context,
+      ctx: this,
+      listening: _listening
+    });
+
+    if (_listening) {
+      var listeners = this._listeners || (this._listeners = {});
+      listeners[_listening.id] = _listening;
+      // Allow the listening to use a counter, instead of tracking
+      // callbacks for library interop
+      _listening.interop = false;
+    }
+
+    return this;
+  };
+
+  // Inversion-of-control versions of `on`. Tell *this* object to listen to
+  // an event in another object... keeping track of what it's listening to
+  // for easier unbinding later.
+  Events.listenTo = function(obj, name, callback) {
+    if (!obj) return this;
+    var id = obj._listenId || (obj._listenId = _.uniqueId('l'));
+    var listeningTo = this._listeningTo || (this._listeningTo = {});
+    var listening = _listening = listeningTo[id];
+
+    // This object is not listening to any other events on `obj` yet.
+    // Setup the necessary references to track the listening callbacks.
+    if (!listening) {
+      this._listenId || (this._listenId = _.uniqueId('l'));
+      listening = _listening = listeningTo[id] = new Listening(this, obj);
+    }
+
+    // Bind callbacks on obj.
+    var error = tryCatchOn(obj, name, callback, this);
+    _listening = void 0;
+
+    if (error) throw error;
+    // If the target obj is not Backbone.Events, track events manually.
+    if (listening.interop) listening.on(name, callback);
+
+    return this;
+  };
+
+  // The reducing API that adds a callback to the `events` object.
+  var onApi = function(events, name, callback, options) {
+    if (callback) {
+      var handlers = events[name] || (events[name] = []);
+      var context = options.context, ctx = options.ctx, listening = options.listening;
+      if (listening) listening.count++;
+
+      handlers.push({callback: callback, context: context, ctx: context || ctx, listening: listening});
+    }
+    return events;
+  };
+
+  // An try-catch guarded #on function, to prevent poisoning the global
+  // `_listening` variable.
+  var tryCatchOn = function(obj, name, callback, context) {
+    try {
+      obj.on(name, callback, context);
+    } catch (e) {
+      return e;
+    }
+  };
+
+  // Remove one or many callbacks. If `context` is null, removes all
+  // callbacks with that function. If `callback` is null, removes all
+  // callbacks for the event. If `name` is null, removes all bound
+  // callbacks for all events.
+  Events.off = function(name, callback, context) {
+    if (!this._events) return this;
+    this._events = eventsApi(offApi, this._events, name, callback, {
+      context: context,
+      listeners: this._listeners
+    });
+
+    return this;
+  };
+
+  // Tell this object to stop listening to either specific events ... or
+  // to every object it's currently listening to.
+  Events.stopListening = function(obj, name, callback) {
+    var listeningTo = this._listeningTo;
+    if (!listeningTo) return this;
+
+    var ids = obj ? [obj._listenId] : _.keys(listeningTo);
+    for (var i = 0; i < ids.length; i++) {
+      var listening = listeningTo[ids[i]];
+
+      // If listening doesn't exist, this object is not currently
+      // listening to obj. Break out early.
+      if (!listening) break;
+
+      listening.obj.off(name, callback, this);
+      if (listening.interop) listening.off(name, callback);
+    }
+    if (_.isEmpty(listeningTo)) this._listeningTo = void 0;
+
+    return this;
+  };
+
+  // The reducing API that removes a callback from the `events` object.
+  var offApi = function(events, name, callback, options) {
+    if (!events) return;
+
+    var context = options.context, listeners = options.listeners;
+    var i = 0, names;
+
+    // Delete all event listeners and "drop" events.
+    if (!name && !context && !callback) {
+      for (names = _.keys(listeners); i < names.length; i++) {
+        listeners[names[i]].cleanup();
+      }
+      return;
+    }
+
+    names = name ? [name] : _.keys(events);
+    for (; i < names.length; i++) {
+      name = names[i];
+      var handlers = events[name];
+
+      // Bail out if there are no events stored.
+      if (!handlers) break;
+
+      // Find any remaining events.
+      var remaining = [];
+      for (var j = 0; j < handlers.length; j++) {
+        var handler = handlers[j];
+        if (
+          callback && callback !== handler.callback &&
+            callback !== handler.callback._callback ||
+              context && context !== handler.context
+        ) {
+          remaining.push(handler);
+        } else {
+          var listening = handler.listening;
+          if (listening) listening.off(name, callback);
+        }
+      }
+
+      // Replace events if there are any remaining.  Otherwise, clean up.
+      if (remaining.length) {
+        events[name] = remaining;
+      } else {
+        delete events[name];
+      }
+    }
+
+    return events;
+  };
+
+  // Bind an event to only be triggered a single time. After the first time
+  // the callback is invoked, its listener will be removed. If multiple events
+  // are passed in using the space-separated syntax, the handler will fire
+  // once for each event, not once for a combination of all events.
+  Events.once = function(name, callback, context) {
+    // Map the event into a `{event: once}` object.
+    var events = eventsApi(onceMap, {}, name, callback, this.off.bind(this));
+    if (typeof name === 'string' && context == null) callback = void 0;
+    return this.on(events, callback, context);
+  };
+
+  // Inversion-of-control versions of `once`.
+  Events.listenToOnce = function(obj, name, callback) {
+    // Map the event into a `{event: once}` object.
+    var events = eventsApi(onceMap, {}, name, callback, this.stopListening.bind(this, obj));
+    return this.listenTo(obj, events);
+  };
+
+  // Reduces the event callbacks into a map of `{event: onceWrapper}`.
+  // `offer` unbinds the `onceWrapper` after it has been called.
+  var onceMap = function(map, name, callback, offer) {
+    if (callback) {
+      var once = map[name] = _.once(function() {
+        offer(name, once);
+        callback.apply(this, arguments);
+      });
+      once._callback = callback;
+    }
+    return map;
+  };
+
+  // Trigger one or many events, firing all bound callbacks. Callbacks are
+  // passed the same arguments as `trigger` is, apart from the event name
+  // (unless you're listening on `"all"`, which will cause your callback to
+  // receive the true name of the event as the first argument).
+  Events.trigger = function(name) {
+    if (!this._events) return this;
+
+    var length = Math.max(0, arguments.length - 1);
+    var args = Array(length);
+    for (var i = 0; i < length; i++) args[i] = arguments[i + 1];
+
+    eventsApi(triggerApi, this._events, name, void 0, args);
+    return this;
+  };
+
+  // Handles triggering the appropriate event callbacks.
+  var triggerApi = function(objEvents, name, callback, args) {
+    if (objEvents) {
+      var events = objEvents[name];
+      var allEvents = objEvents.all;
+      if (events && allEvents) allEvents = allEvents.slice();
+      if (events) triggerEvents(events, args);
+      if (allEvents) triggerEvents(allEvents, [name].concat(args));
+    }
+    return objEvents;
+  };
+
+  // A difficult-to-believe, but optimized internal dispatch function for
+  // triggering events. Tries to keep the usual cases speedy (most internal
+  // Backbone events have 3 arguments).
+  var triggerEvents = function(events, args) {
+    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
+    switch (args.length) {
+      case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
+      case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
+      case 2: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2); return;
+      case 3: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2, a3); return;
+      default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args); return;
+    }
+  };
+
+  // A listening class that tracks and cleans up memory bindings
+  // when all callbacks have been offed.
+  var Listening = function(listener, obj) {
+    this.id = listener._listenId;
+    this.listener = listener;
+    this.obj = obj;
+    this.interop = true;
+    this.count = 0;
+    this._events = void 0;
+  };
+
+  Listening.prototype.on = Events.on;
+
+  // Offs a callback (or several).
+  // Uses an optimized counter if the listenee uses Backbone.Events.
+  // Otherwise, falls back to manual tracking to support events
+  // library interop.
+  Listening.prototype.off = function(name, callback) {
+    var cleanup;
+    if (this.interop) {
+      this._events = eventsApi(offApi, this._events, name, callback, {
+        context: void 0,
+        listeners: void 0
+      });
+      cleanup = !this._events;
+    } else {
+      this.count--;
+      cleanup = this.count === 0;
+    }
+    if (cleanup) this.cleanup();
+  };
+
+  // Cleans up memory bindings between the listener and the listenee.
+  Listening.prototype.cleanup = function() {
+    delete this.listener._listeningTo[this.obj._listenId];
+    if (!this.interop) delete this.obj._listeners[this.id];
+  };
+
+  // Aliases for backwards compatibility.
+  Events.bind   = Events.on;
+  Events.unbind = Events.off;
+
+  // Allow the `Backbone` object to serve as a global event bus, for folks who
+  // want global "pubsub" in a convenient place.
+  _.extend(Backbone, Events);
+
+  // Backbone.Model
+  // --------------
+
+  // Backbone **Models** are the basic data object in the framework --
+  // frequently representing a row in a table in a database on your server.
+  // A discrete chunk of data and a bunch of useful, related methods for
+  // performing computations and transformations on that data.
+
+  // Create a new model with the specified attributes. A client id (`cid`)
+  // is automatically generated and assigned for you.
+  var Model = Backbone.Model = function(attributes, options) {
+    var attrs = attributes || {};
+    options || (options = {});
+    this.preinitialize.apply(this, arguments);
+    this.cid = _.uniqueId(this.cidPrefix);
+    this.attributes = {};
+    if (options.collection) this.collection = options.collection;
+    if (options.parse) attrs = this.parse(attrs, options) || {};
+    var defaults = _.result(this, 'defaults');
+    attrs = _.defaults(_.extend({}, defaults, attrs), defaults);
+    this.set(attrs, options);
+    this.changed = {};
+    this.initialize.apply(this, arguments);
+  };
+
+  // Attach all inheritable methods to the Model prototype.
+  _.extend(Model.prototype, Events, {
+
+    // A hash of attributes whose current and previous value differ.
+    changed: null,
+
+    // The value returned during the last failed validation.
+    validationError: null,
+
+    // The default name for the JSON `id` attribute is `"id"`. MongoDB and
+    // CouchDB users may want to set this to `"_id"`.
+    idAttribute: 'id',
+
+    // The prefix is used to create the client id which is used to identify models locally.
+    // You may want to override this if you're experiencing name clashes with model ids.
+    cidPrefix: 'c',
+
+    // preinitialize is an empty function by default. You can override it with a function
+    // or object.  preinitialize will run before any instantiation logic is run in the Model.
+    preinitialize: function(){},
+
+    // Initialize is an empty function by default. Override it with your own
+    // initialization logic.
+    initialize: function(){},
+
+    // Return a copy of the model's `attributes` object.
+    toJSON: function(options) {
+      return _.clone(this.attributes);
+    },
+
+    // Proxy `Backbone.sync` by default -- but override this if you need
+    // custom syncing semantics for *this* particular model.
+    sync: function() {
+      return Backbone.sync.apply(this, arguments);
+    },
+
+    // Get the value of an attribute.
+    get: function(attr) {
+      return this.attributes[attr];
+    },
+
+    // Get the HTML-escaped value of an attribute.
+    escape: function(attr) {
+      return _.escape(this.get(attr));
+    },
+
+    // Returns `true` if the attribute contains a value that is not null
+    // or undefined.
+    has: function(attr) {
+      return this.get(attr) != null;
+    },
+
+    // Special-cased proxy to underscore's `_.matches` method.
+    matches: function(attrs) {
+      return !!_.iteratee(attrs, this)(this.attributes);
+    },
+
+    // Set a hash of model attributes on the object, firing `"change"`. This is
+    // the core primitive operation of a model, updating the data and notifying
+    // anyone who needs to know about the change in state. The heart of the beast.
+    set: function(key, val, options) {
+      if (key == null) return this;
+
+      // Handle both `"key", value` and `{key: value}` -style arguments.
+      var attrs;
+      if (typeof key === 'object') {
+        attrs = key;
+        options = val;
+      } else {
+        (attrs = {})[key] = val;
+      }
+
+      options || (options = {});
+
+      // Run validation.
+      if (!this._validate(attrs, options)) return false;
+
+      // Extract attributes and options.
+      var unset      = options.unset;
+      var silent     = options.silent;
+      var changes    = [];
+      var changing   = this._changing;
+      this._changing = true;
+
+      if (!changing) {
+        this._previousAttributes = _.clone(this.attributes);
+        this.changed = {};
+      }
+
+      var current = this.attributes;
+      var changed = this.changed;
+      var prev    = this._previousAttributes;
+
+      // For each `set` attribute, update or delete the current value.
+      for (var attr in attrs) {
+        val = attrs[attr];
+        if (!_.isEqual(current[attr], val)) changes.push(attr);
+        if (!_.isEqual(prev[attr], val)) {
+          changed[attr] = val;
+        } else {
+          delete changed[attr];
+        }
+        unset ? delete current[attr] : current[attr] = val;
+      }
+
+      // Update the `id`.
+      if (this.idAttribute in attrs) this.id = this.get(this.idAttribute);
+
+      // Trigger all relevant attribute changes.
+      if (!silent) {
+        if (changes.length) this._pending = options;
+        for (var i = 0; i < changes.length; i++) {
+          this.trigger('change:' + changes[i], this, current[changes[i]], options);
+        }
+      }
+
+      // You might be wondering why there's a `while` loop here. Changes can
+      // be recursively nested within `"change"` events.
+      if (changing) return this;
+      if (!silent) {
+        while (this._pending) {
+          options = this._pending;
+          this._pending = false;
+          this.trigger('change', this, options);
+        }
+      }
+      this._pending = false;
+      this._changing = false;
+      return this;
+    },
+
+    // Remove an attribute from the model, firing `"change"`. `unset` is a noop
+    // if the attribute doesn't exist.
+    unset: function(attr, options) {
+      return this.set(attr, void 0, _.extend({}, options, {unset: true}));
+    },
+
+    // Clear all attributes on the model, firing `"change"`.
+    clear: function(options) {
+      var attrs = {};
+      for (var key in this.attributes) attrs[key] = void 0;
+      return this.set(attrs, _.extend({}, options, {unset: true}));
+    },
+
+    // Determine if the model has changed since the last `"change"` event.
+    // If you specify an attribute name, determine if that attribute has changed.
+    hasChanged: function(attr) {
+      if (attr == null) return !_.isEmpty(this.changed);
+      return _.has(this.changed, attr);
+    },
+
+    // Return an object containing all the attributes that have changed, or
+    // false if there are no changed attributes. Useful for determining what
+    // parts of a view need to be updated and/or what attributes need to be
+    // persisted to the server. Unset attributes will be set to undefined.
+    // You can also pass an attributes object to diff against the model,
+    // determining if there *would be* a change.
+    changedAttributes: function(diff) {
+      if (!diff) return this.hasChanged() ? _.clone(this.changed) : false;
+      var old = this._changing ? this._previousAttributes : this.attributes;
+      var changed = {};
+      var hasChanged;
+      for (var attr in diff) {
+        var val = diff[attr];
+        if (_.isEqual(old[attr], val)) continue;
+        changed[attr] = val;
+        hasChanged = true;
+      }
+      return hasChanged ? changed : false;
+    },
+
+    // Get the previous value of an attribute, recorded at the time the last
+    // `"change"` event was fired.
+    previous: function(attr) {
+      if (attr == null || !this._previousAttributes) return null;
+      return this._previousAttributes[attr];
+    },
+
+    // Get all of the attributes of the model at the time of the previous
+    // `"change"` event.
+    previousAttributes: function() {
+      return _.clone(this._previousAttributes);
+    },
+
+    // Fetch the model from the server, merging the response with the model's
+    // local attributes. Any changed attributes will trigger a "change" event.
+    fetch: function(options) {
+      options = _.extend({parse: true}, options);
+      var model = this;
+      var success = options.success;
+      options.success = function(resp) {
+        var serverAttrs = options.parse ? model.parse(resp, options) : resp;
+        if (!model.set(serverAttrs, options)) return false;
+        if (success) success.call(options.context, model, resp, options);
+        model.trigger('sync', model, resp, options);
+      };
+      wrapError(this, options);
+      return this.sync('read', this, options);
+    },
+
+    // Set a hash of model attributes, and sync the model to the server.
+    // If the server returns an attributes hash that differs, the model's
+    // state will be `set` again.
+    save: function(key, val, options) {
+      // Handle both `"key", value` and `{key: value}` -style arguments.
+      var attrs;
+      if (key == null || typeof key === 'object') {
+        attrs = key;
+        options = val;
+      } else {
+        (attrs = {})[key] = val;
+      }
+
+      options = _.extend({validate: true, parse: true}, options);
+      var wait = options.wait;
+
+      // If we're not waiting and attributes exist, save acts as
+      // `set(attr).save(null, opts)` with validation. Otherwise, check if
+      // the model will be valid when the attributes, if any, are set.
+      if (attrs && !wait) {
+        if (!this.set(attrs, options)) return false;
+      } else if (!this._validate(attrs, options)) {
+        return false;
+      }
+
+      // After a successful server-side save, the client is (optionally)
+      // updated with the server-side state.
+      var model = this;
+      var success = options.success;
+      var attributes = this.attributes;
+      options.success = function(resp) {
+        // Ensure attributes are restored during synchronous saves.
+        model.attributes = attributes;
+        var serverAttrs = options.parse ? model.parse(resp, options) : resp;
+        if (wait) serverAttrs = _.extend({}, attrs, serverAttrs);
+        if (serverAttrs && !model.set(serverAttrs, options)) return false;
+        if (success) success.call(options.context, model, resp, options);
+        model.trigger('sync', model, resp, options);
+      };
+      wrapError(this, options);
+
+      // Set temporary attributes if `{wait: true}` to properly find new ids.
+      if (attrs && wait) this.attributes = _.extend({}, attributes, attrs);
+
+      var method = this.isNew() ? 'create' : options.patch ? 'patch' : 'update';
+      if (method === 'patch' && !options.attrs) options.attrs = attrs;
+      var xhr = this.sync(method, this, options);
+
+      // Restore attributes.
+      this.attributes = attributes;
+
+      return xhr;
+    },
+
+    // Destroy this model on the server if it was already persisted.
+    // Optimistically removes the model from its collection, if it has one.
+    // If `wait: true` is passed, waits for the server to respond before removal.
+    destroy: function(options) {
+      options = options ? _.clone(options) : {};
+      var model = this;
+      var success = options.success;
+      var wait = options.wait;
+
+      var destroy = function() {
+        model.stopListening();
+        model.trigger('destroy', model, model.collection, options);
+      };
+
+      options.success = function(resp) {
+        if (wait) destroy();
+        if (success) success.call(options.context, model, resp, options);
+        if (!model.isNew()) model.trigger('sync', model, resp, options);
+      };
+
+      var xhr = false;
+      if (this.isNew()) {
+        _.defer(options.success);
+      } else {
+        wrapError(this, options);
+        xhr = this.sync('delete', this, options);
+      }
+      if (!wait) destroy();
+      return xhr;
+    },
+
+    // Default URL for the model's representation on the server -- if you're
+    // using Backbone's restful methods, override this to change the endpoint
+    // that will be called.
+    url: function() {
+      var base =
+        _.result(this, 'urlRoot') ||
+        _.result(this.collection, 'url') ||
+        urlError();
+      if (this.isNew()) return base;
+      var id = this.get(this.idAttribute);
+      return base.replace(/[^\/]$/, '$&/') + encodeURIComponent(id);
+    },
+
+    // **parse** converts a response into the hash of attributes to be `set` on
+    // the model. The default implementation is just to pass the response along.
+    parse: function(resp, options) {
+      return resp;
+    },
+
+    // Create a new model with identical attributes to this one.
+    clone: function() {
+      return new this.constructor(this.attributes);
+    },
+
+    // A model is new if it has never been saved to the server, and lacks an id.
+    isNew: function() {
+      return !this.has(this.idAttribute);
+    },
+
+    // Check if the model is currently in a valid state.
+    isValid: function(options) {
+      return this._validate({}, _.extend({}, options, {validate: true}));
+    },
+
+    // Run validation against the next complete set of model attributes,
+    // returning `true` if all is well. Otherwise, fire an `"invalid"` event.
+    _validate: function(attrs, options) {
+      if (!options.validate || !this.validate) return true;
+      attrs = _.extend({}, this.attributes, attrs);
+      var error = this.validationError = this.validate(attrs, options) || null;
+      if (!error) return true;
+      this.trigger('invalid', this, error, _.extend(options, {validationError: error}));
+      return false;
+    }
+
+  });
+
+  // Backbone.Collection
+  // -------------------
+
+  // If models tend to represent a single row of data, a Backbone Collection is
+  // more analogous to a table full of data ... or a small slice or page of that
+  // table, or a collection of rows that belong together for a particular reason
+  // -- all of the messages in this particular folder, all of the documents
+  // belonging to this particular author, and so on. Collections maintain
+  // indexes of their models, both in order, and for lookup by `id`.
+
+  // Create a new **Collection**, perhaps to contain a specific type of `model`.
+  // If a `comparator` is specified, the Collection will maintain
+  // its models in sort order, as they're added and removed.
+  var Collection = Backbone.Collection = function(models, options) {
+    options || (options = {});
+    this.preinitialize.apply(this, arguments);
+    if (options.model) this.model = options.model;
+    if (options.comparator !== void 0) this.comparator = options.comparator;
+    this._reset();
+    this.initialize.apply(this, arguments);
+    if (models) this.reset(models, _.extend({silent: true}, options));
+  };
+
+  // Default options for `Collection#set`.
+  var setOptions = {add: true, remove: true, merge: true};
+  var addOptions = {add: true, remove: false};
+
+  // Splices `insert` into `array` at index `at`.
+  var splice = function(array, insert, at) {
+    at = Math.min(Math.max(at, 0), array.length);
+    var tail = Array(array.length - at);
+    var length = insert.length;
+    var i;
+    for (i = 0; i < tail.length; i++) tail[i] = array[i + at];
+    for (i = 0; i < length; i++) array[i + at] = insert[i];
+    for (i = 0; i < tail.length; i++) array[i + length + at] = tail[i];
+  };
+
+  // Define the Collection's inheritable methods.
+  _.extend(Collection.prototype, Events, {
+
+    // The default model for a collection is just a **Backbone.Model**.
+    // This should be overridden in most cases.
+    model: Model,
+
+
+    // preinitialize is an empty function by default. You can override it with a function
+    // or object.  preinitialize will run before any instantiation logic is run in the Collection.
+    preinitialize: function(){},
+
+    // Initialize is an empty function by default. Override it with your own
+    // initialization logic.
+    initialize: function(){},
+
+    // The JSON representation of a Collection is an array of the
+    // models' attributes.
+    toJSON: function(options) {
+      return this.map(function(model) { return model.toJSON(options); });
+    },
+
+    // Proxy `Backbone.sync` by default.
+    sync: function() {
+      return Backbone.sync.apply(this, arguments);
+    },
+
+    // Add a model, or list of models to the set. `models` may be Backbone
+    // Models or raw JavaScript objects to be converted to Models, or any
+    // combination of the two.
+    add: function(models, options) {
+      return this.set(models, _.extend({merge: false}, options, addOptions));
+    },
+
+    // Remove a model, or a list of models from the set.
+    remove: function(models, options) {
+      options = _.extend({}, options);
+      var singular = !_.isArray(models);
+      models = singular ? [models] : models.slice();
+      var removed = this._removeModels(models, options);
+      if (!options.silent && removed.length) {
+        options.changes = {added: [], merged: [], removed: removed};
+        this.trigger('update', this, options);
+      }
+      return singular ? removed[0] : removed;
+    },
+
+    // Update a collection by `set`-ing a new list of models, adding new ones,
+    // removing models that are no longer present, and merging models that
+    // already exist in the collection, as necessary. Similar to **Model#set**,
+    // the core operation for updating the data contained by the collection.
+    set: function(models, options) {
+      if (models == null) return;
+
+      options = _.extend({}, setOptions, options);
+      if (options.parse && !this._isModel(models)) {
+        models = this.parse(models, options) || [];
+      }
+
+      var singular = !_.isArray(models);
+      models = singular ? [models] : models.slice();
+
+      var at = options.at;
+      if (at != null) at = +at;
+      if (at > this.length) at = this.length;
+      if (at < 0) at += this.length + 1;
+
+      var set = [];
+      var toAdd = [];
+      var toMerge = [];
+      var toRemove = [];
+      var modelMap = {};
+
+      var add = options.add;
+      var merge = options.merge;
+      var remove = options.remove;
+
+      var sort = false;
+      var sortable = this.comparator && at == null && options.sort !== false;
+      var sortAttr = _.isString(this.comparator) ? this.comparator : null;
+
+      // Turn bare objects into model references, and prevent invalid models
+      // from being added.
+      var model, i;
+      for (i = 0; i < models.length; i++) {
+        model = models[i];
+
+        // If a duplicate is found, prevent it from being added and
+        // optionally merge it into the existing model.
+        var existing = this.get(model);
+        if (existing) {
+          if (merge && model !== existing) {
+            var attrs = this._isModel(model) ? model.attributes : model;
+            if (options.parse) attrs = existing.parse(attrs, options);
+            existing.set(attrs, options);
+            toMerge.push(existing);
+            if (sortable && !sort) sort = existing.hasChanged(sortAttr);
+          }
+          if (!modelMap[existing.cid]) {
+            modelMap[existing.cid] = true;
+            set.push(existing);
+          }
+          models[i] = existing;
+
+        // If this is a new, valid model, push it to the `toAdd` list.
+        } else if (add) {
+          model = models[i] = this._prepareModel(model, options);
+          if (model) {
+            toAdd.push(model);
+            this._addReference(model, options);
+            modelMap[model.cid] = true;
+            set.push(model);
+          }
+        }
+      }
+
+      // Remove stale models.
+      if (remove) {
+        for (i = 0; i < this.length; i++) {
+          model = this.models[i];
+          if (!modelMap[model.cid]) toRemove.push(model);
+        }
+        if (toRemove.length) this._removeModels(toRemove, options);
+      }
+
+      // See if sorting is needed, update `length` and splice in new models.
+      var orderChanged = false;
+      var replace = !sortable && add && remove;
+      if (set.length && replace) {
+        orderChanged = this.length !== set.length || _.some(this.models, function(m, index) {
+          return m !== set[index];
+        });
+        this.models.length = 0;
+        splice(this.models, set, 0);
+        this.length = this.models.length;
+      } else if (toAdd.length) {
+        if (sortable) sort = true;
+        splice(this.models, toAdd, at == null ? this.length : at);
+        this.length = this.models.length;
+      }
+
+      // Silently sort the collection if appropriate.
+      if (sort) this.sort({silent: true});
+
+      // Unless silenced, it's time to fire all appropriate add/sort/update events.
+      if (!options.silent) {
+        for (i = 0; i < toAdd.length; i++) {
+          if (at != null) options.index = at + i;
+          model = toAdd[i];
+          model.trigger('add', model, this, options);
+        }
+        if (sort || orderChanged) this.trigger('sort', this, options);
+        if (toAdd.length || toRemove.length || toMerge.length) {
+          options.changes = {
+            added: toAdd,
+            removed: toRemove,
+            merged: toMerge
+          };
+          this.trigger('update', this, options);
+        }
+      }
+
+      // Return the added (or merged) model (or models).
+      return singular ? models[0] : models;
+    },
+
+    // When you have more items than you want to add or remove individually,
+    // you can reset the entire set with a new list of models, without firing
+    // any granular `add` or `remove` events. Fires `reset` when finished.
+    // Useful for bulk operations and optimizations.
+    reset: function(models, options) {
+      options = options ? _.clone(options) : {};
+      for (var i = 0; i < this.models.length; i++) {
+        this._removeReference(this.models[i], options);
+      }
+      options.previousModels = this.models;
+      this._reset();
+      models = this.add(models, _.extend({silent: true}, options));
+      if (!options.silent) this.trigger('reset', this, options);
+      return models;
+    },
+
+    // Add a model to the end of the collection.
+    push: function(model, options) {
+      return this.add(model, _.extend({at: this.length}, options));
+    },
+
+    // Remove a model from the end of the collection.
+    pop: function(options) {
+      var model = this.at(this.length - 1);
+      return this.remove(model, options);
+    },
+
+    // Add a model to the beginning of the collection.
+    unshift: function(model, options) {
+      return this.add(model, _.extend({at: 0}, options));
+    },
+
+    // Remove a model from the beginning of the collection.
+    shift: function(options) {
+      var model = this.at(0);
+      return this.remove(model, options);
+    },
+
+    // Slice out a sub-array of models from the collection.
+    slice: function() {
+      return slice.apply(this.models, arguments);
+    },
+
+    // Get a model from the set by id, cid, model object with id or cid
+    // properties, or an attributes object that is transformed through modelId.
+    get: function(obj) {
+      if (obj == null) return void 0;
+      return this._byId[obj] ||
+        this._byId[this.modelId(this._isModel(obj) ? obj.attributes : obj)] ||
+        obj.cid && this._byId[obj.cid];
+    },
+
+    // Returns `true` if the model is in the collection.
+    has: function(obj) {
+      return this.get(obj) != null;
+    },
+
+    // Get the model at the given index.
+    at: function(index) {
+      if (index < 0) index += this.length;
+      return this.models[index];
+    },
+
+    // Return models with matching attributes. Useful for simple cases of
+    // `filter`.
+    where: function(attrs, first) {
+      return this[first ? 'find' : 'filter'](attrs);
+    },
+
+    // Return the first model with matching attributes. Useful for simple cases
+    // of `find`.
+    findWhere: function(attrs) {
+      return this.where(attrs, true);
+    },
+
+    // Force the collection to re-sort itself. You don't need to call this under
+    // normal circumstances, as the set will maintain sort order as each item
+    // is added.
+    sort: function(options) {
+      var comparator = this.comparator;
+      if (!comparator) throw new Error('Cannot sort a set without a comparator');
+      options || (options = {});
+
+      var length = comparator.length;
+      if (_.isFunction(comparator)) comparator = comparator.bind(this);
+
+      // Run sort based on type of `comparator`.
+      if (length === 1 || _.isString(comparator)) {
+        this.models = this.sortBy(comparator);
+      } else {
+        this.models.sort(comparator);
+      }
+      if (!options.silent) this.trigger('sort', this, options);
+      return this;
+    },
+
+    // Pluck an attribute from each model in the collection.
+    pluck: function(attr) {
+      return this.map(attr + '');
+    },
+
+    // Fetch the default set of models for this collection, resetting the
+    // collection when they arrive. If `reset: true` is passed, the response
+    // data will be passed through the `reset` method instead of `set`.
+    fetch: function(options) {
+      options = _.extend({parse: true}, options);
+      var success = options.success;
+      var collection = this;
+      options.success = function(resp) {
+        var method = options.reset ? 'reset' : 'set';
+        collection[method](resp, options);
+        if (success) success.call(options.context, collection, resp, options);
+        collection.trigger('sync', collection, resp, options);
+      };
+      wrapError(this, options);
+      return this.sync('read', this, options);
+    },
+
+    // Create a new instance of a model in this collection. Add the model to the
+    // collection immediately, unless `wait: true` is passed, in which case we
+    // wait for the server to agree.
+    create: function(model, options) {
+      options = options ? _.clone(options) : {};
+      var wait = options.wait;
+      model = this._prepareModel(model, options);
+      if (!model) return false;
+      if (!wait) this.add(model, options);
+      var collection = this;
+      var success = options.success;
+      options.success = function(m, resp, callbackOpts) {
+        if (wait) collection.add(m, callbackOpts);
+        if (success) success.call(callbackOpts.context, m, resp, callbackOpts);
+      };
+      model.save(null, options);
+      return model;
+    },
+
+    // **parse** converts a response into a list of models to be added to the
+    // collection. The default implementation is just to pass it through.
+    parse: function(resp, options) {
+      return resp;
+    },
+
+    // Create a new collection with an identical list of models as this one.
+    clone: function() {
+      return new this.constructor(this.models, {
+        model: this.model,
+        comparator: this.comparator
+      });
+    },
+
+    // Define how to uniquely identify models in the collection.
+    modelId: function(attrs) {
+      return attrs[this.model.prototype.idAttribute || 'id'];
+    },
+
+    // Get an iterator of all models in this collection.
+    values: function() {
+      return new CollectionIterator(this, ITERATOR_VALUES);
+    },
+
+    // Get an iterator of all model IDs in this collection.
+    keys: function() {
+      return new CollectionIterator(this, ITERATOR_KEYS);
+    },
+
+    // Get an iterator of all [ID, model] tuples in this collection.
+    entries: function() {
+      return new CollectionIterator(this, ITERATOR_KEYSVALUES);
+    },
+
+    // Private method to reset all internal state. Called when the collection
+    // is first initialized or reset.
+    _reset: function() {
+      this.length = 0;
+      this.models = [];
+      this._byId  = {};
+    },
+
+    // Prepare a hash of attributes (or other model) to be added to this
+    // collection.
+    _prepareModel: function(attrs, options) {
+      if (this._isModel(attrs)) {
+        if (!attrs.collection) attrs.collection = this;
+        return attrs;
+      }
+      options = options ? _.clone(options) : {};
+      options.collection = this;
+      var model = new this.model(attrs, options);
+      if (!model.validationError) return model;
+      this.trigger('invalid', this, model.validationError, options);
+      return false;
+    },
+
+    // Internal method called by both remove and set.
+    _removeModels: function(models, options) {
+      var removed = [];
+      for (var i = 0; i < models.length; i++) {
+        var model = this.get(models[i]);
+        if (!model) continue;
+
+        var index = this.indexOf(model);
+        this.models.splice(index, 1);
+        this.length--;
+
+        // Remove references before triggering 'remove' event to prevent an
+        // infinite loop. #3693
+        delete this._byId[model.cid];
+        var id = this.modelId(model.attributes);
+        if (id != null) delete this._byId[id];
+
+        if (!options.silent) {
+          options.index = index;
+          model.trigger('remove', model, this, options);
+        }
+
+        removed.push(model);
+        this._removeReference(model, options);
+      }
+      return removed;
+    },
+
+    // Method for checking whether an object should be considered a model for
+    // the purposes of adding to the collection.
+    _isModel: function(model) {
+      return model instanceof Model;
+    },
+
+    // Internal method to create a model's ties to a collection.
+    _addReference: function(model, options) {
+      this._byId[model.cid] = model;
+      var id = this.modelId(model.attributes);
+      if (id != null) this._byId[id] = model;
+      model.on('all', this._onModelEvent, this);
+    },
+
+    // Internal method to sever a model's ties to a collection.
+    _removeReference: function(model, options) {
+      delete this._byId[model.cid];
+      var id = this.modelId(model.attributes);
+      if (id != null) delete this._byId[id];
+      if (this === model.collection) delete model.collection;
+      model.off('all', this._onModelEvent, this);
+    },
+
+    // Internal method called every time a model in the set fires an event.
+    // Sets need to update their indexes when models change ids. All other
+    // events simply proxy through. "add" and "remove" events that originate
+    // in other collections are ignored.
+    _onModelEvent: function(event, model, collection, options) {
+      if (model) {
+        if ((event === 'add' || event === 'remove') && collection !== this) return;
+        if (event === 'destroy') this.remove(model, options);
+        if (event === 'change') {
+          var prevId = this.modelId(model.previousAttributes());
+          var id = this.modelId(model.attributes);
+          if (prevId !== id) {
+            if (prevId != null) delete this._byId[prevId];
+            if (id != null) this._byId[id] = model;
+          }
+        }
+      }
+      this.trigger.apply(this, arguments);
+    }
+
+  });
+
+  // Defining an @@iterator method implements JavaScript's Iterable protocol.
+  // In modern ES2015 browsers, this value is found at Symbol.iterator.
+  /* global Symbol */
+  var $$iterator = typeof Symbol === 'function' && Symbol.iterator;
+  if ($$iterator) {
+    Collection.prototype[$$iterator] = Collection.prototype.values;
+  }
+
+  // CollectionIterator
+  // ------------------
+
+  // A CollectionIterator implements JavaScript's Iterator protocol, allowing the
+  // use of `for of` loops in modern browsers and interoperation between
+  // Backbone.Collection and other JavaScript functions and third-party libraries
+  // which can operate on Iterables.
+  var CollectionIterator = function(collection, kind) {
+    this._collection = collection;
+    this._kind = kind;
+    this._index = 0;
+  };
+
+  // This "enum" defines the three possible kinds of values which can be emitted
+  // by a CollectionIterator that correspond to the values(), keys() and entries()
+  // methods on Collection, respectively.
+  var ITERATOR_VALUES = 1;
+  var ITERATOR_KEYS = 2;
+  var ITERATOR_KEYSVALUES = 3;
+
+  // All Iterators should themselves be Iterable.
+  if ($$iterator) {
+    CollectionIterator.prototype[$$iterator] = function() {
+      return this;
+    };
+  }
+
+  CollectionIterator.prototype.next = function() {
+    if (this._collection) {
+
+      // Only continue iterating if the iterated collection is long enough.
+      if (this._index < this._collection.length) {
+        var model = this._collection.at(this._index);
+        this._index++;
+
+        // Construct a value depending on what kind of values should be iterated.
+        var value;
+        if (this._kind === ITERATOR_VALUES) {
+          value = model;
+        } else {
+          var id = this._collection.modelId(model.attributes);
+          if (this._kind === ITERATOR_KEYS) {
+            value = id;
+          } else { // ITERATOR_KEYSVALUES
+            value = [id, model];
+          }
+        }
+        return {value: value, done: false};
+      }
+
+      // Once exhausted, remove the reference to the collection so future
+      // calls to the next method always return done.
+      this._collection = void 0;
+    }
+
+    return {value: void 0, done: true};
+  };
+
+  // Backbone.View
+  // -------------
+
+  // Backbone Views are almost more convention than they are actual code. A View
+  // is simply a JavaScript object that represents a logical chunk of UI in the
+  // DOM. This might be a single item, an entire list, a sidebar or panel, or
+  // even the surrounding frame which wraps your whole app. Defining a chunk of
+  // UI as a **View** allows you to define your DOM events declaratively, without
+  // having to worry about render order ... and makes it easy for the view to
+  // react to specific changes in the state of your models.
+
+  // Creating a Backbone.View creates its initial element outside of the DOM,
+  // if an existing element is not provided...
+  var View = Backbone.View = function(options) {
+    this.cid = _.uniqueId('view');
+    this.preinitialize.apply(this, arguments);
+    _.extend(this, _.pick(options, viewOptions));
+    this._ensureElement();
+    this.initialize.apply(this, arguments);
+  };
+
+  // Cached regex to split keys for `delegate`.
+  var delegateEventSplitter = /^(\S+)\s*(.*)$/;
+
+  // List of view options to be set as properties.
+  var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
+
+  // Set up all inheritable **Backbone.View** properties and methods.
+  _.extend(View.prototype, Events, {
+
+    // The default `tagName` of a View's element is `"div"`.
+    tagName: 'div',
+
+    // jQuery delegate for element lookup, scoped to DOM elements within the
+    // current view. This should be preferred to global lookups where possible.
+    $: function(selector) {
+      return this.$el.find(selector);
+    },
+
+    // preinitialize is an empty function by default. You can override it with a function
+    // or object.  preinitialize will run before any instantiation logic is run in the View
+    preinitialize: function(){},
+
+    // Initialize is an empty function by default. Override it with your own
+    // initialization logic.
+    initialize: function(){},
+
+    // **render** is the core function that your view should override, in order
+    // to populate its element (`this.el`), with the appropriate HTML. The
+    // convention is for **render** to always return `this`.
+    render: function() {
+      return this;
+    },
+
+    // Remove this view by taking the element out of the DOM, and removing any
+    // applicable Backbone.Events listeners.
+    remove: function() {
+      this._removeElement();
+      this.stopListening();
+      return this;
+    },
+
+    // Remove this view's element from the document and all event listeners
+    // attached to it. Exposed for subclasses using an alternative DOM
+    // manipulation API.
+    _removeElement: function() {
+      this.$el.remove();
+    },
+
+    // Change the view's element (`this.el` property) and re-delegate the
+    // view's events on the new element.
+    setElement: function(element) {
+      this.undelegateEvents();
+      this._setElement(element);
+      this.delegateEvents();
+      return this;
+    },
+
+    // Creates the `this.el` and `this.$el` references for this view using the
+    // given `el`. `el` can be a CSS selector or an HTML string, a jQuery
+    // context or an element. Subclasses can override this to utilize an
+    // alternative DOM manipulation API and are only required to set the
+    // `this.el` property.
+    _setElement: function(el) {
+      this.$el = el instanceof Backbone.$ ? el : Backbone.$(el);
+      this.el = this.$el[0];
+    },
+
+    // Set callbacks, where `this.events` is a hash of
+    //
+    // *{"event selector": "callback"}*
+    //
+    //     {
+    //       'mousedown .title':  'edit',
+    //       'click .button':     'save',
+    //       'click .open':       function(e) { ... }
+    //     }
+    //
+    // pairs. Callbacks will be bound to the view, with `this` set properly.
+    // Uses event delegation for efficiency.
+    // Omitting the selector binds the event to `this.el`.
+    delegateEvents: function(events) {
+      events || (events = _.result(this, 'events'));
+      if (!events) return this;
+      this.undelegateEvents();
+      for (var key in events) {
+        var method = events[key];
+        if (!_.isFunction(method)) method = this[method];
+        if (!method) continue;
+        var match = key.match(delegateEventSplitter);
+        this.delegate(match[1], match[2], method.bind(this));
+      }
+      return this;
+    },
+
+    // Add a single event listener to the view's element (or a child element
+    // using `selector`). This only works for delegate-able events: not `focus`,
+    // `blur`, and not `change`, `submit`, and `reset` in Internet Explorer.
+    delegate: function(eventName, selector, listener) {
+      this.$el.on(eventName + '.delegateEvents' + this.cid, selector, listener);
+      return this;
+    },
+
+    // Clears all callbacks previously bound to the view by `delegateEvents`.
+    // You usually don't need to use this, but may wish to if you have multiple
+    // Backbone views attached to the same DOM element.
+    undelegateEvents: function() {
+      if (this.$el) this.$el.off('.delegateEvents' + this.cid);
+      return this;
+    },
+
+    // A finer-grained `undelegateEvents` for removing a single delegated event.
+    // `selector` and `listener` are both optional.
+    undelegate: function(eventName, selector, listener) {
+      this.$el.off(eventName + '.delegateEvents' + this.cid, selector, listener);
+      return this;
+    },
+
+    // Produces a DOM element to be assigned to your view. Exposed for
+    // subclasses using an alternative DOM manipulation API.
+    _createElement: function(tagName) {
+      return document.createElement(tagName);
+    },
+
+    // Ensure that the View has a DOM element to render into.
+    // If `this.el` is a string, pass it through `$()`, take the first
+    // matching element, and re-assign it to `el`. Otherwise, create
+    // an element from the `id`, `className` and `tagName` properties.
+    _ensureElement: function() {
+      if (!this.el) {
+        var attrs = _.extend({}, _.result(this, 'attributes'));
+        if (this.id) attrs.id = _.result(this, 'id');
+        if (this.className) attrs['class'] = _.result(this, 'className');
+        this.setElement(this._createElement(_.result(this, 'tagName')));
+        this._setAttributes(attrs);
+      } else {
+        this.setElement(_.result(this, 'el'));
+      }
+    },
+
+    // Set attributes from a hash on this view's element.  Exposed for
+    // subclasses using an alternative DOM manipulation API.
+    _setAttributes: function(attributes) {
+      this.$el.attr(attributes);
+    }
+
+  });
+
+  // Proxy Backbone class methods to Underscore functions, wrapping the model's
+  // `attributes` object or collection's `models` array behind the scenes.
+  //
+  // collection.filter(function(model) { return model.get('age') > 10 });
+  // collection.each(this.addView);
+  //
+  // `Function#apply` can be slow so we use the method's arg count, if we know it.
+  var addMethod = function(base, length, method, attribute) {
+    switch (length) {
+      case 1: return function() {
+        return base[method](this[attribute]);
+      };
+      case 2: return function(value) {
+        return base[method](this[attribute], value);
+      };
+      case 3: return function(iteratee, context) {
+        return base[method](this[attribute], cb(iteratee, this), context);
+      };
+      case 4: return function(iteratee, defaultVal, context) {
+        return base[method](this[attribute], cb(iteratee, this), defaultVal, context);
+      };
+      default: return function() {
+        var args = slice.call(arguments);
+        args.unshift(this[attribute]);
+        return base[method].apply(base, args);
+      };
+    }
+  };
+
+  var addUnderscoreMethods = function(Class, base, methods, attribute) {
+    _.each(methods, function(length, method) {
+      if (base[method]) Class.prototype[method] = addMethod(base, length, method, attribute);
+    });
+  };
+
+  // Support `collection.sortBy('attr')` and `collection.findWhere({id: 1})`.
+  var cb = function(iteratee, instance) {
+    if (_.isFunction(iteratee)) return iteratee;
+    if (_.isObject(iteratee) && !instance._isModel(iteratee)) return modelMatcher(iteratee);
+    if (_.isString(iteratee)) return function(model) { return model.get(iteratee); };
+    return iteratee;
+  };
+  var modelMatcher = function(attrs) {
+    var matcher = _.matches(attrs);
+    return function(model) {
+      return matcher(model.attributes);
+    };
+  };
+
+  // Underscore methods that we want to implement on the Collection.
+  // 90% of the core usefulness of Backbone Collections is actually implemented
+  // right here:
+  var collectionMethods = {forEach: 3, each: 3, map: 3, collect: 3, reduce: 0,
+    foldl: 0, inject: 0, reduceRight: 0, foldr: 0, find: 3, detect: 3, filter: 3,
+    select: 3, reject: 3, every: 3, all: 3, some: 3, any: 3, include: 3, includes: 3,
+    contains: 3, invoke: 0, max: 3, min: 3, toArray: 1, size: 1, first: 3,
+    head: 3, take: 3, initial: 3, rest: 3, tail: 3, drop: 3, last: 3,
+    without: 0, difference: 0, indexOf: 3, shuffle: 1, lastIndexOf: 3,
+    isEmpty: 1, chain: 1, sample: 3, partition: 3, groupBy: 3, countBy: 3,
+    sortBy: 3, indexBy: 3, findIndex: 3, findLastIndex: 3};
+
+
+  // Underscore methods that we want to implement on the Model, mapped to the
+  // number of arguments they take.
+  var modelMethods = {keys: 1, values: 1, pairs: 1, invert: 1, pick: 0,
+    omit: 0, chain: 1, isEmpty: 1};
+
+  // Mix in each Underscore method as a proxy to `Collection#models`.
+
+  _.each([
+    [Collection, collectionMethods, 'models'],
+    [Model, modelMethods, 'attributes']
+  ], function(config) {
+    var Base = config[0],
+        methods = config[1],
+        attribute = config[2];
+
+    Base.mixin = function(obj) {
+      var mappings = _.reduce(_.functions(obj), function(memo, name) {
+        memo[name] = 0;
+        return memo;
+      }, {});
+      addUnderscoreMethods(Base, obj, mappings, attribute);
+    };
+
+    addUnderscoreMethods(Base, _, methods, attribute);
+  });
+
+  // Backbone.sync
+  // -------------
+
+  // Override this function to change the manner in which Backbone persists
+  // models to the server. You will be passed the type of request, and the
+  // model in question. By default, makes a RESTful Ajax request
+  // to the model's `url()`. Some possible customizations could be:
+  //
+  // * Use `setTimeout` to batch rapid-fire updates into a single request.
+  // * Send up the models as XML instead of JSON.
+  // * Persist models via WebSockets instead of Ajax.
+  //
+  // Turn on `Backbone.emulateHTTP` in order to send `PUT` and `DELETE` requests
+  // as `POST`, with a `_method` parameter containing the true HTTP method,
+  // as well as all requests with the body as `application/x-www-form-urlencoded`
+  // instead of `application/json` with the model in a param named `model`.
+  // Useful when interfacing with server-side languages like **PHP** that make
+  // it difficult to read the body of `PUT` requests.
+  Backbone.sync = function(method, model, options) {
+    var type = methodMap[method];
+
+    // Default options, unless specified.
+    _.defaults(options || (options = {}), {
+      emulateHTTP: Backbone.emulateHTTP,
+      emulateJSON: Backbone.emulateJSON
+    });
+
+    // Default JSON-request options.
+    var params = {type: type, dataType: 'json'};
+
+    // Ensure that we have a URL.
+    if (!options.url) {
+      params.url = _.result(model, 'url') || urlError();
+    }
+
+    // Ensure that we have the appropriate request data.
+    if (options.data == null && model && (method === 'create' || method === 'update' || method === 'patch')) {
+      params.contentType = 'application/json';
+      params.data = JSON.stringify(options.attrs || model.toJSON(options));
+    }
+
+    // For older servers, emulate JSON by encoding the request into an HTML-form.
+    if (options.emulateJSON) {
+      params.contentType = 'application/x-www-form-urlencoded';
+      params.data = params.data ? {model: params.data} : {};
+    }
+
+    // For older servers, emulate HTTP by mimicking the HTTP method with `_method`
+    // And an `X-HTTP-Method-Override` header.
+    if (options.emulateHTTP && (type === 'PUT' || type === 'DELETE' || type === 'PATCH')) {
+      params.type = 'POST';
+      if (options.emulateJSON) params.data._method = type;
+      var beforeSend = options.beforeSend;
+      options.beforeSend = function(xhr) {
+        xhr.setRequestHeader('X-HTTP-Method-Override', type);
+        if (beforeSend) return beforeSend.apply(this, arguments);
+      };
+    }
+
+    // Don't process data on a non-GET request.
+    if (params.type !== 'GET' && !options.emulateJSON) {
+      params.processData = false;
+    }
+
+    // Pass along `textStatus` and `errorThrown` from jQuery.
+    var error = options.error;
+    options.error = function(xhr, textStatus, errorThrown) {
+      options.textStatus = textStatus;
+      options.errorThrown = errorThrown;
+      if (error) error.call(options.context, xhr, textStatus, errorThrown);
+    };
+
+    // Make the request, allowing the user to override any Ajax options.
+    var xhr = options.xhr = Backbone.ajax(_.extend(params, options));
+    model.trigger('request', model, xhr, options);
+    return xhr;
+  };
+
+  // Map from CRUD to HTTP for our default `Backbone.sync` implementation.
+  var methodMap = {
+    create: 'POST',
+    update: 'PUT',
+    patch: 'PATCH',
+    delete: 'DELETE',
+    read: 'GET'
+  };
+
+  // Set the default implementation of `Backbone.ajax` to proxy through to `$`.
+  // Override this if you'd like to use a different library.
+  Backbone.ajax = function() {
+    return Backbone.$.ajax.apply(Backbone.$, arguments);
+  };
+
+  // Backbone.Router
+  // ---------------
+
+  // Routers map faux-URLs to actions, and fire events when routes are
+  // matched. Creating a new one sets its `routes` hash, if not set statically.
+  var Router = Backbone.Router = function(options) {
+    options || (options = {});
+    this.preinitialize.apply(this, arguments);
+    if (options.routes) this.routes = options.routes;
+    this._bindRoutes();
+    this.initialize.apply(this, arguments);
+  };
+
+  // Cached regular expressions for matching named param parts and splatted
+  // parts of route strings.
+  var optionalParam = /\((.*?)\)/g;
+  var namedParam    = /(\(\?)?:\w+/g;
+  var splatParam    = /\*\w+/g;
+  var escapeRegExp  = /[\-{}\[\]+?.,\\\^$|#\s]/g;
+
+  // Set up all inheritable **Backbone.Router** properties and methods.
+  _.extend(Router.prototype, Events, {
+
+    // preinitialize is an empty function by default. You can override it with a function
+    // or object.  preinitialize will run before any instantiation logic is run in the Router.
+    preinitialize: function(){},
+
+    // Initialize is an empty function by default. Override it with your own
+    // initialization logic.
+    initialize: function(){},
+
+    // Manually bind a single named route to a callback. For example:
+    //
+    //     this.route('search/:query/p:num', 'search', function(query, num) {
+    //       ...
+    //     });
+    //
+    route: function(route, name, callback) {
+      if (!_.isRegExp(route)) route = this._routeToRegExp(route);
+      if (_.isFunction(name)) {
+        callback = name;
+        name = '';
+      }
+      if (!callback) callback = this[name];
+      var router = this;
+      Backbone.history.route(route, function(fragment) {
+        var args = router._extractParameters(route, fragment);
+        if (router.execute(callback, args, name) !== false) {
+          router.trigger.apply(router, ['route:' + name].concat(args));
+          router.trigger('route', name, args);
+          Backbone.history.trigger('route', router, name, args);
+        }
+      });
+      return this;
+    },
+
+    // Execute a route handler with the provided parameters.  This is an
+    // excellent place to do pre-route setup or post-route cleanup.
+    execute: function(callback, args, name) {
+      if (callback) callback.apply(this, args);
+    },
+
+    // Simple proxy to `Backbone.history` to save a fragment into the history.
+    navigate: function(fragment, options) {
+      Backbone.history.navigate(fragment, options);
+      return this;
+    },
+
+    // Bind all defined routes to `Backbone.history`. We have to reverse the
+    // order of the routes here to support behavior where the most general
+    // routes can be defined at the bottom of the route map.
+    _bindRoutes: function() {
+      if (!this.routes) return;
+      this.routes = _.result(this, 'routes');
+      var route, routes = _.keys(this.routes);
+      while ((route = routes.pop()) != null) {
+        this.route(route, this.routes[route]);
+      }
+    },
+
+    // Convert a route string into a regular expression, suitable for matching
+    // against the current location hash.
+    _routeToRegExp: function(route) {
+      route = route.replace(escapeRegExp, '\\$&')
+        .replace(optionalParam, '(?:$1)?')
+        .replace(namedParam, function(match, optional) {
+          return optional ? match : '([^/?]+)';
+        })
+        .replace(splatParam, '([^?]*?)');
+      return new RegExp('^' + route + '(?:\\?([\\s\\S]*))?$');
+    },
+
+    // Given a route, and a URL fragment that it matches, return the array of
+    // extracted decoded parameters. Empty or unmatched parameters will be
+    // treated as `null` to normalize cross-browser behavior.
+    _extractParameters: function(route, fragment) {
+      var params = route.exec(fragment).slice(1);
+      return _.map(params, function(param, i) {
+        // Don't decode the search params.
+        if (i === params.length - 1) return param || null;
+        return param ? decodeURIComponent(param) : null;
+      });
+    }
+
+  });
+
+  // Backbone.History
+  // ----------------
+
+  // Handles cross-browser history management, based on either
+  // [pushState](http://diveintohtml5.info/history.html) and real URLs, or
+  // [onhashchange](https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange)
+  // and URL fragments. If the browser supports neither (old IE, natch),
+  // falls back to polling.
+  var History = Backbone.History = function() {
+    this.handlers = [];
+    this.checkUrl = this.checkUrl.bind(this);
+
+    // Ensure that `History` can be used outside of the browser.
+    if (typeof window !== 'undefined') {
+      this.location = window.location;
+      this.history = window.history;
+    }
+  };
+
+  // Cached regex for stripping a leading hash/slash and trailing space.
+  var routeStripper = /^[#\/]|\s+$/g;
+
+  // Cached regex for stripping leading and trailing slashes.
+  var rootStripper = /^\/+|\/+$/g;
+
+  // Cached regex for stripping urls of hash.
+  var pathStripper = /#.*$/;
+
+  // Has the history handling already been started?
+  History.started = false;
+
+  // Set up all inheritable **Backbone.History** properties and methods.
+  _.extend(History.prototype, Events, {
+
+    // The default interval to poll for hash changes, if necessary, is
+    // twenty times a second.
+    interval: 50,
+
+    // Are we at the app root?
+    atRoot: function() {
+      var path = this.location.pathname.replace(/[^\/]$/, '$&/');
+      return path === this.root && !this.getSearch();
+    },
+
+    // Does the pathname match the root?
+    matchRoot: function() {
+      var path = this.decodeFragment(this.location.pathname);
+      var rootPath = path.slice(0, this.root.length - 1) + '/';
+      return rootPath === this.root;
+    },
+
+    // Unicode characters in `location.pathname` are percent encoded so they're
+    // decoded for comparison. `%25` should not be decoded since it may be part
+    // of an encoded parameter.
+    decodeFragment: function(fragment) {
+      return decodeURI(fragment.replace(/%25/g, '%2525'));
+    },
+
+    // In IE6, the hash fragment and search params are incorrect if the
+    // fragment contains `?`.
+    getSearch: function() {
+      var match = this.location.href.replace(/#.*/, '').match(/\?.+/);
+      return match ? match[0] : '';
+    },
+
+    // Gets the true hash value. Cannot use location.hash directly due to bug
+    // in Firefox where location.hash will always be decoded.
+    getHash: function(window) {
+      var match = (window || this).location.href.match(/#(.*)$/);
+      return match ? match[1] : '';
+    },
+
+    // Get the pathname and search params, without the root.
+    getPath: function() {
+      var path = this.decodeFragment(
+        this.location.pathname + this.getSearch()
+      ).slice(this.root.length - 1);
+      return path.charAt(0) === '/' ? path.slice(1) : path;
+    },
+
+    // Get the cross-browser normalized URL fragment from the path or hash.
+    getFragment: function(fragment) {
+      if (fragment == null) {
+        if (this._usePushState || !this._wantsHashChange) {
+          fragment = this.getPath();
+        } else {
+          fragment = this.getHash();
+        }
+      }
+      return fragment.replace(routeStripper, '');
+    },
+
+    // Start the hash change handling, returning `true` if the current URL matches
+    // an existing route, and `false` otherwise.
+    start: function(options) {
+      if (History.started) throw new Error('Backbone.history has already been started');
+      History.started = true;
+
+      // Figure out the initial configuration. Do we need an iframe?
+      // Is pushState desired ... is it available?
+      this.options          = _.extend({root: '/'}, this.options, options);
+      this.root             = this.options.root;
+      this._wantsHashChange = this.options.hashChange !== false;
+      this._hasHashChange   = 'onhashchange' in window && (document.documentMode === void 0 || document.documentMode > 7);
+      this._useHashChange   = this._wantsHashChange && this._hasHashChange;
+      this._wantsPushState  = !!this.options.pushState;
+      this._hasPushState    = !!(this.history && this.history.pushState);
+      this._usePushState    = this._wantsPushState && this._hasPushState;
+      this.fragment         = this.getFragment();
+
+      // Normalize root to always include a leading and trailing slash.
+      this.root = ('/' + this.root + '/').replace(rootStripper, '/');
+
+      // Transition from hashChange to pushState or vice versa if both are
+      // requested.
+      if (this._wantsHashChange && this._wantsPushState) {
+
+        // If we've started off with a route from a `pushState`-enabled
+        // browser, but we're currently in a browser that doesn't support it...
+        if (!this._hasPushState && !this.atRoot()) {
+          var rootPath = this.root.slice(0, -1) || '/';
+          this.location.replace(rootPath + '#' + this.getPath());
+          // Return immediately as browser will do redirect to new url
+          return true;
+
+        // Or if we've started out with a hash-based route, but we're currently
+        // in a browser where it could be `pushState`-based instead...
+        } else if (this._hasPushState && this.atRoot()) {
+          this.navigate(this.getHash(), {replace: true});
+        }
+
+      }
+
+      // Proxy an iframe to handle location events if the browser doesn't
+      // support the `hashchange` event, HTML5 history, or the user wants
+      // `hashChange` but not `pushState`.
+      if (!this._hasHashChange && this._wantsHashChange && !this._usePushState) {
+        this.iframe = document.createElement('iframe');
+        this.iframe.src = 'javascript:0';
+        this.iframe.style.display = 'none';
+        this.iframe.tabIndex = -1;
+        var body = document.body;
+        // Using `appendChild` will throw on IE < 9 if the document is not ready.
+        var iWindow = body.insertBefore(this.iframe, body.firstChild).contentWindow;
+        iWindow.document.open();
+        iWindow.document.close();
+        iWindow.location.hash = '#' + this.fragment;
+      }
+
+      // Add a cross-platform `addEventListener` shim for older browsers.
+      var addEventListener = window.addEventListener || function(eventName, listener) {
+        return attachEvent('on' + eventName, listener);
+      };
+
+      // Depending on whether we're using pushState or hashes, and whether
+      // 'onhashchange' is supported, determine how we check the URL state.
+      if (this._usePushState) {
+        addEventListener('popstate', this.checkUrl, false);
+      } else if (this._useHashChange && !this.iframe) {
+        addEventListener('hashchange', this.checkUrl, false);
+      } else if (this._wantsHashChange) {
+        this._checkUrlInterval = setInterval(this.checkUrl, this.interval);
+      }
+
+      if (!this.options.silent) return this.loadUrl();
+    },
+
+    // Disable Backbone.history, perhaps temporarily. Not useful in a real app,
+    // but possibly useful for unit testing Routers.
+    stop: function() {
+      // Add a cross-platform `removeEventListener` shim for older browsers.
+      var removeEventListener = window.removeEventListener || function(eventName, listener) {
+        return detachEvent('on' + eventName, listener);
+      };
+
+      // Remove window listeners.
+      if (this._usePushState) {
+        removeEventListener('popstate', this.checkUrl, false);
+      } else if (this._useHashChange && !this.iframe) {
+        removeEventListener('hashchange', this.checkUrl, false);
+      }
+
+      // Clean up the iframe if necessary.
+      if (this.iframe) {
+        document.body.removeChild(this.iframe);
+        this.iframe = null;
+      }
+
+      // Some environments will throw when clearing an undefined interval.
+      if (this._checkUrlInterval) clearInterval(this._checkUrlInterval);
+      History.started = false;
+    },
+
+    // Add a route to be tested when the fragment changes. Routes added later
+    // may override previous routes.
+    route: function(route, callback) {
+      this.handlers.unshift({route: route, callback: callback});
+    },
+
+    // Checks the current URL to see if it has changed, and if it has,
+    // calls `loadUrl`, normalizing across the hidden iframe.
+    checkUrl: function(e) {
+      var current = this.getFragment();
+
+      // If the user pressed the back button, the iframe's hash will have
+      // changed and we should use that for comparison.
+      if (current === this.fragment && this.iframe) {
+        current = this.getHash(this.iframe.contentWindow);
+      }
+
+      if (current === this.fragment) return false;
+      if (this.iframe) this.navigate(current);
+      this.loadUrl();
+    },
+
+    // Attempt to load the current URL fragment. If a route succeeds with a
+    // match, returns `true`. If no defined routes matches the fragment,
+    // returns `false`.
+    loadUrl: function(fragment) {
+      // If the root doesn't match, no routes can match either.
+      if (!this.matchRoot()) return false;
+      fragment = this.fragment = this.getFragment(fragment);
+      return _.some(this.handlers, function(handler) {
+        if (handler.route.test(fragment)) {
+          handler.callback(fragment);
+          return true;
+        }
+      });
+    },
+
+    // Save a fragment into the hash history, or replace the URL state if the
+    // 'replace' option is passed. You are responsible for properly URL-encoding
+    // the fragment in advance.
+    //
+    // The options object can contain `trigger: true` if you wish to have the
+    // route callback be fired (not usually desirable), or `replace: true`, if
+    // you wish to modify the current URL without adding an entry to the history.
+    navigate: function(fragment, options) {
+      if (!History.started) return false;
+      if (!options || options === true) options = {trigger: !!options};
+
+      // Normalize the fragment.
+      fragment = this.getFragment(fragment || '');
+
+      // Don't include a trailing slash on the root.
+      var rootPath = this.root;
+      if (fragment === '' || fragment.charAt(0) === '?') {
+        rootPath = rootPath.slice(0, -1) || '/';
+      }
+      var url = rootPath + fragment;
+
+      // Strip the fragment of the query and hash for matching.
+      fragment = fragment.replace(pathStripper, '');
+
+      // Decode for matching.
+      var decodedFragment = this.decodeFragment(fragment);
+
+      if (this.fragment === decodedFragment) return;
+      this.fragment = decodedFragment;
+
+      // If pushState is available, we use it to set the fragment as a real URL.
+      if (this._usePushState) {
+        this.history[options.replace ? 'replaceState' : 'pushState']({}, document.title, url);
+
+      // If hash changes haven't been explicitly disabled, update the hash
+      // fragment to store history.
+      } else if (this._wantsHashChange) {
+        this._updateHash(this.location, fragment, options.replace);
+        if (this.iframe && fragment !== this.getHash(this.iframe.contentWindow)) {
+          var iWindow = this.iframe.contentWindow;
+
+          // Opening and closing the iframe tricks IE7 and earlier to push a
+          // history entry on hash-tag change.  When replace is true, we don't
+          // want this.
+          if (!options.replace) {
+            iWindow.document.open();
+            iWindow.document.close();
+          }
+
+          this._updateHash(iWindow.location, fragment, options.replace);
+        }
+
+      // If you've told us that you explicitly don't want fallback hashchange-
+      // based history, then `navigate` becomes a page refresh.
+      } else {
+        return this.location.assign(url);
+      }
+      if (options.trigger) return this.loadUrl(fragment);
+    },
+
+    // Update the hash location, either replacing the current entry, or adding
+    // a new one to the browser history.
+    _updateHash: function(location, fragment, replace) {
+      if (replace) {
+        var href = location.href.replace(/(javascript:|#).*$/, '');
+        location.replace(href + '#' + fragment);
+      } else {
+        // Some browsers require that `hash` contains a leading #.
+        location.hash = '#' + fragment;
+      }
+    }
+
+  });
+
+  // Create the default Backbone.history.
+  Backbone.history = new History;
+
+  // Helpers
+  // -------
+
+  // Helper function to correctly set up the prototype chain for subclasses.
+  // Similar to `goog.inherits`, but uses a hash of prototype properties and
+  // class properties to be extended.
+  var extend = function(protoProps, staticProps) {
+    var parent = this;
+    var child;
+
+    // The constructor function for the new subclass is either defined by you
+    // (the "constructor" property in your `extend` definition), or defaulted
+    // by us to simply call the parent constructor.
+    if (protoProps && _.has(protoProps, 'constructor')) {
+      child = protoProps.constructor;
+    } else {
+      child = function(){ return parent.apply(this, arguments); };
+    }
+
+    // Add static properties to the constructor function, if supplied.
+    _.extend(child, parent, staticProps);
+
+    // Set the prototype chain to inherit from `parent`, without calling
+    // `parent`'s constructor function and add the prototype properties.
+    child.prototype = _.create(parent.prototype, protoProps);
+    child.prototype.constructor = child;
+
+    // Set a convenience property in case the parent's prototype is needed
+    // later.
+    child.__super__ = parent.prototype;
+
+    return child;
+  };
+
+  // Set up inheritance for the model, collection, router, view and history.
+  Model.extend = Collection.extend = Router.extend = View.extend = History.extend = extend;
+
+  // Throw an error when a URL is needed, and none is supplied.
+  var urlError = function() {
+    throw new Error('A "url" property or function must be specified');
+  };
+
+  // Wrap an optional error callback with a fallback error event.
+  var wrapError = function(model, options) {
+    var error = options.error;
+    options.error = function(resp) {
+      if (error) error.call(options.context, model, resp, options);
+      model.trigger('error', model, resp, options);
+    };
+  };
+
+  return Backbone;
+});
+
+
+/***/ }),
+
+/***/ "../../../../../okta/okta-ui/node_modules/clipboard/lib/clipboard-action.js":
+/*!**********************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/node_modules/clipboard/lib/clipboard-action.js ***!
+  \**********************************************************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, __webpack_require__(/*! select */ "../../../../../okta/okta-ui/node_modules/select/src/select.js")], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else { var mod; }
+})(this, function (module, _select) {
+    'use strict';
+
+    var _select2 = _interopRequireDefault(_select);
+
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
+    }
+
+    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+        return typeof obj;
+    } : function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _createClass = function () {
+        function defineProperties(target, props) {
+            for (var i = 0; i < props.length; i++) {
+                var descriptor = props[i];
+                descriptor.enumerable = descriptor.enumerable || false;
+                descriptor.configurable = true;
+                if ("value" in descriptor) descriptor.writable = true;
+                Object.defineProperty(target, descriptor.key, descriptor);
+            }
+        }
+
+        return function (Constructor, protoProps, staticProps) {
+            if (protoProps) defineProperties(Constructor.prototype, protoProps);
+            if (staticProps) defineProperties(Constructor, staticProps);
+            return Constructor;
+        };
+    }();
+
+    var ClipboardAction = function () {
+        /**
+         * @param {Object} options
+         */
+        function ClipboardAction(options) {
+            _classCallCheck(this, ClipboardAction);
+
+            this.resolveOptions(options);
+            this.initSelection();
+        }
+
+        /**
+         * Defines base properties passed from constructor.
+         * @param {Object} options
+         */
+
+
+        _createClass(ClipboardAction, [{
+            key: 'resolveOptions',
+            value: function resolveOptions() {
+                var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+                this.action = options.action;
+                this.container = options.container;
+                this.emitter = options.emitter;
+                this.target = options.target;
+                this.text = options.text;
+                this.trigger = options.trigger;
+
+                this.selectedText = '';
+            }
+        }, {
+            key: 'initSelection',
+            value: function initSelection() {
+                if (this.text) {
+                    this.selectFake();
+                } else if (this.target) {
+                    this.selectTarget();
+                }
+            }
+        }, {
+            key: 'selectFake',
+            value: function selectFake() {
+                var _this = this;
+
+                var isRTL = document.documentElement.getAttribute('dir') == 'rtl';
+
+                this.removeFake();
+
+                this.fakeHandlerCallback = function () {
+                    return _this.removeFake();
+                };
+                this.fakeHandler = this.container.addEventListener('click', this.fakeHandlerCallback) || true;
+
+                this.fakeElem = document.createElement('textarea');
+                // Prevent zooming on iOS
+                this.fakeElem.style.fontSize = '12pt';
+                // Reset box model
+                this.fakeElem.style.border = '0';
+                this.fakeElem.style.padding = '0';
+                this.fakeElem.style.margin = '0';
+                // Move element out of screen horizontally
+                this.fakeElem.style.position = 'absolute';
+                this.fakeElem.style[isRTL ? 'right' : 'left'] = '-9999px';
+                // Move element to the same position vertically
+                var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+                this.fakeElem.style.top = yPosition + 'px';
+
+                this.fakeElem.setAttribute('readonly', '');
+                this.fakeElem.value = this.text;
+
+                this.container.appendChild(this.fakeElem);
+
+                this.selectedText = (0, _select2.default)(this.fakeElem);
+                this.copyText();
+            }
+        }, {
+            key: 'removeFake',
+            value: function removeFake() {
+                if (this.fakeHandler) {
+                    this.container.removeEventListener('click', this.fakeHandlerCallback);
+                    this.fakeHandler = null;
+                    this.fakeHandlerCallback = null;
+                }
+
+                if (this.fakeElem) {
+                    this.container.removeChild(this.fakeElem);
+                    this.fakeElem = null;
+                }
+            }
+        }, {
+            key: 'selectTarget',
+            value: function selectTarget() {
+                this.selectedText = (0, _select2.default)(this.target);
+                this.copyText();
+            }
+        }, {
+            key: 'copyText',
+            value: function copyText() {
+                var succeeded = void 0;
+
+                try {
+                    succeeded = document.execCommand(this.action);
+                } catch (err) {
+                    succeeded = false;
+                }
+
+                this.handleResult(succeeded);
+            }
+        }, {
+            key: 'handleResult',
+            value: function handleResult(succeeded) {
+                this.emitter.emit(succeeded ? 'success' : 'error', {
+                    action: this.action,
+                    text: this.selectedText,
+                    trigger: this.trigger,
+                    clearSelection: this.clearSelection.bind(this)
+                });
+            }
+        }, {
+            key: 'clearSelection',
+            value: function clearSelection() {
+                if (this.trigger) {
+                    this.trigger.focus();
+                }
+
+                window.getSelection().removeAllRanges();
+            }
+        }, {
+            key: 'destroy',
+            value: function destroy() {
+                this.removeFake();
+            }
+        }, {
+            key: 'action',
+            set: function set() {
+                var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'copy';
+
+                this._action = action;
+
+                if (this._action !== 'copy' && this._action !== 'cut') {
+                    throw new Error('Invalid "action" value, use either "copy" or "cut"');
+                }
+            },
+            get: function get() {
+                return this._action;
+            }
+        }, {
+            key: 'target',
+            set: function set(target) {
+                if (target !== undefined) {
+                    if (target && (typeof target === 'undefined' ? 'undefined' : _typeof(target)) === 'object' && target.nodeType === 1) {
+                        if (this.action === 'copy' && target.hasAttribute('disabled')) {
+                            throw new Error('Invalid "target" attribute. Please use "readonly" instead of "disabled" attribute');
+                        }
+
+                        if (this.action === 'cut' && (target.hasAttribute('readonly') || target.hasAttribute('disabled'))) {
+                            throw new Error('Invalid "target" attribute. You can\'t cut text from elements with "readonly" or "disabled" attributes');
+                        }
+
+                        this._target = target;
+                    } else {
+                        throw new Error('Invalid "target" value, use a valid Element');
+                    }
+                }
+            },
+            get: function get() {
+                return this._target;
+            }
+        }]);
+
+        return ClipboardAction;
+    }();
+
+    module.exports = ClipboardAction;
+});
+
+/***/ }),
+
+/***/ "../../../../../okta/okta-ui/node_modules/clipboard/lib/clipboard.js":
+/*!***************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/node_modules/clipboard/lib/clipboard.js ***!
+  \***************************************************************************/
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, __webpack_require__(/*! ./clipboard-action */ "../../../../../okta/okta-ui/node_modules/clipboard/lib/clipboard-action.js"), __webpack_require__(/*! tiny-emitter */ "../../../../../okta/okta-ui/node_modules/tiny-emitter/index.js"), __webpack_require__(/*! good-listener */ "../../../../../okta/okta-ui/node_modules/good-listener/src/listen.js")], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else { var mod; }
+})(this, function (module, _clipboardAction, _tinyEmitter, _goodListener) {
+    'use strict';
+
+    var _clipboardAction2 = _interopRequireDefault(_clipboardAction);
+
+    var _tinyEmitter2 = _interopRequireDefault(_tinyEmitter);
+
+    var _goodListener2 = _interopRequireDefault(_goodListener);
+
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
+    }
+
+    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+        return typeof obj;
+    } : function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _createClass = function () {
+        function defineProperties(target, props) {
+            for (var i = 0; i < props.length; i++) {
+                var descriptor = props[i];
+                descriptor.enumerable = descriptor.enumerable || false;
+                descriptor.configurable = true;
+                if ("value" in descriptor) descriptor.writable = true;
+                Object.defineProperty(target, descriptor.key, descriptor);
+            }
+        }
+
+        return function (Constructor, protoProps, staticProps) {
+            if (protoProps) defineProperties(Constructor.prototype, protoProps);
+            if (staticProps) defineProperties(Constructor, staticProps);
+            return Constructor;
+        };
+    }();
+
+    function _possibleConstructorReturn(self, call) {
+        if (!self) {
+            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+        }
+
+        return call && (typeof call === "object" || typeof call === "function") ? call : self;
+    }
+
+    function _inherits(subClass, superClass) {
+        if (typeof superClass !== "function" && superClass !== null) {
+            throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+        }
+
+        subClass.prototype = Object.create(superClass && superClass.prototype, {
+            constructor: {
+                value: subClass,
+                enumerable: false,
+                writable: true,
+                configurable: true
+            }
+        });
+        if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+    }
+
+    var Clipboard = function (_Emitter) {
+        _inherits(Clipboard, _Emitter);
+
+        /**
+         * @param {String|HTMLElement|HTMLCollection|NodeList} trigger
+         * @param {Object} options
+         */
+        function Clipboard(trigger, options) {
+            _classCallCheck(this, Clipboard);
+
+            var _this = _possibleConstructorReturn(this, (Clipboard.__proto__ || Object.getPrototypeOf(Clipboard)).call(this));
+
+            _this.resolveOptions(options);
+            _this.listenClick(trigger);
+            return _this;
+        }
+
+        /**
+         * Defines if attributes would be resolved using internal setter functions
+         * or custom functions that were passed in the constructor.
+         * @param {Object} options
+         */
+
+
+        _createClass(Clipboard, [{
+            key: 'resolveOptions',
+            value: function resolveOptions() {
+                var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+                this.action = typeof options.action === 'function' ? options.action : this.defaultAction;
+                this.target = typeof options.target === 'function' ? options.target : this.defaultTarget;
+                this.text = typeof options.text === 'function' ? options.text : this.defaultText;
+                this.container = _typeof(options.container) === 'object' ? options.container : document.body;
+            }
+        }, {
+            key: 'listenClick',
+            value: function listenClick(trigger) {
+                var _this2 = this;
+
+                this.listener = (0, _goodListener2.default)(trigger, 'click', function (e) {
+                    return _this2.onClick(e);
+                });
+            }
+        }, {
+            key: 'onClick',
+            value: function onClick(e) {
+                var trigger = e.delegateTarget || e.currentTarget;
+
+                if (this.clipboardAction) {
+                    this.clipboardAction = null;
+                }
+
+                this.clipboardAction = new _clipboardAction2.default({
+                    action: this.action(trigger),
+                    target: this.target(trigger),
+                    text: this.text(trigger),
+                    container: this.container,
+                    trigger: trigger,
+                    emitter: this
+                });
+            }
+        }, {
+            key: 'defaultAction',
+            value: function defaultAction(trigger) {
+                return getAttributeValue('action', trigger);
+            }
+        }, {
+            key: 'defaultTarget',
+            value: function defaultTarget(trigger) {
+                var selector = getAttributeValue('target', trigger);
+
+                if (selector) {
+                    return document.querySelector(selector);
+                }
+            }
+        }, {
+            key: 'defaultText',
+            value: function defaultText(trigger) {
+                return getAttributeValue('text', trigger);
+            }
+        }, {
+            key: 'destroy',
+            value: function destroy() {
+                this.listener.destroy();
+
+                if (this.clipboardAction) {
+                    this.clipboardAction.destroy();
+                    this.clipboardAction = null;
+                }
+            }
+        }], [{
+            key: 'isSupported',
+            value: function isSupported() {
+                var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ['copy', 'cut'];
+
+                var actions = typeof action === 'string' ? [action] : action;
+                var support = !!document.queryCommandSupported;
+
+                actions.forEach(function (action) {
+                    support = support && !!document.queryCommandSupported(action);
+                });
+
+                return support;
+            }
+        }]);
+
+        return Clipboard;
+    }(_tinyEmitter2.default);
+
+    /**
+     * Helper function to retrieve attribute value.
+     * @param {String} suffix
+     * @param {Element} element
+     */
+    function getAttributeValue(suffix, element) {
+        var attribute = 'data-clipboard-' + suffix;
+
+        if (!element.hasAttribute(attribute)) {
+            return;
+        }
+
+        return element.getAttribute(attribute);
+    }
+
+    module.exports = Clipboard;
+});
+
+/***/ }),
+
+/***/ "../../../../../okta/okta-ui/node_modules/delegate/src/closest.js":
+/*!************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/node_modules/delegate/src/closest.js ***!
+  \************************************************************************/
+/***/ (function(module) {
+
+var DOCUMENT_NODE_TYPE = 9;
+
+/**
+ * A polyfill for Element.matches()
+ */
+if (typeof Element !== 'undefined' && !Element.prototype.matches) {
+    var proto = Element.prototype;
+
+    proto.matches = proto.matchesSelector ||
+                    proto.mozMatchesSelector ||
+                    proto.msMatchesSelector ||
+                    proto.oMatchesSelector ||
+                    proto.webkitMatchesSelector;
+}
+
+/**
+ * Finds the closest parent that matches a selector.
+ *
+ * @param {Element} element
+ * @param {String} selector
+ * @return {Function}
+ */
+function closest (element, selector) {
+    while (element && element.nodeType !== DOCUMENT_NODE_TYPE) {
+        if (typeof element.matches === 'function' &&
+            element.matches(selector)) {
+          return element;
+        }
+        element = element.parentNode;
+    }
+}
+
+module.exports = closest;
+
+
+/***/ }),
+
+/***/ "../../../../../okta/okta-ui/node_modules/delegate/src/delegate.js":
+/*!*************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/node_modules/delegate/src/delegate.js ***!
+  \*************************************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+var closest = __webpack_require__(/*! ./closest */ "../../../../../okta/okta-ui/node_modules/delegate/src/closest.js");
+
+/**
+ * Delegates event to a selector.
+ *
+ * @param {Element} element
+ * @param {String} selector
+ * @param {String} type
+ * @param {Function} callback
+ * @param {Boolean} useCapture
+ * @return {Object}
+ */
+function _delegate(element, selector, type, callback, useCapture) {
+    var listenerFn = listener.apply(this, arguments);
+
+    element.addEventListener(type, listenerFn, useCapture);
+
+    return {
+        destroy: function() {
+            element.removeEventListener(type, listenerFn, useCapture);
+        }
+    }
+}
+
+/**
+ * Delegates event to a selector.
+ *
+ * @param {Element|String|Array} [elements]
+ * @param {String} selector
+ * @param {String} type
+ * @param {Function} callback
+ * @param {Boolean} useCapture
+ * @return {Object}
+ */
+function delegate(elements, selector, type, callback, useCapture) {
+    // Handle the regular Element usage
+    if (typeof elements.addEventListener === 'function') {
+        return _delegate.apply(null, arguments);
+    }
+
+    // Handle Element-less usage, it defaults to global delegation
+    if (typeof type === 'function') {
+        // Use `document` as the first parameter, then apply arguments
+        // This is a short way to .unshift `arguments` without running into deoptimizations
+        return _delegate.bind(null, document).apply(null, arguments);
+    }
+
+    // Handle Selector-based usage
+    if (typeof elements === 'string') {
+        elements = document.querySelectorAll(elements);
+    }
+
+    // Handle Array-like based usage
+    return Array.prototype.map.call(elements, function (element) {
+        return _delegate(element, selector, type, callback, useCapture);
+    });
+}
+
+/**
+ * Finds closest match and invokes callback.
+ *
+ * @param {Element} element
+ * @param {String} selector
+ * @param {String} type
+ * @param {Function} callback
+ * @return {Function}
+ */
+function listener(element, selector, type, callback) {
+    return function(e) {
+        e.delegateTarget = closest(e.target, selector);
+
+        if (e.delegateTarget) {
+            callback.call(element, e);
+        }
+    }
+}
+
+module.exports = delegate;
+
+
+/***/ }),
+
+/***/ "../../../../../okta/okta-ui/node_modules/good-listener/src/is.js":
+/*!************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/node_modules/good-listener/src/is.js ***!
+  \************************************************************************/
+/***/ (function(__unused_webpack_module, exports) {
+
+/**
+ * Check if argument is a HTML element.
+ *
+ * @param {Object} value
+ * @return {Boolean}
+ */
+exports.node = function(value) {
+    return value !== undefined
+        && value instanceof HTMLElement
+        && value.nodeType === 1;
+};
+
+/**
+ * Check if argument is a list of HTML elements.
+ *
+ * @param {Object} value
+ * @return {Boolean}
+ */
+exports.nodeList = function(value) {
+    var type = Object.prototype.toString.call(value);
+
+    return value !== undefined
+        && (type === '[object NodeList]' || type === '[object HTMLCollection]')
+        && ('length' in value)
+        && (value.length === 0 || exports.node(value[0]));
+};
+
+/**
+ * Check if argument is a string.
+ *
+ * @param {Object} value
+ * @return {Boolean}
+ */
+exports.string = function(value) {
+    return typeof value === 'string'
+        || value instanceof String;
+};
+
+/**
+ * Check if argument is a function.
+ *
+ * @param {Object} value
+ * @return {Boolean}
+ */
+exports.fn = function(value) {
+    var type = Object.prototype.toString.call(value);
+
+    return type === '[object Function]';
+};
+
+
+/***/ }),
+
+/***/ "../../../../../okta/okta-ui/node_modules/good-listener/src/listen.js":
+/*!****************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/node_modules/good-listener/src/listen.js ***!
+  \****************************************************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+var is = __webpack_require__(/*! ./is */ "../../../../../okta/okta-ui/node_modules/good-listener/src/is.js");
+var delegate = __webpack_require__(/*! delegate */ "../../../../../okta/okta-ui/node_modules/delegate/src/delegate.js");
+
+/**
+ * Validates all params and calls the right
+ * listener function based on its target type.
+ *
+ * @param {String|HTMLElement|HTMLCollection|NodeList} target
+ * @param {String} type
+ * @param {Function} callback
+ * @return {Object}
+ */
+function listen(target, type, callback) {
+    if (!target && !type && !callback) {
+        throw new Error('Missing required arguments');
+    }
+
+    if (!is.string(type)) {
+        throw new TypeError('Second argument must be a String');
+    }
+
+    if (!is.fn(callback)) {
+        throw new TypeError('Third argument must be a Function');
+    }
+
+    if (is.node(target)) {
+        return listenNode(target, type, callback);
+    }
+    else if (is.nodeList(target)) {
+        return listenNodeList(target, type, callback);
+    }
+    else if (is.string(target)) {
+        return listenSelector(target, type, callback);
+    }
+    else {
+        throw new TypeError('First argument must be a String, HTMLElement, HTMLCollection, or NodeList');
+    }
+}
+
+/**
+ * Adds an event listener to a HTML element
+ * and returns a remove listener function.
+ *
+ * @param {HTMLElement} node
+ * @param {String} type
+ * @param {Function} callback
+ * @return {Object}
+ */
+function listenNode(node, type, callback) {
+    node.addEventListener(type, callback);
+
+    return {
+        destroy: function() {
+            node.removeEventListener(type, callback);
+        }
+    }
+}
+
+/**
+ * Add an event listener to a list of HTML elements
+ * and returns a remove listener function.
+ *
+ * @param {NodeList|HTMLCollection} nodeList
+ * @param {String} type
+ * @param {Function} callback
+ * @return {Object}
+ */
+function listenNodeList(nodeList, type, callback) {
+    Array.prototype.forEach.call(nodeList, function(node) {
+        node.addEventListener(type, callback);
+    });
+
+    return {
+        destroy: function() {
+            Array.prototype.forEach.call(nodeList, function(node) {
+                node.removeEventListener(type, callback);
+            });
+        }
+    }
+}
+
+/**
+ * Add an event listener to a selector
+ * and returns a remove listener function.
+ *
+ * @param {String} selector
+ * @param {String} type
+ * @param {Function} callback
+ * @return {Object}
+ */
+function listenSelector(selector, type, callback) {
+    return delegate(document.body, selector, type, callback);
+}
+
+module.exports = listen;
+
+
+/***/ }),
+
+/***/ "../../../../../okta/okta-ui/node_modules/select/src/select.js":
+/*!*********************************************************************!*\
+  !*** ../../../../../okta/okta-ui/node_modules/select/src/select.js ***!
+  \*********************************************************************/
+/***/ (function(module) {
+
+function select(element) {
+    var selectedText;
+
+    if (element.nodeName === 'SELECT') {
+        element.focus();
+
+        selectedText = element.value;
+    }
+    else if (element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA') {
+        var isReadOnly = element.hasAttribute('readonly');
+
+        if (!isReadOnly) {
+            element.setAttribute('readonly', '');
+        }
+
+        element.select();
+        element.setSelectionRange(0, element.value.length);
+
+        if (!isReadOnly) {
+            element.removeAttribute('readonly');
+        }
+
+        selectedText = element.value;
+    }
+    else {
+        if (element.hasAttribute('contenteditable')) {
+            element.focus();
+        }
+
+        var selection = window.getSelection();
+        var range = document.createRange();
+
+        range.selectNodeContents(element);
+        selection.removeAllRanges();
+        selection.addRange(range);
+
+        selectedText = selection.toString();
+    }
+
+    return selectedText;
+}
+
+module.exports = select;
+
+
+/***/ }),
+
+/***/ "../../../../../okta/okta-ui/node_modules/tiny-emitter/index.js":
+/*!**********************************************************************!*\
+  !*** ../../../../../okta/okta-ui/node_modules/tiny-emitter/index.js ***!
+  \**********************************************************************/
+/***/ (function(module) {
+
+function E () {
+  // Keep this empty so it's easier to inherit from
+  // (via https://github.com/lipsmack from https://github.com/scottcorgan/tiny-emitter/issues/3)
+}
+
+E.prototype = {
+  on: function (name, callback, ctx) {
+    var e = this.e || (this.e = {});
+
+    (e[name] || (e[name] = [])).push({
+      fn: callback,
+      ctx: ctx
+    });
+
+    return this;
+  },
+
+  once: function (name, callback, ctx) {
+    var self = this;
+    function listener () {
+      self.off(name, listener);
+      callback.apply(ctx, arguments);
+    };
+
+    listener._ = callback
+    return this.on(name, listener, ctx);
+  },
+
+  emit: function (name) {
+    var data = [].slice.call(arguments, 1);
+    var evtArr = ((this.e || (this.e = {}))[name] || []).slice();
+    var i = 0;
+    var len = evtArr.length;
+
+    for (i; i < len; i++) {
+      evtArr[i].fn.apply(evtArr[i].ctx, data);
+    }
+
+    return this;
+  },
+
+  off: function (name, callback) {
+    var e = this.e || (this.e = {});
+    var evts = e[name];
+    var liveEvents = [];
+
+    if (evts && callback) {
+      for (var i = 0, len = evts.length; i < len; i++) {
+        if (evts[i].fn !== callback && evts[i].fn._ !== callback)
+          liveEvents.push(evts[i]);
+      }
+    }
+
+    // Remove event from queue to prevent memory leak
+    // Suggested by https://github.com/lazd
+    // Ref: https://github.com/scottcorgan/tiny-emitter/commit/c6ebfaa9bc973b33d110a84a307742b7cf94c953#commitcomment-5024910
+
+    (liveEvents.length)
+      ? e[name] = liveEvents
+      : delete e[name];
+
+    return this;
+  }
+};
+
+module.exports = E;
+
+
+/***/ }),
+
+/***/ "../../../../../okta/okta-ui/packages/courage/src/framework/Collection.js":
+/*!********************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/framework/Collection.js ***!
+  \********************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15,9 +2982,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js"));
+var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "../../../../../okta/okta-ui/node_modules/backbone/backbone.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -142,17 +3109,45 @@ function parseLinkHeader(header) {
  */
 
 
-var _default = _backbone.default.Collection.extend(
+var Collection = _backbone.default.Collection.extend(
 /** @lends src/framework/Collection.prototype */
 {
   /**
    * Default fetch parameters
-   * @type {Object}
+   * @type {Object|Function}
    */
   params: {},
   constructor: function constructor(models, options) {
-    var state = this[STATE] = new _backbone.default.Model();
-    state.set(DEFAULT_PARAMS, _underscoreWrapper.default.defaults(options && options.params || {}, this.params || {}));
+    var state = new _backbone.default.Model();
+
+    var defaultParams = _underscoreWrapper.default.defaults(options && options.params || {}, _underscoreWrapper.default.result(this, 'params') || {});
+
+    state.set(DEFAULT_PARAMS, defaultParams);
+    this[STATE] = state; // Adds support for child class to convert to ES6 Class.
+    // After conversion, `this.model` has to be a pure function to return Model Class.
+    // The changes below is trying to distinguish the ambiguity between a Class and normal function,
+    // as both are JavaScript function essentially.
+    // There are three ways to define class for `this.model`
+    // 1. Object properties: `model: BaseModel.extend({..})`
+    // 2. Function constructor:
+    // See example from
+    // - appversions/src/models/CustomType.js
+    // - appversions/src/models/EnumType.js
+    // - appversions/src/models/SignOnMode.js
+    // - authn-factors/src/models/Feature.js
+    // - shared/src/models/SamlAttribute.js
+    // 3. Function that returns a class.
+    //    model: function() { return BaseModel.extend({..}); }
+    //
+    // option 1 and 2 exists in code base today
+    // option 3 is introduced to support child class to convert to ES6 class.
+    // TODO: think of remove following check
+    // The reason for `this.model !== Backbone.Model` is because `this.model` is default to `Backbone.Model`
+    // set at Backbone.Collection.
+
+    if (_underscoreWrapper.default.isFunction(this.model) && this.model.length === 0 && this.model.isCourageModel !== true) {
+      this.model = _underscoreWrapper.default.result(this, 'model');
+    }
 
     _backbone.default.Collection.apply(this, arguments);
   },
@@ -320,16 +3315,27 @@ var _default = _backbone.default.Collection.extend(
     return _backbone.default.Collection.prototype.create.call(this, model, options);
   }
 });
+/**
+ * It's used for distinguishing the ambiguity from _.isFunction()
+ * which returns True for both a JavaScript Class constructor function
+ * and normal function. With this flag, we can tell a function is actually
+ * a Collection Class.
+ * This flag is added in order to support the type of a parameter can be
+ * either a Class or pure function that returns a Class.
+ */
 
+
+Collection.isCourageCollection = true;
+var _default = Collection;
 exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/framework/ListView.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/framework/ListView.js ***!
-  \**************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/framework/ListView.js":
+/*!******************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/framework/ListView.js ***!
+  \******************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -340,9 +3346,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _View = _interopRequireDefault(__webpack_require__(/*! ./View */ "./node_modules/@okta/courage/src/framework/View.js"));
+var _View = _interopRequireDefault(__webpack_require__(/*! ./View */ "../../../../../okta/okta-ui/packages/courage/src/framework/View.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -459,10 +3465,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/framework/Model.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/@okta/courage/src/framework/Model.js ***!
-  \***********************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/framework/Model.js":
+/*!***************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/framework/Model.js ***!
+  \***************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -473,11 +3479,11 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js"));
+var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "../../../../../okta/okta-ui/node_modules/backbone/backbone.js"));
 
-var _Logger = _interopRequireDefault(__webpack_require__(/*! ../util/Logger */ "./node_modules/@okta/courage/src/util/Logger.js"));
+var _Logger = _interopRequireDefault(__webpack_require__(/*! ../util/Logger */ "../../../../../okta/okta-ui/packages/courage/src/util/Logger.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -797,7 +3803,7 @@ Model = _backbone.default.Model.extend(
      *   To the `validate` method
      *   - Trying to set a property to an invalid type will raise an exception.
      *
-     * @type {Mixed}
+     * @type {Mixed|Function}
      * @example
      * var Person = Model.extend({
      *   props: {
@@ -833,7 +3839,7 @@ Model = _backbone.default.Model.extend(
      *
      * Derived properties are retrieved and fire change events just like any other property. They cannot be set
      * directly.
-     * @type {Object}
+     * @type {Object|Function}
      * @example
      * var Person = Model.extend({
      *   props: {
@@ -863,7 +3869,7 @@ Model = _backbone.default.Model.extend(
      * the lifetime of the page.
      * They would not typically be persisted to the server, and are not returned by calls to {@link src/framework/Model#toJSON|toJSON}.
      *
-     * @type {Object}
+     * @type {Object|Function}
      * @example
      * var Person = Model.extend({
      *   props: {
@@ -879,7 +3885,7 @@ Model = _backbone.default.Model.extend(
   /**
      * Flatten the payload into dot notation string keys:
      *
-     * @type {Boolean}
+     * @type {Boolean|Function}
      * @example
      * var Person = Model.extend({
      *   props: {
@@ -949,7 +3955,7 @@ Model = _backbone.default.Model.extend(
     this.parse = _underscoreWrapper.default.wrap(this.parse, function (parse) {
       var target = parse.apply(this, _underscoreWrapper.default.rest(arguments));
 
-      if (this.flat) {
+      if (_underscoreWrapper.default.result(this, 'flat')) {
         target = flatten(target, objectTypeFields);
       }
 
@@ -1164,16 +4170,26 @@ Model = _backbone.default.Model.extend(
   ERROR_STRING_STRING_MIN_LENGTH: 'model.validation.field.string.minLength',
   ERROR_STRING_STRING_MAX_LENGTH: 'model.validation.field.string.maxLength'
 });
+/**
+ * It's used for distinguishing the ambiguity from _.isFunction()
+ * which returns True for both a JavaScript Class constructor function
+ * and normal function. With this flag, we can tell a function is actually
+ * a Model Class.
+ * This flag is added in order to support the type of a parameter can be
+ * either a Class or pure function that returns a Class.
+ */
+
+Model.isCourageModel = true;
 var _default = Model;
 exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/framework/View.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/@okta/courage/src/framework/View.js ***!
-  \**********************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/framework/View.js":
+/*!**************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/framework/View.js ***!
+  \**************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1184,9 +4200,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js"));
+var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "../../../../../okta/okta-ui/node_modules/backbone/backbone.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1353,8 +4369,10 @@ var View = _backbone.default.View.extend(
 
     delete this[CHILD_DEFINITIONS];
 
-    if (this.autoRender && this.model) {
-      var event = _underscoreWrapper.default.isArray(this.autoRender) ? _underscoreWrapper.default.map(this.autoRender, function (field) {
+    var autoRender = _underscoreWrapper.default.result(this, 'autoRender');
+
+    if (autoRender && this.model) {
+      var event = _underscoreWrapper.default.isArray(autoRender) ? _underscoreWrapper.default.map(autoRender, function (field) {
         return 'change:' + field;
       }).join(' ') : 'change';
       this.listenTo(this.model, event, function () {
@@ -1975,17 +4993,27 @@ _underscoreWrapper.default.each(methods, function (method) {
    * @param {Object} properties
    */
 
+/**
+ * It's used for distinguishing the ambiguity from _.isFunction()
+ * which returns True for both a JavaScript Class constructor function
+ * and normal function. With this flag, we can tell a function is actually
+ * a View Class.
+ * This flag is added in order to support the type of a parameter can be
+ * either a Class or pure function that returns a Class.
+ */
 
+
+View.isCourageView = true;
 var _default = View;
 exports.default = _default;
 module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/models/BaseCollection.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/models/BaseCollection.js ***!
-  \*****************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/models/BaseCollection.js":
+/*!*********************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/models/BaseCollection.js ***!
+  \*********************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1996,9 +5024,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _Collection = _interopRequireDefault(__webpack_require__(/*! ../framework/Collection */ "./node_modules/@okta/courage/src/framework/Collection.js"));
+var _Collection = _interopRequireDefault(__webpack_require__(/*! ../framework/Collection */ "../../../../../okta/okta-ui/packages/courage/src/framework/Collection.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2017,6 +5045,8 @@ var _default = _Collection.default.extend(
    */
   secureJSON: false,
   constructor: function constructor() {
+    _Collection.default.apply(this, arguments);
+
     if (_underscoreWrapper.default.result(this, 'secureJSON')) {
       this.sync = _underscoreWrapper.default.wrap(this.sync, function (sync, method, collection, options) {
         return sync.call(this, method, collection, _underscoreWrapper.default.extend({
@@ -2024,8 +5054,6 @@ var _default = _Collection.default.extend(
         }, options));
       });
     }
-
-    _Collection.default.apply(this, arguments);
   }
 });
 
@@ -2034,10 +5062,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/models/BaseModel.js":
-/*!************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/models/BaseModel.js ***!
-  \************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/models/BaseModel.js":
+/*!****************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/models/BaseModel.js ***!
+  \****************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2048,9 +5076,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _Model = _interopRequireDefault(__webpack_require__(/*! ./Model */ "./node_modules/@okta/courage/src/models/Model.js"));
+var _Model = _interopRequireDefault(__webpack_require__(/*! ./Model */ "../../../../../okta/okta-ui/packages/courage/src/models/Model.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2276,10 +5304,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/models/BaseSchema.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/models/BaseSchema.js ***!
-  \*************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/models/BaseSchema.js":
+/*!*****************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/models/BaseSchema.js ***!
+  \*****************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2290,13 +5318,13 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _BaseCollection = _interopRequireDefault(__webpack_require__(/*! ./BaseCollection */ "./node_modules/@okta/courage/src/models/BaseCollection.js"));
+var _BaseCollection = _interopRequireDefault(__webpack_require__(/*! ./BaseCollection */ "../../../../../okta/okta-ui/packages/courage/src/models/BaseCollection.js"));
 
-var _BaseModel = _interopRequireDefault(__webpack_require__(/*! ./BaseModel */ "./node_modules/@okta/courage/src/models/BaseModel.js"));
+var _BaseModel = _interopRequireDefault(__webpack_require__(/*! ./BaseModel */ "../../../../../okta/okta-ui/packages/courage/src/models/BaseModel.js"));
 
-var _SchemaProperty = _interopRequireDefault(__webpack_require__(/*! ./SchemaProperty */ "./node_modules/@okta/courage/src/models/SchemaProperty.js"));
+var _SchemaProperty = _interopRequireDefault(__webpack_require__(/*! ./SchemaProperty */ "../../../../../okta/okta-ui/packages/courage/src/models/SchemaProperty.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2387,10 +5415,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/models/Model.js":
-/*!********************************************************!*\
-  !*** ./node_modules/@okta/courage/src/models/Model.js ***!
-  \********************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/models/Model.js":
+/*!************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/models/Model.js ***!
+  \************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2401,9 +5429,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _Model = _interopRequireDefault(__webpack_require__(/*! ../framework/Model */ "./node_modules/@okta/courage/src/framework/Model.js"));
+var _Model = _interopRequireDefault(__webpack_require__(/*! ../framework/Model */ "../../../../../okta/okta-ui/packages/courage/src/framework/Model.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2428,6 +5456,8 @@ var _default = _Model.default.extend(
   constructor: function constructor() {
     this.local = _underscoreWrapper.default.defaults({}, _underscoreWrapper.default.result(this, 'local'), this._builtInLocalProps);
 
+    _Model.default.apply(this, arguments);
+
     if (_underscoreWrapper.default.result(this, 'secureJSON')) {
       this.sync = _underscoreWrapper.default.wrap(this.sync, function (sync, method, model, options) {
         return sync.call(this, method, model, _underscoreWrapper.default.extend({
@@ -2435,8 +5465,6 @@ var _default = _Model.default.extend(
         }, options));
       });
     }
-
-    _Model.default.apply(this, arguments);
   }
 });
 
@@ -2445,10 +5473,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/models/SchemaProperty.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/models/SchemaProperty.js ***!
-  \*****************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/models/SchemaProperty.js":
+/*!*********************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/models/SchemaProperty.js ***!
+  \*********************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2459,21 +5487,21 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
+var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/jquery-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _BaseCollection = _interopRequireDefault(__webpack_require__(/*! ./BaseCollection */ "./node_modules/@okta/courage/src/models/BaseCollection.js"));
+var _BaseCollection = _interopRequireDefault(__webpack_require__(/*! ./BaseCollection */ "../../../../../okta/okta-ui/packages/courage/src/models/BaseCollection.js"));
 
-var _BaseModel = _interopRequireDefault(__webpack_require__(/*! ./BaseModel */ "./node_modules/@okta/courage/src/models/BaseModel.js"));
+var _BaseModel = _interopRequireDefault(__webpack_require__(/*! ./BaseModel */ "../../../../../okta/okta-ui/packages/courage/src/models/BaseModel.js"));
 
-var _Logger = _interopRequireDefault(__webpack_require__(/*! ../util/Logger */ "./node_modules/@okta/courage/src/util/Logger.js"));
+var _Logger = _interopRequireDefault(__webpack_require__(/*! ../util/Logger */ "../../../../../okta/okta-ui/packages/courage/src/util/Logger.js"));
 
-var _SchemaUtil = _interopRequireDefault(__webpack_require__(/*! ../util/SchemaUtil */ "./node_modules/@okta/courage/src/util/SchemaUtil.js"));
+var _SchemaUtil = _interopRequireDefault(__webpack_require__(/*! ../util/SchemaUtil */ "../../../../../okta/okta-ui/packages/courage/src/util/SchemaUtil.js"));
 
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
+var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../util/StringUtil */ "../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.js"));
 
-var _EnumTypeHelper = _interopRequireDefault(__webpack_require__(/*! ../views/forms/helpers/EnumTypeHelper */ "./node_modules/@okta/courage/src/views/forms/helpers/EnumTypeHelper.js"));
+var _EnumTypeHelper = _interopRequireDefault(__webpack_require__(/*! ../views/forms/helpers/EnumTypeHelper */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/EnumTypeHelper.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2529,14 +5557,14 @@ var constraintTypeErrorMessages = {
 };
 var loginFormatNonePattern = '.+';
 var escapedLoginCharsRe = /[^a-zA-Z0-9-]/;
+var constraintHandlers = {
+  between: '_checkBetweenConstraints',
+  greaterThan: '_checkGreaterThanConstraint',
+  lessThan: '_checkLessThanConstraint',
+  equals: '_checkEqualsConstraint'
+};
 
 var SchemaPropertySchemaProperty = _BaseModel.default.extend({
-  constraintHandlers: {
-    between: '_checkBetweenConstraints',
-    greaterThan: '_checkGreaterThanConstraint',
-    lessThan: '_checkLessThanConstraint',
-    equals: '_checkEqualsConstraint'
-  },
   idAttribute: 'name',
   local: {
     __oneOf__: {
@@ -2704,7 +5732,7 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
     }
 
     var constraitType = this.get('__constraint__');
-    var constraitHandler = this[this.constraintHandlers[constraitType]];
+    var constraitHandler = this[constraintHandlers[constraitType]];
 
     if (_underscoreWrapper.default.isFunction(constraitHandler)) {
       return constraitHandler.call(this);
@@ -3255,10 +6283,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/BaseController.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/BaseController.js ***!
-  \***************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/BaseController.js":
+/*!*******************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/BaseController.js ***!
+  \*******************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3269,17 +6297,17 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ./jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
+var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ./jquery-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _BaseRouter = _interopRequireDefault(__webpack_require__(/*! ./BaseRouter */ "./node_modules/@okta/courage/src/util/BaseRouter.js"));
+var _BaseRouter = _interopRequireDefault(__webpack_require__(/*! ./BaseRouter */ "../../../../../okta/okta-ui/packages/courage/src/util/BaseRouter.js"));
 
-var _SettingsModel = _interopRequireDefault(__webpack_require__(/*! ./SettingsModel */ "./node_modules/@okta/courage/src/util/SettingsModel.js"));
+var _SettingsModel = _interopRequireDefault(__webpack_require__(/*! ./SettingsModel */ "../../../../../okta/okta-ui/packages/courage/src/util/SettingsModel.js"));
 
-var _StateMachine = _interopRequireDefault(__webpack_require__(/*! ./StateMachine */ "./node_modules/@okta/courage/src/util/StateMachine.js"));
+var _StateMachine = _interopRequireDefault(__webpack_require__(/*! ./StateMachine */ "../../../../../okta/okta-ui/packages/courage/src/util/StateMachine.js"));
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../views/BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../views/BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3324,24 +6352,29 @@ function clean(obj) {
 var _default = _BaseView.default.extend(
 /** @lends module:Okta.Controller.prototype */
 {
-  constructor: function constructor(options) {
-    /* eslint max-statements: [2, 15], complexity: [2, 9]*/
-    options || (options = {}); // If 'state' is passed down as options, use it, else create a 'new StateMachine()'
+  constructor: function constructor() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-    if (options.state instanceof _StateMachine.default || this.state instanceof _StateMachine.default) {
-      this.state = options.state || this.state;
-    } else {
-      var stateData = _underscoreWrapper.default.defaults(clean(options.state), this.state || {});
+    /* eslint max-statements: [2, 21], complexity: [2, 12] */
+    // If 'state' is passed down as options, use it, else create a 'new StateMachine()'
+    this.state = _underscoreWrapper.default.result(this, 'state');
+    var hasStateBeenInitialized = this.state instanceof _StateMachine.default || options.state instanceof _StateMachine.default;
+
+    if (!hasStateBeenInitialized) {
+      var stateData = _underscoreWrapper.default.defaults(clean(options.state), this.state || {}); // TODO:
+      // `framework/View.js set `this.state = options.state.`.
+      // Therefore we could consider to do
+      // 1. `options.state = new StateMachine()`
+      // 2. remove `delete options.state`
+
 
       this.state = new _StateMachine.default(stateData);
       delete options.state;
     }
 
-    if (options.settings) {
-      this.settings = options.settings;
-    } else {
+    if (!options.settings) {
       // allow the controller to live without a router
-      this.settings = options.settings = new _SettingsModel.default(_underscoreWrapper.default.omit(options || {}, 'el'));
+      options.settings = new _SettingsModel.default(_underscoreWrapper.default.omit(options || {}, 'el'));
       this.listen('notification', _BaseRouter.default.prototype._notify);
       this.listen('confirmation', _BaseRouter.default.prototype._confirm);
     }
@@ -3357,9 +6390,17 @@ var _default = _BaseView.default.extend(
         this[method].apply(this, args);
       }
     });
+    var MainView; // if `this.View` is already a Backbone View
 
-    if (this.View) {
-      this.add(new this.View(this.toJSON()));
+    if (this.View && this.View.isCourageView) {
+      MainView = this.View;
+    } // if `this.View` is a pure function that returns a Backbone View
+    else if (_underscoreWrapper.default.result(this, 'View') && _underscoreWrapper.default.result(this, 'View').isCourageView) {
+      MainView = _underscoreWrapper.default.result(this, 'View');
+    }
+
+    if (MainView) {
+      this.add(new MainView(this.toJSON()));
     }
   },
 
@@ -3415,10 +6456,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/BaseRouter.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/BaseRouter.js ***!
-  \***********************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/BaseRouter.js":
+/*!***************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/BaseRouter.js ***!
+  \***************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3429,19 +6470,19 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js"));
+var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "../../../../../okta/okta-ui/node_modules/backbone/backbone.js"));
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ./jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
+var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ./jquery-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _Logger = _interopRequireDefault(__webpack_require__(/*! ./Logger */ "./node_modules/@okta/courage/src/util/Logger.js"));
+var _Logger = _interopRequireDefault(__webpack_require__(/*! ./Logger */ "../../../../../okta/okta-ui/packages/courage/src/util/Logger.js"));
 
-var _SettingsModel = _interopRequireDefault(__webpack_require__(/*! ./SettingsModel */ "./node_modules/@okta/courage/src/util/SettingsModel.js"));
+var _SettingsModel = _interopRequireDefault(__webpack_require__(/*! ./SettingsModel */ "../../../../../okta/okta-ui/packages/courage/src/util/SettingsModel.js"));
 
 var _ConfirmationDialog = _interopRequireDefault(__webpack_require__(/*! ConfirmationDialog */ "./src/empty.js"));
 
-var _Notification = _interopRequireDefault(__webpack_require__(/*! ../views/components/Notification */ "./node_modules/@okta/courage/src/views/components/Notification.js"));
+var _Notification = _interopRequireDefault(__webpack_require__(/*! ../views/components/Notification */ "../../../../../okta/okta-ui/packages/courage/src/views/components/Notification.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3481,9 +6522,18 @@ var _default = _backbone.default.Router.extend(
    */
   root: '',
   listen: _Notification.default.prototype.listen,
-  constructor: function constructor(options) {
-    options || (options = {});
+  constructor: function constructor() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     this.el = options.el;
+    /**
+     * Make sure `this.settings` has been set before invoke super - `Backbone.Router.apply`,
+     * which will invoke `this.initialize`, which could use `this.settings`.
+     *
+     * In theory we can set `this.settings` in `this.initialize` and assume `child.initialize`
+     * will invoke `super.initialize` first. But in reality, `child.initialize` doesn't call
+     * `super.initialize` at all.
+     */
+
     this.settings = new _SettingsModel.default(_underscoreWrapper.default.omit(options, 'el'));
 
     if (options.root) {
@@ -3597,10 +6647,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/ButtonFactory.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/ButtonFactory.js ***!
-  \**************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/ButtonFactory.js":
+/*!******************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/ButtonFactory.js ***!
+  \******************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3611,9 +6661,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _BaseButtonLink = _interopRequireDefault(__webpack_require__(/*! ../views/components/BaseButtonLink */ "./node_modules/@okta/courage/src/views/components/BaseButtonLink.js"));
+var _BaseButtonLink = _interopRequireDefault(__webpack_require__(/*! ../views/components/BaseButtonLink */ "../../../../../okta/okta-ui/packages/courage/src/views/components/BaseButtonLink.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3674,10 +6724,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/Class.js":
-/*!******************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/Class.js ***!
-  \******************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/Class.js":
+/*!**********************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/Class.js ***!
+  \**********************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3688,9 +6738,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js"));
+var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "../../../../../okta/okta-ui/node_modules/backbone/backbone.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3711,10 +6761,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/Clipboard.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/Clipboard.js ***!
-  \**********************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/Clipboard.js":
+/*!**************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/Clipboard.js ***!
+  \**************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3725,15 +6775,15 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _clipboard = _interopRequireDefault(__webpack_require__(/*! clipboard */ "./node_modules/clipboard/lib/clipboard.js"));
+var _clipboard = _interopRequireDefault(__webpack_require__(/*! clipboard */ "../../../../../okta/okta-ui/node_modules/clipboard/lib/clipboard.js"));
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ./jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
+var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ./jquery-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _View = _interopRequireDefault(__webpack_require__(/*! ../framework/View */ "./node_modules/@okta/courage/src/framework/View.js"));
+var _View = _interopRequireDefault(__webpack_require__(/*! ../framework/View */ "../../../../../okta/okta-ui/packages/courage/src/framework/View.js"));
 
-var _Class = _interopRequireDefault(__webpack_require__(/*! ./Class */ "./node_modules/@okta/courage/src/util/Class.js"));
+var _Class = _interopRequireDefault(__webpack_require__(/*! ./Class */ "../../../../../okta/okta-ui/packages/courage/src/util/Class.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3860,10 +6910,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/Cookie.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/Cookie.js ***!
-  \*******************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/Cookie.js":
+/*!***********************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/Cookie.js ***!
+  \***********************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3874,9 +6924,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _js = _interopRequireDefault(__webpack_require__(/*! vendor/lib/js.cookie */ "./node_modules/@okta/courage/src/vendor/lib/js.cookie.js"));
+var _js = _interopRequireDefault(__webpack_require__(/*! vendor/lib/js.cookie */ "../../../../../okta/okta-ui/packages/courage/src/vendor/lib/js.cookie.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3900,10 +6950,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/Keys.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/Keys.js ***!
-  \*****************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/Keys.js":
+/*!*********************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/Keys.js ***!
+  \*********************************************************************/
 /***/ (function(module, exports) {
 
 "use strict";
@@ -3944,10 +6994,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/Logger.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/Logger.js ***!
-  \*******************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/Logger.js":
+/*!***********************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/Logger.js ***!
+  \***********************************************************************/
 /***/ (function(module, exports) {
 
 "use strict";
@@ -4065,10 +7115,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/SchemaUtil.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/SchemaUtil.js ***!
-  \***********************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/SchemaUtil.js":
+/*!***************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/SchemaUtil.js ***!
+  \***************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4079,9 +7129,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ./StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
+var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ./StringUtil */ "../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4355,10 +7405,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/SettingsModel.js":
-/*!**************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/SettingsModel.js ***!
-  \**************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/SettingsModel.js":
+/*!******************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/SettingsModel.js ***!
+  \******************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4369,9 +7419,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _Model = _interopRequireDefault(__webpack_require__(/*! ../models/Model */ "./node_modules/@okta/courage/src/models/Model.js"));
+var _Model = _interopRequireDefault(__webpack_require__(/*! ../models/Model */ "../../../../../okta/okta-ui/packages/courage/src/models/Model.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4395,11 +7445,10 @@ var _default = _Model.default.extend({
       theme: ['string', false, theme]
     };
   },
-  extraProperties: true,
   constructor: function constructor() {
-    this.features = window._features || [];
-
     _Model.default.apply(this, arguments);
+
+    this.features = window._features || [];
   },
 
   /**
@@ -4443,10 +7492,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/StateMachine.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/StateMachine.js ***!
-  \*************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/StateMachine.js":
+/*!*****************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/StateMachine.js ***!
+  \*****************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4457,9 +7506,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _Model = _interopRequireDefault(__webpack_require__(/*! ../models/Model */ "./node_modules/@okta/courage/src/models/Model.js"));
+var _Model = _interopRequireDefault(__webpack_require__(/*! ../models/Model */ "../../../../../okta/okta-ui/packages/courage/src/models/Model.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4471,8 +7520,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * A state object that holds the applciation state
  */
 var _default = _Model.default.extend({
-  extraProperties: true,
-
   /**
    * Invokes a method on the applicable {@link Okta.Controller}
    *
@@ -4496,10 +7543,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/StringUtil.js":
-/*!***********************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/StringUtil.js ***!
-  \***********************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.js":
+/*!***************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.js ***!
+  \***************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4510,9 +7557,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ./jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
+var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ./jquery-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
 var _oktaI18nBundles = _interopRequireDefault(__webpack_require__(/*! okta-i18n-bundles */ "okta-i18n-bundles"));
 
@@ -4859,10 +7906,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/TemplateUtil.js":
-/*!*************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/TemplateUtil.js ***!
-  \*************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/TemplateUtil.js":
+/*!*****************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/TemplateUtil.js ***!
+  \*****************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4875,7 +7922,7 @@ exports.default = void 0;
 
 var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4906,10 +7953,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/Time.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/Time.js ***!
-  \*****************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/Time.js":
+/*!*********************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/Time.js ***!
+  \*********************************************************************/
 /***/ (function(module, exports) {
 
 "use strict";
@@ -4931,10 +7978,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/Util.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/Util.js ***!
-  \*****************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/Util.js":
+/*!*********************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/Util.js ***!
+  \*********************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4945,9 +7992,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../views/BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../views/BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4991,10 +8038,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/ViewUtil.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/ViewUtil.js ***!
-  \*********************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/ViewUtil.js":
+/*!*************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/ViewUtil.js ***!
+  \*************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5005,7 +8052,7 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5058,10 +8105,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/handlebars-wrapper.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/handlebars-wrapper.js ***!
-  \*******************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/handlebars-wrapper.js":
+/*!***********************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/handlebars-wrapper.js ***!
+  \***********************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5074,19 +8121,19 @@ exports.default = void 0;
 
 var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
 
-__webpack_require__(/*! ./handlebars/handle-url */ "./node_modules/@okta/courage/src/util/handlebars/handle-url.js");
+__webpack_require__(/*! ./handlebars/handle-url */ "../../../../../okta/okta-ui/packages/courage/src/util/handlebars/handle-url.js");
 
-__webpack_require__(/*! ./handlebars/helper-base64 */ "./node_modules/@okta/courage/src/util/handlebars/helper-base64.js");
+__webpack_require__(/*! ./handlebars/helper-base64 */ "../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-base64.js");
 
-__webpack_require__(/*! ./handlebars/helper-date */ "./node_modules/@okta/courage/src/util/handlebars/helper-date.js");
+__webpack_require__(/*! ./handlebars/helper-date */ "../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-date.js");
 
-__webpack_require__(/*! ./handlebars/helper-i18n */ "./node_modules/@okta/courage/src/util/handlebars/helper-i18n.js");
+__webpack_require__(/*! ./handlebars/helper-i18n */ "../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-i18n.js");
 
-__webpack_require__(/*! ./handlebars/helper-img */ "./node_modules/@okta/courage/src/util/handlebars/helper-img.js");
+__webpack_require__(/*! ./handlebars/helper-img */ "../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-img.js");
 
-__webpack_require__(/*! ./handlebars/helper-markdown */ "./node_modules/@okta/courage/src/util/handlebars/helper-markdown.js");
+__webpack_require__(/*! ./handlebars/helper-markdown */ "../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-markdown.js");
 
-__webpack_require__(/*! ./handlebars/helper-xsrfTokenInput */ "./node_modules/@okta/courage/src/util/handlebars/helper-xsrfTokenInput.js");
+__webpack_require__(/*! ./handlebars/helper-xsrfTokenInput */ "../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-xsrfTokenInput.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5102,10 +8149,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/handlebars/handle-url.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/handlebars/handle-url.js ***!
-  \**********************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/handlebars/handle-url.js":
+/*!**************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/handlebars/handle-url.js ***!
+  \**************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5132,10 +8179,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/handlebars/helper-base64.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/handlebars/helper-base64.js ***!
-  \*************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-base64.js":
+/*!*****************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-base64.js ***!
+  \*****************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5175,10 +8222,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/handlebars/helper-date.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/handlebars/helper-date.js ***!
-  \***********************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-date.js":
+/*!***************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-date.js ***!
+  \***************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5193,7 +8240,7 @@ var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "
 
 var _moment = _interopRequireDefault(__webpack_require__(/*! moment */ "./src/empty.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5216,10 +8263,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/handlebars/helper-i18n.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/handlebars/helper-i18n.js ***!
-  \***********************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-i18n.js":
+/*!***************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-i18n.js ***!
+  \***************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5232,11 +8279,11 @@ exports.default = void 0;
 
 var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _Logger = _interopRequireDefault(__webpack_require__(/*! ../Logger */ "./node_modules/@okta/courage/src/util/Logger.js"));
+var _Logger = _interopRequireDefault(__webpack_require__(/*! ../Logger */ "../../../../../okta/okta-ui/packages/courage/src/util/Logger.js"));
 
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
+var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../StringUtil */ "../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5340,10 +8387,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/handlebars/helper-img.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/handlebars/helper-img.js ***!
-  \**********************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-img.js":
+/*!**************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-img.js ***!
+  \**************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5356,7 +8403,7 @@ exports.default = void 0;
 
 var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5392,10 +8439,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/handlebars/helper-markdown.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/handlebars/helper-markdown.js ***!
-  \***************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-markdown.js":
+/*!*******************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-markdown.js ***!
+  \*******************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5408,7 +8455,7 @@ exports.default = void 0;
 
 var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
 
-var _markdownToHtml = _interopRequireDefault(__webpack_require__(/*! ../markdownToHtml */ "./node_modules/@okta/courage/src/util/markdownToHtml.js"));
+var _markdownToHtml = _interopRequireDefault(__webpack_require__(/*! ../markdownToHtml */ "../../../../../okta/okta-ui/packages/courage/src/util/markdownToHtml.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5423,10 +8470,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/handlebars/helper-xsrfTokenInput.js":
-/*!*********************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/handlebars/helper-xsrfTokenInput.js ***!
-  \*********************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-xsrfTokenInput.js":
+/*!*************************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/handlebars/helper-xsrfTokenInput.js ***!
+  \*************************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5439,7 +8486,7 @@ exports.default = void 0;
 
 var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
+var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../jquery-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5454,10 +8501,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/jquery-wrapper.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/jquery-wrapper.js ***!
-  \***************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.js":
+/*!*******************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.js ***!
+  \*******************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5498,10 +8545,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/markdownToHtml.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/markdownToHtml.js ***!
-  \***************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/markdownToHtml.js":
+/*!*******************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/markdownToHtml.js ***!
+  \*******************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5512,7 +8559,7 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = mdToHtml;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5555,10 +8602,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/util/underscore-wrapper.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/util/underscore-wrapper.js ***!
-  \*******************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js":
+/*!***********************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js ***!
+  \***********************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5610,10 +8657,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/vendor/lib/js.cookie.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/vendor/lib/js.cookie.js ***!
-  \****************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/vendor/lib/js.cookie.js":
+/*!********************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/vendor/lib/js.cookie.js ***!
+  \********************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5757,10 +8804,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/vendor/plugins/chosen.jquery.js":
-/*!************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/vendor/plugins/chosen.jquery.js ***!
-  \************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/chosen.jquery.js":
+/*!****************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/chosen.jquery.js ***!
+  \****************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7016,10 +10063,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/vendor/plugins/jquery.custominput.js":
-/*!*****************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/vendor/plugins/jquery.custominput.js ***!
-  \*****************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/jquery.custominput.js":
+/*!*********************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/jquery.custominput.js ***!
+  \*********************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7083,10 +10130,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/vendor/plugins/jquery.placeholder.js":
-/*!*****************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/vendor/plugins/jquery.placeholder.js ***!
-  \*****************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/jquery.placeholder.js":
+/*!*********************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/jquery.placeholder.js ***!
+  \*********************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7245,10 +10292,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/Backbone.ListView.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/Backbone.ListView.js ***!
-  \*******************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/Backbone.ListView.js":
+/*!***********************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/Backbone.ListView.js ***!
+  \***********************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7259,9 +10306,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _ListView = _interopRequireDefault(__webpack_require__(/*! ../framework/ListView */ "./node_modules/@okta/courage/src/framework/ListView.js"));
+var _ListView = _interopRequireDefault(__webpack_require__(/*! ../framework/ListView */ "../../../../../okta/okta-ui/packages/courage/src/framework/ListView.js"));
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ./BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! ./BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7278,10 +10325,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/BaseView.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/BaseView.js ***!
-  \**********************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js":
+/*!**************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js ***!
+  \**************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7292,13 +10339,13 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js"));
+var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "../../../../../okta/okta-ui/node_modules/backbone/backbone.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _View = _interopRequireDefault(__webpack_require__(/*! ../framework/View */ "./node_modules/@okta/courage/src/framework/View.js"));
+var _View = _interopRequireDefault(__webpack_require__(/*! ../framework/View */ "../../../../../okta/okta-ui/packages/courage/src/framework/View.js"));
 
-var _TemplateUtil = _interopRequireDefault(__webpack_require__(/*! ../util/TemplateUtil */ "./node_modules/@okta/courage/src/util/TemplateUtil.js"));
+var _TemplateUtil = _interopRequireDefault(__webpack_require__(/*! ../util/TemplateUtil */ "../../../../../okta/okta-ui/packages/courage/src/util/TemplateUtil.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7495,10 +10542,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/components/BaseButtonLink.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/components/BaseButtonLink.js ***!
-  \***************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/components/BaseButtonLink.js":
+/*!*******************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/components/BaseButtonLink.js ***!
+  \*******************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7511,11 +10558,11 @@ exports.default = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _ViewUtil = _interopRequireDefault(__webpack_require__(/*! ../../util/ViewUtil */ "./node_modules/@okta/courage/src/util/ViewUtil.js"));
+var _ViewUtil = _interopRequireDefault(__webpack_require__(/*! ../../util/ViewUtil */ "../../../../../okta/okta-ui/packages/courage/src/util/ViewUtil.js"));
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7796,10 +10843,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/components/BaseDropDown.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/components/BaseDropDown.js ***!
-  \*************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/components/BaseDropDown.js":
+/*!*****************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/components/BaseDropDown.js ***!
+  \*****************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7812,11 +10859,11 @@ exports.default = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
+var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/jquery-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8217,10 +11264,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/components/Callout.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/components/Callout.js ***!
-  \********************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/components/Callout.js":
+/*!************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/components/Callout.js ***!
+  \************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8233,11 +11280,11 @@ exports.default = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _Time = _interopRequireDefault(__webpack_require__(/*! ../../util/Time */ "./node_modules/@okta/courage/src/util/Time.js"));
+var _Time = _interopRequireDefault(__webpack_require__(/*! ../../util/Time */ "../../../../../okta/okta-ui/packages/courage/src/util/Time.js"));
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8628,10 +11675,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/components/Notification.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/components/Notification.js ***!
-  \*************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/components/Notification.js":
+/*!*****************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/components/Notification.js ***!
+  \*****************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8644,9 +11691,9 @@ exports.default = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8833,10 +11880,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/BaseForm.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/BaseForm.js ***!
-  \****************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseForm.js":
+/*!********************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseForm.js ***!
+  \********************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8849,33 +11896,33 @@ exports.default = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
+var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/jquery-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
+var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../util/StringUtil */ "../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.js"));
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
-var _ReadModeBar = _interopRequireDefault(__webpack_require__(/*! ./components/ReadModeBar */ "./node_modules/@okta/courage/src/views/forms/components/ReadModeBar.js"));
+var _ReadModeBar = _interopRequireDefault(__webpack_require__(/*! ./components/ReadModeBar */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/components/ReadModeBar.js"));
 
-var _Toolbar = _interopRequireDefault(__webpack_require__(/*! ./components/Toolbar */ "./node_modules/@okta/courage/src/views/forms/components/Toolbar.js"));
+var _Toolbar = _interopRequireDefault(__webpack_require__(/*! ./components/Toolbar */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/components/Toolbar.js"));
 
-var _ErrorBanner = _interopRequireDefault(__webpack_require__(/*! ./helpers/ErrorBanner */ "./node_modules/@okta/courage/src/views/forms/helpers/ErrorBanner.js"));
+var _ErrorBanner = _interopRequireDefault(__webpack_require__(/*! ./helpers/ErrorBanner */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/ErrorBanner.js"));
 
-var _ErrorParser = _interopRequireDefault(__webpack_require__(/*! ./helpers/ErrorParser */ "./node_modules/@okta/courage/src/views/forms/helpers/ErrorParser.js"));
+var _ErrorParser = _interopRequireDefault(__webpack_require__(/*! ./helpers/ErrorParser */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/ErrorParser.js"));
 
-var _FormUtil = _interopRequireDefault(__webpack_require__(/*! ./helpers/FormUtil */ "./node_modules/@okta/courage/src/views/forms/helpers/FormUtil.js"));
+var _FormUtil = _interopRequireDefault(__webpack_require__(/*! ./helpers/FormUtil */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/FormUtil.js"));
 
-var _InputContainer = _interopRequireDefault(__webpack_require__(/*! ./helpers/InputContainer */ "./node_modules/@okta/courage/src/views/forms/helpers/InputContainer.js"));
+var _InputContainer = _interopRequireDefault(__webpack_require__(/*! ./helpers/InputContainer */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputContainer.js"));
 
-var _InputFactory = _interopRequireDefault(__webpack_require__(/*! ./helpers/InputFactory */ "./node_modules/@okta/courage/src/views/forms/helpers/InputFactory.js"));
+var _InputFactory = _interopRequireDefault(__webpack_require__(/*! ./helpers/InputFactory */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputFactory.js"));
 
-var _InputLabel = _interopRequireDefault(__webpack_require__(/*! ./helpers/InputLabel */ "./node_modules/@okta/courage/src/views/forms/helpers/InputLabel.js"));
+var _InputLabel = _interopRequireDefault(__webpack_require__(/*! ./helpers/InputLabel */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputLabel.js"));
 
-var _InputWrapper = _interopRequireDefault(__webpack_require__(/*! ./helpers/InputWrapper */ "./node_modules/@okta/courage/src/views/forms/helpers/InputWrapper.js"));
+var _InputWrapper = _interopRequireDefault(__webpack_require__(/*! ./helpers/InputWrapper */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputWrapper.js"));
 
-var _SettingsModel = _interopRequireDefault(__webpack_require__(/*! ../../util/SettingsModel */ "./node_modules/@okta/courage/src/util/SettingsModel.js"));
+var _SettingsModel = _interopRequireDefault(__webpack_require__(/*! ../../util/SettingsModel */ "../../../../../okta/okta-ui/packages/courage/src/util/SettingsModel.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -9248,15 +12295,22 @@ var _default = _BaseView.default.extend(
 
     this.__saveModelState(options.model);
 
-    if (this.step) {
+    var step = _underscoreWrapper.default.result(this, 'step');
+
+    if (step) {
+      // checking exists of `this.save` hence don't have to change to
+      // `_.result(this, 'save')` which will execute the function and
+      // is not the intent.
       if (!this.save) {
-        this.save = !this.totalSteps || this.step === this.totalSteps ? 'Finish' : 'Next';
+        var totalStep = _underscoreWrapper.default.result(this, 'totalSteps');
+
+        this.save = !totalStep || step === totalStep ? 'Finish' : 'Next';
       }
 
-      this.className += ' wizard';
+      this.className = _underscoreWrapper.default.result(this, 'className') + ' wizard';
     }
 
-    this.className += ' o-form';
+    this.className = _underscoreWrapper.default.result(this, 'className') + ' o-form';
     this.__toolbar = this.__createToolbar(options);
 
     _BaseView.default.call(this, options);
@@ -9267,7 +12321,10 @@ var _default = _BaseView.default.extend(
       this.__addLayoutItem(input);
     }, this);
 
-    this.add(this.__toolbar, '');
+    this.add(this.__toolbar, ''); // NOTES: this.model shall be initialized after calling
+    // super (BaseView.call(this, options)) above.
+    //
+
     this.listenTo(this.model, 'change:__edit__', this.__applyMode);
     this.listenTo(this.model, 'invalid error', _underscoreWrapper.default.throttle(function (model, resp, showBanner) {
       this.__showErrors(model, resp, showBanner !== false);
@@ -9345,6 +12402,9 @@ var _default = _BaseView.default.extend(
   __createToolbar: function __createToolbar(options) {
     var danger = this.getAttribute('danger');
     var saveBtnClassName = danger === true ? 'button-error' : 'button-primary';
+
+    var step = _underscoreWrapper.default.result(this, 'step');
+
     var toolbar = new _Toolbar.default(_underscoreWrapper.default.extend({
       save: this.save || _StringUtil.default.localize('oform.save', 'courage'),
       saveId: this.saveId,
@@ -9353,7 +12413,7 @@ var _default = _BaseView.default.extend(
       noCancelButton: this.noCancelButton || false,
       noSubmitButton: this.noSubmitButton || false,
       buttonOrder: this.buttonOrder,
-      hasPrevStep: this.step && this.step > 1
+      hasPrevStep: step && step > 1
     }, options || this.options));
 
     _underscoreWrapper.default.each(this.__buttons, function (args) {
@@ -10150,10 +13210,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/BaseInput.js":
-/*!*****************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/BaseInput.js ***!
-  \*****************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseInput.js":
+/*!*********************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseInput.js ***!
+  \*********************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10166,17 +13226,17 @@ exports.default = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
+var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/jquery-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _ButtonFactory = _interopRequireDefault(__webpack_require__(/*! ../../util/ButtonFactory */ "./node_modules/@okta/courage/src/util/ButtonFactory.js"));
+var _ButtonFactory = _interopRequireDefault(__webpack_require__(/*! ../../util/ButtonFactory */ "../../../../../okta/okta-ui/packages/courage/src/util/ButtonFactory.js"));
 
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
+var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../util/StringUtil */ "../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.js"));
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
-var _Callout = _interopRequireDefault(__webpack_require__(/*! ../components/Callout */ "./node_modules/@okta/courage/src/views/components/Callout.js"));
+var _Callout = _interopRequireDefault(__webpack_require__(/*! ../components/Callout */ "../../../../../okta/okta-ui/packages/courage/src/views/components/Callout.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10663,10 +13723,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/components/ReadModeBar.js":
-/*!******************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/components/ReadModeBar.js ***!
-  \******************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/components/ReadModeBar.js":
+/*!**********************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/components/ReadModeBar.js ***!
+  \**********************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10677,9 +13737,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
-var _FormUtil = _interopRequireDefault(__webpack_require__(/*! ../helpers/FormUtil */ "./node_modules/@okta/courage/src/views/forms/helpers/FormUtil.js"));
+var _FormUtil = _interopRequireDefault(__webpack_require__(/*! ../helpers/FormUtil */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/FormUtil.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10716,10 +13776,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/components/Toolbar.js":
-/*!**************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/components/Toolbar.js ***!
-  \**************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/components/Toolbar.js":
+/*!******************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/components/Toolbar.js ***!
+  \******************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10730,11 +13790,11 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
-var _FormUtil = _interopRequireDefault(__webpack_require__(/*! ../helpers/FormUtil */ "./node_modules/@okta/courage/src/views/forms/helpers/FormUtil.js"));
+var _FormUtil = _interopRequireDefault(__webpack_require__(/*! ../helpers/FormUtil */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/FormUtil.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10799,10 +13859,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/EnumTypeHelper.js":
-/*!******************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/EnumTypeHelper.js ***!
-  \******************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/EnumTypeHelper.js":
+/*!**********************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/EnumTypeHelper.js ***!
+  \**********************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10813,13 +13873,13 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
+var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/jquery-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _SchemaUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/SchemaUtil */ "./node_modules/@okta/courage/src/util/SchemaUtil.js"));
+var _SchemaUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/SchemaUtil */ "../../../../../okta/okta-ui/packages/courage/src/util/SchemaUtil.js"));
 
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
+var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/StringUtil */ "../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11021,10 +14081,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/ErrorBanner.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/ErrorBanner.js ***!
-  \***************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/ErrorBanner.js":
+/*!*******************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/ErrorBanner.js ***!
+  \*******************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11037,7 +14097,7 @@ exports.default = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11138,10 +14198,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/ErrorParser.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/ErrorParser.js ***!
-  \***************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/ErrorParser.js":
+/*!*******************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/ErrorParser.js ***!
+  \*******************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11152,9 +14212,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
+var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/StringUtil */ "../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11264,10 +14324,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/FormUtil.js":
-/*!************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/FormUtil.js ***!
-  \************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/FormUtil.js":
+/*!****************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/FormUtil.js ***!
+  \****************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11278,17 +14338,17 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _Keys = _interopRequireDefault(__webpack_require__(/*! ../../../util/Keys */ "./node_modules/@okta/courage/src/util/Keys.js"));
+var _Keys = _interopRequireDefault(__webpack_require__(/*! ../../../util/Keys */ "../../../../../okta/okta-ui/packages/courage/src/util/Keys.js"));
 
-var _Logger = _interopRequireDefault(__webpack_require__(/*! ../../../util/Logger */ "./node_modules/@okta/courage/src/util/Logger.js"));
+var _Logger = _interopRequireDefault(__webpack_require__(/*! ../../../util/Logger */ "../../../../../okta/okta-ui/packages/courage/src/util/Logger.js"));
 
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
+var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/StringUtil */ "../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.js"));
 
-var _ViewUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/ViewUtil */ "./node_modules/@okta/courage/src/util/ViewUtil.js"));
+var _ViewUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/ViewUtil */ "../../../../../okta/okta-ui/packages/courage/src/util/ViewUtil.js"));
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11631,10 +14691,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/InputContainer.js":
-/*!******************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/InputContainer.js ***!
-  \******************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputContainer.js":
+/*!**********************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputContainer.js ***!
+  \**********************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11647,15 +14707,15 @@ exports.default = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _Logger = _interopRequireDefault(__webpack_require__(/*! ../../../util/Logger */ "./node_modules/@okta/courage/src/util/Logger.js"));
+var _Logger = _interopRequireDefault(__webpack_require__(/*! ../../../util/Logger */ "../../../../../okta/okta-ui/packages/courage/src/util/Logger.js"));
 
-var _Util = _interopRequireDefault(__webpack_require__(/*! ../../../util/Util */ "./node_modules/@okta/courage/src/util/Util.js"));
+var _Util = _interopRequireDefault(__webpack_require__(/*! ../../../util/Util */ "../../../../../okta/okta-ui/packages/courage/src/util/Util.js"));
 
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
+var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/StringUtil */ "../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.js"));
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11989,10 +15049,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/InputFactory.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/InputFactory.js ***!
-  \****************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputFactory.js":
+/*!********************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputFactory.js ***!
+  \********************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12003,9 +15063,9 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _InputRegistry = _interopRequireDefault(__webpack_require__(/*! ./InputRegistry */ "./node_modules/@okta/courage/src/views/forms/helpers/InputRegistry.js"));
+var _InputRegistry = _interopRequireDefault(__webpack_require__(/*! ./InputRegistry */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputRegistry.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12047,10 +15107,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/InputLabel.js":
-/*!**************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/InputLabel.js ***!
-  \**************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputLabel.js":
+/*!******************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputLabel.js ***!
+  \******************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12063,11 +15123,11 @@ exports.default = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
 __webpack_require__(/*! qtip */ "qtip");
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12438,10 +15498,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/InputRegistry.js":
-/*!*****************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/InputRegistry.js ***!
-  \*****************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputRegistry.js":
+/*!*********************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputRegistry.js ***!
+  \*********************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12452,7 +15512,7 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12508,10 +15568,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/InputWrapper.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/InputWrapper.js ***!
-  \****************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputWrapper.js":
+/*!********************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputWrapper.js ***!
+  \********************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12522,11 +15582,11 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
-var _FormUtil = _interopRequireDefault(__webpack_require__(/*! ./FormUtil */ "./node_modules/@okta/courage/src/views/forms/helpers/FormUtil.js"));
+var _FormUtil = _interopRequireDefault(__webpack_require__(/*! ./FormUtil */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/FormUtil.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12654,10 +15714,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/helpers/SchemaFormFactory.js":
-/*!*********************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/helpers/SchemaFormFactory.js ***!
-  \*********************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/SchemaFormFactory.js":
+/*!*************************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/SchemaFormFactory.js ***!
+  \*************************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12668,15 +15728,15 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
+var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/StringUtil */ "../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.js"));
 
-var _BooleanSelect = _interopRequireDefault(__webpack_require__(/*! ../inputs/BooleanSelect */ "./node_modules/@okta/courage/src/views/forms/inputs/BooleanSelect.js"));
+var _BooleanSelect = _interopRequireDefault(__webpack_require__(/*! ../inputs/BooleanSelect */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/BooleanSelect.js"));
 
-var _TextBoxSet = _interopRequireDefault(__webpack_require__(/*! ../inputs/TextBoxSet */ "./node_modules/@okta/courage/src/views/forms/inputs/TextBoxSet.js"));
+var _TextBoxSet = _interopRequireDefault(__webpack_require__(/*! ../inputs/TextBoxSet */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/TextBoxSet.js"));
 
-var _EnumTypeHelper = _interopRequireDefault(__webpack_require__(/*! ./EnumTypeHelper */ "./node_modules/@okta/courage/src/views/forms/helpers/EnumTypeHelper.js"));
+var _EnumTypeHelper = _interopRequireDefault(__webpack_require__(/*! ./EnumTypeHelper */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/EnumTypeHelper.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12985,10 +16045,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/inputs/BooleanSelect.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/inputs/BooleanSelect.js ***!
-  \****************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/BooleanSelect.js":
+/*!********************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/BooleanSelect.js ***!
+  \********************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12999,7 +16059,7 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _Select = _interopRequireDefault(__webpack_require__(/*! ./Select */ "./node_modules/@okta/courage/src/views/forms/inputs/Select.js"));
+var _Select = _interopRequireDefault(__webpack_require__(/*! ./Select */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/Select.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13050,10 +16110,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/inputs/CheckBox.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/inputs/CheckBox.js ***!
-  \***********************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/CheckBox.js":
+/*!***************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/CheckBox.js ***!
+  \***************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13066,13 +16126,13 @@ exports.default = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _Keys = _interopRequireDefault(__webpack_require__(/*! ../../../util/Keys */ "./node_modules/@okta/courage/src/util/Keys.js"));
+var _Keys = _interopRequireDefault(__webpack_require__(/*! ../../../util/Keys */ "../../../../../okta/okta-ui/packages/courage/src/util/Keys.js"));
 
-__webpack_require__(/*! vendor/plugins/jquery.custominput */ "./node_modules/@okta/courage/src/vendor/plugins/jquery.custominput.js");
+__webpack_require__(/*! vendor/plugins/jquery.custominput */ "../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/jquery.custominput.js");
 
-var _BaseInput = _interopRequireDefault(__webpack_require__(/*! ../BaseInput */ "./node_modules/@okta/courage/src/views/forms/BaseInput.js"));
+var _BaseInput = _interopRequireDefault(__webpack_require__(/*! ../BaseInput */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseInput.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13237,10 +16297,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/inputs/DeletableBox.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/inputs/DeletableBox.js ***!
-  \***************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/DeletableBox.js":
+/*!*******************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/DeletableBox.js ***!
+  \*******************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13253,15 +16313,15 @@ exports.default = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _SchemaUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/SchemaUtil */ "./node_modules/@okta/courage/src/util/SchemaUtil.js"));
+var _SchemaUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/SchemaUtil */ "../../../../../okta/okta-ui/packages/courage/src/util/SchemaUtil.js"));
 
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
+var _StringUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/StringUtil */ "../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.js"));
 
-var _Time = _interopRequireDefault(__webpack_require__(/*! ../../../util/Time */ "./node_modules/@okta/courage/src/util/Time.js"));
+var _Time = _interopRequireDefault(__webpack_require__(/*! ../../../util/Time */ "../../../../../okta/okta-ui/packages/courage/src/util/Time.js"));
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13469,10 +16529,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/inputs/InputGroup.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/inputs/InputGroup.js ***!
-  \*************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/InputGroup.js":
+/*!*****************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/InputGroup.js ***!
+  \*****************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13483,13 +16543,13 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _ButtonFactory = _interopRequireDefault(__webpack_require__(/*! ../../../util/ButtonFactory */ "./node_modules/@okta/courage/src/util/ButtonFactory.js"));
+var _ButtonFactory = _interopRequireDefault(__webpack_require__(/*! ../../../util/ButtonFactory */ "../../../../../okta/okta-ui/packages/courage/src/util/ButtonFactory.js"));
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
-var _BaseInput = _interopRequireDefault(__webpack_require__(/*! ../BaseInput */ "./node_modules/@okta/courage/src/views/forms/BaseInput.js"));
+var _BaseInput = _interopRequireDefault(__webpack_require__(/*! ../BaseInput */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseInput.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13619,10 +16679,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/inputs/PasswordBox.js":
-/*!**************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/inputs/PasswordBox.js ***!
-  \**************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/PasswordBox.js":
+/*!******************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/PasswordBox.js ***!
+  \******************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13635,9 +16695,9 @@ exports.default = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _TextBox = _interopRequireDefault(__webpack_require__(/*! ./TextBox */ "./node_modules/@okta/courage/src/views/forms/inputs/TextBox.js"));
+var _TextBox = _interopRequireDefault(__webpack_require__(/*! ./TextBox */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/TextBox.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -13710,10 +16770,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/inputs/Radio.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/inputs/Radio.js ***!
-  \********************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/Radio.js":
+/*!************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/Radio.js ***!
+  \************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -13726,19 +16786,19 @@ exports.default = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
+var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/jquery-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _Keys = _interopRequireDefault(__webpack_require__(/*! ../../../util/Keys */ "./node_modules/@okta/courage/src/util/Keys.js"));
+var _Keys = _interopRequireDefault(__webpack_require__(/*! ../../../util/Keys */ "../../../../../okta/okta-ui/packages/courage/src/util/Keys.js"));
 
-var _Util = _interopRequireDefault(__webpack_require__(/*! ../../../util/Util */ "./node_modules/@okta/courage/src/util/Util.js"));
+var _Util = _interopRequireDefault(__webpack_require__(/*! ../../../util/Util */ "../../../../../okta/okta-ui/packages/courage/src/util/Util.js"));
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
-__webpack_require__(/*! vendor/plugins/jquery.custominput */ "./node_modules/@okta/courage/src/vendor/plugins/jquery.custominput.js");
+__webpack_require__(/*! vendor/plugins/jquery.custominput */ "../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/jquery.custominput.js");
 
-var _BaseInput = _interopRequireDefault(__webpack_require__(/*! ../BaseInput */ "./node_modules/@okta/courage/src/views/forms/BaseInput.js"));
+var _BaseInput = _interopRequireDefault(__webpack_require__(/*! ../BaseInput */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseInput.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14006,10 +17066,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/inputs/Select.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/inputs/Select.js ***!
-  \*********************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/Select.js":
+/*!*************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/Select.js ***!
+  \*************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14022,15 +17082,15 @@ exports.default = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
+var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/jquery-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _Keys = _interopRequireDefault(__webpack_require__(/*! ../../../util/Keys */ "./node_modules/@okta/courage/src/util/Keys.js"));
+var _Keys = _interopRequireDefault(__webpack_require__(/*! ../../../util/Keys */ "../../../../../okta/okta-ui/packages/courage/src/util/Keys.js"));
 
-__webpack_require__(/*! vendor/plugins/chosen.jquery */ "./node_modules/@okta/courage/src/vendor/plugins/chosen.jquery.js");
+__webpack_require__(/*! vendor/plugins/chosen.jquery */ "../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/chosen.jquery.js");
 
-var _BaseInput = _interopRequireDefault(__webpack_require__(/*! ../BaseInput */ "./node_modules/@okta/courage/src/views/forms/BaseInput.js"));
+var _BaseInput = _interopRequireDefault(__webpack_require__(/*! ../BaseInput */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseInput.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14403,10 +17463,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/inputs/TextBox.js":
-/*!**********************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/inputs/TextBox.js ***!
-  \**********************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/TextBox.js":
+/*!**************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/TextBox.js ***!
+  \**************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14419,15 +17479,15 @@ exports.default = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
+var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/jquery-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.js"));
 
 __webpack_require__(/*! qtip */ "qtip");
 
-var _Keys = _interopRequireDefault(__webpack_require__(/*! ../../../util/Keys */ "./node_modules/@okta/courage/src/util/Keys.js"));
+var _Keys = _interopRequireDefault(__webpack_require__(/*! ../../../util/Keys */ "../../../../../okta/okta-ui/packages/courage/src/util/Keys.js"));
 
-__webpack_require__(/*! vendor/plugins/jquery.placeholder */ "./node_modules/@okta/courage/src/vendor/plugins/jquery.placeholder.js");
+__webpack_require__(/*! vendor/plugins/jquery.placeholder */ "../../../../../okta/okta-ui/packages/courage/src/vendor/plugins/jquery.placeholder.js");
 
-var _BaseInput = _interopRequireDefault(__webpack_require__(/*! ../BaseInput */ "./node_modules/@okta/courage/src/views/forms/BaseInput.js"));
+var _BaseInput = _interopRequireDefault(__webpack_require__(/*! ../BaseInput */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseInput.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14779,10 +17839,10 @@ module.exports = exports.default;
 
 /***/ }),
 
-/***/ "./node_modules/@okta/courage/src/views/forms/inputs/TextBoxSet.js":
-/*!*************************************************************************!*\
-  !*** ./node_modules/@okta/courage/src/views/forms/inputs/TextBoxSet.js ***!
-  \*************************************************************************/
+/***/ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/TextBoxSet.js":
+/*!*****************************************************************************************!*\
+  !*** ../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/TextBoxSet.js ***!
+  \*****************************************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14795,13 +17855,13 @@ exports.default = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _SchemaUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/SchemaUtil */ "./node_modules/@okta/courage/src/util/SchemaUtil.js"));
+var _SchemaUtil = _interopRequireDefault(__webpack_require__(/*! ../../../util/SchemaUtil */ "../../../../../okta/okta-ui/packages/courage/src/util/SchemaUtil.js"));
 
-var _BaseInput = _interopRequireDefault(__webpack_require__(/*! ../BaseInput */ "./node_modules/@okta/courage/src/views/forms/BaseInput.js"));
+var _BaseInput = _interopRequireDefault(__webpack_require__(/*! ../BaseInput */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseInput.js"));
 
-var _DeletableBox = _interopRequireDefault(__webpack_require__(/*! ./DeletableBox */ "./node_modules/@okta/courage/src/views/forms/inputs/DeletableBox.js"));
+var _DeletableBox = _interopRequireDefault(__webpack_require__(/*! ./DeletableBox */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/DeletableBox.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14961,77 +18021,77 @@ Object.defineProperty(exports, "__esModule", ({
 }));
 exports.default = void 0;
 
-var _BaseCollection = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/models/BaseCollection */ "./node_modules/@okta/courage/src/models/BaseCollection.js"));
+var _BaseCollection = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/models/BaseCollection */ "../../../../../okta/okta-ui/packages/courage/src/models/BaseCollection.js"));
 
-var _BaseModel = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/models/BaseModel */ "./node_modules/@okta/courage/src/models/BaseModel.js"));
+var _BaseModel = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/models/BaseModel */ "../../../../../okta/okta-ui/packages/courage/src/models/BaseModel.js"));
 
-var _BaseSchema = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/models/BaseSchema */ "./node_modules/@okta/courage/src/models/BaseSchema.js"));
+var _BaseSchema = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/models/BaseSchema */ "../../../../../okta/okta-ui/packages/courage/src/models/BaseSchema.js"));
 
-var _Model = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/models/Model */ "./node_modules/@okta/courage/src/models/Model.js"));
+var _Model = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/models/Model */ "../../../../../okta/okta-ui/packages/courage/src/models/Model.js"));
 
-var _SchemaProperty = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/models/SchemaProperty */ "./node_modules/@okta/courage/src/models/SchemaProperty.js"));
+var _SchemaProperty = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/models/SchemaProperty */ "../../../../../okta/okta-ui/packages/courage/src/models/SchemaProperty.js"));
 
-var _BaseController = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/BaseController */ "./node_modules/@okta/courage/src/util/BaseController.js"));
+var _BaseController = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/BaseController */ "../../../../../okta/okta-ui/packages/courage/src/util/BaseController.js"));
 
-var _BaseRouter = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/BaseRouter */ "./node_modules/@okta/courage/src/util/BaseRouter.js"));
+var _BaseRouter = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/BaseRouter */ "../../../../../okta/okta-ui/packages/courage/src/util/BaseRouter.js"));
 
-var _ButtonFactory = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/ButtonFactory */ "./node_modules/@okta/courage/src/util/ButtonFactory.js"));
+var _ButtonFactory = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/ButtonFactory */ "../../../../../okta/okta-ui/packages/courage/src/util/ButtonFactory.js"));
 
-var _Class = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/Class */ "./node_modules/@okta/courage/src/util/Class.js"));
+var _Class = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/Class */ "../../../../../okta/okta-ui/packages/courage/src/util/Class.js"));
 
-var _Cookie = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/Cookie */ "./node_modules/@okta/courage/src/util/Cookie.js"));
+var _Cookie = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/Cookie */ "../../../../../okta/okta-ui/packages/courage/src/util/Cookie.js"));
 
-var _Clipboard = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/Clipboard */ "./node_modules/@okta/courage/src/util/Clipboard.js"));
+var _Clipboard = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/Clipboard */ "../../../../../okta/okta-ui/packages/courage/src/util/Clipboard.js"));
 
-var _Keys = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/Keys */ "./node_modules/@okta/courage/src/util/Keys.js"));
+var _Keys = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/Keys */ "../../../../../okta/okta-ui/packages/courage/src/util/Keys.js"));
 
-var _Logger = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/Logger */ "./node_modules/@okta/courage/src/util/Logger.js"));
+var _Logger = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/Logger */ "../../../../../okta/okta-ui/packages/courage/src/util/Logger.js"));
 
-var _StringUtil = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/StringUtil */ "./node_modules/@okta/courage/src/util/StringUtil.js"));
+var _StringUtil = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/StringUtil */ "../../../../../okta/okta-ui/packages/courage/src/util/StringUtil.js"));
 
-var _Util = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/Util */ "./node_modules/@okta/courage/src/util/Util.js"));
+var _Util = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/Util */ "../../../../../okta/okta-ui/packages/courage/src/util/Util.js"));
 
-var _handlebarsWrapper = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/handlebars-wrapper */ "./node_modules/@okta/courage/src/util/handlebars-wrapper.js"));
+var _handlebarsWrapper = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/handlebars-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/handlebars-wrapper.js"));
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
+var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/jquery-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.js"));
 
-var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
+var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/underscore-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.js"));
 
-var _Backbone = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/Backbone.ListView */ "./node_modules/@okta/courage/src/views/Backbone.ListView.js"));
+var _Backbone = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/Backbone.ListView */ "../../../../../okta/okta-ui/packages/courage/src/views/Backbone.ListView.js"));
 
-var _BaseView = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
+var _BaseView = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/BaseView */ "../../../../../okta/okta-ui/packages/courage/src/views/BaseView.js"));
 
-var _BaseDropDown = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/components/BaseDropDown */ "./node_modules/@okta/courage/src/views/components/BaseDropDown.js"));
+var _BaseDropDown = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/components/BaseDropDown */ "../../../../../okta/okta-ui/packages/courage/src/views/components/BaseDropDown.js"));
 
-var _Notification = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/components/Notification */ "./node_modules/@okta/courage/src/views/components/Notification.js"));
+var _Notification = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/components/Notification */ "../../../../../okta/okta-ui/packages/courage/src/views/components/Notification.js"));
 
-var _BaseForm = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/BaseForm */ "./node_modules/@okta/courage/src/views/forms/BaseForm.js"));
+var _BaseForm = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/BaseForm */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseForm.js"));
 
-var _Toolbar = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/components/Toolbar */ "./node_modules/@okta/courage/src/views/forms/components/Toolbar.js"));
+var _Toolbar = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/components/Toolbar */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/components/Toolbar.js"));
 
-var _FormUtil = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/helpers/FormUtil */ "./node_modules/@okta/courage/src/views/forms/helpers/FormUtil.js"));
+var _FormUtil = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/helpers/FormUtil */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/FormUtil.js"));
 
-var _InputRegistry = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/helpers/InputRegistry */ "./node_modules/@okta/courage/src/views/forms/helpers/InputRegistry.js"));
+var _InputRegistry = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/helpers/InputRegistry */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputRegistry.js"));
 
-var _SchemaFormFactory = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/helpers/SchemaFormFactory */ "./node_modules/@okta/courage/src/views/forms/helpers/SchemaFormFactory.js"));
+var _SchemaFormFactory = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/helpers/SchemaFormFactory */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/SchemaFormFactory.js"));
 
-var _CheckBox = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/inputs/CheckBox */ "./node_modules/@okta/courage/src/views/forms/inputs/CheckBox.js"));
+var _CheckBox = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/inputs/CheckBox */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/CheckBox.js"));
 
-var _PasswordBox = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/inputs/PasswordBox */ "./node_modules/@okta/courage/src/views/forms/inputs/PasswordBox.js"));
+var _PasswordBox = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/inputs/PasswordBox */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/PasswordBox.js"));
 
-var _Radio = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/inputs/Radio */ "./node_modules/@okta/courage/src/views/forms/inputs/Radio.js"));
+var _Radio = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/inputs/Radio */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/Radio.js"));
 
-var _Select = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/inputs/Select */ "./node_modules/@okta/courage/src/views/forms/inputs/Select.js"));
+var _Select = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/inputs/Select */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/Select.js"));
 
-var _InputGroup = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/inputs/InputGroup */ "./node_modules/@okta/courage/src/views/forms/inputs/InputGroup.js"));
+var _InputGroup = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/inputs/InputGroup */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/InputGroup.js"));
 
-var _TextBox = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/inputs/TextBox */ "./node_modules/@okta/courage/src/views/forms/inputs/TextBox.js"));
+var _TextBox = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/forms/inputs/TextBox */ "../../../../../okta/okta-ui/packages/courage/src/views/forms/inputs/TextBox.js"));
 
-var _Callout = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/components/Callout */ "./node_modules/@okta/courage/src/views/components/Callout.js"));
+var _Callout = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/views/components/Callout */ "../../../../../okta/okta-ui/packages/courage/src/views/components/Callout.js"));
 
 var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js"));
 
-var _View = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/framework/View */ "./node_modules/@okta/courage/src/framework/View.js"));
+var _View = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/framework/View */ "../../../../../okta/okta-ui/packages/courage/src/framework/View.js"));
 
 __webpack_require__(/*! ./util/scrollParent */ "./src/util/scrollParent.js");
 
@@ -15173,7 +18233,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;
 "use strict";
 
 
-var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
+var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/util/jquery-wrapper */ "../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -17301,875 +20361,6 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Backbone.
 
   return Backbone;
 });
-
-
-/***/ }),
-
-/***/ "./node_modules/clipboard/lib/clipboard-action.js":
-/*!********************************************************!*\
-  !*** ./node_modules/clipboard/lib/clipboard-action.js ***!
-  \********************************************************/
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-    if (true) {
-        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, __webpack_require__(/*! select */ "./node_modules/select/src/select.js")], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-    } else { var mod; }
-})(this, function (module, _select) {
-    'use strict';
-
-    var _select2 = _interopRequireDefault(_select);
-
-    function _interopRequireDefault(obj) {
-        return obj && obj.__esModule ? obj : {
-            default: obj
-        };
-    }
-
-    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-        return typeof obj;
-    } : function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _createClass = function () {
-        function defineProperties(target, props) {
-            for (var i = 0; i < props.length; i++) {
-                var descriptor = props[i];
-                descriptor.enumerable = descriptor.enumerable || false;
-                descriptor.configurable = true;
-                if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, descriptor.key, descriptor);
-            }
-        }
-
-        return function (Constructor, protoProps, staticProps) {
-            if (protoProps) defineProperties(Constructor.prototype, protoProps);
-            if (staticProps) defineProperties(Constructor, staticProps);
-            return Constructor;
-        };
-    }();
-
-    var ClipboardAction = function () {
-        /**
-         * @param {Object} options
-         */
-        function ClipboardAction(options) {
-            _classCallCheck(this, ClipboardAction);
-
-            this.resolveOptions(options);
-            this.initSelection();
-        }
-
-        /**
-         * Defines base properties passed from constructor.
-         * @param {Object} options
-         */
-
-
-        _createClass(ClipboardAction, [{
-            key: 'resolveOptions',
-            value: function resolveOptions() {
-                var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-                this.action = options.action;
-                this.container = options.container;
-                this.emitter = options.emitter;
-                this.target = options.target;
-                this.text = options.text;
-                this.trigger = options.trigger;
-
-                this.selectedText = '';
-            }
-        }, {
-            key: 'initSelection',
-            value: function initSelection() {
-                if (this.text) {
-                    this.selectFake();
-                } else if (this.target) {
-                    this.selectTarget();
-                }
-            }
-        }, {
-            key: 'selectFake',
-            value: function selectFake() {
-                var _this = this;
-
-                var isRTL = document.documentElement.getAttribute('dir') == 'rtl';
-
-                this.removeFake();
-
-                this.fakeHandlerCallback = function () {
-                    return _this.removeFake();
-                };
-                this.fakeHandler = this.container.addEventListener('click', this.fakeHandlerCallback) || true;
-
-                this.fakeElem = document.createElement('textarea');
-                // Prevent zooming on iOS
-                this.fakeElem.style.fontSize = '12pt';
-                // Reset box model
-                this.fakeElem.style.border = '0';
-                this.fakeElem.style.padding = '0';
-                this.fakeElem.style.margin = '0';
-                // Move element out of screen horizontally
-                this.fakeElem.style.position = 'absolute';
-                this.fakeElem.style[isRTL ? 'right' : 'left'] = '-9999px';
-                // Move element to the same position vertically
-                var yPosition = window.pageYOffset || document.documentElement.scrollTop;
-                this.fakeElem.style.top = yPosition + 'px';
-
-                this.fakeElem.setAttribute('readonly', '');
-                this.fakeElem.value = this.text;
-
-                this.container.appendChild(this.fakeElem);
-
-                this.selectedText = (0, _select2.default)(this.fakeElem);
-                this.copyText();
-            }
-        }, {
-            key: 'removeFake',
-            value: function removeFake() {
-                if (this.fakeHandler) {
-                    this.container.removeEventListener('click', this.fakeHandlerCallback);
-                    this.fakeHandler = null;
-                    this.fakeHandlerCallback = null;
-                }
-
-                if (this.fakeElem) {
-                    this.container.removeChild(this.fakeElem);
-                    this.fakeElem = null;
-                }
-            }
-        }, {
-            key: 'selectTarget',
-            value: function selectTarget() {
-                this.selectedText = (0, _select2.default)(this.target);
-                this.copyText();
-            }
-        }, {
-            key: 'copyText',
-            value: function copyText() {
-                var succeeded = void 0;
-
-                try {
-                    succeeded = document.execCommand(this.action);
-                } catch (err) {
-                    succeeded = false;
-                }
-
-                this.handleResult(succeeded);
-            }
-        }, {
-            key: 'handleResult',
-            value: function handleResult(succeeded) {
-                this.emitter.emit(succeeded ? 'success' : 'error', {
-                    action: this.action,
-                    text: this.selectedText,
-                    trigger: this.trigger,
-                    clearSelection: this.clearSelection.bind(this)
-                });
-            }
-        }, {
-            key: 'clearSelection',
-            value: function clearSelection() {
-                if (this.trigger) {
-                    this.trigger.focus();
-                }
-
-                window.getSelection().removeAllRanges();
-            }
-        }, {
-            key: 'destroy',
-            value: function destroy() {
-                this.removeFake();
-            }
-        }, {
-            key: 'action',
-            set: function set() {
-                var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'copy';
-
-                this._action = action;
-
-                if (this._action !== 'copy' && this._action !== 'cut') {
-                    throw new Error('Invalid "action" value, use either "copy" or "cut"');
-                }
-            },
-            get: function get() {
-                return this._action;
-            }
-        }, {
-            key: 'target',
-            set: function set(target) {
-                if (target !== undefined) {
-                    if (target && (typeof target === 'undefined' ? 'undefined' : _typeof(target)) === 'object' && target.nodeType === 1) {
-                        if (this.action === 'copy' && target.hasAttribute('disabled')) {
-                            throw new Error('Invalid "target" attribute. Please use "readonly" instead of "disabled" attribute');
-                        }
-
-                        if (this.action === 'cut' && (target.hasAttribute('readonly') || target.hasAttribute('disabled'))) {
-                            throw new Error('Invalid "target" attribute. You can\'t cut text from elements with "readonly" or "disabled" attributes');
-                        }
-
-                        this._target = target;
-                    } else {
-                        throw new Error('Invalid "target" value, use a valid Element');
-                    }
-                }
-            },
-            get: function get() {
-                return this._target;
-            }
-        }]);
-
-        return ClipboardAction;
-    }();
-
-    module.exports = ClipboardAction;
-});
-
-/***/ }),
-
-/***/ "./node_modules/clipboard/lib/clipboard.js":
-/*!*************************************************!*\
-  !*** ./node_modules/clipboard/lib/clipboard.js ***!
-  \*************************************************/
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;(function (global, factory) {
-    if (true) {
-        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [module, __webpack_require__(/*! ./clipboard-action */ "./node_modules/clipboard/lib/clipboard-action.js"), __webpack_require__(/*! tiny-emitter */ "./node_modules/tiny-emitter/index.js"), __webpack_require__(/*! good-listener */ "./node_modules/good-listener/src/listen.js")], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-		__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-		(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-    } else { var mod; }
-})(this, function (module, _clipboardAction, _tinyEmitter, _goodListener) {
-    'use strict';
-
-    var _clipboardAction2 = _interopRequireDefault(_clipboardAction);
-
-    var _tinyEmitter2 = _interopRequireDefault(_tinyEmitter);
-
-    var _goodListener2 = _interopRequireDefault(_goodListener);
-
-    function _interopRequireDefault(obj) {
-        return obj && obj.__esModule ? obj : {
-            default: obj
-        };
-    }
-
-    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
-        return typeof obj;
-    } : function (obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
-
-    var _createClass = function () {
-        function defineProperties(target, props) {
-            for (var i = 0; i < props.length; i++) {
-                var descriptor = props[i];
-                descriptor.enumerable = descriptor.enumerable || false;
-                descriptor.configurable = true;
-                if ("value" in descriptor) descriptor.writable = true;
-                Object.defineProperty(target, descriptor.key, descriptor);
-            }
-        }
-
-        return function (Constructor, protoProps, staticProps) {
-            if (protoProps) defineProperties(Constructor.prototype, protoProps);
-            if (staticProps) defineProperties(Constructor, staticProps);
-            return Constructor;
-        };
-    }();
-
-    function _possibleConstructorReturn(self, call) {
-        if (!self) {
-            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-        }
-
-        return call && (typeof call === "object" || typeof call === "function") ? call : self;
-    }
-
-    function _inherits(subClass, superClass) {
-        if (typeof superClass !== "function" && superClass !== null) {
-            throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
-        }
-
-        subClass.prototype = Object.create(superClass && superClass.prototype, {
-            constructor: {
-                value: subClass,
-                enumerable: false,
-                writable: true,
-                configurable: true
-            }
-        });
-        if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-    }
-
-    var Clipboard = function (_Emitter) {
-        _inherits(Clipboard, _Emitter);
-
-        /**
-         * @param {String|HTMLElement|HTMLCollection|NodeList} trigger
-         * @param {Object} options
-         */
-        function Clipboard(trigger, options) {
-            _classCallCheck(this, Clipboard);
-
-            var _this = _possibleConstructorReturn(this, (Clipboard.__proto__ || Object.getPrototypeOf(Clipboard)).call(this));
-
-            _this.resolveOptions(options);
-            _this.listenClick(trigger);
-            return _this;
-        }
-
-        /**
-         * Defines if attributes would be resolved using internal setter functions
-         * or custom functions that were passed in the constructor.
-         * @param {Object} options
-         */
-
-
-        _createClass(Clipboard, [{
-            key: 'resolveOptions',
-            value: function resolveOptions() {
-                var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-                this.action = typeof options.action === 'function' ? options.action : this.defaultAction;
-                this.target = typeof options.target === 'function' ? options.target : this.defaultTarget;
-                this.text = typeof options.text === 'function' ? options.text : this.defaultText;
-                this.container = _typeof(options.container) === 'object' ? options.container : document.body;
-            }
-        }, {
-            key: 'listenClick',
-            value: function listenClick(trigger) {
-                var _this2 = this;
-
-                this.listener = (0, _goodListener2.default)(trigger, 'click', function (e) {
-                    return _this2.onClick(e);
-                });
-            }
-        }, {
-            key: 'onClick',
-            value: function onClick(e) {
-                var trigger = e.delegateTarget || e.currentTarget;
-
-                if (this.clipboardAction) {
-                    this.clipboardAction = null;
-                }
-
-                this.clipboardAction = new _clipboardAction2.default({
-                    action: this.action(trigger),
-                    target: this.target(trigger),
-                    text: this.text(trigger),
-                    container: this.container,
-                    trigger: trigger,
-                    emitter: this
-                });
-            }
-        }, {
-            key: 'defaultAction',
-            value: function defaultAction(trigger) {
-                return getAttributeValue('action', trigger);
-            }
-        }, {
-            key: 'defaultTarget',
-            value: function defaultTarget(trigger) {
-                var selector = getAttributeValue('target', trigger);
-
-                if (selector) {
-                    return document.querySelector(selector);
-                }
-            }
-        }, {
-            key: 'defaultText',
-            value: function defaultText(trigger) {
-                return getAttributeValue('text', trigger);
-            }
-        }, {
-            key: 'destroy',
-            value: function destroy() {
-                this.listener.destroy();
-
-                if (this.clipboardAction) {
-                    this.clipboardAction.destroy();
-                    this.clipboardAction = null;
-                }
-            }
-        }], [{
-            key: 'isSupported',
-            value: function isSupported() {
-                var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ['copy', 'cut'];
-
-                var actions = typeof action === 'string' ? [action] : action;
-                var support = !!document.queryCommandSupported;
-
-                actions.forEach(function (action) {
-                    support = support && !!document.queryCommandSupported(action);
-                });
-
-                return support;
-            }
-        }]);
-
-        return Clipboard;
-    }(_tinyEmitter2.default);
-
-    /**
-     * Helper function to retrieve attribute value.
-     * @param {String} suffix
-     * @param {Element} element
-     */
-    function getAttributeValue(suffix, element) {
-        var attribute = 'data-clipboard-' + suffix;
-
-        if (!element.hasAttribute(attribute)) {
-            return;
-        }
-
-        return element.getAttribute(attribute);
-    }
-
-    module.exports = Clipboard;
-});
-
-/***/ }),
-
-/***/ "./node_modules/delegate/src/closest.js":
-/*!**********************************************!*\
-  !*** ./node_modules/delegate/src/closest.js ***!
-  \**********************************************/
-/***/ (function(module) {
-
-var DOCUMENT_NODE_TYPE = 9;
-
-/**
- * A polyfill for Element.matches()
- */
-if (typeof Element !== 'undefined' && !Element.prototype.matches) {
-    var proto = Element.prototype;
-
-    proto.matches = proto.matchesSelector ||
-                    proto.mozMatchesSelector ||
-                    proto.msMatchesSelector ||
-                    proto.oMatchesSelector ||
-                    proto.webkitMatchesSelector;
-}
-
-/**
- * Finds the closest parent that matches a selector.
- *
- * @param {Element} element
- * @param {String} selector
- * @return {Function}
- */
-function closest (element, selector) {
-    while (element && element.nodeType !== DOCUMENT_NODE_TYPE) {
-        if (typeof element.matches === 'function' &&
-            element.matches(selector)) {
-          return element;
-        }
-        element = element.parentNode;
-    }
-}
-
-module.exports = closest;
-
-
-/***/ }),
-
-/***/ "./node_modules/delegate/src/delegate.js":
-/*!***********************************************!*\
-  !*** ./node_modules/delegate/src/delegate.js ***!
-  \***********************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
-
-var closest = __webpack_require__(/*! ./closest */ "./node_modules/delegate/src/closest.js");
-
-/**
- * Delegates event to a selector.
- *
- * @param {Element} element
- * @param {String} selector
- * @param {String} type
- * @param {Function} callback
- * @param {Boolean} useCapture
- * @return {Object}
- */
-function _delegate(element, selector, type, callback, useCapture) {
-    var listenerFn = listener.apply(this, arguments);
-
-    element.addEventListener(type, listenerFn, useCapture);
-
-    return {
-        destroy: function() {
-            element.removeEventListener(type, listenerFn, useCapture);
-        }
-    }
-}
-
-/**
- * Delegates event to a selector.
- *
- * @param {Element|String|Array} [elements]
- * @param {String} selector
- * @param {String} type
- * @param {Function} callback
- * @param {Boolean} useCapture
- * @return {Object}
- */
-function delegate(elements, selector, type, callback, useCapture) {
-    // Handle the regular Element usage
-    if (typeof elements.addEventListener === 'function') {
-        return _delegate.apply(null, arguments);
-    }
-
-    // Handle Element-less usage, it defaults to global delegation
-    if (typeof type === 'function') {
-        // Use `document` as the first parameter, then apply arguments
-        // This is a short way to .unshift `arguments` without running into deoptimizations
-        return _delegate.bind(null, document).apply(null, arguments);
-    }
-
-    // Handle Selector-based usage
-    if (typeof elements === 'string') {
-        elements = document.querySelectorAll(elements);
-    }
-
-    // Handle Array-like based usage
-    return Array.prototype.map.call(elements, function (element) {
-        return _delegate(element, selector, type, callback, useCapture);
-    });
-}
-
-/**
- * Finds closest match and invokes callback.
- *
- * @param {Element} element
- * @param {String} selector
- * @param {String} type
- * @param {Function} callback
- * @return {Function}
- */
-function listener(element, selector, type, callback) {
-    return function(e) {
-        e.delegateTarget = closest(e.target, selector);
-
-        if (e.delegateTarget) {
-            callback.call(element, e);
-        }
-    }
-}
-
-module.exports = delegate;
-
-
-/***/ }),
-
-/***/ "./node_modules/good-listener/src/is.js":
-/*!**********************************************!*\
-  !*** ./node_modules/good-listener/src/is.js ***!
-  \**********************************************/
-/***/ (function(__unused_webpack_module, exports) {
-
-/**
- * Check if argument is a HTML element.
- *
- * @param {Object} value
- * @return {Boolean}
- */
-exports.node = function(value) {
-    return value !== undefined
-        && value instanceof HTMLElement
-        && value.nodeType === 1;
-};
-
-/**
- * Check if argument is a list of HTML elements.
- *
- * @param {Object} value
- * @return {Boolean}
- */
-exports.nodeList = function(value) {
-    var type = Object.prototype.toString.call(value);
-
-    return value !== undefined
-        && (type === '[object NodeList]' || type === '[object HTMLCollection]')
-        && ('length' in value)
-        && (value.length === 0 || exports.node(value[0]));
-};
-
-/**
- * Check if argument is a string.
- *
- * @param {Object} value
- * @return {Boolean}
- */
-exports.string = function(value) {
-    return typeof value === 'string'
-        || value instanceof String;
-};
-
-/**
- * Check if argument is a function.
- *
- * @param {Object} value
- * @return {Boolean}
- */
-exports.fn = function(value) {
-    var type = Object.prototype.toString.call(value);
-
-    return type === '[object Function]';
-};
-
-
-/***/ }),
-
-/***/ "./node_modules/good-listener/src/listen.js":
-/*!**************************************************!*\
-  !*** ./node_modules/good-listener/src/listen.js ***!
-  \**************************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
-
-var is = __webpack_require__(/*! ./is */ "./node_modules/good-listener/src/is.js");
-var delegate = __webpack_require__(/*! delegate */ "./node_modules/delegate/src/delegate.js");
-
-/**
- * Validates all params and calls the right
- * listener function based on its target type.
- *
- * @param {String|HTMLElement|HTMLCollection|NodeList} target
- * @param {String} type
- * @param {Function} callback
- * @return {Object}
- */
-function listen(target, type, callback) {
-    if (!target && !type && !callback) {
-        throw new Error('Missing required arguments');
-    }
-
-    if (!is.string(type)) {
-        throw new TypeError('Second argument must be a String');
-    }
-
-    if (!is.fn(callback)) {
-        throw new TypeError('Third argument must be a Function');
-    }
-
-    if (is.node(target)) {
-        return listenNode(target, type, callback);
-    }
-    else if (is.nodeList(target)) {
-        return listenNodeList(target, type, callback);
-    }
-    else if (is.string(target)) {
-        return listenSelector(target, type, callback);
-    }
-    else {
-        throw new TypeError('First argument must be a String, HTMLElement, HTMLCollection, or NodeList');
-    }
-}
-
-/**
- * Adds an event listener to a HTML element
- * and returns a remove listener function.
- *
- * @param {HTMLElement} node
- * @param {String} type
- * @param {Function} callback
- * @return {Object}
- */
-function listenNode(node, type, callback) {
-    node.addEventListener(type, callback);
-
-    return {
-        destroy: function() {
-            node.removeEventListener(type, callback);
-        }
-    }
-}
-
-/**
- * Add an event listener to a list of HTML elements
- * and returns a remove listener function.
- *
- * @param {NodeList|HTMLCollection} nodeList
- * @param {String} type
- * @param {Function} callback
- * @return {Object}
- */
-function listenNodeList(nodeList, type, callback) {
-    Array.prototype.forEach.call(nodeList, function(node) {
-        node.addEventListener(type, callback);
-    });
-
-    return {
-        destroy: function() {
-            Array.prototype.forEach.call(nodeList, function(node) {
-                node.removeEventListener(type, callback);
-            });
-        }
-    }
-}
-
-/**
- * Add an event listener to a selector
- * and returns a remove listener function.
- *
- * @param {String} selector
- * @param {String} type
- * @param {Function} callback
- * @return {Object}
- */
-function listenSelector(selector, type, callback) {
-    return delegate(document.body, selector, type, callback);
-}
-
-module.exports = listen;
-
-
-/***/ }),
-
-/***/ "./node_modules/select/src/select.js":
-/*!*******************************************!*\
-  !*** ./node_modules/select/src/select.js ***!
-  \*******************************************/
-/***/ (function(module) {
-
-function select(element) {
-    var selectedText;
-
-    if (element.nodeName === 'SELECT') {
-        element.focus();
-
-        selectedText = element.value;
-    }
-    else if (element.nodeName === 'INPUT' || element.nodeName === 'TEXTAREA') {
-        var isReadOnly = element.hasAttribute('readonly');
-
-        if (!isReadOnly) {
-            element.setAttribute('readonly', '');
-        }
-
-        element.select();
-        element.setSelectionRange(0, element.value.length);
-
-        if (!isReadOnly) {
-            element.removeAttribute('readonly');
-        }
-
-        selectedText = element.value;
-    }
-    else {
-        if (element.hasAttribute('contenteditable')) {
-            element.focus();
-        }
-
-        var selection = window.getSelection();
-        var range = document.createRange();
-
-        range.selectNodeContents(element);
-        selection.removeAllRanges();
-        selection.addRange(range);
-
-        selectedText = selection.toString();
-    }
-
-    return selectedText;
-}
-
-module.exports = select;
-
-
-/***/ }),
-
-/***/ "./node_modules/tiny-emitter/index.js":
-/*!********************************************!*\
-  !*** ./node_modules/tiny-emitter/index.js ***!
-  \********************************************/
-/***/ (function(module) {
-
-function E () {
-  // Keep this empty so it's easier to inherit from
-  // (via https://github.com/lipsmack from https://github.com/scottcorgan/tiny-emitter/issues/3)
-}
-
-E.prototype = {
-  on: function (name, callback, ctx) {
-    var e = this.e || (this.e = {});
-
-    (e[name] || (e[name] = [])).push({
-      fn: callback,
-      ctx: ctx
-    });
-
-    return this;
-  },
-
-  once: function (name, callback, ctx) {
-    var self = this;
-    function listener () {
-      self.off(name, listener);
-      callback.apply(ctx, arguments);
-    };
-
-    listener._ = callback
-    return this.on(name, listener, ctx);
-  },
-
-  emit: function (name) {
-    var data = [].slice.call(arguments, 1);
-    var evtArr = ((this.e || (this.e = {}))[name] || []).slice();
-    var i = 0;
-    var len = evtArr.length;
-
-    for (i; i < len; i++) {
-      evtArr[i].fn.apply(evtArr[i].ctx, data);
-    }
-
-    return this;
-  },
-
-  off: function (name, callback) {
-    var e = this.e || (this.e = {});
-    var evts = e[name];
-    var liveEvents = [];
-
-    if (evts && callback) {
-      for (var i = 0, len = evts.length; i < len; i++) {
-        if (evts[i].fn !== callback && evts[i].fn._ !== callback)
-          liveEvents.push(evts[i]);
-      }
-    }
-
-    // Remove event from queue to prevent memory leak
-    // Suggested by https://github.com/lazd
-    // Ref: https://github.com/scottcorgan/tiny-emitter/commit/c6ebfaa9bc973b33d110a84a307742b7cf94c953#commitcomment-5024910
-
-    (liveEvents.length)
-      ? e[name] = liveEvents
-      : delete e[name];
-
-    return this;
-  }
-};
-
-module.exports = E;
-module.exports.TinyEmitter = E;
 
 
 /***/ }),
