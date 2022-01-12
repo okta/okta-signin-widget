@@ -7185,12 +7185,10 @@ var SchemaUtils = {
       format: 'language-code'
     },
     'country_code': {
-      type: 'string',
-      format: 'country-code'
+      type: 'string'
     },
     'language_code': {
-      type: 'string',
-      format: 'language-code'
+      type: 'string'
     },
     locale: {
       type: 'string',
@@ -17243,7 +17241,7 @@ function recalculateChosen($chosen, $results, $clone) {
   $results.css('max-height', maxHeight);
 }
 
-function fixChosenModal($select, textPlaceholder) {
+function fixChosenModal($select) {
   var $chosen = $select.next('.chzn-container');
   var $clone = $chosen.clone();
   var $results = $chosen.find('.chzn-results'); // Use a hidden clone to maintain layout and calculate offset. This is
@@ -17283,7 +17281,6 @@ function fixChosenModal($select, textPlaceholder) {
       top: -999999
     });
     (0, _jqueryWrapper.default)('body').append($chosen);
-    (0, _jqueryWrapper.default)('.chzn-search > :text').prop('placeholder', textPlaceholder);
     $results.show();
     recalculateChosen($chosen, $results, $clone); // Capture scroll events:
     // - for forms that use fixed positioning (like editing attributes in
@@ -17323,7 +17320,7 @@ var _default = _BaseInput.default.extend({
   },
   constructor: function constructor() {
     this.template = template;
-    this.option = this.option || option;
+    this.option = option;
 
     _BaseInput.default.apply(this, arguments);
 
@@ -17340,7 +17337,7 @@ var _default = _BaseInput.default.extend({
     var options = this.getOptions();
 
     _underscoreWrapper.default.each(options, function (value, key) {
-      this.$select.append(this.option({
+      this.$select.append(option({
         key: key,
         value: value
       }));
@@ -17389,7 +17386,7 @@ var _default = _BaseInput.default.extend({
         search_contains: true //eslint-disable-line camelcase
 
       });
-      fixChosenModal(this.$select, this.searchPlaceholder);
+      fixChosenModal(this.$select);
 
       if (this.params.autoWidth) {
         // fix a chosen css bug
