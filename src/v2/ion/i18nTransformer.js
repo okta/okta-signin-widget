@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint max-statements: [2, 25], complexity: [2, 15] */
 
 /*!
@@ -171,8 +172,9 @@ const I18N_OVERRIDE_MAPPINGS = {
   'core.auth.factor.signedNonce.error.deletedDevice': 'core.auth.factor.signedNonce.error',
   'core.auth.factor.signedNonce.error.invalidDeviceStatus': 'core.auth.factor.signedNonce.error.invalidDevice',
 
-  // re-map autoPush: Send push automatically for mock authenticator-verification-okta-verify-push-autoChallenge-on
-  'challenge-poll.okta_verify.autoChallenge': 'autoPush'
+  // re-map autoPush: "Send push automatically"
+  'challenge-poll.okta_verify.autoChallenge': 'autoPush', // authenticator-verification-okta-verify-push-autoChallenge-on
+  'authenticator-verification-data.authenticator.autoChallenge': 'autoPush' // authenticator-verification-data-okta-verify-push-autoChallenge-off.json
 };
 
 const I18N_PARAMS_MAPPING = {
