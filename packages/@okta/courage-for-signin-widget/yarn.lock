@@ -25,13 +25,12 @@
   dependencies:
     "@babel/helper-module-imports" "^7.0.0"
 
-"@okta/courage@4.5.0-5528-g9c8dc28":
-  version "4.5.0-5528-g9c8dc28"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/courage/-/@okta/courage-4.5.0-5528-g9c8dc28.tgz#ada9c6dea00f7313e298c210a6f36f62184cf53f"
-  integrity sha1-ranG3qAPcxPimMIQpvNvYhhM9T8=
+"@okta/courage@4.5.0-5759-g61be635":
+  version "4.5.0-5759-g61be635"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/courage/-/@okta/courage-4.5.0-5759-g61be635.tgz#5775c6247dbbb1af97405f34e6f6dbe8a2b5124a"
+  integrity sha1-V3XGJH27sa+XQF805vbb6KK1Eko=
   dependencies:
     "@okta/jquery.simplemodal" "1.4.19-g8b711ea"
-    "@okta/moment" "1.1.6-g5eecd36"
     backbone "1.4.0"
     clipboard "^1.5.16"
     handlebars "4.7.7"
@@ -54,13 +53,6 @@
   version "1.4.19-g8b711ea"
   resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/jquery.simplemodal/-/@okta/jquery.simplemodal-1.4.19-g8b711ea.tgz#30409b299cffe5fb5cf1296e80d4b28456b04a0c"
   integrity sha1-MECbKZz/5ftc8SlugNSyhFawSgw=
-
-"@okta/moment@1.1.6-g5eecd36":
-  version "1.1.6-g5eecd36"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/moment/-/@okta/moment-1.1.6-g5eecd36.tgz#228a4726f585f857f3443fd1e7965da953d0d72b"
-  integrity sha1-IopHJvWF+FfzRD/R55ZdqVPQ1ys=
-  dependencies:
-    moment "^2.24.0"
 
 "@polka/url@^1.0.0-next.20":
   version "1.0.0-next.21"
@@ -596,9 +588,9 @@ cssstyle@^2.2.0:
     cssom "~0.3.6"
 
 csv-parse@^4.6.5:
-  version "4.16.0"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/csv-parse/-/csv-parse-4.16.0.tgz#b4c875e288a41f7ff917cb0d7d45880d563034f6"
-  integrity sha1-tMh14oikH3/5F8sNfUWIDVYwNPY=
+  version "4.16.3"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/csv-parse/-/csv-parse-4.16.3.tgz#7ca624d517212ebc520a36873c3478fa66efbaf7"
+  integrity sha1-fKYk1RchLrxSCjaHPDR4+mbvuvc=
 
 cyclist@~0.2.2:
   version "0.2.2"
@@ -1350,8 +1342,8 @@ minimist@^1.2.0:
 
 minimist@^1.2.5:
   version "1.2.5"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
-  integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
+  integrity sha1-Z9ZgFLZqaoqqDAg8X9WN9OTpdgI=
 
 minimist@~0.0.1:
   version "0.0.10"
@@ -1379,11 +1371,6 @@ mkdirp@^0.5.1:
   integrity sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==
   dependencies:
     minimist "^1.2.5"
-
-moment@^2.24.0:
-  version "2.29.1"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
-  integrity sha1-sr52n6MZQL6e7qZGnAdeNQBvo9M=
 
 move-concurrently@^1.0.1:
   version "1.0.1"
@@ -1963,14 +1950,19 @@ typedarray@^0.0.6:
   resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
 uglify-js@^3.1.4:
-  version "3.13.9"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/uglify-js/-/uglify-js-3.13.9.tgz#4d8d21dcd497f29cfd8e9378b9df123ad025999b"
-  integrity sha1-TY0h3NSX8pz9jpN4ud8SOtAlmZs=
+  version "3.14.5"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/uglify-js/-/uglify-js-3.14.5.tgz#cdabb7d4954231d80cb4a927654c4655e51f4859"
+  integrity sha1-zau31JVCMdgMtKknZUxGVeUfSFk=
 
-underscore@1.13.1, underscore@>=1.8.3:
+underscore@1.13.1:
   version "1.13.1"
   resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/underscore/-/underscore-1.13.1.tgz#0c1c6bd2df54b6b69f2314066d65b6cde6fcf9d1"
   integrity sha1-DBxr0t9UtrafIxQGbWW2zeb8+dE=
+
+underscore@>=1.8.3:
+  version "1.13.2"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/underscore/-/underscore-1.13.2.tgz#276cea1e8b9722a8dbed0100a407dda572125881"
+  integrity sha1-J2zqHouXIqjb7QEApAfdpXISWIE=
 
 unique-filename@^1.1.0:
   version "1.1.1"

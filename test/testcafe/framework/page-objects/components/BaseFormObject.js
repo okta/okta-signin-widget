@@ -143,6 +143,10 @@ export default class BaseFormObject {
     return selectContainer.innerText;
   }
 
+  getNthErrorMessage(fieldName, value) {
+    const selectContainer = this.findFormFieldInput(fieldName).sibling('.o-form-input-error').nth(value);
+    return selectContainer.innerText;
+  }
   // =====================================
   // Chozen Dropdown
   // =====================================
