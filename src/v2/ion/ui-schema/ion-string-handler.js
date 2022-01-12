@@ -97,7 +97,7 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
   }
 
   if (Array.isArray(ionFormField.options) && ionFormField.options[0] && ionFormField.options[0].value) {
-    let ionField = ionFormField.options[0];
+    const ionField = ionFormField.options[0];
     if (ionField.label === 'display') {
       populateUISchemaForDisplay(uiSchema, ionField);
     } else if (shouldRenderAsRadio(ionFormField.name)) {
