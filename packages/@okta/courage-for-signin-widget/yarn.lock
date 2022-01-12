@@ -25,10 +25,10 @@
   dependencies:
     "@babel/helper-module-imports" "^7.0.0"
 
-"@okta/courage@4.5.0-5528-g9c8dc28":
-  version "4.5.0-5528-g9c8dc28"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/courage/-/@okta/courage-4.5.0-5528-g9c8dc28.tgz#ada9c6dea00f7313e298c210a6f36f62184cf53f"
-  integrity sha1-ranG3qAPcxPimMIQpvNvYhhM9T8=
+"@okta/courage@4.5.0-5541-g2de6554":
+  version "4.5.0-5541-g2de6554"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/courage/-/@okta/courage-4.5.0-5541-g2de6554.tgz#4ec59fa75907b5efc1de2f80b91a724956ea470d"
+  integrity sha1-TsWfp1kHte/B3i+AuRpySVbqRw0=
   dependencies:
     "@okta/jquery.simplemodal" "1.4.19-g8b711ea"
     "@okta/moment" "1.1.6-g5eecd36"

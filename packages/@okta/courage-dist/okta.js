@@ -13,7 +13,7 @@
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -142,17 +142,45 @@ function parseLinkHeader(header) {
  */
 
 
-var _default = _backbone.default.Collection.extend(
+var Collection = _backbone.default.Collection.extend(
 /** @lends src/framework/Collection.prototype */
 {
   /**
    * Default fetch parameters
-   * @type {Object}
+   * @type {Object|Function}
    */
   params: {},
   constructor: function constructor(models, options) {
-    var state = this[STATE] = new _backbone.default.Model();
-    state.set(DEFAULT_PARAMS, _underscoreWrapper.default.defaults(options && options.params || {}, this.params || {}));
+    var state = new _backbone.default.Model();
+
+    var defaultParams = _underscoreWrapper.default.defaults(options && options.params || {}, _underscoreWrapper.default.result(this, 'params') || {});
+
+    state.set(DEFAULT_PARAMS, defaultParams);
+    this[STATE] = state; // Adds support for child class to convert to ES6 Class.
+    // After conversion, `this.model` has to be a pure function to return Model Class.
+    // The changes below is trying to distinguish the ambiguity between a Class and normal function,
+    // as both are JavaScript function essentially.
+    // There are three ways to define class for `this.model`
+    // 1. Object properties: `model: BaseModel.extend({..})`
+    // 2. Function constructor:
+    // See example from
+    // - appversions/src/models/CustomType.js
+    // - appversions/src/models/EnumType.js
+    // - appversions/src/models/SignOnMode.js
+    // - authn-factors/src/models/Feature.js
+    // - shared/src/models/SamlAttribute.js
+    // 3. Function that returns a class.
+    //    model: function() { return BaseModel.extend({..}); }
+    //
+    // option 1 and 2 exists in code base today
+    // option 3 is introduced to support child class to convert to ES6 class.
+    // TODO: think of remove following check
+    // The reason for `this.model !== Backbone.Model` is because `this.model` is default to `Backbone.Model`
+    // set at Backbone.Collection.
+
+    if (_underscoreWrapper.default.isFunction(this.model) && this.model.length === 0 && this.model.isCourageModel !== true) {
+      this.model = _underscoreWrapper.default.result(this, 'model');
+    }
 
     _backbone.default.Collection.apply(this, arguments);
   },
@@ -320,8 +348,19 @@ var _default = _backbone.default.Collection.extend(
     return _backbone.default.Collection.prototype.create.call(this, model, options);
   }
 });
+/**
+ * It's used for distinguishing the ambiguity from _.isFunction()
+ * which returns True for both a JavaScript Class constructor function
+ * and normal function. With this flag, we can tell a function is actually
+ * a Collection Class.
+ * This flag is added in order to support the type of a parameter can be
+ * either a Class or pure function that returns a Class.
+ */
 
-exports.default = _default;
+
+Collection.isCourageCollection = true;
+var _default = Collection;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -338,7 +377,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _View = _interopRequireDefault(__webpack_require__(/*! ./View */ "./node_modules/@okta/courage/src/framework/View.js"));
 
@@ -454,7 +493,7 @@ var _default = _View.default.extend(
   addShowMore: _underscoreWrapper.default.noop
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -471,7 +510,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -797,7 +836,7 @@ Model = _backbone.default.Model.extend(
      *   To the `validate` method
      *   - Trying to set a property to an invalid type will raise an exception.
      *
-     * @type {Mixed}
+     * @type {Mixed|Function}
      * @example
      * var Person = Model.extend({
      *   props: {
@@ -833,7 +872,7 @@ Model = _backbone.default.Model.extend(
      *
      * Derived properties are retrieved and fire change events just like any other property. They cannot be set
      * directly.
-     * @type {Object}
+     * @type {Object|Function}
      * @example
      * var Person = Model.extend({
      *   props: {
@@ -863,7 +902,7 @@ Model = _backbone.default.Model.extend(
      * the lifetime of the page.
      * They would not typically be persisted to the server, and are not returned by calls to {@link src/framework/Model#toJSON|toJSON}.
      *
-     * @type {Object}
+     * @type {Object|Function}
      * @example
      * var Person = Model.extend({
      *   props: {
@@ -879,7 +918,7 @@ Model = _backbone.default.Model.extend(
   /**
      * Flatten the payload into dot notation string keys:
      *
-     * @type {Boolean}
+     * @type {Boolean|Function}
      * @example
      * var Person = Model.extend({
      *   props: {
@@ -949,7 +988,7 @@ Model = _backbone.default.Model.extend(
     this.parse = _underscoreWrapper.default.wrap(this.parse, function (parse) {
       var target = parse.apply(this, _underscoreWrapper.default.rest(arguments));
 
-      if (this.flat) {
+      if (_underscoreWrapper.default.result(this, 'flat')) {
         target = flatten(target, objectTypeFields);
       }
 
@@ -1164,8 +1203,18 @@ Model = _backbone.default.Model.extend(
   ERROR_STRING_STRING_MIN_LENGTH: 'model.validation.field.string.minLength',
   ERROR_STRING_STRING_MAX_LENGTH: 'model.validation.field.string.maxLength'
 });
+/**
+ * It's used for distinguishing the ambiguity from _.isFunction()
+ * which returns True for both a JavaScript Class constructor function
+ * and normal function. With this flag, we can tell a function is actually
+ * a Model Class.
+ * This flag is added in order to support the type of a parameter can be
+ * either a Class or pure function that returns a Class.
+ */
+
+Model.isCourageModel = true;
 var _default = Model;
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -1182,7 +1231,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -1353,8 +1402,10 @@ var View = _backbone.default.View.extend(
 
     delete this[CHILD_DEFINITIONS];
 
-    if (this.autoRender && this.model) {
-      var event = _underscoreWrapper.default.isArray(this.autoRender) ? _underscoreWrapper.default.map(this.autoRender, function (field) {
+    var autoRender = _underscoreWrapper.default.result(this, 'autoRender');
+
+    if (autoRender && this.model) {
+      var event = _underscoreWrapper.default.isArray(autoRender) ? _underscoreWrapper.default.map(autoRender, function (field) {
         return 'change:' + field;
       }).join(' ') : 'change';
       this.listenTo(this.model, event, function () {
@@ -1975,9 +2026,19 @@ _underscoreWrapper.default.each(methods, function (method) {
    * @param {Object} properties
    */
 
+/**
+ * It's used for distinguishing the ambiguity from _.isFunction()
+ * which returns True for both a JavaScript Class constructor function
+ * and normal function. With this flag, we can tell a function is actually
+ * a View Class.
+ * This flag is added in order to support the type of a parameter can be
+ * either a Class or pure function that returns a Class.
+ */
 
+
+View.isCourageView = true;
 var _default = View;
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -1994,7 +2055,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -2017,6 +2078,8 @@ var _default = _Collection.default.extend(
    */
   secureJSON: false,
   constructor: function constructor() {
+    _Collection.default.apply(this, arguments);
+
     if (_underscoreWrapper.default.result(this, 'secureJSON')) {
       this.sync = _underscoreWrapper.default.wrap(this.sync, function (sync, method, collection, options) {
         return sync.call(this, method, collection, _underscoreWrapper.default.extend({
@@ -2024,12 +2087,10 @@ var _default = _Collection.default.extend(
         }, options));
       });
     }
-
-    _Collection.default.apply(this, arguments);
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -2046,7 +2107,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -2271,7 +2332,7 @@ var BaseModelBaseModel = _Model.default.extend(
 });
 
 var _default = BaseModelBaseModel;
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -2288,7 +2349,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -2382,7 +2443,7 @@ var _default = {
   Model: BaseSchemaSchema,
   Collection: BaseSchemaSchemas
 };
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -2399,7 +2460,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -2428,6 +2489,8 @@ var _default = _Model.default.extend(
   constructor: function constructor() {
     this.local = _underscoreWrapper.default.defaults({}, _underscoreWrapper.default.result(this, 'local'), this._builtInLocalProps);
 
+    _Model.default.apply(this, arguments);
+
     if (_underscoreWrapper.default.result(this, 'secureJSON')) {
       this.sync = _underscoreWrapper.default.wrap(this.sync, function (sync, method, model, options) {
         return sync.call(this, method, model, _underscoreWrapper.default.extend({
@@ -2435,12 +2498,10 @@ var _default = _Model.default.extend(
         }, options));
       });
     }
-
-    _Model.default.apply(this, arguments);
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -2457,7 +2518,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
 
@@ -2529,14 +2590,14 @@ var constraintTypeErrorMessages = {
 };
 var loginFormatNonePattern = '.+';
 var escapedLoginCharsRe = /[^a-zA-Z0-9-]/;
+var constraintHandlers = {
+  between: '_checkBetweenConstraints',
+  greaterThan: '_checkGreaterThanConstraint',
+  lessThan: '_checkLessThanConstraint',
+  equals: '_checkEqualsConstraint'
+};
 
 var SchemaPropertySchemaProperty = _BaseModel.default.extend({
-  constraintHandlers: {
-    between: '_checkBetweenConstraints',
-    greaterThan: '_checkGreaterThanConstraint',
-    lessThan: '_checkLessThanConstraint',
-    equals: '_checkEqualsConstraint'
-  },
   idAttribute: 'name',
   local: {
     __oneOf__: {
@@ -2704,7 +2765,7 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
     }
 
     var constraitType = this.get('__constraint__');
-    var constraitHandler = this[this.constraintHandlers[constraitType]];
+    var constraitHandler = this[constraintHandlers[constraitType]];
 
     if (_underscoreWrapper.default.isFunction(constraitHandler)) {
       return constraitHandler.call(this);
@@ -3250,7 +3311,7 @@ var _default = {
   Model: SchemaPropertySchemaProperty,
   Collection: SchemaPropertySchemaProperties
 };
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -3267,7 +3328,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ./jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
 
@@ -3324,24 +3385,29 @@ function clean(obj) {
 var _default = _BaseView.default.extend(
 /** @lends module:Okta.Controller.prototype */
 {
-  constructor: function constructor(options) {
-    /* eslint max-statements: [2, 15], complexity: [2, 9]*/
-    options || (options = {}); // If 'state' is passed down as options, use it, else create a 'new StateMachine()'
+  constructor: function constructor() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-    if (options.state instanceof _StateMachine.default || this.state instanceof _StateMachine.default) {
-      this.state = options.state || this.state;
-    } else {
-      var stateData = _underscoreWrapper.default.defaults(clean(options.state), this.state || {});
+    /* eslint max-statements: [2, 21], complexity: [2, 12] */
+    // If 'state' is passed down as options, use it, else create a 'new StateMachine()'
+    this.state = _underscoreWrapper.default.result(this, 'state');
+    var hasStateBeenInitialized = this.state instanceof _StateMachine.default || options.state instanceof _StateMachine.default;
+
+    if (!hasStateBeenInitialized) {
+      var stateData = _underscoreWrapper.default.defaults(clean(options.state), this.state || {}); // TODO:
+      // `framework/View.js set `this.state = options.state.`.
+      // Therefore we could consider to do
+      // 1. `options.state = new StateMachine()`
+      // 2. remove `delete options.state`
+
 
       this.state = new _StateMachine.default(stateData);
       delete options.state;
     }
 
-    if (options.settings) {
-      this.settings = options.settings;
-    } else {
+    if (!options.settings) {
       // allow the controller to live without a router
-      this.settings = options.settings = new _SettingsModel.default(_underscoreWrapper.default.omit(options || {}, 'el'));
+      options.settings = new _SettingsModel.default(_underscoreWrapper.default.omit(options || {}, 'el'));
       this.listen('notification', _BaseRouter.default.prototype._notify);
       this.listen('confirmation', _BaseRouter.default.prototype._confirm);
     }
@@ -3357,9 +3423,17 @@ var _default = _BaseView.default.extend(
         this[method].apply(this, args);
       }
     });
+    var MainView; // if `this.View` is already a Backbone View
 
-    if (this.View) {
-      this.add(new this.View(this.toJSON()));
+    if (this.View && this.View.isCourageView) {
+      MainView = this.View;
+    } // if `this.View` is a pure function that returns a Backbone View
+    else if (_underscoreWrapper.default.result(this, 'View') && _underscoreWrapper.default.result(this, 'View').isCourageView) {
+      MainView = _underscoreWrapper.default.result(this, 'View');
+    }
+
+    if (MainView) {
+      this.add(new MainView(this.toJSON()));
     }
   },
 
@@ -3410,7 +3484,7 @@ var _default = _BaseView.default.extend(
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -3427,7 +3501,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js"));
 
@@ -3481,9 +3555,18 @@ var _default = _backbone.default.Router.extend(
    */
   root: '',
   listen: _Notification.default.prototype.listen,
-  constructor: function constructor(options) {
-    options || (options = {});
+  constructor: function constructor() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     this.el = options.el;
+    /**
+     * Make sure `this.settings` has been set before invoke super - `Backbone.Router.apply`,
+     * which will invoke `this.initialize`, which could use `this.settings`.
+     *
+     * In theory we can set `this.settings` in `this.initialize` and assume `child.initialize`
+     * will invoke `super.initialize` first. But in reality, `child.initialize` doesn't call
+     * `super.initialize` at all.
+     */
+
     this.settings = new _SettingsModel.default(_underscoreWrapper.default.omit(options, 'el'));
 
     if (options.root) {
@@ -3592,7 +3675,7 @@ var _default = _backbone.default.Router.extend(
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -3609,7 +3692,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -3669,7 +3752,7 @@ var _default =
     }));
   }
 };
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -3686,7 +3769,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js"));
 
@@ -3706,7 +3789,7 @@ _underscoreWrapper.default.extend(Class.prototype, _backbone.default.Events, {
 
 Class.extend = _backbone.default.Model.extend;
 var _default = Class;
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -3723,7 +3806,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _clipboard = _interopRequireDefault(__webpack_require__(/*! clipboard */ "./node_modules/clipboard/lib/clipboard.js"));
 
@@ -3855,7 +3938,7 @@ var _default = {
     return new ClipboardClipboardWrapper(el, options);
   }
 };
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -3872,7 +3955,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -3895,7 +3978,7 @@ var _default = {
     return _js.default.remove.apply(_js.default, arguments);
   }
 };
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -3912,7 +3995,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   UP: 38,
   DOWN: 40,
@@ -3939,7 +4022,7 @@ var _default = {
     return this.__isKey(e, 'SPACE');
   }
 };
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -3956,7 +4039,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 function _log(level, args) {
   if (window.console && window.okta && window.okta.debug) {
@@ -4060,7 +4143,7 @@ var _default =
     return _log('error', arguments);
   }
 };
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -4077,7 +4160,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -4350,7 +4433,7 @@ var SchemaUtils = {
   }
 };
 var _default = SchemaUtils;
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -4367,7 +4450,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -4395,11 +4478,10 @@ var _default = _Model.default.extend({
       theme: ['string', false, theme]
     };
   },
-  extraProperties: true,
   constructor: function constructor() {
-    this.features = window._features || [];
-
     _Model.default.apply(this, arguments);
+
+    this.features = window._features || [];
   },
 
   /**
@@ -4438,7 +4520,7 @@ var _default = _Model.default.extend({
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -4455,7 +4537,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -4471,8 +4553,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * A state object that holds the applciation state
  */
 var _default = _Model.default.extend({
-  extraProperties: true,
-
   /**
    * Invokes a method on the applicable {@link Okta.Controller}
    *
@@ -4491,7 +4571,7 @@ var _default = _Model.default.extend({
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -4508,7 +4588,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ./jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
 
@@ -4854,7 +4934,7 @@ var StringUtil =
  */
 
 var _default = StringUtil;
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -4871,7 +4951,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
 
@@ -4901,7 +4981,7 @@ var _default =
     };
   })
 };
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -4918,7 +4998,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 var _default = {
   DEBOUNCE_DELAY: 200,
   LOADING_FADE: 400,
@@ -4926,7 +5006,7 @@ var _default = {
   ROW_EXPANDER_TRANSITION: 150,
   HIDE_ADD_MAPPING_FORM: 300
 };
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -4943,7 +5023,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -4986,7 +5066,7 @@ var _default = {
     return obj instanceof _BaseView.default || obj.prototype instanceof _BaseView.default || obj === _BaseView.default;
   }
 };
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -5003,7 +5083,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -5053,7 +5133,7 @@ var _default = {
     });
   }
 };
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -5070,7 +5150,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
 
@@ -5097,7 +5177,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /* eslint @okta/okta-ui/no-specific-modules: 0 */
 // from vendor/lib
 var _default = _handlebars.default;
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -5114,7 +5194,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
 
@@ -5127,7 +5207,7 @@ _handlebars.default.Utils.escapeExpression = function (string) {
 };
 
 var _default = _handlebars.default;
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -5145,7 +5225,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
 
@@ -5170,7 +5250,7 @@ _handlebars.default.registerHelper('base64ToHex', function (base64String) {
 });
 
 var _default = _handlebars.default;
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -5187,7 +5267,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
 
@@ -5211,7 +5291,7 @@ _handlebars.default.registerHelper('longDate', _underscoreWrapper.default.partia
 _handlebars.default.registerHelper('formatDate', formatDate);
 
 var _default = _handlebars.default;
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -5228,7 +5308,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
 
@@ -5335,7 +5415,7 @@ _handlebars.default.registerHelper('i18n', function (options) {
 });
 
 var _default = _handlebars.default;
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -5352,7 +5432,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
 
@@ -5387,7 +5467,7 @@ _handlebars.default.registerHelper('img', function (options) {
 });
 
 var _default = _handlebars.default;
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -5404,7 +5484,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
 
@@ -5418,7 +5498,7 @@ _handlebars.default.registerHelper('markdown', function (mdText) {
 });
 
 var _default = _handlebars.default;
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -5435,7 +5515,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
 
@@ -5449,7 +5529,7 @@ _handlebars.default.registerHelper('xsrfTokenInput', function () {
 });
 
 var _default = _handlebars.default;
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -5466,7 +5546,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _jquery = _interopRequireDefault(__webpack_require__(/*! jquery */ "jquery"));
 
@@ -5493,7 +5573,7 @@ _jquery.default.ajaxSetup({
 
 window.jQueryCourage = _jquery.default;
 var _default = _jquery.default;
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -5510,7 +5590,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = mdToHtml;
+exports["default"] = mdToHtml;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ./underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -5567,7 +5647,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _handlebars = _interopRequireDefault(__webpack_require__(/*! handlebars */ "handlebars"));
 
@@ -5605,7 +5685,7 @@ _underscore.default.mixin({
 });
 
 var _default = _underscore.default;
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -7257,7 +7337,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _ListView = _interopRequireDefault(__webpack_require__(/*! ../framework/ListView */ "./node_modules/@okta/courage/src/framework/ListView.js"));
 
@@ -7273,7 +7353,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 var _default = _BaseView.default.decorate(_ListView.default);
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -7290,7 +7370,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _backbone = _interopRequireDefault(__webpack_require__(/*! backbone */ "./node_modules/backbone/backbone.js"));
 
@@ -7490,7 +7570,7 @@ var _default = _View.default.extend(proto,
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -7507,7 +7587,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
@@ -7791,7 +7871,7 @@ var _default = _BaseView.default.extend(
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -7808,7 +7888,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
@@ -8212,7 +8292,7 @@ var _default = _BaseView.default.extend({
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -8229,7 +8309,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
@@ -8623,7 +8703,7 @@ var _default =
     return new CalloutCallout(options);
   }
 };
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -8640,7 +8720,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
@@ -8828,7 +8908,7 @@ var _default = _BaseView.default.extend({
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -8845,7 +8925,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
@@ -9248,15 +9328,22 @@ var _default = _BaseView.default.extend(
 
     this.__saveModelState(options.model);
 
-    if (this.step) {
+    var step = _underscoreWrapper.default.result(this, 'step');
+
+    if (step) {
+      // checking exists of `this.save` hence don't have to change to
+      // `_.result(this, 'save')` which will execute the function and
+      // is not the intent.
       if (!this.save) {
-        this.save = !this.totalSteps || this.step === this.totalSteps ? 'Finish' : 'Next';
+        var totalStep = _underscoreWrapper.default.result(this, 'totalSteps');
+
+        this.save = !totalStep || step === totalStep ? 'Finish' : 'Next';
       }
 
-      this.className += ' wizard';
+      this.className = _underscoreWrapper.default.result(this, 'className') + ' wizard';
     }
 
-    this.className += ' o-form';
+    this.className = _underscoreWrapper.default.result(this, 'className') + ' o-form';
     this.__toolbar = this.__createToolbar(options);
 
     _BaseView.default.call(this, options);
@@ -9267,7 +9354,10 @@ var _default = _BaseView.default.extend(
       this.__addLayoutItem(input);
     }, this);
 
-    this.add(this.__toolbar, '');
+    this.add(this.__toolbar, ''); // NOTES: this.model shall be initialized after calling
+    // super (BaseView.call(this, options)) above.
+    //
+
     this.listenTo(this.model, 'change:__edit__', this.__applyMode);
     this.listenTo(this.model, 'invalid error', _underscoreWrapper.default.throttle(function (model, resp, showBanner) {
       this.__showErrors(model, resp, showBanner !== false);
@@ -9345,6 +9435,9 @@ var _default = _BaseView.default.extend(
   __createToolbar: function __createToolbar(options) {
     var danger = this.getAttribute('danger');
     var saveBtnClassName = danger === true ? 'button-error' : 'button-primary';
+
+    var step = _underscoreWrapper.default.result(this, 'step');
+
     var toolbar = new _Toolbar.default(_underscoreWrapper.default.extend({
       save: this.save || _StringUtil.default.localize('oform.save', 'courage'),
       saveId: this.saveId,
@@ -9353,7 +9446,7 @@ var _default = _BaseView.default.extend(
       noCancelButton: this.noCancelButton || false,
       noSubmitButton: this.noSubmitButton || false,
       buttonOrder: this.buttonOrder,
-      hasPrevStep: this.step && this.step > 1
+      hasPrevStep: step && step > 1
     }, options || this.options));
 
     _underscoreWrapper.default.each(this.__buttons, function (args) {
@@ -10145,7 +10238,7 @@ var _default = _BaseView.default.extend(
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -10162,7 +10255,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
@@ -10658,7 +10751,7 @@ var _default = _BaseView.default.extend({
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -10675,7 +10768,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _BaseView = _interopRequireDefault(__webpack_require__(/*! ../../BaseView */ "./node_modules/@okta/courage/src/views/BaseView.js"));
 
@@ -10711,7 +10804,7 @@ var _default = _BaseView.default.extend({
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -10728,7 +10821,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -10794,7 +10887,7 @@ var _default = _BaseView.default.extend({
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -10811,7 +10904,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _jqueryWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/jquery-wrapper */ "./node_modules/@okta/courage/src/util/jquery-wrapper.js"));
 
@@ -11016,7 +11109,7 @@ var _default = {
   convertToOneOf: convertToOneOf,
   isConstraintValueMatchType: isConstraintValueMatchType
 };
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -11033,7 +11126,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
@@ -11133,7 +11226,7 @@ var _default = _BaseView.default.extend({
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -11150,7 +11243,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -11259,7 +11352,7 @@ var _default = {
     return _underscoreWrapper.default.size(errors) ? errors : undefined;
   }
 };
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -11276,7 +11369,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -11626,7 +11719,7 @@ var _default = {
     });
   }
 };
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -11643,7 +11736,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
@@ -11852,9 +11945,12 @@ var _default = _BaseView.default.extend({
     this.__errorState = true;
     this.$el.addClass('o-form-has-errors');
 
-    var errorId = _underscoreWrapper.default.uniqueId('input-container-error');
+    var errorId = _underscoreWrapper.default.uniqueId('input-container-error'); //test code to trigger courage and SIW build
 
-    var html = this.__getHTMLForError(errors, errorId);
+
+    var testErrorsCopy = errors;
+
+    var html = this.__getHTMLForError(testErrorsCopy, errorId);
 
     var $elExplain = this.$('.o-form-explain').not('.o-form-input-error').first();
 
@@ -11984,7 +12080,7 @@ var _default = _BaseView.default.extend({
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -12001,7 +12097,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -12042,7 +12138,7 @@ var _default = {
   create: create,
   supports: supports
 };
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -12059,7 +12155,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
@@ -12433,7 +12529,7 @@ var _default = _BaseView.default.extend({
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -12450,7 +12546,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -12503,7 +12599,7 @@ var _default =
     delete registry[type];
   }
 };
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -12520,7 +12616,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -12649,7 +12745,7 @@ var _default = _BaseView.default.extend({
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -12666,7 +12762,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -12980,7 +13076,7 @@ var _default = {
   augmentSchemaProps: augmentSchemaProps,
   augmentSchemaProp: augmentSchemaProp
 };
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -12997,7 +13093,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _Select = _interopRequireDefault(__webpack_require__(/*! ./Select */ "./node_modules/@okta/courage/src/views/forms/inputs/Select.js"));
 
@@ -13045,7 +13141,7 @@ var _default = _Select.default.extend({
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -13062,7 +13158,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
@@ -13232,7 +13328,7 @@ var _default = _BaseInput.default.extend({
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -13249,7 +13345,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
@@ -13464,7 +13560,7 @@ var _default = _BaseView.default.extend({
   })
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -13481,7 +13577,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _underscoreWrapper = _interopRequireDefault(__webpack_require__(/*! ../../../util/underscore-wrapper */ "./node_modules/@okta/courage/src/util/underscore-wrapper.js"));
 
@@ -13614,7 +13710,7 @@ var _default = _BaseInput.default.extend({
   InputGroupView: InputGroupInputGroupView
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -13631,7 +13727,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
@@ -13705,7 +13801,7 @@ var _default = _TextBox.default.extend({
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -13722,7 +13818,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
@@ -14001,7 +14097,7 @@ var _default = _BaseInput.default.extend({
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -14018,7 +14114,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
@@ -14398,7 +14494,7 @@ var _default = _BaseInput.default.extend({
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -14415,7 +14511,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
@@ -14774,7 +14870,7 @@ var _default = _BaseInput.default.extend({
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -14791,7 +14887,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _runtime = _interopRequireDefault(__webpack_require__(/*! handlebars/runtime */ "handlebars/runtime"));
 
@@ -14942,7 +15038,7 @@ var _default = _BaseInput.default.extend({
   }
 });
 
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
@@ -14959,7 +15055,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
-exports.default = void 0;
+exports["default"] = void 0;
 
 var _BaseCollection = _interopRequireDefault(__webpack_require__(/*! @okta/courage/src/models/BaseCollection */ "./node_modules/@okta/courage/src/models/BaseCollection.js"));
 
@@ -15142,7 +15238,7 @@ Okta.registerInput('radio', _Radio.default);
 Okta.registerInput('select', _Select.default);
 Okta.registerInput('group', _InputGroup.default);
 var _default = Okta;
-exports.default = _default;
+exports["default"] = _default;
 module.exports = exports.default;
 
 /***/ }),
