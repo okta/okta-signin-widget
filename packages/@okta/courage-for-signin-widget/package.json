@@ -13,5 +13,8 @@
     "copy-webpack-plugin": "4.6.0",
     "webpack": "^5.51.1",
     "webpack-bundle-analyzer": "^4.4.2"
+  },
+  "dependencies": {
+    "@okta/courage-docs": "0.0.1-5639-g4b37122"
   }
 }

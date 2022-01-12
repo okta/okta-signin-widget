@@ -25,6 +25,11 @@
   dependencies:
     "@babel/helper-module-imports" "^7.0.0"
 
+"@okta/courage-docs@0.0.1-5639-g4b37122":
+  version "0.0.1-5639-g4b37122"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/courage-docs/-/@okta/courage-docs-0.0.1-5639-g4b37122.tgz#8d2079aae4dc6d2229be25365420c06c923b25fb"
+  integrity sha1-jSB5quTcbSIpviU2VCDAbJI7Jfs=
+
 "@okta/courage@4.5.0-5765-g9b650ca":
   version "4.5.0-5765-g9b650ca"
   resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/courage/-/@okta/courage-4.5.0-5765-g9b650ca.tgz#d85d7278e863a2decceb42f7540e4ebee3b87c45"

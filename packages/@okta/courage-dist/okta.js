@@ -3109,17 +3109,45 @@ function parseLinkHeader(header) {
  */
 
 
-var _default = _backbone.default.Collection.extend(
+var Collection = _backbone.default.Collection.extend(
 /** @lends src/framework/Collection.prototype */
 {
   /**
    * Default fetch parameters
-   * @type {Object}
+   * @type {Object|Function}
    */
   params: {},
   constructor: function constructor(models, options) {
-    var state = this[STATE] = new _backbone.default.Model();
-    state.set(DEFAULT_PARAMS, _underscoreWrapper.default.defaults(options && options.params || {}, this.params || {}));
+    var state = new _backbone.default.Model();
+
+    var defaultParams = _underscoreWrapper.default.defaults(options && options.params || {}, _underscoreWrapper.default.result(this, 'params') || {});
+
+    state.set(DEFAULT_PARAMS, defaultParams);
+    this[STATE] = state; // Adds support for child class to convert to ES6 Class.
+    // After conversion, `this.model` has to be a pure function to return Model Class.
+    // The changes below is trying to distinguish the ambiguity between a Class and normal function,
+    // as both are JavaScript function essentially.
+    // There are three ways to define class for `this.model`
+    // 1. Object properties: `model: BaseModel.extend({..})`
+    // 2. Function constructor:
+    // See example from
+    // - appversions/src/models/CustomType.js
+    // - appversions/src/models/EnumType.js
+    // - appversions/src/models/SignOnMode.js
+    // - authn-factors/src/models/Feature.js
+    // - shared/src/models/SamlAttribute.js
+    // 3. Function that returns a class.
+    //    model: function() { return BaseModel.extend({..}); }
+    //
+    // option 1 and 2 exists in code base today
+    // option 3 is introduced to support child class to convert to ES6 class.
+    // TODO: think of remove following check
+    // The reason for `this.model !== Backbone.Model` is because `this.model` is default to `Backbone.Model`
+    // set at Backbone.Collection.
+
+    if (_underscoreWrapper.default.isFunction(this.model) && this.model.length === 0 && this.model.isCourageModel !== true) {
+      this.model = _underscoreWrapper.default.result(this, 'model');
+    }
 
     _backbone.default.Collection.apply(this, arguments);
   },
@@ -3287,7 +3315,18 @@ var _default = _backbone.default.Collection.extend(
     return _backbone.default.Collection.prototype.create.call(this, model, options);
   }
 });
+/**
+ * It's used for distinguishing the ambiguity from _.isFunction()
+ * which returns True for both a JavaScript Class constructor function
+ * and normal function. With this flag, we can tell a function is actually
+ * a Collection Class.
+ * This flag is added in order to support the type of a parameter can be
+ * either a Class or pure function that returns a Class.
+ */
 
+
+Collection.isCourageCollection = true;
+var _default = Collection;
 exports.default = _default;
 module.exports = exports.default;
 
@@ -3764,7 +3803,7 @@ Model = _backbone.default.Model.extend(
      *   To the `validate` method
      *   - Trying to set a property to an invalid type will raise an exception.
      *
-     * @type {Mixed}
+     * @type {Mixed|Function}
      * @example
      * var Person = Model.extend({
      *   props: {
@@ -3800,7 +3839,7 @@ Model = _backbone.default.Model.extend(
      *
      * Derived properties are retrieved and fire change events just like any other property. They cannot be set
      * directly.
-     * @type {Object}
+     * @type {Object|Function}
      * @example
      * var Person = Model.extend({
      *   props: {
@@ -3830,7 +3869,7 @@ Model = _backbone.default.Model.extend(
      * the lifetime of the page.
      * They would not typically be persisted to the server, and are not returned by calls to {@link src/framework/Model#toJSON|toJSON}.
      *
-     * @type {Object}
+     * @type {Object|Function}
      * @example
      * var Person = Model.extend({
      *   props: {
@@ -3846,7 +3885,7 @@ Model = _backbone.default.Model.extend(
   /**
      * Flatten the payload into dot notation string keys:
      *
-     * @type {Boolean}
+     * @type {Boolean|Function}
      * @example
      * var Person = Model.extend({
      *   props: {
@@ -3916,7 +3955,7 @@ Model = _backbone.default.Model.extend(
     this.parse = _underscoreWrapper.default.wrap(this.parse, function (parse) {
       var target = parse.apply(this, _underscoreWrapper.default.rest(arguments));
 
-      if (this.flat) {
+      if (_underscoreWrapper.default.result(this, 'flat')) {
         target = flatten(target, objectTypeFields);
       }
 
@@ -4131,6 +4170,16 @@ Model = _backbone.default.Model.extend(
   ERROR_STRING_STRING_MIN_LENGTH: 'model.validation.field.string.minLength',
   ERROR_STRING_STRING_MAX_LENGTH: 'model.validation.field.string.maxLength'
 });
+/**
+ * It's used for distinguishing the ambiguity from _.isFunction()
+ * which returns True for both a JavaScript Class constructor function
+ * and normal function. With this flag, we can tell a function is actually
+ * a Model Class.
+ * This flag is added in order to support the type of a parameter can be
+ * either a Class or pure function that returns a Class.
+ */
+
+Model.isCourageModel = true;
 var _default = Model;
 exports.default = _default;
 module.exports = exports.default;
@@ -4320,8 +4369,10 @@ var View = _backbone.default.View.extend(
 
     delete this[CHILD_DEFINITIONS];
 
-    if (this.autoRender && this.model) {
-      var event = _underscoreWrapper.default.isArray(this.autoRender) ? _underscoreWrapper.default.map(this.autoRender, function (field) {
+    var autoRender = _underscoreWrapper.default.result(this, 'autoRender');
+
+    if (autoRender && this.model) {
+      var event = _underscoreWrapper.default.isArray(autoRender) ? _underscoreWrapper.default.map(autoRender, function (field) {
         return 'change:' + field;
       }).join(' ') : 'change';
       this.listenTo(this.model, event, function () {
@@ -4942,7 +4993,17 @@ _underscoreWrapper.default.each(methods, function (method) {
    * @param {Object} properties
    */
 
+/**
+ * It's used for distinguishing the ambiguity from _.isFunction()
+ * which returns True for both a JavaScript Class constructor function
+ * and normal function. With this flag, we can tell a function is actually
+ * a View Class.
+ * This flag is added in order to support the type of a parameter can be
+ * either a Class or pure function that returns a Class.
+ */
 
+
+View.isCourageView = true;
 var _default = View;
 exports.default = _default;
 module.exports = exports.default;
@@ -4984,6 +5045,8 @@ var _default = _Collection.default.extend(
    */
   secureJSON: false,
   constructor: function constructor() {
+    _Collection.default.apply(this, arguments);
+
     if (_underscoreWrapper.default.result(this, 'secureJSON')) {
       this.sync = _underscoreWrapper.default.wrap(this.sync, function (sync, method, collection, options) {
         return sync.call(this, method, collection, _underscoreWrapper.default.extend({
@@ -4991,8 +5054,6 @@ var _default = _Collection.default.extend(
         }, options));
       });
     }
-
-    _Collection.default.apply(this, arguments);
   }
 });
 
@@ -5395,6 +5456,8 @@ var _default = _Model.default.extend(
   constructor: function constructor() {
     this.local = _underscoreWrapper.default.defaults({}, _underscoreWrapper.default.result(this, 'local'), this._builtInLocalProps);
 
+    _Model.default.apply(this, arguments);
+
     if (_underscoreWrapper.default.result(this, 'secureJSON')) {
       this.sync = _underscoreWrapper.default.wrap(this.sync, function (sync, method, model, options) {
         return sync.call(this, method, model, _underscoreWrapper.default.extend({
@@ -5402,8 +5465,6 @@ var _default = _Model.default.extend(
         }, options));
       });
     }
-
-    _Model.default.apply(this, arguments);
   }
 });
 
@@ -5496,14 +5557,14 @@ var constraintTypeErrorMessages = {
 };
 var loginFormatNonePattern = '.+';
 var escapedLoginCharsRe = /[^a-zA-Z0-9-]/;
+var constraintHandlers = {
+  between: '_checkBetweenConstraints',
+  greaterThan: '_checkGreaterThanConstraint',
+  lessThan: '_checkLessThanConstraint',
+  equals: '_checkEqualsConstraint'
+};
 
 var SchemaPropertySchemaProperty = _BaseModel.default.extend({
-  constraintHandlers: {
-    between: '_checkBetweenConstraints',
-    greaterThan: '_checkGreaterThanConstraint',
-    lessThan: '_checkLessThanConstraint',
-    equals: '_checkEqualsConstraint'
-  },
   idAttribute: 'name',
   local: {
     __oneOf__: {
@@ -5671,7 +5732,7 @@ var SchemaPropertySchemaProperty = _BaseModel.default.extend({
     }
 
     var constraitType = this.get('__constraint__');
-    var constraitHandler = this[this.constraintHandlers[constraitType]];
+    var constraitHandler = this[constraintHandlers[constraitType]];
 
     if (_underscoreWrapper.default.isFunction(constraitHandler)) {
       return constraitHandler.call(this);
@@ -6291,24 +6352,29 @@ function clean(obj) {
 var _default = _BaseView.default.extend(
 /** @lends module:Okta.Controller.prototype */
 {
-  constructor: function constructor(options) {
-    /* eslint max-statements: [2, 15], complexity: [2, 9]*/
-    options || (options = {}); // If 'state' is passed down as options, use it, else create a 'new StateMachine()'
+  constructor: function constructor() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-    if (options.state instanceof _StateMachine.default || this.state instanceof _StateMachine.default) {
-      this.state = options.state || this.state;
-    } else {
-      var stateData = _underscoreWrapper.default.defaults(clean(options.state), this.state || {});
+    /* eslint max-statements: [2, 21], complexity: [2, 12] */
+    // If 'state' is passed down as options, use it, else create a 'new StateMachine()'
+    this.state = _underscoreWrapper.default.result(this, 'state');
+    var hasStateBeenInitialized = this.state instanceof _StateMachine.default || options.state instanceof _StateMachine.default;
+
+    if (!hasStateBeenInitialized) {
+      var stateData = _underscoreWrapper.default.defaults(clean(options.state), this.state || {}); // TODO:
+      // `framework/View.js set `this.state = options.state.`.
+      // Therefore we could consider to do
+      // 1. `options.state = new StateMachine()`
+      // 2. remove `delete options.state`
+
 
       this.state = new _StateMachine.default(stateData);
       delete options.state;
     }
 
-    if (options.settings) {
-      this.settings = options.settings;
-    } else {
+    if (!options.settings) {
       // allow the controller to live without a router
-      this.settings = options.settings = new _SettingsModel.default(_underscoreWrapper.default.omit(options || {}, 'el'));
+      options.settings = new _SettingsModel.default(_underscoreWrapper.default.omit(options || {}, 'el'));
       this.listen('notification', _BaseRouter.default.prototype._notify);
       this.listen('confirmation', _BaseRouter.default.prototype._confirm);
     }
@@ -6324,9 +6390,17 @@ var _default = _BaseView.default.extend(
         this[method].apply(this, args);
       }
     });
+    var MainView; // if `this.View` is already a Backbone View
 
-    if (this.View) {
-      this.add(new this.View(this.toJSON()));
+    if (this.View && this.View.isCourageView) {
+      MainView = this.View;
+    } // if `this.View` is a pure function that returns a Backbone View
+    else if (_underscoreWrapper.default.result(this, 'View') && _underscoreWrapper.default.result(this, 'View').isCourageView) {
+      MainView = _underscoreWrapper.default.result(this, 'View');
+    }
+
+    if (MainView) {
+      this.add(new MainView(this.toJSON()));
     }
   },
 
@@ -6448,9 +6522,18 @@ var _default = _backbone.default.Router.extend(
    */
   root: '',
   listen: _Notification.default.prototype.listen,
-  constructor: function constructor(options) {
-    options || (options = {});
+  constructor: function constructor() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     this.el = options.el;
+    /**
+     * Make sure `this.settings` has been set before invoke super - `Backbone.Router.apply`,
+     * which will invoke `this.initialize`, which could use `this.settings`.
+     *
+     * In theory we can set `this.settings` in `this.initialize` and assume `child.initialize`
+     * will invoke `super.initialize` first. But in reality, `child.initialize` doesn't call
+     * `super.initialize` at all.
+     */
+
     this.settings = new _SettingsModel.default(_underscoreWrapper.default.omit(options, 'el'));
 
     if (options.root) {
@@ -7362,11 +7445,10 @@ var _default = _Model.default.extend({
       theme: ['string', false, theme]
     };
   },
-  extraProperties: true,
   constructor: function constructor() {
-    this.features = window._features || [];
-
     _Model.default.apply(this, arguments);
+
+    this.features = window._features || [];
   },
 
   /**
@@ -7438,8 +7520,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * A state object that holds the applciation state
  */
 var _default = _Model.default.extend({
-  extraProperties: true,
-
   /**
    * Invokes a method on the applicable {@link Okta.Controller}
    *
@@ -12215,15 +12295,22 @@ var _default = _BaseView.default.extend(
 
     this.__saveModelState(options.model);
 
-    if (this.step) {
+    var step = _underscoreWrapper.default.result(this, 'step');
+
+    if (step) {
+      // checking exists of `this.save` hence don't have to change to
+      // `_.result(this, 'save')` which will execute the function and
+      // is not the intent.
       if (!this.save) {
-        this.save = !this.totalSteps || this.step === this.totalSteps ? 'Finish' : 'Next';
+        var totalStep = _underscoreWrapper.default.result(this, 'totalSteps');
+
+        this.save = !totalStep || step === totalStep ? 'Finish' : 'Next';
       }
 
-      this.className += ' wizard';
+      this.className = _underscoreWrapper.default.result(this, 'className') + ' wizard';
     }
 
-    this.className += ' o-form';
+    this.className = _underscoreWrapper.default.result(this, 'className') + ' o-form';
     this.__toolbar = this.__createToolbar(options);
 
     _BaseView.default.call(this, options);
@@ -12234,7 +12321,10 @@ var _default = _BaseView.default.extend(
       this.__addLayoutItem(input);
     }, this);
 
-    this.add(this.__toolbar, '');
+    this.add(this.__toolbar, ''); // NOTES: this.model shall be initialized after calling
+    // super (BaseView.call(this, options)) above.
+    //
+
     this.listenTo(this.model, 'change:__edit__', this.__applyMode);
     this.listenTo(this.model, 'invalid error', _underscoreWrapper.default.throttle(function (model, resp, showBanner) {
       this.__showErrors(model, resp, showBanner !== false);
@@ -12312,6 +12402,9 @@ var _default = _BaseView.default.extend(
   __createToolbar: function __createToolbar(options) {
     var danger = this.getAttribute('danger');
     var saveBtnClassName = danger === true ? 'button-error' : 'button-primary';
+
+    var step = _underscoreWrapper.default.result(this, 'step');
+
     var toolbar = new _Toolbar.default(_underscoreWrapper.default.extend({
       save: this.save || _StringUtil.default.localize('oform.save', 'courage'),
       saveId: this.saveId,
@@ -12320,7 +12413,7 @@ var _default = _BaseView.default.extend(
       noCancelButton: this.noCancelButton || false,
       noSubmitButton: this.noSubmitButton || false,
       buttonOrder: this.buttonOrder,
-      hasPrevStep: this.step && this.step > 1
+      hasPrevStep: step && step > 1
     }, options || this.options));
 
     _underscoreWrapper.default.each(this.__buttons, function (args) {
@@ -17148,7 +17241,7 @@ function recalculateChosen($chosen, $results, $clone) {
   $results.css('max-height', maxHeight);
 }
 
-function fixChosenModal($select) {
+function fixChosenModal($select, textPlaceholder) {
   var $chosen = $select.next('.chzn-container');
   var $clone = $chosen.clone();
   var $results = $chosen.find('.chzn-results'); // Use a hidden clone to maintain layout and calculate offset. This is
@@ -17188,6 +17281,7 @@ function fixChosenModal($select) {
       top: -999999
     });
     (0, _jqueryWrapper.default)('body').append($chosen);
+    (0, _jqueryWrapper.default)('.chzn-search > :text').prop('placeholder', textPlaceholder);
     $results.show();
     recalculateChosen($chosen, $results, $clone); // Capture scroll events:
     // - for forms that use fixed positioning (like editing attributes in
@@ -17227,7 +17321,7 @@ var _default = _BaseInput.default.extend({
   },
   constructor: function constructor() {
     this.template = template;
-    this.option = option;
+    this.option = this.option || option;
 
     _BaseInput.default.apply(this, arguments);
 
@@ -17244,7 +17338,7 @@ var _default = _BaseInput.default.extend({
     var options = this.getOptions();
 
     _underscoreWrapper.default.each(options, function (value, key) {
-      this.$select.append(option({
+      this.$select.append(this.option({
         key: key,
         value: value
       }));
@@ -17293,7 +17387,7 @@ var _default = _BaseInput.default.extend({
         search_contains: true //eslint-disable-line camelcase
 
       });
-      fixChosenModal(this.$select);
+      fixChosenModal(this.$select, this.searchPlaceholder);
 
       if (this.params.autoWidth) {
         // fix a chosen css bug
