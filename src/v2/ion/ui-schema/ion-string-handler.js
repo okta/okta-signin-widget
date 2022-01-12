@@ -53,6 +53,27 @@ const timezoneUISchema = {
 
 const shouldRenderAsRadio = (name) => name.indexOf('methodType') >= 0 || name.indexOf('channel') >= 0;
 
+const optionalType = ['text', 'radio', 'select'];
+
+const populateUISchemaForDisplay = (uiSchema, ionField) => {
+  const display = ionField?.value?.value;
+  uiSchema.type = display.inputType;
+  if (display.inputType === 'radio') {
+    uiSchema.options = display.options;
+  } else if (display.inputType === 'select') {
+    uiSchema.wide = true;
+    //it will create a placeholder for dropdowns, by default it will show 'Select an Option'
+    uiSchema.options = Object.assign({'': ''}, ionOptionsToUiOptions(display.options));
+  }
+};
+
+const populateUISchemaForRadio = (uiSchema, ionFormField) => {
+  // e.g. { name: 'methodType', options: [ {label: 'sms'} ], type: 'string' | null }
+  uiSchema.type = 'radio';
+  // set the default value to the first value..
+  ionFormField.value = ionFormField.options[0].value;
+};
+
 const createUiSchemaForString = (ionFormField, remediationForm, transformedResp, createUISchema, settings) => {
   const uiSchema = {
     type: 'text'
@@ -76,11 +97,11 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
   }
 
   if (Array.isArray(ionFormField.options) && ionFormField.options[0] && ionFormField.options[0].value) {
-    if (shouldRenderAsRadio(ionFormField.name)) {
-      // e.g. { name: 'methodType', options: [ {label: 'sms'} ], type: 'string' | null }
-      uiSchema.type = 'radio';
-      // set the default value to the first value..
-      ionFormField.value = ionFormField.options[0].value;
+    const ionField = ionFormField.options[0];
+    if (ionField.label === 'display') {
+      populateUISchemaForDisplay(uiSchema, ionField);
+    } else if (shouldRenderAsRadio(ionFormField.name)) {
+      populateUISchemaForRadio(uiSchema, ionFormField);
     } else {
       // default to select (dropdown). no particular reason (certainly can default to radio.)
       // e.g. { name: 'questionKey', options: [], type: 'string' | null }
@@ -90,8 +111,8 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
     }
   }
 
-  // set optional label for text boxes
-  if(ionFormField.required === false && uiSchema.type === 'text') {
+  // set a label as 'Optional' for supported optional element types
+  if(ionFormField.required === false && optionalType.includes(uiSchema.type)) {
     uiSchema.sublabel = loc('oie.form.field.optional', 'login');
   }
 
