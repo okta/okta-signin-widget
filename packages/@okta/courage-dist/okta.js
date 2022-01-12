@@ -7185,10 +7185,12 @@ var SchemaUtils = {
       format: 'language-code'
     },
     'country_code': {
-      type: 'string'
+      type: 'string',
+      format: 'country-code'
     },
     'language_code': {
-      type: 'string'
+      type: 'string',
+      format: 'language-code'
     },
     locale: {
       type: 'string',
