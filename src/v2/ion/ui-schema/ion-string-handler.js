@@ -111,7 +111,7 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
     }
   }
 
-  // set optional label for text boxes, radio buttons and dropdowns
+  // set a label as 'Optional' for supported optional element types
   if(ionFormField.required === false && optionalType.includes(uiSchema.type)) {
     uiSchema.sublabel = loc('oie.form.field.optional', 'login');
   }
