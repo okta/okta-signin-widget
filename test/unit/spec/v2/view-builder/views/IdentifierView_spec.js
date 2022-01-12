@@ -132,6 +132,43 @@ describe('v2/view-builder/views/IdentifierView', function() {
     });
   });
 
+  it('view renders custom button with customButtons config', function() {
+    settings.set('customButtons', [{
+      title: 'Click Me',
+      className: 'btn-customAuth'
+    }]);
+
+    jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
+    testContext.init(XHRIdentifyWithPassword.remediation.value);
+    
+    const $customButton = testContext.view.$el.find('.o-form-button-bar .custom-buttons .btn-customAuth');
+    expect($customButton.text()).toEqual('Click Me');
+  });
+
+  it('view renders custom button title based on i18n config', function() {
+    const i18n = {
+      en: {
+        'customButton.title': 'Custom Button Title',
+      }
+    };
+    settings.set('i18n', i18n);
+    settings.set('customButtons', [{
+      i18nKey: 'customButton.title',
+      className: 'btn-customAuth'
+    }]);
+    Bundles['login_en'] = i18n.en;
+
+    jest.spyOn(AppState.prototype, 'hasRemediationObject').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'getActionByPath').mockReturnValue(true);
+    jest.spyOn(AppState.prototype, 'isIdentifierOnlyView').mockReturnValue(false);
+    testContext.init(XHRIdentifyWithPassword.remediation.value);
+    
+    const $customButton = testContext.view.$el.find('.o-form-button-bar .custom-buttons .btn-customAuth');
+    expect($customButton.text()).toEqual('Custom Button Title');
+  });
+
   it('view updates model and view correctly if "username" config is passed in', function() {
     settings.set('username', 'testUsername');
 
