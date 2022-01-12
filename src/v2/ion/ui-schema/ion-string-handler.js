@@ -53,15 +53,17 @@ const timezoneUISchema = {
 
 const shouldRenderAsRadio = (name) => name.indexOf('methodType') >= 0 || name.indexOf('channel') >= 0;
 
+const optionalType = ['text', 'radio', 'select'];
+
 const populateUISchemaForDisplay = (uiSchema, ionField) => {
-  let display = ionField.value.value;
+  const display = ionField?.value?.value;
   uiSchema.type = display.inputType;
   if (display.inputType === 'radio') {
     uiSchema.options = display.options;
   } else if (display.inputType === 'select') {
     uiSchema.wide = true;
     //it will create a placeholder for dropdowns, by default it will show 'Select an Option'
-    uiSchema.options = Object.assign({0: ''}, ionOptionsToUiOptions(display.options));
+    uiSchema.options = Object.assign({'': ''}, ionOptionsToUiOptions(display.options));
   }
 };
 
@@ -109,9 +111,8 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
     }
   }
 
-  // set optional label for text boxes
-  if(ionFormField.required === false && (uiSchema.type === 'text' || uiSchema.type === 'radio' ||
-      uiSchema.type === 'select')) {
+  // set optional label for text boxes, radio buttons and dropdowns
+  if(ionFormField.required === false && optionalType.includes(uiSchema.type)) {
     uiSchema.sublabel = loc('oie.form.field.optional', 'login');
   }
 

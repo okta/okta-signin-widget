@@ -26,7 +26,7 @@ async function setup(t) {
   return identityPage;
 }
 
-test.requestHooks(requestLogger, ProfileEnrollmentSignUpWithStringFieldsMock)('should show dropdown values for colores and favsong; and should show collection of radio buttons for favpizza on registration form', async t => {
+test.requestHooks(requestLogger, ProfileEnrollmentSignUpWithStringFieldsMock)('should show dropdown values for select and radio buttons', async t => {
   const profileEnrollmentString = new ProfileEnrollmentStringOptionsViewPageObject(t);
   const identityPage = await setup(t);
   await identityPage.clickSignUpLink();
