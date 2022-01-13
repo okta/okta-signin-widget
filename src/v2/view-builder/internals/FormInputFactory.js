@@ -207,7 +207,7 @@ const createCustomButtons = (settings) => {
         'data-se': customButton.dataAttr
       },
       className: customButton.className + ' default-custom-button',
-      title: customButton.title,
+      title: customButton.title || loc(customButton.i18nKey, 'login'),
       click: customButton.click
     };
     return button;
