@@ -1,0 +1,118 @@
+{
+  "stateHandle": "01r2p5S9qaAjESMFuPzt7r3ZMcZZQ_vvS0Tzg56ajB",
+  "version": "1.0.0",
+  "expiresAt": "2019-07-24T21:25:33.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "enroll-profile",
+        "href": "http://localhost:3000/idp/idx/enroll/new",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "userProfile",
+            "form": {
+              "value": [
+                {
+                  "name": "firstName",
+                  "label": "First name",
+                  "required": true
+                },
+                {
+                  "name": "lastName",
+                  "label": "Last name",
+                  "required": true
+                },
+                {
+                  "name": "email",
+                  "label": "Email",
+                  "required": true
+                },
+                {
+                  "name": "pet",
+                  "type": "boolean",
+                  "label": "Do you have a pet?",
+                  "required": false,
+                  "options": [
+                    {
+                      "label": "display",
+                      "value": {
+                        "type": "object",
+                        "value": {
+                          "inputType": "radio",
+                          "options": [
+                            {
+                              "label": "Yes",
+                              "value": "true"
+                            },
+                            {
+                              "label": "No",
+                              "value": "false"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "subscribe",
+                  "type": "boolean",
+                  "label": "Subscribe me",
+                  "required": false
+                }
+              ]
+            }
+          },
+          {
+            "name": "stateHandle",
+            "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+            "visible": false
+          }
+        ]
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-identify",
+        "href": "http://localhost:3000/idp/idx/identify",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "identifier",
+            "label": "identifier"
+          },
+          {
+            "name": "stateHandle",
+            "value": "01r2p5S9qaAjESMFuPzt7r3ZMcZZQ_vvS0Tzg56ajB",
+            "visible": false
+          }
+        ]
+      }
+    ]
+  },
+  "context": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "context",
+    "href": "http://localhost:3000/idp/idx/context",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "value": "01r2p5S9qaAjESMFuPzt7r3ZMcZZQ_vvS0Tzg56ajB",
+        "visible": false
+      }
+    ]
+  }
+}

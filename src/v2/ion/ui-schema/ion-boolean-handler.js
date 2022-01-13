@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { FORMS } from '../RemediationConstants';
+import { loc } from 'okta';
 
 const getCheckboxUiSchema = ({ label, type, required }) => ({
   // For Remember Me checkbox, we need the label only on the right side of it.
@@ -23,6 +24,14 @@ const getCheckboxUiSchema = ({ label, type, required }) => ({
   required: required || false,
 });
 
+const getRadioUiSchema = ({ label, required, options }) => ({
+  displayName: label,
+  type: 'radio',
+  required: required,
+  options: options[0].value.value.options,
+  sublabel: required? null : loc('oie.form.field.optional', 'login'),
+});
+
 const createUiSchemaForBoolean = (ionFormField, remediationForm) => {
   if ([FORMS.CONSENT_ENDUSER, FORMS.CONSENT_ADMIN].includes(remediationForm.name)) {
     const scopes = remediationForm.scopes.map(({name, label, desc}) => {
@@ -33,6 +42,8 @@ const createUiSchemaForBoolean = (ionFormField, remediationForm) => {
     const type = remediationForm.name;
 
     return {type, scopes, options: ionFormField.options};
+  } else if (Array.isArray(ionFormField.options) && ionFormField.options[0]?.value?.value?.inputType === 'radio') {
+    return getRadioUiSchema(ionFormField);
   } else {
     return getCheckboxUiSchema(ionFormField);
   }
