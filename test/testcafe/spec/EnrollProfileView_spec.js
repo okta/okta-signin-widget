@@ -5,6 +5,7 @@ import Identify from '../../../playground/mocks/data/idp/idx/identify-with-passw
 import EnrollProfileSubmit from '../../../playground/mocks/data/idp/idx/enroll-profile-submit';
 import EnrollProfileSignUp from '../../../playground/mocks/data/idp/idx/enroll-profile-new';
 import EnrollProfileSignUpWithAdditionalFields from '../../../playground/mocks/data/idp/idx/enroll-profile-new-additional-fields';
+import EnrollProfileSignUpWithBooleanFields from '../../../playground/mocks/data/idp/idx/enroll-profile-new-boolean-fields';
 
 
 const EnrollProfileSignUpMock = RequestMock()
@@ -24,6 +25,12 @@ const EnrollProfileSignUpWithAdditionalFieldsMock = RequestMock()
   .respond(Identify)
   .onRequestTo('http://localhost:3000/idp/idx/enroll')
   .respond(EnrollProfileSignUpWithAdditionalFields);
+
+const EnrollProfileSignUpWithBooleanFieldsMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(Identify)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll')
+  .respond(EnrollProfileSignUpWithBooleanFields);
 
 const requestLogger = RequestLogger(
   /idx\/*/,
@@ -80,3 +87,17 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('s
   await t.expect(await enrollProfilePage.isDropdownVisible('userProfile.timezone')).ok();
   await enrollProfilePage.selectValueFromDropdown('userProfile.timezone', 1);
 });
+
+test.requestHooks(requestLogger, EnrollProfileSignUpWithBooleanFieldsMock)('should show radio and checkbox display for boolean data type fields', async t => {
+  const enrollProfilePage = new EnrollProfileViewPageObject(t);
+  const identityPage = await setup(t);
+  await identityPage.clickSignUpLink();
+
+  requestLogger.clear();
+
+  await t.expect(await enrollProfilePage.clickRadioButton('userProfile.pet', 0)).eql('Yes');
+
+  await t.expect(await enrollProfilePage.getCheckboxValue('userProfile.subscribe')).eql(false);
+  await enrollProfilePage.setCheckbox('userProfile.subscribe');
+});
+
