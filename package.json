@@ -129,7 +129,7 @@
     "retire": "^2.0.3",
     "rimraf": "^2.6.2",
     "sass": "^1.38.0",
-    "shelljs": "^0.8.4",
+    "shelljs": "^0.8.5",
     "source-map-loader": "^0.2.4",
     "stylelint": "^13.13.1",
     "stylelint-checkstyle-formatter": "^0.1.2",
