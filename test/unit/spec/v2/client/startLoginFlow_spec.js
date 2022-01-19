@@ -98,6 +98,10 @@ describe('v2/client/startLoginFlow', () => {
     });
 
     expect(start).toHaveBeenCalledTimes(1);
+
+    expect(start).toHaveBeenCalledWith({
+      exchangeCodeForTokens: false
+    });
     expect(proceed).not.toHaveBeenCalled();
   });
 
@@ -198,5 +202,20 @@ describe('v2/client/startLoginFlow', () => {
         'Set "useInteractionCodeFlow" to true in configuration to enable the ' +
         'interaction_code" flow for self-hosted widget.');
     }
+  });
+
+  it('passes "recoveryToken" to interact', async () => {
+    const { settings, start } = testContext;
+    const recoveryToken = 'abcdef';
+    settings.set('useInteractionCodeFlow', true);
+    settings.set('recoveryToken', recoveryToken);
+    const result = await startLoginFlow(settings);
+    expect(result).toEqual({
+      fake: 'fake start response'
+    });
+    expect(start).toHaveBeenCalledWith({
+      exchangeCodeForTokens: false,
+      recoveryToken
+    });
   });
 });
