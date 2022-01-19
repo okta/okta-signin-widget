@@ -145,7 +145,7 @@ test.requestHooks(resetPasswordSuccess)('password changed successfully', async t
 
   await t.expect(challengePasswordPage.getIonMessages()).eql('You can now sign in with your existing username and new password.');
   await t.expect(challengePasswordPage.getGoBackLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
-  await t.expect(challengePasswordPage.hasIdentifier()).notOk();
+  await t.expect(challengePasswordPage.hasIdentifier()).ok();
 });
 
 test.requestHooks(recoveryRequestLogger, mockCannotForgotPassword)('can not recover password', async t => {
