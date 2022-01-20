@@ -80,3 +80,11 @@ Given(
   }
 );
 
+Given(
+  /^user opens the widget in "(\w+)" flow config$/,
+  async function(flow: string) {
+    await TestAppPage.flowDropdown.selectByVisibleText(flow);
+    return await TestAppPage.startButton.click();
+  }
+);
+

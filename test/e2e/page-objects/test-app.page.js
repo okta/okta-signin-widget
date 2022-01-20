@@ -23,6 +23,7 @@ class TestAppPage {
   get showSignInToGetTokens() { return $('button[name="showSignInToGetTokens"]'); }
   get startWithRenderEl() { return $('button[name="renderEl"]'); }
   get triggerCspFail() { return $('button[name="fail-csp"]'); }
+  get flowDropdown() { return $('#f_flow'); }
 
   
   async open(path = '') {

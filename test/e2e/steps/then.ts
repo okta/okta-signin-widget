@@ -51,3 +51,17 @@ Then(
     return await PrimaryAuthPage.waitForForgotPassword();
   }
 );
+
+Then(
+  /^user sees signup form$/,
+  async function() {
+    return await PrimaryAuthPage.waitForSignupForm();
+  }
+);
+
+Then(
+  /^user sees unlock account form$/,
+  async function() {
+    return await PrimaryAuthPage.waitForUnlockAccountForm();
+  }
+);

@@ -14,4 +14,4 @@ Feature: Multi Tabs
       And user opens the login page
       When user navigates to forgot password form
       And user opens another instance in a new tab
-      Then user sees forgot password form      
+      Then user sees forgot password form
