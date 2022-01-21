@@ -9,18 +9,26 @@ yarn global add @okta/ci-pkginfo
 export PATH="${PATH}:$(yarn global bin)"
 export TEST_SUITE_TYPE="build"
 
+# Append a SHA to the version in package.json 
+if ! ci-append-sha; then
+  echo "ci-append-sha failed! Exiting..."
+  exit $FAILED_SETUP
+fi
+
+
 # Build
 if ! yarn build:release; then
   echo "build failed! Exiting..."
   exit ${TEST_FAILURE}
 fi
 
-pushd ./dist
-
-if ! ci-append-sha; then
-  echo "ci-append-sha failed! Exiting..."
-  exit $FAILED_SETUP
+# Verify package
+if ! $OKTA_HOME/$REPO/scripts/verify-package.sh; then
+  echo "package verification failed! Exiting..."
+  exit ${TEST_FAILURE}
 fi
+
+pushd ./dist
 
 ### Not able to use 'yarn publish' which failed at
 ### publish alpha version.
