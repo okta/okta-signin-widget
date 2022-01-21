@@ -13,6 +13,8 @@ fixture('English Leaks');
 
 // These mocks have known english leaks ignoring them temporarily
 const ignoredMocks = [
+  'profile-enrollment-string-fields-options.json', // profile enrollment fields are coming from UD and we do not currently have a way to localize them
+  'enroll-profile-new-boolean-fields.json', // english leak on security question and "Subscribe" checkbox
   'identify-with-apple-redirect-sso-extension.json', // flaky on bacon
   'identify-recovery-with-recaptcha-v2.json', // No english leaks for this, just flaky on bacon due to loading the reCaptcha lib 
   'identify-with-password-with-recaptcha-v2.json', // No english leaks for this, just flaky on bacon due to loading the reCaptcha lib
