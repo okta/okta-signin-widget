@@ -16,7 +16,7 @@ module.exports = function(grunt) {
       path        = require('path');
 
   var JS                    = 'target/js',
-      DIST                  = 'dist',
+      DIST                  = 'dist/dist',
       SASS                  = 'target/sass',
       I18N_SRC              = 'packages/@okta/i18n/src',
       // Note: 3000 is necessary to test against certain browsers in SauceLabs

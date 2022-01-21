@@ -12,14 +12,11 @@
   "bugs": {
     "url": "https://github.com/okta/okta-signin-widget/issues"
   },
-  "files": [
-    "dist"
-  ],
   "browserslist": [
     "> 0.1%",
     "not ie <= 9"
   ],
-  "main": "./dist/js/okta-sign-in.entry.js",
+  "main": "./target/js/okta-sign-in.js",
   "scripts": {
     "clean": "rimraf target && rimraf dist && rimraf build2",
     "generate-phone-codes": "node scripts/buildtools generate-phone-codes",
@@ -90,6 +87,7 @@
     "eslint-plugin-local-rules": "^0.1.1",
     "eslint-plugin-no-only-tests": "^2.4.0",
     "eslint-plugin-webdriverio": "^1.0.1",
+    "expect": "^27.4.6",
     "fibers": "^5.0.0",
     "fs-extra": "^8.1.0",
     "glob": "^7.1.3",
