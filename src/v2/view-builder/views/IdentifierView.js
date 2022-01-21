@@ -94,6 +94,13 @@ const Body = BaseForm.extend({
     }
   },
 
+  postRender() {
+    BaseForm.prototype.postRender.apply(this, arguments);
+    // When a user enters invalid credentials, /introspect returns an error,
+    // along with a user object containing the identifier entered by the user.
+    this.$el.find('.identifier-container').remove();
+  },
+
   /**
    * Update UI schemas for customization from .widgetrc.js or Admin Customization settings page.
    * @returns Array
