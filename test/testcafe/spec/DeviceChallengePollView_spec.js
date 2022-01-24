@@ -408,8 +408,9 @@ test
   });
 
 const getPageUrl = ClientFunction(() => window.location.href);
+// This test is disabled for being flaky. OKTA-463299
 test
-  .requestHooks(loopbackFallbackLogger, appLinkWithoutLaunchMock)('loopback fails and falls back to app link', async t => {
+  .requestHooks(loopbackFallbackLogger, appLinkWithoutLaunchMock).skip('loopback fails and falls back to app link', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
     await t.expect(deviceChallengeFalllbackPage.getPageTitle()).eql('Sign In');
