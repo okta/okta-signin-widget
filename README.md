@@ -1544,7 +1544,7 @@ features: {
 
 - **features.callRecovery** - Allow users with a configured mobile phone number to recover their password using a voice call. Defaults to `false`.
 
-- **features.webauthn** - Display and use factors supported by the FIDO 2.0 (Web Authentication) security standard. Enabling this feature will prevent the widget from invoking the legacy Windows Hello factor. Defaults to `false`.
+- **features.webauthn** - Display and use factors supported by the FIDO 2.0 (Web Authentication) security standard. Enabling this feature will prevent the widget from invoking the legacy Windows Hello factor. Defaults to `true`.
 
 - **features.selfServiceUnlock** - Display the "Unlock Account" link to allow users to unlock their accounts. Defaults to `false`.
 

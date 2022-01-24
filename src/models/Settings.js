@@ -83,7 +83,7 @@ export default Model.extend({
     'features.smsRecovery': ['boolean', true, false],
     'features.callRecovery': ['boolean', true, false],
     'features.emailRecovery': ['boolean', false, true],
-    'features.webauthn': ['boolean', true, false],
+    'features.webauthn': ['boolean', true, true],
     'features.selfServiceUnlock': ['boolean', true, false],
     'features.multiOptionalFactorEnroll': ['boolean', true, false],
     'features.deviceFingerprinting': ['boolean', false, false],
