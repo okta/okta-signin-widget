@@ -83,6 +83,7 @@ async function setup(t, options = {}) {
   await pageObject.mockCrypto();
   await renderWidget({
     stateToken: undefined,
+    recoveryToken: options.recoveryToken,
     clientId: 'fake',
     redirectUri: 'http://doesnot-matter',
     useInteractionCodeFlow: true,
@@ -174,6 +175,24 @@ test.requestHooks(requestLogger, interactMock)('passes saved interaction handle 
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/introspect');
 
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    expectIdentifyView
+  ]);
+});
+
+test.requestHooks(requestLogger, interactMock)('passes recovery_token to interact endpoint', async t => {
+  const recoveryToken = 'abcdef';
+  await setup(t, {
+    recoveryToken
+  });
+
+  await t.expect(requestLogger.count(() => true)).eql(2); // interact, introspect
+  let req = requestLogger.requests[0].request; // interact
+  const params = decodeUrlEncodedRequestBody(req.body);
+  await t.expect(req.url).eql('http://localhost:3000/oauth2/default/v1/interact');
+  await t.expect(params['recovery_token']).eql(recoveryToken);
   await checkConsoleMessages([
     'ready',
     'afterRender',

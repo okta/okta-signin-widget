@@ -1,20 +1,32 @@
 import { OktaAuth } from '@okta/okta-auth-js';
 import Util from 'util/Util';
 import config from 'config/config.json';
-import _ from 'underscore';
 
 export default function(options) {
-  var authParams = _.extend({
-    issuer: options.issuer,
-    clientId: options.clientId,
-    redirectUri: options.redirectUri,
-    state: options.state,
-    scopes: options.scopes,
-    flow: options.flow,
-    codeChallenge: options.codeChallenge,
-    codeChallengeMethod: options.codeChallengeMethod,
+  const {
+    issuer,
+    clientId,
+    redirectUri,
+    state,
+    scopes,
+    flow,
+    codeChallenge,
+    codeChallengeMethod,
+    recoveryToken
+  } = options;
+  const authParams = {
+    issuer,
+    clientId,
+    redirectUri,
+    state,
+    scopes,
+    flow,
+    codeChallenge,
+    codeChallengeMethod,
     transformErrorXHR: Util.transformErrorXHR,
-  }, options.authParams);
+    recoveryToken,
+    ...options.authParams
+  };
 
   if (!authParams.issuer) {
     authParams.issuer = options.baseUrl + '/oauth2/default';

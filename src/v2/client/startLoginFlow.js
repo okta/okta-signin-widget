@@ -57,11 +57,12 @@ export async function startLoginFlow(settings) {
         );
       }
       // start new transaction
-      return authClient.idx.start(idxOptions);
+      const recoveryToken = settings.get('recoveryToken');
+      return authClient.idx.start({ ...idxOptions, recoveryToken }); // calls interact
     }
 
     // continue saved transaction
-    return authClient.idx.proceed(idxOptions);
+    return authClient.idx.proceed(idxOptions); // calls introspect
   }
 
   // Use stateToken from session storage if exists
