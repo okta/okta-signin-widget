@@ -11,10 +11,15 @@ import pollingExpired from '../../../playground/mocks/data/idp/idx/terminal-poll
 import unlockFailed from '../../../playground/mocks/data/idp/idx/error-unlock-account';
 import accessDeniedOnOtherDeivce from '../../../playground/mocks/data/idp/idx/terminal-return-email-consent-denied';
 import terminalUnlockAccountFailedPermissions from '../../../playground/mocks/data/idp/idx/error-unlock-account-failed-permissions';
+import errorTerminalMultipleErrors from '../../../playground/mocks/data/idp/idx/error-terminal-multiple-errors';
 
 const terminalTransferredEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(terminalTransferEmail);
+
+const terminalMultipleErrorsMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(errorTerminalMultipleErrors);
 
 const terminalReturnEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -138,4 +143,15 @@ async function setup(t) {
       await t.expect(await terminalViewPage.goBackLinkExists()).notOk();
       await t.expect(await terminalViewPage.signoutLinkExists()).ok();
     });
+});
+
+test.requestHooks(terminalMultipleErrorsMock)('should render each error message when there are multiple', async t => {
+  const terminalViewPage = await setup(t);
+
+  const errors = terminalViewPage.form.getAllErrorBoxTexts();
+  await t.expect(errors).eql([
+    'Please enter a username',
+    'Please enter a password',
+    'Your session has expired. Please try to sign in again.'
+  ]);
 });
