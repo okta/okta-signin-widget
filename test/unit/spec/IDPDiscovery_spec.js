@@ -15,6 +15,7 @@ import resSuccessOktaIDP from 'helpers/xhr/IDPDiscoverySuccess_OktaIDP';
 import resSuccessSAML from 'helpers/xhr/IDPDiscoverySuccess_SAML';
 import resPasswordlessUnauthenticated from 'helpers/xhr/PASSWORDLESS_UNAUTHENTICATED';
 import resUnauthenticated from 'helpers/xhr/UNAUTHENTICATED';
+import resErrorUnauthorized from 'helpers/xhr/UNAUTHORIZED_ERROR';
 import resSecurityImage from 'helpers/xhr/security_image';
 import resSecurityImageFail from 'helpers/xhr/security_image_fail';
 import IDPDiscovery from 'models/IDPDiscovery';
@@ -126,8 +127,8 @@ function setupSocial(settings) {
     )
   ).then(function(test) {
     spyOn(window, 'open').and.callFake(function() {
-      test.oidcWindow = { 
-        closed: false, 
+      test.oidcWindow = {
+        closed: false,
         close: jasmine.createSpy(),
         location: {
           assign: jasmine.createSpy()
@@ -139,11 +140,11 @@ function setupSocial(settings) {
   });
 }
 
-function setupPasswordlessAuth(requests) {
-  return setup({ 'features.passwordlessAuth': true }, requests).then(function(test) {
+function setupPasswordlessAuth(primaryAuthResponse) {
+  return setup({ 'features.passwordlessAuth': true }).then(function(test) {
     Util.mockRouterNavigate(test.router);
     test.setNextWebfingerResponse(resSuccessOktaIDP);
-    test.setNextResponse(resPasswordlessUnauthenticated);
+    test.setNextResponse(primaryAuthResponse ? primaryAuthResponse : resPasswordlessUnauthenticated);
     return test;
   });
 }
@@ -869,7 +870,7 @@ Expect.describe('IDPDiscovery', function() {
           expect(ajaxArgs.requestHeaders['X-Device-Fingerprint']).toBeUndefined();
         });
     });
-    itp('renders primary auth with a device fingerprint for passwordless flow during idp discovery', 
+    itp('renders primary auth with a device fingerprint for passwordless flow during idp discovery',
       function() {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
           const deferred = Q.defer();
@@ -880,7 +881,7 @@ Expect.describe('IDPDiscovery', function() {
           .then(function(test) {
             Util.resetAjaxRequests();
             Util.mockRouterNavigate(test.router);
-            test.setNextWebfingerResponse(resSuccessOktaIDP);  
+            test.setNextWebfingerResponse(resSuccessOktaIDP);
             test.setNextResponse(resPasswordlessUnauthenticated);
             test.form.setUsername('testuser@clouditude.net');
             test.form.submit();
@@ -892,7 +893,7 @@ Expect.describe('IDPDiscovery', function() {
             expect(ajaxArgs.requestHeaders['x-device-fingerprint']).toBe('thisIsTheDeviceFingerprint');
           });
       });
-    itp('renders primary auth with a device fingerprint when passwordless is disabled during idp discovery', 
+    itp('renders primary auth with a device fingerprint when passwordless is disabled during idp discovery',
       function() {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
           const deferred = Q.defer();
@@ -902,7 +903,7 @@ Expect.describe('IDPDiscovery', function() {
         return setup({ features: {deviceFingerprinting: true}})
           .then(function(test) {
             Util.mockRouterNavigate(test.router);
-            test.setNextWebfingerResponse(resSuccessOktaIDP);  
+            test.setNextWebfingerResponse(resSuccessOktaIDP);
             test.setNextResponse(resUnauthenticated);
             test.form.setUsername('testuser@clouditude.net');
             test.form.submit();
@@ -921,7 +922,7 @@ Expect.describe('IDPDiscovery', function() {
             expect(ajaxArgs.requestHeaders['x-device-fingerprint']).toBe('thisIsTheDeviceFingerprint');
           });
       });
-    itp('renders primary auth when device fingerprint generation fails', 
+    itp('renders primary auth when device fingerprint generation fails',
       function() {
         spyOn(DeviceFingerprint, 'generateDeviceFingerprint').and.callFake(function() {
           const deferred = Q.defer();
@@ -932,7 +933,7 @@ Expect.describe('IDPDiscovery', function() {
           .then(function(test) {
             Util.resetAjaxRequests();
             Util.mockRouterNavigate(test.router);
-            test.setNextWebfingerResponse(resSuccessOktaIDP);  
+            test.setNextWebfingerResponse(resSuccessOktaIDP);
             test.setNextResponse(resPasswordlessUnauthenticated);
             test.form.setUsername('testuser@clouditude.net');
             test.form.submit();
@@ -1605,6 +1606,21 @@ Expect.describe('IDPDiscovery', function() {
         })
         .then(function(test) {
           expect(test.form.el('factor-question').length).toEqual(1);
+        });
+    });
+    itp('shows an error when response is unauthorized', function() {
+      return setupPasswordlessAuth(resErrorUnauthorized)
+        .then(function(test) {
+          Util.resetAjaxRequests();
+          test.form.setUsername('testuser@test.com');
+          test.form.submit();
+          return Expect.waitForFormError(test.form, test);
+        })
+        .then(function(test) {
+          expect(test.beacon.isLoadingBeacon()).toBe(false);
+          expect(test.beacon.beacon().length).toBe(0);
+          expect(test.form.hasErrors()).toBe(true);
+          expect(test.form.errorMessage()).toBe('Unable to sign in');
         });
     });
   });
