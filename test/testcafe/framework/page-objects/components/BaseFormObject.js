@@ -119,6 +119,10 @@ export default class BaseFormObject {
     return this.el.find(FORM_INFOBOX_ERROR).innerText;
   }
 
+  getAllErrorBoxTexts() {
+    return this.getInnerTexts(FORM_INFOBOX_ERROR);
+  }
+
   // Field error
   /**
    * @deprecated see hasTextBoxErrorMessage

@@ -1,0 +1,103 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02f9EONFMnQZtAQHl7Gf4Ye-R4mXc8cOhBUSMc7ubQ",
+  "expiresAt": "2021-11-02T22:10:41.000Z",
+  "step":"IDENTIFY",
+  "intent":"LOGIN",
+  "remediation":{
+     "type":"array",
+     "value":[
+        {
+            "rel":[
+              "create-form"
+            ],
+            "name":"identify",
+            "href":"http://localhost:3000/idp/idx/identify",
+            "method":"POST",
+            "accepts":"application/vnd.okta.v1+json",
+            "value":[
+              {
+                  "name":"identifier",
+                  "label":"Username"
+              },
+              {
+               "name":"rememberMe",
+               "label":"Remember Me",
+               "type":"boolean"
+              },
+              {
+                  "name":"stateHandle",
+                  "required":true,
+                  "value":"",
+                  "visible":false,
+                  "mutable":false
+              }
+            ]
+        },
+        {
+           "rel":[
+              "create-form"
+           ],
+           "name":"select-enroll-profile",
+           "href":"http://localhost:3000/idp/idx/enroll",
+           "method":"POST",
+           "accepts":"application/vnd.okta.v1+json",
+           "value":[
+              {
+                 "name":"stateHandle",
+                 "required":true,
+                 "value":"eyJ6aXAiOiJE",
+                 "visible":false,
+                 "mutable":false
+              }
+           ]
+        }
+     ]
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02f9EONFMnQZtAQHl7Gf4Ye-R4mXc8cOhBUSMc7ubQ",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "",
+        "i18n": {
+          "key": "error.username.required"
+        },
+        "class": "ERROR"
+      },
+      {
+        "message": "",
+        "i18n": {
+          "key": "error.password.required"
+        },
+        "class": "ERROR"
+      },
+      {
+        "message": "",
+        "i18n": {
+          "key": "error.expired.session"
+        },
+        "class": "ERROR"
+      }
+    ]
+  }
+}
+  
