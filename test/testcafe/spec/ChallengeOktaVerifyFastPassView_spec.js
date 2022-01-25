@@ -5,8 +5,8 @@ import BasePageObject from '../framework/page-objects/BasePageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 import identifyWithUserVerificationLoopback from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-loopback';
-import identifyWithUserVerificationLoopbackBiometricsErrorMobile from '../../../playground/mocks/data/idp/idx/error-okta-verify-uv-fastpass-verify-enable-biometrics-mobile.json';
-import identifyWithUserVerificationLoopbackBiometricsErrorDesktop from '../../../playground/mocks/data/idp/idx/error-okta-verify-uv-fastpass-verify-enable-biometrics-desktop.json';
+import identifyWithUserVerificationBiometricsErrorMobile from '../../../playground/mocks/data/idp/idx/error-okta-verify-uv-fastpass-verify-enable-biometrics-mobile.json';
+import identifyWithUserVerificationBiometricsErrorDesktop from '../../../playground/mocks/data/idp/idx/error-okta-verify-uv-fastpass-verify-enable-biometrics-desktop.json';
 import identifyWithUserVerificationCustomURI from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-custom-uri';
 import identifyWithSSOExtensionFallback from '../../../playground/mocks/data/idp/idx/identify-with-apple-sso-extension-fallback';
 import identifyWithUserVerificationLaunchUniversalLink from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-universal-link';
@@ -47,7 +47,6 @@ const loopbackSuccesskMock = RequestMock()
     'access-control-allow-methods': 'POST, OPTIONS'
   });
 
-const loopbackBiometricsErrorLogger = RequestLogger(/introspect|probe|cancel|launch|poll/);
 const loopbackBiometricsErrorMobileMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithUserVerificationLoopback)
@@ -55,7 +54,7 @@ const loopbackBiometricsErrorMobileMock = RequestMock()
   .respond((req, res) => {
     if (probeSuccess) {
       res.statusCode = '400';
-      res.setBody(identifyWithUserVerificationLoopbackBiometricsErrorMobile);
+      res.setBody(identifyWithUserVerificationBiometricsErrorMobile);
     } else {
       res.statusCode = '200';
       res.setBody(identifyWithUserVerificationLoopback);
@@ -69,7 +68,7 @@ const loopbackBiometricsErrorDesktopMock = RequestMock()
   .respond((req, res) => {
     if (probeSuccess) {
       res.statusCode = '400';
-      res.setBody(identifyWithUserVerificationLoopbackBiometricsErrorDesktop);
+      res.setBody(identifyWithUserVerificationBiometricsErrorDesktop);
     } else {
       res.statusCode = '200';
       res.setBody(identifyWithUserVerificationLoopback);
@@ -103,6 +102,18 @@ const customURIMock = RequestMock()
   .onRequestTo(mockHttpCustomUri)
   .respond('<html><h1>open universal link</h1></html>');
 
+const customURIBiometricsErrorMock = RequestMock()
+  .onRequestTo(/idp\/idx\/introspect/)
+  .respond(identifyWithLaunchAuthenticatorHttpCustomUri)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond((req, res) => {
+    res.statusCode = '400';
+    res.setBody(identifyWithUserVerificationBiometricsErrorDesktop);
+  })
+  .onRequestTo(mockHttpCustomUri)
+  .respond('<html><h1>open universal link</h1></html>');
+
+
 const identifyWithSSOExtensionFallbackWithoutLink = JSON.parse(JSON.stringify(identifyWithSSOExtensionFallback));
 // remove the universal link so that Util.redirect does not open a link and the rest of the flow can be verified
 delete identifyWithSSOExtensionFallbackWithoutLink.authenticatorChallenge.value.href;
@@ -117,6 +128,17 @@ const universalLinkWithoutLaunchMock = RequestMock()
   .respond('<html><h1>open universal link</h1></html>')
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithUserVerificationLaunchUniversalLink);
+
+const universalLinkWithoutLaunchBiometricsErrorMock = RequestMock()
+  .onRequestTo(/idp\/idx\/introspect/)
+  .respond(identifyWithUserVerificationLaunchUniversalLink)
+  .onRequestTo(mockHttpCustomUri)
+  .respond('<html><h1>open universal link</h1></html>')
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond((req, res) => {
+    res.statusCode = '400';
+    res.setBody(identifyWithUserVerificationBiometricsErrorMobile);
+  });
 
 const identifyWithSSOExtensionFallbackTarget = JSON.parse(JSON.stringify(identifyWithSSOExtensionFallback));
 // replace universal link with http URL so that we can mock and verify
@@ -141,6 +163,16 @@ const LoginHintAppLinkMock = RequestMock()
   .respond(assureWithLaunchAppLink)
   .onRequestTo(loginHintAppLink)
   .respond('<html><h1>open app link with login_hint</h1></html>');
+
+const userVerificationAppLinkBiometricsError = RequestMock()
+  .onRequestTo(/idp\/idx\/introspect/)
+  .respond(assureWithLaunchAppLink)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond((req, res) => {
+    res.statusCode = '400';
+    res.setBody(identifyWithUserVerificationBiometricsErrorMobile);
+  });
+
 fixture('Device Challenge Polling View for user verification and MFA with the Loopback Server, Custom URI and Universal Link approaches');
 
 async function setup(t) {
@@ -187,7 +219,7 @@ test
   });
 
 test
-  .requestHooks(loopbackBiometricsErrorLogger, loopbackBiometricsErrorMobileMock)('in loopback server clamshell mode, show biometrics error for mobile when polling returns such response', async t => {
+  .requestHooks(loopbackBiometricsErrorMobileMock)('show biometrics error for mobile platform in loopback', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
@@ -207,7 +239,7 @@ test
   });
 
 test
-  .requestHooks(loopbackBiometricsErrorLogger, loopbackBiometricsErrorDesktopMock)('in loopback server clamshell mode, show biometrics error for desktop when polling returns such response', async t => {
+  .requestHooks(loopbackBiometricsErrorDesktopMock)('show biometrics error for desktop platform in loopback', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
@@ -260,6 +292,20 @@ test
   });
 
 test
+  .requestHooks(customURIBiometricsErrorMock)('show biometrics error for desktop platform in custom URI', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+
+    const errorText = deviceChallengePollPageObject.getErrorBox().innerText;
+    await t.expect(errorText).contains('Biometrics needed for Okta Verify');
+    await t.expect(errorText).contains('Your response was received, but your organization requires biometrics.');
+    await t.expect(errorText).contains('Make sure you meet the following requirements, then try again');
+    await t.expect(errorText).contains('Your device supports biometrics');
+    await t.expect(errorText).contains('Okta Verify is up-to-date');
+    await t.expect(errorText).contains('In Okta Verify, biometrics are enabled for your account');
+    await t.expect(errorText).contains('Your device\'s biometric sensors are accessible');
+  });
+
+test
   .requestHooks(loopbackFallbackLogger, universalLinkWithoutLaunchMock)('SSO Extension fails and falls back to universal link', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
@@ -282,6 +328,20 @@ test
     await t.expect(Selector('h1').innerText).eql('open universal link');
     await t.expect(await (new BasePageObject()).getPageUrl()).contains(mockHttpCustomUri);
   });
+  
+test
+  .requestHooks(universalLinkWithoutLaunchBiometricsErrorMock)('show biometrics error for mobile platform in universal link', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+
+    const errorText = deviceChallengePollPageObject.getErrorBox().innerText;
+    await t.expect(errorText).contains('Biometrics needed for Okta Verify');
+    await t.expect(errorText).contains('Your response was received, but your organization requires biometrics.');
+    await t.expect(errorText).contains('Make sure you meet the following requirements, then try again');
+    await t.expect(errorText).contains('Your device supports biometrics');
+    await t.expect(errorText).contains('Okta Verify is up-to-date');
+    await t.expect(errorText).contains('In Okta Verify, biometrics are enabled for your account');
+    await t.expect(errorText).notContains('Your device\'s biometric sensors are accessible');
+  });
 
 test
   .requestHooks(loopbackFallbackLogger, universalLinkMock)('clicking the launch Okta Verify button opens the universal link', async t => {
@@ -298,6 +358,21 @@ test
   });
 
 const getPageUrl = ClientFunction(() => window.location.href);
+
+test
+  .requestHooks(userVerificationAppLinkBiometricsError)('show biometrics error for mobile platform in app link', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+
+    const errorText = deviceChallengePollPageObject.getErrorBox().innerText;
+    await t.expect(errorText).contains('Biometrics needed for Okta Verify');
+    await t.expect(errorText).contains('Your response was received, but your organization requires biometrics.');
+    await t.expect(errorText).contains('Make sure you meet the following requirements, then try again');
+    await t.expect(errorText).contains('Your device supports biometrics');
+    await t.expect(errorText).contains('Okta Verify is up-to-date');
+    await t.expect(errorText).contains('In Okta Verify, biometrics are enabled for your account');
+    await t.expect(errorText).notContains('Your device\'s biometric sensors are accessible');
+  });
+
 test
   .requestHooks(LoginHintAppLinkMock)('expect login_hint in AppLink when engFastpassMultipleAccounts is on', async t => {
     const identityPage = await setupLoopbackFallback(t);

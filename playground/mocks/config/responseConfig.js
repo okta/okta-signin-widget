@@ -445,23 +445,14 @@ const userVerificationLoopback = {
   ],
 };
 
-// user verification: loopback with biometrics error for Windows/MacOS
-const userVerificationDesktopLoopbackBiometricsError = {
+// user verification: loopback with biometrics error
+const userVerificationLoopbackBiometricsError = {
   '/idp/idx/introspect': [
     'authenticator-verification-okta-verify-signed-nonce-loopback'
   ],
   '/idp/idx/authenticators/poll': [
     'error-okta-verify-uv-fastpass-verify-enable-biometrics-desktop',
-  ],
-};
-
-// user verification: loopback with biometrics error for Android
-const userVerificationMobileLoopbackBiometricsError = {
-  '/idp/idx/introspect': [
-    'authenticator-verification-okta-verify-signed-nonce-loopback'
-  ],
-  '/idp/idx/authenticators/poll': [
-    'error-okta-verify-uv-fastpass-verify-enable-biometrics-mobile',
+    // 'error-okta-verify-uv-fastpass-verify-enable-biometrics-mobile',
   ],
 };
 
@@ -476,6 +467,16 @@ const userVerificationCustomUri = {
   '/idp/idx/authenticators/okta-verify/launch': [
     'authenticator-verification-okta-verify-signed-nonce-custom-uri',
   ]
+};
+
+// user verification: custom URI with biometrics error
+const userVerificationCustomUriBiometricsError = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-okta-verify-signed-nonce-custom-uri',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'error-okta-verify-uv-fastpass-verify-enable-biometrics-desktop',
+  ],
 };
 
 // user verification: Android authenticator with app link
@@ -494,13 +495,34 @@ const userVerificationAppLink = {
   ]
 };
 
+// user verification: App link with biometrics error
+const userVerificationAppLinkBiometricsError = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-okta-verify-signed-nonce-app-link',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'error-okta-verify-uv-fastpass-verify-enable-biometrics-mobile',
+  ],
+};
+
 // user verification: Apple authenticator with Credential SSO extension
 const userVerificationCredentialSSOExtension = {
   '/idp/idx/introspect': [
     'authenticator-verification-okta-verify-signed-nonce-credential-sso-extension'
   ],
   '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify/cancel': [
-    'identify'
+    'identify'// see playground/mocks/spec-okta-api/idp/idx/index.js for details
+  ],
+};
+
+// user verification: Credential SSO extension with biometrics error
+const userVerificationCredentialSSOExtensionBiometricsError = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-okta-verify-signed-nonce-credential-sso-extension'
+  ],
+  '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify': [
+    'error-okta-verify-uv-fastpass-verify-enable-biometrics-mobile'
+    //'error-okta-verify-uv-fastpass-verify-enable-biometrics-desktop'
   ],
 };
 
@@ -517,6 +539,16 @@ const userVerificationUniversalLink = {
     'authenticator-verification-okta-verify-signed-nonce-universal-link',
     'authenticator-verification-okta-verify-signed-nonce-universal-link',
     'success',
+  ],
+};
+
+// user verification: universal link with biometrics error
+const userVerificationUniversalLinkBiometricsError = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-okta-verify-signed-nonce-universal-link',
+  ],
+  '/idp/idx/authenticators/poll': [
+    'error-okta-verify-uv-fastpass-verify-enable-biometrics-mobile'
   ],
 };
 
