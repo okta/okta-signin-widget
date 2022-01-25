@@ -103,6 +103,10 @@ export default PrimaryAuthController.extend({
       );
 
       // Events to set the transaction attributes on the app state.
+      this.listenTo(primaryAuthModel, 'error', function(src, errObj) {
+        this.toggleButtonState(false);
+        this.model.trigger('error', this.model, errObj);
+      });
       this.addModelListeners(primaryAuthModel);
       // Make the primary auth request
       primaryAuthModel.save();
