@@ -158,20 +158,22 @@ export default Form.extend({
     if (Array.isArray(messages.value) && !(options instanceof View)) {
       this.add('<div class="ion-messages-container"></div>', errContainer);
       messages.value.forEach(obj => {
-        const {
-          class: msgClass = '',
-          title = '',
-          message,
-        } = obj;
-        if(!msgClass || msgClass === INFO_MESSAGE_CLASS) {
+        if(!obj?.class || obj.class === INFO_MESSAGE_CLASS) {
           // add message as plain text
-          this.add(`<p>${message}</p>`, '.ion-messages-container');
+          this.add(`<p>${obj.message}</p>`, '.ion-messages-container');
         } else {
+          const errorObj = {
+            class: obj?.class ?? '',
+            message: obj?.message,
+            title: '',
+            ...options
+          };
           this.add(createCallout({
-            content: message,
-            type: msgClass.toLowerCase(),
-            title: title
+            content: errorObj.message,
+            type: errorObj.class.toLowerCase(),
+            title: errorObj.title
           }), errContainer);
+          options = null; // prevent repeating first error message
         }
       });
     } else if (options instanceof View) {
