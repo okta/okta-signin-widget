@@ -224,8 +224,9 @@ const authn = {
     // 'device-code-activate'
   ],
   '/api/v1/authn': [
-    'unauthenticated',
-    'success-001'
+    'error-authentication-failed',
+    // 'unauthenticated',
+    // 'success-001'
     // 'consent-required',
     // 'device-code-activate',
   ],
@@ -235,6 +236,9 @@ const authn = {
     // 'terminal-device-not-activated-internal-error'
     // 'error-invalid-device-code'
   ],
+  '/.well-known/webfinger': [
+    'forced-idp-discovery-okta-idp'
+  ]
 };
 
 // email enroll
