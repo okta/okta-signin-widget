@@ -13,6 +13,8 @@ import XHRIdentify from '../../../../playground/mocks/data/idp/idx/identify.json
 import ResetPassword from '../../../../playground/mocks/data/idp/idx/authenticator-reset-password.json';
 import EnrollProfile from '../../../../playground/mocks/data/idp/idx/enroll-profile.json';
 import UserUnlockAccount from '../../../../playground/mocks/data/idp/idx/user-unlock-account.json';
+import UnauthorizedClientError from '../../../../playground/mocks/data/idp/idx/error-400-unauthorized-client.json';
+import FakeIdxClientError from '../../../../playground/mocks/data/idp/idx/error-400-fake-error.json';
 import RAW_IDX_RESPONSE from 'helpers/v2/idx/fullFlowResponse';
 
 const TestRouter = BaseLoginRouter.extend({
@@ -34,9 +36,9 @@ describe('v2/BaseLoginRouter', function() {
     testContext = {};
   });
 
-  function mockXhr(jsonResponse) {
+  function mockXhr(jsonResponse, status=200) {
     return {
-      status: 200,
+      status,
       responseType: 'json',
       response: jsonResponse,
     };
@@ -98,6 +100,62 @@ describe('v2/BaseLoginRouter', function() {
     jest.resetAllMocks();
     localStorage.clear();
     sessionStorage.clear();
+  });
+
+  describe('error handling', () => {
+    it('should render error message when /interact fails with fake error', async function() {
+      // jest.spyOn(mocked.interact, 'interact').mockRejectedValue({error: FakeIdxClientError});
+      jest.spyOn(TestRouter.prototype, 'handleError');
+      const globalErrorFn = jest.fn();  // prevents error from being logged to test console as well
+
+      setup({
+        useInteractionCodeFlow: true,
+        globalErrorFn,
+        codeChallenge: 'fake' // avoid calculating PKCE values
+      });
+
+      Util.mockAjax([
+        mockXhr(XHRWellKnown),
+        mockXhr(FakeIdxClientError, 400)
+      ]);
+
+      await testContext.router.render(FormController);
+      expect(testContext.router.handleError).toHaveBeenCalledWith(FakeIdxClientError);
+      expect(globalErrorFn).toBeCalledWith(FakeIdxClientError);
+      expect(testContext.afterErrorHandler).toHaveBeenCalledTimes(0);
+      expect(testContext.afterRenderHandler).toHaveBeenCalledTimes(1);
+      expect(testContext.router.header.$el.css('display')).toBe('block');
+      expect(testContext.router.controller.$el.find('.o-form-error-container').text()).toBe(
+        'Something went wrong. Potential misconfiguration detected. Please contact support.'
+      );
+    });
+
+    it('should render error message when /interact fails with possible configuration error', async function() {
+      // jest.spyOn(mocked.interact, 'interact').mockRejectedValue({error: UnauthorizedClientError});
+      jest.spyOn(TestRouter.prototype, 'handleError');
+      const globalErrorFn = jest.fn();  // prevents error from being logged to test console as well
+
+      setup({
+        useInteractionCodeFlow: true,
+        globalErrorFn,
+        codeChallenge: 'fake' // avoid calculating PKCE values
+      });
+
+      Util.mockAjax([
+        mockXhr(XHRWellKnown),
+        mockXhr(UnauthorizedClientError, 400)
+      ]);
+
+      await testContext.router.render(FormController);
+      expect(testContext.router.handleError).toHaveBeenCalledWith(UnauthorizedClientError);
+      expect(globalErrorFn).toBeCalledWith(UnauthorizedClientError);
+      expect(testContext.afterErrorHandler).toHaveBeenCalledTimes(0);
+      expect(testContext.afterRenderHandler).toHaveBeenCalledTimes(1);
+      expect(testContext.router.header.$el.css('display')).toBe('block');
+      expect(testContext.router.controller.$el.find('.o-form-error-container').text()).toBe(
+        'Something went wrong. Potential misconfiguration detected. Please contact support.'
+      );
+    });
   });
 
   it('should render without error when flow not provided', async function() {
