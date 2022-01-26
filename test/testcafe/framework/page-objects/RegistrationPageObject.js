@@ -9,7 +9,6 @@ const BACK = 'a[data-se="back"]';
 export default class RegistrationPageObject extends BasePageObject {
   constructor(t) {
     super(t);
-    this.url = '/signin/register';
   }
 
   fillFirstNameField(value) {
