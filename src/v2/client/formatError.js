@@ -40,6 +40,29 @@ export function formatOIENotEnabledError(error) {
   return error;
 }
 
+export function isOIEConfigurationError(error) {
+  return (error?.error && error.error_description);
+}
+
+export function formatOIEConfigurationError(error) {
+  // This error comes from `oauth2/introspect` so is not an IDX error.
+  // simulate an IDX-JS error response
+  error = formatIDXError(error);
+  const { details } = error;
+  const messages = {
+    type: 'array',
+    value: [
+      {
+        message: loc('oie.configuration.error', 'login'),
+        class: 'ERROR'
+      }
+    ],
+  };
+  details.rawIdxState.messages = messages;
+  details.context.messages = messages;
+  return error;
+}
+
 export function formatIDXError(error) {
   // Make the error object resemble an IDX response
   error.details = error.details || {};
@@ -76,6 +99,10 @@ export function formatError(error) {
   // The response is not in IDX format. See playground/mocks/data/oauth2/error-feature-not-enabled.json
   if (isOIENotEnabledError(error)) {
     return formatOIENotEnabledError(error);
+  }
+
+  if (isOIEConfigurationError(error)) {
+    return formatOIEConfigurationError(error);
   }
   
   error = formatIDXError(error);
