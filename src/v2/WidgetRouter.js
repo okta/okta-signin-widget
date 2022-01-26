@@ -18,21 +18,12 @@ import ForgotPasswordFormController from './controllers/ForgotPasswordFormContro
 module.exports = BaseLoginRouter.extend({
   routes: {
     '': 'defaultAuth',
-    'signin/register': 'renderRegister',
     'signin/forgot-password': 'renderForgotPassword',
     '*wildcard': 'defaultAuth',
   },
 
   defaultAuth: function() {
     this.render(FormController);
-  },
-
-  /**
-   * Bootstrap registration flow when navigates
-   * to '/signin/register' directly.
-   */
-  renderRegister() {
-    this.render(RegistrationFormController);
   },
 
   /**

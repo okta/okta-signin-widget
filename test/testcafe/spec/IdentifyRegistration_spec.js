@@ -46,10 +46,6 @@ const logger = RequestLogger(
   }
 );
 
-const enrolProfileDisabledMock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(identifyWithoutEnrollProfile);
-
 fixture('Registration');
 
 async function setup(t) {
@@ -217,13 +213,15 @@ test.requestHooks(mock)('should show terminal screen after registration', async 
   ]);
 });
 
-test.requestHooks(mock)('should show register page directly and be able to create account', async t => {
-  const registrationPage = new RegistrationPageObject(t);
-
-  // navigate to /signin/register and show registration page immediately
-  await registrationPage.navigateToPage();
+test.requestHooks(mock)('should be able to create account', async t => {
+  const registrationPage = await setup(t);
   await checkConsoleMessages([
     'ready',
+    'afterRender',
+    {
+      controller: 'primary-auth',
+      formName: 'identify',
+    },
     'afterRender',
     {
       controller: 'registration',
@@ -243,6 +241,11 @@ test.requestHooks(mock)('should show register page directly and be able to creat
     'ready',
     'afterRender',
     {
+      controller: 'primary-auth',
+      formName: 'identify',
+    },
+    'afterRender',
+    {
       controller: 'registration',
       formName: 'enroll-profile',
     },
@@ -255,8 +258,7 @@ test.requestHooks(mock)('should show register page directly and be able to creat
 });
 
 test.requestHooks(logger, enrollProfileNewMock)('should be able to create a new account after previous attempt failed server validation', async t => {
-  const registrationPage = new RegistrationPageObject(t);
-  await registrationPage.navigateToPage();
+  const registrationPage = await setup(t);
 
   //create new account
   await registrationPage.fillFirstNameField('abc');
@@ -291,26 +293,6 @@ test.requestHooks(logger, enrollProfileNewMock)('should be able to create a new 
       email: 'newFoo@ex.com'
     }
   });
-});
-
-test.requestHooks(enrolProfileDisabledMock)('should show terminal error when registration is not supported', async t => {
-  const registrationPage = new RegistrationPageObject(t);
-
-  // navigate to /signin/register and show registration page immediately
-  await registrationPage.navigateToPage();
-  await checkConsoleMessages([
-    'ready',
-    'afterRender',
-    {
-      controller: null,
-      formName: 'terminal',
-    }
-  ]);
-
-  // expect terminal errors
-  await t.expect(registrationPage.form.getTitle()).eql('Sign up');
-  await t.expect(registrationPage.form.getErrorBoxText()).eql('Sign up is not enabled for this organization.');
-  await t.expect(await registrationPage.goBackLinkExists()).ok();
 });
 
 test.requestHooks(mock)('should call settings.registration.click on "Sign Up" click, instead of moving to registration page', async t => {
