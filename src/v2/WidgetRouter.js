@@ -12,7 +12,6 @@
 
 import BaseLoginRouter from './BaseLoginRouter';
 import FormController from './controllers/FormController';
-import RegistrationFormController from './controllers/RegistrationFormController';
 import ForgotPasswordFormController from './controllers/ForgotPasswordFormController';
 
 module.exports = BaseLoginRouter.extend({
