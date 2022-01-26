@@ -26,6 +26,12 @@ The existing `.widgetrc` file used to configure the Widget has been **removed**.
 - }
 ```
 
+## Migrating from 5.x to 6.x
+
+### Minimum version of `@okta/okta-auth-js` is `6.0.0`
+
+If you are creating an instance of [@okta/okta-auth-js](https://github.com/okta/okta-auth-js) and passing it to the widget using the [authClient](https://github.com/okta/okta-signin-widget#authClient) option, the instance must be version `6.0.0` or higher.
+
 ## Migrating from 4.x to 5.x
 
 ### `showSignInToGetTokens` no longer redirects
