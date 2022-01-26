@@ -4,6 +4,7 @@ import { _, Form, loc, internal, createCallout, View } from 'okta';
 import FormInputFactory from './FormInputFactory';
 
 const { FormUtil } = internal.views.forms.helpers;
+const INFO_MESSAGE_CLASS = 'INFO';
 
 export default Form.extend({
 
@@ -157,17 +158,22 @@ export default Form.extend({
     if (Array.isArray(messages.value) && !(options instanceof View)) {
       this.add('<div class="ion-messages-container"></div>', errContainer);
       messages.value.forEach(obj => {
-        if(!obj?.class || obj.class === 'INFO') {
+        if(!obj?.class || obj.class === INFO_MESSAGE_CLASS) {
           // add message as plain text
           this.add(`<p>${obj.message}</p>`, '.ion-messages-container');
         } else {
-          // add error callout with custom options
-          options = Object.assign(_.pick(obj, 'message', 'class'), options);
+          const errorObj = {
+            class: obj?.class ?? '',
+            message: obj?.message,
+            title: '',
+            ...options
+          };
           this.add(createCallout({
-            content: options.message,
-            type: (options.class || '').toLowerCase(),
-            title: options.title ? options.title : ''
+            content: errorObj.message,
+            type: errorObj.class.toLowerCase(),
+            title: errorObj.title
           }), errContainer);
+          options = null; // prevent repeating first error message
         }
       });
     } else if (options instanceof View) {

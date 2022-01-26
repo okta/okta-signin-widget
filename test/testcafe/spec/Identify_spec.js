@@ -7,6 +7,8 @@ import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-ident
 import xhrAuthenticatorVerifySelect from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
 import xhrAuthenticatorOVTotp from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp';
 import xhrIdentifyWithUser from '../../../playground/mocks/data/idp/idx/identify-with-user';
+import xhrErrorIdentifyMultipleErrors from '../../../playground/mocks/data/idp/idx/error-identify-multiple-errors';
+
 import config from '../../../src/config/config.json';
 
 const baseIdentifyMock = RequestMock()
@@ -78,6 +80,10 @@ const identifyThenSelectAuthenticatorMock = RequestMock()
 const identifyWithUserMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentifyWithUser);
+
+const errorsIdentifyMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrErrorIdentifyMultipleErrors);
 
 const identifyRequestLogger = RequestLogger(
   /idx\/identify|\/challenge/,
@@ -409,4 +415,15 @@ test.requestHooks(identifyRequestLogger, identifyWithUserMock)('should never ren
 
   const identifierContainer = identityPage.form.getElement('.identifier-container').exists;
   await t.expect(identifierContainer).eql(false);
+});
+
+test.requestHooks(identifyRequestLogger, errorsIdentifyMock)('should render each error message when there are multiple', async t => {
+  const identityPage = await setup(t);
+
+  const errors = identityPage.form.getAllErrorBoxTexts();
+  await t.expect(errors).eql([
+    'Please enter a username',
+    'Please enter a password',
+    'Your session has expired. Please try to sign in again.'
+  ]);
 });

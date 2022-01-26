@@ -1,0 +1,292 @@
+{
+  "stateHandle": "02im-3M2f6UXHgNfS7Ns7C85EKHzGaKw0u1CC4p9_r",
+  "version": "1.0.0",
+  "expiresAt": "2020-01-13T21:14:37.000Z",
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "You have chosen to reject this login.",
+        "i18n": {
+          "key": "api.authn.poll.error.push_rejected",
+          "params": []
+        },
+        "class": "ERROR"
+      },
+      {
+        "message": "",
+        "i18n": {
+          "key": "error.username.required"
+        },
+        "class": "ERROR"
+      },
+      {
+        "message": "",
+        "i18n": {
+          "key": "error.password.required"
+        },
+        "class": "ERROR"
+      },
+      {
+        "message": "",
+        "i18n": {
+          "key": "error.expired.session"
+        },
+        "class": "ERROR"
+      }
+    ]
+  },
+  "remediation": {
+    "type":"array",
+    "value":[
+      {
+        "rel":[
+          "create-form"
+        ],
+        "name":"resend",
+        "relatesTo":[
+          "$.currentAuthenticator"
+        ],
+        "href":"http://localhost:3000/idp/idx/challenge",
+        "method":"POST",
+        "accepts":"application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "label": "Okta Verify",
+            "value": {
+              "form": {
+                "value": [
+                  {
+                    "name": "id",
+                    "value": "auteq0lLiL9o1cYoN0g4",
+                    "required": true,
+                    "mutable": false
+                  },
+                  {
+                    "name": "methodType",
+                    "value" : "push",
+                    "label" :  "PUSH",
+                    "required": true,
+                    "mutable": false
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "022P5Fd8jBy3b77XEdFCqnjz__5wQxksRfrAS4z6wP",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-authenticate",
+        "href": "http://localhost:3000/idp/idx/challenge",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "auttheidkwh282hv8g3",
+                        "required": true,
+                        "mutable": false,
+                        "visible": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "mutable": true,
+                        "visible": false,
+                        "type": "string",
+                        "options": [
+                          {
+                            "value": "signed_nonce",
+                            "label": "Use Okta FastPass"
+                          },
+                          {
+                            "value": "push",
+                            "label": "Get a push notification"
+                          },
+                          {
+                            "value": "totp",
+                            "label": "Enter a code"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              },
+              {
+                "label": "Okta Password",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aidwboITrg4b4yAYd0g3",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "password",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[2]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02im-3M2f6UXHgNfS7Ns7C85EKHzGaKw0u1CC4p9_r",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    ]
+  },
+  "currentAuthenticator":{
+    "type":"object",
+    "value": {
+      "type": "app",
+      "key": "okta_verify",
+      "id": "auttheidkwh282hv8g3",
+      "displayName": "",
+      "methods": [
+        { "type": "push" }
+      ]
+    }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "app",
+        "key": "okta_verify",
+        "id": "auteq0lLiL9o1cYoN0g4",
+        "displayName": "",
+        "methods": [
+          {
+            "type": "signed_nonce"
+          },
+          {
+            "type": "push"
+          },
+          {
+            "type": "totp"
+          }
+        ]
+      },
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "autepwdJFCg0J7vK60g4",
+        "displayName": "Okta Password",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ]
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "displayName": "",
+        "type": "app",
+        "key": "okta_verify",
+        "id": "aen1mz5J4cuNoaR3l0g4",
+        "authenticatorId": "auttheidkwh282hv8g3",
+        "methods": [ 
+          { "type": "signed_nonce" },
+          { "type": "push" },
+          { "type": "totp" }
+        ]
+      },
+      {
+        "displayName": "",
+        "type": "app",
+        "key": "okta_verify",
+        "id": "aen1mz5J4cuNoaR3l0g3",
+        "authenticatorId": "auttheidkwh282hv8g3",
+        "methods": [ 
+          { "type": "signed_nonce" },
+          { "type": "push" },
+          { "type": "totp" }
+        ]
+      },
+      {
+        "displayName": "Okta Password",
+        "type": "password",
+        "key": "okta_password",
+        "id": "autwa6eD9o02iBbtv0g1",
+        "authenticatorId": "aidwboITrg4b4yAYd0g3",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ]
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00utjm1GstPjCF9Ad0g3"
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "https://idx.okta1.com/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02im-3M2f6UXHgNfS7Ns7C85EKHzGaKw0u1CC4p9_r",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  },
+  "app": {
+     "type": "object",
+     "value": {
+        "name": "oidc_client",
+        "label": "Native client",
+        "id": "0oa2lpzzzJHJy0E6q0g4"
+    }
+  }
+}
