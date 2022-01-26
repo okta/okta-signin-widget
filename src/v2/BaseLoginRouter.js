@@ -14,7 +14,8 @@
 // BaseLoginRouter contains the more complicated router logic - rendering/
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
-import { _, $, Backbone, Router, loc } from 'okta';
+import { _, $, Backbone, Router, View, loc } from 'okta';
+import hbs from 'handlebars-inline-precompile';
 import Settings from 'models/Settings';
 import Bundles from 'util/Bundles';
 import BrowserFeatures from 'util/BrowserFeatures';
@@ -101,12 +102,12 @@ export default Router.extend({
   },
 
   async handleUpdateAppState(idxResponse) {
-    // Only update the cookie when the user has successfully authenticated themselves 
+    // Only update the cookie when the user has successfully authenticated themselves
     // to avoid incorrect/unnecessary updates.
-    if (this.hasAuthenticationSucceeded(idxResponse) 
+    if (this.hasAuthenticationSucceeded(idxResponse)
       && this.settings.get('features.rememberMyUsernameOnOIE')) {
       this.updateIdentifierCookie(idxResponse);
-    }    
+    }
 
     if (idxResponse.interactionCode) {
       // Although session.stateHandle isn't used by interation flow,
@@ -191,24 +192,42 @@ export default Router.extend({
     // and remove it from `settings` afterwards as IDX response always has
     // state token (which will be set into AppState)
     if (this.settings.get('oieEnabled')) {
-      try {
-        let idxResp = await startLoginFlow(this.settings);
-        if (idxResp.error) {
-          this.appState.trigger('remediationError', idxResp.error);
-        } else {
-          if (this.settings.get('flow') && !this.hasControllerRendered) {
-            idxResp = await handleConfiguredFlow(idxResp, this.settings);
-          }
-          this.appState.trigger('updateAppState', idxResp);
-        }
-      } catch (exception) {
-        this.appState.trigger('error', exception);
-      } finally {
-        this.settings.unset('stateToken');
-        this.settings.unset('proxyIdxResponse');
-      }
-    }
 
+      // Render the controller and make introspect request only if window is active
+      // IF we want this here, we need customers to opt in
+      if (document.visibilityState === 'visible') {
+        this.startOIELoginFlow(Controller, options);
+      } else {
+        // Otherwise show a loading state and wait for the visibility event
+        console.log('Waiting for tab to be active...');
+        const LoadingView = View.extend({
+          template: hbs`
+            <div class="ion-messages-container">
+              <p>Inactive Tab</p>
+            </div>
+            <div class="okta-waiting-spinner"></div>
+            `
+          ,
+        });
+        this.loadingView = new LoadingView();
+        this.el.append(this.loadingView.render().$el);
+        this.show();
+
+        var self = this;
+        document.addEventListener('visibilitychange', function checkVisibilityAndCallSuccess() {
+          if (document.visibilityState === 'visible') {
+            document.removeEventListener('visibilitychange', checkVisibilityAndCallSuccess);
+            self.loadingView.remove();
+            return self.startOIELoginFlow(Controller, options);
+          }
+        });
+      }
+    } else {
+      this.showWidget(Controller, options);
+    }
+  },
+
+  showWidget: function(Controller, options) {
     // Load the custom colors only on the first render
     if (this.settings.get('colors.brand') && !ColorsUtil.isLoaded()) {
       const colors = {
@@ -238,9 +257,29 @@ export default Router.extend({
     this.hasControllerRendered = true;
   },
 
+  startOIELoginFlow: async function(Controller, options) {
+    try {
+      let idxResp = await startLoginFlow(this.settings);
+      if (idxResp.error) {
+        this.appState.trigger('remediationError', idxResp.error);
+      } else {
+        if (this.settings.get('flow') && !this.hasControllerRendered) {
+          idxResp = await handleConfiguredFlow(idxResp, this.settings);
+        }
+        this.appState.trigger('updateAppState', idxResp);
+      }
+    } catch (exception) {
+      this.appState.trigger('error', exception);
+    } finally {
+      this.settings.unset('stateToken');
+      this.settings.unset('proxyIdxResponse');
+    }
+    this.showWidget(Controller, options);
+  },
+
   /**
     * When "Remember My Username" is enabled, we save the identifier in a cookie
-    * so that the next time the user visits the SIW, the identifier field can be 
+    * so that the next time the user visits the SIW, the identifier field can be
     * pre-filled with this value.
    */
   updateIdentifierCookie: function(idxResponse) {
@@ -254,7 +293,7 @@ export default Router.extend({
     } else {
       // We remove the cookie explicitly if this feature is disabled.
       CookieUtil.removeUsernameCookie();
-    }    
+    }
   },
 
   hasAuthenticationSucceeded(idxResponse) {
