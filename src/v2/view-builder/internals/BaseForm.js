@@ -168,6 +168,7 @@ export default Form.extend({
             type: (options.class || '').toLowerCase(),
             title: options.title ? options.title : ''
           }), errContainer);
+          options = null;
         }
       });
     } else if (options instanceof View) {
