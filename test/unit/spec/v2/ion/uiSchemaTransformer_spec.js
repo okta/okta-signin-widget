@@ -143,6 +143,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
         currentAuthenticatorEnrollment: XHRAuthenticatorRequiredEmail.currentAuthenticatorEnrollment.value,
         user: {
           id: '00u1d4o00DWrRfc5u0g4',
+          'identifier': 'testUser@okta.com',
         },
         remediations: [
           {
@@ -263,6 +264,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
         authenticators: _.pick(XHRAuthenticatorEnrollSelectAuthenticators.authenticators, 'value'),
         user: {
           id: '00utjm1GstPjCF9Ad0g3',
+          'identifier': 'testUser@okta.com',
         },
         remediations: [
           {

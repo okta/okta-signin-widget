@@ -153,6 +153,7 @@ describe('v2/ion/responseTransformer', function() {
         currentAuthenticatorEnrollment: XHRAuthenticatorRequiredEmail.currentAuthenticatorEnrollment.value,
         user: {
           id: '00u1d4o00DWrRfc5u0g4',
+          identifier: 'testUser@okta.com'
         },
         idx: idxResp,
       });
@@ -322,7 +323,7 @@ describe('v2/ion/responseTransformer', function() {
         ],
         user: {
           id: '00ub0ttoyz062NeVa0g4',
-          identifier: 'admin@idx.com',
+          identifier: 'testUser@okta.com',
         },
         idx: idxResp,
       });

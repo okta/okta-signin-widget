@@ -48,6 +48,7 @@
     - [customButtons.click](#custombuttonsclick)
   - [Feature flags](#feature-flags)
     - [features.showPasswordToggleOnSignInPage](#featuresshowpasswordtoggleonsigninpage)
+    - [features.showIdentifier](#featuresshowidentifier)
     - [features.hideSignOutLinkInMFA](#featureshidesignoutlinkinmfa)
     - [features.rememberMe](#featuresrememberme)
   - [Flow](#flow)
@@ -588,6 +589,11 @@ Enable or disable widget functionality with the following options.
 
   Defaults to `true`.
   Shows eye icon to toggle visibility of the user entered password on the Okta Sign-In page. Password is hidden by default, even when this flag is enabled. Passwords are visible for 30 seconds and then hidden automatically.
+
+#### features.showIdentifier
+
+  Defaults to `true`.
+  Shows the user's identifier on any view with user context.
 
 #### features.hideSignOutLinkInMFA
 

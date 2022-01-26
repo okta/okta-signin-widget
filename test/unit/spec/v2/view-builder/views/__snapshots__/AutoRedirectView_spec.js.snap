@@ -1,5 +1,63 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`v2/view-builder/views/AutoRedirectView renders user identifier in title when features.showIdentifier is false: should show identifier in title 1`] = `
+<div
+  class="siw-main-view "
+>
+  <div
+    class="siw-main-header"
+  >
+    <div />
+  </div>
+  <div
+    class="siw-main-body"
+  >
+    <form
+      action="/"
+      class="ion-form o-form o-form-edit-mode"
+      data-se="o-form"
+      id="form53"
+      method="POST"
+      slot="content"
+    >
+      <div
+        class="o-form-content o-form-theme clearfix"
+        data-se="o-form-content"
+      >
+        <h2
+          class="okta-form-title o-form-head"
+          data-se="o-form-head"
+        >
+          Signing in to Okta Administration as testUser@okta.com
+        </h2>
+        <div
+          class="o-form-info-container"
+        />
+        <div
+          class="o-form-error-container"
+          data-se="o-form-error-container"
+        />
+        <div
+          class="o-form-fieldset-container"
+          data-se="o-form-fieldset-container"
+        >
+          <div
+            class="okta-waiting-spinner"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+  <div
+    class="siw-main-footer"
+  >
+    <div
+      class="auth-footer"
+    />
+  </div>
+</div>
+`;
+
 exports[`v2/view-builder/views/AutoRedirectView view renders corectly - default case 1`] = `
 <div
   class="siw-main-view "
@@ -30,6 +88,17 @@ exports[`v2/view-builder/views/AutoRedirectView view renders corectly - default 
         >
           Signing in...
         </h2>
+        <div
+          class="identifier-container"
+        >
+          <span
+            class="identifier no-translate"
+            data-se="identifier"
+            title="testUser@okta.com"
+          >
+            testUser@okta.com
+          </span>
+        </div>
         <div
           class="o-form-info-container"
         />
@@ -85,6 +154,17 @@ exports[`v2/view-builder/views/AutoRedirectView view renders correctly according
           Signing in...
         </h2>
         <div
+          class="identifier-container"
+        >
+          <span
+            class="identifier no-translate"
+            data-se="identifier"
+            title="testUser@okta.com"
+          >
+            testUser@okta.com
+          </span>
+        </div>
+        <div
           class="o-form-info-container"
         />
         <div
@@ -108,7 +188,7 @@ exports[`v2/view-builder/views/AutoRedirectView view renders correctly according
 </div>
 `;
 
-exports[`v2/view-builder/views/AutoRedirectView view renders correctly according to interstitialBeforeLoginRedirect: should have spinner 1`] = `
+exports[`v2/view-builder/views/AutoRedirectView view renders correctly according to interstitialBeforeLoginRedirect: should have spinner, app name, and user identifier 1`] = `
 <div
   class="siw-main-view "
 >
@@ -136,8 +216,19 @@ exports[`v2/view-builder/views/AutoRedirectView view renders correctly according
           class="okta-form-title o-form-head"
           data-se="o-form-head"
         >
-          Signing in to Okta Administration as admin@idx.com
+          Signing in to Okta Administration
         </h2>
+        <div
+          class="identifier-container"
+        >
+          <span
+            class="identifier no-translate"
+            data-se="identifier"
+            title="testUser@okta.com"
+          >
+            testUser@okta.com
+          </span>
+        </div>
         <div
           class="o-form-info-container"
         />

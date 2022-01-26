@@ -1,3 +1,5 @@
+import hbs from 'handlebars-inline-precompile';
+
 import { _, Form, loc, internal, createCallout, View } from 'okta';
 import FormInputFactory from './FormInputFactory';
 
@@ -76,6 +78,31 @@ export default Form.extend({
      */
     const infoContainer= '<div class=\'o-form-info-container\'></div>';
     this.$el.find('.o-form-error-container').before(infoContainer);
+
+    this.addIdentifier();
+  },
+
+  /**
+   * Render user identifier below title, or if no title, render below message.
+   */
+  addIdentifier() {
+    const { identifier } = this.options.appState.get('user') || {};
+    if (!identifier) {
+      return;
+    } else if (!this.settings.get('features.showIdentifier')) {
+      return;
+    }
+
+    const header = this.$el.find('[data-se="o-form-head"]');
+    const identifierHTMLString = hbs('<div class="identifier-container">\
+        <span class="identifier no-translate" data-se="identifier" title={{identifier}}>{{identifier}}</span>\
+      </div>')({identifier});
+
+    if (header.length) {
+      header.after(identifierHTMLString);
+    } else {
+      this.$el.find('.o-form-error-container').after(identifierHTMLString);
+    }
   },
 
   cancelForm() {

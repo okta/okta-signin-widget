@@ -26,6 +26,27 @@
         float: right;
       }
     }
+
+    .identifier-container {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      text-align: center;
+      position: relative;
+      top: -5px;
+      margin-bottom: 15px;
+    }
+    .identifier {
+      font-size: $body-font-size;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .identifier-container::before {
+      content: url('../img/icons/identifier/user-icon.svg');
+      vertical-align: -20%;
+      padding-right: 4px;
+    }
   }
 
   // Fixing OKTA-303139 here, making sure V1 stays the same.

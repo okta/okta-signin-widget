@@ -294,5 +294,12 @@
         "mutable": false
       }
     ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u12iwg7zlRVxEQU0g4",
+      "identifier": "testUser@okta.com"
+    }
   }
 }

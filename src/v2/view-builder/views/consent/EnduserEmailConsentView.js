@@ -19,6 +19,8 @@ const getInfo = hbs`
     </div>
   {{/if}}`;
 const enduserEmailConsentViewBody = ConsentViewForm.extend({
+  className: 'enduser-email-consent',
+
   title() {
     return loc('oie.consent.enduser.title', 'login');
   },
@@ -40,8 +42,6 @@ const enduserEmailConsentViewBody = ConsentViewForm.extend({
 });
 
 export default BaseAuthenticatorView.extend({
-  className: 'enduser-email-consent',
-
   Header: EmailAuthenticatorHeader,
 
   buttonOrder: ['cancel', 'save'],

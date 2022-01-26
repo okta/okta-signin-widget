@@ -19,7 +19,7 @@
       "type":"object",
       "value":{
          "id":"00uy8atHj1x8T0NrQ0g3",
-         "identifier":"mov@okta.com",
+         "identifier": "testUser@okta.com",
          "profile":{
             "firstName":"mov",
             "lastName":"1",

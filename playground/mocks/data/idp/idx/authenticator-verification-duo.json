@@ -189,12 +189,6 @@
             }
         ]
     },
-    "user": {
-        "type": "object",
-        "value": {
-            "id": "00ux1jX3hVYsIkk9O0g3"
-        }
-    },
     "cancel": {
         "rel": [
             "create-form"
@@ -220,6 +214,13 @@
             "name": "okta_enduser",
             "label": "Okta Dashboard",
             "id": "DEFAULT_APP"
+        }
+    },
+    "user":{
+        "type":"object",
+        "value":{
+          "id":"00u13370Y5HfTVTn10g4",
+          "identifier": "testUser@okta.com"
         }
     }
 }

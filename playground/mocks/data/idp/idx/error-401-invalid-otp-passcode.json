@@ -255,7 +255,8 @@
   "user": {
     "type": "object",
     "value": {
-      "id": "00uxdxozdHOoqadfV0g3"
+      "id": "00uxdxozdHOoqadfV0g3",
+      "identifier": "testUser@okta.com"
     }
   },
   "cancel": {

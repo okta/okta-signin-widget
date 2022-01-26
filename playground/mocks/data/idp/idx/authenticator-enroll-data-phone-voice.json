@@ -222,6 +222,7 @@
     "type": "object",
     "value": {
       "id": "I9bvFiq01cRFgbn",
+      "identifier": "testUser@okta.com",
       "passwordChanged": "2019-05-03T19:00:00.000Z",
       "profile": {
         "login": "foo@example.com",

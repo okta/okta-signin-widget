@@ -6,6 +6,7 @@ import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
 import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
 import xhrAuthenticatorVerifySelect from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
 import xhrAuthenticatorOVTotp from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-totp';
+import xhrIdentifyWithUser from '../../../playground/mocks/data/idp/idx/identify-with-user';
 import config from '../../../src/config/config.json';
 
 const baseIdentifyMock = RequestMock()
@@ -73,6 +74,10 @@ const identifyThenSelectAuthenticatorMock = RequestMock()
   .respond(xhrIdentify)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(xhrAuthenticatorVerifySelect);
+
+const identifyWithUserMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentifyWithUser);
 
 const identifyRequestLogger = RequestLogger(
   /idx\/identify|\/challenge/,
@@ -396,4 +401,12 @@ test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should show "Keep me
   // Ensure checkbox is shown
   doesCheckboxExist = identityPage.identifierFieldExists('.custom-checkbox [name="rememberMe"');
   await t.expect(doesCheckboxExist).eql(true);
+});
+
+test.requestHooks(identifyRequestLogger, identifyWithUserMock)('should never render user\'s identifier even if there is user context', async t => {
+  // identifyWithUserMock comes up when a user enters invalid credentials and sign in returns an error, along with a user object
+  const identityPage = await setup(t);
+
+  const identifierContainer = identityPage.form.getElement('.identifier-container').exists;
+  await t.expect(identifierContainer).eql(false);
 });
