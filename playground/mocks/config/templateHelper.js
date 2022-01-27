@@ -4,7 +4,8 @@ const supportedApi = [
   '/oauth2/',
   '/api/v1/authn',
   '/api/v1/registration',
-  '/idp/idx'
+  '/idp/idx',
+  '/.well-known/webfinger'
 ];
 
 const getDataDir = (apiPath) => {

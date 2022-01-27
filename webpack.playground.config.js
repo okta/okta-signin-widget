@@ -84,6 +84,7 @@ module.exports = {
         '/app/UserHome',
         '/oauth2/v1/authorize',
         '/auth/services/',
+        '/.well-known/webfinger'
       ],
       target: `http://${HOST}:${MOCK_SERVER_PORT}`
     }],
