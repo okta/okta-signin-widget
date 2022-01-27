@@ -4209,6 +4209,7 @@ var SchemaUtils = {
       format: 'email'
     },
     // TODO: Resolve inconsistencies in hyphens vs. underscores for these properties (OKTA-202818)
+    // use country-code if attribute should be restricted to country code type
     'country-code': {
       type: 'string',
       format: 'country-code'
@@ -4218,12 +4219,10 @@ var SchemaUtils = {
       format: 'language-code'
     },
     'country_code': {
-      type: 'string',
-      format: 'country-code'
+      type: 'string'
     },
     'language_code': {
-      type: 'string',
-      format: 'language-code'
+      type: 'string'
     },
     locale: {
       type: 'string',
@@ -4706,7 +4705,8 @@ var StringUtil =
 
     for (var i = 0, l = args.length; i < l; i++) {
       var entity = args[i];
-      value = value.replace('{' + i + '}', entity);
+      var regex = new RegExp('\\{' + i + '\\}', 'g');
+      value = value.replace(regex, entity);
 
       if (entity === undefined || entity === null || value === oldValue) {
         triggerError();
@@ -9339,7 +9339,7 @@ var _default = _BaseView.default.extend(
       if (!this.save) {
         var totalStep = _underscoreWrapper.default.result(this, 'totalSteps');
 
-        this.save = !totalStep || step === totalStep ? 'Finish' : 'Next';
+        this.save = !totalStep || step === totalStep ? _StringUtil.default.localize('oform.button.finish', 'courage') : _StringUtil.default.localize('oform.button.next', 'courage');
       }
 
       this.className = _underscoreWrapper.default.result(this, 'className') + ' wizard';
