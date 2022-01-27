@@ -16,28 +16,27 @@ import FactorUtil from 'util/FactorUtil';
 import RouterUtil from 'util/RouterUtil';
 export default View.extend({
   className: 'scan-instructions clearfix',
-  template: hbs(
-    '\
-      <div class="scan-instructions-details-wrapper">\
-          <div class="scan-instructions-details">\
-              <p>{{instructions}}</p>\
-          </div>\
-      </div>\
-      <div class="scan-instructions-qrcode-wrapper">\
-          <div class="qrcode-wrap">\
-              <img data-se="qrcode" alt="{{altQRCode}}" class="qrcode-image" src="{{qrcode}}">\
-              <div data-se="qrcode-success" class="qrcode-success"></div>\
-              <div data-se="qrcode-error" class="qrcode-error"></div>\
-          </div>\
-          <a href="#" data-type="manual-setup" data-se="manual-setup" class="link manual-setup">\
-            {{i18n code="enroll.totp.cannotScan" bundle="login"}}\
-          </a>\
-          <a href="#" data-type="refresh-qrcode" data-se="refresh-qrcode" class="link refresh-qrcode">\
-            {{i18n code="enroll.totp.refreshBarcode" bundle="login"}}\
-          </a>\
-      </div>\
-    '
-  ),
+  template:  hbs`
+    <div class="scan-instructions-details-wrapper">
+      <div class="scan-instructions-details">
+        <p>{{instructions}}</p>
+      </div>
+    </div>
+    <div class="scan-instructions-qrcode-wrapper">
+      <div class="qrcode-wrap">
+        <img data-se="qrcode" alt="{{altQRCode}}" class="qrcode-image" src="{{qrcode}}">
+        <div data-se="qrcode-success" class="qrcode-success"></div>
+        <div data-se="qrcode-error" class="qrcode-error"></div>
+      </div>
+      <a href="#" data-type="manual-setup" data-se="manual-setup" class="link manual-setup praveen"
+      aria-label="{{i18n code="enroll.totp.aria.cannotScan" bundle="login" }}">
+        {{i18n code="enroll.totp.cannotScan" bundle="login"}}
+      </a>
+      <a href="#" data-type="refresh-qrcode" data-se="refresh-qrcode" class="link refresh-qrcode">
+        {{i18n code="enroll.totp.refreshBarcode" bundle="login"}}
+      </a>
+    </div>
+  `,
 
   events: {
     'click [data-type="manual-setup"]': function(e) {

@@ -292,6 +292,7 @@ Expect.describe('EnrollTotp', function() {
     itp('has a link to setup app manually', function() {
       return setupAndEnrollOktaPushFn().then(function(test) {
         Expect.isVisible(test.scanCodeForm.manualSetupLink());
+        expect(test.scanCodeForm.manualSetupLink().attr('aria-label')).toEqual('Setup without scanning a QR code.');
       });
     });
     itp('does not have "Next" button', function() {
