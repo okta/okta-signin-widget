@@ -5,7 +5,8 @@ import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 const Body = BaseForm.extend({
   title() {
     if (this.options.appState.getCurrentViewState().href.endsWith('idp/idx/enroll/update')) {
-      return loc('oie.primaryauth.submit', 'login');
+      const label = this.options.appState.attributes.uiDisplay.label;
+      return loc('oie.registration.form.customize.label', 'login', [label]);
     }
     return loc('oie.registration.form.title', 'login');
 
@@ -13,7 +14,8 @@ const Body = BaseForm.extend({
 
   save() {
     if (this.options.appState.getCurrentViewState().href.endsWith('idp/idx/enroll/update')) {
-      return loc('oie.registration.form.update.submit', 'login');
+      const buttonLabel = this.options.appState.attributes.uiDisplay.buttonLabel;
+      return loc('oie.registration.form.customize.buttonLabel', 'login', [buttonLabel]);
     }
     return loc('oie.registration.form.submit', 'login');
 
