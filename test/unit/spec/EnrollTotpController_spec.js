@@ -286,7 +286,7 @@ Expect.describe('EnrollTotp', function() {
       return setupAndEnrollOktaPushFn().then(function(test) {
         expect(test.scanCodeForm.qrcodeImg().length).toBe(1);
         expect(test.scanCodeForm.qrcodeImg().attr('src')).toEqual('/base/test/unit/assets/1x1.gif');
-        expect(test.scanCodeForm.qrcodeImg().attr('alt')).toEqual('qr code');
+        expect(test.scanCodeForm.qrcodeImg().attr('alt')).toEqual('QR code');
       });
     });
     itp('has a link to setup app manually', function() {
