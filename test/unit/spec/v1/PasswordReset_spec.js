@@ -806,6 +806,36 @@ Expect.describe('PasswordReset', function() {
     });
   });
 
+  itp('validate loading indicator is triggered on form submission error', function() {
+    return setup().then(function(test) {
+      const loadingSpy = jasmine.createSpy('loading');
+      test.router.appState.on('loading', loadingSpy);
+      Util.resetAjaxRequests();
+      test.form.setNewPassword('pwd');
+      test.form.setConfirmPassword('pwd');
+      test.setNextResponse(resError);
+      test.form.submit();
+      return Expect.waitForFormError(test.form, loadingSpy);
+    }).then(function(loadingSpy) {
+      return loadingSpy.calls && loadingSpy.calls.args === [[true], [false]];
+    });
+  });
+
+  itp('validate loading indicator is triggered on successful form submission', function() {
+    return setup().then(function(test) {
+      const loadingSpy = jasmine.createSpy('loading');
+      test.router.appState.on('loading', loadingSpy);
+      Util.resetAjaxRequests();
+      test.form.setNewPassword('pwd');
+      test.form.setConfirmPassword('pwd');
+      test.setNextResponse(resSuccess);
+      test.form.submit();
+      return Expect.waitForSpyCall(test.successSpy, loadingSpy);
+    }).then(function(loadingSpy) {
+      return loadingSpy.calls && loadingSpy.calls.args === [[true], [false]];
+    });
+  });
+
   itp('validates that the passwords match before submitting', function() {
     return setup().then(function(test) {
       Util.resetAjaxRequests();
