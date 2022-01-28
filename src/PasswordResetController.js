@@ -32,11 +32,13 @@ export default FormController.extend({
     save: function() {
       this.trigger('save');
       const self = this;
-
+      this.appState.trigger('loading', true);
       return this.doTransaction(function(transaction) {
         return transaction.resetPassword({
           newPassword: self.get('newPassword'),
         });
+      }).finally(function() {
+        self.appState.trigger('loading', false);
       });
     },
   },
