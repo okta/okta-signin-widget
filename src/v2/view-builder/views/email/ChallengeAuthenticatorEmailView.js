@@ -25,7 +25,7 @@ const CheckYourEmailTitle = View.extend({
       }}
     {{/if}}
     
-    {{#if poll}}
+    {{#if useEmailMagicLink}}
       {{i18n 
         code="oie.email.verify.alternate.instructions" 
         bundle="login" 
@@ -40,8 +40,9 @@ const CheckYourEmailTitle = View.extend({
 
   getTemplateData() {
     const { email } = this.options;
-    const poll = this.options.appState.get('currentAuthenticatorEnrollment')?.poll;
-    return { email, poll };
+    const contextualData = this.options.appState.get('currentAuthenticatorEnrollment')?.contextualData;
+    const useEmailMagicLink = contextualData != null ? contextualData.useEmailMagicLink : true;
+    return { email, useEmailMagicLink };
   },
 });
 
@@ -70,9 +71,11 @@ const Body = BaseAuthenticatorEmailForm.extend(
       const { email } =
         this.options.currentViewState.relatesTo?.value?.profile || {};
 
-      const poll = this.options.appState.get('currentAuthenticatorEnrollment')?.poll;
+      const contextualData = this.options.appState.get('currentAuthenticatorEnrollment')?.contextualData;
+      const useEmailMagicLink = contextualData != null ? contextualData.useEmailMagicLink : true;
 
-      if (poll) {
+      //If email magic link exist then show button with text, else toggle button to show text box
+      if (useEmailMagicLink) {
         this.add(EnterCodeLink, {
           prepend: true,
           selector: '.o-form-error-container',
