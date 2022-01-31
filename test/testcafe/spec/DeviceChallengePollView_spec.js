@@ -14,12 +14,6 @@ import userIsNotAssignedError from '../../../playground/mocks/data/idp/idx/error
 
 const BEACON_CLASS = 'mfa-okta-verify';
 
-const wait = async (timeout) => {
-  await new Promise((resolve) => setTimeout( () => {
-    resolve();
-  }, timeout));
-};
-
 let failureCount = 0, pollingError = false;
 const loopbackSuccessLogger = RequestLogger(/introspect|probe|challenge/, { logRequestBody: true, stringifyRequestBody: true });
 const loopbackSuccessMock = RequestMock()
@@ -71,6 +65,7 @@ const loopbackPollTimeoutMock = RequestMock()
   .respond(identifyWithDeviceProbingLoopback)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
+    console.log('Here => ' + new Date().getSeconds());
     return new Promise((resolve) => setTimeout(function() {
       res.statusCode = '200';
       res.setBody(identifyWithDeviceProbingLoopback);
@@ -409,7 +404,7 @@ test
   .requestHooks(loopbackPollMockLogger, loopbackPollFailedMock)('next poll should not start if previous is failed', async t => {
     loopbackPollMockLogger.clear();
     await setup(t);
-    await wait(10_000);
+    await t.wait(10_000);
 
     await t.expect(loopbackPollMockLogger.count(
       record => record.request.url.match(/\/idp\/idx\/authenticators\/poll/)
@@ -424,7 +419,7 @@ test
     // Updating /poll response to take 5 sec to response.
     // Then counting the number of calls that should be done in time interval. Default Timeout for /poll is 2 sec.
     // Expecting to get only 2 calls(first at 2nd sec, second at 9th(5 sec response + 2 sec timeout) second).
-    await wait(10_000);
+    await t.wait(10_000);
 
     await t.expect(loopbackPollMockLogger.count(
       record => record.request.url.match(/\/idp\/idx\/authenticators\/poll/)
