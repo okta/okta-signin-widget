@@ -24,15 +24,24 @@ const CheckYourEmailTitle = View.extend({
         bundle="login"
       }}
     {{/if}}
-    {{i18n 
-      code="oie.email.verify.alternate.instructions" 
-      bundle="login" 
-    }}
+    
+    {{#if poll}}
+      {{i18n 
+        code="oie.email.verify.alternate.instructions" 
+        bundle="login" 
+      }}
+    {{else}}
+      {{i18n 
+        code="oie.email.verify.alternate.verificationCode.instructions" 
+        bundle="login" 
+      }}
+    {{/if}}
   `,
 
   getTemplateData() {
     const { email } = this.options;
-    return { email };
+    const poll = this.options.appState.get('currentAuthenticatorEnrollment')?.poll;
+    return { email, poll };
   },
 });
 
@@ -61,10 +70,16 @@ const Body = BaseAuthenticatorEmailForm.extend(
       const { email } =
         this.options.currentViewState.relatesTo?.value?.profile || {};
 
-      this.add(EnterCodeLink, {
-        prepend: true,
-        selector: '.o-form-error-container',
-      });
+      const poll = this.options.appState.get('currentAuthenticatorEnrollment')?.poll;
+
+      if (poll) {
+        this.add(EnterCodeLink, {
+          prepend: true,
+          selector: '.o-form-error-container',
+        });
+      } else {
+        this.showCodeEntryField(true);
+      }
 
       this.add(CheckYourEmailTitle, {
         prepend: true,

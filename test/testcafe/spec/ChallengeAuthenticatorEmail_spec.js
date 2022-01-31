@@ -250,7 +250,7 @@ test
 
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql(`An email magic link was sent to ${emailAddress}. Click the link in the email or enter the code below to continue.`);
+      .eql(`We sent an email to ${emailAddress}. Click the verification link in your email to continue or enter the code below.`);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
@@ -276,7 +276,7 @@ test
 
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql(`An email magic link was sent to ${emailAddress}. Click the link in the email or enter the code below to continue.`);
+      .eql(`We sent an email to ${emailAddress}. Click the verification link in your email to continue or enter the code below.`);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
@@ -295,7 +295,7 @@ test
     await t.expect(pageTitle).contains('Verify with your email');
 
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .contains('An email magic link was sent to your email. Click the link in the email or enter the code below to continue.');
+      .contains('An email magic link was sent to your email. Click the verification link in your email to continue or enter the code below.');
   });
 
 test
@@ -308,7 +308,7 @@ test
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with your email');
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .contains('An email magic link was sent to your email. Click the link in the email or enter the code below to continue.');
+      .contains('An email magic link was sent to your email. Click the verification link in your email to continue or enter the code below.');
   });
 
 test
