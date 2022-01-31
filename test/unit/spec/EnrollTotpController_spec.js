@@ -282,6 +282,11 @@ Expect.describe('EnrollTotp', function() {
           return Expect.waitForAjaxRequests(3, test); // Final response tick
         });
     }
+    itp('has appropriate instructions to scan QR Code', function() {
+      return setupAndEnrollOktaPushFn().then(function(test) {
+        expect(test.scanCodeForm.scanInstructionDetails().text()).toEqual('Launch Okta Verify on your mobile device and select “Add an account”. Scan the QR code to continue.');
+      });
+    });
     itp('has qrcode image with alt attr', function() {
       return setupAndEnrollOktaPushFn().then(function(test) {
         expect(test.scanCodeForm.qrcodeImg().length).toBe(1);
