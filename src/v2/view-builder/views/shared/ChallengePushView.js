@@ -61,7 +61,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
     },
 
     postRender() {
-      BaseForm.prototype.postRender.apply(this, arguments);
+      BaseFormWithPolling.prototype.postRender.apply(this, arguments);
 
       const className = this.isOV() ?
         'okta-verify-push-challenge' : ' custom-app-push-challenge';

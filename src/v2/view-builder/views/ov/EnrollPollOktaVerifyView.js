@@ -39,7 +39,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       this.startPolling();
     },
     postRender() {
-      BaseForm.prototype.postRender.apply(this, arguments);
+      BaseFormWithPolling.prototype.postRender.apply(this, arguments);
 
       if ((BrowserFeatures.isAndroid() || BrowserFeatures.isIOS()) &
         this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'qrcode') {

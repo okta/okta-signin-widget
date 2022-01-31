@@ -36,7 +36,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
     },
 
     postRender() {
-      BaseForm.prototype.postRender.apply(this, arguments);
+      BaseFormWithPolling.prototype.postRender.apply(this, arguments);
       this.startPoll();
     },
 
