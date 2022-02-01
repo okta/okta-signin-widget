@@ -42,7 +42,7 @@ const CheckYourEmailTitle = View.extend({
     const { email } = this.options;
     const contextualData = this.options.appState.get('currentAuthenticatorEnrollment')?.contextualData;
     const useEmailMagicLink = contextualData !== null && contextualData.useEmailMagicLink !== null ? 
-    contextualData.useEmailMagicLink : true;
+      contextualData.useEmailMagicLink : true;
     return { email, useEmailMagicLink };
   },
 });
@@ -74,7 +74,7 @@ const Body = BaseAuthenticatorEmailForm.extend(
 
       const contextualData = this.options.appState.get('currentAuthenticatorEnrollment')?.contextualData;
       const useEmailMagicLink = contextualData !== null && contextualData.useEmailMagicLink !== null ? 
-      contextualData.useEmailMagicLink : true;
+        contextualData.useEmailMagicLink : true;
 
       //If email magic link exist then show button with text, else toggle button to show text box
       if (useEmailMagicLink) {
