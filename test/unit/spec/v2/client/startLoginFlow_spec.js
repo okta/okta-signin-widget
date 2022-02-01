@@ -204,18 +204,4 @@ describe('v2/client/startLoginFlow', () => {
     }
   });
 
-  it('passes "recoveryToken" to interact', async () => {
-    const { settings, start } = testContext;
-    const recoveryToken = 'abcdef';
-    settings.set('useInteractionCodeFlow', true);
-    settings.set('recoveryToken', recoveryToken);
-    const result = await startLoginFlow(settings);
-    expect(result).toEqual({
-      fake: 'fake start response'
-    });
-    expect(start).toHaveBeenCalledWith({
-      exchangeCodeForTokens: false,
-      recoveryToken
-    });
-  });
 });

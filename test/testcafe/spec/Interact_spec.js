@@ -6,6 +6,7 @@ import xhrServerError from '../../../playground/mocks/data/oauth2/error-feature-
 import xhrWellKnownResponse from '../../../playground/mocks/data/oauth2/well-known-openid-configuration.json';
 import xhrInteractResponse from '../../../playground/mocks/data/oauth2/interact.json';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
+import xhrAuthenticatorResetPassword from '../../../playground/mocks/data/idp/idx/authenticator-reset-password';
 
 const expectIdentifyView = {
   controller: 'primary-auth',
@@ -15,6 +16,13 @@ const expectIdentifyView = {
 const expectTerminalView = {
   controller: null,
   formName: 'terminal'
+};
+
+const expectResetPasswordView = {
+  controller: 'forgot-password',
+  formName: 'reset-authenticator',
+  authenticatorKey: 'okta_password',
+  methodType:'password',
 };
 
 const renderWidget = ClientFunction((settings) => {
@@ -44,6 +52,16 @@ const errorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify);
 
+
+const cancelResetPasswordMock = RequestMock()
+  .onRequestTo('http://localhost:3000/oauth2/default/.well-known/openid-configuration')
+  .respond(xhrWellKnownResponse, 200)
+  .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
+  .respond(xhrInteractResponse, 200)
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorResetPassword)
+  .onRequestTo('http://localhost:3000/idp/idx/cancel')
+  .respond(xhrIdentify);
 
 const requestLogger = RequestLogger(
   [
@@ -92,6 +110,7 @@ async function setup(t, options = {}) {
       state: 'mock-state'
     }
   });
+  return pageObject;
 }
 
 test.requestHooks(requestLogger, errorMock)('shows an error when feature is not enabled', async t => {
@@ -198,4 +217,28 @@ test.requestHooks(requestLogger, interactMock)('passes recovery_token to interac
     'afterRender',
     expectIdentifyView
   ]);
+});
+
+test.requestHooks(requestLogger, cancelResetPasswordMock)('clears recovery_token and does not pass it to interact after clicking "back to signin"', async t => {
+  const recoveryToken = 'abcdef';
+  const pageObject = await setup(t, {
+    recoveryToken
+  });
+
+  await t.expect(requestLogger.count(() => true)).eql(2); // interact, introspect
+  let req = requestLogger.requests[0].request; // interact
+  let params = decodeUrlEncodedRequestBody(req.body);
+  await t.expect(req.url).eql('http://localhost:3000/oauth2/default/v1/interact');
+  await t.expect(params['recovery_token']).eql(recoveryToken);
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    expectResetPasswordView
+  ]);
+  requestLogger.clear();
+  await pageObject.clickSignOutLink();
+  req = requestLogger.requests[0].request; // interact
+  params = decodeUrlEncodedRequestBody(req.body);
+  await t.expect(req.url).eql('http://localhost:3000/oauth2/default/v1/interact');
+  await t.expect(params['recovery_token']).eql(undefined);
 });
