@@ -54,9 +54,9 @@
       "identifier": "testUser@okta.com"
     }
   },
-  "uiDisplay":{
+  "uiDisplay": {
     "type":"object",
-    "value":{
+    "value": {
       "label":"Sign in",
       "buttonLabel":"Submit"
     }
