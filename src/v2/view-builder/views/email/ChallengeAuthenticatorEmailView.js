@@ -68,7 +68,8 @@ const Body = BaseAuthenticatorEmailForm.extend(
       const { email } =
         this.options.currentViewState.relatesTo?.value?.profile || {};
 
-      const useEmailMagicLink = this.options.appState.get('currentAuthenticatorEnrollment')?.contextualData?.useEmailMagicLink;
+      const useEmailMagicLink = this.options.appState.get('currentAuthenticatorEnrollment')?.
+      contextualData?.useEmailMagicLink;
       const useEmailMagicLinkValue = useEmailMagicLink !== undefined ? useEmailMagicLink : true;
 
       //If email magic link exist then show button with text, else toggle button to show text box
