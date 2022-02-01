@@ -6,25 +6,27 @@ const Body = BaseForm.extend({
   title() {
     if (this.options.appState.getCurrentViewState().href.endsWith('idp/idx/enroll/update')) {
       const attributes = this.options.appState.attributes;
-      if (attributes.uiDisplay && attributes.uiDisplay.label) {
+      if (attributes?.uiDisplay?.label) {
         return loc('oie.registration.form.customize.label', 'login', [attributes.uiDisplay.label]);
       } else {
         return loc('oie.primaryauth.submit', 'login');
       }
     }
     return loc('oie.registration.form.title', 'login');
+
   },
 
   save() {
     if (this.options.appState.getCurrentViewState().href.endsWith('idp/idx/enroll/update')) {
       const attributes = this.options.appState.attributes;
-      if (attributes.uiDisplay && attributes.uiDisplay.buttonLabel) {
+      if (attributes?.uiDisplay?.buttonLabel) {
         return loc('oie.registration.form.customize.buttonLabel', 'login', [attributes.uiDisplay.buttonLabel]);
       } else {
         return loc('oie.registration.form.update.submit', 'login');
       }
     }
     return loc('oie.registration.form.submit', 'login');
+
   },
   saveForm() {
     // SIW customization hook for registration
