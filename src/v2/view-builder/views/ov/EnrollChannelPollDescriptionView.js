@@ -10,7 +10,7 @@ export default View.extend({
           <li>{{i18n code="oie.enroll.okta_verify.qrcode.step3" bundle="login"}}</li>
         </ol>
         <div class="qrcode-container">
-          <img class="qrcode" src={{href}} alt="qr code"></img>
+          <img class="qrcode" src={{href}} alt="{{i18n code="mfa.altQrCode" bundle="login" }}"></img>
         </div>
       {{/if}}
       {{#if email}}

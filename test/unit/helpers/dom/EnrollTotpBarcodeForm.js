@@ -6,6 +6,7 @@ const MANUAL_SETUP_LINK = 'manual-setup';
 const REFRESH_QRCODE_LINK = 'refresh-qrcode';
 const SCAN_FORM = 'step-scan';
 const REFRESH_LINK = 'refresh-qrcode';
+const SCAN_INSTRUCTION_DETAILS = '.scan-instructions-details';
 export default Form.extend({
   isEnrollTotpBarcodeForm: function() {
     return this.container().length === 1;
@@ -37,6 +38,10 @@ export default Form.extend({
 
   scanInstructions: function() {
     return this.$('.scan-instructions');
+  },
+
+  scanInstructionDetails: function() {
+    return this.$(SCAN_INSTRUCTION_DETAILS);
   },
 
   hasRefreshQrcodeLink: function() {

@@ -1,0 +1,56 @@
+{
+  "stateToken": "00gSN_hl4vCEPXe7cX0RfFUKnYycbjfdzxuCkGnkeV",
+  "type": "SESSION_STEP_UP",
+  "expiresAt": "2022-01-24T21:56:00.000Z",
+  "status": "MFA_ENROLL_ACTIVATE",
+  "_embedded": {
+    "user": {
+      "id": "00u170sWQ4y2y0WKC0g4",
+      "passwordChanged": "2022-01-03T22:27:58.000Z",
+      "profile": {
+        "login": "testuser@gmail.com",
+        "firstName": "test",
+        "lastName": "user",
+        "locale": "en_US",
+        "timeZone": "America/Los_Angeles"
+      }
+    },
+    "factor": {
+      "id": "ost18bqFX9kvQzlBs0g4",
+      "factorType": "token:software:totp",
+      "provider": "OKTA",
+      "vendorName": "OKTA",
+      "profile": { "credentialId": "testuser@gmail.com" },
+      "_embedded": {
+        "activation": {
+          "timeStep": 30,
+          "sharedSecret": "PPSHKGT4P63IWHE6",
+          "encoding": "base32",
+          "keyLength": 6,
+          "factorResult": "WAITING",
+          "_links": {
+            "qrcode": {
+              "href": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAEjklEQVR42u3dQY7jOBBFQd//0l2LWjdqYWbmZzIeMCv32JasKICiRH3+SfpvH7tAAkQCRAJEAkQCRAJEAkQCRAJEEiASIBIgEiASIBIgEiASIBIgEiCSAJEAkQCRAJEAkQD5/aDPp/W/vz7/9PZUb++3+/f090v7fQEBBBBAAAEEEEAAAaT6AP32gD0N+vT2V4Pv/oOR/v6AAAIIIIAAAggggLwHpHoQ3n2AV3/+6UFs9f5JO8kCCCCAAAIIIIAAAggg00Bu+/+n9zcggAACCCCAAAIIIIAAkn1x3/RJgeqTGoAAAggggAACCCCAAHIbkHSA1cCqD9BpkOnHDyCAAAIIIIAAAggg+4GkLdrg9d5BuEUbAAEEEEC8DgggXgfk9W5blGF6ou+Z4wINQAABBBBAAAEEkLWD9NOD/G+/X/cBmbZ4d9oNVM+fxQIEEEAAAQQQQAABpBxI9Q7qBtW9sF3aoPyWG6QAAQQQQAABBBBAANkDJG3Q3g0wbWG47v0x/XmAAAIIIIAAAggggLwHpHsHpE0knj7A005ibL0YEhBAAAEEEEAAAQSQvYP06kH59PtVb//0SYXqh4g+t2gDIIAAAggggAACCCDjg+rbBqHbHiqadnEnIIAAAggggAACCCCAdAPpXuTgtkUUbntgj4lCQAABBBBAAAEEEEC2DdrTDoBpYKe3d8ugHBBAAAEEEEAAAQSQvUC2TXRVH0DVg97pP0CpN1QBAggggAACCCCAAHIvkOmF4aaBpw36p2+ISgEACCCAAAIIIIAAAoh5kJSLCW/7wadB3PqAHEAAAQQQQAABBBBA3hmkT09ETT/08vY/COkTu4AAAggggAACCCCAAFI9qOu+wej09leDS/u89JMegAACCCCAAAIIIIAAMv3+1YtJV39+9fudBmWQDggggAACCCCAAAJI9QGbdtN/9w1KaUC7H+iTGiCAAAIIIIAAAgggewfp1RNH1Qf09AOAbl/EwlksQAABBBBAAAEEEEDSQXQPIqcvHpxehGH6pMDzi1cDAggggAACCCCAAHJ8ENc9cXV6ENt9A9H0/u0etD83SAcEEEAAAQQQQAAB5HpAt02UpX+fLRcjAgIIIIAAAggggADyLpDuQWP169P/vvskw9aHfAICCCCAAAIIIIAAci+Q6cWN0wapty3GnXYDGCCAAAIIIIAAAggggMRP+DQ/xHMaXNpE660Ti4AAAggggAACCCCA7B2kdw/qqgf1rw3yty5uDQgggAACCCCAAALIHiDd73/bxGTaQzu3XowICCCAAAIIIIAAAsi7QLon8qonuroPiOmJvq2LQAACCCCAAAIIIIAAAsiWG4jSvt/p32t6/wECCCCAAAIIIIAAAshtD9ms3t7p/Vm9/7csZg0IIIAAAggggAACyF4g3QdM2gHZPQif/r1uAQYIIIAAAggggAACyB4g3Ys2TA9qpy/GrJ6onL6BDBBAAAEEEEAAAQQQQKQNASIBIgEiASIBIgEiASIBIgEiASIJEAkQCRAJEAkQCRAJEAkQCRAJEEmASIBIgEiASIBI4f0As/6SOQMO/ycAAAAASUVORK5CYII=",
+              "type": "image/png"
+            }
+          }
+        }
+      }
+    }
+  },
+  "_links": {
+    "next": {
+      "name": "activate",
+      "href": "http://classic.okta1.com:1802/api/v1/authn/factors/ost18bqFX9kvQzlBs0g4/lifecycle/activate",
+      "hints": { "allow": ["POST"] }
+    },
+    "prev": {
+      "href": "http://classic.okta1.com:1802/api/v1/authn/previous",
+      "hints": { "allow": ["POST"] }
+    },
+    "cancel": {
+      "href": "http://classic.okta1.com:1802/api/v1/authn/cancel",
+      "hints": { "allow": ["POST"] }
+    }
+  }
+}

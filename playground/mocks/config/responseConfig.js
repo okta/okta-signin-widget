@@ -241,6 +241,13 @@ const authn = {
   ]
 };
 
+//enroll QR Okta Verify
+const enrollQROktaVerify  = {
+  '/api/v1/authn': [
+    'mfa-enroll-qr-okta-verify'
+  ]
+};
+
 // email enroll
 const emailEnrollMocks = {
   '/api/v1/authn': [

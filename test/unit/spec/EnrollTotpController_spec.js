@@ -282,16 +282,22 @@ Expect.describe('EnrollTotp', function() {
           return Expect.waitForAjaxRequests(3, test); // Final response tick
         });
     }
+    itp('has appropriate instructions to scan QR Code', function() {
+      return setupAndEnrollOktaPushFn().then(function(test) {
+        expect(test.scanCodeForm.scanInstructionDetails().text()).toEqual('Launch Okta Verify on your mobile device and select “Add an account”. Scan the QR code to continue.');
+      });
+    });
     itp('has qrcode image with alt attr', function() {
       return setupAndEnrollOktaPushFn().then(function(test) {
         expect(test.scanCodeForm.qrcodeImg().length).toBe(1);
         expect(test.scanCodeForm.qrcodeImg().attr('src')).toEqual('/base/test/unit/assets/1x1.gif');
-        expect(test.scanCodeForm.qrcodeImg().attr('alt')).toEqual('qr code');
+        expect(test.scanCodeForm.qrcodeImg().attr('alt')).toEqual('QR code');
       });
     });
     itp('has a link to setup app manually', function() {
       return setupAndEnrollOktaPushFn().then(function(test) {
         Expect.isVisible(test.scanCodeForm.manualSetupLink());
+        expect(test.scanCodeForm.manualSetupLink().attr('aria-label')).toEqual('Setup without scanning a QR code.');
       });
     });
     itp('does not have "Next" button', function() {
