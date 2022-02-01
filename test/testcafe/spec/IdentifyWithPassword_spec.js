@@ -173,7 +173,9 @@ test.requestHooks(identifyMock)('should show errors when forgot password is not 
 test.requestHooks(identifyWithPasswordMock)('should navigate back when "Back to sign in" clicked on /signin/forgot-password', async t => {
   const page = new IdentityRecoverPageObject(t);
   await page.navigateToPage();
+  await t.expect(await page.getPageUrl()).eql('http://localhost:3000/signin/forgot-password');
   await t.expect(page.form.getTitle()).eql('Reset your password');
   await page.clickSignOutLink();
+  await t.expect(await page.getPageUrl()).eql('http://localhost:3000/');
   await t.expect(page.form.getTitle()).eql('Sign In');
 });
