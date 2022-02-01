@@ -72,15 +72,10 @@ const Body = BaseAuthenticatorEmailForm.extend(
       contextualData?.useEmailMagicLink;
       const useEmailMagicLinkValue = useEmailMagicLink !== undefined ? useEmailMagicLink : true;
 
-      //If email magic link exist then show button with text, else toggle button to show text box
-      if (useEmailMagicLinkValue) {
-        this.add(EnterCodeLink, {
-          prepend: true,
-          selector: '.o-form-error-container',
-        });
-      } else {
-        this.showAuthCodeEntry();
-      }
+      this.add(EnterCodeLink, {
+        prepend: true,
+        selector: '.o-form-error-container',
+      });
 
       this.add(CheckYourEmailTitle, {
         prepend: true,
