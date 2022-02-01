@@ -37,6 +37,7 @@ import transformIdxResponse from './ion/transformIdxResponse';
 import { FORMS } from './ion/RemediationConstants';
 import CookieUtil from 'util/CookieUtil';
 import { formatError } from './client/formatError';
+import DeviceFingerprinting from './view-builder/utils/DeviceFingerprinting';
 
 export default Router.extend({
   Events: Backbone.Events,
@@ -191,23 +192,34 @@ export default Router.extend({
     // and remove it from `settings` afterwards as IDX response always has
     // state token (which will be set into AppState)
     if (this.settings.get('oieEnabled')) {
-      try {
-        let idxResp = await startLoginFlow(this.settings);
-        if (idxResp.error) {
-          this.appState.trigger('remediationError', idxResp.error);
-        } else {
-          if (this.settings.get('flow') && !this.hasControllerRendered) {
-            idxResp = await handleConfiguredFlow(idxResp, this.settings);
+      const fingerprintData = {
+        oktaDomainUrl: this.settings.get('baseUrl'),
+        element: $('body'),
+      };
+      const rtThis = this;
+      DeviceFingerprinting.generateDeviceFingerprint(fingerprintData)
+      .then(async function(fingerprint) {
+        rtThis.appState.set('deviceFingerprint', fingerprint);
+      }).finally(function() {
+        try {
+          let idxResp = await startLoginFlow(rtThis.settings);
+          rtThis.appState.unset('deviceFingerprint');
+          if (idxResp.error) {
+            rtThis.appState.trigger('remediationError', idxResp.error);
+          } else {
+            if (rtThis.settings.get('flow') && !rtThis.hasControllerRendered) {
+              idxResp = await handleConfiguredFlow(idxResp, rtThis.settings);
+            }
+            rtThis.appState.trigger('updateAppState', idxResp);
           }
-          this.appState.trigger('updateAppState', idxResp);
+        } catch (exception) {
+          rtThis.appState.trigger('error', exception);
+        } finally {
+          rtThis.settings.unset('stateToken');
+          rtThis.settings.unset('proxyIdxResponse');
         }
-      } catch (exception) {
-        this.appState.trigger('error', exception);
-      } finally {
-        this.settings.unset('stateToken');
-        this.settings.unset('proxyIdxResponse');
-      }
-    }
+      });
+    }  
 
     // Load the custom colors only on the first render
     if (this.settings.get('colors.brand') && !ColorsUtil.isLoaded()) {
