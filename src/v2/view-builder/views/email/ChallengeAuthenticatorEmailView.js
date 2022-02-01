@@ -25,7 +25,7 @@ const CheckYourEmailTitle = View.extend({
       }}
     {{/if}}
     
-    {{#if useEmailMagicLink}}
+    {{#if useEmailMagicLinkValue}}
       {{i18n 
         code="oie.email.verify.alternate.instructions" 
         bundle="login" 
@@ -39,11 +39,7 @@ const CheckYourEmailTitle = View.extend({
   `,
 
   getTemplateData() {
-    const { email } = this.options;
-    const contextualData = this.options.appState.get('currentAuthenticatorEnrollment')?.contextualData;
-    const useEmailMagicLink = contextualData !== null && contextualData.useEmailMagicLink !== null ? 
-      contextualData.useEmailMagicLink : true;
-    return { email, useEmailMagicLink };
+    return this.options;
   },
 });
 
@@ -72,24 +68,23 @@ const Body = BaseAuthenticatorEmailForm.extend(
       const { email } =
         this.options.currentViewState.relatesTo?.value?.profile || {};
 
-      const contextualData = this.options.appState.get('currentAuthenticatorEnrollment')?.contextualData;
-      const useEmailMagicLink = contextualData !== null && contextualData.useEmailMagicLink !== null ? 
-        contextualData.useEmailMagicLink : true;
+      const useEmailMagicLink = this.options.appState.get('currentAuthenticatorEnrollment')?.contextualData?.useEmailMagicLink;
+      const useEmailMagicLinkValue = useEmailMagicLink !== undefined ? useEmailMagicLink : true;
 
       //If email magic link exist then show button with text, else toggle button to show text box
-      if (useEmailMagicLink) {
+      if (useEmailMagicLinkValue) {
         this.add(EnterCodeLink, {
           prepend: true,
           selector: '.o-form-error-container',
         });
       } else {
-        this.showCodeEntryField(true);
+        this.showAuthCodeEntry();
       }
 
       this.add(CheckYourEmailTitle, {
         prepend: true,
         selector: '.o-form-error-container',
-        options: { email },
+        options: { email, useEmailMagicLinkValue },
       });
     },
 
