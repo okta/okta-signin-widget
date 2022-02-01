@@ -793,11 +793,17 @@ const onPremMFAVerify = {
 
 const passwordRecovery = {
   '/idp/idx/introspect': [
+    'identify-with-password',
+  ],
+  '/idp/idx/recover': [
     'identify-recovery',
   ],
   '/idp/idx/identify': [
     // 'error-identify-access-denied',
     'authenticator-verification-select-authenticator',
+  ],
+  '/idp/idx/cancel': [
+    'identify-with-password',
   ],
 };
 

@@ -13,7 +13,9 @@ const identifyWithPasswordMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(xhrErrorIdentify, 403)
   .onRequestTo('http://localhost:3000/idp/idx/recover')
-  .respond(xhrIdentifyRecover);
+  .respond(xhrIdentifyRecover)
+  .onRequestTo('http://localhost:3000/idp/idx/cancel')
+  .respond(xhrIdentifyWithPassword);
 
 const identifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -153,16 +155,25 @@ test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username 
   await t.expect(identityPage.getIdentifierSubLabelValue()).eql('Your username goes here');
   await t.expect(identityPage.getPasswordSubLabelValue()).eql('Your password goes here');
 });
-
+/** SSPR - self-service password reset flows */
 test.requestHooks(identifyWithPasswordMock)('should show forgot password page when navigates to /signin/forgot-password', async t => {
   const page = new IdentityRecoverPageObject(t);
   await page.navigateToPage();
   await t.expect(page.form.getTitle()).eql('Reset your password');
   await t.expect(await page.getIdentifyFieldLabel()).eql('Email or Username');
 });
+
 test.requestHooks(identifyMock)('should show errors when forgot password is not supported', async t => {
   const page = new IdentityRecoverPageObject(t);
   await page.navigateToPage();
   await t.expect(page.form.getTitle()).eql('Reset your password');
   await t.expect(page.form.getErrorBoxText()).eql('Forgot password is not enabled for this organization.');
+});
+
+test.requestHooks(identifyWithPasswordMock)('should navigate back when "Back to sign in" clicked on /signin/forgot-password', async t => {
+  const page = new IdentityRecoverPageObject(t);
+  await page.navigateToPage();
+  await t.expect(page.form.getTitle()).eql('Reset your password');
+  await page.clickSignOutLink();
+  await t.expect(page.form.getTitle()).eql('Sign In');
 });
