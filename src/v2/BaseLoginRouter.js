@@ -198,10 +198,14 @@ export default Router.extend({
       };
       const rtThis = this;
       DeviceFingerprinting.generateDeviceFingerprint(fingerprintData)
-      .then(async function(fingerprint) {
+      .then(function(fingerprint) {
+        alert(fingerprint);
         rtThis.appState.set('deviceFingerprint', fingerprint);
-      }).finally(function() {
+      }).catch(function(err) {
+        alert(JSON.stringify(err));
+      }).finally(async function() {
         try {
+          alert("a");
           let idxResp = await startLoginFlow(rtThis.settings);
           rtThis.appState.unset('deviceFingerprint');
           if (idxResp.error) {
