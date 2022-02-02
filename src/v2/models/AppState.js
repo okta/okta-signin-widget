@@ -247,7 +247,8 @@ export default Model.extend({
     this.clearAppStateCache();
     // set new app state properties
     this.set(transformedResponse);
-
+    this.set({ hooks });
+    
     if (doRerender) {
       // `currentFormName` is default to first form of remediations or nothing.
       let currentFormName = null;

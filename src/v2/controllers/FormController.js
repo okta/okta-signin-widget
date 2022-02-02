@@ -16,6 +16,7 @@ import { getV1ClassName } from '../ion/ViewClassNamesFactory';
 import { FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/RemediationConstants';
 import Util from '../../util/Util';
 import sessionStorageHelper from '../client/sessionStorageHelper';
+import { executeHooksBefore, executeHooksAfter } from 'util/Hooks';
 
 export default Controller.extend({
   className: 'form-controller',
@@ -129,13 +130,21 @@ export default Controller.extend({
     this.options.appState.set('currentFormName', formName);
   },
 
-  handleInvokeAction(actionPath = '') {
-    const idx = this.options.appState.get('idx');
+  // eslint-disable-next-line max-statements
+  async handleInvokeAction(actionPath = '') {
+    const { appState, settings } = this.options;
+    const idx = appState.get('idx');
+    const hooks = appState.get('hooks');
 
     if (actionPath === 'cancel') {
-      this.options.settings.getAuthClient().idx.clearTransactionMeta();
+      settings.getAuthClient().transactionManager.clear();
       sessionStorageHelper.removeStateHandle();
-      this.options.appState.clearAppStateCache();
+      appState.clearAppStateCache();
+
+      // TODO: Adding this line causes a visual change but removing it causes a Panic! message in console
+      appState.set('currentFormName', undefined);  // clear current form
+
+      this.options.appState.trigger('cancelPolling'); // stop all polling
     }
 
     if (idx['neededToProceed'].find(item => item.name === actionPath)) {
@@ -148,24 +157,28 @@ export default Controller.extend({
     }
 
     const actionFn = idx['actions'][actionPath];
-
     if (_.isFunction(actionFn)) {
+      const hook = hooks?.getHook(actionPath);
+      await executeHooksBefore(hook);
+
       // TODO: OKTA-243167 what's the approach to show spinner indicating API in flight?
-      actionFn()
-        .then((resp) => {
-          if (actionPath === 'cancel' && this.options.settings.get('useInteractionCodeFlow')) {
-            // In this case we need to restart login flow and recreate transaction meta
-            // that will be used in interactionCodeFlow function
-            this.options.appState.trigger('restartLoginFlow');
-          } else {
-            this.handleIdxResponse(resp);
-          }
-        })
-        .catch(error => {
-          this.showFormErrors(this.formView.model, error, this.formView.form);
-        });
+      try {
+        const resp = await actionFn();
+        // eslint-disable-next-line max-depth
+        if (actionPath === 'cancel' && settings.get('useInteractionCodeFlow')) {
+          // In this case we need to restart login flow and recreate transaction meta
+          // that will be used in interactionCodeFlow function
+          appState.trigger('restartLoginFlow');
+        } else {
+          this.handleIdxResponse(resp);
+        }
+      } catch(error) {
+        this.showFormErrors(this.formView.model, error, this.formView.form);
+      }
+
+      await executeHooksAfter(hook);
     } else {
-      this.options.settings.callGlobalError(`Invalid action selected: ${actionPath}`);
+      settings.callGlobalError(`Invalid action selected: ${actionPath}`);
       this.showFormErrors(this.formView.model, 'Invalid action selected.', this.formView.form);
     }
   },
