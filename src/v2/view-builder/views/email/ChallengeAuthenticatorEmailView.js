@@ -72,10 +72,12 @@ const Body = BaseAuthenticatorEmailForm.extend(
       contextualData?.useEmailMagicLink;
       const useEmailMagicLinkValue = useEmailMagicLink !== undefined ? useEmailMagicLink : true;
 
-      this.add(EnterCodeLink, {
-        prepend: true,
-        selector: '.o-form-error-container',
-      });
+      if (useEmailMagicLinkValue) {
+        this.add(EnterCodeLink, {
+          prepend: true,
+          selector: '.o-form-error-container',
+        });
+      } 
 
       this.add(CheckYourEmailTitle, {
         prepend: true,
@@ -86,8 +88,16 @@ const Body = BaseAuthenticatorEmailForm.extend(
 
     postRender() {
       BaseAuthenticatorEmailForm.prototype.postRender.apply(this, arguments);
-
-      this.showCodeEntryField(false);
+      const useEmailMagicLink = this.options.appState.get('currentAuthenticatorEnrollment')?.
+      contextualData?.useEmailMagicLink;
+      const useEmailMagicLinkValue = useEmailMagicLink !== undefined ? useEmailMagicLink : true;
+      
+      if (useEmailMagicLinkValue) {
+        this.showCodeEntryField(false);
+      } else {
+        this.noButtonBar = false;
+      }
+      
     },
 
     showAuthCodeEntry() {
