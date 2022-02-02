@@ -168,6 +168,25 @@ export default Router.extend({
     // }
   },
 
+  startLoginFlow: async function() {
+    try {
+      let idxResp = await startLoginFlow(this.settings);
+      if (idxResp.error) {
+        this.appState.trigger('remediationError', idxResp.error);
+      } else {
+        if (this.settings.get('flow') && !this.hasControllerRendered) {
+          idxResp = await handleConfiguredFlow(idxResp, this.settings);
+        }
+        this.appState.trigger('updateAppState', idxResp);
+      }
+    } catch (exception) {
+      this.appState.trigger('error', exception);
+    } finally {
+      this.settings.unset('stateToken');
+      this.settings.unset('proxyIdxResponse');
+    }
+  },
+
   /* eslint max-statements: [2, 27], complexity: [2, 11] */
   render: async function(Controller, options = {}) {
     // If url changes then widget assumes that user's intention was to initiate a new login flow,
@@ -196,32 +215,12 @@ export default Router.extend({
         oktaDomainUrl: this.settings.get('baseUrl'),
         element: $('body'),
       };
-      const rtThis = this;
+
       DeviceFingerprinting.generateDeviceFingerprint(fingerprintData)
-      .then(function(fingerprint) {
-        alert(fingerprint);
-        rtThis.appState.set('deviceFingerprint', fingerprint);
-      }).catch(function(err) {
-        alert(JSON.stringify(err));
-      }).finally(async function() {
-        try {
-          alert("a");
-          let idxResp = await startLoginFlow(rtThis.settings);
-          rtThis.appState.unset('deviceFingerprint');
-          if (idxResp.error) {
-            rtThis.appState.trigger('remediationError', idxResp.error);
-          } else {
-            if (rtThis.settings.get('flow') && !rtThis.hasControllerRendered) {
-              idxResp = await handleConfiguredFlow(idxResp, rtThis.settings);
-            }
-            rtThis.appState.trigger('updateAppState', idxResp);
-          }
-        } catch (exception) {
-          rtThis.appState.trigger('error', exception);
-        } finally {
-          rtThis.settings.unset('stateToken');
-          rtThis.settings.unset('proxyIdxResponse');
-        }
+      .then((fingerprint) => {
+        this.appState.set('deviceFingerprint', fingerprint);
+      }).finally(() => {
+        this.startLoginFlow();
       });
     }  
 
