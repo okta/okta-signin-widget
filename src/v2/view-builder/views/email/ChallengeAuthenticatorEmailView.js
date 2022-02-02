@@ -68,9 +68,7 @@ const Body = BaseAuthenticatorEmailForm.extend(
       const { email } =
         this.options.currentViewState.relatesTo?.value?.profile || {};
 
-      const useEmailMagicLink = this.options.appState.get('currentAuthenticatorEnrollment')?.
-      contextualData?.useEmailMagicLink;
-      const useEmailMagicLinkValue = useEmailMagicLink !== undefined ? useEmailMagicLink : true;
+      const useEmailMagicLinkValue = this.isUseEmailMagicLink();
 
       if (useEmailMagicLinkValue) {
         this.add(EnterCodeLink, {
@@ -88,16 +86,17 @@ const Body = BaseAuthenticatorEmailForm.extend(
 
     postRender() {
       BaseAuthenticatorEmailForm.prototype.postRender.apply(this, arguments);
-      const useEmailMagicLink = this.options.appState.get('currentAuthenticatorEnrollment')?.
-      contextualData?.useEmailMagicLink;
-      const useEmailMagicLinkValue = useEmailMagicLink !== undefined ? useEmailMagicLink : true;
-      
-      if (useEmailMagicLinkValue) {
+      if (this.isUseEmailMagicLink()) {
         this.showCodeEntryField(false);
       } else {
         this.noButtonBar = false;
       }
-      
+    },
+
+    isUseEmailMagicLink() {
+      const useEmailMagicLink = this.options.appState.get('currentAuthenticatorEnrollment')?.
+      contextualData?.useEmailMagicLink;
+      return useEmailMagicLink !== undefined ? useEmailMagicLink : true;
     },
 
     showAuthCodeEntry() {
