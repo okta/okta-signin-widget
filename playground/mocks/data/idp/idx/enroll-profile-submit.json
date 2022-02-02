@@ -54,6 +54,13 @@
       "identifier": "testUser@okta.com"
     }
   },
+  "uiDisplay": {
+    "type":"object",
+    "value": {
+      "label":"Sign in",
+      "buttonLabel":"Submit"
+    }
+  },
   "cancel": {
     "rel": [
       "create-form"

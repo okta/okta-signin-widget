@@ -5,7 +5,12 @@ import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 const Body = BaseForm.extend({
   title() {
     if (this.options.appState.getCurrentViewState().href.endsWith('idp/idx/enroll/update')) {
-      return loc('oie.primaryauth.submit', 'login');
+      const attributes = this.options.appState.attributes;
+      if (attributes?.uiDisplay?.label) {
+        return loc('oie.registration.form.customize.label', 'login', [attributes.uiDisplay.label]);
+      } else {
+        return loc('oie.primaryauth.submit', 'login');
+      }
     }
     return loc('oie.registration.form.title', 'login');
 
@@ -13,7 +18,12 @@ const Body = BaseForm.extend({
 
   save() {
     if (this.options.appState.getCurrentViewState().href.endsWith('idp/idx/enroll/update')) {
-      return loc('oie.registration.form.update.submit', 'login');
+      const attributes = this.options.appState.attributes;
+      if (attributes?.uiDisplay?.buttonLabel) {
+        return loc('oie.registration.form.customize.buttonLabel', 'login', [attributes.uiDisplay.buttonLabel]);
+      } else {
+        return loc('oie.registration.form.update.submit', 'login');
+      }
     }
     return loc('oie.registration.form.submit', 'login');
 
