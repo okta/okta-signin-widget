@@ -295,7 +295,7 @@ test
     await t.expect(pageTitle).contains('Verify with your email');
 
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .contains('An email magic link was sent to your email. Click the verification link in your email to continue or enter the code below.');
+      .contains('We sent you a verification email. Click the verification link in your email to continue or enter the code below.');
   });
 
 test
@@ -308,7 +308,7 @@ test
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with your email');
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .contains('An email magic link was sent to your email. Click the verification link in your email to continue or enter the code below.');
+      .contains('We sent you a verification email. Click the verification link in your email to continue or enter the code below.');
   });
 
 test
