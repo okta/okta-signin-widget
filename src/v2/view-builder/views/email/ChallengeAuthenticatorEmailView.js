@@ -24,15 +24,22 @@ const CheckYourEmailTitle = View.extend({
         bundle="login"
       }}
     {{/if}}
-    {{i18n 
-      code="oie.email.verify.alternate.instructions" 
-      bundle="login" 
-    }}
+    
+    {{#if useEmailMagicLinkValue}}
+      {{i18n 
+        code="oie.email.verify.alternate.instructions" 
+        bundle="login" 
+      }}
+    {{else}}
+      {{i18n 
+        code="oie.email.verify.alternate.verificationCode.instructions" 
+        bundle="login" 
+      }}
+    {{/if}}
   `,
 
   getTemplateData() {
-    const { email } = this.options;
-    return { email };
+    return this.options;
   },
 });
 
@@ -61,22 +68,35 @@ const Body = BaseAuthenticatorEmailForm.extend(
       const { email } =
         this.options.currentViewState.relatesTo?.value?.profile || {};
 
-      this.add(EnterCodeLink, {
-        prepend: true,
-        selector: '.o-form-error-container',
-      });
+      const useEmailMagicLinkValue = this.isUseEmailMagicLink();
+
+      if (useEmailMagicLinkValue) {
+        this.add(EnterCodeLink, {
+          prepend: true,
+          selector: '.o-form-error-container',
+        });
+      } 
 
       this.add(CheckYourEmailTitle, {
         prepend: true,
         selector: '.o-form-error-container',
-        options: { email },
+        options: { email, useEmailMagicLinkValue },
       });
     },
 
     postRender() {
       BaseAuthenticatorEmailForm.prototype.postRender.apply(this, arguments);
+      if (this.isUseEmailMagicLink()) {
+        this.showCodeEntryField(false);
+      } else {
+        this.noButtonBar = false;
+      }
+    },
 
-      this.showCodeEntryField(false);
+    isUseEmailMagicLink() {
+      const useEmailMagicLink = this.options.appState.get('currentAuthenticatorEnrollment')?.
+      contextualData?.useEmailMagicLink;
+      return useEmailMagicLink !== undefined ? useEmailMagicLink : true;
     },
 
     showAuthCodeEntry() {
