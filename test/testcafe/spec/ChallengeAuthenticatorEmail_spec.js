@@ -5,12 +5,14 @@ import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
+import emailVerificationWithoutEmailMagicLink from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-without-emailmagiclink';
 import emailVerificationWithoutResend from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-without-resend';
 import emailVerificationPolling from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling';
 import emailVerificationPollingShort from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling-short';
 import emailVerificationPollingVeryShort from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling-very-short';
 import emailVerificationPollingLong from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling-long';
 import emailVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-no-profile';
+import emailVerificationNoProfileNoEmailMagicLink from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-no-profile-no-emailmagiclink';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidOTP from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
 import invalidEmailOTP from '../../../playground/mocks/data/idp/idx/error-401-invalid-email-otp-passcode';
@@ -45,6 +47,12 @@ const sendEmailMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(emailVerification);
 
+const sendEmailMockWithoutEmailMagicLink = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerificationSendEmailData)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(emailVerificationWithoutEmailMagicLink);
+
 const sendEmailEmptyProfileMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerificationSendEmailDataEmptyProfile);
@@ -76,6 +84,16 @@ const validOTPmockNoProfile = RequestMock()
   .respond(emailVerificationNoProfile)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
   .respond(emailVerificationNoProfile)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(success);
+
+const validOTPmockNoProfileNoEmailMagicLink = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerificationNoProfileNoEmailMagicLink)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(emailVerificationNoProfileNoEmailMagicLink)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
+  .respond(emailVerificationNoProfileNoEmailMagicLink)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
@@ -250,7 +268,24 @@ test
 
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql(`An email magic link was sent to ${emailAddress}. Click the link in the email or enter the code below to continue.`);
+      .eql(`We sent an email to ${emailAddress}. Click the verification link in your email to continue or enter the code below.`);
+
+    // Verify links (switch authenticator link not present since there are no other authenticators available)
+    await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
+    await t.expect(await challengeEmailPageObject.signoutLinkExists()).ok();
+    await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
+  });
+
+test
+  .requestHooks(sendEmailMockWithoutEmailMagicLink)('send me an email button should take to challenge email authenticator screen without email magic link text', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await challengeEmailPageObject.clickNextButton();
+    const pageTitle = challengeEmailPageObject.getFormTitle();
+    await t.expect(pageTitle).eql('Verify with your email');
+
+    const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
+    await t.expect(challengeEmailPageObject.getFormSubtitle())
+      .eql(`We sent an email to ${emailAddress}. Enter the verification code in the text box.`);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
@@ -276,7 +311,7 @@ test
 
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .eql(`An email magic link was sent to ${emailAddress}. Click the link in the email or enter the code below to continue.`);
+      .eql(`We sent an email to ${emailAddress}. Click the verification link in your email to continue or enter the code below.`);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
@@ -295,7 +330,20 @@ test
     await t.expect(pageTitle).contains('Verify with your email');
 
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .contains('An email magic link was sent to your email. Click the link in the email or enter the code below to continue.');
+      .contains('We sent you a verification email. Click the verification link in your email to continue or enter the code below.');
+  });
+
+test
+  .requestHooks(validOTPmockNoProfileNoEmailMagicLink)('challenge email authenticator screen has right labels when profile is null and email magic link does not exist', async t => {
+    const challengeEmailPageObject = await setup(t);
+
+    const pageTitle = challengeEmailPageObject.getPageTitle();
+    const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
+    await t.expect(saveBtnText).contains('Verify');
+    await t.expect(pageTitle).contains('Verify with your email');
+
+    await t.expect(challengeEmailPageObject.getFormSubtitle())
+      .contains('We sent you a verification email. Enter the verification code in the text box.');
   });
 
 test
@@ -308,7 +356,7 @@ test
     await t.expect(saveBtnText).contains('Verify');
     await t.expect(pageTitle).contains('Verify with your email');
     await t.expect(challengeEmailPageObject.getFormSubtitle())
-      .contains('An email magic link was sent to your email. Click the link in the email or enter the code below to continue.');
+      .contains('We sent you a verification email. Click the verification link in your email to continue or enter the code below.');
   });
 
 test
