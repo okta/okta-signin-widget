@@ -5,6 +5,7 @@ import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
+import emailVerificationWithoutEmailMagicLink from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-without-emailmagiclink';
 import emailVerificationWithoutResend from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-without-resend';
 import emailVerificationPolling from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling';
 import emailVerificationPollingShort from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling-short';
@@ -44,6 +45,12 @@ const sendEmailMock = RequestMock()
   .respond(emailVerificationSendEmailData)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(emailVerification);
+
+const sendEmailMockWithoutEmailMagicLink = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerificationSendEmailData)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(emailVerificationWithoutEmailMagicLink);
 
 const sendEmailEmptyProfileMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -251,6 +258,23 @@ test
     const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .eql(`We sent an email to ${emailAddress}. Click the verification link in your email to continue or enter the code below.`);
+
+    // Verify links (switch authenticator link not present since there are no other authenticators available)
+    await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
+    await t.expect(await challengeEmailPageObject.signoutLinkExists()).ok();
+    await t.expect(challengeEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
+  });
+
+test
+  .requestHooks(sendEmailMockWithoutEmailMagicLink)('send me an email button should take to challenge email authenticator screen without email magic link text', async t => {
+    const challengeEmailPageObject = await setup(t);
+    await challengeEmailPageObject.clickNextButton();
+    const pageTitle = challengeEmailPageObject.getFormTitle();
+    await t.expect(pageTitle).eql('Verify with your email');
+
+    const emailAddress = emailVerification.currentAuthenticatorEnrollment.value.profile.email;
+    await t.expect(challengeEmailPageObject.getFormSubtitle())
+      .eql(`We sent an email to ${emailAddress}. Enter the verification code in the text box.`);
 
     // Verify links (switch authenticator link not present since there are no other authenticators available)
     await t.expect(await challengeEmailPageObject.switchAuthenticatorLinkExists()).notOk();
