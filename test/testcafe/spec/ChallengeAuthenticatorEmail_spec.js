@@ -12,6 +12,7 @@ import emailVerificationPollingShort from '../../../playground/mocks/data/idp/id
 import emailVerificationPollingVeryShort from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling-very-short';
 import emailVerificationPollingLong from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-polling-long';
 import emailVerificationNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-no-profile';
+import emailVerificationNoProfileNoEmailMagicLink from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-no-profile-no-emailmagiclink';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import invalidOTP from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
 import invalidEmailOTP from '../../../playground/mocks/data/idp/idx/error-401-invalid-email-otp-passcode';
@@ -83,6 +84,16 @@ const validOTPmockNoProfile = RequestMock()
   .respond(emailVerificationNoProfile)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
   .respond(emailVerificationNoProfile)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(success);
+
+const validOTPmockNoProfileNoEmailMagicLink = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerificationNoProfileNoEmailMagicLink)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(emailVerificationNoProfileNoEmailMagicLink)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/resend')
+  .respond(emailVerificationNoProfileNoEmailMagicLink)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(success);
 
@@ -320,6 +331,19 @@ test
 
     await t.expect(challengeEmailPageObject.getFormSubtitle())
       .contains('We sent you a verification email. Click the verification link in your email to continue or enter the code below.');
+  });
+
+test
+  .requestHooks(validOTPmockNoProfileNoEmailMagicLink)('challenge email authenticator screen has right labels when profile is null and email magic link does not exist', async t => {
+    const challengeEmailPageObject = await setup(t);
+
+    const pageTitle = challengeEmailPageObject.getPageTitle();
+    const saveBtnText = challengeEmailPageObject.getSaveButtonLabel();
+    await t.expect(saveBtnText).contains('Verify');
+    await t.expect(pageTitle).contains('Verify with your email');
+
+    await t.expect(challengeEmailPageObject.getFormSubtitle())
+      .contains('We sent you a verification email. Enter the verification code in the text box.');
   });
 
 test
