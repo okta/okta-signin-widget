@@ -43,6 +43,7 @@ const mocksWithAlert = [
 ];
 
 const mocksWithPreventRedirect = [
+  'identify-with-only-one-third-party-idp-app-use',
   'error-with-failure-redirect.json'
 ];
 const mocksWithoutInitialRender = [

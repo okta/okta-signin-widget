@@ -2,41 +2,49 @@ import { OktaAuth } from '@okta/okta-auth-js';
 import Util from 'util/Util';
 import config from 'config/config.json';
 
-export default function(options) {
-  const {
-    issuer,
-    clientId,
-    redirectUri,
-    state,
-    scopes,
-    flow,
-    codeChallenge,
-    codeChallengeMethod,
-    recoveryToken
-  } = options;
-  const authParams = {
-    issuer,
-    clientId,
-    redirectUri,
-    state,
-    scopes,
-    flow,
-    codeChallenge,
-    codeChallengeMethod,
-    transformErrorXHR: Util.transformErrorXHR,
-    recoveryToken,
-    ...options.authParams
-  };
+export default function(options = {}) {
+  // if authClient is set, authParams are disregarded
+  let { authClient, authParams } = options;
 
-  if (!authParams.issuer) {
-    authParams.issuer = options.baseUrl + '/oauth2/default';
+  if (!authClient) {
+    // Create an authClient using widget options and optional authParams
+    const {
+      issuer,
+      clientId,
+      redirectUri,
+      state,
+      scopes,
+      flow,
+      codeChallenge,
+      codeChallengeMethod,
+      recoveryToken
+    } = options;
+    authParams = {
+      issuer,
+      clientId,
+      redirectUri,
+      state,
+      scopes,
+      flow,
+      codeChallenge,
+      codeChallengeMethod,
+      transformErrorXHR: Util.transformErrorXHR,
+      recoveryToken,
+      ...authParams
+    };
+
+    if (!authParams.issuer) {
+      authParams.issuer = options.baseUrl + '/oauth2/default';
+    }
+
+    authParams.transactionManager = authParams.transactionManager || {};
+    Object.assign(authParams.transactionManager, {
+      saveLastResponse: false
+    });
+    authClient = new OktaAuth(authParams);
   }
 
-  authParams.transactionManager = authParams.transactionManager || {};
-  Object.assign(authParams.transactionManager, {
-    saveLastResponse: false
-  });
-  var authClient = options.authClient ? options.authClient : new OktaAuth(authParams);
+  // Add widget version to extended user agent header
   if (!authClient._oktaUserAgent) {
     // TODO: this block handles OKTA UA for passed in authClient, error should be thrown in the next major version
     // For now, do nothing here to preserve the current behavior

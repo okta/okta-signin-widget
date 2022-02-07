@@ -57,8 +57,7 @@ export async function startLoginFlow(settings) {
         );
       }
       // start new transaction
-      const recoveryToken = settings.get('recoveryToken');
-      return authClient.idx.start({ ...idxOptions, recoveryToken }); // calls interact
+      return authClient.idx.start(idxOptions); // calls interact
     }
 
     // continue saved transaction
