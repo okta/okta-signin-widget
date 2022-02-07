@@ -12,12 +12,10 @@
 
 import BaseLoginRouter from './BaseLoginRouter';
 import FormController from './controllers/FormController';
-import ForgotPasswordFormController from './controllers/ForgotPasswordFormController';
 
 module.exports = BaseLoginRouter.extend({
   routes: {
     '': 'defaultAuth',
-    'signin/forgot-password': 'renderForgotPassword',
     '*wildcard': 'defaultAuth',
   },
 
@@ -25,11 +23,4 @@ module.exports = BaseLoginRouter.extend({
     this.render(FormController);
   },
 
-  /**
-   * Bootstrap forgot password flow when navigates
-   * to '/signin/forgot-password'
-   */
-  renderForgotPassword() {
-    this.render(ForgotPasswordFormController);
-  }
 });
