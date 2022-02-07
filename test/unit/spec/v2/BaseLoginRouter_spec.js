@@ -62,7 +62,7 @@ describe('v2/BaseLoginRouter', function() {
         authParams[parts[1]] = settings[key];
       }
     });
-    const authClient = getAuthClient({ authParams });
+    const authClient = getAuthClient({ ...settings, authParams });
     const router = new TestRouter(
       _.extend(
         {
@@ -102,6 +102,91 @@ describe('v2/BaseLoginRouter', function() {
     sessionStorage.clear();
   });
 
+  describe('restartLoginFlow', () => {
+    it('re-renders', () => {
+      setup({
+        useInteractionCodeFlow: true
+      });
+      const { router } = testContext;
+      router.controller = {
+        constructor: () => {}
+      };
+      jest.spyOn(router, 'render').mockImplementation();
+      router.appState.trigger('restartLoginFlow');
+      expect(router.render).toHaveBeenCalledWith(router.controller.constructor);
+    });
+    it('clears the recoveryToken (before render)', () => {
+      const recoveryToken = 'abc';
+      setup({
+        useInteractionCodeFlow: true,
+        recoveryToken
+      });
+      const { router, authClient } = testContext;
+      const { settings } = router;
+      expect(settings.get('recoveryToken')).toBe(recoveryToken);
+      expect(authClient.options.recoveryToken).toBe(recoveryToken);
+
+      router.controller = {};
+      let clearInsideRender = false;
+      jest.spyOn(router, 'render').mockImplementation(() => {
+        expect(authClient.options.recoveryToken).toBe(undefined);
+        expect(settings.get('recoveryToken')).toBe(undefined);
+        clearInsideRender = true;
+      });
+      router.appState.trigger('restartLoginFlow');
+      expect(router.render).toHaveBeenCalled();
+      expect(clearInsideRender).toBe(true);
+    });
+  });
+
+  describe('ephemeral settings', () => {
+    it('will clear "stateToken", "proxyIdxResponse" after render', async () => {
+      const mockResponse = {
+        messages: {
+          value: [{
+            message: 'fake'
+          }]
+        }
+      };
+      setup({
+        stateToken: 'foo',
+        proxyIdxResponse: mockResponse
+      });
+      const { router, render } = testContext;
+
+      const { settings } = router;
+      expect(settings.get('stateToken')).toBe('foo');
+      expect(settings.get('proxyIdxResponse')).toEqual(mockResponse);
+  
+      await render();
+      expect(settings.get('stateToken')).toBe(undefined);
+      expect(settings.get('proxyIdxResponse')).toBe(undefined);
+    });
+    it('will clear "stateToken", "proxyIdxResponse" after render, even if an exception is thrown', async () => {
+      const globalErrorFn = jest.fn();
+      setup({
+        globalErrorFn,
+        useInteractionCodeFlow: true,
+        stateToken: 'foo',
+        proxyIdxResponse: false,
+      });
+      const { router, render, authClient } = testContext;
+
+
+      const { settings, appState } = router;
+      const error = new Error('test error');
+      jest.spyOn(authClient.idx, 'start').mockRejectedValue(error);
+      jest.spyOn(appState, 'trigger');
+      expect(settings.get('stateToken')).toBe('foo');
+      expect(settings.get('proxyIdxResponse')).toBe(false);
+  
+      await render();
+      expect(appState.trigger).toHaveBeenCalledWith('error', error);
+      expect(globalErrorFn).toHaveBeenCalledWith(error);
+      expect(settings.get('stateToken')).toBe(undefined);
+      expect(settings.get('proxyIdxResponse')).toBe(undefined);
+    });
+  });
   describe('error handling', () => {
     it('should render error message when /interact fails with fake error', async function() {
       // jest.spyOn(mocked.interact, 'interact').mockRejectedValue({error: FakeIdxClientError});
