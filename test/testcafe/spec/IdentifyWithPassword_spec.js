@@ -1,8 +1,6 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
-import IdentityRecoverPageObject from '../framework/page-objects/IdentifyRecoverPageObject';
 import { checkConsoleMessages, renderWidget } from '../framework/shared';
-import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
 import xhrIdentifyRecover from '../../../playground/mocks/data/idp/idx/identify-recovery';
 import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
@@ -14,10 +12,6 @@ const identifyWithPasswordMock = RequestMock()
   .respond(xhrErrorIdentify, 403)
   .onRequestTo('http://localhost:3000/idp/idx/recover')
   .respond(xhrIdentifyRecover);
-
-const identifyMock = RequestMock()
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrIdentify);
 
 const identifyRequestLogger = RequestLogger(
   /idx\/identify/,
@@ -154,15 +148,3 @@ test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username 
   await t.expect(identityPage.getPasswordSubLabelValue()).eql('Your password goes here');
 });
 
-test.requestHooks(identifyWithPasswordMock)('should show forgot password page when navigates to /signin/forgot-password', async t => {
-  const page = new IdentityRecoverPageObject(t);
-  await page.navigateToPage();
-  await t.expect(page.form.getTitle()).eql('Reset your password');
-  await t.expect(await page.getIdentifyFieldLabel()).eql('Email or Username');
-});
-test.requestHooks(identifyMock)('should show errors when forgot password is not supported', async t => {
-  const page = new IdentityRecoverPageObject(t);
-  await page.navigateToPage();
-  await t.expect(page.form.getTitle()).eql('Reset your password');
-  await t.expect(page.form.getErrorBoxText()).eql('Forgot password is not enabled for this organization.');
-});
