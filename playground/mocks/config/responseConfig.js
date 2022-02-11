@@ -115,6 +115,7 @@ const idx = {
   '/idp/idx/identify': [
     'authenticator-verification-email',
     // 'authenticator-enroll-select-authenticator',
+    // 'authenticator-verification-email-without-emailmagiclink',
     // 'identify-with-only-one-third-party-idp',
     // 'error-identify-access-denied',
     // 'error-identify-user-locked-unable-challenge',

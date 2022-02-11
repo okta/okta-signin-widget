@@ -167,7 +167,7 @@ export default Router.extend({
     // }
   },
 
-  /* eslint max-statements: [2, 27], complexity: [2, 11] */
+  /* eslint max-statements: [2, 28], complexity: [2, 11] */
   render: async function(Controller, options = {}) {
     // If url changes then widget assumes that user's intention was to initiate a new login flow,
     // so clear stored token to use the latest token.
@@ -204,6 +204,7 @@ export default Router.extend({
       } catch (exception) {
         this.appState.trigger('error', exception);
       } finally {
+        // These settings should only be used one time, for initial render
         this.settings.unset('stateToken');
         this.settings.unset('proxyIdxResponse');
       }
@@ -264,6 +265,12 @@ export default Router.extend({
   },
 
   restartLoginFlow() {
+    // Clear the recoveryToken, if any
+    const authClient = this.settings.getAuthClient();
+    delete authClient.options['recoveryToken'];
+    this.settings.unset('recoveryToken');
+
+    // Re-render the widget
     this.render(this.controller.constructor);
   },
 
