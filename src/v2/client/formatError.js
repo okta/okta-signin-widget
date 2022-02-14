@@ -12,6 +12,33 @@
 
 import { loc } from 'okta';
 
+export function isInvalidRecoveryTokenError(error) {
+  // special case: error from interact when passing an (invalid) recovery token
+  return (error?.error === 'invalid_request' && error.error_description === 'The recovery token is invalid');
+}
+
+export function formatInvalidRecoveryTokenError(error) {
+  // This error comes from `oauth2/interact` so is not an IDX error.
+  // simulate an IDX-JS error response
+  error = formatIDXError(error);
+  const { details } = error;
+  const messages = {
+    type: 'array',
+    value: [
+      {
+        message: error.error_description,
+        i18n: {
+          key: 'oie.invalid.recovery.token'
+        },
+        class: 'ERROR'
+      }
+    ],
+  };
+  details.rawIdxState.messages = messages;
+  details.context.messages = messages;
+  return error;
+}
+
 export function isOIENotEnabledError(error) {
   // special case: error from interact. `useInteractionCodeFlow` is true but the Org does not have OIE enabled
   // The response is not in IDX format. See playground/mocks/data/oauth2/error-feature-not-enabled.json
@@ -19,7 +46,7 @@ export function isOIENotEnabledError(error) {
 }
 
 export function formatOIENotEnabledError(error) {
-  // This error comes from `oauth2/introspect` so is not an IDX error.
+  // This error comes from `oauth2/interact` so the error is in OAuth format
   // simulate an IDX-JS error response
   error = formatIDXError(error);
   const { details } = error;
@@ -45,7 +72,7 @@ export function isOIEConfigurationError(error) {
 }
 
 export function formatOIEConfigurationError(error) {
-  // This error comes from `oauth2/introspect` so is not an IDX error.
+  // This error comes from `oauth2/interact` so the error is in OAuth format
   // simulate an IDX-JS error response
   error = formatIDXError(error);
   const { details } = error;
@@ -95,16 +122,23 @@ export function formatError(error) {
     error = new Error(error);
   }
 
-  // special case: error from interact. `useInteractionCodeFlow` is true but the Org does not have OIE enabled
-  // The response is not in IDX format. See playground/mocks/data/oauth2/error-feature-not-enabled.json
+  // special case error handling
+
+  // invalid reccovery token
+  if (isInvalidRecoveryTokenError(error)) {
+    return formatInvalidRecoveryTokenError(error);
+  }
+
+  // OIE is not enabled
   if (isOIENotEnabledError(error)) {
     return formatOIENotEnabledError(error);
   }
 
+  // Other errors from /interact in OAuth format
   if (isOIEConfigurationError(error)) {
     return formatOIEConfigurationError(error);
   }
-  
+
   error = formatIDXError(error);
   return error;
 }

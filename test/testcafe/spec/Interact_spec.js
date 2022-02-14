@@ -2,7 +2,8 @@ import { ClientFunction, RequestMock, RequestLogger } from 'testcafe';
 import BasePageObject from '../framework/page-objects/BasePageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
 import { checkConsoleMessages } from '../framework/shared';
-import xhrServerError from '../../../playground/mocks/data/oauth2/error-feature-not-enabled';
+import xhrErrorFeatureNotEnabled from '../../../playground/mocks/data/oauth2/error-feature-not-enabled';
+import xhrErrorInvalidRecoveryToken from '../../../playground/mocks/data/oauth2/error-recovery-token-invalid';
 import xhrWellKnownResponse from '../../../playground/mocks/data/oauth2/well-known-openid-configuration.json';
 import xhrInteractResponse from '../../../playground/mocks/data/oauth2/interact.json';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
@@ -44,11 +45,19 @@ const interactMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify);
 
-const errorMock = RequestMock()
+const errorOIENotEnabledMock = RequestMock()
   .onRequestTo('http://localhost:3000/oauth2/default/.well-known/openid-configuration')
   .respond(xhrWellKnownResponse, 200)
   .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
-  .respond(xhrServerError, 400)
+  .respond(xhrErrorFeatureNotEnabled, 400)
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify);
+
+const errorInvalidRecoveryTokenMock = RequestMock()
+  .onRequestTo('http://localhost:3000/oauth2/default/.well-known/openid-configuration')
+  .respond(xhrWellKnownResponse, 200)
+  .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
+  .respond(xhrErrorInvalidRecoveryToken, 400)
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify);
 
@@ -113,7 +122,7 @@ async function setup(t, options = {}) {
   return pageObject;
 }
 
-test.requestHooks(requestLogger, errorMock)('shows an error when feature is not enabled', async t => {
+test.requestHooks(requestLogger, errorOIENotEnabledMock)('shows an error when feature is not enabled', async t => {
   await setup(t);
 
   const terminalPageObject = new TerminalPageObject(t);
@@ -241,4 +250,19 @@ test.requestHooks(requestLogger, cancelResetPasswordMock)('clears recovery_token
   params = decodeUrlEncodedRequestBody(req.body);
   await t.expect(req.url).eql('http://localhost:3000/oauth2/default/v1/interact');
   await t.expect(params['recovery_token']).eql(undefined);
+});
+
+test.requestHooks(requestLogger, errorInvalidRecoveryTokenMock)('shows an error when recovery token is invalid', async t => {
+  await setup(t);
+
+  const terminalPageObject = new TerminalPageObject(t);
+  const errors = terminalPageObject.getErrorMessages();
+  await t.expect(errors.isError()).ok();
+  await t.expect(errors.getTextContent()).eql('The recovery token is invalid.');
+
+  await checkConsoleMessages([
+    'ready',
+    'afterRender',
+    expectTerminalView
+  ]);
 });
