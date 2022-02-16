@@ -14436,7 +14436,7 @@ var _default = _BaseInput.default.extend({
       }); //if options are more than search threshold, consider it as a combobox
 
       var isComboBox = this.options & this.options.options && Object.keys(this.options.options).length > searchThreshold ? true : false;
-      this.accessbilityUpdate(isComboBox, this.params);
+      this.accessibilityUpdate(isComboBox, this.params);
       fixChosenModal(this.$select, this.searchPlaceholder);
 
       if (this.params.autoWidth) {
@@ -14509,12 +14509,12 @@ var _default = _BaseInput.default.extend({
   },
 
   /**
-   * Code to make the select/combobox component accessbile with screen readers.
+   * Code to make the select/combobox component accessible with screen readers.
    *
    * @param {boolean} isComboBox - Is the select a combobox?
    * @param {object} params - params like aria label
    */
-  accessbilityUpdate: function accessbilityUpdate(isComboBox, params) {
+  accessibilityUpdate: function accessibilityUpdate(isComboBox, params) {
     var txtBoxId = this.$select.attr('id') + '_txt';
 
     if (isComboBox) {
