@@ -1020,5 +1020,5 @@ const selectOktaVerifyMethod = {
 };
 
 module.exports = {
-  mocks: enrollQROktaVerify,
+  mocks: idx,
 };
