@@ -28,9 +28,8 @@ export default View.extend({
         <div data-se="qrcode-success" class="qrcode-success"></div>
         <div data-se="qrcode-error" class="qrcode-error"></div>
       </div>
-      <a href="#" data-type="manual-setup" data-se="manual-setup" class="link manual-setup"
-      aria-label="{{i18n code="enroll.totp.aria.cannotScan" bundle="login" }}">
-        {{i18n code="enroll.totp.cannotScan" bundle="login"}}
+      <a href="#" data-type="manual-setup" data-se="manual-setup" class="link manual-setup">
+        {{i18n code="enroll.totp.setupWithoutQRCode" bundle="login"}}
       </a>
       <a href="#" data-type="refresh-qrcode" data-se="refresh-qrcode" class="link refresh-qrcode">
         {{i18n code="enroll.totp.refreshBarcode" bundle="login"}}

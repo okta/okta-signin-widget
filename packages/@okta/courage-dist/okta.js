@@ -4406,6 +4406,7 @@ var SchemaUtils = {
    * @param {String} appName The app name that's mapped to/from Okta
    * @return {String} the source attribute username type value
    */
+  // eslint-disable-next-line complexity
   getSourceUsernameType: function getSourceUsernameType(mappingDirection, targetName, appName) {
     var sourceUsernameType = this.USERNAMETYPE.NONE;
     /* eslint complexity: [2, 7] */
@@ -4413,7 +4414,7 @@ var SchemaUtils = {
     if (mappingDirection === 'oktaToApp') {
       if (targetName === 'userName') {
         sourceUsernameType = this.USERNAMETYPE.OKTA_TO_APP;
-      } else if (targetName === 'cn') {
+      } else if (targetName === 'cn' && appName === 'active_directory') {
         sourceUsernameType = this.USERNAMETYPE.OKTA_TO_AD;
       }
     } else if (mappingDirection === 'appToOkta' && targetName === 'login') {
@@ -14274,12 +14275,22 @@ function recalculateChosen($chosen, $results, $clone) {
   var wHeight = $win.height() - CHOSEN_WINDOW_MARGIN;
   var maxHeight = Math.min(rHeight + wHeight - rBottom, CHOSEN_MAX_HEIGHT);
   $results.css('max-height', maxHeight);
-}
+} // eslint-disable-next-line max-statements
+
 
 function fixChosenModal($select, textPlaceholder) {
   var $chosen = $select.next('.chzn-container');
   var $clone = $chosen.clone();
-  var $results = $chosen.find('.chzn-results'); // Use a hidden clone to maintain layout and calculate offset. This is
+  var $results = $chosen.find('.chzn-results');
+  var $searchInput = $chosen.find('.chzn-search input[type=text]');
+  $searchInput.on('keyup', function () {
+    $chosen.find('#' + $select.attr('id') + '_txt').attr('aria-activedescendant', $results.find('.active-result.highlighted').attr('id'));
+    var noResult = $results.find('li.no-results');
+
+    if (noResult.length) {
+      noResult.attr('role', 'alert');
+    }
+  }); // Use a hidden clone to maintain layout and calculate offset. This is
   // necessary for more complex layouts (like adding a group rule) where
   // the chosen element is floated.
 
@@ -14336,6 +14347,7 @@ function fixChosenModal($select, textPlaceholder) {
     $results.css('max-height', CHOSEN_MAX_HEIGHT);
     $clone.remove();
     $select.after($chosen);
+    $searchInput.focus();
   });
 }
 
@@ -14421,7 +14433,10 @@ var _default = _BaseInput.default.extend({
         //eslint-disable-line camelcase
         search_contains: true //eslint-disable-line camelcase
 
-      });
+      }); //if options are more than search threshold, consider it as a combobox
+
+      var isComboBox = this.options & this.options.options && Object.keys(this.options.options).length > searchThreshold ? true : false;
+      this.accessbilityUpdate(isComboBox, this.params);
       fixChosenModal(this.$select, this.searchPlaceholder);
 
       if (this.params.autoWidth) {
@@ -14491,6 +14506,29 @@ var _default = _BaseInput.default.extend({
     }
 
     return _BaseInput.default.prototype.remove.apply(this, arguments);
+  },
+
+  /**
+   * Code to make the select/combobox component accessbile with screen readers.
+   *
+   * @param {boolean} isComboBox - Is the select a combobox?
+   * @param {object} params - params like aria label
+   */
+  accessbilityUpdate: function accessbilityUpdate(isComboBox, params) {
+    var txtBoxId = this.$select.attr('id') + '_txt';
+
+    if (isComboBox) {
+      this.$('input[type=text]').attr('id', txtBoxId).attr('role', 'combobox').attr('aria-autocomplete', 'list');
+    } else {
+      this.$('input[type=text]').attr('id', txtBoxId).attr('role', 'listbox');
+    }
+
+    if (params && params.aria && params.aria.label) {
+      this.$('input[type=text]').attr('id', txtBoxId).attr('aria-label', params.aria.label);
+    }
+
+    this.$('.chzn-results .active-result').attr('role', 'option');
+    this.$el.parents('.o-form-fieldset').find('label').attr('for', txtBoxId);
   }
 });
 

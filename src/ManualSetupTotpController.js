@@ -17,7 +17,6 @@ import FormController from 'util/FormController';
 import FormType from 'util/FormType';
 import RouterUtil from 'util/RouterUtil';
 import ManualSetupFooter from 'views/enroll-factors/ManualSetupFooter';
-import TextBox from 'views/shared/TextBox';
 export default FormController.extend({
   className: 'enroll-manual-totp',
   Model: function() {
@@ -36,41 +35,43 @@ export default FormController.extend({
 
       return loc('enroll.totp.title', 'login', [factorName]);
     },
-    subtitle: _.partial(loc, 'enroll.totp.cannotScanBarcode', 'login'),
+    subtitle: _.partial(loc, 'enroll.totp.setupManually', 'login'),
     noButtonBar: true,
     attributes: { 'data-se': 'step-manual-setup' },
 
     formChildren: function() {
-      const instructions = this.settings.get('brandName')
-        ? loc('enroll.totp.manualSetupInstructions.specific', 'login', [this.settings.get('brandName')])
-        : loc('enroll.totp.manualSetupInstructions.generic', 'login');
-
       return [
         FormType.View({
           View: View.extend({
-            template: hbs(
-              '\
-                <p class="okta-form-subtitle o-form-explain text-align-c">\
-                  {{instructions}}\
-                </p>\
-              '
-            ),
+            className: 'secret-instructions',
+            attributes: { 'data-se': 'secret-instructions', 'aria-live': 'assertive' },
+            template: hbs`
+            <p class="sr-only">{{i18n code="enroll.totp.sharedSecretInstructions.aria.intro" bundle="login"}}</p>
+            <ol>
+              <li>{{i18n code="enroll.totp.sharedSecretInstructions.step1" bundle="login"}}</li>
+              <li>{{i18n code="enroll.totp.sharedSecretInstructions.step2" bundle="login"}}</li>
+              <li>{{i18n code="enroll.totp.sharedSecretInstructions.step3" bundle="login" 
+                $1="<strong>$1</strong>"}}</li>
+              <li>{{i18n code="enroll.totp.sharedSecretInstructions.step4" bundle="login" 
+                $1="<strong>$1</strong>"}}</li>
+            </ol>
+            <p class="shared-key margin-top-10" tabindex=0 
+              aria-label="{{i18n code="enroll.totp.sharedSecretInstructions.aria.secretKey" bundle="login"}} 
+              {{sharedSecretKey}}">{{sharedSecretKey}}</p>
+            `,
+            initialize: function(){
+              this.listenTo(this.model, 'change:sharedSecret', this.render);
+            },
             getTemplateData: function() {
               return {
-                instructions: instructions,
+                sharedSecretKey: this.model.get('sharedSecret')
               };
             },
           }),
         }),
-        FormType.Input({
-          name: 'sharedSecret',
-          input: TextBox,
-          type: 'text',
-          disabled: true,
-        }),
         FormType.Toolbar({
           noCancelButton: true,
-          save: loc('oform.next', 'login'),
+          save: loc('enroll.totp.lastStepButton', 'login'),
         }),
       ];
     },

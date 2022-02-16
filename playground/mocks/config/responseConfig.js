@@ -246,8 +246,11 @@ const authn = {
 //enroll QR Okta Verify
 const enrollQROktaVerify  = {
   '/api/v1/authn': [
-    'mfa-enroll-qr-okta-verify'
-  ]
+    'mfa-enroll-ov-manual'
+  ],
+  '/idp/idx/activate/poll': [
+    'identify-with-device-launch-authenticator',
+  ],
 };
 
 // email enroll
@@ -1006,7 +1009,7 @@ const selectOktaVerifyMethod = {
     'identify-with-password',
   ],
   '/idp/idx/identify': [
-    'authenticator-verification-data-ov-only-without-device-known',
+    'authenticator-enroll-ov-via-email',
   ],
   '/idp/idx/challenge': [
     'authenticator-verification-okta-verify-push-autoChallenge-on',
@@ -1017,5 +1020,5 @@ const selectOktaVerifyMethod = {
 };
 
 module.exports = {
-  mocks: idx,
+  mocks: enrollQROktaVerify,
 };

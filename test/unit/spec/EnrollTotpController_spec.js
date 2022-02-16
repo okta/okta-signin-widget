@@ -297,7 +297,6 @@ Expect.describe('EnrollTotp', function() {
     itp('has a link to setup app manually', function() {
       return setupAndEnrollOktaPushFn().then(function(test) {
         Expect.isVisible(test.scanCodeForm.manualSetupLink());
-        expect(test.scanCodeForm.manualSetupLink().attr('aria-label')).toEqual('Setup without scanning a QR code.');
       });
     });
     itp('does not have "Next" button', function() {
@@ -544,7 +543,7 @@ Expect.describe('EnrollTotp', function() {
     pushEnrollSuccessNewQRRes,
     expectedStateToken
   ) {
-    itp('is rendered on "Can\'t scan" link click', function() {
+    itp('is rendered on "Can\'t scan" link click Push', function() {
       return enrollOktaPushGoCannotScanFn().then(function(test) {
         Expect.isVisible(test.manualSetupForm.form());
         Expect.isVisible(test.manualSetupForm.dropdownElement());
@@ -564,7 +563,7 @@ Expect.describe('EnrollTotp', function() {
           // sms (default)
           Expect.isVisible(test.manualSetupForm.countryCodeSelect());
           Expect.isVisible(test.manualSetupForm.phoneNumberField());
-          Expect.isNotVisible(test.manualSetupForm.sharedSecretField());
+          Expect.isNotVisible(test.manualSetupForm.sharedSecretInfo());
           Expect.isVisible(test.manualSetupForm.submitButton());
           Expect.isNotVisible(test.manualSetupForm.nextButton());
           test.manualSetupForm.selectEmailOption();
@@ -574,7 +573,7 @@ Expect.describe('EnrollTotp', function() {
           // email option
           Expect.isNotVisible(test.manualSetupForm.countryCodeSelect());
           Expect.isNotVisible(test.manualSetupForm.phoneNumberField());
-          Expect.isNotVisible(test.manualSetupForm.sharedSecretField());
+          Expect.isNotVisible(test.manualSetupForm.sharedSecretInfo());
           Expect.isVisible(test.manualSetupForm.submitButton());
           Expect.isNotVisible(test.manualSetupForm.nextButton());
           test.setNextResponse(resTotpEnrollSuccess);
@@ -586,7 +585,7 @@ Expect.describe('EnrollTotp', function() {
           // manual option
           Expect.isNotVisible(test.manualSetupForm.countryCodeSelect());
           Expect.isNotVisible(test.manualSetupForm.phoneNumberField());
-          Expect.isVisible(test.manualSetupForm.sharedSecretField());
+          Expect.isVisible(test.manualSetupForm.sharedSecretInfo());
           Expect.isNotVisible(test.manualSetupForm.submitButton());
           Expect.isVisible(test.manualSetupForm.nextButton());
         });
@@ -636,7 +635,7 @@ Expect.describe('EnrollTotp', function() {
       return enrollOktaPushUseManualTotpFn()
         .then(function(test) {
           Util.resetAjaxRequests();
-          expect(test.manualSetupForm.sharedSecretFieldValue()).toEqual('superSecretSharedSecret');
+          expect(test.manualSetupForm.sharedSecretInfoText()).toEqual('superSecretSharedSecret');
           test.setNextResponse([factorsWithPushRes, pushEnrollSuccessRes]);
           test.manualSetupForm.selectSmsOption();
           return test.manualSetupForm.waitForSms(test);
@@ -655,7 +654,7 @@ Expect.describe('EnrollTotp', function() {
               stateToken: expectedStateToken,
             },
           });
-          expect(test.manualSetupForm.sharedSecretFieldValue()).toEqual('');
+          expect(test.manualSetupForm.sharedSecretInfoText()).toEqual('');
         });
     });
     itp('does not do re-enroll when switches between sms and email options', function() {
@@ -803,7 +802,7 @@ Expect.describe('EnrollTotp', function() {
             Expect.isVisible(test.manualSetupForm.form());
             Expect.isNotVisible(test.manualSetupForm.countryCodeSelect());
             Expect.isNotVisible(test.manualSetupForm.phoneNumberField());
-            Expect.isVisible(test.manualSetupForm.sharedSecretField());
+            Expect.isVisible(test.manualSetupForm.sharedSecretInfo());
             Expect.isNotVisible(test.manualSetupForm.submitButton());
             Expect.isVisible(test.manualSetupForm.nextButton());
           });
@@ -887,7 +886,6 @@ Expect.describe('EnrollTotp', function() {
         });
     });
   }
-
   function testScanQRCodeManualSetup(setupAndEnrollOktaTotpFn, setupOktaTotpFn, totpEnrollSuccessRes) {
     itp('is rendered on "Can\'t scan" link click', function() {
       return setupAndEnrollOktaTotpFn()
@@ -897,8 +895,8 @@ Expect.describe('EnrollTotp', function() {
         })
         .then(function(test) {
           Expect.isVisible(test.manualSetupForm.form());
-          Expect.isVisible(test.manualSetupForm.sharedSecretField());
-          expect(test.manualSetupForm.sharedSecretFieldValue()).toEqual('superSecretSharedSecret');
+          Expect.isVisible(test.manualSetupForm.sharedSecretInfo());
+          expect(test.manualSetupForm.sharedSecretInfoText()).toEqual('superSecretSharedSecret');
           Expect.isVisible(test.manualSetupForm.gotoScanBarcodeLink());
         });
     });

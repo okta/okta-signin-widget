@@ -1,6 +1,6 @@
 import Expect from 'helpers/util/Expect';
 import Form from './Form';
-const SHARED_SECRET_FIELD = 'sharedSecret';
+const SHARED_SECRET_INFO = 'secret-instructions';
 const SCAN_BARCODE_LINK = 'goto-link';
 const MANUAL_SETUP_FORM = 'step-manual-setup';
 const DROPDOWN = 'activationType';
@@ -15,16 +15,16 @@ export default Form.extend({
     return this.el(MANUAL_SETUP_FORM);
   },
 
-  sharedSecretField: function() {
-    return this.input(SHARED_SECRET_FIELD);
+  sharedSecretInfo: function() {
+    return this.el(SHARED_SECRET_INFO);
   },
 
-  sharedSecretFieldValue: function() {
-    return this.sharedSecretField().val();
+  sharedSecretInfoText: function() {
+    return this.sharedSecretInfo().find('.shared-key').trimmedText();
   },
 
   hasSharedSecret: function() {
-    return this.sharedSecretFieldValue() !== '';
+    return this.sharedSecretInfoText() !== '';
   },
 
   countryCodeSelect: function() {
