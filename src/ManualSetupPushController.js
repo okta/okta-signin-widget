@@ -177,20 +177,22 @@ export default FormController.extend({
         FormType.View({
           View: View.extend({
             className: 'secret-instructions',
-            attributes: { 'data-se': 'secret-instructions', 'aria-live': 'assertive' },
+            attributes: { 'data-se': 'secret-instructions'},
             template: hbs`
-            <p class="sr-only">{{i18n code="enroll.totp.sharedSecretInstructions.aria.intro" bundle="login"}}</p>
-            <ol>
-              <li>{{i18n code="enroll.totp.sharedSecretInstructions.step1" bundle="login"}}</li>
-              <li>{{i18n code="enroll.totp.sharedSecretInstructions.step2" bundle="login"}}</li>
-              <li>{{i18n code="enroll.totp.sharedSecretInstructions.step3" bundle="login" 
-              $1="<strong>$1</strong>"}}</li>
-              <li>{{i18n code="enroll.totp.sharedSecretInstructions.step4" bundle="login" 
-              $1="<strong>$1</strong>"}}</li>
-            </ol>
-            <p class="shared-key margin-top-10" tabindex=0 
-              aria-label="{{i18n code="enroll.totp.sharedSecretInstructions.aria.secretKey" bundle="login"}} 
-              {{sharedSecretKey}}">{{sharedSecretKey}}</p>
+            <section aria-live="assertive">
+              <p class="sr-only">{{i18n code="enroll.totp.sharedSecretInstructions.aria.intro" bundle="login"}}</p>
+              <ol>
+                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step1" bundle="login"}}</li>
+                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step2" bundle="login"}}</li>
+                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step3" bundle="login" 
+                $1="<strong>$1</strong>"}}</li>
+                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step4" bundle="login" 
+                $1="<strong>$1</strong>"}}</li>
+              </ol>
+              <p class="shared-key margin-top-10" tabindex=0 
+                aria-label="{{i18n code="enroll.totp.sharedSecretInstructions.aria.secretKey" bundle="login"}} 
+                {{sharedSecretKey}}">{{sharedSecretKey}}</p>
+            </section>
             `,
             initialize: function(){
               this.listenTo(this.model, 'change:sharedSecret', this.render);
