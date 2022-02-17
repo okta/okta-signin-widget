@@ -114,6 +114,7 @@ const idx = {
     'error-authenticator-enroll-phone-invalid-number',
   ],
   '/idp/idx/identify': [
+    // 'authenticator-verification-data-ov-only-without-device-known',
     'authenticator-verification-email',
     // 'authenticator-enroll-select-authenticator',
     // 'authenticator-verification-email-without-emailmagiclink',
@@ -1020,5 +1021,5 @@ const selectOktaVerifyMethod = {
 };
 
 module.exports = {
-  mocks: idx,
+  mocks: enrollQROktaVerify,
 };
