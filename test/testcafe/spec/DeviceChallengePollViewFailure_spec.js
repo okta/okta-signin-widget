@@ -63,6 +63,33 @@ const deviceInvalidatedErrorMsg = RequestMock()
     'access-control-allow-methods': 'POST, OPTIONS'
   });
 
+const nonIdxError = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithDeviceProbingLoopback)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond((req, res) => {
+    return new Promise((resolve) => setTimeout(function() {
+      res.statusCode = '400';
+      resolve(res);
+    }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2000));
+  })
+  .onRequestTo(/2000\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/6511|6512|6513\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/2000\/challenge/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+    'access-control-allow-methods': 'POST, OPTIONS'
+  });
+
 fixture('Device Challenge Polling View with Polling Failure');
 
 async function setup(t) {
@@ -97,4 +124,11 @@ test
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).eql(
       'Couldn’t verify your identity\n\nYour device or account was invalidated. If this is unexpected, contact your administrator for help.');
+  });
+
+test
+  .requestHooks(logger, nonIdxError)('Non IDX error', async t => {
+    const deviceChallengePollPageObject = await setup(t);
+    await t.expect(deviceChallengePollPageObject.form.getErrorBoxText()).eql(
+      'There was an unsupported response from server.');
   });
