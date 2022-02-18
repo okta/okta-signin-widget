@@ -7,3 +7,8 @@ export const CANCEL_POLLING_ACTION = 'authenticatorChallenge-cancel';
 export const WIDGET_FOOTER_CLASS = 'siw-main-footer';
 export const FASTPASS_FALLBACK_SPINNER_TIMEOUT = 4000;
 export const IDENTIFIER_FLOW = 'IDENTIFIER';
+export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP 
+    = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.desktop';
+export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE 
+    = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.mobile';
+

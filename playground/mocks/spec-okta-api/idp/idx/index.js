@@ -42,11 +42,14 @@ const ssoExtension = [
     path: '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify',
     method: 'POST',
     status: (req, res, next) => {
-      res.status(401);
+      res.status(401); // To test biometrics error, change to 400
       res.append('WWW-Authenticate', 'Oktadevicejwt realm="Okta Device"');
       next();
     },
     // TODO: find a way to improve this, now the mock config is not always on responseConfig
+    // To test biometrics error, use below two files
+    // ../../../data/idp/idx/error-okta-verify-uv-fastpass-verify-enable-biometrics-mobile
+    // ../../../data/idp/idx/error-okta-verify-uv-fastpass-verify-enable-biometrics-desktop
     template: cancelTransaction,
   })
 ];
