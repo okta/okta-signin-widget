@@ -87,6 +87,7 @@ export default Model.extend({
     'features.multiOptionalFactorEnroll': ['boolean', true, false],
     'features.deviceFingerprinting': ['boolean', false, false],
     'features.hideSignOutLinkInMFA': ['boolean', false, false],
+    'features.hideSignOutLinkOnPasswordExpired': ['boolean', false, false],
     'features.skipIdpFactorVerificationBtn': ['boolean', false, false],
     'features.hideBackToSignInForReset': ['boolean', false, false],
     'features.customExpiredPassword': ['boolean', true, false],

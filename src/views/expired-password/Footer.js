@@ -22,9 +22,11 @@ export default View.extend({
           {{i18n code="password.expiring.later" bundle="login"}}\
         </a>\
       {{/if}}\
+      {{#if showSignOutLink}}\
       <a href="#" class="link help goto js-signout" data-se="signout-link">\
         {{i18n code="signout" bundle="login"}}\
       </a>\
+      {{/if}}\
     '
   ),
   className: 'auth-footer clearfix',
@@ -63,6 +65,9 @@ export default View.extend({
     },
   },
   getTemplateData: function() {
-    return { passwordWarn: this.options.appState.get('isPwdExpiringSoon') };
+    return {
+      passwordWarn: this.options.appState.get('isPwdExpiringSoon'),
+      showSignOutLink: !this.settings.get('features.hideSignOutLinkOnPasswordExpired')
+    };
   },
 });

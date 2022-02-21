@@ -1554,6 +1554,8 @@ features: {
 
 - **features.hideSignOutLinkInMFA** - Hides the sign out link for MFA challenge. Defaults to `false`.
 
+- **features.hideSignOutLinkOnPasswordExpired** - Hides the sign out link on password expired page. Defaults to `false`.
+
 - **features.registration** - Display the registration section in the primary auth page. Defaults to `false`.
 
 - **features.idpDiscovery** - Enable [IdP Discovery](#idp-discovery). Defaults to `false`.
