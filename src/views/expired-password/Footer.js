@@ -67,7 +67,7 @@ export default View.extend({
   getTemplateData: function() {
     return {
       passwordWarn: this.options.appState.get('isPwdExpiringSoon'),
-      showSignOutLink: !this.settings.get('features.hideSignOutLinkOnPasswordExpired')
+      showSignOutLink: !this.settings.get('features.hideBackToSignInForReset')
     };
   },
 });

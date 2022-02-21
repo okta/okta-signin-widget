@@ -52,7 +52,6 @@
     - [features.showPasswordToggleOnSignInPage](#featuresshowpasswordtoggleonsigninpage)
     - [features.showIdentifier](#featuresshowidentifier)
     - [features.hideSignOutLinkInMFA](#featureshidesignoutlinkinmfa)
-    - [features.hideSignOutLinkOnPasswordExpired](#featureshidesignoutlinkonpasswordexpired)
     - [features.rememberMe](#featuresrememberme)
   - [Flow](#flow)
 
@@ -608,11 +607,6 @@ Enable or disable widget functionality with the following options.
 
   Defaults to `false`.
   Hides the "Back to sign in" link for authenticator enrollment and challenge flows.
-
-#### features.hideSignOutLinkOnPasswordExpired
-
-  Defaults to `false`.
-  Hides the "Sign Out" link for password expired flow.
 
 #### features.rememberMe
 

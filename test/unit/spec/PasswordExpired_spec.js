@@ -44,7 +44,7 @@ function setup(settings, res, custom, hideSignOutLink) {
         features: {
           securityImage: true,
           customExpiredPassword: !!custom,
-          hideSignOutLinkOnPasswordExpired: !!hideSignOutLink,
+          hideBackToSignInForReset: !!hideSignOutLink,
         },
         authClient: authClient,
         globalSuccessFn: successSpy,
@@ -260,7 +260,7 @@ Expect.describe('PasswordExpiration', function() {
         expect(test.form.signoutLink().text()).toBe('Sign Out');
       });
     });
-    itp('does not have a sign out link if configured to be hidden', function() {
+    itp('does not have sign out link if hideBackToSignInForReset is true', function() {
       return setup(null, null, null , true).then(function(test) {
         expect(test.form.signoutLink().length).toBe(0);
       });
@@ -730,7 +730,7 @@ Expect.describe('PasswordExpiration', function() {
         expect(test.form.signoutLink().text()).toBe('Sign Out');
       });
     });
-    itp('does not have a sign out link if configured to be hidden', function() {
+    itp('does not have sign out link if hideBackToSignInForReset is true', function() {
       return setupCustomExpiredPassword(null, null, true).then(function(test) {
         expect(test.form.signoutLink().length).toBe(0);
       });
@@ -788,7 +788,7 @@ Expect.describe('PasswordExpiration', function() {
         expect(test.form.signoutLink().text()).toBe('Sign Out');
       });
     });
-    itp('does not have a sign out link if configured to be hidden', function() {
+    itp('does not have sign out link if hideBackToSignInForReset is true', function() {
       return setupWarn(4, null, true).then(function(test) {
         expect(test.form.signoutLink().length).toBe(0);
       });
@@ -905,7 +905,7 @@ Expect.describe('PasswordExpiration', function() {
         expect(test.form.signoutLink().text()).toBe('Sign Out');
       });
     });
-    itp('does not have a sign out link if configured to be hidden', function() {
+    itp('does not have sign out link if hideBackToSignInForReset is true', function() {
       return setupCustomExpiredPasswordWarn(4, null, true).then(function(test) {
         expect(test.form.signoutLink().length).toBe(0);
       });
