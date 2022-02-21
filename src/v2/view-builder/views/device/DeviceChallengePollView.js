@@ -1,4 +1,4 @@
-import { $, loc } from 'okta';
+import { $, loc, createCallout } from 'okta';
 import {BaseFormWithPolling, BaseFooter, BaseView} from '../../internals';
 import Logger from '../../../../util/Logger';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
@@ -158,6 +158,9 @@ const Body = BaseFormWithPolling.extend(
       if (containsSignedNonceError) {
         options.title = loc('user.fail.verifyIdentity', 'login');
       }
+
+      this.showMessages(createCallout(options));
+      return true;
     },
 
     doCustomURI() {
