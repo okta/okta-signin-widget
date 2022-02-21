@@ -27,7 +27,7 @@ function deepClone(res) {
   return JSON.parse(JSON.stringify(res));
 }
 
-function setup(settings, res, custom) {
+function setup(settings, res, custom, hideSignOutLink) {
   settings || (settings = {});
   const successSpy = jasmine.createSpy('successSpy');
   const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
@@ -43,7 +43,8 @@ function setup(settings, res, custom) {
         baseUrl: baseUrl,
         features: {
           securityImage: true,
-          customExpiredPassword: custom,
+          customExpiredPassword: !!custom,
+          hideSignOutLinkOnPasswordExpired: !!hideSignOutLink,
         },
         authClient: authClient,
         globalSuccessFn: successSpy,
@@ -74,18 +75,18 @@ function setup(settings, res, custom) {
   return Expect.waitForPasswordExpired(settings);
 }
 
-function setupWarn(numDays, settings) {
+function setupWarn(numDays, settings, hideSignOutLink) {
   resPassWarn.response._embedded.policy.expiration.passwordExpireDays = numDays;
-  return setup(settings, resPassWarn);
+  return setup(settings, resPassWarn, null, hideSignOutLink);
 }
 
-function setupCustomExpiredPassword(settings, res) {
-  return setup(settings, res || resCustomPassExpired, true);
+function setupCustomExpiredPassword(settings, res, hideSignOutLink) {
+  return setup(settings, res || resCustomPassExpired, true, hideSignOutLink);
 }
 
-function setupCustomExpiredPasswordWarn(numDays, settings) {
+function setupCustomExpiredPasswordWarn(numDays, settings, hideSignOutLink) {
   resCustomPassWarn.response._embedded.policy.expiration.passwordExpireDays = numDays;
-  return setupCustomExpiredPassword(settings, resCustomPassWarn);
+  return setupCustomExpiredPassword(settings, resCustomPassWarn, hideSignOutLink);
 }
 
 function submitNewPass(test, oldPass, newPass, confirmPass) {
@@ -95,7 +96,7 @@ function submitNewPass(test, oldPass, newPass, confirmPass) {
   test.form.submit();
 }
 
-function setupExcludeAttributes(excludeAttributesArray, showPasswordRequirementsAsHtmlList = false) {
+function setupExcludeAttributes(excludeAttributesArray, showPasswordRequirementsAsHtmlList = false, hideSignOutLink) {
   const passwordExpiredResponse = deepClone(resPassExpired);
   const policyComplexity = passwordExpiredResponse.response._embedded.policy.complexity;
 
@@ -103,7 +104,8 @@ function setupExcludeAttributes(excludeAttributesArray, showPasswordRequirements
   return setup(
     { 'features.showPasswordRequirementsAsHtmlList': showPasswordRequirementsAsHtmlList },
     passwordExpiredResponse,
-    null
+    null,
+    hideSignOutLink
   );
 }
 
@@ -256,6 +258,11 @@ Expect.describe('PasswordExpiration', function() {
       return setup().then(function(test) {
         Expect.isVisible(test.form.signoutLink());
         expect(test.form.signoutLink().text()).toBe('Sign Out');
+      });
+    });
+    itp('does not have a sign out link if configured to be hidden', function() {
+      return setup(null, null, null , true).then(function(test) {
+        expect(test.form.signoutLink().length).toBe(0);
       });
     });
     itp('does not have a skip link', function() {
@@ -723,6 +730,11 @@ Expect.describe('PasswordExpiration', function() {
         expect(test.form.signoutLink().text()).toBe('Sign Out');
       });
     });
+    itp('does not have a sign out link if configured to be hidden', function() {
+      return setupCustomExpiredPassword(null, null, true).then(function(test) {
+        expect(test.form.signoutLink().length).toBe(0);
+      });
+    });
     itp('does not have a skip link', function() {
       return setupCustomExpiredPassword().then(function(test) {
         expect(test.form.skipLink().length).toBe(0);
@@ -774,6 +786,11 @@ Expect.describe('PasswordExpiration', function() {
       return setupWarn(4).then(function(test) {
         Expect.isVisible(test.form.signoutLink());
         expect(test.form.signoutLink().text()).toBe('Sign Out');
+      });
+    });
+    itp('does not have a sign out link if configured to be hidden', function() {
+      return setupWarn(4, null, true).then(function(test) {
+        expect(test.form.signoutLink().length).toBe(0);
       });
     });
     itp('has a skip link', function() {
@@ -886,6 +903,11 @@ Expect.describe('PasswordExpiration', function() {
       return setupCustomExpiredPasswordWarn(4).then(function(test) {
         Expect.isVisible(test.form.signoutLink());
         expect(test.form.signoutLink().text()).toBe('Sign Out');
+      });
+    });
+    itp('does not have a sign out link if configured to be hidden', function() {
+      return setupCustomExpiredPasswordWarn(4, null, true).then(function(test) {
+        expect(test.form.signoutLink().length).toBe(0);
       });
     });
     itp('has a skip link', function() {
