@@ -5,7 +5,7 @@ body:
   - type: textarea
     id: problem
     attributes:
-      label: Describe the bug?
+      label: Describe the bug
       description: |
         Please be as detailed as possible. This will help us address the bug in a timely manner.
     validations:
@@ -28,10 +28,10 @@ body:
   - type: textarea
     id: repro
     attributes:
-      label: Reproduction Steps?
+      label: Reproduction Steps
       description: |
         Please provide as much detail as possible to help us reproduce your bug.
-        A reproduction repo is very helpful for us as well.
+        A reproduction repo or deployed application is very helpful for us as well.
     validations:
       required: true
 
