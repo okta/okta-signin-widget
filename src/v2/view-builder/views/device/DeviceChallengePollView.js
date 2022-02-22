@@ -146,14 +146,15 @@ const Body = BaseFormWithPolling.extend(
     },
 
     showCustomFormErrorCallout(error) {
+      const responseJSON = error.responseJSON;
       const options = {
         type: 'error',
         className: 'okta-verify-uv-callout-content',
-        subtitle: error.responseJSON.errorSummary,
+        subtitle: responseJSON.errorSummary,
       };
 
-      const containsSignedNonceError = error.responseJSON.errorSummaryKeys
-        .some((key) => key.includes('auth.factor.signedNonce.error'));
+      const containsSignedNonceError = responseJSON.errorSummaryKeys &&
+        responseJSON.errorSummaryKeys.some((key) => key.includes('auth.factor.signedNonce.error'));
       if (containsSignedNonceError) {
         options.title = loc('user.fail.verifyIdentity', 'login');
       }
