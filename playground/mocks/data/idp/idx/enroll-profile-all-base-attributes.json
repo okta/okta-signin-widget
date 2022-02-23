@@ -36,7 +36,7 @@
                 {
                   "name": "secondEmail",
                   "label": "Secondary Email1",
-                  "required": true
+                  "required": false
                 },
                 {
                   "name": "honorificPrefix",
