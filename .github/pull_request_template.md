@@ -12,6 +12,8 @@
 
 - [ ] Did you follow our [Security Best Practices](https://oktawiki.atlassian.net/wiki/display/eng/Security+Best+practices)?
 
+- Did you verify the change by running downstream monolith artifacts? (YES | NO | UNSURE)
+
 ### Screenshot/Video:
 
 
