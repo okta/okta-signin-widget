@@ -1,7 +1,7 @@
 // Common view for OV push and custom push.
 import { loc, createButton, View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-import { BaseForm } from '../../internals';
+import { BaseFormWithPolling } from '../../internals';
 import polling from '../shared/polling';
 import { WARNING_TIMEOUT } from '../../utils/Constants';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
@@ -14,7 +14,7 @@ const warningTemplate = View.extend({
     <p>{{warning}}</p>
   `
 });
-const Body = BaseForm.extend(Object.assign(
+const Body = BaseFormWithPolling.extend(Object.assign(
   {
     noButtonBar: true,
 
@@ -24,7 +24,7 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     initialize() {
-      BaseForm.prototype.initialize.apply(this, arguments);
+      BaseFormWithPolling.prototype.initialize.apply(this, arguments);
       // 'hasSavingState' would be true when the auth key is custom_app.
       // Setting it to false when auth key is okta_verify with autochallenge schema
       // So that 'o-form-saving' css class is not added while polling and checkbox remains enabled.
@@ -50,9 +50,9 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     render() {
-      BaseForm.prototype.render.apply(this, arguments);
+      BaseFormWithPolling.prototype.render.apply(this, arguments);
       // Move checkbox below the button
-      // Checkbox is rendered by BaseForm using remediation response and 
+      // Checkbox is rendered by BaseForm using remediation response and
       // hence by default always gets added above buttons.
       if (this.isOVWithAutoChallenge()) {
         const checkbox = this.$el.find('[data-se="o-form-fieldset-autoChallenge"]');
@@ -61,7 +61,7 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     postRender() {
-      BaseForm.prototype.postRender.apply(this, arguments);
+      BaseFormWithPolling.prototype.postRender.apply(this, arguments);
 
       const className = this.isOV() ?
         'okta-verify-push-challenge' : ' custom-app-push-challenge';
@@ -96,7 +96,7 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     remove() {
-      BaseForm.prototype.remove.apply(this, arguments);
+      BaseFormWithPolling.prototype.remove.apply(this, arguments);
       this.stopPolling();
     },
 

@@ -1,5 +1,5 @@
 import { loc } from 'okta';
-import { BaseForm } from '../../internals';
+import { BaseFormWithPolling } from '../../internals';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import polling from '../shared/polling';
@@ -14,7 +14,7 @@ const OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_NON_IOS =
   'oie.authenticator.app.non_fips_compliant_enrollment_app_update_required';
 const OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY = 'oie.authenticator.app.method.push.enroll.enable.biometrics';
 
-const Body = BaseForm.extend(Object.assign(
+const Body = BaseFormWithPolling.extend(Object.assign(
   {
     title() {
       const selectedChannel = this.options.appState.get('currentAuthenticator').contextualData.selectedChannel;
@@ -34,12 +34,12 @@ const Body = BaseForm.extend(Object.assign(
     className: 'oie-enroll-ov-poll',
     noButtonBar: true,
     initialize() {
-      BaseForm.prototype.initialize.apply(this, arguments);
+      BaseFormWithPolling.prototype.initialize.apply(this, arguments);
       this.listenTo(this.model, 'error', this.stopPolling);
       this.startPolling();
     },
     postRender() {
-      BaseForm.prototype.postRender.apply(this, arguments);
+      BaseFormWithPolling.prototype.postRender.apply(this, arguments);
 
       if ((BrowserFeatures.isAndroid() || BrowserFeatures.isIOS()) &
         this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'qrcode') {
@@ -57,7 +57,7 @@ const Body = BaseForm.extend(Object.assign(
         // add a title for OV enable biometrics message during enrollment
         calloutOptions.title = loc('oie.authenticator.app.method.push.enroll.enable.biometrics.title', 'login');
       }
-      BaseForm.prototype.showMessages.call(this, calloutOptions);
+      BaseFormWithPolling.prototype.showMessages.call(this, calloutOptions);
     },
     getUISchema() {
       const schema = [];
@@ -82,7 +82,7 @@ const Body = BaseForm.extend(Object.assign(
       return schema;
     },
     remove() {
-      BaseForm.prototype.remove.apply(this, arguments);
+      BaseFormWithPolling.prototype.remove.apply(this, arguments);
       this.stopPolling();
     },
   },

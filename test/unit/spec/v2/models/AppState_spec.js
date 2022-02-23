@@ -146,36 +146,6 @@ describe('v2/models/AppState', function() {
   describe('shouldReRenderView', () => {
     it('rerender view should be false if stateHandle are different', () => {
 
-      const transformedResponse = {
-        'idx': {
-          'rawIdxState':{
-            'version':'1.0.0',
-            'stateHandle':'12345',
-            'intent':'LOGIN',
-            'remediation':{
-              'type':'array',
-              'value':[
-                {
-                  'rel':[
-                    'create-form'
-                  ],
-                  'name':'device-challenge-poll',
-                  'relatesTo':[
-                    'authenticatorChallenge'
-                  ],
-                  'refresh':2000,
-                  'value':[
-                    {
-                      'name':'stateHandle',
-                      'required':true,
-                      'value':'12345'
-                    }
-                  ]
-                }
-              ]
-            }
-          }}};
-
       const idxObj = {
         'idx': {
           'rawIdxState':{
@@ -204,7 +174,14 @@ describe('v2/models/AppState', function() {
                 }
               ]
             }
-          }}};
+          }}, 
+        'remediations': [{
+          'name': 'create-form',
+          'refresh': 2000,
+        }]};
+
+      const transformedResponse = JSON.parse(JSON.stringify(idxObj));
+      transformedResponse.idx.rawIdxState.stateHandle = '1234';
 
       this.initAppState(idxObj, 'create-form');
       expect(this.appState.shouldReRenderView(transformedResponse)).toBe(false);

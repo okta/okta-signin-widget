@@ -1,5 +1,5 @@
 import { RequestLogger, RequestMock, ClientFunction, Selector } from 'testcafe';
-import { renderWidget } from '../framework/shared';
+import { renderWidget, Constants } from '../framework/shared';
 import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChallengePollPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
@@ -30,6 +30,89 @@ const loopbackSuccessMock = RequestMock()
   })
   .onRequestTo(/2000\/probe/)
   .respond(null, 500, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/6511\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/6511\/challenge/)
+  .respond((req, res) => {
+    res.statusCode = req.method !== 'POST' ? 204 : 403;
+    res.headers = {
+      'access-control-allow-origin': '*',
+      'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+      'access-control-allow-methods': 'POST, GET, OPTIONS'
+    };
+  })
+  .onRequestTo(/6512\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/6512\/challenge/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+    'access-control-allow-methods': 'POST, OPTIONS'
+  });
+
+const loopbackPollMockLogger = RequestLogger(/poll/, { logRequestBody: true, stringifyRequestBody: true });
+const loopbackPollTimeoutMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithDeviceProbingLoopback)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond((req, res) => {
+    console.log('Here => ' + new Date().getSeconds());
+    return new Promise((resolve) => setTimeout(function() {
+      res.statusCode = '200';
+      res.setBody(identifyWithDeviceProbingLoopback);
+      resolve(res);
+    }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2_000));
+  })
+  .onRequestTo(/2000\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/6511\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/6511\/challenge/)
+  .respond((req, res) => {
+    res.statusCode = req.method !== 'POST' ? 204 : 403;
+    res.headers = {
+      'access-control-allow-origin': '*',
+      'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+      'access-control-allow-methods': 'POST, GET, OPTIONS'
+    };
+  })
+  .onRequestTo(/6512\/probe/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
+  })
+  .onRequestTo(/6512\/challenge/)
+  .respond(null, 200, {
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+    'access-control-allow-methods': 'POST, OPTIONS'
+  });
+
+const loopbackPollFailedMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithDeviceProbingLoopback)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond((req, res) => {
+    res.statusCode = '400';
+    res.setBody(userIsNotAssignedError);
+  })
+  .onRequestTo(/2000\/probe/)
+  .respond(null, 200, {
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
   })
@@ -318,6 +401,32 @@ test
   });
 
 test
+  .requestHooks(loopbackPollMockLogger, loopbackPollFailedMock)('next poll should not start if previous is failed', async t => {
+    loopbackPollMockLogger.clear();
+    await setup(t);
+    await t.wait(10_000);
+
+    await t.expect(loopbackPollMockLogger.count(
+      record => record.request.url.match(/\/idp\/idx\/authenticators\/poll/)
+    )).eql(1);
+  });
+
+test
+  .requestHooks(loopbackPollMockLogger, loopbackPollTimeoutMock)('new poll does not starts until last one is ended', async t => {
+    loopbackPollMockLogger.clear();
+    await setup(t);
+    // This test verify if new /poll calls are made only if the previous one was finished instead of polling with fixed interval.
+    // Updating /poll response to take 5 sec to response.
+    // Then counting the number of calls that should be done in time interval. Default Timeout for /poll is 2 sec.
+    // Expecting to get only 2 calls(first at 2nd sec, second at 9th(5 sec response + 2 sec timeout) second).
+    await t.wait(10_000);
+
+    await t.expect(loopbackPollMockLogger.count(
+      record => record.request.url.match(/\/idp\/idx\/authenticators\/poll/)
+    )).eql(2);
+  });
+
+test
   .requestHooks(loopbackSuccessForChallengeTimeoutLogger, loopbackSuccessForChallengeTimeoutMock)('in loopback server approach, will poll but not cancel when challenge timeout', async t => {
     const deviceChallengePollPageObject = await setup(t);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
@@ -436,7 +545,7 @@ test
 
     await t.expect(deviceChallengePollPageObject.waitForPrimaryButtonAfterSpinner().innerText).eql('Open Okta Verify');
 
-    await t.expect(deviceChallengePollPageObject.getContent())
+    await t.expect(deviceChallengePollPageObject.getAppLinkContent())
       .contains('If Okta Verify did not open automatically, tap the button below to reopen Okta Verify.');
     await t.expect(deviceChallengePollPageObject.getPrimiaryButtonText()).eql('Open Okta Verify');
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);

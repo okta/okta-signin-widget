@@ -179,11 +179,8 @@ export default Model.extend({
     const identicalResponse = _.isEqual(
       _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh', 'stateHandle']),
       _.nestedOmit(previousRawState, ['expiresAt', 'refresh', 'stateHandle']));
-    const isSameRefreshInterval = _.isEqual(
-      _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'stateHandle']),
-      _.nestedOmit(previousRawState, ['expiresAt', 'stateHandle']));
 
-    if (identicalResponse && !isSameRefreshInterval) {
+    if (identicalResponse) {
       this.set('dynamicRefreshInterval', this.getRefreshInterval(transformedResponse));
     }
 

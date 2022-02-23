@@ -1,10 +1,10 @@
 import { loc } from 'okta';
-import { BaseForm } from '../../internals';
+import { BaseFormWithPolling } from '../../internals';
 import polling from '../shared/polling';
 import ResendNumberChallengeView from './ResendNumberChallengeView';
 import NumberChallengePhoneView from './NumberChallengePhoneView';
 
-const Body = BaseForm.extend(Object.assign(
+const Body = BaseFormWithPolling.extend(Object.assign(
   {
     noButtonBar: true,
 
@@ -25,18 +25,18 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     initialize() {
-      BaseForm.prototype.initialize.apply(this, arguments);
+      BaseFormWithPolling.prototype.initialize.apply(this, arguments);
       this.add(NumberChallengePhoneView);
     },
 
     triggerAfterError() {
-      BaseForm.prototype.triggerAfterError.apply(this, arguments);
+      BaseFormWithPolling.prototype.triggerAfterError.apply(this, arguments);
       this.stopPolling();
       this.$el.find('.o-form-fieldset-container').empty();
     },
 
     postRender() {
-      BaseForm.prototype.postRender.apply(this, arguments);
+      BaseFormWithPolling.prototype.postRender.apply(this, arguments);
       this.startPoll();
     },
 
@@ -55,7 +55,7 @@ const Body = BaseForm.extend(Object.assign(
     },
 
     remove() {
-      BaseForm.prototype.remove.apply(this, arguments);
+      BaseFormWithPolling.prototype.remove.apply(this, arguments);
       this.stopPolling();
     },
   },
