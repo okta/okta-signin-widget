@@ -146,8 +146,6 @@ const I18N_OVERRIDE_MAPPINGS = {
   // Base Attributes
   'enroll-profile.userProfile.lastName': 'oie.user.profile.lastname',
   'enroll-profile.userProfile.firstName': 'oie.user.profile.firstname',
-  'enroll-profile.userProfile.countryCode': 'oie.user.profile.countryCode',
-  'enroll-profile.userProfile.timezone': 'oie.user.profile.timezone',
   'enroll-profile.userProfile.email': 'oie.user.profile.primary.email',
   'enroll-profile.userProfile.secondEmail': 'oie.user.profile.secondary.email',
   'enroll-profile.userProfile.middleName': 'oie.user.profile.middleName',
