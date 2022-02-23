@@ -26,20 +26,20 @@
           "factorResult": "WAITING",
           "_links": {
             "qrcode": {
-              "href": "https://classicpraveen.trexcloud.com/api/v1/users/00u47ptl1iWdxRIuK0g7/factors/opf47q9cwpswZcrW40g7/qr/201111Cetuu675Dg744jmJraWjFltz5nPBHWKBydJ6LY01knhjQ4cgx",
+              "href": "http://localhost:3000/api/v1/users/00u47ptl1iWdxRIuK0g7/factors/opf47q9cwpswZcrW40g7/qr/201111Cetuu675Dg744jmJraWjFltz5nPBHWKBydJ6LY01knhjQ4cgx",
               "type": "image/png"
             },
             "send": [
               {
                 "name": "email",
-                "href": "https://classicpraveen.trexcloud.com/api/v1/authn/factors/opf47q9cwpswZcrW40g7/lifecycle/activate/email",
+                "href": "http://localhost:3000/api/v1/authn/factors/opf47q9cwpswZcrW40g7/lifecycle/activate/email",
                 "hints": {
                   "allow": ["POST"]
                 }
               },
               {
                 "name": "sms",
-                "href": "https://classicpraveen.trexcloud.com/api/v1/authn/factors/opf47q9cwpswZcrW40g7/lifecycle/activate/sms",
+                "href": "http://localhost:3000/api/v1/authn/factors/opf47q9cwpswZcrW40g7/lifecycle/activate/sms",
                 "hints": {
                   "allow": ["POST"]
                 }
@@ -59,13 +59,13 @@
       }
     },
     "prev": {
-      "href": "https://classicpraveen.trexcloud.com/api/v1/authn/previous",
+      "href": "http://localhost:3000/api/v1/authn/previous",
       "hints": {
         "allow": ["POST"]
       }
     },
     "cancel": {
-      "href": "https://classicpraveen.trexcloud.com/api/v1/authn/cancel",
+      "href": "http://localhost:3000/api/v1/authn/cancel",
       "hints": {
         "allow": ["POST"]
       }
