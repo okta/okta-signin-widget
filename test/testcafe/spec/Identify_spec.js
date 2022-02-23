@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
-import { checkConsoleMessages, renderWidget as rerenderWidget, getAuthJSVersion } from '../framework/shared';
+import { checkConsoleMessages, renderWidget as rerenderWidget, getAuthJSVersion, assertValidHTML } from '../framework/shared';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
 import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
 import xhrAuthenticatorVerifySelect from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
@@ -103,17 +103,16 @@ async function setup(t) {
     controller: 'primary-auth',
     formName: 'identify',
   });
-
+  await assertValidHTML();
   return identityPage;
 }
 
 test.requestHooks(identifyRequestLogger, identifyMock)('should be able to submit identifier with rememberMe', async t => {
   const identityPage = await setup(t);
-
   await t.expect(identityPage.getSaveButtonLabel()).eql('Next');
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
-
+  await assertValidHTML();
   await t.expect(identifyRequestLogger.count(() => true)).eql(1);
   const req = identifyRequestLogger.requests[0].request;
   const reqBody = JSON.parse(req.body);
@@ -132,6 +131,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should be able to submit
   await identityPage.fillIdentifierField('another foobar');
   await identityPage.checkRememberMe();
   await identityPage.clickNextButton();
+  await assertValidHTML();
   await t.expect(identifyRequestLogger.count(() => true)).eql(1);
   const req2 = identifyRequestLogger.requests[0].request;
   const reqBody2 = JSON.parse(req2.body);
@@ -146,10 +146,9 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should be able to submit
 
 test.requestHooks(identifyMock)('should show errors if required fields are empty', async t => {
   const identityPage = await setup(t);
-
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
-
+  await assertValidHTML();
   await t.expect(identityPage.hasIdentifierError()).eql(true);
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
   await t.expect(identityPage.getIdentifierErrorMessage()).eql('This field cannot be left blank');
@@ -160,6 +159,7 @@ test.requestHooks(identifyMockWithUnsupportedResponseError)('should show error i
   await identityPage.fillIdentifierField('test');
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
+  await assertValidHTML();
   await t.expect(identityPage.getErrorBoxText()).eql('There was an unsupported response from server.');
 });
 
@@ -172,10 +172,10 @@ test.requestHooks(identifyMock)('should show customized error if required field 
       }
     }
   });
-
+  await assertValidHTML();
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();
-
+  await assertValidHTML();
   await t.expect(identityPage.hasIdentifierError()).eql(true);
   await t.expect(identityPage.hasIdentifierErrorMessage()).eql(true);
   await t.expect(identityPage.getIdentifierErrorMessage()).eql('Username is required!');
@@ -191,9 +191,10 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should not show custom e
       }
     }
   });
-
+  await assertValidHTML();
   await identityPage.fillIdentifierField('test');
   await identityPage.clickNextButton();
+  await assertValidHTML();
   await t.expect(identifyRequestLogger.count(() => true)).eql(1);
 });
 
@@ -229,19 +230,19 @@ test.requestHooks(identifyLockedUserMock)('should show global error for invalid 
   await identityPage.clickNextButton();
 
   await identityPage.waitForErrorBox();
-
+  await assertValidHTML();
   await t.expect(identityPage.getSaveButtonLabel()).eql('Next');
 
   await t.expect(identityPage.getGlobalErrors()).contains('You do not have permission to perform the requested action');
 });
 
-test.requestHooks(identifyThenSelectAuthenticatorMock)('navigate to other screen will not trigger "ready" event again', async t => {
+test.requestHooks(identifyThenSelectAuthenticatorMock).only('navigate to other screen will not trigger "ready" event again', async t => {
   const identityPage = await setup(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
 
   await identityPage.clickNextButton();
-
+  await assertValidHTML();
   const selectAuthenticatorPage = new SelectFactorPageObject();
 
   await t.expect(selectAuthenticatorPage.getFormTitle()).eql('Verify it\'s you with a security method');
@@ -272,10 +273,10 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should transform identif
       }
     }
   });
-
+  await assertValidHTML();
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
-
+  await assertValidHTML();
   await t.expect(identifyRequestLogger.count(() => true)).eql(1);
   const req = identifyRequestLogger.requests[0].request;
   const reqBody = JSON.parse(req.body);
@@ -298,7 +299,7 @@ test.requestHooks(identifyMock)('should render custom Unlock account link', asyn
       }
     }
   });
-
+  await assertValidHTML();
   await t.expect(identityPage.getUnlockAccountLinkText()).eql('HELP I\'M LOCKED OUT');
   await t.expect(identityPage.getCustomUnlockAccountLink()).eql('http://unlockaccount');
 });
@@ -310,7 +311,7 @@ test.requestHooks(identifyMock)('should not render custom forgot password link',
       forgotPassword: '/forgotpassword'
     }
   });
-
+  await assertValidHTML();
   await t.expect(await identityPage.hasForgotPasswordLinkText()).notOk();
 });
 
@@ -322,10 +323,10 @@ test.requestHooks(identifyRequestLogger, identifyMockWithFingerprint)('should co
       deviceFingerprinting: true,
     }
   });
-
+  await assertValidHTML();
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
-
+  await assertValidHTML();
   // Validate the fingerprint is added as a request header
   await t.expect(identifyRequestLogger.count(() => true)).eql(1);
   const req = identifyRequestLogger.requests[0].request;
@@ -351,10 +352,10 @@ test.requestHooks(identifyRequestLogger, identifyMockWithFingerprintError)('shou
       deviceFingerprinting: true,
     }
   });
-
+  await assertValidHTML();
   await identityPage.fillIdentifierField('Test Identifier');
   await identityPage.clickNextButton();
-
+  await assertValidHTML();
   // Validate the fingerprint is added as a request header
   await t.expect(identifyRequestLogger.count(() => true)).eql(1);
   const req = identifyRequestLogger.requests[0].request;
@@ -372,7 +373,7 @@ test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should pre-populate 
   await rerenderWidget({
     username: 'myTestUsername@okta.com'
   });
-
+  await assertValidHTML();
   // Ensure identifier field is pre-filled
   const identifier = identityPage.getIdentifierValue();
   await t.expect(identifier).eql('myTestUsername@okta.com');
@@ -383,7 +384,7 @@ test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should hide "Keep me
   await rerenderWidget({
     features: { showKeepMeSignedIn: false }
   });
-
+  await assertValidHTML();
   // Ensure checkbox is hidden
   const doesCheckboxExist = identityPage.identifierFieldExists('.custom-checkbox [name="rememberMe"');
   await t.expect(doesCheckboxExist).eql(false);
@@ -394,7 +395,7 @@ test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should show "Keep me
   await rerenderWidget({
     features: {}
   });
-
+  await assertValidHTML();
   // Ensure checkbox is shown
   let doesCheckboxExist = identityPage.identifierFieldExists('.custom-checkbox [name="rememberMe"');
   await t.expect(doesCheckboxExist).eql(true);
@@ -403,7 +404,7 @@ test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should show "Keep me
   await rerenderWidget({
     features: { showKeepMeSignedIn: true }
   });
-
+  await assertValidHTML();
   // Ensure checkbox is shown
   doesCheckboxExist = identityPage.identifierFieldExists('.custom-checkbox [name="rememberMe"');
   await t.expect(doesCheckboxExist).eql(true);

@@ -1,4 +1,36 @@
-import { t, ClientFunction } from 'testcafe';
+import { t, ClientFunction, Selector } from 'testcafe';
+import { HtmlValidate } from 'html-validate';
+import HtmlValidateConfig from '../../../../.htmlvalidate.json';
+
+const LOG_HTML_VALIDATE_MESSAGES = true;
+
+export async function getInnerHTML(selector) {
+  const sel = Selector(selector).addCustomDOMProperties({
+    innerHTML: el => el.innerHTML
+  });
+  const html = await sel.innerHTML;
+  return html;
+}
+
+export async function assertValidHTML() {
+  const widgetHTML = await getInnerHTML('#okta-login-container');
+  const htmlvalidate = new HtmlValidate(HtmlValidateConfig);
+  const report = htmlvalidate.validateString(widgetHTML);
+  const messages = report.results.reduce((msgs, cur) => {
+    return msgs.concat(cur.messages);
+  }, []);
+  let message;
+  for (let i = 0; i < messages.length; i++) {
+    message = messages[i];
+    if (LOG_HTML_VALIDATE_MESSAGES) {
+      console.log('HTML validate message: ', message);
+    }
+    if (message.severity >=2) { // error
+      throw new Error(`HTML validate error: ${message.message} ${message.ruleId} ${message.ruleUrl}`);
+    }
+
+  }
+}
 
 export const renderWidget = ClientFunction((settings) => {
   // function `renderPlaygroundWidget` is defined in playground/main.js
