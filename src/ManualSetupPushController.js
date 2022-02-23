@@ -145,6 +145,8 @@ export default FormController.extend({
     attributes: { 'data-se': 'step-manual-setup' },
 
     formChildren: function() {
+      const factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
+      const step1Instruction = loc('enroll.totp.sharedSecretInstructions.step1', 'login', [factorName]);
       const children = [
         FormType.Input({
           name: 'activationType',
@@ -176,17 +178,16 @@ export default FormController.extend({
         }),
         FormType.View({
           View: View.extend({
-            className: 'secret-instructions',
-            attributes: { 'data-se': 'secret-instructions'},
+            className: 'secret-key-instructions',
+            attributes: { 'data-se': 'secret-key-instructions'},
             template: hbs`
             <section aria-live="assertive">
               <p class="sr-only">{{i18n code="enroll.totp.sharedSecretInstructions.aria.intro" bundle="login"}}</p>
               <ol>
-                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step1" bundle="login"}}</li>
-                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step2" bundle="login"}}</li>
-                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step3" bundle="login" 
+                <li>{{step1Instruction}}</li>
+                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step2" bundle="login"
                 $1="<strong>$1</strong>"}}</li>
-                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step4" bundle="login" 
+                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step3" bundle="login" 
                 $1="<strong>$1</strong>"}}</li>
               </ol>
               <p class="shared-key margin-top-10" tabindex=0 
@@ -199,7 +200,8 @@ export default FormController.extend({
             },
             getTemplateData: function() {
               return {
-                sharedSecretKey: this.model.get('sharedSecret')
+                sharedSecretKey: this.model.get('sharedSecret'),
+                step1Instruction: step1Instruction
               };
             },
           }),

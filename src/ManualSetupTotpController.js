@@ -8,6 +8,8 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *
  * See the License for the specific language governing permissions and limitations under the License.
+ *
+ * This file is used for Google authenticator and OV Push disabled. 
  */
 
 import { _, loc, View } from 'okta';
@@ -35,25 +37,31 @@ export default FormController.extend({
 
       return loc('enroll.totp.title', 'login', [factorName]);
     },
-    subtitle: _.partial(loc, 'enroll.totp.setupManually', 'login'),
+    subtitle: function() {
+      const factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
+
+      return _.partial(loc, 'enroll.totp.subtitle', 'login', [factorName]);
+    },
     noButtonBar: true,
     attributes: { 'data-se': 'step-manual-setup' },
 
     formChildren: function() {
+      const factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
+      const step1Instruction = loc('enroll.totp.sharedSecretInstructions.step1', 'login', [factorName]);
+
       return [
         FormType.View({
           View: View.extend({
-            className: 'secret-instructions',
-            attributes: { 'data-se': 'secret-instructions'},
+            className: 'secret-key-instructions',
+            attributes: { 'data-se': 'secret-key-instructions'},
             template: hbs`
             <section aria-live="assertive">
               <p class="sr-only">{{i18n code="enroll.totp.sharedSecretInstructions.aria.intro" bundle="login"}}</p>
               <ol>
-                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step1" bundle="login"}}</li>
-                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step2" bundle="login"}}</li>
-                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step3" bundle="login" 
+                <li>{{step1Instruction}}</li>
+                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step2" bundle="login"
                 $1="<strong>$1</strong>"}}</li>
-                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step4" bundle="login" 
+                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step3" bundle="login" 
                 $1="<strong>$1</strong>"}}</li>
               </ol>
               <p class="shared-key margin-top-10" tabindex=0 
@@ -66,7 +74,8 @@ export default FormController.extend({
             },
             getTemplateData: function() {
               return {
-                sharedSecretKey: this.model.get('sharedSecret')
+                sharedSecretKey: this.model.get('sharedSecret'),
+                step1Instruction: step1Instruction
               };
             },
           }),

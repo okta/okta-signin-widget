@@ -1,6 +1,6 @@
 import Expect from 'helpers/util/Expect';
 import Form from './Form';
-const SHARED_SECRET_INFO = 'secret-instructions';
+const SHARED_SECRET_INFO = 'secret-key-instructions';
 const SCAN_BARCODE_LINK = 'goto-link';
 const MANUAL_SETUP_FORM = 'step-manual-setup';
 const DROPDOWN = 'activationType';
