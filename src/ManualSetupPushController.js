@@ -182,7 +182,8 @@ export default FormController.extend({
             attributes: { 'data-se': 'secret-key-instructions'},
             template: hbs`
             <section aria-live="assertive">
-              <p class="sr-only">{{i18n code="enroll.totp.sharedSecretInstructions.aria.intro" bundle="login"}}</p>
+              <p class="screen-reader-only">{{i18n code="enroll.totp.sharedSecretInstructions.aria.intro" 
+                bundle="login"}}</p>
               <ol>
                 <li>{{step1Instruction}}</li>
                 <li>{{i18n code="enroll.totp.sharedSecretInstructions.step2" bundle="login"}}</li>
