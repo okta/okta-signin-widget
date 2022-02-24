@@ -140,7 +140,7 @@ export default FormController.extend({
 
       return loc('enroll.totp.title', 'login', [factorName]);
     },
-    subtitle: _.partial(loc, 'enroll.totp.moreOptions', 'login'),
+    subtitle: _.partial(loc, 'enroll.totp.cannotScanBarcode', 'login'),
     noButtonBar: true,
     attributes: { 'data-se': 'step-manual-setup' },
 
@@ -192,8 +192,8 @@ export default FormController.extend({
                 <li>{{i18n code="enroll.totp.sharedSecretInstructions.step4" bundle="login"}}</li>
               </ol>
               <p class="shared-key margin-top-10" tabindex=0 
-                aria-label="{{i18n code="enroll.totp.sharedSecretInstructions.aria.secretKey" bundle="login"}} 
-                {{sharedSecretKey}}">{{sharedSecretKey}}</p>
+                aria-label="{{i18n code="enroll.totp.sharedSecretInstructions.aria.secretKey" bundle="login"
+                arguments="sharedSecretKey"}}">{{sharedSecretKey}}</p>
             </section>
             `,
             initialize: function(){

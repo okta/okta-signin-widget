@@ -64,8 +64,8 @@ export default FormController.extend({
                 <li>{{i18n code="enroll.totp.sharedSecretInstructions.step4" bundle="login"}}</li>
               </ol>
               <p class="shared-key margin-top-10" tabindex=0 
-                aria-label="{{i18n code="enroll.totp.sharedSecretInstructions.aria.secretKey" bundle="login"}} 
-                {{sharedSecretKey}}">{{sharedSecretKey}}</p>
+              aria-label="{{i18n code="enroll.totp.sharedSecretInstructions.aria.secretKey" bundle="login"
+              arguments="sharedSecretKey"}}">{{sharedSecretKey}}</p>
             </section>
             `,
             initialize: function(){

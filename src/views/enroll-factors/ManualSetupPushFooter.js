@@ -30,7 +30,7 @@ export default View.extend({
         {{i18n code="mfa.backToFactors" bundle="login"}}\
       </a>\
       <a href="#" class="link help goto js-goto" data-se="goto-link">\
-        {{i18n code="mfa.scanQrcode" bundle="login"}}\
+        {{i18n code="mfa.scanBarcode" bundle="login"}}\
       </a>\
     '
   ),
