@@ -167,11 +167,6 @@
                   "name": "manager",
                   "label": "Manager1",
                   "required": true
-                },
-                {
-                  "name": "customAttr",
-                  "label": "Custom Attribute 1",
-                  "required": true
                 }
               ]
             }
