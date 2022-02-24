@@ -35,7 +35,7 @@
                 },
                 {
                   "name": "secondEmail",
-                  "label": "Secondary Email1",
+                  "label": "Secondary email1",
                   "required": false
                 },
                 {
