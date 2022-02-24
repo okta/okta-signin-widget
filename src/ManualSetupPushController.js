@@ -151,6 +151,7 @@ export default FormController.extend({
       const children = [
         FormType.Input({
           name: 'activationType',
+          label:loc('mfa.setupOptions', 'login'),
           type: 'select',
           wide: true,
           options: {
@@ -160,6 +161,7 @@ export default FormController.extend({
           },
         }),
         FormType.Input({
+          label:loc('mfa.country', 'login'),
           name: 'countryCode',
           type: 'select',
           wide: true,
