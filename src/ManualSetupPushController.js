@@ -140,7 +140,7 @@ export default FormController.extend({
 
       return loc('enroll.totp.title', 'login', [factorName]);
     },
-    subtitle: _.partial(loc, 'enroll.totp.moreOption', 'login'),
+    subtitle: _.partial(loc, 'enroll.totp.moreOptions', 'login'),
     noButtonBar: true,
     attributes: { 'data-se': 'step-manual-setup' },
 
