@@ -19,7 +19,6 @@ import FormType from 'util/FormType';
 import RouterUtil from 'util/RouterUtil';
 import Footer from 'views/enroll-factors/ManualSetupPushFooter';
 import PhoneTextBox from 'views/enroll-factors/PhoneTextBox';
-import TextBox from 'views/shared/TextBox';
 
 function goToFactorActivation(view, step) {
   const url = RouterUtil.createActivateFactorUrl(
