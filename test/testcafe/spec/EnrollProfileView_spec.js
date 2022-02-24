@@ -153,7 +153,4 @@ test.requestHooks(requestLogger, EnrollProfileSignUpAllBaseAttributesMock)('All 
     // all 'label' fields for base attributes in json are appended with a '1'
     await t.expect(await enrollProfilePage.getFormFieldLabel(selector)).eql(formFieldToLabel[formField]);
   });
-
-  // check custom attribute
-  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.customAttr')).eql('Custom Attribute 1');
 });
