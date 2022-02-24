@@ -323,13 +323,20 @@ $enroll-content-spacing: 15px;
 }
 
 .scan-instructions {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
 
-  .scan-instructions-details-wrapper ,
+  .scan-instructions-details-wrapper {
+    width: 100%;
+    margin-right: -150px;
+    float: left;
+  }
+
+  .scan-instructions-details {
+    padding-right: 150px;
+  }
+
   .scan-instructions-qrcode-wrapper {
-    padding: 0 5px;
+    float: right;
+    text-align: center;
   }
 
   .qrcode-image {
@@ -341,10 +348,6 @@ $enroll-content-spacing: 15px;
 
   .qrcode-wrap {
     position: relative;
-  }
-
-  .manual-setup {
-    font-size: 13px;
   }
 
   .qrcode-success {
@@ -416,17 +419,6 @@ $enroll-content-spacing: 15px;
 .enroll-manual-push ,
 .enroll-manual-totp {
   .secret-key-instructions {
-    ol {
-      padding-left: 15px;
-      list-style: decimal;
-      li {
-        padding: 7px 0 8px 10px;
-        strong {
-          font-weight: bold;
-        }
-      }
-    }
-
     .shared-key {
       text-align: center;
       font-size: 16px;
@@ -441,9 +433,6 @@ $enroll-content-spacing: 15px;
   .chzn-drop:focus-within {
     box-shadow: 0 0 8px $input-shadow-color-focus;
     border-color: $input-border-color-focus;
-  }
-  .button-next {
-    margin: 15px 0 11px;
   }
 }
 

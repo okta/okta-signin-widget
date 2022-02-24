@@ -8,8 +8,6 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *
  * See the License for the specific language governing permissions and limitations under the License.
- *
- * This file is used for Google authenticator and OV Push disabled. 
  */
 
 import { _, loc, View } from 'okta';
@@ -34,18 +32,17 @@ export default FormController.extend({
   Form: {
     title: function() {
       const factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
+
       return loc('enroll.totp.title', 'login', [factorName]);
     },
-    subtitle: function() {
-      const factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
-      return _.partial(loc, 'enroll.totp.subtitle', 'login', [factorName]);
-    },
+    subtitle: _.partial(loc, 'enroll.totp.cannotScanBarcode', 'login'),
     noButtonBar: true,
     attributes: { 'data-se': 'step-manual-setup' },
 
     formChildren: function() {
-      const factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
-      const step1Instruction = loc('enroll.totp.sharedSecretInstructions.step1', 'login', [factorName]);
+      const instructions = this.settings.get('brandName')
+        ? loc('enroll.totp.manualSetupInstructions.specific', 'login', [this.settings.get('brandName')])
+        : loc('enroll.totp.manualSetupInstructions.generic', 'login');
 
       return [
         FormType.View({
@@ -53,35 +50,29 @@ export default FormController.extend({
             className: 'secret-key-instructions',
             attributes: { 'data-se': 'secret-key-instructions'},
             template: hbs`
-            <section aria-live="assertive">
-              <p class="screen-reader-only">{{i18n code="enroll.totp.sharedSecretInstructions.aria.intro"
-                bundle="login"}}</p>
-              <ol>
-                <li>{{step1Instruction}}</li>
-                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step2" bundle="login"}}</li>
-                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step3" bundle="login" 
-                $1="<strong>$1</strong>" $2="<strong>$2</strong>"}}</li>
-                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step4" bundle="login"}}</li>
-              </ol>
-              <p class="shared-key margin-top-10" tabindex=0 
-              aria-label="{{i18n code="enroll.totp.sharedSecretInstructions.aria.secretKey" bundle="login"
-              arguments="sharedSecretKey"}}">{{sharedSecretKey}}</p>
-            </section>
-            `,
+             <section aria-live="assertive">
+                <p  class="okta-form-subtitle o-form-explain text-align-c">
+                  {{instructions}}
+                </p>
+                <p class="shared-key margin-top-10" tabindex=0 
+                aria-label="{{i18n code="enroll.totp.sharedSecretInstructions.aria.secretKey" bundle="login"
+                arguments="sharedSecretKey"}}">{{sharedSecretKey}}</p>
+              </section>
+              `,
             initialize: function(){
               this.listenTo(this.model, 'change:sharedSecret', this.render);
             },
             getTemplateData: function() {
               return {
-                sharedSecretKey: this.model.get('sharedSecret'),
-                step1Instruction: step1Instruction
+                instructions: instructions,
+                sharedSecretKey: this.model.get('sharedSecret')
               };
             },
-          }),
+          })
         }),
         FormType.Toolbar({
           noCancelButton: true,
-          save: loc('enroll.totp.lastStepButton', 'login'),
+          save: loc('oform.next', 'login'),
         }),
       ];
     },

@@ -19,6 +19,7 @@ import FormType from 'util/FormType';
 import RouterUtil from 'util/RouterUtil';
 import Footer from 'views/enroll-factors/ManualSetupPushFooter';
 import PhoneTextBox from 'views/enroll-factors/PhoneTextBox';
+import TextBox from 'views/shared/TextBox';
 
 function goToFactorActivation(view, step) {
   const url = RouterUtil.createActivateFactorUrl(
@@ -140,17 +141,17 @@ export default FormController.extend({
 
       return loc('enroll.totp.title', 'login', [factorName]);
     },
-    subtitle: _.partial(loc, 'enroll.totp.moreOptions', 'login'),
+    subtitle: _.partial(loc, 'enroll.totp.cannotScanBarcode', 'login'),
     noButtonBar: true,
     attributes: { 'data-se': 'step-manual-setup' },
 
     formChildren: function() {
-      const factorName = FactorUtil.getFactorLabel(this.model.get('__provider__'), this.model.get('__factorType__'));
-      const step1Instruction = loc('enroll.totp.sharedSecretInstructions.step1', 'login', [factorName]);
+      const instructions = this.settings.get('brandName')
+        ? loc('enroll.totp.sharedSecretInstructions.specific', 'login', [this.settings.get('brandName')])
+        : loc('enroll.totp.sharedSecretInstructions.generic', 'login');
       const children = [
         FormType.Input({
           name: 'activationType',
-          label:loc('mfa.setupOptions', 'login'),
           type: 'select',
           wide: true,
           options: {
@@ -160,7 +161,6 @@ export default FormController.extend({
           },
         }),
         FormType.Input({
-          label:loc('mfa.country', 'login'),
           name: 'countryCode',
           type: 'select',
           wide: true,
@@ -181,28 +181,22 @@ export default FormController.extend({
             className: 'secret-key-instructions',
             attributes: { 'data-se': 'secret-key-instructions'},
             template: hbs`
-            <section aria-live="assertive">
-              <p class="screen-reader-only">{{i18n code="enroll.totp.sharedSecretInstructions.aria.intro" 
-                bundle="login"}}</p>
-              <ol>
-                <li>{{step1Instruction}}</li>
-                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step2" bundle="login"}}</li>
-                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step3" bundle="login" 
-                $1="<strong>$1</strong>" $2="<strong>$2</strong>"}}</li>
-                <li>{{i18n code="enroll.totp.sharedSecretInstructions.step4" bundle="login"}}</li>
-              </ol>
-              <p class="shared-key margin-top-10" tabindex=0 
+             <section aria-live="assertive">
+                <p  class="okta-form-subtitle o-form-explain text-align-c">
+                  {{instructions}}
+                </p>
+                <p class="shared-key margin-top-10" tabindex=0 
                 aria-label="{{i18n code="enroll.totp.sharedSecretInstructions.aria.secretKey" bundle="login"
                 arguments="sharedSecretKey"}}">{{sharedSecretKey}}</p>
-            </section>
-            `,
+              </section>
+              `,
             initialize: function(){
               this.listenTo(this.model, 'change:sharedSecret', this.render);
             },
             getTemplateData: function() {
               return {
-                sharedSecretKey: this.model.get('sharedSecret'),
-                step1Instruction: step1Instruction
+                instructions: instructions,
+                sharedSecretKey: this.model.get('sharedSecret')
               };
             },
           }),
@@ -216,7 +210,7 @@ export default FormController.extend({
         }),
         FormType.Button(
           {
-            title: loc('enroll.totp.lastStepButton', 'login'),
+            title: loc('oform.next', 'login'),
             className: 'button button-primary button-wide button-next',
             attributes: { 'data-se': 'next-button' },
             click: () => {
