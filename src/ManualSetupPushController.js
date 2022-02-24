@@ -19,7 +19,6 @@ import FormType from 'util/FormType';
 import RouterUtil from 'util/RouterUtil';
 import Footer from 'views/enroll-factors/ManualSetupPushFooter';
 import PhoneTextBox from 'views/enroll-factors/PhoneTextBox';
-import TextBox from 'views/shared/TextBox';
 
 function goToFactorActivation(view, step) {
   const url = RouterUtil.createActivateFactorUrl(
@@ -152,6 +151,7 @@ export default FormController.extend({
       const children = [
         FormType.Input({
           name: 'activationType',
+          label:loc('mfa.setupOptions', 'login'),
           type: 'select',
           wide: true,
           options: {
@@ -161,6 +161,7 @@ export default FormController.extend({
           },
         }),
         FormType.Input({
+          label:loc('mfa.country', 'login'),
           name: 'countryCode',
           type: 'select',
           wide: true,
@@ -178,30 +179,29 @@ export default FormController.extend({
         }),
         FormType.View({
           View: View.extend({
-            template: hbs(
-              '\
-                <p class="okta-form-subtitle o-form-explain text-align-c">\
-                  {{instructions}}\
-                </p>\
-              '
-            ),
+            className: 'secret-key-instructions',
+            attributes: { 'data-se': 'secret-key-instructions'},
+            template: hbs`
+             <section aria-live="assertive">
+                <p  class="okta-form-subtitle o-form-explain text-align-c">
+                  {{instructions}}
+                </p>
+                <p class="shared-key margin-top-10" tabindex=0 
+                aria-label="{{i18n code="enroll.totp.sharedSecretInstructions.aria.secretKey" bundle="login"
+                arguments="sharedSecretKey"}}">{{sharedSecretKey}}</p>
+              </section>
+              `,
+            initialize: function(){
+              this.listenTo(this.model, 'change:sharedSecret', this.render);
+            },
             getTemplateData: function() {
               return {
                 instructions: instructions,
+                sharedSecretKey: this.model.get('sharedSecret')
               };
             },
           }),
           showWhen: { activationType: 'MANUAL' },
-        }),
-        FormType.Input({
-          name: 'sharedSecret',
-          input: TextBox,
-          type: 'text',
-          disabled: true,
-          showWhen: { activationType: 'MANUAL' },
-          initialize: function() {
-            this.listenTo(this.model, 'change:sharedSecret', this.render);
-          },
         }),
         FormType.View({
           View: View.extend({

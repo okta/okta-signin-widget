@@ -114,6 +114,7 @@ const idx = {
     'error-authenticator-enroll-phone-invalid-number',
   ],
   '/idp/idx/identify': [
+    // 'authenticator-verification-data-ov-only-without-device-known',
     'authenticator-verification-email',
     // 'authenticator-enroll-select-authenticator',
     // 'authenticator-verification-email-without-emailmagiclink',
@@ -248,6 +249,15 @@ const enrollQROktaVerify  = {
   '/api/v1/authn': [
     'mfa-enroll-qr-okta-verify'
   ]
+};
+
+const enrollOVManually  = {
+  '/api/v1/authn': [
+    'mfa-enroll-ov-manual'
+  ],
+  '/idp/idx/activate/poll': [
+    'identify-with-device-launch-authenticator',
+  ],
 };
 
 // email enroll
@@ -1006,7 +1016,7 @@ const selectOktaVerifyMethod = {
     'identify-with-password',
   ],
   '/idp/idx/identify': [
-    'authenticator-verification-data-ov-only-without-device-known',
+    'authenticator-enroll-ov-via-email',
   ],
   '/idp/idx/challenge': [
     'authenticator-verification-okta-verify-push-autoChallenge-on',

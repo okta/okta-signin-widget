@@ -416,9 +416,23 @@ $enroll-content-spacing: 15px;
   }
 }
 
-.enroll-manual-push {
-  .button-next {
-    margin: 15px 0 11px;
+.enroll-manual-push ,
+.enroll-manual-totp {
+  .secret-key-instructions {
+    .shared-key {
+      text-align: center;
+      font-size: 16px;
+      color: $consent-text-color;
+      padding: 5px 0;
+      &:focus {
+        box-shadow: 0 0 8px $input-shadow-color-focus;
+        border-color: $input-border-color-focus;
+      }
+    }
+  }
+  .chzn-drop:focus-within {
+    box-shadow: 0 0 8px $input-shadow-color-focus;
+    border-color: $input-border-color-focus;
   }
 }
 

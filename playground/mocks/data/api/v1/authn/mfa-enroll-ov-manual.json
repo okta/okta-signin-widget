@@ -1,0 +1,74 @@
+{
+  "stateToken": "00LUU8ZWNexHBC6i1_KNxvcS1s-xIW_hrl3ItwpUY9",
+  "expiresAt": "2022-02-03T17:32:03.000Z",
+  "status": "MFA_ENROLL_ACTIVATE",
+  "factorResult": "WAITING",
+  "_embedded": {
+    "user": {
+      "id": "00u47ptl1iWdxRIuK0g7",
+      "passwordChanged": "2022-02-02T15:11:29.000Z",
+      "profile": {
+        "login": "testuser@okta.com",
+        "firstName": "Test",
+        "lastName": "User",
+        "locale": "en_US",
+        "timeZone": "America/Los_Angeles"
+      }
+    },
+    "factor": {
+      "id": "opf47q9cwpswZcrW40g7",
+      "factorType": "push",
+      "provider": "OKTA",
+      "vendorName": "OKTA",
+      "_embedded": {
+        "activation": {
+          "expiresAt": "2022-02-03T17:27:07.000Z",
+          "factorResult": "WAITING",
+          "_links": {
+            "qrcode": {
+              "href": "http://localhost:3000/api/v1/users/00u47ptl1iWdxRIuK0g7/factors/opf47q9cwpswZcrW40g7/qr/201111Cetuu675Dg744jmJraWjFltz5nPBHWKBydJ6LY01knhjQ4cgx",
+              "type": "image/png"
+            },
+            "send": [
+              {
+                "name": "email",
+                "href": "http://localhost:3000/api/v1/authn/factors/opf47q9cwpswZcrW40g7/lifecycle/activate/email",
+                "hints": {
+                  "allow": ["POST"]
+                }
+              },
+              {
+                "name": "sms",
+                "href": "http://localhost:3000/api/v1/authn/factors/opf47q9cwpswZcrW40g7/lifecycle/activate/sms",
+                "hints": {
+                  "allow": ["POST"]
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "_links": {
+    "next": {
+      "name": "poll",
+      "href": "http://localhost:3000/idp/idx/activate/poll",
+      "hints": {
+        "allow": ["POST"]
+      }
+    },
+    "prev": {
+      "href": "http://localhost:3000/api/v1/authn/previous",
+      "hints": {
+        "allow": ["POST"]
+      }
+    },
+    "cancel": {
+      "href": "http://localhost:3000/api/v1/authn/cancel",
+      "hints": {
+        "allow": ["POST"]
+      }
+    }
+  }
+}

@@ -17,7 +17,6 @@ import FormController from 'util/FormController';
 import FormType from 'util/FormType';
 import RouterUtil from 'util/RouterUtil';
 import ManualSetupFooter from 'views/enroll-factors/ManualSetupFooter';
-import TextBox from 'views/shared/TextBox';
 export default FormController.extend({
   className: 'enroll-manual-totp',
   Model: function() {
@@ -48,25 +47,28 @@ export default FormController.extend({
       return [
         FormType.View({
           View: View.extend({
-            template: hbs(
-              '\
-                <p class="okta-form-subtitle o-form-explain text-align-c">\
-                  {{instructions}}\
-                </p>\
-              '
-            ),
+            className: 'secret-key-instructions',
+            attributes: { 'data-se': 'secret-key-instructions'},
+            template: hbs`
+             <section aria-live="assertive">
+                <p  class="okta-form-subtitle o-form-explain text-align-c">
+                  {{instructions}}
+                </p>
+                <p class="shared-key margin-top-10" tabindex=0 
+                aria-label="{{i18n code="enroll.totp.sharedSecretInstructions.aria.secretKey" bundle="login"
+                arguments="sharedSecretKey"}}">{{sharedSecretKey}}</p>
+              </section>
+              `,
+            initialize: function(){
+              this.listenTo(this.model, 'change:sharedSecret', this.render);
+            },
             getTemplateData: function() {
               return {
                 instructions: instructions,
+                sharedSecretKey: this.model.get('sharedSecret')
               };
             },
-          }),
-        }),
-        FormType.Input({
-          name: 'sharedSecret',
-          input: TextBox,
-          type: 'text',
-          disabled: true,
+          })
         }),
         FormType.Toolbar({
           noCancelButton: true,
