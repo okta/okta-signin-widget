@@ -35,8 +35,8 @@
                 },
                 {
                   "name": "secondEmail",
-                  "label": "Secondary Email1",
-                  "required": true
+                  "label": "Secondary email1",
+                  "required": false
                 },
                 {
                   "name": "honorificPrefix",
