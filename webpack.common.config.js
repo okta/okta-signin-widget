@@ -10,6 +10,26 @@ var LOCAL_PACKAGES = resolve(__dirname, 'packages/');
 
 // Return a function so that all consumers get a new copy of the config
 module.exports = function(outputFilename, mode = 'development') {
+
+  const babelOptions = {
+    configFile: false, // do not load from babel.config.js
+    babelrc: false, // do not load from .babelrc
+    presets: [],
+    plugins: [
+      './packages/@okta/babel-plugin-handlebars-inline-precompile',
+      '@babel/plugin-transform-modules-commonjs'
+    ]
+  };
+
+  if (mode === 'production') {
+    babelOptions.presets.push('@babel/preset-env');
+  } else {
+    // In local development, we would prefer not to include any babel transforms as they make debugging more difficult
+    // However, there is an issue with testcafe which requires us to include the optional chaining transform
+    // https://github.com/DevExpress/testcafe-hammerhead/issues/2714
+    babelOptions.plugins.push('@babel/plugin-proposal-optional-chaining');
+  }
+
   return {
     entry: [`${SRC}/widget/OktaSignIn.js`],
     mode,
@@ -64,13 +84,7 @@ module.exports = function(outputFilename, mode = 'development') {
 
           },
           loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-            plugins: [
-              './packages/@okta/babel-plugin-handlebars-inline-precompile',
-              '@babel/plugin-transform-modules-commonjs'
-            ]
-          }
+          options: babelOptions
         },
         // load external source maps
         {
