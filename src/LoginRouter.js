@@ -161,7 +161,7 @@ export default BaseLoginRouter.extend({
   ],
 
   defaultAuth: function() {
-    if (location.hash === `#${Enums.WIDGET_CONTAINER_ID}`) {
+    if (window.location.hash === `#${Enums.WIDGET_CONTAINER_ID}`) {
       document.getElementById(Enums.WIDGET_CONTAINER_ID).focus();
       return;
     }
