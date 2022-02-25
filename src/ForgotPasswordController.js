@@ -190,6 +190,10 @@ export default FormController.extend({
       return formChildren;
     },
     initialize: function() {
+      if (!_.isEmpty(this.options.appState.get('username'))) {
+        this.model.set('username', this.options.appState.get('username'));
+      }
+
       this.listenTo(this.state, 'contactSupport', function() {
         this.add(ContactSupport, '.o-form-error-container');
       });
@@ -220,8 +224,4 @@ export default FormController.extend({
     },
   },
   Footer: ForgotPasswordControllerFooter,
-
-  initialize: function() {
-    this.options.appState.unset('username');
-  },
 });

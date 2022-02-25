@@ -15,7 +15,7 @@ module.exports = {
   transform: {
     '^.+\\.(js)$': 'babel-jest',
   },
-  transformIgnorePatterns: ['/node_modules/', '/packages/', '/dist/', '/build/'],
+  transformIgnorePatterns: ['/node_modules/', '/packages/', '/dist/', '/okta-auth-js/build/'],
   restoreMocks: true,
   moduleDirectories: [SRC, 'packages', 'node_modules'],
   moduleNameMapper: {
@@ -26,6 +26,9 @@ module.exports = {
     // Handlebars and Handlebars runtime must point to the same instance for helpers to work
     '^handlebars$': 'handlebars/runtime',
 
+    // auth-js has a browser and server version. we want the browser version
+    '^@okta/okta-auth-js$': '<rootDir>/node_modules/@okta/okta-auth-js/dist/okta-auth-js.umd.js',
+    
     // idx-js uses cross-fetch. Force it to use the browser version so our spies work
     '^cross-fetch$': '<rootDir>/node_modules/cross-fetch/dist/browser-ponyfill.js',
 
