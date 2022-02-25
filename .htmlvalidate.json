@@ -1,0 +1,27 @@
+{
+  "extends": [
+    "html-validate:recommended"
+  ],
+
+  "elements": [
+    "html5",
+    {
+      "form": {
+        "attributes": {
+          "method": {
+            "boolean": false,
+            "omit": true,
+            "enum": ["POST"]
+          }
+        }
+      }
+    }
+  ],
+
+  "rules": {
+    "prefer-button": "off",
+    "empty-heading": "warn",
+    "element-permitted-content": "warn",
+    "wcag/h32": "warn"
+  }
+}
