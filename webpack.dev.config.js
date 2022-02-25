@@ -14,9 +14,12 @@ module.exports = (env = {}) => {
       skipAnalyzer,
     })
   };
-  usePolyfill(webpackConfig);
 
-  if (!isProduction) {
+
+  if (isProduction) {
+    // development bundle does not include runtime transforms
+    usePolyfill(webpackConfig);
+  } else {
     webpackConfig.optimization.minimize = false;
   }
 
