@@ -48,6 +48,9 @@ else
   echo "Fail to upload okta-signin-widget job data artifact_version=${artifact_version} to s3!" >&2
 fi
 
+FINAL_PUBLISHED_VERSIONS=$(echo "console.log(require('./package.json').version)" | node -)
+log_custom_message "Published Version" "${FINAL_PUBLISHED_VERSIONS}"
+
 popd
 
 exit $SUCCESS
