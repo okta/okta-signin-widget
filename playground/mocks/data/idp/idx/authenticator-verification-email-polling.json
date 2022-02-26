@@ -97,7 +97,7 @@
         "href":"http://localhost:3000/idp/idx/challenge/poll",
         "method":"POST",
         "accepts":"application/vnd.okta.v1+json",
-        "refresh":100,
+        "refresh":4000,
         "value":[
           {
             "name":"stateHandle",
