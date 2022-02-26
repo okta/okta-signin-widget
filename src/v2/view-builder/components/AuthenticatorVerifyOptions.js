@@ -35,7 +35,7 @@ const AuthenticatorRow = View.extend({
         return loc('oie.verify.authenticator.button.text', 'login');
       },
       click: function() {
-        this.model.trigger('selectAutheticator', this.model.get('value'));
+        this.model.trigger('selectAuthenticator', this.model.get('value'));
       }
     }), '.authenticator-button']];
   },
@@ -53,7 +53,7 @@ export default ListView.extend({
   itemSelector: '.list-content',
 
   initialize: function() {
-    this.listenTo(this.collection,'selectAutheticator', this.handleSelect);
+    this.listenTo(this.collection,'selectAuthenticator', this.handleSelect);
   },
 
   handleSelect(data) {
