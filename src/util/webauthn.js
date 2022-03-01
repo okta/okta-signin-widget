@@ -59,6 +59,8 @@ export default {
     return Object.prototype.hasOwnProperty.call(window, 'msCredentials');
   },
   isNewApiAvailable: function() {
+    // navigator.credentials is not supported in IE11
+    // eslint-disable-next-line compat/compat
     return navigator && navigator.credentials && navigator.credentials.create;
   },
   isWebauthnOrU2fAvailable: function() {
