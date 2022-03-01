@@ -328,6 +328,24 @@ export default Model.extend({
     const isCurrentAuthenticatorEmail = this.get('currentAuthenticatorEnrollment')?.key === AUTHENTICATOR_KEY.EMAIL;
 
     return isSameExceptMessages && isChallengeAuthenticator && isCurrentAuthenticatorEmail;
-  }
+  },
 
+  /**
+   * It will remove empty optional attributes from the model for attributes rendered as dropdown and text box.
+   */
+  cleanModelState(attributes) {
+    const currentViewState = this.getCurrentViewState();
+    if(currentViewState) {
+      const uiSchema = currentViewState.uiSchema;
+      _.each(attributes, (value, name) => {
+        if (_.isEmpty(value)) {
+          const uiSchemaProperty = uiSchema.find(schema => schema.name === name);
+          if (!_.isUndefined(uiSchemaProperty) && !uiSchemaProperty.required &&
+            (uiSchemaProperty.type === 'select' || uiSchemaProperty.type === 'text')) {
+            delete attributes[name];
+          }
+        }
+      });
+    }
+  },
 });

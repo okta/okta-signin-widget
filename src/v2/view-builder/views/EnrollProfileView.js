@@ -29,15 +29,8 @@ const Body = BaseForm.extend({
 
   },
   saveForm() {
-    const uiSchema = this.getUISchema();
-    _.each(this.model.attributes, (value, name) => {
-      if (_.isEmpty(value)) {
-        const uiSchemaProperty = uiSchema.find(schema => schema.name === name);
-        if (!_.isUndefined(uiSchemaProperty) && !uiSchemaProperty.required) {
-          delete this.model.attributes[name];
-        }
-      }
-    });
+    // cleaning up model from empty optional attributes
+    this.options.appState.cleanModelState(this.model.attributes);
 
     // SIW customization hook for registration
     this.settings.preRegistrationSubmit(this.model.toJSON(),
