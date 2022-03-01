@@ -430,10 +430,6 @@ $enroll-content-spacing: 15px;
       }
     }
   }
-  .chzn-drop:focus-within {
-    box-shadow: 0 0 8px $input-shadow-color-focus;
-    border-color: $input-border-color-focus;
-  }
 }
 
 [name="sharedSecret"] {
