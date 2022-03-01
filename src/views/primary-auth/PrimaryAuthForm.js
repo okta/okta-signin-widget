@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, Form, loc } from 'okta';
+import { Form, loc } from 'okta';
 import DeviceFingerprint from 'util/DeviceFingerprint';
 import TypingUtil from 'util/TypingUtil';
 import Util from 'util/Util';
@@ -42,13 +42,12 @@ export default Form.extend({
   initialize: function() {
     const trackTypingPattern = this.settings.get('features.trackTypingPattern');
 
-    this.listenTo(this, 'save', function() {
+    this.listenTo(this, 'save', async function() {
+      const { appState } = this.options;
       if (trackTypingPattern) {
         const typingPattern = TypingUtil.getTypingPattern();
-
-        this.options.appState.set('typingPattern', typingPattern);
+        appState.set('typingPattern', typingPattern);
       }
-      const self = this;
       const creds = {
         username: this.model.get('username'),
       };
@@ -56,27 +55,23 @@ export default Form.extend({
       if (!this.settings.get('features.passwordlessAuth')) {
         creds.password = this.model.get('password');
       }
-      this.settings
-        .processCreds(creds)
-        .then(function() {
-          if (!self.settings.get('features.deviceFingerprinting')) {
-            return;
-          }
-          self.options.appState.trigger('loading', true);
-          self.state.trigger('togglePrimaryAuthButton', true);
-          return DeviceFingerprint.generateDeviceFingerprint(self.settings.get('baseUrl'), self.$el)
-            .then(function(fingerprint) {
-              self.options.appState.set('deviceFingerprint', fingerprint);
-            })
-            .catch(function() {
-              // Keep going even if device fingerprint fails
-            })
-            .finally(function() {
-              self.options.appState.trigger('loading', false);
-              self.state.trigger('togglePrimaryAuthButton', false);
-            });
-        })
-        .then(_.bind(this.model.save, this.model));
+
+      // show loading spinner and disable submit button before processCreds hook runs
+      appState.trigger('loading', true);
+      this.state.trigger('togglePrimaryAuthButton', true);
+      
+      await this.settings.processCreds(creds);
+
+      if (this.settings.get('features.deviceFingerprinting')) {
+        try {
+          const fingerprint = await DeviceFingerprint.generateDeviceFingerprint(this.settings.get('baseUrl'), this.$el);
+          appState.set('deviceFingerprint', fingerprint);
+        } catch {
+          // Keep going even if device fingerprint fails
+        }
+      }
+
+      this.model.save();
     });
 
     this.stateEnableChange();
