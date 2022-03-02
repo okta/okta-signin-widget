@@ -331,17 +331,16 @@ export default Model.extend({
   },
 
   /**
-   * It will remove empty optional attributes from the model for attributes rendered as dropdown and text box.
+   * It will remove empty optional attributes from the view model of current view state
    */
-  cleanModelState(attributes) {
+  cleanViewModelState(attributes) {
     const currentViewState = this.getCurrentViewState();
     if(currentViewState) {
       const uiSchema = currentViewState.uiSchema;
       _.each(attributes, (value, name) => {
         if (_.isEmpty(value)) {
-          const uiSchemaProperty = uiSchema.find(schema => schema.name === name);
-          if (!_.isUndefined(uiSchemaProperty) && !uiSchemaProperty.required &&
-            (uiSchemaProperty.type === 'select' || uiSchemaProperty.type === 'text')) {
+          const uiSchemaProperty = uiSchema.find(schema => schema.name === `userProfile.${name}`);
+          if (!_.isUndefined(uiSchemaProperty) && !uiSchemaProperty.required) {
             delete attributes[name];
           }
         }

@@ -1,4 +1,4 @@
-import { loc, _ } from 'okta';
+import { loc, Model, _ } from 'okta';
 import { BaseForm, BaseFooter, BaseView } from '../internals';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 
@@ -29,9 +29,6 @@ const Body = BaseForm.extend({
 
   },
   saveForm() {
-    // cleaning up model from empty optional attributes
-    this.options.appState.cleanModelState(this.model.attributes);
-
     // SIW customization hook for registration
     this.settings.preRegistrationSubmit(this.model.toJSON(),
       (postData) => {
@@ -64,8 +61,20 @@ export default BaseView.extend({
   Body,
   Footer,
   createModelClass(currentViewState, optionUiSchemaConfig, settings) {
-    let ModelClass = BaseView.prototype.createModelClass.apply(this, arguments);
     const currentSchema = JSON.parse(JSON.stringify((currentViewState.uiSchema)));
+    const appState = this.options.appState;
+    let ModelClass = BaseView.prototype.createModelClass.apply(this, arguments, appState);
+
+    ModelClass = ModelClass.extend({
+      toJSON: function() {
+        const modelJSON = Model.prototype.toJSON.call(this, arguments, appState);
+        // remove unwanted data from modelJSON
+        if(modelJSON.userProfile) {
+          appState.cleanViewModelState(modelJSON.userProfile);
+        }
+        return modelJSON;
+      }
+    });
 
     settings.parseRegistrationSchema(currentSchema,
       (schema) => {
