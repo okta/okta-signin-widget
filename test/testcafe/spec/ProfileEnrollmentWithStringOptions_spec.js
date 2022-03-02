@@ -63,6 +63,7 @@ test.requestHooks(requestLogger, ProfileEnrollmentSignUpWithStringFieldsMock)('s
   await profileEnrollmentString.fillEmailField('test.carlos@mycompany.com');
   await profileEnrollmentString.fillFirstNameField('Test Carlos');
   await profileEnrollmentString.fillLastNameField('Test');
+  await profileEnrollmentString.fillString1('');
 
   requestLogger.clear();
   await profileEnrollmentString.clickFinishButton();

@@ -329,22 +329,4 @@ export default Model.extend({
 
     return isSameExceptMessages && isChallengeAuthenticator && isCurrentAuthenticatorEmail;
   },
-
-  /**
-   * It will remove empty optional attributes from the view model of current view state
-   */
-  cleanViewModelState(attributes) {
-    const currentViewState = this.getCurrentViewState();
-    if(currentViewState) {
-      const uiSchema = currentViewState.uiSchema;
-      _.each(attributes, (value, name) => {
-        if (_.isEmpty(value)) {
-          const uiSchemaProperty = uiSchema.find(schema => schema.name === `userProfile.${name}`);
-          if (!_.isUndefined(uiSchemaProperty) && !uiSchemaProperty.required) {
-            delete attributes[name];
-          }
-        }
-      });
-    }
-  },
 });

@@ -140,6 +140,12 @@
                       }
                     }
                   ]
+                },
+                {
+                  "name": "string1",
+                  "type": "string",
+                  "label": "String1",
+                  "required": false
                 }
               ]
             }

@@ -62,15 +62,23 @@ export default BaseView.extend({
   Footer,
   createModelClass(currentViewState, optionUiSchemaConfig, settings) {
     const currentSchema = JSON.parse(JSON.stringify((currentViewState.uiSchema)));
-    const appState = this.options.appState;
-    let ModelClass = BaseView.prototype.createModelClass.apply(this, arguments, appState);
+    let ModelClass = BaseView.prototype.createModelClass.apply(this, arguments, currentViewState);
 
     ModelClass = ModelClass.extend({
       toJSON: function() {
-        const modelJSON = Model.prototype.toJSON.call(this, arguments, appState);
+        const modelJSON = Model.prototype.toJSON.call(this, arguments, currentViewState);
         // remove unwanted data from modelJSON
         if(modelJSON.userProfile) {
-          appState.cleanViewModelState(modelJSON.userProfile);
+          const uiSchema = currentViewState.uiSchema;
+          const userProfile = modelJSON.userProfile;
+          _.each(userProfile, (value, name) => {
+            if (_.isEmpty(value)) {
+              const uiSchemaProperty = uiSchema.find(schema => schema.name === `userProfile.${name}`);
+              if (!_.isUndefined(uiSchemaProperty) && !uiSchemaProperty.required) {
+                delete userProfile[name];
+              }
+            }
+          });
         }
         return modelJSON;
       }
