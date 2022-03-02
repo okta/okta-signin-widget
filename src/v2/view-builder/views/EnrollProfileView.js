@@ -67,7 +67,7 @@ export default BaseView.extend({
     ModelClass = ModelClass.extend({
       toJSON: function() {
         const modelJSON = Model.prototype.toJSON.call(this, arguments, currentViewState);
-        // remove unwanted data from modelJSON
+        // delete optional attributes if they are empty and not required
         if(modelJSON.userProfile) {
           const uiSchema = currentViewState.uiSchema;
           const userProfile = modelJSON.userProfile;

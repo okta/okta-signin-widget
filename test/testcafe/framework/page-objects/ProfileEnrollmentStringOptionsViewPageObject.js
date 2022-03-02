@@ -33,7 +33,7 @@ export default class ProfileEnrollmentStringOptionsViewPageObject extends BasePa
     return this.form.setTextBoxValue('userProfile.lastName', value);
   }
 
-  fillString1(value) {
+  fillOptionalField(value) {
     return this.form.setTextBoxValue('userProfile.string1', value);
   }
 }
