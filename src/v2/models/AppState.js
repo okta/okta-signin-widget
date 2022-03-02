@@ -328,5 +328,5 @@ export default Model.extend({
     const isCurrentAuthenticatorEmail = this.get('currentAuthenticatorEnrollment')?.key === AUTHENTICATOR_KEY.EMAIL;
 
     return isSameExceptMessages && isChallengeAuthenticator && isCurrentAuthenticatorEmail;
-  },
+  }
 });
