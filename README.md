@@ -1794,3 +1794,4 @@ Need to know if the Sign-In Widget supports your browser requirements?  Please s
 ## Contributing
 
 We're happy to accept contributions and PRs! Please see the [contribution guide](CONTRIBUTING.md) to understand how to structure a contribution.
+
