@@ -3,12 +3,15 @@ import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import ProfileEnrollmentStringOptionsViewPageObject from '../framework/page-objects/ProfileEnrollmentStringOptionsViewPageObject';
 import Identify from '../../../playground/mocks/data/idp/idx/identify-with-password';
 import ProfileEnrollmentStringFieldsOptions from '../../../playground/mocks/data/idp/idx/profile-enrollment-string-fields-options';
+import EnrollProfileUpdateSuccess from '../../../playground/mocks/data/idp/idx/success-with-app-user';
 
 const ProfileEnrollmentSignUpWithStringFieldsMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(Identify)
   .onRequestTo('http://localhost:3000/idp/idx/enroll')
-  .respond(ProfileEnrollmentStringFieldsOptions);
+  .respond(ProfileEnrollmentStringFieldsOptions)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll/new')
+  .respond(EnrollProfileUpdateSuccess);
 
 const requestLogger = RequestLogger(
   /idx\/*/,
@@ -50,4 +53,30 @@ test.requestHooks(requestLogger, ProfileEnrollmentSignUpWithStringFieldsMock)('s
   await t.expect(favPizza).eql('Razza');
 
   await t.expect(await profileEnrollmentString.getSaveButtonLabel()).eql('Sign Up');
+});
+
+test.requestHooks(requestLogger, ProfileEnrollmentSignUpWithStringFieldsMock)('should submit form when all optional fields are empty', async t => {
+  const profileEnrollmentString = new ProfileEnrollmentStringOptionsViewPageObject(t);
+  const identityPage = await setup(t);
+  await identityPage.clickSignUpLink();
+
+  await profileEnrollmentString.fillEmailField('test.carlos@mycompany.com');
+  await profileEnrollmentString.fillFirstNameField('Test Carlos');
+  await profileEnrollmentString.fillLastNameField('Test');
+  await profileEnrollmentString.fillOptionalField('');
+
+  requestLogger.clear();
+  await profileEnrollmentString.clickFinishButton();
+
+  const req = requestLogger.requests[0].request;
+  await t.expect(req.url).eql('http://localhost:3000/idp/idx/enroll/new');
+  const reqBody = JSON.parse(req.body);
+  await t.expect(reqBody).eql({
+    userProfile: {
+      email: 'test.carlos@mycompany.com',
+      firstName: 'Test Carlos',
+      lastName: 'Test'
+    },
+    stateHandle: '01r2p5S9qaAjESMFuPzt7r3ZMcZZQ_vvS0Tzg56ajB',
+  });
 });
