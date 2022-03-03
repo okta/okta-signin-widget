@@ -14525,10 +14525,11 @@ var _default = _BaseInput.default.extend({
 
     if (params && params.aria && params.aria.label) {
       this.$('input[type=text]').attr('id', txtBoxId).attr('aria-label', params.aria.label);
+    } else {
+      this.$('input[type=text]').attr('id', txtBoxId).attr('aria-label', this.$el.parent().prev('.o-form-label').find('label').text());
     }
 
     this.$('.chzn-results .active-result').attr('role', 'option');
-    this.$el.parents('.o-form-fieldset').find('label').attr('for', txtBoxId);
   }
 });
 

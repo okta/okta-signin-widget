@@ -81,8 +81,29 @@ module.exports = {
     },
     {
       'files': ['src/**/*.js'],
+      'extends': [
+        'plugin:compat/recommended',
+      ],
+      'settings': {
+        'polyfills': [
+          'Promise' // Assume Promise is polyfilled for IE11
+        ]
+      },
       'rules': {
         'local-rules/no-bare-templates': 2, // we dont want no-bare-templates rule to be applied to test files
+      },
+      'env': {
+        // Setting browser to true enables many global variables which may obscure actual errors
+        // Instead we specifically enumerate globals below
+        'browser': false,
+      },
+      'globals': {
+        'window': true,
+        'document': true,
+        'navigator': true,
+        'localStorage': true,
+        'sessionStorage': true,
+        'AbortController': true,
       },
       'overrides': [
         {

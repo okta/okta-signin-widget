@@ -32,6 +32,7 @@ import DeviceFingerprint from 'util/DeviceFingerprint';
 import Errors from 'util/Errors';
 import TypingUtil from 'util/TypingUtil';
 import LoginUtil from 'util/Util';
+import CookieUtil from 'util/CookieUtil';
 const SharedUtil = internal.util.Util;
 const itp = Expect.itp;
 const BEACON_LOADING_CLS = 'beacon-loading';
@@ -311,6 +312,10 @@ const setupWithTransformUsername = _.partial(setup, { username: 'foobar', transf
 const setupWithTransformUsernameOnUnlock = _.partial(setup, { transformUsername: transformUsernameOnUnlock });
 
 Expect.describe('PrimaryAuth', function() {
+  beforeEach(() => {
+    // ensure a clean environment for each test
+    CookieUtil.removeUsernameCookie();
+  });
   Expect.describe('PrimaryAuthModel', function() {
     it('returns username validation error when username is blank', function() {
       const model = new PrimaryAuth({ username: '', password: 'pass' });
@@ -1418,13 +1423,11 @@ Expect.describe('PrimaryAuth', function() {
         .then(function() {
           const spyCalls = PrimaryAuthController.prototype.toggleButtonState.calls;
 
-          expect(spyCalls.count()).toBe(3);
+          expect(spyCalls.count()).toBe(2);
           // get device fingerprint
           expect(spyCalls.argsFor(0)).toEqual([true]);
-          // fingerprint ready
-          expect(spyCalls.argsFor(1)).toEqual([false]);
           // submit creds to authn
-          expect(spyCalls.argsFor(2)).toEqual([true]);
+          expect(spyCalls.argsFor(1)).toEqual([true]);
         });
     });
   });
@@ -1449,9 +1452,10 @@ Expect.describe('PrimaryAuth', function() {
           .then(function(test) {
             const spyCalls = test.securityBeacon.toggleClass.calls;
 
-            expect(spyCalls.count()).toBe(2);
-            expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
-            expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
+            expect(spyCalls.count()).toBe(3);
+            expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]); // in view
+            expect(spyCalls.argsFor(1)).toEqual([BEACON_LOADING_CLS, true]); // in model
+            expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]); // in model
             expect(test.securityBeacon.html()).toBe(
               '<div class="beacon-blank">' +
               '<div class="radial-progress-bar" style="clip: rect(0px, 96px, 96px, 48px);">' +
@@ -1486,12 +1490,12 @@ Expect.describe('PrimaryAuth', function() {
           .then(function(test) {
             const spyCalls = test.securityBeacon.toggleClass.calls;
 
-            expect(spyCalls.count()).toBe(4);
-            // First 2 to get fingerprint
+            expect(spyCalls.count()).toBe(3);
+            // get fingerprint
             expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
-            expect(spyCalls.argsFor(1)).toEqual([BEACON_LOADING_CLS, false]);
-            // Last 2 for model.save
-            expect(spyCalls.argsFor(2)).toEqual([BEACON_LOADING_CLS, true]);
+            // model.save
+            expect(spyCalls.argsFor(1)).toEqual([BEACON_LOADING_CLS, true]);
+            // model.save complete
             expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
           });
       });
@@ -1532,11 +1536,10 @@ Expect.describe('PrimaryAuth', function() {
             test.setNextResponse(resPwdExpired);
             test.form.setPassword('pass');
             test.form.submit();
-            return Expect.waitForSpyCall(test.securityBeacon.toggleClass, test);
+            return Expect.waitForPasswordExpired(test);
           })
           .then(function(test) {
             const spyCalls = test.securityBeacon.toggleClass.calls;
-
             expect(spyCalls.argsFor(0)).toEqual([BEACON_LOADING_CLS, true]);
             expect(spyCalls.mostRecent().args).toEqual([BEACON_LOADING_CLS, false]);
           });

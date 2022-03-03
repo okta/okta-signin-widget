@@ -36,7 +36,7 @@ const AuthenticatorRow = View.extend({
         return loc('oie.enroll.authenticator.button.text', 'login');
       },
       click: function() {
-        this.model.trigger('selectAutheticator', this.model.get('value'));
+        this.model.trigger('selectAuthenticator', this.model.get('value'));
       }
     }), '.authenticator-button']];
   },
@@ -54,7 +54,7 @@ export default ListView.extend({
   itemSelector: '.list-content',
 
   initialize: function() {
-    this.listenTo(this.collection,'selectAutheticator', function(data) {
+    this.listenTo(this.collection,'selectAuthenticator', function(data) {
       this.model.set(this.options.name, data);
       this.options.appState.trigger('saveForm', this.model);
     });

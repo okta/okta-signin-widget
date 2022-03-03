@@ -53,7 +53,11 @@ const configMock = (option) => {
 
       const basenameMockFile = path.basename(mockFile, '.json');
       // response as error when the file name starts with 'error'
-      if (basenameMockFile.indexOf('error') === 0) {
+      if (basenameMockFile.indexOf('error-401') === 0) {
+        res.status(401);
+      } else if (basenameMockFile.indexOf('error-429') === 0) {
+        res.status(429);
+      } else if (basenameMockFile.indexOf('error') === 0) {
         res.status(403);
       }
       next();

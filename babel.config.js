@@ -1,7 +1,12 @@
 // Used by babel-jest
-const presets = ['@babel/preset-env'];
+const presets = [
+  ['@babel/preset-env', {
+    exclude: [
+      '@babel/plugin-transform-regenerator'
+    ]
+  }]
+];
 const plugins = [
-  '@babel/plugin-transform-runtime',
   './packages/@okta/babel-plugin-handlebars-inline-precompile',
 ];
 

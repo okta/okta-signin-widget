@@ -14,7 +14,11 @@
   },
   "browserslist": [
     "> 0.1%",
-    "not ie <= 9"
+    "not opera < 69",
+    "not firefox < 53",
+    "not safari < 7.1",
+    "not ie < 11",
+    "not IE_Mob 11"
   ],
   "main": "./target/js/okta-sign-in.js",
   "scripts": {
@@ -56,6 +60,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
+    "@babel/plugin-proposal-optional-chaining": "^7.14.5",
     "@babel/plugin-transform-modules-commonjs": "^7.10.1",
     "@babel/plugin-transform-runtime": "^7.10.3",
     "@babel/preset-env": "^7.15.6",
@@ -81,6 +86,7 @@
     "dotenv": "^8.0.0",
     "dyson": "^4.1.0",
     "eslint": "^7.23.0",
+    "eslint-plugin-compat": "^4.0.2",
     "eslint-plugin-jasmine": "^4.1.0",
     "eslint-plugin-json": "^2.1.2",
     "eslint-plugin-local-rules": "^0.1.1",
