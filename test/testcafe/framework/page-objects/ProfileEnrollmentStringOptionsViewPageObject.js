@@ -16,4 +16,24 @@ export default class ProfileEnrollmentStringOptionsViewPageObject extends BasePa
   clickRadioButton(fieldName, index) {
     return this.form.selectRadioButtonOption(fieldName, index);
   }
+
+  clickFinishButton() {
+    return this.form.clickSaveButton();
+  }
+
+  fillEmailField(value) {
+    return this.form.setTextBoxValue('userProfile.email', value);
+  }
+
+  fillFirstNameField(value) {
+    return this.form.setTextBoxValue('userProfile.firstName', value);
+  }
+
+  fillLastNameField(value) {
+    return this.form.setTextBoxValue('userProfile.lastName', value);
+  }
+
+  fillOptionalField(value) {
+    return this.form.setTextBoxValue('userProfile.string1', value);
+  }
 }
