@@ -157,10 +157,10 @@ function fetchJson(bundle, language, assets) {
 
 function getBundles(language, assets, supportedLanguages) {
   // Two special cases:
-  // 1. English is already bundled with the widget
+  // 1. Default language is already bundled with the widget
   // 2. If the language is not in our config file, it means that they've
   //    probably defined it on their own.
-  if (language === 'en' || !_.contains(supportedLanguages, language)) {
+  if (language === config.defaultLanguage || !_.contains(supportedLanguages, language)) {
     return Q({});
   }
 

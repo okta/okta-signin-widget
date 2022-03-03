@@ -23,7 +23,6 @@ import Logger from 'util/Logger';
 import Util from 'util/Util';
 import CountryUtil from 'util/CountryUtil';
 const SharedUtil = internal.util.Util;
-const DEFAULT_LANGUAGE = 'en';
 const ConfigError = Errors.ConfigError;
 const UnsupportedBrowserError = Errors.UnsupportedBrowserError;
 const assetBaseUrlTpl = hbs('https://global.oktacdn.com/okta-signin-widget/{{version}}');
@@ -116,6 +115,7 @@ export default Model.extend({
       type: 'function',
       value: _.identity,
     },
+    'assets.languages': ['array', false],
 
     // OAUTH2
     issuer: 'string',
@@ -195,11 +195,14 @@ export default Model.extend({
       cache: true,
     },
     supportedLanguages: {
-      deps: ['i18n', 'language'],
-      fn: function(i18n, language) {
-        // Developers can pass in their own languages
+      deps: ['i18n', 'language', 'assets.languages'],
+      fn: function(i18n, language, hostedLanguages) {
+        // By default, the language be automatically detected from the browser
+        // Developers can specify the language. It will be added to the supportedLanguages list.
+        // Developers can also provide a list of languages with hosted assets, these replace the default list
+        const supportedLanguages = hostedLanguages || config.supportedLanguages;
         return _.union(
-          config.supportedLanguages, 
+          supportedLanguages, 
           _.keys(i18n), 
           _.isString(language) ? [language] : []
         );
@@ -227,9 +230,9 @@ export default Model.extend({
           preferred.unshift(language(supportedLanguages, userLanguages));
         }
 
-        // Add english as the default, and expand to include any language
+        // Add default language, and expand to include any language
         // codes that do not include region, dialect, etc.
-        preferred.push(DEFAULT_LANGUAGE);
+        preferred.push(config.defaultLanguage);
         expanded = Util.toLower(Util.expandLanguages(preferred));
 
         // Perform a case insensitive search - this is necessary in the case
