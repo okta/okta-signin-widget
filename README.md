@@ -949,7 +949,7 @@ var config = {
   - `zh-CN` - Chinese (PRC)
   - `zh-TW` - Chinese (Taiwan)
 
-  **Note:** If you want to use language that is not supported by widget, you need to host `login_{lang}.json` and `country_{lang}.json` files that should be accesible under path `{assets.baseUrl}/labels/json/`, where `{lang}` is your language code and `{assets.baseUrl}` is url to your assets (can be `/` to point on current domain). Example of JSON language files you can find after building widget in folder `packages/@okta/i18n/src/json`.
+  **Note:** If you want to use language that is not supported by widget, you need to host `login_{lang}.json` and `country_{lang}.json` files that should be accesible under path `{assets.baseUrl}/labels/json/`, where `{lang}` is your language code and `{assets.baseUrl}` is url to your assets (can be `/` to point on current domain). Example of JSON language files you can find after building widget in folder `packages/@okta/i18n/src/json`. The list of supported languages can be specified with the `assets.languages` option.
 
 - **defaultCountryCode:** Set the default countryCode of the widget. If no `defaultCountryCode` is provided, defaults to `US`. It sets the country calling code for phone number accordingly in the widget.
 
@@ -1000,6 +1000,8 @@ var config = {
     ```
 
     **Note:** The json files can be accessed from the `dist/labels/json` folder that is published in the [npm module](https://www.npmjs.com/package/@okta/okta-signin-widget).
+
+- **assets.languages** Specify the list of supported languages which are hosted and accesible under the path `{assets.baseUrl}/labels/json/`. This option supersedes the default list of supported languages. If an unsupported language is requested (explicitly using the `language` option or automatically by browser detection), the default language (`en`) will be used.
 
 - **assets.rewrite:** You can use this function to rewrite the asset path and filename. Use this function if you will host the asset files on your own host, and plan to change the path or filename of the assets. This is useful, for example, if you want to cachebust the files.
 
