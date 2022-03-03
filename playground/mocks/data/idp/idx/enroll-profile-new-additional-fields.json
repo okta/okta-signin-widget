@@ -54,7 +54,18 @@
                   "name":"countryCode",
                   "type":"string",
                   "label":"Country code",
-                  "required":true
+                  "required":true,
+                  "options":[
+                    {
+                      "label":"display",
+                      "value":{
+                        "type":"object",
+                        "value":{
+                          "inputType":"text"
+                        }
+                      }
+                    }
+                  ]
                 },
                 {
                   "name":"timezone",

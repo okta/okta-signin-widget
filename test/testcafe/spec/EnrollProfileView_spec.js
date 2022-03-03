@@ -84,6 +84,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('s
   await enrollProfilePage.selectValueFromDropdown('userProfile.country', 1);
 
   await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.countryCode')).eql('Country code');
+  await enrollProfilePage.setTextBoxValue('userProfile.countryCode', 'US');
 
   await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.timezone')).eql('Time zone');
   await t.expect(await enrollProfilePage.isDropdownVisible('userProfile.timezone')).ok();
