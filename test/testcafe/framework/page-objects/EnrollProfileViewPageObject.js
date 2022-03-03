@@ -5,6 +5,10 @@ export default class EnrollProfileViewPageObject extends BasePageObject {
     super(t);
   }
 
+  setTextBoxValue(fieldName, text) {
+    return this.form.setTextBoxValue(fieldName, text);
+  }
+
   isDropdownVisible(fieldName) {
     return this.form.findFormFieldInput(fieldName).visible;
   }
