@@ -90,10 +90,17 @@ const Body = BaseFormWithPolling.extend(Object.assign(
         Logger.error(`Something unexpected happened while we were checking port ${currentPort}.`);
       };
 
+
+      const cancelPolling = () => {
+        this.options.appState.trigger('invokeAction', 'currentAuthenticator-cancel');
+      };
+
       const doProbing = () => {
         return checkPort()
           // TODO: can we use standard ES6 promise methods, then/catch?
-          .done(onPortFound)
+          .done(() => {
+            return onPortFound().fail(cancelPolling);
+          })
           .fail(onFailure);
       };
 
@@ -111,7 +118,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
             Logger.error(`Authenticator is not listening on port ${currentPort}.`);
             if (countFailedPorts === ports.length) {
               Logger.error('No available ports. Loopback server failed and polling is cancelled.');
-              this.options.appState.trigger('invokeAction', 'currentAuthenticator-cancel');
+              cancelPolling();
             }
           });
       });
