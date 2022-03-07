@@ -329,4 +329,5 @@ export default Model.extend({
 
     return isSameExceptMessages && isChallengeAuthenticator && isCurrentAuthenticatorEmail;
   }
+
 });

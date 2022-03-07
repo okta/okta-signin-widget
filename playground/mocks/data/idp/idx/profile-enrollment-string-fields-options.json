@@ -140,19 +140,13 @@
                       }
                     }
                   ]
-                },
-                {
-                  "name": "string1",
-                  "type": "string",
-                  "label": "String1",
-                  "required": false
                 }
               ]
             }
           },
           {
             "name": "stateHandle",
-            "value": "01r2p5S9qaAjESMFuPzt7r3ZMcZZQ_vvS0Tzg56ajB",
+            "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
             "visible": false
           }
         ]

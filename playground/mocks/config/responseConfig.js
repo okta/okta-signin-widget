@@ -985,9 +985,6 @@ const selfServiceRegistration = {
   ],
   '/api/v1/registration/:id/register': [
     'register',
-  ],
-  '/idp/idx/enroll/new': [
-    'profile-enrollment-string-fields-options'
   ]
 };
 
