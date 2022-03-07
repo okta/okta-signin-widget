@@ -15,13 +15,11 @@
     - [colors](#colors)
       - [colors.brand](#colorsbrand)
   - [Localization](#localization)
-    - [Supported languages](#supported-languages)
     - [language](#language)
     - [defaultCountryCode](#defaultcountrycode)
     - [i18n](#i18n)
   - [assets](#assets)
     - [assets.baseUrl](#assetsbaseurl)
-    - [assets.languages](#assetslanguages)
     - [assets.rewrite](#assetsrewrite)
   - [Links](#links)
     - [Sign out link](#sign-out-link)
@@ -169,7 +167,27 @@ If you want even more customization, you can modify the [Sass source files](http
 
 ### Localization
 
-#### Supported languages
+#### language
+
+Set the language of the widget. If no language is specified, the widget will choose a language based on the user's browser preferences if it is supported, or defaults to `en`.
+
+  ```javascript
+  // You can simply pass the languageCode as a string:
+  language: 'ja'
+
+  // Or, if you need to determine it dynamically, you can pass a
+  // callback function:
+  language: (supportedLanguages, userLanguages) => {
+    // supportedLanguages is an array of languageCodes, i.e.:
+    // ['cs', 'da', ...]
+    //
+    // userLanguages is an array of languageCodes that come from the user's
+    // browser preferences
+    return supportedLanguages[0];
+  }
+  ```
+
+  Supported languages:
 
 - `cs` - Czech
 - `da` - Danish
@@ -197,28 +215,6 @@ If you want even more customization, you can modify the [Sass source files](http
 - `uk` - Ukrainian
 - `zh-CN` - Chinese (PRC)
 - `zh-TW` - Chinese (Taiwan)
-
-Support for additional languages can be added with the [assets.languages](#assetslanguages) option.
-
-#### language
-
-Set the language of the widget. If no language is specified, the widget will choose a language based on the user's browser preferences if it is supported, or defaults to `en`.
-
-  ```javascript
-  // You can simply pass the languageCode as a string:
-  language: 'ja'
-
-  // Or, if you need to determine it dynamically, you can pass a
-  // callback function:
-  language: (supportedLanguages, userLanguages) => {
-    // supportedLanguages is an array of languageCodes, i.e.:
-    // ['cs', 'da', ...]
-    //
-    // userLanguages is an array of languageCodes that come from the user's
-    // browser preferences
-    return supportedLanguages[0];
-  }
-  ```
 
 #### defaultCountryCode
 
@@ -277,10 +273,6 @@ Override the base url the widget pulls its language files from. The widget is on
   ```
 
   **Note:** The json files can be accessed from the `dist/labels/json` folder that is published in the [npm module](https://www.npmjs.com/package/@okta/okta-signin-widget).
-
-#### assets.languages
-
-Specify the list of supported languages which are hosted and accesible under the path `{assets.baseUrl}/labels/json/`. This option supersedes the [default list of supported languages](#supported-languages). If an unsupported language is requested (explicitly using the [language option](#language) or automatically by browser detection), the default language (`en`) will be used.
 
 #### assets.rewrite
 

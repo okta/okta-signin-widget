@@ -7,16 +7,13 @@ const packageJson = require(ROOT_DIR + '/package.json');
 const languageGlob = ROOT_DIR + '/packages/@okta/i18n/src/json/login_*.json';
 const OUTPUT_DIR = resolve(ROOT_DIR, 'src/config');
 const OUTPUT_FILE = resolve(OUTPUT_DIR, 'config.json');
-const DEFAULT_LANGUAGE = 'en';
 
 exports.command = 'generate-language-config';
 exports.describe = 'generate-language-config';
 exports.handler = () => {
   mkdirpSync(OUTPUT_DIR);
 
-  const config = {
-    defaultLanguage: DEFAULT_LANGUAGE
-  };
+  const config = {};
 
   // 1. Add current widget version number
   config.version = packageJson.version;
@@ -34,8 +31,8 @@ exports.handler = () => {
     // login_zh_TW.json -> zh-TW
     return re.exec(file)[1].replace('_', '-');
   });
-  // Default language is special - it is just login.json, and is ignored in our glob.
-  supportedLanguages.unshift(DEFAULT_LANGUAGE);
+  // English is special - it is just login.json, and is ignored in our glob.
+  supportedLanguages.unshift('en');
   config.supportedLanguages = supportedLanguages;
   console.log('config.supportedLanguages:');
   console.log(config.supportedLanguages.join(', '));

@@ -1,8 +1,7 @@
 import Bundles from 'util/Bundles';
-import config from 'config/config.json';
 
 function loadLanguage(appState, settings) {
-  const languageCode = appState.get('languageCode') || settings.get('languageCode') || config.defaultLanguage;
+  const languageCode = appState.get('languageCode') || settings.get('languageCode');
   const i18n = settings.get('i18n');
   const assetBaseUrl = settings.get('assets.baseUrl');
   const assetRewrite = settings.get('assets.rewrite');
