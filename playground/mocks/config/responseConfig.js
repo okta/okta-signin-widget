@@ -443,11 +443,6 @@ const identifierAndroidAppLink = {
 };
 
 // user verification: Windows/Android authenticator with loopback server
-//
-// to mimic the challenge error flow (user does not respond to biometric request),
-// change the path in challenge.js to a non-existing URL (ex. 'fake/challenge') and
-// rerun `yarn mock:device-authenticator`
-// the UI should ends on the MFA selection UI instead of the success UI
 const userVerificationLoopback = {
   '/idp/idx/introspect': [
     'authenticator-verification-okta-verify-signed-nonce-loopback'
@@ -455,11 +450,9 @@ const userVerificationLoopback = {
   '/idp/idx/authenticators/poll': [
     'authenticator-verification-okta-verify-signed-nonce-loopback',
     'authenticator-verification-okta-verify-signed-nonce-loopback',
+    'authenticator-verification-okta-verify-signed-nonce-loopback',
     'success',
   ],
-  '/idp/idx/authenticators/poll/cancel': [
-    'authenticator-verification-select-authenticator'
-  ]
 };
 
 // user verification: loopback with biometrics error
