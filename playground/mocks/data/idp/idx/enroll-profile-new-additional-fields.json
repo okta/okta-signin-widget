@@ -34,38 +34,9 @@
                   "required": true
                 },
                 {
-                  "name":"country",
-                  "type":"string",
-                  "label":"Country",
-                  "required":true,
-                  "options":[
-                    {
-                      "label":"display",
-                      "value":{
-                        "type":"object",
-                        "value":{
-                          "inputType":"select_country_code"
-                        }
-                      }
-                    }
-                  ]
-                },
-                {
                   "name":"countryCode",
-                  "type":"string",
                   "label":"Country code",
-                  "required":true,
-                  "options":[
-                    {
-                      "label":"display",
-                      "value":{
-                        "type":"object",
-                        "value":{
-                          "inputType":"text"
-                        }
-                      }
-                    }
-                  ]
+                  "required":true
                 },
                 {
                   "name":"timezone",

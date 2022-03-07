@@ -64,8 +64,6 @@ const populateUISchemaForDisplay = (uiSchema, ionField) => {
     uiSchema.wide = true;
     //it will create a placeholder for dropdowns, by default it will show 'Select an Option'
     uiSchema.options = Object.assign({'': ''}, ionOptionsToUiOptions(display.options));
-  } else if (display.inputType === 'select_country_code') {
-    Object.assign(uiSchema, countryUISchema);
   }
 };
 
@@ -88,6 +86,10 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
 
   if (ionFormField.hint === HINTS.CAPTCHA) {
     Object.assign(uiSchema, getCaptchaUiSchema());
+  }
+
+  if(ionFormField.name === 'userProfile.countryCode'){
+    Object.assign(uiSchema, countryUISchema);
   }
 
   if(ionFormField.name === 'userProfile.timezone'){
