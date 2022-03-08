@@ -6,6 +6,7 @@ import EnrollProfileSubmit from '../../../playground/mocks/data/idp/idx/enroll-p
 import EnrollProfileSignUp from '../../../playground/mocks/data/idp/idx/enroll-profile-new';
 import EnrollProfileSignUpWithAdditionalFields from '../../../playground/mocks/data/idp/idx/enroll-profile-new-additional-fields';
 import EnrollProfileSignUpWithBooleanFields from '../../../playground/mocks/data/idp/idx/enroll-profile-new-boolean-fields';
+import EnrollProfileSignUpAllBaseAttributes from '../../../playground/mocks/data/idp/idx/enroll-profile-all-base-attributes';
 
 
 const EnrollProfileSignUpMock = RequestMock()
@@ -31,6 +32,12 @@ const EnrollProfileSignUpWithBooleanFieldsMock = RequestMock()
   .respond(Identify)
   .onRequestTo('http://localhost:3000/idp/idx/enroll')
   .respond(EnrollProfileSignUpWithBooleanFields);
+
+const EnrollProfileSignUpAllBaseAttributesMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(Identify)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll')
+  .respond(EnrollProfileSignUpAllBaseAttributes);
 
 const requestLogger = RequestLogger(
   /idx\/*/,
@@ -101,3 +108,49 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithBooleanFieldsMock)('shou
   await enrollProfilePage.setCheckbox('userProfile.subscribe');
 });
 
+test.requestHooks(requestLogger, EnrollProfileSignUpAllBaseAttributesMock)('All Base Attributes are rendered based on their i18n translation, not the label in the json file', async t => {
+  const enrollProfilePage = new EnrollProfileViewPageObject(t);
+  const identityPage = await setup(t);
+  await identityPage.clickSignUpLink();
+
+  requestLogger.clear();
+
+  const formFieldToLabel = {
+    firstName: 'First name',
+    lastName: 'Last name',
+    email: 'Email',
+    secondEmail: 'Secondary email',
+    honorificPrefix: 'Honorific prefix',
+    honorificSuffix: 'Honorific suffix',
+    title: 'Title',
+    displayName: 'Display name',
+    nickName: 'Nickname',
+    profileUrl: 'Profile URL',
+    mobilePhone: 'Mobile phone',
+    primaryPhone: 'Primary phone',
+    streetAddress: 'Street address',
+    city: 'City',
+    state: 'State',
+    zipCode: 'ZIP Code',
+    postalCode: 'Postal code',
+    countryCode: 'Country code',
+    postalAddress: 'Postal address',
+    preferredLanguage: 'Preferred language',
+    locale: 'Locale',
+    userType: 'User type',
+    employeeNumber: 'Employee number',
+    costCenter: 'Cost center',
+    organization: 'Organization',
+    division: 'Division',
+    department: 'Department',
+    managerId: 'Manager ID',
+    manager: 'Manager',
+  };
+
+  Object.keys(formFieldToLabel).forEach(async (formField) => {
+    const selector = `userProfile.${formField}`;
+    // verify all base attributes map to correct translation
+    // all 'label' fields for base attributes in json are appended with a '1'
+    await t.expect(await enrollProfilePage.getFormFieldLabel(selector)).eql(formFieldToLabel[formField]);
+  });
+});
