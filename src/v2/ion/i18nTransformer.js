@@ -170,7 +170,10 @@ const I18N_OVERRIDE_MAPPINGS = {
 
   // re-map autoPush: "Send push automatically"
   'challenge-poll.okta_verify.autoChallenge': 'autoPush', // authenticator-verification-okta-verify-push-autoChallenge-on
-  'authenticator-verification-data.authenticator.autoChallenge': 'autoPush' // authenticator-verification-data-okta-verify-push-autoChallenge-off.json
+  'authenticator-verification-data.authenticator.autoChallenge': 'autoPush', // authenticator-verification-data-okta-verify-push-autoChallenge-off.json
+
+  // Existing overrrides
+  ...I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS, //enroll-profile strings
 };
 
 const I18N_PARAMS_MAPPING = {
@@ -267,9 +270,6 @@ const getI18nKey = (i18nPath) => {
 
   if (I18N_OVERRIDE_MAPPINGS[i18nPath]) {
     i18nKey = I18N_OVERRIDE_MAPPINGS[i18nPath];
-  }
-  if (I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS[i18nPath]) {
-    i18nKey = I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS[i18nPath];
   }
 
   if (i18nKey && !Bundles.login[i18nKey]) {
