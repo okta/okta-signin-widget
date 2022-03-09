@@ -13,7 +13,7 @@
 /* eslint max-depth: [2, 3] */
 /* eslint complexity: [2, 20] */
 import { loc } from 'okta';
-import { HINTS } from '../RemediationConstants';
+import { HINTS, ATTR_FORMAT } from '../RemediationConstants';
 import CountryUtil from '../../../util/CountryUtil';
 import TimeZone from '../../view-builder/utils/TimeZone';
 
@@ -55,7 +55,7 @@ const populateUISchemaForDisplay = (uiSchema, ionField) => {
     uiSchema.options = display.options;
   } else if (display.inputType === 'select') {
     uiSchema.wide = true;
-    if (display.format && display.format === 'country-code') {
+    if (display.format && display.format === ATTR_FORMAT.COUNTRY_CODE) {
       uiSchema.options = CountryUtil.getCountryCode();
       uiSchema.value = 'US';
     } else {
