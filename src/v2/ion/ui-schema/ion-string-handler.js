@@ -60,7 +60,7 @@ const populateUISchemaForDisplay = (uiSchema, ionField) => {
   uiSchema.type = display.inputType;
   if (display.inputType === 'radio') {
     uiSchema.options = display.options;
-  } else if (display.inputType === 'select' && display.format === 'country-code') {
+  } else if (display.inputType === 'select' && !_.isEmpty(display.format) && display.format === 'country-code') {
     Object.assign(uiSchema, countryUISchema);
   } else if (display.inputType === 'select') {
     uiSchema.wide = true;
