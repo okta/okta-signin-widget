@@ -60,12 +60,14 @@ const populateUISchemaForDisplay = (uiSchema, ionField) => {
   uiSchema.type = display.inputType;
   if (display.inputType === 'radio') {
     uiSchema.options = display.options;
-  } else if (display.inputType === 'select' && !_.isEmpty(display.format) && display.format === 'country-code') {
-    Object.assign(uiSchema, countryUISchema);
   } else if (display.inputType === 'select') {
-    uiSchema.wide = true;
-    //it will create a placeholder for dropdowns, by default it will show 'Select an Option'
-    uiSchema.options = Object.assign({'': ''}, ionOptionsToUiOptions(display.options));
+    if(!_.isEmpty(display.format) && display.format === 'country-code'){
+      Object.assign(uiSchema, countryUISchema);
+    } else {
+      uiSchema.wide = true;
+      //it will create a placeholder for dropdowns, by default it will show 'Select an Option'
+      uiSchema.options = Object.assign({'': ''}, ionOptionsToUiOptions(display.options));
+    }
   }
 };
 
