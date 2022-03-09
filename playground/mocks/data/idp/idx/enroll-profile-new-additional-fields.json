@@ -44,7 +44,8 @@
                       "value":{
                         "type":"object",
                         "value":{
-                          "inputType":"select_country_code"
+                          "format": "country-code",
+                          "inputType":"select"
                         }
                       }
                     }
@@ -61,6 +62,7 @@
                       "value":{
                         "type":"object",
                         "value":{
+                          "format": "country-code",
                           "inputType":"text"
                         }
                       }
