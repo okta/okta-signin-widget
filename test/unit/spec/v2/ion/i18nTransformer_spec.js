@@ -54,7 +54,6 @@ describe('v2/ion/i18nTransformer', function() {
       'idx.session.expired': 'You have been logged out due to inactivity. Refresh or return to the sign in screen.',
       'oie.post.password.update.auth.failure.error': 'Authentication failed after password update.',
       'oie.phone.invalid': 'Invalid Phone',
-      'oie.user.profile.firstname': 'User first name',
     }, (value) => `unit test - ${value}`);
   });
   afterAll(() => {
@@ -183,39 +182,6 @@ describe('v2/ion/i18nTransformer', function() {
               'label-top': true,
               name: 'identifier',
               type: 'text',
-            }
-          ]
-        }
-      ]
-    });
-  });
-
-  it('converts label for enroll-profile base attributes (e.g. firstName)', () => {
-    const resp = {
-      remediations: [
-        {
-          name: 'enroll-profile',
-          uiSchema: [
-            {
-              'name': 'userProfile.firstName',
-              'label': 'First name',
-              'label-top': true,
-              'type': 'text',
-            }
-          ]
-        }
-      ]
-    };
-    expect(i18nTransformer(resp)).toEqual({
-      remediations: [
-        {
-          name: 'enroll-profile',
-          uiSchema: [
-            {
-              'name': 'userProfile.firstName',
-              'label': 'unit test - User first name',
-              'label-top': true,
-              'type': 'text',
             }
           ]
         }

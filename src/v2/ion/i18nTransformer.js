@@ -46,7 +46,6 @@ import Bundles from 'util/Bundles';
 import Logger from 'util/Logger';
 import { getAuthenticatorDisplayName } from '../view-builder/utils/AuthenticatorUtil';
 import { FORMS, AUTHENTICATOR_KEY } from './RemediationConstants';
-import { I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS } from '../view-builder/views/enroll-profile/i18nBaseAttributeMappings';
 
 const WEBAUTHN_API_GENERIC_ERROR_KEY = 'authfactor.webauthn.error';
 
@@ -143,7 +142,12 @@ const I18N_OVERRIDE_MAPPINGS = {
   'reenroll-authenticator.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
   'reenroll-authenticator-warning.okta_password.credentials.passcode': 'oie.password.newPasswordLabel',
   'incorrectPassword': 'oie.password.incorrect.message',
-  
+
+  'enroll-profile.userProfile.lastName': 'oie.user.profile.lastname',
+  'enroll-profile.userProfile.firstName': 'oie.user.profile.firstname',
+  'enroll-profile.userProfile.countryCode': 'oie.user.profile.countryCode',
+  'enroll-profile.userProfile.timezone': 'oie.user.profile.timezone',
+  'enroll-profile.userProfile.email': 'oie.user.profile.primary.email',
   'profile-update.userProfile.secondEmail': 'oie.user.profile.secondary.email',
 
   'user-code.userCode': 'device.code.activate.label',
@@ -170,10 +174,7 @@ const I18N_OVERRIDE_MAPPINGS = {
 
   // re-map autoPush: "Send push automatically"
   'challenge-poll.okta_verify.autoChallenge': 'autoPush', // authenticator-verification-okta-verify-push-autoChallenge-on
-  'authenticator-verification-data.authenticator.autoChallenge': 'autoPush', // authenticator-verification-data-okta-verify-push-autoChallenge-off.json
-
-  // Existing overrrides
-  ...I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS, //enroll-profile strings
+  'authenticator-verification-data.authenticator.autoChallenge': 'autoPush' // authenticator-verification-data-okta-verify-push-autoChallenge-off.json
 };
 
 const I18N_PARAMS_MAPPING = {
