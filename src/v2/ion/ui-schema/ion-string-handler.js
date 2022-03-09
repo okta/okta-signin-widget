@@ -38,13 +38,6 @@ const getCaptchaUiSchema = () => {
   };
 };
 
-const countryUISchema = {
-  type: 'select',
-  options: CountryUtil.getCountryCode(),
-  wide: true,
-  value: 'US',
-};
-
 const timezoneUISchema = {
   type: 'select',
   options: TimeZone,
@@ -61,10 +54,11 @@ const populateUISchemaForDisplay = (uiSchema, ionField) => {
   if (display.inputType === 'radio') {
     uiSchema.options = display.options;
   } else if (display.inputType === 'select') {
-    if(!_.isEmpty(display.format) && display.format === 'country-code'){
-      Object.assign(uiSchema, countryUISchema);
+    uiSchema.wide = true;
+    if (display.format && display.format === 'country-code') {
+      uiSchema.options = CountryUtil.getCountryCode();
+      uiSchema.value = 'US';
     } else {
-      uiSchema.wide = true;
       //it will create a placeholder for dropdowns, by default it will show 'Select an Option'
       uiSchema.options = Object.assign({'': ''}, ionOptionsToUiOptions(display.options));
     }
