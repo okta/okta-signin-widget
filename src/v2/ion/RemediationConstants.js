@@ -146,6 +146,9 @@ const INTERSTITIAL_REDIRECT_VIEW = {
   NONE: 'NONE'
 };
 
+const ATTR_FORMAT = {
+  COUNTRY_CODE: 'country-code',
+};
 
 export {
   ACTIONS,
@@ -160,4 +163,5 @@ export {
   TERMINAL_FORMS,
   IDP_FORM_TYPE,
   INTERSTITIAL_REDIRECT_VIEW,
+  ATTR_FORMAT,
 };

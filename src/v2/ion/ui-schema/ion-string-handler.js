@@ -13,7 +13,7 @@
 /* eslint max-depth: [2, 3] */
 /* eslint complexity: [2, 20] */
 import { loc } from 'okta';
-import { HINTS } from '../RemediationConstants';
+import { HINTS, ATTR_FORMAT } from '../RemediationConstants';
 import CountryUtil from '../../../util/CountryUtil';
 import TimeZone from '../../view-builder/utils/TimeZone';
 
@@ -38,13 +38,6 @@ const getCaptchaUiSchema = () => {
   };
 };
 
-const countryUISchema = {
-  type: 'select',
-  options: CountryUtil.getCountryCode(),
-  wide: true,
-  value: 'US',
-};
-
 const timezoneUISchema = {
   type: 'select',
   options: TimeZone,
@@ -62,10 +55,13 @@ const populateUISchemaForDisplay = (uiSchema, ionField) => {
     uiSchema.options = display.options;
   } else if (display.inputType === 'select') {
     uiSchema.wide = true;
-    //it will create a placeholder for dropdowns, by default it will show 'Select an Option'
-    uiSchema.options = Object.assign({'': ''}, ionOptionsToUiOptions(display.options));
-  } else if (display.inputType === 'select_country_code') {
-    Object.assign(uiSchema, countryUISchema);
+    if (display.format === ATTR_FORMAT.COUNTRY_CODE) {
+      uiSchema.options = CountryUtil.getCountryCode();
+      uiSchema.value = 'US';
+    } else {
+      //it will create a placeholder for dropdowns, by default it will show 'Select an Option'
+      uiSchema.options = Object.assign({'': ''}, ionOptionsToUiOptions(display.options));
+    }
   }
 };
 
