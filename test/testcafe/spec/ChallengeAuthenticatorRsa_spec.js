@@ -3,7 +3,7 @@ import xhrAuthenticatorRequiredRsa from '../../../playground/mocks/data/idp/idx/
 import xhrInvalidPasscode from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-rsa';
 import xhrPasscodeChange from '../../../playground/mocks/data/idp/idx/error-authenticator-verification-passcode-change-rsa';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import ChallengeRsaPageObject from '../framework/page-objects/ChallengeOnPremPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 
@@ -92,4 +92,20 @@ test.requestHooks(mockPasscodeChange)('displays error and clears passcode when p
     .eql('Pin accepted, Wait for token to change, then enter new passcode.');
   await t.expect(challengeRsaPage.getPasscodeValue())
     .eql('');
+});
+
+test.requestHooks(mockPasscodeChange)('should show custom factor page link', async t => {
+  const challengeRsaPage = await setup(t);
+
+  await renderWidget({
+    helpLinks: {
+      factorPage: {
+        text: 'custom factor page link',
+        href: 'https://acme.com/what-is-okta-autheticators'
+      }
+    }
+  });
+
+  await t.expect(challengeRsaPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
+  await t.expect(challengeRsaPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
 });

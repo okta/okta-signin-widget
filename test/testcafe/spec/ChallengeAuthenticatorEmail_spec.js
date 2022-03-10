@@ -2,7 +2,7 @@ import { RequestMock, RequestLogger, ClientFunction } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeEmailPageObject from '../framework/page-objects/ChallengeEmailPageObject';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, renderWidget } from '../framework/shared';
 
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
 import emailVerificationWithoutEmailMagicLink from '../../../playground/mocks/data/idp/idx/authenticator-verification-email-without-emailmagiclink';
@@ -111,7 +111,7 @@ const invalidOTPMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(emailVerification)  
+  .respond(emailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidOTP, 403);
 
@@ -119,7 +119,7 @@ const invalidOTPMockWithPoll = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(emailVerification)  
+  .respond(emailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidEmailOTP, 403);
 
@@ -386,7 +386,7 @@ test
     await t.wait(5000);
     await t.expect(challengeEmailPageObject.getInvalidOTPFieldError()).contains('Invalid code. Try again.');
     await t.expect(challengeEmailPageObject.getInvalidOTPError()).contains('We found some errors.');
-  });  
+  });
 
 test
   .requestHooks(invalidOTPTooManyOperationRequestMock)('challenge email authenticator with too many invalid OTP', async t => {
@@ -687,3 +687,19 @@ test
         record.request.url.match(/poll/)
     )).eql(1);
   });
+
+test.requestHooks(sendEmailMock)('should show custom factor page link', async t => {
+  const challengeEmailPageObject = await setup(t);
+
+  await renderWidget({
+    helpLinks: {
+      factorPage: {
+        text: 'custom factor page link',
+        href: 'https://acme.com/what-is-okta-autheticators'
+      }
+    }
+  });
+
+  await t.expect(challengeEmailPageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
+  await t.expect(challengeEmailPageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
+});

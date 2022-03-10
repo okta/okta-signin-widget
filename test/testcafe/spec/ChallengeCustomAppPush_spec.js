@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeCustomAppPushPageObject from '../framework/page-objects/ChallengeCustomAppPushPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, renderWidget } from '../framework/shared';
 
 import pushPoll from '../../../playground/mocks/data/idp/idx/authenticator-verification-custom-app-push';
 import pushPollReject from '../../../playground/mocks/data/idp/idx/authenticator-verification-custom-app-push-reject';
@@ -119,11 +119,11 @@ test
       method: answerRequestMethod2,
       url: answerRequestUrl2,
     }
-    } = logger.requests[1];    
+    } = logger.requests[1];
     await t.expect(answerRequestMethod2).eql('post');
     await t.expect(answerRequestUrl2).eql('http://localhost:3000/idp/idx/challenge/poll');
   });
-  
+
 
 test
   .requestHooks(logger, pushRejectMock)('challenge Custom App reject push and then resend', async t => {
@@ -134,14 +134,14 @@ test
     await t.expect(challengeCustomAppPushPageObject.form.getSaveButtonLabel())
       .eql('Resend push notification');
     await t.expect(logger.count(() => true)).eql(1);
-    
+
     // To make sure polling stops after reject
     await t.wait(5000);
     await t.expect(logger.count(() => true)).eql(1);
-    
+
     await challengeCustomAppPushPageObject.clickNextButton();
     await t.expect(logger.count(() => true)).eql(2);
-    
+
     const { request: {
       body: requestBodyString,
       method: requestMethod,
@@ -170,3 +170,19 @@ test
     await t.expect(warningBox.innerText)
       .eql('Haven\'t received a push notification yet? Try opening Custom Push on your phone.');
   });
+
+test.requestHooks(pushSuccessMock)('should show custom factor page link', async t => {
+  const challengeCustomAppPushPageObject = await setup(t);
+
+  await renderWidget({
+    helpLinks: {
+      factorPage: {
+        text: 'custom factor page link',
+        href: 'https://acme.com/what-is-okta-autheticators'
+      }
+    }
+  });
+
+  await t.expect(challengeCustomAppPushPageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
+  await t.expect(challengeCustomAppPushPageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
+});

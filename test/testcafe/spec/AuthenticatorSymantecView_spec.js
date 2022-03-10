@@ -1,6 +1,6 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import SymantecAuthenticatorPageObject from '../framework/page-objects/SymantecAuthenticatorPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import xhrEnrollSymantecAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-enroll-symantec-vip';
 import xhrVerifySymantecAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-verification-symantec-vip';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
@@ -132,3 +132,19 @@ test
     await t.expect(pageObject.form.getTextBoxErrorMessage(fieldName))
       .eql('Your code doesn\'t match our records. Please try again.');
   });
+
+test.requestHooks(verifyMock)('should show custom factor page link', async t => {
+  const pageObject = await setup(t);
+
+  await renderWidget({
+    helpLinks: {
+      factorPage: {
+        text: 'custom factor page link',
+        href: 'https://acme.com/what-is-okta-autheticators'
+      }
+    }
+  });
+
+  await t.expect(pageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
+  await t.expect(pageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
+});

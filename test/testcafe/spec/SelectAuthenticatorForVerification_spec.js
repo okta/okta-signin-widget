@@ -550,3 +550,34 @@ test.requestHooks(mockChallengeCustomOTP)('should navigate to Custom OTP challen
   const challengeFactorPage = new ChallengeFactorPageObject(t);
   await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with Atko Custom OTP Authenticator');
 });
+
+test.requestHooks(mockChallengePassword)('should show custom factor page link', async t => {
+  const pageObject = await setup(t);
+
+  await renderWidget({
+    helpLinks: {
+      factorPage: {
+        text: 'custom factor page link',
+        href: 'https://acme.com/what-is-okta-autheticators'
+      }
+    }
+  });
+
+  await t.expect(pageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
+  await t.expect(pageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
+});
+
+test.requestHooks(mockSelectAuthenticatorForRecovery)('should not show custom factor page link', async t => {
+  const pageObject = await setup(t);
+
+  await renderWidget({
+    helpLinks: {
+      factorPage: {
+        text: 'custom factor page link',
+        href: 'https://acme.com/what-is-okta-autheticators'
+      }
+    }
+  });
+
+  await t.expect(await pageObject.factorPageHelpLinksExists()).notOk();
+});

@@ -161,6 +161,31 @@ const getSignUpLink = (appState, settings) => {
   return signupLink;
 };
 
+const getFactorPageCustomLink = (appState, settings) => {
+  const factorPageCustomLink = [];
+  const formsNeedFactorPageCustomLink = [
+    RemediationForms.CHALLENGE_AUTHENTICATOR,
+    RemediationForms.SELECT_AUTHENTICATOR_AUTHENTICATE,
+    RemediationForms.CHALLENGE_POLL,
+    RemediationForms.AUTHENTICATOR_VERIFICATION_DATA,
+  ];
+
+  if (!appState.get('isPasswordRecovery') && formsNeedFactorPageCustomLink.includes(appState.get('currentFormName'))) {
+    const helpLinksFactorPageLabel = settings.get('helpLinks.factorPage.text');
+    const helpLinksFactorPageHref = settings.get('helpLinks.factorPage.href');
+
+    if (helpLinksFactorPageLabel && helpLinksFactorPageHref) {
+      factorPageCustomLink.push({
+        type: 'link',
+        label: helpLinksFactorPageLabel,
+        name: 'factorPageHelpLink',
+        href: helpLinksFactorPageHref,
+      });
+    }
+  }
+  return factorPageCustomLink;
+};
+
 export {
   getSwitchAuthenticatorLink,
   getForgotPasswordLink,
@@ -169,5 +194,6 @@ export {
   getSignOutLink,
   getBackToSignInLink,
   getSkipSetupLink,
-  getReloadPageButtonLink
+  getReloadPageButtonLink,
+  getFactorPageCustomLink,
 };
