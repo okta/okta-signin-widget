@@ -148,7 +148,7 @@ const INTERSTITIAL_REDIRECT_VIEW = {
 
 const ATTR_FORMAT = {
   COUNTRY_CODE: 'country-code',
-}
+};
 
 export {
   ACTIONS,
