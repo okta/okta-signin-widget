@@ -55,7 +55,7 @@ const populateUISchemaForDisplay = (uiSchema, ionField) => {
     uiSchema.options = display.options;
   } else if (display.inputType === 'select') {
     uiSchema.wide = true;
-    if (display.format && display.format === ATTR_FORMAT.COUNTRY_CODE) {
+    if (display.format === ATTR_FORMAT.COUNTRY_CODE) {
       uiSchema.options = CountryUtil.getCountryCode();
       uiSchema.value = 'US';
     } else {
