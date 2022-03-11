@@ -191,3 +191,19 @@ test.requestHooks(mockChallengeAuthenticatorPassword)('should add sub labels for
   await t.expect(challengePasswordPage.getPasswordSubLabelValue()).eql('Your password goes here');
   await t.expect(challengePasswordPage.getIdentifier()).eql('testUser@okta.com');
 });
+
+test.requestHooks(mockChallengeAuthenticatorPassword)('should show custom factor page link', async t => {
+  const challengePasswordPage = await setup(t);
+
+  await renderWidget({
+    helpLinks: {
+      factorPage: {
+        text: 'custom factor page link',
+        href: 'https://acme.com/what-is-okta-autheticators'
+      }
+    }
+  });
+
+  await t.expect(challengePasswordPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
+  await t.expect(challengePasswordPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
+});

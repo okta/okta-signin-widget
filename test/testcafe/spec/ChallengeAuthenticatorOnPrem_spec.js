@@ -5,7 +5,7 @@ import xhrPasscodeChange from '../../../playground/mocks/data/idp/idx/error-auth
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import ChallengeOnPremPageObject from '../framework/page-objects/ChallengeOnPremPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, renderWidget } from '../framework/shared';
 
 const mockChallengeAuthenticatorOnPrem = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -90,4 +90,20 @@ test.requestHooks(mockPasscodeChange)('displays error and clears passcode when p
     .eql('Pin accepted, Wait for token to change, then enter new passcode.');
   await t.expect(challengeOnPremPage.getPasscodeValue())
     .eql('');
+});
+
+test.requestHooks(mockChallengeAuthenticatorOnPrem)('should show custom factor page link', async t => {
+  const challengeOnPremPage = await setup(t);
+
+  await renderWidget({
+    helpLinks: {
+      factorPage: {
+        text: 'custom factor page link',
+        href: 'https://acme.com/what-is-okta-autheticators'
+      }
+    }
+  });
+
+  await t.expect(challengeOnPremPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
+  await t.expect(challengeOnPremPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
 });

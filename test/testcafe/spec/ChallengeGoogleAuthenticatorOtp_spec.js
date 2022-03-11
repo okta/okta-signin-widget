@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeGoogleAuthenticatorPageObject from '../framework/page-objects/ChallengeGoogleAuthenticatorPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, renderWidget } from '../framework/shared';
 
 import otpChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-google-authenticator';
 import success from '../../../playground/mocks/data/idp/idx/success';
@@ -105,3 +105,19 @@ test
     await challengeGoogleAuthenticatorPageObject.clickNextButton();
     await t.expect(challengeGoogleAuthenticatorPageObject.getAnswerInlineError()).eql('Each code can only be used once. Please wait for a new code and try again.');
   });
+
+test.requestHooks(validOTPmock)('should show custom factor page link', async t => {
+  const challengeGoogleAuthenticatorPageObject = await setup(t);
+
+  await renderWidget({
+    helpLinks: {
+      factorPage: {
+        text: 'custom factor page link',
+        href: 'https://acme.com/what-is-okta-autheticators'
+      }
+    }
+  });
+
+  await t.expect(challengeGoogleAuthenticatorPageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
+  await t.expect(challengeGoogleAuthenticatorPageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
+});

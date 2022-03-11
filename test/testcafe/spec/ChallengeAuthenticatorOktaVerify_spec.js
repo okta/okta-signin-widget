@@ -192,3 +192,21 @@ test.requestHooks(requestLogger, mockChallengeOVTotpMethod)('should show switch 
   await t.expect(pageUrl)
     .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 });
+
+test.requestHooks(mockChallengeOVTotpMethod)('should show custom factor page link', async t => {
+  const selectAuthenticatorPage = await setup(t);
+
+  await renderWidget({
+    helpLinks: {
+      factorPage: {
+        text: 'custom factor page link',
+        href: 'https://acme.com/what-is-okta-autheticators'
+      }
+    }
+  });
+
+  await selectAuthenticatorPage.selectFactorByIndex(2);
+
+  await t.expect(selectAuthenticatorPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
+  await t.expect(selectAuthenticatorPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
+});
