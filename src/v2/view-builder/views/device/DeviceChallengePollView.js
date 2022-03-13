@@ -3,7 +3,8 @@ import {BaseFormWithPolling, BaseFooter, BaseView} from '../../internals';
 import Logger from '../../../../util/Logger';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import Enums from '../../../../util/Enums';
-import { CANCEL_POLLING_ACTION, CHALLENGE_TIMEOUT, IDENTIFIER_FLOW } from '../../utils/Constants';
+import { CANCEL_POLLING_ACTION, CHALLENGE_TIMEOUT, IDENTIFIER_FLOW, REQUEST_PARAM_LOOPBACK_CANCEL_TRIGGER }
+  from '../../utils/Constants';
 import Link from '../../components/Link';
 import { doChallenge } from '../../utils/ChallengeViewUtil';
 import OktaVerifyAuthenticatorHeader from '../../components/OktaVerifyAuthenticatorHeader';
@@ -15,6 +16,12 @@ const request = (opts) => {
     contentType: 'application/json',
   }, opts);
   return $.ajax(ajaxOptions);
+};
+
+const cancelPolling = (appState, triggeredByUser = false) => {
+  const actionParams = {};
+  actionParams[REQUEST_PARAM_LOOPBACK_CANCEL_TRIGGER] = triggeredByUser;
+  appState.trigger('invokeAction', CANCEL_POLLING_ACTION, actionParams);
 };
 
 const Body = BaseFormWithPolling.extend(
@@ -102,7 +109,7 @@ const Body = BaseFormWithPolling.extend(
         countFailedPorts++;
         if (countFailedPorts === ports.length) {
           Logger.error('No available ports. Loopback server failed and polling is cancelled.');
-          this.options.appState.trigger('invokeAction', CANCEL_POLLING_ACTION);
+          cancelPolling(this.options.appState, false);
         }
       };
 
@@ -187,7 +194,9 @@ const Footer = BaseFooter.extend({
         options: {
           name: 'cancel-authenticator-challenge',
           label: loc('loopback.polling.cancel.link', 'login'),
-          actionPath: CANCEL_POLLING_ACTION,
+          clickHandler: () => {
+            cancelPolling(this.options.appState, true);
+          },
         }
       }).last();
     }

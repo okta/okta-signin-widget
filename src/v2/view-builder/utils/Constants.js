@@ -11,4 +11,4 @@ export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP
     = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.desktop';
 export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE 
     = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.mobile';
-
+export const REQUEST_PARAM_LOOPBACK_CANCEL_TRIGGER = 'triggeredByUser';

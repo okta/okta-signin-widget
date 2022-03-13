@@ -308,6 +308,10 @@ const fastpassUnassignedApp = {
 };
 
 // device probe: Windows authenticator with loopback server
+//
+// To mimic the loopback failure flow (ex. loopback server does not exist),
+// update package.json's script for mock:device-authenticator and
+// change port 6512 to 6518 (identify-with-device-probing-loopback does not list this port)
 const windowAuthnLoopback = {
   '/idp/idx/introspect': [
     'identify-with-device-probing-loopback', // 1 (response order)
@@ -317,6 +321,9 @@ const windowAuthnLoopback = {
     'identify-with-device-probing-loopback-3', // 3
     'identify', // 4: as a signal of success
   ],
+  '/idp/idx/authenticators/poll/cancel': [
+    'authenticator-verification-select-authenticator',
+  ]
 };
 
 // device probe: Windows authenticator with loopback server polling error (device not registered deny access)
