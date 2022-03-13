@@ -72,6 +72,10 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     return Selector('[data-se="o-form-fieldset-container"] .button-primary', { timeout: 4500 });
   }
 
+  async clickCancelAndGoBackLink() {
+    await this.t.click(Selector('a[data-se="cancel-authenticator-challenge"]'));
+  }
+
   async clickUniversalLink() {
     await this.t.click(Selector('.ul-button'));
   }

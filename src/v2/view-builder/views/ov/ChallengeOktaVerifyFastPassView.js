@@ -1,7 +1,7 @@
 import { $, createCallout, _ } from 'okta';
 import { BaseFormWithPolling } from '../../internals';
 import Logger from '../../../../util/Logger';
-import { CHALLENGE_TIMEOUT } from '../../utils/Constants';
+import { CHALLENGE_TIMEOUT, REQUEST_PARAM_LOOPBACK_CANCEL_TRIGGER } from '../../utils/Constants';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import { doChallenge, getBiometricsErrorOptions } from '../../utils/ChallengeViewUtil';
 
@@ -90,10 +90,20 @@ const Body = BaseFormWithPolling.extend(Object.assign(
         Logger.error(`Something unexpected happened while we were checking port ${currentPort}.`);
       };
 
+      const cancelPolling = (triggeredByUser = false) => {
+        const actionParams = {};
+        actionParams[REQUEST_PARAM_LOOPBACK_CANCEL_TRIGGER] = triggeredByUser;
+        this.options.appState.trigger('invokeAction', 'currentAuthenticator-cancel', actionParams);
+      };
+
       const doProbing = () => {
         return checkPort()
           // TODO: can we use standard ES6 promise methods, then/catch?
-          .done(onPortFound)
+          .done(() => {
+            return onPortFound().fail(() => {
+              cancelPolling(false);
+            });
+          })
           .fail(onFailure);
       };
 
@@ -111,7 +121,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
             Logger.error(`Authenticator is not listening on port ${currentPort}.`);
             if (countFailedPorts === ports.length) {
               Logger.error('No available ports. Loopback server failed and polling is cancelled.');
-              this.options.appState.trigger('invokeAction', 'currentAuthenticator-cancel');
+              cancelPolling(false);
             }
           });
       });

@@ -59,6 +59,15 @@ const loopbackSuccessMock = RequestMock()
     'access-control-allow-methods': 'POST, OPTIONS'
   });
 
+const loopbackUserCancelLogger = RequestLogger(/cancel/, { logRequestBody: true, stringifyRequestBody: true });
+const loopbackUserCancelLoggerMock = RequestMock()
+  .onRequestTo(/\/idp\/idx\/introspect/)
+  .respond(identifyWithDeviceProbingLoopback)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
+  .respond(identifyWithDeviceProbingLoopback)
+  .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
+  .respond(loopbackChallengeNotReceived);
+
 const loopbackPollMockLogger = RequestLogger(/poll/, { logRequestBody: true, stringifyRequestBody: true });
 const loopbackPollTimeoutMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
@@ -236,7 +245,7 @@ const loopbackOVFallbackMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
   .respond(loopbackChallengeNotReceived);
 
-const loopbackFallbackLogger = RequestLogger(/introspect|probe|cancel|launch|poll/);
+const loopbackFallbackLogger = RequestLogger(/introspect|probe|cancel|launch|poll/, { logRequestBody: true, stringifyRequestBody: true });
 const loopbackFallbackMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithDeviceProbingLoopback)
@@ -401,6 +410,19 @@ test
   });
 
 test
+  .requestHooks(loopbackUserCancelLogger, loopbackUserCancelLoggerMock)('request body has triggeredByUser value of true when user clicks cancel and go back link', async t => {
+    loopbackPollMockLogger.clear();
+    const deviceChallengePollingPage = await setup(t);
+
+    deviceChallengePollingPage.clickCancelAndGoBackLink();
+    await t.expect(loopbackUserCancelLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/authenticators\/poll\/cancel/) &&
+        JSON.parse(record.request.body).triggeredByUser === true
+    )).eql(1);
+  });
+
+test
   .requestHooks(loopbackPollMockLogger, loopbackPollFailedMock)('next poll should not start if previous is failed', async t => {
     loopbackPollMockLogger.clear();
     await setup(t);
@@ -501,7 +523,8 @@ test
     )).eql(4);
     await t.expect(loopbackFallbackLogger.count(
       record => record.response.statusCode === 200 &&
-        record.request.url.match(/authenticators\/poll\/cancel/)
+        record.request.url.match(/authenticators\/poll\/cancel/) &&
+        JSON.parse(record.request.body).triggeredByUser === false
     )).eql(1);
     deviceChallengeFalllbackPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
