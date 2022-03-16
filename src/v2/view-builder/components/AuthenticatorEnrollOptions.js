@@ -16,19 +16,21 @@ import hbs from 'handlebars-inline-precompile';
 
 const AuthenticatorRow = View.extend({
   className: 'authenticator-row clearfix',
-  template: hbs('\
-        <div class="authenticator-icon-container">\
-          <div class="factor-icon authenticator-icon {{iconClassName}}">\
-          </div>\
-        </div>\
-        <div class="authenticator-description">\
-          <h3 class="authenticator-label no-translate">{{label}}</h3>\
-          {{#if description}}\
-            <p class="authenticator-description--text">{{description}}</p>\
-          {{/if}}\
-          <div class="authenticator-button" {{#if buttonDataSeAttr}}data-se="{{buttonDataSeAttr}}"{{/if}}></div>\
-        </div>\
-      '),
+  template: hbs`
+    <div class="authenticator-icon-container">
+      <div class="factor-icon authenticator-icon {{iconClassName}}"></div>
+    </div>
+    <div class="authenticator-description">
+      <h3 class="authenticator-label no-translate">{{label}}</h3>
+      {{#if description}}
+        <p class="authenticator-description--text">{{description}}</p>
+      {{/if}}
+      {{#if authenticatorUsageText}}
+        <p class="authenticator-usage-text">{{authenticatorUsageText}}</p>
+      {{/if}}
+      <div class="authenticator-button" {{#if buttonDataSeAttr}}data-se="{{buttonDataSeAttr}}"{{/if}}></div>
+    </div>
+  `,
   children: function() {
     return [[createButton({
       className: 'button select-factor',
@@ -42,7 +44,35 @@ const AuthenticatorRow = View.extend({
   },
   minimize: function() {
     this.$el.addClass('authenticator-row-min');
-  }
+  },
+  getTemplateData() {
+    let authenticatorUsageText;
+    const allowedFor = this.model.get('relatesTo').allowedFor;
+
+    if (allowedFor) {
+      switch (allowedFor) {
+      case 'any':
+        authenticatorUsageText = loc('oie.enroll.authenticator.usage.text.access.recovery', 'login');
+        break;
+      case 'recovery':
+        authenticatorUsageText = loc('oie.enroll.authenticator.usage.text.recovery', 'login');
+        break;
+      case 'sso':
+        authenticatorUsageText = loc('oie.enroll.authenticator.usage.text.access', 'login');
+        break;
+      default:
+        break;
+      }
+    }
+
+    return {
+      authenticatorUsageText,
+      iconClassName: this.model.get('iconClassName'),
+      label: this.model.get('label'),
+      description: this.model.get('description'),
+      buttonDataSeAttr: this.model.get('buttonDataSeAttr'),
+    };
+  },
 });
 
 export default ListView.extend({

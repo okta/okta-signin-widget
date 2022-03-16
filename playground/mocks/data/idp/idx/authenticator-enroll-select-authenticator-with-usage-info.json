@@ -1,0 +1,219 @@
+{
+  "stateHandle": "02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt",
+  "version": "1.0.0",
+  "expiresAt": "2020-01-13T21:05:31.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-enroll",
+        "href": "http://localhost:3000/idp/idx/credential/enroll",
+        "method": "POST",
+        "accepts": "application/vnd.okta.v1+json",
+        "value": [
+          {
+            "name": "authenticator",
+            "required": true,
+            "type": "object",
+            "options": [
+              {
+                "label": "Okta Password",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "autwa6eD9o02iBbtv0g3",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "password",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[0]"
+              },
+              {
+                "label": "Okta Phone",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "aid568g3mXgtID0X1SLH",
+                        "mutable": false,
+                        "required": true
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "options": [
+                          {
+                            "label": "SMS",
+                            "value": "sms"
+                          },
+                          {
+                            "label": "VOICE",
+                            "value": "voice"
+                          }
+                        ]
+                      },
+                      {
+                        "name": "phoneNumber",
+                        "required": false,
+                        "type": "string"
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[1]"
+              },
+              {
+                "label": "Okta Verify",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "aut1erh5wK1M8wA3g0g4",
+                        "required": true,
+                        "mutable": false
+                      },
+                      {
+                        "name": "channel",
+                        "required": false,
+                        "type": "string",
+                        "options": [
+                          {
+                            "value": "qrcode",
+                            "label": "QRCODE"
+                          },
+                          {
+                            "value": "sms",
+                            "label": "SMS"
+                          },
+                          {
+                            "value": "email",
+                            "label": "EMAIL"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[2]"
+              },
+              {
+                "label": "Okta Security Question",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "value": "aid568g3mXgtID0X1GGG",
+                        "required": true,
+                        "mutable": false,
+                        "visible": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[3]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt",
+            "visible": false,
+            "mutable": false
+          }
+        ]
+      }
+    ]
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "displayName": "Okta Password",
+        "type": "password",
+        "key": "okta_password",
+        "authenticatorId": "autwa6eD9o02iBbtv0g3",
+        "id": "password-enroll-id-123",
+        "allowedFor": "sso"
+      },
+      {
+        "displayName": "Okta Phone",
+        "type": "phone",
+        "key": "phone_number",
+        "authenticatorId": "aid568g3mXgtID0X1SLH",
+        "id": "phone-enroll-id-123",
+        "allowedFor": "recovery"
+      },
+      {
+        "displayName": "Okta Verify",
+        "type": "app",
+        "key": "okta_verify",
+        "authenticatorId": "aut1erh5wK1M8wA3g0g4",
+        "id": "okta-verify-enroll-id-123",
+        "methods": [
+          {
+            "type": "signed_nonce"
+          },
+          {
+            "type": "push"
+          },
+          {
+            "type": "totp"
+          }
+        ],
+        "allowedFor": "any"
+      },
+      {
+        "displayName": "Okta Security Question",
+        "type": "security_question",
+        "key": "security_question",
+        "authenticatorId": "aid568g3mXgtID0X1GGG",
+        "id": "security-question-enroll-id-123",
+        "allowedFor": "none"
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00utjm1GstPjCF9Ad0g3",
+      "identifier": "testUser@okta.com"
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "application/vnd.okta.v1+json",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02CqFbzJ_zMGCqXut-1CNXfafiTkh9wGlbFqi9Xupt",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  }
+}
+  

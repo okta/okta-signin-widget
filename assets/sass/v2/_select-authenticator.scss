@@ -67,6 +67,13 @@
   display: flex;
   align-items: center;
 
+  .authenticator-usage-text {
+    color: $light-text-color;
+    font-size: 13px;
+    line-height: 16px;
+    margin-top: 9px;
+  }
+
   .authenticator-button {
     padding-top: 10px;
     @include device-mq(x-small) {
