@@ -3,8 +3,13 @@ import {BaseFormWithPolling, BaseFooter, BaseView} from '../../internals';
 import Logger from '../../../../util/Logger';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import Enums from '../../../../util/Enums';
-import { CANCEL_POLLING_ACTION, CHALLENGE_TIMEOUT, IDENTIFIER_FLOW, REQUEST_PARAM_LOOPBACK_CANCEL_TRIGGER }
-  from '../../utils/Constants';
+import {
+  CANCEL_POLLING_ACTION,
+  CHALLENGE_TIMEOUT,
+  IDENTIFIER_FLOW,
+  REQUEST_PARAM_AUTHENTICATION_CANCEL_REASON,
+  AUTHENTICATION_CANCEL_REASONS,
+} from '../../utils/Constants';
 import Link from '../../components/Link';
 import { doChallenge } from '../../utils/ChallengeViewUtil';
 import OktaVerifyAuthenticatorHeader from '../../components/OktaVerifyAuthenticatorHeader';
@@ -18,9 +23,9 @@ const request = (opts) => {
   return $.ajax(ajaxOptions);
 };
 
-const cancelPolling = (appState, triggeredByUser = false) => {
+const cancelPollingWithParams = (appState, cancelReason) => {
   const actionParams = {};
-  actionParams[REQUEST_PARAM_LOOPBACK_CANCEL_TRIGGER] = triggeredByUser;
+  actionParams[REQUEST_PARAM_AUTHENTICATION_CANCEL_REASON] = cancelReason;
   appState.trigger('invokeAction', CANCEL_POLLING_ACTION, actionParams);
 };
 
@@ -105,33 +110,21 @@ const Body = BaseFormWithPolling.extend(
         Logger.error(`Something unexpected happened while we were checking port ${currentPort}.`);
       };
 
-      const onPortFail = () => {
-        countFailedPorts++;
-        if (countFailedPorts === ports.length) {
-          Logger.error('No available ports. Loopback server failed and polling is cancelled.');
-          cancelPolling(this.options.appState, false);
-        }
-      };
-
       const doProbing = () => {
-        this.checkPortXhr = checkPort();
-        return this.checkPortXhr
+        return checkPort()
           // TODO: can we use standard ES6 promise methods, then/catch?
           .done(() => {
-            this.probingXhr = onPortFound();
-            return this.probingXhr.done(() => {
-              foundPort = true;
-              // log in as soon as challenge request is finished
-              return this.trigger('save', this.model);
-            }).fail((xhr) => {
-              Logger.error(`OV challenge response with HTTP code ${xhr.status} ${xhr.responseText}`);
-              if (xhr.statusText === 'timeout') {
+            return onPortFound()
+              .done(() => {
                 foundPort = true;
+                // once the OV challenge succeeds,
+                // triggers another polling right away without waiting for the next ongoing polling to be triggered
+                // to make FastPass faster
                 return this.trigger('save', this.model);
-              } else {
-                onPortFail();
-              }
-            });
+              })
+              .fail(() => {
+                cancelPollingWithParams(this.options.appState, AUTHENTICATION_CANCEL_REASONS.OV_ERROR);
+              });
           })
           .fail(onFailure);
       };
@@ -147,7 +140,11 @@ const Body = BaseFormWithPolling.extend(
           })
           .catch(() => {
             Logger.error(`Authenticator is not listening on port ${currentPort}.`);
-            onPortFail();
+            countFailedPorts++;
+            if (countFailedPorts === ports.length) {
+              Logger.error('No available ports. Loopback server failed and polling is cancelled.');
+              cancelPollingWithParams(this.options.appState, AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE);
+            }
           });
       });
     },
@@ -195,7 +192,7 @@ const Footer = BaseFooter.extend({
           name: 'cancel-authenticator-challenge',
           label: loc('loopback.polling.cancel.link', 'login'),
           clickHandler: () => {
-            cancelPolling(this.options.appState, true);
+            cancelPollingWithParams(this.options.appState, AUTHENTICATION_CANCEL_REASONS.USER_CANCELED);
           },
         }
       }).last();

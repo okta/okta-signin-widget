@@ -11,4 +11,9 @@ export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP
     = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.desktop';
 export const OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE 
     = 'oie.authenticator.oktaverify.method.fastpass.verify.enable.biometrics.mobile';
-export const REQUEST_PARAM_LOOPBACK_CANCEL_TRIGGER = 'triggeredByUser';
+export const REQUEST_PARAM_AUTHENTICATION_CANCEL_REASON = 'reason';
+export const AUTHENTICATION_CANCEL_REASONS = {
+  LOOPBACK_FAILURE: 'OV_UNREACHABLE_BY_LOOPBACK',
+  OV_ERROR: 'OV_RETURNED_ERROR',
+  USER_CANCELED: 'USER_CANCELED',
+};

@@ -260,7 +260,7 @@ test
       record => record.response.statusCode === 200 &&
         record.request.method !== 'options' &&
         record.request.url.match(/cancel/) &&
-        JSON.parse(record.request.body).triggeredByUser === false
+        JSON.parse(record.request.body).reason === 'OV_RETURNED_ERROR'
     )).eql(1);
     await t.expect(loopbackBiometricsNoResponseErrorLogger.count(
       record => record.response.statusCode === 500 &&
@@ -316,7 +316,7 @@ test
     await t.expect(loopbackFallbackLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/authenticators\/poll\/cancel/) &&
-        JSON.parse(record.request.body).triggeredByUser === false
+        JSON.parse(record.request.body).reason === 'OV_UNREACHABLE_BY_LOOPBACK'
     )).eql(1);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Click "Open Okta Verify" on the browser prompt');
