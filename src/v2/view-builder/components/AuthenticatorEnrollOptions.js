@@ -60,8 +60,6 @@ const AuthenticatorRow = View.extend({
       case 'sso':
         authenticatorUsageText = loc('oie.enroll.authenticator.usage.text.access', 'login');
         break;
-      default:
-        break;
       }
     }
 
