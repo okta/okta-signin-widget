@@ -1,6 +1,6 @@
 import { ClientFunction, RequestLogger, RequestMock } from 'testcafe';
 import xhrEmailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
-import xhrSessionExpried from '../../../playground/mocks/data/idp/idx/error-session-expired';
+import xhrSessionExpried from '../../../playground/mocks/data/idp/idx/error-401-session-expired';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import xhrSuccessWithInteractionCode from '../../../playground/mocks/data/idp/idx/success-with-interaction-code';

@@ -1,4 +1,5 @@
 /* eslint no-unused-vars: 0 */
+const Authenticators = require('./authenticators');
 
 const idx = {
   // ===== IDX
@@ -193,6 +194,10 @@ const idx = {
     // 'error-invalid-device-code',
   ]
 };
+
+let mocks = idx;
+
+mocks = Authenticators.Email.stopPollMock;
 
 const emailActivation = {
   '/idp/idx/introspect': [
@@ -1037,5 +1042,5 @@ const selectOktaVerifyMethod = {
 };
 
 module.exports = {
-  mocks: idx,
+  mocks
 };

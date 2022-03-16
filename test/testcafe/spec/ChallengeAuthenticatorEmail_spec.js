@@ -20,8 +20,8 @@ import invalidOTPTooManyRequest from '../../../playground/mocks/data/idp/idx/err
 import magicLinkReturnTab from '../../../playground/mocks/data/idp/idx/terminal-return-email';
 import magicLinkExpired from '../../../playground/mocks/data/idp/idx/terminal-return-expired-email';
 import terminalTransferedEmail from '../../../playground/mocks/data/idp/idx/terminal-transfered-email';
-import sessionExpired from '../../../playground/mocks/data/idp/idx/error-session-expired';
-import tooManyRequest from '../../../playground/mocks/data/idp/idx/error-429-too-many-request';
+import sessionExpired from '../../../playground/mocks/data/idp/idx/error-401-session-expired';
+import tooManyRequest from '../../../playground/mocks/data/idp/idx/error-429-authenticator-verification-email-polling';
 import apiLimitExeeeded from '../../../playground/mocks/data/idp/idx/error-429-api-limit-exceeded';
 import emailVerificationSendEmailData from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-email';
 import emailVerificationSendEmailDataNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-email-no-profile';
