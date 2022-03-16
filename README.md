@@ -896,15 +896,28 @@ If you want even more customization, you can modify the [Sass source files](http
 
 Sets the brand color as the background color of the primary CTA button. Colors must be in hex format, like `#008000`.
 
-```javascript
-colors: {
-  brand: '#008000'
-}
-```
+- **processCreds:** Hook to handle the credentials before they are sent to Okta in the Primary Auth, Password Expiration, and Password Reset flows.
 
-### Localization
+    If `processCreds` takes a single argument it will be executed as a synchronous hook:
+
+    ```javascript
+    // Passed a creds object {username, password}
+    processCreds: function (creds) {
+      // This example demonstrates a partial integration with ChromeOS
+      google.principal.add({
+        token: creds.username,
+        user: creds.username,
+        passwordBytes: creds.password,
+        keyType: 'KEY_TYPE_PASSWORD_PLAIN'
+      });
+    }
+    ```
+
+    If `processCreds` takes two arguments it will be executed as an asynchronous hook:
 
 #### Supported languages
+
+> **Note**: `processCreds` is not supported in Okta [Identity Engine][] orgs.
 
 - `cs` - Czech
 - `da` - Danish
