@@ -861,7 +861,7 @@ var config = {
 
 - **processCreds:** Hook to handle the credentials before they are sent to Okta in the Primary Auth, Password Expiration, and Password Reset flows.
 
-    If processCreds takes a single argument it will be executed as a synchronous hook:
+    If `processCreds` takes a single argument it will be executed as a synchronous hook:
 
     ```javascript
     // Passed a creds object {username, password}
@@ -876,7 +876,7 @@ var config = {
     }
     ```
 
-    If processCreds takes two arguments it will be executed as an asynchronous hook:
+    If `processCreds` takes two arguments it will be executed as an asynchronous hook:
 
     ```javascript
     // Passed a creds object {username, password} and a callback for further processing
@@ -900,6 +900,8 @@ var config = {
       });
     }
     ```
+
+> **Note**: `processCreds` is not supported in Okta [Identity Engine][] orgs.
 
 ### Language and text
 
