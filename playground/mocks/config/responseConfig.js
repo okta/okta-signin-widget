@@ -1032,7 +1032,7 @@ const selectOktaVerifyMethod = {
     'authenticator-verification-okta-verify-push-autoChallenge-on',
   ],
   '/idp/idx/authenticators/poll': [
-    'authenticator-verification-okta-verify-push-autoChallenge-on',
+    'authenticator-verification-okta-verify-push-autoChallenge-o',
   ],
 };
 
