@@ -5,6 +5,7 @@ const factorListRowSelector = '.authenticator-list .authenticator-row';
 const factorLabelSelector = `${factorListRowSelector} .authenticator-label`;
 const factorDescriptionSelector = `${factorListRowSelector} .authenticator-description .authenticator-description--text`;
 const factorIconSelector = `${factorListRowSelector} .authenticator-icon-container .authenticator-icon`;
+const factorCustomLogoSelector = `${factorListRowSelector} .authenticator-icon-container .custom-logo`;
 const factorSelectButtonDiv = `${factorListRowSelector} .authenticator-button`;
 const factorSelectButtonSelector = `${factorListRowSelector} .authenticator-button .button`;
 const factorUsageTextSelector = `${factorListRowSelector} .authenticator-usage-text`;
@@ -37,6 +38,11 @@ export default class SelectFactorPageObject extends BasePageObject {
 
   getFactorIconClassByIndex(index) {
     return this.form.getElement(factorIconSelector).nth(index).getAttribute('class');
+  }
+
+  async factorCustomLogoExist(index) {
+    const elCount = await this.form.getElement(factorCustomLogoSelector).nth(index).count;
+    return elCount === 1;
   }
 
   getFactorSelectButtonByIndex(index) {

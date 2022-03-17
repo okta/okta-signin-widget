@@ -19,6 +19,7 @@ import xhrAuthenticatorOVPush from '../../../playground/mocks/data/idp/idx/authe
 import xhrAuthenticatorOVFastPass from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-loopback';
 import xhrSelectAuthenticatorsOktaVerifyWithoutSignedNonce from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator-without-signed-nonce';
 import xhrAuthenticatorCustomOTP from '../../../playground/mocks/data/idp/idx/authenticator-verification-custom-otp';
+import xhrAuthenticatorCustomApp from '../../../playground/mocks/data/idp/idx/authenticator-verification-custom-app-push.json';
 
 const requestLogger = RequestLogger(
   /idx\/introspect|\/challenge/,
@@ -71,6 +72,12 @@ const mockChallengeCustomOTP = RequestMock()
   .respond(xhrSelectAuthenticators)
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(xhrAuthenticatorCustomOTP);
+
+const mockChallengeCustomApp = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrSelectAuthenticators)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(xhrAuthenticatorCustomApp);
 
 const xhrSelectAuthenticatorsOktaVerifyKnownDevice = JSON.parse(JSON.stringify(xhrSelectAuthenticatorsOktaVerify));
 xhrSelectAuthenticatorsOktaVerifyKnownDevice.authenticators.value[0].deviceKnown = true;
@@ -216,7 +223,7 @@ test.requestHooks(mockChallengePassword)('should load select authenticator list'
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(15)).eql('Custom Push App');
   await t.expect(await selectFactorPage.factorDescriptionExistsByIndex(15)).eql(false);
-  await t.expect(selectFactorPage.getFactorIconClassByIndex(15)).contains('mfa-custom-app');
+  await t.expect(await selectFactorPage.factorCustomLogoExist(0)).eql(true);
   await t.expect(selectFactorPage.getFactorSelectButtonByIndex(15)).eql('Select');
   await t.expect(selectFactorPage.getFactorSelectButtonDataSeByIndex(15)).eql('custom_app');
 
@@ -580,4 +587,13 @@ test.requestHooks(mockSelectAuthenticatorForRecovery)('should not show custom fa
   });
 
   await t.expect(await pageObject.factorPageHelpLinksExists()).notOk();
+});
+
+test.requestHooks(mockChallengeCustomApp)('should navigate to Custom App challenge page', async t => {
+  const selectFactorPage = await setup(t);
+  await t.expect(selectFactorPage.getIdentifier()).eql('testUser@okta.com');
+  await t.expect(selectFactorPage.getFormTitle()).eql('Verify it\'s you with a security method');
+  selectFactorPage.selectFactorByIndex(9);
+  const challengeFactorPage = new ChallengeFactorPageObject(t);
+  await t.expect(challengeFactorPage.getFormTitle()).eql('Verify with Custom Push');
 });

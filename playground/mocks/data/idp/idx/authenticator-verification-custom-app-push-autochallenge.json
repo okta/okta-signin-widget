@@ -1,0 +1,354 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02TcECA1PvSpQTx8Zqo08SSYj88KsXxwNKV4PGvVpF",
+  "expiresAt": "2022-03-09T17:19:02.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": ["create-form"],
+        "name": "challenge-poll",
+        "relatesTo": ["$.currentAuthenticatorEnrollment"],
+        "href": "http://localhost:3000/idp/idx/authenticators/poll",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "refresh": 4000,
+        "value": [
+          {
+            "name": "autoChallenge",
+            "type": "boolean",
+            "label": "Send push automatically",
+            "required": false,
+            "value": true,
+            "mutable": true
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02TcECA1PvSpQTx8Zqo08SSYj88KsXxwNKV4PGvVpF",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": ["create-form"],
+        "name": "select-authenticator-authenticate",
+        "href": "http://localhost:3000/idp/idx/challenge",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "Atko Corp Authenticator OV FFs off test",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "authz4tA5ttKp7GoQ0g4",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "push",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[0]"
+              },
+              {
+                "label": "Security Key or Biometric",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "autflyphUnWJ0ZwrT0g4",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "webauthn",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[1]"
+              },
+              {
+                "label": "Okta Verify",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "autfluea2AKeMj6Dj0g4",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "type": "string",
+                        "required": false,
+                        "options": [
+                          {
+                            "label": "Enter a code",
+                            "value": "totp"
+                          },
+                          {
+                            "label": "Get a push notification",
+                            "value": "push"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticators.value[2]"
+              },
+              {
+                "label": "Password",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "autflu9fqfJdFnHZe0g4",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "password",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[3]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02TcECA1PvSpQTx8Zqo08SSYj88KsXxwNKV4PGvVpF",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "currentAuthenticatorEnrollment": {
+    "type": "object",
+    "value": {
+      "profile": {
+        "deviceName": "Ken’s iPhone"
+      },
+      "resend": {
+        "rel": ["create-form"],
+        "name": "resend",
+        "href": "http://localhost:3000/idp/idx/challenge",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "required": true,
+            "value": {
+              "methodType": "push",
+              "id": "authz4tA5ttKp7GoQ0g4"
+            },
+            "visible": false,
+            "mutable": false
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02TcECA1PvSpQTx8Zqo08SSYj88KsXxwNKV4PGvVpF",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      "type": "app",
+      "key": "custom_app",
+      "logoUri": "/assets/img/icons/mfa/custom_app.svg",
+      "id": "pfdhz52NLT6aWceDQ0g4",
+      "displayName": "Atko Corp Authenticator OV FFs off test",
+      "methods": [
+        {
+          "type": "push"
+        }
+      ]
+    }
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "app",
+        "key": "custom_app",
+        "id": "authz4tA5ttKp7GoQ0g4",
+        "displayName": "Atko Corp Authenticator OV FFs off test",
+        "logoUri": "/assets/img/icons/mfa/custom_app.svg",
+        "methods": [
+          {
+            "type": "push"
+          }
+        ]
+      },
+      {
+        "type": "security_key",
+        "key": "webauthn",
+        "id": "autflyphUnWJ0ZwrT0g4",
+        "displayName": "Security Key or Biometric",
+        "methods": [
+          {
+            "type": "webauthn"
+          }
+        ]
+      },
+      {
+        "type": "app",
+        "key": "okta_verify",
+        "id": "autfluea2AKeMj6Dj0g4",
+        "displayName": "Okta Verify",
+        "methods": [
+          {
+            "type": "push"
+          },
+          {
+            "type": "totp"
+          }
+        ]
+      },
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "autflu9fqfJdFnHZe0g4",
+        "displayName": "Password",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ]
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "profile": {
+          "deviceName": "Ken’s iPhone"
+        },
+        "type": "app",
+        "key": "custom_app",
+        "logoUri": "/assets/img/icons/mfa/custom_app.svg",
+        "id": "pfdhz52NLT6aWceDQ0g4",
+        "displayName": "Atko Corp Authenticator OV FFs off test",
+        "methods": [
+          {
+            "type": "push"
+          }
+        ]
+      },
+      {
+        "type": "security_key",
+        "key": "webauthn",
+        "id": "fwfhyikGLCCrWierV0g4",
+        "displayName": "MacBook Touch ID",
+        "credentialId": "AY_DjRwtK196kp5ieIbj7I9dE2rATE5Uy49A-0OmO612eB_Sc75UJjumZghaUSU4IhigzeQdzwcdmZIyS9prKOuIRbZqwIAo4JJ9HLA",
+        "methods": [
+          {
+            "type": "webauthn"
+          }
+        ]
+      },
+      {
+        "profile": {
+          "deviceName": "Ken’s iPhone"
+        },
+        "type": "app",
+        "key": "okta_verify",
+        "id": "pfdhnveREJY5KsVAw0g4",
+        "displayName": "Okta Verify",
+        "methods": [
+          {
+            "type": "push"
+          },
+          {
+            "type": "totp"
+          }
+        ]
+      },
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "lae322dclMzgk5GUk0g4",
+        "displayName": "Password",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ]
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00uflzpcIL1jJvjZR0g4",
+      "identifier": "push.user@gmail.com",
+      "profile": {
+        "firstName": "push",
+        "lastName": "user",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US"
+      }
+    }
+  },
+  "cancel": {
+    "rel": ["create-form"],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02TcECA1PvSpQTx8Zqo08SSYj88KsXxwNKV4PGvVpF",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "salesforce",
+      "label": "Salesforce.com",
+      "id": "0oahxrulYBVVkqVUI0g4"
+    }
+  }
+}

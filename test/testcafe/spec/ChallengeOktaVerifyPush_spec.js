@@ -7,6 +7,8 @@ import pushPoll from '../../../playground/mocks/data/idp/idx/authenticator-verif
 import success from '../../../playground/mocks/data/idp/idx/success';
 import pushPollAutoChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-push-autoChallenge-on';
 
+const BEACON_CLASS = 'mfa-okta-verify';
+
 const logger = RequestLogger(/challenge|challenge\/poll|authenticators\/poll/,
   {
     logRequestBody: true,
@@ -45,7 +47,7 @@ async function setup(t) {
 }
 
 test
-  .requestHooks(pushSuccessMock)('challenge ov push screen has right labels', async t => {
+  .requestHooks(pushSuccessMock)('challenge ov push screen has right labels and logo', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkConsoleMessages({
       controller: 'mfa-verify',
@@ -57,9 +59,11 @@ test
     const pageTitle = challengeOktaVerifyPushPageObject.getFormTitle();
     const pushBtn = challengeOktaVerifyPushPageObject.getPushButton();
     const a11ySpan = challengeOktaVerifyPushPageObject.getA11ySpan();
+    const logoClass = challengeOktaVerifyPushPageObject.getBeaconClass();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
     await t.expect(a11ySpan.textContent).contains('Push notification sent');
     await t.expect(pushBtn.hasClass('link-button-disabled')).ok();
+    await t.expect(logoClass).contains(BEACON_CLASS);
     await t.expect(pageTitle).contains('Get a push notification');
     await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists()).notOk();
 

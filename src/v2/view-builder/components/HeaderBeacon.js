@@ -14,19 +14,29 @@ import hbs from 'handlebars-inline-precompile';
 
 const BeaconView = View.extend({
 
-  template: hbs('\
-    <div data-type="beacon-container" class="beacon-container">\
-      <div class="beacon-blank auth-beacon">\
-        <div class="beacon-blank js-blank-beacon-border auth-beacon-border"></div>\
-      </div>\
-      <div class="bg-helper auth-beacon auth-beacon-factor {{className}}" data-se="factor-beacon">\
-        <div class="okta-sign-in-beacon-border auth-beacon-border"></div>\
-      </div>\
-    </div >\
-  '),
+  template: hbs`
+    <div data-type="beacon-container" class="beacon-container">
+      <div class="beacon-blank auth-beacon">
+        <div class="beacon-blank js-blank-beacon-border auth-beacon-border"></div>
+      </div>
+      {{#if logoUri}}
+      <div class="bg-helper auth-beacon auth-beacon-factor custom-logo" data-se="factor-beacon" 
+        style="background-image: url('{{logoUri}}')">
+      {{else}}
+      <div class="bg-helper auth-beacon auth-beacon-factor {{className}}" data-se="factor-beacon">
+      {{/if}}
+       
+          <div class="okta-sign-in-beacon-border auth-beacon-border"></div>
+        </div>
+    </div >
+  `,
 
   getTemplateData: function() {
-    return { className: this.getBeaconClassName() || '' };
+    const appState = this.options?.appState;
+    return { className: this.getBeaconClassName() || '',
+      logoUri: appState?.get('currentAuthenticator')?.logoUri || 
+        appState?.get('currentAuthenticatorEnrollment')?.logoUri
+    };
   },
   getBeaconClassName() {
     return 'undefined-user';

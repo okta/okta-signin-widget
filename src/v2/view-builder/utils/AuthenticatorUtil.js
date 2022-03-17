@@ -25,6 +25,7 @@ const getButtonDataSeAttr = function(authenticator) {
 };
 
 /* eslint complexity: [0, 0] */
+// eslint-disable-next-line max-statements
 const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   const authenticatorKey = authenticator.authenticatorKey;
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
@@ -187,6 +188,11 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
     });
     break;
   }
+
+  }
+  // Add logo URI, Logo URI must take precedence than icon class name
+  if(authenticator?.relatesTo?.logoUri) {
+    authenticatorData.logoUri = authenticator.relatesTo.logoUri;
   }
 
   return authenticatorData;
