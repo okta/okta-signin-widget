@@ -131,129 +131,68 @@ describe('v2/ion/uiSchemaTransformer', function() {
   });
 
   it('converts authenticator require - email', done => {
-    MockUtil.mockIntrospect(done, XHRAuthenticatorRequiredEmail, idxResp => {
+    const mock = XHRAuthenticatorRequiredEmail;
+    MockUtil.mockIntrospect(done, mock, idxResp => {
       const result = _.compose(uiSchemaTransformer.bind(null, testContext.settings), responseTransformer.bind(null, testContext.settings))(idxResp);
-      expect(result).toEqual({
-        app: {
-          name: 'oidc_client',
-          label: 'Native client',
-          id: '0oa1bowRUq4I8pIfd0g4',
-        },
-        authenticatorEnrollments: _.pick(XHRAuthenticatorRequiredEmail.authenticatorEnrollments, 'value'),
-        currentAuthenticatorEnrollment: XHRAuthenticatorRequiredEmail.currentAuthenticatorEnrollment.value,
-        user: {
-          id: '00u1d4o00DWrRfc5u0g4',
-          'identifier': 'testUser@okta.com',
-        },
-        remediations: [
-          {
-            name: 'challenge-authenticator',
-            href: 'http://localhost:3000/idp/idx/challenge/answer',
-            rel: ['create-form'],
-            accepts: 'application/vnd.okta.v1+json',
-            method: 'POST',
-            action: expect.any(Function),
-            value: [
-              {
-                type: 'object',
-                required: true,
-                name: 'credentials',
-                form: {
-                  value: [
-                    {
-                      name: 'passcode',
-                      label: 'Enter code',
-                    },
-                  ],
-                },
-              },
-              {
-                name: 'stateHandle',
-                required: true,
-                value: '02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8',
-                visible: false,
-                mutable: false,
-              },
-            ],
-            uiSchema: [
-              {
-                name: 'credentials.passcode',
-                label: 'Enter code',
-                'label-top': true,
-                'multirowError': true,
-                'data-se': 'o-form-fieldset-credentials.passcode',
-                type: 'text',
-              },
-            ],
-            relatesTo: XHRAuthenticatorRequiredEmail.currentAuthenticatorEnrollment,
-          },
-          {
-            name: 'select-authenticator-authenticate',
-            href: 'http://localhost:3000/idp/idx/challenge',
-            method: 'POST',
-            rel: ['create-form'],
-            accepts: 'application/vnd.okta.v1+json',
-            action: expect.any(Function),
-            value: [
-              {
-                name: 'authenticator',
-                type: 'object',
-                options: [
-                  {
-                    label: 'Email',
-                    value: {
-                      form: {
-                        value: [
-                          {
-                            name: 'id',
-                            required: true,
-                            value: 'aut1bospdDFs7q3vc0g4',
-                            mutable: false,
-                          },
-                          {
-                            name: 'methodType',
-                            required: false,
-                            value: 'email',
-                            mutable: false,
-                          },
-                        ],
-                      },
-                    },
-                    relatesTo: XHRAuthenticatorRequiredEmail.authenticatorEnrollments.value[0],
-                  },
-                ],
-              },
-              {
-                name: 'stateHandle',
-                required: true,
-                value: '02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8',
-                visible: false,
-                mutable: false,
-              },
-            ],
-            uiSchema: [
-              {
-                name: 'authenticator',
-                type: 'authenticatorVerifySelect',
-                'label-top': true,
-                'multirowError': true,
-                'data-se': 'o-form-fieldset-authenticator',
-                options: [
-                  {
-                    label: 'Email',
-                    value: {
-                      id: 'aut1bospdDFs7q3vc0g4',
-                    },
-                    authenticatorKey: 'okta_email',
-                    relatesTo: XHRAuthenticatorRequiredEmail.authenticatorEnrollments.value[0],
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-        idx: idxResp,
+      
+      // Check top-level obhects
+      expect(result.app).toEqual(mock.app.value);
+      expect(result.user).toEqual(mock.user.value)
+      expect(result.currentAuthenticatorEnrollment).toEqual(mock.currentAuthenticatorEnrollment.value);
+      expect(result.authenticatorEnrollments).toEqual({
+        ...mock.authenticatorEnrollments,
+        type: undefined, // type is removed by transformer
       });
+      
+      expect(result.idx).toEqual(idxResp); // raw IDX response is also added at top-level
+
+      // UI schema is added to remediations
+      expect(result.remediations.length).toBe(mock.remediation.value.length);
+      const challengeAuthenticatorRemediation = result.remediations[0];
+      expect(challengeAuthenticatorRemediation).toEqual({
+        ...mock.remediation.value[0],
+        action: expect.any(Function), // action function is added
+        relatesTo: mock.currentAuthenticatorEnrollment, // authenticator is wired up
+        uiSchema: [{ // UI schema is added
+          name: 'credentials.passcode',
+          label: 'Enter code',
+          'label-top': true,
+          'multirowError': true,
+          'data-se': 'o-form-fieldset-credentials.passcode',
+          type: 'text',
+        }],
+      });
+      const selectAuthenticatorRemediation = result.remediations[1];
+      expect(selectAuthenticatorRemediation).toEqual({
+          ...mock.remediation.value[1],
+          action: expect.any(Function), // action function is added
+          value: expect.any(Object), // value is transformed by response transformer
+          uiSchema: [{ // UI schema is added
+            name: 'authenticator',
+            type: 'authenticatorVerifySelect',
+            'label-top': true,
+            'multirowError': true,
+            'data-se': 'o-form-fieldset-authenticator',
+            options: [{
+              label: 'Email',
+              value: {
+                id: 'autx9dMj7YhpMtmXI0g3',
+              },
+              authenticatorKey: 'okta_email',
+              relatesTo: mock.authenticatorEnrollments.value[0],
+            }, {
+              authenticatorKey: 'phone_number',
+              label: "Phone",
+              relatesTo: mock.authenticatorEnrollments.value[1],
+              value: {
+                enrollmentId: "smszlqthjBfkHCb5k0g3",
+                id: "autx9edDchZp2NGHq0g3",
+              },
+            }],
+          }],
+      });
+      const stateHandleRemediation = result.remediations[2];
+      expect(stateHandleRemediation).toEqual(mock.remediation.value[2]);
     });
   });
 

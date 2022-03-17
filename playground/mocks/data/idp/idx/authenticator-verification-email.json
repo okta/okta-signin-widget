@@ -25,20 +25,7 @@
               "value": [
                 {
                   "name": "passcode",
-                  "label": "Enter code",
-                  "messages": {
-                    "type": "array",
-                    "value": [
-                      {
-                        "message": "Invalid code. Try again.",
-                        "i18n": {
-                          "key": "api.authn.error.PASSCODE_INVALID",
-                          "params": []
-                        },
-                        "class": "ERROR"
-                      }
-                    ]
-                  }
+                  "label": "Enter code"
                 }
               ]
             },

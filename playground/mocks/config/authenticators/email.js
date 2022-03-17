@@ -10,7 +10,7 @@ const sendEmailMock = {
   '/idp/idx/challenge/poll': [
     'authenticator-verification-email'
   ]
-}
+};
 
 const sendEmailMockWithoutEmailMagicLink = {
   '/idp/idx/introspect': [
@@ -22,7 +22,7 @@ const sendEmailMockWithoutEmailMagicLink = {
   '/idp/idx/challenge/poll': [
     'authenticator-verification-email-no-profile-no-emailmagiclink'
   ]
-}
+};
 
 const tooManyRequestPollMock = {
   '/idp/idx/introspect': [
@@ -31,7 +31,7 @@ const tooManyRequestPollMock = {
   '/idp/idx/challenge/poll': [
     'error-429-authenticator-verification-email-polling'
   ]
-}
+};
 
 const apiLimitExceededPollMock = {
   '/idp/idx/introspect': [
@@ -49,7 +49,7 @@ const dynamicRefreshShortIntervalMock = {
   '/idp/idx/challenge/poll': [
     'authenticator-verification-email-polling-short'
   ]
-}
+};
 
 const dynamicRefreshLongIntervalMock = {
   '/idp/idx/introspect': [
@@ -58,7 +58,7 @@ const dynamicRefreshLongIntervalMock = {
   '/idp/idx/challenge/poll': [
     'authenticator-verification-email-polling-long'
   ]
-}
+};
 
 const stopPollMock = {
   '/idp/idx/introspect': [
@@ -67,7 +67,7 @@ const stopPollMock = {
   '/idp/idx/challenge/poll': [
     'error-401-session-expired'
   ]
-}
+};
 
 module.exports = {
   sendEmailMock,
