@@ -192,33 +192,6 @@
       ]
     }
   },
-  "authenticators": {
-    "type": "array",
-    "value": [
-      {
-        "type": "email",
-        "key": "okta_email",
-        "id": "autx9dMj7YhpMtmXI0g3",
-        "displayName": "Email",
-        "methods": [
-          {
-            "type": "email"
-          }
-        ]
-      },
-      {
-        "type": "phone",
-        "key": "phone_number",
-        "id": "autx9edDchZp2NGHq0g3",
-        "displayName": "Phone",
-        "methods": [
-          {
-            "type": "sms"
-          }
-        ]
-      }
-    ]
-  },
   "authenticatorEnrollments": {
     "type": "array",
     "value": [

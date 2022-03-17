@@ -61,102 +61,46 @@ describe('v2/ion/responseTransformer', function() {
   });
 
   it('converts required authenticator email idx object', done => {
-    MockUtil.mockIntrospect(done, XHRAuthenticatorRequiredEmail, idxResp => {
+    const mock = XHRAuthenticatorRequiredEmail;
+    MockUtil.mockIntrospect(done, mock, idxResp => {
+      // transformed object with flattened firstlevel objects, idx and remediations array
       const result = transformResponse(testContext.settings, idxResp);
-      expect(result).toEqual({
-        app: {
-          name: 'oidc_client',
-          label: 'Native client',
-          id: '0oa1bowRUq4I8pIfd0g4',
-        },
-        remediations: [
-          {
-            action: expect.any(Function),
-            name: 'challenge-authenticator',
-            rel: ['create-form'],
-            accepts: 'application/vnd.okta.v1+json',
-            href: 'http://localhost:3000/idp/idx/challenge/answer',
-            method: 'POST',
-            value: [
-              {
-                type: 'object',
-                required: true,
-                name: 'credentials',
-                form: {
-                  value: [
-                    {
-                      name: 'passcode',
-                      label: 'Enter code',
-                    },
-                  ],
-                },
-              },
-              {
-                name: 'stateHandle',
-                required: true,
-                value: '02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8',
-                visible: false,
-                mutable: false,
-              },
-            ],
-            relatesTo: XHRAuthenticatorRequiredEmail.currentAuthenticatorEnrollment,
-          },
-          {
-            action: expect.any(Function),
-            name: 'select-authenticator-authenticate',
-            href: 'http://localhost:3000/idp/idx/challenge',
-            method: 'POST',
-            rel: ['create-form'],
-            accepts: 'application/vnd.okta.v1+json',
-            value: [
-              {
-                name: 'authenticator',
-                type: 'object',
-                options: [
-                  {
-                    label: 'Email',
-                    value: {
-                      form: {
-                        value: [
-                          {
-                            name: 'id',
-                            required: true,
-                            value: 'aut1bospdDFs7q3vc0g4',
-                            mutable: false,
-                          },
-                          {
-                            name: 'methodType',
-                            required: false,
-                            value: 'email',
-                            mutable: false,
-                          },
-                        ],
-                      },
-                    },
-                    relatesTo: XHRAuthenticatorRequiredEmail.authenticatorEnrollments.value[0],
-                  },
-                ],
-              },
-              {
-                name: 'stateHandle',
-                required: true,
-                value: '02WTSGqlHUPjoYvorz8T48txBIPe3VUisrQOY4g5N8',
-                visible: false,
-                mutable: false,
-              },
-            ],
-          },
-        ],
-        authenticatorEnrollments: {
-          value: XHRAuthenticatorRequiredEmail.authenticatorEnrollments.value,
-        },
-        currentAuthenticatorEnrollment: XHRAuthenticatorRequiredEmail.currentAuthenticatorEnrollment.value,
-        user: {
-          id: '00u1d4o00DWrRfc5u0g4',
-          identifier: 'testUser@okta.com'
-        },
-        idx: idxResp,
+
+      // Check top-level obhects
+      expect(result.app).toEqual(mock.app.value);
+      expect(result.user).toEqual(mock.user.value);
+      expect(result.currentAuthenticatorEnrollment).toEqual(mock.currentAuthenticatorEnrollment.value);
+      expect(result.authenticatorEnrollments).toEqual({
+        ...mock.authenticatorEnrollments,
+        type: undefined, // type is removed by transformer
       });
+      
+      expect(result.idx).toEqual(idxResp); // raw IDX response is also added at top-level
+
+      // Authenticator is wired up to remediations
+      expect(result.remediations.length).toBe(mock.remediation.value.length);
+      const challengeAuthenticatorRemediation = result.remediations[0];
+      expect(challengeAuthenticatorRemediation).toEqual({
+        ...mock.remediation.value[0],
+        action: expect.any(Function), // action function is added
+        relatesTo: mock.currentAuthenticatorEnrollment // authenticator is wired up
+      });
+      const selectAuthenticatorRemediation = result.remediations[1];
+      expect(selectAuthenticatorRemediation).toEqual({
+        ...mock.remediation.value[1],
+        action: expect.any(Function), // action function is added
+        value: [{
+          ...mock.remediation.value[1].value[0],
+          options: [{
+            ...mock.remediation.value[1].value[0].options[0],
+            relatesTo: mock.authenticatorEnrollments.value[0] // authenticator is wired up
+          }]
+        }, {
+          ...mock.remediation.value[1].value[1] // stateHandle
+        }]
+      });
+      const stateHandleRemediation = result.remediations[2];
+      expect(stateHandleRemediation).toEqual(mock.remediation.value[2]);
     });
   });
 

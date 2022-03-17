@@ -83,9 +83,8 @@ const Body = BaseFormWithPolling.extend(Object.assign(
     },
 
     isRateLimitError(error) {
-      return (error.responseJSON?.errorSummaryKeys?.includes('tooManyRequests') ||
-        error.responseJSON?.errorCode === 'E0000047') &&
-        !error.responseJSON?.errorIntent;
+      return (error.responseJSON?.errorSummaryKeys?.includes('tooManyRequests') // IDX API error
+        || (error.responseJSON?.errorCode === 'E0000047') && !error.responseJSON?.errorIntent); // Standard API error
     },
   },
   email,

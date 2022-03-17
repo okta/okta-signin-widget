@@ -5,7 +5,7 @@ import terminalReturnExpiredEmail from '../../../playground/mocks/data/idp/idx/t
 import terminalRegistrationEmail from '../../../playground/mocks/data/idp/idx/terminal-registration';
 import terminalReturnEmailConsentDenied from '../../../playground/mocks/data/idp/idx/terminal-enduser-email-consent-denied';
 import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
-import sessionExpired from '../../../playground/mocks/data/idp/idx/error-session-expired';
+import sessionExpired from '../../../playground/mocks/data/idp/idx/error-401-session-expired';
 import noPermissionForAction from '../../../playground/mocks/data/idp/idx/error-403-security-access-denied';
 import pollingExpired from '../../../playground/mocks/data/idp/idx/terminal-polling-window-expired';
 import unlockFailed from '../../../playground/mocks/data/idp/idx/error-unlock-account';

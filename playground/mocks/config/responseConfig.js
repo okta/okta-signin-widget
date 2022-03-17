@@ -1,4 +1,5 @@
 /* eslint no-unused-vars: 0 */
+const Test = require('./test-configs');
 
 const idx = {
   // ===== IDX
@@ -1037,5 +1038,5 @@ const selectOktaVerifyMethod = {
 };
 
 module.exports = {
-  mocks: idx,
+  mocks: idx
 };

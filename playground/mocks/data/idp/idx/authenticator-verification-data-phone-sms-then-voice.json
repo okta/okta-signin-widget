@@ -24,7 +24,7 @@
                 {
                   "name":"id",
                   "required":true,
-                  "value":"autxl8PPhwHUpOpW60g3",
+                  "value":"id-phone-authenticator",
                   "mutable":false
                 },
                 {
@@ -234,8 +234,8 @@
       },
       "type":"phone",
       "key": "phone_number",
-      "id":"pae133clYVnptmCwD0g4",
-      "displayName":"autxl8PPhwHUpOpW60g3",
+      "id":"id-phone-authenticator",
+      "displayName":"id-phone-authenticator",
       "methods":[
         {
           "type":"sms"

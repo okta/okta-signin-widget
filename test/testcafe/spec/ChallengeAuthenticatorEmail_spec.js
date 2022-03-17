@@ -20,8 +20,8 @@ import invalidOTPTooManyRequest from '../../../playground/mocks/data/idp/idx/err
 import magicLinkReturnTab from '../../../playground/mocks/data/idp/idx/terminal-return-email';
 import magicLinkExpired from '../../../playground/mocks/data/idp/idx/terminal-return-expired-email';
 import terminalTransferedEmail from '../../../playground/mocks/data/idp/idx/terminal-transfered-email';
-import sessionExpired from '../../../playground/mocks/data/idp/idx/error-session-expired';
-import tooManyRequest from '../../../playground/mocks/data/idp/idx/error-429-too-many-request';
+import sessionExpired from '../../../playground/mocks/data/idp/idx/error-401-session-expired';
+import tooManyRequest from '../../../playground/mocks/data/idp/idx/error-429-authenticator-verification-email-polling';
 import apiLimitExeeeded from '../../../playground/mocks/data/idp/idx/error-429-api-limit-exceeded';
 import emailVerificationSendEmailData from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-email';
 import emailVerificationSendEmailDataNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-email-no-profile';
@@ -119,7 +119,7 @@ const invalidOTPMockWithPoll = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(emailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
-  .respond(emailVerification)  
+  .respond(emailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(invalidEmailOTP, 403);
 
@@ -447,6 +447,9 @@ test
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
     await t.wait(5000);
     await t.expect(challengeEmailPageObject.getErrorFromErrorBox()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
+    
+    // TODO: verify OTP UI is as expected OTP OKTA-480518
+
     // Check no poll requests were made further. There seems to be no way to interrupt a poll with mock response.
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
@@ -638,9 +641,12 @@ test
     )).eql(5);
   });
 
+// TODO: avoid 60 second timeout. OKTA-460622
 test
-  .requestHooks(logger, tooManyRequestPollMock)('pause polling when encounter 429 too many request', async t => {
+  .requestHooks(logger, tooManyRequestPollMock).only('pause polling when encounter 429 too many request', async t => {
     const challengeEmailPageObject = await setup(t);
+
+    await t.wait(5000); // wait for first poll
 
     // Encounter 429
     await t.expect(logger.count(
@@ -655,14 +661,17 @@ test
     await t.wait(100);
     await t.expect(challengeEmailPageObject.form.getErrorBoxCount()).eql(0);
 
-    // Pause for 60 sec before sending request
-    await t.wait(60000);
+    // TODO: verify user can still enter OTP OKTA-480518
+
+    // Widget will pause for 60 sec before sending request
+    await t.wait(61000);
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)
     )).eql(1);
   });
 
+// TODO: avoid 60 second timeout. OKTA-460622
 test
   .requestHooks(logger, apiLimitExceededPollMock)('pause polling when encounter 429 api limit exceeded', async t => {
     const challengeEmailPageObject = await setup(t);
@@ -679,6 +688,8 @@ test
     // No error message
     await t.wait(100);
     await t.expect(challengeEmailPageObject.form.getErrorBoxCount()).eql(0);
+
+    // TODO: verify user can still enter OTP OKTA-480518
 
     // Pause for 60 sec before sending request
     await t.wait(60000);

@@ -3,6 +3,16 @@
   "version":"1.0.0",
   "expiresAt":"2020-06-22T20:28:04.000Z",
   "intent":"LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [{
+      "message": "Too many requests",
+      "i18n": {
+        "key": "tooManyRequests"
+      },
+      "class": "ERROR"
+    }]
+  },
   "remediation":{
     "type":"array",
     "value":[
