@@ -643,7 +643,7 @@ test
 
 // TODO: avoid 60 second timeout. OKTA-460622
 test
-  .requestHooks(logger, tooManyRequestPollMock)('pause polling when encounter 429 too many request', async t => {
+  .requestHooks(logger, tooManyRequestPollMock).only('pause polling when encounter 429 too many request', async t => {
     const challengeEmailPageObject = await setup(t);
 
     await t.wait(5000); // wait for first poll
@@ -663,8 +663,8 @@ test
 
     // TODO: verify user can still enter OTP OKTA-480518
 
-    // Pause for 60 sec before sending request
-    await t.wait(60000);
+    // Widget will pause for 60 sec before sending request
+    await t.wait(61000);
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/poll/)

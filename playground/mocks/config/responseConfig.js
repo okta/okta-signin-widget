@@ -195,10 +195,6 @@ const idx = {
   ]
 };
 
-let mocks = idx;
-
-mocks = Test.IdentifyWithRememberUsername.identifyWithEmailAuthenticator;
-
 const emailActivation = {
   '/idp/idx/introspect': [
     'request-activation-email',
@@ -1042,5 +1038,5 @@ const selectOktaVerifyMethod = {
 };
 
 module.exports = {
-  mocks
+  mocks: idx
 };
