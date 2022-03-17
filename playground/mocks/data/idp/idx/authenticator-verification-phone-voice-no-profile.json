@@ -215,7 +215,7 @@
       "type":"phone",
       "key": "phone_number",
       "id":"id-phone-authenticator",
-      "displayName":"id-phone-authenticatoror",
+      "displayName":"id-phone-authenticator",
       "methods":[
         {
           "type":"voice"

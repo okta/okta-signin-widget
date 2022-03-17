@@ -7,7 +7,7 @@ import success from '../../../playground/mocks/data/idp/idx/terminal-registratio
 const mock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(enrollProfile)
-  .onRequestTo('http://localhost:3000/idp/idx/enroll/new')
+  .onRequestTo('http://localhost:3000/idp/idx/enroll')
   .respond(success);
 
 const logger = RequestLogger(

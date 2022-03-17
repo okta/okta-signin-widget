@@ -1,5 +1,5 @@
 /* eslint no-unused-vars: 0 */
-const Authenticators = require('./authenticators');
+const Test = require('./test-configs');
 
 const idx = {
   // ===== IDX
@@ -197,7 +197,7 @@ const idx = {
 
 let mocks = idx;
 
-mocks = Authenticators.Email.stopPollMock;
+mocks = Test.IdentifyWithRememberUsername.identifyWithEmailAuthenticator;
 
 const emailActivation = {
   '/idp/idx/introspect': [

@@ -137,7 +137,7 @@ describe('v2/ion/uiSchemaTransformer', function() {
       
       // Check top-level obhects
       expect(result.app).toEqual(mock.app.value);
-      expect(result.user).toEqual(mock.user.value)
+      expect(result.user).toEqual(mock.user.value);
       expect(result.currentAuthenticatorEnrollment).toEqual(mock.currentAuthenticatorEnrollment.value);
       expect(result.authenticatorEnrollments).toEqual({
         ...mock.authenticatorEnrollments,
@@ -164,32 +164,24 @@ describe('v2/ion/uiSchemaTransformer', function() {
       });
       const selectAuthenticatorRemediation = result.remediations[1];
       expect(selectAuthenticatorRemediation).toEqual({
-          ...mock.remediation.value[1],
-          action: expect.any(Function), // action function is added
-          value: expect.any(Object), // value is transformed by response transformer
-          uiSchema: [{ // UI schema is added
-            name: 'authenticator',
-            type: 'authenticatorVerifySelect',
-            'label-top': true,
-            'multirowError': true,
-            'data-se': 'o-form-fieldset-authenticator',
-            options: [{
-              label: 'Email',
-              value: {
-                id: 'autx9dMj7YhpMtmXI0g3',
-              },
-              authenticatorKey: 'okta_email',
-              relatesTo: mock.authenticatorEnrollments.value[0],
-            }, {
-              authenticatorKey: 'phone_number',
-              label: "Phone",
-              relatesTo: mock.authenticatorEnrollments.value[1],
-              value: {
-                enrollmentId: "smszlqthjBfkHCb5k0g3",
-                id: "autx9edDchZp2NGHq0g3",
-              },
-            }],
+        ...mock.remediation.value[1],
+        action: expect.any(Function), // action function is added
+        value: expect.any(Object), // value is transformed by response transformer
+        uiSchema: [{ // UI schema is added
+          name: 'authenticator',
+          type: 'authenticatorVerifySelect',
+          'label-top': true,
+          'multirowError': true,
+          'data-se': 'o-form-fieldset-authenticator',
+          options: [{
+            label: 'Email',
+            value: {
+              id: 'aut1bospdDFs7q3vc0g4',
+            },
+            authenticatorKey: 'okta_email',
+            relatesTo: mock.authenticatorEnrollments.value[0],
           }],
+        }],
       });
       const stateHandleRemediation = result.remediations[2];
       expect(stateHandleRemediation).toEqual(mock.remediation.value[2]);

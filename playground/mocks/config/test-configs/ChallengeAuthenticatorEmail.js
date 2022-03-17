@@ -40,7 +40,7 @@ const apiLimitExceededPollMock = {
   '/idp/idx/challenge/poll': [
     'error-429-api-limit-exceeded'
   ]
-}
+};
 
 const dynamicRefreshShortIntervalMock = {
   '/idp/idx/introspect': [
@@ -69,6 +69,18 @@ const stopPollMock = {
   ]
 };
 
+const invalidOTPMockWithPoll = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-email'
+  ],
+  '/idp/idx/challenge/poll': [
+    'authenticator-verification-email'
+  ],
+  '/idp/idx/challenge/answer': [
+    'error-401-invalid-email-otp-passcode'
+  ]
+};
+
 module.exports = {
   sendEmailMock,
   sendEmailMockWithoutEmailMagicLink,
@@ -76,5 +88,6 @@ module.exports = {
   apiLimitExceededPollMock,
   dynamicRefreshShortIntervalMock,
   dynamicRefreshLongIntervalMock,
-  stopPollMock
+  stopPollMock,
+  invalidOTPMockWithPoll
 };

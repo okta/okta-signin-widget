@@ -7,10 +7,8 @@ import xhrIdentifyWithUsername from '../../../playground/mocks/data/idp/idx/iden
 import xhrPassword from '../../../playground/mocks/data/idp/idx/authenticator-verification-password';
 import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
-import xhrSuccessWithInteractionCode from '../../../playground/mocks/data/idp/idx/success-with-interaction-code.json';
 import xhrIdentifyWithPassword from '../../../playground/mocks/data/idp/idx/identify-with-password';
 import emailVerification from '../../../playground/mocks/data/idp/idx/authenticator-verification-email';
-import xhrSuccessTokens from '../../../playground/mocks/data/oauth2/success-tokens';
 
 const identifyWithError = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -50,9 +48,7 @@ const identifyWithEmailAuthenticator = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(emailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-  .respond(xhrSuccessWithInteractionCode)
-  .onRequestTo('http://localhost:3000/oauth2/default/v1/token')
-  .respond(xhrSuccessTokens);
+  .respond(xhrSuccess);
 
 const identifyWithEmailAuthenticatorError = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -194,24 +190,17 @@ test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticatorError)('i
 });
 
 test.requestHooks(identifyRequestLogger, identifyWithEmailAuthenticator)('identifer with email challenge - should remember username after successful authentication', async t => {
-  const optionsForInteractionCodeFlow = {
-    clientId: 'fake',
-    useInteractionCodeFlow: true,
-    authParams: {
-      ignoreSignature: true,
-      pkce: true,
-    },
+  const options = {
     features: {
       rememberMe: true,
       rememberMyUsernameOnOIE: true
     },
-    stateToken: undefined
   };
 
   const identityPage = await setup(t, { render: false });
   await identityPage.mockCrypto();
   await t.setNativeDialogHandler(() => true);
-  await rerenderWidget(optionsForInteractionCodeFlow);
+  await rerenderWidget(options);
 
   await identityPage.fillIdentifierField('testUser@okta.com');
   await identityPage.clickNextButton();

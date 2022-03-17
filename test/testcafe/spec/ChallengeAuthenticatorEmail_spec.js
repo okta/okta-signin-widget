@@ -447,6 +447,9 @@ test
     await t.expect(challengeEmailPageObject.resendEmailView().hasClass('hide')).ok();
     await t.wait(5000);
     await t.expect(challengeEmailPageObject.getErrorFromErrorBox()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
+    
+    // TODO: verify OTP UI is as expected OTP OKTA-480518
+
     // Check no poll requests were made further. There seems to be no way to interrupt a poll with mock response.
     await t.expect(logger.count(
       record => record.response.statusCode === 200 &&
@@ -658,6 +661,8 @@ test
     await t.wait(100);
     await t.expect(challengeEmailPageObject.form.getErrorBoxCount()).eql(0);
 
+    // TODO: verify user can still enter OTP OKTA-480518
+
     // Pause for 60 sec before sending request
     await t.wait(60000);
     await t.expect(logger.count(
@@ -683,6 +688,8 @@ test
     // No error message
     await t.wait(100);
     await t.expect(challengeEmailPageObject.form.getErrorBoxCount()).eql(0);
+
+    // TODO: verify user can still enter OTP OKTA-480518
 
     // Pause for 60 sec before sending request
     await t.wait(60000);

@@ -5,6 +5,8 @@ import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import xhrSuccessWithInteractionCode from '../../../playground/mocks/data/idp/idx/success-with-interaction-code';
 import xhrSuccessTokens from '../../../playground/mocks/data/oauth2/success-tokens';
+import xhrOpenIdConfig from '../../../playground/mocks/data/oauth2/well-known-openid-configuration.json';
+import xhrInteract from '../../../playground/mocks/data/oauth2/interact.json';
 import xhrMagicLinkExpired from '../../../playground/mocks/data/idp/idx/terminal-return-expired-email';
 import xhrIdentifyWithNoAppleCredentialSSOExtension from '../../../playground/mocks/data/idp/idx/identify-with-no-sso-extension';
 import xhrInvalidOTP from '../../../playground/mocks/data/idp/idx/error-401-invalid-otp-passcode';
@@ -288,6 +290,10 @@ test.requestHooks(identifyChallengeMock)('shall back to sign-in and authenticate
 
   // Add mocks for interaction code flow
   const challengeSuccessMock = RequestMock()
+    .onRequestTo('http://localhost:3000/oauth2/default/.well-known/openid-configuration')
+    .respond(xhrOpenIdConfig)
+    .onRequestTo('http://localhost:3000/oauth2/default/v1/interact')
+    .respond(xhrInteract)
     .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
     .respond(xhrSuccessWithInteractionCode)
     .onRequestTo('http://localhost:3000/oauth2/default/v1/token')
