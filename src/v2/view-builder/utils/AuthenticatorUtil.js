@@ -182,8 +182,7 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
 
   case AUTHENTICATOR_KEY.CUSTOM_APP: {
     Object.assign(authenticatorData, {
-      description: '',
-      iconClassName: 'mfa-custom-app',
+      description: '', // TODO: Yet to decide on the description OKTA-480733
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
     });
     break;

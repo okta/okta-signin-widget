@@ -5,7 +5,7 @@ const factorListRowSelector = '.authenticator-list .authenticator-row';
 const factorLabelSelector = `${factorListRowSelector} .authenticator-label`;
 const factorDescriptionSelector = `${factorListRowSelector} .authenticator-description .authenticator-description--text`;
 const factorIconSelector = `${factorListRowSelector} .authenticator-icon-container .authenticator-icon`;
-const factorCustomLogoSelector = `${factorListRowSelector} .authenticator-icon-container .custom-logo`;
+const factorCustomLogoSelector = `${factorListRowSelector} .authenticator-icon-container`;
 const factorSelectButtonDiv = `${factorListRowSelector} .authenticator-button`;
 const factorSelectButtonSelector = `${factorListRowSelector} .authenticator-button .button`;
 const factorUsageTextSelector = `${factorListRowSelector} .authenticator-usage-text`;
@@ -13,6 +13,7 @@ const skipOptionalEnrollmentSelector = '.authenticator-list .skip-all';
 const CUSTOM_SIGN_OUT_LINK_SELECTOR = '.auth-footer .js-cancel';
 const CUSTOM_OTP_BUTTON_SELECTOR = '.authenticator-list .authenticator-row:nth-child(12) .authenticator-button a';
 const IDENTIFIER_FIELD = 'identifier';
+const CUSTOM_LOGO_SELECTOR = '.custom-logo';
 
 export default class SelectFactorPageObject extends BasePageObject {
   constructor(t) {
@@ -41,7 +42,7 @@ export default class SelectFactorPageObject extends BasePageObject {
   }
 
   async factorCustomLogoExist(index) {
-    const elCount = await this.form.getElement(factorCustomLogoSelector).nth(index).count;
+    const elCount = await this.form.getElement(factorCustomLogoSelector).nth(index).find(CUSTOM_LOGO_SELECTOR).count;
     return elCount === 1;
   }
 
