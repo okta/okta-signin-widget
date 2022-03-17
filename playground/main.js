@@ -18,6 +18,25 @@ function createWidgetInstance(options = {}) {
   return signIn;
 }
 
+function showUserLogin(resp) {
+  const loginE = document.getElementById('okta-login-container');
+  loginE.setAttribute('style', 'display: none');
+
+  const email = resp.tokens.idToken.claims.email;
+  const issuer = resp.tokens.idToken.claims.iss;
+  const idToken = resp.tokens.idToken.idToken;
+
+  const h2 = document.createElement('h2');
+  h2.innerText = `Hello, ${email}`;
+  document.getElementsByTagName('body')[0].appendChild(h2);
+
+  const logout = document.createElement('a');
+  const logoutUrl = `${issuer}/v1/logout?id_token_hint=${idToken}&post_logout_redirect_uri=https://localhost:3000`;
+  logout.setAttribute('href', logoutUrl);
+  logout.innerText = 'Logout';
+  document.getElementsByTagName('body')[0].appendChild(logout);
+};
+
 if (typeof OktaSignIn === 'undefined') {
   // Make sure OktaSignIn is available
   setTimeout(() => window.location.reload(), 2 * 1000);
@@ -55,12 +74,13 @@ const renderPlaygroundWidget = (options = {}) => {
       //    an array of tokens or a single token, depending on the
       //    initial configuration.
       else if (Array.isArray(res)) {
-        console.log(JSON.stringify(res));
+        console.log(JSON.stringify(res, null, 2));
         alert('SUCCESS: OIDC with multiple responseTypes. Check console.');
       }
       else {
-        console.log(JSON.stringify(res));
-        alert('SUCCESS: OIDC with single responseType. Check Console');
+        console.log(JSON.stringify(res, null, 2));
+        showUserLogin(res);
+        // alert('SUCCESS: OIDC with single responseType. Check Console');
       }
     },
 

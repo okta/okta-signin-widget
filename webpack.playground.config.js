@@ -59,6 +59,7 @@ module.exports = {
   },
   devServer: {
     host: HOST,
+    https: true,
     static: [
       PLAYGROUND,
       TARGET,
@@ -70,7 +71,7 @@ module.exports = {
     ],
     historyApiFallback: true,
     headers: {
-      'Content-Security-Policy': `script-src http://${HOST}:${DEV_SERVER_PORT}`
+      'Content-Security-Policy': `script-src https://${HOST}:${DEV_SERVER_PORT}`
     },
     compress: true,
     port: DEV_SERVER_PORT,

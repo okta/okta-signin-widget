@@ -46,7 +46,8 @@ const AuthenticatorRow = View.extend({
 
 export default ListView.extend({
 
-  className: 'authenticator-verify-list authenticator-list',
+  // HCAK: hide enroll list as it's unlikely we need to show it.
+  className: 'authenticator-verify-list authenticator-list hide',
 
   item: AuthenticatorRow,
 
@@ -54,6 +55,13 @@ export default ListView.extend({
 
   initialize: function() {
     this.listenTo(this.collection,'selectAuthenticator', this.handleSelect);
+
+    const webauthnFactors = this.collection.filter(m => m.get('authenticatorKey') === 'webauthn');
+    // HACK: auto trigger webauthn challenge
+    // window.disableAutoWebauthn in case cannot verify with webauthn.
+    if (!window.__hwDisableAutoWebauthn__ && webauthnFactors.length === 1) {
+      this.collection.trigger('selectAuthenticator', webauthnFactors[0].get('value'));
+    }
   },
 
   handleSelect(data) {

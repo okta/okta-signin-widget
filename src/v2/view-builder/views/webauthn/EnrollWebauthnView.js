@@ -1,5 +1,5 @@
 import { _, loc, createCallout, createButton } from 'okta';
-import { BaseForm } from '../../internals';
+import { BaseForm, BaseFooter } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import webauthn from '../../../../util/webauthn';
 import CryptoUtil from '../../../../util/CryptoUtil';
@@ -36,10 +36,24 @@ const Body = BaseForm.extend({
       });
       schema.push({
         View: createButton({
-          className: 'webauthn-setup button button-primary button-wide',
+          className: 'webauthn-setup button button-primary',
           title: loc('oie.enroll.webauthn.save', 'login'),
           click: () => {
             this.triggerWebauthnPrompt();
+          },
+        }),
+      });
+
+      // HACK: add skip button at webauthn enroll page
+      schema.push({
+        View: createButton({
+          className: 'button',
+          title: 'Skip',
+          click: () => {
+            this.options.appState.trigger(
+              'invokeAction',
+              'skip'
+            );
           },
         }),
       });
@@ -102,6 +116,8 @@ const Body = BaseForm.extend({
 
 export default BaseAuthenticatorView.extend({
   Body,
+  // HACK: remove back to authenticator list link
+  Footer: BaseFooter,
   postRender() {
     BaseAuthenticatorView.prototype.postRender.apply(this, arguments);
     this.$el.find('.o-form-button-bar [type="submit"]').remove();

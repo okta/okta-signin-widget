@@ -40,6 +40,27 @@ const AuthenticatorRow = View.extend({
       }
     }), '.authenticator-button']];
   },
+
+/*
+authenticatorKey: "webauthn"
+buttonDataSeAttr: "webauthn"
+description: "Use a security key or a biometric authenticator to sign in"
+iconClassName: "mfa-webauthn"
+label: "Security Key or Biometric Authenticator"
+relatesTo: {type: 'security_key', key: 'webauthn', id: 'aut8txnehDjoXSome0w6', displayName: 'Security Key or Biometric', methods: Array(1)}
+value: id: "aut8txnehDjoXSome0w6"
+   */
+
+  /*
+    1. [X] auto trigger webauthn at enroll
+    1. [x] auto skip when no webauthn
+    2. [X] display skip button in webauthn enroll page
+    3. [X] hide return to authenticator list link
+    4. [X] at select enroll page, if no webauthn, try skip directly.
+    5. [-] at select verify page
+      - [X] auto select webauthn
+      - otherwise, auto select email
+   */
   minimize: function() {
     this.$el.addClass('authenticator-row-min');
   }
@@ -47,7 +68,8 @@ const AuthenticatorRow = View.extend({
 
 export default ListView.extend({
 
-  className: 'authenticator-enroll-list authenticator-list',
+  // HCAK: hide enroll list as it's unlikely we need to show it.
+  className: 'authenticator-enroll-list authenticator-list hide',
 
   item: AuthenticatorRow,
 
@@ -58,9 +80,22 @@ export default ListView.extend({
       this.model.set(this.options.name, data);
       this.options.appState.trigger('saveForm', this.model);
     });
+
+    // HACK
+    const webauthnFactors = this.collection.filter(m => m.get('authenticatorKey') === 'webauthn');
+
     this.hasOptionalFactors = this.options.appState.hasRemediationObject(RemediationForms.SKIP);
     if (this.hasOptionalFactors) {
       this.add(skipAll);
+    }
+
+    if (webauthnFactors.length === 1) {
+      this.collection.trigger('selectAuthenticator', webauthnFactors[0].get('value'));
+    }
+    // HACK: skip whenever there is no webauthn.
+    if (webauthnFactors.length === 0 && this.hasOptionalFactors) {
+       this.options.appState.trigger('invokeAction', RemediationForms.SKIP);
+       //TODO: how to reuse skipAll.click();
     }
   },
 

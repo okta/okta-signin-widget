@@ -2,6 +2,7 @@ import { View, _, $} from 'okta';
 import Link from '../components/Link';
 import ToggleTextLink from '../components/ToggleTextLink';
 import { getSignOutLink } from '../utils/LinksUtil';
+import hbs from 'handlebars-inline-precompile';
 
 /**
  * When `href` is present, the Link behaviors as normal link (anchor element).
@@ -76,6 +77,12 @@ export default View.extend({
       }));
 
       this.add(footerInfo, '.footer-info');
+      // HACK: purely for demo
+      this.add(View.extend({
+        className: 'signup-info',
+        template: hbs`<span>Traditional password</span>
+          <span class="signup-link"><a data-se="enroll" href="#" class="link js-enroll">Sign Up</a></span>`,
+      }), '.footer-info');
     }
   }
 });
