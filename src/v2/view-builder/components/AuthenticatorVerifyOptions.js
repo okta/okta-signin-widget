@@ -62,6 +62,7 @@ export default ListView.extend({
     if (!window.__hwDisableAutoWebauthn__ && webauthnFactors.length === 1) {
       this.collection.trigger('selectAuthenticator', webauthnFactors[0].get('value'));
     }
+    // TODO: if only one factor, select it automatically.
   },
 
   handleSelect(data) {
