@@ -57,7 +57,9 @@ describe('v2/utils/LinksUtil', function() {
         'helpLinks.factorPage.text': 'custom factor page link',
         'helpLinks.factorPage.href': 'https://acme.com/what-is-okta-autheticators',
       });
-      expect(getFactorPageCustomLink(appState, settings).length).toEqual(1);
+      const factorPageCustomLink = getFactorPageCustomLink(appState, settings);
+      expect(factorPageCustomLink.length).toEqual(1);
+      expect(factorPageCustomLink[0].target).toEqual('_blank');
     });
 
     it('returns empty when is not select-authenticator-authenticate', function() {

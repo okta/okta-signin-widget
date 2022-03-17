@@ -23,7 +23,8 @@ const Link = View.extend({
     let href = this.options.href || '#';
     return {
       'data-se': this.options.name,
-      href: href
+      href: href,
+      target: this.options.target,
     };
   },
 

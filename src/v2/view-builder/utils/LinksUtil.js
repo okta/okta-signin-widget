@@ -180,6 +180,7 @@ const getFactorPageCustomLink = (appState, settings) => {
         label: helpLinksFactorPageLabel,
         name: 'factorPageHelpLink',
         href: helpLinksFactorPageHref,
+        target: '_blank',
       });
     }
   }
