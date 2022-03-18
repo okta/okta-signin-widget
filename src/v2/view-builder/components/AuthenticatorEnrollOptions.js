@@ -13,6 +13,7 @@ import { ListView, loc, View, createButton } from 'okta';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import skipAll from './SkipOptionalEnrollmentButton';
 import hbs from 'handlebars-inline-precompile';
+import { AUTHENTICATOR_ALLOWED_FOR_OPTIONS } from '../utils/Constants';
 
 const AuthenticatorRow = View.extend({
   className: 'authenticator-row clearfix',
@@ -51,25 +52,22 @@ const AuthenticatorRow = View.extend({
 
     if (allowedFor) {
       switch (allowedFor) {
-      case 'any':
+      case AUTHENTICATOR_ALLOWED_FOR_OPTIONS.ANY:
         authenticatorUsageText = loc('oie.enroll.authenticator.usage.text.access.recovery', 'login');
         break;
-      case 'recovery':
+      case AUTHENTICATOR_ALLOWED_FOR_OPTIONS.RECOVERY:
         authenticatorUsageText = loc('oie.enroll.authenticator.usage.text.recovery', 'login');
         break;
-      case 'sso':
+      case AUTHENTICATOR_ALLOWED_FOR_OPTIONS.SSO:
         authenticatorUsageText = loc('oie.enroll.authenticator.usage.text.access', 'login');
         break;
       }
     }
 
-    return {
-      authenticatorUsageText,
-      iconClassName: this.model.get('iconClassName'),
-      label: this.model.get('label'),
-      description: this.model.get('description'),
-      buttonDataSeAttr: this.model.get('buttonDataSeAttr'),
-    };
+    const data = View.prototype.getTemplateData.apply(this, arguments);
+    data.authenticatorUsageText = authenticatorUsageText;
+
+    return data;
   },
 });
 
