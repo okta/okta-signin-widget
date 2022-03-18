@@ -1,7 +1,11 @@
 import { $, createCallout, _ } from 'okta';
 import { BaseFormWithPolling } from '../../internals';
 import Logger from '../../../../util/Logger';
-import { CHALLENGE_TIMEOUT } from '../../utils/Constants';
+import {
+  REQUEST_PARAM_AUTHENTICATION_CANCEL_REASON,
+  AUTHENTICATION_CANCEL_REASONS,
+  CHALLENGE_TIMEOUT
+} from '../../utils/Constants';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import { doChallenge, getBiometricsErrorOptions } from '../../utils/ChallengeViewUtil';
 
@@ -90,10 +94,27 @@ const Body = BaseFormWithPolling.extend(Object.assign(
         Logger.error(`Something unexpected happened while we were checking port ${currentPort}.`);
       };
 
+      const cancelPollingWithParams = (cancelReason) => {
+        const actionParams = {};
+        actionParams[REQUEST_PARAM_AUTHENTICATION_CANCEL_REASON] = cancelReason;
+        this.options.appState.trigger('invokeAction', 'currentAuthenticator-cancel', actionParams);
+      };
+
       const doProbing = () => {
         return checkPort()
           // TODO: can we use standard ES6 promise methods, then/catch?
-          .done(onPortFound)
+          .done(() => {
+            return onPortFound()
+              .done(() => {
+                // once the OV challenge succeeds,
+                // triggers another polling right away without waiting for the next ongoing polling to be triggered
+                // to make the authentication flow goes faster 
+                return this.trigger('save', this.model);
+              })
+              .fail(() => {
+                cancelPollingWithParams(AUTHENTICATION_CANCEL_REASONS.OV_ERROR);
+              });
+          })
           .fail(onFailure);
       };
 
@@ -111,7 +132,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
             Logger.error(`Authenticator is not listening on port ${currentPort}.`);
             if (countFailedPorts === ports.length) {
               Logger.error('No available ports. Loopback server failed and polling is cancelled.');
-              this.options.appState.trigger('invokeAction', 'currentAuthenticator-cancel');
+              cancelPollingWithParams(AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE);
             }
           });
       });
