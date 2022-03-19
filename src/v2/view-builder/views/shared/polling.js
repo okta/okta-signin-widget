@@ -6,6 +6,9 @@ export default {
     this.fixedPollingInterval = this.options.currentViewState.refresh;
     this.dynamicPollingInterval = newRefreshInterval;
     this.countDownCounterValue = Math.ceil(this.pollingInterval / MS_PER_SEC);
+    this._stopPolling = this.stopPolling.bind(this);
+    this.options.appState.on('cancelPolling', this._stopPolling);
+
     // Poll is present in remediation form
     if (this.fixedPollingInterval) {
       this._startRemediationPolling();
@@ -52,5 +55,6 @@ export default {
       clearTimeout(this.polling);
       this.polling = null;
     }
+    this.options.appState.off('cancelPolling', this._stopPolling);
   }
 };
