@@ -92,7 +92,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
 
 
       const cancelPolling = () => {
-        this.options.appState.trigger('invokeAction', 'currentAuthenticator-cancel');
+        this.options.appState.trigger('invokeAction', 'currentAuthenticator-cancel', {loopback: 'cancel poll triggered'});
       };
 
       const doProbing = () => {

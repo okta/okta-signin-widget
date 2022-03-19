@@ -1,4 +1,4 @@
 module.exports = {
-  path: '/challenge',
+  path: 'fake/challenge',
   method: 'POST',
 };
