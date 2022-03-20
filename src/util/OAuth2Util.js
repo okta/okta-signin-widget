@@ -78,6 +78,7 @@ util.getTokens = function(settings, params, controller) {
     }
 
     Util.triggerAfterError(controller, new Errors.OAuthError(error.message), settings);
+    settings.callGlobalError(error);
   }
 
   const authClient = settings.getAuthClient();
