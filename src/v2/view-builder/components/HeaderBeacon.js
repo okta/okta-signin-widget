@@ -25,7 +25,6 @@ const BeaconView = View.extend({
       {{else}}
       <div class="bg-helper auth-beacon auth-beacon-factor {{className}}" data-se="factor-beacon">
       {{/if}}
-       
           <div class="okta-sign-in-beacon-border auth-beacon-border"></div>
         </div>
     </div >

@@ -8,7 +8,6 @@ const AUTO_CHALLENGE_CHECKBOX_SELECTOR = '[name$="autoChallenge"]';
 const AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR = '[data-se-for-name$="autoChallenge"]';
 const FACTOR_BEACON = '.auth-beacon.auth-beacon-factor';
 
-
 export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPageObject {
   constructor(t) {
     super(t);
