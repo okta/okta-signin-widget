@@ -15,7 +15,7 @@ const getSwitchAuthenticatorLink = (appState) => {
     ];
   }
 
-  if (appState.getRemediationAuthenticationOptions(RemediationForms.SELECT_AUTHENTICATOR_ENROLL).length > 1) {
+  if (appState.getRemediationAuthenticationOptions(RemediationForms.SELECT_AUTHENTICATOR_ENROLL).length >= 1) {
     return [
       {
         'type': 'link',

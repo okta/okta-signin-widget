@@ -1044,6 +1044,13 @@ const selectOktaVerifyMethod = {
   ],
 };
 
+const test = {
+  '/idp/idx/introspect': [
+    // 'test-skip',
+    'test'
+  ],
+};
+
 module.exports = {
-  mocks: idx
+  mocks: test
 };

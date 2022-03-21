@@ -4,11 +4,19 @@ import { getSwitchAuthenticatorLink, getFactorPageCustomLink } from 'v2/view-bui
 import Settings from '../../../../../../src/models/Settings';
 
 describe('v2/utils/LinksUtil', function() {
+<<<<<<< HEAD
   const mockAppState = (remediationFormName, hasMoreThanOneAuthenticator, isPasswordRecovery) => {
+=======
+  const mockAppState = (remediationFormName, hasMoreThanOneAuthenticator, hasOneAuthenticator) => {
+>>>>>>> 7cf33986 (fix: show link to return to authenticator list)
     const appState = new AppState();
     jest.spyOn(appState, 'getRemediationAuthenticationOptions').mockImplementation(formName => {
-      if (formName === remediationFormName && hasMoreThanOneAuthenticator) {
-        return [ { label: 'some authenticator '}, { label: 'another authenticator' } ];
+      if (formName === remediationFormName) {
+        if (hasMoreThanOneAuthenticator) {
+          return [ { label: 'some authenticator '}, { label: 'another authenticator' } ];
+        } else if (hasOneAuthenticator) {
+          return [ { label: 'some authenticator '} ];
+        }
       }
       return [];
     });
@@ -42,8 +50,13 @@ describe('v2/utils/LinksUtil', function() {
         expect(getSwitchAuthenticatorLink(appState).length).toEqual(1);
       });
 
-      it('returns empty when just one authenticator available', function() {
-        const appState = mockAppState(FORMS.SELECT_AUTHENTICATOR_ENROLL, false);
+      it('returns a link when just one authenticator available', function() {
+        const appState = mockAppState(FORMS.SELECT_AUTHENTICATOR_ENROLL, false, true);
+        expect(getSwitchAuthenticatorLink(appState).length).toEqual(1);
+      });
+
+      it('returns empty when there is no authenticator available', function() {
+        const appState = mockAppState(FORMS.SELECT_AUTHENTICATOR_ENROLL, false, false);
         expect(getSwitchAuthenticatorLink(appState).length).toEqual(0);
       });
     });
