@@ -7,6 +7,7 @@ const factorDescriptionSelector = `${factorListRowSelector} .authenticator-descr
 const factorIconSelector = `${factorListRowSelector} .authenticator-icon-container .authenticator-icon`;
 const factorSelectButtonDiv = `${factorListRowSelector} .authenticator-button`;
 const factorSelectButtonSelector = `${factorListRowSelector} .authenticator-button .button`;
+const factorUsageTextSelector = `${factorListRowSelector} .authenticator-usage-text`;
 const skipOptionalEnrollmentSelector = '.authenticator-list .skip-all';
 const CUSTOM_SIGN_OUT_LINK_SELECTOR = '.auth-footer .js-cancel';
 const CUSTOM_OTP_BUTTON_SELECTOR = '.authenticator-list .authenticator-row:nth-child(12) .authenticator-button a';
@@ -72,6 +73,15 @@ export default class SelectFactorPageObject extends BasePageObject {
 
   getIndetifierError() {
     return this.form.getTextBoxErrorMessage(IDENTIFIER_FIELD);
+  }
+
+  async factorUsageTextExistsByIndex(index) {
+    const elCount = await this.form.getElement(factorListRowSelector).nth(index).find(factorUsageTextSelector).count;
+    return elCount === 1;
+  }
+
+  getFactorUsageTextByIndex(index) {
+    return this.form.getElement(factorListRowSelector).nth(index).find(factorUsageTextSelector).textContent;
   }
 
 }

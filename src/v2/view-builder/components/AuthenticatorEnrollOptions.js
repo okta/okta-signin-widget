@@ -13,22 +13,25 @@ import { ListView, loc, View, createButton } from 'okta';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
 import skipAll from './SkipOptionalEnrollmentButton';
 import hbs from 'handlebars-inline-precompile';
+import { AUTHENTICATOR_ALLOWED_FOR_OPTIONS } from '../utils/Constants';
 
 const AuthenticatorRow = View.extend({
   className: 'authenticator-row clearfix',
-  template: hbs('\
-        <div class="authenticator-icon-container">\
-          <div class="factor-icon authenticator-icon {{iconClassName}}">\
-          </div>\
-        </div>\
-        <div class="authenticator-description">\
-          <h3 class="authenticator-label no-translate">{{label}}</h3>\
-          {{#if description}}\
-            <p class="authenticator-description--text">{{description}}</p>\
-          {{/if}}\
-          <div class="authenticator-button" {{#if buttonDataSeAttr}}data-se="{{buttonDataSeAttr}}"{{/if}}></div>\
-        </div>\
-      '),
+  template: hbs`
+    <div class="authenticator-icon-container">
+      <div class="factor-icon authenticator-icon {{iconClassName}}"></div>
+    </div>
+    <div class="authenticator-description">
+      <h3 class="authenticator-label no-translate">{{label}}</h3>
+      {{#if description}}
+        <p class="authenticator-description--text">{{description}}</p>
+      {{/if}}
+      {{#if authenticatorUsageText}}
+        <p class="authenticator-usage-text">{{authenticatorUsageText}}</p>
+      {{/if}}
+      <div class="authenticator-button" {{#if buttonDataSeAttr}}data-se="{{buttonDataSeAttr}}"{{/if}}></div>
+    </div>
+  `,
   children: function() {
     return [[createButton({
       className: 'button select-factor',
@@ -42,7 +45,30 @@ const AuthenticatorRow = View.extend({
   },
   minimize: function() {
     this.$el.addClass('authenticator-row-min');
-  }
+  },
+  getTemplateData() {
+    let authenticatorUsageText;
+    const allowedFor = this.model.get('relatesTo').allowedFor;
+
+    if (allowedFor) {
+      switch (allowedFor) {
+      case AUTHENTICATOR_ALLOWED_FOR_OPTIONS.ANY:
+        authenticatorUsageText = loc('oie.enroll.authenticator.usage.text.access.recovery', 'login');
+        break;
+      case AUTHENTICATOR_ALLOWED_FOR_OPTIONS.RECOVERY:
+        authenticatorUsageText = loc('oie.enroll.authenticator.usage.text.recovery', 'login');
+        break;
+      case AUTHENTICATOR_ALLOWED_FOR_OPTIONS.SSO:
+        authenticatorUsageText = loc('oie.enroll.authenticator.usage.text.access', 'login');
+        break;
+      }
+    }
+
+    const data = View.prototype.getTemplateData.apply(this, arguments);
+    data.authenticatorUsageText = authenticatorUsageText;
+
+    return data;
+  },
 });
 
 export default ListView.extend({
