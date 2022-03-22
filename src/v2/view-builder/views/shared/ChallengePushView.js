@@ -28,7 +28,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       // 'hasSavingState' would be true by default.
       // Setting it to false when auth key is okta_verify or custom_app with autochallenge schema
       // So that 'o-form-saving' css class is not added while polling and checkbox remains enabled.
-      if (this.isOVWithAutoChallenge() || this.isCustomAppAutoChallenge()) {
+      if (this.isOVWithAutoChallenge() || this.isCustomAppWithAutoChallenge()) {
         this.hasSavingState = false;
       }
       this.listenTo(this.model, 'error', this.stopPoll);
@@ -54,7 +54,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       // Move checkbox below the button
       // Checkbox is rendered by BaseForm using remediation response and
       // hence by default always gets added above buttons.
-      if (this.isOVWithAutoChallenge() || this.isCustomAppAutoChallenge()) {
+      if (this.isOVWithAutoChallenge() || this.isCustomAppWithAutoChallenge()) {
         const checkbox = this.$el.find('[data-se="o-form-fieldset-autoChallenge"]');
         checkbox.length && this.$el.find('.o-form-fieldset-container').append(checkbox);
       }
@@ -112,7 +112,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       return this.isOV() && this.options.appState.getSchemaByName('autoChallenge');
     },
 
-    isCustomAppAutoChallenge(){
+    isCustomAppWithAutoChallenge(){
       return this.isCustomApp() && this.options.appState.getSchemaByName('autoChallenge');
     }
   },

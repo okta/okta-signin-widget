@@ -45,7 +45,7 @@
             "type": "object",
             "options": [
               {
-                "label": "Atko Corp Authenticator OV FFs off test",
+                "label": "Custom Push Authenticator",
                 "value": {
                   "form": {
                     "value": [
@@ -190,9 +190,9 @@
       },
       "type": "app",
       "key": "custom_app",
-      "logoUri": "/assets/img/icons/mfa/custom_app.svg",
+      "logoUri": "/assets/img/icons/mfa/signal-transparent.svg",
       "id": "pfdhz52NLT6aWceDQ0g4",
-      "displayName": "Atko Corp Authenticator OV FFs off test",
+      "displayName": "Custom Push Authenticator",
       "methods": [
         {
           "type": "push"
@@ -207,8 +207,8 @@
         "type": "app",
         "key": "custom_app",
         "id": "authz4tA5ttKp7GoQ0g4",
-        "displayName": "Atko Corp Authenticator OV FFs off test",
-        "logoUri": "/assets/img/icons/mfa/custom_app.svg",
+        "displayName": "Custom Push Authenticator",
+        "logoUri": "/assets/img/icons/mfa/signal-transparent.svg",
         "methods": [
           {
             "type": "push"
@@ -262,9 +262,9 @@
         },
         "type": "app",
         "key": "custom_app",
-        "logoUri": "/assets/img/icons/mfa/custom_app.svg",
+        "logoUri": "/assets/img/icons/mfa/signal-transparent.svg",
         "id": "pfdhz52NLT6aWceDQ0g4",
-        "displayName": "Atko Corp Authenticator OV FFs off test",
+        "displayName": "Custom Push Authenticator",
         "methods": [
           {
             "type": "push"

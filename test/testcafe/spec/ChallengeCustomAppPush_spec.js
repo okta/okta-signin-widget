@@ -95,8 +95,8 @@ test
     await t.expect(pushBtn.textContent).contains('Push notification sent');
     await t.expect(a11ySpan.textContent).contains('Push notification sent');
     await t.expect(pushBtn.hasClass('link-button-disabled')).ok();
-    await t.expect(logoClass).contains('custom-logo');
-    await t.expect(pageTitle).contains('Verify with Atko Corp Authenticator OV FFs off test');
+    await t.expect(logoClass).contains('custom-app-logo');
+    await t.expect(pageTitle).contains('Verify with Custom Push Authenticator');
     await t.expect(checkboxLabel.hasClass('checked')).ok();
     await t.expect(checkboxLabel.textContent).eql('Send push automatically');
 

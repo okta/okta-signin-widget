@@ -25,7 +25,6 @@ const getButtonDataSeAttr = function(authenticator) {
 };
 
 /* eslint complexity: [0, 0] */
-// eslint-disable-next-line max-statements
 const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   const authenticatorKey = authenticator.authenticatorKey;
   const key = _.isString(authenticatorKey) ? authenticatorKey.toLowerCase() : '';
@@ -182,18 +181,16 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
 
   case AUTHENTICATOR_KEY.CUSTOM_APP: {
     Object.assign(authenticatorData, {
-      description: '', // TODO: Yet to decide on the description OKTA-480733
+      description: isVerifyAuthenticator
+        ? ''
+        : loc('oie.custom.app.authenticator.description', 'login', [authenticator.label]),
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      logoUri : authenticator?.relatesTo?.logoUri || ''
     });
     break;
   }
 
   }
-  // Add logo URI, Logo URI must take precedence than icon class name
-  if(authenticator?.relatesTo?.logoUri) {
-    authenticatorData.logoUri = authenticator.relatesTo.logoUri;
-  }
-
   return authenticatorData;
 };
 

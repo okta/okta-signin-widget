@@ -178,7 +178,7 @@
       "key":"custom_app",
       "id":"aut198w4v0f8dr8gT0g4",
       "displayName":"Custom Push",
-      "logoUri":"/assets/img/icons/mfa/custom_app.svg",
+      "logoUri":"/assets/img/icons/mfa/signal-transparent.svg",
       "methods":[
         {
           "type":"push"
@@ -194,7 +194,7 @@
         "key":"custom_app",
         "id":"aut198w4v0f8dr8gT0g4",
         "displayName":"Custom Push",
-        "logoUri":"/assets/img/icons/mfa/custom_app.svg",
+        "logoUri":"/assets/img/icons/mfa/signal-transparent.svg",
         "methods":[
           {
             "type":"push"

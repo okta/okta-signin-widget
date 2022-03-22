@@ -5,7 +5,7 @@ const consentLogoHeaderTemplate = hbs`{{#if clientURI}}
 {{/if}}
 {{#if customLogo}}
   <img
-    class="client-logo custom-logo"
+    class="client-logo custom-app-logo"
     src="{{customLogo}}"
     alt="{{i18n code="common.logo.alt" bundle="login"}}"
     aria-hidden="true" />
