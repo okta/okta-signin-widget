@@ -676,6 +676,8 @@ test
   .requestHooks(logger, apiLimitExceededPollMock)('pause polling when encounter 429 api limit exceeded', async t => {
     const challengeEmailPageObject = await setup(t);
 
+    await t.wait(5000); // wait for first poll
+
     // Encounter 429
     await t.expect(logger.count(
       record => record.response.statusCode === 429 &&
