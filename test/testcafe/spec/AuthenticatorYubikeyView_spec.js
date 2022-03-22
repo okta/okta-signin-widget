@@ -1,5 +1,5 @@
 import { RequestMock, RequestLogger } from 'testcafe';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, renderWidget } from '../framework/shared';
 import YubiKeyAuthenticatorPageObject from '../framework/page-objects/YubiKeyAuthenticatorPageObject';
 import xhrEnrollYubiKeyAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-enroll-yubikey';
 import xhrVerifyYubiKeyAuthenticator from '../../../playground/mocks/data/idp/idx/authenticator-verification-yubikey';
@@ -105,3 +105,19 @@ test
     pageObject.form.waitForErrorBox();
     await t.expect(pageObject.form.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
   });
+
+test.requestHooks(verifyMock)('should show custom factor page link', async t => {
+  const pageObject = await setup(t);
+
+  await renderWidget({
+    helpLinks: {
+      factorPage: {
+        text: 'custom factor page link',
+        href: 'https://acme.com/what-is-okta-autheticators'
+      }
+    }
+  });
+
+  await t.expect(pageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
+  await t.expect(pageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
+});

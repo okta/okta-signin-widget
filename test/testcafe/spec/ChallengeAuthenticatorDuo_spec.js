@@ -126,3 +126,19 @@ test.requestHooks(answerRequestLogger, verificationFailedMock)('verification fai
   await duoPageObject.form.waitForErrorBox();
   await t.expect(duoPageObject.form.getErrorBoxText()).eql('We were unable to verify with Duo. Try again.');
 });
+
+test.requestHooks(mock)('should show custom factor page link', async t => {
+  const challengeDuoPage = await setup(t);
+
+  await renderWidget({
+    helpLinks: {
+      factorPage: {
+        text: 'custom factor page link',
+        href: 'https://acme.com/what-is-okta-autheticators'
+      }
+    }
+  });
+
+  await t.expect(challengeDuoPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
+  await t.expect(challengeDuoPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
+});

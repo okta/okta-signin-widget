@@ -1,8 +1,9 @@
 import { BaseFooter } from '../internals';
-import { getSwitchAuthenticatorLink } from '../utils/LinksUtil';
+import { getFactorPageCustomLink, getSwitchAuthenticatorLink } from '../utils/LinksUtil';
 
 export default BaseFooter.extend({
   links() {
-    return getSwitchAuthenticatorLink(this.options.appState);
-  }
+    return getFactorPageCustomLink(this.options.appState, this.options.settings)
+      .concat(getSwitchAuthenticatorLink(this.options.appState));
+  },
 });

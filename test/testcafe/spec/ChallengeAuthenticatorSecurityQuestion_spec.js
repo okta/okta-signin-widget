@@ -2,7 +2,7 @@ import { RequestMock, RequestLogger } from 'testcafe';
 
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengeSecurityQuestionPageObject from '../framework/page-objects/ChallengeSecurityQuestionPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, renderWidget } from '../framework/shared';
 
 import xhrAuthenticatorVerifySecurityQuestion from '../../../playground/mocks/data/idp/idx/authenticator-verification-security-question';
 import success from '../../../playground/mocks/data/idp/idx/success';
@@ -66,4 +66,20 @@ test.requestHooks(answerRequestLogger, authenticatorRequiredSecurityQuestionMock
   });
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/challenge/answer');
+});
+
+test.requestHooks(authenticatorRequiredSecurityQuestionMock)('should show custom factor page link', async t => {
+  const challengeSecurityQuestionPageObject = await setup(t);
+
+  await renderWidget({
+    helpLinks: {
+      factorPage: {
+        text: 'custom factor page link',
+        href: 'https://acme.com/what-is-okta-autheticators'
+      }
+    }
+  });
+
+  await t.expect(challengeSecurityQuestionPageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
+  await t.expect(challengeSecurityQuestionPageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
 });
