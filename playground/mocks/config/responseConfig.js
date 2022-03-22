@@ -526,7 +526,7 @@ const userVerificationAppLinkBiometricsError = {
     'authenticator-verification-okta-verify-signed-nonce-app-link',
   ],
   '/idp/idx/authenticators/poll': [
-    'error-okta-verify-uv-fastpass-verify-enable-biometrics-mobile',
+    'error-400-okta-verify-uv-fastpass-verify-enable-biometrics-mobile',
   ],
 };
 
@@ -546,7 +546,7 @@ const userVerificationCredentialSSOExtensionBiometricsError = {
     'authenticator-verification-okta-verify-signed-nonce-credential-sso-extension'
   ],
   '/idp/idx/authenticators/sso_extension/transactions/:transactionId/verify': [
-    'error-okta-verify-uv-fastpass-verify-enable-biometrics-mobile'
+    'error-400-okta-verify-uv-fastpass-verify-enable-biometrics-mobile'
     //'error-okta-verify-uv-fastpass-verify-enable-biometrics-desktop'
   ],
 };
@@ -573,7 +573,7 @@ const userVerificationUniversalLinkBiometricsError = {
     'authenticator-verification-okta-verify-signed-nonce-universal-link',
   ],
   '/idp/idx/authenticators/poll': [
-    'error-okta-verify-uv-fastpass-verify-enable-biometrics-mobile'
+    'error-400-okta-verify-uv-fastpass-verify-enable-biometrics-mobile'
   ],
 };
 
