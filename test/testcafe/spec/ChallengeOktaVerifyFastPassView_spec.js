@@ -76,7 +76,10 @@ const loopbackBiometricsErrorDesktopMock = RequestMock()
     }
   });
 
-const loopbackBiometricsNoResponseErrorLogger = RequestLogger(/introspect|probe|cancel|challenge|poll/);
+const loopbackBiometricsNoResponseErrorLogger = RequestLogger(
+  /introspect|probe|cancel|challenge|poll/,
+  { logRequestBody: true, stringifyRequestBody: true }
+);
 const loopbackBiometricsNoResponseErrorMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/introspect/)
   .respond(identifyWithUserVerificationLoopback)
@@ -97,7 +100,10 @@ const loopbackBiometricsNoResponseErrorMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithUserVerificationLoopback);
 
-const loopbackFallbackLogger = RequestLogger(/introspect|probe|cancel|launch|poll/);
+const loopbackFallbackLogger = RequestLogger(
+  /introspect|probe|cancel|launch|poll/,
+  { logRequestBody: true, stringifyRequestBody: true }
+);
 const loopbackFallbackMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithUserVerificationLoopback)
@@ -248,8 +254,14 @@ test
     await t.expect(loopbackBiometricsNoResponseErrorLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.method !== 'options' &&
-        record.request.url.match(/introspect|probe|cancel/)
-    )).eql(3);
+        record.request.url.match(/introspect|probe/)
+    )).eql(2);
+    await t.expect(loopbackBiometricsNoResponseErrorLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.method !== 'options' &&
+        record.request.url.match(/cancel/) &&
+        JSON.parse(record.request.body).reason === 'OV_RETURNED_ERROR'
+    )).eql(1);
     await t.expect(loopbackBiometricsNoResponseErrorLogger.count(
       record => record.response.statusCode === 500 &&
         record.request.url.match(/probe|challenge/)
@@ -301,6 +313,11 @@ test
     loopbackFallbackLogger.clear();
     await setupLoopbackFallback(t);
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
+    await t.expect(loopbackFallbackLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/authenticators\/poll\/cancel/) &&
+        JSON.parse(record.request.body).reason === 'OV_UNREACHABLE_BY_LOOPBACK'
+    )).eql(1);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Click "Open Okta Verify" on the browser prompt');
     const content = deviceChallengePollPageObject.getContent();

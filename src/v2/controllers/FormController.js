@@ -129,7 +129,7 @@ export default Controller.extend({
     this.options.appState.set('currentFormName', formName);
   },
 
-  handleInvokeAction(actionPath = '') {
+  handleInvokeAction(actionPath = '', actionParams = {}) {
     const idx = this.options.appState.get('idx');
 
     if (actionPath === 'cancel') {
@@ -151,7 +151,7 @@ export default Controller.extend({
 
     if (_.isFunction(actionFn)) {
       // TODO: OKTA-243167 what's the approach to show spinner indicating API in flight?
-      actionFn()
+      actionFn(actionParams)
         .then((resp) => {
           if (actionPath === 'cancel' && this.options.settings.get('useInteractionCodeFlow')) {
             // In this case we need to restart login flow and recreate transaction meta
