@@ -140,7 +140,13 @@ export default Controller.extend({
 
     if (idx['neededToProceed'].find(item => item.name === actionPath)) {
       idx.proceed(actionPath, {})
-        .then(this.handleIdxResponse.bind(this))
+        .then(response => {
+          if (response.requestDidSucceed === false) {
+            this.showFormErrors(this.formView.model, response, this.formView.form);
+          } else {
+            this.handleIdxResponse(response);
+          }
+        })
         .catch(error => {
           this.showFormErrors(this.formView.model, error, this.formView.form);
         });
