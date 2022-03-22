@@ -1,5 +1,11 @@
 /* eslint-env node */
 module.exports = {
+  plugins: [
+    'testcafe-extended'
+  ],
+  extends: [
+    'plugin:testcafe-extended/recommended'
+  ],
   'parserOptions': {
     'ecmaVersion': 2017,
     'sourceType': 'module'

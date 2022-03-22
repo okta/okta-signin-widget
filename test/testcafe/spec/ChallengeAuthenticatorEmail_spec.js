@@ -643,7 +643,7 @@ test
 
 // TODO: avoid 60 second timeout. OKTA-460622
 test
-  .requestHooks(logger, tooManyRequestPollMock).only('pause polling when encounter 429 too many request', async t => {
+  .requestHooks(logger, tooManyRequestPollMock)('pause polling when encounter 429 too many request', async t => {
     const challengeEmailPageObject = await setup(t);
 
     await t.wait(5000); // wait for first poll
@@ -675,6 +675,8 @@ test
 test
   .requestHooks(logger, apiLimitExceededPollMock)('pause polling when encounter 429 api limit exceeded', async t => {
     const challengeEmailPageObject = await setup(t);
+
+    await t.wait(5000); // wait for first poll
 
     // Encounter 429
     await t.expect(logger.count(
