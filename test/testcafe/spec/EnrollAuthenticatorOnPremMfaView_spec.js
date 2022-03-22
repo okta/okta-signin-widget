@@ -43,8 +43,8 @@ test
     await t.expect(enrollOnPremPage.userNameFieldExists()).eql(true);
     await t.expect(enrollOnPremPage.passcodeFieldExists()).eql(true);
 
-    // Verify links (switch authenticator link not present since there are no other authenticators available)
-    await t.expect(await enrollOnPremPage.switchAuthenticatorLinkExists()).notOk();
+    // Verify links (switch authenticator link is present even if there is just one authenticator available)
+    await t.expect(await enrollOnPremPage.switchAuthenticatorLinkExists()).ok();
     await t.expect(await enrollOnPremPage.signoutLinkExists()).ok();
 
     // fields are required

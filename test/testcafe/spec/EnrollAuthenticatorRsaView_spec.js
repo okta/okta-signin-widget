@@ -44,8 +44,8 @@ test
     await t.expect(enrollRsaPage.userNameFieldExists()).eql(true);
     await t.expect(enrollRsaPage.passcodeFieldExists()).eql(true);
 
-    // Verify links (switch authenticator link not present since there are no other authenticators available)
-    await t.expect(await enrollRsaPage.switchAuthenticatorLinkExists()).notOk();
+    // Verify links (switch authenticator link is present even if there is just one authenticator available))
+    await t.expect(await enrollRsaPage.switchAuthenticatorLinkExists()).ok();
     await t.expect(await enrollRsaPage.signoutLinkExists()).ok();
 
     // fields are required
@@ -55,8 +55,8 @@ test
     await t.expect(enrollRsaPage.getPasscodeError()).eql('This field cannot be left blank');
     await t.expect(enrollRsaPage.getUserNameError()).eql('This field cannot be left blank');
 
-    // Verify links (switch authenticator link not present since there are no other authenticators available)
-    await t.expect(await enrollRsaPage.switchAuthenticatorLinkExists()).notOk();
+    // Verify links (switch authenticator link is present even if there is just one authenticator available)
+    await t.expect(await enrollRsaPage.switchAuthenticatorLinkExists()).ok();
     await t.expect(await enrollRsaPage.signoutLinkExists()).ok();
   });
 

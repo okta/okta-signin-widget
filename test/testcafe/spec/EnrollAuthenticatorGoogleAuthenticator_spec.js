@@ -96,8 +96,8 @@ test
     await t.expect(enrollGoogleAuthenticatorPageObject.getBarcodeSubtitle()).eql('Scan barcode');
     await t.expect(enrollGoogleAuthenticatorPageObject.hasQRcode).ok();
 
-    // Verify links (switch authenticator link not present since there are no other authenticators available)
-    await t.expect(await enrollGoogleAuthenticatorPageObject.switchAuthenticatorLinkExists()).notOk();
+    // Verify links (switch authenticator link is present even if there is just one authenticator available))
+    await t.expect(await enrollGoogleAuthenticatorPageObject.switchAuthenticatorLinkExists()).ok();
     await t.expect(await enrollGoogleAuthenticatorPageObject.signoutLinkExists()).ok();
 
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
@@ -124,8 +124,8 @@ test
     await t.expect(enrollGoogleAuthenticatorPageObject.getSharedSecret()).eql('ZR74DHZTG43NBULV');
     await enrollGoogleAuthenticatorPageObject.goToNextPage();
 
-    // Verify links (switch authenticator link not present since there are no other authenticators available)
-    await t.expect(await enrollGoogleAuthenticatorPageObject.switchAuthenticatorLinkExists()).notOk();
+    // Verify links (switch authenticator link is present even if there is just one authenticator available))
+    await t.expect(await enrollGoogleAuthenticatorPageObject.switchAuthenticatorLinkExists()).ok();
     await t.expect(await enrollGoogleAuthenticatorPageObject.signoutLinkExists()).ok();
 
     await t.expect(enrollGoogleAuthenticatorPageObject.isEnterCodeSubtitleVisible()).ok();
