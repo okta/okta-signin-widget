@@ -9,6 +9,16 @@ setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
 
 cd ${OKTA_HOME}/${REPO}
 
+# DO NOT MERGE - BETA VERSION - DO NOT MERGE
+echo "Installing BETA VERSION"
+
+npm config set strict-ssl false
+
+yarn add -DW --no-lockfile https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-6.3.0-gc4ce8a3.tgz
+
+echo "BETA VERSION installed"
+# End BETA VERSION
+
 if ! yarn install ; then
   echo "yarn install failed! Exiting..."
   exit ${FAILED_SETUP}
