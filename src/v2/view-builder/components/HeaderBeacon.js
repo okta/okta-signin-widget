@@ -21,7 +21,7 @@ const BeaconView = View.extend({
       </div>
       {{#if logoUri}}
       <div class="bg-helper auth-beacon auth-beacon-factor custom-app-logo" data-se="factor-beacon" role="img" 
-        aria-label="{{i18n code="oie.auth.logo.alt" bundle="login"}}"
+        aria-label="{{i18n code="oie.auth.logo.aria.label" bundle="login"}}"
         style="background-image: url('{{logoUri}}')">
       {{else}}
       <div class="bg-helper auth-beacon auth-beacon-factor {{className}}" data-se="factor-beacon">

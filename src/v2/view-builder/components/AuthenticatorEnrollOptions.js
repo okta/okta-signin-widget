@@ -21,11 +21,11 @@ const AuthenticatorRow = View.extend({
     <div class="authenticator-icon-container">
       {{#if logoUri}}
         <div class="factor-icon authenticator-icon custom-app-logo" role="img"
-          aria-label="{{i18n code="oie.auth.logo.alt" bundle="login"}}"
+          aria-label="{{i18n code="oie.auth.logo.aria.label" bundle="login"}}"
           style="background-image: url('{{logoUri}}')"></div>
       {{else}}
         <div class="factor-icon authenticator-icon {{iconClassName}}" role="img" 
-          aria-label="{{i18n code="oie.auth.logo.alt" bundle="login"}}"></div>
+          aria-label="{{i18n code="oie.auth.logo.aria.label" bundle="login"}}"></div>
       {{/if}}
     </div>
     <div class="authenticator-description">
