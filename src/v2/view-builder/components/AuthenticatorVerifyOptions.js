@@ -17,10 +17,12 @@ const AuthenticatorRow = View.extend({
   template: hbs`
     <div class="authenticator-icon-container">
       {{#if logoUri}}
-        <div class="factor-icon authenticator-icon custom-app-logo" role="img" aria-label="{{i18n code="oie.auth.logo.alt" bundle="login"}}"
+        <div class="factor-icon authenticator-icon custom-app-logo" role="img" 
+          aria-label="{{i18n code="oie.auth.logo.alt" bundle="login"}}"
           style="background-image: url('{{logoUri}}')"></div>
       {{else}}
-        <div class="factor-icon authenticator-icon {{iconClassName}}" role="img" aria-label="{{i18n code="oie.auth.logo.alt" bundle="login"}}"></div>
+        <div class="factor-icon authenticator-icon {{iconClassName}}" role="img" 
+          aria-label="{{i18n code="oie.auth.logo.alt" bundle="login"}}"></div>
       {{/if}}
     </div>
     <div class="authenticator-description">
