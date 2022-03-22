@@ -8,6 +8,7 @@ const SKIP_SET_UP_LINK = '.auth-footer .js-skip-setup';
 const SWITCH_AUTHENTICATOR_LINK = '.auth-footer .js-switchAuthenticator';
 const ionMessagesSelector = '.ion-messages-container';
 const SUBTITLE_SELECTOR = '[data-se="o-form-explain"]';
+const FACTOR_PAGE_HELP_LINK = '[data-se="factorPageHelpLink"]';
 
 export default class BasePageObject {
   constructor(t) {
@@ -174,5 +175,19 @@ export default class BasePageObject {
 
   subtitleExists() {
     return this.form.elementExist(SUBTITLE_SELECTOR);
+  }
+
+  getFactorPageHelpLink() {
+    return Selector(FACTOR_PAGE_HELP_LINK).getAttribute('href');
+  }
+
+  getFactorPageHelpLinksLabel() {
+    return Selector(FACTOR_PAGE_HELP_LINK).textContent;
+  }
+
+  async factorPageHelpLinksExists() {
+    const elCount = await Selector(FACTOR_PAGE_HELP_LINK).count;
+
+    return elCount === 1;
   }
 }

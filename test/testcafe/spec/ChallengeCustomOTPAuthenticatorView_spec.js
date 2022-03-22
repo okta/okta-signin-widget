@@ -4,7 +4,7 @@ import xhrInvalidOTP from '../../../playground/mocks/data/idp/idx/error-authenti
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 import ChallengeCustomOTPPageObject from '../framework/page-objects/ChallengeCustomOTPPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, renderWidget } from '../framework/shared';
 
 const mockChallengeAuthenticatorCustomOTP = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
@@ -69,3 +69,18 @@ test.requestHooks(mockInvalidPasscode)('challege custom otp authenticator with i
     .eql('Invalid code. Try again.');
 });
 
+test.requestHooks(mockChallengeAuthenticatorCustomOTP)('should show custom factor page link', async t => {
+  const challengeOnPremPage = await setup(t);
+
+  await renderWidget({
+    helpLinks: {
+      factorPage: {
+        text: 'custom factor page link',
+        href: 'https://acme.com/what-is-okta-autheticators'
+      }
+    }
+  });
+
+  await t.expect(challengeOnPremPage.getFactorPageHelpLinksLabel()).eql('custom factor page link');
+  await t.expect(challengeOnPremPage.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
+});

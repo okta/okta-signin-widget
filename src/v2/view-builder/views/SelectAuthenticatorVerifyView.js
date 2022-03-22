@@ -1,5 +1,7 @@
 import { BaseForm, BaseView } from '../internals';
 import { loc } from 'okta';
+import BaseFooter from '../internals/BaseFooter';
+import {getFactorPageCustomLink} from '../utils/LinksUtil';
 
 export const Body = BaseForm.extend({
   title: function() {
@@ -22,4 +24,9 @@ export const Body = BaseForm.extend({
 
 export default BaseView.extend({
   Body,
+  Footer: BaseFooter.extend({
+    links() {
+      return getFactorPageCustomLink(this.options.appState, this.options.settings);
+    },
+  }),
 });

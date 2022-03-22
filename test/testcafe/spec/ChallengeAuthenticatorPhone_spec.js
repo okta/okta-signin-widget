@@ -518,3 +518,19 @@ test
     const { authenticator: smsRequestObj } = JSON.parse(smsRequestBody);
     await t.expect(smsRequestObj).eql({ id: 'id-phone-authenticator', methodType: 'sms'});
   });
+
+test.requestHooks(smsPrimaryMockEmptyProfile)('should show custom factor page link', async t => {
+  const challengePhonePageObject = await setup(t);
+
+  await renderWidget({
+    helpLinks: {
+      factorPage: {
+        text: 'custom factor page link',
+        href: 'https://acme.com/what-is-okta-autheticators'
+      }
+    }
+  });
+
+  await t.expect(challengePhonePageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
+  await t.expect(challengePhonePageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
+});
