@@ -94,7 +94,14 @@ const loopbackBiometricsNoResponseErrorMock = RequestMock()
     'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
   })
   .onRequestTo(/6512\/challenge/)
-  .respond(null, 500)
+  .respond((req, res) => {
+    res.statusCode = req.method !== 'POST' ? 204 : 500;
+    res.headers = {
+      'access-control-allow-origin': '*',
+      'access-control-allow-headers': 'Origin, X-Requested-With, Content-Type, Accept, X-Okta-Xsrftoken',
+      'access-control-allow-methods': 'POST, GET, OPTIONS'
+    };
+  })
   .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
   .respond(mfaSelect)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
@@ -260,7 +267,8 @@ test
       record => record.response.statusCode === 200 &&
         record.request.method !== 'options' &&
         record.request.url.match(/cancel/) &&
-        JSON.parse(record.request.body).reason === 'OV_RETURNED_ERROR'
+        JSON.parse(record.request.body).reason === 'OV_RETURNED_ERROR' &&
+        JSON.parse(record.request.body).statusCode === 500
     )).eql(1);
     await t.expect(loopbackBiometricsNoResponseErrorLogger.count(
       record => record.response.statusCode === 500 &&
@@ -316,7 +324,8 @@ test
     await t.expect(loopbackFallbackLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/authenticators\/poll\/cancel/) &&
-        JSON.parse(record.request.body).reason === 'OV_UNREACHABLE_BY_LOOPBACK'
+        JSON.parse(record.request.body).reason === 'OV_UNREACHABLE_BY_LOOPBACK' &&
+        JSON.parse(record.request.body).statusCode === null
     )).eql(1);
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Click "Open Okta Verify" on the browser prompt');

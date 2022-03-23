@@ -4,7 +4,7 @@ import Logger from '../../../../util/Logger';
 import {
   REQUEST_PARAM_AUTHENTICATION_CANCEL_REASON,
   AUTHENTICATION_CANCEL_REASONS,
-  CHALLENGE_TIMEOUT
+  CHALLENGE_TIMEOUT, LOOPBACK_RESPONSE_STATUS_CODE
 } from '../../utils/Constants';
 import BrowserFeatures from '../../../../util/BrowserFeatures';
 import { doChallenge, getBiometricsErrorOptions } from '../../utils/ChallengeViewUtil';
@@ -94,9 +94,10 @@ const Body = BaseFormWithPolling.extend(Object.assign(
         Logger.error(`Something unexpected happened while we were checking port ${currentPort}.`);
       };
 
-      const cancelPollingWithParams = (cancelReason) => {
+      const cancelPollingWithParams = (cancelReason, statusCode) => {
         const actionParams = {};
         actionParams[REQUEST_PARAM_AUTHENTICATION_CANCEL_REASON] = cancelReason;
+        actionParams[LOOPBACK_RESPONSE_STATUS_CODE] = statusCode;
         this.options.appState.trigger('invokeAction', 'currentAuthenticator-cancel', actionParams);
       };
 
@@ -119,12 +120,12 @@ const Body = BaseFormWithPolling.extend(Object.assign(
                 if (xhr.status !== 503) {
                   // when challenge responds with other errors,
                   // cacel polling right away
-                  cancelPollingWithParams(AUTHENTICATION_CANCEL_REASONS.OV_ERROR);
+                  cancelPollingWithParams(AUTHENTICATION_CANCEL_REASONS.OV_ERROR, xhr.status);
                 } else if (countFailedPorts === ports.length) {
                   // when challenge is responded by the wrong OS profile and
                   // all the ports are exhausted,
                   // cancel the polling like the probing has failed
-                  cancelPollingWithParams(AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE);
+                  cancelPollingWithParams(AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE, null);
                 }
               });
           })
@@ -145,7 +146,7 @@ const Body = BaseFormWithPolling.extend(Object.assign(
             Logger.error(`Authenticator is not listening on port ${currentPort}.`);
             if (countFailedPorts === ports.length) {
               Logger.error('No available ports. Loopback server failed and polling is cancelled.');
-              cancelPollingWithParams(AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE);
+              cancelPollingWithParams(AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE, null);
             }
           });
       });

@@ -8,7 +8,7 @@ import {
   CHALLENGE_TIMEOUT,
   IDENTIFIER_FLOW,
   REQUEST_PARAM_AUTHENTICATION_CANCEL_REASON,
-  AUTHENTICATION_CANCEL_REASONS,
+  AUTHENTICATION_CANCEL_REASONS, LOOPBACK_RESPONSE_STATUS_CODE,
 } from '../../utils/Constants';
 import Link from '../../components/Link';
 import { doChallenge } from '../../utils/ChallengeViewUtil';
@@ -23,9 +23,10 @@ const request = (opts) => {
   return $.ajax(ajaxOptions);
 };
 
-const cancelPollingWithParams = (appState, cancelReason) => {
+const cancelPollingWithParams = (appState, cancelReason, statusCode) => {
   const actionParams = {};
   actionParams[REQUEST_PARAM_AUTHENTICATION_CANCEL_REASON] = cancelReason;
+  actionParams[LOOPBACK_RESPONSE_STATUS_CODE] = statusCode;
   appState.trigger('invokeAction', CANCEL_POLLING_ACTION, actionParams);
 };
 
@@ -130,12 +131,12 @@ const Body = BaseFormWithPolling.extend(
                 if (xhr.status !== 503) {
                   // when challenge responds with other errors,
                   // cacel polling right away
-                  cancelPollingWithParams(this.options.appState, AUTHENTICATION_CANCEL_REASONS.OV_ERROR);
+                  cancelPollingWithParams(this.options.appState, AUTHENTICATION_CANCEL_REASONS.OV_ERROR, xhr.status);
                 } else if (countFailedPorts === ports.length) {
                   // when challenge is responded by the wrong OS profile and
                   // all the ports are exhausted,
                   // cancel the polling like the probing has failed
-                  cancelPollingWithParams(this.options.appState, AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE);
+                  cancelPollingWithParams(this.options.appState, AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE, null);
                 }
               });
           })
@@ -156,7 +157,7 @@ const Body = BaseFormWithPolling.extend(
             countFailedPorts++;
             if (countFailedPorts === ports.length) {
               Logger.error('No available ports. Loopback server failed and polling is cancelled.');
-              cancelPollingWithParams(this.options.appState, AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE);
+              cancelPollingWithParams(this.options.appState, AUTHENTICATION_CANCEL_REASONS.LOOPBACK_FAILURE, null);
             }
           });
       });
@@ -205,7 +206,7 @@ const Footer = BaseFooter.extend({
           name: 'cancel-authenticator-challenge',
           label: loc('loopback.polling.cancel.link', 'login'),
           clickHandler: () => {
-            cancelPollingWithParams(this.options.appState, AUTHENTICATION_CANCEL_REASONS.USER_CANCELED);
+            cancelPollingWithParams(this.options.appState, AUTHENTICATION_CANCEL_REASONS.USER_CANCELED, null);
           },
         }
       }).last();

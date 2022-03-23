@@ -372,7 +372,8 @@ test
     await t.expect(loopbackUserCancelLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/authenticators\/poll\/cancel/) &&
-        JSON.parse(record.request.body).reason === 'USER_CANCELED'
+        JSON.parse(record.request.body).reason === 'USER_CANCELED' &&
+        JSON.parse(record.request.body).statusCode === null
     )).eql(1);
   });
 
@@ -460,7 +461,8 @@ test
     await t.expect(loopbackChallengeWrongProfileLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/authenticators\/poll\/cancel/) &&
-        JSON.parse(record.request.body).reason === 'OV_RETURNED_ERROR'
+        JSON.parse(record.request.body).reason === 'OV_RETURNED_ERROR' &&
+        JSON.parse(record.request.body).statusCode === 500
     )).eql(1);
   });
 
@@ -509,7 +511,8 @@ test
     await t.expect(loopbackFallbackLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/authenticators\/poll\/cancel/) &&
-        JSON.parse(record.request.body).reason === 'OV_UNREACHABLE_BY_LOOPBACK'
+        JSON.parse(record.request.body).reason === 'OV_UNREACHABLE_BY_LOOPBACK' &&
+        JSON.parse(record.request.body).statusCode === null
     )).eql(1);
     deviceChallengeFalllbackPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
