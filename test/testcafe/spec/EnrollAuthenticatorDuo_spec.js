@@ -34,8 +34,8 @@ test('should render an iframe for duo', async t => {
   await t.expect(enrollDuoPage.getFormTitle()).eql('Set up Duo Security');
   await t.expect(enrollDuoPage.hasDuoIframe()).eql(true);
 
-  // Verify links (switch authenticator link not present since there are no other authenticators available)
-  await t.expect(await enrollDuoPage.switchAuthenticatorLinkExists()).notOk();
+  // Verify links (switch authenticator link is present even if there is just one authenticator available)
+  await t.expect(await enrollDuoPage.switchAuthenticatorLinkExists()).ok();
   await t.expect(await enrollDuoPage.signoutLinkExists()).ok();
 });
 

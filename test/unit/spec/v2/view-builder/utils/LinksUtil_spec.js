@@ -4,11 +4,15 @@ import { getSwitchAuthenticatorLink, getFactorPageCustomLink } from 'v2/view-bui
 import Settings from '../../../../../../src/models/Settings';
 
 describe('v2/utils/LinksUtil', function() {
-  const mockAppState = (remediationFormName, hasMoreThanOneAuthenticator, isPasswordRecovery) => {
+  const mockAppState = ({ remediationFormName, authenticatorCount, isPasswordRecovery }) => {
     const appState = new AppState();
     jest.spyOn(appState, 'getRemediationAuthenticationOptions').mockImplementation(formName => {
-      if (formName === remediationFormName && hasMoreThanOneAuthenticator) {
-        return [ { label: 'some authenticator '}, { label: 'another authenticator' } ];
+      if (formName === remediationFormName) {
+        if (authenticatorCount === 'many') {
+          return [ { label: 'some authenticator '}, { label: 'another authenticator' } ];
+        } else if (authenticatorCount === 'one') {
+          return [ { label: 'some authenticator '} ];
+        }
       }
       return [];
     });
@@ -26,24 +30,29 @@ describe('v2/utils/LinksUtil', function() {
   describe('getSwitchAuthenticatorLink', () => {
     describe('select-authenticator-authenticate', () => {
       it('returns a link when multiple authenticators available', function() {
-        const appState = mockAppState(FORMS.SELECT_AUTHENTICATOR_AUTHENTICATE, true);
+        const appState = mockAppState({ remediationFormName: FORMS.SELECT_AUTHENTICATOR_AUTHENTICATE, authenticatorCount: 'many' });
         expect(getSwitchAuthenticatorLink(appState).length).toEqual(1);
       });
 
       it('returns empty when just one authenticator available', function() {
-        const appState = mockAppState(FORMS.SELECT_AUTHENTICATOR_AUTHENTICATE, false);
+        const appState = mockAppState({ remediationFormName: FORMS.SELECT_AUTHENTICATOR_AUTHENTICATE });
         expect(getSwitchAuthenticatorLink(appState).length).toEqual(0);
       });
     });
 
     describe('select-authenticator-enroll', () => {
       it('returns a link when multiple authenticators available', function() {
-        const appState = mockAppState(FORMS.SELECT_AUTHENTICATOR_ENROLL, true);
+        const appState = mockAppState({ remediationFormName: FORMS.SELECT_AUTHENTICATOR_ENROLL, authenticatorCount: 'many' });
         expect(getSwitchAuthenticatorLink(appState).length).toEqual(1);
       });
 
-      it('returns empty when just one authenticator available', function() {
-        const appState = mockAppState(FORMS.SELECT_AUTHENTICATOR_ENROLL, false);
+      it('returns a link when just one authenticator available', function() {
+        const appState = mockAppState({ remediationFormName: FORMS.SELECT_AUTHENTICATOR_ENROLL, authenticatorCount: 'one' });
+        expect(getSwitchAuthenticatorLink(appState).length).toEqual(1);
+      });
+
+      it('returns empty when there is no authenticator available', function() {
+        const appState = mockAppState({ remediationFormName: FORMS.SELECT_AUTHENTICATOR_ENROLL });
         expect(getSwitchAuthenticatorLink(appState).length).toEqual(0);
       });
     });
@@ -51,7 +60,7 @@ describe('v2/utils/LinksUtil', function() {
 
   describe('getFactorPageCustomLink', () => {
     it('returns a link when it is in select-authenticator-authenticate, and not a password recover flow', function() {
-      const appState = mockAppState(FORMS.SELECT_AUTHENTICATOR_AUTHENTICATE, true, false);
+      const appState = mockAppState({ remediationFormName: FORMS.SELECT_AUTHENTICATOR_AUTHENTICATE, isPasswordRecovery: false });
       const settings = new Settings({
         baseUrl: 'https://foo',
         'helpLinks.factorPage.text': 'custom factor page link',
@@ -63,7 +72,7 @@ describe('v2/utils/LinksUtil', function() {
     });
 
     it('returns empty when is not select-authenticator-authenticate', function() {
-      const appState = mockAppState(FORMS.SELECT_AUTHENTICATOR_ENROLL, true, false);
+      const appState = mockAppState({ remediationFormName: FORMS.SELECT_AUTHENTICATOR_ENROLL, isPasswordRecovery: false });
       const settings = new Settings({
         baseUrl: 'https://foo',
         'helpLinks.factorPage.text': 'custom factor page link',
@@ -73,7 +82,7 @@ describe('v2/utils/LinksUtil', function() {
     });
 
     it('returns empty when  it is in select-authenticator-authenticate but in a password recover flow', function() {
-      const appState = mockAppState(FORMS.SELECT_AUTHENTICATOR_AUTHENTICATE, true, true);
+      const appState = mockAppState({ remediationFormName: FORMS.SELECT_AUTHENTICATOR_AUTHENTICATE, isPasswordRecovery: true });
       const settings = new Settings({
         baseUrl: 'https://foo',
         'helpLinks.factorPage.text': 'custom factor page link',
@@ -83,7 +92,7 @@ describe('v2/utils/LinksUtil', function() {
     });
 
     it('returns a link when it is in challenge-authenticator, and not a password recover flow', function() {
-      const appState = mockAppState(FORMS.CHALLENGE_AUTHENTICATOR, true, false);
+      const appState = mockAppState({ remediationFormName: FORMS.CHALLENGE_AUTHENTICATOR, isPasswordRecovery: false });
       const settings = new Settings({
         baseUrl: 'https://foo',
         'helpLinks.factorPage.text': 'custom factor page link',
@@ -93,7 +102,7 @@ describe('v2/utils/LinksUtil', function() {
     });
 
     it('returns empty when it is in challenge-authenticator, and in a password recover flow', function() {
-      const appState = mockAppState(FORMS.CHALLENGE_AUTHENTICATOR, true, true);
+      const appState = mockAppState({ remediationFormName: FORMS.CHALLENGE_AUTHENTICATOR, isPasswordRecovery: true });
       const settings = new Settings({
         baseUrl: 'https://foo',
         'helpLinks.factorPage.text': 'custom factor page link',
