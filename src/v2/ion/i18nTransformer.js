@@ -171,7 +171,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   // re-map autoPush: "Send push automatically"
   'challenge-poll.okta_verify.autoChallenge': 'autoPush', // authenticator-verification-okta-verify-push-autoChallenge-on
   'authenticator-verification-data.authenticator.autoChallenge': 'autoPush', // authenticator-verification-data-okta-verify-push-autoChallenge-off.json
-  '"authenticator-verification-data.okta_verify.authenticator.autoChallenge"': 'autoPush',
+  'authenticator-verification-data.okta_verify.authenticator.autoChallenge': 'autoPush',
   
   // Existing overrides
   ...I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS, //enroll-profile strings
