@@ -190,7 +190,7 @@
       },
       "type": "app",
       "key": "custom_app",
-      "logoUri": "/assets/img/icons/mfa/signal-transparent.svg",
+      "logoUri": "/assets/img/icons/mfa/customPushLogo.svg",
       "id": "pfdhz52NLT6aWceDQ0g4",
       "displayName": "Custom Push Authenticator",
       "methods": [
@@ -208,7 +208,7 @@
         "key": "custom_app",
         "id": "authz4tA5ttKp7GoQ0g4",
         "displayName": "Custom Push Authenticator",
-        "logoUri": "/assets/img/icons/mfa/signal-transparent.svg",
+        "logoUri": "/assets/img/icons/mfa/customPushLogo.svg",
         "methods": [
           {
             "type": "push"
@@ -262,7 +262,7 @@
         },
         "type": "app",
         "key": "custom_app",
-        "logoUri": "/assets/img/icons/mfa/signal-transparent.svg",
+        "logoUri": "/assets/img/icons/mfa/customPushLogo.svg",
         "id": "pfdhz52NLT6aWceDQ0g4",
         "displayName": "Custom Push Authenticator",
         "methods": [

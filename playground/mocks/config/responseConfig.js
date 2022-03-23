@@ -103,6 +103,8 @@ const idx = {
     // 'oda-enrollment-ios',
     // 'oda-enrollment-android',
     // 'mdm-enrollment',
+    // 'authenticator-verification-custom-app-push',
+    // 'authenticator-verification-custom-app-push-enroll'    
   ],
   '/idp/idx/enroll': [
     'enroll-profile-new',
@@ -1045,5 +1047,5 @@ const selectOktaVerifyMethod = {
 };
 
 module.exports = {
-  mocks: idx
+  mocks: idx,
 };

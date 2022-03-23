@@ -209,7 +209,7 @@ test
     await t.expect(answerRequestMethod2).eql('post');
     await t.expect(answerRequestUrl2).eql('http://localhost:3000/idp/idx/authenticators/poll');
 
-    // unselect checkbox on click to ensure its still accessbile while polling
+    // unselect checkbox on click to ensure its still accessible while polling
     await challengeCustomAppPushPageObject.clickAutoChallengeCheckbox();
     await t.expect(checkboxLabel.hasClass('checked')).notOk();
   });

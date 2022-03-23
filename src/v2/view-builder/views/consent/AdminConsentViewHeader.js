@@ -12,7 +12,7 @@ const AdminConsentViewHeader = View.extend({
     <a href="{{clientURI}}" class="client-logo-link" target="_blank">
     {{/if}}
     {{#if customLogo}}
-      <img class="client-logo custom-app-logo" src="{{customLogo}}" alt="{{altText}}" aria-hidden="true" />
+      <img class="client-logo custom-logo" src="{{customLogo}}" alt="{{altText}}" aria-hidden="true" />
     {{else}}
       <img class="client-logo default-logo" src="{{defaultLogo}}" alt="{{altText}}" aria-hidden="true" />
     {{/if}}

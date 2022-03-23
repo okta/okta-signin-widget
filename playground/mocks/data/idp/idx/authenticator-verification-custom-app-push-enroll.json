@@ -164,7 +164,7 @@
         "type": "app",
         "key": "custom_app",
         "id": "aut32bqUtSfZsFgsn0g4",
-        "logoUri": "/img/icons/mfa/signal-transparent.svg",
+        "logoUri": "/img/icons/mfa/customPushLogo.svg",
         "displayName": "My custom push authenticator 8",
         "methods": [{ "type": "push" }]
       },
