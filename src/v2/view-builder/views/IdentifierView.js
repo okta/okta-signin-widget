@@ -133,14 +133,19 @@ const Body = BaseForm.extend({
           ...newSchema,
           autoComplete: 'identifier'
         };
-      } else if (schema.name === 'credentials.passcode' &&
-        isCustomizedI18nKey(passwordExplainLabeli18nKey, settings)
-      ) {
+      } else if (schema.name === 'credentials.passcode') {
         newSchema = {
           ...newSchema,
-          explain: loc(passwordExplainLabeli18nKey, 'login'),
-          'explain-top': true,
+          autoComplete: 'current-password'
         };
+
+        if (isCustomizedI18nKey(passwordExplainLabeli18nKey, settings)) {
+          newSchema = {
+            ...newSchema,
+            explain: loc(passwordExplainLabeli18nKey, 'login'),
+            'explain-top': true,
+          };
+        }
       }
 
       return newSchema;
