@@ -112,7 +112,7 @@
       "key":"custom_app",
       "id":"aut198w4v0f8dr8gT0g4",
       "displayName":"Custom Push",
-      "logo":"https://okta.oktacdn.com/assets/img/logos/custompushLogo.svg",
+      "logoUri":"/img/icons/mfa/customPushLogo.svg",
       "methods":[
         {
           "type":"push"
@@ -128,7 +128,7 @@
         "key":"custom_app",
         "id":"aut198w4v0f8dr8gT0g4",
         "displayName":"Custom Push",
-        "logo":"https://okta.oktacdn.com/assets/img/logos/custompushLogo.svg",
+        "logoUri":"/img/icons/mfa/customPushLogo.svg",
         "methods":[
           {
             "type":"push"

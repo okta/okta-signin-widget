@@ -181,14 +181,16 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
 
   case AUTHENTICATOR_KEY.CUSTOM_APP: {
     Object.assign(authenticatorData, {
-      description: '',
-      iconClassName: 'mfa-custom-app',
+      description: isVerifyAuthenticator
+        ? ''
+        : loc('oie.custom.app.authenticator.description', 'login', [authenticator.label]),
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      logoUri : authenticator?.relatesTo?.logoUri || ''
     });
     break;
   }
-  }
 
+  }
   return authenticatorData;
 };
 

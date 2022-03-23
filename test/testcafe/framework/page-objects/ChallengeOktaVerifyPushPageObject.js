@@ -8,10 +8,11 @@ const FORM_INFOBOX_ERROR_TITLE = '[data-se="o-form-error-container"] [data-se="c
 const FORM_SELECTOR = '.okta-verify-send-push-form';
 const AUTO_CHALLENGE_CHECKBOX_SELECTOR = '[name$="autoChallenge"]';
 const AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR = '[data-se-for-name$="autoChallenge"]';
-
+const FACTOR_BEACON = '.auth-beacon.auth-beacon-factor';
 export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPageObject {
   constructor(t) {
     super(t);
+    this.beacon = new Selector('.beacon-container');
   }
 
   getPushButton() {
@@ -69,6 +70,10 @@ export default class ChallengeOktaVerifyPushPageObject extends ChallengeFactorPa
 
   async clickSendPushButton() {
     await this.form.clickSaveButton();
+  }
+
+  getBeaconClass() {
+    return this.beacon.find(FACTOR_BEACON).getAttribute('class');
   }
 
 }

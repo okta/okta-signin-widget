@@ -45,7 +45,7 @@ async function setup(t) {
 }
 
 test
-  .requestHooks(pushSuccessMock)('challenge ov push screen has right labels', async t => {
+  .requestHooks(pushSuccessMock)('challenge ov push screen has right labels and logo', async t => {
     const challengeOktaVerifyPushPageObject = await setup(t);
     await checkConsoleMessages({
       controller: 'mfa-verify',
@@ -57,9 +57,12 @@ test
     const pageTitle = challengeOktaVerifyPushPageObject.getFormTitle();
     const pushBtn = challengeOktaVerifyPushPageObject.getPushButton();
     const a11ySpan = challengeOktaVerifyPushPageObject.getA11ySpan();
+    const logoClass = challengeOktaVerifyPushPageObject.getBeaconClass();
     await t.expect(pushBtn.textContent).contains('Push notification sent');
     await t.expect(a11ySpan.textContent).contains('Push notification sent');
     await t.expect(pushBtn.hasClass('link-button-disabled')).ok();
+    await t.expect(logoClass).contains('mfa-okta-verify');
+    await t.expect(logoClass).notContains('custom-app-logo');
     await t.expect(pageTitle).contains('Get a push notification');
     await t.expect(await challengeOktaVerifyPushPageObject.autoChallengeInputExists()).notOk();
 

@@ -19,7 +19,14 @@ const AuthenticatorRow = View.extend({
   className: 'authenticator-row clearfix',
   template: hbs`
     <div class="authenticator-icon-container">
-      <div class="factor-icon authenticator-icon {{iconClassName}}"></div>
+      {{#if logoUri}}
+        <div class="factor-icon authenticator-icon custom-app-logo" role="img"
+          aria-label="{{i18n code="oie.auth.logo.aria.label" bundle="login"}}"
+          style="background-image: url('{{logoUri}}')"></div>
+      {{else}}
+        <div class="factor-icon authenticator-icon {{iconClassName}}" role="img" 
+          aria-label="{{i18n code="oie.auth.logo.aria.label" bundle="login"}}"></div>
+      {{/if}}
     </div>
     <div class="authenticator-description">
       <h3 class="authenticator-label no-translate">{{label}}</h3>
