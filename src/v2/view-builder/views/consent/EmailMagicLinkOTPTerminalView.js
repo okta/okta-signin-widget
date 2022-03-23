@@ -16,12 +16,17 @@ const generateGeolocationString = (location = {}) => {
 const getTerminalOtpEmailMagicLinkContext = (settings, appState) => {
   const app = appState.get('app');
   const client = appState.get('client');
-  let appName, browserOnOsString, geolocation;
+  // TODO: remove the last part after fixing the response in this.options
+  const challengeIntent = settings.get('intent') || appState.get('intent') || 'Authentication';
+  let enterCodeOnFlowPage, appName, browserOnOsString, isMobileDevice, geolocation;
+  enterCodeOnFlowPage = loc('idx.return.link.otponly.enter.code.on.page', 'login', [challengeIntent]);
   if (app) {
-    appName = loc('idx.return.link.otponly.accessing.app', 'login', [app.label]);
+    appName = loc('idx.return.link.otponly.app', 'login', [app.label]);
   }
   if (client) {
     browserOnOsString = loc('idx.return.link.otponly.browser.on.os', 'login', [client.browser, client.os]);
+    // TODO: check exact name
+    isMobileDevice = browserOnOsString.includes('Android') || browserOnOsString.includes('iOS');
     geolocation = generateGeolocationString(client.location);
   }
   const otp = settings.get('otp') || appState.get('currentAuthenticator')?.contextualData?.otp;
@@ -30,8 +35,10 @@ const getTerminalOtpEmailMagicLinkContext = (settings, appState) => {
     showRequestInfo: appName || browserOnOsString || geolocation,
     appName,
     browserOnOsString,
+    isMobileDevice,
     geolocation,
     otp,
+    enterCodeOnFlowPage
   };
 };
 
@@ -43,31 +50,36 @@ const BaseEmailMagicLinkOTPTerminalView = View.extend({
 
 const OTPInformationTerminalView = BaseEmailMagicLinkOTPTerminalView.extend({
   template: hbs`
-  <h1 class='otp-value no-translate'>{{otp}}</h1>
+  <p class="enter-code-on-page">{{enterCodeOnFlowPage}}</p>
+  <h1 class='otp-value-with-margin-bottom no-translate'>{{otp}}</h1>
   {{#if showRequestInfo}}
-  <div class="enduser-email-consent--info">
+  <div class="enduser-email-otp-only--info">
     <div>{{i18n code="idx.return.link.otponly.request" bundle="login"}}</div>
   </div>
   {{/if}}
   {{#if browserOnOsString}}
-  <div class="enduser-email-consent--info">
-    <i class="enduser-email-consent--icon icon--desktop" aria-hidden="true"></i>
+  <div class="enduser-email-otp-only--info">
+    {{#if isMobileDevice}}
+      <i class="enduser-email-otp-only--icon icon--smartphone" aria-hidden="true"></i>
+    {{else}}
+      <i class="enduser-email-otp-only--icon icon--desktop" aria-hidden="true"></i>
+    {{/if}}
     <div data-se="otp-browser-os">{{browserOnOsString}}</div>
   </div>
   {{/if}}
   {{#if appName}}
-  <div class="enduser-email-consent--info">
-    <i class="enduser-email-consent--icon icon--app" aria-hidden="true"></i>
+  <div class="enduser-email-otp-only--info">
+    <i class="enduser-email-otp-only--icon icon--app" aria-hidden="true"></i>
     <div data-se="otp-app">{{appName}}</div>
   </div>
   {{/if}}
   {{#if geolocation}}
-  <div class="enduser-email-consent--info">
-    <i class="enduser-email-consent--icon icon--location" aria-hidden="true"></i>
+  <div class="enduser-email-otp-only--info">
+    <i class="enduser-email-otp-only--icon icon--location" aria-hidden="true"></i>
     <div data-se="otp-geolocation">{{geolocation}}</div>
   </div>
   {{/if}}
-  <p class='otp-warning'>{{i18n code="idx.return.link.otponly.warning" bundle="login"}}</p>
+  <p class='otp-warning'>{{i18n code="idx.return.link.otponly.warning.text" bundle="login"}}</p>
   `,
 });
 
