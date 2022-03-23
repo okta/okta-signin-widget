@@ -13,11 +13,18 @@ const generateGeolocationString = (location = {}) => {
     loc('geolocation.formatting.partial', 'login', [location.city, location.country]);
 };
 
+// A map from FactorTransactionIntent in okta-core to customer-facing flow name
+const challengeIntentToFlowMap = {
+  'AUTHENTICATION': loc('idx.return.link.otponly.enter.code.on.page.sign.in', 'login'),
+  'RECOVERY': loc('idx.return.link.otponly.enter.code.on.page.password.reset', 'login'),
+  'UNLOCK_ACCOUNT': loc('idx.return.link.otponly.enter.code.on.page.account.unlock', 'login'),
+  'ENROLLMENT': loc('idx.return.link.otponly.enter.code.on.page.registration', 'login')
+};
+
 const getTerminalOtpEmailMagicLinkContext = (settings, appState) => {
   const app = appState.get('app');
   const client = appState.get('client');
-  // TODO: remove the last part after fixing the response in this.options
-  const challengeIntent = settings.get('intent') || appState.get('intent') || 'Authentication';
+  const challengeIntent = challengeIntentToFlowMap[appState.get('idx').context.intent];
   let enterCodeOnFlowPage, appName, browserOnOsString, isMobileDevice, geolocation;
   enterCodeOnFlowPage = loc('idx.return.link.otponly.enter.code.on.page', 'login', [challengeIntent]);
   if (app) {
@@ -79,6 +86,7 @@ const OTPInformationTerminalView = BaseEmailMagicLinkOTPTerminalView.extend({
     <div data-se="otp-geolocation">{{geolocation}}</div>
   </div>
   {{/if}}
+  <br>
   <p class='otp-warning'>{{i18n code="idx.return.link.otponly.warning.text" bundle="login"}}</p>
   `,
 });
