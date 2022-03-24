@@ -105,7 +105,7 @@ async function setupOtpOnly(t) {
   ['Should have entry for enter code on sign in page and mobile icon (Android) when accessed', terminalReturnOtpOnlyFullLocationMobileIconAuthenticationMock, 'Enter this code on the sign in page.'],
   ['Should have entry for enter code on password reset page and mobile icon (Android) when accessed', terminalReturnOtpOnlyFullLocationMobileIconRecoveryMock, 'Enter this code on the password reset page.'],
   ['Should have entry for enter code on account unlock page and mobile icon (iOS) when accessed', terminalReturnOtpOnlyFullLocationMobileIconUnlockMock, 'Enter this code on the account unlock page.'],
-  ['Should have entry for enter code on registration page and mobile icon (iOS) when accessed', terminalReturnOtpOnlyFullLocationMobileIconEnrollmentMock, 'Enter this code on the registration page.'],
+  ['Should have entry for enter code on registration page and mobile icon (iOS) when accessed', terminalReturnOtpOnlyFullLocationMobileIconEnrollmentMock, 'Enter this code on the sign up page.'],
 ].forEach(([testTitle, mock, intent]) => {
   test
     .requestHooks(mock)(testTitle, async t => {
