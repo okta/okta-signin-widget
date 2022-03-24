@@ -12,7 +12,7 @@ const APP_ICON_SELECTOR = getOtpOnlyIconSelector('app');
 const APP_TEXT_SELECTOR = '[data-se=\'otp-app\']';
 const GEOLOCATION_ICON_SELECTOR = getOtpOnlyIconSelector('location');
 const GEOLOCATION_TEXT_SELECTOR = '[data-se=\'otp-geolocation\']';
-const OTP_VALUE_SELECTOR = '.otp-value-with-margin-bottom';
+const OTP_VALUE_SELECTOR = '.otp-value';
 const ENTER_CODE_ON_PAGE_SELECTOR = '.enter-code-on-page';
 const USER_EMAIL_SELECTOR = '[data-se=\'identifier\']';
 const FORM_TITLE_SELECTOR = '[data-se=\'o-form-head\']';

@@ -32,7 +32,6 @@ const getTerminalOtpEmailMagicLinkContext = (settings, appState) => {
   }
   if (client) {
     browserOnOsString = loc('idx.return.link.otponly.browser.on.os', 'login', [client.browser, client.os]);
-    // TODO: check exact name
     isMobileDevice = browserOnOsString.includes('Android') || browserOnOsString.includes('iOS');
     geolocation = generateGeolocationString(client.location);
   }
@@ -58,7 +57,7 @@ const BaseEmailMagicLinkOTPTerminalView = View.extend({
 const OTPInformationTerminalView = BaseEmailMagicLinkOTPTerminalView.extend({
   template: hbs`
   <p class="enter-code-on-page">{{enterCodeOnFlowPage}}</p>
-  <h1 class='otp-value-with-margin-bottom no-translate'>{{otp}}</h1>
+  <h1 class='otp-value no-translate'>{{otp}}</h1>
   {{#if showRequestInfo}}
   <div class="enduser-email-otp-only--info">
     <div class="okta-form-label">{{i18n code="idx.return.link.otponly.request" bundle="login"}}</div>
