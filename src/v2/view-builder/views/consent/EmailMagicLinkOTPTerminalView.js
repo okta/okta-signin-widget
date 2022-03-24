@@ -61,7 +61,7 @@ const OTPInformationTerminalView = BaseEmailMagicLinkOTPTerminalView.extend({
   <h1 class='otp-value-with-margin-bottom no-translate'>{{otp}}</h1>
   {{#if showRequestInfo}}
   <div class="enduser-email-otp-only--info">
-    <div>{{i18n code="idx.return.link.otponly.request" bundle="login"}}</div>
+    <div class="okta-form-label">{{i18n code="idx.return.link.otponly.request" bundle="login"}}</div>
   </div>
   {{/if}}
   {{#if browserOnOsString}}
