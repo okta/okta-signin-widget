@@ -184,7 +184,8 @@ exports.config = {
         ['sauce', {
             sauceConnect: true,
             sauceConnectOpts: {
-                tunnelIdentifier: 'SIW-e2e-tunnel'
+                tunnelIdentifier: 'SIW-e2e-tunnel',
+                public: 'share'
             }
         }],
         ['iedriver']
