@@ -18,7 +18,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    // 'identify',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -66,7 +66,8 @@ const idx = {
     // 'authenticator-expired-password',
     // 'authenticator-expired-password-no-complexity',
     // 'authenticator-expired-password-with-enrollment-authenticator',
-    // 'authenticator-expiry-warning-password',
+    'authenticator-expiry-warning-password',
+    'authenticator-expiry-warning-password-with-brand-name',
     // 'device-code-activate',
     // 'enroll-profile',
     // 'enroll-profile-new',
