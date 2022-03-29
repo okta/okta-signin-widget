@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "intent":"AUTHENTICATION",
+  "intent":"ENROLLMENT",
   "messages": {
     "type": "array",
     "value": [
@@ -47,7 +47,7 @@
     "type": "object",
     "value": {
       "browser": "FIREFOX",
-      "os": "Mac OS X",
+      "os": "iOS",
       "location": {
         "country": "Canada",
         "countryISO": "CA",

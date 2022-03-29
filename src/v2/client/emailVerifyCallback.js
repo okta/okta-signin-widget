@@ -20,7 +20,7 @@ export async function emailVerifyCallback(settings) {
       value: [
         // terminal-return-otp-only-no-location.json
         {
-          'message': 'Enter the OTP in your original authentication location.',
+          'message': 'Enter the OTP in your original browser or device.',
           'i18n': {
             'key': 'idx.enter.otp.in.original.tab'
           },

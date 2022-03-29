@@ -1,17 +1,22 @@
 import TerminalPageObject from './TerminalPageObject';
 
 const getOtpOnlyIconSelector = (fieldName) => {
-  return `[class='enduser-email-consent--icon icon--${fieldName}']`;
+  return `[class='enduser-email-otp-only--icon icon--${fieldName}']`;
 };
 
 // OTP Only View constants
 const BROWSER_OS_ICON_SELECTOR = getOtpOnlyIconSelector('desktop');
+const BROWSER_OS_SMARTPHONE_ICON_SELECTOR = getOtpOnlyIconSelector('smartphone');
 const BROWSER_OS_TEXT_SELECTOR = '[data-se=\'otp-browser-os\']';
 const APP_ICON_SELECTOR = getOtpOnlyIconSelector('app');
 const APP_TEXT_SELECTOR = '[data-se=\'otp-app\']';
 const GEOLOCATION_ICON_SELECTOR = getOtpOnlyIconSelector('location');
 const GEOLOCATION_TEXT_SELECTOR = '[data-se=\'otp-geolocation\']';
 const OTP_VALUE_SELECTOR = '.otp-value';
+const ENTER_CODE_ON_PAGE_SELECTOR = '.enter-code-on-page';
+const USER_EMAIL_SELECTOR = '[data-se=\'identifier\']';
+const FORM_TITLE_SELECTOR = '[data-se=\'o-form-head\']';
+const OTP_ONLY_WARNING_SELECTOR = '.otp-warning';
 
 export default class TerminalOtpOnlyPageObject extends TerminalPageObject {
 
@@ -21,6 +26,10 @@ export default class TerminalOtpOnlyPageObject extends TerminalPageObject {
 
   doesBrowserOsIconExist() {
     return this.form.elementExist(BROWSER_OS_ICON_SELECTOR);
+  }
+
+  doesBrowserOsSmartphoneIconExist() {
+    return this.form.elementExist(BROWSER_OS_SMARTPHONE_ICON_SELECTOR);
   }
 
   getBrowserOsElement() {
@@ -49,6 +58,38 @@ export default class TerminalOtpOnlyPageObject extends TerminalPageObject {
 
   getOtpEntry() {
     return this.form.getElement(OTP_VALUE_SELECTOR);
+  }
+
+  doesEnterCodeOnPageExist() {
+    return this.form.elementExist(ENTER_CODE_ON_PAGE_SELECTOR);
+  }
+
+  getEnterCodeOnPageElement() {
+    return this.form.getElement(ENTER_CODE_ON_PAGE_SELECTOR);
+  }
+
+  doesUserEmailExist() {
+    return this.form.elementExist(USER_EMAIL_SELECTOR);
+  }
+
+  getUserEmailElement() {
+    return this.form.getElement(USER_EMAIL_SELECTOR);
+  }
+
+  doesFormTitleExist() {
+    return this.form.elementExist(FORM_TITLE_SELECTOR);
+  }
+
+  getFormTitleElement() {
+    return this.form.getElement(FORM_TITLE_SELECTOR);
+  }
+
+  doesOtpOnlyWarningExist() {
+    return this.form.elementExist(OTP_ONLY_WARNING_SELECTOR);
+  }
+
+  getOtpOnlyWarningElement() {
+    return this.form.getElement(OTP_ONLY_WARNING_SELECTOR);
   }
 
 }

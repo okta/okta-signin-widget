@@ -79,7 +79,7 @@ const terminalViewTitles = {
   [DEVICE_NOT_ACTIVATED_CONSENT_DENIED] : 'device.code.activated.error.title',
   [DEVICE_NOT_ACTIVATED_INTERNAL_ERROR] : 'device.code.activated.error.title',
   [RETURN_TO_ORIGINAL_TAB_KEY] : 'oie.consent.enduser.email.allow.title',
-  [IDX_RETURN_LINK_OTP_ONLY]: 'idx.return.link.otponly.title',
+  [IDX_RETURN_LINK_OTP_ONLY]: 'idx.return.link.otponly.your.verification.code',
 };
 
 const Body = BaseForm.extend({

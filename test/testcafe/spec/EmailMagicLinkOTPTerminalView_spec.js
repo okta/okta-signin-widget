@@ -1,7 +1,11 @@
 import { RequestMock } from 'testcafe';
 import terminalReturnOtpOnlyFullLocation from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-full-location.json';
 import terminalReturnOtpOnlyPartialLocation from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-partial-location.json';
-import terminalReturnOtpOnlyNoLocation from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-no-location';
+import terminalReturnOtpOnlyNoLocation from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-no-location.json';
+import terminalReturnOtpOnlyFullLocationMobileIconAuthentication from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-full-location-mobile-icon-authentication.json';
+import terminalReturnOtpOnlyFullLocationMobileIconEnrollment from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-full-location-mobile-icon-enrollment.json';
+import terminalReturnOtpOnlyFullLocationMobileIconRecovery from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-full-location-mobile-icon-recovery.json';
+import terminalReturnOtpOnlyFullLocationMobileIconUnlock from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-full-location-mobile-icon-unlock.json';
 import TerminalOtpOnlyPageObject from '../framework/page-objects/TerminalOtpOnlyPageObject';
 
 const terminalReturnOtpOnlyFullLocationMock = RequestMock()
@@ -15,6 +19,22 @@ const terminalReturnOtpOnlyNoLocationMock = RequestMock()
 const terminalReturnOtpOnlyPartialLocationMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(terminalReturnOtpOnlyPartialLocation);
+
+const terminalReturnOtpOnlyFullLocationMobileIconAuthenticationMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(terminalReturnOtpOnlyFullLocationMobileIconAuthentication);
+
+const terminalReturnOtpOnlyFullLocationMobileIconEnrollmentMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(terminalReturnOtpOnlyFullLocationMobileIconEnrollment);
+
+const terminalReturnOtpOnlyFullLocationMobileIconRecoveryMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(terminalReturnOtpOnlyFullLocationMobileIconRecovery);
+
+const terminalReturnOtpOnlyFullLocationMobileIconUnlockMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(terminalReturnOtpOnlyFullLocationMobileIconUnlock);
 
 fixture('Email Magic Link OTP Terminal view');
 
@@ -77,5 +97,25 @@ async function setupOtpOnly(t) {
       } else {
         await t.expect(await terminalOtpOnlyPage.doesGeolocationIconExist()).notOk();
       }
+    });
+});
+
+// Make sure form title, otp-only warning have updated wording, user email and mobile icon are present in the response
+[
+  ['Should have entry for enter code on sign in page and mobile icon (Android) when accessed', terminalReturnOtpOnlyFullLocationMobileIconAuthenticationMock, 'Enter this code on the sign-in page.'],
+  ['Should have entry for enter code on password reset page and mobile icon (Android) when accessed', terminalReturnOtpOnlyFullLocationMobileIconRecoveryMock, 'Enter this code on the password reset page.'],
+  ['Should have entry for enter code on account unlock page and mobile icon (iOS) when accessed', terminalReturnOtpOnlyFullLocationMobileIconUnlockMock, 'Enter this code on the account unlock page.'],
+  ['Should have entry for enter code on registration page and mobile icon (iOS) when accessed', terminalReturnOtpOnlyFullLocationMobileIconEnrollmentMock, 'Enter this code on the sign up page.'],
+].forEach(([testTitle, mock, intent]) => {
+  test
+    .requestHooks(mock)(testTitle, async t => {
+      const terminalOtpOnlyPage = await setupOtpOnly(t);
+      await t.expect(await terminalOtpOnlyPage.doesFormTitleExist()).ok();
+      await t.expect(await terminalOtpOnlyPage.doesUserEmailExist()).ok();
+      await t.expect(await terminalOtpOnlyPage.doesEnterCodeOnPageExist()).ok();
+      await t.expect(await terminalOtpOnlyPage.doesBrowserOsSmartphoneIconExist()).ok();
+      await t.expect(terminalOtpOnlyPage.getFormTitleElement().innerText).eql('Your verification code');
+      await t.expect(terminalOtpOnlyPage.getUserEmailElement().innerText).eql('test@okta.com');
+      await t.expect(terminalOtpOnlyPage.getEnterCodeOnPageElement().innerText).eql(intent);
     });
 });

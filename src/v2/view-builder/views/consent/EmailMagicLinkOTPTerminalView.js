@@ -13,15 +13,26 @@ const generateGeolocationString = (location = {}) => {
     loc('geolocation.formatting.partial', 'login', [location.city, location.country]);
 };
 
+// A map from FactorTransactionIntent in okta-core to customer-facing flow name
+const challengeIntentToFlowMap = {
+  'AUTHENTICATION': loc('idx.return.link.otponly.enter.code.on.page.sign.in', 'login'),
+  'RECOVERY': loc('idx.return.link.otponly.enter.code.on.page.password.reset', 'login'),
+  'UNLOCK_ACCOUNT': loc('idx.return.link.otponly.enter.code.on.page.account.unlock', 'login'),
+  'ENROLLMENT': loc('idx.return.link.otponly.enter.code.on.page.registration', 'login')
+};
+
 const getTerminalOtpEmailMagicLinkContext = (settings, appState) => {
   const app = appState.get('app');
   const client = appState.get('client');
-  let appName, browserOnOsString, geolocation;
+  const challengeIntent = challengeIntentToFlowMap[appState.get('idx').context.intent];
+  let enterCodeOnFlowPage, appName, browserOnOsString, isMobileDevice, geolocation;
+  enterCodeOnFlowPage = loc('idx.return.link.otponly.enter.code.on.page', 'login', [challengeIntent]);
   if (app) {
-    appName = loc('idx.return.link.otponly.accessing.app', 'login', [app.label]);
+    appName = loc('idx.return.link.otponly.app', 'login', [app.label]);
   }
   if (client) {
     browserOnOsString = loc('idx.return.link.otponly.browser.on.os', 'login', [client.browser, client.os]);
+    isMobileDevice = browserOnOsString.includes('Android') || browserOnOsString.includes('iOS');
     geolocation = generateGeolocationString(client.location);
   }
   const otp = settings.get('otp') || appState.get('currentAuthenticator')?.contextualData?.otp;
@@ -30,8 +41,10 @@ const getTerminalOtpEmailMagicLinkContext = (settings, appState) => {
     showRequestInfo: appName || browserOnOsString || geolocation,
     appName,
     browserOnOsString,
+    isMobileDevice,
     geolocation,
     otp,
+    enterCodeOnFlowPage
   };
 };
 
@@ -43,31 +56,37 @@ const BaseEmailMagicLinkOTPTerminalView = View.extend({
 
 const OTPInformationTerminalView = BaseEmailMagicLinkOTPTerminalView.extend({
   template: hbs`
+  <p class="enter-code-on-page">{{enterCodeOnFlowPage}}</p>
   <h1 class='otp-value no-translate'>{{otp}}</h1>
   {{#if showRequestInfo}}
-  <div class="enduser-email-consent--info">
-    <div>{{i18n code="idx.return.link.otponly.request" bundle="login"}}</div>
+  <div class="enduser-email-otp-only--info">
+    <div class="okta-form-label">{{i18n code="idx.return.link.otponly.request" bundle="login"}}</div>
   </div>
   {{/if}}
   {{#if browserOnOsString}}
-  <div class="enduser-email-consent--info">
-    <i class="enduser-email-consent--icon icon--desktop" aria-hidden="true"></i>
+  <div class="enduser-email-otp-only--info">
+    {{#if isMobileDevice}}
+      <i class="enduser-email-otp-only--icon icon--smartphone" aria-hidden="true"></i>
+    {{else}}
+      <i class="enduser-email-otp-only--icon icon--desktop" aria-hidden="true"></i>
+    {{/if}}
     <div data-se="otp-browser-os">{{browserOnOsString}}</div>
   </div>
   {{/if}}
   {{#if appName}}
-  <div class="enduser-email-consent--info">
-    <i class="enduser-email-consent--icon icon--app" aria-hidden="true"></i>
+  <div class="enduser-email-otp-only--info">
+    <i class="enduser-email-otp-only--icon icon--app" aria-hidden="true"></i>
     <div data-se="otp-app">{{appName}}</div>
   </div>
   {{/if}}
   {{#if geolocation}}
-  <div class="enduser-email-consent--info">
-    <i class="enduser-email-consent--icon icon--location" aria-hidden="true"></i>
+  <div class="enduser-email-otp-only--info">
+    <i class="enduser-email-otp-only--icon icon--location" aria-hidden="true"></i>
     <div data-se="otp-geolocation">{{geolocation}}</div>
   </div>
   {{/if}}
-  <p class='otp-warning'>{{i18n code="idx.return.link.otponly.warning" bundle="login"}}</p>
+  <br>
+  <p class='otp-warning'>{{i18n code="idx.return.link.otponly.warning.text" bundle="login"}}</p>
   `,
 });
 

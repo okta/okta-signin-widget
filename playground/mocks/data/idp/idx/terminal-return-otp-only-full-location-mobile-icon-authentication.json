@@ -47,7 +47,7 @@
     "type": "object",
     "value": {
       "browser": "FIREFOX",
-      "os": "Mac OS X",
+      "os": "Android",
       "location": {
         "country": "Canada",
         "countryISO": "CA",
