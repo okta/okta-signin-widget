@@ -169,6 +169,7 @@ const I18N_OVERRIDE_MAPPINGS = {
   'core.auth.factor.signedNonce.error.invalidDeviceStatus': 'core.auth.factor.signedNonce.error.invalidDevice',
 
   // re-map autoPush: "Send push automatically"
+  'challenge-poll.custom_app.autoChallenge': 'autoPush', // authenticator-verification-custom-app-push-autochallenge
   'challenge-poll.okta_verify.autoChallenge': 'autoPush', // authenticator-verification-okta-verify-push-autoChallenge-on
   'authenticator-verification-data.authenticator.autoChallenge': 'autoPush', // authenticator-verification-data-okta-verify-push-autoChallenge-off.json
   'authenticator-verification-data.okta_verify.authenticator.autoChallenge': 'autoPush',
