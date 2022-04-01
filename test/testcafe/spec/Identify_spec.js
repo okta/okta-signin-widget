@@ -427,3 +427,29 @@ test.requestHooks(identifyRequestLogger, errorsIdentifyMock)('should render each
     'Your session has expired. Please try to sign in again.'
   ]);
 });
+
+test.requestHooks(identifyRequestLogger, baseIdentifyMock)('should "autoFocus" form with config or by default', async t => {
+  const identityPage = await setup(t);
+  await rerenderWidget({
+    features: {}
+  });
+
+  let doesFormHaveFocus = identityPage.form.getElement('[data-se="o-form-input-identifier"] input').focused;
+  await t.expect(doesFormHaveFocus).eql(true);
+
+
+  await rerenderWidget({
+    features: { autoFocus: true }
+  });
+
+  doesFormHaveFocus = identityPage.form.getElement('[data-se="o-form-input-identifier"] input').focused;
+  await t.expect(doesFormHaveFocus).eql(true);
+
+
+  await rerenderWidget({
+    features: { autoFocus: false }
+  });
+
+  doesFormHaveFocus = identityPage.form.getElement('[data-se="o-form-input-identifier"] input').focused;
+  await t.expect(doesFormHaveFocus).eql(false);
+});

@@ -47,6 +47,12 @@ export default Form.extend({
     this.listenTo(this, 'cancel', this.cancelForm);
   },
 
+  focus() {
+    if (this.settings.get('features.autoFocus')) {
+      Form.prototype.focus.apply(this, arguments);
+    }
+  },
+
   handleClearFormError() {
     const formErrorContainer = this.$('.o-form-error-container');
     formErrorContainer.empty();
