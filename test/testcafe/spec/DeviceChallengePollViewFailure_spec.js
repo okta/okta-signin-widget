@@ -14,6 +14,7 @@ const mock = RequestMock()
   .respond((req, res) => {
     return new Promise((resolve) => setTimeout(function() {
       res.statusCode = '403';
+      res.headers['content-type'] = 'application/json';
       res.setBody(error);
       resolve(res);
     }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2000));
@@ -42,6 +43,7 @@ const deviceInvalidatedErrorMsg = RequestMock()
   .respond((req, res) => {
     return new Promise((resolve) => setTimeout(function() {
       res.statusCode = '400';
+      res.headers['content-type'] = 'application/json';
       res.setBody(errorDeviceInvalid);
       resolve(res);
     }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2000));

@@ -5,5 +5,6 @@ module.exports = {
   ChallengeOktaVerifySSOExtensionView: require('./ChallengeOktaVerifySSOExtensionView'),
   IdentifyWithRememberUsername: require('./IdentifyWithRememberUsername'),
   ResetAuthenticatorPasswordView: require('./ResetAuthenticatorPasswordView'),
+  SelectAuthenticatorForEnroll: require('./SelectAuthenticatorForEnroll'),
   WidgetCustomization: require('./WidgetCustomization'),
 };
