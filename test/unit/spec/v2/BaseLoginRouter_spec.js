@@ -205,8 +205,8 @@ describe('v2/BaseLoginRouter', function() {
       ]);
 
       await testContext.router.render(FormController);
-      expect(testContext.router.handleError).toHaveBeenCalledWith(FakeIdxClientError);
-      expect(globalErrorFn).toBeCalledWith(FakeIdxClientError);
+      expect(testContext.router.handleError).toHaveBeenCalledWith(expect.objectContaining(FakeIdxClientError));
+      expect(globalErrorFn).toBeCalledWith(expect.objectContaining(FakeIdxClientError));
       expect(testContext.afterErrorHandler).toHaveBeenCalledTimes(0);
       expect(testContext.afterRenderHandler).toHaveBeenCalledTimes(1);
       expect(testContext.router.header.$el.css('display')).toBe('block');
@@ -232,8 +232,8 @@ describe('v2/BaseLoginRouter', function() {
       ]);
 
       await testContext.router.render(FormController);
-      expect(testContext.router.handleError).toHaveBeenCalledWith(UnauthorizedClientError);
-      expect(globalErrorFn).toBeCalledWith(UnauthorizedClientError);
+      expect(testContext.router.handleError).toHaveBeenCalledWith(expect.objectContaining(UnauthorizedClientError));
+      expect(globalErrorFn).toBeCalledWith(expect.objectContaining(UnauthorizedClientError));
       expect(testContext.afterErrorHandler).toHaveBeenCalledTimes(0);
       expect(testContext.afterRenderHandler).toHaveBeenCalledTimes(1);
       expect(testContext.router.header.$el.css('display')).toBe('block');

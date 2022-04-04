@@ -54,7 +54,8 @@ describe('OktaSignIn v2 bootstrap', function() {
     jest.spyOn(signIn.authClient.token, 'prepareTokenParams').mockResolvedValue({
       codeVerifier,
       codeChallenge,
-      codeChallengeMethod
+      codeChallengeMethod,
+      scopes: ['a', 'b', 'c']
     });
     jest.spyOn(signIn.authClient.transactionManager, 'save');
     MockUtil.mockAjax(responses);
@@ -124,17 +125,19 @@ describe('OktaSignIn v2 bootstrap', function() {
   describe('Interaction code flow', function() {
     let responses;
     let interactionHandle;
+    let interactResponse;
 
     beforeEach(function() {
       interactionHandle = 'fake_interaction_handle';
-      responses = [
-        {
-          state: 200,
-          responseType: 'json',
-          response: {
-            'interaction_handle': interactionHandle
-          },
+      interactResponse = {
+        state: 200,
+        responseType: 'json',
+        response: {
+          'interaction_handle': interactionHandle
         },
+      };
+      responses = [
+        interactResponse,
         idxResponse
       ];
     });
@@ -190,7 +193,7 @@ describe('OktaSignIn v2 bootstrap', function() {
           await render();
         } catch (e) {
           didThrow = true;
-          expect(e).toEqual({
+          expect(e).toMatchObject({
             'error': 'access_denied',
             'error_description': 'The requested feature is not enabled in this environment.',
           });
@@ -214,7 +217,7 @@ describe('OktaSignIn v2 bootstrap', function() {
           await render();
         } catch (e) {
           didThrow = true;
-          expect(e).toEqual({
+          expect(e).toMatchObject({
             'error': 'access_denied',
             'error_description': 'The requested feature is not enabled in this environment.',
           });
@@ -245,6 +248,7 @@ describe('OktaSignIn v2 bootstrap', function() {
             codeChallenge,
             codeVerifier,
             codeChallengeMethod,
+            scopes: ['a', 'b', 'c'],
             interactionHandle,
             issuer,
             urls: {
@@ -280,6 +284,7 @@ describe('OktaSignIn v2 bootstrap', function() {
             codeChallenge,
             codeVerifier,
             codeChallengeMethod,
+            scopes: ['a', 'b', 'c'],
             interactionHandle,
             issuer,
             urls: {
@@ -305,7 +310,8 @@ describe('OktaSignIn v2 bootstrap', function() {
         }, responses);
         signIn.authClient.token.prepareTokenParams.mockResolvedValue({
           codeChallenge: 'custom',
-          codeChallengeMethod: 'custom-method'
+          codeChallengeMethod: 'custom-method',
+          scopes: ['a', 'b', 'c'],
         });
         jest.spyOn(signIn.authClient.transactionManager, 'exists').mockReturnValue(false);
         jest.spyOn(signIn.authClient.transactionManager, 'load').mockReturnValue({});
@@ -319,6 +325,7 @@ describe('OktaSignIn v2 bootstrap', function() {
             codeVerifier: undefined,
             codeChallenge: 'custom',
             codeChallengeMethod: 'custom-method',
+            scopes: ['a', 'b', 'c'],
             interactionHandle,
             issuer,
             urls: {
@@ -459,33 +466,36 @@ describe('OktaSignIn v2 bootstrap', function() {
         });
       });
 
-      itp('Clears when user chooses "cancel" action', () => {
+      itp('Clears when user chooses "cancel" action', async () => {
         setupLoginFlow({
           clientId,
           redirectUri,
           useInteractionCodeFlow: true
         }, [
+          interactResponse,
           idxVerifyPassword,
           // cancel response
           {
             state: 200,
             responseType: 'json',
             response: {}
-          }
+          },
+          interactResponse,
+          idxResponse
         ]);
-        // simulate saved transaction
-        jest.spyOn(signIn.authClient.transactionManager, 'clear').mockImplementation(() => { });
-        jest.spyOn(signIn.authClient.transactionManager, 'exists').mockReturnValue(true);
-        jest.spyOn(signIn.authClient.transactionManager, 'load').mockReturnValue(mockTransactionMeta);
         render();
 
-        return Expect.wait(() => {
+        await Expect.wait(() => {
           return $('.siw-main-body').length === 1;
-        }).then(function() {
-          expect(signIn.authClient.transactionManager.clear).not.toHaveBeenCalled();
-          const $signOut = $('a[data-se="cancel"]');
-          $signOut.click();
-          expect(signIn.authClient.transactionManager.clear).toHaveBeenCalled();
+        });
+        jest.spyOn(signIn.authClient.transactionManager, 'clear');
+        const $signOut = $('a[data-se="cancel"]');
+        $signOut.click();
+        expect(signIn.authClient.transactionManager.clear).toHaveBeenCalled(); // assert data is cleared synchronously
+
+        // login flow will restart
+        await Expect.wait(() => {
+          return $('.siw-main-view.primary-auth').length === 1;
         });
       });
     }); // Clear transaction
