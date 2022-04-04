@@ -72,6 +72,8 @@ const nonIdxError = RequestMock()
   .respond((req, res) => {
     return new Promise((resolve) => setTimeout(function() {
       res.statusCode = '400';
+      res.headers['content-type'] = 'application/json';
+      res.setBody({});
       resolve(res);
     }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2000));
   })
