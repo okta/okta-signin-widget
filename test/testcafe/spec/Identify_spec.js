@@ -9,7 +9,8 @@ import xhrAuthenticatorOVTotp from '../../../playground/mocks/data/idp/idx/authe
 import xhrIdentifyWithUser from '../../../playground/mocks/data/idp/idx/identify-with-user';
 import xhrErrorIdentifyMultipleErrors from '../../../playground/mocks/data/idp/idx/error-identify-multiple-errors';
 
-import config from '../../../src/config/config.json';
+// TODO REMOVER ME
+// import config from '../../../src/config/config.json';
 
 const baseIdentifyMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
