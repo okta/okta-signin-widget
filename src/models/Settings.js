@@ -102,6 +102,7 @@ export default Model.extend({
     'features.scrollOnError': ['boolean', false, true],
     'features.showKeepMeSignedIn': ['boolean', false, true],
     'features.showIdentifier': ['boolean', false, true],
+    'features.autoFocus': ['boolean', false, true],
     
     defaultCountryCode: ['string', false, 'US'],
 
