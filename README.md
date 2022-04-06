@@ -29,14 +29,21 @@
 [Authorization Server]: https://developer.okta.com/docs/concepts/auth-servers/#which-authorization-server-should-you-use
 [Social Login]: https://developer.okta.com/docs/concepts/social-login/
 [Identity Engine]: https://developer.okta.com/docs/guides/oie-intro/
+[interaction code]: https://developer.okta.com/docs/concepts/interaction-code/
+[okta-auth-js]: https://github.com/okta/okta-auth-js
+[Email Magic Link/OTP]: https://developer.okta.com/docs/guides/authenticators-okta-email/-/main/
 <!-- end links -->
 
 <!-- omit in toc -->
 # Okta Sign-In Widget
 
-The Okta Sign-In Widget is a Javascript widget that provides a fully featured and customizable login experience which can be used to authenticate users of web and mobile applications.
+The Okta Sign-In Widget is a Javascript widget that provides a fully featured and customizable login experience which can be used to authenticate and register users in web and mobile applications.
 
-The widget is used on Okta's default signin page to start an Okta SSO session and set the Okta [session cookie][] in the web browser. The widget can also perform a complete [OIDC][] flow and/or integrate with external [identity providers][].
+The widget is used on [Okta's default signin page](#okta-hosted-sign-in-page-default) to start an Okta SSO session and set the Okta [session cookie][] in the web browser. It can also perform an [OIDC][] flow to easily integrate your web or mobile applications into the Okta platform.
+
+A [custom Okta-hosted signin page](#okta-hosted-sign-in-page-customizable) can be configured to use your organization's domain name and branding.
+
+The widget can also be [embedded directly](#embedded-self-hosted) into your organization's web or mobile applications for a seamless user experience.
 
 See the [Usage Guide](#usage-guide) for more information on how to get started using the Sign-in Widget.
 
@@ -56,15 +63,15 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
     - [Examples](#examples)
       - [SPA Application](#spa-application)
       - [Web Application](#web-application)
-  - [Non-OIDC Applications](#non-oidc-applications)
+    - [Flow](#flow)
+    - [Redirect Callbacks](#redirect-callbacks)
+      - [OAuth callback](#oauth-callback)
+      - [Social/IDP callback](#socialidp-callback)
+      - [Email verify callback](#email-verify-callback)
 - [API Reference](#api-reference)
-  - [Interaction Code Flow](#interaction-code-flow)
   - [OktaSignIn](#oktasignin)
   - [showSignIn](#showsignin)
-  - [showSignInToGetTokens](#showsignintogettokens)
   - [showSignInAndRedirect](#showsigninandredirect)
-  - [renderEl](#renderel)
-    - [success](#success)
   - [hide](#hide)
   - [show](#show)
   - [remove](#remove)
@@ -74,30 +81,60 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
   - [before](#before)
   - [after](#after)
 - [Configuration](#configuration)
-  - [OIDC Applications](#oidc-applications)
   - [Basic config options](#basic-config-options)
-  - [Username and password](#username-and-password)
-  - [Language and text](#language-and-text)
-  - [Colors](#colors)
+    - [issuer](#issuer)
+    - [clientId](#clientid)
+    - [redirectUri](#redirecturi)
+    - [useInteractionCodeFlow](#useinteractioncodeflow)
+  - [Brand](#brand)
+    - [logo](#logo)
+    - [logoText](#logotext)
+    - [brandName](#brandname)
+    - [colors](#colors)
+      - [colors.brand](#colorsbrand)
+  - [Localization](#localization)
+    - [Supported languages](#supported-languages)
+    - [language](#language)
+    - [defaultCountryCode](#defaultcountrycode)
+    - [i18n](#i18n)
+  - [assets](#assets)
+    - [assets.baseUrl](#assetsbaseurl)
+    - [assets.languages](#assetslanguages)
+    - [assets.rewrite](#assetsrewrite)
   - [Links](#links)
+    - [Sign out link](#sign-out-link)
+    - [Sign up link](#sign-up-link)
+    - [registration.click](#registrationclick)
     - [Help Links](#help-links)
-    - [Sign Out Link](#sign-out-link)
-  - [Buttons](#buttons)
-    - [Custom Buttons](#custom-buttons)
-    - [Registration Button](#registration-button)
-  - [Registration](#registration)
-  - [IdP Discovery](#idp-discovery)
-    - [Additional configuration](#additional-configuration)
-  - [OpenID Connect](#openid-connect)
-  - [Smart Card IdP](#smart-card-idp)
-  - [Bootstrapping from a recovery token](#bootstrapping-from-a-recovery-token)
-  - [Feature flags](#feature-flags)
+      - [helpLinks.help](#helplinkshelp)
+      - [helpLinks.forgotPassword](#helplinksforgotpassword)
+      - [helpLinks.unlock](#helplinksunlock)
+      - [helpLinks.custom](#helplinkscustom)
   - [Hooks](#hooks)
+  - [Username and password](#username-and-password)
+    - [transformUsername](#transformusername)
+  - [Registration](#registration)
+    - [parseSchema](#parseschema)
+    - [preSubmit](#presubmit)
+    - [postSubmit](#postsubmit)
+    - [Handling registration callback errors](#handling-registration-callback-errors)
+      - [Use the default error](#use-the-default-error)
+      - [Display a form error](#display-a-form-error)
+      - [Display a form field error](#display-a-form-field-error)
+  - [Custom Buttons](#custom-buttons)
+    - [customButtons.title](#custombuttonstitle)
+    - [customButtons.i18nKey](#custombuttonsi18nkey)
+    - [customButtons.className](#custombuttonsclassname)
+    - [customButtons.click](#custombuttonsclick)
+  - [Feature flags](#feature-flags)
+    - [features.showPasswordToggleOnSignInPage](#featuresshowpasswordtoggleonsigninpage)
+    - [features.showIdentifier](#featuresshowidentifier)
+    - [features.hideSignOutLinkInMFA](#featureshidesignoutlinkinmfa)
+    - [features.rememberMe](#featuresrememberme)
 - [Events](#events)
   - [ready](#ready)
   - [afterError](#aftererror)
   - [afterRender](#afterrender)
-  - [pageRendered](#pagerendered)
 - [Building the Widget](#building-the-widget)
   - [Build and test commands](#build-and-test-commands)
   - [Local development workflow using `yarn link`](#local-development-workflow-using-yarn-link)
@@ -109,6 +146,9 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
 
 The Okta [Identity Engine][] (OIE) is a platform service that allows enterprises to build more flexible access experiences that are tailored to their organizational needs. The Okta Sign-in Widget supports OIE in all [usage](#usage-guide) scenarios.
 
+> **Note**:
+Unless otherwise noted, this README assumes you are using OIE. Information on using the widget with the "classic" pipeline can be found in [this document](https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md)
+
 ## Related SDKs
 
 The Sign-in Widget is self-contained and requires no other frameworks at runtime. However, there may be certain features your app needs such as token storage, renewal, or validation, which the widget does not provide.
@@ -117,11 +157,10 @@ These SDKs are fully compatible with the Okta Sign-in Widget and provide utiliti
 
 ### Javascript
 
-- [okta-auth-js](https://github.com/okta/okta-auth-js)
+- [okta-auth-js](https://github.com/okta/okta-auth-js) (Browser or NodeJS)
 - [okta-react](https://github.com/okta/okta-react)
 - [okta-angular](https://github.com/okta/okta-angular)
 - [okta-vue](https://github.com/okta/okta-vue)
-- [oidc-middleware](https://github.com/okta/okta-oidc-js/tree/master/packages/oidc-middleware) (Express / NodeJS)
   
 ### Java
 
@@ -136,7 +175,8 @@ These SDKs are fully compatible with the Okta Sign-in Widget and provide utiliti
 
 Complete sample applications demonstrate usage of the Okta Sign-In Widget in both [Okta-hosted](#okta-hosted-sign-in-page-default) and [embedded](#embedded-self-hosted) scenarios.
 
-- [Javascript](https://github.com/okta/okta-auth-js/tree/master/samples)
+- [Javascript (Browser/SPA)](https://github.com/okta/okta-auth-js/tree/master/samples/generated/static-spa)
+- [Javascript (Express/NodeJS)](https://github.com/okta/okta-auth-js/tree/master/samples/generated/express-embedded-sign-in-widget)
 - [React](https://github.com/okta/samples-js-react)
 - [Angular](https://github.com/okta/samples-js-angular)
 - [Vue](https://github.com/okta/samples-js-vue)
@@ -146,7 +186,6 @@ Complete sample applications demonstrate usage of the Okta Sign-In Widget in bot
 - [ASP.Net Webforms](https://github.com/okta/samples-aspnet-webforms)
 - [Golang](https://github.com/okta/samples-golang)
 - [Java/Spring Boot](https://github.com/okta/samples-java-spring)
-- [NodeJS/Express](https://github.com/okta/samples-nodejs-express-4)
 - [PHP](https://github.com/okta/samples-php)
 - [Python/Flask](https://github.com/okta/samples-python-flask)
 
@@ -164,7 +203,7 @@ There are several ways to use the Okta Sign-in Widget:
 
 Okta provides a sign-in page, available at your [organization][]'s URL, which allows the user to complete the entire authorization flow, start an SSO (Single Sign-On) session, and set the Okta [session cookie][] in the web browser. You can customize this page with a background image and logo. By default, signing in on this page redirects the user to the Okta user dashboard.
 
-The default Okta-hosted sign-in page can also authenticate a user in an OIDC application. Your app can [redirect to a sign-in page][] to perform the [authentication][] flow, after which Okta redirects the user back to the app [callback][]. Okta provides [SDKs](#sdks) in many languages to help construct the redirect URL and handle the login [callback][] as part of the [hosted flow][].
+The default Okta-hosted sign-in page can also authenticate a user in an OIDC application. Your app can [redirect to a sign-in page][] to perform the [authentication][] flow, after which Okta redirects the user back to the app [callback][]. Okta provides [SDKs](#related-sdks) in many languages to help construct the redirect URL and handle the login [callback][] as part of the [hosted flow][].
 
 Okta provides several complete [sample applications](#sample-applications) which demonstrate how to use the Okta [hosted flow][].
 
@@ -174,21 +213,21 @@ Okta also provides a hosted sign-in page that can be customized so that it is av
 
 As far as your app is concerned, the customized widget behaves the same as the default Okta-hosted widget and you can use the same [hosted flow][].
 
+> **Note:** There will be a configuration object on the page which contains all required values and enabled features. You will most likely not need to modify this object. If you find that you do need to modify this configuration, take care not to overwrite or remove any required values.
+
 ### Embedded (self-hosted)
 
 For a completely seamless experience that allows for the highest level of customization, you can embed the Sign-In Widget directly into your application. This allows full use of the widget's [configuration](#configuration) and [API](#api-reference).
 
-Using an embedded widget for client-side web and native apps can avoid the round-trip redirect of the [hosted flow][]. An embedded widget can perform the [OIDC][] flow and return [OAuth][] tokens directly within the application. See [showSignInToGetTokens](#showsignintogettokens).
+Using an embedded widget, client-side web and native apps can avoid the round-trip redirect of the [hosted flow][] in many cases. See [showSignIn](#showsignin).
 
-Server-side web applications using the [authorization code flow][] complete the [OIDC][] flow and receive [OAuth][] tokens on the server, so they **must use a redirect flow**. These apps should use [showSignInAndRedirect](#showsigninandredirect).
+Server-side web applications will receive [OAuth][] tokens server-side, so they **must handle a redirect callback**. These apps should use [showSignInAndRedirect](#showsigninandredirect).
 
-Organizations using the Okta [Identity Engine][] should follow the [interaction code flow](#interaction-code-flow).
-
-You can embed the Sign-In Widget in your app by either including a script from the Okta CDN or bundling the npm module [@okta/okta-signin-widget](https://www.npmjs.com/package/@okta/okta-signin-widget) with your app.
+You can embed the Sign-In Widget in your app by either including a script tag that pulls the widget from the [Okta CDN](#using-the-okta-cdn) or bundling the [NPM module](#using-the-npm-module) into your app.
 
 #### Using the Okta CDN
 
-Loading our assets directly from the CDN is a good choice if you want an easy way to get started with the widget or don't already have an existing build process that leverages [npm](https://www.npmjs.com/) for external dependencies.
+Loading our assets directly from the CDN is a good choice if you want an easy way to get started with the widget or don't already have an existing build process that leverages [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) for external dependencies.
 
 To embed the Sign-in Widget via CDN, include links to the JS and CSS files in your HTML:
 
@@ -199,9 +238,9 @@ To embed the Sign-in Widget via CDN, include links to the JS and CSS files in yo
 <link href="https://global.oktacdn.com/okta-signin-widget/6.1.2/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
 ```
 
-The CDN URLs contain a version number. This number should be the same for both the Javascript and the CSS file and match a version on the [releases page](../../releases).
+The CDN URLs contain a version number. This number should be the same for both the Javascript and the CSS file and match a version on the [releases page](https://github.com/okta/okta-signin-widget/releases).
 
-The standard JS asset served from our CDN includes polyfills via [`core-js`](https://github.com/zloirock/core-js) and [`regenerator-runtime`](https://github.com/facebook/regenerator/blob/master/packages/regenerator-runtime/runtime.js) to ensure compatibility with older browsers.
+The standard JS asset served from our CDN includes polyfills via [`core-js`](https://github.com/zloirock/core-js) and [`regenerator-runtime`](https://www.npmjs.com/package/regenerator-runtime) to ensure compatibility with older browsers.
 
 ```html
 <!-- Latest CDN production Javascript without polyfills -->
@@ -212,7 +251,7 @@ The standard JS asset served from our CDN includes polyfills via [`core-js`](htt
 
 Using our npm module is a good choice if:
 
-- You have a build system in place where you manage dependencies with npm
+- You have a build system in place where you manage dependencies with [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
 - You do not want to load scripts directly from 3rd party sites
 
 To install [@okta/okta-signin-widget](https://www.npmjs.com/package/@okta/okta-signin-widget):
@@ -294,62 +333,51 @@ After installing:
     --outfile=bundle.js
     ```
 
-3. Make sure you include ES6 polyfills with your bundler if you need the broadest browser support. 
+3. Make sure you include ES6 polyfills with your bundler if you need the broadest browser support.
 
 #### Examples
 
+These simple examples should help you get started with using the Sign-in Widget. For complete end-to-end solutions, check out our [sample applications](#sample-applications).
+
 ##### SPA Application
 
-Although a `redirectUri` is required in the configuration, no redirection occurs using this flow. The Sign-in Widget will communicate with Okta and receive tokens directly.
+A Single Page Application (SPA) runs completely in the browser. SPA applications authenticate using client-side flows and store tokens and other data in browser-based storage.
 
 ```javascript
 var signIn = new OktaSignIn(
   {
-    baseUrl: 'https://{yourOktaDomain}',
-    clientId: '{{clientId of your OIDC app}}',
-    redirectUri: '{{redirectUri configured in OIDC app}}'
-  }
-);
-
-signIn.showSignInToGetTokens({
-  // Assumes there is an empty element on the page with an id of 'osw-container'
-  el: '#osw-container'
-}).then(function(tokens) {
-  // Store tokens
-}).catch(function(error) {
-  // Handle error
-});
-```
-
-[PKCE][] is enabled by default for new SPA applications. (SPA applications can enable or disable `PKCE` in the Okta Admin Console under the `General Settings` for the application.) Although [PKCE][] is recommended for SPA applications, the [implicit flow][] is supported. To use [implicit flow][] in a SPA Application, set `authParams.pkce` to `false`, as shown:
-
-```javascript
-var signIn = new OktaSignIn(
-  {
-    baseUrl: 'https://{yourOktaDomain}',
+    issuer: 'https://{yourOktaDomain}/oauth2/default',
     clientId: '{{clientId of your OIDC app}}',
     redirectUri: '{{redirectUri configured in OIDC app}}',
-    authParams: {
-      pkce: false,
-    }
+    useInteractionCodeFlow: true
   }
 );
+
+signIn.showSignIn({
+  // Assumes there is an empty element on the page with an id of 'osw-container'
+  el: '#osw-container'
+}).then(function(res) {
+  // Most flows will not require any redirection. In these cases, tokens will be returned directly.
+  oktaSignIn.authClient.handleLoginRedirect(res.tokens);
+}).catch(function(error) {
+  // This function is invoked with errors the widget cannot recover from:
+  // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR
+});
 ```
 
 ##### Web Application
 
-This example uses the [authorization code flow][]
+A web application runs primarily on the server. The widget, which executes client-side, will be embedded into an HTML page that includes a script block that configures and renders the widget. [OAuth][] tokens will be received server-side on the application's [login redirect callback](#oauth-callback).
 
 ```javascript
 var signIn = new OktaSignIn(
   {
-    baseUrl: 'https://{yourOktaDomain}',
+    issuer: 'https://{yourOktaDomain}/oauth2/default',
     clientId: '{{clientId of your OIDC app}}',
     redirectUri: '{{redirectUri configured in OIDC app}}',
-    authParams: {
-      pkce: false,
-      responseType: 'code'
-    }
+    useInteractionCodeFlow: true,
+    state: '{{state passed from backend}}', // state can be any string, it will be passed on redirect callback
+    codeChallenge: '{{PKCE code challenge from backend}}', // PKCE is required for interaction code flow
   }
 );
 
@@ -361,221 +389,170 @@ signIn.showSignInAndRedirect({
   // Assumes there is an empty element on the page with an id of 'osw-container'
   el: '#osw-container'
 }).catch(function(error) {
-  // Handle error
+  // This function is invoked with errors the widget cannot recover from:
+  // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR
 });
 ```
 
-### Non-OIDC Applications
+#### Flow
 
-In most cases, the widget will be used to authenticate users into an [OIDC][] application. However, the Sign-in widget can also be used to authenticate a user outside of an OIDC application.
+In addition to the default authentication flow, the widget supports several pre-defined flows, which allow you to provide single-purpose HTML pages for several common use-cases.
 
-To disable OIDC, do not set an [OIDC configuration](#openid-connect). The [renderEl](#renderel) method can be used to perform the authentication flow.
+By default, the Okta Sign-In Widget will either proceed with a current flow or start a new authenticate flow. The `flow` option allows bootstrapping the widget into a specific view such as register, unlock, or reset password. Supported flows:
 
-> **Note**:
- [API](#api-reference) methods used to obtain tokens, such as [showSignInToGetTokens](#showsignintogettokens) or [showSignInAndRedirect](#showsigninandredirect) require an [OIDC configuration](#openid-connect)
+- login
+- signup
+- resetPassword
+- unlockAccount
+
+> **Note:** A particular flow can only work if the admin has configured the org to allow the required operations
+(example: if Profile Enrollment (User sign-up) in the admin console is not enabled, bootstrapping the widget with `flow: 'signup'` will result in an error)
 
 ```javascript
-var signIn = new OktaSignIn({
-  baseUrl: 'https://{yourOktaDomain}',
-})
+// login.html
+new OktaSignIn({
+  flow: 'login'
+});
 
-signIn.renderEl({
-    // Assumes there is an empty element on the page with an id of 'osw-container'
-    el: '#osw-container'
-}).then(function(res) {
-  if (res.status === 'SUCCESS') {
-    // user is authenticated
-    console.log('user is authenticated', res.user);
-  }
-})
+// signup.html
+new OktaSignIn({
+  flow: 'signup'
+});
+
+// reset_password.html
+new OktaSignIn({
+  flow: 'resetPassword'
+});
+
+// unlock_account.html
+new OktaSignIn({
+  flow: 'unlockAccount'
+});
 ```
 
-## API Reference
+#### Redirect Callbacks
 
-### Interaction Code Flow
+A redirect callback occurs when your app is reloaded in the browser as part of a [flow](#flow).
+During a redirect callback, the app is loaded at a specific URL path that you have defined in your Okta App configuration. Most callbacks can only be handled once and will produce an error if there is an attempt to handle it twice. Typically, the app will redirect itself to a well known or previously saved URL path after the callback logic has been handled to avoid errors on page reload.
 
-Support for the interaction code grant is available for organizations with the [Identity Engine](#okta-identity-engine) feature enabled. Please visit [Migrating to OIE](https://developer.okta.com/docs/guides/migrate-to-oie/) for more details.
+> **Note:** Most apps should be prepared to handle one or more redirect callbacks. Depending on how the App sign-on policy is configured, some SPA applications may be able to receive tokens without any redirect. However, logic will need to be added if the policy includes signing in with a [Social / IDP provider)](#socialidp-callback)) or allows authentication or account recovery using [email verification](#email-verify-callback).  
 
-Documentation for configuring the Okta Sign-in Widget for the interaction code grant is [available here](https://github.com/okta/okta-signin-widget/blob/master/docs/interaction_code_flow.md#setup).
+##### OAuth callback
 
-### OktaSignIn
+The OAuth callback is the last step of the [interaction code][] flow. On successful [authentication][], the browser is redirected to Okta with information to begin a new session. Okta's servers process the information and then redirect back to your application's `redirectUri`. If successful, an [interaction code][] is present in the URL as the `interaction_code` query parameter. If unsuccessful, there is an `error` and `error_description` query parameters in the URL. Whether successful or not, the `state` parameter, which was originally passed to the widget by your application, will also be returned on the redirect. This can be used by server-side web applications to match the callback with the correct user session.
 
-Creates a new instance of the Sign-In Widget with the provided options. The widget has many [config options](#configuration). The only required option to get started is `baseUrl`, the base url for your Okta domain.
+**All web applications will handle an OAuth callback**. For SPA applications, in many cases the sign-on policy will not require a redirect and these applications can receive tokens directly from [showSignIn](#showsignin). However, if the sign-on policy requires redirection for any reason (such as integration with a [Social / IDP provider](#socialidp-callback)) SPA apps will need to handle an Oauth callback. For this reason we recommend that **all SPA apps should be prepared to handle an OAuth callback**.
 
-- `config` - Options that are used to configure the widget
+> **Note:** The widget does not handle an OAuth callback directly. Server-side web applications can use one of our [SDKs][#related-sdks] to help with handling the callback. SPA applications can use the [okta-auth-js][] SDK, which is included with the Sign-in Widget as the `authClient` property.
+
+A SPA application can handle the OAuth callback client-side using the built-in `authClient`:
+
+```javascript
+// https://myapp.mycompany.com/login/callback?interaction_code=ABC&state=XYZ
+if (signIn.authClient.isLoginRedirect()) {
+  await signIn.authClient.handleLoginRedirect();
+}
+```
+
+##### Social/IDP callback
+
+After signing in with a 3rd party IDP, the user is redirected back to the application's `redirectUri`. If no further input is needed from the user, then this will be an [OAuth callback](#oauth-callback) containing an `interaction_code` parameter. If further input is required, then the callback will contain an `error` parameter with the value `interaction_required`. In this case, the Sign-in Widget should be loaded again so that the [flow](#flow) can continue.
+
+Both server-side web and SPA applications should look for the `error` query parameter and, if the value is `interaction_required`, they should render the widget again using the same configuration as the first render. The `state` parameter will also be passed on the callback which can be used to match the request with the user's application session. The widget will automatically proceed with the transaction.
+
+##### Email verify callback
+
+Your application will need to implement an email verify callback if your sign-on policy uses [Email Magic Link/OTP][]. After the user clicks the link in an email, they are redirected back to the application's `email verify callback URI`. The query parameters passed to the application include `state` and `otp`. As with the [Social/IDP callback](#socialidp-callback), the widget should be rendered again using the same configuration. Additionally, the `otp` should be passed to the widget's constructor.
 
 ```javascript
 var signIn = new OktaSignIn(
   {
-    baseUrl: 'https://{yourOktaDomain}'
+    issuer: 'https://{yourOktaDomain}/oauth2/default',
+    clientId: '{{clientId of your OIDC app}}',
+    redirectUri: '{{redirectUri configured in OIDC app}}',
+    useInteractionCodeFlow: true,
+    state: '{{state from URL}}',
+    otp: '{{otp from URL}}'
   }
 );
 ```
 
+## API Reference
+
+### OktaSignIn
+
+Creates a new instance of the Sign-In Widget with the provided [options](#configuration).
+
 > **Note**: `https://{yourOktaDomain}` can be any Okta organization. See [Basic config options](#basic-config-options) for more information.
 
-For [OIDC][] applications, including [Social Login][], you will want to provide the [OIDC configuration](#openid-connect):
+For applications using a customized Okta-hosted widget, there will be a configuration object on the page which contains all required values. You will most likely not need to modify this object.
+
+For applications using an embedded widget, you will need to provide an [OIDC configuration](#openid-connect):
 
 ```javascript
 var signIn = new OktaSignIn(
   {
-    baseUrl: 'https://{yourOktaDomain}',
+    issuer: 'https://{yourOktaDomain}/oauth2/default',
     clientId: '{{clientId of your OIDC app}}',
-    redirectUri: '{{redirectUri configured in OIDC app}}'
+    redirectUri: '{{redirectUri configured in OIDC app}}',
+    redirectUri: '{{redirectUri configured in OIDC app}}',
+    useInteractionCodeFlow: true
   }
 );
 ```
 
 ### showSignIn
 
-> **Note**:
- The showSignIn method is backward compatible. You can use it with both Okta Identity Engine (as of Widget v5.5.0) and Okta Classic Engine.
+Renders the widget to the DOM. On success, the promise resolves. On error, the promise rejects. If the sign-on policy requires a redirect to Okta or another identity provider (IdP), the browser will redirect and the promise will not resolve. The responses and errors are the same as those for [renderEl](#renderel).
 
-Recommended for most use cases. [Server-side web apps](https://developer.okta.com/code/javascript/okta_sign-in_widget/#server-side-web-application-using-authorization-code-flow) should use the [showSignInAndRedirect](#showsigninandredirect) method.
+> **Note**: This is the recommended way to render the widget for SPA applications. [Server-side web apps](https://developer.okta.com/code/javascript/okta_sign-in_widget/#server-side-web-application-using-authorization-code-flow) should use the [showSignInAndRedirect](#showsigninandredirect) method instead.
 
-Renders the widget to the DOM to prompt the user to sign in. On success, the promise resolves. On error, the promise rejects. If a redirect, redirects to Okta or another identity provider (IdP). The responses and errors are the same as those for [renderEl](#renderel).
+`showSignIn` accepts the same [options](#configuration) as the widget constructor. Options passed to the method will override options from the constructor.
 
-The following properties are available when using the `showSignIn` method:
-* `el` *(optional) - CSS selector which identifies the container element that the widget attaches to. If omitted, defaults to the value passed in during the construction of the Widget.
-* `clientId` (optional) - Client Id pre-registered with Okta for the OIDC authentication flow. If omitted, defaults to the value passed in during the construction of the Widget.
-* `redirectUri` (optional) - The URL that is redirected to after authentication. You must be pre-register this URL as part of client registration. Defaults to the current origin.
-* `scopes` *(optional)* - Specify what information to make available in the returned access or ID token. If omitted, defaults to the value of `authParams.scopes` passed in during construction of the Widget. Defaults to `['openid', 'email']`.
-
-Here is a code snippet that shows how to use `showSignIn`:
 ```javascript
 var signIn = new OktaSignIn({
-   // Assumes there is an empty element on the page with an id of ‘osw-container’
-  el: ‘#osw-container’,
+  issuer: 'https://{yourOktaDomain}/oauth2/default'
   clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
-  baseUrl: ‘https://{yourOktaDomain},
-  authParams: {
-    issuer: 'https://{yourOktaDomain}/oauth2/default'
-  }
+  useInteractionCodeFlow: true
 });
 
-oktaSignIn.showSignIn().then(response
-=> {
-oktaSignIn.authClient.handleLoginRedirect(res.tokens);
-})
-  .catch(function(error) {
-    // This function is invoked with errors the widget cannot recover from:
-    // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR
-    console.log('login error', error);
-  });
-```
-
-### showSignInToGetTokens
-
-Returns a Promise. Renders the widget to the DOM to prompt the user to sign in. On successful [authentication][], the Promise will be resolved to an object containing [OAuth][] tokens.
-
-* `options`
-  * `el` *(optional) - CSS selector which identifies the container element that the widget attaches to. If omitted, defaults to the value passed in during the construction of the Widget.
-  * `clientId` *(optional)* - Client Id pre-registered with Okta for the [OIDC][] authentication flow. If omitted, defaults to the value passed in during the construction of the Widget.
-  * `redirectUri` *(optional)* - The url that is redirected to after [authentication][]. This must be pre-registered as part of client registration. Defaults to the current origin.
-  * `scopes` *(optional)* - Specify what information to make available in the returned access or ID token. If omitted, defaults to the value of `authParams.scopes` passed in during construction of the Widget. Defaults to `['openid', 'email']`
-
-```javascript
-var signIn = new OktaSignIn({
-  // Assumes there is an empty element on the page with an id of 'osw-container'
-  el: '#osw-container',
-  clientId: '{{myClientId}}',
-  redirectUri: '{{redirectUri configured in OIDC app}}',
-  baseUrl: 'https://{yourOktaDomain}'
-});
-
-signIn.showSignInToGetTokens({
-  scopes: ['openid', 'profile'] // optional
-}).then(function(tokens) {
-  // Store tokens
+oktaSignIn.showSignIn({
+  // Assumes there is an empty element on the page with an id of ‘osw-container’
+  el: ‘#osw-container’,
+}).then(response => {
+  oktaSignIn.authClient.handleLoginRedirect(res.tokens);
 }).catch(function(error) {
   // This function is invoked with errors the widget cannot recover from:
   // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR
+  console.log('login error', error);
 });
 ```
 
 ### showSignInAndRedirect
 
-Returns a Promise. Renders the widget to the DOM to prompt the user to sign in. On successful [authentication][], the browser will be redirected to Okta with information to begin a new session. Okta's servers will process the information and then redirect back to your application's `redirectUri`. If successful, an authorization code will exist in the URL as the "code" query parameter. If unsuccessful, there will be an "error" query parameter in the URL.
+Renders the widget to the DOM. On successful [authentication][], the browser will be redirected to Okta with information to begin a new session. Okta's servers will process the information and then redirect back to your application's `redirectUri`. If successful, an interaction code will exist in the URL as the `interaction_code` query parameter. If unsuccessful, there will be `error` and `error_description` query parameters in the URL. Whether successful or not, the `state` parameter which was passed to the widget will also be returned on redirect. This can be used by your server-side web application to match the callback with the correct user session.
 
-* `options`
-  * `el` *(optional) - CSS selector which identifies the container element that the widget attaches to. If omitted, defaults to the value passed in during the construction of the Widget.
-  * `clientId` *(optional)* - Client Id pre-registered with Okta for the [OIDC][] authentication flow. If omitted, defaults to the value passed in during the construction of the Widget.
-  * `redirectUri` *(optional)* - The url that is redirected to after [authentication][]. This must be pre-registered as part of client registration. Defaults to the current origin.
+`showSignInAndRedirect` accepts the same [options](#configuration) as the widget constructor. Options passed to the method will override options from the constructor.
 
 ```javascript
 var signIn = new OktaSignIn({
-  // Assumes there is an empty element on the page with an id of 'osw-container'
-  el: '#osw-container'
-  baseUrl: 'https://{yourOktaDomain}',
+  issuer: 'https://{yourOktaDomain}/oauth2/default',
   clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
-  authParams: {
-    pkce: false,
-    responseType: 'code'
-  }
+  useInteractionCodeFlow: true,
+  state: '{{state passed from backend}}', // state can be any string, it will be passed on redirect callback
+  codeChallenge: '{{PKCE code challenge from backend}}', // PKCE is required for interaction code flow
 });
 
-signIn.showSignInAndRedirect().catch(function(error) {
+signIn.showSignInAndRedirect({
+  // Assumes there is an empty element on the page with an id of 'osw-container'
+  el: '#osw-container'
+}).catch(function(error) {
   // This function is invoked with errors the widget cannot recover from:
   // Known errors: CONFIG_ERROR, UNSUPPORTED_BROWSER_ERROR
 });
 ```
-
-### renderEl
-
-Returns a Promise. Renders the widget to the DOM. On success, the promise will resolve. On error, the promise will reject. Also accepts a `success` or `error` callback function.
-
-> :warning: This method provides access to internal and/or undocumented features for non-OIDC flows. For OIDC flows, we recommend using [showSignInToGetTokens](#showsignintogettokens) or [showSignAndRedirect](#showsigninandredirect).
-
-- `options`
-  - `el` *(optional)* - CSS selector which identifies the container element that the widget attaches to. If omitted, defaults to the value passed in during the construction of the Widget.
-- `success` *(optional)* - Function that is called when the user has completed an authentication flow. If an [OpenID Connect redirect flow](#openid-connect) is used, this function can be omitted. See below for more details.
-- `error` *(optional)* - Function that is called when the widget has been initialized with invalid config options, or has entered a state it cannot recover from. If omitted, a default function is used to output errors to the console.
-
-#### success
-
-Function that handles non-error events, including the completion of a successful authentication flow by a user. Also handles other flows such as reset password and self-registration flows.
-
-_OIDC vs Non-OIDC Configurations:_
-
-New integrations are recommended to use OIDC as it uses a more lightweight REST-based protocol and has more widespread usage. Less common is the need for non-OIDC integrations in self-hosted applications, however one example of this usage is when using the Okta-hosted sign-in widget to redirect a user to the Okta Dashboard after authentication.
-
-*`res` parameter:*
-
-This `success` function will be called with an object, that can have various properties, depending on how the widget is configured:
-
-```javascript
-success({
-  status: String,
-  username: optional<string>,
-  activationToken: optional<object>,
-  tokens: optional<object>,
-  type: optional<string>,
-  user: optional<object>,
-  stepUp: optional<function>,
-  session: optional<object>,
-  next: optional<function>,
-})
-```
-
-- `status` *(string)* - Always present. One of: `FORGOT_PASSWORD_EMAIL_SENT`, `UNLOCK_ACCOUNT_EMAIL_SENT`, `ACTIVATION_EMAIL_SENT`, `REGISTRATION_COMPLETE`, or `SUCCESS`
-
-- `username` *(optional\<string\>)* - Only present when `status` is one of `FORGOT_PASSWORD_EMAIL_SENT`, `UNLOCK_ACCOUNT_EMAIL_SENT`, `ACTIVATION_EMAIL_SENT`, or `REGISTRATION_COMPLETE`.
-
-- `activationToken` *(optional\<object\>)* - Only present when `status` is `REGISTRATION_COMPLETE`.
-
-- `tokens` *(optional\<object\>)* - Only present when widget is in an OIDC configuration, and `status` is `SUCCESS`. Depending on the widget `responseType` configuration, this will contain an `accessToken` only or both `accessToken` and `idToken`.
-
-- `type` *(optional\<string\>)* - Only present when widget is in a non-OIDC configuration and `status` is `SUCCESS`. One of `SESSION_STEP_UP`, or `SESSION_SSO`.
-
-- `user` *(optional\<object\>)* - Only present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and `type` is `SESSION_STEP_UP`.
-
-- `stepUp` *(optional\<function\>)* - Only present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and `type` is `SESSION_STEP_UP`. `res.stepUp.finish()` call redirect the user to the URL at `res.stepUp.url`.
-
-- `next` *(optional\<function\>)* - May be present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and the response contains a redirect URL. Calling this function redirects the user.
-
-- `session` *(optional\<object\>)* - Only present when widget is in a non-OIDC configuration, `status` is `SUCCESS`, and `type` is `SESSION_SSO`. `res.session.setCookieAndRedirect(url)` redirects the user to the passed URL.
 
 ### hide
 
@@ -633,64 +610,55 @@ signIn.off('ready', onReady);
 
 ### authClient
 
-Returns the underlying [`@okta/okta-auth-js`](https://github.com/okta/okta-auth-js) object used by the Sign-in Widget. All methods are documented in the [AuthJS](https://github.com/okta/okta-auth-js#api-reference) base library.
+Provides access to the underlying [@okta/okta-auth-js][] object used by the Sign-in Widget. All methods are documented in the [API reference](https://github.com/okta/okta-auth-js#api-reference).
 
-```javascript
-// Check for an existing authClient transaction
-signIn.authClient.session.exists()
-.then(function(exists) {
-  if (exists){
-    console.log('A session exists!');
-  } else {
-    console.log('A session does not exist.');
-  };
-});
-```
+The `authClient` is configured using values passed to the widget, such as `clientId`, `issuer`, `redirectUri`, `state`, and `scopes`. Options which are not directly supported by the widget can be passed to AuthJS using the `authParams` object.
 
-The `authClient` can be set directly in the configuration:
+The `authClient` can also be created and configured outside the widget and passed to the widget as the `authClient` option. If an `authClient` option is passed, `authParams` will be ignored.
 
 ```javascript
 var authClient = new OktaAuth({
   issuer: 'https://{yourOktaDomain}/oauth2/default',
-  clientId: '{yourClientId}'
+  clientId: '{yourClientId}',
+  redirectUri: '{{redirectUri configured in OIDC app}}',
 });
 var config = {
   baseUrl: 'https://{yourOktaDomain}',
-  authClient: authClient
+  authClient: authClient,
+  useInteractionCodeFlow: true
 };
 
 var signIn = new OktaSignIn(config);
 // signIn.authClient === authClient
 ```
 
-If no `authClient` option is set, an instance will be created using `authParams`:
+If no `authClient` option is set, an instance will be created using the options passed to the widget and `authParams`:
 
 ```javascript
 var config = {
-  baseUrl: 'https://{yourOktaDomain}',
+  issuer: 'https://{yourOktaDomain}/oauth2/default',
+  clientId: '{yourClientId}',
+  redirectUri: '{{redirectUri configured in OIDC app}}',
+  useInteractionCodeFlow: true,
   authParams: {
-    issuer: 'https://{yourOktaDomain}/oauth2/default',
-    clientId: '{yourClientId}'  
+    ignoreSignature: true
   }
 };
 
 var signIn = new OktaSignIn(config);
 // signIn.authClient.options.clientId === '{yourClientId}'
+// signIn.authClient.options.ignoreSignature === true'
 ```
 
 ### before
-
-> **Note**: This function is only supported when using the [Okta Identity Engine](#okta-identity-engine)
 
 Adds an asynchronous [hook](#hooks) function which will execute before a view is rendered.
 
 ```javascript
 var config = {
-  baseUrl: 'https://{yourOktaDomain}',
-  authParams: {
-    issuer: 'https://{yourOktaDomain}/oauth2/default',
-    clientId: '{yourClientId}'  
-  },
+  issuer: 'https://{yourOktaDomain}/oauth2/default',
+  clientId: '{yourClientId}',
+  redirectUri: '{{redirectUri configured in OIDC app}}',
   useInteractionCodeFlow: true
 };
 var signIn = new OktaSignIn(config);
@@ -708,12 +676,10 @@ Adds an asynchronous [hook](#hooks) function which will execute after a view is 
 
 ```javascript
 var config = {
-  baseUrl: 'https://{yourOktaDomain}',
-  authParams: {
-    issuer: 'https://{yourOktaDomain}/oauth2/default',
-    clientId: '{yourClientId}'  
-  },
-  useInteractionCodeFlow: true
+  issuer: 'https://{yourOktaDomain}/oauth2/default',
+  clientId: '{yourClientId}',
+  redirectUri: '{{redirectUri configured in OIDC app}}',
+  useInteractionCodeFlow: true,
 };
 var signIn = new OktaSignIn(config);
 signIn.after('identify', async () => {
@@ -724,62 +690,39 @@ signIn.after('identify', async () => {
 
 ## Configuration
 
-For non-OIDC applications, the only required configuration option is `baseUrl`. All others are optional.
+If you are using the [default Okta-hosted signin page](#okta-hosted-sign-in-page-default), all configuration is handled via the `Customization` section of the Admin UI.
 
-```javascript
-// Basic example
-var config = {
-  baseUrl: 'https://{yourOktaDomain}',
-  logo: '/path/to/logo.png',
-  logoText: 'logo text',
-  helpSupportNumber: '(123) 456-7890',
-  language: 'en',
-  i18n: {
-    en: {
-      'primaryauth.title': 'Sign in to Acme'
-    }
-  },
-  helpLinks: {
-    help: 'https://acme.com/help'
-  },
-  authParams: {
-    // Configuration for the internal authClient. See https://github.com/okta/okta-auth-js#configuration-options
-  }
-};
+If you are using the [custom Okta-hosted signin page](#okta-hosted-sign-in-page-customizable), a configuration object is included on the page which contains all necessary values. You will probably not need to modify this object, but you may use this object as a starting point and add additional customizations.
 
-var signIn = new OktaSignIn(config);
-```
+For embedded widgets, you should set the `issuer`, `clientId`, and `redirectUri`. Additionally you should set `useInteractionCodeFlow` to `true` to enable the OIE pipeline. (See [this document](https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md) for details on running in "classic" pipeline).
 
-### OIDC Applications
+### Basic config options
 
-For OIDC applications, you need to set the `clientId` and `redirectUri`. If `issuer` is not set, it will be inferred from `baseUrl`.
+#### issuer
+
+The URL of the [Authorization Server][] which will issue [OAuth][] tokens to your application.
+
+Basic configuration using the "default" [Custom Authorization Server][]:
 
 ```javascript
 var config = {
-  baseUrl: 'https://{yourOktaDomain}', // issuer will be https://{yourOktaDomain}/oauth2/default
+  issuer: 'https://{yourOktaDomain}/oauth2/default',
   clientId: '{{clientId of your OIDC app}}',
-  redirectUri: '{{redirectUri configured in OIDC app}}'
+  redirectUri: '{{redirectUri configured in OIDC app}}',
+  useInteractionCodeFlow: true
 }
 ```
 
-By default, the issuer ([Authorization Server][]) will be set to the default [Custom Authorization Server][].
-
-```javascript
-// default issuer
-config.baseUrl + '/oauth2/default'
-```
-
-A different [Custom Authorization Server][] can be specified by setting the `issuer` explicitly:
+A different [Custom Authorization Server][] can be specified:
 
 ```javascript
 var config = {
   issuer: 'https://{yourOktaDomain}/oauth2/custom',
   clientId: '{{clientId of your OIDC app}}',
-  redirectUri: '{{redirectUri configured in OIDC app}}'
+  redirectUri: '{{redirectUri configured in OIDC app}}',
+  useInteractionCodeFlow: true
 }
 ```
-
-If `issuer` is set, there is no need to set `baseUrl`.
 
 Some applications, such as those that require access to the Okta User API, will want to use the Okta Organization [Authorization Server][] as the issuer. In this case the `issuer` should match your Okta domain:
 
@@ -788,253 +731,233 @@ var config = {
   issuer: 'https://{yourOktaDomain}',
   clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
+  useInteractionCodeFlow: true
 }
 ```
 
-### Basic config options
+> **Note**: The Okta Organization [Authorization Server][] is only meant for access to the Okta User API and does not support all of the features of the standard [Custom Authorization Server][], such as custom scopes on access tokens. It is generally recommended to use a [Custom Authorization Server][] to secure access to your organization's resources.
 
-- **baseUrl:** The base URL for your Okta organization
+#### clientId
 
-    ```javascript
-    // Production org with subdomain "acme"
-    baseUrl: 'https://acme.okta.com'
+> **Note**: This configuration value can be found in the Okta Admin UI under the application's "General Settings"
 
-    // Can also target oktapreview and okta-emea, i.e.
-    baseUrl: 'https://acme.oktapreview.com'
-    ```
+Client Id of the application.
 
-- **logo:** Local path or URL to a logo image that is displayed at the top of the Sign-In Widget
+#### redirectUri
 
-    ```javascript
-    // Hosted on the same origin
-    logo: '/img/logo.png'
+> **Note**: This configuration value can be found in the Okta Admin UI under the application's "General Settings"
 
-    // Can also be a full url
-    logo: 'https://acme.com/img/logo.png'
-    ```
+The URI to use for the [OAuth callback](#oauth-callback).
 
-- **logoText:** Text for `alt` attribute of the logo image, logo text will only show up when logo image is not available
+#### useInteractionCodeFlow
 
-    ```javascript
-    // Text to describe the logo
-    logoText: 'logo text'
-    ```
+Enables the [interaction code][] flow in the widget. This is the only supported authentication method for embedded widgets on the OIE pipeline. (See [this document](https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md) for details on running in "classic" pipeline).
 
-- **helpSupportNumber:** Support phone number that is displayed in the Password Reset and Unlock Account flows. If no number is provided, no support screen is shown to the user.
+### Brand
 
-    ```javascript
-    // Can be any format - there are no formatting checks
-    helpSupportNumber: '(123) 456-7890'
-    ```
+#### logo
 
-- **brandName:** The brand or company name that is displayed in messages rendered by the Sign-in Widget (for example, "Reset your {`brandName`} password"). If no `brandName` is provided, a generic message is rendered instead (for example, "Reset your password"). You can further customize the text that is displayed with [language and text settings](https://github.com/okta/okta-signin-widget#language-and-text).
+Local path or URL to a logo image that is displayed at the top of the Sign-In Widget
 
-    ```javascript
-    brandName: 'Spaghetti Inc.'
-    ```
+```javascript
+// Hosted on the same origin
+logo: '/img/logo.png'
 
-### Username and password
+// Can also be a full url
+logo: 'https://acme.com/img/logo.png'
+```
 
-- **username:** Prefills the username input with the provided username
+#### logoText
 
-    ```javascript
-    username: 'john@acme.com'
-    ```
+Text for `alt` attribute of the logo image, logo text will only show up when logo image is not available
 
-- **transformUsername:** Transforms the username before sending requests with the username to Okta. This is useful when you have an internal mapping between what the user enters and their Okta username.
+```javascript
+// Text to describe the logo
+logoText: 'logo text'
+```
 
-    ```javascript
-    // The callback function is passed two arguments:
-    // 1) username: The name entered by the user
-    // 2) operation: The type of operation the user is trying to perform:
-    //      - PRIMARY_AUTH
-    //      - FORGOT_PASSWORD
-    //      - UNLOCK_ACCOUNT
-    transformUsername: function (username, operation) {
-      // This example will append the '@acme.com' domain if the user has
-      // not entered it
-      return username.indexOf('@acme.com') > -1
-        ? username
-        : username + '@acme.com';
-    }
-    ```
+#### brandName
 
-- **processCreds:** Hook to handle the credentials before they are sent to Okta in the Primary Auth, Password Expiration, and Password Reset flows.
+The brand or company name that is displayed in messages rendered by the Sign-in Widget (for example, "Reset your {`brandName`} password"). If no `brandName` is provided, a generic message is rendered instead (for example, "Reset your password"). You can further customize the text that is displayed with [language and text settings](https://github.com/okta/okta-signin-widget#language-and-text).
 
-    If processCreds takes a single argument it will be executed as a synchronous hook:
+```javascript
+brandName: 'Spaghetti Inc.'
+```
 
-    ```javascript
-    // Passed a creds object {username, password}
-    processCreds: function (creds) {
-      // This example demonstrates a partial integration with ChromeOS
-      google.principal.add({
-        token: creds.username,
-        user: creds.username,
-        passwordBytes: creds.password,
-        keyType: 'KEY_TYPE_PASSWORD_PLAIN'
-      });
-    }
-    ```
-
-    If processCreds takes two arguments it will be executed as an asynchronous hook:
-
-    ```javascript
-    // Passed a creds object {username, password} and a callback for further processing
-    processCreds: function (creds, callback) {
-      // This example demonstrates optional legacy form-based login
-      $.ajax({
-        method: "POST",
-        url: "/logintype",
-        data: {
-          username : creds.username
-        },
-        success: function (logintype) {
-          if (logintype == "LEGACY") {
-            $('#legacyUser').val(creds.username);
-            $('#legacyPassword').val(creds.password);
-            $('#legacyLogonForm').submit();
-          } else {
-            callback();
-          }
-        }
-      });
-    }
-    ```
-
-### Language and text
-
-- **language:** Set the language of the widget. If no language is specified, the widget will choose a language based on the user's browser preferences if it is supported, or defaults to `en`.
-
-  ```javascript
-  // You can simply pass the languageCode as a string:
-  language: 'ja'
-
-  // Or, if you need to determine it dynamically, you can pass a
-  // callback function:
-  language: function (supportedLanguages, userLanguages) {
-    // supportedLanguages is an array of languageCodes, i.e.:
-    // ['cs', 'da', ...]
-    //
-    // userLanguages is an array of languageCodes that come from the user's
-    // browser preferences
-    return supportedLanguages[0];
-  }
-  ```
-
-  Supported languages:
-  - `cs` - Czech
-  - `da` - Danish
-  - `de` - German
-  - `el` - Greek
-  - `en` - English
-  - `es` - Spanish
-  - `fi` - Finnish
-  - `fr` - French
-  - `hu` - Hungarian
-  - `id` - Indonesian
-  - `it` - Italian
-  - `ja` - Japanese
-  - `ko` - Korean
-  - `ms` - Malaysian
-  - `nb` - Norwegian
-  - `nl-NL` - Dutch
-  - `pl` - Polish
-  - `pt-BR` - Portuguese (Brazil)
-  - `ro` - Romanian
-  - `ru` - Russian
-  - `sv` - Swedish
-  - `th` - Thai
-  - `tr` - Turkish
-  - `uk` - Ukrainian
-  - `zh-CN` - Chinese (PRC)
-  - `zh-TW` - Chinese (Taiwan)
-
-  **Note:** If you want to use language that is not supported by widget, you need to host `login_{lang}.json` and `country_{lang}.json` files that should be accesible under path `{assets.baseUrl}/labels/json/`, where `{lang}` is your language code and `{assets.baseUrl}` is url to your assets (can be `/` to point on current domain). Example of JSON language files you can find after building widget in folder `packages/@okta/i18n/src/json`. The list of supported languages can be specified with the `assets.languages` option.
-
-- **defaultCountryCode:** Set the default countryCode of the widget. If no `defaultCountryCode` is provided, defaults to `US`. It sets the country calling code for phone number accordingly in the widget.
-
-- **i18n:** Override the text in the widget. The full list of properties can be found in the [login.properties](packages/@okta/i18n/src/properties/login.properties) and [country.properties](packages/@okta/i18n/src/properties/country.properties) files.
-
-    ```javascript
-    // The i18n object maps language codes to a hash of property keys ->
-    // property values.
-    i18n: {
-      // Overriding English properties
-      'en': {
-        'primaryauth.title': 'Sign in to Acme',
-        'primaryauth.username.placeholder': 'Your Acme Username'
-      },
-      // Overriding Japanese properties
-      'ja': {
-        'primaryauth.title': 'ACMEにサインイン',
-        'primaryauth.username.placeholder': 'ACMEのユーザー名'
-      }
-    }
-
-    // If you want to override any properties in the country.properties file,
-    // you will need to prefix the name with "country.":
-    i18n: {
-      'en': {
-        // login.properties keys do not have a special prefix
-        'primaryAuth.title': 'Sign in to Acme',
-
-        // country.properties keys are prefixed with 'country.'
-        'country.AF': 'Afghanistan, edited',
-        'country.AL': 'Albania, edited'
-      }
-    }
-    ```
-
-- **assets.baseUrl:** Override the base url the widget pulls its language files from. The widget is only packaged with english text by default, and loads other languages on demand from the Okta CDN. If you want to serve the language files from your own servers, update this setting.
-
-    ```javascript
-    // Loading the assets from a path on the current domain
-    assets: {
-      baseUrl: '/path/to/dist'
-    },
-
-    // Full urls work as well
-    assets: {
-      baseUrl: 'https://acme.com/assets/dist'
-    }
-    ```
-
-    **Note:** The json files can be accessed from the `dist/labels/json` folder that is published in the [npm module](https://www.npmjs.com/package/@okta/okta-signin-widget).
-
-- **assets.languages** Specify the list of supported languages which are hosted and accesible under the path `{assets.baseUrl}/labels/json/`. This option supersedes the default list of supported languages. If an unsupported language is requested (explicitly using the `language` option or automatically by browser detection), the default language (`en`) will be used.
-
-- **assets.rewrite:** You can use this function to rewrite the asset path and filename. Use this function if you will host the asset files on your own host, and plan to change the path or filename of the assets. This is useful, for example, if you want to cachebust the files.
-
-    ```javascript
-    assets: {
-      // Note: baseUrl is still needed to set the base path
-      baseUrl: '/path/to/dist',
-
-      rewrite: function (assetPath) {
-        // assetPath is relative to baseUrl
-        // Example assetPath to load login for 'ja': "/labels/json/login_ja.json"
-        return someCacheBustFunction(assetPath);
-      }
-    }
-    ```
-
-### Colors
+#### colors
 
 These options let you customize the appearance of the Sign-in Widget.
 
 If you want even more customization, you can modify the [Sass source files](https://github.com/okta/okta-signin-widget/tree/master/assets/sass) and [build the Widget](https://github.com/okta/okta-signin-widget#building-the-widget).
 
-- **colors.brand:** Sets the brand (primary) color. Colors must be in hex format, like `#008000`.
+##### colors.brand
 
-  ```javascript
-  colors: {
-    brand: '#008000'
+Sets the brand color as the background color of the primary CTA button. Colors must be in hex format, like `#008000`.
+
+```javascript
+colors: {
+  brand: '#008000'
+}
+```
+
+### Localization
+
+#### Supported languages
+
+- `cs` - Czech
+- `da` - Danish
+- `de` - German
+- `el` - Greek
+- `en` - English
+- `es` - Spanish
+- `fi` - Finnish
+- `fr` - French
+- `hu` - Hungarian
+- `id` - Indonesian
+- `it` - Italian
+- `ja` - Japanese
+- `ko` - Korean
+- `ms` - Malaysian
+- `nb` - Norwegian
+- `nl-NL` - Dutch
+- `pl` - Polish
+- `pt-BR` - Portuguese (Brazil)
+- `ro` - Romanian
+- `ru` - Russian
+- `sv` - Swedish
+- `th` - Thai
+- `tr` - Turkish
+- `uk` - Ukrainian
+- `zh-CN` - Chinese (PRC)
+- `zh-TW` - Chinese (Taiwan)
+
+Support for additional languages can be added with the [assets.languages](#assetslanguages) option.
+
+#### language
+
+Set the language of the widget. If no language is specified, the widget will choose a language based on the user's browser preferences if it is supported, or defaults to `en`.
+
+```javascript
+// You can simply pass the languageCode as a string:
+language: 'ja'
+
+// Or, if you need to determine it dynamically, you can pass a
+// callback function:
+language: (supportedLanguages, userLanguages) => {
+  // supportedLanguages is an array of languageCodes, i.e.:
+  // ['cs', 'da', ...]
+  //
+  // userLanguages is an array of languageCodes that come from the user's
+  // browser preferences
+  return supportedLanguages[0];
+}
+```
+
+#### defaultCountryCode
+
+Set the default countryCode of the widget. If no `defaultCountryCode` is provided, defaults to `US`. It sets the country calling code for phone number accordingly in the widget.
+
+#### i18n
+
+Override the text in the widget. The full list of properties can be found in the [login.properties](https://github.com/okta/okta-signin-widget/blob/master/packages/%40okta/i18n/src/properties/login.properties) and [country.properties](https://github.com/okta/okta-signin-widget/blob/master/packages/%40okta/i18n/src/properties/country.properties) files.
+
+```javascript
+// The i18n object maps language codes to a hash of property keys ->
+// property values.
+i18n: {
+  // Overriding English properties
+  'en': {
+    'primaryauth.title': 'Sign in to Acme',
+    'primaryauth.username.placeholder': 'Your Acme Username'
+  },
+  // Overriding Japanese properties
+  'ja': {
+    'primaryauth.title': 'ACMEにサインイン',
+    'primaryauth.username.placeholder': 'ACMEのユーザー名'
   }
-  ```
+}
+
+// If you want to override any properties in the country.properties file,
+// you will need to prefix the name with "country.":
+i18n: {
+  'en': {
+    // login.properties keys do not have a special prefix
+    'primaryAuth.title': 'Sign in to Acme',
+
+    // country.properties keys are prefixed with 'country.'
+    'country.AF': 'Afghanistan, edited',
+    'country.AL': 'Albania, edited'
+  }
+}
+```
+
+### assets
+
+#### assets.baseUrl
+
+Override the base url the widget pulls its language files from. The widget is only packaged with english text by default, and loads other languages on demand from the Okta CDN. If you want to serve the language files from your own servers, update this setting.
+
+```javascript
+// Loading the assets from a path on the current domain
+assets: {
+  baseUrl: '/path/to/dist'
+},
+
+// Full urls work as well
+assets: {
+  baseUrl: 'https://acme.com/assets/dist'
+}
+```
+
+> **Note:** The json files can be accessed from the `dist/labels/json` folder that is published in the [npm module](https://www.npmjs.com/package/@okta/okta-signin-widget).
+
+#### assets.languages
+
+Specify the list of supported languages which are hosted and accesible under the path `{assets.baseUrl}/labels/json/`. This option supersedes the [default list of supported languages](#supported-languages). If an unsupported language is requested (explicitly using the [language option](#language) or automatically by browser detection), the default language (`en`) will be used.
+
+#### assets.rewrite
+
+You can use this function to rewrite the asset path and filename. Use this function if you will host the asset files on your own host, and plan to change the path or filename of the assets. This is useful, for example, if you want to cachebust the files.
+
+```javascript
+assets: {
+  // Note: baseUrl is still needed to set the base path
+  baseUrl: '/path/to/dist',
+
+  rewrite: (assetPath) => {
+    // assetPath is relative to baseUrl
+    // Example assetPath to load login for 'ja': "/labels/json/login_ja.json"
+    return someCacheBust(assetPath);
+  }
+}
+```
 
 ### Links
 
-You can override a link URL by setting the following config options. If you'd like to change the link text, use the `i18n` config option.
+#### Sign out link
+
+Set the following config option to override the sign out link URL. If not provided, the widget will navigate to Primary Auth.
+
+```javascript
+signOutLink: 'https://www.signmeout.com'
+```
+
+#### Sign up link
+
+You can add a registration link to the primary auth page by setting the following config options.
+
+#### registration.click
+
+Function that is called when the registration link is clicked.
+
+```javascript
+// An example that adds a registration link underneath the login form on the primary auth page
+registration: {
+  click: () => {
+    window.location.href = 'https://acme.com/sign-up';
+  }
+}
+```
 
 #### Help Links
 
@@ -1045,10 +968,6 @@ Set the following config options to override the help link URLs on the Primary A
 helpLinks: {
   help: 'https://acme.com/help',
   forgotPassword: 'https://acme.com/forgot-password',
-  factorPage: {
-    text: 'Need help with MFA?',
-    href: 'https://acme.com/mfa-help',
-  },
   unlock: 'https://acme.com/unlock-account',
   custom: [
     {
@@ -1064,534 +983,46 @@ helpLinks: {
 }
 ```
 
-- **helpLinks.help** - Custom link href for the "Help" link
+##### helpLinks.help
 
-- **helpLinks.forgotPassword** - Custom link href for the "Forgot Password" link
+Custom link href for the "Help" link
 
-- **helpLinks.unlock** - Custom link href for the "Unlock Account" link. For this link to display, `features.selfServiceUnlock` must be set to `true`, and the self service unlock feature must be enabled in your admin settings.
+##### helpLinks.forgotPassword
 
-- **helpLinks.factorPage** - Custom link object `{text, href}` that will be added to all MFA pages.
+Custom link href for the "Forgot Password" link
 
-- **helpLinks.custom** - Array of custom link objects `{text, href, target}` that will be added to the *"Need help signing in?"* section. The `target` of the link is optional.
+##### helpLinks.unlock
 
-#### Sign Out Link
+Custom link href for the "Unlock Account" link. For this link to display, `features.selfServiceUnlock` must be set to `true`, and the self service unlock feature must be enabled in your admin settings.
 
-Set the following config option to override the sign out link URL. If not provided, the widget will navigate to Primary Auth.
+##### helpLinks.custom
 
-```javascript
-signOutLink: 'https://www.signmeout.com'
-```
-
-### Buttons
-
-You can add buttons to the Primary Auth page by setting the following config options.
-
-#### Custom Buttons
-
-You can add custom buttons underneath the login form on the primary auth page by setting the following config options. If you'd like to change the divider text, use the `i18n` config option.
-
-```javascript
-// An example that adds a custom button underneath the login form on the primary auth page
-customButtons: [{
-  title: 'Click Me',
-  className: 'btn-customAuth',
-  click: function() {
-    // clicking on the button navigates to another page
-    window.location.href = 'https://www.example.com';
-  }
-}]
-
-// An example that adds a custom button with a localized title underneath the login form on the primary auth page
-i18n: {
-  en: {
-    'customButton.title': 'Custom Button Title',
-  },
-},
-customButtons: [{
-  i18nKey: 'customButton.title',
-  className: 'btn-customAuth',
-  click: function() {
-    // clicking on the button navigates to another page
-    window.location.href = 'https://www.example.com';
-  }
-}]
-```
-
-- **customButtons.title** - String that is set as the button text (set only one of `title` OR `i18nKey`)
-
-- **customButtons.i18nKey** - Custom translation key for button text specified in `i18n` config option (set only one of `title` OR `i18nKey`)
-
-- **customButtons.className** - Optional class that can be added to the button
-
-- **customButtons.click** - Function that is called when the button is clicked
-
-#### Registration Button
-
-You can add a registration link to the primary auth page by setting `features.registration` to `true` and by adding the following config options.
-
-```javascript
-// An example that adds a registration button underneath the login form on the primary auth page
-registration: {
-  click: function() {
-    window.location.href = 'https://acme.com/sign-up';
-  }
-}
-```
-
-- **registration.click** - Function that is called when the registration button is clicked
-
-### Registration
-
-To add registration into your application, configure your Okta admin settings to allow users to self register into your app. Then, set `features.registration` in the widget. You can add additional configs under the registration key on the [`OktaSignIn`](#new-oktasigninconfig) object.
-
-```javascript
-    var signIn = new OktaSignIn({
-      baseUrl: 'https://{yourOktaDomain}',
-      // If you are using version 2.8 or higher of the widget, clientId is not required while configuring
-      // registration. Instead the widget relies on policy setup with Self Service Registration. For help
-      // with setting up Self Service Registration contact support@okta.com. Registration should continue
-      // to work with a clientId set and version 2.7 or lower of the widget.
-      clientId: '{{myClientId}}', // REQUIRED (with version 2.7.0 or lower)
-      registration: {
-        parseSchema: function(schema, onSuccess, onFailure) {
-           // handle parseSchema callback
-           onSuccess(schema);
-        },
-        preSubmit: function (postData, onSuccess, onFailure) {
-           // handle preSubmit callback
-           onSuccess(postData);
-        },
-        postSubmit: function (response, onSuccess, onFailure) {
-            // handle postsubmit callback
-           onSuccess(response);
-        }
-      },
-      features: {
-        // Used to enable registration feature on the widget.
-        // https://github.com/okta/okta-signin-widget#feature-flags
-         registration: true // REQUIRED
-      }
-    });
-```
-
-Optional configuration:
-
-- **parseSchema:** Callback used to mold the JSON schema that comes back from the Okta API.
-
-    ```javascript
-    // The callback function is passed 3 arguments: schema, onSuccess, onFailure
-    // 1) schema: json schema returned from the API.
-    // 2) onSuccess: success callback.
-    // 3) onFailure: failure callback. Note: accepts an errorObject that can be used to show form level or field level errors.
-
-    parseSchema: function (schema, onSuccess, onFailure) {
-      // This example will add an additional field to the registration form
-        schema.profileSchema.properties.address = {
-          'type': 'string',
-          'description': 'Street Address',
-          'default': 'Enter your street address',
-          'maxLength': 255
-        };
-        schema.profileSchema.fieldOrder.push('address');
-        onSuccess(schema);
-    }
-    ```
- - **preSubmit:** Callback used primarily to modify the request parameters sent to the Okta API.
-
-    ```javascript
-     // The callback function is passed 3 arguments: postData, onSuccess, onFailure
-     // 1) postData: form data that will be posted to the registration API.
-     // 2) onSuccess: success callback.
-     // 3) onFailure: failure callback. Note: accepts a errorObject that can be used to show form level or field level errors.
-    preSubmit: function (postData, onSuccess, onFailure) {
-      // This example will add @companyname.com to the email if user fails to add it during registration
-      if (postData.username.indexOf('@acme.com') > 1) {
-        return postData.username;
-      } else {
-        return postData.username + '@acme.com';
-      }
-    }
-    ```
- - **postSubmit:** Callback used to primarily get control and to modify the behavior post submission to registration API .
-
-    ```javascript
-     // The callback function is passed 3 arguments: response, onSuccess, onFailure
-     // 1) response: response returned from the API post registration.
-     // 2) onSuccess: success callback.
-     // 3) onFailure: failure callback. Note: accepts an errorObject that can be used to show form level
-     //    or field level errors.
-    postSubmit: function (response, onSuccess, onFailure) {
-      // In this example postSubmit callback is used to log the server response to the browser console before completing registration flow
-      console.log(response);
-      // call onSuccess to finish registration flow
-      onSuccess(response);
-    }
-    ```
-- **onFailure and ErrorObject:** The onFailure callback accepts an error object that can be used to show a form level vs field level error on the registration form.
-
-    ####  Use the default error
-    ```javascript
-    preSubmit: function (postData, onSuccess, onFailure) {
-      // A Default form level error is shown if no error object is provided
-      onFailure();
-    }
-    ```
-
-    #### Use form level error
-     ```javascript
-    preSubmit: function (postData, onSuccess, onFailure) {
-      var error = {
-        "errorSummary": "Custom form level error"
-      };
-      onFailure(error);
-    }
-    ```
-
-    #### Use field level error
-    ```javascript
-      preSubmit: function (postData, onSuccess, onFailure) {
-        var error = {
-            "errorSummary": "API Error",
-            "errorCauses": [
-                {
-                    "errorSummary": "Custom field level error",
-                    "reason": "registration.error.address",
-                    "resource": "User",
-                    "property": "address", //should match field name
-                    "arguments": []
-                }
-            ]
-        };
-        onFailure(error);
-     }
-    ```
-
-### IdP Discovery
-
-IdP Discovery enables you to route users to different 3rd Party IdPs that are connected to your Okta Org. Users can federate back into the primary org after authenticating at the IdP.
-
-To use IdP Discovery in your application, configure an [identity provider routing rule](https://help.okta.com/en/prod/Content/Topics/Security/configure-routing-rules.htm) in the Okta admin panel.
-Then, in the widget configuration, set `features.idpDiscovery` to `true`.
-
-```javascript
-var signIn = new OktaSignIn({
-  baseUrl: 'https://{yourOktaDomain}',
-  ... ...
-  features: {
-    idpDiscovery: true
-  }
-});
-```
-
-**Note:** IdP Discovery is supported for Okta-hosted Widget setup only. IdP Discovery for self-hosted Widget is not officialy supported by v1 API and requires an extra step to complete OIDC flow. This step involves calling [`session.exists`](https://github.com/okta/okta-auth-js#sessionexists) and [`token.getWithoutPrompt`](https://github.com/okta/okta-auth-js#tokengetwithoutpromptoptions) methods which rely on third party cookies to be available. The below snippet applies to a SPA app hosting Sign-In Widget:
-
-```javascript
-var signIn = new OktaSignIn({
-  baseUrl: 'https://{yourOktaDomain}',
-  clientId: '{appClientId}',
-  ... ...
-  features: {
-    idpDiscovery: true
-  },
-  idpDiscovery: {
-    requestContext: window.location.href
-  }
-});
-
-... ...
-
-// after successful authentication with IdP
-signIn.authClient.session.exists().then(function (sessionExists) {
-  if (sessionExists) {
-    signIn.authClient.token.getWithoutPrompt().then(function (response) {
-      signIn.authClient.tokenManager.setTokens(response.tokens);
-    });
-  }
-}
-```
-
-The IdP Discovery authentication flow in widget will be
-
-1. If a routing policy with a username/domain condition is configured, the widget will enter identifier first flow
-2. Otherwise, the widget will enter primary authentication flow.
-
-For the identifier first flow,
-
-1. The widget will display an identifier first page for the user to enter an Okta userName to determine the IdP to be used for authentication.
-2. If the IdP is your Okta org, the widget will transition to the primary authentication flow.
-3. If the IdP is a 3rd party IdP or a different Okta org, the widget will automatically redirect to path of the 3rd party IdP.
-
-#### Additional configuration
-
-### OpenID Connect
-
-Options for the [OAuth][] Open ID Connect ([OIDC][]) authentication flow.
-
-OIDC flow is required for [Social Login][].
-
-| **Note**: Configuration values can be found in the Okta Admin UI under the application's "General Settings"
-
-- **issuer:** Specify a custom issuer to perform the [OIDC][] flow. Defaults to the baseUrl plus "/oauth2/default". See the guide on setting up a [Custom Authorization Server][] for more information.
-
-- **clientId:** Client Id of the application. Required for OIDC flow. If this option is not set, all other options in [this section](#openid-connect) are ignored.
-
-    ```javascript
-    clientId: 'GHtf9iJdr60A9IYrR0jw'
-    ```
-
-- **redirectUri:** For redirect flows, this URI will be used as the [callback][] url. If no `redirectUri` is provided, defaults to the current origin. (In this example, `https://acme.com`)
-
-    ```javascript
-    redirectUri: 'https://acme.com/oauth2/callback/home'
-    ```
-
-| **Note**: The value for `redirectUri` (or current origin) **must be listed** in the set of "Login Redirect URIs" shown on the application's "General Settings" in the Okta Admin UI
-
-- **idps:** External Identity Providers to use in OIDC authentication, also known as [Social Login][]. Supported IDPs are declared with a `type` and will get distinct styling and default i18n text, while any other entry will receive a general styling and require text to be provided.  Each IDP can have additional CSS classes added via an optional `className` property.
-
-    ```javascript
-    idps: [
-      {type: 'GOOGLE', id: '0oaaix1twko0jyKik0g1'},
-      {type: 'FACEBOOK', id: '0oar25ZnMM5LrpY1O0g2'},
-      {type: 'APPLE', id: '0oaaix1twko0jyKik0g3'},
-      {type: 'MICROSOFT', id: '0oaaix1twko0jyKik0g4'},
-      {type: 'LINKEDIN', id: '0oaaix1twko0jyKik0g5'},
-      {id: '0oabds23xM3ssMjosl0g5', text: 'Login with Joe', className: 'with-joe' }
-    ]
-    ```
-
-    The `APPLE`, `FACEBOOK`, `GOOGLE`, `LINKEDIN`, and `MICROSOFT` IdP types are available to all organizations. The following IdP types are currently in [Self-Service Early Access](https://developer.okta.com/docs/reference/releases-at-okta/#early-access-ea): `ADOBE`, `AMAZON`, `DISCORD`, `FACEBOOK`, `GITHUB`, `GITLAB`, `LINE`, `ORCID`, `PAYPAL`, `PAYPAL_SANDBOX`, `QUICKBOOKS`, `SALESFORCE`, `SPOTIFY`, `XERO`, `YAHOO`, and `YAHOOJP`.
-
-- **idpDisplay:** Display order for external [identity providers][] relative to the Okta login form. Defaults to `SECONDARY`.
-
-    - `PRIMARY` - Display External IDP buttons above the Okta login form
-    - `SECONDARY` - Display External IDP buttons below the Okta login form
-
-    ```javascript
-    idpDisplay: 'PRIMARY'
-    ```
-
-- **oAuthTimeout:** Timeout for [OIDC][] authentication flow requests, in milliseconds. If the authentication flow takes longer than this timeout value, an error will be thrown and the flow will be cancelled. Defaults to `12000`.
-
-    ```javascript
-    oAuthTimeout: 300000 // 5 minutes
-    ```
-
-- **authClient:** An [AuthJS](https://github.com/okta/okta-auth-js) instance. This will be available on the widget instance as the [authClient](#authclient) property. 
- **Note:** If the `authClient` option is used, `authParams` will be ignored.
-
-- **authParams:** An object containing configuration which is used to create the internal [authClient`](#authclient). Selected options are described below. See the full set of [Configuration options](https://github.com/okta/okta-auth-js#configuration-options). Certain options, such as `clientId`, `redirectUri`, and `issuer` can be set either as top-level configuration options or inside `authParams`. Values in `authParams` are more specific and will override values specified at the top-level.
-
-- **authParams.pkce:** Set to `false` to disable [PKCE][] flow
-
-- **authParams.display:** Specify how to display the [authentication][] UI for external [identity providers][]. Defaults to `popup`.
-
-    - `popup` - Opens a popup to the authorization server when an External Identity Provider button is clicked. `responseMode` will be set to `okta_post_message` and cannot be overridden.
-
-    - `page` - Redirect to the authorization server when an External Identity Provider button is clicked.
-
-    ```javascript
-    // Redirects to authorization server when the IDP button is clicked, and
-    // returns an access_token in the url hash (Implicit flow)
-    authParams: {
-      display: 'page',
-      responseType: 'token',
-      pkce: false
-    }
-
-    // With PKCE flow, you should leave responseType blank.
-    // An authorization code will be returned in the query which can be exchanged for tokens.
-    authParams: {
-      display: 'page'
-    }
-    ```
-
-- **authParams.responseMode:** Specify how the [authorization][] response should be returned. You will generally not need to set this unless you want to override the default values for your `authParams.display` and `authParams.responseType` settings.
-
-    - `okta_post_message` - Used when `authParams.display = 'popup'`. Uses [postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage) to send the response from the popup to the origin window.
-
-    - `fragment` - Used when `authParams.display = 'page'`. Returns the authorization response in the hash fragment of the URL after the authorization redirect. `fragment` is the default for Single-page applications using the implicit OIDC flow and for standard web applications where `responseType != 'code'`. SPA Applications using PKCE flow can set `responseMode = 'fragment'` to receive the authorization code in the hash fragment instead of the query.
-
-    - `query` - Used when `authParams.display = 'page'`. Returns the authorization response in the query string of the URL after the authorization redirect. `query` is the default value for standard web applications where `authParams.responseType = 'code'`. For SPA applications, the default will be `query` if using PKCE, or `fragment` for implicit OIDC flow.
-
-    - `form_post` - Returns the authorization response as a form POST after the authorization redirect. Use this when `authParams.display = page` and you do not want the response returned in the URL.
-
-    ```javascript
-    // Use form_post instead of query in the Authorization Code flow
-    authParams: {
-      display: 'page',
-      responseType: 'code',
-      responseMode: 'form_post'
-    }
-    ```
-
-- **authParams.responseType:** Specify the response type for [OIDC][] [authentication][]. Defaults to `['id_token', 'token']`.
-
-    Valid response types are `id_token`, `access_token`, and `code`. Note that `code` goes through the Authorization Code flow, which requires the server to exchange the Authorization Code for tokens.
-
-    ```javascript
-    // Specifying a single responseType
-    authParams: {
-      responseType: 'token'
-    }
-
-    // Use an array if specifying multiple response types - in this case,
-    // the response will contain both an ID Token and an Access Token.
-    authParams: {
-      responseType: ['id_token', 'token']
-    }
-    ```
-
-- **authParams.scopes:** Specify what information to make available in the returned `id_token` or `access_token`. For [OIDC][], you must include `openid` as one of the scopes. Defaults to `['openid', 'email']`.
-
-    Valid OIDC scopes: `openid`, `email`, `profile`, `address`, `phone`
-
-    ```javascript
-    authParams: {
-      scopes: ['openid', 'email', 'profile', 'address', 'phone']
-    }
-    ```
-
-- **authParams.state:** Specify a state that will be validated in an [OAuth][] response. This is usually only provided during redirect flows to obtain an authorization code. Defaults to a random string. This value can be retrieved from the URL on the login redirect [callback][]. For more information on handling the redirect [callback][], see [authClient.token.parseFromUrl()](https://github.com/okta/okta-auth-js#tokenparsefromurloptions)
-
-    ```javascript
-    authParams: {
-      state: '8rFzn3MH5q'
-    }
-    ```
-
-- **authParams.nonce:** Specify a nonce that will be validated in an id_token. This is usually only provided during redirect flows to obtain an authorization code that will be exchanged for an id_token. Defaults to a random string.
-
-    ```javascript
-    authParams: {
-      nonce: '51GePTswrm'
-    }
-    ```
-
-- **authParams.issuer:** Specify a custom issuer to perform the [OIDC][] flow. Defaults to the baseUrl plus "/oauth2/default". See the guide on setting up a [Custom Authorization Server][] for more information.
-
-    ```javascript
-    authParams: {
-      issuer: 'https://{yourOktaDomain}/oauth2/default'
-    }
-    ```
-
-- **authParams.authorizeUrl:** Specify a custom authorizeUrl to perform the [OIDC][] flow. Defaults to the issuer plus "/v1/authorize".
-
-    ```javascript
-    authParams: {
-      issuer: 'https://{yourOktaDomain}/oauth2/default',
-      authorizeUrl: 'https://{yourOktaDomain}/oauth2/default/v1/authorize'
-    }
-    ```
-
-- **authScheme:** Authentication scheme for [OIDC][] [authentication][]. You will normally not need to override this value. Defaults to `OAUTH2`.
-
-    ```javascript
-    authParams: {
-      authScheme: 'OAUTH2'
-    }
-    ```
-
-### Smart Card IdP
-
-**:information_source: EA feature:** The Smart Card IdP feature is currently an [EA feature](https://developer.okta.com/docs/api/getting_started/releases-at-okta#early-access-ea).
-
-Settings for authentication with a Smart Card `X509` type IdP.
-
-- `certAuthUrl` *(required)* - The `url` property of the [MTLS SSO Endpoint Object](https://developer.okta.com/docs/reference/api/idps/#mtls-single-sign-on-sso-endpoint-object). The browser prompts the user to select a client certificate when this url is accessed.
-
-- `text` *(optional)* - Label for the Smart Card IdP button. By default, this value will be "Sign in with PIV / CAC card".
-
-- `className` *(optional)* - Class that can be added to the Smart Card IdP button.
-
-- `isCustomDomain` *(optional)* - Boolean that indicates if the request is coming from a [custom domain](https://developer.okta.com/docs/guides/custom-url-domain/overview). If omitted, it will indicate that the request is not coming from a custom domain.
-
-    ```javascript
-    piv: {
-      certAuthUrl: '/your/cert/validation/endpoint',
-      text: 'Authenticate with a Smart Card',
-      className: 'custom-style',
-      isCustomDomain: true,
-    }
-    ```
-
-### Bootstrapping from a recovery token
-
-- **recoveryToken:** Bootstrap the widget into continuing either the Forgot Password or Unlock Account flow after the recovery email has been sent to the user with the `recoveryToken`.
-
-    ```javascript
-    recoveryToken: 'x0whAcR02i0leKtWMZVc'
-    ```
-
-### Feature flags
-
-Enable or disable widget functionality with the following options. Some of these features require additional configuration in your Okta admin settings.
-
-```javascript
-// An example that enables the autoPush and multiOptionalFactorEnroll features
-features: {
-  autoPush: true,
-  multiOptionalFactorEnroll: true
-}
-```
-
-- **features.router** - Set to `true` if you want the widget to update the navigation bar when it transitions between pages. This is useful if you want the user to maintain their current state when refreshing the page, but requires that your server can handle the widget url paths. Defaults to `false`.
-
-- **features.rememberMe** - Display a checkbox to enable "Remember me" functionality at login. Defaults to `true`.
-
-- **features.autoPush** - Display a checkbox to enable "Send push automatically" functionality in the MFA challenge flow. Defaults to `false`.
-
-- **features.smsRecovery** - Allow users with a configured mobile phone number to recover their password using an SMS message. Defaults to `false`.
-
-- **features.callRecovery** - Allow users with a configured mobile phone number to recover their password using a voice call. Defaults to `false`.
-
-- **features.webauthn** - Display and use factors supported by the FIDO 2.0 (Web Authentication) security standard. Enabling this feature will prevent the widget from invoking the legacy Windows Hello factor. Defaults to `false`.
-
-- **features.selfServiceUnlock** - Display the "Unlock Account" link to allow users to unlock their accounts. Defaults to `false`.
-
-- **features.multiOptionalFactorEnroll** - Allow users to enroll in multiple optional factors before finishing the authentication flow. Default behavior is to force enrollment of all required factors and skip optional factors. Defaults to `false`.
-
-- **features.hideSignOutLinkInMFA** - Hides the sign out link for MFA challenge. Defaults to `false`.
-
-- **features.registration** - Display the registration section in the primary auth page. Defaults to `false`.
-
-- **features.idpDiscovery** - Enable [IdP Discovery](#idp-discovery). Defaults to `false`.
-
-- **features.showPasswordToggleOnSignInPage** - End users can now toggle visibility of their password on the Okta Sign-In page, allowing end users to check their password before they click Sign In. This helps prevent account lock outs caused by end users exceeding your org's permitted number of failed sign-in attempts. Note that passwords are visible for 30 seconds and then hidden automatically. Defaults to `false`.
-
-- **features.scrollOnError** - By default, errors will be scrolled into view. Set to `false` to disable this behavior.
-
-- **features.skipIdpFactorVerificationBtn** - Automatically redirects to the selected Identity Provider when selected from the list of factors. Defaults to `false`.
+Array of custom link objects `{text, href, target}` that will be added to the *"Need help signing in?"* section. The `target` of the link is optional.
 
 - **features.autoFocus** - Automatically focuses the first input field of any form when displayed. Defaults to `true`.
 
 ### Hooks
 
-> **Note**: Hooks are only supported when using the [Okta Identity Engine](#okta-identity-engine)
-
 Asynchronous callbacks can be invoked before or after a specific view is rendered. Hooks can be used to add custom logic such as tracking, logging, or additional user input. Normal execution is blocked while the hooks is executing and will resume after the Promise returned from the hook function resolves. Hooks can be added via config, as shown below, or at runtime using the [before](#before) or [after](#after) methods. The full list of views can be found in [RemediationConstants.js](https://github.com/okta/okta-signin-widget/blob/master/src/v2/ion/RemediationConstants.js#L19).
 
 ```javascript
-// Hooks can be added via config
-const config = {
-  hooks: {
-    'identify': {
-      after: [
-        async function afterIdentify() {
-          // custom logic goes here
-        }
-      ]
-    },
-    'success-redirect': {
-      before: [
-        async function afterIdentify() {
-          // custom logic goes here
-        }
-      ]
-    }
+// Hooks can be set in config
+hooks: {
+  'identify': {
+    after: [
+      async function afterIdentify() {
+        // custom logic goes here
+      }
+    ]
+  },
+  'success-redirect': {
+    before: [
+      async function afterIdentify() {
+        // custom logic goes here
+      }
+    ]
   }
-};
+}
 
 // Hooks can also be added at runtime
 signIn.before('success-redirect', async () => {
@@ -1603,6 +1034,219 @@ signIn.after('identify', async () => {
 });
 
 ```
+
+### Username and password
+
+#### transformUsername
+
+Transforms the username before sending requests with the username to Okta. This is useful when you have an internal mapping between what the user enters and their Okta username.
+
+```javascript
+// The callback function is passed two arguments:
+// 1) username: The name entered by the user
+// 2) operation: The type of operation the user is trying to perform:
+//      - PRIMARY_AUTH
+//      - FORGOT_PASSWORD
+//      - UNLOCK_ACCOUNT
+transformUsername: (username, operation) => {
+  // This example will append the '@acme.com' domain if the user has
+  // not entered it
+  return username.includes('@acme.com')
+    ? username
+    : username + '@acme.com';
+}
+```
+
+### Registration
+
+Callback functions can be provided which will be called at specific moments in the registration process.
+
+```javascript
+registration: {
+  parseSchema: (schema, onSuccess, onFailure) => {
+      // handle parseSchema callback
+      onSuccess(schema);
+  },
+  preSubmit: (postData, onSuccess, onFailure) => {
+      // handle preSubmit callback
+      onSuccess(postData);
+  },
+  postSubmit: (response, onSuccess, onFailure) => {
+      // handle postsubmit callback
+      onSuccess(response);
+  }
+},
+```
+
+#### parseSchema
+
+Callback used to change the JSON schema that comes back from the Okta API.
+
+```javascript
+parseSchema: (schema, onSuccess) => {
+  // This example will add an additional field to the registration form.
+  schema.push(
+    {
+      'name': 'userProfile.address',
+      'type': 'text',
+      'placeholder': 'Enter your street address',
+      'maxLength': 255,
+      'label-top': true,
+      'label': 'Street Address',
+      'required': true,
+    }
+  );
+  onSuccess(schema);
+}
+```
+
+#### preSubmit
+
+Callback used primarily to modify the request parameters sent to the Okta API.
+
+ ```javascript
+preSubmit: (postData, onSuccess) => {
+  // This example will append the domain name to the email address if the user forgets to add it during registration.
+  if (postData.userProfile.email.includes('@acme.com')) {
+    postData.userProfile.email;
+  } else {
+    postData.userProfile.email + '@acme.com';
+  }
+  onSuccess(postData);
+}
+```
+
+#### postSubmit
+
+Callback used to primarily get control and to modify the behavior post submission to registration API.
+
+```javascript
+postSubmit: (response, onSuccess) => {
+  // This example will log the API request body to the browser console before completing registration.
+  console.log(response);
+  onSuccess(response);
+}
+```
+
+#### Handling registration callback errors
+
+- **onFailure and ErrorObject:** The onFailure callback accepts an error object that can be used to show a form level vs field level error on the registration form.
+
+##### Use the default error
+
+```javascript
+preSubmit: (postData, onSuccess, onFailure) => {
+  // A generic form level error is shown if no error object is provided
+  onFailure();
+}
+```
+
+##### Display a form error
+
+  ```javascript
+preSubmit: (postData, onSuccess, onFailure) => {
+  const error = {
+    "errorSummary": "Custom form level error"
+  };
+  onFailure(error);
+}
+```
+
+##### Display a form field error
+
+```javascript
+  preSubmit: (postData, onSuccess, onFailure) => {
+    const error = {
+        "errorSummary": "API Error",
+        "errorCauses": [
+            {
+              "errorSummary": "Custom field level error",
+              "property": "userProfile.email",
+            }
+        ]
+    };
+    onFailure(error);
+  }
+```
+
+### Custom Buttons
+
+You can add custom buttons underneath the login form on the primary auth page by setting the following config options. If you'd like to change the divider text, use the `i18n` config option.
+
+```javascript
+// An example that adds a custom button below the login form on the Sign in form
+customButtons: [{
+  title: 'Click Me',
+  className: 'btn-customAuth',
+  click: () => {
+    // clicking on the button navigates to another page
+    window.location.href = 'https://www.example.com';
+  }
+}]
+
+// An example that adds a custom button with a localized title below the Sign in form
+i18n: {
+  en: {
+    'customButton.title': 'Custom Button Title',
+  },
+},
+customButtons: [{
+  i18nKey: 'customButton.title',
+  className: 'btn-customAuth',
+  click: () => {
+    // clicking on the button navigates to another page
+    window.location.href = 'https://www.example.com';
+  }
+}]
+```
+
+#### customButtons.title
+
+String that is set as the button text (set only one of `title` OR `i18nKey`)
+
+#### customButtons.i18nKey
+
+Custom translation key for button text specified in `i18n` config option (set only one of `title` OR `i18nKey`)
+
+#### customButtons.className
+
+Optional class that can be added to the button
+
+#### customButtons.click
+
+Function that is called when the button is clicked
+
+### Feature flags
+
+Enable or disable widget functionality with the following options.
+
+```javascript
+features: {
+  showPasswordToggleOnSignInPage: true,
+  hideSignOutLinkInMFA: false,
+  rememberMe: true
+}
+```
+
+#### features.showPasswordToggleOnSignInPage
+
+Defaults to `true`.
+Shows eye icon to toggle visibility of the user entered password on the Okta Sign-In page. Password is hidden by default, even when this flag is enabled. Passwords are visible for 30 seconds and then hidden automatically.
+
+#### features.showIdentifier
+
+Defaults to `true`.
+Shows the user's identifier on any view with user context.
+
+#### features.hideSignOutLinkInMFA
+
+Defaults to `false`.
+Hides the "Back to sign in" link for authenticator enrollment and challenge flows.
+
+#### features.rememberMe
+
+Defaults to `true`.
+Pre-fills the identifier field with the previously used username.
 
 ## Events
 
@@ -1672,19 +1316,6 @@ signIn.on('afterRender', function (context) {
 });
 ```
 
-### pageRendered
-
-:warning: This event has been *deprecated*, please use [**afterRender**](#afterrender) instead.
-
-Triggered when the widget transitions to a new page and animations have finished.
-
-```javascript
-signIn.on('pageRendered', function (data) {
-  console.log(data);
-  // { page: 'forgot-password' }
-});
-```
-
 ## Building the Widget
 
 We use Yarn as our node package manager. To install Yarn, check out their [install documentation](https://yarnpkg.com/en/docs/install).
@@ -1702,11 +1333,14 @@ We use Yarn as our node package manager. To install Yarn, check out their [insta
     yarn install
     ```
 
-3. Create a `.widgetrc.js` file in the `okta-signin-widget` directory with an entry for `baseUrl`.
+3. Create a `.widgetrc.js` file in the `okta-signin-widget` directory with your desired configuration:
 
     ```javascript
     module.exports = {
-      baseUrl: 'https://{yourOktaDomain}',
+      issuer: 'https://{yourOktaDomain}',
+      clientId: '{{clientId of your OIDC app}}',
+      redirectUri: '{{redirectUri configured in OIDC app}}',
+      useInteractionCodeFlow: true,
       logoText: 'Windico',
       features: {
         rememberMe: true,
@@ -1785,7 +1419,8 @@ Finally, update the `.widgetrc.js` file to use the `ok_PL` language, and start t
 
 ```js
 module.exports = {
-  baseUrl: 'https://{yourOktaDomain}',
+  // ...other widget config
+  // ...
   language: 'ok-PL',
   ...
 }
@@ -1798,4 +1433,3 @@ Need to know if the Sign-In Widget supports your browser requirements?  Please s
 ## Contributing
 
 We're happy to accept contributions and PRs! Please see the [contribution guide](CONTRIBUTING.md) to understand how to structure a contribution.
-
