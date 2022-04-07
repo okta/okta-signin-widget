@@ -2,7 +2,7 @@
 # Copy this script to scripts/setup.sh and replace `AUTHJS_BETA_VERSION` with correct beta version to test downstream in bacon
 # DO NOT MERGE CHANGES IN scripts/setup.sh !!!
 
-#!/bin/bash
+#!/bin/bash -xe
 
 # Install required node version
 export AUTHJS_BETA_VERSION="6.4.0-g6fd207f"
@@ -19,7 +19,7 @@ echo "Installing BETA VERSION"
 
 npm config set strict-ssl false
 
-yarn add -DW --no-lockfile --force https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/{AUTHJS_BETA_VERSION}.tgz
+yarn add -DW --no-lockfile https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/${AUTHJS_BETA_VERSION}.tgz
 
 echo "BETA VERSION installed"
 # END INSTALL BETA VERSION
