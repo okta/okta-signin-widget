@@ -1,4 +1,4 @@
-import { RequestLogger, RequestMock, ClientFunction, Selector } from 'testcafe';
+import { RequestLogger, RequestMock, ClientFunction } from 'testcafe';
 import { renderWidget, Constants } from '../framework/shared';
 import DeviceChallengePollPageObject from '../framework/page-objects/DeviceChallengePollPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
