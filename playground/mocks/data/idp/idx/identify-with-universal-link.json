@@ -60,7 +60,7 @@
     "type": "object",
     "value": {
       "challengeMethod": "UNIVERSAL_LINK",
-      "href": "https://login.okta.com/auth/okta-verify?challengeRequest=something",
+      "href": "okta-verify.html",
       "cancel": {
           "rel": ["create-form"],
           "name": "cancel-polling-transaction",

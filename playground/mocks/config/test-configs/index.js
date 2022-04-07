@@ -1,7 +1,6 @@
-
-
 module.exports = {
   ChallengeAuthenticatorEmail: require('./ChallengeAuthenticatorEmail'),
+  ChallengeOktaVerifyFastPassView: require('./ChallengeOktaVerifyFastPassView'),
   ChallengeAuthenticatorPassword: require('./ChallengeAuthenticatorPassword'),
   ChallengeCustomAppPush: require('./ChallengeCustomAppPush'),
   ChallengeOktaVerifySSOExtensionView: require('./ChallengeOktaVerifySSOExtensionView'),

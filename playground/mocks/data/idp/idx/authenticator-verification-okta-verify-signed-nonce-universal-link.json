@@ -133,7 +133,7 @@
                   "type": "object",
                   "value": {
                       "challengeMethod": "UNIVERSAL_LINK",
-                      "href": "http://localhost:3000/auth/okta-verify/?challengeRequest=eyJraWQiOiJWbEdrNkZZcVJ3T3I5TlpwcF9KeV9IaldJZFphY3VzV053eEl1VmhIVklJIiwidHlwIjoib2t0YS1kZXZpY2ViaW5kK2p3dCIsImFsZyI6IlJTMjU2In0.eyJpc3MiOiJodHRwczovL2lkeC5va3RhMS5jb20iLCJhdWQiOiJva3RhLjYzYzA4MWRiLTFmMTMtNTA4NC04ODJmLWU3OWUxZTVlMmRhNyIsImV4cCI6MTU5MjE2NzEzNCwiaWF0IjoxNTkyMTY2ODM0LCJqdGkiOiJmdGM2aVIyekpMQlZCMnJLU1E1LW41R3llejZZT3BNek9oIiwibm9uY2UiOiJFQjhLTWUtQmtxTlVjRDVhUDVCeFc3QW5xTGlhUzhHMCIsInRyYW5zYWN0aW9uSWQiOiJmdGM2aVIyekpMQlZCMnJLU1E1LW41R3llejZZT3BNek9oIiwic2lnbmFscyI6WyJzY3JlZW5Mb2NrIiwicm9vdFByaXZpbGVnZXMiLCJmdWxsRGlza0VuY3J5cHRpb24iLCJpZCIsInBsYXRmb3JtIiwib3NWZXJzaW9uIiwibWFudWZhY3R1cmVyIiwibW9kZWwiLCJkZXZpY2VBdHRlc3RhdGlvbiJdLCJ1c2VyVmVyaWZpY2F0aW9uUmVxdWlyZW1lbnQiOmZhbHNlLCJ2ZXJpZmljYXRpb25VcmkiOiJodHRwczovL2lkeC5va3RhMS5jb20vaWRwL2F1dGhlbnRpY2F0b3JzL2F1dDF1aGZBdWR3Q1NTWUdQMGc0L3RyYW5zYWN0aW9ucy9mdGM2aVIyekpMQlZCMnJLU1E1LW41R3llejZZT3BNek9oL3ZlcmlmeSIsImNhU3ViamVjdE5hbWVzIjpbXSwibWRtQXR0ZXN0YXRpb25Jc3N1ZXJzIjpbXSwia2V5VHlwZSI6InByb29mT2ZQb3NzZXNzaW9uIiwiZmFjdG9yVHlwZSI6ImNyeXB0byIsIm9yZ0lkIjoiMDBvMTgzcDRKUU9VcmsydkwwZzQiLCJ2ZXIiOjB9.M9LovulH2vEzxTYNsCizulfmpxbVjKgjJZ4d3AKS-a3dg6-JZtUA8h_l9TYhnSiUBuaZWM5ebIlO9IOsGJa8VQ6tCD0gCfLVp0tUlB3pgmxRWRiOzAL_Z-rKvdz7zF5DJYVa3GgFM7ed7mE6OFNbKdUQmAAQWzzfZ1Kp8i08eTme57COpr6zYg5-Up_ivmsSPUcHQ0piRzCnDeWY03dPzezOn-9NfhPQgsoL-0JyJOFbw61MrzNnXAmZqD23TX3tDXXgmjWA1exjgf2Qua1ppZAY_lgtuMXipa0auKRP9q9X7cUsg05igEnsM_TIZJxEJATmBON-YG3lzw-FKHikjQ"
+                      "href": "okta-verify.html"
                   } 
               }
           }

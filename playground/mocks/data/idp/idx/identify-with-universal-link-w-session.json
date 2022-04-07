@@ -66,7 +66,7 @@
     "type":"object",
     "value":{
       "challengeMethod":"UNIVERSAL_LINK",
-      "href":"https://login.okta.com/auth/okta-verify/?challengeRequest=eyJraWQiOiJJWENGNWFL&redirectUrl=http%3A%2F%2Flocalhost%3A3000%2Fidp%2Fidx%2Fauthenticators%2Fov-not-installed"
+      "href":"okta-verify.html"
     }
   }
 }

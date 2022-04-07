@@ -102,8 +102,7 @@
   "authenticatorChallenge":{
     "type":"object",
     "value":{
-       "challengeMethod":"APP_LINK",
-       "href": "okta-verify.html"
+       "challengeMethod":"UNIVERSAL_LINK"
     }
  }
 }
