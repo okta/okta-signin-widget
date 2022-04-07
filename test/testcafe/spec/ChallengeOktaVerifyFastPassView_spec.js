@@ -25,6 +25,7 @@ const loopbackSuccesskMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
     res.statusCode = '200';
+    res.headers['content-type'] = 'application/json';
     if (probeSuccess) {
       res.setBody(identify);
     } else {
@@ -53,6 +54,7 @@ const loopbackBiometricsErrorMobileMock = RequestMock()
   .respond(identifyWithUserVerificationLoopback)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
+    res.headers['content-type'] = 'application/json';
     if (probeSuccess) {
       res.statusCode = '400';
       res.setBody(identifyWithUserVerificationBiometricsErrorMobile);
@@ -67,6 +69,7 @@ const loopbackBiometricsErrorDesktopMock = RequestMock()
   .respond(identifyWithUserVerificationLoopback)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
+    res.headers['content-type'] = 'application/json';
     if (probeSuccess) {
       res.statusCode = '400';
       res.setBody(identifyWithUserVerificationBiometricsErrorDesktop);
@@ -143,6 +146,7 @@ const customURIBiometricsErrorMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
     res.statusCode = '400';
+    res.headers['content-type'] = 'application/json';
     res.setBody(identifyWithUserVerificationBiometricsErrorDesktop);
   })
   .onRequestTo(mockHttpCustomUri)
@@ -172,6 +176,7 @@ const universalLinkWithoutLaunchBiometricsErrorMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
     res.statusCode = '400';
+    res.headers['content-type'] = 'application/json';
     res.setBody(identifyWithUserVerificationBiometricsErrorMobile);
   });
 
@@ -205,6 +210,7 @@ const userVerificationAppLinkBiometricsError = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
     res.statusCode = '400';
+    res.headers['content-type'] = 'application/json';
     res.setBody(identifyWithUserVerificationBiometricsErrorMobile);
   });
 

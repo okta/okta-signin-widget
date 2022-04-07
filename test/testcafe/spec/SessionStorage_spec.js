@@ -182,6 +182,7 @@ test.requestHooks(identifyChallengeMockWithError)('shall clear when session.stat
   const multipleIntrospectMock = RequestMock()
     .onRequestTo('http://localhost:3000/idp/idx/introspect')
     .respond((req, res) => {
+      res.headers['content-type'] = 'application/json';
       if (useNewTokenResponse) {
         // mimic response for new token
         res.statusCode = '200';

@@ -22,6 +22,7 @@ const loopbackSuccessMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
     res.statusCode = '200';
+    res.headers['content-type'] = 'application/json';
     if (failureCount === 2) {
       res.setBody(identify);
     } else {
@@ -76,6 +77,7 @@ const loopbackPollTimeoutMock = RequestMock()
   .respond((req, res) => {
     return new Promise((resolve) => setTimeout(function() {
       res.statusCode = '200';
+      res.headers['content-type'] = 'application/json';
       res.setBody(identifyWithDeviceProbingLoopback);
       resolve(res);
     }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 2_000));
@@ -117,6 +119,7 @@ const loopbackPollFailedMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
     res.statusCode = '400';
+    res.headers['content-type'] = 'application/json';
     res.setBody(userIsNotAssignedError);
   });
 
@@ -125,6 +128,7 @@ const loopbackSuccessButNotAssignedAppMock = RequestMock()
   .respond(identifyWithDeviceProbingLoopback)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond((req, res) => {
+    res.headers['content-type'] = 'application/json';
     if (pollingError) {
       res.statusCode = '400';
       res.setBody(userIsNotAssignedError);

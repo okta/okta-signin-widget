@@ -1,3 +1,12 @@
+const pushWaitMock = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-custom-app-push'
+  ],
+  '/idp/idx/challenge/poll': [
+    'authenticator-verification-custom-app-push'
+  ],
+};
+
 const pushRejectMock = {
   '/idp/idx/introspect': [
     'authenticator-verification-custom-app-push'
@@ -11,5 +20,6 @@ const pushRejectMock = {
 };
 
 module.exports = {
+  pushWaitMock,
   pushRejectMock
 };
