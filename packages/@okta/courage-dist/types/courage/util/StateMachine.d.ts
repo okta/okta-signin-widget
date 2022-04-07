@@ -1,4 +1,8 @@
-declare const _default: import("../models/Model").ModelConstructor<import("../models/Model").ModelInstance>;
+import Model from '../models/Model';
+export declare class StateMachineClass extends Model {
+    invoke(): this;
+}
+declare const _default: any;
 /**
  * @class StateMachine
  * @extends Okta.Model

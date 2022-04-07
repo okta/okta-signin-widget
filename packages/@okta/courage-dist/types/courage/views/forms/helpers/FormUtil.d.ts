@@ -20,8 +20,8 @@ declare const _default: {
     INPUT_OPTIONS: string[];
     generateInputOptions: typeof generateInputOptions;
     changeEventString: (fieldNames: any) => string;
-    createReadFormButton: (options: CreateReadFormButtonOptions) => import("../../BaseView").BaseViewConstructor<import("../../BaseView").BaseViewInstance>;
-    createButton: (options: CreateButtonOptions) => import("../../BaseView").BaseViewConstructor<import("../../BaseView").BaseViewInstance>;
+    createReadFormButton: (options: CreateReadFormButtonOptions) => any;
+    createButton: (options: CreateButtonOptions) => any;
     validateInput: typeof validateInput;
     /**
      * Applies a show-when logic on a view instance.

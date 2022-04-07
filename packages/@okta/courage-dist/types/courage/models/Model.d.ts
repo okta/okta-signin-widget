@@ -1,16 +1,13 @@
-import { FrameworkModelInstance, FrameworkModelConstructor } from '../framework/Model';
-export interface ModelInstance extends FrameworkModelInstance {
-    secureJSON: boolean;
+import FrameworkModel from '../framework/Model';
+import { _Result } from 'backbone';
+export declare class ModelClass extends FrameworkModel {
+    secureJSON: _Result<boolean>;
 }
-export interface ModelConstructor<I extends ModelInstance = ModelInstance> extends FrameworkModelConstructor {
-    new (attributes?: any, options?: any): I;
-    extend<S = ModelConstructor>(properties: any, classProperties?: any): S;
-}
+declare const _default: typeof ModelClass;
 /**
  * Wrapper around the more generic {@link src/framework/Model} that
  * contains Okta-specific logic.
  * @class module:Okta.Model
  * @extends src/framework/Model
  */
-declare const constructor: ModelConstructor;
-export default constructor;
+export default _default;

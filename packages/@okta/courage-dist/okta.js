@@ -167,35 +167,8 @@ function parseQuery(url) {
 // ################################################
 //
 
-/**
- *
- * Archer.Collection is a standard [Backbone.Collection](http://backbonejs.org/#Collection) with pre-set `data`
- * parameters and built in pagination - works with [http link headers](https://tools.ietf.org/html/rfc5988)
- * out of the box:
- *
- * @class src/framework/Collection
- * @extends external:Backbone.Collection
- * @example
- * var Users = Archer.Collection.extend({
- *   url: '/api/v1/users'
- *   params: {expand: true}
- * });
- * var users = new Users(null, {params: {type: 'new'}}),
- *     $button = this.$('a.fetch-more');
- *
- * $button.click(function () {
- *   users.fetchMore();
- * });
- *
- * this.listenTo(users, 'sync', function () {
- *   $button.toggle(users.hasMore());
- * });
- *
- * collection.fetch(); //=> '/api/v1/users?expand=true&type=new'
- */
 
-
-var Collection = backbone__WEBPACK_IMPORTED_MODULE_1___default().Collection.extend(
+var collectionProps =
 /** @lends src/framework/Collection.prototype */
 {
   /**
@@ -203,7 +176,7 @@ var Collection = backbone__WEBPACK_IMPORTED_MODULE_1___default().Collection.exte
    * @type {Object|Function}
    */
   params: {},
-  constructor: function constructor(models, options) {
+  preinitialize: function preinitialize(models, options) {
     var state = new (backbone__WEBPACK_IMPORTED_MODULE_1___default().Model)();
 
     var defaultParams = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.defaults(options && options.params || {}, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, 'params') || {});
@@ -235,7 +208,7 @@ var Collection = backbone__WEBPACK_IMPORTED_MODULE_1___default().Collection.exte
       this.model = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, 'model');
     }
 
-    backbone__WEBPACK_IMPORTED_MODULE_1___default().Collection.apply(this, arguments);
+    backbone__WEBPACK_IMPORTED_MODULE_1___default().Collection.prototype.preinitialize.apply(this, arguments);
   },
 
   /**
@@ -400,7 +373,35 @@ var Collection = backbone__WEBPACK_IMPORTED_MODULE_1___default().Collection.exte
 
     return backbone__WEBPACK_IMPORTED_MODULE_1___default().Collection.prototype.create.call(this, model, options);
   }
-});
+};
+/**
+ *
+ * Archer.Collection is a standard [Backbone.Collection](http://backbonejs.org/#Collection) with pre-set `data`
+ * parameters and built in pagination - works with [http link headers](https://tools.ietf.org/html/rfc5988)
+ * out of the box:
+ *
+ * @class src/framework/Collection
+ * @extends external:Backbone.Collection
+ * @example
+ * var Users = Archer.Collection.extend({
+ *   url: '/api/v1/users'
+ *   params: {expand: true}
+ * });
+ * var users = new Users(null, {params: {type: 'new'}}),
+ *     $button = this.$('a.fetch-more');
+ *
+ * $button.click(function () {
+ *   users.fetchMore();
+ * });
+ *
+ * this.listenTo(users, 'sync', function () {
+ *   $button.toggle(users.hasMore());
+ * });
+ *
+ * collection.fetch(); //=> '/api/v1/users?expand=true&type=new'
+ */
+
+var Collection = backbone__WEBPACK_IMPORTED_MODULE_1___default().Collection.extend(collectionProps);
 /**
  * It's used for distinguishing the ambiguity from _.isFunction()
  * which returns True for both a JavaScript Class constructor function
@@ -997,7 +998,12 @@ var props =
      * @alias Backbone.Model#defaults
      */
   defaults: {},
-  constructor: function constructor(options) {
+  // FIXME: preinitialize takes parameter `attributes` and `options`, which inherit from constructor.
+  preinitialize: function preinitialize(options) {
+    for (var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      rest[_key - 1] = arguments[_key];
+    }
+
     this.options = options || {};
     var schema = this['__schema__'] = {};
     var objectTypeFields = [];
@@ -1045,7 +1051,13 @@ var props =
 
       return target;
     });
+    backbone__WEBPACK_IMPORTED_MODULE_1___default().Model.prototype.preinitialize.call(this, options, ...rest);
+  },
+  // FIXME:
+  // constructor takes parameter `attributes` and `options`.
+  constructor: function constructor() {
     backbone__WEBPACK_IMPORTED_MODULE_1___default().Model.apply(this, arguments);
+    var schema = this['__schema__'];
 
     _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(schema.derived, function (options, name) {
       schema.computedProperties[name] = this.__getDerivedValue(name); // set initial value;
@@ -1410,7 +1422,7 @@ var proto = {
      *   }
      * });
      */
-  constructor: function constructor(options) {
+  preinitialize: function preinitialize(options) {
     /* eslint max-statements: [2, 17] */
     this.options = options || {};
 
@@ -1421,10 +1433,17 @@ var proto = {
     this[RENDERED] = false;
     this[PARENT] = null;
     this[CHILD_DEFINITIONS] = this.children; // we want to make sure initialize is triggered *after* we append the views from the `this.views` array
+    // FIXME:
+    // It's actually can be done by override initialize method
+    //  initialize() { run extra login; super.initialize(); }
+    // BUT the problem is child classes would override initialize without invoke super.
+    // hence we have to also looking into (refactoring) ALL child classes.
 
-    var initialize = this.initialize;
+    this.__original_initialize__ = this.initialize;
     this.initialize = noop;
-    backbone__WEBPACK_IMPORTED_MODULE_1___default().View.apply(this, arguments);
+  },
+  constructor: function constructor(options) {
+    backbone__WEBPACK_IMPORTED_MODULE_1___default().View.call(this, options);
 
     _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.each(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, CHILD_DEFINITIONS), function (childDefinition) {
       this.add.apply(this, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.isArray(childDefinition) ? childDefinition : [childDefinition]);
@@ -1443,8 +1462,14 @@ var proto = {
       });
     }
 
-    this.initialize = initialize;
-    this.initialize.apply(this, arguments);
+    this.initialize = this.__original_initialize__;
+
+    for (var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      rest[_key - 1] = arguments[_key];
+    }
+
+    this.initialize.call(this, options, ...rest); // initialize in child class may have any number of parameters
+
     subscribeEvents(this);
   },
 
@@ -2086,14 +2111,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _framework_Collection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../framework/Collection */ "../../../../../../okta/okta-ui/packages/courage/src/framework/Collection.ts");
 
 
-/**
- * Wrapper around the more generic {@link src/framework/Collection} that
- * contains Okta-specific logic.
- * @class module:Okta.Collection
- * @extends src/framework/Collection
- */
-
-/* harmony default export */ __webpack_exports__["default"] = (_framework_Collection__WEBPACK_IMPORTED_MODULE_1__.default.extend(
+var baseCollectionProps =
 /** @lends module:Okta.Collection.prototype */
 {
   /**
@@ -2101,6 +2119,9 @@ __webpack_require__.r(__webpack_exports__);
    * @type {Function|Boolean}
    */
   secureJSON: false,
+  // TODO: may not be simplily moved to initialize as
+  // child class override initialize but didn't invoke parent.initialize.
+  // need to refactor child classes first.
   constructor: function constructor() {
     _framework_Collection__WEBPACK_IMPORTED_MODULE_1__.default.apply(this, arguments);
 
@@ -2112,7 +2133,15 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   }
-}));
+};
+/**
+ * Wrapper around the more generic {@link src/framework/Collection} that
+ * contains Okta-specific logic.
+ * @class module:Okta.Collection
+ * @extends src/framework/Collection
+ */
+
+/* harmony default export */ __webpack_exports__["default"] = (_framework_Collection__WEBPACK_IMPORTED_MODULE_1__.default.extend(baseCollectionProps));
 
 /***/ }),
 
@@ -2134,27 +2163,6 @@ var hasProps = function hasProps(model) {
 
   return _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.size(model.props) + _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.size(local) > 0;
 };
-/**
- * @class module:Okta.BaseModel
- * @extends module:Okta.Model
- * @deprecated Use {@link module:Okta.Model|Okta.Model} instead
- * @example
- * var Model = BaseModel.extend({
- *   defaults: {
- *     name: BaseModel.ComputedProperty(['fname', 'lname'], function (fname, lname) {
- *       return fname + ' ' + lname;
- *     })
- *   }
- * });
- * var model = new Model({fname: 'Joe', lname: 'Doe'});
- * model.get('name'); //=> "Joe Doe"
- * model.toJSON(); //=> {fname: 'Joe', lname: 'Doe'}
- *
- * model.set('__private__', 'private property');
- * model.get('__private__'); //=> "private property"
- * model.toJSON(); //=> {fname: 'Joe', lname: 'Doe'}
- */
-
 
 var props =
 /** @lends module:Okta.BaseModel.prototype */
@@ -2345,8 +2353,28 @@ var statics =
     return fn;
   }
 };
-var constructor = _Model__WEBPACK_IMPORTED_MODULE_1__.default.extend(props, statics);
-/* harmony default export */ __webpack_exports__["default"] = (constructor);
+/**
+ * @class module:Okta.BaseModel
+ * @extends module:Okta.Model
+ * @deprecated Use {@link module:Okta.Model|Okta.Model} instead
+ * @example
+ * var Model = BaseModel.extend({
+ *   defaults: {
+ *     name: BaseModel.ComputedProperty(['fname', 'lname'], function (fname, lname) {
+ *       return fname + ' ' + lname;
+ *     })
+ *   }
+ * });
+ * var model = new Model({fname: 'Joe', lname: 'Doe'});
+ * model.get('name'); //=> "Joe Doe"
+ * model.toJSON(); //=> {fname: 'Joe', lname: 'Doe'}
+ *
+ * model.set('__private__', 'private property');
+ * model.get('__private__'); //=> "private property"
+ * model.toJSON(); //=> {fname: 'Joe', lname: 'Doe'}
+ */
+
+/* harmony default export */ __webpack_exports__["default"] = (_Model__WEBPACK_IMPORTED_MODULE_1__.default.extend(props, statics));
 
 /***/ }),
 
@@ -2466,7 +2494,7 @@ __webpack_require__.r(__webpack_exports__);
  * @class module:Okta.Model
  * @extends src/framework/Model
  */
-var constructor = _framework_Model__WEBPACK_IMPORTED_MODULE_1__.default.extend(
+/* harmony default export */ __webpack_exports__["default"] = (_framework_Model__WEBPACK_IMPORTED_MODULE_1__.default.extend(
 /** @lends module:Okta.Model.prototype */
 {
   /**
@@ -2478,8 +2506,11 @@ var constructor = _framework_Model__WEBPACK_IMPORTED_MODULE_1__.default.extend(
     __edit__: 'boolean',
     __pending__: 'boolean'
   },
-  constructor: function constructor() {
+  preinitialize: function preinitialize() {
     this.local = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.defaults({}, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, 'local'), this._builtInLocalProps);
+    _framework_Model__WEBPACK_IMPORTED_MODULE_1__.default.prototype.preinitialize.apply(this, arguments);
+  },
+  constructor: function constructor() {
     _framework_Model__WEBPACK_IMPORTED_MODULE_1__.default.apply(this, arguments);
 
     if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.result(this, 'secureJSON')) {
@@ -2490,8 +2521,7 @@ var constructor = _framework_Model__WEBPACK_IMPORTED_MODULE_1__.default.extend(
       });
     }
   }
-});
-/* harmony default export */ __webpack_exports__["default"] = (constructor);
+}));
 
 /***/ }),
 
@@ -3303,7 +3333,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SettingsModel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SettingsModel */ "../../../../../../okta/okta-ui/packages/courage/src/util/SettingsModel.ts");
 /* harmony import */ var _StateMachine__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./StateMachine */ "../../../../../../okta/okta-ui/packages/courage/src/util/StateMachine.ts");
 /* harmony import */ var _views_BaseView__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
-/* eslint max-len: [2, 150] */
 
  // eslint-disable-next-line import/no-cycle
 
@@ -3323,39 +3352,12 @@ function clean(obj) {
 
   return res;
 }
-/**
- * A Controller is our application control flow component.
- *
- * Typically it will:
- * - Initialize the models, controller and main views
- * - Listen to events
- * - Create, read, update and delete models
- * - Create modal dialogs, confirmation dialogs and alert dialogs
- * - Control the application flow
- *
- * The constructor is responsible for:
- * - Create the application state object
- * - Assign or creates the application settings object
- * - Create an instance of the main view with the relevant parameters
- *
- * See:
- * [Hello World Tutorial](https://github.com/okta/courage/wiki/Hello-World),
- * [Jasmine Spec](https://github.com/okta/okta-core/blob/master/WebContent/js/test/unit/spec/shared/util/BaseController_spec.js)
- *
- * @class module:Okta.Controller
- * @param {Object} options Options Hash
- * @param {SettingsModel} [options.settings] Application Settings Model
- * @param {String} options.el a jQuery selector string stating where to attach the controller in the DOM
- */
-
 
 var proto =
 /** @lends module:Okta.Controller.prototype */
 {
-  constructor: function constructor() {
+  preinitialize: function preinitialize() {
     var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    /* eslint max-statements: [2, 21], complexity: [2, 12] */
     // If 'state' is passed down as options, use it, else create a 'new StateMachine()'
     this.state = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.result(this, 'state');
     var hasStateBeenInitialized = this.state instanceof _StateMachine__WEBPACK_IMPORTED_MODULE_4__.default || options.state instanceof _StateMachine__WEBPACK_IMPORTED_MODULE_4__.default;
@@ -3379,6 +3381,10 @@ var proto =
       this.listen('confirmation', _BaseRouter__WEBPACK_IMPORTED_MODULE_2__.default.prototype._confirm);
     }
 
+    _views_BaseView__WEBPACK_IMPORTED_MODULE_5__.default.prototype.preinitialize.call(this, options);
+  },
+  constructor: function constructor() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     _views_BaseView__WEBPACK_IMPORTED_MODULE_5__.default.call(this, options);
     this.listenTo(this.state, '__invoke__', function () {
       var args = _underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.toArray(arguments);
@@ -3449,6 +3455,31 @@ var proto =
     return this;
   }
 };
+/**
+ * A Controller is our application control flow component.
+ *
+ * Typically it will:
+ * - Initialize the models, controller and main views
+ * - Listen to events
+ * - Create, read, update and delete models
+ * - Create modal dialogs, confirmation dialogs and alert dialogs
+ * - Control the application flow
+ *
+ * The constructor is responsible for:
+ * - Create the application state object
+ * - Assign or creates the application settings object
+ * - Create an instance of the main view with the relevant parameters
+ *
+ * See:
+ * [Hello World Tutorial](https://github.com/okta/courage/wiki/Hello-World),
+ * [Test Spec](https://github.com/okta/okta-ui/blob/master/packages/courage/test/spec/util/BaseController_spec.js)
+ *
+ * @class module:Okta.Controller
+ * @param {Object} options Options Hash
+ * @param {SettingsModel} [options.settings] Application Settings Model
+ * @param {String} options.el a jQuery selector string stating where to attach the controller in the DOM
+ */
+
 /* harmony default export */ __webpack_exports__["default"] = (_views_BaseView__WEBPACK_IMPORTED_MODULE_5__.default.extend(proto));
 
 /***/ }),
@@ -3463,13 +3494,12 @@ var proto =
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! backbone */ "../../../../../../okta/okta-ui/packages/courage/src/vendor/lib/backbone.js");
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var ConfirmationDialog__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ConfirmationDialog */ "./src/empty.ts");
+/* harmony import */ var _views_components_ConfirmationDialog__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../views/components/ConfirmationDialog */ "../../../../../../okta/okta-ui/packages/courage/src/views/components/ConfirmationDialog.js");
 /* harmony import */ var _jquery_wrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./jquery-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts");
 /* harmony import */ var _underscore_wrapper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
 /* harmony import */ var _Logger__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Logger */ "../../../../../../okta/okta-ui/packages/courage/src/util/Logger.ts");
 /* harmony import */ var _SettingsModel__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SettingsModel */ "../../../../../../okta/okta-ui/packages/courage/src/util/SettingsModel.ts");
 /* harmony import */ var _views_components_Notification__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/components/Notification */ "../../../../../../okta/okta-ui/packages/courage/src/views/components/Notification.js");
-/* eslint max-len: [2, 150], max-params: [2, 7] */
 
 
 
@@ -3555,7 +3585,7 @@ var props =
    */
   _confirm: function _confirm() {
     var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var Dialog = ConfirmationDialog__WEBPACK_IMPORTED_MODULE_1__.default.extend(_underscore_wrapper__WEBPACK_IMPORTED_MODULE_3__.default.pick(options, 'title', 'subtitle', 'save', 'ok', 'cancel', 'cancelFn', 'noCancelButton', 'noSubmitButton', 'content', 'danger', 'type', 'closeOnOverlayClick', 'buttonOrder'));
+    var Dialog = _views_components_ConfirmationDialog__WEBPACK_IMPORTED_MODULE_1__.default.extend(_underscore_wrapper__WEBPACK_IMPORTED_MODULE_3__.default.pick(options, 'title', 'subtitle', 'save', 'ok', 'cancel', 'cancelFn', 'noCancelButton', 'noSubmitButton', 'content', 'danger', 'type', 'closeOnOverlayClick', 'buttonOrder'));
     var dialog = new Dialog({
       model: this.settings
     }); // The model is here because itsa part of the BaseForm paradigm.
@@ -3624,15 +3654,24 @@ var props =
       this.controller.remove();
     }
   },
-  route: function route(_route, name, callback) {
-    return backbone__WEBPACK_IMPORTED_MODULE_0___default().Router.prototype.route.call(this, getRoute(this, _route), name, callback);
-  },
+  route: function (_route) {
+    function route(_x, _x2, _x3) {
+      return _route.apply(this, arguments);
+    }
+
+    route.toString = function () {
+      return _route.toString();
+    };
+
+    return route;
+  }(function (route, name, callback) {
+    return backbone__WEBPACK_IMPORTED_MODULE_0___default().Router.prototype.route.call(this, getRoute(this, route), name, callback);
+  }),
   navigate: function navigate(fragment, options) {
     return backbone__WEBPACK_IMPORTED_MODULE_0___default().Router.prototype.navigate.call(this, getRoute(this, fragment), options);
   }
 };
-var constructor = backbone__WEBPACK_IMPORTED_MODULE_0___default().Router.extend(props);
-/* harmony default export */ __webpack_exports__["default"] = (constructor);
+/* harmony default export */ __webpack_exports__["default"] = (backbone__WEBPACK_IMPORTED_MODULE_0___default().Router.extend(props));
 
 /***/ }),
 
@@ -4467,6 +4506,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _models_Model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../models/Model */ "../../../../../../okta/okta-ui/packages/courage/src/models/Model.ts");
 
 
+
 /**
  * @class StateMachine
  * @extends Okta.Model
@@ -4474,7 +4514,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * A state object that holds the applciation state
  */
-
 /* harmony default export */ __webpack_exports__["default"] = (_models_Model__WEBPACK_IMPORTED_MODULE_1__.default.extend({
   /**
    * Invokes a method on the applicable {@link Okta.Controller}
@@ -9259,7 +9298,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
+ // eslint-disable-next-line @typescript-eslint/no-empty-interface
 
 var eventBus = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.clone((backbone__WEBPACK_IMPORTED_MODULE_0___default().Events)); // add `broadcast` and `listen` functionality to all views
 // We use one event emitter per all views
@@ -9267,8 +9306,12 @@ var eventBus = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.clo
 
 
 var proto = {
-  constructor: function constructor() {
-    _framework_View__WEBPACK_IMPORTED_MODULE_2__.default.apply(this, arguments);
+  constructor: function constructor(options) {
+    for (var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      rest[_key - 1] = arguments[_key];
+    }
+
+    _framework_View__WEBPACK_IMPORTED_MODULE_2__.default.call(this, options, ...rest);
     this.module && this.$el.attr('data-view', this.module.id);
   },
 
@@ -10143,6 +10186,374 @@ var BaseDropDownDropDownOption = _BaseView__WEBPACK_IMPORTED_MODULE_3__.default.
 
 /***/ }),
 
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/components/BaseFormDialog.ts":
+/*!**********************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/components/BaseFormDialog.ts ***!
+  \**********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/jquery-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts");
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _BaseView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
+/* harmony import */ var _BaseModalDialog__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./BaseModalDialog */ "../../../../../../okta/okta-ui/packages/courage/src/views/components/BaseModalDialog.js");
+/* harmony import */ var _forms_BaseForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../forms/BaseForm */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/BaseForm.ts");
+/* harmony import */ var _util_SettingsModel__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../util/SettingsModel */ "../../../../../../okta/okta-ui/packages/courage/src/util/SettingsModel.ts");
+
+
+
+
+
+
+var FORM_FIELDS = ['save', 'noCancelButton', 'noSubmitButton', 'buttonOrder', 'inputs', 'subtitle', 'autoSave', 'focus', 'cancel', 'danger', 'hasSavingState', 'customSavingState', 'parseErrorMessage'];
+var FORM_DEFAULTS = {
+  layout: 'o-form-wrap',
+  scrollOnError: false
+};
+var SIMPLE_MODAL_PARAMS = {
+  minWidth: 700,
+  maxWidth: 950,
+  focus: false,
+  close: false,
+  autoResize: false,
+  // (use the resizeModal method, so that the scrolling goes to content, not the whole modal)
+  autoPosition: true
+};
+var baseFormDialogProps = {
+  /** @lends module:Okta.FormDialog.prototype */
+
+  /* eslint max-statements: [2, 16] */
+  constructor: function constructor() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    if (options.settings) {
+      this.settings = options.settings;
+    } else {
+      this.settings = options.settings = new _util_SettingsModel__WEBPACK_IMPORTED_MODULE_5__.default();
+    }
+
+    var Form = this.createsFormClass();
+    this.form = new Form(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.omit(options, 'title', 'subtitle'));
+    this.listenTo(this.form, 'resize', _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.debounce(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.bind(this.resizeModal, this), 100)); // trigger all form events
+
+    var removeFn = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.bind(this.remove, this);
+
+    this.listenTo(this.form, 'all', function () {
+      this.trigger.apply(this, arguments);
+
+      if (arguments[0] === 'cancel') {
+        removeFn();
+      }
+    });
+    (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default)(window).resize(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.debounce(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.bind(this.resizeModal, this), 100));
+    var BaseFormDialogDialog = _BaseModalDialog__WEBPACK_IMPORTED_MODULE_3__.default.extend({
+      title: this.title,
+      className: this.className,
+      params: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.extend({}, SIMPLE_MODAL_PARAMS, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.result(this, 'params'))
+    });
+    this.dialog = new BaseFormDialogDialog(options);
+    this.dialog.add(this.form);
+    this.el = this.dialog.el;
+    _BaseView__WEBPACK_IMPORTED_MODULE_2__.default.apply(this, arguments);
+
+    if (this.form.getAttribute('autoSave')) {
+      this.listenTo(this, 'saved', this.remove);
+    }
+  },
+  createsFormClass: function createsFormClass() {
+    var FormClazz;
+
+    if (this.Form && this.Form.isCourageView) {
+      FormClazz = this.Form;
+    } else if (_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isFunction(this.Form) && _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.result(this, 'Form').isCourageView) {
+      FormClazz = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.result(this, 'Form');
+    } else {
+      throw new Error('Unable to initalize form for BaseFormDialog because this.Form is not well defined.');
+    }
+
+    return FormClazz.extend(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.extend({}, FORM_DEFAULTS, this.settings.isDsTheme() ? {
+      scrollOnError: true
+    } : {}, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.pick(this, FORM_FIELDS)));
+  },
+
+  /**
+   * The default parent class for the embedded form.
+   * Default to {@link module:Okta.Form|Form}
+   */
+  Form: _forms_BaseForm__WEBPACK_IMPORTED_MODULE_4__.default,
+
+  /**
+   * The form instance generated by the constructor.
+   * Should **not** be referenced locally, exposed externally for test purposes.
+   * @type {Okta.Form}
+   * @private
+   * @readonly
+   */
+  form: undefined,
+
+  /**
+   * The dialog instance generated by the constructor.
+   * Should **not** be referenced locally, exposed externally for test purposes.
+   * @type {Okta.ModalDialog}
+   * @private
+   * @readonly
+   */
+  dialog: undefined,
+  addInput: function addInput() {
+    return this.form.addInput.apply(this.form, arguments);
+  },
+  addButton: function addButton() {
+    return this.form.addButton.apply(this.form, arguments);
+  },
+  addDivider: function addDivider() {
+    return this.form.addDivider.apply(this.form, arguments);
+  },
+  addSectionTitle: function addSectionTitle() {
+    return this.form.addSectionTitle.apply(this.form, arguments);
+  },
+  add: function add() {
+    return this.form.add.apply(this.form, arguments);
+  },
+  render: function render() {
+    this.preRender();
+    this.dialog.render.apply(this.dialog, arguments);
+
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.defer(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.bind(this.resizeModal, this));
+
+    this.postRender();
+    return this;
+  },
+  remove: function remove() {
+    this.dialog.remove.apply(this.dialog, arguments);
+    return _BaseView__WEBPACK_IMPORTED_MODULE_2__.default.prototype.remove.apply(this, arguments);
+  },
+
+  /**
+   * Resize modal to fit window height
+   * the whole modal will be within the viewport, only the form content is scrollable
+   * there's no good solution to totally fix the width issue yet for tiny window,
+   * leave it for jquery simplemodal autoResize to do its best
+   */
+  resizeModal: function resizeModal() {
+    if (this.settings.isDsTheme()) {
+      // Do not set form content height introduce scroll bar. Instead scrollbar will be in entire modal.
+      this.dialog.resize.apply(this.dialog, arguments);
+      return;
+    }
+
+    var modal = (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default)('.simplemodal-wrap');
+    var form = this.form;
+    var modalHeight = modal.height();
+    var modalMinHeight = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.isNumber(this.dialog.params.minHeight) ? this.dialog.params.minHeight : 0;
+    var windowHeight = (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default)(window).height();
+
+    if (modalMinHeight <= modalHeight) {
+      if (modalHeight >= windowHeight) {
+        form.contentHeight(windowHeight - this.dialog.$('h2').outerHeight() - form.$('.o-form-button-bar').outerHeight() - (modal.outerHeight(true) - form.$el.outerHeight(true)));
+      } else {
+        form.contentHeight(form.contentHeight() + (windowHeight - modal.outerHeight()));
+      }
+
+      this.dialog.resize.apply(this.dialog, arguments);
+    }
+  },
+  clearErrors: function clearErrors() {
+    return this.form.clearErrors.apply(this.form, arguments);
+  }
+}; // jquery.simplemodoal options
+
+/**
+ * Okta.FormDialog is a facade layer for a form that lives in a modal dialog.
+ *
+ * The API is proxying the {@link module:Okta.Form|Form} API for the most part.
+ * It also triggers all the form events
+ * It takes care of repositioning, resizing, closing the dialog on cancel, and so on.
+ *
+ * @class module:Okta.FormDialog
+ * @extends module:Okta.View
+ * @borrows module:Okta.Form#event:save as save
+ * @borrows module:Okta.Form#event:saved as saved
+ * @borrows module:Okta.Form#event:resize as resize
+ * @borrows module:Okta.Form#event:cancel as cancel
+ * @borrows module:Okta.Form#title as #title
+ * @borrows module:Okta.Form#subtitle as #subtitle
+ * @borrows module:Okta.Form#save as #save
+ * @borrows module:Okta.Form#inputs as #inputs
+ * @borrows module:Okta.Form#noCancelButton as #noCancelButton
+ * @borrows module:Okta.Form#noSubmitButton as #noSubmitButton
+ * @borrows module:Okta.Form#autoSave as #autoSave
+ * @borrows module:Okta.ModalDialog#params as #params
+ * @borrows module:Okta.Form#addInput as #addInput
+ * @borrows module:Okta.Form#addButton as #addButton
+ * @borrows module:Okta.Form#addDivider as #addDivider
+ * @borrows module:Okta.Form#addSectionTitle as #addSectionTitle
+ * @borrows module:Okta.Form#clearErrors as #clearErrors
+ * @example
+ * var AddUserDialog = Okta.FormDialog({
+ *   autoSave: true,
+ *   title: 'Add a User',
+ *   inputs: [
+ *     {
+ *       type: 'text',
+ *       name: 'fname',
+ *       label: 'First Name'
+ *     },
+ *     {
+ *       type: 'text',
+ *       name: 'lname',
+ *       label: 'Last Name'
+ *     }
+ *   ]
+ * });
+ *
+ * // renders the modal dialog on the page
+ * var dialog = new AddUserDialog({model: new MyModel()}).render();
+ * this.listenTo(dialog, 'saved', function (model) {
+ *   // the model is now saved
+ * });
+ */
+
+/* harmony default export */ __webpack_exports__["default"] = (_BaseView__WEBPACK_IMPORTED_MODULE_2__.default.extend(baseFormDialogProps));
+
+/***/ }),
+
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/components/BaseModalDialog.js":
+/*!***********************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/components/BaseModalDialog.js ***!
+  \***********************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../util/jquery-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/jquery-wrapper.ts");
+/* harmony import */ var _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/underscore-wrapper */ "../../../../../../okta/okta-ui/packages/courage/src/util/underscore-wrapper.ts");
+/* harmony import */ var _util_TemplateUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/TemplateUtil */ "../../../../../../okta/okta-ui/packages/courage/src/util/TemplateUtil.ts");
+/* harmony import */ var _BaseView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../BaseView */ "../../../../../../okta/okta-ui/packages/courage/src/views/BaseView.ts");
+/* harmony import */ var _util_SettingsModel__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/SettingsModel */ "../../../../../../okta/okta-ui/packages/courage/src/util/SettingsModel.ts");
+/* harmony import */ var vendor_plugins_jquery_simplemodal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vendor/plugins/jquery.simplemodal */ "./src/empty.ts");
+
+
+
+
+
+
+var tpl = _util_TemplateUtil__WEBPACK_IMPORTED_MODULE_2__.default.tpl;
+/**
+ * A view that renders as a modal dialog.
+ * The template of the view will render inside a dialog.
+ *
+ * It uses [SimpleModal](http://www.ericmmartin.com/projects/simplemodal) as the base modal widget.
+ *
+ * In the context of a {@link module:Okta.View|View}, do not `add` this view to the container - simply call render
+ * A modal dialog is a special view in terms of - it has an overlay and takes over the screen, so conceptually
+ * it is not a part of any other view.
+ *
+ * @class module:Okta.ModalDialog
+ * @extends module:Okta.View
+ */
+
+/* harmony default export */ __webpack_exports__["default"] = (_BaseView__WEBPACK_IMPORTED_MODULE_3__.default.extend(
+/** @lends module:Okta.ModalDialog.prototype */
+{
+  /**
+   * Parameters to pass to the simplemodal plugin.
+   * See [Available Options](http://www.ericmmartin.com/projects/simplemodal/#options).
+   * @type {Object}
+   * @property {Object} [params]
+   */
+  params: {},
+  constructor: function constructor() {
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    if (options.settings) {
+      this.settings = options.settings;
+    } else {
+      this.settings = options.settings = new _util_SettingsModel__WEBPACK_IMPORTED_MODULE_4__.default();
+    }
+
+    _BaseView__WEBPACK_IMPORTED_MODULE_3__.default.apply(this, arguments);
+    this.$el.addClass('simplemodal-wrap'); // garbage collection - remove the view when modal is closed
+
+    this.params = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.extend({
+      onClose: _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.bind(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.throttle(this.remove, 64), this)
+    }, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.result(this, 'params') || {});
+    this.currentModalContentHeight = 0;
+  },
+  render: function render() {
+    /* eslint max-statements: [2, 16] */
+    this.delegateEvents(); // modal may be rendered multiple times
+
+    _BaseView__WEBPACK_IMPORTED_MODULE_3__.default.prototype.render.apply(this, arguments);
+
+    var options = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.extend({}, _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.pick(this, 'title', 'subtitle'), _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.pick(this.options, 'title', 'subtitle'));
+
+    if (options.subtitle) {
+      var subtitle = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.resultCtx(options, 'subtitle', this);
+
+      this.$el.prepend( // TODO: use precompiled templates OKTA-309852
+      // eslint-disable-next-line @okta/okta-ui/no-bare-templates
+      tpl('<p class="modal-subtitle text-light \
+          padding-20 margin-btm-0">{{subtitle}}</p>')({
+        subtitle: subtitle
+      }));
+    }
+
+    if (options.title) {
+      var title = _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.resultCtx(options, 'title', this); // TODO: use precompiled templates OKTA-309852
+      // eslint-disable-next-line @okta/okta-ui/no-bare-templates
+
+
+      this.$el.prepend(tpl('<h2 id="modal-title" class="block modal-title">{{title}}</h2>')({
+        title: title
+      }));
+    } // running deferred fixes a rendering issue with simplemodal
+
+
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.defer(() => {
+      if (this.settings.isDsTheme()) {
+        this.$el.modal(_util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.extend({}, this.params, {
+          autoResize: true
+        }));
+      } else {
+        this.$el.modal(this.params);
+      }
+
+      this.resize();
+    }); // make sure scrolling on the body is disabled;
+
+
+    (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default)('body').css('overflow', 'hidden');
+    return this;
+  },
+  remove: function remove() {
+    _util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.modal.close(); // re-enable document scroll; blank property value removes property altogether
+
+    (0,_util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default)('body').css('overflow', '');
+
+    _util_underscore_wrapper__WEBPACK_IMPORTED_MODULE_1__.default.defer(function () {
+      _util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.modal.close();
+    });
+
+    return _BaseView__WEBPACK_IMPORTED_MODULE_3__.default.prototype.remove.apply(this, arguments);
+  },
+
+  /**
+   * Adjusts the modal content size based on the current content
+   */
+  resize: function resize() {
+    // Resize only if the content height is smaller than viewport height
+    // Unncessary resize causes the modal to scroll to top.
+    if (!this.settings.isDsTheme() || this.currentModalContentHeight < document.documentElement.clientHeight || this.$el.outerHeight() < document.documentElement.clientHeight) {
+      _util_jquery_wrapper__WEBPACK_IMPORTED_MODULE_0__.default.modal.update(this.$el.outerHeight());
+    }
+
+    this.currentModalContentHeight = this.$el.outerHeight();
+  }
+}));
+
+/***/ }),
+
 /***/ "../../../../../../okta/okta-ui/packages/courage/src/views/components/Callout.ts":
 /*!***************************************************************************************!*\
   !*** ../../../../../../okta/okta-ui/packages/courage/src/views/components/Callout.ts ***!
@@ -10538,6 +10949,45 @@ var CalloutCallout = _BaseView__WEBPACK_IMPORTED_MODULE_3__.default.extend(
 
 /***/ }),
 
+/***/ "../../../../../../okta/okta-ui/packages/courage/src/views/components/ConfirmationDialog.js":
+/*!**************************************************************************************************!*\
+  !*** ../../../../../../okta/okta-ui/packages/courage/src/views/components/ConfirmationDialog.js ***!
+  \**************************************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _BaseFormDialog__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseFormDialog */ "../../../../../../okta/okta-ui/packages/courage/src/views/components/BaseFormDialog.ts");
+
+/* harmony default export */ __webpack_exports__["default"] = (_BaseFormDialog__WEBPACK_IMPORTED_MODULE_0__.default.extend({
+  save: 'OK',
+  // eslint-disable-line @okta/okta/no-unlocalized-text
+  params: {
+    minWidth: 500,
+    maxWidth: 700,
+    close: true
+  },
+  constructor: function constructor() {
+    _BaseFormDialog__WEBPACK_IMPORTED_MODULE_0__.default.apply(this, arguments);
+
+    if (this.content) {
+      this.add(this.content);
+    }
+
+    this.listenTo(this, 'save', function () {
+      var callback = this.ok || this.options.ok;
+      callback && callback();
+      this.remove();
+    });
+    this.listenTo(this, 'cancel', function () {
+      var callback = this.cancelFn || this.options.cancelFn;
+      callback && callback();
+    });
+  }
+}));
+
+/***/ }),
+
 /***/ "../../../../../../okta/okta-ui/packages/courage/src/views/components/Notification.js":
 /*!********************************************************************************************!*\
   !*** ../../../../../../okta/okta-ui/packages/courage/src/views/components/Notification.js ***!
@@ -10755,8 +11205,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_InputWrapper__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./helpers/InputWrapper */ "../../../../../../okta/okta-ui/packages/courage/src/views/forms/helpers/InputWrapper.js");
 /* harmony import */ var _util_SettingsModel__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../util/SettingsModel */ "../../../../../../okta/okta-ui/packages/courage/src/util/SettingsModel.ts");
 
-
-/* eslint max-statements: [2, 11] */
 
 
 
@@ -12533,8 +12981,16 @@ var props = {
     this.$el.removeClass('o-form-has-errors');
   }
 };
-var constructor = _BaseView__WEBPACK_IMPORTED_MODULE_5__.default.extend(props);
-/* harmony default export */ __webpack_exports__["default"] = (constructor);
+/**
+ * @class BaseInput
+ * @private
+ * An abstract object that defines an input for {@link Okta.Form}
+ *
+ * BaseInputs are typically not created directly, but being passed to {@link Okta.Form#addInput}
+ * @extends Okta.View
+ */
+
+/* harmony default export */ __webpack_exports__["default"] = (_BaseView__WEBPACK_IMPORTED_MODULE_5__.default.extend(props));
 
 /***/ }),
 
@@ -12568,7 +13024,7 @@ __webpack_require__.r(__webpack_exports__);
       this.add(_helpers_FormUtil__WEBPACK_IMPORTED_MODULE_1__.default.createReadFormButton({
         type: 'edit',
         formTitle: this.formTitle,
-        className: 'ajax-form-edit-link'
+        className: 'disable-in-read-only'
       }));
     }
   },
@@ -12595,7 +13051,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var proto = {
-  className: 'o-form-button-bar',
+  className: function className() {
+    return 'o-form-button-bar';
+  },
   buttonOrder: ['previous', 'save', 'cancel'],
   initialize: function initialize(options) {
     var buttonConfigs = {
@@ -17660,7 +18118,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Router": function() { return /* binding */ Router; },
 /* harmony export */   "Controller": function() { return /* binding */ Controller; },
 /* harmony export */   "Form": function() { return /* binding */ Form; },
-/* harmony export */   "internal": function() { return /* binding */ internal; }
+/* harmony export */   "internal": function() { return /* binding */ internal; },
+/* harmony export */   "isModelPropertySchema": function() { return /* reexport safe */ _courage_framework_Model__WEBPACK_IMPORTED_MODULE_37__.isModelPropertySchema; }
 /* harmony export */ });
 /* harmony import */ var _courage_models_BaseCollection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./courage/models/BaseCollection */ "../../../../../../okta/okta-ui/packages/courage/src/models/BaseCollection.ts");
 /* harmony import */ var _courage_models_BaseModel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./courage/models/BaseModel */ "../../../../../../okta/okta-ui/packages/courage/src/models/BaseModel.ts");
@@ -17700,7 +18159,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var backbone__WEBPACK_IMPORTED_MODULE_34___default = /*#__PURE__*/__webpack_require__.n(backbone__WEBPACK_IMPORTED_MODULE_34__);
 /* harmony import */ var _courage_framework_View__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./courage/framework/View */ "../../../../../../okta/okta-ui/packages/courage/src/framework/View.ts");
 /* harmony import */ var _util_scrollParent__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./util/scrollParent */ "./src/util/scrollParent.ts");
-/* harmony import */ var _courage_util_SettingsModel__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./courage/util/SettingsModel */ "../../../../../../okta/okta-ui/packages/courage/src/util/SettingsModel.ts");
+/* harmony import */ var _courage_framework_Model__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./courage/framework/Model */ "../../../../../../okta/okta-ui/packages/courage/src/framework/Model.ts");
+/* harmony import */ var _courage_util_SettingsModel__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./courage/util/SettingsModel */ "../../../../../../okta/okta-ui/packages/courage/src/util/SettingsModel.ts");
 
 
 
@@ -17832,6 +18292,7 @@ registerInput('radio', _courage_views_forms_inputs_Radio__WEBPACK_IMPORTED_MODUL
 registerInput('select', _courage_views_forms_inputs_Select__WEBPACK_IMPORTED_MODULE_30__.default);
 registerInput('group', _courage_views_forms_inputs_InputGroup__WEBPACK_IMPORTED_MODULE_31__.default);
  // Additional type exports
+
 
 
 

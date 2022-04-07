@@ -184,6 +184,7 @@ export {
 };
 
 // Additional type exports
+export * from './courage/framework/Model';
 export * from './courage/models/Model';
 export * from './courage/util/BaseRouter';
 export * from './courage/util/SettingsModel';

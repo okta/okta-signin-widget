@@ -1,13 +1,5 @@
-import Backbone from 'backbone';
-/**
- * @class BaseInput
- * @private
- * An abstract object that defines an input for {@link Okta.Form}
- *
- * BaseInputs are typically not created directly, but being passed to {@link Okta.Form#addInput}
- * @extends Okta.View
- */
-interface BaseInputPublic {
+import BaseView from '../BaseView';
+export declare class BaseInputClass extends BaseView {
     defaultPlaceholder: string;
     addAriaLabel(): any;
     addInlineValidation(): any;
@@ -36,12 +28,22 @@ interface BaseInputPublic {
     getParams(options: any): any;
     getParam(key: any, defaultValue: any): any;
     getParamOrAttribute(key: any): any;
+    _isEdited: boolean;
+    __getDependencyCalloutBtn(btnConfig: any): any;
+    __getCalloutMsgContainer(calloutMsg: any): any;
+    __evaluateCalloutObject(dependencyResolved: any, calloutTitle: any): any;
+    __handleDependency(result: any, callout: any): any;
+    __showInputDependencies(): any;
+    __markError(): any;
+    __clearError(): any;
 }
-export interface BaseInputInterface extends BaseInputPublic, Backbone.View {
-}
-export interface BaseInputConstructor {
-    new (options: any): BaseInputInterface;
-    extend<S = BaseInputConstructor>(properties: any, classProperties?: any): S;
-}
-declare const constructor: BaseInputConstructor;
-export default constructor;
+declare const _default: typeof BaseInputClass;
+/**
+ * @class BaseInput
+ * @private
+ * An abstract object that defines an input for {@link Okta.Form}
+ *
+ * BaseInputs are typically not created directly, but being passed to {@link Okta.Form#addInput}
+ * @extends Okta.View
+ */
+export default _default;

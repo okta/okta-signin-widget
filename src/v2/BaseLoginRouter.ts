@@ -14,8 +14,8 @@
 // BaseLoginRouter contains the more complicated router logic - rendering/
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
-import { _, $, Backbone, Router, loc, BaseRouterInstance, BaseRouterConstructor, BaseRouterOptions, BaseRouterPublic } from 'okta';
-import Settings, { SettingsInstance } from 'models/Settings';
+import { _, $, Backbone, Router, loc, BaseRouterOptions } from 'okta';
+import Settings from 'models/Settings';
 import Bundles from 'util/Bundles';
 import BrowserFeatures from 'util/BrowserFeatures';
 import ColorsUtil from 'util/ColorsUtil';
@@ -25,7 +25,7 @@ import Logger from 'util/Logger';
 import LanguageUtil from 'util/LanguageUtil';
 import AuthContainer from 'views/shared/AuthContainer';
 import Header from 'views/shared/Header';
-import AppState, { AppStateInstance } from './models/AppState';
+import AppState from './models/AppState';
 import sessionStorageHelper from './client/sessionStorageHelper';
 import {
   startLoginFlow,
@@ -39,45 +39,24 @@ import CookieUtil from 'util/CookieUtil';
 import { formatError, LegacyIdxError, StandardApiError } from './client/formatError';
 import { RenderError, RenderResult } from 'types';
 import { OktaAuth, IdxResponse } from '@okta/okta-auth-js';
-import { HooksInstance } from 'models/Hooks';
+import Hooks from 'models/Hooks';
 
 export interface BaseLoginRouterOptions extends BaseRouterOptions {
   globalSuccessFn?: (res: RenderResult) => void;
   globalErrorFn?: (res: RenderError) => void;
   authClient?: OktaAuth;
-  hooks: HooksInstance
-}
-export interface BaseLoginRouterPublic extends Pick<BaseRouterPublic, 'render' | 'start'> {
-  Events: typeof Backbone.Events;
-  hasControllerRendered: boolean;
-  initialize(options?: BaseLoginRouterOptions): void;
-  updateDeviceFingerprint();
-  handleUpdateAppState(idxResponse: IdxResponse): Promise<IdxResponse>;
-  handleIdxResponseFailure(error: LegacyIdxError);
-  handleError(error: LegacyIdxError | StandardApiError | Error);
-  updateIdentifierCookie(idxResponse: IdxResponse);
-  hasAuthenticationSucceeded(idxResponse: IdxResponse);
-  restartLoginFlow();
-  hide();
-  show();
-  remove();
+  hooks: Hooks
 }
 
-export interface BaseLoginRouterInstance extends BaseLoginRouterPublic, Omit<BaseRouterInstance, 'initialize' | 'settings'> {
-  settings: SettingsInstance;
-  appState: AppStateInstance;
-  hooks: HooksInstance;
-}
-export interface BaseLoginRouterConstructor<I extends BaseLoginRouterInstance = BaseLoginRouterInstance> extends BaseRouterConstructor {
-  new(options): I;
-  extend<S = BaseLoginRouterConstructor>(properties: any, classProperties?: any): S;
-}
+export default class BaseLoginRouter extends Router<Settings> {
+  Events = Backbone.Events;
+  hasControllerRendered = false;
+  settings: Settings;
+  appState: AppState;
+  hooks: Hooks;
+  header: Header;
 
-const props: BaseLoginRouterPublic = {
-  Events: Backbone.Events,
-  hasControllerRendered: false,
-
-  initialize: function(options) {
+  initialize(options: BaseLoginRouterOptions) {
     // Create a default success and/or error handler if
     // one is not provided.
     if (!options.globalSuccessFn) {
@@ -125,7 +104,7 @@ const props: BaseLoginRouterPublic = {
     this.listenTo(this.appState, 'updateAppState', this.handleUpdateAppState);
     this.listenTo(this.appState, 'remediationError', this.handleIdxResponseFailure);
     this.listenTo(this.appState, 'restartLoginFlow', this.restartLoginFlow);
-  },
+  }
 
   updateDeviceFingerprint() {
     const authClient = this.settings.getAuthClient();
@@ -133,9 +112,9 @@ const props: BaseLoginRouterPublic = {
     if (fingerprint) {
       authClient.http.setRequestHeader('X-Device-Fingerprint', fingerprint);
     }
-  },
+  }
 
-  async handleUpdateAppState(this: BaseLoginRouterInstance, idxResponse) {
+  async handleUpdateAppState(idxResponse: IdxResponse): Promise<IdxResponse> {
     // Only update the cookie when the user has successfully authenticated themselves 
     // to avoid incorrect/unnecessary updates.
     if (this.hasAuthenticationSucceeded(idxResponse) 
@@ -177,16 +156,16 @@ const props: BaseLoginRouterPublic = {
     const ionResponse = transformIdxResponse(this.settings, idxResponse, lastResponse);
 
     await this.appState.setIonResponse(ionResponse, this.hooks);
-  },
+  }
 
-  handleIdxResponseFailure(error = { error: 'unknown', details: undefined }) {
+  handleIdxResponseFailure(error: LegacyIdxError = { error: 'unknown', details: undefined }) {
     // IDX errors will not call the global error handler
     error = formatError(error);
     this.handleUpdateAppState(error.details);
-  },
+  }
 
   // Generic error handler for all exceptions
-  handleError(error = { error: 'unknown', details: undefined }) {
+  handleError(error: LegacyIdxError | StandardApiError | Error = { error: 'unknown', details: undefined }) {
     // Show error message and notify listeners
     const originalError = error;
     const formattedError = formatError({...error}); // format the error to resemble an IDX response
@@ -200,10 +179,10 @@ const props: BaseLoginRouterPublic = {
     //   this.settings.callGlobalError(new Errors.UnsupportedBrowserError(loc('error.enabled.cors')));
     //   return;
     // }
-  },
+  }
 
   /* eslint max-statements: [2, 28], complexity: [2, 11] */
-  render: async function(Controller, options = {}) {
+  async render(Controller, options = {}) {
     // If url changes then widget assumes that user's intention was to initiate a new login flow,
     // so clear stored token to use the latest token.
     if (sessionStorageHelper.getLastInitiatedLoginUrl() !== window.location.href) {
@@ -272,14 +251,14 @@ const props: BaseLoginRouterPublic = {
     this.controller.render();
 
     this.hasControllerRendered = true;
-  },
+  }
 
   /**
     * When "Remember My Username" is enabled, we save the identifier in a cookie
     * so that the next time the user visits the SIW, the identifier field can be 
     * pre-filled with this value.
    */
-  updateIdentifierCookie: function(idxResponse) {
+  updateIdentifierCookie(idxResponse: IdxResponse) {
     if (this.settings.get('features.rememberMe')) {
       // Update the cookie with the identifier
       const user = idxResponse?.context?.user;
@@ -291,13 +270,13 @@ const props: BaseLoginRouterPublic = {
       // We remove the cookie explicitly if this feature is disabled.
       CookieUtil.removeUsernameCookie();
     }    
-  },
+  }
 
-  hasAuthenticationSucceeded(idxResponse) {
+  hasAuthenticationSucceeded(idxResponse: IdxResponse) {
     // Check whether authentication has succeeded. This is done by checking the server response
     // and seeing if either the 'success' or 'successWithInteractionCode' objects are present.
     return idxResponse?.rawIdxState?.success || idxResponse?.rawIdxState?.successWithInteractionCode;
-  },
+  }
 
   restartLoginFlow() {
     // Clear the recoveryToken, if any
@@ -307,29 +286,27 @@ const props: BaseLoginRouterPublic = {
 
     // Re-render the widget
     this.render(this.controller.constructor);
-  },
+  }
 
-  start: function() {
+  start() {
     const pushState = BrowserFeatures.supportsPushState();
     Router.prototype.start.call(this, { pushState: pushState });
-  },
+  }
 
-  hide: function() {
+  hide() {
     this.header.$el.hide();
-  },
+  }
 
-  show: function() {
+  show() {
     this.header.$el.show();
-  },
+  }
 
-  remove: function() {
+  remove() {
     this.unload();
     this.header.$el.remove();
     this.stopListening(this.appState);
     this.stopListening(this.settings);
     Bundles.remove();
     Backbone.history.stop();
-  },
-};
-
-export default Router.extend(props) as BaseLoginRouterConstructor;
+  }
+}

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Model, ModelConstructor, ModelInstance } from 'okta';
+import { Model, ModelProperty } from 'okta';
 import Logger from 'util/Logger';
 import {
   FORMS_WITHOUT_SIGNOUT,
@@ -26,7 +26,7 @@ import { executeHooksBefore, executeHooksAfter } from 'util/Hooks';
  * Keep track of stateMachine with this special model. Similar to `src/models/AppState.js`
  */
 
-const local = {
+const local: Record<string, ModelProperty> = {
   user: 'object',        // optional
   currentFormName: 'string',
   idx: 'object',
@@ -36,7 +36,7 @@ const local = {
   hooks: 'object' // instance of models/Hooks
 };
 
-const derived = {
+const derived: Record<string, ModelProperty> = {
   authenticatorProfile: {
     deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment'],
     fn(currentAuthenticator = { profile: undefined }, currentAuthenticatorEnrollment = { profile: undefined }) {
@@ -71,53 +71,29 @@ const derived = {
 
 export type AppStateProps = typeof local & typeof derived;
 
-export interface AppStatePublic {
-  isIdentifierOnlyView();
-  hasRemediationObject(formName);
-  hasActionObject(actionName);
-  getRemediationAuthenticationOptions(formName);
-  getActionByPath(actionPath);
-  getCurrentViewState();
-  getSchemaByName(fieldName);
-  getAuthenticatorDisplayName();
-  isAuthenticatorChallenge();
-  shouldReRenderView(transformedResponse);
-  getRefreshInterval(transformedResponse);
-  shouldShowSignOutLinkInCurrentForm(hideSignOutLinkInMFA);
-  containsMessageWithI18nKey(keys);
-  containsMessageStartingWithI18nKey(keySubStr);
-  clearAppStateCache();
-  setIonResponse(transformedResponse, hooks);
-  getUser();
-}
+export default class AppState extends Model {
 
-interface AppStateInternal {
-  _isReRenderRequired(identicalResponse, transformedResponse, previousRawState);
-  _isChallengeAuthenticatorPoll(transformedResponse, previousRawState);
-}
+  get<A extends Backbone._StringKey<AppStateProps>>(attributeName: A): any {
+    return Model.prototype.get.call(this, attributeName);
+  }
 
-export interface AppStateInstance extends AppStatePublic, Omit<ModelInstance, 'get'> {
-  get<A extends Backbone._StringKey<AppStateProps>>(attributeName: A): AppStateProps[A] | undefined;
-}
-export interface AppStateConstructor<I extends AppStateInstance = AppStateInstance> extends ModelConstructor {
-  new(attributes?, options?): I;
-  extend<S = AppStateConstructor>(properties: any, classProperties?: any): S;
-}
+  preinitalize() {
+    this.local = local;
+    this.derived = derived;
+  }
 
-
-const proto: AppStatePublic & AppStateInternal  = {
   isIdentifierOnlyView() {
     return !this.get('remediations')?.find(({ name }) => name === 'identify')
       ?.uiSchema?.find(({ name }) => name === 'credentials.passcode');
-  },
+  }
 
   hasRemediationObject(formName) {
     return this.get('idx').neededToProceed.find((remediation) => remediation.name === formName);
-  },
+  }
 
   hasActionObject(actionName) {
     return !!this.get('idx')?.actions?.[actionName];
-  },
+  }
 
   getRemediationAuthenticationOptions(formName) {
     const form = this.hasRemediationObject(formName);
@@ -130,7 +106,7 @@ const proto: AppStatePublic & AppStateInternal  = {
     authenticatorOptions = [...authenticatorOptions]; //clone it since we are changing it for OV
     createOVOptions(authenticatorOptions);
     return authenticatorOptions;
-  },
+  }
 
   getActionByPath(actionPath) {
     const paths = actionPath.split('.');
@@ -148,7 +124,7 @@ const proto: AppStatePublic & AppStateInternal  = {
     } else {
       return null;
     }
-  },
+  }
 
   getCurrentViewState() {
     const currentFormName = this.get('currentFormName');
@@ -168,7 +144,7 @@ const proto: AppStatePublic & AppStateInternal  = {
     }
 
     return currentViewState;
-  },
+  }
 
   /**
    * Returns ui schema of the form field from current view state
@@ -181,7 +157,7 @@ const proto: AppStatePublic & AppStateInternal  = {
       const uiSchema = currentViewState.uiSchema;
       return uiSchema.find(({ name }) => name === fieldName);
     }
-  },
+  }
 
   /**
    * Returns the displayName of the authenticator
@@ -194,7 +170,7 @@ const proto: AppStatePublic & AppStateInternal  = {
     // For enrollment and certain verification flows, the currentAuthenticator object will be present.
     // If not, we're likely in a traditional verify/challenge flow.
     return currentAuthenticator.displayName || currentAuthenticatorEnrollment.displayName;
-  },
+  }
 
   /**
    * Checks to see if we're in an authenticator challenge flow.
@@ -203,7 +179,7 @@ const proto: AppStatePublic & AppStateInternal  = {
   isAuthenticatorChallenge() {
     const currentFormName = this.get('currentFormName');
     return FORMS_FOR_VERIFICATION.includes(currentFormName);
-  },
+  }
 
   shouldReRenderView(transformedResponse) {
     if (transformedResponse?.idx?.hasFormError) {
@@ -221,7 +197,7 @@ const proto: AppStatePublic & AppStateInternal  = {
     }
 
     return this._isReRenderRequired(identicalResponse, transformedResponse, previousRawState);
-  },
+  }
 
   getRefreshInterval(transformedResponse) {
     // Only polling refresh interval has changed in the response,
@@ -232,7 +208,7 @@ const proto: AppStatePublic & AppStateInternal  = {
     return currentViewState.refresh ||
       transformedResponse.currentAuthenticatorEnrollment?.poll?.refresh ||
       transformedResponse.currentAuthenticator?.poll?.refresh;
-  },
+  }
 
   // Sign Out link will be displayed in the footer of a form, unless:
   // - widget configuration set hideSignOutLinkInMFA or mfaOnlyFlow to true
@@ -245,7 +221,7 @@ const proto: AppStatePublic & AppStateInternal  = {
     return !hideSignOutLinkInMFA
       && _.isFunction(idxActions?.cancel)
       && !FORMS_WITHOUT_SIGNOUT.includes(currentFormName);
-  },
+  }
 
   containsMessageWithI18nKey(keys) {
     if (!Array.isArray(keys)) {
@@ -254,13 +230,13 @@ const proto: AppStatePublic & AppStateInternal  = {
     const messagesObjs = this.get('messages');
     return messagesObjs && Array.isArray(messagesObjs.value)
       && messagesObjs.value.some(messagesObj => _.contains(keys, messagesObj.i18n?.key));
-  },
+  }
 
   containsMessageStartingWithI18nKey(keySubStr) {
     const messagesObjs = this.get('messages');
     return messagesObjs && Array.isArray(messagesObjs.value)
       && messagesObjs.value.some(messagesObj => messagesObj.i18n?.key.startsWith(keySubStr));
-  },
+  }
 
   clearAppStateCache() {
     // clear appState before setting new values
@@ -273,7 +249,7 @@ const proto: AppStatePublic & AppStateInternal  = {
     this.set(attrs, Object.assign({}, { unset: true, silent: true }));
     // clear cache for derived props.
     this.trigger('cache:clear');
-  },
+  }
 
   async setIonResponse(transformedResponse, hooks) {
     const doRerender = this.shouldReRenderView(transformedResponse);
@@ -306,11 +282,11 @@ const proto: AppStatePublic & AppStateInternal  = {
 
       await executeHooksAfter(hook);
     }
-  },
+  }
 
-  getUser: function() {
+  getUser() {
     return this.get('user');
-  },
+  }
 
   _isReRenderRequired(identicalResponse, transformedResponse, previousRawState) {
     let reRender = true;
@@ -348,7 +324,7 @@ const proto: AppStatePublic & AppStateInternal  = {
       reRender = true;
     }
     return reRender;
-  },
+  }
 
   /**
    * This is to account for the edge case introduced by this issue: OKTA-419210. With the current idx remediations,
@@ -365,10 +341,4 @@ const proto: AppStatePublic & AppStateInternal  = {
 
     return isSameExceptMessages && isChallengeAuthenticator && isCurrentAuthenticatorEmail;
   }
-};
-
-export default Model.extend({
-  local, 
-  derived,
-  ...proto
-}) as AppStateConstructor;
+}

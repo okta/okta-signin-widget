@@ -10,6 +10,6 @@ declare const _default: {
      * @param {Object} [options.events] a [Backbone events](http://backbonejs.org/#View-delegateEvents) hash
      * @returns {module:Okta.internal.views.components.BaseButtonLink} BaseButtonLink prototype ("class")
      */
-    create: (options: any) => import("../views/BaseView").BaseViewConstructor<import("../views/BaseView").BaseViewInstance>;
+    create: (options: any) => any;
 };
 export default /** @lends module:Okta.internal.util.ButtonFactory */ _default;

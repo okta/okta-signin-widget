@@ -1,2 +1,2 @@
-declare var _default: import("../../BaseView").BaseViewConstructor<import("../../BaseView").BaseViewInstance>;
+declare var _default: any;
 export default _default;

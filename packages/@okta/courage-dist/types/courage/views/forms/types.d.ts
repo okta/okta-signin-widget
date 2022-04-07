@@ -1,11 +1,11 @@
-import { BaseInputConstructor } from './BaseInput';
+import { BaseInputClass } from './BaseInput';
 export interface BaseInputOptions {
     id?: string;
     model?: any;
     name?: string | string[];
     inputId?: any;
     type?: any;
-    input?: InputOptions | InputOptions[] | BaseInputConstructor;
+    input?: InputOptions | InputOptions[] | BaseInputClass;
     placeholder?: any;
     label?: any;
     readOnly?: any;

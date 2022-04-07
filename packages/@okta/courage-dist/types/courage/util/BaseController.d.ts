@@ -1,24 +1,43 @@
 /// <reference types="backbone" />
-import { SettingsModelInstance } from './SettingsModel';
+import { SettingsModelClass } from './SettingsModel';
 import StateMachine from './StateMachine';
-import { BaseViewConstructor, BaseViewInstance } from '../views/BaseView';
-export interface BaseControllerOptions {
+import { BaseViewClass, BaseViewOptions } from '../views/BaseView';
+export declare type JSONValue = string | number | boolean | null | {
+    [key: string]: JSONValue;
+} | Array<JSONValue>;
+export interface BaseControllerOptions extends BaseViewOptions {
     state?: typeof StateMachine;
-    settings?: SettingsModelInstance;
+    settings?: SettingsModelClass;
 }
-export interface BaseControllerPublic {
-    state: typeof StateMachine | Record<string, never>;
-    View: BaseViewConstructor;
-    toJSON(options: any): any;
-}
-export interface BaseControllerInstance extends BaseViewInstance {
+export declare class BaseControllerClass extends BaseViewClass {
+    constructor(options: any);
     root: Backbone._Result<string>;
-    settings: SettingsModelInstance;
+    View: any;
+    toJSON(options: any): JSONValue;
 }
-export interface BaseControllerConstructor<I extends BaseControllerInstance = BaseControllerInstance> extends Backbone.View {
-    (attributes?: any, options?: any): void;
-    new (attributes?: any, options?: any): I;
-    extend<S = BaseControllerConstructor>(properties: any, classProperties?: any): S;
-}
-declare const _default: BaseControllerConstructor<BaseControllerInstance>;
+declare const _default: typeof BaseControllerClass;
+/**
+ * A Controller is our application control flow component.
+ *
+ * Typically it will:
+ * - Initialize the models, controller and main views
+ * - Listen to events
+ * - Create, read, update and delete models
+ * - Create modal dialogs, confirmation dialogs and alert dialogs
+ * - Control the application flow
+ *
+ * The constructor is responsible for:
+ * - Create the application state object
+ * - Assign or creates the application settings object
+ * - Create an instance of the main view with the relevant parameters
+ *
+ * See:
+ * [Hello World Tutorial](https://github.com/okta/courage/wiki/Hello-World),
+ * [Test Spec](https://github.com/okta/okta-ui/blob/master/packages/courage/test/spec/util/BaseController_spec.js)
+ *
+ * @class module:Okta.Controller
+ * @param {Object} options Options Hash
+ * @param {SettingsModel} [options.settings] Application Settings Model
+ * @param {String} options.el a jQuery selector string stating where to attach the controller in the DOM
+ */
 export default _default;

@@ -1,2 +1,2 @@
-declare var _default: import("../BaseInput").BaseInputConstructor;
+declare var _default: any;
 export default _default;

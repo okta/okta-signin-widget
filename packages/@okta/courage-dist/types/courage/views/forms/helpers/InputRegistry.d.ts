@@ -1,5 +1,5 @@
-import { BaseInputConstructor } from '../BaseInput';
-declare function isBaseInput(input: any): input is BaseInputConstructor;
+import { BaseInputClass } from '../BaseInput';
+declare function isBaseInput(input: any): input is BaseInputClass;
 declare const _default: {
     isBaseInput: typeof isBaseInput;
     /**
@@ -8,14 +8,14 @@ declare const _default: {
      * @param {BaseInput} input the input to register
      * @return {void}
      */
-    register: (type: any, input: BaseInputConstructor) => void;
+    register: (type: any, input: BaseInputClass) => void;
     /**
      * Get a form input by type
      * @param {Object} options input definition
      * @param {String} options.type string identifier for the input
      * @return {BaseInput} a matching input
      */
-    get: (options: any) => BaseInputConstructor;
+    get: (options: any) => BaseInputClass;
     /**
      * Unregister an input type
      * @param {String} type

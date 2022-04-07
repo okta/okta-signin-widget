@@ -1,5 +1,40 @@
-/// <reference types="underscore" />
-import Backbone from 'backbone';
+import Backbone, { _Result } from 'backbone';
+import { SettingsModelClass } from '../util/SettingsModel';
+import { StateMachineClass } from '../util/StateMachine';
+declare class BackboneViewExt extends Backbone.EventsMixin implements Backbone.Events {
+    static extend(properties: any, classProperties?: any): any;
+    /**
+     * For use with views as ES classes. If you define a preinitialize
+     * method, it will be invoked when the view is first created, before any
+     * instantiation logic is run.
+     * @see https://backbonejs.org/#View-preinitialize
+     */
+    preinitialize(options?: Backbone.ViewOptions<Backbone.Model>): void;
+    initialize(options?: Backbone.ViewOptions<Backbone.Model>): void;
+    /**
+    * Events hash or a method returning the events hash that maps events/selectors to methods on your View.
+    * For assigning events as object hash, do it like this: this.events = <any>{ "event:selector": callback, ... };
+    * That works only if you set it in the constructor or the initialize method.
+    */
+    events(): Backbone.EventsHash;
+    model: Backbone.Model;
+    collection: Backbone.Collection<Backbone.Model>;
+    setElement(element: HTMLElement | JQuery): this;
+    id?: string;
+    cid: string;
+    className(): string;
+    tagName: string;
+    el: HTMLElement;
+    $el: JQuery;
+    attributes(): Record<string, any>;
+    $(selector: string): JQuery;
+    render(): this;
+    remove(): this;
+    delegateEvents(events?: _Result<Backbone.EventsHash>): this;
+    delegate(eventName: string, selector: string, listener: Backbone.ViewEventListener): this;
+    undelegateEvents(): this;
+    undelegate(eventName: string, selector?: string, listener?: Backbone.ViewEventListener): this;
+}
 export interface CompiledTemplate {
     (data?: any): string;
     source?: string;
@@ -14,39 +49,60 @@ export interface FrameworkViewOptions {
     bubble?: boolean;
     prepend?: boolean;
     options?: Record<string, any>;
+    [key: string]: any;
 }
-export declare type ChildDefinition = [FrameworkViewConstructor, string?, Record<string, any>?];
-export interface FrameworkViewPublic {
+export declare type ChildDefinition = [FrameworkViewClass, string?, Record<string, any>?];
+export declare class FrameworkViewClass extends BackboneViewExt {
+    static isCourageView: true;
+    constructor(options: FrameworkViewOptions, ...rest: any[]);
     add(template: string, selector?: string): any;
     add(view: any, selector?: string): any;
     add(view: any, options: Record<string, any>): any;
     add(view: any, selector: any, bubble?: any, prepend?: any, extraOptions?: any): any;
+    options: FrameworkViewOptions;
+    state: StateMachineClass | Record<string, never>;
+    settings: SettingsModelClass;
+    stateEvents?: Record<string, string>;
+    modelEvents?: Record<string, string>;
     children: Backbone._Result<ChildDefinition[]>;
     autoRender: boolean;
-    template: string | CompiledTemplate;
+    template: string | CompiledTemplate | null;
     rendered(): boolean;
     preRender(): any;
     postRender(): any;
     getTemplateData(): Record<string, string>;
     compileTemplate(template: string): CompiledTemplate;
     renderTemplate(template: string | CompiledTemplate): any;
-    removeChildren(): FrameworkViewInstance;
+    removeChildren(): this;
     unregister(view: any): any;
-    getChildren(): FrameworkViewInstance[];
-    at(index: number): FrameworkViewInstance;
-    invoke(methodName: string): FrameworkViewInstance;
-}
-export interface FrameworkViewInternal extends Pick<Backbone.View, 'className' | 'remove' | 'render'> {
-    constructor(options?: Record<string, any>): any;
-}
-export interface FrameworkViewInstance extends FrameworkViewPublic, Backbone.View, Pick<_.Underscore<FrameworkViewInstance>, 'each' | 'map' | 'reduce' | 'reduceRight' | 'find' | 'filter' | 'reject' | 'every' | 'some' | 'contains' | 'toArray' | 'size' | 'first' | 'initial' | 'rest' | 'last' | 'without' | 'indexOf' | 'shuffle' | 'lastIndexOf' | 'isEmpty' | 'chain' | 'where' | 'findWhere'> {
-    options: FrameworkViewOptions;
-}
-export interface FrameworkViewConstructor<I extends FrameworkViewInstance = FrameworkViewInstance> extends Backbone.View {
-    isCourageView: true;
-    (attributes?: any, options?: any): void;
-    new (attributes?: any, options?: any): I;
-    extend<S = FrameworkViewConstructor>(properties: any, classProperties?: any): S;
+    getChildren(): this[];
+    at(index: number): this;
+    invoke(methodName: string): this;
+    __original_initialize__: (options: FrameworkViewOptions) => void;
+    each(fn: any): any;
+    map(fn: any): any;
+    reduce(fn: any, initValue: any): any;
+    reduceRight(fn: any, initValue: any): any;
+    find(): any;
+    filter(): any;
+    reject(): any;
+    every(): any;
+    some(): any;
+    contains(): any;
+    toArray(): any;
+    size(): any;
+    first(): any;
+    initial(): any;
+    rest(): any;
+    last(): any;
+    without(): any;
+    indexOf(): any;
+    shuffle(): any;
+    lastIndexOf(): any;
+    isEmpty(): any;
+    chain(): any;
+    where(): any;
+    findWhere(): any;
 }
 /**
    * A View operates on a string template, an token based template, or a model based template, with a few added hooks.
@@ -75,5 +131,5 @@ export interface FrameworkViewConstructor<I extends FrameworkViewInstance = Fram
    *   children: [[HeaderView, 'header'], [ContentView, 'article'], [FooterView, 'footer']]
    * });
    */
-declare let View: FrameworkViewConstructor;
+declare let View: typeof FrameworkViewClass;
 export default View;

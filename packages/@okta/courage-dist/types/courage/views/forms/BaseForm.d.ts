@@ -1,4 +1,65 @@
-declare const _default: import("../BaseView").BaseViewConstructor<import("../BaseView").BaseViewInstance>;
+import BaseView from '../BaseView';
+import { _Result } from 'backbone';
+declare type ButtonOrder = 'previous' | 'save' | 'cancel';
+export declare class BaseFormConstructor extends BaseView {
+    input: any[];
+    template: any;
+    read: boolean;
+    readOnly: boolean;
+    noButtonBar: boolean;
+    noCancelButton: boolean;
+    noSubmitButton: boolean;
+    buttonOrder: ButtonOrder[];
+    save: string | null;
+    cancel: string | null;
+    danger: _Result<boolean>;
+    layout: _Result<string>;
+    step: number;
+    totalSteps: number;
+    title: string | null;
+    subtitle: string | null;
+    autoSave: boolean;
+    scrollOnError: _Result<boolean>;
+    showErrors: _Result<boolean>;
+    resizeSelector: string;
+    getAttribute(name: any, defaultValue?: any): any;
+    hasReadMode(): boolean;
+    isReadOnly(): boolean;
+    hasButtonBar(): boolean;
+    isValid(): boolean;
+    __setSavingState(): any;
+    __clearSavingState(): any;
+    __toggleToolbar(): any;
+    __save(): any;
+    __cancel(): any;
+    __previous(): any;
+    __applyMode(): any;
+    _editMode(): any;
+    parseErrorMessage(): any;
+    _handleErrorScroll(): any;
+    __showErrors(): any;
+    clearErrors(): any;
+    toggle(): any;
+    __addLayoutItem(): any;
+    __addNonInputLayoutItem(): any;
+    addButton(): any;
+    addDivider(): any;
+    addSectionTitle(): any;
+    addInput(options: any): any;
+    __createInput(): any;
+    __createWrapper(): any;
+    __createLabel(): any;
+    _createContainer(): any;
+    __saveModelState(): any;
+    add(): any;
+    focus(): any;
+    disable(): any;
+    enable(): any;
+    contentHeight(): any;
+    getInputs(): any;
+    __createToolbar(): any;
+}
+declare const _default: typeof BaseFormConstructor;
 /**
  * A Form utility framework
  *

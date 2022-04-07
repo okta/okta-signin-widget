@@ -7,7 +7,7 @@ import buildRenderOptions from 'widget/buildRenderOptions';
 import createRouter from 'widget/createRouter';
 import V1Router from 'LoginRouter';
 import V2Router from 'v2/WidgetRouter';
-import Hooks, { HooksInstance } from 'models/Hooks';
+import Hooks from 'models/Hooks';
 import {
   WidgetOptions,
   OktaSignInAPI,
@@ -27,7 +27,7 @@ const EVENTS_LIST = ['ready', 'afterError', 'afterRender'];
 class OktaSignIn implements OktaSignInAPI {
   Router: AbstractRouter;
   options: WidgetOptions;
-  hooks: HooksInstance;
+  hooks: Hooks;
   router: AbstractRouter;
   authClient: OktaAuth;
 

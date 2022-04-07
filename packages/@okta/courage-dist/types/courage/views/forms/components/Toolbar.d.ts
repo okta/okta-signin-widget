@@ -1,14 +1,9 @@
-/// <reference types="backbone" />
-import { BaseViewInstance } from '../../BaseView';
-export interface ToolbarPublic {
-    addButton(parmas: any, options?: any): any;
-    buttonOrder: string[];
+import BaseView from '../../BaseView';
+declare type ButtonOrderEnum = 'previous' | 'save' | 'cancel';
+export declare class ToolbarClass extends BaseView {
+    addButton(parmas: any, options?: any): this;
+    buttonOrder: ButtonOrderEnum[];
+    __getButtonOrder(options: any): ButtonOrderEnum[];
 }
-export interface ToolbarInstance extends ToolbarPublic, BaseViewInstance {
-}
-export interface ToolbarConstructor<I extends ToolbarInstance = ToolbarInstance> extends Backbone.View {
-    new (attributes?: any, options?: any): I;
-    extend<C = ToolbarConstructor>(properties: any, classProperties?: any): C;
-}
-declare const _default: ToolbarConstructor<ToolbarInstance>;
+declare const _default: typeof ToolbarClass;
 export default _default;

@@ -1,4 +1,4 @@
-declare const _default: import("./View").FrameworkViewConstructor<import("./View").FrameworkViewInstance>;
+declare const _default: any;
 /**
    * Archer.ListView is a {@link src/framework/View} that operates on a
    * collection and builds a list of "things" of the same type.

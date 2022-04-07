@@ -18,46 +18,43 @@ export interface ModelPropertySchema {
     minItems?: number;
     deps?: string[];
     fn?: (...values: any[]) => any;
+    cache?: boolean;
 }
 export declare function isModelPropertySchema(obj: any): obj is ModelPropertySchema;
-export declare type ModelProperty = ModelPropertySchema | string | [string, boolean] | [string, boolean, (string | boolean | any[])?];
+export declare type ModelProperty = ModelPropertySchema | string | [string, boolean] | [string, boolean, any?];
 export interface ModelSchema {
     computedProperties?: Record<string, ModelProperty>;
     props?: Record<string, ModelProperty>;
     derived?: Record<string, ModelProperty>;
     local?: Record<string, ModelProperty>;
-    flat?: boolean;
-    defaults?: Record<string, ModelProperty>;
 }
-interface FrameworkModelPublic {
+export declare class FrameworkModelClass extends Backbone.Model {
+    static isCourageModel: true;
+    static ERROR_BLANK: 'model.validation.field.blank';
+    static ERROR_WRONG_TYPE: 'model.validation.field.wrong.type';
+    static ERROR_NOT_ALLOWED: 'model.validation.field.value.not.allowed';
+    static ERROR_INVALID: 'model.validation.field.invalid';
+    static ERROR_IARRAY_UNIQUE: 'model.validation.field.array.unique';
+    static ERROR_INVALID_FORMAT_EMAIL: 'model.validation.field.invalid.format.email';
+    static ERROR_INVALID_FORMAT_URI: 'model.validation.field.invalid.format.uri';
+    static ERROR_INVALID_FORMAT_IPV4: 'model.validation.field.invalid.format.ipv4';
+    static ERROR_INVALID_FORMAT_HOSTNAME: 'model.validation.field.invalid.format.hostname';
+    static ERROR_STRING_STRING_MIN_LENGTH: 'model.validation.field.string.minLength';
+    static ERROR_STRING_STRING_MAX_LENGTH: 'model.validation.field.string.maxLength';
+    options: Record<string, any>;
+    computedProperties?: Record<string, ModelProperty>;
+    props?: Record<string, ModelProperty>;
+    derived?: Record<string, ModelProperty>;
+    local?: Record<string, ModelProperty>;
     validate(): any;
     validateField(key: any): any;
     allows(key: any): any;
     getPropertySchema(propName: any): ModelPropertySchema | null;
     reset(options: any): any;
     isSynced(): boolean;
-}
-export interface FrameworkModelStatic {
-    isCourageModel: boolean;
-    ERROR_BLANK: 'model.validation.field.blank';
-    ERROR_WRONG_TYPE: 'model.validation.field.wrong.type';
-    ERROR_NOT_ALLOWED: 'model.validation.field.value.not.allowed';
-    ERROR_INVALID: 'model.validation.field.invalid';
-    ERROR_IARRAY_UNIQUE: 'model.validation.field.array.unique';
-    ERROR_INVALID_FORMAT_EMAIL: 'model.validation.field.invalid.format.email';
-    ERROR_INVALID_FORMAT_URI: 'model.validation.field.invalid.format.uri';
-    ERROR_INVALID_FORMAT_IPV4: 'model.validation.field.invalid.format.ipv4';
-    ERROR_INVALID_FORMAT_HOSTNAME: 'model.validation.field.invalid.format.hostname';
-    ERROR_STRING_STRING_MIN_LENGTH: 'model.validation.field.string.minLength';
-    ERROR_STRING_STRING_MAX_LENGTH: 'model.validation.field.string.maxLength';
-}
-export interface FrameworkModelInstance extends FrameworkModelPublic, Backbone.Model {
-    validate(): any;
-}
-export interface FrameworkModelConstructor<I extends FrameworkModelInstance = FrameworkModelInstance> extends FrameworkModelStatic, Backbone.Model {
-    (attributes?: any, options?: any): void;
-    new (attributes?: any, options?: any): I;
-    extend<S = FrameworkModelConstructor>(properties: any, classProperties?: any): S;
+    flat?: boolean;
+    _validateSchema(): any;
+    __getDerivedValue(name: any): any;
 }
 /**
    * Archer.Model is a standard [Backbone.Model](http://backbonejs.org/#Model) with a few additions:
@@ -101,5 +98,5 @@ export interface FrameworkModelConstructor<I extends FrameworkModelInstance = Fr
    * model.get('isLoggedIn'); //=> true
    * model.toJSON(); //=> {fname: 'Joe', lname: 'Doe'}
    */
-declare let Model: FrameworkModelConstructor;
+declare let Model: typeof FrameworkModelClass;
 export default Model;

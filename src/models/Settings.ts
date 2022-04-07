@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _, Model, loc, internal, SettingsModelInstance, SettingsModelConstructor } from 'okta';
+import { _, Model, loc, internal, ModelClass, ModelProperty } from 'okta';
 import config from 'config/config.json';
 import hbs from 'handlebars-inline-precompile';
 import Q from 'q';
@@ -22,12 +22,13 @@ import IDP from 'util/IDP';
 import Logger from 'util/Logger';
 import Util from 'util/Util';
 import CountryUtil from 'util/CountryUtil';
+import { OktaAuth } from '@okta/okta-auth-js';
 const SharedUtil = internal.util.Util;
 const ConfigError = Errors.ConfigError;
 const UnsupportedBrowserError = Errors.UnsupportedBrowserError;
 const assetBaseUrlTpl = hbs('https://global.oktacdn.com/okta-signin-widget/{{version}}');
 
-const local = {
+const local: Record<string, ModelProperty> = {
   baseUrl: ['string', true],
   recoveryToken: ['string', false, undefined],
   stateToken: ['string', false, undefined],
@@ -173,7 +174,7 @@ const local = {
   otp: 'string',
 };
 
-const derived = {
+const derived: Record<string, ModelProperty>  = {
   showPasswordToggle: {
     deps: ['features.showPasswordToggleOnSignInPage'],
     fn: function() {
@@ -353,20 +354,19 @@ const derived = {
 
 type SettingsProps = typeof local & typeof derived;
 
-export interface SettingsInstance extends Omit<SettingsModelInstance, 'get'> {
-  get<A extends Backbone._StringKey<SettingsProps>>(attributeName: A): SettingsProps[A] | undefined;
-}
-export interface SettingsConstructor<I extends SettingsInstance = SettingsInstance> extends SettingsModelConstructor {
-  new(attributes?, options?): I;
-  extend<S = SettingsConstructor>(properties: any, classProperties?: any): S;
-}
+export default class Settings extends Model {
+  authClient:OktaAuth = undefined;
 
-export default Model.extend({
-  authClient: undefined,
-  local,
-  derived,
+  get<A extends Backbone._StringKey<SettingsProps>>(attributeName: A): any {
+    return Model.prototype.get.call(this, attributeName);
+  }
 
-  initialize: function(options) {
+  preinitalize() {
+    this.local = local;
+    this.derived = derived;
+  }
+
+  initialize(options) {
     const { colors } = options;
     let { baseUrl } = options;
     if (!baseUrl) {
@@ -391,24 +391,24 @@ export default Model.extend({
     } else if (BrowserFeatures.corsIsNotSupported()) {
       this.callGlobalError(new UnsupportedBrowserError(loc('error.unsupported.cors')));
     }
-  },
+  }
 
-  setAcceptLanguageHeader: function(authClient) {
+  setAcceptLanguageHeader(authClient) {
     if (authClient) {
       authClient.http.setRequestHeader('Accept-Language', this.get('languageCode'));
     }
-  },
+  }
 
-  setAuthClient: function(authClient) {
+  setAuthClient(authClient) {
     this.setAcceptLanguageHeader(authClient);
     this.authClient = authClient;
-  },
+  }
 
-  getAuthClient: function() {
+  getAuthClient() {
     return this.authClient;
-  },
+  }
 
-  set: function(...args: any[]) {
+  set(...args: any[]) {
     try {
       return Model.prototype.set.apply(this, args);
     } catch (e) {
@@ -416,23 +416,23 @@ export default Model.extend({
 
       this.callGlobalError(new ConfigError(message));
     }
-  },
+  }
 
   // Invokes the global success function. This should only be called on a
   // terminal part of the code (i.e. authStatus SUCCESS or after sending
   // a recovery email)
-  callGlobalSuccess: function(status, data) {
+  callGlobalSuccess(status, data) {
     const res = _.extend(data, { status: status });
     // Defer this to ensure that our functions have rendered completely
     // before invoking their function
 
     _.defer(_.partial(this.get('globalSuccessFn'), res));
-  },
+  }
 
   // Invokes the global error function. This should only be called on non
   // recoverable errors (i.e. configuration errors, browser unsupported
   // errors, etc)
-  callGlobalError: function(err) {
+  callGlobalError(err) {
     const globalErrorFn = this.get('globalErrorFn') || this.options.globalErrorFn;
     // Note: Must use "this.options.globalErrorFn" when they've passed invalid
     // arguments - globalErrorFn will not have been set yet
@@ -443,19 +443,19 @@ export default Model.extend({
       // Only throw the error if they have not registered a globalErrorFn
       throw err;
     }
-  },
+  }
 
   // Get the username by applying the transform function if it exists.
-  transformUsername: function(username, operation) {
+  transformUsername(username, operation) {
     const transformFn = this.get('transformUsername');
 
     if (transformFn && _.isFunction(transformFn)) {
       return transformFn(username, operation);
     }
     return username;
-  },
+  }
 
-  processCreds: function(creds) {
+  processCreds(creds) {
     const processCreds = this.get('processCreds');
 
     return Q.Promise(function(resolve) {
@@ -468,9 +468,9 @@ export default Model.extend({
         resolve();
       }
     });
-  },
+  }
 
-  parseRegistrationSchema: function(schema, onSuccess, onFailure) {
+  parseRegistrationSchema(schema, onSuccess, onFailure) {
     const parseSchema = this.get('registration.parseSchema');
 
     //check for parseSchema callback
@@ -490,9 +490,9 @@ export default Model.extend({
       //no callback
       onSuccess(schema);
     }
-  },
+  }
 
-  preRegistrationSubmit: function(postData, onSuccess, onFailure) {
+  preRegistrationSubmit(postData, onSuccess, onFailure) {
     const preSubmit = this.get('registration.preSubmit');
 
     //check for preSubmit callback
@@ -512,9 +512,9 @@ export default Model.extend({
       //no callback
       onSuccess(postData);
     }
-  },
+  }
 
-  postRegistrationSubmit: function(response, onSuccess, onFailure) {
+  postRegistrationSubmit(response, onSuccess, onFailure) {
     const postSubmit = this.get('registration.postSubmit');
 
     //check for postSubmit callback
@@ -534,12 +534,12 @@ export default Model.extend({
       //no callback
       onSuccess(response);
     }
-  },
+  }
 
   // Use the parse function to transform config options to the standard
   // settings we currently support. This is a good place to deprecate old
   // option formats.
-  parse: function(options) {
+  parse(options) {
     if (options.labels || options.country) {
       Logger.deprecate('Use "i18n" instead of "labels" and "country"');
       const overrides = options.labels || {};
@@ -570,10 +570,10 @@ export default Model.extend({
     }
 
     return options;
-  },
+  }
 
-  isDsTheme: function() {
+  isDsTheme() {
     return false;
-  },
+  }
 
-}) as SettingsConstructor;
+}

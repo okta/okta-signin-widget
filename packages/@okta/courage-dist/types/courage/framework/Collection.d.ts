@@ -1,3 +1,18 @@
+import Backbone, { _Result } from 'backbone';
+export interface FrameworkCollectionFetchOptions extends Backbone.CollectionFetchOptions {
+    fromFetch?: boolean;
+    abort?: boolean;
+}
+export declare class FrameworkCollectionClass extends Backbone.Collection {
+    static isCourageCollection: true;
+    params: Record<string, any> | _Result<Record<string, any>>;
+    setPagination(params: any, options?: any): void;
+    getFetchData(): Record<string, any>;
+    getPaginationData(): Record<string, any>;
+    hasMore(): boolean;
+    fetchMore(): JQueryXHR;
+    where<F extends boolean>(properties: any, first?: boolean): F extends true ? any : any[];
+}
 /**
  *
  * Archer.Collection is a standard [Backbone.Collection](http://backbonejs.org/#Collection) with pre-set `data`
@@ -24,5 +39,5 @@
  *
  * collection.fetch(); //=> '/api/v1/users?expand=true&type=new'
  */
-declare const Collection: any;
+declare const Collection: typeof FrameworkCollectionClass;
 export default Collection;

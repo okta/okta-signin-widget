@@ -1,24 +1,29 @@
-import Backbone from 'backbone';
-import { FrameworkViewInstance } from '../framework/View';
-export interface BaseViewPublic {
-    empty(): any;
-    broadcast(...args: any[]): BaseViewInstance;
-    listen(name: any, fn: any): BaseViewInstance;
-    notify(level: any, message: any, options: any): BaseViewInstance;
-    confirm(title: any, message: any, okfn: any, cancelfn: any): BaseViewInstance;
-    alert(params: any): BaseViewInstance;
+import View, { FrameworkViewOptions } from '../framework/View';
+export interface BaseViewOptions extends FrameworkViewOptions {
 }
-export interface BaseViewInstance extends BaseViewPublic, FrameworkViewInstance {
+export interface ConfirmOption {
+    title: string;
+    content: string;
+    save?: () => void;
+    ok?: () => void;
+    cancel?: () => void;
+}
+export declare class BaseViewClass extends View {
+    constructor(options?: BaseViewOptions, ...rest: any[]);
+    empty(): this;
+    broadcast(...args: any[]): this;
+    listen(name: any, fn: any): this;
+    notify(level: any, message: any, options: any): this;
+    confirm(subtitle: string, okfn: any): this;
+    confirm(confirmOption: ConfirmOption): this;
+    confirm(title: any, message: any, okfn: any, cancelfn: any): this;
+    alert(params: any): this;
     module?: {
         id: string;
     };
-    decorate(TargetView: any): TargetView is BaseViewConstructor;
+    decorate(TargetView: any): TargetView is BaseViewClass;
 }
-export interface BaseViewConstructor<I extends BaseViewInstance = BaseViewInstance> extends Backbone.View {
-    new (attributes?: any, options?: any): I;
-    extend<S = BaseViewConstructor>(properties: any, classProperties?: any): S;
-}
-declare const _default: BaseViewConstructor<BaseViewInstance>;
+declare const _default: typeof BaseViewClass;
 /**
  * See {@link src/framework/View} for more detail and examples from the base class.
  * @class module:Okta.View
