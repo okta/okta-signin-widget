@@ -13,7 +13,7 @@
 import PrimaryAuthModel from 'models/PrimaryAuth';
 import CookieUtil from 'util/CookieUtil';
 import Enums from 'util/Enums';
-import Util from 'util/Util';
+
 export default PrimaryAuthModel.extend({
   props: function() {
     const cookieUsername = CookieUtil.getCookieUsername();
@@ -57,13 +57,15 @@ export default PrimaryAuthModel.extend({
           if (res.links[0].properties['okta:idp:type'] === 'OKTA') {
             this.trigger('goToPrimaryAuth');
           } else if (res.links[0].href) {
-            const redirectFn = res.links[0].href.includes('OKTA_INVALID_SESSION_REPOST%3Dtrue')
-              ? Util.redirectWithFormGet.bind(Util)
-              : this.settings.get('redirectUtilFn');
-            //override redirectFn to only use Util.redirectWithFormGet if OKTA_INVALID_SESSION_REPOST is included
-            //it will be encoded since it will be included in the encoded fromURI
+            // Redirecting straight to the IDP URL is good for nothing because
+            // it doesn't transmit tokens back the the client.
 
-            redirectFn(res.links[0].href);
+            return authClient.token.getWithRedirect({
+              ...this.settings.options,
+              // Unpack authParams
+              ...this.settings.options.authParams,
+              loginHint: username
+            });
           }
         }
       })

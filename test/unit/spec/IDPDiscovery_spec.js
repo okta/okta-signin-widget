@@ -9,7 +9,6 @@ import Util from 'helpers/mocks/Util';
 import Expect from 'helpers/util/Expect';
 import resError from 'helpers/xhr/ERROR_webfinger';
 import resSuccess from 'helpers/xhr/SUCCESS';
-import resSuccessRepostIWA from 'helpers/xhr/IDPDiscoverySuccessRepost_IWA';
 import resSuccessIWA from 'helpers/xhr/IDPDiscoverySuccess_IWA';
 import resSuccessOktaIDP from 'helpers/xhr/IDPDiscoverySuccess_OktaIDP';
 import resSuccessSAML from 'helpers/xhr/IDPDiscoverySuccess_SAML';
@@ -961,6 +960,7 @@ Expect.describe('IDPDiscovery', function() {
           })
           .then(function(test) {
             spyOn(test.securityBeacon, 'toggleClass').and.callThrough();
+            spyOn(test.ac.token, 'getWithRedirect');
             test.setNextWebfingerResponse(resSuccessSAML);
             test.form.submit();
             return Expect.waitForSpyCall(test.securityBeacon.toggleClass, test);
@@ -971,7 +971,9 @@ Expect.describe('IDPDiscovery', function() {
             return waitForWebfingerCall(test);
           })
           .then(function(test) {
-            expect(test.securityBeacon.toggleClass).toHaveBeenCalledWith(BEACON_LOADING_CLS, false);
+            expect(test.ac.token.getWithRedirect).toHaveBeenCalledWith(jasmine.objectContaining({
+              loginHint: test.form.usernameField().val()
+            }));
           });
       });
       itp('does not show beacon-loading animation when authClient webfinger fails', function() {
@@ -1504,72 +1506,32 @@ Expect.describe('IDPDiscovery', function() {
       spyOn(SharedUtil, 'redirect');
       return setup()
         .then(function(test) {
+          spyOn(test.ac.token, 'getWithRedirect');
           test.setNextWebfingerResponse(resSuccessSAML);
           test.form.setUsername(' testuser@clouditude.net ');
           test.form.submit();
-          return Expect.waitForSpyCall(SharedUtil.redirect);
+          return Expect.waitForSpyCall(test.ac.token.getWithRedirect, test);
         })
-        .then(function() {
-          expect(SharedUtil.redirect).toHaveBeenCalledWith('http://demo.okta1.com:1802/sso/saml2/0oa2hhcwIc78OGP1W0g4');
-        });
-    });
-    itp('redirects using form Get to idp for SAML idps when features.redirectByFormSubmit is on', function() {
-      spyOn(WidgetUtil, 'redirectWithFormGet');
-      return setup({ 'features.redirectByFormSubmit': true })
         .then(function(test) {
-          test.setNextWebfingerResponse(resSuccessSAML);
-          test.form.setUsername(' testuser@clouditude.net ');
-          test.form.submit();
-          return Expect.waitForSpyCall(WidgetUtil.redirectWithFormGet);
-        })
-        .then(function() {
-          expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith(
-            'http://demo.okta1.com:1802/sso/saml2/0oa2hhcwIc78OGP1W0g4'
-          );
+          expect(test.ac.token.getWithRedirect).toHaveBeenCalledWith(jasmine.objectContaining({
+            loginHint: test.form.usernameField().val().trim()
+          }));
         });
     });
     itp('redirects to idp for idps other than okta/saml', function() {
       spyOn(SharedUtil, 'redirect');
       return setup()
         .then(function(test) {
+          spyOn(test.ac.token, 'getWithRedirect');
           test.setNextWebfingerResponse(resSuccessIWA);
           test.form.setUsername('testuser@clouditude.net');
           test.form.submit();
-          return Expect.waitForSpyCall(SharedUtil.redirect);
+          return Expect.waitForSpyCall(test.ac.token.getWithRedirect, test);
         })
-        .then(function() {
-          expect(SharedUtil.redirect).toHaveBeenCalledWith('http://demo.okta1.com:1802/login/sso_iwa');
-        });
-    });
-    itp(
-      'redirects using form GET to idp for idps other than okta/saml when features.redirectByFormSubmit is on',
-      function() {
-        spyOn(WidgetUtil, 'redirectWithFormGet');
-        return setup({ 'features.redirectByFormSubmit': true })
-          .then(function(test) {
-            test.setNextWebfingerResponse(resSuccessIWA);
-            test.form.setUsername('testuser@clouditude.net');
-            test.form.submit();
-            return Expect.waitForSpyCall(WidgetUtil.redirectWithFormGet);
-          })
-          .then(function() {
-            expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith('http://demo.okta1.com:1802/login/sso_iwa');
-          });
-      }
-    );
-    itp('redirects using form GET to idp when OKTA_INVALID_SESSION_REPOST=true', function() {
-      spyOn(WidgetUtil, 'redirectWithFormGet');
-      return setup()
         .then(function(test) {
-          test.setNextWebfingerResponse(resSuccessRepostIWA);
-          test.form.setUsername('testuser@clouditude.net');
-          test.form.submit();
-          return Expect.waitForSpyCall(WidgetUtil.redirectWithFormGet);
-        })
-        .then(function() {
-          expect(WidgetUtil.redirectWithFormGet).toHaveBeenCalledWith(
-            'http://demo.okta1.com:1802/login/sso_iwa?fromURI=%2Fapp%2Finstance%2Fkey%3FSAMLRequest%3Dencoded%26RelayState%3DrelayState%26OKTA_INVALID_SESSION_REPOST%3Dtrue'
-          );
+          expect(test.ac.token.getWithRedirect).toHaveBeenCalledWith(jasmine.objectContaining({
+            loginHint: test.form.usernameField().val()
+          }));
         });
     });
   });
