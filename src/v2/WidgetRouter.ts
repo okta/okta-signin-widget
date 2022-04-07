@@ -13,14 +13,17 @@
 import BaseLoginRouter from './BaseLoginRouter';
 import FormController from './controllers/FormController';
 
-export default BaseLoginRouter.extend({
-  routes: {
-    '': 'defaultAuth',
-    '*wildcard': 'defaultAuth',
-  },
+export default class WidgetRouter extends BaseLoginRouter {
+  preinitialize(...args) {
+    this.routes = {
+      '': 'defaultAuth',
+      '*wildcard': 'defaultAuth',
+    };
+    BaseLoginRouter.prototype.preinitialize.apply(this, args);    
+  }
 
-  defaultAuth: function() {
+  defaultAuth() {
     this.render(FormController);
-  },
+  }
 
-});
+}
