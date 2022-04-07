@@ -13,6 +13,7 @@ fixture('English Leaks');
 
 // These mocks have known english leaks ignoring them temporarily
 const ignoredMocks = [
+  'error-empty-response.json', // it's empty!
   'profile-enrollment-string-fields-options.json', // profile enrollment fields are coming from UD and we do not currently have a way to localize them
   'enroll-profile-new-boolean-fields.json', // english leak on security question and "Subscribe" checkbox
   'identify-with-apple-redirect-sso-extension.json', // flaky on bacon

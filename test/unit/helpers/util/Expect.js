@@ -224,7 +224,7 @@ fn.wait = function(condition, resolveValue, timeout) {
     if (condition()) {
       success(resolveValue);
     } else if (triesLeft <= 0) {
-      fail('Wait condition not met');
+      fail(new Error('Wait condition not met'));
     } else {
       setTimeout(check.bind(null, success, fail, triesLeft - 1), WAIT_INTERVAL);
     }

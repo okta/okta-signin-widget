@@ -10,3 +10,4 @@ assets
 vendor
 test/unit/helpers/xhr/
 !.eslintrc.js
+playground/mocks/data/idp/idx/error-empty-response.json
