@@ -1,13 +1,9 @@
-const ChallengeAuthenticatorEmail = require('./ChallengeAuthenticatorEmail');
-const ChallengeAuthenticatorPassword = require('./ChallengeAuthenticatorPassword');
-const ChallengeOktaVerifySSOExtensionView = require('./ChallengeOktaVerifySSOExtensionView');
-const IdentifyWithRememberUsername = require('./IdentifyWithRememberUsername');
-const WidgetCustomization = require('./WidgetCustomization');
-
 module.exports = {
-  ChallengeAuthenticatorEmail,
-  ChallengeAuthenticatorPassword,
-  ChallengeOktaVerifySSOExtensionView,
-  IdentifyWithRememberUsername,
-  WidgetCustomization
+  ChallengeAuthenticatorEmail: require('./ChallengeAuthenticatorEmail'),
+  ChallengeOktaVerifyFastPassView: require('./ChallengeOktaVerifyFastPassView'),
+  ChallengeAuthenticatorPassword: require('./ChallengeAuthenticatorPassword'),
+  ChallengeOktaVerifySSOExtensionView: require('./ChallengeOktaVerifySSOExtensionView'),
+  DeviceChallengePollView: require('./DeviceChallengePollView'),
+  IdentifyWithRememberUsername: require('./IdentifyWithRememberUsername'),
+  WidgetCustomization: require('./WidgetCustomization'),
 };

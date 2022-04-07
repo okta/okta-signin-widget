@@ -5,9 +5,10 @@ import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 import identifyWithDeviceProbingLoopback from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback';
 import loopbackChallengeNotReceived from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-challenge-not-received';
-import loopbackChallengeNotReceivedAndroid from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-challenge-not-received-android';
+import identifyWithLoopbackFallbackAndroidWithoutLink from '../../../playground/mocks/data/idp/idx/identify-with-device-probing-loopback-challenge-not-received-android-no-link';
 import identifyWithLaunchAuthenticator from '../../../playground/mocks/data/idp/idx/identify-with-device-launch-authenticator';
 import identifyWithSSOExtensionFallback from '../../../playground/mocks/data/idp/idx/identify-with-apple-sso-extension-fallback';
+import identifyWithSSOExtensionFallbackWithoutLink from '../../../playground/mocks/data/idp/idx/identify-with-apple-sso-extension-fallback-no-link';
 import identifyWithLaunchUniversalLink from '../../../playground/mocks/data/idp/idx/identify-with-universal-link';
 import identifyWithLaunchAppLink from '../../../playground/mocks/data/idp/idx/identify-with-app-link';
 import userIsNotAssignedError from '../../../playground/mocks/data/idp/idx/error-user-is-not-assigned.json';
@@ -212,52 +213,27 @@ const loopbackFallbackMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithLaunchAuthenticator);
 
-const identifyWithLaunchAuthenticatorHttpCustomUri = JSON.parse(JSON.stringify(identifyWithLaunchAuthenticator));
-const mockHttpCustomUri = 'http://localhost:6512/launch-okta-verify';
-// replace custom URI with http URL so that we can mock and verify
-identifyWithLaunchAuthenticatorHttpCustomUri.authenticatorChallenge.value.href = mockHttpCustomUri;
-
-const customURILogger = RequestLogger(/launch-okta-verify/);
+const customURILogger = RequestLogger(/okta-verify.html/);
 const customURIMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
-  .respond(identifyWithLaunchAuthenticatorHttpCustomUri)
+  .respond(identifyWithLaunchAuthenticator)
   .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
   .respond(identifyWithLaunchAuthenticator)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
-  .respond(identifyWithLaunchAuthenticatorHttpCustomUri)
-  .onRequestTo(/6512\/launch-okta-verify/)
-  .respond('<html><h1>Launch Okta Verify Mock</h1></html>');
+  .respond(identifyWithLaunchAuthenticator);
 
-const identifyWithSSOExtensionFallbackWithoutLink = JSON.parse(JSON.stringify(identifyWithSSOExtensionFallback));
-// remove the universal link so that Util.redirect does not open a link and the rest of the flow can be verified
-delete identifyWithSSOExtensionFallbackWithoutLink.authenticatorChallenge.value.href;
-// replace universal link with http URL so that we can mock and verify
-identifyWithLaunchUniversalLink.authenticatorChallenge.value.href = mockHttpCustomUri;
 const universalLinkWithoutLaunchMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithSSOExtensionFallbackWithoutLink)
   .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
   .respond(identifyWithLaunchUniversalLink)
-  .onRequestTo(mockHttpCustomUri)
-  .respond('<html><h1>open universal link</h1></html>')
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithLaunchUniversalLink);
 
-const identifyWithSSOExtensionFallbackTarget = JSON.parse(JSON.stringify(identifyWithSSOExtensionFallback));
-// replace universal link with http URL so that we can mock and verify
-identifyWithSSOExtensionFallbackTarget.authenticatorChallenge.value.href = mockHttpCustomUri;
 const universalLinkMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
-  .respond(identifyWithSSOExtensionFallbackTarget)
-  .onRequestTo(mockHttpCustomUri)
-  .respond('<html><h1>open universal link</h1></html>');
+  .respond(identifyWithSSOExtensionFallback);
 
-const customAppLink = 'http://localhost:3000/auth/okta-verify'; // can't use loopback server port as they are occupied
-const identifyWithLoopbackFallbackAndroidWithoutLink = JSON.parse(JSON.stringify(loopbackChallengeNotReceivedAndroid));
-// remove app link so that window.location.href does not open a link and the rest of the flow can be verified
-delete identifyWithLoopbackFallbackAndroidWithoutLink.authenticatorChallenge.value.href;
-// replace app link with http URL so that we can mock and verify
-identifyWithLaunchAppLink.authenticatorChallenge.value.href = customAppLink;
 const appLinkWithoutLaunchMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithDeviceProbingLoopback)
@@ -268,11 +244,8 @@ const appLinkWithoutLaunchMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
   .respond(identifyWithLaunchAppLink)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
-  .respond(identifyWithLaunchAppLink)
-  .onRequestTo(customAppLink)
-  .respond('<html><h1>open app link</h1></html>');
+  .respond(identifyWithLaunchAppLink);
 
-const username = 'john.smith@okta.com';
 const LoginHintCustomURIMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(loopbackChallengeNotReceived)
@@ -281,31 +254,21 @@ const LoginHintCustomURIMock = RequestMock()
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithLaunchAuthenticator);
 
-const loginHintUniversalLink = mockHttpCustomUri+'&login_hint='+encodeURIComponent(username);
 const LoginHintUniversalLinkMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(loopbackChallengeNotReceived)
   .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
   .respond(identifyWithLaunchUniversalLink)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
-  .respond(identifyWithLaunchUniversalLink)
-  .onRequestTo(loginHintUniversalLink)
-  .respond('<html><h1>open universal link with login_hint</h1></html>')
-  .onRequestTo(mockHttpCustomUri)
-  .respond('<html><h1>open universal link without login_hint</h1></html>');
+  .respond(identifyWithLaunchUniversalLink);
 
-const loginHintAppLink = customAppLink+'&login_hint='+encodeURIComponent(username);
 const LoginHintAppLinkMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(loopbackChallengeNotReceived)
   .onRequestTo(/\/idp\/idx\/authenticators\/okta-verify\/launch/)
   .respond(identifyWithLaunchAppLink)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
-  .respond(identifyWithLaunchAppLink)
-  .onRequestTo(loginHintAppLink)
-  .respond('<html><h1>open app link with login_hint</h1></html>')
-  .onRequestTo(customAppLink)
-  .respond('<html><h1>open app link without login_hint</h1></html>');
+  .respond(identifyWithLaunchAppLink);
 
 fixture('Device Challenge Polling View with the Loopback Server, Custom URI, App Link, and Universal Link approaches');
 
@@ -528,9 +491,8 @@ test
   });
 
 const getPageUrl = ClientFunction(() => window.location.href);
-// This test is disabled for being flaky. OKTA-463299
 test
-  .requestHooks(loopbackFallbackLogger, appLinkWithoutLaunchMock).skip('loopback fails and falls back to app link', async t => {
+  .requestHooks(loopbackFallbackLogger, appLinkWithoutLaunchMock)('loopback fails and falls back to app link', async t => {
     loopbackFallbackLogger.clear();
     const deviceChallengeFalllbackPage = await setupLoopbackFallback(t);
     await t.expect(deviceChallengeFalllbackPage.getPageTitle()).eql('Sign In');
@@ -562,19 +524,20 @@ test
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
     deviceChallengePollPageObject.clickAppLink();
-    await t.expect(getPageUrl()).contains(customAppLink);
-    await t.expect(Selector('h1').innerText).eql('open app link');
+    await t.expect(getPageUrl()).contains('okta-verify.html');
   });
 
 test
   .requestHooks(customURILogger, customURIMock)('in custom URI approach, Okta Verify is launched', async t => {
     const deviceChallengePollPageObject = await setup(t);
+    await t.wait(100); // opening the page in iframe takes just a moment
     await t.expect(customURILogger.count(
-      record => record.request.url.match(/launch-okta-verify/)
+      record => record.request.url.match(/okta-verify.html/) // in iframe
     )).eql(1);
     await deviceChallengePollPageObject.clickLaunchOktaVerifyLink();
+    await t.wait(100); // opening the page in iframe takes just a moment
     await t.expect(customURILogger.count(
-      record => record.request.url.match(/launch-okta-verify/)
+      record => record.request.url.match(/okta-verify.html/) // in iframe
     )).eql(2);
   });
 
@@ -595,8 +558,7 @@ test
     await t.expect(deviceChallengePollPageObject.getPrimiaryButtonText()).eql('Reopen Okta Verify');
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     deviceChallengePollPageObject.clickUniversalLink();
-    await t.expect(getPageUrl()).contains(mockHttpCustomUri);
-    await t.expect(Selector('h1').innerText).eql('open universal link');
+    await t.expect(getPageUrl()).contains('okta-verify.html');
   });
 
 test
@@ -609,8 +571,7 @@ test
         record.request.url.match(/introspect/)
     )).eql(1);
     deviceChallengeFalllbackPage.clickOktaVerifyButton();
-    await t.expect(getPageUrl()).contains(mockHttpCustomUri);
-    await t.expect(Selector('h1').innerText).eql('open universal link');
+    await t.expect(getPageUrl()).contains('okta-verify.html');
   });
 
 test
@@ -621,6 +582,7 @@ test
     });
 
     // enter username as login_hint on the SIW page
+    const username = 'john.smith@okta.com';
     await identityPage.fillIdentifierField(username);
     identityPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
@@ -639,6 +601,7 @@ test
     });
 
     // enter username as login_hint on the SIW page
+    const username = 'john.smith@okta.com';
     await identityPage.fillIdentifierField(username);
     identityPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
@@ -656,6 +619,7 @@ test
       features: { engFastpassMultipleAccounts: true },
     });
 
+    const username = 'john.smith@okta.com';
     await identityPage.fillIdentifierField(username);
     identityPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
@@ -664,7 +628,6 @@ test
     deviceChallengePollPageObject.clickUniversalLink();
     // verify login_hint has been appended to the universal link url
     await t.expect(getPageUrl()).contains('login_hint='+encodeURIComponent(username));
-    await t.expect(Selector('h1').innerText).eql('open universal link with login_hint');
   });
 
 test
@@ -674,6 +637,7 @@ test
       features: { engFastpassMultipleAccounts: false },
     });
 
+    const username = 'john.smith@okta.com';
     await identityPage.fillIdentifierField(username);
     identityPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
@@ -682,7 +646,6 @@ test
     deviceChallengePollPageObject.clickUniversalLink();
     // verify login_hint is not appended to the universal link url
     await t.expect(getPageUrl()).notContains(encodeURIComponent(username));
-    await t.expect(Selector('h1').innerText).eql('open universal link without login_hint');
   });
 
 test
@@ -692,6 +655,7 @@ test
       features: { engFastpassMultipleAccounts: true },
     });
 
+    const username = 'john.smith@okta.com';
     await identityPage.fillIdentifierField(username);
     identityPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
@@ -708,7 +672,6 @@ test
     deviceChallengePollPageObject.clickAppLink();
     // verify login_hint has been appended to the app link url
     await t.expect(getPageUrl()).contains('login_hint='+encodeURIComponent(username));
-    await t.expect(Selector('h1').innerText).eql('open app link with login_hint');
   });
 
 test
@@ -718,13 +681,14 @@ test
       features: { engFastpassMultipleAccounts: false },
     });
 
+    const username = 'john.smith@okta.com';
     await identityPage.fillIdentifierField(username);
     identityPage.clickOktaVerifyButton();
     const deviceChallengePollPageObject = new DeviceChallengePollPageObject(t);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Sign in with Okta FastPass');
 
     deviceChallengePollPageObject.clickAppLink();
+    await t.wait(100); // opening the link takes just a moment
     // verify login_hint is not appended to the app link url
     await t.expect(getPageUrl()).notContains(encodeURIComponent(username));
-    await t.expect(Selector('h1').innerText).eql('open app link without login_hint');
   });
