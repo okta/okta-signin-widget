@@ -48,8 +48,8 @@ export interface BaseLoginRouterOptions extends BaseRouterOptions {
   hooks: Hooks
 }
 
-export default class BaseLoginRouter extends Router<Settings> {
-  Events = Backbone.Events;
+class BaseLoginRouter extends Router<Settings> {
+  Events: Backbone.Events; // set on prototype
   hasControllerRendered = false;
   settings: Settings;
   appState: AppState;
@@ -310,3 +310,8 @@ export default class BaseLoginRouter extends Router<Settings> {
     Backbone.history.stop();
   }
 }
+
+// Add "Events" to prototype for compatibility with existing code
+BaseLoginRouter.prototype.Events = Backbone.Events;
+
+export default BaseLoginRouter;

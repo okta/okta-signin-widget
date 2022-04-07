@@ -4,6 +4,7 @@
     "rootDir": ".",
     "baseUrl": "./src",
     "outDir": "./types/generated",
+    "target": "es6",
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
