@@ -72,7 +72,7 @@ function typeOfTransition(currentBeacon, NextBeacon, options) {
 export default class Header extends View {
   currentBeacon;
   
-  preinitialize() {
+  preinitialize(...args) {
     this.currentBeacon = null;
     /* eslint-disable @okta/okta/no-unlocalized-text-in-templates */
     this.template = hbs(
@@ -87,6 +87,7 @@ export default class Header extends View {
       '
     );
     /* eslint-enable @okta/okta/no-unlocalized-text-in-templates */
+    View.prototype.preinitialize.apply(this, args);
   }
 
 

@@ -14,16 +14,6 @@ import { Model } from 'okta';
 import { mergeHook } from 'util/Hooks';
 import { HookDefinition, HooksOptions } from 'types';
 
-// export interface HooksInstance extends ModelInstance {
-//   mergeHook(formName: string, hookToMerge: HookDefinition): void;
-//   getHook(formName: string): HookDefinition;
-// }
-
-// export interface HooksConstructor<I extends HooksInstance = HooksInstance> extends ModelConstructor {
-//   new(attributes?, options?): I;
-//   extend<S = HooksConstructor>(properties: any, classProperties?: any): S;
-// }
-
 export default class Hooks extends Model {
 
   mergeHook(formName: string, hookToMerge: HookDefinition): void {

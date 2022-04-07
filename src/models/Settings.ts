@@ -361,9 +361,10 @@ export default class Settings extends Model {
     return Model.prototype.get.call(this, attributeName);
   }
 
-  preinitalize() {
+  preinitialize(...args) {
     this.local = local;
     this.derived = derived;
+    Model.prototype.preinitialize.apply(this, args);
   }
 
   initialize(options) {
