@@ -151,7 +151,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
 The Okta [Identity Engine][] (OIE) is a platform service that allows enterprises to build more flexible access experiences that are tailored to their organizational needs. The Okta Sign-in Widget supports OIE in all [usage](#usage-guide) scenarios.
 
 > **Note**:
-Unless otherwise noted, this README assumes you are using OIE. Information on using the widget with the "classic" pipeline can be found in [this document](https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md)
+Unless otherwise noted, this README assumes you are using [Identity Engine][]. Information on using the widget with the "classic" engine can be found in [this document](https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md)
 
 ## Related SDKs
 
@@ -506,7 +506,6 @@ var signIn = new OktaSignIn(
     issuer: 'https://{yourOktaDomain}/oauth2/default',
     clientId: '{{clientId of your OIDC app}}',
     redirectUri: '{{redirectUri configured in OIDC app}}',
-    redirectUri: '{{redirectUri configured in OIDC app}}',
     useInteractionCodeFlow: true
   }
 );
@@ -715,7 +714,7 @@ If you are using the [default Okta-hosted signin page](#okta-hosted-sign-in-page
 
 If you are using the [custom Okta-hosted signin page](#okta-hosted-sign-in-page-customizable), a configuration object is included on the page which contains all necessary values. You will probably not need to modify this object, but you may use this object as a starting point and add additional customizations.
 
-For embedded widgets, you should set the `issuer`, `clientId`, and `redirectUri`. Additionally you should set `useInteractionCodeFlow` to `true` to enable the OIE pipeline. (See [this document](https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md) for details on running in "classic" pipeline).
+For embedded widgets, you should set the `issuer`, `clientId`, and `redirectUri`. Additionally you should set `useInteractionCodeFlow` to `true` to enable the OIE engine. (See [this document](https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md) for details on running in "classic" engine).
 
 ### Basic config options
 
@@ -778,7 +777,7 @@ The URI to use for the [OAuth callback](#oauth-callback).
 
 #### useInteractionCodeFlow
 
-Enables the [interaction code][] flow in the widget. This is the only supported authentication method for embedded widgets on the OIE pipeline. (See [this document](https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md) for details on running in "classic" pipeline).
+Enables the [interaction code][] flow in the widget. This is the only supported authentication method for embedded widgets on the OIE engine. (See [this document](https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md) for details on running in "classic" engine).
 
 #### codeChallenge
 
@@ -1062,7 +1061,7 @@ hooks: {
   },
   'success-redirect': {
     before: [
-      async function afterIdentify() {
+      async function beforeSuccessRedirect() {
         // custom logic goes here
       }
     ]
