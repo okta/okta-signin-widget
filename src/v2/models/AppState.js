@@ -177,8 +177,8 @@ export default Model.extend({
     const previousRawState = this.has('idx') ? this.get('idx').rawIdxState : null;
 
     const identicalResponse = _.isEqual(
-      _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh', 'stateHandle']),
-      _.nestedOmit(previousRawState, ['expiresAt', 'refresh', 'stateHandle']));
+      _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh', 'stateHandle', 'headers']),
+      _.nestedOmit(previousRawState, ['expiresAt', 'refresh', 'stateHandle', 'headers']));
 
     if (identicalResponse) {
       this.set('dynamicRefreshInterval', this.getRefreshInterval(transformedResponse));
@@ -321,8 +321,8 @@ export default Model.extend({
    */
   _isChallengeAuthenticatorPoll(transformedResponse, previousRawState) {
     const isSameExceptMessages = _.isEqual(
-      _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh', 'stateHandle']),
-      _.nestedOmit(previousRawState, ['expiresAt', 'refresh', 'stateHandle', 'messages']));      
+      _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh', 'stateHandle', 'headers']),
+      _.nestedOmit(previousRawState, ['expiresAt', 'refresh', 'stateHandle', 'messages', 'headers']));
 
     const isChallengeAuthenticator = this.get('currentFormName') === 'challenge-authenticator';
     const isCurrentAuthenticatorEmail = this.get('currentAuthenticatorEnrollment')?.key === AUTHENTICATOR_KEY.EMAIL;
