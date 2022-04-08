@@ -12,7 +12,7 @@ cd ${OKTA_HOME}/${REPO}
 # BETA AUTHJS DO NOT MERGE
 echo "Installing BETA AuthJS"
 npm config set strict-ssl false
-yarn add https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-6.4.0-ga0757b4.tgz -DW
+yarn add https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-6.4.0-g8fc1792.tgz -DW
 cat node_modules/@okta/okta-auth-js/package.json
 # END BETA AUTHJS
 
