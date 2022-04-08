@@ -1107,10 +1107,9 @@ Callback used primarily to modify the request parameters sent to the Okta API.
  ```javascript
 preSubmit: (postData, onSuccess) => {
   // This example will append the domain name to the email address if the user forgets to add it during registration.
-  if (postData.userProfile.email.includes('@acme.com')) {
-    postData.userProfile.email;
-  } else {
-    postData.userProfile.email + '@acme.com';
+  if (!postData.userProfile.email.includes('@acme.com')) {
+    postData.userProfile.email += '@acme.com';
+  }
   }
   onSuccess(postData);
 }
