@@ -1,7 +1,11 @@
 #!/bin/bash
 
+echo "starting"
+
 # Exit on any error
-set -e
+set -xe
+
+echo "set -e"
 
 # For siw-coordinator ONLY !!!
 # Copy this script to scripts/setup.sh and replace `AUTHJS_BETA_VERSION` with correct beta version to test downstream in bacon
@@ -24,7 +28,7 @@ echo "Installing BETA VERSION"
 npm config set strict-ssl false
 
 yarn add -DW --no-lockfile https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-${AUTHJS_BETA_VERSION}.tgz
-echo $?
+
 echo "BETA VERSION installed"
 # END INSTALL BETA VERSION
 
