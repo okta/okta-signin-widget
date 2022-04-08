@@ -90,6 +90,11 @@ Util.transformErrorXHR = function(xhr) {
       xhr.responseJSON = xhr.responseText;
     } 
   }
+  // Temporary solution to display field errors
+  // Assuming there is only one field error in a response
+  if (xhr.responseJSON && xhr.responseJSON.errorCauses && xhr.responseJSON.errorCauses.length) {
+    xhr.responseJSON.errorSummary = xhr.responseJSON.errorCauses[0].errorSummary;
+  }
   // Replace error messages
   if (!_.isEmpty(xhr.responseJSON)) {
     const errorMsg = loc('errors.' + xhr.responseJSON.errorCode, 'login');
