@@ -60,7 +60,7 @@
     "type": "object",
     "value": {
       "challengeMethod": "APP_LINK",
-      "href": "https://login.trexcloud.com/auth/okta-verify?challengeRequest=something",
+      "href": "okta-verify.html",
       "cancel": {
           "rel": ["create-form"],
           "name": "cancel-polling-transaction",

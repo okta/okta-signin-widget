@@ -133,7 +133,7 @@
           "type": "object",
           "value": {
             "challengeMethod": "APP_LINK",
-            "href": "http://localhost:3000/auth/okta-verify",
+            "href": "okta-verify.html?param=is_assumed_to_exist",
             "cancel": {
                 "rel": ["create-form"],
                 "name": "cancel-polling-transaction",

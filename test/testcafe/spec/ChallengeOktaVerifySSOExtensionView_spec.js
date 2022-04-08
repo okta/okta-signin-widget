@@ -18,6 +18,7 @@ const credentialSSOExtensionMock = RequestMock()
   .onRequestTo(verifyUrl)
   .respond((req, res) => {
     return new Promise((resolve) => setTimeout(function() {
+      res.headers['content-type'] = 'application/json';
       res.setBody(identify);
       resolve(res);
     }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 1000));
@@ -37,6 +38,7 @@ const credentialSSOExtensionBiometricsErrorDesktopMock = RequestMock()
   .onRequestTo(verifyUrl)
   .respond((req, res) => {
     res.statusCode = '400';
+    res.headers['content-type'] = 'application/json';
     res.setBody(identifyWithUserVerificationBiometricsErrorDesktop);
   });
 
@@ -46,6 +48,7 @@ const credentialSSOExtensionBiometricsErrorMobileMock = RequestMock()
   .onRequestTo(verifyUrl)
   .respond((req, res) => {
     res.statusCode = '400';
+    res.headers['content-type'] = 'application/json';
     res.setBody(identifyWithUserVerificationBiometricsErrorMobile);
   });
 

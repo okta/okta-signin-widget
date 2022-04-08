@@ -7,6 +7,16 @@ const sessionExpiresDuringPassword = {
   ]
 };
 
+const mockCannotForgotPassword = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-password'
+  ],
+  '/idp/idx/recover': [
+    'error-forgot-password'
+  ]
+};
+
 module.exports = {
-  sessionExpiresDuringPassword
+  sessionExpiresDuringPassword,
+  mockCannotForgotPassword
 };

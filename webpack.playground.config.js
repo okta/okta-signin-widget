@@ -38,7 +38,7 @@ module.exports = {
     'playground.js': [`${PLAYGROUND}/main.js`]
   },
   output: {
-    path: `${PLAYGROUND}`,
+    path: `${PLAYGROUND}/target`,
     filename: 'playground.bundle.js',
     environment: {
       arrowFunction: false // for IE11
@@ -52,7 +52,11 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
-          presets: ['@babel/preset-env']
+          configFile: false, // do not load from babel.config.js
+          babelrc: false, // do not load from .babelrc
+          presets: [
+            // '@babel/preset-env'
+          ]
         }
       },
     ]

@@ -36,6 +36,7 @@ const mockEnrollAuthenticatorCustomOTP = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/credential/enroll')
   .respond((req, res) => {
     res.statusCode = '403';
+    res.headers['content-type'] = 'application/json';
     res.setBody(xhrAuthenticatorEnrollCustomOTP);
   });
 

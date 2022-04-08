@@ -37,6 +37,7 @@ const credentialSSOExtensionMock = RequestMock()
   .onRequestTo(verifyUrl)
   .respond((req, res) => {
     return new Promise((resolve) => setTimeout(function() {
+      res.headers['content-type'] = 'application/json';
       res.setBody(identify);
       resolve(res);
     }, Constants.TESTCAFE_DEFAULT_AJAX_WAIT + 1000));
@@ -61,6 +62,7 @@ const verifyErrorMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/ft2FCeXuk7ov8iehMivYavZFhPxZUpBvB0/verify')
   .respond((req, res) => {
     res.statusCode = '403';
+    res.headers['content-type'] = 'application/json';
     res.setBody(error);
   });
 

@@ -12,6 +12,18 @@ const sendEmailMock = {
   ]
 };
 
+const sendEmailNoProfileMock = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-data-email-no-profile'
+  ],
+  '/idp/idx/challenge': [
+    'authenticator-verification-email'
+  ],
+  '/idp/idx/challenge/poll': [
+    'authenticator-verification-email'
+  ]
+};
+
 const sendEmailMockWithoutEmailMagicLink = {
   '/idp/idx/introspect': [
     'authenticator-verification-data-email'
@@ -83,6 +95,7 @@ const invalidOTPMockWithPoll = {
 
 module.exports = {
   sendEmailMock,
+  sendEmailNoProfileMock,
   sendEmailMockWithoutEmailMagicLink,
   tooManyRequestPollMock,
   apiLimitExceededPollMock,
