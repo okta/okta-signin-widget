@@ -1,13 +1,17 @@
+#!/bin/bash
+
+# Exit on any error
+set -e
+
 # For siw-coordinator ONLY !!!
 # Copy this script to scripts/setup.sh and replace `AUTHJS_BETA_VERSION` with correct beta version to test downstream in bacon
 # DO NOT MERGE CHANGES IN scripts/setup.sh !!!
 
-#!/bin/bash -xe
-
 # Install required node version
-export AUTHJS_BETA_VERSION="6.4.0-g6fd207f"
+export AUTHJS_BETA_VERSION="6.4.0-g8fc1792"
 export REGISTRY_REPO="npm-topic"
 export REGISTRY="${ARTIFACTORY_URL}/api/npm/${REGISTRY_REPO}"
+
 setup_service node v12.13.0
 # Use the cacert bundled with centos as okta root CA is self-signed and cause issues downloading from yarn
 setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
@@ -19,8 +23,8 @@ echo "Installing BETA VERSION"
 
 npm config set strict-ssl false
 
-yarn add -DW --no-lockfile https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/${AUTHJS_BETA_VERSION}.tgz
-
+yarn add -DW --no-lockfile https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-${AUTHJS_BETA_VERSION}.tgz
+echo $?
 echo "BETA VERSION installed"
 # END INSTALL BETA VERSION
 
