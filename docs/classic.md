@@ -26,14 +26,14 @@
 <!-- end links -->
 
 <!-- omit in toc -->
-# Okta Sign-in Widget on the Classic Pipeline
+# Okta Sign-in Widget on the Classic Engine
 
-The "classic" pipeline (also known as authn or V1) has been superceded by the Okta [Identity Engine][] (OIE) and the [interaction code][] flow.
+The "classic engine" (also known as authn or V1) has been superceded by the Okta [Identity Engine][] (OIE) and the [interaction code][] flow.
 The Okta [Identity Engine][] (OIE) is a platform service that allows enterprises to build more flexible access experiences that are tailored to their organizational needs. The Okta Sign-in Widget supports OIE in all [usage](#usage-guide) scenarios. We recommend that all customers upgrade to OIE to take advantage of the expanded features and enhanced security that OIE offers. Up-to-date information on using the widget with OIE can be found in [README.md](https://github.com/okta/okta-signin-widget/blob/master/README.md)
 
-Although the Okta Sign-in widget still supports the classic pipeline, support will be removed from the widget in a future major version release.
+Although the Okta Sign-in widget still supports the classic engine, support will be removed from the widget in a future major version release.
 
-This document is provided as a reference for customers who are still on the classic pipeline or who are in the process of migrating to OIE. To begin using the [interaction code][] flow in the Okta Sign-In Widget follow this [migration guide](https://developer.okta.com/docs/guides/migrate-to-oie/).
+This document is provided as a reference for customers who are still using the classic engine or who are in the process of migrating to OIE. To begin using the [interaction code][] flow in the Okta Sign-In Widget follow this [migration guide](https://developer.okta.com/docs/guides/migrate-to-oie/).
 
 <!-- TOC is generated using Markdown All in One -->
 - [Related SDKs](#related-sdks)

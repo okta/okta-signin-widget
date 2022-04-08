@@ -86,6 +86,10 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
     - [clientId](#clientid)
     - [redirectUri](#redirecturi)
     - [useInteractionCodeFlow](#useinteractioncodeflow)
+    - [codeChallenge](#codechallenge)
+    - [state](#state)
+    - [otp](#otp)
+    - [scopes](#scopes)
   - [Brand](#brand)
     - [logo](#logo)
     - [logoText](#logotext)
@@ -341,7 +345,9 @@ These simple examples should help you get started with using the Sign-in Widget.
 
 ##### SPA Application
 
-A Single Page Application (SPA) runs completely in the browser. SPA applications authenticate using client-side flows and store tokens and other data in browser-based storage.
+A Single Page Application (SPA) runs completely in the browser. SPA applications authenticate using client-side flows and store [OAuth][] tokens in browser-based storage.
+
+> **Note:** See [configuration](#configuration) for more information on these configuration values
 
 ```javascript
 var signIn = new OktaSignIn(
@@ -358,6 +364,7 @@ signIn.showSignIn({
   el: '#osw-container'
 }).then(function(res) {
   // Most flows will not require any redirection. In these cases, tokens will be returned directly.
+  // res.tokens is an object
   oktaSignIn.authClient.handleLoginRedirect(res.tokens);
 }).catch(function(error) {
   // This function is invoked with errors the widget cannot recover from:
@@ -368,6 +375,8 @@ signIn.showSignIn({
 ##### Web Application
 
 A web application runs primarily on the server. The widget, which executes client-side, will be embedded into an HTML page that includes a script block that configures and renders the widget. [OAuth][] tokens will be received server-side on the application's [login redirect callback](#oauth-callback).
+
+> **Note:** See [configuration](#configuration) for more information on these configuration values
 
 ```javascript
 var signIn = new OktaSignIn(
@@ -464,6 +473,8 @@ Both server-side web and SPA applications should look for the `error` query para
 
 Your application will need to implement an email verify callback if your sign-on policy uses [Email Magic Link/OTP][]. After the user clicks the link in an email, they are redirected back to the application's `email verify callback URI`. The query parameters passed to the application include `state` and `otp`. As with the [Social/IDP callback](#socialidp-callback), the widget should be rendered again using the same configuration. Additionally, the `otp` should be passed to the widget's constructor.
 
+> **Note:** See [configuration](#configuration) for more information on these configuration values
+
 ```javascript
 var signIn = new OktaSignIn(
   {
@@ -483,11 +494,11 @@ var signIn = new OktaSignIn(
 
 Creates a new instance of the Sign-In Widget with the provided [options](#configuration).
 
-> **Note**: `https://{yourOktaDomain}` can be any Okta organization. See [Basic config options](#basic-config-options) for more information.
-
 For applications using a customized Okta-hosted widget, there will be a configuration object on the page which contains all required values. You will most likely not need to modify this object.
 
 For applications using an embedded widget, you will need to provide an [OIDC configuration](#openid-connect):
+
+> **Note:** See [configuration](#configuration) for more information on these configuration values
 
 ```javascript
 var signIn = new OktaSignIn(
@@ -508,6 +519,8 @@ Renders the widget to the DOM. On success, the promise resolves. On error, the p
 > **Note**: This is the recommended way to render the widget for SPA applications. [Server-side web apps](https://developer.okta.com/code/javascript/okta_sign-in_widget/#server-side-web-application-using-authorization-code-flow) should use the [showSignInAndRedirect](#showsigninandredirect) method instead.
 
 `showSignIn` accepts the same [options](#configuration) as the widget constructor. Options passed to the method will override options from the constructor.
+
+> **Note:** See [configuration](#configuration) for more information on these configuration values
 
 ```javascript
 var signIn = new OktaSignIn({
@@ -534,6 +547,8 @@ oktaSignIn.showSignIn({
 Renders the widget to the DOM. On successful [authentication][], the browser will be redirected to Okta with information to begin a new session. Okta's servers will process the information and then redirect back to your application's `redirectUri`. If successful, an interaction code will exist in the URL as the `interaction_code` query parameter. If unsuccessful, there will be `error` and `error_description` query parameters in the URL. Whether successful or not, the `state` parameter which was passed to the widget will also be returned on redirect. This can be used by your server-side web application to match the callback with the correct user session.
 
 `showSignInAndRedirect` accepts the same [options](#configuration) as the widget constructor. Options passed to the method will override options from the constructor.
+
+> **Note:** See [configuration](#configuration) for more information on these configuration values
 
 ```javascript
 var signIn = new OktaSignIn({
@@ -616,6 +631,8 @@ The `authClient` is configured using values passed to the widget, such as `clien
 
 The `authClient` can also be created and configured outside the widget and passed to the widget as the `authClient` option. If an `authClient` option is passed, `authParams` will be ignored.
 
+> **Note:** See [configuration](#configuration) for more information on these configuration values
+
 ```javascript
 var authClient = new OktaAuth({
   issuer: 'https://{yourOktaDomain}/oauth2/default',
@@ -654,6 +671,8 @@ var signIn = new OktaSignIn(config);
 
 Adds an asynchronous [hook](#hooks) function which will execute before a view is rendered.
 
+> **Note:** See [configuration](#configuration) for more information on these configuration values
+
 ```javascript
 var config = {
   issuer: 'https://{yourOktaDomain}/oauth2/default',
@@ -673,6 +692,8 @@ signIn.before('success-redirect', async () => {
 > **Note**: This function is only supported when using the [Okta Identity Engine](#okta-identity-engine)
 
 Adds an asynchronous [hook](#hooks) function which will execute after a view is rendered.
+
+> **Note:** See [configuration](#configuration) for more information on these configuration values
 
 ```javascript
 var config = {
@@ -698,9 +719,15 @@ For embedded widgets, you should set the `issuer`, `clientId`, and `redirectUri`
 
 ### Basic config options
 
+All embedded widgets should set these basic options: `issuer`, `clientId`, and `redirectUri`. 
+
+> **Note**: Okta-hosted widgets should not set these values.
+
 #### issuer
 
-The URL of the [Authorization Server][] which will issue [OAuth][] tokens to your application.
+The URL of the [Authorization Server][] which will issue [OAuth][] tokens to your application.  
+
+> **Note**: `https://{yourOktaDomain}` can be any Okta organization. See our [developer guide](https://developer.okta.com/docs/guides/find-your-domain/main/) for help with finding your Okta domain.
 
 Basic configuration using the "default" [Custom Authorization Server][]:
 
@@ -739,7 +766,7 @@ var config = {
 
 #### clientId
 
-> **Note**: This configuration value can be found in the Okta Admin UI under the application's "General Settings"
+> **Note**: This configuration value can be found in the Okta Admin UI. See our [developer guide](https://developer.okta.com/docs/guides/find-your-app-credentials/main/) for help with finding your application's clientId
 
 Client Id of the application.
 
@@ -752,6 +779,24 @@ The URI to use for the [OAuth callback](#oauth-callback).
 #### useInteractionCodeFlow
 
 Enables the [interaction code][] flow in the widget. This is the only supported authentication method for embedded widgets on the OIE pipeline. (See [this document](https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md) for details on running in "classic" pipeline).
+
+#### codeChallenge
+
+The [PKCE][] code challenge. SPA applications will not need this option since the widget will manage the entire transaction. Web applications should generate their own code challenge and code secret. The code challenge is passed to the widget, and the code secret is held server-side to obtain tokens on the [redirect login callback](#oauth-callback).
+
+> **Note**: Check out our [sample applications](#sample-applications) for complete working examples of [interaction code][] flow using [PKCE][]
+
+#### state
+
+An application-provided value which will be returned as a query parameter during on the [redirect login callback](#oauth-callback) or [email verify callback](#email-verify-callback). If no value is set, then a random value will be created. When handling an [email verify callback](#email-verify-callback), the value of `state` from the query parameter should be passed to the widget as a configuration option (along with [otp](#otp)). This will ensure that the widget can load and resume the current transaction.
+
+#### otp
+
+When handling an [email verify callback](#email-verify-callback), the value of `otp` from the query parameter should be passed to the widget as a configuration option (along with [state](#state)). This will ensure that the widget can load and resume the current transaction.
+
+#### scopes
+
+Defaults to `['openid', 'email']`. Specify what information to make available in the returned `id_token` or `access_token`. For OIDC, you must include `openid` as one of the scopes. For a list of available scopes, see [Scopes and Claims](https://developer.okta.com/docs/api/resources/oidc#access-token-scopes-and-claims).
 
 ### Brand
 
@@ -1003,7 +1048,7 @@ Array of custom link objects `{text, href, target}` that will be added to the *"
 
 ### Hooks
 
-Asynchronous callbacks can be invoked before or after a specific view is rendered. Hooks can be used to add custom logic such as tracking, logging, or additional user input. Normal execution is blocked while the hooks is executing and will resume after the Promise returned from the hook function resolves. Hooks can be added via config, as shown below, or at runtime using the [before](#before) or [after](#after) methods. The full list of views can be found in [RemediationConstants.js](https://github.com/okta/okta-signin-widget/blob/master/src/v2/ion/RemediationConstants.js#L19).
+Asynchronous callbacks can be invoked before or after a specific view is rendered. Hooks can be used to add custom logic such as instrumentation, logging, or additional user input. Normal execution is blocked while the hook function is executing and will resume after the Promise returned from the hook function resolves. Hooks can be added via config, as shown below, or at runtime using the [before](#before) or [after](#after) methods. The full list of views can be found in [RemediationConstants.js](https://github.com/okta/okta-signin-widget/blob/master/src/v2/ion/RemediationConstants.js#L19).
 
 ```javascript
 // Hooks can be set in config
@@ -1336,7 +1381,7 @@ We use Yarn as our node package manager. To install Yarn, check out their [insta
 
     ```javascript
     module.exports = {
-      issuer: 'https://{yourOktaDomain}',
+      issuer: 'https://{yourOktaDomain}/oauth2/default',
       clientId: '{{clientId of your OIDC app}}',
       redirectUri: '{{redirectUri configured in OIDC app}}',
       useInteractionCodeFlow: true,
