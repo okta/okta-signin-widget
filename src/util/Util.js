@@ -65,6 +65,7 @@ const buildDynamicForm = function(url = '', method) {
   return form;
 };
 
+// eslint-disable-next-line complexity
 Util.transformErrorXHR = function(xhr) {
   // Handle network connection error
   if (xhr.status === 0 && _.isEmpty(xhr.responseJSON)) {
@@ -73,10 +74,21 @@ Util.transformErrorXHR = function(xhr) {
   }
   if (!xhr.responseJSON) {
     if (!xhr.responseText) {
-      xhr.responseJSON = { errorSummary: loc('oform.error.unexpected', 'login') };
+      // Empty server response
+      xhr.responseJSON = { errorSummary: loc('error.unsupported.response', 'login') };
       return xhr;
     }
-    xhr.responseJSON = xhr.responseText;
+    if (typeof xhr.responseText === 'string') {
+      try {
+        xhr.responseJSON = JSON.parse(xhr.responseText);
+      } catch (e) {
+        // Malformed server response
+        xhr.responseJSON = { errorSummary: loc('error.unsupported.response', 'login') };
+        return xhr;
+      }
+    } else if (typeof xhr.responseText === 'object') {
+      xhr.responseJSON = xhr.responseText;
+    } 
   }
   // Temporary solution to display field errors
   // Assuming there is only one field error in a response
