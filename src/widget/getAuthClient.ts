@@ -38,10 +38,6 @@ export default function(options: WidgetOptions = {}): OktaAuth {
       authParams.issuer = options.baseUrl + '/oauth2/default';
     }
 
-    authParams.transactionManager = authParams.transactionManager || {};
-    Object.assign(authParams.transactionManager, {
-      saveLastResponse: false
-    });
     authClient = new OktaAuth(authParams);
   }
 

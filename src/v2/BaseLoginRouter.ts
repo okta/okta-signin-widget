@@ -30,7 +30,7 @@ import sessionStorageHelper from './client/sessionStorageHelper';
 import {
   startLoginFlow,
   interactionCodeFlow,
-  handleConfiguredFlow
+  handleConfiguredFlow,
 } from './client';
 
 import transformIdxResponse from './ion/transformIdxResponse';
@@ -124,34 +124,36 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
       this.updateIdentifierCookie(idxResponse);
     }    
 
-    if (idxResponse.interactionCode) {
-      // Although session.stateHandle isn't used by interation flow,
-      // it's better to clean up at the end of the flow.
-      sessionStorageHelper.removeStateHandle();
-      // This is the end of the IDX flow, now entering OAuth
-      return interactionCodeFlow(this.settings, idxResponse);
-    }
-
     const lastResponse = this.appState.get('idx');
-
-    // Do not save state handle for the first page loads.
-    // Because there shall be no difference between following behavior
-    // 1. bootstrap widget
-    //    -> save state handle to session storage
-    //    -> refresh page
-    //    -> introspect using sessionStorage.stateHandle
-    // 2. bootstrap widget
-    //    -> do not save state handle to session storage
-    //    -> refresh page
-    //    -> introspect using options.stateHandle
-    if (lastResponse) {
-      sessionStorageHelper.setStateHandle(idxResponse?.context?.stateHandle);
-    }
-    // Login flows that mimic step up (moving forward in login pipeline) via internal api calls,
-    // need to clear stored stateHandles.
-    // This way the flow can maintain the latest state handle. For eg. Device probe calls
-    if (this.appState.get('currentFormName') === FORMS.CANCEL_TRANSACTION) {
-      sessionStorageHelper.removeStateHandle();
+    const useInteractionCodeFlow = this.settings.get('useInteractionCodeFlow');
+    if (useInteractionCodeFlow) {
+      if (idxResponse.interactionCode) {
+        // Although session.stateHandle isn't used by interation flow,
+        // it's better to clean up at the end of the flow.
+        sessionStorageHelper.removeStateHandle();
+        // This is the end of the IDX flow, now entering OAuth
+        return interactionCodeFlow(this.settings, idxResponse);
+      }  
+    } else {
+      // Do not save state handle for the first page loads.
+      // Because there shall be no difference between following behavior
+      // 1. bootstrap widget
+      //    -> save state handle to session storage
+      //    -> refresh page
+      //    -> introspect using sessionStorage.stateHandle
+      // 2. bootstrap widget
+      //    -> do not save state handle to session storage
+      //    -> refresh page
+      //    -> introspect using options.stateHandle
+      if (lastResponse) {
+        sessionStorageHelper.setStateHandle(idxResponse?.context?.stateHandle);
+      }
+      // Login flows that mimic step up (moving forward in login pipeline) via internal api calls,
+      // need to clear stored stateHandles.
+      // This way the flow can maintain the latest state handle. For eg. Device probe calls
+      if (this.appState.get('currentFormName') === FORMS.CANCEL_TRANSACTION) {
+        sessionStorageHelper.removeStateHandle();
+      }
     }
 
     // transform response
@@ -281,6 +283,9 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
   }
 
   restartLoginFlow() {
+    // clear all transaction data and saved IDX response
+    this.settings.getAuthClient().transactionManager.clear();
+
     // Clear the recoveryToken, if any
     const authClient = this.settings.getAuthClient();
     delete authClient.options['recoveryToken'];

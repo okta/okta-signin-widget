@@ -1048,5 +1048,5 @@ const selectOktaVerifyMethod = {
 };
 
 module.exports = {
-  mocks: idx
+  mocks: Test.EnrollAuthenticatorWebAuthn.mock
 };

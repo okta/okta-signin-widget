@@ -16,9 +16,10 @@ import { getV1ClassName } from '../ion/ViewClassNamesFactory';
 import { FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/RemediationConstants';
 import Util from '../../util/Util';
 import sessionStorageHelper from '../client/sessionStorageHelper';
-import { HttpResponse } from '@okta/okta-auth-js';
+import { HttpResponse, IdxStatus, IdxOptions, ProceedOptions } from '@okta/okta-auth-js';
 import { EventErrorContext } from 'types/events';
-
+import { CONFIGURED_FLOW } from '../client/constants';
+import Errors from 'util/Errors';
 export interface ContextData {
   controller: string;
   formName: string;
@@ -55,8 +56,12 @@ export default Controller.extend({
 
     this.clearMetadata();
 
+    let formName = currentViewState.name;
+    if (formName === 'identify' && this.options.settings.get('flow') === CONFIGURED_FLOW.RESET_PASSWORD) {
+      formName = 'identify-recovery';
+    }
     const TheView = ViewFactory.create(
-      currentViewState.name,
+      formName,
       this.options.appState.get('authenticatorKey'),
     );
     try {
@@ -143,48 +148,80 @@ export default Controller.extend({
     this.options.appState.set('currentFormName', formName);
   },
 
+  // eslint-disable-next-line max-statements
   handleInvokeAction(actionPath = '', actionParams = {}) {
-    const idx = this.options.appState.get('idx');
+    const { appState, settings } = this.options;
+    const idx = appState.get('idx');
+    const { stateHandle } = idx.context;
+    let invokeOptions: ProceedOptions = {
+      exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
+      shouldProceedWithEmailAuthenticator: false, // do not auto-select email authenticator
+      stateHandle
+    };
+    let error;
 
+    // Cancel action is executes synchronously
     if (actionPath === 'cancel') {
-      this.options.settings.getAuthClient().idx.clearTransactionMeta();
+      // TODO: resolve race conditions caused by event pattern: OKTA-490220
+      settings.getAuthClient().transactionManager.clear({ clearIdxResponse: false });
       sessionStorageHelper.removeStateHandle();
-      this.options.appState.clearAppStateCache();
+      appState.clearAppStateCache();
+
+      if (settings.get('useInteractionCodeFlow')) {
+        // In this case we need to restart login flow and recreate transaction meta
+        // that will be used in interactionCodeFlow function
+        appState.trigger('restartLoginFlow');
+        return;
+      }
     }
 
+    // Build options to invoke or throw error for invalid action
     if (idx['neededToProceed'].find(item => item.name === actionPath)) {
-      idx.proceed(actionPath, {})
-        .then(this.handleIdxResponse.bind(this))
-        .catch(error => {
-          this.showFormErrors(this.formView.model, error, this.formView.form);
-        });
+      invokeOptions = { ...invokeOptions, step: actionPath };
+    } else if (_.isFunction(idx['actions'][actionPath])) {
+      invokeOptions = {
+        ...invokeOptions,
+        actions: [{
+          name: actionPath,
+          params: actionParams
+        }]
+      };
+    } else {
+      error = new Errors.ConfigError(`Invalid action selected: ${actionPath}`);
+      this.options.settings.callGlobalError(error);
+      this.showFormErrors(this.formView.model, error, this.formView.form);
       return;
     }
 
-    const actionFn = idx['actions'][actionPath];
-
-    if (_.isFunction(actionFn)) {
-      // TODO: OKTA-243167 what's the approach to show spinner indicating API in flight?
-      actionFn(actionParams)
-        .then((resp) => {
-          if (actionPath === 'cancel' && this.options.settings.get('useInteractionCodeFlow')) {
-            // In this case we need to restart login flow and recreate transaction meta
-            // that will be used in interactionCodeFlow function
-            this.options.appState.trigger('restartLoginFlow');
-          } else {
-            this.handleIdxResponse(resp);
-          }
-        })
-        .catch(error => {
-          this.showFormErrors(this.formView.model, error, this.formView.form);
-        });
-    } else {
-      this.options.settings.callGlobalError(`Invalid action selected: ${actionPath}`);
-      this.showFormErrors(this.formView.model, 'Invalid action selected.', this.formView.form);
-    }
+    // action will be executed asynchronously
+    this.invokeAction(invokeOptions);
   },
 
-  handleSaveForm(model) {
+  async invokeAction(invokeOptions) {
+    const authClient = this.options.settings.getAuthClient();
+    let resp;
+    let error;
+    try {
+      resp = await authClient.idx.proceed(invokeOptions);
+      if (resp.requestDidSucceed === false) {
+        error = resp;
+      }
+    } catch (e) {
+      error = e;
+    }
+
+    // if request did not succeed, show error on the current form
+    if (error) {
+      this.showFormErrors(this.formView.model, error, this.formView.form);
+      return;
+    }
+
+    // process response, may render a new form
+    this.handleIdxResponse(resp);
+  },
+
+  // eslint-disable-next-line max-statements, complexity
+  async handleSaveForm(model) {
     const formName = model.get('formName');
 
     // Toggle Form saving status (e.g. disabling save button, etc)
@@ -203,46 +240,68 @@ export default Controller.extend({
     }
 
     // Run hook: transform the user name (a.k.a identifier)
-    const modelJSON = this.transformIdentifier(formName, model);
+    const values = this.transformIdentifier(formName, model);
 
     // Error out when this is not a remediation form. Unexpected Exception.
-    const idx = this.options.appState.get('idx');
     if (!this.options.appState.hasRemediationObject(formName)) {
       this.options.settings.callGlobalError(`Cannot find http action for "${formName}".`);
       this.showFormErrors(this.formView.model, 'Cannot find action to proceed.', this.formView.form);
       return;
     }
 
-    // Submit request to idx endpoint
-    idx.proceed(formName, modelJSON)
-      .then((resp) => {
-        const onSuccess = this.handleIdxResponse.bind(this, resp);
+    // Reset password in identity-first flow needs some help to auto-select password and begin the reset flow
+    if (formName === 'identify' && this.options.settings.get('flow') === CONFIGURED_FLOW.RESET_PASSWORD) {
+      values.authenticator = 'okta_password';
+    }
 
-        if (formName === FORMS.ENROLL_PROFILE) {
-          // call registration (aka enroll profile) hook
-          this.settings.postRegistrationSubmit(modelJSON?.userProfile?.email, onSuccess, (error) => {
-            model.trigger('error', model, {
-              responseJSON: error,
-            });
-          });
-        } else {
-          onSuccess();
-        }
-      }).catch(error => {
-        if (error.stepUp) {
-          // Okta server responds 401 status code with WWW-Authenticate header and new remediation
-          // so that the iOS/MacOS credential SSO extension (Okta Verify) can intercept
-          // the response reaches here when Okta Verify is not installed
-          // we need to return an idx object so that
-          // the SIW can proceed to the next step without showing error
-          this.handleIdxResponse(error);
-        } else {
-          this.showFormErrors(model, error, this.formView.form);
-        }
-      })
-      .finally(() => {
-        this.toggleFormButtonState(false);
+    // Submit request to idx endpoint
+    const authClient = this.options.settings.getAuthClient();
+    const idxOptions: ProceedOptions = {
+      exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
+      shouldProceedWithEmailAuthenticator: false, // do not auto-select email authenticator
+    };
+    try {
+      const idx = this.options.appState.get('idx');
+      const { stateHandle } = idx.context;
+      const resp = await authClient.idx.proceed({
+        ...idxOptions,
+        step: formName,
+        stateHandle,
+        ...values
       });
+      if (resp.status === IdxStatus.FAILURE) {
+        throw resp.error; // caught and handled in this function
+      }
+      // If the last request did not succeed, show errors on the current form
+      if (resp.requestDidSucceed === false) {
+        this.showFormErrors(model, resp, this.formView.form);
+        return;
+      }
+      const onSuccess = this.handleIdxResponse.bind(this, resp);
+      if (formName === FORMS.ENROLL_PROFILE) {
+        // call registration (aka enroll profile) hook
+        this.settings.postRegistrationSubmit(values?.userProfile?.email, onSuccess, (error) => {
+          model.trigger('error', model, {
+            responseJSON: error,
+          });
+        });
+      } else {
+        onSuccess();
+      }
+    } catch(error) {
+      if (error.stepUp) {
+        // Okta server responds 401 status code with WWW-Authenticate header and new remediation
+        // so that the iOS/MacOS credential SSO extension (Okta Verify) can intercept
+        // the response reaches here when Okta Verify is not installed
+        // we need to return an idx object so that
+        // the SIW can proceed to the next step without showing error
+        this.handleIdxResponse(error);
+      } else {
+        this.showFormErrors(model, error, this.formView.form);
+      }
+    } finally {
+      this.toggleFormButtonState(false);
+    }
   },
 
   transformIdentifier(formName, model) {
