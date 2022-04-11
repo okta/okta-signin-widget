@@ -89,7 +89,6 @@ const EnrollTotpControllerEnrollTotpController = FormController.extend({
 
       return loc('enroll.totp.title', 'login', [factorName]);
     },
-    autoSave: true,
     noButtonBar: true,
     attributes: { 'data-se': 'step-device-type' },
 
@@ -111,9 +110,15 @@ const EnrollTotpControllerEnrollTotpController = FormController.extend({
           View: EnrollTotpControllerAppDownloadInstructionsView,
           showWhen: showWhenDeviceTypeSelected,
         }),
-        FormType.Toolbar({
-          noCancelButton: true,
-          save: loc('oform.next', 'login'),
+        FormType.Button({
+          title: loc('oform.next', 'login'),
+          attributes: {
+            'data-type': 'save'
+          },
+          className: 'button button-primary button-wide default-custom-button',
+          click: function() {
+            this.model.save();
+          },
           showWhen: showWhenDeviceTypeSelected,
         }),
       ];
