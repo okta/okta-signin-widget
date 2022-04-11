@@ -115,7 +115,7 @@ const EnrollTotpControllerEnrollTotpController = FormController.extend({
           attributes: {
             'data-type': 'save'
           },
-          className: 'button button-primary button-wide default-custom-button',
+          className: 'button button-primary default-custom-button',
           click: function() {
             this.model.save();
           },
