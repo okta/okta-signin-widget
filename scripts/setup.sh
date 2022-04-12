@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Can be used to run a canary build against a beta AuthJS version that has been published to artifactory.
+# This is available from the "downstream artifact" menu on any okta-auth-js build in Bacon.
+# DO NOT MERGE ANY CHANGES TO THIS LINE!!
+export AUTHJS_VERSION=""
+
 # Install required node version
 export REGISTRY_REPO="npm-topic"
 export REGISTRY="${ARTIFACTORY_URL}/api/npm/${REGISTRY_REPO}"
@@ -8,6 +13,13 @@ setup_service node v12.13.0
 setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
 
 cd ${OKTA_HOME}/${REPO}
+
+if [ ! -z "$AUTHJS_VERSION" ]; then
+  echo "Installing BETA VERSION"
+  npm config set strict-ssl false
+  yarn add -DW --no-lockfile https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/{AUTHJS_BETA_VERSION}.tgz
+  echo "BETA VERSION installed"
+fi
 
 if ! yarn install ; then
   echo "yarn install failed! Exiting..."
