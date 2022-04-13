@@ -6,7 +6,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const PACKAGE_JSON = require('./package.json');
 
 const EMPTY = resolve(__dirname, 'src/empty');
-const NODE_MODULES_SRC = resolve(__dirname, 'node_modules/@okta');
+const NODE_MODULES = resolve(__dirname, 'node_modules');
+const NODE_MODULES_SRC = resolve(NODE_MODULES, '@okta');
 const NODE_MODULES_DEST = resolve(__dirname, '..');
 const SHARED_JS = resolve(NODE_MODULES_SRC, 'courage/src');
 const COURAGE_DIST = resolve(NODE_MODULES_SRC, 'courage/dist');
@@ -23,9 +24,39 @@ const EXTERNAL_PATHS = [
   'okta-i18n-bundles'
 ];
 
+const babelExclude = function (filePath) {
+  const filePathContains = (f) => filePath.indexOf(f) > 0;
+  const npmRequiresTransform = [
+    '/node_modules/@okta/courage',
+  ].some(filePathContains);
+  const shallBeExcluded = [
+    '/node_modules/',
+  ].some(filePathContains);
+  return shallBeExcluded && !npmRequiresTransform;
+};
+
+const babelOptions = {
+  presets: [
+    [
+      '@babel/preset-env', {
+        // ES shorthand functions cannot be used as constructors
+        include: ['@babel/plugin-transform-shorthand-properties'],
+      }
+    ],
+    '@babel/preset-typescript', // must run before preset-env: https://github.com/babel/babel/issues/12066
+  ],
+  plugins: [
+    '@okta/babel-plugin-handlebars-inline-precompile'
+  ],
+  targets: {
+    esmodules: true,
+    node: 'current'
+  }
+};
+
 const webpackConfig = {
   mode: 'development',
-  entry: ['./src/CourageForSigninWidget.js'],
+  entry: ['./src/CourageForSigninWidget'],
   devtool: 'source-map',
   output: {
     // why the destination is outside current directory?
@@ -37,6 +68,7 @@ const webpackConfig = {
   },
   externals: EXTERNAL_PATHS,
   resolve: {
+    extensions: ['.js', '.ts'],
     alias: {
 
       // jsons is from StringUtil
@@ -54,35 +86,28 @@ const webpackConfig = {
       'vendor/plugins/jquery.simplemodal': EMPTY,
 
       // util/BaseRouter -> ConfirmationDialog
-      'ConfirmationDialog': EMPTY,
+      '../views/components/ConfirmationDialog': EMPTY,
 
       'vendor': SHARED_JS + '/vendor',
+
+      'backbone': `${NODE_MODULES}/backbone/backbone-min.js`
     }
   },
 
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: function (filePath) {
-          const filePathContains = (f) => filePath.indexOf(f) > 0;
-          const npmRequiresTransform = [
-            '/node_modules/@okta/courage',
-          ].some(filePathContains);
-          const shallBeExcluded = [
-            '/node_modules/',
-          ].some(filePathContains);
-          return shallBeExcluded && !npmRequiresTransform;
-        },
+        test: /\.[jt]s$/,
+        exclude: babelExclude,
         loader: 'babel-loader',
-        options: {
-          presets: [['@babel/preset-env', { modules: 'commonjs' }]],
-          plugins: [
-            '@okta/babel-plugin-handlebars-inline-precompile',
-            'add-module-exports'
-          ]
-        }
+        options: babelOptions
       },
+      // load external source maps
+      {
+        test: /\.js$/,
+        use: ['source-map-loader'],
+        enforce: 'pre'
+      }
     ]
   },
 

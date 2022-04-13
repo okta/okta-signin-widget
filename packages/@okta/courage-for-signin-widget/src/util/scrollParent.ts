@@ -12,12 +12,12 @@ import $ from '@okta/courage/src/util/jquery-wrapper';
  */
 
 // This is required because SIW doesn't want to include jqueryui even though it's an external dependency of courage
-$.fn.scrollParent = function( includeHidden ) {
-    var position = this.css( "position" ),
+$.fn.scrollParent = function( includeHidden? ) {
+    const position = this.css( "position" ),
         excludeStaticParent = position === "absolute",
         overflowRegex = includeHidden ? /(auto|scroll|hidden)/ : /(auto|scroll)/,
         scrollParent = this.parents().filter( function() {
-            var parent = $( this );
+            const parent = $( this );
             if ( excludeStaticParent && parent.css( "position" ) === "static" ) {
                 return false;
             }
