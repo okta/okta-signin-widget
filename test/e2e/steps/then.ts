@@ -19,6 +19,7 @@ import PrimaryAuthPage from '../page-objects/primary-auth-oie.page';
 
 Then(
   /^user sees the tokens on the page$/,
+  // eslint-disable-next-line no-unused-vars
   async function(this: ActionContext) {
     await TestAppPage.assertAccessToken();
     const fullName = this.credentials.firstName + " " + this.credentials.lastName
