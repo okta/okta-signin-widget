@@ -445,7 +445,7 @@ new OktaSignIn({
 A redirect callback occurs when your app is reloaded in the browser as part of a [flow](#flow).
 During a redirect callback, the app is loaded at a specific URL path that you have defined in your Okta App configuration. Most callbacks can only be handled once and will produce an error if there is an attempt to handle it twice. Typically, the app will redirect itself to a well known or previously saved URL path after the callback logic has been handled to avoid errors on page reload.
 
-> **Note:** Most apps should be prepared to handle one or more redirect callbacks. Depending on how the App sign-on policy is configured, some SPA applications may be able to receive tokens without any redirect. However, logic will need to be added if the policy includes signing in with a [Social / IDP provider)](#socialidp-callback)) or allows authentication or account recovery using [email verification](#email-verify-callback).  
+> **Note:** Most apps should be prepared to handle one or more redirect callbacks. Depending on how the App sign-on policy is configured, some SPA applications may be able to receive tokens without any redirect. However, logic will need to be added if the policy includes signing in with a [Social / IDP provider](#socialidp-callback) or allows authentication or account recovery using [email verification](#email-verify-callback).
 
 ##### OAuth callback
 
@@ -453,7 +453,7 @@ The OAuth callback is the last step of the [interaction code][] flow. On success
 
 **All web applications will handle an OAuth callback**. For SPA applications, in many cases the sign-on policy will not require a redirect and these applications can receive tokens directly from [showSignIn](#showsignin). However, if the sign-on policy requires redirection for any reason (such as integration with a [Social / IDP provider](#socialidp-callback)) SPA apps will need to handle an Oauth callback. For this reason we recommend that **all SPA apps should be prepared to handle an OAuth callback**.
 
-> **Note:** The widget does not handle an OAuth callback directly. Server-side web applications can use one of our [SDKs][#related-sdks] to help with handling the callback. SPA applications can use the [okta-auth-js][] SDK, which is included with the Sign-in Widget as the `authClient` property.
+> **Note:** The widget does not handle an OAuth callback directly. Server-side web applications can use one of our [SDKs](#related-sdks) to help with handling the callback. SPA applications can use the [okta-auth-js][] SDK, which is included with the Sign-in Widget as the `authClient` property.
 
 A SPA application can handle the OAuth callback client-side using the built-in `authClient`:
 
