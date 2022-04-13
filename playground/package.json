@@ -1,0 +1,6 @@
+{
+  "name": "@okta/okta-signin-widget-playground",
+  "version": "1.0.0",
+  "description": "## The playground App",
+  "main": "main.ts"
+}

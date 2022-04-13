@@ -1,24 +1,48 @@
-/* global OktaSignIn */
 /* eslint no-console: 0 */
 
-import signinWidgetOptions from '../.widgetrc.js';
-import { assertNoEnglishLeaks } from '../playground/LocaleUtils';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const signinWidgetOptions = require('../.widgetrc.js'); // commonJS module
 
-let signIn;
+// import OktaSignIn from '../src/widget/OktaSignIn';
+import {
+  OktaSignInConstructor,
+  OktaSignInAPI,
+  WidgetOptions,
+  RenderResult,
+  RenderResultSuccessNonOIDCSession,
+} from '../src/types';
+import { assertNoEnglishLeaks } from '../playground/LocaleUtils';
+declare global {
+  interface Window {
+    // added by widget CDN bundle
+    OktaSignIn: OktaSignInConstructor;
+
+    // added in this file
+    getWidgetInstance: () => OktaSignInAPI;
+    createWidgetInstance: (options: WidgetOptions) => OktaSignInAPI;
+    renderPlaygroundWidget: (options: WidgetOptions) => void;
+  }
+}
+
+function isSuccessNonOIDC(res: RenderResult): res is RenderResultSuccessNonOIDCSession {
+  return (res as RenderResultSuccessNonOIDCSession).session !== undefined;
+}
+
+let signIn: OktaSignInAPI;
 
 function getWidgetInstance() {
   return signIn;
 }
 
-function createWidgetInstance(options = {}) {
+function createWidgetInstance(options: WidgetOptions = {}) {
   if (signIn) {
     signIn.remove();
   }
-  signIn = new OktaSignIn(Object.assign({}, signinWidgetOptions, options));
+  signIn = new window.OktaSignIn(Object.assign({}, signinWidgetOptions, options));
   return signIn;
 }
 
-if (typeof OktaSignIn === 'undefined') {
+if (typeof window.OktaSignIn === 'undefined') {
   // Make sure OktaSignIn is available
   setTimeout(() => window.location.reload(), 2 * 1000);
 }
@@ -45,7 +69,7 @@ const renderPlaygroundWidget = (options = {}) => {
 
       // 1. Widget is not configured for OIDC, and returns a sessionToken
       //    that needs to be exchanged for an okta session
-      if (res.session) {
+      if (isSuccessNonOIDC(res)) {
         console.log(res.user);
         res.session.setCookieAndRedirect(signinWidgetOptions.baseUrl + '/app/UserHome');
         return;
@@ -91,11 +115,11 @@ const renderPlaygroundWidget = (options = {}) => {
 
       const noTranslationContentExists = document.getElementsByClassName('no-translate').length;
 
-      let noTranslationContent = [];
+      const noTranslationContent = [];
       /* eslint max-depth: [2, 3] */
       if (noTranslationContentExists) {
         const noTranslateElems = document.getElementsByClassName('no-translate');
-        for (var i = 0; i < noTranslateElems.length; i++) {
+        for (let i = 0; i < noTranslateElems.length; i++) {
           //build array of noTranslationContent
           noTranslationContent.push(noTranslateElems[i].textContent);
         }
@@ -119,9 +143,9 @@ window.getWidgetInstance = getWidgetInstance;
 window.createWidgetInstance = createWidgetInstance;
 window.renderPlaygroundWidget = renderPlaygroundWidget;
 
-var render = true;
+let render = true;
 if (typeof URL !== 'undefined') {
-  var searchParams = new URL(window.location.href).searchParams;
+  const searchParams = new URL(window.location.href).searchParams;
   if (searchParams.get('render') === '0' || searchParams.get('render') === 'false') {
     render = false;
   }
