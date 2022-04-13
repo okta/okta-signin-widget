@@ -17,15 +17,25 @@ describe('util/Util', () => {
       );
     });
 
-    it('errorSummary shows internal error when there are no responseJSON and no responseText', () => {
+    it('errorSummary shows unsupported response from server when there are no responseJSON and no responseText', () => {
       const xhr = {
         status: 400,
       };
 
       Util.transformErrorXHR(xhr);
-      expect(xhr.responseJSON.errorSummary).toEqual('There was an unexpected internal error. Please try again.');
+      expect(xhr.responseJSON.errorSummary).toEqual('There was an unsupported response from server.');
     });
   
+    it('errorSummary shows unsupported response from server when there are no responseJSON and responseText is not valid JSON', () => {
+      const xhr = {
+        status: 400,
+        responseText: '<html>'
+      };
+
+      Util.transformErrorXHR(xhr);
+      expect(xhr.responseJSON.errorSummary).toEqual('There was an unsupported response from server.');
+    });
+
     it('errorSummary is set from responseText when there is no responseJSON', () => {
       const responseText = { errorSummary: 'errorSummary from responseText' };
       const xhr = {
