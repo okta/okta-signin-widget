@@ -14,24 +14,34 @@ module.exports = function(outputFilename, mode = 'development') {
   const babelOptions = {
     configFile: false, // do not load from babel.config.js
     babelrc: false, // do not load from .babelrc
-    presets: [],
+    presets: [
+      '@babel/preset-typescript',
+    ],
     plugins: [
       './packages/@okta/babel-plugin-handlebars-inline-precompile',
-      '@babel/plugin-transform-modules-commonjs'
-    ]
+      '@babel/plugin-transform-modules-commonjs',
+    ],
+    assumptions: {
+      setPublicClassFields: true
+    }
   };
 
   if (mode === 'production') {
-    babelOptions.presets.push('@babel/preset-env');
+    // preset-env must run before preset-typescript https://github.com/babel/babel/issues/12066
+    babelOptions.presets.unshift('@babel/preset-env'); 
   } else {
     // In local development, we would prefer not to include any babel transforms as they make debugging more difficult
     // However, there is an issue with testcafe which requires us to include the optional chaining transform
     // https://github.com/DevExpress/testcafe-hammerhead/issues/2714
-    babelOptions.plugins.push('@babel/plugin-proposal-optional-chaining');
+    babelOptions.plugins.unshift('@babel/plugin-proposal-optional-chaining');
+
+    // acorn-hammerhead (testcafe) is currently unable to parse class fields, and will return the script unmodified
+    // this will cause URLs to load outside the proxy and cause browser disconnect error
+    babelOptions.plugins.unshift('@babel/plugin-proposal-class-properties');
   }
 
   return {
-    entry: [`${SRC}/widget/OktaSignIn.js`],
+    entry: [`${SRC}/index.cjs.js`],
     mode,
     devtool: 'source-map',
     output: {
@@ -41,6 +51,7 @@ module.exports = function(outputFilename, mode = 'development') {
       libraryTarget: 'umd'
     },
     resolve: {
+      extensions: ['.js', '.ts'],
       modules: [SRC, 'packages', 'node_modules'],
       alias: {
         // General remapping
@@ -66,7 +77,7 @@ module.exports = function(outputFilename, mode = 'development') {
       rules: [
         // Babel
         {
-          test: /\.js$/,
+          test: /\.[jt]s$/,
           exclude: function(filePath) {
             const filePathContains = (f) => filePath.indexOf(f) > 0;
             const npmRequiresTransform = [

@@ -14,7 +14,7 @@
 // BaseLoginRouter contains the more complicated router logic - rendering/
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
-import { _, $, Backbone, Router, loc } from 'okta';
+import { _, $, Backbone, Router, loc, BaseRouterOptions } from 'okta';
 import Settings from 'models/Settings';
 import Bundles from 'util/Bundles';
 import BrowserFeatures from 'util/BrowserFeatures';
@@ -36,17 +36,33 @@ import {
 import transformIdxResponse from './ion/transformIdxResponse';
 import { FORMS } from './ion/RemediationConstants';
 import CookieUtil from 'util/CookieUtil';
-import { formatError } from './client/formatError';
+import { formatError, LegacyIdxError, StandardApiError } from './client/formatError';
+import { RenderError, RenderResult } from 'types';
+import { OktaAuth, IdxResponse } from '@okta/okta-auth-js';
+import Hooks from 'models/Hooks';
 
-export default Router.extend({
-  Events: Backbone.Events,
-  hasControllerRendered: false,
+export interface BaseLoginRouterOptions extends BaseRouterOptions, Backbone.RouterOptions {
+  globalSuccessFn?: (res: RenderResult) => void;
+  globalErrorFn?: (res: RenderError) => void;
+  authClient?: OktaAuth;
+  hooks: Hooks
+}
 
-  initialize: function(options) {
+class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
+  Events: Backbone.Events = Backbone.Events; // also set on prototype
+  hasControllerRendered = false;
+  settings: Settings;
+  appState: AppState;
+  hooks: Hooks;
+  header: Header;
+
+  constructor(options: BaseLoginRouterOptions) {
+    super(options);
+
     // Create a default success and/or error handler if
     // one is not provided.
     if (!options.globalSuccessFn) {
-      options.globalSuccessFn = function() { };
+      options.globalSuccessFn = function() { /* dummy function */ };
     }
     if (!options.globalErrorFn) {
       options.globalErrorFn = function(err) {
@@ -90,7 +106,7 @@ export default Router.extend({
     this.listenTo(this.appState, 'updateAppState', this.handleUpdateAppState);
     this.listenTo(this.appState, 'remediationError', this.handleIdxResponseFailure);
     this.listenTo(this.appState, 'restartLoginFlow', this.restartLoginFlow);
-  },
+  }
 
   updateDeviceFingerprint() {
     const authClient = this.settings.getAuthClient();
@@ -98,9 +114,9 @@ export default Router.extend({
     if (fingerprint) {
       authClient.http.setRequestHeader('X-Device-Fingerprint', fingerprint);
     }
-  },
+  }
 
-  async handleUpdateAppState(idxResponse) {
+  async handleUpdateAppState(idxResponse: IdxResponse): Promise<IdxResponse> {
     // Only update the cookie when the user has successfully authenticated themselves 
     // to avoid incorrect/unnecessary updates.
     if (this.hasAuthenticationSucceeded(idxResponse) 
@@ -142,16 +158,16 @@ export default Router.extend({
     const ionResponse = transformIdxResponse(this.settings, idxResponse, lastResponse);
 
     await this.appState.setIonResponse(ionResponse, this.hooks);
-  },
+  }
 
-  handleIdxResponseFailure(error = {}) {
+  handleIdxResponseFailure(error: LegacyIdxError = { error: 'unknown', details: undefined }) {
     // IDX errors will not call the global error handler
     error = formatError(error);
     this.handleUpdateAppState(error.details);
-  },
+  }
 
   // Generic error handler for all exceptions
-  handleError(error = {}) {
+  handleError(error: LegacyIdxError | StandardApiError | Error = { error: 'unknown', details: undefined }) {
     // Show error message and notify listeners
     const originalError = error;
     const formattedError = formatError({...error}); // format the error to resemble an IDX response
@@ -165,10 +181,10 @@ export default Router.extend({
     //   this.settings.callGlobalError(new Errors.UnsupportedBrowserError(loc('error.enabled.cors')));
     //   return;
     // }
-  },
+  }
 
   /* eslint max-statements: [2, 28], complexity: [2, 11] */
-  render: async function(Controller, options = {}) {
+  async render(Controller, options = {}) {
     // If url changes then widget assumes that user's intention was to initiate a new login flow,
     // so clear stored token to use the latest token.
     if (sessionStorageHelper.getLastInitiatedLoginUrl() !== window.location.href) {
@@ -237,14 +253,14 @@ export default Router.extend({
     this.controller.render();
 
     this.hasControllerRendered = true;
-  },
+  }
 
   /**
     * When "Remember My Username" is enabled, we save the identifier in a cookie
     * so that the next time the user visits the SIW, the identifier field can be 
     * pre-filled with this value.
    */
-  updateIdentifierCookie: function(idxResponse) {
+  updateIdentifierCookie(idxResponse: IdxResponse) {
     if (this.settings.get('features.rememberMe')) {
       // Update the cookie with the identifier
       const user = idxResponse?.context?.user;
@@ -256,13 +272,13 @@ export default Router.extend({
       // We remove the cookie explicitly if this feature is disabled.
       CookieUtil.removeUsernameCookie();
     }    
-  },
+  }
 
-  hasAuthenticationSucceeded(idxResponse) {
+  hasAuthenticationSucceeded(idxResponse: IdxResponse) {
     // Check whether authentication has succeeded. This is done by checking the server response
     // and seeing if either the 'success' or 'successWithInteractionCode' objects are present.
     return idxResponse?.rawIdxState?.success || idxResponse?.rawIdxState?.successWithInteractionCode;
-  },
+  }
 
   restartLoginFlow() {
     // Clear the recoveryToken, if any
@@ -272,27 +288,32 @@ export default Router.extend({
 
     // Re-render the widget
     this.render(this.controller.constructor);
-  },
+  }
 
-  start: function() {
+  start() {
     const pushState = BrowserFeatures.supportsPushState();
     Router.prototype.start.call(this, { pushState: pushState });
-  },
+  }
 
-  hide: function() {
+  hide() {
     this.header.$el.hide();
-  },
+  }
 
-  show: function() {
+  show() {
     this.header.$el.show();
-  },
+  }
 
-  remove: function() {
+  remove() {
     this.unload();
     this.header.$el.remove();
     this.stopListening(this.appState);
     this.stopListening(this.settings);
     Bundles.remove();
     Backbone.history.stop();
-  },
-});
+  }
+}
+
+// Add "Events" to prototype for compatibility with existing code
+BaseLoginRouter.prototype.Events = Backbone.Events;
+
+export default BaseLoginRouter;

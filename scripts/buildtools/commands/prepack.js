@@ -12,7 +12,13 @@ exports.describe = 'Prepares the dist directory for publishing on npm';
 exports.handler = async () => {
   shell.echo(chalk.cyan('Prepacking...'));
 
-  shell.cp('-Rf', ['package.json', 'LICENSE', 'THIRD-PARTY-NOTICES', '*.md'], `${BUILD_DIR}`);
+  shell.cp('-Rf', [
+    'package.json',
+    'LICENSE',
+    'THIRD-PARTY-NOTICES',
+    '*.md',
+    'types'
+  ], `${BUILD_DIR}`);
 
   shell.echo('Modifying final package.json');
   let packageJSON = JSON.parse(fs.readFileSync(`${BUILD_DIR}/package.json`));

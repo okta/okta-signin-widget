@@ -10,9 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-const fn = {};
+const fn: Record<string, (...any: any[]) => any> = {};
 const hasFullCorsSupport = 'withCredentials' in new window.XMLHttpRequest();
-const hasXDomainRequest = typeof XDomainRequest !== 'undefined';
+const hasXDomainRequest = typeof window.XDomainRequest !== 'undefined';
 
 fn.corsIsNotSupported = function() {
   return !(hasFullCorsSupport || hasXDomainRequest);
@@ -84,15 +84,13 @@ fn.isIOS = function() {
 // Returns a list of languages the user has configured for their browser, in
 // order of preference.
 fn.getUserLanguages = function() {
-  var languages, properties;
-
   // Chrome, Firefox
   if (navigator.languages) {
     return navigator.languages;
   }
 
-  languages = [];
-  properties = [
+  const languages = [];
+  const properties = [
     'language',         // Safari, IE11
     'userLanguage',     // IE
     'browserLanguage',  // IE

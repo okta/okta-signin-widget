@@ -69,24 +69,31 @@ function typeOfTransition(currentBeacon, NextBeacon, options) {
   return 'swap';
 }
 
-export default View.extend({
-  currentBeacon: null,
-  /* eslint-disable @okta/okta/no-unlocalized-text-in-templates */
-  template: hbs(
-    '\
-      <div class="okta-sign-in-header auth-header">\
-        {{#if logo}}\
-        <h1><img src="{{logo}}" class="auth-org-logo" alt="{{logoText}} logo" aria-label="{{logoText}} logo"></h1>\
-        {{/if}}\
-        <div data-type="beacon-container" class="beacon-container"></div>\
-      </div>\
-      <div class="auth-content"><div class="auth-content-inner"></div></div>\
-    '
-  ),
-  /* eslint-enable @okta/okta/no-unlocalized-text-in-templates */
+export default class Header extends View {
+  currentBeacon;
+  
+  preinitialize(...args) {
+    this.currentBeacon = null;
+    /* eslint-disable @okta/okta/no-unlocalized-text-in-templates */
+    this.template = hbs(
+      '\
+        <div class="okta-sign-in-header auth-header">\
+          {{#if logo}}\
+          <h1><img src="{{logo}}" class="auth-org-logo" alt="{{logoText}} logo" aria-label="{{logoText}} logo"></h1>\
+          {{/if}}\
+          <div data-type="beacon-container" class="beacon-container"></div>\
+        </div>\
+        <div class="auth-content"><div class="auth-content-inner"></div></div>\
+      '
+    );
+    /* eslint-enable @okta/okta/no-unlocalized-text-in-templates */
+    View.prototype.preinitialize.apply(this, args);
+  }
+
+
   // Attach a 'no-beacon' class if the security image feature
   // is not passed in to prevent the beacon from jumping.
-  initialize: function(options) {
+  initialize(options) {
     if (!options.settings.get('features.securityImage')) {
       this.$el.addClass(NO_BEACON_CLS);
       // To show/hide the spinner when there is no security image,
@@ -94,14 +101,13 @@ export default View.extend({
       this.listenTo(options.appState, 'loading', this.setLoadingBeacon);
       this.listenTo(options.appState, 'removeLoading', this.removeLoadingBeacon);
     }
-  },
+  }
 
   /* eslint complexity: 0 */
-  setBeacon: function(NextBeacon, options) {
+  setBeacon(NextBeacon, options) {
     const selector = '[data-type="beacon-container"]';
     const container = this.$(selector);
     const transition = typeOfTransition(this.currentBeacon, NextBeacon, options);
-    const self = this;
 
     switch (transition) {
     case 'none':
@@ -116,8 +122,8 @@ export default View.extend({
     case 'remove':
       this.$el.addClass(NO_BEACON_CLS);
       return Animations.implode(container)
-        .then(function() {
-          removeBeacon(self);
+        .then(() => {
+          removeBeacon(this);
         })
         .done(); // TODO: can this be removed if Animations.implode returns standard ES6 Promise?
     case 'fade':
@@ -134,32 +140,32 @@ export default View.extend({
       options.animate = true;
       return this.currentBeacon
         .fadeOut()
-        .then(function() {
-          removeBeacon(self);
-          addBeacon(self, NextBeacon, selector, options);
+        .then(() => {
+          removeBeacon(this);
+          addBeacon(this, NextBeacon, selector, options);
         })
         .done(); // TODO: can this be removed if fadeOut returns standard ES6 Promise?
     case 'swap':
       return Animations.swapBeacons({
         $el: container,
-        swap: function() {
-          const isLoading = isLoadingBeacon(self.currentBeacon);
+        swap: () => {
+          const isLoading = isLoadingBeacon(this.currentBeacon);
 
           // Order of these calls is important for -
           // loader --> security/factor beacon swap.
-          removeBeacon(self);
+          removeBeacon(this);
           if (isLoading) {
             container.removeClass(LOADING_BEACON_CLS);
-            self.$el.removeClass(NO_BEACON_CLS);
+            this.$el.removeClass(NO_BEACON_CLS);
           }
-          addBeacon(self, NextBeacon, selector, options);
+          addBeacon(this, NextBeacon, selector, options);
         },
       }).done(); // TODO: can this be removed if Animations.swapBeacons returns standard ES6 Promise?
     case 'load':
       // Show the loading beacon. Add a couple of classes
       // before triggering the add beacon code.
       container.addClass(LOADING_BEACON_CLS);
-      addBeacon(self, NextBeacon, selector, options);
+      addBeacon(this, NextBeacon, selector, options);
       return Animations.explode(container);
     case 'unload':
       // Hide the loading beacon.
@@ -167,34 +173,33 @@ export default View.extend({
     default:
       throw new Error('the "' + transition + '" is not recognized');
     }
-  },
+  }
 
   // Show the loading beacon when the security image feature is not enabled.
-  setLoadingBeacon: function(isLoading) {
+  setLoadingBeacon(isLoading) {
     if (!isLoading || isLoadingBeacon(this.currentBeacon)) {
       return;
     }
     this.setBeacon(LoadingBeacon, { loading: true });
-  },
+  }
 
   // Hide the beacon on primary auth failure. On primary auth success, setBeacon does this job.
-  removeLoadingBeacon: function() {
-    const self = this;
+  removeLoadingBeacon() {
     const container = this.$('[data-type="beacon-container"]');
 
     return Animations.implode(container)
-      .then(function() {
-        removeBeacon(self);
+      .then(() => {
+        removeBeacon(this);
         container.removeClass(LOADING_BEACON_CLS);
       })
       .done(); // TODO: can this be removed if Animations.implode returns standard ES6 Promise?
-  },
+  }
 
-  getTemplateData: function() {
+  getTemplateData() {
     return this.settings.toJSON({ verbose: true });
-  },
+  }
 
-  getContentEl: function() {
+  getContentEl() {
     return this.$('.auth-content-inner');
-  },
-});
+  }
+}

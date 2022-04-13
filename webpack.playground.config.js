@@ -35,7 +35,7 @@ module.exports = {
     level: 'warn',
   },
   entry: {
-    'playground.js': [`${PLAYGROUND}/main.js`]
+    'playground.js': [`${PLAYGROUND}/main.ts`]
   },
   output: {
     path: `${PLAYGROUND}/target`,
@@ -45,17 +45,25 @@ module.exports = {
     }
   },
   devtool: 'source-map',
+  resolve: {
+    // Add `.ts` and `.tsx` as a resolvable extension.
+    extensions: ['.ts', '.tsx', '.js']
+  },
   module: {
     rules: [
+      // all files with a `.ts` or `.tsx` extension will be handled by `preset-typescript`
       {
-        test: /\.js$/,
+        test: /\.[jt]sx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
           configFile: false, // do not load from babel.config.js
           babelrc: false, // do not load from .babelrc
           presets: [
-            // '@babel/preset-env'
+            // preset-env is disabled for a better debugging experience.
+            // It can be enabled if necessary to run playground on IE11
+            // '@babel/preset-env',
+            '@babel/preset-typescript' // must run before preset-env: https://github.com/babel/babel/issues/12066
           ]
         }
       },

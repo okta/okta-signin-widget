@@ -10,19 +10,35 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import {
+  IdxContext,
+  IdxMessages,
+  IdxResponse,
+  RawIdxResponse
+} from '@okta/okta-auth-js';
 import { loc } from 'okta';
 
-export function isInvalidRecoveryTokenError(error) {
+export interface LegacyIdxError {
+  error: string;
+  details: IdxResponse
+}
+
+export interface StandardApiError {
+  error: string;
+  error_description: string;
+}
+
+export function isInvalidRecoveryTokenError(error): error is StandardApiError {
   // special case: error from interact when passing an (invalid) recovery token
   return (error?.error === 'invalid_request' && error.error_description === 'The recovery token is invalid');
 }
 
-export function formatInvalidRecoveryTokenError(error) {
+export function formatInvalidRecoveryTokenError(error: StandardApiError) {
   // This error comes from `oauth2/interact` so is not an IDX error.
   // simulate an IDX-JS error response
-  error = formatIDXError(error);
-  const { details } = error;
-  const messages = {
+  const idxError = formatIDXError(error);
+  const { details } = idxError;
+  const messages: IdxMessages = {
     type: 'array',
     value: [
       {
@@ -36,21 +52,21 @@ export function formatInvalidRecoveryTokenError(error) {
   };
   details.rawIdxState.messages = messages;
   details.context.messages = messages;
-  return error;
+  return idxError;
 }
 
-export function isOIENotEnabledError(error) {
+export function isOIENotEnabledError(error): error is StandardApiError {
   // special case: error from interact. `useInteractionCodeFlow` is true but the Org does not have OIE enabled
   // The response is not in IDX format. See playground/mocks/data/oauth2/error-feature-not-enabled.json
   return (error?.error === 'access_denied' && error.error_description);
 }
 
-export function formatOIENotEnabledError(error) {
+export function formatOIENotEnabledError(error: StandardApiError) {
   // This error comes from `oauth2/interact` so the error is in OAuth format
   // simulate an IDX-JS error response
-  error = formatIDXError(error);
-  const { details } = error;
-  const messages = {
+  const idxError = formatIDXError(error);
+  const { details } = idxError;
+  const messages: IdxMessages = {
     type: 'array',
     value: [
       {
@@ -67,21 +83,22 @@ export function formatOIENotEnabledError(error) {
   return error;
 }
 
-export function isOIEConfigurationError(error) {
+export function isOIEConfigurationError(error): error is StandardApiError {
   return (error?.error && error.error_description);
 }
 
 export function formatOIEConfigurationError(error) {
   // This error comes from `oauth2/interact` so the error is in OAuth format
   // simulate an IDX-JS error response
-  error = formatIDXError(error);
-  const { details } = error;
-  const messages = {
+  const idxError = formatIDXError(error);
+  const { details } = idxError;
+  const messages: IdxMessages = {
     type: 'array',
     value: [
       {
         message: loc('oie.configuration.error', 'login'),
-        class: 'ERROR'
+        class: 'ERROR',
+        i18n: undefined
       }
     ],
   };
@@ -90,22 +107,24 @@ export function formatOIEConfigurationError(error) {
   return error;
 }
 
-export function formatIDXError(error) {
+export function formatIDXError(error: LegacyIdxError | StandardApiError | Error): LegacyIdxError {
   // Make the error object resemble an IDX response
-  error.details = error.details || {};
-  const { details } = error;
-  details.rawIdxState = details.rawIdxState || {};
-  details.context = details.context || {};
+  const idxError = error as LegacyIdxError;
+  idxError.details = idxError.details || {} as IdxResponse;
+  const { details } = idxError;
+  details.rawIdxState = details.rawIdxState || {} as RawIdxResponse;
+  details.context = details.context || {} as IdxContext;
   details.neededToProceed = details.neededToProceed || [];
 
   // Populate generic error message if there isn't any.
   if (!details.rawIdxState.messages) {
-    const idxMessage = {
+    const idxMessage: IdxMessages = {
       type: 'array',
       value: [
         {
           message: loc('oform.error.unexpected', 'login'),
-          class: 'ERROR'
+          class: 'ERROR',
+          i18n: undefined
         }
       ]
     };
@@ -113,10 +132,10 @@ export function formatIDXError(error) {
     details.context.messages = idxMessage;
   }
 
-  return error;
+  return idxError;
 }
 
-export function formatError(error) {
+export function formatError(error: string | Error | LegacyIdxError | StandardApiError) {
   // If the error is a string, wrap it in an Error object
   if (typeof error === 'string') {
     error = new Error(error);

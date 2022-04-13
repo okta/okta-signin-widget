@@ -19,6 +19,7 @@ module.exports = function(grunt) {
       DIST                  = 'dist/dist',
       SASS                  = 'target/sass',
       I18N_SRC              = 'packages/@okta/i18n/src',
+      COURAGE_TYPES         = 'packages/@okta/courage-dist/types',
       // Note: 3000 is necessary to test against certain browsers in SauceLabs
       DEFAULT_SERVER_PORT   = 3000;
 
@@ -28,6 +29,19 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     copy: {
+      'types': {
+        files: [
+          {
+            expand: true,
+            cwd: COURAGE_TYPES,
+            src: [
+              '**/*.d.ts'
+            ],
+            dest: `types/generated/${COURAGE_TYPES}`
+          }
+        ]
+      },
+
       'app-to-target': {
         files: [
           // i18n files
@@ -226,7 +240,8 @@ module.exports = function(grunt) {
       'generate-config': 'yarn generate-config',
       'run-protractor': 'yarn protractor',
       'pseudo-loc': 'node scripts/buildtools pseudo-loc',
-      'prepack': 'node scripts/buildtools build:prepack'
+      'prepack': 'node scripts/buildtools build:prepack',
+      'build-types': 'yarn build:types'
     },
 
     sass: {
@@ -365,14 +380,22 @@ module.exports = function(grunt) {
     }
   );
 
+  grunt.task.registerTask('codegen', function() {
+    const tasks = [
+      'propertiesToJSON', // convert .properties to .json
+      'exec:generate-config', // populates src/config.json with supported languages
+      'exec:build-types', // generate typescript declaration files
+    ];
+    grunt.task.run(tasks);
+  });
+
   grunt.task.registerTask('assets', function(target) {
     const prodBuild = target === 'release';
     const buildTasks = [
       'copy:generate-in-translation',
-      'propertiesToJSON',
+      'codegen',
       'copy:app-to-target',
       // 'exec:pseudo-loc', // TODO: Add after OKTA-379995 is completed
-      'exec:generate-config', // populates src/config.json with supported languages
       'sass:build',
     ];
 

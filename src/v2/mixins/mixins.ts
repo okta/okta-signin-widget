@@ -1,8 +1,14 @@
 import { _ } from 'okta';
 
+declare module 'okta' {
+  interface OktaUnderscore {
+    nestedOmit(obj: Record<string, any>, names): Record<string, any>
+  }
+}
+
 _.mixin({
   nestedOmit: function(obj, names) {
-    var result = _.omit(obj, names);
+    let result = _.omit(obj, names);
 
     if (names.includes(result.name)) {
       result = _.omit(result, 'value');

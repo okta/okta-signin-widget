@@ -11,3 +11,8 @@ vendor
 test/unit/helpers/xhr/
 !.eslintrc.js
 playground/mocks/data/idp/idx/error-empty-response.json
+types/.eslintrc.js
+types/generated
+types/**/*.test-d.ts
+packages/@okta/courage-for-signin-widget/src/courage
+packages/@okta/courage-dist/types

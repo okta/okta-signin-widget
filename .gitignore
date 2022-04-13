@@ -24,3 +24,4 @@ packages/@okta/i18n/dist/
 test-reports/
 package-lock.json
 .eslintcache
+types/generated

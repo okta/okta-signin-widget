@@ -1,8 +1,9 @@
 import { OktaAuth } from '@okta/okta-auth-js';
 import Util from 'util/Util';
 import config from 'config/config.json';
+import { WidgetOptions } from 'types';
 
-export default function(options = {}) {
+export default function(options: WidgetOptions = {}): OktaAuth {
   // if authClient is set, authParams are disregarded
   let { authClient, authParams } = options;
 

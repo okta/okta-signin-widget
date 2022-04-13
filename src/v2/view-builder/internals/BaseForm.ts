@@ -1,7 +1,7 @@
 import hbs from 'handlebars-inline-precompile';
 
 import { _, Form, loc, internal, createCallout, View } from 'okta';
-import FormInputFactory from './FormInputFactory';
+import * as FormInputFactory from './FormInputFactory';
 
 const { FormUtil } = internal.views.forms.helpers;
 const INFO_MESSAGE_CLASS = 'INFO';
@@ -47,9 +47,9 @@ export default Form.extend({
     this.listenTo(this, 'cancel', this.cancelForm);
   },
 
-  focus() {
+  focus(...args) {
     if (this.settings.get('features.autoFocus')) {
-      Form.prototype.focus.apply(this, arguments);
+      Form.prototype.focus.apply(this, args);
     }
   },
 

@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Model } from 'okta';
+import { Model, ModelProperty } from 'okta';
 import Logger from 'util/Logger';
 import {
   FORMS_WITHOUT_SIGNOUT,
@@ -25,63 +25,76 @@ import { executeHooksBefore, executeHooksAfter } from 'util/Hooks';
 /**
  * Keep track of stateMachine with this special model. Similar to `src/models/AppState.js`
  */
-export default Model.extend({
 
-  local: {
-    user: 'object',        // optional
-    currentFormName: 'string',
-    idx: 'object',
-    remediations: 'array',
-    dynamicRefreshInterval: 'number',
-    deviceFingerprint: 'string',
-    hooks: 'object' // instance of models/Hooks
+const local: Record<string, ModelProperty> = {
+  user: 'object',        // optional
+  currentFormName: 'string',
+  idx: 'object',
+  remediations: 'array',
+  dynamicRefreshInterval: 'number',
+  deviceFingerprint: 'string',
+  hooks: 'object' // instance of models/Hooks
+};
+
+const derived: Record<string, ModelProperty> = {
+  authenticatorProfile: {
+    deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment'],
+    fn(currentAuthenticator = { profile: undefined }, currentAuthenticatorEnrollment = { profile: undefined }) {
+      return currentAuthenticator.profile
+        || currentAuthenticatorEnrollment.profile
+        || {};
+    },
   },
-
-  derived: {
-    authenticatorProfile: {
-      deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment'],
-      fn(currentAuthenticator = {}, currentAuthenticatorEnrollment = {}) {
-        return currentAuthenticator.profile
-          || currentAuthenticatorEnrollment.profile
-          || {};
-      },
+  authenticatorKey: {
+    deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment'],
+    fn(currentAuthenticator = { key: undefined }, currentAuthenticatorEnrollment = { key: undefined }) {
+      return currentAuthenticator.key
+        || currentAuthenticatorEnrollment.key
+        || '';
     },
-    authenticatorKey: {
-      deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment'],
-      fn(currentAuthenticator = {}, currentAuthenticatorEnrollment = {}) {
-        return currentAuthenticator.key
-          || currentAuthenticatorEnrollment.key
-          || '';
-      },
+  },
+  authenticatorMethodType: {
+    deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment'],
+    fn(currentAuthenticator = { methods: undefined }, currentAuthenticatorEnrollment = { methods: undefined }) {
+      return currentAuthenticator.methods && currentAuthenticator.methods[0].type
+        || currentAuthenticatorEnrollment.methods && currentAuthenticatorEnrollment.methods[0].type
+        || '';
     },
-    authenticatorMethodType: {
-      deps: ['currentAuthenticator', 'currentAuthenticatorEnrollment'],
-      fn(currentAuthenticator = {}, currentAuthenticatorEnrollment = {}) {
-        return currentAuthenticator.methods && currentAuthenticator.methods[0].type
-          || currentAuthenticatorEnrollment.methods && currentAuthenticatorEnrollment.methods[0].type
-          || '';
-      },
-    },
-    isPasswordRecovery: {
-      deps: ['recoveryAuthenticator'],
-      fn: function(recoveryAuthenticator = {}) {
-        return recoveryAuthenticator?.type === 'password';
-      }
+  },
+  isPasswordRecovery: {
+    deps: ['recoveryAuthenticator'],
+    fn: function(recoveryAuthenticator = { type: undefined }) {
+      return recoveryAuthenticator?.type === 'password';
     }
-  },
+  }
+};
+
+export type AppStateProps = typeof local & typeof derived;
+
+export default class AppState extends Model {
+
+  get<A extends Backbone._StringKey<AppStateProps>>(attributeName: A): any {
+    return Model.prototype.get.call(this, attributeName);
+  }
+
+  preinitialize(...args) {
+    this.local = local;
+    this.derived = derived;
+    Model.prototype.preinitialize.apply(this, args);
+  }
 
   isIdentifierOnlyView() {
     return !this.get('remediations')?.find(({ name }) => name === 'identify')
       ?.uiSchema?.find(({ name }) => name === 'credentials.passcode');
-  },
+  }
 
   hasRemediationObject(formName) {
     return this.get('idx').neededToProceed.find((remediation) => remediation.name === formName);
-  },
+  }
 
   hasActionObject(actionName) {
     return !!this.get('idx')?.actions?.[actionName];
-  },
+  }
 
   getRemediationAuthenticationOptions(formName) {
     const form = this.hasRemediationObject(formName);
@@ -94,7 +107,7 @@ export default Model.extend({
     authenticatorOptions = [...authenticatorOptions]; //clone it since we are changing it for OV
     createOVOptions(authenticatorOptions);
     return authenticatorOptions;
-  },
+  }
 
   getActionByPath(actionPath) {
     const paths = actionPath.split('.');
@@ -112,7 +125,7 @@ export default Model.extend({
     } else {
       return null;
     }
-  },
+  }
 
   getCurrentViewState() {
     const currentFormName = this.get('currentFormName');
@@ -132,7 +145,7 @@ export default Model.extend({
     }
 
     return currentViewState;
-  },
+  }
 
   /**
    * Returns ui schema of the form field from current view state
@@ -145,7 +158,7 @@ export default Model.extend({
       const uiSchema = currentViewState.uiSchema;
       return uiSchema.find(({ name }) => name === fieldName);
     }
-  },
+  }
 
   /**
    * Returns the displayName of the authenticator
@@ -158,7 +171,7 @@ export default Model.extend({
     // For enrollment and certain verification flows, the currentAuthenticator object will be present.
     // If not, we're likely in a traditional verify/challenge flow.
     return currentAuthenticator.displayName || currentAuthenticatorEnrollment.displayName;
-  },
+  }
 
   /**
    * Checks to see if we're in an authenticator challenge flow.
@@ -167,7 +180,7 @@ export default Model.extend({
   isAuthenticatorChallenge() {
     const currentFormName = this.get('currentFormName');
     return FORMS_FOR_VERIFICATION.includes(currentFormName);
-  },
+  }
 
   shouldReRenderView(transformedResponse) {
     if (transformedResponse?.idx?.hasFormError) {
@@ -185,7 +198,7 @@ export default Model.extend({
     }
 
     return this._isReRenderRequired(identicalResponse, transformedResponse, previousRawState);
-  },
+  }
 
   getRefreshInterval(transformedResponse) {
     // Only polling refresh interval has changed in the response,
@@ -196,7 +209,7 @@ export default Model.extend({
     return currentViewState.refresh ||
       transformedResponse.currentAuthenticatorEnrollment?.poll?.refresh ||
       transformedResponse.currentAuthenticator?.poll?.refresh;
-  },
+  }
 
   // Sign Out link will be displayed in the footer of a form, unless:
   // - widget configuration set hideSignOutLinkInMFA or mfaOnlyFlow to true
@@ -209,7 +222,7 @@ export default Model.extend({
     return !hideSignOutLinkInMFA
       && _.isFunction(idxActions?.cancel)
       && !FORMS_WITHOUT_SIGNOUT.includes(currentFormName);
-  },
+  }
 
   containsMessageWithI18nKey(keys) {
     if (!Array.isArray(keys)) {
@@ -218,18 +231,18 @@ export default Model.extend({
     const messagesObjs = this.get('messages');
     return messagesObjs && Array.isArray(messagesObjs.value)
       && messagesObjs.value.some(messagesObj => _.contains(keys, messagesObj.i18n?.key));
-  },
+  }
 
   containsMessageStartingWithI18nKey(keySubStr) {
     const messagesObjs = this.get('messages');
     return messagesObjs && Array.isArray(messagesObjs.value)
       && messagesObjs.value.some(messagesObj => messagesObj.i18n?.key.startsWith(keySubStr));
-  },
+  }
 
   clearAppStateCache() {
     // clear appState before setting new values
     const attrs = {};
-    for (var key in this.attributes) {
+    for (const key in this.attributes) {
       if (key !== 'currentFormName') {
         attrs[key] = void 0;
       }
@@ -237,7 +250,7 @@ export default Model.extend({
     this.set(attrs, Object.assign({}, { unset: true, silent: true }));
     // clear cache for derived props.
     this.trigger('cache:clear');
-  },
+  }
 
   async setIonResponse(transformedResponse, hooks) {
     const doRerender = this.shouldReRenderView(transformedResponse);
@@ -270,11 +283,11 @@ export default Model.extend({
 
       await executeHooksAfter(hook);
     }
-  },
+  }
 
-  getUser: function() {
+  getUser() {
     return this.get('user');
-  },
+  }
 
   _isReRenderRequired(identicalResponse, transformedResponse, previousRawState) {
     let reRender = true;
@@ -312,7 +325,7 @@ export default Model.extend({
       reRender = true;
     }
     return reRender;
-  },
+  }
 
   /**
    * This is to account for the edge case introduced by this issue: OKTA-419210. With the current idx remediations,
@@ -329,4 +342,4 @@ export default Model.extend({
 
     return isSameExceptMessages && isChallengeAuthenticator && isCurrentAuthenticatorEmail;
   }
-});
+}

@@ -88,6 +88,6 @@ const create = function(remediation = {}, optionUiSchemaConfig = {}) {
   return BaseModel;
 };
 
-module.exports = {
+export default {
   create,
 };

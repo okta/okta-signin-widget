@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "backbone": ["../node_modules/@types/backbone/index.d.ts"]
+    }
+  }
+}

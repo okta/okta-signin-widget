@@ -1,12 +1,22 @@
 module.exports = {
   'root': true,
   'extends': [
-    'plugin:@okta/okta/courage-app' // apply courage-app rules to all files including properties
+    'plugin:@okta/okta/courage-app', // apply courage-app rules to all files including properties
   ],
   'parser': 'babel-eslint',
   'parserOptions': {
     'sourceType': 'module',
     'ecmaVersion': 2017
+  },
+  'plugins': [
+    '@typescript-eslint',
+    'import',
+    'compat'
+  ],
+  'settings': {
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts']
+    },
   },
   'overrides': [
     {
@@ -80,16 +90,23 @@ module.exports = {
       },
     },
     {
-      'files': ['src/**/*.js'],
+      'files': ['src/**/*'],
       'extends': [
         'plugin:compat/recommended',
+        'plugin:import/recommended'
       ],
       'settings': {
+        'import/resolver': {
+          'typescript': {
+            'project': './'
+          }
+        },
         'polyfills': [
           'Promise' // Assume Promise is polyfilled for IE11
         ]
       },
       'rules': {
+        'import/no-named-as-default-member': 0, // TODO: enable and fix usage with Q
         'local-rules/no-bare-templates': 2, // we dont want no-bare-templates rule to be applied to test files
       },
       'env': {
@@ -127,6 +144,23 @@ module.exports = {
         'local-rules/no-missing-keys': 2,
         'local-rules/no-missing-api-keys': 2,
       },
+    },
+    {
+      files: ['**/*.ts'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        ecmaVersion: 2020
+      },
+      extends: [
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended',
+      ],
+      rules: {
+        // TODO: enable these rules
+        '@typescript-eslint/no-explicit-any': 0,
+        '@typescript-eslint/no-empty-function': 0,
+        '@typescript-eslint/explicit-module-boundary-types': 0
+      }
     }
   ],
 };

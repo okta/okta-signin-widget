@@ -256,7 +256,7 @@ const VIEWS_MAPPING = {
   },
 };
 
-module.exports = {
+export default {
   create(formName, authenticatorKey = DEFAULT) {
     const config = VIEWS_MAPPING[formName];
     if (!config) {

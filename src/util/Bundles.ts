@@ -20,6 +20,17 @@ import BrowserFeatures from 'util/BrowserFeatures';
 import Logger from 'util/Logger';
 const STORAGE_KEY = 'osw.languages';
 
+declare type i18nOptions = {
+  [localeOrCountry: string]: {
+    [i18nKey: string]: string;
+  }
+}
+
+declare type Assets = {
+  baseUrl: string;
+  rewrite(origPath: string): string;
+}
+
 /**
  * Converts options to our internal format, which distinguishes between
  * login and country bundles.
@@ -130,14 +141,11 @@ function addLanguageToCache(language, loginJson, countryJson) {
 // is to use the Okta CDN and to use the same path + file structure the
 // widget module publishes by default.
 function fetchJson(bundle, language, assets) {
-  let languageCode;
-  let path;
-
   // Our bundles use _ to separate country and region, i.e:
   // zh-CN -> zh_CN
-  languageCode = language.replace('-', '_');
+  const languageCode = language.replace('-', '_');
 
-  path = assets.rewrite(encodeURI(`/labels/json/${bundle}_${languageCode}.json`));
+  const path = assets.rewrite(encodeURI(`/labels/json/${bundle}_${languageCode}.json`));
 
   const headers = {
     Accept: 'application/json',
@@ -201,15 +209,15 @@ export default {
 
   currentLanguage: null,
 
-  isLoaded: function(language) {
+  isLoaded: function(language: string): boolean {
     return this.currentLanguage === language;
   },
 
-  remove: function() {
+  remove: function(): void {
     this.currentLanguage = null;
   },
 
-  loadLanguage: function(language, overrides, assets, supportedLanguages) {
+  loadLanguage: function(language: string, overrides: i18nOptions, assets: Assets, supportedLanguages: string[]): Q.Promise<void> {
     const parsedOverrides = parseOverrides(overrides);
     const lowerCaseLanguage = language.toLowerCase();
     return getBundles(language, assets, supportedLanguages).then(bundles => {

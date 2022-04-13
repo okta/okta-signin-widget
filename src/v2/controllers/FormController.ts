@@ -16,6 +16,19 @@ import { getV1ClassName } from '../ion/ViewClassNamesFactory';
 import { FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/RemediationConstants';
 import Util from '../../util/Util';
 import sessionStorageHelper from '../client/sessionStorageHelper';
+import { HttpResponse } from '@okta/okta-auth-js';
+
+export interface ContextData {
+  controller: string;
+  formName: string;
+  authenticatorKey?: string;
+  methodType?: string;
+}
+
+export interface ErrorContextData {
+  xhr: HttpResponse;
+  errorSummary?: string;
+}
 
 export default Controller.extend({
   className: 'form-controller',
@@ -78,9 +91,9 @@ export default Controller.extend({
     this.render();
   },
 
-  handleAfterError(error = {}) {
+  handleAfterError(error: HttpResponse) {
     const contextData = this.createAfterEventContext();
-    const errorContextData = {
+    const errorContextData: ErrorContextData = {
       xhr: error,
       errorSummary: error.responseJSON && error.responseJSON.errorSummary,
     };
@@ -89,7 +102,7 @@ export default Controller.extend({
     this.trigger('afterError', contextData, errorContextData);
   },
 
-  createAfterEventContext() {
+  createAfterEventContext(): ContextData {
     const formName = this.options.appState.get('currentFormName');
     const authenticatorKey = this.options.appState.get('authenticatorKey');
     const methodType = this.options.appState.get('authenticatorMethodType');
@@ -102,7 +115,7 @@ export default Controller.extend({
       isPasswordRecoveryFlow,
     );
 
-    const eventData = {
+    const eventData: ContextData = {
       controller: v1ControllerClassName,
       formName,
     };

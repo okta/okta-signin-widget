@@ -1,4 +1,4 @@
-import { Collection, _, loc, createButton } from 'okta';
+import { Collection, _, loc, createButton, ButtonOptions } from 'okta';
 
 import AuthenticatorEnrollOptions from '../components/AuthenticatorEnrollOptions';
 import AuthenticatorVerifyOptions from '../components/AuthenticatorVerifyOptions';
@@ -9,8 +9,15 @@ import AdminScopeList from '../../../views/admin-consent/ScopeList';
 import EnduserScopeList from '../../../views/consent/ScopeList';
 import CaptchaView from '../views/captcha/CaptchaView';
 
+// TODO: remove ambient declaration patch after courage type has been updated: OKTA-488758
+declare module 'okta' {
+  interface ButtonOptions {
+    attributes?: Record<string, any> | undefined;
+    className?: string | undefined;
+  }
+}
 
-const isTextOverflow = (text, maxWidth) => {
+const isTextOverflowing = (text, maxWidth) => {
   // Create a temporary element and attach it to the document so we can compare the client width to the 
   // max width allowed.
   const elem = document.createElement('div');
@@ -27,7 +34,7 @@ const isTextOverflow = (text, maxWidth) => {
 };
 
 const createAuthenticatorEnrollSelectView = (opt) => {
-  var optionItems = (opt.options || [])
+  const optionItems = (opt.options || [])
     .map(opt => {
       return Object.assign({}, opt, getAuthenticatorDataForEnroll(opt));
     });
@@ -110,7 +117,7 @@ const createPIVButton = (settings, appState) => {
     return [];
   }
   const pivConfig = settings.get('piv');
-  let className = pivConfig.className || '';
+  const className = pivConfig.className || '';
   return [{
     attributes: {
       'data-se': 'piv-card-button',
@@ -166,7 +173,7 @@ const createIdpButtons = ({ settings, appState }) => {
       displayName = loc(`socialauth.${type}.label`, 'login');
     }
 
-    let classNames = [
+    const classNames = [
       'social-auth-button',
       `social-auth-${type}-button`,
     ];
@@ -179,7 +186,7 @@ const createIdpButtons = ({ settings, appState }) => {
       classNames.push(idpObject.idp.className);
     }
 
-    const button = {
+    const button: ButtonOptions = {
       attributes: {
         'data-se': `social-auth-${type}-button`,
       },
@@ -188,7 +195,7 @@ const createIdpButtons = ({ settings, appState }) => {
       href: idpObject.href,
     };
 
-    if (isTextOverflow(displayName, MAX_IDP_BUTTON_WIDTH)) {
+    if (isTextOverflowing(displayName, MAX_IDP_BUTTON_WIDTH)) {
       // We add a tooltip in case the name gets truncated if too long
       button.attributes.title = displayName;
     }
@@ -221,10 +228,10 @@ const addCustomButton = (customButtonSettings) => {
   });
 };
 
-module.exports = {
+export {
   create,
   createIdpButtons,
   createCustomButtons,
   addCustomButton,
-  isTextOverflowing: isTextOverflow
+  isTextOverflowing
 };
