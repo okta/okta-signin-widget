@@ -1,5 +1,6 @@
 import { OktaAuthInterface, Tokens } from '@okta/okta-auth-js';
-import { EventCallback, EventCallbackWithError, RenderOptions, WidgetOptions } from './options';
+import { RenderOptions, WidgetOptions } from './options';
+import { EventCallback, EventCallbackWithError, } from './events';
 import { RenderError, RenderResult } from './results'
 export interface HooksAPI {
   before(eventName, hookFn): void;

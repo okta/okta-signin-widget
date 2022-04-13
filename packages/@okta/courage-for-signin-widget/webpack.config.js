@@ -70,10 +70,6 @@ const webpackConfig = {
   resolve: {
     extensions: ['.js', '.ts'],
     alias: {
-
-      // jsons is from StringUtil
-      'vendor/lib/json2': EMPTY,
-
       // util/handlebars-wrapper -> moment
       // It's used for formatting date in handlebar template.
       // signin-widget doesn't use that feature hence it's safe to comment out.

@@ -17,6 +17,7 @@ import { FORMS, TERMINAL_FORMS, FORM_NAME_TO_OPERATION_MAP } from '../ion/Remedi
 import Util from '../../util/Util';
 import sessionStorageHelper from '../client/sessionStorageHelper';
 import { HttpResponse } from '@okta/okta-auth-js';
+import { EventErrorContext } from 'types/events';
 
 export interface ContextData {
   controller: string;
@@ -93,7 +94,7 @@ export default Controller.extend({
 
   handleAfterError(error: HttpResponse) {
     const contextData = this.createAfterEventContext();
-    const errorContextData: ErrorContextData = {
+    const errorContextData: EventErrorContext = {
       xhr: error,
       errorSummary: error.responseJSON && error.responseJSON.errorSummary,
     };

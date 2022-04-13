@@ -239,33 +239,6 @@ export type Feature =
   'showPasswordRequirementsAsHtmlList' |
   'mfaOnlyFlow';
 
-// Events
-export type EventName =
-  'ready' |
-  'afterError' |
-  'afterRender';
-
-export interface EventContext {
-  controller: string;
-}
-export interface EventData {
-  page: string;
-}
-export interface EventError {
-  name: string;
-  message: string;
-  statusCode?: number;
-  xhr?: ErrorXHR;
-}
-export interface ErrorXHR {
-  status: number;
-  responseType: 'json';
-  responseText: string;
-  responseJSON: Error;
-}
-export type EventCallback = (context: EventContext, error?: EventError) => void;
-export type EventCallbackWithError = (context: EventContext, error: EventError) => void;
-
 export type HookFunction = () => Promise<void>;
 export interface HookDefinition {
   before?: HookFunction[];

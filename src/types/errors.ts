@@ -14,3 +14,10 @@ export interface ApiError {
   errorLink?: string;
   errorCauses?: Array<FieldError>;
 }
+
+export interface ErrorXHR {
+  status: number;
+  responseType?: string;
+  responseText: string;
+  responseJSON?: { [propName: string]: any; };
+}
