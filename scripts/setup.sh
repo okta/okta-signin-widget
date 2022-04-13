@@ -17,7 +17,9 @@ cd ${OKTA_HOME}/${REPO}
 if [ ! -z "$AUTHJS_VERSION" ]; then
   echo "Installing BETA VERSION: ${AUTHJS_VERSION}"
   npm config set strict-ssl false
-  yarn add -DW --no-lockfile https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/${AUTHJS_BETA_VERSION}.tgz
+  # Exit if yarn errors
+  set -e
+  yarn add -DW --no-lockfile https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-${AUTHJS_BETA_VERSION}.tgz
   echo "BETA VERSION installed: ${AUTHJS_VERSION}"
 fi
 
