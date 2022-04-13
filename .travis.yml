@@ -18,5 +18,6 @@ env:
   matrix:
   - TEST_SUITE=lint
   - TEST_SUITE="test -t karma"
+  - TEST_SUITE=test:tsd
   - TEST_SUITE=test:testcafe-ci
   - TEST_SUITE="test -t jest"

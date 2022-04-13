@@ -48,3 +48,10 @@ test_suites:
       script_name: publish
       criteria: MERGE
       queue_name: small
+    - name: tsd
+      script_path: /root/okta/okta-signin-widget/scripts
+      sort_order: '9'
+      timeout: '15'
+      script_name: tsd
+      criteria: MERGE
+      queue_name: small
