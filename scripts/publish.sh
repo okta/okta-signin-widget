@@ -22,12 +22,6 @@ if ! yarn build:release; then
   exit ${TEST_FAILURE}
 fi
 
-# Verify package
-if ! $OKTA_HOME/$REPO/scripts/verify-package.sh; then
-  echo "package verification failed! Exiting..."
-  exit ${TEST_FAILURE}
-fi
-
 pushd ./dist
 
 ### Not able to use 'yarn publish' which failed at

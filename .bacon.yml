@@ -1,30 +1,51 @@
 test_suites:
-    - name: lint
+    - name: publish
       script_path: /root/okta/okta-signin-widget/scripts
       sort_order: '1'
+      timeout: '10'
+      script_name: publish
+      criteria: MERGE
+      queue_name: small
+    - name: verify-package
+      script_path: /root/okta/okta-signin-widget/scripts
+      sort_order: '2'
+      timeout: '10'
+      script_name: verify-package
+      criteria: MERGE
+      queue_name: small
+    - name: lint
+      script_path: /root/okta/okta-signin-widget/scripts
+      sort_order: '3'
       timeout: '10'
       script_name: lint
       criteria: MERGE
       queue_name: small
-    - name: unit-karma
-      script_path: /root/okta/okta-signin-widget/scripts
-      sort_order: '2'
-      timeout: '15'
-      script_name: unit-karma
-      criteria: MERGE
-      queue_name: small
     - name: unit-jest
       script_path: /root/okta/okta-signin-widget/scripts
-      sort_order: '3'
+      sort_order: '4'
       timeout: '15'
       script_name: unit-jest
       criteria: MERGE
       queue_name: small
     - name: testcafe
       script_path: /root/okta/okta-signin-widget/scripts
-      sort_order: '4'
+      sort_order: '5'
       timeout: '30'
       script_name: testcafe
+      criteria: MERGE
+      queue_name: small
+    - name: e2e
+      script_path: /root/okta/okta-signin-widget/scripts
+      sort_order: '6'
+      timeout: '20'
+      script_name: e2e
+      criteria: MERGE
+      queue_name: small
+    - name: tsd
+      script_path: /root/okta/okta-signin-widget/scripts
+      sort_order: '7'
+      timeout: '15'
+      script_name: tsd
       criteria: MERGE
       queue_name: small
     - name: detect-english-leaks
@@ -34,24 +55,10 @@ test_suites:
       script_name: detect-english-leaks
       criteria: MERGE
       queue_name: small
-    - name: e2e
-      script_path: /root/okta/okta-signin-widget/scripts
-      sort_order: '5'
-      timeout: '20'
-      script_name: e2e
-      criteria: MERGE
-      queue_name: small
-    - name: publish
-      script_path: /root/okta/okta-signin-widget/scripts
-      sort_order: '7'
-      timeout: '10'
-      script_name: publish
-      criteria: MERGE
-      queue_name: small
-    - name: tsd
+    - name: unit-karma
       script_path: /root/okta/okta-signin-widget/scripts
       sort_order: '9'
       timeout: '15'
-      script_name: tsd
+      script_name: unit-karma
       criteria: MERGE
       queue_name: small

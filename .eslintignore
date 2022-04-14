@@ -5,7 +5,6 @@ target
 test-reports
 
 packages/**/*.js
-scripts
 assets
 vendor
 test/unit/helpers/xhr/
