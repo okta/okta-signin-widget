@@ -9,7 +9,7 @@ function verifyAuthJSVersion() {
   }
 
   const regex = /^(\d)+\.(\d)+\.(\d)+$/;
-  if (regex.test(version) !== true)
+  if (regex.test(version) !== true) {
     throw new Error(`Invalid/beta version for okta-auth-js: ${version}`);
   }
   console.log(`okta-auth-js version is valid: ${version}`);
@@ -17,16 +17,16 @@ function verifyAuthJSVersion() {
 
 function verifyPackageContents() {
   const expect = require('expect');
-  const package = require('../../../package.json');
+  const pkg = require('../../../package.json');
   const report = require('../../../test-reports/pack-report.json');
 
-  expect(package.version).toBeTruthy();
+  expect(pkg.version).toBeTruthy();
   expect(report.length).toBe(1);
 
   const manifest = report[0];
   expect(manifest.name).toEqual('@okta/okta-signin-widget');
-  expect(manifest.version).toEqual(package.version);
-  expect(manifest.filename).toBe(`okta-okta-signin-widget-${package.version}.tgz`);
+  expect(manifest.version).toEqual(pkg.version);
+  expect(manifest.filename).toBe(`okta-okta-signin-widget-${pkg.version}.tgz`);
 
   // package size
   const ONE_MB = 1000000;
@@ -59,7 +59,7 @@ function verifyPackageContents() {
       throw new Error(`Expected file ${filename} was not found in the package`);
     }
   });
-  console.log(`Package size is within expected range: ${manifest.size / ONE_MB} MB, ${manifest.entryCount} files`)
+  console.log(`Package size is within expected range: ${manifest.size / ONE_MB} MB, ${manifest.entryCount} files`);
 }
 
 exports.handler = function() {

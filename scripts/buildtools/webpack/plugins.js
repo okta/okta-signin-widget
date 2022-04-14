@@ -31,7 +31,7 @@ function devMode() {
 }
 
 function failOnBuildFail() {
-  const FailOnBuildPlugin = function () {};
+  const FailOnBuildPlugin = function() {};
   FailOnBuildPlugin.prototype.apply = function(compiler) {
     compiler.hooks.done.tap('Fail on build', (stats) => {
 

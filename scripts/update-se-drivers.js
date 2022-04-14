@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const axios = require('axios');
 const { execSync, execFileSync } = require('child_process');
 
@@ -40,7 +41,7 @@ axios.get(chromeDriverUrl).then((response) => {
   const chromeDriverVersion = response.data;
   console.log(`Chrome Driver Version - ${chromeDriverVersion}`);
 
-  execFileSync(`${__dirname}/../node_modules/protractor/bin/webdriver-manager`, ["update",  "--versions.chrome", chromeDriverVersion, "--gecko", "false", "--versions.standalone", "latest"]);
+  execFileSync(`${__dirname}/../node_modules/protractor/bin/webdriver-manager`, ['update',  '--versions.chrome', chromeDriverVersion, '--gecko', 'false', '--versions.standalone', 'latest']);
   console.log('Webdriver was updated');
 }).catch((err) => {
   console.log(err);
