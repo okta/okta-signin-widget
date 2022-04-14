@@ -110,23 +110,6 @@ type Display =
   'popup' |
   'page';
 
-
-// type ResponseMode =
-//   'okta_post_message' |
-//   'fragment' |
-//   'query' |
-//   'form_post';
-// type ResponseType =
-//   'code' |
-//   'token' |
-//   'id_token';
-// type Scope =
-//   'openid' |
-//   'email' |
-//   'profile' |
-//   'address' |
-//   'phone';
-
 // Render options
 export type RenderOptions = Omit<WidgetOptions,
   'authClient' |
