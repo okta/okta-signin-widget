@@ -1,8 +1,15 @@
 import Settings from 'models/Settings';
 import Errors from 'util/Errors';
-import idx from '@okta/okta-idx-js';
 import RAW_IDX_RESPONSE from 'helpers/v2/idx/fullFlowResponse';
 import { handleConfiguredFlow } from '../../../../../src/v2/client';
+
+function makeIdxState(rawIdxResponse) {
+  const clonedResponse = JSON.parse(JSON.stringify(rawIdxResponse));
+  return {
+    neededToProceed: clonedResponse.remediation.value,
+    proceed: () => {}
+  };
+}
 
 describe('v2/client/handleConfiguredFlow', () => {
   let testContext;
@@ -26,7 +33,7 @@ describe('v2/client/handleConfiguredFlow', () => {
     jest.spyOn(settings, 'getAuthClient').mockReturnValue(authClient);
     testContext.settings = settings;
 
-    testContext.idxState = idx.makeIdxState(RAW_IDX_RESPONSE);
+    testContext.idxState = makeIdxState(RAW_IDX_RESPONSE);
     jest.spyOn(testContext.idxState, 'proceed').mockResolvedValue(options.flow || 'noflow');
 
     
@@ -70,10 +77,6 @@ describe('v2/client/handleConfiguredFlow', () => {
   it('flow=RESET_PASSWORD', async () => {
     const flow = 'resetPassword';
     const { settings, idxState } = setup({flow});
-
-    expect(typeof idxState.actions['currentAuthenticator-recover']).toBe('function');
-    jest.spyOn(idxState.actions, 'currentAuthenticator-recover').mockResolvedValue(flow);
-
     const idx = await handleConfiguredFlow(idxState, settings);
     expect(idx).toBe(idxState);
   });

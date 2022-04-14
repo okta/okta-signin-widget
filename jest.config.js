@@ -27,7 +27,12 @@ module.exports = {
     '^handlebars$': 'handlebars/runtime',
 
     // auth-js has a browser and server version. we want the browser version
-    '^@okta/okta-auth-js$': '<rootDir>/node_modules/@okta/okta-auth-js/dist/okta-auth-js.umd.js',
+    '^@okta/okta-auth-js$': [
+      // When using yarn link
+      '<rootDir>/node_modules/@okta/okta-auth-js/build/dist/okta-auth-js.umd.js',
+      // When using installed module
+      '<rootDir>/node_modules/@okta/okta-auth-js/dist/okta-auth-js.umd.js',
+    ],
 
     // idx-js uses cross-fetch. Force it to use the browser version so our spies work
     '^cross-fetch$': '<rootDir>/node_modules/cross-fetch/dist/browser-ponyfill.js',
