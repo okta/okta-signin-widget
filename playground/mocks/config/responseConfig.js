@@ -184,11 +184,11 @@ const idx = {
     'error-authenticator-phone-voice-ratelimit',
   ],
   '/idp/idx/enroll/new': [
-    //'authenticator-enroll-email',
-    //'authenticator-enroll-email-emailmagiclink-true',
-    //'authenticator-enroll-email-emailmagiclink-false',
     'error-new-signup-email',
     'error-new-signup-email-exists'
+    // 'authenticator-enroll-email',
+    // 'authenticator-enroll-email-emailmagiclink-true',
+    //'authenticator-enroll-email-emailmagiclink-false'
   ],
   '/idp/idx/cancel': [
     'identify',
