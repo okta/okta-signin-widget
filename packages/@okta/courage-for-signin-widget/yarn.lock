@@ -25,12 +25,17 @@
   dependencies:
     "@babel/helper-module-imports" "^7.0.0"
 
-"@okta/courage@4.5.0-5968-gc3347fe":
-  version "4.5.0-5968-gc3347fe"
-  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/courage/-/@okta/courage-4.5.0-5968-gc3347fe.tgz#5f4723f8e936a07c2954a1bffad5c6e3bb0eeae5"
-  integrity sha1-X0cj+Ok2oHwpVKG/+tXG47sO6uU=
+"@okta/courage@4.5.0-6808-g94b3c99":
+  version "4.5.0-6808-g94b3c99"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-all/@okta/courage/-/@okta/courage-4.5.0-6808-g94b3c99.tgz#438f093e70ec39a0b7353edec80f0dee06360ae4"
+  integrity sha1-Q48JPnDsOaC3NT7eyA8N7gY2CuQ=
   dependencies:
     "@okta/jquery.simplemodal" "1.4.19-g8b711ea"
+    "@types/backbone" "^1.4.10"
+    "@types/jqueryui" "^1.12.16"
+    "@types/selectize" "^0.12.35"
+    "@types/underscore" "^1.11.4"
+    "@types/vkbeautify" "^0.99.2"
     backbone "1.4.0"
     clipboard "^1.5.16"
     handlebars "4.7.7"
@@ -59,6 +64,14 @@
   resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/@polka/url/-/url-1.0.0-next.21.tgz#5de5a2385a35309427f6011992b544514d559aa1"
   integrity sha1-XeWiOFo1MJQn9gEZkrVEUU1VmqE=
 
+"@types/backbone@^1.4.10":
+  version "1.4.15"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/@types/backbone/-/backbone-1.4.15.tgz#505323ab8fea11ecaec74cb3f73d569a4e5eb779"
+  integrity sha1-UFMjq4/qEeyux0yz9z1Wmk5et3k=
+  dependencies:
+    "@types/jquery" "*"
+    "@types/underscore" "*"
+
 "@types/eslint-scope@^3.7.0":
   version "3.7.1"
   resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/@types/eslint-scope/-/eslint-scope-3.7.1.tgz#8dc390a7b4f9dd9f1284629efce982e41612116e"
@@ -80,6 +93,20 @@
   resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/@types/estree/-/estree-0.0.50.tgz#1e0caa9364d3fccd2931c3ed96fdbeaa5d4cca83"
   integrity sha1-Hgyqk2TT/M0pMcPtlv2+ql1MyoM=
 
+"@types/jquery@*":
+  version "3.5.14"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/@types/jquery/-/jquery-3.5.14.tgz#ac8e11ee591e94d4d58da602cb3a5a8320dee577"
+  integrity sha1-rI4R7lkelNTVjaYCyzpagyDe5Xc=
+  dependencies:
+    "@types/sizzle" "*"
+
+"@types/jqueryui@^1.12.16":
+  version "1.12.16"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/@types/jqueryui/-/jqueryui-1.12.16.tgz#9e319f7db39490db950cba77fe83887e0ad3e1d9"
+  integrity sha1-njGffbOUkNuVDLp3/oOIfgrT4dk=
+  dependencies:
+    "@types/jquery" "*"
+
 "@types/json-schema@*", "@types/json-schema@^7.0.8":
   version "7.0.9"
   resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/@types/json-schema/-/json-schema-7.0.9.tgz#97edc9037ea0c38585320b28964dde3b39e4660d"
@@ -89,6 +116,26 @@
   version "16.11.6"
   resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/@types/node/-/node-16.11.6.tgz#6bef7a2a0ad684cf6e90fcfe31cecabd9ce0a3ae"
   integrity sha1-a+96KgrWhM9ukPz+Mc7KvZzgo64=
+
+"@types/selectize@^0.12.35":
+  version "0.12.35"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/@types/selectize/-/selectize-0.12.35.tgz#61cc9353f21e09b267a5a8b133cf819706562d39"
+  integrity sha1-YcyTU/IeCbJnpaixM8+BlwZWLTk=
+
+"@types/sizzle@*":
+  version "2.3.3"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/@types/sizzle/-/sizzle-2.3.3.tgz#ff5e2f1902969d305225a047c8a0fd5c915cebef"
+  integrity sha1-/14vGQKWnTBSJaBHyKD9XJFc6+8=
+
+"@types/underscore@*", "@types/underscore@^1.11.4":
+  version "1.11.4"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/@types/underscore/-/underscore-1.11.4.tgz#62e393f8bc4bd8a06154d110c7d042a93751def3"
+  integrity sha1-YuOT+LxL2KBhVNEQx9BCqTdR3vM=
+
+"@types/vkbeautify@^0.99.2":
+  version "0.99.2"
+  resolved "https://artifacts.aue1d.saasure.com:443/artifactory/api/npm/npm-okta-master/@types/vkbeautify/-/vkbeautify-0.99.2.tgz#f6431c9fb245556257628b0c8a111816e62de16d"
+  integrity sha1-9kMcn7JFVWJXYosMihEYFuYt4W0=
 
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
