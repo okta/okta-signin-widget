@@ -1,6 +1,21 @@
 exports.command = 'verify-package';
 exports.describe = 'Verifies that the NPM package has the correct format';
-exports.handler = function() {
+
+function verifyAuthJSVersion() {
+  const version = require('@okta/okta-auth-js/package.json').version;
+  if (process.env['upstream_artifact']) {
+    console.log(`Skipping verification of okta-auth-js version for downstream artifact build: ${version}`);
+    return;
+  }
+
+  const regex = /^(\d)+\.(\d)+\.(\d)+$/;
+  if (regex.test(version) !== true)
+    throw new Error(`Invalid/beta version for okta-auth-js: ${version}`);
+  }
+  console.log(`okta-auth-js version is valid: ${version}`);
+}
+
+function verifyPackageContents() {
   const expect = require('expect');
   const package = require('../../../package.json');
   const report = require('../../../test-reports/pack-report.json');
@@ -44,7 +59,12 @@ exports.handler = function() {
       throw new Error(`Expected file ${filename} was not found in the package`);
     }
   });
+  console.log(`Package size is within expected range: ${manifest.size / ONE_MB} MB, ${manifest.entryCount} files`)
+}
 
+exports.handler = function() {
+  verifyAuthJSVersion();
+  verifyPackageContents();
   console.log('verify-package finished successfully');
 };
 
