@@ -1,5 +1,6 @@
 import { AuthSdkError, OktaAuth, TokenResponse, Tokens } from '@okta/okta-auth-js';
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+import OktaSignIn, { RenderResult, RenderResultSuccess } from '@okta/okta-signin-widget';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import getOktaSignIn from './getOktaSignIn';
 import ConfigArea, { ConfigTemplate } from './configArea';
@@ -8,7 +9,7 @@ import {
   getConfigFromStorage,
   getDefaultConfig
 } from './config';
-import { Config, OktaSignIn, RenderResponse } from './types';
+import { Config } from './types';
 
 
 const ActionsTemplate = `
@@ -215,14 +216,15 @@ export default class TestApp {
       this.oktaSignIn = await getOktaSignIn(config);
       this.oktaSignIn.renderEl({
         el: '#okta-login-container'
-      }, (res: RenderResponse) => {
-        if (res.status === 'SUCCESS' && res.session) {
-          const baseUrl = getBaseUrl(config);
-          res.session.setCookieAndRedirect(baseUrl + '/app/UserHome');
-        }
-        if (res.tokens) {
-          this.setTokens(res.tokens);
-          this.oktaSignIn.remove();
+      }, (res: RenderResult) => {
+        if (res.status === 'SUCCESS') {
+          if (res.tokens) {
+            this.setTokens(res.tokens);
+            this.oktaSignIn.remove();
+          } else if (res.session) {
+            const baseUrl = getBaseUrl(config);
+            res.session.setCookieAndRedirect(baseUrl + '/app/UserHome');
+          }
         }
       });
     });
@@ -239,7 +241,7 @@ export default class TestApp {
     this.showSignInButton.addEventListener('click', async () => {
       const config = this.getConfig();
       this.oktaSignIn = await getOktaSignIn(config);
-      this.oktaSignIn.showSignIn({ el: '#okta-login-container' }).then((res: TokenResponse) => {
+      this.oktaSignIn.showSignIn({ el: '#okta-login-container' }).then((res: RenderResultSuccess) => {
         if (res.tokens) {
           this.setTokens(res.tokens);
           this.oktaSignIn.remove();
@@ -264,7 +266,7 @@ export default class TestApp {
       this.oktaSignIn = await getOktaSignIn(config);
       this.oktaSignIn.renderEl(
         { el: '#okta-login-container' },
-        (res: RenderResponse) => {
+        (res: RenderResult) => {
           if (res.status !== 'SUCCESS') {
             return;
           }
@@ -354,7 +356,7 @@ export default class TestApp {
     if (authClient.idx.isEmailVerifyCallback(window.location.search)) {
       const { state, otp } = authClient.idx.parseEmailVerifyCallback(window.location.search);
       this.oktaSignIn = await getOktaSignIn({ ...config, state, otp });
-      this.oktaSignIn.showSignIn({ el: '#okta-login-container' }).then((res: TokenResponse) => {
+      this.oktaSignIn.showSignIn({ el: '#okta-login-container' }).then((res: RenderResultSuccess) => {
         if (res.tokens) {
           this.setTokens(res.tokens);
           this.oktaSignIn.remove();

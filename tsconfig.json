@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": ".",
+    "baseUrl": ".",
+    "outDir": "./types/generated",
+    "target": "es6",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "checkJs": false,
+    "plugins": [
+       // transform absolute paths to relative based on "paths" configuration below
+      { "transform": "@zerollup/ts-transform-paths" },
+    ],
+    "paths": {
+      "nls/*": ["./packages/@okta/i18n/src/json/*"],
+      "okta": ["./packages/@okta/courage-dist/types/CourageForSigninWidget"],
+      "handlebars-inline-precompile": ["./scripts/buildtools/tsc/handlebars-inline-precompile"],
+      "duo": ["./packages/vendor/duo_web_sdk/index.js"],
+      "qtip": ["./packages/@okta/qtip2/dist/jquery.qtip.min.js"],
+      "typingdna": ["./packages/vendor/TypingDnaRecorder-JavaScript/typingdna"],
+      "*": ["./src/*"]
+    }
+  },
+  "include": [
+    "types/global*"
+  ],
+  "files": [
+    "src/index.ts"
+  ]
+}

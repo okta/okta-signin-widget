@@ -25,23 +25,11 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.[jt]s$/,
         exclude: [/node_modules/, /dist/],
         use: {
           loader: 'babel-loader'
         }
-      },
-      {
-        test: /\.ts$/,
-        exclude: [/node_modules/, /dist/],
-        use: [
-          {
-            loader: 'babel-loader'
-          },
-          {
-            loader: 'ts-loader'
-          }
-        ]
       }
     ]
   },

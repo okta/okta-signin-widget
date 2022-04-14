@@ -19,6 +19,7 @@ import { waitForLoad } from '../util/waitUtil';
 
 When(
   /^user logs in with username and password$/,
+  // eslint-disable-next-line no-unused-vars
   async function(this: ActionContext) {
     return await PrimaryAuthPage.login(this.credentials.emailAddress, this.credentials.password);
   }
@@ -26,6 +27,7 @@ When(
 
 When(
   /^user logs in using 3rd party IdP$/,
+  // eslint-disable-next-line no-unused-vars
   async function(this: ActionContext) {
     const {
       WIDGET_BASIC_USER,

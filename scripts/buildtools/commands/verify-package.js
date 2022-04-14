@@ -19,8 +19,8 @@ exports.handler = function() {
   expect(manifest.size).toBeLessThan(12 * ONE_MB);
 
   // files
-  expect(manifest.entryCount).toBeGreaterThan(300);
-  expect(manifest.entryCount).toBeLessThan(400);
+  expect(manifest.entryCount).toBeGreaterThan(900);
+  expect(manifest.entryCount).toBeLessThan(1200);
 
   // A sampling of expected files
   const expectedFiles = [
@@ -33,7 +33,10 @@ exports.handler = function() {
     'dist/labels/json/login_ru.json',
     'dist/sass/_fonts.scss',
     'dist/font/okticon.ttf',
-    'dist/font/okticon.woff'
+    'dist/font/okticon.woff',
+    'types/index.d.ts',
+    'types/generated/src/index.d.ts',
+    'types/generated/packages/@okta/courage-dist/types/courage/framework/Model.d.ts'
   ];
 
   expectedFiles.forEach((filename) => {

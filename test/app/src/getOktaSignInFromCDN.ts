@@ -1,4 +1,5 @@
-import { Config, OktaSignIn } from "./types";
+import OktaSignIn from '@okta/okta-signin-widget';
+import { Config } from "./types";
 
 declare global {
   interface Window {

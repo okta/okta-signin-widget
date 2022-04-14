@@ -13,7 +13,7 @@
 import { View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 
-const Link = View.extend({
+export default View.extend({
 
   template: hbs('{{label}}'),
 
@@ -61,5 +61,3 @@ const Link = View.extend({
     }
   }
 });
-
-module.exports = Link;

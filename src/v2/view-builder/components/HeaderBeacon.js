@@ -12,7 +12,7 @@
 import { View } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 
-const BeaconView = View.extend({
+export default View.extend({
 
   template: hbs`
     <div data-type="beacon-container" class="beacon-container">
@@ -42,5 +42,3 @@ const BeaconView = View.extend({
     return 'undefined-user';
   }
 });
-
-module.exports = BeaconView;

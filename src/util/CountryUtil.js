@@ -10,8 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { _ } from 'okta';
-import { loc } from 'okta';
+import { _, loc } from 'okta';
 import bundles from './Bundles';
 import countryCallingCodes from './countryCallingCodes';
 const fn = {};

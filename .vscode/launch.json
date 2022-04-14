@@ -29,7 +29,11 @@
       "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v12.13.0/bin/node",
       "args": [
           "chrome",
-          "${relativeFile}"
+          "${relativeFile}",
+          "--browser-init-timeout",
+          "1000000",
+          "--page-load-timeout",
+          "1000000"
       ],
       "console": "integratedTerminal",
       "cwd": "${workspaceRoot}"

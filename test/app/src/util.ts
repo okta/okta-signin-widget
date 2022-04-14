@@ -9,7 +9,7 @@
  * 
  * See the License for the specific language governing permissions and limitations under the License.
  */
-
+import { UnknownFn } from './types';
 
 export function htmlString(obj: Record<string, string>): string {
   return JSON.stringify(obj, null, 2).replace(/\n/g, '<br/>').replace(/ /g, '&nbsp;');
@@ -34,8 +34,9 @@ export function toQueryString(obj: Record<string, string>): string {
   }
 }
 
-export function makeClickHandler(fn: Function): Function {
-  return function(event: Event): void {
+
+export function makeClickHandler(fn: UnknownFn): UnknownFn {
+  return function(event: Event) {
     event && event.preventDefault(); // prevent navigation / page reload
     return fn();
   };

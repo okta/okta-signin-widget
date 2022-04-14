@@ -5,10 +5,24 @@
   ],
   "plugins": [
     "jasmine",
-    "webdriverio"
+    "webdriverio",
+    "@typescript-eslint"
   ],
   "env": {
     "webdriverio/wdio": true,
     "jasmine": true
-  }
+  },
+  "rules": {
+    "@typescript-eslint/explicit-module-boundary-types": 0
+  },
+  "overrides": [
+    {
+      "files": ["**/*/.ts"],
+      "parser": "@typescript-eslint/parser",
+      "extends": [
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+      ]
+    }
+  ]
 }

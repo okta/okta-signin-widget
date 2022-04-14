@@ -13,6 +13,12 @@ if grep -q "${RESTRICTED_URL_SECTION}" "${REPO}/yarn.lock"; then
   exit 1
 fi
 
+# generated code is also linted
+if ! yarn codegen; then
+  echo "build failed! Exiting..."
+  exit ${TEST_FAILURE}
+fi
+
 if ! yarn lint:report; then
   echo "lint failed! Exiting..."
   # PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL will invoke bacon to parse results and display number of tests

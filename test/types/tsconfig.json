@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "lib": [
+      "es6", "DOM"
+    ],
+    "noEmit": true,
+    "strict": true,
+    "alwaysStrict": true,
+    "noUnusedParameters": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": false,
+    "moduleResolution": "node",
+    "target": "es2017",
+    "baseUrl": ".",
+    "paths": {
+      "@okta/okta-signin-widget": [
+        "../"
+      ]
+    }
+  },
+  "include": [
+    "*.test-d.ts"
+  ]
+}
