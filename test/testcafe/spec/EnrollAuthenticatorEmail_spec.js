@@ -121,7 +121,7 @@ test
 
     await t.expect(enrollEmailPageObject.getCodeFieldError()).contains('Invalid code. Try again.');
     await t.expect(enrollEmailPageObject.form.getErrorBoxText()).contains('We found some errors.');
-});
+  });
 
 test
   .requestHooks(invalidOTPMockWithoutEmailMagicLink)('enroll with invalid OTP and without EML', async t => {
@@ -135,7 +135,7 @@ test
 
     await t.expect(enrollEmailPageObject.getCodeFieldError()).contains('Invalid code. Try again.');
     await t.expect(enrollEmailPageObject.form.getErrorBoxText()).contains('We found some errors.');
-});
+  });
 
 test
   .requestHooks(sendEmailMockWithoutEmailMagicLink)('send me an email button should take to challenge email authenticator screen without email magic link text', async t => {
@@ -150,7 +150,7 @@ test
     await t.expect(await enrollEmailPageObject.enterCodeFromEmailLinkExists()).notOk();
     await t.expect(await enrollEmailPageObject.signoutLinkExists()).ok();
     await t.expect(enrollEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
-});
+  });
 
 test
   .requestHooks(sendEmailMockWithEmailMagicLink)('send me an email button should take to challenge email authenticator screen with email magic link text', async t => {
@@ -165,7 +165,7 @@ test
     await t.expect(await enrollEmailPageObject.enterCodeFromEmailLinkExists()).ok();
     await t.expect(await enrollEmailPageObject.signoutLinkExists()).ok();
     await t.expect(enrollEmailPageObject.getSignoutLinkText()).eql('Back to sign in');
-});
+  });
 
 test
   .requestHooks(logger, validOTPmock)('enroll with valid OTP', async t => {
@@ -247,7 +247,7 @@ test
     });
     await t.expect(answerRequestMethod).eql('post');
     await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/challenge/answer');
-});
+  });
 
 test
   .requestHooks(logger, validOTPmockWithoutEmailMagicLink)('enroll with valid OTP and without EML', async t => {
@@ -288,7 +288,7 @@ test
     });
     await t.expect(answerRequestMethod).eql('post');
     await t.expect(answerRequestUrl).eql('http://localhost:3000/idp/idx/challenge/answer');
-});
+  });
 
 test
   .requestHooks(logger, validOTPmock)('resend after 30 seconds', async t => {
@@ -378,7 +378,7 @@ test
     await t.expect(jsonBody).eql({'stateHandle':'eyJ6aXAiOiJER'});
     await t.expect(lastRequestMethod).eql('post');
     await t.expect(lastRequestUrl).eql('http://localhost:3000/idp/idx/challenge/resend');
-});
+  });
 
 test
   .requestHooks(logger, validOTPmockWithoutEmailMagicLink)('resend after 30 seconds without EML', async t => {
@@ -423,7 +423,7 @@ test
     await t.expect(jsonBody).eql({'stateHandle':'eyJ6aXAiOiJER'});
     await t.expect(lastRequestMethod).eql('post');
     await t.expect(lastRequestUrl).eql('http://localhost:3000/idp/idx/challenge/resend');
-});
+  });
 
 test
   .requestHooks(logger, validOTPmock)('resend after 30 seconds at most even after re-render', async t => {
@@ -445,7 +445,7 @@ test
     await t.wait(15500);
     await t.expect(enrollEmailPageObject.resendEmail.isHidden()).notOk();
     await t.expect(enrollEmailPageObject.resendEmail.getText()).eql('Haven\'t received an email? Send again');
-});
+  });
 
 test
   .requestHooks(logger, validOTPmockWithoutEmailMagicLink)('resend after 30 seconds at most even after re-render', async t => {
@@ -456,4 +456,4 @@ test
     await t.wait(15500);
     await t.expect(enrollEmailPageObject.resendEmail.isHidden()).notOk();
     await t.expect(enrollEmailPageObject.resendEmail.getText()).eql('Haven\'t received an email? Send again');
-});
+  });
