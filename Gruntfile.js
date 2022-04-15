@@ -239,7 +239,7 @@ module.exports = function(grunt) {
       },
       build: {
         files: {
-          [`${__dirname}/target/css/okta-sign-in.css`]: SASS + '/okta-sign-in.scss'
+          'target/css/okta-sign-in.css': SASS + '/okta-sign-in.scss'
         }
       }
     },

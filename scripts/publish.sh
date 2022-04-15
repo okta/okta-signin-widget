@@ -28,6 +28,12 @@ if ! $OKTA_HOME/$REPO/scripts/verify-package.sh; then
   exit ${TEST_FAILURE}
 fi
 
+# Verify package
+if ! $OKTA_HOME/$REPO/scripts/verify-sass-sourcemap.sh; then
+  echo "sourcemap verification failed! Exiting..."
+  exit ${TEST_FAILURE}
+fi
+
 pushd ./dist
 
 ### Not able to use 'yarn publish' which failed at
