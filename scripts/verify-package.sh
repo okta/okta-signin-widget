@@ -17,4 +17,8 @@ pushd dist
 npm pack --dry-run --json > ../test-reports/pack-report.json
 popd
 
-node ./scripts/buildtools verify-package
+if ! node ./scripts/buildtools verify-package
+then
+  echo "verification failed! Exiting..."
+  exit ${TEST_FAILURE}
+fi
