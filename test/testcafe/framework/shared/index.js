@@ -47,8 +47,3 @@ export const Constants = {
 export const getStateHandleFromSessionStorage = ClientFunction(() => {
   return window.sessionStorage.getItem('osw-oie-state-handle');
 });
-
-export function getAuthJSVersion() {
-  const JSON = require('@okta/okta-auth-js/package.json');
-  return JSON.version;
-}

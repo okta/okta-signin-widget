@@ -1,7 +1,7 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import SelectFactorPageObject from '../framework/page-objects/SelectAuthenticatorPageObject';
 import IdentityPageObject from '../framework/page-objects/IdentityPageObject';
-import { checkConsoleMessages, renderWidget as rerenderWidget, getAuthJSVersion } from '../framework/shared';
+import { checkConsoleMessages, renderWidget as rerenderWidget } from '../framework/shared';
 import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
 import xhrErrorIdentify from '../../../playground/mocks/data/idp/idx/error-identify-access-denied';
 import xhrAuthenticatorVerifySelect from '../../../playground/mocks/data/idp/idx/authenticator-verification-select-authenticator';
@@ -125,8 +125,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should be able to submit
   await t.expect(req.method).eql('post');
   await t.expect(req.url).eql('http://localhost:3000/idp/idx/identify');
   await t.expect(reqHeaders['x-device-fingerprint']).notOk(); // only enabled if `features.deviceFingerprinting` is true
-  const authJSVersion = getAuthJSVersion();
-  await t.expect(reqHeaders['x-okta-user-agent-extended']).eql(`okta-auth-js/${authJSVersion} okta-signin-widget-${config.version}`);
+  await t.expect(reqHeaders['x-okta-user-agent-extended']).contains(` okta-signin-widget-${config.version}`);
 
   identifyRequestLogger.clear();
   await identityPage.fillIdentifierField('another foobar');

@@ -2,12 +2,12 @@ exports.command = 'verify-package';
 exports.describe = 'Verifies that the NPM package has the correct format';
 
 function verifyAuthJSVersion() {
-  const version = require('@okta/okta-auth-js/package.json').version;
-  if (process.env['upstream_artifact']) {
-    console.log(`Skipping verification of okta-auth-js version for downstream artifact build: ${version}`);
+  if (/^d16t-okta-auth-js-.*/.test(process.env['BRANCH'])) {
+    console.log('Skipping verification of okta-auth-js version for downstream artifact build');
     return;
   }
 
+  const version = require('../../../node_modules/@okta/okta-auth-js/package.json').version;
   const regex = /^(\d)+\.(\d)+\.(\d)+$/;
   if (regex.test(version) !== true) {
     throw new Error(`Invalid/beta version for okta-auth-js: ${version}`);
