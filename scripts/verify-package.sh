@@ -17,7 +17,7 @@ pushd dist
 npm pack --dry-run --json > ../test-reports/pack-report.json
 popd
 
-if ! node ./scripts/buildtools verify-package 2>&1 | tee target/out.log
+if ! node ./scripts/buildtools verify-package 2> target/out.log
 then
   value=`tail -12 target/out.log`
   log_custom_message "${value}"

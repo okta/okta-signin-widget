@@ -63,8 +63,13 @@ function verifyPackageContents() {
 }
 
 exports.handler = function() {
-  verifyAuthJSVersion();
-  verifyPackageContents();
-  console.log('verify-package finished successfully');
+  try {
+    verifyAuthJSVersion();
+    verifyPackageContents();
+    console.log('verify-package finished successfully');
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
+  }
 };
 
