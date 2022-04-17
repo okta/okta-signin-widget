@@ -28,7 +28,7 @@ describe('v2/view-builder/views/IdentifierView', function() {
   beforeEach(function() { 
     testContext = {};
     testContext.init = (remediations = XHRIdentifyWithThirdPartyIdps.remediation.value) => {
-      const appState = new AppState();
+      const appState = new AppState({}, {});
       appState.set('remediations', remediations);
       testContext.view = new IdentifierView({
         appState,

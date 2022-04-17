@@ -21,7 +21,7 @@ describe('v2/view-builder/views/ov/EnrollPollOktaVerifyView', function() {
       };
       const appState = new AppState({
         currentAuthenticator
-      });
+      }, {});
       spyOn(appState, 'hasRemediationObject').and.callFake((formName) => formName === 'select-enrollment-channel');
       spyOn(appState, 'trigger');
       const settings = new Settings({ baseUrl: 'http://localhost:3000' });
@@ -68,7 +68,7 @@ describe('v2/view-builder/views/ov/EnrollPollOktaVerifyView', function() {
 
   it('switches to select enroll method form when on mobile', function(done) {
     MockUtil.mockIntrospect(done, xhrAuthenticatorEnrollOktaVerifyQr, async (idxResp) => {
-      const appState = new AppState();
+      const appState = new AppState({}, {});
       const settings = new Settings({ baseUrl: 'http://localhost:3000' });
       const ionResponse = transformIdxResponse(settings, idxResp);
       await appState.setIonResponse(ionResponse);

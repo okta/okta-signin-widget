@@ -199,15 +199,13 @@ describe('v2/BaseLoginRouter', function() {
       const { router, render, authClient } = testContext;
 
 
-      const { settings, appState } = router;
+      const { settings } = router;
       const error = new Error('test error');
       jest.spyOn(authClient.idx, 'start').mockRejectedValue(error);
-      jest.spyOn(appState, 'trigger');
       expect(settings.get('stateToken')).toBe('foo');
       expect(settings.get('proxyIdxResponse')).toBe(false);
   
       await render();
-      expect(appState.trigger).toHaveBeenCalledWith('error', error);
       expect(globalErrorFn).toHaveBeenCalledWith(error);
       expect(settings.get('stateToken')).toBe(undefined);
       expect(settings.get('proxyIdxResponse')).toBe(undefined);
