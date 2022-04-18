@@ -3,8 +3,6 @@ import { getCheckYourEmailTitle, getEnterCodeLink } from './AuthenticatorEmailVi
 
 const BaseAuthenticatorEmailForm = BaseAuthenticatorEmailView.prototype.Body;
 
-// Courage doesn't support HTML, hence creating a subtitle here.
-
 const Body = BaseAuthenticatorEmailForm.extend(
   Object.assign({
     noButtonBar: true,

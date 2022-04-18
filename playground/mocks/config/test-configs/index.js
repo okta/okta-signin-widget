@@ -19,4 +19,5 @@ module.exports = {
   SelectAuthenticatorForEnroll: require('./SelectAuthenticatorForEnroll'),
   SessionStorage: require('./SessionStorage'),
   WidgetCustomization: require('./WidgetCustomization'),
+  EnrollAuthenticatorEmail: require('./EnrollAuthenticatorEmail'),
 };

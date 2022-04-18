@@ -1,6 +1,7 @@
 import hbs from 'handlebars-inline-precompile';
 import { View } from 'okta';
 
+// Courage doesn't support HTML, hence creating a subtitle here.
 const CheckYourEmailTitle = View.extend({
   className: 'okta-form-subtitle',
   attributes: {
