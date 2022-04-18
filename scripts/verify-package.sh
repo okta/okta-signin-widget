@@ -23,7 +23,7 @@ popd
 if ! node ./scripts/buildtools verify-package 2> ./test-reports/verify-package/error.log
 then
   value=`cat ./test-reports/verify-package/error.log`
-  log_custom_message "${value}"
+  log_custom_message "Verification Failed" "${value}"
   echo "verification failed! Exiting..."
   exit ${TEST_FAILURE}
 fi
