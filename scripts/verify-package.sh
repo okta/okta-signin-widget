@@ -25,5 +25,7 @@ then
   value=`cat ./test-reports/verify-package/error.log`
   log_custom_message "Verification Failed" "${value}"
   echo "verification failed! Exiting..."
-  exit ${TEST_FAILURE}
+  exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
 fi
+
+exit $SUCCESS
