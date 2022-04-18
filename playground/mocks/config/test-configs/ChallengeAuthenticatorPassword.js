@@ -16,7 +16,17 @@ const mockCannotForgotPassword = {
   ]
 };
 
+const resetPasswordSuccess = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-password'
+  ],
+  '/idp/idx/challenge/answer': [
+    'terminal-reset-password-success'
+  ]
+};
+
 module.exports = {
   sessionExpiresDuringPassword,
-  mockCannotForgotPassword
+  mockCannotForgotPassword,
+  resetPasswordSuccess
 };

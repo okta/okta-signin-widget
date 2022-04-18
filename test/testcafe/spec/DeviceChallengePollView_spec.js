@@ -520,6 +520,8 @@ test
     await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('block');
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().innerText).eql('Cancel and take me to sign in');
 
+    await t.wait(5000); // wait for FASTPASS_FALLBACK_SPINNER_TIMEOUT
+
     await t.expect(deviceChallengePollPageObject.waitForPrimaryButtonAfterSpinner().innerText).eql('Open Okta Verify');
 
     await t.expect(deviceChallengePollPageObject.getAppLinkContent())

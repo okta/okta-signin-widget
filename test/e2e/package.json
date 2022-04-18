@@ -8,7 +8,6 @@
     "test": "yarn build && node ./runner.js"
   },
   "dependencies": {
-    "@okta/okta-auth-js": "^6.0.0",
     "@okta/okta-sdk-nodejs": "^6.2.0",
     "@okta/okta-signin-widget": "*"
   },

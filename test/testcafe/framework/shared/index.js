@@ -52,3 +52,16 @@ export function getAuthJSVersion() {
   const JSON = require('@okta/okta-auth-js/package.json');
   return JSON.version;
 }
+
+export async function assertRequestMatches(loggedRequest, url, method, body) {
+  let { request } = loggedRequest;
+  await t.expect(request.url).eql(url);
+  if (method) {
+    await t.expect(request.method).eql(method);
+  }
+  if (body) {
+    const requestBody = JSON.parse(request.body);
+
+    await t.expect(requestBody).eql(body);
+  }
+}

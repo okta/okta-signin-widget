@@ -93,6 +93,15 @@ const invalidOTPMockWithPoll = {
   ]
 };
 
+const terrminalConsentDeniedPollMock = {
+  '/idp/idx/introspect': [
+    'authenticator-verification-email-polling-very-short'
+  ],
+  '/idp/idx/challenge/poll': [
+    'terminal-enduser-email-consent-denied',
+  ],
+};
+
 module.exports = {
   sendEmailMock,
   sendEmailNoProfileMock,
@@ -102,5 +111,6 @@ module.exports = {
   dynamicRefreshShortIntervalMock,
   dynamicRefreshLongIntervalMock,
   stopPollMock,
-  invalidOTPMockWithPoll
+  invalidOTPMockWithPoll,
+  terrminalConsentDeniedPollMock
 };

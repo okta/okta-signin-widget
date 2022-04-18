@@ -3,6 +3,7 @@ import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnro
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import { checkConsoleMessages } from '../framework/shared';
 import xhrAuthenticatorExpiryWarningPassword from '../../../playground/mocks/data/idp/idx/authenticator-expiry-warning-password.json';
+import xhrErrorChangePasswordNotAllowed from '../../../playground/mocks/data/idp/idx/error-change-password-not-allowed';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
 const logger = RequestLogger(/challenge\/answer/,
@@ -31,6 +32,18 @@ const mockExpireToday = RequestMock()
 const mockExpireSoon = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrAuthenticatorExpiryWarningPasswordExpireSoon);
+
+const mockChangePasswordNotAllowed = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorExpiryWarningPassword)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond((req, res) => {
+    res.statusCode = '403';
+    res.headers['content-type'] = 'application/json';
+    res.setBody(xhrErrorChangePasswordNotAllowed);
+  })
+  .onRequestTo('http://localhost:3000/idp/idx/skip')
+  .respond(xhrSuccess);
 
 fixture('Password Authenticator Expiry Warning');
 
@@ -115,4 +128,29 @@ test
       credentials: { passcode: 'abcdabcd' },
       stateHandle: '022P5Fd8jBy3b77XEdFCqnjz__5wQxksRfrAS4z6wP'
     });
+  });
+
+test
+  .requestHooks(logger, mockChangePasswordNotAllowed)('can choose "skip" if password change is not allowed', async t => {
+    const passwordExpiryWarningPage = await setup(t);
+    const successPage = new SuccessPageObject(t);
+
+    await passwordExpiryWarningPage.fillPassword('abcdabcd');
+    await passwordExpiryWarningPage.fillConfirmPassword('abcdabcd');
+    await passwordExpiryWarningPage.clickNextButton();
+
+    await passwordExpiryWarningPage.waitForErrorBox();
+
+    const pageTitle = passwordExpiryWarningPage.getFormTitle();
+    await t.expect(pageTitle).eql('Your password will expire in 4 days');
+    const errorText = passwordExpiryWarningPage.form.getErrorBoxText();
+    await t.expect(errorText).eql('Change password not allowed on specified user.');
+    await passwordExpiryWarningPage.confirmPasswordFieldExists();
+    const skipText = await passwordExpiryWarningPage.getSkipLinkText();
+    await t.expect(skipText).eql('Remind me later');
+    await passwordExpiryWarningPage.clickSkipLink();
+
+    const pageUrl = await successPage.getPageUrl();
+    await t.expect(pageUrl)
+      .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
   });
