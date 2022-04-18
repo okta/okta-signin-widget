@@ -412,6 +412,7 @@ test
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Verifying your identity');
     await t.expect(deviceChallengePollPageObject.getFooterLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().innerText).eql('Cancel and take me to sign in');
+    await t.wait(1000); // wait a moment for all probes to fail
     await t.expect(loopbackChallengeWrongProfileLogger.count(
       record => record.response.statusCode === 200 &&
                 record.request.url.match(/introspect/)
@@ -519,6 +520,8 @@ test
 
     await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('block');
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().innerText).eql('Cancel and take me to sign in');
+
+    await t.wait(5000); // wait for FASTPASS_FALLBACK_SPINNER_TIMEOUT
 
     await t.expect(deviceChallengePollPageObject.waitForPrimaryButtonAfterSpinner().innerText).eql('Open Okta Verify');
 

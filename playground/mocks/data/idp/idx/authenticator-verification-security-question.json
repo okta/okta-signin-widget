@@ -252,6 +252,12 @@
   "currentAuthenticatorEnrollment": {
     "type": "object",
     "value": {
+      "contextualData": {
+        "enrolledQuestion": {
+          "question": "social",
+          "questionKey": "custom"
+        }
+      },
       "displayName": "Okta Security Question",
       "type": "security_question",
       "key": "security_question",

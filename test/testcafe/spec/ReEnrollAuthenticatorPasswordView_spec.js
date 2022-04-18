@@ -1,13 +1,17 @@
 import { RequestMock, RequestLogger } from 'testcafe';
 import FactorEnrollPasswordPageObject from '../framework/page-objects/FactorEnrollPasswordPageObject';
+import TerminalPageObject from '../framework/page-objects/TerminalPageObject';
+import IdentityPageObject from  '../framework/page-objects/IdentityPageObject';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
-import { checkConsoleMessages } from '../framework/shared';
+import { checkConsoleMessages, assertRequestMatches } from '../framework/shared';
 import xhrAuthenticatorExpiredPassword from '../../../playground/mocks/data/idp/idx/authenticator-expired-password';
 import xhrAuthenticatorExpiredPasswordNoComplexity from '../../../playground/mocks/data/idp/idx/authenticator-expired-password-no-complexity';
 import xhrAuthenticatorExpiredPasswordWithEnrollment from '../../../playground/mocks/data/idp/idx/authenticator-expired-password-with-enrollment-authenticator';
+import xhrAuthenticatorRecoveryPasswordFailure from '../../../playground/mocks/data/idp/idx/authenticator-recovery-password-failure';
+import xhrIdentify from '../../../playground/mocks/data/idp/idx/identify';
 import xhrSuccess from '../../../playground/mocks/data/idp/idx/success';
 
-const logger = RequestLogger(/challenge\/answer/,
+const logger = RequestLogger(/idp\/idx/,
   {
     logRequestBody: true,
     stringifyRequestBody: true,
@@ -31,6 +35,14 @@ const complexityInEnrollmentAuthenticatorMock = RequestMock()
   .respond(xhrAuthenticatorExpiredPasswordWithEnrollment)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSuccess);
+
+const errorPostPasswordUpdateMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrAuthenticatorExpiredPassword)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(xhrAuthenticatorRecoveryPasswordFailure)
+  .onRequestTo('http://localhost:3000/idp/idx/cancel')
+  .respond(xhrIdentify);
 
 fixture('Authenticator Expired Password');
 
@@ -119,15 +131,41 @@ test
     await t.expect(pageUrl)
       .eql('http://localhost:3000/app/UserHome?stateToken=mockedStateToken123');
 
-    let { request: { body, method, url } } = logger.requests[0];
-    await t.expect(url).eql('http://localhost:3000/idp/idx/challenge/answer');
-    await t.expect(method).eql('post');
-    const requestBody = JSON.parse(body);
-
-    await t.expect(requestBody).eql({
+    await t.expect(logger.count(() => true)).eql(2); // introspect, answer
+    await assertRequestMatches(logger.requests[0], 'http://localhost:3000/idp/idx/introspect');
+    await assertRequestMatches(logger.requests[1], 'http://localhost:3000/idp/idx/challenge/answer', 'post', {
       'stateHandle': '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
       'credentials': {
         'passcode': 'abcdabcd'
-      },
+      }
     });
+  });
+
+test
+  .requestHooks(logger, errorPostPasswordUpdateMock)('Shows an error if password cannot be udpated; user can cancel', async t => {
+    const expiredPasswordPage = await setup(t);
+    const terminalPageObject = new TerminalPageObject(t);
+    const identityPage = new IdentityPageObject(t);
+
+    await expiredPasswordPage.fillPassword('abcdabcd');
+    await expiredPasswordPage.fillConfirmPassword('abcdabcd');
+    await expiredPasswordPage.clickNextButton();
+
+    await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
+    await t.expect(terminalPageObject.getErrorMessages().getTextContent()).eql('Your password has been updated but there was a problem signing you in. Please try again or contact your administrator.');
+    await t.expect(await terminalPageObject.signoutLinkExists()).ok();
+
+    await terminalPageObject.clickSignOutLink();
+
+    await t.expect(identityPage.getPageTitle()).eql('Sign In');
+
+    await t.expect(logger.count(() => true)).eql(3); // introspect, answer, cancel
+    await assertRequestMatches(logger.requests[0], 'http://localhost:3000/idp/idx/introspect');
+    await assertRequestMatches(logger.requests[1], 'http://localhost:3000/idp/idx/challenge/answer', 'post', {
+      'stateHandle': '01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82',
+      'credentials': {
+        'passcode': 'abcdabcd'
+      }
+    });
+    await assertRequestMatches(logger.requests[2], 'http://localhost:3000/idp/idx/cancel');
   });

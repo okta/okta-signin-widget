@@ -135,6 +135,10 @@ export default class BasePageObject {
     return Selector(SKIP_LINK).textContent;
   }
 
+  async clickSkipLink() {
+    await this.t.click(Selector(SKIP_LINK));
+  }
+
   async skipSetUpLinkExists() {
     const elCount = await Selector(SKIP_SET_UP_LINK).count;
     return elCount === 1;

@@ -2322,14 +2322,6 @@
     core-js-pure "^3.0.0"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime-corejs3@^7.12.5":
-  version "7.12.13"
-  resolved "https://registry.yarnpkg.com/@babel/runtime-corejs3/-/runtime-corejs3-7.12.13.tgz#53d09813b7c20d616caf258e9325550ff701c039"
-  integrity sha512-8fSpqYRETHATtNitsCXq8QQbKJP31/KnDl2Wz2Vtui9nKzjss2ysuZtyVsWjBtvkeEFo346gkwjYPab1hvrXkQ==
-  dependencies:
-    core-js-pure "^3.0.0"
-    regenerator-runtime "^0.13.4"
-
 "@babel/runtime-corejs3@^7.17.0":
   version "7.17.8"
   resolved "https://registry.yarnpkg.com/@babel/runtime-corejs3/-/runtime-corejs3-7.17.8.tgz#d7dd49fb812f29c61c59126da3792d8740d4e284"
@@ -2995,27 +2987,6 @@
     node-properties-parser "^0.0.2"
     properties-to-json "^0.1.7"
 
-"@okta/okta-auth-js@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-6.0.0.tgz#5ec34f7d92f6c91a3efeef8a6441175693b6fa74"
-  integrity sha512-ivvAJJKxYKIWIP1dP7Fz8M2j29ie3N+mJ39q4WAWYuUuyzdhmzAWYTIMrUowDsn/6bARDEj6HcIsXHZhFMqEqQ==
-  dependencies:
-    "@babel/runtime" "^7.12.5"
-    "@okta/okta-idx-js" "0.24.0"
-    "@peculiar/webcrypto" "1.1.6"
-    Base64 "1.1.0"
-    atob "^2.1.2"
-    btoa "^1.2.1"
-    core-js "^3.6.5"
-    cross-fetch "^3.0.6"
-    js-cookie "2.2.1"
-    node-cache "^5.1.2"
-    p-cancelable "^2.0.0"
-    text-encoding "^0.7.0"
-    tiny-emitter "1.1.0"
-    webcrypto-shim "^0.1.5"
-    xhr2 "0.1.3"
-
 "@okta/okta-auth-js@^6.4.0":
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-6.4.0.tgz#96ffa804e299b5284ab128409249923b17e5a42c"
@@ -3038,16 +3009,6 @@
     tiny-emitter "1.1.0"
     webcrypto-shim "^0.1.5"
     xhr2 "0.1.3"
-
-"@okta/okta-idx-js@0.24.0":
-  version "0.24.0"
-  resolved "https://registry.yarnpkg.com/@okta/okta-idx-js/-/okta-idx-js-0.24.0.tgz#f7c048a866add49f40fde0e25734fe61998be7c3"
-  integrity sha512-ut4LPYvsXKKQm+PVgsGuoeU1RzVteNHrZPYvhz7REJEaNkY7pKUPBmYxsq9zyjRyzEEkAH7YrWeyhMcW8Lpt9w==
-  dependencies:
-    "@babel/runtime" "^7.12.5"
-    "@babel/runtime-corejs3" "^7.12.5"
-    core-js "^3.15.1"
-    jsonpath-plus "^5.1.0"
 
 "@okta/okta-sdk-nodejs@^6.2.0":
   version "6.2.0"
@@ -6202,11 +6163,6 @@ core-js@^2.6.5:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.9.tgz#6b4b214620c834152e179323727fc19741b084f2"
 
-core-js@^3.15.1:
-  version "3.15.1"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.15.1.tgz#6c08ab88abdf56545045ccf5fd81f47f407e7f1a"
-  integrity sha512-h8VbZYnc9pDzueiS2610IULDkpFFPunHwIpl8yRwFahAEEdSpHlTy3h3z3rKq5h11CaUdBEeRViu9AYvbxiMeg==
-
 core-js@^3.16.2:
   version "3.21.1"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.21.1.tgz#f2e0ddc1fc43da6f904706e8e955bc19d06a0d94"
@@ -6289,13 +6245,6 @@ create-require@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
   integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
-
-cross-fetch@^3.0.6:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.0.6.tgz#3a4040bc8941e653e0e9cf17f29ebcd177d3365c"
-  integrity sha512-KBPUbqgFjzWlVcURG+Svp9TlhA5uliYtiNx/0r8nv0pdypeQCRJ9IaSIc3q/x3q8t3F75cHuwxVql1HFGHCNJQ==
-  dependencies:
-    node-fetch "2.6.1"
 
 cross-fetch@^3.1.5:
   version "3.1.5"
@@ -11180,11 +11129,6 @@ jest@^26.6.3:
     import-local "^3.0.2"
     jest-cli "^26.6.3"
 
-js-cookie@2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
-  integrity sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==
-
 js-cookie@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-3.0.1.tgz#9e39b4c6c2f56563708d7d31f6f5f21873a92414"
@@ -11349,11 +11293,6 @@ jsonfile@^6.0.1:
 jsonify@~0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/jsonify/-/jsonify-0.0.0.tgz#2c74b6ee41d93ca51b7b5aaee8f503631d252a73"
-
-jsonpath-plus@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/jsonpath-plus/-/jsonpath-plus-5.1.0.tgz#2fc4b2e461950626c98525425a3a3518b85af6c3"
-  integrity sha512-890w2Pjtj0iswAxalRlt2kHthi6HKrXEfZcn+ZNZptv7F3rUGIeDuZo+C+h4vXBHLEsVjJrHeCm35nYeZLzSBQ==
 
 jsonpath-plus@^6.0.1:
   version "6.0.1"

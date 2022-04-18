@@ -25,6 +25,7 @@ import tooManyRequest from '../../../playground/mocks/data/idp/idx/error-429-aut
 import apiLimitExeeeded from '../../../playground/mocks/data/idp/idx/error-429-api-limit-exceeded';
 import emailVerificationSendEmailData from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-email';
 import emailVerificationSendEmailDataNoProfile from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-email-no-profile';
+import terminalConsentDenied from '../../../playground/mocks/data/idp/idx/terminal-enduser-email-consent-denied';
 
 const emailVerificationEmptyProfile = JSON.parse(JSON.stringify(emailVerificationNoProfile));
 // add empty profile to test
@@ -182,6 +183,12 @@ const otpTooManyRequestMock = RequestMock()
   .respond(emailVerification)
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(tooManyRequest, 429);
+
+const terrminalConsentDeniedPollMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(emailVerificationPollingVeryShort)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/poll')
+  .respond(terminalConsentDenied);
 
 const getResendTimestamp = ClientFunction(() => {
   return window.sessionStorage.getItem('osw-oie-resend-timestamp');
@@ -715,4 +722,13 @@ test.requestHooks(sendEmailMock)('should show custom factor page link', async t 
 
   await t.expect(challengeEmailPageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
   await t.expect(challengeEmailPageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
+});
+
+test.requestHooks(terrminalConsentDeniedPollMock)('shows a terminal message when consent is denied in another tab', async t => {
+  await setup(t);
+  await t.wait(1000); // wait for poll
+  const terminalPageObject = new TerminalPageObject(t);
+  await t.expect(terminalPageObject.getErrorMessages().isError()).eql(true);
+  await t.expect(terminalPageObject.getErrorMessages().getTextContent()).eql('Operation cancelled by user.');
+  await t.expect(await terminalPageObject.goBackLinkExists()).ok();
 });
