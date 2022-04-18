@@ -18,7 +18,7 @@ function verifyAuthJSVersion() {
 function verifyPackageContents() {
   const expect = require('expect');
   const pkg = require('../../../package.json');
-  const report = require('../../../test-reports/pack-report.json');
+  const report = require('../../../test-reports/verify-package/pack-report.json');
 
   expect(pkg.version).toBeTruthy();
   expect(report.length).toBe(1);
