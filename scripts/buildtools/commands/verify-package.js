@@ -2,7 +2,7 @@ exports.command = 'verify-package';
 exports.describe = 'Verifies that the NPM package has the correct format';
 
 function verifyAuthJSVersion() {
-  if (/^d16t-okta-auth-js-.*/.test(process.env['BRANCH'])) {
+  if (/^d16t-okta-auth-js-.*/.test(process.env.BRANCH)) {
     console.log('Skipping verification of okta-auth-js version for downstream artifact build');
     return;
   }
