@@ -1,10 +1,10 @@
-import { loc, View } from 'okta';
+import { loc } from 'okta';
 import { BaseForm, BaseView } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import {
   getPasswordComplexityDescriptionForHtmlList,
   removeRequirementsFromError } from '../../utils/AuthenticatorUtil';
-import hbs from 'handlebars-inline-precompile';
+import { generatePasswordPolicyHtml } from './PasswordPolicyUtil';
 
 const Body = BaseForm.extend({
   title() {
@@ -23,26 +23,7 @@ const Body = BaseForm.extend({
   displayPasswordPolicy(policy) {
     if (policy) {
       const rulesList = getPasswordComplexityDescriptionForHtmlList( policy );
-      this.add(
-        View.extend({
-          tagName: 'section',
-          template:
-            hbs`<div class="password-authenticator--heading">
-              {{i18n code="password.complexity.requirements.header" bundle="login"}}
-            </div>
-            <ul class="password-authenticator--list">
-              {{#each rulesList}}<li>{{this}}</li>{{/each}}
-            </ul>`,
-          getTemplateData: () => ({ rulesList }),
-          attributes: {
-            'data-se': 'password-authenticator--rules'
-          }
-        }),
-        {
-          prepend: true,
-          selector: '.o-form-fieldset-container',
-        }
-      );
+      generatePasswordPolicyHtml(this, rulesList, true);
     }
   },
 

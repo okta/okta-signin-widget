@@ -7,6 +7,9 @@ import EnrollProfileSignUp from '../../../playground/mocks/data/idp/idx/enroll-p
 import EnrollProfileSignUpWithAdditionalFields from '../../../playground/mocks/data/idp/idx/enroll-profile-new-additional-fields';
 import EnrollProfileSignUpWithBooleanFields from '../../../playground/mocks/data/idp/idx/enroll-profile-new-boolean-fields';
 import EnrollProfileSignUpAllBaseAttributes from '../../../playground/mocks/data/idp/idx/enroll-profile-all-base-attributes';
+import EnrollProfileSignUpWithPassword from '../../../playground/mocks/data/idp/idx/enroll-profile-with-password';
+import EnrollProfileSignUpWithPasswordReturnsError from '../../../playground/mocks/data/idp/idx/enroll-profile-with-password-returns-error';
+import EnrollProfileSignUpWithPasswordReturnsMultipleErrors from '../../../playground/mocks/data/idp/idx/enroll-profile-with-password-returns-multiple-errors';
 
 
 const EnrollProfileSignUpMock = RequestMock()
@@ -38,6 +41,22 @@ const EnrollProfileSignUpAllBaseAttributesMock = RequestMock()
   .respond(Identify)
   .onRequestTo('http://localhost:3000/idp/idx/enroll')
   .respond(EnrollProfileSignUpAllBaseAttributes);
+
+const EnrollProfileSignUpWithPasswordMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(Identify)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll')
+  .respond(EnrollProfileSignUpWithPassword)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll/new')
+  .respond(EnrollProfileSignUpWithPasswordReturnsError, 401);
+
+const EnrollProfileSignUpWithPasswordMultipleErrorsMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(Identify)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll')
+  .respond(EnrollProfileSignUpWithPassword)
+  .onRequestTo('http://localhost:3000/idp/idx/enroll/new')
+  .respond(EnrollProfileSignUpWithPasswordReturnsMultipleErrors, 401);
 
 const requestLogger = RequestLogger(
   /idx\/*/,
@@ -156,4 +175,80 @@ test.requestHooks(requestLogger, EnrollProfileSignUpAllBaseAttributesMock)('All 
     // all 'label' fields for base attributes in json are appended with a '1'
     await t.expect(await enrollProfilePage.getFormFieldLabel(selector)).eql(formFieldToLabel[formField]);
   });
+});
+
+test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should show prompt for password and password requirements', async t => {
+  const enrollProfilePage = new EnrollProfileViewPageObject(t);
+  const identityPage = await setup(t);
+  await identityPage.clickSignUpLink();
+
+  requestLogger.clear();
+  await t.expect(enrollProfilePage.getFormTitle()).eql('Sign up');
+  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.firstName')).eql('First name');
+  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.lastName')).eql('Last name');
+  await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.email')).eql('Email');
+  // verify prompt & field for password are rendered
+  await t.expect(await enrollProfilePage.getFormFieldLabel('credentials.passcode')).eql('Password');
+  // verify password text toggle is rendered
+  await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
+  // verify password requirements are rendered
+  await t.expect(await enrollProfilePage.form.elementExist('section[data-se="password-authenticator--rules"]')).ok();
+  await t.expect(await enrollProfilePage.form.getInnerTexts('div[class="password-authenticator--heading"]')).eql(['Password requirements:']);
+  await t.expect(await enrollProfilePage.form.elementExist('ul[class="password-authenticator--list"]')).ok();
+
+  await t.expect(await enrollProfilePage.getSaveButtonLabel()).eql('Sign Up');
+
+  // Fill in attribute fields
+  await enrollProfilePage.setTextBoxValue('userProfile.firstName', 'First');
+  await enrollProfilePage.setTextBoxValue('userProfile.lastName', 'Last');
+  await enrollProfilePage.setTextBoxValue('userProfile.email', 'first@last.com');
+  await identityPage.fillPasswordField('secretPassword');
+});
+
+test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMock)('should show error for invalid password above form and on password field', async t => {
+  const enrollProfilePage = new EnrollProfileViewPageObject(t);
+  const identityPage = await setup(t);
+  await identityPage.clickSignUpLink();
+
+  requestLogger.clear();
+
+  // Fill in attribute fields
+  await enrollProfilePage.setTextBoxValue('userProfile.firstName', 'First');
+  await enrollProfilePage.setTextBoxValue('userProfile.lastName', 'Last');
+  await enrollProfilePage.setTextBoxValue('userProfile.email', 'first@last.com');
+  await identityPage.fillPasswordField('invalid');
+  // click Save
+  await enrollProfilePage.form.clickSaveButton();
+  // Verify error handling
+  await enrollProfilePage.form.waitForErrorBox();
+
+  await t.expect(await enrollProfilePage.getErrorBoxText())
+    .eql('We found some errors. Please review the form and make corrections.');
+  await t.expect(await enrollProfilePage.form.getTextBoxErrorMessage('credentials.passcode'))
+    .eql('Password requirements were not met');
+});
+
+test.requestHooks(requestLogger, EnrollProfileSignUpWithPasswordMultipleErrorsMock)('should show multiple errors when multiple fields are invalid, including invalid password', async t => {
+  const enrollProfilePage = new EnrollProfileViewPageObject(t);
+  const identityPage = await setup(t);
+  await identityPage.clickSignUpLink();
+
+  requestLogger.clear();
+
+  // Fill in attribute fields
+  await enrollProfilePage.setTextBoxValue('userProfile.firstName', 'First');
+  await enrollProfilePage.setTextBoxValue('userProfile.lastName', 'Last');
+  // Invalid email provided
+  await enrollProfilePage.setTextBoxValue('userProfile.email', 'first@last');
+  await identityPage.fillPasswordField('invalid');
+  // click Save
+  await enrollProfilePage.form.clickSaveButton();
+  // Verify error handling
+  await enrollProfilePage.form.waitForErrorBox();
+
+  await t.expect(await enrollProfilePage.getErrorBoxText())
+    .eql('We found some errors. Please review the form and make corrections.');
+  await t.expect(await enrollProfilePage.form.hasTextBoxErrorMessage('userProfile.email')).eql(true);
+  await t.expect(await enrollProfilePage.form.getTextBoxErrorMessage('credentials.passcode'))
+    .eql('Password requirements were not met');
 });

@@ -1,3 +1,6 @@
+const path = require('path');
+const { readFileSync } = require('fs');
+
 exports.command = 'verify-package';
 exports.describe = 'Verifies that the NPM package has the correct format';
 
@@ -62,10 +65,23 @@ function verifyPackageContents() {
   console.log(`Package size is within expected range: ${manifest.size / ONE_MB} MB, ${manifest.entryCount} files`);
 }
 
+function verifySassSourceMap() {
+  const data = readFileSync(path.join(__dirname, '../../../dist/dist/css/okta-sign-in.css.map'), 'utf-8');
+  const sourceMap = JSON.parse(data);
+  let hasAbsolutePaths = false;
+  sourceMap.sources.forEach(source => {
+    hasAbsolutePaths = hasAbsolutePaths || source.startsWith('/') || source.startsWith('file:///');
+  });
+  if (hasAbsolutePaths) {
+    throw new Error('CSS source map should not contain absolute paths');
+  }
+}
+
 exports.handler = function() {
   try {
     verifyAuthJSVersion();
     verifyPackageContents();
+    verifySassSourceMap();
     console.log('verify-package finished successfully');
   } catch (e) {
     console.error(e);

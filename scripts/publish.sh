@@ -21,7 +21,6 @@ if ! yarn build:release; then
   echo "build failed! Exiting..."
   exit ${TEST_FAILURE}
 fi
-
 pushd ./dist
 
 ### Not able to use 'yarn publish' which failed at

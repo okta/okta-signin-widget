@@ -33,6 +33,7 @@ const I18N_BASE_ATTRIBUTE_ENROLL_PROFILE_MAPPINGS = {
   'enroll-profile.userProfile.department': 'oie.user.profile.department',
   'enroll-profile.userProfile.managerId': 'oie.user.profile.managerId',
   'enroll-profile.userProfile.manager': 'oie.user.profile.manager',
+  'enroll-profile.credentials.passcode': 'oie.password.label',
 };
 
 export {

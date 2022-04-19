@@ -1,6 +1,8 @@
 import { loc, Model, _ } from 'okta';
 import { BaseForm, BaseFooter, BaseView } from '../internals';
 import { FORMS as RemediationForms } from '../../ion/RemediationConstants';
+import { getPasswordComplexityDescriptionForHtmlList } from '../utils/AuthenticatorUtil';
+import { generatePasswordPolicyHtml } from './password/PasswordPolicyUtil';
 
 const Body = BaseForm.extend({
   title() {
@@ -39,7 +41,23 @@ const Body = BaseForm.extend({
         responseJSON: error,
       })
     );
-  }
+  },
+  triggerAfterError(model, error) {
+    // render errors to view
+    const hasErrors = error?.responseJSON?.errorCauses
+      && Array.isArray(error.responseJSON.errorCauses);
+
+    if (hasErrors) {
+      error.responseJSON.errorCauses.forEach((err) => {
+        // only do this for invalid password for password with SSR
+        if (err.errorKey.includes('password.passwordRequirementsNotMet')) {
+          err.errorSummary = loc('registration.error.password.passwordRequirementsNotMet', 'login');
+        } 
+      });
+    }
+
+    this.options.appState.trigger('afterError', error);
+  },
 });
 
 const Footer = BaseFooter.extend({
@@ -115,5 +133,21 @@ export default BaseView.extend({
         responseJSON: modelError,
       });
     }
-  }
+
+    // Prompt for password w/ SSR if enabled (credentials object in remediation)
+    this.renderPasswordPolicySettings();
+  },
+  renderPasswordPolicySettings() {
+    // retrieve password policy from "credentials" object in remediation
+    const currentViewState = this.options.currentViewState.value;
+    const credentials = currentViewState.filter((obj) => { return obj.name === 'credentials'; })[0];
+
+    // if "passcode" is present in "credentials", render password rules
+    const form = credentials?.form?.value;
+    if (form && form.filter((obj) => { return obj.name === 'passcode'; })) {
+      generatePasswordPolicyHtml(this,
+        getPasswordComplexityDescriptionForHtmlList(credentials?.relatesTo?.value?.settings),
+        false);
+    }
+  },
 });
