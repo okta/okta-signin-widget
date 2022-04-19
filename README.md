@@ -1044,8 +1044,6 @@ Custom link href for the "Unlock Account" link. For this link to display, `featu
 
 Array of custom link objects `{text, href, target}` that will be added to the *"Need help signing in?"* section. The `target` of the link is optional.
 
-- **features.autoFocus** - Automatically focuses the first input field of any form when displayed. Defaults to `true`.
-
 ### Hooks
 
 Asynchronous callbacks can be invoked before or after a specific view is rendered. Hooks can be used to add custom logic such as instrumentation, logging, or additional user input. Normal execution is blocked while the hook function is executing and will resume after the Promise returned from the hook function resolves. Hooks can be added via config, as shown below, or at runtime using the [before](#before) or [after](#after) methods. The full list of views can be found in [RemediationConstants.js](https://github.com/okta/okta-signin-widget/blob/master/src/v2/ion/RemediationConstants.js#L19).
@@ -1291,6 +1289,11 @@ Hides the "Back to sign in" link for authenticator enrollment and challenge flow
 
 Defaults to `true`.
 Pre-fills the identifier field with the previously used username.
+
+#### features.autoFocus
+
+Defaults to `true`.
+Automatically focuses the first input field of any form when displayed. 
 
 ## Events
 
