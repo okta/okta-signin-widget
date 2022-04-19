@@ -1,17 +1,32 @@
 exports.command = 'verify-package';
 exports.describe = 'Verifies that the NPM package has the correct format';
-exports.handler = function() {
-  const expect = require('expect');
-  const package = require('../../../package.json');
-  const report = require('../../../test-reports/pack-report.json');
 
-  expect(package.version).toBeTruthy();
+function verifyAuthJSVersion() {
+  if (/^d16t-okta-auth-js-.*/.test(process.env.BRANCH)) {
+    console.log('Skipping verification of okta-auth-js version for downstream artifact build');
+    return;
+  }
+
+  const version = require('../../../node_modules/@okta/okta-auth-js/package.json').version;
+  const regex = /^(\d)+\.(\d)+\.(\d)+$/;
+  if (regex.test(version) !== true) {
+    throw new Error(`Invalid/beta version for okta-auth-js: ${version}`);
+  }
+  console.log(`okta-auth-js version is valid: ${version}`);
+}
+
+function verifyPackageContents() {
+  const expect = require('expect');
+  const pkg = require('../../../package.json');
+  const report = require('../../../test-reports/verify-package/pack-report.json');
+
+  expect(pkg.version).toBeTruthy();
   expect(report.length).toBe(1);
 
   const manifest = report[0];
   expect(manifest.name).toEqual('@okta/okta-signin-widget');
-  expect(manifest.version).toEqual(package.version);
-  expect(manifest.filename).toBe(`okta-okta-signin-widget-${package.version}.tgz`);
+  expect(manifest.version).toEqual(pkg.version);
+  expect(manifest.filename).toBe(`okta-okta-signin-widget-${pkg.version}.tgz`);
 
   // package size
   const ONE_MB = 1000000;
@@ -44,7 +59,17 @@ exports.handler = function() {
       throw new Error(`Expected file ${filename} was not found in the package`);
     }
   });
+  console.log(`Package size is within expected range: ${manifest.size / ONE_MB} MB, ${manifest.entryCount} files`);
+}
 
-  console.log('verify-package finished successfully');
+exports.handler = function() {
+  try {
+    verifyAuthJSVersion();
+    verifyPackageContents();
+    console.log('verify-package finished successfully');
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
+  }
 };
 

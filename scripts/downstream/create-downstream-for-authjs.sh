@@ -9,7 +9,12 @@ if [[ -z "${upstream_artifact_version}" ]]; then
 fi
 
 pushd ${OKTA_HOME}/okta-signin-widget/scripts > /dev/null
-sdk_version_number="$(echo ${upstream_artifact_version} | cut -d'@' -f3)"
-echo "Update okta-auth-js version in scripts/setup.sh to ${sdk_version_number}"
-sed -i "s/\(AUTHJS_VERSION\=\).*/\1\"${sdk_version_number}\"/g" setup.sh
+
+# Get the AuthJS version to use
+AUTHJS_VERSION="$(echo ${upstream_artifact_version} | cut -d'@' -f3)"
+
+# Update setup script
+echo "Update okta-auth-js version in scripts/setup.sh to ${AUTHJS_VERSION}"
+sed -i "s/\(AUTHJS_VERSION\=\).*/\1\"${AUTHJS_VERSION}\"/g" setup.sh
+
 popd > /dev/null
