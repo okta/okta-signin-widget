@@ -158,7 +158,7 @@
     "stylelint-checkstyle-formatter": "^0.1.2",
     "stylelint-scss": "^3.20.1",
     "terser-webpack-plugin": "^5.2.4",
-    "testcafe": "^1.14.2",
+    "testcafe": "^1.18.6",
     "time-grunt": "^2.0.0",
     "tsd": "^0.20.0",
     "ttypescript": "^1.5.13",
