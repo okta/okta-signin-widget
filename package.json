@@ -89,7 +89,7 @@
     "@typescript-eslint/parser": "^4.16.1",
     "@zerollup/ts-transform-paths": "^1.7.18",
     "autoprefixer": "^9.6.1",
-    "axios": "^0.21.1",
+    "axios": "^0.26.1",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.3",
     "babel-loader": "^8.2.2",
