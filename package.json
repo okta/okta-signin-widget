@@ -87,6 +87,7 @@
     "@types/underscore": "^1.11.4",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
     "@typescript-eslint/parser": "^4.16.1",
+    "@wdio/junit-reporter": "^7.19.5",
     "@zerollup/ts-transform-paths": "^1.7.18",
     "autoprefixer": "^9.6.1",
     "axios": "^0.21.1",
