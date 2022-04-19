@@ -16,7 +16,7 @@
   "devDependencies": {
     "@babel/preset-typescript": "^7.16.7",
     "@okta/babel-plugin-handlebars-inline-precompile": "3.1.0-beta.4200.gf3d0a27",
-    "@okta/courage": "4.5.0-6784-gb328130",
+    "@okta/courage": "4.5.0-6817-gbef165c",
     "@okta/eslint-plugin-okta-ui": "0.1.0-beta.4181.g1f38f27",
     "@types/backbone": "^1.4.15",
     "@types/underscore": "^1.11.4",

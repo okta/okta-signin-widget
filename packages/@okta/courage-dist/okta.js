@@ -4981,7 +4981,11 @@ function fixChosenModal($select, textPlaceholder) {
     $results.css('max-height', CHOSEN_MAX_HEIGHT);
     $clone.remove();
     $select.after($chosen);
-    $searchInput.focus();
+  }); // Do not change the order of event listeners. This event must execute after 
+  // "liszt:hiding_dropdown.fixChosen remove.fixChosen"
+
+  $select.on('liszt:hiding_dropdown.fixChosen', function () {
+    $searchInput.focus(); // set focus back to input only when the dropdown is closed
   });
 }
 
@@ -10019,7 +10023,6 @@ var SchemaUtils = {
    * @param {String} appName The app name that's mapped to/from Okta
    * @return {String} the source attribute username type value
    */
-  // eslint-disable-next-line complexity
   getSourceUsernameType: function getSourceUsernameType(mappingDirection, targetName, appName) {
     var sourceUsernameType = this.USERNAMETYPE.NONE;
     /* eslint complexity: [2, 7] */
@@ -10027,7 +10030,7 @@ var SchemaUtils = {
     if (mappingDirection === 'oktaToApp') {
       if (targetName === 'userName') {
         sourceUsernameType = this.USERNAMETYPE.OKTA_TO_APP;
-      } else if (targetName === 'cn' && appName === 'active_directory') {
+      } else if (targetName === 'cn') {
         sourceUsernameType = this.USERNAMETYPE.OKTA_TO_AD;
       }
     } else if (mappingDirection === 'appToOkta' && targetName === 'login') {
