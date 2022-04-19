@@ -300,17 +300,6 @@ test
         record.request.url.match(/introspect/)
     )).eql(1);
     await t.expect(loopbackSuccessLogger.count(
-      record => record.response.statusCode === 200 &&
-        record.request.method === 'get' &&
-        record.request.url.match(/6512\/probe/)
-    )).eql(1);
-    await t.expect(loopbackSuccessLogger.count(
-      record => record.response.statusCode === 200 &&
-        record.request.url.match(/6512\/challenge/) &&
-        record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
-    )).eql(1);
-    failureCount = 2;
-    await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 500 &&
         record.request.url.match(/2000/)
     )).eql(1);
@@ -321,8 +310,20 @@ test
     )).eql(1);
     await t.expect(loopbackSuccessLogger.count(
       record => record.response.statusCode === 403 &&
-        record.request.url.match(/6511\/challenge/)
+        record.request.url.match(/6511\/challenge/) &&
+        record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
     )).eql(1);
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.method === 'get' &&
+        record.request.url.match(/6512\/probe/)
+    )).eql(1);
+    await t.expect(loopbackSuccessLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/6512\/challenge/) &&
+        record.request.body.match(/challengeRequest":"eyJraWQiOiI1/)
+    )).eql(1);
+    failureCount = 2;
     await t.expect(loopbackSuccessLogger.contains(record => record.request.url.match(/6513/))).eql(false);
 
     const identityPage = new IdentityPageObject(t);
