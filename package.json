@@ -126,7 +126,7 @@
     "grunt-sass": "^3.1.0",
     "jasmine-ajax": "^4.0.0",
     "jasmine-core": "2.99.1",
-    "jasmine-reporters": "^2.3.2",
+    "jasmine-reporters": "^2.5.0",
     "jest": "^26.6.3",
     "jest-canvas-mock": "^2.3.1",
     "jest-junit": "^12.0.0",
