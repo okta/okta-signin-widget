@@ -1,10 +1,16 @@
 import { _, loc, createCallout, createButton } from 'okta';
-import { BaseForm } from '../../internals';
+import { BaseForm, BaseFooter } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import webauthn from '../../../../util/webauthn';
 import CryptoUtil from '../../../../util/CryptoUtil';
 import EnrollWebauthnInfoView from './EnrollWebauthnInfoView';
 import { getMessageFromBrowserError } from '../../../ion/i18nTransformer';
+import { getSkipSetupLink } from '../../utils/LinksUtil';
+import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
+import Link from '../../components/Link';
+import CookieUtil from 'util/CookieUtil';
+import cbor from '../../../../util/cbor';
+import base64url from '../../../../util/base64url';
 
 function getExcludeCredentials(authenticatorEnrollments = []) {
   const credentials = [];
@@ -21,7 +27,7 @@ function getExcludeCredentials(authenticatorEnrollments = []) {
 
 const Body = BaseForm.extend({
   title() {
-    return loc('oie.enroll.webauthn.title', 'login');
+    return this._isOnePass() ? 'Enable Touch ID' : loc('oie.enroll.webauthn.title', 'login');
   },
   className: 'oie-enroll-webauthn',
   modelEvents: {
@@ -37,7 +43,7 @@ const Body = BaseForm.extend({
       schema.push({
         View: createButton({
           className: 'webauthn-setup button button-primary button-wide',
-          title: loc('oie.enroll.webauthn.save', 'login'),
+          title: this._isOnePass() ? 'Enable' : loc('oie.enroll.webauthn.save', 'login'),
           click: () => {
             this.triggerWebauthnPrompt();
           },
@@ -59,15 +65,23 @@ const Body = BaseForm.extend({
     this._startEnrollment();
     const relatesToObject = this.options.currentViewState.relatesTo;
     const activationData = relatesToObject?.value.contextualData.activationData;
+    console.log('start webauthn');
+    let excludeCredentials = getExcludeCredentials(this.options.appState.get('authenticatorEnrollments').value);
+    let userId = CryptoUtil.strToBin(activationData.user.id);
+    if(this._isOnePass()) {
+      const prefix = 'o_' + Date.now() + '_';
+      userId = CryptoUtil.rawStrToBin(prefix + activationData.user.id);
+      excludeCredentials = [];
+    }
     if (webauthn.isNewApiAvailable()) {
       var options = _.extend({}, activationData, {
         challenge: CryptoUtil.strToBin(activationData.challenge),
         user: {
-          id: CryptoUtil.strToBin(activationData.user.id),
+          id: userId,
           name: activationData.user.name,
           displayName: activationData.user.displayName
         },
-        excludeCredentials: getExcludeCredentials(this.options.appState.get('authenticatorEnrollments').value)
+        excludeCredentials,
       });
       this.webauthnAbortController = new AbortController();
       navigator.credentials.create({
@@ -80,6 +94,16 @@ const Body = BaseForm.extend({
             attestation: CryptoUtil.binToStr(newCredential.response.attestationObject),
           }
         });
+        if(this._isOnePass()) {
+          CookieUtil.setOnePassEnrollmentHint(newCredential.id);
+
+          const decodedAttestationObj = cbor.decode(newCredential.response.attestationObject);
+          const {authData} = decodedAttestationObj;
+          const aaguid = authData.slice(37,53);
+          const aaguidAscii = base64url.encode(aaguid);
+          CookieUtil.setOnePassWebAuthnAAGUID(aaguidAscii);
+          console.log('aaguid: ' + aaguidAscii);
+        }
         this.saveForm(this.model);
       })
         .catch((error) => {
@@ -98,6 +122,38 @@ const Body = BaseForm.extend({
     this.$('.okta-waiting-spinner').hide();
     this.$('.webauthn-setup').show();
   },
+  _isOnePass: function() {
+    return this.options.currentViewState.relatesTo?.value.contextualData.onePass?.isEnabled;
+  }
+});
+
+const onePassFooter = BaseFooter.extend({
+  hasBackToSignInLink: false,
+  initialize() {
+    const appState = this.options.appState;
+    if (appState.hasRemediationObject(RemediationForms.SKIP)) {
+      this.add(Link, {
+        options: {
+          type: 'link',
+          name: 'skip-setup',
+          label: 'Maybe Later',
+          clickHandler: () => {
+            CookieUtil.setOnePassEnrollmentHint('');
+            appState.trigger('invokeAction', RemediationForms.SKIP);
+          },
+      }})
+      this.add(Link, {
+        options: {
+          type: 'link',
+          name: 'skip-setup',
+          label: 'Do not ask me again',
+          clickHandler: () => {
+            CookieUtil.setOnePassEnrollmentHint('declined');
+            appState.trigger('invokeAction', RemediationForms.SKIP);
+          },
+      }})
+    }
+  }
 });
 
 export default BaseAuthenticatorView.extend({
@@ -106,4 +162,12 @@ export default BaseAuthenticatorView.extend({
     BaseAuthenticatorView.prototype.postRender.apply(this, arguments);
     this.$el.find('.o-form-button-bar [type="submit"]').remove();
   },
+  initialize() {
+    if(this._isOnePass()){
+      this.Footer = onePassFooter;
+    }
+  },
+  _isOnePass: function() {
+    return this.options.currentViewState.relatesTo?.value.contextualData.onePass?.isEnabled;
+  }
 });

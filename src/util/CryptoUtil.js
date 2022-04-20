@@ -59,4 +59,8 @@ fn.strToBin = function(str) {
   return Uint8Array.from(atob(this.base64UrlSafeToBase64(str)), c => c.charCodeAt(0));
 };
 
+fn.rawStrToBin = function(str) {
+  return Uint8Array.from(str, c => c.charCodeAt(0));
+}
+
 export default fn;
