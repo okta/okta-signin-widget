@@ -4,10 +4,15 @@ import hbs from 'handlebars-inline-precompile';
 
 export default View.extend({
   // eslint-disable-next-line max-len
-  template: hbs`<p class="idx-webauthn-enroll-text">{{i18n code="oie.enroll.webauthn.instructions" bundle="login"}}</p>`,
+  //template: hbs`<p class="idx-webauthn-enroll-text">{{i18n code="oie.enroll.webauthn.instructions" bundle="login"}}</p>`,
   initialize() {
     const relatesToObject = this.options.currentViewState.relatesTo;
     const activationData = relatesToObject?.value.contextualData.activationData;
+    let instructions = loc('oie.enroll.webauthn.instructions', 'login');
+    if(this._isOnePass()) {
+      instructions = 'Enable Touch ID will grant access to your Touch ID saved on this device';
+    }
+    this.add(instructions);
     if (BrowserFeatures.isEdge()) {
       this.add(View.extend({
         tagName: 'p',
@@ -24,5 +29,8 @@ export default View.extend({
       }));
     }
     this.add('<div data-se="webauthn-waiting" class="okta-waiting-spinner"></div>');
+  },
+  _isOnePass: function() {
+    return this.options.currentViewState.relatesTo?.value.contextualData.onePass?.isEnabled;
   },
 });

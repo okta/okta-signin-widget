@@ -26,6 +26,7 @@ export default View.extend({
     const deviceChallengePollRemediation = appState.hasRemediationObject(FORMS.LAUNCH_AUTHENTICATOR);
     
     const deviceChallenge = deviceChallengePollRemediation?.relatesTo?.value;
+
     this.add(createButton({
       className: 'button',
       icon: 'okta-verify-authenticator',

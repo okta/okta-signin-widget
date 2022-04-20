@@ -7,11 +7,16 @@ import BrowserFeatures from '../../../../util/BrowserFeatures';
 import ChallengeWebauthnInfoView from './ChallengeWebauthnInfoView';
 import { getMessageFromBrowserError } from '../../../ion/i18nTransformer';
 import ChallengeWebauthnFooter from '../../components/ChallengeWebauthnFooter';
+import CookieUtil from 'util/CookieUtil';
 
 const Body = BaseForm.extend({
 
   title() {
-    return loc('oie.verify.webauth.title', 'login');
+    let title = loc('oie.verify.webauth.title', 'login');
+    if(this._isOnePass()){
+      title = 'Verify with Touch ID';
+    }
+    return title;
   },
 
   className: 'oie-verify-webauthn',
@@ -71,10 +76,13 @@ const Body = BaseForm.extend({
     const authenticatorEnrollments = this.options.appState.get('authenticatorEnrollments').value || [];
     authenticatorEnrollments.forEach((enrollement) => {
       if (enrollement.key === 'webauthn') {
-        allowCredentials.push({
-          type: 'public-key',
-          id: CryptoUtil.strToBin(enrollement.credentialId),
-        });
+        if(!this._isOnePass() ||
+          (this._isOnePass() && CookieUtil.getOnePassEnrollmentHint() == enrollement.credentialId)) {
+          allowCredentials.push({
+            type: 'public-key',
+            id: CryptoUtil.strToBin(enrollement.credentialId),
+          });
+        }
       }
     });
     const challengeData = authenticatorData.contextualData.challengeData;
@@ -117,7 +125,10 @@ const Body = BaseForm.extend({
   _stopVerification: function() {
     this.$('.okta-waiting-spinner').hide();
     this.$('.retry-webauthn').show();
-  }
+  },
+  _isOnePass: function() {
+    return this.options.currentViewState.relatesTo?.value.contextualData.onePass?.isEnabled;
+  },
 });
 
 export default BaseAuthenticatorView.extend({
