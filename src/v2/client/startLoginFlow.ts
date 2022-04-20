@@ -63,13 +63,7 @@ export async function startLoginFlow(settings) {
     }
 
     // continue saved transaction
-    const savedIdxResponse = await authClient.idx.proceed(idxOptions); // calls introspect
-    // if a terminal state is loaded from transaction meta, restart idx transaction
-    if (savedIdxResponse.status === 'TERMINAL') {
-      await authClient.idx.clearTransactionMeta();
-      return startLoginFlow(settings);
-    }
-    return savedIdxResponse;
+    return authClient.idx.proceed(idxOptions); // calls introspect
   }
 
   // Use stateToken from session storage if exists
