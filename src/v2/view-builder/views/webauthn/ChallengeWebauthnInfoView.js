@@ -3,10 +3,15 @@ import hbs from 'handlebars-inline-precompile';
 
 export default View.extend({
   // eslint-disable-next-line max-len
-  template: hbs`<p class="idx-webauthn-verify-text">{{i18n code="oie.verify.webauthn.instructions" bundle="login"}}</p>`,
+  //template: hbs`<p class="idx-webauthn-verify-text">{{i18n code="oie.verify.webauthn.instructions" bundle="login"}}</p>`,
   initialize() {
     const relatesToObject = this.options.currentViewState.relatesTo;
     const challengeData = relatesToObject?.value.contextualData.challengeData;
+    let instructions = loc('oie.verify.webauthn.instructions', 'login');
+    if(relatesToObject?.value.contextualData.isOnePass) {
+      instructions = 'You will be prompted to use a Touch ID. Follow the instructions to complete verification.';
+    }
+    this.add(instructions);
     if (challengeData.userVerification === 'required') {
       this.add(createCallout({
         className: 'uv-required-callout',

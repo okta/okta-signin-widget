@@ -15,6 +15,7 @@ const Cookie = internal.util.Cookie;
 const LAST_USERNAME_COOKIE_NAME = 'ln';
 const DAYS_SAVE_REMEMBER = 365;
 const fn = {};
+const ONEPASS_ENROLLMENT_HINT = 'ONEPASS_ENROLLMENT_HINT';
 
 fn.getCookieUsername = function() {
   return Cookie.getCookie(LAST_USERNAME_COOKIE_NAME);
@@ -29,6 +30,21 @@ fn.setUsernameCookie = function(username) {
 
 fn.removeUsernameCookie = function() {
   Cookie.removeCookie(LAST_USERNAME_COOKIE_NAME, { path: '/' });
+};
+
+fn.getOnePassEnrollmentHint = function() {
+  return Cookie.getCookie(ONEPASS_ENROLLMENT_HINT);
+};
+
+fn.setOnePassEnrollmentHint = function(hint) {
+  Cookie.setCookie(ONEPASS_ENROLLMENT_HINT, hint, {
+    expires: DAYS_SAVE_REMEMBER,
+    path: '/',
+  });
+};
+
+fn.removeOnePassEnrollmentHint = function() {
+  Cookie.removeCookie(ONEPASS_ENROLLMENT_HINT, { path: '/' });
 };
 
 export default fn;

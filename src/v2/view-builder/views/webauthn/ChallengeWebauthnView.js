@@ -11,7 +11,12 @@ import ChallengeWebauthnFooter from '../../components/ChallengeWebauthnFooter';
 const Body = BaseForm.extend({
 
   title() {
-    return loc('oie.verify.webauth.title', 'login');
+    const contextualData = this.options.currentViewState.relatesTo?.value.contextualData;
+    let title = loc('oie.verify.webauth.title', 'login');
+    if(contextualData.isOnePass){
+      title = 'Verify with Touch ID';
+    }
+    return title;
   },
 
   className: 'oie-verify-webauthn',

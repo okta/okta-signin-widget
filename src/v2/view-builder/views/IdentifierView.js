@@ -7,9 +7,11 @@ import Link from '../components/Link';
 import signInWithIdps from './signin/SignInWithIdps';
 import customButtonsView from './signin/CustomButtons';
 import signInWithDeviceOption from './signin/SignInWithDeviceOption';
+import signInWithOnePass from './signin/SignInWithOnePass';
 import { isCustomizedI18nKey } from '../../ion/i18nTransformer';
 import { getForgotPasswordLink } from '../utils/LinksUtil';
-import CookieUtil from 'util/CookieUtil';
+import CookieUtil from '../../../util/CookieUtil';
+
 
 const Body = BaseForm.extend({
 
@@ -43,6 +45,10 @@ const Body = BaseForm.extend({
   },
 
   saveForm() {
+    if (CookieUtil.getOnePassEnrollmentHint() != undefined) {
+      this.model.set('webauthnEnrollmentHint', CookieUtil.getOnePassEnrollmentHint());
+    }
+    
     // Ideally this can be added to a "preSaveForm" handler - but keeping this here for now.
     if (!this.settings.get('features.deviceFingerprinting')) {
       BaseForm.prototype.saveForm.apply(this, arguments);
@@ -75,6 +81,10 @@ const Body = BaseForm.extend({
     // Launch Device Authenticator
     if (this.options.appState.hasRemediationObject(RemediationForms.LAUNCH_AUTHENTICATOR)) {
       this.add(signInWithDeviceOption, '.o-form-fieldset-container', false, true, { isRequired: false });
+    }
+
+    if(CookieUtil.getOnePassEnrollmentHint() != undefined && CookieUtil.getOnePassEnrollmentHint() != 'declined') {
+      this.add(signInWithOnePass, '.o-form-fieldset-container', false, true, { isRequired: false });
     }
 
     // add forgot password link and external idps buttons if needed
