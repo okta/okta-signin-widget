@@ -10,6 +10,9 @@ import idxVerifyPassword from 'helpers/xhr/v2/IDX_VERIFY_PASSWORD';
 import idxSuccessInteractionCode from 'helpers/xhr/v2/IDX_SUCCESS_INTERACTION_CODE';
 import idxErrorUserIsNotAssigned from 'helpers/xhr/v2/IDX_ERROR_USER_IS_NOT_ASSIGNED';
 import idxErrorSessionExpired from 'helpers/xhr/v2/IDX_ERROR_SESSION_EXPIRED';
+import xhrTerminalSuccessEmailVerify from '../../../playground/mocks/data/idp/idx/terminal-return-email-consent.json';
+import xhrTerminalSuccessWithCancelAction from '../../../playground/mocks/data/idp/idx/user-account-unlock-success.json';
+
 import 'jasmine-ajax';
 import $sandbox from 'sandbox';
 import Logger from 'util/Logger';
@@ -428,7 +431,56 @@ describe('OktaSignIn v2 bootstrap', function() {
         });
       });
 
-      itp('does NOT clear shared storage on permanent error', () => {
+      itp('clears after terminal success (with no available actions)', () => {
+        setupLoginFlow({
+          clientId,
+          redirectUri,
+          useInteractionCodeFlow: true
+        }, [
+          // email verify terminal success (flow continued in other tab)
+          {
+            state: 200,
+            responseType: 'json',
+            response: xhrTerminalSuccessEmailVerify
+          }
+        ]);
+        jest.spyOn(signIn.authClient.transactionManager, 'clear').mockImplementation(() => { });
+        jest.spyOn(signIn.authClient.transactionManager, 'exists').mockReturnValue(true);
+        jest.spyOn(signIn.authClient.transactionManager, 'load').mockReturnValue(mockTransactionMeta);
+
+        render();
+        return Expect.wait(() => {
+          return $('.siw-main-view.terminal').length === 1;
+        }).then(function() {
+          expect(signIn.authClient.transactionManager.clear).toHaveBeenCalledWith({ clearSharedStorage: false });
+        });
+      });
+
+      itp('does NOT clear on terminal success if there are available actions', () => {
+        setupLoginFlow({
+          clientId,
+          redirectUri,
+          useInteractionCodeFlow: true
+        }, [
+          // terminal success with a cancel action
+          {
+            state: 200,
+            responseType: 'json',
+            response: xhrTerminalSuccessWithCancelAction
+          }
+        ]);
+        jest.spyOn(signIn.authClient.transactionManager, 'clear').mockImplementation(() => { });
+        jest.spyOn(signIn.authClient.transactionManager, 'exists').mockReturnValue(true);
+        jest.spyOn(signIn.authClient.transactionManager, 'load').mockReturnValue(mockTransactionMeta);
+        render();
+        return Expect.wait(() => {
+          return $('.siw-main-view.terminal').length === 1;
+        }).then(function() {
+          expect(signIn.authClient.transactionManager.clear).not.toHaveBeenCalled();
+        });
+      });
+
+      itp('does NOT clear on terminal error', () => {
         setupLoginFlow({
           clientId,
           redirectUri,
@@ -441,9 +493,9 @@ describe('OktaSignIn v2 bootstrap', function() {
         jest.spyOn(signIn.authClient.transactionManager, 'load').mockReturnValue(mockTransactionMeta);
         render();
         return Expect.wait(() => {
-          return $('.siw-main-body').length === 1;
+          return $('.siw-main-view.terminal').length === 1;
         }).then(function() {
-          expect(signIn.authClient.transactionManager.clear).toHaveBeenCalledWith({ clearSharedStorage: false });
+          expect(signIn.authClient.transactionManager.clear).not.toHaveBeenCalled();
         });
       });
 
@@ -474,19 +526,14 @@ describe('OktaSignIn v2 bootstrap', function() {
         }, [
           interactResponse,
           idxVerifyPassword,
-          // cancel response
-          {
-            state: 200,
-            responseType: 'json',
-            response: {}
-          },
+          // in interaction code flow it will not call cancel, it will simply start a new transaction
           interactResponse,
           idxResponse
         ]);
         render();
 
         await Expect.wait(() => {
-          return $('.siw-main-body').length === 1;
+          return $('.siw-main-view.mfa-verify-password').length === 1;
         });
         jest.spyOn(signIn.authClient.transactionManager, 'clear');
         const $signOut = $('a[data-se="cancel"]');

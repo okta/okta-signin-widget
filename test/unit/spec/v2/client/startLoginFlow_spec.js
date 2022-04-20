@@ -100,89 +100,100 @@ describe('v2/client/startLoginFlow', () => {
     expect(start).toHaveBeenCalledTimes(1);
 
     expect(start).toHaveBeenCalledWith({
-      exchangeCodeForTokens: false
+      exchangeCodeForTokens: false,
+      shouldProceedWithEmailAuthenticator: false
     });
     expect(proceed).not.toHaveBeenCalled();
   });
 
-  it('shall introspect on "settings.stateToken"', async () => {
+  it('shall call start on "settings.stateToken"', async () => {
     const { settings, start, proceed, introspect } = testContext;
     const result = await startLoginFlow(settings);
     expect(result).toEqual({
-      fake: 'fake introspect response'
+      fake: 'fake start response'
     });
 
-    expect(start).not.toHaveBeenCalled();
+    expect(introspect).not.toHaveBeenCalled();
     expect(proceed).not.toHaveBeenCalled();
-    expect(introspect).toHaveBeenCalledTimes(1);
-    expect(introspect).toHaveBeenCalledWith({
+    expect(start).toHaveBeenCalledTimes(1);
+    expect(start).toHaveBeenCalledWith({
+      exchangeCodeForTokens: false,
+      shouldProceedWithEmailAuthenticator: false,
       stateHandle: 'a test state token from settings'
     });
     expect(settings.get('stateToken')).toBe('a test state token from settings');
   });
 
-  it('shall introspect on "settings.stateToken" when overrideExistingStateToken is true', async () => {
+  it('shall start on "settings.stateToken" when overrideExistingStateToken is true', async () => {
     const { settings, start, proceed, introspect } = testContext;
     sessionStorageHelper.setStateHandle('fake state handle from session storage');
     settings.set('overrideExistingStateToken', 'true');
     const result = await startLoginFlow(settings);
     expect(result).toEqual({
-      fake: 'fake introspect response'
+      fake: 'fake start response'
     });
 
-    expect(start).not.toHaveBeenCalled();
+    expect(introspect).not.toHaveBeenCalled();
     expect(proceed).not.toHaveBeenCalled();
-    expect(introspect).toHaveBeenCalledTimes(1);
-    expect(introspect).toHaveBeenCalledWith({
+    expect(start).toHaveBeenCalledTimes(1);
+    expect(start).toHaveBeenCalledWith({
+      exchangeCodeForTokens: false,
+      shouldProceedWithEmailAuthenticator: false,
       stateHandle: 'a test state token from settings'
     });
     expect(settings.get('stateToken')).toBe('a test state token from settings');
   });
 
-  it('shall introspect on "sessionStorage.stateToken"', async () => {
+  it('shall start on "sessionStorage.stateToken"', async () => {
     const { settings, start, proceed, introspect } = testContext;
     sessionStorageHelper.setStateHandle('fake state handle from session storage');
     const result = await startLoginFlow(settings);
     expect(result).toEqual({
-      fake: 'fake introspect response'
+      fake: 'fake start response'
     });
 
-    expect(start).not.toHaveBeenCalled();
+    expect(introspect).not.toHaveBeenCalled();
     expect(proceed).not.toHaveBeenCalled();
-    expect(introspect).toHaveBeenCalledTimes(1);
-    expect(introspect).toHaveBeenCalledWith({
+    expect(start).toHaveBeenCalledTimes(1);
+    expect(start).toHaveBeenCalledWith({
+      exchangeCodeForTokens: false,
+      shouldProceedWithEmailAuthenticator: false,
       stateHandle: 'fake state handle from session storage'
     });
     expect(settings.get('stateToken'))
       .toBe('fake state handle from session storage');
   });
 
-  it('shall introspect on "settings.stateToken" when "sessionStorage.stateToken" is invalid', async () => {
+  it('shall start on "settings.stateToken" when "sessionStorage.stateToken" is invalid', async () => {
     const { settings, start, proceed, introspect } = testContext;
-    introspect.mockReset();
-    introspect
+    start.mockReset();
+    start
       .mockRejectedValueOnce({
-        fake: 'ERROR - introspect response'
+        fake: 'ERROR - start response'
       })
       .mockResolvedValueOnce({
-        fake: 'another introspect response'
+        fake: 'another start response'
       });
 
     sessionStorageHelper.setStateHandle('fake state handle from session storage');
     const result = await startLoginFlow(settings);
     expect(result).toEqual({
-      fake: 'another introspect response'
+      fake: 'another start response'
     });
 
-    expect(start).not.toHaveBeenCalled();
+    expect(introspect).not.toHaveBeenCalled();
     expect(proceed).not.toHaveBeenCalled();
-    expect(introspect).toHaveBeenCalledTimes(2);
-    expect(introspect.mock.calls[0][0])
+    expect(start).toHaveBeenCalledTimes(2);
+    expect(start.mock.calls[0][0])
       .toEqual({
+        exchangeCodeForTokens: false,
+        shouldProceedWithEmailAuthenticator: false,
         stateHandle: 'fake state handle from session storage'
       });
-    expect(introspect.mock.calls[1][0])
+    expect(start.mock.calls[1][0])
       .toEqual({
+        exchangeCodeForTokens: false,
+        shouldProceedWithEmailAuthenticator: false,
         stateHandle: 'a test state token from settings'
       });
 

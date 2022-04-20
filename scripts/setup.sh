@@ -18,7 +18,7 @@ if [ ! -z "$AUTHJS_VERSION" ]; then
   echo "Installing AUTHJS_VERSION: ${AUTHJS_VERSION}"
   npm config set strict-ssl false
 
-  if ! yarn add -DW --force https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-${AUTHJS_VERSION}.tgz ; then
+  if ! yarn add -DW --no-lockfile https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-${AUTHJS_VERSION}.tgz ; then
     echo "AUTHJS_VERSION could not be installed: ${AUTHJS_VERSION}"
     exit ${FAILED_SETUP}
   fi

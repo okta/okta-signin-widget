@@ -1,4 +1,4 @@
-import { ApiError } from './errors';
+import { APIError } from '@okta/okta-auth-js';
 import {
   SimpleCallback
 } from './results';
@@ -109,7 +109,7 @@ export interface RegistrationData {
 export type RegistrationSchemaCallback = (schema: RegistrationSchema) => void;
 export type RegistrationDataCallback = (data: RegistrationData) => void;
 export type RegistrationPostSubmitCallback = (response: string) => void;
-export type RegistrationErrorCallback = (error: ApiError) => void
+export type RegistrationErrorCallback = (error: APIError) => void
 export interface RegistrationOptions {
   click?: SimpleCallback;
   parseSchema?: (
