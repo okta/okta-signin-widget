@@ -1,0 +1,1 @@
+{"version":3,"file":"WidgetRouter.d.ts","sourceRoot":"","sources":["../../../src/v2/WidgetRouter.ts"],"names":[],"mappings":"AAAA;;;;;;;;;;GAUG;AAEH,OAAO,eAAe,EAAE,EAAE,sBAAsB,EAAE,MAAM,mBAAmB,CAAC;AAQ5E,MAAM,CAAC,OAAO,OAAO,YAAa,SAAQ,eAAe;gBAC3C,OAAO,EAAE,sBAAsB;IAI3C,WAAW;CAIZ"}

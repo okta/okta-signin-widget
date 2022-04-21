@@ -1,0 +1,3 @@
+export default SendEmailAndVerifyCodeFormVerifyEmailCodeForm;
+declare const SendEmailAndVerifyCodeFormVerifyEmailCodeForm: any;
+//# sourceMappingURL=SendEmailAndVerifyCodeForm.d.ts.map

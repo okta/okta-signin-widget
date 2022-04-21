@@ -17,7 +17,8 @@ exports.handler = async () => {
     'LICENSE',
     'THIRD-PARTY-NOTICES',
     '*.md',
-    'types'
+    'types',
+    'src'
   ], `${BUILD_DIR}`);
 
   shell.echo('Modifying final package.json');

@@ -21,7 +21,7 @@
     "not IE_Mob 11"
   ],
   "main": "./target/js/okta-sign-in.js",
-  "types": "./types/index.d.ts",
+  "types": "./types/src/index.d.ts",
   "scripts": {
     "clean": "rimraf target && rimraf dist && rimraf build2",
     "codegen": "grunt codegen",
@@ -62,7 +62,7 @@
     "start": "node scripts/buildtools start",
     "start:test:app": "yarn workspace @okta/test.app start",
     "mock:device-authenticator": "dyson playground/mocks/spec-device-authenticator/ 6512",
-    "clean:types": "rimraf ./types/generated",
+    "clean:types": "grunt clean:types",
     "generate:types": "ttsc --noEmit false --declaration --emitDeclarationOnly --declarationMap",
     "copy:types": "grunt copy:types",
     "build:types": "yarn clean:types && yarn generate:types && yarn copy:types"
@@ -117,6 +117,7 @@
     "glob": "^7.1.3",
     "grunt": "^1.4.1",
     "grunt-cli": "^1.4.3",
+    "grunt-contrib-clean": "^2.0.1",
     "grunt-contrib-connect": "^3.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-watch": "^1.1.0",
