@@ -37,8 +37,8 @@ function verifyPackageContents() {
   expect(manifest.size).toBeLessThan(12 * ONE_MB);
 
   // files
-  expect(manifest.entryCount).toBeGreaterThan(900);
-  expect(manifest.entryCount).toBeLessThan(1200);
+  expect(manifest.entryCount).toBeGreaterThan(1200);
+  expect(manifest.entryCount).toBeLessThan(1400);
 
   // A sampling of expected files
   const expectedFiles = [
