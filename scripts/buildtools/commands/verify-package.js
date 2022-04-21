@@ -52,9 +52,8 @@ function verifyPackageContents() {
     'dist/sass/_fonts.scss',
     'dist/font/okticon.ttf',
     'dist/font/okticon.woff',
-    'types/index.d.ts',
-    'types/generated/src/index.d.ts',
-    'types/generated/packages/@okta/courage-dist/types/courage/framework/Model.d.ts'
+    'types/src/index.d.ts',
+    'types/packages/@okta/courage-dist/types/courage/framework/Model.d.ts'
   ];
 
   expectedFiles.forEach((filename) => {
