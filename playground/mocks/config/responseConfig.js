@@ -165,6 +165,8 @@ const idx = {
     // 'error-429-api-limit-exceeded',
     // 'enroll-profile-new'
     // 'authenticator-enroll-email',
+    // 'authenticator-enroll-email-emailmagiclink-true',
+    // 'authenticator-enroll-email-emailmagiclink-false',
     // 'authenticator-verification-okta-verify-push',
     // 'authenticator-verification-custom-app-push',
     // 'authenticator-verification-custom-app-push-reject',
@@ -184,6 +186,9 @@ const idx = {
   '/idp/idx/enroll/new': [
     'error-new-signup-email',
     'error-new-signup-email-exists'
+    // 'authenticator-enroll-email',
+    // 'authenticator-enroll-email-emailmagiclink-true',
+    //'authenticator-enroll-email-emailmagiclink-false'
   ],
   '/idp/idx/cancel': [
     'identify',
