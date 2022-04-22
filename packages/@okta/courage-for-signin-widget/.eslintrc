@@ -1,5 +1,102 @@
 {
-  "rules": {
-    "@typescript-eslint/no-explicit-any": 0
-  }
+  "root": true,
+  "extends": [
+    "plugin:@okta/okta/courage-app",
+    "eslint:recommended",
+    "plugin:import/recommended"
+  ],
+  "parser": "babel-eslint",
+  "plugins": [
+    "import",
+    "@typescript-eslint",
+    "dirs"
+  ],
+  "overrides": [
+    {
+      "files": ["./*.js"],
+      "env": {
+        "node": true
+      }
+    },
+    {
+      "files": ["./target/esm/**/*"],
+      "plugins": [
+        "@okta/eslint-plugin-okta-ui"
+      ],
+      "rules": {
+        "dirs/dirnames": [2, { "pattern": "^(?!.*node_modules).*$" }],
+        "import/no-unresolved": [2, { "ignore": [
+          "okta-i18n-bundles",
+          "qtip"
+        ]}],
+        "max-len": "off",
+        "no-undef": "off",
+        "space-before-function-paren": "off",
+        "indent": "off",
+        "camelcase": "off",
+        "no-unused-vars": "off",
+        "quotes": "off",
+        "eqeqeq": "off",
+        "complexity": 0,
+        "no-var": "off",
+        "max-statements": "off",
+        "no-prototype-builtins": "off",
+        "no-useless-escape": "off",
+        "no-empty": "off",
+        "no-redeclare": "off",
+        "no-func-assign": "off",
+        "no-cond-assign": "off"
+      }
+    },
+    {
+      "files": [
+        "target/esm/**/SchemaProperty.js",
+        "target/esm/**/SchemaUtil.js"
+      ],
+      "rules": {
+        "@okta/okta/no-exclusive-language": "off"
+      }
+    },
+    {
+      "files": [
+        "target/esm/**/jquery.simplemodal.js"
+      ],
+      "rules": {
+        "@okta/okta/no-unlocalized-text-in-templates": "off"
+      }
+    },
+    {
+      "files": [
+        "target/esm/**/jquery-1.12.4.js"
+      ],
+      "rules": {
+        "@okta/okta/no-unlocalized-text-in-templates": "off",
+        "@okta/okta/no-unlocalized-text": "off",
+        "no-cond-assign": "off"
+      }
+    },
+    {
+      "files": [
+        "target/esm/**/BaseView.js",
+        "target/esm/**/ConfirmationDialog.js"
+      ],
+      "rules": {
+        "@okta/okta/no-unlocalized-text": "off",
+        "complexity": "off"
+      }
+    },
+    {
+      "files": [
+        "target/esm/**/InputContainer.js"
+      ],
+      "rules": {
+        "@okta/okta/no-unlocalized-text-in-templates": "off"
+      }
+    },
+    {
+      "files": ["target/types/**/*"],
+      "rules": {
+      }
+    }
+  ]
 }

@@ -1,4 +1,4 @@
-import { Collection, _, loc, createButton, ButtonOptions } from 'okta';
+import { Collection, _, loc, createButton, InputOptions } from 'okta';
 
 import AuthenticatorEnrollOptions from '../components/AuthenticatorEnrollOptions';
 import AuthenticatorVerifyOptions from '../components/AuthenticatorVerifyOptions';
@@ -11,7 +11,7 @@ import CaptchaView from '../views/captcha/CaptchaView';
 
 // TODO: remove ambient declaration patch after courage type has been updated: OKTA-488758
 declare module 'okta' {
-  interface ButtonOptions {
+  interface BaseInputOptions {
     attributes?: Record<string, any> | undefined;
     className?: string | undefined;
   }
@@ -186,7 +186,7 @@ const createIdpButtons = ({ settings, appState }) => {
       classNames.push(idpObject.idp.className);
     }
 
-    const button: ButtonOptions = {
+    const button: InputOptions = {
       attributes: {
         'data-se': `social-auth-${type}-button`,
       },

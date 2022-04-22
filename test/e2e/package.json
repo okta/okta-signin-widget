@@ -4,8 +4,7 @@
   "main": "runner.js",
   "private": true,
   "scripts": {
-    "build": "yarn workspace @okta/okta-signin-widget build:release",
-    "test": "yarn build && node ./runner.js"
+    "test": "node ./runner.js"
   },
   "dependencies": {
     "@okta/okta-sdk-nodejs": "^6.2.0",

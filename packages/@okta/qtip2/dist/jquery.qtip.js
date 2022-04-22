@@ -12,16 +12,15 @@
  */
 /*global window: false, jQuery: false, console: false, define: false */
 
+// Modified to support ESM - OKTA-369648
+import jQuery from '../../courage-dist/esm/src/courage/vendor/lib/jquery-1.12.4';
+
 /* Cache window, document, undefined */
 (function( window, document, undefined ) {
 
-// Uses AMD or browser globals to create a jQuery plugin.
 (function( factory ) {
 	"use strict";
-	if(typeof define === 'function' && define.amd) {
-		define(['jquery'], factory);
-	}
-	else if(jQuery && !jQuery.fn.qtip) {
+ 	if(!jQuery.fn.qtip) {
 		factory(jQuery);
 	}
 }

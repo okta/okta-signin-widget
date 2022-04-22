@@ -1,4 +1,4 @@
-import $ from '@okta/courage/src/util/jquery-wrapper';
+import $ from '../courage/util/jquery-wrapper';
 
 /*!
  * jQuery UI Scroll Parent @VERSION

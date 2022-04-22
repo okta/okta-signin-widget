@@ -2,25 +2,28 @@
   "compilerOptions": {
     "noEmit": true,
     "baseUrl": ".",
-    "outDir": "./target",
+    "outDir": "./target/types",
     "sourceMap": true,
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "checkJs": false,
     "skipLibCheck": true,
+    "target": "ES6",
     "paths": {
-      "vendor/*": ["node_modules/@okta/courage/src/vendor/*"],
-      "handlebars-inline-precompile": ["../../../scripts/buildtools/tsc/handlebars-inline-precompile"],
-      "okta-i18n-bundles": ["node_modules/@okta/courage/src/okta-i18n-bundles.js"]
+      "vendor/*": ["./src/courage/vendor/*"],
+      "handlebars-inline-precompile": ["./src/util/handlebars-inline-precompile"],
+      "okta-i18n-bundles": ["./src/courage/okta-i18n-bundles.js"],
+      "moment": ["./src/courage/vendor/lib/moment-with-locales"]
     }
   },
   "include": [
-    "types/**/*"
+    "src/types/**/*"
   ],
   "files": [
-    "src/CourageForSigninWidget.ts"
+    "src/index.ts"
   ],
   "types": []
 }

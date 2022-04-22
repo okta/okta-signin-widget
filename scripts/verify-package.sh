@@ -14,6 +14,20 @@ if ! yarn build:release; then
   exit ${TEST_FAILURE}
 fi
 
+pushd test/package/cjs
+if ! yarn && yarn test; then
+  echo "CommonJS bundle verification failed! Exiting..."
+  exit ${TEST_FAILURE}
+fi
+popd
+
+pushd test/package/esm
+if ! yarn && yarn test; then
+  echo "ESM bundle verification failed! Exiting..."
+  exit ${TEST_FAILURE}
+fi
+popd
+
 mkdir -p test-reports/verify-package
 
 pushd dist
@@ -25,7 +39,7 @@ then
   value=`cat ./test-reports/verify-package/error.log`
   log_custom_message "Verification Failed" "${value}"
   echo "verification failed! Exiting..."
-  exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
+  exit ${TEST_FAILURE}
 fi
 
 exit $SUCCESS

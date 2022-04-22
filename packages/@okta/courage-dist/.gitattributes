@@ -1,1 +1,3 @@
 types/**/* linguist-generated=true
+esm/**/* linguist-generated=true
+*.html linguist-generated=true

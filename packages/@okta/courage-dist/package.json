@@ -1,0 +1,10 @@
+{
+  "name": "okta",
+  "version": "1.0.0",
+  "description": "Okta Courage for Sign-In Widget",
+  "module": "esm/src/index.js",
+  "types": "types/index.d.ts",
+  "dependencies": {
+    "clipboard": "^1.5.16"
+  }
+}

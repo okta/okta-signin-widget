@@ -22,6 +22,12 @@ export WIDGET_WEB_CLIENT_ID=0oa8ls36zUZj7oFJ2696
 
 export ORG_OIE_ENABLED=true
 
+# Build
+if ! yarn build:release; then
+  echo "build failed! Exiting..."
+  exit ${TEST_FAILURE}
+fi
+
 # Run spec tests
 if ! yarn test:e2e; then
   echo "e2e spec tests failed! Exiting..."

@@ -1,0 +1,21 @@
+{
+  "name": "test-esm-package",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "target/test-import.js",
+  "scripts": {
+    "clean:output": "rimraf target && rimraf dist",
+    "clean": "yarn clean:output && rimraf node_modules",
+    "build:ts": "tsc",
+    "build:webpack": "webpack",
+    "test": "yarn clean:output && yarn build:ts && yarn build:webpack"
+  },
+  "dependencies": {
+    "@okta/okta-signin-widget": "file:../../../dist"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.2",
+    "webpack": "^5.51.1"
+  }
+}

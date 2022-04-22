@@ -7,6 +7,7 @@ function webpackBundleAnalyzer(reportFilename = 'okta-sign-in.analyzer') {
     openAnalyzer: false,
     reportFilename: `${reportFilename}.html`,
     analyzerMode: 'static',
+    defaultSizes: 'stat'
   });
 }
 

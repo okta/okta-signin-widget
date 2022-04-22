@@ -1,6 +1,6 @@
 const path = require('path');
 const ROOT = path.resolve(__dirname);
-const SRC = path.resolve(ROOT, 'src');
+// const SRC = path.resolve(ROOT, 'src');
 const LOCAL_PACKAGES = path.resolve(ROOT, 'packages');
 const COVERAGE_DIR = '<rootDir>/build2/reports/coverage/jest';
 const REPORT_DIR = '<rootDir>/build2/reports/unit';
@@ -13,11 +13,11 @@ module.exports = {
   collectCoverage: false,
   collectCoverageFrom: ['./src/**', '!./test/**'],
   transform: {
-    '^.+\\.[jt]s$': 'babel-jest',
+    '^.+\\.m?[jt]s$': 'babel-jest',
   },
-  transformIgnorePatterns: ['/node_modules/', '/packages/', '/dist/', '/okta-auth-js/build/'],
+  transformIgnorePatterns: [], //'/node_modules/', '/dist/', '/okta-auth-js/build/'],
   restoreMocks: true,
-  moduleDirectories: [SRC, 'packages', 'node_modules'],
+  // moduleDirectories: [SRC, 'packages', 'node_modules'],
   moduleNameMapper: {
     '^sandbox$': `${ROOT}/test/unit/helpers/sandbox`,
     '^helpers/(.*)': `${ROOT}/test/unit/helpers/$1`,
@@ -39,12 +39,13 @@ module.exports = {
 
     // General remapping
     '^nls/(.*)': '@okta/i18n/src/json/$1',
-    '^okta$': `${LOCAL_PACKAGES}/@okta/courage-dist/okta.js`,
-    '^okta-i18n-bundles$': 'util/Bundles',
-    '^jquery$': `${LOCAL_PACKAGES}/@okta/courage-dist/jquery.js`, // jQuery from courage
-    '^qtip$': '@okta/qtip2/dist/jquery.qtip.min.js',
+    '^okta$': `${LOCAL_PACKAGES}/@okta/courage-dist/esm/src/index.js`,
+    '^okta-i18n-bundles$': `${ROOT}/src/util/Bundles`,
+    '^jquery$': `${LOCAL_PACKAGES}/@okta/courage-dist/esm/src/courage/vendor/lib/jquery-1.12.4.js`,
+    '^qtip$': '@okta/qtip2/dist/jquery.qtip.js',
     '^duo$': `${LOCAL_PACKAGES}/vendor/duo_web_sdk/index.js`,
     '^typingdna$': `${LOCAL_PACKAGES}/vendor/TypingDnaRecorder-JavaScript/typingdna`,
+    '^LoginRouter$': `${ROOT}/src/LoginRouter`,
   },
   setupFiles: [
     '<rootDir>/test/unit/jest/jest-setup-global.js'

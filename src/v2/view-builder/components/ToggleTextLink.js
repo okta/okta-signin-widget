@@ -11,12 +11,11 @@
  */
 
 import { View, $ } from 'okta';
-import { BaseView } from '../internals';
 import Link from './Link';
 
 export default View.extend({
   initialize() {
-    BaseView.prototype.initialize.apply(this, arguments);
+    View.prototype.initialize.apply(this, arguments);
     const textViewOptions = this.options.additionalOptions;
     const linkName = this.options.name;
     const linkOptions = Object.assign({}, this.options,
