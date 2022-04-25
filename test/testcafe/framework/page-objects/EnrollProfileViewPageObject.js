@@ -17,6 +17,10 @@ export default class EnrollProfileViewPageObject extends BasePageObject {
     return this.form.selectValueChozenDropdown(fieldName, index);
   }
 
+  getValueFromDropdown(fieldName) {
+    return this.form.getValueFromDropdown(fieldName);
+  }
+
   clickRadioButton(fieldName, index) {
     return this.form.selectRadioButtonOption(fieldName, index);
   }
