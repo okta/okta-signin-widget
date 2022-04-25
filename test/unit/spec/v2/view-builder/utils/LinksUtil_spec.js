@@ -1,6 +1,6 @@
 import AppState from 'v2/models/AppState';
 import { FORMS } from 'v2/ion/RemediationConstants';
-import { getSwitchAuthenticatorLink, getFactorPageCustomLink } from 'v2/view-builder/utils/LinksUtil';
+import { getSwitchAuthenticatorLink, getFactorPageCustomLink, getBackToSignInLink } from 'v2/view-builder/utils/LinksUtil';
 import Settings from '../../../../../../src/models/Settings';
 
 describe('v2/utils/LinksUtil', function() {
@@ -109,6 +109,48 @@ describe('v2/utils/LinksUtil', function() {
         'helpLinks.factorPage.href': 'https://acme.com/what-is-okta-autheticators',
       });
       expect(getFactorPageCustomLink(appState, settings).length).toEqual(0);
+    });
+  });
+
+  describe('getBackToSignInLink', () => {
+    const appState = {
+      set: jest.fn(),
+      trigger: jest.fn(),
+    };
+
+    jest.spyOn(appState, 'set');
+    jest.spyOn(appState, 'trigger');
+
+    it('returns `href` with value of `baseUrl`', () => {
+      const settings = new Settings({
+        baseUrl: 'https://foo',
+        useInteractionCodeFlow: false
+      });
+      const result = getBackToSignInLink({appState, settings});
+      expect(result).toBeInstanceOf(Array);
+      expect(result[0]).toMatchObject({
+        type: 'link',
+        label: expect.any(String),   // this field could change, ignore for testing
+        name: 'go-back',
+        href: 'https://foo',
+      });
+      expect(result[0].clickHandler).toBeUndefined();
+    });
+
+    it('returns `clickHandler` instead of `href` whe using interactionCodeFlow', () => {
+      const settings = new Settings({
+        baseUrl: 'https://foo',
+        useInteractionCodeFlow: true
+      });
+      const result = getBackToSignInLink({appState, settings});
+      expect(result).toBeInstanceOf(Array);
+      expect(result[0]).toMatchObject({
+        type: 'link',
+        label: expect.any(String),   // this field could change, ignore for testing
+        name: 'go-back',
+        clickHandler: expect.any(Function)
+      });
+      expect(result[0].href).toBeUndefined();
     });
   });
 });

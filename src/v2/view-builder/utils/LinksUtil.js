@@ -120,6 +120,7 @@ const getSignOutLink = (settings, options = {}) => {
 const getBackToSignInLink = ({settings, appState}) => {
   const link = {};
 
+  // embedded scenarios
   if (settings?.get('useInteractionCodeFlow')) {
     link.clickHandler = () => {
       console.log('clicked')
@@ -129,9 +130,9 @@ const getBackToSignInLink = ({settings, appState}) => {
       appState.trigger('restartLoginFlow');
     }
   }
+  // okta-hosted scenarios
   else {
-    // TODO: OKTA-381328 back to baseUrl only works for default login page
-    link.href = options.settings?.get('baseUrl');
+    link.href = settings?.get('baseUrl');
   }
 
   return [

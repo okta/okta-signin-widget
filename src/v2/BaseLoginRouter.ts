@@ -116,7 +116,9 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     }
   }
 
-  async handleUpdateAppState(idxResponse: IdxResponse): Promise<IdxResponse> {
+  async handleUpdateAppState(idxResponse: IdxResponse): Promise<IdxResponse | void> {
+    console.log('handleUpdateAppSatete: ', idxResponse);
+
     // Only update the cookie when the user has successfully authenticated themselves 
     // to avoid incorrect/unnecessary updates.
     if (this.hasAuthenticationSucceeded(idxResponse) 
