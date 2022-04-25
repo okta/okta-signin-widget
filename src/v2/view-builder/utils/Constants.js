@@ -4,6 +4,7 @@ export const CHALLENGE_TIMEOUT = 300000;
 export const MS_PER_SEC = 1000;
 export const UNIVERSAL_LINK_POST_DELAY = 500;
 export const CANCEL_POLLING_ACTION = 'authenticatorChallenge-cancel';
+export const AUTHENTICATOR_CANCEL_ACTION = 'currentAuthenticator-cancel';
 export const WIDGET_FOOTER_CLASS = 'siw-main-footer';
 export const FASTPASS_FALLBACK_SPINNER_TIMEOUT = 4000;
 export const IDENTIFIER_FLOW = 'IDENTIFIER';

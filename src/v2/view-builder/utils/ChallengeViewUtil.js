@@ -13,9 +13,14 @@ import { loc, View, createButton, _ } from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import Enums from '../../../util/Enums';
 import Util from '../../../util/Util';
-import { FASTPASS_FALLBACK_SPINNER_TIMEOUT, IDENTIFIER_FLOW, 
+import {
+  FASTPASS_FALLBACK_SPINNER_TIMEOUT,
+  IDENTIFIER_FLOW,
+  LOOPBACK_RESPONSE_STATUS_CODE,
   OV_UV_ENABLE_BIOMETRICS_FASTPASS_DESKTOP, 
-  OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE  } from '../utils/Constants';
+  OV_UV_ENABLE_BIOMETRICS_FASTPASS_MOBILE,
+  REQUEST_PARAM_AUTHENTICATION_CANCEL_REASON,
+} from '../utils/Constants';
 
 export function appendLoginHint(deviceChallengeUrl, loginHint) {
   if (deviceChallengeUrl && loginHint) {
@@ -143,6 +148,13 @@ export function doChallenge(view, fromView) {
     }));
     break;
   }
+}
+
+export function cancelPollingWithParams(appState, pollingCancelAction, cancelReason, statusCode) {
+  const actionParams = {};
+  actionParams[REQUEST_PARAM_AUTHENTICATION_CANCEL_REASON] = cancelReason;
+  actionParams[LOOPBACK_RESPONSE_STATUS_CODE] = statusCode;
+  appState.trigger('invokeAction', pollingCancelAction, actionParams);
 }
 
 export function getBiometricsErrorOptions(error, isMessageObj) {
