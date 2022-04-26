@@ -98,7 +98,6 @@ export default Controller.extend({
   },
 
   handleAfterError(error: HttpResponse) {
-    console.log('handleAfterError: ', error);
     const contextData = this.createAfterEventContext();
     const errorContextData: EventErrorContext = {
       xhr: error,
