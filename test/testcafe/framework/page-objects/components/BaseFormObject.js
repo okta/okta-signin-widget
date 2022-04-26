@@ -155,6 +155,11 @@ export default class BaseFormObject {
   // Chozen Dropdown
   // =====================================
 
+  getValueFromDropdown(fieldName) {
+    const selectContainer = this.findFormFieldInput(fieldName).find('.chzn-container');
+    return selectContainer.innerText;
+  }
+
   async selectValueChozenDropdown(fieldName, index) {
     const selectContainer = await this.findFormFieldInput(fieldName)
       .find('.chzn-container');

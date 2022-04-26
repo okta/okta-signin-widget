@@ -107,6 +107,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('s
   requestLogger.clear();
   await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.country')).eql('Country');
   await t.expect(await enrollProfilePage.isDropdownVisible('userProfile.country')).ok();
+  await t.expect(await enrollProfilePage.getValueFromDropdown('userProfile.country')).eql('Select an Option');
   await enrollProfilePage.selectValueFromDropdown('userProfile.country', 1);
 
   await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.countryCode')).eql('Country code');
@@ -114,6 +115,7 @@ test.requestHooks(requestLogger, EnrollProfileSignUpWithAdditionalFieldsMock)('s
 
   await t.expect(await enrollProfilePage.getFormFieldLabel('userProfile.timezone')).eql('Time zone');
   await t.expect(await enrollProfilePage.isDropdownVisible('userProfile.timezone')).ok();
+  await t.expect(await enrollProfilePage.getValueFromDropdown('userProfile.timezone')).eql('Select an Option');
   await enrollProfilePage.selectValueFromDropdown('userProfile.timezone', 1);
 });
 

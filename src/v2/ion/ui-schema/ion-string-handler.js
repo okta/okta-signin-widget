@@ -40,7 +40,6 @@ const getCaptchaUiSchema = () => {
 
 const timezoneUISchema = {
   type: 'select',
-  options: TimeZone,
   wide: true
 };
 
@@ -56,8 +55,7 @@ const populateUISchemaForDisplay = (uiSchema, ionField) => {
   } else if (display.inputType === 'select') {
     uiSchema.wide = true;
     if (display.format === ATTR_FORMAT.COUNTRY_CODE) {
-      uiSchema.options = CountryUtil.getCountryCode();
-      uiSchema.value = 'US';
+      uiSchema.options = Object.assign({'': ''}, CountryUtil.getCountryCode());
     } else {
       //it will create a placeholder for dropdowns, by default it will show 'Select an Option'
       uiSchema.options = Object.assign({'': ''}, ionOptionsToUiOptions(display.options));
@@ -68,7 +66,7 @@ const populateUISchemaForDisplay = (uiSchema, ionField) => {
 const populateUISchemaForRadio = (uiSchema, ionFormField) => {
   // e.g. { name: 'methodType', options: [ {label: 'sms'} ], type: 'string' | null }
   uiSchema.type = 'radio';
-  // set the default value to the first value..
+  // set the default value to the first value.
   ionFormField.value = ionFormField.options[0].value;
 };
 
@@ -88,6 +86,7 @@ const createUiSchemaForString = (ionFormField, remediationForm, transformedResp,
 
   if(ionFormField.name === 'userProfile.timezone'){
     Object.assign(uiSchema, timezoneUISchema);
+    uiSchema.options = Object.assign({'': ''}, TimeZone);
   }
 
   if (Array.isArray(ionFormField.options) && ionFormField.options[0] && ionFormField.options[0].value) {
