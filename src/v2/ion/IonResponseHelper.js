@@ -153,7 +153,13 @@ const isIonErrorResponse = (response = {}) => {
   return response.version;
 };
 
+const isIdxSessionExpiredError = (response) => {
+  const errorI18NKey = response?.context?.messages?.value[0]?.i18n?.key;
+  return errorI18NKey && errorI18NKey === 'idx.session.expired';
+};
+
 export default {
   convertFormErrors,
   isIonErrorResponse,
+  isIdxSessionExpiredError
 };

@@ -367,11 +367,9 @@ export default Controller.extend({
     }
 
     // 'idx.session.expired' requires special handling, otherwise the widget can lock up into an unrecoverable state
-    const errorI18NKey = idxStateError?.context?.messages?.value[0]?.i18n?.key;
-    if (errorI18NKey && errorI18NKey === 'idx.session.expired') {
+    if (IonResponseHelper.isIdxSessionExpiredError(idxStateError)) {
       const authClient = this.settings.getAuthClient();
       authClient.transactionManager.clear();
-      authClient.idx.clearTransactionMeta();
     }
   },
 

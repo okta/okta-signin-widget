@@ -22,8 +22,6 @@ const sessionExpiresDuringPasswordChallenge = baseNetworkMocks
 
 const sessionExpiresBackToSignIn = baseNetworkMocks
   .onRequestTo('http://localhost:3000/idp/idx/cancel')
-  .respond(xhrIdentify)
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify);
 
 const interactionCodeFlowBaseMock = RequestMock()
@@ -103,6 +101,27 @@ test.requestHooks(sessionExpiresBackToSignIn)('back to sign loads identify after
   await t.expect(identityPage.getIdentifier()).eql('testUser@okta.com');
 
   await identityPage.clickSignOutLink();
+
+  // ensure SIW does not load with the SessionExpired error
+  await t.expect(identityPage.getPageTitle()).eql('Sign In');
+  await t.expect(identityPage.getTotalGlobalErrors()).eql(0);
+});
+
+test.requestHooks(interactionCodeFlowBaseMock)('Int. Code Flow: reloads into fresh state after after session expires when challenging password', async t => {
+  let identityPage = await setupInteractionCodeFlow(t);
+
+  await identityPage.fillIdentifierField('Test Identifier');
+  await identityPage.clickNextButton();
+
+  await identityPage.fillPasswordField('credentials.passcode', 'test');
+  await identityPage.clickNextButton();
+
+  await t.expect(identityPage.getGlobalErrors()).eql('You have been logged out due to inactivity. Refresh or return to the sign in screen.');
+  await t.expect(identityPage.getSignoutLinkText()).eql('Back to sign in'); // confirm they can get out of terminal state
+  await t.expect(identityPage.getIdentifier()).eql('testUser@okta.com');
+
+  await identityPage.refresh();
+  identityPage = await setupInteractionCodeFlow(t);
 
   // ensure SIW does not load with the SessionExpired error
   await t.expect(identityPage.getPageTitle()).eql('Sign In');

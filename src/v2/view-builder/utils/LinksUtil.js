@@ -123,9 +123,6 @@ const getBackToSignInLink = ({settings, appState}) => {
   // embedded scenarios
   if (settings?.get('useInteractionCodeFlow')) {
     link.clickHandler = () => {
-      const authClient = settings.getAuthClient();
-      authClient.idx.clearTransactionMeta();
-      appState.set('idx', undefined);
       appState.trigger('restartLoginFlow');
     };
   }

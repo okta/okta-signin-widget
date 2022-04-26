@@ -116,7 +116,7 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     }
   }
 
-  async handleUpdateAppState(idxResponse: IdxResponse): Promise<IdxResponse | void> {
+  async handleUpdateAppState(idxResponse: IdxResponse): Promise<IdxResponse> {
     // Only update the cookie when the user has successfully authenticated themselves 
     // to avoid incorrect/unnecessary updates.
     if (this.hasAuthenticationSucceeded(idxResponse) 
@@ -285,6 +285,7 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
   restartLoginFlow() {
     // clear all transaction data and saved IDX response
     this.settings.getAuthClient().transactionManager.clear();
+    this.appState.set('idx', undefined);
 
     // Clear the recoveryToken, if any
     const authClient = this.settings.getAuthClient();
