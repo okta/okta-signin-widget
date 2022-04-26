@@ -3,7 +3,7 @@
     "noEmit": true,
     "rootDir": ".",
     "baseUrl": ".",
-    "outDir": "./types/generated",
+    "outDir": "./types",
     "target": "es6",
     "sourceMap": true,
     "moduleResolution": "node",
@@ -27,7 +27,7 @@
     }
   },
   "include": [
-    "types/global*"
+    "src/types/*"
   ],
   "files": [
     "src/index.ts"

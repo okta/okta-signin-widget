@@ -37,8 +37,8 @@ function verifyPackageContents() {
   expect(manifest.size).toBeLessThan(12 * ONE_MB);
 
   // files
-  expect(manifest.entryCount).toBeGreaterThan(900);
-  expect(manifest.entryCount).toBeLessThan(1200);
+  expect(manifest.entryCount).toBeGreaterThan(1200);
+  expect(manifest.entryCount).toBeLessThan(1400);
 
   // A sampling of expected files
   const expectedFiles = [
@@ -52,9 +52,8 @@ function verifyPackageContents() {
     'dist/sass/_fonts.scss',
     'dist/font/okticon.ttf',
     'dist/font/okticon.woff',
-    'types/index.d.ts',
-    'types/generated/src/index.d.ts',
-    'types/generated/packages/@okta/courage-dist/types/courage/framework/Model.d.ts'
+    'types/src/index.d.ts',
+    'types/packages/@okta/courage-dist/types/courage/framework/Model.d.ts'
   ];
 
   expectedFiles.forEach((filename) => {

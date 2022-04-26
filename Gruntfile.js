@@ -28,6 +28,14 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
+    clean: {
+      'types': [
+        'types/*/',
+        'types/*.d.ts',
+        'types/*.d.ts.map',
+      ]
+    },
+
     copy: {
       'types': {
         files: [
@@ -37,7 +45,7 @@ module.exports = function(grunt) {
             src: [
               '**/*.d.ts'
             ],
-            dest: `types/generated/${COURAGE_TYPES}`
+            dest: `types/${COURAGE_TYPES}`
           }
         ]
       },
