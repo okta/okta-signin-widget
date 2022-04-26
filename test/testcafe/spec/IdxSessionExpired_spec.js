@@ -9,12 +9,12 @@ import xhrSessionExpired from '../../../playground/mocks/data/idp/idx/error-401-
 
 
 const baseNetworkMocks = RequestMock()
-.onRequestTo('http://localhost:3000/idp/idx/introspect')
-.respond(xhrIdentify, 200)
-.onRequestTo('http://localhost:3000/idp/idx/identify')
-.respond(xhrAuthenticatorRequiredPassword)
-.onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
-.respond(xhrSessionExpired, 401);
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(xhrIdentify, 200)
+  .onRequestTo('http://localhost:3000/idp/idx/identify')
+  .respond(xhrAuthenticatorRequiredPassword)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(xhrSessionExpired, 401);
 
 const sessionExpiresDuringPasswordChallenge = baseNetworkMocks
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
