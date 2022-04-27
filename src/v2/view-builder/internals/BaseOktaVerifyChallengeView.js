@@ -9,6 +9,12 @@ import {
 import BrowserFeatures from 'util/BrowserFeatures';
 import { doChallenge, cancelPollingWithParams } from '../utils/ChallengeViewUtil';
 
+//Transaction lifetime is 5 min. Once it over, a new transaction will be created & this page will be re-rendered.
+//In case polling stop timeout will be set to 5 min page will re-rendered earlier and polling will be started
+// from the beginning. Which will cause infinite polling.
+//Because of that stop polling timeout should be a little bit earlier.
+const DEFAULT_POLLING_TIMEOUT = 285000;
+
 const request = (opts) => {
   const ajaxOptions = Object.assign({
     method: 'GET',
@@ -36,6 +42,7 @@ const Body = BaseFormWithPolling.extend({
     this.listenTo(this.model, 'error', this.onPollingFail);
     this.doChallenge();
     this.startPolling();
+    this.pollingStopTimeout = setTimeout(this.stopPolling.bind(this), DEFAULT_POLLING_TIMEOUT);
   },
 
   doChallenge() {
@@ -108,7 +115,10 @@ const Body = BaseFormWithPolling.extend({
               foundPort = true;
               // once the OV challenge succeeds,
               // triggers another polling right away without waiting for the next ongoing polling to be triggered
-              // to make the authentication flow goes faster 
+              // to make the authentication flow goes faster
+              if (this.pollingStopTimeout) {
+                clearTimeout(this.pollingStopTimeout);
+              }
               return this.trigger('save', this.model);
             })
             .fail((xhr) => {
