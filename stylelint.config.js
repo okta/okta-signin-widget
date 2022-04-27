@@ -65,7 +65,7 @@ module.exports = {
     'selector-no-vendor-prefix': null,
     'shorthand-property-no-redundant-values': true,
     /* eslint-disable-next-line @okta/okta/no-exclusive-language */
-    'unit-whitelist': [
+    'unit-allowed-list': [
       'ch',
       'em',
       'ex',
