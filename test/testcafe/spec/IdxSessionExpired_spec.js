@@ -8,7 +8,7 @@ import xhrAuthenticatorRequiredPassword from '../../../playground/mocks/data/idp
 import xhrSessionExpired from '../../../playground/mocks/data/idp/idx/error-401-session-expired';
 
 
-const baseNetworkMocks = RequestMock()
+const sessionExpiresDuringPasswordChallenge = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(xhrIdentify, 200)
   .onRequestTo('http://localhost:3000/idp/idx/identify')
@@ -16,11 +16,7 @@ const baseNetworkMocks = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
   .respond(xhrSessionExpired, 401);
 
-const sessionExpiresDuringPasswordChallenge = baseNetworkMocks
-  .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrIdentify);
-
-const sessionExpiresBackToSignIn = baseNetworkMocks
+const sessionExpiresBackToSignIn = sessionExpiresDuringPasswordChallenge
   .onRequestTo('http://localhost:3000/idp/idx/cancel')
   .respond(xhrIdentify);
 
