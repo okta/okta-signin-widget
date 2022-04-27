@@ -65,6 +65,7 @@ const Body = BaseFormWithPolling.extend({
       deviceChallenge.probeTimeoutMillis : 100;
     let currentPort;
     let foundPort = false;
+    let ovFailed = false;
     let countFailedPorts = 0;
 
     const getAuthenticatorUrl = (path) => {
@@ -117,7 +118,9 @@ const Body = BaseFormWithPolling.extend({
               // the wrong OS profile responds to the challenge request
               if (xhr.status !== 503) {
                 // when challenge responds with other errors,
-                // cancel polling right away
+                // - stop the remaining probing
+                ovFailed = true;
+                // - cancel polling right away
                 cancelPollingWithParams(
                   this.options.appState,
                   this.pollingCancelAction,
@@ -144,7 +147,7 @@ const Body = BaseFormWithPolling.extend({
     ports.forEach(port => {
       probeChain = probeChain
         .then(() => {
-          if (!foundPort) {
+          if (!(foundPort || ovFailed)) {
             currentPort = port;
             return doProbing();
           }
