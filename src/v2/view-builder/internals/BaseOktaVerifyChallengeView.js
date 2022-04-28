@@ -1,12 +1,12 @@
 import { $ } from 'okta';
 import { BaseFormWithPolling } from '../internals';
-import Logger from '../../../util/Logger';
+import Logger from 'util/Logger';
 import {
   AUTHENTICATOR_CANCEL_ACTION,
   AUTHENTICATION_CANCEL_REASONS,
   CHALLENGE_TIMEOUT,
 } from '../utils/Constants';
-import BrowserFeatures from '../../../util/BrowserFeatures';
+import BrowserFeatures from 'util/BrowserFeatures';
 import { doChallenge, cancelPollingWithParams } from '../utils/ChallengeViewUtil';
 
 const request = (opts) => {

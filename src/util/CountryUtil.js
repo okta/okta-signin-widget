@@ -11,7 +11,7 @@
  */
 
 import { _, loc } from 'okta';
-import bundles from './Bundles';
+import bundles from 'util/Bundles';
 import countryCallingCodes from './countryCallingCodes';
 const fn = {};
 

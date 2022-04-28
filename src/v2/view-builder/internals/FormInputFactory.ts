@@ -4,9 +4,9 @@ import AuthenticatorEnrollOptions from '../components/AuthenticatorEnrollOptions
 import AuthenticatorVerifyOptions from '../components/AuthenticatorVerifyOptions';
 import { getAuthenticatorDataForEnroll, getAuthenticatorDataForVerification } from '../utils/AuthenticatorUtil';
 import { AUTHENTICATOR_KEY, FORMS as RemediationForms } from '../../ion/RemediationConstants';
-import IDP from '../../../util/IDP';
-import AdminScopeList from '../../../views/admin-consent/ScopeList';
-import EnduserScopeList from '../../../views/consent/ScopeList';
+import IDP from 'util/IDP';
+import AdminScopeList from 'v1/views/admin-consent/ScopeList';
+import EnduserScopeList from 'v1/views/consent/ScopeList';
 import CaptchaView from '../views/captcha/CaptchaView';
 
 // TODO: remove ambient declaration patch after courage type has been updated: OKTA-488758

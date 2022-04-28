@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 import { loc, _ } from 'okta';
-import FactorUtil from '../../../util/FactorUtil';
+import FactorUtil from 'util/FactorUtil';
 import { AUTHENTICATOR_KEY } from '../../ion/RemediationConstants';
 
 const { getPasswordComplexityDescriptionForHtmlList } = FactorUtil;

@@ -11,8 +11,8 @@
  */
 import { loc, View, createButton, _ } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-import Enums from '../../../util/Enums';
-import Util from '../../../util/Util';
+import Enums from 'util/Enums';
+import Util from 'util/Util';
 import {
   FASTPASS_FALLBACK_SPINNER_TIMEOUT,
   IDENTIFIER_FLOW,

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Errors from 'util/Errors';
-import Util from 'util/Util';
+import Errors from '../util/Errors';
+import Util from '../util/Util';
 import Logger from 'util/Logger';
 import getAuthClient from 'widget/getAuthClient';
 import buildRenderOptions from 'widget/buildRenderOptions';
 import createRouter from 'widget/createRouter';
-import V1Router from 'LoginRouter';
+import V1Router from 'v1/LoginRouter';
 import V2Router from 'v2/WidgetRouter';
 import Hooks from 'models/Hooks';
 import {

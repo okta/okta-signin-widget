@@ -13,7 +13,7 @@
 /* eslint max-statements: [2, 15] */
 
 import Q from 'q';
-import Enums from './Enums';
+import Enums from 'util/Enums';
 const SWAP_PAGE_TIME = 200;
 const fn = {};
 

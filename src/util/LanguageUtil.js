@@ -1,5 +1,5 @@
-import Bundles from 'util/Bundles';
-import config from 'config/config.json';
+import Bundles from './Bundles';
+import config from '../config/config.json';
 
 function loadLanguage(appState, settings) {
   const languageCode = appState.get('languageCode') || settings.get('languageCode') || config.defaultLanguage;
