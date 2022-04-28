@@ -136,6 +136,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
     - [features.showIdentifier](#featuresshowidentifier)
     - [features.hideSignOutLinkInMFA](#featureshidesignoutlinkinmfa)
     - [features.rememberMe](#featuresrememberme)
+    - [features.autoFocus](#featuresautofocus)
 - [Events](#events)
   - [ready](#ready)
   - [afterError](#aftererror)
@@ -238,9 +239,9 @@ To embed the Sign-in Widget via CDN, include links to the JS and CSS files in yo
 
 ```html
 <!-- Latest CDN production Javascript and CSS -->
-<script src="https://global.oktacdn.com/okta-signin-widget/6.2.1/js/okta-sign-in.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/6.3.0/js/okta-sign-in.min.js" type="text/javascript"></script>
 
-<link href="https://global.oktacdn.com/okta-signin-widget/6.2.1/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
+<link href="https://global.oktacdn.com/okta-signin-widget/6.3.0/css/okta-sign-in.min.css" type="text/css" rel="stylesheet"/>
 ```
 
 The CDN URLs contain a version number. This number should be the same for both the Javascript and the CSS file and match a version on the [releases page](https://github.com/okta/okta-signin-widget/releases).
@@ -249,7 +250,7 @@ The standard JS asset served from our CDN includes polyfills via [`core-js`](htt
 
 ```html
 <!-- Latest CDN production Javascript without polyfills -->
-<script src="https://global.oktacdn.com/okta-signin-widget/6.2.1/js/okta-sign-in.no-polyfill.min.js" type="text/javascript"></script>
+<script src="https://global.oktacdn.com/okta-signin-widget/6.3.0/js/okta-sign-in.no-polyfill.min.js" type="text/javascript"></script>
 ```
 
 #### Using the npm module
@@ -1044,8 +1045,6 @@ Custom link href for the "Unlock Account" link. For this link to display, `featu
 
 Array of custom link objects `{text, href, target}` that will be added to the *"Need help signing in?"* section. The `target` of the link is optional.
 
-- **features.autoFocus** - Automatically focuses the first input field of any form when displayed. Defaults to `true`.
-
 ### Hooks
 
 Asynchronous callbacks can be invoked before or after a specific view is rendered. Hooks can be used to add custom logic such as instrumentation, logging, or additional user input. Normal execution is blocked while the hook function is executing and will resume after the Promise returned from the hook function resolves. Hooks can be added via config, as shown below, or at runtime using the [before](#before) or [after](#after) methods. The full list of views can be found in [RemediationConstants.js](https://github.com/okta/okta-signin-widget/blob/master/src/v2/ion/RemediationConstants.js#L19).
@@ -1291,6 +1290,12 @@ Hides the "Back to sign in" link for authenticator enrollment and challenge flow
 
 Defaults to `true`.
 Pre-fills the identifier field with the previously used username.
+
+
+#### features.autoFocus
+
+Defaults to `true`.
+Automatically focuses the first input field of any form when displayed. 
 
 ## Events
 
