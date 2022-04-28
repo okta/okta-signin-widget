@@ -33,6 +33,7 @@ import EnrollProfileUpdateView from './views/EnrollProfileUpdateView';
 
 // Email Activation
 import RequestActivationEmail from './views/activation/RequestActivationEmailView';
+import EMLActivationSessionExpiredView from './views/activation/EMLActivationSessionExpiredView';
 
 // authenticator list
 import SelectAuthenticatorEnrollView from './views/SelectAuthenticatorEnrollView';
@@ -253,6 +254,9 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.TERMINAL]: {
     [DEFAULT]: TerminalView,
+  },
+  [RemediationForms.EMAIL_ACTIVATION_SESSION_EXPIRED]: {
+    [DEFAULT]: EMLActivationSessionExpiredView,
   },
 };
 

@@ -25,6 +25,7 @@ const FORMS = {
   ENROLL_PROFILE_UPDATE: 'profile-update',
   UNLOCK_ACCOUNT: 'unlock-account',
   REQUEST_ACTIVATION: 'request-activation-email',
+  EMAIL_ACTIVATION_SESSION_EXPIRED: 'email-activation-session-expired',
 
   CONSENT_ADMIN: 'admin-consent',
   CONSENT_ENDUSER: 'consent',
