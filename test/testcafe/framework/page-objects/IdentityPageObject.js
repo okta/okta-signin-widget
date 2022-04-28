@@ -102,6 +102,10 @@ export default class IdentityPageObject extends BasePageObject {
     return this.form.getErrorBoxText();
   }
 
+  getTotalGlobalErrors() {
+    return this.form.getErrorBoxCount();
+  }
+
   waitForIdentifierError() {
     return this.form.waitForTextBoxError('identifier');
   }

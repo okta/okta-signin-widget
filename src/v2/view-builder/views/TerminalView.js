@@ -159,7 +159,7 @@ const Footer = BaseFooter.extend({
     if (!this.options.appState.hasActionObject('cancel') &&
         !this.options.appState.containsMessageWithI18nKey(NO_BACKTOSIGNIN_LINK_VIEWS)) {
       // TODO OKTA-432869 "back to sign in" links to org baseUrl, does not work correctly with embedded widget
-      return getBackToSignInLink(this.options.settings);
+      return getBackToSignInLink(this.options);
     }
   }
 });

@@ -285,6 +285,7 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
   restartLoginFlow() {
     // clear all transaction data and saved IDX response
     this.settings.getAuthClient().transactionManager.clear();
+    this.appState.set('idx', undefined);
 
     // Clear the recoveryToken, if any
     const authClient = this.settings.getAuthClient();

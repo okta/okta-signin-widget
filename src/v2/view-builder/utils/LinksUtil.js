@@ -117,14 +117,26 @@ const getSignOutLink = (settings, options = {}) => {
 };
 
 // Use it to create a widget configured link in the absence of `cancel` object in remediation
-const getBackToSignInLink = (settings) => {
+const getBackToSignInLink = ({settings, appState}) => {
+  const link = {};
+
+  // embedded scenarios
+  if (settings?.get('useInteractionCodeFlow')) {
+    link.clickHandler = () => {
+      appState.trigger('restartLoginFlow');
+    };
+  }
+  // okta-hosted scenarios
+  else {
+    link.href = settings?.get('baseUrl');
+  }
+
   return [
     {
       'type': 'link',
       'label': loc('goback', 'login'),
       'name': 'go-back',
-      // TODO: OKTA-381328 back to baseUrl only works for default login page
-      'href': settings?.get('baseUrl'),
+      ...link
     },
   ];
 };

@@ -327,12 +327,12 @@ export default Controller.extend({
    * reload or re-render, but updates the AppSate with latest remediation.
    */
   showFormErrors(model, error, form) {
-    /* eslint max-statements: [2, 22] */
+    /* eslint max-statements: [2, 30] */
     let errorObj;
     let idxStateError;
     let showErrorBanner = true;
     model.trigger('clearFormError');
-    
+
     if (!error) {
       error = 'FormController - unknown error found';
       this.options.settings.callGlobalError(error);
@@ -364,6 +364,12 @@ export default Controller.extend({
     // For eg 429 rate-limit errors, we have to skip updating idx state, because error response is not an idx response.
     if (Array.isArray(idxStateError?.neededToProceed) && idxStateError?.neededToProceed.length) {
       this.handleIdxResponse(idxStateError);
+    }
+
+    // 'idx.session.expired' requires special handling, otherwise the widget can lock up into an unrecoverable state
+    if (IonResponseHelper.isIdxSessionExpiredError(idxStateError)) {
+      const authClient = this.settings.getAuthClient();
+      authClient.transactionManager.clear();
     }
   },
 
