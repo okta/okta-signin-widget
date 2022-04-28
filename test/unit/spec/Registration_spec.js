@@ -1,7 +1,7 @@
 /* eslint max-params: [2, 17], max-statements:[2, 70] */
 import { _, $, Backbone } from 'okta';
 import getAuthClient from 'widget/getAuthClient';
-import Router from 'LoginRouter';
+import Router from 'v1/LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import RegForm from 'helpers/dom/RegistrationForm';
 import Util from 'helpers/mocks/Util';
@@ -9,7 +9,7 @@ import Expect from 'helpers/util/Expect';
 import resSuccess from 'helpers/xhr/SUCCESS';
 import resErrorNotUnique from 'helpers/xhr/ERROR_notUnique';
 import resErrorInvalidEmailDomain from 'helpers/xhr/ERROR_INVALID_EMAIL_DOMAIN';
-import RegSchema from 'models/RegistrationSchema';
+import RegSchema from 'v1/models/RegistrationSchema';
 import $sandbox from 'sandbox';
 import Settings from 'models/Settings';
 

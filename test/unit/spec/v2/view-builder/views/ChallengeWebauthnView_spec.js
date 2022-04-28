@@ -7,7 +7,7 @@ import BrowserFeatures from 'util/BrowserFeatures';
 import CryptoUtil from 'util/CryptoUtil';
 import $sandbox from 'sandbox';
 import Expect from 'helpers/util/Expect';
-import ChallengeWebauthnResponse from '../../../../../../playground/mocks/data/idp/idx/authenticator-verification-webauthn';
+import ChallengeWebauthnResponse from '../../../../../../playground/mocks/data/idp/idx/authenticator-verification-webauthn.json';
 
 describe('v2/view-builder/views/webauthn/ChallengeWebauthnView', function() {
   let testContext;

@@ -1,5 +1,5 @@
 /* eslint max-params:[2, 28], max-statements:[2, 40], camelcase:0, max-len:[2, 180] */
-import RegistrationSchema from 'models/RegistrationSchema';
+import RegistrationSchema from 'v1/models/RegistrationSchema';
 import Settings from 'models/Settings';
 
 describe('RegistrationSchema', () => {

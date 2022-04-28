@@ -1,7 +1,7 @@
 /* eslint max-params: [2, 19] */
 import { _ } from 'okta';
 import getAuthClient from 'widget/getAuthClient';
-import Router from 'LoginRouter';
+import Router from 'v1/LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import EnrollChoicesForm from 'helpers/dom/EnrollChoicesForm';
 import Util from 'helpers/mocks/Util';

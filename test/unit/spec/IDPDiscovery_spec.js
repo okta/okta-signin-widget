@@ -1,7 +1,7 @@
 /* eslint max-params:[2, 28], max-statements:[2, 41], camelcase:0, max-len:[2, 180] */
 import { _, $, internal } from 'okta';
 import getAuthClient from 'widget/getAuthClient';
-import Router from 'LoginRouter';
+import Router from 'v1/LoginRouter';
 import AuthContainer from 'helpers/dom/AuthContainer';
 import Beacon from 'helpers/dom/Beacon';
 import IDPDiscoveryForm from 'helpers/dom/IDPDiscoveryForm';
@@ -18,11 +18,11 @@ import resUnauthenticated from 'helpers/xhr/UNAUTHENTICATED';
 import resErrorUnauthorized from 'helpers/xhr/UNAUTHORIZED_ERROR';
 import resSecurityImage from 'helpers/xhr/security_image';
 import resSecurityImageFail from 'helpers/xhr/security_image_fail';
-import IDPDiscovery from 'models/IDPDiscovery';
+import IDPDiscovery from 'v1/models/IDPDiscovery';
 import Q from 'q';
 import $sandbox from 'sandbox';
 import BrowserFeatures from 'util/BrowserFeatures';
-import DeviceFingerprint from 'util/DeviceFingerprint';
+import DeviceFingerprint from 'v1/util/DeviceFingerprint';
 import Errors from 'util/Errors';
 import WidgetUtil from 'util/Util';
 const SharedUtil = internal.util.Util;

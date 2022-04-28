@@ -1,7 +1,7 @@
 /* eslint max-params: [2, 24] */
 import { _, loc } from 'okta';
 import getAuthClient from 'widget/getAuthClient';
-import Router from 'LoginRouter';
+import Router from 'v1/LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import LinkSentConfirmation from 'helpers/dom/EnrollPushLinkSentForm';
 import BarcodeForm from 'helpers/dom/EnrollTotpBarcodeForm';

@@ -2,7 +2,7 @@
 /* eslint camelcase: 0 */
 import { _, $, internal } from 'okta';
 import getAuthClient from 'widget/getAuthClient';
-import Router from 'LoginRouter';
+import Router from 'v1/LoginRouter';
 import Duo from 'duo';
 import Beacon from 'helpers/dom/Beacon';
 import MfaVerifyForm from 'helpers/dom/MfaVerifyForm';
@@ -46,7 +46,7 @@ import labelsLoginJa from 'helpers/xhr/labels_login_ja';
 import Q from 'q';
 import $sandbox from 'sandbox';
 import BrowserFeatures from 'util/BrowserFeatures';
-import RouterUtil from 'util/RouterUtil';
+import RouterUtil from 'v1/util/RouterUtil';
 import LoginUtil from 'util/Util';
 import webauthn from 'util/webauthn';
 const SharedUtil = internal.util.Util;

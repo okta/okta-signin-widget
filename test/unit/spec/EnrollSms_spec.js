@@ -1,7 +1,7 @@
 /* eslint max-params: 0 */
 import { _, $ } from 'okta';
 import getAuthClient from 'widget/getAuthClient';
-import Router from 'LoginRouter';
+import Router from 'v1/LoginRouter';
 import AuthContainer from 'helpers/dom/AuthContainer';
 import Beacon from 'helpers/dom/Beacon';
 import Form from 'helpers/dom/EnrollSmsForm';

@@ -1,5 +1,5 @@
 import $sandbox from 'sandbox';
-import DeviceFingerprint from 'util/DeviceFingerprint';
+import DeviceFingerprint from 'v1/util/DeviceFingerprint';
 
 describe('DeviceFingerprint', () => {
   function mockIFrameMessages(success, errorMessage) {

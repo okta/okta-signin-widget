@@ -1,6 +1,6 @@
 /* eslint max-params: [2, 18] */
 import getAuthClient from 'widget/getAuthClient';
-import Router from 'LoginRouter';
+import Router from 'v1/LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import Form from 'helpers/dom/EnrollPasswordForm';
 import Util from 'helpers/mocks/Util';
@@ -10,7 +10,7 @@ import resError from 'helpers/xhr/FACTOR_ENROLL_password_error';
 import resSuccess from 'helpers/xhr/SUCCESS';
 import Q from 'q';
 import $sandbox from 'sandbox';
-import RouterUtil from 'util/RouterUtil';
+import RouterUtil from 'v1/util/RouterUtil';
 import LoginUtil from 'util/Util';
 const itp = Expect.itp;
 

@@ -1,6 +1,6 @@
 import { _, internal } from 'okta';
 import getAuthClient from 'widget/getAuthClient';
-import Router from 'LoginRouter';
+import Router from 'v1/LoginRouter';
 import Beacon from 'helpers/dom/Beacon';
 import PasswordResetForm from 'helpers/dom/PasswordResetForm';
 import Util from 'helpers/mocks/Util';

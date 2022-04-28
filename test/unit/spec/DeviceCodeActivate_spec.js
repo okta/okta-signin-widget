@@ -1,6 +1,6 @@
 import { _ } from 'okta';
 import getAuthClient from 'widget/getAuthClient';
-import Router from 'LoginRouter';
+import Router from 'v1/LoginRouter';
 import DeviceCodeActivateForm from 'helpers/dom/DeviceCodeActivateForm';
 import Util from 'helpers/mocks/Util';
 import Expect from 'helpers/util/Expect';

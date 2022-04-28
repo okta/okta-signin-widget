@@ -1,7 +1,7 @@
 /* eslint max-params: [2, 13], max-len: [2, 160] */
 import { _ } from 'okta';
 import getAuthClient from 'widget/getAuthClient';
-import Router from 'LoginRouter';
+import Router from 'v1/LoginRouter';
 import EnrollUserForm from 'helpers/dom/EnrollUserForm';
 import Util from 'helpers/mocks/Util';
 import Expect from 'helpers/util/Expect';

@@ -1,6 +1,6 @@
 /* eslint max-statements: [2, 22]*/
 import { internal } from 'okta';
-import RegistrationFormFactory from 'util/RegistrationFormFactory';
+import RegistrationFormFactory from 'v1/util/RegistrationFormFactory';
 let { SchemaProperty } = internal.models;
 
 describe('RegistrationFormFactory', function() {

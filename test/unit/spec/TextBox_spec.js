@@ -1,7 +1,7 @@
 import { BaseModel, _ } from 'okta';
 import Expect from 'helpers/util/Expect';
 import $sandbox from 'sandbox';
-import TextBox from 'views/shared/TextBox';
+import TextBox from 'v1/views/shared/TextBox';
 
 Expect.describe('TextBox', function() {
   it('the value of aria-label is same as the placeholder', function() {

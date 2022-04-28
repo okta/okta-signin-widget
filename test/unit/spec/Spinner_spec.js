@@ -1,5 +1,5 @@
 import { BaseModel } from 'okta';
-import Spinner from 'views/shared/Spinner';
+import Spinner from 'v1/views/shared/Spinner';
 
 describe('Spinner', () => {
   describe('visibiity', () => {

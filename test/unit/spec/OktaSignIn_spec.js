@@ -8,8 +8,8 @@ import 'jasmine-ajax';
 import $sandbox from 'sandbox';
 import Logger from 'util/Logger';
 import Widget from 'widget/OktaSignIn';
-import V1Router from 'LoginRouter';
-import V1AppState from 'models/AppState';
+import V1Router from 'v1/LoginRouter';
+import V1AppState from 'v1/models/AppState';
 import V2AppState from 'v2/models/AppState';
 import Hooks from 'models/Hooks';
 

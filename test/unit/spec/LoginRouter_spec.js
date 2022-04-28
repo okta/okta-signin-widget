@@ -1,9 +1,9 @@
 /* eslint max-params: [2, 34], max-statements: 0, max-len: [2, 210], camelcase:0 */
 import { _, $, Backbone, Router, internal } from 'okta';
 import getAuthClient from 'widget/getAuthClient';
-import LoginRouter from 'LoginRouter';
-import PrimaryAuthController from 'PrimaryAuthController';
-import SecurityBeacon from 'views/shared/SecurityBeacon';
+import LoginRouter from 'v1/LoginRouter';
+import PrimaryAuthController from 'v1/controllers/PrimaryAuthController';
+import SecurityBeacon from 'v1/views/shared/SecurityBeacon';
 import config from 'config/config.json';
 import EnrollCallForm from 'helpers/dom/EnrollCallForm';
 import IDPDiscoveryForm from 'helpers/dom/IDPDiscoveryForm';
@@ -63,7 +63,7 @@ const VALID_ID_TOKEN =
   'lXvxoMVtFk-fcdCkn1DnTtIzsFPOjysBl2vjwVBJXg9h1Nymd91l' +
   'dI5eorOMrbamRfxOFkEUC9P9mgO6DcVfR5oxY0pjfMA';
 
-Expect.describe('LoginRouter', function() {
+Expect.describe('v1/LoginRouter', function() {
   function setup(settings, resp) {
     settings = settings || {};
     const setNextResponse = settings.mockAjax === false ? function() {} : Util.mockAjax();
