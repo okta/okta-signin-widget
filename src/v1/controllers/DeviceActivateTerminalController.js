@@ -14,7 +14,7 @@
 import {_, loc, View} from 'okta';
 import hbs from 'handlebars-inline-precompile';
 import FormController from 'v1/util/FormController';
-import FormType from 'v1//util/FormType';
+import FormType from 'v1/util/FormType';
 
 const DEVICE_ACTIVATED = 'DEVICE_ACTIVATED';
 const DEVICE_NOT_ACTIVATED_CONSENT_DENIED = 'DEVICE_NOT_ACTIVATED_CONSENT_DENIED';

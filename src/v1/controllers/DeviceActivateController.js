@@ -15,7 +15,7 @@ import hbs from 'handlebars-inline-precompile';
 import {loc, View} from 'okta';
 import FormController from 'v1/util/FormController';
 import FormType from 'v1/util/FormType';
-import TextBox from 'v1//views/shared/TextBox';
+import TextBox from 'v1/views/shared/TextBox';
 
 const InvalidUserCodeErrorView = View.extend({
   template: hbs`

@@ -15,19 +15,19 @@
 // transition, etc. Most router changes should happen in LoginRouter (which is
 // responsible for adding new routes)
 import { _, $, Backbone, Router, loc } from 'okta';
-import AppState from './models/AppState';
+import AppState from 'v1/models/AppState';
 import Settings from 'models/Settings';
 import Bundles from 'util/Bundles';
 import Logger from 'util/Logger';
-import AuthContainer from './views/shared/AuthContainer';
-import Header from './views/shared/Header';
-import SecurityBeacon from './views/shared/SecurityBeacon';
-import Animations from '../util/Animations';
-import BrowserFeatures from '../util/BrowserFeatures';
-import ColorsUtil from '../util/ColorsUtil';
+import AuthContainer from 'v1/views/shared/AuthContainer';
+import Header from 'v1/views/shared/Header';
+import SecurityBeacon from 'v1/views/shared/SecurityBeacon';
+import Animations from 'util/Animations';
+import BrowserFeatures from 'util/BrowserFeatures';
+import ColorsUtil from 'util/ColorsUtil';
 import Enums from 'util/Enums';
 import Errors from 'util/Errors';
-import RouterUtil from './util/RouterUtil';
+import RouterUtil from 'v1/util/RouterUtil';
 import Util from 'util/Util';
 import LanguageUtil from 'util/LanguageUtil';
 

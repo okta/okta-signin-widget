@@ -12,7 +12,7 @@
 
 import { _, $, loc, Model } from 'okta';
 import hbs from 'handlebars-inline-precompile';
-import Factor from './Factor';
+import Factor from 'v1/models/Factor';
 import Q from 'q';
 import BrowserFeatures from 'util/BrowserFeatures';
 import Errors from 'util/Errors';

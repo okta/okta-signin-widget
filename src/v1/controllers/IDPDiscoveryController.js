@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import PrimaryAuthController from './PrimaryAuthController';
+import PrimaryAuthController from 'v1/controllers/PrimaryAuthController';
 import IDPDiscoveryModel from 'v1/models/IDPDiscovery';
 import PrimaryAuthModel from 'v1/models/PrimaryAuth';
 import BaseLoginController from 'v1/util/BaseLoginController';
