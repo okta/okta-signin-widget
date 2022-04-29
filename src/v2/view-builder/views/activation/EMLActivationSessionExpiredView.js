@@ -19,7 +19,6 @@ const Body = BaseAuthenticatorEmailView.prototype.Body.extend({
 const Footer = BaseFooter.extend({
   hasBackToSignInLink: false, // override default 'back to sign in' link to replace w/ our own URL
   links: function() {
-    // console.log(this.options.appState);
     // get 'verify with something else' link
     const verifyWithLink = getSwitchAuthenticatorLink(this.options.appState);
 
