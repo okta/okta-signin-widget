@@ -23,8 +23,8 @@ import Enums from 'util/Enums';
 import Errors from 'util/Errors';
 import Logger from 'util/Logger';
 import LanguageUtil from 'util/LanguageUtil';
-import AuthContainer from 'views/shared/AuthContainer';
-import Header from 'views/shared/Header';
+import AuthContainer from 'v1/views/shared/AuthContainer';
+import Header from 'v1/views/shared/Header';
 import AppState from './models/AppState';
 import sessionStorageHelper from './client/sessionStorageHelper';
 import {

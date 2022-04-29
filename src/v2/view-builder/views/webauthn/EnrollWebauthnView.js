@@ -1,8 +1,8 @@
 import { _, loc, createCallout, createButton } from 'okta';
 import { BaseForm } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
-import webauthn from '../../../../util/webauthn';
-import CryptoUtil from '../../../../util/CryptoUtil';
+import webauthn from 'util/webauthn';
+import CryptoUtil from 'util/CryptoUtil';
 import EnrollWebauthnInfoView from './EnrollWebauthnInfoView';
 import { getMessageFromBrowserError } from '../../../ion/i18nTransformer';
 

@@ -3,10 +3,10 @@ import { loc } from 'okta';
 import OAuth2Util from 'util/OAuth2Util';
 import Util from 'util/Util';
 import getAuthClient from 'widget/getAuthClient';
-import Settings from '../../../src/models/Settings';
+import Settings from 'models/Settings';
 import { AuthSdkError } from '@okta/okta-auth-js';
-import Enums from '../../../src/util/Enums';
-import Errors from '../../../src/util/Errors';
+import Enums from 'util/Enums';
+import Errors from 'util/Errors';
 
 
 describe('util/OAuth2Util', function() {

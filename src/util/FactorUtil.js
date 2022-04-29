@@ -12,7 +12,7 @@
 
 /* eslint complexity: [2, 38], max-statements: [2, 38] */
 import { _, loc } from 'okta';
-import TimeUtil from './TimeUtil';
+import TimeUtil from 'v1/util/TimeUtil';
 const fn = {};
 const factorData = {
   OKTA_VERIFY: {

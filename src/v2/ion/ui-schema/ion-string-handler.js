@@ -14,7 +14,7 @@
 /* eslint complexity: [2, 20] */
 import { loc } from 'okta';
 import { HINTS, ATTR_FORMAT } from '../RemediationConstants';
-import CountryUtil from '../../../util/CountryUtil';
+import CountryUtil from 'util/CountryUtil';
 import TimeZone from '../../view-builder/utils/TimeZone';
 
 const ionOptionsToUiOptions = (options) => {

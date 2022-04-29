@@ -9,7 +9,7 @@ import XHRAuthenticatorRequiredEmail  from '../../../../../playground/mocks/data
 import XHRAuthenticatorEnrollSelectAuthenticators  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-select-authenticator.json';
 import XHRAuthenticatorEnrollDataPhone  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-data-phone.json';
 import XHRAuthenticatorEnrollSecurityQuestion  from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-security-question.json';
-import XHRAuthenticatorEnrollOktaVerifyQr from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr';
+import XHRAuthenticatorEnrollOktaVerifyQr from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr.json';
 import XHRIdentifyResponse from '../../../../../playground/mocks/data/idp/idx/identify.json';
 import XHRIdentifyWithPasswordResponse from '../../../../../playground/mocks/data/idp/idx/identify-with-password.json';
 

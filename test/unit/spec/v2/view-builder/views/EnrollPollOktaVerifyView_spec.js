@@ -3,7 +3,7 @@ import AppState from 'v2/models/AppState';
 import Settings from 'models/Settings';
 import $sandbox from 'sandbox';
 import BrowserFeatures from 'util/BrowserFeatures';
-import xhrAuthenticatorEnrollOktaVerifyQr from '../../../../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr';
+import xhrAuthenticatorEnrollOktaVerifyQr from '../../../../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-qr.json';
 import FormController from 'v2/controllers/FormController';
 import transformIdxResponse from 'v2/ion/transformIdxResponse';
 import MockUtil from '../../../../helpers/v2/MockUtil';
