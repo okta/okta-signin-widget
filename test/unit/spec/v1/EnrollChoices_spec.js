@@ -17,7 +17,7 @@ import resMultipleWebauthnProfile from 'helpers/xhr/MFA_ENROLL_multipleWebauthnP
 import resPush from 'helpers/xhr/MFA_ENROLL_push';
 import resSuccess from 'helpers/xhr/SUCCESS';
 import $sandbox from 'sandbox';
-import FactorUtil from '../../../src/util/FactorUtil';
+import FactorUtil from 'util/FactorUtil';
 const itp = Expect.itp;
 const tick = Expect.tick;
 const factorEnrollList = {
