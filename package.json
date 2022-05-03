@@ -79,7 +79,7 @@
     "@babel/runtime": "^7.10.3",
     "@babel/runtime-corejs3": "^7.10.3",
     "@okta/eslint-plugin-okta": "0.5.0",
-    "@okta/okta-auth-js": "^6.4.3",
+    "@okta/okta-auth-js": "^6.4.4",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "@types/backbone": "^1.4.15",
     "@types/jqueryui": "^1.12.16",
