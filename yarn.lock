@@ -3137,10 +3137,10 @@
     node-properties-parser "^0.0.2"
     properties-to-json "^0.1.7"
 
-"@okta/okta-auth-js@^6.4.4":
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-6.5.0.tgz#0fa161320cadb04c057aee42772fb53a80cd1530"
-  integrity sha512-UIs44j3Ar+wFiG4jAWe2hTuUxEUyo9wH5Salhw6s/jk7DWVVLhpROnPXFLRZrGWq+dDlpf5coz5CRWNzipqo0A==
+"@okta/okta-auth-js@6.4.4":
+  version "6.4.4"
+  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-6.4.4.tgz#37a4caf9b6f57a060905c760ad96bd371382738a"
+  integrity sha512-RoC3z1WzYcj9pjAjUjw9hJq0mgLEnz8sw4g52n4PuqiQrrbT9LmfJaFVloSycBVtFm0ujmZzf3Cf7oK03wbEZw==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@babel/runtime-corejs3" "^7.17.0"
