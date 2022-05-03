@@ -3137,10 +3137,10 @@
     node-properties-parser "^0.0.2"
     properties-to-json "^0.1.7"
 
-"@okta/okta-auth-js@^6.4.3":
-  version "6.4.3"
-  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-6.4.3.tgz#2a2ef19405f2aa855065ddd3432d2efded3626fb"
-  integrity sha512-mqOxVyQ3Bz/FqIiyLDLqvqFq6n2Mmq7aAnBCpTmxD9/zcLVhYE88mVFvfIku2bjnWA6tuaoX5jvN2iBLejMV+A==
+"@okta/okta-auth-js@6.4.4":
+  version "6.4.4"
+  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-6.4.4.tgz#37a4caf9b6f57a060905c760ad96bd371382738a"
+  integrity sha512-RoC3z1WzYcj9pjAjUjw9hJq0mgLEnz8sw4g52n4PuqiQrrbT9LmfJaFVloSycBVtFm0ujmZzf3Cf7oK03wbEZw==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@babel/runtime-corejs3" "^7.17.0"
@@ -5047,11 +5047,6 @@ async@^3.2.0:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/async/-/async-3.2.1.tgz#d3274ec66d107a47476a4c49136aacdb00665fc8"
   integrity sha512-XdD5lRO/87udXCMC9meWdYiR+Nq6ZjUfXidViUZGu2F1MO4T3XwZ1et0hb2++BgLfhyJwy44BGB/yx80ABx8hg==
-
-async@^3.2.3:
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/async/-/async-3.2.3.tgz#ac53dafd3f4720ee9e8a160628f18ea91df196c9"
-  integrity sha512-spZRyzKL5l5BZQrr/6m/SqFdBN0q3OCI0f9rjfBzCMBIP4p75P620rR3gTmaksNOhmzgdxcaxdNfMy6anrbM0g==
 
 async@~3.2.0:
   version "3.2.0"
