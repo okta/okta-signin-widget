@@ -1,11 +1,11 @@
 import OktaSignIn, {
   EventCallback,
   EventContext,
-  EventError,
   RenderError,
   OktaSignInAPI,
   RouterEventsAPI,
-  EventCallbackWithError
+  EventCallbackWithError,
+  EventErrorContext
 } from '@okta/okta-signin-widget';
 import { OktaAuth, Tokens } from '@okta/okta-auth-js';
 import { expectType, expectError, expectAssignable } from 'tsd';
@@ -37,9 +37,9 @@ expectType<void>(signIn.remove());
 signIn.on('ready', (context: EventContext) => {
   expectType<string>(context.controller);
 });
-signIn.on('afterError', (context: EventContext, error: EventError) => {
+signIn.on('afterError', (context: EventContext, error: EventErrorContext) => {
   expectType<string>(context.controller);
-  expectType<string>(error.message);
+  expectType<string | undefined>(error.message);
   expectType<number | undefined>(error.statusCode);
   expectType<number | undefined>(error.xhr?.status);
 });
@@ -49,7 +49,7 @@ signIn.on('afterRender', (context: EventContext) => {
 
 // Test event unsubscribe
 const eventCallback: EventCallback = (_context: EventContext) => {};
-const eventCallbackWithError: EventCallbackWithError = (_context: EventContext, _error: EventError) => {};
+const eventCallbackWithError: EventCallbackWithError = (_context: EventContext, _error: EventErrorContext) => {};
 expectType<void>(signIn.off('afterError', eventCallbackWithError));
 expectType<void>(signIn.off('ready', eventCallbackWithError));
 
