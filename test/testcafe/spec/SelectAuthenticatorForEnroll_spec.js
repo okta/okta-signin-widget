@@ -192,7 +192,7 @@ test.requestHooks(mockEnrollAuthenticatorWithUsageInfo)('should load select auth
   await t.expect(selectFactorPage.getFactorDescriptionByIndex(2))
     .eql('Okta Verify is an authenticator app, installed on your phone, used to prove your identity');
   await t.expect(await selectFactorPage.factorUsageTextExistsByIndex(2)).eql(true);
-  await t.expect(selectFactorPage.getFactorUsageTextByIndex(2)).eql('Used for access and recovery');
+  await t.expect(selectFactorPage.getFactorUsageTextByIndex(2)).eql('Used for access or recovery');
 
   await t.expect(selectFactorPage.getFactorLabelByIndex(3)).eql('Security Question');
   await t.expect(selectFactorPage.getFactorIconClassByIndex(3)).contains('mfa-okta-security-question');
