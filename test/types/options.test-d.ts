@@ -1,12 +1,12 @@
 import OktaSignIn, {
   FieldStringWithFormatAndEnum,
-  ApiError,
   RegistrationSchema,
   RegistrationData,
   RegistrationSchemaCallback,
   RegistrationDataCallback,
   RegistrationErrorCallback
 } from '@okta/okta-signin-widget';
+import { APIError } from '@okta/okta-auth-js';
 import { expectType, expectAssignable } from 'tsd';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
@@ -131,7 +131,7 @@ const signIn2 = new OktaSignIn({
         postData.username += '@acme.com';
       }
       onSuccess(postData);
-      const err: ApiError = {
+      const err: APIError = {
         errorSummary: 'API Error',
         errorCauses: [
           {
