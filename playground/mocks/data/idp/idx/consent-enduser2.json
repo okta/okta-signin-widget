@@ -51,9 +51,12 @@
                     },
                     {
                         "name": "scopes",
-                        "type": "string",
-                        "required": false,
-                        "visible": false
+                        "type": "array",
+                        "required": true,
+                        "value": [
+                            "lab1",
+                            "email"
+                        ]
                     },
                     {
                         "name": "stateHandle",
