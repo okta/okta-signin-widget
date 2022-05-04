@@ -11,6 +11,9 @@
   }
 
   .siw-main-body {
+    .o-form-content {
+      overflow: unset; // prevents beacon from jumping on form save via .o-form-saving
+    }
     .ion-messages-container {
       text-align: center;
       margin-bottom: 1rem;
