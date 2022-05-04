@@ -220,6 +220,7 @@ const consent = {
   '/idp/idx/introspect': [
     // 'consent-admin',
     'consent-enduser',
+    'consent-enduser2',
   ],
   '/idp/idx/consent': [
     // note that the success 'href' is in reality a redirect (i.e. /login/token/redirect?stateToken={{stateToken}})
@@ -1053,5 +1054,5 @@ const selectOktaVerifyMethod = {
 };
 
 module.exports = {
-  mocks: idx
+  mocks: consent
 };

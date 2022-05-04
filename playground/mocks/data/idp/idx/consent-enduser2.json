@@ -1,0 +1,133 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "02FxYR90dADW_mLI0_TNtSlCJAl3Uy4-ij06G-hvUY~dHNsbmZLU05yTkM2Rmt3emkyakNvYUh2bTFiUDZmeE96cTBFYWF0Q2hISWZCdW1EVktUSVJ6WUZkVXExcHo4MzJ4eHlQSy9qc3dobzFnMGFxT2F0eXhIWVEwZ2FHZVhTcHBLZWlza3N4TjBrU0lNdUJtZ0tBVG4wMzVSV2loVHVvYTFXN3lJNzNibzVTRjFPT2ZUbEJwTVRVdTV5VlN2QXh6L2NDUXI5OVFVSkpoQ2tQWG9NRHNzbzJpNTJoMmtxQ1BwV0liRFlYamJDMXJLeXJNaEdLbitSUldDaVpROThKWkcvQkovMUM1N0J5czhlbUhyalhReC81VkJObVJrZFREenJ1cG8zZHhKR1NmUUt3UVVBM0d6ZFpVWDFOYS9MajhTODhKSFF5SzN0YlFJc0lpcmZlbzd3aWRPaGUrQlhXQUo5bmhwdnVyeURMYy9leiszU3lZd2k2NVY3Nk1HSG1HbnVBN0FDRjB2YXdZUTZmelRDM1NzSGZ1aUpiWVRPUDdXdEIrTjRReHdQRVJBdHpRWER1d1QxMXRoVE9qSGFPbDVmNGFPa0RUWHNBQXg4bDRSeVVvN3JabFg1Z3ZrVjFQOEN5UHpkR1NrMjN2L2d2cE1QdWVzcTd4VFh3RXVobElsL3ErL3d6N092WHUzUzAyS2QzS0ZPOGN1L2lPcERBVkR0WGF6OUJTdjhYYzhreDF4RWFiWThDaGpQZ1MwblpsUk1JeWoreFhJbUxIVDdZTnA5SzAvbHdOdjkxMEFld044WjVUMDJ6enAwZ1UySGNjOWhGMGhwZXIvdUMwcVVaWmFrU3NwOVlhV2l2am1QTzJtbHk3ZVptUkE3V05oMi9CVmpBaHZ1ZW5HcEJIWjBTbHlqa0JOdmkvNThVdmxOT0ZpSEpPSnZDd3RtQTg1bUg5NDM4SXdQVGJNY01VUHZnUk5kTWdWTWp1UWkxSXhUajFBanhiSklEOERWb0FRSHJ4TWhydzljZytLSVFVeDlhTzdtcFdDRm1sWXBnaTg3M0VqK2xiRWY5RTB2V0MxWjdtejE4QUVvT1NwSkNiRlQ0S29CbTlscWk1dzJkd3FqMmRmZHpscXlnKytIZXlHRkxCWno0QllSNnYwTGYvQ1ZaUUVUVXBMTVp0Vk1jaTU3T29HQW9xQUE0Y0hrWDB1c2lMUmZLK1k5Wm5Hb1M5aDZiWmw3dzIzY3V1Vzl5WWRQTzNaWnBaVFA1OVFyd0luOFpQekNPWVJNZ2dadUNxWWxQR1NidUF3eFZIWWtBUTVINmhKU21IL3BaTVkwZDlZVjRmTFE0RlNYNXNheFJKZGo2cGZlc1AxZUhYZmxYMVM2Q3N1MVB6NGdQdXQ2bHVDendQUmlDRWRzREkzWWZjRkhLZzFiRE1JR1N0WWZrYVJOS3RxT2x2R3NPNFFuRTY4Y0pnTkk3bExnWmVRUmk2UklMVTRTamxRN0JsSkFIYnNxbTB5V2Q5UTR4NzNxREdodzExRFl2R0lzSHZkS21hY0xBSUNTL0JDMDVleXYzaWJ0a01FR2dOUEZCRVlDV2ZjcFFCQ3p2Zm1tU1p0Ung5OHhubmZxZW0rMHJacTFGUmFnSEtVTElOUWoyMWFGSFM5STN4aWNKNVpYc2QzaG5laDVDYUFVOElkbHlIOTJUZnBiT1FtWTlzVXN1elN6amdFTnB5dWxtWmJad0lPZEEyM3BaQW56RWQyWUxuelU3NEFwYTR5S0NPZEtUWEVwWkgxbGNUY3hQM3Y2ZVRBODl4UnhhNUJjSi9SczZVc0NaODlEeTFNSk9qZWJyK3RsdVJQVXVVbmVtaTE0RTVLa1pTeHYxTHVPNTZhWVllWTFoMExuNUFYUjE2eEsvanhKaHBiRklLWXZnNDhhVVZjQy91RGdzYjhoWmNGVU80Slo5VHJ5QVJjZmFqWmpoRjR1dUdHWFFhMW01Q2Vqck1lT3NqbUw",
+    "expiresAt": "2022-04-30T02:05:12.000Z",
+    "intent": "LOGIN",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "consent",
+                "href": "http://oie-local.okta1.com:1802/idp/idx/consent",
+                "method": "POST",
+                "accepts": "application/json; okta-version=1.0.0",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "scopes": [
+                    {
+                        "name": "lab1",
+                        "type": "string",
+                        "label": "lab1 phrase",
+                        "desc": "lab1 desc",
+                        "value": "lab1",
+                        "optional": true
+                    },
+                    {
+                        "name": "email",
+                        "type": "string",
+                        "label": "View your email address.",
+                        "desc": "This allows the app to view your email address.",
+                        "value": "email",
+                        "optional": false
+                    }
+                ],
+                "value": [
+                    {
+                        "name": "consent",
+                        "type": "boolean",
+                        "required": true,
+                        "options": [
+                            {
+                                "label": "Allow Access",
+                                "value": true
+                            },
+                            {
+                                "label": "Don't Allow",
+                                "value": false
+                            }
+                        ]
+                    },
+                    {
+                        "name": "scopes",
+                        "type": "array",
+                        "required": true,
+                        "value": [
+                            "lab1",
+                            "email"
+                        ]
+                    },
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "02FxYR90dADW_mLI0_TNtSlCJAl3Uy4-ij06G-hvUY~dHNsbmZLU05yTkM2Rmt3emkyakNvYUh2bTFiUDZmeE96cTBFYWF0Q2hISWZCdW1EVktUSVJ6WUZkVXExcHo4MzJ4eHlQSy9qc3dobzFnMGFxT2F0eXhIWVEwZ2FHZVhTcHBLZWlza3N4TjBrU0lNdUJtZ0tBVG4wMzVSV2loVHVvYTFXN3lJNzNibzVTRjFPT2ZUbEJwTVRVdTV5VlN2QXh6L2NDUXI5OVFVSkpoQ2tQWG9NRHNzbzJpNTJoMmtxQ1BwV0liRFlYamJDMXJLeXJNaEdLbitSUldDaVpROThKWkcvQkovMUM1N0J5czhlbUhyalhReC81VkJObVJrZFREenJ1cG8zZHhKR1NmUUt3UVVBM0d6ZFpVWDFOYS9MajhTODhKSFF5SzN0YlFJc0lpcmZlbzd3aWRPaGUrQlhXQUo5bmhwdnVyeURMYy9leiszU3lZd2k2NVY3Nk1HSG1HbnVBN0FDRjB2YXdZUTZmelRDM1NzSGZ1aUpiWVRPUDdXdEIrTjRReHdQRVJBdHpRWER1d1QxMXRoVE9qSGFPbDVmNGFPa0RUWHNBQXg4bDRSeVVvN3JabFg1Z3ZrVjFQOEN5UHpkR1NrMjN2L2d2cE1QdWVzcTd4VFh3RXVobElsL3ErL3d6N092WHUzUzAyS2QzS0ZPOGN1L2lPcERBVkR0WGF6OUJTdjhYYzhreDF4RWFiWThDaGpQZ1MwblpsUk1JeWoreFhJbUxIVDdZTnA5SzAvbHdOdjkxMEFld044WjVUMDJ6enAwZ1UySGNjOWhGMGhwZXIvdUMwcVVaWmFrU3NwOVlhV2l2am1QTzJtbHk3ZVptUkE3V05oMi9CVmpBaHZ1ZW5HcEJIWjBTbHlqa0JOdmkvNThVdmxOT0ZpSEpPSnZDd3RtQTg1bUg5NDM4SXdQVGJNY01VUHZnUk5kTWdWTWp1UWkxSXhUajFBanhiSklEOERWb0FRSHJ4TWhydzljZytLSVFVeDlhTzdtcFdDRm1sWXBnaTg3M0VqK2xiRWY5RTB2V0MxWjdtejE4QUVvT1NwSkNiRlQ0S29CbTlscWk1dzJkd3FqMmRmZHpscXlnKytIZXlHRkxCWno0QllSNnYwTGYvQ1ZaUUVUVXBMTVp0Vk1jaTU3T29HQW9xQUE0Y0hrWDB1c2lMUmZLK1k5Wm5Hb1M5aDZiWmw3dzIzY3V1Vzl5WWRQTzNaWnBaVFA1OVFyd0luOFpQekNPWVJNZ2dadUNxWWxQR1NidUF3eFZIWWtBUTVINmhKU21IL3BaTVkwZDlZVjRmTFE0RlNYNXNheFJKZGo2cGZlc1AxZUhYZmxYMVM2Q3N1MVB6NGdQdXQ2bHVDendQUmlDRWRzREkzWWZjRkhLZzFiRE1JR1N0WWZrYVJOS3RxT2x2R3NPNFFuRTY4Y0pnTkk3bExnWmVRUmk2UklMVTRTamxRN0JsSkFIYnNxbTB5V2Q5UTR4NzNxREdodzExRFl2R0lzSHZkS21hY0xBSUNTL0JDMDVleXYzaWJ0a01FR2dOUEZCRVlDV2ZjcFFCQ3p2Zm1tU1p0Ung5OHhubmZxZW0rMHJacTFGUmFnSEtVTElOUWoyMWFGSFM5STN4aWNKNVpYc2QzaG5laDVDYUFVOElkbHlIOTJUZnBiT1FtWTlzVXN1elN6amdFTnB5dWxtWmJad0lPZEEyM3BaQW56RWQyWUxuelU3NEFwYTR5S0NPZEtUWEVwWkgxbGNUY3hQM3Y2ZVRBODl4UnhhNUJjSi9SczZVc0NaODlEeTFNSk9qZWJyK3RsdVJQVXVVbmVtaTE0RTVLa1pTeHYxTHVPNTZhWVllWTFoMExuNUFYUjE2eEsvanhKaHBiRklLWXZnNDhhVVZjQy91RGdzYjhoWmNGVU80Slo5VHJ5QVJjZmFqWmpoRjR1dUdHWFFhMW01Q2Vqck1lT3NqbUw",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ]
+            }
+        ]
+    },
+    "user": {
+        "type": "object",
+        "value": {
+            "id": "00u8lu8m6sCjOEPS30g4",
+            "identifier": "c1",
+            "profile": {
+                "firstName": "c1",
+                "lastName": "test",
+                "timeZone": "America/Los_Angeles",
+                "locale": "en_US"
+            }
+        }
+    },
+    "cancel": {
+        "rel": [
+            "create-form"
+        ],
+        "name": "cancel",
+        "href": "http://oie-local.okta1.com:1802/idp/idx/cancel",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "02FxYR90dADW_mLI0_TNtSlCJAl3Uy4-ij06G-hvUY~dHNsbmZLU05yTkM2Rmt3emkyakNvYUh2bTFiUDZmeE96cTBFYWF0Q2hISWZCdW1EVktUSVJ6WUZkVXExcHo4MzJ4eHlQSy9qc3dobzFnMGFxT2F0eXhIWVEwZ2FHZVhTcHBLZWlza3N4TjBrU0lNdUJtZ0tBVG4wMzVSV2loVHVvYTFXN3lJNzNibzVTRjFPT2ZUbEJwTVRVdTV5VlN2QXh6L2NDUXI5OVFVSkpoQ2tQWG9NRHNzbzJpNTJoMmtxQ1BwV0liRFlYamJDMXJLeXJNaEdLbitSUldDaVpROThKWkcvQkovMUM1N0J5czhlbUhyalhReC81VkJObVJrZFREenJ1cG8zZHhKR1NmUUt3UVVBM0d6ZFpVWDFOYS9MajhTODhKSFF5SzN0YlFJc0lpcmZlbzd3aWRPaGUrQlhXQUo5bmhwdnVyeURMYy9leiszU3lZd2k2NVY3Nk1HSG1HbnVBN0FDRjB2YXdZUTZmelRDM1NzSGZ1aUpiWVRPUDdXdEIrTjRReHdQRVJBdHpRWER1d1QxMXRoVE9qSGFPbDVmNGFPa0RUWHNBQXg4bDRSeVVvN3JabFg1Z3ZrVjFQOEN5UHpkR1NrMjN2L2d2cE1QdWVzcTd4VFh3RXVobElsL3ErL3d6N092WHUzUzAyS2QzS0ZPOGN1L2lPcERBVkR0WGF6OUJTdjhYYzhreDF4RWFiWThDaGpQZ1MwblpsUk1JeWoreFhJbUxIVDdZTnA5SzAvbHdOdjkxMEFld044WjVUMDJ6enAwZ1UySGNjOWhGMGhwZXIvdUMwcVVaWmFrU3NwOVlhV2l2am1QTzJtbHk3ZVptUkE3V05oMi9CVmpBaHZ1ZW5HcEJIWjBTbHlqa0JOdmkvNThVdmxOT0ZpSEpPSnZDd3RtQTg1bUg5NDM4SXdQVGJNY01VUHZnUk5kTWdWTWp1UWkxSXhUajFBanhiSklEOERWb0FRSHJ4TWhydzljZytLSVFVeDlhTzdtcFdDRm1sWXBnaTg3M0VqK2xiRWY5RTB2V0MxWjdtejE4QUVvT1NwSkNiRlQ0S29CbTlscWk1dzJkd3FqMmRmZHpscXlnKytIZXlHRkxCWno0QllSNnYwTGYvQ1ZaUUVUVXBMTVp0Vk1jaTU3T29HQW9xQUE0Y0hrWDB1c2lMUmZLK1k5Wm5Hb1M5aDZiWmw3dzIzY3V1Vzl5WWRQTzNaWnBaVFA1OVFyd0luOFpQekNPWVJNZ2dadUNxWWxQR1NidUF3eFZIWWtBUTVINmhKU21IL3BaTVkwZDlZVjRmTFE0RlNYNXNheFJKZGo2cGZlc1AxZUhYZmxYMVM2Q3N1MVB6NGdQdXQ2bHVDendQUmlDRWRzREkzWWZjRkhLZzFiRE1JR1N0WWZrYVJOS3RxT2x2R3NPNFFuRTY4Y0pnTkk3bExnWmVRUmk2UklMVTRTamxRN0JsSkFIYnNxbTB5V2Q5UTR4NzNxREdodzExRFl2R0lzSHZkS21hY0xBSUNTL0JDMDVleXYzaWJ0a01FR2dOUEZCRVlDV2ZjcFFCQ3p2Zm1tU1p0Ung5OHhubmZxZW0rMHJacTFGUmFnSEtVTElOUWoyMWFGSFM5STN4aWNKNVpYc2QzaG5laDVDYUFVOElkbHlIOTJUZnBiT1FtWTlzVXN1elN6amdFTnB5dWxtWmJad0lPZEEyM3BaQW56RWQyWUxuelU3NEFwYTR5S0NPZEtUWEVwWkgxbGNUY3hQM3Y2ZVRBODl4UnhhNUJjSi9SczZVc0NaODlEeTFNSk9qZWJyK3RsdVJQVXVVbmVtaTE0RTVLa1pTeHYxTHVPNTZhWVllWTFoMExuNUFYUjE2eEsvanhKaHBiRklLWXZnNDhhVVZjQy91RGdzYjhoWmNGVU80Slo5VHJ5QVJjZmFqWmpoRjR1dUdHWFFhMW01Q2Vqck1lT3NqbUw",
+                "visible": false,
+                "mutable": false
+            }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "oidc_client",
+            "label": "consentApp1",
+            "id": "0oa5qyjF8ZciMuJPz0g4"
+        }
+    },
+    "authentication": {
+        "type": "object",
+        "value": {
+            "protocol": "OAUTH2.0",
+            "issuer": {
+                "id": "aus5r19UxLtrZTBkD0g4",
+                "name": "as1",
+                "uri": "http://oie-local.okta1.com:1802/oauth2/aus5r19UxLtrZTBkD0g4"
+            },
+            "request": {
+                "max_age": -1,
+                "scope": "openid email lab1 profile ",
+                "display": "page",
+                "response_type": "code",
+                "redirect_uri": "https://web.auth.io/app/oauth2",
+                "state": "testState",
+                "nonce": "testNonce",
+                "response_mode": "query"
+            }
+        }
+    }
+}
