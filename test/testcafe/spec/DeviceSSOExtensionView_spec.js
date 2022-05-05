@@ -7,6 +7,8 @@ import identifyWithNoAppleCredentialSSOExtension from '../../../playground/mocks
 import identifyUserVerificationWithCredentialSSOExtension from '../../../playground/mocks/data/idp/idx/authenticator-verification-okta-verify-signed-nonce-credential-sso-extension';
 import identify from '../../../playground/mocks/data/idp/idx/identify';
 import error from '../../../playground/mocks/data/idp/idx/error-403-access-denied';
+import stepUpError from '../../../playground/mocks/data/idp/idx/error-401-okta-verify-apple-sso-step-up';
+
 import { Constants } from '../framework/shared';
 import { getStateHandleFromSessionStorage } from '../framework/shared';
 
@@ -65,6 +67,20 @@ const verifyErrorMock = RequestMock()
     res.headers['content-type'] = 'application/json';
     res.setBody(error);
   });
+
+const stepUpLogger = RequestLogger(/introspect|verify|/);
+const stepUpMock = RequestMock()
+  .onRequestTo(/idp\/idx\/introspect/)
+  .respond(identifyUserVerificationWithCredentialSSOExtension)
+  .onRequestTo('http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/ft2FCeXuk7ov8iehMivYavZFhPxZUpBvB0/verify')
+  .respond((req, res) => {
+    res.statusCode = 401;
+    res.headers['content-type'] = 'application/json';
+    res.headers['WWW-Authenticate'] = 'Oktadevicejwt realm="Okta Device"';
+    res.setBody(stepUpError);
+  })
+  .onRequestTo('http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/ftMHdQ0N_ZKbpuWTXbR1-g3N6UvB5XRoqj/verify/cancel')
+  .respond(identify);
 
 fixture('App SSO Extension View');
 
@@ -146,3 +162,27 @@ test
     await ssoExtensionPage.navigateToPage();
     await t.expect(Selector('.spinner').getStyleProperty('display')).eql('none');
   });
+
+test
+  .requestHooks(stepUpLogger, stepUpMock)('Calls verify/cancel when it encounters a 401 (stepUp) error', async t => {
+    const ssoExtensionPage = new BasePageObject(t);
+    await ssoExtensionPage.navigateToPage();
+    await t.expect(stepUpLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/introspect/)
+    )).eql(1);
+    await t.expect(stepUpLogger.count(
+      record => record.response.statusCode === 401 &&
+        record.request.url.match(/verify$/)
+    )).eql(1);
+    await t.expect(stepUpLogger.count(
+      record => record.response.statusCode === 200 &&
+        record.request.url.match(/verify\/cancel$/)
+    )).eql(1);
+
+    // verify the end result
+    const identityPage = new IdentityPageObject(t);
+    await identityPage.fillIdentifierField('Test Identifier');
+    await t.expect(identityPage.getIdentifierValue()).eql('Test Identifier');
+  });
+  
