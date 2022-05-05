@@ -3,6 +3,18 @@
   "stateHandle": "02FxYR90dADW_mLI0_TNtSlCJAl3Uy4-ij06G-hvUY~dHNsbmZLU05yTkM2Rmt3emkyakNvYUh2bTFiUDZmeE96cTBFYWF0Q2hISWZCdW1EVktUSVJ6WUZkVXExcHo4MzJ4eHlQSy9qc3dobzFnMGFxT2F0eXhIWVEwZ2FHZVhTcHBLZWlza3N4TjBrU0lNdUJtZ0tBVG4wMzVSV2loVHVvYTFXN3lJNzNibzVTRjFPT2ZUbEJwTVRVdTV5VlN2QXh6L2NDUXI5OVFVSkpoQ2tQWG9NRHNzbzJpNTJoMmtxQ1BwV0liRFlYamJDMXJLeXJNaEdLbitSUldDaVpROThKWkcvQkovMUM1N0J5czhlbUhyalhReC81VkJObVJrZFREenJ1cG8zZHhKR1NmUUt3UVVBM0d6ZFpVWDFOYS9MajhTODhKSFF5SzN0YlFJc0lpcmZlbzd3aWRPaGUrQlhXQUo5bmhwdnVyeURMYy9leiszU3lZd2k2NVY3Nk1HSG1HbnVBN0FDRjB2YXdZUTZmelRDM1NzSGZ1aUpiWVRPUDdXdEIrTjRReHdQRVJBdHpRWER1d1QxMXRoVE9qSGFPbDVmNGFPa0RUWHNBQXg4bDRSeVVvN3JabFg1Z3ZrVjFQOEN5UHpkR1NrMjN2L2d2cE1QdWVzcTd4VFh3RXVobElsL3ErL3d6N092WHUzUzAyS2QzS0ZPOGN1L2lPcERBVkR0WGF6OUJTdjhYYzhreDF4RWFiWThDaGpQZ1MwblpsUk1JeWoreFhJbUxIVDdZTnA5SzAvbHdOdjkxMEFld044WjVUMDJ6enAwZ1UySGNjOWhGMGhwZXIvdUMwcVVaWmFrU3NwOVlhV2l2am1QTzJtbHk3ZVptUkE3V05oMi9CVmpBaHZ1ZW5HcEJIWjBTbHlqa0JOdmkvNThVdmxOT0ZpSEpPSnZDd3RtQTg1bUg5NDM4SXdQVGJNY01VUHZnUk5kTWdWTWp1UWkxSXhUajFBanhiSklEOERWb0FRSHJ4TWhydzljZytLSVFVeDlhTzdtcFdDRm1sWXBnaTg3M0VqK2xiRWY5RTB2V0MxWjdtejE4QUVvT1NwSkNiRlQ0S29CbTlscWk1dzJkd3FqMmRmZHpscXlnKytIZXlHRkxCWno0QllSNnYwTGYvQ1ZaUUVUVXBMTVp0Vk1jaTU3T29HQW9xQUE0Y0hrWDB1c2lMUmZLK1k5Wm5Hb1M5aDZiWmw3dzIzY3V1Vzl5WWRQTzNaWnBaVFA1OVFyd0luOFpQekNPWVJNZ2dadUNxWWxQR1NidUF3eFZIWWtBUTVINmhKU21IL3BaTVkwZDlZVjRmTFE0RlNYNXNheFJKZGo2cGZlc1AxZUhYZmxYMVM2Q3N1MVB6NGdQdXQ2bHVDendQUmlDRWRzREkzWWZjRkhLZzFiRE1JR1N0WWZrYVJOS3RxT2x2R3NPNFFuRTY4Y0pnTkk3bExnWmVRUmk2UklMVTRTamxRN0JsSkFIYnNxbTB5V2Q5UTR4NzNxREdodzExRFl2R0lzSHZkS21hY0xBSUNTL0JDMDVleXYzaWJ0a01FR2dOUEZCRVlDV2ZjcFFCQ3p2Zm1tU1p0Ung5OHhubmZxZW0rMHJacTFGUmFnSEtVTElOUWoyMWFGSFM5STN4aWNKNVpYc2QzaG5laDVDYUFVOElkbHlIOTJUZnBiT1FtWTlzVXN1elN6amdFTnB5dWxtWmJad0lPZEEyM3BaQW56RWQyWUxuelU3NEFwYTR5S0NPZEtUWEVwWkgxbGNUY3hQM3Y2ZVRBODl4UnhhNUJjSi9SczZVc0NaODlEeTFNSk9qZWJyK3RsdVJQVXVVbmVtaTE0RTVLa1pTeHYxTHVPNTZhWVllWTFoMExuNUFYUjE2eEsvanhKaHBiRklLWXZnNDhhVVZjQy91RGdzYjhoWmNGVU80Slo5VHJ5QVJjZmFqWmpoRjR1dUdHWFFhMW01Q2Vqck1lT3NqbUw",
   "expiresAt": "2022-04-30T02:05:12.000Z",
   "intent": "LOGIN",
+  "messages":{
+    "type":"array",
+    "value":[
+      {
+        "message":"Access is requested for the following scopes: (email is required)",
+        "i18n":{
+          "key":"api.SCOPES_THING"
+        },
+        "class":"INFO"
+      }
+    ]
+  },
   "remediation": {
       "type": "array",
       "value": [
@@ -19,23 +31,21 @@
                 {
                   "name": "scopes",
                   "form": {
-                    "desc": "hello scopes",
                     "value": [
                       {
                         "name": "lab1",
-                        "label": "Scope: lab1",
+                        "label": "lab1",
+                        "desc": "optional",
                         "type": "boolean",
-                        "required": false
+                        "required": false,
+                        "value": true
                       },
                       {
                           "name": "email",
-                          "label": "Scope: email",
+                          "label": "email",
                           "type": "boolean",
-                          "required": false,
-                          "value": true,
-                          "visible": true,
-                          "mutable": true,
-                          "disabled": true
+                          "required": true,
+                          "value": true
                       }
                     ]
                   }
