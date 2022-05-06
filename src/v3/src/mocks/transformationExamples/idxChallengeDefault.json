@@ -1,0 +1,73 @@
+{
+  "ionInput": {
+    "value": [
+      {
+        "name": "credentials",
+        "type": "object",
+        "form": {
+          "value": [
+            {
+              "name": "passcode",
+              "label": "Enter code"
+            }
+          ]
+        },
+        "required": true
+      },
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02tKwcMNRmwEsDoe_HuMZYf5m-lg3kFugYKrcTWOL3",
+        "visible": false,
+        "mutable": false
+      }
+    ]
+  },
+  "jsonFormOutput": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "credentials": {
+          "type": "object",
+          "properties": {
+            "passcode": {
+              "type": "string"
+            }
+          }
+        },
+        "stateHandle": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "credentials",
+        "stateHandle"
+      ]
+    },
+    "uischema": {
+      "type": "VerticalLayout",
+      "elements": [
+        {
+          "type": "Group",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/credentials/properties/passcode"
+            }
+          ]
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/stateHandle",
+          "options": {
+            "type": "hidden",
+            "readonly": true
+          }
+        }
+      ]
+    },
+    "data": {
+      "stateHandle": "02tKwcMNRmwEsDoe_HuMZYf5m-lg3kFugYKrcTWOL3"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "stateHandle": "eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvdjRlUHM0eXFjT21TcDAwZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..s7Gfs2YilflIYdKn.tkNBqIeHotu-kYbP9k9Fsj4faVeEc8eNlZKkbL2eBrzcqZ7M9Qm6RUOEjYEVQZncpnLiE96iEG10DV8oKTRpfoECkeuzIwi4Cbhmd7ZSePZO1i3bE4PW70ZkLcJjy2G46u4VWlGgC9bm2eRJjLh-lB3lCfS5fn-XYwFyDSsCZ2cJNtgCQzs_VIpEM6qnzMYxthNPcMcIhseAag3tK7RtKQJVqo-JpEfcieovoikacx_ZS4SaYj2yzycbAGr3Vh2ysvVZEMECM2mztj1OTVdgr9xnBPph5rcvDKkF00BjwOaDSHGwhJuFfzJ7rJXYCFOtDb0fUw57Ze6q-onb8_cBqGy6xm6iF_b4vRY4gBEp9G46tp5Hr_DrMOiX6nAWk9C6Hre7_4BIxX3GdjUqmhxuMV39renVBByAGevWaRpu4m3SR-mesxLzFPRTZYa333gjRkxVZNK2Gy68BLcLah15VH1jNVdV7Ou3nc9hzE9zcV2ueRZoSYq6h7WZ0KjLjhQTqRKe3g9XGR_DL05a26czfGJL-R1omHxUuFDlYSCd_jtKZE4TseUXQ5qfUzk0X9syqqVA36HEiJ5_CWsQ2SpxIgqir4DztivsQE1ubJfVrvPZw_-6GU391NkXE8e_B64X6ZSqgUgm5H4LuXj9Eu2VKG5z4KLKWieuHDK0Hjc1RRGuxFqcYhzySnTtK41Za4abTqVM-YYxokb9ah2yxauzpveIO0rDqjGo3kqZdVDV81kdvIzqgclooUb5X1o_fdmPjB_IUkVDkIHN9sVu1F0HkqQWp7xDmhbokAB7kVa6WIiax08UtTUfPvVK4aOLP_R61VfzImlTZ6otI6yC1yZAETauuADIz1YkB9bcBOOpJeqrom3keGeVwCmU-i0dJYGi1NLEPDm0px0OhVW77Cpi1C0aBX295Dju4-luOM3EuaBad-U5FMwDAO00qi0c3XDiaY0Bgkrmcqeo1yIl5p4cktsBs2ArzpzpEzJAmpLaIbuaihov8uy1K6e9y0Ko2VcOR930K-Cfnr-0QxX_WLtf8pB9LYENR2Gx65BxVMi9E4M1_rLG5UwBq4ATEH72a1kkTeXvDgMpwMmhIEz_nPuCcDJVZ8UDQoZU8C_T3yzOrlUHc8x2qN-FEWG3mLBGw7SAdxs3pH4eZnnQQVN4Ch4Tuc_wqMrophaxMLtWAt7Sa0L0zBpJUJsCKg_pTKH6gkjL_Tco6eIY7o78JoX7M_GSFIdF9qR3FLj9rXJrvP0qeWMrbhwgy6DhJg_bBWeKNQdclh1uRLLmbKpdCZH--lqLubZGJtd8JlkEKWW_PnDYFdDGzMwMz83owDHvw8GQ9KpqoPME-Ty0SEoMwKKdeRHCwUf90ycp7D5Jc6yHY17tr8axpjy_yCNhyI7ChtK0cnyJVsQPwkCH5q5fiiQrwX-nEny95PCpwnJzA85qGyYJusFlBO-HH8Ojcp_jTJNr3GeiBwfPQtOwQZ7AkUL7tLsls7q6MiLzCju_MGQlsFSzvV2N7wyFkCoLf9zyk7vKpU3QxfZFA6jqR-f9FOEXrWHr_0Orsd1s2k-RZ8_-SicRI5VieZj7YApi6v0LHqklqkzluwOfH-wSI4tf0En-A-rrR-1yQei7JCa0s8YXpp0mVOE.EC3UkB3_VQpE75Jet9kM4g",
+  "version": "1.0.0",
+  "expiresAt": "2020-07-01T00:07:15.000Z",
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "To finish signing in, check your email.",
+        "i18n": {
+          "key": "idx.email.verification.required"
+        },
+        "class": "INFO"
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00ub0ttoyz062NeVa0g4",
+      "identifier": "testUser@okta.com"
+    }
+  }
+}

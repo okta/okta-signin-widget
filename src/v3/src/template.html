@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title><% preact.title %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="apple-touch-icon" href="/static/icons/apple-touch-icon.png">
+    <% preact.headEnd %>
+  </head>
+  <body>
+    <div id="signin-container"></div>
+    <script>
+      window.onload = () => {
+        new OktaSignIn(
+          Object.assign({
+            el: '#signin-container',
+            clientId: '<%= process.env.PREACT_APP_CLIENT_ID %>',
+            issuer: '<%= process.env.PREACT_APP_ISSUER %>',
+            redirectUri: '<%= process.env.PREACT_APP_REDIRECT_URI %>',
+            scopes: ['openid', 'profile', 'email'],
+            authParams: {
+              pkce: <%= process.env.PREACT_APP_USE_PKCE %>,
+            },
+          }, window.additionalOptions)
+        );
+      }
+    </script>
+    <% preact.bodyEnd %>
+  </body>
+</html>

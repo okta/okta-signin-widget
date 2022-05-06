@@ -1,0 +1,25 @@
+@import "~@okta/odyssey-design-tokens/dist/scss/tokens";
+
+.siwHeader {
+  padding: $space-em-m $space-em-l;
+  border-bottom: 1px solid #d7d7dc;
+  & h1 {
+    line-height: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    text-align: center;
+  }
+  &.authCoinSpacing {
+    padding: $space-em-m $space-em-l 0 $space-em-l;
+  }
+}
+
+.siwOrgLogo {
+  max-width: 200px;
+  max-height: 40px;
+}
+
+.authCoinOverlay {
+  margin: auto;
+  top: 24px;
+}
