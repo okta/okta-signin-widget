@@ -50,26 +50,6 @@ module.exports = function(grunt) {
         ]
       },
 
-      'css-to-mincss': {
-        files: [
-          {
-            expand: true,
-            cwd: 'target/css/',
-            src: ['*.css', '*.css.map'],
-            dest: 'target/css/',
-            rename: function(dest, src) {
-              if (src === 'okta-sign-in.css') {
-                return path.resolve(dest, 'okta-sign-in.min.css');
-              }
-              if (src === 'okta-sign-in.css.map') {
-                return path.resolve(dest, 'okta-sign-in.min.css.map');
-              }
-              return path.resolve(dest, src);
-            },
-          },
-        ],
-      },
-
       'app-to-target': {
         files: [
           // i18n files
@@ -138,9 +118,14 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: 'target/css',
-            // copy minified stylesheet and its sourcemap only
-            src: ['*.css', '*.css.map', '!okta-sign-in.css', '!okta-sign-in.css.map'],
+            src: ['*.css', '*.css.map'],
             dest: DIST + '/css',
+            rename: function(dest, src) {
+              if (src === 'okta-sign-in.css') {
+                return path.resolve(dest, 'okta-sign-in.min.css');
+              }
+              return path.resolve(dest, src);
+            }
           }
         ]
       },
@@ -300,7 +285,7 @@ module.exports = function(grunt) {
             cssnano
           ]
         },
-        src: 'target/css/okta-sign-in.min.css'
+        src: 'target/css/okta-sign-in.css'
       }
     },
 
@@ -423,9 +408,6 @@ module.exports = function(grunt) {
     ];
 
     if (prodBuild) {
-      // okta-sign-in.css is renamed to okta-sign-in.min.css in the npm bundle
-      // include okta-sign-in.css.min into source map so it can be resolved
-      buildTasks.push('copy:css-to-mincss');
       buildTasks.push('postcss:minify');
     } else {
       buildTasks.push('postcss:build');
