@@ -10,15 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { View } from "okta";
-import ScopeItem from "./ScopeItem";
-import ScopeItemWithCheckbox from "./ScopeItemWithCheckbox";
+import { View } from 'okta';
+import ScopeItem from './ScopeItem';
+import ScopeItemWithCheckbox from './ScopeItemWithCheckbox';
 export default View.extend({
-  className: "scope-list detail-row",
+  className: 'scope-list detail-row',
 
-  postRender: function () {
-    const scopes = this.model.get("scopes");
-    if (typeof scopes.required === "undefined") {
+  postRender: function() {
+    var scopes = this.model.get('scopes');
+    if (scopes.some(scope => typeof scope.required === 'undefined')) {
       scopes.forEach((scope) => {
         this.add(ScopeItem, {
           options: {
@@ -29,6 +29,7 @@ export default View.extend({
         });
       });
     } else {
+      scopes.sort((a,b) => Number(a.required) - Number(b.required));
       scopes.forEach((scope) => {
         this.add(ScopeItemWithCheckbox, {
           options: {

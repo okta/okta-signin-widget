@@ -10,16 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { View, _ } from "okta";
-import hbs from "handlebars-inline-precompile";
+import { View, _ } from 'okta';
+import hbs from 'handlebars-inline-precompile';
 export default View.extend({
-  className: "scope-item",
+  className: 'scope-item',
   template: hbs(
     '\
     {{#if required}}\
-      <input class="{{classNames}}" type="checkbox" id="{{name}}" name="{{name}}" value="{{name}}" checked disabled>\
+      <input type="checkbox" id="{{name}}" name="{{name}}" value="{{name}}" checked disabled>\
     {{else}}\
-      <input class="{{classNames}}" type="checkbox" id="{{name}}" name="{{name}}" value="{{name}}" checked>\
+      <input type="checkbox" id="{{name}}" name="{{name}}" value="{{name}}" checked>\
     {{/if}}\
     <label for="{{name}}">{{name}}</label> \
       {{#if description}}\
@@ -29,9 +29,9 @@ export default View.extend({
   ),
   getTemplateData() {
     const { name, description, required, isCustomized } = this.options;
-    const baseClass = "scope-item-text";
+    const baseClass = 'scope-item-text';
     const classNames =
-      name === "openid" || isCustomized
+      name === 'openid' || isCustomized
         ? `${baseClass} no-translate`
         : baseClass;
     return { classNames, name, required, description };

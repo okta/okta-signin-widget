@@ -29,10 +29,10 @@
             "required": true
           },
           {
-            "name": "lab1",
-            "label": "View your phone number.",
-            "value": "phone",
-            "desc": "This allows the app to view your phone number.",
+            "name": "lab",
+            "label": "View your lab results.",
+            "value": "lab",
+            "desc": "This allows the app to view your lab results.",
             "required": false
           }
         ],

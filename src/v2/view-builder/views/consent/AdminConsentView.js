@@ -14,7 +14,7 @@ export default BaseView.extend({
 
     const i18nKeyPrefix = 'consent.scopes';
 
-    const localizedScopes = scopes.map(({ name, displayName, description }) => {
+    const localizedScopes = scopes.map(({ name, displayName, description, required }) => {
       const scopeKey = `${i18nKeyPrefix}.${name}`;
       const labelKey = `${scopeKey}.label`;
       const descKey = `${scopeKey}.desc`;
@@ -27,6 +27,7 @@ export default BaseView.extend({
         name,
         displayName: i18nDisplayName,
         description: i18nDescription,
+        required: required,
         isCustomized: !doesLabelExist,
       };
     });
