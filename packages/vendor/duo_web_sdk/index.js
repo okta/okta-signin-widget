@@ -15,27 +15,9 @@
  * Copyright 2019, Duo Security
  */
 
+// Modified to remove AMD and support ESM transform - OKTA-369648
 (function (root, factory) {
-    /*eslint-disable */
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define([], factory);
-    /*eslint-enable */
-    } else if (typeof module === 'object' && module.exports) {
-        // Node. Does not work with strict CommonJS, but
-        // only CommonJS-like environments that support module.exports,
-        // like Node.
-        module.exports = factory();
-    } else {
-        // Browser globals (root is window)
-        var Duo = factory();
-        // If the Javascript was loaded via a script tag, attempt to autoload
-        // the frame.
-        Duo._onReady(Duo.init);
-
-        // Attach Duo to the `window` object
-        root.Duo = Duo;
-  }
+    module.exports = factory();
 }(this, function() {
     var DUO_MESSAGE_FORMAT = /^(?:AUTH|ENROLL)+\|[A-Za-z0-9\+\/=]+\|[A-Za-z0-9\+\/=]+$/;
     var DUO_ERROR_FORMAT = /^ERR\|[\w\s\.\(\)]+$/;

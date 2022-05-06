@@ -41,7 +41,7 @@ module.exports = function(grunt) {
         files: [
           {
             expand: true,
-            cwd: COURAGE_TYPES,
+            cwd: `${COURAGE_TYPES}`,
             src: [
               '**/*.d.ts'
             ],
@@ -106,7 +106,7 @@ module.exports = function(grunt) {
           {
             expand: true,
             cwd: 'target/',
-            src: ['sass/**/*', 'font/**/*', 'img/**/*', 'labels/**/*'],
+            src: ['esm/**/*', 'sass/**/*', 'font/**/*', 'img/**/*', 'labels/**/*'],
             dest: DIST
           },
           {
@@ -243,7 +243,7 @@ module.exports = function(grunt) {
       'build-dev': 'yarn build:webpack-dev' + (mockDuo ? ' --env mockDuo=true' : ''),
       'build-dev-watch':
         'yarn build:webpack-dev --watch --env skipAnalyzer=true' + (mockDuo ? ' --env mockDuo=true' : ''),
-      'build-release': 'yarn build:webpack-release',
+      'build-release': 'yarn build:webpack-release && yarn build:esm',
       'build-e2e-app': 'yarn build:webpack-e2e-app',
       'generate-config': 'yarn generate-config',
       'run-protractor': 'yarn protractor',

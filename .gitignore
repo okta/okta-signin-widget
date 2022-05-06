@@ -13,7 +13,6 @@ build2
 *.iml
 .idea
 src/config/config.json
-packages/@okta/courage-dist/*.html
 /dist
 .yalc
 .env

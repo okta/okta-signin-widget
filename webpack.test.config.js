@@ -1,3 +1,4 @@
+// This configuration is used by KARMA
 var path          = require('path');
 var commonConfig  = require('./webpack.common.config');
 var createPlugins = require('./scripts/buildtools/webpack/plugins');

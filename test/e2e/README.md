@@ -16,6 +16,15 @@ Each of these origins must be added as [Trusted Origins](https://help.okta.com/e
 
 The test org should have at least one 'basic' user available for testing.
 
+## Build release bundles
+
+Before running E2E tests you should build the release bundles
+
+
+```sh
+yarn build:release
+```
+
 ## Run tests with runner script
 
 The runner script (./runner.js) starts the test app then runs specs or cucumber feature tests against the test app.

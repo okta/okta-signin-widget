@@ -13,21 +13,32 @@
     "allowJs": true,
     "checkJs": false,
     "plugins": [
-       // transform absolute paths to relative based on "paths" configuration below
-      { "transform": "@zerollup/ts-transform-paths" },
+      { "transform": "@zerollup/ts-transform-paths" }
     ],
     "paths": {
+      "okta-i18n-bundles": ["./src/util/Bundles.ts"],
       "nls/*": ["./packages/@okta/i18n/src/json/*"],
-      "okta": ["./packages/@okta/courage-dist/types/CourageForSigninWidget"],
+      "okta": ["./packages/@okta/courage-dist"],
       "handlebars-inline-precompile": ["./scripts/buildtools/tsc/handlebars-inline-precompile"],
       "duo": ["./packages/vendor/duo_web_sdk/index.js"],
-      "qtip": ["./packages/@okta/qtip2/dist/jquery.qtip.min.js"],
+      "qtip": ["./packages/@okta/qtip2/dist/jquery.qtip.js"],
       "typingdna": ["./packages/vendor/TypingDnaRecorder-JavaScript/typingdna"],
-      "*": ["./src/*"]
+      "util/*": ["./src/util/*"],
+      "widget/*": ["./src/widget/*"],
+      "models/*": ["./src/models/*"],
+      "v1/*": ["./src/v1/*"],
+      "v2/*": ["./src/v2/*"],
+      "types": ["./src/types"],
+      "types/*": ["./src/types/*"],
+      "views/*": ["./src/views/*"],
+      "config/*": ["./src/config/*"]
     }
   },
   "include": [
     "src/types/*"
+  ],
+  "exclude": [
+    "types/generated/*"
   ],
   "files": [
     "src/index.ts"
