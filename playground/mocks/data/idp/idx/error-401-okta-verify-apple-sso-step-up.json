@@ -1,0 +1,57 @@
+{
+    "version": "1.0.0",
+    "stateHandle": "02im-3M2f6UXHgNfS7Ns7C85EKHzGaKw0u1CC4p9_r",
+    "expiresAt": "2022-05-05T23:07:10.000Z",
+    "intent": "LOGIN",
+    "remediation": {
+        "type": "array",
+        "value": [
+            {
+                "rel": [
+                    "create-form"
+                ],
+                "name": "cancel-transaction",
+                "href": "http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/ftMHdQ0N_ZKbpuWTXbR1-g3N6UvB5XRoqj/verify/cancel",
+                "method": "POST",
+                "produces": "application/ion+json; okta-version=1.0.0",
+                "value": [
+                    {
+                        "name": "stateHandle",
+                        "required": true,
+                        "value": "eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvM2Y2c3Rja1d3bldybG8weDciLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..y0KQrOI29uQdUgsk.swzdRS8ykEMEQoNjmQxqMvrBgzMf8sLsddv78kAJF_yAwbmvDI-hFWSZJi_ZAoyrrkkGfsCINp_WJFmCEO2y26TAfT4KkuGv7ZjKQvT9-iFdF7sbayuBPXqrpQ-Ybok9O2pdalW1Conikjfy-yYudQAQUR9msuU8_9ud4DfIAgHoya1-z9-A0yxHB7kP7SrUQ1GqcsTYBSWDVbc2cbca6tgf_UkbdrIFyTpumMq2nh9e3vSFmafqsCaCyt403c-IJDCSJdyjXRLebO1knsCp03rPw35Moih8rkr2TI-IdGluSswiIDuzQb1JUEp9KngrDi0JN5d4XhPFdWLk8JUY_dFVqxFWFewzKMC6-1hPUZ9_IYe1MICuWsFpV-lQq6-vs754y2-Fi_efWZ2pD3pK-KEtst4DqY87OLiq01LesLAAcBk6ohiDZhd7QB_w8gQMh3suqc2TMm9WL_KM3P8MhTLFEQKPhSaQN6sHZIXXzuVWxJGhk32A3qdwj2Kij4lSf5gf-4H8-IMVRuF7h7kANV02P70_WP3_XKGo84m6esPyxsFStfRlhuXIWMB283DCFtUVNOyVut1mtKqYqT5byDKi8ks7K2OuDU5xbvA2j1184XJKj01ACjv_ZS9QyA1ZU0HxirMHCVGc0b4-DK2weuTDtY4hW5bJIdG3oTxY9AQyn9x3n5j-FLqaDtOl71OH2tpXSPnAaeG7VqQSV2wWoqJqVmIIHBHt-zm0hEIleLJEczUesPSu9WeeJy0vopWjqd8Xm5UQDAyDEX4xcGDteIVhW3Apw34tr5LwFimwPl57K7uNsFqmYLwxk3qY5DTYw5jUSa7yMyals98QoXc9Wgdx9MY7m6OQqQ-D3kfjuAuCqskwOYV_XYKoQluVPSHPKZ21x97swXS-_Ve4gQbv693qr7V4UBLFt5XtB2t0Lu1PngUlTI2TFpn06GA8CTwPJTuuluurmIAx68fIbPhC2hIG3y7SuLbYkz_RJskG5Rt_MvM4dzLk1u1TqnreFUwkyvryK-Zy_tnVMIFVgSVwYFwOJgLQzruMnxNeg9KQluCIiyxpANwpGWirZYoINAPTJHP-yLb7IK7z-ekF8dlEqVBshRTf1AItL1SSkE14c7Nc6gV02yFBtP11YR-voEi1lK7KggUpylenE4P7pVyFE8lGVcwC3p3tNnB0kAyBNNeVCpy1XRADHy40-eWi0qQd9VKvviRCwSOGxZLiw7QDaeTCFA4OBVLlo0upR1yFh5rwIBGO6ki8fKLVtREiFhNL1j-AjdyPHE8xXh8eic_M2xlYx7VlK3kxWSdsouoJQ_WkF7hr-P0QLXJcBxe44GjF3njtfMM9im2zVLJMT_LjGvWmn5HgdNXmeNrdUEfw-nO2g2iOF7AuG5aEjKOjmTqXNEcQXK2Uf7VVHVCzdDNsJ0ZSiFZsNeo8KaAPxxLGueo_8d7J3X5xHBap813kipz0G0SRjuBol5Wo9SULDV37diu0A5UIV_Tt9xqWMhLCzNWU6CIKKHEpsrMKyr4leIaZoClp6mmh7ZtZXNLV6Fnin_ACdAhJuSg3hBCnSnx1DVucL9aahmn79cMDoxJfEt6gnivxJOA81kuhvJ_30Buxok08IU5nETg9c-yJupBawDFPoQnbBbnr2OQ9A1U4ay_dNH9614R5URF7pTjaPlKTZ5AZMKxA-4_AzfIE3xrxiJUW2Ia107qH96wtzgsylwE7VEW7DQajy4otNLX1DLHD3S3mZ4J7zHSaYyKHLuESXwCFX1PrIqB-9x01zzhVBvcBcU5QIhQRpwZiuMGa7DsJN-GKCsRzjJ6gnntFDtjrrcJckGX8eTEuduWnp18ncokSctBbuaqH3o21NgNdnnpn-hqwRnmQnohm2Q1b-3FuZ6Du68UQyqQhD3FtInFJs_vJ7-WTeSUZ3RbgGkwgsPsZVAQF0JtR4_2uKstKSYxMLOlIgEbRjLjepI1BIBvJR4aqrkVyDyZgHgU7YysN-qLL8TyCAYg19HI3wzPjBtSrsP7NzEPaX3OFPGnCHzNSd3T9H05HbXclAbdRdZCEgNGbVN7UvQUr37i8Z4NflTymj6Xri2iZOhZ-2SNXnLWjjObwz7Sxwq0nZhrYZo6RAGtviToLM1QVM1IccHeF3e-8kfOjUQzm79w-5pNf6Wj7ACLqVnYnrwPKwlugsAmPJfmph8XWEmibje5N_YrAeWmPPggLjBllmdFwHqM-flhiAAw1Kdyc_4XeCLBKJJ3Dovf0xHIF_zGTlCsyiI7btTbP3gmQn8NWgxIAOcYPw8NP_jbemz5-3AabM4c2zrdWxXIGUKXKecau_rnYl7-3Cg9YbQOrjyTuUbQOhdIwCmaT-XoI0ZbNfZWHPt3lwsSoSCpDKRsvhc51oX6KwLT8QLomAsvvNN4Fu4l8R9VzHxbVMaSPokSf7VBsps_VvhGJ5F5agOiNqquAQ0A2PwLlIYrjY6neLb-xPh8u33_Pncl8Q_wol8pCBxbUgPWjVOnx-XKiw1THhNufiUE3DXrdaO7cHDBG2sj8RVbSugMVEGNcNEbk-G4n_8m1Eo0CZqWfbkbHNkxPE4EgDypXNJCe6MG3G4NCPb20n1epEm3l0VO1ansqDDzO5ATpboILXqku4IshYE8ksBaOmVI4i1GJtm5k1GptuwAk7-GXUKX8oct_mnh-8VDpULGvkTWfnN5dyYlEZXpPQcjz7E3gWv-uxkEkAqRRCzf4Ub3vG-524GdPT-8nuua1W8fHbu6kPVjyqFX0bX_TtYbvLWLAY12th4R679LOPGjwOV-z2L0B_itCjIpKBvV-nmoOiBwTvpDDYaLXIdRoLpeU0veuVse9Y8EphejffyFROLbMUqkYX4qTcBOY6LItzHalG9OBHs71TgnX63ZKAiCUj4U7nPeOZFEYb8h0jG5PphftKSHzes6jcNZdRNGCAXL5SbW0f9ieZ53sgsR99sVQh3p_wyXLrl6ydn5kouxGJPelfNlaJcR6PVz6ab8FTO2e6j6NY7OKqzvc_T61M_23Of1QgYRYg0ecwdl6_1UnQ-P_.co_9pJSt2gg7lSofig79Dg",
+                        "visible": false,
+                        "mutable": false
+                    }
+                ],
+                "accepts": "application/json; okta-version=1.0.0"
+            }
+        ]
+    },
+    "cancel": {
+        "rel": [
+            "create-form"
+        ],
+        "name": "cancel",
+        "href": "http://localhost:3000/idp/idx/cancel",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+            {
+                "name": "stateHandle",
+                "required": true,
+                "value": "02im-3M2f6UXHgNfS7Ns7C85EKHzGaKw0u1CC4p9_r",
+                "visible": false,
+                "mutable": false
+            }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+    },
+    "app": {
+        "type": "object",
+        "value": {
+            "name": "okta_enduser",
+            "label": "Okta Dashboard",
+            "id": "0oa3f6stfks7Yik9y0x7"
+        }
+    }
+}

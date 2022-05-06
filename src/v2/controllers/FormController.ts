@@ -269,11 +269,17 @@ export default Controller.extend({
         stateHandle,
         ...values
       });
+
       if (resp.status === IdxStatus.FAILURE) {
         throw resp.error; // caught and handled in this function
       }
       // If the last request did not succeed, show errors on the current form
-      if (resp.requestDidSucceed === false) {
+      // Special case: Okta server responds 401 status code with WWW-Authenticate header and new remediation
+      // so that the iOS/MacOS credential SSO extension (Okta Verify) can intercept
+      // the response reaches here when Okta Verify is not installed
+      // we need to return an idx object so that
+      // the SIW can proceed to the next step without showing error
+      if (resp.requestDidSucceed === false && !resp.stepUp) {
         this.showFormErrors(model, resp, this.formView.form);
         return;
       }
@@ -289,16 +295,7 @@ export default Controller.extend({
         onSuccess();
       }
     } catch(error) {
-      if (error.stepUp) {
-        // Okta server responds 401 status code with WWW-Authenticate header and new remediation
-        // so that the iOS/MacOS credential SSO extension (Okta Verify) can intercept
-        // the response reaches here when Okta Verify is not installed
-        // we need to return an idx object so that
-        // the SIW can proceed to the next step without showing error
-        this.handleIdxResponse(error);
-      } else {
-        this.showFormErrors(model, error, this.formView.form);
-      }
+      this.showFormErrors(model, error, this.formView.form);
     } finally {
       this.toggleFormButtonState(false);
     }
