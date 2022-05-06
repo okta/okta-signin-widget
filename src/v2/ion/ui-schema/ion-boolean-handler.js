@@ -9,8 +9,8 @@
  *
  * See the License for the specific language governing permissions and limitations under the License.
  */
-import { FORMS } from '../RemediationConstants';
-import { loc } from 'okta';
+import { FORMS } from "../RemediationConstants";
+import { loc } from "okta";
 
 const getCheckboxUiSchema = ({ label, type, required }) => ({
   // For Remember Me checkbox, we need the label only on the right side of it.
@@ -20,29 +20,41 @@ const getCheckboxUiSchema = ({ label, type, required }) => ({
   // from html input type
   modelType: type,
   // uiSchema type is the html input type desired.
-  type: 'checkbox',
+  type: "checkbox",
   required: required || false,
 });
 
 const getRadioUiSchema = ({ label, required, options }) => ({
   displayName: label,
-  type: 'radio',
+  type: "radio",
   required: required,
   options: options[0].value.value.options,
-  sublabel: required? null : loc('oie.form.field.optional', 'login'),
+  sublabel: required ? null : loc("oie.form.field.optional", "login"),
 });
 
 const createUiSchemaForBoolean = (ionFormField, remediationForm) => {
-  if ([FORMS.CONSENT_ENDUSER, FORMS.CONSENT_ADMIN].includes(remediationForm.name)) {
-    const scopes = remediationForm.scopes.map(({name, label, desc}) => {
-      return {name, displayName: label, description: desc};
-    });
+  if (
+    [FORMS.CONSENT_ENDUSER, FORMS.CONSENT_ADMIN].includes(remediationForm.name)
+  ) {
+    const scopes = remediationForm.scopes.map(
+      ({ name, label, desc, required }) => {
+        return {
+          name,
+          displayName: label,
+          description: desc,
+          required: required,
+        };
+      }
+    );
 
     // setting 'type' here to add a specific View in FormInputFactory.create
     const type = remediationForm.name;
 
-    return {type, scopes, options: ionFormField.options};
-  } else if (Array.isArray(ionFormField.options) && ionFormField.options[0]?.value?.value?.inputType === 'radio') {
+    return { type, scopes, options: ionFormField.options };
+  } else if (
+    Array.isArray(ionFormField.options) &&
+    ionFormField.options[0]?.value?.value?.inputType === "radio"
+  ) {
     return getRadioUiSchema(ionFormField);
   } else {
     return getCheckboxUiSchema(ionFormField);
