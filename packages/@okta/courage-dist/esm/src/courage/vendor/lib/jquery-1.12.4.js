@@ -2988,7 +2988,9 @@ import { j as jquery1_12_4 } from '../../../../_virtual/jquery-1.12.4.js';
           deferred.done(arguments).fail(arguments);
           return this;
         },
-        then: function () {
+        then: function
+          /* fnDone, fnFail, fnProgress */
+        () {
           var fns = arguments;
           return jQuery.Deferred(function (newDefer) {
             jQuery.each(tuples, function (i, tuple) {
