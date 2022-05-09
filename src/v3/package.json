@@ -1,15 +1,15 @@
 {
-  "name": "@okta/okta-signin-widget",
+  "name": "@okta/okta-signin-widget-next",
   "version": "0.0.0",
   "private": true,
   "description": "Okta Sign In Widget Next",
-  "homepage": "https://github.com/okta/siw-next",
+  "homepage": "https://github.com/okta/okta-signin-widget",
   "bugs": {
-    "url": "https://github.com/okta/siw-next/issues"
+    "url": "https://github.com/okta/okta-signin-widget/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/okta/siw-next.git"
+    "url": "https://github.com/okta/okta-signin-widget.git"
   },
   "license": "Apache-2.0",
   "main": "dist/index.js",
