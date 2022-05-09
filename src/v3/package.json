@@ -1,5 +1,5 @@
 {
-  "name": "@okta/okta-signin-widget-next",
+  "name": "v3",
   "version": "0.0.0",
   "private": true,
   "description": "Okta Sign In Widget Next",
@@ -115,5 +115,17 @@
   },
   "msw": {
     "workerDirectory": "src/static"
+  },
+  "workspaces": {
+    "nohoist": [
+      "preact-cli",
+      "preact-cli/**",
+      "preact-cli-plugin-env-vars",
+      "preact-cli-plugin-env-vars/**",
+      "preact-render-to-string",
+      "preact-render-to-string/**",
+      "preact-svg-loader",
+      "preact-svg-loader/**"
+    ]
   }
 }
