@@ -1,0 +1,268 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EmailChallengeTransformer Tests should create email challenge UI elements when profile email is NOT available 1`] = `
+Object {
+  "data": Object {},
+  "envelope": Object {},
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "elements": Array [
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "ctaText": "email.code.not.received",
+                },
+                "type": "Reminder",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.email.mfa.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
+                  "content": "next.email.challenge.informationalText",
+                  "contentParams": Array [
+                    undefined,
+                  ],
+                },
+                "type": "Description",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "ctaText": "email.code.not.received",
+                },
+                "type": "Reminder",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.email.mfa.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
+                  "content": "next.email.challenge.informationalText",
+                  "contentParams": Array [
+                    undefined,
+                  ],
+                },
+                "type": "Description",
+              },
+              Object {
+                "label": "email.enroll.enterCode",
+                "scope": "#/properties/verificationCode",
+                "type": "Control",
+              },
+              Object {
+                "label": "mfa.challenge.verify",
+                "options": Object {
+                  "format": "button",
+                  "type": "submit",
+                },
+                "scope": "#/properties/submit",
+                "type": "Control",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+        ],
+        "options": Object {
+          "key": "123456789-emailChallenge",
+          "navButtonsConfig": Object {
+            "next": Object {
+              "label": "oie.email.verify.alternate.showCodeTextField",
+              "variant": "clear",
+            },
+          },
+        },
+        "type": "Stepper",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`EmailChallengeTransformer Tests should create email challenge UI elements when resend code is NOT available 1`] = `
+Object {
+  "data": Object {},
+  "envelope": Object {},
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "elements": Array [
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "oie.email.mfa.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
+                  "content": "next.email.challenge.informationalTextWithEmail",
+                  "contentParams": Array [
+                    "firstname.lastname@example.com",
+                  ],
+                },
+                "type": "Description",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "oie.email.mfa.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
+                  "content": "next.email.challenge.informationalTextWithEmail",
+                  "contentParams": Array [
+                    "firstname.lastname@example.com",
+                  ],
+                },
+                "type": "Description",
+              },
+              Object {
+                "label": "email.enroll.enterCode",
+                "scope": "#/properties/verificationCode",
+                "type": "Control",
+              },
+              Object {
+                "label": "mfa.challenge.verify",
+                "options": Object {
+                  "format": "button",
+                  "type": "submit",
+                },
+                "scope": "#/properties/submit",
+                "type": "Control",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+        ],
+        "options": Object {
+          "key": "123456789-emailChallenge",
+          "navButtonsConfig": Object {
+            "next": Object {
+              "label": "oie.email.verify.alternate.showCodeTextField",
+              "variant": "clear",
+            },
+          },
+        },
+        "type": "Stepper",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`EmailChallengeTransformer Tests should create email challenge UI elements when resend code is available 1`] = `
+Object {
+  "data": Object {},
+  "envelope": Object {},
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "elements": Array [
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "ctaText": "email.code.not.received",
+                },
+                "type": "Reminder",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.email.mfa.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
+                  "content": "next.email.challenge.informationalTextWithEmail",
+                  "contentParams": Array [
+                    "firstname.lastname@example.com",
+                  ],
+                },
+                "type": "Description",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "ctaText": "email.code.not.received",
+                },
+                "type": "Reminder",
+              },
+              Object {
+                "options": Object {
+                  "content": "oie.email.mfa.title",
+                },
+                "type": "Title",
+              },
+              Object {
+                "options": Object {
+                  "content": "next.email.challenge.informationalTextWithEmail",
+                  "contentParams": Array [
+                    "firstname.lastname@example.com",
+                  ],
+                },
+                "type": "Description",
+              },
+              Object {
+                "label": "email.enroll.enterCode",
+                "scope": "#/properties/verificationCode",
+                "type": "Control",
+              },
+              Object {
+                "label": "mfa.challenge.verify",
+                "options": Object {
+                  "format": "button",
+                  "type": "submit",
+                },
+                "scope": "#/properties/submit",
+                "type": "Control",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+        ],
+        "options": Object {
+          "key": "123456789-emailChallenge",
+          "navButtonsConfig": Object {
+            "next": Object {
+              "label": "oie.email.verify.alternate.showCodeTextField",
+              "variant": "clear",
+            },
+          },
+        },
+        "type": "Stepper",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

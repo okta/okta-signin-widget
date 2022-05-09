@@ -1,0 +1,31 @@
+@import "~@okta/odyssey-design-tokens/dist/scss/tokens";
+
+.authButton:hover {
+  cursor: pointer;
+  .infoSection .actionName {
+    color: $color-border-primary-dark;
+  }
+}
+
+.infoSection {
+  display: flex;
+  padding: 0 0 0 12px;
+  flex-grow: 1;
+  flex-direction: column;
+  .title {
+    font-weight: 500;
+  }
+  .description {
+    margin: 6px 0 6px 0;
+  }
+  .actionName {
+    margin: 5px 0;
+    color: $color-primary-base;
+    display: flex;
+    font-weight: 500;
+    align-items: center;
+    svg {
+      margin: 0 0 0 5px;
+    }
+  }
+}

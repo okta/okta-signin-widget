@@ -1,0 +1,13 @@
+@import "~@okta/odyssey-design-tokens/dist/scss/tokens";
+
+.passwordRequirementIcon {
+  &.complete {
+    color: $color-success-base;
+  }
+  &.incomplete {
+    color: $color-neutral-base;
+  }
+  &.info {
+    color: $color-neutral-base;
+  }
+}

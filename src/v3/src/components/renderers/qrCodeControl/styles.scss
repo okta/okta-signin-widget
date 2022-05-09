@@ -1,0 +1,15 @@
+@import "~@okta/odyssey-design-tokens/dist/scss/tokens";
+
+.qrContainer {
+  margin: $space-em-m 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qrImg {
+  width: 224px;
+  height: 224px;
+  border: $border-width-base $border-style-base $color-border-display;
+  border-radius: $border-radius-base;
+}

@@ -1,0 +1,14 @@
+@import "~@okta/odyssey-design-tokens/dist/scss/tokens";
+
+.iconContainer {
+  position: relative;
+  background: #ffffff;
+  width: 54px;
+  height: 48px;
+  padding: 0 3px 0 3px;
+}
+
+.customAuthImage {
+  width: $space-em-l;
+  height: $space-em-l;
+}

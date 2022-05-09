@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SecurityQuestionEnroll Tests should create security question enrollment UI elements 1`] = `
+Object {
+  "data": Object {
+    "questionType": "predefined",
+  },
+  "envelope": Object {},
+  "schema": Object {
+    "properties": Object {
+      "questionKey": Object {
+        "enum": Array [
+          "custom",
+          "eternal",
+        ],
+        "type": "string",
+      },
+      "questionType": Object {
+        "enum": Array [
+          "predefined",
+          "custom",
+        ],
+        "type": "string",
+      },
+    },
+  },
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.security.question.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "label": false,
+        "options": Object {
+          "choices": Array [
+            Object {
+              "key": "predefined",
+              "value": "oie.security.question.questionKey.label",
+            },
+            Object {
+              "key": "custom",
+              "value": "oie.security.question.createQuestion.label",
+            },
+          ],
+          "format": "radio",
+        },
+        "scope": "#/properties/questionType",
+        "type": "Control",
+      },
+      Object {
+        "label": "oie.security.question.createQuestion.label",
+        "rule": Object {
+          "condition": Object {
+            "schema": Object {
+              "const": "custom",
+            },
+            "scope": "#/properties/questionType",
+          },
+          "effect": "SHOW",
+        },
+        "scope": "#/properties/question",
+        "type": "Control",
+      },
+      Object {
+        "label": "oie.security.question.questionKey.label",
+        "options": Object {
+          "choices": Array [
+            Object {
+              "key": "eternal",
+              "value": "What is love?",
+            },
+          ],
+          "format": "dropdown",
+        },
+        "rule": Object {
+          "condition": Object {
+            "schema": Object {
+              "const": "predefined",
+            },
+            "scope": "#/properties/questionType",
+          },
+          "effect": "SHOW",
+        },
+        "scope": "#/properties/questionKey",
+        "type": "Control",
+      },
+      Object {
+        "options": Object {
+          "format": "password",
+        },
+        "scope": "#/properties/answer",
+        "type": "Control",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

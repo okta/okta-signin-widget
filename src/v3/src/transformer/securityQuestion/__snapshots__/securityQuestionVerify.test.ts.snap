@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SecurityQuestionVerify Tests should create security question verify UI elements 1`] = `
+Object {
+  "data": Object {},
+  "envelope": Object {},
+  "schema": Object {
+    "properties": Object {},
+  },
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.security.question.challenge.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "label": "What is love?",
+        "options": Object {
+          "format": "password",
+        },
+        "scope": "#/properties/answer",
+        "type": "Control",
+      },
+      Object {
+        "label": "oform.verify",
+        "options": Object {
+          "format": "button",
+          "idxMethod": "proceed",
+          "type": "submit",
+        },
+        "scope": "#/properties/submit",
+        "type": "Control",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`SecurityQuestionVerify Tests should create security question verify UI elements for custom question 1`] = `
+Object {
+  "data": Object {},
+  "envelope": Object {},
+  "schema": Object {
+    "properties": Object {},
+  },
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.security.question.challenge.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "label": "What is love?",
+        "options": Object {
+          "format": "password",
+        },
+        "scope": "#/properties/answer",
+        "type": "Control",
+      },
+      Object {
+        "label": "oform.verify",
+        "options": Object {
+          "format": "button",
+          "idxMethod": "proceed",
+          "type": "submit",
+        },
+        "scope": "#/properties/submit",
+        "type": "Control",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
