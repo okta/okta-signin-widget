@@ -9,22 +9,6 @@
   </head>
   <body>
     <div id="signin-container"></div>
-    <script>
-      window.onload = () => {
-        new OktaSignIn(
-          Object.assign({
-            el: '#signin-container',
-            clientId: '<%= process.env.PREACT_APP_CLIENT_ID %>',
-            issuer: '<%= process.env.PREACT_APP_ISSUER %>',
-            redirectUri: '<%= process.env.PREACT_APP_REDIRECT_URI %>',
-            scopes: ['openid', 'profile', 'email'],
-            authParams: {
-              pkce: <%= process.env.PREACT_APP_USE_PKCE %>,
-            },
-          }, window.additionalOptions)
-        );
-      }
-    </script>
     <% preact.bodyEnd %>
   </body>
 </html>
