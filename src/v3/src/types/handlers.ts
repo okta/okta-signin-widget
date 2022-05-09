@@ -10,21 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import './i18n';
+import { h } from 'preact';
 
-import OktaSignIn from './OktaSignIn';
+export type SubmitHandler<T extends EventTarget = HTMLFormElement> = h.JSX.GenericEventHandler<T>;
+export type ClickHandler<T extends EventTarget = HTMLButtonElement> = h.JSX.MouseEventHandler<T>;
+export type ChangeHandler<T extends EventTarget = HTMLInputElement> = h.JSX.TargetedEvent<T>;
 
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-  import('./mocks/browser')
-    .then(({ getWorker }) => getWorker())
-    .then((worker) => worker?.start());
-}
+type Event<T extends EventTarget> = h.JSX.TargetedEvent<T> & { target: T };
 
-if (typeof window !== 'undefined') {
-  // @ts-ignore OKTA-487668
-  window.OktaSignIn = OktaSignIn;
-
-  import('../.widgetrc')
-    // eslint-disable-next-line no-new
-    .then(({ default: config }) => new OktaSignIn(config));
-}
+export type SubmitEvent<T extends EventTarget = HTMLFormElement> = Event<T>;
+export type ClickEvent<T extends EventTarget = HTMLButtonElement> = Event<T>;
+export type ChangeEvent<T extends EventTarget = HTMLInputElement> = Event<T>;

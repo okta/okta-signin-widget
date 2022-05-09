@@ -60,7 +60,6 @@ export default class OktaSignIn {
   constructor(options: WidgetProps) {
     this.version = version;
     this.options = options;
-
     this.events = {};
 
     // if authClient is set, authParams are disregarded

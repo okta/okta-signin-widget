@@ -199,7 +199,8 @@
       "test/app",
       "test/e2e",
       "test/types",
-      "playground"
+      "playground",
+      "src/v3"
     ],
     "nohoist": [
       "**/@wdio/**"

@@ -10,12 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-module.exports = {
-  preset: './node_modules/vite-jest/jest-preset.js',
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  testEnvironment: 'jest-environment-jsdom',
-  moduleNameMapper: {
-    '^src/(.*)$': '<rootDir/src$1>',
-    '\\.(css|sass|scss)$': 'identity-obj-proxy',
-  },
-};
+export * from './authcoin';
+export * from './handlers';
+export * from './ion';
+export * from './json';
+export * from './jsonforms';
+export * from './userInfo';
+export * from './widget';

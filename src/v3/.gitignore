@@ -14,3 +14,7 @@ src/properties/json/
 # yalc
 .yalc
 yalc.lock
+
+# track types dir
+!types/
+.widgetrc.ts
