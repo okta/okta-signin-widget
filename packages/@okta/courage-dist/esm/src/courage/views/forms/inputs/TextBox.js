@@ -249,14 +249,21 @@ var TextBox = BaseInput.extend({
     'input input': 'update',
     'change input': 'update',
     'keydown input': 'update',
+    'compositionend input': function () {
+      this.isComposing = false;
+    },
+    'compositionstart input': function () {
+      this.isComposing = true;
+    },
     'keyup input': function (e) {
-      if (Keys.isEnter(e)) {
+      if (Keys.isEnter(e) && !(window.okta && window.okta.enableIMESupport)) {
         this.model.trigger('form:save');
       } else if (Keys.isEsc(e)) {
         this.model.trigger('form:cancel');
       }
     }
   },
+  hasIMESupport: true,
   constructor: function () {
     BaseInput.apply(this, arguments);
     this.$el.addClass('o-form-control');

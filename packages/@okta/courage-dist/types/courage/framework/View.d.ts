@@ -9,7 +9,7 @@ declare class BackboneViewExt extends Backbone.EventsMixin implements Backbone.E
     /**
      * For use with views as ES classes. If you define a preinitialize
      * method, it will be invoked when the view is first created, before any
-     * instantiation logic is run.
+     * instantiation logic is run
      * @see https://backbonejs.org/#View-preinitialize
      */
     preinitialize(options?: Backbone.ViewOptions<Backbone.Model>): void;

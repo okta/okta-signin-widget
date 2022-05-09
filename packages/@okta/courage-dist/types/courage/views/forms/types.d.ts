@@ -1,7 +1,6 @@
+import Backbone from 'backbone';
 import { BaseInputClass } from './BaseInput';
-export interface BaseInputOptions {
-    id?: string;
-    model?: any;
+export interface BaseInputOptions<TModel extends Backbone.Model = Backbone.Model> extends Backbone.ViewOptions<TModel> {
     name?: string | string[];
     inputId?: any;
     type?: any;

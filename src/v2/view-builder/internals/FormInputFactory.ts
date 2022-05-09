@@ -9,14 +9,6 @@ import AdminScopeList from 'v1/views/admin-consent/ScopeList';
 import EnduserScopeList from 'v1/views/consent/ScopeList';
 import CaptchaView from '../views/captcha/CaptchaView';
 
-// TODO: remove ambient declaration patch after courage type has been updated: OKTA-488758
-declare module 'okta' {
-  interface BaseInputOptions {
-    attributes?: Record<string, any> | undefined;
-    className?: string | undefined;
-  }
-}
-
 const isTextOverflowing = (text, maxWidth) => {
   // Create a temporary element and attach it to the document so we can compare the client width to the 
   // max width allowed.

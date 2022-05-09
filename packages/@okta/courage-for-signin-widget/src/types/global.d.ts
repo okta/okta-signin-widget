@@ -18,6 +18,7 @@ declare namespace OktaCourage {
     locale?: string;
     settings?: settings;
     theme?: string;
+    enableIMESupport?: boolean;
   }
 
 }
