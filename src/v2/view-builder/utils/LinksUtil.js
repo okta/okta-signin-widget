@@ -105,7 +105,7 @@ const getSignOutLink = (settings, options = {}) => {
         'name': 'cancel',
         'href': settings.get('appTerminationRedirectUri')
       },
-    ]
+    ];
   }
   else if (settings?.get('signOutLink')) {
     return [
