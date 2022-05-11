@@ -12,7 +12,6 @@ export default View.extend({
     <div class="okta-verify-container">
     {{#if signInWithDeviceIsRequired}}
       <div class="signin-with-ov-description">
-        {{i18n code="oktaVerify.description" bundle="login"}}
       </div>
     {{/if}}
     </div>
@@ -24,8 +23,8 @@ export default View.extend({
   `,
   initialize() {
     const appState = this.options.appState;
-    const deviceChallengePollRemediation = this.options.appState.hasRemediationObject(FORMS.LAUNCH_AUTHENTICATOR);
-
+    const deviceChallengePollRemediation = appState.hasRemediationObject(FORMS.LAUNCH_AUTHENTICATOR);
+    
     const deviceChallenge = deviceChallengePollRemediation?.relatesTo?.value;
     this.add(createButton({
       className: 'button',
@@ -73,5 +72,15 @@ export default View.extend({
     return {
       signInWithDeviceIsRequired: !!this.options.isRequired,
     };
+  },
+
+  postRender() {
+    if(this.options.isRequired) {
+      const app = this.options.appState.attributes.app;
+      const resourceLabel = app ? loc('oktaVerify.appDescription', 'login', [app.label]) : 
+        loc('oktaVerify.description', 'login');
+      const ovDescContainer = this.$el.find('.signin-with-ov-description');
+      ovDescContainer.text(resourceLabel);
+    }
   }
 });
