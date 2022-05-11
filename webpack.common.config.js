@@ -63,7 +63,7 @@ module.exports = function(outputFilename, mode = 'development') {
         'okta-i18n-bundles': 'util/Bundles',
 
         // Vendor files from courage that
-        'jquery': `${COURAGE_DIST}/src/courage/vendor/lib/jquery-1.12.4.js`,
+        // 'jquery': `${COURAGE_DIST}/src/courage/vendor/lib/jquery-1.12.4.js`,
         'handlebars/runtime': `${COURAGE_DIST}/lib/handlebars/dist/cjs/handlebars.runtime`,
         'handlebars$': `${COURAGE_DIST}/lib/handlebars/dist/cjs/handlebars.runtime`,
 

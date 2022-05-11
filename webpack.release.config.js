@@ -3,12 +3,11 @@
 //    version of the widget that does not include any vendor dependencies. This
 //    is meant to be imported through a require() statement using webpack or
 //    browserify.
-// 2. cdnConfig - generates okta.sign-in.min.js, a minified built version of the
+// 2. noPolyfillConfig - widget without polyfills (if IE11 support is not needed)
+//
+// 3. cdnConfig - generates okta.sign-in.min.js, a minified built version of the
 //    widget that includes everything necessary to run (including all vendor
 //    libraries)
-// 3. noJqueryConfig - generates okta.sign-in.no-jquery.js, which is used by
-//    our own internal login flow. We can remove this once we update loginpage
-//    to use webpack.
 // 4. devConfig - generates okta.sign-in.js, which is a non-minified version of
 //    the widget that contains helpful warning messages and includes everything
 //    necessary to run (including all vendor libraries).
@@ -34,23 +33,9 @@ var cdnConfig = config('okta-sign-in.min.js', 'production');
 cdnConfig.plugins = plugins({ isProduction: true, analyzerFile: 'okta-sign-in.min.analyzer' });
 usePolyfill(cdnConfig);
 
-// 4. noJqueryConfig
-var noJqueryConfig = config('okta-sign-in-no-jquery.js', 'production');
-noJqueryConfig.entry = cdnConfig.entry;
-noJqueryConfig.plugins = plugins({ isProduction: true, analyzerFile: 'okta-sign-in-no-jquery.analyzer' });
-noJqueryConfig.externals = {
-  'jquery': {
-    'commonjs': 'jquery',
-    'commonjs2': 'jquery',
-    'amd': 'jquery',
-    'root': 'jQuery'
-  }
-};
-useRuntime(noJqueryConfig);
-
-// 5. devConfig (with polyfill, unminified)
+// 4. devConfig (with polyfill, unminified)
 var devConfig = config('okta-sign-in.js', 'development');
 devConfig.plugins = plugins({ isProduction: false, analyzerFile: 'okta-sign-in.analyzer' });
 usePolyfill(devConfig);
 
-module.exports = [entryConfig, noPolyfillConfig, cdnConfig, noJqueryConfig, devConfig];
+module.exports = [entryConfig, noPolyfillConfig, cdnConfig, devConfig];

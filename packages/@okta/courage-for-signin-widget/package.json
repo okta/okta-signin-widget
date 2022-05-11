@@ -21,7 +21,7 @@
     "build:types": "yarn clean:types && yarn generate:types",
     "build:esm": "rollup -c",
     "build": "yarn clean && yarn build:types && yarn build:esm && yarn lint && yarn copy",
-    "build:babel": "rm -rf target/babel && yarn babel src -x  .ts,.js --out-dir target/babel"
+    "build:babel": "rm -rf target/babel && yarn babel src -x .ts,.js --out-dir target/babel"
   },
   "engines": {
     "node": ">=12.22.0",
