@@ -14,6 +14,16 @@ if ! yarn build:release; then
   exit ${TEST_FAILURE}
 fi
 
+# Move node_modules out of the way to validate the dist package dependencies
+mv node_modules node_modules2
+
+pushd test/package/tsc
+if ! yarn && yarn test; then
+  echo "TSC package verification failed! Exiting..."
+  exit ${TEST_FAILURE}
+fi
+popd
+
 mkdir -p test-reports/verify-package
 
 pushd dist
