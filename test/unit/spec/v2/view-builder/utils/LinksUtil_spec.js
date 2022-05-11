@@ -1,6 +1,6 @@
 import AppState from 'v2/models/AppState';
 import { FORMS } from 'v2/ion/RemediationConstants';
-import { getSwitchAuthenticatorLink, getFactorPageCustomLink, getBackToSignInLink } from 'v2/view-builder/utils/LinksUtil';
+import { getSwitchAuthenticatorLink, getFactorPageCustomLink, getBackToSignInLink, getSignOutLink } from 'v2/view-builder/utils/LinksUtil';
 import Settings from '../../../../../../src/models/Settings';
 
 describe('v2/utils/LinksUtil', function() {
@@ -152,5 +152,44 @@ describe('v2/utils/LinksUtil', function() {
       });
       expect(result[0].href).toBeUndefined();
     });
+
+    it('returns `href` with value of `appTerminationRedirectUri`', () => {
+      const settings = new Settings({
+        baseUrl: 'https://foo',
+        useInteractionCodeFlow: true,
+        appTerminationRedirectUri: 'https://okta.com',
+      });
+      const result = getBackToSignInLink({ appState, settings });
+      expect(result).toBeInstanceOf(Array);
+      expect(result).toHaveLength(1);
+      expect(result[0]).toMatchObject({
+        type: 'link',
+        label: expect.any(String),   // this field could change, ignore for testing
+        name: 'go-back',
+        href: 'https://okta.com',
+      });
+      expect(result[0].clickHandler).toBeUndefined();
+    });
+
+  });
+
+  describe('getSignOutLink', () => {
+    it('returns `href` with value of `appTerminationRedirectUri`', () => {
+      const settings = new Settings({
+        baseUrl: 'https://foo',
+        useInteractionCodeFlow: false,
+        appTerminationRedirectUri: 'https://okta.com',
+      });
+      const result = getSignOutLink(settings);
+      expect(result).toBeInstanceOf(Array);
+      expect(result).toHaveLength(1);
+      expect(result[0]).toMatchObject({
+        label: expect.any(String),   // this field could change, ignore for testing
+        name: 'cancel',
+        href: 'https://okta.com',
+      });
+      expect(result[0].clickHandler).toBeUndefined();
+    });
+
   });
 });
