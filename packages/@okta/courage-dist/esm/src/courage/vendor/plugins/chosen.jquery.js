@@ -89,7 +89,7 @@ import $ from 'jquery';
   };
 
   this.SelectParser = SelectParser;
-}).call(jQuery);
+}).call($);
 (function () {
   var AbstractChosen, root;
   root = this;
@@ -356,7 +356,7 @@ import $ from 'jquery';
   }();
 
   root.AbstractChosen = AbstractChosen;
-}).call(jQuery);
+}).call($);
 (function () {
   var $$1,
       Chosen,
@@ -1233,4 +1233,4 @@ import $ from 'jquery';
   }(AbstractChosen);
 
   root.Chosen = Chosen;
-}).call(jQuery);
+}).call($);

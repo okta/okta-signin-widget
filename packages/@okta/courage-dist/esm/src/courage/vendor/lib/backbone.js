@@ -10,7 +10,7 @@ import { u as underscoreMin } from '../../../../_virtual/underscore-min.js';
 //     Backbone may be freely distributed under the MIT license.
 //     For all details and documentation:
 //     http://backbonejs.org
-const jQuery = $.default;
+const jQuery = $;
 (function (factory) {
   // Establish the root object, `window` (`self`) in the browser, or `global` on the server.
   // We use `self` instead of `window` for `WebWorker` support.

@@ -68,6 +68,8 @@ describe('v2/view-builder/views/ov/EnrollPollOktaVerifyView', function() {
 
   it('switches to select enroll method form when on mobile', function(done) {
     MockUtil.mockIntrospect(done, xhrAuthenticatorEnrollOktaVerifyQr, async (idxResp) => {
+      spyOn(BrowserFeatures, 'isIOS').and.callFake(() => true);
+      spyOn(BrowserFeatures, 'isAndroid').and.callFake(() => false);
       const appState = new AppState();
       const settings = new Settings({ baseUrl: 'http://localhost:3000' });
       const ionResponse = transformIdxResponse(settings, idxResp);
@@ -77,8 +79,6 @@ describe('v2/view-builder/views/ov/EnrollPollOktaVerifyView', function() {
         appState,
         settings,
       });
-      spyOn(BrowserFeatures, 'isIOS').and.callFake(() => true);
-      spyOn(BrowserFeatures, 'isAndroid').and.callFake(() => false);
       testContext.view.render();
       expect(testContext.view.$('.select-enrollment-channel--okta_verify').length).toBe(1);
       expect(testContext.view.$('.oie-enroll-ov-poll').length).toBe(0);

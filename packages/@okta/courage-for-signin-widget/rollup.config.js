@@ -32,7 +32,7 @@ export default {
   moduleContext: (id) => {
     // run yarn build:babel to see output pre-rollup
     if (/.*chosen\.jquery\.js$/.test(id)) {
-      return 'jQuery'; // the variable holding the result of import('jquery')
+      return '$'; // the variable holding the result of import('jquery')
     }
     return 'undefined';
   },
@@ -52,7 +52,7 @@ export default {
       include: ['**/courage/vendor/lib/backbone.js'],
       values: {
         // import named symbol (run yarn build:babel to see output pre-rollup)
-        '(function (factory) {': `const jQuery = require('jquery').default;\n(function (factory) {`,
+        '(function (factory) {': `const jQuery = require('jquery');\n(function (factory) {`,
         // remove require, replace with imported symbol
         'require(\'jquery\')': 'jQuery'
       },
