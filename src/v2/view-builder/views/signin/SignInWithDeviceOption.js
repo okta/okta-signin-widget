@@ -76,8 +76,8 @@ export default View.extend({
 
   postRender() {
     if(this.options.isRequired) {
-      const app = this.options.appState.attributes ? this.options.appState.attributes.app : null;
-      const resourceLabel = app && app.label ? loc('oktaVerify.appDescription', 'login', [app.label]) : 
+      const appLabel = this.options.appState.attributes?.app?.label;
+      const resourceLabel = appLabel ? loc('oktaVerify.appDescription', 'login', [appLabel]) : 
         loc('oktaVerify.description', 'login');
       const ovDescContainer = this.$el.find('.signin-with-ov-description');
       ovDescContainer.text(resourceLabel);
