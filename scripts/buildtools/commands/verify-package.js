@@ -2,7 +2,7 @@ const path = require('path');
 const { readFileSync } = require('fs');
 
 const ONE_MB = 1000000;
-const EXPECTED_PACKAGE_SIZE = 12 * ONE_MB;
+const EXPECTED_PACKAGE_SIZE = 11 * ONE_MB;
 const EXPECTED_PACKAGE_FILES = 2200;
 
 const EXPECTED_BUNDLE_SIZES = {
