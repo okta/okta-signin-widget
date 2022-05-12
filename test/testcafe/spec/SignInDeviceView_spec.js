@@ -24,7 +24,7 @@ test('shows the correct content', async t => {
   const signInDevicePage = await setup(t);
   await t.expect(signInDevicePage.getHeader()).eql('Sign In');
   await t.expect(signInDevicePage.getOVButtonIcon()).eql('icon okta-verify-authenticator');
-  await t.expect(signInDevicePage.getContentText()).eql('To access this resource, your organization requires you to sign in using your device.');
+  await t.expect(signInDevicePage.getContentText()).eql('To access Microsoft Office 365, your organization requires you to sign in with Okta FastPass.');
   await t.expect(signInDevicePage.getOVButtonLabel()).eql('Sign in with Okta FastPass');
 });
 
