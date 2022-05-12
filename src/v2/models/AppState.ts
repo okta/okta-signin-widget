@@ -21,7 +21,7 @@ import {
 import { createOVOptions } from '../ion/ui-schema/ion-object-handler';
 import { _ } from '../mixins/mixins';
 import { executeHooksBefore, executeHooksAfter } from 'util/Hooks';
-import { IdxRemediation, IdxResponse, IdxTransaction } from '@okta/okta-auth-js';
+import { IdxRemediation } from '@okta/okta-auth-js';
 import BrowserFeatures from 'util/BrowserFeatures';
 
 /**
