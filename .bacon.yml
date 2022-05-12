@@ -62,3 +62,32 @@ test_suites:
       script_name: unit-karma
       criteria: MERGE
       queue_name: small
+
+    - name: v3-lint
+      script_path: /root/okta/okta-signin-widget/src/v3/scripts
+      sort_order: '10'
+      timeout: '10'
+      script_name: lint
+      criteria: OPTIONAL
+      queue_name: small
+    - name: v3-unit-jest
+      script_path: /root/okta/okta-signin-widget/src/v3/scripts
+      sort_order: '11'
+      timeout: '15'
+      script_name: unit-jest
+      criteria: OPTIONAL
+      queue_name: small
+    - name: v3-e2e
+      script_path: /root/okta/okta-signin-widget/src/v3/scripts
+      sort_order: '12'
+      timeout: '15'
+      script_name: e2e
+      criteria: OPTIONAL
+      queue_name: small
+    - name: v3-publish
+      script_path: /root/okta/okta-signin-widget/src/v3/scripts
+      sort_order: '13'
+      timeout: '60'
+      script_name: publish
+      criteria: OPTIONAL
+      queue_name: small
