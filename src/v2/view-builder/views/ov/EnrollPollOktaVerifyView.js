@@ -1,9 +1,7 @@
 import { loc } from 'okta';
 import { BaseFormWithPolling } from '../../internals';
-import BrowserFeatures from '../../../../util/BrowserFeatures';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 import polling from '../shared/polling';
-import { FORMS as RemediationForms } from '../../../ion/RemediationConstants';
 import OVResendView from './OVResendView';
 import SwitchEnrollChannelLinkView from './SwitchEnrollChannelLinkView';
 import EnrollChannelPollDescriptionView from './EnrollChannelPollDescriptionView';
