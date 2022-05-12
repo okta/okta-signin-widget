@@ -38,14 +38,6 @@ const Body = BaseFormWithPolling.extend(Object.assign(
       this.listenTo(this.model, 'error', this.stopPolling);
       this.startPolling();
     },
-    postRender() {
-      BaseFormWithPolling.prototype.postRender.apply(this, arguments);
-
-      if ((BrowserFeatures.isAndroid() || BrowserFeatures.isIOS()) &
-        this.options.appState.get('currentAuthenticator').contextualData.selectedChannel === 'qrcode') {
-        this.options.appState.trigger('switchForm', RemediationForms.SELECT_ENROLLMENT_CHANNEL);
-      }
-    },
     showMessages() {
       // override showMessages to display custom callout
       const calloutOptions = {};
