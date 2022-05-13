@@ -362,7 +362,7 @@ test
     await t.expect(deviceChallengePollPageObject.getBeaconClass()).contains(BEACON_CLASS);
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Sign in with Okta FastPass');
     await t.expect(deviceChallengePollPageObject.getSpinner().getStyleProperty('display')).eql('block');
-    await t.expect(deviceChallengePollPageObject.getPrimiaryButtonText()).eql('Open Okta Verify');
+    await t.expect(deviceChallengePollPageObject.getPrimaryButtonText()).eql('Open Okta Verify');
     await t.expect(deviceChallengePollPageObject.getFooterLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');

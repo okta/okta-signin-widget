@@ -64,7 +64,7 @@ export default class DeviceChallengePollViewPageObject extends BasePageObject {
     return this.body.find('#download-ov').getAttribute('href');
   }
 
-  getPrimiaryButtonText() {
+  getPrimaryButtonText() {
     return this.body.find('[data-se="o-form-fieldset-container"] .button-primary').innerText;
   }
 
