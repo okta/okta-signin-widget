@@ -58,7 +58,7 @@
     "test:tsd:ci": "yarn codegen && yarn test:tsd",
     "build:esm": "yarn clean:esm && yarn build:rollup-release && yarn lint:esm",
     "build:dev": "grunt build:dev",
-    "build:release": "grunt build:release",
+    "build:release": "grunt build:release && yarn workspace v3 build",
     "build:rollup-dev": "rollup -c",
     "build:rollup-release": "rollup -c rollup.release.config.js",
     "build:webpack-dev": "webpack --config webpack.dev.config.js",
