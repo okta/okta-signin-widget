@@ -35,8 +35,8 @@ export default {
     config.output.libraryTarget = 'umd';
     config.output.filename = ({ chunk }) => (
       chunk.name === 'bundle'
-        ? 'js/okta-sign-in.min.js'
-        : 'js/[name].js'
+        ? 'okta-sign-in.next.js'
+        : '[name].next.js'
     );
     config.plugins = config.plugins.filter(
       (plugin) => !(plugin instanceof MiniCssExtractPlugin),

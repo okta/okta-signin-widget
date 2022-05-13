@@ -12,6 +12,7 @@
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "checkJs": false,
+    "skipLibCheck": true,
     "plugins": [
       { "transform": "@zerollup/ts-transform-paths" }
     ],

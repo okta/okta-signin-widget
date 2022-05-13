@@ -52,17 +52,19 @@ const RadioControl: FunctionComponent<ControlPropsWithFormValidationState> = ({
           e.preventDefault();
           handleFormFieldBlur(setPristine, setTouched, setUntouched);
         }}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          e.preventDefault();
-          handleFormFieldChange(
-            path,
-            e.target.value,
-            handleChange,
-            setPristine,
-            setUntouched,
-            setTouched,
-            setDirty,
-          );
+        onChange={(event) => {
+          if (event) {
+            event.preventDefault();
+            handleFormFieldChange(
+              path,
+              event.currentTarget.value,
+              handleChange,
+              setPristine,
+              setUntouched,
+              setTouched,
+              setDirty,
+            );
+          }
         }}
       >
         {

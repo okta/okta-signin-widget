@@ -30,7 +30,7 @@
   },
   "scripts": {
     "prebuild": "yarn build:i18n",
-    "build": "preact build --no-prerender --no-sw --dest build/dist",
+    "build": "preact build --no-prerender --no-sw --dest ../../dist/dist/js",
     "build:i18n": "node src/bin/properties-to-json",
     "clean-svg": "svgo -f src/img/authCoinIcons",
     "predev": "yarn build:i18n",
