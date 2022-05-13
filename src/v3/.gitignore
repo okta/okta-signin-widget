@@ -14,3 +14,6 @@ src/properties/json/
 # yalc
 .yalc
 yalc.lock
+
+!types/
+!*.d.ts
