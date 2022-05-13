@@ -12,6 +12,7 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "resolveJsonModule": true,
+    "noEmit": true,
     "paths": {
       "react": [
         "node_modules/preact/compat"
