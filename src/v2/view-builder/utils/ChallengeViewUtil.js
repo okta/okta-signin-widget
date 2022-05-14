@@ -93,7 +93,7 @@ export function doChallenge(view, fromView) {
     }));
     view.add(createButton({
       className: 'ul-button button button-wide button-primary',
-      title: loc('oktaVerify.reopen.button', 'login'),
+      title: loc('oktaVerify.open.button', 'login'),
       click: () => {
         // only window.location.href can open universal link in iOS/MacOS
         // other methods won't do, ex, AJAX get or form get (Util.redirectWithFormGet)
