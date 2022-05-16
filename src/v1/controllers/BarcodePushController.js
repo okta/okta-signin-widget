@@ -54,10 +54,9 @@ export default FormController.extend({
   Footer: Footer,
 
   initialize: function() {
-    this.pollForEnrollment().catch((error)=>{
-      if (!(error instanceof AuthPollStopError)) {
-        this.trigger('error', this, error);
-      }
+    this.pollForEnrollment().catch(()=>{
+      // Ignoring the errors for now. 
+      // clean up will be done based on OKTA-324849
     });
   },
 
