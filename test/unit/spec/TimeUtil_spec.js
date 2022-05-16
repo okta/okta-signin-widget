@@ -1,4 +1,4 @@
-import TimeUtil from 'v1/util/TimeUtil';
+import TimeUtil from 'util/TimeUtil';
 
 describe('util/TimeUtil', function() {
   describe('getTimeInHighestRelevantUnit', function() {
