@@ -218,10 +218,22 @@
                       },
                       {
                         "name": "methodType",
-                        "value": "signed_nonce",
-                        "required": true,
-                        "mutable": false,
-                        "visible": false
+                        "type": "string",
+                        "required": false,
+                        "options": [
+                          {
+                            "label": "Enter a code",
+                            "value": "totp"
+                          },
+                          {
+                            "label": "Get a push notification",
+                            "value": "push"
+                          },
+                          {
+                            "label": "Use Okta FastPass",
+                            "value": "signed_nonce"
+                          }
+                        ]
                       }
                     ]
                   }
@@ -242,7 +254,7 @@
                     ]
                   }
                 },
-                "relatesTo": "$.authenticatorEnrollments.value[8]"
+                "relatesTo": "$.authenticatorEnrollments.value[9]"
               },
               {
                 "label": "Atko Custom On-prem",
@@ -264,7 +276,7 @@
                     ]
                   }
                 },
-                "relatesTo": "$.authenticatorEnrollments.value[9]"
+                "relatesTo": "$.authenticatorEnrollments.value[10]"
               },
               {
                 "label": "RSA SecurID",
@@ -286,7 +298,7 @@
                     ]
                   }
                 },
-                "relatesTo": "$.authenticatorEnrollments.value[10]"
+                "relatesTo": "$.authenticatorEnrollments.value[11]"
               },
               {
                 "label": "Duo Security",
@@ -308,7 +320,7 @@
                     ]
                   }
                 },
-                "relatesTo": "$.authenticatorEnrollments.value[11]"
+                "relatesTo": "$.authenticatorEnrollments.value[12]"
               },
               {
                 "label": "IDP Authenticator",
@@ -324,7 +336,7 @@
                     ]
                   }
                 },
-                "relatesTo": "$.authenticatorEnrollments.value[12]"
+                "relatesTo": "$.authenticatorEnrollments.value[13]"
               },
               {
                 "label": "Atko Custom OTP Authenticator",
@@ -346,7 +358,7 @@
                     ]
                   }
                 },
-                "relatesTo": "$.authenticatorEnrollments.value[13]"
+                "relatesTo": "$.authenticatorEnrollments.value[14]"
               },
               {
                 "label": "Symantec VIP",
@@ -362,7 +374,7 @@
                     ]
                   }
                 },
-                "relatesTo": "$.authenticatorEnrollments.value[14]"
+                "relatesTo": "$.authenticatorEnrollments.value[15]"
               },
               {
                 "label": "YubiKey Authenticator",
@@ -378,7 +390,7 @@
                     ]
                   }
                 },
-                "relatesTo": "$.authenticatorEnrollments.value[15]"
+                "relatesTo": "$.authenticatorEnrollments.value[16]"
               },
               {
                 "label":"Custom Push App",
@@ -405,7 +417,7 @@
                       ]
                    }
                 },
-                "relatesTo":"$.authenticatorEnrollments.value[16]"
+                "relatesTo":"$.authenticatorEnrollments.value[17]"
               }
             ]
           },
@@ -498,15 +510,34 @@
         "id": "autwa6eD9o02iBbaaa82"
       },
       {
-        "displayName": "Okta Verify Device 1",
+        "profile": {
+          "deviceName": "iPhone"
+        },
         "type": "app",
         "key": "okta_verify",
-        "id": "aen1mz5J4cuNoaR3l0g4",
-        "authenticatorId": "auttheidkwh282hv8g3",
+        "id": "pfd4992vzbDhG7FO60g7",
+        "displayName": "Okta Verify",
         "methods": [
-           {
-            "type":  "signed_nonce"
-           }
+          {
+            "type": "push"
+          },
+          {
+            "type": "totp"
+          }
+        ]
+      },
+      {
+        "profile": {
+          "deviceName": "C02G10S7MD6T"
+        },
+        "type": "app",
+        "key": "okta_verify",
+        "id": "pfd49bj635JKDbHlX0g7",
+        "displayName": "Okta Verify",
+        "methods": [
+          {
+            "type": "signed_nonce"
+          }
         ]
       },
       {
@@ -608,7 +639,7 @@
         "key":"custom_app",
         "id":"pfd1bmoy4nH6heq2v0g4",
         "displayName":"Custom Push App",
-        "logoUri":"https://okta.oktacdn.com/assets/img/logos/custompushLogo.svg",
+        "logoUri":"https://cdn.okta1.com/bc/globalFileStoreRecord?id=gfs3sti6DQ7A9vS3h0g4",
         "methods":[
           {
             "type":"push"

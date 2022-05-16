@@ -84,7 +84,7 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   case AUTHENTICATOR_KEY.OV:
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
-        ? ''
+        ? loc('oie.okta_verify.label', 'login')
         : loc('oie.okta_verify.authenticator.description', 'login'),
       iconClassName: 'mfa-okta-verify',
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
@@ -182,7 +182,7 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
   case AUTHENTICATOR_KEY.CUSTOM_APP: {
     Object.assign(authenticatorData, {
       description: isVerifyAuthenticator
-        ? ''
+        ? authenticator?.relatesTo?.displayName
         : loc('oie.custom.app.authenticator.description', 'login', [authenticator.label]),
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
       logoUri : authenticator?.relatesTo?.logoUri || ''
