@@ -175,12 +175,12 @@ const loopbackChallengeWrongProfileMock = RequestMock()
   .respond(identifyWithDeviceProbingLoopback)
   .onRequestTo(/\/idp\/idx\/authenticators\/poll/)
   .respond(identifyWithDeviceProbingLoopback)
-  .onRequestTo(/2000|6512\/probe/)
+  .onRequestTo(/(2000|6512)\/probe/)
   .respond(null, 500, {
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
   })
-  .onRequestTo(/6511|6513\/probe/)
+  .onRequestTo(/(6511|6513)\/probe/)
   .respond(null, 200, {
     'access-control-allow-origin': '*',
     'access-control-allow-headers': 'X-Okta-Xsrftoken, Content-Type'
@@ -208,7 +208,7 @@ const loopbackFallbackLogger = RequestLogger(/introspect|probe|cancel|launch|pol
 const loopbackFallbackMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithDeviceProbingLoopback)
-  .onRequestTo(/2000|6511|6512|6513\/probe/)
+  .onRequestTo(/(2000|6511|6512|6513)\/probe/)
   .respond(null, 500, { 'access-control-allow-origin': '*' })
   .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
   .respond(loopbackChallengeNotReceived)
@@ -241,7 +241,7 @@ const universalLinkMock = RequestMock()
 const appLinkWithoutLaunchMock = RequestMock()
   .onRequestTo(/idp\/idx\/introspect/)
   .respond(identifyWithDeviceProbingLoopback)
-  .onRequestTo(/2000|6511|6512|6513\/probe/)
+  .onRequestTo(/(2000|6511|6512|6513)\/probe/)
   .respond(null, 500, { 'access-control-allow-origin': '*' })
   .onRequestTo(/\/idp\/idx\/authenticators\/poll\/cancel/)
   .respond(identifyWithLoopbackFallbackAndroidWithoutLink)
@@ -420,13 +420,23 @@ test
     )).eql(1);
     await t.expect(loopbackChallengeWrongProfileLogger.count(
       record => record.response.statusCode === 500 &&
-                record.request.url.match(/2000|6512\/probe/)
+                record.request.url.match(/(2000|6512)\/probe/)
     )).eql(2);
     await t.expect(loopbackChallengeWrongProfileLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.method === 'get' &&
-        record.request.url.match(/6511|6513\/probe/)
+        record.request.url.match(/(6511|6513)\/probe/)
     )).eql(2);
+    await t.expect(loopbackChallengeWrongProfileLogger.count(
+      record => record.response.statusCode === 503 &&
+        record.request.method === 'post' &&
+        record.request.url.match(/6511\/challenge/)
+    )).eql(1);
+    await t.expect(loopbackChallengeWrongProfileLogger.count(
+      record => record.response.statusCode === 500 &&
+        record.request.method === 'post' &&
+        record.request.url.match(/6513\/challenge/)
+    )).eql(1);
     await t.expect(loopbackChallengeWrongProfileLogger.count(
       record => record.response.statusCode === 200 &&
         record.request.url.match(/authenticators\/poll\/cancel/) &&
