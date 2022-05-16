@@ -55,7 +55,7 @@ export function doChallenge(view, fromView) {
     }));
     view.add(createButton({
       className: 'ul-button button button-wide button-primary',
-      title: loc('customUri.required.content.button', 'login'),
+      title: loc('oktaVerify.open.button', 'login'),
       id: 'launch-ov',
       click: () => {
         view.doCustomURI();
