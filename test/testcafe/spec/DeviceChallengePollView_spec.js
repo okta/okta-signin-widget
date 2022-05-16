@@ -527,7 +527,7 @@ test
     await t.expect(deviceChallengePollPageObject.waitForPrimaryButtonAfterSpinner().innerText).eql('Open Okta Verify');
 
     await t.expect(deviceChallengePollPageObject.getAppLinkContent())
-      .contains('If Okta Verify did not open automatically, tap the button below to reopen Okta Verify.');
+      .contains('If Okta Verify did not open automatically, tap Open Okta Verify.');
     await t.expect(deviceChallengePollPageObject.getPrimaryButtonText()).eql('Open Okta Verify');
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');

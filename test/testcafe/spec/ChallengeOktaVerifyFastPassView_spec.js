@@ -431,7 +431,7 @@ test
 
     const content = deviceChallengePollPageObject.getContent();
     await t.expect(content)
-      .contains('If Okta Verify did not open automatically, tap the button below to reopen Okta Verify.');
+      .contains('If Okta Verify did not open automatically, tap Open Okta Verify.');
     await t.expect(deviceChallengePollPageObject.getFooterSwitchAuthenticatorLink().innerText).eql('Verify with something else');
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
 
