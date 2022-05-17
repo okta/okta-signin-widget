@@ -608,7 +608,7 @@
         "key":"custom_app",
         "id":"pfd1bmoy4nH6heq2v0g4",
         "displayName":"Custom Push App",
-        "logoUri":"https://cdn.okta1.com/bc/globalFileStoreRecord?id=gfs3sti6DQ7A9vS3h0g4",
+        "logoUri":"/img/logos/default.png",
         "methods":[
           {
             "type":"push"
