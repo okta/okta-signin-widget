@@ -153,11 +153,11 @@ describe('v2/utils/LinksUtil', function() {
       expect(result[0].href).toBeUndefined();
     });
 
-    it('returns `href` with value of `appTerminationRedirectUri`', () => {
+    it('returns `href` with value of `appLoginRedirectUri`', () => {
       const settings = new Settings({
         baseUrl: 'https://foo',
         useInteractionCodeFlow: true,
-        appTerminationRedirectUri: 'https://okta.com',
+        appLoginRedirectUri: 'https://okta.com',
       });
       const result = getBackToSignInLink({ appState, settings });
       expect(result).toBeInstanceOf(Array);
@@ -174,11 +174,11 @@ describe('v2/utils/LinksUtil', function() {
   });
 
   describe('getSignOutLink', () => {
-    it('returns `href` with value of `appTerminationRedirectUri`', () => {
+    it('returns `href` with value of `appLoginRedirectUri`', () => {
       const settings = new Settings({
         baseUrl: 'https://foo',
         useInteractionCodeFlow: false,
-        appTerminationRedirectUri: 'https://okta.com',
+        appLoginRedirectUri: 'https://okta.com',
       });
       const result = getSignOutLink(settings);
       expect(result).toBeInstanceOf(Array);
