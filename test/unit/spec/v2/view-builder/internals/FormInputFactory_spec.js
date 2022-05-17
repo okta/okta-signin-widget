@@ -135,20 +135,75 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
           authenticatorKey: 'security_question',
         },
         {
-          label: 'Okta Verify',
+          label: 'Enter a code',
+          value: {
+            id: 'auttheidkwh282hv8g3',
+            methodType: 'totp',
+          },
+          relatesTo: {
+            profile: {
+              deviceName: 'iPhone',
+            },
+            type: 'app',
+            key: 'okta_verify',
+            id: 'pfd4992vzbDhG7FO60g7',
+            displayName: 'Okta Verify',
+            methods: [
+              {
+                type: 'push',
+              },
+              {
+                type: 'totp',
+              },
+            ],
+          },
+          authenticatorKey: 'okta_verify',
+        },
+        {
+          label: 'Get a push notification',
+          value: {
+            id: 'auttheidkwh282hv8g3',
+            methodType: 'push',
+          },
+          relatesTo: {
+            profile: {
+              deviceName: 'iPhone',
+            },
+            type: 'app',
+            key: 'okta_verify',
+            id: 'pfd4992vzbDhG7FO60g7',
+            displayName: 'Okta Verify',
+            methods: [
+              {
+                type: 'push',
+              },
+              {
+                type: 'totp',
+              },
+            ],
+          },
+          authenticatorKey: 'okta_verify',
+        },
+        {
+          label: 'Use Okta FastPass',
           value: {
             id: 'auttheidkwh282hv8g3',
             methodType: 'signed_nonce',
           },
           relatesTo: {
-            displayName: 'Okta Verify Device 1',
+            profile: {
+              deviceName: 'iPhone',
+            },
             type: 'app',
             key: 'okta_verify',
-            id: 'aen1mz5J4cuNoaR3l0g4',
-            authenticatorId: 'auttheidkwh282hv8g3',
+            id: 'pfd4992vzbDhG7FO60g7',
+            displayName: 'Okta Verify',
             methods: [
               {
-                type: 'signed_nonce',
+                type: 'push',
+              },
+              {
+                type: 'totp',
               },
             ],
           },
@@ -172,7 +227,30 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
             ]
           },
           authenticatorKey:'google_otp',
-        }
+        },
+        {
+          label: 'Get a push notification',
+          value: {
+            id: 'aut198w4v0f8dr8gT0g4',
+          },
+          relatesTo: {
+            profile: {
+              deviceName: 'Todd’s iPhone',
+            },
+            type: 'app',
+            key: 'custom_app',
+            id: 'pfd1bmoy4nH6heq2v0g4',
+            displayName: 'Custom Push App',
+            logoUri:
+              'https://cdn.okta1.com/bc/globalFileStoreRecord?id=gfs3sti6DQ7A9vS3h0g4',
+            methods: [
+              {
+                type: 'push',
+              },
+            ],
+          },
+          authenticatorKey: 'custom_app',
+        },
       ],
     };
     // Create a copy of input object.
@@ -319,26 +397,87 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'security_question',
       },
       {
-        label: 'Okta Verify',
+        label: 'Enter a code',
+        value: {
+          id: 'auttheidkwh282hv8g3',
+          methodType: 'totp',
+        },
+        relatesTo: {
+          profile: {
+            deviceName: 'iPhone',
+          },
+          type: 'app',
+          key: 'okta_verify',
+          id: 'pfd4992vzbDhG7FO60g7',
+          displayName: 'Okta Verify',
+          methods: [
+            {
+              type: 'push',
+            },
+            {
+              type: 'totp',
+            },
+          ],
+        },
+        authenticatorKey: 'okta_verify',
+        description: 'Okta Verify',
+        iconClassName: 'mfa-okta-verify',
+        buttonDataSeAttr: 'okta_verify-totp',
+      },
+      {
+        label: 'Get a push notification',
+        value: {
+          id: 'auttheidkwh282hv8g3',
+          methodType: 'push',
+        },
+        relatesTo: {
+          profile: {
+            deviceName: 'iPhone',
+          },
+          type: 'app',
+          key: 'okta_verify',
+          id: 'pfd4992vzbDhG7FO60g7',
+          displayName: 'Okta Verify',
+          methods: [
+            {
+              type: 'push',
+            },
+            {
+              type: 'totp',
+            },
+          ],
+        },
+        authenticatorKey: 'okta_verify',
+        description: 'Okta Verify',
+        iconClassName: 'mfa-okta-verify',
+        buttonDataSeAttr: 'okta_verify-push',
+      },
+      {
+        label: 'Use Okta FastPass',
         value: {
           id: 'auttheidkwh282hv8g3',
           methodType: 'signed_nonce',
         },
         relatesTo: {
-          displayName: 'Okta Verify Device 1',
+          profile: {
+            deviceName: 'iPhone',
+          },
           type: 'app',
           key: 'okta_verify',
-          id: 'aen1mz5J4cuNoaR3l0g4',
-          authenticatorId: 'auttheidkwh282hv8g3',
+          id: 'pfd4992vzbDhG7FO60g7',
+          displayName: 'Okta Verify',
           methods: [
             {
-              'type':'signed_nonce'
-            }
-          ]
+              type: 'push',
+            },
+            {
+              type: 'totp',
+            },
+          ],
         },
-        'authenticatorKey':'okta_verify',
-        'description': '',
-        'iconClassName':'mfa-okta-verify',
+        authenticatorKey: 'okta_verify',
+        description: 'Okta Verify',
+        iconClassName: 'mfa-okta-verify',
         buttonDataSeAttr: 'okta_verify-signed_nonce',
       },
       {
@@ -362,7 +501,32 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         description:'',
         iconClassName:'mfa-google-auth',
         buttonDataSeAttr: 'google_otp',
-      }
+      },
+      {
+        label: 'Get a push notification',
+        value: {
+          id: 'aut198w4v0f8dr8gT0g4',
+        },
+        relatesTo: {
+          profile: {
+            deviceName: 'Todd’s iPhone',
+          },
+          type: 'app',
+          key: 'custom_app',
+          id: 'pfd1bmoy4nH6heq2v0g4',
+          displayName: 'Custom Push App',
+          logoUri: 'https://cdn.okta1.com/bc/globalFileStoreRecord?id=gfs3sti6DQ7A9vS3h0g4',
+          methods: [
+            {
+              type: 'push',
+            },
+          ],
+        },
+        authenticatorKey: 'custom_app',
+        description: 'Custom Push App',
+        buttonDataSeAttr: 'custom_app',
+        logoUri: 'https://cdn.okta1.com/bc/globalFileStoreRecord?id=gfs3sti6DQ7A9vS3h0g4',
+      },
     ]);
     // make sure input parameter is not mutated.
     expect(opt).toEqual(input);

@@ -608,7 +608,7 @@
         "key":"custom_app",
         "id":"pfd1bmoy4nH6heq2v0g4",
         "displayName":"Custom Push App",
-        "logoUri":"https://okta.oktacdn.com/assets/img/logos/custompushLogo.svg",
+        "logoUri":"/img/logos/default.png",
         "methods":[
           {
             "type":"push"

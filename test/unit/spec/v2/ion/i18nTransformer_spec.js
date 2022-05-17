@@ -55,6 +55,7 @@ describe('v2/ion/i18nTransformer', function() {
       'oie.post.password.update.auth.failure.error': 'Authentication failed after password update.',
       'oie.phone.invalid': 'Invalid Phone',
       'oie.user.profile.firstname': 'User first name',
+      'oie.custom.app.authenticator.title': 'Get a push notification'
     }, (value) => `unit test - ${value}`);
   });
   afterAll(() => {
@@ -315,7 +316,15 @@ describe('v2/ion/i18nTransformer', function() {
                     'methodType': 'otp'
                   },
                   'authenticatorKey': 'rsa_token'
-                }
+                },
+                {
+                  'label': 'Get a push notification',
+                  'value': {
+                    'id': 'aid568g3mXgtID0HHSLH',
+                    'methodType': 'push'
+                  },
+                  'authenticatorKey': 'custom_app'
+                },
               ],
               'label-top': true
             }
@@ -413,7 +422,15 @@ describe('v2/ion/i18nTransformer', function() {
                     'methodType': 'otp'
                   },
                   'authenticatorKey': 'rsa_token'
-                }
+                },
+                {
+                  'label': 'unit test - Get a push notification',
+                  'value': {
+                    'id': 'aid568g3mXgtID0HHSLH',
+                    'methodType': 'push'
+                  },
+                  'authenticatorKey': 'custom_app'
+                },
               ],
               'label-top': true
             }
