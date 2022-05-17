@@ -54,7 +54,7 @@ fixture('Select Method screen for Okta verify');
 
 async function verifyFactorByIndex(t, selectAuthenticatorPage, index, expectedLabel) {
   await t.expect(selectAuthenticatorPage.getFactorLabelByIndex(index)).eql(expectedLabel);
-  await t.expect(await selectAuthenticatorPage.factorDescriptionExistsByIndex(index)).eql(false);
+  await t.expect(selectAuthenticatorPage.getFactorDescriptionByIndex(index)).eql('Okta Verify');
   await t.expect(selectAuthenticatorPage.getFactorIconClassByIndex(index)).contains('mfa-okta-verify');
   await t.expect(selectAuthenticatorPage.getFactorSelectButtonByIndex(index)).eql('Select');
 }
