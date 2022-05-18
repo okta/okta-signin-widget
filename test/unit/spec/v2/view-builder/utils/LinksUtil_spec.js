@@ -153,11 +153,11 @@ describe('v2/utils/LinksUtil', function() {
       expect(result[0].href).toBeUndefined();
     });
 
-    it('returns `href` with value of `appLoginUri`', () => {
+    it('returns `href` with value of `backToSignInLink`', () => {
       const settings = new Settings({
         baseUrl: 'https://foo',
         useInteractionCodeFlow: true,
-        appLoginUri: 'https://okta.com',
+        backToSignInLink: 'https://okta.com',
       });
       const result = getBackToSignInLink({ appState, settings });
       expect(result).toBeInstanceOf(Array);
@@ -174,11 +174,11 @@ describe('v2/utils/LinksUtil', function() {
   });
 
   describe('getSignOutLink', () => {
-    it('returns `href` with value of `appLoginUri`', () => {
+    it('returns `href` with value of `backToSignInLink`', () => {
       const settings = new Settings({
         baseUrl: 'https://foo',
         useInteractionCodeFlow: false,
-        appLoginUri: 'https://okta.com',
+        backToSignInLink: 'https://okta.com',
       });
       const result = getSignOutLink(settings);
       expect(result).toBeInstanceOf(Array);

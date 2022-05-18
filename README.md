@@ -988,6 +988,14 @@ Set the following config option to override the sign out link URL. If not provid
 signOutLink: 'https://www.signmeout.com'
 ```
 
+#### Back to sign in link
+
+Set the following config option to override the back to sign in link URL. If not provided, the widget will navigate to Primary Auth.
+
+```javascript
+backToSignInLink: 'https://www.backtosignin.com'
+```
+
 #### Sign up link
 
 You can add a registration link to the primary auth page by setting the following config options.
