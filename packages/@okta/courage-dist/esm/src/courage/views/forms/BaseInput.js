@@ -5,6 +5,7 @@ import ButtonFactory from '../../util/ButtonFactory.js';
 import StringUtil from '../../util/StringUtil.js';
 import BaseView from '../BaseView.js';
 import Callout from '../components/Callout.js';
+import Keys from '../../util/Keys.js';
 
 const props = {
   tagName: 'span',
@@ -19,7 +20,7 @@ const props = {
    */
   defaultPlaceholder: '',
   constructor: function (options) {
-    /* eslint complexity: [2, 7] */
+    /* eslint complexity: [2, 9] */
     options = oktaUnderscore.defaults(options || {}, {
       inputId: options.id || oktaUnderscore.uniqueId('input'),
       placeholder: this.defaultPlaceholder,
@@ -222,11 +223,12 @@ const props = {
     }
   },
   _isEdited: false,
+  hasIMESupport: false,
 
   /**
    * updates the model with the input's value
    */
-  update: function () {
+  update: function (e) {
     if (!this._isEdited && oktaUnderscore.result(this.options, 'validateOnlyIfDirty')) {
       this._isEdited = true;
       this.addInlineValidation();
@@ -237,6 +239,23 @@ const props = {
     if (this.options.deps) {
       // check for dependencies
       this.__showInputDependencies();
+    }
+    /*
+      To add IME support for more components
+      - Add hasIMESupport boolean flag and compositionend and compositionstart event listeners to the component
+      - Supported components: TextBox.js, TextSelect.js
+      - Additionally window.okta.enableIMESupport is an org level FF to toggle IME support
+    */
+
+
+    if (this.hasIMESupport && window?.okta?.enableIMESupport) {
+      if (this.isComposing) {
+        return;
+      }
+
+      if (e && Keys.isEnter(e)) {
+        this.model.trigger('form:save');
+      }
     }
   },
 

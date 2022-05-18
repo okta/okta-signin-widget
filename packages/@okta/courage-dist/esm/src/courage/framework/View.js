@@ -574,7 +574,7 @@ oktaUnderscore.each(methods, function (method) {
     args.unshift(oktaUnderscore.toArray(this[CHILDREN]));
     return oktaUnderscore[method].apply(oktaUnderscore, args);
   };
-}, undefined);
+});
 /**
    * See [_.each](http://underscorejs.org/#each)
    * @name each

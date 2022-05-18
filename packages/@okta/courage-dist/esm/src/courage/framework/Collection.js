@@ -302,6 +302,13 @@ const collectionProps =
     }
 
     return Backbone.Collection.prototype.create.call(this, model, options);
+  },
+  // Use Object.create instead of {} on _byId to avoid __proto__ functions to return
+  // This can be removed once the issue has addressed in backbone framework
+  // https://github.com/jashkenas/backbone/pull/4225
+  _reset: function () {
+    Backbone.Collection.prototype['_reset'].call(this);
+    this._byId = Object.create(null);
   }
 };
 /**
