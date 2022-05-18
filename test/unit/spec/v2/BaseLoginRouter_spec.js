@@ -16,6 +16,7 @@ import UserUnlockAccount from '../../../../playground/mocks/data/idp/idx/user-un
 import UnauthorizedClientError from '../../../../playground/mocks/data/idp/idx/error-400-unauthorized-client.json';
 import FakeIdxClientError from '../../../../playground/mocks/data/idp/idx/error-400-fake-error.json';
 import IdxSessionExpiredError from '../../../../playground/mocks/data/idp/idx/error-401-session-expired.json';
+import IdxRateLimitError from '../../../../playground/mocks/data/idp/idx/error-429-too-many-request-operation-ratelimit';
 import RAW_IDX_RESPONSE from 'helpers/v2/idx/fullFlowResponse';
 
 const TestRouter = BaseLoginRouter.extend({
@@ -29,10 +30,8 @@ const TestRouter = BaseLoginRouter.extend({
   },
 });
 
-jest.mock('../../../../src/v2/client');
-
 const mocked = {
-  client: require('../../../../src/v2/client')
+  startLoginFlow: require('../../../../src/v2/client/startLoginFlow')
 };
 
 describe('v2/BaseLoginRouter', function() {
@@ -250,33 +249,66 @@ describe('v2/BaseLoginRouter', function() {
       );
     });
 
-    it('should clear transaction meta when `idx.session.expired` error occurs on /introspect', async function() {
-      const mockIdxState = {
-        rawIdxState: IdxSessionExpiredError,
-        requestDidSucceed: false,
-        context: {
-          messages: {...IdxSessionExpiredError.messages}
-        },
-        neededToProceed: []
-      };
+    describe('idx session expired errors', () => {
+      // ensure 'idx.session.expired' errors clear transaction meta, while other errors do not
 
-      jest.spyOn(mocked.client, 'startLoginFlow').mockResolvedValue(mockIdxState);
-      jest.spyOn(TestRouter.prototype, 'handleUpdateAppState');
+      it('should clear transaction meta when `idx.session.expired` error occurs on /introspect', async function() {
+        const mockIdxState = {
+          rawIdxState: IdxSessionExpiredError,
+          requestDidSucceed: false,
+          context: {
+            messages: {...IdxSessionExpiredError.messages}
+          },
+          neededToProceed: []
+        };
 
-      setup({
-        useInteractionCodeFlow: true,
-        flow: 'default',
-        codeChallenge: 'fake'
-      });
-
-      const { router, render, authClient } = testContext;
-
-      authClient.transactionManager.clear = jest.fn();
+        jest.spyOn(mocked.startLoginFlow, 'startLoginFlow').mockResolvedValue(mockIdxState);
+        jest.spyOn(TestRouter.prototype, 'handleUpdateAppState');
   
-      router.hasControllerRendered = true;    // skip `handleConfiguredFlow` for this test
-      await render();
-      expect(authClient.transactionManager.clear).toHaveBeenCalled();
-      expect(router.handleUpdateAppState).toHaveBeenCalledWith(mockIdxState);
+        setup({
+          useInteractionCodeFlow: true,
+          flow: 'default',
+          codeChallenge: 'fake'
+        });
+  
+        const { router, render, authClient } = testContext;
+  
+        authClient.transactionManager.clear = jest.fn();
+    
+        router.hasControllerRendered = true;    // skip `handleConfiguredFlow` for this test
+        await render();
+        expect(authClient.transactionManager.clear).toHaveBeenCalled();
+        expect(router.handleUpdateAppState).toHaveBeenCalledWith(mockIdxState);
+      });
+  
+      it('should NOT clear transaction meta when non-`idx.session.expired` error occurs on /introspect', async function() {
+        const mockIdxState = {
+          rawIdxState: IdxRateLimitError,
+          requestDidSucceed: false,
+          context: {
+            messages: {...IdxRateLimitError.messages}
+          },
+          neededToProceed: []
+        };
+  
+        jest.spyOn(mocked.startLoginFlow, 'startLoginFlow').mockResolvedValue(mockIdxState);
+        jest.spyOn(TestRouter.prototype, 'handleUpdateAppState');
+  
+        setup({
+          useInteractionCodeFlow: true,
+          flow: 'default',
+          codeChallenge: 'fake'
+        });
+  
+        const { router, render, authClient } = testContext;
+  
+        authClient.transactionManager.clear = jest.fn();
+    
+        router.hasControllerRendered = true;    // skip `handleConfiguredFlow` for this test
+        await render();
+        expect(authClient.transactionManager.clear).not.toHaveBeenCalled();
+        expect(router.handleUpdateAppState).toHaveBeenCalledWith(mockIdxState);
+      });
     });
   });
 
