@@ -157,7 +157,7 @@ describe('v2/utils/ChallengeViewUtil', function() {
     expect(expectedAddArgs[0].className).toBe('app-link-content');
     expect(expectedAddArgs[0].template.call()).toBe(hbs`
       <div class="spinner "></div>
-      <div class="appLinkContent ">If Okta Verify did not open automatically, tap the button below to reopen Okta Verify.</div>
+      <div class="appLinkContent ">If Okta Verify did not open automatically, tap Open Okta Verify.</div>
     `.call());
     let expectedCreateButton = createButton({
       className: 'hide al-button button button-wide button-primary',

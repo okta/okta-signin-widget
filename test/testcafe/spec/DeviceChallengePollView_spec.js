@@ -489,7 +489,7 @@ test
     await t.expect(deviceChallengePollPageObject.getHeader()).eql('Click "Open Okta Verify" on the browser prompt');
     const content = deviceChallengePollPageObject.getContent();
     await t.expect(content).contains('Didn’t get a prompt?');
-    await t.expect(content).contains('Launch Okta Verify');
+    await t.expect(content).contains('Open Okta Verify');
     await t.expect(content).contains('Don’t have Okta Verify?');
     await t.expect(content).contains('Download here');
     await t.expect(deviceChallengePollPageObject.getDownloadOktaVerifyLink()).eql('https://apps.apple.com/us/app/okta-verify/id490179405');
@@ -527,7 +527,7 @@ test
     await t.expect(deviceChallengePollPageObject.waitForPrimaryButtonAfterSpinner().innerText).eql('Open Okta Verify');
 
     await t.expect(deviceChallengePollPageObject.getAppLinkContent())
-      .contains('If Okta Verify did not open automatically, tap the button below to reopen Okta Verify.');
+      .contains('If Okta Verify did not open automatically, tap Open Okta Verify.');
     await t.expect(deviceChallengePollPageObject.getPrimaryButtonText()).eql('Open Okta Verify');
     await t.expect(deviceChallengePollPageObject.getFooterCancelPollingLink().exists).eql(false);
     await t.expect(deviceChallengePollPageObject.getFooterSignOutLink().innerText).eql('Back to sign in');
