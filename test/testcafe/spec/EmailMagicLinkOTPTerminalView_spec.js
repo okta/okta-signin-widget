@@ -126,7 +126,7 @@ async function setupOtpOnly(t) {
 });
 
 // Confirms fix for OKTA-495883
-test.only.requestHooks(terminalReturnOtpUnexpectedResponseyMock)('should gracefully handle unexpected idx response and render a default message', async t => {
+test.requestHooks(terminalReturnOtpUnexpectedResponseyMock)('should gracefully handle unexpected idx response and render a default message', async t => {
   // broken message: L10N_ERROR[idx.return.link.otponly.enter.code.on.page]
   const terminalOtpOnlyPage = await setupOtpOnly(t);
   await t.expect(await terminalOtpOnlyPage.doesEnterCodeOnPageExist()).ok();
