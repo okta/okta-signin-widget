@@ -250,7 +250,7 @@ describe('v2/BaseLoginRouter', function() {
       );
     });
 
-    fit('should clear transaction meta when `idx.session.expired` error occurs on /introspect', async function() {
+    it('should clear transaction meta when `idx.session.expired` error occurs on /introspect', async function() {
       const mockIdxState = {
         rawIdxState: IdxSessionExpiredError,
         requestDidSucceed: false,

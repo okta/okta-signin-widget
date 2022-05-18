@@ -186,7 +186,7 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     // }
   }
 
-  /* eslint max-statements: [2, 28], complexity: [2, 11] */
+  /* eslint max-statements: [2, 30], complexity: [2, 13] */
   async render(Controller, options = {}) {
     // If url changes then widget assumes that user's intention was to initiate a new login flow,
     // so clear stored token to use the latest token.
