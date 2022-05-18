@@ -219,7 +219,6 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
             idxResp = await handleConfiguredFlow(idxResp, this.settings);
           }
 
-          console.log(idxResp);
           // TODO: OKTA-494979 - temporary fix, remove when auth-js is upgraded to 6.6+
           if (!idxResp.requestDidSucceed && IonHelper.isIdxSessionExpiredError(idxResp)) {
             // clear transaction subsequent page loads do not use stale interactionHandle
