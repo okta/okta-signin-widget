@@ -99,7 +99,7 @@ const getSignOutLink = (settings, options = {}) => {
   if (settings?.get('signOutLink')) {
     return [
       {
-        'label': loc('signout', 'login'),
+        'label': loc('goback', 'login'),
         'name': 'cancel',
         'href': settings.get('signOutLink')
       },
