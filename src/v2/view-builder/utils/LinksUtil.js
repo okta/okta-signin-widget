@@ -97,7 +97,7 @@ const getSkipSetupLink = (appState, linkName) => {
 
 const getSignOutLink = (settings, options = {}) => {
 
-  // backToSignInLink to redirect to current app
+  // backToSignInLink: to override back to sign in link
   if (settings?.get('backToSignInLink')) {
     return [
       {
@@ -131,7 +131,7 @@ const getSignOutLink = (settings, options = {}) => {
 const getBackToSignInLink = ({settings, appState}) => {
   const link = {};
 
-  // backToSignInLink to redirect to current app
+  // backToSignInLink: to override back to sign in link
   if (settings?.get('backToSignInLink')) {
     link.href = settings.get('backToSignInLink');
   }
