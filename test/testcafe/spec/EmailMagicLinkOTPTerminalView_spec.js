@@ -129,6 +129,6 @@ async function setupOtpOnly(t) {
 test.requestHooks(identifyMock)('should gracefully handle unexpected idx response and render a default message', async t => {
   // broken message: L10N_ERROR[idx.return.link.otponly.enter.code.on.page]
   const terminalOtpOnlyPage = await setupOtpOnly(t);
-  await t.expect(await terminalOtpOnlyPage.doesFormTitleExist()).ok();
-  await t.expect(terminalOtpOnlyPage.getEnterCodeOnPageElement().innerText).notContains('L10N_ERROR');
+  await t.expect(await terminalOtpOnlyPage.getEnterCodeOnPageElement()).ok();
+  await t.expect(await terminalOtpOnlyPage.getEnterCodeOnPageElement().innerText).notContains('L10N_ERROR');
 });
