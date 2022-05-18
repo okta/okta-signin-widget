@@ -97,13 +97,13 @@ const getSkipSetupLink = (appState, linkName) => {
 
 const getSignOutLink = (settings, options = {}) => {
 
-  // appLoginRedirectUri to redirect to current app
-  if (settings?.get('appLoginRedirectUri')) {
+  // appLoginUri to redirect to current app
+  if (settings?.get('appLoginUri')) {
     return [
       {
         'label': loc('goback', 'login'),
         'name': 'cancel',
-        'href': settings.get('appLoginRedirectUri')
+        'href': settings.get('appLoginUri')
       },
     ];
   }
@@ -131,9 +131,9 @@ const getSignOutLink = (settings, options = {}) => {
 const getBackToSignInLink = ({settings, appState}) => {
   const link = {};
 
-  // appLoginRedirectUri to redirect to current app
-  if (settings?.get('appLoginRedirectUri')) {
-    link.href = settings.get('appLoginRedirectUri');
+  // appLoginUri to redirect to current app
+  if (settings?.get('appLoginUri')) {
+    link.href = settings.get('appLoginUri');
   }
   // embedded scenarios
   else if (settings?.get('useInteractionCodeFlow')) {
