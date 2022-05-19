@@ -24,3 +24,7 @@ test-reports/
 package-lock.json
 .eslintcache
 types/
+
+# Test dist package
+node_modules2
+/test/package/**/yarn.lock

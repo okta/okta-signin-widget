@@ -79,7 +79,7 @@ const stepUpMock = RequestMock()
     res.headers['WWW-Authenticate'] = 'Oktadevicejwt realm="Okta Device"';
     res.setBody(stepUpError);
   })
-  .onRequestTo('http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/ftMHdQ0N_ZKbpuWTXbR1-g3N6UvB5XRoqj/verify/cancel')
+  .onRequestTo('http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/456/verify/cancel')
   .respond(identify);
 
 fixture('App SSO Extension View');

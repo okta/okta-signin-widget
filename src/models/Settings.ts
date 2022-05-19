@@ -215,6 +215,16 @@ const derived: Record<string, ModelProperty>  = {
     fn: function(language, supportedLanguages) {
       const userLanguages = BrowserFeatures.getUserLanguages();
 
+      // TODO: revisit this fix - OKTA-491150
+      userLanguages.forEach((val, idx) => {
+        if (val === 'nl') {
+          userLanguages[idx] = 'nl-NL';
+        }
+        else if (val === 'pt') {
+          userLanguages[idx] = 'pt-BR';
+        }
+      });
+      
       const preferred = _.clone(userLanguages);
 
       const supportedLowerCase = Util.toLower(supportedLanguages);

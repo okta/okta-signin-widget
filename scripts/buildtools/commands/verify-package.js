@@ -91,7 +91,7 @@ function verifyPackageContents() {
 }
 
 function verifySassSourceMap() {
-  const data = readFileSync(path.join(__dirname, '../../../dist/dist/css/okta-sign-in.css.map'), 'utf-8');
+  const data = readFileSync(path.join(__dirname, '../../../dist/dist/css/okta-sign-in.min.css.map'), 'utf-8');
   const sourceMap = JSON.parse(data);
   let hasAbsolutePaths = false;
   sourceMap.sources.forEach(source => {
