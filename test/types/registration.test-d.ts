@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import OktaSignIn, {
   FieldStringWithFormatAndEnum,
-  ApiError,
   RegistrationSchema,
   RegistrationData,
   RegistrationSchemaCallback,
   RegistrationDataCallback,
   RegistrationErrorCallback
 } from '@okta/okta-signin-widget';
+import { APIError } from '@okta/okta-auth-js';
 import { expectType } from 'tsd';
 
 // Test constructor with registration config
@@ -45,7 +45,7 @@ const signIn = new OktaSignIn({
         postData.username += '@acme.com';
       }
       onSuccess(postData);
-      const err: ApiError = {
+      const err: APIError = {
         errorSummary: 'API Error',
         errorCauses: [
           {

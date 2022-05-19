@@ -11,7 +11,7 @@
                     "create-form"
                 ],
                 "name": "cancel-transaction",
-                "href": "http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/ftMHdQ0N_ZKbpuWTXbR1-g3N6UvB5XRoqj/verify/cancel",
+                "href": "http://localhost:3000/idp/idx/authenticators/sso_extension/transactions/456/verify/cancel",
                 "method": "POST",
                 "produces": "application/ion+json; okta-version=1.0.0",
                 "value": [

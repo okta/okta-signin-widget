@@ -7,6 +7,9 @@ module.exports = {
     'default',
     ['jest-junit', {
       outputDirectory: REPORT_DIR,
+      suiteNameTemplate: '{filename}',
+      classNameTemplate: '{filename}',
+      titleTemplate: '{filename}',
       outputName: 'okta-sign-in-widget-jest-junit-result.xml',
     }]
   ]
