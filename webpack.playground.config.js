@@ -82,7 +82,9 @@ module.exports = {
     ],
     historyApiFallback: true,
     headers: {
-      'Content-Security-Policy': `script-src http://${HOST}:${DEV_SERVER_PORT}`
+      // Allow google domains for testing recaptcha
+      // eslint-disable-next-line max-len
+      'Content-Security-Policy': `script-src http://${HOST}:${DEV_SERVER_PORT} https://www.google.com https://www.gstatic.com`
     },
     compress: true,
     port: DEV_SERVER_PORT,
