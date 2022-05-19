@@ -40,6 +40,7 @@ import { formatError, LegacyIdxError, StandardApiError } from './client/formatEr
 import { RenderError, RenderResult } from 'types';
 import { OktaAuth, IdxResponse } from '@okta/okta-auth-js';
 import Hooks from 'models/Hooks';
+import IonHelper from './ion/IonResponseHelper';
 
 export interface BaseLoginRouterOptions extends BaseRouterOptions, Backbone.RouterOptions {
   globalSuccessFn?: (res: RenderResult) => void;
@@ -185,7 +186,7 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     // }
   }
 
-  /* eslint max-statements: [2, 28], complexity: [2, 11] */
+  /* eslint max-statements: [2, 30], complexity: [2, 13] */
   async render(Controller, options = {}) {
     // If url changes then widget assumes that user's intention was to initiate a new login flow,
     // so clear stored token to use the latest token.
@@ -217,6 +218,14 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
           if (this.settings.get('flow') && !this.hasControllerRendered) {
             idxResp = await handleConfiguredFlow(idxResp, this.settings);
           }
+
+          // TODO: OKTA-494979 - temporary fix, remove when auth-js is upgraded to 6.6+
+          if (!idxResp.requestDidSucceed && IonHelper.isIdxSessionExpiredError(idxResp)) {
+            // clear transaction subsequent page loads do not use stale interactionHandle
+            const authClient = this.settings.getAuthClient();
+            authClient.transactionManager.clear();
+          }
+
           this.appState.trigger('updateAppState', idxResp);
         }
       } catch (exception) {
