@@ -1,0 +1,41 @@
+{
+  "version": "1.0.0",
+  "intent":"LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "FAKE MESSAGE",
+        "i18n": {
+          "key": "idx.enter.otp.in.original.tab"
+        },
+        "class": "INFO"
+      }
+    ]
+  },
+  "currentAuthenticator": {
+    "type": "object",
+    "value": {
+      "contextualData": {
+        "otp": "123456"
+      },
+      "type": "email",
+      "key": "okta_email",
+      "id": "aut5gn8p1c0jGB5nO0g4",
+      "displayName": "Email",
+      "methods": [
+        {
+          "type": "email"
+        }
+      ]
+    }
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "oidc_client",
+      "label": "my 3rd magic link spa",
+      "id": "0oa5u4b54akg0cVYw0g4"
+    }
+  }
+}

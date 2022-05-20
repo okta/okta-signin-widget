@@ -6,6 +6,7 @@ import terminalReturnOtpOnlyFullLocationMobileIconAuthentication from '../../../
 import terminalReturnOtpOnlyFullLocationMobileIconEnrollment from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-full-location-mobile-icon-enrollment.json';
 import terminalReturnOtpOnlyFullLocationMobileIconRecovery from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-full-location-mobile-icon-recovery.json';
 import terminalReturnOtpOnlyFullLocationMobileIconUnlock from '../../../playground/mocks/data/idp/idx/terminal-return-otp-only-full-location-mobile-icon-unlock.json';
+import terminalReturnOtpUnexpectedResponse from '../../../playground/mocks/data/idp/idx/terminal-return-otp-unexpected-response.json';
 import TerminalOtpOnlyPageObject from '../framework/page-objects/TerminalOtpOnlyPageObject';
 
 const terminalReturnOtpOnlyFullLocationMock = RequestMock()
@@ -35,6 +36,10 @@ const terminalReturnOtpOnlyFullLocationMobileIconRecoveryMock = RequestMock()
 const terminalReturnOtpOnlyFullLocationMobileIconUnlockMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
   .respond(terminalReturnOtpOnlyFullLocationMobileIconUnlock);
+
+const terminalReturnOtpUnexpectedResponseyMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(terminalReturnOtpUnexpectedResponse);
 
 fixture('Email Magic Link OTP Terminal view');
 
@@ -118,4 +123,12 @@ async function setupOtpOnly(t) {
       await t.expect(terminalOtpOnlyPage.getUserEmailElement().innerText).eql('test@okta.com');
       await t.expect(terminalOtpOnlyPage.getEnterCodeOnPageElement().innerText).eql(intent);
     });
+});
+
+// Confirms fix for OKTA-495883
+test.requestHooks(terminalReturnOtpUnexpectedResponseyMock)('should gracefully handle unexpected idx response and render a default message', async t => {
+  // broken message: L10N_ERROR[idx.return.link.otponly.enter.code.on.page]
+  const terminalOtpOnlyPage = await setupOtpOnly(t);
+  await t.expect(await terminalOtpOnlyPage.doesEnterCodeOnPageExist()).ok();
+  await t.expect(terminalOtpOnlyPage.getEnterCodeOnPageElement().innerText).notContains('L10N_ERROR');
 });
