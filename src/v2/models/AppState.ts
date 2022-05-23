@@ -259,13 +259,19 @@ export default class AppState extends Model {
       return;
     }
 
-    // Special case: show select enrollment channel instead of QR code on mobile
-    if ((BrowserFeatures.isAndroid() || BrowserFeatures.isIOS()) && transformedResponse.currentAuthenticator?.contextualData?.selectedChannel === 'qrcode') {
-      return transformedResponse.remediations.find(r => r.name === 'select-enrollment-channel')
+    const firstRemediation = transformedResponse.remediations[0];
+
+    // Special case: Okta Verify: show select enrollment channel instead of QR code on mobile
+    if (firstRemediation.name === 'enroll-poll'
+      && this.get('authenticatorKey') === AUTHENTICATOR_KEY.OV
+      && (BrowserFeatures.isAndroid() || BrowserFeatures.isIOS())
+      && transformedResponse.currentAuthenticator?.contextualData?.selectedChannel === 'qrcode'
+    ) {
+        return transformedResponse.remediations.find(r => r.name === 'select-enrollment-channel')
     }
 
     // Default case: return the first remediation in the list
-    return transformedResponse.remediations[0];
+    return firstRemediation;
   }
 
   async setIonResponse(transformedResponse, hooks) {
