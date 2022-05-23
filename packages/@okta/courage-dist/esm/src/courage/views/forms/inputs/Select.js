@@ -163,7 +163,9 @@ function fixChosenModal($select, textPlaceholder) {
     if (noResult.length) {
       noResult.attr('role', 'alert');
     }
-  }); // Use a hidden clone to maintain layout and calculate offset. This is
+  });
+  $chosen.addClass('closed'); // Will be used in SIW to fix screen reader focus.
+  // Use a hidden clone to maintain layout and calculate offset. This is
   // necessary for more complex layouts (like adding a group rule) where
   // the chosen element is floated.
 
@@ -209,6 +211,9 @@ function fixChosenModal($select, textPlaceholder) {
 
     $select.parents().scroll(resizeHandler);
     oktaJQueryStatic(window).on('resize scroll', resizeHandler);
+  });
+  $select.on('liszt:showing_dropdown', function () {
+    $chosen.removeClass('closed');
   }); // When the dropdown closes or the element is removed, revert to the
   // original styles and reattach it to its original placement in the dom.
 
@@ -217,6 +222,7 @@ function fixChosenModal($select, textPlaceholder) {
     oktaJQueryStatic(window).off('resize scroll', resizeHandler);
     $chosen.css(baseStyles);
     $results.hide();
+    $chosen.addClass('closed');
     $results.css('max-height', CHOSEN_MAX_HEIGHT);
     $clone.remove();
     $select.after($chosen);

@@ -520,3 +520,41 @@
 }
 
 /* @end */
+
+/* Focus for Screen readers */
+.chzn-container.chzn-container-single.closed .chzn-drop, 
+.chzn-container.chzn-container-single-nosearch.closed .chzn-drop {
+    position: relative;
+    top: -35px;
+    z-index: 0;
+    min-height: 36px;
+    margin-bottom: -35px;
+    overflow: hidden;
+    left: 0;
+    border:none;
+}
+
+.chzn-container.chzn-container-single .chzn-single,
+.chzn-container.chzn-container-single-nosearch .chzn-single  {
+    z-index: 1;
+}
+
+.chzn-container.chzn-container-single.closed .chzn-drop .chzn-search,
+.chzn-container.chzn-container-single-nosearch.closed .chzn-drop .chzn-search {
+    position: relative;
+    left: 0;
+}
+
+.chzn-container.chzn-container-single.closed .chzn-drop .chzn-search input[type='text'],
+.chzn-container.chzn-container-single-nosearch.closed .chzn-drop .chzn-search input[type='text'] {
+    border: none;
+    caret-color: transparent;
+    background-color: transparent;
+}
+
+.chzn-container.chzn-container-single.closed .chzn-drop .chzn-search:after,
+.chzn-container.chzn-container-single-nosearch.closed .chzn-drop .chzn-search:after {
+    background: none;
+}
+
+/* @end */
