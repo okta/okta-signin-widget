@@ -47,8 +47,8 @@ export default View.extend({
           }
         })
         .then(function() {
-          if (self.settings.get('signOutLink')) {
-            Util.redirect(self.settings.get('signOutLink'));
+          if (self.settings.get('backToSignInUri')) {
+            Util.redirect(self.settings.get('backToSignInUri'));
           } else {
             self.state.set('navigateDir', Enums.DIRECTION_BACK);
             self.options.appState.trigger('navigate', '');

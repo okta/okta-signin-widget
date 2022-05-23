@@ -980,14 +980,6 @@ assets: {
 
 ### Links
 
-#### Sign out link
-
-Set the following config option to override the sign out link URL. If not provided, the widget will navigate to Primary Auth.
-
-```javascript
-signOutLink: 'https://www.signmeout.com'
-```
-
 #### Back to sign in link
 
 Set the following config option to override the back to sign in link URL. If not provided, the widget will navigate to Primary Auth.
@@ -995,6 +987,8 @@ Set the following config option to override the back to sign in link URL. If not
 ```javascript
 backToSignInLink: 'https://www.backtosignin.com'
 ```
+
+> **Note:** For compatibility with previous widget versions, `signOutLink` is accepted as an alias for `backToSignInLink`
 
 #### Sign up link
 

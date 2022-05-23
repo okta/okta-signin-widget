@@ -33,8 +33,11 @@ const local: Record<string, ModelProperty> = {
   recoveryToken: ['string', false, undefined],
   stateToken: ['string', false, undefined],
   username: ['string', false],
-  signOutLink: ['string', false],
   relayState: ['string', false],
+
+  // These two settings are aliases. Setting either value will set `backToSignInUri` 
+  signOutLink: ['string', false], // for backward compatibility
+  backToSignInLink: ['string', false], // preferred setting
 
   redirect: {
     type: 'string',
@@ -176,6 +179,12 @@ const local: Record<string, ModelProperty> = {
 };
 
 const derived: Record<string, ModelProperty>  = {
+  backToSignInUri: {
+    deps: ['backToSignInLink', 'signOutLink'],
+    fn: function(backToSignInLink, signOutLink) {
+      return backToSignInLink || signOutLink;
+    }
+  },
   showPasswordToggle: {
     deps: ['features.showPasswordToggleOnSignInPage'],
     fn: function() {
