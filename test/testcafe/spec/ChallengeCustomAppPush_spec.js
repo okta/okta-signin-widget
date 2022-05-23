@@ -7,6 +7,7 @@ import pushPoll from '../../../playground/mocks/data/idp/idx/authenticator-verif
 import pushPollReject from '../../../playground/mocks/data/idp/idx/authenticator-verification-custom-app-push-reject';
 import success from '../../../playground/mocks/data/idp/idx/success';
 import pushPollAutoChallenge from '../../../playground/mocks/data/idp/idx/authenticator-verification-custom-app-push-autochallenge';
+import pushEnableBiometricsCustomApp from '../../../playground/mocks/data/idp/idx/custom-app-uv-verify-enable-biometrics';
 const logger = RequestLogger(/challenge|challenge\/poll|authenticators\/poll/,
   {
     logRequestBody: true,
@@ -43,6 +44,12 @@ const pushWaitAutoChallengeMock = RequestMock()
   .respond(pushPollAutoChallenge)
   .onRequestTo('http://localhost:3000/idp/idx/authenticators/poll')
   .respond(pushPollAutoChallenge);
+
+const pushEnableBiometricsMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(pushPollAutoChallenge)
+  .onRequestTo('http://localhost:3000/idp/idx/authenticators/poll')
+  .respond(pushEnableBiometricsCustomApp);
 
 fixture('Challenge Custom App Push');
 
@@ -276,3 +283,22 @@ test.requestHooks(pushSuccessMock)('should show custom factor page link', async 
   await t.expect(challengeCustomAppPushPageObject.getFactorPageHelpLinksLabel()).eql('custom factor page link');
   await t.expect(challengeCustomAppPushPageObject.getFactorPageHelpLink()).eql('https://acme.com/what-is-okta-autheticators');
 });
+
+test
+  .requestHooks(logger, pushEnableBiometricsMock)('challenge custom app resend push with uv enable biometrics message', async t => {
+    const challengeCustomAppPushPageObject = await setup(t);
+    await challengeCustomAppPushPageObject.waitForErrorBox();
+
+    const errorTitle = challengeCustomAppPushPageObject.getErrorTitle();
+    await t.expect(errorTitle.innerText).contains('Enable biometrics in Custom Push Authenticator');
+
+    const errorBox = challengeCustomAppPushPageObject.getErrorBox();
+    await t.expect(errorBox.innerText).contains('Your response was received, but your organization requires biometrics—like a fingerprint or facial scan—for access. Make sure your device meets the following requirements, then try again:');
+    await t.expect(errorBox.innerText).contains('Your device supports biometrics'); // bullet #1
+    await t.expect(errorBox.innerText).contains('Custom Push Authenticator is up-to-date'); // bullet #2
+    await t.expect(errorBox.innerText).contains('In Custom Push Authenticator, biometrics are enabled for your account'); // bullet #3
+
+    const resendPushBtn = challengeCustomAppPushPageObject.getResendPushButton();
+    await t.expect(resendPushBtn.value).contains('Resend push notification');
+    await t.expect(resendPushBtn.hasClass('link-button-disabled')).notOk();
+  });
