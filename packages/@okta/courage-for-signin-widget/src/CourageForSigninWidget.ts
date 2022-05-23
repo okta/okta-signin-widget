@@ -39,7 +39,7 @@ import './util/scrollParent';
 
 const Controller = BaseController.extend({
   // The courage BaseController renders asynchronously in current versions of jQuery
-  // https://github.com/okta/okta-ui/blob/master/packages/courage/src/util/BaseController.js#L108
+  // https://github.com/okta/okta-ui/blob/master/packages/courage/src/util/BaseController.ts#L117-L119
   // https://api.jquery.com/jquery/#jQuery-callback
   // Override so that render is synchronous
   render: function(...args) {
