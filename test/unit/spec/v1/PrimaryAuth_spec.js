@@ -1464,7 +1464,7 @@ Expect.describe('PrimaryAuth', function() {
               '</div>' + // beacon-blank
               '</div>' + // radial-progress-bar
               '<div aria-live="polite" role="img" class="bg-helper auth-beacon auth-beacon-security" data-se="security-beacon" ' + 
-              'style="display: block; background-image: url(&quot;/base/test/unit/assets/1x1.gif&quot;);">' + 
+              'style="background-image: url(&quot;/base/test/unit/assets/1x1.gif&quot;);">' + 
               '<span class="accessibility-text">a single pixel</span><div class="okta-sign-in-beacon-border js-auth-beacon-border auth-beacon-border"></div>' + 
               '</div>' // bg-helper
             );

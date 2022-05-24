@@ -34,9 +34,19 @@ import TextBox from './courage/views/forms/inputs/TextBox';
 import Callout from './courage/views/components/Callout';
 import Backbone from 'backbone';
 
-import FrameworkView from './courage/framework/View';
-
+import FrameworkView, { FrameworkViewClass } from './courage/framework/View';
 import './util/scrollParent';
+
+const Controller = BaseController.extend({
+  // The courage BaseController renders asynchronously in current versions of jQuery
+  // https://github.com/okta/okta-ui/blob/master/packages/courage/src/util/BaseController.ts#L117-L119
+  // https://api.jquery.com/jquery/#jQuery-callback
+  // Override so that render is synchronous
+  render: function(...args) {
+    BaseView.prototype.render.apply(this, args);
+    return this;
+  }
+});
 
 // The string will be returned unchanged. All templates should be precompiled.
 FrameworkView.prototype.compileTemplate = function(str) {
@@ -79,7 +89,6 @@ const registerInput = InputRegistry.register;
 const Collection = BaseCollection;
 const View = BaseView;
 const Router = BaseRouter;
-const Controller = BaseController;
 
 export interface Internal {
   util: any;
