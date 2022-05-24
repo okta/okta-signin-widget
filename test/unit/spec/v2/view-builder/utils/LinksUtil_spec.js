@@ -113,82 +113,183 @@ describe('v2/utils/LinksUtil', function() {
   });
 
   describe('getBackToSignInLink', () => {
-    const appState = {
-      set: jest.fn(),
-      trigger: jest.fn(),
-    };
-
-    jest.spyOn(appState, 'set');
-    jest.spyOn(appState, 'trigger');
-
-    it('returns `href` with value of `baseUrl`', () => {
-      const settings = new Settings({
-        baseUrl: 'https://foo',
-        useInteractionCodeFlow: false
-      });
-      const result = getBackToSignInLink({appState, settings});
-      expect(result).toBeInstanceOf(Array);
-      expect(result[0]).toMatchObject({
-        type: 'link',
-        label: expect.any(String),   // this field could change, ignore for testing
-        name: 'go-back',
-        href: 'https://foo',
-      });
-      expect(result[0].clickHandler).toBeUndefined();
+    let appState;
+    beforeEach(() => {
+      appState = {
+        set: jest.fn(),
+        trigger: jest.fn(),
+      };
+  
+      jest.spyOn(appState, 'set');
+      jest.spyOn(appState, 'trigger');
     });
 
-    it('returns `clickHandler` instead of `href` whe using interactionCodeFlow', () => {
-      const settings = new Settings({
-        baseUrl: 'https://foo',
-        useInteractionCodeFlow: true
+    describe('stateToken flow', () => {
+      it('by default, returns `href` with value of `baseUrl`', () => {
+        const settings = new Settings({
+          baseUrl: 'https://foo'
+        });
+        const result = getBackToSignInLink({appState, settings});
+        expect(result).toBeInstanceOf(Array);
+        expect(result[0]).toMatchObject({
+          type: 'link',
+          label: 'Back to sign in',
+          name: 'go-back',
+          href: 'https://foo',
+        });
+        expect(result[0].clickHandler).toBeUndefined();
       });
-      const result = getBackToSignInLink({appState, settings});
-      expect(result).toBeInstanceOf(Array);
-      expect(result[0]).toMatchObject({
-        type: 'link',
-        label: expect.any(String),   // this field could change, ignore for testing
-        name: 'go-back',
-        clickHandler: expect.any(Function)
+
+      it('if `backToSignInLink` is set, returns `href` with value of `backToSignInLink`', () => {
+        const settings = new Settings({
+          baseUrl: 'https://foo',
+          backToSignInLink: 'https://okta.com',
+        });
+        const result = getBackToSignInLink({ appState, settings });
+        expect(result).toBeInstanceOf(Array);
+        expect(result).toHaveLength(1);
+        expect(result[0]).toMatchObject({
+          type: 'link',
+          label: 'Back to sign in',
+          name: 'go-back',
+          href: 'https://okta.com',
+        });
+        expect(result[0].clickHandler).toBeUndefined();
       });
-      expect(result[0].href).toBeUndefined();
+
+      it('(compat) if `signOutLink` is set, returns `href` with value of `signOutLink`', () => {
+        const settings = new Settings({
+          baseUrl: 'https://foo',
+          signOutLink: 'https://okta.com',
+        });
+        const result = getBackToSignInLink({ appState, settings });
+        expect(result).toBeInstanceOf(Array);
+        expect(result).toHaveLength(1);
+        expect(result[0]).toMatchObject({
+          type: 'link',
+          label: 'Back to sign in',
+          name: 'go-back',
+          href: 'https://okta.com',
+        });
+        expect(result[0].clickHandler).toBeUndefined();
+      });
     });
 
-    it('returns `href` with value of `backToSignInLink`', () => {
-      const settings = new Settings({
-        baseUrl: 'https://foo',
-        useInteractionCodeFlow: true,
-        backToSignInLink: 'https://okta.com',
+    describe('interaction code flow', () => {
+      it('by default, returns `clickHandler` instead of `href`', () => {
+        const settings = new Settings({
+          baseUrl: 'https://foo',
+          useInteractionCodeFlow: true
+        });
+        const result = getBackToSignInLink({appState, settings});
+        expect(result).toBeInstanceOf(Array);
+        expect(result[0]).toMatchObject({
+          type: 'link',
+          label: 'Back to sign in',
+          name: 'go-back',
+          clickHandler: expect.any(Function)
+        });
+        expect(result[0].href).toBeUndefined();
       });
-      const result = getBackToSignInLink({ appState, settings });
-      expect(result).toBeInstanceOf(Array);
-      expect(result).toHaveLength(1);
-      expect(result[0]).toMatchObject({
-        type: 'link',
-        label: expect.any(String),   // this field could change, ignore for testing
-        name: 'go-back',
-        href: 'https://okta.com',
-      });
-      expect(result[0].clickHandler).toBeUndefined();
-    });
 
+      it('if `backToSignInLink` is set, returns `href` with value of `backToSignInLink`', () => {
+        const settings = new Settings({
+          baseUrl: 'https://foo',
+          useInteractionCodeFlow: true,
+          backToSignInLink: 'https://okta.com',
+        });
+        const result = getBackToSignInLink({ appState, settings });
+        expect(result).toBeInstanceOf(Array);
+        expect(result).toHaveLength(1);
+        expect(result[0]).toMatchObject({
+          type: 'link',
+          label: 'Back to sign in',
+          name: 'go-back',
+          href: 'https://okta.com',
+        });
+        expect(result[0].clickHandler).toBeUndefined();
+      });
+
+      it('(compat) if `signOutLink` is set, returns `href` with value of `signOutLink`', () => {
+        const settings = new Settings({
+          baseUrl: 'https://foo',
+          useInteractionCodeFlow: true,
+          signOutLink: 'https://okta.com',
+        });
+        const result = getBackToSignInLink({ appState, settings });
+        expect(result).toBeInstanceOf(Array);
+        expect(result).toHaveLength(1);
+        expect(result[0]).toMatchObject({
+          type: 'link',
+          label: 'Back to sign in',
+          name: 'go-back',
+          href: 'https://okta.com',
+        });
+        expect(result[0].clickHandler).toBeUndefined();
+      });
+    });
   });
 
   describe('getSignOutLink', () => {
-    it('returns `href` with value of `backToSignInLink`', () => {
+
+    it('by default returns a link to cancel action', () => {
+      const settings = new Settings({
+        baseUrl: 'https://foo'
+      });
+      const result = getSignOutLink(settings);
+      expect(result).toBeInstanceOf(Array);
+      expect(result).toHaveLength(1);
+      expect(result[0]).toMatchObject({
+        label: 'Back to sign in',
+        name: 'cancel',
+        type: 'link',
+        actionPath: 'cancel'
+      });
+    });
+
+    it('can override the label', () => {
+      const settings = new Settings({
+        baseUrl: 'https://foo'
+      });
+      const result = getSignOutLink(settings, { label: 'foo' });
+      expect(result).toBeInstanceOf(Array);
+      expect(result).toHaveLength(1);
+      expect(result[0]).toMatchObject({
+        label: 'foo',
+        name: 'cancel',
+        type: 'link',
+        actionPath: 'cancel'
+      });
+    });
+
+    it('if `backToSignInLink` is set, returns `href` with value of `backToSignInLink`', () => {
       const settings = new Settings({
         baseUrl: 'https://foo',
-        useInteractionCodeFlow: false,
         backToSignInLink: 'https://okta.com',
       });
       const result = getSignOutLink(settings);
       expect(result).toBeInstanceOf(Array);
       expect(result).toHaveLength(1);
       expect(result[0]).toMatchObject({
-        label: expect.any(String),   // this field could change, ignore for testing
+        label: 'Back to sign in',
         name: 'cancel',
         href: 'https://okta.com',
       });
-      expect(result[0].clickHandler).toBeUndefined();
+    });
+
+    it('(compat) if `signOutLink` is set, returns `href` with value of `signOutLink`', () => {
+      const settings = new Settings({
+        baseUrl: 'https://foo',
+        signOutLink: 'https://okta.com',
+      });
+      const result = getSignOutLink(settings);
+      expect(result).toBeInstanceOf(Array);
+      expect(result).toHaveLength(1);
+      expect(result[0]).toMatchObject({
+        label: 'Back to sign in',
+        name: 'cancel',
+        href: 'https://okta.com',
+      });
     });
 
   });

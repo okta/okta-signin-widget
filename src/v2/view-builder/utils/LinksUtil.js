@@ -106,16 +106,15 @@ const getSignOutLink = (settings, options = {}) => {
       },
     ];
   }
-  else {
-    return [
-      {
-        'actionPath': 'cancel',
-        'label': !options.label ? loc('goback', 'login') : options.label,
-        'name': 'cancel',
-        'type': 'link'
-      },
-    ];
-  }
+
+  return [
+    {
+      'actionPath': 'cancel',
+      'label': !options.label ? loc('goback', 'login') : options.label,
+      'name': 'cancel',
+      'type': 'link'
+    },
+  ];
 };
 
 // Use it to create a widget configured link in the absence of `cancel` object in remediation
