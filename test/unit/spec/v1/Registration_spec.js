@@ -264,7 +264,7 @@ Expect.describe('Registration', function() {
         test.form.setReferrer('referrer');
         test.setNextResponse(resErrorNotUnique);
         test.form.submit();
-
+        Util.callAllTimeouts();
         return Expect.waitForFormErrorBox(test.form, test);
       }).then(function(test) {
         expect(test.form.errorBox().length).toBe(1);
@@ -282,7 +282,7 @@ Expect.describe('Registration', function() {
       test.form.setReferrer('referrer');
       test.setNextResponse(resErrorInvalidEmailDomain);
       test.form.submit();
-
+      Util.callAllTimeouts();
       return Expect.waitForFormErrorBox(test.form, test);
     }).then(function(test) {
       expect(test.form.errorBox().length).toBe(1);
