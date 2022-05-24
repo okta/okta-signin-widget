@@ -7,6 +7,7 @@ import ListView from './courage/views/Backbone.ListView';
 import Backbone from 'backbone';
 import FrameworkView from './courage/framework/View';
 import './util/scrollParent';
+declare const Controller: any;
 declare const Form: any;
 declare const loc: (key: any, bundleName?: any, params?: any) => any;
 declare const createButton: (options: any) => any;
@@ -15,7 +16,6 @@ declare const registerInput: (type: any, input: import("./courage/views/forms/Ba
 declare const Collection: typeof import("./courage/models/BaseCollection").BaseCollectionClass;
 declare const View: typeof import("./courage/views/BaseView").BaseViewClass;
 declare const Router: typeof import("./courage/util/BaseRouter").BaseRouterClass;
-declare const Controller: typeof import("./courage/util/BaseController").BaseControllerClass;
 export interface Internal {
     util: any;
     views: {

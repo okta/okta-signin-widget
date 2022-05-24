@@ -21,6 +21,8 @@ import {
 import { createOVOptions } from '../ion/ui-schema/ion-object-handler';
 import { _ } from '../mixins/mixins';
 import { executeHooksBefore, executeHooksAfter } from 'util/Hooks';
+import { IdxRemediation } from '@okta/okta-auth-js';
+import BrowserFeatures from 'util/BrowserFeatures';
 
 /**
  * Keep track of stateMachine with this special model. Similar to `src/models/AppState.js`
@@ -252,6 +254,26 @@ export default class AppState extends Model {
     this.trigger('cache:clear');
   }
 
+  chooseRemediation(transformedResponse): IdxRemediation | undefined {
+    if (_.isEmpty(transformedResponse.remediations)) {
+      return;
+    }
+
+    const firstRemediation = transformedResponse.remediations[0];
+
+    // Special case: Okta Verify: show select enrollment channel instead of QR code on mobile
+    if (firstRemediation.name === 'enroll-poll'
+      && this.get('authenticatorKey') === AUTHENTICATOR_KEY.OV
+      && (BrowserFeatures.isAndroid() || BrowserFeatures.isIOS())
+      && transformedResponse.currentAuthenticator?.contextualData?.selectedChannel === 'qrcode'
+    ) {
+        return transformedResponse.remediations.find(r => r.name === 'select-enrollment-channel')
+    }
+
+    // Default case: return the first remediation in the list
+    return firstRemediation;
+  }
+
   async setIonResponse(transformedResponse, hooks) {
     const doRerender = this.shouldReRenderView(transformedResponse);
     this.clearAppStateCache();
@@ -259,10 +281,10 @@ export default class AppState extends Model {
     this.set(transformedResponse);
 
     if (doRerender) {
-      // `currentFormName` is default to first form of remediations or nothing.
+      const remediation = this.chooseRemediation(transformedResponse);
       let currentFormName = null;
-      if (!_.isEmpty(transformedResponse.remediations)) {
-        currentFormName = transformedResponse.remediations[0].name;
+      if (remediation) {
+        currentFormName = remediation.name;
       } else {
         Logger.error('Panic!!');
         Logger.error('\tNo remediation found.');

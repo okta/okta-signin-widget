@@ -1,15 +1,14 @@
-import '../lib/jquery-1.12.4.js';
-import { j as jquery1_12_4 } from '../../../../_virtual/jquery-1.12.4.js';
+import $ from 'jquery';
 
 /*! http://mths.be/placeholder v2.0.7 by @mathias */
 
 (function () {
-  var $ = jquery1_12_4.exports;
+  var $$1 = $;
 
   var isInputSupported = ('placeholder' in document.createElement('input')),
       isTextareaSupported = ('placeholder' in document.createElement('textarea')),
-      prototype = $.fn,
-      valHooks = $.valHooks,
+      prototype = $$1.fn,
+      valHooks = $$1.valHooks,
       hooks,
       placeholder;
 
@@ -33,11 +32,11 @@ import { j as jquery1_12_4 } from '../../../../_virtual/jquery-1.12.4.js';
     placeholder.textarea = isTextareaSupported;
     hooks = {
       'get': function (element) {
-        var $element = $(element);
+        var $element = $$1(element);
         return $element.data('placeholder-enabled') && $element.hasClass('placeholder') ? '' : element.value;
       },
       'set': function (element, value) {
-        var $element = $(element);
+        var $element = $$1(element);
 
         if (!$element.data('placeholder-enabled')) {
           return element.value = value;
@@ -62,19 +61,19 @@ import { j as jquery1_12_4 } from '../../../../_virtual/jquery-1.12.4.js';
     };
     isInputSupported || (valHooks.input = hooks);
     isTextareaSupported || (valHooks.textarea = hooks);
-    $(function () {
+    $$1(function () {
       // Look for forms
-      $(document).delegate('form', 'submit.placeholder', function () {
+      $$1(document).delegate('form', 'submit.placeholder', function () {
         // Clear the placeholder values so they don't get submitted
-        var $inputs = $('.placeholder', this).each(clearPlaceholder);
+        var $inputs = $$1('.placeholder', this).each(clearPlaceholder);
         setTimeout(function () {
           $inputs.each(setPlaceholder);
         }, 10);
       });
     }); // Clear placeholder values upon page reload
 
-    $(window).bind('beforeunload.placeholder', function () {
-      $('.placeholder').each(function () {
+    $$1(window).bind('beforeunload.placeholder', function () {
+      $$1('.placeholder').each(function () {
         this.value = '';
       });
     });
@@ -84,7 +83,7 @@ import { j as jquery1_12_4 } from '../../../../_virtual/jquery-1.12.4.js';
     // Return an object of element attributes
     var newAttrs = {},
         rinlinejQuery = /^jQuery\d+$/;
-    $.each(elem.attributes, function (i, attr) {
+    $$1.each(elem.attributes, function (i, attr) {
       if (attr.specified && !rinlinejQuery.test(attr.name)) {
         newAttrs[attr.name] = attr.value;
       }
@@ -94,7 +93,7 @@ import { j as jquery1_12_4 } from '../../../../_virtual/jquery-1.12.4.js';
 
   function clearPlaceholder(event, value) {
     var input = this,
-        $input = $(input);
+        $input = $$1(input);
 
     if (input.value == $input.attr('placeholder') && $input.hasClass('placeholder')) {
       if ($input.data('placeholder-password')) {
@@ -116,7 +115,7 @@ import { j as jquery1_12_4 } from '../../../../_virtual/jquery-1.12.4.js';
   function setPlaceholder() {
     var $replacement,
         input = this,
-        $input = $(input),
+        $input = $$1(input),
         id = this.id;
 
     if (input.value == '') {
@@ -127,7 +126,7 @@ import { j as jquery1_12_4 } from '../../../../_virtual/jquery-1.12.4.js';
               'type': 'text'
             });
           } catch (e) {
-            $replacement = $('<input>').attr($.extend(args(this), {
+            $replacement = $$1('<input>').attr($$1.extend(args(this), {
               'type': 'text'
             }));
           }

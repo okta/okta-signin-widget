@@ -5,6 +5,7 @@ import XHRAuthenticatorChallengOktaVerify
 import XHRAuthenticatorEnrollOktaVerify
   from '../../../../../playground/mocks/data/idp/idx/authenticator-enroll-ov-sms.json';
 import { FORMS_FOR_VERIFICATION, FORMS_WITHOUT_SIGNOUT } from 'v2/ion/RemediationConstants';
+import BrowserFeatures from 'util/BrowserFeatures';
 
 describe('v2/models/AppState', function() {
   beforeEach(() => {
@@ -337,5 +338,40 @@ describe('v2/models/AppState', function() {
       this.initAppState({ user });
       expect(this.appState.getUser()).toBe(user);
     });
+  });
+
+  describe('chooseRemediation', () => {
+
+    it('Returns undefined if response does not contain remediations', () => {
+      this.initAppState();
+      expect(this.appState.chooseRemediation({})).toBe(undefined);
+    });
+
+    it('By default, returns the first remediation', () => {
+      this.initAppState();
+      const remediations = [{ name: 'a' }, { name: 'b' }];
+      const transformedResponse = {
+        remediations
+      };
+      expect(this.appState.chooseRemediation(transformedResponse)).toEqual({ name: 'a' });
+    });
+
+    it('Special case: Okta Verify enrollment: Returns select-enrollment-channel on mobile', () => {
+      spyOn(BrowserFeatures, 'isIOS').and.callFake(() => true);
+      spyOn(BrowserFeatures, 'isAndroid').and.callFake(() => false);
+      const remediations = [{ name: 'enroll-poll' }, { name: 'select-enrollment-channel' }];
+      const transformedResponse = {
+        remediations,
+        currentAuthenticator: {
+          key: 'okta_verify',
+          contextualData: {
+            selectedChannel: 'qrcode'
+          }
+        }
+      };
+      this.initAppState(transformedResponse);
+      expect(this.appState.chooseRemediation(transformedResponse)).toEqual({ name: 'select-enrollment-channel' });
+    });
+
   });
 });

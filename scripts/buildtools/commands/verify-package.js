@@ -2,11 +2,10 @@ const path = require('path');
 const { readFileSync } = require('fs');
 
 const ONE_MB = 1000000;
-const EXPECTED_PACKAGE_SIZE = 12 * ONE_MB;
+const EXPECTED_PACKAGE_SIZE = 11 * ONE_MB;
 const EXPECTED_PACKAGE_FILES = 2200;
 
 const EXPECTED_BUNDLE_SIZES = {
-  'okta-sign-in-no-jquery.js': 1.5 * ONE_MB,
   'okta-sign-in.entry.js': 1.5 * ONE_MB,
   'okta-sign-in.js': 4.2 * ONE_MB,
   'okta-sign-in.min.js': 1.7 * ONE_MB,

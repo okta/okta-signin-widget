@@ -5,6 +5,7 @@
   "module": "esm/src/index.js",
   "types": "types/index.d.ts",
   "dependencies": {
-    "clipboard": "^1.5.16"
+    "clipboard": "^1.5.16",
+    "jquery": "^3.6.0"
   }
 }
