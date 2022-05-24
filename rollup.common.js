@@ -13,6 +13,7 @@ const external = [
   '@sindresorhus/to-milliseconds',
   'clipboard',
   'cross-fetch',
+  'jquery',
   'parse-ms',
   'q',
   'u2f-api-polyfill'
