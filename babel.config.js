@@ -22,7 +22,6 @@ const plugins = [
     alias: {
       '^handlebars(/runtime)?$': `${COURAGE_DIST}/lib/handlebars/dist/cjs/handlebars.runtime.js`,
       '^backbone$': `${COURAGE_DIST}/src/courage/vendor/backbone.js`,
-      '^jquery$': `${COURAGE_DIST}/src/courage/vendor/lib/jquery-1.12.4.js`,
       '^underscore$': `${COURAGE_DIST}/lib/underscore/underscore-min.js`
     }
   }],
