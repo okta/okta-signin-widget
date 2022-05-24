@@ -30,8 +30,9 @@ export default {
   },
   preserveSymlinks: true,
   moduleContext: (id) => {
+    // run yarn build:babel to see output pre-rollup
     if (/.*chosen\.jquery\.js$/.test(id)) {
-      return 'jQuery'; // the variable holding the result of import('jquery')
+      return '$'; // the variable holding the result of import('jquery')
     }
     return 'undefined';
   },
@@ -47,13 +48,13 @@ export default {
     }),
     // Path output from babel
     replace({
-      // patch backbone so it is a proper ES module
+      // patch backbone so it uses jQuery default export
       include: ['**/courage/vendor/lib/backbone.js'],
       values: {
-        // import named symbol
-        '(function (factory) {': `const jQuery = require('./jquery-1.12.4.js');\n(function (factory) {`,
+        // import named symbol (run yarn build:babel to see output pre-rollup)
+        '(function (factory) {': `const jQuery = require('jquery');\n(function (factory) {`,
         // remove require, replace with imported symbol
-        'require("./jquery-1.12.4.js")': 'jQuery'
+        'require(\'jquery\')': 'jQuery'
       },
       delimiters: ['', ''],
       preventAssignment: true
