@@ -182,7 +182,7 @@ const derived: Record<string, ModelProperty>  = {
   backToSignInUri: {
     deps: ['backToSignInLink', 'signOutLink'],
     fn: function(backToSignInLink, signOutLink) {
-      return backToSignInLink || signOutLink;
+      return backToSignInLink || signOutLink; // prefer backToSignInLink over signOutLink, but they are aliases
     }
   },
   showPasswordToggle: {

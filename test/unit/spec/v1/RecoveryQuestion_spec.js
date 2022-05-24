@@ -96,11 +96,10 @@ Expect.describe('RecoveryQuestion', function() {
         spyOn(SharedUtil, 'redirect');
         Util.resetAjaxRequests();
         test.setNextResponse(res200);
-        const $link = test.form.signoutLink();
-
-        expect($link.length).toBe(1);
-        expect($link.text()).toBe('Back to sign in');
-        $link.click();
+        const $signOut = test.form.signoutLink($sandbox);
+        expect($signOut.text()).toBe('Back to sign in');
+        expect($signOut.attr('href')).toBe('http://www.goodbye.com');
+        $signOut.click();
         return Expect.waitForSpyCall(SharedUtil.redirect, test);
       })
       .then(function(test) {
