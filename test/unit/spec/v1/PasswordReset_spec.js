@@ -168,7 +168,6 @@ Expect.describe('PasswordReset', function() {
         test.setNextResponse(res200);
         const $signOut = test.form.signoutLink($sandbox);
         expect($signOut.text()).toBe('Back to sign in');
-        expect($signOut.attr('href')).toBe('http://www.goodbye.com');
         $signOut.click();
         return Expect.waitForAjaxRequest(test);
       })

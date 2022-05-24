@@ -348,7 +348,6 @@ Expect.describe('PasswordExpiration', function() {
             ]);
             const $signOut = test.form.signoutLink($sandbox);
             expect($signOut.text()).toBe('Back to sign in');
-            expect($signOut.attr('href')).toBe('http://www.goodbye.com');
             test.form.signout();
             return Expect.waitForAjaxRequest(test);
           })

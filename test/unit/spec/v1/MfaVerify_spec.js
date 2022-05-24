@@ -2458,7 +2458,6 @@ Expect.describe('MFA Verify', function() {
               test.setNextResponse(resCancel);
               const $signOut = test.form.signoutLink($sandbox);
               expect($signOut.text()).toBe('Back to sign in');
-              expect($signOut.attr('href')).toBe('http://www.goodbye.com');
               $signOut.click();
               return Expect.wait(function() {
                 return RouterUtil.routeAfterAuthStatusChange.calls.count() > 0;
