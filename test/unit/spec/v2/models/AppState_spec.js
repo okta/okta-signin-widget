@@ -359,16 +359,17 @@ describe('v2/models/AppState', function() {
     it('Special case: Okta Verify enrollment: Returns select-enrollment-channel on mobile', () => {
       spyOn(BrowserFeatures, 'isIOS').and.callFake(() => true);
       spyOn(BrowserFeatures, 'isAndroid').and.callFake(() => false);
-      this.initAppState();
       const remediations = [{ name: 'enroll-poll' }, { name: 'select-enrollment-channel' }];
       const transformedResponse = {
         remediations,
         currentAuthenticator: {
+          key: 'okta_verify',
           contextualData: {
             selectedChannel: 'qrcode'
           }
         }
       };
+      this.initAppState(transformedResponse);
       expect(this.appState.chooseRemediation(transformedResponse)).toEqual({ name: 'select-enrollment-channel' });
     });
 
