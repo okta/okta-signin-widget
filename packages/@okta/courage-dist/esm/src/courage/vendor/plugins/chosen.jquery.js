@@ -1,4 +1,4 @@
-import jQuery from '../lib/jquery-1.12.4.js';
+import $ from 'jquery';
 
 (function () {
   var SelectParser;
@@ -89,7 +89,7 @@ import jQuery from '../lib/jquery-1.12.4.js';
   };
 
   this.SelectParser = SelectParser;
-}).call(jQuery);
+}).call($);
 (function () {
   var AbstractChosen, root;
   root = this;
@@ -356,9 +356,9 @@ import jQuery from '../lib/jquery-1.12.4.js';
   }();
 
   root.AbstractChosen = AbstractChosen;
-}).call(jQuery);
+}).call($);
 (function () {
-  var $,
+  var $$1,
       Chosen,
       root,
       _ref,
@@ -380,8 +380,8 @@ import jQuery from '../lib/jquery-1.12.4.js';
 
   root = this;
   var AbstractChosen = root.AbstractChosen;
-  $ = jQuery;
-  $.fn.extend({
+  $$1 = $;
+  $$1.fn.extend({
     chosen: function (options) {
       if (!AbstractChosen.browser_is_supported()) {
         return this;
@@ -389,7 +389,7 @@ import jQuery from '../lib/jquery-1.12.4.js';
 
       return this.each(function (input_field) {
         var $this;
-        $this = $(this);
+        $this = $$1(this);
 
         if (!$this.hasClass("chzn-done")) {
           return $this.data("chosen", new Chosen(this, options));
@@ -407,7 +407,7 @@ import jQuery from '../lib/jquery-1.12.4.js';
     }
 
     Chosen.prototype.setup = function () {
-      this.form_field_jq = $(this.form_field);
+      this.form_field_jq = $$1(this.form_field);
       this.current_selectedIndex = this.form_field.selectedIndex;
       return this.is_rtl = this.form_field_jq.hasClass("chzn-rtl");
     };
@@ -437,7 +437,7 @@ import jQuery from '../lib/jquery-1.12.4.js';
         "style": "width: " + this.container_width() + ";",
         "title": this.form_field.title
       };
-      this.container = $("<div></div>", container_props);
+      this.container = $$1("<div></div>", container_props);
 
       if (this.is_multiple) {
         this.container.html("<ul class=\"chzn-choices\"><li class=\"search-field\"><input type=\"text\" value=\"" + this.default_text + "\" class=\"default\" autocomplete=\"off\" style=\"width:25px;\" /></li></ul><div class=\"chzn-drop\"><ul class=\"chzn-results\"></ul></div>");
@@ -556,15 +556,15 @@ import jQuery from '../lib/jquery-1.12.4.js';
           evt.preventDefault();
         }
 
-        if (!(evt != null && $(evt.target).hasClass("search-choice-close"))) {
+        if (!(evt != null && $$1(evt.target).hasClass("search-choice-close"))) {
           if (!this.active_field) {
             if (this.is_multiple) {
               this.search_field.val("");
             }
 
-            $(document).click(this.click_test_action);
+            $$1(document).click(this.click_test_action);
             this.results_show();
-          } else if (!this.is_multiple && evt && ($(evt.target)[0] === this.selected_item[0] || $(evt.target).parents("a.chzn-single").length)) {
+          } else if (!this.is_multiple && evt && ($$1(evt.target)[0] === this.selected_item[0] || $$1(evt.target).parents("a.chzn-single").length)) {
             evt.preventDefault();
             this.results_toggle();
           }
@@ -603,7 +603,7 @@ import jQuery from '../lib/jquery-1.12.4.js';
     };
 
     Chosen.prototype.close_field = function () {
-      $(document).unbind("click", this.click_test_action);
+      $$1(document).unbind("click", this.click_test_action);
       this.active_field = false;
       this.results_hide();
       this.container.removeClass("chzn-container-active");
@@ -620,7 +620,7 @@ import jQuery from '../lib/jquery-1.12.4.js';
     };
 
     Chosen.prototype.test_active_click = function (evt) {
-      if ($(evt.target).parents("#" + this.container_id).length) {
+      if ($$1(evt.target).parents("#" + this.container_id).length) {
         return this.active_field = true;
       } else {
         return this.close_field();
@@ -680,7 +680,7 @@ import jQuery from '../lib/jquery-1.12.4.js';
 
     Chosen.prototype.result_add_group = function (group) {
       group.dom_id = this.container_id + "_g_" + group.array_index;
-      return "<li id=\"" + group.dom_id + "\" class=\"group-result\">" + $("<div></div>").text(group.label).html() + "</li>";
+      return "<li id=\"" + group.dom_id + "\" class=\"group-result\">" + $$1("<div></div>").text(group.label).html() + "</li>";
     };
 
     Chosen.prototype.result_do_highlight = function (el) {
@@ -758,7 +758,7 @@ import jQuery from '../lib/jquery-1.12.4.js';
       this.form_field_label = this.form_field_jq.parents("label");
 
       if (!this.form_field_label.length && this.form_field.id.length) {
-        this.form_field_label = $("label[for='" + this.form_field.id + "']");
+        this.form_field_label = $$1("label[for='" + this.form_field.id + "']");
       }
 
       if (this.form_field_label.length > 0) {
@@ -784,7 +784,7 @@ import jQuery from '../lib/jquery-1.12.4.js';
 
     Chosen.prototype.search_results_mouseup = function (evt) {
       var target;
-      target = $(evt.target).hasClass("active-result") ? $(evt.target) : $(evt.target).parents(".active-result").first();
+      target = $$1(evt.target).hasClass("active-result") ? $$1(evt.target) : $$1(evt.target).parents(".active-result").first();
 
       if (target.length) {
         this.result_highlight = target;
@@ -795,7 +795,7 @@ import jQuery from '../lib/jquery-1.12.4.js';
 
     Chosen.prototype.search_results_mouseover = function (evt) {
       var target;
-      target = $(evt.target).hasClass("active-result") ? $(evt.target) : $(evt.target).parents(".active-result").first();
+      target = $$1(evt.target).hasClass("active-result") ? $$1(evt.target) : $$1(evt.target).parents(".active-result").first();
 
       if (target) {
         return this.result_do_highlight(target);
@@ -803,7 +803,7 @@ import jQuery from '../lib/jquery-1.12.4.js';
     };
 
     Chosen.prototype.search_results_mouseout = function (evt) {
-      if ($(evt.target).hasClass("active-result" )) {
+      if ($$1(evt.target).hasClass("active-result" )) {
         return this.result_clear_highlight();
       }
     };
@@ -813,14 +813,14 @@ import jQuery from '../lib/jquery-1.12.4.js';
           close_link,
           _this = this;
 
-      choice = $("<li></li>", {
+      choice = $$1("<li></li>", {
         "class": "search-choice"
       }).html("<span>" + item.html + "</span>");
 
       if (item.disabled) {
         choice.addClass("search-choice-disabled");
       } else {
-        close_link = $("<a></a>", {
+        close_link = $$1("<a></a>", {
           href: "#",
           "class": "search-choice-close",
           rel: item.array_index
@@ -839,7 +839,7 @@ import jQuery from '../lib/jquery-1.12.4.js';
       evt.stopPropagation();
 
       if (!this.is_disabled) {
-        return this.choice_destroy($(evt.target));
+        return this.choice_destroy($$1(evt.target));
       }
     };
 
@@ -958,7 +958,7 @@ import jQuery from '../lib/jquery-1.12.4.js';
         result_data.selected = false;
         this.form_field.options[result_data.options_index].selected = false;
         this.selected_option_count = null;
-        result = $("#" + this.container_id + "_o_" + pos);
+        result = $$1("#" + this.container_id + "_o_" + pos);
         result.removeClass("result-selected").addClass("active-result").show();
         this.result_clear_highlight();
         this.winnow_results();
@@ -989,7 +989,7 @@ import jQuery from '../lib/jquery-1.12.4.js';
 
       this.no_results_clear();
       results = 0;
-      searchText = this.search_field.val() === this.default_text ? "" : $("<div></div>").text($.trim(this.search_field.val())).html();
+      searchText = this.search_field.val() === this.default_text ? "" : $$1("<div></div>").text($$1.trim(this.search_field.val())).html();
       regexAnchor = this.search_contains ? "" : "^";
       regex = new RegExp(regexAnchor + searchText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), "i");
       zregex = new RegExp(searchText.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"), "i");
@@ -1000,11 +1000,11 @@ import jQuery from '../lib/jquery-1.12.4.js';
 
         if (!option.empty) {
           if (option.group) {
-            $("#" + option.dom_id).css("display", "none");
+            $$1("#" + option.dom_id).css("display", "none");
           } else {
             found = false;
             result_id = option.dom_id;
-            result = $("#" + result_id);
+            result = $$1("#" + result_id);
 
             if (regex.test(option.html)) {
               found = true;
@@ -1037,7 +1037,7 @@ import jQuery from '../lib/jquery-1.12.4.js';
               this.result_activate(result, option);
 
               if (option.group_array_index != null) {
-                $("#" + this.results_data[option.group_array_index].dom_id).css("display", "list-item");
+                $$1("#" + this.results_data[option.group_array_index].dom_id).css("display", "list-item");
               }
             } else {
               if (this.result_highlight && result_id === this.result_highlight.attr("id")) {
@@ -1072,7 +1072,7 @@ import jQuery from '../lib/jquery-1.12.4.js';
 
     Chosen.prototype.no_results = function (terms) {
       var no_results_html;
-      no_results_html = $("<li class=\"no-results\">" + this.results_none_found + " \"<span></span>\"</li>");
+      no_results_html = $$1("<li class=\"no-results\">" + this.results_none_found + " \"<span></span>\"</li>");
       no_results_html.find("span").first().html(terms);
       return this.search_results.append(no_results_html);
     };
@@ -1196,11 +1196,11 @@ import jQuery from '../lib/jquery-1.12.4.js';
           style_block += style + ":" + this.search_field.css(style) + ";";
         }
 
-        div = $("<div></div>", {
+        div = $$1("<div></div>", {
           "style": style_block
         });
         div.text(this.search_field.val());
-        $("body").append(div);
+        $$1("body").append(div);
         w = div.width() + 25;
         div.remove();
 
@@ -1222,7 +1222,7 @@ import jQuery from '../lib/jquery-1.12.4.js';
       var string;
       string = "sel" + this.generate_random_char() + this.generate_random_char() + this.generate_random_char();
 
-      while ($("#" + string).length > 0) {
+      while ($$1("#" + string).length > 0) {
         string += this.generate_random_char();
       }
 
@@ -1233,4 +1233,4 @@ import jQuery from '../lib/jquery-1.12.4.js';
   }(AbstractChosen);
 
   root.Chosen = Chosen;
-}).call(jQuery);
+}).call($);
