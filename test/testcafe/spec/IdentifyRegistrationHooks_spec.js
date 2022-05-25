@@ -71,7 +71,7 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onSucce
   await t.expect(log.includes('made it to postSubmit email@email.com')).ok();
 });
 
-test.requestHooks(logger, mock)('should call settings.registration hooks onFailure handlers', async t => {
+test.requestHooks(logger, mock)('should call settings.registration.preSubmit hook\'s onFailure handlers', async t => {
   logger.clear();
   const registrationPage = await setup(t);
 
@@ -105,6 +105,35 @@ test.requestHooks(logger, mock)('should call settings.registration hooks onFailu
   await registrationPage.clickRegisterButton();
 
   await t.expect(registrationPage.getErrorBoxText()).eql('My preSubmit message');
+
+  // no request because the form fails to submit
+  await t.expect(logger.requests.length).eql(0);
+});
+
+test.requestHooks(logger, mock)('settings.registration.preSubmit hook can call onFailure handlers with errorCauses to put error on specific field', async t => {
+  logger.clear();
+  const registrationPage = await setup(t);
+
+  await renderWidget({
+    registration: {
+      preSubmit: function(postData, onSuccess, onFailure) {
+        const error = {
+          'errorCauses': [{
+            'property': 'userProfile.lastName',
+            'errorSummary': 'my preSubmit error summary'
+          }]
+        };
+        onFailure(error);
+      },
+    },
+  });
+  await registrationPage.fillFirstNameField('xyz');
+  await registrationPage.fillLastNameField('xyz');
+  await registrationPage.fillEmailField('email@email.com');
+  await registrationPage.clickRegisterButton();
+
+  await t.expect(registrationPage.getErrorBoxText()).eql('We found some errors. Please review the form and make corrections.');
+  await t.expect(registrationPage.form.getTextBoxErrorMessage('userProfile.lastName')).eql('my preSubmit error summary');
 
   // no request because the form fails to submit
   await t.expect(logger.requests.length).eql(0);
