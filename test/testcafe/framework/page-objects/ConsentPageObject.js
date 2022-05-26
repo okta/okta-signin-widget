@@ -15,6 +15,14 @@ export default class ConsentPageObject extends BasePageObject {
     return this.form.clickCancelButton();
   }
 
+  getAllowButtonLabel() {
+    return this.form.getSaveButtonLabel();
+  }
+
+  getDontAllowButtonLabel() {
+    return this.form.getCancelButtonLabel();
+  }
+
   getScopeItemTexts() {
     return this.form.getInnerTexts('.scope-item-text');
   }
@@ -31,5 +39,33 @@ export default class ConsentPageObject extends BasePageObject {
     });
     const rawText = await textChildren.textContent;
     return rawText.trim();
+  }
+
+  getConsentAgreementText() {
+    return this.getTextContent('.consent-description');
+  }
+
+  getGranularHeaderClientName() {
+    return this.getTextContent('.title-text > b');
+  }
+
+  getGranularHeaderText() {
+    return this.getTextContent('.title-text > p');
+  }
+
+  getScopeCheckBoxLabels() {
+    return this.form.getInnerTexts('label');
+  }
+
+  getDisabledCheckBoxLabels() {
+    return this.form.getInnerTexts(':disabled ~ label');
+  }
+
+  getScopeCheckBoxValue(name) {
+    return this.form.getCheckboxValue(name);
+  }
+
+  setScopeCheckBox(name, value) {
+    return this.form.setCheckbox(name, value);
   }
 }

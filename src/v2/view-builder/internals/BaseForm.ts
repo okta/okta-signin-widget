@@ -125,7 +125,7 @@ export default Form.extend({
   },
 
   addInputOrView(input) {
-    if (input.visible === false || input.mutable === false) {
+    if (input.visible === false || (input.mutable === false && input.visible !== true)) {
       return;
     }
     if (input.View) {
