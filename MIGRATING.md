@@ -28,6 +28,20 @@ The existing `.widgetrc` file used to configure the Widget has been **removed**.
 
 ## Migrating from 5.x to 6.x
 
+### Enable synthetic imports for TypeScript apps
+
+If you're using TypeScript, you'll need to enable synthetic imports in your `tsconfig.json`.
+
+```json
+{
+  ...
+  "angularCompilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    ...
+  }
+}
+```
+
 ### Minimum version of `@okta/okta-auth-js` is `6.0.0`
 
 If you are creating an instance of [@okta/okta-auth-js](https://github.com/okta/okta-auth-js) and passing it to the widget using the [authClient](https://github.com/okta/okta-signin-widget#authClient) option, the instance must be version `6.0.0` or higher.
