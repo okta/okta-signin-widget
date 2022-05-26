@@ -300,6 +300,8 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     const authClient = this.settings.getAuthClient();
     delete authClient.options['recoveryToken'];
     this.settings.unset('recoveryToken');
+    // clear otp (email magic link), if any
+    this.settings.unset('otp');
 
     // Re-render the widget
     this.render(this.controller.constructor);

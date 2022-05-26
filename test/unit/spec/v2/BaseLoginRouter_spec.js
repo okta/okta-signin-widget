@@ -143,6 +143,26 @@ describe('v2/BaseLoginRouter', function() {
       expect(router.render).toHaveBeenCalled();
       expect(clearInsideRender).toBe(true);
     });
+    it('clears the otp (before render)', () => {
+      const otp = '123456';
+      setup({
+        useInteractionCodeFlow: true,
+        otp
+      });
+      const { router } = testContext;
+      const { settings } = router;
+      expect(settings.get('otp')).toBe(otp);
+
+      router.controller = {};
+      let clearInsideRender = false;
+      jest.spyOn(router, 'render').mockImplementation(() => {
+        expect(settings.get('otp')).toBe(undefined);
+        clearInsideRender = true;
+      });
+      router.appState.trigger('restartLoginFlow');
+      expect(router.render).toHaveBeenCalled();
+      expect(clearInsideRender).toBe(true);
+    });
   });
 
   describe('ephemeral settings', () => {

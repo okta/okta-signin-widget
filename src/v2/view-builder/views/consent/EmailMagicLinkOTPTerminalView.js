@@ -26,7 +26,9 @@ const getTerminalOtpEmailMagicLinkContext = (settings, appState) => {
   const client = appState.get('client');
   const challengeIntent = challengeIntentToFlowMap[appState.get('idx').context.intent];
   let enterCodeOnFlowPage, appName, browserOnOsString, isMobileDevice, geolocation;
-  enterCodeOnFlowPage = loc('idx.return.link.otponly.enter.code.on.page', 'login', [challengeIntent]);
+  enterCodeOnFlowPage = challengeIntent
+    ? loc('idx.return.link.otponly.enter.code.on.page', 'login', [challengeIntent])
+    : loc('idx.enter.otp.in.original.tab', 'login');
   if (app) {
     appName = loc('idx.return.link.otponly.app', 'login', [app.label]);
   }
