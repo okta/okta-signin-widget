@@ -17,6 +17,7 @@ import PollView from './views/PollView';
 // consent
 import AdminConsentView from './views/consent/AdminConsentView';
 import EnduserConsentView from './views/consent/EnduserConsentView';
+import GranularConsentView from './views/consent/GranularConsentView';
 import EnduserEmailConsentView from './views/consent/EnduserEmailConsentView';
 
 // Device (Okta Verify)
@@ -156,6 +157,9 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.CONSENT_ENDUSER]: {
     [DEFAULT]: EnduserConsentView
+  },
+  [RemediationForms.CONSENT_GRANULAR]: {
+    [DEFAULT]: GranularConsentView
   },
   [RemediationForms.CONSENT_EMAIL_CHALLENGE]: {
     [DEFAULT]: EnduserEmailConsentView,

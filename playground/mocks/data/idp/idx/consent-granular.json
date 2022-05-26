@@ -1,0 +1,140 @@
+{
+  "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+  "expiresAt": "2018-09-17T23:08:56.000Z",
+  "version": "1.0.0",
+  "intent": "login",
+  "remediation": {
+    "type": "array",
+    "value": [{
+      "rel": [
+        "create-form"
+      ],
+      "name": "granular-consent",
+      "href": "http://localhost:3000/idp/idx/consent",
+      "method": "POST",
+      "accepts": "application/ion+json; okta-version=1.0.0",
+      "produces": "application/ion+json; okta-version=1.0.0",
+      "value": [
+        {
+          "name": "consent",
+          "type": "boolean",
+          "visible": false,
+          "required": true
+        },
+        {
+          "name": "optedScopes",
+          "form": {
+            "value": [
+              {
+                "name": "openid",
+                "type": "boolean",
+                "required": true,
+                "value": true,
+                "visible": true,
+                "mutable": false
+              },
+              {
+                "name": "custom1",
+                "label": "View your mobile phone data plan.",
+                "desc": "This allows the app to view your mobile phone data plan.",
+                "type": "boolean",
+                "required": true,
+                "value": true,
+                "visible": true,
+                "mutable": true
+              },
+              {
+                "name": "custom2",
+                "label": "View your internet search history.",
+                "type": "boolean",
+                "required": true,
+                "value": true,
+                "visible": true,
+                "mutable": true
+              },
+              {
+                "name": "email",
+                "label": "View your email address.",
+                "desc": "This allows the app to view your email address.",
+                "type": "boolean",
+                "required": true,
+                "value": true,
+                "visible": true,
+                "mutable": true
+              },
+              {
+                "name": "profile",
+                "label": "View your profile information.",
+                "type": "boolean",
+                "required": true,
+                "value": true,
+                "visible": true,
+                "mutable": false
+              }
+            ]
+          }
+        },
+        {
+          "name": "stateHandle",
+          "required": true,
+          "value": "02tZJpxD03j1a3qaPcSsi16yDtqMZgfetf8OvWOepP",
+          "visible": false,
+          "mutable": false
+        }
+      ]
+    }
+    ]
+  },
+  "cancel": {
+    "rel": ["create-form"],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "accepts": "application/ion+json; okta-version=1.0.0",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [{
+      "name": "stateHandle",
+      "value": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+      "visible": false
+    }]
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "oidc_client",
+      "label": "Native client",
+      "id": "0oa4mwdegX1GLIJy00g4",
+      "termsOfService": {
+        "href": "https://example.com/tos",
+        "rel": ["terms-of-service"]
+      },
+      "privacyPolicy": {
+        "href": "https://example.com/privacypolicy",
+        "rel": ["privacy-policy"]
+      },
+      "logo": {
+        "rel": ["icon"],
+        "alt": "Logo for the app"
+      },
+      "clientUri" : {
+        "href" : "https://client._funky-ch4rs.com"
+      }
+    }
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u4mufzdKWDb8hbC0g4",
+      "identifier": "testUser@okta.com"
+    }
+  },
+  "authentication":{
+    "type": "object",
+    "value" : {
+      "protocol":"OAUTH2.0",
+      "issuer":{
+        "uri":"http://localhost:3000"
+      }
+    }
+  }
+}
