@@ -50,7 +50,7 @@ const Body = BaseForm.extend({
     if (hasErrors) {
       error.responseJSON.errorCauses.forEach((err) => {
         // only do this for invalid password for password with SSR
-        if (err.errorKey.includes('password.passwordRequirementsNotMet')) {
+        if (err.errorKey?.includes('password.passwordRequirementsNotMet')) {
           err.errorSummary = loc('registration.error.password.passwordRequirementsNotMet', 'login');
         } 
       });

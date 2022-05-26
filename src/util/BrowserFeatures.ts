@@ -86,7 +86,7 @@ fn.isIOS = function() {
 fn.getUserLanguages = function() {
   // Chrome, Firefox
   if (navigator.languages) {
-    return navigator.languages;
+    return [...navigator.languages];
   }
 
   const languages = [];
