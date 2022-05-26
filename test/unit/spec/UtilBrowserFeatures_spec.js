@@ -8,7 +8,7 @@ describe('util/BrowserFeatures', () => {
       let result = null;
       try {
         result = BrowserFeatures.getUserLanguages();
-        result[0] = 'foo'
+        result[0] = 'foo';
       }
       catch (err) {
         errorThrown = true;
