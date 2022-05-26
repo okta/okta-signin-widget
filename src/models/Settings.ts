@@ -213,7 +213,7 @@ const derived: Record<string, ModelProperty>  = {
   languageCode: {
     deps: ['language', 'supportedLanguages'],
     fn: function(language, supportedLanguages) {
-      const userLanguages = BrowserFeatures.getUserLanguages();
+      let userLanguages = BrowserFeatures.getUserLanguages();
 
       // TODO: revisit this fix - OKTA-491150
       userLanguages.forEach((val, idx) => {
