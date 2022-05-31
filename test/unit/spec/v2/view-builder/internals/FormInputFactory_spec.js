@@ -523,6 +523,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
           ],
         },
         authenticatorKey: 'custom_app',
+        iconClassName: 'mfa-custom-app-logo',
         description: 'Custom Push App',
         buttonDataSeAttr: 'custom_app',
         logoUri: 'https://cdn.okta1.com/bc/globalFileStoreRecord?id=gfs3sti6DQ7A9vS3h0g4',
@@ -619,6 +620,139 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
       ],
       name: 'authenticator',
     });
+  });
+
+  it('filters custom app with same id for authenticatorVerify Select type', function() {
+    const opt = {
+      type: 'authenticatorVerifySelect',
+      options: [
+        {
+          label: 'Get a push notification',
+          value: {
+            id: 'aut12xcv427OZQ38l0g6',
+          },
+          relatesTo: {
+            profile: {
+              deviceName: 'sdk_gphone_x86',
+            },
+            type: 'app',
+            key: 'custom_app',
+            id: 'pfd16kscouwDK87V20g6',
+            displayName: 'Atko Corp Authenticator',
+            methods: [
+              {
+                type: 'push',
+              },
+            ],
+          },
+          authenticatorKey: 'custom_app',
+        },
+        {
+          label: 'Get a push notification',
+          value: {
+            id: 'aut12nog8HmlqOJ8U0g6',
+          },
+          relatesTo: {
+            profile: {
+              deviceName: 'iPhone 1',
+            },
+            type: 'app',
+            key: 'custom_app',
+            id: 'pfd16z8437KOYzzZ30g6',
+            displayName: 'Custom Push Authenticator 1',
+            methods: [
+              {
+                type: 'push',
+              },
+            ],
+          },
+          authenticatorKey: 'custom_app',
+        },
+        {
+          label: 'Get a push notification',
+          value: {
+            id: 'aut12nog8HmlqOJ8U0g6',
+          },
+          relatesTo: {
+            profile: {
+              deviceName: 'iPhone 2',
+            },
+            type: 'app',
+            key: 'custom_app',
+            id: 'pfd16z6k8ICPIJUO50g6',
+            displayName: 'Custom Push Authenticator 1',
+            methods: [
+              {
+                type: 'push',
+              },
+            ],
+          },
+          authenticatorKey: 'custom_app',
+        }
+      ],
+      name: 'authenticator',
+    };
+    const result = FormInputFactory.create(opt);
+    expect(result).toEqual({
+      View: AuthenticatorVerifyOptions,
+      options: {
+        collection: jasmine.anything(),
+        name: 'authenticator',
+      },
+    });
+    expect(result.options.collection instanceof Collection).toBe(true);
+    expect(result.options.collection.toJSON()).toEqual([
+      {
+        label: 'Get a push notification',
+        value: {
+          id: 'aut12xcv427OZQ38l0g6',
+        },
+        relatesTo: {
+          profile: {
+            deviceName: 'sdk_gphone_x86',
+          },
+          type: 'app',
+          key: 'custom_app',
+          id: 'pfd16kscouwDK87V20g6',
+          displayName: 'Atko Corp Authenticator',
+          methods: [
+            {
+              type: 'push',
+            },
+          ],
+        },
+        authenticatorKey: 'custom_app',
+        description: 'Atko Corp Authenticator',
+        buttonDataSeAttr: 'custom_app',
+        iconClassName: 'mfa-custom-app-logo',
+        logoUri: '',
+      },
+      {
+        label: 'Get a push notification',
+        value: {
+          id: 'aut12nog8HmlqOJ8U0g6',
+        },
+        relatesTo: {
+          profile: {
+            deviceName: 'iPhone 1',
+          },
+          type: 'app',
+          key: 'custom_app',
+          id: 'pfd16z8437KOYzzZ30g6',
+          displayName: 'Custom Push Authenticator 1',
+          methods: [
+            {
+              type: 'push',
+            },
+          ],
+        },
+        authenticatorKey: 'custom_app',
+        description: 'Custom Push Authenticator 1',
+        buttonDataSeAttr: 'custom_app',
+        iconClassName: 'mfa-custom-app-logo',
+        logoUri: '',
+      },
+    ]);
   });
 
   it('handles authenticatorEnrollSelect type', function() {

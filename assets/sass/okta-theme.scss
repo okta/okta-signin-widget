@@ -630,6 +630,14 @@
     }
   }
 
+  .mfa-custom-app-logo {
+    background-image: url('../img/icons/mfa/custom-app-default-logo.svg');
+    background-size: 70%;
+    &.custom-logo {
+      background-size: contain;
+    }
+  }
+
   .icon--app {
     /* -- Factor Icons (large): Webauthn -- */
     background-image: url('../img/icons/mfa/app_70x70.png');
