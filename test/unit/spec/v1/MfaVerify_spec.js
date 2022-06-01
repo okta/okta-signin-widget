@@ -2456,7 +2456,9 @@ Expect.describe('MFA Verify', function() {
               spyOn(SharedUtil, 'redirect');
               Util.resetAjaxRequests();
               test.setNextResponse(resCancel);
-              test.form.signoutLink($sandbox).click();
+              const $signOut = test.form.signoutLink($sandbox);
+              expect($signOut.text()).toBe('Back to sign in');
+              $signOut.click();
               return Expect.wait(function() {
                 return RouterUtil.routeAfterAuthStatusChange.calls.count() > 0;
               }, test);

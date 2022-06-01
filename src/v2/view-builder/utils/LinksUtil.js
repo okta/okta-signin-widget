@@ -95,38 +95,43 @@ const getSkipSetupLink = (appState, linkName) => {
   return [];
 };
 
+// When there is a 'cancel' object in remediation
 const getSignOutLink = (settings, options = {}) => {
-  if (settings?.get('signOutLink')) {
+  if (settings?.get('backToSignInUri')) {
     return [
       {
-        'label': loc('signout', 'login'),
+        'label': loc('goback', 'login'),
         'name': 'cancel',
-        'href': settings.get('signOutLink')
-      },
-    ];
-  } else {
-    return [
-      {
-        'actionPath': 'cancel',
-        'label': !options.label ? loc('goback', 'login') : options.label,
-        'name': 'cancel',
-        'type': 'link'
+        'href': settings.get('backToSignInUri')
       },
     ];
   }
+
+  return [
+    {
+      'actionPath': 'cancel',
+      'label': !options.label ? loc('goback', 'login') : options.label,
+      'name': 'cancel',
+      'type': 'link'
+    },
+  ];
 };
 
 // Use it to create a widget configured link in the absence of `cancel` object in remediation
 const getBackToSignInLink = ({settings, appState}) => {
   const link = {};
 
+  // If backToSignInLink is set, use this value for all scenarios
+  if (settings?.get('backToSignInUri')) {
+    link.href = settings.get('backToSignInUri');
+  }
   // embedded scenarios
-  if (settings?.get('useInteractionCodeFlow')) {
+  else if (settings?.get('useInteractionCodeFlow')) {
     link.clickHandler = () => {
       appState.trigger('restartLoginFlow');
     };
   }
-  // okta-hosted scenarios
+  // fallback for okta-hosted scenarios (backend should set signOutLink or backToSignOutLink)
   else {
     link.href = settings?.get('baseUrl');
   }

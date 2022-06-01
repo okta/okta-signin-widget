@@ -346,6 +346,8 @@ Expect.describe('PasswordExpiration', function() {
               resSessionActive,
               resSessionDeleted
             ]);
+            const $signOut = test.form.signoutLink($sandbox);
+            expect($signOut.text()).toBe('Sign Out'); // The link on this view says "Sign Out" instead of "Back to sign in"
             test.form.signout();
             return Expect.waitForAjaxRequest(test);
           })

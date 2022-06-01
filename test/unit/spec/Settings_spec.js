@@ -72,4 +72,19 @@ describe('models/Settings', () => {
       expect(spy).toHaveBeenCalled();
     });
   });
+
+  describe('backToSignInUri', () => {
+    it('can be set using `signOutLink`', () => {
+      const settings = new Settings({ baseUrl: 'http://base', signOutLink: 'http://foo' });
+      expect(settings.get('backToSignInUri')).toBe('http://foo');
+    });
+    it('can be set using `backToSignInLink`', () => {
+      const settings = new Settings({ baseUrl: 'http://base', backToSignInLink: 'http://foo' });
+      expect(settings.get('backToSignInUri')).toBe('http://foo');
+    });
+    it('`backToSignInLink` takes precedence over `signOutLink`', () => {
+      const settings = new Settings({ baseUrl: 'http://base', backToSignInLink: 'http://foo', signOutLink: 'http://bar' });
+      expect(settings.get('backToSignInUri')).toBe('http://foo');
+    });
+  });
 });

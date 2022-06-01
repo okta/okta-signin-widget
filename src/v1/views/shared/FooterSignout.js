@@ -38,8 +38,8 @@ export default View.extend({
         return transaction.cancel();
       })
       .then(() => {
-        if (this.settings.get('signOutLink') && !isSMSPasswordRecovery) {
-          Util.redirect(this.settings.get('signOutLink'));
+        if (this.settings.get('backToSignInUri') && !isSMSPasswordRecovery) {
+          Util.redirect(this.settings.get('backToSignInUri'));
         } else {
           this.state.set('navigateDir', Enums.DIRECTION_BACK);
           appState.trigger('navigate', '');
