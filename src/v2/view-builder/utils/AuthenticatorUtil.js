@@ -185,6 +185,7 @@ const getAuthenticatorData = function(authenticator, isVerifyAuthenticator) {
         ? authenticator?.relatesTo?.displayName
         : loc('oie.custom.app.authenticator.description', 'login', [authenticator.label]),
       buttonDataSeAttr: getButtonDataSeAttr(authenticator),
+      iconClassName: 'mfa-custom-app-logo',
       logoUri : authenticator?.relatesTo?.logoUri || ''
     });
     break;

@@ -48,6 +48,10 @@
     flex-direction: row;
     align-items: center;
 
+    > div {
+      margin: 0 5px;
+    }
+
     .authenticator-button {
       padding: 0;
     }

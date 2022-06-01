@@ -44,17 +44,18 @@ const createAuthenticatorVerifySelectView = (opt) => {
   // If webauthn enrollments > 1 just show one entry with a generic namne (first) so user doesnt have to select which
   // one to pick. eg) If there is yubikey5 and another unknown u2f key, user cannot identify that easily. We need to
   // do this at least  until users can give authenticator enrollments custom names.
-  let hasSecurityKey = false;
+  const authSet = new Set();
   optionItems = optionItems.filter(opt => {
+    let isDuplicate;
     if (opt.authenticatorKey === AUTHENTICATOR_KEY.WEBAUTHN) {
-      if (!hasSecurityKey) {
-        hasSecurityKey = true;
-        return true;
-      } else {
-        return false;
-      }
-    }
-    return true;
+      isDuplicate = authSet.has(opt.authenticatorKey);
+      authSet.add(opt.authenticatorKey);
+    } else if(opt.authenticatorKey === AUTHENTICATOR_KEY.CUSTOM_APP) {
+      // Filter the duplicate enrollment by id for custom app. 
+      isDuplicate = authSet.has(opt?.value?.id);
+      authSet.add(opt?.value?.id);
+    }  
+    return !isDuplicate;
   });
   optionItems = optionItems.map(opt => {
     return Object.assign({}, opt, getAuthenticatorDataForVerification(opt));
