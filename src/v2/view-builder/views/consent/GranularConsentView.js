@@ -1,8 +1,9 @@
 import { BaseView, BaseForm } from '../../internals';
-import { $, loc, View } from 'okta';
+import { _, $, loc, View } from 'okta';
 import ConsentViewForm from './ConsentViewForm';
 import AdminConsentViewHeader from './AdminConsentViewHeader';
 import EnduserConsentViewFooter from './EnduserConsentViewFooter';
+import ScopeCheckBox from '../../components/ScopeCheckBox';
 import hbs from 'handlebars-inline-precompile';
 
 const granularConsentViewHeader = AdminConsentViewHeader.extend({
@@ -29,7 +30,25 @@ const granularConsentViewHeader = AdminConsentViewHeader.extend({
 });
 
 const granularConsentViewForm = ConsentViewForm.extend({
-  cancel: BaseForm.prototype.cancel
+  cancel: BaseForm.prototype.cancel,
+
+  getUISchema() {
+    const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
+    uiSchemas.forEach(schema => {
+      if (schema.type === 'checkbox') {
+        _.assign(schema, {
+          input: ScopeCheckBox,
+          options: {
+            desc: schema.desc,
+            mutable: schema.mutable,
+            // need to extract scope name because it is in a subform (optedScopes.name)
+            scopeName: schema.name.substring(schema.name.indexOf('.') + 1)
+          }
+        });
+      }
+    });
+    return uiSchemas;
+  }
 });
 
 const GranularConsentAgreementText = View.extend({
