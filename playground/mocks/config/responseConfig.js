@@ -18,7 +18,9 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    'authenticator-verification-data-sspr',
+    'error-401-session-expired'
+    // 'identify',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -175,13 +177,14 @@ const idx = {
     // 'okta-verify-uv-verify-enable-biometrics'
   ],
   '/idp/idx/challenge': [
+    'error-401-session-expired'
     // 'authenticator-verification-webauthn',
     // 'authenticator-verification-password',
     // 'authenticator-verification-okta-verify-totp',
     // 'authenticator-verification-okta-verify-push',
     // 'authenticator-verification-google-authenticator',
-    'error-authenticator-phone-sms-ratelimit',
-    'error-authenticator-phone-voice-ratelimit',
+    // 'error-authenticator-phone-sms-ratelimit',
+    // 'error-authenticator-phone-voice-ratelimit',
   ],
   '/idp/idx/enroll/new': [
     'error-new-signup-email',
@@ -191,7 +194,8 @@ const idx = {
     //'authenticator-enroll-email-emailmagiclink-false'
   ],
   '/idp/idx/cancel': [
-    'identify',
+    'error-401-session-expired'
+    // 'identify',
   ],
   '/idp/idx/recover': [
     'error-forgot-password',
