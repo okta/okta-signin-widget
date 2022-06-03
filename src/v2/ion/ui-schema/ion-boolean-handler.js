@@ -12,8 +12,6 @@
 import { FORMS } from '../RemediationConstants';
 import { loc } from 'okta';
 
-import ScopeCheckBox  from '../../view-builder/components/ScopeCheckBox';
-
 const getCheckboxUiSchema = ({ label, type, required }) => ({
   // For Remember Me checkbox, we need the label only on the right side of it.
   placeholder: label,
@@ -44,20 +42,6 @@ const getCheckboxUiSchemaWithDefaultValue = ({ label, type }) => ({
   value: false,
 });
 
-const getScopeCheckBoxUiSchema = ({ name, label, type, required, desc, mutable }) => ({
-  input: ScopeCheckBox,
-  placeholder: label,
-  label: false,
-  modelType: type,
-  required: required || false,
-  options: {
-    desc,
-    mutable,
-    // need to extract scope name because it is in a subform (optedScopes.name)
-    scopeName: name.substring(name.indexOf('.') + 1)
-  },
-});
-
 const createUiSchemaForBoolean = (ionFormField, remediationForm) => {
   if ([FORMS.CONSENT_ENDUSER, FORMS.CONSENT_ADMIN].includes(remediationForm.name)) {
     const scopes = remediationForm.scopes.map(({name, label, desc}) => {
@@ -68,8 +52,6 @@ const createUiSchemaForBoolean = (ionFormField, remediationForm) => {
     const type = remediationForm.name;
 
     return {type, scopes, options: ionFormField.options};
-  } else if (remediationForm.name === FORMS.CONSENT_GRANULAR) {
-    return getScopeCheckBoxUiSchema(ionFormField);
   } else if (Array.isArray(ionFormField.options) && ionFormField.options[0]?.value?.value?.inputType === 'radio') {
     return getRadioUiSchema(ionFormField);
   } else if (Array.isArray(ionFormField.options) && ionFormField.options[0]?.value?.value?.inputType === 'checkbox') {
