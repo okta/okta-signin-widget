@@ -125,8 +125,8 @@ const getBackToSignInLink = ({settings, appState}) => {
   if (settings?.get('backToSignInUri')) {
     link.href = settings.get('backToSignInUri');
   }
-  // embedded scenarios
-  else if (settings?.get('useInteractionCodeFlow')) {
+  // fallback for embedded scenarios
+  else if (settings?.get('oauth2Enabled')) {
     link.clickHandler = () => {
       appState.trigger('restartLoginFlow');
     };

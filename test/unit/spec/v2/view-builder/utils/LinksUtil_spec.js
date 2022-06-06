@@ -179,7 +179,7 @@ describe('v2/utils/LinksUtil', function() {
       it('by default, returns `clickHandler` instead of `href`', () => {
         const settings = new Settings({
           baseUrl: 'https://foo',
-          useInteractionCodeFlow: true
+          clientId: 'abc'
         });
         const result = getBackToSignInLink({appState, settings});
         expect(result).toBeInstanceOf(Array);
@@ -195,7 +195,7 @@ describe('v2/utils/LinksUtil', function() {
       it('if `backToSignInLink` is set, returns `href` with value of `backToSignInLink`', () => {
         const settings = new Settings({
           baseUrl: 'https://foo',
-          useInteractionCodeFlow: true,
+          clientId: 'abc',
           backToSignInLink: 'https://okta.com',
         });
         const result = getBackToSignInLink({ appState, settings });
@@ -213,7 +213,7 @@ describe('v2/utils/LinksUtil', function() {
       it('(compat) if `signOutLink` is set, returns `href` with value of `signOutLink`', () => {
         const settings = new Settings({
           baseUrl: 'https://foo',
-          useInteractionCodeFlow: true,
+          clientId: 'abc',
           signOutLink: 'https://okta.com',
         });
         const result = getBackToSignInLink({ appState, settings });

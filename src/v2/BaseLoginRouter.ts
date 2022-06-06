@@ -71,8 +71,7 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
       };
     }
 
-    this.settings = new Settings(_.omit(options, 'el', 'authClient', 'hooks'), { parse: true });
-    this.settings.setAuthClient(options.authClient);
+    this.settings = new Settings(_.omit(options, 'el', 'hooks'), { parse: true });
 
     if (!options.el) {
       this.settings.callGlobalError(new Errors.ConfigError(loc('error.required.el')));
@@ -126,7 +125,7 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     }    
 
     const lastResponse = this.appState.get('idx');
-    const useInteractionCodeFlow = this.settings.get('useInteractionCodeFlow');
+    const useInteractionCodeFlow = this.settings.get('oauth2Enabled');
     if (useInteractionCodeFlow) {
       if (idxResponse.interactionCode) {
         // Although session.stateHandle isn't used by interation flow,
@@ -206,35 +205,30 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
       await LanguageUtil.loadLanguage(this.appState, this.settings);
     }
 
-    // introspect stateToken when widget is bootstrap with state token
-    // and remove it from `settings` afterwards as IDX response always has
-    // state token (which will be set into AppState)
-    if (this.settings.get('oieEnabled')) {
-      try {
-        let idxResp = await startLoginFlow(this.settings);
-        if (idxResp.error) {
-          this.appState.trigger('remediationError', idxResp.error);
-        } else {
-          if (this.settings.get('flow') && !this.hasControllerRendered) {
-            idxResp = await handleConfiguredFlow(idxResp, this.settings);
-          }
-
-          // TODO: OKTA-494979 - temporary fix, remove when auth-js is upgraded to 6.6+
-          if (!idxResp.requestDidSucceed && IonHelper.isIdxSessionExpiredError(idxResp)) {
-            // clear transaction subsequent page loads do not use stale interactionHandle
-            const authClient = this.settings.getAuthClient();
-            authClient.transactionManager.clear();
-          }
-
-          this.appState.trigger('updateAppState', idxResp);
+    try {
+      let idxResp = await startLoginFlow(this.settings);
+      if (idxResp.error) {
+        this.appState.trigger('remediationError', idxResp.error);
+      } else {
+        if (this.settings.get('flow') && !this.hasControllerRendered) {
+          idxResp = await handleConfiguredFlow(idxResp, this.settings);
         }
-      } catch (exception) {
-        this.appState.trigger('error', exception);
-      } finally {
-        // These settings should only be used one time, for initial render
-        this.settings.unset('stateToken');
-        this.settings.unset('proxyIdxResponse');
+
+        // TODO: OKTA-494979 - temporary fix, remove when auth-js is upgraded to 6.6+
+        if (!idxResp.requestDidSucceed && IonHelper.isIdxSessionExpiredError(idxResp)) {
+          // clear transaction subsequent page loads do not use stale interactionHandle
+          const authClient = this.settings.getAuthClient();
+          authClient.transactionManager.clear();
+        }
+
+        this.appState.trigger('updateAppState', idxResp);
       }
+    } catch (exception) {
+      this.appState.trigger('error', exception);
+    } finally {
+      // These settings should only be used one time, for initial render
+      this.settings.unset('stateToken');
+      this.settings.unset('proxyIdxResponse');
     }
 
     // Load the custom colors only on the first render

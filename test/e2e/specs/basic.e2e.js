@@ -7,6 +7,7 @@ const {
   WIDGET_TEST_SERVER,
   WIDGET_BASIC_USER,
   WIDGET_BASIC_PASSWORD,
+  WIDGET_SPA_CLIENT_ID
 } = process.env;
 
 describe('Basic flows', () => {
@@ -14,6 +15,9 @@ describe('Basic flows', () => {
   beforeEach(async () => {
     config = {
       baseUrl: WIDGET_TEST_SERVER,
+      clientId: WIDGET_SPA_CLIENT_ID,
+      redirectUri: 'http://localhost:3000/done',
+      useClassicEngine: true,
       authParams: {
         pkce: false
       }

@@ -28,7 +28,6 @@ const ignoredMocks = [
 
 const optionsForInteractionCodeFlow = {
   clientId: 'fake',
-  useInteractionCodeFlow: true,
   authParams: {
     ignoreSignature: true,
     pkce: true,
