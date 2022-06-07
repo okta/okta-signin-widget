@@ -87,7 +87,6 @@ module.exports = function(outputFilename, mode = 'development') {
             ].some(filePathContains);
             const shallBeExcluded = [
               '/node_modules/',
-              'packages/@okta/courage-dist',
               'packages/@okta/qtip2',
               'okta-auth-js'
             ].some(filePathContains);
