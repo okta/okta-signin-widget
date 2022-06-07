@@ -50,7 +50,8 @@ export default class BasePageObject {
         return acc + encodeURIComponent(cur) + '=' + encodeURIComponent(queryParams[cur]);
       }, '');
     }
-    await this.t.navigateTo(`http://localhost:3000${this.url}${qs}`);
+    const hostname = process.env.OKTA_SIW_HOST || 'localhost';
+    await this.t.navigateTo(`http://${hostname}:3000${this.url}${qs}`);
   }
 
   async preventRedirect(toUrls) {
