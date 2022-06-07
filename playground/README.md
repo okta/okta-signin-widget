@@ -60,6 +60,10 @@ Luckily, testcafe has its own API to [intercept http request and mock response](
 
 In summary, testcafe tests are using playground application but not mock sever. Mock server is only intended to be used during manually testing, bug reproduction.
 
+## Testing minified CDN bundle
+
+Run `yarn build:webpack-release` to generate CDN bundle. Open `http://localhost:3000/cdn.html` to test the minified bundle loads and renders correctly. Saucelabs tunnel can be used to test in IE11. Although you can use mocks via responseConfig, the `.widgetrc.js` file will not be loaded. Configuration can be edited directly in `cdn.html`. 
+
 ## Some thoughts on enhancement
 
 ### JSON mock files
