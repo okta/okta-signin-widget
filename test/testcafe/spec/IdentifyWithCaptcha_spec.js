@@ -48,7 +48,8 @@ async function setup(t) {
   return identityPage;
 }
 
-test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign in with hCaptcha enabled', async t => {
+// TODO: enable this test OKTA-504996
+test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha).skip('should sign in with hCaptcha enabled', async t => {
   const identityPage = await setup(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
