@@ -84,7 +84,7 @@ module.exports = {
     headers: {
       // Allow google domains for testing recaptcha
       // eslint-disable-next-line max-len
-      'Content-Security-Policy': `script-src http://${HOST}:${DEV_SERVER_PORT} https://www.google.com https://www.gstatic.com`
+      'Content-Security-Policy': `script-src http://${HOST}:${DEV_SERVER_PORT} https://www.google.com https://www.gstatic.com https://hcaptcha.com`
     },
     compress: true,
     port: DEV_SERVER_PORT,
