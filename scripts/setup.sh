@@ -14,6 +14,12 @@ setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
 
 cd ${OKTA_HOME}/${REPO}
 
+if ! yarn install --ignore-scripts ; then
+  echo "yarn install failed! Exiting..."
+  exit ${FAILED_SETUP}
+fi
+
+
 if [ ! -z "$AUTHJS_VERSION" ]; then
   echo "Installing AUTHJS_VERSION: ${AUTHJS_VERSION}"
   npm config set strict-ssl false
@@ -24,9 +30,4 @@ if [ ! -z "$AUTHJS_VERSION" ]; then
   fi
   
   echo "AUTHJS_VERSION installed: ${AUTHJS_VERSION}"
-fi
-
-if ! yarn install ; then
-  echo "yarn install failed! Exiting..."
-  exit ${FAILED_SETUP}
 fi
