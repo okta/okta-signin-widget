@@ -14,20 +14,19 @@ setup_service yarn 1.21.1 /etc/pki/tls/certs/ca-bundle.crt
 
 cd ${OKTA_HOME}/${REPO}
 
-if ! yarn install --ignore-scripts ; then
-  echo "yarn install failed! Exiting..."
-  exit ${FAILED_SETUP}
-fi
-
-
 if [ ! -z "$AUTHJS_VERSION" ]; then
   echo "Installing AUTHJS_VERSION: ${AUTHJS_VERSION}"
   npm config set strict-ssl false
 
-  if ! yarn add -DW --no-lockfile https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-${AUTHJS_VERSION}.tgz ; then
+  if ! yarn add -DW --focus https://artifacts.aue1d.saasure.com/artifactory/npm-topic/@okta/okta-auth-js/-/@okta/okta-auth-js-${AUTHJS_VERSION}.tgz ; then
     echo "AUTHJS_VERSION could not be installed: ${AUTHJS_VERSION}"
     exit ${FAILED_SETUP}
   fi
   
   echo "AUTHJS_VERSION installed: ${AUTHJS_VERSION}"
+fi
+
+if ! yarn install ; then
+  echo "yarn install failed! Exiting..."
+  exit ${FAILED_SETUP}
 fi
