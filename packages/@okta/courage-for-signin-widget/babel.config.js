@@ -42,10 +42,19 @@ const targets = {
   node: 'current'
 };
 
+const ignore = [
+  // These files are already minified and cause an error in babel
+  'src/courage/vendor/lib/pendo.xhr.2.110.2-personal.js',
+  'src/courage/vendor/lib/pendo.xhr.2.110.2.js',
+  'src/courage/vendor/lib/pendo.xhr.2.121.0-personal.js',
+  'src/courage/vendor/lib/pendo.xhr.2.121.0.js'
+];
+
 const babelConfig = {
   presets,
   plugins,
   targets,
+  ignore,
   inputSourceMap: true,
   sourceMaps: true
 };
