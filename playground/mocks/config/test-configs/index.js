@@ -13,6 +13,7 @@ module.exports = {
   Identify: require('./Identify'),
   IdentifyRegistrationHooks: require('./IdentifyRegistrationHooks'),
   IdentifyUnknownUser: require('./IdentifyUnknownUser'),
+  IdentifyWithCaptcha: require('./IdentifyWithCaptcha'),
   IdentifyWithRememberUsername: require('./IdentifyWithRememberUsername'),
   ReEnrollAuthenticatorPasswordView: require('./ReEnrollAuthenticatorPasswordView'),
   ReEnrollAuthenticatorWarningPasswordView: require('./ReEnrollAuthenticatorWarningPasswordView'),
