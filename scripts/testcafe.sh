@@ -9,8 +9,7 @@ export TEST_RESULT_FILE_DIR="${REPO}/build2/reports/junit"
 echo $TEST_SUITE_TYPE > $TEST_SUITE_TYPE_FILE
 echo $TEST_RESULT_FILE_DIR > $TEST_RESULT_FILE_DIR_FILE
 
-export OKTA_SIW_HOST="rain.okta1.com"
-cat /etc/hosts
+export OKTA_SIW_HOST="test.okta1.com"
 
 if ! yarn test:testcafe-ci; then
   echo "testcafe tests failed! Exiting..."
