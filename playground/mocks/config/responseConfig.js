@@ -104,7 +104,7 @@ const idx = {
     // 'oda-enrollment-android',
     // 'mdm-enrollment',
     // 'authenticator-verification-custom-app-push',
-    // 'authenticator-enroll-custom-app-push'    
+    // 'authenticator-enroll-custom-app-push'
   ],
   '/idp/idx/enroll': [
     'enroll-profile-new',
@@ -219,7 +219,7 @@ const emailActivation = {
 const consent = {
   '/idp/idx/introspect': [
     // 'consent-admin',
-    'consent-enduser',
+    'consent-enduser-granular-consent',
   ],
   '/idp/idx/consent': [
     // note that the success 'href' is in reality a redirect (i.e. /login/token/redirect?stateToken={{stateToken}})
@@ -1053,5 +1053,5 @@ const selectOktaVerifyMethod = {
 };
 
 module.exports = {
-  mocks: idx
+  mocks: consent,
 };

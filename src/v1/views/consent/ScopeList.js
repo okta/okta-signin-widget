@@ -12,18 +12,34 @@
 
 import { View } from 'okta';
 import ScopeItem from './ScopeItem';
+import ScopeItemWithCheckbox from './ScopeItemWithCheckbox';
 export default View.extend({
   className: 'scope-list detail-row',
 
   postRender: function() {
-    this.model.get('scopes').forEach(scope => {
-      this.add(ScopeItem, {
-        options: {
-          name: scope.displayName || scope.name,
-          description: scope.description,
-          isCustomized: scope.isCustomized,
-        },
+    var scopes = this.model.get('scopes');
+    if (scopes.some(scope => typeof scope.required === 'undefined')) {
+      scopes.forEach((scope) => {
+        this.add(ScopeItem, {
+          options: {
+            name: scope.displayName || scope.name,
+            description: scope.description,
+            isCustomized: scope.isCustomized,
+          },
+        });
       });
-    });
+    } else {
+      scopes.sort((a,b) => Number(a.required) - Number(b.required));
+      scopes.forEach((scope) => {
+        this.add(ScopeItemWithCheckbox, {
+          options: {
+            name: scope.displayName || scope.name,
+            description: scope.description,
+            required: scope.required,
+            isCustomized: scope.isCustomized,
+          },
+        });
+      });
+    }
   },
 });

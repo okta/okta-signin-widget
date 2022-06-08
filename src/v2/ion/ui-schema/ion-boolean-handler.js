@@ -33,10 +33,19 @@ const getRadioUiSchema = ({ label, required, options }) => ({
 });
 
 const createUiSchemaForBoolean = (ionFormField, remediationForm) => {
-  if ([FORMS.CONSENT_ENDUSER, FORMS.CONSENT_ADMIN].includes(remediationForm.name)) {
-    const scopes = remediationForm.scopes.map(({name, label, desc}) => {
-      return {name, displayName: label, description: desc};
-    });
+  if (
+    [FORMS.CONSENT_ENDUSER, FORMS.CONSENT_ADMIN].includes(remediationForm.name)
+  ) {
+    const scopes = remediationForm.scopes.map(
+      ({ name, label, desc, required }) => {
+        return {
+          name,
+          displayName: label,
+          description: desc,
+          required: required,
+        };
+      }
+    );
 
     // setting 'type' here to add a specific View in FormInputFactory.create
     const type = remediationForm.name;
