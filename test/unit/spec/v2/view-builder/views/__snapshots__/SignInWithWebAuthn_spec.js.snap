@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`v2/view-builder/views/signin/SignInWithWebAuthn should render the signin with biometric button 1`] = `
+<div
+  class="sign-in-with-webauthn-option"
+>
+  <div
+    class="okta-webauthn-container"
+  >
+    <a
+      class="button link-button link-button-icon"
+      data-se="button"
+      href="#"
+    >
+      <span
+        class="icon okta-webauthn-authenticator"
+      />
+      Sign in with security key or biometric
+    </a>
+  </div>
+  <div
+    class="separation-line"
+  >
+    <span>
+      or
+    </span>
+  </div>
+</div>
+`;

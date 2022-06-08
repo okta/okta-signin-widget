@@ -1,5 +1,7 @@
-.sign-in-with-device-option {
-  .okta-verify-container {
+.sign-in-with-device-option,
+.sign-in-with-webauthn-option {
+  .okta-verify-container,
+  .okta-webauthn-container {
     text-align: center;
   }
 }
@@ -24,9 +26,11 @@
 }
 
 .sign-in-with-device-option,
+.sign-in-with-webauthn-option,
 .sign-in-with-idp,
 .custom-buttons {
-  .okta-verify-container {
+  .okta-verify-container,
+  .okta-webauthn-container {
     .signin-with-ov-description {
       margin-bottom: 0.83em;
     }
