@@ -176,6 +176,18 @@
     border-bottom-color: $form-divider-color;
   }
 
+  .okta-webauthn-authenticator {
+    /* -- Okta Verify Authenticator (small) -- */
+    background-image: url('../img/icons/mfa/webauthn_authenticator.png');
+
+    @media
+      (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
+      /* -- Webauthn Authenticator Icons (high DPI) -- */
+      background-image: url('../img/icons/mfa/webauthn_authenticator@2x.png');
+    }
+  }
+
   .okta-verify-authenticator {
     /* -- Okta Verify Authenticator (small) -- */
     background-image: url('../img/icons/mfa/oktaVerify_authenticator.png');
