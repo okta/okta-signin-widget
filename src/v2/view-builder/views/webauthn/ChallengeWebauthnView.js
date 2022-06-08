@@ -68,7 +68,7 @@ const Body = BaseForm.extend({
     const relatesToObject = this.options.currentViewState.relatesTo;
     const authenticatorData = relatesToObject?.value || {};
     const allowCredentials = [];
-    const authenticatorEnrollments = this.options.appState.get('authenticatorEnrollments').value || [];
+    const authenticatorEnrollments = this.options.appState.get('authenticatorEnrollments')?.value || [];
     authenticatorEnrollments.forEach((enrollement) => {
       if (enrollement.key === 'webauthn') {
         allowCredentials.push({
@@ -88,11 +88,14 @@ const Body = BaseForm.extend({
       publicKey: options,
       signal: this.webauthnAbortController.signal
     }).then((assertion) => {
+      const userHandle = CryptoUtil.binToStr(assertion.response.userHandle);
+      console.log("userHandle: " + userHandle);
       this.model.set({
         credentials : {
           clientData: CryptoUtil.binToStr(assertion.response.clientDataJSON),
           authenticatorData: CryptoUtil.binToStr(assertion.response.authenticatorData),
           signatureData: CryptoUtil.binToStr(assertion.response.signature),
+          userHandle: userHandle,
         }
       });
       this.saveForm(this.model);
