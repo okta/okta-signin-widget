@@ -23,6 +23,7 @@ import EnduserEmailConsentView from './views/consent/EnduserEmailConsentView';
 import DeviceChallengePollView from './views/device/DeviceChallengePollView';
 import SSOExtensionView from './views/device/SSOExtensionView';
 import SignInDeviceView from './views/device/SignInDeviceView';
+import SignInWebAuthnView from './views/device/SignInWebAuthnView';
 import DeviceEnrollmentTerminalView from './views/device/DeviceEnrollmentTerminalView';
 
 // registration
@@ -125,6 +126,9 @@ const VIEWS_MAPPING = {
   },
   [RemediationForms.LAUNCH_AUTHENTICATOR]: {
     [DEFAULT]: SignInDeviceView,
+  },
+  [RemediationForms.LAUNCH_WEBAUTHN_AUTHENTICATOR]: {
+    [DEFAULT]: SignInWebAuthnView,
   },
   [RemediationForms.DEVICE_APPLE_SSO_EXTENSION]: {
     [DEFAULT]: SSOExtensionView,
