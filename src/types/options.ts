@@ -18,7 +18,7 @@ export interface WidgetOptions extends Partial<Pick<OktaAuthOptions,
   'codeChallengeMethod' |
   'flow'
 >> {
-  el?: string;
+  el?: string | HTMLElement;
   
   // OIDC
   oAuthTimeout?: number;
