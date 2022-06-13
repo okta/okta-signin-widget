@@ -13,3 +13,5 @@ playground/mocks/data/idp/idx/error-empty-response.json
 types/.eslintrc.js
 types/generated
 types/**/*.test-d.ts
+
+src/v3/

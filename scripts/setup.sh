@@ -22,7 +22,7 @@ if [ ! -z "$AUTHJS_VERSION" ]; then
     echo "AUTHJS_VERSION could not be installed: ${AUTHJS_VERSION}"
     exit ${FAILED_SETUP}
   fi
-  
+
   echo "AUTHJS_VERSION installed: ${AUTHJS_VERSION}"
 fi
 
