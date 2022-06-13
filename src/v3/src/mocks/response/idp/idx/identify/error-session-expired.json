@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "The session has expired.",
+        "i18n": {
+          "key": "idx.session.expired"
+        },
+        "class": "ERROR"
+      }
+    ]
+  }
+}

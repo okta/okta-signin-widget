@@ -1,0 +1,119 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SecurityQuestionEnroll Tests should create security question enrollment UI elements 1`] = `
+Object {
+  "schema": Object {
+    "properties": Object {
+      "credentials": Object {
+        "properties": Object {
+          "answer": Object {
+            "type": "string",
+          },
+          "question": Object {
+            "type": "string",
+          },
+          "questionKey": Object {
+            "enum": Array [
+              "custom",
+              "eternal",
+            ],
+            "type": "string",
+          },
+        },
+        "required": Array [
+          "answer",
+          "questionKey",
+        ],
+        "type": "object",
+      },
+      "questionType": Object {
+        "enum": Array [
+          "predefined",
+          "custom",
+        ],
+        "type": "string",
+      },
+    },
+  },
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.security.question.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "label": false,
+        "options": Object {
+          "choices": Array [
+            Object {
+              "key": "predefined",
+              "value": "oie.security.question.questionKey.label",
+            },
+            Object {
+              "key": "custom",
+              "value": "oie.security.question.createQuestion.label",
+            },
+          ],
+          "defaultOption": "predefined",
+          "format": "radio",
+        },
+        "scope": "#/properties/questionType",
+        "type": "Control",
+      },
+      Object {
+        "label": "oie.security.question.createQuestion.label",
+        "rule": Object {
+          "condition": Object {
+            "schema": Object {
+              "const": "custom",
+            },
+            "scope": "#/properties/questionType",
+          },
+          "effect": "SHOW",
+        },
+        "scope": "#/properties/credentials/properties/question",
+        "type": "Control",
+      },
+      Object {
+        "label": "oie.security.question.questionKey.label",
+        "options": Object {
+          "choices": Array [
+            Object {
+              "key": "eternal",
+              "value": "What is love?",
+            },
+          ],
+          "format": "dropdown",
+        },
+        "rule": Object {
+          "condition": Object {
+            "schema": Object {
+              "const": "predefined",
+            },
+            "scope": "#/properties/questionType",
+          },
+          "effect": "SHOW",
+        },
+        "scope": "#/properties/credentials/properties/questionKey",
+        "type": "Control",
+      },
+      Object {
+        "label": "Answer",
+        "options": Object {
+          "inputMeta": Object {
+            "label": "Answer",
+            "name": "answer",
+            "secret": true,
+          },
+          "secret": true,
+        },
+        "scope": "#/properties/credentials/properties/answer",
+        "type": "Control",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
