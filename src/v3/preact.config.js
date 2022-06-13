@@ -12,31 +12,47 @@
 
 /* eslint-disable import/no-extraneous-dependencies */
 import buffer from 'buffer';
-import { resolve } from 'path';
+import { resolve, join } from 'path';
+import { existsSync, copyFileSync } from 'fs';
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import envVars from 'preact-cli-plugin-env-vars';
 import { DefinePlugin } from 'webpack';
 
+// util: resolve paths relative to the project root
+const rootResolve = (...segments) => resolve(__dirname, '../../', ...segments);
+
+const TARGET = rootResolve('target');
+const PLAYGROUND = rootResolve('playground');
+const DEV_SERVER_PORT = 3000;
+const MOCK_SERVER_PORT = 3030;
+const WIDGET_RC_JS = rootResolve('.widgetrc.js');
+const WIDGET_RC = rootResolve('.widgetrc');
+
+// run `OKTA_SIW_HOST=0.0.0.0 yarn start --watch` to override the host
+const HOST = process.env.OKTA_SIW_HOST || 'localhost';
+
+if (!existsSync(WIDGET_RC_JS) && existsSync(WIDGET_RC)) {
+  // eslint-disable-next-line @okta/okta/no-exclusive-language
+  console.error(`============================================
+Please migrate the ${WIDGET_RC} to ${WIDGET_RC_JS}.
+For more information, please see
+https://github.com/okta/okta-signin-widget/blob/master/MIGRATING.md
+============================================`);
+  process.exit(1);
+} else if (!existsSync(WIDGET_RC_JS)) {
+  // create default WIDGET_RC if it doesn't exist to simplifed the build process
+  copyFileSync(rootResolve('.widgetrc.sample.js'), WIDGET_RC_JS);
+}
+
 export default {
-  /**
-   * Function that mutates the original webpack config. Supports asynchronous
-   * changes when a promise is returned (or it's an async function).
-   *
-   * @param {object} config - original webpack config.
-   * @param {object} env - options passed to the CLI.
-   * @param {WebpackConfigHelpers} helpers - object with useful helpers for
-   * working with the webpack config.
-   * @param {object} options - this is mainly relevant for plugins (will always
-   * be empty in the config), default to an empty object
-   */
   webpack(config, env, helpers) {
     /* eslint-disable no-param-reassign */
     config.output.libraryTarget = 'umd';
     config.output.filename = ({ chunk }) => (
       chunk.name === 'bundle'
-        ? 'js/okta-sign-in.min.js'
-        : 'js/[name].js'
+        ? 'okta-sign-in.next.js'
+        : '[name].next.js'
     );
     config.plugins = config.plugins.filter(
       (plugin) => !(plugin instanceof MiniCssExtractPlugin),
@@ -106,8 +122,8 @@ export default {
     });
 
     // Use any `index` file, not just index.js
-    config.resolve.alias['preact-cli-entrypoint'] = resolve(
-      process.cwd(),
+    config.resolve.alias['preact-cli-entrypoint'] = join(
+      __dirname,
       'src',
       'index',
     );
@@ -117,14 +133,24 @@ export default {
     // using ESM bundle of auth-js is required to enable tree-shaking
     // https://github.com/preactjs/preact-cli/issues/1579
     config.resolve.alias['@okta/okta-auth-js'] = resolve(
-      process.cwd(),
-      'node_modules/@okta/okta-auth-js/esm/esm.browser.js',
+      '..',
+      '..',
+      'node_modules',
+      '@okta',
+      'okta-auth-js',
+      'esm',
+      'esm.browser.js',
     );
 
     // broadcast-channel esnode bundle is loaded by default, browser one should be used
     config.resolve.alias['broadcast-channel'] = resolve(
-      process.cwd(),
-      'node_modules/broadcast-channel/dist/esbrowser/index.js',
+      '..',
+      '..',
+      'node_modules',
+      'broadcast-channel',
+      'dist',
+      'esbrowser',
+      'index.js',
     );
 
     if (env.production) {
@@ -143,8 +169,32 @@ export default {
     );
 
     config.devServer = {
-      port: process.env.PORT || 8080,
-    };
+      host: HOST,
+      static: [PLAYGROUND, TARGET, {
+        staticOptions: {
+          watchContentBase: true
+        }
+      }],
+      historyApiFallback: true,
+      // FIXME CSP prevents scripts from loading in dev mode
+      // headers: { 'Content-Security-Policy': `script-src http://${HOST}:${DEV_SERVER_PORT}` },
+      compress: true,
+      port: DEV_SERVER_PORT,
+      proxy: [{
+        context: [
+          '/oauth2/',
+          '/api/v1/',
+          '/idp/idx/',
+          '/login/getimage',
+          '/sso/idps/',
+          '/app/UserHome',
+          '/oauth2/v1/authorize',
+          '/auth/services/',
+          '/.well-known/webfinger'
+        ],
+        target: `http://${HOST}:${MOCK_SERVER_PORT}`
+      }],
+    },
 
     // preact-cli-plugin-env-vars
     envVars(config, env, helpers);
