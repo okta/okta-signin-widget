@@ -30,7 +30,7 @@ const drivers = {
     chrome: { version: CHROMEDRIVER_VERSION }
 };
 
-exports.config = {
+const conf = {
     //
     // ====================
     // Runner Configuration
@@ -318,3 +318,8 @@ exports.config = {
     //onReload: function(oldSessionId, newSessionId) {
     //}
 }
+
+// overrides for language e2e tests
+
+
+exports.config = conf;
