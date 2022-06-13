@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { JsonObject } from 'src/types';
+
 import { scenario } from '../registry';
 
 let POLL_COUNTER = 0;
@@ -59,7 +61,7 @@ scenario('enroll-okta-verify-mfa', (rest) => ([
     );
   }),
   rest.post('*/idp/idx/credential/enroll', async (req, res, ctx) => {
-    const request = req.body as Record<string, any>;
+    const request = req.body as Record<string, JsonObject>;
     const channel = request.authenticator?.channel;
     let response = null;
     if (!channel || channel === 'qrcode') {
@@ -75,7 +77,7 @@ scenario('enroll-okta-verify-mfa', (rest) => ([
     );
   }),
   rest.post('*/idp/idx/challenge/send', async (req, res, ctx) => {
-    const request = req.body as Record<string, any>;
+    const request = req.body as Record<string, JsonObject>;
     let response = null;
     if (request.email) {
       response = (await import('../response/idp/idx/challenge/send/enroll-ov-email-mfa.json')).default;

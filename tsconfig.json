@@ -12,33 +12,37 @@
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "checkJs": false,
+    "skipLibCheck": true,
     "plugins": [
-      { "transform": "@zerollup/ts-transform-paths" }
+      {
+        "transform": "@zerollup/ts-transform-paths"
+      }
     ],
     "paths": {
-      "okta-i18n-bundles": ["./src/util/Bundles.ts"],
-      "nls/*": ["./packages/@okta/i18n/src/json/*"],
-      "okta": ["./packages/@okta/courage-dist"],
-      "handlebars-inline-precompile": ["./scripts/buildtools/tsc/handlebars-inline-precompile"],
+      "config/*": ["./src/config/*"],
       "duo": ["./packages/vendor/duo_web_sdk/index.js"],
-      "qtip": ["./packages/@okta/qtip2/dist/jquery.qtip.js"],
-      "typingdna": ["./packages/vendor/TypingDnaRecorder-JavaScript/typingdna"],
-      "util/*": ["./src/util/*"],
-      "widget/*": ["./src/widget/*"],
+      "handlebars-inline-precompile": ["./scripts/buildtools/tsc/handlebars-inline-precompile"],
       "models/*": ["./src/models/*"],
-      "v1/*": ["./src/v1/*"],
-      "v2/*": ["./src/v2/*"],
+      "nls/*": ["./packages/@okta/i18n/src/json/*"],
+      "okta-i18n-bundles": ["./src/util/Bundles.ts"],
+      "okta": ["./packages/@okta/courage-dist"],
+      "qtip": ["./packages/@okta/qtip2/dist/jquery.qtip.js"],
       "types": ["./src/types"],
       "types/*": ["./src/types/*"],
+      "typingdna": ["./packages/vendor/TypingDnaRecorder-JavaScript/typingdna"],
+      "util/*": ["./src/util/*"],
+      "v1/*": ["./src/v1/*"],
+      "v2/*": ["./src/v2/*"],
       "views/*": ["./src/views/*"],
-      "config/*": ["./src/config/*"]
+      "widget/*": ["./src/widget/*"],
+      "src/*": ["./src/v3/src/*"]
     }
   },
   "include": [
-    "src/types/*"
+    "./src/types/*"
   ],
   "exclude": [
-    "types/generated/*"
+    "./types/generated/*"
   ],
   "files": [
     "src/index.ts"
