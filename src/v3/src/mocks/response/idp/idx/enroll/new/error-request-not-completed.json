@@ -1,0 +1,18 @@
+{
+  "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+  "version": "1.0.0",
+  "expiresAt": "2020-05-18T20:42:23.000Z",
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Your request could not be completed. Try again later.",
+        "i18n": {
+          "key": "registration.error.request.not.completed"
+        },
+        "class": "ERROR"
+      }
+    ]
+  }
+}

@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements when phone number not available 1`] = `
+Object {
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "ctaText": "oie.phone.verify.sms.resendText",
+        },
+        "type": "Reminder",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.phone.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "next.phone.challenge.sms.informationalText",
+          "contentParams": Array [
+            undefined,
+          ],
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.challenge.verify",
+        "options": Object {
+          "format": "button",
+          "type": "submit",
+        },
+        "scope": "#/properties/submit",
+        "type": "Control",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements when resend code is NOT available 1`] = `
+Object {
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "next.phone.challenge.sms.informationalTextWithPhone",
+          "contentParams": Array [
+            "+1 XXX-XXX-4601",
+          ],
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.challenge.verify",
+        "options": Object {
+          "format": "button",
+          "type": "submit",
+        },
+        "scope": "#/properties/submit",
+        "type": "Control",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;
+
+exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements when resend code is available 1`] = `
+Object {
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "ctaText": "oie.phone.verify.sms.resendText",
+        },
+        "type": "Reminder",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.phone.verify.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "options": Object {
+          "content": "next.phone.challenge.sms.informationalTextWithPhone",
+          "contentParams": Array [
+            "+1 XXX-XXX-4601",
+          ],
+        },
+        "type": "Description",
+      },
+      Object {
+        "options": Object {
+          "content": "oie.phone.carrier.charges",
+        },
+        "type": "Description",
+      },
+      Object {
+        "label": "mfa.challenge.verify",
+        "options": Object {
+          "format": "button",
+          "type": "submit",
+        },
+        "scope": "#/properties/submit",
+        "type": "Control",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

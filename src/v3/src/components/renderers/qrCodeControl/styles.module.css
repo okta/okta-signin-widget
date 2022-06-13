@@ -1,0 +1,18 @@
+.qrContainer {
+  margin-block-start: var(--ContainerMarginBlockStart);
+  margin-inline-end: var(--ContainerMarginInlineEnd);
+  margin-block-end: var(--ContainerMarginBlockEnd);
+  margin-inline-start: var(--ContainerMarginInlineStart);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qrImg {
+  width: 224px;
+  height: 224px;
+  border-width: var(--ImageBorderWidth);
+  border-style: var(--ImageBorderStyle);
+  border-color: var(--ImageBorderColor);
+  border-radius: var(--ImageBorderRadius);
+}

@@ -1,0 +1,11 @@
+.complete {
+  color: var(--ColorSuccessBase);
+}
+
+.incomplete {
+  color: var(--ColorNeutralBase);
+}
+
+.info {
+  color: var(--ColorNeutralBase);
+}

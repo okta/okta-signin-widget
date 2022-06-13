@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "You do not have permission to perform the requested action.",
+        "i18n": {
+          "key": "security.access_denied"
+        },
+        "class": "ERROR"
+      }
+    ]
+  }
+}
