@@ -527,6 +527,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         description: 'Custom Push App',
         buttonDataSeAttr: 'custom_app',
         logoUri: 'https://cdn.okta1.com/bc/globalFileStoreRecord?id=gfs3sti6DQ7A9vS3h0g4',
+        noTranslateClassName: 'no-translate',
       },
     ]);
     // make sure input parameter is not mutated.
