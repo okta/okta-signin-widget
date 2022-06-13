@@ -727,6 +727,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'custom_app',
         iconClassName: 'mfa-custom-app-logo',
         logoUri: '',
+        noTranslateClassName: 'no-translate',
       },
       {
         label: 'Get a push notification',
@@ -752,6 +753,7 @@ describe('v2/view-builder/internals/FormInputFactory', function() {
         buttonDataSeAttr: 'custom_app',
         iconClassName: 'mfa-custom-app-logo',
         logoUri: '',
+        noTranslateClassName: 'no-translate',
       },
     ]);
   });
