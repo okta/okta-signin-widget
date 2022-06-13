@@ -1,0 +1,74 @@
+/*
+ * Copyright (c) 2022-present, Okta, Inc. and/or its affiliates. All rights reserved.
+ * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
+ *
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ */
+
+import { ControlElement } from '@jsonforms/core';
+import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { FormBag, WidgetProps } from 'src/types';
+
+import { transformEmailChallengeConsent } from '.';
+
+describe('EmailChallengeConsentTransformer Tests', () => {
+  const transaction = getStubTransactionWithNextStep();
+  const mockProps: WidgetProps = {};
+  let formBag: FormBag;
+  beforeEach(() => {
+    formBag = {
+      schema: {
+        properties: {
+          consent: {
+            type: 'boolean',
+          },
+        },
+        required: ['consent'],
+      },
+      uischema: {
+        type: 'VerticalLayout',
+        elements: [{ type: 'Control', scope: '#/properties/consent' } as ControlElement],
+      },
+    };
+    transaction.nextStep = {
+      name: 'email-challenge-consent',
+      action: jest.fn(),
+      // @ts-ignore requestInfo missing from NextStep interface
+      requestInfo: [{
+        name: 'appName',
+        value: 'Okta Dashboard',
+      }, {
+        name: 'browser',
+        value: 'CHROME',
+      }],
+    };
+  });
+
+  it('should create email consent ui elements with valid response', () => {
+    const updatedFormBag = transformEmailChallengeConsent(transaction, formBag, mockProps);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(5);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    expect(updatedFormBag.uischema.elements[0].options?.content).toBe('oie.consent.enduser.title');
+    expect(updatedFormBag.uischema.elements[1].options?.format).toBe('ImageWithText');
+    expect((updatedFormBag.uischema.elements[1] as ControlElement).scope).toBe('#/properties/browser');
+    expect(updatedFormBag.uischema.elements[1].options?.textContent).toBe('CHROME');
+
+    expect(updatedFormBag.uischema.elements[2].options?.format).toBe('ImageWithText');
+    expect((updatedFormBag.uischema.elements[2] as ControlElement).scope).toBe('#/properties/appName');
+    expect(updatedFormBag.uischema.elements[2].options?.textContent).toBe('Okta Dashboard');
+
+    expect(formBag.uischema.elements[3].options?.format).toBe('button');
+    expect(formBag.uischema.elements[3].options?.idxMethodParams?.consent).toBe(false);
+    expect(formBag.uischema.elements[3].options?.action).not.toBeUndefined();
+
+    expect(formBag.uischema.elements[4].options?.format).toBe('button');
+    expect(formBag.uischema.elements[4].options?.idxMethodParams?.consent).toBe(true);
+    expect(formBag.uischema.elements[4].options?.action).not.toBeUndefined();
+  });
+});

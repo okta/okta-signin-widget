@@ -1,0 +1,25 @@
+{
+  "stateHandle": "eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvMTloajh3Z0J5S2tHaXEwZzQiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..FbhwdeiWkij2ZLKW.uJ7dd-L-BZwal57lDs116naLD0GzizyDaeV2iQLepRitWpNpDQJPs-wZgTYBsgGz_SVtHDM41If-5LuVu5pv6Ha2DWwUXiiSCd8B8wfcNi91JC6naATC8MVgRsGGILyiTYePAIjW_CTP_pgKNIVs9HRsQDRzxSTRcEUvz8LHUZOFIOTyr5Erd_6b3NjwNKEartcBPwqGKd59pM-wgYap8hfwWkJNpbYRNZKxn2YDlnmg1w2YjE3SfecnMqZhT98Pi5e3rxwdgpXwZNBGgpry9nFCmUy3cUPW5v0imtqA5j0CEbAVVXmyUzSnJEaSGbPxy_fRJRY2MyoCU8P1ulvhcxT-tFojQyDJ9DqS0If6cpEWhfywStYQu9E0c6F7tNXiagqBMw-QChwqaBgdqydED6tkNQj-Szmsb6tZmSgMOm5Gk_cicb68YWvTtG7py2iZjvWZtZvv-95SpVREny1HTT9U1-3LLQwoYC79F6DytD7xZjiJOMyJbqx-mvFXUOAcx5A00gDBAToEhqxOGZcCNzd9M2PfA6LmJOyFwWzKtrJtgntaSgnU-2nFOdu2rZU5nu_KGl2dmq128EzlggV3C-0oHrXEe_0QEvPhgsoeURipAksHaEkBhBYnqnf-JJu92PLU29wsRsG8VTxow7AVn-T-0FkySxGvaUcCeLHWItLVaLz0nvdRG58tcwxvxyqlrMb-r295pZl4GxxmCe3d4Amfy4aKeHORxikTP5nmRa-uDpBM9f851x4boCYzohm-3WuRq5GQvU6K4Tt1U54ajQhcnDQbqNMHhjNirJsmfXB5CGrtuxPJ9PDwZW2JSbFJ11guYj9XJBUYi-uzI6eBeKd9Kge8oUkye-H9uinqourRCyoDEl8Xz1DD1UxXKYqXwWGA-IaySXgG6Wr7Iqh5SuzogaicyUY-SfFbiS4ltUVVh--Mf3rQqt53GVFoWNWE26UwW4bC9ipS76AO-7RBWO6b_UKZCL3LtWZElQ.mjplg_sjfIVKU78z5B4btA",
+  "version": "1.0.0",
+  "expiresAt": "2020-07-15T16:53:45.000Z",
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Please return to the original tab.",
+        "i18n": {
+          "key": "idx.return.to.original.tab"
+        },
+        "class": "INFO"
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u1rap95IDS7a1TN0g4",
+      "identifier": "testUser@okta.com"
+    }
+  }
+}
