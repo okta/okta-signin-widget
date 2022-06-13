@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+  "expiresAt": "2020-07-15T17:01:57.000Z",
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Flow continued in a new tab.",
+        "i18n": {
+          "key": "idx.transferred.to.new.tab"
+        },
+        "class": "INFO"
+      }
+    ]
+  }
+}

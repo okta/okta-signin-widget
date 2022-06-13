@@ -1,0 +1,19 @@
+{
+  "presets": [
+    [
+      "@okta/odyssey-babel-preset",
+      {
+        "odyssey": {},
+        "react": {
+          "runtime": "classic"
+        }
+      }
+    ],
+    [
+      "preact-cli/babel",
+      {
+        "modules": "commonjs"
+      }
+    ]
+  ]
+}

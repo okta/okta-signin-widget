@@ -1,0 +1,9 @@
+{
+  "name": "okta-siw-next",
+  "short_name": "okta-siw-next",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fff",
+  "theme_color": "#00297a"
+}
