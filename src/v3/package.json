@@ -73,6 +73,7 @@
     "typescript": "4.4.4"
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.17.12",
     "@okta/odyssey-babel-loader": "0.13.x",
     "@okta/odyssey-babel-preset": "0.13.x",
     "@okta/odyssey-postcss-preset": "0.13.x",
