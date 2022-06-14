@@ -34,7 +34,7 @@ export default BaseLoginController.extend({
       requestContext: stateToken,
     };
 
-    options.appState.settings.authClient
+    options.appState.settings.getAuthClient()
       .webfinger(webfingerArgs)
       .then(res => {
         if (res?.links && res.links[0]) {

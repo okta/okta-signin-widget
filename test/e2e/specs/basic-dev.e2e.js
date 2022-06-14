@@ -22,6 +22,7 @@ describe('Dev Mode flows', () => {
     config = {
       baseUrl: WIDGET_TEST_SERVER,
       redirectUri: 'http://localhost:3000/done',
+      useClassicEngine: true,
       el: '#okta-login-container',
       authParams: {
         pkce: false

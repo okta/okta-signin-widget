@@ -38,6 +38,7 @@ describe('OIDC flows', () => {
       config = {
         baseUrl: WIDGET_TEST_SERVER,
         redirectUri: 'http://localhost:3000/done',
+        useClassicEngine: true,
         authParams: {
           pkce: false,
           scopes: ['openid', 'email', 'profile', 'address', 'phone']
@@ -105,6 +106,7 @@ describe('OIDC flows', () => {
           baseUrl: WIDGET_TEST_SERVER,
           clientId: WIDGET_SPA_CLIENT_ID,
           redirectUri: 'http://localhost:3000/done',
+          useClassicEngine: true,
           authParams: {
             pkce: true,
             display: 'page',

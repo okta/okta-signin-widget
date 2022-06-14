@@ -113,6 +113,7 @@ async function setup(settings, requests, refreshState) {
       {
         el: $sandbox,
         baseUrl: baseUrl,
+        useClassicEngine: true,
         authClient: authClient,
         globalSuccessFn: successSpy,
       },

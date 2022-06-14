@@ -99,7 +99,7 @@ export default BaseLoginModel.extend({
     let primaryAuthPromise;
 
     if (this.appState.get('isUnauthenticated')) {
-      const authClient = this.appState.settings.authClient;
+      const authClient = this.appState.settings.getAuthClient();
 
       // bootstrapped with stateToken
       if (this.appState.get('isIdxStateToken')) {

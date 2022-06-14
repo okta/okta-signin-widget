@@ -113,7 +113,6 @@ async function setup(t, options = {}) {
     recoveryToken: options.recoveryToken,
     clientId: 'fake',
     redirectUri: 'http://doesnot-matter',
-    useInteractionCodeFlow: true,
     authParams: {
       pkce: true,
       state: 'mock-state'

@@ -38,7 +38,6 @@ const interactionCodeFlowconfig = {
   redirectUri: 'http://localhost:3000/done',
   el: '#okta-login-container',
   clientId: WIDGET_SPA_CLIENT_ID,
-  useInteractionCodeFlow: true,
   scopes: ['openid', 'email', 'profile']
 };
 
@@ -157,7 +156,6 @@ Given(
       redirectUri: 'http://localhost:3000/done',
       el: '#okta-login-container',
       clientId: WIDGET_SPA_CLIENT_ID,
-      useInteractionCodeFlow: true,
       scopes: ['openid', 'email', 'profile'],
       state: 'abc'
     };
