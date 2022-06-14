@@ -19,8 +19,8 @@ export interface Config {
   clientId?: string;
   redirectUri?: string;
   authParams?: OktaAuthOptions;
-  useInteractionCodeFlow: boolean;
   flow?: string;
+  useClassicEngine?: boolean;
 }
 
 // https://github.com/microsoft/TypeScript/issues/36217

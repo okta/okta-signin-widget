@@ -95,9 +95,14 @@ export interface WidgetOptions extends Partial<Pick<OktaAuthOptions,
   consent?: {
     cancel?: SimpleCallback;
   };
-  useInteractionCodeFlow?: boolean;
+  useClassicEngine?: boolean;
   hooks?: HooksOptions;
   proxyIdxResponse?: any;
+
+  /**
+   * @deprecated since version 7.0
+   */
+   useInteractionCodeFlow?: boolean;
 }
 
 // Auth params

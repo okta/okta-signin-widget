@@ -42,7 +42,7 @@ export async function updateAppState(appState: AppState, idxResponse: IdxRespons
   }
 
   const lastResponse = appState.get('idx');
-  const useInteractionCodeFlow = settings.get('useInteractionCodeFlow');
+  const useInteractionCodeFlow = settings.get('oauth2Enabled');
   if (useInteractionCodeFlow) {
     if (idxResponse.interactionCode) {
       // Although session.stateHandle isn't used by interation flow,

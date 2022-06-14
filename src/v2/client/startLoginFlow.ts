@@ -46,7 +46,7 @@ export async function startLoginFlow(settings) {
     return emailVerifyCallback(settings);
   }
 
-  if (settings.get('useInteractionCodeFlow')) {
+  if (settings.get('oauth2Enabled')) {
     const meta: IdxTransactionMeta = await authClient.idx.getSavedTransactionMeta();
     if (!meta) {
       // no saved transaction
@@ -101,6 +101,5 @@ export async function startLoginFlow(settings) {
     });
   }
 
-  throw new ConfigError('Set "useInteractionCodeFlow" to true in configuration to enable the ' +
-    'interaction_code" flow for self-hosted widget.');
+  throw new ConfigError('Invalid OIDC configuration. Set "clientId" and "redirectUri" in the widget options.');
 }

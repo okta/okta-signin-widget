@@ -30,6 +30,7 @@ const SharedUtil = internal.util.Util;
 const assetBaseUrlTpl = hbs('https://global.oktacdn.com/okta-signin-widget/{{version}}');
 
 const local: Record<string, ModelProperty> = {
+  authClient: ['object', false, undefined],
   baseUrl: ['string', true],
   recoveryToken: ['string', false, undefined],
   stateToken: ['string', false, undefined],
@@ -177,6 +178,9 @@ const local: Record<string, ModelProperty> = {
 
   //Email verify callback
   otp: 'string',
+
+  //Support classic engine
+  useClassicEngine: ['boolean', false, false]
 };
 
 const derived: Record<string, ModelProperty>  = {
@@ -277,25 +281,21 @@ const derived: Record<string, ModelProperty>  = {
     },
   },
   mode: {
-    deps: ['useInteractionCodeFlow', 'codeChallenge'],
-    fn: function(useInteractionCodeFlow, codeChallenge) {
-      if (useInteractionCodeFlow && codeChallenge) {
+    deps: ['codeChallenge'],
+    fn: function(codeChallenge) {
+      if (codeChallenge) {
         return 'remediation';
       }
       return 'relying-party';
     }
   },
   oauth2Enabled: {
-    deps: ['clientId', 'authScheme'],
-    fn: function(clientId, authScheme) {
+    deps: ['clientId', 'authScheme', 'authClient'],
+    fn: function(clientId, authScheme, authClient) {
+       if (!clientId && authClient) {
+        clientId = authClient.options.clientId;
+      }
       return (!!clientId) && authScheme.toLowerCase() === 'oauth2';
-    },
-    cache: true,
-  },
-  oieEnabled: {
-    deps: ['stateToken', 'proxyIdxResponse', 'useInteractionCodeFlow'],
-    fn: function(stateToken, proxyIdxResponse, useInteractionCodeFlow) {
-      return stateToken || proxyIdxResponse || useInteractionCodeFlow;
     },
     cache: true,
   },
@@ -378,6 +378,15 @@ type SettingsProps = typeof local & typeof derived;
 export default class Settings extends Model {
   authClient:OktaAuth;
 
+  constructor(attributes, options) {
+    // base class constructor will call preinitialize() and initialize() and compute derived properties
+    super(attributes, options);
+
+    // apply languageCode
+    const authClient = this.getAuthClient();
+    this.setAcceptLanguageHeader(authClient);
+  }
+
   get<A extends Backbone._StringKey<SettingsProps>>(attributeName: A): any {
     return Model.prototype.get.call(this, attributeName);
   }
@@ -389,15 +398,17 @@ export default class Settings extends Model {
   }
 
   initialize(options) {
-    const { colors } = options;
+    options = options || {};
+    const { colors, authClient } = options;
     let { baseUrl } = options;
+
     if (!baseUrl) {
       // infer baseUrl from the issuer
-      const { authClient } = options;
+      // favor authClient API first
       if (authClient) {
         baseUrl = authClient.getIssuerOrigin();
       } else {
-        // issuer can be passed at top-level or in authParams
+        // issuer can also be passed a top-level option or exist in authParams
         const { authParams } = options;
         let { issuer } = options;
         issuer = issuer || authParams?.issuer;
@@ -422,12 +433,12 @@ export default class Settings extends Model {
   }
 
   setAuthClient(authClient) {
+    this.set('authClient', authClient);
     this.setAcceptLanguageHeader(authClient);
-    this.authClient = authClient;
   }
 
   getAuthClient() {
-    return this.authClient;
+    return this.get('authClient');
   }
 
   set(...args: any[]) {
