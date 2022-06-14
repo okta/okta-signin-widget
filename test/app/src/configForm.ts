@@ -40,9 +40,9 @@ export const ConfigForm = `
       <label for="redirectUri">Redirect URI</label><input id="f_redirectUri" name="redirectUri" type="text" />
     </div>
     <div class="pure-control-group">
-      <label for="useInteractionCodeFlow">Use <strong>interaction code flow</strong></label>
-      <input id="f_useInteractionCodeFlow-on" name="useInteractionCodeFlow" type="radio" value="true"/>YES
-      <input id="f_useInteractionCodeFlow-off" name="useInteractionCodeFlow" type="radio" value="false"/>NO
+      <label for="useClassicEngine">Use <strong>classic engine</strong></label>
+      <input id="f_useClassicEngine-on" name="useClassicEngine" type="radio" value="true"/>YES
+      <input id="f_useClassicEngine-off" name="useClassicEngine" type="radio" value="false"/>NO
     </div>
     <div class="pure-control-group">
     <label for="flow">Flow</label>
@@ -66,14 +66,13 @@ export function getConfigFromForm(): Config {
   const issuer = (document.getElementById('f_issuer') as HTMLInputElement).value;
   const redirectUri = (document.getElementById('f_redirectUri') as HTMLInputElement).value;
   const clientId = (document.getElementById('f_clientId') as HTMLInputElement).value;
-  const useInteractionCodeFlow = (document.getElementById('f_useInteractionCodeFlow-on') as HTMLInputElement).checked;
-  const flow = (document.querySelector('#f_flow') as HTMLSelectElement).value as FlowIdentifier;
-
+  const useClassicEngine = (document.getElementById('f_useClassicEngine-on') as HTMLInputElement).checked;
+  const flow = (document.querySelector('#f_flow') as HTMLSelectElement).value;
   const widgetOptions = {
     issuer,
     clientId,
     redirectUri,
-    useInteractionCodeFlow,
+    useClassicEngine,
     flow
   }
 
@@ -111,10 +110,10 @@ export function updateFormFromConfig(config: Config): void {
   (document.getElementById('f_redirectUri') as HTMLInputElement).value = widgetOptions.redirectUri;
   (document.getElementById('f_clientId') as HTMLInputElement).value = widgetOptions.clientId;
  
-  if (widgetOptions.useInteractionCodeFlow) {
-    (document.getElementById('f_useInteractionCodeFlow-on') as HTMLInputElement).checked = true;
+  if (widgetOptions.useClassicEngine) {
+    (document.getElementById('f_useClassicEngine-on') as HTMLInputElement).checked = true;
   } else {
-    (document.getElementById('f_useInteractionCodeFlow-off') as HTMLInputElement).checked = true;
+    (document.getElementById('f_useClassicEngine-off') as HTMLInputElement).checked = true;
   }
 
   (document.querySelector(`#f_flow`) as HTMLOptionElement).value = flow;

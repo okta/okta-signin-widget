@@ -55,7 +55,6 @@ async function setupInteractionCodeFlow(t) {
     stateToken: undefined,
     clientId: 'fake',
     redirectUri: 'http://doesnot-matter',
-    useInteractionCodeFlow: true,
     authParams: {
       pkce: true,
       state: 'mock-state'

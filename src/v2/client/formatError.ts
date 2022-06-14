@@ -56,7 +56,7 @@ export function formatInvalidRecoveryTokenError(error: StandardApiError) {
 }
 
 export function isOIENotEnabledError(error): error is StandardApiError {
-  // special case: error from interact. `useInteractionCodeFlow` is true but the Org does not have OIE enabled
+  // special case: error from interact when the Org does not have OIE enabled
   // The response is not in IDX format. See playground/mocks/data/oauth2/error-feature-not-enabled.json
   return (error?.error === 'access_denied' && error.error_description);
 }
