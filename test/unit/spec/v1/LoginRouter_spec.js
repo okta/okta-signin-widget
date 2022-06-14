@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 /* eslint max-params: [2, 34], max-statements: 0, max-len: [2, 210], camelcase:0 */
 import { _, $, Backbone, Router, internal } from 'okta';
 import getAuthClient from 'widget/getAuthClient';
@@ -67,7 +68,7 @@ Expect.describe('v1/LoginRouter', function() {
   function setup(settings, resp) {
     settings = settings || {};
     const setNextResponse = settings.mockAjax === false ? function() {} : Util.mockAjax();
-    const baseUrl = 'https://foo.com';
+    const baseUrl = settings.hasOwnProperty('baseUrl') ? settings.baseUrl : 'https://foo.com';
     const authParams = { issuer: baseUrl, headers: {} };
     Object.keys(settings).forEach(key => {
       const parts = key.split('.');
@@ -75,7 +76,7 @@ Expect.describe('v1/LoginRouter', function() {
         authParams[parts[1]] = settings[key];
       }
     });
-    const authClient = settings.authClient || getAuthClient({ authParams });
+    const authClient = settings.hasOwnProperty('authClient') ? settings.authClient : getAuthClient({ authParams });
     const eventSpy = jasmine.createSpy('eventSpy');
     const afterRenderHandler = jasmine.createSpy('afterRenderHandler');
     const afterErrorHandler = jasmine.createSpy('afterErrorHandler');
@@ -84,6 +85,7 @@ Expect.describe('v1/LoginRouter', function() {
         {
           el: $sandbox,
           baseUrl: baseUrl,
+          useClassicEngine: true,
           authClient: authClient,
         },
         settings
@@ -94,8 +96,10 @@ Expect.describe('v1/LoginRouter', function() {
     router.on('pageRendered', eventSpy);
     router.on('afterRender', afterRenderHandler);
     router.on('afterError', afterErrorHandler);
-    spyOn(authClient.token, 'getWithoutPrompt').and.callThrough();
-    spyOn(authClient.token.getWithRedirect, '_setLocation');
+    if (authClient) {
+      spyOn(authClient.token, 'getWithoutPrompt').and.callThrough();
+      spyOn(authClient.token.getWithRedirect, '_setLocation');
+    }
     setNextResponse(resp);
 
     return Q({
@@ -679,7 +683,7 @@ Expect.describe('v1/LoginRouter', function() {
     const errorSpy = jasmine.createSpy('errorSpy');
 
     const fn = function() {
-      setup({ globalErrorFn: errorSpy, baseUrl: undefined });
+      setup({ globalErrorFn: errorSpy, baseUrl: undefined, authClient: undefined });
     };
 
     expect(fn).not.toThrow();

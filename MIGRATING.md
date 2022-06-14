@@ -1,8 +1,33 @@
+[interaction code]: https://developer.okta.com/docs/concepts/interaction-code/
+[Classic Engine]: https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md
+[Identity Engine]: https://github.com/okta/okta-signin-widget/blob/master/README.md#okta-identity-engine
+
 # Okta Sign-in Widget Migration guide
 
 This library uses semantic versioning and follows Okta's [library version policy](https://developer.okta.com/code/library-versions/). In short, we don't make breaking changes unless the major version changes!
 
-## Migrating `.widgetrc` to `.widgetrc.js`
+
+## Migrating from 6.x to 7.x
+
+### Identity Engine is on by default
+
+- `useInteractionCodeFlow` option is removed
+- `useClassicEngine` option is added
+
+The widget will run against the [Identity Engine][] by default, using the [interaction code][] flow for OIDC applications. Support for the [Classic Engine][] is still available by setting the `useClassicEngine` option to `true`. This option, along with support for the [Classic Engine][], will be removed in a future widget version. All customers are encouraged to migrate from the [Classic Engine][] to the [Identity Engine][]. Visit [Migrating to OIE](https://developer.okta.com/docs/guides/migrate-to-oie/) for more details on migrating to [Identity Engine][].
+
+Documentation for configuring the Okta Sign-in Widget using the [interaction code][] flow is in the main [README](https://github.com/okta/okta-signin-widget/blob/master/README.md).
+
+
+## Migrating from 5.x to 6.x
+
+### Minimum version of `@okta/okta-auth-js` is `6.0.0`
+
+If you are creating an instance of [@okta/okta-auth-js](https://github.com/okta/okta-auth-js) and passing it to the widget using the [authClient](https://github.com/okta/okta-signin-widget#authClient) option, the instance must be version `6.0.0` or higher.
+
+## Migrating from 4.x to 5.x
+
+### Migrating `.widgetrc` to `.widgetrc.js`
 
 The existing `.widgetrc` file used to configure the Widget has been **removed**. Simply rename the existing file to `.widgetrc.js` export the contents:
 
