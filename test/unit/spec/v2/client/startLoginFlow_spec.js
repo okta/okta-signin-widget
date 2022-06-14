@@ -26,20 +26,24 @@ describe('v2/client/startLoginFlow', () => {
     const introspect = jest.fn().mockResolvedValue({
       fake: 'fake introspect response'
     });
-    const settings = new Settings({
-      baseUrl: 'localhost:1234',
-      stateToken: 'a test state token from settings',
-    });
     const authClient = {
+      options: {},
       idx: {
         start,
         proceed,
         introspect,
         getFlow: () => {},
         getSavedTransactionMeta: () => {}
+      },
+      http: {
+        setRequestHeader: () => {}
       }
     };
-    settings.authClient = authClient;
+    const settings = new Settings({
+      baseUrl: 'localhost:1234',
+      stateToken: 'a test state token from settings',
+      authClient
+    });
     testContext = {
       start,
       proceed,
@@ -78,7 +82,6 @@ describe('v2/client/startLoginFlow', () => {
 
   it('shall do email verify callback when "otp" is defined', async () => {
     const { settings, start, proceed } = testContext;
-    settings.set('useInteractionCodeFlow', true);
     settings.set('otp', 'abc');
     const result = await startLoginFlow(testContext.settings);
     expect(result).toEqual('fake emailVerifyCallback response');
@@ -89,9 +92,9 @@ describe('v2/client/startLoginFlow', () => {
     expect(proceed).not.toHaveBeenCalled();
   });
 
-  it('shall run interaction flow when "useInteractionCodeFlow" is on', async () => {
+  it('shall run interaction flow when OAuth configuration is set', async () => {
     const { settings, start, proceed } = testContext;
-    settings.set('useInteractionCodeFlow', true);
+    settings.set('clientId', 'abc');
     const result = await startLoginFlow(settings);
     expect(result).toEqual({
       fake: 'fake start response'
@@ -210,8 +213,7 @@ describe('v2/client/startLoginFlow', () => {
     } catch (e) {
       expect(e.name).toBe('CONFIG_ERROR');
       expect(e.message).toBe(
-        'Set "useInteractionCodeFlow" to true in configuration to enable the ' +
-        'interaction_code" flow for self-hosted widget.');
+        'Invalid OIDC configuration. Set "clientId" and "redirectUri" in the widget options.');
     }
   });
 

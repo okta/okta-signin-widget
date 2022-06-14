@@ -4,7 +4,7 @@ const Test = require('./test-configs');
 const idx = {
   // ===== IDX
 
-  // PKCE must be enabled with "useInteractionCodeFlow" option
+  // PKCE must be enabled with interaction code flow
   '/oauth2/default/.well-known/openid-configuration': [
     'well-known-openid-configuration'
   ],
