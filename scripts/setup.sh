@@ -8,7 +8,7 @@ export AUTHJS_VERSION=""
 # Install required node version
 export REGISTRY_REPO="npm-topic"
 export REGISTRY="${ARTIFACTORY_URL}/api/npm/${REGISTRY_REPO}"
-setup_service node v12.22.12
+setup_service node v14.19.1
 # NOTE: Using yarn@1.18 to avoid error: "expected workspace package to exist..."
 # https://github.com/yarnpkg/yarn/issues/7807. Yarn version locked to 1.18 using
 # "yarn policies set-version 1.18.0". Use the cacert bundled with centos as okta
