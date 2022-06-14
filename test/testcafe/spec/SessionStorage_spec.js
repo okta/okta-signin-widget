@@ -304,7 +304,6 @@ test.requestHooks(identifyChallengeMock)('shall back to sign-in and authenticate
   // Setup widget with interaction code flow
   const optionsForInteractionCodeFlow = {
     clientId: 'fake',
-    useInteractionCodeFlow: true,
     authParams: {
       ignoreSignature: true,
       pkce: true,

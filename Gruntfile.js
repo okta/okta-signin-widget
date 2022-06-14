@@ -441,6 +441,7 @@ module.exports = function(grunt) {
 
     if (prodBuild) {
       buildTasks.push('exec:build-release');
+      buildTasks.push('exec:retirejs');
       postBuildTasks.push('copy:target-to-dist');
       postBuildTasks.push('exec:prepack');
     } else {
@@ -451,7 +452,6 @@ module.exports = function(grunt) {
       'exec:clean',
       `assets:${target}`,
       ...buildTasks,
-      'exec:retirejs',
       ...postBuildTasks,
     ]);
   });
