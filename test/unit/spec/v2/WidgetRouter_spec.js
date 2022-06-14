@@ -4,6 +4,8 @@ import $sandbox from 'sandbox';
 import getAuthClient from 'widget/getAuthClient';
 import XHRIdentifyWithPassword
   from '../../../../playground/mocks/data/idp/idx/identify-with-password.json';
+import Util from 'helpers/mocks/Util';
+import RAW_IDX_RESPONSE from 'helpers/v2/idx/fullFlowResponse';
 
 describe('v2/WidgetRouter', function() {
   let testContext;
@@ -53,6 +55,14 @@ describe('v2/WidgetRouter', function() {
     return testContext;
   }
 
+  function mockXhr(jsonResponse, status=200) {
+    return {
+      status,
+      responseType: 'json',
+      response: jsonResponse,
+    };
+  }
+
   beforeEach(function() {
     testContext = {};
     window.console.error = (()=>{});  // silences error printed to test console
@@ -67,19 +77,23 @@ describe('v2/WidgetRouter', function() {
 
   
   it('should not be visible until initial render', async function() {
-    setup();
+    Util.mockAjax([
+      mockXhr(RAW_IDX_RESPONSE)
+    ]);
+    setup({ stateToken: 'abc' });
     const { router, afterErrorHandler, afterRenderHandler } = testContext;
     expect(router.header.$el.css('display')).toBe('none');
     await router.render(FormController);
     expect(afterErrorHandler).toHaveBeenCalledTimes(0);
-    expect(afterRenderHandler).toHaveBeenCalledTimes(1);
+    expect(afterRenderHandler).toHaveBeenCalledTimes(2); // first render: loading, 2nd render: identify
     expect(router.header.$el.css('display')).toBe('block');
     expect(router.controller.$el.find('.o-form-head').text()).toBe('Sign In');
   });
   
   it('should be visible and render initial error', async function() {
     const { authClient } = setup({
-      useInteractionCodeFlow: true,
+      clientId: 'abc', // use interaction code flow
+      codeChallenge: 'someChallenge'
     });
     const { router, afterErrorHandler, afterRenderHandler } = testContext;
     jest.spyOn(authClient.idx, 'start').mockRejectedValue({

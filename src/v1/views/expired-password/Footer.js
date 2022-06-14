@@ -32,7 +32,7 @@ export default View.extend({
     'click .js-signout': function(e) {
       e.preventDefault();
       const self = this;
-      const authClient = self.settings.authClient;
+      const authClient = self.settings.getAuthClient();
 
       this.model
         .doTransaction(function(transaction) {

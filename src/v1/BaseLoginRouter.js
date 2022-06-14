@@ -62,8 +62,7 @@ export default Router.extend({
       };
     }
 
-    this.settings = new Settings(_.omit(options, 'el', 'authClient'), { parse: true });
-    this.settings.setAuthClient(options.authClient);
+    this.settings = new Settings(_.omit(options, 'el'), { parse: true });
 
     if (!options.el) {
       this.settings.callGlobalError(new Errors.ConfigError(loc('error.required.el')));

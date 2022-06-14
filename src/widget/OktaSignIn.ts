@@ -45,9 +45,9 @@ export default class OktaSignIn implements OktaSignInAPI {
     this.authClient = getAuthClient(options);
 
     // validate authClient configuration against widget options
-    if (options.useInteractionCodeFlow  && this.authClient.isPKCE() === false) {
+    if (options.useClassicEngine !== true && this.authClient.options.clientId && this.authClient.isPKCE() === false) {
       throw new Errors.ConfigError(
-        'The "useInteractionCodeFlow" option requires PKCE to be enabled on the authClient.'
+        'OAuth2 with interaction code flow requires PKCE to be enabled on the authClient.'
       );
     }
 
@@ -57,13 +57,13 @@ export default class OktaSignIn implements OktaSignInAPI {
     });
 
     let Router: AbstractRouter;
-    if ((options.stateToken && !Util.isV1StateToken(options.stateToken)) 
-        // Self hosted widget can use `useInteractionCodeFlow` to use V2Router
-        || options.useInteractionCodeFlow 
-        || options.proxyIdxResponse) {
-      Router = V2Router;
-    } else {
+    if ((options.stateToken && Util.isV1StateToken(options.stateToken))
+      // Self hosted widget can set the `useClassicEngine` option to use V1Router
+      || options.useClassicEngine === true)
+    {
       Router = V1Router;
+    } else {
+      Router = V2Router;
     }
     this.Router = Router;
 

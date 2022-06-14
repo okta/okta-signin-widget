@@ -167,7 +167,7 @@ export default Controller.extend({
       sessionStorageHelper.removeStateHandle();
       appState.clearAppStateCache();
 
-      if (settings.get('useInteractionCodeFlow')) {
+      if (settings.get('oauth2Enabled')) {
         // In this case we need to restart login flow and recreate transaction meta
         // that will be used in interactionCodeFlow function
         appState.trigger('restartLoginFlow');
