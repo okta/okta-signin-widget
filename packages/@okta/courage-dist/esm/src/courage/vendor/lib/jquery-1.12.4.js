@@ -7428,6 +7428,26 @@ import { j as jquery1_12_4 } from '../../../../_virtual/jquery-1.12.4.js';
 
         if (hooks && "set" in hooks && (ret = hooks.set(elem, value, name)) !== undefined) {
           return ret;
+        } // OKTA-497054: Fix CSP violation when set style via attr()
+
+
+        if (name === 'style') {
+          elem.removeAttribute(name);
+          var styles = value.split(";");
+          jQuery.each(styles, function (i, style) {
+            if (style) {
+              var styleKeyVal = style.split(":"),
+                  styleKey = jQuery.camelCase(jQuery.trim(styleKeyVal.shift())),
+                  styleVal = jQuery.trim(styleKeyVal); // Cannot use style() because it adds 'px' automatically when missing in value
+
+              var styleName = jQuery.cssProps[styleKey] || (jQuery.cssProps[styleKey] = vendorPropName(styleKey) || styleKey);
+
+              try {
+                elem.style[styleName] = styleVal;
+              } catch (e) {}
+            }
+          });
+          return;
         }
 
         elem.setAttribute(name, value + "");
