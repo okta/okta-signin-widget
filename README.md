@@ -87,7 +87,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
     - [issuer](#issuer)
     - [clientId](#clientid)
     - [redirectUri](#redirecturi)
-    - [useInteractionCodeFlow](#useinteractioncodeflow)
+    - [useClassicEngine](#useclassicengine)
     - [codeChallenge](#codechallenge)
     - [state](#state)
     - [otp](#otp)
@@ -385,7 +385,6 @@ var signIn = new OktaSignIn(
     issuer: 'https://{yourOktaDomain}/oauth2/default',
     clientId: '{{clientId of your OIDC app}}',
     redirectUri: '{{redirectUri configured in OIDC app}}',
-    useInteractionCodeFlow: true
   }
 );
 
@@ -414,7 +413,6 @@ var signIn = new OktaSignIn(
     issuer: 'https://{yourOktaDomain}/oauth2/default',
     clientId: '{{clientId of your OIDC app}}',
     redirectUri: '{{redirectUri configured in OIDC app}}',
-    useInteractionCodeFlow: true,
     state: '{{state passed from backend}}', // state can be any string, it will be passed on redirect callback
     codeChallenge: '{{PKCE code challenge from backend}}', // PKCE is required for interaction code flow
   }
@@ -511,7 +509,6 @@ var signIn = new OktaSignIn(
     issuer: 'https://{yourOktaDomain}/oauth2/default',
     clientId: '{{clientId of your OIDC app}}',
     redirectUri: '{{redirectUri configured in OIDC app}}',
-    useInteractionCodeFlow: true,
     state: '{{state from URL}}',
     otp: '{{otp from URL}}'
   }
@@ -536,7 +533,6 @@ var signIn = new OktaSignIn(
     issuer: 'https://{yourOktaDomain}/oauth2/default',
     clientId: '{{clientId of your OIDC app}}',
     redirectUri: '{{redirectUri configured in OIDC app}}',
-    useInteractionCodeFlow: true
   }
 );
 ```
@@ -556,7 +552,6 @@ var signIn = new OktaSignIn({
   issuer: 'https://{yourOktaDomain}/oauth2/default'
   clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
-  useInteractionCodeFlow: true
 });
 
 oktaSignIn.showSignIn({
@@ -584,7 +579,6 @@ var signIn = new OktaSignIn({
   issuer: 'https://{yourOktaDomain}/oauth2/default',
   clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
-  useInteractionCodeFlow: true,
   state: '{{state passed from backend}}', // state can be any string, it will be passed on redirect callback
   codeChallenge: '{{PKCE code challenge from backend}}', // PKCE is required for interaction code flow
 });
@@ -671,7 +665,6 @@ var authClient = new OktaAuth({
 var config = {
   baseUrl: 'https://{yourOktaDomain}',
   authClient: authClient,
-  useInteractionCodeFlow: true
 };
 
 var signIn = new OktaSignIn(config);
@@ -680,12 +673,13 @@ var signIn = new OktaSignIn(config);
 
 If no `authClient` option is set, an instance will be created using the options passed to the widget and `authParams`:
 
+> **Note**: When using the `authClient` configuration option, make sure to install and use the **same version** of `@okta/okta-auth-js` as that used by the installed widget. This version can be found in the `package.json` file of the installed widget.
+
 ```javascript
 var config = {
   issuer: 'https://{yourOktaDomain}/oauth2/default',
   clientId: '{yourClientId}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
-  useInteractionCodeFlow: true,
   authParams: {
     ignoreSignature: true
   }
@@ -707,7 +701,6 @@ var config = {
   issuer: 'https://{yourOktaDomain}/oauth2/default',
   clientId: '{yourClientId}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
-  useInteractionCodeFlow: true
 };
 var signIn = new OktaSignIn(config);
 signIn.before('success-redirect', async () => {
@@ -729,7 +722,6 @@ var config = {
   issuer: 'https://{yourOktaDomain}/oauth2/default',
   clientId: '{yourClientId}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
-  useInteractionCodeFlow: true,
 };
 var signIn = new OktaSignIn(config);
 signIn.after('identify', async () => {
@@ -744,7 +736,7 @@ If you are using the [default Okta-hosted signin page](#okta-hosted-sign-in-page
 
 If you are using the [custom Okta-hosted signin page](#okta-hosted-sign-in-page-customizable), a configuration object is included on the page which contains all necessary values. You will probably not need to modify this object, but you may use this object as a starting point and add additional customizations.
 
-For embedded widgets, you should set the `issuer`, `clientId`, and `redirectUri`. Additionally you should set `useInteractionCodeFlow` to `true` to enable the OIE engine. (See [this document](https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md) for details on running in [Classic Engine][].
+For embedded widgets, you should set the `issuer`, `clientId`, and `redirectUri`. By default, the widget will run on the  [Identity Engine][] using the  [interaction code][] flow. The widget can also run against the [Classic Engine][] by setting the [useClassicEngine](#useClassicEngine) option to `true`. (See [this document](https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md) for more details on running in [Classic Engine][].
 
 ### Basic config options
 
@@ -765,7 +757,6 @@ var config = {
   issuer: 'https://{yourOktaDomain}/oauth2/default',
   clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
-  useInteractionCodeFlow: true
 }
 ```
 
@@ -776,7 +767,6 @@ var config = {
   issuer: 'https://{yourOktaDomain}/oauth2/custom',
   clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
-  useInteractionCodeFlow: true
 }
 ```
 
@@ -787,7 +777,6 @@ var config = {
   issuer: 'https://{yourOktaDomain}',
   clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
-  useInteractionCodeFlow: true
 }
 ```
 
@@ -805,9 +794,11 @@ Client Id of the application.
 
 The URI to use for the [OAuth callback](#oauth-callback).
 
-#### useInteractionCodeFlow
+#### useClassicEngine
 
-Enables the [interaction code][] flow in the widget. This is the only supported authentication method for embedded widgets on the [Identity Engine][]. (See [this document](https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md) for details on running in [Classic Engine][]).
+Defaults to `false`. By default, the widget will use the [interaction code][] flow on the [Identity Engine][]. Setting the `useClassicEngine` option to `true` will cause the widget to run against the [Classic Engine][] instead. (See [this document](https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md) for more details on configuring a widget running in [Classic Engine][]).
+
+> **Note**: This option, along with support for the [Classic Engine][], will be removed in a future widget version. All customers are encouraged to migrate from the [Classic Engine][] to the [Identity Engine][]. Visit [Migrating to OIE](https://developer.okta.com/docs/guides/migrate-to-oie/) for more details on migrating to [Identity Engine][].
 
 #### codeChallenge
 
@@ -1426,7 +1417,6 @@ We use Yarn as our node package manager. To install Yarn, check out their [insta
       issuer: 'https://{yourOktaDomain}/oauth2/default',
       clientId: '{{clientId of your OIDC app}}',
       redirectUri: '{{redirectUri configured in OIDC app}}',
-      useInteractionCodeFlow: true,
       logoText: 'Windico',
       features: {
         rememberMe: true,

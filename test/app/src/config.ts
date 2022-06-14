@@ -67,7 +67,7 @@ export function getDefaultConfig(): Config {
       issuer,
       clientId,
       redirectUri,
-      useInteractionCodeFlow: true
+      useClassicEngine: false
     }
   };
   return removeNils(config) as Config;

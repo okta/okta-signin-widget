@@ -27,6 +27,7 @@ function setup(settings, res) {
       {
         el: $sandbox,
         baseUrl: baseUrl,
+        useClassicEngine: true,
         features: { securityImage: true },
         authClient: authClient,
       },
