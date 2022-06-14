@@ -295,6 +295,7 @@ module.exports = function(grunt) {
       'generate-config': 'yarn generate-config',
       'run-protractor': 'yarn protractor',
       'pseudo-loc': 'node scripts/buildtools pseudo-loc',
+      'prepack': 'node scripts/buildtools build:prepack',
       'build-types': 'yarn build:types'
     },
 
@@ -386,7 +387,8 @@ module.exports = function(grunt) {
     'Prepares the dist directory for publishing on npm',
     function() {
       grunt.task.run([
-        'copy:src-to-dist'
+        'copy:src-to-dist',
+        'exec:prepack'
       ]);
     }
   );

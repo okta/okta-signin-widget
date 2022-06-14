@@ -8,20 +8,10 @@ const WIDGET_MAIN_ENTRY = './dist/js/okta-sign-in.entry.js';
 const WIDGET_MODULE_ENTRY = './dist/esm/src/index.js';
 
 exports.command = 'build:prepack';
-exports.describe = 'Prepares the dist directory for publishing on npm';
+exports.describe = 'Prepares the package.json for publishing on npm';
 
 exports.handler = async () => {
   shell.echo(chalk.cyan('Prepacking...'));
-
-  // move these files to dist/
-  shell.cp('-Rf', [
-    'package.json',
-    'LICENSE',
-    'THIRD-PARTY-NOTICES',
-    '*.md',
-    'types',
-    'src',
-  ], `${BUILD_DIR}`);
 
   // tweak package.json for pre-publish
   shell.echo('Modifying final package.json');
