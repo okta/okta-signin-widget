@@ -48,7 +48,7 @@ export default PrimaryAuthModel.extend({
       resource: resource,
       requestContext: requestContext,
     };
-    const authClient = this.appState.settings.authClient;
+    const authClient = this.appState.settings.getAuthClient();
 
     authClient
       .webfinger(webfingerArgs)

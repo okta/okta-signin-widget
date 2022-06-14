@@ -33,6 +33,7 @@ async function setup(t) {
     features: {
       router: true,
     },
+    useClassicEngine: true
   });
   return resetPasswordPage;
 }

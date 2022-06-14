@@ -66,10 +66,14 @@ async function setupDirectAuth(t) {
   const identityPage = new IdentityPageObject(t);
   await identityPage.navigateToPage({ render: false });
   await renderWidget({
-    stateToken: 'abc',
     clientId: 'fake',
     redirectUri: 'http://doesnot-matter',
+    codeChallenge: 'abc', // cannot do PKCE calcs on http://localhost
+    authParams: {
+      pkce: true // required for interaction code flow
+    }
   });
+  await identityPage.form.el.exists;
   return identityPage;
 }
 
@@ -139,6 +143,7 @@ test.requestHooks(logger, mockOnlyOneIdp)('should auto redirect to 3rd party IdP
 test.requestHooks(logger, mockOnlyOneIdp)('Direct auth: does not auto redirect to 3rd party IDP on initial load', async t => {
   const identityPage = await setupDirectAuth(t);
 
+  // await t.wait(100);
   await checkConsoleMessages({
     controller: null,
     formName: 'redirect-idp',
