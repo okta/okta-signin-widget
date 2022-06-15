@@ -68,7 +68,7 @@
     "generate:types": "ttsc --noEmit false --declaration --emitDeclarationOnly --declarationMap",
     "copy:types": "grunt copy:types",
     "build:types": "yarn clean:types && yarn generate:types && yarn copy:types",
-    "start:mock-server": "MOCK_SERVER_PORT=3030 nodemon --delay 100 -e js,json --watch playground/mocks --exec 'node playground/mocks/server.js'"
+    "start:mock-server": "MOCK_SERVER_PORT=3030 nodemon --delay 500ms -e js,json --watch playground --exec 'node playground/mocks/server.js'"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
