@@ -22,13 +22,13 @@ const idx = {
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
-    'error-401-invalid-otp-passcode',
+    // 'error-401-invalid-otp-passcode',
     // 'error-with-failure-redirect',
     // 'error-feature-not-enabled',
     // 'error-account-creation',
     // 'error-request-not-completed',
     // 'error-403-security-access-denied',
-    'error-session-expired',
+    // 'error-session-expired',
     // 'error-password-reset-failed',
     // 'error-identify-with-only-one-third-party-idp',
     // 'authenticator-enroll-email',
@@ -104,7 +104,7 @@ const idx = {
     // 'oda-enrollment-android',
     // 'mdm-enrollment',
     // 'authenticator-verification-custom-app-push',
-    // 'authenticator-enroll-custom-app-push'
+    // 'authenticator-enroll-custom-app-push'    
   ],
   '/idp/idx/enroll': [
     'enroll-profile-new',
