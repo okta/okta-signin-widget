@@ -6,7 +6,7 @@
     "jsx": "react",
     "jsxFactory": "h",
     "strict": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "paths": {
       "src/*": [ "./src/*" ],
       "react": [ "node_modules/preact/compat" ],
