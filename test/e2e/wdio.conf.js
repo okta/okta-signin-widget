@@ -30,8 +30,6 @@ const drivers = {
   chrome: { version: CHROMEDRIVER_VERSION }
 };
 
-console.log(process.env.CHROMIUM_BINARY);
-console.log(browserOptions);
 
 const conf = {
     //
@@ -330,9 +328,11 @@ if (process.env.TEST_LANG) {
 
   // TODO: add support for FF, Edge and IE
   const chrome = conf.capabilities.find(c => c.browserName === 'chrome');
-  chrome['goog:chromeOptions'].pref = {
+  chrome['goog:chromeOptions'].prefs = {
     'intl.accept_languages': process.env.TEST_LANG
   }
+  // Chrome does not respect 'prefs' when running in headless mode
+  chrome['goog:chromeOptions'].args = [];
 }
 
 exports.config = conf;

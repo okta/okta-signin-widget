@@ -66,35 +66,26 @@ const getTask = ({ lang }) => {
         runner.on('exit', function(code) {
           console.log('Test runner exited with code: ' + code);
           returnCode = code;
-          // server.kill();
           resolve(returnCode);
         });
-        // runner.on('error', function(err) {
-        //   server.kill();
-        //   throw err;
-        // });
-        // server.on('exit', function(code) {
-        //   console.log('Server exited with code: ' + code);
-        //   resolve(returnCode);
-        // });
       });
     });
   };
+  fn.lang = lang;
   return fn;
 };
 
 // track process returnCode for each task
 const codes = [];
 
-// const tasks = langConfig.supportedLanguages.reduce((tasks, lang) => {
-//   return [...tasks, getTask({ lang })]
-// }, []);
-// 
-// test special cases (Dutch, Portuguese)
-// tasks.push(getTask({ lang: 'nl' }));
-// tasks.push(getTask({ lang: 'pt' }));
+const tasks = langConfig.supportedLanguages.reduce((tasks, lang) => {
+  if (lang === 'en') return tasks;    // no reason to test english, it's already tested everywhere else
+  return [...tasks, getTask({ lang })]
+}, []);
 
-const tasks = [getTask({ lang: 'en' })];
+// test special cases (Dutch, Portuguese)
+tasks.push(getTask({ lang: 'nl' }));
+tasks.push(getTask({ lang: 'pt' }));
 
 function runNextTask() {
   if (tasks.length === 0) {
@@ -102,25 +93,42 @@ function runNextTask() {
     return;
   }
   const task = tasks.shift();
-  console.log(`Running next task: ${task.description}`);
+  console.log(`Running next task: ${task.lang}`);
   return task().then((code) => {
     codes.push(code);
     return runNextTask();
   });
 }
 
+let npmServer = null, cdnServer = null;
 async function runLangTests () {
   const testList = [...tasks];
 
-  // run all lang tests against npm
-  const npmServer = await startHarnessApp('npm');
-  await runNextTask();
-  npmServer.kill();
+  // run all lang tests against npm bundle
+  try {
+    npmServer = await startHarnessApp('npm');
+    await runNextTask();
+  }
+  finally {
+    // dev server must die
+    if (npmServer) {
+      npmServer.kill();
+      npmServer = null;
+    }
+  }
 
-  // testList.map(task => tasks.push(task));
-  // const cdnServer = await startHarnessApp('cdn');
-  // await runNextTask();
-  // cdnServer.kill();
+  testList.map(task => tasks.push(task));
+  try {
+    cdnServer = await startHarnessApp('cdn');
+    await runNextTask();
+  }
+  finally {
+    // dev server must die
+    if (cdnServer) {
+      cdnServer.kill();
+      cdnServer = null;
+    }
+  }
 
   if (!codes.length || codes.reduce((acc, curr) => acc + curr, 0) !== 0) {
     // exit with error status if no finished task or any test fails
@@ -128,5 +136,11 @@ async function runLangTests () {
     process.exit(1);
   }
 }
+
+process.on('exit', () => {
+  // don't leave dev servers running
+  if (npmServer) npmServer.kill();
+  if (cdnServer) cdnServer.kill();
+});
 
 runLangTests().catch(console.error);
