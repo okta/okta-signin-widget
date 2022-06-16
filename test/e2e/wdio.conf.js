@@ -333,6 +333,7 @@ if (process.env.TEST_LANG) {
   }
   // Chrome does not respect 'prefs' when running in headless mode
   chrome['goog:chromeOptions'].args = [
+      '--headless',
       '--disable-gpu',
       '--window-size=1600x1200',
       '--no-sandbox',
