@@ -35,7 +35,7 @@ const startHarnessApp = (bundle) => {
       resolve(server);
     });
   });
-}
+};
 
 const getTask = ({ lang }) => {
   const fn = function() {
@@ -79,8 +79,11 @@ const getTask = ({ lang }) => {
 const codes = [];
 
 const tasks = langConfig.supportedLanguages.reduce((tasks, lang) => {
-  if (lang === 'en') return tasks;    // no reason to test english, it's already tested everywhere else
-  return [...tasks, getTask({ lang })]
+  if (lang === 'en') {
+    // no reason to test english, it's already tested everywhere else
+    return tasks;
+  }
+  return [...tasks, getTask({ lang })];
 }, []);
 
 // test special cases (Dutch, Portuguese)
@@ -101,8 +104,10 @@ function runNextTask() {
 }
 
 let npmServer = null, cdnServer = null;
-async function runLangTests () {
+async function runLangTests() {
+  /* eslint-disable no-unused-vars */
   const testList = [...tasks];
+  /* eslint-enable no-unused-vars */
 
   // run all lang tests against npm bundle
   try {
@@ -140,8 +145,8 @@ async function runLangTests () {
 
 process.on('exit', () => {
   // don't leave dev servers running
-  if (npmServer) npmServer.kill();
-  if (cdnServer) cdnServer.kill();
+  if (npmServer) { npmServer.kill(); }
+  if (cdnServer) { cdnServer.kill(); }
 });
 
 runLangTests().catch(console.error);

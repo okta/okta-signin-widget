@@ -9,7 +9,7 @@ const {
 } = process.env;
 
 
-describe('Language Test', () => {
+describe(`Language Test: ${TEST_LANG}`, () => {
   let config;
   beforeEach(async () => {
     config = {
@@ -30,8 +30,8 @@ describe('Language Test', () => {
     await PrimaryAuthPage.waitForPrimaryAuthForm();
 
     const title = 'Sign In';    // primaryauth.title (login.properties)
-    const formTitle = await PrimaryAuthPage.formTitle.getText()
+    const formTitle = await PrimaryAuthPage.formTitle.getText();
+
     expect(formTitle).not.toEqual(title);
   });
 });
-
