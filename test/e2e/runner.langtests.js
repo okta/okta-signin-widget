@@ -117,18 +117,19 @@ async function runLangTests () {
     }
   }
 
-  testList.map(task => tasks.push(task));
-  try {
-    cdnServer = await startHarnessApp('cdn');
-    await runNextTask();
-  }
-  finally {
-    // dev server must die
-    if (cdnServer) {
-      cdnServer.kill();
-      cdnServer = null;
-    }
-  }
+  // TODO: disabled for development. This doubles the amount of tests - is this even needed?
+  // testList.map(task => tasks.push(task));
+  // try {
+  //   cdnServer = await startHarnessApp('cdn');
+  //   await runNextTask();
+  // }
+  // finally {
+  //   // dev server must die
+  //   if (cdnServer) {
+  //     cdnServer.kill();
+  //     cdnServer = null;
+  //   }
+  // }
 
   if (!codes.length || codes.reduce((acc, curr) => acc + curr, 0) !== 0) {
     // exit with error status if no finished task or any test fails
