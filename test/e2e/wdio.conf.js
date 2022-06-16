@@ -332,7 +332,15 @@ if (process.env.TEST_LANG) {
     'intl.accept_languages': process.env.TEST_LANG
   }
   // Chrome does not respect 'prefs' when running in headless mode
-  chrome['goog:chromeOptions'].args = [];
+  chrome['goog:chromeOptions'].args = [
+      '--disable-gpu',
+      '--window-size=1600x1200',
+      '--no-sandbox',
+      '--whitelisted-ips',
+      '--disable-extensions',
+      '--verbose',
+      '--disable-dev-shm-usage'
+  ]
 }
 
 exports.config = conf;
