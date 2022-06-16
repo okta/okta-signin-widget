@@ -13,6 +13,7 @@ class PrimaryAuthOIEPage {
   get identifierField() { return $('input[name="identifier"]'); }
   get passwordField() { return $('input[name="credentials.passcode"]'); }
   get submitButton() { return $('input[data-type="save"]'); }
+  get formTitle() { return $('[data-se="o-form-head"]'); }
 
   get oktaOidcIdPButton() { return $('[data-se="social-auth-general-idp-button"]'); }
 

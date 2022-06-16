@@ -17,6 +17,7 @@ finally {
 const startHarnessApp = (bundle) => {
   return new Promise((resolve) => {
     // start the dev server
+    console.log('Launching harness app...');
     const server = spawn('yarn', [
       'workspace', '@okta/test.app', 'start'
     ], {
@@ -31,7 +32,7 @@ const startHarnessApp = (bundle) => {
         'http-get://localhost:3000'
       ]
     }).then(() => {
-      return server;
+      resolve(server);
     });
   });
 }
@@ -79,20 +80,21 @@ const getTask = ({ lang }) => {
       });
     });
   };
-  fn.description = `E2E specs against test app using bundle: ${bundle}`;
   return fn;
 };
 
 // track process returnCode for each task
 const codes = [];
 
-const tasks = langConfig.supportedLanguages.reduce((tasks, lang) => {
-  return [...tasks, getTask({ lang })]
-}, []);
-
+// const tasks = langConfig.supportedLanguages.reduce((tasks, lang) => {
+//   return [...tasks, getTask({ lang })]
+// }, []);
+// 
 // test special cases (Dutch, Portuguese)
-tasks.push(getTask({ lang: 'nl' }));
-tasks.push(getTask({ lang: 'pt' }));
+// tasks.push(getTask({ lang: 'nl' }));
+// tasks.push(getTask({ lang: 'pt' }));
+
+const tasks = [getTask({ lang: 'en' })];
 
 function runNextTask() {
   if (tasks.length === 0) {
@@ -115,10 +117,10 @@ async function runLangTests () {
   await runNextTask();
   npmServer.kill();
 
-  tasks = [...testList];
-  const cdnServer = await startHarnessApp('cdn');
-  await runNextTask();
-  cdnServer.kill();
+  // testList.map(task => tasks.push(task));
+  // const cdnServer = await startHarnessApp('cdn');
+  // await runNextTask();
+  // cdnServer.kill();
 
   if (!codes.length || codes.reduce((acc, curr) => acc + curr, 0) !== 0) {
     // exit with error status if no finished task or any test fails
