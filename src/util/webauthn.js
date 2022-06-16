@@ -52,9 +52,48 @@ function getAssertion(challenge, allowList) {
   return adaptToOkta(promise);
 }
 
+
+// eslint-disable-next-line no-unused-vars
+function isWebAuthnSupported() {
+  if (window.PublicKeyCredential === undefined ||
+    typeof window.PublicKeyCredential !== 'function') {
+    return true;
+  }
+
+  if (window.PublicKeyCredential) {
+    return true;
+  }
+  return false;
+}
+
+
+// eslint-disable-next-line no-unused-vars
+function isPlatformAuthenticatorSupported() {
+  if (window.PublicKeyCredential === undefined ||
+    typeof window.PublicKeyCredential !== 'function' ||
+    typeof window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable !== 'function') {
+    return true;
+  }
+
+  if (window.PublicKeyCredential) {
+    // eslint-disable-next-line no-undef
+    PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()
+      .then(function(available){
+        return available;
+      }).catch(function(err){
+      // Something went wrong
+        console.error(err);
+      });
+  }
+
+  return true;
+}
+
 export default {
   makeCredential: makeCredential,
   getAssertion: getAssertion,
+  isWebAuthnSupported: isWebAuthnSupported,
+  isPlatformAuthenticatorSupported: isPlatformAuthenticatorSupported,
   isAvailable: function() {
     return Object.prototype.hasOwnProperty.call(window, 'msCredentials');
   },
