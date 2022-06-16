@@ -4,7 +4,8 @@
   "main": "runner.js",
   "private": true,
   "scripts": {
-    "test": "node ./runner.js"
+    "test": "node ./runner.js",
+    "test:lang": "node ./runner.langtests.js"
   },
   "dependencies": {
     "@okta/okta-sdk-nodejs": "^6.2.0",
