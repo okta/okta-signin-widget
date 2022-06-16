@@ -117,7 +117,7 @@ async function runLangTests () {
     }
   }
 
-  // TODO: disabled for development. This doubles the amount of tests - is this even needed?
+  // For now, running tests against 1 bundle type is sufficient
   // testList.map(task => tasks.push(task));
   // try {
   //   cdnServer = await startHarnessApp('cdn');
