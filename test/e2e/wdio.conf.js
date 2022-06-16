@@ -344,4 +344,6 @@ if (process.env.TEST_LANG) {
   ]
 }
 
+console.log(conf);
+
 exports.config = conf;
