@@ -5,7 +5,7 @@ require('@babel/register'); // Allows use of import module syntax
 require('regenerator-runtime'); // Allows use of async/await
 const wdioConfig = require('./wdio.conf');
 // ensures 'capabilities', 'services' and 'reporters' will need to be defined in this conf file
-const { capabilities, services, reporters, ...conf } = wdioConfig;
+const { capabilities, services, reporters, ...conf } = wdioConfig.config;
 
 const DEBUG = process.env.DEBUG;
 const defaultTimeoutInterval = DEBUG ? (24 * 60 * 60 * 1000) : 10000;
