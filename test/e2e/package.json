@@ -7,7 +7,7 @@
     "test": "node ./runner.js"
   },
   "dependencies": {
-    "@okta/okta-sdk-nodejs": "^6.2.0",
+    "@okta/okta-sdk-nodejs": "^6.5.0",
     "@okta/okta-signin-widget": "*"
   },
   "devDependencies": {
@@ -16,14 +16,14 @@
     "@babel/preset-env": "^7.15.6",
     "@babel/runtime": "^7.10.3",
     "@okta/env": "*",
-    "@wdio/cli": "^7.19.5",
-    "@wdio/cucumber-framework": "^7.5.3",
-    "@wdio/jasmine-framework": "^7.16.0",
-    "@wdio/junit-reporter": "^7.19.5",
-    "@wdio/local-runner": "^7.14.1",
-    "@wdio/sauce-service": "^7.19.5",
-    "@wdio/selenium-standalone-service": "^7.14.1",
-    "@wdio/spec-reporter": "^7.14.1",
+    "@wdio/cli": "^7.20.2",
+    "@wdio/cucumber-framework": "^7.20.2",
+    "@wdio/jasmine-framework": "^7.20.0",
+    "@wdio/junit-reporter": "^7.20.0",
+    "@wdio/local-runner": "^7.20.2",
+    "@wdio/sauce-service": "^7.20.2",
+    "@wdio/selenium-standalone-service": "^7.20.1",
+    "@wdio/spec-reporter": "^7.20.0",
     "cross-spawn-with-kill": "^1.0.0",
     "husky": "^3.0.2",
     "jasmine-ajax": "^4.0.0",
