@@ -190,8 +190,8 @@ export default class AppState extends Model {
     const previousRawState = this.has('idx') ? this.get('idx').rawIdxState : null;
 
     const identicalResponse = _.isEqual(
-      _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh', 'stateHandle', 'headers']),
-      _.nestedOmit(previousRawState, ['expiresAt', 'refresh', 'stateHandle', 'headers']));
+      _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh', 'stateHandle', 'headers', 'messages', '_http']),
+      _.nestedOmit(previousRawState, ['expiresAt', 'refresh', 'stateHandle', 'headers', 'messages', '_http']));
 
     if (identicalResponse) {
       this.set('dynamicRefreshInterval', this.getRefreshInterval(transformedResponse));
@@ -334,8 +334,8 @@ export default class AppState extends Model {
    */
   _isChallengeAuthenticatorPoll(transformedResponse, previousRawState) {
     const isSameExceptMessages = _.isEqual(
-      _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh', 'stateHandle', 'headers']),
-      _.nestedOmit(previousRawState, ['expiresAt', 'refresh', 'stateHandle', 'messages', 'headers']));
+      _.nestedOmit(transformedResponse.idx.rawIdxState, ['expiresAt', 'refresh', 'stateHandle', 'headers', '_http']),
+      _.nestedOmit(previousRawState, ['expiresAt', 'refresh', 'stateHandle', 'messages', 'headers', '_http']));
 
     const isChallengeAuthenticator = this.get('currentFormName') === 'challenge-authenticator';
     const isCurrentAuthenticatorEmail = this.get('currentAuthenticatorEnrollment')?.key === AUTHENTICATOR_KEY.EMAIL;
