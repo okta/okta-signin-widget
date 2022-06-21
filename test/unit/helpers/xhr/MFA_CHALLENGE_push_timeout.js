@@ -2,10 +2,6 @@ export default {
   status: 200,
   responseType: 'json',
   response: {
-    _http: { 
-      headers: { 'content-type': 'application/json' }, 
-      status: 200 
-    },
     headers: { 'content-type': 'application/json' },
     stateToken: '00uvJlu1Kvehw-cwXY3CTH5gxisDXQ4p58XgC1xW0s',
     expiresAt: '2015-10-22T02:23:28.893Z',
