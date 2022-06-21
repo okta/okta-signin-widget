@@ -23,7 +23,7 @@ import PhoneAuthenticatorControl from './PhoneAuthenticatorControl';
 
 const getComponentProps = (
   methodType: string,
-  mockFn: jest.Mock<any, any>,
+  mockFn: jest.Mock,
 ): ControlPropsAndContext => ({
   ctx: {
     core: {

@@ -8,20 +8,21 @@ module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
   require('time-grunt')(grunt);
 
-  var Handlebars  = require('handlebars'),
-      postcssAutoprefixer = require('autoprefixer')({remove: false}),
-      cssnano     = require('cssnano')({safe: true}),      
-      sass        = require('sass'),
-      Fiber       = require('fibers'),
-      path        = require('path');
+  let Handlebars  = require('handlebars');
+  let postcssAutoprefixer = require('autoprefixer')({remove: false});
+  let cssnano     = require('cssnano')({safe: true});
+  let sass        = require('sass');
+  let Fiber       = require('fibers');
+  let path        = require('path');
 
-  var JS                    = 'target/js',
-      DIST                  = 'dist/dist',
-      SASS                  = 'target/sass',
-      I18N_SRC              = 'packages/@okta/i18n/src',
-      COURAGE_TYPES         = 'packages/@okta/courage-dist/types',
-      // Note: 3000 is necessary to test against certain browsers in SauceLabs
-      DEFAULT_SERVER_PORT   = 3000;
+  let JS                    = 'target/js';
+  let DIST                  = 'dist/dist';
+  let SASS                  = 'target/sass';
+  let I18N_SRC              = 'packages/@okta/i18n/src';
+  let COURAGE_TYPES         = 'packages/@okta/courage-dist/types';
+
+  // NOTE: 3000 is necessary to test against certain browsers in SauceLabs
+  let DEFAULT_SERVER_PORT   = 3000;
 
   var mockDuo = grunt.option('env.mockDuo');
 
@@ -99,6 +100,37 @@ module.exports = function(grunt) {
             rename: function() {
               return 'target/sass/widgets/_jquery.qtip.scss';
             }
+          }
+        ]
+      },
+
+      'src-to-dist': {
+        files: [
+          {
+            expand: true,
+            dest: 'dist',
+            src: [
+              'package.json',
+              'LICENSE',
+              'THIRD-PARTY-NOTICES',
+              '*.md',
+              'types/**',
+              'src/**',
+              '!src/v3/**',
+            ],
+          },
+          {
+            expand: true,
+            dest: 'dist/src/v3',
+            cwd: 'src/v3/src',
+            src: [
+              '**',
+              '!bin/**',
+              '!mocks/**',
+              '!**/__snapshots__/**',
+              '!**/*.svg',
+              '!**/*.test.{js,jsx,ts,tsx}',
+            ],
           }
         ]
       },
@@ -249,7 +281,7 @@ module.exports = function(grunt) {
             dest: 'target/js'
           }
         ]
-      }
+      },
     },
 
     exec: {
@@ -258,7 +290,7 @@ module.exports = function(grunt) {
       'build-dev': 'yarn build:webpack-dev' + (mockDuo ? ' --env mockDuo=true' : ''),
       'build-dev-watch':
         'yarn build:webpack-dev --watch --env skipAnalyzer=true' + (mockDuo ? ' --env mockDuo=true' : ''),
-      'build-release': 'yarn build:webpack-release && yarn build:esm',
+      'build-release': 'yarn build:webpack-release && yarn build:esm && yarn workspace v3 build',
       'build-e2e-app': 'yarn build:webpack-e2e-app',
       'generate-config': 'yarn generate-config',
       'run-protractor': 'yarn protractor',
@@ -313,7 +345,7 @@ module.exports = function(grunt) {
             extensions: ['html'],
             setHeaders: res => {
               res.setHeader(
-                'Content-Security-Policy', 
+                'Content-Security-Policy',
                 `script-src 'unsafe-inline' http://localhost:${DEFAULT_SERVER_PORT}`
               );
             }
@@ -348,8 +380,18 @@ module.exports = function(grunt) {
         ]
       }
     },
-
   });
+
+  grunt.task.registerTask(
+    'prepack',
+    'Prepares the dist directory for publishing on npm',
+    function() {
+      grunt.task.run([
+        'copy:src-to-dist',
+        'exec:prepack'
+      ]);
+    }
+  );
 
   grunt.task.registerTask(
     'build-e2e-app',
@@ -442,7 +484,7 @@ module.exports = function(grunt) {
     if (prodBuild) {
       buildTasks.push('exec:build-release');
       postBuildTasks.push('copy:target-to-dist');
-      postBuildTasks.push('exec:prepack');
+      postBuildTasks.push('prepack');
     } else {
       const devTask = mode === 'watch' ? 'exec:build-dev-watch' : 'exec:build-dev';
       buildTasks.push(devTask);

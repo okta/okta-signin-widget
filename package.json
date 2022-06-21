@@ -74,7 +74,8 @@
     "clean:types": "grunt clean:types",
     "generate:types": "ttsc --noEmit false --declaration --emitDeclarationOnly --declarationMap",
     "copy:types": "grunt copy:types",
-    "build:types": "yarn clean:types && yarn generate:types && yarn copy:types"
+    "build:types": "yarn clean:types && yarn generate:types && yarn copy:types",
+    "start:mock-server": "MOCK_SERVER_PORT=3030 nodemon --delay 500ms -e js,json --watch playground --exec 'node playground/mocks/server.js'"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
@@ -191,9 +192,10 @@
     "webpack-dev-server": "^4.8.1"
   },
   "dependencies": {
-    "@okta/okta-auth-js": "6.5.1",
+    "@okta/okta-auth-js": "^6.6.0",
     "@sindresorhus/to-milliseconds": "^1.0.0",
     "@types/backbone": "^1.4.15",
+    "@types/eslint-scope": "^3.7.3",
     "@types/jquery": "^3.5.14",
     "@types/jqueryui": "^1.12.16",
     "@types/q": "^1.5.5",
@@ -225,13 +227,16 @@
       "test/e2e",
       "test/types",
       "playground",
-      "packages/@okta/courage-dist"
+      "packages/@okta/courage-dist",
+      "src/v3"
     ],
     "nohoist": [
-      "**/@wdio/**"
+      "**/@wdio/**",
+      "**/@types/ajv-errors",
+      "**/@types/ajv-errors/**"
     ]
   },
-  "packageManager": "yarn@1.22.17",
+  "packageManager": "yarn@1.18.0",
   "tsd": {
     "directory": "test/types"
   }

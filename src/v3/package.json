@@ -1,24 +1,38 @@
 {
-  "name": "@okta/okta-signin-widget",
+  "name": "v3",
   "version": "0.0.0",
   "private": true,
   "description": "Okta Sign In Widget Next",
-  "homepage": "https://github.com/okta/siw-next",
+  "homepage": "https://github.com/okta/okta-signin-widget",
   "bugs": {
-    "url": "https://github.com/okta/siw-next/issues"
+    "url": "https://github.com/okta/okta-signin-widget/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/okta/siw-next.git"
+    "url": "https://github.com/okta/okta-signin-widget.git"
   },
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "umd:main": "dist/index.umd.js",
   "module": "dist/index.m.js",
   "source": "components/widget/index.js",
+  "workspaces": {
+    "nohoist": [
+      "ajv-errors",
+      "@types/ajv-errors",
+      "preact-cli",
+      "preact-cli/**",
+      "preact-cli-plugin-env-vars",
+      "preact-cli-plugin-env-vars/**",
+      "preact-render-to-string",
+      "preact-render-to-string/**",
+      "preact-svg-loader",
+      "preact-svg-loader/**"
+    ]
+  },
   "scripts": {
     "prebuild": "yarn build:i18n",
-    "build": "preact build --no-prerender --no-sw --dest build/dist",
+    "build": "preact build --no-prerender --no-sw --dest ../../dist/dist/js",
     "build:i18n": "node src/bin/properties-to-json",
     "clean-svg": "svgo -f src/img/authCoinIcons",
     "predev": "yarn build:i18n",
@@ -26,9 +40,8 @@
     "prelint": "yarn build:i18n",
     "lint": "eslint .",
     "lint:report": "scripts/buildtools/lint-report.sh",
-    "preview": "sirv build/dist --port 8080",
     "pretest": "yarn build:i18n",
-    "test": "PREACT_APP_USE_PKCE=false NODE_ENV=test jest --no-colors --runInBand",
+    "test": "PREACT_APP_USE_PKCE=false NODE_ENV=test jest",
     "test:e2e": "NODE_ENV=test testcafe --config-file test/e2e/.testcaferc.js test/e2e/tests/**/*.ts",
     "test:report": "PREACT_APP_USE_PKCE=false NODE_ENV=test jest --coverage"
   },
@@ -42,32 +55,7 @@
     "@jsonforms/vanilla-renderers": "^2.5.2",
     "@okta/odyssey-react": "0.13.x",
     "@okta/odyssey-react-theme": "0.13.x",
-    "@okta/okta-auth-js": "6.6.2",
-    "ajv": "6.12.6",
-    "ajv-errors": "1.0.1",
-    "babel-jest": "^27.3.1",
-    "chroma-js": "^2.4.2",
-    "classnames": "^2.3.1",
-    "deepmerge": "^4.2.2",
-    "i18next": "^21.6.0",
-    "i18next-browser-languagedetector": "^6.1.2",
-    "i18next-chained-backend": "^3.0.2",
-    "i18next-http-backend": "^1.4.0",
-    "i18next-localstorage-backend": "^3.1.3",
-    "lodash": "^4.17.21",
-    "preact": "^10.5.13",
-    "preact-habitat": "^3.1.0",
-    "react-i18next": "^11.14.3",
-    "typescript": "4.4.4"
-  },
-  "devDependencies": {
-    "@okta/odyssey-babel-loader": "0.13.x",
-    "@okta/odyssey-babel-preset": "0.13.x",
-    "@okta/odyssey-postcss-preset": "0.13.x",
-    "@testcafe-community/axe": "^3.5.0",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/preact": "^2.0.1",
-    "@testing-library/preact-hooks": "^1.1.0",
+    "@okta/okta-auth-js": "^6.6.2",
     "@types/ajv-errors": "1.0.1",
     "@types/chroma-js": "^2.1.3",
     "@types/jest": "^25.1.4",
@@ -75,6 +63,30 @@
     "@types/node": "^14.14.14",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "ajv": "6.12.6",
+    "ajv-errors": "1.0.1",
+    "babel-jest": "^27.3.1",
+    "chroma-js": "^2.4.2",
+    "classnames": "^2.3.1",
+    "i18next": "^21.6.0",
+    "i18next-browser-languagedetector": "^6.1.2",
+    "i18next-chained-backend": "^3.0.2",
+    "i18next-http-backend": "^1.4.0",
+    "i18next-localstorage-backend": "^3.1.3",
+    "lodash": "^4.17.21",
+    "preact": "^10.5.13",
+    "react-i18next": "^11.14.3",
+    "typescript": "4.4.4"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.17.12",
+    "@okta/odyssey-babel-loader": "0.13.x",
+    "@okta/odyssey-babel-preset": "0.13.x",
+    "@okta/odyssey-postcss-preset": "0.13.x",
+    "@testcafe-community/axe": "^3.5.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/preact": "^2.0.1",
+    "@testing-library/preact-hooks": "^1.1.0",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
     "axe-core": "^4.3.3",
@@ -108,7 +120,6 @@
     "preact-render-to-string": "^5.1.19",
     "preact-svg-loader": "^0.2.1",
     "properties": "^1.2.1",
-    "sirv-cli": "^2.0.2",
     "svgo": "^2.3.0",
     "testcafe": "^1.18.2",
     "ts-jest": "^26.5.6",
@@ -117,7 +128,7 @@
     "whatwg-fetch": "^3.6.2"
   },
   "engines": {
-    "node": ">=12.22.0"
+    "node": ">=14.0.0"
   },
   "msw": {
     "workerDirectory": "src/static"
