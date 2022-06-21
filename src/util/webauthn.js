@@ -54,7 +54,7 @@ function getAssertion(challenge, allowList) {
 
 
 // eslint-disable-next-line no-unused-vars
-function isWebAuthnSupported() {
+async function isWebAuthnSupported() {
   if (window.PublicKeyCredential === undefined ||
     typeof window.PublicKeyCredential !== 'function') {
     return true;
@@ -68,25 +68,29 @@ function isWebAuthnSupported() {
 
 
 // eslint-disable-next-line no-unused-vars
-function isPlatformAuthenticatorSupported() {
+async function isPlatformAuthenticatorSupported() {
   if (window.PublicKeyCredential === undefined ||
     typeof window.PublicKeyCredential !== 'function' ||
     typeof window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable !== 'function') {
     return true;
   }
-
-  if (window.PublicKeyCredential) {
-    // eslint-disable-next-line no-undef
-    PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()
-      .then(function(available){
-        return available;
-      }).catch(function(err){
-      // Something went wrong
-        console.error(err);
-      });
+  if( !await isWebAuthnSupported()) {
+     return false;
   }
+  let isSupported = true;
+  await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()
+    .then(function(available){
+      if (available === undefined || !available) {
+        isSupported = false;
+      } else if (available) {
+        isSupported = true;
+      }
+    }).catch(function(err){
+    // Something went wrong
+      console.error(err);
+    });
 
-  return true;
+    return isSupported;
 }
 
 export default {
