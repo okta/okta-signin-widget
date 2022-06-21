@@ -68,6 +68,10 @@
             "challengeMethod": "CUSTOM_URI",
             "href": "okta-verify.html",
             "downloadHref": "https://apps.apple.com/us/app/okta-verify/id490179405",
+            "domain": "http://localhost",
+            "ports": [ "2000", "6511", "6512", "6513" ],
+            "probeTimeoutMillis": 100,
+            "acceptLoopbackWithinMillis": 3000,
             "cancel": {
                 "rel": [
                     "create-form"

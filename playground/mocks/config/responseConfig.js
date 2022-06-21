@@ -1053,5 +1053,5 @@ const selectOktaVerifyMethod = {
 };
 
 module.exports = {
-  mocks: idx
+  mocks: windowAuthnCustomUri
 };

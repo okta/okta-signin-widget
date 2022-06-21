@@ -81,6 +81,9 @@ export function doChallenge(view, fromView) {
     }));
     view.customURI = appendLoginHint(deviceChallenge.href, loginHint);
     view.doCustomURI();
+    if (deviceChallenge.acceptLoopbackWithinMillis) {
+      view.doLoopback(deviceChallenge);
+    }
     break;
   case Enums.UNIVERSAL_LINK_CHALLENGE:
     view.title = loc('universalLink.title', 'login');
