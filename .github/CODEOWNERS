@@ -15,3 +15,6 @@
 packages/@okta/pseudo-loc/    @nikhilvenkatraman-okta @jmelberg-okta
 packages/@okta/i18n/          @nikhilvenkatraman-okta @jmelberg-okta @mauriciocastillosilva-okta @pradeepdewda-okta
 test/testcafe/spec-en-leaks/  @nikhilvenkatraman-okta @jmelberg-okta
+
+# SIW Next (v3)
+src/v3/                       @glenfannin-okta @leemchale-okta @lesterchoi-okta @shawyu-okta @shuowu
