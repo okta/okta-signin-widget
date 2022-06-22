@@ -17,6 +17,7 @@ src/config/config.json
 .yalc
 .env
 testenv
+packages/@okta/courage-dist/esm.visualizer.html
 packages/@okta/i18n/src/json/
 packages/@okta/i18n/src/properties/*_in.*
 packages/@okta/i18n/dist/
