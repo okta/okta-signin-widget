@@ -312,6 +312,10 @@ export default class TestApp {
     } catch (err) {
       throw new Error('Config need to be set in config editor before rendering the widget');
     }
+    // loading assets from CDN will fail when running tests on an unpublished (to npm) siw version
+    config.assets = {
+      baseUrl: '/'
+    };
     return config;
   }
 
