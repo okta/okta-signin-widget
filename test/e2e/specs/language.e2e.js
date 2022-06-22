@@ -1,6 +1,7 @@
 import TestAppPage from '../page-objects/test-app.page';
 import PrimaryAuthPage from '../page-objects/primary-auth-oie.page';
 import { waitForLoad } from '../util/waitUtil';
+import { locUtil } from '../util/locUtil';
 
 const {
   WIDGET_SPA_CLIENT_ID,
@@ -29,9 +30,12 @@ describe(`Language Test: ${TEST_LANG}`, () => {
     await waitForLoad(TestAppPage.widget);
     await PrimaryAuthPage.waitForPrimaryAuthForm();
 
-    const title = 'Sign In';    // primaryauth.title (login.properties)
+    const loc = await locUtil(TEST_LANG);
+
+    // primaryauth.title (login.properties)
+    const title = loc('primaryauth.title', 'login');
     const formTitle = await PrimaryAuthPage.formTitle.getText();
 
-    expect(formTitle).not.toEqual(title);
+    expect(formTitle).toEqual(title);
   });
 });

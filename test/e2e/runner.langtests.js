@@ -104,6 +104,17 @@ function runNextTask() {
 }
 
 let npmServer = null, cdnServer = null;
+const cleanup = () => {
+  if (npmServer) {
+    npmServer.kill();
+    npmServer = null;
+  }
+  if (cdnServer) {
+    cdnServer.kill();
+    cdnServer = null;
+  }
+}
+
 async function runLangTests() {
   /* eslint-disable no-unused-vars */
   const testList = [...tasks];
@@ -116,10 +127,7 @@ async function runLangTests() {
   }
   finally {
     // dev server must die
-    if (npmServer) {
-      npmServer.kill();
-      npmServer = null;
-    }
+    cleanup();
   }
 
   // For now, running tests against 1 bundle type is sufficient
@@ -130,23 +138,20 @@ async function runLangTests() {
   // }
   // finally {
   //   // dev server must die
-  //   if (cdnServer) {
-  //     cdnServer.kill();
-  //     cdnServer = null;
-  //   }
+  //   cleanup();
   // }
 
   if (!codes.length || codes.reduce((acc, curr) => acc + curr, 0) !== 0) {
     // exit with error status if no finished task or any test fails
     // eslint-disable-next-line no-process-exit
+    cleanup();
     process.exit(1);
   }
 }
 
 process.on('exit', () => {
   // don't leave dev servers running
-  if (npmServer) { npmServer.kill(); }
-  if (cdnServer) { cdnServer.kill(); }
+  cleanup();
 });
 
 runLangTests().catch(console.error);
