@@ -110,6 +110,7 @@ const idx = {
     'enroll-profile-new',
     // 'enroll-profile-with-password',
     // 'error-enroll-regisration-unavailable',
+    // 'enroll-profile-with-idps'
   ],
   '/idp/idx/credential/enroll': [
     // 'authenticator-enroll-ov-via-sms',

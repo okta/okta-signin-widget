@@ -1,4 +1,8 @@
+import { Selector } from 'testcafe';
 import BasePageObject from './BasePageObject';
+
+const IDPS_CONTAINER = '.okta-idps-container';
+const CUSTOM_IDP_BUTTON = '.social-auth-general-idp-button';
 
 export default class EnrollProfileViewPageObject extends BasePageObject {
   constructor(t) {
@@ -31,6 +35,14 @@ export default class EnrollProfileViewPageObject extends BasePageObject {
 
   getCheckboxValue(fieldName){
     return this.form.getCheckboxValue(fieldName);
+  }
+
+  getIdpsContainer() {
+    return Selector(IDPS_CONTAINER);
+  }
+
+  getCustomIdpButtonLabel(index) {
+    return Selector(CUSTOM_IDP_BUTTON).nth(index).textContent;
   }
 
 }
