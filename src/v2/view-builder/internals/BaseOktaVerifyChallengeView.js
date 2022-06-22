@@ -57,7 +57,7 @@ const Body = BaseFormWithPolling.extend({
     throw new Error('getDeviceChallengePayload needs to be implemented');
   },
 
-  doLoopback(deviceChallenge) {
+  doLoopback(deviceChallenge, initiatedByCustomScheme) {
     let authenticatorDomainUrl = deviceChallenge.domain !== undefined ? deviceChallenge.domain : '';
     let ports = deviceChallenge.ports !== undefined ? deviceChallenge.ports : [];
     let challengeRequest = deviceChallenge.challengeRequest !== undefined ? deviceChallenge.challengeRequest : '';
@@ -127,7 +127,7 @@ const Body = BaseFormWithPolling.extend({
                   AUTHENTICATION_CANCEL_REASONS.OV_ERROR,
                   xhr.status
                 );
-              } else if (countFailedPorts === ports.length) {
+              } else if (countFailedPorts === ports.length && !initiatedByCustomScheme) {
                 // when challenge is responded by the wrong OS profile and
                 // all the ports are exhausted,
                 // cancel the polling like the probing has failed
@@ -155,7 +155,7 @@ const Body = BaseFormWithPolling.extend({
         .catch(() => {
           countFailedPorts++;
           Logger.error(`Authenticator is not listening on port ${currentPort}.`);
-          if (countFailedPorts === ports.length) {
+          if (countFailedPorts === ports.length && !initiatedByCustomScheme) {
             Logger.error('No available ports. Loopback server failed and polling is cancelled.');
             cancelPollingWithParams(
               this.options.appState,

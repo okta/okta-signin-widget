@@ -41,7 +41,7 @@ export function doChallenge(view, fromView) {
       className: 'loopback-content',
       template: hbs`<div class="spinner"></div>`
     }));
-    view.doLoopback(deviceChallenge);
+    view.doLoopback(deviceChallenge, false);
     break;
   case Enums.CUSTOM_URI_CHALLENGE:
     view.title = loc('customUri.title', 'login');
@@ -82,7 +82,9 @@ export function doChallenge(view, fromView) {
     view.customURI = appendLoginHint(deviceChallenge.href, loginHint);
     view.doCustomURI();
     if (deviceChallenge.acceptLoopbackWithinMillis) {
-      view.doLoopback(deviceChallenge);
+      setTimeout(() => {
+        view.doLoopback(deviceChallenge, true);
+      }, 2000);
     }
     break;
   case Enums.UNIVERSAL_LINK_CHALLENGE:
