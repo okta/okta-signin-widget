@@ -29,13 +29,15 @@ const loadLangBundle = async (lang) => {
   return {
     country: JSON.parse(countryFileRaw),
     login: JSON.parse(loginFileRaw)
-  }
-}
+  };
+};
 
 export const locUtil = async (lang) => {
   const bundles = await loadLangBundle(lang);
+  /* eslint-disable no-unused-vars */
   return (key, bundle='login', params) => {
+  /* eslint-enable no-unused-vars */
     // TODO: handle params
     return bundles[bundle][key];
-  }
-}
+  };
+};

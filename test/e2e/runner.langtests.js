@@ -113,7 +113,7 @@ const cleanup = () => {
     cdnServer.kill();
     cdnServer = null;
   }
-}
+};
 
 async function runLangTests() {
   /* eslint-disable no-unused-vars */
