@@ -94,6 +94,8 @@ export default BaseLoginController.extend({
   registerUser: function(postData) {
     const self = this;
 
+    Object.keys(postData).forEach((k) =>
+      (_.isNull(postData[k]) || _.isUndefined(postData[k]) || postData[k] === '') && delete postData[k]);
     this.model.attributes = postData;
     // Model.save returns a jqXHR
     Backbone.Model.prototype.save
