@@ -82,7 +82,12 @@ export function doChallenge(view, fromView) {
     view.customURI = appendLoginHint(deviceChallenge.href, loginHint);
     view.doCustomURI();
     if (deviceChallenge.acceptLoopbackWithinMillis) {
-      setTimeout(() => {
+      let loopbackCallTimes = 0;
+      const interval = setInterval(() => {
+        loopbackCallTimes++;
+        if (loopbackCallTimes === 4) {
+          clearInterval(interval);
+        }
         view.doLoopback(deviceChallenge, true);
       }, 2000);
     }

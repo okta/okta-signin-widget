@@ -113,10 +113,11 @@ const Body = BaseFormWithPolling.extend({
             })
             .fail((xhr) => {
               countFailedPorts++;
+    
               // Windows and MacOS return status code 503 when 
               // there are multiple profiles on the device and
               // the wrong OS profile responds to the challenge request
-              if (xhr.status !== 503) {
+              if (xhr.status !== 503 && !initiatedByCustomScheme) {
                 // when challenge responds with other errors,
                 // - stop the remaining probing
                 ovFailed = true;
