@@ -54,7 +54,7 @@ function getAssertion(challenge, allowList) {
 
 
 // eslint-disable-next-line no-unused-vars
-async function isWebAuthnSupported() {
+function isWebAuthnSupported() {
   if (window.PublicKeyCredential === undefined ||
     typeof window.PublicKeyCredential !== 'function') {
     return true;
@@ -74,8 +74,8 @@ async function isPlatformAuthenticatorSupported() {
     typeof window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable !== 'function') {
     return true;
   }
-  if( !await isWebAuthnSupported()) {
-     return false;
+  if(!isWebAuthnSupported()) {
+    return false;
   }
   let isSupported = true;
   await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()

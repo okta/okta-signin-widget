@@ -33,11 +33,11 @@ export async function startLoginFlow(settings) {
     exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
     shouldProceedWithEmailAuthenticator: false, // do not auto-select email authenticator
   };
-  const isWebAuthnSupported = await webauthn.isWebAuthnSupported();
+
   const isPlatformAuthenticatorSupported = await webauthn.isPlatformAuthenticatorSupported();
-  authClient.http.setRequestHeader("x-okta-amr-hint", "{\"type\":\"pop\",\"hint\":{\"supported\":"
-    + isWebAuthnSupported +",\"platformAuthenticatorSupported\":"
-    + isPlatformAuthenticatorSupported +"}}");
+  if (isPlatformAuthenticatorSupported) {
+    authClient.http.setRequestHeader("x-okta-amr-hint", "pop");
+  }
 
   // Return a preset response
   if (settings.get('proxyIdxResponse')) {
