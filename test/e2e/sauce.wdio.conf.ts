@@ -21,7 +21,7 @@ exports.config = {
   user: process.env.SAUCE_USERNAME,
   key: process.env.SAUCE_ACCESS_KEY,
   maxInstances: 1,
-  waitforTimeout: 90000,
+  waitforTimeout: 15000,
   specs: [
     path.resolve(__dirname, 'features/**/interaction-code-flow.feature')
   ],
