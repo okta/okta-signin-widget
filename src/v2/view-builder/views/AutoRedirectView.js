@@ -1,6 +1,8 @@
-import { _, loc } from 'okta';
+import {_, loc} from 'okta';
 import { BaseForm, BaseView } from '../internals';
 import { INTERSTITIAL_REDIRECT_VIEW } from '../../ion/RemediationConstants';
+
+const UNLOCK_USER_SUCCESS_MESSAGE = 'oie.selfservice.unlock_user.landing.to.app.success.message';
 
 const Body = BaseForm.extend({
   title() {
@@ -33,6 +35,18 @@ const Body = BaseForm.extend({
     }
 
     return titleString;
+  },
+  showMessages() {
+    if (this.isUnlockSucess()) {
+      const container = '.o-form-error-container';
+      const text = loc('oie.selfservice.unlock_user.landing.to.app.signing.in.message', 'login');
+      this.add(`<div class="ion-messages-container"><p>${text}</p></div>`, container);
+      return;
+    }
+    BaseForm.prototype.showMessages.call(this);
+  },
+  isUnlockSucess() {
+    return this.options.appState.containsMessageWithI18nKey(UNLOCK_USER_SUCCESS_MESSAGE);
   },
   noButtonBar: true,
   initialize() {

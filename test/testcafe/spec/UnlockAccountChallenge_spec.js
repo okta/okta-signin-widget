@@ -140,7 +140,7 @@ test.requestHooks(identifyLockedUserLandOnAppMock)('should show unlock account a
   await selectFactorPage.fillIdentifierField('username');
   await selectFactorPage.selectFactorByIndex(0);
 
-  const challengeEmailPageObject =new ChallengeEmailPageObject(t);
+  const challengeEmailPageObject = new ChallengeEmailPageObject(t);
   await t.expect(challengeEmailPageObject.getFormTitle()).eql('Verify with your email');
   await challengeEmailPageObject.clickEnterCodeLink();
   await challengeEmailPageObject.verifyFactor('credentials.passcode', '12345');
@@ -148,7 +148,7 @@ test.requestHooks(identifyLockedUserLandOnAppMock)('should show unlock account a
 
   const successPage = new TerminalPageObject(t);
   await t.expect(successPage.getFormTitle()).eql('Verify with your password');
-  await t.expect(successPage.getMessages()).eql('Account successfully unlocked!Continue to access myApp.');
+  await t.expect(successPage.getMessages()).eql('Account successfully unlocked! Verify your account with a security method to continue.');
   const gobackLinkExists = await successPage.goBackLinkExists();
   await t.expect(gobackLinkExists).eql(false);
   const signoutLinkExists = await successPage.signoutLinkExists();

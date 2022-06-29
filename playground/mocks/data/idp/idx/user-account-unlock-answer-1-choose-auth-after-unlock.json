@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "stateHandle": "02SrPNlTAOhaU8-l7a2T1Q3wNnqJl3KByb7vLpVxgf",
-  "expiresAt": "2022-06-18T20:13:35.000Z",
+  "expiresAt": "2022-06-28T13:12:46.000Z",
   "intent": "LOGIN",
   "remediation": {
     "type": "array",
@@ -24,8 +24,17 @@
             "form": {
               "value": [
                 {
-                  "name": "passcode",
-                  "label": "Password",
+                  "name": "questionKey",
+                  "label": "What is the food you least liked as a child?",
+                  "required": true,
+                  "value": "disliked_food",
+                  "visible": false,
+                  "mutable": false
+                },
+                {
+                  "name": "answer",
+                  "label": "Answer",
+                  "required": true,
                   "secret": true
                 }
               ]
@@ -47,7 +56,7 @@
           "create-form"
         ],
         "name": "select-authenticator-authenticate",
-        "href": "http://zge2otawm2etnmuwys00ytjmltljnwytmgi5y2mwnzc3zmmy.okta1.com:1802/idp/idx/challenge",
+        "href": "http://localhost:3000/idp/idx/challenge",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "value": [
@@ -56,20 +65,20 @@
             "type": "object",
             "options": [
               {
-                "label": "Password",
+                "label": "Security Question",
                 "value": {
                   "form": {
                     "value": [
                       {
                         "name": "id",
                         "required": true,
-                        "value": "autao3t7GeBKBR4bN0g4",
+                        "value": "aut8xorxxg7WN1uqK0g4",
                         "mutable": false
                       },
                       {
                         "name": "methodType",
                         "required": false,
-                        "value": "password",
+                        "value": "security_question",
                         "mutable": false
                       }
                     ]
@@ -91,48 +100,26 @@
       }
     ]
   },
-  "messages": {
-    "type": "array",
-    "value": [
-      {
-        "message": "Account successfully unlocked! Verify your account with a security method to continue.",
-        "i18n": {
-          "key": "oie.selfservice.unlock_user.landing.to.app.success.message",
-          "params": []
-        },
-        "class": "INFO"
-      }
-    ]
-  },
   "currentAuthenticatorEnrollment": {
     "type": "object",
     "value": {
-      "recover": {
-        "rel": [
-          "create-form"
-        ],
-        "name": "recover",
-        "href": "http://localhost:3000/idp/idx/recover",
-        "method": "POST",
-        "produces": "application/ion+json; okta-version=1.0.0",
-        "value": [
-          {
-            "name": "stateHandle",
-            "required": true,
-            "value": "02SrPNlTAOhaU8-l7a2T1Q3wNnqJl3KByb7vLpVxgf",
-            "visible": false,
-            "mutable": false
-          }
-        ],
-        "accepts": "application/json; okta-version=1.0.0"
+      "profile": {
+        "questionKey": "disliked_food",
+        "question": "What is the food you least liked as a child?"
       },
-      "type": "password",
-      "key": "okta_password",
-      "id": "lae10wxocUPWduhan0g4",
-      "displayName": "Password",
+      "contextualData": {
+        "enrolledQuestion": {
+          "questionKey": "disliked_food",
+          "question": "What is the food you least liked as a child?"
+        }
+      },
+      "type": "security_question",
+      "key": "security_question",
+      "id": "qae96wppLGQQ0jTX70g4",
+      "displayName": "Security Question",
       "methods": [
         {
-          "type": "password"
+          "type": "security_question"
         }
       ]
     }
@@ -141,16 +128,16 @@
     "type": "array",
     "value": [
       {
-        "type": "password",
-        "key": "okta_password",
-        "id": "autao3t7GeBKBR4bN0g4",
-        "displayName": "Password",
+        "type": "security_question",
+        "key": "security_question",
+        "id": "aut8xorxxg7WN1uqK0g4",
+        "displayName": "Security Question",
         "methods": [
           {
-            "type": "password"
+            "type": "security_question"
           }
         ],
-        "allowedFor": "sso"
+        "allowedFor": "recovery"
       }
     ]
   },
@@ -158,13 +145,17 @@
     "type": "array",
     "value": [
       {
-        "type": "password",
-        "key": "okta_password",
-        "id": "lae10wxocUPWduhan0g4",
-        "displayName": "Password",
+        "profile": {
+          "questionKey": "disliked_food",
+          "question": "What is the food you least liked as a child?"
+        },
+        "type": "security_question",
+        "key": "security_question",
+        "id": "qae96wppLGQQ0jTX70g4",
+        "displayName": "Security Question",
         "methods": [
           {
-            "type": "password"
+            "type": "security_question"
           }
         ]
       }
@@ -173,11 +164,11 @@
   "user": {
     "type": "object",
     "value": {
-      "id": "00u1rap95IDS7a1TN0g4",
-      "identifier": "testUser@okta.com",
+      "id": "00u8z3oSyy3OGUEx50g4",
+      "identifier": "lock@test.com",
       "profile": {
-        "firstName": "Bobby甲斐",
-        "lastName": "Amélie",
+        "firstName": "lock",
+        "lastName": "test",
         "timeZone": "America/Los_Angeles",
         "locale": "en_US"
       }
@@ -205,28 +196,9 @@
   "app": {
     "type": "object",
     "value": {
-      "name": "oidc_client",
-      "label": "myApp",
-      "id": "0oaao6cokssiUgfBM0g4",
-      "termsOfService": {
-        "rel": [
-          "terms-of-service"
-        ],
-        "href": "https://app.example.com/terms-of-service"
-      },
-      "privacyPolicy": {
-        "rel": [
-          "privacy-policy"
-        ],
-        "href": "https://app.example.com/privacy-policy"
-      },
-      "logo": {
-        "rel": [
-          "icon"
-        ],
-        "href": "https://app.example.com/logo",
-        "alt": "Logo for the app"
-      }
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "0oa8xmpcQ4J74GAhD0g4"
     }
   }
 }

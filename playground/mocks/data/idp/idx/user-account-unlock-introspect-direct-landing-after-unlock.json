@@ -1,0 +1,105 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02SrPNlTAOhaU8-l7a2T1Q3wNnqJl3KByb7vLpVxgf",
+  "expiresAt": "2022-06-29T16:10:41.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "identify",
+        "href": "http://localhost:3000/idp/idx/identify",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "identifier",
+            "label": "Username",
+            "required": true
+          },
+          {
+            "name": "rememberMe",
+            "type": "boolean",
+            "label": "Remember this device"
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02SrPNlTAOhaU8-l7a2T1Q3wNnqJl3KByb7vLpVxgf",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-enroll-profile",
+        "href": "http://localhost:3000/idp/idx/enroll",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02SrPNlTAOhaU8-l7a2T1Q3wNnqJl3KByb7vLpVxgf",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "unlock-account",
+        "href": "http://localhost:3000/idp/idx/unlock-account",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02SrPNlTAOhaU8-l7a2T1Q3wNnqJl3KByb7vLpVxgf",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02SrPNlTAOhaU8-l7a2T1Q3wNnqJl3KByb7vLpVxgf",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "0oa8xmpcQ4J74GAhD0g4"
+    }
+  }
+}

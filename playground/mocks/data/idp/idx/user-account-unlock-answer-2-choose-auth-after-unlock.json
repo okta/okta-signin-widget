@@ -1,0 +1,237 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02SrPNlTAOhaU8-l7a2T1Q3wNnqJl3KByb7vLpVxgf",
+  "expiresAt": "2022-06-28T13:12:53.000Z",
+  "intent": "LOGIN",
+  "remediation": {
+    "type": "array",
+    "value": [
+      {
+        "rel": [
+          "create-form"
+        ],
+        "name": "select-authenticator-authenticate",
+        "href": "http://localhost:3000/idp/idx/challenge",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "value": [
+          {
+            "name": "authenticator",
+            "type": "object",
+            "options": [
+              {
+                "label": "Email",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut8xooEaLnRZPUeU0g4",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "email",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[0]"
+              },
+              {
+                "label": "Google Authenticator",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut94l68ZxWibx25W0g4",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "otp",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[1]"
+              },
+              {
+                "label": "Password",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut8xon7sigcblW240g4",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "password",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[2]"
+              }
+            ]
+          },
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02SrPNlTAOhaU8-l7a2T1Q3wNnqJl3KByb7vLpVxgf",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      }
+    ]
+  },
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Account successfully unlocked! Verify your account with a security method to continue.",
+        "i18n": {
+          "key": "oie.selfservice.unlock_user.landing.to.app.success.message",
+          "params": []
+        },
+        "class": "INFO"
+      }
+    ]
+  },
+  "authenticators": {
+    "type": "array",
+    "value": [
+      {
+        "type": "email",
+        "key": "okta_email",
+        "id": "aut8xooEaLnRZPUeU0g4",
+        "displayName": "Email",
+        "methods": [
+          {
+            "type": "email"
+          }
+        ],
+        "allowedFor": "any"
+      },
+      {
+        "type": "app",
+        "key": "google_otp",
+        "id": "aut94l68ZxWibx25W0g4",
+        "displayName": "Google Authenticator",
+        "methods": [
+          {
+            "type": "otp"
+          }
+        ],
+        "allowedFor": "sso"
+      },
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "aut8xon7sigcblW240g4",
+        "displayName": "Password",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ],
+        "allowedFor": "sso"
+      }
+    ]
+  },
+  "authenticatorEnrollments": {
+    "type": "array",
+    "value": [
+      {
+        "profile": {
+          "email": "l***k@test.com"
+        },
+        "type": "email",
+        "key": "okta_email",
+        "id": "eae8z3s4cffN7fmVo0g4",
+        "displayName": "Email",
+        "methods": [
+          {
+            "type": "email"
+          }
+        ]
+      },
+      {
+        "type": "app",
+        "key": "google_otp",
+        "id": "uft94l9GoxNvnxSg00g4",
+        "displayName": "Google Authenticator",
+        "methods": [
+          {
+            "type": "otp"
+          }
+        ]
+      },
+      {
+        "type": "password",
+        "key": "okta_password",
+        "id": "laeuhlZ0wJlBoqufL0g3",
+        "displayName": "Password",
+        "methods": [
+          {
+            "type": "password"
+          }
+        ]
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u8z3oSyy3OGUEx50g4",
+      "identifier": "lock@test.com",
+      "profile": {
+        "firstName": "lock",
+        "lastName": "test",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US"
+      }
+    }
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02SrPNlTAOhaU8-l7a2T1Q3wNnqJl3KByb7vLpVxgf",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "0oa8xmpcQ4J74GAhD0g4"
+    }
+  }
+}
