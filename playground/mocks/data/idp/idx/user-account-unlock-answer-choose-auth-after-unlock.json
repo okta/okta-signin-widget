@@ -1,0 +1,63 @@
+{
+  "version": "1.0.0",
+  "stateHandle": "02SrPNlTAOhaU8-l7a2T1Q3wNnqJl3KByb7vLpVxgf",
+  "expiresAt": "2022-06-29T14:16:20.000Z",
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "Account successfully unlocked! Verify your account with a security method to continue.",
+        "i18n": {
+          "key": "oie.selfservice.unlock_user.landing.to.app.success.message",
+          "params": []
+        },
+        "class": "INFO"
+      }
+    ]
+  },
+  "user": {
+    "type": "object",
+    "value": {
+      "id": "00u8z3oSyy3OGUEx50g4",
+      "identifier": "lock@test.com",
+      "profile": {
+        "firstName": "lock",
+        "lastName": "test",
+        "timeZone": "America/Los_Angeles",
+        "locale": "en_US"
+      }
+    }
+  },
+  "success": {
+    "name": "success-redirect",
+    "href": "http://localhost:3000/login/token/redirect?stateToken=02SrPNlTAOhaU8-l7a2T1Q3wNnqJl3KByb7vLpVxgf"
+  },
+  "cancel": {
+    "rel": [
+      "create-form"
+    ],
+    "name": "cancel",
+    "href": "http://localhost:3000/idp/idx/cancel",
+    "method": "POST",
+    "produces": "application/ion+json; okta-version=1.0.0",
+    "value": [
+      {
+        "name": "stateHandle",
+        "required": true,
+        "value": "02SrPNlTAOhaU8-l7a2T1Q3wNnqJl3KByb7vLpVxgf",
+        "visible": false,
+        "mutable": false
+      }
+    ],
+    "accepts": "application/json; okta-version=1.0.0"
+  },
+  "app": {
+    "type": "object",
+    "value": {
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "0oa8xmpcQ4J74GAhD0g4"
+    }
+  }
+}

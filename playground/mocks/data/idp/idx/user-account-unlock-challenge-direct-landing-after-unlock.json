@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "stateHandle": "02SrPNlTAOhaU8-l7a2T1Q3wNnqJl3KByb7vLpVxgf",
-  "expiresAt": "2022-06-18T20:13:35.000Z",
+  "expiresAt": "2022-06-29T14:26:08.000Z",
   "intent": "LOGIN",
   "remediation": {
     "type": "array",
@@ -25,8 +25,7 @@
               "value": [
                 {
                   "name": "passcode",
-                  "label": "Password",
-                  "secret": true
+                  "label": "Enter code"
                 }
               ]
             },
@@ -47,7 +46,7 @@
           "create-form"
         ],
         "name": "select-authenticator-authenticate",
-        "href": "http://zge2otawm2etnmuwys00ytjmltljnwytmgi5y2mwnzc3zmmy.okta1.com:1802/idp/idx/challenge",
+        "href": "http://localhost:3000/idp/idx/challenge",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "value": [
@@ -56,26 +55,48 @@
             "type": "object",
             "options": [
               {
-                "label": "Password",
+                "label": "Email",
                 "value": {
                   "form": {
                     "value": [
                       {
                         "name": "id",
                         "required": true,
-                        "value": "autao3t7GeBKBR4bN0g4",
+                        "value": "aut8xooEaLnRZPUeU0g4",
                         "mutable": false
                       },
                       {
                         "name": "methodType",
                         "required": false,
-                        "value": "password",
+                        "value": "email",
                         "mutable": false
                       }
                     ]
                   }
                 },
                 "relatesTo": "$.authenticatorEnrollments.value[0]"
+              },
+              {
+                "label": "Google Authenticator",
+                "value": {
+                  "form": {
+                    "value": [
+                      {
+                        "name": "id",
+                        "required": true,
+                        "value": "aut94l68ZxWibx25W0g4",
+                        "mutable": false
+                      },
+                      {
+                        "name": "methodType",
+                        "required": false,
+                        "value": "otp",
+                        "mutable": false
+                      }
+                    ]
+                  }
+                },
+                "relatesTo": "$.authenticatorEnrollments.value[1]"
               }
             ]
           },
@@ -91,28 +112,18 @@
       }
     ]
   },
-  "messages": {
-    "type": "array",
-    "value": [
-      {
-        "message": "Account successfully unlocked! Verify your account with a security method to continue.",
-        "i18n": {
-          "key": "oie.selfservice.unlock_user.landing.to.app.success.message",
-          "params": []
-        },
-        "class": "INFO"
-      }
-    ]
-  },
   "currentAuthenticatorEnrollment": {
     "type": "object",
     "value": {
-      "recover": {
+      "profile": {
+        "email": "l***k@test.com"
+      },
+      "resend": {
         "rel": [
           "create-form"
         ],
-        "name": "recover",
-        "href": "http://localhost:3000/idp/idx/recover",
+        "name": "resend",
+        "href": "http://localhost:3000/idp/idx/challenge/resend",
         "method": "POST",
         "produces": "application/ion+json; okta-version=1.0.0",
         "value": [
@@ -126,13 +137,33 @@
         ],
         "accepts": "application/json; okta-version=1.0.0"
       },
-      "type": "password",
-      "key": "okta_password",
-      "id": "lae10wxocUPWduhan0g4",
-      "displayName": "Password",
+      "poll": {
+        "rel": [
+          "create-form"
+        ],
+        "name": "poll",
+        "href": "http://localhost:3000/idp/idx/challenge/poll",
+        "method": "POST",
+        "produces": "application/ion+json; okta-version=1.0.0",
+        "refresh": 4000,
+        "value": [
+          {
+            "name": "stateHandle",
+            "required": true,
+            "value": "02SrPNlTAOhaU8-l7a2T1Q3wNnqJl3KByb7vLpVxgf",
+            "visible": false,
+            "mutable": false
+          }
+        ],
+        "accepts": "application/json; okta-version=1.0.0"
+      },
+      "type": "email",
+      "key": "okta_email",
+      "id": "eae8z3s4cffN7fmVo0g4",
+      "displayName": "Email",
       "methods": [
         {
-          "type": "password"
+          "type": "email"
         }
       ]
     }
@@ -141,13 +172,25 @@
     "type": "array",
     "value": [
       {
-        "type": "password",
-        "key": "okta_password",
-        "id": "autao3t7GeBKBR4bN0g4",
-        "displayName": "Password",
+        "type": "email",
+        "key": "okta_email",
+        "id": "aut8xooEaLnRZPUeU0g4",
+        "displayName": "Email",
         "methods": [
           {
-            "type": "password"
+            "type": "email"
+          }
+        ],
+        "allowedFor": "any"
+      },
+      {
+        "type": "app",
+        "key": "google_otp",
+        "id": "aut94l68ZxWibx25W0g4",
+        "displayName": "Google Authenticator",
+        "methods": [
+          {
+            "type": "otp"
           }
         ],
         "allowedFor": "sso"
@@ -158,13 +201,27 @@
     "type": "array",
     "value": [
       {
-        "type": "password",
-        "key": "okta_password",
-        "id": "lae10wxocUPWduhan0g4",
-        "displayName": "Password",
+        "profile": {
+          "email": "l***k@test.com"
+        },
+        "type": "email",
+        "key": "okta_email",
+        "id": "eae8z3s4cffN7fmVo0g4",
+        "displayName": "Email",
         "methods": [
           {
-            "type": "password"
+            "type": "email"
+          }
+        ]
+      },
+      {
+        "type": "app",
+        "key": "google_otp",
+        "id": "uft94l9GoxNvnxSg00g4",
+        "displayName": "Google Authenticator",
+        "methods": [
+          {
+            "type": "otp"
           }
         ]
       }
@@ -173,11 +230,11 @@
   "user": {
     "type": "object",
     "value": {
-      "id": "00u1rap95IDS7a1TN0g4",
-      "identifier": "testUser@okta.com",
+      "id": "00u8z3oSyy3OGUEx50g4",
+      "identifier": "lock@test.com",
       "profile": {
-        "firstName": "Bobby甲斐",
-        "lastName": "Amélie",
+        "firstName": "lock",
+        "lastName": "test",
         "timeZone": "America/Los_Angeles",
         "locale": "en_US"
       }
@@ -205,28 +262,9 @@
   "app": {
     "type": "object",
     "value": {
-      "name": "oidc_client",
-      "label": "myApp",
-      "id": "0oaao6cokssiUgfBM0g4",
-      "termsOfService": {
-        "rel": [
-          "terms-of-service"
-        ],
-        "href": "https://app.example.com/terms-of-service"
-      },
-      "privacyPolicy": {
-        "rel": [
-          "privacy-policy"
-        ],
-        "href": "https://app.example.com/privacy-policy"
-      },
-      "logo": {
-        "rel": [
-          "icon"
-        ],
-        "href": "https://app.example.com/logo",
-        "alt": "Logo for the app"
-      }
+      "name": "okta_enduser",
+      "label": "Okta Dashboard",
+      "id": "0oa8xmpcQ4J74GAhD0g4"
     }
   }
 }
