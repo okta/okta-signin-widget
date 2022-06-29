@@ -14,7 +14,8 @@ const webpackConfig = {
   output: {
     filename: '[name].bundle.js',
     path: path.join(__dirname, 'dist'),
-    clean: true
+    clean: true,
+    libraryTarget: 'umd'
   },
   resolve: {
     extensions: ['.js', '.ts'],
