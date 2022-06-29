@@ -51,7 +51,7 @@ const getTask = ({ lang }) => {
           wdioConfig = path.resolve(__dirname, 'cucumber.wdio.conf.ts');  
         }
         if (process.env.RUN_SAUCE_TESTS) {
-          wdioConfig = path.resolve(__dirname, 'sauce.wdio.conf.js');
+          wdioConfig = path.resolve(__dirname, 'sauce.wdio.conf.ts');
         }
         const runner = spawn(
           'npx', [
