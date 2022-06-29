@@ -1,5 +1,5 @@
 import { BaseForm, BaseView } from '../internals';
-import {createCallout, loc} from 'okta';
+import { createCallout, loc } from 'okta';
 import BaseFooter from '../internals/BaseFooter';
 import {getFactorPageCustomLink} from '../utils/LinksUtil';
 

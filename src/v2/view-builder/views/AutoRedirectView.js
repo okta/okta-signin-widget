@@ -1,4 +1,4 @@
-import {_, loc} from 'okta';
+import { _, loc } from 'okta';
 import { BaseForm, BaseView } from '../internals';
 import { INTERSTITIAL_REDIRECT_VIEW } from '../../ion/RemediationConstants';
 
