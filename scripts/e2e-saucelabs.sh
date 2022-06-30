@@ -31,6 +31,7 @@ if ! yarn build:release; then
   exit ${TEST_FAILURE}
 fi
 
+export CDN_ONLY=1
 if ! yarn test:e2e; then
   echo "e2e wdio tests failed! Exiting..."
   exit ${TEST_FAILURE}

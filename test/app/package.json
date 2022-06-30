@@ -21,6 +21,7 @@
     "@okta/env": "*",
     "@types/node": "^17.0.2",
     "babel-loader": "^8.2.2",
+    "core-js": "^3.23.3",
     "events": "^3.3.0",
     "html-webpack-plugin": "^5.3.2",
     "regenerator-runtime": "^0.13.7",
