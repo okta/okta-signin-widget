@@ -13,9 +13,8 @@ describe('v2/view-builder/views/AutoRedirectViewAfterUnlock', function() {
 
   beforeEach(function() {
     testContext = {};
-    testContext.init = (user = SuccessWithAppUserAfterUnlock.user.value,
-                        app = SuccessWithAppUserAfterUnlock.app.value,
-                        messages = SuccessWithAppUserAfterUnlock.messages) => {
+    testContext.init = (user = SuccessWithAppUserAfterUnlock.user.value, app = SuccessWithAppUserAfterUnlock.app.value,
+      messages = SuccessWithAppUserAfterUnlock.messages) => {
 
       const appState = new AppState();
       appState.set('user', user);
