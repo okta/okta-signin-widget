@@ -29,10 +29,6 @@
       }
     }
   },
-  "success": {
-    "name": "success-redirect",
-    "href": "http://localhost:3000/login/token/redirect?stateToken=02SrPNlTAOhaU8-l7a2T1Q3wNnqJl3KByb7vLpVxgf"
-  },
   "cancel": {
     "rel": [
       "create-form"
