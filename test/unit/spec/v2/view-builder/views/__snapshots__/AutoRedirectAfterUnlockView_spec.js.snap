@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`v2/view-builder/views/AutoRedirectViewAfterUnlock renders view after unlock 1`] = `
+<div
+  class="siw-main-view "
+>
+  <div
+    class="siw-main-header"
+  >
+    <div />
+  </div>
+  <div
+    class="siw-main-body"
+  >
+    <form
+      action="/"
+      class="ion-form o-form o-form-edit-mode"
+      data-se="o-form"
+      id="form7"
+      method="POST"
+      slot="content"
+    >
+      <div
+        class="o-form-content o-form-theme clearfix"
+        data-se="o-form-content"
+      >
+        <h2
+          class="okta-form-title o-form-head"
+          data-se="o-form-head"
+        >
+          Signing in...
+        </h2>
+        <div
+          class="identifier-container"
+        >
+          <span
+            class="identifier no-translate"
+            data-se="identifier"
+            title="lock@test.com"
+          >
+            lock@test.com
+          </span>
+        </div>
+        <div
+          class="o-form-info-container"
+        />
+        <div
+          class="o-form-error-container"
+          data-se="o-form-error-container"
+        >
+          <div
+            class="ion-messages-container"
+          >
+            <p>
+              Account successfully unlocked!
+            </p>
+          </div>
+        </div>
+        <div
+          class="o-form-fieldset-container"
+          data-se="o-form-fieldset-container"
+        />
+      </div>
+    </form>
+  </div>
+  <div
+    class="siw-main-footer"
+  >
+    <div
+      class="auth-footer"
+    />
+  </div>
+</div>
+`;
