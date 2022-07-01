@@ -64,15 +64,16 @@ const codes = [];
 
 let bundles = [{ bundle: 'cdn' }];
 
+// eslint-disable-next-line eqeqeq
 if (process.env.CDN_ONLY != 1) {
   bundles.unshift({ bundle: 'npm' });
 }
 
- const tasks = bundles.reduce((tasks, config) => {
-    const task = getTask(config);
-    tasks.push(task);
-    return tasks;
-  }, []);
+const tasks = bundles.reduce((tasks, config) => {
+  const task = getTask(config);
+  tasks.push(task);
+  return tasks;
+}, []);
 
 function runNextTask() {
   if (tasks.length === 0) {
