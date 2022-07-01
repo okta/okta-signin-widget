@@ -62,13 +62,13 @@ const getTask = ({ bundle }) => {
 // track process returnCode for each task
 const codes = [];
 
-const tasks = [{ bundle: 'cdn' }];
+let bundles = [{ bundle: 'cdn' }];
 
 if (process.env.CDN_ONLY != 1) {
-  tasks.unshift({ bundle: 'npm' });
+  bundles.unshift({ bundle: 'npm' });
 }
 
-tasks.reduce((tasks, config) => {
+ const tasks = bundles.reduce((tasks, config) => {
     const task = getTask(config);
     tasks.push(task);
     return tasks;
