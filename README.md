@@ -1436,6 +1436,7 @@ In `okta-signin-widget` directory:
 
 ```bash
 yarn build:release
+cd dist
 yarn link
 yarn build:webpack-dev --output-path ./dist/js --output-filename okta-sign-in.entry.js --watch
 ```
