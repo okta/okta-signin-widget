@@ -16,7 +16,7 @@ export const Body = BaseForm.extend({
     if (this.isPasswordRecoveryFlow())  {
       return loc('oie.password.reset.verification', 'login');
     }
-    if (this.isUnlockSucess()) {
+    if (this.isUnlockSuccess()) {
       const container = '.o-form-error-container';
       const text = loc('oie.select.authenticators.verify.subtitle', 'login');
       this.add(`<div class="ion-messages-container"><p>${text}</p></div>`, container);
@@ -29,7 +29,7 @@ export const Body = BaseForm.extend({
   },
   noButtonBar: true,
   showMessages() {
-    if (this.isUnlockSucess()) {
+    if (this.isUnlockSuccess()) {
       let options = {};
       options.subtitle = loc('oie.selfservice.unlock_user.landing.to.app.success.message', 'login');
       options.type = 'success';
@@ -39,7 +39,7 @@ export const Body = BaseForm.extend({
     }
     BaseForm.prototype.showMessages.call(this);
   },
-  isUnlockSucess() {
+  isUnlockSuccess() {
     return this.options.appState.containsMessageWithI18nKey(UNLOCK_USER_SUCCESS_MESSAGE);
   }
 });

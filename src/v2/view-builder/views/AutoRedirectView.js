@@ -37,7 +37,7 @@ const Body = BaseForm.extend({
     return titleString;
   },
   showMessages() {
-    if (this.isUnlockSucess()) {
+    if (this.isUnlockSuccess()) {
       const container = '.o-form-error-container';
       const text = loc('oie.selfservice.unlock_user.landing.to.app.signing.in.message', 'login');
       this.add(`<div class="ion-messages-container"><p>${text}</p></div>`, container);
@@ -45,7 +45,7 @@ const Body = BaseForm.extend({
     }
     BaseForm.prototype.showMessages.call(this);
   },
-  isUnlockSucess() {
+  isUnlockSuccess() {
     return this.options.appState.containsMessageWithI18nKey(UNLOCK_USER_SUCCESS_MESSAGE);
   },
   noButtonBar: true,
