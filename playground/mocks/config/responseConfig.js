@@ -1055,7 +1055,5 @@ const selectOktaVerifyMethod = {
 };
 
 module.exports = {
-  //mocks: idx
-  mocks: Test.UserUnlockAccountLandingApp.ChooseAuthAfterUnlock
-  //mocks: Test.UserUnlockAccountLandingApp.DirectLandingAfterUnlock
+  mocks: idx
 };
