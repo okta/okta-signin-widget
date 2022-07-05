@@ -21,14 +21,15 @@ export default View.extend({
       icon: 'okta-verify-authenticator',
       title: 'Use Touch ID',
       click: async () => {
-        //this.handleWebAuthnWithInterstitial();
-        await this.handleWebAuthnWithoutInterstitial();
+        this.handleWebAuthnWithInterstitial();
+        //await this.handleWebAuthnWithoutInterstitial();
       }
     }), '.okta-verify-container');
   },
   handleWebAuthnWithInterstitial: function(){
     this.options.appState.trigger('invokeAction', FORMS.LAUNCH_WEBAUTHN_AUTHENTICATOR);
   },
+  //this is no use for now.
   handleWebAuthnWithoutInterstitial: async function(){
     //get response from idx/webauthn/launch api call
     const actionPath = "launch-webauthn-authenticator";
