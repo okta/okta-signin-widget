@@ -19,7 +19,8 @@ const Body = BaseForm.extend(
         : loc('oie.phone.call.primaryButton', 'login');
     },
 
-    handleSecondaryLinkClick() {
+    handleSecondaryLinkClick(e) {
+      e.preventDefault();
       // Call the API to send a code via secondary mode
       const secondaryMode = this.model.get('secondaryMode');
       this.model.set('authenticator.methodType', secondaryMode);
