@@ -1,7 +1,7 @@
+import { RequestMock, RequestLogger, ClientFunction } from 'testcafe';
 import SuccessPageObject from '../framework/page-objects/SuccessPageObject';
 import ChallengePhonePageObject from '../framework/page-objects/ChallengePhonePageObject';
 import { checkConsoleMessages, renderWidget } from '../framework/shared';
-import { RequestMock, RequestLogger } from 'testcafe';
 import phoneVerificationSMSThenVoice from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-sms-then-voice';
 import phoneVerificationVoiceThenSMS from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-then-sms';
 import phoneVerificationVoiceOnly from '../../../playground/mocks/data/idp/idx/authenticator-verification-data-phone-voice-only';
@@ -108,11 +108,33 @@ const ratelimitReachedMock = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/challenge')
   .respond(voiceRatelimitErrorMock, 429);
 
+const voiceSecondaryMock = RequestMock()
+  .onRequestTo('http://localhost:3000/idp/idx/introspect')
+  .respond(phoneVerificationSMSThenVoice)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge')
+  .respond(voiceVerification)
+  .onRequestTo('http://localhost:3000/idp/idx/challenge/answer')
+  .respond(success);
+
 fixture('Challenge Phone Form');
 
 async function setup(t) {
   const challengePhonePageObject = new ChallengePhonePageObject(t);
   await challengePhonePageObject.navigateToPage();
+  return challengePhonePageObject;
+}
+
+async function setupInteractionCodeFlow(t) {
+  const challengePhonePageObject = await setup(t);
+  await challengePhonePageObject.navigateToPage({ render: false });
+
+  await challengePhonePageObject.mockCrypto();
+  // Render the widget for interaction code flow
+  await renderWidget({
+    clientId: 'fake',
+    redirectUri: 'http://doesnot-matter',
+    useInteractionCodeFlow: true,
+  });
   return challengePhonePageObject;
 }
 
@@ -168,6 +190,27 @@ test
     });
     await t.expect(method).eql('post');
     await t.expect(url).eql('http://localhost:3000/idp/idx/challenge');
+  });
+
+test
+  .requestHooks(logger, voiceSecondaryMock)('lazar', async t => {
+    const challengePhonePageObject = await setupInteractionCodeFlow(t);
+    await challengePhonePageObject.clickSecondaryLink();
+    await t.expect(logger.count(() => true)).eql(1);
+    const { request: { body, method, url } } = logger.requests[0];
+    const methodTypeRequestBody = JSON.parse(body);
+    await t.expect(methodTypeRequestBody).eql({
+      authenticator: {
+        id: 'id-phone-authenticator',
+        methodType: 'voice',
+      },
+      stateHandle: 'eyJ6aXAiOiJERUYiLCJhbGlhcyI6ImVuY3J5cHRpb25rZXkiLCJ2ZXIiOiIxIiwib2lkIjoiMDBvdjRlUHM0eXFjT21TcDAwZzMiLCJlbmMiOiJBMjU2R0NNIiwiYWxnIjoiZGlyIn0..bxH8DK0q1wAeq1IN.chFU_FKuKTYWBelYcUQcyw_wtVsyGk8UfRSXs8aQuzDIugGFWYQ9QC8lxyu1ltTVOvHakB_Wy_qqYmQSTm7QIP716ZThSGaA1oYVwmePTy0Rozo8NBcYpyhsvHwqrwMbRYTW3CUROu4rH8r_wXhAoEuA82XZ7m3FVMy9xmeEGgiHOSmD-uh2tX0mdii2EKrhUAXxbH_1oF49Et0_zP6sv9CQuW5fmS2DCUETMTSiMYyUrGAqBORDdyJGljXn5qSUP_gmp7Bh96fGzYA2QxsEh4LQofSxaHtQwt-JbP2jppDsnY7d-MhZcOr16IIhmYJwt7RC0C1OyiUp32d0fElK58NgP7iF8UHGicCKiIvQfI3X4p1bVt_-aSZtmwA8GDOIw4f97kVkcT2fO9RUTJEEy5qIlIG6WlG9F8sboBx4b-K33RDsYtoYrv7ISqH2TM84ztw80KBNyfsVTN7_EzP8O_4aB03A8dZT08-dZv6Tj_6eBvEjTN9tmT6G3O3zSjgQTxeXyxEEZJiWAbwdWVCge4AT-EdDKwXUZYrwCp8y_FBOqTsh2woyw75Ll7SEmCSc5IAvh01TfnbSNc5WfXdr0AdJN3WsYIv6PiGTlIgkigWZC_uQovJHA6gUknfD3q7Jc-VT2XrGX_trbK_fLa8pHoI9Er2thqF4sYtHK136uNKKxXNpuOndUW8r2qKreFMWZz_7MZbjz1urBbAWrLzmeMjvhfFuI7BdhjIQzex0AhQ0pgMk_Epw2V0J6b81t-IkXgQSayX5KYReSgXgJGeNAP_WbhHstFQ5qFzZf11ZmrAMLBbBAUFZx28esaQoqCODFho5m2PVDx5giQm9J75-AtqYpdJyESyWY6CZlUefKqcts9dAjHkE7YHWGQ7icHFXFuc3SGt8ro5z8JV_wA6MgXuaFkk5uruz-VbiMqhBkdNoBi_qAljH2icXuqkMhgl3E96IApJzFWS1yGZl4CelULScf7wOrlgwcAHYGzu8R1QNjSWQD8bUBQBEFXEktIpFtk-tZrF0PfVvzuVZ2Yurxb7s6zRCAPhFpgq81klAxBp7QI6Pf8KLkbrtO2GNWSN1iBsQvVMYfXTY-djDpQ-8Izz5hdlapJYa6v1eGmToqb8-OTjhVYOUXzGK1A_pF0XLFjAGViJqux-XGZitKIYSXl-4vLa_ZM5H4qRKAttvlldCkLwGmFn9dwOPAliJHq42eaDtWlZU3FQdHQVNo8tLJcyugxAPWPJrnbKrKk3BxM-xRT657FFVeZLbCCkIuJhEkG-o-fHfa3tWCAVeDkbN9fXP17JXpxOrHsJ5yfNL6aJpJj77pyu_7Qq1s-qA2a60Cu9Bmfh-iC4nNZ_Z1EIG3fjxw9TQWwdUBDbOzBZ-nAt8p25XlduduVJyUMLzugPBriZRoUj1ZGJX9JWbuuptmoFKQ10XCx-3BJ3-REmpQltYE7LHCaHj0IR4XmIqBIdSUgsocQ5YbI_QtVUab_wrbzEIZARnbNSIOQPwP03kZU1KCDlmoh4y44jqIDy1QZA_squT8a3_9hYmc_jIekVwoDcb9NzoX_NIC0VdTaLP5NFGxiigGnKOF3IMHXgOEJoX3ESjK83uIwtbT8YyaHhI8ZGKnmqDV4nTSbPqyP58E6qcef1oOc4hcEnZVZl8O3QNa7z9QWbwfhXLNC6N2yNwqQ.GR_YTlIP0iEYJ2C7x3XQXg'
+    });
+    await t.expect(method).eql('post');
+    await t.expect(url).eql('http://localhost:3000/idp/idx/challenge');
+    const pageUrl = await ClientFunction(() => window.location.href)();
+    // expect the url not to have # at the end after clicking the secondary link
+    await t.expect(pageUrl).eql('http://localhost:3000/?render=false');
   });
 
 test
