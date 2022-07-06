@@ -187,6 +187,11 @@ export default class AppState extends Model {
       return false;
     }
 
+    if (transformedResponse?.authenticatorChallenge?.loopbackInitiatedByCustomScheme === true) {
+      this.trigger('doLoopbackAfterCustomScheme', transformedResponse.authenticatorChallenge);
+      return false;
+    }
+
     const previousRawState = this.has('idx') ? this.get('idx').rawIdxState : null;
 
     const identicalResponse = _.isEqual(

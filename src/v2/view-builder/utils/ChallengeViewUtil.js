@@ -30,17 +30,19 @@ export function appendLoginHint(deviceChallengeUrl, loginHint) {
   return deviceChallengeUrl;
 }
 
-export function doChallenge(view, fromView) {
-  const deviceChallenge = view.getDeviceChallengePayload();
+export function doChallenge(view, fromView, deviceChallengeValue) {
+  const deviceChallenge = deviceChallengeValue ? deviceChallengeValue : view.getDeviceChallengePayload();
   const loginHint = view.options?.settings?.get('identifier');
   const HIDE_CLASS = 'hide';
   switch (deviceChallenge.challengeMethod) {
   case Enums.LOOPBACK_CHALLENGE:
-    view.title = loc('deviceTrust.sso.redirectText', 'login');
-    view.add(View.extend({
-      className: 'loopback-content',
-      template: hbs`<div class="spinner"></div>`
-    }));
+    if (!deviceChallengeValue) {
+      view.title = loc('deviceTrust.sso.redirectText', 'login');
+      view.add(View.extend({
+        className: 'loopback-content',
+        template: hbs`<div class="spinner"></div>`
+      }));
+    }
     view.doLoopback(deviceChallenge);
     break;
   case Enums.CUSTOM_URI_CHALLENGE:

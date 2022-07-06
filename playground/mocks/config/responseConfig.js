@@ -390,6 +390,8 @@ const windowAuthnCustomUri = {
   ],
   '/idp/idx/authenticators/poll': [
     'identify-with-device-launch-authenticator',
+    'identify-with-device-probing-loopback-3',
+    'identify-with-device-launch-authenticator',
   ],
   '/idp/idx/authenticators/okta-verify/launch': [
     'identify-with-device-launch-authenticator',
@@ -1053,5 +1055,5 @@ const selectOktaVerifyMethod = {
 };
 
 module.exports = {
-  mocks: idx
+  mocks: windowAuthnCustomUri
 };

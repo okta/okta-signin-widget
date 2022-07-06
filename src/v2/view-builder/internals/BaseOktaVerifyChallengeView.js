@@ -5,6 +5,7 @@ import {
   AUTHENTICATOR_CANCEL_ACTION,
   AUTHENTICATION_CANCEL_REASONS,
   CHALLENGE_TIMEOUT,
+  IDENTIFIER_FLOW,
 } from '../utils/Constants';
 import BrowserFeatures from 'util/BrowserFeatures';
 import { doChallenge, cancelPollingWithParams } from '../utils/ChallengeViewUtil';
@@ -34,12 +35,17 @@ const Body = BaseFormWithPolling.extend({
   initialize() {
     BaseFormWithPolling.prototype.initialize.apply(this, arguments);
     this.listenTo(this.model, 'error', this.onPollingFail);
+    this.listenTo(this.options.appState, 'doLoopbackAfterCustomScheme', this.handleLoopbackAfterCustomScheme);
     this.doChallenge();
     this.startPolling();
   },
 
   doChallenge() {
     doChallenge(this);
+  },
+
+  handleLoopbackAfterCustomScheme(deviceChallengeValue) {
+    doChallenge(this, IDENTIFIER_FLOW, deviceChallengeValue);
   },
 
   onPollingFail() {
