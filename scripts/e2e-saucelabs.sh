@@ -32,7 +32,7 @@ if ! yarn build:release; then
 fi
 
 export CDN_ONLY=1
-export TARGET=CROSS_BROWSER
+export TARGET="CROSS_BROWSER"
 if ! yarn test:e2e; then
   echo "e2e wdio tests failed! Exiting..."
   exit ${TEST_FAILURE}

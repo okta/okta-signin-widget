@@ -20,6 +20,7 @@ exports.config = {
   path: '/wd/hub',
   user: process.env.SAUCE_USERNAME,
   key: process.env.SAUCE_ACCESS_KEY,
+  cucumberOpts: {...conf.cucumberOpts, timeout: 20000},
   maxInstances: 1,
   waitforTimeout: 15000,
   specs: [
