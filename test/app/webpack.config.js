@@ -54,7 +54,10 @@ const webpackConfig = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'public/index.html'),
+      template: `!!handlebars-loader!${path.resolve(__dirname, 'index.hbs')}`,
+      templateParameters: {
+        CROSS_BROWSER: process.env.TARGET === 'CROSS_BROWSER'
+      },
       inject: false,
     }),
     new webpack.DefinePlugin({

@@ -9,15 +9,19 @@
   <link rel="stylesheet" href="/oidc-app.css"/>
   <link href="css/okta-sign-in.css" type="text/css" rel="stylesheet"/>
 
+{{#if CROSS_BROWSER}}
   <!-- IE11 polyfills for webcrypto (NOT RECOMMEDNED FOR PRODUCTION APPS) -->
   <script src="https://global.oktacdn.com/okta-auth-js/6.4.3/okta-auth-js.polyfill.js" type="text/javascript"></script>
-  <!-- <script src="https://unpkg.com/bluebird"></script>
-  <script src="https://unpkg.com/webcrypto-shim"></script> -->
+{{/if}}
 </head>
 
 <body>
   <div id="app"></div>
+{{#if CROSS_BROWSER}}
   <script src="js/okta-sign-in.min.js"></script>
+{{else}}
+  <script src="js/okta-sign-in.js"></script>
+{{/if}}
   <script src="main.bundle.js"></script>
 </body>
 
