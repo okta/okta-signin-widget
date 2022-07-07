@@ -1,5 +1,18 @@
 import { t, ClientFunction } from 'testcafe';
 
+const READY_MESSAGE = '===== playground widget ready event received =====';
+const AFTER_RENDER_MESSAGE = '===== playground widget afterRender event received =====';
+
+/**
+ * Console messages matching these patterns are filtered out before checking
+ * against context. Use this to exclude messages logged by dependencies and
+ * devtools
+ */
+const LOG_IGNORE_PATTERNS = [
+  /\[HMR\]/,
+  /\[MSW-Wrapper\]/,
+];
+
 export const renderWidget = ClientFunction((settings) => {
   // function `renderPlaygroundWidget` is defined in playground/main.js
   window.renderPlaygroundWidget(settings);
@@ -8,21 +21,22 @@ export const renderWidget = ClientFunction((settings) => {
 // Centralized console log assertion for verifying:
 // 1. Widget is ready to accept user input for the first time (ready)
 // 2. Widget transitions to a new page and animations have finished (afterRender)
-// 3. Context object from the 'afterReady' event 
+// 3. Context object from the 'afterReady' event
 export async function checkConsoleMessages(context = {}) {
   if (!Array.isArray(context)) {
     context = ['ready', 'afterRender', context];
   }
+  let { log } = await t.getBrowserConsoleMessages();
+  log = log.filter((msg) => LOG_IGNORE_PATTERNS.every(rx => !rx.test(msg)));
 
-  const { log } = await t.getBrowserConsoleMessages();
   await t.expect(log.length).eql(context.length);
   for (let i = 0; i < context.length; i++) {
     switch (context[i]) {
     case 'ready':
-      await t.expect(log[i]).eql('===== playground widget ready event received =====');
+      await t.expect(log[i]).eql(READY_MESSAGE);
       break;
     case 'afterRender':
-      await t.expect(log[i]).eql('===== playground widget afterRender event received =====');
+      await t.expect(log[i]).eql(AFTER_RENDER_MESSAGE);
       break;
     default: {
       /* eslint max-depth: [2, 3] */
