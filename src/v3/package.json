@@ -139,7 +139,7 @@
     "whatwg-fetch": "^3.6.2"
   },
   "engines": {
-    "node": ">=14.0.0 <16"
+    "node": ">=14 <16"
   },
   "msw": {
     "workerDirectory": "src/static"
