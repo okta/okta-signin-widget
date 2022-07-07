@@ -9,9 +9,15 @@
     "skipLibCheck": false,
     "baseUrl": ".",
     "paths": {
-      "src/*": ["./src/*"],
-      "react": ["node_modules/preact/compat"],
-      "react-dom": ["node_modules/preact/compat"]
+      "src/*": [
+        "./src/*"
+      ],
+      "react": [
+        "node_modules/preact/compat"
+      ],
+      "react-dom": [
+        "node_modules/preact/compat"
+      ]
     }
   }
 }
