@@ -134,6 +134,10 @@ async function setupInteractionCodeFlow(t) {
     clientId: 'fake',
     redirectUri: 'http://doesnot-matter',
     useInteractionCodeFlow: true,
+    authParams: {
+      pkce: true,
+      state: 'mock-state'
+    }
   });
   return challengePhonePageObject;
 }
@@ -193,7 +197,7 @@ test
   });
 
 test
-  .requestHooks(logger, voiceSecondaryMock)('lazar', async t => {
+  .requestHooks(logger, voiceSecondaryMock)('Voice secondary mode - Secondary button click (interaction code flow)', async t => {
     const challengePhonePageObject = await setupInteractionCodeFlow(t);
     await challengePhonePageObject.clickSecondaryLink();
     await t.expect(logger.count(() => true)).eql(1);
