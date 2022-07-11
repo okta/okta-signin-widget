@@ -104,9 +104,6 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     this.hide();
 
     this.listenTo(this.appState, 'change:deviceFingerprint', this.updateDeviceFingerprint);
-    // this.listenTo(this.appState, 'error', this.handleError);
-    // this.listenTo(this.appState, 'updateAppState', this.handleUpdateAppState);
-    // this.listenTo(this.appState, 'remediationError', this.handleIdxResponseFailure);
     this.listenTo(this.appState, 'restartLoginFlow', this.restartLoginFlow);
   }
 

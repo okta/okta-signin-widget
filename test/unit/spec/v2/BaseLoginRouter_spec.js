@@ -348,6 +348,33 @@ describe('v2/BaseLoginRouter', function() {
     });
   });
 
+  // test for race condition between appState and form controller
+  it('should update appState before rendering the controller)', async function() {
+    setup({
+      flow: 'default',
+      stateToken: 'fake-token'
+    });
+
+    const { afterErrorHandler, afterRenderHandler, router, render } = testContext;
+    Util.mockAjax([
+      mockXhr(RAW_IDX_RESPONSE)
+    ]);
+    jest.spyOn(FormController.prototype, 'render').mockImplementation(() => {
+      try {
+        expect(router.appState.getCurrentViewState().name).toBe('identify');
+      } catch (e) {
+        router.trigger('afterError', e);
+        return;
+      }
+      router.trigger('afterRender');
+    });
+    await render();
+    expect(afterErrorHandler).toHaveBeenCalledTimes(0);
+    expect(afterRenderHandler).toHaveBeenCalled();
+    expect(router.appState.getCurrentViewState().name).toBe('identify');
+  });
+
+
   it('should render without error when flow not provided', async function() {
     setup({stateToken: 'foo'});
 
