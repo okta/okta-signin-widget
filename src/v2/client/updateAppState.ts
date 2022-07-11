@@ -1,7 +1,6 @@
 import { IdxResponse } from "@okta/okta-auth-js";
 import CookieUtil from '../../util/CookieUtil';
 import AppState from '../models/AppState';
-import Settings from '../../models/Settings';
 import sessionStorageHelper from './sessionStorageHelper';
 import { interactionCodeFlow } from './interactionCodeFlow';
 import { FORMS } from "../ion/RemediationConstants";
@@ -18,8 +17,9 @@ function hasAuthenticationSucceeded(idxResponse: IdxResponse) {
   * so that the next time the user visits the SIW, the identifier field can be 
   * pre-filled with this value.
   */
-function updateIdentifierCookie(idxResponse: IdxResponse) {
-  if (this.settings.get('features.rememberMe')) {
+function updateIdentifierCookie(appState: AppState, idxResponse: IdxResponse) {
+  const settings = appState.settings;
+  if (settings.get('features.rememberMe')) {
     // Update the cookie with the identifier
     const user = idxResponse?.context?.user;
     const { identifier } = user?.value || {};
@@ -38,7 +38,7 @@ export async function updateAppState(appState: AppState, idxResponse: IdxRespons
   // Only update the cookie when the user has successfully authenticated themselves 
   // to avoid incorrect/unnecessary updates.
   if (hasAuthenticationSucceeded(idxResponse) && settings.get('features.rememberMyUsernameOnOIE')) {
-      updateIdentifierCookie(idxResponse);
+      updateIdentifierCookie(appState, idxResponse);
   }    
 
   const lastResponse = appState.get('idx');
