@@ -280,6 +280,18 @@ This installs the latest version of the Sign-in Widget to your project's `node_m
 ```json
 {
   ...
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    ...
+  }
+}
+```
+
+Angular (TypeScript) projects require a simliar configuration, also in your `tsconfig.json`
+
+```json
+{
+  ...
   "angularCompilerOptions": {
     "allowSyntheticDefaultImports": true,
     ...
