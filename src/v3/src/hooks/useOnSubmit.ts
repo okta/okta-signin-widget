@@ -11,7 +11,7 @@
  */
 
 import { IdxActionParams, NextStep } from '@okta/okta-auth-js';
-import { merge, omit } from 'lodash';
+import merge from 'lodash/merge';
 import { useCallback } from 'preact/hooks';
 
 import { useWidgetContext } from '../contexts';
@@ -24,10 +24,6 @@ type OnSubmitHandlerOptions = {
   step: string;
   stepToRender?: string;
 };
-
-// excluded field from data bag
-// TODO: figure out a better approach to guide data submission
-const OMITTED_PROPERTIES = ['credentials.confirmPassword'];
 
 export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void> => {
   const {
@@ -49,7 +45,7 @@ export const useOnSubmit = (): (options: OnSubmitHandlerOptions) => Promise<void
 
     let payload: IdxActionParams = {};
     if (includeData) {
-      payload = merge(payload, omit(data, OMITTED_PROPERTIES));
+      payload = merge(payload, data);
     }
     if (params) {
       payload = merge(payload, params);
