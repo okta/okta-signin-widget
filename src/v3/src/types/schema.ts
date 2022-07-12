@@ -345,3 +345,11 @@ export interface TranslationInfo {
   i18nKey: string;
   value: string;
 }
+
+export interface PasswordEnrollmentElement extends UISchemaElement {
+  type: 'PasswordEnrollment';
+  options: {
+    input: FieldElement,
+    buttonConfig: { label: string };
+  };
+}
