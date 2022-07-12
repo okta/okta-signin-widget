@@ -390,8 +390,9 @@ const windowAuthnCustomUri = {
   ],
   '/idp/idx/authenticators/poll': [
     'identify-with-device-launch-authenticator',
-    'identify-with-device-probing-loopback-3',
-    'identify-with-device-launch-authenticator',
+    'authenticator-verification-okta-verify-signed-nonce-loopback',
+    'authenticator-verification-okta-verify-signed-nonce-loopback',
+    'success'
   ],
   '/idp/idx/authenticators/okta-verify/launch': [
     'identify-with-device-launch-authenticator',

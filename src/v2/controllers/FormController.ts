@@ -222,7 +222,7 @@ export default Controller.extend({
 
   // eslint-disable-next-line max-statements, complexity
   async handleSaveForm(model) {
-    const formName = model.get('formName');
+    let formName = model.get('formName');
 
     // Toggle Form saving status (e.g. disabling save button, etc)
     this.toggleFormButtonState(true);
@@ -244,9 +244,13 @@ export default Controller.extend({
 
     // Error out when this is not a remediation form. Unexpected Exception.
     if (!this.options.appState.hasRemediationObject(formName)) {
-      this.options.settings.callGlobalError(`Cannot find http action for "${formName}".`);
-      this.showFormErrors(this.formView.model, 'Cannot find action to proceed.', this.formView.form);
-      return;
+      if (!(formName === 'device-challenge-poll' && this.options.appState.hasRemediationObject('challenge-poll'))) {
+        this.options.settings.callGlobalError(`Cannot find http action for "${formName}".`);
+        this.showFormErrors(this.formView.model, 'Cannot find action to proceed.', this.formView.form);
+        return;
+      } else {
+        formName = 'challenge-poll';
+      }
     }
 
     // Reset password in identity-first flow needs some help to auto-select password and begin the reset flow

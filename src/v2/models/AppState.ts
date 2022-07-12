@@ -187,8 +187,8 @@ export default class AppState extends Model {
       return false;
     }
 
-    if (transformedResponse?.authenticatorChallenge?.loopbackInitiatedByCustomScheme === true) {
-      this.trigger('doLoopbackAfterCustomScheme', transformedResponse.authenticatorChallenge);
+    if (transformedResponse?.currentAuthenticator?.contextualData?.challenge?.value?.loopbackInitiatedByCustomScheme === true) {
+      this.trigger('doLoopbackAfterCustomScheme', transformedResponse.currentAuthenticator.contextualData.challenge.value);
       return false;
     }
 
