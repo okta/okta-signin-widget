@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxActionParams } from '@okta/okta-auth-js';
+
 import {
   ButtonType,
   IdxStepTransformer,
@@ -36,8 +38,9 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = (
   formBag,
   widgetProps,
 ) => {
-  const { context } = transaction;
+  const { context, availableSteps } = transaction;
   const { uischema, data } = formBag;
+  const { authClient } = widgetProps;
 
   data['authenticator.channel'] = 'email';
 
@@ -60,13 +63,24 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = (
   }
 
   const stepOneElements: UISchemaElement[] = [];
+  const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
   if (transaction.nextStep.canResend
     && selectedChannel
-    && REMINDER_CHANNELS.includes(selectedChannel)) {
+    && REMINDER_CHANNELS.includes(selectedChannel) && resendStep) {
+    const { name } = resendStep;
     stepOneElements.push({
       type: 'Reminder',
       options: {
         ctaText: CHANNEL_TO_CTA_KEY[selectedChannel],
+        // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
+        action: (params?: IdxActionParams) => {
+          const { stateHandle, ...rest } = params ?? {};
+          return authClient?.idx.proceed({
+            // @ts-ignore stateHandle can be undefined
+            stateHandle,
+            actions: [{ name, params: rest }],
+          });
+        },
       },
     } as ReminderElement);
   }

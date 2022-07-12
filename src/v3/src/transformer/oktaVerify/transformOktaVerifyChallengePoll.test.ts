@@ -87,6 +87,7 @@ describe('Transform Okta Verify Challenge Poll Tests', () => {
 
   it('should transform elements when method type is push and '
     + 'has enhanced security with resend avaialable', () => {
+    transaction.availableSteps = [{ name: 'resend' }];
     const correctAnswer = '42';
     transaction.nextStep = {
       ...transaction.nextStep,

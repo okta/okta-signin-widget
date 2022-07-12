@@ -90,6 +90,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
   });
 
   it('should return a channel selection formBag when on mobile device and sms is selected channel with canResend = true', () => {
+    transaction.availableSteps = [{ name: 'resend' }];
     transaction.nextStep = {
       name: '',
       canResend: true,
@@ -160,6 +161,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
   });
 
   it('should return a channel selection formBag when on mobile device and email is selected channel and canResend = true', () => {
+    transaction.availableSteps = [{ name: 'resend' }];
     transaction.nextStep = {
       name: '',
       canResend: true,
@@ -229,6 +231,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
   });
 
   it('should add Stepper elements when selectedChannel is qrcode and not on mobile device and canResend = true', () => {
+    transaction.availableSteps = [{ name: 'resend' }];
     transaction.nextStep = {
       name: '',
       canResend: true,
@@ -310,6 +313,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
   });
 
   it('should add Stepper elements when selectedChannel is sms and not on mobile device and canResend = true', () => {
+    transaction.availableSteps = [{ name: 'resend' }];
     transaction.nextStep = {
       name: '',
       canResend: true,
@@ -379,6 +383,7 @@ describe('TransformOktaVerifyEnrollPoll Tests', () => {
   });
 
   it('should add Stepper elements when selectedChannel is email and not on mobile device and canResend = true', () => {
+    transaction.availableSteps = [{ name: 'resend' }];
     transaction.nextStep = {
       name: '',
       canResend: true,

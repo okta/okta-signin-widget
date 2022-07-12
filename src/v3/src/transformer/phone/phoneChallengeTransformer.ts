@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxActionParams } from '@okta/okta-auth-js';
+
 import {
   ButtonElement,
   ButtonType,
@@ -20,17 +22,33 @@ import {
   Undefinable,
 } from '../../types';
 
-export const transformPhoneChallenge: IdxStepTransformer = (transaction, formBag) => {
-  const { nextStep } = transaction;
+export const transformPhoneChallenge: IdxStepTransformer = (
+  transaction,
+  formBag,
+  widgetProps,
+) => {
+  const { nextStep, availableSteps } = transaction;
   const { uischema } = formBag;
+  const { authClient } = widgetProps;
 
   let reminderElement: Undefinable<ReminderElement>;
 
-  if (nextStep.canResend) {
+  const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
+  if (nextStep.canResend && resendStep) {
+    const { name } = resendStep;
     reminderElement = {
       type: 'Reminder',
       options: {
         ctaText: 'oie.phone.verify.sms.resendText',
+        // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
+        action: (params?: IdxActionParams) => {
+          const { stateHandle, ...rest } = params ?? {};
+          return authClient?.idx.proceed({
+            // @ts-ignore stateHandle can be undefined
+            stateHandle,
+            actions: [{ name, params: rest }],
+          });
+        },
       },
     };
   }

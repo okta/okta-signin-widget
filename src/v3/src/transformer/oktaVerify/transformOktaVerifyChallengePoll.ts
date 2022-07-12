@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxActionParams } from '@okta/okta-auth-js';
+
 import PhoneSvg from '../../img/phone-icon.svg';
 import {
   DescriptionElement,
@@ -20,10 +22,15 @@ import {
   TitleElement,
 } from '../../types';
 
-export const transformOktaVerifyChallengePoll: IdxStepTransformer = (transaction, formBag) => {
-  const { nextStep } = transaction;
+export const transformOktaVerifyChallengePoll: IdxStepTransformer = (
+  transaction,
+  formBag,
+  widgetProps,
+) => {
+  const { nextStep, availableSteps } = transaction;
   const { canResend, relatesTo } = nextStep;
   const { uischema } = formBag;
+  const { authClient } = widgetProps;
 
   const [selectedMethod] = relatesTo?.value?.methods || [];
   if (!selectedMethod) {
@@ -38,11 +45,22 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (transaction
       options: { content: 'oie.okta_verify.push.sent' },
     } as TitleElement);
 
-    if (canResend) {
+    const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
+    if (canResend && resendStep) {
+      const { name } = resendStep;
       uischema.elements.unshift({
         type: 'Reminder',
         options: {
           ctaText: 'next.numberchallenge.warning',
+          // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
+          action: (params?: IdxActionParams) => {
+            const { stateHandle, ...rest } = params ?? {};
+            return authClient?.idx.proceed({
+              // @ts-ignore stateHandle can be undefined
+              stateHandle,
+              actions: [{ name, params: rest }],
+            });
+          },
         },
       } as ReminderElement);
     }

@@ -8,6 +8,7 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
+          "action": [Function],
           "ctaText": "oie.phone.verify.sms.resendText",
         },
         "type": "Reminder",
@@ -96,6 +97,7 @@ Object {
     "elements": Array [
       Object {
         "options": Object {
+          "action": [Function],
           "ctaText": "oie.phone.verify.sms.resendText",
         },
         "type": "Reminder",

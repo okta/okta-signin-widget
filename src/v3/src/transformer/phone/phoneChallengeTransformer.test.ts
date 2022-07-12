@@ -41,6 +41,7 @@ describe('PhoneChallengeTransformer Tests', () => {
   });
 
   it('should create SMS challenge UI elements when resend code is available', () => {
+    transaction.availableSteps = [{ name: 'resend' }];
     transaction.nextStep = {
       name: 'mock-step',
       canResend: true,
@@ -111,6 +112,7 @@ describe('PhoneChallengeTransformer Tests', () => {
   });
 
   it('should create SMS challenge UI elements when phone number not available', () => {
+    transaction.availableSteps = [{ name: 'resend' }];
     transaction.nextStep = {
       name: '',
       canResend: true,
