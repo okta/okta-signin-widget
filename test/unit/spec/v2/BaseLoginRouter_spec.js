@@ -132,9 +132,7 @@ describe('v2/BaseLoginRouter', function() {
         useInteractionCodeFlow: true
       });
       const { router } = testContext;
-      router.controller = {
-        constructor: () => {}
-      };
+      router.controller = new FakeController();
       jest.spyOn(router, 'render').mockImplementation();
       router.appState.trigger('restartLoginFlow');
       expect(router.render).toHaveBeenCalledWith(router.controller.constructor);
@@ -150,7 +148,7 @@ describe('v2/BaseLoginRouter', function() {
       expect(settings.get('recoveryToken')).toBe(recoveryToken);
       expect(authClient.options.recoveryToken).toBe(recoveryToken);
 
-      router.controller = {};
+      router.controller = new FakeController();
       let clearInsideRender = false;
       jest.spyOn(router, 'render').mockImplementation(() => {
         expect(authClient.options.recoveryToken).toBe(undefined);
@@ -171,7 +169,7 @@ describe('v2/BaseLoginRouter', function() {
       const { settings } = router;
       expect(settings.get('otp')).toBe(otp);
 
-      router.controller = {};
+      router.controller = new FakeController();
       let clearInsideRender = false;
       jest.spyOn(router, 'render').mockImplementation(() => {
         expect(settings.get('otp')).toBe(undefined);
