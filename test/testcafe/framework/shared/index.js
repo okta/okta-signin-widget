@@ -29,7 +29,8 @@ export async function checkConsoleMessages(context = {}) {
   let { log } = await t.getBrowserConsoleMessages();
   log = log.filter((msg) => LOG_IGNORE_PATTERNS.every(rx => !rx.test(msg)));
 
-  await t.expect(log.length).eql(context.length);
+  await t.expect(log.length).gte(context.length);
+
   for (let i = 0; i < context.length; i++) {
     switch (context[i]) {
     case 'ready':

@@ -3,13 +3,13 @@ import { Selector, ClientFunction } from 'testcafe';
 const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] .infobox-error';
 
-const SUBMIT_BUTTON_SELECTOR = '.o-form-button-bar input[data-type="save"]';
-const CANCEL_BUTTON_SELECTOR = '.o-form-button-bar input[data-type="cancel"]';
+const SUBMIT_BUTTON_SELECTOR = '.o-form-button-bar [data-type="save"]';
+const CANCEL_BUTTON_SELECTOR = '.o-form-button-bar [data-type="cancel"]';
 
 const focusOnSubmitButton = () => {
   // Client Function is not able to refer any variables defined outside this function.
   // Not sure why at the time of writing.
-  const submitButton = '.o-form-button-bar input[data-type="save"]';
+  const submitButton = '.o-form-button-bar [data-type="save"]';
   document.querySelector(submitButton).focus();
 };
 
@@ -125,7 +125,8 @@ export default class BaseFormObject {
 
   // Field error
   /**
-   * @deprecated see hasTextBoxErrorMessage
+   * @deprecated
+   * @see hasTextBoxErrorMessage
    */
   hasTextBoxError(name) {
     return this.el.find(`.o-form-input-name-${name}.o-form-has-errors`).exists;
@@ -135,20 +136,22 @@ export default class BaseFormObject {
     await this.hasTextBoxError(name);
   }
 
-  hasTextBoxErrorMessage(fieldName) {
-    const selectContainer = this.findFormFieldInput(fieldName)
-      .sibling('.o-form-input-error');
-    return selectContainer.exists;
+  async hasTextBoxErrorMessage(fieldName) {
+    // TODO re-use logic from getTextBoxErrorMessage
+    const input = this.findFormFieldInput(fieldName);
+    const errorId = await input?.getAttribute('aria-describedby');
+    return this.el.find(`#${errorId}`).exists;
   }
 
-  getTextBoxErrorMessage(fieldName) {
-    const selectContainer = this.findFormFieldInput(fieldName)
-      .sibling('.o-form-input-error');
-    return selectContainer.innerText;
+  async getTextBoxErrorMessage(fieldName) {
+    const input = this.findFormFieldInput(fieldName);
+    const errorId = await input?.getAttribute('aria-describedby');
+    return this.el.find(`#${errorId}`).innerText;
   }
 
   getNthErrorMessage(fieldName, value) {
-    const selectContainer = this.findFormFieldInput(fieldName).sibling('.o-form-input-error').nth(value);
+    const selectContainer = this.findFormFieldInput(fieldName)
+      .sibling('.o-form-input-error').nth(value);
     return selectContainer.innerText;
   }
   // =====================================
@@ -156,7 +159,8 @@ export default class BaseFormObject {
   // =====================================
 
   getValueFromDropdown(fieldName) {
-    const selectContainer = this.findFormFieldInput(fieldName).find('.chzn-container');
+    const selectContainer = this.findFormFieldInput(fieldName)
+      .find('.chzn-container');
     return selectContainer.innerText;
   }
 

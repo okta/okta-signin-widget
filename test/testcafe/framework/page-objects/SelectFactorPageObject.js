@@ -82,5 +82,4 @@ export default class SelectFactorPageObject extends BasePageObject {
   getEmailLabel() {
     return this.form.getElement('.enroll-factor-row:last-child > .enroll-factor-description > .enroll-factor-label').textContent;
   }
-
 }
