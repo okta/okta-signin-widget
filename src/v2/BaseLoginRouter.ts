@@ -259,6 +259,9 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
     // clear otp (email magic link), if any
     this.settings.unset('otp');
 
+    // remove all event listeners from current controller instance. A new instance will be created in render().
+    this.controller.stopListening();
+
     // Re-render the widget
     this.render(this.controller.constructor);
   }
