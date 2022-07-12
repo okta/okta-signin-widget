@@ -167,8 +167,8 @@ export default {
       'output',
       'resolve.extensions',
     ]), {
-      // TODO use built assets instead of relying on dev server
-      // add entry for playground bundle
+      // TODO use built assets instead of relying on dev server. add entry for
+      // playground bundle
       entry: {
         playground: rootResolve('playground', 'main.ts'),
       },
@@ -176,7 +176,8 @@ export default {
       devServer: {
         headers: {
           'Content-Security-Policy': mergeContentSecurityPolicies(
-            "object-src 'self'; script-src 'self' 'unsafe-eval'",
+            "object-src 'self'",
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
             `script-src ${config.devServer.host}:${config.devServer.port}`,
             playgroundConfig.devServer.headers['Content-Security-Policy'] || '',
           ),

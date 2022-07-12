@@ -8,27 +8,7 @@
     <% preact.headEnd %>
   </head>
   <body>
-    <div id="signin-container"></div>
-    <script>
-      window.onload = () => {
-        new OktaSignIn(
-          Object.assign({
-            el: '#signin-container',
-            clientId: '<%= process.env.PREACT_APP_CLIENT_ID %>',
-            issuer: '<%= process.env.PREACT_APP_ISSUER %>',
-            redirectUri: '<%= process.env.PREACT_APP_REDIRECT_URI %>',
-            scopes: ['openid', 'profile', 'email'],
-            logo: '/img/atko_brand_logo.svg',
-            // This logic will change somewhat as useInteractionCodeFlow becomes the default
-            useInteractionCodeFlow: true,
-            authParams: {
-              pkce: <%= process.env.PREACT_APP_USE_PKCE %>,
-            },
-            features: { rememberMyUsernameOnOIE: true, rememberMe: true },
-          }, window.additionalOptions)
-        );
-      }
-    </script>
+    <div id="okta-login-container"></div>
     <% preact.bodyEnd %>
   </body>
 </html>
