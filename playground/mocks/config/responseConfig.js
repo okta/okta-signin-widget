@@ -125,6 +125,7 @@ const idx = {
     // 'authenticator-verification-email-without-emailmagiclink',
     // 'identify-with-only-one-third-party-idp',
     // 'error-identify-access-denied',
+    // 'error-identify-access-denied-custom-message',
     // 'error-identify-user-locked-unable-challenge',
     // 'error-unable-to-authenticate-user',
     // 'terminal-device-activated',

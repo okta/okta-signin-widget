@@ -1,0 +1,19 @@
+{
+  "stateHandle": "01OCl7uyAUC4CUqHsObI9bvFiq01cRFgbnpJQ1bz82",
+  "version": "1.0.0",
+  "expiresAt": "2020-05-18T20:42:23.000Z",
+
+  "intent": "LOGIN",
+  "messages": {
+    "type": "array",
+    "value": [
+      {
+        "message": "You do not have <a href='#'>permission</a> to perform the requested action.",
+        "i18n": {
+          "key": "security.access_denied_custom_message"
+        },
+        "class": "ERROR"
+      }
+    ]
+  }
+}
