@@ -20,6 +20,39 @@ import { OktaReactI18nOptions } from 'src/lib/okta-i18n';
 import { JsonObject } from './json';
 import { FormBag } from './jsonforms';
 
+// TODO: Once SIW is merged into okta-signin-widget repo, remove this. Ticket#: OKTA-508189
+export interface EventErrorContext {
+  xhr?: ErrorXHR;
+
+  // Classic
+  name?: string;
+  message?: string;
+  statusCode?: number;
+
+  // OIE
+  errorSummary?: string
+}
+
+// TODO: Once SIW is merged into okta-signin-widget repo, remove this. Ticket#: OKTA-508189
+export interface ErrorXHR {
+  status: number;
+  responseType?: string;
+  responseText: string;
+  responseJSON?: { [propName: string]: any; };
+}
+
+export type RenderOptions = {
+  el: string;
+  clientId?: string;
+  redirectUri?: string;
+  redirect?: 'always' | 'never';
+  authParams?: OktaAuthOptions;
+};
+
+export type OktaWidgetEventHandler = {
+  (...args: unknown[]): void;
+};
+
 export type WidgetProceedArgs = {
   idxMethod?: IdxMethod,
   params?: JsonObject,
@@ -32,6 +65,8 @@ export type WidgetResetArgs = {
   skipValidation?: boolean;
 };
 
+export type OktaWidgetEventType = 'ready' | 'afterError' | 'afterRender';
+
 export type WidgetProps = Partial<WidgetOptions>;
 
 export type WidgetOptions = {
@@ -42,6 +77,9 @@ export type WidgetOptions = {
 
   // theming
   theme?: ThemeOptions;
+
+  // events
+  events?: { [key in OktaWidgetEventType]: OktaWidgetEventHandler };
 
   // callbacks
   // TODO: OKTA-502849 - Update param type (RenderResult) once merged into okta-signin-widget

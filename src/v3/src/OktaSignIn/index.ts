@@ -17,19 +17,12 @@ import { h, render } from 'preact';
 import { version } from '../../package.json';
 import { Widget } from '../components/Widget';
 import { JsonObject } from '../types';
-import { WidgetProps } from '../types/widget';
-
-export type RenderOptions = {
-  el: string;
-  clientId?: string;
-  redirectUri?: string;
-  redirect?: 'always' | 'never';
-  authParams?: OktaAuthOptions;
-};
-
-export type OktaWidgetEventHandler = {
-  (...args: unknown[]): void;
-};
+import {
+  OktaWidgetEventHandler,
+  OktaWidgetEventType,
+  RenderOptions,
+  WidgetProps,
+} from '../types/widget';
 
 // TODO: Once SIW is merged into okta-signin-widget repo, remove these.
 export type RenderSuccessCallback = {
@@ -62,8 +55,8 @@ export default class OktaSignIn {
    * Registered event handlers
    */
   readonly events: {
-    [eventName: string]: OktaWidgetEventHandler
-  };
+    [key in OktaWidgetEventType]: OktaWidgetEventHandler
+  } | Record<string, never>;
 
   constructor(options: WidgetProps) {
     this.version = version;
@@ -152,10 +145,11 @@ export default class OktaSignIn {
         if (target) {
           render(h(Widget,
             {
-              ...this.options,
+              events: this.events,
               authClient: this.authClient,
               onSuccess: onSuccessWrapper,
               onError: onErrorWrapper,
+              ...this.options,
             }), target);
         } else {
           throw new Error(`could not find element ${el}`);

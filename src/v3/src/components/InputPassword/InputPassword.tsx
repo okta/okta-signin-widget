@@ -39,7 +39,7 @@ const InputPassword: UISchemaElementComponent<{
         data-se="show-password"
         size="s"
         type="button"
-        onclick={togglePassword}
+        onClick={togglePassword}
       >
         {inputType === 'text' ? t('renderers.password.hidePassword') : t('renderers.password.showPassword')}
       </Button>

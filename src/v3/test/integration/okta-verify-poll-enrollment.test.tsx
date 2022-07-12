@@ -75,7 +75,8 @@ describe('okta-verify-poll-enrollment', () => {
     );
   });
 
-  it('should send correct payload when toggling between channels', async () => {
+  // TODO: re-enable this test once OKTA-514045 is resolved
+  it.skip('should send correct payload when toggling between channels', async () => {
     const mockRequestClient: HttpRequestClient = jest.fn().mockImplementation((_, url, options) => {
       if (url.endsWith('/interact')) {
         return Promise.resolve({

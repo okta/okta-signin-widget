@@ -32,6 +32,7 @@ import { transformTerminalTransaction, transformUnhandledErrors } from '../../tr
 import {
   FormBag,
   IdxTransactionWithNextStep,
+  MessageType,
   UISchemaLayout,
   Undefinable,
   WidgetProps,
@@ -59,6 +60,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     logoText,
     onSuccess,
     stateToken,
+    events,
   } = widgetProps;
 
   const TERMINAL_STATUSES = [IdxStatus.TERMINAL, IdxStatus.SUCCESS];
@@ -91,18 +93,33 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idxTransaction, authApiError]);
 
+  const handleError = (error: unknown) => {
+    // TODO: handle error based on types
+    // AuthApiError is one of the potential error that can be thrown here
+    // We will want to expose development stage errors from auth-js and file jiras against it
+    setAuthApiError(error as AuthApiError);
+    console.error(error);
+    // error event
+    events?.afterError?.({
+      stepName: idxTransaction?.nextStep?.name,
+    }, error);
+    return null;
+  };
+
   const bootstrap = useCallback(async () => {
     try {
       const transaction = await authClient.idx.start({
         stateHandle: stateToken,
       });
+
       setIdxTransaction(transaction);
+
+      // ready event
+      events?.ready?.({
+        stepName: transaction.nextStep?.name,
+      });
     } catch (error) {
-      // TODO: handle error based on types
-      // AuthApiError is one of the potential error that can be thrown here
-      // We will want to expose development stage errors from auth-js and file jiras against it
-      setAuthApiError(error as AuthApiError);
-      console.error(error);
+      handleError(error);
     }
   }, [authClient, stateToken, setIdxTransaction, setAuthApiError]);
 
@@ -111,10 +128,10 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       const transaction = await authClient.idx.proceed({
         stateHandle: idxTransaction?.context.stateHandle,
       });
+
       setIdxTransaction(transaction);
     } catch (error) {
-      setAuthApiError(error as AuthApiError);
-      console.error(error);
+      handleError(error);
     }
   }, [authClient, setIdxTransaction, setAuthApiError]);
 
@@ -147,6 +164,22 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     }
 
     const { messages: newMessages = [], status } = idxTransaction;
+
+    events?.afterRender?.({
+      stepName: idxTransaction.nextStep?.name,
+      authenticatorKey: idxTransaction.nextStep?.relatesTo?.value?.key,
+    });
+
+    // for multiple error messages
+    newMessages?.forEach((newMessage) => {
+      const { class: type, message } = newMessage;
+      if (type === MessageType.ERROR) {
+        // error event
+        events?.afterError?.({
+          stepName: idxTransaction?.nextStep?.name,
+        }, { message });
+      }
+    });
 
     // set form level messages
     setMessages(newMessages);

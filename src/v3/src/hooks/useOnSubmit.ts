@@ -64,11 +64,10 @@ export const useOnSubmit = (): (options?: OnSubmitHandlerOptions | undefined) =>
     }
     const transaction = await fn(payload);
 
+    // TODO: OKTA-514045 need to revisit this logic, possibly compare inputs sans messages instead
     // reset stepper
     if (
       prevTransaction?.nextStep?.name !== transaction.nextStep?.name
-      // TODO: OKTA-514045 revist this to ensure it is a reliable solution
-      || transaction?.requestDidSucceed === true
     ) {
       setStepperStepIndex(0);
     }
