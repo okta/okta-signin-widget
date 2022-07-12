@@ -115,7 +115,7 @@ export default class OktaSignIn {
       // eslint-disable-next-line no-underscore-dangle
       const userAgent = this.authClient._oktaUserAgent;
       if (userAgent) {
-        userAgent.addEnvironment(`okta-signin-widget-${version}`);
+        userAgent.addEnvironment('okta-signin-widget-next');
       }
 
       if (options.el) {

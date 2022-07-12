@@ -4,7 +4,7 @@ module.exports = {
   hooks: {
     fixture: {
       before: async () => {
-         await waitOn({ resources: ['http-get://localhost:3000'] });
+         await waitOn({ resources: ['http-get://localhost:8080'] });
       }
     }
   },

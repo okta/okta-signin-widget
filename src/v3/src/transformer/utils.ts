@@ -10,14 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement } from '@jsonforms/core';
 import { IdxTransaction } from '@okta/okta-auth-js';
 import { IdxRemediation } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 
 import {
+  FieldElement,
   FormBag,
-  LayoutType,
   RequiredKeys,
+  UISchemaElement,
+  UISchemaLayoutType,
   Undefinable,
 } from '../types';
 
@@ -28,26 +29,27 @@ export const createForm = (): FormBag => ({
     required: [],
   },
   uischema: {
-    type: LayoutType.VERTICAL,
+    type: UISchemaLayoutType.VERTICAL,
     elements: [],
   },
+  data: {},
 });
 
-export const removeUIElementWithScope = (
-  scope: string,
-  elements: ControlElement[],
-): ControlElement[] => (
+export const removeUIElementWithName = (
+  name: string,
+  elements: UISchemaElement[],
+): UISchemaElement[] => (
   elements.filter((element) => (
-    scope !== element.scope
+    name !== (element as FieldElement).name
   ))
 );
 
-export const getUIElementWithScope = (
-  scope: string,
-  elements: ControlElement[],
-): Undefinable<ControlElement> => (
+export const getUIElementWithName = (
+  name: string,
+  elements: UISchemaElement[],
+): Undefinable<UISchemaElement> => (
   elements.find((element) => (
-    scope === element.scope
+    name === (element as FieldElement).name
   ))
 );
 

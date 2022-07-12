@@ -13,6 +13,8 @@
 const REPORT_DIR = '<rootDir>/build2/reports/unit';
 const esModules = ['@okta/odyssey-react', '@okta/odyssey-react-theme', '@okta/odyssey-design-tokens'].join('|');
 
+const devMode = process.env.NODE_ENV === 'development';
+
 module.exports = {
   globals: {
     'ts-jest': {
@@ -57,5 +59,9 @@ module.exports = {
     }],
   ],
   transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
-  timers: 'real',
+  setupFilesAfterEnv: [
+    './jest.setup.js',
+  ],
+  restoreMocks: true,
+  testTimeout: devMode ? 1000 * 60 * 1000 : 10 * 1000,
 };

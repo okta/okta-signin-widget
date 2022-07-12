@@ -10,9 +10,20 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement, RuleEffect } from '@jsonforms/core';
+import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import { FormBag, WidgetProps } from 'src/types';
+import {
+  ButtonElement,
+  ButtonType,
+  FieldElement,
+  FormBag,
+  StepperLayout,
+  StepperRadioElement,
+  TitleElement,
+  UISchemaLayout,
+  UISchemaLayoutType,
+  WidgetProps,
+} from 'src/types';
 
 import { transformSecurityQuestionEnroll } from '.';
 
@@ -24,12 +35,13 @@ describe('SecurityQuestionEnroll Tests', () => {
     formBag = {
       schema: { properties: { credentials: { type: 'object' } } },
       uischema: {
-        type: 'VerticalLayout',
+        type: UISchemaLayoutType.VERTICAL,
         elements: [{
           type: 'Control',
-          scope: '#/properties/credentials',
-        } as ControlElement],
+          name: 'credentials',
+        } as FieldElement],
       },
+      data: {},
     };
   });
 
@@ -63,90 +75,96 @@ describe('SecurityQuestionEnroll Tests', () => {
               questionKey: 'eternal',
             }],
           },
-          id: '',
-          displayName: '',
-          key: '',
-          type: '',
-          methods: [],
-        },
+        } as unknown as IdxAuthenticator,
       },
     };
     const updatedFormBag = transformSecurityQuestionEnroll(transaction, formBag, mockProps);
 
     expect(updatedFormBag).toMatchSnapshot();
 
-    expect(updatedFormBag.uischema.elements.length).toBe(5);
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-    expect(updatedFormBag.uischema.elements[0].options?.content)
+    expect(updatedFormBag.uischema.elements.length).toBe(3);
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.security.question.enroll.title');
 
-    // choice element
-    expect(updatedFormBag.uischema.elements[1].type).toBe('Control');
-    expect(updatedFormBag.uischema.elements[1].options?.format).toBe('radio');
-    // ensure default questionType selection
-    expect(updatedFormBag.uischema.elements[1].options?.defaultOption).toBe('predefined');
-    expect(updatedFormBag.uischema.elements[1].options?.choices[0].key).toBe('predefined');
-    expect(updatedFormBag.uischema.elements[1].options?.choices[1].key).toBe('custom');
+    expect((updatedFormBag.uischema.elements[1] as StepperRadioElement).type).toBe('StepperRadio');
+    expect((updatedFormBag.uischema.elements[1] as StepperRadioElement).options?.customOptions)
+      .toEqual([{
+        value: 'predefined',
+        label: 'oie.security.question.questionKey.label',
+      }, {
+        key: 'credentials.questionKey',
+        value: 'custom',
+        label: 'oie.security.question.createQuestion.label',
+      }]);
 
-    // customQuestion element
-    expect(updatedFormBag.uischema.elements[2].type).toBe('Control');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).label)
-      .toBe('oie.security.question.createQuestion.label');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).scope)
-      .toBe('#/properties/credentials/properties/question');
-    expect(updatedFormBag.uischema.elements[2].rule).toEqual(expect.objectContaining({
-      effect: RuleEffect.SHOW,
-      condition: {
-        scope: '#/properties/questionType',
-        schema: {
-          const: 'custom',
-        },
-      },
-    }));
+    // stepper
+    const stepperLayout = (updatedFormBag.uischema.elements[2] as StepperLayout);
+    const predefinedQuestionElements = stepperLayout.elements[0] as UISchemaLayout;
+    const customQuestionElements = stepperLayout.elements[1] as UISchemaLayout;
 
-    // predefinedQuestions element
-    expect(updatedFormBag.uischema.elements[3].type).toBe('Control');
-    expect((updatedFormBag.uischema.elements[3] as ControlElement).label)
+    // predefinedQuestions elements
+    expect(predefinedQuestionElements.elements[0].type).toBe('Control');
+    expect((predefinedQuestionElements.elements[0] as FieldElement).label)
       .toBe('oie.security.question.questionKey.label');
-    expect((updatedFormBag.uischema.elements[3] as ControlElement).scope)
-      .toBe('#/properties/credentials/properties/questionKey');
-    expect(updatedFormBag.uischema.elements[3].options?.format).toBe('dropdown');
-    expect(updatedFormBag.uischema.elements[3].options?.choices).toStrictEqual([{
-      key: 'eternal',
-      value: 'What is love?',
-    }]);
-    expect(updatedFormBag.uischema.elements[3].rule).toEqual(expect.objectContaining({
-      effect: RuleEffect.SHOW,
-      condition: {
-        scope: '#/properties/questionType',
-        schema: {
-          const: 'predefined',
-        },
-      },
-    }));
+    expect((predefinedQuestionElements.elements[0] as FieldElement).name)
+      .toBe('credentials.questionKey');
+    expect((predefinedQuestionElements.elements[0] as FieldElement).options?.inputMeta?.name)
+      .toBe('credentials.questionKey');
+    expect((predefinedQuestionElements.elements[0] as FieldElement).options?.format)
+      .toBe('dropdown');
+    expect((predefinedQuestionElements.elements[0] as FieldElement).options?.customOptions)
+      .toEqual([{
+        label: 'What is love?',
+        value: 'eternal',
+      }]);
 
-    // answer element
-    expect(updatedFormBag.uischema.elements[4].type).toBe('Control');
-    expect((updatedFormBag.uischema.elements[4] as ControlElement).label)
+    expect(predefinedQuestionElements.elements[1].type).toBe('Control');
+    expect((predefinedQuestionElements.elements[1] as FieldElement).name)
+      .toBe('credentials.answer');
+    expect((predefinedQuestionElements.elements[1] as FieldElement).label)
       .toBe('Answer');
-    expect((updatedFormBag.uischema.elements[4] as ControlElement).scope)
-      .toBe('#/properties/credentials/properties/answer');
-    expect(updatedFormBag.uischema.elements[4].options?.secret).toBe(true);
+    expect((predefinedQuestionElements.elements[1] as FieldElement).options?.inputMeta?.name)
+      .toBe('credentials.answer');
+    expect((predefinedQuestionElements.elements[1] as FieldElement).options?.inputMeta?.secret)
+      .toBe(true);
 
-    // ensure schema enum for questionType and questionKey are correct
-    expect(updatedFormBag.schema.properties?.questionType.enum).toEqual(['predefined', 'custom']);
-    expect(updatedFormBag.schema.properties?.credentials?.properties?.questionKey.enum)
-      .toEqual(['custom', 'eternal']);
+    expect(predefinedQuestionElements.elements[2].type).toBe('Button');
+    expect((predefinedQuestionElements.elements[2] as ButtonElement).label).toBe('mfa.challenge.verify');
+    expect((predefinedQuestionElements.elements[2] as ButtonElement).options?.dataType).toBe('save');
+    expect((predefinedQuestionElements.elements[2] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
 
-    expect(updatedFormBag.schema.properties?.credentials?.required)
-      .toEqual(['answer', 'questionKey']);
-    expect(updatedFormBag.schema.properties?.credentials?.properties?.answer?.type)
-      .toBe('string');
-    expect(updatedFormBag.schema.properties?.credentials?.properties?.questionKey?.type)
-      .toBe('string');
-    expect(updatedFormBag.schema.properties?.credentials?.properties?.questionKey?.enum)
-      .toEqual(['custom', 'eternal']);
-    expect(updatedFormBag.schema.properties?.credentials?.properties?.question?.type)
-      .toBe('string');
+    // customQuestion elements
+    expect(customQuestionElements.elements[0].type).toBe('Control');
+    expect((customQuestionElements.elements[0] as FieldElement).name)
+      .toBe('credentials.questionKey');
+    expect((customQuestionElements.elements[0] as FieldElement).options?.inputMeta?.name)
+      .toBe('credentials.questionKey');
+
+    expect(customQuestionElements.elements[1].type).toBe('Control');
+    expect((customQuestionElements.elements[1] as FieldElement).name)
+      .toBe('credentials.question');
+    expect((customQuestionElements.elements[1] as FieldElement).label)
+      .toBe('oie.security.question.createQuestion.label');
+    expect((customQuestionElements.elements[1] as FieldElement).options?.inputMeta?.name)
+      .toBe('credentials.question');
+
+    expect(customQuestionElements.elements[2].type).toBe('Control');
+    expect((customQuestionElements.elements[2] as FieldElement).name)
+      .toBe('credentials.answer');
+    expect((customQuestionElements.elements[2] as FieldElement).label)
+      .toBe('Answer');
+    expect((customQuestionElements.elements[2] as FieldElement).options?.inputMeta?.name)
+      .toBe('credentials.answer');
+    expect((customQuestionElements.elements[2] as FieldElement).options?.inputMeta?.secret)
+      .toBe(true);
+
+    expect(customQuestionElements.elements[3].type).toBe('Button');
+    expect((customQuestionElements.elements[3] as ButtonElement).label).toBe('mfa.challenge.verify');
+    expect((customQuestionElements.elements[3] as ButtonElement).options?.dataType).toBe('save');
+    expect((customQuestionElements.elements[3] as ButtonElement).options?.type).toBe('submit');
+    expect((customQuestionElements.elements[3] as ButtonElement).options?.idxMethodParams)
+      .toEqual({ 'credentials.questionKey': 'custom' });
   });
 });

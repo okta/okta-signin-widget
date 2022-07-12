@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Google Authenticator Enroll Transformer Tests should add Stepper layout to UI Schema elements when GA Enroll params exists in Idx response 1`] = `
+Object {
+  "data": Object {},
+  "schema": Object {},
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.enroll.google_authenticator.setup.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "elements": Array [
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.google_authenticator.scanBarcode.description",
+                },
+                "type": "Description",
+              },
+              Object {
+                "options": Object {
+                  "data": "#mockhref",
+                  "label": "google auth",
+                },
+                "type": "QRCode",
+              },
+              Object {
+                "label": "renderers.qrcode.setUpDifferentWay",
+                "options": Object {
+                  "nextStepIndex": 1,
+                  "variant": "secondary",
+                },
+                "type": "StepperButton",
+              },
+              Object {
+                "label": "oform.next",
+                "options": Object {
+                  "nextStepIndex": 2,
+                  "type": "button",
+                  "variant": "primary",
+                },
+                "type": "StepperButton",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.google_authenticator.manualSetupInstructions",
+                },
+                "type": "Description",
+              },
+              Object {
+                "options": Object {
+                  "content": "A B C 1 2 3 D E F 4 5 6",
+                },
+                "type": "Description",
+              },
+              Object {
+                "label": "oform.next",
+                "options": Object {
+                  "nextStepIndex": 2,
+                  "type": "button",
+                  "variant": "primary",
+                },
+                "type": "StepperButton",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "oie.enroll.google_authenticator.enterCode.title",
+                },
+                "type": "Description",
+              },
+              Object {
+                "name": "credentials.passcode",
+                "scope": "#/properties/credentials/properties/passcode",
+                "type": "Control",
+              },
+              Object {
+                "label": "mfa.challenge.verify",
+                "options": Object {
+                  "type": "submit",
+                },
+                "scope": "#/properties/submit",
+                "type": "Button",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+        ],
+        "type": "Stepper",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

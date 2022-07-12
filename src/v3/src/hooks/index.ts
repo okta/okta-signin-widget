@@ -10,4 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+export * from './useOnChange';
+export * from './useOnSubmit';
 export * from './usePolling';
+export * from './useValue';

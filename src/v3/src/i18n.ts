@@ -13,7 +13,7 @@
 import { initOktaReactI18n } from './lib/okta-i18n';
 import enTranslations from './properties/json/login.json';
 
-initOktaReactI18n({
+export const initI18n = () => initOktaReactI18n({
   debug: false,
   namespace: 'okta-signin-widget',
   supportedLanguages: ['en', 'cs', 'da', 'de', 'el', 'es', 'fi', 'fr', 'hu', 'id', 'it', 'ja', 'ko', 'ms', 'nb',

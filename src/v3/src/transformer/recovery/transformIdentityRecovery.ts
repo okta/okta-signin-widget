@@ -10,13 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement } from '@jsonforms/core';
-
 import {
   IdxStepTransformer,
   TitleElement,
+  UISchemaElement,
 } from '../../types';
-import { getUIElementWithScope } from '../utils';
+import { getUIElementWithName } from '../utils';
 
 const getContentTitleAndParams = (brandName?: string): TitleElement['options'] => {
   if (brandName) {
@@ -29,7 +28,7 @@ export const transformIdentityRecovery: IdxStepTransformer = (_, formBag, widget
   const { brandName } = widgetProps;
   const { uischema } = formBag;
 
-  const identifierElement = getUIElementWithScope('#/properties/identifier', uischema.elements as ControlElement[]);
+  const identifierElement = getUIElementWithName('identifier', uischema.elements as UISchemaElement[]);
 
   if (identifierElement) {
     identifierElement.label = 'password.forgot.email.or.username.placeholder';

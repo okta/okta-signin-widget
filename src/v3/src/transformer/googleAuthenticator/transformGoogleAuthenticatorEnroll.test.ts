@@ -10,17 +10,15 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement, Layout } from '@jsonforms/core';
 import { IDX_STEP } from 'src/constants';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
   FormBag,
-  LayoutType,
-  StepperLayout,
+  UISchemaElement,
+  UISchemaLayoutType,
   WidgetProps,
 } from 'src/types';
 
-import { ButtonOptionType } from '../getButtonControls';
 import { transformGoogleAuthenticatorEnroll } from '.';
 
 describe('Google Authenticator Enroll Transformer Tests', () => {
@@ -32,12 +30,14 @@ describe('Google Authenticator Enroll Transformer Tests', () => {
     formBag = {
       schema: {},
       uischema: {
-        type: 'VerticalLayout',
+        type: UISchemaLayoutType.VERTICAL,
         elements: [{
           type: 'Control',
+          name: 'credentials.passcode',
           scope: '#/properties/credentials/properties/passcode',
-        } as ControlElement],
+        } as UISchemaElement],
       },
+      data: {},
     };
   });
 
@@ -71,51 +71,6 @@ describe('Google Authenticator Enroll Transformer Tests', () => {
       },
     };
     const updatedFormBag = transformGoogleAuthenticatorEnroll(transaction, formBag, mockProps);
-
-    const stepperElements = (updatedFormBag.uischema.elements[0] as StepperLayout).elements;
-    expect(updatedFormBag.uischema.elements.length).toBe(1);
-    expect(stepperElements.length).toBe(2);
-    expect(stepperElements[0].type).toBe(LayoutType.STEPPER);
-    expect(stepperElements[0].options?.navButtonsConfig?.next?.variant).toBe('secondary');
-    expect(stepperElements[0].options?.key).toBeDefined();
-
-    expect(
-      (stepperElements[0] as StepperLayout).elements[0].type,
-    ).toBe(LayoutType.VERTICAL);
-    expect(
-      ((stepperElements[0] as StepperLayout)
-        .elements[0] as Layout).elements.length,
-    ).toBe(3);
-    // Verify 1st step elements
-    expect(((stepperElements[0] as Layout).elements[0] as Layout).elements[0].type).toBe('Title');
-    expect(((stepperElements[0] as Layout).elements[0] as Layout).elements[1].type)
-      .toBe('Description');
-    expect(((stepperElements[0] as Layout).elements[0] as Layout).elements[2].type)
-      .toBe('QRCode');
-    // Verify 1st sub step elements
-    expect(((stepperElements[0] as Layout).elements[1] as Layout).elements[0].type).toBe('Title');
-    expect(((stepperElements[0] as Layout).elements[1] as Layout).elements[1].type)
-      .toBe('Description');
-    expect(((stepperElements[0] as Layout).elements[1] as Layout).elements[2].type)
-      .toBe('Description');
-    // Verify 2nd step elements
-    expect(
-      (stepperElements[1] as Layout).elements.length,
-    ).toBe(4);
-    expect(
-      (stepperElements[1] as Layout).elements[0]
-        .type,
-    ).toBe('Title');
-    expect(
-      (stepperElements[1] as Layout).elements[1]
-        .type,
-    ).toBe('Description');
-    expect(
-      (stepperElements[1] as Layout).elements[2].type,
-    ).toBe('Control');
-    expect(
-      (stepperElements[1] as Layout).elements[3]
-        .options?.type,
-    ).toBe(ButtonOptionType.SUBMIT);
+    expect(updatedFormBag).toMatchSnapshot();
   });
 });

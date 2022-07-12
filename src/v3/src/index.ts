@@ -10,27 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import './i18n';
-
+import { initI18n } from './i18n';
 import OktaSignIn from './OktaSignIn';
 
 if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
   import('./mocks/browser')
     .then(({ getWorker }) => getWorker())
     .then((worker) => worker?.start());
-
-  if (process.env.NODE_ENV === 'development') {
-    import('../../../.widgetrc')
-      .then((config) => {
-        new OktaSignIn({
-          el: '#signin-container',
-          ...config,
-        });
-      })
-      .catch((error) => console.error(error));
-  }
 }
 
+initI18n();
 if (typeof window !== 'undefined') {
   // @ts-ignore OKTA-487668
   window.OktaSignIn = OktaSignIn;

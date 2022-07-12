@@ -14,17 +14,27 @@ import { Box, Infobox } from '@okta/odyssey-react';
 import { IdxMessage } from '@okta/okta-auth-js';
 import { FunctionComponent, h } from 'preact';
 
-import { CUSTOM_MESSAGE_KEYS } from '../../constants';
+import { CUSTOM_MESSAGE_KEYS, IDX_STEP } from '../../constants';
+import { useWidgetContext } from '../../contexts';
+import { useTranslation } from '../../lib/okta-i18n';
 import { MessageType, MessageTypeVariant } from '../../types';
 
 type Props = {
   messages?: IdxMessage[];
 };
 
-const InfoSection: FunctionComponent<Props> = ({ messages }) => {
-  const standardMessages = messages?.filter(({ i18n }) => !CUSTOM_MESSAGE_KEYS.includes(i18n?.key));
+const EXCLUDE_MESSAGE_STEPS = [IDX_STEP.REENROLL_AUTHENTICATOR_WARNING];
 
-  return standardMessages?.length ? (
+const InfoSection: FunctionComponent<Props> = ({ messages }) => {
+  const { t, i18n } = useTranslation();
+  const standardMessages = messages?.filter((message) => !CUSTOM_MESSAGE_KEYS.includes(
+    message?.i18n?.key,
+  ));
+  const { idxTransaction } = useWidgetContext();
+  const shouldExcludeMessage = idxTransaction?.nextStep?.name
+    && EXCLUDE_MESSAGE_STEPS.includes(idxTransaction.nextStep.name);
+
+  return (!shouldExcludeMessage && standardMessages?.length) ? (
     // @ts-ignore OKTA-471233
     <Box
       marginBottom="m"
@@ -33,9 +43,11 @@ const InfoSection: FunctionComponent<Props> = ({ messages }) => {
       {
         standardMessages.map((message) => (
           <Infobox
-            key={message.message}
+            key={message.i18n?.key || message.message}
             variant={MessageTypeVariant[message.class as MessageType] ?? MessageTypeVariant.INFO}
-            content={message.message}
+            content={i18n.exists(message.i18n?.key)
+              ? t(message.i18n.key, message.i18n.params)
+              : message.message}
           />
         ))
       }

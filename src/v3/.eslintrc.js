@@ -180,6 +180,14 @@ module.exports = {
       ],
       rules: {
         'react/jsx-props-no-spreading': 'off',
+        'jest/no-restricted-matchers': [
+          'error',
+          {
+            toBeTruthy: 'Avoid `toBeTruthy`',
+            toBeFalsy: 'Avoid `toBeFalsy`',
+          },
+        ],
+
       },
     },
     // integration test files in test
@@ -229,6 +237,7 @@ module.exports = {
         'plugin:testcafe-community/recommended',
         'airbnb-typescript/base',
       ],
+      rules: {},
     },
     // all javascript files in bin/properties-to-json
     {

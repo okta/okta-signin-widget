@@ -10,17 +10,18 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Layout, UISchemaElement } from '@jsonforms/core';
-import merge from 'lodash/merge';
-
 import {
+  ButtonType,
   IdxStepTransformer,
-  LayoutType,
   ReminderElement,
+  StepperButtonElement,
   StepperLayout,
+  TitleElement,
+  UISchemaElement,
+  UISchemaLayout,
+  UISchemaLayoutType,
 } from '../../types';
 import { isAndroidOrIOS } from '../../util';
-import { getCurrentTimestamp } from '../utils';
 import { transformOktaVerifyChannelSelection } from './transformOktaVerifyChannelSelection';
 import { appendDescriptionElements, createNavButtonConfig, getTitleKey } from './utils';
 
@@ -35,10 +36,17 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = (
   formBag,
   widgetProps,
 ) => {
-  const { nextStep: { authenticator } } = transaction;
-  const { uischema } = formBag;
+  const { context } = transaction;
+  const { uischema, data } = formBag;
 
-  const selectedChannel = authenticator?.contextualData?.selectedChannel ?? '';
+  data['authenticator.channel'] = 'email';
+
+  // TODO: OKTA-503490 temporary sln to access missing relatesTo obj
+  const authenticator = context?.currentAuthenticator?.value;
+  if (!authenticator) {
+    return formBag;
+  }
+  const selectedChannel = authenticator.contextualData?.selectedChannel;
   const channelSelectionFormBag = transformOktaVerifyChannelSelection(
     transaction,
     formBag,
@@ -51,10 +59,10 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = (
     return channelSelectionFormBag;
   }
 
-  merge(formBag.schema, channelSelectionFormBag.schema);
-
   const stepOneElements: UISchemaElement[] = [];
-  if (transaction.nextStep.canResend && REMINDER_CHANNELS.includes(selectedChannel)) {
+  if (transaction.nextStep.canResend
+    && selectedChannel
+    && REMINDER_CHANNELS.includes(selectedChannel)) {
     stepOneElements.push({
       type: 'Reminder',
       options: {
@@ -68,26 +76,45 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = (
     options: {
       content: getTitleKey(selectedChannel),
     },
-  });
+  } as TitleElement);
 
   appendDescriptionElements(stepOneElements, authenticator);
 
+  const navBtnConfig = createNavButtonConfig(!!authenticator?.contextualData?.qrcode);
+  stepOneElements.push({
+    type: 'StepperButton',
+    label: navBtnConfig.navButtonsConfig.next.label,
+    options: {
+      type: ButtonType.BUTTON,
+      variant: navBtnConfig.navButtonsConfig.next.variant,
+      nextStepIndex: 1,
+    },
+  } as StepperButtonElement);
+
+  if (navBtnConfig.navButtonsConfig.prev) {
+    channelSelectionFormBag.uischema.elements.push({
+      type: 'StepperButton',
+      label: navBtnConfig.navButtonsConfig.prev.label,
+      options: {
+        type: ButtonType.BUTTON,
+        variant: navBtnConfig.navButtonsConfig.prev.variant,
+        nextStepIndex: 0,
+      },
+    } as StepperButtonElement);
+  }
+
   const stepper: StepperLayout = {
-    type: LayoutType.STEPPER,
+    type: UISchemaLayoutType.STEPPER,
     elements: [
       {
-        type: LayoutType.VERTICAL,
+        type: UISchemaLayoutType.VERTICAL,
         elements: stepOneElements,
-      } as Layout,
+      } as UISchemaLayout,
       {
-        type: LayoutType.VERTICAL,
+        type: UISchemaLayoutType.VERTICAL,
         elements: [...channelSelectionFormBag.uischema.elements],
-      } as Layout,
+      } as UISchemaLayout,
     ],
-    options: {
-      key: `${getCurrentTimestamp()}-${selectedChannel}`,
-      ...createNavButtonConfig(!!authenticator?.contextualData?.qrcode),
-    },
   };
 
   // prepend

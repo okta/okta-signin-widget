@@ -10,36 +10,42 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement } from '@jsonforms/core';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
-import { IDX_STEP } from 'src/constants';
+import { AUTHENTICATOR_KEY, IDX_STEP } from 'src/constants';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
-  AuthenticatorOptionValue,
+  AuthenticatorButtonElement,
+  DescriptionElement,
   FormBag,
-  Option,
+  TitleElement,
+  UISchemaLayoutType,
   WidgetProps,
 } from 'src/types';
 
 import { transformSelectAuthenticatorVerify } from '.';
 
-const getMockAuthenticators = (): Option<AuthenticatorOptionValue>[] => {
+const getMockAuthenticatorButtons = (): AuthenticatorButtonElement[] => {
   const authenticators = [];
   authenticators.push({
-    key: 'okta_email',
+    type: 'AuthenticatorButton',
     label: 'Email',
-    value: {
-      key: 'okta_email',
-      label: 'Select',
-    },
-  });
+    options: {
+      key: AUTHENTICATOR_KEY.EMAIL,
+      ctaLabel: 'Select',
+      idxMethodParams: {
+        authenticator: {
+          id: '123abc',
+        },
+      },
+    } as AuthenticatorButtonElement['options'],
+  } as AuthenticatorButtonElement);
   return authenticators;
 };
 
 jest.mock('./utils', () => ({
-  getAuthenticatorVerifyOptions: (
+  getAuthenticatorVerifyButtonElements: (
     options?: IdxOption[],
-  ) => (options?.length ? getMockAuthenticators() : []),
+  ) => (options?.length ? getMockAuthenticatorButtons() : []),
 }));
 
 describe('Verify Authenticator Selector Transformer Tests', () => {
@@ -48,13 +54,14 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
   let formBag: FormBag;
   beforeEach(() => {
     formBag = {
+      data: {},
       schema: {
         properties: {
           authenticator: {},
         },
       },
       uischema: {
-        type: 'VerticalLayout',
+        type: UISchemaLayoutType.VERTICAL,
         elements: [],
       },
     };
@@ -92,26 +99,18 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
     const updatedFormBag = transformSelectAuthenticatorVerify(transaction, formBag, mockProps);
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    expect(updatedFormBag.uischema.elements[0].options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.select.authenticators.verify.title');
-    expect(updatedFormBag.uischema.elements[1].options?.content)
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.select.authenticators.verify.subtitle');
-    expect(updatedFormBag.uischema.elements[2].options?.format).toBe('AuthenticatorList');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).scope)
-      .toBe('#/properties/authenticator');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).label)
-      .toBe('');
-    expect(updatedFormBag.schema.properties?.authenticator).toEqual({
-      type: 'object',
-      enum: getMockAuthenticators(),
-    });
+    expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButton');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
+      .options.idxMethodParams?.authenticator)?.id).toBe('123abc');
   });
 
   it('should add UI elements for verification authenticator selector'
     + ' when in password recovery flow', () => {
     transaction.rawIdxState = {
-      version: '',
-      stateHandle: '',
       // @ts-ignore OKTA-486472 (prop is missing from interface)
       recoveryAuthenticator: {
         type: 'object',
@@ -123,21 +122,15 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
     const updatedFormBag = transformSelectAuthenticatorVerify(transaction, formBag, mockProps);
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    expect(updatedFormBag.uischema.elements[0].options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.generic');
-    expect(updatedFormBag.uischema.elements[0].options?.contentParams)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.contentParams)
       .toBeUndefined();
-    expect(updatedFormBag.uischema.elements[1].options?.content)
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.password.reset.verification');
-    expect(updatedFormBag.uischema.elements[2].options?.format).toBe('AuthenticatorList');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).scope)
-      .toBe('#/properties/authenticator');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).label)
-      .toBe('');
-    expect(updatedFormBag.schema.properties?.authenticator).toEqual({
-      type: 'object',
-      enum: getMockAuthenticators(),
-    });
+    expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButton');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
+      .options.idxMethodParams?.authenticator)?.id).toBe('123abc');
   });
 
   it('should add UI elements for verification authenticator selector'
@@ -157,20 +150,14 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
     const updatedFormBag = transformSelectAuthenticatorVerify(transaction, formBag, mockProps);
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
-    expect(updatedFormBag.uischema.elements[0].options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.specific');
-    expect(updatedFormBag.uischema.elements[0].options?.contentParams)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.contentParams)
       .toEqual(['Acme Corp.']);
-    expect(updatedFormBag.uischema.elements[1].options?.content)
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.password.reset.verification');
-    expect(updatedFormBag.uischema.elements[2].options?.format).toBe('AuthenticatorList');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).scope)
-      .toBe('#/properties/authenticator');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).label)
-      .toBe('');
-    expect(updatedFormBag.schema.properties?.authenticator).toEqual({
-      type: 'object',
-      enum: getMockAuthenticators(),
-    });
+    expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButton');
+    expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
+      .options.idxMethodParams?.authenticator)?.id).toBe('123abc');
   });
 });

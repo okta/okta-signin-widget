@@ -12,3 +12,5 @@
 
 export * from './createAuthClient';
 export * from './updateDynamicAttribute';
+export * from './setup';
+export * from './getMockCredentialsResponse';

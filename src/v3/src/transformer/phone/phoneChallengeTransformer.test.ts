@@ -12,9 +12,16 @@
 
 import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import { FormBag, LayoutType, WidgetProps } from 'src/types';
+import {
+  ButtonElement,
+  ButtonType,
+  DescriptionElement,
+  FormBag,
+  LayoutType,
+  UISchemaLayoutType,
+  WidgetProps,
+} from 'src/types';
 
-import { ButtonOptionType } from '../getButtonControls';
 import { transformPhoneChallenge } from '.';
 
 describe('PhoneChallengeTransformer Tests', () => {
@@ -26,9 +33,10 @@ describe('PhoneChallengeTransformer Tests', () => {
     formBag = {
       schema: {},
       uischema: {
-        type: 'VerticalLayout',
+        type: UISchemaLayoutType.VERTICAL,
         elements: [],
       },
+      data: {},
     };
   });
 
@@ -53,14 +61,18 @@ describe('PhoneChallengeTransformer Tests', () => {
     expect(updatedFormBag.uischema.type).toBe(LayoutType.VERTICAL);
 
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
-    expect(updatedFormBag.uischema.elements[2].options?.content).toBe('next.phone.challenge.sms.informationalTextWithPhone');
-    expect(updatedFormBag.uischema.elements[2].options?.contentParams?.[0]).toBe(redactedPhone);
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
+      .toBe('next.phone.challenge.sms.informationalTextWithPhone');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.contentParams?.[0])
+      .toBe(redactedPhone);
 
     expect(updatedFormBag.uischema.elements[3].type).toBe('Description');
-    expect(updatedFormBag.uischema.elements[3].options?.content).toBe('oie.phone.carrier.charges');
+    expect((updatedFormBag.uischema.elements[3] as DescriptionElement).options?.content)
+      .toBe('oie.phone.carrier.charges');
 
-    expect(updatedFormBag.uischema.elements[4].options?.format).toBe('button');
-    expect(updatedFormBag.uischema.elements[4].options?.type).toBe(ButtonOptionType.SUBMIT);
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
   });
 
   it('should create SMS challenge UI elements when resend code is NOT available', () => {
@@ -84,14 +96,18 @@ describe('PhoneChallengeTransformer Tests', () => {
     expect(updatedFormBag.uischema.type).toBe(LayoutType.VERTICAL);
 
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
-    expect(updatedFormBag.uischema.elements[1].options?.content).toBe('next.phone.challenge.sms.informationalTextWithPhone');
-    expect(updatedFormBag.uischema.elements[1].options?.contentParams?.[0]).toBe(redactedPhone);
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
+      .toBe('next.phone.challenge.sms.informationalTextWithPhone');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.contentParams?.[0])
+      .toBe(redactedPhone);
 
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
-    expect(updatedFormBag.uischema.elements[2].options?.content).toBe('oie.phone.carrier.charges');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
+      .toBe('oie.phone.carrier.charges');
 
-    expect(updatedFormBag.uischema.elements[3].options?.format).toBe('button');
-    expect(updatedFormBag.uischema.elements[3].options?.type).toBe(ButtonOptionType.SUBMIT);
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
   });
 
   it('should create SMS challenge UI elements when phone number not available', () => {
@@ -108,12 +124,15 @@ describe('PhoneChallengeTransformer Tests', () => {
     expect(updatedFormBag.uischema.type).toBe(LayoutType.VERTICAL);
 
     expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
-    expect(updatedFormBag.uischema.elements[2].options?.content).toBe('next.phone.challenge.sms.informationalText');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
+      .toBe('next.phone.challenge.sms.informationalText');
 
-    expect(updatedFormBag.uischema.elements[3].type).toBe('Description');
-    expect(updatedFormBag.uischema.elements[3].options?.content).toBe('oie.phone.carrier.charges');
+    expect((updatedFormBag.uischema.elements[3] as DescriptionElement).type).toBe('Description');
+    expect((updatedFormBag.uischema.elements[3] as DescriptionElement).options?.content)
+      .toBe('oie.phone.carrier.charges');
 
-    expect(updatedFormBag.uischema.elements[4].options?.format).toBe('button');
-    expect(updatedFormBag.uischema.elements[4].options?.type).toBe(ButtonOptionType.SUBMIT);
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
   });
 });

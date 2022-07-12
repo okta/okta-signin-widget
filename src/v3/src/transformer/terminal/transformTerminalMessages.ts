@@ -10,24 +10,21 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Layout } from '@jsonforms/core';
-import {
-  IdxMessage,
-  IdxTransaction,
-} from '@okta/okta-auth-js';
+import { IdxMessage } from '@okta/okta-auth-js';
 
 import { TERMINAL_KEY } from '../../constants';
 import {
   DescriptionElement,
-  FormBag,
   InfoboxElement,
   MessageType,
   MessageTypeVariant,
   Modify,
+  TerminalKeyTransformer,
+  UISchemaLayout,
 } from '../../types';
 import { containsMessageKey } from '../../util';
+import { transformEmailMagicLinkOTPOnly } from './transformEmailMagicLinkOTPOnlyElements';
 
-type TerminalKeyTransformer = (transaction: IdxTransaction, formBag: FormBag) => FormBag;
 type ModifiedIdxMessage = Modify<IdxMessage, {
   class?: string;
   i18n?: {
@@ -36,7 +33,7 @@ type ModifiedIdxMessage = Modify<IdxMessage, {
   };
 }>;
 
-const appendMessageElements = (uischema: Layout, messages: IdxMessage[]): void => {
+const appendMessageElements = (uischema: UISchemaLayout, messages: IdxMessage[]): void => {
   messages.forEach((message) => {
     if (!message.class || message.class === MessageType.INFO) {
       const messageElement: DescriptionElement = {
@@ -49,6 +46,7 @@ const appendMessageElements = (uischema: Layout, messages: IdxMessage[]): void =
         type: 'InfoBox',
         options: {
           message: message.message,
+          contentParams: message.i18n?.params as string[],
           class: MessageTypeVariant[message.class as MessageType] ?? MessageTypeVariant.WARNING,
           contentType: 'string',
         },
@@ -70,7 +68,7 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
         class: MessageTypeVariant.ERROR,
         contentType: 'string',
       },
-    });
+    } as InfoboxElement);
     return formBag;
   }
 
@@ -93,8 +91,11 @@ export const transformTerminalMessages: TerminalKeyTransformer = (transaction, f
     displayedMessages[0].message = 'oie.tooManyRequests';
   } else if (containsMessageKey(TERMINAL_KEY.RETURN_LINK_EXPIRED_KEY, messages)) {
     displayedMessages[0].class = 'ERROR';
+  } else if (containsMessageKey(TERMINAL_KEY.SESSION_EXPIRED, messages)) {
+    displayedMessages[0].class = 'ERROR';
+    displayedMessages[0].message = TERMINAL_KEY.SESSION_EXPIRED;
   } else if (containsMessageKey(TERMINAL_KEY.IDX_RETURN_LINK_OTP_ONLY, messages)) {
-    // TODO: Build OTP Magic link Only View OKTA-491061
+    return transformEmailMagicLinkOTPOnly(transaction, formBag);
   }
 
   appendMessageElements(uischema, messages);

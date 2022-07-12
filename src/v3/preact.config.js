@@ -11,12 +11,10 @@
  */
 
 /* eslint-disable import/no-extraneous-dependencies,no-param-reassign */
-import Buffer from 'buffer';
-import { resolve, join } from 'path';
+import { resolve } from 'path';
 import { merge as webpackMerge } from 'webpack-merge';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import envVars from 'preact-cli-plugin-env-vars';
-import { DefinePlugin } from 'webpack';
 import { omit } from 'lodash';
 import playgroundConfig from '../../webpack.playground.config';
 
@@ -39,6 +37,17 @@ const mergeContentSecurityPolicies = (...policies) => {
 };
 
 export default {
+  /**
+   * Function that mutates the original webpack config. Supports asynchronous
+   * changes when a promise is returned (or it's an async function).
+   *
+   * @param {object} config - original webpack config.
+   * @param {object} env - options passed to the CLI.
+   * @param {WebpackConfigHelpers} helpers - object with useful helpers for
+   * working with the webpack config.
+   * @param {object} options - this is mainly relevant for plugins (will always
+   * be empty in the config), default to an empty object
+   */
   webpack(config, env, helpers) {
     config.output.libraryTarget = 'umd';
     config.output.filename = ({ chunk }) => (
@@ -72,7 +81,9 @@ export default {
             loader: 'babel-loader',
             options: rule.options,
           },
-          { loader: 'ts-loader' },
+          {
+            loader: 'ts-loader',
+          },
         ];
         return {
           ...rule,
@@ -115,7 +126,7 @@ export default {
     });
 
     // Use any `index` file, not just index.js
-    config.resolve.alias['preact-cli-entrypoint'] = join(
+    config.resolve.alias['preact-cli-entrypoint'] = resolve(
       __dirname,
       'src',
       'index',
@@ -143,10 +154,6 @@ export default {
       'esbrowser',
       'index.js',
     );
-
-    // polyfills for jsonforms
-    // https://github.com/APIDevTools/json-schema-ref-parser#browser-support
-    config.plugins.push(new DefinePlugin({ process: { browser: true }, Buffer }));
 
     // preact-cli-plugin-env-vars
     envVars(config, env, helpers);

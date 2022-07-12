@@ -10,27 +10,21 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import {
-  IdxOption,
-  IdxRemediationValue,
-} from '@okta/okta-auth-js/lib/idx/types/idx-js';
+import { Input } from '@okta/okta-auth-js';
+import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP, AUTHENTICATOR_KEY } from 'src/constants';
 
 import {
-  getAuthenticatorEnrollOptions,
-  getAuthenticatorVerifyOptions,
-  getOVMethodTypeAuthenticatorOptions,
+  getAuthenticatorEnrollButtonElements,
+  getAuthenticatorVerifyButtonElements,
+  getOVMethodTypeAuthenticatorButtonElements,
   isOnlyPushWithAutoChallenge,
 } from './utils';
 
 describe('Select Authenticator Utility Tests', () => {
-  describe('getOVMethodTypeAuthenticatorOptions Tests', () => {
-    it('should return an empty array when no options are provided', () => {
-      expect(getOVMethodTypeAuthenticatorOptions()).toEqual([]);
-    });
-
+  describe('getOVMethodTypeAuthenticatorButtonElements Tests', () => {
     it('should return an empty array when an empty array of options is provided', () => {
-      expect(getOVMethodTypeAuthenticatorOptions([])).toEqual([]);
+      expect(getOVMethodTypeAuthenticatorButtonElements([])).toEqual([]);
     });
 
     it('should return formatted Authenticator Option Values '
@@ -39,21 +33,31 @@ describe('Select Authenticator Utility Tests', () => {
         { label: 'Enter a code', value: 'totp' } as IdxOption,
         { label: 'Get a push notification', value: 'push' } as IdxOption,
       ];
-      expect(getOVMethodTypeAuthenticatorOptions(options)).toEqual([
+      expect(getOVMethodTypeAuthenticatorButtonElements(options)).toEqual([
         {
-          key: AUTHENTICATOR_KEY.OV,
+          type: 'AuthenticatorButton',
           label: options[0].label,
-          value: {
-            label: 'oie.verify.authenticator.button.text',
-            methodType: options[0].value,
+          options: {
+            key: AUTHENTICATOR_KEY.OV,
+            ctaLabel: 'oie.verify.authenticator.button.text',
+            idxMethodParams: {
+              authenticator: {
+                methodType: options[0].value,
+              },
+            },
           },
         },
         {
-          key: AUTHENTICATOR_KEY.OV,
+          type: 'AuthenticatorButton',
           label: options[1].label,
-          value: {
-            label: 'oie.verify.authenticator.button.text',
-            methodType: options[1].value,
+          options: {
+            key: AUTHENTICATOR_KEY.OV,
+            ctaLabel: 'oie.verify.authenticator.button.text',
+            idxMethodParams: {
+              authenticator: {
+                methodType: options[1].value,
+              },
+            },
           },
         },
       ]);
@@ -61,79 +65,58 @@ describe('Select Authenticator Utility Tests', () => {
   });
 
   describe('isOnlyPushWithAutoChallenge Tests', () => {
-    it('should return false when remediation value is not provided', () => {
-      expect(isOnlyPushWithAutoChallenge()).toBe(false);
+    it('should return false when authenticator inputs are not provided', () => {
+      expect(isOnlyPushWithAutoChallenge(undefined)).toBe(false);
     });
 
-    it('should return false when remediation value does not contain methodType', () => {
-      const authenticator: IdxRemediationValue = {
-        name: 'authenticator',
-        form: { value: [{ name: 'autoChallenge' }] },
-      };
-      expect(isOnlyPushWithAutoChallenge(authenticator)).toBe(false);
+    it('should return false when authenticator input values do not contain methodType', () => {
+      const authenticatorInputs: Input[] = [{ name: 'autoChallenge' }];
+      expect(isOnlyPushWithAutoChallenge(authenticatorInputs)).toBe(false);
     });
 
-    it('should return false when remediation value does not contain autoChallenge', () => {
-      const authenticator: IdxRemediationValue = {
-        name: 'authenticator',
-        form: { value: [{ name: 'methodType' }] },
-      };
-      expect(isOnlyPushWithAutoChallenge(authenticator)).toBe(false);
+    it('should return false when authenticator input values do not contain autoChallenge', () => {
+      const authenticatorInputs: Input[] = [{ name: 'methodType' }];
+      expect(isOnlyPushWithAutoChallenge(authenticatorInputs)).toBe(false);
     });
 
-    it('should return false when remediation value contains multiple methodType options', () => {
-      const authenticator: IdxRemediationValue = {
-        name: 'authenticator',
-        form: {
-          value: [
-            {
-              name: 'methodType',
-              options: [{ label: 'Code', value: 'totp' }, { label: 'Push', value: 'push' }],
-            },
-            { name: 'autoChallenge' },
-          ],
+    it('should return false when authenticator input values contains multiple methodType options', () => {
+      const authenticatorInputs: Input[] = [
+        {
+          name: 'methodType',
+          options: [{ label: 'Code', value: 'totp' }, { label: 'Push', value: 'push' }],
         },
-      };
-      expect(isOnlyPushWithAutoChallenge(authenticator)).toBe(false);
+        { name: 'autoChallenge' },
+      ];
+      expect(isOnlyPushWithAutoChallenge(authenticatorInputs)).toBe(false);
     });
 
-    it('should return false when remediation value contains only totp methodType', () => {
-      const authenticator: IdxRemediationValue = {
-        name: 'authenticator',
-        form: {
-          value: [
-            {
-              name: 'methodType',
-              options: [{ label: 'Code', value: 'totp' }],
-            },
-            { name: 'autoChallenge' },
-          ],
+    it('should return false when authenticator input values contain only totp methodType', () => {
+      const authenticatorInputs: Input[] = [
+        {
+          name: 'methodType',
+          options: [{ label: 'Code', value: 'totp' }],
         },
-      };
-      expect(isOnlyPushWithAutoChallenge(authenticator)).toBe(false);
+        { name: 'autoChallenge' },
+      ];
+      expect(isOnlyPushWithAutoChallenge(authenticatorInputs)).toBe(false);
     });
 
-    it('should return true when remediation value contains only push methodType '
+    it('should return true when authenticator input values contain only "push" methodType '
       + 'and has autoChallenge input', () => {
-      const authenticator: IdxRemediationValue = {
-        name: 'authenticator',
-        form: {
-          value: [
-            {
-              name: 'methodType',
-              options: [{ label: 'Push', value: 'push' }],
-            },
-            { name: 'autoChallenge' },
-          ],
+      const authenticatorInputs: Input[] = [
+        {
+          name: 'methodType',
+          options: [{ label: 'Push', value: 'push' }],
         },
-      };
-      expect(isOnlyPushWithAutoChallenge(authenticator)).toBe(true);
+        { name: 'autoChallenge' },
+      ];
+      expect(isOnlyPushWithAutoChallenge(authenticatorInputs)).toBe(true);
     });
   });
 
-  describe('getAuthenticatorVerifyOptions Tests', () => {
+  describe('getAuthenticatorVerifyButtonElements Tests', () => {
     it('should return empty array when no authenticator options are provided', () => {
-      expect(getAuthenticatorVerifyOptions([])).toEqual([]);
+      expect(getAuthenticatorVerifyButtonElements([])).toEqual([]);
     });
 
     it('should return formatted authenticator options when raw options are provided', () => {
@@ -159,20 +142,19 @@ describe('Select Authenticator Utility Tests', () => {
           }
           return option;
         });
-      const authenticatorOptionValues = getAuthenticatorVerifyOptions(options);
+      const authenticatorOptionValues = getAuthenticatorVerifyButtonElements(options);
 
       expect(authenticatorOptionValues.length).toBe(15);
       options.forEach((option) => {
         const currentOption = authenticatorOptionValues
-          .find(({ key: authKey }) => authKey === option.relatesTo?.key);
-        expect(currentOption?.key).toBe(option.relatesTo?.key);
+          .find(({ options: { key: authKey } }) => authKey === option.relatesTo?.key);
+        expect(currentOption?.options.key).toBe(option.relatesTo?.key);
         expect(currentOption?.label).toBe(option.label);
-        expect(currentOption?.value.key).toBe(option.relatesTo?.key);
-        expect(currentOption?.value.label)
+        expect(currentOption?.options.ctaLabel)
           .toBe('oie.verify.authenticator.button.text');
-        expect(currentOption?.description)
+        expect(currentOption?.options.description)
           .toBe(option.value === AUTHENTICATOR_KEY.PHONE ? mockPhoneNumber : undefined);
-        expect(currentOption?.descriptionParams).toBeUndefined();
+        expect(currentOption?.options.descriptionParams).toBeUndefined();
       });
     });
 
@@ -199,23 +181,23 @@ describe('Select Authenticator Utility Tests', () => {
         },
       }];
 
-      const authenticatorOptionValues = getAuthenticatorVerifyOptions(options);
+      const authenticatorOptionValues = getAuthenticatorVerifyButtonElements(options);
 
       expect(authenticatorOptionValues.length).toBe(2);
-      expect(authenticatorOptionValues[0].key).toBe(AUTHENTICATOR_KEY.OV);
+      expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
       expect(authenticatorOptionValues[0].label).toBe('Code');
-      expect(authenticatorOptionValues[0].value.label).toBe('oie.verify.authenticator.button.text');
-      expect(authenticatorOptionValues[0].value.methodType).toBe('totp');
-      expect(authenticatorOptionValues[1].key).toBe(AUTHENTICATOR_KEY.OV);
+      expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
+      expect(authenticatorOptionValues[0].options.idxMethodParams.authenticator.methodType).toBe('totp');
+      expect(authenticatorOptionValues[1].options.key).toBe(AUTHENTICATOR_KEY.OV);
       expect(authenticatorOptionValues[1].label).toBe('Push');
-      expect(authenticatorOptionValues[1].value.label).toBe('oie.verify.authenticator.button.text');
-      expect(authenticatorOptionValues[1].value.methodType).toBe('push');
+      expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.verify.authenticator.button.text');
+      expect(authenticatorOptionValues[1].options.idxMethodParams.authenticator.methodType).toBe('push');
     });
   });
 
-  describe('getAuthenticatorEnrollOptions Tests', () => {
+  describe('getAuthenticatorEnrollButtonElements Tests', () => {
     it('should return empty array when no authenticator options are provided', () => {
-      expect(getAuthenticatorEnrollOptions([])).toEqual([]);
+      expect(getAuthenticatorEnrollButtonElements([])).toEqual([]);
     });
 
     it('should return formatted authenticator options when raw options are provided', () => {
@@ -241,25 +223,21 @@ describe('Select Authenticator Utility Tests', () => {
           }
           return option;
         });
-      const authenticatorOptionValues = getAuthenticatorEnrollOptions(options);
+      const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(options);
 
       expect(authenticatorOptionValues.length).toBe(15);
       options.forEach((option) => {
         const currentOption = authenticatorOptionValues
-          .find(({ key: authKey }) => authKey === option.relatesTo?.key);
-        expect(currentOption?.key).toBe(option.relatesTo?.key);
+          .find(({ options: { key: authKey } }) => authKey === option.relatesTo?.key);
+        expect(currentOption?.options.key).toBe(option.relatesTo?.key);
         expect(currentOption?.label).toBe(option.label);
-        expect(currentOption?.value.key).toBe(option.relatesTo?.key);
-        expect(currentOption?.value.label)
+        expect(currentOption?.options.ctaLabel)
           .toBe('oie.enroll.authenticator.button.text');
-        expect(currentOption?.description)
-          .toBe(AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[option.relatesTo?.key as string]);
-        expect(currentOption?.descriptionParams)
-          .toEqual(
-            option.relatesTo?.key === AUTHENTICATOR_KEY.ON_PREM
-              ? ['oie.on_prem.authenticator.default.vendorName']
-              : undefined,
-          );
+        expect(currentOption?.options.description)
+          .toBe(option.relatesTo?.key === AUTHENTICATOR_KEY.ON_PREM
+            ? 'next.oie.on_prem.authenticator.default.description'
+            : AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[option.relatesTo?.key as string]);
+        expect(currentOption?.options.descriptionParams).toBeUndefined();
       });
     });
 
@@ -276,17 +254,16 @@ describe('Select Authenticator Utility Tests', () => {
           key: AUTHENTICATOR_KEY.ON_PREM,
         },
       }];
-      const authenticatorOptionValues = getAuthenticatorEnrollOptions(options);
+      const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(options);
 
       expect(authenticatorOptionValues.length).toBe(1);
-      expect(authenticatorOptionValues[0].key).toBe(AUTHENTICATOR_KEY.ON_PREM);
+      expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.ON_PREM);
       expect(authenticatorOptionValues[0].label).toBe('On Prem');
-      expect(authenticatorOptionValues[0].value.key).toBe(AUTHENTICATOR_KEY.ON_PREM);
-      expect(authenticatorOptionValues[0].value.label)
+      expect(authenticatorOptionValues[0].options.ctaLabel)
         .toBe('oie.enroll.authenticator.button.text');
-      expect(authenticatorOptionValues[0].description)
+      expect(authenticatorOptionValues[0].options.description)
         .toBe(AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[AUTHENTICATOR_KEY.ON_PREM]);
-      expect(authenticatorOptionValues[0].descriptionParams).toEqual([displayName]);
+      expect(authenticatorOptionValues[0].options.descriptionParams).toEqual([displayName]);
     });
 
     it('should return formatted Okta Verify method type options '
@@ -312,17 +289,16 @@ describe('Select Authenticator Utility Tests', () => {
         },
       }];
 
-      const authenticatorOptionValues = getAuthenticatorEnrollOptions(options);
+      const authenticatorOptionValues = getAuthenticatorEnrollButtonElements(options);
 
       expect(authenticatorOptionValues.length).toBe(2);
-      expect(authenticatorOptionValues[0].key).toBe(AUTHENTICATOR_KEY.OV);
+      expect(authenticatorOptionValues[0].options.key).toBe(AUTHENTICATOR_KEY.OV);
       expect(authenticatorOptionValues[0].label).toBe('Code');
-      expect(authenticatorOptionValues[0].value.label).toBe('oie.enroll.authenticator.button.text');
-      expect(authenticatorOptionValues[0].value.methodType).toBe('totp');
-      expect(authenticatorOptionValues[1].key).toBe(AUTHENTICATOR_KEY.OV);
+      expect(authenticatorOptionValues[0].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
+      expect(authenticatorOptionValues[0].options.idxMethodParams.authenticator.methodType).toBe('totp');
       expect(authenticatorOptionValues[1].label).toBe('Push');
-      expect(authenticatorOptionValues[1].value.label).toBe('oie.enroll.authenticator.button.text');
-      expect(authenticatorOptionValues[1].value.methodType).toBe('push');
+      expect(authenticatorOptionValues[1].options.ctaLabel).toBe('oie.enroll.authenticator.button.text');
+      expect(authenticatorOptionValues[1].options.idxMethodParams.authenticator.methodType).toBe('push');
     });
   });
 });

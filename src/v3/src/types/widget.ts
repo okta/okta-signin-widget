@@ -10,23 +10,11 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import {
-  JsonFormsCellRendererRegistryEntry,
-  JsonFormsRendererRegistryEntry,
-  JsonSchema7,
-} from '@jsonforms/core';
-import {
-  FlowIdentifier,
-  OAuthResponseType,
-  OktaAuth,
-  OktaAuthOptions,
-} from '@okta/okta-auth-js';
+import { FlowIdentifier, OktaAuth, OktaAuthOptions } from '@okta/okta-auth-js';
 import {
   RawIdxResponse,
 } from '@okta/okta-auth-js/lib/idx/types/idx-js';
-import {
-  Component,
-} from 'preact';
+import { InterstitialRedirectView } from 'src/constants';
 import { OktaReactI18nOptions } from 'src/lib/okta-i18n';
 
 import { JsonObject } from './json';
@@ -47,15 +35,19 @@ export type WidgetResetArgs = {
 export type WidgetProps = Partial<WidgetOptions>;
 
 export type WidgetOptions = {
-  // ui customizations
-  renderers?: JsonFormsRendererRegistryEntry[];
-  cells?: JsonFormsCellRendererRegistryEntry[];
-  components?: Record<string, Component>;
+  // // ui customizations
+  // renderers?: JsonFormsRendererRegistryEntry[];
+  // cells?: JsonFormsCellRendererRegistryEntry[];
+  // components?: Record<string, Component>;
 
   // theming
   theme?: ThemeOptions;
 
   // callbacks
+  // TODO: OKTA-502849 - Update param type (RenderResult) once merged into okta-signin-widget
+  onSuccess?: (res: Record<string, unknown>) => void;
+  // TODO: OKTA-502849 - Update param type (RenderError) once merged into okta-signin-widget
+  onError?: (err: Error) => void;
   onChange?: (data: JsonObject) => void;
   onSubmit?: (data: JsonObject) => void;
   onCancel?: (data: JsonObject) => void;
@@ -67,8 +59,8 @@ export type WidgetOptions = {
   beforeTransform?: (ionResponse: RawIdxResponse) => void;
   afterTransform?: (formBag: FormBag, ionResponse: RawIdxResponse) => void;
 
-  beforeValidate?: (data: JsonObject, schema: JsonSchema7) => Record<string, unknown> | void;
-  afterValidate?: (isValid: boolean, data: JsonObject, schema: JsonSchema7) => void;
+  // beforeValidate?: (data: JsonObject, schema: JsonSchema7) => Record<string, unknown> | void;
+  // afterValidate?: (isValid: boolean, data: JsonObject, schema: JsonSchema7) => void;
 
   beforeSubmit?: (data: JsonObject) => void;
   afterSubmit?: (data: JsonObject) => void;
@@ -79,17 +71,18 @@ export type WidgetOptions = {
   issuer?: string;
   clientId?: string;
   redirectUri?: string;
+  redirect?: 'always' | 'never' | 'auto';
   state?: string;
   scopes?: string[];
   flow?: FlowIdentifier;
   codeChallenge?: string;
   codeChallengeMethod?: string;
   recoveryToken?: string;
-  responseType?: OAuthResponseType | OAuthResponseType[];
 
   el?: string;
   baseUrl?: string;
   brandName?: string;
+  brandColors?: BrandColors;
   logo?: string;
   logoText?: string;
   stateToken?: string;
@@ -98,11 +91,12 @@ export type WidgetOptions = {
   consent?: {
     cancel: { (): void };
   };
+  useInteractionCodeFlow?: boolean;
   authScheme?: string;
   relayState?: string;
   proxyIdxResponse?: ProxyIdxResponse;
   overrideExistingStateToken?: boolean;
-  interstitialBeforeLoginRedirect?: { (): void };
+  interstitialBeforeLoginRedirect?: InterstitialRedirectView;
   idpDiscovery?: {
     requestContext: string;
   };
@@ -131,7 +125,11 @@ export type IdxMethod =
   | 'register'
   | 'poll'
   | 'proceed'
-  | 'unlockAccount';
+  | 'unlock-account';
+
+export type BrandColors = {
+  primaryColor: string;
+};
 
 export type ThemeOptions = {
   primaryColor: string;
@@ -164,6 +162,7 @@ export type OktaWidgetFeatures = {
   passwordlessAuth?: boolean;
   consent?: boolean;
   skipIdpFactorVerificationBtn?: boolean;
+  showKeepMeSignedIn?: boolean;
   showPasswordToggleOnSignInPage?: boolean;
   showIdentifier?: boolean;
   registration?: boolean;

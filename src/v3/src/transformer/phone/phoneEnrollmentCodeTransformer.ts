@@ -10,13 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement } from '@jsonforms/core';
-import { DescriptionElement, IdxStepTransformer, TitleElement } from 'src/types';
-
-import { ButtonOptionType } from '../getButtonControls';
+import {
+  ButtonElement,
+  ButtonType,
+  DescriptionElement,
+  IdxStepTransformer,
+  TitleElement,
+} from '../../types';
 
 export const transformPhoneCodeEnrollment: IdxStepTransformer = (transaction, formBag) => {
-  const { nextStep: { authenticator } } = transaction;
+  const { nextStep: { relatesTo } } = transaction;
   const { uischema } = formBag;
 
   const titleElement: TitleElement = {
@@ -29,7 +32,7 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = (transaction, fo
   const informationalTextElement: DescriptionElement = {
     type: 'Description',
     options: {
-      content: authenticator?.methods[0]?.type === 'sms'
+      content: relatesTo?.value?.methods?.[0]?.type === 'sms'
         ? 'next.phone.verify.sms.codeSentText'
         : 'next.phone.verify.voice.calling',
     },
@@ -42,13 +45,12 @@ export const transformPhoneCodeEnrollment: IdxStepTransformer = (transaction, fo
     },
   };
 
-  const submitButton: ControlElement = {
-    type: 'Control',
+  const submitButton: ButtonElement = {
+    type: 'Button',
     label: 'mfa.challenge.verify',
-    scope: `#/properties/${ButtonOptionType.SUBMIT}`,
+    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
-      format: 'button',
-      type: ButtonOptionType.SUBMIT,
+      type: ButtonType.SUBMIT,
     },
   };
 

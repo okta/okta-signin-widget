@@ -13,11 +13,11 @@
 import { Selector } from 'testcafe';
 
 fixture('Theming')
-  .page('http://localhost:8080/?siw-use-mocks=true&siw-mock-scenario=auth-with-sms-mfa');
+  .page('http://localhost:8080/?siw-use-mocks=true&siw-mock-scenario=authenticator-verification-phone-sms');
 
 test('Theme configuration applies correctly', async (t) => {
   const submitButton = Selector('button')
-    .withAttribute('data-testid', '#/properties/submit');
+    .withAttribute('data-se', '#/properties/submit');
 
   await t
     .expect(submitButton.getStyleProperty('background-color'))
@@ -25,8 +25,8 @@ test('Theme configuration applies correctly', async (t) => {
 
   // enter username/pw and submit
   await t
-    .typeText("input[id='#/properties/identifier']", 'testuser@okta.com')
-    .typeText("input[id='#/properties/credentials/properties/passcode']", 'password')
+    .typeText("input[data-se='identifier']", 'testuser@okta.com')
+    .typeText("input[data-se='credentials.passcode']", 'password')
     .click(submitButton);
 
   const buttonForPhoneAuth = Selector('div')

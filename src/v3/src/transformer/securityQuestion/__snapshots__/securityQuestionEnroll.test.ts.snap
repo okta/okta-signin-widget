@@ -2,36 +2,13 @@
 
 exports[`SecurityQuestionEnroll Tests should create security question enrollment UI elements 1`] = `
 Object {
+  "data": Object {
+    "credentials.questionKey": "eternal",
+  },
   "schema": Object {
     "properties": Object {
       "credentials": Object {
-        "properties": Object {
-          "answer": Object {
-            "type": "string",
-          },
-          "question": Object {
-            "type": "string",
-          },
-          "questionKey": Object {
-            "enum": Array [
-              "custom",
-              "eternal",
-            ],
-            "type": "string",
-          },
-        },
-        "required": Array [
-          "answer",
-          "questionKey",
-        ],
         "type": "object",
-      },
-      "questionType": Object {
-        "enum": Array [
-          "predefined",
-          "custom",
-        ],
-        "type": "string",
       },
     },
   },
@@ -44,73 +21,120 @@ Object {
         "type": "Title",
       },
       Object {
-        "label": false,
         "options": Object {
-          "choices": Array [
+          "customOptions": Array [
             Object {
-              "key": "predefined",
-              "value": "oie.security.question.questionKey.label",
+              "label": "oie.security.question.questionKey.label",
+              "value": "predefined",
             },
             Object {
-              "key": "custom",
-              "value": "oie.security.question.createQuestion.label",
+              "key": "credentials.questionKey",
+              "label": "oie.security.question.createQuestion.label",
+              "value": "custom",
             },
           ],
           "defaultOption": "predefined",
-          "format": "radio",
+          "id": "questionType",
         },
-        "scope": "#/properties/questionType",
-        "type": "Control",
+        "type": "StepperRadio",
       },
       Object {
-        "label": "oie.security.question.createQuestion.label",
-        "rule": Object {
-          "condition": Object {
-            "schema": Object {
-              "const": "custom",
-            },
-            "scope": "#/properties/questionType",
+        "elements": Array [
+          Object {
+            "elements": Array [
+              Object {
+                "label": "oie.security.question.questionKey.label",
+                "name": "credentials.questionKey",
+                "options": Object {
+                  "customOptions": Array [
+                    Object {
+                      "label": "What is love?",
+                      "value": "eternal",
+                    },
+                  ],
+                  "format": "dropdown",
+                  "inputMeta": Object {
+                    "name": "credentials.questionKey",
+                  },
+                },
+                "type": "Control",
+              },
+              Object {
+                "label": "Answer",
+                "name": "credentials.answer",
+                "options": Object {
+                  "inputMeta": Object {
+                    "label": "Answer",
+                    "name": "credentials.answer",
+                    "secret": true,
+                  },
+                },
+                "type": "Control",
+              },
+              Object {
+                "label": "mfa.challenge.verify",
+                "options": Object {
+                  "dataType": "save",
+                  "type": "submit",
+                },
+                "scope": "#/properties/submit",
+                "type": "Button",
+              },
+            ],
+            "type": "VerticalLayout",
           },
-          "effect": "SHOW",
-        },
-        "scope": "#/properties/credentials/properties/question",
-        "type": "Control",
-      },
-      Object {
-        "label": "oie.security.question.questionKey.label",
-        "options": Object {
-          "choices": Array [
-            Object {
-              "key": "eternal",
-              "value": "What is love?",
-            },
-          ],
-          "format": "dropdown",
-        },
-        "rule": Object {
-          "condition": Object {
-            "schema": Object {
-              "const": "predefined",
-            },
-            "scope": "#/properties/questionType",
+          Object {
+            "elements": Array [
+              Object {
+                "name": "credentials.questionKey",
+                "options": Object {
+                  "inputMeta": Object {
+                    "name": "credentials.questionKey",
+                    "value": "custom",
+                  },
+                },
+                "type": "Control",
+              },
+              Object {
+                "label": "oie.security.question.createQuestion.label",
+                "name": "credentials.question",
+                "options": Object {
+                  "inputMeta": Object {
+                    "name": "credentials.question",
+                  },
+                  "type": "string",
+                },
+                "type": "Control",
+              },
+              Object {
+                "label": "Answer",
+                "name": "credentials.answer",
+                "options": Object {
+                  "inputMeta": Object {
+                    "label": "Answer",
+                    "name": "credentials.answer",
+                    "secret": true,
+                  },
+                },
+                "type": "Control",
+              },
+              Object {
+                "label": "mfa.challenge.verify",
+                "options": Object {
+                  "dataType": "save",
+                  "idxMethodParams": Object {
+                    "credentials.questionKey": "custom",
+                  },
+                  "type": "submit",
+                },
+                "scope": "#/properties/submit",
+                "type": "Button",
+              },
+            ],
+            "type": "VerticalLayout",
           },
-          "effect": "SHOW",
-        },
-        "scope": "#/properties/credentials/properties/questionKey",
-        "type": "Control",
-      },
-      Object {
-        "label": "Answer",
-        "options": Object {
-          "inputMeta": Object {
-            "label": "Answer",
-            "name": "answer",
-            "secret": true,
-          },
-          "secret": true,
-        },
-        "scope": "#/properties/credentials/properties/answer",
-        "type": "Control",
+        ],
+        "type": "Stepper",
       },
     ],
     "type": "VerticalLayout",

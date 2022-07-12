@@ -37,4 +37,18 @@ scenario('email-challenge-consent', (rest) => ([
     }
     throw new Error('Expected a stateToken in the introspect payload!');
   }),
+  rest.post('*/idp/idx/consent', async (req, res, ctx) => {
+    const request = req.body as Record<string, any>;
+    const consent = request.consent;
+    let response = null;
+    if (consent) {
+      response = (await import('../response/idp/idx/introspect/terminal-return-email.json')).default;
+    } else {
+      response = (await import('../response/idp/idx/introspect/terminal-return-email-consent-denied.json')).default;
+    }
+    return res(
+      ctx.status(200),
+      ctx.json(response),
+    );
+  }),
 ]));

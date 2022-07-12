@@ -10,17 +10,18 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement, JsonSchema7 } from '@jsonforms/core';
-import { NextStep } from '@okta/okta-auth-js';
+import { IdxActionParams, NextStep, OktaAuth } from '@okta/okta-auth-js';
 
 import { IDX_STEP } from '../constants';
-import { IdxTransactionWithNextStep, Undefinable } from '../types';
+import {
+  ButtonElement,
+  ButtonType,
+  IdxTransactionWithNextStep,
+  UISchemaElement,
+} from '../types';
 
 interface GetButtonControls {
-  elements: ControlElement[];
-  properties: {
-    [property: string]: JsonSchema7;
-  };
+  elements: UISchemaElement[];
 }
 
 interface GetButtonControlsArgs {
@@ -32,16 +33,7 @@ interface GetButtonControlsArgs {
   stepWithUnlockAccount?: boolean;
   verifyWithOther?: boolean;
   backToAuthList?: boolean;
-}
-
-export enum ButtonOptionType {
-  SUBMIT = 'submit',
-  CANCEL = 'cancel',
-  REGISTER = 'register',
-  FORGOT_PASSWORD = 'forgotPassword',
-  SIGN_IN_WITH_FASTPASS = 'signInWithFastPass',
-  UNLOCK_ACCOUNT = 'unlock-account',
-  CHANGE_AUTHENTICATOR = 'changeAuthenticator',
+  authClient?: OktaAuth;
 }
 
 export const getButtonControls = (
@@ -49,56 +41,46 @@ export const getButtonControls = (
   config: GetButtonControlsArgs,
 ): GetButtonControls => {
   const elements = [];
-  const properties: JsonSchema7['properties'] = {};
 
-  const getButtonStep = (stepName: string): Undefinable<NextStep> => transaction.availableSteps
+  const getButtonStep = (stepName: string): NextStep | undefined => transaction.availableSteps
     ?.find(({ name }) => name === stepName);
 
   if (config.stepWithSubmit) {
-    const submit: ControlElement = {
-      type: 'Control',
-      label: 'oie.registration.form.update.submit',
-      scope: `#/properties/${ButtonOptionType.SUBMIT}`,
+    const submit: ButtonElement = {
+      type: 'Button',
+      label: 'oform.next',
+      scope: `#/properties/${ButtonType.SUBMIT}`,
       options: {
-        format: 'button',
-        type: ButtonOptionType.SUBMIT,
+        type: ButtonType.SUBMIT,
+        dataType: 'save',
       },
     };
 
     elements.push(submit);
   }
 
-  const registerStep = getButtonStep(IDX_STEP.SELECT_ENROLL_PROFILE);
-  if (config.stepWithRegister && registerStep) {
-    const { action } = registerStep;
-    const register: ControlElement = {
-      type: 'Control',
-      label: 'registration.form.submit',
-      scope: `#/properties/${ButtonOptionType.REGISTER}`,
-      options: {
-        format: 'button',
-        type: ButtonOptionType.REGISTER,
-        variant: 'secondary',
-        action,
-      },
-    };
-
-    elements.push(register);
-  }
-
   // TODO: Extract this name to a constant
-  const forgotPasswordStep = getButtonStep('currentAuthenticator-recover');
+  const forgotPasswordStep = getButtonStep('currentAuthenticator-recover')
+    ?? getButtonStep('currentAuthenticatorEnrollment-recover');
   if (config.stepWithForgotPassword && forgotPasswordStep) {
-    const { action } = forgotPasswordStep;
-    const forgotPassword: ControlElement = {
-      type: 'Control',
+    const { name } = forgotPasswordStep;
+    const forgotPassword: ButtonElement = {
+      type: 'Button',
       label: 'forgotpassword',
-      scope: `#/properties/${ButtonOptionType.FORGOT_PASSWORD}`,
       options: {
-        format: 'button',
-        type: ButtonOptionType.FORGOT_PASSWORD,
-        variant: 'secondary',
-        action,
+        type: ButtonType.BUTTON,
+        variant: 'floating',
+        wide: false,
+        dataSe: 'forgot-password',
+        // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
+        action: (params?: IdxActionParams) => {
+          const { stateHandle, ...rest } = params ?? {};
+          return config.authClient?.idx.proceed({
+            // @ts-ignore stateHandle can be undefined
+            stateHandle,
+            actions: [{ name, params: rest }],
+          });
+        },
       },
     };
 
@@ -108,21 +90,19 @@ export const getButtonControls = (
   // TODO: Extract this name to a constant
   const fastpassStep = getButtonStep('launch-authenticator');
   if (config.stepWithSignInWithFastPass && fastpassStep) {
-    const { action } = fastpassStep;
+    const { name: step } = fastpassStep;
 
-    const fastPass: ControlElement = {
-      type: 'Control',
+    const fastPass: ButtonElement = {
+      type: 'Button',
       label: 'oktaVerify.button',
-      scope: `#/properties/${ButtonOptionType.SIGN_IN_WITH_FASTPASS}`,
       options: {
-        format: 'button',
-        type: ButtonOptionType.SIGN_IN_WITH_FASTPASS,
+        type: ButtonType.BUTTON,
         // TODO when adding fastpass support.
         // hook up the actual URL from device challenge remediation object in
         // remedation array. The target URL is driven by the API response directly.
         // @see: https://github.com/okta/okta-signin-widget/blob/8a115ae645c6f541b5bb921fd15d0099443de8b6/src/v2/view-builder/views/signin/SignInWithDeviceOption.js#L29-L42
         deviceChallengeUrl: 'http://www.okta.com',
-        action,
+        step,
       },
     };
 
@@ -130,19 +110,19 @@ export const getButtonControls = (
   }
 
   const unlockStep = transaction.availableSteps?.find(
-    ({ name }) => name === ButtonOptionType.UNLOCK_ACCOUNT,
+    ({ name }) => name === 'unlock-account',
   );
   if (config.stepWithUnlockAccount && unlockStep) {
-    const { action } = unlockStep;
-    const unlock: ControlElement = {
-      type: 'Control',
+    const { name: step } = unlockStep;
+    const unlock: ButtonElement = {
+      type: 'Button',
       label: 'unlockaccount',
-      scope: `#/properties/${ButtonOptionType.UNLOCK_ACCOUNT}`,
       options: {
-        format: 'button',
-        type: ButtonOptionType.UNLOCK_ACCOUNT,
-        variant: 'secondary',
-        action,
+        type: ButtonType.BUTTON,
+        variant: 'floating',
+        wide: false,
+        dataSe: 'unlock',
+        step,
       },
     };
 
@@ -151,51 +131,79 @@ export const getButtonControls = (
 
   const selectVerifyStep = getButtonStep(IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE);
   if (config.verifyWithOther && selectVerifyStep) {
-    const { action } = selectVerifyStep;
+    const { name: step } = selectVerifyStep;
     elements.push({
-      type: 'Control',
+      type: 'Button',
       label: 'oie.verification.switch.authenticator',
-      scope: `#/properties/${ButtonOptionType.CHANGE_AUTHENTICATOR}`,
       options: {
-        format: 'button',
-        variant: 'secondary',
-        action,
+        type: ButtonType.BUTTON,
+        variant: 'floating',
+        wide: false,
+        dataSe: 'switchAuthenticator',
+        step,
       },
-    } as ControlElement);
+    } as ButtonElement);
   }
 
   const selectEnrollStep = getButtonStep(IDX_STEP.SELECT_AUTHENTICATOR_ENROLL);
   if (config.backToAuthList && selectEnrollStep) {
-    const { action } = selectEnrollStep;
+    const { name: step } = selectEnrollStep;
     elements.push({
-      type: 'Control',
+      type: 'Button',
       label: 'oie.enroll.switch.authenticator',
-      scope: `#/properties/${ButtonOptionType.CHANGE_AUTHENTICATOR}`,
       options: {
-        format: 'button',
-        variant: 'secondary',
-        action,
+        type: ButtonType.BUTTON,
+        variant: 'floating',
+        wide: false,
+        dataSe: 'switchAuthenticator',
+        step,
       },
-    } as ControlElement);
+    } as ButtonElement);
   }
 
-  const cancelStep = getButtonStep(ButtonOptionType.CANCEL);
-  if (config.stepWithCancel && cancelStep) {
-    const { action } = cancelStep;
-    const cancel: ControlElement = {
-      type: 'Control',
-      label: 'goback',
-      scope: `#/properties/${ButtonOptionType.CANCEL}`,
+  const registerStep = getButtonStep(IDX_STEP.SELECT_ENROLL_PROFILE);
+  if (config.stepWithRegister && registerStep) {
+    const { name: step } = registerStep;
+    const register: ButtonElement = {
+      type: 'Button',
+      label: 'registration.form.submit',
       options: {
-        format: 'button',
-        type: ButtonOptionType.CANCEL,
-        variant: 'secondary',
-        action,
+        type: ButtonType.BUTTON,
+        variant: 'floating',
+        wide: false,
+        dataSe: 'enroll',
+        step,
+      },
+    };
+
+    elements.push(register);
+  }
+
+  const cancelStep = getButtonStep('cancel');
+  if (config.stepWithCancel && cancelStep) {
+    const { name } = cancelStep;
+    const cancel: ButtonElement = {
+      type: 'Button',
+      label: 'goback',
+      options: {
+        type: ButtonType.BUTTON,
+        variant: 'floating',
+        wide: false,
+        dataSe: 'cancel',
+        // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
+        action: (params?: IdxActionParams) => {
+          const { stateHandle, ...rest } = params ?? {};
+          return config.authClient?.idx.proceed({
+            // @ts-ignore stateHandle can be undefined
+            stateHandle,
+            actions: [{ name, params: rest }],
+          });
+        },
       },
     };
 
     elements.push(cancel);
   }
 
-  return { elements, properties };
+  return { elements };
 };

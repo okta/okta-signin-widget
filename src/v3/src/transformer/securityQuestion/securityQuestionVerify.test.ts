@@ -10,12 +10,17 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement } from '@jsonforms/core';
 import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import { FormBag, WidgetProps } from 'src/types';
+import {
+  ButtonElement,
+  ButtonType,
+  FieldElement,
+  FormBag,
+  UISchemaLayoutType,
+  WidgetProps,
+} from 'src/types';
 
-import { ButtonOptionType } from '../getButtonControls';
 import { transformSecurityQuestionVerify } from '.';
 
 describe('SecurityQuestionVerify Tests', () => {
@@ -26,14 +31,14 @@ describe('SecurityQuestionVerify Tests', () => {
     formBag = {
       schema: {},
       uischema: {
-        type: 'VerticalLayout',
+        type: UISchemaLayoutType.VERTICAL,
         elements: [{
           type: 'Control',
-          scope: '#/properties/credentials/properties/answer',
-          // Set by generic transformer before reaching this
-          options: { secret: true },
-        } as ControlElement],
+          name: 'credentials.answer',
+          options: { inputMeta: { name: 'credentials.answer', secret: true } },
+        } as FieldElement],
       },
+      data: {},
     };
   });
 
@@ -63,12 +68,14 @@ describe('SecurityQuestionVerify Tests', () => {
 
     // answer element
     expect(updatedFormBag.uischema.elements[1].type).toBe('Control');
-    expect(updatedFormBag.uischema.elements[1].options?.secret).toBe(true);
-    expect((updatedFormBag.uischema.elements[1] as ControlElement).label).toBe('What is love?');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.secret)
+      .toBe(true);
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).label).toBe('What is love?');
 
     // submit button
-    expect(updatedFormBag.uischema.elements[2].type).toBe('Control');
-    expect(updatedFormBag.uischema.elements[2].options?.type).toBe(ButtonOptionType.SUBMIT);
+    expect(updatedFormBag.uischema.elements[2].type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
   });
 
   it('should create security question verify UI elements for custom question', () => {
@@ -97,11 +104,13 @@ describe('SecurityQuestionVerify Tests', () => {
 
     // answer element
     expect(updatedFormBag.uischema.elements[1].type).toBe('Control');
-    expect(updatedFormBag.uischema.elements[1].options?.secret).toBe(true);
-    expect((updatedFormBag.uischema.elements[1] as ControlElement).label).toBe('What is love?');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).options?.inputMeta.secret)
+      .toBe(true);
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).label).toBe('What is love?');
 
     // submit button
-    expect(updatedFormBag.uischema.elements[2].type).toBe('Control');
-    expect(updatedFormBag.uischema.elements[2].options?.type).toBe(ButtonOptionType.SUBMIT);
+    expect(updatedFormBag.uischema.elements[2].type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
   });
 });

@@ -10,13 +10,20 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement } from '@jsonforms/core';
+import { IdxContext } from '@okta/okta-auth-js';
 import { IDX_STEP } from 'src/constants';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import { FormBag, WidgetProps } from 'src/types';
+import {
+  ButtonElement,
+  FieldElement,
+  FormBag,
+  TitleElement,
+  UISchemaLayoutType,
+  WidgetProps,
+} from 'src/types';
 
 import * as utils from '../../util/browserUtils';
-import * as stepTransformer from '../step/index';
+import * as transformerUtils from '../field/transform';
 import { transformOktaVerifyChannelSelection } from './transformOktaVerifyChannelSelection';
 
 describe('TransformOktaVerifyChannelSelection Tests', () => {
@@ -34,243 +41,239 @@ describe('TransformOktaVerifyChannelSelection Tests', () => {
         { label: 'SMS', value: 'sms' },
         { label: 'EMAIL', value: 'email' },
       ],
+      action: jest.fn(),
     }];
     formBag = {
       schema: {},
       uischema: {
-        type: 'VerticalLayout',
+        type: UISchemaLayoutType.VERTICAL,
         elements: [
           {
             type: 'Control',
-            scope: '#/properties/authenticator/properties/id',
-          } as ControlElement,
+            name: 'authenticator.id',
+            options: {
+              inputMeta: {
+                name: 'authenticator.id',
+                value: 'abc123',
+                mutable: false,
+              },
+            },
+          } as FieldElement,
           {
             type: 'Control',
-            scope: '#/properties/authenticator/properties/channel',
-          } as ControlElement,
+            name: 'authenticator.channel',
+            options: {
+              inputMeta: {
+                options: [
+                  { value: 'qrcode', label: 'QRCode' },
+                  { value: 'sms', label: 'SMS' },
+                  { value: 'email', label: 'EMAIL' },
+                ],
+              },
+            },
+          } as FieldElement,
         ],
       },
+      data: {},
     };
 
     mobileDeviceStub = jest.spyOn(utils, 'isAndroidOrIOS');
     stepTransformerStub = jest.spyOn(
-      stepTransformer,
-      'transformStep',
+      transformerUtils,
+      'transformStepInputs',
     ).mockReturnValue(formBag);
   });
 
-  afterEach(() => {
+  afterAll(() => {
     stepTransformerStub.mockReset();
+    jest.restoreAllMocks();
   });
 
   it('should only append (sms/email) channel options when on mobile and qrcode is the selectedChannel', () => {
-    transaction.nextStep = {
-      name: '',
-      authenticator: {
-        id: '',
-        displayName: '',
-        key: '',
-        type: '',
-        methods: [],
-        contextualData: { selectedChannel: 'qrcode' },
+    transaction.context = {
+      // TODO: OKTA-503490 temporary sln access missing relatesTo obj
+      currentAuthenticator: {
+        value: {
+          contextualData: { selectedChannel: 'qrcode' },
+        },
       },
-    };
+    } as unknown as IdxContext;
     mobileDeviceStub.mockReturnValue(true);
 
     const updatedFormBag = transformOktaVerifyChannelSelection(transaction, formBag, mockProps);
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
-    expect(updatedFormBag.uischema.elements[0].options?.content).toBe('oie.enroll.okta_verify.setup.title');
-    expect((updatedFormBag.uischema.elements[1] as ControlElement).scope)
-      .toBe('#/properties/authenticator/properties/id');
-    expect(updatedFormBag.uischema.elements[1].options?.type).toBe('hidden');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      .toBe('oie.enroll.okta_verify.setup.title');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+      .toBe('authenticator.id');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).label)
       .toBe('oie.enroll.okta_verify.select.channel.description');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).scope)
-      .toBe('#/properties/authenticator/properties/channel');
-    expect(updatedFormBag.uischema.elements[2].options?.optionalLabel).not.toBeUndefined();
-    expect(updatedFormBag.uischema.elements[2].options?.choices?.length).toBe(2);
-    expect(updatedFormBag.uischema.elements[2].options?.choices)
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).name)
+      .toBe('authenticator.channel');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.customOptions?.length)
+      .toBe(2);
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.customOptions)
       .toEqual([
-        { key: 'sms', value: 'oie.enroll.okta_verify.select.channel.sms.label' },
-        { key: 'email', value: 'oie.enroll.okta_verify.select.channel.email.label' },
+        { value: 'sms', label: 'oie.enroll.okta_verify.select.channel.sms.label' },
+        { value: 'email', label: 'oie.enroll.okta_verify.select.channel.email.label' },
       ]);
-    expect((updatedFormBag.uischema.elements[3] as ControlElement).label).toBe('oform.next');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label).toBe('oform.next');
   });
 
   it('should only append (sms/email) channel options when on mobile and sms is the selectedChannel', () => {
-    transaction.nextStep = {
-      name: '',
-      authenticator: {
-        id: '',
-        displayName: '',
-        key: '',
-        type: '',
-        methods: [],
-        contextualData: { selectedChannel: 'sms' },
+    transaction.context = {
+      // TODO: OKTA-503490 temporary sln access missing relatesTo obj
+      currentAuthenticator: {
+        value: {
+          contextualData: { selectedChannel: 'sms' },
+        },
       },
-    };
+    } as unknown as IdxContext;
     mobileDeviceStub.mockReturnValue(true);
 
     const updatedFormBag = transformOktaVerifyChannelSelection(transaction, formBag, mockProps);
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
-    expect(updatedFormBag.uischema.elements[0].options?.content).toBe('oie.enroll.okta_verify.setup.title');
-    expect((updatedFormBag.uischema.elements[1] as ControlElement).scope)
-      .toBe('#/properties/authenticator/properties/id');
-    expect(updatedFormBag.uischema.elements[1].options?.type).toBe('hidden');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content).toBe('oie.enroll.okta_verify.setup.title');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+      .toBe('authenticator.id');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).label)
       .toBe('oie.enroll.okta_verify.select.channel.description');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).scope)
-      .toBe('#/properties/authenticator/properties/channel');
-    expect(updatedFormBag.uischema.elements[2].options?.optionalLabel).not.toBeUndefined();
-    expect(updatedFormBag.uischema.elements[2].options?.choices?.length).toBe(2);
-    expect(updatedFormBag.uischema.elements[2].options?.choices)
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).name)
+      .toBe('authenticator.channel');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.customOptions?.length)
+      .toBe(2);
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.customOptions)
       .toEqual([
-        { key: 'sms', value: 'oie.enroll.okta_verify.select.channel.sms.label' },
-        { key: 'email', value: 'oie.enroll.okta_verify.select.channel.email.label' },
+        { value: 'sms', label: 'oie.enroll.okta_verify.select.channel.sms.label' },
+        { value: 'email', label: 'oie.enroll.okta_verify.select.channel.email.label' },
       ]);
-    expect((updatedFormBag.uischema.elements[3] as ControlElement).label).toBe('oform.next');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label).toBe('oform.next');
   });
 
   it('should only append (sms/email) channel options when on mobile and email is the selectedChannel', () => {
-    transaction.nextStep = {
-      name: '',
-      authenticator: {
-        id: '',
-        displayName: '',
-        key: '',
-        type: '',
-        methods: [],
-        contextualData: { selectedChannel: 'email' },
+    transaction.context = {
+      // TODO: OKTA-503490 temporary sln access missing relatesTo obj
+      currentAuthenticator: {
+        value: {
+          contextualData: { selectedChannel: 'email' },
+        },
       },
-    };
+    } as unknown as IdxContext;
     mobileDeviceStub.mockReturnValue(true);
 
     const updatedFormBag = transformOktaVerifyChannelSelection(transaction, formBag, mockProps);
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
-    expect(updatedFormBag.uischema.elements[0].options?.content).toBe('oie.enroll.okta_verify.setup.title');
-    expect((updatedFormBag.uischema.elements[1] as ControlElement).scope)
-      .toBe('#/properties/authenticator/properties/id');
-    expect(updatedFormBag.uischema.elements[1].options?.type).toBe('hidden');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content).toBe('oie.enroll.okta_verify.setup.title');
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+      .toBe('authenticator.id');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).label)
       .toBe('oie.enroll.okta_verify.select.channel.description');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).scope)
-      .toBe('#/properties/authenticator/properties/channel');
-    expect(updatedFormBag.uischema.elements[2].options?.optionalLabel).not.toBeUndefined();
-    expect(updatedFormBag.uischema.elements[2].options?.choices?.length).toBe(2);
-    expect(updatedFormBag.uischema.elements[2].options?.choices)
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).name)
+      .toBe('authenticator.channel');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.customOptions?.length)
+      .toBe(2);
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.customOptions)
       .toEqual([
-        { key: 'sms', value: 'oie.enroll.okta_verify.select.channel.sms.label' },
-        { key: 'email', value: 'oie.enroll.okta_verify.select.channel.email.label' },
+        { value: 'sms', label: 'oie.enroll.okta_verify.select.channel.sms.label' },
+        { value: 'email', label: 'oie.enroll.okta_verify.select.channel.email.label' },
       ]);
-    expect((updatedFormBag.uischema.elements[3] as ControlElement).label).toBe('oform.next');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label).toBe('oform.next');
   });
 
   it('should only append (qrcode/email) channel options when NOT on mobile and sms is the selectedChannel', () => {
-    transaction.nextStep = {
-      name: '',
-      authenticator: {
-        id: '',
-        displayName: '',
-        key: '',
-        type: '',
-        methods: [],
-        contextualData: { selectedChannel: 'sms' },
+    transaction.context = {
+      // TODO: OKTA-503490 temporary sln access missing relatesTo obj
+      currentAuthenticator: {
+        value: {
+          contextualData: { selectedChannel: 'sms' },
+        },
       },
-    };
+    } as unknown as IdxContext;
     mobileDeviceStub.mockReturnValue(false);
 
     const updatedFormBag = transformOktaVerifyChannelSelection(transaction, formBag, mockProps);
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
-    expect(updatedFormBag.uischema.elements[0].options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.enroll.okta_verify.select.channel.title');
-    expect((updatedFormBag.uischema.elements[1] as ControlElement).scope)
-      .toBe('#/properties/authenticator/properties/id');
-    expect(updatedFormBag.uischema.elements[1].options?.type).toBe('hidden');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+      .toBe('authenticator.id');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).label)
       .toBe('oie.enroll.okta_verify.select.channel.description');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).scope)
-      .toBe('#/properties/authenticator/properties/channel');
-    expect(updatedFormBag.uischema.elements[2].options?.optionalLabel).not.toBeUndefined();
-    expect(updatedFormBag.uischema.elements[2].options?.choices?.length).toBe(2);
-    expect(updatedFormBag.uischema.elements[2].options?.choices)
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).name)
+      .toBe('authenticator.channel');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.customOptions?.length)
+      .toBe(2);
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.customOptions)
       .toEqual([
-        { key: 'qrcode', value: 'oie.enroll.okta_verify.select.channel.qrcode.label' },
-        { key: 'email', value: 'oie.enroll.okta_verify.select.channel.email.label' },
+        { value: 'qrcode', label: 'oie.enroll.okta_verify.select.channel.qrcode.label' },
+        { value: 'email', label: 'oie.enroll.okta_verify.select.channel.email.label' },
       ]);
-    expect((updatedFormBag.uischema.elements[3] as ControlElement).label).toBe('oform.next');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label).toBe('oform.next');
   });
 
   it('should only append (qrcode/sms) channel options when NOT on mobile and email is the selectedChannel', () => {
-    transaction.nextStep = {
-      name: '',
-      authenticator: {
-        id: '',
-        displayName: '',
-        key: '',
-        type: '',
-        methods: [],
-        contextualData: { selectedChannel: 'email' },
+    transaction.context = {
+      // TODO: OKTA-503490 temporary sln access missing relatesTo obj
+      currentAuthenticator: {
+        value: {
+          contextualData: { selectedChannel: 'email' },
+        },
       },
-    };
+    } as unknown as IdxContext;
     mobileDeviceStub.mockReturnValue(false);
 
     const updatedFormBag = transformOktaVerifyChannelSelection(transaction, formBag, mockProps);
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
-    expect(updatedFormBag.uischema.elements[0].options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.enroll.okta_verify.select.channel.title');
-    expect((updatedFormBag.uischema.elements[1] as ControlElement).scope)
-      .toBe('#/properties/authenticator/properties/id');
-    expect(updatedFormBag.uischema.elements[1].options?.type).toBe('hidden');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+      .toBe('authenticator.id');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).label)
       .toBe('oie.enroll.okta_verify.select.channel.description');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).scope)
-      .toBe('#/properties/authenticator/properties/channel');
-    expect(updatedFormBag.uischema.elements[2].options?.optionalLabel).not.toBeUndefined();
-    expect(updatedFormBag.uischema.elements[2].options?.choices?.length).toBe(2);
-    expect(updatedFormBag.uischema.elements[2].options?.choices)
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).name)
+      .toBe('authenticator.channel');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.customOptions?.length)
+      .toBe(2);
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.customOptions)
       .toEqual([
-        { key: 'qrcode', value: 'oie.enroll.okta_verify.select.channel.qrcode.label' },
-        { key: 'sms', value: 'oie.enroll.okta_verify.select.channel.sms.label' },
+        { value: 'qrcode', label: 'oie.enroll.okta_verify.select.channel.qrcode.label' },
+        { value: 'sms', label: 'oie.enroll.okta_verify.select.channel.sms.label' },
       ]);
-    expect((updatedFormBag.uischema.elements[3] as ControlElement).label).toBe('oform.next');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label).toBe('oform.next');
   });
 
   it('should only append (sms/email) channel options when NOT on mobile and qrcode is the selectedChannel', () => {
-    transaction.nextStep = {
-      name: '',
-      authenticator: {
-        id: '',
-        displayName: '',
-        key: '',
-        type: '',
-        methods: [],
-        contextualData: { selectedChannel: 'qrcode' },
+    transaction.context = {
+      // TODO: OKTA-503490 temporary sln access missing relatesTo obj
+      currentAuthenticator: {
+        value: {
+          contextualData: { selectedChannel: 'qrcode' },
+        },
       },
-    };
+    } as unknown as IdxContext;
     mobileDeviceStub.mockReturnValue(false);
 
     const updatedFormBag = transformOktaVerifyChannelSelection(transaction, formBag, mockProps);
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
-    expect(updatedFormBag.uischema.elements[0].options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.enroll.okta_verify.select.channel.title');
-    expect((updatedFormBag.uischema.elements[1] as ControlElement).scope)
-      .toBe('#/properties/authenticator/properties/id');
-    expect(updatedFormBag.uischema.elements[1].options?.type).toBe('hidden');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).scope)
-      .toBe('#/properties/authenticator/properties/channel');
-    expect(updatedFormBag.uischema.elements[2].options?.optionalLabel).not.toBeUndefined();
-    expect(updatedFormBag.uischema.elements[2].options?.choices?.length).toBe(2);
-    expect(updatedFormBag.uischema.elements[2].options?.choices)
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).name)
+      .toBe('authenticator.id');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).name)
+      .toBe('authenticator.channel');
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.customOptions?.length)
+      .toBe(2);
+    expect((updatedFormBag.uischema.elements[2] as FieldElement).options?.customOptions)
       .toEqual([
-        { key: 'sms', value: 'oie.enroll.okta_verify.select.channel.sms.label' },
-        { key: 'email', value: 'oie.enroll.okta_verify.select.channel.email.label' },
+        { value: 'sms', label: 'oie.enroll.okta_verify.select.channel.sms.label' },
+        { value: 'email', label: 'oie.enroll.okta_verify.select.channel.email.label' },
       ]);
-    expect((updatedFormBag.uischema.elements[3] as ControlElement).label).toBe('oform.next');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label).toBe('oform.next');
   });
 });

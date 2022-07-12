@@ -16,27 +16,29 @@ import { StateUpdater, useContext } from 'preact/hooks';
 
 import {
   FormBag,
-  JsonObject,
-  Nullish,
-  Undefinable,
+  WidgetProps,
 } from './types';
 
 type IWidgetContext = {
-  data: JsonObject;
   authClient: OktaAuth;
-  setIdxTransaction: StateUpdater<Nullish<IdxTransaction>>;
+  widgetProps: WidgetProps;
   setMessages: StateUpdater<IdxMessage[]>;
   // // TODO: OKTA-502849 - Update param type
   // (RenderSuccessCallback / RenderErrorCallback) once merged into okta-signin-widget
-  onSuccessCallback?: (data: JsonObject) => void;
-  onErrorCallback?: (data: JsonObject) => void;
+  onSuccessCallback?: (data: Record<string, unknown>) => void;
+  onErrorCallback?: (data: Record<string, unknown>) => void;
   formBag?: FormBag;
-  transaction: Nullish<IdxTransaction>;
+  idxTransaction: IdxTransaction | undefined;
+  setIdxTransaction: StateUpdater<IdxTransaction | undefined>;
+  data: Record<string, unknown>;
+  setData: StateUpdater<Record<string, unknown>>;
+  stepperStepIndex: number;
+  setStepperStepIndex: StateUpdater<number>;
 };
 
 const createWidgetContext = <T extends unknown>() => {
   // Create a context with a generic parameter or undefined
-  const genericContext = createContext<Undefinable<T>>(undefined);
+  const genericContext = createContext<T | undefined>(undefined);
 
   // Check if the value provided to the context is defined or throw an error
   const useWidgetContext = () => {

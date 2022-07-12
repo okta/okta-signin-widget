@@ -10,9 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import './auth-with-email-mfa';
-import './auth-with-sms-mfa';
+import './authenticator-verification-email';
+import './authenticator-verification-phone-sms';
 import './auth-with-securityquestion';
+import './authenticator-verification-password';
+import './authenticator-expired-password';
+import './authenticator-expired-password-no-complexity';
+import './authenticator-expiry-warning-password';
+import './authenticator-expired-password-with-enrollment-authenticator';
 import './email-challenge-consent';
 import './enroll-okta-verify-mfa';
 import './enroll-ov-version-upgrade';
@@ -28,8 +33,8 @@ import './error-session-expired';
 import './error-403-security-access-denied';
 import './error-401-invalid-otp-passcode';
 import './google-auth-scan-enroll';
-import './google-auth-verify';
-import './password-expired';
+import './authenticator-verification-google-authenticator';
+import './identify-with-username';
 import './register-with-email-mfa';
 import './resetpassword-email-securityquestion';
 import './resetpassword-email-google-auth-verify';
@@ -44,6 +49,11 @@ import './terminal-return-email';
 import './terminal-return-email-error';
 import './terminal-return-expired-email';
 import './terminal-return-otp-only-full-location';
+import './terminal-return-otp-only-full-location-enrollment';
+import './terminal-return-otp-only-full-location-recovery';
+import './terminal-return-otp-only-full-location-unlock';
+import './terminal-return-otp-only-partial-location';
+import './terminal-return-otp-only-no-location';
 import './terminal-return-stale-email';
 import './terminal-transferred-email';
 import './unlock-account-email-securityquestion';

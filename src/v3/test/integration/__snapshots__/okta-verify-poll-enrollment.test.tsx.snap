@@ -1,0 +1,375 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`okta-verify-poll-enrollment should render poll form 1`] = `
+<div>
+  <span>
+    <main
+      class="ods-4o5zYQ ods-76eppy ods-66Tc65 ods-6lar65 ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs auth-container main-container mainViewContainer"
+    >
+      <div
+        class="ods-4o5zYQ ods-2Se4oq ods-2VFzyK ods-1qUaxm ods-1oujX1 ods-78Q1Pv ods-3x5mmc ods-7mcS6o ods-7lpPkQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs siwContainer"
+      >
+        <div
+          class="okta-sign-in-header auth-header siwHeader authCoinSpacing"
+        >
+          <h1
+            class="ods-4o5zYQ ods-2NLKpK ods-5ZKJUt"
+          />
+          <div
+            class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer authCoinOverlay"
+          >
+            <mocksvgicon />
+          </div>
+        </div>
+        <div
+          class="ods-4o5zYQ ods-76eppy ods-2Se4oq ods-7kea9D ods-2famef ods-1qUaxm ods-1oujX1 ods-2i2wfv ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+        >
+          <div
+            class="ods-4o5zYQ ods-76eppy ods-66Tc65 ods-6lar65 ods-1OsrNt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs identifier-container"
+          >
+            <div
+              class="ods-4o5zYQ ods-aC3Yei ods-2VFzyK ods-aqyCl6 ods-3kEpst ods-IB8Drx ods-ET3J6o ods-3PJtSR ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs identifierContainer"
+            >
+              <span
+                class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs userIconContainer"
+              >
+                <svg
+                  class="ods-2icygl"
+                  fill="none"
+                  role="presentation"
+                  viewBox="0 0 16 16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M10 3V5C10 6.10457 9.10457 7 8 7C6.89543 7 6 6.10457 6 5V3C6 1.89543 6.89543 1 8 1C9.10457 1 10 1.89543 10 3ZM5 3C5 1.34315 6.34315 0 8 0C9.65685 0 11 1.34315 11 3V5C11 6.65685 9.65685 8 8 8C6.34315 8 5 6.65685 5 5V3ZM4.1305 10.0742C4.26803 10.0181 4.459 10 5.41376 10H10.5862C11.541 10 11.732 10.0181 11.8695 10.0742C12.0299 10.1398 12.1706 10.2459 12.2777 10.3821C12.3695 10.4989 12.4393 10.6776 12.7016 11.5956L13.6743 15H2.32573L3.29841 11.5956C3.5607 10.6776 3.63054 10.4989 3.72233 10.3821C3.82941 10.2459 3.97006 10.1398 4.1305 10.0742ZM13.6631 11.3209L14.7143 15L15 16H13.96H2.04002H1L1.28571 15L2.33689 11.3209C2.57458 10.489 2.69343 10.073 2.93606 9.76423C3.15022 9.49171 3.43152 9.27953 3.75239 9.14848C4.11592 9 4.54854 9 5.41376 9H10.5862C11.4515 9 11.8841 9 12.2476 9.14848C12.5685 9.27953 12.8498 9.49171 13.0639 9.76423C13.3066 10.073 13.4254 10.489 13.6631 11.3209Z"
+                    fill="currentColor"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </span>
+              <span
+                class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs identifier identifierSpan"
+                data-se="identifier"
+              >
+                tester2@test.com
+              </span>
+            </div>
+          </div>
+          <form
+            novalidate=""
+          >
+            <div
+              class="ods-4o5zYQ ods-76eppy ods-2Se4oq ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+            >
+              <div
+                class="ods-4o5zYQ ods-76eppy ods-2Se4oq ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+              >
+                <div
+                  class="ods-4o5zYQ ods-1OsrNt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                >
+                  <div
+                    class="ods-4o5zYQ ods-76eppy ods-2famef ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                  >
+                    <h2
+                      class="ods-4o5zYQ ods-2NLKpK ods-5ZKJUt ods-4vLZvh"
+                    >
+                      Set up Okta Verify
+                    </h2>
+                  </div>
+                </div>
+                <div
+                  class="ods-4o5zYQ ods-1OsrNt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                >
+                  <div
+                    class="ods-4o5zYQ ods-76eppy ods-2famef ods-1OsrNt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                  >
+                    <ol
+                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-5GAsrW ods-1goWbr"
+                    >
+                      <li
+                        class="ods-5vIIsH"
+                      >
+                        On your mobile device, download the Okta Verify app from the App Store (iPhone and iPad) or Google Play (Android devices).
+                      </li>
+                      <li
+                        class="ods-5vIIsH"
+                      >
+                        Open the app and follow the instructions to add your account
+                      </li>
+                      <li
+                        class="ods-5vIIsH"
+                      >
+                        When prompted, tap Scan a QR code, then scan the QR code below:
+                      </li>
+                    </ol>
+                  </div>
+                </div>
+                <div
+                  class="ods-4o5zYQ ods-1OsrNt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                >
+                  <div
+                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs qrContainer"
+                  >
+                    <img
+                      alt="Okta Verify"
+                      class="qrImg"
+                      src="data:image/png;base64,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"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="ods-4o5zYQ ods-1OsrNt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                >
+                  <button
+                    class="ods-4o5zYQ ods-2NLKpK ods-5E7TSu ods-1u9tlF ods-6Tybtd"
+                    type="button"
+                  >
+                    <span
+                      class="ods-IkfPY2"
+                    >
+                      Can't scan?
+                    </span>
+                  </button>
+                </div>
+              </div>
+              <div
+                class="ods-4o5zYQ ods-1OsrNt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+              >
+                <button
+                  class="ods-4o5zYQ ods-2NLKpK ods-5E7TSu ods-3DL1tX"
+                  data-se="switchAuthenticator"
+                  type="button"
+                >
+                  <span
+                    class="ods-IkfPY2"
+                  >
+                    Return to authenticator list
+                  </span>
+                </button>
+              </div>
+              <div
+                class="ods-4o5zYQ ods-1OsrNt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+              >
+                <button
+                  class="ods-4o5zYQ ods-2NLKpK ods-5E7TSu ods-3DL1tX"
+                  data-se="cancel"
+                  type="button"
+                >
+                  <span
+                    class="ods-IkfPY2"
+                  >
+                    Back to sign in
+                  </span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </span>
+</div>
+`;
+
+exports[`okta-verify-poll-enrollment should send correct payload 1`] = `
+<div>
+  <span>
+    <main
+      class="ods-4o5zYQ ods-76eppy ods-66Tc65 ods-6lar65 ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs auth-container main-container mainViewContainer"
+    >
+      <div
+        class="ods-4o5zYQ ods-2Se4oq ods-2VFzyK ods-1qUaxm ods-1oujX1 ods-78Q1Pv ods-3x5mmc ods-7mcS6o ods-7lpPkQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs siwContainer"
+      >
+        <div
+          class="okta-sign-in-header auth-header siwHeader authCoinSpacing"
+        >
+          <h1
+            class="ods-4o5zYQ ods-2NLKpK ods-5ZKJUt"
+          />
+          <div
+            class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer authCoinOverlay"
+          >
+            <mocksvgicon />
+          </div>
+        </div>
+        <div
+          class="ods-4o5zYQ ods-76eppy ods-2Se4oq ods-7kea9D ods-2famef ods-1qUaxm ods-1oujX1 ods-2i2wfv ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+        >
+          <div
+            class="ods-4o5zYQ ods-76eppy ods-66Tc65 ods-6lar65 ods-1OsrNt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs identifier-container"
+          >
+            <div
+              class="ods-4o5zYQ ods-aC3Yei ods-2VFzyK ods-aqyCl6 ods-3kEpst ods-IB8Drx ods-ET3J6o ods-3PJtSR ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs identifierContainer"
+            >
+              <span
+                class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs userIconContainer"
+              >
+                <svg
+                  class="ods-2icygl"
+                  fill="none"
+                  role="presentation"
+                  viewBox="0 0 16 16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M10 3V5C10 6.10457 9.10457 7 8 7C6.89543 7 6 6.10457 6 5V3C6 1.89543 6.89543 1 8 1C9.10457 1 10 1.89543 10 3ZM5 3C5 1.34315 6.34315 0 8 0C9.65685 0 11 1.34315 11 3V5C11 6.65685 9.65685 8 8 8C6.34315 8 5 6.65685 5 5V3ZM4.1305 10.0742C4.26803 10.0181 4.459 10 5.41376 10H10.5862C11.541 10 11.732 10.0181 11.8695 10.0742C12.0299 10.1398 12.1706 10.2459 12.2777 10.3821C12.3695 10.4989 12.4393 10.6776 12.7016 11.5956L13.6743 15H2.32573L3.29841 11.5956C3.5607 10.6776 3.63054 10.4989 3.72233 10.3821C3.82941 10.2459 3.97006 10.1398 4.1305 10.0742ZM13.6631 11.3209L14.7143 15L15 16H13.96H2.04002H1L1.28571 15L2.33689 11.3209C2.57458 10.489 2.69343 10.073 2.93606 9.76423C3.15022 9.49171 3.43152 9.27953 3.75239 9.14848C4.11592 9 4.54854 9 5.41376 9H10.5862C11.4515 9 11.8841 9 12.2476 9.14848C12.5685 9.27953 12.8498 9.49171 13.0639 9.76423C13.3066 10.073 13.4254 10.489 13.6631 11.3209Z"
+                    fill="currentColor"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </span>
+              <span
+                class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs identifier identifierSpan"
+                data-se="identifier"
+              >
+                tester2@test.com
+              </span>
+            </div>
+          </div>
+          <form
+            novalidate=""
+          >
+            <div
+              class="ods-4o5zYQ ods-76eppy ods-2Se4oq ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+            >
+              <div
+                class="ods-4o5zYQ ods-76eppy ods-2Se4oq ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+              >
+                <div
+                  class="ods-4o5zYQ ods-1OsrNt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                >
+                  <div
+                    class="ods-4o5zYQ ods-76eppy ods-2famef ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                  >
+                    <h2
+                      class="ods-4o5zYQ ods-2NLKpK ods-5ZKJUt ods-4vLZvh"
+                    >
+                      More options
+                    </h2>
+                  </div>
+                </div>
+                <div
+                  class="ods-4o5zYQ ods-1OsrNt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                >
+                  <fieldset
+                    class="ods-4o5zYQ ods-76eppy ods-2Se4oq ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-4zKnH2 ods-6uQyQM"
+                  >
+                    <legend
+                      class="ods-4o5zYQ ods-76eppy ods-5VQ9Rl ods-7KS5Kt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-g8inGu"
+                      htmlfor="authenticator.channel"
+                    >
+                      <span
+                        class="ods-4o5zYQ ods-nqMobL ods-5fvoER ods-6rDd3P ods-7KlglL ods-6MIfC2 ods-14pjkk ods-5IIKpe ods-6iOjmZ"
+                      >
+                        Which option do you want to try?
+                      </span>
+                    </legend>
+                    <div
+                      class="ods-4o5zYQ ods-15myrS ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-7tvTLl"
+                    >
+                      <input
+                        aria-describedby=""
+                        class="ods-4B2VQs"
+                        id="generated"
+                        name="authenticator.channel"
+                        type="radio"
+                        value="email"
+                      />
+                      <label
+                        class="ods-5OMySi"
+                        for="generated"
+                      >
+                        Email me a setup link
+                      </label>
+                    </div>
+                    <div
+                      class="ods-4o5zYQ ods-15myrS ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs ods-7tvTLl"
+                    >
+                      <input
+                        aria-describedby=""
+                        class="ods-4B2VQs"
+                        id="generated"
+                        name="authenticator.channel"
+                        type="radio"
+                        value="sms"
+                      />
+                      <label
+                        class="ods-5OMySi"
+                        for="generated"
+                      >
+                        Text me a setup link
+                      </label>
+                    </div>
+                    
+                  </fieldset>
+                </div>
+                <div
+                  class="ods-4o5zYQ ods-1OsrNt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                >
+                  <button
+                    class="ods-4o5zYQ ods-2NLKpK ods-5E7TSu ods-6Tybtd"
+                    data-se="#/properties/submit"
+                    type="submit"
+                  >
+                    <span
+                      class="ods-IkfPY2"
+                    >
+                      Next
+                    </span>
+                  </button>
+                </div>
+                <div
+                  class="ods-4o5zYQ ods-1OsrNt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+                >
+                  <button
+                    class="ods-4o5zYQ ods-2NLKpK ods-5E7TSu ods-1u9tlF ods-6Tybtd"
+                    type="button"
+                  >
+                    <span
+                      class="ods-IkfPY2"
+                    >
+                      Try a different way
+                    </span>
+                  </button>
+                </div>
+              </div>
+              <div
+                class="ods-4o5zYQ ods-1OsrNt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+              >
+                <button
+                  class="ods-4o5zYQ ods-2NLKpK ods-5E7TSu ods-3DL1tX"
+                  data-se="switchAuthenticator"
+                  type="button"
+                >
+                  <span
+                    class="ods-IkfPY2"
+                  >
+                    Return to authenticator list
+                  </span>
+                </button>
+              </div>
+              <div
+                class="ods-4o5zYQ ods-1OsrNt ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs"
+              >
+                <button
+                  class="ods-4o5zYQ ods-2NLKpK ods-5E7TSu ods-3DL1tX"
+                  data-se="cancel"
+                  type="button"
+                >
+                  <span
+                    class="ods-IkfPY2"
+                  >
+                    Back to sign in
+                  </span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </span>
+</div>
+`;

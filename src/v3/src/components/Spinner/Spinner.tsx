@@ -15,7 +15,13 @@ import { FunctionComponent, h } from 'preact';
 
 import { useTranslation } from '../../lib/okta-i18n';
 
-const Spinner: FunctionComponent = () => {
+const Spinner: FunctionComponent<{
+  label?: string;
+  valueText?: string;
+}> = ({
+  label,
+  valueText,
+}) => {
   const { t } = useTranslation();
 
   return (
@@ -27,8 +33,9 @@ const Spinner: FunctionComponent = () => {
       alignItems="center"
     >
       <CircularLoadIndicator
-        aria-label={t('loading.label')}
-        aria-valuetext={t('loading.label')}
+        id="okta-spinner"
+        aria-label={t(label || 'loading.label')}
+        aria-valuetext={t(valueText || 'loading.label')}
       />
     </Box>
   );

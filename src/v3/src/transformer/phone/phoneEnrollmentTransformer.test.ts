@@ -10,11 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement, SchemaBasedCondition } from '@jsonforms/core';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import { FormBag, WidgetProps } from 'src/types';
+import {
+  FieldElement,
+  FormBag,
+  UISchemaLayoutType,
+  WidgetProps,
+} from 'src/types';
 
-import { ButtonOptionType } from '../getButtonControls';
 import { transformPhoneEnrollment } from '.';
 
 describe('PhoneEnrollmentTransformer Tests', () => {
@@ -23,6 +26,7 @@ describe('PhoneEnrollmentTransformer Tests', () => {
   let formBag: FormBag;
   beforeEach(() => {
     formBag = {
+      data: {},
       schema: {
         properties: {
           phoneNumber: {
@@ -32,54 +36,41 @@ describe('PhoneEnrollmentTransformer Tests', () => {
         },
       },
       uischema: {
-        type: 'VerticalLayout',
+        type: UISchemaLayoutType.VERTICAL,
         elements: [{
           type: 'Control',
           label: 'methodType',
-          scope: '#/properties/authenticator/properties/methodType',
+          name: 'authenticator.methodType',
           options: {
-            choices: [{
-              key: 'sms',
-              label: 'SMS',
-            }, {
-              key: 'voice',
-              label: 'Phone Call',
-            }],
+            inputMeta: {
+              name: 'authenticator.methodType',
+              options: [{
+                value: 'sms',
+                label: 'SMS',
+              }, {
+                value: 'voice',
+                label: 'Phone Call',
+              }],
+            },
           },
-        } as ControlElement, {
+        } as FieldElement, {
           type: 'Control',
           label: 'Phone number',
-          scope: '#/properties/authenticator/properties/phoneNumber',
-        } as ControlElement],
+          name: 'authenticator.phoneNumber',
+        } as FieldElement],
       },
     };
   });
 
   it('should create phone enrollment UI elements when multiple method types exist in transaction', () => {
     const updatedFormBag = transformPhoneEnrollment(transaction, formBag, mockProps);
+    expect(updatedFormBag).toMatchSnapshot();
+  });
 
-    expect(updatedFormBag.uischema.elements.length).toBe(7);
-    expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-    expect(updatedFormBag.uischema.elements[0].options?.content).toBe('oie.phone.enroll.title');
-    expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
-    expect(updatedFormBag.uischema.elements[1].options?.content).toBe('oie.phone.enroll.sms.subtitle');
-    expect((updatedFormBag.uischema.elements[1].rule?.condition as SchemaBasedCondition).schema.const).toBe('sms');
-    expect(updatedFormBag.uischema.elements[2].type).toBe('Description');
-    expect(updatedFormBag.uischema.elements[2].options?.content).toBe('oie.phone.enroll.call.subtitle');
-    expect((updatedFormBag.uischema.elements[2].rule?.condition as SchemaBasedCondition).schema.const).toBe('voice');
-    expect((updatedFormBag.uischema.elements[3] as ControlElement).label).toBe('');
-    expect(updatedFormBag.uischema.elements[3].options?.defaultOption).toBe('sms');
-    expect((updatedFormBag.uischema.elements[4] as ControlElement).label).toBe('mfa.phoneNumber.placeholder');
-    expect(updatedFormBag.uischema.elements[4].options?.showExt).toBe(true);
-    expect(updatedFormBag.uischema.elements[4].options?.targetKey).toBe('authenticator.methodType');
-    expect(updatedFormBag.uischema.elements[5].options?.type).toBe(ButtonOptionType.SUBMIT);
-    expect((updatedFormBag.uischema.elements[5] as ControlElement).label).toBe('oie.phone.sms.primaryButton');
-    expect((updatedFormBag.uischema.elements[5].rule?.condition as SchemaBasedCondition).schema.const).toBe('sms');
-    expect(updatedFormBag.uischema.elements[6].options?.type).toBe(ButtonOptionType.SUBMIT);
-    expect((updatedFormBag.uischema.elements[6] as ControlElement).label).toBe('oie.phone.call.primaryButton');
-    expect((updatedFormBag.uischema.elements[6].rule?.condition as SchemaBasedCondition).schema.const).toBe('voice');
+  it('should validate phoneNumber format', () => {
+    const updatedFormBag = transformPhoneEnrollment(transaction, formBag, mockProps);
 
-    const phoneNumberPattern = updatedFormBag.schema.properties?.phoneNumber?.pattern ?? '';
+    const phoneNumberPattern = (updatedFormBag.schema as any).properties?.phoneNumber?.pattern ?? '';
     expect(new RegExp(phoneNumberPattern).test('+12165551234')).toBe(true);
     expect(new RegExp(phoneNumberPattern).test('+12165551234x42')).toBe(true);
     expect(new RegExp(phoneNumberPattern).test('+12165551234x1')).toBe(true);

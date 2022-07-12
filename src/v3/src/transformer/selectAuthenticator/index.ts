@@ -13,3 +13,4 @@
 export * from './transformSelectAuthenticatorEnroll';
 export * from './transformSelectAuthenticatorUnlockVerify';
 export * from './transformSelectAuthenticatorVerify';
+export * from './transformSelectOVMethodVerify';

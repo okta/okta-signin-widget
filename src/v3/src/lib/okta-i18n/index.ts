@@ -99,7 +99,7 @@ export const initOktaReactI18n = ({
       },
       crossDomain: false,
       // this is the default implementation of parse, but we can use it to override values later
-      parse: (data: string) => JSON.parse(data),
+      parse: (data: any) => JSON.parse(data),
     }],
   };
 

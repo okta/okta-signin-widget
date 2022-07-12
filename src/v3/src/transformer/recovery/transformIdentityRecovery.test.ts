@@ -10,10 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement } from '@jsonforms/core';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 
-import { FormBag, WidgetProps } from '../../types';
+import {
+  FieldElement, FormBag, TitleElement,
+  UISchemaLayoutType, WidgetProps,
+} from '../../types';
 import { transformIdentityRecovery } from './transformIdentityRecovery';
 
 describe('Identity Recovery Transformer Tests', () => {
@@ -23,18 +25,19 @@ describe('Identity Recovery Transformer Tests', () => {
 
   beforeEach(() => {
     formBag = {
+      data: {},
       schema: {
         properties: {
           identifier: { type: 'string' },
         },
       },
       uischema: {
-        type: 'VerticalLayout',
+        type: UISchemaLayoutType.VERTICAL,
         elements: [{
           type: 'Control',
-          scope: '#/properties/identifier',
+          name: 'identifier',
           label: 'Username',
-        } as ControlElement],
+        } as FieldElement],
       },
     };
     mockProps = {};
@@ -46,9 +49,9 @@ describe('Identity Recovery Transformer Tests', () => {
 
     expect(updatedFormBag.uischema.elements.length).toBe(2);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-    expect(updatedFormBag.uischema.elements[0].options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.generic');
-    expect((updatedFormBag.uischema.elements[1] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
       .toBe('password.forgot.email.or.username.placeholder');
   });
 
@@ -60,10 +63,11 @@ describe('Identity Recovery Transformer Tests', () => {
 
     expect(updatedFormBag.uischema.elements.length).toBe(2);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-    expect(updatedFormBag.uischema.elements[0].options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('password.reset.title.specific');
-    expect(updatedFormBag.uischema.elements[0].options?.contentParams).toEqual([mockBrandName]);
-    expect((updatedFormBag.uischema.elements[1] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.contentParams)
+      .toEqual([mockBrandName]);
+    expect((updatedFormBag.uischema.elements[1] as FieldElement).label)
       .toBe('password.forgot.email.or.username.placeholder');
   });
 });

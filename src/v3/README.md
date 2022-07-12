@@ -54,7 +54,7 @@ By default, a simple authentication scenario is mocked. If you would like to loa
 
 **Example**
 
-To load a scenario called `auth-with-email-mfa`, navigate to the URL `http://localhost:8080/?siw-use-mocks=true&siw-mock-scenario=auth-with-email-mfa`.
+To load a scenario called `authenticator-verification-email`, navigate to the URL `http://localhost:8080/?siw-use-mocks=true&siw-mock-scenario=authenticator-verification-email`.
 
 #### Defining a new mock scenario
 

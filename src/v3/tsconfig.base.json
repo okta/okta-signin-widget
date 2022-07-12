@@ -3,11 +3,16 @@
   "compilerOptions": {
     "target": "ES5",
     "module": "ESNext",
+    "allowJs": true,
     "jsx": "react",
     "jsxFactory": "h",
     "strict": true,
     "skipLibCheck": false,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
+    "resolveJsonModule": true,
     "paths": {
       "src/*": [
         "./src/*"

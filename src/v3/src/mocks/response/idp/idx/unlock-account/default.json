@@ -47,33 +47,6 @@
                 "relatesTo": "$.authenticatorEnrollments.value[0]"
               },
               {
-                "label": "Okta Verify",
-                "value": {
-                  "form": {
-                    "value": [
-                      {
-                        "name": "id",
-                        "required": true,
-                        "value": "aut2h3fft4y9pDPCS1d7",
-                        "mutable": false
-                      },
-                      {
-                        "name": "methodType",
-                        "type": "string",
-                        "required": false,
-                        "options": [
-                          {
-                            "label": "Get a push notification",
-                            "value": "push"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                },
-                "relatesTo": "$.authenticators.value[1]"
-              },
-              {
                 "label": "Phone",
                 "value": {
                   "form": {

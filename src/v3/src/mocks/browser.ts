@@ -17,7 +17,7 @@ import { setupWorker, SetupWorkerApi } from 'msw';
 
 import { loadScenario } from './registry';
 
-const DEFAULT_SCENARIO_NAME = 'auth-with-email-mfa';
+const DEFAULT_SCENARIO_NAME = 'development';
 
 // This configures a Service Worker with the given request handlers.
 export const getWorker = async (): Promise<SetupWorkerApi | null> => {

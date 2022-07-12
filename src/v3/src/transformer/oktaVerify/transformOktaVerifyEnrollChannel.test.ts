@@ -10,10 +10,20 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement, Layout } from '@jsonforms/core';
-import { IDX_STEP } from 'src/constants';
+import { IdxContext } from '@okta/okta-auth-js';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import { FormBag, StepperLayout, WidgetProps } from 'src/types';
+import {
+  ButtonElement,
+  DescriptionElement,
+  FieldElement,
+  FormBag,
+  StepperButtonElement,
+  StepperLayout,
+  TitleElement,
+  UISchemaLayout,
+  UISchemaLayoutType,
+  WidgetProps,
+} from 'src/types';
 
 import * as channelTransformer from './transformOktaVerifyChannelSelection';
 import { transformOktaVerifyEnrollChannel } from './transformOktaVerifyEnrollChannel';
@@ -29,17 +39,19 @@ describe('TransformOktaVerifyEnrollChannel Tests', () => {
     formBag = {
       schema: {},
       uischema: {
-        type: 'VerticalLayout',
+        type: UISchemaLayoutType.VERTICAL,
         elements: [],
       },
+      data: {},
     };
 
     channelSelectFormBag = {
       schema: {},
       uischema: {
-        type: 'VerticalLayout',
-        elements: [{ type: 'Title', options: { content: 'Select a channel' } }],
+        type: UISchemaLayoutType.VERTICAL,
+        elements: [{ type: 'Title', options: { content: 'Select a channel' } } as TitleElement],
       },
+      data: {},
     };
 
     channelTransformerStub = jest.spyOn(
@@ -52,19 +64,20 @@ describe('TransformOktaVerifyEnrollChannel Tests', () => {
     channelTransformerStub.mockReset();
   });
 
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
   it('should append email input field to elements list when email is the selectedChannel', () => {
-    transaction.nextStep = {
-      name: '',
-      authenticator: {
-        id: '',
-        displayName: '',
-        key: '',
-        type: '',
-        methods: [],
-        contextualData: { selectedChannel: 'email' },
+    transaction.context = {
+      // TODO: OKTA-503490 temporary sln access missing relatesTo obj
+      currentAuthenticator: {
+        value: {
+          contextualData: { selectedChannel: 'email' },
+        },
       },
-    };
-    formBag.uischema.elements.push({ type: 'Control', scope: '#/properties/email' } as ControlElement);
+    } as unknown as IdxContext;
+    formBag.uischema.elements.push({ type: 'Control', name: 'email' } as FieldElement);
 
     const updatedFormBag = transformOktaVerifyEnrollChannel(transaction, formBag, mockProps);
 
@@ -74,61 +87,59 @@ describe('TransformOktaVerifyEnrollChannel Tests', () => {
     expect((updatedFormBag.uischema.elements[0] as StepperLayout).elements.length).toBe(2);
     // First step steps
     expect(
-      ((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as Layout)
+      ((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements.length,
-    ).toBe(4);
+    ).toBe(5);
     expect(
-      ((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as Layout)
-        .elements[0].options?.content,
+      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
+        .elements[0] as TitleElement).options?.content,
     ).toBe('oie.enroll.okta_verify.enroll.channel.email.title');
     expect(
-      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as Layout)
-        .elements[1] as ControlElement).scope,
-    ).toBe('#/properties/email');
+      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
+        .elements[1] as FieldElement).name,
+    ).toBe('email');
     expect(
-      ((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as Layout)
-        .elements[2].options?.content,
+      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
+        .elements[2] as DescriptionElement).options?.content,
     ).toBe('oie.enroll.okta_verify.channel.email.description');
     expect(
-      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as Layout)
-        .elements[3] as ControlElement).label,
+      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
+        .elements[3] as ButtonElement).label,
     ).toEqual('oie.enroll.okta_verify.setupLink');
     expect(
-      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as Layout)
-        .elements[3] as ControlElement).options?.idxStep,
-    ).toEqual(IDX_STEP.ENROLLMENT_CHANNEL_DATA);
+      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
+        .elements[4] as StepperButtonElement).label,
+    ).toBe('next.enroll.okta_verify.switch.channel.link.text');
+    expect(
+      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
+        .elements[4] as StepperButtonElement).options?.variant,
+    ).toBe('secondary');
+    expect(
+      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
+        .elements[4] as StepperButtonElement).options?.nextStepIndex,
+    ).toBe(1);
+
     // Second step steps
     expect(
-      ((updatedFormBag.uischema.elements[0] as StepperLayout).elements[1] as Layout)
+      ((updatedFormBag.uischema.elements[0] as StepperLayout).elements[1] as UISchemaLayout)
         .elements.length,
     ).toBe(1);
     expect(
-      ((updatedFormBag.uischema.elements[0] as StepperLayout).elements[1] as Layout)
-        .elements[0].options?.content,
+      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[1] as UISchemaLayout)
+        .elements[0] as TitleElement).options?.content,
     ).toBe('Select a channel');
-    // Check stepper button config options
-    expect(
-      ((updatedFormBag.uischema.elements[0] as StepperLayout).options?.key),
-    ).toBeDefined();
-    expect(
-      (updatedFormBag.uischema.elements[0] as StepperLayout)
-        .options?.navButtonsConfig.next.label,
-    ).toBe('next.enroll.okta_verify.switch.channel.link.text');
   });
 
   it('should append phone input field to elements list when sms is the selectedChannel', () => {
-    transaction.nextStep = {
-      name: '',
-      authenticator: {
-        id: '',
-        displayName: '',
-        key: '',
-        type: '',
-        methods: [],
-        contextualData: { selectedChannel: 'sms' },
+    transaction.context = {
+      // TODO: OKTA-503490 temporary sln access missing relatesTo obj
+      currentAuthenticator: {
+        value: {
+          contextualData: { selectedChannel: 'sms' },
+        },
       },
-    };
-    formBag.uischema.elements.push({ type: 'Control', scope: '#/properties/phoneNumber' } as ControlElement);
+    } as unknown as IdxContext;
+    formBag.uischema.elements.push({ type: 'Control', name: 'phoneNumber' } as FieldElement);
 
     const updatedFormBag = transformOktaVerifyEnrollChannel(transaction, formBag, mockProps);
 
@@ -138,45 +149,46 @@ describe('TransformOktaVerifyEnrollChannel Tests', () => {
     expect((updatedFormBag.uischema.elements[0] as StepperLayout).elements.length).toBe(2);
     // First step steps
     expect(
-      ((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as Layout)
+      ((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
         .elements.length,
-    ).toBe(4);
+    ).toBe(5);
     expect(
-      ((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as Layout)
-        .elements[0].options?.content,
+      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
+        .elements[0] as TitleElement).options?.content,
     ).toBe('oie.enroll.okta_verify.enroll.channel.sms.title');
     expect(
-      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as Layout)
-        .elements[1] as ControlElement).scope,
-    ).toBe('#/properties/phoneNumber');
+      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
+        .elements[1] as FieldElement).name,
+    ).toBe('phoneNumber');
     expect(
-      ((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as Layout)
-        .elements[2].options?.content,
+      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
+        .elements[2] as DescriptionElement).options?.content,
     ).toBe('oie.enroll.okta_verify.channel.sms.description');
     expect(
-      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as Layout)
-        .elements[3] as ControlElement).label,
+      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
+        .elements[3] as ButtonElement).label,
     ).toEqual('oie.enroll.okta_verify.setupLink');
     expect(
-      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as Layout)
-        .elements[3] as ControlElement).options?.idxStep,
-    ).toEqual(IDX_STEP.ENROLLMENT_CHANNEL_DATA);
+      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
+        .elements[4] as StepperButtonElement).label,
+    ).toBe('next.enroll.okta_verify.switch.channel.link.text');
+    expect(
+      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
+        .elements[4] as StepperButtonElement).options?.variant,
+    ).toBe('secondary');
+    expect(
+      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[0] as UISchemaLayout)
+        .elements[4] as StepperButtonElement).options?.nextStepIndex,
+    ).toBe(1);
+
     // Second step steps
     expect(
-      ((updatedFormBag.uischema.elements[0] as StepperLayout).elements[1] as Layout)
+      ((updatedFormBag.uischema.elements[0] as StepperLayout).elements[1] as UISchemaLayout)
         .elements.length,
     ).toBe(1);
     expect(
-      ((updatedFormBag.uischema.elements[0] as StepperLayout).elements[1] as Layout)
-        .elements[0].options?.content,
+      (((updatedFormBag.uischema.elements[0] as StepperLayout).elements[1] as UISchemaLayout)
+        .elements[0] as TitleElement).options?.content,
     ).toBe('Select a channel');
-    // Check stepper button config options
-    expect(
-      ((updatedFormBag.uischema.elements[0] as StepperLayout).options?.key),
-    ).toBeDefined();
-    expect(
-      (updatedFormBag.uischema.elements[0] as StepperLayout)
-        .options?.navButtonsConfig.next.label,
-    ).toBe('next.enroll.okta_verify.switch.channel.link.text');
   });
 });

@@ -1,0 +1,96 @@
+/*
+ * Copyright (c) 2022-present, Okta, Inc. and/or its affiliates. All rights reserved.
+ * The Okta software accompanied by this notice is provided pursuant to the Apache License, Version 2.0 (the "License.")
+ *
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *
+ * See the License for the specific language governing permissions and limitations under the License.
+ */
+
+import { Box, Icon } from '@okta/odyssey-react';
+import { withTheme } from '@okta/odyssey-react-theme';
+import classNames from 'classnames';
+import { FunctionComponent, h } from 'preact';
+
+import { IDX_STEP } from '../../constants';
+import { useWidgetContext } from '../../contexts';
+import { Undefinable } from '../../types';
+import { theme } from './IdentifierContainer.theme';
+import style from './style.module.css';
+
+const shouldHideIdentifier = (
+  showIdentifier?: boolean,
+  identifier?: string,
+  stepName?: string,
+): boolean => {
+  // Should not display identifier here because if invalid identifier
+  // is used, introspect includes the invalid name in user context
+  if (stepName === IDX_STEP.IDENTIFY) {
+    return true;
+  }
+
+  if (showIdentifier === false) {
+    return true;
+  }
+
+  if (!identifier) {
+    return true;
+  }
+
+  return false;
+};
+
+const IdentifierContainer: FunctionComponent = () => {
+  const { widgetProps: { features }, idxTransaction } = useWidgetContext();
+  const identifier: Undefinable<string> = idxTransaction
+    ?.context?.user?.value?.identifier as string;
+
+  if (shouldHideIdentifier(features?.showIdentifier, identifier, idxTransaction?.nextStep?.name)) {
+    return null;
+  }
+
+  const mainContainerClasses = classNames('identifier-container');
+  const identiferContainerClasses = classNames(style.identifierContainer);
+  const identifierSpanClasses = classNames('identifier', style.identifierSpan);
+  const iconContainerClasses = classNames(style.userIconContainer);
+  return (
+    // @ts-ignore OKTA-471233
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      marginBottom="m"
+      className={mainContainerClasses}
+    >
+      {/* @ts-ignore OKTA-471233 */}
+      <Box
+        flex="auto"
+        flexDirection="row"
+        flexGrow="0"
+        padding={['s', 'm']}
+        className={identiferContainerClasses}
+      >
+        {/* @ts-ignore OKTA-471233 */}
+        <Box
+          as="span"
+          className={iconContainerClasses}
+        >
+          <Icon name="user" />
+        </Box>
+        {/* @ts-ignore OKTA-471233 */}
+        <Box
+          as="span"
+          className={identifierSpanClasses}
+          data-se="identifier"
+        >
+          {identifier}
+        </Box>
+      </Box>
+    </Box>
+  );
+};
+
+export default withTheme(theme, style)(IdentifierContainer);

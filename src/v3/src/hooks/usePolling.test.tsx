@@ -10,15 +10,32 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransaction, NextStep } from '@okta/okta-auth-js';
+import { IdxTransaction, NextStep, OktaAuth } from '@okta/okta-auth-js';
 import { renderHook } from '@testing-library/preact-hooks';
+import { WidgetProps } from 'src/types';
 
 import { usePolling } from './usePolling';
 
 describe('usePolling', () => {
+  let mockProps: Partial<WidgetProps>;
+  let mockData: Record<string, unknown>;
+  let mockProceedFn: jest.Mock;
   beforeEach(() => {
     jest.useFakeTimers();
     jest.spyOn(global, 'setTimeout');
+    mockProceedFn = jest.fn().mockResolvedValue({
+      nextStep: {
+        name: 'challenge-poll',
+        refresh: 4000,
+        action: jest.fn(),
+      },
+    });
+    mockProps = {
+      authClient: {
+        idx: { proceed: mockProceedFn },
+      } as unknown as OktaAuth,
+    };
+    mockData = {};
   });
 
   afterEach(() => {
@@ -27,7 +44,7 @@ describe('usePolling', () => {
 
   describe('idxTransaction does not include polling step - returns undefined and no timer', () => {
     it('idxTransaction is undefined', () => {
-      const { result } = renderHook(() => usePolling(undefined));
+      const { result } = renderHook(() => usePolling(undefined, mockProps, mockData));
       expect(result.current).toBeUndefined();
       expect(setTimeout).not.toHaveBeenCalled();
     });
@@ -38,7 +55,7 @@ describe('usePolling', () => {
           name: 'fake-step',
         },
       } as IdxTransaction;
-      const { result } = renderHook(() => usePolling(idxTransaction));
+      const { result } = renderHook(() => usePolling(idxTransaction, mockProps, mockData));
       expect(result.current).toBeUndefined();
       expect(setTimeout).not.toHaveBeenCalled();
     });
@@ -61,7 +78,10 @@ describe('usePolling', () => {
           action: mockAction,
         },
       } as IdxTransaction;
-      const { result, waitForNextUpdate } = renderHook(() => usePolling(idxTransaction));
+      const {
+        result,
+        waitForNextUpdate,
+      } = renderHook(() => usePolling(idxTransaction, mockProps, mockData));
 
       // expect to setup timer
       expect(setTimeout).toHaveBeenCalledTimes(1);
@@ -69,7 +89,8 @@ describe('usePolling', () => {
 
       // expect to call action function when timeout
       jest.advanceTimersByTime(4000);
-      expect(mockAction).toHaveBeenCalled();
+      // expect(mockAction).toHaveBeenCalled();
+      expect(mockProceedFn).toHaveBeenCalled();
 
       // expect to return new polling transaction
       await waitForNextUpdate();
@@ -87,20 +108,11 @@ describe('usePolling', () => {
       const idxTransaction = {
         availableSteps: [{
           name: 'currentAuthenticatorEnrollment-poll',
+          refresh: 5000,
           action: mockAction,
         } as NextStep],
-        rawIdxState: {
-          currentAuthenticatorEnrollment: {
-            type: 'object',
-            value: {
-              poll: {
-                refresh: 5000,
-              },
-            },
-          },
-        },
       } as IdxTransaction;
-      renderHook(() => usePolling(idxTransaction));
+      renderHook(() => usePolling(idxTransaction, mockProps, mockData));
 
       // expect to setup timer
       expect(setTimeout).toHaveBeenCalledTimes(1);
@@ -116,7 +128,7 @@ describe('usePolling', () => {
         } as NextStep],
         rawIdxState: {},
       } as IdxTransaction;
-      renderHook(() => usePolling(idxTransaction));
+      renderHook(() => usePolling(idxTransaction, mockProps, mockData));
 
       // expect to setup timer
       expect(setTimeout).toHaveBeenCalledTimes(1);
