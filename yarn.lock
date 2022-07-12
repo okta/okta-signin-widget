@@ -3232,17 +3232,17 @@
     node-properties-parser "^0.0.2"
     properties-to-json "^0.1.7"
 
-"@okta/okta-auth-js@6.5.1":
-  version "6.5.1"
-  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-6.5.1.tgz#aa1b3815152e729c6a69137a19c7fd502d2e4e5d"
-  integrity sha512-mBzg+EH1Ey7skxHiimSN/ZYraB3l8ZXZlBi8RXNmRLwPMbFlZkQoKrrQu357S5YSEckF59Lqbb/r9Y3cXBNQBQ==
+"@okta/okta-auth-js@6.7.1":
+  version "6.7.1"
+  resolved "https://registry.yarnpkg.com/@okta/okta-auth-js/-/okta-auth-js-6.7.1.tgz#c8810693af9d7578fd3b353f20b3d447c0decb78"
+  integrity sha512-A2TOJmIsahQ0o7akBwpzU52pnb7lO8NheHR1VVxP2ix090Va98TFU5s0LMu0/TOWohEWP6JvBAApZvOFuSjXfQ==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@babel/runtime-corejs3" "^7.17.0"
-    "@peculiar/webcrypto" "1.1.6"
+    "@peculiar/webcrypto" "^1.4.0"
     Base64 "1.1.0"
     atob "^2.1.2"
-    broadcast-channel "^4.10.0"
+    broadcast-channel "^4.13.0"
     btoa "^1.2.1"
     core-js "^3.6.5"
     cross-fetch "^3.1.5"
@@ -3293,7 +3293,7 @@
     rasha "^1.2.5"
     safe-flat "^2.0.2"
 
-"@peculiar/asn1-schema@^2.0.27", "@peculiar/asn1-schema@^2.1.6":
+"@peculiar/asn1-schema@^2.1.6":
   version "2.1.7"
   resolved "https://registry.yarnpkg.com/@peculiar/asn1-schema/-/asn1-schema-2.1.7.tgz#17d9b79f7df748ef84158ea61a24fc11d9f3f4d9"
   integrity sha512-RxnHrl7WgNxWPsGeSw7YUGTS3s5En7JwhdOilRpEShQJQ9TH8v1nZtslyZGX5GxgUJ1P4dnRsCnt7R5EYmvtUg==
@@ -3308,17 +3308,6 @@
   integrity sha512-coUfuoMeIB7B8/NMekxaDzLhaYmp0HZNPEjYRm9goRou8UZIC3z21s0sL9AWoCw4EG876QyO3kYrc61WNF9B/w==
   dependencies:
     tslib "^2.0.0"
-
-"@peculiar/webcrypto@1.1.6":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@peculiar/webcrypto/-/webcrypto-1.1.6.tgz#484bb58be07149e19e873861b585b0d5e4f83b7b"
-  integrity sha512-xcTjouis4Y117mcsJslWAGypwhxtXslkVdRp7e3tHwtuw0/xCp1te8RuMMv/ia5TsvxomcyX/T+qTbRZGLLvyA==
-  dependencies:
-    "@peculiar/asn1-schema" "^2.0.27"
-    "@peculiar/json-schema" "^1.1.12"
-    pvtsutils "^1.1.2"
-    tslib "^2.1.0"
-    webcrypto-core "^1.2.0"
 
 "@peculiar/webcrypto@^1.4.0":
   version "1.4.0"
@@ -5638,19 +5627,6 @@ braces@^3.0.1, braces@^3.0.2, braces@~3.0.2:
   resolved "https://registry.yarnpkg.com/braces/-/braces-3.0.2.tgz#3454e1a462ee8d599e236df336cd9ea4f8afe107"
   dependencies:
     fill-range "^7.0.1"
-
-broadcast-channel@^4.10.0:
-  version "4.11.0"
-  resolved "https://registry.yarnpkg.com/broadcast-channel/-/broadcast-channel-4.11.0.tgz#b9ebc7ce1326120088e61d2197477496908a1a9e"
-  integrity sha512-4FS1Zk+ttekfXHq5I2R7KhN9AsnZUFVV5SczrTtnZPuf5w+jw+fqM1PJHuHzwEXJezJeCbJxoZMDcFqsIN2c1Q==
-  dependencies:
-    "@babel/runtime" "^7.16.0"
-    detect-node "^2.1.0"
-    microtime "3.0.0"
-    oblivious-set "1.0.0"
-    p-queue "6.6.2"
-    rimraf "3.0.2"
-    unload "2.3.1"
 
 broadcast-channel@^4.13.0:
   version "4.13.0"
@@ -13669,11 +13645,6 @@ object.values@^1.1.5:
     define-properties "^1.1.3"
     es-abstract "^1.19.1"
 
-oblivious-set@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/oblivious-set/-/oblivious-set-1.0.0.tgz#c8316f2c2fb6ff7b11b6158db3234c49f733c566"
-  integrity sha512-z+pI07qxo4c2CulUHCDf9lcqDlMSo72N/4rLUpRXf6fu+q8vjt8y0xS+Tlf8NTJDdTXHbdeO1n3MlbctwEoXZw==
-
 oblivious-set@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/oblivious-set/-/oblivious-set-1.1.1.tgz#d9d38e9491d51f27a5c3ec1681d2ba40aa81e98b"
@@ -14946,7 +14917,7 @@ pure-utilities@^1.1.4:
   resolved "https://registry.yarnpkg.com/pure-utilities/-/pure-utilities-1.2.4.tgz#d98e06ce656358022dc2efaa7d1edd15b02edc92"
   integrity sha512-wKrO9wxN2inA57pgA9mZZi81CvHt7xo50y4OxW4EqOYsL38DBriiQL3hGGb78MWi1Sjxkj+gCzYMvKcltQOe3w==
 
-pvtsutils@^1.1.2, pvtsutils@^1.3.2:
+pvtsutils@^1.3.2:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/pvtsutils/-/pvtsutils-1.3.2.tgz#9f8570d132cdd3c27ab7d51a2799239bf8d8d5de"
   integrity sha512-+Ipe2iNUyrZz+8K/2IOo+kKikdtfhRKzNpQbruF2URmqPtoqAs8g3xS7TJvFF2GcPXjh7DkqMnpVveRFq4PgEQ==
@@ -18432,7 +18403,7 @@ webauth@^1.1.0:
   resolved "https://registry.yarnpkg.com/webauth/-/webauth-1.1.0.tgz#64704f6b8026986605bc3ca629952e6e26fdd100"
   integrity sha1-ZHBPa4AmmGYFvDymKZUubib90QA=
 
-webcrypto-core@^1.2.0, webcrypto-core@^1.7.4:
+webcrypto-core@^1.7.4:
   version "1.7.5"
   resolved "https://registry.yarnpkg.com/webcrypto-core/-/webcrypto-core-1.7.5.tgz#c02104c953ca7107557f9c165d194c6316587ca4"
   integrity sha512-gaExY2/3EHQlRNNNVSrbG2Cg94Rutl7fAaKILS1w8ZDhGxdFOaw6EbCfHIxPy9vt/xwp5o0VQAx9aySPF6hU1A==
