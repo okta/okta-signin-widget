@@ -31,7 +31,8 @@ export default class ChallengeFactorPageObject extends BasePageObject {
   }
 
   /**
-   * @deprecated {@see this.form.getTitle}
+   * @deprecated
+   * @see getTitle
    */
   getPageTitle() {
     return this.form.getElement('.okta-form-title').textContent;
@@ -48,20 +49,22 @@ export default class ChallengeFactorPageObject extends BasePageObject {
   getErrorFromErrorBox() {
     return this.form.getErrorBoxText();
   }
-  
+
   getInvalidOTPFieldError() {
     return this.form.getTextBoxErrorMessage(PASSCODE_FIELD_NAME);
   }
 
   /**
-   * @deprecated {@see ChallengeEmailPageObject}
+   * @deprecated
+   * @see ChallengeEmailPageObject
    */
   resendEmailView() {
     return this.form.getElement('.resend-email-view');
   }
 
   /**
-   * @deprecated {@see ChallengeEmailPageObject}
+   * @deprecated
+   * @see ChallengeEmailPageObject
    */
   async clickSendAgainLink() {
     await this.form.clickElement('.resend-email-view a.resend-link');
