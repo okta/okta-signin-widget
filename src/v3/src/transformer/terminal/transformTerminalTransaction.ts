@@ -95,7 +95,6 @@ const appendViewLinks = (
       scope: `#/properties/${ButtonType.SUBMIT}`,
       options: {
         type: ButtonType.SUBMIT,
-        idxMethodParams: { skip: true },
         action: cancelStep?.action,
       },
     };

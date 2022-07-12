@@ -15,6 +15,12 @@ import { setup } from './util';
 import mockResponse from '../../src/mocks/response/idp/idx/introspect/default.json';
 
 describe('identify-with-password', () => {
+  it('renders the loading state first', async () => {
+    const { container, findByLabelText } = await setup({ mockResponse });
+    await findByLabelText('Loading...');
+    expect(container).toMatchSnapshot();
+  });
+
   it('renders form', async () => {
     const { container, findByLabelText } = await setup({ mockResponse });
     await findByLabelText(/Username/);
@@ -94,33 +100,51 @@ describe('identify-with-password', () => {
       );
     });
 
-    it('hits httpclient with no inputs', async () => {
-      const { authClient, user, findByTestId } = await setup({ mockResponse });
+    it('fails client side validation with no inputs', async () => {
+      const {
+        authClient,
+        user,
+        findByTestId,
+      } = await setup({ mockResponse });
+      let identifierError; let
+        passwordError;
 
+      const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+      const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
       const submitButton = await findByTestId('#/properties/submit');
-      await findByTestId('identifier');
-      await findByTestId('credentials.passcode');
-      await findByTestId('rememberMe');
+
+      // empty username & empty password
       await user.click(submitButton);
-      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+      identifierError = await findByTestId('identifier-error');
+      expect(identifierError.textContent).toEqual('This field cannot be left blank');
+      passwordError = await findByTestId('credentials.passcode-error');
+      expect(passwordError.textContent).toEqual('This field cannot be left blank');
+      expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
         'POST',
         'https://oie-8425965.oktapreview.com/idp/idx/identify',
-        {
-          data: JSON.stringify({
-            identifier: '',
-            credentials: {
-              passcode: '',
-            },
-            rememberMe: false,
-            stateHandle: 'fake-stateHandle',
-          }),
-          headers: {
-            Accept: 'application/json; okta-version=1.0.0',
-            'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
-          },
-          withCredentials: true,
-        },
+        expect.anything(),
+      );
+
+      // only username - resubmit can clear errors
+      await user.type(usernameEl, 'testuser@okta.com');
+      await user.click(submitButton);
+      passwordError = await findByTestId('credentials.passcode-error');
+      expect(passwordError.textContent).toEqual('This field cannot be left blank');
+      expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
+        'POST',
+        'https://oie-8425965.oktapreview.com/idp/idx/identify',
+        expect.anything(),
+      );
+
+      // only password - reset clears error
+      await user.type(passwordEl, 'fake-password');
+      await user.click(submitButton);
+      identifierError = await findByTestId('identifier-error');
+      expect(identifierError.textContent).toEqual('This field cannot be left blank');
+      expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
+        'POST',
+        'https://oie-8425965.oktapreview.com/idp/idx/identify',
+        expect.anything(),
       );
     });
   });

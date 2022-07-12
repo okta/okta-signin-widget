@@ -5,14 +5,7 @@ Object {
   "data": Object {
     "authenticator.methodType": "sms",
   },
-  "schema": Object {
-    "properties": Object {
-      "phoneNumber": Object {
-        "pattern": "^\\\\+([0-9]{5,17})(?:x(?<ext>[0-9]+))?$",
-        "type": "string",
-      },
-    },
-  },
+  "schema": Object {},
   "uischema": Object {
     "elements": Array [
       Object {

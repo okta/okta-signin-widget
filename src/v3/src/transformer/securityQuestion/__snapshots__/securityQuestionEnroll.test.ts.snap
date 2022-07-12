@@ -5,13 +5,8 @@ Object {
   "data": Object {
     "credentials.questionKey": "eternal",
   },
-  "schema": Object {
-    "properties": Object {
-      "credentials": Object {
-        "type": "object",
-      },
-    },
-  },
+  "dataSchema": Object {},
+  "schema": Object {},
   "uischema": Object {
     "elements": Array [
       Object {
@@ -121,10 +116,10 @@ Object {
               Object {
                 "label": "mfa.challenge.verify",
                 "options": Object {
-                  "dataType": "save",
-                  "idxMethodParams": Object {
+                  "actionParams": Object {
                     "credentials.questionKey": "custom",
                   },
+                  "dataType": "save",
                   "type": "submit",
                 },
                 "scope": "#/properties/submit",

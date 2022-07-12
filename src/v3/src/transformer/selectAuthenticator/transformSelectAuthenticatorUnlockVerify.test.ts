@@ -31,12 +31,10 @@ const getMockAuthenticatorButtons = (): AuthenticatorButtonElement[] => {
     options: {
       key: AUTHENTICATOR_KEY.EMAIL,
       ctaLabel: 'Select',
-      idxMethodParams: {
-        authenticator: {
-          id: '123abc',
-        },
+      actionParams: {
+        'authenticator.id': '123abc',
       },
-    } as AuthenticatorButtonElement['options'],
+    },
   } as AuthenticatorButtonElement);
   return authenticators;
 };
@@ -101,6 +99,6 @@ describe('Unlock Verification Authenticator Selector Tests', () => {
       .toBe('unlockaccount');
     expect(updatedFormBag.uischema.elements[1].type).toBe('AuthenticatorButton');
     expect(((updatedFormBag.uischema.elements[1] as AuthenticatorButtonElement)
-      .options.idxMethodParams?.authenticator)?.id).toBe('123abc');
+      .options.actionParams?.['authenticator.id'])).toBe('123abc');
   });
 });

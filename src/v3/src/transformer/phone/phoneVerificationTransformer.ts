@@ -100,8 +100,8 @@ export const transformPhoneVerification: IdxStepTransformer = (transaction, form
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
-      idxMethodParams: {
-        authenticator: { methodType: methodTypeElement?.options.inputMeta?.options?.[0].value },
+      actionParams: {
+        'authenticator.methodType': methodTypeElement?.options.inputMeta?.options?.[0].value as string,
       },
       step,
     },
@@ -116,8 +116,8 @@ export const transformPhoneVerification: IdxStepTransformer = (transaction, form
     options: {
       type: ButtonType.SUBMIT,
       variant: 'secondary',
-      idxMethodParams: {
-        authenticator: { methodType: methodTypeElement?.options.inputMeta?.options?.[1]?.value },
+      actionParams: {
+        'authenticator.methodType': methodTypeElement?.options.inputMeta?.options?.[1]?.value as string,
       },
       step,
     },

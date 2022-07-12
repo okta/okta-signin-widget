@@ -35,12 +35,10 @@ const getMockMethodTypes = (): AuthenticatorButtonElement[] => {
     options: {
       key: 'okta_verify',
       ctaLabel: 'Select',
-      idxMethodParams: {
-        authenticator: {
-          methodType: 'push',
-        },
+      actionParams: {
+        'authenticator.methodType': 'push',
       },
-    } as AuthenticatorButtonElement['options'],
+    },
   });
   authenticators.push({
     type: 'AuthenticatorButton',
@@ -48,12 +46,10 @@ const getMockMethodTypes = (): AuthenticatorButtonElement[] => {
     options: {
       key: 'okta_verify',
       ctaLabel: 'Select',
-      idxMethodParams: {
-        authenticator: {
-          methodType: 'totp',
-        },
+      actionParams: {
+        'authenticator.methodType': 'totp',
       },
-    } as AuthenticatorButtonElement['options'],
+    },
   });
   return authenticators;
 };

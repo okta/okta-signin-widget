@@ -34,7 +34,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
     label,
     options: {
       key: authenticationKey,
-      idxMethodParams,
+      actionParams,
       description,
       descriptionParams: descrParams,
       ctaLabel,
@@ -49,7 +49,7 @@ const AuthenticatorButton: UISchemaElementComponent<{
   const onClick: ClickHandler = async () => {
     const { name: step } = idxTransaction!.nextStep!;
     onSubmitHandler({
-      params: idxMethodParams,
+      params: actionParams,
       includeData: true,
       step,
     });

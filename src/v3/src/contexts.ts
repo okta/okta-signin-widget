@@ -27,7 +27,7 @@ type IWidgetContext = {
   // (RenderSuccessCallback / RenderErrorCallback) once merged into okta-signin-widget
   onSuccessCallback?: (data: Record<string, unknown>) => void;
   onErrorCallback?: (data: Record<string, unknown>) => void;
-  formBag?: FormBag;
+  formBag: FormBag;
   idxTransaction: IdxTransaction | undefined;
   setIdxTransaction: StateUpdater<IdxTransaction | undefined>;
   data: Record<string, unknown>;

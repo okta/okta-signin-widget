@@ -27,14 +27,7 @@ describe('PhoneEnrollmentTransformer Tests', () => {
   beforeEach(() => {
     formBag = {
       data: {},
-      schema: {
-        properties: {
-          phoneNumber: {
-            type: 'string',
-            pattern: '^\\+([0-9]{5,17})(?:x(?<ext>[0-9]+))?$',
-          },
-        },
-      },
+      schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
         elements: [{
@@ -67,7 +60,10 @@ describe('PhoneEnrollmentTransformer Tests', () => {
     expect(updatedFormBag).toMatchSnapshot();
   });
 
-  it('should validate phoneNumber format', () => {
+  // TODO: re-visit when add phone number client side validation
+  // it's not safe to use one client side regext to validate, since phone number standard varies by regions
+  // before a good hint is available from idx response, it would be safe to just depend on backend validation
+  it.skip('should validate phoneNumber format', () => {
     const updatedFormBag = transformPhoneEnrollment(transaction, formBag, mockProps);
 
     const phoneNumberPattern = (updatedFormBag.schema as any).properties?.phoneNumber?.pattern ?? '';

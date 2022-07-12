@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxMessage } from '@okta/okta-auth-js';
+import { clone } from 'lodash';
 import { FunctionComponent, h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
@@ -22,8 +24,10 @@ import {
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
+import { resetMessagesToInputs } from '../../util';
 import { renderUISchemaLayout } from './renderUISchemaLayout';
 
+// TODO: remove this function once submission related meta is in schema
 const getSubmitButtonSchema: any = (uischema: UISchemaLayout, stepperStepIndex: number) => {
   const { type, elements } = uischema;
   if (type === UISchemaLayoutType.STEPPER) {
@@ -49,17 +53,53 @@ const getSubmitButtonSchema: any = (uischema: UISchemaLayout, stepperStepIndex: 
 const Form: FunctionComponent<{
   uischema: UISchemaLayout;
 }> = ({ uischema }) => {
-  const { stepperStepIndex } = useWidgetContext();
+  const {
+    stepperStepIndex,
+    formBag,
+    data,
+    idxTransaction: currTransaction,
+    setIdxTransaction,
+  } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
 
   const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
 
     const submitButtonSchema = getSubmitButtonSchema(uischema, stepperStepIndex);
+    const { actionParams: params, step } = submitButtonSchema?.options || {};
+
+    // client side validation - only validate for fields in nextStep
+    const { nextStep } = currTransaction!;
+    if (!step || step === nextStep!.name) {
+      // aggregate field level messages based on validation rules in each field
+      const messages = Object.entries(formBag.dataSchema)
+        .reduce((acc: Record<string, Partial<IdxMessage>>, curr) => {
+          const [name, elementSchema] = curr;
+          if (typeof elementSchema.validate === 'function') {
+            const message = elementSchema.validate({
+              ...data,
+              ...params,
+            });
+            if (message) {
+              acc[name] = message;
+            }
+          }
+          return acc;
+        }, {});
+      // update transaction with client validation messages to trigger rerender
+      if (Object.entries(messages).length) {
+        const newTransaction = clone(currTransaction);
+        resetMessagesToInputs(newTransaction!.nextStep!.inputs!, messages);
+        setIdxTransaction(newTransaction);
+        return;
+      }
+    }
+
+    // submit request
     onSubmitHandler({
       includeData: true,
-      params: submitButtonSchema?.options?.idxMethodParams,
-      step: submitButtonSchema?.options?.step,
+      params,
+      step,
     });
   };
 

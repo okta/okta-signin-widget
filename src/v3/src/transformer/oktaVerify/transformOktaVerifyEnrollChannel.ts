@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import merge from 'lodash/merge';
-
 import {
   ButtonElement,
   ButtonType,
@@ -112,7 +110,6 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = (
     formBag,
     widgetProps,
   );
-  merge(formBag.schema, channelSelectionFormBag.schema);
 
   const stepper: StepperLayout = {
     type: UISchemaLayoutType.STEPPER,

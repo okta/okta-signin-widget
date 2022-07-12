@@ -31,7 +31,7 @@ const Link: UISchemaElementComponent<{
     e.preventDefault();
 
     onSubmitHandler({
-      params: options.idxMethodParams,
+      params: options.actionParams,
       actionFn: options.action,
     });
   };

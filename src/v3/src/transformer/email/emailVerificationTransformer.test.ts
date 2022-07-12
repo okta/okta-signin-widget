@@ -57,8 +57,7 @@ describe('Email Verification Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('next.email.verify.subtitleWithoutEmailAddress');
     expect(((updatedFormBag.uischema.elements[2] as ButtonElement)
-      .options?.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType)
-      .toBe('email');
+      .options?.actionParams?.['authenticator.methodType'])).toBe('email');
     expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
       .toBe('oie.email.verify.primaryButton');
   });
@@ -87,7 +86,7 @@ describe('Email Verification Transformer Tests', () => {
     expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('next.email.verify.subtitleWithEmailAddress');
     expect(((updatedFormBag.uischema.elements[2] as ButtonElement)
-      .options?.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType)
+      .options?.actionParams?.['authenticator.methodType']))
       .toBe('email');
     expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
       .toBe('oie.email.verify.primaryButton');

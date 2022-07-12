@@ -253,9 +253,6 @@ describe('Terminal Transaction Transformer Tests', () => {
     expect((formBag.uischema.elements[0] as TitleElement).options?.content).toBe('oie.safe.mode.title');
     expect(formBag.uischema.elements[1].type).toBe('Button');
     expect((formBag.uischema.elements[1] as ButtonElement).label).toBe('oie.enroll.skip.setup');
-    expect((
-      formBag.uischema.elements[1] as ButtonElement
-    ).options?.idxMethodParams?.skip).toBe(true);
   });
 
   it('should add title and try again link for'

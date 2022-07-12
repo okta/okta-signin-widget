@@ -432,6 +432,7 @@ exports[`authenticator-verification-email renders correct form renders the otp c
                     </div>
                     <p
                       class="MuiFormHelperText-root Mui-error emotion-20"
+                      data-se="credentials.passcode-error"
                     >
                       Invalid code. Try again.
                     </p>

@@ -65,7 +65,12 @@ const InputText: UISchemaElementComponent<{
         }}
       />
       {error && (
-        <FormHelperText error>{error}</FormHelperText>
+        <FormHelperText
+          data-se={`${name}-error`}
+          error
+        >
+          {error}
+        </FormHelperText>
       )}
     </Box>
   );

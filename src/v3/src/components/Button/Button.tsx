@@ -36,7 +36,7 @@ const Button: UISchemaElementComponent<{
       wide,
       dataType,
       dataSe,
-      idxMethodParams,
+      actionParams,
       includeData,
     },
   } = uischema;
@@ -44,7 +44,7 @@ const Button: UISchemaElementComponent<{
   const onClick: ClickHandler = async () => {
     onSubmitHandler({
       actionFn: uischema.options.action,
-      params: idxMethodParams,
+      params: actionParams,
       includeData: Boolean(includeData),
       step: uischema.options.step,
     });

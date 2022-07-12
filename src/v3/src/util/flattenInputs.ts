@@ -12,19 +12,40 @@
 
 import { Input } from '@okta/okta-auth-js';
 
-export const flattenInputs = (input: Input, name = ''): Input[] => {
-  const res: Input[] = [];
-  const { value } = input;
+export const flattenInputs = (input: Input): Input[] => {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
+  const fn = (input: Input, nameTracker = '', requiredTracker: Input['required']): Input[] => {
+    const res: Input[] = [];
+    const { value } = input;
 
-  if (Array.isArray(value)) {
-    return value.reduce((acc, curr) => [
-      ...acc,
-      ...flattenInputs(curr, input.name),
-    ], res);
-  }
+    // Calculate "required" attribute for the flatten input
+    // 1. when upper value is falsy - take "required" value from the current level
+    // 2. when upper value is truthy
+    //    a. set as "true" when current required field is undefined
+    //    b. follow current required field if it exists
+    let required: Input['required'] = false;
+    if (requiredTracker) {
+      required = typeof input.required === 'undefined' ? true : input.required;
+    } else if (requiredTracker === false) {
+      required = typeof input.required === 'undefined' ? false : input.required;
+    } else {
+      required = input.required;
+    }
+    const name = nameTracker ? `${nameTracker}.${input.name}` : input.name;
 
-  return [{
-    ...input,
-    name: name ? `${name}.${input.name}` : input.name,
-  }];
+    if (Array.isArray(value)) {
+      return value.reduce((acc, curr) => [
+        ...acc,
+        ...fn(curr, name, required),
+      ], res);
+    }
+
+    return [{
+      ...input,
+      name,
+      ...(typeof required !== 'undefined' && { required }),
+    }];
+  };
+
+  return fn(input, '', undefined);
 };

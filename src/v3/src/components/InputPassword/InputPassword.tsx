@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { Box, FormHelperText } from '@mui/material';
 import { PasswordInput } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
@@ -40,20 +41,30 @@ const InputPassword: UISchemaElementComponent<{
   };
 
   return (
-    <PasswordInput
-      label={t(getLabelName(label!))}
-      value={value}
-      name={name}
-      id={name}
-      error={error !== ''}
-      helperText={error}
-      onChange={handleChange}
-      fullWidth
-      inputProps={{
-        'data-se': name,
-        ...attributes,
-      }}
-    />
+    <Box>
+      <PasswordInput
+        label={t(getLabelName(label!))}
+        value={value}
+        name={name}
+        id={name}
+        error={error !== ''}
+        onChange={handleChange}
+        fullWidth
+        inputProps={{
+          'data-se': name,
+          ...attributes,
+        }}
+      />
+      {error && (
+        <FormHelperText
+          data-se={`${name}-error`}
+          error
+        >
+          {error}
+        </FormHelperText>
+      )}
+    </Box>
+
   );
 };
 

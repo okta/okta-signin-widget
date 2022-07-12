@@ -32,12 +32,10 @@ const getMockAuthenticatorButtons = (): AuthenticatorButtonElement[] => {
     options: {
       key: AUTHENTICATOR_KEY.EMAIL,
       ctaLabel: 'Select',
-      idxMethodParams: {
-        authenticator: {
-          id: '123abc',
-        },
+      actionParams: {
+        'authenticator.id': '123abc',
       },
-    } as AuthenticatorButtonElement['options'],
+    },
   } as AuthenticatorButtonElement);
   return authenticators;
 };
@@ -55,11 +53,7 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
   beforeEach(() => {
     formBag = {
       data: {},
-      schema: {
-        properties: {
-          authenticator: {},
-        },
-      },
+      schema: {},
       uischema: {
         type: UISchemaLayoutType.VERTICAL,
         elements: [],
@@ -105,7 +99,7 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
       .toBe('oie.select.authenticators.verify.subtitle');
     expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButton');
     expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
-      .options.idxMethodParams?.authenticator)?.id).toBe('123abc');
+      .options.actionParams?.['authenticator.id'])).toBe('123abc');
   });
 
   it('should add UI elements for verification authenticator selector'
@@ -130,7 +124,7 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
       .toBe('oie.password.reset.verification');
     expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButton');
     expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
-      .options.idxMethodParams?.authenticator)?.id).toBe('123abc');
+      .options.actionParams?.['authenticator.id'])).toBe('123abc');
   });
 
   it('should add UI elements for verification authenticator selector'
@@ -158,6 +152,6 @@ describe('Verify Authenticator Selector Transformer Tests', () => {
       .toBe('oie.password.reset.verification');
     expect(updatedFormBag.uischema.elements[2].type).toBe('AuthenticatorButton');
     expect(((updatedFormBag.uischema.elements[2] as AuthenticatorButtonElement)
-      .options.idxMethodParams?.authenticator)?.id).toBe('123abc');
+      .options.actionParams?.['authenticator.id'])).toBe('123abc');
   });
 });

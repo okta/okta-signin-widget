@@ -66,4 +66,26 @@ describe('enroll-profile', () => {
       },
     );
   });
+
+  it('fails client side validation with empty fields', async () => {
+    const {
+      authClient, user, findByTestId,
+    } = await setup({ mockResponse });
+
+    const submitButton = await findByTestId('#/properties/submit');
+
+    await user.click(submitButton);
+    const firstNameError = await findByTestId('userProfile.firstName-error');
+    expect(firstNameError.textContent).toEqual('This field cannot be left blank');
+    const lastNameError = await findByTestId('userProfile.lastName-error');
+    expect(lastNameError.textContent).toEqual('This field cannot be left blank');
+    const emailError = await findByTestId('userProfile.email-error');
+    expect(emailError.textContent).toEqual('This field cannot be left blank');
+
+    expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
+      'POST',
+      'https://oie-8425965.oktapreview.com/idp/idx/enroll/new',
+      expect.anything(),
+    );
+  });
 });
