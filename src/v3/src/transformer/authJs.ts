@@ -68,7 +68,8 @@ export default (transaction: IdxTransactionWithNextStep, widgetProps: WidgetProp
       stepWithUnlockAccount,
       backToAuthList,
       verifyWithOther,
-      authClient: widgetProps.authClient,
+      // TODO: This was added as a workaround for OKTA-512706
+      proceed: widgetProps.authClient?.idx.proceed,
     },
   );
 

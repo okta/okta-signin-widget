@@ -23,8 +23,14 @@ describe('Flow transitions', () => {
       findByText,
     } = await setup({
       mockResponses: {
-        '/introspect': identifyWithPassword,
-        '/idx/identify': authenticationVerificationGoogleAuthenticator,
+        '/introspect': {
+          data: identifyWithPassword,
+          status: 200,
+        },
+        '/idx/identify': {
+          data: authenticationVerificationGoogleAuthenticator,
+          status: 200,
+        },
       },
     });
 

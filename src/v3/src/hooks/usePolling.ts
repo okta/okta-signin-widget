@@ -82,24 +82,20 @@ export const usePolling = (
     // the following polling requests will be triggered based on idxTransaction update
     timerRef.current = setTimeout(async () => {
       // TODO: Revert to use action once this fix is completed OKTA-512706
-      const payload: IdxActionParams = {};
+      let payload: IdxActionParams = {};
       if (data.autoChallenge !== undefined) {
         payload.autoChallenge = data.autoChallenge as boolean;
       }
-      let newTransaction: IdxTransaction | undefined;
       // POLL_STEPS are not an action, so must treat as such
       if (POLL_STEPS.includes(name)) {
-        newTransaction = await authClient?.idx.proceed({
-          step: name,
-          ...payload,
-          stateHandle: stateToken && idxTransaction?.context?.stateHandle,
-        });
+        payload.step = name;
       } else {
-        newTransaction = await authClient?.idx.proceed({
-          stateHandle: stateToken && idxTransaction?.context?.stateHandle,
-          actions: [{ name, params: payload }],
-        });
+        payload = { actions: [{ name, params: payload }] };
       }
+      const newTransaction = await authClient?.idx.proceed({
+        stateHandle: stateToken && idxTransaction?.context?.stateHandle,
+        ...payload,
+      });
       setTransaction(newTransaction);
     }, refresh);
 
@@ -108,6 +104,7 @@ export const usePolling = (
         clearTimeout(timerRef.current);
       }
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setTransaction, pollingStep]);
 
   return transaction;

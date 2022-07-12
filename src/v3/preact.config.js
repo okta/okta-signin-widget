@@ -158,6 +158,11 @@ export default {
     // preact-cli-plugin-env-vars
     envVars(config, env, helpers);
 
+    config.devServer = {
+      port: 3000,
+      host: 'http://localhost',
+      ...config.devServer,
+    };
     // override with
     Object.assign(config, webpackMerge(config, omit(playgroundConfig, [
       'devServer.headers.Content-Security-Policy', // merge instead of override
@@ -174,14 +179,13 @@ export default {
       },
       devtool: 'cheap-module-source-map',
       devServer: {
-        headers: {
-          'Content-Security-Policy': mergeContentSecurityPolicies(
-            "object-src 'self'",
-            "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
-            `script-src ${config.devServer.host}:${config.devServer.port}`,
-            playgroundConfig.devServer.headers['Content-Security-Policy'] || '',
-          ),
-        },
+        // headers: {
+        //   'Content-Security-Policy': mergeContentSecurityPolicies(
+        //     "object-src 'self'",
+        //     "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+            // playgroundConfig.devServer.headers['Content-Security-Policy'] || '',
+        //   ),
+        // },
       },
     }));
   },

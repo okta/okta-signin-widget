@@ -15,7 +15,6 @@ import { HttpRequestClient, OktaAuth } from '@okta/okta-auth-js';
 export type CreateAuthClientOptions = {
   mockResponse?: Record<string, unknown>;
   mockResponses?: Record<string, Record<string, unknown>>;
-  mockStatuses?: Record<string, number>;
   mockRequestClient?: HttpRequestClient;
 };
 
@@ -43,7 +42,7 @@ const updateStateHandleInMock = (res?: Record<string, unknown>) => {
 
 export const createAuthClient = (options: CreateAuthClientOptions): OktaAuth => {
   const {
-    mockResponse, mockResponses, mockStatuses, mockRequestClient,
+    mockResponse, mockResponses, mockRequestClient,
   } = options;
 
   const authClient = new OktaAuth({
@@ -60,18 +59,19 @@ export const createAuthClient = (options: CreateAuthClientOptions): OktaAuth => 
       if (mockResponses) {
         // eslint-disable-next-line no-restricted-syntax
         for (const [key, value] of Object.entries(mockResponses)) {
+          const { data, status } = value;
           if (url.endsWith(key)) {
-            updateStateHandleInMock(value);
-            if (mockStatuses?.[key] && mockStatuses[key] !== 200) {
+            updateStateHandleInMock(data as Record<string, unknown>);
+            if (status !== 200) {
               // eslint-disable-next-line prefer-promise-reject-errors
               return Promise.reject({
-                responseText: JSON.stringify(value),
-                status: mockStatuses[key],
+                responseText: JSON.stringify(data),
+                status,
                 headers: {},
               });
             }
             return Promise.resolve({
-              responseText: JSON.stringify(value),
+              responseText: JSON.stringify(data),
             });
           }
         }

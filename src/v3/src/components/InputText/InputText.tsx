@@ -11,11 +11,8 @@
  */
 
 import { TextInput } from '@okta/odyssey-react';
-import get from 'lodash/get';
 import { h } from 'preact';
-import { useState } from 'preact/hooks';
 
-import { useWidgetContext } from '../../contexts';
 import { useOnChange, useValue } from '../../hooks';
 import { useTranslation } from '../../lib/okta-i18n';
 import {
@@ -29,8 +26,6 @@ const InputText: UISchemaElementComponent<{
 }> = ({ uischema, type }) => {
   const { t } = useTranslation();
   const value = useValue(uischema);
-  const { data } = useWidgetContext();
-  const [clientError, setClientError] = useState<string>();
   const onChangeHandler = useOnChange(uischema);
   const { label } = uischema;
   const {
@@ -40,23 +35,17 @@ const InputText: UISchemaElementComponent<{
       messages = {},
       name,
     },
-    targetKey,
   } = uischema.options;
   const messageI18nObj = (messages.value || [])[0]?.i18n;
   const error = t(messageI18nObj?.key, messageI18nObj?.params);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newVal = e.target.value;
-    if (targetKey) {
-      const matchingFieldValue = get(data, targetKey);
-      setClientError(matchingFieldValue !== newVal ? t('password.error.match') : undefined);
-    }
     onChangeHandler(e.target.value);
   };
 
   return (
     <TextInput
-      error={clientError ?? error}
+      error={error}
       type={type || 'text'}
       name={name}
       id={name}

@@ -104,7 +104,7 @@ const idx = {
     // 'oda-enrollment-android',
     // 'mdm-enrollment',
     // 'authenticator-verification-custom-app-push',
-    // 'authenticator-enroll-custom-app-push'    
+    // 'authenticator-enroll-custom-app-push'
   ],
   '/idp/idx/enroll': [
     'enroll-profile-new',
@@ -119,8 +119,8 @@ const idx = {
   ],
   '/idp/idx/identify': [
     // 'authenticator-verification-data-ov-only-without-device-known',
-    'authenticator-verification-email',
-    // 'authenticator-enroll-select-authenticator',
+    // 'authenticator-verification-email',
+    'authenticator-enroll-select-authenticator',
     // 'authenticator-verification-email-without-emailmagiclink',
     // 'identify-with-only-one-third-party-idp',
     // 'error-identify-access-denied',

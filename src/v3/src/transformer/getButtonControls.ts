@@ -33,7 +33,7 @@ interface GetButtonControlsArgs {
   stepWithUnlockAccount?: boolean;
   verifyWithOther?: boolean;
   backToAuthList?: boolean;
-  authClient?: OktaAuth;
+  proceed?: OktaAuth['idx']['proceed'];
 }
 
 export const getButtonControls = (
@@ -75,7 +75,7 @@ export const getButtonControls = (
         // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
         action: (params?: IdxActionParams) => {
           const { stateHandle, ...rest } = params ?? {};
-          return config.authClient?.idx.proceed({
+          return config?.proceed && config.proceed({
             // @ts-ignore stateHandle can be undefined
             stateHandle,
             actions: [{ name, params: rest }],
@@ -193,7 +193,7 @@ export const getButtonControls = (
         // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
         action: (params?: IdxActionParams) => {
           const { stateHandle, ...rest } = params ?? {};
-          return config.authClient?.idx.proceed({
+          return config?.proceed && config.proceed({
             // @ts-ignore stateHandle can be undefined
             stateHandle,
             actions: [{ name, params: rest }],

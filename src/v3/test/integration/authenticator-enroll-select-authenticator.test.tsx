@@ -53,6 +53,7 @@ describe('authenticator-enroll-select-authenticator', () => {
     });
   });
 
+  // TODO: Additional tests and flows can be added when testing monolith scenarios
   /*
     * Scenarios where the stateToken is provided as a prop to the Widget
     * In these cases, the stateHandle should be passed to auth-js and should not throw an exception

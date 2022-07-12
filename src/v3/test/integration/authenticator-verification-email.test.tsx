@@ -65,11 +65,19 @@ describe('authenticator-verification-email', () => {
         findByTestId,
       } = await setup({
         mockResponses: {
-          '/introspect': authenticatorVerificationEmail,
-          '/challenge/poll': authenticatorVerificationEmail,
-          '/challenge/answer': authenticatorVerificationEmailInvalidOtp,
+          '/introspect': {
+            data: authenticatorVerificationEmail,
+            status: 200,
+          },
+          '/challenge/poll': {
+            data: authenticatorVerificationEmail,
+            status: 200,
+          },
+          '/challenge/answer': {
+            data: authenticatorVerificationEmailInvalidOtp,
+            status: 401,
+          },
         },
-        mockStatuses: { '/challenge/answer': 401 },
       });
       await findByText(/Verify with your email/);
 

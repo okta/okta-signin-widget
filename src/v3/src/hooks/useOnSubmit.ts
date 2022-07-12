@@ -67,7 +67,7 @@ export const useOnSubmit = (): (options?: OnSubmitHandlerOptions | undefined) =>
     // reset stepper
     if (
       prevTransaction?.nextStep?.name !== transaction.nextStep?.name
-      // TODO: revist this to ensure if it is a reliable condition
+      // TODO: OKTA-514045 revist this to ensure it is a reliable solution
       || transaction?.requestDidSucceed === true
     ) {
       setStepperStepIndex(0);
