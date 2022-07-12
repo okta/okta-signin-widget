@@ -18,7 +18,7 @@ const idx = {
   ],
 
   '/idp/idx/introspect': [
-    'identify',
+    'identify-with-password',
     // 'error-identify-multiple-errors',
     // 'authenticator-enroll-ov-qr-enable-biometrics',
     // 'authenticator-verification-okta-verify-push',
@@ -194,7 +194,8 @@ const idx = {
     'identify',
   ],
   '/idp/idx/recover': [
-    'error-forgot-password',
+    // ''identify-recovery','
+    // 'error-forgot-password',
     'authenticator-reset-password'
   ],
   '/idp/idx/activate': [
@@ -1053,5 +1054,5 @@ const selectOktaVerifyMethod = {
 };
 
 module.exports = {
-  mocks: idx
+  mocks: Test.EnrollAuthenticatorOktaVerify.enrollViaEmailMocks
 };

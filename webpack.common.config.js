@@ -71,6 +71,8 @@ module.exports = function(outputFilename, mode = 'development') {
 
         'duo': `${LOCAL_PACKAGES}/vendor/duo_web_sdk/index.js`,
         'typingdna': `${LOCAL_PACKAGES}/vendor/TypingDnaRecorder-JavaScript/typingdna`,
+
+        // '@okta/okta-auth-js': '@okta/okta-auth-js/build/esm/okta-auth-js/browser/index.js'
       }
     },
 

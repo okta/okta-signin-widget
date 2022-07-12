@@ -8,6 +8,7 @@ module.exports = {
   DeviceChallengePollView: require('./DeviceChallengePollView'),
   DeviceChallengePollViewFailure: require('./DeviceChallengePollViewFailure'),
   DeviceSSOExtensionView: require('./DeviceSSOExtensionView'),
+  EnrollAuthenticatorOktaVerify: require('./EnrollAuthenticatorOktaVerify'),
   EnrollAuthenticatorPhoneView: require('./EnrollAuthenticatorPhoneView'),
   EnrollAuthenticatorWebAuthn: require('./EnrollAuthenticatorWebAuthn'),
   Identify: require('./Identify'),

@@ -263,7 +263,7 @@ test.requestHooks(resendSmsMocks)('should render switch channel view when "try d
     .eql('Email me a setup link');
 });
 
-test.requestHooks(enrollViaEmailMocks)('should be able enroll via email', async t => {
+test.requestHooks(enrollViaEmailMocks).only('should be able enroll via email', async t => {
   const enrollOktaVerifyPage = await setup(t);
   await enrollOktaVerifyPage.clickSwitchChannel();
   const switchChannelPageObject = new SwitchOVEnrollChannelPageObject(t);
