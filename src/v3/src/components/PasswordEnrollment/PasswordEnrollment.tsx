@@ -98,6 +98,7 @@ const PasswordEnrollment: UISchemaElementComponent<{
       {/* TODO: Use MUI password component */}
       <Button
         data-se="#/properties/submit"
+        data-type="save"
         size="m"
         type="submit"
         variant="primary"
