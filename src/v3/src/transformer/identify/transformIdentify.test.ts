@@ -129,6 +129,8 @@ describe('Identify Transformer Tests', () => {
     + 'when username is provided in options', () => {
     widgetProps = { username: 'testUser' };
     const updatedFormBag = transformIdentify({ transaction, formBag, widgetProps });
+    // TODO: Assert on data in formBag
+    // expect((updatedFormBag.uischema.elements[1] as FieldElement).options.defaultOption).toBe('testUser');
 
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
@@ -151,6 +153,8 @@ describe('Identify Transformer Tests', () => {
     + 'rememberMe & rememberMyUsernameOnOIE are provided', () => {
     widgetProps = { features: { rememberMe: true, rememberMyUsernameOnOIE: true } };
     const updatedFormBag = transformIdentify({ transaction, formBag, widgetProps });
+    // TODO: assert on data in formbag
+    // expect((updatedFormBag.uischema.elements[1] as FieldElement).options.defaultOption).toBe('testUserFromCookie');
 
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
