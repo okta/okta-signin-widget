@@ -54,6 +54,7 @@ test.requestHooks(mockChallengeAuthenticatorOnPrem)('challenge on prem authentic
 
   // verify passcode
   await challengeOnPremPage.verifyFactor('credentials.passcode', 'test');
+  await t.expect(challengeOnPremPage.passcodeFieldType()).eql('password');
   await challengeOnPremPage.clickNextButton();
   const successPage = new SuccessPageObject(t);
   const pageUrl = await successPage.getPageUrl();

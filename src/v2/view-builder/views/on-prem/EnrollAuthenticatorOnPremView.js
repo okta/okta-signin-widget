@@ -3,6 +3,7 @@ import { BaseForm } from '../../internals';
 import BaseAuthenticatorView from '../../components/BaseAuthenticatorView';
 
 const ON_PREM_TOKEN_CHANGE_KEY = 'errors.E0000113';
+const PASSCODE_INPUT_NAME = 'credentials.passcode';
 
 const Body = BaseForm.extend({
 
@@ -17,6 +18,17 @@ const Body = BaseForm.extend({
       this.options.appState.getAuthenticatorDisplayName() ||
       loc('oie.on_prem.authenticator.default.vendorName', 'login');
     return loc('oie.on_prem.enroll.title', 'login', [vendorName]);
+  },
+
+  getUISchema() {
+    const uiSchemas = BaseForm.prototype.getUISchema.apply(this, arguments);
+    const passcodeSchema = uiSchemas.find(({name}) => name === PASSCODE_INPUT_NAME);
+
+    if (passcodeSchema) {
+      passcodeSchema.type = 'password';
+    }
+
+    return uiSchemas;
   },
 
   _checkTokenChange(model, convertedErrors) {

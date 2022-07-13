@@ -42,6 +42,7 @@ test
     await t.expect(enrollOnPremPage.getSaveButtonLabel()).eql('Verify');
     await t.expect(enrollOnPremPage.userNameFieldExists()).eql(true);
     await t.expect(enrollOnPremPage.passcodeFieldExists()).eql(true);
+    await t.expect(enrollOnPremPage.passcodeFieldType()).eql('password');
 
     // Verify links (switch authenticator link is present even if there is just one authenticator available)
     await t.expect(await enrollOnPremPage.switchAuthenticatorLinkExists()).ok();

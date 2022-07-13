@@ -13,6 +13,10 @@ export default class EnrollOnPremPageObject extends BasePageObject {
     return this.form.elementExist(`input[name="${PASSCODE_FIELD_NAME}"]`);
   }
 
+  passcodeFieldType() {
+    return this.form.getElement(`input[name="${PASSCODE_FIELD_NAME}"]`).type;
+  }
+
   userNameFieldExists() {
     return this.form.elementExist(`input[name="${USER_NAME_FIELD_NAME}"]`);
   }
