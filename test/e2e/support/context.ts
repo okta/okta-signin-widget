@@ -13,11 +13,15 @@
 
 import { User } from '@okta/okta-sdk-nodejs';
 import { UserCredentials } from '../support/management-api/createCredentials';
+import { A18nConfig } from './a18nClient';
+import A18nClient  from './a18nClient';
 
 interface ActionContext {
   credentials: UserCredentials;
   user: User;
   userName?: string;
+  config: A18nConfig;
+  a18nClient: A18nClient;
 }
 
 export default ActionContext;

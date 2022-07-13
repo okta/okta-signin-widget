@@ -13,10 +13,12 @@
 
 import { Given } from '@cucumber/cucumber';
 
-import createContextUserAndCredentials from '../support/management-api/createContextUserAndCredentials';
 import ActionContext from '../support/context';
 import TestAppPage from '../page-objects/test-app.page';
 import { waitForLoad } from '../util/waitUtil';
+import A18nClient from '../support/a18nClient';
+import createCredentials from '../support/management-api/createCredentials'
+import createUser from '../support/management-api/createUser'
 
 const {
   WIDGET_TEST_SERVER,
@@ -45,7 +47,18 @@ Given(
 Given(
   /^a User named "([^/w]+)" exists in the org$/,
   async function(this: ActionContext, firstName: string) {
-    await createContextUserAndCredentials.call(this, firstName);
+    this.a18nClient = new A18nClient();
+    this.credentials = await createCredentials(this.a18nClient, firstName);
+    this.user = await createUser(this.credentials);
+  }
+);
+
+Given(
+  /^a User named "([^/w]+)" exists in the org and added to "([^/w]+)" group$/,
+  async function(this: ActionContext, firstName: string, groupName: string) {
+    this.a18nClient = new A18nClient();
+    this.credentials = await createCredentials(this.a18nClient, firstName);
+    this.user = await createUser(this.credentials, [groupName]);
   }
 );
 
