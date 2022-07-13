@@ -113,6 +113,8 @@ describe('authenticator-expired-password', () => {
     const submitButton = await findByTestId('#/properties/submit');
 
     await user.click(submitButton);
+
+    await findByText(/This field cannot be left blank/);
     expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
       'POST',
       'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
