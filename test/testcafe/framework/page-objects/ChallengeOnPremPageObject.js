@@ -16,7 +16,7 @@ export default class ChallengeOnPremPageObject extends ChallengeFactorPageObject
   }
 
   passcodeFieldType() {
-    return this.form.getElement(`input[name="${PASSCODE_FIELD_NAME}"]`).type;
+    return this.form.getElement(`input[name="${PASSCODE_FIELD_NAME}"]`).attr('type');
   }
 
 }
