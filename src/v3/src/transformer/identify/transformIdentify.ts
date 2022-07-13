@@ -25,6 +25,15 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
   const { features, username } = widgetProps;
   const { uischema } = formBag;
 
+  const identifierElement = getUIElementWithName(
+    'identifier',
+    uischema.elements as UISchemaElement[],
+  ) as FieldElement;
+  const passwordElement = getUIElementWithName(
+    'credentials.passcode',
+    uischema.elements as UISchemaElement[],
+  ) as FieldElement;
+
   const submitBtnElement: ButtonElement = {
     type: 'Button',
     label: loc('oform.next', 'login'),
@@ -36,11 +45,14 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
     },
   };
 
-  if (getUIElementWithName(
-    'credentials.passcode',
-    uischema.elements as UISchemaElement[],
-  )) {
+  if (passwordElement) {
     submitBtnElement.label = loc('oie.primaryauth.submit', 'login');
+    // TODO: add validation fn
+    passwordElement.options = {
+      ...passwordElement.options,
+      validate: (value: string | boolean | number | undefined) =>
+        !value ? 'error.password.required' : undefined
+    }
   }
 
   if (features?.showKeepMeSignedIn === false) {
@@ -55,13 +67,14 @@ export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps, tr
     options: { content: loc('primaryauth.title', 'login') },
   };
 
-  const identifierElement = getUIElementWithName(
-    'identifier',
-    uischema.elements as UISchemaElement[],
-  ) as FieldElement;
-
   // add username/identifier from config if provided
   if (identifierElement) {
+    identifierElement.options = {
+      ...identifierElement.options,
+      validate: (value: string | boolean | number | undefined) =>
+        !value ? 'error.username.required' : undefined
+    }
+
     if (username) {
       identifierElement.options = {
         ...identifierElement.options,

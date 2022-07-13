@@ -17,6 +17,7 @@ import {
   OutlinedInput,
 } from '@mui/material';
 import { h } from 'preact';
+import { useState } from 'preact/hooks';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
 import { useOnChange, useValue } from '../../hooks';
@@ -29,6 +30,8 @@ const InputText: UISchemaElementComponent<{
   type: string;
   uischema: InputTextElement;
 }> = ({ uischema, type }) => {
+  const [isTouched, setIsTouched] = useState<boolean>(false);
+  const [fieldError, setFieldError] = useState<string | undefined>();
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
   const { label } = uischema;
@@ -39,11 +42,18 @@ const InputText: UISchemaElementComponent<{
       messages = {},
       name,
     },
+    validate,
   } = uischema.options;
   const error = messages?.value?.[0] && getMessage(messages.value[0]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     onChangeHandler(e.currentTarget.value);
+    setFieldError(validate?.(e.currentTarget.value));
+  };
+
+  const handleConfirmPasswordBlur = () => {
+    setIsTouched(true);
+    setFieldError(t(validate?.(value as string) ?? ''));
   };
 
   return (
@@ -54,7 +64,8 @@ const InputText: UISchemaElementComponent<{
         type={type || 'text'}
         name={name}
         id={name}
-        error={error !== undefined}
+        error={!!(error || (isTouched && fieldError))}
+        onBlur={handleConfirmPasswordBlur}
         onChange={handleChange}
         fullWidth
         inputProps={{
