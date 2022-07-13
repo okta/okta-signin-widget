@@ -350,6 +350,6 @@ export interface PasswordEnrollmentElement extends UISchemaElement {
   type: 'PasswordEnrollment';
   options: {
     input: FieldElement,
-    buttonConfig: { label: string };
+    ctaLabel: string;
   };
 }

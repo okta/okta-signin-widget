@@ -22,7 +22,47 @@ describe('authenticator-expired-password', () => {
     expect(container).toMatchSnapshot();
   });
 
-  it('should send correct payload', async () => {
+  it('should send correct payload with matching fields', async () => {
+    const {
+      authClient, user, findByTestId, findByText,
+    } = await setup({ mockResponse });
+
+    await findByText(/Your password has expired/);
+    await findByText(/Password requirements/);
+
+    const submitButton = await findByTestId('#/properties/submit');
+    const newPasswordEle = await findByTestId('credentials.passcode') as HTMLInputElement;
+    const confirmPasswordEle = await findByTestId('credentials.confirmPassword') as HTMLInputElement;
+
+    const password = 'superSecretP@ssword12';
+    await user.type(newPasswordEle, password);
+    await user.type(confirmPasswordEle, password);
+
+    expect(newPasswordEle.value).toEqual(password);
+    expect(confirmPasswordEle.value).toEqual(password);
+
+    await user.click(submitButton);
+    expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+      'POST',
+      'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
+      {
+        data: JSON.stringify({
+          credentials: {
+            passcode: password,
+          },
+          stateHandle: 'fake-stateHandle',
+        }),
+        headers: {
+          Accept: 'application/json; okta-version=1.0.0',
+          'Content-Type': 'application/json',
+          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+        },
+        withCredentials: true,
+      },
+    );
+  });
+
+  it('should not make network request when fields are not matching', async () => {
     const {
       authClient, user, findByTestId, findByText,
     } = await setup({ mockResponse });
@@ -37,25 +77,49 @@ describe('authenticator-expired-password', () => {
     const password = 'superSecretP@ssword12';
     await user.type(newPasswordEle, password);
 
-    // TODO: re-enable once custom component is created
     // incorrect password match
-    // await user.type(confirmPasswordEle, 'abc123');
-    // await findByText(/New passwords must match/);
-    // await user.clear(confirmPasswordEle);
-
-    await user.type(confirmPasswordEle, password);
-
-    expect(newPasswordEle.value).toEqual(password);
-    expect(confirmPasswordEle.value).toEqual(password);
+    await user.type(confirmPasswordEle, 'abc123');
+    await findByText(/New passwords must match/);
 
     await user.click(submitButton);
-    expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+    expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
       'POST',
       'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
       {
         data: JSON.stringify({
           credentials: {
             passcode: password,
+          },
+          stateHandle: 'fake-stateHandle',
+        }),
+        headers: {
+          Accept: 'application/json; okta-version=1.0.0',
+          'Content-Type': 'application/json',
+          'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+        },
+        withCredentials: true,
+      },
+    );
+  });
+
+  it('should not make network without completing any password fields', async () => {
+    const {
+      authClient, user, findByTestId, findByText,
+    } = await setup({ mockResponse });
+
+    await findByText(/Your password has expired/);
+    await findByText(/Password requirements/);
+
+    const submitButton = await findByTestId('#/properties/submit');
+
+    await user.click(submitButton);
+    expect(authClient.options.httpRequestClient).not.toHaveBeenCalledWith(
+      'POST',
+      'https://oie-4695462.oktapreview.com/idp/idx/challenge/answer',
+      {
+        data: JSON.stringify({
+          credentials: {
+            passcode: '',
           },
           stateHandle: 'fake-stateHandle',
         }),
