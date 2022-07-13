@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { PasswordEnrollmentElement, UISchemaElement } from '../../types';
+
 export const getPasswordMatchingKey = (
   data: Record<string, unknown>,
 ): string | undefined => {
@@ -27,4 +29,19 @@ export const getPasswordMatchingKey = (
 
   // Should never hit this case as it should be one of values defined above
   return undefined;
+};
+
+export const updatePasswordEnrollmentBtnLabel = (
+  elements: UISchemaElement[],
+  label: string,
+) => {
+  const pwEnrollmentEle = elements.find(
+    (element) => element.type === 'PasswordEnrollment',
+  ) as PasswordEnrollmentElement;
+  if (pwEnrollmentEle) {
+    pwEnrollmentEle.options = {
+      ...pwEnrollmentEle.options,
+      ctaLabel: label,
+    };
+  }
 };

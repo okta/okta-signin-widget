@@ -11,9 +11,9 @@
  */
 
 import { IdxFeature, IdxTransaction } from '@okta/okta-auth-js';
-import { FormBag, WidgetProps } from 'src/types';
 
 import { AUTHENTICATOR_KEY, IDX_STEP } from '../constants';
+import { FormBag, WidgetProps } from '../types';
 import { getAuthenticatorKey, hasMinAuthenticatorOptions } from '../util';
 import { transformInputs } from './field';
 import { getButtonControls } from './getButtonControls';

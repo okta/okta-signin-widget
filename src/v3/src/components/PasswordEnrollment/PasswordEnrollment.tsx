@@ -16,20 +16,39 @@ import { useState } from 'preact/hooks';
 
 import { useOnSubmit, useValue } from '../../hooks';
 import { useTranslation } from '../../lib/okta-i18n';
-import { ChangeEvent, PasswordEnrollmentElement, UISchemaElementComponent } from '../../types';
+import {
+  ChangeEvent,
+  PasswordEnrollmentElement,
+  SubmitEvent,
+  UISchemaElementComponent,
+} from '../../types';
 import InputPassword from '../InputPassword';
 
 const PasswordEnrollment: UISchemaElementComponent<{
   uischema: PasswordEnrollmentElement
 }> = ({ uischema }) => {
-  const { buttonConfig: { label: btnLabel }, input } = uischema.options;
-  
+  const { ctaLabel, input } = uischema.options;
+
   const { t } = useTranslation();
   const value = useValue(input);
-  const [isDirty, setIsDirty] = useState<boolean>(false);
   const [isTouched, setIsTouched] = useState<boolean>(false);
   const [confirmPassword, setConfirmPassword] = useState<string>();
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string | undefined>();
   const onSubmitHandler = useOnSubmit();
+
+  const handleConfirmPasswordValidation = (password: string | undefined): void => {
+    if (!password) {
+      setConfirmPasswordError(t('model.validation.field.blank'));
+      return;
+    }
+
+    if (value !== password) {
+      setConfirmPasswordError(t('password.error.match'));
+      return;
+    }
+
+    setConfirmPasswordError(undefined);
+  };
 
   const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
@@ -39,13 +58,20 @@ const PasswordEnrollment: UISchemaElementComponent<{
       });
       return;
     }
-    setIsDirty(true);
+    setIsTouched(true);
+    handleConfirmPasswordValidation(confirmPassword);
   };
 
   const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setIsDirty(true);
+    setIsTouched(true);
     setConfirmPassword(e.target.value);
-  }
+    handleConfirmPasswordValidation(e.target.value);
+  };
+
+  const handleConfirmPasswordBlur = () => {
+    setIsTouched(true);
+    handleConfirmPasswordValidation(confirmPassword);
+  };
 
   return (
     // @ts-ignore OKTA-471233
@@ -57,14 +83,14 @@ const PasswordEnrollment: UISchemaElementComponent<{
       {/* @ts-ignore OKTA-471233 */}
       <Box marginBottom="m">
         <TextInput
-          error={((isDirty || isTouched) && value !== confirmPassword) && t('password.error.match')}
+          error={isTouched && confirmPasswordError}
           type="password"
           name="credentials.confirmPassword"
           id="credentials.confirmPassword"
           data-se="credentials.confirmPassword"
           label={t('oie.password.confirmPasswordLabel')}
           value={confirmPassword}
-          onBlur={() => setIsTouched(true)}
+          onBlur={handleConfirmPasswordBlur}
           onChange={handleConfirmPasswordChange}
           autocomplete="new-password"
         />
@@ -78,7 +104,7 @@ const PasswordEnrollment: UISchemaElementComponent<{
         wide
         onClick={handleSubmit}
       >
-        {t(btnLabel)}
+        {t(ctaLabel)}
       </Button>
     </Box>
   );

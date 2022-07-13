@@ -29,7 +29,6 @@ import {
   PasswordRequirementStatus,
   PasswordValidation,
   UISchemaElementComponent,
-  Undefinable,
 } from '../../types';
 import { validatePassword } from '../../util';
 import PasswordRequirementItem from './PasswordRequirementItem';
@@ -54,7 +53,7 @@ const PasswordRequirements: UISchemaElementComponent<{
   const getPasswordStatus = (
     ruleKey: string,
     passwordValidation: PasswordValidation,
-  ): Undefinable<PasswordRequirementStatus> => {
+  ): PasswordRequirementStatus | undefined => {
     if (!passwordValidation) {
       return undefined;
     }

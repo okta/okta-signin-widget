@@ -13,6 +13,7 @@
 import {
   FieldElement,
   IdxStepTransformer,
+  PasswordEnrollmentElement,
   PasswordRequirementsElement,
   PasswordSettings,
   TitleElement,
@@ -58,13 +59,11 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
     uischema.elements,
   );
 
-  const passwordEnrollmentElement = {
+  const passwordEnrollmentElement: PasswordEnrollmentElement = {
     type: 'PasswordEnrollment',
     options: {
       input: passwordElement,
-      buttonConfig: {
-        label: 'oform.next',
-      },
+      ctaLabel: 'oform.next',
     },
   };
 
@@ -86,7 +85,9 @@ export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   };
 
   uischema.elements.unshift(passwordEnrollmentElement);
-  uischema.elements.unshift(passwordRequirementsElement);
+  if (Object.keys(passwordSettings)?.length) {
+    uischema.elements.unshift(passwordRequirementsElement);
+  }
   uischema.elements.unshift(titleElement);
 
   return formBag;
