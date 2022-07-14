@@ -1,10 +1,11 @@
 {
   "version": "1.0.0",
+  "intent":"AUTHENTICATION",
   "messages": {
     "type": "array",
     "value": [
       {
-        "message": "Enter the OTP in your original authentication location.",
+        "message": "Enter the OTP in your original browser or device.",
         "i18n": {
           "key": "idx.enter.otp.in.original.tab"
         },
@@ -27,6 +28,19 @@
           "type": "email"
         }
       ]
+    }
+  },
+  "user":{
+    "type":"object",
+    "value":{
+      "id":"00u23yieFjOGrxUyD0g4",
+      "identifier":"test@okta.com",
+      "profile":{
+        "firstName":"oie",
+        "lastName":"test1",
+        "timeZone":"America/Toronto",
+        "locale":"en_US"
+      }
     }
   },
   "client": {

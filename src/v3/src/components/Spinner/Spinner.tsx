@@ -10,25 +10,30 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, CircularLoadIndicator } from '@okta/odyssey-react';
+import { Box, CircularProgress } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
 
 import { useTranslation } from '../../lib/okta-i18n';
 
-const Spinner: FunctionComponent = () => {
+const Spinner: FunctionComponent<{
+  label?: string;
+  valueText?: string;
+}> = ({
+  label,
+  valueText,
+}) => {
   const { t } = useTranslation();
 
   return (
-    // @ts-ignore OKTA-471233
     <Box
       display="flex"
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
     >
-      <CircularLoadIndicator
-        aria-label={t('loading.label')}
-        aria-valuetext={t('loading.label')}
+      <CircularProgress
+        aria-label={t(label || 'loading.label')}
+        aria-valuetext={t(valueText || 'loading.label')}
       />
     </Box>
   );

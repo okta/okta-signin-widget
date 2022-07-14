@@ -13,7 +13,10 @@
 import { IdxTransaction } from '@okta/okta-auth-js';
 import { InterstitialRedirectView } from 'src/constants';
 import { getStubTransaction } from 'src/mocks/utils/utils';
-import { WidgetProps } from 'src/types';
+import {
+  DescriptionElement, RedirectElement,
+  SpinnerElement, WidgetProps,
+} from 'src/types';
 
 import { redirectTransformer } from '.';
 
@@ -32,10 +35,10 @@ describe('Success Redirect Transform Tests', () => {
 
     expect(formBag.uischema.elements.length).toBe(2);
     expect(formBag.uischema.elements[0].type).toBe('Description');
-    expect(formBag.uischema.elements[0].options?.content)
+    expect((formBag.uischema.elements[0] as DescriptionElement).options?.content)
       .toBe('oie.success.text.signingIn.with.ellipsis');
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
-    expect(formBag.uischema.elements[1].options?.redirectUrl).toBe(REDIRECT_URL);
+    expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
   });
 
   it('should add description & redirect elements only when interstitialRedirect option is set to NONE', () => {
@@ -44,10 +47,10 @@ describe('Success Redirect Transform Tests', () => {
 
     expect(formBag.uischema.elements.length).toBe(2);
     expect(formBag.uischema.elements[0].type).toBe('Description');
-    expect(formBag.uischema.elements[0].options?.content)
+    expect((formBag.uischema.elements[0] as DescriptionElement).options?.content)
       .toBe('oie.success.text.signingIn.with.ellipsis');
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
-    expect(formBag.uischema.elements[1].options?.redirectUrl).toBe(REDIRECT_URL);
+    expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
   });
 
   it('should add app name and identifier to description element for DEFAULT Interstitial view '
@@ -68,15 +71,15 @@ describe('Success Redirect Transform Tests', () => {
 
     expect(formBag.uischema.elements.length).toBe(3);
     expect(formBag.uischema.elements[0].type).toBe('Description');
-    expect(formBag.uischema.elements[0].options?.content)
+    expect((formBag.uischema.elements[0] as DescriptionElement).options?.content)
       .toBe('oie.success.text.signingIn.with.appName.and.identifier');
-    expect(formBag.uischema.elements[0].options?.contentParams)
+    expect((formBag.uischema.elements[0] as DescriptionElement).options?.contentParams)
       .toEqual([appInfo.name, userInfo.identifier]);
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
-    expect(formBag.uischema.elements[1].options?.redirectUrl).toBe(REDIRECT_URL);
+    expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
     expect(formBag.uischema.elements[2].type).toBe('Spinner');
-    expect(formBag.uischema.elements[2].options?.label).toBe('loading.label');
-    expect(formBag.uischema.elements[2].options?.valueText).toBe('loading.label');
+    expect((formBag.uischema.elements[2] as SpinnerElement).options?.label).toBe('loading.label');
+    expect((formBag.uischema.elements[2] as SpinnerElement).options?.valueText).toBe('loading.label');
   });
 
   it('should add generic description & redirect elements for DEFAULT Interstitial view '
@@ -95,14 +98,14 @@ describe('Success Redirect Transform Tests', () => {
 
     expect(formBag.uischema.elements.length).toBe(3);
     expect(formBag.uischema.elements[0].type).toBe('Description');
-    expect(formBag.uischema.elements[0].options?.content)
+    expect((formBag.uischema.elements[0] as DescriptionElement).options?.content)
       .toBe('oie.success.text.signingIn');
-    expect(formBag.uischema.elements[0].options?.contentParams).toEqual([]);
+    expect((formBag.uischema.elements[0] as DescriptionElement).options?.contentParams).toEqual([]);
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
-    expect(formBag.uischema.elements[1].options?.redirectUrl).toBe(REDIRECT_URL);
+    expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
     expect(formBag.uischema.elements[2].type).toBe('Spinner');
-    expect(formBag.uischema.elements[2].options?.label).toBe('loading.label');
-    expect(formBag.uischema.elements[2].options?.valueText).toBe('loading.label');
+    expect((formBag.uischema.elements[2] as SpinnerElement).options?.label).toBe('loading.label');
+    expect((formBag.uischema.elements[2] as SpinnerElement).options?.valueText).toBe('loading.label');
   });
 
   it('should add app name to description element for DEFAULT Interstitial view '
@@ -118,13 +121,15 @@ describe('Success Redirect Transform Tests', () => {
 
     expect(formBag.uischema.elements.length).toBe(3);
     expect(formBag.uischema.elements[0].type).toBe('Description');
-    expect(formBag.uischema.elements[0].options?.content)
+    expect((formBag.uischema.elements[0] as DescriptionElement).options?.content)
       .toBe('oie.success.text.signingIn.with.appName');
-    expect(formBag.uischema.elements[0].options?.contentParams).toEqual([appInfo.name]);
+    expect((formBag.uischema.elements[0] as DescriptionElement).options?.contentParams)
+      .toEqual([appInfo.name]);
     expect(formBag.uischema.elements[1].type).toBe('Redirect');
-    expect(formBag.uischema.elements[1].options?.redirectUrl).toBe(REDIRECT_URL);
+    expect((formBag.uischema.elements[1] as RedirectElement).options?.url).toBe(REDIRECT_URL);
     expect(formBag.uischema.elements[2].type).toBe('Spinner');
-    expect(formBag.uischema.elements[2].options?.label).toBe('loading.label');
-    expect(formBag.uischema.elements[2].options?.valueText).toBe('loading.label');
+    expect((formBag.uischema.elements[2] as SpinnerElement).options?.label).toBe('loading.label');
+    expect((formBag.uischema.elements[2] as SpinnerElement).options?.valueText)
+      .toBe('loading.label');
   });
 });

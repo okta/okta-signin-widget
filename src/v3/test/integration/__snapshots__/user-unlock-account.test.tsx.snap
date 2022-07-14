@@ -1,0 +1,164 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`user-unlock-account renders form 1`] = `
+<div>
+  <span>
+    <main
+      class="ods-4o5zYQ ods-76eppy ods-66Tc65 ods-6lar65 ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs auth-container main-container mainViewContainer"
+    >
+      <div
+        class="ods-4o5zYQ ods-2Se4oq ods-2VFzyK ods-1qUaxm ods-1oujX1 ods-78Q1Pv ods-3x5mmc ods-7mcS6o ods-7lpPkQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs siwContainer"
+      >
+        <div
+          class="okta-sign-in-header auth-header siwHeader"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h1 emotion-0"
+          />
+        </div>
+        <div
+          class="MuiBox-root emotion-1"
+        >
+          <form
+            novalidate=""
+          >
+            <div
+              class="MuiBox-root emotion-2"
+            >
+              <div
+                class="MuiBox-root emotion-3"
+              >
+                <div
+                  class="MuiBox-root emotion-4"
+                >
+                  <h2
+                    class="MuiTypography-root MuiTypography-h3 emotion-5"
+                  >
+                    Unlock account?
+                  </h2>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-3"
+              >
+                <div
+                  class="MuiBox-root emotion-7"
+                >
+                  <label
+                    class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-8"
+                    for="identifier"
+                  >
+                    Username
+                  </label>
+                  <div
+                    class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-9"
+                  >
+                    <input
+                      aria-invalid="false"
+                      autocomplete="username"
+                      class="MuiOutlinedInput-input MuiInputBase-input emotion-10"
+                      data-se="identifier"
+                      id="identifier"
+                      name="identifier"
+                      type="text"
+                    />
+                    <fieldset
+                      aria-hidden="true"
+                      class="MuiOutlinedInput-notchedOutline emotion-11"
+                    >
+                      <legend
+                        class="emotion-12"
+                      >
+                        <span
+                          class="notranslate"
+                        >
+                          ​
+                        </span>
+                      </legend>
+                    </fieldset>
+                  </div>
+                  
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-3"
+              >
+                <div
+                  class="ods-4o5zYQ ods-76eppy ods-3atQQu ods-78Q1Pv ods-3x5mmc ods-78Q1Pv ods-4cYB06 ods-7mcS6o ods-5GSaGx ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs authButton"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer"
+                  >
+                    <mocksvgicon />
+                  </div>
+                  <div
+                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs infoSection"
+                  >
+                    <div
+                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs title"
+                    >
+                      Email
+                    </div>
+                    <div
+                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs actionName"
+                      data-se="okta_email-email"
+                    >
+                      Select
+                      <mocksvgicon />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-3"
+              >
+                <div
+                  class="ods-4o5zYQ ods-76eppy ods-3atQQu ods-78Q1Pv ods-3x5mmc ods-78Q1Pv ods-4cYB06 ods-7mcS6o ods-5GSaGx ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs authButton"
+                  role="button"
+                  tabindex="0"
+                >
+                  <div
+                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs iconContainer"
+                  >
+                    <mocksvgicon />
+                  </div>
+                  <div
+                    class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs infoSection"
+                  >
+                    <div
+                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs title"
+                    >
+                      Phone
+                    </div>
+                    <div
+                      class="ods-4o5zYQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs actionName"
+                      data-se="phone_number"
+                    >
+                      Select
+                      <mocksvgicon />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-3"
+              >
+                <button
+                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-16"
+                  data-se="cancel"
+                  tabindex="0"
+                  type="button"
+                >
+                  Back to sign in
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </span>
+</div>
+`;

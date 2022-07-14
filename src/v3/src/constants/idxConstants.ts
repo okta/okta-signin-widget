@@ -10,7 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export const AUTHENTICATOR_KEY: { [key: string]: string } = {
+export const PASSWORD_REQUIREMENT_VALIDATION_DELAY_MS = 50;
+
+export const AUTHENTICATOR_KEY: Record<string, string> = {
   EMAIL: 'okta_email',
   PASSWORD: 'okta_password',
   PHONE: 'phone_number',
@@ -30,7 +32,7 @@ export const AUTHENTICATOR_KEY: { [key: string]: string } = {
   DEFAULT: '__',
 };
 
-export const IDX_STEP: { [key: string]: string } = {
+export const IDX_STEP: Record<string, string> = {
   AUTHENTICATOR_ENROLLMENT_DATA: 'authenticator-enrollment-data',
   AUTHENTICATOR_VERIFICATION_DATA: 'authenticator-verification-data',
   CANCEL_TRANSACTION: 'cancel-transaction',
@@ -72,7 +74,7 @@ export const IDX_STEP: { [key: string]: string } = {
   USER_CODE: 'user-code',
 };
 
-export const TERMINAL_KEY = {
+export const TERMINAL_KEY: Record<string, string> = {
   DEVICE_ACTIVATED: 'idx.device.activated',
   DEVICE_NOT_ACTIVATED_CONSENT_DENIED: 'idx.device.not.activated.consent.denied',
   DEVICE_NOT_ACTIVATED_INTERNAL_ERROR: 'idx.device.not.activated.internal.error',
@@ -93,12 +95,13 @@ export const TERMINAL_KEY = {
   RETURN_LINK_EXPIRED_KEY: 'idx.return.link.expired',
   RETURN_TO_ORIGINAL_TAB_KEY: 'idx.return.to.original.tab',
   SAFE_MODE_KEY_PREFIX: 'idx.error.server.safe.mode',
+  SESSION_EXPIRED: 'idx.session.expired',
   TOO_MANY_REQUESTS: 'tooManyRequests',
   UNLOCK_ACCOUNT_FAILED_PERMISSIONS_KEY: 'oie.selfservice.unlock_user.challenge.failed.permissions',
   UNLOCK_ACCOUNT_KEY: 'oie.selfservice.unlock_user.success.message',
 };
 
-export const OV_OVERRIDE_MESSAGE_KEY = {
+export const OV_OVERRIDE_MESSAGE_KEY: Record<string, string> = {
   OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_IOS: 'oie.authenticator.app.non_fips_compliant_enrollment_device_incompatible',
   OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_NON_IOS: 'oie.authenticator.app.non_fips_compliant_enrollment_app_update_required',
   OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY: 'oie.authenticator.app.method.push.enroll.enable.biometrics',
@@ -135,7 +138,7 @@ export const TERMINAL_KEYS_WITHOUT_CANCEL = [
   TERMINAL_KEY.UNLOCK_ACCOUNT_KEY,
 ];
 
-export const TERMINAL_TITLE_KEY = {
+export const TERMINAL_TITLE_KEY: Record<string, string> = {
   [TERMINAL_KEY.DEVICE_ACTIVATED]: 'device.code.activated.success.title',
   [TERMINAL_KEY.DEVICE_NOT_ACTIVATED_CONSENT_DENIED]: 'device.code.activated.error.title',
   [TERMINAL_KEY.DEVICE_NOT_ACTIVATED_INTERNAL_ERROR]: 'device.code.activated.error.title',
@@ -165,7 +168,7 @@ export const CUSTOM_MESSAGE_KEYS = [
   OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
 ];
 
-export const AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP = {
+export const AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP: Record<string, string> = {
   [AUTHENTICATOR_KEY.EMAIL]: 'oie.email.authenticator.description',
   [AUTHENTICATOR_KEY.PASSWORD]: 'oie.password.authenticator.description',
   [AUTHENTICATOR_KEY.PHONE]: 'oie.phone.authenticator.description',
@@ -182,6 +185,20 @@ export const AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP = {
   [AUTHENTICATOR_KEY.YUBIKEY]: 'oie.yubikey.authenticator.description',
   [AUTHENTICATOR_KEY.CUSTOM_APP]: 'oie.custom.app.authenticator.description',
 };
+
+// TODO: OKTA-503490 temporary sln to fix issue with missing relatesTo obj
+export const STEPS_MISSING_RELATES_TO: string[] = [
+  IDX_STEP.ENROLL_POLL,
+  IDX_STEP.ENROLLMENT_CHANNEL_DATA,
+];
+
+export const CHALLENGE_INTENT_TO_I18KEY: Record<string, string> = {
+  AUTHENTICATION: 'next.idx.return.link.otponly.enter.code.on.page.sigin.in',
+  RECOVERY: 'next.idx.return.link.otponly.enter.code.on.page.password.reset',
+  UNLOCK_ACCOUNT: 'next.idx.return.link.otponly.enter.code.on.page.account.unlock',
+  ENROLLMENT: 'next.idx.return.link.otponly.enter.code.on.page.registration',
+};
+
 // Possible options for the SIW interstitial redirect view
 export enum InterstitialRedirectView {
   DEFAULT = 'DEFAULT',

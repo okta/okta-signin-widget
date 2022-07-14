@@ -14,7 +14,9 @@ import { IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
 
 import { TERMINAL_KEY } from '../../constants';
 import { getStubTransaction } from '../../mocks/utils/utils';
-import { FormBag, MessageTypeVariant } from '../../types';
+import {
+  DescriptionElement, FormBag, InfoboxElement, MessageTypeVariant, UISchemaLayoutType,
+} from '../../types';
 import { transformTerminalMessages } from './transformTerminalMessages';
 
 const getMockMessage = (message: string, className: string, key: string) => ({
@@ -24,6 +26,17 @@ const getMockMessage = (message: string, className: string, key: string) => ({
     key,
   },
 });
+
+const customFormBag = {
+  schema: {},
+  uischema: {
+    type: 'VerticalLayout',
+    elements: [{ type: 'Description', options: { content: 'something custom' } }],
+  },
+};
+jest.mock('./transformEmailMagicLinkOTPOnlyElements', () => ({
+  transformEmailMagicLinkOTPOnly: () => customFormBag,
+}));
 
 describe('Terminal Message Transformer Tests', () => {
   let transaction: IdxTransaction;
@@ -37,9 +50,10 @@ describe('Terminal Message Transformer Tests', () => {
         },
       },
       uischema: {
-        type: 'VerticalLayout',
+        type: UISchemaLayoutType.VERTICAL,
         elements: [],
       },
+      data: {},
     };
     transaction = getStubTransaction(IdxStatus.TERMINAL);
     transaction.messages = [];
@@ -58,8 +72,10 @@ describe('Terminal Message Transformer Tests', () => {
 
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
-    expect(updatedFormBag.uischema.elements[0].options?.message).toBe('oform.error.unexpected');
-    expect(updatedFormBag.uischema.elements[0].options?.class).toBe(MessageTypeVariant.ERROR);
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message).toBe('oform.error.unexpected');
+    expect((
+      updatedFormBag.uischema.elements[0] as InfoboxElement
+    ).options?.class).toBe(MessageTypeVariant.ERROR);
   });
 
   it('should transform elements when terminal key indicates to return to orig tab', () => {
@@ -73,9 +89,9 @@ describe('Terminal Message Transformer Tests', () => {
 
     expect(updatedFormBag.uischema.elements.length).toBe(2);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Description');
-    expect(updatedFormBag.uischema.elements[0].options?.content)
+    expect((updatedFormBag.uischema.elements[0] as DescriptionElement).options?.content)
       .toBe('oie.consent.enduser.email.allow.description');
-    expect(updatedFormBag.uischema.elements[1].options?.content).toBe('oie.return.to.original.tab');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content).toBe('oie.return.to.original.tab');
   });
 
   it('should add info box element for generic terminal message key', () => {
@@ -89,8 +105,12 @@ describe('Terminal Message Transformer Tests', () => {
 
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
-    expect(updatedFormBag.uischema.elements[0].options?.message).toBe(mockErrorMessage);
-    expect(updatedFormBag.uischema.elements[0].options?.class).toBe(MessageTypeVariant.ERROR);
+    expect((
+      updatedFormBag.uischema.elements[0] as InfoboxElement
+    ).options?.message).toBe(mockErrorMessage);
+    expect((
+      updatedFormBag.uischema.elements[0] as InfoboxElement
+    ).options?.class).toBe(MessageTypeVariant.ERROR);
   });
 
   it('should add info Box element for link expired message key', () => {
@@ -104,8 +124,12 @@ describe('Terminal Message Transformer Tests', () => {
 
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
-    expect(updatedFormBag.uischema.elements[0].options?.message).toBe(mockErrorMessage);
-    expect(updatedFormBag.uischema.elements[0].options?.class).toBe(MessageTypeVariant.ERROR);
+    expect((
+      updatedFormBag.uischema.elements[0] as InfoboxElement
+    ).options?.message).toBe(mockErrorMessage);
+    expect((
+      updatedFormBag.uischema.elements[0] as InfoboxElement
+    ).options?.class).toBe(MessageTypeVariant.ERROR);
   });
 
   it('should add Description element with message for'
@@ -120,7 +144,7 @@ describe('Terminal Message Transformer Tests', () => {
 
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Description');
-    expect(updatedFormBag.uischema.elements[0].options?.content)
+    expect((updatedFormBag.uischema.elements[0] as DescriptionElement).options?.content)
       .toBe(TERMINAL_KEY.UNLOCK_ACCOUNT_KEY);
   });
 
@@ -136,10 +160,14 @@ describe('Terminal Message Transformer Tests', () => {
 
     expect(updatedFormBag.uischema.elements.length).toBe(2);
     expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
-    expect(updatedFormBag.uischema.elements[0].options?.message).toBe('idx.operation.cancelled.on.other.device');
-    expect(updatedFormBag.uischema.elements[0].options?.class).toBe(MessageTypeVariant.ERROR);
+    expect((
+      updatedFormBag.uischema.elements[0] as InfoboxElement
+    ).options?.message).toBe('idx.operation.cancelled.on.other.device');
+    expect((
+      updatedFormBag.uischema.elements[0] as InfoboxElement
+    ).options?.class).toBe(MessageTypeVariant.ERROR);
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
-    expect(updatedFormBag.uischema.elements[1].options?.content).toBe('oie.consent.enduser.deny.description');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content).toBe('oie.consent.enduser.deny.description');
   });
 
   it('should add Info box element with message for tooManyRequests message key', () => {
@@ -153,7 +181,42 @@ describe('Terminal Message Transformer Tests', () => {
 
     expect(updatedFormBag.uischema.elements.length).toBe(1);
     expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
-    expect(updatedFormBag.uischema.elements[0].options?.message).toBe('oie.tooManyRequests');
-    expect(updatedFormBag.uischema.elements[0].options?.class).toBe(MessageTypeVariant.ERROR);
+    expect((
+      updatedFormBag.uischema.elements[0] as InfoboxElement
+    ).options?.message).toBe('oie.tooManyRequests');
+    expect((
+      updatedFormBag.uischema.elements[0] as InfoboxElement
+    ).options?.class).toBe(MessageTypeVariant.ERROR);
+  });
+
+  it('should add Info box element with message for idx.session.expired message key', () => {
+    const mockErrorMessage = 'Session expired';
+    transaction.messages?.push(getMockMessage(
+      mockErrorMessage,
+      'INFO',
+      TERMINAL_KEY.SESSION_EXPIRED,
+    ));
+    const updatedFormBag = transformTerminalMessages(transaction, formBag);
+
+    expect(updatedFormBag.uischema.elements.length).toBe(1);
+    expect(updatedFormBag.uischema.elements[0].type).toBe('InfoBox');
+    expect((
+      updatedFormBag.uischema.elements[0] as InfoboxElement
+    ).options?.message).toBe(TERMINAL_KEY.SESSION_EXPIRED);
+    expect((
+      updatedFormBag.uischema.elements[0] as InfoboxElement
+    ).options?.class).toBe(MessageTypeVariant.ERROR);
+  });
+
+  it('should return custom formBag when message key contains idx.enter.otp.in.original.tab', () => {
+    transaction.messages?.push(getMockMessage(
+      'Enter the OTP in your original browser or device.',
+      'INFO',
+      TERMINAL_KEY.IDX_RETURN_LINK_OTP_ONLY,
+    ));
+
+    const updatedFormBag = transformTerminalMessages(transaction, formBag);
+
+    expect(updatedFormBag).toEqual(customFormBag);
   });
 });

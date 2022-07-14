@@ -10,22 +10,30 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement, RuleEffect, SchemaBasedCondition } from '@jsonforms/core';
 import { Input } from '@okta/okta-auth-js';
-import get from 'lodash/get';
-import set from 'lodash/set';
-import { Choice, IdxStepTransformer, TitleElement } from 'src/types';
+import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 
-import { removeUIElementWithScope } from '../utils';
+import {
+  ButtonElement,
+  ButtonType,
+  FieldElement,
+  IdxStepTransformer,
+  StepperLayout,
+  StepperRadioElement,
+  TitleElement,
+  UISchemaLayout,
+  UISchemaLayoutType,
+} from '../../types';
+import { removeUIElementWithName } from '../utils';
 
 type Question = {
   questionKey: string;
   question: string;
 };
 
-const QUESTION_KEY_SCOPE = '#/properties/credentials/properties/questionKey';
-const CUSTOM_QUESTION_SCOPE = '#/properties/credentials/properties/question';
-const ANSWER_SCOPE = '#/properties/credentials/properties/answer';
+const QUESTION_KEY_INPUT_NAME = 'credentials.questionKey';
+const CUSTOM_QUESTION_INPUT_NAME = 'credentials.question';
+const ANSWER_INPUT_NAME = 'credentials.answer';
 
 export const transformSecurityQuestionEnroll: IdxStepTransformer = (transaction, formBag) => {
   const { nextStep: { relatesTo, inputs } } = transaction;
@@ -34,112 +42,88 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = (transaction,
   }
 
   const { contextualData } = relatesTo.value;
-  const { schema, uischema } = formBag;
+  const { uischema, data } = formBag;
 
-  schema.properties = schema.properties ?? {};
-
+  const customQuestionOptions = inputs?.[0]?.options?.filter(({ value }) => (value as Input[])?.some(({ name }) => name === 'question'));
+  const predefinedQuestionOptions = inputs?.[0]?.options?.filter(({ value }) => !(value as Input[])?.some(({ name }) => name === 'question'));
   // removes default element from uischema
-  uischema.elements = removeUIElementWithScope(
-    '#/properties/credentials',
-    uischema.elements as ControlElement[],
+  uischema.elements = removeUIElementWithName(
+    'credentials',
+    uischema.elements as FieldElement[],
   );
 
-  const answerInput = get(inputs?.[0], 'options[0].value')
-    ?.find(({ name }: Input) => name === 'answer');
-
-  if (!answerInput) {
-    return formBag;
-  }
-
-  // Adding answer element to schema and elements
-  set(schema, 'properties.credentials.required', ['answer', 'questionKey']);
-  set(schema, 'properties.credentials.properties.answer', { type: 'string' });
-  uischema.elements.unshift({
+  const predefinedAnswerInput = (predefinedQuestionOptions?.[0].value as Input[]).find(({ name }) => name === 'answer');
+  const predefinedAnswerElement: FieldElement = {
     type: 'Control',
-    label: answerInput.label ?? answerInput.name,
-    scope: ANSWER_SCOPE,
+    label: predefinedAnswerInput?.label ?? predefinedAnswerInput?.name,
+    name: ANSWER_INPUT_NAME,
     options: {
-      secret: true,
-      inputMeta: { ...answerInput },
+      inputMeta: {
+        ...predefinedAnswerInput,
+        name: ANSWER_INPUT_NAME,
+        secret: true,
+      },
     },
-  } as ControlElement);
+  };
 
-  const predefinedQuestionsData: Question[] = contextualData?.questions
-    || [{}] as Question[];
-  const questionKeyEnum = ['custom'].concat(
-    predefinedQuestionsData.map((question) => question.questionKey),
-  );
-
-  // Set up questionKey field
-  set(
-    schema,
-    'properties.credentials.properties.questionKey',
-    { type: 'string', enum: questionKeyEnum },
-  );
-
-  const predefinedQuestionsElement: ControlElement = {
+  const customAnswerInput = (predefinedQuestionOptions?.[0].value as Input[]).find(({ name }) => name === 'answer');
+  const customAnswerElement: FieldElement = {
     type: 'Control',
-    scope: QUESTION_KEY_SCOPE,
+    label: customAnswerInput?.label ?? customAnswerInput?.name,
+    name: ANSWER_INPUT_NAME,
+    options: {
+      inputMeta: {
+        ...customAnswerInput,
+        name: ANSWER_INPUT_NAME,
+        secret: true,
+      },
+    },
+  };
+
+  const predefinedQuestions = contextualData?.questions?.map((question: Question) => ({
+    value: question.questionKey,
+    label: question.question,
+  } as IdxOption));
+  const predefinedQuestionsElement: FieldElement = {
+    type: 'Control',
+    name: QUESTION_KEY_INPUT_NAME,
     label: 'oie.security.question.questionKey.label',
     options: {
       format: 'dropdown',
-      choices: contextualData?.questions?.map((question: Question) => ({
-        key: question.questionKey,
-        value: question.question,
-      } as Choice)),
-    },
-    rule: {
-      effect: RuleEffect.SHOW,
-      condition: {
-        scope: '#/properties/questionType',
-        schema: {
-          const: 'predefined',
-        },
-      } as SchemaBasedCondition,
+      inputMeta: {
+        ...(predefinedQuestionOptions?.[0].value as Input[]).find(({ name }) => name === 'questionKey'),
+        name: QUESTION_KEY_INPUT_NAME,
+      },
+      customOptions: predefinedQuestions,
     },
   };
-  uischema.elements.unshift(predefinedQuestionsElement);
 
-  // Setting up custom question field
-  set(schema, 'properties.credentials.properties.question', { type: 'string' });
-  const customQuestionElement: ControlElement = {
+  // set default value predefinedQuestionsElement
+  data[QUESTION_KEY_INPUT_NAME] = predefinedQuestions?.[0].value as string;
+
+  const customQuestionElement: FieldElement = {
     type: 'Control',
-    scope: CUSTOM_QUESTION_SCOPE,
+    name: CUSTOM_QUESTION_INPUT_NAME,
     label: 'oie.security.question.createQuestion.label',
-    rule: {
-      effect: RuleEffect.SHOW,
-      condition: {
-        scope: '#/properties/questionType',
-        schema: {
-          const: 'custom',
-        },
-      } as SchemaBasedCondition,
-    },
-  };
-  uischema.elements.unshift(customQuestionElement);
-
-  schema.properties.questionType = {
-    type: 'string',
-    enum: ['predefined', 'custom'],
-  };
-  const choiceElement: ControlElement = {
-    type: 'Control',
-    scope: '#/properties/questionType',
-    label: false,
     options: {
-      format: 'radio',
-      choices: [{
-        key: 'predefined',
-        value: 'oie.security.question.questionKey.label',
-      }, {
-        key: 'custom',
-        value: 'oie.security.question.createQuestion.label',
-      }],
-      // set default choice for radio button
-      defaultOption: 'predefined',
+      type: 'string',
+      inputMeta: {
+        ...(customQuestionOptions?.[0].value as Input[]).find(({ name }) => name === 'question'),
+        name: CUSTOM_QUESTION_INPUT_NAME,
+      },
     },
   };
-  uischema.elements.unshift(choiceElement);
+
+  const customQuestionKeyElement: FieldElement = {
+    type: 'Control',
+    name: QUESTION_KEY_INPUT_NAME,
+    options: {
+      inputMeta: {
+        ...(customQuestionOptions?.[0].value as Input[]).find(({ name }) => name === 'questionKey'),
+        name: QUESTION_KEY_INPUT_NAME,
+      },
+    },
+  };
 
   // Add the title to the top
   const titleElement: TitleElement = {
@@ -148,7 +132,69 @@ export const transformSecurityQuestionEnroll: IdxStepTransformer = (transaction,
       content: 'oie.security.question.enroll.title',
     },
   };
+
+  const questionTypeRadioEl: StepperRadioElement = {
+    type: 'StepperRadio',
+    options: {
+      id: 'questionType',
+      defaultOption: 'predefined',
+      customOptions: [{
+        value: 'predefined',
+        label: 'oie.security.question.questionKey.label',
+      }, {
+        key: 'credentials.questionKey',
+        value: 'custom',
+        label: 'oie.security.question.createQuestion.label',
+      }],
+    },
+  };
+
+  const securityQuestionStepper: StepperLayout = {
+    type: UISchemaLayoutType.STEPPER,
+    elements: [
+      // Predefined questions
+      {
+        type: UISchemaLayoutType.VERTICAL,
+        elements: [
+          predefinedQuestionsElement,
+          predefinedAnswerElement,
+          {
+            type: 'Button',
+            label: 'mfa.challenge.verify',
+            scope: `#/properties/${ButtonType.SUBMIT}`,
+            options: {
+              type: ButtonType.SUBMIT,
+              dataType: 'save',
+            },
+          } as ButtonElement,
+        ],
+      } as UISchemaLayout,
+      // Custom question
+      {
+        type: UISchemaLayoutType.VERTICAL,
+        elements: [
+          customQuestionKeyElement,
+          customQuestionElement,
+          customAnswerElement,
+          {
+            type: 'Button',
+            label: 'mfa.challenge.verify',
+            scope: `#/properties/${ButtonType.SUBMIT}`,
+            options: {
+              type: ButtonType.SUBMIT,
+              idxMethodParams: { [QUESTION_KEY_INPUT_NAME]: 'custom' },
+              dataType: 'save',
+            },
+          } as ButtonElement,
+        ],
+      } as UISchemaLayout,
+    ],
+  };
+
+  // Title -> Type -> Stepper elements
+  uischema.elements.unshift(questionTypeRadioEl);
   uischema.elements.unshift(titleElement);
+  uischema.elements.push(securityQuestionStepper);
 
   return formBag;
 };

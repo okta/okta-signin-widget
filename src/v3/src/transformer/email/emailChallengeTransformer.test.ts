@@ -10,24 +10,30 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement, Layout } from '@jsonforms/core';
-import { IdxAuthenticator } from '@okta/okta-auth-js';
+import { IdxAuthenticator, OktaAuth } from '@okta/okta-auth-js';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
+  ButtonElement,
+  ButtonType,
+  DescriptionElement,
+  FieldElement,
   FormBag,
-  LayoutType,
   StepperLayout,
+  UISchemaLayoutType,
   WidgetProps,
 } from 'src/types';
 
-import { ButtonOptionType } from '../getButtonControls';
 import * as utils from '../utils';
 import { transformEmailChallenge } from '.';
 
 describe('EmailChallengeTransformer Tests', () => {
   const redactedEmail = 'fxxxe@xxx.com';
   const transaction = getStubTransactionWithNextStep();
-  const mockProps: WidgetProps = {};
+  const mockProps: WidgetProps = {
+    authClient: {
+      idx: { proceed: jest.fn() },
+    } as unknown as OktaAuth,
+  };
   let formBag: FormBag;
 
   beforeEach(() => {
@@ -35,9 +41,10 @@ describe('EmailChallengeTransformer Tests', () => {
     formBag = {
       schema: {},
       uischema: {
-        type: 'VerticalLayout',
-        elements: [],
+        type: UISchemaLayoutType.VERTICAL,
+        elements: [{ name: 'credentials.passcode' } as FieldElement],
       },
+      data: {},
     };
   });
 
@@ -59,34 +66,35 @@ describe('EmailChallengeTransformer Tests', () => {
     expect(updatedFormBag).toMatchSnapshot();
 
     expect(updatedFormBag.uischema.elements.length).toBe(1);
-    expect(updatedFormBag.uischema.elements[0].type).toBe(LayoutType.STEPPER);
-    expect(updatedFormBag.uischema.elements[0].options?.navButtonsConfig?.next?.variant).toBe('secondary');
-    expect(updatedFormBag.uischema.elements[0].options?.key).toBeDefined();
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Stepper');
 
     const stepperElements = (updatedFormBag.uischema.elements[0] as StepperLayout).elements;
 
-    const layoutOne = stepperElements[0] as Layout;
+    const layoutOne = stepperElements[0];
 
-    expect(layoutOne.type).toBe(LayoutType.VERTICAL);
-    expect(layoutOne.elements.length).toBe(3);
+    expect(layoutOne.type).toBe(UISchemaLayoutType.VERTICAL);
+    expect(layoutOne.elements.length).toBe(4);
 
     expect(layoutOne.elements[2].type).toBe('Description');
-    expect(layoutOne.elements[2].options?.content).toBe('next.email.challenge.informationalTextWithEmail');
-    expect(layoutOne.elements[2].options?.contentParams?.[0]).toBe(redactedEmail);
+    expect((layoutOne.elements[2] as DescriptionElement).options?.content)
+      .toBe('next.email.challenge.informationalTextWithEmail');
+    expect((layoutOne.elements[2] as DescriptionElement).options?.contentParams?.[0])
+      .toBe(redactedEmail);
 
-    const layoutTwo = stepperElements[1] as Layout;
+    const layoutTwo = stepperElements[1];
 
-    expect(layoutTwo.type).toBe(LayoutType.VERTICAL);
+    expect(layoutTwo.type).toBe(UISchemaLayoutType.VERTICAL);
     expect(layoutTwo.elements.length).toBe(5);
     expect(layoutTwo.elements[2].type).toBe('Description');
-    expect(layoutTwo.elements[2].options?.content).toBe('next.email.challenge.informationalTextWithEmail');
-    expect(layoutTwo.elements[2].options?.contentParams?.[0]).toBe(redactedEmail);
+    expect((layoutTwo.elements[2] as DescriptionElement).options?.content)
+      .toBe('next.email.challenge.informationalTextWithEmail');
+    expect((layoutTwo.elements[2] as DescriptionElement).options?.contentParams?.[0])
+      .toBe(redactedEmail);
 
-    expect(layoutTwo.elements[3].type).toBe('Control');
-    expect((layoutTwo.elements[3] as ControlElement).label).toBe('email.enroll.enterCode');
+    expect((layoutTwo.elements[3] as FieldElement).label).toBe('email.enroll.enterCode');
 
-    expect(layoutTwo.elements[4].options?.format).toBe('button');
-    expect(layoutTwo.elements[4].options?.type).toBe(ButtonOptionType.SUBMIT);
+    expect((layoutTwo.elements[4] as ButtonElement).type).toBe('Button');
+    expect((layoutTwo.elements[4] as ButtonElement).options?.type).toBe(ButtonType.SUBMIT);
   });
 
   it('should create email challenge UI elements when profile email is NOT available', () => {
@@ -104,18 +112,21 @@ describe('EmailChallengeTransformer Tests', () => {
 
     const stepperElements = (updatedFormBag.uischema.elements[0] as StepperLayout).elements;
 
-    const layoutOne = stepperElements[0] as Layout;
+    const layoutOne = stepperElements[0];
 
-    expect(layoutOne.elements.length).toBe(3);
+    expect(layoutOne.elements.length).toBe(4);
 
-    expect(layoutOne.elements[2].options?.content).toBe('next.email.challenge.informationalText');
-    expect(layoutOne.elements[2].options?.contentParams?.[0]).toBeUndefined();
+    expect((layoutOne.elements[2] as DescriptionElement).options?.content)
+      .toBe('next.email.challenge.informationalText');
+    expect((layoutOne.elements[2] as DescriptionElement).options?.contentParams).toBeUndefined();
 
-    const layoutTwo = stepperElements[1] as Layout;
+    const layoutTwo = stepperElements[1];
 
     expect(layoutTwo.elements.length).toBe(5);
-    expect(layoutTwo.elements[2].options?.content).toBe('next.email.challenge.informationalText');
-    expect(layoutTwo.elements[2].options?.contentParams?.[0]).toBeUndefined();
+    expect((layoutTwo.elements[2] as DescriptionElement).options?.content)
+      .toBe('next.email.challenge.informationalText');
+    expect((layoutTwo.elements[2] as DescriptionElement).options?.contentParams)
+      .toBeUndefined();
   });
 
   it('should create email challenge UI elements when resend code is NOT available', () => {
@@ -135,33 +146,34 @@ describe('EmailChallengeTransformer Tests', () => {
     expect(updatedFormBag).toMatchSnapshot();
 
     expect(updatedFormBag.uischema.elements.length).toBe(1);
-    expect(updatedFormBag.uischema.elements[0].type).toBe(LayoutType.STEPPER);
-    expect(updatedFormBag.uischema.elements[0].options?.navButtonsConfig?.next?.variant).toBe('secondary');
-    expect(updatedFormBag.uischema.elements[0].options?.key).toBeDefined();
+    expect(updatedFormBag.uischema.elements[0].type).toBe('Stepper');
 
     const stepperElements = (updatedFormBag.uischema.elements[0] as StepperLayout).elements;
 
-    const layoutOne = stepperElements[0] as Layout;
+    const layoutOne = stepperElements[0];
 
-    expect(layoutOne.type).toBe(LayoutType.VERTICAL);
-    expect(layoutOne.elements.length).toBe(2);
+    expect(layoutOne.type).toBe(UISchemaLayoutType.VERTICAL);
+    expect(layoutOne.elements.length).toBe(3);
 
     expect(layoutOne.elements[1].type).toBe('Description');
-    expect(layoutOne.elements[1].options?.content).toBe('next.email.challenge.informationalTextWithEmail');
-    expect(layoutOne.elements[1].options?.contentParams?.[0]).toBe(redactedEmail);
+    expect((layoutOne.elements[1] as DescriptionElement).options?.content)
+      .toBe('next.email.challenge.informationalTextWithEmail');
+    expect((layoutOne.elements[1] as DescriptionElement).options?.contentParams?.[0])
+      .toBe(redactedEmail);
 
-    const layoutTwo = stepperElements[1] as Layout;
+    const layoutTwo = stepperElements[1];
 
-    expect(layoutTwo.type).toBe(LayoutType.VERTICAL);
+    expect(layoutTwo.type).toBe(UISchemaLayoutType.VERTICAL);
     expect(layoutTwo.elements.length).toBe(4);
     expect(layoutTwo.elements[1].type).toBe('Description');
-    expect(layoutTwo.elements[1].options?.content).toBe('next.email.challenge.informationalTextWithEmail');
-    expect(layoutTwo.elements[1].options?.contentParams?.[0]).toBe(redactedEmail);
+    expect((layoutTwo.elements[1] as DescriptionElement).options?.content)
+      .toBe('next.email.challenge.informationalTextWithEmail');
+    expect((layoutTwo.elements[1] as DescriptionElement).options?.contentParams?.[0])
+      .toBe(redactedEmail);
 
-    expect(layoutTwo.elements[2].type).toBe('Control');
-    expect((layoutTwo.elements[2] as ControlElement).label).toBe('email.enroll.enterCode');
+    expect((layoutTwo.elements[2] as FieldElement).label).toBe('email.enroll.enterCode');
 
-    expect(layoutTwo.elements[3].options?.format).toBe('button');
-    expect(layoutTwo.elements[3].options?.type).toBe(ButtonOptionType.SUBMIT);
+    expect((layoutTwo.elements[3] as ButtonElement).type).toBe('Button');
+    expect((layoutTwo.elements[3] as ButtonElement).options?.type).toBe(ButtonType.SUBMIT);
   });
 });

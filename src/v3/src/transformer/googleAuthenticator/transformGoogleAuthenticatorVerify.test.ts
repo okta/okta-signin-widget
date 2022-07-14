@@ -10,12 +10,18 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IDX_STEP } from 'src/constants';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import { FormBag, WidgetProps } from 'src/types';
+import {
+  ButtonElement,
+  ButtonType,
+  DescriptionElement,
+  FormBag,
+  TitleElement,
+  UISchemaLayoutType,
+  WidgetProps,
+} from 'src/types';
 
-import { ButtonOptionType } from '../getButtonControls';
-import { transformGoogleAuthenticatorVerify } from '.';
+import { transformGoogleAuthenticatorVerify } from './transformGoogleAuthenticatorVerify';
 
 describe('Google Authenticator Verify Transformer Tests', () => {
   const transaction = getStubTransactionWithNextStep();
@@ -26,12 +32,10 @@ describe('Google Authenticator Verify Transformer Tests', () => {
     formBag = {
       schema: {},
       uischema: {
-        type: 'VerticalLayout',
+        type: UISchemaLayoutType.VERTICAL,
         elements: [],
       },
-    };
-    transaction.nextStep = {
-      name: IDX_STEP.ENROLL_AUTHENTICATOR,
+      data: {},
     };
   });
 
@@ -40,7 +44,12 @@ describe('Google Authenticator Verify Transformer Tests', () => {
 
     expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0]?.type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.verify.google_authenticator.otp.title');
     expect(updatedFormBag.uischema.elements[1]?.type).toBe('Description');
-    expect(updatedFormBag.uischema.elements[2]?.options?.type).toBe(ButtonOptionType.SUBMIT);
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options.content)
+      .toBe('oie.verify.google_authenticator.otp.description');
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).options?.type)
+      .toBe(ButtonType.SUBMIT);
   });
 });

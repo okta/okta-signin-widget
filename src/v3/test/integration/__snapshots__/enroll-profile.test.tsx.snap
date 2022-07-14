@@ -1,0 +1,199 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`enroll-profile should render form 1`] = `
+<div>
+  <span>
+    <main
+      class="ods-4o5zYQ ods-76eppy ods-66Tc65 ods-6lar65 ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs auth-container main-container mainViewContainer"
+    >
+      <div
+        class="ods-4o5zYQ ods-2Se4oq ods-2VFzyK ods-1qUaxm ods-1oujX1 ods-78Q1Pv ods-3x5mmc ods-7mcS6o ods-7lpPkQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs siwContainer"
+      >
+        <div
+          class="okta-sign-in-header auth-header siwHeader"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h1 emotion-0"
+          />
+        </div>
+        <div
+          class="MuiBox-root emotion-1"
+        >
+          <form
+            novalidate=""
+          >
+            <div
+              class="MuiBox-root emotion-2"
+            >
+              <div
+                class="MuiBox-root emotion-3"
+              >
+                <div
+                  class="MuiBox-root emotion-4"
+                >
+                  <h2
+                    class="MuiTypography-root MuiTypography-h3 emotion-5"
+                  >
+                    Sign up
+                  </h2>
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-3"
+              >
+                <div
+                  class="MuiBox-root emotion-7"
+                >
+                  <label
+                    class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-8"
+                    for="userProfile.firstName"
+                  >
+                    First name
+                  </label>
+                  <div
+                    class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-9"
+                  >
+                    <input
+                      aria-invalid="false"
+                      autocomplete="given-name"
+                      class="MuiOutlinedInput-input MuiInputBase-input emotion-10"
+                      data-se="userProfile.firstName"
+                      id="userProfile.firstName"
+                      name="userProfile.firstName"
+                      type="text"
+                    />
+                    <fieldset
+                      aria-hidden="true"
+                      class="MuiOutlinedInput-notchedOutline emotion-11"
+                    >
+                      <legend
+                        class="emotion-12"
+                      >
+                        <span
+                          class="notranslate"
+                        >
+                          ​
+                        </span>
+                      </legend>
+                    </fieldset>
+                  </div>
+                  
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-3"
+              >
+                <div
+                  class="MuiBox-root emotion-7"
+                >
+                  <label
+                    class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-8"
+                    for="userProfile.lastName"
+                  >
+                    Last name
+                  </label>
+                  <div
+                    class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-9"
+                  >
+                    <input
+                      aria-invalid="false"
+                      autocomplete="family-name"
+                      class="MuiOutlinedInput-input MuiInputBase-input emotion-10"
+                      data-se="userProfile.lastName"
+                      id="userProfile.lastName"
+                      name="userProfile.lastName"
+                      type="text"
+                    />
+                    <fieldset
+                      aria-hidden="true"
+                      class="MuiOutlinedInput-notchedOutline emotion-11"
+                    >
+                      <legend
+                        class="emotion-12"
+                      >
+                        <span
+                          class="notranslate"
+                        >
+                          ​
+                        </span>
+                      </legend>
+                    </fieldset>
+                  </div>
+                  
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-3"
+              >
+                <div
+                  class="MuiBox-root emotion-7"
+                >
+                  <label
+                    class="MuiInputLabel-root MuiInputLabel-animated MuiFormLabel-root MuiFormLabel-colorPrimary emotion-8"
+                    for="userProfile.email"
+                  >
+                    Email
+                  </label>
+                  <div
+                    class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth emotion-9"
+                  >
+                    <input
+                      aria-invalid="false"
+                      autocomplete="email"
+                      class="MuiOutlinedInput-input MuiInputBase-input emotion-10"
+                      data-se="userProfile.email"
+                      id="userProfile.email"
+                      name="userProfile.email"
+                      type="text"
+                    />
+                    <fieldset
+                      aria-hidden="true"
+                      class="MuiOutlinedInput-notchedOutline emotion-11"
+                    >
+                      <legend
+                        class="emotion-12"
+                      >
+                        <span
+                          class="notranslate"
+                        >
+                          ​
+                        </span>
+                      </legend>
+                    </fieldset>
+                  </div>
+                  
+                </div>
+              </div>
+              <div
+                class="MuiBox-root emotion-3"
+              >
+                <button
+                  class="MuiButton-root MuiButton-primary MuiButton-primaryPrimary MuiButton-sizeMedium MuiButton-primarySizeMedium MuiButton-disableElevation MuiButton-fullWidth MuiButtonBase-root  emotion-28"
+                  data-se="#/properties/submit"
+                  data-type="save"
+                  tabindex="0"
+                  type="submit"
+                >
+                  Sign Up
+                </button>
+              </div>
+              <div
+                class="MuiBox-root emotion-3"
+              >
+                <button
+                  class="MuiButton-root MuiButton-floating MuiButton-floatingPrimary MuiButton-sizeMedium MuiButton-floatingSizeMedium MuiButton-disableElevation MuiButtonBase-root  emotion-30"
+                  data-se="back"
+                  tabindex="0"
+                  type="button"
+                >
+                  Already have an account?
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </span>
+</div>
+`;

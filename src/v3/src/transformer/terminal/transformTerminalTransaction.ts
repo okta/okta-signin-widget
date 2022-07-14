@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement, Layout } from '@jsonforms/core';
 import {
   IdxMessage,
   IdxStatus,
@@ -24,8 +23,13 @@ import {
   TERMINAL_TITLE_KEY,
 } from '../../constants';
 import {
+  ButtonElement,
+  ButtonType,
   FormBag,
   LinkElement,
+  SpinnerElement,
+  TitleElement,
+  UISchemaLayout,
   Undefinable,
   WidgetProps,
 } from '../../types';
@@ -33,9 +37,11 @@ import {
   containsMessageKey,
   containsMessageKeyPrefix,
   containsOneOfMessageKeys,
+  getUserInfo,
   isAuthClientSet,
+  removeUsernameCookie,
+  setUsernameCookie,
 } from '../../util';
-import { ButtonOptionType } from '../getButtonControls';
 import { redirectTransformer } from '../redirect';
 import { createForm } from '../utils';
 import { transformTerminalMessages } from './transformTerminalMessages';
@@ -54,22 +60,20 @@ const getTitleKey = (messages?: IdxMessage[]): Undefinable<string> => {
   return titleKey && TERMINAL_TITLE_KEY[titleKey];
 };
 
-const appendTitleElement = (uischema: Layout, messages?: IdxMessage[]): void => {
+const appendTitleElement = (uischema: UISchemaLayout, messages?: IdxMessage[]): void => {
   const titleKey = getTitleKey(messages);
   if (!titleKey) {
     return;
   }
   uischema.elements.unshift({
     type: 'Title',
-    options: {
-      content: titleKey,
-    },
-  });
+    options: { content: titleKey },
+  } as TitleElement);
 };
 
 const appendViewLinks = (
   transaction: IdxTransaction,
-  uischema: Layout,
+  uischema: UISchemaLayout,
   widgetProps: WidgetProps,
 ): void => {
   const { baseUrl } = widgetProps;
@@ -85,13 +89,12 @@ const appendViewLinks = (
   };
 
   if (containsMessageKeyPrefix(TERMINAL_KEY.SAFE_MODE_KEY_PREFIX, transaction.messages)) {
-    const skipElement: ControlElement = {
-      type: 'Control',
+    const skipElement: ButtonElement = {
+      type: 'Button',
       label: 'oie.enroll.skip.setup',
-      scope: `#/properties/${ButtonOptionType.SUBMIT}`,
+      scope: `#/properties/${ButtonType.SUBMIT}`,
       options: {
-        format: 'button',
-        type: ButtonOptionType.SUBMIT,
+        type: ButtonType.SUBMIT,
         idxMethodParams: { skip: true },
         action: cancelStep?.action,
       },
@@ -147,14 +150,22 @@ const buildFormBagForInteractionCodeFlow = (
   const formBag: FormBag = createForm();
   formBag.uischema.elements.push({
     type: 'Spinner',
-    options: { label: 'loading.label', valueText: 'loading.label' },
-  });
+    options: {
+      label: 'loading.label',
+      valueText: 'loading.label',
+    },
+  } as SpinnerElement);
 
   if (isRemediationMode) {
     formBag.uischema.elements.push({
       type: 'SuccessCallback',
-      options: { data: { status: IdxStatus.SUCCESS, ...redirectParams } },
-    });
+      options: {
+        data: {
+          status: IdxStatus.SUCCESS,
+          ...redirectParams,
+        },
+      },
+    } as any);
     return formBag;
   }
 
@@ -166,16 +177,42 @@ const buildFormBagForInteractionCodeFlow = (
 
   formBag.uischema.elements.push({
     type: 'SuccessCallback',
-    options: { data: { status: IdxStatus.SUCCESS, tokens: transaction.tokens } },
-  });
+    options: {
+      data: {
+        status: IdxStatus.SUCCESS,
+        tokens: transaction.tokens,
+      },
+    },
+  } as any);
   return formBag;
+};
+
+const isSuccessfulAuthentication = (
+  transction: IdxTransaction,
+): boolean => !!(transction.context.success
+  || transction.rawIdxState.successWithInteractionCode);
+
+const updateIdentifierCookie = (transaction: IdxTransaction, rememberMe?: boolean): void => {
+  if (rememberMe) {
+    const userInfo = getUserInfo(transaction);
+    if (userInfo.identifier) {
+      setUsernameCookie(userInfo.identifier);
+    }
+  } else {
+    removeUsernameCookie();
+  }
 };
 
 export const transformTerminalTransaction = (
   transaction: IdxTransaction,
   widgetProps: WidgetProps,
 ): FormBag => {
-  const { useInteractionCodeFlow } = widgetProps;
+  const { useInteractionCodeFlow, features } = widgetProps;
+  if (isSuccessfulAuthentication(transaction) && features?.rememberMyUsernameOnOIE) {
+    // TODO: OKTA-506358 This identifier cookie can be removed once implemented in auth-js
+    updateIdentifierCookie(transaction, features?.rememberMe);
+  }
+
   if (useInteractionCodeFlow && transaction.interactionCode) {
     return buildFormBagForInteractionCodeFlow(
       transaction,
@@ -193,7 +230,7 @@ export const transformTerminalTransaction = (
 
   const { messages } = transaction;
 
-  if (!messages) {
+  if (!messages && transaction.interactionCode && !useInteractionCodeFlow) {
     throw new Error('Set "useInteractionCodeFlow" to true in configuration to enable the '
       + 'interaction_code" flow for self-hosted widget.');
   }

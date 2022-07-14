@@ -15,7 +15,7 @@ import { AUTHENTICATOR_KEY, TERMINAL_KEY } from 'src/constants';
 
 import { buildAuthCoinProps, getUserInfo } from './index';
 
-describe('CommonUtils Tests', () => {
+describe('IdxUtils Tests', () => {
   const TEST_USERNAME = 'tester@test.com';
   const TEST_FIRSTNAME = 'Tester';
   const TEST_LASTNAME = 'McTesterson';
@@ -148,12 +148,14 @@ describe('CommonUtils Tests', () => {
       ...transaction,
       nextStep: {
         name: '',
-        authenticator: {
-          displayName: '',
-          id: '',
-          key: AUTHENTICATOR_KEY.GOOGLE_OTP,
-          methods: [],
-          type: '',
+        relatesTo: {
+          value: {
+            displayName: '',
+            id: '',
+            key: AUTHENTICATOR_KEY.GOOGLE_OTP,
+            methods: [],
+            type: '',
+          },
         },
       },
     };

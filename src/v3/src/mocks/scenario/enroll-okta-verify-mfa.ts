@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { JsonObject } from 'src/types';
-
 import { scenario } from '../registry';
 
 let POLL_COUNTER = 0;
@@ -61,7 +59,7 @@ scenario('enroll-okta-verify-mfa', (rest) => ([
     );
   }),
   rest.post('*/idp/idx/credential/enroll', async (req, res, ctx) => {
-    const request = req.body as Record<string, JsonObject>;
+    const request = req.body as Record<string, any>;
     const channel = request.authenticator?.channel;
     let response = null;
     if (!channel || channel === 'qrcode') {
@@ -77,7 +75,7 @@ scenario('enroll-okta-verify-mfa', (rest) => ([
     );
   }),
   rest.post('*/idp/idx/challenge/send', async (req, res, ctx) => {
-    const request = req.body as Record<string, JsonObject>;
+    const request = req.body as Record<string, any>;
     let response = null;
     if (request.email) {
       response = (await import('../response/idp/idx/challenge/send/enroll-ov-email-mfa.json')).default;
@@ -93,7 +91,7 @@ scenario('enroll-okta-verify-mfa', (rest) => ([
   rest.post('*/idp/idx/challenge/poll', async (req, res, ctx) => {
     POLL_COUNTER += 1;
     let response = null;
-    const ATTEMPTS_BEFORE_SUCCESS = 4;
+    const ATTEMPTS_BEFORE_SUCCESS = 30;
     if (POLL_COUNTER <= ATTEMPTS_BEFORE_SUCCESS) {
       response = (await import('../response/idp/idx/credential/enroll/enroll-okta-verify-mfa.json')).default;
     } else {

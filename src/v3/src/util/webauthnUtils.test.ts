@@ -18,22 +18,9 @@ import {
   WebauthnAPI,
   WebauthnVerificationValues,
 } from '@okta/okta-auth-js';
-import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
+import { getMockCreateCredentialsResponse, getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 
 import { webAuthNAuthenticationHandler, webAuthNEnrollmentHandler } from '.';
-
-const getMockCreateCredentialsResponse = (): PublicKeyCredential => (
-  {
-    id: 'test',
-    type: 'test',
-    rawId: new ArrayBuffer(10),
-    getClientExtensionResults: jest.fn(),
-    response: {
-      clientDataJSON: new ArrayBuffer(10),
-      attestationObject: new ArrayBuffer(10),
-    } as AuthenticatorAttestationResponse,
-  } as PublicKeyCredential
-);
 
 describe('WebAuthN Util Tests', () => {
   const transaction = getStubTransactionWithNextStep();
@@ -42,23 +29,19 @@ describe('WebAuthN Util Tests', () => {
 
   beforeEach(() => {
     mockCredentialsContainer = {
-      create: jest.fn().mockImplementationOnce(
-        () => Promise.resolve(
-          getMockCreateCredentialsResponse(),
-        ),
+      create: jest.fn().mockResolvedValueOnce(
+        getMockCreateCredentialsResponse(),
       ),
-      get: jest.fn().mockImplementationOnce(
-        () => Promise.resolve(
-          getMockCreateCredentialsResponse(),
-        ),
+      get: jest.fn().mockResolvedValueOnce(
+        getMockCreateCredentialsResponse(),
       ),
       preventSilentAccess: jest.fn(),
       store: jest.fn(),
     };
-    Object.defineProperty(global.navigator, 'credentials', {
-      value: mockCredentialsContainer,
-      configurable: true,
-    });
+    const navigatorCredentials = jest.spyOn(global, 'navigator', 'get');
+    navigatorCredentials.mockReturnValue(
+      { credentials: mockCredentialsContainer } as unknown as Navigator,
+    );
     mockedWebauthn = {
       buildCredentialCreationOptions: jest.fn(),
       buildCredentialRequestOptions: jest.fn(),
@@ -74,6 +57,10 @@ describe('WebAuthN Util Tests', () => {
     };
     OktaAuth.webauthn = mockedWebauthn;
   });
+
+  // afterAll(() => {
+  //   jest.restoreAllMocks();
+  // });
 
   it('should create clientData & attestation parameters when enrolling with webauthn', async () => {
     transaction.nextStep = {

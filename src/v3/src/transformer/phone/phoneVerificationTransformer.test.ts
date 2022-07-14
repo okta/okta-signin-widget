@@ -10,10 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement } from '@jsonforms/core';
 import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import { FormBag, WidgetProps } from 'src/types';
+import {
+  ButtonElement,
+  DescriptionElement,
+  FieldElement, FormBag,
+  TitleElement, UISchemaLayoutType, WidgetProps,
+} from 'src/types';
 
 import { transformPhoneVerification } from '.';
 
@@ -25,17 +29,21 @@ describe('Phone verification Transformer Tests', () => {
     formBag = {
       schema: {},
       uischema: {
-        type: 'VerticalLayout',
+        type: UISchemaLayoutType.VERTICAL,
         elements: [
           {
             type: 'Control',
-            scope: '#/properties/authenticator/properties/methodType',
+            name: 'authenticator.methodType',
             options: {
-              choices: [{ key: 'sms' }, { key: 'voice' }],
+              inputMeta: {
+                name: 'authenticator.methodType',
+                options: [{ value: 'sms', label: 'SMS' }, { value: 'voice', label: 'Voice call' }],
+              },
             },
-          } as ControlElement,
+          } as FieldElement,
         ],
       },
+      data: {},
     };
   });
 
@@ -44,103 +52,126 @@ describe('Phone verification Transformer Tests', () => {
     const updatedFormBag = transformPhoneVerification(transaction, formBag, mockProps);
 
     expect(updatedFormBag.uischema.elements.length).toBe(5);
-    expect(updatedFormBag.uischema.elements[0].options?.content).toBe('oie.phone.verify.title');
-    expect(updatedFormBag.uischema.elements[1].options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      .toBe('oie.phone.verify.title');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('next.phone.verify.sms.sendText.withoutPhoneNumber');
-    expect(updatedFormBag.uischema.elements[2].options?.content).toBe('oie.phone.carrier.charges');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
+      .toBe('oie.phone.carrier.charges');
     // primary button
-    expect((updatedFormBag.uischema.elements[3] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
       .toBe('oie.phone.sms.primaryButton');
-    expect(updatedFormBag.uischema.elements[3].options
-      ?.idxMethodParams?.authenticator?.methodType).toBe('sms');
+    expect(((updatedFormBag.uischema.elements[3] as ButtonElement)
+      .options.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType).toBe('sms');
     // secondary button
-    expect((updatedFormBag.uischema.elements[4] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
       .toBe('oie.phone.call.secondaryButton');
-    expect(updatedFormBag.uischema.elements[4].options
-      ?.idxMethodParams?.authenticator?.methodType).toBe('voice');
+    expect(((updatedFormBag.uischema.elements[4] as ButtonElement).options
+      ?.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType).toBe('voice');
   });
 
   it('should add correct UI elements to schema when multiple methodType choices exists'
     + ' and voice is the first methodType choice', () => {
     formBag.uischema.elements = [{
       type: 'Control',
-      scope: '#/properties/authenticator/properties/methodType',
+      name: 'authenticator.methodType',
       options: {
-        choices: [{ key: 'voice' }, { key: 'sms' }],
+        inputMeta: {
+          name: 'authenticator.methodType',
+          options: [{ value: 'voice', label: 'Voice call' }, { value: 'sms', label: 'SMS' }],
+        },
       },
-    } as ControlElement];
+    } as FieldElement];
     const updatedFormBag = transformPhoneVerification(transaction, formBag, mockProps);
 
     expect(updatedFormBag.uischema.elements.length).toBe(5);
-    expect(updatedFormBag.uischema.elements[0].options?.content).toBe('oie.phone.verify.title');
-    expect(updatedFormBag.uischema.elements[1].options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      .toBe('oie.phone.verify.title');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('next.phone.verify.call.sendText.withoutPhoneNumber');
-    expect(updatedFormBag.uischema.elements[2].options?.content).toBe('oie.phone.carrier.charges');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
+      .toBe('oie.phone.carrier.charges');
     // primary button
-    expect((updatedFormBag.uischema.elements[3] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
       .toBe('oie.phone.call.primaryButton');
-    expect(updatedFormBag.uischema.elements[3].options
-      ?.idxMethodParams?.authenticator?.methodType).toBe('voice');
+    expect(((updatedFormBag.uischema.elements[3] as ButtonElement)
+      .options.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType)
+      .toBe('voice');
     // secondary button
-    expect((updatedFormBag.uischema.elements[4] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
       .toBe('oie.phone.sms.secondaryButton');
-    expect(updatedFormBag.uischema.elements[4].options
-      ?.idxMethodParams?.authenticator?.methodType).toBe('sms');
+    expect(((updatedFormBag.uischema.elements[4] as ButtonElement).options
+      ?.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType).toBe('sms');
   });
 
   it('should add correct UI elements to schema when only voice methodType choice exists', () => {
     formBag.uischema.elements = [{
       type: 'Control',
-      scope: '#/properties/authenticator/properties/methodType',
+      name: 'authenticator.methodType',
       options: {
-        choices: [{ key: 'voice' }],
+        inputMeta: {
+          name: 'authenticator.methodType',
+          options: [{ value: 'voice', label: 'Voice call' }],
+        },
       },
-    } as ControlElement];
+    } as FieldElement];
     const updatedFormBag = transformPhoneVerification(transaction, formBag, mockProps);
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
-    expect(updatedFormBag.uischema.elements[0].options?.content).toBe('oie.phone.verify.title');
-    expect(updatedFormBag.uischema.elements[1].options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      .toBe('oie.phone.verify.title');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('next.phone.verify.call.sendText.withoutPhoneNumber');
-    expect(updatedFormBag.uischema.elements[2].options?.content).toBe('oie.phone.carrier.charges');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
+      .toBe('oie.phone.carrier.charges');
     // primary button
-    expect((updatedFormBag.uischema.elements[3] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
       .toBe('oie.phone.call.primaryButton');
-    expect(updatedFormBag.uischema.elements[3].options
-      ?.idxMethodParams?.authenticator?.methodType).toBe('voice');
+    expect(((updatedFormBag.uischema.elements[3] as ButtonElement)
+      .options.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType)
+      .toBe('voice');
   });
 
   it('should add correct UI elements to schema when only sms methodType choice exists', () => {
     formBag.uischema.elements = [{
       type: 'Control',
-      scope: '#/properties/authenticator/properties/methodType',
+      name: 'authenticator.methodType',
       options: {
-        choices: [{ key: 'sms' }],
+        inputMeta: {
+          name: 'authenticator.methodType',
+          options: [{ value: 'sms', label: 'SMS' }],
+        },
       },
-    } as ControlElement];
+    } as FieldElement];
     const updatedFormBag = transformPhoneVerification(transaction, formBag, mockProps);
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
-    expect(updatedFormBag.uischema.elements[0].options?.content).toBe('oie.phone.verify.title');
-    expect(updatedFormBag.uischema.elements[1].options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      .toBe('oie.phone.verify.title');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('next.phone.verify.sms.sendText.withoutPhoneNumber');
-    expect(updatedFormBag.uischema.elements[2].options?.content).toBe('oie.phone.carrier.charges');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
+      .toBe('oie.phone.carrier.charges');
     // primary button
-    expect((updatedFormBag.uischema.elements[3] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
       .toBe('oie.phone.sms.primaryButton');
-    expect(updatedFormBag.uischema.elements[3].options
-      ?.idxMethodParams?.authenticator?.methodType).toBe('sms');
+    expect(((updatedFormBag.uischema.elements[3] as ButtonElement)
+      .options.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType)
+      .toBe('sms');
   });
 
   it('should add correct UI elements to schema when only sms methodType choice exists'
     + ' and redacted phoneNumber exists in Idx response ', () => {
     formBag.uischema.elements = [{
       type: 'Control',
-      scope: '#/properties/authenticator/properties/methodType',
+      name: 'authenticator.methodType',
       options: {
-        choices: [{ key: 'sms' }],
+        inputMeta: {
+          name: 'authenticator.methodType',
+          options: [{ value: 'sms', label: 'SMS' }],
+        },
       },
-    } as ControlElement];
+    } as FieldElement];
     transaction.nextStep = {
       name: 'mock-step',
       canResend: true,
@@ -155,26 +186,32 @@ describe('Phone verification Transformer Tests', () => {
     const updatedFormBag = transformPhoneVerification(transaction, formBag, mockProps);
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
-    expect(updatedFormBag.uischema.elements[0].options?.content).toBe('oie.phone.verify.title');
-    expect(updatedFormBag.uischema.elements[1].options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      .toBe('oie.phone.verify.title');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('next.phone.verify.sms.sendText.withPhoneNumber');
-    expect(updatedFormBag.uischema.elements[2].options?.content).toBe('oie.phone.carrier.charges');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
+      .toBe('oie.phone.carrier.charges');
     // primary button
-    expect((updatedFormBag.uischema.elements[3] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
       .toBe('oie.phone.sms.primaryButton');
-    expect(updatedFormBag.uischema.elements[3].options
-      ?.idxMethodParams?.authenticator?.methodType).toBe('sms');
+    expect(((updatedFormBag.uischema.elements[3] as ButtonElement)
+      .options.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType)
+      .toBe('sms');
   });
 
   it('should add correct UI elements to schema when only voice methodType choice exists'
     + ' and redacted phoneNumber exists in Idx response ', () => {
     formBag.uischema.elements = [{
       type: 'Control',
-      scope: '#/properties/authenticator/properties/methodType',
+      name: 'authenticator.methodType',
       options: {
-        choices: [{ key: 'voice' }],
+        inputMeta: {
+          name: 'authenticator.methodType',
+          options: [{ value: 'voice', label: 'Voice call' }],
+        },
       },
-    } as ControlElement];
+    } as FieldElement];
     transaction.nextStep = {
       name: 'mock-step',
       canResend: true,
@@ -189,14 +226,17 @@ describe('Phone verification Transformer Tests', () => {
     const updatedFormBag = transformPhoneVerification(transaction, formBag, mockProps);
 
     expect(updatedFormBag.uischema.elements.length).toBe(4);
-    expect(updatedFormBag.uischema.elements[0].options?.content).toBe('oie.phone.verify.title');
-    expect(updatedFormBag.uischema.elements[1].options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
+      .toBe('oie.phone.verify.title');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('next.phone.verify.call.sendText.withPhoneNumber');
-    expect(updatedFormBag.uischema.elements[2].options?.content).toBe('oie.phone.carrier.charges');
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options?.content)
+      .toBe('oie.phone.carrier.charges');
     // primary button
-    expect((updatedFormBag.uischema.elements[3] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).label)
       .toBe('oie.phone.call.primaryButton');
-    expect(updatedFormBag.uischema.elements[3].options
-      ?.idxMethodParams?.authenticator?.methodType).toBe('voice');
+    expect(((updatedFormBag.uischema.elements[3] as ButtonElement)
+      .options.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType)
+      .toBe('voice');
   });
 });

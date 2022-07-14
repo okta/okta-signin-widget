@@ -11,37 +11,37 @@
  */
 
 import { Input } from '@okta/okta-auth-js';
-import {
-  IdxOption,
-  IdxRemediationValue,
-} from '@okta/okta-auth-js/lib/idx/types/idx-js';
+import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 
 import { AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP, AUTHENTICATOR_KEY } from '../../constants';
-import {
-  AuthenticatorOptionValue,
-  Nullish,
-  Option,
-  Undefinable,
-} from '../../types';
+import { AuthenticatorButtonElement } from '../../types';
 
 const getAuthenticatorOption = (
   options: IdxOption[],
   authenticatorKey: string,
-): Undefinable<IdxOption> => options?.find(
+): IdxOption | undefined => options?.find(
   ({ relatesTo }) => relatesTo?.key === authenticatorKey,
 );
 
 const getOptionValue = (
   inputs: Input[],
   key: string,
-): Nullish<Input> => inputs?.find(
+): Input | undefined => inputs?.find(
   ({ name }) => name === key,
 );
+
+const getAuthenticatorDataSeVal = (authenticatorKey: string, methodType?: string): string => {
+  if (authenticatorKey) {
+    const method = methodType ? `-${methodType}` : '';
+    return `${authenticatorKey}${method}`;
+  }
+  return '';
+};
 
 const buildOktaVerifyOptions = (
   options: IdxOption[],
   isEnroll?: boolean,
-): Option<AuthenticatorOptionValue>[] => {
+): AuthenticatorButtonElement[] => {
   const ovRemediation = getAuthenticatorOption(options, AUTHENTICATOR_KEY.OV);
   const id = (ovRemediation?.value as Input[])?.find(({ name }) => name === 'id')?.value;
   const methodType = (ovRemediation?.value as Input[])?.find(({ name }) => name === 'methodType');
@@ -50,29 +50,42 @@ const buildOktaVerifyOptions = (
   }
 
   return methodType.options.map((option) => ({
-    key: AUTHENTICATOR_KEY.OV,
+    type: 'AuthenticatorButton',
     label: option.label,
-    description: isEnroll && AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[AUTHENTICATOR_KEY.OV],
-    value: {
-      label: isEnroll
+    options: {
+      inputOption: option,
+      key: AUTHENTICATOR_KEY.OV,
+      ctaLabel: isEnroll
         ? 'oie.enroll.authenticator.button.text'
         : 'oie.verify.authenticator.button.text',
-      methodType: option.value,
-      id,
-    },
-  } as Option<AuthenticatorOptionValue>));
+      description: isEnroll && AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[AUTHENTICATOR_KEY.OV],
+      idxMethodParams: {
+        authenticator: {
+          methodType: option.value,
+          id,
+        },
+      },
+      dataSe: getAuthenticatorDataSeVal(AUTHENTICATOR_KEY.OV, option.value as string),
+    } as AuthenticatorButtonElement['options'],
+  } as AuthenticatorButtonElement));
 };
 
 const getAuthenticatorDescription = (
   options: IdxOption[],
   authenticatorKey: string,
   isEnroll?: boolean,
-): Undefinable<string> => {
+): string | undefined => {
   if (!authenticatorKey) {
     return undefined;
   }
-
   if (isEnroll) {
+    const vendorName = getAuthenticatorOption(
+      options,
+      AUTHENTICATOR_KEY.ON_PREM,
+    )?.relatesTo?.displayName;
+    if (authenticatorKey === AUTHENTICATOR_KEY.ON_PREM && !vendorName) {
+      return 'next.oie.on_prem.authenticator.default.description';
+    }
     return AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[authenticatorKey];
   }
 
@@ -80,8 +93,7 @@ const getAuthenticatorDescription = (
     return getAuthenticatorOption(
       options,
       AUTHENTICATOR_KEY.PHONE,
-    // @ts-ignore OKTA-499921 (profile missing from relatesTo interface)
-    )?.relatesTo?.profile?.phoneNumber;
+    )?.relatesTo?.profile?.phoneNumber as string;
   }
   return undefined;
 };
@@ -90,58 +102,66 @@ const getOnPremDescriptionParams = (
   options: IdxOption[],
   authenticatorKey: string,
   isEnroll?: boolean,
-): Undefinable<string[]> => {
-  if (!isEnroll || authenticatorKey !== AUTHENTICATOR_KEY.ON_PREM) {
-    return undefined;
-  }
-
+): string[] | undefined => {
   const vendorName = getAuthenticatorOption(
     options,
     AUTHENTICATOR_KEY.ON_PREM,
-  )?.relatesTo?.displayName || 'oie.on_prem.authenticator.default.vendorName';
+  )?.relatesTo?.displayName;
+  if (!isEnroll || authenticatorKey !== AUTHENTICATOR_KEY.ON_PREM || !vendorName) {
+    return undefined;
+  }
   return [vendorName];
 };
 
 const formatAuthenticatorOptions = (
   options: IdxOption[],
   isEnroll?: boolean,
-): Option<AuthenticatorOptionValue>[] => (
+): AuthenticatorButtonElement[] => (
   options.map((option: IdxOption) => {
     const authenticatorKey = option.relatesTo?.key as string;
-    const id = getOptionValue(option?.value as Input[], 'id')?.value;
-    const methodType = getOptionValue(option?.value as Input[], 'methodType')?.value;
-    const enrollmentId = getOptionValue(option?.value as Input[], 'enrollmentId')?.value;
+    const id = getOptionValue(option.value as Input[], 'id')?.value;
+    const methodType = getOptionValue(option.value as Input[], 'methodType')?.value;
+    const enrollmentId = getOptionValue(option.value as Input[], 'enrollmentId')?.value;
 
     return {
-      key: authenticatorKey,
+      type: 'AuthenticatorButton',
       label: option.label,
-      description: getAuthenticatorDescription(
-        options,
-        authenticatorKey,
-        isEnroll,
-      ),
-      descriptionParams: getOnPremDescriptionParams(
-        options,
-        authenticatorKey,
-        isEnroll,
-      ),
-      value: {
+      options: {
+        inputOption: option,
         key: authenticatorKey,
-        label: isEnroll
+        ctaLabel: isEnroll
           ? 'oie.enroll.authenticator.button.text'
           : 'oie.verify.authenticator.button.text',
-        id,
-        methodType,
-        enrollmentId,
-      } as AuthenticatorOptionValue,
-    };
+        description: getAuthenticatorDescription(
+          options,
+          authenticatorKey,
+          isEnroll,
+        ),
+        descriptionParams: getOnPremDescriptionParams(
+          options,
+          authenticatorKey,
+          isEnroll,
+        ),
+        idxMethodParams: {
+          authenticator: {
+            id,
+            methodType,
+            enrollmentId,
+          },
+        },
+        dataSe: getAuthenticatorDataSeVal(
+          authenticatorKey,
+          typeof methodType === 'string' ? methodType : undefined,
+        ),
+      } as AuthenticatorButtonElement['options'],
+    } as AuthenticatorButtonElement;
   })
 );
 
-const getAuthenticatorOptions = (
+const getAuthenticatorButtonElements = (
   options: IdxOption[],
   isEnroll?: boolean,
-): Option<AuthenticatorOptionValue>[] => {
+): AuthenticatorButtonElement[] => {
   const formattedOptions = formatAuthenticatorOptions(options, isEnroll);
 
   // appending OV options back to its original spot
@@ -154,45 +174,48 @@ const getAuthenticatorOptions = (
   return formattedOptions;
 };
 
-export const getOVMethodTypeAuthenticatorOptions = (
-  options?: IdxOption[],
-): Option<AuthenticatorOptionValue>[] => {
-  if (!options) {
+export const getOVMethodTypeAuthenticatorButtonElements = (
+  options: IdxOption[],
+): AuthenticatorButtonElement[] => {
+  if (!options.length) {
     return [];
   }
 
   return options.map((option) => ({
-    key: AUTHENTICATOR_KEY.OV,
+    type: 'AuthenticatorButton',
     label: option.label,
-    value: {
-      label: 'oie.verify.authenticator.button.text',
-      methodType: option.value as string,
-    },
-  }));
+    options: {
+      key: AUTHENTICATOR_KEY.OV,
+      ctaLabel: 'oie.verify.authenticator.button.text',
+      idxMethodParams: {
+        authenticator: {
+          methodType: option.value as string,
+        },
+      },
+    } as AuthenticatorButtonElement['options'],
+  } as AuthenticatorButtonElement));
 };
 
 export const isOnlyPushWithAutoChallenge = (
-  authenticatorRemediation?: IdxRemediationValue,
+  inputs?: Input[],
 ): boolean => {
-  const methodType = (authenticatorRemediation?.form?.value)
-    ?.find(({ name }) => name === 'methodType');
-  const autoChallenge = (authenticatorRemediation?.form?.value)
-    ?.find(({ name }) => name === 'autoChallenge');
+  const methodType = inputs?.find(({ name }) => name === 'methodType');
+  const autoChallenge = inputs?.find(({ name }) => name === 'autoChallenge');
 
   return typeof autoChallenge !== 'undefined'
     && methodType?.options?.length === 1
     && methodType.options[0].value === 'push';
 };
 
-export const getAuthenticatorVerifyOptions = (
+export const getAuthenticatorVerifyButtonElements = (
   authenticatorOptions: IdxOption[],
-): Option<AuthenticatorOptionValue>[] => getAuthenticatorOptions(
+):AuthenticatorButtonElement[] => getAuthenticatorButtonElements(
   authenticatorOptions,
 );
 
-export const getAuthenticatorEnrollOptions = (
+export const getAuthenticatorEnrollButtonElements = (
   authenticatorOptions: IdxOption[],
-): Option<AuthenticatorOptionValue>[] => getAuthenticatorOptions(
+): AuthenticatorButtonElement[] => getAuthenticatorButtonElements(
   authenticatorOptions,
   true,
 );

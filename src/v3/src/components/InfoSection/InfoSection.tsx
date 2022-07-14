@@ -10,33 +10,46 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Infobox } from '@okta/odyssey-react';
+import { Alert, Box } from '@mui/material';
 import { IdxMessage } from '@okta/okta-auth-js';
 import { FunctionComponent, h } from 'preact';
 
-import { CUSTOM_MESSAGE_KEYS } from '../../constants';
+import { CUSTOM_MESSAGE_KEYS, IDX_STEP } from '../../constants';
+import { useWidgetContext } from '../../contexts';
+import { useTranslation } from '../../lib/okta-i18n';
 import { MessageType, MessageTypeVariant } from '../../types';
 
 type Props = {
   messages?: IdxMessage[];
 };
 
-const InfoSection: FunctionComponent<Props> = ({ messages }) => {
-  const standardMessages = messages?.filter(({ i18n }) => !CUSTOM_MESSAGE_KEYS.includes(i18n?.key));
+const EXCLUDE_MESSAGE_STEPS = [IDX_STEP.REENROLL_AUTHENTICATOR_WARNING];
 
-  return standardMessages?.length ? (
-    // @ts-ignore OKTA-471233
+const InfoSection: FunctionComponent<Props> = ({ messages }) => {
+  const { t, i18n } = useTranslation();
+  const standardMessages = messages?.filter((message) => !CUSTOM_MESSAGE_KEYS.includes(
+    message?.i18n?.key,
+  ));
+  const { idxTransaction } = useWidgetContext();
+  const shouldExcludeMessage = idxTransaction?.nextStep?.name
+    && EXCLUDE_MESSAGE_STEPS.includes(idxTransaction.nextStep.name);
+
+  return (!shouldExcludeMessage && standardMessages?.length) ? (
     <Box
-      marginBottom="m"
-      width="full"
+      marginBottom={4}
+      width={1}
     >
       {
         standardMessages.map((message) => (
-          <Infobox
-            key={message.message}
-            variant={MessageTypeVariant[message.class as MessageType] ?? MessageTypeVariant.INFO}
-            content={message.message}
-          />
+          <Alert
+            key={message.i18n?.key || message.message}
+            severity={MessageTypeVariant[message.class as MessageType] ?? MessageTypeVariant.INFO}
+            variant="infobox"
+          >
+            {i18n.exists(message.i18n?.key)
+              ? t(message.i18n.key, message.i18n.params)
+              : message.message}
+          </Alert>
         ))
       }
     </Box>

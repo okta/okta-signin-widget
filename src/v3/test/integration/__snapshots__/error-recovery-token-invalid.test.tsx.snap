@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`error-recovery-token-invalid should render form 1`] = `
+<div>
+  <span>
+    <main
+      class="ods-4o5zYQ ods-76eppy ods-66Tc65 ods-6lar65 ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs auth-container main-container mainViewContainer"
+    >
+      <div
+        class="ods-4o5zYQ ods-2Se4oq ods-2VFzyK ods-1qUaxm ods-1oujX1 ods-78Q1Pv ods-3x5mmc ods-7mcS6o ods-7lpPkQ ods-2oc5SK ods-4XAbls ods-2NLKpK ods-1ll9ky ods-4IdjLs siwContainer"
+      >
+        <div
+          class="okta-sign-in-header auth-header siwHeader"
+        >
+          <h1
+            class="MuiTypography-root MuiTypography-h1 emotion-0"
+          />
+        </div>
+        <div
+          class="MuiBox-root emotion-1"
+        >
+          <form
+            novalidate=""
+          >
+            <div
+              class="MuiBox-root emotion-2"
+            >
+              <div
+                class="MuiBox-root emotion-3"
+              >
+                <div
+                  class="MuiBox-root emotion-4"
+                >
+                  <div
+                    class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation0 MuiAlert-root MuiAlert-infoboxInfo MuiAlert-infobox emotion-5"
+                    role="alert"
+                  >
+                    <div
+                      class="MuiAlert-icon emotion-6"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeInherit emotion-7"
+                        data-testid="InfoOutlinedIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
+                        />
+                      </svg>
+                    </div>
+                    <div
+                      class="MuiAlert-message emotion-8"
+                    >
+                      The recovery token is invalid.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </span>
+</div>
+`;

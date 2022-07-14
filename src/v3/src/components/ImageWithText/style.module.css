@@ -1,0 +1,15 @@
+:global(.siwIconFillPrimary) {
+  fill: var(--PrimaryFill);
+}
+
+:global(.siwIconStrokePrimary) {
+  stroke: var(--PrimaryFill);
+}
+
+:global(.siwIconFillPrimaryDark) {
+  fill: var(--PrimaryDarkFill);
+}
+
+:global(.siwIconFillSecondary) {
+  fill: var(--SecondaryFill);
+}

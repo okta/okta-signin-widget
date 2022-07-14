@@ -10,18 +10,20 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement } from '@jsonforms/core';
+import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 
 import { IDX_STEP } from '../../constants';
 import {
-  Choice,
+  ButtonElement,
+  ButtonType,
+  FieldElement,
   IdxStepTransformer,
   TitleElement,
+  UISchemaElement,
 } from '../../types';
 import { isAndroidOrIOS } from '../../util';
-import { ButtonOptionType } from '../getButtonControls';
-import { transformStep } from '../step';
-import { getUIElementWithScope, removeUIElementWithScope } from '../utils';
+import { transformStepInputs } from '../field';
+import { getUIElementWithName } from '../utils';
 
 export const CHANNEL_SCOPE = '#/properties/authenticator/properties/channel';
 const CHANNEL_TO_LABEL_KEY_MAP: { [channel: string]: string } = {
@@ -30,16 +32,17 @@ const CHANNEL_TO_LABEL_KEY_MAP: { [channel: string]: string } = {
   sms: 'oie.enroll.okta_verify.select.channel.sms.label',
 };
 
-// TODO: OKTA-499556 - OV enrollment is not working, need auth-js ticket completed first
 export const transformOktaVerifyChannelSelection: IdxStepTransformer = (transaction) => {
-  const { nextStep: { authenticator } } = transaction;
+  const { context } = transaction;
+  // TODO: OKTA-503490 temporary sln to access missing relatesTo obj
+  const authenticator = context?.currentAuthenticator?.value;
   const selectedChannel = authenticator?.contextualData?.selectedChannel;
   const isAndroidOrIOSView = isAndroidOrIOS();
 
   const channelSelectionStep = transaction.availableSteps?.find(
     ({ name }) => name === IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
   );
-  const formBag = transformStep(channelSelectionStep);
+  const formBag = transformStepInputs(channelSelectionStep);
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -53,49 +56,39 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = (transact
   // Title should be first element
   formBag.uischema.elements.unshift(titleElement);
 
-  formBag.uischema.elements = removeUIElementWithScope(
-    CHANNEL_SCOPE,
-    formBag.uischema.elements as ControlElement[],
-  );
-  const idElement = getUIElementWithScope(
-    '#/properties/authenticator/properties/id',
-    formBag.uischema.elements as ControlElement[],
-  );
-  if (idElement) {
-    idElement.options = {
-      ...idElement.options,
-      type: 'hidden',
+  const channelSelectionElement = getUIElementWithName(
+    'authenticator.channel',
+    formBag.uischema.elements as UISchemaElement[],
+  ) as FieldElement;
+  if (channelSelectionElement) {
+    channelSelectionElement.label = 'oie.enroll.okta_verify.select.channel.description';
+    const { options: { inputMeta: { options = [] } } } = channelSelectionElement;
+    const choices: IdxOption[] = options
+      .filter(({ value }: IdxOption) => (isAndroidOrIOSView ? (value !== 'qrcode') : value !== selectedChannel))
+      .map((opt: IdxOption) => ({
+        value: opt.value as string,
+        label: CHANNEL_TO_LABEL_KEY_MAP[opt.value as string],
+      }));
+
+    // Set the default value
+    // formBag.data[channelSelectionElement.name] = choices[0].value;
+    channelSelectionElement.options = {
+      ...channelSelectionElement.options,
+      format: 'radio',
+      customOptions: choices,
+      defaultOption: choices[0].value as string,
     };
   }
 
-  if (channelSelectionStep?.options) {
-    const choices = channelSelectionStep.options
-      .filter(({ value }) => (isAndroidOrIOSView ? (value !== 'qrcode') : value !== selectedChannel))
-      .map((opt) => ({
-        key: opt.value,
-        value: CHANNEL_TO_LABEL_KEY_MAP[opt.value as string],
-      } as Choice));
-    formBag.uischema.elements.push({
-      type: 'Control',
-      label: 'oie.enroll.okta_verify.select.channel.description',
-      scope: CHANNEL_SCOPE,
-      options: {
-        format: 'radio',
-        optionalLabel: !isAndroidOrIOSView && 'optional',
-        choices,
-      },
-    } as ControlElement);
-  }
-
   formBag.uischema.elements.push({
-    type: 'Control',
+    type: 'Button',
     label: 'oform.next',
-    scope: `#/properties/${ButtonOptionType.SUBMIT}`,
+    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
-      format: 'button',
-      type: ButtonOptionType.SUBMIT,
+      type: ButtonType.SUBMIT,
+      step: channelSelectionStep!.name,
     },
-  } as ControlElement);
+  } as ButtonElement);
 
   return formBag;
 };

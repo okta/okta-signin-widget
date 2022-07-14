@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Heading } from '@okta/odyssey-react';
+import { Typography } from '@mui/material';
 import { withTheme } from '@okta/odyssey-react-theme';
 import classNames from 'classnames/bind';
 import { FunctionComponent, h } from 'preact';
@@ -31,7 +31,7 @@ const shouldRenderAuthCoin = (props?: AuthCoinProps): boolean => {
     return false;
   }
 
-  if (!authCoinConfig.icon && !props?.url) {
+  if (!authCoinConfig.icon && !props.url) {
     return false;
   }
 
@@ -67,7 +67,7 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
 
   return (
     <div className={containerClasses}>
-      <Heading level="1">
+      <Typography variant="h1">
         { logo && (
           <img
             alt={logoText || (logo && brandName ? brandName : 'Logo')}
@@ -75,7 +75,7 @@ const AuthHeader: FunctionComponent<AuthHeaderProps> = ({
             className={imageClasses}
           />
         )}
-      </Heading>
+      </Typography>
       { renderAuthCoin() }
     </div>
   );

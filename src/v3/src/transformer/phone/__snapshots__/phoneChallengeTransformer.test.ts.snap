@@ -2,11 +2,13 @@
 
 exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements when phone number not available 1`] = `
 Object {
+  "data": Object {},
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
       Object {
         "options": Object {
+          "action": [Function],
           "ctaText": "oie.phone.verify.sms.resendText",
         },
         "type": "Reminder",
@@ -35,11 +37,10 @@ Object {
       Object {
         "label": "mfa.challenge.verify",
         "options": Object {
-          "format": "button",
           "type": "submit",
         },
         "scope": "#/properties/submit",
-        "type": "Control",
+        "type": "Button",
       },
     ],
     "type": "VerticalLayout",
@@ -49,6 +50,7 @@ Object {
 
 exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements when resend code is NOT available 1`] = `
 Object {
+  "data": Object {},
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -76,11 +78,10 @@ Object {
       Object {
         "label": "mfa.challenge.verify",
         "options": Object {
-          "format": "button",
           "type": "submit",
         },
         "scope": "#/properties/submit",
-        "type": "Control",
+        "type": "Button",
       },
     ],
     "type": "VerticalLayout",
@@ -90,11 +91,13 @@ Object {
 
 exports[`PhoneChallengeTransformer Tests should create SMS challenge UI elements when resend code is available 1`] = `
 Object {
+  "data": Object {},
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
       Object {
         "options": Object {
+          "action": [Function],
           "ctaText": "oie.phone.verify.sms.resendText",
         },
         "type": "Reminder",
@@ -123,11 +126,10 @@ Object {
       Object {
         "label": "mfa.challenge.verify",
         "options": Object {
-          "format": "button",
           "type": "submit",
         },
         "scope": "#/properties/submit",
-        "type": "Control",
+        "type": "Button",
       },
     ],
     "type": "VerticalLayout",

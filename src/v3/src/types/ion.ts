@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+// TODO: remove - transform should happen via auth-js instead of raw ionResponse
+
 /**
  * A JSON object with a member named value.
  */

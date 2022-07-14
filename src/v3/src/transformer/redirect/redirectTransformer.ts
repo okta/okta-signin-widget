@@ -16,6 +16,7 @@ import { InterstitialRedirectView } from '../../constants';
 import {
   DescriptionElement,
   FormBag,
+  RedirectElement,
   SpinnerElement,
   WidgetProps,
 } from '../../types';
@@ -24,7 +25,7 @@ import { createForm } from '../utils';
 
 export const redirectTransformer = (
   transaction: IdxTransaction,
-  redirectUrl: string,
+  url: string,
   widgetProps: WidgetProps,
 ): FormBag => {
   const { interstitialBeforeLoginRedirect, features } = widgetProps;
@@ -33,8 +34,8 @@ export const redirectTransformer = (
   const { uischema } = formBag;
   uischema.elements.push({
     type: 'Redirect',
-    options: { redirectUrl },
-  });
+    options: { url },
+  } as RedirectElement);
 
   const appInfo = getAppInfo(transaction);
   const userInfo = getUserInfo(transaction);

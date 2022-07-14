@@ -32,19 +32,19 @@ describe('AuthCoin tests', () => {
 
     const { findByText } = render(<AuthCoin {...props} />);
 
-    expect(await findByText('', { selector: 'MockSVGIcon' })).toBeDefined();
+    expect(await findByText('', { selector: 'mocksvgicon' })).toBeDefined();
   });
 
   it('should display standard theme Non-Branded AuthCoin without style customization', async () => {
     const { findByText } = render(<AuthCoin {...props} />);
 
-    expect(await findByText('', { selector: 'MockSVGIcon' })).toBeDefined();
+    expect(await findByText('', { selector: 'mocksvgicon' })).toBeDefined();
   });
 
   it('should display Non-Branded AuthCoin with style customizations', async () => {
     const { findByText } = render(<AuthCoin {...props} />);
 
-    expect(await findByText('', { selector: 'MockSVGIcon' })).toBeDefined();
+    expect(await findByText('', { selector: 'mocksvgicon' })).toBeDefined();
   });
 
   it('should display custom image in place of standard Non-Branded '
@@ -68,7 +68,7 @@ describe('AuthCoin tests', () => {
 
     const { findByText } = render(<AuthCoin {...props} />);
 
-    expect(await findByText('', { selector: 'MockSVGIcon' })).toBeDefined();
+    expect(await findByText('', { selector: 'mocksvgicon' })).toBeDefined();
   });
 
   it('should not render the component when invalid authenticator key is provided', async () => {

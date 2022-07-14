@@ -10,16 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement } from '@jsonforms/core';
 import {
+  ButtonElement,
+  ButtonType,
   DescriptionElement,
   IdxStepTransformer,
   TitleElement,
-} from 'src/types';
-
-import { ButtonOptionType } from '../getButtonControls';
-import { removeUIElementWithScope } from '../utils';
-import { getAuthenticatorEnrollOptions } from './utils';
+  UISchemaElement,
+} from '../../types';
+import { removeUIElementWithName } from '../utils';
+import { getAuthenticatorEnrollButtonElements } from './utils';
 
 const getContentDescrAndParams = (brandName?: string): TitleElement['options'] => {
   if (brandName) {
@@ -39,33 +39,22 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = (
   const { brandName } = widgetProps;
   const { nextStep: { inputs, canSkip }, availableSteps } = transaction;
   const authenticator = inputs?.find(({ name }) => name === 'authenticator');
-  if (!authenticator || !authenticator.options) {
+  if (!authenticator?.options) {
     return formBag;
   }
 
-  const { schema, uischema } = formBag;
+  const { uischema } = formBag;
 
-  schema.properties = schema.properties ?? {};
-  schema.required = schema.required ?? [];
-
-  schema.properties[authenticator.name] = {
-    type: 'object',
-    enum: getAuthenticatorEnrollOptions(authenticator.options),
-  };
-
-  const targetScope = `#/properties/${authenticator.name}`;
-  uischema.elements = removeUIElementWithScope(
-    targetScope,
-    uischema.elements as ControlElement[],
+  const authenticatorButtonElements = getAuthenticatorEnrollButtonElements(authenticator.options);
+  uischema.elements = removeUIElementWithName(
+    'authenticator',
+    uischema.elements as UISchemaElement[],
   );
   uischema.elements.push({
-    type: 'Control',
-    scope: targetScope,
-    label: canSkip ? 'oie.setup.optional' : 'oie.setup.required',
-    options: {
-      format: 'AuthenticatorList',
-    },
-  } as ControlElement);
+    type: 'Description',
+    options: { content: canSkip ? 'oie.setup.optional' : 'oie.setup.required' },
+  } as DescriptionElement);
+  uischema.elements = uischema.elements.concat(authenticatorButtonElements);
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -73,13 +62,9 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = (
       content: 'oie.select.authenticators.enroll.title',
     },
   };
-  const descrContentAndParams = getContentDescrAndParams(brandName);
   const informationalTextElement: DescriptionElement = {
     type: 'Description',
-    options: {
-      content: descrContentAndParams.content,
-      contentParams: descrContentAndParams.contentParams,
-    },
+    options: getContentDescrAndParams(brandName),
   };
 
   uischema.elements.unshift(informationalTextElement);
@@ -87,15 +72,14 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = (
 
   const skipStep = availableSteps?.find(({ name }) => name === 'skip');
   if (canSkip && skipStep) {
-    const { action } = skipStep;
-    const skipButtonElement: ControlElement = {
-      type: 'Control',
-      label: 'enroll.choices.submit.finish',
-      scope: `#/properties/${ButtonOptionType.SUBMIT}`,
+    const { name: step } = skipStep;
+    const skipButtonElement: ButtonElement = {
+      type: 'Button',
+      label: 'oie.optional.authenticator.button.title',
+      scope: `#/properties/${ButtonType.SUBMIT}`,
       options: {
-        format: 'button',
-        idxMethodParams: { skip: true },
-        action,
+        type: ButtonType.SUBMIT,
+        step,
       },
     };
     uischema.elements.push(skipButtonElement);

@@ -10,37 +10,44 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement } from '@jsonforms/core';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
-import { IDX_STEP } from 'src/constants';
+import { AUTHENTICATOR_KEY, IDX_STEP } from 'src/constants';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
 import {
-  AuthenticatorOptionValue,
+  AuthenticatorButtonElement,
+  ButtonElement,
+  DescriptionElement,
   FormBag,
-  Option,
+  TitleElement,
+  UISchemaLayoutType,
   WidgetProps,
 } from 'src/types';
 
 import { transformSelectAuthenticatorEnroll } from '.';
 
-const getMockAuthenticators = (): Option<AuthenticatorOptionValue>[] => {
+const getMockAuthenticatorButtons = (): AuthenticatorButtonElement[] => {
   const authenticators = [];
   authenticators.push({
-    key: 'okta_email',
+    type: 'AuthenticatorButton',
     label: 'Email',
-    value: {
-      key: 'okta_email',
+    options: {
+      key: AUTHENTICATOR_KEY.EMAIL,
+      ctaLabel: 'Select',
       description: 'Enroll in email authenticator',
-      label: 'Select',
-    },
-  });
+      idxMethodParams: {
+        authenticator: {
+          id: '123abc',
+        },
+      },
+    } as AuthenticatorButtonElement['options'],
+  } as AuthenticatorButtonElement);
   return authenticators;
 };
 
 jest.mock('./utils', () => ({
-  getAuthenticatorEnrollOptions: (
+  getAuthenticatorEnrollButtonElements: (
     options: IdxOption[],
-  ) => (options.length ? getMockAuthenticators() : []),
+  ) => (options.length ? getMockAuthenticatorButtons() : []),
 }));
 
 describe('Enroll Authenticator Selector Transformer Tests', () => {
@@ -51,13 +58,14 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
 
   beforeEach(() => {
     formBag = {
+      data: {},
       schema: {
         properties: {
           authenticator: {},
         },
       },
       uischema: {
-        type: 'VerticalLayout',
+        type: UISchemaLayoutType.VERTICAL,
         elements: [],
       },
     };
@@ -94,53 +102,43 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     transaction.availableSteps = [{ name: 'skip', action: jest.fn() }];
     const updatedFormBag = transformSelectAuthenticatorEnroll(transaction, formBag, mockProps);
 
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-    expect(updatedFormBag.uischema.elements[0].options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.select.authenticators.enroll.title');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
-    expect(updatedFormBag.uischema.elements[1].options?.content)
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.select.authenticators.enroll.subtitle');
-    expect(updatedFormBag.uischema.elements[1].options?.contentParams)
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.contentParams)
       .toBeUndefined();
-    expect(updatedFormBag.uischema.elements[2].options?.format).toBe('AuthenticatorList');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).scope)
-      .toBe('#/properties/authenticator');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe('oie.setup.optional');
-    expect(updatedFormBag.schema.properties?.authenticator).toEqual({
-      type: 'object',
-      enum: getMockAuthenticators(),
-    });
-    expect(updatedFormBag.uischema.elements[3].type).toBe('Control');
-    expect((updatedFormBag.uischema.elements[3] as ControlElement).label)
-      .toBe('enroll.choices.submit.finish');
-    expect(updatedFormBag.uischema.elements[3].options?.format).toBe('button');
-    expect(updatedFormBag.uischema.elements[3].options?.action).not.toBeUndefined();
-    expect(updatedFormBag.uischema.elements[3].options?.idxMethodParams?.skip).toBe(true);
+    expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement)
+      .options.idxMethodParams?.authenticator)?.id).toBe('123abc');
+
+    expect(updatedFormBag.uischema.elements[4].type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
+      .toBe('oie.optional.authenticator.button.title');
   });
 
   it('should transform authenticator elements when step is not skippable', () => {
     const updatedFormBag = transformSelectAuthenticatorEnroll(transaction, formBag, mockProps);
 
-    expect(updatedFormBag.uischema.elements.length).toBe(3);
+    expect(updatedFormBag.uischema.elements.length).toBe(4);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-    expect(updatedFormBag.uischema.elements[0].options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.select.authenticators.enroll.title');
-    expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
-    expect(updatedFormBag.uischema.elements[1].options?.content)
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).type).toBe('Description');
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.select.authenticators.enroll.subtitle');
-    expect(updatedFormBag.uischema.elements[1].options?.contentParams)
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.contentParams)
       .toBeUndefined();
-    expect(updatedFormBag.uischema.elements[2].options?.format).toBe('AuthenticatorList');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).scope)
-      .toBe('#/properties/authenticator');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe('oie.setup.required');
-    expect(updatedFormBag.schema.properties?.authenticator).toEqual({
-      type: 'object',
-      enum: getMockAuthenticators(),
-    });
+    expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement)
+      .options.idxMethodParams?.authenticator)?.id).toBe('123abc');
   });
 
   it('should transform authenticator elements when step is skippable and brandName is provided', () => {
@@ -149,29 +147,22 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     transaction.availableSteps = [{ name: 'skip', action: jest.fn() }];
     const updatedFormBag = transformSelectAuthenticatorEnroll(transaction, formBag, mockProps);
 
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-    expect(updatedFormBag.uischema.elements[0].options?.content)
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe('oie.select.authenticators.enroll.title');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
-    expect(updatedFormBag.uischema.elements[1].options?.content)
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('oie.select.authenticators.enroll.subtitle.custom');
-    expect(updatedFormBag.uischema.elements[1].options?.contentParams)
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.contentParams)
       .toEqual(['Acme Corp.']);
-    expect(updatedFormBag.uischema.elements[2].options?.format).toBe('AuthenticatorList');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).scope)
-      .toBe('#/properties/authenticator');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[2] as DescriptionElement).options.content)
       .toBe('oie.setup.optional');
-    expect(updatedFormBag.schema.properties?.authenticator).toEqual({
-      type: 'object',
-      enum: getMockAuthenticators(),
-    });
-    expect(updatedFormBag.uischema.elements[3].type).toBe('Control');
-    expect((updatedFormBag.uischema.elements[3] as ControlElement).label)
-      .toBe('enroll.choices.submit.finish');
-    expect(updatedFormBag.uischema.elements[3].options?.format).toBe('button');
-    expect(updatedFormBag.uischema.elements[3].options?.action).not.toBeUndefined();
-    expect(updatedFormBag.uischema.elements[3].options?.idxMethodParams?.skip).toBe(true);
+    expect(updatedFormBag.uischema.elements[3].type).toBe('AuthenticatorButton');
+    expect(((updatedFormBag.uischema.elements[3] as AuthenticatorButtonElement)
+      .options.idxMethodParams?.authenticator)?.id).toBe('123abc');
+    expect(updatedFormBag.uischema.elements[4].type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).label)
+      .toBe('oie.optional.authenticator.button.title');
   });
 });

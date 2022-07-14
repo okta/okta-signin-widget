@@ -1,0 +1,131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PhoneEnrollmentTransformer Tests should create phone enrollment UI elements when multiple method types exist in transaction 1`] = `
+Object {
+  "data": Object {
+    "authenticator.methodType": "sms",
+  },
+  "schema": Object {
+    "properties": Object {
+      "phoneNumber": Object {
+        "pattern": "^\\\\+([0-9]{5,17})(?:x(?<ext>[0-9]+))?$",
+        "type": "string",
+      },
+    },
+  },
+  "uischema": Object {
+    "elements": Array [
+      Object {
+        "options": Object {
+          "content": "oie.phone.enroll.title",
+        },
+        "type": "Title",
+      },
+      Object {
+        "elements": Array [
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "oie.phone.enroll.sms.subtitle",
+                },
+                "type": "Description",
+              },
+              Object {
+                "label": "methodType",
+                "name": "authenticator.methodType",
+                "options": Object {
+                  "format": "radio",
+                  "inputMeta": Object {
+                    "name": "authenticator.methodType",
+                    "options": Array [
+                      Object {
+                        "label": "SMS",
+                        "value": "sms",
+                      },
+                      Object {
+                        "label": "Phone Call",
+                        "value": "voice",
+                      },
+                    ],
+                  },
+                  "isStepper": true,
+                },
+                "type": "Control",
+              },
+              Object {
+                "label": "mfa.phoneNumber.placeholder",
+                "name": "authenticator.phoneNumber",
+                "options": Object {
+                  "targetKey": "authenticator.methodType",
+                },
+                "type": "Control",
+              },
+              Object {
+                "label": "oie.phone.sms.primaryButton",
+                "options": Object {
+                  "type": "submit",
+                },
+                "scope": "#/properties/submit",
+                "type": "Button",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+          Object {
+            "elements": Array [
+              Object {
+                "options": Object {
+                  "content": "oie.phone.enroll.call.subtitle",
+                },
+                "type": "Description",
+              },
+              Object {
+                "label": "methodType",
+                "name": "authenticator.methodType",
+                "options": Object {
+                  "format": "radio",
+                  "inputMeta": Object {
+                    "name": "authenticator.methodType",
+                    "options": Array [
+                      Object {
+                        "label": "SMS",
+                        "value": "sms",
+                      },
+                      Object {
+                        "label": "Phone Call",
+                        "value": "voice",
+                      },
+                    ],
+                  },
+                  "isStepper": true,
+                },
+                "type": "Control",
+              },
+              Object {
+                "label": "mfa.phoneNumber.placeholder",
+                "name": "authenticator.phoneNumber",
+                "options": Object {
+                  "targetKey": "authenticator.methodType",
+                },
+                "type": "Control",
+              },
+              Object {
+                "label": "oie.phone.call.primaryButton",
+                "options": Object {
+                  "type": "submit",
+                },
+                "scope": "#/properties/submit",
+                "type": "Button",
+              },
+            ],
+            "type": "VerticalLayout",
+          },
+        ],
+        "type": "Stepper",
+      },
+    ],
+    "type": "VerticalLayout",
+  },
+}
+`;

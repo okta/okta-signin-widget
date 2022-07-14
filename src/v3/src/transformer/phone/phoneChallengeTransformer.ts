@@ -10,34 +10,50 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement } from '@jsonforms/core';
+import { IdxActionParams } from '@okta/okta-auth-js';
 
 import {
+  ButtonElement,
+  ButtonType,
   DescriptionElement,
   IdxStepTransformer,
   ReminderElement,
   TitleElement,
   Undefinable,
 } from '../../types';
-import { ButtonOptionType } from '../getButtonControls';
 
-export const transformPhoneChallenge: IdxStepTransformer = (transaction, formBag) => {
-  const { nextStep } = transaction;
+export const transformPhoneChallenge: IdxStepTransformer = (
+  transaction,
+  formBag,
+  widgetProps,
+) => {
+  const { nextStep, availableSteps } = transaction;
   const { uischema } = formBag;
+  const { authClient } = widgetProps;
 
   let reminderElement: Undefinable<ReminderElement>;
 
-  if (nextStep.canResend) {
+  const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
+  if (nextStep.canResend && resendStep) {
+    const { name } = resendStep;
     reminderElement = {
       type: 'Reminder',
       options: {
         ctaText: 'oie.phone.verify.sms.resendText',
+        // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
+        action: (params?: IdxActionParams) => {
+          const { stateHandle, ...rest } = params ?? {};
+          return authClient?.idx.proceed({
+            // @ts-ignore stateHandle can be undefined
+            stateHandle,
+            actions: [{ name, params: rest }],
+          });
+        },
       },
     };
   }
 
-  // @ts-ignore Remove after https://oktainc.atlassian.net/browse/OKTA-502429
-  const redactedPhone = nextStep.relatesTo?.value?.profile?.phoneNumber;
+  const redactedPhone = nextStep.relatesTo?.value?.profile?.phoneNumber as string;
   const informationalText: DescriptionElement = {
     type: 'Description',
     options: {
@@ -64,13 +80,12 @@ export const transformPhoneChallenge: IdxStepTransformer = (transaction, formBag
     },
   };
 
-  const submitButtonControl: ControlElement = {
-    type: 'Control',
+  const submitButtonControl: ButtonElement = {
+    type: 'Button',
     label: 'mfa.challenge.verify',
-    scope: `#/properties/${ButtonOptionType.SUBMIT}`,
+    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
-      format: 'button',
-      type: ButtonOptionType.SUBMIT,
+      type: ButtonType.SUBMIT,
     },
   };
 

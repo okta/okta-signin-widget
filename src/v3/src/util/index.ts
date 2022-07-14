@@ -11,9 +11,12 @@
  */
 
 export * from './browserUtils';
-export * from './buildPayload';
+export * from './cookieUtils';
+export * from './environmentUtils';
+export * from './flattenInputs';
 export * from './formUtils';
-export * from './getDisplayName';
+export * from './getImmutableData';
 export * from './idxUtils';
 export * from './passwordUtils';
+export * from './toNestedObject';
 export * from './webauthnUtils';

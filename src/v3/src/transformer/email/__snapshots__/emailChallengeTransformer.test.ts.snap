@@ -2,6 +2,7 @@
 
 exports[`EmailChallengeTransformer Tests should create email challenge UI elements when profile email is NOT available 1`] = `
 Object {
+  "data": Object {},
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -11,7 +12,7 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "action": [MockFunction],
+                  "action": [Function],
                   "ctaText": "email.code.not.received",
                 },
                 "type": "Reminder",
@@ -25,11 +26,17 @@ Object {
               Object {
                 "options": Object {
                   "content": "next.email.challenge.informationalText",
-                  "contentParams": Array [
-                    undefined,
-                  ],
+                  "contentParams": undefined,
                 },
                 "type": "Description",
+              },
+              Object {
+                "label": "oie.email.verify.alternate.showCodeTextField",
+                "options": Object {
+                  "nextStepIndex": 1,
+                  "variant": "secondary",
+                },
+                "type": "StepperButton",
               },
             ],
             "type": "VerticalLayout",
@@ -38,7 +45,7 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "action": [MockFunction],
+                  "action": [Function],
                   "ctaText": "email.code.not.received",
                 },
                 "type": "Reminder",
@@ -52,39 +59,26 @@ Object {
               Object {
                 "options": Object {
                   "content": "next.email.challenge.informationalText",
-                  "contentParams": Array [
-                    undefined,
-                  ],
+                  "contentParams": undefined,
                 },
                 "type": "Description",
               },
               Object {
                 "label": "email.enroll.enterCode",
-                "scope": "#/properties/credentials/properties/passcode",
-                "type": "Control",
+                "name": "credentials.passcode",
               },
               Object {
                 "label": "mfa.challenge.verify",
                 "options": Object {
-                  "format": "button",
                   "type": "submit",
                 },
                 "scope": "#/properties/submit",
-                "type": "Control",
+                "type": "Button",
               },
             ],
             "type": "VerticalLayout",
           },
         ],
-        "options": Object {
-          "key": "123456789-emailChallenge",
-          "navButtonsConfig": Object {
-            "next": Object {
-              "label": "oie.email.verify.alternate.showCodeTextField",
-              "variant": "secondary",
-            },
-          },
-        },
         "type": "Stepper",
       },
     ],
@@ -95,6 +89,7 @@ Object {
 
 exports[`EmailChallengeTransformer Tests should create email challenge UI elements when resend code is NOT available 1`] = `
 Object {
+  "data": Object {},
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -116,6 +111,14 @@ Object {
                   ],
                 },
                 "type": "Description",
+              },
+              Object {
+                "label": "oie.email.verify.alternate.showCodeTextField",
+                "options": Object {
+                  "nextStepIndex": 1,
+                  "variant": "secondary",
+                },
+                "type": "StepperButton",
               },
             ],
             "type": "VerticalLayout",
@@ -139,31 +142,20 @@ Object {
               },
               Object {
                 "label": "email.enroll.enterCode",
-                "scope": "#/properties/credentials/properties/passcode",
-                "type": "Control",
+                "name": "credentials.passcode",
               },
               Object {
                 "label": "mfa.challenge.verify",
                 "options": Object {
-                  "format": "button",
                   "type": "submit",
                 },
                 "scope": "#/properties/submit",
-                "type": "Control",
+                "type": "Button",
               },
             ],
             "type": "VerticalLayout",
           },
         ],
-        "options": Object {
-          "key": "123456789-emailChallenge",
-          "navButtonsConfig": Object {
-            "next": Object {
-              "label": "oie.email.verify.alternate.showCodeTextField",
-              "variant": "secondary",
-            },
-          },
-        },
         "type": "Stepper",
       },
     ],
@@ -174,6 +166,7 @@ Object {
 
 exports[`EmailChallengeTransformer Tests should create email challenge UI elements when resend code is available 1`] = `
 Object {
+  "data": Object {},
   "schema": Object {},
   "uischema": Object {
     "elements": Array [
@@ -183,7 +176,7 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "action": [MockFunction],
+                  "action": [Function],
                   "ctaText": "email.code.not.received",
                 },
                 "type": "Reminder",
@@ -203,6 +196,14 @@ Object {
                 },
                 "type": "Description",
               },
+              Object {
+                "label": "oie.email.verify.alternate.showCodeTextField",
+                "options": Object {
+                  "nextStepIndex": 1,
+                  "variant": "secondary",
+                },
+                "type": "StepperButton",
+              },
             ],
             "type": "VerticalLayout",
           },
@@ -210,7 +211,7 @@ Object {
             "elements": Array [
               Object {
                 "options": Object {
-                  "action": [MockFunction],
+                  "action": [Function],
                   "ctaText": "email.code.not.received",
                 },
                 "type": "Reminder",
@@ -232,31 +233,20 @@ Object {
               },
               Object {
                 "label": "email.enroll.enterCode",
-                "scope": "#/properties/credentials/properties/passcode",
-                "type": "Control",
+                "name": "credentials.passcode",
               },
               Object {
                 "label": "mfa.challenge.verify",
                 "options": Object {
-                  "format": "button",
                   "type": "submit",
                 },
                 "scope": "#/properties/submit",
-                "type": "Control",
+                "type": "Button",
               },
             ],
             "type": "VerticalLayout",
           },
         ],
-        "options": Object {
-          "key": "123456789-emailChallenge",
-          "navButtonsConfig": Object {
-            "next": Object {
-              "label": "oie.email.verify.alternate.showCodeTextField",
-              "variant": "secondary",
-            },
-          },
-        },
         "type": "Stepper",
       },
     ],
