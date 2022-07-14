@@ -3,15 +3,26 @@
   "compilerOptions": {
     "target": "ES5",
     "module": "ESNext",
+    "allowJs": true,
     "jsx": "react",
     "jsxFactory": "h",
     "strict": true,
     "skipLibCheck": false,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
+    "resolveJsonModule": true,
     "paths": {
-      "src/*": ["./src/*"],
-      "react": ["node_modules/preact/compat"],
-      "react-dom": ["node_modules/preact/compat"]
+      "src/*": [
+        "./src/*"
+      ],
+      "react": [
+        "node_modules/preact/compat"
+      ],
+      "react-dom": [
+        "node_modules/preact/compat"
+      ]
     }
   }
 }

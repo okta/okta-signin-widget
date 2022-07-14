@@ -36,7 +36,7 @@
     "build:i18n": "node src/bin/properties-to-json",
     "clean-svg": "svgo -f src/img/authCoinIcons",
     "predev": "yarn build:i18n",
-    "dev": "preact watch --no-prerender --no-sw",
+    "dev": "preact watch --no-prerender --no-sw --port 3000",
     "prelint": "yarn build:i18n",
     "lint": "eslint .",
     "lint:report": "scripts/buildtools/lint-report.sh",
@@ -128,7 +128,7 @@
     "whatwg-fetch": "^3.6.2"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=14.0.0 <16"
   },
   "msw": {
     "workerDirectory": "src/static"

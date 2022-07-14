@@ -8,8 +8,8 @@ const TARGET = path.resolve(__dirname, 'target');
 const PLAYGROUND = path.resolve(__dirname, 'playground');
 const DEV_SERVER_PORT = 3000;
 const MOCK_SERVER_PORT = 3030;
-const WIDGET_RC_JS = '.widgetrc.js';
-const WIDGET_RC = '.widgetrc';
+const WIDGET_RC_JS = path.resolve(__dirname, '.widgetrc.js');
+const WIDGET_RC = path.resolve(__dirname, '.widgetrc');
 
 // run `OKTA_SIW_HOST=0.0.0.0 yarn start --watch` to override the host
 const HOST = process.env.OKTA_SIW_HOST || 'localhost';
@@ -102,28 +102,14 @@ module.exports = {
       ],
       target: `http://${HOST}:${MOCK_SERVER_PORT}`
     }],
-    onBeforeSetupMiddleware() {
-      const script = path.resolve(
-        __dirname,
-        'playground',
-        'mocks',
-        'server.js'
-      );
-      const watch = [
-        path.resolve(__dirname, 'playground', 'mocks')
-      ];
-      const env = {
-        MOCK_SERVER_PORT,
-        DEV_SERVER_PORT
-      };
+    // https://webpack.js.org/configuration/dev-server/#devserversetupmiddlewares
+    setupMiddlewares(middlewares) {
+      const script = path.resolve(__dirname, 'playground/mocks/server.js');
+      const watch = [path.resolve(__dirname, 'playground/mocks')];
+      const env = { MOCK_SERVER_PORT, DEV_SERVER_PORT };
       nodemon({ script, watch, env, delay: 50 })
-        .on('restart', (filesChanged) => {
-          console.log(
-            'file changed:',
-            filesChanged.join(', ')
-          );
-        })
         .on('crash', console.error);
+      return middlewares;
     },
   },
 };
