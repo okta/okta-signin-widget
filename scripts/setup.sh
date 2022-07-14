@@ -8,12 +8,13 @@ export AUTHJS_VERSION=""
 # Install required node version
 export REGISTRY_REPO="npm-topic"
 export REGISTRY="${ARTIFACTORY_URL}/api/npm/${REGISTRY_REPO}"
+
+# install node@14
 setup_service node v14.19.1
-# NOTE: Using yarn@1.18 to avoid error: "expected workspace package to exist..."
-# https://github.com/yarnpkg/yarn/issues/7807. Yarn version locked to 1.18 using
-# "yarn policies set-version 1.18.0". Use the cacert bundled with centos as okta
-# root CA is self-signed and cause issues downloading from yarn
-setup_service yarn 1.18.0 /etc/pki/tls/certs/ca-bundle.crt
+
+# install yarn@1.22 using cert bundled with centos. okta root CA is
+# self-signed and cause issues downloading from yarn
+setup_service yarn 1.22.19 /etc/pki/tls/certs/ca-bundle.crt
 
 cd ${OKTA_HOME}/${REPO}
 
