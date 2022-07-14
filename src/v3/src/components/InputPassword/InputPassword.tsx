@@ -13,6 +13,7 @@
 import { Box, FormHelperText } from '@mui/material';
 import { PasswordInput } from '@okta/odyssey-react-mui';
 import { h } from 'preact';
+import { useState } from 'preact/hooks';
 import { ChangeEvent, FieldElement, UISchemaElementComponent } from 'src/types';
 
 import { getMessage } from '../../../../v2/ion/i18nTransformer';
@@ -22,6 +23,8 @@ import { getLabelName } from '../helpers';
 const InputPassword: UISchemaElementComponent<{
   uischema: FieldElement
 }> = ({ uischema }) => {
+  const [isTouched, setIsTouched] = useState<boolean>(false);
+  const [fieldError, setFieldError] = useState<string | undefined>();
   const value = useValue(uischema);
   const onChangeHandler = useOnChange(uischema);
   const { label } = uischema;
@@ -32,11 +35,18 @@ const InputPassword: UISchemaElementComponent<{
       messages = {},
       name,
     },
+    validate,
   } = uischema.options;
   const error = messages?.value?.[0] && getMessage(messages.value[0]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     onChangeHandler(e.currentTarget.value);
+    setFieldError(t(validate?.(e.currentTarget.value) ?? ''));
+  };
+
+  const handleInputBlur = () => {
+    setIsTouched(true);
+    setFieldError(t(validate?.(value as string) ?? ''));
   };
 
   return (
@@ -46,7 +56,8 @@ const InputPassword: UISchemaElementComponent<{
         value={value}
         name={name}
         id={name}
-        error={error !== undefined}
+        error={!!(error || (isTouched && fieldError))}
+        onBlur={handleInputBlur}
         onChange={handleChange}
         fullWidth
         inputProps={{
@@ -54,12 +65,12 @@ const InputPassword: UISchemaElementComponent<{
           ...attributes,
         }}
       />
-      {error && (
+      {(error || fieldError) && (
         <FormHelperText
           data-se={`${name}-error`}
           error
         >
-          {error}
+          {error || fieldError}
         </FormHelperText>
       )}
     </Box>
