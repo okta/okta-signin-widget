@@ -50,6 +50,10 @@ export default class ChallengeCustomAppPushPageObject extends ChallengeFactorPag
     return this.form.elementExist(AUTO_CHALLENGE_CHECKBOX_SELECTOR);
   }
 
+  async autoChallengeInputIsVisible() {
+    return this.form.getElement(AUTO_CHALLENGE_CHECKBOX_SELECTOR).visible;
+  }
+
   getAutoChallengeCheckboxLabel() {
     return this.form.getElement(AUTO_CHALLENGE_CHECKBOX_LABEL_SELECTOR);
   }
