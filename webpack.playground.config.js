@@ -25,7 +25,7 @@ if (!fs.existsSync(WIDGET_RC_JS) && fs.existsSync(WIDGET_RC)) {
 
 if (!fs.existsSync(WIDGET_RC_JS)) {
   // create default WIDGET_RC if it doesn't exist to simplifed the build process
-  fs.copyFileSync('.widgetrc.sample.js', WIDGET_RC_JS);
+  fs.copyFileSync(path.resolve(__dirname, '.widgetrc.sample.js'), WIDGET_RC_JS);
 }
 
 module.exports = {
