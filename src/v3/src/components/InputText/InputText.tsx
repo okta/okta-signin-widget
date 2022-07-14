@@ -48,10 +48,10 @@ const InputText: UISchemaElementComponent<{
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     onChangeHandler(e.currentTarget.value);
-    setFieldError(validate?.(e.currentTarget.value));
+    setFieldError(t(validate?.(e.currentTarget.value) ?? ''));
   };
 
-  const handleConfirmPasswordBlur = () => {
+  const handleInputBlur = () => {
     setIsTouched(true);
     setFieldError(t(validate?.(value as string) ?? ''));
   };
@@ -65,7 +65,7 @@ const InputText: UISchemaElementComponent<{
         name={name}
         id={name}
         error={!!(error || (isTouched && fieldError))}
-        onBlur={handleConfirmPasswordBlur}
+        onBlur={handleInputBlur}
         onChange={handleChange}
         fullWidth
         inputProps={{
@@ -73,12 +73,12 @@ const InputText: UISchemaElementComponent<{
           ...attributes,
         }}
       />
-      {error && (
+      {(error || fieldError) && (
         <FormHelperText
           data-se={`${name}-error`}
           error
         >
-          {error}
+          {error || fieldError}
         </FormHelperText>
       )}
     </Box>

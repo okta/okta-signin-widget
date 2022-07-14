@@ -10,7 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Button, TextInput } from '@okta/odyssey-react';
+import { Box, Button, FormHelperText } from '@mui/material';
+import { PasswordInput } from '@okta/odyssey-react-mui';
+
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
 
@@ -64,8 +66,8 @@ const PasswordEnrollment: UISchemaElementComponent<{
 
   const handleConfirmPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setIsTouched(true);
-    setConfirmPassword(e.target.value);
-    handleConfirmPasswordValidation(e.target.value);
+    setConfirmPassword(e.currentTarget.value);
+    handleConfirmPasswordValidation(e.currentTarget.value);
   };
 
   const handleConfirmPasswordBlur = () => {
@@ -74,35 +76,36 @@ const PasswordEnrollment: UISchemaElementComponent<{
   };
 
   return (
-    // @ts-ignore OKTA-471233
     <Box>
-      {/* @ts-ignore OKTA-471233 */}
-      <Box marginBottom="m">
+      <Box marginBottom={4}>
         <InputPassword uischema={input} />
       </Box>
-      {/* @ts-ignore OKTA-471233 */}
-      <Box marginBottom="m">
-        <TextInput
-          error={isTouched && confirmPasswordError}
-          type="password"
-          name="credentials.confirmPassword"
-          id="credentials.confirmPassword"
-          data-se="credentials.confirmPassword"
+      <Box marginBottom={4}>
+        <PasswordInput
           label={t('oie.password.confirmPasswordLabel')}
           value={confirmPassword}
+          name="credentials.confirmPassword"
+          id="credentials.confirmPassword"
+          error={!!(isTouched && confirmPasswordError)}
+          helperText={confirmPasswordError}
           onBlur={handleConfirmPasswordBlur}
           onChange={handleConfirmPasswordChange}
-          autocomplete="new-password"
+          fullWidth
+          inputProps={{
+            'data-se': 'credentials.confirmPassword',
+            autocomplete: 'new-password',
+          }}
         />
+        {confirmPasswordError && (
+          <FormHelperText error>{confirmPasswordError}</FormHelperText>
+        )}
       </Box>
-      {/* TODO: Use MUI password component */}
       <Button
-        data-se="#/properties/submit"
-        data-type="save"
-        size="m"
         type="submit"
         variant="primary"
-        wide
+        fullWidth
+        data-se="#/properties/submit"
+        data-type="save"
         onClick={handleSubmit}
       >
         {t(ctaLabel)}
