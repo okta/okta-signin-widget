@@ -235,7 +235,10 @@
       "**/@types/ajv-errors/**"
     ]
   },
-  "packageManager": "yarn@1.18.0",
+  "packageManager": "yarn@1.22.19",
+  "engines": {
+    "node": ">=14 <16"
+  },
   "tsd": {
     "directory": "test/types"
   }
