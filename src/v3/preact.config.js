@@ -154,9 +154,6 @@ export default {
       'index.js',
     );
 
-    // preact-cli-plugin-env-vars
-    envVars(config, env, helpers);
-
     // override with
     Object.assign(config, webpackMerge(config, omit(playgroundConfig, [
       'devServer.headers.Content-Security-Policy', // merge instead of override
