@@ -173,7 +173,6 @@ export default {
         headers: {
           'Content-Security-Policy': mergeContentSecurityPolicies(
             "object-src 'self'; script-src 'self' 'unsafe-eval'",
-            `script-src ${config.devServer.host}:${config.devServer.port}`,
             playgroundConfig.devServer.headers['Content-Security-Policy'] || '',
           ),
         },
