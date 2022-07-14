@@ -27,7 +27,11 @@ export declare interface A18nProfile {
   errorDescription?: string;
 }
 
-class A18nClient {
+export type A18nConfig = {
+  a18nAPIKey?: string;
+}
+
+export default class A18nClient {
   apiKey: string | undefined;
 
   constructor() {
@@ -70,9 +74,8 @@ class A18nClient {
   }
 
   async createProfile(profileName?: string): Promise<A18nProfile|never> {
-    const { orgUrl } = getConfig();
     const profile = await this.postToURL(PROFILE_URL, {
-      displayName: profileName || `${orgUrl}`
+      displayName: profileName || 'okta-signin-widget'
     }, true) as unknown as A18nProfile;
 
     if (profile.errorDescription) {
@@ -136,4 +139,3 @@ class A18nClient {
   }
 }
 
-export default new A18nClient();

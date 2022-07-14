@@ -13,4 +13,3 @@ Feature: Interaction Code Flow
       Given user opens the login page using renderEl
       When user logs in using 3rd party IdP
       Then user sees the tokens on the page from 3rd party IdP
-      

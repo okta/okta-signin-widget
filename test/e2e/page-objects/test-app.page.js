@@ -19,6 +19,7 @@ class TestAppPage {
   get hideButton() { return $('button[name="hide"]'); }
   get showButton() { return $('button[name="show"]'); }
   get removeButton() { return $('button[name="remove"]'); }
+  get showSignInButton() { return $('button[name="showSignIn"]'); }
   get showSignInAndRedirect() { return $('button[name="showSignInAndRedirect"]'); }
   get showSignInToGetTokens() { return $('button[name="showSignInToGetTokens"]'); }
   get startWithRenderEl() { return $('button[name="renderEl"]'); }

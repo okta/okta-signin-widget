@@ -10,16 +10,13 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-
-
-import a18nClient from '../../support/a18nClient';
 import deleteUser from './deleteUser';
 import ActionContext from '../../support/context';
 
 // eslint-disable-next-line no-unused-vars
 export default async function(this: ActionContext): Promise<void> {
     if (this.credentials) {
-        await a18nClient.deleteProfile(this.credentials.profileId);
+        await this.a18nClient.deleteProfile(this.credentials.profileId);
     }
     if (this.user) {
         await deleteUser(this.user);

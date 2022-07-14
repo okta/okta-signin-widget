@@ -16,6 +16,9 @@ import PrimaryAuthPage from '../page-objects/primary-auth-oie.page';
 import ActionContext from '../support/context';
 import TestAppPage from '../page-objects/test-app.page';
 import { waitForLoad } from '../util/waitUtil';
+import VerifyEmailAuthenticatorPage from '../page-objects/verify-email-authenticator.page';
+import SetupAuthenticatorPage from '../page-objects/setup-authenticator.page';
+import BiometricAuthenticatorPage from '../page-objects/biometric-authenticator.page';
 
 When(
   /^user logs in with username and password$/,
@@ -53,4 +56,33 @@ When(
     return await waitForLoad(TestAppPage.widget);
   }
 );
+
+When(
+  /^user selects biometric authenticator$/,
+  async function() {
+    await SetupAuthenticatorPage.waitForPageLoad();
+    await SetupAuthenticatorPage.selectBiometricAuthenticator();
+  }
+);
+
+When(
+  /^user sets up biometric authenticator$/,
+  async function() {
+    browser.addVirtualAuthenticator('ctap2', 'internal', true, true, true, true);
+    await BiometricAuthenticatorPage.waitForPageLoad();
+    await BiometricAuthenticatorPage.setupBiometricAuthenticator();
+  }
+);
+
+When(
+  /^user inputs the correct code from email$/,
+  async function() {
+    await VerifyEmailAuthenticatorPage.waitForPageLoad();
+    let code = '';
+    code = await this.a18nClient.getEmailCode(this.credentials.profileId);
+
+    await VerifyEmailAuthenticatorPage.enterCode(code);
+  }
+);
+
 

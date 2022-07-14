@@ -27,7 +27,7 @@ const getTask = ({ bundle }) => {
           wdioConfig = path.resolve(__dirname, 'cucumber.wdio.conf.ts');  
         }
         if (process.env.RUN_SAUCE_TESTS) {
-          wdioConfig = path.resolve(__dirname, 'sauce.wdio.conf.js');
+          wdioConfig = path.resolve(__dirname, 'sauce.wdio.conf.ts');
         }
         const runner = spawn(
           'npx', [
@@ -62,19 +62,18 @@ const getTask = ({ bundle }) => {
 // track process returnCode for each task
 const codes = [];
 
-const tasks = [
-  {
-    bundle: 'npm',
-  },
-  {
-    bundle: 'cdn'
-  }
-]
-  .reduce((tasks, config) => {
-    const task = getTask(config);
-    tasks.push(task);
-    return tasks;
-  }, []);
+let bundles = [{ bundle: 'cdn' }];
+
+// eslint-disable-next-line eqeqeq
+if (process.env.CDN_ONLY != 1) {
+  bundles.unshift({ bundle: 'npm' });
+}
+
+const tasks = bundles.reduce((tasks, config) => {
+  const task = getTask(config);
+  tasks.push(task);
+  return tasks;
+}, []);
 
 function runNextTask() {
   if (tasks.length === 0) {
