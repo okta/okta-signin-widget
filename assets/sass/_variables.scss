@@ -1,98 +1,98 @@
 // Page Properties
-$fonts: 'proxima nova', 'montserrat', Arial, Helvetica, sans-serif;
-$default-border-radius: 3px;
-$container-width: 400px;
-$container-min-width: 300px;
-$num-tabs: 5;
+$fonts: 'proxima nova', 'montserrat', Arial, Helvetica, sans-serif !default;
+$default-border-radius: 3px !default;
+$container-width: 400px !default;
+$container-min-width: 300px !default;
+$num-tabs: 5 !default;
 
 // Font Size
-$font-size: 14px;
-$font-size-small: 13px;
-$font-size-header: 15px;
-$font-size-footer: 12px;
-$font-size-default: 15px;
+$font-size: 14px !default;
+$font-size-small: 13px !default;
+$font-size-header: 15px !default;
+$font-size-footer: 12px !default;
+$font-size-default: 15px !default;
 
 // Font Weight
-$font-weight-body: normal;
-$font-weight-labels: 600;
-$font-weight-header: 600;
+$font-weight-body: normal !default;
+$font-weight-labels: 600 !default;
+$font-weight-header: 600 !default;
 
 // Theme Color
-$primary-bg-color: #fff;
-$secondary-bg-color: #f9f9f9;
+$primary-bg-color: #fff !default;
+$secondary-bg-color: #f9f9f9 !default;
 
 // Text Color
-$header-text-color: #5e5e5e;
-$dark-text-color: #5e5e5e;
-$medium-text-color: #777;
-$light-text-color: #a7a7a7;
-$link-text-color: #0074b3;
-$placeholder-text-color: #aaa;
-$error-text-color: #e34843;
+$header-text-color: #5e5e5e !default;
+$dark-text-color: #5e5e5e !default;
+$medium-text-color: #777 !default;
+$light-text-color: #a7a7a7 !default;
+$link-text-color: #0074b3 !default;
+$placeholder-text-color: #aaa !default;
+$error-text-color: #e34843 !default;
 
 // Button Color
-$icon-button-bg-color: #fff;
-$button-bg-color: #fbfbfb;
-$dark-button-bg-color: #929292;
-$primary-button-bg-color: #007dc1;
-$success-button-bg-color: #4cbf9c;
-$negative-button-bg-color: #c35151;
-$disabled-button-text-color: #aaa;
-$disabled-primary-button-text-color: #fff;
-$disabled-primary-button-bg-color: #63b1d7;
-$disabled-primary-border-color: #3096c9;
+$icon-button-bg-color: #fff !default;
+$button-bg-color: #fbfbfb !default;
+$dark-button-bg-color: #929292 !default;
+$primary-button-bg-color: #007dc1 !default;
+$success-button-bg-color: #4cbf9c !default;
+$negative-button-bg-color: #c35151 !default;
+$disabled-button-text-color: #aaa !default;
+$disabled-primary-button-text-color: #fff !default;
+$disabled-primary-button-bg-color: #63b1d7 !default;
+$disabled-primary-border-color: #3096c9 !default;
 
 // Divider Colors
-$header-divider-color: #ddd;
-$form-divider-color: #e8e8e8;
+$header-divider-color: #ddd !default;
+$form-divider-color: #e8e8e8 !default;
 
 // Social Auth Button Colors
-$facebook-icon-bg-color: #304879; // fb brand color - #3B5998
-$facebook-label-bg-color: #406094;
-$facebook-border-color: #375685;
-$google-icon-bg-color: #fff;
-$google-label-bg-color: $button-bg-color;
-$google-border-color: darken($button-bg-color, 22%);
-$apple-icon-bg-color: #fff;
-$apple-label-bg-color: $button-bg-color;
-$apple-border-color: darken($button-bg-color, 22%);
-$linkedin-icon-bg-color: #04659a; // linkedin brand color - #0077B5
-$linkedin-label-bg-color: #0077b5;
-$linkedin-border-color: #0f608f;
-$microsoft-icon-bg-color: #4294de; // microsoft brand color - #00A1F1
-$microsoft-label-bg-color: #00a1f1;
-$microsoft-border-color: #447199;
+$facebook-icon-bg-color: #304879 !default; // fb brand color - #3B5998
+$facebook-label-bg-color: #406094 !default;
+$facebook-border-color: #375685 !default;
+$google-icon-bg-color: #fff !default;
+$google-label-bg-color: $button-bg-color !default;
+$google-border-color: darken($button-bg-color, 22%) !default;
+$apple-icon-bg-color: #fff !default;
+$apple-label-bg-color: $button-bg-color !default;
+$apple-border-color: darken($button-bg-color, 22%) !default;
+$linkedin-icon-bg-color: #04659a !default; // linkedin brand color - #0077B5
+$linkedin-label-bg-color: #0077b5 !default;
+$linkedin-border-color: #0f608f !default;
+$microsoft-icon-bg-color: #4294de !default; // microsoft brand color - #00A1F1
+$microsoft-label-bg-color: #00a1f1 !default;
+$microsoft-border-color: #447199 !default;
 
 $other-icon-bg-color: #fff;
 $other-label-bg-color: $button-bg-color;
 $other-border-color: darken($button-bg-color, 22%);
 
 // Default Custom Button Colors
-$default-custom-button-background-color: #ff5f73;
-$default-custom-button-border-color: #d6001a;
+$default-custom-button-background-color: #ff5f73 !default;
+$default-custom-button-border-color: #d6001a !default;
 
 // IDP PIV Button Colors
-$piv-button-background-color: #fff;
-$piv-button-border-text-color: #1662dd;
-$piv-action-button-background-color: #e5edfb;
-$piv-action-button-border-text-color: #124a94;
+$piv-button-background-color: #fff !default;
+$piv-button-border-text-color: #1662dd !default;
+$piv-action-button-background-color: #e5edfb !default;
+$piv-action-button-border-text-color: #124a94 !default;
 
 // Button Size
-$input-height: 40px;
-$button-height: 50px;
-$button-line-height: $input-height - 4px;
-$button-padding: 0 15px;
+$input-height: 40px !default;
+$button-height: 50px !default;
+$button-line-height: $input-height - 4px !default;
+$button-padding: 0 15px !default;
 
 // Input field
-$input-bg-color: #fff;
-$input-border-color: #bbb;
-$input-border-color-hover: #888;
-$input-border-color-focus: #0074b3;
-$input-shadow-color-focus: #51cbee;
-$input-icons-color: #a7a7a7;
+$input-bg-color: #fff !default;
+$input-border-color: #bbb !default;
+$input-border-color-hover: #888 !default;
+$input-border-color-focus: #0074b3 !default;
+$input-shadow-color-focus: #51cbee !default;
+$input-icons-color: #a7a7a7 !default;
 
 // Modal
-$modal-bg-color: #f9f9f9;
+$modal-bg-color: #f9f9f9 !default;
 
 // Footer
 
