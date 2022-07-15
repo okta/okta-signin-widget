@@ -122,7 +122,7 @@ const Body = BaseFormWithPolling.extend({
               if (loopbackInitiatedByCustomScheme) {
                 // If loopback was triggered as additional challenge, don't cancel it
                 // Server will handle the logic auomatically
-                return;
+                return this.trigger('save', this.model);
               }
               countFailedPorts++;
               // Windows and MacOS return status code 503 when 
@@ -143,7 +143,7 @@ const Body = BaseFormWithPolling.extend({
                 if (loopbackInitiatedByCustomScheme) {
                   // If loopback was triggered as additional challenge, don't cancel it
                   // Server will handle the logic auomatically
-                  return;
+                  return this.trigger('save', this.model);
                 }
                 // when challenge is responded by the wrong OS profile and
                 // all the ports are exhausted,
