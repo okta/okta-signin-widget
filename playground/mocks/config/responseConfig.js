@@ -254,13 +254,13 @@ const authn = {
 };
 
 //enroll QR Okta Verify
-const enrollQROktaVerify  = {
+const enrollQROktaVerify = {
   '/api/v1/authn': [
     'mfa-enroll-qr-okta-verify'
   ]
 };
 
-const enrollOVManually  = {
+const enrollOVManually = {
   '/api/v1/authn': [
     'mfa-enroll-ov-manual'
   ],
