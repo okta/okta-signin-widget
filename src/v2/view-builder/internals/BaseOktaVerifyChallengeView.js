@@ -119,16 +119,11 @@ const Body = BaseFormWithPolling.extend({
               return this.trigger('save', this.model);
             })
             .fail((xhr) => {
-              if (loopbackInitiatedByCustomScheme) {
-                // If loopback was triggered as additional challenge, don't cancel it
-                // Server will handle the logic auomatically
-                return this.trigger('save', this.model);
-              }
               countFailedPorts++;
               // Windows and MacOS return status code 503 when 
               // there are multiple profiles on the device and
               // the wrong OS profile responds to the challenge request
-              if (xhr.status !== 503) {
+              if (xhr.status !== 503 && !loopbackInitiatedByCustomScheme) {
                 // when challenge responds with other errors,
                 // - stop the remaining probing
                 ovFailed = true;
@@ -172,12 +167,12 @@ const Body = BaseFormWithPolling.extend({
         .catch(() => {
           countFailedPorts++;
           Logger.error(`Authenticator is not listening on port ${currentPort}.`);
-          if (loopbackInitiatedByCustomScheme) {
-            // If loopback was triggered as additional challenge, don't cancel it
-            // Server will handle the logic auomatically
-            return this.trigger('save', this.model);
-          }
           if (countFailedPorts === ports.length) {
+            if (loopbackInitiatedByCustomScheme) {
+              // If loopback was triggered as additional challenge, don't cancel it
+              // Server will handle the logic auomatically
+              return this.trigger('save', this.model);
+            }
             Logger.error('No available ports. Loopback server failed and polling is cancelled.');
             cancelPollingWithParams(
               this.options.appState,
