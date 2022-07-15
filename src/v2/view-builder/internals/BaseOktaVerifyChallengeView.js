@@ -69,6 +69,7 @@ const Body = BaseFormWithPolling.extend({
     let challengeRequest = deviceChallenge.challengeRequest !== undefined ? deviceChallenge.challengeRequest : '';
     let probeTimeoutMillis = deviceChallenge.probeTimeoutMillis !== undefined ?
       deviceChallenge.probeTimeoutMillis : 100;
+    let loopbackInitiatedByCustomScheme = deviceChallenge.loopbackInitiatedByCustomScheme;
     let currentPort;
     let foundPort = false;
     let ovFailed = false;
@@ -118,6 +119,11 @@ const Body = BaseFormWithPolling.extend({
               return this.trigger('save', this.model);
             })
             .fail((xhr) => {
+              if (loopbackInitiatedByCustomScheme) {
+                // If loopback was triggered as additional challenge, don't cancel it
+                // Server will handle the logic auomatically
+                return;
+              }
               countFailedPorts++;
               // Windows and MacOS return status code 503 when 
               // there are multiple profiles on the device and
@@ -134,6 +140,11 @@ const Body = BaseFormWithPolling.extend({
                   xhr.status
                 );
               } else if (countFailedPorts === ports.length) {
+                if (loopbackInitiatedByCustomScheme) {
+                  // If loopback was triggered as additional challenge, don't cancel it
+                  // Server will handle the logic auomatically
+                  return;
+                }
                 // when challenge is responded by the wrong OS profile and
                 // all the ports are exhausted,
                 // cancel the polling like the probing has failed
@@ -161,6 +172,11 @@ const Body = BaseFormWithPolling.extend({
         .catch(() => {
           countFailedPorts++;
           Logger.error(`Authenticator is not listening on port ${currentPort}.`);
+          if (loopbackInitiatedByCustomScheme) {
+            // If loopback was triggered as additional challenge, don't cancel it
+            // Server will handle the logic auomatically
+            return this.trigger('save', this.model);
+          }
           if (countFailedPorts === ports.length) {
             Logger.error('No available ports. Loopback server failed and polling is cancelled.');
             cancelPollingWithParams(
