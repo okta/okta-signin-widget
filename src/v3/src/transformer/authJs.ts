@@ -10,8 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxFeature } from '@okta/okta-auth-js';
-import { FormBag, IdxTransactionWithNextStep, WidgetProps } from 'src/types';
+import { IdxFeature, IdxTransaction } from '@okta/okta-auth-js';
+import { FormBag, WidgetProps } from 'src/types';
 
 import { AUTHENTICATOR_KEY, IDX_STEP, STEPS_MISSING_RELATES_TO } from '../constants';
 import { hasMinAuthenticatorOptions } from '../util';
@@ -19,34 +19,46 @@ import { transformInputs } from './field';
 import { getButtonControls } from './getButtonControls';
 import TransformerMap from './idxTransformerMapping';
 import { transformCustomMessages } from './messages/transformCustomMessages';
-import { remediationContainsStep } from './utils';
 
-export default (transaction: IdxTransactionWithNextStep, widgetProps: WidgetProps): FormBag => {
-  const { nextStep, context } = transaction;
+type Options = {
+  transaction: IdxTransaction;
+  prevTransaction: IdxTransaction | undefined;
+  step?: string;
+  widgetProps: WidgetProps;
+};
+
+export default ({
+  transaction, prevTransaction, step, widgetProps,
+} : Options): FormBag => {
+  const { nextStep, context, availableSteps } = transaction;
 
   const enabledFeatures = transaction?.enabledFeatures;
-  const { name: stepName } = nextStep;
+  const stepName = (step || nextStep?.name) as string;
 
-  const formBag = transformInputs(transaction);
+  const formBag = transformInputs(transaction, stepName!);
 
   const authenticatorKey = (STEPS_MISSING_RELATES_TO.includes(stepName)
     // TODO: OKTA-503490 temporary sln to grab auth key for enroll-poll step its missing relatesTo obj
     ? context.currentAuthenticator?.value?.key
     : nextStep?.relatesTo?.value?.key) ?? AUTHENTICATOR_KEY.DEFAULT;
   const customTransformer = TransformerMap[stepName]?.[authenticatorKey];
-  const updatedFormBag = customTransformer?.transform?.(transaction, formBag, widgetProps)
-    ?? formBag;
+  const updatedFormBag = customTransformer?.transform?.({
+    transaction,
+    prevTransaction,
+    formBag,
+    widgetProps,
+  }) ?? formBag;
 
-  const isIdentityStep = remediationContainsStep(transaction.neededToProceed, IDX_STEP.IDENTIFY);
+  const hasIdentityStep = availableSteps?.some((s) => s.name === IDX_STEP.IDENTIFY);
   // TODO: Remove buttons from here and add to custom transformers - OKTA-479077
-  const stepWithRegister = enabledFeatures?.includes(IdxFeature.REGISTRATION) && isIdentityStep;
+  const stepWithRegister = enabledFeatures?.includes(IdxFeature.REGISTRATION) && hasIdentityStep;
   // TODO: OKTA-451535 Unlock this when we implement fastpass
   // const stepWithSignInWithFastPass = remediationContainsStep(
   //   transaction.neededToProceed,
   //   IDX_STEP.LAUNCH_AUTHENTICATOR,
   // );
   const stepWithUnlockAccount = enabledFeatures?.includes(IdxFeature.ACCOUNT_UNLOCK)
-    && isIdentityStep;
+    && hasIdentityStep;
   const verifyWithOther = hasMinAuthenticatorOptions(
     transaction,
     IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE,
@@ -76,7 +88,11 @@ export default (transaction: IdxTransactionWithNextStep, widgetProps: WidgetProp
   updatedFormBag.uischema.elements.push(...elements);
 
   // Handles custom messages
-  transformCustomMessages(transaction, updatedFormBag, widgetProps);
+  transformCustomMessages({
+    transaction,
+    formBag: updatedFormBag,
+    widgetProps,
+  });
 
   return updatedFormBag;
 };

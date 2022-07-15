@@ -13,19 +13,23 @@
 import { IdxActionParams } from '@okta/okta-auth-js';
 
 import {
+  ButtonElement,
   ButtonType,
+  DescriptionElement,
   IdxStepTransformer,
+  ListElement,
+  QRCodeElement,
   ReminderElement,
-  StepperButtonElement,
   StepperLayout,
-  TitleElement,
-  UISchemaElement,
   UISchemaLayout,
   UISchemaLayoutType,
 } from '../../types';
-import { isAndroidOrIOS } from '../../util';
-import { transformOktaVerifyChannelSelection } from './transformOktaVerifyChannelSelection';
-import { appendDescriptionElements, createNavButtonConfig, getTitleKey } from './utils';
+
+const STEPS = {
+  QR_POLLING: 0,
+  EMAIL_POLLING: 1,
+  SMS_POLLING: 2,
+};
 
 const REMINDER_CHANNELS = ['sms', 'email'];
 const CHANNEL_TO_CTA_KEY: { [channel: string]: string } = {
@@ -33,42 +37,47 @@ const CHANNEL_TO_CTA_KEY: { [channel: string]: string } = {
   sms: 'next.enroll.okta_verify.sms.notReceived',
 };
 
-export const transformOktaVerifyEnrollPoll: IdxStepTransformer = (
+export const getTitleKey = (selectedChannel?: string): string => {
+  switch (selectedChannel) {
+    case 'email':
+      return 'oie.enroll.okta_verify.setup.email.title';
+    case 'sms':
+      return 'oie.enroll.okta_verify.setup.sms.title';
+    default:
+      return 'oie.enroll.okta_verify.setup.title';
+  }
+};
+
+export const switchChannelButton = (label: string): ButtonElement => ({
+  type: 'Button',
+  label,
+  options: {
+    type: ButtonType.BUTTON,
+    variant: 'secondary',
+    step: 'select-enrollment-channel',
+    stepToRender: 'select-enrollment-channel',
+  },
+});
+
+export const transformOktaVerifyEnrollPoll: IdxStepTransformer = ({
   transaction,
   formBag,
   widgetProps,
-) => {
+}) => {
   const { context, availableSteps } = transaction;
-  const { uischema, data } = formBag;
+  const { uischema } = formBag;
   const { authClient } = widgetProps;
 
-  data['authenticator.channel'] = 'email';
-
-  // TODO: OKTA-503490 temporary sln to access missing relatesTo obj
-  const authenticator = context?.currentAuthenticator?.value;
-  if (!authenticator) {
-    return formBag;
-  }
+  const authenticator = context.currentAuthenticator.value;
   const selectedChannel = authenticator.contextualData?.selectedChannel;
-  const channelSelectionFormBag = transformOktaVerifyChannelSelection(
-    transaction,
-    formBag,
-    widgetProps,
-  );
 
-  // Mobile devices cannot scan QR codes while navigating through flow
-  // so we force them to select either email / sms for enrollment
-  if (isAndroidOrIOS() && selectedChannel === 'qrcode') {
-    return channelSelectionFormBag;
-  }
-
-  const stepOneElements: UISchemaElement[] = [];
+  let reminder: ReminderElement | undefined;
   const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
-  if (transaction.nextStep.canResend
+  if (transaction!.nextStep!.canResend
     && selectedChannel
     && REMINDER_CHANNELS.includes(selectedChannel) && resendStep) {
     const { name } = resendStep;
-    stepOneElements.push({
+    reminder = {
       type: 'Reminder',
       options: {
         ctaText: CHANNEL_TO_CTA_KEY[selectedChannel],
@@ -82,57 +91,94 @@ export const transformOktaVerifyEnrollPoll: IdxStepTransformer = (
           });
         },
       },
-    } as ReminderElement);
+    };
   }
 
-  stepOneElements.push({
+  const title = {
     type: 'Title',
     options: {
       content: getTitleKey(selectedChannel),
     },
-  } as TitleElement);
-
-  appendDescriptionElements(stepOneElements, authenticator);
-
-  const navBtnConfig = createNavButtonConfig(!!authenticator?.contextualData?.qrcode);
-  stepOneElements.push({
-    type: 'StepperButton',
-    label: navBtnConfig.navButtonsConfig.next.label,
-    options: {
-      type: ButtonType.BUTTON,
-      variant: navBtnConfig.navButtonsConfig.next.variant,
-      nextStepIndex: 1,
-    },
-  } as StepperButtonElement);
-
-  if (navBtnConfig.navButtonsConfig.prev) {
-    channelSelectionFormBag.uischema.elements.push({
-      type: 'StepperButton',
-      label: navBtnConfig.navButtonsConfig.prev.label,
-      options: {
-        type: ButtonType.BUTTON,
-        variant: navBtnConfig.navButtonsConfig.prev.variant,
-        nextStepIndex: 0,
-      },
-    } as StepperButtonElement);
-  }
+  };
 
   const stepper: StepperLayout = {
     type: UISchemaLayoutType.STEPPER,
     elements: [
       {
         type: UISchemaLayoutType.VERTICAL,
-        elements: stepOneElements,
+        elements: [
+          ...(reminder ? [reminder] : []),
+          title,
+          {
+            type: 'List',
+            options: {
+              items: [
+                'oie.enroll.okta_verify.qrcode.step1',
+                'oie.enroll.okta_verify.qrcode.step2',
+                'oie.enroll.okta_verify.qrcode.step3',
+              ],
+              type: 'ordered',
+            },
+          } as ListElement,
+          {
+            type: 'QRCode',
+            options: {
+              label: authenticator.displayName,
+              data: authenticator.contextualData?.qrcode?.href,
+            },
+          } as QRCodeElement,
+          switchChannelButton('enroll.totp.cannotScan'),
+        ],
       } as UISchemaLayout,
       {
         type: UISchemaLayoutType.VERTICAL,
-        elements: [...channelSelectionFormBag.uischema.elements],
-      } as UISchemaLayout,
+        elements: [
+          ...(reminder ? [reminder] : []),
+          title,
+          {
+            type: 'Description',
+            options: {
+              content: 'next.enroll.okta_verify.email.info',
+              // @ts-ignore OKTA-496373 - missing props from interface
+              contentParams: [authenticator.contextualData?.email],
+            },
+          } as DescriptionElement,
+          switchChannelButton('next.enroll.okta_verify.switch.channel.link.text'),
+        ],
+      },
+      {
+        type: UISchemaLayoutType.VERTICAL,
+        elements: [
+          ...(reminder ? [reminder] : []),
+          title,
+          {
+            type: 'Description',
+            options: {
+              content: 'next.enroll.okta_verify.sms.info',
+              // @ts-ignore OKTA-496373 - missing props from interface
+              contentParams: [authenticator.contextualData?.phoneNumber],
+            },
+          } as DescriptionElement,
+          switchChannelButton('next.enroll.okta_verify.switch.channel.link.text'),
+        ],
+      },
     ],
+    options: {
+      defaultStepIndex: () => {
+        if (selectedChannel === 'email') {
+          return STEPS.EMAIL_POLLING;
+        }
+
+        if (selectedChannel === 'sms') {
+          return STEPS.SMS_POLLING;
+        }
+
+        return STEPS.QR_POLLING;
+      },
+    },
   };
 
-  // prepend
-  uischema.elements.unshift(stepper);
+  uischema.elements = [stepper];
 
   return formBag;
 };

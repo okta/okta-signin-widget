@@ -27,10 +27,6 @@ boolean => !!(navigator && navigator.credentials && navigator.credentials.create
  * a user into the WebAuthN flow
  *
  * Used by {@link WebauthnControl.tsx} Renderer to initiate the WebAuthN Enrollment flow.
- *
- * @param {IdxTransactionWithNextStep} transaction
- * @return {Promise<WebAuthNEnrollmentPayload>} ClientData & Attestation parameters
- * required by Idx transaction to enroll device
  */
 export const webAuthNEnrollmentHandler: WebAuthNEnrollmentHandler = async (transaction) => {
   // @ts-ignore OKTA-499928 authenticatorEnrollments missing from rawIdxState
@@ -71,10 +67,6 @@ export const webAuthNEnrollmentHandler: WebAuthNEnrollmentHandler = async (trans
  * Uses the Web Authentication API to retrieve credentials for a client to authenticate
  *
  * Used by {@link WebauthnControl.tsx} Renderer to initiate the WebAuthN Authentication flow.
- *
- * @param {IdxTransactionWithNextStep} transaction
- * @return {Promise<WebAuthNVerificationPayload>} ClientData, AuthenticatorData & SignatureData
- * parameters required by Idx transaction to verify a device
  */
 export const webAuthNAuthenticationHandler: WebAuthNAuthenticationHandler = async (transaction) => {
   // @ts-ignore OKTA-499928 authenticatorEnrollments missing from rawIdxState

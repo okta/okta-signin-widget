@@ -11,11 +11,11 @@
  */
 
 import { Box } from '@mui/material';
-import { FunctionComponent, h } from 'preact';
+import { h, FunctionComponent } from 'preact';
+import { useEffect } from 'preact/hooks';
 
 import { useFormContext } from '../../contexts';
 import {
-  ActionOptions,
   ButtonElement,
   ButtonType,
   StepperLayout,
@@ -29,9 +29,12 @@ import renderers from './renderers';
 // eslint-disable-next-line import/no-cycle
 import Stepper from './Stepper';
 
-export const renderUISchemaLayout: FunctionComponent<UISchemaLayout> = (uischema) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { stepperStepIndex } = useWidgetContext();
+type LayoutProps = {
+  uischema: UISchemaLayout;
+};
+
+const Layout: FunctionComponent<LayoutProps> = ({ uischema }) => {
+  const { submissionOptionsRef } = useFormContext();
   const { type, elements } = uischema;
 
   // track submission options in form, which will be used when form onSubmit event is triggered
@@ -40,9 +43,9 @@ export const renderUISchemaLayout: FunctionComponent<UISchemaLayout> = (uischema
     // eslint-disable-next-line max-len
     const submitButton = elements.find((element) => (element as ButtonElement).options?.type === ButtonType.SUBMIT) as ButtonElement;
     if (submitButton) {
-      setSubmissionOptions(submitButton.options as ActionOptions);
+      submissionOptionsRef.current = submitButton.options;
     }
-  }, [elements, setSubmissionOptions]);
+  }, [elements, submissionOptionsRef]);
 
   const flexDirection = type === UISchemaLayoutType.HORIZONTAL ? 'row' : 'column';
   return (
@@ -68,7 +71,7 @@ export const renderUISchemaLayout: FunctionComponent<UISchemaLayout> = (uischema
             return (
               <Layout
                 key={elementKey}
-                uischema={element}
+                uischema={element as UISchemaLayout}
               />
             );
           }

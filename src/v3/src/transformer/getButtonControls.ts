@@ -10,13 +10,17 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxActionParams, NextStep, OktaAuth } from '@okta/okta-auth-js';
+import {
+  IdxActionParams,
+  IdxTransaction,
+  NextStep,
+  OktaAuth,
+} from '@okta/okta-auth-js';
 
 import { IDX_STEP } from '../constants';
 import {
   ButtonElement,
   ButtonType,
-  IdxTransactionWithNextStep,
   UISchemaElement,
 } from '../types';
 
@@ -37,7 +41,7 @@ interface GetButtonControlsArgs {
 }
 
 export const getButtonControls = (
-  transaction: IdxTransactionWithNextStep,
+  transaction: IdxTransaction,
   config: GetButtonControlsArgs,
 ): GetButtonControls => {
   const elements = [];

@@ -23,8 +23,8 @@ import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
 const TARGET_FIELD_NAME = 'authenticator.methodType';
 
-export const transformEmailVerification: IdxStepTransformer = (transaction, formBag) => {
-  const { nextStep: { relatesTo } } = transaction;
+export const transformEmailVerification: IdxStepTransformer = ({ transaction, formBag }) => {
+  const { nextStep: { relatesTo } = {} } = transaction;
   const { uischema } = formBag;
 
   // Find methodType option, to use in btn params later

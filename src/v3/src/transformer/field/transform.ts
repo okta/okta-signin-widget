@@ -90,4 +90,11 @@ export const transformStepInputs: StepTransformer = (step?: NextStep): FormBag =
 
 export const transformInputs = (
   transaction: IdxTransaction,
-): FormBag => transformStepInputs(transaction.nextStep);
+  stepName: string,
+): FormBag => {
+  const { availableSteps = [], nextStep = {} as NextStep } = transaction;
+  const step = nextStep.name === stepName
+    ? nextStep
+    : availableSteps.find((s) => s.name === stepName);
+  return transformStepInputs(step);
+};

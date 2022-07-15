@@ -47,23 +47,4 @@ describe('okta-verify-email-channel-enrollment', () => {
       },
     );
   });
-
-  it('should render email channel form and display channel selection form when clicking try a different method link', async () => {
-    const {
-      container, findByText, user,
-    } = await setup({ mockResponse });
-
-    const channelSelectionBtn = await findByText(/Try a different way/);
-
-    user.click(channelSelectionBtn);
-
-    await findByText(/More options/);
-    await findByText(/Which option do you want to try\?/);
-    await findByText(/Scan a QR code/);
-    await findByText(/Text me a setup link/);
-    await findByText(/Next/);
-
-    updateDynamicAttribute(container, ['id', 'for']);
-    expect(container).toMatchSnapshot();
-  });
 });

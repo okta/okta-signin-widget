@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxActionParams } from '@okta/okta-auth-js';
+import { IdxActionParams, NextStep } from '@okta/okta-auth-js';
 
 import {
   ButtonElement,
@@ -22,19 +22,19 @@ import {
   Undefinable,
 } from '../../types';
 
-export const transformPhoneChallenge: IdxStepTransformer = (
+export const transformPhoneChallenge: IdxStepTransformer = ({
   transaction,
   formBag,
   widgetProps,
-) => {
-  const { nextStep, availableSteps } = transaction;
+}) => {
+  const { nextStep = {} as NextStep, availableSteps } = transaction;
   const { uischema } = formBag;
   const { authClient } = widgetProps;
 
   let reminderElement: Undefinable<ReminderElement>;
 
   const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
-  if (nextStep.canResend && resendStep) {
+  if (resendStep) {
     const { name } = resendStep;
     reminderElement = {
       type: 'Reminder',

@@ -90,11 +90,7 @@ describe('flows', () => {
 
   it('covers okta-verify-enroll flow', () => {
     [
-      'identify-with-password',
-      'authenticator-enroll-select-authenticator',
-      'okta-verify-poll-enrollment',
-      'okta-verify-email-channel-enrollment',
-      'okta-verify-sms-channel-enrollment',
+      'flow-okta-verify-enrollment',
     ].forEach((test) => {
       expect(tests.includes(test)).toBeTruthy();
     });

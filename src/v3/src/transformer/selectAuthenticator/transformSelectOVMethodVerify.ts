@@ -24,8 +24,8 @@ import {
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 import { getOVMethodTypeAuthenticatorButtonElements, isOnlyPushWithAutoChallenge } from './utils';
 
-export const transformSelectOVMethodVerify: IdxStepTransformer = (transaction, formBag) => {
-  const { nextStep: { inputs } } = transaction;
+export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction, formBag }) => {
+  const { nextStep: { inputs } = {} } = transaction;
   const authenticator = inputs?.find(({ name }) => name === 'authenticator') as Input;
   if (!authenticator) {
     return formBag;

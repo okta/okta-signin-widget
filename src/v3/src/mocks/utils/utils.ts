@@ -11,7 +11,6 @@
  */
 
 import { IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
-import { IdxTransactionWithNextStep } from 'src/types';
 
 export const getStubTransaction = (status: IdxStatus = IdxStatus.PENDING): IdxTransaction => ({
   status,
@@ -66,7 +65,7 @@ export const getStubTransaction = (status: IdxStatus = IdxStatus.PENDING): IdxTr
   },
 });
 
-export const getStubTransactionWithNextStep = (): IdxTransactionWithNextStep => {
+export const getStubTransactionWithNextStep = (): IdxTransaction => {
   const transaction = getStubTransaction();
 
   return { ...transaction, nextStep: { name: '' } };

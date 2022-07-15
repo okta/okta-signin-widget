@@ -20,6 +20,7 @@ import {
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { FunctionComponent } from 'preact';
 
+import { ClickHandler } from './handlers';
 import { PasswordSettings } from './password';
 import { UserInfo } from './userInfo';
 
@@ -47,6 +48,13 @@ export type InputAttributes = { autocomplete?: AutoCompleteValue; };
 export type ActionParams = {
   [key: string]: string | boolean | number;
 };
+
+export interface ActionOptions {
+  actionParams?: ActionParams;
+  step?: string;
+  // deprecate this field once auth-js can support `step` for all scenarios
+  action?: NextStep['action'];
+}
 
 /**
  * WebAuthNEnrollmentPayload
@@ -88,6 +96,9 @@ export interface UISchemaElement {
 export interface UISchemaLayout {
   type: UISchemaLayoutType;
   elements: (UISchemaElement | UISchemaLayout)[];
+  options?: {
+    onClick?: ClickHandler;
+  }
 }
 
 export type PickerSchema = {
@@ -121,7 +132,6 @@ export interface FieldElement extends UISchemaElement {
     type?: string;
     customOptions?: IdxOption[],
     targetKey?: string;
-    isStepper?: boolean;
   };
 }
 
@@ -140,18 +150,15 @@ export enum ButtonType {
 // TODO: use type instead of format in tester function
 export interface ButtonElement extends UISchemaElement {
   type: 'Button',
-  options: {
+  options: ActionOptions & {
     type: ButtonType;
     variant?: 'primary' | 'floating' | 'secondary';
     wide?: boolean;
     deviceChallengeUrl?: string;
-    actionParams?: ActionParams;
     includeData?: boolean;
     dataType?: 'cancel' | 'save';
     dataSe?: string;
-    step?: string;
-    // deprecate this field once auth-js can support `step` for all scenarios
-    action?: NextStep['action'];
+    stepToRender?: string;
   };
 }
 
@@ -243,11 +250,9 @@ export interface PasswordRequirementsElement extends UISchemaElement {
 
 export interface LinkElement extends UISchemaElement {
   type: 'Link';
-  options: {
+  options: ActionOptions & {
     label: string;
     href?: string;
-    actionParams?: ActionParams;
-    action: NextStep['action'];
   };
 }
 
@@ -304,21 +309,25 @@ export type StepperNavButtonConfigAttrs = {
 export interface StepperLayout {
   type: UISchemaLayoutType.STEPPER;
   elements: UISchemaLayout[];
+  options?: {
+    defaultStepIndex: () => number;
+  }
 }
 
 export interface StepperButtonElement {
   type: 'StepperButton',
   label: string;
-  options: ButtonElement['options'] & {
+  options: ButtonElement['options']
+  & {
     nextStepIndex: number;
   }
 }
 
-export interface StepperRadioElement extends UISchemaElement {
+export interface StepperRadioElement {
   type: 'StepperRadio',
   options: {
     customOptions: Array<IdxOption & { key?: string; }>,
-    id: string;
+    name: string;
     defaultOption: string | number | boolean;
   }
 }

@@ -41,12 +41,11 @@ const getPasswordMatchingKey = (
   return undefined;
 };
 
-export const transformEnrollPasswordAuthenticator: IdxStepTransformer = (
+export const transformEnrollPasswordAuthenticator: IdxStepTransformer = ({
   transaction,
   formBag,
-  _,
-) => {
-  const { nextStep: { relatesTo } } = transaction;
+}) => {
+  const { nextStep: { relatesTo } = {} } = transaction;
   const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordSettings;
 
   const { uischema, data } = formBag;

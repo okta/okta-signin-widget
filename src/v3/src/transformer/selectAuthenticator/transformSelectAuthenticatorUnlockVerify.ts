@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { NextStep } from '@okta/okta-auth-js';
+
 import {
   IdxStepTransformer,
   TitleElement,
@@ -18,11 +20,11 @@ import {
 import { removeUIElementWithName } from '../utils';
 import { getAuthenticatorVerifyButtonElements } from './utils';
 
-export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = (
+export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
   transaction,
   formBag,
-) => {
-  const { nextStep: { inputs } } = transaction;
+}) => {
+  const { nextStep: { inputs } = {} as NextStep } = transaction;
   const authenticator = inputs?.find(({ name }) => name === 'authenticator');
   if (!authenticator?.options) {
     return formBag;

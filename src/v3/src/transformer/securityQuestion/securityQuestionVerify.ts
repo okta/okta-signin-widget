@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { NextStep } from '@okta/okta-auth-js';
+
 import {
   ButtonElement,
   ButtonType,
@@ -19,8 +21,8 @@ import {
 } from '../../types';
 import { getUIElementWithName } from '../utils';
 
-export const transformSecurityQuestionVerify: IdxStepTransformer = (transaction, formBag) => {
-  const { nextStep: { relatesTo } } = transaction;
+export const transformSecurityQuestionVerify: IdxStepTransformer = ({ transaction, formBag }) => {
+  const { nextStep: { relatesTo } = {} as NextStep } = transaction;
   const { uischema } = formBag;
 
   const answerElement = getUIElementWithName(

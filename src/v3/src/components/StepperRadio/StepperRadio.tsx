@@ -21,7 +21,7 @@ import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { h } from 'preact';
 import { useState } from 'preact/hooks';
 
-import { useWidgetContext } from '../../contexts';
+import { useStepperContext, useWidgetContext } from '../../contexts';
 import { useTranslation } from '../../lib/okta-i18n';
 import {
   ChangeEvent,
@@ -33,11 +33,12 @@ const StepperRadio: UISchemaElementComponent<{
   uischema: StepperRadioElement
 }> = ({ uischema }) => {
   const { t } = useTranslation();
-  const { setStepperStepIndex, setData } = useWidgetContext();
+  const { setStepIndex } = useStepperContext();
+  const { setData } = useWidgetContext();
   const {
     label = '',
     options: {
-      id,
+      name,
       customOptions,
       defaultOption,
     },
@@ -47,7 +48,7 @@ const StepperRadio: UISchemaElementComponent<{
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const stepIdx = customOptions.findIndex((opt) => opt.value === e.currentTarget.value);
     const option = customOptions[stepIdx];
-    setStepperStepIndex(stepIdx);
+    setStepIndex!(stepIdx);
     setValue(e.currentTarget.value);
 
     // update data state
@@ -60,8 +61,7 @@ const StepperRadio: UISchemaElementComponent<{
     <FormControl component="fieldset">
       {label && (<FormLabel>{t(label)}</FormLabel>)}
       <RadioGroup
-        name={id}
-        id={id}
+        name={name}
         value={value as string}
         onChange={handleChange}
       >

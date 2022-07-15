@@ -19,7 +19,7 @@ import {
 } from '../../types';
 import { getUIElementWithName } from '../utils';
 
-export const transformTOTPChallenge: IdxStepTransformer = (_, formBag) => {
+export const transformTOTPChallenge: IdxStepTransformer = ({ formBag }) => {
   const { uischema } = formBag;
 
   const codeElement = getUIElementWithName(

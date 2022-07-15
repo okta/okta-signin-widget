@@ -11,8 +11,7 @@
  */
 
 import { IdxActionParams, NextStep } from '@okta/okta-auth-js';
-import merge from 'lodash/merge';
-import omit from 'lodash/omit';
+import { merge, omit } from 'lodash';
 import { useCallback } from 'preact/hooks';
 
 import { useWidgetContext } from '../contexts';
@@ -23,6 +22,7 @@ type OnSubmitHandlerOptions = {
   actionFn?: NextStep['action'];
   params?: Record<string, unknown>;
   step?: string;
+  stepToRender?: string;
 };
 
 // excluded field from data bag
@@ -33,17 +33,17 @@ export const useOnSubmit = (): (options?: OnSubmitHandlerOptions | undefined) =>
   const {
     authClient,
     data,
-    idxTransaction: prevTransaction,
+    idxTransaction: currTransaction,
     setIdxTransaction,
-    setStepperStepIndex,
+    setStepToRender,
   } = useWidgetContext();
 
   return useCallback(async (options?: OnSubmitHandlerOptions) => {
     const {
-      actionFn, params, includeData, step,
+      actionFn, params, includeData, step, stepToRender,
     } = options || {};
 
-    const immutableData = getImmutableData(prevTransaction!, step);
+    const immutableData = getImmutableData(currTransaction!, step);
 
     const fn = actionFn || authClient.idx.proceed;
 
@@ -59,26 +59,17 @@ export const useOnSubmit = (): (options?: OnSubmitHandlerOptions | undefined) =>
     }
     payload = merge(payload, immutableData);
     payload = toNestedObject(payload);
-    if (prevTransaction?.context.stateHandle) {
-      payload.stateHandle = prevTransaction.context.stateHandle;
+    if (currTransaction!.context.stateHandle) {
+      payload.stateHandle = currTransaction!.context.stateHandle;
     }
-    const transaction = await fn(payload);
-
-    // TODO: OKTA-514045 need to revisit this logic, possibly compare inputs sans messages instead
-    // reset stepper
-    if (
-      prevTransaction?.nextStep?.name !== transaction.nextStep?.name
-    ) {
-      setStepperStepIndex(0);
-    }
-
-    // update transaction state to update the form
-    setIdxTransaction(transaction);
+    const newTransaction = await fn(payload);
+    setIdxTransaction(newTransaction);
+    setStepToRender(stepToRender);
   }, [
     data,
     authClient,
-    prevTransaction,
+    currTransaction,
     setIdxTransaction,
-    setStepperStepIndex,
+    setStepToRender,
   ]);
 };

@@ -18,7 +18,7 @@ import {
   TitleElement,
 } from '../../types';
 
-export const transformGoogleAuthenticatorVerify: IdxStepTransformer = (_, formBag) => {
+export const transformGoogleAuthenticatorVerify: IdxStepTransformer = ({ formBag }) => {
   const { uischema } = formBag;
 
   const titleElement: TitleElement = {

@@ -19,7 +19,7 @@ export type CreateAuthClientOptions = {
   mockRequestClient?: HttpRequestClient;
 };
 
-const updateStateHandleInMock = (res?: Record<string, unknown>) => {
+export const updateStateHandleInMock = (res?: Record<string, unknown>) => {
   if (!res) {
     return;
   }

@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { NextStep } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 
 import {
@@ -25,8 +26,8 @@ import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
 const TARGET_FIELD_NAME = 'authenticator.methodType';
 
-export const transformPhoneVerification: IdxStepTransformer = (transaction, formBag) => {
-  const { nextStep } = transaction;
+export const transformPhoneVerification: IdxStepTransformer = ({ transaction, formBag }) => {
+  const { nextStep = {} as NextStep } = transaction;
   const { name: step } = nextStep;
   const { uischema } = formBag;
 

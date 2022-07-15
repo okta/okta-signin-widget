@@ -10,13 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransaction } from '@okta/okta-auth-js';
-import { IdxRemediation } from '@okta/okta-auth-js/lib/idx/types/idx-js';
-
 import {
   FieldElement,
   FormBag,
-  RequiredKeys,
   UISchemaElement,
   UISchemaLayoutType,
   Undefinable,
@@ -49,14 +45,3 @@ export const getUIElementWithName = (
     name === (element as FieldElement).name
   ))
 );
-
-export const isNextStepAvailable = (
-  transaction: IdxTransaction,
-): transaction is RequiredKeys<IdxTransaction, 'nextStep'> => !!transaction.nextStep;
-
-export const remediationContainsStep = (
-  neededToProceed: IdxRemediation[],
-  step: string,
-): boolean => neededToProceed.some((remediation) => remediation.name === step);
-
-export const getCurrentTimestamp = (): number => (new Date().getTime());

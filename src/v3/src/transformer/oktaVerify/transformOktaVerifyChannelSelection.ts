@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
-
 import { IDX_STEP } from '../../constants';
 import {
   ButtonElement,
@@ -22,7 +20,6 @@ import {
   UISchemaElement,
 } from '../../types';
 import { isAndroidOrIOS } from '../../util';
-import { transformStepInputs } from '../field';
 import { getUIElementWithName } from '../utils';
 
 export const CHANNEL_SCOPE = '#/properties/authenticator/properties/channel';
@@ -32,17 +29,16 @@ const CHANNEL_TO_LABEL_KEY_MAP: { [channel: string]: string } = {
   sms: 'oie.enroll.okta_verify.select.channel.sms.label',
 };
 
-export const transformOktaVerifyChannelSelection: IdxStepTransformer = (transaction) => {
-  const { context } = transaction;
-  // TODO: OKTA-503490 temporary sln to access missing relatesTo obj
-  const authenticator = context?.currentAuthenticator?.value;
-  const selectedChannel = authenticator?.contextualData?.selectedChannel;
-  const isAndroidOrIOSView = isAndroidOrIOS();
+export const transformOktaVerifyChannelSelection: IdxStepTransformer = ({
+  prevTransaction,
+  formBag,
+}) => {
+  const { data, uischema } = formBag;
 
-  const channelSelectionStep = transaction.availableSteps?.find(
-    ({ name }) => name === IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
-  );
-  const formBag = transformStepInputs(channelSelectionStep);
+  const isAndroidOrIOSView = isAndroidOrIOS();
+  // eslint-disable-next-line max-len
+  const lastSelectedChannel = prevTransaction?.context.currentAuthenticator.value.contextualData?.selectedChannel as string;
+  const elements: UISchemaElement[] = [];
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -52,43 +48,50 @@ export const transformOktaVerifyChannelSelection: IdxStepTransformer = (transact
         : 'oie.enroll.okta_verify.select.channel.title',
     },
   };
-
-  // Title should be first element
-  formBag.uischema.elements.unshift(titleElement);
+  elements.push(titleElement);
 
   const channelSelectionElement = getUIElementWithName(
     'authenticator.channel',
     formBag.uischema.elements as UISchemaElement[],
   ) as FieldElement;
-  if (channelSelectionElement) {
-    channelSelectionElement.label = 'oie.enroll.okta_verify.select.channel.description';
-    const { options: { inputMeta: { options = [] } } } = channelSelectionElement;
-    const choices: IdxOption[] = options
-      .filter(({ value }: IdxOption) => (isAndroidOrIOSView ? (value !== 'qrcode') : value !== selectedChannel))
-      .map((opt: IdxOption) => ({
-        value: opt.value as string,
-        label: CHANNEL_TO_LABEL_KEY_MAP[opt.value as string],
-      }));
+  channelSelectionElement.label = 'oie.enroll.okta_verify.select.channel.description';
+  channelSelectionElement.options.format = 'radio';
+  const { options: { inputMeta: { options = [] } } } = channelSelectionElement;
+  channelSelectionElement.options.customOptions = options
+    .filter((opt) => opt.value !== lastSelectedChannel)
+    .map((opt) => ({
+      value: opt.value as string,
+      label: CHANNEL_TO_LABEL_KEY_MAP[opt.value as string],
+    }));
+  elements.push(channelSelectionElement);
 
-    // Set the default value
-    // formBag.data[channelSelectionElement.name] = choices[0].value;
-    channelSelectionElement.options = {
-      ...channelSelectionElement.options,
-      format: 'radio',
-      customOptions: choices,
-      defaultOption: choices[0].value as string,
-    };
-  }
+  data['authenticator.channel'] = channelSelectionElement.options.customOptions[0].value;
 
-  formBag.uischema.elements.push({
+  const submitButton: ButtonElement = {
     type: 'Button',
     label: 'oform.next',
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
-      step: channelSelectionStep!.name,
+      step: IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
     },
-  } as ButtonElement);
+  };
+  elements.push(submitButton);
+
+  if (!['email', 'sms'].includes(lastSelectedChannel)) {
+    const switchChannelButton = {
+      type: 'Button',
+      label: 'next.enroll.okta_verify.switch.channel.link.text',
+      options: {
+        type: ButtonType.BUTTON,
+        step: 'select-enrollment-channel',
+        variant: 'secondary',
+      },
+    };
+    elements.push(switchChannelButton);
+  }
+
+  uischema.elements = elements;
 
   return formBag;
 };

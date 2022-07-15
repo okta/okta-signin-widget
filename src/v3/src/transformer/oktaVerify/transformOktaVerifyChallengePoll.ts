@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxActionParams } from '@okta/okta-auth-js';
+import { IdxActionParams, NextStep } from '@okta/okta-auth-js';
 
 import PhoneSvg from '../../img/phone-icon.svg';
 import {
@@ -22,13 +22,13 @@ import {
   TitleElement,
 } from '../../types';
 
-export const transformOktaVerifyChallengePoll: IdxStepTransformer = (
+export const transformOktaVerifyChallengePoll: IdxStepTransformer = ({
   transaction,
   formBag,
   widgetProps,
-) => {
-  const { nextStep, availableSteps } = transaction;
-  const { canResend, relatesTo } = nextStep;
+}) => {
+  const { nextStep = {} as NextStep, availableSteps } = transaction;
+  const { relatesTo } = nextStep;
   const { uischema } = formBag;
   const { authClient } = widgetProps;
 
@@ -46,7 +46,7 @@ export const transformOktaVerifyChallengePoll: IdxStepTransformer = (
     } as TitleElement);
 
     const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
-    if (canResend && resendStep) {
+    if (resendStep) {
       const { name } = resendStep;
       uischema.elements.unshift({
         type: 'Reminder',

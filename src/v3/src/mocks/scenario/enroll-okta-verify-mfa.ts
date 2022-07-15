@@ -31,29 +31,8 @@ scenario('enroll-okta-verify-mfa', (rest) => ([
     );
   }),
   rest.post('*/idp/idx/introspect', async (req, res, ctx) => {
-    const { default: body } = await import('../response/idp/idx/introspect/default.json');
+    const { default: body } = await import('../response/idp/idx/credential/enroll/enroll-okta-verify-mfa.json');
     return res(
-      ctx.status(200),
-      ctx.json(body),
-    );
-  }),
-  rest.post('*/idp/idx/identify', async (req, res, ctx) => {
-    const { default: body } = await import('../response/idp/idx/identify/google-auth-verify.json');
-    return res.once(
-      ctx.status(200),
-      ctx.json(body),
-    );
-  }),
-  rest.post('*/idp/idx/challenge', async (req, res, ctx) => {
-    const { default: body } = await import('../response/idp/idx/challenge/google-auth-verify.json');
-    return res.once(
-      ctx.status(200),
-      ctx.json(body),
-    );
-  }),
-  rest.post('*/idp/idx/challenge/answer', async (req, res, ctx) => {
-    const { default: body } = await import('../response/idp/idx/challenge/answer/enroll-okta-verify-mfa.json');
-    return res.once(
       ctx.status(200),
       ctx.json(body),
     );
@@ -91,7 +70,7 @@ scenario('enroll-okta-verify-mfa', (rest) => ([
   rest.post('*/idp/idx/challenge/poll', async (req, res, ctx) => {
     POLL_COUNTER += 1;
     let response = null;
-    const ATTEMPTS_BEFORE_SUCCESS = 30;
+    const ATTEMPTS_BEFORE_SUCCESS = 30 * 10000;
     if (POLL_COUNTER <= ATTEMPTS_BEFORE_SUCCESS) {
       response = (await import('../response/idp/idx/credential/enroll/enroll-okta-verify-mfa.json')).default;
     } else {

@@ -21,7 +21,7 @@ import {
 import { getUsernameCookie } from '../../util';
 import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
-export const transformIdentify: IdxStepTransformer = (_, formBag, widgetProps) => {
+export const transformIdentify: IdxStepTransformer = ({ formBag, widgetProps }) => {
   const { features, username } = widgetProps;
   const { uischema } = formBag;
 

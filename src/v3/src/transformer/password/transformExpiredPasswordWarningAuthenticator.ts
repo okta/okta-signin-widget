@@ -32,17 +32,17 @@ const getContentTitleAndParams = (daysToExpiry: number): TitleElement['options']
   return { content: 'password.expiring.soon' };
 };
 
-export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = (
+export const transformExpiredPasswordWarningAuthenticator: IdxStepTransformer = ({
   transaction,
   formBag,
   widgetProps,
-) => {
+}) => {
   const { brandName } = widgetProps;
-  const { nextStep: { relatesTo }, availableSteps, messages } = transaction;
+  const { nextStep: { relatesTo } = {}, availableSteps, messages } = transaction;
   const passwordSettings = (relatesTo?.value?.settings || {}) as PasswordSettings;
   const { daysToExpiry } = passwordSettings;
 
-  const baseFormBag = transformEnrollPasswordAuthenticator(transaction, formBag, widgetProps);
+  const baseFormBag = transformEnrollPasswordAuthenticator({ transaction, formBag, widgetProps });
   const { uischema } = baseFormBag;
 
   const titleElement: TitleElement = {

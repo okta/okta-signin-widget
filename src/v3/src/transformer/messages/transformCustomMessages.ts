@@ -38,7 +38,7 @@ const overrideMessagesWithTitle = (msgs: IdxMessage[]): IdxMessageWithTitle[] =>
   return msgs;
 };
 
-export const transformCustomMessages: IdxStepTransformer = (transaction, formBag) => {
+export const transformCustomMessages: IdxStepTransformer = ({ transaction, formBag }) => {
   const { messages } = transaction;
   const { uischema } = formBag;
 

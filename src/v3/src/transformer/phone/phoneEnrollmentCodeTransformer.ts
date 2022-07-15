@@ -18,8 +18,8 @@ import {
   TitleElement,
 } from '../../types';
 
-export const transformPhoneCodeEnrollment: IdxStepTransformer = (transaction, formBag) => {
-  const { nextStep: { relatesTo } } = transaction;
+export const transformPhoneCodeEnrollment: IdxStepTransformer = ({ transaction, formBag }) => {
+  const { nextStep: { relatesTo } = {} } = transaction;
   const { uischema } = formBag;
 
   const titleElement: TitleElement = {
