@@ -18,7 +18,7 @@ import { UserCredentials } from './createCredentials';
 
 const userGroup = 'Basic Auth Web';
 
-export default async (credentials: UserCredentials, assignToGroups = [userGroup]): Promise<User> => {
+export default async (credentials: UserCredentials, assignToGroups = []): Promise<User> => {
   const config = getConfig();
   const oktaClient = new Client({
     orgUrl: config.orgUrl,
@@ -34,15 +34,6 @@ export default async (credentials: UserCredentials, assignToGroups = [userGroup]
   };
 
   try {
-    // Create basic auth group if it doesn't exist
-    let {value: testGroup} = await oktaClient.listGroups({
-      q: userGroup
-    }).next();
-
-    if (!testGroup) {
-      testGroup = await oktaClient.createGroup(basicAuthGroup);
-    }
-
     user = await oktaClient.createUser({
       profile: {
         firstName: credentials.firstName,
@@ -56,6 +47,17 @@ export default async (credentials: UserCredentials, assignToGroups = [userGroup]
     }, {
       activate: true
     });
+
+    // Create the group if it doesn't exist
+    let {value: testGroup} = await oktaClient.listGroups({
+      q: userGroup
+    }).next();
+
+    if (!testGroup) {
+      testGroup = await oktaClient.createGroup(basicAuthGroup);
+    }
+
+    await oktaClient.addUserToGroup((testGroup as Group).id, user.id);
     
     for (const groupName of assignToGroups) {
       // TODO: create test group and attach password recovery policy during test run when API supports it

@@ -16,6 +16,8 @@ import { Then } from '@cucumber/cucumber';
 import TestAppPage from '../page-objects/test-app.page';
 import ActionContext from '../support/context';
 import PrimaryAuthPage from '../page-objects/primary-auth-oie.page';
+import ChallengeEmailAuthenticatorPage from '../page-objects/challenge-email-authenticator.page';
+import SetupAuthenticatorPage from '../page-objects/setup-authenticator.page';
 
 Then(
   /^user sees the tokens on the page$/,
@@ -64,5 +66,27 @@ Then(
   /^user sees unlock account form$/,
   async function() {
     return await PrimaryAuthPage.waitForUnlockAccountForm();
+  }
+);
+
+Then(
+  /^user is challenged for email code$/,
+  async function() {
+    return await ChallengeEmailAuthenticatorPage.waitForPageLoad();
+  }
+);
+
+Then(
+  /^user clicks send email$/,
+  async function() {
+    return await ChallengeEmailAuthenticatorPage.sendEmail();
+  }
+);
+
+Then(
+  /^user skips enrollment of optional authenticators$/,
+  async function() {
+    await SetupAuthenticatorPage.waitForPageLoad();
+    await SetupAuthenticatorPage.setupLater();
   }
 );

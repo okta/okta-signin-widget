@@ -53,6 +53,22 @@
       "autoAttachChildProcesses": true,
       "console": "integratedTerminal",
       "cwd": "${workspaceRoot}/test/e2e"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Cucumber Tests Debug with WebdriverIO",
+      "program": "${workspaceRoot}/test/e2e/node_modules/@wdio/cli/bin/wdio.js",
+      "runtimeExecutable": "${env:HOME}/.nvm/versions/node/v12.13.0/bin/node",
+      "args": [
+          "${workspaceRoot}/test/e2e/cucumber.wdio.conf.ts",
+          "--spec",
+          "${workspaceRoot}/test/e2e/features/interaction-code-flow.feature"
+      ],
+      "autoAttachChildProcesses": true,
+      "console": "integratedTerminal",
+      "cwd": "${workspaceRoot}/test/e2e"
     }
+
   ]
 }
