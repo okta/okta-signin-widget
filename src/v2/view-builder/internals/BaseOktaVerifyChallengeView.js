@@ -69,7 +69,7 @@ const Body = BaseFormWithPolling.extend({
     let challengeRequest = deviceChallenge.challengeRequest !== undefined ? deviceChallenge.challengeRequest : '';
     let probeTimeoutMillis = deviceChallenge.probeTimeoutMillis !== undefined ?
       deviceChallenge.probeTimeoutMillis : 100;
-    let loopbackInitiatedByCustomScheme = deviceChallenge.loopbackInitiatedByCustomScheme;
+    let additionalDeviceChallenge = deviceChallenge.additionalDeviceChallenge;
     let currentPort;
     let foundPort = false;
     let ovFailed = false;
@@ -123,7 +123,7 @@ const Body = BaseFormWithPolling.extend({
               // Windows and MacOS return status code 503 when 
               // there are multiple profiles on the device and
               // the wrong OS profile responds to the challenge request
-              if (xhr.status !== 503 && !loopbackInitiatedByCustomScheme) {
+              if (xhr.status !== 503 && !additionalDeviceChallenge) {
                 // when challenge responds with other errors,
                 // - stop the remaining probing
                 ovFailed = true;
@@ -135,7 +135,7 @@ const Body = BaseFormWithPolling.extend({
                   xhr.status
                 );
               } else if (countFailedPorts === ports.length) {
-                if (loopbackInitiatedByCustomScheme) {
+                if (additionalDeviceChallenge) {
                   // If loopback was triggered as additional challenge, don't cancel it
                   // Server will handle the logic auomatically
                   return this.trigger('save', this.model);
@@ -168,7 +168,7 @@ const Body = BaseFormWithPolling.extend({
           countFailedPorts++;
           Logger.error(`Authenticator is not listening on port ${currentPort}.`);
           if (countFailedPorts === ports.length) {
-            if (loopbackInitiatedByCustomScheme) {
+            if (additionalDeviceChallenge) {
               // If loopback was triggered as additional challenge, don't cancel it
               // Server will handle the logic auomatically
               return this.trigger('save', this.model);
