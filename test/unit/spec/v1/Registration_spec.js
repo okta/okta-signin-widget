@@ -1037,4 +1037,100 @@ Expect.describe('Registration', function() {
         });
     });
   });
+
+  const sanitizeSetting = function() {
+    const preSubmitSpy = jasmine.createSpy('preSubmitSpy');
+    return {
+      registration: {
+        preSubmit: function(postData, onSuccess, onFailure) {
+          preSubmitSpy(postData, onSuccess, onFailure);
+          onSuccess(postData);
+        },
+        postSubmit: jasmine.createSpy('postSubmitSpy'),
+      },
+    };
+  };
+
+  Expect.describe('sanitizes invalid request values', function() {
+    itp('null value', function() {
+      const setting = sanitizeSetting();
+      return setup(setting).then(function(test) {
+        Util.resetAjaxRequests();
+        test.form.setUserName('test@example.com');
+        test.form.setPassword('Abcd1234');
+        test.form.setFirstname('firstName');
+        test.form.setLastname(null);
+        test.form.submit();
+        const model = test.router.controller.model;
+
+        spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
+        model.save();
+        Util.callAllTimeouts();
+        expect(test.router.controller.model.get('userName')).toBe('test@example.com');
+        expect(test.router.controller.model.get('firstName')).toBe('firstName');
+        expect(test.router.controller.model.has('lastName')).toBe(false);
+        expect(setting.registration.postSubmit).toHaveBeenCalled();
+      });
+    });
+    itp('undefined value', function() {
+      const setting = sanitizeSetting();
+      return setup(setting).then(function(test) {
+        Util.resetAjaxRequests();
+        test.form.setUserName('test@example.com');
+        test.form.setPassword('Abcd1234');
+        test.form.setFirstname('firstName');
+        test.form.setLastname(undefined);
+        test.form.submit();
+        const model = test.router.controller.model;
+
+        spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
+        model.save();
+        Util.callAllTimeouts();
+        expect(test.router.controller.model.get('userName')).toBe('test@example.com');
+        expect(test.router.controller.model.get('firstName')).toBe('firstName');
+        expect(test.router.controller.model.has('lastName')).toBe(false);
+        expect(setting.registration.postSubmit).toHaveBeenCalled();
+      });
+    });
+    itp('empty string', function() {
+      const setting = sanitizeSetting();
+      return setup(setting).then(function(test) {
+        Util.resetAjaxRequests();
+        test.form.setUserName('test@example.com');
+        test.form.setPassword('Abcd1234');
+        test.form.setFirstname('firstName');
+        test.form.setLastname('');
+        test.form.submit();
+        const model = test.router.controller.model;
+
+        spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
+        model.save();
+        Util.callAllTimeouts();
+        expect(test.router.controller.model.get('userName')).toBe('test@example.com');
+        expect(test.router.controller.model.get('firstName')).toBe('firstName');
+        expect(test.router.controller.model.has('lastName')).toBe(false);
+        expect(setting.registration.postSubmit).toHaveBeenCalled();
+      });
+    });
+    itp('no sanitize', function() {
+      const setting = sanitizeSetting();
+      return setup(setting).then(function(test) {
+        Util.resetAjaxRequests();
+        test.form.setUserName('test@example.com');
+        test.form.setPassword('Abcd1234');
+        test.form.setFirstname('firstName');
+        test.form.setLastname('lastName');
+        test.form.submit();
+        const model = test.router.controller.model;
+
+        spyOn(Backbone.Model.prototype, 'save').and.returnValue($.Deferred().resolve());
+        model.save();
+        Util.callAllTimeouts();
+        expect(test.router.controller.model.get('userName')).toBe('test@example.com');
+        expect(test.router.controller.model.get('firstName')).toBe('firstName');
+        expect(test.router.controller.model.get('lastName')).toBe('lastName');
+        expect(setting.registration.postSubmit).toHaveBeenCalled();
+      });
+    });
+  });
 });

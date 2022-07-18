@@ -10,33 +10,39 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
+
 import {
-  ControlElement,
-} from '@jsonforms/core';
-import { DescriptionElement, IdxStepTransformer, TitleElement } from 'src/types';
+  ButtonElement,
+  ButtonType,
+  DescriptionElement,
+  FieldElement,
+  IdxStepTransformer,
+  TitleElement,
+  UISchemaElement,
+} from '../../types';
+import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
-import { ButtonOptionType } from '../getButtonControls';
-import { getUIElementWithScope, removeUIElementWithScope } from '../utils';
-
-const TARGET_FIELD_NAME = 'methodType';
-const TARGET_FIELD_SCOPE = `#/properties/authenticator/properties/${TARGET_FIELD_NAME}`;
+const TARGET_FIELD_NAME = 'authenticator.methodType';
 
 export const transformPhoneVerification: IdxStepTransformer = (transaction, formBag) => {
   const { nextStep } = transaction;
-  const { action } = nextStep;
+  const { name: step } = nextStep;
   const { uischema } = formBag;
 
   // Find methodType option, set first as selected, and hide element
-  const methodTypeElement = getUIElementWithScope(
-    TARGET_FIELD_SCOPE,
-    uischema.elements as ControlElement[],
-  );
-  const primaryMethod = methodTypeElement?.options?.choices[0]?.key;
-  const hasMultipleMethods = methodTypeElement?.options?.choices.length > 1;
+  const methodTypeElement = getUIElementWithName(
+    TARGET_FIELD_NAME,
+    uischema.elements as UISchemaElement[],
+  ) as FieldElement;
+  const primaryMethod = methodTypeElement?.options.inputMeta?.options?.[0].value;
+  const hasMultipleMethods = (
+    methodTypeElement?.options?.inputMeta?.options as IdxOption[]
+  ).length > 1;
   if (methodTypeElement) {
-    uischema.elements = removeUIElementWithScope(
-      TARGET_FIELD_SCOPE,
-      uischema.elements as ControlElement[],
+    uischema.elements = removeUIElementWithName(
+      TARGET_FIELD_NAME,
+      uischema.elements as UISchemaElement[],
     );
   }
 
@@ -49,17 +55,14 @@ export const transformPhoneVerification: IdxStepTransformer = (transaction, form
   // (Display order) 3rd element in the elements array
   uischema.elements.unshift(carrierInfoText);
 
-  // @ts-ignore Remove after https://oktainc.atlassian.net/browse/OKTA-502429
-  const redactedPhoneNumber = nextStep.relatesTo?.value?.profile?.phoneNumber;
+  const redactedPhoneNumber = nextStep.relatesTo?.value?.profile?.phoneNumber as string;
   const smsInfoTextElement: DescriptionElement = {
     type: 'Description',
     options: {
       content: redactedPhoneNumber
         ? 'next.phone.verify.sms.sendText.withPhoneNumber'
         : 'next.phone.verify.sms.sendText.withoutPhoneNumber',
-      contentParams: [
-        redactedPhoneNumber,
-      ],
+      contentParams: redactedPhoneNumber ? [redactedPhoneNumber] : undefined,
     },
   };
   const voiceInfoTextElement: DescriptionElement = {
@@ -68,9 +71,7 @@ export const transformPhoneVerification: IdxStepTransformer = (transaction, form
       content: redactedPhoneNumber
         ? 'next.phone.verify.call.sendText.withPhoneNumber'
         : 'next.phone.verify.call.sendText.withoutPhoneNumber',
-      contentParams: [
-        redactedPhoneNumber,
-      ],
+      contentParams: redactedPhoneNumber ? [redactedPhoneNumber] : undefined,
     },
   };
 
@@ -91,34 +92,34 @@ export const transformPhoneVerification: IdxStepTransformer = (transaction, form
   // (Display order) 1st element in the elements array
   uischema.elements.unshift(titleElement);
 
-  const primaryButton: ControlElement = {
-    type: 'Control',
+  const primaryButton: ButtonElement = {
+    type: 'Button',
     label: primaryMethod === 'sms'
       ? 'oie.phone.sms.primaryButton'
       : 'oie.phone.call.primaryButton',
-    scope: `#/properties/${ButtonOptionType.SUBMIT}`,
+    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
-      format: 'button',
+      type: ButtonType.SUBMIT,
       idxMethodParams: {
-        authenticator: { [TARGET_FIELD_NAME]: methodTypeElement?.options?.choices[0]?.key },
+        authenticator: { methodType: methodTypeElement?.options.inputMeta?.options?.[0].value },
       },
-      action,
+      step,
     },
   };
 
-  const secondaryButton: ControlElement = {
-    type: 'Control',
+  const secondaryButton: ButtonElement = {
+    type: 'Button',
     label: primaryMethod === 'sms'
       ? 'oie.phone.call.secondaryButton'
       : 'oie.phone.sms.secondaryButton',
-    scope: `#/properties/${ButtonOptionType.SUBMIT}`,
+    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
-      format: 'button',
+      type: ButtonType.SUBMIT,
       variant: 'secondary',
       idxMethodParams: {
-        authenticator: { [TARGET_FIELD_NAME]: methodTypeElement?.options?.choices[1]?.key },
+        authenticator: { methodType: methodTypeElement?.options.inputMeta?.options?.[1]?.value },
       },
-      action,
+      step,
     },
   };
 

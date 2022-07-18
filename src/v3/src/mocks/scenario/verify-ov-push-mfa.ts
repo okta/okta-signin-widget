@@ -12,6 +12,8 @@
 
 import { scenario } from '../registry';
 
+let POLL_COUNTER = 0;
+
 scenario('verify-ov-push-mfa', (rest) => ([
   // bootstrap
   rest.get('*/oauth2/default/.well-known/openid-configuration', async (req, res, ctx) => {
@@ -43,37 +45,45 @@ scenario('verify-ov-push-mfa', (rest) => ([
     );
   }),
   rest.post('*/idp/idx/challenge', async (req, res, ctx) => {
-    const { default: body } = await import('../response/idp/idx/challenge/verify-ov-push-mfa.json');
+    const { default: body } = await import('../response/idp/idx/challenge/verify-ov-push-method.json');
+    return res.once(
+      ctx.status(200),
+      ctx.json(body),
+    );
+  }),
+  rest.post('*/idp/idx/challenge', async (req, res, ctx) => {
+    const { default: body } = await import('../response/idp/idx/challenge/verify-ov-send-push.json');
+    return res.once(
+      ctx.status(200),
+      ctx.json(body),
+    );
+  }),
+  // Poll response
+  rest.post('*/idp/idx/authenticators/poll', async (req, res, ctx) => {
+    POLL_COUNTER += 1;
+    let response = null;
+    const ATTEMPTS_BEFORE_SUCCESS = 4;
+    if (POLL_COUNTER <= ATTEMPTS_BEFORE_SUCCESS) {
+      response = (await import('../response/idp/idx/challenge/verify-ov-send-push.json')).default;
+    } else {
+      response = (await import('../response/idp/idx/authenticators/poll/verify-ov-push-manual-success.json')).default;
+    }
+    return res(
+      ctx.status(200),
+      ctx.json(response),
+    );
+  }),
+  // get oauth2 token
+  rest.post('*/oauth2/default/v1/token', async (req, res, ctx) => {
+    const { default: body } = await import('../response/oauth2/default/v1/token/default.json');
     return res(
       ctx.status(200),
       ctx.json(body),
     );
   }),
-  // rest.post('*/idp/idx/challenge/answer', async (req, res, ctx) => {
-  //   const { default: body } = await import('../response/idp/idx/challenge/answer/enroll-okta-verify-mfa.json');
-  //   return res.once(
-  //     ctx.status(200),
-  //     ctx.json(body),
-  //   );
-  // }),
-  // rest.post('*/idp/idx/credential/enroll', async (req, res, ctx) => {
-  //   const request = req.body as Record<string, any>;
-  //   const channel = request.authenticator?.channel;
-  //   let response = null;
-  //   if (!channel || channel === 'qrcode') {
-  //     response = (await import('../response/idp/idx/credential/enroll/enroll-okta-verify-mfa.json')).default;
-  //   } else if (channel === 'email') {
-  //     response = (await import('../response/idp/idx/credential/enroll/enroll-ov-email-channel.json')).default;
-  //   } else {
-  //     response = (await import('../response/idp/idx/credential/enroll/enroll-ov-sms-channel.json')).default;
-  //   }
-  //   return res(
-  //     ctx.status(200),
-  //     ctx.json(response),
-  //   );
-  // }),
-  rest.post('*/idp/idx/challenge/poll', async (req, res, ctx) => {
-    const { default: body } = await import('../response/idp/idx/challenge/verify-ov-push-mfa.json');
+  // get oauth2 keys
+  rest.get('*/oauth2/default/v1/keys', async (req, res, ctx) => {
+    const { default: body } = await import('../response/oauth2/default/v1/keys/default.json');
     return res(
       ctx.status(200),
       ctx.json(body),

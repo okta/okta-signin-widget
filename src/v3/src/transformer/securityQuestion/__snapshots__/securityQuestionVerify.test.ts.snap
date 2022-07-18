@@ -2,9 +2,8 @@
 
 exports[`SecurityQuestionVerify Tests should create security question verify UI elements 1`] = `
 Object {
-  "schema": Object {
-    "properties": Object {},
-  },
+  "data": Object {},
+  "schema": Object {},
   "uischema": Object {
     "elements": Array [
       Object {
@@ -15,20 +14,22 @@ Object {
       },
       Object {
         "label": "What is love?",
+        "name": "credentials.answer",
         "options": Object {
-          "secret": true,
+          "inputMeta": Object {
+            "name": "credentials.answer",
+            "secret": true,
+          },
         },
-        "scope": "#/properties/credentials/properties/answer",
         "type": "Control",
       },
       Object {
         "label": "oform.verify",
         "options": Object {
-          "format": "button",
           "type": "submit",
         },
         "scope": "#/properties/submit",
-        "type": "Control",
+        "type": "Button",
       },
     ],
     "type": "VerticalLayout",
@@ -38,9 +39,8 @@ Object {
 
 exports[`SecurityQuestionVerify Tests should create security question verify UI elements for custom question 1`] = `
 Object {
-  "schema": Object {
-    "properties": Object {},
-  },
+  "data": Object {},
+  "schema": Object {},
   "uischema": Object {
     "elements": Array [
       Object {
@@ -51,20 +51,22 @@ Object {
       },
       Object {
         "label": "What is love?",
+        "name": "credentials.answer",
         "options": Object {
-          "secret": true,
+          "inputMeta": Object {
+            "name": "credentials.answer",
+            "secret": true,
+          },
         },
-        "scope": "#/properties/credentials/properties/answer",
         "type": "Control",
       },
       Object {
         "label": "oform.verify",
         "options": Object {
-          "format": "button",
           "type": "submit",
         },
         "scope": "#/properties/submit",
-        "type": "Control",
+        "type": "Button",
       },
     ],
     "type": "VerticalLayout",

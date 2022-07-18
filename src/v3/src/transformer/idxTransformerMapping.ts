@@ -22,17 +22,27 @@ import {
   transformGoogleAuthenticatorEnroll,
   transformGoogleAuthenticatorVerify,
 } from './googleAuthenticator';
+import { transformIdentify } from './identify';
 import {
+  transformOktaVerifyChallengePoll,
   transformOktaVerifyEnrollChannel,
   transformOktaVerifyEnrollPoll,
+  transformTOTPChallenge,
 } from './oktaVerify';
-import { transformPasswordAuthenticator } from './password';
+import {
+  transformEnrollPasswordAuthenticator,
+  transformExpiredPasswordAuthenticator,
+  transformExpiredPasswordWarningAuthenticator,
+  transformPasswordChallenge,
+  transformResetPasswordAuthenticator,
+} from './password';
 import {
   transformPhoneChallenge,
   transformPhoneCodeEnrollment,
   transformPhoneEnrollment,
   transformPhoneVerification,
 } from './phone';
+import { transformEnrollProfile } from './profile';
 import { transformIdentityRecovery } from './recovery';
 import {
   transformSecurityQuestionEnroll,
@@ -42,6 +52,7 @@ import {
   transformSelectAuthenticatorEnroll,
   transformSelectAuthenticatorUnlockVerify,
   transformSelectAuthenticatorVerify,
+  transformSelectOVMethodVerify,
 } from './selectAuthenticator';
 import { transformWebAuthNAuthenticator } from './webauthn';
 
@@ -64,6 +75,7 @@ const TransformerMap: {
       buttonConfig?: {
         showDefaultSubmit?: boolean,
         showDefaultCancel?: boolean,
+        showForgotPassword?: boolean,
       },
     }
   }
@@ -71,54 +83,63 @@ const TransformerMap: {
   [IDX_STEP.AUTHENTICATOR_ENROLLMENT_DATA]: {
     [AUTHENTICATOR_KEY.PHONE]: {
       transform: transformPhoneEnrollment,
-      buttonConfig: {
-        showDefaultSubmit: false,
-      },
+      buttonConfig: { showDefaultSubmit: false },
     },
   },
   [IDX_STEP.AUTHENTICATOR_VERIFICATION_DATA]: {
     [AUTHENTICATOR_KEY.EMAIL]: {
       transform: transformEmailVerification,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+    [AUTHENTICATOR_KEY.OV]: {
+      transform: transformSelectOVMethodVerify,
       buttonConfig: {
         showDefaultSubmit: false,
       },
     },
     [AUTHENTICATOR_KEY.PHONE]: {
       transform: transformPhoneVerification,
-      buttonConfig: {
-        showDefaultSubmit: false,
-      },
+      buttonConfig: { showDefaultSubmit: false },
     },
   },
   [IDX_STEP.CHALLENGE_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.EMAIL]: {
       transform: transformEmailChallenge,
-      buttonConfig: {
-        showDefaultSubmit: false,
-      },
+      buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.GOOGLE_OTP]: {
       transform: transformGoogleAuthenticatorVerify,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+    [AUTHENTICATOR_KEY.PASSWORD]: {
+      transform: transformPasswordChallenge,
+      buttonConfig: { showDefaultSubmit: false, showForgotPassword: true },
+    },
+    [AUTHENTICATOR_KEY.OV]: {
+      transform: transformTOTPChallenge,
       buttonConfig: {
         showDefaultSubmit: false,
       },
     },
     [AUTHENTICATOR_KEY.PHONE]: {
       transform: transformPhoneChallenge,
-      buttonConfig: {
-        showDefaultSubmit: false,
-      },
+      buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.SECURITY_QUESTION]: {
       transform: transformSecurityQuestionVerify,
-      buttonConfig: {
-        showDefaultSubmit: false,
-      },
+      buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.WEBAUTHN]: {
       transform: transformWebAuthNAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+  },
+  [IDX_STEP.CHALLENGE_POLL]: {
+    [AUTHENTICATOR_KEY.OV]: {
+      transform: transformOktaVerifyChallengePoll,
       buttonConfig: {
         showDefaultSubmit: false,
+        showDefaultCancel: false,
       },
     },
   },
@@ -133,35 +154,44 @@ const TransformerMap: {
   },
   [IDX_STEP.ENROLL_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.PASSWORD]: {
-      transform: transformPasswordAuthenticator,
+      transform: transformEnrollPasswordAuthenticator,
     },
     [AUTHENTICATOR_KEY.PHONE]: {
       transform: transformPhoneCodeEnrollment,
-      buttonConfig: {
-        showDefaultSubmit: false,
-      },
+      buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.WEBAUTHN]: {
       transform: transformWebAuthNAuthenticator,
-      buttonConfig: {
-        showDefaultSubmit: false,
-      },
+      buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.SECURITY_QUESTION]: {
       transform: transformSecurityQuestionEnroll,
+      buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.GOOGLE_OTP]: {
       transform: transformGoogleAuthenticatorEnroll,
-      buttonConfig: {
-        showDefaultSubmit: false,
-      },
+      buttonConfig: { showDefaultSubmit: false },
     },
   },
   [IDX_STEP.ENROLLMENT_CHANNEL_DATA]: {
     [AUTHENTICATOR_KEY.OV]: {
       transform: transformOktaVerifyEnrollChannel,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+  },
+  [IDX_STEP.ENROLL_PROFILE]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformEnrollProfile,
+      buttonConfig: { showDefaultSubmit: false, showDefaultCancel: false },
+    },
+  },
+  [IDX_STEP.IDENTIFY]: {
+    [AUTHENTICATOR_KEY.DEFAULT]: {
+      transform: transformIdentify,
       buttonConfig: {
         showDefaultSubmit: false,
+        showDefaultCancel: false,
+        showForgotPassword: true,
       },
     },
   },
@@ -173,35 +203,37 @@ const TransformerMap: {
   [IDX_STEP.ENROLL_POLL]: {
     [AUTHENTICATOR_KEY.OV]: {
       transform: transformOktaVerifyEnrollPoll,
-      buttonConfig: {
-        showDefaultSubmit: false,
-      },
+      buttonConfig: { showDefaultSubmit: false },
     },
   },
   [IDX_STEP.REENROLL_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.PASSWORD]: {
-      transform: transformPasswordAuthenticator,
+      transform: transformExpiredPasswordAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
+    },
+  },
+  [IDX_STEP.REENROLL_AUTHENTICATOR_WARNING]: {
+    [AUTHENTICATOR_KEY.PASSWORD]: {
+      transform: transformExpiredPasswordWarningAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
     },
   },
   [IDX_STEP.RESET_AUTHENTICATOR]: {
     [AUTHENTICATOR_KEY.PASSWORD]: {
-      transform: transformPasswordAuthenticator,
+      transform: transformResetPasswordAuthenticator,
+      buttonConfig: { showDefaultSubmit: false },
     },
   },
   [IDX_STEP.SELECT_AUTHENTICATOR_AUTHENTICATE]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformSelectAuthenticatorVerify,
-      buttonConfig: {
-        showDefaultSubmit: false,
-      },
+      buttonConfig: { showDefaultSubmit: false },
     },
   },
   [IDX_STEP.SELECT_AUTHENTICATOR_ENROLL]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformSelectAuthenticatorEnroll,
-      buttonConfig: {
-        showDefaultSubmit: false,
-      },
+      buttonConfig: { showDefaultSubmit: false },
     },
     [AUTHENTICATOR_KEY.OV]: {
       transform: transformOktaVerifyEnrollPoll,
@@ -210,9 +242,7 @@ const TransformerMap: {
   [IDX_STEP.SELECT_AUTHENTICATOR_UNLOCK]: {
     [AUTHENTICATOR_KEY.DEFAULT]: {
       transform: transformSelectAuthenticatorUnlockVerify,
-      buttonConfig: {
-        showDefaultSubmit: false,
-      },
+      buttonConfig: { showDefaultSubmit: false },
     },
   },
 };

@@ -10,16 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement } from '@jsonforms/core';
 import { IdxTransaction } from '@okta/okta-auth-js';
 import {
   DescriptionElement,
   IdxStepTransformer,
   TitleElement,
+  UISchemaElement,
 } from 'src/types';
 
-import { removeUIElementWithScope } from '../utils';
-import { getAuthenticatorVerifyOptions } from './utils';
+import { removeUIElementWithName } from '../utils';
+import { getAuthenticatorVerifyButtonElements } from './utils';
 
 const getContentTitleAndParams = (
   isPasswordRecovery: boolean,
@@ -51,33 +51,17 @@ export const transformSelectAuthenticatorVerify: IdxStepTransformer = (
   const { brandName } = widgetProps;
   const { nextStep: { inputs } } = transaction;
   const authenticator = inputs?.find(({ name }) => name === 'authenticator');
-  if (!authenticator || !authenticator.options) {
+  if (!authenticator?.options) {
     return formBag;
   }
 
-  const { schema, uischema } = formBag;
-  schema.properties = schema.properties ?? {};
-  schema.required = schema.required ?? [];
-
-  schema.properties[authenticator.name] = {
-    type: 'object',
-    enum: getAuthenticatorVerifyOptions(authenticator.options),
-  };
-
-  // This is required to pass the Tester for Authenticator list control
-  const targetScope = `#/properties/${authenticator.name}`;
-  uischema.elements = removeUIElementWithScope(
-    targetScope,
-    uischema.elements as ControlElement[],
+  const { uischema } = formBag;
+  const authenticatorButtonElements = getAuthenticatorVerifyButtonElements(authenticator.options);
+  uischema.elements = removeUIElementWithName(
+    'authenticator',
+    uischema.elements as UISchemaElement[],
   );
-  uischema.elements.push({
-    type: 'Control',
-    scope: targetScope,
-    label: '',
-    options: {
-      format: 'AuthenticatorList',
-    },
-  } as ControlElement);
+  uischema.elements = uischema.elements.concat(authenticatorButtonElements);
 
   const isPwRecovery = isPasswordRecovery(transaction);
   const titleElement: TitleElement = {

@@ -10,51 +10,70 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement, Layout } from '@jsonforms/core';
+import { IdxActionParams } from '@okta/okta-auth-js';
 
 import {
+  ButtonElement,
+  ButtonType,
   DescriptionElement,
+  FieldElement,
   IdxStepTransformer,
-  LayoutType,
   ReminderElement,
+  StepperButtonElement,
   StepperLayout,
-  StepperNavButtonConfigAttrs,
-  StepperNavButtonConfigDirection,
   TitleElement,
-  Undefinable,
+  UISchemaElement,
+  UISchemaLayout,
+  UISchemaLayoutType,
 } from '../../types';
-import { ButtonOptionType } from '../getButtonControls';
-import { getCurrentTimestamp, removeUIElementWithScope } from '../utils';
+import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
-const TARGET_SCOPE = '#/properties/credentials/properties/passcode';
+const TARGET_ELEMENT_KEY = 'credentials.passcode';
 
-export const transformEmailChallenge: IdxStepTransformer = (transaction, formBag) => {
+export const transformEmailChallenge: IdxStepTransformer = (transaction, formBag, widgetProps) => {
   const { nextStep, availableSteps } = transaction;
   const { uischema } = formBag;
+  const { authClient } = widgetProps;
 
-  uischema.elements = removeUIElementWithScope(TARGET_SCOPE, uischema.elements as ControlElement[]);
+  const passcodeElement = getUIElementWithName(
+    TARGET_ELEMENT_KEY,
+    uischema.elements as UISchemaElement[],
+  );
+  uischema.elements = removeUIElementWithName(
+    TARGET_ELEMENT_KEY,
+    uischema.elements as UISchemaElement[],
+  );
 
-  let reminderElement: Undefinable<ReminderElement>;
+  let reminderElement: ReminderElement | undefined;
+  let verificationCodeElement: FieldElement | undefined;
 
   const resendStep = availableSteps?.find(({ name }) => name?.endsWith('resend'));
   if (nextStep.canResend && resendStep) {
-    const { action } = resendStep;
+    const { name } = resendStep;
     reminderElement = {
       type: 'Reminder',
       options: {
         ctaText: 'email.code.not.received',
-        action,
+        // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
+        action: (params?: IdxActionParams) => {
+          const { stateHandle, ...rest } = params ?? {};
+          return authClient?.idx.proceed({
+            // @ts-ignore stateHandle can be undefined
+            stateHandle,
+            actions: [{ name, params: rest }],
+          });
+        },
       },
     };
   }
 
-  const verificationCodeElement: ControlElement = {
-    type: 'Control',
-    label: 'email.enroll.enterCode',
-    scope: TARGET_SCOPE,
-  };
+  if (passcodeElement) {
+    verificationCodeElement = {
+      ...passcodeElement as FieldElement,
+      label: 'email.enroll.enterCode',
+    };
+  }
 
-  // @ts-ignore Remove after https://oktainc.atlassian.net/browse/OKTA-502429
   const redactedEmailAddress = nextStep.relatesTo?.value?.profile?.email;
   const informationalText: DescriptionElement = {
     type: 'Description',
@@ -62,9 +81,7 @@ export const transformEmailChallenge: IdxStepTransformer = (transaction, formBag
       content: redactedEmailAddress
         ? 'next.email.challenge.informationalTextWithEmail'
         : 'next.email.challenge.informationalText',
-      contentParams: [
-        redactedEmailAddress,
-      ],
+      contentParams: (redactedEmailAddress && [redactedEmailAddress]) as string[],
     },
   };
 
@@ -75,29 +92,36 @@ export const transformEmailChallenge: IdxStepTransformer = (transaction, formBag
     },
   };
 
-  const submitButtonControl: ControlElement = {
-    type: 'Control',
+  const submitButtonControl: ButtonElement = {
+    type: 'Button',
     label: 'mfa.challenge.verify',
-    scope: `#/properties/${ButtonOptionType.SUBMIT}`,
+    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
-      format: 'button',
-      type: ButtonOptionType.SUBMIT,
+      type: ButtonType.SUBMIT,
     },
   };
 
   const emailChallengeStepper: StepperLayout = {
-    type: LayoutType.STEPPER,
+    type: UISchemaLayoutType.STEPPER,
     elements: [
       {
-        type: LayoutType.VERTICAL,
+        type: UISchemaLayoutType.VERTICAL,
         elements: [
           reminderElement,
           titleElement,
           informationalText,
+          {
+            type: 'StepperButton',
+            label: 'oie.email.verify.alternate.showCodeTextField',
+            options: {
+              variant: 'secondary',
+              nextStepIndex: 1,
+            },
+          } as StepperButtonElement,
         ].filter(Boolean),
-      } as Layout,
+      } as UISchemaLayout,
       {
-        type: LayoutType.VERTICAL,
+        type: UISchemaLayoutType.VERTICAL,
         elements: [
           reminderElement,
           titleElement,
@@ -105,17 +129,8 @@ export const transformEmailChallenge: IdxStepTransformer = (transaction, formBag
           verificationCodeElement,
           submitButtonControl,
         ].filter(Boolean),
-      } as Layout,
+      } as UISchemaLayout,
     ],
-    options: {
-      key: `${getCurrentTimestamp()}-emailChallenge`,
-      navButtonsConfig: {
-        next: {
-          label: 'oie.email.verify.alternate.showCodeTextField',
-          variant: 'secondary',
-        },
-      } as Record<StepperNavButtonConfigDirection, StepperNavButtonConfigAttrs>,
-    },
   };
 
   uischema.elements.unshift(emailChallengeStepper);

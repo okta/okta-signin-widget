@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Okta Sign Test App</title>
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+  <link rel="stylesheet" href="/oidc-app.css"/>
+  <link href="css/okta-sign-in.css" type="text/css" rel="stylesheet"/>
+
+{{#if CROSS_BROWSER}}
+  <!-- IE11 polyfills for webcrypto (NOT RECOMMEDNED FOR PRODUCTION APPS) -->
+  <script src="https://global.oktacdn.com/okta-auth-js/6.4.3/okta-auth-js.polyfill.js" type="text/javascript"></script>
+{{/if}}
+</head>
+
+<body>
+  <div id="app"></div>
+{{#if CROSS_BROWSER}}
+  <script src="js/okta-sign-in.min.js"></script>
+{{else}}
+  <script src="js/okta-sign-in.js"></script>
+{{/if}}
+  <script src="main.bundle.js"></script>
+</body>
+
+</html>

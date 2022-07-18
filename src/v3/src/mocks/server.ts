@@ -18,8 +18,6 @@ import { loadScenario } from './registry';
 
 // This configures a request mocking server with the given scenario
 export const getServer = (scenarioName: string): SetupServerApi => {
-  console.log('load scenario server');
   const handlers = loadScenario(scenarioName);
-
   return setupServer(...handlers);
 };

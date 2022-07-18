@@ -11,24 +11,20 @@
  */
 
 import {
-  ControlElement,
-  Layout,
-} from '@jsonforms/core';
-
-import {
+  ButtonElement,
+  ButtonType,
   DescriptionElement,
+  FieldElement,
   IdxStepTransformer,
-  LayoutType,
   QRCodeElement,
+  StepperButtonElement,
   StepperLayout,
-  StepperNavButtonConfigAttrs,
-  StepperNavButtonConfigDirection,
   TitleElement,
+  UISchemaElement,
+  UISchemaLayoutType,
 } from '../../types';
-import { ButtonOptionType } from '../getButtonControls';
-import { getCurrentTimestamp, removeUIElementWithScope } from '../utils';
+import { getUIElementWithName } from '../utils';
 
-const CODE_SCOPE = '#/properties/credentials/properties/passcode';
 export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = (transaction, formBag) => {
   const { nextStep: { relatesTo } } = transaction;
 
@@ -42,10 +38,10 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = (transacti
 
   const { uischema } = formBag;
 
-  uischema.elements = removeUIElementWithScope(
-    CODE_SCOPE,
-    uischema.elements as ControlElement[],
-  );
+  const passcodeElement = getUIElementWithName(
+    'credentials.passcode',
+    uischema.elements as UISchemaElement[],
+  ) as FieldElement;
 
   const titleElement: TitleElement = {
     type: 'Title',
@@ -67,86 +63,79 @@ export const transformGoogleAuthenticatorEnroll: IdxStepTransformer = (transacti
     options: { label: displayName, data: href },
   };
 
+  const nextButton: StepperButtonElement = {
+    type: 'StepperButton',
+    label: 'oform.next',
+    options: {
+      type: ButtonType.BUTTON,
+      variant: 'primary',
+      nextStepIndex: 2,
+    },
+  };
+
   const googleAuthStepper: StepperLayout = {
-    type: LayoutType.STEPPER,
+    type: UISchemaLayoutType.STEPPER,
     elements: [
       {
-        type: LayoutType.STEPPER,
+        type: UISchemaLayoutType.VERTICAL,
         elements: [
           {
-            type: LayoutType.VERTICAL,
-            elements: [
-              titleElement,
-              {
-                type: 'Description',
-                options: {
-                  content: 'oie.enroll.google_authenticator.scanBarcode.description',
-                },
-              },
-              qrCodeElement,
-            ],
-          } as Layout,
-          {
-            type: LayoutType.VERTICAL,
-            elements: [
-              titleElement,
-              {
-                type: 'Description',
-                options: {
-                  content: 'oie.enroll.google_authenticator.manualSetupInstructions',
-                },
-              },
-              manualKeyElement,
-            ],
-          },
-        ],
-        options: {
-          key: `${getCurrentTimestamp()}-GAFlowChild`,
-          navButtonsConfig: {
-            next: {
-              variant: 'secondary',
-              label: 'renderers.qrcode.setUpDifferentWay',
+            type: 'Description',
+            options: {
+              content: 'oie.enroll.google_authenticator.scanBarcode.description',
             },
-          } as Record<StepperNavButtonConfigDirection, StepperNavButtonConfigAttrs>,
-        },
-      } as StepperLayout,
+          } as DescriptionElement,
+          qrCodeElement,
+          {
+            type: 'StepperButton',
+            label: 'renderers.qrcode.setUpDifferentWay',
+            options: {
+              variant: 'secondary',
+              nextStepIndex: 1,
+            },
+          } as StepperButtonElement,
+          nextButton,
+        ],
+      },
       {
-        type: LayoutType.VERTICAL,
+        type: UISchemaLayoutType.VERTICAL,
         elements: [
-          titleElement,
+          {
+            type: 'Description',
+            options: {
+              content: 'oie.enroll.google_authenticator.manualSetupInstructions',
+            },
+          } as DescriptionElement,
+          manualKeyElement,
+          nextButton,
+        ],
+      },
+      {
+        type: UISchemaLayoutType.VERTICAL,
+        elements: [
           {
             type: 'Description',
             options: { content: 'oie.enroll.google_authenticator.enterCode.title' },
-          },
+          } as DescriptionElement,
+          passcodeElement,
           {
-            type: 'Control',
-            label: 'oie.google_authenticator.otp.enterCodeText',
-            scope: CODE_SCOPE,
-          },
-          {
-            type: 'Control',
+            type: 'Button',
             label: 'mfa.challenge.verify',
-            scope: `#/properties/${ButtonOptionType.SUBMIT}`,
+            scope: `#/properties/${ButtonType.SUBMIT}`,
             options: {
-              format: 'button',
-              type: ButtonOptionType.SUBMIT,
+              type: ButtonType.SUBMIT,
             },
-          } as ControlElement,
+          } as ButtonElement,
         ],
-      } as Layout,
+      },
     ],
-    options: {
-      key: `${getCurrentTimestamp()}-GAflowParent`,
-      navButtonsConfig: {
-        next: {
-          variant: 'primary',
-          label: 'oform.next',
-        },
-      } as Record<StepperNavButtonConfigDirection, StepperNavButtonConfigAttrs>,
-    },
+
   };
-  // prepend stepper
-  uischema.elements.unshift(googleAuthStepper);
+
+  uischema.elements = [
+    titleElement,
+    googleAuthStepper,
+  ];
 
   return formBag;
 };

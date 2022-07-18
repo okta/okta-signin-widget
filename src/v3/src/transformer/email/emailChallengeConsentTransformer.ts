@@ -10,32 +10,33 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement } from '@jsonforms/core';
-
-import AppSvg from '../../img/Icon_T1_100x100_Apps.svg';
-import BrowserSvg from '../../img/Icon_T1_100x100_Device-Desktop.svg';
+import AppSvg from '../../img/16pxApp.svg';
+import BrowserSvg from '../../img/16pxDevice.svg';
 import {
+  ButtonElement,
+  ButtonType,
   IdxStepTransformer,
   ImageWithTextElement,
   TitleElement,
+  UISchemaElement,
 } from '../../types';
-import { removeUIElementWithScope } from '../utils';
+import { removeUIElementWithName } from '../utils';
 
 export const transformEmailChallengeConsent: IdxStepTransformer = (transaction, formBag) => {
-  const { schema, uischema } = formBag;
-  // @ts-ignore requestInfo missing from NextStep interface
-  const { nextStep: { requestInfo, action } } = transaction;
-  schema.properties = schema.properties ?? {};
-  schema.required = schema.required ?? [];
+  const { uischema } = formBag;
+  const {
+    nextStep: {
+      // @ts-ignore requestInfo missing from NextStep interface
+      requestInfo,
+      name: step,
+    },
+  } = transaction;
 
   // removing consent field as it is controlled by buttons
-  uischema.elements = removeUIElementWithScope(
-    '#/properties/consent',
-    uischema.elements as ControlElement[],
+  uischema.elements = removeUIElementWithName(
+    'consent',
+    uischema.elements as UISchemaElement[],
   );
-  // removing consent from schema
-  delete schema.properties.consent;
-  schema.required = schema.required.filter((item) => item !== 'consent');
 
   // @ts-ignore OKTA-489560 (missing requestInfo prop)
   const appName = requestInfo?.find((info) => info?.name === 'appName');
@@ -44,10 +45,9 @@ export const transformEmailChallengeConsent: IdxStepTransformer = (transaction, 
 
   if (appName?.value) {
     const appImageElement: ImageWithTextElement = {
-      type: 'Control',
-      scope: `#/properties/${appName.name}`,
+      type: 'ImageWithText',
       options: {
-        format: 'ImageWithText',
+        id: appName.name,
         SVGIcon: AppSvg,
         textContent: appName.value,
       },
@@ -57,10 +57,9 @@ export const transformEmailChallengeConsent: IdxStepTransformer = (transaction, 
 
   if (browser?.value) {
     const browserImageElement: ImageWithTextElement = {
-      type: 'Control',
-      scope: `#/properties/${browser.name}`,
+      type: 'ImageWithText',
       options: {
-        format: 'ImageWithText',
+        id: browser.name,
         SVGIcon: BrowserSvg,
         textContent: browser.value,
       },
@@ -76,27 +75,29 @@ export const transformEmailChallengeConsent: IdxStepTransformer = (transaction, 
   };
   uischema.elements.unshift(titleElement);
 
-  const deny: ControlElement = {
-    type: 'Control',
+  const deny: ButtonElement = {
+    type: 'Button',
     label: 'oie.consent.enduser.deny.label',
     scope: '#/properties/deny',
     options: {
-      format: 'button',
+      type: ButtonType.BUTTON,
       variant: 'secondary',
       idxMethodParams: { consent: false },
-      action,
+      dataType: 'cancel',
+      step,
     },
   };
 
-  const allow: ControlElement = {
-    type: 'Control',
+  const allow: ButtonElement = {
+    type: 'Button',
     label: 'oie.consent.enduser.accept.label',
     scope: '#/properties/allow',
     options: {
-      format: 'button',
+      type: ButtonType.BUTTON,
       variant: 'secondary',
+      dataType: 'save',
       idxMethodParams: { consent: true },
-      action,
+      step,
     },
   };
 

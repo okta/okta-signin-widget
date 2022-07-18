@@ -10,17 +10,24 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { IdxTransaction, NextStep } from '@okta/okta-auth-js';
+import { IdxActionParams, IdxTransaction, NextStep } from '@okta/okta-auth-js';
 import {
   useEffect, useMemo, useRef, useState,
 } from 'preact/hooks';
 
-import { Nullish } from '../types';
+import { IDX_STEP } from '../constants';
+import { WidgetOptions } from '../types';
 
 const DEFAULT_TIMEOUT = 4000;
+const POLL_STEPS = [
+  IDX_STEP.CHALLENGE_POLL,
+  IDX_STEP.DEVICE_CHALLENGE_POLL,
+  IDX_STEP.ENROLL_POLL,
+  IDX_STEP.POLL,
+];
 
 const getPollingStep = (
-  transaction: Nullish<IdxTransaction>,
+  transaction: IdxTransaction | undefined,
 ): NextStep | undefined => {
   // auth-js preserves polling object (cache) in transaction when back to authenticators list
   // stop polling in this scenario
@@ -29,19 +36,11 @@ const getPollingStep = (
   }
 
   const { nextStep = {}, availableSteps = [] } = transaction;
-  let pollingStep = ([...availableSteps, nextStep] as NextStep[])
+  const pollingStep = ([...availableSteps, nextStep] as NextStep[])
     .find((step: NextStep) => step.name === 'poll' || step.name?.endsWith('-poll'));
 
   if (!pollingStep) {
     return undefined;
-  }
-
-  // load refresh from rawIdxState
-  // @ts-ignore Remove after auth-js OKTA-502378 fix
-  if (!pollingStep.refresh) {
-    const fieldName = pollingStep?.name.split('-')[0];
-    const pollingMeta = (transaction.rawIdxState as any)[fieldName]?.value.poll || {};
-    pollingStep = { ...pollingStep, ...pollingMeta };
   }
 
   return pollingStep;
@@ -49,9 +48,12 @@ const getPollingStep = (
 
 // returns polling transaction or undefined
 export const usePolling = (
-  idxTransaction: Nullish<IdxTransaction>,
-): Nullish<IdxTransaction> => {
-  const [transaction, setTransaction] = useState<Nullish<IdxTransaction>>();
+  idxTransaction: IdxTransaction | undefined,
+  widgetProps: Partial<WidgetOptions>,
+  data: Record<string, unknown>,
+): IdxTransaction | undefined => {
+  const { stateToken, authClient } = widgetProps;
+  const [transaction, setTransaction] = useState<IdxTransaction | undefined>();
   const timerRef = useRef<NodeJS.Timeout>();
 
   const pollingStep = useMemo(() => {
@@ -74,16 +76,25 @@ export const usePolling = (
       return undefined;
     }
 
-    const { action, refresh = DEFAULT_TIMEOUT } = pollingStep;
+    const { name, refresh = DEFAULT_TIMEOUT } = pollingStep;
 
     // one time request
     // the following polling requests will be triggered based on idxTransaction update
     timerRef.current = setTimeout(async () => {
-      // Per SDK team action is guranteed to exist here, so we are safe to assert non-null
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const newTransaction = await action!({
-        // @ts-ignore parameter type does not account for undefined
-        stateHandle: idxTransaction?.context?.stateHandle,
+      // TODO: Revert to use action once this fix is completed OKTA-512706
+      let payload: IdxActionParams = {};
+      if (data.autoChallenge !== undefined) {
+        payload.autoChallenge = data.autoChallenge as boolean;
+      }
+      // POLL_STEPS are not an action, so must treat as such
+      if (POLL_STEPS.includes(name)) {
+        payload.step = name;
+      } else {
+        payload = { actions: [{ name, params: payload }] };
+      }
+      const newTransaction = await authClient?.idx.proceed({
+        stateHandle: stateToken && idxTransaction?.context?.stateHandle,
+        ...payload,
       });
       setTransaction(newTransaction);
     }, refresh);
@@ -93,6 +104,7 @@ export const usePolling = (
         clearTimeout(timerRef.current);
       }
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setTransaction, pollingStep]);
 
   return transaction;

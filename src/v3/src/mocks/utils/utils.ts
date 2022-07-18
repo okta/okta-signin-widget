@@ -71,3 +71,16 @@ export const getStubTransactionWithNextStep = (): IdxTransactionWithNextStep => 
 
   return { ...transaction, nextStep: { name: '' } };
 };
+
+export const getMockCreateCredentialsResponse = (): PublicKeyCredential => (
+  {
+    id: 'test',
+    type: 'test',
+    rawId: new ArrayBuffer(10),
+    getClientExtensionResults: jest.fn(),
+    response: {
+      clientDataJSON: new ArrayBuffer(10),
+      attestationObject: new ArrayBuffer(10),
+    } as AuthenticatorAttestationResponse,
+  } as PublicKeyCredential
+);

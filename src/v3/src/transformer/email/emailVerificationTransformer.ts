@@ -10,35 +10,35 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement } from '@jsonforms/core';
-import get from 'lodash/get';
-
 import {
+  ButtonElement,
+  ButtonType,
   DescriptionElement,
+  FieldElement,
   IdxStepTransformer,
   TitleElement,
+  UISchemaElement,
 } from '../../types';
-import { ButtonOptionType } from '../getButtonControls';
-import { getUIElementWithScope } from '../utils';
+import { getUIElementWithName, removeUIElementWithName } from '../utils';
 
-const TARGET_FIELD_NAME = 'methodType';
+const TARGET_FIELD_NAME = 'authenticator.methodType';
 
 export const transformEmailVerification: IdxStepTransformer = (transaction, formBag) => {
-  const { nextStep: { relatesTo, action } } = transaction;
-  const { schema, uischema } = formBag;
+  const { nextStep: { relatesTo } } = transaction;
+  const { uischema } = formBag;
 
-  // Find methodType option, set first as selected, and hide element
-  const methodType = get(schema, 'properties.authenticator.properties.methodType.enum[0]');
-  const methodTypeElement = getUIElementWithScope(
-    `#/properties/authenticator/properties/${TARGET_FIELD_NAME}`,
-    uischema.elements as ControlElement[],
-  );
+  // Find methodType option, to use in btn params later
+  const methodTypeElement = getUIElementWithName(
+    TARGET_FIELD_NAME,
+    uischema.elements,
+  ) as FieldElement;
+
   // in this view, this option is not displayed and auto selected
   if (methodTypeElement) {
-    methodTypeElement.options = {
-      ...methodTypeElement.options,
-      type: 'hidden',
-    };
+    uischema.elements = removeUIElementWithName(
+      TARGET_FIELD_NAME,
+      uischema.elements as UISchemaElement[],
+    );
   }
 
   const titleElement: TitleElement = {
@@ -48,8 +48,7 @@ export const transformEmailVerification: IdxStepTransformer = (transaction, form
     },
   };
 
-  // @ts-ignore Remove after https://oktainc.atlassian.net/browse/OKTA-502429
-  const redactedEmailAddress = relatesTo?.value?.profile?.email;
+  const redactedEmailAddress = relatesTo?.value?.profile?.email as string;
   const informationalText: DescriptionElement = {
     type: 'Description',
     options: {
@@ -62,18 +61,17 @@ export const transformEmailVerification: IdxStepTransformer = (transaction, form
     },
   };
 
-  const submitButtonControl: ControlElement = {
-    type: 'Control',
+  const submitButtonControl: ButtonElement = {
+    type: 'Button',
     label: 'oie.email.verify.primaryButton',
-    scope: `#/properties/${ButtonOptionType.SUBMIT}`,
+    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
-      format: 'button',
+      type: ButtonType.SUBMIT,
       idxMethodParams: {
         authenticator: {
-          methodType,
+          methodType: methodTypeElement.options.inputMeta.options?.[0].value as string,
         },
       },
-      action,
     },
   };
 

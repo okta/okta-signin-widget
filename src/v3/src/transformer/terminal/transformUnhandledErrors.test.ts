@@ -10,69 +10,81 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { APIError } from '@okta/okta-auth-js';
-import { MessageTypeVariant } from 'src/types';
+import { AuthApiError } from '@okta/okta-auth-js';
+import { InfoboxElement, MessageTypeVariant, WidgetProps } from 'src/types';
 
 import { transformUnhandledErrors } from './transformUnhandledErrors';
 
 describe('Unhandled Error Transformer Tests', () => {
-  let apiError: APIError;
+  let apiError: AuthApiError;
+  let mockProps: WidgetProps;
 
   beforeEach(() => {
+    mockProps = {};
     apiError = {
+      name: '',
+      message: '',
       errorSummary: '',
       errorCode: '',
     };
   });
 
   it('should add Infobox with unexpected error message when error is not provided', () => {
-    const formBag = transformUnhandledErrors();
+    const formBag = transformUnhandledErrors(mockProps);
 
     expect(formBag.uischema.elements.length).toBe(1);
-    expect(formBag.uischema.elements[0].type).toBe('InfoBox');
-    expect(formBag.uischema.elements[0].options?.message).toBe('oform.error.unexpected');
-    expect(formBag.uischema.elements[0].options?.class).toBe(MessageTypeVariant.ERROR);
+    const el = formBag.uischema.elements[0] as InfoboxElement;
+    expect(el.type).toBe('InfoBox');
+    expect(el.options?.message).toBe('oform.error.unexpected');
+    expect(el.options?.class).toBe(MessageTypeVariant.ERROR);
   });
 
   it('should add info box when response is invalid recovery token error', () => {
     const mockErrorMessage = 'The recovery token is invalid';
     apiError = {
+      ...apiError,
       errorCode: 'invalid_request',
       errorSummary: mockErrorMessage,
     };
-    const formBag = transformUnhandledErrors(apiError);
+    const formBag = transformUnhandledErrors(mockProps, apiError);
 
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('InfoBox');
-    expect(formBag.uischema.elements[0].options?.message).toBe('oie.invalid.recovery.token');
-    expect(formBag.uischema.elements[0].options?.class).toBe(MessageTypeVariant.ERROR);
+    expect((formBag.uischema.elements[0] as InfoboxElement).options?.message).toBe('oie.invalid.recovery.token');
+    expect((
+      formBag.uischema.elements[0] as InfoboxElement
+    ).options?.class).toBe(MessageTypeVariant.ERROR);
   });
 
   it('should add info box when oie is not enabled error', () => {
     const mockErrorMessage = 'Another mocked error message';
     apiError = {
+      ...apiError,
       errorCode: 'access_denied',
       errorSummary: mockErrorMessage,
     };
-    const formBag = transformUnhandledErrors(apiError);
+    const formBag = transformUnhandledErrors(mockProps, apiError);
 
     expect(formBag.uischema.elements.length).toBe(1);
-    expect(formBag.uischema.elements[0].type).toBe('InfoBox');
-    expect(formBag.uischema.elements[0].options?.message).toBe('oie.feature.disabled');
-    expect(formBag.uischema.elements[0].options?.class).toBe(MessageTypeVariant.ERROR);
+    const el = formBag.uischema.elements[0] as InfoboxElement;
+    expect(el.type).toBe('InfoBox');
+    expect(el.options?.message).toBe('oie.feature.disabled');
+    expect(el.options?.class).toBe(MessageTypeVariant.ERROR);
   });
 
   it('should add info box when oie configuration error', () => {
     const mockErrorMessage = 'Yet another mocked error message';
     apiError = {
+      ...apiError,
       errorCode: 'some_error_key',
       errorSummary: mockErrorMessage,
     };
-    const formBag = transformUnhandledErrors(apiError);
+    const formBag = transformUnhandledErrors(mockProps, apiError);
 
     expect(formBag.uischema.elements.length).toBe(1);
-    expect(formBag.uischema.elements[0].type).toBe('InfoBox');
-    expect(formBag.uischema.elements[0].options?.message).toBe('oie.configuration.error');
-    expect(formBag.uischema.elements[0].options?.class).toBe(MessageTypeVariant.ERROR);
+    const el = formBag.uischema.elements[0] as InfoboxElement;
+    expect(el.type).toBe('InfoBox');
+    expect(el.options?.message).toBe('oie.configuration.error');
+    expect(el.options?.class).toBe(MessageTypeVariant.ERROR);
   });
 });

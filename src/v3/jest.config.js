@@ -11,7 +11,14 @@
  */
 
 const REPORT_DIR = '<rootDir>/build2/reports/unit';
-const esModules = ['@okta/odyssey-react', '@okta/odyssey-react-theme', '@okta/odyssey-design-tokens'].join('|');
+const esModules = [
+  '@okta/odyssey-react',
+  '@okta/odyssey-react-theme',
+  '@okta/odyssey-design-tokens',
+  '@okta/odyssey-react-mui',
+].join('|');
+
+const devMode = process.env.NODE_ENV === 'development';
 
 module.exports = {
   globals: {
@@ -38,11 +45,11 @@ module.exports = {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/src/tests/__mocks__/fileMock.js',
     '^.+\\.svg$': '<rootDir>/svgMockTransformer.js',
     '\\.(css|less|scss)$': 'identity-obj-proxy',
-    '^./style$': 'identity-obj-proxy',
     '^preact$': '<rootDir>/node_modules/preact/dist/preact.min.js',
     '^react$': 'preact/compat',
     '^react-dom$': 'preact/compat',
     '^react-dom/server$': 'preact/compat',
+    '^react/jsx-runtime$': 'preact/jsx-runtime',
     '^create-react-class$': 'preact/compat/lib/create-react-class',
     '^react-addons-css-transition-group$': 'preact-css-transition-group',
   },
@@ -57,5 +64,9 @@ module.exports = {
     }],
   ],
   transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
-  timers: 'real',
+  setupFilesAfterEnv: [
+    './jest.setup.js',
+  ],
+  restoreMocks: true,
+  testTimeout: devMode ? 1000 * 60 * 1000 : 10 * 1000,
 };

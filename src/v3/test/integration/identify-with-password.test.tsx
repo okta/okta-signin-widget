@@ -10,70 +10,118 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import '@testing-library/jest-dom';
-import {
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/preact';
-import { h } from 'preact';
-import { OktaAuth } from '@okta/okta-auth-js';
-import { Widget } from '../../src/components/Widget';
-import { updateDynamicAttribute } from './util';
+import { setup } from './util';
 
-// import identifyWithPassword from '../../mocks/data/idp/idx/identify-with-password.json';
-// This only works with new jsonTransformer
-describe.skip('identify-with-password', () => {
-  let authClient: OktaAuth;
+import mockResponse from '../../src/mocks/response/idp/idx/introspect/default.json';
 
-  beforeAll(() => {
-    // authClient = createAuthClient(identifyWithPassword);
-  });
-
+describe('identify-with-password', () => {
   it('renders form', async () => {
-    const { container } = render(<Widget authClient={authClient} />);
-    await screen.findByLabelText(/Username/);
-
-    // NOTE: should some of these attributes be static from odyssey side?
-    updateDynamicAttribute(container, ['id', 'for', 'aria-describedby', 'aria-labelledby']);
-
+    const { container, findByLabelText } = await setup({ mockResponse });
+    await findByLabelText(/Username/);
     expect(container).toMatchSnapshot();
   });
 
-  // TODO: revisit to enable submission payload testing
-  // Issue: with fireEvent.input, the event value can reach to component level onChange handler
-  // but data is lost after jsonforms processing
-  it.skip('sends correct payload', async () => {
-    jest.spyOn(authClient.idx, 'proceed');
-    render(<Widget authClient={authClient} />);
+  describe('sends correct payload', () => {
+    it('with all required fields', async () => {
+      const { authClient, user, findByTestId } = await setup({ mockResponse });
 
-    await screen.findByLabelText(/Username/);
+      const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+      const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+      const submitButton = await findByTestId('#/properties/submit');
 
-    const usernameEl = await screen.findByTestId('#/properties/identifier');
-    const passwordEl = await screen.findByTestId('#/properties/credentials.passcode');
-    const submitButton = await screen.findByTestId('identify.submit');
+      await user.type(usernameEl, 'testuser@okta.com');
+      expect(usernameEl.value).toEqual('testuser@okta.com');
+      await user.type(passwordEl, 'fake-password');
+      expect(passwordEl.value).toEqual('fake-password');
+      await user.click(submitButton);
 
-    fireEvent.input(usernameEl, { target: { value: 'testuser@okta.com' } });
-    fireEvent.input(passwordEl, { target: { value: 'password' } });
-    fireEvent.click(submitButton);
-
-    await waitFor(() => {
-      expect(authClient.options.httpRequestClient).toHaveBeenCalledTimes(3);
-      expect(authClient.options.httpRequestClient).toHaveBeenNthCalledWith(3,
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
         'POST',
-        'http://localhost:3000/idp/idx/identify',
+        'https://oie-8425965.oktapreview.com/idp/idx/identify',
         {
-          // TODO: dfs mock response to update stateHandle field before serve
-          data: '{"identifier":"testuser@okta.com","credentials":{"passcode":"password"},"stateHandle":"fake-stateHandle"}',
+          data: JSON.stringify({
+            identifier: 'testuser@okta.com',
+            credentials: {
+              passcode: 'fake-password',
+            },
+            rememberMe: false,
+            stateHandle: 'fake-stateHandle',
+          }),
           headers: {
-            Accept: 'application/vnd.okta.v1+json',
+            Accept: 'application/json; okta-version=1.0.0',
             'Content-Type': 'application/json',
-            'X-Okta-User-Agent-Extended': 'okta-auth-js/6.5.1',
+            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
           },
-
           withCredentials: true,
-        });
+        },
+      );
+    });
+
+    it('with required fields + optional fields', async () => {
+      const { authClient, user, findByTestId } = await setup({ mockResponse });
+
+      const usernameEl = await findByTestId('identifier') as HTMLInputElement;
+      const passwordEl = await findByTestId('credentials.passcode') as HTMLInputElement;
+      const rememberMeEl = await findByTestId('rememberMe');
+      const submitButton = await findByTestId('#/properties/submit');
+
+      await user.type(usernameEl, 'testuser@okta.com');
+      expect(usernameEl.value).toEqual('testuser@okta.com');
+      await user.type(passwordEl, 'fake-password');
+      expect(passwordEl.value).toEqual('fake-password');
+      await user.click(rememberMeEl);
+      await user.click(submitButton);
+
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        'POST',
+        'https://oie-8425965.oktapreview.com/idp/idx/identify',
+        {
+          data: JSON.stringify({
+            identifier: 'testuser@okta.com',
+            credentials: {
+              passcode: 'fake-password',
+            },
+            rememberMe: true,
+            stateHandle: 'fake-stateHandle',
+          }),
+          headers: {
+            Accept: 'application/json; okta-version=1.0.0',
+            'Content-Type': 'application/json',
+            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+          },
+          withCredentials: true,
+        },
+      );
+    });
+
+    it('hits httpclient with no inputs', async () => {
+      const { authClient, user, findByTestId } = await setup({ mockResponse });
+
+      const submitButton = await findByTestId('#/properties/submit');
+      await findByTestId('identifier');
+      await findByTestId('credentials.passcode');
+      await findByTestId('rememberMe');
+      await user.click(submitButton);
+      expect(authClient.options.httpRequestClient).toHaveBeenCalledWith(
+        'POST',
+        'https://oie-8425965.oktapreview.com/idp/idx/identify',
+        {
+          data: JSON.stringify({
+            identifier: '',
+            credentials: {
+              passcode: '',
+            },
+            rememberMe: false,
+            stateHandle: 'fake-stateHandle',
+          }),
+          headers: {
+            Accept: 'application/json; okta-version=1.0.0',
+            'Content-Type': 'application/json',
+            'X-Okta-User-Agent-Extended': 'okta-auth-js/9.9.9',
+          },
+          withCredentials: true,
+        },
+      );
     });
   });
 });

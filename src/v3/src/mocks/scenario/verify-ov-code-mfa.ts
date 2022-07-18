@@ -44,39 +44,39 @@ scenario('verify-ov-code-mfa', (rest) => ([
   }),
   rest.post('*/idp/idx/challenge', async (req, res, ctx) => {
     const { default: body } = await import('../response/idp/idx/challenge/verify-ov-code-mfa.json');
+    return res.once(
+      ctx.status(200),
+      ctx.json(body),
+    );
+  }),
+  rest.post('*/idp/idx/challenge', async (req, res, ctx) => {
+    const { default: body } = await import('../response/idp/idx/challenge/verify-ov-select-method.json');
+    return res.once(
+      ctx.status(200),
+      ctx.json(body),
+    );
+  }),
+  rest.post('*/idp/idx/challenge/answer', async (req, res, ctx) => {
+    const { default: body } = await import('../response/idp/idx/challenge/answer/default.json');
+    return res.once(
+      ctx.status(200),
+      ctx.json(body),
+    );
+  }),
+  // get oauth2 token
+  rest.post('*/oauth2/default/v1/token', async (req, res, ctx) => {
+    const { default: body } = await import('../response/oauth2/default/v1/token/default.json');
     return res(
       ctx.status(200),
       ctx.json(body),
     );
   }),
-  // rest.post('*/idp/idx/challenge/answer', async (req, res, ctx) => {
-  //   const { default: body } = await import('../response/idp/idx/challenge/answer/enroll-okta-verify-mfa.json');
-  //   return res.once(
-  //     ctx.status(200),
-  //     ctx.json(body),
-  //   );
-  // }),
-  // rest.post('*/idp/idx/credential/enroll', async (req, res, ctx) => {
-  //   const request = req.body as Record<string, any>;
-  //   const channel = request.authenticator?.channel;
-  //   let response = null;
-  //   if (!channel || channel === 'qrcode') {
-  //     response = (await import('../response/idp/idx/credential/enroll/enroll-okta-verify-mfa.json')).default;
-  //   } else if (channel === 'email') {
-  //     response = (await import('../response/idp/idx/credential/enroll/enroll-ov-email-channel.json')).default;
-  //   } else {
-  //     response = (await import('../response/idp/idx/credential/enroll/enroll-ov-sms-channel.json')).default;
-  //   }
-  //   return res(
-  //     ctx.status(200),
-  //     ctx.json(response),
-  //   );
-  // }),
-  // rest.post('*/idp/idx/challenge/poll', async (req, res, ctx) => {
-  //   const { default: body } = await import('../response/idp/idx/credential/enroll/enroll-okta-verify-mfa.json');
-  //   return res(
-  //     ctx.status(200),
-  //     ctx.json(body),
-  //   );
-  // }),
+  // get oauth2 keys
+  rest.get('*/oauth2/default/v1/keys', async (req, res, ctx) => {
+    const { default: body } = await import('../response/oauth2/default/v1/keys/default.json');
+    return res(
+      ctx.status(200),
+      ctx.json(body),
+    );
+  }),
 ]));

@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-// TODO: use OktaAuth.webauthn instead
-import { OktaAuth, WebauthnVerificationValues } from '@okta/okta-auth-js';
+import { OktaAuth } from '@okta/okta-auth-js';
 import omit from 'lodash/omit';
-import { IdxTransactionWithNextStep } from 'src/types';
+
+import { WebAuthNAuthenticationHandler, WebAuthNEnrollmentHandler } from '../types';
 
 export const binToStr = (bin: ArrayBuffer): string => btoa(
   new Uint8Array(bin).reduce((s, byte) => s + String.fromCharCode(byte), ''),
@@ -21,31 +21,6 @@ export const binToStr = (bin: ArrayBuffer): string => btoa(
 
 export const isCredentialsApiAvailable = ():
 boolean => !!(navigator && navigator.credentials && navigator.credentials.create);
-
-/**
- * WebAuthNEnrollmentPayload
- */
-type WebAuthNEnrollmentPayload = {
-  credentials: {
-    /**
-     * Represents the client data that was passed
-     * to CredentialsContainer.create()
-     */
-    clientData: string;
-    /**
-     * BtoA String containing authenticator data and an attestation statement
-     * for a newly-created key pair.
-     */
-    attestation: string;
-  }
-};
-
-/**
- * WebAuthNVerificationPayload
- */
-type WebAuthNVerificationPayload = {
-  credentials: WebauthnVerificationValues
-};
 
 /**
  * Uses the Web Authentication API to generate credentials for enrolling
@@ -57,11 +32,15 @@ type WebAuthNVerificationPayload = {
  * @return {Promise<WebAuthNEnrollmentPayload>} ClientData & Attestation parameters
  * required by Idx transaction to enroll device
  */
-export const webAuthNEnrollmentHandler = async (transaction: IdxTransactionWithNextStep): Promise<
-WebAuthNEnrollmentPayload> => {
+export const webAuthNEnrollmentHandler: WebAuthNEnrollmentHandler = async (transaction) => {
   // @ts-ignore OKTA-499928 authenticatorEnrollments missing from rawIdxState
   const { nextStep, rawIdxState: { authenticatorEnrollments } } = transaction;
-  const { relatesTo } = nextStep;
+  // NextStep is guranteed to be available here
+  if (!nextStep) {
+    throw new Error('transaction missing nextStep');
+  }
+
+  const { relatesTo } = nextStep!;
   const activationData = relatesTo?.value?.contextualData?.activationData;
 
   // Generates a CredentialCreationOptions Object for the Web Auth API to
@@ -97,11 +76,15 @@ WebAuthNEnrollmentPayload> => {
  * @return {Promise<WebAuthNVerificationPayload>} ClientData, AuthenticatorData & SignatureData
  * parameters required by Idx transaction to verify a device
  */
-export const webAuthNAuthenticationHandler = async (transaction: IdxTransactionWithNextStep):
-Promise<WebAuthNVerificationPayload> => {
+export const webAuthNAuthenticationHandler: WebAuthNAuthenticationHandler = async (transaction) => {
   // @ts-ignore OKTA-499928 authenticatorEnrollments missing from rawIdxState
   const { nextStep, rawIdxState: { authenticatorEnrollments } } = transaction;
-  const { relatesTo } = nextStep;
+  // NextStep is guranteed to be available here
+  if (!nextStep) {
+    throw new Error('transaction missing nextStep');
+  }
+
+  const { relatesTo } = nextStep!;
   const challengeData = relatesTo?.value?.contextualData?.challengeData;
 
   // Generates a CredentialRequestOptions Object for the Web Auth API to

@@ -25,6 +25,7 @@ import {
   AUTHENTICATOR_KEY,
   EMAIL_AUTHENTICATOR_TERMINAL_KEYS,
   IDX_STEP,
+  STEPS_MISSING_RELATES_TO,
 } from '../constants';
 
 export const getUserInfo = (transaction: IdxTransaction): UserInfo => {
@@ -73,11 +74,17 @@ export const buildAuthCoinProps = (
     return { authenticatorKey: AUTHENTICATOR_KEY.EMAIL };
   }
 
-  if (!nextStep?.authenticator?.key) {
-    return undefined;
+  // TODO: OKTA-503490 temporary sln to grab auth key for steps missing relatesTo obj
+  if (nextStep?.name && STEPS_MISSING_RELATES_TO.includes(nextStep.name)
+    && transaction.context.currentAuthenticator?.value?.key) {
+    return { authenticatorKey: transaction.context.currentAuthenticator.value.key };
   }
 
-  return { authenticatorKey: nextStep.authenticator.key };
+  if (nextStep?.relatesTo?.value?.key) {
+    return { authenticatorKey: nextStep.relatesTo.value.key };
+  }
+
+  return undefined;
 };
 
 export const hasMinAuthenticatorOptions = (

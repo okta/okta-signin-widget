@@ -10,23 +10,24 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement, Layout, UISchemaElement } from '@jsonforms/core';
 import merge from 'lodash/merge';
 
-import { IDX_STEP } from '../../constants';
 import {
+  ButtonElement,
+  ButtonType,
   DescriptionElement,
   IdxStepTransformer,
-  LayoutType,
+  StepperButtonElement,
   StepperLayout,
-  StepperNavButtonConfigAttrs,
-  StepperNavButtonConfigDirection,
+  TitleElement,
+  UISchemaElement,
+  UISchemaLayout,
+  UISchemaLayoutType,
 } from '../../types';
-import { ButtonOptionType } from '../getButtonControls';
-import { getCurrentTimestamp, getUIElementWithScope, removeUIElementWithScope } from '../utils';
+import { getUIElementWithName, removeUIElementWithName } from '../utils';
 import { transformOktaVerifyChannelSelection } from './transformOktaVerifyChannelSelection';
 
-const REORDER_SCOPES = ['#/properties/phoneNumber', '#/properties/email'];
+const CHANNELS = ['phoneNumber', 'email'];
 const CHANNEL_TO_KEY_MAP: {
   title: { [channel: string]: string },
   description: { [channel: string]: string },
@@ -46,9 +47,14 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = (
   formBag,
   widgetProps,
 ) => {
-  const { nextStep: { authenticator } } = transaction;
+  const { context } = transaction;
+  // TODO: OKTA-503490 temporary sln access missing relatesTo obj
+  const authenticator = context?.currentAuthenticator?.value;
+  if (!authenticator) {
+    return formBag;
+  }
   const { uischema } = formBag;
-  const selectedChannel = authenticator?.contextualData?.selectedChannel;
+  const selectedChannel = authenticator.contextualData?.selectedChannel;
   if (!selectedChannel) {
     return formBag;
   }
@@ -59,19 +65,19 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = (
     options: {
       content: CHANNEL_TO_KEY_MAP.title[selectedChannel],
     },
-  });
+  } as TitleElement);
 
-  REORDER_SCOPES.forEach((scope) => {
-    const element = getUIElementWithScope(
-      scope,
-      formBag.uischema.elements as ControlElement[],
+  CHANNELS.forEach((channelName) => {
+    const element = getUIElementWithName(
+      channelName,
+      formBag.uischema.elements as UISchemaElement[],
     );
     if (element) {
       stepOneElements.push(element);
 
-      uischema.elements = removeUIElementWithScope(
-        scope,
-        formBag.uischema.elements as ControlElement[],
+      uischema.elements = removeUIElementWithName(
+        channelName,
+        formBag.uischema.elements as UISchemaElement[],
       );
     }
   });
@@ -84,15 +90,22 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = (
   } as DescriptionElement);
 
   stepOneElements.push({
-    type: 'Control',
+    type: 'Button',
     label: 'oie.enroll.okta_verify.setupLink',
     scope: '#/properties/setupLink',
     options: {
-      format: 'button',
-      type: ButtonOptionType.SUBMIT,
-      idxStep: IDX_STEP.ENROLLMENT_CHANNEL_DATA,
+      type: ButtonType.SUBMIT,
     },
-  } as ControlElement);
+  } as ButtonElement);
+
+  stepOneElements.push({
+    type: 'StepperButton',
+    label: 'next.enroll.okta_verify.switch.channel.link.text',
+    options: {
+      variant: 'secondary',
+      nextStepIndex: 1,
+    },
+  } as StepperButtonElement);
 
   const channelSelectionFormBag = transformOktaVerifyChannelSelection(
     transaction,
@@ -102,26 +115,17 @@ export const transformOktaVerifyEnrollChannel: IdxStepTransformer = (
   merge(formBag.schema, channelSelectionFormBag.schema);
 
   const stepper: StepperLayout = {
-    type: LayoutType.STEPPER,
+    type: UISchemaLayoutType.STEPPER,
     elements: [
       {
-        type: LayoutType.VERTICAL,
+        type: UISchemaLayoutType.VERTICAL,
         elements: stepOneElements,
-      } as Layout,
+      } as UISchemaLayout,
       {
-        type: LayoutType.VERTICAL,
+        type: UISchemaLayoutType.VERTICAL,
         elements: [...channelSelectionFormBag.uischema.elements],
-      } as Layout,
+      } as UISchemaLayout,
     ],
-    options: {
-      key: `${getCurrentTimestamp()}-${selectedChannel}`,
-      navButtonsConfig: {
-        next: {
-          variant: 'secondary',
-          label: 'next.enroll.okta_verify.switch.channel.link.text',
-        },
-      } as Record<StepperNavButtonConfigDirection, StepperNavButtonConfigAttrs>,
-    },
   };
 
   // prepend

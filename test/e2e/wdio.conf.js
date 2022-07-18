@@ -9,7 +9,7 @@ const browserOptions = {
 };
 
 if (process.env.CHROMIUM_BINARY) {
-    browserOptions.binary = process.env.CHROMIUM_BINARY;
+  browserOptions.binary = process.env.CHROMIUM_BINARY;
 }
 
 if (process.env.CI || process.env.CHROME_HEADLESS) {
@@ -27,10 +27,11 @@ if (process.env.CI || process.env.CHROME_HEADLESS) {
 
 const CHROMEDRIVER_VERSION = process.env.CHROMEDRIVER_VERSION || '89.0.4389.23';
 const drivers = {
-    chrome: { version: CHROMEDRIVER_VERSION }
+  chrome: { version: CHROMEDRIVER_VERSION }
 };
 
-exports.config = {
+
+const conf = {
     //
     // ====================
     // Runner Configuration
@@ -57,8 +58,9 @@ exports.config = {
     ],
     // Patterns to exclude.
     exclude: [
-        // 'path/to/excluded/files'
+        path.resolve(__dirname, 'specs/**/language.e2e.js')
     ],
+    runner: 'local',
     //
     // ============
     // Capabilities
@@ -318,3 +320,19 @@ exports.config = {
     //onReload: function(oldSessionId, newSessionId) {
     //}
 }
+
+// overrides for language e2e tests
+if (process.env.TEST_LANG) {
+  conf.specs = [path.resolve(__dirname, 'specs/**/language.e2e.js')];
+  conf.exclude = [];
+
+  // TODO: add support for FF, Edge and IE
+  const chrome = conf.capabilities.find(c => c.browserName === 'chrome');
+  chrome['goog:chromeOptions'].prefs = {
+    'intl.accept_languages': process.env.TEST_LANG
+  }
+  // Chrome does not respect 'prefs' when running in headless mode
+  chrome['goog:chromeOptions'].args.splice(chrome['goog:chromeOptions'].args.indexOf('--headless'), 1);
+}
+
+exports.config = conf;

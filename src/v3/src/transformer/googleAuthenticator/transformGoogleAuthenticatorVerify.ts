@@ -11,11 +11,12 @@
  */
 
 import {
-  ControlElement,
-} from '@jsonforms/core';
-
-import { DescriptionElement, IdxStepTransformer, TitleElement } from '../../types';
-import { ButtonOptionType } from '../getButtonControls';
+  ButtonElement,
+  ButtonType,
+  DescriptionElement,
+  IdxStepTransformer,
+  TitleElement,
+} from '../../types';
 
 export const transformGoogleAuthenticatorVerify: IdxStepTransformer = (_, formBag) => {
   const { uischema } = formBag;
@@ -32,13 +33,12 @@ export const transformGoogleAuthenticatorVerify: IdxStepTransformer = (_, formBa
       content: 'oie.verify.google_authenticator.otp.description',
     },
   };
-  const submitButtonElement: ControlElement = {
-    type: 'Control',
+  const submitButtonElement: ButtonElement = {
+    type: 'Button',
     label: 'mfa.challenge.verify',
-    scope: `#/properties/${ButtonOptionType.SUBMIT}`,
+    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
-      format: 'button',
-      type: ButtonOptionType.SUBMIT,
+      type: ButtonType.SUBMIT,
     },
   };
 

@@ -11,43 +11,29 @@
  */
 
 import {
-  ControlElement,
-  RuleEffect,
-  SchemaBasedCondition,
-} from '@jsonforms/core';
-import { DescriptionElement, IdxStepTransformer, TitleElement } from 'src/types';
-
-import { ButtonOptionType } from '../getButtonControls';
-
-const TARGET_FIELD_KEY = 'authenticator.methodType';
-const METHOD_TYPE_SCOPE = '#/properties/authenticator/properties/methodType';
-const PHONE_NUMBER_SCOPE = '#/properties/authenticator/properties/phoneNumber';
+  ButtonElement,
+  ButtonType,
+  DescriptionElement,
+  FieldElement,
+  IdxStepTransformer,
+  StepperLayout,
+  TitleElement,
+  UISchemaLayoutType,
+} from '../../types';
+import { getUIElementWithName } from '../utils';
 
 export const transformPhoneEnrollment: IdxStepTransformer = (_, formBag) => {
-  const { uischema } = formBag;
+  const { uischema, data } = formBag;
 
   uischema.elements = uischema.elements.map((element) => {
-    const controlElement = element as ControlElement;
-    if (controlElement?.scope === METHOD_TYPE_SCOPE) {
-      // Set the first value as the default for display
-      return {
-        ...controlElement,
-        // Radio option does not have a label, just descriptive options
-        label: '',
-        options: {
-          ...controlElement.options,
-          defaultOption: controlElement.options?.choices[0]?.key,
-        },
-      };
-    }
-    if (controlElement.scope === PHONE_NUMBER_SCOPE) {
+    const controlElement = element as FieldElement;
+    if (controlElement.name === 'authenticator.phoneNumber') {
       return {
         ...controlElement,
         label: 'mfa.phoneNumber.placeholder',
         options: {
           ...controlElement.options,
-          showExt: true,
-          targetKey: TARGET_FIELD_KEY,
+          targetKey: 'authenticator.methodType',
         },
       };
     }
@@ -61,75 +47,77 @@ export const transformPhoneEnrollment: IdxStepTransformer = (_, formBag) => {
     },
   };
 
-  const voiceCondition: SchemaBasedCondition = {
-    scope: METHOD_TYPE_SCOPE,
-    schema: {
-      const: 'voice',
-    },
+  const methodTypeElement = getUIElementWithName('authenticator.methodType', uischema.elements) as FieldElement;
+  methodTypeElement.options = {
+    ...methodTypeElement.options,
+    format: 'radio',
+    isStepper: true,
   };
-  const phoneInfoTextElement: DescriptionElement = {
+  data['authenticator.methodType'] = methodTypeElement!.options!.inputMeta.options![0].value;
+
+  const phoneNumberElement = getUIElementWithName('authenticator.phoneNumber', uischema.elements) as FieldElement;
+  phoneNumberElement.label = 'mfa.phoneNumber.placeholder';
+  phoneNumberElement.options = {
+    ...phoneNumberElement.options,
+    targetKey: 'authenticator.methodType',
+  };
+
+  const voiceInfoTextElement: DescriptionElement = {
     type: 'Description',
     options: {
       content: 'oie.phone.enroll.call.subtitle',
     },
-    rule: {
-      effect: RuleEffect.SHOW,
-      condition: voiceCondition,
-    },
   };
 
-  const smsCondition: SchemaBasedCondition = {
-    scope: METHOD_TYPE_SCOPE,
-    schema: {
-      const: 'sms',
-    },
-  };
   const smsInfoTextElement: DescriptionElement = {
     type: 'Description',
     options: {
       content: 'oie.phone.enroll.sms.subtitle',
     },
-    rule: {
-      effect: RuleEffect.SHOW,
-      condition: smsCondition,
-    },
   };
 
-  const smsButton: ControlElement = {
-    type: 'Control',
-    label: 'oie.phone.sms.primaryButton',
-    scope: `#/properties/${ButtonOptionType.SUBMIT}`,
-    options: {
-      format: 'button',
-      type: ButtonOptionType.SUBMIT,
-    },
-    rule: {
-      effect: RuleEffect.SHOW,
-      condition: smsCondition,
-    },
+  const stepper: StepperLayout = {
+    type: UISchemaLayoutType.STEPPER,
+    elements: [
+      {
+        type: UISchemaLayoutType.VERTICAL,
+        elements: [
+          smsInfoTextElement,
+          methodTypeElement,
+          phoneNumberElement,
+          {
+            type: 'Button',
+            label: 'oie.phone.sms.primaryButton',
+            scope: `#/properties/${ButtonType.SUBMIT}`,
+            options: {
+              type: ButtonType.SUBMIT,
+            },
+          } as ButtonElement,
+        ],
+      },
+      {
+        type: UISchemaLayoutType.VERTICAL,
+        elements: [
+          voiceInfoTextElement,
+          methodTypeElement,
+          phoneNumberElement,
+          {
+            type: 'Button',
+            label: 'oie.phone.call.primaryButton',
+            scope: `#/properties/${ButtonType.SUBMIT}`,
+            options: {
+              type: ButtonType.SUBMIT,
+            },
+          } as ButtonElement,
+        ],
+      },
+    ],
   };
 
-  const voiceButton: ControlElement = {
-    type: 'Control',
-    label: 'oie.phone.call.primaryButton',
-    scope: `#/properties/${ButtonOptionType.SUBMIT}`,
-    options: {
-      format: 'button',
-      type: ButtonOptionType.SUBMIT,
-    },
-    rule: {
-      effect: RuleEffect.SHOW,
-      condition: voiceCondition,
-    },
-  };
-
-  // Element order matters for display purposes:
-  // 1. Title 2. Phone/SMS Info Text 3. Buttons
-  uischema.elements.unshift(phoneInfoTextElement);
-  uischema.elements.unshift(smsInfoTextElement);
-  uischema.elements.unshift(titleElement);
-  uischema.elements.push(smsButton);
-  uischema.elements.push(voiceButton);
+  uischema.elements = [
+    titleElement,
+    stepper,
+  ];
 
   return formBag;
 };

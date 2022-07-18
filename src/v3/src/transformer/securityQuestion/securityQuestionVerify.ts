@@ -10,24 +10,25 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement } from '@jsonforms/core';
-import { IdxStepTransformer, TitleElement } from 'src/types';
-
-import { ButtonOptionType } from '../getButtonControls';
-import { getUIElementWithScope } from '../utils';
+import {
+  ButtonElement,
+  ButtonType,
+  IdxStepTransformer,
+  TitleElement,
+  UISchemaElement,
+} from '../../types';
+import { getUIElementWithName } from '../utils';
 
 export const transformSecurityQuestionVerify: IdxStepTransformer = (transaction, formBag) => {
   const { nextStep: { relatesTo } } = transaction;
-  const { schema, uischema } = formBag;
+  const { uischema } = formBag;
 
-  schema.properties = schema.properties ?? {};
-  const answerElement = getUIElementWithScope(
-    '#/properties/credentials/properties/answer',
-    uischema.elements as ControlElement[],
+  const answerElement = getUIElementWithName(
+    'credentials.answer',
+    uischema.elements as UISchemaElement[],
   );
   if (answerElement) {
-    // @ts-ignore Remove after https://oktainc.atlassian.net/browse/OKTA-502429
-    answerElement.label = relatesTo?.value?.profile?.question;
+    answerElement.label = relatesTo?.value?.profile?.question as string;
   }
 
   // Add the title to the top
@@ -39,13 +40,12 @@ export const transformSecurityQuestionVerify: IdxStepTransformer = (transaction,
   };
   uischema.elements.unshift(titleElement);
 
-  const primaryButton: ControlElement = {
-    type: 'Control',
+  const primaryButton: ButtonElement = {
+    type: 'Button',
     label: 'oform.verify',
-    scope: `#/properties/${ButtonOptionType.SUBMIT}`,
+    scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
-      format: 'button',
-      type: ButtonOptionType.SUBMIT,
+      type: ButtonType.SUBMIT,
     },
   };
   uischema.elements.push(primaryButton);

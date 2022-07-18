@@ -10,10 +10,12 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement } from '@jsonforms/core';
 import { IdxAuthenticator } from '@okta/okta-auth-js';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import { FormBag, WidgetProps } from 'src/types';
+import {
+  ButtonElement, DescriptionElement, FieldElement,
+  FormBag, TitleElement, UISchemaLayoutType, WidgetProps,
+} from 'src/types';
 
 import { transformEmailVerification } from '.';
 
@@ -23,31 +25,23 @@ describe('Email Verification Transformer Tests', () => {
   let formBag: FormBag;
   beforeEach(() => {
     formBag = {
-      schema: {
-        properties: {
-          authenticator: {
-            properties: {
-              methodType: {
-                type: 'string',
-                enum: ['email'],
-              },
-              id: { type: 'string', const: '123456abc' },
-            },
-          },
-        },
-      },
+      schema: {},
       uischema: {
-        type: 'VerticalLayout',
+        type: UISchemaLayoutType.VERTICAL,
         elements: [
           {
             type: 'Control',
-            scope: '#/properties/authenticator/properties/methodType',
+            name: 'authenticator.methodType',
             options: {
-              choices: [{ key: 'email' }],
+              inputMeta: {
+                name: 'authenticator.methodType',
+                options: [{ value: 'email', label: 'Email' }],
+              },
             },
-          } as ControlElement,
+          } as FieldElement,
         ],
       },
+      data: {},
     };
   });
 
@@ -55,17 +49,17 @@ describe('Email Verification Transformer Tests', () => {
     + ' when redacted email does not exist in Idx response', () => {
     const updatedFormBag = transformEmailVerification(transaction, formBag, mockProps);
 
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.email.mfa.title');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
-    expect(updatedFormBag.uischema.elements[1].options?.content)
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('next.email.verify.subtitleWithoutEmailAddress');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).scope)
-      .toBe('#/properties/authenticator/properties/methodType');
-    expect(updatedFormBag.uischema.elements[2].options?.type).toBe('hidden');
-    expect(updatedFormBag.uischema.elements[3].options?.idxMethodParams?.authenticator?.methodType)
+    expect(((updatedFormBag.uischema.elements[2] as ButtonElement)
+      .options?.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType)
       .toBe('email');
-    expect((updatedFormBag.uischema.elements[3] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
       .toBe('oie.email.verify.primaryButton');
   });
 
@@ -85,17 +79,17 @@ describe('Email Verification Transformer Tests', () => {
 
     const updatedFormBag = transformEmailVerification(transaction, formBag, mockProps);
 
-    expect(updatedFormBag.uischema.elements.length).toBe(4);
+    expect(updatedFormBag.uischema.elements.length).toBe(3);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options.content)
+      .toBe('oie.email.mfa.title');
     expect(updatedFormBag.uischema.elements[1].type).toBe('Description');
-    expect(updatedFormBag.uischema.elements[1].options?.content)
+    expect((updatedFormBag.uischema.elements[1] as DescriptionElement).options?.content)
       .toBe('next.email.verify.subtitleWithEmailAddress');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).scope)
-      .toBe('#/properties/authenticator/properties/methodType');
-    expect(updatedFormBag.uischema.elements[2].options?.type).toBe('hidden');
-    expect(updatedFormBag.uischema.elements[3].options?.idxMethodParams?.authenticator?.methodType)
+    expect(((updatedFormBag.uischema.elements[2] as ButtonElement)
+      .options?.idxMethodParams?.authenticator as Record<string, unknown>)?.methodType)
       .toBe('email');
-    expect((updatedFormBag.uischema.elements[3] as ControlElement).label)
+    expect((updatedFormBag.uischema.elements[2] as ButtonElement).label)
       .toBe('oie.email.verify.primaryButton');
   });
 });

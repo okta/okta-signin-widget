@@ -43,6 +43,13 @@ scenario('register-with-email-mfa', (rest) => ([
       ctx.json(body),
     );
   }),
+  rest.post('*/idp/idx/identify/select', async (req, res, ctx) => {
+    const { default: body } = await import('../response/idp/idx/identify/select/default.json');
+    return res(
+      ctx.status(200),
+      ctx.json(body),
+    );
+  }),
   // initial clicking register button, return reg form
   rest.post('*/idp/idx/enroll', async (req, res, ctx) => {
     const { default: body } = await import('../response/idp/idx/enroll/default.json');

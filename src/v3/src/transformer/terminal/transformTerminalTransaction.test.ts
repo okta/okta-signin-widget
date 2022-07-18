@@ -10,12 +10,20 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement } from '@jsonforms/core';
-import { IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
-import { FormBag, WidgetProps } from 'src/types';
+import { IdxContext, IdxStatus, IdxTransaction } from '@okta/okta-auth-js';
+import {
+  ButtonElement,
+  FormBag,
+  LinkElement,
+  SpinnerElement,
+  SuccessCallback,
+  TitleElement,
+  WidgetProps,
+} from 'src/types';
 
 import { TERMINAL_KEY, TERMINAL_TITLE_KEY } from '../../constants';
 import { getStubTransaction } from '../../mocks/utils/utils';
+import { removeUsernameCookie, setUsernameCookie } from '../../util';
 import { transformTerminalTransaction } from '.';
 
 const getMockMessage = (message: string, className: string, key: string) => ({
@@ -34,6 +42,15 @@ jest.mock('../redirect', () => ({
   redirectTransformer: jest.fn().mockReturnValue({}),
 }));
 
+jest.mock('../../util', () => {
+  const originalUtil = jest.requireActual('../../util');
+  return {
+    ...originalUtil,
+    setUsernameCookie: jest.fn().mockImplementation(() => {}),
+    removeUsernameCookie: jest.fn().mockImplementation(() => {}),
+  };
+});
+
 describe('Terminal Transaction Transformer Tests', () => {
   let transaction: IdxTransaction;
   let mockAuthClient: any;
@@ -43,6 +60,10 @@ describe('Terminal Transaction Transformer Tests', () => {
     transaction = getStubTransaction(IdxStatus.TERMINAL);
     transaction.messages = [];
     mockProps = {};
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   describe('Interaction code flow & Redirection Tests', () => {
@@ -86,10 +107,10 @@ describe('Terminal Transaction Transformer Tests', () => {
       const formBag = transformTerminalTransaction(transaction, mockProps);
 
       expect(formBag.uischema.elements[0].type).toBe('Spinner');
-      expect(formBag.uischema.elements[0].options?.label).toBe('loading.label');
-      expect(formBag.uischema.elements[0].options?.valueText).toBe('loading.label');
+      expect((formBag.uischema.elements[0] as SpinnerElement).options?.label).toBe('loading.label');
+      expect((formBag.uischema.elements[0] as SpinnerElement).options?.valueText).toBe('loading.label');
       expect(formBag.uischema.elements[1].type).toBe('SuccessCallback');
-      expect(formBag.uischema.elements[1].options?.data)
+      expect((formBag.uischema.elements[1] as SuccessCallback).options?.data)
         .toEqual({ status: IdxStatus.SUCCESS, tokens: mockTokens });
     });
 
@@ -100,10 +121,10 @@ describe('Terminal Transaction Transformer Tests', () => {
       const formBag = transformTerminalTransaction(transaction, mockProps);
 
       expect(formBag.uischema.elements[0].type).toBe('Spinner');
-      expect(formBag.uischema.elements[0].options?.label).toBe('loading.label');
-      expect(formBag.uischema.elements[0].options?.valueText).toBe('loading.label');
+      expect((formBag.uischema.elements[0] as SpinnerElement).options?.label).toBe('loading.label');
+      expect((formBag.uischema.elements[0] as SpinnerElement).options?.valueText).toBe('loading.label');
       expect(formBag.uischema.elements[1].type).toBe('SuccessCallback');
-      expect(formBag.uischema.elements[1].options?.data)
+      expect((formBag.uischema.elements[1] as SuccessCallback).options?.data)
         .toEqual({
           status: IdxStatus.SUCCESS,
           interaction_code: transaction.interactionCode,
@@ -182,7 +203,7 @@ describe('Terminal Transaction Transformer Tests', () => {
 
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('Link');
-    expect(formBag.uischema.elements[0].options?.label).toBe('goback');
+    expect((formBag.uischema.elements[0] as LinkElement).options?.label).toBe('goback');
   });
 
   it('should add title when terminal key indicates to return to orig tab', () => {
@@ -196,7 +217,7 @@ describe('Terminal Transaction Transformer Tests', () => {
 
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('Title');
-    expect(formBag.uischema.elements[0].options?.content)
+    expect((formBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe(TERMINAL_TITLE_KEY[TERMINAL_KEY.RETURN_TO_ORIGINAL_TAB_KEY]);
   });
 
@@ -211,10 +232,10 @@ describe('Terminal Transaction Transformer Tests', () => {
 
     expect(formBag.uischema.elements.length).toBe(2);
     expect(formBag.uischema.elements[0].type).toBe('Title');
-    expect(formBag.uischema.elements[0].options?.content)
+    expect((formBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe(TERMINAL_TITLE_KEY[TERMINAL_KEY.RETURN_LINK_EXPIRED_KEY]);
     expect(formBag.uischema.elements[1].type).toBe('Link');
-    expect(formBag.uischema.elements[1].options?.label).toBe('goback');
+    expect((formBag.uischema.elements[1] as LinkElement).options?.label).toBe('goback');
   });
 
   it('should add title and skip setup link for'
@@ -229,10 +250,12 @@ describe('Terminal Transaction Transformer Tests', () => {
 
     expect(formBag.uischema.elements.length).toBe(2);
     expect(formBag.uischema.elements[0].type).toBe('Title');
-    expect(formBag.uischema.elements[0].options?.content).toBe('oie.safe.mode.title');
-    expect(formBag.uischema.elements[1].type).toBe('Control');
-    expect((formBag.uischema.elements[1] as ControlElement).label).toBe('oie.enroll.skip.setup');
-    expect(formBag.uischema.elements[1].options?.idxMethodParams?.skip).toBe(true);
+    expect((formBag.uischema.elements[0] as TitleElement).options?.content).toBe('oie.safe.mode.title');
+    expect(formBag.uischema.elements[1].type).toBe('Button');
+    expect((formBag.uischema.elements[1] as ButtonElement).label).toBe('oie.enroll.skip.setup');
+    expect((
+      formBag.uischema.elements[1] as ButtonElement
+    ).options?.idxMethodParams?.skip).toBe(true);
   });
 
   it('should add title and try again link for'
@@ -248,11 +271,11 @@ describe('Terminal Transaction Transformer Tests', () => {
 
     expect(formBag.uischema.elements.length).toBe(2);
     expect(formBag.uischema.elements[0].type).toBe('Title');
-    expect(formBag.uischema.elements[0].options?.content)
+    expect((formBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe(TERMINAL_TITLE_KEY[TERMINAL_KEY.DEVICE_NOT_ACTIVATED_CONSENT_DENIED]);
     expect(formBag.uischema.elements[1].type).toBe('Link');
-    expect(formBag.uischema.elements[1].options?.label).toBe('oie.try.again');
-    expect(formBag.uischema.elements[1].options?.href).toBe('https://acme.okta1.com');
+    expect((formBag.uischema.elements[1] as LinkElement).options?.label).toBe('oie.try.again');
+    expect((formBag.uischema.elements[1] as LinkElement).options?.href).toBe('https://acme.okta1.com');
   });
 
   it('should add title element with message for'
@@ -267,7 +290,7 @@ describe('Terminal Transaction Transformer Tests', () => {
 
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('Title');
-    expect(formBag.uischema.elements[0].options?.content)
+    expect((formBag.uischema.elements[0] as TitleElement).options?.content)
       .toBe(TERMINAL_TITLE_KEY[TERMINAL_KEY.UNLOCK_ACCOUNT_KEY]);
   });
 
@@ -282,7 +305,40 @@ describe('Terminal Transaction Transformer Tests', () => {
 
     expect(formBag.uischema.elements.length).toBe(1);
     expect(formBag.uischema.elements[0].type).toBe('Link');
-    expect(formBag.uischema.elements[0].options?.label).toBe('goback');
-    expect(formBag.uischema.elements[0].options?.href).toBe('/');
+    expect((formBag.uischema.elements[0] as LinkElement).options?.label).toBe('goback');
+    expect((formBag.uischema.elements[0] as LinkElement).options?.href).toBe('/');
+  });
+
+  it('should set username cookie when successful authentication and rememberMyUsernameOnOIE feature is set', () => {
+    const mockIdentifier = 'testUser';
+    transaction.context = {
+      success: { name: 'success' },
+      user: {
+        type: 'object',
+        value: {
+          identifier: mockIdentifier,
+        },
+      },
+    } as unknown as IdxContext;
+    mockProps = { features: { rememberMyUsernameOnOIE: true, rememberMe: true } };
+    transformTerminalTransaction(transaction, mockProps);
+
+    expect(setUsernameCookie).toHaveBeenCalledWith(mockIdentifier);
+  });
+
+  it('should remove username cookie when successful authentication and rememberMyUsernameOnOIE feature is true but rememberMe is false', () => {
+    transaction.context = {
+      success: { name: 'success' },
+      user: {
+        type: 'object',
+        value: {
+          identifier: 'testUser',
+        },
+      },
+    } as unknown as IdxContext;
+    mockProps = { features: { rememberMyUsernameOnOIE: true, rememberMe: false } };
+    transformTerminalTransaction(transaction, mockProps);
+
+    expect(removeUsernameCookie).toHaveBeenCalled();
   });
 });

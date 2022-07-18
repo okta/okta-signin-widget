@@ -10,54 +10,55 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-/* eslint-disable import/no-extraneous-dependencies */
-import buffer from 'buffer';
-import { resolve, join } from 'path';
-import { existsSync, copyFileSync } from 'fs';
-
+/* eslint-disable import/no-extraneous-dependencies,no-param-reassign */
+import { resolve } from 'path';
+import { merge as webpackMerge } from 'webpack-merge';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import envVars from 'preact-cli-plugin-env-vars';
-import { DefinePlugin } from 'webpack';
+import { omit } from 'lodash';
+import playgroundConfig from '../../webpack.playground.config';
 
 // util: resolve paths relative to the project root
-const rootResolve = (...segments) => resolve(__dirname, '../../', ...segments);
+const rootResolve = (...parts) => resolve(__dirname, '../../', ...parts);
 
-const TARGET = rootResolve('target');
-const PLAYGROUND = rootResolve('playground');
-const DEV_SERVER_PORT = 3000;
-const MOCK_SERVER_PORT = 3030;
-const WIDGET_RC_JS = rootResolve('.widgetrc.js');
-const WIDGET_RC = rootResolve('.widgetrc');
-
-// run `OKTA_SIW_HOST=0.0.0.0 yarn start --watch` to override the host
-const HOST = process.env.OKTA_SIW_HOST || 'localhost';
-
-if (!existsSync(WIDGET_RC_JS) && existsSync(WIDGET_RC)) {
-  // eslint-disable-next-line @okta/okta/no-exclusive-language
-  console.error(`============================================
-Please migrate the ${WIDGET_RC} to ${WIDGET_RC_JS}.
-For more information, please see
-https://github.com/okta/okta-signin-widget/blob/master/MIGRATING.md
-============================================`);
-  process.exit(1);
-} else if (!existsSync(WIDGET_RC_JS)) {
-  // create default WIDGET_RC if it doesn't exist to simplifed the build process
-  copyFileSync(rootResolve('.widgetrc.sample.js'), WIDGET_RC_JS);
-}
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
+const mergeContentSecurityPolicies = (...policies) => {
+  const toMap = (map, str) => (
+    str.split(/;\W*/)
+      .map((list) => list.split(/[ ]+/))
+      .reduce((m, [k, ...vals]) => {
+        m[k] = m[k] ? m[k].concat(vals) : vals;
+        return m;
+      }, map)
+  );
+  return Object.entries(policies.reduce(toMap, {}))
+    .map(([dir, vals]) => `${dir} ${[...new Set(vals)].join(' ')}`)
+    .join('; ');
+};
 
 export default {
+  /**
+   * Function that mutates the original webpack config. Supports asynchronous
+   * changes when a promise is returned (or it's an async function).
+   *
+   * @param {object} config - original webpack config.
+   * @param {object} env - options passed to the CLI.
+   * @param {WebpackConfigHelpers} helpers - object with useful helpers for
+   * working with the webpack config.
+   * @param {object} options - this is mainly relevant for plugins (will always
+   * be empty in the config), default to an empty object
+   */
   webpack(config, env, helpers) {
-    /* eslint-disable no-param-reassign */
     config.output.libraryTarget = 'umd';
     config.output.filename = ({ chunk }) => (
-      chunk.name === 'bundle'
-        ? 'okta-sign-in.next.js'
-        : '[name].next.js'
+      chunk.name === 'bundle' ? 'okta-sign-in.next.js' : '[name].next.js'
     );
+
+    // remove MiniCssExtractPlugin
     config.plugins = config.plugins.filter(
       (plugin) => !(plugin instanceof MiniCssExtractPlugin),
     );
 
+    // use odyssey babel configs
     config.module.rules.push({
       test: /\.(js|jsx|ts|tsx)$/,
       exclude: /node_modules/,
@@ -71,6 +72,8 @@ export default {
       if (rule.test && rule.test.test('.svg')) {
         rule.exclude = /\.svg$/;
       }
+
+      // TODO OKTA-515335 remove ts-loader
       if (rule.loader === 'babel-loader') {
         const use = [
           {
@@ -122,19 +125,18 @@ export default {
     });
 
     // Use any `index` file, not just index.js
-    config.resolve.alias['preact-cli-entrypoint'] = join(
+    config.resolve.alias['preact-cli-entrypoint'] = resolve(
       __dirname,
       'src',
       'index',
     );
 
-    // TODO: integrate with rollup bundling system once migrate to the widget repo
-    // preact-cli still stays with webpack v4, which seems to have issue to understand `exports` field correctly in auth-js' subdeps
-    // using ESM bundle of auth-js is required to enable tree-shaking
+    // TODO: integrate with rollup bundling system once migrate to the widget
+    // repo preact-cli still stays with webpack v4, which seems to have issue to
+    // understand `exports` field correctly in auth-js' subdeps using ESM bundle
+    // of auth-js is required to enable tree-shaking
     // https://github.com/preactjs/preact-cli/issues/1579
-    config.resolve.alias['@okta/okta-auth-js'] = resolve(
-      '..',
-      '..',
+    config.resolve.alias['@okta/okta-auth-js'] = rootResolve(
       'node_modules',
       '@okta',
       'okta-auth-js',
@@ -142,10 +144,9 @@ export default {
       'esm.browser.js',
     );
 
-    // broadcast-channel esnode bundle is loaded by default, browser one should be used
-    config.resolve.alias['broadcast-channel'] = resolve(
-      '..',
-      '..',
+    // broadcast-channel esnode bundle is loaded by default, browser one should
+    // be used
+    config.resolve.alias['broadcast-channel'] = rootResolve(
       'node_modules',
       'broadcast-channel',
       'dist',
@@ -153,51 +154,29 @@ export default {
       'index.js',
     );
 
-    if (env.production) {
-      config.output.libraryTarget = 'umd';
-    }
-
-    // polyfills for jsonforms
-    config.plugins.push(
-      new DefinePlugin({
-        // https://github.com/APIDevTools/json-schema-ref-parser#browser-support
-        process: {
-          browser: true,
+    // override with
+    Object.assign(config, webpackMerge(config, omit(playgroundConfig, [
+      'devServer.headers.Content-Security-Policy', // merge instead of override
+      'devServer.port',
+      'entry',
+      'module',
+      'output',
+      'resolve.extensions',
+    ]), {
+      // TODO use built assets instead of relying on dev server
+      // add entry for playground bundle
+      entry: {
+        playground: rootResolve('playground', 'main.ts'),
+      },
+      devtool: 'cheap-module-source-map',
+      devServer: {
+        headers: {
+          'Content-Security-Policy': mergeContentSecurityPolicies(
+            "object-src 'self'; script-src 'self' 'unsafe-eval'",
+            playgroundConfig.devServer.headers['Content-Security-Policy'] || '',
+          ),
         },
-        Buffer: buffer,
-      }),
-    );
-
-    config.devServer = {
-      host: HOST,
-      static: [PLAYGROUND, TARGET, {
-        staticOptions: {
-          watchContentBase: true
-        }
-      }],
-      historyApiFallback: true,
-      // FIXME CSP prevents scripts from loading in dev mode
-      // headers: { 'Content-Security-Policy': `script-src http://${HOST}:${DEV_SERVER_PORT}` },
-      compress: true,
-      port: DEV_SERVER_PORT,
-      proxy: [{
-        context: [
-          '/oauth2/',
-          '/api/v1/',
-          '/idp/idx/',
-          '/login/getimage',
-          '/sso/idps/',
-          '/app/UserHome',
-          '/oauth2/v1/authorize',
-          '/auth/services/',
-          '/.well-known/webfinger'
-        ],
-        target: `http://${HOST}:${MOCK_SERVER_PORT}`
-      }],
-    },
-
-    // preact-cli-plugin-env-vars
-    envVars(config, env, helpers);
-    /* eslint-enable no-param-reassign */
+      },
+    }));
   },
 };

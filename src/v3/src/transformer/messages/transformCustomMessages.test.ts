@@ -12,7 +12,10 @@
 
 import { OV_OVERRIDE_MESSAGE_KEY } from 'src/constants';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import { FormBag, MessageTypeVariant, WidgetProps } from 'src/types';
+import {
+  FormBag, InfoboxElement, MessageTypeVariant,
+  UISchemaLayoutType, WidgetProps,
+} from 'src/types';
 
 import { transformCustomMessages } from './transformCustomMessages';
 
@@ -29,9 +32,10 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
         },
       },
       uischema: {
-        type: 'VerticalLayout',
+        type: UISchemaLayoutType.VERTICAL,
         elements: [],
       },
+      data: {},
     };
   });
 
@@ -61,12 +65,12 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     const updatedFormBag = transformCustomMessages(transaction, formBag, mockProps);
 
     expect(updatedFormBag.uischema.elements.length).toBe(1);
-    expect(updatedFormBag.uischema.elements[0].options?.contentType).toBe('string');
-    expect(updatedFormBag.uischema.elements[0].options?.class)
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.contentType).toBe('string');
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
       .toBe(MessageTypeVariant.ERROR);
-    expect(updatedFormBag.uischema.elements[0].options?.message)
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
       .toBe('Force FIPS compliance upgrade key ios message.');
-    expect(updatedFormBag.uischema.elements[0].options?.title)
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.title)
       .toBe('oie.okta_verify.enroll.force.upgrade.title');
   });
 
@@ -81,12 +85,12 @@ describe('Enroll Authenticator Selector Transformer Tests', () => {
     const updatedFormBag = transformCustomMessages(transaction, formBag, mockProps);
 
     expect(updatedFormBag.uischema.elements.length).toBe(1);
-    expect(updatedFormBag.uischema.elements[0].options?.contentType).toBe('string');
-    expect(updatedFormBag.uischema.elements[0].options?.class)
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.contentType).toBe('string');
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.class)
       .toBe(MessageTypeVariant.ERROR);
-    expect(updatedFormBag.uischema.elements[0].options?.message)
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.message)
       .toBe('OV Enroll Biometrics key message.');
-    expect(updatedFormBag.uischema.elements[0].options?.title)
+    expect((updatedFormBag.uischema.elements[0] as InfoboxElement).options?.title)
       .toBe('oie.authenticator.app.method.push.enroll.enable.biometrics.title');
   });
 });

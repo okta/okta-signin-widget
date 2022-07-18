@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { UISchemaElement } from '@jsonforms/core';
 import { IdxAuthenticator } from '@okta/okta-auth-js';
 import set from 'lodash/set';
 import {
@@ -19,6 +18,7 @@ import {
   QRCodeElement,
   StepperNavButtonConfigAttrs,
   StepperNavButtonConfigDirection,
+  UISchemaElement,
 } from 'src/types';
 
 export const appendDescriptionElements = (

@@ -10,19 +10,18 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@okta/odyssey-react';
+import { Box } from '@mui/material';
 import { FunctionComponent, h } from 'preact';
 
 const AuthContent: FunctionComponent = ({ children }) => (
-  // @ts-ignore OKTA-471233
   <Box
     display="flex"
     flexDirection="column"
     justifyContent="flex-start"
     flexWrap="wrap"
-    padding="l"
-    maxWidth="full"
-    width="full"
+    padding={7}
+    maxWidth={1}
+    width={1}
   >
     {children}
   </Box>

@@ -10,9 +10,16 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { ControlElement } from '@jsonforms/core';
 import { getStubTransactionWithNextStep } from 'src/mocks/utils/utils';
-import { FormBag, WidgetProps } from 'src/types';
+import {
+  ButtonElement,
+  FieldElement,
+  FormBag,
+  ImageWithTextElement,
+  TitleElement,
+  UISchemaLayoutType,
+  WidgetProps,
+} from 'src/types';
 
 import { transformEmailChallengeConsent } from '.';
 
@@ -31,9 +38,10 @@ describe('EmailChallengeConsentTransformer Tests', () => {
         required: ['consent'],
       },
       uischema: {
-        type: 'VerticalLayout',
-        elements: [{ type: 'Control', scope: '#/properties/consent' } as ControlElement],
+        type: UISchemaLayoutType.VERTICAL,
+        elements: [{ type: 'Control', name: 'consent' } as FieldElement],
       },
+      data: {},
     };
     transaction.nextStep = {
       name: 'email-challenge-consent',
@@ -54,21 +62,23 @@ describe('EmailChallengeConsentTransformer Tests', () => {
 
     expect(updatedFormBag.uischema.elements.length).toBe(5);
     expect(updatedFormBag.uischema.elements[0].type).toBe('Title');
-    expect(updatedFormBag.uischema.elements[0].options?.content).toBe('oie.consent.enduser.title');
-    expect(updatedFormBag.uischema.elements[1].options?.format).toBe('ImageWithText');
-    expect((updatedFormBag.uischema.elements[1] as ControlElement).scope).toBe('#/properties/browser');
-    expect(updatedFormBag.uischema.elements[1].options?.textContent).toBe('CHROME');
+    expect((updatedFormBag.uischema.elements[0] as TitleElement).options?.content).toBe('oie.consent.enduser.title');
+    expect((updatedFormBag.uischema.elements[1] as ImageWithTextElement).type).toBe('ImageWithText');
+    expect((updatedFormBag.uischema.elements[1] as ImageWithTextElement).options.id).toBe('browser');
+    expect((updatedFormBag.uischema.elements[1] as ImageWithTextElement).options?.textContent).toBe('CHROME');
 
-    expect(updatedFormBag.uischema.elements[2].options?.format).toBe('ImageWithText');
-    expect((updatedFormBag.uischema.elements[2] as ControlElement).scope).toBe('#/properties/appName');
-    expect(updatedFormBag.uischema.elements[2].options?.textContent).toBe('Okta Dashboard');
+    expect((updatedFormBag.uischema.elements[2] as ImageWithTextElement).type).toBe('ImageWithText');
+    expect((updatedFormBag.uischema.elements[2] as ImageWithTextElement).options.id).toBe('appName');
+    expect((updatedFormBag.uischema.elements[2] as ImageWithTextElement).options?.textContent).toBe('Okta Dashboard');
 
-    expect(formBag.uischema.elements[3].options?.format).toBe('button');
-    expect(formBag.uischema.elements[3].options?.idxMethodParams?.consent).toBe(false);
-    expect(formBag.uischema.elements[3].options?.action).not.toBeUndefined();
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.idxMethodParams?.consent)
+      .toBe(false);
+    expect((updatedFormBag.uischema.elements[3] as ButtonElement).options?.dataType).toBe('cancel');
 
-    expect(formBag.uischema.elements[4].options?.format).toBe('button');
-    expect(formBag.uischema.elements[4].options?.idxMethodParams?.consent).toBe(true);
-    expect(formBag.uischema.elements[4].options?.action).not.toBeUndefined();
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).type).toBe('Button');
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.idxMethodParams?.consent)
+      .toBe(true);
+    expect((updatedFormBag.uischema.elements[4] as ButtonElement).options?.dataType).toBe('save');
   });
 });

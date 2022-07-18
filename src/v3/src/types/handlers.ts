@@ -12,12 +12,11 @@
 
 import { h } from 'preact';
 
-export type SubmitHandler<T extends EventTarget = HTMLFormElement> = h.JSX.GenericEventHandler<T>;
 export type ClickHandler<T extends EventTarget = HTMLButtonElement> = h.JSX.MouseEventHandler<T>;
 export type ChangeHandler<T extends EventTarget = HTMLInputElement> = h.JSX.TargetedEvent<T>;
 
-type Event<T extends EventTarget> = h.JSX.TargetedEvent<T> & { target: T };
+type E<T extends EventTarget> = h.JSX.TargetedEvent<T> & { target: T };
 
-export type SubmitEvent<T extends EventTarget = HTMLFormElement> = Event<T>;
-export type ClickEvent<T extends EventTarget = HTMLButtonElement> = Event<T>;
-export type ChangeEvent<T extends EventTarget = HTMLInputElement> = Event<T>;
+export type SubmitEvent = h.JSX.TargetedEvent<HTMLFormElement, Event>;
+export type ClickEvent<T extends EventTarget = HTMLButtonElement> = E<T>;
+export type ChangeEvent<T extends EventTarget = HTMLFormElement> = h.JSX.TargetedEvent<T, Event>;
