@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Button, CircularLoadIndicator } from '@okta/odyssey-react';
+import { Box } from '@mui/material';
+import { Button, CircularLoadIndicator } from '@okta/odyssey-react';
 import { IdxActionParams } from '@okta/okta-auth-js';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
@@ -85,9 +86,8 @@ const WebAuthNSubmit: UISchemaElementComponent<{
   }, []);
 
   return (
-    // @ts-ignore OKTA-471233
     <Box
-      marginBottom="m"
+      marginBottom={4}
       display={waiting ? 'flex' : undefined}
       justifyContent={waiting ? 'center' : undefined}
     >
