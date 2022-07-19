@@ -265,7 +265,7 @@ test.requestHooks(identifyRequestLogger, identifyMock)('should transform identif
   const identityPage = await setup(t);
 
   await rerenderWidget({
-    transformUsername: function (username, operation) {
+    transformUsername: function(username, operation) {
       if (operation === 'PRIMARY_AUTH') {
         return `${username}@okta.com`;
       }
