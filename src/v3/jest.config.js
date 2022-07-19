@@ -52,7 +52,6 @@ module.exports = {
     '^react/jsx-runtime$': 'preact/jsx-runtime',
     '^create-react-class$': '<rootDir>/node_modules/preact/compat/lib/create-react-class',
     '^react-addons-css-transition-group$': 'preact-css-transition-group',
-    '@testing-library/preact-hooks': '/Users/glenfannin/okta/okta-signin-widget/node_modules/@testing-library/preact-hooks/lib/index.js',
   },
   modulePaths: [
     '<rootDir>',
