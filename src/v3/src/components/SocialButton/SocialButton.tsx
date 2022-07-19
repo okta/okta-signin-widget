@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Button } from '@okta/odyssey-react';
+import { Box } from '@mui/material';
+import { Button } from '@okta/odyssey-react';
 import { FunctionComponent, h } from 'preact';
 import { ClickHandler } from 'src/types';
 
@@ -29,10 +30,9 @@ const SocialButton: FunctionComponent<SocialProps> = ({
   onClick,
   text,
 }: SocialProps) => (
-  // @ts-ignore OKTA-471233
   <Box
     className={style.socialButton}
-    marginTop="m"
+    marginTop={4}
   >
     <Button
       type="button"
