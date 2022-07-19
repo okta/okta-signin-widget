@@ -50,6 +50,7 @@ export async function checkConsoleMessages(context = {}) {
         await t.expect(parsedLog).eql(context[i]);
       }
     }
+    }
   }
 }
 
