@@ -10,11 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import {
-  Box,
-  NativeSelect,
-  TextInput,
-} from '@okta/odyssey-react';
+import { Box } from '@mui/material';
+import { NativeSelect, TextInput } from '@okta/odyssey-react';
 import get from 'lodash/get';
 import { h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
@@ -63,7 +60,6 @@ const PhoneAuthenticator: UISchemaElementComponent<{
 
   const renderExtension = () => (
     showExtension && (
-      // @ts-ignore OKTA-471233
       <Box>
         <TextInput
           type="text"
@@ -86,10 +82,8 @@ const PhoneAuthenticator: UISchemaElementComponent<{
   }, [phoneCode, phone, extension, showExtension]);
 
   return (
-    // @ts-ignore OKTA-471233
     <Box>
-      {/* @ts-ignore OKTA-471233 */}
-      <Box marginBottom="m">
+      <Box marginBottom={4}>
         <NativeSelect
           id="countryList"
           data-se="countryList"
@@ -111,15 +105,13 @@ const PhoneAuthenticator: UISchemaElementComponent<{
           }
         </NativeSelect>
       </Box>
-      {/* @ts-ignore OKTA-471233 */}
       <Box
         display="flex"
         justifyContent="space-between"
       >
-        {/* @ts-ignore OKTA-471233 */}
         <Box
-          width="full"
-          marginRight={showExtension && 'xs'}
+          width={1}
+          marginRight={showExtension ? 1 : 0}
         >
           <TextInput
             type="tel"
