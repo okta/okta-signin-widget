@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, NativeSelect } from '@okta/odyssey-react';
+import { Box } from '@mui/material';
+import { NativeSelect } from '@okta/odyssey-react';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
 import { h } from 'preact';
 import {
@@ -44,7 +45,6 @@ const Select: UISchemaElementComponent<{
   };
 
   return (
-    // @ts-ignore OKTA-471233
     <Box>
       <NativeSelect
         error={error}
