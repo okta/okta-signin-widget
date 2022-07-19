@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Text } from '@okta/odyssey-react';
+import { Box } from '@mui/material';
+import { Text } from '@okta/odyssey-react';
 import { h } from 'preact';
 import { DescriptionElement, UISchemaElementComponent } from 'src/types';
 
@@ -27,7 +28,6 @@ const InformationalText: UISchemaElementComponent<{
   const textContent = t(content, contentParams);
 
   return (
-    // @ts-ignore OKTA-471233
     <Box
       display="flex"
       justifyContent="flex-start"
