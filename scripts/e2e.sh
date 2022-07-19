@@ -4,7 +4,7 @@ export CI=true
 source $OKTA_HOME/$REPO/scripts/setup.sh
 
 setup_service java 1.8.222
-setup_service google-chrome-stable 89.0.4389.72-1
+setup_service google-chrome-stable 103.0.5060.53-1
 
 export TEST_SUITE_TYPE="junit"
 export TEST_RESULT_FILE_DIR="${REPO}/build2/reports/junit"

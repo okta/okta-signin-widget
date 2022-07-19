@@ -55,6 +55,13 @@ test_suites:
       script_name: e2e-saucelabs
       criteria: MERGE
       queue_name: small
+    - name: e2e-lang-saucelabs
+      script_path: /root/okta/okta-signin-widget/scripts
+      sort_order: '6'
+      timeout: '45'
+      script_name: e2e-lang-saucelabs
+      criteria: OPTIONAL
+      queue_name: small
     - name: tsd
       script_path: /root/okta/okta-signin-widget/scripts
       sort_order: '7'
