@@ -11,12 +11,9 @@
  */
 
 /* eslint-disable import/no-extraneous-dependencies,no-param-reassign */
-import Buffer from 'buffer';
 import { resolve, join } from 'path';
 import { merge as webpackMerge } from 'webpack-merge';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import envVars from 'preact-cli-plugin-env-vars';
-import { DefinePlugin } from 'webpack';
 import { omit } from 'lodash';
 import playgroundConfig from '../../webpack.playground.config';
 
@@ -65,7 +62,7 @@ export default {
         rule.exclude = /\.svg$/;
       }
 
-      // FIXME remove ts-loader
+      // TODO: OKTA-515335 remove ts-loader
       if (rule.loader === 'babel-loader') {
         const use = [
           {
@@ -144,24 +141,18 @@ export default {
       'index.js',
     );
 
-    // polyfills for jsonforms
-    // https://github.com/APIDevTools/json-schema-ref-parser#browser-support
-    config.plugins.push(new DefinePlugin({ process: { browser: true }, Buffer }));
-
-    // preact-cli-plugin-env-vars
-    envVars(config, env, helpers);
-
-    // override with
-    Object.assign(config, webpackMerge(config, omit(playgroundConfig, [
+    // configs to inherit from webpack.playground.config.js
+    const inherited = omit(playgroundConfig, [
       'devServer.headers.Content-Security-Policy', // merge instead of override
       'devServer.port',
       'entry',
       'module',
       'output',
       'resolve.extensions',
-    ]), {
-      // TODO use built assets instead of relying on dev server
-      // add entry for playground bundle
+    ]);
+
+    // configs to override
+    const overrides = {
       entry: {
         playground: rootResolve('playground', 'main.ts'),
       },
@@ -175,6 +166,9 @@ export default {
           ),
         },
       },
-    }));
+    };
+
+    // TODO: OKTA-516685 use build assets instead of webpack-dev-server
+    Object.assign(config, webpackMerge(config, inherited, overrides));
   },
 };
