@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { loc } from 'okta';
 import {
   IdxStepTransformer,
   TitleElement,
@@ -40,7 +41,7 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = (
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'unlockaccount',
+      content: loc('unlockaccount', 'login'),
     },
   };
   uischema.elements.unshift(titleElement);

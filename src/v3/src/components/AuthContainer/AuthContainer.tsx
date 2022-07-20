@@ -22,6 +22,7 @@ const AuthContainer: FunctionComponent = ({ children }) => {
     // @ts-ignore OKTA-471233
     <Box
       as="main"
+      id="okta-sign-in"
       display="flex"
       justifyContent="center"
       alignItems="center"

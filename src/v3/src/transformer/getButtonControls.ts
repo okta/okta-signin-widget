@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { loc } from 'okta';
 import { IdxActionParams, NextStep, OktaAuth } from '@okta/okta-auth-js';
 
 import { IDX_STEP } from '../constants';
@@ -48,7 +49,7 @@ export const getButtonControls = (
   if (config.stepWithSubmit) {
     const submit: ButtonElement = {
       type: 'Button',
-      label: 'oform.next',
+      label: loc('oform.next', 'login'),
       scope: `#/properties/${ButtonType.SUBMIT}`,
       options: {
         type: ButtonType.SUBMIT,
@@ -66,7 +67,7 @@ export const getButtonControls = (
     const { name } = forgotPasswordStep;
     const forgotPassword: ButtonElement = {
       type: 'Button',
-      label: 'forgotpassword',
+      label: loc('forgotpassword', 'login'),
       options: {
         type: ButtonType.BUTTON,
         variant: 'floating',
@@ -94,7 +95,7 @@ export const getButtonControls = (
 
     const fastPass: ButtonElement = {
       type: 'Button',
-      label: 'oktaVerify.button',
+      label: loc('oktaVerify.button', 'login'),
       options: {
         type: ButtonType.BUTTON,
         // TODO when adding fastpass support.
@@ -116,7 +117,7 @@ export const getButtonControls = (
     const { name: step } = unlockStep;
     const unlock: ButtonElement = {
       type: 'Button',
-      label: 'unlockaccount',
+      label: loc('unlockaccount', 'login'),
       options: {
         type: ButtonType.BUTTON,
         variant: 'floating',
@@ -134,7 +135,7 @@ export const getButtonControls = (
     const { name: step } = selectVerifyStep;
     elements.push({
       type: 'Button',
-      label: 'oie.verification.switch.authenticator',
+      label: loc('oie.verification.switch.authenticator', 'login'),
       options: {
         type: ButtonType.BUTTON,
         variant: 'floating',
@@ -150,7 +151,7 @@ export const getButtonControls = (
     const { name: step } = selectEnrollStep;
     elements.push({
       type: 'Button',
-      label: 'oie.enroll.switch.authenticator',
+      label: loc('oie.enroll.switch.authenticator', 'login'),
       options: {
         type: ButtonType.BUTTON,
         variant: 'floating',
@@ -166,7 +167,7 @@ export const getButtonControls = (
     const { name: step } = registerStep;
     const register: ButtonElement = {
       type: 'Button',
-      label: 'registration.form.submit',
+      label: loc('registration.form.submit', 'login'),
       options: {
         type: ButtonType.BUTTON,
         variant: 'floating',
@@ -184,7 +185,7 @@ export const getButtonControls = (
     const { name } = cancelStep;
     const cancel: ButtonElement = {
       type: 'Button',
-      label: 'goback',
+      label: loc('goback', 'login'),
       options: {
         type: ButtonType.BUTTON,
         variant: 'floating',

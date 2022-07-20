@@ -26,6 +26,8 @@ import {
   useMemo,
   useState,
 } from 'preact/hooks';
+import { getLanguageCode, loadLanguage } from '../../util';
+import Bundles from '../../../../util/Bundles';
 
 import { WidgetContextProvider } from '../../contexts';
 import { usePolling } from '../../hooks';
@@ -46,7 +48,6 @@ import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
 import Form from '../Form';
 import IdentifierContainer from '../IdentifierContainer/IdentifierContainer';
-import InfoSection from '../InfoSection/InfoSection';
 import Spinner from '../Spinner';
 
 export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
@@ -72,6 +73,16 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   const [authApiError, setAuthApiError] = useState<AuthApiError>();
   const pollingTransaction = usePolling(idxTransaction, widgetProps, data);
   const [stepperStepIndex, setStepperStepIndex] = useState<number>(0);
+
+  useEffect(() => {
+    // If we need to load a language (or apply custom i18n overrides), do
+    // this now and re-run render after it's finished.
+    if (!Bundles.isLoaded(getLanguageCode(widgetProps))) {
+      (async () => {
+        await loadLanguage(widgetProps);
+     })();
+    }
+  }, []);
 
   // Derived value from idxTransaction
   const formBag = useMemo<Undefinable<FormBag>>(() => {
@@ -220,7 +231,6 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
             />
             <AuthContent>
               <IdentifierContainer />
-              <InfoSection messages={messages} />
               {
                 formBag
                   ? <Form uischema={formBag.uischema as UISchemaLayout} />

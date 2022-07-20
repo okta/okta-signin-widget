@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { loc } from 'okta';
+
 import {
   ButtonElement,
   ButtonType,
@@ -27,7 +29,7 @@ export const transformIdentify: IdxStepTransformer = (_, formBag, widgetProps) =
 
   const submitBtnElement: ButtonElement = {
     type: 'Button',
-    label: 'oform.next',
+    label: loc('oform.next', 'login'),
     scope: `#/properties/${ButtonType.SUBMIT}`,
     options: {
       type: ButtonType.SUBMIT,
@@ -38,25 +40,19 @@ export const transformIdentify: IdxStepTransformer = (_, formBag, widgetProps) =
     'credentials.passcode',
     uischema.elements as UISchemaElement[],
   )) {
-    submitBtnElement.label = 'oie.primaryauth.submit';
+    submitBtnElement.label = loc('oie.primaryauth.submit', 'login');
   }
 
-  const rememberMe = getUIElementWithName(
-    'rememberMe',
-    uischema.elements as UISchemaElement[],
-  );
   if (features?.showKeepMeSignedIn === false) {
     uischema.elements = removeUIElementWithName(
       'rememberMe',
       uischema.elements as UISchemaElement[],
     );
-  } else if (rememberMe) {
-    rememberMe.label = 'oie.remember';
   }
 
   const titleElement: TitleElement = {
     type: 'Title',
-    options: { content: 'primaryauth.title' },
+    options: { content: loc('primaryauth.title', 'login') },
   };
 
   const identifierElement = getUIElementWithName(

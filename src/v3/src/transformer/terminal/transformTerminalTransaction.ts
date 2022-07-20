@@ -84,19 +84,36 @@ const appendViewLinks = (
       label: 'goback',
       // eslint-disable-next-line no-script-url
       href: cancelStep?.action ? 'javascript:void(0)' : (baseUrl || '/'),
-      action: cancelStep?.action,
+      dataSe: 'cancel',
+      // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
+      action: cancelStep?.action && ((params?: IdxActionParams) => {
+        const { stateHandle, ...rest } = params ?? {};
+        return widgetProps.authClient?.idx.proceed({
+          // @ts-ignore stateHandle can be undefined
+          stateHandle,
+          actions: [{ name: 'cancel', params: rest }],
+        });
+      }),
     },
   };
 
   if (containsMessageKeyPrefix(TERMINAL_KEY.SAFE_MODE_KEY_PREFIX, transaction.messages)) {
+    const skipStep = transaction?.availableSteps?.find(({ name }) => name.includes('skip'));
     const skipElement: ButtonElement = {
       type: 'Button',
       label: 'oie.enroll.skip.setup',
       scope: `#/properties/${ButtonType.SUBMIT}`,
       options: {
         type: ButtonType.SUBMIT,
-        idxMethodParams: { skip: true },
-        action: cancelStep?.action,
+        // @ts-ignore OKTA-512706 temporary until auth-js applies this fix
+        action: skipStep?.action && ((params?: IdxActionParams) => {
+          const { stateHandle, ...rest } = params ?? {};
+          return widgetProps.authClient?.idx.proceed({
+            // @ts-ignore stateHandle can be undefined
+            stateHandle,
+            actions: [{ name: skipStep?.name, params: rest }],
+          });
+        }),
       },
     };
     uischema.elements.push(skipElement);

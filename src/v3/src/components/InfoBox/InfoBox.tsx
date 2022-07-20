@@ -13,7 +13,6 @@
 import { Alert, Box } from '@mui/material';
 import { h } from 'preact';
 
-import { useTranslation } from '../../lib/okta-i18n';
 import {
   InfoboxElement,
   MessageType,
@@ -24,9 +23,7 @@ import {
 const InfoBox: UISchemaElementComponent<{
   uischema: InfoboxElement
 }> = ({ uischema }) => {
-  const { options } = uischema;
-  const { t } = useTranslation();
-  const textContent = t(options?.message, options.contentParams);
+  const { options: { message, title, class: messageClass} } = uischema;
 
   return (
     <Box
@@ -34,11 +31,11 @@ const InfoBox: UISchemaElementComponent<{
       width={1}
     >
       <Alert
-        severity={MessageTypeVariant[options?.class as MessageType] ?? MessageTypeVariant.INFO}
+        severity={MessageTypeVariant[messageClass as MessageType] ?? MessageTypeVariant.INFO}
         variant="infobox"
-        title={options?.title && t(options.title)}
+        title={title}
       >
-        {textContent}
+        {message}
       </Alert>
     </Box>
   );

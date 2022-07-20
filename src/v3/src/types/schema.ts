@@ -241,6 +241,7 @@ export interface LinkElement extends UISchemaElement {
   options: {
     label: string;
     href?: string;
+    dataSe?: string;
     idxMethodParams?: IdxActionParams;
     action: NextStep['action'];
   };

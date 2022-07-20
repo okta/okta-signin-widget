@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { loc } from 'okta';
+
 import { CHALLENGE_INTENT_TO_I18KEY } from '../../constants';
 import AppSvg from '../../img/16pxApp.svg';
 import BrowserSvg from '../../img/16pxDevice.svg';
@@ -48,13 +50,17 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
   };
   const warningTextElement: DescriptionElement = {
     type: 'Description',
-    options: { content: 'idx.return.link.otponly.warning.text' },
+    options: { content: loc('idx.return.link.otponly.warning.text', 'login') },
   };
-  const codeEntryInstructionText = CHALLENGE_INTENT_TO_I18KEY[intent] ?? 'idx.enter.otp.in.original.tab';
 
+  const challengeIntent = CHALLENGE_INTENT_TO_I18KEY[intent];
   const codeEntryInstructionElement: DescriptionElement = {
     type: 'Description',
-    options: { content: codeEntryInstructionText },
+    options: {
+      content: challengeIntent
+        ? loc('idx.return.link.otponly.enter.code.on.page', 'login', [challengeIntent])
+        : loc('idx.enter.otp.in.original.tab', 'login'),
+    },
   };
 
   let requestInfoTextElement: Undefinable<DescriptionElement>;
@@ -67,7 +73,7 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
       options: {
         id: 'app',
         SVGIcon: AppSvg,
-        textContent: app.value.label as string,
+        textContent: loc('idx.return.link.otponly.app', 'login', [app.value.label]),
       },
     };
   }
@@ -78,8 +84,11 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
       options: {
         id: 'browser',
         SVGIcon: BrowserSvg,
-        textContent: 'idx.return.link.otponly.browser.on.os',
-        contentParams: [client.value.browser, client.value.os],
+        textContent: loc(
+          'idx.return.link.otponly.browser.on.os',
+          'login',
+          [client.value.browser, client.value.os],
+        ),
       },
     };
   }
@@ -92,8 +101,9 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
       options: {
         id: 'location',
         SVGIcon: LocationSvg,
-        textContent: state ? 'geolocation.formatting.all' : 'geolocation.formatting.partial',
-        contentParams,
+        textContent: state
+          ? loc('geolocation.formatting.all', 'login', contentParams)
+          : loc('geolocation.formatting.partial', 'login', contentParams),
       },
     };
   }
@@ -101,7 +111,7 @@ export const transformEmailMagicLinkOTPOnly: TerminalKeyTransformer = (transacti
   if (appImageElement || browserImageElement || locationImageElement) {
     requestInfoTextElement = {
       type: 'Description',
-      options: { content: 'idx.return.link.otponly.request' },
+      options: { content: loc('idx.return.link.otponly.request', 'login') },
     };
   }
 

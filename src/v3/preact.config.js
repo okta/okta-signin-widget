@@ -16,6 +16,7 @@ import { merge as webpackMerge } from 'webpack-merge';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { omit } from 'lodash';
 import playgroundConfig from '../../webpack.playground.config';
+import { DefinePlugin } from 'webpack';
 
 // util: resolve paths relative to the project root
 const rootResolve = (...parts) => resolve(__dirname, '../../', ...parts);
@@ -57,6 +58,20 @@ export default {
     config.plugins = config.plugins.filter(
       (plugin) => !(plugin instanceof MiniCssExtractPlugin),
     );
+
+    if (env === 'production') {
+      config.plugins.push(
+        new DefinePlugin({
+          DEBUG: false
+        })
+      );
+    } else {
+      config.plugins.push(
+        new DefinePlugin({
+          DEBUG: true
+        })
+      );
+    }
 
     // use odyssey babel configs
     config.module.rules.push({
@@ -153,6 +168,34 @@ export default {
       'esbrowser',
       'index.js',
     );
+
+    // config.resolve.alias['preact'] = resolve(
+    //   __dirname,
+    //   'node_modules',
+    //   'preact',
+    //   'dist',
+    //   'preact.min.js',
+    // );
+
+    // config.resolve.alias['preact/compat'] = resolve(
+    //   __dirname,
+    //   'node_modules',
+    //   'preact',
+    //   'compat',
+    //   'dist',
+    //   'compat.js',
+    // );
+
+    config.resolve.alias['nls'] = rootResolve('packages', '@okta/i18n/src/json');
+    config.resolve.alias['okta-i18n-bundles'] = rootResolve('src', 'util', 'Bundles');
+    config.resolve.alias['util/Logger'] = rootResolve('src', 'util', 'Logger');
+    config.resolve.alias['util/Bundles'] = rootResolve('src', 'util', 'Bundles');
+    config.resolve.alias['util/Enums'] = rootResolve('src', 'util', 'Enums');
+    config.resolve.alias['util/FactorUtil'] = rootResolve('src', 'util', 'FactorUtil');
+    config.resolve.alias['util/TimeUtil'] = rootResolve('src', 'util', 'TimeUtil');
+    config.resolve.alias['util/BrowserFeatures'] = rootResolve('src', 'util', 'BrowserFeatures');
+    config.resolve.alias['config/config.json'] = rootResolve('src', 'config', 'config.json');
+    config.resolve.alias['qtip'] = rootResolve('packages', '@okta/qtip2/dist/jquery.qtip.js');
 
     // override with
     Object.assign(config, webpackMerge(config, omit(playgroundConfig, [

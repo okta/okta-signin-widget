@@ -10,6 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { loc } from 'okta';
 import {
   ButtonElement,
   ButtonType,
@@ -24,11 +25,10 @@ import { getAuthenticatorEnrollButtonElements } from './utils';
 const getContentDescrAndParams = (brandName?: string): TitleElement['options'] => {
   if (brandName) {
     return {
-      content: 'oie.select.authenticators.enroll.subtitle.custom',
-      contentParams: [brandName],
+      content: loc('oie.select.authenticators.enroll.subtitle.custom', 'login', [brandName]),
     };
   }
-  return { content: 'oie.select.authenticators.enroll.subtitle' };
+  return { content: loc('oie.select.authenticators.enroll.subtitle', 'login') };
 };
 
 export const transformSelectAuthenticatorEnroll: IdxStepTransformer = (
@@ -52,14 +52,16 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = (
   );
   uischema.elements.push({
     type: 'Description',
-    options: { content: canSkip ? 'oie.setup.optional' : 'oie.setup.required' },
+    options: {
+      content: canSkip ? loc('oie.setup.optional', 'login') : loc('oie.setup.required', 'login'),
+    },
   } as DescriptionElement);
   uischema.elements = uischema.elements.concat(authenticatorButtonElements);
 
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'oie.select.authenticators.enroll.title',
+      content: loc('oie.select.authenticators.enroll.title', 'login'),
     },
   };
   const informationalTextElement: DescriptionElement = {
@@ -75,7 +77,7 @@ export const transformSelectAuthenticatorEnroll: IdxStepTransformer = (
     const { name: step } = skipStep;
     const skipButtonElement: ButtonElement = {
       type: 'Button',
-      label: 'oie.optional.authenticator.button.title',
+      label: loc('oie.optional.authenticator.button.title', 'login'),
       scope: `#/properties/${ButtonType.SUBMIT}`,
       options: {
         type: ButtonType.SUBMIT,

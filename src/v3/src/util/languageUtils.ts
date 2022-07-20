@@ -10,15 +10,18 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './browserUtils';
-export * from './cookieUtils';
-export * from './environmentUtils';
-export * from './flattenInputs';
-export * from './formUtils';
-export * from './getImmutableData';
-export * from './idxUtils';
-export * from './languageUtils';
-export * from './passwordUtils';
-export * from './settingsUtils';
-export * from './toNestedObject';
-export * from './webauthnUtils';
+import Bundles from '../../../util/Bundles';
+
+import { WidgetProps } from "../types";
+import { getLanguageCode, getSupportedLanguages } from './settingsUtils';
+
+export const loadLanguage = async (widgetProps: WidgetProps): Promise<void> => {
+  const { i18n = {}, assets: { baseUrl, rewrite } = {} } = widgetProps;
+  const languageCode = getLanguageCode(widgetProps);
+  const supportedLanguages = getSupportedLanguages(widgetProps);
+
+  return Bundles.loadLanguage(languageCode, i18n, {
+    baseUrl: baseUrl,
+    rewrite: rewrite,
+  }, supportedLanguages);
+};

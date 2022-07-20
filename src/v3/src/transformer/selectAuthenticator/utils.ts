@@ -12,6 +12,7 @@
 
 import { Input } from '@okta/okta-auth-js';
 import { IdxOption } from '@okta/okta-auth-js/lib/idx/types/idx-js';
+import { loc } from 'okta';
 
 import { AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP, AUTHENTICATOR_KEY } from '../../constants';
 import { AuthenticatorButtonElement } from '../../types';
@@ -23,7 +24,7 @@ const getAuthenticatorOption = (
   ({ relatesTo }) => relatesTo?.key === authenticatorKey,
 );
 
-const getOptionValue = (
+export const getOptionValue = (
   inputs: Input[],
   key: string,
 ): Input | undefined => inputs?.find(
@@ -56,9 +57,10 @@ const buildOktaVerifyOptions = (
       inputOption: option,
       key: AUTHENTICATOR_KEY.OV,
       ctaLabel: isEnroll
-        ? 'oie.enroll.authenticator.button.text'
-        : 'oie.verify.authenticator.button.text',
-      description: isEnroll && AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[AUTHENTICATOR_KEY.OV],
+        ? loc('oie.enroll.authenticator.button.text', 'login')
+        : loc('oie.verify.authenticator.button.text', 'login'),
+      description: isEnroll
+        && loc(AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[AUTHENTICATOR_KEY.OV], 'login'),
       idxMethodParams: {
         authenticator: {
           methodType: option.value,
@@ -79,12 +81,8 @@ const getAuthenticatorDescription = (
     return undefined;
   }
   if (isEnroll) {
-    const vendorName = getAuthenticatorOption(
-      options,
-      AUTHENTICATOR_KEY.ON_PREM,
-    )?.relatesTo?.displayName;
-    if (authenticatorKey === AUTHENTICATOR_KEY.ON_PREM && !vendorName) {
-      return 'next.oie.on_prem.authenticator.default.description';
+    if (authenticatorKey === AUTHENTICATOR_KEY.ON_PREM) {
+      return 'oie.on_prem.authenticator.description';
     }
     return AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP[authenticatorKey];
   }
@@ -103,13 +101,13 @@ const getOnPremDescriptionParams = (
   authenticatorKey: string,
   isEnroll?: boolean,
 ): string[] | undefined => {
+  if (!isEnroll || authenticatorKey !== AUTHENTICATOR_KEY.ON_PREM) {
+    return undefined;
+  }
   const vendorName = getAuthenticatorOption(
     options,
     AUTHENTICATOR_KEY.ON_PREM,
-  )?.relatesTo?.displayName;
-  if (!isEnroll || authenticatorKey !== AUTHENTICATOR_KEY.ON_PREM || !vendorName) {
-    return undefined;
-  }
+  )?.relatesTo?.displayName || 'oie.on_prem.authenticator.default.vendorName';
   return [vendorName];
 };
 
@@ -123,6 +121,16 @@ const formatAuthenticatorOptions = (
     const methodType = getOptionValue(option.value as Input[], 'methodType')?.value;
     const enrollmentId = getOptionValue(option.value as Input[], 'enrollmentId')?.value;
 
+    const descr = getAuthenticatorDescription(
+      options,
+      authenticatorKey,
+      isEnroll,
+    );
+    const descrParams = getOnPremDescriptionParams(
+      options,
+      authenticatorKey,
+      isEnroll,
+    );
     return {
       type: 'AuthenticatorButton',
       label: option.label,
@@ -130,18 +138,9 @@ const formatAuthenticatorOptions = (
         inputOption: option,
         key: authenticatorKey,
         ctaLabel: isEnroll
-          ? 'oie.enroll.authenticator.button.text'
-          : 'oie.verify.authenticator.button.text',
-        description: getAuthenticatorDescription(
-          options,
-          authenticatorKey,
-          isEnroll,
-        ),
-        descriptionParams: getOnPremDescriptionParams(
-          options,
-          authenticatorKey,
-          isEnroll,
-        ),
+          ? loc('oie.enroll.authenticator.button.text', 'login')
+          : loc('oie.verify.authenticator.button.text', 'login'),
+        description: loc(descr, descrParams),
         idxMethodParams: {
           authenticator: {
             id,
@@ -186,7 +185,7 @@ export const getOVMethodTypeAuthenticatorButtonElements = (
     label: option.label,
     options: {
       key: AUTHENTICATOR_KEY.OV,
-      ctaLabel: 'oie.verify.authenticator.button.text',
+      ctaLabel: loc('oie.verify.authenticator.button.text', 'login'),
       idxMethodParams: {
         authenticator: {
           methodType: option.value as string,
