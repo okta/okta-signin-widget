@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@okta/odyssey-react';
+import { Box } from '@mui/material';
+import * as Tokens from '@okta/odyssey-design-tokens';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
 
@@ -19,24 +20,22 @@ import style from './style.css';
 const AuthContainer: FunctionComponent = ({ children }) => {
   const classes = classNames('auth-container', 'main-container', style.mainViewContainer);
   return (
-    // @ts-ignore OKTA-471233
     <Box
-      as="main"
+      component="main"
       display="flex"
       justifyContent="center"
       alignItems="center"
       className={classes}
     >
-      {/* @ts-ignore OKTA-471233 */}
       <Box
         flex="auto"
         flexDirection="column"
-        borderColor="display"
-        maxWidth="full"
-        width="full"
-        borderRadius="base"
-        backgroundColor="default"
+        border={1}
+        borderRadius={Tokens.BorderRadiusBase}
+        borderColor={Tokens.ColorBorderDisplay}
+        bgcolor={Tokens.ColorBackgroundBase}
         className={style.siwContainer}
+        fontFamily={Tokens.FontFamilyBase}
       >
         {children}
       </Box>

@@ -21,7 +21,6 @@ const AuthContent: FunctionComponent = ({ children }) => (
     flexWrap="wrap"
     padding={7}
     maxWidth={1}
-    width={1}
   >
     {children}
   </Box>
