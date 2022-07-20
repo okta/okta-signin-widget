@@ -101,12 +101,6 @@ export const TERMINAL_KEY: Record<string, string> = {
   UNLOCK_ACCOUNT_KEY: 'oie.selfservice.unlock_user.success.message',
 };
 
-export const OV_OVERRIDE_MESSAGE_KEY: Record<string, string> = {
-  OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_IOS: 'oie.authenticator.app.non_fips_compliant_enrollment_device_incompatible',
-  OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_NON_IOS: 'oie.authenticator.app.non_fips_compliant_enrollment_app_update_required',
-  OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY: 'oie.authenticator.app.method.push.enroll.enable.biometrics',
-};
-
 export const OV_UV_ENABLE_BIOMETRIC_SERVER_KEY = 'oie.authenticator.oktaverify.method.totp.verify.enable.biometrics';
 
 export const EMAIL_AUTHENTICATOR_TERMINAL_KEYS = [
@@ -161,13 +155,6 @@ export const STEPS_REQUIRING_CUSTOM_LINK = [
   IDX_STEP.AUTHENTICATOR_VERIFICATION_DATA,
 ];
 
-export const CUSTOM_MESSAGE_KEYS = [
-  OV_OVERRIDE_MESSAGE_KEY.OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_IOS,
-  OV_OVERRIDE_MESSAGE_KEY.OV_FORCE_FIPS_COMPLIANCE_UPGRAGE_KEY_NON_IOS,
-  OV_OVERRIDE_MESSAGE_KEY.OV_QR_ENROLL_ENABLE_BIOMETRICS_KEY,
-  OV_UV_ENABLE_BIOMETRIC_SERVER_KEY,
-];
-
 export const AUTHENTICATOR_ENROLLMENT_DESCR_KEY_MAP: Record<string, string> = {
   [AUTHENTICATOR_KEY.EMAIL]: 'oie.email.authenticator.description',
   [AUTHENTICATOR_KEY.PASSWORD]: 'oie.password.authenticator.description',
@@ -193,11 +180,18 @@ export const STEPS_MISSING_RELATES_TO: string[] = [
   IDX_STEP.SELECT_ENROLLMENT_CHANNEL,
 ];
 
+// export const CHALLENGE_INTENT_TO_I18KEY: Record<string, string> = {
+//   AUTHENTICATION: 'next.idx.return.link.otponly.enter.code.on.page.sigin.in',
+//   RECOVERY: 'next.idx.return.link.otponly.enter.code.on.page.password.reset',
+//   UNLOCK_ACCOUNT: 'next.idx.return.link.otponly.enter.code.on.page.account.unlock',
+//   ENROLLMENT: 'next.idx.return.link.otponly.enter.code.on.page.registration',
+// };
+
 export const CHALLENGE_INTENT_TO_I18KEY: Record<string, string> = {
-  AUTHENTICATION: 'next.idx.return.link.otponly.enter.code.on.page.sigin.in',
-  RECOVERY: 'next.idx.return.link.otponly.enter.code.on.page.password.reset',
-  UNLOCK_ACCOUNT: 'next.idx.return.link.otponly.enter.code.on.page.account.unlock',
-  ENROLLMENT: 'next.idx.return.link.otponly.enter.code.on.page.registration',
+  AUTHENTICATION: 'idx.return.link.otponly.enter.code.on.page.sign.in',
+  RECOVERY: 'idx.return.link.otponly.enter.code.on.page.password.reset',
+  UNLOCK_ACCOUNT: 'idx.return.link.otponly.enter.code.on.page.account.unlock',
+  ENROLLMENT: 'idx.return.link.otponly.enter.code.on.page.registration',
 };
 
 // Possible options for the SIW interstitial redirect view

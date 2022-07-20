@@ -11,6 +11,7 @@
  */
 
 import { Input } from '@okta/okta-auth-js';
+import { loc } from 'okta';
 
 import {
   ButtonElement,
@@ -49,11 +50,11 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
 
     uischema.elements.unshift({
       type: 'Title',
-      options: { content: 'oie.okta_verify.push.title' },
+      options: { content: loc('oie.okta_verify.push.title', 'login') },
     } as TitleElement);
     uischema.elements.push({
       type: 'Button',
-      label: 'oie.okta_verify.sendPushButton',
+      label: loc('oie.okta_verify.sendPushButton', 'login'),
       scope: `#/properties/${ButtonType.SUBMIT}`,
       options: {
         type: ButtonType.SUBMIT,
@@ -75,13 +76,13 @@ export const transformSelectOVMethodVerify: IdxStepTransformer = ({ transaction,
     const titleElement: TitleElement = {
       type: 'Title',
       options: {
-        content: 'oie.select.authenticators.verify.title',
+        content: loc('oie.select.authenticators.verify.title', 'login'),
       },
     };
     const descriptionElement: DescriptionElement = {
       type: 'Description',
       options: {
-        content: 'oie.select.authenticators.verify.subtitle',
+        content: loc('oie.select.authenticators.verify.subtitle', 'login'),
       },
     };
 

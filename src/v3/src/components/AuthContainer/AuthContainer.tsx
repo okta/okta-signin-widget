@@ -21,6 +21,7 @@ const AuthContainer: FunctionComponent = ({ children }) => {
   const isMobileWidth = useMediaQuery('screen and (max-width: 391px)');
   return (
     <Box
+      id="okta-sign-in"
       component="main"
       display="flex"
       justifyContent="center"

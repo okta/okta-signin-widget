@@ -367,3 +367,10 @@ test.page(
   await checkA11y(t);
   await takeScreenshot(t, 'authenticator-reset-password');
 });
+
+test.page(
+  'http://localhost:8080/?siw-use-mocks=true&siw-mock-response=/idp/idx/identify/error-session-expired',
+)('error-session-expired', async (t) => {
+  await checkA11y(t);
+  await takeScreenshot(t, 'error-session-expired');
+});

@@ -57,6 +57,19 @@ export default {
         COMMITHASH: JSON.stringify(gitRevisionPlugin.commithash()),
       }),
     );
+    if (env === 'production') {
+      config.plugins.push(
+        new DefinePlugin({
+          DEBUG: false
+        })
+      );
+    } else {
+      config.plugins.push(
+        new DefinePlugin({
+          DEBUG: true
+        })
+      );
+    }
 
     // use odyssey babel configs
     config.module.rules.push({
@@ -155,6 +168,17 @@ export default {
       'esbrowser',
       'index.js',
     );
+
+    config.resolve.alias.nls = rootResolve('packages', '@okta/i18n/src/json');
+    config.resolve.alias.qtip = rootResolve('packages', '@okta/qtip2/dist/jquery.qtip.js');
+    config.resolve.alias['okta-i18n-bundles'] = rootResolve('src', 'util', 'Bundles');
+    config.resolve.alias['util/Logger'] = rootResolve('src', 'util', 'Logger');
+    config.resolve.alias['util/Bundles'] = rootResolve('src', 'util', 'Bundles');
+    config.resolve.alias['util/Enums'] = rootResolve('src', 'util', 'Enums');
+    config.resolve.alias['util/FactorUtil'] = rootResolve('src', 'util', 'FactorUtil');
+    config.resolve.alias['util/TimeUtil'] = rootResolve('src', 'util', 'TimeUtil');
+    config.resolve.alias['util/BrowserFeatures'] = rootResolve('src', 'util', 'BrowserFeatures');
+    config.resolve.alias['config/config.json'] = rootResolve('src', 'config', 'config.json');
 
     // inherit from webpack.playground.config.js omitting these properties
     const inherited = omit(playgroundConfig, [

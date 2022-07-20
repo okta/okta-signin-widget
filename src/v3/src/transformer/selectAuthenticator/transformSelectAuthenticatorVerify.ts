@@ -11,6 +11,7 @@
  */
 
 import { IdxTransaction, NextStep } from '@okta/okta-auth-js';
+import { loc } from 'okta';
 import {
   DescriptionElement,
   IdxStepTransformer,
@@ -26,16 +27,16 @@ const getContentTitleAndParams = (
   brandName?: string,
 ): TitleElement['options'] => {
   if (!isPasswordRecovery) {
-    return { content: 'oie.select.authenticators.verify.title' };
+    return { content: loc('oie.select.authenticators.verify.title', 'login') };
   }
 
   if (brandName) {
     return {
-      content: 'password.reset.title.specific',
+      content: loc('password.reset.title.specific', 'login'),
       contentParams: [brandName],
     };
   }
-  return { content: 'password.reset.title.generic' };
+  return { content: loc('password.reset.title.generic', 'login') };
 };
 
 const isPasswordRecovery = (transaction: IdxTransaction): boolean => (
@@ -72,8 +73,8 @@ export const transformSelectAuthenticatorVerify: IdxStepTransformer = ({
     type: 'Description',
     options: {
       content: isPwRecovery
-        ? 'oie.password.reset.verification'
-        : 'oie.select.authenticators.verify.subtitle',
+        ? loc('oie.password.reset.verification', 'login')
+        : loc('oie.select.authenticators.verify.subtitle', 'login'),
     },
   };
 

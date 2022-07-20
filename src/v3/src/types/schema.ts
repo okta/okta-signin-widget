@@ -253,6 +253,7 @@ export interface LinkElement extends UISchemaElement {
   options: ActionOptions & {
     label: string;
     href?: string;
+    dataSe?: string;
   };
 }
 

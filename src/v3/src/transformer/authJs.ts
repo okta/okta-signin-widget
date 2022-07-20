@@ -17,8 +17,9 @@ import { AUTHENTICATOR_KEY, IDX_STEP, STEPS_MISSING_RELATES_TO } from '../consta
 import { hasMinAuthenticatorOptions } from '../util';
 import { transformInputs } from './field';
 import { getButtonControls } from './getButtonControls';
+import { uischemaLabelTransformer } from './i18nTransformer';
 import TransformerMap from './idxTransformerMapping';
-import { transformCustomMessages } from './messages/transformCustomMessages';
+import { transformMessages } from './messages/transformMessages';
 
 type Options = {
   transaction: IdxTransaction;
@@ -36,6 +37,7 @@ export default ({
   const stepName = (step || nextStep?.name) as string;
 
   const formBag = transformInputs(transaction, stepName!);
+  uischemaLabelTransformer(transaction, formBag);
 
   const authenticatorKey = (STEPS_MISSING_RELATES_TO.includes(stepName)
     // TODO: OKTA-503490 temporary sln to grab auth key for enroll-poll step its missing relatesTo obj
@@ -87,12 +89,7 @@ export default ({
 
   updatedFormBag.uischema.elements.push(...elements);
 
-  // Handles custom messages
-  transformCustomMessages({
-    transaction,
-    formBag: updatedFormBag,
-    widgetProps,
-  });
+  transformMessages({ transaction, formBag: updatedFormBag, widgetProps });
 
   return updatedFormBag;
 };

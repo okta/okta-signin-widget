@@ -10,16 +10,14 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-export * from './browserUtils';
-export * from './cookieUtils';
-export * from './environmentUtils';
-export * from './flattenInputs';
-export * from './formUtils';
-export * from './getImmutableData';
-export * from './idxUtils';
-export * from './languageUtils';
-export * from './passwordUtils';
-export * from './resetMessagesToInputs';
-export * from './settingsUtils';
-export * from './toNestedObject';
-export * from './webauthnUtils';
+import { setup } from './util';
+
+import mockResponse from '../../src/mocks/response/idp/idx/identify/error-session-expired.json';
+
+describe('error-session-expired', () => {
+  it('should render form', async () => {
+    const { container, findByText } = await setup({ mockResponse });
+    await findByText(/You have been logged out due to inactivity. Refresh or return to the sign in screen./);
+    expect(container).toMatchSnapshot();
+  });
+});

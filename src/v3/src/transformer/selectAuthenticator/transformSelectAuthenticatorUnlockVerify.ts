@@ -12,6 +12,7 @@
 
 import { NextStep } from '@okta/okta-auth-js';
 
+import { loc } from 'okta';
 import {
   IdxStepTransformer,
   TitleElement,
@@ -42,7 +43,7 @@ export const transformSelectAuthenticatorUnlockVerify: IdxStepTransformer = ({
   const titleElement: TitleElement = {
     type: 'Title',
     options: {
-      content: 'unlockaccount',
+      content: loc('unlockaccount', 'login'),
     },
   };
   uischema.elements.unshift(titleElement);
