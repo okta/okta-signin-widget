@@ -10,8 +10,9 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import { Box } from '@mui/material';
 import {
-  Box, List, Text,
+  List, Text,
 } from '@okta/odyssey-react';
 import debounce from 'lodash/debounce';
 import get from 'lodash/get';
@@ -97,10 +98,8 @@ const PasswordRequirements: UISchemaElementComponent<{
   }, [password]);
 
   return items?.length > 0 ? (
-    // @ts-ignore OKTA-471233
     <Box data-se="password-authenticator--rules">
-      {/* @ts-ignore OKTA-471233 */}
-      <Box marginBottom="s">
+      <Box marginBottom={2}>
         <Text as="span">{t('password.complexity.requirements.header')}</Text>
       </Box>
       <List
