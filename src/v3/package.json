@@ -30,7 +30,9 @@
       "preact-render-to-string",
       "preact-render-to-string/**",
       "preact-svg-loader",
-      "preact-svg-loader/**"
+      "preact-svg-loader/**",
+      "@testing-library",
+      "@testing-library/**"
     ]
   },
   "scripts": {
