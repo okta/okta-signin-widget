@@ -107,7 +107,6 @@ const Form: FunctionComponent<{
     <form
       noValidate
       onSubmit={handleSubmit}
-      className="o-form"
     >
       {renderUISchemaLayout(uischema)}
     </form>

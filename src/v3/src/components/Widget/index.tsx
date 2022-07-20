@@ -97,9 +97,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   }, [idxTransaction, authApiError]);
 
   const handleError = (error: unknown) => {
-    // TODO: handle error based on types. AuthApiError is one of the potential
-    // error that can be thrown here. We will want to expose development stage
-    // errors from auth-js and file jiras against it.
+    // TODO: handle error based on types
+    // AuthApiError is one of the potential error that can be thrown here
+    // We will want to expose development stage errors from auth-js and file jiras against it
     setAuthApiError(error as AuthApiError);
     console.error(error);
     // error event
