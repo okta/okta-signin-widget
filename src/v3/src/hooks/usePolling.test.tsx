@@ -90,7 +90,6 @@ describe('usePolling', () => {
           },
         });
       });
-      
     });
 
     it('polling step in availableSteps', () => {

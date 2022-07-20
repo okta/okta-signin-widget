@@ -42,7 +42,7 @@
     "dev": "preact watch --no-prerender --no-sw --port 3000",
     "prelint": "yarn build:i18n",
     "lint": "eslint .",
-    "lint:report": "mkdir -p build2 && eslint .",
+    "lint:report": "scripts/buildtools/lint-report.sh",
     "pretest": "yarn build:i18n",
     "test": "jest",
     "test:dev": "NODE_ENV=development jest",
