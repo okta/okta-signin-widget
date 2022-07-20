@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box } from '@okta/odyssey-react';
+import { Box } from '@mui/material';
 import { withTheme } from '@okta/odyssey-react-theme';
 import classNames from 'classnames';
 import { FunctionComponent, h } from 'preact';
@@ -49,7 +49,6 @@ const AuthCoin: FunctionComponent<AuthCoinProps> = (props) => {
   }
 
   return authCoinConfig && (
-    // @ts-ignore OKTA-471233
     <Box className={containerClasses}>
       { createAuthCoinImage() }
     </Box>
