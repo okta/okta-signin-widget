@@ -13,7 +13,7 @@
 import { scenario } from '../registry';
 
 const getRouteUrl = (url: string) => {
-  const parts = url.split('/idp/idx/', 1);
+  const parts = url.split('/idp/idx/');
   return `*/idp/idx/${parts[1]}`;
 };
 

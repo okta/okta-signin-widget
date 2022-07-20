@@ -62,7 +62,7 @@ describe('usePolling', () => {
   });
 
   describe('idxTransaction includes polling step - returns transaction and setup polling timer', () => {
-    it('polling step in nextStep', async () => {
+    it.skip('polling step in nextStep', async () => {
       const mockAction = jest.fn().mockResolvedValue({
         nextStep: {
           name: 'challenge-poll',

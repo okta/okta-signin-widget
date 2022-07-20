@@ -23,8 +23,9 @@ if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
   if (process.env.NODE_ENV === 'development') {
     import('../../../.widgetrc')
       .then((config) => {
+        // eslint-disable-next-line no-new
         new OktaSignIn({
-          el: '#signin-container',
+          el: '#okta-login-container',
           ...config,
         });
       })
