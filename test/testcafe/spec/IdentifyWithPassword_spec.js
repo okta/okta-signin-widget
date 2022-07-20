@@ -84,7 +84,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
   await t.expect(await identityPage.hasForgotPasswordLinkText()).ok();
   await t.expect(await identityPage.getForgotPasswordLinkText()).eql('Forgot password?');
 
-  await t.expect(await identityPage.countShowTogglePasswordIcon()).eql(1);
+  await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
   await t.expect(identityPage.getSaveButtonLabel()).eql('Sign in');
 
   await identityPage.clickNextButton();
@@ -108,7 +108,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
   await renderWidget({
     features: { showPasswordToggleOnSignInPage: true },
   });
-  await t.expect(await identityPage.countShowTogglePasswordIcon()).ok();
+  await t.expect(await identityPage.hasShowTogglePasswordIcon()).ok();
 });
 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if features.showPasswordToggleOnSignInPage is false', async t => {
@@ -116,7 +116,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not h
   await renderWidget({
     features: { showPasswordToggleOnSignInPage: false },
   });
-  await t.expect(await identityPage.countShowTogglePasswordIcon()).notOk();
+  await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
 });
 
 test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not have password toggle if "features.showPasswordToggleOnSignInPage" is false', async t => {
@@ -124,7 +124,7 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should not h
   await renderWidget({
     'features.showPasswordToggleOnSignInPage': false,
   });
-  await t.expect(await identityPage.countShowTogglePasswordIcon()).notOk();
+  await t.expect(await identityPage.hasShowTogglePasswordIcon()).notOk();
 });
 
 test.requestHooks(identifyWithPasswordMock)('should add sub labels for Username and Password if i18n keys are defined', async t => {
