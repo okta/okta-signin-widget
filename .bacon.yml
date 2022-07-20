@@ -48,6 +48,7 @@ test_suites:
       script_name: e2e-lang
       criteria: MERGE
       queue_name: small
+      # FIXME: revert criteria to "MERGE" when merging 0.0 to master
     - name: e2e-saucelabs
       script_path: /root/okta/okta-signin-widget/scripts
       sort_order: '6'
@@ -90,6 +91,7 @@ test_suites:
       script_name: unit-v3
       criteria: MERGE
       queue_name: small
+      # NOTE: runs the testcafe suite within v3
     - name: e2e-v3
       script_path: /root/okta/okta-signin-widget/scripts
       sort_order: '10'
@@ -97,3 +99,13 @@ test_suites:
       script_name: e2e-v3
       criteria: MERGE
       queue_name: small
+    # NOTE: runs the testcafe suite at the project root to ensure parity between
+    # v2 and v3 for select flows
+    - name: v3-parity
+      script_path: /root/okta/okta-signin-widget/scripts
+      sort_order: '5'
+      timeout: '30'
+      script_name: v3-parity
+      criteria: MERGE
+      queue_name: small
+
