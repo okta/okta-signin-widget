@@ -20,6 +20,9 @@
     "nohoist": [
       "ajv-errors",
       "@types/ajv-errors",
+      "@types/jest",
+      "preact",
+      "preact/**",
       "preact-cli",
       "preact-cli/**",
       "preact-cli-plugin-env-vars",
