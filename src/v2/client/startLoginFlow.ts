@@ -15,6 +15,7 @@ import { emailVerifyCallback } from './emailVerifyCallback';
 import sessionStorageHelper from './sessionStorageHelper';
 import { CONFIGURED_FLOW } from './constants';
 import { IdxTransactionMeta, ProceedOptions } from '@okta/okta-auth-js';
+import webauthn from 'util/webauthn';
 
 const handleProxyIdxResponse = async (settings) => {
   return Promise.resolve({
@@ -32,6 +33,11 @@ export async function startLoginFlow(settings) {
     exchangeCodeForTokens: false, // we handle this in interactionCodeFlow.js
     shouldProceedWithEmailAuthenticator: false, // do not auto-select email authenticator
   };
+
+  const isPlatformAuthenticatorSupported = await webauthn.isPlatformAuthenticatorSupported();
+  if (isPlatformAuthenticatorSupported) {
+    authClient.http.setRequestHeader("x-okta-amr-hint", "pop");
+  }
 
   // Return a preset response
   if (settings.get('proxyIdxResponse')) {
