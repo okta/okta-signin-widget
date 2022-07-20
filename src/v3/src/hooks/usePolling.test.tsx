@@ -11,6 +11,7 @@
  */
 
 import { IdxTransaction, NextStep, OktaAuth } from '@okta/okta-auth-js';
+import { waitFor } from '@testing-library/preact';
 import { renderHook } from '@testing-library/preact-hooks';
 import { WidgetProps } from 'src/types';
 
@@ -62,26 +63,15 @@ describe('usePolling', () => {
   });
 
   describe('idxTransaction includes polling step - returns transaction and setup polling timer', () => {
-    it.skip('polling step in nextStep', async () => {
-      const mockAction = jest.fn().mockResolvedValue({
-        nextStep: {
-          name: 'challenge-poll',
-          refresh: 4000,
-          action: jest.fn(),
-        },
-      });
+    it('polling step in nextStep', async () => {
       // @ts-ignore remove after adding refresh to nextStep in auth-js
       const idxTransaction = {
         nextStep: {
           name: 'challenge-poll',
           refresh: 4000,
-          action: mockAction,
         },
       } as IdxTransaction;
-      const {
-        result,
-        waitForNextUpdate,
-      } = renderHook(() => usePolling(idxTransaction, mockProps, mockData));
+      const { result } = renderHook(() => usePolling(idxTransaction, mockProps, mockData));
 
       // expect to setup timer
       expect(setTimeout).toHaveBeenCalledTimes(1);
@@ -89,17 +79,18 @@ describe('usePolling', () => {
 
       // expect to call action function when timeout
       jest.advanceTimersByTime(4000);
-      // expect(mockAction).toHaveBeenCalled();
       expect(mockProceedFn).toHaveBeenCalled();
 
       // expect to return new polling transaction
-      await waitForNextUpdate();
-      expect(result.current).toMatchObject({
-        nextStep: {
-          name: 'challenge-poll',
-          refresh: 4000,
-        },
+      await waitFor(() => {
+        expect(result.current).toMatchObject({
+          nextStep: {
+            name: 'challenge-poll',
+            refresh: 4000,
+          },
+        });
       });
+      
     });
 
     it('polling step in availableSteps', () => {
