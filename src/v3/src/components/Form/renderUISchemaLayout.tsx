@@ -11,7 +11,7 @@
  */
 
 import { Box } from '@mui/material';
-import { h } from 'preact';
+import { FunctionComponent, h } from 'preact';
 
 import { useWidgetContext } from '../../contexts';
 import {
@@ -25,7 +25,7 @@ import {
 import { isProductionEnvironment } from '../../util';
 import renderers from './renderers';
 
-export const renderUISchemaLayout: any = (uischema: UISchemaLayout) => {
+export const renderUISchemaLayout: FunctionComponent<UISchemaLayout> = (uischema) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { stepperStepIndex } = useWidgetContext();
   const { type, elements } = uischema;

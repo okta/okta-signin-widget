@@ -24,6 +24,7 @@ const gitRevisionPlugin = new GitRevisionPlugin();
 // util: resolve paths relative to the project root
 const rootResolve = (...parts) => resolve(__dirname, '../../', ...parts);
 
+// util: merges CSP statements
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
 const mergeContentSecurityPolicies = (...policies) => {
   const toMap = (map, str) => (
@@ -40,17 +41,6 @@ const mergeContentSecurityPolicies = (...policies) => {
 };
 
 export default {
-  /**
-   * Function that mutates the original webpack config. Supports asynchronous
-   * changes when a promise is returned (or it's an async function).
-   *
-   * @param {object} config - original webpack config.
-   * @param {object} env - options passed to the CLI.
-   * @param {WebpackConfigHelpers} helpers - object with useful helpers for
-   * working with the webpack config.
-   * @param {object} options - this is mainly relevant for plugins (will always
-   * be empty in the config), default to an empty object
-   */
   webpack(config) {
     config.output.libraryTarget = 'umd';
     config.output.filename = ({ chunk }) => (
@@ -166,17 +156,18 @@ export default {
       'index.js',
     );
 
-    // override with
-    Object.assign(config, webpackMerge(config, omit(playgroundConfig, [
+    // configs to inherit from webpack.playground.config.js
+    const inherited = omit(playgroundConfig, [
       'devServer.headers.Content-Security-Policy', // merge instead of override
       'devServer.port',
       'entry',
       'module',
       'output',
       'resolve.extensions',
-    ]), {
-      // TODO use built assets instead of relying on dev server
-      // add entry for playground bundle
+    ]);
+
+    // TODO OKTA-516685 use build assets instead of webpack-dev-server
+    const overrides = {
       entry: {
         playground: rootResolve('playground', 'main.ts'),
       },
@@ -189,6 +180,8 @@ export default {
           ),
         },
       },
-    }));
+    };
+
+    Object.assign(config, webpackMerge(config, inherited, overrides));
   },
 };

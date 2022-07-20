@@ -19,19 +19,6 @@ if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
   import('./mocks/browser')
     .then(({ getWorker }) => getWorker())
     .then((worker) => worker?.start());
-
-  if (process.env.NODE_ENV === 'development') {
-    // eslint-disable-next-line import/no-unresolved
-    import('../../../.widgetrc')
-      .then((config) => {
-        // eslint-disable-next-line no-new
-        new OktaSignIn({
-          el: '#okta-login-container',
-          ...config,
-        });
-      })
-      .catch((error) => console.error(error));
-  }
 }
 
 if (typeof window !== 'undefined') {

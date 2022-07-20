@@ -3,13 +3,13 @@ import { Selector, ClientFunction } from 'testcafe';
 const TERMINAL_CONTENT = '.o-form-error-container .ion-messages-container';
 const FORM_INFOBOX_ERROR = '[data-se="o-form-error-container"] .infobox-error';
 
-const SUBMIT_BUTTON_SELECTOR = '.o-form-button-bar [data-type="save"]';
-const CANCEL_BUTTON_SELECTOR = '.o-form-button-bar [data-type="cancel"]';
+const SUBMIT_BUTTON_SELECTOR = '[data-type="save"]';
+const CANCEL_BUTTON_SELECTOR = '[data-type="cancel"]';
 
 const focusOnSubmitButton = () => {
   // Client Function is not able to refer any variables defined outside this function.
   // Not sure why at the time of writing.
-  const submitButton = '.o-form-button-bar [data-type="save"]';
+  const submitButton = '[data-type="save"]';
   document.querySelector(submitButton).focus();
 };
 

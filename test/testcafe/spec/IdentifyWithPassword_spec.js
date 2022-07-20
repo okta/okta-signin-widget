@@ -35,7 +35,6 @@ async function setup(t) {
 
 test.requestHooks(identifyWithPasswordMock)('should show errors if required fields are empty', async t => {
   const identityPage = await setup(t);
-  // await t.expect(await identityPage.hasIdentifierErrorMessage()).eql(false);
 
   await identityPage.clickNextButton();
   await identityPage.waitForErrorBox();

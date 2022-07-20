@@ -23,3 +23,17 @@ export * from './schema';
 export * from './stepTransformer';
 export * from './userInfo';
 export * from './widget';
+
+// TODO remove these types
+/**
+ * @deprecated
+ */
+export type Nullable<T> = T | null;
+/**
+ * @deprecated
+ */
+export type Undefinable<T> = T | undefined;
+/**
+ * @deprecated
+ */
+export type Nullish<T> = Nullable<T> | Undefinable<T>;
