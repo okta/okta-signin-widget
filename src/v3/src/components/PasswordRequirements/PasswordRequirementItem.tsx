@@ -10,7 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Box, Icon } from '@okta/odyssey-react';
+import { Box } from '@mui/material';
+import { Icon } from '@okta/odyssey-react';
 import { withTheme } from '@okta/odyssey-react-theme';
 import classNames from 'classnames/bind';
 import { FunctionComponent, h } from 'preact';
@@ -37,14 +38,12 @@ const PasswordRequirement: FunctionComponent<PasswordRequirementProps> = (
   });
 
   return (
-    // @ts-ignore OKTA-471233
     <Box>
       {
         status && (
-          // @ts-ignore OKTA-471233
           <Box
             display="inline-block"
-            marginRight="xs"
+            marginRight={1}
             className={iconClasses}
           >
             <Icon
@@ -54,8 +53,7 @@ const PasswordRequirement: FunctionComponent<PasswordRequirementProps> = (
           </Box>
         )
       }
-      {/* @ts-ignore OKTA-471233 */}
-      <Box as="span">{text}</Box>
+      <Box component="span">{text}</Box>
     </Box>
   );
 };
