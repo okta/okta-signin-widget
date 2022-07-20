@@ -14,43 +14,27 @@ import { Alert, Box } from '@mui/material';
 import { IdxMessage } from '@okta/okta-auth-js';
 import { FunctionComponent, h } from 'preact';
 
-import { CUSTOM_MESSAGE_KEYS, IDX_STEP } from '../../constants';
-import { useWidgetContext } from '../../contexts';
-import { useTranslation } from '../../lib/okta-i18n';
 import { MessageType, MessageTypeVariant } from '../../types';
 
 type Props = {
-  messages?: IdxMessage[];
+  message?: IdxMessage;
 };
 
-const EXCLUDE_MESSAGE_STEPS = [IDX_STEP.REENROLL_AUTHENTICATOR_WARNING];
+const InfoSection: FunctionComponent<Props> = ({ message }) => {
 
-const InfoSection: FunctionComponent<Props> = ({ messages }) => {
-  const { t, i18n } = useTranslation();
-  const standardMessages = messages?.filter((message) => !CUSTOM_MESSAGE_KEYS.includes(
-    message?.i18n?.key,
-  ));
-  const { idxTransaction } = useWidgetContext();
-  const shouldExcludeMessage = idxTransaction?.nextStep?.name
-    && EXCLUDE_MESSAGE_STEPS.includes(idxTransaction.nextStep.name);
-
-  return (!shouldExcludeMessage && standardMessages?.length) ? (
+  return message ? (
     <Box
       marginBottom={4}
       width={1}
     >
       {
-        standardMessages.map((message) => (
-          <Alert
-            key={message.i18n?.key || message.message}
-            severity={MessageTypeVariant[message.class as MessageType] ?? MessageTypeVariant.INFO}
-            variant="infobox"
-          >
-            {i18n.exists(message.i18n?.key)
-              ? t(message.i18n.key, message.i18n.params)
-              : message.message}
-          </Alert>
-        ))
+        <Alert
+          key={message.i18n?.key || message.message}
+          severity={MessageTypeVariant[message.class as MessageType] ?? MessageTypeVariant.INFO}
+          variant="infobox"
+        >
+          {message.message}
+        </Alert>
       }
     </Box>
   ) : null;

@@ -20,7 +20,6 @@ import { useOnSubmit } from '../../hooks';
 import { useTranslation } from '../../lib/okta-i18n';
 import {
   ClickHandler,
-  MessageType,
   UISchemaElementComponent,
   WebAuthNButtonElement,
 } from '../../types';
@@ -30,7 +29,7 @@ const WebAuthNSubmit: UISchemaElementComponent<{
 }> = ({ uischema }) => {
   const { options } = uischema;
 
-  const { setMessages } = useWidgetContext();
+  const { setMessage } = useWidgetContext();
   const onSubmitHandler = useOnSubmit();
   const { t, i18n } = useTranslation();
   const [waiting, setWaiting] = useState<boolean>(false);
@@ -50,7 +49,7 @@ const WebAuthNSubmit: UISchemaElementComponent<{
     if (options?.showLoadingIndicator) {
       setWaiting(true);
     }
-    setMessages([]);
+    setMessage(undefined);
 
     options?.onClick()
       .then(async (params: IdxActionParams) => {
@@ -61,11 +60,11 @@ const WebAuthNSubmit: UISchemaElementComponent<{
       })
       .catch((error: Error) => {
         const message = getErrorMessage(error);
-        setMessages([{
+        setMessage({
           message,
-          class: MessageType.ERROR,
+          class: 'ERROR',
           i18n: { key: message },
-        }]);
+        });
       })
       .finally(() => setWaiting(false));
   };

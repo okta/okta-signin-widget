@@ -48,7 +48,9 @@ import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
 import Form from '../Form';
 import IdentifierContainer from '../IdentifierContainer/IdentifierContainer';
+import InfoSection from '../InfoSection/InfoSection';
 import Spinner from '../Spinner';
+
 
 export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   if (!isAuthClientSet(widgetProps)) {
@@ -68,7 +70,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
 
   const TERMINAL_STATUSES = [IdxStatus.TERMINAL, IdxStatus.SUCCESS];
   const [data, setData] = useState({});
-  const [messages, setMessages] = useState<IdxMessage[]>([]);
+  const [message, setMessage] = useState<IdxMessage | undefined>();
   const [idxTransaction, setIdxTransaction] = useState<IdxTransaction | undefined>();
   const [authApiError, setAuthApiError] = useState<AuthApiError>();
   const pollingTransaction = usePolling(idxTransaction, widgetProps, data);
@@ -194,15 +196,12 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       }
     });
 
-    // set form level messages
-    setMessages(newMessages);
-
     // clear idxTransaction to start loading state
     if (status === IdxStatus.CANCELED) {
       setIdxTransaction(undefined);
       bootstrap();
     }
-  }, [idxTransaction, setMessages, bootstrap]);
+  }, [idxTransaction, bootstrap]);
 
   return (
     <WidgetContextProvider value={{
@@ -211,7 +210,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       onSuccessCallback: onSuccess,
       idxTransaction,
       setIdxTransaction,
-      setMessages,
+      setMessage,
       data,
       setData,
       stepperStepIndex,
@@ -231,6 +230,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
             />
             <AuthContent>
               <IdentifierContainer />
+              <InfoSection message={message} />
               {
                 formBag
                   ? <Form uischema={formBag.uischema as UISchemaLayout} />

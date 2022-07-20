@@ -22,7 +22,7 @@ import {
 type IWidgetContext = {
   authClient: OktaAuth;
   widgetProps: WidgetProps;
-  setMessages: StateUpdater<IdxMessage[]>;
+  setMessage: StateUpdater<IdxMessage | undefined>;
   // // TODO: OKTA-502849 - Update param type
   // (RenderSuccessCallback / RenderErrorCallback) once merged into okta-signin-widget
   onSuccessCallback?: (data: Record<string, unknown>) => void;
