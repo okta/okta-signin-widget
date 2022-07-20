@@ -50,7 +50,9 @@ import AuthContent from '../AuthContent/AuthContent';
 import AuthHeader from '../AuthHeader/AuthHeader';
 import Form from '../Form';
 import IdentifierContainer from '../IdentifierContainer/IdentifierContainer';
+import InfoSection from '../InfoSection/InfoSection';
 import Spinner from '../Spinner';
+
 
 export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   if (!isAuthClientSet(widgetProps)) {
@@ -69,7 +71,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   } = widgetProps;
 
   const [data, setData] = useState({});
-  const [messages, setMessages] = useState<IdxMessage[]>([]);
+  const [message, setMessage] = useState<IdxMessage | undefined>();
   const [idxTransaction, setIdxTransaction] = useState<IdxTransaction | undefined>();
   const [stepToRender, setStepToRender] = useState<string | undefined>(undefined);
   const prevIdxTransactionRef = useRef<IdxTransaction>();
@@ -83,8 +85,9 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
     if (!Bundles.isLoaded(getLanguageCode(widgetProps))) {
       (async () => {
         await loadLanguage(widgetProps);
-     })();
+      })();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Derived value from idxTransaction
@@ -226,16 +229,13 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       }
     });
 
-    // set form level messages
-    setMessages(newMessages);
-
     // clear idxTransaction to start loading state
     if (status === IdxStatus.CANCELED) {
       setIdxTransaction(undefined);
       bootstrap();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idxTransaction, setMessages, bootstrap]);
+  }, [idxTransaction, bootstrap]);
 
   // TODO: OKTA-517723 temporary override until odyssey-react-mui theme borderRadius value is fixed
   odysseyTheme.shape.borderRadius = 4;
@@ -249,7 +249,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
       setIdxTransaction,
       stepToRender,
       setStepToRender,
-      setMessages,
+      setMessage,
       data,
       setData,
       dataSchemaRef,
@@ -267,6 +267,7 @@ export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
             />
             <AuthContent>
               <IdentifierContainer />
+              <InfoSection message={message} />
               {
                 formBag.uischema.elements.length > 0
                   ? <Form uischema={formBag.uischema as UISchemaLayout} />
