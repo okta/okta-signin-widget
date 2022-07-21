@@ -34,8 +34,8 @@ const AuthContainer: FunctionComponent = ({ children }) => {
         borderRadius={Tokens.BorderRadiusBase}
         borderColor={Tokens.ColorBorderDisplay}
         bgcolor={Tokens.ColorBackgroundBase}
-        className={style.siwContainer}
         fontFamily={Tokens.FontFamilyBase}
+        className={style.siwContainer}
       >
         {children}
       </Box>
