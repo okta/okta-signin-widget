@@ -10,6 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
+import Ajv from 'ajv';
+import AjvErrors from 'ajv-errors';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { ThemeProvider } from '@okta/odyssey-react-theme';
 import {
@@ -56,6 +58,10 @@ import Form from '../Form';
 import IdentifierContainer from '../IdentifierContainer/IdentifierContainer';
 import InfoSection from '../InfoSection/InfoSection';
 import Spinner from '../Spinner';
+
+
+const ajv = new Ajv({ allErrors: true });
+AjvErrors(ajv, {});
 
 export const Widget: FunctionComponent<WidgetProps> = (widgetProps) => {
   if (!isAuthClientSet(widgetProps)) {
