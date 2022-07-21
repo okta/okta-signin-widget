@@ -34,6 +34,13 @@ var Util = {
   },
   isABaseView: function (obj) {
     return obj instanceof BaseView || obj.prototype instanceof BaseView || obj === BaseView;
+  },
+  isSafari: function () {
+    // All native, android and iOS chrome browsers has "Safari" in their userAgent string, so this regex should
+    // evaluate to true for only Safari browser and not any chrome browsers.
+    // https://stackoverflow.com/questions/7944460/detect-safari-browser
+    // https://stackoverflow.com/questions/13807810/ios-chrome-detection/13808053#13808053
+    return /^((?!chrome|android|crios).)*safari/i.test(navigator.userAgent);
   }
 };
 
