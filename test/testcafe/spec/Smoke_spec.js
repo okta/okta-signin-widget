@@ -31,5 +31,4 @@ test.requestHooks(identifyRequestLogger, identifyWithPasswordMock)('should have 
   await renderWidget({});
   await identityPage.fillIdentifierField('myusername');
   await identityPage.fillPasswordField('mypassword');
-  await identityPage.clickNextButton();
 });
