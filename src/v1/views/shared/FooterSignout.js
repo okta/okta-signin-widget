@@ -35,7 +35,10 @@ export default View.extend({
 
     this.model
       .doTransaction(function(transaction) {
-        return transaction.cancel();
+        // `clearTransactionData` was added as a temporary fix for the issue reported in OKTA-487220
+        // OKTA-515889 was created to address the underlying issue on the `transaction.cancel` level
+        // and this temporary fix will be removed after that ticket is done
+        return transaction.cancel().then(clearTransactionData);
       })
       .then(() => {
         if (this.settings.get('backToSignInUri') && !isSMSPasswordRecovery) {
@@ -53,3 +56,8 @@ export default View.extend({
     };
   },
 });
+
+// TODO: remove after OKTA-515889 is done
+function clearTransactionData(transaction) {
+  return { ...transaction, data: null };
+}
