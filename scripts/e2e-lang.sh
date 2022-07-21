@@ -12,10 +12,6 @@ export TEST_RESULT_FILE_DIR="${REPO}/build2/reports/junit"
 echo $TEST_SUITE_TYPE > $TEST_SUITE_TYPE_FILE
 echo $TEST_RESULT_FILE_DIR > $TEST_RESULT_FILE_DIR_FILE
 
-# This file contains all the env vars we need for e2e tests
-aws s3 --quiet --region us-east-1 cp s3://ci-secret-stash/prod/signinwidget/export-test-credentials.sh $OKTA_HOME/$REPO/scripts/export-test-credentials.sh
-source $OKTA_HOME/$REPO/scripts/export-test-credentials.sh
-
 # We use the below OIE enabled org and clients for OIE tests
 export WIDGET_TEST_SERVER=https://oie-signin-widget.okta.com
 export WIDGET_SPA_CLIENT_ID=0oa8lrg7ojTsbJgRQ696

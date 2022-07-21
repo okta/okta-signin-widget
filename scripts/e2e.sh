@@ -28,11 +28,11 @@ if ! yarn build:release; then
   exit ${TEST_FAILURE}
 fi
 
-# Run spec tests
-if ! yarn test:e2e; then
-  echo "e2e spec tests failed! Exiting..."
-  exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
-fi
+# # Run spec tests
+# if ! yarn test:e2e; then
+#   echo "e2e spec tests failed! Exiting..."
+#   exit ${PUBLISH_TYPE_AND_RESULT_DIR_BUT_ALWAYS_FAIL}
+# fi
 
 # Run feature tests
 export RUN_FEATURE_TESTS=true

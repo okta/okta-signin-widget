@@ -79,7 +79,7 @@ export const config: WebdriverIO.Config = {
   runner: 'local',
   path: '/',
   specs: [
-    path.resolve(__dirname, 'features/**/*.feature')
+    path.resolve(__dirname, 'features/**/a-webauthn-login.feature')
   ],
   baseUrl: 'http://localhost:8080',
   connectionRetryTimeout: 90000,
